@@ -24,24 +24,31 @@ namespace ProjetUnivers {
 
   namespace Noyau {
 
+
+    Position::Position()
+    : coordonneeX(), coordonneeY(), coordonneeZ()
+    {}
    
     ///////////////////
     // Construit la position indiquée, par défaut la position d'origine, 
     // l'unité de mesure est le ???.
-    Position::Position(const Reel& x, const Reel& y, const Reel& z)
-    : vecteurCoordonnees(x,y,z)
+    Position::Position(const Distance& x, const Distance& y, const Distance& z)
+    : coordonneeX(x), coordonneeY(y), coordonneeZ(z)
     {}
     
     ///////////////////
     // Constructeur de copie.
     Position::Position(const Position& _p) 
-    : vecteurCoordonnees(_p.vecteurCoordonnees)
+    : coordonneeX(_p.coordonneeX), 
+      coordonneeY(_p.coordonneeY), 
+      coordonneeZ(_p.coordonneeZ)
     {}
     
     //////////////////
     // Calcule la distance.
-    Distance Position::CalculeDistance(const Position&) 
+    Distance Position::CalculerDistance(const Position&) 
     {
+      // à implanter
       return Distance() ;
     }
     

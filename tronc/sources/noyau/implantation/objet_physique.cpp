@@ -34,7 +34,7 @@ namespace ProjetUnivers {
     //////////////////////
     // Classe abstraite donc constructeur protégé.
     ObjetPhysique::ObjetPhysique(const Position& _p) 
-    : Affichable(), position(_p)
+    : position(_p)
     {}
   
   }

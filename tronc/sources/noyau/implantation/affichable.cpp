@@ -24,7 +24,7 @@ namespace ProjetUnivers {
 
   namespace Noyau {
 
-
+    using namespace ProjetUnivers::Base ;
   
     //////////////////
     // Classe abstraite donc destructeur virtuel.

@@ -24,6 +24,7 @@ namespace ProjetUnivers {
 
   namespace Noyau {
 
+    using namespace ProjetUnivers::Base ;
   
     ///////////////////
     // Distance zéro: on peut mettre n'importe qu'elle unité.
