@@ -22,7 +22,8 @@
 #define _PU_BASE_LISTE_ABSTRAITE_H_
 
 #include <base/composition.h>
-#include <base/implantation/noeud_abstrait.h>
+#include <base/association.h>
+
 
 
 namespace ProjetUnivers {
@@ -30,50 +31,60 @@ namespace ProjetUnivers {
   namespace Base {
   
       
-    
-    ///  Classe de base des listes.
-    class ListeAbstraite {
-    public:
-    
-      /// Constructeur par défaut.
-      /// \todo 
-      ///   vérifier si ce constructeur doit être public
-      ListeAbstraite() ;
-    
-      /// Destructeur virtuel, ne sert pas à 
-      /// grand chose à part rendre la classe 
-      /// polymorphe.
-      virtual ~ListeAbstraite() ;
-    
-      /// Accès au nombre d'éléments.
-      unsigned int NombreDElements() const ;
-    
-      /// Vide la liste.
-      void Vider() ;
-    
-    protected:
-    
-      // Premier noeud.
-      Composition< NoeudAbstrait > premierNoeud ;
-    
-      /// Dernier noeud.
-      Association< NoeudAbstrait > dernierNoeud ;
-    
-    
-      /// Nombre d'éléments.
-      unsigned int nombreDElements ;
-    
-      // Ajoute un noeud en début de liste.
-      void AjouterEnTete(NoeudAbstrait* _n) ;
-    
-      /// Ajoute un noeud en fin de liste.
-      void AjouterEnQueue(NoeudAbstrait* _n) ;
-    
-      /// 
-      friend class IterateurListe ;
-    
-    
-    };
+    namespace Implantation {
+                  
+      class NoeudAbstrait ;
+      
+      ///  Classe de base des listes.
+      class ListeAbstraite {
+      public:
+      
+        /// Constructeur par défaut.
+        
+        /*!
+          \todo 
+            vérifier si ce constructeur doit être public
+        */
+        ListeAbstraite() ;
+      
+        /// Destructeur virtuel. 
+        
+        /*!
+          ne sert pas à grand chose à part rendre la classe polymorphe.
+        */
+        virtual ~ListeAbstraite() ;
+      
+        /// Accès au nombre d'éléments.
+        unsigned int NombreDElements() const ;
+      
+        /// Vide la liste.
+        void Vider() ;
+      
+      protected:
+      
+        /// Dernier noeud.
+        Association<NoeudAbstrait> dernierNoeud ;
+
+
+        /// Premier noeud.
+        Composition<NoeudAbstrait> premierNoeud ;
+      
+             
+        /// Nombre d'éléments.
+        unsigned int nombreDElements ;
+      
+        // Ajoute un noeud en début de liste.
+        void AjouterEnTete(NoeudAbstrait* _n) ;
+      
+        /// Ajoute un noeud en fin de liste.
+        void AjouterEnQueue(NoeudAbstrait* _n) ;
+      
+        /// 
+        friend class IterateurListe ;
+      
+      
+      };
+    }
   }
 }
 

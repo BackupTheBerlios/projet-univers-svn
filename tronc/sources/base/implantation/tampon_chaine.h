@@ -33,30 +33,59 @@ namespace ProjetUnivers {
   
       /// Classe représentant une copie partagée d'une chaîne.
       
-      /// FONCTIONNEMENT          
-      ///  Lorsque le nombre de références à cette copie tombe à 0, elle est 
-      ///  détruite.
+      
+      /*!
+        FONCTIONNEMENT          
+        Lorsque le nombre de références à cette copie tombe à 0, elle est 
+        détruite.
+      */
       class TamponChaine {
       public:
         
-        // GROUP: Constructeurs
-        
-        TamponChaine(const EntierNonSigne& _size);
-        TamponChaine(const char* _s, const EntierNonSigne& _len);
-        TamponChaine(const char* _s);
-        TamponChaine(char _c);
+        // ********************
+        /// @name Constructeurs
+        // ********************
+        // @{
+
+
+        /// Construit une chaine "" de taille maximum _size.
+        TamponChaine(const EntierPositif& _size) ;
+
+        /// Construit une chaîne "".
         TamponChaine();
-        TamponChaine(const char* _s1, const EntierNonSigne& _s1_len, 
-                      const char*_s2, const EntierNonSigne& _s2_len);
+        
+        /// Construit une chaine.
+        TamponChaine(const char* _s, const EntierPositif& _len);
+                
+        /// Construit une chaine.
+        TamponChaine(const char* _s);
+
+        /// Construit une chaîne à partir d'un caractère.
+        TamponChaine(char _c);
+        
+        
+        TamponChaine(const char* _s1, const EntierPositif& _s1_len, 
+                      const char*_s2, const EntierPositif& _s2_len);
                       
-        TamponChaine(const char* _s, const EntierNonSigne& _s_len, char _c);
-        TamponChaine(char _c, const char* _s, const EntierNonSigne& _s_len);
+        TamponChaine(const char* _s, const EntierPositif& _s_len, char _c);
+        TamponChaine(char _c, const char* _s, const EntierPositif& _s_len);
         
         ~TamponChaine();
         
         /// Accès à la longueur de la chaîne.
-        EntierNonSigne len() const;
-      
+        EntierPositif len() const;
+
+        /// Opérateur de conversion en char*.
+        operator char*() const ;
+
+
+        // @}
+        // **************************************
+        /// @name gestion du nombre de références
+        // **************************************
+        // @{
+
+
         /// Récupère un pointeur sur la chaine, augmente le 
         /// nombre de références
         TamponChaine* take() ;
@@ -64,10 +93,10 @@ namespace ProjetUnivers {
         /// Laisse tomber une référence à la chaine, 
         /// diminue le nombre de références
         Booleen drop() ;
-        
-        //////////////////
-        // Opérateur de conversion en char*.
-        operator char*() const ;
+
+
+        // @}        
+
         
       private:
         
@@ -77,21 +106,21 @@ namespace ProjetUnivers {
       private:
         
         /// Nombre de références à la chaîne.
-        EntierNonSigne nb_ref ;
+        EntierPositif nb_ref ;
         
         /// Taille de la chaîne.
-        EntierNonSigne size ;
+        EntierPositif size ;
         
         /// Chaîne proprment dite.
         char* s ;
 
       };
       
-      inline TamponChaine::TamponChaine(const EntierNonSigne& _size)
+      inline TamponChaine::TamponChaine(const EntierPositif& _size)
         : nb_ref(1), size(_size), s(new char[_size + 1])
       {}
       
-      inline TamponChaine::TamponChaine(const char *_s, const EntierNonSigne& _len)
+      inline TamponChaine::TamponChaine(const char *_s, const EntierPositif& _len)
         : nb_ref(1), size(_len), s(new char[_len + 1])
       {
         memcpy(s, _s, _len);
@@ -118,8 +147,8 @@ namespace ProjetUnivers {
       }
       
       inline TamponChaine::TamponChaine(const char *_s1, 
-        const EntierNonSigne& _s1_len, 
-          const char *_s2, const EntierNonSigne& _s2_len)
+        const EntierPositif& _s1_len, 
+          const char *_s2, const EntierPositif& _s2_len)
         : nb_ref(1), size(_s1_len + _s2_len), s(new char[size + 1])
       {
         memcpy(s, _s1, _s1_len);
@@ -128,7 +157,7 @@ namespace ProjetUnivers {
       }
       
       inline TamponChaine::TamponChaine(const char *_s, 
-        const EntierNonSigne& _s_len, char _c)
+        const EntierPositif& _s_len, char _c)
         : nb_ref(1), size(_s_len + 1), s(new char[size + 1])
       {
         memcpy(s, _s, _s_len);
@@ -137,7 +166,7 @@ namespace ProjetUnivers {
       }
       
       inline TamponChaine::TamponChaine(char _c, const char *_s, 
-        const EntierNonSigne& _s_len)
+        const EntierPositif& _s_len)
         : nb_ref(1), size(_s_len + 1), s(new char[size + 1])
       {
         s[0] = _c;
@@ -149,7 +178,7 @@ namespace ProjetUnivers {
         delete [] s;
       }
       
-      inline EntierNonSigne TamponChaine::len() const {
+      inline EntierPositif TamponChaine::len() const {
         return size;
       }
       

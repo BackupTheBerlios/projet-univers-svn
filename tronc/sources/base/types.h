@@ -37,28 +37,35 @@ namespace ProjetUnivers {
     
     
     //*************************************
-    // GROUP: Définition des types de bases
+    /// @name Définition des types de bases
     //*************************************
+    // @{
     
+        
     /// Type des booléens
     typedef unsigned short Booleen ;
-    const Booleen FAUX(0) ;
-    const Booleen VRAI(1) ; 
     
     /// Type des booléens étendus avec "peut-être", les valeurs sont 
     /// VRAI
     /// FAUX
-    /// PEUTETRE
+    /// PEUT_ETRE
     typedef float BooleenEtendu ;
     
+    /// La valeur faux
+    const Booleen FAUX(0) ;
     
-    const BooleenEtendu PEUTETRE(0.5) ;
+    /// La valeur vrai
+    const Booleen VRAI(1) ; 
+
+    /// La valeur peut-être
+    const BooleenEtendu PEUT_ETRE(0.5) ;
     
     
-    
+    // @}   
     // ********************
-    // GROUP: Types de base
+    /// @name Types de base
     // ********************
+    // @{
     
     
     /// Type des entiers
@@ -76,13 +83,21 @@ namespace ProjetUnivers {
     
     
     // ***************************
-    // GROUP: Types non signés, i.e., positifs
+    /// @name Types positifs
     // ***************************
+    // @{
     
-    typedef unsigned int EntierNonSigne ;
-    typedef unsigned char CaractereNonSigne ;
-    typedef unsigned long ReelNonSigne ;
+    
+    /// Type des entiers positifs.    
+    typedef unsigned int EntierPositif ;
+    
+    /// Type des réels positifs.
+    typedef unsigned long ReelPositif ;
 
+
+    // @}
+    
+    // @}
   }
 }
 

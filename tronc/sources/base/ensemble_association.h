@@ -40,8 +40,8 @@ namespace ProjetUnivers {
       Même utilisations que pour Association, en ce qui concerne les ensembles.
     */
     template <class OBJET> class EnsembleAssociation 
-            : public ListeAssociation<OBJET> {
-
+      : public Implantation::ListeAssociation<OBJET> 
+    {
     public:
     
     
@@ -69,18 +69,20 @@ namespace ProjetUnivers {
       /// Enlève l'élément _el, s'il n'y est pas ne fait rien.
       void Enlever(const Association< OBJET >& _el) ;
     
+    
       // @}
-
       // *************************
       /// @name Consultation
       // *************************      
       // @{      
+    
     
       /// Determine si _el fait partie de l'ensemble.
       Booleen Contient(const Association< OBJET >& _el) const ;
     
       /// Egalité de deux ensembles.
       Booleen operator==(const EnsembleAssociation<OBJET>& _r) const ;
+      
       
       // @}      
     };

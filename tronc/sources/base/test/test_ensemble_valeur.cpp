@@ -42,23 +42,27 @@ namespace ProjetUnivers {
         this->ensemble.Ajouter(1) ;
 
         // puis on vérifie qu'il est dedans
-        CPPUNIT_ASSERT(this->ensemble.Contient(1) == VRAI) ;
+        CPPUNIT_ASSERT_MESSAGE("TestEnsembleValeur::TestAjouter.1",
+          this->ensemble.Contient(1) == VRAI) ;
 
         this->ensemble.Ajouter(2) ;
 
         // puis on vérifie qu'il est dedans
-        CPPUNIT_ASSERT(this->ensemble.Contient(2) == VRAI) ;
+        CPPUNIT_ASSERT_MESSAGE("TestEnsembleValeur::TestAjouter.2", 
+          this->ensemble.Contient(2) == VRAI) ;
 
       
         // on vérifie que la taille est bien de 2
-        CPPUNIT_ASSERT(this->ensemble.NombreDElements() == 2) ;
+        CPPUNIT_ASSERT_MESSAGE("TestEnsembleValeur::TestAjouter.3", 
+          this->ensemble.NombreDElements() == 2) ;
 
 
         // on réajoute le même élément...
         this->ensemble.Ajouter(1) ;
         
         // on vérifie que la taille est bien de 2
-        CPPUNIT_ASSERT(this->ensemble.NombreDElements() == 2) ;
+        CPPUNIT_ASSERT_MESSAGE("TestEnsembleValeur::TestAjouter.4", 
+          this->ensemble.NombreDElements() == 2) ;
 
 
       }
@@ -70,7 +74,8 @@ namespace ProjetUnivers {
       {
 
          // on vérifie que l'ensemble vide est vide
-        CPPUNIT_ASSERT(this->ensemble.Contient(1) == FAUX) ;
+        CPPUNIT_ASSERT_MESSAGE("TestEnsembleValeur::TestVide", 
+          this->ensemble.Contient(1) == FAUX) ;
 
 
       }
@@ -89,7 +94,8 @@ namespace ProjetUnivers {
         this->ensemble.Enlever(1) ;
         
         // on vérifie qu'il n'est pas dedans
-        CPPUNIT_ASSERT(this->ensemble.Contient(1) == FAUX) ;
+        CPPUNIT_ASSERT_MESSAGE("TestEnsembleValeur::TestEnlever", 
+          this->ensemble.Contient(1) == FAUX) ;
         
       }
       

@@ -20,5 +20,3 @@
 
 #include <base/implantation/iterateur_liste_association.h>
 
-
-

@@ -36,7 +36,7 @@ namespace ProjetUnivers {
     ///   Même utilisations que pour Composition, en ce qui concerne 
     ///   les ensembles.
     template <class OBJET> class EnsembleComposition 
-        : public ListeComposition<OBJET> {
+        : public Implantation::ListeComposition<OBJET> {
 
     public:
     

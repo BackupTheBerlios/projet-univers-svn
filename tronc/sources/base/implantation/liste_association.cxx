@@ -18,254 +18,268 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-
-template <class OBJET> 
-ListeAssociation<OBJET>::ListeAssociation()
-: liste(new TamponListeAssociation<OBJET>())
-{}
-
-template <class OBJET> 
-ListeAssociation<OBJET>::~ListeAssociation() {
-
-  if(liste->Laisser())
-
-    delete liste ;
-  
-}
-
-template <class OBJET> 
-ListeAssociation<OBJET>::ListeAssociation(const ListeAssociation< OBJET >& _l)
-: liste(_l.liste->Prendre()) 
-{}
-
-template <class OBJET> void 
-ListeAssociation<OBJET>::AjouterEnTete(const Association<OBJET> _n) {
-
-  // deux cas : 
-  // la liste n'est pas partagée, on peut lui ajouter directement 
-  // la liste est partagée, on copie puis on ajoute 
-
-  if (liste->NombreDeReferences() > 1)
-  {
+#include <base/implantation/tampon_liste_association.h>
+#include <base/implantation/iterateur_liste_association.h>
+#include <base/implantation/iterateur_liste_composition.h>
 
 
-    TamponListeAssociation<OBJET>* temp 
-      = new TamponListeAssociation<OBJET>(*liste) ;
+namespace ProjetUnivers {
 
-    // pas besoin de tester, il ya d'autres références
-    liste->Laisser() ;
+  namespace Base {
 
-    liste = temp ;
-
+    namespace Implantation {
+      
+      template <class OBJET> 
+      ListeAssociation<OBJET>::ListeAssociation()
+      : liste(new TamponListeAssociation<OBJET>())
+      {}
+      
+      template <class OBJET> 
+      ListeAssociation<OBJET>::~ListeAssociation() {
+      
+        if(liste->Laisser())
+      
+          delete liste ;
+        
+      }
+      
+      template <class OBJET> 
+      ListeAssociation<OBJET>::ListeAssociation(const ListeAssociation< OBJET >& _l)
+      : liste(_l.liste->Prendre()) 
+      {}
+      
+      template <class OBJET> void 
+      ListeAssociation<OBJET>::AjouterEnTete(const Association<OBJET> _n) {
+      
+        // deux cas : 
+        // la liste n'est pas partagée, on peut lui ajouter directement 
+        // la liste est partagée, on copie puis on ajoute 
+      
+        if (liste->NombreDeReferences() > 1)
+        {
+      
+      
+          TamponListeAssociation<OBJET>* temp 
+            = new TamponListeAssociation<OBJET>(*liste) ;
+      
+          // pas besoin de tester, il ya d'autres références
+          liste->Laisser() ;
+      
+          liste = temp ;
+      
+        }
+      
+        // dans tous les cas on ajoute
+        liste->AjouterEnTete(_n) ;
+      
+      }
+      
+      template <class OBJET> void 
+      ListeAssociation<OBJET>::AjouterEnQueue(const Association<OBJET> _n) {
+      
+        if (liste->NombreDeReferences() > 1)
+        {
+      
+      
+          TamponListeAssociation<OBJET>* temp 
+            = new TamponListeAssociation<OBJET>(*liste) ;
+      
+          // pas besoin de tester, il ya d'autres références
+          liste->Laisser() ;
+      
+          liste = temp ;
+      
+        }
+      
+        // dans tous les cas on ajoute
+        liste->AjouterEnQueue(_n) ;
+      
+      }
+      
+      template <class OBJET> void 
+      ListeAssociation<OBJET>::AjouterEnQueue(const ListeAssociation< OBJET > _elt) {
+      
+      
+        if (liste->NombreReferences() > 1)
+        {
+      
+      
+          TamponListeAssociation<OBJET>* temp 
+            = new TamponListeAssociation<OBJET>(*liste) ;
+      
+          // pas besoin de tester, il ya d'autres références
+          liste->Laisser() ;
+      
+          liste = temp ;
+      
+        }
+      
+        // dans tous les cas on ajoute
+        for(IterateurListeAssociation<OBJET> i(_elt) ; i.Valide() ; ++i)
+      
+          liste->AjouterEnQueue(i.Association()) ;
+      
+      }
+      
+      
+      template <class OBJET> Booleen 
+      ListeAssociation<OBJET>::Contient(const Association< OBJET >& _el) const {
+      
+      
+        return Position(_el) != 0 ;
+      
+      }
+      
+      template <class OBJET> Association< OBJET > 
+      ListeAssociation<OBJET>::Dernier() const {
+      
+        Association< OBJET > resultat ;
+      
+        IterateurListeAssociation<OBJET> i(*this) ; 
+      	
+        while(i.Valide()) {
+      		
+          resultat = i ;	
+          ++i ;
+          if( ! i.Valide() )
+      
+            return resultat ;
+        }
+      
+        // code bidon, ne devrais pas être atteind ...
+        return resultat ;
+      
+      
+      
+      }
+      
+      template <class OBJET> void 
+      ListeAssociation<OBJET>::Enlever(unsigned int _pos) {
+      
+        if (liste->NombreDeReferences() > 1)
+        {
+      
+          TamponListeAssociation<OBJET>* temp 
+            = new TamponListeAssociation<OBJET>(*liste) ;
+      
+          // pas besoin de tester, il ya d'autres références
+          liste->Laisser() ;
+      
+          liste = temp ;
+      
+        }
+      
+        // dans tous les cas on enlève
+        liste->Enlever(_pos) ;					
+      }
+      
+      
+      template <class OBJET> unsigned int 
+      ListeAssociation<OBJET>::Position(const Association< OBJET >& _el) const {
+      
+        unsigned int compteur = 0 ;
+      
+        for(IterateurListeAssociation<OBJET> i(*this) ; i.Valide() ; ++i) {
+      
+          ++compteur ;
+      
+          if (_el == i)
+      
+            return compteur ;
+        }
+      
+        return 0 ;
+      
+      }
+      
+      template <class OBJET> ListeAssociation< OBJET >& 
+      ListeAssociation<OBJET>::operator=(const ListeAssociation< OBJET >& _l) {
+      
+      
+        if (liste)
+        {
+      
+          if (liste->Laisser())
+      
+            delete liste ;
+        }
+        
+        
+        liste = _l.liste->Prendre() ;
+      
+      
+        return *this ;
+      }
+      
+      template <class OBJET> 
+      unsigned int 
+      ListeAssociation<OBJET>::NombreDElements() const {
+      
+        return liste->NombreDElements() ;
+      
+      }
+      
+      //////////////
+      // Constructeur.
+      template <class OBJET> 
+      ListeAssociation<OBJET>::ListeAssociation(const ListeComposition< OBJET >& _l)
+      : liste(new TamponListeAssociation<OBJET>())
+      {
+      
+        for(
+        IterateurListeComposition< OBJET > j(_l) ; 
+        j.Valide() ;
+        ++j)
+      
+          liste->AjouterEnQueue(j) ;
+      
+        
+      
+      }
+      
+      ////////////////
+      // Opérateur d'affectation.
+      template <class OBJET> 
+      ListeAssociation< OBJET >& 
+      ListeAssociation<OBJET>::operator=(const ListeComposition< OBJET >& _l)
+      {
+        
+        if (liste) {
+      
+          if (liste->Laisser())
+      
+            delete liste ;
+      
+        }
+        liste = new TamponListeAssociation<OBJET>() ;
+        
+        for(
+        IterateurListeComposition< OBJET > j(_l) ; 
+        j.Valide() ;
+        ++j)
+      
+          liste->AjouterEnQueue(j) ;
+      
+        return *this ;
+      }
+      
+      //////////////////
+      // Enlève tous les éléments.
+      template <class OBJET> 
+      void 
+      ListeAssociation<OBJET>::Vider()
+      {
+      
+        // on laisse la liste en cours
+        if(liste->Laisser())
+      
+          delete liste ;
+        
+        // et on en prends une nouvelle, vide
+        liste = new TamponListeAssociation<OBJET>() ;
+      
+      }
+    }
   }
-
-  // dans tous les cas on ajoute
-  liste->AjouterEnTete(_n) ;
-
 }
 
-template <class OBJET> void 
-ListeAssociation<OBJET>::AjouterEnQueue(const Association<OBJET> _n) {
-
-  if (liste->NombreDeReferences() > 1)
-  {
-
-
-    TamponListeAssociation<OBJET>* temp 
-      = new TamponListeAssociation<OBJET>(*liste) ;
-
-    // pas besoin de tester, il ya d'autres références
-    liste->Laisser() ;
-
-    liste = temp ;
-
-  }
-
-  // dans tous les cas on ajoute
-  liste->AjouterEnQueue(_n) ;
-
-}
-
-template <class OBJET> void 
-ListeAssociation<OBJET>::AjouterEnQueue(const ListeAssociation< OBJET > _elt) {
-
-
-  if (liste->NombreReferences() > 1)
-  {
-
-
-    TamponListeAssociation<OBJET>* temp 
-      = new TamponListeAssociation<OBJET>(*liste) ;
-
-    // pas besoin de tester, il ya d'autres références
-    liste->Laisser() ;
-
-    liste = temp ;
-
-  }
-
-  // dans tous les cas on ajoute
-  for(IterateurListeAssociation<OBJET> i(_elt) ; i.Valide() ; ++i)
-
-    liste->AjouterEnQueue(i.Association()) ;
-
-}
-
-
-template <class OBJET> Booleen 
-ListeAssociation<OBJET>::Contient(const Association< OBJET >& _el) const {
-
-
-  return Position(_el) != 0 ;
-
-}
-
-template <class OBJET> Association< OBJET > 
-ListeAssociation<OBJET>::Dernier() const {
-
-  Association< OBJET > resultat ;
-
-  IterateurListeAssociation<OBJET> i(*this) ; 
-	
-  while(i.Valide()) {
-		
-    resultat = i ;	
-    ++i ;
-    if( ! i.Valide() )
-
-      return resultat ;
-  }
-
-  // code bidon, ne devrais pas être atteind ...
-  return resultat ;
-
-
-
-}
-
-template <class OBJET> void 
-ListeAssociation<OBJET>::Enlever(unsigned int _pos) {
-
-  if (liste->NombreDeReferences() > 1)
-  {
-
-    TamponListeAssociation<OBJET>* temp 
-      = new TamponListeAssociation<OBJET>(*liste) ;
-
-    // pas besoin de tester, il ya d'autres références
-    liste->Laisser() ;
-
-    liste = temp ;
-
-  }
-
-  // dans tous les cas on enlève
-  liste->Enlever(_pos) ;					
-}
-
-
-template <class OBJET> unsigned int 
-ListeAssociation<OBJET>::Position(const Association< OBJET >& _el) const {
-
-  unsigned int compteur = 0 ;
-
-  for(IterateurListeAssociation<OBJET> i(*this) ; i.Valide() ; ++i) {
-
-    ++compteur ;
-
-    if (_el == i)
-
-      return compteur ;
-  }
-
-  return 0 ;
-
-}
-
-template <class OBJET> ListeAssociation< OBJET >& 
-ListeAssociation<OBJET>::operator=(const ListeAssociation< OBJET >& _l) {
-
-
-  if (liste)
-  {
-
-    if (liste->Laisser())
-
-      delete liste ;
-  }
-  
-  
-  liste = _l.liste->Prendre() ;
-
-
-  return *this ;
-}
-
-template <class OBJET> 
-unsigned int 
-ListeAssociation<OBJET>::NombreDElements() const {
-
-  return liste->NombreDElements() ;
-
-}
-
-//////////////
-// Constructeur.
-template <class OBJET> 
-ListeAssociation<OBJET>::ListeAssociation(const ListeComposition< OBJET >& _l)
-: liste(new TamponListeAssociation<OBJET>())
-{
-
-  for(
-  IterateurListeComposition< OBJET > j(_l) ; 
-  j.Valide() ;
-  ++j)
-
-    liste->AjouterEnQueue(j) ;
-
-  
-
-}
-
-////////////////
-// Opérateur d'affectation.
-template <class OBJET> 
-ListeAssociation< OBJET >& 
-ListeAssociation<OBJET>::operator=(const ListeComposition< OBJET >& _l)
-{
-  
-  if (liste) {
-
-    if (liste->Laisser())
-
-      delete liste ;
-
-  }
-  liste = new TamponListeAssociation<OBJET>() ;
-  
-  for(
-  IterateurListeComposition< OBJET > j(_l) ; 
-  j.Valide() ;
-  ++j)
-
-    liste->AjouterEnQueue(j) ;
-
-  return *this ;
-}
-
-//////////////////
-// Enlève tous les éléments.
-template <class OBJET> 
-void 
-ListeAssociation<OBJET>::Vider()
-{
-
-  // on laisse la liste en cours
-  if(liste->Laisser())
-
-    delete liste ;
-  
-  // et on en prends une nouvelle, vide
-  liste = new TamponListeAssociation<OBJET>() ;
-
-}

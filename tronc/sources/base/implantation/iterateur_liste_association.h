@@ -22,7 +22,6 @@
 #define _PU_BASE_ITERATEUR_LISTE_ASSOCIATION_H_
 
 #include <base/association_virtuelle.h>
-#include <base/implantation/noeud_association.h>
 #include <base/implantation/iterateur_liste.h>
 
 
@@ -31,76 +30,79 @@
 namespace ProjetUnivers {
 
   namespace Base {
-      
-    template <class OBJET> class ListeAssociation ;
-    template <class OBJET> class TamponListeAssociation ;
-    
-    
-    /*
-    CLASS
-      IterateurListeAssociation
-    
-      Classe générique fournissant un itérateur sur les listes ListeAssociation.
-    
-    UTILISATION
-      Itérer sur les éléments d'une ListeAssociation.
-    
-    */
-    template <class OBJET> class IterateurListeAssociation 
-    : public IterateurListe {
-    public: 
-    
-      // **********************************************
-      // GROUP: Constructeur, méthodes de modifications
-      // **********************************************
-    
-    
-      //////////////////
-      // Constructeur, prenant la liste sur laquelle on va itérer.
-      IterateurListeAssociation(const ListeAssociation<OBJET> &_l);
-    
-      ///////////////////
-      // Destructeur.
-      ~IterateurListeAssociation() ;
-    
-    
-    
-      // ***********************
-      // GROUP: Méthodes d'accès
-      // ***********************
-    
-      ///////////////
-      // Renvoie l'élément courant en association.
-      operator Association< OBJET >() ;
-    
-      ///////////////
-      // Renvoie l'élément courant en référence.
-      operator const OBJET&() ;
-     
-      /////////////
-      // Opérateur de déréférenciation.
-      OBJET* operator ->() const ;
-    
-    
-    
-    private:
-    
-      /////////////
-      // Conversion dynamique de noeudCourant qui est un Node 
-      // en un NoeudAssociation<OBJET>.
-      UTILISATION_ASSOCIATION_VIRTUELLE(NoeudAssociation<OBJET>,noeudCourant)
-    
-    
-      //////////////////
-      // Une référence pour pouvoir la lacher
-      TamponListeAssociation< OBJET >* liste ;
-    
-    };
-    
-    #include <base/implantation/iterateur_liste_association.cxx>
 
+    template <class OBJET> class Association ;
+    
+    namespace Implantation {
+          
+      template <class OBJET> class ListeAssociation ;
+      template <class OBJET> class TamponListeAssociation ;
+      template <class OBJET> class NoeudAssociation ;
+      
+      /*
+      CLASS
+        IterateurListeAssociation
+      
+        Classe générique fournissant un itérateur sur les listes ListeAssociation.
+      
+      UTILISATION
+        Itérer sur les éléments d'une ListeAssociation.
+      
+      */
+      template <class OBJET> class IterateurListeAssociation 
+      : public IterateurListe {
+      public: 
+      
+        // **********************************************
+        /// @name Constructeur, méthodes de modifications
+        // **********************************************
+        // @{
+      
+      
+        /// Constructeur.
+        
+        /*
+         @param[_liste] liste sur laquelle on va itérer.
+        */
+        IterateurListeAssociation(const ListeAssociation<OBJET> &_liste) ;
+      
+        /// Destructeur.
+        ~IterateurListeAssociation() ;
+      
+      
+        // @}
+        // ***********************
+        /// @name Méthodes d'accès
+        // ***********************
+        // @{
+        
+        
+        /// Renvoie l'élément courant en association.
+        operator Association< OBJET >() ;
+      
+        /// Renvoie l'élément courant en référence.
+        operator const OBJET&() ;
+       
+        /// Opérateur de déréférenciation.
+        OBJET* operator ->() const ;
+      
+      
+        // @}
+      private:
+      
+        /// Une référence pour pouvoir la lacher
+        TamponListeAssociation< OBJET >* liste ;
+
+        /// Conversion dynamique de noeudCourant.
+        UTILISATION_ASSOCIATION_VIRTUELLE(NoeudAssociation<OBJET>,noeudCourant)
+      };
+    }
   }
 }
+
+
+#include <base/implantation/iterateur_liste_association.cxx>
+
 #endif 
 
 

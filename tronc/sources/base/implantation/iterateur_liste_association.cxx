@@ -18,69 +18,63 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-///////////////
-// Renvoie l'élément courant en association.
-template <class OBJET> 
-IterateurListeAssociation<OBJET>::operator Association< OBJET >()
-{
-  return noeudCourant()->element ;
+#include <base/association.h>
 
+namespace ProjetUnivers {
+
+  namespace Base {
+
+    
+    namespace Implantation {
+            
+      template <class OBJET> 
+      IterateurListeAssociation<OBJET>::operator Association<OBJET>()
+      {
+        return noeudCourant()->element ;
+      
+      }
+      
+      ///////////////
+      // Renvoie l'élément courant en référence.
+      template <class OBJET> 
+      IterateurListeAssociation<OBJET>::operator const OBJET&()
+      {
+        return *noeudCourant()->element ;
+      
+      }
+      
+      
+      template <class OBJET> 
+      IterateurListeAssociation<OBJET>::IterateurListeAssociation
+      (const ListeAssociation<OBJET>& _liste)
+      : IterateurListe(*_liste.liste),
+      liste((TamponListeAssociation<OBJET>*)_liste.liste)
+      {
+        liste->Prendre() ;
+      
+      }
+      
+      
+      ///////////////////
+      // Destructeur.
+      template <class OBJET> 
+      IterateurListeAssociation<OBJET>::~IterateurListeAssociation()
+      {
+        if (liste->Laisser())
+      
+          delete liste ;
+      }
+      
+      
+      
+      template <class OBJET> OBJET* 
+      IterateurListeAssociation<OBJET>::operator ->() const {
+      
+        return (noeudCourant()->element).operator->() ;
+      
+      }
+      
+
+    }
+  }
 }
-
-///////////////
-// Renvoie l'élément courant en référence.
-template <class OBJET> 
-IterateurListeAssociation<OBJET>::operator const OBJET&()
-{
-  return *noeudCourant()->element ;
-
-}
-
-
-template <class OBJET> 
-IterateurListeAssociation<OBJET>::IterateurListeAssociation
-(const ListeAssociation<OBJET>& _l)
-: IterateurListe(*_l.liste),
-liste((TamponListeAssociation<OBJET>*)_l.liste)
-{
-  liste->Prendre() ;
-
-}
-
-
-///////////////////
-// Destructeur.
-template <class OBJET> 
-IterateurListeAssociation<OBJET>::~IterateurListeAssociation()
-{
-  if (liste->Laisser())
-
-    delete liste ;
-}
-
-
-//template <class OBJET> Association<OBJET>& 
-//IterateurListeAssociation<OBJET>::Association() const {
-//
-//  return noeudCourant()->element ;
-//}
-
-template <class OBJET> OBJET* 
-IterateurListeAssociation<OBJET>::operator ->() const {
-//
-//  OBJET* resultat = (noeudCourant()->element).pt ;
-//
-//  if (resultat == NULL)
-//
-//    throw ExceptionBase("IterateurListeAssociation<OBJET>::operator ->") ;
-
-  return (noeudCourant()->element).operator->() ;
-
-}
-
-//template <class OBJET> OBJET& 
-//IterateurListeAssociation<OBJET>::operator *() const {
-//
-//  return *(noeudCourant()->element) ;
-//}
-

@@ -18,43 +18,48 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+namespace ProjetUnivers {
 
-template <class T> inline Association<T>& 
-Association<T>::operator =(const Composition<T>& _x)
-{
+  namespace Base {
 
-  pt = _x.pt ;
-  return *this ;
-}
 
-template <class T> inline Booleen 
-Association<T>::operator == (const Composition<T>& _x) const 
-{
-  return pt == _x.pt ;
-}
-
-template <class T> inline Booleen 
-Association<T>::operator != (const Composition<T>& _x) const
-{
-  return pt == _x.pt ;
-}
-
-template <class T> inline 
-Association<T>::Association(const Composition<T>& _x)
-  : pt(_x.pt)
-{}
-
-template <class T> inline T* 
-Association<T>::operator ->() const {
-
-  if (pt == NULL) 
-  {
-
-    throw ExceptionBase("Association::->") ;
+    template <class T> inline Association<T>& 
+    Association<T>::operator =(const Composition<T>& _x)
+    {
+    
+      pt = _x.pt ;
+      return *this ;
+    }
+    
+    template <class T> inline Booleen 
+    Association<T>::operator == (const Composition<T>& _x) const 
+    {
+      return pt == _x.pt ;
+    }
+    
+    template <class T> inline Booleen 
+    Association<T>::operator != (const Composition<T>& _x) const
+    {
+      return pt == _x.pt ;
+    }
+    
+    template <class T> inline 
+    Association<T>::Association(const Composition<T>& _x)
+      : pt(_x.pt)
+    {}
+    
+    template <class T> inline T* 
+    Association<T>::operator ->() const {
+    
+      if (pt == NULL) 
+      {
+    
+        throw ExceptionBase("Association::->") ;
+      }
+    	
+      return pt ;
+    	
+    }
   }
-	
-  return pt ;
-	
-}
-
+}    
 	

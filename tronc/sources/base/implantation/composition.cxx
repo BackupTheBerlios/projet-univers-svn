@@ -18,16 +18,20 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-//#include "../association.h"
+namespace ProjetUnivers {
 
-template <class T> inline Booleen 
-Composition<T>::operator == (const Association<T>& _p)
-{
-  return pt == (T *)_p ;
-}
-
-template <class T> inline Booleen 
-Composition<T>::operator !=(const  Association<T>& _p)
-{
-  return pt != _p.get_ptr() ;
+  namespace Base {
+    
+    template <class T> inline Booleen 
+    Composition<T>::operator == (const Association<T>& _p)
+    {
+      return pt == (T *)_p ;
+    }
+    
+    template <class T> inline Booleen 
+    Composition<T>::operator !=(const  Association<T>& _p)
+    {
+      return pt != _p.get_ptr() ;
+    }
+  }
 }

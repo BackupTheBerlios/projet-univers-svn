@@ -18,8 +18,8 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_BASE_ITERATEUR_LISTE_H_
-#define _PU_BASE_ITERATEUR_LISTE_H_
+#ifndef _PU_BASE_IMPLANTATION_ITERATEUR_LISTE_H_
+#define _PU_BASE_IMPLANTATION_ITERATEUR_LISTE_H_
 
 #include <base/implantation/iterateur_liste_abstrait.h>
 
@@ -28,38 +28,41 @@ namespace ProjetUnivers {
 
   namespace Base {
       
-    
-    class NoeudAbstrait ;
-    class ListeAbstraite ;
-    
-    
-    ///	Classe des itérateurs non constants sur les listes
-    
-    /// EXPLICATION
-    ///	Cet itérateur est à utiliser lorsqu'on désire modifier 
-    ///	la structure de la liste.
-    class IterateurListe : public IterateurListeAbstrait {
-    
-    public:
-    
-    	/// Constructeur.
-    	IterateurListe(const ListeAbstraite& _list) ;
-    
-    	/// Constructeur.
-    	IterateurListe(const ListeAbstraite& _list, const Booleen& _inversee) ;
-    
-    	/// Enlève le noeud courant.
-    	void Enlever() ;
-    
-    protected:
-    
-      /// Ajoute un noeud après.
-      void AjouterApres(NoeudAbstrait* _n) ;
-    
-      /// Ajoute un noeud avant.
-      void AjouterAvant(NoeudAbstrait* _n) ;
-    
-    };
+    namespace Implantation {
+        
+      class NoeudAbstrait ;
+      class ListeAbstraite ;
+      
+      
+      ///	Classe des itérateurs non constants sur les listes
+      
+      /// EXPLICATION
+      ///	Cet itérateur est à utiliser lorsqu'on désire modifier 
+      ///	la structure de la liste.
+      class IterateurListe : public IterateurListeAbstrait {
+      
+      public:
+      
+      	/// Constructeur.
+      	IterateurListe(const ListeAbstraite& _list) ;
+      
+      	/// Constructeur.
+      	IterateurListe(const ListeAbstraite& _list, const Booleen& _inversee) ;
+      
+      	/// Enlève le noeud courant.
+      	void Enlever() ;
+      
+      protected:
+      
+        /// Ajoute un noeud après.
+        void AjouterApres(NoeudAbstrait* _n) ;
+      
+        /// Ajoute un noeud avant.
+        void AjouterAvant(NoeudAbstrait* _n) ;
+      
+      };
+      
+    }
   }
 }
 

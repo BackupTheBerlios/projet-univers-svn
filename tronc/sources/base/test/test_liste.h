@@ -33,74 +33,76 @@ namespace ProjetUnivers {
   
   namespace Base {
     
-    namespace Test {
-
-      class ElementTestListe ;
-
-      ///  Teste les liste en association et en composition.
-      class TestListe : public CppUnit::TestFixture {
-      public:
-
-        /// Initialisation du test
-        void setUp() ;
-
-        /// Desinitialisation du test
-        void tearDown() ;
-
-
-
-
-      protected:
-
-
-
-        // *************************
-        /// @name Tests proprement dits
-        // *************************      
-        // @{  
-
-        /// Teste l'ajout dans la liste.
-        void TestAjouter() ;
-
-        /// Teste que, même une liste temporaire, peut être 
-        /// parcourue.
-        void TestParcoursListeTemporaire() ;
-
-        /// Teste la destruction de liste en composition.
-        void TestDestruction() ;
-
-        // @}
-
-        // *************************
-        /// @name Mise en place
-        // *************************      
-        // @{  
-
-
-        CPPUNIT_TEST_SUITE(TestListe) ;
-
-        CPPUNIT_TEST(TestAjouter) ;
-        CPPUNIT_TEST(TestParcoursListeTemporaire) ;
-        CPPUNIT_TEST(TestDestruction) ;
-
-        CPPUNIT_TEST_SUITE_END() ;
-
-
-        // @}
-
-
-
-      private:
-
-
-
-	      ListeAssociation< ElementTestListe > f() ;
-
-        // une liste 
-        ListeComposition< ElementTestListe > liste ;
-
-      };
-
+    namespace Implantation {
+      
+      namespace Test {
+  
+        class ElementTestListe ;
+  
+        ///  Teste les liste en association et en composition.
+        class TestListe : public CppUnit::TestFixture {
+        public:
+  
+          /// Initialisation du test
+          void setUp() ;
+  
+          /// Desinitialisation du test
+          void tearDown() ;
+  
+  
+  
+  
+        protected:
+  
+  
+  
+          // *************************
+          /// @name Tests proprement dits
+          // *************************      
+          // @{  
+  
+          /// Teste l'ajout dans une liste.
+          void TestAjouter() ;
+  
+          /// Teste que, même une liste temporaire, peut être 
+          /// parcourue.
+          void TestParcoursListeTemporaire() ;
+  
+          /// Teste la destruction de liste en composition.
+          void TestDestruction() ;
+  
+          // @}
+  
+          // *************************
+          /// @name Mise en place
+          // *************************      
+          // @{  
+  
+  
+          CPPUNIT_TEST_SUITE(TestListe) ;
+  
+          CPPUNIT_TEST(TestAjouter) ;
+          CPPUNIT_TEST(TestParcoursListeTemporaire) ;
+          CPPUNIT_TEST(TestDestruction) ;
+  
+          CPPUNIT_TEST_SUITE_END() ;
+  
+  
+          // @}
+  
+  
+  
+        private:
+  
+  
+  
+  	      ListeAssociation< ElementTestListe > f() ;
+  
+          // une liste 
+          ListeComposition< ElementTestListe > liste ;
+  
+        };
+      }
     }
   }
 }

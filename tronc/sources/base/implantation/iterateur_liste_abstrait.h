@@ -18,11 +18,9 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_BASE_ITERATEUR_LISTE_ABSTRAIT_H_
-#define _PU_BASE_ITERATEUR_LISTE_ABSTRAIT_H_
+#ifndef _PU_BASE_IMPLANTATION_ITERATEUR_LISTE_ABSTRAIT_H_
+#define _PU_BASE_IMPLANTATION_ITERATEUR_LISTE_ABSTRAIT_H_
 
-#include <base/implantation/liste_abstraite.h>
-#include <base/implantation/noeud_abstrait.h>
 #include <base/association_virtuelle.h>
 #include <base/association.h>
 
@@ -30,46 +28,49 @@ namespace ProjetUnivers {
 
   namespace Base {
   
-    
-    
-    /// Classe de base des itérateurs sur les listes.
-
-    class IterateurListeAbstrait {
-    public:
-    
-    
-
-      /// Constructeur.
-      IterateurListeAbstrait(
-          const Association< NoeudAbstrait >& n, 
-    			const Association< ListeAbstraite >& l) ;
-    
-      /// Destructeur.
-      ~IterateurListeAbstrait() ;
-    
-      /// Passe à l'élément suivant.
-      void operator ++() ;
-    
-      /// Passe à l'élément précédent.
-      void operator --() ;
-    
-      /// Dit si l'itérateur est valide.
-      Booleen Valide() const ;
-    
-      /// renvoie le nombre d'éléments de la liste.
-      unsigned int NombreDElements() const ;
-    
-    
-    protected:
-    
-      /// Noeud courant.
-      DECLARATION_ASSOCIATION_VIRTUELLE(NoeudAbstrait,noeudCourant)
-    
-      /// Liste parcourue.
-      DECLARATION_ASSOCIATION_VIRTUELLE(ListeAbstraite,liste)
-    
-    
-    };
+    namespace Implantation {
+      
+      
+      class ListeAbstraite ;
+      class NoeudAbstrait ;
+           
+      /// Classe de base des itérateurs sur les listes.
+      class IterateurListeAbstrait {
+      public:
+      
+      
+  
+        /// Constructeur.
+        IterateurListeAbstrait(
+            const Association< NoeudAbstrait >& n, 
+      			const Association< ListeAbstraite >& l) ;
+      
+        /// Destructeur.
+        ~IterateurListeAbstrait() ;
+      
+        /// Passe à l'élément suivant.
+        void operator ++() ;
+      
+        /// Passe à l'élément précédent.
+        void operator --() ;
+      
+        /// Dit si l'itérateur est valide.
+        Booleen Valide() const ;
+      
+        /// renvoie le nombre d'éléments de la liste.
+        unsigned int NombreDElements() const ;
+      
+      
+      protected:
+      
+        /// Noeud courant.
+        DECLARATION_ASSOCIATION_VIRTUELLE(NoeudAbstrait,noeudCourant)      
+        /// Liste parcourue.
+        DECLARATION_ASSOCIATION_VIRTUELLE(ListeAbstraite,liste)
+      
+      
+      };
+    }
   }
 }
 #endif

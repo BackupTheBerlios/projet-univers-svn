@@ -17,40 +17,44 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+namespace ProjetUnivers {
 
-template <class OBJET> inline 
-EnsembleComposition<OBJET>::EnsembleComposition()
-: ListeComposition<OBJET>()
-{}
-
-template <class OBJET> inline 
-EnsembleComposition<OBJET>::~EnsembleComposition()
-{}
-
-template <class OBJET> inline
-void EnsembleComposition<OBJET>::Ajouter(OBJET* _elt)
-{
-  Composition<OBJET> element(_elt) ;
-  
-  if (! Contient(element))
-    ListeComposition<OBJET>::AjouterEnTete(element.Liberer()) ;
+  namespace Base {
     
+    template <class OBJET> inline 
+    EnsembleComposition<OBJET>::EnsembleComposition()
+    : Implantation::ListeComposition<OBJET>()
+    {}
+    
+    template <class OBJET> inline 
+    EnsembleComposition<OBJET>::~EnsembleComposition()
+    {}
+    
+    template <class OBJET> inline
+    void EnsembleComposition<OBJET>::Ajouter(OBJET* _elt)
+    {
+      Composition<OBJET> element(_elt) ;
+      
+      if (! Contient(element))
+        Implantation::ListeComposition<OBJET>::AjouterEnTete(element.Liberer()) ;
+        
+    }
+        
+    template <class OBJET> inline
+    void EnsembleComposition<OBJET>::Enlever(const Association< OBJET >& _el)
+    {
+      // on cherche l'élément
+      unsigned int position(Implantation::ListeComposition<OBJET>::Position(_el)) ;
+      if (position != 0)
+        Implantation::ListeComposition<OBJET>::Enlever(position) ;
+    }
+        
+        
+    template <class OBJET> inline
+    Booleen 
+    EnsembleComposition<OBJET>::Contient(const Association< OBJET >& _el) const
+    {
+      return Implantation::ListeComposition<OBJET>::Contient(_el) ;
+    }
+  }
 }
-    
-template <class OBJET> inline
-void EnsembleComposition<OBJET>::Enlever(const Association< OBJET >& _el)
-{
-  // on cherche l'élément
-  unsigned int position(ListeComposition<OBJET>::Position(_el)) ;
-  if (position != 0)
-    ListeComposition<OBJET>::Enlever(position) ;
-}
-    
-    
-template <class OBJET> inline
-Booleen 
-EnsembleComposition<OBJET>::Contient(const Association< OBJET >& _el) const
-{
-  return ListeComposition<OBJET>::Contient(_el) ;
-}
- 

@@ -18,8 +18,8 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_BASE_NOEUD_ASSOCIATION_H_
-#define _PU_BASE_NOEUD_ASSOCIATION_H_
+#ifndef _PU_BASE_IMPLANTATION_NOEUD_ASSOCIATION_H_
+#define _PU_BASE_IMPLANTATION_NOEUD_ASSOCIATION_H_
 
 #include <base/implantation/noeud_abstrait.h>
 
@@ -28,33 +28,38 @@ namespace ProjetUnivers {
 
   namespace Base {
       
-    
-    template <class OBJET> class IterateurListeAssociation ;
-    template <class OBJET> class IterateurTamponListeAssociation ;
-   
-    
-    ///  Classe représentant un noeud d'une liste en association.
-    template <class OBJET> class NoeudAssociation 
-      : public NoeudAbstrait {
-    
-     public:
-    
-      /// Constructeur.
-      NoeudAssociation(const Association< OBJET > _elt) ;
-
-    private:
-    
-      /// Elément.
-      Association< OBJET > element ;
-
-      friend class IterateurListeAssociation< OBJET > ;
-      friend class IterateurTamponListeAssociation<OBJET> ;
-    
-    };
-    
-    #include <base/implantation/noeud_association.cxx>
+    namespace Implantation {
+        
+      template <class OBJET> class IterateurListeAssociation ;
+      template <class OBJET> class IterateurTamponListeAssociation ;
+     
+      
+      ///  Noeuds des listes en association.
+      template <class OBJET> class NoeudAssociation 
+        : public NoeudAbstrait {
+      
+       public:
+      
+        /// Constructeur.
+        NoeudAssociation(const Association< OBJET >& _elt) ;
+  
+      private:
+      
+        /// Elément.
+        Association< OBJET > element ;
+  
+        friend class IterateurListeAssociation< OBJET > ;
+        friend class IterateurTamponListeAssociation<OBJET> ;
+      
+      };
+      
+      
+    }
   }
 }
+
+#include <base/implantation/noeud_association.cxx>
+
 #endif
 
 

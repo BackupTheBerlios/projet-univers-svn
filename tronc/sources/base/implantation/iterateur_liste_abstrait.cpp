@@ -19,54 +19,58 @@
  ***************************************************************************/
 
 #include <base/implantation/iterateur_liste_abstrait.h>
-#include <base/association.h>
+#include <base/implantation/liste_abstraite.h>
+#include <base/implantation/noeud_abstrait.h>
 
 namespace ProjetUnivers {
 
   namespace Base {
     
-    IterateurListeAbstrait::IterateurListeAbstrait(
-                    const Association< NoeudAbstrait >& n,
-    					      const Association<ListeAbstraite>& l)
-    : BASE_VREF(noeudCourant)(n),
-      BASE_VREF(liste)(l)
-    {}
-    
-    
-    void IterateurListeAbstrait::operator ++() {
-    
-      if (!(noeudCourant() == NULL))
-    
-        noeudCourant() = noeudCourant()->suivant ;
-    
-      else
-    
-        throw ExceptionBase("IterateurListeAbstrait::operator ++") ;
-    }
-    
-    void IterateurListeAbstrait::operator --() {
-    
-      if (!(noeudCourant() == NULL))
-    
-        noeudCourant() = noeudCourant()->precedent ;
-    
-      else
-    
-        throw ExceptionBase("IterateurListeAbstrait::operator --") ;
-    
-    }
-    
-    Booleen IterateurListeAbstrait::Valide() const {
-    
-      return ! (noeudCourant() == NULL) ;
-    }
-    
-    IterateurListeAbstrait::~IterateurListeAbstrait()
-    {}
-    
-    unsigned int IterateurListeAbstrait::NombreDElements() const {
-    
-    	return liste()->NombreDElements() ;
+    namespace Implantation {
+      
+      IterateurListeAbstrait::IterateurListeAbstrait(
+                      const Association< NoeudAbstrait >& n,
+      					      const Association<ListeAbstraite>& l)
+      : BASE_VREF(noeudCourant)(n),
+        BASE_VREF(liste)(l)
+      {}
+      
+      
+      void IterateurListeAbstrait::operator ++() {
+      
+        if (!(noeudCourant() == NULL))
+      
+          noeudCourant() = noeudCourant()->suivant ;
+      
+        else
+      
+          throw ExceptionBase("IterateurListeAbstrait::operator ++") ;
+      }
+      
+      void IterateurListeAbstrait::operator --() {
+      
+        if (!(noeudCourant() == NULL))
+      
+          noeudCourant() = noeudCourant()->precedent ;
+      
+        else
+      
+          throw ExceptionBase("IterateurListeAbstrait::operator --") ;
+      
+      }
+      
+      Booleen IterateurListeAbstrait::Valide() const {
+      
+        return ! (noeudCourant() == NULL) ;
+      }
+      
+      IterateurListeAbstrait::~IterateurListeAbstrait()
+      {}
+      
+      unsigned int IterateurListeAbstrait::NombreDElements() const {
+      
+      	return liste()->NombreDElements() ;
+      }
     }
   }
 }

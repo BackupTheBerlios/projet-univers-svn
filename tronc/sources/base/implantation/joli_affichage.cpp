@@ -19,8 +19,8 @@
  ***************************************************************************/
 
 
-#include "../joli_affichage.h"
-#include "../exception_base.h"
+#include <base/joli_affichage.h>
+#include <base/exception_base.h>
 
 namespace ProjetUnivers {
 
@@ -29,11 +29,11 @@ namespace ProjetUnivers {
     
     ////////////////
     // Indentation courante, initialisée à 0
-    EntierNonSigne indentation(0) ;
+    EntierPositif indentation(0) ;
     
     //////////////
     // Décalage, à ajouter où à soustraire
-    EntierNonSigne tabulation(2) ;
+    EntierPositif tabulation(2) ;
     
     ////////////////
     // fonction locale d'affichage de indentation espaces
@@ -42,7 +42,7 @@ namespace ProjetUnivers {
       Chaine resultat ;
     
       // on ajoute des espaces
-      for(EntierNonSigne i(0) ; i < indentation ; ++i)
+      for(EntierPositif i(0) ; i < indentation ; ++i)
         
         resultat += " " ;
     
@@ -69,7 +69,7 @@ namespace ProjetUnivers {
       if (indentation < tabulation)
     
         throw ExceptionBase(
-          "_pretty_printing error : cannot decrease indentation anymore") ;
+          "erreur joli affichage : ne peut plus decroitre indentation") ;
     
       indentation = indentation - tabulation ;
      

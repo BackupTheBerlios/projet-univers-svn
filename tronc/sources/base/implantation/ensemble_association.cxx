@@ -18,164 +18,96 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+namespace ProjetUnivers {
 
-template <class OBJET> EnsembleAssociation<OBJET>::EnsembleAssociation<OBJET>()
-  : ListeAssociation<OBJET>()
-{}
+  namespace Base {
 
-
-//////////////////
-// Constructeur de copie.
-template <class OBJET> 
-EnsembleAssociation<OBJET>::EnsembleAssociation
-(const EnsembleAssociation< OBJET >& _s)
-  : ListeAssociation<OBJET>(_s)
-{}
-
-
-template <class OBJET> 
-void 
-EnsembleAssociation<OBJET>::Ajouter(const Association<OBJET>& _el) {
-
-  if (! Contient(_el))
-
-    ListeAssociation<OBJET>::AjouterEnQueue(_el) ;
-}
-
-//////////////////
-// Ajoute des éléments.
-template <class OBJET> 
-void 
-EnsembleAssociation<OBJET>::Ajouter(const EnsembleAssociation< OBJET >& _el) {
-
-  for(IterateurListeAssociation<OBJET> i(_el) ; i.Valide() ; ++i)
-
-    Ajouter(i) ;
-}
-
-
-
-//////////////////
-// Enlève un élément.
-template <class OBJET> 
-void 
-EnsembleAssociation<OBJET>::Enlever(const Association<OBJET>& _el) {
-
-  unsigned int position = this->Position(_el) ;
-  
-  
-  if (position != 0)
-
-    ListeAssociation<OBJET>::Enlever(position) ;
-}
-
-
-
-template <class OBJET> 
-Booleen 
-EnsembleAssociation<OBJET>::
-Contient(const Association<OBJET>& _r) const
-{
-  return ListeAssociation<OBJET>::Contient(_r) ;
-}
-
-///////////////////////
-// Egalité.
-template <class OBJET> 
-Booleen 
-EnsembleAssociation<OBJET>::
-operator==(const EnsembleAssociation<OBJET>& _r) const
-{
-
-  if (this->NombreDElements() != _r.NombreDElements())
-
-    return FAUX ;
-
-  for(
-  IterateurListeAssociation<OBJET> i(_r) ;
-  i.Valide() ;
-  ++i)
-  {
-    if (! this->Contient(i)) 
-
-      return FAUX ;
+    
+    template <class OBJET> EnsembleAssociation<OBJET>::EnsembleAssociation<OBJET>()
+    : Implantation::ListeAssociation<OBJET>()
+    {}
+    
+    
+    //////////////////
+    // Constructeur de copie.
+    template <class OBJET> 
+    EnsembleAssociation<OBJET>::EnsembleAssociation
+    (const EnsembleAssociation< OBJET >& _s)
+      : Implantation::ListeAssociation<OBJET>(_s)
+    {}
+    
+    
+    template <class OBJET> 
+    void 
+    EnsembleAssociation<OBJET>::Ajouter(const Association<OBJET>& _el) {
+    
+      if (! Contient(_el))
+    
+        Implantation::ListeAssociation<OBJET>::AjouterEnQueue(_el) ;
+    }
+    
+    //////////////////
+    // Ajoute des éléments.
+    template <class OBJET> 
+    void 
+    EnsembleAssociation<OBJET>::Ajouter(const EnsembleAssociation< OBJET >& _el) {
+    
+      for(Implantation::IterateurListeAssociation<OBJET> i(_el) ; i.Valide() ; ++i)
+    
+        Ajouter(i) ;
+    }
+    
+    
+    
+    //////////////////
+    // Enlève un élément.
+    template <class OBJET> 
+    void 
+    EnsembleAssociation<OBJET>::Enlever(const Association<OBJET>& _el) {
+    
+      unsigned int position = this->Position(_el) ;
+      
+      
+      if (position != 0)
+    
+        Implantation::ListeAssociation<OBJET>::Enlever(position) ;
+    }
+    
+    
+    
+    template <class OBJET> 
+    Booleen 
+    EnsembleAssociation<OBJET>::
+    Contient(const Association<OBJET>& _r) const
+    {
+      return Implantation::ListeAssociation<OBJET>::Contient(_r) ;
+    }
+    
+    ///////////////////////
+    // Egalité.
+    template <class OBJET> 
+    Booleen 
+    EnsembleAssociation<OBJET>::
+    operator==(const EnsembleAssociation<OBJET>& _r) const
+    {
+    
+      if (this->NombreDElements() != _r.NombreDElements())
+    
+        return FAUX ;
+    
+      for(
+      Implantation::IterateurListeAssociation<OBJET> i(_r) ;
+      i.Valide() ;
+      ++i)
+      {
+        if (! this->Contient(i)) 
+    
+          return FAUX ;
+      }
+    
+      return VRAI ;
+    
+    }
+    
   }
-
-  return VRAI ;
-
 }
-
-
-
-
-
-
-//
-////////////////////////
-//// Inclusion.
-//template <class OBJET> 
-//Booleen 
-//EnsembleAssociation<OBJET>::
-//operator<=(const EnsembleAssociation<OBJET>& _r) const 
-//{
-//  if (this->NombreDElements() > _r.NombreDElements())
-//
-//    return FAUX ;
-//
-//  for(
-//  IterateurListeAssociation<OBJET> i(*this) ;
-//  i.Valide() ;
-//  ++i)
-//  {
-//    if (! _r.Contient(i)) 
-//
-//      return FAUX ;
-//  }
-//
-//  return VRAI ;
-//
-//
-//}
-//
-/////////////////////////
-//// Inclusion strict.
-//template <class OBJET> 
-//Booleen 
-//EnsembleAssociation<OBJET>::
-//operator<(const EnsembleAssociation<OBJET>& _r) const
-//{
-//
-//  if (this->NombreDElements() >= _r.NombreDElements())
-//
-//    return FAUX ;
-//
-//  return (*this <= _r) ;
-//}
-//
-///////////////////////
-//// Dit oui si les deux ensembles ont une intersection.
-//template <class OBJET> 
-//Booleen
-//EnsembleAssociation<OBJET>::
-//intersection(const EnsembleAssociation<OBJET>& _r) const
-//{
-//
-//  if (_r.NombreDElements() == 0 || this->NombreDElements() == 0)
-//
-//    return FAUX ;
-//
-//  for(
-//  IterateurListeAssociation<OBJET> i(*this) ;
-//  i.Valide() ;
-//  ++i)
-//  {
-//
-//    if (_r.Contient(i))
-//
-//      return VRAI ;
-//
-//  }
-//
-//  return FAUX ;
-//
-//}

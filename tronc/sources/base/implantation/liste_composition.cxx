@@ -18,142 +18,154 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#include <base/implantation/iterateur_liste_composition.h>
+#include <base/implantation/noeud_composition.h>
 
-template <class OBJET> 
-ListeComposition<OBJET>::ListeComposition()
-  : ListeAbstraite()
-{}
 
-//////////////
-// Destructeur par défaut.
-template <class OBJET> 
-ListeComposition<OBJET>::~ListeComposition() {
+namespace ProjetUnivers {
 
-  Vider() ;
-}
+  namespace Base {
 
-template <class OBJET> void 
-ListeComposition<OBJET>::AjouterEnTete(OBJET* _elt) {
-
-  Composition<NoeudComposition<OBJET> > n(new NoeudComposition<OBJET>(_elt)) ;
-
-  ListeAbstraite::AjouterEnTete(n.Liberer()) ;
-}
-
-template <class OBJET> void 
-ListeComposition<OBJET>::AjouterEnTete(const ListeComposition< OBJET >& _l) {
-
-  if (this != &_l) {
-
-    for(IterateurListeComposition<OBJET> i(_l) ; i.Valide() ;) {
-
-      AjouterEnTete(i.Liberer()) ;
-      i.Enlever() ;
+    namespace Implantation {
+      
+      template <class OBJET> 
+      ListeComposition<OBJET>::ListeComposition()
+        : ListeAbstraite()
+      {}
+      
+      //////////////
+      // Destructeur par défaut.
+      template <class OBJET> 
+      ListeComposition<OBJET>::~ListeComposition() {
+      
+        Vider() ;
+      }
+      
+      template <class OBJET> void 
+      ListeComposition<OBJET>::AjouterEnTete(OBJET* _elt) {
+      
+        Composition<NoeudComposition<OBJET> > n(new NoeudComposition<OBJET>(_elt)) ;
+      
+        ListeAbstraite::AjouterEnTete(n.Liberer()) ;
+      }
+      
+      template <class OBJET> void 
+      ListeComposition<OBJET>::AjouterEnTete(const ListeComposition< OBJET >& _l) {
+      
+        if (this != &_l) {
+      
+          for(IterateurListeComposition<OBJET> i(_l) ; i.Valide() ;) {
+      
+            AjouterEnTete(i.Liberer()) ;
+            i.Enlever() ;
+          }
+        }
+      
+      }
+      
+      
+      template <class OBJET> void 
+      ListeComposition<OBJET>::AjouterEnQueue(OBJET* _elt) {
+      
+        Composition<NoeudComposition<OBJET> > n(new NoeudComposition<OBJET>(_elt)) ;
+      
+        ListeAbstraite::AjouterEnQueue(n.Liberer()) ;
+      }
+      
+      
+      template <class OBJET> ListeComposition<OBJET>& 
+      ListeComposition<OBJET>::operator = (const ListeComposition<OBJET> &_l) {
+      
+        if (this != &_l) {
+      
+          for(IterateurListeComposition<OBJET> i(_l) ; i.Valide() ;) {
+      
+            AjouterEnQueue(i.Liberer()) ;
+            i.remove() ;
+          }
+        }
+      
+        return *this ;
+      }
+      
+      template <class OBJET> 
+      ListeComposition<OBJET>::ListeComposition(const ListeComposition<OBJET>& _l)
+        : ListeAbstraite() {
+      
+        operator =(_l) ;
+      }
+      
+      
+      template <class OBJET> Booleen 
+      ListeComposition<OBJET>::Contient(const Association< OBJET >& _el) const {
+      
+        for(IterateurListeComposition<OBJET> i(*this) ; i.Valide() ; ++i)
+      
+          if (_el == i)
+      
+            return VRAI ;
+      
+        return FAUX ;
+      }
+      
+      template <class OBJET> Association< OBJET > 
+      ListeComposition<OBJET>::Element(unsigned int _pos) const {
+      
+        unsigned int compteur = 0 ;
+      
+        for(IterateurListeComposition<OBJET> i(*this) ; i.Valide() ; ++i) {
+      
+          ++ compteur ;
+      
+          if (_pos == compteur) {
+      
+            return i ;
+      	
+          }
+        }
+      
+        return NULL ;
+      					
+      }
+      
+      
+      template <class OBJET> void 
+      ListeComposition<OBJET>::Enlever(unsigned int _pos) {
+      
+        unsigned int compteur = 0 ;
+      
+        for(IterateurListeComposition<OBJET> i(*this) ; i.Valide() ; ++i) {
+      
+          ++ compteur ;
+      
+          if (_pos == compteur) {
+      
+            i.Enlever() ;
+            return ;
+      	
+          }
+        }
+      					
+      }
+      
+      template <class OBJET> unsigned int 
+      ListeComposition<OBJET>::Position(const Association< OBJET >& _el) const {
+      
+        unsigned int compteur = 0 ;
+      
+        for(IterateurListeComposition<OBJET> i(*this) ; i.Valide() ; ++i) {
+      
+          ++compteur ;
+      
+          if (_el == i)
+      
+            return compteur ;
+        }
+      
+        return 0 ;
+      
+      }
     }
   }
-
-}
-
-
-template <class OBJET> void 
-ListeComposition<OBJET>::AjouterEnQueue(OBJET* _elt) {
-
-  Composition<NoeudComposition<OBJET> > n(new NoeudComposition<OBJET>(_elt)) ;
-
-  ListeAbstraite::AjouterEnQueue(n.Liberer()) ;
-}
-
-
-template <class OBJET> ListeComposition<OBJET>& 
-ListeComposition<OBJET>::operator = (const ListeComposition<OBJET> &_l) {
-
-  if (this != &_l) {
-
-    for(IterateurListeComposition<OBJET> i(_l) ; i.Valide() ;) {
-
-      AjouterEnQueue(i.Liberer()) ;
-      i.remove() ;
-    }
-  }
-
-  return *this ;
-}
-
-template <class OBJET> 
-ListeComposition<OBJET>::ListeComposition(const ListeComposition<OBJET>& _l)
-  : ListeAbstraite() {
-
-  operator =(_l) ;
-}
-
-
-template <class OBJET> Booleen 
-ListeComposition<OBJET>::Contient(const Association< OBJET >& _el) const {
-
-  for(IterateurListeComposition<OBJET> i(*this) ; i.Valide() ; ++i)
-
-    if (_el == i)
-
-      return VRAI ;
-
-  return FAUX ;
-}
-
-template <class OBJET> Association< OBJET > 
-ListeComposition<OBJET>::Element(unsigned int _pos) const {
-
-  unsigned int compteur = 0 ;
-
-  for(IterateurListeComposition<OBJET> i(*this) ; i.Valide() ; ++i) {
-
-    ++ compteur ;
-
-    if (_pos == compteur) {
-
-      return i ;
-	
-    }
-  }
-
-  return NULL ;
-					
-}
-
-
-template <class OBJET> void 
-ListeComposition<OBJET>::Enlever(unsigned int _pos) {
-
-  unsigned int compteur = 0 ;
-
-  for(IterateurListeComposition<OBJET> i(*this) ; i.Valide() ; ++i) {
-
-    ++ compteur ;
-
-    if (_pos == compteur) {
-
-      i.Enlever() ;
-      return ;
-	
-    }
-  }
-					
-}
-
-template <class OBJET> unsigned int 
-ListeComposition<OBJET>::Position(const Association< OBJET >& _el) const {
-
-  unsigned int compteur = 0 ;
-
-  for(IterateurListeComposition<OBJET> i(*this) ; i.Valide() ; ++i) {
-
-    ++compteur ;
-
-    if (_el == i)
-
-      return compteur ;
-  }
-
-  return 0 ;
-
 }
 

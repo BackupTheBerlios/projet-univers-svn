@@ -18,114 +18,125 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#include <base/implantation/iterateur_tampon_liste_association.h>
 
+namespace ProjetUnivers {
 
+  namespace Base {
 
-template <class OBJET> 
-TamponListeAssociation<OBJET>::TamponListeAssociation()
- : ListeAbstraite(),nombreDeReferences(1)
-{}
-
-template <class OBJET> 
-TamponListeAssociation<OBJET>::~TamponListeAssociation() {
-
-  Vider() ;
-}
-
-template <class OBJET> 
-TamponListeAssociation<OBJET>::TamponListeAssociation
-(const TamponListeAssociation< OBJET >& _l)
- : ListeAbstraite(),nombreDeReferences(1) {
-
-  for(IterateurTamponListeAssociation<OBJET> i(_l) ; i.Valide() ; ++i)
-
-    AjouterEnQueue(i) ;
-}
-
-template <class OBJET> void 
-TamponListeAssociation<OBJET>::AjouterEnTete(const Association<OBJET> _n) {
-
-  Composition< NoeudAssociation<OBJET> > 
-    nouveau_noeud(new NoeudAssociation<OBJET>(_n)) ;
-
-  ListeAbstraite::AjouterEnTete(nouveau_noeud.Liberer()) ;
-
-}
-
-template <class OBJET> void 
-TamponListeAssociation<OBJET>::AjouterEnQueue(const Association<OBJET> _n) {
-
-  Composition< NoeudAssociation<OBJET> > 
-    nouveau_noeud(new NoeudAssociation<OBJET>(_n)) ;
-
-  ListeAbstraite::AjouterEnQueue(nouveau_noeud.Liberer()) ;
-
-}
-
-template <class OBJET> void 
-TamponListeAssociation<OBJET>::Enlever(unsigned int _pos) {
-
-  unsigned int compteur = 0 ;
-
-  for(IterateurTamponListeAssociation<OBJET> i(*this) ; i.Valide() ; ++i) {
-
-    ++ compteur ;
-
-    if (_pos == compteur) {
-
-      i.Enlever() ;
-      return ;
-	
+    namespace Implantation {
+      
+      
+      
+      template <class OBJET> 
+      TamponListeAssociation<OBJET>::TamponListeAssociation()
+       : ListeAbstraite(),nombreDeReferences(1)
+      {}
+      
+      template <class OBJET> 
+      TamponListeAssociation<OBJET>::~TamponListeAssociation() {
+      
+        Vider() ;
+      }
+      
+      template <class OBJET> 
+      TamponListeAssociation<OBJET>::TamponListeAssociation
+      (const TamponListeAssociation< OBJET >& _l)
+       : ListeAbstraite(),nombreDeReferences(1) {
+      
+        for(IterateurTamponListeAssociation<OBJET> i(_l) ; i.Valide() ; ++i)
+      
+          AjouterEnQueue(i) ;
+      }
+      
+      template <class OBJET> void 
+      TamponListeAssociation<OBJET>::AjouterEnTete(const Association<OBJET> _n) {
+      
+        Composition< NoeudAssociation<OBJET> > 
+          nouveau_noeud(new NoeudAssociation<OBJET>(_n)) ;
+      
+        ListeAbstraite::AjouterEnTete(nouveau_noeud.Liberer()) ;
+      
+      }
+      
+      template <class OBJET> void 
+      TamponListeAssociation<OBJET>::AjouterEnQueue(const Association<OBJET> _n) {
+      
+        Composition< NoeudAssociation<OBJET> > 
+          nouveau_noeud(new NoeudAssociation<OBJET>(_n)) ;
+      
+        ListeAbstraite::AjouterEnQueue(nouveau_noeud.Liberer()) ;
+      
+      }
+      
+      template <class OBJET> void 
+      TamponListeAssociation<OBJET>::Enlever(const EntierPositif& _pos) {
+      
+        EntierPositif compteur = 0 ;
+      
+        for(IterateurTamponListeAssociation<OBJET> i(*this) ; i.Valide() ; ++i) {
+      
+          ++ compteur ;
+      
+          if (_pos == compteur) {
+      
+            i.Enlever() ;
+            return ;
+      	
+          }
+        }
+      					
+      }
+      
+      template <class OBJET> EntierPositif 
+      TamponListeAssociation<OBJET>::Position
+      (const Association< OBJET >& _el) const {
+      
+        EntierPositif compteur = 0 ;
+      
+        for(IterateurTamponListeAssociation<OBJET> i(*this) ; i.Valide() ; ++i) {
+      
+          ++compteur ;
+      
+          if (_el == i)
+      
+            return compteur ;
+        }
+      
+        return 0 ;
+      
+      }
+      
+      // Accès à une "copie", augmente la référence
+      template <class OBJET> 
+      TamponListeAssociation< OBJET >* 
+      TamponListeAssociation<OBJET>::Prendre()
+      {
+        ++nombreDeReferences ;
+        return this ;
+      }
+      
+      ////////////////
+      // Relache une "copie", diminue la référence et renvoie 
+      // le nombre de références restantes.
+      template <class OBJET> 
+      Booleen
+      TamponListeAssociation<OBJET>::Laisser()
+      {
+        --nombreDeReferences ;
+        return nombreDeReferences == 0 ;
+      }
+      
+      
+      ////////////////////
+      // renvoie le nombre de références.
+      template <class OBJET> 
+      EntierPositif 
+      TamponListeAssociation<OBJET>::NombreDeReferences() const 
+      {
+        return nombreDeReferences ;
+      }
     }
   }
-					
 }
 
-template <class OBJET> unsigned int 
-TamponListeAssociation<OBJET>::TrouverPosition
-(const Association< OBJET >& _el) const {
-
-  unsigned int compteur = 0 ;
-
-  for(IterateurTamponListeAssociation<OBJET> i(*this) ; i.Valide() ; ++i) {
-
-    ++compteur ;
-
-    if (_el == i)
-
-      return compteur ;
-  }
-
-  return 0 ;
-
-}
-
-// Accès à une "copie", augmente la référence
-template <class OBJET> 
-TamponListeAssociation< OBJET >* 
-TamponListeAssociation<OBJET>::Prendre()
-{
-  ++nombreDeReferences ;
-  return this ;
-}
-
-////////////////
-// Relache une "copie", diminue la référence et renvoie 
-// le nombre de références restantes.
-template <class OBJET> 
-Booleen
-TamponListeAssociation<OBJET>::Laisser()
-{
-  --nombreDeReferences ;
-  return nombreDeReferences == 0 ;
-}
-
-
-////////////////////
-// renvoie le nombre de références.
-template <class OBJET> 
-unsigned int 
-TamponListeAssociation<OBJET>::NombreDeReferences() const 
-{
-  return nombreDeReferences ;
-}

@@ -18,14 +18,23 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-template <class OBJET> 
-NoeudComposition<OBJET>::NoeudComposition(OBJET* _elt)
-  : element(_elt)
-{}
+namespace ProjetUnivers {
 
-template <class OBJET> OBJET* 
-NoeudComposition<OBJET>::Liberer() {
+  namespace Base {
 
-  return element.Liberer() ;
+    namespace Implantation {
+      
+      template <class OBJET> 
+      NoeudComposition<OBJET>::NoeudComposition(OBJET* _elt)
+        : element(_elt)
+      {}
+      
+      template <class OBJET> OBJET* 
+      NoeudComposition<OBJET>::Liberer() {
+      
+        return element.Liberer() ;
+      }
+    }
+  }
 }
-
+        

@@ -18,8 +18,8 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_BASE_NOEUD_COMPOSITION_H_
-#define _PU_BASE_NOEUD_COMPOSITION_H_
+#ifndef _PU_BASE_IMPLANTATION_NOEUD_COMPOSITION_H_
+#define _PU_BASE_IMPLANTATION_NOEUD_COMPOSITION_H_
 
 #include <base/implantation/noeud_abstrait.h>
 
@@ -27,34 +27,39 @@ namespace ProjetUnivers {
 
   namespace Base {
     
-    template <class OBJET> class IterateurListeComposition ;
-    
-    
-    
-    ///  Classe des noeuds de ObCompositionList.
-    template <class OBJET> class NoeudComposition : public NoeudAbstrait {
-    public:
-    
-      /// Constructeur.
-      NoeudComposition(OBJET* _elt) ;
-    
-      /// Libère l'élément .
-      OBJET* Liberer() ;
-    
-    
-    private:
-    
-      /// Elément.
-      Composition< OBJET >	element ;
-    
-      friend class IterateurListeComposition<OBJET> ;
-    
-    };
-    
-    #include <base/implantation/noeud_composition.cxx>
-
+    namespace Implantation {
+        
+      template <class OBJET> class IterateurListeComposition ;
+      
+      
+      
+      ///  Classe des noeuds de ListeComposition.
+      template <class OBJET> class NoeudComposition : public NoeudAbstrait {
+      public:
+      
+        /// Constructeur.
+        NoeudComposition(OBJET* _elt) ;
+      
+        /// Libère l'élément .
+        OBJET* Liberer() ;
+      
+      
+      private:
+      
+        /// Elément.
+        Composition<OBJET>	element ;
+      
+        friend class IterateurListeComposition<OBJET> ;
+      
+      };
+      
+      
+    }
   }
 }
+
+#include <base/implantation/noeud_composition.cxx>
+
 #endif 
 
 

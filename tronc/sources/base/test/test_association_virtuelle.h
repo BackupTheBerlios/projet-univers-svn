@@ -25,7 +25,7 @@
 
 
 #include <cppunit/extensions/HelperMacros.h>
-#include <base/association_virtuelle.h>
+
 
 namespace ProjetUnivers {
 
@@ -56,11 +56,11 @@ namespace ProjetUnivers {
 
       protected:
 
-        CPPUNIT_TEST_SUITE(TestEnsembleValeur) ;
+        CPPUNIT_TEST_SUITE(TestAssociationVirtuelle) ;
 
-        CPPUNIT_TEST(TestAjouter) ;
-        CPPUNIT_TEST(TestEnlever) ;
-        CPPUNIT_TEST(TestAppartient) ;
+        CPPUNIT_TEST(TesteRedefinition) ;
+//        CPPUNIT_TEST(TesteModificateursAcces) ;
+
 
         CPPUNIT_TEST_SUITE_END() ;
 
@@ -71,18 +71,14 @@ namespace ProjetUnivers {
         // ****************************
         // @{
         
-  
-        /// Teste l'ajout d'un élément
-        void TestAjouter();
 
-        /// Teste la suppression d'un élément
-        void TestEnlever();
+
+        /// Teste la lecture et modification de l'attribut redéfini.
+        void TesteRedefinition() ;
+
+        /// Teste les modificateurs d'accès
+        void TesteModificateursAcces() ;
   
-        /// Teste le test d'appartenance d'un élément
-        void TestAppartient();
-  
-        /// Teste l'ensemble vide.
-        void TestVide() ;
 
 
         // @}

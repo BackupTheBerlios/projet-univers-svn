@@ -51,9 +51,6 @@ namespace ProjetUnivers {
         /// Teste la suppression d'un élément
         void TestEnlever();
   
-        /// Teste le test d'appartenance d'un élément
-        void TestAppartient();
-  
         /// Teste l'ensemble vide.
         void TestVide() ;
 
@@ -67,7 +64,7 @@ namespace ProjetUnivers {
 
         CPPUNIT_TEST(TestAjouter) ;
         CPPUNIT_TEST(TestEnlever) ;
-        CPPUNIT_TEST(TestAppartient) ;
+        CPPUNIT_TEST(TestVide) ;
 
         CPPUNIT_TEST_SUITE_END() ;
 

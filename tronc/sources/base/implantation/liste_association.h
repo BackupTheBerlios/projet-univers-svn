@@ -23,10 +23,7 @@
 
 
 #include <base/types.h>
-#include <base/implantation/tampon_liste_association.h>
-#include <base/implantation/iterateur_liste_association.h>
-#include <base/implantation/iterateur_liste_composition.h>
-#include <base/implantation/liste_composition.h>
+
 
 
 namespace ProjetUnivers {
@@ -34,108 +31,109 @@ namespace ProjetUnivers {
   namespace Base {
 
     template <class OBJET> class Association ;
-      
-    
-    template <class OBJET> class TamponListeAssociation ;
-    template <class OBJET> class IterateurListeAssociation ;
-    template <class OBJET> class ListeComposition ;
-    
-    
-    
-      
-    ///  Classe générique des listes en association.
-    
-    /// UTILISATION
-    ///  La même que pour Association
-    template <class OBJET> class ListeAssociation {
-    	
-    public:
-    
-    
-      // ********************
-      // GROUP: Constructeurs
-      // ********************
-    
-      /// Constructeur.
-      ListeAssociation() ;
-    
-      /// Destructeur.
-      ~ListeAssociation() ;
-    
-      /// Constructeur de copie.
-      ListeAssociation(const ListeAssociation< OBJET >& _l) ;
-    
-      /// Constructeur.
-      ListeAssociation(const ListeComposition< OBJET >& _l) ;
-    
-      /// Opérateur d'affectation.
-      ListeAssociation< OBJET >& operator=(const ListeComposition< OBJET >& _l) ;
-    
-    
-      /// Opérateur d'affectation.
-      ListeAssociation< OBJET >& operator=(const ListeAssociation< OBJET >& _l) ;
-    
-      /// Ajoute un nouvel élément en début de liste.
-      void AjouterEnTete(const Association< OBJET > _elt) ;
-    
-      /// Ajoute un nouvel élément en fin de liste.
-      void AjouterEnQueue(const Association< OBJET > _elt) ;
-    
-      /// Ajoute des nouveaux éléments en fin de liste.
-      void AjouterEnQueue(const ListeAssociation< OBJET > _elt) ;
-    
-      /// Enlève tous les éléments.
-      void Vider() ;
 
+    namespace Implantation {
+  
+      template <class OBJET> class ListeComposition ;
+      template <class OBJET> class TamponListeAssociation ;
+      template <class OBJET> class IterateurListeAssociation ;
       
-      // ***********************
-      // GROUP: Méthodes d'accès
-      // ***********************
-    
-      /// Accès au nombre d'éléments.
-      unsigned int NombreDElements() const ;
-    
-    
-      /// Determine si l'élément _elt fait parti de la liste.
-      Booleen Contient(const Association< OBJET >& _elt) const ;
-    
-      /// Determine si _el fait partie de la liste et renvoie sa position.
-      unsigned int Position(const Association< OBJET >& _el) const ;
-    
-      /// Enlève l'élément à la position _pos;
-      void Enlever(unsigned int _pos) ;
-    
-      /// Accès au dernier élément.
-      Association< OBJET > Dernier() const ;
-    
-    
-    private:
-    
-      /// Vrai liste proprement dite
-      /// elle va être partagée par toutes les copies
-      TamponListeAssociation< OBJET >* liste ;
-    
-      friend class IterateurListeAssociation<OBJET> ;
-    
-    };
-    
-    
-    
-    
-    /// Intersection des éléments des listes, considérées comme des ensembles.
-    template <class OBJET > 
-    ListeAssociation< OBJET > Intersection
-        ( const ListeAssociation< OBJET >& _l1,
-          const ListeAssociation< OBJET >& _l2) ;
-  
-  
-  
-  
-    #include <base/implantation/liste_association.cxx>
       
+      
+      
+        
+      ///  Classe générique des listes en association.
+      
+      /// UTILISATION
+      ///  La même que pour Association
+      template <class OBJET> class ListeAssociation {
+      	
+      public:
+      
+      
+        // ********************
+        // GROUP: Constructeurs
+        // ********************
+      
+        /// Constructeur.
+        ListeAssociation() ;
+      
+        /// Destructeur.
+        ~ListeAssociation() ;
+      
+        /// Constructeur de copie.
+        ListeAssociation(const ListeAssociation< OBJET >& _l) ;
+      
+        /// Constructeur.
+        ListeAssociation(const ListeComposition< OBJET >& _l) ;
+      
+        /// Opérateur d'affectation.
+        ListeAssociation< OBJET >& operator=(const ListeComposition< OBJET >& _l) ;
+      
+      
+        /// Opérateur d'affectation.
+        ListeAssociation< OBJET >& operator=(const ListeAssociation< OBJET >& _l) ;
+      
+        /// Ajoute un nouvel élément en début de liste.
+        void AjouterEnTete(const Association< OBJET > _elt) ;
+      
+        /// Ajoute un nouvel élément en fin de liste.
+        void AjouterEnQueue(const Association< OBJET > _elt) ;
+      
+        /// Ajoute des nouveaux éléments en fin de liste.
+        void AjouterEnQueue(const ListeAssociation< OBJET > _elt) ;
+      
+        /// Enlève tous les éléments.
+        void Vider() ;
   
+        
+        // ***********************
+        // GROUP: Méthodes d'accès
+        // ***********************
+      
+        /// Accès au nombre d'éléments.
+        unsigned int NombreDElements() const ;
+      
+      
+        /// Determine si l'élément _elt fait parti de la liste.
+        Booleen Contient(const Association< OBJET >& _elt) const ;
+      
+        /// Determine si _el fait partie de la liste et renvoie sa position.
+        unsigned int Position(const Association< OBJET >& _el) const ;
+      
+        /// Enlève l'élément à la position _pos;
+        void Enlever(unsigned int _pos) ;
+      
+        /// Accès au dernier élément.
+        Association< OBJET > Dernier() const ;
+      
+      
+      private:
+      
+        /// Vrai liste proprement dite
+        /// elle va être partagée par toutes les copies
+        TamponListeAssociation< OBJET >* liste ;
+      
+        friend class IterateurListeAssociation<OBJET> ;
+      
+      };
+      
+      
+      
+      
+      /// Intersection des éléments des listes, considérées comme des ensembles.
+      template <class OBJET > 
+      ListeAssociation< OBJET > Intersection
+          ( const ListeAssociation< OBJET >& _l1,
+            const ListeAssociation< OBJET >& _l2) ;
+    
+
+    }
   }
 }
+
+#include <base/implantation/liste_association.cxx>
+
 #endif 
 
 

@@ -18,8 +18,8 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef PU_EXCEPTION_H
-#define PU_EXCEPTION_H
+#ifndef _PU_BASE_EXCEPTION_H_
+#define _PU_BASE_EXCEPTION_H_
 
 
 
@@ -62,7 +62,7 @@ namespace ProjetUnivers {
       Entier		numeroErreur ;
     
       /// Classe virtuelle, donc constructeur protected.
-      Exception(const Chaine& _message,const EntierNonSigne& numero) ;
+      Exception(const Chaine& _message,const EntierPositif& numero) ;
     
     };
 

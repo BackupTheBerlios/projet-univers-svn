@@ -24,86 +24,93 @@
 #include <base/association_virtuelle.h>
 #include <base/implantation/iterateur_liste.h>
 #include <base/implantation/noeud_composition.h>
-#include <base/implantation/liste_composition.h>
+
 
 namespace ProjetUnivers {
 
   namespace Base {
 
-    template <class OBJET> class ListeComposition ;
-    
-    
-    ///	Classe générique fournissant un itérateur sur les listes 
-    ///	ListeComposition.
-    
-    /// UTILISATION
-    ///	Itérer sur les éléments d'une ListeComposition.
-    template <class OBJET> class IterateurListeComposition 
-    : public IterateurListe {
-    
-    public: 
-    
-    	// **********************************************
-    	// GROUP: Constructeur, méthodes de modifications
-    	// **********************************************
-    
-    
-    	/// Constructeur, prenant la liste sur laquelle on va itérer.
-    	IterateurListeComposition(const ListeComposition< OBJET >& _l);
-    
-    	/// Constructeur de copie.
-    	IterateurListeComposition(const IterateurListeComposition< OBJET >& _i) ;
-    
-    	/// Libère l'élément courant.
-    	OBJET* Liberer() ;
-    
-    	/// Ajoute un élément après.
-    	void AjouterApres(OBJET* _n) ;
-    
-    	/// Ajoute un élément avant.
-    	void AjouterAvant(OBJET* _n) ;
-    
-    	/// Ajoute une liste.
-    	void Ajouter(const ListeComposition< OBJET >& _nouveaux) ;
-    
-    	/// Enlève le noeud courant.
-    	void Enlever() ;
 
-      
-    	// ***********************
-    	// GROUP: Méthodes d'accès
-    	// ***********************
-    
-
-      /// Renvoie l'élément courant en association.
-      operator Association< OBJET >() ;
-
+    namespace Implantation {
   
-      /// Renvoie l'élément courant en référence.
-      operator const OBJET&() ;
-    
-    	/// Opérateur de déréférenciation.
-    	OBJET* operator ->() const ;
-    
-    private:
-    
-    	/// Conversion dynamique de list 
-    	/// en un ListeComposition<OBJET>.
-    	UTILISATION_ASSOCIATION_VIRTUELLE(ListeComposition<OBJET>,liste)
-    
-    	/// Conversion dynamique de current_node qui est un ObAbstractNode 
-    	/// en un NoeudComposition<OBJET>.
-    	UTILISATION_ASSOCIATION_VIRTUELLE(NoeudComposition<OBJET>,noeudCourant)
-    
-    
-    
-    
-    };
-    
-    #include <base/implantation/iterateur_liste_composition.cxx>
 
+      template <class OBJET> class ListeComposition ;
+      
+      ///	Classe générique fournissant un itérateur sur les listes 
+      ///	ListeComposition.
+      
+      /*!
+        Sert à itérer sur une ListeComposition.
+      */
+      template <class OBJET> class IterateurListeComposition 
+      : public IterateurListe {
+      
+      public: 
+      
+      	// **********************************************
+      	/// @name Constructeur, méthodes de modifications
+      	// **********************************************
+        // @{     
+      
+      	/// Constructeur, prenant la liste sur laquelle on va itérer.
+      	IterateurListeComposition(const ListeComposition<OBJET>& _l);
+      
+      	/// Constructeur de copie.
+      	IterateurListeComposition(const IterateurListeComposition<OBJET>& _i) ;
+      
+      	/// Libère l'élément courant.
+      	OBJET* Liberer() ;
+      
+      	/// Ajoute un élément après.
+      	void AjouterApres(OBJET* _n) ;
+      
+      	/// Ajoute un élément avant.
+      	void AjouterAvant(OBJET* _n) ;
+      
+      	/// Ajoute une liste.
+      	void Ajouter(const ListeComposition<OBJET>& _nouveaux) ;
+      
+      	/// Enlève le noeud courant.
+      	void Enlever() ;
+  
+        // @}
+      	// ***********************
+      	/// @name Méthodes d'accès
+      	// ***********************
+        // @{
+  
+        /// Renvoie l'élément courant en association.
+        operator Association<OBJET>() ;
+  
+    
+        /// Renvoie l'élément courant en référence.
+        operator const OBJET&() ;
+      
+      	/// Opérateur de déréférenciation.
+      	OBJET* operator ->() const ;
+      
+        // @}
+      private:
+      
+      	/// Conversion dynamique de list 
+      	/// en un ListeComposition<OBJET>.
+      	UTILISATION_ASSOCIATION_VIRTUELLE(ListeComposition<OBJET>,liste)
+      
+      	/// Conversion dynamique de current_node qui est un ObAbstractNode 
+      	/// en un NoeudComposition<OBJET>.
+      	UTILISATION_ASSOCIATION_VIRTUELLE(NoeudComposition<OBJET>,noeudCourant)
+      
+      
+      
+      
+      };
+      
+      
+      
+    }
   }
 }
+#include <base/implantation/iterateur_liste_composition.cxx>
 #endif 
 
 

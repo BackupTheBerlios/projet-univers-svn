@@ -19,8 +19,8 @@
  ***************************************************************************/
 
 
-#ifndef COMPOSITION_H
-#define COMPOSITION_H
+#ifndef _PU_BASE_COMPOSITION_H_
+#define _PU_BASE_COMPOSITION_H_
 
 
 
@@ -247,8 +247,9 @@ namespace ProjetUnivers {
       friend class Association<OBJET> ;
     };
     
-    #include <base/implantation/composition.cxx>
   }
 }
+
+#include <base/implantation/composition.cxx>
 
 #endif

@@ -18,8 +18,18 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-template <class OBJET> 
-NoeudAssociation<OBJET>::NoeudAssociation(const Association<OBJET> _elt)
-:NoeudAbstrait(),element(_elt)
-{}
+namespace ProjetUnivers {
+
+  namespace Base {
+
+    namespace Implantation {
+      
+      
+      template <class OBJET> 
+      NoeudAssociation<OBJET>::NoeudAssociation(const Association<OBJET>& _elt)
+      :NoeudAbstrait(),element(_elt)
+      {}
+    }
+  }
+}
 

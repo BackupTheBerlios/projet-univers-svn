@@ -18,38 +18,41 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include "noeud_abstrait.h"
+#include <base/implantation/noeud_abstrait.h>
 
 namespace ProjetUnivers {
 
   namespace Base {
     
-    NoeudAbstrait::NoeudAbstrait()
-      :suivant(NULL),precedent(NULL)
-    {}
-    
-    NoeudAbstrait::~NoeudAbstrait()
-    {}
-    
-    void 
-    NoeudAbstrait::AjouterAvant(NoeudAbstrait *_p_nouv_n_) {
-    
-      _p_nouv_n_->precedent = precedent ;
-      _p_nouv_n_->suivant = precedent->suivant.Liberer() ;
-    
-      precedent->suivant = _p_nouv_n_ ;
-      precedent = precedent->suivant ;
-    }
-    
-    void NoeudAbstrait::AjouterApres(NoeudAbstrait *_p_nouv_n_) {
-    
-      Composition<NoeudAbstrait> temp(_p_nouv_n_) ;
+    namespace Implantation {
+        
+      NoeudAbstrait::NoeudAbstrait()
+        :suivant(NULL),precedent(NULL)
+      {}
       
-      _p_nouv_n_->precedent = suivant->precedent ;
-      suivant->precedent = temp ;
-    
-      _p_nouv_n_->suivant = suivant.Liberer() ;
-      suivant = temp.Liberer() ;
+      NoeudAbstrait::~NoeudAbstrait()
+      {}
+      
+      void 
+      NoeudAbstrait::AjouterAvant(NoeudAbstrait *_p_nouv_n_) {
+      
+        _p_nouv_n_->precedent = precedent ;
+        _p_nouv_n_->suivant = precedent->suivant.Liberer() ;
+      
+        precedent->suivant = _p_nouv_n_ ;
+        precedent = precedent->suivant ;
+      }
+      
+      void NoeudAbstrait::AjouterApres(NoeudAbstrait *_p_nouv_n_) {
+      
+        Composition<NoeudAbstrait> temp(_p_nouv_n_) ;
+        
+        _p_nouv_n_->precedent = suivant->precedent ;
+        suivant->precedent = temp ;
+      
+        _p_nouv_n_->suivant = suivant.Liberer() ;
+        suivant = temp.Liberer() ;
+      }
     }
   }
 }

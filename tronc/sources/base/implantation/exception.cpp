@@ -19,7 +19,7 @@
  ***************************************************************************/
 
 
-#include "../exception.h"
+#include <base/exception.h>
 
 namespace ProjetUnivers {
 
@@ -30,7 +30,7 @@ namespace ProjetUnivers {
     
     Exception::Exception
         (const Chaine& _message,
-        const EntierNonSigne& numero)
+        const EntierPositif& numero)
         
       : message(_message),numeroErreur(numero)
     {} 

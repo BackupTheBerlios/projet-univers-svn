@@ -28,9 +28,9 @@ namespace ProjetUnivers {
   namespace Base {
 
     template <class OBJET> class Composition ;
-    template <class OBJET> class NoeudAssociation ;
-    template <class OBJET> class IterateurListeAssociation ;
     
+    // template <class OBJET> class Implantation::NoeudAssociation ;
+   
     /// Classe générique désignant une association d'un élément d'une classe 
     /// d'objets.
     
@@ -168,13 +168,14 @@ namespace ProjetUnivers {
     
       // @}
     
-      friend class NoeudAssociation<OBJET> ;
+      //friend class Implantation::NoeudAssociation<OBJET> ;
     };
     
-    #include <base/implantation/association.cxx>
 
   }
 }
+
+#include <base/implantation/association.cxx>
 
 #endif
 

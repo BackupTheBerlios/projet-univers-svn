@@ -18,89 +18,100 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_BASE_LISTE_COMPOSITION_H_
-#define _PU_BASE_LISTE_COMPOSITION_H_
+#ifndef _PU_BASE_IMPLANTATION_LISTE_COMPOSITION_H_
+#define _PU_BASE_IMPLANTATION_LISTE_COMPOSITION_H_
 
 #include <base/implantation/liste_abstraite.h>
-#include <base/implantation/noeud_composition.h>
-#include <base/implantation/iterateur_liste_composition.h>
 
 namespace ProjetUnivers {
 
   namespace Base {
   
-    
-    template <class OBJET> class ListeAssociation ;
-    
-    
-    
-    /// Classe générique réalisant l'agrégation d'une liste d'objets.
-    
-    /// UTILISATION
-    ///  Même utilisations que pour Composition, en ce qui concerne les 
-    /// listes.
-    template <class OBJET> class ListeComposition 
-      : public ListeAbstraite {
-    
-    public:
-    
-    
+    namespace Implantation {
+        
+      template <class OBJET> class ListeAssociation ;
       
-      // ********************
-      // GROUP: Construction
-      // ********************
-    
       
-      /// Constructeur par défaut.
-      ListeComposition() ;
-    
-      /// Destructeur.
-      ~ListeComposition() ;
-    
-      /// Constructeur de copie, @_l est vide après cela.
-      ListeComposition(const ListeComposition<OBJET> &_l);
-    
-      /// Aggrege un élément à la liste en première position.
-      void AjouterEnTete(OBJET* _elt);
-    
-      /// Aggrege des éléments à la liste en première position.
-      void AjouterEnTete(const ListeComposition< OBJET >& _l) ;
-    
-      /// Aggrege un élément à la liste en dernière position.
-      void AjouterEnQueue(OBJET* _elt);
-    
+      /// Classe générique réalisant l'agrégation d'une liste d'objets.
 
-      /// Enlève l'élément à la position @_pos;
-      void Enlever(unsigned int _pos) ;
-    
-      /// Affectation, àprès ça,@ _l est vide.
-      ListeComposition< OBJET >& operator = (const ListeComposition<OBJET> &_l);
-    
-    
-      // ********************
-      // GROUP: Consultation
-      // ********************
-    
-    
-      /// Determine si @_el fait partie de la liste.
-      Booleen Contient(const Association< OBJET >& _el) const ;
-    
-      /// Determine si @_el fait partie de la liste, et renvoie la position, 
-      /// du premier trouvé.
-      /// \return 
-      ///   renvoie 0 si l'élément ne fait pas partie de la liste
-      unsigned int Position(const Association< OBJET >& _el) const ;
-    
-    
-      /// Renvoie l'élément à la position @_pos.
-      Association< OBJET > Element(unsigned int _pos) const ;
-    
-    
-    };
-    
-    #include <base/implantation/liste_composition.cxx>
+      /*!
+      UTILISATION
+        Même utilisations que pour Composition, en ce qui concerne les 
+       listes.
+      */
+      template <class OBJET> class ListeComposition 
+        : public ListeAbstraite {
+      
+      public:
+      
+      
+        
+        // ********************
+        /// @name Construction
+        // ********************
+        // @{
+        
+        
+        /// Constructeur par défaut.
+        ListeComposition() ;
+      
+        /// Destructeur.
+        ~ListeComposition() ;
+      
+        /// Constructeur de copie, @_l est vide après cela.
+        ListeComposition(const ListeComposition<OBJET> &_l);
+      
+        /// Aggrege un élément à la liste en première position.
+        void AjouterEnTete(OBJET* _elt);
+      
+        /// Aggrege des éléments à la liste en première position.
+        void AjouterEnTete(const ListeComposition< OBJET >& _l) ;
+      
+        /// Aggrege un élément à la liste en dernière position.
+        void AjouterEnQueue(OBJET* _elt);
+      
+  
+        /// Enlève l'élément à la position @_pos;
+        void Enlever(unsigned int _pos) ;
+      
+        /// Affectation, àprès ça,@ _l est vide.
+        ListeComposition< OBJET >& operator = (const ListeComposition<OBJET> &_l);
+      
+      
+        // @}
+        // ********************
+        /// @name Consultation
+        // ********************
+        // @{
+      
+        /// Determine si @_el fait partie de la liste.
+        Booleen Contient(const Association< OBJET >& _el) const ;
+      
+        /// 
+        
+        /*!
+          
+          \param _el élément recherché
+         \return 
+           renvoie 0 si l'élément ne fait pas partie de la liste
+           renvoie sa position s'il en fait partie
+        */
+        unsigned int Position(const Association< OBJET >& _el) const ;
+      
+      
+        /// Renvoie l'élément à la position @_pos.
+        Association< OBJET > Element(unsigned int _pos) const ;
+      
+        // @}
+      };
+      
+      
+    }
   }
 }
+
+#include <base/implantation/liste_composition.cxx>
+
 #endif 
 
 

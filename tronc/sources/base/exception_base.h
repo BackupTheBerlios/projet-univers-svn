@@ -19,8 +19,8 @@
  ***************************************************************************/
 
 
-#ifndef PU_EXCEPTION_BASE_H
-#define PU_EXCEPTION_BASE_H
+#ifndef _PU_BASE_EXCEPTION_BASE_H_
+#define _PU_BASE_EXCEPTION_BASE_H_
 
 
 
@@ -41,10 +41,13 @@ namespace ProjetUnivers {
       /// Constructeur.
       ExceptionBase(const Chaine& _message) ;
 
-      /// Constructeur de copie. 
-      /// \remark
-      ///   le constructeur de copie est obligatoire
-      ///   pour les exceptions.
+      /// Constructeur de copie.
+      
+      /*! 
+        \remark
+          le constructeur de copie est obligatoire
+          pour les exceptions.
+      */
       ExceptionBase(const ExceptionBase& x) ;
     
     };

@@ -32,63 +32,67 @@ namespace ProjetUnivers {
 
   namespace Base {
       
+    namespace Implantation {
+        
+      template <class OBJET> class TamponListeAssociation ;
+      
+      
+      /// Classe générique fournissant un itérateur sur les listes 
+      /// TamponListeAssociation.
+      template <class OBJET> class IterateurTamponListeAssociation
+        : public IterateurListe {
+      
+      public: 
+      
+        // **********************************************
+        // GROUP: Constructeur, méthodes de modifications
+        // **********************************************
+      
+      
+        /// Constructeur, prenant la liste sur laquelle on va itérer.
+        IterateurTamponListeAssociation(const TamponListeAssociation<OBJET> &_l);
+      
+      
+        /// Ajoute un élément après.
+        void AjouterApres(const Association< OBJET > _n) ;
+      
+        /// Ajoute un élément avant.
+        void AjouterAvant(const Association< OBJET > _n) ;
+      
+      
+        // ***********************
+        // GROUP: Méthodes d'accès
+        // ***********************
+      
+        /// Renvoie l'élément courant en association.
+        operator Association< OBJET >() ;
+      
+        /// Renvoie l'élément courant en référence.
+        operator const OBJET&() ;
     
-    template <class OBJET> class TamponListeAssociation ;
-    
-    
-    /// Classe générique fournissant un itérateur sur les listes 
-    /// TamponListeAssociation.
-    template <class OBJET> class IterateurTamponListeAssociation
-      : public IterateurListe {
-    
-    public: 
-    
-      // **********************************************
-      // GROUP: Constructeur, méthodes de modifications
-      // **********************************************
-    
-    
-      /// Constructeur, prenant la liste sur laquelle on va itérer.
-      IterateurTamponListeAssociation(const TamponListeAssociation<OBJET> &_l);
-    
-    
-      /// Ajoute un élément après.
-      void AjouterApres(const Association< OBJET > _n) ;
-    
-      /// Ajoute un élément avant.
-      void AjouterAvant(const Association< OBJET > _n) ;
-    
-    
-      // ***********************
-      // GROUP: Méthodes d'accès
-      // ***********************
-    
-      /// Renvoie l'élément courant en association.
-      operator Association< OBJET >() ;
-    
-      /// Renvoie l'élément courant en référence.
-      operator const OBJET&() ;
-  
-      /// Accès à l'objet courant.
-      OBJET& operator *() const ;
-    
-      /// Opérateur de déréférenciation.
-      OBJET* operator ->() const ;
-    
-    
-    
-    protected:
-    
-      /// Conversion dynamique de noeudCourant qui est un NoeudAbstrait 
-      /// en un NoeudAssociation<OBJET>.
-      UTILISATION_ASSOCIATION_VIRTUELLE(NoeudAssociation<OBJET>,noeudCourant)
-    
-    
-    };
-    
-    
-    #include <base/implantation/iterateur_tampon_liste_association.cxx>
+        /// Accès à l'objet courant.
+        OBJET& operator *() const ;
+      
+        /// Opérateur de déréférenciation.
+        OBJET* operator ->() const ;
+      
+      
+      
+      protected:
+      
+        /// Conversion dynamique de noeudCourant qui est un NoeudAbstrait 
+        /// en un NoeudAssociation<OBJET>.
+        UTILISATION_ASSOCIATION_VIRTUELLE(NoeudAssociation<OBJET>,noeudCourant)
+      
+      
+      };
+      
+      
+      
+    }
   }
 }
+
+#include <base/implantation/iterateur_tampon_liste_association.cxx>
 
 #endif 

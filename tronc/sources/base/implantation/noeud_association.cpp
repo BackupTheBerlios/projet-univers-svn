@@ -19,6 +19,6 @@
  ***************************************************************************/
 
 
-#include "noeud_association.h"
+#include <base/implantation/noeud_association.h>
 
 
