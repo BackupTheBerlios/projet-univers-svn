@@ -17,6 +17,40 @@
       <email>drahpal@free.fr</email>
     </author>
 
+    <author>
+      <firstname>Nicolas</firstname>
+
+      <surname>Chanay</surname>
+
+      <othername>Néostralie</othername>
+
+      <email></email>
+    </author>
+
+    <revhistory>
+      <revision>
+        <revnumber>0.1</revnumber>
+
+        <date>9 septembre 2004</date>
+
+        <revdescription>
+          <para>Création Initiale.</para>
+        </revdescription>
+      </revision>
+
+      <revision>
+        <revnumber>0.2</revnumber>
+
+        <date>11 septembre 2004</date>
+
+        <revdescription>
+          <para>Réorganisation de la structure.</para>
+
+          <para>Ajout de détails sur les objets physiques.</para>
+        </revdescription>
+      </revision>
+    </revhistory>
+
     <legalnotice>
       <para>Ce document est sous licence <ulink
       url="http://www.gnu.org/copyleft/fdl.html">GNU Free Documentation
@@ -41,11 +75,12 @@
   <sect1>
     <title>Structure des objets du jeu</title>
 
-    <para>[DÉFINITION D'UN OBJET]</para>
+    <para>Pour le jeu, la structure primaire est L'Histoire, il s'agit comme
+    son nom l'indique d'un récit, plus ou moins long faisant intervenir tout
+    un tas d'éléments. Une Histoire se déroule dans un Monde, qui constitue en
+    somme une sorte de décor.</para>
 
-    <para>Monde</para>
-
-    <para>Un Monde est le groupement de plusieurs données :</para>
+    <para>Un Monde est composé des éléments suivants :</para>
 
     <itemizedlist>
       <listitem>
@@ -66,75 +101,37 @@
     exterminées, des Personnages naissent ou meurent, des Biens sont créer,
     changent de main ou sont détruits.</para>
 
+    <formalpara>
+      <title>Explication</title>
+
+      <para>Un Monde est, en quelque sorte, le décor d'une Histoire. On peut
+      ainsi imaginer différents Mondes, par exemple les mondes associés à
+      chacun des "univers" de science fiction.</para>
+    </formalpara>
+
+    <para>Le MOTEUR doit faire évoluer le joueur dans un environnement spatial
+    mais aussi atmosphérique. L'Univers représente donc l'environnement
+    physique dans lequel toute l'action du jeu se passe.</para>
+
+    <para>Les caractéristiques d'un Univers sont :</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>contient n Galaxies</para>
+      </listitem>
+
+      <listitem>
+        <para>contient n Espèces</para>
+      </listitem>
+    </itemizedlist>
+
     <sect2>
-      <title>Univers - Objets Physiques</title>
+      <title>Objets Physiques d'un Univers</title>
 
-      <para>Le MOTEUR doit faire évoluer le joueur dans un environnement
-      spatial mais aussi atmosphérique. L'Univers représente donc
-      l'environnement physique dans lequel toute l'action du jeu se
-      passe.</para>
-
-      <para>Soit les éléments de l'environnement physique suivant:</para>
-
-      <itemizedlist>
-        <listitem>
-          <para>Univers</para>
-        </listitem>
-
-        <listitem>
-          <para>Galaxie</para>
-        </listitem>
-
-        <listitem>
-          <para>Secteur galactique</para>
-        </listitem>
-
-        <listitem>
-          <para>Système stellaire</para>
-        </listitem>
-
-        <listitem>
-          <para>Étoile</para>
-        </listitem>
-
-        <listitem>
-          <para>Planète</para>
-        </listitem>
-
-        <listitem>
-          <para>Satellite</para>
-        </listitem>
-
-        <listitem>
-          <para>Nébuleuse</para>
-        </listitem>
-
-        <listitem>
-          <para>Trou noir</para>
-        </listitem>
-
-        <listitem>
-          <para>Champ d'astéroïde</para>
-        </listitem>
-
-        <listitem>
-          <para>Anneau planétaire</para>
-        </listitem>
-      </itemizedlist>
-
-      <sect3>
-        <title>Univers</title>
-
-        <para>Caractéristiques :</para>
-
-        <itemizedlist>
-          <listitem>
-            <para>1 Univers contient n Galaxies</para>
-          </listitem>
-        </itemizedlist>
-
-        <remark>Dans 99%, l'Univers ne possédera qu'1 Galaxie</remark>
-      </sect3>
+      <para>Tous les Objets Physiques sont <emphasis
+      role="bold">situés</emphasis>, c'est à dire qu'ils ont une coordonnée
+      dans l'espace-temps (où et quand) indiquant le point de leur centre de
+      gravité.</para>
 
       <sect3>
         <title>Galaxie</title>
@@ -143,13 +140,16 @@
 
         <itemizedlist>
           <listitem>
-            <para>1 Galaxie est divisé en n Secteurs</para>
+            <para>1 Galaxie est divisé en n Secteurs Galactiques</para>
           </listitem>
         </itemizedlist>
       </sect3>
 
       <sect3>
-        <title>Secteur galactique</title>
+        <title>Secteur Galactique</title>
+
+        <para>Un Secteur Galactique est un élément d'un découpage
+        administratif d'une Galaxie.</para>
 
         <para>Caractéristiques :</para>
 
@@ -171,25 +171,26 @@
       <sect3>
         <title>Système stellaire</title>
 
-        <para>Caractéristiques :</para>
+        <para>Caractéristiques 1 Système Stellaire :</para>
 
         <itemizedlist>
           <listitem>
-            <para>1 Système Stellaire est composé de n Étoiles</para>
+            <para>est composé de 1 à n Étoiles</para>
           </listitem>
 
           <listitem>
-            <para>1 Système Stellaire peut être dans une Nébuleuse (comprend
-            que la nébuleuse est autour du système stellaire et qu'ils n'ont
-            que très peu d'influence l'un sur l'autre)</para>
+            <para>peut être dans une Nébuleuse</para>
+
+            <para>La nébuleuse est autour du système stellaire et qu'ils n'ont
+            que très peu d'influence l'un sur l'autre.</para>
           </listitem>
 
           <listitem>
-            <para>1 Système Stellaire possède n Champs d'astéroïde</para>
+            <para>possède 0 à n Champs d'astéroïde</para>
           </listitem>
 
           <listitem>
-            <para>1 Système Stellaire possède n Planettes/Stallites</para>
+            <para>possède 0 à n Planètes/Stallites</para>
           </listitem>
         </itemizedlist>
       </sect3>
@@ -201,71 +202,217 @@
 
         <itemizedlist>
           <listitem>
-            <para>Type</para>
+            <para>1 Type</para>
           </listitem>
 
           <listitem>
-            <para>Taille</para>
+            <para>1 Taille</para>
           </listitem>
 
           <listitem>
-            <para>Masse</para>
+            <para>1 Masse</para>
           </listitem>
 
           <listitem>
-            <para>Période d'activité</para>
+            <para>1 Période d'activité</para>
           </listitem>
 
           <listitem>
-            <para>Satellites</para>
+            <para>0 à n Planètes/Satellites ou Champs d'Astéroïdes en
+            orbite</para>
           </listitem>
         </itemizedlist>
       </sect3>
 
       <sect3>
-        <title>Satellite</title>
+        <title>Planètes/Satellite</title>
 
-        <para>Caractéristiques :<itemizedlist>
+        <para>Caractéristiques d'une Planètes/Satellite :<itemizedlist>
             <listitem>
-              <para>1 Satelitte possède n champs d'astéroides en orbite</para>
+              <para>0 à n Champs d'Astéroïdes en orbite</para>
             </listitem>
 
             <listitem>
-              <para>1 Satelitte possède n Satellites</para>
+              <para>0 à n Planètes/Satellite en orbite</para>
+
+              <para>Par exemple, une lune est une Planètes/Satellite qui
+              orbite autours d'une autre.</para>
             </listitem>
 
             <listitem>
-              <para>Type d'athmosphère</para>
+              <para>O ou 1 Atmosphère</para>
+
+              <para>Il est possible de ne pas avoir d'Atmosphère, c'est
+              obligatoirement le cas si la masse et la taille vérifien une
+              certaine formule. Par exempel une petite lune est trop peu
+              massive pour garder une atmosphère.</para>
             </listitem>
 
             <listitem>
-              <para>Phénomènes Météorologiques</para>
+              <para>1 Géologie</para>
+
+              <para>Il s'agit de l'activité tectonique, ou de la non-activité
+              tectonique... ou du fait d'être encore une grosse boule de
+              magma.</para>
             </listitem>
 
             <listitem>
-              <para>Géologie</para>
+              <para>0 ou 1 Géographie</para>
+
+              <para>Il s'agit de la "carte" avec les rivières, les montagnes,
+              les mers...</para>
+
+              <para>La géographie est liée à la Géologie.</para>
             </listitem>
 
             <listitem>
-              <para>Géographie</para>
+              <para>1 Climat</para>
+
+              <para>Il existe une forte contrainte entre la Géologie,
+              L'Atmosphère et le Climat d'une même Planète/Sattelite.</para>
             </listitem>
 
             <listitem>
-              <para>Climat</para>
+              <para>1 Taille</para>
             </listitem>
 
             <listitem>
-              <para>Taille</para>
+              <para>1 Masse</para>
             </listitem>
 
             <listitem>
-              <para>Masse</para>
-            </listitem>
+              <para>0 à n Espèces</para>
 
-            <listitem>
-              <para>Espèces</para>
+              <para>Ces sont les Espèces qu'on trouve sur la
+              Planète/Sattelite, ces Espèces peuvent être originaires d'un
+              autre endrois du monde.</para>
             </listitem>
           </itemizedlist></para>
+
+        <sect4>
+          <title>Atmosphère</title>
+
+          <para>Une Atmosphère est un nuage de gaz se trouvant autours d'une
+          Planète/Satellite. Les caractéristiques d'une Atmosphère sont les
+          suivantes :</para>
+
+          <itemizedlist>
+            <listitem>
+              <para>1 Composition en terme de gaz élémentaires</para>
+
+              <para>Par exemple 10% d'oxygène, et le reste de souffre.</para>
+            </listitem>
+
+            <listitem>
+              <para>1 à n Phénomènes Météorologiques</para>
+
+              <para>des typhons, tornades et autres ouragans.</para>
+            </listitem>
+          </itemizedlist>
+        </sect4>
+
+        <sect4>
+          <title>Géologie</title>
+
+          <para>Une Géologie regroupe les informations liées à la formation et
+          l'évolution de la structure principale de la Planète.</para>
+        </sect4>
+
+        <sect4>
+          <title>Géographie</title>
+
+          <para>Une Géographie regroupe les informations concernant la
+          structure du sol d'une Planète. On trouve notamment :</para>
+
+          <itemizedlist>
+            <listitem>
+              <para>des Continents/Ile</para>
+            </listitem>
+
+            <listitem>
+              <para>des Mers/Océans</para>
+            </listitem>
+          </itemizedlist>
+
+          <para>S'il n'y a pas de Continents/Iles alors il y a exactement 1
+          Mer/Océan et inversement, i.e., il n'y a pas "rien" à la surface
+          d'une Planète/Satellite.</para>
+
+          <sect5>
+            <title>Continent/Ile</title>
+
+            <para>Un Continent/Ile est un morceau de sol séparé des autres par
+            de l'eau. Ses Caractéristiques sont :</para>
+
+            <itemizedlist>
+              <listitem>
+                <para>une Supérficie en kilomètres carrés</para>
+              </listitem>
+
+              <listitem>
+                <para>des Régions</para>
+
+                <para>Ce sont des éléments géographiquement distinctifs comme
+                les Deserts, les Chaînes Montagneuses, les Plaines
+                etc..</para>
+              </listitem>
+            </itemizedlist>
+          </sect5>
+
+          <sect5>
+            <title>Mer/Océan</title>
+
+            <para>Une Mer/Océan est une étendue de liquide à la surface d'une
+            Planète/Satellite. Ses Caractéristiques sont :</para>
+
+            <itemizedlist>
+              <listitem>
+                <para>une Température Moyenne</para>
+
+                <para>Par exemple, à -20° Celcius, on se retrouve avec une
+                Mer/Océan gélée en surface (Banquise), comme sur
+                SystèmeSolaire.Jupiter.Europe.</para>
+
+                <remark>La température d'une Mer/Océan a des répercusions
+                directe sur le Climat.</remark>
+              </listitem>
+
+              <listitem>
+                <para>une Composition en éléments</para>
+
+                <para>Par exemple 100% d'eau, ou 100% de méthane (mais dans ce
+                cas il faut que la température soit comme il faut pour être
+                liquide)</para>
+              </listitem>
+
+              <listitem>
+                <para>des Banquises</para>
+
+                <para>Ce sont des sorte d'îles flotantes à la surface d'une
+                Mer/Océan.</para>
+              </listitem>
+            </itemizedlist>
+          </sect5>
+
+          <sect5>
+            <title>Banquise</title>
+
+            <para>Il s'agit d'une étendue de liquide solidifié à cause de la
+            température, une Banquise a :</para>
+
+            <itemizedlist>
+              <listitem>
+                <para>une Superficie en kilomètres carrés</para>
+              </listitem>
+            </itemizedlist>
+          </sect5>
+        </sect4>
+
+        <sect4>
+          <title>Climat</title>
+
+          <para>Un Climat est constitué des informations suivantes :</para>
+        </sect4>
       </sect3>
 
       <sect3>
@@ -275,15 +422,15 @@
 
         <itemizedlist>
           <listitem>
-            <para>Composition</para>
+            <para>1 Composition</para>
           </listitem>
 
           <listitem>
-            <para>Densité</para>
+            <para>1 Densité</para>
           </listitem>
 
           <listitem>
-            <para>Objets Stellaires</para>
+            <para>0 à n Objets Stellaires</para>
           </listitem>
         </itemizedlist>
       </sect3>
@@ -295,9 +442,12 @@
 
         <itemizedlist>
           <listitem>
-            <para>Masse</para>
+            <para>1 Masse</para>
           </listitem>
         </itemizedlist>
+
+        <remark>Ensuite, avec la masse on peut calculer son horizon (la
+        distance à la quelle il vaut mieux ne pas s'approcher).</remark>
       </sect3>
 
       <sect3>
@@ -307,24 +457,33 @@
 
         <itemizedlist>
           <listitem>
-            <para>Type</para>
+            <para>1 Type</para>
+
+            <para>Il s'agit d'une donnée cararctérisant sa forme, soit un
+            anneau, soit un "nuage", ...</para>
           </listitem>
 
           <listitem>
-            <para>Densité</para>
+            <para>1 Densité</para>
           </listitem>
 
           <listitem>
-            <para>Taille moyenne des astéroides</para>
+            <para>1 Taille moyenne des Astéroïdes le composant</para>
+          </listitem>
+
+          <listitem>
+            <para>1 à n Astéroïdes</para>
+
+            <para>Ce sont les Astéroïdes qui le composent.</para>
           </listitem>
         </itemizedlist>
 
-        <para>Un anneau planétaire est une ceinture d'astéroide dont les
-        astéroides ont une taille moyenne de 0,01mm</para>
+        <remark>Un anneau planétaire est une ceinture d'astéroïde dont les
+        astéroïdes ont une taille moyenne de 0,01mm</remark>
       </sect3>
 
       <sect3>
-        <title>Astéroide</title>
+        <title>Astéroïde</title>
 
         <para>Ensemble des objets uniques de l'univers.</para>
       </sect3>
@@ -333,7 +492,16 @@
     <sect2>
       <title>Espèces</title>
 
-      <para>Caractéristiques:</para>
+      <para>Caractéristiques :</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>une Planète/Satellite d'origine</para>
+
+          <para>C'est la Planète où cette Espèce est apparue en
+          premier.</para>
+        </listitem>
+      </itemizedlist>
     </sect2>
 
     <sect2>
@@ -567,7 +735,7 @@
     </sect2>
 
     <sect2>
-      <title>Le commerce</title>
+      <title>Les biens</title>
 
       <para>Il est possible de gérer un commerce entre les différentes
       factions et personnages.</para>
@@ -578,12 +746,6 @@
 
       <para>Chaque personnage possède également un capital crédit qui lui est
       propre.</para>
-
-      <para>[FONCTIONNEMENT A DÉFINIR]</para>
-    </sect2>
-
-    <sect2>
-      <title>Les biens</title>
 
       <para>Les Biens sont catégorisé comme suit (liste non
       exhaustive):</para>
@@ -798,9 +960,16 @@
     </sect2>
 
     <sect2>
-      <title>Les vaisseaux</title>
+      <title>Vaisseau</title>
 
-      <para></para>
+      <para>Un Vaisseau est un objet physique constitué d'un certain nombre de
+      Composants.</para>
+
+      <sect3>
+        <title>Composant</title>
+
+        <para>Un Composant de Vaisseau est un appareillage embarqué.</para>
+      </sect3>
     </sect2>
   </sect1>
 
