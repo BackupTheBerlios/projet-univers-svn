@@ -1,0 +1,491 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN"
+"http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd">
+<article>
+  <title>Spécifications technique du Moteur de Jeu</title>
+
+  <articleinfo>
+    <orgname>Equipe Projet Univers</orgname>
+
+    <author>
+      <personname>
+        <firstname>Raphaël</firstname>
+
+        <surname>Davaillaud</surname>
+      </personname>
+
+      <email>drahpal@free.fr</email>
+    </author>
+
+    <date></date>
+
+    <legalnotice>
+      <para>Ce document est sous license <ulink
+      url="http://www.gnu.org/copyleft/fdl.html">GNU Free Documentation
+      License</ulink></para>
+    </legalnotice>
+  </articleinfo>
+
+  <sect1>
+    <title>Introduction</title>
+
+    <para>Dans ce document, le terme <emphasis role="bold">MOTEUR</emphasis>
+    fait référence au <emphasis>Moteur de Jeu</emphasis>.</para>
+
+    <para>Le <emphasis role="bold">MOTEUR</emphasis> représente le coeur du
+    jeu. Sans lui rien ne peu fonctionner.</para>
+
+    <para>Le spectre de ce document n'inclu pas ce qui concerne le
+    développement scénaristique du jeu, il pose uniquement les règles de
+    gestions de ce dernier.</para>
+  </sect1>
+
+  <sect1>
+    <title>Structure des objets du jeu</title>
+
+    <para>[DEFINITION D'UN OBJET]</para>
+
+    <sect2>
+      <title>L'environnement</title>
+
+      <para>Le MOTEUR doit faire évoluer le joueur dans un environnement
+      spatial mais aussi atmosphérique.</para>
+
+      <para>Soit les éléments (non ordonnés) de l'environnement
+      suivant:</para>
+
+      <orderedlist>
+        <listitem>
+          <para>Univers</para>
+        </listitem>
+
+        <listitem>
+          <para>Galaxie</para>
+        </listitem>
+
+        <listitem>
+          <para>Secteur galactique</para>
+        </listitem>
+
+        <listitem>
+          <para>Système stellaire</para>
+        </listitem>
+
+        <listitem>
+          <para>Etoile</para>
+        </listitem>
+
+        <listitem>
+          <para>Planète</para>
+        </listitem>
+
+        <listitem>
+          <para>Satellite</para>
+        </listitem>
+
+        <listitem>
+          <para>Nébuleuse</para>
+        </listitem>
+
+        <listitem>
+          <para>Trou noir</para>
+        </listitem>
+
+        <listitem>
+          <para>Champ d'astéroïde</para>
+        </listitem>
+
+        <listitem>
+          <para>Anneau planétaire</para>
+        </listitem>
+      </orderedlist>
+
+      <para>On établi la hiérarchie pondérée suivante (n = 0 à
+      l'infini):</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>Il existe n Univers (Pour simplification, 1 seul Univers sera
+          géré).</para>
+        </listitem>
+
+        <listitem>
+          <para>1 Univers contient n Galaxies (Dans 99%, l'Univers ne
+          possèdera qu'1 Galaxie)</para>
+        </listitem>
+
+        <listitem>
+          <para>1 Galaxie est divisé en n Secteur galactique</para>
+        </listitem>
+
+        <listitem>
+          <para>1 Secteur contient n Systèmes stellaire</para>
+        </listitem>
+
+        <listitem>
+          <para>1 Système stellaire est composé de 1 à 3 Etoiles</para>
+        </listitem>
+
+        <listitem>
+          <para>1 Système contient n Trou noir</para>
+        </listitem>
+
+        <listitem>
+          <para>1 Secteur contient n Nébuleuses</para>
+        </listitem>
+
+        <listitem>
+          <para>1 Système peut être dans une Nébuleuse</para>
+        </listitem>
+
+        <listitem>
+          <para>1 Etoile (ou groupe d'Etoile si le Système est composé de
+          plusieurs) possède n Champs d'astéroïde</para>
+        </listitem>
+
+        <listitem>
+          <para>1 Etoile (ou groupe d'Etoile si le Système est composé de
+          plusieurs) possède n Planète</para>
+        </listitem>
+
+        <listitem>
+          <para>1 Planète possède n anneaux</para>
+        </listitem>
+
+        <listitem>
+          <para>1 Planète possède n Satellite</para>
+        </listitem>
+      </itemizedlist>
+    </sect2>
+
+    <sect2>
+      <title>Les personnages</title>
+
+      <para>Un personnage est un élément "vivant" du jeu (homme, alien, robot,
+      etc ...).</para>
+
+      <para>Un personnage peut être commandé par un joueur; par l'intelligence
+      artificielle (on parle de personnage joueur ou PJ) ou par le scénario
+      (on parle de personnage non joueur ou PNJ).</para>
+
+      <para>Un personnage possède un profil qui évolue tout au long du
+      jeu.</para>
+    </sect2>
+
+    <sect2>
+      <title>Les factions</title>
+
+      <para>Une faction est un groupe de personnage, définit, et qui à un rôle
+      dans le jeu.</para>
+
+      <para>Cela peut être des factions gouvernementales (un empire, une
+      république, une fédération, etc ...) ou des factions privées (ligue de
+      contrebandier, pirates, etc ...). Chaque personnage appartien à (se bat
+      pour) 1 faction. Il y a une exception, dans le cas ou le personnage est
+      un personnage dit "solitaire", il n'appartient à aucune faction.</para>
+
+      <para>Une faction est dirigé par un groupe de personnages
+      dirigeant.</para>
+
+      <para>Chaque faction à un statut vis à vis d'une autre:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>Allié, elle se bat à ses cotés</para>
+        </listitem>
+
+        <listitem>
+          <para>Ennemie, elle se bat contre elle</para>
+        </listitem>
+
+        <listitem>
+          <para>Neutre, elle n'est ni l'une ni l'autre</para>
+        </listitem>
+      </itemizedlist>
+
+      <para>Les personnages solitaires ont le même système de statut.</para>
+
+      <para>Il se peut que certains conflit de statut arrive, par
+      exemple:</para>
+
+      <para>Une faction A est alliée avec B. A est alliée également avec C,
+      mais B est ennemie à C. Si une bataille à lieu en présence des 3
+      factions, l'une d'entre elle se doit de choisir de passer neutre et de
+      se retirer ou de modifier son statut en faveur de l'une ou l'autre. Ce
+      choix appartient aux personnages dirigeant ou peut être provoqué par
+      certains évènements.</para>
+
+      <para>Par exemple : un joueur faisant partie d'une faction de
+      contrebandier A est neutre vis à vis de deux factions B et C ennemies.
+      Il décide de travailler pour B. C peut très bien décider que la faction
+      A devient leur ennemie, ou la garder neutre (après tout, ce ne sont que
+      des contrebandiers).</para>
+
+      <para>Un personnage et lui seul, peut par certains évènements passer
+      d'un statut à un autre, sans pour autant affecter la faction à laquelle
+      il appartient. Ce cas se règle dans le jeu, cela sort du cadre de ce
+      document, mais l'on peut imaginer que le personnage se fait renvoyer de
+      la faction, ou que la faction entre en guerre à cause de ce
+      personnage).</para>
+
+      <para>Un personnage peut, s'il le souhaite changer de faction, avec les
+      conséquences que cela peut produire.</para>
+    </sect2>
+
+    <sect2>
+      <title>Le commerce</title>
+
+      <para>Il est possible de gérer un commerce entre les différentes
+      factions et personnages.</para>
+
+      <para>Chaque faction possède un capital crédit que les personnages
+      dirigeant doivent répartir (salaire des personnages, achat de nouveau
+      navire, création d'installation planétaire, etc ...)</para>
+
+      <para>Chaque personnage possède également un capital crédit qui lui est
+      propre.</para>
+
+      <para>[FONCTIONNEMENT A DEFINIR]</para>
+    </sect2>
+
+    <sect2>
+      <title>Les biens</title>
+
+      <para>Les bien sont catégorisé comme suit (liste non exhaustive):</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>Vaisseau</para>
+        </listitem>
+
+        <listitem>
+          <para>Station spatiale</para>
+        </listitem>
+
+        <listitem>
+          <para>Installation planétaire</para>
+        </listitem>
+      </itemizedlist>
+
+      <para>Chaque bien à une valeur estimée en crédits.</para>
+
+      <para>Chaque faction et chaque personnage possède n biens qu'il peuvent
+      céder à qui il veut dans les conditions suivantes :</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>Don, il n'y a rien en échange</para>
+        </listitem>
+
+        <listitem>
+          <para>Echange, échange contre un autre bien, de même valeur ou
+          non.</para>
+        </listitem>
+
+        <listitem>
+          <para>Vente, vente contre une certaine quantitée de crédit.</para>
+        </listitem>
+      </itemizedlist>
+    </sect2>
+
+    <sect2>
+      <title>L'histoire</title>
+
+      <para>Le jeu est dirigé par une histoire. Cette histoire est de type non
+      linéaire.</para>
+
+      <para>La hierarchie suivante s'applique:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>1 Histoire contient n Campagnes</para>
+        </listitem>
+
+        <listitem>
+          <para>1 Histoire contient n Missions</para>
+        </listitem>
+
+        <listitem>
+          <para>1 Campagnes contient n Missions</para>
+        </listitem>
+      </itemizedlist>
+
+      <para>L'histoire étant non linéaire, chaque Mission influt sur la suite
+      des évènement. Les Missions ont 3 types:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>Obligatoire, quel que soit le déroulement du jeu, ces missions
+          devront être effectuées</para>
+        </listitem>
+
+        <listitem>
+          <para>Facultative, ces missions ne sont pas nécessaire au bon
+          déroulement du jeu, cependant, elle influt quand même sur
+          l'Histoire</para>
+        </listitem>
+
+        <listitem>
+          <para>Conditionnelle, ces missions se déroule uniquement si des
+          conditions ont été respectées.</para>
+        </listitem>
+      </itemizedlist>
+
+      <para>Exemple d'influence:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>sur le statut : par un évènement imprévue, une faction change
+          de statut. Ce statut doit rester dans le reste de l'Histoire sauf si
+          un autre évènement le contre.</para>
+        </listitem>
+
+        <listitem>
+          <para>sur les biens : au cours d'une Mission, un vaisseau est
+          détruit. On ne doit plus le rencontrer par la suite</para>
+        </listitem>
+
+        <listitem>
+          <para>sur les personnages : un personnage est tué, on ne doit plus
+          le rencontrer par la suite.</para>
+        </listitem>
+
+        <listitem>
+          <para>etc ...</para>
+        </listitem>
+      </itemizedlist>
+
+      <para>Une mission est définie comme suit:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>La liste des factions en présence et leur statut</para>
+        </listitem>
+
+        <listitem>
+          <para>Les vaisseaux en présence accompagnés de leur caractéristiques
+          (bouclier, état de la coque, etc...)</para>
+        </listitem>
+
+        <listitem>
+          <para>Les positions des vaisseaux</para>
+        </listitem>
+
+        <listitem>
+          <para>Le "Script" de la mission</para>
+        </listitem>
+      </itemizedlist>
+
+      <para>Une campagne est définie comme suit:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>La liste des Missions avec pour chacune les Missions suivantes
+          selon les résultats et les conditions générales</para>
+        </listitem>
+      </itemizedlist>
+
+      <para>Une Histoire est définie comme suit:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>La liste des Campagnes avec pour chacune les Missions ou
+          Campagnes suivantes selon les résultats et les conditions
+          générales.</para>
+        </listitem>
+      </itemizedlist>
+    </sect2>
+
+    <sect2>
+      <title>Les vaisseaux</title>
+
+      <para></para>
+    </sect2>
+  </sect1>
+
+  <sect1>
+    <title>Spécification technique</title>
+
+    <para></para>
+
+    <sect2>
+      <title>Les données</title>
+
+      <para>Les informations sur les données du jeu sont stockées sous forme
+      de fiche XML. Ces fiches XML doivent respecter les schémas décrit sous
+      forme de fichier XML Schema.</para>
+    </sect2>
+
+    <sect2>
+      <title>La configuration du jeu</title>
+
+      <para>Comme pour les données, la configuration du jeu est enregistrée
+      dans un fichier XML, qui lui aussi doit respecter un schéma décrit sous
+      forme de fichier XML Schema.</para>
+    </sect2>
+
+    <sect2>
+      <title>Le jeu en solo</title>
+
+      <para></para>
+
+      <sect3>
+        <title>Modes de jeu</title>
+
+        <para>Il existe 2 modes de jeu en solo.</para>
+
+        <sect4>
+          <title>Le mode Campagne</title>
+
+          <para>Le joueur suit une Histoire et effectue les Campagnes et les
+          Missions suivant l'ordre de l'Histoire. A chaque fin de mission, son
+          profil est mis à jour et la (les) prochaine(s) Mission(s) sont
+          proposées.</para>
+        </sect4>
+
+        <sect4>
+          <title>Le mode Simulation</title>
+
+          <para>Le joueur peut rejouer une Mission déjà effectuée sans changer
+          le déroulement de l'histoire puisqu'il ne s'agit que d'une
+          simulation.</para>
+
+          <para>Il peut également créer une Mission soit en se basant sur une
+          Mission déjà existante et déjà effectuée en modifiant certains
+          paramètres, ou en partant de rien.</para>
+        </sect4>
+      </sect3>
+    </sect2>
+
+    <sect2>
+      <title>Le jeu en réseau</title>
+
+      <para>Le jeu en réseau nécessite la présence d'un ordinateur dit
+      ordinateur serveur ou ordinateur maître. C'est à l'ordinateur maître que
+      revient la gestion de la partie en réseau.</para>
+
+      <sect3>
+        <title>Modes de jeu</title>
+
+        <para>2 modes de jeu en réseau sont possible.</para>
+
+        <sect4>
+          <title>Mode non persistant</title>
+
+          <para>Chaque partie est indépendante. Les joueurs définissent une
+          Mission et y jouent. Le serveur maître peut être différent à chaque
+          partie.</para>
+        </sect4>
+
+        <sect4>
+          <title>Mode persistant</title>
+
+          <para>Chaque partie dépend des précédentes. Les joueurs participent
+          à une Histoire comme une seule et même partie. Le serveur maître
+          doit toujours se baser sur les mêmes données qu'il doit tenir à
+          jour.</para>
+        </sect4>
+      </sect3>
+    </sect2>
+  </sect1>
+</article>
