@@ -5,6 +5,10 @@
   <title>Module Objet Réseau</title>
 
   <articleinfo>
+    <abstract>
+      <para>Ce document décrit les principes du module réseau.</para>
+    </abstract>
+
     <orgname>Equipe Projet Univers</orgname>
 
     <author>
@@ -17,7 +21,17 @@
       <email>rogmaboami@hotmail.com</email>
     </author>
 
-    <date></date>
+    <revhistory>
+      <revision>
+        <revnumber>0.1</revnumber>
+
+        <date>4 septembre 2004</date>
+
+        <revdescription>
+          <para>Création initiale.</para>
+        </revdescription>
+      </revision>
+    </revhistory>
 
     <legalnotice>
       <para>Ce document est sous license <ulink
@@ -42,6 +56,25 @@
     <para>Globalement, l'idée est de mettre à jour les informations sur les
     objets en priorité aux ordinateurs qui gérent des objets proches (dans le
     système de coordonnées). Ainsi,</para>
+  </sect1>
+
+  <sect1>
+    <title>Interface</title>
+
+    <para>Cette partie décrit l'interface du module, ce qui revient à décrire
+    ses fonctionnalités.</para>
+  </sect1>
+
+  <sect1>
+    <title>Implantations</title>
+
+    <para></para>
+
+    <sect2>
+      <title>Réalisation distribuée</title>
+
+      <para></para>
+    </sect2>
   </sect1>
 
   <sect1>
