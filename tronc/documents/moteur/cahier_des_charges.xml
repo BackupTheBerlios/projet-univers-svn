@@ -54,7 +54,7 @@
       <para>Soit les éléments (non ordonnés) de l'environnement
       suivant:</para>
 
-      <orderedlist>
+      <itemizedlist>
         <listitem>
           <para>Univers</para>
         </listitem>
@@ -98,36 +98,56 @@
         <listitem>
           <para>Anneau planétaire</para>
         </listitem>
-      </orderedlist>
+      </itemizedlist>
 
-      <para>On établi la hiérarchie pondérée suivante (n = 0 à
-      l'infini):</para>
+      <para>On établi la hiérarchie pondérée suivante (n signifie un nombre
+      quelconque variant de 0 à l'infini):</para>
 
       <itemizedlist>
         <listitem>
-          <para>Il existe n Univers (Pour simplification, 1 seul Univers sera
-          géré).</para>
+          <para>Il existe n Univers</para>
+
+          <remark>Pour simplification, 1 seul Univers sera géré</remark>
         </listitem>
 
         <listitem>
-          <para>1 Univers contient n Galaxies (Dans 99%, l'Univers ne
-          possèdera qu'1 Galaxie)</para>
+          <para>1 Univers contient n Galaxies</para>
+
+          <remark>Dans 99%, l'Univers ne possèdera qu'1 Galaxie</remark>
         </listitem>
 
         <listitem>
-          <para>1 Galaxie est divisé en n Secteur galactique</para>
+          <para>1 Galaxie est divisé en n Secteurs</para>
         </listitem>
 
         <listitem>
-          <para>1 Secteur contient n Systèmes stellaire</para>
+          <para>1 Secteur contient n Systèmes Stellaire</para>
         </listitem>
 
         <listitem>
-          <para>1 Système stellaire est composé de 1 à 3 Etoiles</para>
+          <para>1 Système Stellaire est composé de 1 à 3 Etoiles</para>
         </listitem>
 
         <listitem>
-          <para>1 Système contient n Trou noir</para>
+          <para>1 Etoile possède des caractéristiques de </para>
+
+          <itemizedlist>
+            <listitem>
+              <para>couleur</para>
+            </listitem>
+
+            <listitem>
+              <para>taille</para>
+            </listitem>
+
+            <listitem>
+              <para>masse</para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+
+        <listitem>
+          <para>1 Secteur contient n Trou noir</para>
         </listitem>
 
         <listitem>
@@ -135,17 +155,15 @@
         </listitem>
 
         <listitem>
-          <para>1 Système peut être dans une Nébuleuse</para>
+          <para>1 Système Stellaire peut être dans une Nébuleuse</para>
         </listitem>
 
         <listitem>
-          <para>1 Etoile (ou groupe d'Etoile si le Système est composé de
-          plusieurs) possède n Champs d'astéroïde</para>
+          <para>1 Système Stellaire possède n Champs d'astéroïde</para>
         </listitem>
 
         <listitem>
-          <para>1 Etoile (ou groupe d'Etoile si le Système est composé de
-          plusieurs) possède n Planète</para>
+          <para>1 Système Stellaire possède n Planète</para>
         </listitem>
 
         <listitem>
@@ -175,14 +193,21 @@
     <sect2>
       <title>Les factions</title>
 
-      <para>Une faction est un groupe de personnage, définit, et qui à un rôle
-      dans le jeu.</para>
+      <para>Une Faction est un groupe de Personnage bien définit, et qui à un
+      rôle dans le jeu.</para>
 
-      <para>Cela peut être des factions gouvernementales (un empire, une
-      république, une fédération, etc ...) ou des factions privées (ligue de
-      contrebandier, pirates, etc ...). Chaque personnage appartien à (se bat
-      pour) 1 faction. Il y a une exception, dans le cas ou le personnage est
-      un personnage dit "solitaire", il n'appartient à aucune faction.</para>
+      <para>Il existe généralement des factions gouvernementales (empire,
+      république, fédération, etc ...) et des factions privées (ligue de
+      contrebandier, pirates, etc ...). </para>
+
+      <para>Chaque personnage peut être membre de plusieurs facions
+      simultanément et en changer au cours du temps. Un personnage n'est pas
+      nécessairement membre d'une faction.</para>
+
+      <para>Une Faction utilise un Système Organisationel, c'ets à dire une
+      façon de gérer ce groupe et ses ressources.</para>
+
+      <para>Une Faction possède généralement un Objectif.</para>
 
       <para>Une faction est dirigé par un groupe de personnages
       dirigeant.</para>
@@ -190,6 +215,15 @@
       <para>Chaque faction à un statut vis à vis d'une autre:</para>
 
       <itemizedlist>
+        <listitem>
+          <para>Ignorance si une faction ne connait pas l'existence d'une
+          autre faction</para>
+
+          <remark>Si une Faction A ne connais pas une Faction B, il est
+          toutefois possible que la Faction B connaisse l'existence de la
+          Faction A.</remark>
+        </listitem>
+
         <listitem>
           <para>Allié, elle se bat à ses cotés</para>
         </listitem>
@@ -251,7 +285,8 @@
     <sect2>
       <title>Les biens</title>
 
-      <para>Les bien sont catégorisé comme suit (liste non exhaustive):</para>
+      <para>Les Biens sont catégorisé comme suit (liste non
+      exhaustive):</para>
 
       <itemizedlist>
         <listitem>
@@ -291,7 +326,7 @@
     <sect2>
       <title>L'histoire</title>
 
-      <para>Le jeu est dirigé par une histoire. Cette histoire est de type non
+      <para>Le jeu est dirigé par une Histoire. Cette Histoire est de type non
       linéaire.</para>
 
       <para>La hierarchie suivante s'applique:</para>
@@ -302,16 +337,12 @@
         </listitem>
 
         <listitem>
-          <para>1 Histoire contient n Missions</para>
-        </listitem>
-
-        <listitem>
-          <para>1 Campagnes contient n Missions</para>
+          <para>1 Campagne contient n Missions</para>
         </listitem>
       </itemizedlist>
 
-      <para>L'histoire étant non linéaire, chaque Mission influt sur la suite
-      des évènement. Les Missions ont 3 types:</para>
+      <para>L'histoire étant non linéaire, l'issue de chaque Mission influt
+      sur la suite des évènement. Les Missions sont de 3 types :</para>
 
       <itemizedlist>
         <listitem>
@@ -488,4 +519,44 @@
       </sect3>
     </sect2>
   </sect1>
+
+  <glossary>
+    <title>Glossaire des termes</title>
+
+    <glossdiv>
+      <title>L'uinvers spatial</title>
+
+      <glossentry>
+        <glossterm>Univers</glossterm>
+
+        <glossdef>
+          <para>Un univers est un monde entier</para>
+        </glossdef>
+      </glossentry>
+    </glossdiv>
+
+    <glossdiv>
+      <title>Les </title>
+
+      <glossentry>
+        <glossterm></glossterm>
+
+        <glossdef>
+          <para></para>
+        </glossdef>
+      </glossentry>
+    </glossdiv>
+
+    <glossdiv>
+      <title>Les savoirs</title>
+
+      <glossentry>
+        <glossterm></glossterm>
+
+        <glossdef>
+          <para></para>
+        </glossdef>
+      </glossentry>
+    </glossdiv>
+  </glossary>
 </article>
