@@ -20,7 +20,7 @@ regles_programmation.o : ../regles_programmation.mc ../regles_programmation.mh
 # compilation du test proprement dit
 
 test_meta : ./compilateur ../test/test.cc
-	./compilateur -- -o $@ ../test/test.cc
+	./compilateur -- -C -o $@ ../test/test.cc
         
 all-am : compilateur
 

@@ -18,42 +18,66 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#ifndef _PU_MODELE_OBJECTIF_H_
+#define _PU_MODELE_OBJECTIF_H_
 
 
-// Includes
-#include <opencxx/mop.h>
+#include <base/association.h>
+#include <modele/objet_abstrait.h>
 
-using namespace Opencxx ;
+namespace ProjetUnivers {
 
-/*
-CLASS
-  Serialisable
+  namespace Modele {
+    
+    
+    class Univers ;
+    
 
-  Classe des classes C++ qui sont sérialisées en XML.
 
-EXPLICATION
-  
-  Cette méta classe représente le fait pour une classe C++ d'ête sérialisée en 
-  XML
-  
-  
-A_FAIRE
-  
-  
-  
-*/
-class Serialisable : public Class {
-public:
 
-  ///////////////////////
-  // Modifie une classe sérialisable C en ajoutant deux méthodes 
-  // publiques : 
-  // -  static C* Lire(const Base::Chaine&) 
-  //      qui désérialise à partir de xml.
-  // -  Base::Chaine Ecrire() const 
-  //      qui sérialisent un objet et ses composants 
-  //      en xml.
-  void TranslateClass(Environment* env) ;
+      
+    /// Représente un objectif d'une mission.
+
+    /*!
+    Utilisation
+    
+      Un Objectif de mission peut être complexe ou simple, et on peut tester 
+      s'il est vérifié.
+
+    
+    Type de classe
+    
+      Objet
+    
+      Abstrait
+    */
+    class Objectif : public ObjetAbstrait {
+    public:
+
+
+      /// Classe abstraite donc contructeur virtuel.
+      virtual ~Objectif() ;
+
+      /// Détermine si l'objectif est satisfait dans _univers.
+      virtual Booleen satisfait(
+          const Base::Association< Univers >& _univers) const = 0 ;
+          
+    protected:
+    
+      	
+
+      /// Constructeur.
+      Objectif() ;
+
+    
+    private:
+      
  
-};
+    };
+    
+    
+  }
 
+}
+
+#endif

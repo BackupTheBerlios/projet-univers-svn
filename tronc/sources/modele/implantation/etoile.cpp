@@ -18,42 +18,23 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#include <modele/etoile.h>
 
+namespace ProjetUnivers {
 
-// Includes
-#include <opencxx/mop.h>
+  namespace Modele {
+    
+    
+    
 
-using namespace Opencxx ;
+    ////////////////////
+    // Constructeur.
+    Etoile::Etoile()
+    : ObjetPhysique(Noyau::Position())
+    {}
+    
+    
+  }
 
-/*
-CLASS
-  Serialisable
-
-  Classe des classes C++ qui sont sérialisées en XML.
-
-EXPLICATION
-  
-  Cette méta classe représente le fait pour une classe C++ d'ête sérialisée en 
-  XML
-  
-  
-A_FAIRE
-  
-  
-  
-*/
-class Serialisable : public Class {
-public:
-
-  ///////////////////////
-  // Modifie une classe sérialisable C en ajoutant deux méthodes 
-  // publiques : 
-  // -  static C* Lire(const Base::Chaine&) 
-  //      qui désérialise à partir de xml.
-  // -  Base::Chaine Ecrire() const 
-  //      qui sérialisent un objet et ses composants 
-  //      en xml.
-  void TranslateClass(Environment* env) ;
- 
-};
+}
 

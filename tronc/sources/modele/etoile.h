@@ -18,42 +18,43 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#ifndef _PU_MODELE_ETOILE_H_
+#define _PU_MODELE_ETOILE_H_
 
 
-// Includes
-#include <opencxx/mop.h>
+#include <modele/objet_physique.h>
 
-using namespace Opencxx ;
 
-/*
-CLASS
-  Serialisable
+namespace ProjetUnivers {
 
-  Classe des classes C++ qui sont sérialisées en XML.
+  namespace Modele {
+    
+    
+    
+      
+    ///  Représente une étoile.
 
-EXPLICATION
-  
-  Cette méta classe représente le fait pour une classe C++ d'ête sérialisée en 
-  XML
-  
-  
-A_FAIRE
-  
-  
-  
-*/
-class Serialisable : public Class {
-public:
+    /*!
+    TYPE_DE_CLASSE
+      Objet
+      Concret
+    */
+    class Etoile : public ObjetPhysique {
+    public:
 
-  ///////////////////////
-  // Modifie une classe sérialisable C en ajoutant deux méthodes 
-  // publiques : 
-  // -  static C* Lire(const Base::Chaine&) 
-  //      qui désérialise à partir de xml.
-  // -  Base::Chaine Ecrire() const 
-  //      qui sérialisent un objet et ses composants 
-  //      en xml.
-  void TranslateClass(Environment* env) ;
- 
-};
 
+      /// Constructeur.
+      Etoile() ;
+      
+      
+    private:
+      
+
+    };
+    
+    
+  }
+
+}
+
+#endif

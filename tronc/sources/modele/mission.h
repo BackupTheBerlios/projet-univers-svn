@@ -18,42 +18,66 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#ifndef _PU_MODELE_MISSION_H_
+#define _PU_MODELE_MISSION_H_
+
+#include <base/ensemble_composition.h>
+#include <base/ensemble_association.h>
+#include <base/composition.h>
+#include <modele/objet_abstrait.h>
+
+namespace ProjetUnivers {
+
+  namespace Modele {
+    
+    
+    class Role ;
+        
+      
+    /// Représente une mission.
+      
+    /*!
+    
+    \remark  
+      Une mission peut se jouer, et alors cela crée un EtatMission
+
+    Type de classe
+    
+      Objet
+    
+      Concret
+    */
+    class Mission : public ObjetAbstrait {
+    public:
 
 
-// Includes
-#include <opencxx/mop.h>
+      
 
-using namespace Opencxx ;
+      
+    private:
+      
 
-/*
-CLASS
-  Serialisable
-
-  Classe des classes C++ qui sont sérialisées en XML.
-
-EXPLICATION
+      // ****************
+      /// @name Attributs
+      // ****************
+      // @{
+      
+      /////////////////
+      // Les différents rôles de la mission.
+      Base::EnsembleComposition< Role > roles ;
   
-  Cette méta classe représente le fait pour une classe C++ d'ête sérialisée en 
-  XML
-  
-  
-A_FAIRE
-  
-  
-  
-*/
-class Serialisable : public Class {
-public:
+      /////////////////
+      // Les rôles qu'on peut jouer dans la mission.
+      // C'est un sous-ensemble de Mission::roles.
+      Base::EnsembleAssociation< Role > rolesJouables ;
 
-  ///////////////////////
-  // Modifie une classe sérialisable C en ajoutant deux méthodes 
-  // publiques : 
-  // -  static C* Lire(const Base::Chaine&) 
-  //      qui désérialise à partir de xml.
-  // -  Base::Chaine Ecrire() const 
-  //      qui sérialisent un objet et ses composants 
-  //      en xml.
-  void TranslateClass(Environment* env) ;
- 
-};
+      // @}
 
+    };
+    
+    
+  }
+
+}
+
+#endif

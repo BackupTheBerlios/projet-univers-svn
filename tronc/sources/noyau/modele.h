@@ -27,9 +27,9 @@ namespace ProjetUnivers {
 
   namespace Noyau {
   
- 
+    class Vue ;
   
-   /// \brief 
+    /// \brief 
     /// Classe abstraite du modèle de données.
     
     /// Il s'agit de la partie Modèle de l'application du patron : 

@@ -18,42 +18,75 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#ifndef _PU_MODELE_VAISSEAU_H_
+#define _PU_MODELE_VAISSEAU_H_
+
+#include <base/ensemble_composition.h>
+#include <base/composition.h>
+#include <modele/bien.h>
+
+namespace ProjetUnivers {
+
+  namespace Modele {
+    
+    
+    class Composant ;
+    
+      
+    /// Représente un vaisseau.
+    
+    /*!
+    Type de classe
+    
+      Objet
+    
+      Concret  
+    */
+    class Vaisseau : public Bien {
+    public:
+    
+
+      // *******************
+      /// @name Construction
+      // *******************
+      // @{
+      
+      /// constructeur.
+      Vaisseau() ;
+    
+      /// Ajoute un composant.
+      void AjouterComposant(Composant* _composant) ;
+
+      // @}
+
+	
+    protected:
 
 
-// Includes
-#include <opencxx/mop.h>
 
-using namespace Opencxx ;
+    private:  
+      
 
-/*
-CLASS
-  Serialisable
+      // ****************
+      /// @name Attributs
+      // ****************
+      // @{
+      
 
-  Classe des classes C++ qui sont sérialisées en XML.
+      /// Les composants du vaisseau.
+      Base::EnsembleComposition< Composant > composants ;
 
-EXPLICATION
-  
-  Cette méta classe représente le fait pour une classe C++ d'ête sérialisée en 
-  XML
-  
-  
-A_FAIRE
-  
-  
-  
-*/
-class Serialisable : public Class {
-public:
-
-  ///////////////////////
-  // Modifie une classe sérialisable C en ajoutant deux méthodes 
-  // publiques : 
-  // -  static C* Lire(const Base::Chaine&) 
-  //      qui désérialise à partir de xml.
-  // -  Base::Chaine Ecrire() const 
-  //      qui sérialisent un objet et ses composants 
-  //      en xml.
-  void TranslateClass(Environment* env) ;
+      ////////////////
+      /// Le fabriquant du vaisseau
+//    Base::Association< Groupe > fabriquant ;
  
-};
+ 
+      // @}
+    };
+    
+    
+  }
 
+}
+
+#endif

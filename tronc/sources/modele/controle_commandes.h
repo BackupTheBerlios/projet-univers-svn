@@ -18,42 +18,52 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#ifndef _PU_CONTROLE_CONTROLE_COMMANDES_H_
+#define _PU_CONTROLE_CONTROLE_COMMANDES_H_
+
+#include <base/association.h>
+#include <noyau/controle.h>
 
 
-// Includes
-#include <opencxx/mop.h>
+namespace ProjetUnivers {
 
-using namespace Opencxx ;
+  namespace Controle {
+    
+    
+    class Mission ;
+    
+      
+    /// Le contrôle qui gère les commandes de pilotage.
 
-/*
-CLASS
-  Serialisable
+    /*!
+    Type de classe
+    
+      Objet
+    
+      Concret
+    
+    */
+    class ControleCommandes : public Noyau::Controle {
+    public:
 
-  Classe des classes C++ qui sont sérialisées en XML.
 
-EXPLICATION
-  
-  Cette méta classe représente le fait pour une classe C++ d'ête sérialisée en 
-  XML
-  
-  
-A_FAIRE
-  
-  
-  
-*/
-class Serialisable : public Class {
-public:
+      
+      
 
-  ///////////////////////
-  // Modifie une classe sérialisable C en ajoutant deux méthodes 
-  // publiques : 
-  // -  static C* Lire(const Base::Chaine&) 
-  //      qui désérialise à partir de xml.
-  // -  Base::Chaine Ecrire() const 
-  //      qui sérialisent un objet et ses composants 
-  //      en xml.
-  void TranslateClass(Environment* env) ;
- 
-};
+      
+    private:
 
+      // ****************
+      // GROUP: Attributs
+      // ****************
+      
+      
+
+    };
+    
+    
+  }
+
+}
+
+#endif

@@ -22,7 +22,10 @@
 
 // Includes
 #include "serialisable.mh"
-#include <iostream.h>
+#include <iostream>
+
+using namespace std ;
+using namespace Opencxx ;
 
 void Serialisable::TranslateClass(Environment* env)
 {

@@ -20,40 +20,28 @@
 
 
 
-// Includes
-#include <opencxx/mop.h>
+#include <modele/bien.h>
 
-using namespace Opencxx ;
 
-/*
-CLASS
-  Serialisable
+namespace ProjetUnivers {
 
-  Classe des classes C++ qui sont sérialisées en XML.
+  namespace Modele {
 
-EXPLICATION
-  
-  Cette méta classe représente le fait pour une classe C++ d'ête sérialisée en 
-  XML
-  
-  
-A_FAIRE
-  
-  
-  
-*/
-class Serialisable : public Class {
-public:
 
-  ///////////////////////
-  // Modifie une classe sérialisable C en ajoutant deux méthodes 
-  // publiques : 
-  // -  static C* Lire(const Base::Chaine&) 
-  //      qui désérialise à partir de xml.
-  // -  Base::Chaine Ecrire() const 
-  //      qui sérialisent un objet et ses composants 
-  //      en xml.
-  void TranslateClass(Environment* env) ;
- 
-};
+	
+    //////////////////
+    // Classe abstraite donc destructeur virtuel.
+    Bien::~Bien() 
+    {}
+
+    //////////////////////
+    // Classe abstraite donc constructeur protégé.
+    Bien::Bien()
+    : ObjetPhysique(Noyau::Position())
+    {}
+
+  }
+
+}
+
 

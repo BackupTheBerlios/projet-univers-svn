@@ -18,42 +18,50 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#ifndef _PU_MODELE_HISTOIRE_H_
+#define _PU_MODELE_HISTOIRE_H_
+
+#include <base/association.h>
+#include <base/ensemble_composition.h>
+#include <modele/objet_abstrait.h>
+
+namespace ProjetUnivers {
+
+  namespace Modele {
+
+    
+    
+      
+    /// Représente une histoire.
+
+    /*!
+    Type de classe
+    
+      Objet
+    
+      Concret
+    */
+    class Histoire : public ObjetAbstrait {
+    public:
+
+      
+    private:
+      
+      /// Les missions hors campagne
+      Base::EnsembleComposition< Mission > missions ;
+      
+      /// Les campagnes de l'histoire.
+      Base::EnsembleComposition< Campagne > campagnes ;
 
 
-// Includes
-#include <opencxx/mop.h>
+      /// Le monde dans lequel cette histoire se déroule.
+      Base::Association< Monde > monde ;
 
-using namespace Opencxx ;
+    };
+    
+    
+  }
 
-/*
-CLASS
-  Serialisable
+}
 
-  Classe des classes C++ qui sont sérialisées en XML.
-
-EXPLICATION
-  
-  Cette méta classe représente le fait pour une classe C++ d'ête sérialisée en 
-  XML
-  
-  
-A_FAIRE
-  
-  
-  
-*/
-class Serialisable : public Class {
-public:
-
-  ///////////////////////
-  // Modifie une classe sérialisable C en ajoutant deux méthodes 
-  // publiques : 
-  // -  static C* Lire(const Base::Chaine&) 
-  //      qui désérialise à partir de xml.
-  // -  Base::Chaine Ecrire() const 
-  //      qui sérialisent un objet et ses composants 
-  //      en xml.
-  void TranslateClass(Environment* env) ;
- 
-};
-
+#endif

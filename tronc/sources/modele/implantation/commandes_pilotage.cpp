@@ -19,41 +19,28 @@
  ***************************************************************************/
 
 
+#include <modele/commandes_pilotage.h>
 
-// Includes
-#include <opencxx/mop.h>
 
-using namespace Opencxx ;
 
-/*
-CLASS
-  Serialisable
 
-  Classe des classes C++ qui sont sérialisées en XML.
+namespace ProjetUnivers {
 
-EXPLICATION
-  
-  Cette méta classe représente le fait pour une classe C++ d'ête sérialisée en 
-  XML
-  
-  
-A_FAIRE
-  
-  
-  
-*/
-class Serialisable : public Class {
-public:
+  namespace Modele {
+    
+    using namespace ProjetUnivers::Base ;
+    
+    
 
-  ///////////////////////
-  // Modifie une classe sérialisable C en ajoutant deux méthodes 
-  // publiques : 
-  // -  static C* Lire(const Base::Chaine&) 
-  //      qui désérialise à partir de xml.
-  // -  Base::Chaine Ecrire() const 
-  //      qui sérialisent un objet et ses composants 
-  //      en xml.
-  void TranslateClass(Environment* env) ;
- 
-};
+      ////////////////////
+      // Constructeur.
+    CommandesPilotage::CommandesPilotage()
+    {}
+    
+    
+    
+  }
+
+}
+
 

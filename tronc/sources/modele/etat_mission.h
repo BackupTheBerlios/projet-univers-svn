@@ -18,42 +18,61 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#ifndef _PU_MODELE_ETAT_MISSION_H_
+#define _PU_MODELE_ETAT_MISSION_H_
+
+#include <base/association.h>
+#include <noyau/etat.h>
 
 
-// Includes
-#include <opencxx/mop.h>
+namespace ProjetUnivers {
 
-using namespace Opencxx ;
-
-/*
-CLASS
-  Serialisable
-
-  Classe des classes C++ qui sont sérialisées en XML.
-
-EXPLICATION
+  namespace Modele {
+    
   
-  Cette méta classe représente le fait pour une classe C++ d'ête sérialisée en 
-  XML
-  
-  
-A_FAIRE
-  
-  
-  
-*/
-class Serialisable : public Class {
-public:
+    class Mission ;
+    
+      
+    ///  Représente le fait de jouer une mission.
 
-  ///////////////////////
-  // Modifie une classe sérialisable C en ajoutant deux méthodes 
-  // publiques : 
-  // -  static C* Lire(const Base::Chaine&) 
-  //      qui désérialise à partir de xml.
-  // -  Base::Chaine Ecrire() const 
-  //      qui sérialisent un objet et ses composants 
-  //      en xml.
-  void TranslateClass(Environment* env) ;
- 
-};
+    /*!
+    TYPE_DE_CLASSE
+      Objet
+      Concret
+    \todo
+      Supprimer... car c'est un contrôle...???
+    */
+    class EtatMission //: public Etat {
+    {
+    public:
 
+
+      ////////////////////
+      // Initialisation de l'état.
+      // Construction des controles.
+      virtual void Initialiser() ;
+      
+      //////////////////////
+      // Terminaison de l'état, réaliser à la sortie
+      virtual void Finaliser() ;
+
+      
+    private:
+
+      // ****************
+      // GROUP: Attributs
+      // ****************
+      
+      
+      /////////////////
+      // La mission jouée
+      Base::Association< Mission > mission ; 
+
+    };
+    
+    
+  }
+
+}
+
+#endif

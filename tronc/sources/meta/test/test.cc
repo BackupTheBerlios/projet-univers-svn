@@ -6,7 +6,7 @@ template <class T> class Composition
 template <class T> class Association
 {};
 
-template <class T, V> class FonctionObjetValeur
+template <class T, class V> class FonctionObjetValeur
 {};
 
 namespace PU {
@@ -17,25 +17,28 @@ namespace PU {
 
 typedef unsigned short Booleen ;
 
+class Titi ;
 
-class Toto {
+class test {
 public:
 
-  Toto() ;
+  ////////////////////////
+  // Constructeur.
+  test() ;
 
   virtual void Manger() ;
 
 protected:
   
   Association< Titi > titi ;
-  PU::Zob< Toto> unZob ;
+  PU::Zob< test> unZob ;
 };
 
 metaclass Serialisable Titi ;    // metaclass declaration
 
 
 
-class Titi : public Toto {
+class Titi : public test {
 public:
 
   Titi() ;
@@ -44,8 +47,8 @@ public:
 
 private:
 
-  Composition< Toto > toto ;
-  FonctionObjetValeur< Toto, Booleen> estBeau ;
+  Composition< test > toto ;
+  FonctionObjetValeur< test, Booleen> estBeau ;
   
 public:  
   Booleen zob ;

@@ -22,11 +22,15 @@
 
 // Includes
 #include "regles_programmation.mh"
-#include <iostream.h>
+#include <iostream>
 
+using namespace std ;
+using namespace Opencxx ;
 
 void ReglesProgrammation::TranslateClass(Environment* env)
 {
-  cout << "ok" << endl ;
-
+  Ptree* nom  = this->Name() ;
+  
+  cout << "ok, classe :" <<  nom->ToString() << endl ;
+  cout << this->Definition()->ToString() << endl ;
 }

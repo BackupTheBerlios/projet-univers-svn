@@ -18,42 +18,31 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#include <modele/vaisseau.h>
+#include <modele/composant.h>
+#include <noyau/position.h>
 
+namespace ProjetUnivers {
 
-// Includes
-#include <opencxx/mop.h>
-
-using namespace Opencxx ;
-
-/*
-CLASS
-  Serialisable
-
-  Classe des classes C++ qui sont sérialisées en XML.
-
-EXPLICATION
+  namespace Modele {
+    
+    using namespace ProjetUnivers::Noyau ;
+    
+    Vaisseau::Vaisseau()
+    : Bien()
+    {}
   
-  Cette méta classe représente le fait pour une classe C++ d'ête sérialisée en 
-  XML
-  
-  
-A_FAIRE
-  
-  
-  
-*/
-class Serialisable : public Class {
-public:
-
-  ///////////////////////
-  // Modifie une classe sérialisable C en ajoutant deux méthodes 
-  // publiques : 
-  // -  static C* Lire(const Base::Chaine&) 
-  //      qui désérialise à partir de xml.
-  // -  Base::Chaine Ecrire() const 
-  //      qui sérialisent un objet et ses composants 
-  //      en xml.
-  void TranslateClass(Environment* env) ;
+    //////////////////
+    // Ajoute un composant.
+    void Vaisseau::AjouterComposant(Composant* _composant) {
+    
+      this->composants.Ajouter(_composant) ;
+    }
+	    
  
-};
+
+    
+  }
+
+}
 

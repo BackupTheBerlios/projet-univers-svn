@@ -19,41 +19,23 @@
  ***************************************************************************/
 
 
+#include <modele/objet_physique.h>
 
-// Includes
-#include <opencxx/mop.h>
+namespace ProjetUnivers {
 
-using namespace Opencxx ;
+  namespace Modele {
 
-/*
-CLASS
-  Serialisable
-
-  Classe des classes C++ qui sont sérialisées en XML.
-
-EXPLICATION
+    
+    //////////////////
+    // Classe abstraite donc destructeur virtuel.
+    ObjetPhysique::~ObjetPhysique()
+    {}
+     
+    //////////////////////
+    // Classe abstraite donc constructeur protégé.
+    ObjetPhysique::ObjetPhysique(const Noyau::Position& _p) 
+    : position(_p)
+    {}
   
-  Cette méta classe représente le fait pour une classe C++ d'ête sérialisée en 
-  XML
-  
-  
-A_FAIRE
-  
-  
-  
-*/
-class Serialisable : public Class {
-public:
-
-  ///////////////////////
-  // Modifie une classe sérialisable C en ajoutant deux méthodes 
-  // publiques : 
-  // -  static C* Lire(const Base::Chaine&) 
-  //      qui désérialise à partir de xml.
-  // -  Base::Chaine Ecrire() const 
-  //      qui sérialisent un objet et ses composants 
-  //      en xml.
-  void TranslateClass(Environment* env) ;
- 
-};
-
+  }
+}

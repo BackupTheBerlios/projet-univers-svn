@@ -18,42 +18,78 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#ifndef _PU_UNIVERS_ROLE_H_
+#define _PU_UNIVERS_ROLE_H_
+
+#include <base/ensemble_composition.h>
+#include <base/ensemble_association.h>
+#include <base/composition.h>
+#include <univers/objet_abstrait.h>
 
 
-// Includes
-#include <opencxx/mop.h>
+namespace ProjetUnivers {
 
-using namespace Opencxx ;
+  namespace Univers {
+    
+    
+    class Mission ;
+    class Objectif ;
+    class Poste ;
+    
+      
+    /// Représente un rôle dans une mission, c'est-à-dire "quelque chose qui 
+    /// peut être joué par un personnage".
+    
+    /*!
+    Type de classe
+    
+      Objet
+    
+      Abstrait
+    */
+    class Role : public ObjetAsbtrait {
+    public:
+    
+    
+      /// Destructeur.
+	    virtual ~Role() ;
 
-/*
-CLASS
-  Serialisable
+	
 
-  Classe des classes C++ qui sont sérialisées en XML.
+    protected:
 
-EXPLICATION
+	
+      /// Constructeur.
+      Role() ;
   
-  Cette méta classe représente le fait pour une classe C++ d'ête sérialisée en 
-  XML
-  
-  
-A_FAIRE
-  
-  
-  
-*/
-class Serialisable : public Class {
-public:
+      
 
-  ///////////////////////
-  // Modifie une classe sérialisable C en ajoutant deux méthodes 
-  // publiques : 
-  // -  static C* Lire(const Base::Chaine&) 
-  //      qui désérialise à partir de xml.
-  // -  Base::Chaine Ecrire() const 
-  //      qui sérialisent un objet et ses composants 
-  //      en xml.
-  void TranslateClass(Environment* env) ;
+      // ****************
+      /// @name Attributs
+      // ****************
+
+      
+      /// Mission dans lequel ce rôle apparait, attribut inverse de 
+      /// Mission::roles.
+      Base::Association< Mission > mission ;
+
+      /// L'objectif du rôle.
+      Base::Composition< Objectif > objectif ;
+
+      //////////////////
+      // Postes associés au rôle.
+      Base::EnsembleAssociation< Poste > postes ;
+
+
+
+    private:
+      
  
-};
+    };
+    
+    
+  }
 
+}
+
+#endif

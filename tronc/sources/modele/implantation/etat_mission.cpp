@@ -18,42 +18,40 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#include <modele/etat_mission.h>
 
 
-// Includes
-#include <opencxx/mop.h>
 
-using namespace Opencxx ;
+namespace ProjetUnivers {
 
-/*
-CLASS
-  Serialisable
-
-  Classe des classes C++ qui sont sérialisées en XML.
-
-EXPLICATION
-  
-  Cette méta classe représente le fait pour une classe C++ d'ête sérialisée en 
-  XML
-  
-  
-A_FAIRE
-  
-  
-  
-*/
-class Serialisable : public Class {
-public:
-
-  ///////////////////////
-  // Modifie une classe sérialisable C en ajoutant deux méthodes 
-  // publiques : 
-  // -  static C* Lire(const Base::Chaine&) 
-  //      qui désérialise à partir de xml.
-  // -  Base::Chaine Ecrire() const 
-  //      qui sérialisent un objet et ses composants 
-  //      en xml.
-  void TranslateClass(Environment* env) ;
+  namespace Modele {
+    
  
-};
+    using namespace ProjetUnivers::Base ;
+    using namespace ProjetUnivers::Noyau ;
+
+
+    ////////////////////
+    // Initialisation de l'état.
+    
+    void EtatMission::Initialiser() {
+    
+      // Construction des controles
+      
+      
+    }
+    
+    //////////////////////
+    // Terminaison de l'état, réaliser à la sortie
+    void EtatMission::Finaliser() {
+    
+      // Destruction des controles ??
+    }
+
+
+    
+  }
+
+}
+
 

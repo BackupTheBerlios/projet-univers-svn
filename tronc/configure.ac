@@ -46,13 +46,11 @@ AC_CONFIG_FILES([Makefile \
                  sources/base/compilation/Makefile \
                  sources/noyau/Makefile \
                  sources/noyau/compilation/Makefile \
-                 sources/univers/Makefile \
-                 sources/univers/compilation/Makefile \
+                 sources/modele/Makefile \
+                 sources/modele/compilation/Makefile \
                  sources/meta/Makefile \
                  sources/meta/compilation/Makefile])
                  
-#                 sources/noyau/Makefile \
-#                 sources/univers/Makefile \
 #                 sources/demonstration/Makefile])
 # Checks for library functions.
 AC_OUTPUT

@@ -18,42 +18,78 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#ifndef _PU_UNIVERS_SYSTEME_STELLAIRE_H_
+#define _PU_UNIVERS_SYSTEME_STELLAIRE_H_
+
+#include <base/ensemble_composition.h>
+#include <base/types.h>
+#include <base/chaine.h>
+#include <modele/objet_physique.h>
 
 
-// Includes
-#include <opencxx/mop.h>
 
-using namespace Opencxx ;
 
-/*
-CLASS
-  Serialisable
+namespace ProjetUnivers {
 
-  Classe des classes C++ qui sont sérialisées en XML.
+  namespace Modele {
 
-EXPLICATION
-  
-  Cette méta classe représente le fait pour une classe C++ d'ête sérialisée en 
-  XML
-  
-  
-A_FAIRE
-  
-  
-  
-*/
-class Serialisable : public Class {
-public:
 
-  ///////////////////////
-  // Modifie une classe sérialisable C en ajoutant deux méthodes 
-  // publiques : 
-  // -  static C* Lire(const Base::Chaine&) 
-  //      qui désérialise à partir de xml.
-  // -  Base::Chaine Ecrire() const 
-  //      qui sérialisent un objet et ses composants 
-  //      en xml.
-  void TranslateClass(Environment* env) ;
- 
-};
+    class Planetoide ;
+    class Etoile ;
+    
+    
+    /// Représente un système stellaire.
 
+    /*!
+    Type de classe
+    
+      Objet
+    
+      Concret
+    */
+    class SystemeStellaire : public ObjetPhysique {
+    public:
+
+
+      // *******************
+      /// @name Constructeur
+      // *******************
+      // @{
+
+      /// Constructeur.
+      SystemeStellaire() ;
+      
+      /// Ajoute une étoile.
+      void AjouterEtoile(Etoile* _etoile) ;
+      
+      /// Ajoute un planétoïde.
+      void AjouterPlanetoide(Planetoide* _planetoide) ;
+      
+      // @}
+      
+    private:
+
+      // *******************
+      /// @name Attributs
+      // *******************
+      // @{
+
+      
+      /// Etoiles du système 
+      Base::EnsembleComposition< Etoile > etoiles ;
+      
+      /// Planètes/Satélites
+      Base::EnsembleComposition< Planetoide > planetoides ;
+
+      /// Nom du système.
+      Base::Chaine nom ;
+
+      // @}
+    };
+    
+    
+  }
+
+}
+
+#endif

@@ -18,42 +18,47 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#include <modele/systeme_stellaire.h>
+#include <modele/etoile.h>
+#include <modele/planetoide.h>
 
 
-// Includes
-#include <opencxx/mop.h>
+namespace ProjetUnivers {
 
-using namespace Opencxx ;
+  namespace Modele {
+    
+    using namespace ProjetUnivers::Noyau ;
 
-/*
-CLASS
-  Serialisable
 
-  Classe des classes C++ qui sont sérialisées en XML.
+    // *******************
+    // GROUP: Constructeur
+    // *******************
 
-EXPLICATION
+
+    ////////////////////
+    // Constructeur.
+    SystemeStellaire::SystemeStellaire()
+      : ObjetPhysique(Position())
+    {}
+    
+    //////////////////
+    // Ajoute une étoile.
+    void SystemeStellaire::AjouterEtoile(Etoile* _etoile)
+    {
+      this->etoiles.Ajouter(_etoile) ;
+    }  
   
-  Cette méta classe représente le fait pour une classe C++ d'ête sérialisée en 
-  XML
-  
-  
-A_FAIRE
-  
-  
-  
-*/
-class Serialisable : public Class {
-public:
+    
+    //////////////////
+    // Ajoute un planétoïde.
+    void SystemeStellaire::AjouterPlanetoide(Planetoide* _planetoide)
+    {
+      this->planetoides.Ajouter(_planetoide) ;
+    }
+     
+    
+  }
 
-  ///////////////////////
-  // Modifie une classe sérialisable C en ajoutant deux méthodes 
-  // publiques : 
-  // -  static C* Lire(const Base::Chaine&) 
-  //      qui désérialise à partir de xml.
-  // -  Base::Chaine Ecrire() const 
-  //      qui sérialisent un objet et ses composants 
-  //      en xml.
-  void TranslateClass(Environment* env) ;
- 
-};
+}
+
 

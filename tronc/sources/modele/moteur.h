@@ -18,42 +18,47 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#ifndef _PU_MODELE_MOTEUR_H_
+#define _PU_MODELE_MOTEUR_H_
+
+#include <modele/composant.h>
+#include <base/ensemble_association.h>
 
 
-// Includes
-#include <opencxx/mop.h>
 
-using namespace Opencxx ;
+namespace ProjetUnivers {
 
-/*
-CLASS
-  Serialisable
+  namespace Modele {
+    
+    
+    
+      
+    ///  Représente un moteur sur un vaisseau.
+    
+    /*!
+    Type de classe
+    
+      Concrète
+    
+      Objet
+    */
+    class Moteur : public Composant 
+    {
+    public:
 
-  Classe des classes C++ qui sont sérialisées en XML.
 
-EXPLICATION
-  
-  Cette méta classe représente le fait pour une classe C++ d'ête sérialisée en 
-  XML
-  
-  
-A_FAIRE
-  
-  
-  
-*/
-class Serialisable : public Class {
-public:
-
-  ///////////////////////
-  // Modifie une classe sérialisable C en ajoutant deux méthodes 
-  // publiques : 
-  // -  static C* Lire(const Base::Chaine&) 
-  //      qui désérialise à partir de xml.
-  // -  Base::Chaine Ecrire() const 
-  //      qui sérialisent un objet et ses composants 
-  //      en xml.
-  void TranslateClass(Environment* env) ;
+      /// Constructeur.
+      Moteur() ;
  
-};
+    private:
+    
+      /// ??? qu'est ce que c'est ???
+      Base::EnsembleAssociation<Moteur> moteurs ;
+    };
+    
+    
+  }
 
+}
+
+#endif

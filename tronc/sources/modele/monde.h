@@ -18,42 +18,50 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#ifndef _PU_MODELE_MONDE_H_
+#define _PU_MODELE_MONDE_H_
 
+#include <base/composition.h>
+#include <modele/objet_abstrait.h>
 
-// Includes
-#include <opencxx/mop.h>
+namespace ProjetUnivers {
 
-using namespace Opencxx ;
+  namespace Modele {
+    
+    
+    class Societe ;
+    class Univers ;
+    
+      
+    ///  Représente un monde.
 
-/*
-CLASS
-  Serialisable
+    /*!
+    Type de classe
+    
+      Objet
+    
+      Concret
+    */
+    class Monde : public ObjetAbstrait {
+    public:
 
-  Classe des classes C++ qui sont sérialisées en XML.
+      /// Constructeur.
+      Monde(Univers* _univers, Societe* _societe) ;
+      
+      
+    private:
+      
+      /// L'univers naturel physique du monde
+      Base::Composition< Univers > univers ;
+      
+      /// La partie société du monde.
+      Base::Composition< Societe > societe ;
 
-EXPLICATION
-  
-  Cette méta classe représente le fait pour une classe C++ d'ête sérialisée en 
-  XML
-  
-  
-A_FAIRE
-  
-  
-  
-*/
-class Serialisable : public Class {
-public:
+    };
+    
+    
+  }
 
-  ///////////////////////
-  // Modifie une classe sérialisable C en ajoutant deux méthodes 
-  // publiques : 
-  // -  static C* Lire(const Base::Chaine&) 
-  //      qui désérialise à partir de xml.
-  // -  Base::Chaine Ecrire() const 
-  //      qui sérialisent un objet et ses composants 
-  //      en xml.
-  void TranslateClass(Environment* env) ;
- 
-};
+}
 
+#endif

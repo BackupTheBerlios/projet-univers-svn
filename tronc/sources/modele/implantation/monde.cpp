@@ -19,41 +19,23 @@
  ***************************************************************************/
 
 
+#include <modele/societe.h>
+#include <modele/univers.h>
+#include <modele/monde.h>
 
-// Includes
-#include <opencxx/mop.h>
+namespace ProjetUnivers {
 
-using namespace Opencxx ;
+  namespace Modele {
+    
+    
+    
+    Monde::Monde(Univers* _univers, Societe* _societe)
+    : univers(_univers), societe(_societe)
+    {}
+    
+    
+  }
 
-/*
-CLASS
-  Serialisable
+}
 
-  Classe des classes C++ qui sont sérialisées en XML.
-
-EXPLICATION
-  
-  Cette méta classe représente le fait pour une classe C++ d'ête sérialisée en 
-  XML
-  
-  
-A_FAIRE
-  
-  
-  
-*/
-class Serialisable : public Class {
-public:
-
-  ///////////////////////
-  // Modifie une classe sérialisable C en ajoutant deux méthodes 
-  // publiques : 
-  // -  static C* Lire(const Base::Chaine&) 
-  //      qui désérialise à partir de xml.
-  // -  Base::Chaine Ecrire() const 
-  //      qui sérialisent un objet et ses composants 
-  //      en xml.
-  void TranslateClass(Environment* env) ;
- 
-};
 

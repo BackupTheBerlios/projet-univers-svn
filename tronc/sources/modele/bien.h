@@ -19,41 +19,50 @@
  ***************************************************************************/
 
 
+#ifndef _PU_MODELE_BIEN_H_
+#define _PU_MODELE_BIEN_H_
 
-// Includes
-#include <opencxx/mop.h>
 
-using namespace Opencxx ;
+#include <modele/objet_physique.h>
 
-/*
-CLASS
-  Serialisable
 
-  Classe des classes C++ qui sont sérialisées en XML.
+namespace ProjetUnivers {
 
-EXPLICATION
-  
-  Cette méta classe représente le fait pour une classe C++ d'ête sérialisée en 
-  XML
-  
-  
-A_FAIRE
-  
-  
-  
-*/
-class Serialisable : public Class {
-public:
 
-  ///////////////////////
-  // Modifie une classe sérialisable C en ajoutant deux méthodes 
-  // publiques : 
-  // -  static C* Lire(const Base::Chaine&) 
-  //      qui désérialise à partir de xml.
-  // -  Base::Chaine Ecrire() const 
-  //      qui sérialisent un objet et ses composants 
-  //      en xml.
-  void TranslateClass(Environment* env) ;
- 
-};
+  namespace Modele {
 
+
+    
+      
+    /// Représente un objet fabriqué artificellement par des membres d'espèces 
+    /// vivantes. 
+
+    /*!
+    Type de classe
+    
+      Objet
+    
+      Abstrait
+    */
+    class Bien : public ObjetPhysique {
+    public:
+		
+      /// Classe abstraite donc destructeur virtuel.
+      virtual ~Bien() ;
+    
+  	
+    protected:
+
+
+      /// Classe abstraite donc constructeur protégé.
+      Bien();
+      
+      /// Propriétaire du bien
+
+    };
+
+  }
+
+}
+
+#endif
