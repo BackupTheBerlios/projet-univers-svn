@@ -1,0 +1,1329 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN"
+"http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd">
+<article>
+  <title>Règles de programmations du Projet Univers</title>
+
+  <articleinfo>
+    <orgname>Equipe du Projet Univers</orgname>
+
+    <author>
+      <personname>
+        <firstname>Mathieu</firstname>
+
+        <surname>Roger</surname>
+      </personname>
+
+      <email>rogmaboami@hotmail.com</email>
+    </author>
+
+    <revhistory>
+      <revision>
+        <revnumber>0.1</revnumber>
+
+        <date>11 mars 2004</date>
+
+        <revdescription>
+          <para>Création initiale</para>
+        </revdescription>
+      </revision>
+
+      <revision>
+        <revnumber>0.2</revnumber>
+
+        <date>1 mai 2004</date>
+
+        <revdescription>
+          <para>Restructuration, ajout d'exemples et de règles.</para>
+        </revdescription>
+      </revision>
+    </revhistory>
+
+    <legalnotice>
+      <para>Ce document est sous license <ulink
+      url="http://www.gnu.org/copyleft/fdl.html">GNU Free Documentation
+      License</ulink></para>
+    </legalnotice>
+
+    <abstract>
+      <para>Ce document décrit les règles que doivent suivrent les codes soure
+      du Projet Univers.</para>
+    </abstract>
+  </articleinfo>
+
+  <sect1>
+    <title>Objectif du document</title>
+
+    <para>Le but de ce document est de définir précisément les règles à
+    respecter durant la programmation du projet Univers. Cependant ces règles
+    peuvent parfaitement être utilisées pour d'autres projets.</para>
+
+    <para>L'écriture d'un projet par plusieurs programmeurs nécessite
+    l'explicitation et le respect de règles. Les avantages sont nombreux
+    :</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>guider la façon dont est ecrit le code source</para>
+      </listitem>
+
+      <listitem>
+        <para>faciliter la compréhension d'un code source écrit par un autre
+        membre de l'équipe de développement</para>
+      </listitem>
+
+      <listitem>
+        <para>améliorer la qualité du code en empêchant certaines pratiques,
+        légales du point de vue du langage de programmation, mais dangereuses
+        car produisant généralement des erreurs</para>
+      </listitem>
+
+      <listitem>
+        <para>faciliter l'intégration de nouveaux développeurs à l'équipe de
+        développement</para>
+      </listitem>
+    </itemizedlist>
+
+    <para>Ces règles peuvent être vérifiées par plusieurs moyens :</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>Par le compilateur C++ lui même. Ce sera le cas pour certaines
+        règles, notamment celles concernant la gestion de la mémoire.</para>
+      </listitem>
+
+      <listitem>
+        <para>Par un vérificateur externe. Ce sera le cas pour certaines
+        règles, par exemple pour la règle qui dit qu'une classe abstraite
+        possède obligatoirement un destructeur virtuel.</para>
+      </listitem>
+    </itemizedlist>
+
+    <para>Tout programme qui ne vérifiera pas ces règles sera rejetté et ce
+    rejet sera signifié au développeur qui a violé la ou les règles.
+    Idéalement, les règles transgréssées sont signalées au programmeur.</para>
+
+    <para>La procédure d'acceptation d'une modification de code source est
+    donc la suivante :</para>
+
+    <procedure>
+      <step>
+        <para>Le code source modifié est envoyé par le programmeur à un
+        responsable de développement</para>
+      </step>
+
+      <step>
+        <para>Le responsalbe de développement vérifie que les règles sont
+        respectées.</para>
+
+        <para>Si ce n'est pas le cas, l'echec est signifié au programmeur et
+        la procédure s'arrête.</para>
+      </step>
+
+      <step>
+        <para>Le responsable de développement vérifie que les tests unitaires
+        sont satisfaits.</para>
+
+        <para>Si ce n'est pas le cas, l'echec est signifié au programmeur et
+        la procédure s'arrête.</para>
+      </step>
+
+      <step>
+        <para>Le code source est mis dans la base de code source.</para>
+      </step>
+    </procedure>
+  </sect1>
+
+  <sect1>
+    <title>Définitions</title>
+
+    <para>Les différents genres de classes et de types C++ utilisées dans le
+    projet sont les suivants.</para>
+
+    <sect2>
+      <title>Classes de valeurs</title>
+
+      <para>Une classe de valeurs est une classe qui possède un constructeur
+      de copie, une surcharge de l'opérateur d'affectation et de l'opérateur
+      de comparaison. Un type prédéfini est considéré comme une classe de
+      valeurs.</para>
+
+      <para>Les types prédéfinis sont&nbsp;:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>Entier</para>
+        </listitem>
+
+        <listitem>
+          <para>Reel</para>
+        </listitem>
+
+        <listitem>
+          <para>Booleen</para>
+        </listitem>
+
+        <listitem>
+          <para>Caractere</para>
+        </listitem>
+
+        <listitem>
+          <para>Chaine</para>
+        </listitem>
+      </itemizedlist>
+
+      <para>Les objets C++ d'une classe de valeurs est manipulée par
+      copie&nbsp;: il va exister plusieurs copie de la "même" valeur. C'est
+      classiquement le cas des entiers.</para>
+
+      <example>
+        <title>Exemple de classe de valeurs</title>
+
+        <para>La classe des dates est ici une classe de valeurs.</para>
+
+        <classsynopsis>
+          <ooclass>
+            <classname>Date</classname>
+          </ooclass>
+
+          <methodsynopsis>
+            <methodname>Booleen operator==</methodname>
+
+            <methodparam>
+              <parameter>const Date&amp;</parameter>
+            </methodparam>
+
+            <modifier>const</modifier>
+          </methodsynopsis>
+
+          <methodsynopsis>
+            <methodname>Date</methodname>
+
+            <methodparam>
+              <parameter>const Date&amp;</parameter>
+            </methodparam>
+          </methodsynopsis>
+
+          <methodsynopsis>
+            <methodname>Date&amp; operator=</methodname>
+
+            <methodparam>
+              <parameter>const Date&amp;</parameter>
+            </methodparam>
+          </methodsynopsis>
+        </classsynopsis>
+      </example>
+
+      <para>Les classes de valeurs peuvent se trouver directement comme type
+      de variables, ou type d'attributs.</para>
+    </sect2>
+
+    <sect2>
+      <title>Classes d'objets</title>
+
+      <para>Une classe d'objets est une classe C++ qui ne possède pas de
+      surcharge des opérateur d'affectation ni de comparaison.</para>
+
+      <para>Les objets C++ d'une classe d'objet sont manipulés par références,
+      cela permet à plusieurs objets C++ de référencer le même objet. Ceci
+      implique une chose : tous ceux qui référencent un objet verrons tous les
+      modifications que subit cet objet.</para>
+
+      <para>Les classes d'objets ne se trouvent pas directement utilisés comme
+      types de variables, d'attributs ou comme paramètres de méthodes.</para>
+
+      <sect3>
+        <title>Classes abstraites d'objets</title>
+
+        <para>Une classe abstraite est une classe qui contient au moins une
+        méthode virtuelle pure.</para>
+      </sect3>
+
+      <sect3>
+        <title>Classes concrètes d'objets</title>
+
+        <para>Une classe est concrète si elle possède un constructeur
+        public.</para>
+      </sect3>
+    </sect2>
+  </sect1>
+
+  <sect1>
+    <title>Règles de programmation</title>
+
+    <para>Ces règles s'appliquent aux codes sources du projet.</para>
+
+    <sect2>
+      <title>Optimisation</title>
+
+      <para>L'optimisation se fait en dernier, la première étape est de
+      produire un code qui marche et qui soit clair. Dites vous toujours que
+      si c'est bien clair et que vous définissez des classes quitte à ce que
+      ce soient un nouveau nom pour des entiers, alors il sera d'autant plus
+      facile d'optimiser plus tard. Donc pleins de classes avec des noms
+      clairs.</para>
+
+      <example>
+        <title>Exemple</title>
+
+        <para>Objectif : On veut se doter d'éléments qui symbolise des moments
+        dans un monde.</para>
+
+        <informalexample>
+          <para>Ce qu'il ne faut pas faire&nbsp;: coder ces moments par des
+          entiers.</para>
+        </informalexample>
+
+        <informalexample>
+          <para>Ce qu'il faut faire&nbsp;: créer une classe Moment, quitte à
+          mettre un entier dedans. Plus tard, on pourra faire des
+          optimisations spécifiques, en remplaçant l'entier par d'autre
+          choses.</para>
+        </informalexample>
+      </example>
+    </sect2>
+
+    <sect2>
+      <title>Les noms des fichiers et répertoires</title>
+
+      <para>Les noms des fichiers et des répertoires sont constitué de
+      caractères de lettres de <filename>a</filename> à <filename>z</filename>
+      en minuscules et sans accents, si le nom doit être composé de plisieurs
+      mots ces mots sont séparés par le caractère
+      <filename>_</filename>.</para>
+    </sect2>
+
+    <sect2>
+      <title>Organisation des fichiers</title>
+
+      <para>L'arborescence des fichiers source est de la forme suivante. Un
+      répertoire <filename>src</filename> qui contient d'autres
+      sous-répertoires. Un sous-répertoire par module de l'application, par
+      exemple le répertoire du code du réseau est
+      <filename>src/reseau</filename>. Ce répertoire contient obligatoirement
+      les sous-répertoires <filename>test</filename> et
+      <filename>implantation</filename>, un pour contenir les programmes de
+      tests et l'autre pour contenir ls différentes réalisations. Le
+      répertoire d'un module ne contient que des fichiers
+      <filename>.h</filename>, les <filename>.cpp</filename> correspondants
+      doivent se trouver dans son sous-répertoire d'implantation.</para>
+
+      <para>Chaque module correspond à un namespace C++, qui porte le nom du
+      module. Pour chaque module on se donne un deuxième niveau de namespace
+      correspondant à l'implantation et au tests. En fait les namespaces sont
+      imbriqués de la même manière que l'arborescence des répertoires.</para>
+
+      <para>Le sous-répertoire d'implantation d'un module contient un ou
+      plusieurs sous-répertoire, un par implantation différente. Par exemple
+      le module réseau possède une implantation par client/serveur et donc on
+      trouve le répertoire
+      <filename>src/reseau/implantation/client_serveur</filename>.</para>
+    </sect2>
+
+    <sect2>
+      <title>Fichiers sources</title>
+
+      <para>Les fichiers <filename>.h</filename> contiennent les definition
+      des classes, les <filename>.cpp</filename> leur implantation.</para>
+
+      <para>Pour chaque classe on a un fichier <filename>.h</filename> et
+      éventuellement un fichier <filename>.cpp</filename>. Les noms des
+      fichiers d'une classe <classname>MerveilleDeLUnivers</classname> sont
+      <filename>merveille_de_l_univers.h</filename> et
+      <filename>merveille_de_l_univers.cpp</filename>.</para>
+
+      <para>Les fichiers <filename>.h</filename> doivent contenir un code de
+      préprocesseur C qui permet d'éviter les inclusions multiples. Il doit
+      englober tout le code du <filename>.h</filename> et est de la forme
+      suivante&nbsp;:</para>
+
+      <programlisting>#ifndef MERVEILLE_DE_L_UNIVERS_H
+#define MERVEILLE_DE_L_UNIVERS_H
+
+....
+
+#endif</programlisting>
+
+      <para>Les lignes de code dans les fichiers ne doivent pas dépasser 80
+      colonnes.</para>
+    </sect2>
+
+    <sect2>
+      <title>Inclusions et définitions en avant</title>
+
+      <para>Pour compiler un <filename>.h</filename>, il convient d'utiliser
+      d'autres fichiers et de définir certaines classes en avant. La règle est
+      la suivante&nbsp;: on n'inclus que les fichiers <filename>.h</filename>
+      des classes qui sont héritées, des classes de valeurs utilisées ou des
+      classes templates. Pour chaque classe d'objets O, une déclaration
+      <programlisting>class O ; </programlisting>suffit.</para>
+    </sect2>
+
+    <sect2>
+      <title>Nommage et commentaires</title>
+
+      <sect3>
+        <title>Le nommage</title>
+
+        <para>La structure des noms de namespace, classes, types, attributs,
+        méthodes, variables est une suite de mots en français, sans
+        abréviation, avec une majuscule comme séparation entre les
+        mots.</para>
+
+        <para>Les classes et les types commencent pas une majuscule, les
+        attributs, variables méthodes, procédures pas une minuscule.</para>
+
+        <para>Les noms des paramètres d'une méthodes commencent par
+        <token>_</token>.</para>
+
+        <example>
+          <title>Exemples de noms</title>
+
+          <para><classname>Reseau</classname></para>
+
+          <para><varname>estPresent</varname></para>
+
+          <para><classname>ObjetAPositionApprochee</classname></para>
+
+          <para><parameter>_nouvelAge</parameter></para>
+        </example>
+
+        <para>Tout comme les commentaires, le nom d'un concept C++ doit
+        indiquer ce que représente l'élément par rapport au monde dont on
+        parle. Par exemple, Reseau est le nom d'une classe dont les objets
+        représentent des réseaux d'ordinateurs.</para>
+
+        <para>Un nom peut être composée d'une phrase en français qui explicie
+        les propriétés importantes de ses objets. Par exemple, les objets de
+        la classe ObjetAPositionApprochee sont des objets dont la position ne
+        peut être estimée que de manière approchée.</para>
+      </sect3>
+
+      <sect3>
+        <title>Les commentaires</title>
+
+        <para>Nombre de gens s'accordent pour dire que les commentaires dans
+        un code source sont essentiels. La question est alors de savoir quoi
+        mettre comme commentaires. Les commentaires ne doivent pas être une
+        "réformulation" du code qu'il commente. Il faut par exemple éviter de
+        rappeler le type d'une variable dans son commentaire.</para>
+
+        <para>Les commentaires commencent généralement par <token>//</token>
+        sauf pour certains commentaires qui utilisent <token>/*
+        ...*/</token>.</para>
+
+        <para>Un commentaire doit être le plus court possible et expliquer
+        quel sens possède le morceau de code par rapport à l'idée générale du
+        programme. Pour ecrire un commentaire la question à se poser est :
+        "qu'est-ce que représente cette chose ?" et surtout pas&nbsp;:
+        "comment c'est fait ?".</para>
+
+        <para>Dans le cas du projet univers, le monde imaginaire est un monde
+        de vaisseaus, de pilotes, de planetes, etc... Un commentaire doit
+        indiquer ce que l'élément C++ (classe, etc..) représente dans ce
+        monde. Par exemple, le commentaire associé à une classe appelée
+        <classname>Vaisseau</classname> sera tout simplement "Un
+        vaisseau"!</para>
+
+        <para>Les commentaires suivent une certaine syntaxe ce qui permet
+        d'extraire ces commentaires vers des pages html. L'outil <ulink
+        url="http://www.stratasys.com/software/cocoon/index.htm">Coccon</ulink>
+        permet de lire des fichiers source et d'en extraire les descriptions
+        de classes et les commentaires.</para>
+
+        <para>En général, les commentaires sont inutiles surtout lorsque le
+        nom de l'objet a été bien choisi. Cependant, certains commentaires
+        sont obligatoires&nbsp;:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>Les commentaires de classe, qui précisent ce que
+            représentent les objets de la classe et les diverses façons
+            d'utiliser la classe.</para>
+
+            <para>Ils précèdent le mot réservé C++ <token>class</token> et
+            sont de la forme suivante&nbsp;:</para>
+
+            <programlisting>/*
+CLASS
+  NomDeLaClasse
+
+  Résumé de la classe.
+
+KEYWORDS
+  A, B, C
+
+MOTCLE1
+  Commentaire associé à MOTCLE1.
+
+MOTCLE2
+  blabla
+
+...
+
+MOTCLEn
+  blabla
+*/
+class NomDeLaClasse ...</programlisting>
+
+            <para>Le <emphasis>CLASS</emphasis> est obligatoire, il est suivit
+            du nom de la classe, ensuite vient le résumé de la classe, puis un
+            certain nombre de sous parties identifiées par des mots-clés qui
+            peuvent être choisis librement. Les KEYWORDS sont des mots qui
+            permettent de regrouper des classes dans des "ensemble de
+            classes". Typiquement, on pourra indiquer dans quel aspect de
+            l'application la classe est utilisée.</para>
+
+            <para>On pourra utiliser comme mots-clés des choses
+            comme&nbsp;:</para>
+
+            <itemizedlist>
+              <listitem>
+                <para>UTILISATION1, ..., UTILISATIONn : qui decrivent diveres
+                façons d'utiliser la classe</para>
+              </listitem>
+
+              <listitem>
+                <para>TODO : qui decrit ce qu'il reste à programmer</para>
+              </listitem>
+
+              <listitem>
+                <para>ATTENTION : qui decrit des erreurs à ne pas faire</para>
+              </listitem>
+            </itemizedlist>
+          </listitem>
+
+          <listitem>
+            <para>Les commentaires d'attributs, qui précisent ce que
+            représente cet attribut.</para>
+
+            <para>Ils précèdent la déclaration d'attribut et sont de la forme
+            suivante&nbsp;:</para>
+
+            <programlisting>//////////////////////
+// Age de l'objet
+Entier age ;</programlisting>
+          </listitem>
+
+          <listitem>
+            <para>Les commentaires de méthodes, qui précisent ce que fait la
+            méthode.</para>
+
+            <para>Ils précédent la déclaration de la méthode et sont de la
+            forme suivante&nbsp;:</para>
+
+            <programlisting>//////////////////////////
+// Change l'age de l'objet par _nouvelAge
+// Si ce nouvel age est négatif, lève l'exception ExceptionAgePasBon.
+void changerAge(const Entier&amp; _nouvelAge) ;</programlisting>
+
+            <para>La première ligne doit contenir au moins 10 caractères
+            <token>/</token>.</para>
+          </listitem>
+        </itemizedlist>
+
+        <para>D'autres commentaires sont par contre non-obligatoires mais
+        fortement recommandés&nbsp;:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>Les commentaires de regroupements de membres de
+            classes.</para>
+
+            <para>Il n'est pas rare que dans une classe un ensemble de
+            méthodes soient faites pour être utilisées dans le même contexte.
+            Conceptuellement, ce genre de regoupement doit correspondre à une
+            façon d'utiliser les objets de la classe. Par exemple, imaginons
+            que l'application ait 3 étapes distinctes, une phase
+            d'initialisation, une phase d'utilisation et enfin une phase de
+            finalisation&nbsp;: chaque classe se verrait attribuer des
+            méthodes pour chacune de ces phases, méthodes qui seraient
+            regroupées par phases. Notez que ce système ne permet pas à 2
+            groupes de partager une méthode.</para>
+
+            <para>Il est possible de les "distinguer" des autres membres à
+            l'aide du commentaire de regroupement, qui est de la forme
+            suivante&nbsp;:</para>
+
+            <programlisting>// ******************************************
+// GROUP: Initialisation d'une partie
+// ******************************************</programlisting>
+
+            <para>Les lignes 1 et 3 ne sont pas obligatoires, elles n'ont pour
+            but que de bien séparer les différents groupes.</para>
+
+            <example>
+              <title>D'autres exemples</title>
+
+              <programlisting>// ***************************************
+// GROUP: Utilisation en cours de jeu
+// ***************************************
+...
+// **************************************
+// GROUP: Finalisation
+// **************************************</programlisting>
+            </example>
+          </listitem>
+
+          <listitem>
+            <para>Les commentaires dans l'implantation pour préciser les
+            principales étapes d'un gros algorithme.</para>
+
+            <para>Ces commentaires ne sont pas traités automatiquement par des
+            outils, ils sont juste là pour les programmeurs. Ils doivent
+            précéder ce qu'ils commentent.</para>
+          </listitem>
+        </itemizedlist>
+
+        <para>Enfin, les commentaires doivent être écrits en même temps que ce
+        qu'ils commentent, même si cette règle est presque
+        invérifiable.</para>
+      </sect3>
+    </sect2>
+
+    <sect2>
+      <title>Modélisation orientée-objet</title>
+
+      <para>Les règles de cette section définissent quelle doit être la
+      structure des diagrammes de classes dans un langage comme C++.</para>
+
+      <para>L'idée générale est de faire correspondre le monde imaginaire et
+      le programme. Dans le cas du projet univers, le monde imaginaire est un
+      monde de vaisseaus, de pilotes, de planetes, etc...</para>
+
+      <sect3>
+        <title>Une classe est un ensemble d'objets du monde</title>
+
+        <para>Les classes concrètes modélisent des ensembles d'objets du monde
+        qui sont disjointes deux à deux et qui sont rigides, i.e., une fois
+        qu'on y est on y reste.</para>
+
+        <para>L'exemple suivant illustre la disjonction des classes "feuilles"
+        dans un arbre d'héritage.</para>
+
+        <example>
+          <title>Classes feuilles disjointes</title>
+
+          <para></para>
+        </example>
+
+        <para>Il faut faire très attention car une fois un objet C++ construit
+        dans une classe, il ne peut changer de classe. Donc chaque classe doit
+        représenter un ensemble d'objets du monde qui ne peuvent en sortir.
+        Ainsi, définir une classe de personnes jeunes ne marche pas si ces
+        personnes peuvent devenir vieilles&nbsp;: il faudrait alors que
+        l'objet C++ "sorte" de la classe.</para>
+      </sect3>
+
+      <sect3>
+        <title>Trois types de classes</title>
+
+        <para>Chaque classe doit être soit une classes de valeurs, soit une
+        classe d'objets abstraite soit une classe d'objets concrète.</para>
+
+        <para>Les seules classes pour lesquelles on écrit un destructeur sont
+        les classe d'objets abstraites. Pour toutes les autres le destructeur
+        par défaut suffit.</para>
+      </sect3>
+
+      <sect3>
+        <title>Héritage Public</title>
+
+        <para>Tous les héritages doivent être publics. Il est possible que
+        quelques héritages "virtuels" soient nécessaires.</para>
+      </sect3>
+
+      <sect3>
+        <title>Héritage de classes abstraites</title>
+
+        <para>Toutes les classes parentes d'une classe doivent être
+        abstraites.</para>
+      </sect3>
+
+      <sect3>
+        <title>Les classes abstraites ont des constructeurs protégés et un
+        destructeur virtuel non pur</title>
+
+        <para>Les classes abstraites ne peuvent être construites car elles
+        possèdent une méthode virtuelle pure (i.e., sans code). Toute
+        construction d'un objet d'une classe abstraite qui n'est pas un objet
+        d'une sous-classe concrète entraine une erreur de liaison à la
+        compilation. Le constructeur doit donc être "protected", pour pouvoir
+        quand même être appelé par les sous-classes.</para>
+
+        <para>L'intérêt d'une classe abstraite est que la grande majorité des
+        références aux objets de ses sous-classes se feront à travers des
+        références à cette classe abstraite. Le constructeur doit donc être
+        virtuel pour que le bon constructeur soit appelé, non pur pour des
+        raisons C++.</para>
+      </sect3>
+    </sect2>
+
+    <sect2>
+      <title>Règles sur C++</title>
+
+      <para>C++ hérite de C tout une panoplie de possibilités. Certaines sont
+      pratiques et d'autres des nids à bugs.</para>
+
+      <sect3>
+        <title>Une instruction par ligne</title>
+
+        <para>Chaque ligne doit contenir une seule instruction. Par exemple,
+        les déclarations de variables ne déclarent pas plusieurs variables sur
+        la même ligne. Les instructions C++ sont&nbsp;:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>une déclaration de variable&nbsp;:<programlisting>Entier nombreDeCopains = 0 ;</programlisting></para>
+          </listitem>
+
+          <listitem>
+            <para>une affectation&nbsp;:</para>
+
+            <programlisting>nombreDeCopains = 7 ;
+nombreDeCopains += 3 ;</programlisting>
+          </listitem>
+
+          <listitem>
+            <para></para>
+          </listitem>
+
+          <listitem>
+            <para>un appel de méthode/procédure&nbsp;:</para>
+
+            <para></para>
+          </listitem>
+
+          <listitem>
+            <para>un test&nbsp;:</para>
+          </listitem>
+
+          <listitem>
+            <para>une boucle while&nbsp;:</para>
+          </listitem>
+
+          <listitem>
+            <para>une boucle for&nbsp;:</para>
+          </listitem>
+
+          <listitem>
+            <para>un return&nbsp;:</para>
+          </listitem>
+
+          <listitem>
+            <para>un try catch&nbsp;:</para>
+          </listitem>
+        </itemizedlist>
+
+        <para>Toutes les instructions de contrôles doivent être suivies d'un
+        block { } même si ce block ne contient qu'une seule
+        instruction.</para>
+      </sect3>
+
+      <sect3>
+        <title>Pas de constantes drectement dans le code</title>
+
+        <para>Toutes les valeurs constantes devant se trouver dans le code
+        doivent être soit définies comme constantes C++ soit comme constantes
+        à l'aide du préprocesseur.</para>
+
+        <example>
+          <title>Exemples de constantes</title>
+
+          <programlisting>#define TAILLE_DES_PAQUETS 134
+const Entier LongeurMaximumDesChaines = 189 ;</programlisting>
+        </example>
+      </sect3>
+
+      <sect3>
+        <title>Classes C++</title>
+
+        <para>Les modifieurs <token>public</token>, <token>protected</token>,
+        <token>private</token> sont spécifiés dans cet ordre et sont
+        obligatoirement précisés.</para>
+
+        <example>
+          <title>Exemple de classe</title>
+
+          <programlisting>class Exemple
+{
+public:
+  ...
+protected:
+  ...
+private:
+  ...
+}</programlisting>
+
+          <para>Une classe d'objet dont les objets ne doivent pas être
+          répliqués ne possède pas de constructeur de copie public. Une
+          solution pour l'interdire est de déclarer un constructeur de copie
+          privé, de ne pas lui associer de code et de préciser qu'il est
+          interdit de copier l'objet. Il existe en effet des cas où on désire
+          interdire de copier un objet, par exemple, les objets de la classe
+          Reseau ne peuvent être copiés.</para>
+        </example>
+      </sect3>
+
+      <sect3>
+        <title>Modifiabilité</title>
+
+        <para>Les méthodes qui ne modifient pas l'objet receveur doivent être
+        specifiées <token>const</token>.</para>
+
+        <para>Les paramètres mono-valués d'une méthode qui ne sont pas
+        modifiés doivent être passés par référence constante <token>const
+        T&amp;</token>.</para>
+
+        <para>Les paramètres mono-valués d'une méthode qui sont modifiés par
+        la méthodes doivent être passés par association&nbsp;: <token>const
+        Association&lt; O &gt;&amp;</token>.</para>
+      </sect3>
+    </sect2>
+
+    <sect2>
+      <title>Règles sur les types</title>
+
+      <para>Le C++ étant une extension de C, il hérite à la fois ses bons
+      cotés et ses mauvais cotés. la notation [ ] notamment est complétement
+      dépassée tant elle est délicate à utiliser pour la gestion de mémoire.
+      Pour définir un tableau, il faut utiliser un des types génériques de
+      tableau. En fonction de l'objectif et de la situation il convient
+      d'utiliser certains types plutôt que d'autres.</para>
+
+      <para>Ces règles sont très contraignantes. Elles ont essentiellement
+      deux objectifs&nbsp;:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>Supprimer les fuites de mémoires.</para>
+
+          <para>L'expliciation de la différence entre composition et
+          association, qui existent tous deux en UML, ainsi que les règles
+          ci-dessous permettent de supprimer totalement les fuites de
+          mémoire.</para>
+        </listitem>
+
+        <listitem>
+          <para>Expliciter la façon dont on manipule les choses.</para>
+
+          <para>La différence objet/valeur et mono-valué/multi-valué permet de
+          préciser de quoi on parle.</para>
+        </listitem>
+      </itemizedlist>
+
+      <para>Ces règles sont la partie la plus importante de ce
+      document.</para>
+
+      <sect3>
+        <title>Les attributs de classes et les variables</title>
+
+        <para>Soit O et O' deux classes d'objets et V une classe de valeurs,
+        les différents types des variables et des attributs possibles
+        sont&nbsp;les suivants&nbsp;:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>V</para>
+          </listitem>
+
+          <listitem>
+            <para>Association&lt; O &gt;</para>
+          </listitem>
+
+          <listitem>
+            <para>Composition&lt; O &gt;</para>
+          </listitem>
+
+          <listitem>
+            <para>EnsembleValeur&lt; V &gt;</para>
+          </listitem>
+
+          <listitem>
+            <para>EnsembleAssociation&lt; O &gt;</para>
+          </listitem>
+
+          <listitem>
+            <para>EnsembleComposition&lt; O &gt;</para>
+          </listitem>
+
+          <listitem>
+            <para>FonctionObjetValeur&lt; O, V &gt;</para>
+          </listitem>
+
+          <listitem>
+            <para>FonctionValeurValeur&lt; V, V' &gt;</para>
+          </listitem>
+
+          <listitem>
+            <para>FonctionCompositionObjetObjet&lt; O, O' &gt;</para>
+          </listitem>
+
+          <listitem>
+            <para>FonctionCompositionValeurObjet&lt; V, O &gt;</para>
+          </listitem>
+
+          <listitem>
+            <para>FonctionAssociationObjetObjet&lt; O, O' &gt;</para>
+          </listitem>
+
+          <listitem>
+            <para>FonctionAssociationValeurObjet&lt; V, O &gt;</para>
+          </listitem>
+        </itemizedlist>
+
+        <para>Pour choisir entre ces différents types il a trois questions à
+        se poser :</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>Y a t-il un ou plusieurs objets référencés ?</para>
+
+            <example>
+              <title>Exemples</title>
+
+              <para>Une voiture possède 4 roues, on utilisera donc un type
+              EnsembleXXX&lt; Roue &gt; comme type de l'attribut roues dans la
+              classe voiture.</para>
+
+              <para>Par contre une voiture n'à qu'un seul volant, on utilisera
+              donc soit une classe de valeur volant, soit une association soit
+              une composition.</para>
+            </example>
+          </listitem>
+
+          <listitem>
+            <para>Ces objets sont-ils des composants de l'objet qui les
+            référence ?</para>
+
+            <para>Un objet est composant d'un autre s'il est une partie
+            constituante de cet objet.</para>
+
+            <example>
+              <title>Exemple de composition</title>
+
+              <para>Une roue est une partie d'une voiture, il y a 4 roues,
+              donc on mettra un attribut de type EnsembleComposition&lt; Roue
+              &gt; dans la classe Voiture.</para>
+            </example>
+          </listitem>
+
+          <listitem>
+            <para>Est-ce que les éléments sont indicés par d'autres éléments
+            ?</para>
+
+            <para>La question est de savoir si oSoit O et O' deux classes
+            d'objets et V une classe de valeurs, n veut quelque chose qui
+            ressemble à un tableau, ou à une fonction, au sens mathématique.
+            Un tableau de T est une fonction des entiers entre 0 et n vers
+            T.</para>
+
+            <example>
+              <title>Exemple de fonction</title>
+
+              <para>Chaque conducteur de la voiture a déjà conduit cette
+              voiture un certain nombre de fois. On mettra alors un attribut
+              de type FonctionObjetValeur&lt; Conducteur, Entier &gt; dans la
+              classe voiture pour modéliser la fonction qui à chaque
+              conducteur associe le nombre de fois qu'il a conduit cette
+              voiture. Remarquez qu'on aurait pu mettre une autre fonction
+              modélisant la même notion dans la classe Conducteur.</para>
+            </example>
+          </listitem>
+        </itemizedlist>
+
+        <para>Très exceptionnellement, on pourra aussi utiliser des types de
+        listes, mais ceci devra être très ponctuel, et il faudra alors
+        justifier que l'ordre des éléments est vraiement important. On
+        utilisera alors&nbsp;:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>ListeValeur&lt; V &gt;</para>
+          </listitem>
+
+          <listitem>
+            <para>ListeAssociation&lt; O &gt;</para>
+          </listitem>
+
+          <listitem>
+            <para>ListeComposition&lt; O &gt;</para>
+          </listitem>
+        </itemizedlist>
+
+        <para>En général c'est une mauvaise idée d'utiliser une liste car cela
+        peut être remplacé par une fonction des entiers vers les
+        éléments.</para>
+
+        <para>Les types génériques ci-dessus ne sont pas imbriqués les uns
+        dans les autres&nbsp;: pas de listes de listes ou d'ensemble
+        d'ensembles. Ceci n'entrave en rien le pouvoir d'expression, il suffit
+        de rajouter une classe intermédiaire.</para>
+      </sect3>
+
+      <sect3>
+        <title>Les paramètres des méthodes</title>
+
+        <para>Soit O et O' deux classes d'objets et V une classe de valeurs,
+        les paramètres des méthodes doivent être d'un des différents types
+        suivants&nbsp;:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>const V&amp;</para>
+          </listitem>
+
+          <listitem>
+            <para>const Association&lt; O &gt;&amp;</para>
+          </listitem>
+
+          <listitem>
+            <para>O*</para>
+          </listitem>
+
+          <listitem>
+            <para>const O&amp;</para>
+          </listitem>
+
+          <listitem>
+            <para>const EnsembleAssociation&lt; O &gt;&amp;</para>
+          </listitem>
+
+          <listitem>
+            <para>const EnsembleValeur&lt; V &gt;&amp;</para>
+          </listitem>
+
+          <listitem>
+            <para>const FonctionObjetValeur&lt; O, V &gt;&amp;</para>
+          </listitem>
+
+          <listitem>
+            <para>const FonctionValeurValeur&lt; V, V' &gt;&amp;</para>
+          </listitem>
+
+          <listitem>
+            <para>const FonctionAssociationObjetObjet&lt; O, O'
+            &gt;&amp;</para>
+          </listitem>
+
+          <listitem>
+            <para>const FonctionAssociationValeurObjet&lt; V, O
+            &gt;&amp;</para>
+          </listitem>
+        </itemizedlist>
+
+        <para>La règle générale est que le plus possible des paramètres sont
+        passé en const T&amp;, pour des raisons d'optimisation de C++.
+        Ensuite, une composition ne peut être passée en paramètre. Le type
+        pointeur sur classe d'objet O* sert à donner la responsabilité d'un
+        objet à quelqu'un. C'est d'ailleurs le type du paramètre de add dans
+        EnsembleComposition&lt; O &gt;.</para>
+      </sect3>
+
+      <sect3>
+        <title>Types de retours des méthodes</title>
+
+        <para>Soit O et O' deux classes d'objets et V une classe de valeurs,
+        les types de retours des méthodes doivent être d'un des différents
+        types suivants&nbsp;:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>V</para>
+          </listitem>
+
+          <listitem>
+            <para>O*</para>
+          </listitem>
+
+          <listitem>
+            <para>Association&lt; O &gt;</para>
+          </listitem>
+
+          <listitem>
+            <para>EnsembleAssociation&lt; O &gt;</para>
+          </listitem>
+
+          <listitem>
+            <para>EnsembleValeur&lt; V &gt;</para>
+          </listitem>
+
+          <listitem>
+            <para>FonctionObjetValeur&lt; O, V &gt;</para>
+          </listitem>
+
+          <listitem>
+            <para>FonctionValeurValeur&lt; V, V' &gt;</para>
+          </listitem>
+
+          <listitem>
+            <para>FonctionAssociationObjetObjet&lt; O, O' &gt;</para>
+          </listitem>
+
+          <listitem>
+            <para>FonctionAssociationValeurObjet&lt; O, O' &gt;</para>
+          </listitem>
+        </itemizedlist>
+
+        <para>Le type de retours O* sert aux fonctions "fabriquante". C'est
+        notamment le type de retours des constructeurs, fonctions fabriquantes
+        par excellence.</para>
+      </sect3>
+    </sect2>
+
+    <sect2>
+      <title>La programmation orientée évenements</title>
+
+      <para>Ogre est orienté évennement, c'est à dire qu'à chaque fois qu'un
+      évenement précis se produit, une opération programmable est effectuée.
+      Il s'agit alors de dire quels sont les événements auxquels on
+      s'interesse et ce qu'il faut faire</para>
+
+      <para>TODO</para>
+    </sect2>
+  </sect1>
+
+  <sect1>
+    <title>Les test</title>
+
+    <para>Les tests dits unitaires permettent de garantir qu'un code source
+    contient peu de boggues.</para>
+
+    <sect2>
+      <title>Outil</title>
+
+      <para>L'outil utilisé pour les test est <ulink
+      url="???">Cppunit</ulink>. Cette biliothèque C++ permet d'automatiser le
+      lancement des tests. La mise en place d'une série de test pour un module
+      <replaceable>nom de module</replaceable> est assez simple :</para>
+
+      <procedure>
+        <step>
+          <para>Recopier le répértoire ... à l'intérieur du répértoire
+          correspondant au module <replaceable>nom de
+          module</replaceable>.</para>
+        </step>
+
+        <step>
+          <para>Construire un module correspondant à ce répertoire. Le nom du
+          module de test est Test_<replaceable>nom de
+          module</replaceable>.</para>
+        </step>
+
+        <step>
+          <para>Ajouter des classes de test dans ce module.</para>
+        </step>
+      </procedure>
+    </sect2>
+
+    <sect2>
+      <title>Exemple de classe de test</title>
+
+      <para></para>
+
+      <example>
+        <title>Exemple d'une classe de test</title>
+
+        <para>Une classe qui teste une autre classe.</para>
+
+        <programlisting>// test_reseau.h
+
+#ifndef TEST_H
+#define TEST_H
+
+// CppUnit
+#include &lt;cppunit/extensions/HelperMacros.h&gt;
+
+/*
+CLASS
+  TestReseau
+
+  Teste quelque chose.
+*/
+class TestReseau : public CppUnit::TestFixture {
+protected:
+
+  
+  // ****************************
+  // GROUP: Tests proprement dits
+  // ****************************
+
+  
+  ///////////////
+  // Teste la création d'une partie
+  void testCreerPartie() ;
+
+  ...
+
+
+  // ********************
+  // GROUP: Mise en place
+  // ********************
+
+
+  CPPUNIT_TEST_SUITE() ;
+
+  // chaque procédure de test doit être "enregistrée"
+  CPPUNIT_TEST(testCreerPartie) ;
+
+  CPPUNIT_TEST_SUITE_END() ;
+
+public:
+
+  ///////////////
+  // Initialisation du test
+  void setUp() ;
+
+  ///////////////
+  // Desinitialisation du test
+  void tearDown() ;
+
+
+private:
+
+  // ici on met les données du test
+};
+
+
+#endif // _OK_DOMAIN_TEST_H_</programlisting>
+
+        <para></para>
+
+        <programlisting>// test_reseau.cpp
+
+#include "test_reseau.h"
+
+// la classe de test est enregistrée
+CPPUNIT_TEST_SUITE_REGISTRATION(TestReseau) ;  
+
+
+// GROUP: Procédures de test proprement dites
+
+
+
+// ********************
+// GROUP: Mise en place
+// ********************
+
+void OkPassTest::setUp()
+{
+  // 
+}
+
+void OkPassTest::tearDown()
+{
+  // 
+}</programlisting>
+      </example>
+    </sect2>
+  </sect1>
+
+  <sect1>
+    <title>Outils de développements pour C++</title>
+
+    <sect2>
+      <title>Sous Windows</title>
+
+      <sect3>
+        <title>Dev C++</title>
+
+        <para><ulink url="http://www.bloodshed.net/dev/index.html">Dev
+        C++</ulink> est un environnement de développement C++ open source. Il
+        utilise classiquement <ulink url="???">Mingw</ulink> comme
+        compilateur, qui est un portage de gcc, mais il est possible de lui
+        imposer l'utilisation d'autres compilateurs.</para>
+
+        <para>Dev C++ possède un système de devpacks, dont notament un pour
+        <ulink
+        url="http://homepage.ntlworld.com/rob_edwards/Ogre.DevPackage">Ogre</ulink>
+        et un pour <ulink
+        url="http://homepage.ntlworld.com/rob_edwards/Devil.DevPackage">Devil</ulink>
+        une bibliothèque dont dépend Ogre.</para>
+      </sect3>
+    </sect2>
+
+    <sect2>
+      <title>Sous Linux</title>
+
+      <para>Automake/Autoconf et gcc.</para>
+    </sect2>
+  </sect1>
+
+  <glossary>
+    <glossdiv>
+      <title>Glossaire des termes</title>
+
+      <glossentry>
+        <glossterm>Developpeur</glossterm>
+
+        <glossdef>
+          <para>Personne ecrivant du code source sur le projet.</para>
+        </glossdef>
+      </glossentry>
+
+      <glossentry>
+        <glossterm>Code source</glossterm>
+
+        <glossdef>
+          <para>Texte</para>
+        </glossdef>
+      </glossentry>
+
+      <glossentry>
+        <glossterm>Valeur</glossterm>
+
+        <glossdef>
+          <para>Se dit d'un objet C++ instance d'une classe de valeurs.</para>
+        </glossdef>
+      </glossentry>
+
+      <glossentry>
+        <glossterm>Objet C++</glossterm>
+
+        <glossdef>
+          <para>Un objet au sens de C++.</para>
+        </glossdef>
+      </glossentry>
+
+      <glossentry>
+        <glossterm>Objet</glossterm>
+
+        <glossdef>
+          <para>Un objet C++ qui est manipulé par référence.</para>
+        </glossdef>
+      </glossentry>
+    </glossdiv>
+
+    <bibliography>
+      <bibliomixed>Bibliographie</bibliomixed>
+
+      <biblioentry>
+        <author>
+          <lineage>Mats Henricson</lineage>
+        </author>
+
+        <author>
+          <lineage>Erik Nyquist</lineage>
+        </author>
+
+        <title><ulink
+        url="http://www.doc.ic.ac.uk/lab/cplus/c++.rules/">Programming in C++,
+        Rules and Recommendations</ulink></title>
+      </biblioentry>
+
+      <biblioentry>
+        <author>
+          <lineage><ulink
+          url="http://perso.club-internet.fr/philippe.prados/index.html">Philippe
+          Prados</ulink></lineage>
+        </author>
+
+        <title><ulink url="???">La qualité en C++</ulink></title>
+
+        <editor>
+          <lineage>Eyrolles</lineage>
+        </editor>
+      </biblioentry>
+    </bibliography>
+  </glossary>
+</article>
