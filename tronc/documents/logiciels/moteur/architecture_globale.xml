@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN"
 "http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd">
-<article>
+<article lang="Français">
   <title>Architecture Globale</title>
 
   <articleinfo>
-    <orgname>Equipe Projet Univers</orgname>
+    <orgname>Équipe Projet Univers</orgname>
 
     <author>
       <personname>
@@ -17,10 +17,30 @@
       <email>drahpal@free.fr</email>
     </author>
 
-    <date></date>
+    <revhistory>
+      <revision>
+        <revnumber>0.1</revnumber>
+
+        <date>03 septembre 2004</date>
+
+        <revdescription>
+          <para>Création initiale</para>
+        </revdescription>
+      </revision>
+
+      <revision>
+        <revnumber>0.2</revnumber>
+
+        <date>27 novembre 2004</date>
+
+        <revdescription>
+          <para>Les noms anglais deviennent français.</para>
+        </revdescription>
+      </revision>
+    </revhistory>
 
     <legalnotice>
-      <para>Ce document est sous license <ulink
+      <para>Ce document est sous licence <ulink
       url="http://www.gnu.org/copyleft/fdl.html">GNU Free Documentation
       License</ulink></para>
     </legalnotice>
@@ -29,10 +49,10 @@
   <sect1>
     <title>Introduction</title>
 
-    <para>Ce document concerne l'architecture du moteur du jeu.</para>
+    <para>Ce document décrit l'architecture globale du moteur du jeu.</para>
 
-    <para>Il s'agit de modulariser au mieux le moteur afin de faciliter la
-    gestion du moteur, les évolutions futures, et la répartition des
+    <para>Il s'agit de découper au mieux le moteur en différents modules afin
+    d'en faciliter la gestion, les évolutions futures, et la répartition des
     tâches.</para>
   </sect1>
 
@@ -42,120 +62,123 @@
     <sect2>
       <para>Le moteur est séparé comme suit:</para>
 
-      <orderedlist><listitem><para><phrase>CORE : le noyau, c'est le module
-      principal du moteur</phrase></para></listitem><listitem><para>UNIVERSE :
+      <orderedlist><listitem><para><phrase>NOYAU : le noyau, c'est le module
+      principal du moteur</phrase></para></listitem><listitem><para>UNIVERS :
       module univers, gère la configuration du jeu, la gestion du scénario,
-      les objets concernant l'univers</para></listitem><listitem><para>INPUT :
-      module des entrées, gère tout ce qui touche au contrôle utilisateur
-      (clavier, souris et joystick)</para></listitem><listitem><para>DISPLAY :
-      module d'affichage, gère l'affichage 3D et
-      2D</para></listitem><listitem><para>NETWORK : module de réseau, gère la
-      communication client / serveur</para></listitem><listitem><para>SOUND :
-      module de son &amp; musique</para></listitem><listitem><para>IA : module
-      d'intelligence artificielle</para></listitem><listitem><para>PHYSIC:
-      module physique, gère tout le modèle physique du
-      jeu</para></listitem></orderedlist>
+      les objets concernant l'univers</para></listitem><listitem><para>ENTRÉE
+      : module des entrées, gère tout ce qui touche au contrôle utilisateur
+      (clavier, souris et joystick)</para></listitem><listitem><para>AFFICHAGE
+      : module d'affichage, gère l'affichage 3D et
+      2D</para></listitem><listitem><para>RÉSEAU : module de réseau, gère la
+      communication entre les clients et les
+      serveurs</para></listitem><listitem><para>SON : module de son et de
+      musique</para></listitem><listitem><para>IA : module d'intelligence
+      artificielle</para></listitem><listitem><para>PHYSIQUE: module physique,
+      gère tout le modèle physique du jeu</para></listitem></orderedlist>
     </sect2>
   </sect1>
 
   <sect1>
     <title>Description des modules</title>
 
-    <para></para>
-
     <sect2>
-      <title>CORE, le noyau</title>
+      <title>NOYAU, le noyau</title>
 
       <para>Il comporte le strict nécessaire au fonctionnement du jeu, il n'y
       a ni affichage, ni son, ni action de joueur, ni mission, juste le jeu en
       lui même. Il comprend la gestion des états (menu, phase de jeu,
       configuration, etc...), la gestion des autres modules, les classes de
-      base et leur gestion, le système de gestion évènementielle, la gestion
+      base et leur gestion, le système de gestion événementielle, la gestion
       de la mémoire et le chargement des fichiers</para>
     </sect2>
 
     <sect2>
-      <title>UNIVERSE, l'univers du jeu</title>
+      <title>UNIVERS, l'univers du jeu</title>
 
-      <para>C'est en fait une surcouche du module CORE. C'est lui qui va faire
-      que le jeux est celui qu'il doit être, il s'occupera de la gestion des
-      joueurs, des missions. C'est grâce à lui qu'on pourra facilement générer
-      des MOD. Dans la suite du document, je ne parlerais que de CORE.</para>
+      <para>C'est en fait une sur couche du module NOYAU. C'est lui qui va
+      faire que le jeux est celui qu'il doit être, il s'occupera de la gestion
+      des joueurs, des missions. C'est grâce à lui qu'on pourra facilement
+      générer des variantes. Dans la suite du document, je ne parlerais que de
+      NOYAU.</para>
     </sect2>
 
     <sect2>
-      <title>INPUT, les entrées utilisateur</title>
+      <title>ENTRÉE, les entrées utilisateur</title>
 
       <para>Ce module gère les entrées utilisateur et envoi les informations
-      au module CORE pour action.</para>
+      au module NOYAU pour action.</para>
 
-      <para>Sa communication avec le CORE ne se résume pas à passer la touche
-      préssée ou le mouvement du joystick, mais plutôt d'envoyer une
-      information de type "demande d'accéleration", "affichage de la console"
-      ou encore "envoi d'une communication".</para>
+      <para>Sa communication avec le NOYAU ne se résume pas à passer la touche
+      pressée ou le mouvement du joystick, mais plutôt d'envoyer une
+      information de type action, par exemple : "demande d'accélération",
+      "affichage de la console" ou encore "envoi d'une communication".</para>
 
-      <para>Ce module doit donc être configurable par le CORE pour lui
-      affecter les entrées correspondantes à ces informations. Cette
-      configuration serait multi-mode, un mode console, un mode menu, un mode
-      vol, etc... chaque mode aura une grille de correspondance
-      entrée/information.</para>
+      <para>Ce module doit donc pouvoir être configuré par le NOYAU pour lui
+      affecter les entrées correspondantes à ces actions. Cette configuration
+      serait multi-mode, un mode console, un mode menu, un mode vol, etc...
+      chaque mode aura une grille de correspondance entrée/action.</para>
     </sect2>
 
     <sect2>
-      <title>DISPLAY, l'affichage</title>
+      <title>AFFICHAGE, l'affichage</title>
 
-      <para>Il se charge uniquement de l'affichage d'un état de CORE.</para>
+      <para>Il se charge uniquement de l'affichage d'un état de NOYAU.</para>
 
-      <para>Le module display ne fait que lire les informations du CORE, il
-      n'agit pas sur elles. Plus précisément le CORE dispose d'objet
-      affichable (Renderable) et d'autre non affichable(Non-Renderable). Les
-      objets affichable possèderont des propriétés obligatoires telle que la
-      source (mesh) et sa position dans l'espace (ceci pour la phase de jeu).
-      Ces ces informations que le module DISPLAY va lire et traduire en
-      information graphique et l'afficher sur l'écran. Il y a aussi d'autres
-      type d'objet affichable, par exemple, un menu ou tout autre élément
-      visuel.</para>
+      <para>Le module AFFICHAGE ne fait que lire les informations du NOYAU, il
+      n'agit pas sur elles. Plus précisément le NOYAU dispose d'objets pouvant
+      être affichés (<foreignphrase lang="anglais">Renderable</foreignphrase>)
+      et d'autres non (<foreignphrase
+      lang="anglais">Non-Renderable</foreignphrase>). </para>
+
+      <para>Les objets pouvant être affichés posséderont des propriétés
+      obligatoires telle que la source (généralement un mesh) et sa position
+      dans l'espace local d'affichage (ceci pour la phase de jeu). Le module
+      AFFICHAGE va lire ces informations et les traduire en informations
+      graphique et les afficher sur l'écran. </para>
+
+      <para>Il y a aussi d'autres type d'objet pouvant être affichés
+      représentant des informations abstraites, par exemple, un menu, le
+      résumé de l'état d'un vaisseau, la notification d'une communication ou
+      tout autre élément visuel.</para>
     </sect2>
 
     <sect2>
-      <title>NETWORK, la communication réseau</title>
+      <title>RÉSEAU, la communication réseau</title>
 
       <para>Il se charge de la gestion du jeu en réseau.</para>
 
-      <para>Il interagit avec CORE dans le sens où il lit certaines
-      informations pour les envoyer au serveur, et le serveur lui renvoit
-      d'autres informations pour actualiser son état.</para>
+      <para>Il interagit avec NOYAU pour permettre de partager les
+      informations sur un réseau.</para>
     </sect2>
 
     <sect2>
-      <title>SOUND, l'audio</title>
+      <title>SON, l'audio</title>
 
-      <para>De la même manière que le module DISPLAY, il ne fait que lire des
-      informations du CORE pour diffuser du son.</para>
+      <para>De la même manière que le module AFFICHAGE, il ne fait que lire
+      des informations du NOYAU pour diffuser du son.</para>
 
-      <para>Il s'occupe également de la diffusion des musiques d'ambiance
-      (Background Sound), donc de la lecture de fichier audio ou de CD
-      audio</para>
+      <para>Il s'occupe également de la diffusion des musiques d'ambiance, par
+      exemple de la lecture de fichier audio ou de CD audio</para>
     </sect2>
 
     <sect2>
       <title>IA, l'intelligence artificielle</title>
 
-      <para>Ce module est similaire au module INPUT dans la mesure où il est
-      sensé commander des objets de CORE en y envoyant des informations. La
+      <para>Ce module est similaire au module ENTRÉE dans la mesure où il est
+      sensé commander des objets de NOYAU en y envoyant des informations. La
       différence réside dans le fait qu'il reçoit également des informations
-      sur l'état de CORE pour remplacer le fait qu'un utilisateur le voit
+      sur l'état de NOYAU pour remplacer le fait qu'un utilisateur le voit
       directement à l'écran.</para>
     </sect2>
 
     <sect2>
-      <title>PHYSIC, le modèle physique</title>
+      <title>PHYSIQUE, le modèle physique</title>
 
-      <para>Ce module gère la manière dont les objets de CORE vont réagir aux
-      informations fournies par INPUT et IA.</para>
+      <para>Ce module gère la manière dont les objets de NOYAU vont réagir aux
+      informations fournies par ENTRÉE et IA.</para>
 
       <para>Il doit donc gérer les effets gravitationnels, atmosphérique, les
-      phénomènes d'inertie, de voil (noir/rouge) et éventuellement il doit
+      phénomènes d'inertie, de voile (noir/rouge) et éventuellement il doit
       gérer les collisions.</para>
     </sect2>
   </sect1>
@@ -163,35 +186,36 @@
   <sect1>
     <title>Module et implémentation</title>
 
-    <para>Le module CORE est le module central du moteur, celui là ne peut
+    <para>Le module NOYAU est le module central du moteur, celui là ne peut
     être remplacé, alors que les autres peuvent avoir des implémentations
-    differentes.</para>
+    différentes.</para>
 
-    <para>Par exemple, le module DISPLAY peut très bien être une
+    <para>Par exemple, le module AFFICHAGE peut très bien être une
     implémentation utilisant le moteur 3D OGRE3D ou une autre implémentation
     utilisant Irlich. Ces 2 implémentations seront valide à partir du moment
-    où elle respecte l'interface standard du module DISPLAY.</para>
+    où elle respecte l'interface standard du module AFFICHAGE.</para>
 
     <para>Chaque module possède donc une interface standard que chaque
-    implémentation doit respecter afin que CORE puisse communiquer. Il se peut
-    toutefois qu'un module ait besoin de communiquer directement avec un autre
-    sans passer par le CORE, pour cela, les modules peuvent disposer d'autres
-    interfaces.</para>
+    implémentation doit respecter afin que NOYAU puisse communiquer. Il se
+    peut toutefois qu'un module ait besoin de communiquer directement avec un
+    autre sans passer par le NOYAU, pour cela, les modules peuvent disposer
+    d'autres interfaces.</para>
   </sect1>
 
   <sect1>
     <title>Réalisation technique</title>
 
-    <para>Au final, le plus interessant serait que chaque module (sauf CORE)
+    <para>Au final, le plus intéressant serait que chaque module (sauf NOYAU)
     soit une librairie dynamique (DLL pour Windows, DSO pour Linux), qui
-    serait chargé par un executable. L'utilisateur pourrait choisir à loisir
-    les implémentations suivant sa configuration ou ses propres gouts. Cela
+    serait chargé par un exécutable. L'utilisateur pourrait choisir à loisir
+    les implémentations suivant sa configuration ou ses propres goûts. Cela
     permet à d'autres de développer des implémentations offrant d'autres
     possibilités.</para>
 
     <para>Mais dans un premier temps, tout les modules seront dans un seul
-    executable, la séparation modulaire se fera par le biais de l'utilisation
-    de namespaces distinct reprenant le nom du module. Sans oublier d'utiliser
-    les interfaces standard.</para>
+    exécutable, la séparation modulaire se fera par le biais de l'utilisation
+    de <foreignphrase lang="english">namespaces</foreignphrase> distinct
+    reprenant le nom du module. Sans oublier d'utiliser les interfaces
+    standard.</para>
   </sect1>
 </article>
