@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Projet Univers                                  *
+ *   Copyright (C) 2004 by Equipe Projet Univers                           *
  *   rogma.boami@free.fr                                                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,9 +17,55 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include "test_ensemble_association.h"
-
-CPPUNIT_TEST_SUITE_REGISTRATION(TestEnsembleAssociation) ;
 
 
+#ifndef PU_EXCEPTION_BASE_H
+#define PU_EXCEPTION_BASE_H
 
+
+
+#include "chaine.h"
+
+#include "exception.h"
+
+
+namespace ProjetUnivers {
+  
+  namespace Base {
+  
+  
+    /*
+    CLASS
+      ExceptionBase
+    
+      Classe des exceptions utilisées dans le module Base.
+    
+    
+    */
+    class ExceptionBase : public Exception {
+    public:
+
+      ////////////////
+      // Constructeur.
+      ExceptionBase(const Chaine& _message) ;
+
+      ////////////////
+      // Constructeur de copie, le constructeur de copie est obligatoire
+      // pour les exceptions.
+      ExceptionBase(const ExceptionBase& x) ;
+    
+      ////////////////
+      // Message d'erreur correspondant à l'exception.
+      Chaine Message() const ;
+    
+    
+    protected:
+    
+    
+    
+    };
+
+  }
+}
+
+#endif

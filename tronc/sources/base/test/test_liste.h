@@ -1,20 +1,22 @@
-//*******************************************************************
-//              
-//  FILE:       ob_list_test.h
-//              
-//  AUTHOR:     Mathieu Roger
-//              
-//  PROJECT:    baseTest
-//              
-//  COMPONENT:  -
-//              
-//  DATE:       19.07.2003
-//              
-//  COMMENTS:   -
-//              
-//              
-//*******************************************************************
-
+/***************************************************************************
+ *   Copyright (C) 2004 by Projet Univers                                  *
+ *   rogma.boami@free.fr                                                   *
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program; if not, write to the                         *
+ *   Free Software Foundation, Inc.,                                       *
+ *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+ ***************************************************************************/
 
 #ifndef _OB_LIST_TEST_H_
 #define _OB_LIST_TEST_H_
@@ -23,29 +25,19 @@
 // Includes
 #include <cppunit/extensions/HelperMacros.h>
 
-#include "ob_composition_list.h"
+#include "liste_composition.h"
 
-#include "ob_association_list.h"
-
-
-// une classe comme ça
-class ObElement {
-public:
-
-  ObInt valeur ;
+#include "liste_association.h"
 
 
-  ObElement(const ObInt _e) ;
-
-};
-
+namespace ProjetUnivers::Base::Test {
 
 
 /*
 CLASS
-  ObListTest
+  TestListe
 */
-class ObListTest : public CppUnit::TestFixture {
+class TestListe : public CppUnit::TestFixture {
 protected:
 
   
@@ -73,7 +65,7 @@ protected:
   // ********************
 
 
-  CPPUNIT_TEST_SUITE(ObListTest) ;
+  CPPUNIT_TEST_SUITE(TestListe) ;
 
   CPPUNIT_TEST(testListCopy) ;
   CPPUNIT_TEST(testList) ;
@@ -94,14 +86,26 @@ public:
 
 private:
 
+  // une classe comme ça
+  class Element {
+  public:
+  
+    Entier valeur ;
+  
+  
+    Element(const Entier _e)
+    : valeur(_e)
+    {}
+  };
 
-	ObAssociationList< ObElement > f();
+	ListeAssociation< Element > f();
 
   // une liste 
-  ObCompositionList< ObElement > liste ;
+  EnsembleComposition< Element > liste ;
 
 };
 
+}
 #endif // _OB_LIST_TEST_H_
 
 

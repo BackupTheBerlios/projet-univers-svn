@@ -1,21 +1,39 @@
-// ob_list_test.cpp
+/***************************************************************************
+ *   Copyright (C) 2004 by Projet Univers                                  *
+ *   rogma.boami@free.fr                                                   *
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program; if not, write to the                         *
+ *   Free Software Foundation, Inc.,                                       *
+ *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+ ***************************************************************************/
 
-#include "ob_list_test.h"
+#include "test_liste.h"
 
-#include "ob_association_list.h"
-#include "ob_association_list_iterator.h"
+#include "liste_association.h"
+#include "iterateur_list_association.h"
 
 
 CPPUNIT_TEST_SUITE_REGISTRATION(ObListTest) ;
 
 
-void ObListTest::testDestroy()
+void ListTest::testDestroy()
 {
 	// 
-  ObCompositionList< ObElement > liste2 ;
+  CompositionList< Element > liste2 ;
 
-  ObComposition< ObElement > element1(new ObElement(1)) ;
-  ObComposition< ObElement > element2(new ObElement(2)) ;
+  Composition< Element > element1(new Element(1)) ;
+  Composition< Element > element2(new Element(2)) ;
 
   liste2.add_first(element1.release()) ;
   liste2.add_first(element2.release()) ;
@@ -24,18 +42,17 @@ void ObListTest::testDestroy()
 }
 
 
-ObElement::ObElement(const ObInt _e)
-: valeur(_e)
-{}
+Element::Element(const Int _e)
 
 
-void ObListTest::testList()
+
+void TestListe::testList()
 {
 	// 
-  ObAssociationList< ObElement > temp ;
+  AssociationList< Element > temp ;
 
-  ObComposition< ObElement > element1(new ObElement(1)) ;
-  ObComposition< ObElement > element2(new ObElement(2)) ;
+  Composition< Element > element1(new Element(1)) ;
+  Composition< Element > element2(new Element(2)) ;
 
   temp.add_first(element1) ;
   temp.add_first(element2) ;
@@ -45,10 +62,10 @@ void ObListTest::testList()
   CPPUNIT_ASSERT(temp.contains(element1)) ;
   CPPUNIT_ASSERT(temp.contains(element2)) ;
 
-  ObInt resultat(0) ;
+  Int resultat(0) ;
 
   for(
-  ObAssociationListIterator< ObElement > i(temp) ;
+  AssociationListIterator< Element > i(temp) ;
   i.valid() ;
   ++i)
 
@@ -61,23 +78,23 @@ void ObListTest::testList()
 
 
 
-ObAssociationList< ObElement > ObListTest::f() 
+AssociationList< Element > TestListe::f() 
 {
 
   return liste ;
 }
 
 
-void ObListTest::testListCopy()
+void TestListe::testListCopy()
 {
 
 
-  ObInt resultat(0) ;
+  Int resultat(0) ;
 
 
 	// itération sur une liste temporaire
   for(
-  ObAssociationListIterator< ObElement > i(f()) ; 
+  AssociationListIterator< Element > i(f()) ; 
   i.valid() ;
   ++i)
   
@@ -89,7 +106,7 @@ void ObListTest::testListCopy()
   resultat = 0 ;
 
   for(
-  ObAssociationListIterator< ObElement > j(liste) ; 
+  AssociationListIterator< Element > j(liste) ; 
   j.valid() ;
   ++j)
   
@@ -100,16 +117,16 @@ void ObListTest::testListCopy()
 
 }
 
-void ObListTest::setUp()
+void TestListe::setUp()
 {
 	// 
 
-  liste.add_first(new ObElement(1)) ;
-  liste.add_first(new ObElement(2)) ;
+  liste.add_first(new Element(1)) ;
+  liste.add_first(new Element(2)) ;
 
 }
 
-void ObListTest::tearDown()
+void TestListe::tearDown()
 {
 	// 
 }

@@ -54,16 +54,19 @@ namespace ProjetUnivers {
     
       ////////////////////
       // Sous état éventuels.
-      EnsembleComposition< EtatDeJeu > sousEtats ;
+      EnsembleComposition< Etat > sousEtats ;
             
-    
+      //////////////////////
+      // Sur état éventuel.
+      Association< Etat > surEtat ;
+      
       ///////////////////
       // Donnée utilisateur.
       Composition< Modele > modele ;
       
       ///////////////////
-      //
-      Composition<Controle> controle ;
+      // 
+      Composition< Controle > controle ;
       
       //////////////////
       // Ce qu'il faut afficher à l'écran pour cet état.

@@ -1,19 +1,22 @@
-//*******************************************************************
-//              
-//  FILE:       pretty_print.h
-//              
-//  AUTHOR:     Mathieu ROGER
-//              
-//  PROJECT:    base
-//              
-//  COMPONENT:  -
-//              
-//  DATE:       13.12.2002
-//              
-//  COMMENTS:   Des définitions pour un affichage joli.
-//              
-//              
-//*******************************************************************
+/***************************************************************************
+ *   Copyright (C) 2004 by Equipe Projet Univers                           *
+ *   rogma.boami@free.fr                                                   *
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program; if not, write to the                         *
+ *   Free Software Foundation, Inc.,                                       *
+ *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+ ***************************************************************************/
 
 
 #ifndef PRETTY_PRINT_H_
@@ -23,17 +26,25 @@
 // Includes
 #include "chaine.h"
 
-/////////////
-// passe à la ligne suivante
-Chaine EndOfLine() ;
+namespace ProjetUnivers {
 
-/////////////
-// passe à la ligne suivante, augmente l'indentation
-Chaine EndOfLineIncreaseIndent() ;
+  namespace Base {
+    
+    
+    
+    /////////////
+    // passe à la ligne suivante
+    Chaine FinDeLigne() ;
+    
+    /////////////
+    // passe à la ligne suivante, augmente l'indentation
+    Chaine FinDeLigneAugmenteIndentation() ;
+    
+    /////////////
+    // passe à la ligne suivante, diminue l'indentation
+    Chaine FinDeLigneDiminueIndentation() ;
 
-/////////////
-// passe à la ligne suivante, diminue l'indentation
-Chaine EndOfLineDecreaseIndent() ;
-
+  }
+}
 
 #endif // PRETTY_PRINT_H_

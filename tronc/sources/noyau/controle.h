@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Mathieu ROGER                                   *
+ *   Copyright (C) 2004 by Projet Univers                                  *
  *   rogma.boami@free.fr                                                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
