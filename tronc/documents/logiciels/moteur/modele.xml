@@ -510,28 +510,73 @@
       <para>Les caractéristiques suivantes là pour représenter tous les
       aspects technique d'une race.</para>
 
+      <para></para>
+
+      <itemizedlist>
+        <listitem>
+          <para>1 Règne</para>
+        </listitem>
+
+        <listitem>
+          <para>1 Type De Vie</para>
+        </listitem>
+
+        <listitem>
+          <para>1 Planete/Satelite d'origine</para>
+        </listitem>
+
+        <listitem>
+          <para>1 Comportement</para>
+        </listitem>
+
+        <listitem>
+          <para>1 Espèce ancêtre</para>
+
+          <para>Toutes les espèces ne sont pas apparues comme ça sur un coups
+          de chance génétique (comme les humains par exemple).</para>
+        </listitem>
+
+        <listitem>
+          <para>1 Niveau Technologique</para>
+        </listitem>
+
+        <listitem>
+          <para>1 à n Caractéristiques Physiques</para>
+        </listitem>
+
+        <listitem>
+          <para>1 Milieu De Vie</para>
+        </listitem>
+
+        <listitem>
+          <para>1 Morphologie</para>
+        </listitem>
+
+        <listitem>
+          <para>0 à n Caractéristiques Moyennes</para>
+        </listitem>
+      </itemizedlist>
+
       <sect3>
         <title>Règne</title>
 
-        <para>Sur terre il éxiste deux règnes différents qui sont le règne
-        végétale et le règne animale. D'autres règnes peuvent être envisager
-        mais alors, il faudrai développer leurs caractéristique et leur
+        <para>Sur terre il existe deux règnes différents qui sont le règne
+        végétal et le règne animal. D'autres règnes peuvent être envisagés
+        mais alors, il faudrait développer leurs caractéristique et leur
         fonctionnement.</para>
 
-        <para>Ex : le règne méchanique</para>
+        <example>
+          <title>Exemple de règnes à développer</title>
+
+          <para>Le règne mécanique</para>
+        </example>
       </sect3>
 
       <sect3>
-        <title>Type de vie</title>
+        <title>Type De Vie</title>
 
         <para>Savoir si c'est une espèce indépendante, parasite ou
         symbiotique.</para>
-      </sect3>
-
-      <sect3>
-        <title>Planette d'orrigine</title>
-
-        <para>D'ou vient cette race.</para>
       </sect3>
 
       <sect3>
@@ -543,16 +588,9 @@
       </sect3>
 
       <sect3>
-        <title>Quel espèce l'a engendrée</title>
+        <title>Niveau Technologique</title>
 
-        <para>Toutes les espèces ne sont pas apparues comme ça sur un coups de
-        chance génétique (comme les humains par exemple).</para>
-      </sect3>
-
-      <sect3>
-        <title>Niveau technologique</title>
-
-        <para>caractéristique très importante pour déterminer l'impacte de la
+        <para>caractéristique très importante pour déterminer l'impact de la
         race sur son environnement.</para>
       </sect3>
 
@@ -563,7 +601,7 @@
         d'une race.</para>
 
         <sect4>
-          <title>Millieu de vie</title>
+          <title>Milieu De Vie</title>
 
           <para>Et tout ce que ça implique. Les substance nocives ou
           mortelles, les substance réparatrices....</para>
@@ -572,16 +610,16 @@
         <sect4>
           <title>Morphologie</title>
 
-          <para>Biped, Quadruped, humanoide, insectoide, reptilien,
+          <para>Bipède, Quadrupède, humanoïde, insectoïde, reptilien,
           etc...</para>
         </sect4>
 
         <sect4>
-          <title>Caractéristiques moyennes</title>
+          <title>Caractéristiques Moyennes</title>
 
-          <para>Pour ça il faudrai créer un système de caractéristiques et
+          <para>Pour ça il faudrait créer un système de caractéristiques et
           donc un système de JDR (ce qui peu être intéressant pour accrocher
-          mêmes d'autres comunautés que celle du jeu de simulation
+          mêmes d'autres communautés que celle du jeu de simulation
           spatial).</para>
         </sect4>
       </sect3>
