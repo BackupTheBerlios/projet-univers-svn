@@ -58,10 +58,17 @@
 
     <para>Le serveur étant hébergé par berlios, il faut <ulink
     url="https://developer.berlios.de/account/register.php">ouvrir un compte
-    développeur chez berlios</ulink>, c'ets la permière étape.</para>
+    développeur chez berlios</ulink>, c'est la permière étape. Dans toute la
+    suite on supposera que vous vous êtes inscrit sur ce site avec
+    <replaceable>nom</replaceable> comme nom d'utilisateur.</para>
+
+    <para>Ensuite, il faut contacter un des administrateurs du projet univers
+    pour qu'il vous ajoute au projet hébergé par berlios.</para>
+
+    <para>Reste alors à utiliser le client subversion. </para>
 
     <sect2>
-      <title>Configuration</title>
+      <title>Utilisation</title>
 
       <sect3>
         <title>TortoiseSVN sous Windows</title>
@@ -111,7 +118,7 @@
 
             <step>
               <para>Dans le champ URL of repository mettre :
-              <userinput>svn+ssh://<replaceable>rogma</replaceable>@svn.berlios.de/svnroot/repos/projet-univers</userinput>,
+              <userinput>svn+ssh://<replaceable>nom</replaceable>@svn.berlios.de/svnroot/repos/projet-univers</userinput>,
               ou <replaceable>rogma</replaceable> est votre nom d'utilisateur
               dans Berlios.</para>
 
@@ -332,7 +339,7 @@
           <procedure>
             <step>
               <para><command>svn checkout
-              svn+ssh://<replaceable>rogma</replaceable>@svn.berlios.de/svnroot/repos/projet-univers</command></para>
+              svn+ssh://<replaceable>nom</replaceable>@svn.berlios.de/svnroot/repos/projet-univers</command></para>
             </step>
 
             <step>
