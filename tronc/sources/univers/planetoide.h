@@ -27,7 +27,7 @@ namespace ProjetUnivers {
 
   namespace Univers {
     
-    using namespace ProjetUnivers::Noyau ;
+    //using namespace ProjetUnivers::Noyau ;
     
     
     /*
@@ -40,7 +40,7 @@ namespace ProjetUnivers {
       Objet
       Concret
     */
-    class Planetoide : public ObjetPhysique {
+    class Planetoide : public Noyau::ObjetPhysique {
     public:
 
       ////////////////////

@@ -57,6 +57,8 @@ namespace ProjetUnivers {
       // Classe abstraite donc constructeur protégé.
       Bien();
       
+      //////////////////////
+      // Propriétaire ??
 
     };
 

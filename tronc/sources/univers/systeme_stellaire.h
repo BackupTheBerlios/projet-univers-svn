@@ -22,6 +22,7 @@
 #define _PU_UNIVERS_SYSTEME_STELLAIRE_H_
 
 #include "ensemble_composition.h"
+#include "types.h"
 
 
 namespace ProjetUnivers {
@@ -74,9 +75,12 @@ namespace ProjetUnivers {
       EnsembleComposition< Etoile > etoiles ;
       
       /////////////////
-      // Planètes/Sattélites
+      // Planètes/Satélites
       EnsembleComposition< Planetoide > planetoides ;
 
+      /////////////////
+      // Nom du système.
+      Chaine nom ;
     };
     
     

@@ -22,12 +22,14 @@
 #define _PU_UNIVERS_MONDE_H_
 
 #include "composition.h"
+#include "modele.h"
 
 namespace ProjetUnivers {
 
   namespace Univers {
     
     using namespace ProjetUnivers::Base ;
+    using namespace ProjetUnivers::Noyau ;
     
     class Societe ;
     class Univers ;
@@ -42,7 +44,7 @@ namespace ProjetUnivers {
       Objet
       Concret
     */
-    class Monde {
+    class Monde : public Modele {
     public:
 
       ////////////////////

@@ -30,8 +30,6 @@ namespace ProjetUnivers {
 
   namespace Univers {
     
-    using namespace ProjetUnivers::Base ;
-    //using namespace ProjetUnivers::Noyau ;
     
     class Composant ;
     
@@ -46,7 +44,7 @@ namespace ProjetUnivers {
       Concret
       
     */
-    class Vaisseau : public Bien, public ProjetUnivers::Noyau::ObjetPhysique {
+    class Vaisseau : public Bien, public Noyau::ObjetPhysique {
     public:
     
 
