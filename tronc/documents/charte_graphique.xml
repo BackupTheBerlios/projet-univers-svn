@@ -53,6 +53,18 @@
           <para>Conversion du document en DocBook.</para>
         </revdescription>
       </revision>
+
+      <revision>
+        <revnumber>1.3</revnumber>
+
+        <date>19 Août 2004</date>
+
+        <revdescription>
+          <para>Ajout des idées de tailles des vaisseaux</para>
+
+          <para>Ajout de détail sur les Vaisseaux Lourds</para>
+        </revdescription>
+      </revision>
     </revhistory>
 
     <legalnotice>
@@ -201,7 +213,7 @@
 
       <para>Les fichiers de modèles doivent être écrits en miniscules sans
       accents, les différents mots étants composés à l'aide du caractère
-      <filename>_</filename>. </para>
+      <filename>_</filename>.</para>
     </sect2>
 
     <sect2>
@@ -376,6 +388,96 @@
     </sect2>
 
     <sect2>
+      <title>Taille des vaisseaux</title>
+
+      <para>Voilà un ordre d'idée des tailles des vaisseaux :</para>
+
+      <para></para>
+
+      <itemizedlist>
+        <listitem>
+          <para>Chasseur : entre 9 et 20 mètres.</para>
+        </listitem>
+      </itemizedlist>
+
+      <itemizedlist>
+        <listitem>
+          <para>Corvette</para>
+
+          <itemizedlist>
+            <listitem>
+              <para>Navette : entre 12 et 25 Mètres.</para>
+            </listitem>
+
+            <listitem>
+              <para>Transports : entre 20 et 30 Mètres.</para>
+            </listitem>
+
+            <listitem>
+              <para>De combat : entre 15 et 35 Mètres.</para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+      </itemizedlist>
+
+      <itemizedlist>
+        <listitem>
+          <para>Vaisseau Lourd</para>
+
+          <itemizedlist>
+            <listitem>
+              <para>Frégate : entre 40 et 100 Mètres.</para>
+            </listitem>
+
+            <listitem>
+              <para>Destroyer : entre 150 et 500 Mètres.</para>
+            </listitem>
+
+            <listitem>
+              <para>Croiseur : entre 800 et 1500 Mètres.</para>
+            </listitem>
+
+            <listitem>
+              <para>Cuirassé : entre 2000 et 5000 Mètres.</para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+      </itemizedlist>
+
+      <itemizedlist>
+        <listitem>
+          <para>Station</para>
+
+          <itemizedlist>
+            <listitem>
+              <para>Civile : Entre 100 et 1000 Mètres</para>
+            </listitem>
+
+            <listitem>
+              <para>Combat : Entre 200 et 2000 Mètres</para>
+            </listitem>
+
+            <listitem>
+              <para>Défense : Entre 300 et 1000 Mètres</para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+      </itemizedlist>
+
+      <itemizedlist>
+        <listitem>
+          <para>Balise : Entre 5 et 10 Mètres</para>
+        </listitem>
+      </itemizedlist>
+
+      <itemizedlist>
+        <listitem>
+          <para>Astre : Entre 200 et 4000 Mètre</para>
+        </listitem>
+      </itemizedlist>
+    </sect2>
+
+    <sect2>
       <title>Pour le groupe des Chasseurs</title>
 
       <para>Un chasseur est un petit vaisseau, rapide, il a différentes
@@ -447,7 +549,7 @@
       <sect3>
         <title>Autres limitations</title>
 
-        <para>i possible, faire une cinématique d'explosion pour chaque
+        <para>il possible, faire une cinématique d'explosion pour chaque
         modèle, sauf le modèle 3 (Loin). Cette cinématique doit montrer que le
         vaisseaux est détruit. Le vaisseaux doit donc se "décomposer" en
         morceaux, assez rapidement.</para>
@@ -491,9 +593,9 @@
         il faut texturer les "failles", pour que l'on ait l'impression de voir
         l'intérieur du vaisseaux!!!</para>
 
-        <remark>Ca ne reste pas assez détaillé comme consignes mais je ne vois
-        pas encore quoi... Il faudrait y réfléchir et en attendant se limitter
-        aux chasseurs ?</remark>
+        <para>Les explosions peuvent être personalisées, la destruction d'un
+        vaisseau mère peut être personalisé, mais il faut faire très attention
+        à rester dans le domaine du raisonnable.</para>
       </sect3>
     </sect2>
 
