@@ -609,6 +609,27 @@
         les propriétés importantes de ses objets. Par exemple, les objets de
         la classe ObjetAPositionApprochee sont des objets dont la position ne
         peut être estimée que de manière approchée.</para>
+
+        <para>Les phrases de français ne sont pas tout à fait les mêmes en
+        fonction de la nature de l'élément C++ :</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>Les noms des namespaces sont des groupes nominaux</para>
+          </listitem>
+
+          <listitem>
+            <para>Les noms des classes sont des groupes nominaux</para>
+          </listitem>
+
+          <listitem>
+            <para>Les noms des méthodes sont des groupes verbaux</para>
+          </listitem>
+
+          <listitem>
+            <para>Les noms des attributs sont des groupes adjectivaux?</para>
+          </listitem>
+        </itemizedlist>
       </sect3>
 
       <sect3>
@@ -617,8 +638,8 @@
         <para>Nombre de gens s'accordent pour dire que les commentaires dans
         un code source sont essentiels. La question est alors de savoir quoi
         mettre comme commentaires. Les commentaires ne doivent pas être une
-        "réformulation" du code qu'il commente. Il faut par exemple éviter de
-        rappeler le type d'une variable dans son commentaire.</para>
+        "réformulation" du code qu'ils commentent. Il faut par exemple éviter
+        de rappeler le type d'une variable dans son commentaire.</para>
 
         <para>Les commentaires commencent généralement par <token>//</token>
         sauf pour certains commentaires qui utilisent <token>/*
@@ -982,14 +1003,6 @@ private:
 
         <para>Les méthodes qui ne modifient pas l'objet receveur doivent être
         specifiées <token>const</token>.</para>
-
-        <para>Les paramètres mono-valués d'une méthode qui ne sont pas
-        modifiés doivent être passés par référence constante <token>const
-        T&amp;</token>.</para>
-
-        <para>Les paramètres mono-valués d'une méthode qui sont modifiés par
-        la méthodes doivent être passés par association&nbsp;: <token>const
-        Association&lt; O &gt;&amp;</token>.</para>
       </sect3>
     </sect2>
 
@@ -1108,8 +1121,9 @@ private:
             <para>Ces objets sont-ils des composants de l'objet qui les
             référence ?</para>
 
-            <para>Un objet est composant d'un autre s'il est une partie
-            constituante de cet objet.</para>
+            <para>Un objet x est composant d'un objet o s'il est une partie
+            constituante de l'objet o (la partie x doit être détruite si on
+            détruit l'objet o).</para>
 
             <example>
               <title>Exemple de composition</title>
@@ -1195,6 +1209,8 @@ private:
 
           <listitem>
             <para>const O&amp;</para>
+
+            <para><remark>A utiliser avec parcimonie.</remark></para>
           </listitem>
 
           <listitem>
