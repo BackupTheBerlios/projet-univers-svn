@@ -592,17 +592,104 @@
     </sect2>
 
     <sect2 id="redaction">
-      <title>Ecriture de documents</title>
+      <title>Écriture de documents</title>
 
-      <para>Tous les documents concernant le projet univers sont rédigés en
-      français et sont écrit en format <ulink
-      url="http://www.docbook.org/">DocBook</ulink>.</para>
+      <para>Les documents de travail concernant le projet sont rédigés en
+      français dans les formats suivants :</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>un article <ulink
+          url="http://www.docbook.org/">DocBook</ulink> qui a l'avantage
+          d'être multiplate-forme, ses fichier sont les
+          <filename>*.xml</filename>.</para>
+        </listitem>
+
+        <listitem>
+          <para>un diagramme UML construit avec <ulink
+          url="http://argouml.tigris.org/">ArgoUML</ulink> qui a l'avantage
+          d'être multiplate-forme, ses fichiers sont les
+          <filename>*.zargo</filename>.</para>
+        </listitem>
+      </itemizedlist>
 
       <para>Les documents doivent être placés sur le serveur de fichiers dans
-      le répertoire <filename>documents</filename>.</para>
+      le répertoire <filename>documents</filename>., puis dans le sous
+      répertoire correspondant à leur nature :</para>
+
+      <itemizedlist>
+        <listitem>
+          <para><filename>logiciels</filename></para>
+
+          <para>Ce sous répertoire contient tous les documents relatifs aux
+          divers logiciels que nous écrivons, il contient ensuite un sous
+          répertoire par logiciel ou bibliothèque, notamment
+          <filename>moteur</filename>.</para>
+        </listitem>
+
+        <listitem>
+          <para><filename>mondes</filename></para>
+
+          <para>Ce sous répertoire contient les descriptions des divers
+          "mondes imaginaires" qui sont décrits, il contient notamment le
+          répertoire <filename>monde_pu</filename> qui traite de la
+          description du monde imaginaire où il existe une galaxie peuplée
+          notamment des Malawishs, Ikawas et Archonites.</para>
+
+          <para>Chaque répertoire d'un monde particulier est ensuite organisé
+          comme suit :</para>
+
+          <itemizedlist>
+            <listitem>
+              <para><filename>univers</filename></para>
+
+              <para>Contient les descriptions du monde physique et
+              sociale</para>
+            </listitem>
+
+            <listitem>
+              <para><filename>histoire</filename></para>
+
+              <para>Contient les descriptions de l'histoire (au sens du passé)
+              de ce monde.</para>
+            </listitem>
+
+            <listitem>
+              <para><filename>campagnes</filename></para>
+
+              <para>Contient les descriptions des diverses campagnes de jeu se
+              déroulant dans ce monde.</para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+
+        <listitem>
+          <para><filename>outils</filename></para>
+
+          <para>Ce sous répertoire contient tous les documents relatifs aux
+          divers outils utilisés dans le projet. Il y a ensuite l'organisation
+          suivante :</para>
+
+          <itemizedlist>
+            <listitem>
+              <para><filename>internes</filename></para>
+
+              <para>Contient les descriptions des outils construit en interne
+              par l'équipe, outils destinés à la gestion de projet.</para>
+            </listitem>
+
+            <listitem>
+              <para><filename>regles_utilisation</filename></para>
+
+              <para>Contient les documents dictant les règles d'utilisations
+              des divers outils.</para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+      </itemizedlist>
 
       <sect3>
-        <title>Outil de rédaction</title>
+        <title>Rédaction de documents textes</title>
 
         <para>Vous pouvez utiliser <ulink
         url="http://www.xmlmind.com/xmleditor/">XMLMindEditor</ulink>, qui
@@ -638,7 +725,7 @@
           <title>Les différents types de documents du projet</title>
 
           <para>Le projet univers nécessite l'écriture de documents pour fixer
-          précisement :</para>
+          précisément :</para>
 
           <itemizedlist>
             <listitem>
