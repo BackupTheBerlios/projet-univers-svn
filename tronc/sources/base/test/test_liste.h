@@ -35,10 +35,13 @@ namespace ProjetUnivers {
     
     namespace Test {
 
+      class ElementTestListe ;
 
       /*
       CLASS
         TestListe
+      
+        Teste les liste en association et en composition.
       */
       class TestListe : public CppUnit::TestFixture {
       protected:
@@ -93,22 +96,12 @@ namespace ProjetUnivers {
 
       private:
 
-        // une classe comme ça
-        class Element {
-        public:
-
-          Entier valeur ;
 
 
-          Element(const Entier _e)
-          : valeur(_e)
-          {}
-        };
-
-	      ListeAssociation< Element > f();
+	      ListeAssociation< ElementTestListe > f() ;
 
         // une liste 
-        EnsembleComposition< Element > liste ;
+        ListeComposition< ElementTestListe > liste ;
 
       };
 

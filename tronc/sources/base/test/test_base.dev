@@ -1,7 +1,7 @@
 [Project]
-FileName=TEST_B~1.DEV
+FileName=..\..\..\..\..\PROJET~2\tronc\sources\base\test\TEST_B~1.DEV
 Name=TestBase
-UnitCount=7
+UnitCount=9
 Type=1
 Ver=1
 ObjFiles=
@@ -30,7 +30,7 @@ CompilerSet=0
 CompilerSettings=0000000000000000000000
 
 [Unit3]
-FileName=test_composition.h
+FileName=..\..\..\..\..\PROJET~2\tronc\sources\base\test\test_composition.h
 CompileCpp=1
 Folder=TestBase
 Compile=1
@@ -40,7 +40,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit4]
-FileName=test_ensemble_association.cpp
+FileName=..\..\..\..\..\PROJET~2\tronc\sources\base\test\test_ensemble_association.cpp
 CompileCpp=1
 Folder=TestBase
 Compile=1
@@ -68,7 +68,7 @@ ProductVersion=
 AutoIncBuildNr=0
 
 [Unit2]
-FileName=test_composition.cpp
+FileName=..\..\..\..\..\PROJET~2\tronc\sources\base\test\test_composition.cpp
 CompileCpp=1
 Folder=
 Compile=1
@@ -78,7 +78,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit1]
-FileName=test_base.cpp
+FileName=..\..\..\..\..\PROJET~2\tronc\sources\base\test\test_base.cpp
 CompileCpp=1
 Folder=TestBase
 Compile=1
@@ -88,7 +88,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit5]
-FileName=test_ensemble_association.h
+FileName=..\..\..\..\..\PROJET~2\tronc\sources\base\test\test_ensemble_association.h
 CompileCpp=1
 Folder=TestBase
 Compile=1
@@ -98,7 +98,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit6]
-FileName=..\..\..\..\..\projet-univers\tronc\sources\base\test\test_ensemble_composition.h
+FileName=test_ensemble_composition.h
 CompileCpp=1
 Folder=TestBase
 Compile=1
@@ -108,7 +108,27 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit7]
-FileName=..\..\..\..\..\projet-univers\tronc\sources\base\test\test_ensemble_composition.cpp
+FileName=test_ensemble_composition.cpp
+CompileCpp=1
+Folder=TestBase
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit8]
+FileName=test_liste.cpp
+CompileCpp=1
+Folder=TestBase
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit9]
+FileName=test_liste.h
 CompileCpp=1
 Folder=TestBase
 Compile=1

@@ -19,8 +19,8 @@
  ***************************************************************************/
 
 
-#ifndef TEST_ENSEMBLE_H
-#define TEST_ENSEMBLE_H
+#ifndef _PU_BASE_TEST_ENSEMBLE_ASSOCIATION_H_
+#define _PU_BASE_TEST_ENSEMBLE_ASSOCIATION_H_
 
 
 #include <cppunit/extensions/HelperMacros.h>

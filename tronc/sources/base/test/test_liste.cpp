@@ -21,112 +21,166 @@
 #include "test_liste.h"
 
 #include "liste_association.h"
-#include "iterateur_list_association.h"
+#include "iterateur_liste_association.h"
 
 
-CPPUNIT_TEST_SUITE_REGISTRATION(ObListTest) ;
+CPPUNIT_TEST_SUITE_REGISTRATION(ProjetUnivers::Base::Test::TestListe) ;
 
 
-void ListTest::testDestroy()
-{
-	// 
-  CompositionList< Element > liste2 ;
+namespace ProjetUnivers {
+  
+  namespace Base {
+    
+    namespace Test {
 
-  Composition< Element > element1(new Element(1)) ;
-  Composition< Element > element2(new Element(2)) ;
 
-  liste2.add_first(element1.release()) ;
-  liste2.add_first(element2.release()) ;
 
+      // une classe comme ça
+      class ElementTestListe {
+      public:
+
+        Entier valeur ;
+
+
+        ElementTestListe(const Entier _e)
+        : valeur(_e)
+        {}
+
+        ~ElementTestListe()
+        {
+          // le destructeur marque sa destruction.
+          ++nombreDObjetsDetruits ;
+        }
+        // un drapeau pour savoir combien d'élément de TempComposition 
+        // ont été détruit
+        static Entier nombreDObjetsDetruits ;
+
+      };
+
+      Entier ElementTestListe::nombreDObjetsDetruits = 0 ;
+
+
+      void TestListe::TestDestruction()
+      {
+
+        // on ouvre un nouveau bloc, ses variables temporaires sont détruites 
+        // à la sortie
+        {
+          // 
+          ListeComposition< ElementTestListe > liste2 ;
+
+          Composition< ElementTestListe > element1(new ElementTestListe(1)) ;
+          Composition< ElementTestListe > element2(new ElementTestListe(2)) ;
+
+          liste2.AjouterEnTete(element1.Liberer()) ;
+          liste2.AjouterEnTete(element2.Liberer()) ;
+
+        } 
+        // ici liste2 est détruite et ses doivent l'être aussi 
+        CPPUNIT_ASSERT(ElementTestListe::nombreDObjetsDetruits == 2 ) ;
+      }
+
+
+
+
+
+      void TestListe::TestAjouter()
+      {
+	      // 
+        ListeAssociation< ElementTestListe > temp ;
+
+        Composition< ElementTestListe > element1(new ElementTestListe(1)) ;
+        Composition< ElementTestListe > element2(new ElementTestListe(2)) ;
+
+        temp.AjouterEnTete(element1) ;
+        temp.AjouterEnTete(element2) ;
+
+        CPPUNIT_ASSERT(temp.NombreDElements() == 2) ;
+
+        CPPUNIT_ASSERT(temp.Contient(element1)) ;
+        CPPUNIT_ASSERT(temp.Contient(element2)) ;
+
+        Entier resultat(0) ;
+
+        for(
+        IterateurListeAssociation< ElementTestListe > i(temp) ;
+        i.Valide() ;
+        ++i)
+
+   
+       resultat += i->valeur ;
+
+        CPPUNIT_ASSERT(resultat == 3) ;
  
-}
 
-
-Element::Element(const Int _e)
+      }
 
 
 
-void TestListe::testList()
-{
-	// 
-  AssociationList< Element > temp ;
-
-  Composition< Element > element1(new Element(1)) ;
-  Composition< Element > element2(new Element(2)) ;
-
-  temp.add_first(element1) ;
-  temp.add_first(element2) ;
-
-  CPPUNIT_ASSERT(temp.count() == 2) ;
-
-  CPPUNIT_ASSERT(temp.contains(element1)) ;
-  CPPUNIT_ASSERT(temp.contains(element2)) ;
-
-  Int resultat(0) ;
-
-  for(
-  AssociationListIterator< Element > i(temp) ;
-  i.valid() ;
-  ++i)
-
-    resultat += i->valeur ;
-
-  CPPUNIT_ASSERT(resultat == 3) ;
+      ListeAssociation< ElementTestListe > TestListe::f() 
+      {
  
-
-}
-
-
-
-AssociationList< Element > TestListe::f() 
-{
-
-  return liste ;
-}
+        return liste ;
+      }
 
 
-void TestListe::testListCopy()
-{
 
 
-  Int resultat(0) ;
+
+      void TestListe::TestParcoursListeTemporaire()
+      {
 
 
-	// itération sur une liste temporaire
-  for(
-  AssociationListIterator< Element > i(f()) ; 
-  i.valid() ;
-  ++i)
+        Entier resultat(0) ;
+
+
+	      // itération sur une liste temporaire
+        for(
+        IterateurListeAssociation< ElementTestListe > i(f()) ; 
+        i.Valide() ;
+        ++i)
   
-    resultat += i->valeur ;
+          resultat += i->valeur ;
+
   
 
-  CPPUNIT_ASSERT(resultat == 3) ;
+        CPPUNIT_ASSERT(resultat == 3) ;
 
-  resultat = 0 ;
+        resultat = 0 ;
 
-  for(
-  AssociationListIterator< Element > j(liste) ; 
-  j.valid() ;
-  ++j)
+        for(
+        IterateurListeComposition< ElementTestListe > j(liste) ; 
+        j.Valide() ;
+        ++j)
   
-    resultat += j->valeur ;
+ 
+         resultat += j->valeur ;
 
-  CPPUNIT_ASSERT(resultat == 3) ;
+
+        CPPUNIT_ASSERT(resultat == 3) ;
 
 
-}
+      }
 
-void TestListe::setUp()
-{
-	// 
 
-  liste.add_first(new Element(1)) ;
-  liste.add_first(new Element(2)) ;
+      void TestListe::setUp()
+      {
+	      // 
+        ElementTestListe::nombreDObjetsDetruits = 0 ;
 
-}
+        liste.AjouterEnTete(new ElementTestListe(1)) ;
+        liste.AjouterEnTete(new ElementTestListe(2)) ;
 
-void TestListe::tearDown()
-{
-	// 
+      }
+
+      void TestListe::tearDown()
+      {
+	      // 
+        liste.Vider() ;
+      }
+
+      
+
+    }
+  }
 }

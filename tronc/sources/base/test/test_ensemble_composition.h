@@ -19,8 +19,8 @@
  ***************************************************************************/
 
 
-#ifndef _TEST_ENSEMBLE_COMPOSITION_H_
-#define _TEST_ENSEMBLE_COMPOSITION_H_
+#ifndef _PU_BASE_TEST_ENSEMBLE_COMPOSITION_H_
+#define _PU_BASE_TEST_ENSEMBLE_COMPOSITION_H_
 
 
 #include <cppunit/extensions/HelperMacros.h>
