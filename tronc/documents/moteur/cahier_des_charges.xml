@@ -46,7 +46,39 @@
     <para>[DEFINITION D'UN OBJET]</para>
 
     <sect2>
-      <title>L'environnement</title>
+      <title>Monde</title>
+
+      <para>Un Monde est la donnée de</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>un Univers</para>
+
+          <para>C'est l'Environnement phyisque dans lequel tout se
+          passe</para>
+        </listitem>
+
+        <listitem>
+          <para>des Factions</para>
+        </listitem>
+
+        <listitem>
+          <para>des Personnages</para>
+        </listitem>
+
+        <listitem>
+          <para>des Biens</para>
+        </listitem>
+      </itemizedlist>
+
+      <para>Toutes les données d'un monde évoluent au cours du temps, ainsi
+      des Etoiles explosent, des Factions sont exterminées, des Personnages
+      naissent ou meurrent, des Biens changent de main ou sont
+      détruits.</para>
+    </sect2>
+
+    <sect2>
+      <title>Univers</title>
 
       <para>Le MOTEUR doit faire évoluer le joueur dans un environnement
       spatial mais aussi atmosphérique.</para>
@@ -107,7 +139,8 @@
         <listitem>
           <para>Il existe n Univers</para>
 
-          <remark>Pour simplification, 1 seul Univers sera géré</remark>
+          <remark>En fait au sein d'une histoire il n'y a qu'un seul Univers
+          sera géré</remark>
         </listitem>
 
         <listitem>
@@ -129,7 +162,7 @@
         </listitem>
 
         <listitem>
-          <para>1 Etoile possède des caractéristiques de </para>
+          <para>1 Etoile possède des caractéristiques de</para>
 
           <itemizedlist>
             <listitem>
@@ -177,14 +210,17 @@
     </sect2>
 
     <sect2>
-      <title>Les personnages</title>
+      <title>Les Personnages</title>
 
-      <para>Un personnage est un élément "vivant" du jeu (homme, alien, robot,
-      etc ...).</para>
+      <para>Un personnage est un élément "vivant" du jeu (être vivant d'une
+      espece quelconque, robot, etc ...).</para>
 
       <para>Un personnage peut être commandé par un joueur; par l'intelligence
       artificielle (on parle de personnage joueur ou PJ) ou par le scénario
       (on parle de personnage non joueur ou PNJ).</para>
+
+      <remark>Est-ce qu'on ne pourrait pas faire en sorte que PNJ = Personnage
+      géré par IA ???</remark>
 
       <para>Un personnage possède un profil qui évolue tout au long du
       jeu.</para>
@@ -198,7 +234,7 @@
 
       <para>Il existe généralement des factions gouvernementales (empire,
       république, fédération, etc ...) et des factions privées (ligue de
-      contrebandier, pirates, etc ...). </para>
+      contrebandier, pirates, etc ...).</para>
 
       <para>Chaque personnage peut être membre de plusieurs facions
       simultanément et en changer au cours du temps. Un personnage n'est pas
@@ -294,15 +330,30 @@
         </listitem>
 
         <listitem>
-          <para>Station spatiale</para>
+          <para>Station Spatiale</para>
         </listitem>
 
         <listitem>
-          <para>Installation planétaire</para>
+          <para>Installation Planétaire</para>
         </listitem>
       </itemizedlist>
 
-      <para>Chaque bien à une valeur estimée en crédits.</para>
+      <para>Chaque Bien a :</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>une Valeur Estimée en crédits</para>
+        </listitem>
+
+        <listitem>
+          <para>un Propriétaire qui peut être soit un Personnage soit une
+          Faction</para>
+        </listitem>
+
+        <listitem>
+          <para>une Localisation</para>
+        </listitem>
+      </itemizedlist>
 
       <para>Chaque faction et chaque personnage possède n biens qu'il peuvent
       céder à qui il veut dans les conditions suivantes :</para>
@@ -334,6 +385,10 @@
       <itemizedlist>
         <listitem>
           <para>1 Histoire contient n Campagnes</para>
+        </listitem>
+
+        <listitem>
+          <para>1 Histoire contient n Missions</para>
         </listitem>
 
         <listitem>
@@ -403,16 +458,51 @@
         </listitem>
 
         <listitem>
-          <para>Le "Script" de la mission</para>
+          <para>Le Scrip de la Mission</para>
         </listitem>
       </itemizedlist>
 
-      <para>Une campagne est définie comme suit:</para>
+      <para>Une Campagne est définie comme suit:</para>
 
       <itemizedlist>
         <listitem>
-          <para>La liste des Missions avec pour chacune les Missions suivantes
-          selon les résultats et les conditions générales</para>
+          <para>un ensemble de Missions </para>
+        </listitem>
+
+        <listitem>
+          <para>pour chaque Mission un mécanisme de choix pour la Mission
+          suivante</para>
+        </listitem>
+
+        <listitem>
+          <para>pour chaque Mission une date à laquelle cette mission se
+          déroule</para>
+        </listitem>
+
+        <listitem>
+          <para>pour chaque Mission un Script Campagne permettant de modifier
+          les données globales juste avant de jouer la Mission</para>
+        </listitem>
+
+        <listitem>
+          <para>pour chaque Mission un Script Campagne permettant de modifier
+          les données globales juste après de jouer la Mission</para>
+        </listitem>
+
+        <listitem>
+          <para>un ensemble de Flottes Capitales, dont les données sont
+          persistantes, c'est à dire que les modifications faites pendant le
+          déroulement de la mission sont appliquées</para>
+
+          <remark>Ces Flottes sont en quelque sorte des personnages récurrents
+          d'une campagne</remark>
+        </listitem>
+
+        <listitem>
+          <para>un ensemble de Personnages</para>
+
+          <remark>Ce sont les Personnages apparaissant dans les
+          Missions</remark>
         </listitem>
       </itemizedlist>
 
@@ -420,11 +510,27 @@
 
       <itemizedlist>
         <listitem>
-          <para>La liste des Campagnes avec pour chacune les Missions ou
-          Campagnes suivantes selon les résultats et les conditions
-          générales.</para>
+          <para>un ensemble de Campagnes et de Missions</para>
+        </listitem>
+
+        <listitem>
+          <para>pour chaque Campagne et Mission de l'Histoire, un mécanisme de
+          choix de la Campagne ou Mission suivante.</para>
         </listitem>
       </itemizedlist>
+    </sect2>
+
+    <sect2>
+      <title>Les Flottes et les Escadrons</title>
+
+      <para>Une Flotte est composée d'escadrons et de vaisseaux.</para>
+
+      <para>Un Escadron est composé de Groupes et de Vaisseaux.</para>
+
+      <para>Un Groupe est composé de Vaisseaux.</para>
+
+      <para>Les Flottes, Escadrons, Groupes et Vaisseaux ont chacun leur
+      chef.</para>
     </sect2>
 
     <sect2>
@@ -536,7 +642,7 @@
     </glossdiv>
 
     <glossdiv>
-      <title>Les </title>
+      <title>Les</title>
 
       <glossentry>
         <glossterm></glossterm>
