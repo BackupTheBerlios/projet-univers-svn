@@ -189,7 +189,7 @@
           </listitem>
 
           <listitem>
-            <para>1 Système Stellaire possède n Planète</para>
+            <para>1 Système Stellaire possède n Planettes/Stallites</para>
           </listitem>
         </itemizedlist>
       </sect3>
@@ -215,53 +215,9 @@
           <listitem>
             <para>Période d'activité</para>
           </listitem>
-        </itemizedlist>
-      </sect3>
-
-      <sect3>
-        <title>Planète</title>
-
-        <para>Caractéristiques :</para>
-
-        <itemizedlist>
-          <listitem>
-            <para>1 Planète possède n Anneaux Planétaires</para>
-          </listitem>
 
           <listitem>
-            <para>1 Planète possède n Satellites</para>
-          </listitem>
-
-          <listitem>
-            <para>Type d'athmosphère</para>
-          </listitem>
-
-          <listitem>
-            <para>Phénomènes Météorologiques</para>
-          </listitem>
-
-          <listitem>
-            <para>Géologie</para>
-          </listitem>
-
-          <listitem>
-            <para>Géographie</para>
-          </listitem>
-
-          <listitem>
-            <para>Climat</para>
-          </listitem>
-
-          <listitem>
-            <para>Taille</para>
-          </listitem>
-
-          <listitem>
-            <para>Masse</para>
-          </listitem>
-
-          <listitem>
-            <para>Espèces</para>
+            <para>Satellites</para>
           </listitem>
         </itemizedlist>
       </sect3>
@@ -271,7 +227,7 @@
 
         <para>Caractéristiques :<itemizedlist>
             <listitem>
-              <para>1 Satelitte possède n Anneaux Planétaires</para>
+              <para>1 Satelitte possède n champs d'astéroides en orbite</para>
             </listitem>
 
             <listitem>
@@ -336,18 +292,41 @@
         <title>Trou noir</title>
 
         <para>Caractéristiques :</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>Masse</para>
+          </listitem>
+        </itemizedlist>
       </sect3>
 
       <sect3>
         <title>Champs d'astéroïde</title>
 
         <para>Caractéristiques :</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>Type</para>
+          </listitem>
+
+          <listitem>
+            <para>Densité</para>
+          </listitem>
+
+          <listitem>
+            <para>Taille moyenne des astéroides</para>
+          </listitem>
+        </itemizedlist>
+
+        <para>Un anneau planétaire est une ceinture d'astéroide dont les
+        astéroides ont une taille moyenne de 0,01mm</para>
       </sect3>
 
       <sect3>
-        <title>Anneau Planétaire</title>
+        <title>Astéroide</title>
 
-        <para>Caractéristiques :</para>
+        <para>Ensemble des objets uniques de l'univers.</para>
       </sect3>
     </sect2>
 
