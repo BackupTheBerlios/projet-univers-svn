@@ -75,7 +75,7 @@ IterateurListeComposition<OBJET>::AjouterApres(OBJET* _elt) {
   Composition<NoeudComposition<OBJET> > n_node(
       new NoeudComposition<OBJET>(_elt)) ;
 
-  IterateurListeAbstrait::AjouterApres(n_node.Liberer()) ;
+  IterateurListe::AjouterApres(n_node.Liberer()) ;
 }
 
 template <class OBJET> void 
@@ -84,7 +84,7 @@ IterateurListeComposition<OBJET>::AjouterAvant(OBJET* _elt) {
   Composition<NoeudComposition<OBJET> > n_node(
       new NoeudComposition<OBJET>(_elt)) ;
 
-  IterateurListeAbstrait::AjouterAvant(n_node.Liberer()) ;
+  IterateurListe::AjouterAvant(n_node.Liberer()) ;
 
 }
 

@@ -49,7 +49,7 @@ IterateurTamponListeAssociation<OBJET>::AjouterApres(const Association<OBJET> _n
 
   Composition< NoeudAssociation<OBJET> > n(new NoeudAssociation<OBJET>(_n)) ;
 
-  IterateurListeAbstrait::AjouterApres(n.Liberer()) ;
+  IterateurListe::AjouterApres(n.Liberer()) ;
 
 }
 
@@ -58,7 +58,7 @@ IterateurTamponListeAssociation<OBJET>::AjouterAvant(const Association<OBJET> _n
 
   Composition< NoeudAssociation<OBJET> > n(new NoeudAssociation<OBJET>(_n)) ;
 
-  IterateurListeAbstrait::AjouterAvant(n.Liberer()) ;
+  IterateurListe::AjouterAvant(n.Liberer()) ;
 
 }
 
