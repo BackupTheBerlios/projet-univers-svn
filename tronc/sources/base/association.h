@@ -29,7 +29,7 @@ namespace ProjetUnivers {
 
     template <class OBJET> class Composition ;
     template <class OBJET> class NoeudAssociation ;
-
+    template <class OBJET> class IterateurListeAssociation ;
     /*
     CLASS
       Association
@@ -171,6 +171,7 @@ namespace ProjetUnivers {
     
     
       friend class NoeudAssociation<OBJET> ;
+      //friend class IterateurListeAssociation<OBJET> ;
     };
     
     #include "implantation/association.cxx"

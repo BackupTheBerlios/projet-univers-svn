@@ -50,19 +50,14 @@ namespace ProjetUnivers {
     public:
     
       // *******************
-      // GROUP: Constructeur
+      // GROUP: Construction
       // *******************
     
     
       //////////////////
       // Constructeur.
-      FonctionCompositionValeurObjet() ;
-    
-      
-      // *******************
-      // GROUP: Modification
-      // *******************
-    
+      FonctionCompositionValeurObjet() ; 
+
       //////////////////
       // Ajoute un élément.
       void Ajouter(const VALEUR& , const OBJET*) ;
@@ -77,6 +72,7 @@ namespace ProjetUnivers {
       // GROUP: Accès
       // *******************
     
+
       //////////////////
       // Accès à un élément en fonction de l'identifiant.
       Association< OBJET > Image(const VALEUR&) const ;

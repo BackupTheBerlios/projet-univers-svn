@@ -19,8 +19,8 @@
  ***************************************************************************/
 
 
-#ifndef CHAINE_H
-#define CHAINE_H
+#ifndef _PU_BASE_CHAINE_H_
+#define _PU_BASE_CHAINE_H_
 
 
 #include <iostream>
