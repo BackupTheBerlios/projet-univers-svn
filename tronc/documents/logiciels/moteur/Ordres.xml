@@ -88,7 +88,7 @@
 
       <itemizedlist>
         <listitem>
-          <para>Avancer X-Y-Z: Anvance jusqu'à la position indiqué.</para>
+          <para>Avancer X-Y-Z: Avance jusqu'à la position indiqué.</para>
         </listitem>
 
         <listitem>
@@ -102,7 +102,7 @@
         </listitem>
 
         <listitem>
-          <para>Ralentire : diminue la vitesse.</para>
+          <para>Ralentir : diminue la vitesse.</para>
         </listitem>
 
         <listitem>
@@ -110,7 +110,7 @@
         </listitem>
 
         <listitem>
-          <para>Stop : Arette l'objet.</para>
+          <para>Stop : Arête l'objet.</para>
         </listitem>
       </itemizedlist>
     </section>
@@ -124,7 +124,7 @@
       <itemizedlist>
         <listitem>
           <para>Avancer vers X : se déplace en direction de l'objet et
-          s'arette à distance de sécurité.</para>
+          s'arrête à distance de sécurité.</para>
         </listitem>
 
         <listitem>
@@ -152,11 +152,11 @@
     <title>Actions</title>
 
     <para>Les actions sont les interaction que l'objet peu avoir avec les
-    autres objets. Il en éxiste deux types :</para>
+    autres objets. Il en existe deux types :</para>
 
     <itemizedlist>
       <listitem>
-        <para>Actions général</para>
+        <para>Actions générales</para>
       </listitem>
 
       <listitem>
@@ -165,10 +165,9 @@
     </itemizedlist>
 
     <section>
-      <title>Actions général</title>
+      <title>Actions générales</title>
 
-      <para>Ces sont toutes les interractions autre que celle de
-      combat.</para>
+      <para>Ces sont toutes les interactions autre que celle de combat.</para>
 
       <itemizedlist>
         <listitem>
