@@ -4,6 +4,44 @@
 <article>
   <title>Les Archonites</title>
 
+  <articleinfo>
+    <abstract>
+      <para>Description de la race des Archonites.</para>
+    </abstract>
+
+    <orgname>Equipe Projet Univers</orgname>
+
+    <author>
+      <firstname>Nicolas</firstname>
+
+      <othername>Faro</othername>
+
+      <surname>Petitdemange</surname>
+
+      <email>faro@lfxw.com</email>
+    </author>
+
+    <revhistory>
+      <revision>
+        <revnumber>1</revnumber>
+
+        <date>1Janvier 2005</date>
+
+        <revdescription>
+          <para>Conversion du document en DocBook.</para>
+
+          <para>Incorporation de l'histoire générale.</para>
+        </revdescription>
+      </revision>
+    </revhistory>
+
+    <legalnotice>
+      <para>Ce document est sous license <ulink
+      url="http://www.gnu.org/copyleft/fdl.html">GNU Free Documentation
+      License</ulink></para>
+    </legalnotice>
+  </articleinfo>
+
   <section>
     <title>Description physique</title>
 

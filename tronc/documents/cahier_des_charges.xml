@@ -101,8 +101,8 @@
       pings, possibilité aussi de chercher un serveur précis par
       l'intermédiaire d'un nom ou de l'<acronym>IP</acronym>. L'ensemble des
       résultats des parties sera archivé sur une base de données.
-      L'environnement de développement sera Windows, mais il reste
-      envisageable de porter sur Linux.</para>
+      L'environnement de développement sera Windows, mais le développement
+      sera penser pour un portage rapide et simple sous Linux.</para>
 
       <para>Projet Univers sera un jeu libre de droit, ainsi que son univers,
       cela signifie que les données seront " open source ", dans la mesure où
@@ -231,7 +231,7 @@
       l'on ferait faire au vaisseau un looping inversé. Le sang se trouve
       alors massivement dans le cerveau et les yeux du pilote, qui alors
       <acronym><emphasis>«&nbsp;voit rouge&nbsp;»</emphasis></acronym>. Un
-      pilote peut tenir 5 secondes un voile noire avant de s'évanouir. Pour
+      pilote peut tenir 5 secondes un voile rouge avant de s'évanouir. Pour
       compenser ou faire disparaître ses effets, il existe le compensateur
       d'inertie, qui peut être réglé dans une table de 80% à 100%. Ce réglage
       n'influe pas directement sur la gestion d'énergie, cependant, régler à
@@ -598,7 +598,7 @@
         important de caractériser à qui s’adressent ces messages. Pour cela,
         on défini 3 touches «&nbsp;d'appel de liste&nbsp;», configurable, qui
         présente la même liste, mais avec des destinataires différents, par
-        exemple : </para>
+        exemple :</para>
 
         <itemizedlist>
           <listitem>
@@ -798,6 +798,18 @@
           <itemizedlist>
             <listitem>
               <para>Choix et placement des vaisseaux</para>
+
+              <itemizedlist>
+                <listitem>
+                  <para>Permet de placer les objets par rapport a un axe
+                  imaginaire en 3 dimensions.</para>
+                </listitem>
+
+                <listitem>
+                  <para>Permet de placer des waypoint pour un vaisseau
+                  donnée.</para>
+                </listitem>
+              </itemizedlist>
             </listitem>
 
             <listitem>
@@ -1768,18 +1780,25 @@
             <para>Le seuil instantané est dépassé de 5 <acronym>MJ</acronym> :
             = <acronym>DPS</acronym> - <acronym>RBI</acronym>, le
             <acronym>RBT</acronym> est réduits de 20 et <acronym>RB</acronym>
-            de 5, les boucliers sont hors services durant 2 secondes.
-            <remark>Nd Rogma : pourquoi ?</remark></para>
+            de 5, les boucliers sont hors services durant 2 secondes à cause
+            d'une "surcharge". L'intervalle de temps et la résistance des
+            boucliers instantanée est définissable dans l'éditeur (si
+            <acronym>RBT</acronym> = <acronym>RBI</acronym> alors le principe
+            de la résistance instantanée n'est pas prise en
+            compte)<remark></remark></para>
           </example>
 
           <example>
             <title>Un deuxième exemple</title>
 
             <para>Résistance boucliers totale (<acronym>RBT</acronym>) =40MJ
-            Résistance boucliers instantanée (RBI) =30MJ Résistance du
-            blindage (RB) =15MJ Touché par 5 lasers de 5MJ chacun en 2sec
-            =25MJ Le seuil instantané n'est pas dépassé, RBT est réduits de
-            25, les boucliers sont actifs</para>
+            Résistance boucliers instantanée (<acronym>RBI</acronym>) =30
+            <acronym>MJ</acronym> Résistance du blindage
+            (<acronym>RB</acronym>) =15 <acronym>MJ</acronym> Touché par 5
+            lasers de 5 <acronym>MJ</acronym> chacun en 2sec =25
+            <acronym>MJ</acronym> Le seuil instantané n'est pas dépassé,
+            <acronym>RBT</acronym> est réduits de 25, les boucliers sont
+            actifs</para>
           </example>
 
           <para>Les boucliers ont des taux de recharge différents selon les
@@ -1831,11 +1850,11 @@
 
             <para>Les lasers rouges peuvent être réglés en deux modes
             différents : -tire longue distance : d'une portée de 1.5km
-            provoquant des dégâts de 5MJ tirant à une cadence lente de 1.5sec
-            par laser. -tire courte distance : d'une portée de 0.8km
-            provoquant des dégâts de 4MJ tirant à une cadence rapide de 0.8
-            sec par laser. Les deux modes du laser ont une consommation de
-            1MJ.</para>
+            provoquant des dégâts de 5 <acronym>MJ</acronym> tirant à une
+            cadence lente de 1.5sec par laser. -tire courte distance : d'une
+            portée de 0.8km provoquant des dégâts de 4 <acronym>MJ</acronym>
+            tirant à une cadence rapide de 0.8 sec par laser. Les deux modes
+            du laser ont une consommation de 1 <acronym>MJ</acronym>.</para>
           </section>
 
           <section>
@@ -1843,19 +1862,21 @@
 
             <para>Les lasers peuvent être réglés en deux modes différents :
             -tire longue distance : d'une portée de 1.8km provoquant des
-            dégâts de 4MJ tirant à une cadence lente de 1.5sec par laser.
-            -tire courte distance : d'une portée de 1km provoquant des dégâts
-            de 2MJ tirant à une cadence rapide de 0.8 sec par laser. Les deux
-            modes du laser ont une consommation de 1MJ.</para>
+            dégâts de 4 <acronym>MJ</acronym> tirant à une cadence lente de
+            1.5sec par laser. -tire courte distance : d'une portée de 1km
+            provoquant des dégâts de 2 <acronym>MJ</acronym> tirant à une
+            cadence rapide de 0.8 sec par laser. Les deux modes du laser ont
+            une consommation de 1 <acronym>MJ</acronym>.</para>
           </section>
 
           <section>
             <title>Générateur de Lasers Bleu</title>
 
             <para>Les lasers Blanc ne peuvent être réglés :: -tire longue
-            distance : d'une portée de 1.2km provoquant des dégâts de 8MJ
-            tirant à une cadence lente de 1sec par laser. Les deux modes du
-            laser ont une consommation de 1MJ.</para>
+            distance : d'une portée de 1.2km provoquant des dégâts de 8
+            <acronym>MJ</acronym> tirant à une cadence lente de 1sec par
+            laser. Les deux modes du laser ont une consommation de 1
+            <acronym>MJ</acronym>.</para>
           </section>
 
           <section>
@@ -1863,9 +1884,10 @@
 
             <para>Les lasers peuvent être réglés en deux modes différents :
             -tire longue distance : d'une portée de 2km provoquant des dégâts
-            de 2MJ tirant à une cadence lente de 1.2sec par laser. -tire
-            courte distance : d'une portée de 0.6km provoquant des dégâts de
-            1MJ tirant à une cadence rapide de 0.4 sec par laser.</para>
+            de 2 <acronym>MJ</acronym> tirant à une cadence lente de 1.2sec
+            par laser. -tire courte distance : d'une portée de 0.6km
+            provoquant des dégâts de 1 <acronym>MJ</acronym> tirant à une
+            cadence rapide de 0.4 sec par laser.</para>
           </section>
         </section>
 
@@ -1886,7 +1908,7 @@
 
             <para>Le classique, il fonce vers sa cible et explose au contact.
             Temps de verrouillages : 3 secondes. Vitesse : normal dégâts : 40
-            MJ durée de vie : 20 secondes.</para>
+            <acronym>MJ</acronym> durée de vie : 20 secondes.</para>
           </section>
 
           <section>
@@ -1922,14 +1944,14 @@
             <title>Mine standard</title>
 
             <para>Mine mobile, explose à faible distance d'un objets.. Dégâts
-            : 8 MJ.</para>
+            : 8 <acronym>MJ</acronym>.</para>
           </section>
 
           <section>
             <title>Mine "capture"</title>
 
             <para>Immobile, explose à faible distance d'un objets.. Dégâts :
-            désactivassions pendant 30 seconde.</para>
+            désactivassion pendant 30 seconde.</para>
           </section>
         </section>
       </section>
@@ -2461,6 +2483,157 @@
       lié les missions entre elle, pour permettre de créer une campagne
       linéaire. Cet outil devra permettre en repérage en 3D des positions des
       vaisseaux, de créer des plans de vol, etc.</para>
+    </section>
+  </section>
+
+  <section>
+    <title>Licences sur les productions pour projet Univers</title>
+
+    <para>Chaque partie du projet (Documentation, graphisme, programation)
+    dépend d'une licence libre. Le code et les données de Projet univers sont
+    sous licences de type GPL de manière générale, même si certaines libraries
+    peuvent avoir une ouverture encore plus grande.</para>
+
+    <para>Les Campagnes créer avec l'éditeur ne sont pas forcément libres de
+    droit, à la discretion du créateur de ses missions. Il est donc
+    parfaitement possible de réaliser une produite commerciale avec une
+    licence fermée avec le "space theater" de Projet univers. Cependant, le
+    "space theater" et le noyau du jeu reste sous licence libre, et les
+    modifications font à celui-ci dans le cadre d'un projet commercial devront
+    être transmis comme le spécifie la licence GPL.</para>
+
+    <section>
+      <title>Documentation</title>
+
+      <para>Toutes la documentation de projet univers dépend de la licence
+      <ulink url="http://www.gnu.org/copyleft/fdl.html">GNU Free Documentation
+      License.</ulink></para>
+
+      <section>
+        <title>Extrait</title>
+
+        <para>You may copy and distribute verbatim copies of the Program's
+        source code as you receive it, in any medium, provided that you
+        conspicuously and appropriately publish on each copy an appropriate
+        copyright notice and disclaimer of warranty; keep intact all the
+        notices that refer to this License and to the absence of any warranty;
+        and give any other recipients of the Program a copy of this License
+        along with the Program.</para>
+
+        <para>You may charge a fee for the physical act of transferring a
+        copy, and you may at your option offer warranty protection in exchange
+        for a fee.</para>
+
+        <para>You may modify your copy or copies of the Program or any portion
+        of it, thus forming a work based on the Program, and copy and
+        distribute such modifications or work under the terms of Section 1
+        above, provided that you also meet all of these conditions:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>You must cause the modified files to carry prominent notices
+            stating that you changed the files and the date of any
+            change.</para>
+          </listitem>
+
+          <listitem>
+            <para>You must cause any work that you distribute or publish, that
+            in whole or in part contains or is derived from the Program or any
+            part thereof, to be licensed as a whole at no charge to all third
+            parties under the terms of this License.</para>
+          </listitem>
+
+          <listitem>
+            <para>f the modified program normally reads commands interactively
+            when run, you must cause it, when started running for such
+            interactive use in the most ordinary way, to print or display an
+            announcement including an appropriate copyright notice and a
+            notice that there is no warranty (or else, saying that you provide
+            a warranty) and that users may redistribute the program under
+            these conditions, and telling the user how to view a copy of this
+            License. (Exception: if the Program itself is interactive but does
+            not normally print such an announcement, your work based on the
+            Program is not required to print an announcement.) </para>
+          </listitem>
+        </itemizedlist>
+      </section>
+    </section>
+
+    <section>
+      <title>Graphismes</title>
+
+      <para>Tout les graphismes (Dessin, modèle 3D hight Poly ou Low Poly,
+      shéma ou plan) sont sous <ulink
+      url="http://artlibre.org/licence.php/lal.html">licence Art
+      Libre</ulink>.</para>
+
+      <section>
+        <title>Extrait</title>
+
+        <para>Avec cette Licence Art Libre, l'autorisation est donnée de
+        copier, de diffuser et de transformer librement les oeuvres dans le
+        respect des droits de l'auteur.</para>
+
+        <para>Loin d'ignorer les droits de l'auteur, cette licence les
+        reconnaît et les protège. Elle en reformule le principe en permettant
+        au public de faire un usage créatif des oeuvres d'art.</para>
+
+        <para>Alors que l'usage fait du droit de la propriété littéraire et
+        artistique conduit à restreindre l'accès du public à l'oeuvre, la
+        Licence Art Libre a pour but de le favoriser.</para>
+
+        <para>L'intention est d'ouvrir l'accès et d'autoriser l'utilisation
+        des ressources d'une oeuvre par le plus grand nombre. En avoir
+        jouissance pour en multiplier les réjouissances, créer de nouvelles
+        conditions de création pour amplifier les possibilités de création.
+        Dans le respect des auteurs avec la reconnaissance et la défense de
+        leur droit moral.</para>
+
+        <para>En effet, avec la venue du numérique, l'invention de l'internet
+        et des logiciels libres, un nouveau mode de création et de production
+        est apparu. Il est aussi l'amplification de ce qui a été expérimenté
+        par nombre d'artistes contemporains.</para>
+
+        <para>Le savoir et la création sont des ressources qui doivent
+        demeurer libres pour être encore véritablement du savoir et de la
+        création. C'est à dire rester une recherche fondamentale qui ne soit
+        pas directement liée à une application concrète. Créer c'est découvrir
+        l'inconnu, c'est inventer le réel avant tout souci de réalisme.</para>
+
+        <para>Ainsi, l'objet de l'art n'est pas confondu avec l'objet d'art
+        fini et défini comme tel. C'est la raison essentielle de cette Licence
+        Art Libre : promouvoir et protéger des pratiques artistiques libérées
+        des seules règles de l'économie de marché. </para>
+      </section>
+    </section>
+
+    <section>
+      <title>Programme/Codage</title>
+
+      <para>La plupart des librairies et de la programmation dépendent de la
+      <ulink url="http://www.gnu.org/copyleft/gpl.html">licence
+      GPL</ulink></para>
+
+      <section>
+        <title>Extrait</title>
+
+        <para>This License applies to any program or other work which contains
+        a notice placed by the copyright holder saying it may be distributed
+        under the terms of this General Public License. The "Program", below,
+        refers to any such program or work, and a "work based on the Program"
+        means either the Program or any derivative work under copyright law:
+        that is to say, a work containing the Program or a portion of it,
+        either verbatim or with modifications and/or translated into another
+        language. (Hereinafter, translation is included without limitation in
+        the term "modification".) Each licensee is addressed as "you".</para>
+
+        <para>Activities other than copying, distribution and modification are
+        not covered by this License; they are outside its scope. The act of
+        running the Program is not restricted, and the output from the Program
+        is covered only if its contents constitute a work based on the Program
+        (independent of having been made by running the Program). Whether that
+        is true depends on what the Program does.</para>
+      </section>
     </section>
   </section>
 </article>
