@@ -37,6 +37,19 @@
           <para>Restructuration, ajout d'exemples et de règles.</para>
         </revdescription>
       </revision>
+
+      <revision>
+        <revnumber>0.3</revnumber>
+
+        <date>29 août 2004</date>
+
+        <revdescription>
+          <para>Corrections diverses.</para>
+
+          <para>Clarification de la partie sur l'arborescence des
+          fichiers.</para>
+        </revdescription>
+      </revision>
     </revhistory>
 
     <legalnotice>
@@ -288,42 +301,241 @@
 
       <para>Les noms des fichiers et des répertoires sont constitué de
       caractères de lettres de <filename>a</filename> à <filename>z</filename>
-      en minuscules et sans accents, si le nom doit être composé de plisieurs
+      en minuscules et sans accents, si le nom doit être composé de plusieurs
       mots ces mots sont séparés par le caractère
       <filename>_</filename>.</para>
     </sect2>
 
     <sect2>
-      <title>Organisation des fichiers</title>
+      <title>Organisation des fichiers et des répertoires</title>
 
-      <para>L'arborescence des fichiers source est de la forme suivante. Un
-      répertoire <filename>src</filename> qui contient d'autres
-      sous-répertoires. Un sous-répertoire par module de l'application, par
-      exemple le répertoire du code du réseau est
-      <filename>src/reseau</filename>. Ce répertoire contient obligatoirement
-      les sous-répertoires <filename>test</filename> et
-      <filename>implantation</filename>, un pour contenir les programmes de
-      tests et l'autre pour contenir ls différentes réalisations. Le
-      répertoire d'un module ne contient que des fichiers
-      <filename>.h</filename>, les <filename>.cpp</filename> correspondants
-      doivent se trouver dans son sous-répertoire d'implantation.</para>
+      <para>L'arborescence des répertoires et des fichiers sources est de la
+      forme suivante.</para>
+
+      <para>Un répertoire racine <filename>sources</filename>.</para>
+
+      <para>Ce répertoire contient ensuite des sous-répertoires qui sont des
+      deux types suivants :</para>
+
+      <itemizedlist>
+        <listitem>
+          <para><link linkend="repertoire_application">Répertoire
+          d'application</link></para>
+        </listitem>
+
+        <listitem>
+          <para><link linkend="repertoire_module">Répertoire de
+          module</link></para>
+        </listitem>
+      </itemizedlist>
+
+      <para>D'une manière générale, il y a une correspondance entre le chemin
+      en dessous du répertoire source et le chemin des namespaces C++. Le
+      namespace global est ProjetUnivers.</para>
 
       <para>Chaque module correspond à un namespace C++, qui porte le nom du
       module. Pour chaque module on se donne un deuxième niveau de namespace
       correspondant à l'implantation et au tests. En fait les namespaces sont
       imbriqués de la même manière que l'arborescence des répertoires.</para>
 
-      <para>Le sous-répertoire d'implantation d'un module contient un ou
-      plusieurs sous-répertoire, un par implantation différente. Par exemple
-      le module réseau possède une implantation par client/serveur et donc on
-      trouve le répertoire
-      <filename>src/reseau/implantation/client_serveur</filename>.</para>
+      <sect3 id="repertoire_application">
+        <title>Répertoire d'application</title>
+
+        <para>En dessous du répertoire sources, se trouvent les répertoires de
+        chaque application. Une application donne lieu à un programme
+        exécutable.</para>
+
+        <para>Une application n'a pas de namespace associé et une application
+        ne peut définir de classes ou procédures (sauf le main).</para>
+
+        <para>Un tel répertoire est appelé <glossterm>répertoire
+        d'application</glossterm>.</para>
+
+        <example>
+          <title>Des répertoires d'application</title>
+
+          <itemizedlist>
+            <listitem>
+              <para>L'application <application>Jeu</application> a ses sources
+              dans <filename>sources/jeu</filename>. Cette application permet
+              de jouer à Projet Univers.</para>
+            </listitem>
+
+            <listitem>
+              <para>L'application <application>EditeurMission</application> a
+              ses sources dans <filename>sources/editeur_mission</filename>.
+              Cette application permet de construire des missions.</para>
+            </listitem>
+          </itemizedlist>
+        </example>
+
+        <para>Supposons que l'application s'appèle Xub, le répertorie
+        d'application xub <emphasis>contient un seul fichier</emphasis>
+        :</para>
+
+        <itemizedlist>
+          <listitem>
+            <para><filename>xub.cpp</filename></para>
+          </listitem>
+        </itemizedlist>
+
+        <para>et les sous-répertoires suivant :</para>
+
+        <itemizedlist>
+          <listitem>
+            <para><filename>test</filename></para>
+
+            <para>pour contenir les programmes de tests, ce répertoire est
+            appelé <glossterm>répertoire des test de
+            <replaceable>Xub</replaceable></glossterm>.</para>
+          </listitem>
+
+          <listitem>
+            <para><filename>implantation</filename></para>
+
+            <para>pour contenir les différentes réalisations (i.e.,
+            implantations), ce répertoire est appelé <glossterm>répertoire des
+            implantations de
+            <replaceable>Xub</replaceable></glossterm>.</para>
+          </listitem>
+        </itemizedlist>
+      </sect3>
+
+      <sect3 id="repertoire_module">
+        <title>Répertoires de modules</title>
+
+        <para><emphasis>Un répertoire de module ne contient que des fichiers
+        <filename>.h</filename>.</emphasis></para>
+
+        <para>Un répertoire de module contient
+        <emphasis>obligatoirement</emphasis> les sous-répertoires suivant
+        :</para>
+
+        <itemizedlist>
+          <listitem>
+            <para><filename>test</filename></para>
+
+            <para>pour contenir les programmes de tests, placé dans le module
+            <replaceable>mod</replaceable>, ce répertoire est appelé
+            <glossterm>répertoire des test de
+            <replaceable>mod</replaceable></glossterm>.</para>
+
+            <para>Le namespace correspondant est</para>
+          </listitem>
+
+          <listitem>
+            <para><filename>implantation</filename></para>
+
+            <para>pour contenir les différentes réalisations (i.e.,
+            implantations) placé dans le module
+            <replaceable>mod</replaceable>, ce répertoire est appelé
+            <glossterm>répertoire des implantations de
+            <replaceable>mod</replaceable></glossterm>.</para>
+          </listitem>
+        </itemizedlist>
+
+        <example>
+          <title>Exemples de modules</title>
+
+          <itemizedlist>
+            <listitem>
+              <para>Le répertoire du module réseau est :
+              <filename>src/reseau</filename></para>
+
+              <para>Le namespace correspondant est
+              <classname>ProjetUnivers::Reseau</classname>, i.e., deux
+              <token>namespaces</token> imbriqués.</para>
+            </listitem>
+          </itemizedlist>
+        </example>
+
+        <formalpara>
+          <title>Explication</title>
+
+          <para>Autant le sous répertoire test est devenu classique, autant le
+          répertoire implantation est moins courant. L'idée générale est
+          d'avoir une propriété qui est trop rarement réalisée dans les
+          bibliothèques de modules : les modules doivent avoir une interface
+          séparée de tout le reste. La plupars des bibliothèques disponibles
+          ont une interface pour leurs modules, mais elles sont au mieux
+          mélées aux autres interfaces dans le répertoire include, et au pire
+          dans le même répertoire que leur implantation. Au final, les
+          quelques fichiers permettant d'utiliser un module se retrouvent mélé
+          à d'autres fichiers dont l'utilisateur du module n'a que faire : et
+          alors tout devient plus compliqué.</para>
+        </formalpara>
+
+        <sect4>
+          <title>Répertoire des implantation d'application ou de
+          modules</title>
+
+          <para>Un répertoire des implantation (d'une application ou d'un
+          module) peut contenir :</para>
+
+          <itemizedlist>
+            <listitem>
+              <para>des fichiers <filename>.h</filename> et
+              <filename>.cpp</filename></para>
+
+              <para>De tels fichiers ne doivent pas dépendre d'une
+              implantation spécifique, ce sont en quelque sorte les facteurs
+              communs des différentes implantations possibles.</para>
+
+              <para>Le namespace associé à ce niveau dans la hiérarchie est
+              <classname>ProjetUnivers::LeNomDeLApplicationOuDuModule::Implantation</classname>.</para>
+            </listitem>
+
+            <listitem>
+              <para>des répertoires, appelés <glossterm>répertoires
+              d'implantation spécifique</glossterm>, i.e., il s'agit d'un
+              choix particulier d'implantation.</para>
+
+              <para>Il peut y avoir plusieurs répertoires d'implantation
+              spécifique, mais pendant la compilation, un seul est utilisé. Un
+              répertoire d'implantation spécifique peut contenir des fichiers
+              <filename>.h</filename> et <filename>.cpp</filename>.</para>
+
+              <para><remark>Ceci a pour but de pouvoir tester plusieurs
+              implantations différentes pour un même module.</remark></para>
+            </listitem>
+          </itemizedlist>
+
+          <example>
+            <title>Quelques exemples</title>
+
+            <para>Pour le module Réseau on trouve plusieurs implantations
+            :</para>
+
+            <itemizedlist>
+              <listitem>
+                <para><filename>sources/reseau/implantation/client_serveur</filename></para>
+
+                <para>qui contient une implantation du module Réseau utilisant
+                la technique du client serveur.</para>
+
+                <para>Le namespace correspondant est
+                <classname>ProjetUnivers::Reseau::Implantation::ClientServeur</classname>.</para>
+              </listitem>
+
+              <listitem>
+                <para><filename>sources/reseau/implantation/distribue</filename></para>
+
+                <para>qui contient une implantation du module Réseau utilisant
+                une technique sans serveur.</para>
+
+                <para>Le namespace correspondant est
+                <classname>ProjetUnivers::Reseau::Implantation::Distribue</classname>.</para>
+              </listitem>
+            </itemizedlist>
+          </example>
+        </sect4>
+      </sect3>
     </sect2>
 
     <sect2>
       <title>Fichiers sources</title>
 
-      <para>Les fichiers <filename>.h</filename> contiennent les definition
+      <para>Les fichiers <filename>.h</filename> contiennent les définition
       des classes, les <filename>.cpp</filename> leur implantation.</para>
 
       <para>Pour chaque classe on a un fichier <filename>.h</filename> et
@@ -1124,7 +1336,8 @@ private:
       <example>
         <title>Exemple d'une classe de test</title>
 
-        <para>Une classe qui teste une autre classe.</para>
+        <para>Une classe qui teste une autre classe. Le
+        <filename>.h</filename>.</para>
 
         <programlisting>// test_reseau.h
 
@@ -1187,7 +1400,7 @@ private:
 
 #endif // _OK_DOMAIN_TEST_H_</programlisting>
 
-        <para></para>
+        <para>Le <filename>.cpp</filename> :</para>
 
         <programlisting>// test_reseau.cpp
 
@@ -1205,12 +1418,12 @@ CPPUNIT_TEST_SUITE_REGISTRATION(TestReseau) ;
 // GROUP: Mise en place
 // ********************
 
-void OkPassTest::setUp()
+void TestReseau::setUp()
 {
   // 
 }
 
-void OkPassTest::tearDown()
+void TestReseau::tearDown()
 {
   // 
 }</programlisting>
@@ -1318,7 +1531,9 @@ void OkPassTest::tearDown()
           Prados</ulink></lineage>
         </author>
 
-        <title><ulink url="???">La qualité en C++</ulink></title>
+        <title><ulink
+        url="http://www.philippe.prados.name/Livre/QCPP/index.html">La qualité
+        en C++</ulink></title>
 
         <editor>
           <lineage>Eyrolles</lineage>
