@@ -30,6 +30,21 @@
 
     <revhistory>
       <revision>
+        <revnumber>1.1</revnumber>
+
+        <date>3 septembre 2004</date>
+
+        <revdescription>
+          <para>Ajout dans 8.1.1 (amélioration de la description)</para>
+
+          <para>ATTENTION : modification pour séparation campagne et
+          éditeur/moteur en cours</para>
+        </revdescription>
+      </revision>
+    </revhistory>
+
+    <revhistory>
+      <revision>
         <revnumber>1.0</revnumber>
 
         <date>22 août 2004</date>
@@ -356,8 +371,8 @@
 
         <para>Ces grades correspondent à un ordre
         <command>est-plus-gradé-que</command>&nbsp;: un général est plus gradé
-        qu'un commandant, qui est lui même plus gradé qu'un lieutenant, etc...
-        </para>
+        qu'un commandant, qui est lui même plus gradé qu'un lieutenant,
+        etc...</para>
 
         <para>Un intervenant d'un grade A peut demander une action à un
         intervenant d'un grade B &lt; A, et cette demande est alors appelée
@@ -650,8 +665,8 @@
 
           <para>Le joueur lance un éditeur, choisit un châssis de vaisseaux,
           qui a des possibilités d'emports données (ex : 50 unités). Ensuite
-          le joueur peut choisir les systèmes qu'il place sur son vaisseau.
-          </para>
+          le joueur peut choisir les systèmes qu'il place sur son
+          vaisseau.</para>
 
           <example>
             <title>Une personnalisation</title>
@@ -1540,19 +1555,29 @@
 
         <itemizedlist>
           <listitem>
-            <para>des systèmes de propulsion,</para>
+            <para>des systèmes de propulsion : Ils constituent une partie
+            vitale pour un vaisseau dans l'espace. Ils servent à
+            avancer.</para>
           </listitem>
 
           <listitem>
-            <para>des boucliers ,</para>
+            <para>des boucliers , Ils sont aussi une partie intégrante dans un
+            vaisseau puisqu'ils augmentent la capacité de défense d'un
+            vaisseau. La répartition de n'energie peut se faire entre l'avant
+            et l'arrière du vaisseau, entre le coté gauche et le coté droit.
+            en temps normal, on dirige également l'energie destiner au
+            boucliers, mais on peut changer l'équilibrage.</para>
           </listitem>
 
           <listitem>
-            <para>de l'armement,</para>
+            <para>de l'armement, Concerne les Lasers (de tout type). Les
+            missiles et autres armes n'ont pas besoin de l'energie principale
+            du vaisseau (ou on un générateur perso)</para>
           </listitem>
 
           <listitem>
-            <para>et des autres matériels montés sur le vaisseau.</para>
+            <para>et des autres matériels montés sur le vaisseau, sonde,
+            système radar évolué.</para>
           </listitem>
         </itemizedlist>
 
@@ -1577,6 +1602,21 @@
         puissance_propulsion(100) + puissance_armes (100)+
         puissance_bouclier(100) + puissance_autre(100) =
         constante(400)</quote></para>
+
+        <para>Avec ce système, on peut donc modifier n'importe laquels des
+        valeurs, tant que le résultat est toujours identique. Pour facilité
+        les modifications par le joueur, on utilise la règle suivante :</para>
+
+        <remark>Toute modification d'une valeur est équilibré par une
+        modification inverse sur puissance_propulsion</remark>
+
+        <para>On peut modifier les valeurs des armes, des boucliers et autres.
+        On ne peut pas modifier la valeur Propulsion. Si on désire aller plus
+        vite, on diminue la puisance atribuer au armes ou boucliers.</para>
+
+        <para>Si par exemple, en plein combat, je veut que la puissance de
+        chargement de mes armes siot plus importante, aucun problème, je monte
+        la valeur de puissance_armes, mais je vais alors moins vite.</para>
       </section>
 
       <section>
@@ -1659,7 +1699,7 @@
             </itemizedlist>
 
             <para>Touché par 5 lasers de 5 <acronym>MJ</acronym> pendant un
-            intervalle de temps de 2 secondes : </para>
+            intervalle de temps de 2 secondes :</para>
 
             <itemizedlist>
               <listitem>
@@ -1672,7 +1712,7 @@
             = <acronym>DPS</acronym> - <acronym>RBI</acronym>, le
             <acronym>RBT</acronym> est réduits de 20 et <acronym>RB</acronym>
             de 5, les boucliers sont hors services durant 2 secondes.
-            <remark>Nd Rogma : pourquoi ?</remark> </para>
+            <remark>Nd Rogma : pourquoi ?</remark></para>
           </example>
 
           <example>
