@@ -1,0 +1,478 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN"
+"http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd">
+<article>
+  <title>Outils</title>
+
+  <articleinfo>
+    <abstract>
+      <para>Ce document décrit les configurations des outils utilisés dans le
+      développement du Projet Univers</para>
+    </abstract>
+
+    <orgname>Equipe du Projet Univers</orgname>
+
+    <author>
+      <personname>
+        <firstname>Mathieu</firstname>
+
+        <surname>Roger</surname>
+      </personname>
+
+      <email>rogmaboami@hotmail.com</email>
+    </author>
+
+    <revhistory>
+      <revision>
+        <revnumber>0.1</revnumber>
+
+        <date>10 aout 2004</date>
+
+        <revdescription>
+          <para>Création initiale</para>
+        </revdescription>
+      </revision>
+    </revhistory>
+
+    <legalnotice>
+      <para>Ce document est sous license <ulink
+      url="http://www.gnu.org/copyleft/fdl.html">GNU Free Documentation
+      License</ulink></para>
+    </legalnotice>
+  </articleinfo>
+
+  <sect1>
+    <title>Introduction</title>
+
+    <para>Un certain nombre d'outils sont utilisés dans le cadre de ce
+    projet.</para>
+  </sect1>
+
+  <sect1>
+    <title>Gestionnaire de fichiers</title>
+
+    <para>Tous les fichiers du projet sont stockés sur un serveur <ulink
+    url="http://subversion.tigris.org/">subversion</ulink>. Ceci permet de
+    garder toutes les versions d'un même fichier et ainsi de ne perdre aucune
+    donnée.</para>
+
+    <para>Le serveur étant hébergé par berlios, il faut <ulink
+    url="https://developer.berlios.de/account/register.php">ouvrir un compte
+    développeur chez berlios</ulink>, c'ets la permière étape.</para>
+
+    <sect2>
+      <title>Configuration</title>
+
+      <sect3>
+        <title>TortoiseSVN sous Windows</title>
+
+        <para>Nous allons décrire l'utilisation de subversion sous windows
+        avec <ulink
+        url="http://tortoisesvn.tigris.org/">TortoiseSVN</ulink>,qui dispose
+        d'une version française.</para>
+
+        <para>TortoiseSVN s'intègre directement dans l'explorateur windows, on
+        accède à ses fonctions par un clic droit de la souris sur le
+        répertoire ou les fichiers sur lesquels on veut lancer une
+        action.</para>
+
+        <para>En ce qui concerne l'autentification, le logiciel vous demandera
+        votre mot de passe à chaque fois. <remark>Une prochaine version de ce
+        document expliquera comment faire pour ne pas le rentrer à chaque
+        fois</remark></para>
+
+        <sect4>
+          <title>Création d'un répertoire de travail local</title>
+
+          <para>Il faut se créer un répertoire local qui contiendra des copies
+          locales des fichiers présents sur le serveur. C'est dans ce
+          repertoire que vous pourez travailler.</para>
+
+          <para>Pour récupérer la première fois les fichiers se trouvant sur
+          le serveur :</para>
+
+          <procedure>
+            <step>
+              <para>Clic droit de la souris sur le répertoire local, choisir
+              la commande <command>Extraire</command> ou
+              <command>Checkout</command>, une nouvelle fenètre apparait
+              :</para>
+
+              <figure>
+                <title>Accès à la commande <command>Extraire</command></title>
+
+                <mediaobject>
+                  <imageobject>
+                    <imagedata fileref="images/commande_extraire.jpg" />
+                  </imageobject>
+                </mediaobject>
+              </figure>
+            </step>
+
+            <step>
+              <para>Dans le champ URL of repository mettre :
+              <userinput>svn+ssh://<replaceable>rogma</replaceable>@svn.berlios.de/svnroot/repos/projet-univers</userinput>,
+              ou <replaceable>rogma</replaceable> est votre nom d'utilisateur
+              dans Berlios.</para>
+
+              <para><figure>
+                  <title>Choix de l'url du serveur</title>
+
+                  <mediaobject>
+                    <imageobject>
+                      <imagedata fileref="images/choix_de_url.jpg" />
+                    </imageobject>
+                  </mediaobject>
+                </figure></para>
+            </step>
+
+            <step>
+              <para>Cliquez sur OK</para>
+            </step>
+
+            <step>
+              <para>Donner votre mot de passe</para>
+            </step>
+
+            <step>
+              <para>Normalement, là ca télécharge. Attendez qu'il vous dise
+              que ce soit fini :</para>
+
+              <para><figure>
+                  <title>Le téléchargement est fini</title>
+
+                  <mediaobject>
+                    <imageobject>
+                      <imagedata fileref="images/checkout_finished.jpg" />
+                    </imageobject>
+                  </mediaobject>
+                </figure></para>
+            </step>
+          </procedure>
+        </sect4>
+
+        <sect4>
+          <title>Téléchargement de la dernière version à jour</title>
+
+          <para>Cette opération est pratiquement la même que la création d'un
+          répertoire de travail local, sauf qu'on n'a plus à indiquer l'URL du
+          serveur.</para>
+
+          <procedure>
+            <step>
+              <para>Clic droit de la souris sur le répertoire local, choisir
+              la commande <command>Mettre à jour</command> ou
+              <command>Update</command>.</para>
+
+              <para><figure>
+                  <title>Commande <command>Mise à jour</command></title>
+
+                  <mediaobject>
+                    <imageobject>
+                      <imagedata fileref="images/update.jpg" />
+                    </imageobject>
+                  </mediaobject>
+                </figure></para>
+            </step>
+
+            <step>
+              <para>Donner votre mot de passe</para>
+            </step>
+
+            <step>
+              <para>Normalement, là ca télécharge. Attendez qu'il vous dise
+              que ce soit fini :</para>
+
+              <para><figure>
+                  <title>Le téléchargement est fini</title>
+
+                  <mediaobject>
+                    <imageobject>
+                      <imagedata fileref="images/checkout_finished.jpg" />
+                    </imageobject>
+                  </mediaobject>
+                </figure></para>
+            </step>
+          </procedure>
+        </sect4>
+
+        <sect4>
+          <title>Livraison vers le serveur</title>
+
+          <para>Vous avez ajouté ou modifiés des fichiers et vous voulez
+          rendre ces mises à jour disponibles sur le serveur :</para>
+
+          <procedure>
+            <step>
+              <para>Clic droit de la souris sur le répertoire local, choisir
+              la commande <command>Livrer</command> ou
+              <command>Commit</command>, une nouvelle fenètre apparait
+              :</para>
+
+              <para><figure>
+                  <title>Fenêtre de livraison</title>
+
+                  <mediaobject>
+                    <imageobject>
+                      <imagedata fileref="images/livraison.jpg" />
+                    </imageobject>
+                  </mediaobject>
+                </figure></para>
+            </step>
+
+            <step>
+              <para>Dans la partie du haut, décrivez brièvement la
+              livraison.</para>
+
+              <figure>
+                <title>Ajout d'un commentaire sur la livraison</title>
+
+                <mediaobject>
+                  <imageobject>
+                    <imagedata fileref="images/log_livraison.jpg" />
+                  </imageobject>
+                </mediaobject>
+              </figure>
+            </step>
+
+            <step>
+              <para>Le logiciel envoie les modifications au serveur, patientez
+              jusqu'à :</para>
+
+              <figure>
+                <title>La livraison est finie</title>
+
+                <mediaobject>
+                  <imageobject>
+                    <imagedata fileref="images/livraison_finie.jpg" />
+                  </imageobject>
+                </mediaobject>
+              </figure>
+            </step>
+          </procedure>
+        </sect4>
+
+        <sect4>
+          <title>Ajouts de fichiers</title>
+
+          <para>Lorsque vous créez un nouveau fichier dans votre répertoire de
+          travail local, subversion ne peut deviner tout seul si ce fichier
+          doit être ou non livré sur le serveur à la prochaine livraison. Il
+          faut donc lui indiquer quels sont les fichiers ou répertoires qui
+          doivent être ajoutés sur le seveur :</para>
+
+          <procedure>
+            <step>
+              <para>Clic droit sur le répertoire ou fichier à ajouter, puis
+              choisir la commande <command>Ajouter</command> ou
+              <command>Add</command> :</para>
+
+              <para><figure>
+                  <title>La commande <command>Ajouter</command></title>
+
+                  <mediaobject>
+                    <imageobject>
+                      <imagedata fileref="images/ajouter.jpg" />
+                    </imageobject>
+                  </mediaobject>
+                </figure></para>
+            </step>
+
+            <step>
+              <para>Les fichiers sont marqués comme ajoutés à votre
+              réperstoire de travail local, ils ne sont pas encore envoyés au
+              serveur, ce sera fait à la prochaine livraison.</para>
+
+              <figure>
+                <title>Les fichiers sont ajoutés</title>
+
+                <mediaobject>
+                  <imageobject>
+                    <imagedata fileref="images/fichier_ajoute.jpg" />
+                  </imageobject>
+                </mediaobject>
+              </figure>
+            </step>
+          </procedure>
+        </sect4>
+
+        <sect4>
+          <title>Suppression</title>
+
+          <para>Idem que l'ajout, sauf que la commande est
+          <command>Effacer</command> ou <command>Delete</command>.</para>
+        </sect4>
+
+        <sect4>
+          <title>Renommage</title>
+
+          <para>Idem que l'ajout, sauf que la commande est
+          <command>Renommer</command> ou <command>Rename</command>.</para>
+        </sect4>
+      </sect3>
+
+      <sect3>
+        <title>Subversion sous linux</title>
+
+        <para>Installer le package subversion de votre distribution. La
+        commande magique est <command>svn</command>, largement documentée sur
+        le <ulink
+        url="http://svnbook.red-bean.com/svnbook/ch09.html">web</ulink>.</para>
+
+        <sect4>
+          <title>Création d'un répertoire de travail local</title>
+
+          <para>Il faut se créer un répertoire local qui contiendra des copies
+          locales des fichiers présents sur le serveur. C'est dans ce
+          repertoire que vous pourez travailler.</para>
+
+          <para>Pour récupérer la première fois les fichiers se trouvant sur
+          le serveur :</para>
+
+          <procedure>
+            <step>
+              <para><command>svn checkout
+              svn+ssh://rogma@svn.berlios.de/svnroot/repos/projet-univers</command></para>
+            </step>
+
+            <step>
+              <para>Donner votre mot de passe</para>
+            </step>
+
+            <step>
+              <para>Normalement, là ca télécharge et met le tout dans un
+              répertoire <filename>projet-univers</filename>, puis écrit :
+              <prompt>Checked out revision
+              <replaceable>n</replaceable>.</prompt></para>
+            </step>
+          </procedure>
+        </sect4>
+
+        <sect4>
+          <title>Téléchargement de la dernière version à jour</title>
+
+          <para>Cette opération est pratiquement la même que la création d'un
+          répertoire de travail local, sauf qu'on n'a plus à indiquer l'URL du
+          serveur.</para>
+
+          <procedure>
+            <step>
+              <para>Il faut être dans le répertoire de travail local et taper
+              : <command>svn update</command></para>
+            </step>
+
+            <step>
+              <para>Donner votre mot de passe</para>
+            </step>
+
+            <step>
+              <para>Normalement, là ca télécharge. Attendez qu'il vous dise
+              que ce soit fini : <prompt>At revision
+              <replaceable>n</replaceable>.</prompt></para>
+            </step>
+          </procedure>
+        </sect4>
+
+        <sect4>
+          <title>Livraison vers le serveur</title>
+
+          <para>Vous avez ajouté ou modifiés des fichiers et vous voulez
+          rendre ces mises à jour disponibles sur le serveur :</para>
+
+          <procedure>
+            <step>
+              <para>Il faut être dans le répertoire de travail local et taper
+              : <command>svn commit -m
+              '<replaceable>message</replaceable>'</command>, où
+              <replaceable>message</replaceable> est le message de log de la
+              livraison, si vous ommétez le message il vous proposera de
+              l'éditer manuellement, cependant, ce n'est pas forcément
+              conseillé.</para>
+            </step>
+
+            <step>
+              <para>Le logiciel envoie les modifications au serveur, patientez
+              jusqu'à : <prompt>Commited revision
+              <replaceable>n</replaceable>.</prompt></para>
+            </step>
+          </procedure>
+        </sect4>
+
+        <sect4>
+          <title>Ajouts de fichiers ou de repertoires</title>
+
+          <para>Lorsque vous créez un nouveau fichier dans votre répertoire de
+          travail local, subversion ne peut deviner tout seul si ce fichier
+          doit être ou non livré sur le serveur à la prochaine livraison. Il
+          faut donc lui indiquer quels sont les fichiers ou répertoires qui
+          doivent être ajoutés sur le seveur :</para>
+
+          <procedure>
+            <step>
+              <para>Tapez : <command>svn add
+              <replaceable>emplacement_du_fichier_ou_du_repertoire</replaceable></command></para>
+            </step>
+          </procedure>
+        </sect4>
+
+        <sect4>
+          <title>Suppression</title>
+
+          <para>Idem que l'ajout, sauf que la commande est <command>svn delete
+          <replaceable>emplacement_du_fichier_ou_du_repertoire</replaceable></command>.</para>
+        </sect4>
+
+        <sect4>
+          <title>Renommage</title>
+
+          <para>Idem que l'ajout, sauf que la commande est <command>svn move
+          <replaceable>source</replaceable>
+          <replaceable>destination</replaceable></command> .</para>
+        </sect4>
+      </sect3>
+    </sect2>
+  </sect1>
+
+  <sect1>
+    <title>Logithèque</title>
+
+    <para>Tous les logiciels utilisés doivent être gratuits ou sous licence
+    libre. La liste qui suit est une liste indicative, chacun est libre
+    d'utiliser d'autres logiciels après accord des responsables du projet, ces
+    logiciels devant être préférablement libres, et au pire gratuits.</para>
+
+    <sect2>
+      <title>Modélisation 3D</title>
+
+      <para>Un logiciel utilisé pour la modélisation 3D est <ulink
+      url="http://www.blender3d.org/">blender</ulink>.</para>
+    </sect2>
+
+    <sect2>
+      <title>Manipulation d'images</title>
+
+      <para>Un logiciel utilisé pour la manipulation d'image et la fabrication
+      de textures est <ulink
+      url="http://www.gimp-fr.org/">gimp</ulink>.</para>
+    </sect2>
+
+    <sect2>
+      <title>Editeur et compilateur C++</title>
+
+      <para>Sous windows vous pouvez utiliser <ulink
+      url="http://www.bloodshed.net/dev/devcpp.html">DevC++</ulink>, sous
+      linux, <ulink url="http://www.kdevelop.org/">kdevelop</ulink>, ou la
+      suite<ulink url="http://autotoolset.sourceforge.net/tutorial.html">
+      autotool de GNU</ulink>. </para>
+    </sect2>
+
+    <sect2>
+      <title>Documents docbooks</title>
+
+      <para>Sous windows vous pouvez utiliser <ulink
+      url="http://www.xmlmind.com/xmleditor/">XMLMindEditor</ulink>, sous
+      linux les outils WYSIWYG sont malheureusement très limités, voir <ulink
+      url="http://www.zzoss.com/projects/oowdbk/">OpenOffice</ulink>.</para>
+    </sect2>
+  </sect1>
+</article>
