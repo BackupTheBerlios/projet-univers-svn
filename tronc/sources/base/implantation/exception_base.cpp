@@ -19,44 +19,26 @@
  ***************************************************************************/
 
 
-#ifndef PU_EXCEPTION_BASE_H
-#define PU_EXCEPTION_BASE_H
-
-
-
-#include "chaine.h"
-
-#include "exception.h"
-
+#include "exception_base.h"
 
 namespace ProjetUnivers {
-  
-  namespace Base {
-  
-  
-    /*
-    CLASS
-      ExceptionBase
-    
-      Classe des exceptions utilisées dans le module Base.
-    
-    
-    */
-    class ExceptionBase : public Exception {
-    public:
 
-      ////////////////
-      // Constructeur.
-      ExceptionBase(const Chaine& _message) ;
-
-      ////////////////
-      // Constructeur de copie, le constructeur de copie est obligatoire
-      // pour les exceptions.
-      ExceptionBase(const ExceptionBase& x) ;
+  namespace Base {    
     
-    };
-
-  }
+    // Classe de base
+    // **************
+    
+    ExceptionBase::ExceptionBase
+        (const Chaine& _message)
+        
+      : Exception(_message,1)
+    {} 
+    
+   
+    ExceptionBase::ExceptionBase(const ExceptionBase& x)
+      : Exception(x.message,x.numeroErreur)
+    {}
+    
+    
+  }   
 }
-
-#endif

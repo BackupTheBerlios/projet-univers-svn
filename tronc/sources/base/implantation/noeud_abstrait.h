@@ -18,45 +18,53 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#ifndef _PU_BASE_NOEUD_ABSTRAIT_H_
+#define _PU_BASE_NOEUD_ABSTRAIT_H_
 
-#ifndef PU_EXCEPTION_BASE_H
-#define PU_EXCEPTION_BASE_H
-
-
-
-#include "chaine.h"
-
-#include "exception.h"
+#include "composition.h"
+#include "association.h"
 
 
 namespace ProjetUnivers {
-  
+
   namespace Base {
-  
-  
+      
     /*
     CLASS
-      ExceptionBase
+    	NoeudAbstrait
     
-      Classe des exceptions utilisées dans le module Base.
-    
-    
+    	Classe de base représentant le chainage des noeuds d'une liste.
     */
-    class ExceptionBase : public Exception {
+    class NoeudAbstrait {
     public:
-
-      ////////////////
-      // Constructeur.
-      ExceptionBase(const Chaine& _message) ;
-
-      ////////////////
-      // Constructeur de copie, le constructeur de copie est obligatoire
-      // pour les exceptions.
-      ExceptionBase(const ExceptionBase& x) ;
     
+    	///////////////////
+    	// Elément suivant.
+    	Composition< NoeudAbstrait > suivant ;
+    
+    	///////////////////
+    	// Elément précédent.
+    	Association< NoeudAbstrait > precedent ;
+    
+    	///////////////
+    	// Constructeur par défaut.
+    	NoeudAbstrait() ;
+    
+    	///////////////
+    	// Classe de base donc destructeur virtuel.
+    	virtual ~NoeudAbstrait() ;
+    
+    	///////////////////
+    	// Ajoute un noeud avant le noeud courant.
+    	void AjouterAvant(NoeudAbstrait *_p_nouv_n_);
+    
+    	//////////////////
+    	// Ajoute un noeud après le noeud courant.
+    	void AjouterApres(NoeudAbstrait *_p_nouv_n_);
     };
 
   }
 }
-
 #endif
+
+

@@ -18,45 +18,37 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+template <class OBJET> inline 
+EnsembleComposition<OBJET>::EnsembleComposition()
+: ListeComposition<OBJET>()
+{}
 
-#ifndef PU_EXCEPTION_BASE_H
-#define PU_EXCEPTION_BASE_H
+template <class OBJET> inline 
+EnsembleComposition<OBJET>::~EnsembleComposition()
+{}
 
-
-
-#include "chaine.h"
-
-#include "exception.h"
-
-
-namespace ProjetUnivers {
+template <class OBJET> inline
+void EnsembleComposition<OBJET>::Ajouter(OBJET* _elt)
+{
+  Composition<OBJET> element(_elt) ;
   
-  namespace Base {
-  
-  
-    /*
-    CLASS
-      ExceptionBase
+  if (! Contient(element))
+    ListeComposition<OBJET>::AjouterEnTete(element.Liberer()) ;
     
-      Classe des exceptions utilisées dans le module Base.
-    
-    
-    */
-    class ExceptionBase : public Exception {
-    public:
-
-      ////////////////
-      // Constructeur.
-      ExceptionBase(const Chaine& _message) ;
-
-      ////////////////
-      // Constructeur de copie, le constructeur de copie est obligatoire
-      // pour les exceptions.
-      ExceptionBase(const ExceptionBase& x) ;
-    
-    };
-
-  }
 }
-
-#endif
+    
+template <class OBJET> inline
+void EnsembleComposition<OBJET>::Enlever(const Association< OBJET >& _el)
+{
+  if (Contient(element))
+    ListeComposition<OBJET>::Enlever(_el) ;
+}
+    
+    
+template <class OBJET> inline
+Booleen 
+EnsembleComposition<OBJET>::Contient(const Association< OBJET >& _el) const
+{
+  return ListeComposition<OBJET>::Contient(_el) ;
+}
+ 

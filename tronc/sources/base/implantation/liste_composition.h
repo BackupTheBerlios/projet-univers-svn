@@ -18,29 +18,33 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_BASE_ENSEMBLE_COMPOSITION_H_
-#define _PU_BASE_ENSEMBLE_COMPOSITION_H_
+#ifndef _PU_BASE_LISTE_COMPOSITION_H_
+#define _PU_BASE_LISTE_COMPOSITION_H_
 
-#include "association.h"
-#include "implantation/liste_composition.h"
-
+#include "liste_abstraite.h"
+#include "noeud_composition.h"
+#include "iterateur_liste_composition.h"
 
 namespace ProjetUnivers {
 
   namespace Base {
+  
+    
+    template <class OBJET> class ListeAssociation ;
+    
     
     /*
     CLASS
-      EnsembleComposition
+      ListeComposition
     
-      Représente un ensemble d'éléments d'une classe d'objets en composition.
+      Classe générique réalisant l'agrégation d'une liste d'objets.
     
     UTILISATION
-      Même utilisations que pour Composition, en ce qui concerne les ensembles.
+      Même utilisations que pour ObComposition, en ce qui concerne les listes.
     */
-    template <class OBJET> class EnsembleComposition 
-        : public ListeComposition<OBJET> {
-
+    template <class OBJET> class ListeComposition 
+      : public ListeAbstraite {
+    
     public:
     
     
@@ -52,19 +56,35 @@ namespace ProjetUnivers {
       
       //////////////
       // Constructeur par défaut.
-      EnsembleComposition() ;
+      ListeComposition() ;
     
       //////////////
       // Destructeur par défaut.
-      ~EnsembleComposition() ;
+      ~ListeComposition() ;
     
       /////////////////
-      // Aggrege un élément à l'ensemble.
-      void Ajouter(OBJET* _elt);
+      // Constructeur de copie, _l est vide après cela.
+      ListeComposition(const ListeComposition<OBJET> &_l);
+    
+      /////////////////
+      // Aggrege un élément à la liste en première position.
+      void AjouterEnTete(OBJET* _elt);
+    
+      /////////////////
+      // Aggrege des éléments à la liste en première position.
+      void AjouterEnTete(const ListeComposition< OBJET >& _l) ;
+    
+      /////////////////
+      // Aggrege un élément à la liste en dernière position.
+      void AjouterEnQueue(OBJET* _elt);
     
       //////////////////
-      // Enlève l'élément _el, s'il n'y est pas ne fait rien.
-      void Enlever(const Association< OBJET >& _el) ;
+      // Enlève l'élément à la position _pos;
+      void Enlever(unsigned int _pos) ;
+    
+      /////////////////
+      // Méthode linéaireAprès ça, _l est vide.
+      ListeComposition< OBJET >& operator = (const ListeComposition<OBJET> &_l);
     
     
       // ********************
@@ -73,19 +93,26 @@ namespace ProjetUnivers {
     
     
       ///////////////////
-      // Determine si _el fait partie de l'ensemble.
+      // Determine si _el fait partie de la liste.
       Booleen Contient(const Association< OBJET >& _el) const ;
+    
+      ///////////////////
+      // Determine si _el fait partie de la liste et renvoie sa position.
+      unsigned int Position(const Association< OBJET >& _el) const ;
+    
+    
+      /////////////////
+      // Renvoie l'élément à la position _pos.
+      Association< OBJET > Element(unsigned int _pos) const ;
     
     
     };
     
     #ifdef _INC_TEMP_CODE_
-    #include "implantation/ensemble_composition.cxx"
+    #include "liste_composition.cxx"
     #endif
-
   }
 }
+#endif 
 
 
-
-#endif

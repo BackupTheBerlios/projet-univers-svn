@@ -18,45 +18,49 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#ifndef _PU_BASE_NOEUD_ASSOCIATION_H_
+#define _PU_BASE_NOEUD_ASSOCIATION_H_
 
-#ifndef PU_EXCEPTION_BASE_H
-#define PU_EXCEPTION_BASE_H
-
-
-
-#include "chaine.h"
-
-#include "exception.h"
+#include "noeud_abstrait.h"
 
 
 namespace ProjetUnivers {
-  
+
   namespace Base {
-  
-  
+      
+    
+    template <class OBJET> class IterateurListeAssociation ;
+    
     /*
     CLASS
-      ExceptionBase
+      NoeudAssociation
     
-      Classe des exceptions utilisées dans le module Base.
-    
-    
+      Classe représentant un noeud d'une liste en association.
     */
-    class ExceptionBase : public Exception {
-    public:
-
-      ////////////////
+    template <class OBJET> class NoeudAssociation 
+      : public NoeudAbstrait {
+    
+     public:
+    
+      /////////////
       // Constructeur.
-      ExceptionBase(const Chaine& _message) ;
+      NoeudAssociation(const Association< OBJET > _elt) ;
 
-      ////////////////
-      // Constructeur de copie, le constructeur de copie est obligatoire
-      // pour les exceptions.
-      ExceptionBase(const ExceptionBase& x) ;
+    private:
+    
+      ////////////
+      // Elément.
+      Association< OBJET > element ;
+
+       
     
     };
-
+    
+    #ifdef _INC_TEMP_CODE_
+    #include "noeud_association.cxx"
+    #endif
   }
 }
-
 #endif
+
+

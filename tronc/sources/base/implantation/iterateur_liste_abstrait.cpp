@@ -18,45 +18,55 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-
-#ifndef PU_EXCEPTION_BASE_H
-#define PU_EXCEPTION_BASE_H
-
-
-
-#include "chaine.h"
-
-#include "exception.h"
-
+#include "iterateur_liste_abstrait.h"
+#include "association.h"
 
 namespace ProjetUnivers {
-  
+
   namespace Base {
-  
-  
-    /*
-    CLASS
-      ExceptionBase
     
-      Classe des exceptions utilisées dans le module Base.
+    IterateurListeAbstrait::IterateurListeAbstrait(const Association< NoeudAbstrait >& n,
+    					       const Association<ListeAbstraite>& l)
+    : BASE_VREF(noeudCourant)(n),
+      BASE_VREF(liste)(l)
+    {}
     
     
-    */
-    class ExceptionBase : public Exception {
-    public:
-
-      ////////////////
-      // Constructeur.
-      ExceptionBase(const Chaine& _message) ;
-
-      ////////////////
-      // Constructeur de copie, le constructeur de copie est obligatoire
-      // pour les exceptions.
-      ExceptionBase(const ExceptionBase& x) ;
+    void IterateurListeAbstrait::operator ++() {
     
-    };
-
+      if (!(noeudCourant() == NULL))
+    
+        noeudCourant() = noeudCourant()->suivant ;
+    
+      else
+    
+        throw ExceptionBase("IterateurListeAbstrait::operator ++") ;
+    }
+    
+    void IterateurListeAbstrait::operator --() {
+    
+      if (!(noeudCourant() == NULL))
+    
+        noeudCourant() = noeudCourant()->precedent ;
+    
+      else
+    
+        throw ExceptionBase("IterateurListeAbstrait::operator --") ;
+    
+    }
+    
+    Booleen IterateurListeAbstrait::Valide() const {
+    
+      return ! (noeudCourant() == NULL) ;
+    }
+    
+    IterateurListeAbstrait::~IterateurListeAbstrait()
+    {}
+    
+    unsigned int IterateurListeAbstrait::NombreDElements() const {
+    
+    	return liste()->NombreDElements() ;
+    }
   }
 }
 
-#endif

@@ -18,45 +18,69 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+///////////////
+// Renvoie l'élément courant en association.
+template <class OBJET> 
+IterateurListeAssociation<OBJET>::operator Association< OBJET >()
+{
+  return noeudCourant()->element ;
 
-#ifndef PU_EXCEPTION_BASE_H
-#define PU_EXCEPTION_BASE_H
-
-
-
-#include "chaine.h"
-
-#include "exception.h"
-
-
-namespace ProjetUnivers {
-  
-  namespace Base {
-  
-  
-    /*
-    CLASS
-      ExceptionBase
-    
-      Classe des exceptions utilisées dans le module Base.
-    
-    
-    */
-    class ExceptionBase : public Exception {
-    public:
-
-      ////////////////
-      // Constructeur.
-      ExceptionBase(const Chaine& _message) ;
-
-      ////////////////
-      // Constructeur de copie, le constructeur de copie est obligatoire
-      // pour les exceptions.
-      ExceptionBase(const ExceptionBase& x) ;
-    
-    };
-
-  }
 }
 
-#endif
+///////////////
+// Renvoie l'élément courant en référence.
+template <class OBJET> 
+IterateurListeAssociation<OBJET>::operator const OBJET&()
+{
+  return *noeudCourant()->element ;
+
+}
+
+
+template <class OBJET> 
+IterateurListeAssociation<OBJET>::IterateurListeAssociation
+(const ListeAssociation<OBJET>& _l)
+: IterateurListe(*_l.liste),
+liste((TamponListeAssociation<OBJET>*)_l.liste)
+{
+  liste->Prendre() ;
+
+}
+
+
+///////////////////
+// Destructeur.
+template <class OBJET> 
+IterateurListeAssociation<OBJET>::~IterateurListeAssociation()
+{
+  if (liste->drop())
+
+    delete liste ;
+}
+
+
+//template <class OBJET> Association<OBJET>& 
+//IterateurListeAssociation<OBJET>::Association() const {
+//
+//  return noeudCourant()->element ;
+//}
+
+template <class OBJET> OBJET* 
+IterateurListeAssociation<OBJET>::operator ->() const {
+
+  OBJET* resultat = (noeudCourant()->element).get_ptr() ;
+
+  if (resultat == NULL)
+
+    throw ExceptionBase("IterateurListeAssociation<OBJET>::operator ->") ;
+
+  return resultat ;
+
+}
+
+//template <class OBJET> OBJET& 
+//IterateurListeAssociation<OBJET>::operator *() const {
+//
+//  return *(noeudCourant()->element) ;
+//}
+

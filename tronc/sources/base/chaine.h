@@ -3,17 +3,17 @@
  *   rogma.boami@free.fr                                                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
+ *   it under the terms of the GNU Lesser General Public License as        *
+ *   published by the Free Software Foundation; either version 2.1 of the  *
+ *   License, or (at your option) any later version.                       *
  *                                                                         *
  *   This program is distributed in the hope that it will be useful,       *
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
+ *   GNU Lesser General Public License for more details.                   *
  *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
+ *   You should have received a copy of the GNU General Lesser Public      *
+ *   License along with this program; if not, write to the                 *
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
@@ -27,7 +27,7 @@
 #include <string>
 
 #include "types.h"
-#include "tampon_chaine.h"
+#include "implantation/tampon_chaine.h"
 #include "min_max.h"
 
 
@@ -145,29 +145,29 @@ namespace ProjetUnivers {
     
       ////////////////
       // Prends une référence à _p_rep.
-      static TamponChaine* take_rep(TamponChaine* _p_rep);
+      static Implantation::TamponChaine* take_rep(Implantation::TamponChaine* _p_rep);
     
       //////////////////
       // Abandonne la référence à _p_rep.
-      static void drop_rep(TamponChaine* _p_rep);
+      static void drop_rep(Implantation::TamponChaine* _p_rep);
     
-      static TamponChaine empty_str_rep;
+      static Implantation::TamponChaine empty_str_rep;
     
       static char number_buffer[];
     
       //////////////////
       // Copie partagée.
-      TamponChaine* p_rep;
+      Implantation::TamponChaine* p_rep;
     
     
     
     };
     
-    inline TamponChaine *Chaine::take_rep(TamponChaine *_p_rep) {
+    inline Implantation::TamponChaine *Chaine::take_rep(Implantation::TamponChaine *_p_rep) {
       return _p_rep->take();
     }
     
-    inline void Chaine::drop_rep(TamponChaine *_p_rep) {
+    inline void Chaine::drop_rep(Implantation::TamponChaine *_p_rep) {
     
       // on teste si la référence à tuer est la chaîne vide :
       if (_p_rep != &empty_str_rep) {
@@ -180,7 +180,7 @@ namespace ProjetUnivers {
     }                                                     
     
     inline Chaine::Chaine(const char *_s, int _len)
-      : p_rep(new TamponChaine(_s, _len))
+      : p_rep(new Implantation::TamponChaine(_s, _len))
     {}
     
     inline Chaine::Chaine()
@@ -188,15 +188,15 @@ namespace ProjetUnivers {
     {}
     
     inline Chaine::Chaine(const char* _s)
-      : p_rep((_s != 0) ? new TamponChaine(_s) : take_rep(&empty_str_rep))
+      : p_rep((_s != 0) ? new Implantation::TamponChaine(_s) : take_rep(&empty_str_rep))
     {}
     
     inline Chaine::Chaine(char _c)
-      : p_rep(new TamponChaine(_c))
+      : p_rep(new Implantation::TamponChaine(_c))
     {}
     
     inline Chaine::Chaine(unsigned char _c)
-      : p_rep(new TamponChaine((char)_c))
+      : p_rep(new Implantation::TamponChaine((char)_c))
     {}
     
     inline Chaine::Chaine(const Chaine &_s)
@@ -229,7 +229,7 @@ namespace ProjetUnivers {
     
     inline Chaine &Chaine::operator = (const char *_s) {
       if (*_s) {
-        TamponChaine *p_new_rep = new TamponChaine(_s);
+        Implantation::TamponChaine *p_new_rep = new Implantation::TamponChaine(_s);
         drop_rep(p_rep);
         p_rep = p_new_rep;
       }
@@ -242,7 +242,7 @@ namespace ProjetUnivers {
     
     inline Chaine &Chaine::operator = (char _c) {
       drop_rep(p_rep);
-      p_rep = new TamponChaine(_c);
+      p_rep = new Implantation::TamponChaine(_c);
       return *this;
     }
     
@@ -260,7 +260,7 @@ namespace ProjetUnivers {
     
     inline char &Chaine::operator [] (int _pos) {
       if (_pos >= length()) {
-        TamponChaine *p_new_rep = new TamponChaine(*p_rep, _pos + 1);
+        Implantation::TamponChaine *p_new_rep = new Implantation::TamponChaine(*p_rep, _pos + 1);
         drop_rep(p_rep);
         p_rep = p_new_rep;
       }
@@ -321,15 +321,15 @@ namespace ProjetUnivers {
     }
     
     inline Chaine::Chaine(const char *_s1, int _s1_len, const char *_s2, int _s2_len)
-      : p_rep(new TamponChaine(_s1, _s1_len, _s2, _s2_len))
+      : p_rep(new Implantation::TamponChaine(_s1, _s1_len, _s2, _s2_len))
     {}
     
     inline Chaine::Chaine(const char *_s, int _s_len, char _c)
-      : p_rep(new TamponChaine(_s, _s_len, _c))
+      : p_rep(new Implantation::TamponChaine(_s, _s_len, _c))
     {}
     
     inline Chaine::Chaine(char _c, const char *_s, int _s_len)
-      : p_rep(new TamponChaine(_c, _s, _s_len))
+      : p_rep(new Implantation::TamponChaine(_c, _s, _s_len))
     {}
     
     inline Chaine operator + (const Chaine &_s1, const Chaine &_s2) {
@@ -359,35 +359,35 @@ namespace ProjetUnivers {
     #include <stdio.h>
     
     inline Chaine::Chaine(short _val)
-      : p_rep(new TamponChaine((sprintf(number_buffer, "%hd", _val), number_buffer)))
+      : p_rep(new Implantation::TamponChaine((sprintf(number_buffer, "%hd", _val), number_buffer)))
     {}
     
     inline Chaine::Chaine(unsigned short _val)
-      : p_rep(new TamponChaine((sprintf(number_buffer, "%hu", _val), number_buffer)))
+      : p_rep(new Implantation::TamponChaine((sprintf(number_buffer, "%hu", _val), number_buffer)))
     {}
     
     inline Chaine::Chaine(int _val)
-      : p_rep(new TamponChaine((sprintf(number_buffer, "%d", _val), number_buffer)))
+      : p_rep(new Implantation::TamponChaine((sprintf(number_buffer, "%d", _val), number_buffer)))
     {}
     
     inline Chaine::Chaine(unsigned int _val)
-      : p_rep(new TamponChaine((sprintf(number_buffer, "%u", _val), number_buffer)))
+      : p_rep(new Implantation::TamponChaine((sprintf(number_buffer, "%u", _val), number_buffer)))
     {}
     
     inline Chaine::Chaine(long _val)
-      : p_rep(new TamponChaine((sprintf(number_buffer, "%ld", _val), number_buffer)))
+      : p_rep(new Implantation::TamponChaine((sprintf(number_buffer, "%ld", _val), number_buffer)))
     {}
     
     inline Chaine::Chaine(unsigned long _val)
-      : p_rep(new TamponChaine((sprintf(number_buffer, "%lu", _val), number_buffer)))
+      : p_rep(new Implantation::TamponChaine((sprintf(number_buffer, "%lu", _val), number_buffer)))
     {}
     
     inline Chaine::Chaine(float _val)
-      : p_rep(new TamponChaine((sprintf(number_buffer, "%g", _val), number_buffer)))
+      : p_rep(new Implantation::TamponChaine((sprintf(number_buffer, "%g", _val), number_buffer)))
     {}
     
     inline Chaine::Chaine(double _val)
-      : p_rep(new TamponChaine((sprintf(number_buffer, "%g", _val), number_buffer)))
+      : p_rep(new Implantation::TamponChaine((sprintf(number_buffer, "%g", _val), number_buffer)))
     {}
   }
 }

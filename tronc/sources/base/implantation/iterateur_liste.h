@@ -18,45 +18,63 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#ifndef _PU_BASE_ITERATEUR_LISTE_H_
+#define _PU_BASE_ITERATEUR_LISTE_H_
 
-#ifndef PU_EXCEPTION_BASE_H
-#define PU_EXCEPTION_BASE_H
-
-
-
-#include "chaine.h"
-
-#include "exception.h"
+#include "iterateur_liste_abstrait.h"
 
 
 namespace ProjetUnivers {
-  
+
   namespace Base {
-  
-  
+      
+    
+    class NoeudAbstrait ;
+    class ListeAbstraite ;
+    
+    
     /*
     CLASS
-      ExceptionBase
+    	IterateurListe
     
-      Classe des exceptions utilisées dans le module Base.
+    	Classe des itérateurs non constants sur les listes
     
+    EXPLICATION
+    	
+    	Cet itérateur est à utiliser lorsqu'on désire modifier 
+    	la structure de la liste.
     
     */
-    class ExceptionBase : public Exception {
+    class IterateurListe : public IterateurListeAbstrait {
+    
+    protected:
+    
+    	////////////
+    	// Ajoute un noeud après.
+    	void AjouterApres(NoeudAbstrait* _n) ;
+    
+    	/////////////
+    	// Ajoute un noeud avant.
+    	void AjouterAvant(NoeudAbstrait* _n) ;
+    
     public:
-
-      ////////////////
-      // Constructeur.
-      ExceptionBase(const Chaine& _message) ;
-
-      ////////////////
-      // Constructeur de copie, le constructeur de copie est obligatoire
-      // pour les exceptions.
-      ExceptionBase(const ExceptionBase& x) ;
+    
+    	////////////////
+    	// Constructeur.
+    	IterateurListe(const ListeAbstraite& _list) ;
+    
+    	////////////////
+    	// Constructeur.
+    	IterateurListe(const ListeAbstraite& _list, const Booleen& _inversee) ;
+    
+    	///////////////
+    	// Enlève le noeud courant.
+    	void Enlever() ;
     
     };
-
   }
 }
 
 #endif
+
+

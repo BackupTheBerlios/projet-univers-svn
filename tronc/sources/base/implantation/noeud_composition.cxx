@@ -18,45 +18,14 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+template <class OBJET> 
+NoeudComposition<OBJET>::NoeudComposition(OBJET* _elt)
+  : element(_elt)
+{}
 
-#ifndef PU_EXCEPTION_BASE_H
-#define PU_EXCEPTION_BASE_H
+template <class OBJET> OBJET* 
+NoeudComposition<OBJET>::Liberer() {
 
-
-
-#include "chaine.h"
-
-#include "exception.h"
-
-
-namespace ProjetUnivers {
-  
-  namespace Base {
-  
-  
-    /*
-    CLASS
-      ExceptionBase
-    
-      Classe des exceptions utilisées dans le module Base.
-    
-    
-    */
-    class ExceptionBase : public Exception {
-    public:
-
-      ////////////////
-      // Constructeur.
-      ExceptionBase(const Chaine& _message) ;
-
-      ////////////////
-      // Constructeur de copie, le constructeur de copie est obligatoire
-      // pour les exceptions.
-      ExceptionBase(const ExceptionBase& x) ;
-    
-    };
-
-  }
+  return element.Liberer() ;
 }
 
-#endif

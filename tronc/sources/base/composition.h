@@ -3,17 +3,17 @@
  *   rogma.boami@free.fr                                                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
+ *   it under the terms of the GNU Lesser General Public License as        *
+ *   published by the Free Software Foundation; either version 2.1 of the  *
+ *   License, or (at your option) any later version.                       *
  *                                                                         *
  *   This program is distributed in the hope that it will be useful,       *
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
+ *   GNU Lesser General Public License for more details.                   *
  *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
+ *   You should have received a copy of the GNU General Lesser Public      *
+ *   License along with this program; if not, write to the                 *
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
@@ -25,7 +25,7 @@
 
 
 
-#include "exception.h"
+#include "exception_base.h"
 
 namespace ProjetUnivers {
 
@@ -124,7 +124,7 @@ namespace ProjetUnivers {
       {
         if (pt == NULL) 
     
-          throw Exception("Composition::->") ;
+          throw ExceptionBase("Composition::->") ;
     
         return pt ;
       }
@@ -191,7 +191,7 @@ namespace ProjetUnivers {
       // Renvoie un pointeur sur l'objet agrégé. Cet objet n'est plus agrégé. 
       // Cette fonction permet à l'agrégation de se libérer de la 
       // responsabilité de l'objet pointé.
-      OBJET* release() {
+      OBJET* Liberer() {
     
         OBJET* rc = pt ;
         pt = NULL ;
@@ -212,6 +212,7 @@ namespace ProjetUnivers {
     	
     
     private:
+    
       ////////////////////
       // Pointeur sur l'objet agrégé.
       OBJET* pt ;
@@ -227,6 +228,7 @@ namespace ProjetUnivers {
       // Cette méthode n'est pas implémentée, pour qu'elle ne soit pas utilisée.
       Composition(const Composition< OBJET >&) ;
     
+      friend class Association<OBJET> ;
     };
     
     #ifdef _INC_TEMP_CODE_

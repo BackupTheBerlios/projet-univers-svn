@@ -18,45 +18,52 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#ifndef _PU_BASE_NOEUD_COMPOSITION_H_
+#define _PU_BASE_NOEUD_COMPOSITION_H_
 
-#ifndef PU_EXCEPTION_BASE_H
-#define PU_EXCEPTION_BASE_H
-
-
-
-#include "chaine.h"
-
-#include "exception.h"
-
+#include "noeud_abstrait.h"
 
 namespace ProjetUnivers {
-  
+
   namespace Base {
-  
-  
+    
+    template <class OBJET> class IterateurListeComposition ;
+    
+    
     /*
     CLASS
-      ExceptionBase
+      NoeudComposition
     
-      Classe des exceptions utilisées dans le module Base.
-    
-    
+      Classe des noeuds de ObCompositionList.
     */
-    class ExceptionBase : public Exception {
+    template <class OBJET> class NoeudComposition : public NoeudAbstrait {
     public:
-
-      ////////////////
+    
+      /////////////////
       // Constructeur.
-      ExceptionBase(const Chaine& _message) ;
-
-      ////////////////
-      // Constructeur de copie, le constructeur de copie est obligatoire
-      // pour les exceptions.
-      ExceptionBase(const ExceptionBase& x) ;
+      NoeudComposition(OBJET* _elt) ;
+    
+      /////////////////
+      // Libère l'élément .
+      OBJET* Liberer() ;
+    
+    
+    private:
+    
+      ///////////////
+      // Elément.
+      Composition< OBJET >	element ;
+    
+      friend class IterateurListeComposition<OBJET> ;
     
     };
+    
+    #ifdef _INC_TEMP_CODE_
+    #include "noeud_composition.cxx"
+    #endif
 
   }
 }
+#endif 
 
-#endif
+

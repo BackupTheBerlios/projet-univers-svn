@@ -18,45 +18,38 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-
-#ifndef PU_EXCEPTION_BASE_H
-#define PU_EXCEPTION_BASE_H
-
-
-
-#include "chaine.h"
-
-#include "exception.h"
-
+#include "noeud_abstrait.h"
 
 namespace ProjetUnivers {
-  
+
   namespace Base {
-  
-  
-    /*
-    CLASS
-      ExceptionBase
     
-      Classe des exceptions utilisées dans le module Base.
+    NoeudAbstrait::NoeudAbstrait()
+      :suivant(),precedent()
+    {}
     
+    NoeudAbstrait::~NoeudAbstrait()
+    {}
     
-    */
-    class ExceptionBase : public Exception {
-    public:
-
-      ////////////////
-      // Constructeur.
-      ExceptionBase(const Chaine& _message) ;
-
-      ////////////////
-      // Constructeur de copie, le constructeur de copie est obligatoire
-      // pour les exceptions.
-      ExceptionBase(const ExceptionBase& x) ;
+    void 
+    NoeudAbstrait::AjouterAvant(NoeudAbstrait *_p_nouv_n_) {
     
-    };
-
+      _p_nouv_n_->precedent = precedent ;
+      _p_nouv_n_->suivant = precedent->suivant.Liberer() ;
+    
+      precedent->suivant = _p_nouv_n_ ;
+      precedent = precedent->suivant ;
+    }
+    
+    void NoeudAbstrait::AjouterApres(NoeudAbstrait *_p_nouv_n_) {
+    
+      Composition<NoeudAbstrait> temp(_p_nouv_n_) ;
+      
+      _p_nouv_n_->precedent = suivant->precedent ;
+      suivant->precedent = temp ;
+    
+      _p_nouv_n_->suivant = suivant.Liberer() ;
+      suivant = temp.Liberer() ;
+    }
   }
 }
-
-#endif

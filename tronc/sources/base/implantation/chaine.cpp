@@ -3,17 +3,17 @@
  *   rogma.boami@free.fr                                                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
+ *   it under the terms of the GNU Lesser General Public License as        *
+ *   published by the Free Software Foundation; either version 2.1 of the  *
+ *   License, or (at your option) any later version.                       *
  *                                                                         *
  *   This program is distributed in the hope that it will be useful,       *
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
+ *   GNU Lesser General Public License for more details.                   *
  *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
+ *   You should have received a copy of the GNU General Lesser Public      *
+ *   License along with this program; if not, write to the                 *
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
@@ -28,14 +28,14 @@ namespace ProjetUnivers {
     char Chaine::number_buffer[200];
     
     Chaine &Chaine::append(const char *_s, int _s_len) {
-        TamponChaine *p_new_rep = new TamponChaine(*p_rep, p_rep->len(), _s, _s_len);
+        Implantation::TamponChaine *p_new_rep = new Implantation::TamponChaine(*p_rep, p_rep->len(), _s, _s_len);
         drop_rep(p_rep);
         p_rep = p_new_rep;
         return *this;
     }
     
     Chaine &Chaine::operator += (char _c) {
-        TamponChaine *p_new_rep = new TamponChaine(*p_rep, p_rep->len(), _c);
+        Implantation::TamponChaine *p_new_rep = new Implantation::TamponChaine(*p_rep, p_rep->len(), _c);
         drop_rep(p_rep);
         p_rep = p_new_rep;
         return *this;
@@ -200,28 +200,7 @@ namespace ProjetUnivers {
     	return resultat ;
     }
     
-    /*
-    Chaine::TamponChaine *Chaine::new_rep(int _size) {
-        TamponChaine *p_rep = new TamponChaine;
-        p_rep->nb_ref = 1;
-        p_rep->size = _size;
-        p_rep->s = new char [_size + 1];
-        return p_rep;
-    }
     
-    Chaine::TamponChaine *Chaine::take_rep(TamponChaine *_p_rep) {
-        ++(_p_rep->nb_ref);
-        return _p_rep;
-    }
-    
-    void Chaine::drop_rep(TamponChaine *_p_rep) {
-        if (--(_p_rep->nb_ref) < 1) {
-            delete _p_rep->s;
-            delete _p_rep;
-        }
-    }
-    */
-    
-    TamponChaine Chaine::empty_str_rep;
+    Implantation::TamponChaine Chaine::empty_str_rep;
   }
 }

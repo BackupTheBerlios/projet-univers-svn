@@ -1,7 +1,7 @@
 // abstract_exception.cpp :
 // implementation de abstract_exception.h
 
-#include "../exception_abstraite.h"
+#include "exception_abstraite.h"
 
 
 

@@ -30,7 +30,10 @@ namespace ProjetUnivers {
 
   namespace Base {
   
-  
+    class Modele ;
+    class Controle ;
+    class Vue ;
+    
     /*
     CLASS
       Etat
@@ -53,18 +56,40 @@ namespace ProjetUnivers {
       Un état a des contrôles qui sont exécutés périodiquement.
     TYPE_DE_CLASSE
       Abstraite
+      Objet
     */
     class Etat {
     public:
         
-      // ************************        
-      // GROUP: Gestion des états
-      // ************************
-      
-        
+
+      // ***************************
+      // GROUP: Méthodes principales
+      // ***************************
+
+
       /////////////////////
       // Activation de l'état.
       void entrer() ;
+
+
+      // ***************************
+      // GROUP: Méthodes à redéfinir
+      // ***************************
+      
+      
+      ///////////////////////
+      // Initialisation de l'état, réalisée une fois à l'entrée
+      virtual void Initialiser() = 0 ;
+
+      //////////////////////
+      // Terminaison de l'état, réaliser à la sortie
+      virtual void Finaliser() = 0 ;
+
+
+      // *****************************
+      // GROUP: Gestion des sous-états
+      // *****************************
+        
       
       //////////////////////
       // Ajout d'un sous-état.

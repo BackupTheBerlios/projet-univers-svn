@@ -18,38 +18,39 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+
 template <class T> inline Association<T>& 
 Association<T>::operator =(const Composition<T>& _x)
 {
 
-  pt = (T *)_x ;
+  pt = _x.pt ;
   return *this ;
 }
 
 template <class T> inline Booleen 
 Association<T>::operator == (const Composition<T>& _x) const 
 {
-  return pt == (T *)_x ;
+  return pt == _x.pt ;
 }
 
 template <class T> inline Booleen 
 Association<T>::operator != (const Composition<T>& _x) const
 {
-  return pt == (T *)_x ;
+  return pt == _x.pt ;
 }
 
 template <class T> inline 
 Association<T>::Association(const Composition<T>& _x)
-  : pt((T *)_x)
+  : pt(_x.pt)
 {}
 
 template <class T> inline T* 
 Association<T>::operator ->() const {
 
-  if (pt == NULL) {
+  if (pt == NULL) 
+  {
 
-    cout << "Association::->" << endl ;
-    throw Exception("Association::->") ;
+    throw ExceptionBase("Association::->") ;
   }
 	
   return pt ;

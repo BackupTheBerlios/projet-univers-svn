@@ -18,45 +18,76 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#ifndef _PU_BASE_LISTE_ABSTRAITE_H_
+#define _PU_BASE_LISTE_ABSTRAITE_H_
 
-#ifndef PU_EXCEPTION_BASE_H
-#define PU_EXCEPTION_BASE_H
-
-
-
-#include "chaine.h"
-
-#include "exception.h"
+#include "composition.h"
+#include "noeud_abstrait.h"
 
 
 namespace ProjetUnivers {
-  
+
   namespace Base {
   
-  
+      
     /*
     CLASS
-      ExceptionBase
+      ListeAbstraite
     
-      Classe des exceptions utilisées dans le module Base.
-    
-    
+      Classe de base des listes.
     */
-    class ExceptionBase : public Exception {
+    class ListeAbstraite {
     public:
-
+    
+      ////////////////////
+      // Constructeur par défaut.
+      ListeAbstraite() ;
+    
+      ///////////////////
+      // Destructeur virtuel, ne sert pas à 
+      // grand chose à part rendre la classe 
+      // polymorphe.
+      virtual ~ListeAbstraite() ;
+    
       ////////////////
-      // Constructeur.
-      ExceptionBase(const Chaine& _message) ;
-
+      // Accès au nombre d'éléments.
+      unsigned int NombreDElements() const ;
+    
+      //////////////////
+      // Vide la liste.
+      void Vider() ;
+    
+    protected:
+    
       ////////////////
-      // Constructeur de copie, le constructeur de copie est obligatoire
-      // pour les exceptions.
-      ExceptionBase(const ExceptionBase& x) ;
+      // Premier noeud.
+      Composition< NoeudAbstrait > premierNoeud ;
+    
+      ////////////////
+      // Dernier noeud.
+      Association< NoeudAbstrait > dernierNoeud ;
+    
+    
+      ///////////////
+      // Nombre d'éléments.
+      unsigned int nombreDElements ;
+    
+      ////////////////
+      // Ajoute un noeud en début de liste.
+      void AjouterEnTete(NoeudAbstrait* _n) ;
+    
+      ////////////////
+      // Ajoute un noeud en fin de liste.
+      void AjouterEnQueue(NoeudAbstrait* _n) ;
+    
+//      friend class ObConstListIterator ;
+      friend class IterateurListe ;
+    
     
     };
-
   }
 }
 
 #endif
+
+

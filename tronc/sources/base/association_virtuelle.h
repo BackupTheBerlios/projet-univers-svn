@@ -18,74 +18,51 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_BASE_ENSEMBLE_COMPOSITION_H_
-#define _PU_BASE_ENSEMBLE_COMPOSITION_H_
+#ifndef _PU_BASE_ASSOCIATION_VIRTUELLE_H_
+#define _PU_BASE_ASSOCIATION_VIRTUELLE_H_
+
+// Definition de macros utilisées pour les
+// associations virtuelles.
+
+
+// UTILISATION :
+
+// Quand on veut déclarer une association virtuelle :
+
+// la classe de base déclare la association virtuelle à l'aide
+// de la macro DECLARATION_ASSOCIATION_VIRTUELLE()
+
+// les classes dérivées utilisent UTILISATION_ASSOCIATION_VIRTUELLE()
+
 
 #include "association.h"
-#include "implantation/liste_composition.h"
 
+// Le nom de l'attribut est "camouflé" à l'aide d'un préfixe
+// "_vref_" afin de réduire le risque d'utilisation directe 
+// de ce pointeur.
+#define BASE_VREF(name) _vref_ ## name
 
-namespace ProjetUnivers {
+// Ici type désigne le type "abstrait" de l'attribut
+// c'est à dire le nom de la classe de base. 
+#define DECLARATION_ASSOCIATION_VIRTUELLE(type,name) \
+	protected: \
+	ProjetUnivers::Base::Association< type > BASE_VREF(name) ; \
+	public: \
+	ProjetUnivers::Base::Association< type > name() const { return BASE_VREF(name) ; } \
+	ProjetUnivers::Base::Association< type >& name() { return BASE_VREF(name) ; }
 
-  namespace Base {
-    
-    /*
-    CLASS
-      EnsembleComposition
-    
-      Représente un ensemble d'éléments d'une classe d'objets en composition.
-    
-    UTILISATION
-      Même utilisations que pour Composition, en ce qui concerne les ensembles.
-    */
-    template <class OBJET> class EnsembleComposition 
-        : public ListeComposition<OBJET> {
-
-    public:
-    
-    
-      
-      // ********************
-      // GROUP: Construction
-      // ********************
-    
-      
-      //////////////
-      // Constructeur par défaut.
-      EnsembleComposition() ;
-    
-      //////////////
-      // Destructeur par défaut.
-      ~EnsembleComposition() ;
-    
-      /////////////////
-      // Aggrege un élément à l'ensemble.
-      void Ajouter(OBJET* _elt);
-    
-      //////////////////
-      // Enlève l'élément _el, s'il n'y est pas ne fait rien.
-      void Enlever(const Association< OBJET >& _el) ;
-    
-    
-      // ********************
-      // GROUP: Consultation
-      // ********************
-    
-    
-      ///////////////////
-      // Determine si _el fait partie de l'ensemble.
-      Booleen Contient(const Association< OBJET >& _el) const ;
-    
-    
-    };
-    
-    #ifdef _INC_TEMP_CODE_
-    #include "implantation/ensemble_composition.cxx"
-    #endif
-
-  }
-}
-
+// Ici type désigne le nom de la classe dérivée
+// vers laquelle on veut convertir l'association. 
+#define UTILISATION_ASSOCIATION_VIRTUELLE(type,name) \
+	protected: \
+  ProjetUnivers::Base::Association< type > name() const \
+	{ \
+    if(dynamic_cast<type*>(BASE_VREF(name).operator->()) == NULL)  \
+      throw ExceptionBase("association virtuelle") ; \
+	  return ProjetUnivers::Base::Association< type >(static_cast<type*>(BASE_VREF(name).operator->())) ; \
+	}			
 
 
 #endif
+
+

@@ -3,25 +3,27 @@
  *   rogma.boami@free.fr                                                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
+ *   it under the terms of the GNU Lesser General Public License as        *
+ *   published by the Free Software Foundation; either version 2.1 of the  *
+ *   License, or (at your option) any later version.                       *
  *                                                                         *
  *   This program is distributed in the hope that it will be useful,       *
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
+ *   GNU Lesser General Public License for more details.                   *
  *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
+ *   You should have received a copy of the GNU General Lesser Public      *
+ *   License along with this program; if not, write to the                 *
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
- 
-#ifndef ENSEMBLE_ASSOCIATION_H
-#define ENSEMBLE_ASSOCIATION_H
+
+#ifndef _PU_BASE_ENSEMBLE_ASSOCIATION_H_
+#define _PU_BASE_ENSEMBLE_ASSOCIATION_H_
 
 #include "association.h"
+#include "implantation/liste_association.h"
+#include "implantation/iterateur_liste_association.h"
 
 namespace ProjetUnivers {
 
@@ -38,7 +40,9 @@ namespace ProjetUnivers {
     UTILISATION
       Même utilisations que pour Association, en ce qui concerne les ensembles.
     */
-    template <class OBJET> class EnsembleAssociation {
+    template <class OBJET> class EnsembleAssociation 
+            : public ListeAssociation<OBJET> {
+
     public:
     
     
@@ -61,12 +65,17 @@ namespace ProjetUnivers {
       EnsembleAssociation(const EnsembleAssociation< OBJET >& _e);
     
       /////////////////
-      // Aggrege un élément à l'ensemble.
-      void add(const Association< OBJET >& _elt);
+      // Ajoute un élément à l'ensemble.
+      void Ajouter(const Association< OBJET >& _elt);
+
+      /////////////////
+      // Ajoute des éléments à l'ensemble.
+      void Ajouter(const EnsembleAssociation< OBJET >& _elt);
+
     
       //////////////////
       // Enlève l'élément _el, s'il n'y est pas ne fait rien.
-      void remove(const Association< OBJET >& _el) ;
+      void Enlever(const Association< OBJET >& _el) ;
     
     
       // ********************
@@ -76,9 +85,11 @@ namespace ProjetUnivers {
     
       ///////////////////
       // Determine si _el fait partie de l'ensemble.
-      Booleen contains(const Association< OBJET >& _el) const ;
+      Booleen Contient(const Association< OBJET >& _el) const ;
     
-    
+      /////////////////////
+      // Egalité de deux ensembles.
+      Booleen operator==(const EnsembleAssociation<OBJET>& _r) const ;
     };
     
     #ifdef _INC_TEMP_CODE_

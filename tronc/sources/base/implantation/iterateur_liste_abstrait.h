@@ -18,45 +18,70 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#ifndef _PU_BASE_ITERATEUR_LISTE_ABSTRAIT_H_
+#define _PU_BASE_ITERATEUR_LISTE_ABSTRAIT_H_
 
-#ifndef PU_EXCEPTION_BASE_H
-#define PU_EXCEPTION_BASE_H
-
-
-
-#include "chaine.h"
-
-#include "exception.h"
-
+#include "liste_abstraite.h"
+#include "noeud_abstrait.h"
+#include "association_virtuelle.h"
+#include "association.h"
 
 namespace ProjetUnivers {
-  
+
   namespace Base {
   
-  
+    
     /*
     CLASS
-      ExceptionBase
+      IterateurListeAbstrait
     
-      Classe des exceptions utilisées dans le module Base.
-    
-    
+      Classe de base des itérateurs sur les listes.
     */
-    class ExceptionBase : public Exception {
+    class IterateurListeAbstrait {
     public:
-
-      ////////////////
+    
+    
+      /////////////////
       // Constructeur.
-      ExceptionBase(const Chaine& _message) ;
-
+      IterateurListeAbstrait(
+          const Association< NoeudAbstrait >& n, 
+    			const Association< ListeAbstraite >& l) ;
+    
       ////////////////
-      // Constructeur de copie, le constructeur de copie est obligatoire
-      // pour les exceptions.
-      ExceptionBase(const ExceptionBase& x) ;
+      // Destructeur.
+      ~IterateurListeAbstrait() ;
+    
+      ///////////////
+      // Passe à l'élément suivant.
+      void operator ++() ;
+    
+      ///////////////
+      // Passe à l'élément précédent.
+      void operator --() ;
+    
+      //////////////
+      // Dit si l'itérateur est valide.
+      Booleen Valide() const ;
+    
+      ////////////////
+      // renvoie le nombre d'éléments de la liste.
+      unsigned int NombreDElements() const ;
+    
+    
+    protected:
+    
+      //////////////
+      // Noeud courant.
+      DECLARATION_ASSOCIATION_VIRTUELLE(NoeudAbstrait,noeudCourant)
+    
+      /////////////
+      // Liste parcourue.
+      DECLARATION_ASSOCIATION_VIRTUELLE(ListeAbstraite,liste)
+    
     
     };
-
   }
 }
-
 #endif
+
+
