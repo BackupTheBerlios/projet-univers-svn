@@ -18,27 +18,20 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _CONTROLE_H_
-#define _CONTROLE_H_
+
+#include <noyau/vue.h>
+#include <noyau/modele.h>
+
 
 namespace ProjetUnivers {
-  
- 
-  /// Le module réalisant le controle des objets de Modele.
-  
-  /*!
-    Réalisation de la partie vue du cadre
-    
-    modèle (Modele), vue (Affichage), contrôleur (Controle)
-    
-    Ce module reçoit les informations des entrées et modifie Affichage et 
-    Modele.
-     
-  */ 
-  namespace Controle 
-  {}
 
+  namespace Noyau {
   
+      /// Constructeur.
+    Vue::Vue(const Base::Association< Modele > _modele)
+    : BASE_VREF(modele)(_modele)
+    {}
+  
+  }
 }
 
-#endif //_CONTROLE_H_

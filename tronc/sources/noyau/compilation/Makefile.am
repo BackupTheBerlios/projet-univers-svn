@@ -2,13 +2,15 @@ noinst_LIBRARIES = libnoyau.a
 
 INCLUDES = -I../..
 
-libnoyau_a_SOURCES = ../distance.h \
+libnoyau_a_SOURCES = ../controle.h \
+../distance.h \
+../etat.h \
 ../modele.h \
 ../position.h \
-../controle.h \
-../etat.h \
 ../vue.h \
 ../implantation/distance.cpp \
+../implantation/etat.cpp \
 ../implantation/position.cpp \
-../implantation/etat.cpp
+../implantation/vue.cpp
+
 

@@ -18,27 +18,37 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _CONTROLE_H_
-#define _CONTROLE_H_
 
-namespace ProjetUnivers {
+#ifndef _PROJET_UNIVERS_H_
+#define _PROJET_UNIVERS_H_
+
+/// ProjetUnivers est un jeu de combat spatial multi-joueur.
+
+/*!
   
- 
-  /// Le module réalisant le controle des objets de Modele.
+  Voir : 
   
-  /*!
-    Réalisation de la partie vue du cadre
+  - http://www.punivers.net/
+  - https://developer.berlios.de/projects/projet-univers
+  
+  Les différents sous-modules sont les suivants :
+  
+  - Base
+    Des types C++ et des templates utilisés dans toute l'application
     
-    modèle (Modele), vue (Affichage), contrôleur (Controle)
+  - Noyau
+    Le cadre général de l'application et notament le patron MVC
     
-    Ce module reçoit les informations des entrées et modifie Affichage et 
-    Modele.
-     
-  */ 
-  namespace Controle 
-  {}
-
+  - Affichage
+    L'affichage des éléments
   
-}
+  - Modele
+    Le modèle de donnée
+    
+  - Controle
+    Les controleurs
+*/ 
+namespace ProjetUnivers
+{}
 
-#endif //_CONTROLE_H_
+#endif //_PROJET_UNIVERS_H_

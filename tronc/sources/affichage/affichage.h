@@ -19,13 +19,13 @@
  ***************************************************************************/
 
 
-#ifndef _AFFICHAGE_H_
-#define _AFFICHAGE_H_
+#ifndef _PU_AFFICHAGE_AFFICHAGE_H_
+#define _PU_AFFICHAGE_AFFICHAGE_H_
 
 namespace ProjetUnivers {
   
  
-  /// Le module réalisant l'affichage des objets de Univers
+  /// Le module réalisant l'affichage des objets de Modele.
   
   /*!
     Réalisation de la partie vue du cadre

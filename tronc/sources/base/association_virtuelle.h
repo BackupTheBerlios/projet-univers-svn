@@ -25,17 +25,21 @@
 // associations virtuelles.
 
 
-// UTILISATION :
-
-// Quand on veut déclarer une association virtuelle :
-
-// la classe de base déclare la association virtuelle à l'aide
-// de la macro DECLARATION_ASSOCIATION_VIRTUELLE()
-
-// les classes dérivées utilisent UTILISATION_ASSOCIATION_VIRTUELLE()
 
 
 #include <base/association.h>
+
+/// @name Association virtuelle
+// @{
+/*! 
+UTILISATION :
+  Quand on veut déclarer une association virtuelle :
+  la classe de base déclare la association virtuelle à l'aide
+  de la macro DECLARATION_ASSOCIATION_VIRTUELLE()
+
+  les classes dérivées utilisent UTILISATION_ASSOCIATION_VIRTUELLE()
+*/
+
 
 /// Le nom de l'attribut est "camouflé" à l'aide d'un préfixe
 /// "_vref_" afin de réduire le risque d'utilisation directe 
@@ -62,6 +66,7 @@
 	  return ProjetUnivers::Base::Association< type >(*(static_cast<type*>(BASE_VREF(name).operator->()))) ; \
 	}			
 
+// @}
 
 #endif
 

@@ -53,24 +53,25 @@ namespace ProjetUnivers {
     ///      Un état de jeu possède aussi une vue qui sera affichée à l'écran.
     ///      
     ///      Un état a des contrôles qui sont exécutés périodiquement.
-    
     class Etat {
     public:
         
-
       // ***************************
-      // GROUP: Méthodes principales
+      /// @name Méthodes principales
       // ***************************
+      // @{
 
 
       /// Activation de l'état.
       void Entrer() ;
 
 
+      // @}
       // ***************************
-      // GROUP: Méthodes à redéfinir
+      /// @name Méthodes à redéfinir pour utiliser la classe
       // ***************************
-      
+      // @{
+
       
       /// Initialisation de l'état, réalisée une fois à l'entrée
       virtual void Initialiser() = 0 ;
@@ -79,10 +80,12 @@ namespace ProjetUnivers {
       virtual void Finaliser() = 0 ;
 
 
+      // @}
       // *****************************
       // GROUP: Gestion des sous-états
       // *****************************
-        
+      // @{       
+
       
       /// Ajout d'un sous-état.
       void AjouterSousEtat(Etat*) ;
@@ -94,10 +97,13 @@ namespace ProjetUnivers {
       void ActiverSousEtat(const Base::Association< Etat >&) ;
       
       
+      // @}
       // *************
-      // GROUP: Divers
+      /// @name Divers
       // *************
+      // @{
       
+            
       /// Classe abstraite donc destructeur virtuel.
       virtual ~Etat() ;
     
@@ -108,13 +114,14 @@ namespace ProjetUnivers {
       /// C'est un élément de sousEtats.
       Base::Association< Etat > sousEtatActif ;    
     
-    
-    
+        
+      // @}
       // ****************    
-      // GROUP: Attributs
+      /// @name Attributs
       // ****************
+      // @{   
     
-    
+
       /// Sous état éventuels.
       Base::EnsembleComposition< Etat > sousEtats ;
             
@@ -130,7 +137,9 @@ namespace ProjetUnivers {
       // Ce qu'il faut afficher à l'écran pour cet état. 
       // Il peut ne pas y en avoir.
       Base::Composition< Vue > vue ;
-    
+
+
+      // @}
     };
   
   }

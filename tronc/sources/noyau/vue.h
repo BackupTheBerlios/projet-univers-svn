@@ -22,6 +22,8 @@
 #define _PU_NOYAU_VUE_H_
 
 #include <base/association_virtuelle.h>
+#include <base/association.h>
+
 
 namespace ProjetUnivers {
 
@@ -47,12 +49,15 @@ namespace ProjetUnivers {
     /// modele (Modele), vue (Vue), contrôleur (Controle)
     class Vue {
     public:
-    
+        
     
     
     protected:
+
+      /// Constructeur.
+      Vue(const Base::Association< Modele > _modele) ;
       
-      /// Modèle vu.
+      /// Modèle vu observé.
       DECLARATION_ASSOCIATION_VIRTUELLE(Modele, modele)
     
     };

@@ -18,48 +18,52 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_NOYAU_AFFICHABLE_H_
-#define _PU_NOYAU_AFFICHABLE_H_
+#ifndef _PU_CONTROLE_CONTROLE_COMMANDES_H_
+#define _PU_CONTROLE_CONTROLE_COMMANDES_H_
 
-#include <base/chaine.h>
-#include <base/composition.h>
+#include <base/association.h>
+#include <noyau/controle.h>
+
 
 namespace ProjetUnivers {
 
-  namespace Noyau {
-
-    // using namespace ProjetUnivers::Base ;
-
-
-    /// Classe des objets affichables.
+  namespace Controle {
     
-    /// \remark
-    ///   à supprimer...
-    class Affichable {
-    public:
     
-      /// Classe abstraite donc destructeur virtuel.
-      virtual ~Affichable() ;
-
-     
-    protected:
-
-      /// Classe abstraite donc constructeur protégé.
-      /// On indique le nom du mesh Ogre.
-      Affichable(const Base::Chaine& _nomDuMesh = "") ;
-  
-  
-      // *********************************
-      // GROUP: Attributs spécifiques Ogre
-      // *********************************
+    class Mission ;
+    
       
-  
-      /// Le nom du mesh Ogre, correspondant à l'affichage de 
-      Base::Chaine nomDuMesh ;
-  
-      /// Les objets affichables le sont pour l'instant par Ogre.
-      /// Composition< Ogre::Mesh > mesh ;
+    /// Le contrôle qui gère les commandes de pilotage.
+
+    /*!
+    Type de classe
+    
+      Objet
+    
+      Concret
+    
+    */
+    class ControleCommandes : public Noyau::Controle {
+    public:
+
+
+      
+      
+
+      
+    private:
+
+      // ****************
+      /// @name Attributs
+      // ****************
+      
+      
+
     };
+    
+    
   }
+
 }
+
 #endif
