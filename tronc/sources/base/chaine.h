@@ -151,7 +151,7 @@ namespace ProjetUnivers {
       // Abandonne la référence à _p_rep.
       static void drop_rep(Implantation::TamponChaine* _p_rep);
     
-      static Implantation::TamponChaine empty_str_rep;
+      static Implantation::TamponChaine chaineVide ;
     
       static char number_buffer[];
     
@@ -170,7 +170,7 @@ namespace ProjetUnivers {
     inline void Chaine::drop_rep(Implantation::TamponChaine *_p_rep) {
     
       // on teste si la référence à tuer est la chaîne vide :
-      if (_p_rep != &empty_str_rep) {
+      if (_p_rep != &chaineVide) {
     
         if (_p_rep->drop())
           delete _p_rep;
@@ -184,11 +184,11 @@ namespace ProjetUnivers {
     {}
     
     inline Chaine::Chaine()
-      : p_rep(take_rep(&empty_str_rep))
+      : p_rep(take_rep(&chaineVide))
     {}
     
     inline Chaine::Chaine(const char* _s)
-      : p_rep((_s != 0) ? new Implantation::TamponChaine(_s) : take_rep(&empty_str_rep))
+      : p_rep((_s != 0) ? new Implantation::TamponChaine(_s) : take_rep(&chaineVide))
     {}
     
     inline Chaine::Chaine(char _c)
@@ -235,7 +235,7 @@ namespace ProjetUnivers {
       }
       else {
         drop_rep(p_rep);
-        p_rep = take_rep(&empty_str_rep);
+        p_rep = take_rep(&chaineVide);
       }
       return *this;
     }

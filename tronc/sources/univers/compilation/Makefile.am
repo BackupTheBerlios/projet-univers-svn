@@ -32,6 +32,4 @@ libunivers_a_SOURCES = ../bien.h \
 ../implantation/vaisseau.cpp \
 ../implantation/monde.cpp
 
-libunivers_a_CXXFLAGS = $(OGRE_CFLAGS)
-libunivers_a_LDFLAGS = $(OGRE_LIBS)
 

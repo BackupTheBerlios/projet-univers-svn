@@ -26,6 +26,8 @@ namespace ProjetUnivers {
   namespace Base {    
     
     char Chaine::number_buffer[200];
+    Implantation::TamponChaine Chaine::chaineVide ;
+    
     
     Chaine &Chaine::append(const char *_s, int _s_len) {
         Implantation::TamponChaine *p_new_rep = new Implantation::TamponChaine(*p_rep, p_rep->len(), _s, _s_len);
@@ -201,6 +203,6 @@ namespace ProjetUnivers {
     }
     
     
-    Implantation::TamponChaine Chaine::empty_str_rep;
+
   }
 }

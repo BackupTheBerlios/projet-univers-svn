@@ -16,5 +16,3 @@ libnoyau_a_SOURCES = ../affichable.h \
 ../implantation/position.cpp \
 ../implantation/etat.cpp
 
-libnoyau_a_CXXFLAGS = $(OGRE_CFLAGS)
-libnoyau_a_LDFLAGS = $(OGRE_LIBS)
