@@ -21,42 +21,28 @@
 
 
 // Includes
-#include <opencxx/mop.h>
+#include "serialisable.mh"
 #include <iostream.h>
-
-using namespace Opencxx ;
-
-/*
-CLASS
-  Serialisable
-
-  Classe des classes qui sont sérialisées en XML.
-
-*/
-class Serialisable : public Class {
-public:
-
-  ///////////////////////
-  // Modifie une classe sérialisable. Il s'agit d'ajouter deux méthodes 
-  // publiques : lire(fichier) et ecrire(fichier), qui désérialise et 
-  // sérialisent en xml.
-  void TranslateClass(Environment* env) ;
- 
-};
 
 void Serialisable::TranslateClass(Environment* env)
 {
 
   // on ajoute deux membres biens choisis
 
-  // on récupère tous les membres :
+  // 1. on récupère tous les membres de la classe
   MemberList* membres = GetMemberList() ;
 
-  int nombreDeMembres = membres->Number() ;
 
+  // test interne
   //cout << "nombre de membres " << nombreDeMembres << "\n" ;
   
+  // ces membres contiennent à la fois les attributs et les méthodes 
+  // alors on filtre les attributs 
 
+  // variable de boucle
+  int nombreDeMembres = membres->Number() ;
+
+  
   while(nombreDeMembres > 0) 
   {
     // on récupère le membre courant
@@ -71,8 +57,9 @@ void Serialisable::TranslateClass(Environment* env)
  
     if (attribut) {
       
-      // c'en est un, ouf !
+      // ce membre est un attribut
       
+      // test interne
       // on affiche le nom de l'attribut
       cout << membre.Name() << " --> attribut\n" ;
       

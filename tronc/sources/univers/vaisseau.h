@@ -24,7 +24,6 @@
 #include "ensemble_composition.h"
 #include "composition.h"
 #include "bien.h"
-#include "objet_physique.h"
 
 namespace ProjetUnivers {
 
@@ -44,7 +43,7 @@ namespace ProjetUnivers {
       Concret
       
     */
-    class Vaisseau : public Bien, public Noyau::ObjetPhysique {
+    class Vaisseau : public Bien {
     public:
     
 

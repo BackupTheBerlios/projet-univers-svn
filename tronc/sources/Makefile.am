@@ -1,1 +1,1 @@
-SUBDIRS = base noyau univers
+SUBDIRS = base noyau univers meta

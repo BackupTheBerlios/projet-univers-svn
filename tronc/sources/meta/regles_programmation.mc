@@ -19,51 +19,14 @@
  ***************************************************************************/
 
 
-#ifndef _PU_UNIVERS_SOCIETE_H_
-#define _PU_UNIVERS_SOCIETE_H_
 
-#include "ensemble_composition.h"
+// Includes
+#include "regles_programmation.mh"
+#include <iostream.h>
 
 
-namespace ProjetUnivers {
-
-  namespace Univers {
-  
-    using namespace ProjetUnivers::Base ;
-    
-
-    class Bien ;
-    
-    /*
-    CLASS
-      Societe
-      
-      Représente les informations sociétales d'un monde, c'est à dire 
-      tout ce qui est lié aux comportements de groupes des êtres 
-      vivants. 
-
-    TYPE_DE_CLASSE
-      Objet
-      Concret
-    */
-    class Societe {
-    public:
-		
-      ////////////////
-      // Constructeur.
-      Societe();
-
-    private:
-    
-      ////////////////
-      // Les différents biens.
-      EnsembleComposition< Bien > biens ;
-      
-
-    };
-
-  }
+void ReglesProgrammation::TranslateClass(Environment* env)
+{
+  cout << "ok" << endl ;
 
 }
-
-#endif

@@ -19,51 +19,62 @@
  ***************************************************************************/
 
 
-#ifndef _PU_UNIVERS_SOCIETE_H_
-#define _PU_UNIVERS_SOCIETE_H_
 
-#include "ensemble_composition.h"
+// Includes
+#include <opencxx/mop.h>
 
+using namespace Opencxx ;
 
-namespace ProjetUnivers {
+// ********************************************
+// --> pas forcément obligatoire...
 
-  namespace Univers {
-  
-    using namespace ProjetUnivers::Base ;
-    
+/*
+CLASS
+  ChangeDefautMetaclass
 
-    class Bien ;
-    
-    /*
-    CLASS
-      Societe
-      
-      Représente les informations sociétales d'un monde, c'est à dire 
-      tout ce qui est lié aux comportements de groupes des êtres 
-      vivants. 
+  Classe permettant de modifier la méta-classe par défaut.
 
-    TYPE_DE_CLASSE
-      Objet
-      Concret
-    */
-    class Societe {
-    public:
-		
-      ////////////////
-      // Constructeur.
-      Societe();
+FONCTIONNEMENT
+  Cette classe est chargée 
 
-    private:
-    
-      ////////////////
-      // Les différents biens.
-      EnsembleComposition< Bien > biens ;
-      
+class ChangeDefautMetaclass : public Class {
+public:
 
-    };
-
+  static bool Initialize()
+  {
+    // La méta-class par défaut n'est plus Class mais 
+    // ReglesProgrammation.
+    Class::ChangeDefaultMetaclass("ReglesProgrammation")
+    return true ;
   }
+};
+*/
+// ********************************************
 
-}
 
-#endif
+/*
+CLASS
+  ReglesProgrammation
+
+  Classe permettant de vérifier les règles de programmation.
+
+*/
+class ReglesProgrammation : public Class {
+public:
+  static bool Initialize()
+  {
+    // La méta-class par défaut n'est plus Class mais 
+    // ReglesProgrammation.
+    Class::ChangeDefaultMetaclass("ReglesProgrammation") ;
+    return true ;
+    
+  }
+  ///////////////////////
+  // Vérifie effectivement toutes les règles, lève une erreur en cas de 
+  // violation d'une règle.
+  void TranslateClass(Environment* env) ;
+
+  
+};
+
+

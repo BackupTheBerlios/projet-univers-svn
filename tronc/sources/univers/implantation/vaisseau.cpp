@@ -29,7 +29,7 @@ namespace ProjetUnivers {
     using namespace ProjetUnivers::Noyau ;
     
     Vaisseau::Vaisseau()
-    : Bien(), ObjetPhysique(Position())
+    : Bien()
     {}
   
     //////////////////

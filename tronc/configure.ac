@@ -17,9 +17,13 @@ AC_PROG_CC
 
 # vérifie la présence de xsltproc pour générer les docs
 AC_CHECK_PROG(xsltproc)
+
 # vérifie la présence de cppunit pour gerer les tests
 AM_PATH_CPPUNIT(1.1.0)
 AC_PROG_RANLIB
+
+# vérifie la présence de open c++ pour compiler les méta-programmes
+AC_PATH_PROG(OCC, occ2, occ2)
 
 # vérifie la présence de Ogre3d
 PKG_CHECK_MODULES(OGRE, [OGRE >= 0.13])
@@ -43,7 +47,9 @@ AC_CONFIG_FILES([Makefile \
                  sources/noyau/Makefile \
                  sources/noyau/compilation/Makefile \
                  sources/univers/Makefile \
-                 sources/univers/compilation/Makefile])
+                 sources/univers/compilation/Makefile \
+                 sources/meta/Makefile \
+                 sources/meta/compilation/Makefile])
                  
 #                 sources/noyau/Makefile \
 #                 sources/univers/Makefile \

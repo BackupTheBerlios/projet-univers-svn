@@ -21,16 +21,23 @@
 #ifndef _PU_UNIVERS_SYSTEME_STELLAIRE_H_
 #define _PU_UNIVERS_SYSTEME_STELLAIRE_H_
 
+#include "univers_objet_physique.h"
 #include "ensemble_composition.h"
 #include "types.h"
+#include "chaine.h"
+
+
 
 
 namespace ProjetUnivers {
 
   namespace Univers {
+
     
+
     using namespace ProjetUnivers::Base ;
     
+
     class Planetoide ;
     class Etoile ;
     
@@ -45,7 +52,7 @@ namespace ProjetUnivers {
       Objet
       Concret
     */
-    class SystemeStellaire {
+    class SystemeStellaire : public ObjetPhysique {
     public:
 
 
@@ -72,15 +79,15 @@ namespace ProjetUnivers {
       
       /////////////////
       // Etoiles du système 
-      EnsembleComposition< Etoile > etoiles ;
+      Base::EnsembleComposition< Etoile > etoiles ;
       
       /////////////////
       // Planètes/Satélites
-      EnsembleComposition< Planetoide > planetoides ;
+      Base::EnsembleComposition< Planetoide > planetoides ;
 
       /////////////////
       // Nom du système.
-      Chaine nom ;
+      Base::Chaine nom ;
     };
     
     

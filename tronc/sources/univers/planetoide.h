@@ -21,13 +21,12 @@
 #ifndef _PU_UNIVERS_PLANETOIDE_H_
 #define _PU_UNIVERS_PLANETOIDE_H_
 
-#include "objet_physique.h"
+#include "univers_objet_physique.h"
 
 namespace ProjetUnivers {
 
   namespace Univers {
     
-    //using namespace ProjetUnivers::Noyau ;
     
     
     /*
@@ -40,7 +39,7 @@ namespace ProjetUnivers {
       Objet
       Concret
     */
-    class Planetoide : public Noyau::ObjetPhysique {
+    class Planetoide : public ObjetPhysique {
     public:
 
       ////////////////////

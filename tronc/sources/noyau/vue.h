@@ -34,7 +34,7 @@ namespace ProjetUnivers {
     CLASS
       Vue
       
-      Classe abstraite des controles à appliquer à un état.
+      Un point de vue sur une partie du modèle.
 
     TYPE_DE_CLASSE
       Objet
@@ -48,7 +48,7 @@ namespace ProjetUnivers {
     protected:
       
       ////////////////////
-      // Modèle à afficher.
+      // Modèle vu.
       DECLARATION_ASSOCIATION_VIRTUELLE(Modele, modele)
     
     };

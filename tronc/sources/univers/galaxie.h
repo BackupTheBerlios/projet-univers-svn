@@ -22,6 +22,10 @@
 #define _PU_UNIVERS_GALAXIE_H_
 
 
+#include "objet_physique.h"
+
+
+
 namespace ProjetUnivers {
 
   namespace Univers {
@@ -38,7 +42,7 @@ namespace ProjetUnivers {
       Objet
       Concret
     */
-    class Galaxie {
+    class Galaxie : public ObjetPhysique {
     public:
 
       ////////////////////

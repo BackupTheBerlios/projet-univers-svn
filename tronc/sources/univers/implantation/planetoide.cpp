@@ -31,7 +31,7 @@ namespace ProjetUnivers {
     ////////////////////
     // Constructeur.
     Planetoide::Planetoide()
-    : ObjetPhysique(Noyau::Position())
+    : ObjetPhysique(Univers::Position())
     {
       
       // par défaut, on pioche un nom de mesh dans la liste des mesh de 

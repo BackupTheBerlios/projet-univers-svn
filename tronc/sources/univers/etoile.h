@@ -22,6 +22,9 @@
 #define _PU_UNIVERS_ETOILE_H_
 
 
+#include "univers_objet_physique.h"
+
+
 namespace ProjetUnivers {
 
   namespace Univers {
@@ -38,7 +41,7 @@ namespace ProjetUnivers {
       Objet
       Concret
     */
-    class Etoile {
+    class Etoile : public ObjetPhysique {
     public:
 
       ////////////////////

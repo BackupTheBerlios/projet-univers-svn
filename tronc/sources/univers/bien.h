@@ -22,10 +22,12 @@
 #ifndef _PU_UNIVERS_BIEN_H_
 #define _PU_UNIVERS_BIEN_H_
 
-//#include "ensemble_composition.h"
+
+#include "univers_objet_physique.h"
 
 
 namespace ProjetUnivers {
+
 
   namespace Univers {
 
@@ -42,7 +44,7 @@ namespace ProjetUnivers {
       Objet
       Abstrait
     */
-    class Bien {
+    class Bien : public ObjetPhysique {
     public:
 		
       //////////////////

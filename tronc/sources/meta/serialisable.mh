@@ -19,51 +19,39 @@
  ***************************************************************************/
 
 
-#ifndef _PU_UNIVERS_SOCIETE_H_
-#define _PU_UNIVERS_SOCIETE_H_
 
-#include "ensemble_composition.h"
+// Includes
+#include <opencxx/mop.h>
+#include <iostream.h>
 
+using namespace Opencxx ;
 
-namespace ProjetUnivers {
+/*
+CLASS
+  Serialisable
 
-  namespace Univers {
+  Classe des classes C++ qui sont sérialisées en XML.
+
+EXPLICATION
   
-    using namespace ProjetUnivers::Base ;
-    
+  Cette méta classe représente le fait pour une classe C++ d'ête sérialisée en 
+  XML
+  
+  
+A_FAIRE
+  
+  
+  
+*/
+class Serialisable : public Class {
+public:
 
-    class Bien ;
-    
-    /*
-    CLASS
-      Societe
-      
-      Représente les informations sociétales d'un monde, c'est à dire 
-      tout ce qui est lié aux comportements de groupes des êtres 
-      vivants. 
+  ///////////////////////
+  // Modifie une classe sérialisable C en ajoutant deux méthodes 
+  // publiques : 
+  // - static C* Lire(const Chaine&) qui désérialise à partir de xml.
+  // - Chaine Ecrire() const qui sérialisent un objet et ses composants en xml.
+  void TranslateClass(Environment* env) ;
+ 
+};
 
-    TYPE_DE_CLASSE
-      Objet
-      Concret
-    */
-    class Societe {
-    public:
-		
-      ////////////////
-      // Constructeur.
-      Societe();
-
-    private:
-    
-      ////////////////
-      // Les différents biens.
-      EnsembleComposition< Bien > biens ;
-      
-
-    };
-
-  }
-
-}
-
-#endif
