@@ -67,14 +67,14 @@ IterateurListeAssociation<OBJET>::~IterateurListeAssociation()
 
 template <class OBJET> OBJET* 
 IterateurListeAssociation<OBJET>::operator ->() const {
+//
+//  OBJET* resultat = (noeudCourant()->element).pt ;
+//
+//  if (resultat == NULL)
+//
+//    throw ExceptionBase("IterateurListeAssociation<OBJET>::operator ->") ;
 
-  OBJET* resultat = (noeudCourant()->element).get_ptr() ;
-
-  if (resultat == NULL)
-
-    throw ExceptionBase("IterateurListeAssociation<OBJET>::operator ->") ;
-
-  return resultat ;
+  return (noeudCourant()->element).operator->() ;
 
 }
 

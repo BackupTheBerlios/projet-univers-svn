@@ -45,7 +45,7 @@ ListeAssociation<OBJET>::AjouterEnTete(const Association<OBJET> _n) {
   // la liste n'est pas partagée, on peut lui ajouter directement 
   // la liste est partagée, on copie puis on ajoute 
 
-  if (liste->NombreReferences() > 1)
+  if (liste->NombreDeReferences() > 1)
   {
 
 
@@ -221,7 +221,7 @@ ListeAssociation<OBJET>::ListeAssociation(const ListeComposition< OBJET >& _l)
   j.Valide() ;
   ++j)
 
-    liste->AjouterEnQueue(j.getAssociation()) ;
+    liste->AjouterEnQueue(j) ;
 
   
 

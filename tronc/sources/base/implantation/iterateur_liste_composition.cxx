@@ -41,13 +41,13 @@ IterateurListeComposition<OBJET>::operator Association< OBJET >()
 template <class OBJET> OBJET* 
 IterateurListeComposition<OBJET>::operator ->() const {
 
-  OBJET* resultat = (OBJET*)(noeudCourant()->element) ;
+//  OBJET* resultat = (OBJET*)(noeudCourant()->element) ;
+//
+//  if (resultat == NULL)
+//
+//    throw ExceptionBase("IterateurListeComposition<OBJET>::operator ->");
 
-  if (resultat == NULL)
-
-    throw ExceptionBase("IterateurListeComposition<OBJET>::operator ->");
-
-  return resultat ;
+  return (noeudCourant()->element).operator->() ;
 }
 
 template <class OBJET> OBJET* 
