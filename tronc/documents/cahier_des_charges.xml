@@ -598,14 +598,61 @@
         important de caractériser à qui s’adressent ces messages. Pour cela,
         on défini 3 touches «&nbsp;d'appel de liste&nbsp;», configurable, qui
         présente la même liste, mais avec des destinataires différents, par
-        exemple : W -&gt; Ses coéquipiers proches (Alliers) X -&gt; Tout
-        l'escadron C -&gt; Tout les groupes de vol Liste des message : 1.
-        Attaquer ma cible 2. Couvrez moi 3. Ignorer ma cible 4. En formation
-        (inactif pour "tout les groupe de vol") 5. Attaquez le groupe de vol
-        que je cible 6. Ennemi a porté. 7. Affirmatif 8. Négatif Pour dire a
-        tout son escadron d'attaquer la cible que l'on vise, il suffirait de
-        taper les touches X 1 et tout l'escadron pourrait valider l'attaque.
-        Ce système de communication doit être utilisé par
+        exemple : </para>
+
+        <itemizedlist>
+          <listitem>
+            <para>W -&gt; Ses coéquipiers proches (Alliers)</para>
+          </listitem>
+
+          <listitem>
+            <para>X -&gt; Tout l'escadron</para>
+          </listitem>
+
+          <listitem>
+            <para>C -&gt; Tout les groupes de vol</para>
+          </listitem>
+        </itemizedlist>
+
+        <para>Liste des message :</para>
+
+        <orderedlist>
+          <listitem>
+            <para>Attaquer ma cible</para>
+          </listitem>
+
+          <listitem>
+            <para>Couvrez moi</para>
+          </listitem>
+
+          <listitem>
+            <para>gnorer ma cible</para>
+          </listitem>
+
+          <listitem>
+            <para>En formation (inactif pour "tout les groupe de vol")</para>
+          </listitem>
+
+          <listitem>
+            <para>Attaquez le groupe de vol que je cible</para>
+          </listitem>
+
+          <listitem>
+            <para>Ennemi a porté</para>
+          </listitem>
+
+          <listitem>
+            <para>Affirmatif</para>
+          </listitem>
+
+          <listitem>
+            <para>Négatif</para>
+          </listitem>
+        </orderedlist>
+
+        <para>Pour dire a tout son escadron d'attaquer la cible que l'on vise,
+        il suffirait de taper les touches X 1 et tout l'escadron pourrait
+        valider l'attaque. Ce système de communication doit être utilisé par
         l'<acronym>IA</acronym>.</para>
       </section>
 
@@ -683,11 +730,6 @@
               </listitem>
             </itemizedlist>
           </example>
-
-          <para>Par contre, il ne rajoute pas de système de boucliers).
-          <remark>=&gt; Peut être à supprimer, on risque de perdre de vue
-          notre objectifs d'un simulateur de combat de type mission pour un
-          système de combat type mêlée ...</remark></para>
         </section>
 
         <section>
@@ -700,7 +742,8 @@
         <section>
           <title>Règles de personnalisation</title>
 
-          <para></para>
+          <para>Les règles de personnalisation permettent sera configuration
+          dans les options du jeu.</para>
 
           <itemizedlist>
             <listitem>
@@ -890,10 +933,24 @@
           <title>Description des possibilités</title>
 
           <para>L'éditeur de campagne doit être capable de : Modifier
-          l'interface Campagne. <remark>Nd Jey : ah? C'est à
-          dire?</remark></para>
+          l'interface Campagne.</para>
 
           <itemizedlist>
+            <listitem>
+              <para>Modifier l'interface Campagne</para>
+
+              <itemizedlist>
+                <listitem>
+                  <para>Permettre l'édition des menus Spécifiques de la
+                  Campagne crée.</para>
+                </listitem>
+
+                <listitem>
+                  <para>Permettre l'insertion des fonds des menus</para>
+                </listitem>
+              </itemizedlist>
+            </listitem>
+
             <listitem>
               <para>Créer un graphe conditionnel de missions</para>
             </listitem>
