@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN"
+"http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd">
+<article>
+  <title>Ordres</title>
+
+  <subtitle>Et désordres ^^</subtitle>
+
+  <articleinfo>
+    <abstract>
+      <para>Dans ce jeu nous étudions la possibilité de commander, chose qui
+      est assez rare dans les jeu de simulation spatiales.</para>
+    </abstract>
+
+    <orgname>Equipe Projet Univers</orgname>
+
+    <author>
+      <firstname>Nicolas</firstname>
+
+      <othername>Néostralie</othername>
+
+      <surname>Chanay</surname>
+
+      <email>neostralie@hotmail.com</email>
+    </author>
+
+    <revhistory>
+      <revision>
+        <revnumber>1</revnumber>
+
+        <date>8 Novembre 2004</date>
+
+        <revdescription>
+          <para>Création du document</para>
+        </revdescription>
+      </revision>
+    </revhistory>
+
+    <legalnotice>
+      <para>Ce document est sous license <ulink
+      url="http://www.gnu.org/copyleft/fdl.html">GNU Free Documentation
+      License</ulink></para>
+    </legalnotice>
+  </articleinfo>
+
+  <section>
+    <title>Introduction</title>
+
+    <para>Dans ce document, le terme d'ordre désigne toute action qu'un joueur
+    ou une IA demande à faire à un autre joueur ou une IA.</para>
+  </section>
+
+  <section>
+    <title>Les Types d'ordres</title>
+
+    <para>Il existe trois grand types d'ordres qui font chacun référence à un
+    type d'action à faire entreprendre.</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>Déplacement</para>
+      </listitem>
+
+      <listitem>
+        <para>Action</para>
+      </listitem>
+
+      <listitem>
+        <para>Gestion</para>
+      </listitem>
+    </itemizedlist>
+  </section>
+
+  <section>
+    <title>Déplacements</title>
+
+    <para>Les ordres de déplacement concernent toutes les actions destinés à
+    déplacer un objet. Il existe deux types d'ordres de déplacement : les
+    ordres simples et les ordres relatifs.</para>
+
+    <section>
+      <title>Ordres simples</title>
+
+      <para>Ces ordres ne sont relatif qu'au propres données de l'objet. C'est
+      à dire qu'un ordre de déplacement se fera par rapport aux coordonnées
+      actuelles de l'objet, un ordre de vitesse se fera par rapport à la
+      vitesse actuelle de l'objet.</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>Avancer X-Y-Z: Anvance jusqu'à la position indiqué.</para>
+        </listitem>
+
+        <listitem>
+          <para>Tourner X-Y-Z : Tourne d'un angle de X selon l'axe x de
+          l'objet, de Y selon l'axe y de l'objet et de Z selon l'axe Z de
+          l'objet.</para>
+        </listitem>
+
+        <listitem>
+          <para>Accélérer : augmente la vitesse.</para>
+        </listitem>
+
+        <listitem>
+          <para>Ralentire : diminue la vitesse.</para>
+        </listitem>
+
+        <listitem>
+          <para>Vitesse X : Affecte une valeur de vitesse à l'objet.</para>
+        </listitem>
+
+        <listitem>
+          <para>Stop : Arette l'objet.</para>
+        </listitem>
+      </itemizedlist>
+    </section>
+
+    <section>
+      <title>Ordres relatifs</title>
+
+      <para>Ces ordres sont relatifs à d'autres objets de la scène de
+      bataille.</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>Avancer vers X : se déplace en direction de l'objet et
+          s'arette à distance de sécurité.</para>
+        </listitem>
+
+        <listitem>
+          <para>Engager X : se déplace en direction de X pour se mettre en
+          position de tir favorable.</para>
+        </listitem>
+
+        <listitem>
+          <para>Présenter Y à X : présente le flanc Y à l'objet X.</para>
+        </listitem>
+
+        <listitem>
+          <para>Escorter X : se met en position pour escorter l'objet
+          X.</para>
+        </listitem>
+
+        <listitem>
+          <para>Même allure que X : L'objet adopte l'allure de X.</para>
+        </listitem>
+      </itemizedlist>
+    </section>
+  </section>
+
+  <section>
+    <title>Actions</title>
+
+    <para>Les actions sont les interaction que l'objet peu avoir avec les
+    autres objets. Il en éxiste deux types :</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>Actions général</para>
+      </listitem>
+
+      <listitem>
+        <para>Actions de combat</para>
+      </listitem>
+    </itemizedlist>
+
+    <section>
+      <title>Actions général</title>
+
+      <para>Ces sont toutes les interractions autre que celle de
+      combat.</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>Arrimer</para>
+        </listitem>
+
+        <listitem>
+          <para>Récupérer/Capturer</para>
+        </listitem>
+
+        <listitem>
+          <para></para>
+        </listitem>
+      </itemizedlist>
+    </section>
+  </section>
+
+  <section>
+    <title>Gestion</title>
+
+    <para></para>
+  </section>
+</article>
