@@ -206,15 +206,30 @@
           </listitem>
 
           <listitem>
-            <para>1 Taille</para>
+            <para>1 Taille initiale</para>
+
+            <para>Sa taille lorsqu'elle s'est allumé en Etoile</para>
           </listitem>
 
           <listitem>
-            <para>1 Masse</para>
+            <para>1 Masse initiale</para>
+
+            <para>Sa Masse lorsqu'elle s'est allumé en Etoile</para>
           </listitem>
 
           <listitem>
-            <para>1 Période d'activité</para>
+            <para>le pourcentage de progression dans son évolution </para>
+
+            <para>En fait, une Etoile qui vient de naître est à 0% et une
+            étoile qui a terminé son évolution est à 100%.</para>
+
+            <para>Une Etoile, pour peu que son type et sa masse initiale
+            soient comme il faut, à un certain moment de son évolution est une
+            super-novae.</para>
+          </listitem>
+
+          <listitem>
+            <para>1 Période d'activité actuelle</para>
           </listitem>
 
           <listitem>
