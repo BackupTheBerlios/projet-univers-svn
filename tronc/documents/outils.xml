@@ -66,9 +66,9 @@
     jours...</para>
 
     <para>Ensuite, il faut contacter un des administrateurs du projet univers
-    pour qu'il vous ajoute au projet hébergé par berlios. </para>
+    pour qu'il vous ajoute au projet hébergé par berlios.</para>
 
-    <para>Reste alors à utiliser le client subversion. </para>
+    <para>Reste alors à utiliser le client subversion.</para>
 
     <sect2>
       <title>Utilisation</title>
@@ -479,10 +479,20 @@
     <sect2>
       <title>Documents docbooks</title>
 
-      <para>Sous windows vous pouvez utiliser <ulink
-      url="http://www.xmlmind.com/xmleditor/">XMLMindEditor</ulink>, sous
-      linux les outils WYSIWYG sont malheureusement très limités, voir <ulink
-      url="http://www.zzoss.com/projects/oowdbk/">OpenOffice</ulink>.</para>
+      <para>Vous pouvez utiliser <ulink
+      url="http://www.xmlmind.com/xmleditor/">XMLMindEditor</ulink>, qui
+      marche sur toutes les plateformes munies d'un Java (c'est à dire pas mal
+      de plateformes), il a l'avantage d'être WYSIWYG.</para>
+
+      <figure>
+        <title>XMLMindEditor (pour vous donner l'eau à la bouche)</title>
+
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="images/xmlmind.png" />
+          </imageobject>
+        </mediaobject>
+      </figure>
     </sect2>
   </sect1>
 </article>
