@@ -248,6 +248,34 @@
 
       <para><emphasis>1 Blender = 10 cm PU</emphasis></para>
     </sect2>
+
+    <sect2>
+      <title>Fichiers de spécification de vaisseau</title>
+
+      <para>Chaque vaisseau doit être accompagné d'un fichier sous format
+      texte, qui sépcifie certaines informations importantes. La structure
+      définitive de ce fichier n'est pas encore précisée. </para>
+
+      <para>Cependant, il devra contenir les informations suivantes :</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>le nom de l'auteur</para>
+        </listitem>
+
+        <listitem>
+          <para>pour les vaisseaux munis de tourelles, la liste des coordonées
+          blender des emplacement des tourelles, ainsi que leur
+          orientation</para>
+        </listitem>
+
+        <listitem>
+          <para>pour les vaisseaux possédant des hangars, la liste des
+          coordonnées blender des enmplacements de ces hangars, ainsi que leur
+          orientation (le vecteur de sortie)</para>
+        </listitem>
+      </itemizedlist>
+    </sect2>
   </sect1>
 
   <sect1>
@@ -391,8 +419,6 @@
       <title>Taille des vaisseaux</title>
 
       <para>Voilà un ordre d'idée des tailles des vaisseaux :</para>
-
-      <para></para>
 
       <itemizedlist>
         <listitem>
