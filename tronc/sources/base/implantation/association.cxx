@@ -18,8 +18,6 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include "../composition.h"
-
 template <class T> inline Association<T>& 
 Association<T>::operator =(const Composition<T>& _x)
 {

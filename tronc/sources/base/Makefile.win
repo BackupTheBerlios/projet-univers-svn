@@ -5,18 +5,18 @@ CPP  = g++.exe
 CC   = gcc.exe
 WINDRES = windres.exe
 RES  = 
-OBJ  = ../../../../projet-univers/tronc/sources/compilation/association.o ../../../../projet-univers/tronc/sources/compilation/chaine.o ../../../../projet-univers/tronc/sources/compilation/composition.o ../../../../projet-univers/tronc/sources/compilation/exception.o ../../../../projet-univers/tronc/sources/compilation/joli_affichage.o $(RES)
-LINKOBJ  = ../../../../projet-univers/tronc/sources/compilation/association.o ../../../../projet-univers/tronc/sources/compilation/chaine.o ../../../../projet-univers/tronc/sources/compilation/composition.o ../../../../projet-univers/tronc/sources/compilation/exception.o ../../../../projet-univers/tronc/sources/compilation/joli_affichage.o $(RES)
+OBJ  = ../compilation/association.o ../compilation/chaine.o ../compilation/composition.o ../compilation/exception.o ../compilation/joli_affichage.o $(RES)
+LINKOBJ  = ../compilation/association.o ../compilation/chaine.o ../compilation/composition.o ../compilation/exception.o ../compilation/joli_affichage.o $(RES)
 LIBS =  -L"C:/Program Files/DevCpp/lib" 
 INCS =  -I"C:/Program Files/DevCpp/include" 
 CXXINCS =  -I"C:/Program Files/DevCpp/include/c++"  -I"C:/Program Files/DevCpp/include/c++/mingw32"  -I"C:/Program Files/DevCpp/include/c++/backward"  -I"C:/Program Files/DevCpp/include" 
-BIN  = ../../../../projet-univers/tronc/sources/compilation/base.a
+BIN  = ../compilation/base.a
 CXXFLAGS = $(CXXINCS)-D _INC_TEMP_CODE_  
 CFLAGS = $(INCS) 
 
 .PHONY: all all-before all-after clean clean-custom
 
-all: all-before ../../../../projet-univers/tronc/sources/compilation/base.a all-after
+all: all-before ../compilation/base.a all-after
 
 
 clean: clean-custom
@@ -26,17 +26,17 @@ $(BIN): $(LINKOBJ)
 	ar r $(BIN) $(LINKOBJ)
 	ranlib $(BIN)
 
-../../../../projet-univers/tronc/sources/compilation/association.o: implantation/association.cpp
-	$(CPP) -c implantation/association.cpp -o ../../../../projet-univers/tronc/sources/compilation/association.o $(CXXFLAGS)
+../compilation/association.o: implantation/association.cpp
+	$(CPP) -c implantation/association.cpp -o ../compilation/association.o $(CXXFLAGS)
 
-../../../../projet-univers/tronc/sources/compilation/chaine.o: implantation/chaine.cpp
-	$(CPP) -c implantation/chaine.cpp -o ../../../../projet-univers/tronc/sources/compilation/chaine.o $(CXXFLAGS)
+../compilation/chaine.o: implantation/chaine.cpp
+	$(CPP) -c implantation/chaine.cpp -o ../compilation/chaine.o $(CXXFLAGS)
 
-../../../../projet-univers/tronc/sources/compilation/composition.o: implantation/composition.cpp
-	$(CPP) -c implantation/composition.cpp -o ../../../../projet-univers/tronc/sources/compilation/composition.o $(CXXFLAGS)
+../compilation/composition.o: implantation/composition.cpp
+	$(CPP) -c implantation/composition.cpp -o ../compilation/composition.o $(CXXFLAGS)
 
-../../../../projet-univers/tronc/sources/compilation/exception.o: implantation/exception.cpp
-	$(CPP) -c implantation/exception.cpp -o ../../../../projet-univers/tronc/sources/compilation/exception.o $(CXXFLAGS)
+../compilation/exception.o: implantation/exception.cpp
+	$(CPP) -c implantation/exception.cpp -o ../compilation/exception.o $(CXXFLAGS)
 
-../../../../projet-univers/tronc/sources/compilation/joli_affichage.o: implantation/joli_affichage.cpp
-	$(CPP) -c implantation/joli_affichage.cpp -o ../../../../projet-univers/tronc/sources/compilation/joli_affichage.o $(CXXFLAGS)
+../compilation/joli_affichage.o: implantation/joli_affichage.cpp
+	$(CPP) -c implantation/joli_affichage.cpp -o ../compilation/joli_affichage.o $(CXXFLAGS)

@@ -40,20 +40,11 @@ namespace ProjetUnivers {
     // GROUP: Définition des types de bases
     //*************************************
     
-    #ifndef Bool
     //////////////////
     // Type des booléens
     typedef unsigned short Booleen ;
-    
-    #endif
-    
-    #ifndef FALSE
     const Booleen FAUX(0) ;
-    #endif
-    
-    #ifndef TRUE
     const Booleen VRAI(1) ; 
-    #endif
     
     //////////////////
     // Type des booléens étendus avec "peut-être", les valeurs sont 
@@ -61,11 +52,7 @@ namespace ProjetUnivers {
     // FAUX
     // PEUTETRE
     typedef float BooleenEtendu ;
-    
-    
-    #ifndef MAYBE
     const BooleenEtendu PEUTETRE(0.5) ;
-    #endif
     
     
     

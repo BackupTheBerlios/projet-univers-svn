@@ -19,7 +19,8 @@
  ***************************************************************************/
 #include "test_ensemble_association.h"
 
-CPPUNIT_TEST_SUITE_REGISTRATION(TestEnsembleAssociation) ;
+CPPUNIT_TEST_SUITE_REGISTRATION(
+  ProjetUnivers::Base::Test::TestEnsembleAssociation) ;
 
 
 

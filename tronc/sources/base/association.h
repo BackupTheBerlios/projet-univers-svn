@@ -27,10 +27,8 @@ namespace ProjetUnivers {
 
   namespace Base {
 
+    template <class OBJET> class Composition ;    
 
-    
-    template <class OBJET> class Composition ;
-    
     /*
     CLASS
       Association

@@ -30,8 +30,8 @@
 namespace ProjetUnivers {
 
   namespace Base {
-    template <class T> class Association ;
-    
+  
+    template <class OBJET> class Association ;    
     
     /*
     CLASS
@@ -162,7 +162,7 @@ namespace ProjetUnivers {
       // l'objet est adopté.
       Composition<OBJET>& operator =(OBJET* _pt) {
     
-        if (*this != Association<OBJET>(_pt)) {
+        if (pt != _pt) {
     
           delete pt ;
           pt = _pt ;

@@ -51,14 +51,56 @@ namespace ProjetUnivers {
       Un état de jeu possède aussi une vue qui sera affichée à l'écran.
       
       Un état a des contrôles qui sont exécutés périodiquement.
+    TYPE_DE_CLASSE
+      Abstraite
     */
     class Etat {
     public:
-    
+        
+      // ************************        
+      // GROUP: Gestion des états
+      // ************************
       
+        
+      /////////////////////
+      // Activation de l'état.
+      void entrer() ;
+      
+      //////////////////////
+      // Ajout d'un sous-état.
+      void ajouterSousEtat(Etat*) ;
+      
+      //////////////////////
+      // Suppression d'un sous-état.
+      void supprimererSousEtat(const Association< Etat >) ;   
+      
+      /////////////////////
+      // Active un sous-état.
+      void activerSousEtat(const Association< Etat >) ;
+      
+      
+      // *************
+      // GROUP: Divers
+      // *************
+      
+      //////////////////
+      // Classe abstraite donc destructeur virtuel.
+      virtual ~Etat() ;
     
     
     protected:
+    
+      //////////////////
+      // Le sous-état actif, s'il y a des sous-états.
+      // C'est un élément de sousEtats.
+      Association< Etat > sousEtatActif ;    
+    
+    
+    
+      // ****************    
+      // GROUP: Attributs
+      // ****************
+    
     
       ////////////////////
       // Sous état éventuels.
