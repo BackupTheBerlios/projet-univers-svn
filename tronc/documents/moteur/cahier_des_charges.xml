@@ -43,685 +43,783 @@
 
     <para>[DÉFINITION D'UN OBJET]</para>
 
-    <sect2>
-      <title>Monde</title>
+    <para>Monde</para>
 
+    <sect2>
       <para>Un Monde est le groupement de plusieurs données :</para>
 
-      <itemizedlist>
-        <listitem>
-          <para>un Univers</para>
-        </listitem>
-
-        <listitem>
-          <para>une Société</para>
-        </listitem>
-
-        <listitem>
-          <para>des Biens</para>
-        </listitem>
-      </itemizedlist>
+      <itemizedlist><listitem><para>un
+      Univers</para></listitem><listitem><para>une
+      Société</para></listitem><listitem><para>des
+      Biens</para></listitem></itemizedlist>
 
       <para>Toutes les données d'un monde évoluent au cours du
       <emphasis>Temps</emphasis>, ainsi des Étoiles explosent, des Factions
-      sont exterminées, des Personnages naissent ou meurent, des Biens
-      changent de main ou sont détruits.</para>
+      sont exterminées, des Personnages naissent ou meurent, des Biens sont
+      créer, changent de main ou sont détruits.</para>
+    </sect2>
+
+    <sect2>
+      <title>Univers - Objets Physiques</title>
+
+      <para>Le MOTEUR doit faire évoluer le joueur dans un environnement
+      spatial mais aussi atmosphérique. L'Univers représente donc
+      l'environnement physique dans lequel toute l'action du jeu se
+      passe.</para>
+
+      <para>Soit les éléments de l'environnement physique suivant:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>Univers</para>
+        </listitem>
+
+        <listitem>
+          <para>Galaxie</para>
+        </listitem>
+
+        <listitem>
+          <para>Secteur galactique</para>
+        </listitem>
+
+        <listitem>
+          <para>Système stellaire</para>
+        </listitem>
+
+        <listitem>
+          <para>Étoile</para>
+        </listitem>
+
+        <listitem>
+          <para>Planète</para>
+        </listitem>
+
+        <listitem>
+          <para>Satellite</para>
+        </listitem>
+
+        <listitem>
+          <para>Nébuleuse</para>
+        </listitem>
+
+        <listitem>
+          <para>Trou noir</para>
+        </listitem>
+
+        <listitem>
+          <para>Champ d'astéroïde</para>
+        </listitem>
+
+        <listitem>
+          <para>Anneau planétaire</para>
+        </listitem>
+      </itemizedlist>
 
       <sect3>
         <title>Univers</title>
 
-        <para>Le MOTEUR doit faire évoluer le joueur dans un environnement
-        spatial mais aussi atmosphérique. L'Univers représente donc
-        l'environnement physique dans lequel toute l'action du jeu se
-        passe.</para>
-
-        <para>Soit les éléments de l'environnement physique suivant:</para>
+        <para>Caractéristiques :</para>
 
         <itemizedlist>
           <listitem>
-            <para>Univers</para>
-          </listitem>
-
-          <listitem>
-            <para>Galaxie</para>
-          </listitem>
-
-          <listitem>
-            <para>Secteur galactique</para>
-          </listitem>
-
-          <listitem>
-            <para>Système stellaire</para>
-          </listitem>
-
-          <listitem>
-            <para>Étoile</para>
-          </listitem>
-
-          <listitem>
-            <para>Planète</para>
-          </listitem>
-
-          <listitem>
-            <para>Satellite</para>
-          </listitem>
-
-          <listitem>
-            <para>Nébuleuse</para>
-          </listitem>
-
-          <listitem>
-            <para>Trou noir</para>
-          </listitem>
-
-          <listitem>
-            <para>Champ d'astéroïde</para>
-          </listitem>
-
-          <listitem>
-            <para>Anneau planétaire</para>
+            <para>1 Univers contient n Galaxies</para>
           </listitem>
         </itemizedlist>
 
-        <sect4>
-          <title>Univers</title>
-
-          <para>Caractéristiques :</para>
-
-          <itemizedlist>
-            <listitem>
-              <para>1 Univers contient n Galaxies</para>
-            </listitem>
-          </itemizedlist>
-
-          <remark>Dans 99%, l'Univers ne possédera qu'1 Galaxie</remark>
-        </sect4>
-
-        <sect4>
-          <title>Galaxie</title>
-
-          <para>Caractéristiques :</para>
-
-          <itemizedlist>
-            <listitem>
-              <para>1 Galaxie est divisé en n Secteurs</para>
-            </listitem>
-          </itemizedlist>
-        </sect4>
-
-        <sect4>
-          <title>Secteur galactique</title>
-
-          <para>Caractéristiques :</para>
-
-          <itemizedlist>
-            <listitem>
-              <para>1 Secteur contient n Systèmes Stellaire</para>
-            </listitem>
-
-            <listitem>
-              <para>1 Secteur contient n Trou noir</para>
-            </listitem>
-
-            <listitem>
-              <para>1 Secteur contient n Nébuleuses</para>
-            </listitem>
-          </itemizedlist>
-        </sect4>
-
-        <sect4>
-          <title>Système stellaire</title>
-
-          <para>Caractéristiques :</para>
-
-          <itemizedlist>
-            <listitem>
-              <para>1 Système Stellaire est composé de 1 à 3 Étoiles</para>
-            </listitem>
-
-            <listitem>
-              <para>1 Système Stellaire peut être dans une Nébuleuse</para>
-            </listitem>
-
-            <listitem>
-              <para>1 Système Stellaire possède n Champs d'astéroïde</para>
-            </listitem>
-
-            <listitem>
-              <para>1 Système Stellaire possède n Planète</para>
-            </listitem>
-          </itemizedlist>
-        </sect4>
-
-        <sect4>
-          <title>Étoile</title>
-
-          <para>Caractéristiques :</para>
-        </sect4>
-
-        <sect4>
-          <title>Planète</title>
-
-          <para>Caractéristiques :</para>
-
-          <itemizedlist>
-            <listitem>
-              <para>1 Planète possède n Anneaux Planétaires</para>
-            </listitem>
-
-            <listitem>
-              <para>1 Planète possède n Satellites</para>
-            </listitem>
-          </itemizedlist>
-        </sect4>
-
-        <sect4>
-          <title>Satellite</title>
-
-          <para>Caractéristiques :</para>
-        </sect4>
-
-        <sect4>
-          <title>Nébuleuse</title>
-
-          <para>Caractéristiques :</para>
-        </sect4>
-
-        <sect4>
-          <title>Trou noir</title>
-
-          <para>Caractéristiques :</para>
-        </sect4>
-
-        <sect4>
-          <title>Champs d'astéroïde</title>
-
-          <para>Caractéristiques :</para>
-        </sect4>
-
-        <sect4>
-          <title>Anneau Planétaire</title>
-
-          <para>Caractéristiques :</para>
-        </sect4>
+        <remark>Dans 99%, l'Univers ne possédera qu'1 Galaxie</remark>
       </sect3>
 
       <sect3>
-        <title>Société</title>
+        <title>Galaxie</title>
 
-        <para>Une Société décrit tous les aspects qui règlent les relations
-        des individus entre eux et leur regroupement en Groupes.</para>
-
-        <para>Une Société possède les caractéristiques suivantes :</para>
+        <para>Caractéristiques :</para>
 
         <itemizedlist>
           <listitem>
-            <para>des Entités Sociales</para>
-          </listitem>
-
-          <listitem>
-            <para>des Systèmes Commerciaux</para>
-          </listitem>
-        </itemizedlist>
-
-        <sect4>
-          <title>Entités Sociales</title>
-
-          <para>Toutes les Entités Sociales ont des caractéristiques communes
-          :</para>
-
-          <itemizedlist>
-            <listitem>
-              <para>un Nom</para>
-
-              <para>Ce qui permet de les désigner.</para>
-            </listitem>
-
-            <listitem>
-              <para>une Attitude vis à vis de chacune des autres Entités
-              Sociales de la même Société</para>
-
-              <para>Cette Attitude permet de représenter les liens entre ces
-              Entités Sociales.</para>
-            </listitem>
-          </itemizedlist>
-        </sect4>
-
-        <sect4>
-          <title>Personnage</title>
-
-          <para>Un personnage est une Entité Sociale autonome, un être vivant
-          d'une espèce quelconque, robot, etc ...</para>
-
-          <para>Un personnage est forcément commandé :</para>
-
-          <itemizedlist>
-            <listitem>
-              <para>Soit par l'intelligence artificielle</para>
-            </listitem>
-
-            <listitem>
-              <para>Soit par un joueur</para>
-
-              <para>on parle alors de Personnage Joueur ou PJ</para>
-            </listitem>
-          </itemizedlist>
-
-          <para>Il se peut que certains personnages ne puissent être commandés
-          par un Joueur, on parlera alors de Personnage Non Joueur ou
-          PNJ.</para>
-
-          <para>Un personnage possède un profil. Ce profil évolue avec le
-          Temps et les Missions effectuées.</para>
-        </sect4>
-
-        <sect4>
-          <title>Groupe</title>
-
-          <para>Un Groupe est une Entité Sociale qui est un regroupement
-          d'Entités Sociales. Ainsi, un Groupe peut être constitué d'autres
-          Groupes et ou de Personnages.</para>
-
-          <para>Un Groupe possède les caractéristiques suivantes :</para>
-
-          <itemizedlist>
-            <listitem>
-              <para>des Membres qui sont des Entités Sociales</para>
-            </listitem>
-
-            <listitem>
-              <para>des Objectifs</para>
-            </listitem>
-
-            <listitem>
-              <para>un Système Organisationnel</para>
-            </listitem>
-          </itemizedlist>
-
-          <para>Elle possède n Objectifs, qui sont muables (on peut en créer,
-          en annuler, les modifier, les réussir, etc..).</para>
-
-          <para>Il existe généralement des Groupes gouvernementaux (empire,
-          république, fédération, etc ...) et des Groupes privées (ligue de
-          contrebandier, pirates, etc ...).</para>
-
-          <para>Un personnage peut appartenir à un ou plusieurs Groupes. Ces
-          informations sont stockées dans le profil du personnage. Cette
-          appartenance est par défaut connue par les membres de la faction, et
-          elle peut être rendu publique.</para>
-
-          <para>Un Groupe utilise un Système Organisationnel, c'est à dire une
-          façon de se gérer. </para>
-
-          <para>Une Faction est dirigé par un groupe de Personnages
-          dirigeant.</para>
-
-          <para>L'Attitude d'un Groupe masque celle du Personnage à partir du
-          moment où il déclare agir pour ce Groupe.</para>
-
-          <sect5>
-            <title>Système Organisationnel</title>
-
-            <para>Un Système Organisationnel est une procédure définissant
-            comment les décisions du Groupe sont prises. Il existe plusieurs
-            Systèmes Organisationnels différents.</para>
-
-            <para>Un Système Organisationnel classique est le Système
-            Organisationnel Hiérarchique, qui est définit comme suit :</para>
-
-            <itemizedlist>
-              <listitem>
-                <para>une Hierarchie :</para>
-
-                <itemizedlist>
-                  <listitem>
-                    <para>un ensemble de </para>
-                  </listitem>
-                </itemizedlist>
-              </listitem>
-
-              <listitem>
-                <para>les Membres du Groupe sont répartis au sein de la
-                Hiérarchie</para>
-              </listitem>
-
-              <listitem>
-                <para>chaque couche dans la Hierarchie peut donner des Ordres
-                aux couches en dessous</para>
-              </listitem>
-            </itemizedlist>
-          </sect5>
-        </sect4>
-
-        <sect4>
-          <title>Attitude</title>
-
-          <para>Chaque Entité Sociale à une Attitude vis à vis d'une autre.
-          Cette Attitude est la façon dont l'Entité considère l'autre :</para>
-
-          <itemizedlist>
-            <listitem>
-              <para>Alliée</para>
-
-              <para>se bat à ses cotés ( balance = 1 )</para>
-            </listitem>
-
-            <listitem>
-              <para>Neutre</para>
-
-              <para>il n'est ni l'un, ni l'autre ( balance = 0 )</para>
-            </listitem>
-
-            <listitem>
-              <para>Ennemie</para>
-
-              <para>se bat contre lui ( balance = -1 )</para>
-            </listitem>
-
-            <listitem>
-              <para>Ne Connais pas</para>
-
-              <para>L'Entité Sociale ne connais pas la deuxième.</para>
-            </listitem>
-          </itemizedlist>
-
-          <para>Par défaut une Entité Sociale a une Attitude Neutre vis à vis
-          d'une autre Entité. Les Attitudes peuvent changer au cours du
-          temps.</para>
-
-          <para>Le changement est automatiquement appliqué aux 2 Entités si le
-          nouveau statut est Ennemie, mais doit être validé par les 2 Entités
-          dans les autres cas. Une requête est donc formulée par celui qui
-          change son statut.</para>
-
-          <remark>Là je n'ai pas bien compris</remark>
-
-          <para>Par exemple, un Personnage décide d'attaquer un autre, il
-          change son statut en Ennemie de l'autre Personnage. L'autre
-          personnage le voit donc en Ennemie. Finalement le premier décide de
-          le laisser tranquille et de devenir Neutre, il envoie donc une
-          requête. Si le dernier accepte, le statut change, sinon, il
-          redevient Ennemie.</para>
-
-          <sect5>
-            <title>Conflits d'Attitudes</title>
-
-            <para>Il se peut que certains conflit de statut arrive, par
-            exemple:</para>
-
-            <para>Une faction A est alliée avec B. A est alliée également avec
-            C, mais B est ennemie à C. Si une bataille à lieu en présence des
-            3 factions, l'une d'entre elle se doit de choisir de passer neutre
-            et de se retirer ou de modifier son statut en faveur de l'une ou
-            l'autre. Ce choix appartient aux personnages dirigeant ou peut
-            être provoqué par certains évènements.</para>
-
-            <para>Par exemple : un joueur faisant partie d'une Faction de
-            contrebandier A est Neutre vis à vis de deux Factions B et C
-            Ennemies. Il décide de travailler pour B. C peut très bien décider
-            que la Faction A devient leur Ennemie, ou la garder Neutre (après
-            tout, ce ne sont que des contrebandiers).</para>
-          </sect5>
-
-          <sect5>
-            <title>Influence du Personnage sur la Faction</title>
-
-            <para>Un Personnage ayant déclaré agir pour un Groupe peut,
-            volontairement ou involontairement, agir en contradiction avec
-            l'Attitude du Groupe. Dans ce cas, il peut être déclarer par les
-            membres du Groupe comme étant Neutre ou comme étant Ennemie. Les
-            implications sur les Groupe sortent du cadre de ce document, il
-            n'y a pas d'automatisme, c'est aux dirigeants de choisir en
-            conséquence</para>
-          </sect5>
-        </sect4>
-      </sect3>
-
-      <sect3>
-        <title>Le commerce</title>
-
-        <para>Il est possible de gérer un commerce entre les différentes
-        factions et personnages.</para>
-
-        <para>Chaque faction possède un capital crédit que les personnages
-        dirigeant doivent répartir (salaire des personnages, achat de nouveau
-        navire, création d'installation planétaire, etc ...)</para>
-
-        <para>Chaque personnage possède également un capital crédit qui lui
-        est propre.</para>
-
-        <para>[FONCTIONNEMENT A DÉFINIR]</para>
-      </sect3>
-
-      <sect3>
-        <title>Les biens</title>
-
-        <para>Les Biens sont catégorisé comme suit (liste non
-        exhaustive):</para>
-
-        <itemizedlist>
-          <listitem>
-            <para>Vaisseau</para>
-          </listitem>
-
-          <listitem>
-            <para>Station Spatiale</para>
-          </listitem>
-
-          <listitem>
-            <para>Installation Planétaire</para>
-          </listitem>
-        </itemizedlist>
-
-        <para>Chaque Bien a :</para>
-
-        <itemizedlist>
-          <listitem>
-            <para>une Valeur Estimée en crédits</para>
-          </listitem>
-
-          <listitem>
-            <para>un Propriétaire qui peut être soit un Personnage soit une
-            Faction</para>
-          </listitem>
-
-          <listitem>
-            <para>une Localisation</para>
-          </listitem>
-        </itemizedlist>
-
-        <para>Chaque faction et chaque personnage possède n biens qu'il
-        peuvent céder à qui il veut dans les conditions suivantes :</para>
-
-        <itemizedlist>
-          <listitem>
-            <para>Don, il n'y a rien en échange</para>
-          </listitem>
-
-          <listitem>
-            <para>Échange, échange contre un autre bien, de même valeur ou
-            non.</para>
-          </listitem>
-
-          <listitem>
-            <para>Vente, vente contre une certaine quantité de crédit.</para>
+            <para>1 Galaxie est divisé en n Secteurs</para>
           </listitem>
         </itemizedlist>
       </sect3>
 
       <sect3>
-        <title>L'histoire</title>
+        <title>Secteur galactique</title>
 
-        <para>Le jeu est dirigé par une Histoire. Cette Histoire est de type
-        non linéaire.</para>
-
-        <para>La hiérarchie suivante s'applique:</para>
+        <para>Caractéristiques :</para>
 
         <itemizedlist>
           <listitem>
-            <para>1 Histoire contient n Campagnes</para>
+            <para>1 Secteur contient n Systèmes Stellaire</para>
           </listitem>
 
           <listitem>
-            <para>1 Histoire contient n Missions</para>
+            <para>1 Secteur contient n Trou noir</para>
           </listitem>
 
           <listitem>
-            <para>1 Campagne contient n Missions</para>
-          </listitem>
-        </itemizedlist>
-
-        <para>L'histoire étant non linéaire, l'issue de chaque Mission influe
-        sur la suite des évènement. Les Missions sont de 3 types :</para>
-
-        <itemizedlist>
-          <listitem>
-            <para>Obligatoire, quel que soit le déroulement du jeu, ces
-            missions devront être effectuées</para>
-          </listitem>
-
-          <listitem>
-            <para>Facultative, ces missions ne sont pas nécessaire au bon
-            déroulement du jeu, cependant, elle influe quand même sur
-            l'Histoire</para>
-          </listitem>
-
-          <listitem>
-            <para>Conditionnelle, ces missions se déroule uniquement si des
-            conditions ont été respectées.</para>
-          </listitem>
-        </itemizedlist>
-
-        <para>Exemple d'influence:</para>
-
-        <itemizedlist>
-          <listitem>
-            <para>sur le statut : par un évènement imprévue, une faction
-            change de statut. Ce statut doit rester dans le reste de
-            l'Histoire sauf si un autre évènement le contre.</para>
-          </listitem>
-
-          <listitem>
-            <para>sur les biens : au cours d'une Mission, un vaisseau est
-            détruit. On ne doit plus le rencontrer par la suite</para>
-          </listitem>
-
-          <listitem>
-            <para>sur les personnages : un personnage est tué, on ne doit plus
-            le rencontrer par la suite.</para>
-          </listitem>
-
-          <listitem>
-            <para>etc ...</para>
-          </listitem>
-        </itemizedlist>
-
-        <para>Une mission est définie comme suit:</para>
-
-        <itemizedlist>
-          <listitem>
-            <para>La liste des factions en présence et leur statut</para>
-          </listitem>
-
-          <listitem>
-            <para>Les vaisseaux en présence accompagnés de leur
-            caractéristiques (bouclier, état de la coque, etc...)</para>
-          </listitem>
-
-          <listitem>
-            <para>Les positions des vaisseaux</para>
-          </listitem>
-
-          <listitem>
-            <para>Le Script de la Mission</para>
-          </listitem>
-        </itemizedlist>
-
-        <para>Une Campagne est définie comme suit:</para>
-
-        <itemizedlist>
-          <listitem>
-            <para>un ensemble de Missions</para>
-          </listitem>
-
-          <listitem>
-            <para>pour chaque Mission un mécanisme de choix pour la Mission
-            suivante</para>
-          </listitem>
-
-          <listitem>
-            <para>pour chaque Mission une date à laquelle cette mission se
-            déroule</para>
-          </listitem>
-
-          <listitem>
-            <para>pour chaque Mission un Script Campagne permettant de
-            modifier les données globales juste avant de jouer la
-            Mission</para>
-          </listitem>
-
-          <listitem>
-            <para>pour chaque Mission un Script Campagne permettant de
-            modifier les données globales juste après de jouer la
-            Mission</para>
-          </listitem>
-
-          <listitem>
-            <para>un ensemble de Flottes Capitales, dont les données sont
-            persistantes, c'est à dire que les modifications faites pendant le
-            déroulement de la mission sont appliquées</para>
-
-            <remark>Ces Flottes sont en quelque sorte des personnages
-            récurrents d'une campagne</remark>
-          </listitem>
-
-          <listitem>
-            <para>un ensemble de Personnages</para>
-
-            <remark>Ce sont les Personnages apparaissant dans les
-            Missions</remark>
-          </listitem>
-        </itemizedlist>
-
-        <para>Une Histoire est définie comme suit:</para>
-
-        <itemizedlist>
-          <listitem>
-            <para>un ensemble de Campagnes et de Missions</para>
-          </listitem>
-
-          <listitem>
-            <para>pour chaque Campagne et Mission de l'Histoire, un mécanisme
-            de choix de la Campagne ou Mission suivante.</para>
+            <para>1 Secteur contient n Nébuleuses</para>
           </listitem>
         </itemizedlist>
       </sect3>
 
       <sect3>
-        <title>Les Flottes et les Escadrons</title>
+        <title>Système stellaire</title>
 
-        <para>Une Flotte est composée d'escadrons et de vaisseaux.</para>
+        <para>Caractéristiques :</para>
 
-        <para>Un Escadron est composé de Groupes et de Vaisseaux.</para>
+        <itemizedlist>
+          <listitem>
+            <para>1 Système Stellaire est composé de n Étoiles</para>
+          </listitem>
 
-        <para>Un Groupe est composé de Vaisseaux.</para>
+          <listitem>
+            <para>1 Système Stellaire peut être dans une Nébuleuse (comprend
+            que la nébuleuse est autour du système stellaire et qu'ils n'ont
+            que très peu d'influence l'un sur l'autre)</para>
+          </listitem>
 
-        <para>Les Flottes, Escadrons, Groupes et Vaisseaux ont chacun leur
-        chef.</para>
+          <listitem>
+            <para>1 Système Stellaire possède n Champs d'astéroïde</para>
+          </listitem>
+
+          <listitem>
+            <para>1 Système Stellaire possède n Planète</para>
+          </listitem>
+        </itemizedlist>
       </sect3>
 
       <sect3>
-        <title>Les vaisseaux</title>
+        <title>Étoile</title>
 
-        <para></para>
+        <para>Caractéristiques :</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>Type</para>
+          </listitem>
+
+          <listitem>
+            <para>Taille</para>
+          </listitem>
+
+          <listitem>
+            <para>Masse</para>
+          </listitem>
+
+          <listitem>
+            <para>Période d'activité</para>
+          </listitem>
+        </itemizedlist>
       </sect3>
+
+      <sect3>
+        <title>Planète</title>
+
+        <para>Caractéristiques :</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>1 Planète possède n Anneaux Planétaires</para>
+          </listitem>
+
+          <listitem>
+            <para>1 Planète possède n Satellites</para>
+          </listitem>
+
+          <listitem>
+            <para>Type d'athmosphère</para>
+          </listitem>
+
+          <listitem>
+            <para>Phénomènes Météorologiques</para>
+          </listitem>
+
+          <listitem>
+            <para>Géologie</para>
+          </listitem>
+
+          <listitem>
+            <para>Géographie</para>
+          </listitem>
+
+          <listitem>
+            <para>Climat</para>
+          </listitem>
+
+          <listitem>
+            <para>Taille</para>
+          </listitem>
+
+          <listitem>
+            <para>Masse</para>
+          </listitem>
+
+          <listitem>
+            <para>Espèces</para>
+          </listitem>
+        </itemizedlist>
+      </sect3>
+
+      <sect3>
+        <title>Satellite</title>
+
+        <para>Caractéristiques :<itemizedlist>
+            <listitem>
+              <para>1 Satelitte possède n Anneaux Planétaires</para>
+            </listitem>
+
+            <listitem>
+              <para>1 Satelitte possède n Satellites</para>
+            </listitem>
+
+            <listitem>
+              <para>Type d'athmosphère</para>
+            </listitem>
+
+            <listitem>
+              <para>Phénomènes Météorologiques</para>
+            </listitem>
+
+            <listitem>
+              <para>Géologie</para>
+            </listitem>
+
+            <listitem>
+              <para>Géographie</para>
+            </listitem>
+
+            <listitem>
+              <para>Climat</para>
+            </listitem>
+
+            <listitem>
+              <para>Taille</para>
+            </listitem>
+
+            <listitem>
+              <para>Masse</para>
+            </listitem>
+
+            <listitem>
+              <para>Espèces</para>
+            </listitem>
+          </itemizedlist></para>
+      </sect3>
+
+      <sect3>
+        <title>Nébuleuse</title>
+
+        <para>Caractéristiques :</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>Composition</para>
+          </listitem>
+
+          <listitem>
+            <para>Densité</para>
+          </listitem>
+
+          <listitem>
+            <para>Objets Stellaires</para>
+          </listitem>
+        </itemizedlist>
+      </sect3>
+
+      <sect3>
+        <title>Trou noir</title>
+
+        <para>Caractéristiques :</para>
+      </sect3>
+
+      <sect3>
+        <title>Champs d'astéroïde</title>
+
+        <para>Caractéristiques :</para>
+      </sect3>
+
+      <sect3>
+        <title>Anneau Planétaire</title>
+
+        <para>Caractéristiques :</para>
+      </sect3>
+    </sect2>
+
+    <sect2>
+      <title>Espèces</title>
+
+      <para>Caractéristiques:</para>
+    </sect2>
+
+    <sect2>
+      <title>Société</title>
+
+      <para>Une Société décrit tous les aspects qui règlent les relations des
+      individus entre eux et leur regroupement en Groupes.</para>
+
+      <para>Une Société possède les caractéristiques suivantes :</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>des Entités Sociales</para>
+        </listitem>
+
+        <listitem>
+          <para>des Systèmes Commerciaux</para>
+        </listitem>
+      </itemizedlist>
+
+      <sect3>
+        <title>Entités Sociales</title>
+
+        <para>Toutes les Entités Sociales ont des caractéristiques communes
+        :</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>un Nom</para>
+
+            <para>Ce qui permet de les désigner.</para>
+          </listitem>
+
+          <listitem>
+            <para>une Attitude vis à vis de chacune des autres Entités
+            Sociales de la même Société</para>
+
+            <para>Cette Attitude permet de représenter les liens entre ces
+            Entités Sociales.</para>
+          </listitem>
+        </itemizedlist>
+      </sect3>
+
+      <sect3>
+        <title>Personnage</title>
+
+        <para>Un personnage est une Entité Sociale autonome, un être vivant
+        d'une espèce quelconque, robot, etc ...</para>
+
+        <para>Un personnage est forcément commandé :</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>Soit par l'intelligence artificielle</para>
+          </listitem>
+
+          <listitem>
+            <para>Soit par un joueur</para>
+
+            <para>on parle alors de Personnage Joueur ou PJ</para>
+          </listitem>
+        </itemizedlist>
+
+        <para>Il se peut que certains personnages ne puissent être commandés
+        par un Joueur, on parlera alors de Personnage Non Joueur ou
+        PNJ.</para>
+
+        <para>Un personnage possède un profil. Ce profil évolue avec le Temps
+        et les Missions effectuées.</para>
+      </sect3>
+
+      <sect3>
+        <title>Groupe</title>
+
+        <para>Un Groupe est une Entité Sociale qui est un regroupement
+        d'Entités Sociales. Ainsi, un Groupe peut être constitué d'autres
+        Groupes et ou de Personnages.</para>
+
+        <para>Un Groupe possède les caractéristiques suivantes :</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>des Membres qui sont des Entités Sociales</para>
+          </listitem>
+
+          <listitem>
+            <para>des Objectifs</para>
+          </listitem>
+
+          <listitem>
+            <para>un Système Organisationnel</para>
+          </listitem>
+        </itemizedlist>
+
+        <para>Elle possède n Objectifs, qui sont muables (on peut en créer, en
+        annuler, les modifier, les réussir, etc..).</para>
+
+        <para>Il existe généralement des Groupes gouvernementaux (empire,
+        république, fédération, etc ...) et des Groupes privées (ligue de
+        contrebandier, pirates, etc ...).</para>
+
+        <para>Un personnage peut appartenir à un ou plusieurs Groupes. Ces
+        informations sont stockées dans le profil du personnage. Cette
+        appartenance est par défaut connue par les membres de la faction, et
+        elle peut être rendu publique.</para>
+
+        <para>Un Groupe utilise un Système Organisationnel, c'est à dire une
+        façon de se gérer.</para>
+
+        <para>Une Faction est dirigé par un groupe de Personnages
+        dirigeant.</para>
+
+        <para>L'Attitude d'un Groupe masque celle du Personnage à partir du
+        moment où il déclare agir pour ce Groupe.</para>
+
+        <sect4>
+          <title>Système Organisationnel</title>
+
+          <para>Un Système Organisationnel est une procédure définissant
+          comment les décisions du Groupe sont prises. Il existe plusieurs
+          Systèmes Organisationnels différents.</para>
+
+          <para>Un Système Organisationnel classique est le Système
+          Organisationnel Hiérarchique, qui est définit comme suit :</para>
+
+          <itemizedlist>
+            <listitem>
+              <para>une Hierarchie :</para>
+
+              <itemizedlist>
+                <listitem>
+                  <para>un ensemble de</para>
+                </listitem>
+              </itemizedlist>
+            </listitem>
+
+            <listitem>
+              <para>les Membres du Groupe sont répartis au sein de la
+              Hiérarchie</para>
+            </listitem>
+
+            <listitem>
+              <para>chaque couche dans la Hierarchie peut donner des Ordres
+              aux couches en dessous</para>
+            </listitem>
+          </itemizedlist>
+        </sect4>
+      </sect3>
+
+      <sect3>
+        <title>Attitude</title>
+
+        <para>Chaque Entité Sociale à une Attitude vis à vis d'une autre.
+        Cette Attitude est la façon dont l'Entité considère l'autre :</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>Alliée</para>
+
+            <para>se bat à ses cotés ( balance = 1 )</para>
+          </listitem>
+
+          <listitem>
+            <para>Neutre</para>
+
+            <para>il n'est ni l'un, ni l'autre ( balance = 0 )</para>
+          </listitem>
+
+          <listitem>
+            <para>Ennemie</para>
+
+            <para>se bat contre lui ( balance = -1 )</para>
+          </listitem>
+
+          <listitem>
+            <para>Ne Connais pas</para>
+
+            <para>L'Entité Sociale ne connais pas la deuxième.</para>
+          </listitem>
+        </itemizedlist>
+
+        <para>Par défaut une Entité Sociale a une Attitude Neutre vis à vis
+        d'une autre Entité. Les Attitudes peuvent changer au cours du
+        temps.</para>
+
+        <para>Le changement est automatiquement appliqué aux 2 Entités si le
+        nouveau statut est Ennemie, mais doit être validé par les 2 Entités
+        dans les autres cas. Une requête est donc formulée par celui qui
+        change son statut.</para>
+
+        <remark>Là je n'ai pas bien compris</remark>
+
+        <para>Par exemple, un Personnage décide d'attaquer un autre, il change
+        son statut en Ennemie de l'autre Personnage. L'autre personnage le
+        voit donc en Ennemie. Finalement le premier décide de le laisser
+        tranquille et de devenir Neutre, il envoie donc une requête. Si le
+        dernier accepte, le statut change, sinon, il redevient Ennemie.</para>
+
+        <sect4>
+          <title>Conflits d'Attitudes</title>
+
+          <para>Il se peut que certains conflit de statut arrive, par
+          exemple:</para>
+
+          <para>Une faction A est alliée avec B. A est alliée également avec
+          C, mais B est ennemie à C. Si une bataille à lieu en présence des 3
+          factions, l'une d'entre elle se doit de choisir de passer neutre et
+          de se retirer ou de modifier son statut en faveur de l'une ou
+          l'autre. Ce choix appartient aux personnages dirigeant ou peut être
+          provoqué par certains évènements.</para>
+
+          <para>Par exemple : un joueur faisant partie d'une Faction de
+          contrebandier A est Neutre vis à vis de deux Factions B et C
+          Ennemies. Il décide de travailler pour B. C peut très bien décider
+          que la Faction A devient leur Ennemie, ou la garder Neutre (après
+          tout, ce ne sont que des contrebandiers).</para>
+        </sect4>
+
+        <sect4>
+          <title>Influence du Personnage sur la Faction</title>
+
+          <para>Un Personnage ayant déclaré agir pour un Groupe peut,
+          volontairement ou involontairement, agir en contradiction avec
+          l'Attitude du Groupe. Dans ce cas, il peut être déclarer par les
+          membres du Groupe comme étant Neutre ou comme étant Ennemie. Les
+          implications sur les Groupe sortent du cadre de ce document, il n'y
+          a pas d'automatisme, c'est aux dirigeants de choisir en
+          conséquence</para>
+        </sect4>
+      </sect3>
+    </sect2>
+
+    <sect2>
+      <title>Le commerce</title>
+
+      <para>Il est possible de gérer un commerce entre les différentes
+      factions et personnages.</para>
+
+      <para>Chaque faction possède un capital crédit que les personnages
+      dirigeant doivent répartir (salaire des personnages, achat de nouveau
+      navire, création d'installation planétaire, etc ...)</para>
+
+      <para>Chaque personnage possède également un capital crédit qui lui est
+      propre.</para>
+
+      <para>[FONCTIONNEMENT A DÉFINIR]</para>
+    </sect2>
+
+    <sect2>
+      <title>Les biens</title>
+
+      <para>Les Biens sont catégorisé comme suit (liste non
+      exhaustive):</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>Vaisseau</para>
+        </listitem>
+
+        <listitem>
+          <para>Station Spatiale</para>
+        </listitem>
+
+        <listitem>
+          <para>Installation Planétaire</para>
+        </listitem>
+      </itemizedlist>
+
+      <para>Chaque Bien a :</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>une Valeur Estimée en crédits</para>
+        </listitem>
+
+        <listitem>
+          <para>un Propriétaire qui peut être soit un Personnage soit une
+          Faction</para>
+        </listitem>
+
+        <listitem>
+          <para>une Localisation</para>
+        </listitem>
+      </itemizedlist>
+
+      <para>Chaque faction et chaque personnage possède n biens qu'il peuvent
+      céder à qui il veut dans les conditions suivantes :</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>Don, il n'y a rien en échange</para>
+        </listitem>
+
+        <listitem>
+          <para>Échange, échange contre un autre bien, de même valeur ou
+          non.</para>
+        </listitem>
+
+        <listitem>
+          <para>Vente, vente contre une certaine quantité de crédit.</para>
+        </listitem>
+      </itemizedlist>
+    </sect2>
+
+    <sect2>
+      <title>L'histoire</title>
+
+      <para>Le jeu est dirigé par une Histoire. Cette Histoire est de type non
+      linéaire.</para>
+
+      <para>La hiérarchie suivante s'applique:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>1 Histoire contient n Campagnes</para>
+        </listitem>
+
+        <listitem>
+          <para>1 Histoire contient n Missions</para>
+        </listitem>
+
+        <listitem>
+          <para>1 Campagne contient n Missions</para>
+        </listitem>
+      </itemizedlist>
+
+      <para>L'histoire étant non linéaire, l'issue de chaque Mission influe
+      sur la suite des évènement. Les Missions sont de 3 types :</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>Obligatoire, quel que soit le déroulement du jeu, ces missions
+          devront être effectuées</para>
+        </listitem>
+
+        <listitem>
+          <para>Facultative, ces missions ne sont pas nécessaire au bon
+          déroulement du jeu, cependant, elle influe quand même sur
+          l'Histoire</para>
+        </listitem>
+
+        <listitem>
+          <para>Conditionnelle, ces missions se déroule uniquement si des
+          conditions ont été respectées.</para>
+        </listitem>
+      </itemizedlist>
+
+      <para>Exemple d'influence:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>sur le statut : par un évènement imprévue, une faction change
+          de statut. Ce statut doit rester dans le reste de l'Histoire sauf si
+          un autre évènement le contre.</para>
+        </listitem>
+
+        <listitem>
+          <para>sur les biens : au cours d'une Mission, un vaisseau est
+          détruit. On ne doit plus le rencontrer par la suite</para>
+        </listitem>
+
+        <listitem>
+          <para>sur les personnages : un personnage est tué, on ne doit plus
+          le rencontrer par la suite.</para>
+        </listitem>
+
+        <listitem>
+          <para>etc ...</para>
+        </listitem>
+      </itemizedlist>
+
+      <para>Une mission est définie comme suit:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>La liste des factions en présence et leur statut</para>
+        </listitem>
+
+        <listitem>
+          <para>Les vaisseaux en présence accompagnés de leur caractéristiques
+          (bouclier, état de la coque, etc...)</para>
+        </listitem>
+
+        <listitem>
+          <para>Les positions des vaisseaux</para>
+        </listitem>
+
+        <listitem>
+          <para>Le Script de la Mission</para>
+        </listitem>
+      </itemizedlist>
+
+      <para>Une Campagne est définie comme suit:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>un ensemble de Missions</para>
+        </listitem>
+
+        <listitem>
+          <para>pour chaque Mission un mécanisme de choix pour la Mission
+          suivante</para>
+        </listitem>
+
+        <listitem>
+          <para>pour chaque Mission une date à laquelle cette mission se
+          déroule</para>
+        </listitem>
+
+        <listitem>
+          <para>pour chaque Mission un Script Campagne permettant de modifier
+          les données globales juste avant de jouer la Mission</para>
+        </listitem>
+
+        <listitem>
+          <para>pour chaque Mission un Script Campagne permettant de modifier
+          les données globales juste après de jouer la Mission</para>
+        </listitem>
+
+        <listitem>
+          <para>un ensemble de Flottes Capitales, dont les données sont
+          persistantes, c'est à dire que les modifications faites pendant le
+          déroulement de la mission sont appliquées</para>
+
+          <remark>Ces Flottes sont en quelque sorte des personnages récurrents
+          d'une campagne</remark>
+        </listitem>
+
+        <listitem>
+          <para>un ensemble de Personnages</para>
+
+          <remark>Ce sont les Personnages apparaissant dans les
+          Missions</remark>
+        </listitem>
+      </itemizedlist>
+
+      <para>Une Histoire est définie comme suit:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>un ensemble de Campagnes et de Missions</para>
+        </listitem>
+
+        <listitem>
+          <para>pour chaque Campagne et Mission de l'Histoire, un mécanisme de
+          choix de la Campagne ou Mission suivante.</para>
+        </listitem>
+      </itemizedlist>
+    </sect2>
+
+    <sect2>
+      <title>Les Flottes et les Escadrons</title>
+
+      <para>Une Flotte est composée d'escadrons et de vaisseaux.</para>
+
+      <para>Un Escadron est composé de Groupes et de Vaisseaux.</para>
+
+      <para>Un Groupe est composé de Vaisseaux.</para>
+
+      <para>Les Flottes, Escadrons, Groupes et Vaisseaux ont chacun leur
+      chef.</para>
+    </sect2>
+
+    <sect2>
+      <title>Les vaisseaux</title>
+
+      <para></para>
     </sect2>
   </sect1>
 
   <sect1>
     <title>Spécification technique</title>
-
-    <para></para>
 
     <sect2>
       <title>Les données</title>
@@ -741,8 +839,6 @@
 
     <sect2>
       <title>Le jeu en solo</title>
-
-      <para></para>
 
       <sect3>
         <title>Modes de jeu</title>
