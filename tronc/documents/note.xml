@@ -77,27 +77,6 @@
       radar. Il n'utilise que très peu d'énergie. Il n'utilise que 10% de
       l'énergie produite par le générateur.</para>
     </formalpara>
-
-    <qandaset>
-      <qandadiv>
-        <qandaentry>
-          <question>
-            <para>Est-ce qu'on ne pourrait pas imaginer rester plus général ?
-            Par exemple, dire que ces valeurs de répartitions sont
-            indicatives, et permettre de répartir l'énergie comme on le veut
-            ?</para>
-
-            <para>Ou alors imposer des restrictions sur chaque composant du
-            vaisseau, en fonction du modèle même, en indiquant sa consomation
-            maximum ?</para>
-          </question>
-
-          <answer>
-            <para></para>
-          </answer>
-        </qandaentry>
-      </qandadiv>
-    </qandaset>
   </section>
 
   <section>
@@ -126,21 +105,6 @@
       des autres Générateurs.</para>
     </formalpara>
 
-    <qandaset>
-      <qandadiv>
-        <qandaentry>
-          <question>
-            <para>D'où est-ce qu'un trou noir développe une bulle répulsive?
-            </para>
-          </question>
-
-          <answer>
-            <para></para>
-          </answer>
-        </qandaentry>
-      </qandadiv>
-    </qandaset>
-
     <formalpara>
       <title>Les Générateur d'espace Conventionnel</title>
 
@@ -150,22 +114,6 @@
       autre, la fusion dans un gros réacteur de matière ferreux doit être
       nécessaire au déplacement.</para>
     </formalpara>
-
-    <qandaset>
-      <qandadiv>
-        <qandaentry>
-          <question>
-            <para>Là je ne comprends pas du tout, s'agit il d'un moteur genre
-            réacteur d'avion ou est-ce carément un générateur d'énergie
-            ?</para>
-          </question>
-
-          <answer>
-            <para></para>
-          </answer>
-        </qandaentry>
-      </qandadiv>
-    </qandaset>
   </section>
 
   <section>
@@ -189,22 +137,6 @@
       "autoroute des étoiles". Il existe plusieurs Trous Noirs par Galaxie.
       Certain sont encore inexploré et on ne sait pas ou il mène.</para>
     </formalpara>
-
-    <qandaset>
-      <qandadiv>
-        <qandaentry>
-          <question>
-            <para>Il semble que la question soit d'obliger le vaisseau à
-            posséder un appareillage spécifique pour que ce vaisseau puisse
-            naviguer en passant à travers un trou noir, est-ce cela ?</para>
-          </question>
-
-          <answer>
-            <para></para>
-          </answer>
-        </qandaentry>
-      </qandadiv>
-    </qandaset>
 
     <formalpara>
       <title>Système D'hyper-propulsion</title>
