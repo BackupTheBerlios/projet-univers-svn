@@ -116,7 +116,7 @@
       <para>Un modèle doit être logiquement séparé en "objets blender". La
       question à se poser est la suivante&nbsp;:"est ce que ce morceau de
       vaisseau pourrait être détaché du reste ?". Si la réponse est oui alors
-      c'est qu'il faut en faire un objet distinct. </para>
+      c'est qu'il faut en faire un objet distinct.</para>
 
       <para>Notamment les choses suivantes sont
       <emphasis>obligatoirement</emphasis> des "objets blender"&nbsp;:</para>
@@ -197,6 +197,22 @@
     </sect2>
 
     <sect2>
+      <title>Noms des modèles</title>
+
+      <para>Les fichiers de modèles doivent être écrits en miniscules sans
+      accents, les différents mots étants composés à l'aide du caractère
+      <filename>_</filename>. </para>
+    </sect2>
+
+    <sect2>
+      <title>Livraison des modèles</title>
+
+      <para>Les modèles livrés sur le serveur de fichiers doivent l'être dans
+      : <filename>modeles</filename> puis dans le bon sous répertoire en
+      fonction du type du modèle.</para>
+    </sect2>
+
+    <sect2>
       <title>Mapping de textures</title>
 
       <para>Le moteur <ulink url="http://www.ogre3d.org/">Ogre</ulink> ainsi
@@ -268,7 +284,7 @@
             </listitem>
 
             <listitem>
-              <para>De combat </para>
+              <para>De combat</para>
             </listitem>
           </itemizedlist>
         </listitem>
@@ -395,7 +411,7 @@
         <para>Si possible, faire une cinématique d'explosion pour chaque
         modèle, sauf le modèle 3 (Loin). Cette cinématique doit montrer que le
         vaisseaux est détruit. Le vaisseaux doit donc se "décomposer" en
-        morceaux, assez rapidement. </para>
+        morceaux, assez rapidement.</para>
 
         <para>L'animation ne doit pas durer plus de 3 secondes.</para>
       </sect3>
@@ -434,7 +450,7 @@
         <para>i possible, faire une cinématique d'explosion pour chaque
         modèle, sauf le modèle 3 (Loin). Cette cinématique doit montrer que le
         vaisseaux est détruit. Le vaisseaux doit donc se "décomposer" en
-        morceaux, assez rapidement. </para>
+        morceaux, assez rapidement.</para>
 
         <para>L'animation ne doit pas durer plus de 5 secondes.</para>
       </sect3>
