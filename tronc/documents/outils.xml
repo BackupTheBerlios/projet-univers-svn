@@ -60,10 +60,13 @@
     url="https://developer.berlios.de/account/register.php">ouvrir un compte
     développeur chez berlios</ulink>, c'est la permière étape. Dans toute la
     suite on supposera que vous vous êtes inscrit sur ce site avec
-    <replaceable>nom</replaceable> comme nom d'utilisateur.</para>
+    <replaceable>nom</replaceable> comme nom d'utilisateur. Votre compte est
+    alors normalement rendu actif dans les 6 heures, donc pas d'affolement si
+    cela ne fonctionne pas tout de suite, par conte au bout de quelques
+    jours...</para>
 
     <para>Ensuite, il faut contacter un des administrateurs du projet univers
-    pour qu'il vous ajoute au projet hébergé par berlios.</para>
+    pour qu'il vous ajoute au projet hébergé par berlios. </para>
 
     <para>Reste alors à utiliser le client subversion. </para>
 
