@@ -97,7 +97,9 @@ namespace ProjetUnivers {
       Booleen Contient(const Association< OBJET >& _el) const ;
     
       ///////////////////
-      // Determine si _el fait partie de la liste et renvoie sa position.
+      // Determine si _el fait partie de la liste, et renvoie la position, 
+      // du premier trouvé.
+      // Renvoie 0 si l'élément ne fait pas partie de la liste
       unsigned int Position(const Association< OBJET >& _el) const ;
     
     

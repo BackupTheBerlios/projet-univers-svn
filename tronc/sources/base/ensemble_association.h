@@ -54,11 +54,7 @@ namespace ProjetUnivers {
       
       //////////////
       // Constructeur par défaut.
-      EnsembleAssociation() ;
-    
-      //////////////
-      // Destructeur par défaut.
-      ~EnsembleAssociation() ;
+      EnsembleAssociation() ; 
     
       /////////////////
       // Constructeur de copie, _e est vidé après cela.

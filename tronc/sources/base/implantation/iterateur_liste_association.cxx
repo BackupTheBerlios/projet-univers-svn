@@ -53,7 +53,7 @@ liste((TamponListeAssociation<OBJET>*)_l.liste)
 template <class OBJET> 
 IterateurListeAssociation<OBJET>::~IterateurListeAssociation()
 {
-  if (liste->drop())
+  if (liste->Laisser())
 
     delete liste ;
 }

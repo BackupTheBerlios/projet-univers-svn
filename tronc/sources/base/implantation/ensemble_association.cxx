@@ -26,7 +26,9 @@ template <class OBJET> EnsembleAssociation<OBJET>::EnsembleAssociation<OBJET>()
 
 //////////////////
 // Constructeur de copie.
-template <class OBJET> EnsembleAssociation<OBJET>::EnsembleAssociation(const EnsembleAssociation< OBJET >& _s)
+template <class OBJET> 
+EnsembleAssociation<OBJET>::EnsembleAssociation
+(const EnsembleAssociation< OBJET >& _s)
   : ListeAssociation<OBJET>(_s)
 {}
 
@@ -37,7 +39,7 @@ EnsembleAssociation<OBJET>::Ajouter(const Association<OBJET>& _el) {
 
   if (! Contient(_el))
 
-    AjouterEnQueue(_el) ;
+    ListeAssociation<OBJET>::AjouterEnQueue(_el) ;
 }
 
 //////////////////

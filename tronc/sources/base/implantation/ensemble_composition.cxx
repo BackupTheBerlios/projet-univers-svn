@@ -40,8 +40,10 @@ void EnsembleComposition<OBJET>::Ajouter(OBJET* _elt)
 template <class OBJET> inline
 void EnsembleComposition<OBJET>::Enlever(const Association< OBJET >& _el)
 {
-  if (Contient(element))
-    ListeComposition<OBJET>::Enlever(_el) ;
+  // on cherche l'élément
+  unsigned int position(ListeComposition<OBJET>::Position(_el)) ;
+  if (position != 0)
+    ListeComposition<OBJET>::Enlever(position) ;
 }
     
     

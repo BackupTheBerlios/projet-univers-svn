@@ -148,7 +148,7 @@ ListeComposition<OBJET>::Position(const Association< OBJET >& _el) const {
 
     ++compteur ;
 
-    if (i == _el)
+    if (_el == i)
 
       return compteur ;
   }

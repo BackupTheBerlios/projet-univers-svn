@@ -20,6 +20,6 @@
 
 template <class OBJET> 
 NoeudAssociation<OBJET>::NoeudAssociation(const Association<OBJET> _elt)
-:NoeudAbstrait(),element((OBJET *)_elt.get_ptr())
+:NoeudAbstrait(),element(_elt)
 {}
 

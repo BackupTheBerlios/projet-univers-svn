@@ -29,7 +29,7 @@ TamponListeAssociation<OBJET>::TamponListeAssociation()
 template <class OBJET> 
 TamponListeAssociation<OBJET>::~TamponListeAssociation() {
 
-  Effacer() ;
+  Vider() ;
 }
 
 template <class OBJET> 
@@ -37,7 +37,7 @@ TamponListeAssociation<OBJET>::TamponListeAssociation
 (const TamponListeAssociation< OBJET >& _l)
  : ListeAbstraite(),nombreDeReferences(1) {
 
-  for(IterateurTamponListeAssociation<OBJET> i(_l) ; i.valid() ; ++i)
+  for(IterateurTamponListeAssociation<OBJET> i(_l) ; i.Valide() ; ++i)
 
     AjouterEnQueue(i) ;
 }
@@ -48,7 +48,7 @@ TamponListeAssociation<OBJET>::AjouterEnTete(const Association<OBJET> _n) {
   Composition< NoeudAssociation<OBJET> > 
     nouveau_noeud(new NoeudAssociation<OBJET>(_n)) ;
 
-  ListeAbstraite::AjouterEnTete(nouveau_noeud.release()) ;
+  ListeAbstraite::AjouterEnTete(nouveau_noeud.Liberer()) ;
 
 }
 
@@ -58,7 +58,7 @@ TamponListeAssociation<OBJET>::AjouterEnQueue(const Association<OBJET> _n) {
   Composition< NoeudAssociation<OBJET> > 
     nouveau_noeud(new NoeudAssociation<OBJET>(_n)) ;
 
-  ListeAbstraite::AjouterEnQueue(nouveau_noeud.release()) ;
+  ListeAbstraite::AjouterEnQueue(nouveau_noeud.Liberer()) ;
 
 }
 
@@ -67,13 +67,13 @@ TamponListeAssociation<OBJET>::Enlever(unsigned int _pos) {
 
   unsigned int compteur = 0 ;
 
-  for(IterateurTamponListeAssociation<OBJET> i(*this) ; i.valid() ; ++i) {
+  for(IterateurTamponListeAssociation<OBJET> i(*this) ; i.Valide() ; ++i) {
 
     ++ compteur ;
 
     if (_pos == compteur) {
 
-      i.remove() ;
+      i.Enlever() ;
       return ;
 	
     }
@@ -87,11 +87,11 @@ TamponListeAssociation<OBJET>::TrouverPosition
 
   unsigned int compteur = 0 ;
 
-  for(IterateurTamponListeAssociation<OBJET> i(*this) ; i.valid() ; ++i) {
+  for(IterateurTamponListeAssociation<OBJET> i(*this) ; i.Valide() ; ++i) {
 
     ++compteur ;
 
-    if (i.getAssociation() == _el)
+    if (_el == i)
 
       return compteur ;
   }

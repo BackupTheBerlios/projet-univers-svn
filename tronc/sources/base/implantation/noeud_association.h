@@ -30,7 +30,8 @@ namespace ProjetUnivers {
       
     
     template <class OBJET> class IterateurListeAssociation ;
-    
+    template <class OBJET> class IterateurTamponListeAssociation ;
+   
     /*
     CLASS
       NoeudAssociation
@@ -52,7 +53,8 @@ namespace ProjetUnivers {
       // Elément.
       Association< OBJET > element ;
 
-       
+      friend class IterateurListeAssociation< OBJET > ;
+      friend class IterateurTamponListeAssociation<OBJET> ;
     
     };
     

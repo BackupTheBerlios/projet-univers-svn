@@ -67,7 +67,7 @@ ListeAssociation<OBJET>::AjouterEnTete(const Association<OBJET> _n) {
 template <class OBJET> void 
 ListeAssociation<OBJET>::AjouterEnQueue(const Association<OBJET> _n) {
 
-  if (liste->NombreReferences() > 1)
+  if (liste->NombreDeReferences() > 1)
   {
 
 
@@ -173,7 +173,7 @@ ListeAssociation<OBJET>::Position(const Association< OBJET >& _el) const {
 
     ++compteur ;
 
-    if (i == _el)
+    if (_el == i)
 
       return compteur ;
   }

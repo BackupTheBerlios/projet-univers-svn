@@ -48,7 +48,8 @@ namespace ProjetUnivers {
     
     
     */
-    template <class OBJET> class TamponListeAssociation {
+    template <class OBJET> class TamponListeAssociation 
+      : public ListeAbstraite {
     
     private:
     
