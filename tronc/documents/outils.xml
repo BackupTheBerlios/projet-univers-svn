@@ -58,7 +58,7 @@
 
     <para>Ce document est destiné à être le point d'entrée au projet univers.
     On y définit les outils à utiliser pour intervenir sur ce projet et les
-    règles à suivre. </para>
+    règles à suivre.</para>
 
     <para>Un certain nombre d'outils sont utilisés dans le cadre de ce projet.
     Le premier de ces outils est le client subversion et il est obligatoire
@@ -78,7 +78,7 @@
       </listitem>
 
       <listitem>
-        <para><link linkend="modélisation">La modélisation 3D</link></para>
+        <para><link linkend="modelisation">La modélisation 3D</link></para>
       </listitem>
 
       <listitem>
@@ -501,7 +501,7 @@
     d'utiliser d'autres logiciels après accord des responsables du projet, ces
     logiciels devant être préférablement libres, et au pire gratuits.</para>
 
-    <sect2 id="modélisation">
+    <sect2 id="modelisation">
       <title>Modélisation 3D</title>
 
       <para>Le logiciel utilisé pour la modélisation 3D est <ulink
@@ -534,12 +534,12 @@
       programmation</ulink>.</para>
     </sect2>
 
-    <sect2 id="rédaction">
+    <sect2 id="redaction">
       <title>Ecriture de documents</title>
 
       <para>Tous les documents concernant le projet univers sont rédigés en
       français et sont écrit en format <ulink
-      url="http://www.docbook.org/">DocBook</ulink>. </para>
+      url="http://www.docbook.org/">DocBook</ulink>.</para>
 
       <para>Les documents doivent être placés sur le serveur de fichiers dans
       le répertoire <filename>documents</filename>.</para>
