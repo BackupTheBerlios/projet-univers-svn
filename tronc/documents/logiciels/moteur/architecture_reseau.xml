@@ -2,14 +2,15 @@
 <!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN"
 "http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd">
 <article>
-  <title>Module Objet Réseau</title>
+  <title>Module Réseau</title>
 
   <articleinfo>
     <abstract>
-      <para>Ce document décrit les principes du module réseau.</para>
+      <para>Ce document décrit les objectifs et les principes du module
+      réseau.</para>
     </abstract>
 
-    <orgname>Equipe Projet Univers</orgname>
+    <orgname>Équipe du Projet Univers</orgname>
 
     <author>
       <personname>
@@ -31,156 +32,166 @@
           <para>Création initiale.</para>
         </revdescription>
       </revision>
+
+      <revision>
+        <revnumber>0.2</revnumber>
+
+        <date>11 novembre 2004</date>
+
+        <revdescription>
+          <para>Modification du plan</para>
+        </revdescription>
+      </revision>
     </revhistory>
 
     <legalnotice>
-      <para>Ce document est sous license <ulink
+      <para>Ce document est sous licence <ulink
       url="http://www.gnu.org/copyleft/fdl.html">GNU Free Documentation
       License</ulink></para>
     </legalnotice>
   </articleinfo>
 
-  <sect1>
-    <title>Introduction</title>
+  <section>
+    <title>Objectif</title>
 
-    <para>Ce module a pour objectif de gérer un ensemble d'objets distribués
-    sur un réseau.</para>
+    <para>Le module réseau a pour objectif de gérer un ensemble d'objets
+    distribués sur un réseau.</para>
 
     <para>Chaque objet possède une coordonnée spatio-temporelle, c'est à dire
-    un couple (position dans l'espace, moment), et d'autres informations mais
-    qui sont elles variables en fonction de l'utilisation de cette
-    bibliothèque. Cette coordonnée spatio-temporelle est très importante, elle
-    va permettre de savoir quel client réseau est intéressé par quelle
+    un couple (position dans l'espace, moment), et d'autres informations; qui
+    sont génériques (c'ets à dire qu'on choisit d'y mettre ce que l'on veut en
+    fonction de l'utilisation de cette bibliothèque).</para>
+
+    <para>L'objectif est que tous les clients du réseau connaissent avec le
+    plus de précision possible la position à chaque instant de chaque objet
+    ainsi que les informations génériques.</para>
+  </section>
+
+  <section>
+    <title>Techniques</title>
+
+    <para>Les données génériques sont envoyées avec un débit moindre que les
+    informations sur les coordonnées spatiaux-temporelles.</para>
+
+    <para>La coordonnée spatio-temporelle est très importante : elle va
+    permettre de savoir quel client réseau est intéressé par quelle
     information.</para>
 
-    <para>Globalement, l'idée est de mettre à jour les informations sur les
-    objets en priorité aux ordinateurs qui gérent des objets proches (dans le
-    système de coordonnées). Ainsi,</para>
-  </sect1>
+    <section>
+      <title>Une technique totalement distribuée</title>
 
-  <sect1>
-    <title>Interface</title>
+      <para>Globalement, l'idée est de d'envoyer plus souvent les mises à jour
+      des informations aux ordinateurs qui gérent des objets proches (dans le
+      système de coordonnées).</para>
 
-    <para>Cette partie décrit l'interface du module, ce qui revient à décrire
-    ses fonctionnalités.</para>
-  </sect1>
+      <para>Considérons un des membres d'un réseau distribué qui gère un objet
+      <varname>objet</varname>, supposons qu'il ait
+      <varname>emission_maximum_client</varname> comme quantité d'emission
+      réseau maximum (par exemple, 16 kilo-bits par seconde pour un ADSL),
+      cette valeur sera répartie entre les autres clients en fonction de la
+      distance :</para>
 
-  <sect1>
-    <title>Implantations</title>
+      <itemizedlist>
+        <listitem>
+          <formalpara>
+            <title>Les clients éloignés</title>
 
-    <para></para>
+            <para>Ces clients sont ceux qui gèrent des objets du jeu qui sont
+            tous très éloignés (dans le jeu) de <varname>objet</varname>. Ces
+            clients n'ont pas besoin de connaître avec précision les données
+            concernant <varname>objet</varname>.<example>
+                <title>Exemple</title>
 
-    <sect2>
-      <title>Réalisation distribuée</title>
+                <para>Ces clients recoivent 1% de l'emission</para>
+              </example></para>
+          </formalpara>
+        </listitem>
 
-      <para></para>
-    </sect2>
-  </sect1>
+        <listitem>
+          <formalpara>
+            <title>Les clients proches</title>
 
-  <sect1>
-    <title>Généralités</title>
+            <para>Ces clients sont ceux qui gèrent des objets du jeu qui sont
+            très proche de objet.</para>
+          </formalpara>
+
+          <example>
+            <title>Exemple</title>
+
+            <para>Ces clients recoivent 80% de l'emission</para>
+          </example>
+        </listitem>
+
+        <listitem>
+          <formalpara>
+            <title>Les clients intermédiares</title>
+
+            <para>Ces clients sont ceux qui gèrent des objets du jeu</para>
+          </formalpara>
+
+          <example>
+            <title>Exemple</title>
+
+            <para>Ces clients recoivent 19% de l'emission</para>
+          </example>
+        </listitem>
+      </itemizedlist>
+
+      <remark>Cette approche peut être combinée avec une architecture
+      client/serveur partielle lorsque le nombre de clients dépasse un certain
+      seuil.</remark>
+    </section>
+  </section>
+
+  <section>
+    <title>Messages</title>
 
     <para>Tous les messages reçoivent une importance.</para>
 
     <para>Cette importance conditionne la rapidité avec laquelle ce message
-    doit arriver à ses destinataires.</para>
+    doit arriver à ses destinataires</para>
 
     <para>En pratique, et à titre d'exemple, un message très important pourra
     être envoyé par une connection directe entre l'emméteur du message et le
     destinataire.</para>
 
-    <sect2>
-      <title></title>
+    <section>
+      <title>Création d'un nouvel objet</title>
+
+      <para>L'ordinateur qui crée un nouvel objet informe tous les autres
+      ordinateurs du réseau.</para>
+
+      <para>La réception de ce message doit être garantie.</para>
+    </section>
+
+    <section>
+      <title>Destruction d'un objet</title>
+
+      <para>L'ordinateur qui détruit un objet qu'il gère informe tous les
+      autres ordinateurs du réseau</para>
+
+      <para>La réception de ce message doit être garantie.</para>
+    </section>
+
+    <section>
+      <title>Nouvelle position d'un objet</title>
+
+      <para>Les nouvelles positions de certains types d'objets doivent être
+      transmises. Il n'est pas nécessaire de transmettre la position,
+      notamment, pour les objets qui une fois créés ont une trajectoire
+      prévisible. Pour ce faire, la classe <classname>Objet</classname>
+      possède deux sous-classes distinctes, une classe
+      <classname>ObjetAPositionPrevisible</classname> et
+      <classname>ObjetAPositionImprevisible</classname></para>
+
+      <para><classname>La réception de ce message n'a pas besoin d'être
+      garantie.</classname></para>
+    </section>
+
+    <section>
+      <title>Nouvelle valeur des informations génériques</title>
 
       <para></para>
-    </sect2>
-
-    <sect2>
-      <title>Différents types de messages</title>
-
-      <para>Tous les messages contiennent le moment de jeu correspondant à
-      l'évennement.</para>
-
-      <para>L'urgence des messages dépend de la distance à l'objet dont il est
-      question. Par exemple, transmettre la position d'un objet A vers un
-      ordinateur gérant un objet B est d'autant plus essentiel que l'objet B
-      est près. Les objets éloignés ne sont pas prioritaires pour connaître
-      une information.</para>
-
-      <sect3>
-        <title>Création d'un nouvel objet</title>
-
-        <para>L'ordinateur qui crée un nouvel objet informe tous les autres
-        ordinateurs du réseau.</para>
-
-        <para>La réception de ce message doit être garantie.</para>
-
-        <para>L'urgence de ce message dépend de la distance à l'objet
-        créé.</para>
-      </sect3>
-
-      <sect3>
-        <title>Destruction d'un objet</title>
-
-        <para>L'ordinateur qui détruit un objet qu'il gère informe tous les
-        autres ordinateurs du réseau.</para>
-
-        <para>La réception de ce message doit être garantie.</para>
-
-        <para>L'urgence de ce message dépend de la distance à l'objet
-        créé.</para>
-      </sect3>
-
-      <sect3>
-        <title>Nouvelle position d'un objet</title>
-
-        <para>Les nouvelles positions de certains types d'objets doivent être
-        transmises. Il n'est pas nécessaire de transmettre la position,
-        notamment, pour les objets qui une fois créés ont une trajectoire
-        prévisible. Pour ce faire, la classe <classname>Objet</classname>
-        possède deux sous-classes distinctes, une classe
-        <classname>ObjetAPositionPrevisible</classname> et
-        <classname>ObjetAPositionImprevisible</classname></para>
-
-        <para>La réception de ce message n'a pas besoin d'être
-        garantie.</para>
-
-        <para>En effet, garantir la réception est supposé plus gourmand que
-        d'attendre patiemment une nouvelle mise-à-jour de la position (mais
-        cela demande à être vérifié en pratique).</para>
-
-        <para>L'urgence de ce message dépend de la distance à l'objet.</para>
-      </sect3>
-    </sect2>
-
-    <sect2>
-      <title>Carte du réseau</title>
-
-      <para>L'ensemble des ordinateurs d'une partie forme un réseau. Chaque
-      ordinateur gère un certain nombre d'objets dont la position ne peut être
-      prévue de manière exacte par les autres ordinateurs.</para>
-
-      <para>Une carte dynamique du réseau est construite en fonction de la
-      distance minimale</para>
-
-      <sect3>
-        <title>Distance de jeu entre 2 ordinateurs</title>
-
-        <para>Soient deux ordinateurs A et B, supposons que</para>
-
-        <para>A gère les objets à position imprévisible O1,..., On et</para>
-
-        <para>B gère les objets à position imprévisibles O'1, ..., O'm.</para>
-
-        <para>La distance de jeu entre A et B par rapport à Oi est la plus
-        petite distance entre {distance(Oi, O'j)} j.</para>
-      </sect3>
-    </sect2>
-  </sect1>
-
-  <sect1>
-    <title></title>
-
-    <para></para>
-  </sect1>
+    </section>
+  </section>
 </article>
