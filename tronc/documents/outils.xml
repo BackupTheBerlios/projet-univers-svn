@@ -44,6 +44,17 @@
           membres du projet veulent intervenir.</para>
         </revdescription>
       </revision>
+
+      <revision>
+        <revnumber>0.3</revnumber>
+
+        <date>30 août 2004</date>
+
+        <revdescription>
+          <para>Changement des niveaux dans la partie 2, les menus indiquent
+          maintenant clairement l'utilisation windows et linux.</para>
+        </revdescription>
+      </revision>
     </revhistory>
 
     <legalnotice>
@@ -121,374 +132,368 @@
     </procedure>
 
     <sect2>
-      <title>Utilisation du client subversion</title>
+      <title>TortoiseSVN sous Windows</title>
+
+      <para>Nous allons décrire l'utilisation de subversion sous windows avec
+      <ulink url="http://tortoisesvn.tigris.org/">TortoiseSVN</ulink>,qui
+      dispose d'une version française.</para>
+
+      <para>TortoiseSVN s'intégre directement dans l'explorateur windows, on
+      accède à ses fonctions par un clic droit de la souris sur le répertoire
+      ou les fichiers sur lesquels on veut lancer une action.</para>
+
+      <para>En ce qui concerne l'authentification, le logiciel vous demandera
+      votre mot de passe à chaque fois. <remark>Une prochaine version de ce
+      document expliquera comment faire pour ne pas le rentrer à chaque
+      fois</remark></para>
 
       <sect3>
-        <title>TortoiseSVN sous Windows</title>
+        <title>Création d'un répertoire de travail local</title>
 
-        <para>Nous allons décrire l'utilisation de subversion sous windows
-        avec <ulink
-        url="http://tortoisesvn.tigris.org/">TortoiseSVN</ulink>,qui dispose
-        d'une version française.</para>
+        <para>Il faut se créer un répertoire local qui contiendra des copies
+        locales des fichiers présents sur le serveur. C'est dans ce répertoire
+        que vous pourrez travailler.</para>
 
-        <para>TortoiseSVN s'intégre directement dans l'explorateur windows, on
-        accède à ses fonctions par un clic droit de la souris sur le
-        répertoire ou les fichiers sur lesquels on veut lancer une
-        action.</para>
+        <para>Pour récupérer la première fois les fichiers se trouvant sur le
+        serveur :</para>
 
-        <para>En ce qui concerne l'authentification, le logiciel vous
-        demandera votre mot de passe à chaque fois. <remark>Une prochaine
-        version de ce document expliquera comment faire pour ne pas le rentrer
-        à chaque fois</remark></para>
+        <procedure>
+          <step>
+            <para>Clic droit de la souris sur le répertoire local, choisir la
+            commande <command>Extraire</command> ou
+            <command>Checkout</command>, une nouvelle fenêtre apparaît
+            :</para>
 
-        <sect4>
-          <title>Création d'un répertoire de travail local</title>
+            <figure>
+              <title>Accès à la commande <command>Extraire</command></title>
 
-          <para>Il faut se créer un répertoire local qui contiendra des copies
-          locales des fichiers présents sur le serveur. C'est dans ce
-          répertoire que vous pourrez travailler.</para>
+              <mediaobject>
+                <imageobject>
+                  <imagedata fileref="images/commande_extraire.jpg" />
+                </imageobject>
+              </mediaobject>
+            </figure>
+          </step>
 
-          <para>Pour récupérer la première fois les fichiers se trouvant sur
-          le serveur :</para>
+          <step>
+            <para>Dans le champ <prompt>URL of repository</prompt> mettre :
+            <userinput>svn+ssh://<replaceable>nom</replaceable>@svn.berlios.de/svnroot/repos/projet-univers</userinput><caution>
+                <para><replaceable>nom</replaceable> est <emphasis
+                role="bold">votre</emphasis> nom d'utilisateur dans
+                Berlios.</para>
+              </caution></para>
 
-          <procedure>
-            <step>
-              <para>Clic droit de la souris sur le répertoire local, choisir
-              la commande <command>Extraire</command> ou
-              <command>Checkout</command>, une nouvelle fenêtre apparaît
-              :</para>
-
-              <figure>
-                <title>Accès à la commande <command>Extraire</command></title>
-
-                <mediaobject>
-                  <imageobject>
-                    <imagedata fileref="images/commande_extraire.jpg" />
-                  </imageobject>
-                </mediaobject>
-              </figure>
-            </step>
-
-            <step>
-              <para>Dans le champ <prompt>URL of repository</prompt> mettre :
-              <userinput>svn+ssh://<replaceable>nom</replaceable>@svn.berlios.de/svnroot/repos/projet-univers</userinput>,
-              ou <replaceable>nom</replaceable> est votre nom d'utilisateur
-              dans Berlios.</para>
-
-              <para><figure>
-                  <title>Choix de l'<acronym>URL</acronym> du serveur</title>
-
-                  <mediaobject>
-                    <imageobject>
-                      <imagedata fileref="images/choix_de_url.jpg" />
-                    </imageobject>
-                  </mediaobject>
-                </figure></para>
-            </step>
-
-            <step>
-              <para>Cliquez sur OK</para>
-            </step>
-
-            <step>
-              <para>Donner votre mot de passe</para>
-            </step>
-
-            <step>
-              <para>Normalement, là ça télécharge. Attendez qu'il vous dise
-              que ce soit fini :</para>
-
-              <para><figure>
-                  <title>Le téléchargement est fini</title>
-
-                  <mediaobject>
-                    <imageobject>
-                      <imagedata fileref="images/checkout_finished.jpg" />
-                    </imageobject>
-                  </mediaobject>
-                </figure></para>
-            </step>
-          </procedure>
-        </sect4>
-
-        <sect4>
-          <title>Téléchargement de la dernière version à jour</title>
-
-          <para>Cette opération est pratiquement la même que la création d'un
-          répertoire de travail local, sauf qu'on n'a plus à indiquer
-          l'<acronym>URL</acronym> du serveur.</para>
-
-          <procedure>
-            <step>
-              <para>Clic droit de la souris sur le répertoire local, choisir
-              la commande <command>Mettre à jour</command> ou
-              <command>Update</command>.</para>
-
-              <para><figure>
-                  <title>Commande <command>Mise à jour</command></title>
-
-                  <mediaobject>
-                    <imageobject>
-                      <imagedata fileref="images/update.jpg" />
-                    </imageobject>
-                  </mediaobject>
-                </figure></para>
-            </step>
-
-            <step>
-              <para>Donner votre mot de passe</para>
-            </step>
-
-            <step>
-              <para>Normalement, là ça télécharge. Attendez qu'il vous dise
-              que ce soit fini :</para>
-
-              <para><figure>
-                  <title>Le téléchargement est fini</title>
-
-                  <mediaobject>
-                    <imageobject>
-                      <imagedata fileref="images/checkout_finished.jpg" />
-                    </imageobject>
-                  </mediaobject>
-                </figure></para>
-            </step>
-          </procedure>
-        </sect4>
-
-        <sect4>
-          <title>Livraison vers le serveur</title>
-
-          <para>Vous avez ajouté ou modifiés des fichiers et vous voulez
-          rendre ces mises à jour disponibles sur le serveur :</para>
-
-          <procedure>
-            <step>
-              <para>Clic droit de la souris sur le répertoire local, choisir
-              la commande <command>Livrer</command> ou
-              <command>Commit</command>, une nouvelle fenêtre apparaît
-              :</para>
-
-              <para><figure>
-                  <title>Fenêtre de livraison</title>
-
-                  <mediaobject>
-                    <imageobject>
-                      <imagedata fileref="images/livraison.jpg" />
-                    </imageobject>
-                  </mediaobject>
-                </figure></para>
-            </step>
-
-            <step>
-              <para>Dans la partie du haut, décrivez brièvement la
-              livraison.</para>
-
-              <figure>
-                <title>Ajout d'un commentaire sur la livraison</title>
+            <para><figure>
+                <title>Choix de l'<acronym>URL</acronym> du serveur</title>
 
                 <mediaobject>
                   <imageobject>
-                    <imagedata fileref="images/log_livraison.jpg" />
+                    <imagedata fileref="images/choix_de_url.jpg" />
                   </imageobject>
                 </mediaobject>
-              </figure>
-            </step>
+              </figure></para>
+          </step>
 
-            <step>
-              <para>Le logiciel envoie les modifications au serveur, patientez
-              jusqu'à :</para>
+          <step>
+            <para>Cliquez sur OK</para>
+          </step>
 
-              <figure>
-                <title>La livraison est finie</title>
+          <step>
+            <para>Donner votre mot de passe</para>
+          </step>
+
+          <step>
+            <para>Normalement, là ça télécharge. Attendez qu'il vous dise que
+            ce soit fini :</para>
+
+            <para><figure>
+                <title>Le téléchargement est fini</title>
 
                 <mediaobject>
                   <imageobject>
-                    <imagedata fileref="images/livraison_finie.jpg" />
+                    <imagedata fileref="images/checkout_finished.jpg" />
                   </imageobject>
                 </mediaobject>
-              </figure>
-            </step>
-          </procedure>
-        </sect4>
-
-        <sect4>
-          <title>Ajouts de fichiers</title>
-
-          <para>Lorsque vous créez un nouveau fichier dans votre répertoire de
-          travail local, subversion ne peut deviner tout seul si ce fichier
-          doit être ou non livré sur le serveur à la prochaine livraison. Il
-          faut donc lui indiquer quels sont les fichiers ou répertoires qui
-          doivent être ajoutés sur le serveur :</para>
-
-          <procedure>
-            <step>
-              <para>Clic droit sur le répertoire ou fichier à ajouter, puis
-              choisir la commande <command>Ajouter</command> ou
-              <command>Add</command> :</para>
-
-              <para><figure>
-                  <title>La commande <command>Ajouter</command></title>
-
-                  <mediaobject>
-                    <imageobject>
-                      <imagedata fileref="images/ajouter.jpg" />
-                    </imageobject>
-                  </mediaobject>
-                </figure></para>
-            </step>
-
-            <step>
-              <para>Les fichiers sont marqués comme ajoutés à votre répertoire
-              de travail local, ils ne sont pas encore envoyés au serveur, ce
-              sera fait à la prochaine livraison.</para>
-
-              <figure>
-                <title>Les fichiers sont ajoutés</title>
-
-                <mediaobject>
-                  <imageobject>
-                    <imagedata fileref="images/fichier_ajoute.jpg" />
-                  </imageobject>
-                </mediaobject>
-              </figure>
-            </step>
-          </procedure>
-        </sect4>
-
-        <sect4>
-          <title>Suppression</title>
-
-          <para>Idem que l'ajout, sauf que la commande est
-          <command>Effacer</command> ou <command>Delete</command>.</para>
-        </sect4>
-
-        <sect4>
-          <title>Renommage</title>
-
-          <para>Idem que l'ajout, sauf que la commande est
-          <command>Renommer</command> ou <command>Rename</command>.</para>
-        </sect4>
+              </figure></para>
+          </step>
+        </procedure>
       </sect3>
 
       <sect3>
-        <title>Subversion sous linux</title>
+        <title>Téléchargement de la dernière version à jour</title>
 
-        <para>Installer le package subversion de votre distribution. La
-        commande magique est <command>svn</command>, largement documentée sur
-        le <ulink
-        url="http://svnbook.red-bean.com/svnbook/ch09.html">web</ulink>.</para>
+        <para>Cette opération est pratiquement la même que la création d'un
+        répertoire de travail local, sauf qu'on n'a plus à indiquer
+        l'<acronym>URL</acronym> du serveur.</para>
 
-        <sect4>
-          <title>Création d'un répertoire de travail local</title>
+        <procedure>
+          <step>
+            <para>Clic droit de la souris sur le répertoire local, choisir la
+            commande <command>Mettre à jour</command> ou
+            <command>Update</command>.</para>
 
-          <para>Il faut se créer un répertoire local qui contiendra des copies
-          locales des fichiers présents sur le serveur. C'est dans ce
-          répertoire que vous pourrez travailler.</para>
+            <para><figure>
+                <title>Commande <command>Mise à jour</command></title>
 
-          <para>Pour récupérer la première fois les fichiers se trouvant sur
-          le serveur :</para>
+                <mediaobject>
+                  <imageobject>
+                    <imagedata fileref="images/update.jpg" />
+                  </imageobject>
+                </mediaobject>
+              </figure></para>
+          </step>
 
-          <procedure>
-            <step>
-              <para><command>svn checkout
-              svn+ssh://<replaceable>nom</replaceable>@svn.berlios.de/svnroot/repos/projet-univers</command></para>
-            </step>
+          <step>
+            <para>Donner votre mot de passe</para>
+          </step>
 
-            <step>
-              <para>Donner votre mot de passe</para>
-            </step>
+          <step>
+            <para>Normalement, là ça télécharge. Attendez qu'il vous dise que
+            ce soit fini :</para>
 
-            <step>
-              <para>Normalement, là ça télécharge et met le tout dans un
-              répertoire <filename>projet-univers</filename>, puis écrit :
-              <prompt>Checked out revision
-              <replaceable>n</replaceable>.</prompt></para>
-            </step>
-          </procedure>
-        </sect4>
+            <para><figure>
+                <title>Le téléchargement est fini</title>
 
-        <sect4>
-          <title>Téléchargement de la dernière version à jour</title>
+                <mediaobject>
+                  <imageobject>
+                    <imagedata fileref="images/checkout_finished.jpg" />
+                  </imageobject>
+                </mediaobject>
+              </figure></para>
+          </step>
+        </procedure>
+      </sect3>
 
-          <para>Cette opération est pratiquement la même que la création d'un
-          répertoire de travail local, sauf qu'on n'a plus à indiquer
-          l'<acronym>URL</acronym> du serveur.</para>
+      <sect3>
+        <title>Livraison vers le serveur</title>
 
-          <procedure>
-            <step>
-              <para>Il faut être dans le répertoire de travail local et taper
-              : <command>svn update</command></para>
-            </step>
+        <para>Vous avez ajouté ou modifiés des fichiers et vous voulez rendre
+        ces mises à jour disponibles sur le serveur :</para>
 
-            <step>
-              <para>Donner votre mot de passe</para>
-            </step>
+        <procedure>
+          <step>
+            <para>Clic droit de la souris sur le répertoire local, choisir la
+            commande <command>Livrer</command> ou <command>Commit</command>,
+            une nouvelle fenêtre apparaît :</para>
 
-            <step>
-              <para>Normalement, là ça télécharge. Attendez qu'il vous dise
-              que ce soit fini : <prompt>At revision
-              <replaceable>n</replaceable>.</prompt></para>
-            </step>
-          </procedure>
-        </sect4>
+            <para><figure>
+                <title>Fenêtre de livraison</title>
 
-        <sect4>
-          <title>Livraison vers le serveur</title>
+                <mediaobject>
+                  <imageobject>
+                    <imagedata fileref="images/livraison.jpg" />
+                  </imageobject>
+                </mediaobject>
+              </figure></para>
+          </step>
 
-          <para>Vous avez ajouté ou modifiés des fichiers et vous voulez
-          rendre ces mises à jour disponibles sur le serveur :</para>
+          <step>
+            <para>Dans la partie du haut, décrivez brièvement la
+            livraison.</para>
 
-          <procedure>
-            <step>
-              <para>Il faut être dans le répertoire de travail local et taper
-              : <command>svn commit -m
-              '<replaceable>message</replaceable>'</command>, où
-              <replaceable>message</replaceable> est le message de log de la
-              livraison, si vous omettez le message il vous proposera de
-              l'éditer manuellement, cependant, ce n'est pas forcément
-              conseillé.</para>
-            </step>
+            <figure>
+              <title>Ajout d'un commentaire sur la livraison</title>
 
-            <step>
-              <para>Le logiciel envoie les modifications au serveur, patientez
-              jusqu'à : <prompt>Commited revision
-              <replaceable>n</replaceable>.</prompt></para>
-            </step>
-          </procedure>
-        </sect4>
+              <mediaobject>
+                <imageobject>
+                  <imagedata fileref="images/log_livraison.jpg" />
+                </imageobject>
+              </mediaobject>
+            </figure>
+          </step>
 
-        <sect4>
-          <title>Ajouts de fichiers ou de répertoires</title>
+          <step>
+            <para>Le logiciel envoie les modifications au serveur, patientez
+            jusqu'à :</para>
 
-          <para>Lorsque vous créez un nouveau fichier dans votre répertoire de
-          travail local, subversion ne peut deviner tout seul si ce fichier
-          doit être ou non livré sur le serveur à la prochaine livraison. Il
-          faut donc lui indiquer quels sont les fichiers ou répertoires qui
-          doivent être ajoutés sur le serveur :</para>
+            <figure>
+              <title>La livraison est finie</title>
 
-          <procedure>
-            <step>
-              <para>Tapez : <command>svn add
-              <replaceable>emplacement_du_fichier_ou_du_repertoire</replaceable></command></para>
-            </step>
-          </procedure>
-        </sect4>
+              <mediaobject>
+                <imageobject>
+                  <imagedata fileref="images/livraison_finie.jpg" />
+                </imageobject>
+              </mediaobject>
+            </figure>
+          </step>
+        </procedure>
+      </sect3>
 
-        <sect4>
-          <title>Suppression</title>
+      <sect3>
+        <title>Ajouts de fichiers</title>
 
-          <para>Idem que l'ajout, sauf que la commande est <command>svn delete
-          <replaceable>emplacement_du_fichier_ou_du_repertoire</replaceable></command>.</para>
-        </sect4>
+        <para>Lorsque vous créez un nouveau fichier dans votre répertoire de
+        travail local, subversion ne peut deviner tout seul si ce fichier doit
+        être ou non livré sur le serveur à la prochaine livraison. Il faut
+        donc lui indiquer quels sont les fichiers ou répertoires qui doivent
+        être ajoutés sur le serveur :</para>
 
-        <sect4>
-          <title>Renommage</title>
+        <procedure>
+          <step>
+            <para>Clic droit sur le répertoire ou fichier à ajouter, puis
+            choisir la commande <command>Ajouter</command> ou
+            <command>Add</command> :</para>
 
-          <para>Idem que l'ajout, sauf que la commande est <command>svn move
-          <replaceable>source</replaceable>
-          <replaceable>destination</replaceable></command> .</para>
-        </sect4>
+            <para><figure>
+                <title>La commande <command>Ajouter</command></title>
+
+                <mediaobject>
+                  <imageobject>
+                    <imagedata fileref="images/ajouter.jpg" />
+                  </imageobject>
+                </mediaobject>
+              </figure></para>
+          </step>
+
+          <step>
+            <para>Les fichiers sont marqués comme ajoutés à votre répertoire
+            de travail local, ils ne sont pas encore envoyés au serveur, ce
+            sera fait à la prochaine livraison.</para>
+
+            <figure>
+              <title>Les fichiers sont ajoutés</title>
+
+              <mediaobject>
+                <imageobject>
+                  <imagedata fileref="images/fichier_ajoute.jpg" />
+                </imageobject>
+              </mediaobject>
+            </figure>
+          </step>
+        </procedure>
+      </sect3>
+
+      <sect3>
+        <title>Suppression</title>
+
+        <para>Idem que l'ajout, sauf que la commande est
+        <command>Effacer</command> ou <command>Delete</command>.</para>
+      </sect3>
+
+      <sect3>
+        <title>Renommage</title>
+
+        <para>Idem que l'ajout, sauf que la commande est
+        <command>Renommer</command> ou <command>Rename</command>.</para>
+      </sect3>
+    </sect2>
+
+    <sect2>
+      <title>Subversion sous linux</title>
+
+      <para>Installer le package subversion de votre distribution. La commande
+      magique est <command>svn</command>, largement documentée sur le <ulink
+      url="http://svnbook.red-bean.com/svnbook/ch09.html">web</ulink>.</para>
+
+      <sect3>
+        <title>Création d'un répertoire de travail local</title>
+
+        <para>Il faut se créer un répertoire local qui contiendra des copies
+        locales des fichiers présents sur le serveur. C'est dans ce répertoire
+        que vous pourrez travailler.</para>
+
+        <para>Pour récupérer la première fois les fichiers se trouvant sur le
+        serveur :</para>
+
+        <procedure>
+          <step>
+            <para><command>svn checkout
+            svn+ssh://<replaceable>nom</replaceable>@svn.berlios.de/svnroot/repos/projet-univers</command></para>
+          </step>
+
+          <step>
+            <para>Donner votre mot de passe</para>
+          </step>
+
+          <step>
+            <para>Normalement, là ça télécharge et met le tout dans un
+            répertoire <filename>projet-univers</filename>, puis écrit :
+            <prompt>Checked out revision
+            <replaceable>n</replaceable>.</prompt></para>
+          </step>
+        </procedure>
+      </sect3>
+
+      <sect3>
+        <title>Téléchargement de la dernière version à jour</title>
+
+        <para>Cette opération est pratiquement la même que la création d'un
+        répertoire de travail local, sauf qu'on n'a plus à indiquer
+        l'<acronym>URL</acronym> du serveur.</para>
+
+        <procedure>
+          <step>
+            <para>Il faut être dans le répertoire de travail local et taper :
+            <command>svn update</command></para>
+          </step>
+
+          <step>
+            <para>Donner votre mot de passe</para>
+          </step>
+
+          <step>
+            <para>Normalement, là ça télécharge. Attendez qu'il vous dise que
+            ce soit fini : <prompt>At revision
+            <replaceable>n</replaceable>.</prompt></para>
+          </step>
+        </procedure>
+      </sect3>
+
+      <sect3>
+        <title>Livraison vers le serveur</title>
+
+        <para>Vous avez ajouté ou modifiés des fichiers et vous voulez rendre
+        ces mises à jour disponibles sur le serveur :</para>
+
+        <procedure>
+          <step>
+            <para>Il faut être dans le répertoire de travail local et taper :
+            <command>svn commit -m
+            '<replaceable>message</replaceable>'</command>, où
+            <replaceable>message</replaceable> est le message de log de la
+            livraison, si vous omettez le message il vous proposera de
+            l'éditer manuellement, cependant, ce n'est pas forcément
+            conseillé.</para>
+          </step>
+
+          <step>
+            <para>Le logiciel envoie les modifications au serveur, patientez
+            jusqu'à : <prompt>Commited revision
+            <replaceable>n</replaceable>.</prompt></para>
+          </step>
+        </procedure>
+      </sect3>
+
+      <sect3>
+        <title>Ajouts de fichiers ou de répertoires</title>
+
+        <para>Lorsque vous créez un nouveau fichier dans votre répertoire de
+        travail local, subversion ne peut deviner tout seul si ce fichier doit
+        être ou non livré sur le serveur à la prochaine livraison. Il faut
+        donc lui indiquer quels sont les fichiers ou répertoires qui doivent
+        être ajoutés sur le serveur :</para>
+
+        <procedure>
+          <step>
+            <para>Tapez : <command>svn add
+            <replaceable>emplacement_du_fichier_ou_du_repertoire</replaceable></command></para>
+          </step>
+        </procedure>
+      </sect3>
+
+      <sect3>
+        <title>Suppression</title>
+
+        <para>Idem que l'ajout, sauf que la commande est <command>svn delete
+        <replaceable>emplacement_du_fichier_ou_du_repertoire</replaceable></command>.</para>
+      </sect3>
+
+      <sect3>
+        <title>Renommage</title>
+
+        <para>Idem que l'ajout, sauf que la commande est <command>svn move
+        <replaceable>source</replaceable>
+        <replaceable>destination</replaceable></command> .</para>
       </sect3>
     </sect2>
   </sect1>
