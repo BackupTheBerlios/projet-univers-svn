@@ -20,6 +20,7 @@
 
 #include "vaisseau.h"
 #include "composant.h"
+#include "position.h"
 
 namespace ProjetUnivers {
 
