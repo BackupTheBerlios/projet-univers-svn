@@ -80,7 +80,7 @@ namespace ProjetUnivers {
       // Ajoute un noeud en fin de liste.
       void AjouterEnQueue(NoeudAbstrait* _n) ;
     
-//      friend class ObConstListIterator ;
+      // il est bon d'avoir des amis
       friend class IterateurListe ;
     
     

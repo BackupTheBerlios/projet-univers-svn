@@ -99,7 +99,11 @@ namespace ProjetUnivers {
       // Ajoute des nouveaux éléments en fin de liste.
       void AjouterEnQueue(const ListeAssociation< OBJET > _elt) ;
     
-    
+      //////////////////
+      // Enlève tous les éléments.
+      void Vider() ;
+
+      
       // ***********************
       // GROUP: Méthodes d'accès
       // ***********************

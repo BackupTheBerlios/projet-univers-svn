@@ -37,12 +37,6 @@ IterateurListeComposition<OBJET>::operator Association< OBJET >()
 }
 
 
-//template <class OBJET> 
-//IterateurListeComposition<OBJET>::operator const Association< OBJET >&() 
-//{
-//  return noeudCourant()->element ;
-//
-//}
 
 template <class OBJET> OBJET* 
 IterateurListeComposition<OBJET>::operator ->() const {
@@ -104,3 +98,12 @@ IterateurListeComposition<OBJET>::Ajouter
 
 }
 
+
+template <class OBJET> void 
+IterateurListeComposition<OBJET>::Enlever() {
+
+  Composition< OBJET > temp(Liberer()) ;
+
+  IterateurListe::Enlever() ;
+
+}

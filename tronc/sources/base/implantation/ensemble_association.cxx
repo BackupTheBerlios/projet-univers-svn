@@ -55,6 +55,22 @@ EnsembleAssociation<OBJET>::Ajouter(const EnsembleAssociation< OBJET >& _el) {
 
 
 
+//////////////////
+// Enlève un élément.
+template <class OBJET> 
+void 
+EnsembleAssociation<OBJET>::Enlever(const Association<OBJET>& _el) {
+
+  unsigned int position = this->Position(_el) ;
+  
+  
+  if (position != 0)
+
+    ListeAssociation<OBJET>::Enlever(position) ;
+}
+
+
+
 template <class OBJET> 
 Booleen 
 EnsembleAssociation<OBJET>::
@@ -88,6 +104,12 @@ operator==(const EnsembleAssociation<OBJET>& _r) const
   return VRAI ;
 
 }
+
+
+
+
+
+
 //
 ////////////////////////
 //// Inclusion.

@@ -146,7 +146,7 @@ ListeAssociation<OBJET>::Dernier() const {
 template <class OBJET> void 
 ListeAssociation<OBJET>::Enlever(unsigned int _pos) {
 
-  if (liste->NombreReferences() > 1)
+  if (liste->NombreDeReferences() > 1)
   {
 
     TamponListeAssociation<OBJET>* temp 
@@ -253,3 +253,19 @@ ListeAssociation<OBJET>::operator=(const ListeComposition< OBJET >& _l)
   return *this ;
 }
 
+//////////////////
+// Enlève tous les éléments.
+template <class OBJET> 
+void 
+ListeAssociation<OBJET>::Vider()
+{
+
+  // on laisse la liste en cours
+  if(liste->Laisser())
+
+    delete liste ;
+  
+  // et on en prends une nouvelle, vide
+  liste = new TamponListeAssociation<OBJET>() ;
+
+}

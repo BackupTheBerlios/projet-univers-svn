@@ -53,7 +53,7 @@ namespace ProjetUnivers {
       /////////////////
       // Constructeur par défaut.
       Association()
-        : pt()
+        : pt(NULL)
       {}
     
     

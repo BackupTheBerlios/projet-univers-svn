@@ -18,13 +18,12 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-
-#include "test_ensemble_association.h"
+#include "test_ensemble_composition.h"
 
 
 // enregistrement du test
 CPPUNIT_TEST_SUITE_REGISTRATION(
-  ProjetUnivers::Base::Test::TestEnsembleAssociation) ;
+  ProjetUnivers::Base::Test::TestEnsembleComposition) ;
 
 
 namespace ProjetUnivers {
@@ -33,46 +32,57 @@ namespace ProjetUnivers {
   
     namespace Test {
 
-      class TempAssociation {
+
+
+      class TempComposition {
       public:
       
-        TempAssociation(const Entier& _v = 0)
+        TempComposition(const Entier& _v = 0)
         : valeur(_v)
         {}
 
+        ~TempComposition()
+        {
+          ++nombreDObjetsDetruits ;
+        }
+
         Entier valeur ;
+
+
+        // un drapeau pour savoir combien d'élément de TempComposition ont été détruit
+        static Entier nombreDObjetsDetruits ;
+
       };
 
+      Entier TempComposition::nombreDObjetsDetruits = 0 ;
 
 
 
       ///////////////
       // Teste l'ajout d'un élément
-      void TestEnsembleAssociation::testAjouter() 
+      void TestEnsembleComposition::testAjouter() 
       {
       
         // on ajoute un élément ...
-        element = new TempAssociation(1) ;
-        this->ensembleTeste.Ajouter(element) ;
+        element = new TempComposition(1) ;
+        referenceElement = element ;
+        this->ensembleTeste.Ajouter(element.Liberer()) ;
 
         // puis on vérifie qu'il est dedans
-        CPPUNIT_ASSERT(this->ensembleTeste.Contient(element) == VRAI) ;
+        CPPUNIT_ASSERT(this->ensembleTeste.Contient(referenceElement) == VRAI) ;
 
-        // on le transfert dans le conteneur
-        elements.Ajouter(element.Liberer()) ;
+        CPPUNIT_ASSERT(TempComposition::nombreDObjetsDetruits == 0) ;
 
         // on ajoute un autre élément ...
 
-        element = new TempAssociation(2) ;
-
-        this->ensembleTeste.Ajouter(element) ;
+        element = new TempComposition(2) ;
+        referenceElement = element ;
+        this->ensembleTeste.Ajouter(element.Liberer()) ;
 
         // puis on vérifie qu'il est dedans
-        CPPUNIT_ASSERT(this->ensembleTeste.Contient(element) == VRAI) ;
+        CPPUNIT_ASSERT(this->ensembleTeste.Contient(referenceElement) == VRAI) ;
 
-        // on le transfert dans le conteneur
-        elements.Ajouter(element.Liberer()) ;
-
+        CPPUNIT_ASSERT(TempComposition::nombreDObjetsDetruits == 0) ;
       
         // on vérifie que la taille est bien de 2
         CPPUNIT_ASSERT(this->ensembleTeste.NombreDElements() == 2) ;
@@ -83,10 +93,10 @@ namespace ProjetUnivers {
       
       ///////////////
       // Teste l'ensemble vide
-      void TestEnsembleAssociation::testVide() 
+      void TestEnsembleComposition::testVide() 
       {
 
-        element = new TempAssociation(1) ;
+        element = new TempComposition(1) ;
 
          // on vérifie que l'ensemble vide est vide
         CPPUNIT_ASSERT(this->ensembleTeste.Contient(element) == FAUX) ;
@@ -96,48 +106,44 @@ namespace ProjetUnivers {
 
       ///////////////
       // Teste la suppression d'un élément
-      void TestEnsembleAssociation::testEnlever() 
+      void TestEnsembleComposition::testEnlever() 
       {
 
            
         // on ajoute un élément ...
-        element = new TempAssociation(1) ;
-
-        this->ensembleTeste.Ajouter(element) ;
-
+        element = new TempComposition(1) ;
         referenceElement = element ;
-
-        // on le transfert dans le conteneur
-        elements.Ajouter(element.Liberer()) ;
+        this->ensembleTeste.Ajouter(element.Liberer()) ;
 
         // on ajoute un autre élément ...
 
-        element = new TempAssociation(2) ;
+        element = new TempComposition(2) ;
+        this->ensembleTeste.Ajouter(element.Liberer()) ;
 
-        this->ensembleTeste.Ajouter(element) ;
-
-        // on le transfert dans le conteneur
-        elements.Ajouter(element.Liberer()) ;
   
         // on enlève le premier élément
         this->ensembleTeste.Enlever(referenceElement) ;
-        
+
+        // on vérifie que l'objet a été détruit
+        CPPUNIT_ASSERT(TempComposition::nombreDObjetsDetruits == 1) ;        
         // on vérifie qu'il n'est pas dedans
         CPPUNIT_ASSERT(this->ensembleTeste.Contient(referenceElement) == FAUX) ;
+
         
       }
       
  
       ///////////////
       // Initialisation du test
-      void TestEnsembleAssociation::setUp() 
+      void TestEnsembleComposition::setUp() 
       {
+        TempComposition::nombreDObjetsDetruits = 0 ;
       
       }
     
       ///////////////
       // Desinitialisation du test
-      void TestEnsembleAssociation::tearDown() 
+      void TestEnsembleComposition::tearDown() 
       {
         this->ensembleTeste.Vider() ;
       }

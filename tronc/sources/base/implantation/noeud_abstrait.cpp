@@ -25,7 +25,7 @@ namespace ProjetUnivers {
   namespace Base {
     
     NoeudAbstrait::NoeudAbstrait()
-      :suivant(),precedent()
+      :suivant(NULL),precedent(NULL)
     {}
     
     NoeudAbstrait::~NoeudAbstrait()

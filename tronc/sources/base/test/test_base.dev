@@ -1,18 +1,18 @@
 [Project]
-FileName=test_base.dev
+FileName=TEST_B~1.DEV
 Name=TestBase
-UnitCount=2
+UnitCount=7
 Type=1
 Ver=1
 ObjFiles=
 Includes=..;../implantation
-Libs=D:\projets\projet-univers\tronc\sources\compilation
+Libs="C:\Program Files\DevCpp\lib"
 PrivateResource=
 ResourceIncludes=
 MakeIncludes=
 Compiler=
 CppCompiler=-D _INC_TEMP_CODE__@@_
-Linker=../../compilation/base.a_@@_../../utilitaires/cppunit-1.10.2/lib/cppunit.a_@@_
+Linker=../../compilation/base.a_@@_-lcppunit_@@_
 IsCpp=1
 Icon=
 ExeOutput=..\..\compilation
@@ -30,7 +30,7 @@ CompilerSet=0
 CompilerSettings=0000000000000000000000
 
 [Unit3]
-FileName=test_base.cpp
+FileName=test_composition.h
 CompileCpp=1
 Folder=TestBase
 Compile=1
@@ -40,7 +40,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit4]
-FileName=test_base.cpp
+FileName=test_ensemble_association.cpp
 CompileCpp=1
 Folder=TestBase
 Compile=1
@@ -79,6 +79,36 @@ BuildCmd=
 
 [Unit1]
 FileName=test_base.cpp
+CompileCpp=1
+Folder=TestBase
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit5]
+FileName=test_ensemble_association.h
+CompileCpp=1
+Folder=TestBase
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit6]
+FileName=..\..\..\..\..\projet-univers\tronc\sources\base\test\test_ensemble_composition.h
+CompileCpp=1
+Folder=TestBase
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit7]
+FileName=..\..\..\..\..\projet-univers\tronc\sources\base\test\test_ensemble_composition.cpp
 CompileCpp=1
 Folder=TestBase
 Compile=1

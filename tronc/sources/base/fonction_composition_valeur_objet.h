@@ -20,12 +20,12 @@
 
 
  
-#ifndef FONCTION_COMPOSITION_VALEUR_OBJET_H
-#define FONCTION_COMPOSITION_VALEUR_OBJET_H
+#ifndef _PU_BASE_FONCTION_COMPOSITION_VALEUR_OBJET_H_
+#define _PU_BASE_FONCTION_COMPOSITION_VALEUR_OBJET_H_
 
 
 #include "association.h"
-#include "string.h"
+
 
 namespace ProjetUnivers {
 
@@ -35,7 +35,7 @@ namespace ProjetUnivers {
     CLASS
       FonctionCompositionValeurObjet
     
-      Une fonction, au sens mathématique, qui associe à un élément de VALEUR 
+      Une fonction, au sens mathématique, qui associe à tout élément de VALEUR 
       un élément de OBJET. 
       
       VALEUR doit être une classe de valeur, et OBJET une classe d'objet. 
@@ -65,12 +65,12 @@ namespace ProjetUnivers {
     
       //////////////////
       // Ajoute un élément.
-      void add(const VALEUR& , const OBJET*) ;
+      void Ajouter(const VALEUR& , const OBJET*) ;
     
       /////////////////
       // Modifie l'élément associé à VALEUR. Si l'élément
       // n'existe pas dans la fonction alors cela a l'effet de add.
-      void set(const VALEUR&, const OBJET&) ;
+      void Modifier(const VALEUR&, const OBJET&) ;
     
     
       // *******************
@@ -79,7 +79,7 @@ namespace ProjetUnivers {
     
       //////////////////
       // Accès à un élément en fonction de l'identifiant.
-      Association< OBJET > getElement(const VALEUR&) const ;
+      Association< OBJET > Image(const VALEUR&) const ;
     
       ////////////////////////
       // Opérateur de comparaison
@@ -95,7 +95,7 @@ namespace ProjetUnivers {
     
     };
     
-#include "fonction_composition_valeur_objet.cxx"
+    #include "fonction_composition_valeur_objet.cxx"
 
 
   }

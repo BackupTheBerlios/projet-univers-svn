@@ -79,19 +79,21 @@ namespace ProjetUnivers {
     	// Ajoute une liste.
     	void Ajouter(const ListeComposition< OBJET >& _nouveaux) ;
     
-    
+    	///////////////
+    	// Enlève le noeud courant.
+    	void Enlever() ;
+
+      
     	// ***********************
     	// GROUP: Méthodes d'accès
     	// ***********************
     
+
       ///////////////
       // Renvoie l'élément courant en association.
       operator Association< OBJET >() ;
 
-//      ///////////////
-//      // Renvoie l'élément courant en association.
-//      operator const Association< OBJET >&() ;
-    
+  
       ///////////////
       // Renvoie l'élément courant en référence.
       operator const OBJET&() ;

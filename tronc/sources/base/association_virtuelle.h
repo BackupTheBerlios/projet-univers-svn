@@ -59,7 +59,7 @@
 	{ \
     if(dynamic_cast<type*>(BASE_VREF(name).operator->()) == NULL)  \
       throw ExceptionBase("association virtuelle") ; \
-	  return ProjetUnivers::Base::Association< type >(static_cast<type*>(BASE_VREF(name).operator->())) ; \
+	  return ProjetUnivers::Base::Association< type >(*(static_cast<type*>(BASE_VREF(name).operator->()))) ; \
 	}			
 
 

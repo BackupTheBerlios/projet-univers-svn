@@ -8,7 +8,7 @@ namespace ProjetUnivers {
   namespace Base {
     
     ListeAbstraite::ListeAbstraite()
-      :premierNoeud(),dernierNoeud(),nombreDElements(0)
+      :premierNoeud(NULL),dernierNoeud(NULL),nombreDElements(0)
     {}
     
     ListeAbstraite::~ListeAbstraite() 

@@ -19,104 +19,104 @@
  ***************************************************************************/
 
 
-#ifndef _PU_BASE_TEST_LISTE_H_
-#define _PU_BASE_TEST_LISTE_H_
+#ifndef _TEST_ENSEMBLE_COMPOSITION_H_
+#define _TEST_ENSEMBLE_COMPOSITION_H_
 
 
-// Includes
 #include <cppunit/extensions/HelperMacros.h>
-#include "liste_composition.h"
-#include "liste_association.h"
+
+#include "ensemble_composition.h"
+#include "types.h"
+#include "composition.h"
 
 
 namespace ProjetUnivers {
-  
+
   namespace Base {
-    
+  
     namespace Test {
-
-
+      
+      // une classe locale pour le test  
+      class TempComposition ;
+        
       /*
       CLASS
-        TestListe
+        TestEnsembleComposition
+      
+        Classe permettant de tester la classe des ensemble en composition.
       */
-      class TestListe : public CppUnit::TestFixture {
+      class TestEnsembleComposition : public CppUnit::TestFixture {
       protected:
-
-
+      
+        
         // ****************************
         // GROUP: Tests proprement dits
         // ****************************
-
-        ////////////////
-        // Teste l'ajout dans la liste.
-        void TestAjouter() ;
-
+      
+        
         ///////////////
-        // Teste que, même une liste temporaire, peut être 
-        // parcourue.
-        void TestParcoursListeTemporaire() ;
-
-        //////////////
-        // Teste la destruction de liste en composition.
-        void TestDestruction() ;
-
-
-        // ********************
-        // GROUP: Mise en place
-        // ********************
-
-
-        CPPUNIT_TEST_SUITE(TestListe) ;
-
-        CPPUNIT_TEST(TestAjouter) ;
-        CPPUNIT_TEST(TestParcoursListeTemporaire) ;
-        CPPUNIT_TEST(TestDestruction) ;
-
+        // Teste l'ajout d'un élément
+        void testAjouter();
+      
+        ///////////////
+        // Teste la suppression d'un élément
+        void testEnlever();
+        
+        ///////////////
+        // Teste l'ensemble vide
+        void testVide();
+        
+        
+      
+      
+      
+        // *******************************
+        // GROUP: Enregistrement des tests
+        // *******************************
+      
+      
+        CPPUNIT_TEST_SUITE(TestEnsembleComposition) ;
+      
+        CPPUNIT_TEST(testAjouter) ;
+        CPPUNIT_TEST(testEnlever) ;
+        CPPUNIT_TEST(testVide) ;
+      
         CPPUNIT_TEST_SUITE_END() ;
-
+      
       public:
-
+      
+        // *******************************************
+        // GROUP: Initialisation et femeture des tests
+        // *******************************************
+        
+      
         ///////////////
         // Initialisation du test
         void setUp() ;
-
+      
         ///////////////
         // Desinitialisation du test
         void tearDown() ;
-
-
-
-
-
-
-
+      
+      
       private:
+      
+      
+        ////////////////
+        // Un ensemble en association
+        EnsembleComposition< TempComposition > ensembleTeste ; 
+  
+ 
+        // conteneur temporaire des éléments
+        Composition< TempComposition > element ;
 
-        // une classe comme ça
-        class Element {
-        public:
-
-          Entier valeur ;
-
-
-          Element(const Entier _e)
-          : valeur(_e)
-          {}
-        };
-
-	      ListeAssociation< Element > f();
-
-        // une liste 
-        EnsembleComposition< Element > liste ;
-
+        // réérence temporaire
+        Association< TempComposition > referenceElement ;
+        
       };
-
     }
   }
 }
 
-#endif 
-    
 
-
+#endif

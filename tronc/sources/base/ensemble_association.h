@@ -67,13 +67,12 @@ namespace ProjetUnivers {
       /////////////////
       // Ajoute des éléments à l'ensemble.
       void Ajouter(const EnsembleAssociation< OBJET >& _elt);
-
     
       //////////////////
       // Enlève l'élément _el, s'il n'y est pas ne fait rien.
       void Enlever(const Association< OBJET >& _el) ;
     
-    
+
       // ********************
       // GROUP: Consultation
       // ********************

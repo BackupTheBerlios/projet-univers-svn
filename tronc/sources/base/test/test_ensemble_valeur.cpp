@@ -19,12 +19,12 @@
  ***************************************************************************/
 
 
-#include "test_ensemble_association.h"
+#include "test_ensemble_valeur.h"
 
 
 // enregistrement du test
 CPPUNIT_TEST_SUITE_REGISTRATION(
-  ProjetUnivers::Base::Test::TestEnsembleAssociation) ;
+  ProjetUnivers::Base::Test::TestEnsembleValeur) ;
 
 
 namespace ProjetUnivers {
@@ -33,49 +33,32 @@ namespace ProjetUnivers {
   
     namespace Test {
 
-      class TempAssociation {
-      public:
-      
-        TempAssociation(const Entier& _v = 0)
-        : valeur(_v)
-        {}
-
-        Entier valeur ;
-      };
-
-
-
 
       ///////////////
       // Teste l'ajout d'un élément
-      void TestEnsembleAssociation::testAjouter() 
+      void TestEnsembleValeur::TestAjouter() 
       {
       
-        // on ajoute un élément ...
-        element = new TempAssociation(1) ;
-        this->ensembleTeste.Ajouter(element) ;
+        this->ensemble.Ajouter(1) ;
 
         // puis on vérifie qu'il est dedans
-        CPPUNIT_ASSERT(this->ensembleTeste.Contient(element) == VRAI) ;
+        CPPUNIT_ASSERT(this->ensemble.Contient(1) == VRAI) ;
 
-        // on le transfert dans le conteneur
-        elements.Ajouter(element.Liberer()) ;
-
-        // on ajoute un autre élément ...
-
-        element = new TempAssociation(2) ;
-
-        this->ensembleTeste.Ajouter(element) ;
+        this->ensemble.Ajouter(2) ;
 
         // puis on vérifie qu'il est dedans
-        CPPUNIT_ASSERT(this->ensembleTeste.Contient(element) == VRAI) ;
-
-        // on le transfert dans le conteneur
-        elements.Ajouter(element.Liberer()) ;
+        CPPUNIT_ASSERT(this->ensemble.Contient(2) == VRAI) ;
 
       
         // on vérifie que la taille est bien de 2
-        CPPUNIT_ASSERT(this->ensembleTeste.NombreDElements() == 2) ;
+        CPPUNIT_ASSERT(this->ensemble.NombreDElements() == 2) ;
+
+
+        // on réajoute le même élément...
+        this->ensemble.Ajouter(1) ;
+        
+        // on vérifie que la taille est bien de 2
+        CPPUNIT_ASSERT(this->ensemble.NombreDElements() == 2) ;
 
 
       }
@@ -83,63 +66,46 @@ namespace ProjetUnivers {
       
       ///////////////
       // Teste l'ensemble vide
-      void TestEnsembleAssociation::testVide() 
+      void TestEnsembleValeur::TestVide() 
       {
 
-        element = new TempAssociation(1) ;
-
          // on vérifie que l'ensemble vide est vide
-        CPPUNIT_ASSERT(this->ensembleTeste.Contient(element) == FAUX) ;
+        CPPUNIT_ASSERT(this->ensemble.Contient(1) == FAUX) ;
 
 
       }
 
       ///////////////
       // Teste la suppression d'un élément
-      void TestEnsembleAssociation::testEnlever() 
+      void TestEnsembleValeur::TestEnlever() 
       {
 
            
-        // on ajoute un élément ...
-        element = new TempAssociation(1) ;
 
-        this->ensembleTeste.Ajouter(element) ;
+        this->ensemble.Ajouter(1) ;
+        this->ensemble.Ajouter(2) ;
 
-        referenceElement = element ;
-
-        // on le transfert dans le conteneur
-        elements.Ajouter(element.Liberer()) ;
-
-        // on ajoute un autre élément ...
-
-        element = new TempAssociation(2) ;
-
-        this->ensembleTeste.Ajouter(element) ;
-
-        // on le transfert dans le conteneur
-        elements.Ajouter(element.Liberer()) ;
-  
         // on enlève le premier élément
-        this->ensembleTeste.Enlever(referenceElement) ;
+        this->ensemble.Enlever(1) ;
         
         // on vérifie qu'il n'est pas dedans
-        CPPUNIT_ASSERT(this->ensembleTeste.Contient(referenceElement) == FAUX) ;
+        CPPUNIT_ASSERT(this->ensemble.Contient(1) == FAUX) ;
         
       }
       
  
       ///////////////
       // Initialisation du test
-      void TestEnsembleAssociation::setUp() 
+      void TestEnsembleValeur::setUp() 
       {
       
       }
     
       ///////////////
       // Desinitialisation du test
-      void TestEnsembleAssociation::tearDown() 
+      void TestEnsembleValeur::tearDown() 
       {
-        this->ensembleTeste.Vider() ;
+        this->ensemble.Vider() ;
       }
 
 
