@@ -218,7 +218,7 @@
           </listitem>
 
           <listitem>
-            <para>le pourcentage de progression dans son évolution </para>
+            <para>le pourcentage de progression dans son évolution</para>
 
             <para>En fait, une Etoile qui vient de naître est à 0% et une
             étoile qui a terminé son évolution est à 100%.</para>
@@ -507,16 +507,84 @@
     <sect2>
       <title>Espèces</title>
 
-      <para>Caractéristiques :</para>
+      <para>Les caractéristiques suivantes là pour représenter tous les
+      aspects technique d'une race.</para>
 
-      <itemizedlist>
-        <listitem>
-          <para>une Planète/Satellite d'origine</para>
+      <sect3>
+        <title>Règne</title>
 
-          <para>C'est la Planète où cette Espèce est apparue en
-          premier.</para>
-        </listitem>
-      </itemizedlist>
+        <para>Sur terre il éxiste deux règnes différents qui sont le règne
+        végétale et le règne animale. D'autres règnes peuvent être envisager
+        mais alors, il faudrai développer leurs caractéristique et leur
+        fonctionnement.</para>
+
+        <para>Ex : le règne méchanique</para>
+      </sect3>
+
+      <sect3>
+        <title>Type de vie</title>
+
+        <para>Savoir si c'est une espèce indépendante, parasite ou
+        symbiotique.</para>
+      </sect3>
+
+      <sect3>
+        <title>Planette d'orrigine</title>
+
+        <para>D'ou vient cette race.</para>
+      </sect3>
+
+      <sect3>
+        <title>Comportement</title>
+
+        <para>Quel est son mode de vie. Est ce que comme les nuées zergs de
+        StarCraft elle assimile tout ce qui est sur son passage, est ce que
+        c'est une race de commerçant, de guerrier, d'écologistes, etc.</para>
+      </sect3>
+
+      <sect3>
+        <title>Quel espèce l'a engendrée</title>
+
+        <para>Toutes les espèces ne sont pas apparues comme ça sur un coups de
+        chance génétique (comme les humains par exemple).</para>
+      </sect3>
+
+      <sect3>
+        <title>Niveau technologique</title>
+
+        <para>caractéristique très importante pour déterminer l'impacte de la
+        race sur son environnement.</para>
+      </sect3>
+
+      <sect3>
+        <title>Caractéristiques physiques</title>
+
+        <para>Ensemble de ce qu'on peu considérer comme les capacité physiques
+        d'une race.</para>
+
+        <sect4>
+          <title>Millieu de vie</title>
+
+          <para>Et tout ce que ça implique. Les substance nocives ou
+          mortelles, les substance réparatrices....</para>
+        </sect4>
+
+        <sect4>
+          <title>Morphologie</title>
+
+          <para>Biped, Quadruped, humanoide, insectoide, reptilien,
+          etc...</para>
+        </sect4>
+
+        <sect4>
+          <title>Caractéristiques moyennes</title>
+
+          <para>Pour ça il faudrai créer un système de caractéristiques et
+          donc un système de JDR (ce qui peu être intéressant pour accrocher
+          mêmes d'autres comunautés que celle du jeu de simulation
+          spatial).</para>
+        </sect4>
+      </sect3>
     </sect2>
 
     <sect2>
