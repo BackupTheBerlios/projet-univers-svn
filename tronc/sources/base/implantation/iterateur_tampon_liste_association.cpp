@@ -22,9 +22,4 @@
 
 
 
-// inclure le code des template dans la spec 
-// nécessaire sur certains compilos
-#ifndef _INC_TEMP_CODE_
-  #include "iterateur_tampon_liste_association.cxx"
-#endif
 

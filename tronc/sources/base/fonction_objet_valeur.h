@@ -101,9 +101,7 @@ namespace ProjetUnivers {
     
     };
     
-    #ifdef _INC_TEMP_CODE_
-    #include "implantation/fonction_objet_valeur.cxx"
-    #endif
+#include "implantation/fonction_objet_valeur.cxx"
 
   }
 }

@@ -20,7 +20,5 @@
 
 #include "liste_composition.h"
 
-#ifndef _INC_TEMP_CODE_
-#include "liste_composition.cxx"
-#endif
+
 

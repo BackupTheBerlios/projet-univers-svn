@@ -79,9 +79,7 @@ namespace ProjetUnivers {
     
     };
     
-    #ifdef _INC_TEMP_CODE_
-    #include "implantation/ensemble_composition.cxx"
-    #endif
+#include "implantation/ensemble_composition.cxx"
 
   }
 }

@@ -37,7 +37,9 @@ namespace ProjetUnivers {
     	IterateurListeComposition
     
     	Classe générique fournissant un itérateur sur les listes 
-    	ListeComposition.
+    	ListeComposition.    // inclure le code des template dans la spec 
+    // nécessaire sur certains compilos
+
     
     UTILISATION
     	Itérer sur les éléments d'une ListeComposition.
@@ -115,9 +117,7 @@ namespace ProjetUnivers {
     
     };
     
-    #ifdef _INC_TEMP_CODE_
     #include "iterateur_liste_composition.cxx"
-    #endif
 
   }
 }

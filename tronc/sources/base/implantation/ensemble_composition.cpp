@@ -20,7 +20,4 @@
 
 #include "ensemble_composition.h"
 
-#ifndef _INC_TEMP_CODE_
-#include "ensemble_composition.cxx"
-#endif
 

@@ -173,9 +173,7 @@ namespace ProjetUnivers {
       friend class NoeudAssociation<OBJET> ;
     };
     
-    #ifdef _INC_TEMP_CODE_
     #include "implantation/association.cxx"
-    #endif
 
   }
 }

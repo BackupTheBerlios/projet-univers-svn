@@ -95,9 +95,8 @@ namespace ProjetUnivers {
     
     };
     
-    #ifdef _INC_TEMP_CODE_
-    #include "fonction_composition_valeur_objet.cxx"
-    #endif
+#include "fonction_composition_valeur_objet.cxx"
+
 
   }
 }

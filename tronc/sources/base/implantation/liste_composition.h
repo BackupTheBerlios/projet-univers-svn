@@ -110,9 +110,7 @@ namespace ProjetUnivers {
     
     };
     
-    #ifdef _INC_TEMP_CODE_
     #include "liste_composition.cxx"
-    #endif
   }
 }
 #endif 

@@ -58,9 +58,7 @@ namespace ProjetUnivers {
     
     };
     
-    #ifdef _INC_TEMP_CODE_
     #include "noeud_composition.cxx"
-    #endif
 
   }
 }

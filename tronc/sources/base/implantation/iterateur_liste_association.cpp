@@ -20,8 +20,5 @@
 
 #include "iterateur_liste_association.h"
 
-#ifndef _INC_TEMP_CODE_
-#include "iterateur_liste_association.cxx"
-#endif
 
 

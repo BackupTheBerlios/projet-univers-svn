@@ -20,7 +20,5 @@
 
 #include "ensemble_association.h"
 
-#ifndef _INC_TEMP_CODE_
-#include "ensemble_association.cxx"
-#endif
+
 

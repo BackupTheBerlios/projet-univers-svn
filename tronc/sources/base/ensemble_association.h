@@ -88,9 +88,7 @@ namespace ProjetUnivers {
       Booleen operator==(const EnsembleAssociation<OBJET>& _r) const ;
     };
     
-    #ifdef _INC_TEMP_CODE_
-    #include "implantation/ensemble_association.cxx"
-    #endif
+#include "implantation/ensemble_association.cxx"
     
   }
 }

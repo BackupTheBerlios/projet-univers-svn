@@ -20,7 +20,4 @@
 
 #include "noeud_composition.h"
 
-#ifndef _INC_TEMP_CODE_
-#include "noeud_composition.cxx"
-#endif
 

@@ -97,9 +97,7 @@ namespace ProjetUnivers {
     
     };
     
-    #ifdef _INC_TEMP_CODE_
     #include "iterateur_liste_association.cxx"
-    #endif
 
   }
 }

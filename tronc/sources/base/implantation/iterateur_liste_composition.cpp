@@ -20,7 +20,5 @@
 
 #include "iterateur_liste_composition.h"
 
-#ifndef _INC_TEMP_CODE_
-#include "iterateur_liste_composition.cxx"
-#endif
+
 

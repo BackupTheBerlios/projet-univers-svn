@@ -131,9 +131,7 @@ namespace ProjetUnivers {
     
     // inclure le code des template dans la spec 
     // nécessaire sur certains compilos
-    #ifdef _INC_TEMP_CODE_
-      #include "tampon_liste_association.cxx"
-    #endif
+    #include "tampon_liste_association.cxx"
 
   }
 }

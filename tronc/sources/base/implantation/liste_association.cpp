@@ -20,7 +20,4 @@
 
 #include "liste_association.h"
 
-#ifndef _INC_TEMP_CODE_
-#include "liste_association.cxx"
-#endif
 

@@ -231,9 +231,7 @@ namespace ProjetUnivers {
       friend class Association<OBJET> ;
     };
     
-    #ifdef _INC_TEMP_CODE_
     #include "implantation/composition.cxx"
-    #endif
   }
 }
 
