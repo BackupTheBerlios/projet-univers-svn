@@ -7,10 +7,10 @@
   <articleinfo>
     <abstract>
       <para>Ce document décrit les configurations des outils utilisés dans le
-      développement du Projet Univers</para>
+      développement du Projet Univers.</para>
     </abstract>
 
-    <orgname>Equipe du Projet Univers</orgname>
+    <orgname>Équipe du Projet Univers</orgname>
 
     <author>
       <personname>
@@ -26,16 +26,28 @@
       <revision>
         <revnumber>0.1</revnumber>
 
-        <date>10 aout 2004</date>
+        <date>10 août 2004</date>
 
         <revdescription>
           <para>Création initiale</para>
         </revdescription>
       </revision>
+
+      <revision>
+        <revnumber>0.2</revnumber>
+
+        <date>28 août 2004</date>
+
+        <revdescription>
+          <para>Ce document est une sorte de point d'entrée au projet, il
+          décrit les outils utilisés, ceci dépendant de l'endrois où les
+          membres du projet veulent intervenir.</para>
+        </revdescription>
+      </revision>
     </revhistory>
 
     <legalnotice>
-      <para>Ce document est sous license <ulink
+      <para>Ce document est sous licence <ulink
       url="http://www.gnu.org/copyleft/fdl.html">GNU Free Documentation
       License</ulink></para>
     </legalnotice>
@@ -44,11 +56,38 @@
   <sect1>
     <title>Introduction</title>
 
-    <para>Un certain nombre d'outils sont utilisés dans le cadre de ce
-    projet.</para>
+    <para>Ce document est destiné à être le point d'entrée au projet univers.
+    On y définit les outils à utiliser pour intervenir sur ce projet et les
+    règles à suivre. </para>
+
+    <para>Un certain nombre d'outils sont utilisés dans le cadre de ce projet.
+    Le premier de ces outils est le client subversion et il est obligatoire
+    pour tous les intervenants sur le projet, sa procédure d'utilisation est
+    expliquée dans la <link linkend="gestionnaire_de_fichier">section
+    suivante</link>.</para>
+
+    <para>Ensuite, tout dépend de ce sur quoi vous voulez intervenir dans le
+    projet. Il y a pour l'instant 3 domaines d'intervention, chacun peut se
+    cantonner dans un de ces domaines, mais il serait souhaitable d'intervenir
+    sur 2 voire 3 d'entre eux :</para>
+
+    <itemizedlist>
+      <listitem>
+        <para><link linkend="rédaction">La rédaction de
+        documents</link></para>
+      </listitem>
+
+      <listitem>
+        <para><link linkend="modélisation">La modélisation 3D</link></para>
+      </listitem>
+
+      <listitem>
+        <para><link linkend="programmation">La programmation</link></para>
+      </listitem>
+    </itemizedlist>
   </sect1>
 
-  <sect1>
+  <sect1 id="gestionnaire_de_fichier">
     <title>Gestionnaire de fichiers</title>
 
     <para>Tous les fichiers du projet sont stockés sur un serveur <ulink
@@ -56,22 +95,33 @@
     garder toutes les versions d'un même fichier et ainsi de ne perdre aucune
     donnée.</para>
 
-    <para>Le serveur étant hébergé par berlios, il faut <ulink
-    url="https://developer.berlios.de/account/register.php">ouvrir un compte
-    développeur chez berlios</ulink>, c'est la permière étape. Dans toute la
-    suite on supposera que vous vous êtes inscrit sur ce site avec
-    <replaceable>nom</replaceable> comme nom d'utilisateur. Votre compte est
-    alors normalement rendu actif dans les 6 heures, donc pas d'affolement si
-    cela ne fonctionne pas tout de suite, par conte au bout de quelques
-    jours...</para>
+    <procedure>
+      <step>
+        <para>Le serveur étant hébergé par berlios, il faut <ulink
+        url="https://developer.berlios.de/account/register.php">ouvrir un
+        compte développeur chez berlios</ulink>.</para>
 
-    <para>Ensuite, il faut contacter un des administrateurs du projet univers
-    pour qu'il vous ajoute au projet hébergé par berlios.</para>
+        <para>Dans toute la suite on supposera que vous vous êtes inscrit sur
+        ce site avec <replaceable>nom</replaceable> comme nom d'utilisateur.
+        Votre compte est alors normalement rendu actif dans les 6 heures, donc
+        pas d'affolement si cela ne fonctionne pas tout de suite, par conte au
+        bout de quelques jours vous devriez contacter les administrateurs du
+        site berlios.</para>
+      </step>
 
-    <para>Reste alors à utiliser le client subversion.</para>
+      <step>
+        <para>Ensuite, il faut contacter un des administrateurs du projet
+        univers pour qu'il vous ajoute au projet hébergé par berlios.</para>
+      </step>
+
+      <step>
+        <para>Reste alors à utiliser le client subversion, c'est qui est
+        expliqué dans la suite.</para>
+      </step>
+    </procedure>
 
     <sect2>
-      <title>Utilisation</title>
+      <title>Utilisation du client subversion</title>
 
       <sect3>
         <title>TortoiseSVN sous Windows</title>
@@ -81,22 +131,22 @@
         url="http://tortoisesvn.tigris.org/">TortoiseSVN</ulink>,qui dispose
         d'une version française.</para>
 
-        <para>TortoiseSVN s'intègre directement dans l'explorateur windows, on
+        <para>TortoiseSVN s'intégre directement dans l'explorateur windows, on
         accède à ses fonctions par un clic droit de la souris sur le
         répertoire ou les fichiers sur lesquels on veut lancer une
         action.</para>
 
-        <para>En ce qui concerne l'autentification, le logiciel vous demandera
-        votre mot de passe à chaque fois. <remark>Une prochaine version de ce
-        document expliquera comment faire pour ne pas le rentrer à chaque
-        fois</remark></para>
+        <para>En ce qui concerne l'authentification, le logiciel vous
+        demandera votre mot de passe à chaque fois. <remark>Une prochaine
+        version de ce document expliquera comment faire pour ne pas le rentrer
+        à chaque fois</remark></para>
 
         <sect4>
           <title>Création d'un répertoire de travail local</title>
 
           <para>Il faut se créer un répertoire local qui contiendra des copies
           locales des fichiers présents sur le serveur. C'est dans ce
-          repertoire que vous pourez travailler.</para>
+          répertoire que vous pourrez travailler.</para>
 
           <para>Pour récupérer la première fois les fichiers se trouvant sur
           le serveur :</para>
@@ -105,7 +155,7 @@
             <step>
               <para>Clic droit de la souris sur le répertoire local, choisir
               la commande <command>Extraire</command> ou
-              <command>Checkout</command>, une nouvelle fenètre apparait
+              <command>Checkout</command>, une nouvelle fenêtre apparaît
               :</para>
 
               <figure>
@@ -120,13 +170,13 @@
             </step>
 
             <step>
-              <para>Dans le champ URL of repository mettre :
+              <para>Dans le champ <prompt>URL of repository</prompt> mettre :
               <userinput>svn+ssh://<replaceable>nom</replaceable>@svn.berlios.de/svnroot/repos/projet-univers</userinput>,
-              ou <replaceable>rogma</replaceable> est votre nom d'utilisateur
+              ou <replaceable>nom</replaceable> est votre nom d'utilisateur
               dans Berlios.</para>
 
               <para><figure>
-                  <title>Choix de l'url du serveur</title>
+                  <title>Choix de l'<acronym>URL</acronym> du serveur</title>
 
                   <mediaobject>
                     <imageobject>
@@ -145,7 +195,7 @@
             </step>
 
             <step>
-              <para>Normalement, là ca télécharge. Attendez qu'il vous dise
+              <para>Normalement, là ça télécharge. Attendez qu'il vous dise
               que ce soit fini :</para>
 
               <para><figure>
@@ -165,8 +215,8 @@
           <title>Téléchargement de la dernière version à jour</title>
 
           <para>Cette opération est pratiquement la même que la création d'un
-          répertoire de travail local, sauf qu'on n'a plus à indiquer l'URL du
-          serveur.</para>
+          répertoire de travail local, sauf qu'on n'a plus à indiquer
+          l'<acronym>URL</acronym> du serveur.</para>
 
           <procedure>
             <step>
@@ -190,7 +240,7 @@
             </step>
 
             <step>
-              <para>Normalement, là ca télécharge. Attendez qu'il vous dise
+              <para>Normalement, là ça télécharge. Attendez qu'il vous dise
               que ce soit fini :</para>
 
               <para><figure>
@@ -216,7 +266,7 @@
             <step>
               <para>Clic droit de la souris sur le répertoire local, choisir
               la commande <command>Livrer</command> ou
-              <command>Commit</command>, une nouvelle fenètre apparait
+              <command>Commit</command>, une nouvelle fenêtre apparaît
               :</para>
 
               <para><figure>
@@ -269,7 +319,7 @@
           travail local, subversion ne peut deviner tout seul si ce fichier
           doit être ou non livré sur le serveur à la prochaine livraison. Il
           faut donc lui indiquer quels sont les fichiers ou répertoires qui
-          doivent être ajoutés sur le seveur :</para>
+          doivent être ajoutés sur le serveur :</para>
 
           <procedure>
             <step>
@@ -289,9 +339,9 @@
             </step>
 
             <step>
-              <para>Les fichiers sont marqués comme ajoutés à votre
-              réperstoire de travail local, ils ne sont pas encore envoyés au
-              serveur, ce sera fait à la prochaine livraison.</para>
+              <para>Les fichiers sont marqués comme ajoutés à votre répertoire
+              de travail local, ils ne sont pas encore envoyés au serveur, ce
+              sera fait à la prochaine livraison.</para>
 
               <figure>
                 <title>Les fichiers sont ajoutés</title>
@@ -334,7 +384,7 @@
 
           <para>Il faut se créer un répertoire local qui contiendra des copies
           locales des fichiers présents sur le serveur. C'est dans ce
-          repertoire que vous pourez travailler.</para>
+          répertoire que vous pourrez travailler.</para>
 
           <para>Pour récupérer la première fois les fichiers se trouvant sur
           le serveur :</para>
@@ -350,7 +400,7 @@
             </step>
 
             <step>
-              <para>Normalement, là ca télécharge et met le tout dans un
+              <para>Normalement, là ça télécharge et met le tout dans un
               répertoire <filename>projet-univers</filename>, puis écrit :
               <prompt>Checked out revision
               <replaceable>n</replaceable>.</prompt></para>
@@ -362,8 +412,8 @@
           <title>Téléchargement de la dernière version à jour</title>
 
           <para>Cette opération est pratiquement la même que la création d'un
-          répertoire de travail local, sauf qu'on n'a plus à indiquer l'URL du
-          serveur.</para>
+          répertoire de travail local, sauf qu'on n'a plus à indiquer
+          l'<acronym>URL</acronym> du serveur.</para>
 
           <procedure>
             <step>
@@ -376,7 +426,7 @@
             </step>
 
             <step>
-              <para>Normalement, là ca télécharge. Attendez qu'il vous dise
+              <para>Normalement, là ça télécharge. Attendez qu'il vous dise
               que ce soit fini : <prompt>At revision
               <replaceable>n</replaceable>.</prompt></para>
             </step>
@@ -395,7 +445,7 @@
               : <command>svn commit -m
               '<replaceable>message</replaceable>'</command>, où
               <replaceable>message</replaceable> est le message de log de la
-              livraison, si vous ommétez le message il vous proposera de
+              livraison, si vous omettez le message il vous proposera de
               l'éditer manuellement, cependant, ce n'est pas forcément
               conseillé.</para>
             </step>
@@ -409,13 +459,13 @@
         </sect4>
 
         <sect4>
-          <title>Ajouts de fichiers ou de repertoires</title>
+          <title>Ajouts de fichiers ou de répertoires</title>
 
           <para>Lorsque vous créez un nouveau fichier dans votre répertoire de
           travail local, subversion ne peut deviner tout seul si ce fichier
           doit être ou non livré sur le serveur à la prochaine livraison. Il
           faut donc lui indiquer quels sont les fichiers ou répertoires qui
-          doivent être ajoutés sur le seveur :</para>
+          doivent être ajoutés sur le serveur :</para>
 
           <procedure>
             <step>
@@ -451,48 +501,121 @@
     d'utiliser d'autres logiciels après accord des responsables du projet, ces
     logiciels devant être préférablement libres, et au pire gratuits.</para>
 
-    <sect2>
+    <sect2 id="modélisation">
       <title>Modélisation 3D</title>
 
-      <para>Un logiciel utilisé pour la modélisation 3D est <ulink
+      <para>Le logiciel utilisé pour la modélisation 3D est <ulink
       url="http://www.blender3d.org/">blender</ulink>.</para>
+
+      <para>Les concepteurs de modèles 3D doivent se conformer à la <ulink
+      url="http://www.punivers.net/charte_graphique.php">charte
+      graphique</ulink>.</para>
+
+      <sect3>
+        <title>Manipulation d'images</title>
+
+        <para>Un logiciel utilisé pour la manipulation d'image et la
+        fabrication de textures est <ulink
+        url="http://www.gimp-fr.org/">gimp</ulink>.</para>
+      </sect3>
     </sect2>
 
-    <sect2>
-      <title>Manipulation d'images</title>
-
-      <para>Un logiciel utilisé pour la manipulation d'image et la fabrication
-      de textures est <ulink
-      url="http://www.gimp-fr.org/">gimp</ulink>.</para>
-    </sect2>
-
-    <sect2>
-      <title>Editeur et compilateur C++</title>
+    <sect2 id="programmation">
+      <title>Éditeur et compilateur C++</title>
 
       <para>Sous windows vous pouvez utiliser <ulink
       url="http://www.bloodshed.net/dev/devcpp.html">DevC++</ulink>, sous
       linux, <ulink url="http://www.kdevelop.org/">kdevelop</ulink>, ou la
       suite<ulink url="http://autotoolset.sourceforge.net/tutorial.html">
       autotool de GNU</ulink>.</para>
+
+      <para>Les programmeurs C++ doivent se conformer aux <ulink
+      url="http://www.punivers.net/regles_programmation.php">règles de
+      programmation</ulink>.</para>
     </sect2>
 
-    <sect2>
-      <title>Documents docbooks</title>
+    <sect2 id="rédaction">
+      <title>Ecriture de documents</title>
 
-      <para>Vous pouvez utiliser <ulink
-      url="http://www.xmlmind.com/xmleditor/">XMLMindEditor</ulink>, qui
-      marche sur toutes les plateformes munies d'un Java (c'est à dire pas mal
-      de plateformes), il a l'avantage d'être WYSIWYG.</para>
+      <para>Tous les documents concernant le projet univers sont rédigés en
+      français et sont écrit en format <ulink
+      url="http://www.docbook.org/">DocBook</ulink>. </para>
 
-      <figure>
-        <title>XMLMindEditor (pour vous donner l'eau à la bouche)</title>
+      <para>Les documents doivent être placés sur le serveur de fichiers dans
+      le répertoire <filename>documents</filename>.</para>
 
-        <mediaobject>
-          <imageobject>
-            <imagedata fileref="images/xmlmind.png" />
-          </imageobject>
-        </mediaobject>
-      </figure>
+      <sect3>
+        <title>Outil de rédaction</title>
+
+        <para>Vous pouvez utiliser <ulink
+        url="http://www.xmlmind.com/xmleditor/">XMLMindEditor</ulink>, qui
+        marche sur toutes les plate-formes munies d'un Java (c'est à dire pas
+        mal de plate-formes), il a l'avantage d'être WYSIWYG.</para>
+
+        <figure>
+          <title>XMLMindEditor (pour vous donner l'eau à la bouche)</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="images/xmlmind.png" />
+            </imageobject>
+          </mediaobject>
+        </figure>
+
+        <sect4>
+          <title>Guides d'utilisation de DocBook</title>
+
+          <para>La rédaction de document DocBook suppose de connaître un petit
+          peu les différentes parties d'un tel document, par exemple para
+          désigne un paragraphe, link un lien et sect1 une section de niveau
+          1. La définition officielle de toutes ces balises se trouve <ulink
+          url="http://www.docbook.org/tdg/en/html/docbook.html">ici</ulink>.
+          D'autres pages expliquent l'utilisation de DocBook comme <ulink
+          url="http://www.gnu.org/software/dbmanual/dbmanual.fr.html">le
+          manuel DocBook de la FSF</ulink> ou le <ulink
+          url="http://www.freebsd.org/doc/en_US.ISO8859-1/books/fdp-primer/sgml-markup-docbook.html">guide
+          de rédaction de FreeBSD</ulink>.</para>
+        </sect4>
+
+        <sect4>
+          <title>Les différents types de documents du projet</title>
+
+          <para>Le projet univers nécessite l'écriture de documents pour fixer
+          précisement :</para>
+
+          <itemizedlist>
+            <listitem>
+              <para>Les buts de ce projet, c'est l'objet du <ulink
+              url="http://www.punivers.net/cahier_des_charges.php">cahier des
+              charges</ulink></para>
+            </listitem>
+
+            <listitem>
+              <para>Les techniques utilisées pour réaliser ces objectifs,
+              c'est l'objet :</para>
+
+              <itemizedlist>
+                <listitem>
+                  <para>des documents d'architectures</para>
+                </listitem>
+
+                <listitem>
+                  <para>des documents de règles de <ulink
+                  url="http://www.punivers.net/charte_graphique.php">modélisation
+                  3D</ulink>, <ulink
+                  url="http://www.punivers.net/regles_programmation.php">de
+                  programmation</ulink></para>
+                </listitem>
+
+                <listitem>
+                  <para>de tout autre document de conception, ou d'utilisation
+                  de projet univers</para>
+                </listitem>
+              </itemizedlist>
+            </listitem>
+          </itemizedlist>
+        </sect4>
+      </sect3>
     </sect2>
   </sect1>
 </article>
