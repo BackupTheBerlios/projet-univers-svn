@@ -21,7 +21,7 @@
 #ifndef STRING_BUFFER_H_
 #define STRING_BUFFER_H_
 
-#include "types.h"
+#include <base/types.h>
 
 
 namespace ProjetUnivers {
@@ -31,33 +31,12 @@ namespace ProjetUnivers {
     namespace Implantation {
       
   
-      /*
-      CLASS
-        TamponChaine
-        
-        Classe représentant une copie partagée d'une chaîne.
-        
-        
-      FONCTIONNEMENT
-          
-        Lorsque le nombre de références à cette copie tombe à 0, elle est 
-        détruite.
-      */
+      /// Classe représentant une copie partagée d'une chaîne.
+      
+      /// FONCTIONNEMENT          
+      ///  Lorsque le nombre de références à cette copie tombe à 0, elle est 
+      ///  détruite.
       class TamponChaine {
-        
-        ////////////////////
-        // Nombre de références à la chaîne.
-        EntierNonSigne nb_ref ;
-        
-        ////////////////////
-        // Taille de la chaîne.
-        EntierNonSigne size ;
-        
-        ///////////////////
-        // Chaîne proprment dite.
-        
-        char* s ;
-        
       public:
         
         // GROUP: Constructeurs
@@ -75,18 +54,15 @@ namespace ProjetUnivers {
         
         ~TamponChaine();
         
-        ///////////////
-        // Accès à la longueur de la chaîne.
+        /// Accès à la longueur de la chaîne.
         EntierNonSigne len() const;
       
-        ////////////////////
-        // tient une copie de la chaine, augmente le 
-        // nombre de références
+        /// Récupère un pointeur sur la chaine, augmente le 
+        /// nombre de références
         TamponChaine* take() ;
         
-        /////////////////
-        // Laisse tomber une référence à la copie courante, 
-        // diminue le nombre de références
+        /// Laisse tomber une référence à la chaine, 
+        /// diminue le nombre de références
         Booleen drop() ;
         
         //////////////////
@@ -97,6 +73,18 @@ namespace ProjetUnivers {
         
         TamponChaine(const TamponChaine& _s) ;
         TamponChaine& operator=(const TamponChaine& _s) ;
+
+      private:
+        
+        /// Nombre de références à la chaîne.
+        EntierNonSigne nb_ref ;
+        
+        /// Taille de la chaîne.
+        EntierNonSigne size ;
+        
+        /// Chaîne proprment dite.
+        char* s ;
+
       };
       
       inline TamponChaine::TamponChaine(const EntierNonSigne& _size)
@@ -177,6 +165,9 @@ namespace ProjetUnivers {
       inline TamponChaine::operator char *() const {
         return s;
       }
+
+        
+      
     }
   }
 }

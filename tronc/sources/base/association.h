@@ -21,7 +21,7 @@
 #ifndef ASSOCIATION_H
 #define ASSOCIATION_H
 
-#include "exception_base.h"
+#include <base/exception_base.h>
 
 namespace ProjetUnivers {
 
@@ -30,14 +30,13 @@ namespace ProjetUnivers {
     template <class OBJET> class Composition ;
     template <class OBJET> class NoeudAssociation ;
     template <class OBJET> class IterateurListeAssociation ;
-    /*
-    CLASS
-      Association
     
-      Classe générique désignant une association d'un élément d'une classe 
-      d'objets.
+    /// Classe générique désignant une association d'un élément d'une classe 
+    /// d'objets.
     
-    UTILISATION
+    /*!
+    Utilisation
+    
       Cette classe sert à désigner des objets en lecture et comme retours 
       de fonctions d'accès. Ainsi, lorsqu'on a besoin de désigner 
       un objet existant on utilise cette classe.
@@ -45,60 +44,60 @@ namespace ProjetUnivers {
     template <class OBJET> class Association {
     public:
     
-      // ********************
-      // GROUP: Constructeurs
-      // ********************
+      // *************************
+      /// @name Constructeurs
+      // *************************      
+      // @{  
     
     
-      /////////////////
-      // Constructeur par défaut.
+      /// Constructeur par défaut.
       Association()
         : pt(NULL)
       {}
     
     
-      ///////////////////
-      // Constructeur, prends une référence à l'objet.
+
+      /// Constructeur, prends une référence à l'objet.
       Association(OBJET &_x)
         : pt(&_x)
       {}
     
-      ///////////////////
-      // Constructeur, prends une référence à l'objet.
+
+      /// Constructeur, prends une référence à l'objet.
       Association(const OBJET &_x)
         : pt((OBJET*)&_x)
       {}
     
-      /////////////////////
-      // Constructeur de copie.
+      /// Constructeur de copie.
       Association(const Association<OBJET>& _x)
         :pt(_x.pt)
       {}
     	
-      /////////////////////
-      // Conversion de Composition en Association
+      /// Conversion de Composition en Association
       Association(const Composition<OBJET>& _x) ;
     
+     // @}
+ 
+     
+      // *************************
+      /// @name Opérateurs de déréférenciation
+      // *************************      
+      // @{  
     
-      // *************************************
-      // GROUP: Opérateurs de déréférenciation
-      // *************************************
     
-    
-      /////////////////////////
       // Vérifie que le pointeur est non NULL avant d'appeler.
       OBJET* operator ->() const ;
     
     
+     // @}
+     
+
+      // *************************
+      /// @name Affectations
+      // *************************      
+      // @{  
     
-      // *******************
-      // GROUP: Affectations
-      // *******************
-    
-    
-    
-      ////////////////////////////
-      // Affectation d'une autre association.
+      /// Affectation d'une autre association.
       Association<OBJET>& operator =(Association<OBJET> _r)
       {
     
@@ -106,75 +105,73 @@ namespace ProjetUnivers {
         return *this ;
       }
     
-      ///////////////////////////
-      // Affectation avec un pointeur d'agregation.
+      /// Affectation avec un pointeur d'agregation.
       Association<OBJET>& operator =(const Composition<OBJET>& _x) ;
     	
+      // @}
     
-      // *******************
-      // GROUP: Comparaisons
-      // *******************
+      // *************************
+      /// @name Comparaisons
+      // *************************      
+      // @{  
     
     
-      //////////////////
-      // Egalité avec une autre association.
+      /// Egalité avec une autre association.
       Booleen operator == (const Association<OBJET>& _x) const
       {
         return pt == _x.pt ;
       }
     
-      /////////////////////
       // Comparaison avec une agrégation.
       Booleen operator == (const Composition<OBJET>& _x) const ;
     
-      /////////////////////
       // Comparaison avec un pointeur.
       Booleen operator ==(const OBJET* _x) const {
     		
         return pt == _x ;
       }
     	
-      /////////////////
-      // Différence avec une autre association.
+
+      /// Différence avec une autre association.
       Booleen operator !=(const  Association<OBJET>& _x) const 
       {
         return pt != _x.pt ;
       }
     
-      /////////////////////
-      // Différence avec un pointeur.
+      /// Différence avec un pointeur.
       Booleen operator !=(const OBJET* _x) const {
     		
         return pt != _x ;
       }
       
-      /////////////////////
-      // Comparaison avec une agrégation.
+
+      /// Comparaison avec une agrégation.
       Booleen operator != (const Composition<OBJET>& _x) const ;
     
+      // @}
     private:
     
     
-      /////////////////
-      // pointeur sur l'jet en association.
+      /// pointeur sur l'jet en association.
       OBJET*	pt ;
     
-      // *******************
-      // GROUP: Interdictions
-      // *******************
+
+      // *************************
+      /// @name Interdictions
+      // *************************      
+      // @{  
     
     
-      /////////////////////////
-      // Affectation d'un pointeur. 
-      // Cette méthode est INTERDITE donc on la déclare en privé.
+      /// Affectation d'un pointeur. 
+      /// Cette méthode est INTERDITE donc on la déclare en privé.
       Association<OBJET>& operator =(OBJET* _p) ;
     
+      // @}
     
       friend class NoeudAssociation<OBJET> ;
-      //friend class IterateurListeAssociation<OBJET> ;
     };
     
-    #include "implantation/association.cxx"
+    #include <base/implantation/association.cxx>
 
   }
 }

@@ -21,23 +21,20 @@
 #ifndef _PU_BASE_ENSEMBLE_COMPOSITION_H_
 #define _PU_BASE_ENSEMBLE_COMPOSITION_H_
 
-#include "association.h"
-#include "implantation/liste_composition.h"
+#include <base/association.h>
+#include <base/implantation/liste_composition.h>
 
 
 namespace ProjetUnivers {
 
   namespace Base {
     
-    /*
-    CLASS
-      EnsembleComposition
     
-      Représente un ensemble d'éléments d'une classe d'objets en composition.
+    ///  Représente un ensemble d'éléments d'une classe d'objets en composition.
     
-    UTILISATION
-      Même utilisations que pour Composition, en ce qui concerne les ensembles.
-    */
+    /// UTILISATION
+    ///   Même utilisations que pour Composition, en ce qui concerne 
+    ///   les ensembles.
     template <class OBJET> class EnsembleComposition 
         : public ListeComposition<OBJET> {
 
@@ -45,41 +42,40 @@ namespace ProjetUnivers {
     
     
       
-      // ********************
-      // GROUP: Construction
-      // ********************
-    
+      // *************************
+      /// @name Construction
+      // *************************      
+      // @{  
+     
       
-      //////////////
       // Constructeur par défaut.
       EnsembleComposition() ;
     
-      //////////////
       // Destructeur par défaut.
       ~EnsembleComposition() ;
     
-      /////////////////
       // Aggrege un élément à l'ensemble.
       void Ajouter(OBJET* _elt);
     
-      //////////////////
       // Enlève l'élément _el, s'il n'y est pas ne fait rien.
       void Enlever(const Association< OBJET >& _el) ;
     
+      // @}   
     
-      // ********************
-      // GROUP: Consultation
-      // ********************
+      // *************************
+      /// @name Consultation
+      // *************************      
+      // @{  
+     
     
-    
-      ///////////////////
-      // Determine si _el fait partie de l'ensemble.
+      /// Determine si _el fait partie de l'ensemble.
       Booleen Contient(const Association< OBJET >& _el) const ;
     
-    
+ 
+      // @}   
     };
     
-#include "implantation/ensemble_composition.cxx"
+#include <base/implantation/ensemble_composition.cxx>
 
   }
 }

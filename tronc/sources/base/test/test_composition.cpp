@@ -19,9 +19,9 @@
  ***************************************************************************/
 
 
-#include "composition.h"
-#include "test_composition.h"
-#include "types.h"
+#include <base/composition.h>
+#include <base/types.h>
+#include <base/test/test_composition.h>
 
 
 CPPUNIT_TEST_SUITE_REGISTRATION(ProjetUnivers::Base::Test::TestComposition) ;

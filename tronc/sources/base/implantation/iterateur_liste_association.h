@@ -21,9 +21,9 @@
 #ifndef _PU_BASE_ITERATEUR_LISTE_ASSOCIATION_H_
 #define _PU_BASE_ITERATEUR_LISTE_ASSOCIATION_H_
 
-#include "association_virtuelle.h"
-#include "noeud_association.h"
-#include "iterateur_liste.h"
+#include <base/association_virtuelle.h>
+#include <base/implantation/noeud_association.h>
+#include <base/implantation/iterateur_liste.h>
 
 
 
@@ -97,7 +97,7 @@ namespace ProjetUnivers {
     
     };
     
-    #include "iterateur_liste_association.cxx"
+    #include <base/implantation/iterateur_liste_association.cxx>
 
   }
 }

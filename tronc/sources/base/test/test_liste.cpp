@@ -18,10 +18,10 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include "test_liste.h"
+#include <base/test/test_liste.h>
 
-#include "liste_association.h"
-#include "iterateur_liste_association.h"
+#include <base/test/liste_association.h>
+#include <base/test/iterateur_liste_association.h>
 
 
 CPPUNIT_TEST_SUITE_REGISTRATION(ProjetUnivers::Base::Test::TestListe) ;

@@ -25,7 +25,7 @@
 
 
 
-#include "exception_base.h"
+#include <base/exception_base.h>
 
 namespace ProjetUnivers {
 
@@ -33,13 +33,10 @@ namespace ProjetUnivers {
   
     template <class OBJET> class Association ;    
     
-    /*
-    CLASS
-      Composition
+    ///  Classe générique réalisant la composition d'un élément d'une classe 
+    ///  d'objets.
     
-      Classe générique réalisant la composition d'un élément d'une classe 
-      d'objets.
-    
+    /*!
     UTILISATIONS
     	
       Utilisez cette classe partout ! Mais surtout dans les trois cas suivants:
@@ -51,8 +48,8 @@ namespace ProjetUnivers {
       détruire les jets alloués dans le tas. Un simple pointeur est insuffisant 
       pour une bonne gestion des exceptions.
     
-    EXAMPLE
     
+    \code
       Classe1* fabriquant() {
     
       // résultat :
@@ -65,15 +62,16 @@ namespace ProjetUnivers {
       // on se sépare de l'jet pointé :
       return res.release() ;
       }
-    
-    END
+    \endcode
+
     
       2. Pour pointer sur les attributs agrégés à une classe. Cela évite 
       d'écrire un destructeur, car celui généré par defaut par les compilateurs 
       appèle le destructeur de tous les attributs.
     
-    EXAMPLE
+    Exemple
     
+    \code
       class A {
     
       ....
@@ -84,11 +82,13 @@ namespace ProjetUnivers {
       Composition<A>	attribut_agrégé_classe_A ;
     
       };
+    \endcode
     END
     
       3. Pour gérer une variable locale.
     
-    EXAMPLE
+    Exemple
+    \code    
     
       <i>type</i> <b>fonction</b>( ... ) {
     
@@ -98,28 +98,29 @@ namespace ProjetUnivers {
       ....
     		
       }
+    \endcode
     
-    END
+    Fin de l'exemple
     
       En effet, si surviens une exception pendant la "manipulation" de temp ou 
       d'un autre jet, l'jet désigné par temp sera detruit.
     
     */
     template <class OBJET> class Composition {
-    
     public:
     
     
-      ////////////////////
-      // Le destructeur détruit l'objet pointé, c'est là tout l'intérêt de 
-      // cette classe.
+      /// Le destructeur détruit l'objet pointé.
+
+      /// C'est là tout l'intérêt de cette classe.
       ~Composition()
       {
         delete pt ;
       }
     
-      /////////////////
-      // Vérifie que le pointeur est non NULL : 
+      /// Accès à un membre de l'onjet pointé.
+      
+      /// Vérifie que le pointeur est non NULL. 
       OBJET* operator ->() const
       {
         if (pt == NULL) 
@@ -129,37 +130,40 @@ namespace ProjetUnivers {
         return pt ;
       }
     
-      // *******************************
-      // GROUP: Opérateurs de conversion
-      // *******************************
+
+      // *************************
+      /// @name Opérateurs de conversion
+      // *************************      
+      // @{  
       
-      ////////////////////
-      // Accès à l'objet agrégé.
+
+      /// Accès à l'objet pointé.
       const OBJET& operator *() const
       {
         return *pt ;
       }
     
+      /// Accès à l'objet pointé.
       OBJET& operator *() 
       {
         return *pt ;
       }
     
-    
-      // ***********************
-      // GROUP: Adoption/Abandon
-      // ***********************
-    
-      ///////////////////
-      // Constructeur, l'objet pointé est adopté. Par défaut, 
-      // le pointeur pointe sur NULL.
+      // @}
+          
+      // *************************
+      /// @name Adoption/Abandon
+      // *************************      
+      // @{  
+      
+      /// Constructeur, l'objet pointé est adopté. Par défaut, 
+      /// le pointeur pointe sur NULL.
       Composition(OBJET* _pt = NULL)
         : pt(_pt)
       {}
     
-      ////////////////////
-      // Affectation entre un pointeur et un pointeur d'agrégation, 
-      // l'objet est adopté.
+      /// Affectation entre un pointeur et un pointeur d'agrégation, 
+      /// l'objet est adopté.
       Composition<OBJET>& operator =(OBJET* _pt) {
     
         if (pt != _pt) {
@@ -172,9 +176,8 @@ namespace ProjetUnivers {
     	
       }
     
-      /////////////////////
-      // Affectation entre pointeurs d'agrégation, cette 
-      // affectation transfére la responsabilité de l'objet.
+      /// Affectation entre pointeurs d'agrégation, cette 
+      /// affectation transfére la responsabilité de l'objet.
       Composition<OBJET>& operator =(Composition<OBJET>& _x) {
     
         if (*this != _x) {
@@ -186,11 +189,12 @@ namespace ProjetUnivers {
     
         return *this ;
       }
-    
-      /////////////////
-      // Renvoie un pointeur sur l'objet agrégé. Cet objet n'est plus agrégé. 
-      // Cette fonction permet à l'agrégation de se libérer de la 
-      // responsabilité de l'objet pointé.
+      
+      /// Libère l'objet pointé.
+      
+      /// L'objet composant ne l'est plus 
+      /// Cette fonction permet de transferer la 
+      /// responsabilité de l'objet pointé à une autre composition.
       OBJET* Liberer() {
     
         OBJET* rc = pt ;
@@ -198,40 +202,52 @@ namespace ProjetUnivers {
         return rc ;
       }
     
-      // *****************************************************
-      // GROUP: Opérateurs de comparaison avec une association 
-      // *****************************************************
+      // @}
+
     
-      /////////////////////
-      // Comparaison avec une association.
+      // *************************
+      /// @name Opérateurs de comparaison
+      // *************************      
+      // @{  
+      
+      /// Comparaison avec une Association.
       Booleen operator == (const Association<OBJET>& _p) ;
     
-      /////////////////////
-      // Comparaison avec une association.
+      /// Comparaison avec une Association.
       Booleen operator !=(const  Association<OBJET>& _p) ;
     	
-    
+      // @}
+          
     private:
     
-      ////////////////////
-      // Pointeur sur l'objet agrégé.
+      /// Pointeur sur l'objet agrégé.
       OBJET* pt ;
     
     
-      // GROUP: Méthodes Interdites
-    
-      /////////////////
-      // Cette méthode n'est pas implémentée, pour qu'elle ne soit pas utilisée.
+
+      // *************************
+      /// @name Méthodes Interdites
+      // *************************      
+      // @{  
+      
+      /// Méthode Interdite
+      
+      /// Cette méthode n'est pas implémentée, pour qu'elle ne soit 
+      /// pas utilisée.
       void operator [](size_t) ;
     
-      /////////////////
-      // Cette méthode n'est pas implémentée, pour qu'elle ne soit pas utilisée.
+      /// Méthode Interdite
+
+      /// Cette méthode n'est pas implémentée, pour qu'elle ne soit pas 
+      /// utilisée.
       Composition(const Composition< OBJET >&) ;
     
+      // @}
+      
       friend class Association<OBJET> ;
     };
     
-    #include "implantation/composition.cxx"
+    #include <base/implantation/composition.cxx>
   }
 }
 

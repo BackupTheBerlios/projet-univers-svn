@@ -21,7 +21,7 @@
 #ifndef _PU_BASE_NOEUD_ASSOCIATION_H_
 #define _PU_BASE_NOEUD_ASSOCIATION_H_
 
-#include "noeud_abstrait.h"
+#include <base/implantation/noeud_abstrait.h>
 
 
 namespace ProjetUnivers {
@@ -32,25 +32,19 @@ namespace ProjetUnivers {
     template <class OBJET> class IterateurListeAssociation ;
     template <class OBJET> class IterateurTamponListeAssociation ;
    
-    /*
-    CLASS
-      NoeudAssociation
     
-      Classe représentant un noeud d'une liste en association.
-    */
+    ///  Classe représentant un noeud d'une liste en association.
     template <class OBJET> class NoeudAssociation 
       : public NoeudAbstrait {
     
      public:
     
-      /////////////
-      // Constructeur.
+      /// Constructeur.
       NoeudAssociation(const Association< OBJET > _elt) ;
 
     private:
     
-      ////////////
-      // Elément.
+      /// Elément.
       Association< OBJET > element ;
 
       friend class IterateurListeAssociation< OBJET > ;
@@ -58,7 +52,7 @@ namespace ProjetUnivers {
     
     };
     
-    #include "noeud_association.cxx"
+    #include <base/implantation/noeud_association.cxx>
   }
 }
 #endif

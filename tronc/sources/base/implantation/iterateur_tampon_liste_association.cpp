@@ -18,7 +18,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include "iterateur_tampon_liste_association.h"
+#include <base/implantation/iterateur_tampon_liste_association.h>
 
 
 

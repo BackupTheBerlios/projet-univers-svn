@@ -25,9 +25,9 @@
 
 #include <cppunit/extensions/HelperMacros.h>
 
-#include "ensemble_composition.h"
-#include "types.h"
-#include "composition.h"
+#include <base/ensemble_composition.h>
+#include <base/types.h>
+#include <base/composition.h>
 
 
 namespace ProjetUnivers {
@@ -36,15 +36,11 @@ namespace ProjetUnivers {
   
     namespace Test {
       
-      // une classe locale pour le test  
+      /// une classe locale pour le test  
       class TempComposition ;
         
-      /*
-      CLASS
-        TestEnsembleComposition
       
-        Classe permettant de tester la classe des ensemble en composition.
-      */
+      ///  Classe permettant de tester la classe des ensemble en composition.
       class TestEnsembleComposition : public CppUnit::TestFixture {
       protected:
       
@@ -54,16 +50,13 @@ namespace ProjetUnivers {
         // ****************************
       
         
-        ///////////////
-        // Teste l'ajout d'un élément
+        /// Teste l'ajout d'un élément
         void testAjouter();
       
-        ///////////////
-        // Teste la suppression d'un élément
+        /// Teste la suppression d'un élément
         void testEnlever();
         
-        ///////////////
-        // Teste l'ensemble vide
+        /// Teste l'ensemble vide
         void testVide();
         
         
@@ -102,15 +95,14 @@ namespace ProjetUnivers {
       private:
       
       
-        ////////////////
-        // Un ensemble en association
+        /// Un ensemble en association
         EnsembleComposition< TempComposition > ensembleTeste ; 
   
  
-        // conteneur temporaire des éléments
+        /// conteneur temporaire des éléments
         Composition< TempComposition > element ;
 
-        // réérence temporaire
+        /// réérence temporaire
         Association< TempComposition > referenceElement ;
         
       };

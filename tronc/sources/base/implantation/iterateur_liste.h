@@ -21,7 +21,7 @@
 #ifndef _PU_BASE_ITERATEUR_LISTE_H_
 #define _PU_BASE_ITERATEUR_LISTE_H_
 
-#include "iterateur_liste_abstrait.h"
+#include <base/implantation/iterateur_liste_abstrait.h>
 
 
 namespace ProjetUnivers {
@@ -33,43 +33,31 @@ namespace ProjetUnivers {
     class ListeAbstraite ;
     
     
-    /*
-    CLASS
-    	IterateurListe
+    ///	Classe des itérateurs non constants sur les listes
     
-    	Classe des itérateurs non constants sur les listes
-    
-    EXPLICATION
-    	
-    	Cet itérateur est à utiliser lorsqu'on désire modifier 
-    	la structure de la liste.
-    
-    */
+    /// EXPLICATION
+    ///	Cet itérateur est à utiliser lorsqu'on désire modifier 
+    ///	la structure de la liste.
     class IterateurListe : public IterateurListeAbstrait {
-    
-    protected:
-    
-    	////////////
-    	// Ajoute un noeud après.
-    	void AjouterApres(NoeudAbstrait* _n) ;
-    
-    	/////////////
-    	// Ajoute un noeud avant.
-    	void AjouterAvant(NoeudAbstrait* _n) ;
     
     public:
     
-    	////////////////
-    	// Constructeur.
+    	/// Constructeur.
     	IterateurListe(const ListeAbstraite& _list) ;
     
-    	////////////////
-    	// Constructeur.
+    	/// Constructeur.
     	IterateurListe(const ListeAbstraite& _list, const Booleen& _inversee) ;
     
-    	///////////////
-    	// Enlève le noeud courant.
+    	/// Enlève le noeud courant.
     	void Enlever() ;
+    
+    protected:
+    
+      /// Ajoute un noeud après.
+      void AjouterApres(NoeudAbstrait* _n) ;
+    
+      /// Ajoute un noeud avant.
+      void AjouterAvant(NoeudAbstrait* _n) ;
     
     };
   }

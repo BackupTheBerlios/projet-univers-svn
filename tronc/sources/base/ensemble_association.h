@@ -21,9 +21,9 @@
 #ifndef _PU_BASE_ENSEMBLE_ASSOCIATION_H_
 #define _PU_BASE_ENSEMBLE_ASSOCIATION_H_
 
-#include "association.h"
-#include "implantation/liste_association.h"
-#include "implantation/iterateur_liste_association.h"
+#include <base/association.h>
+#include <base/implantation/liste_association.h>
+#include <base/implantation/iterateur_liste_association.h>
 
 namespace ProjetUnivers {
 
@@ -31,13 +31,12 @@ namespace ProjetUnivers {
 
 
     
-    /*
-    CLASS
-      EnsembleAssociation
     
-      Représente un ensemble d'élément d'une classe d'objets en association.
+    ///  Représente un ensemble d'élément d'une classe d'objets en association.
     
-    UTILISATION
+    /*!
+      Utilisation
+      
       Même utilisations que pour Association, en ce qui concerne les ensembles.
     */
     template <class OBJET> class EnsembleAssociation 
@@ -47,47 +46,46 @@ namespace ProjetUnivers {
     
     
       
-      // ********************
-      // GROUP: Construction
-      // ********************
-    
+      // *************************
+      /// @name Construction
+      // *************************      
+      // @{      
       
-      //////////////
-      // Constructeur par défaut.
+
+      /// Constructeur par défaut.
+      
+      /// Construit un ensemble vide.
       EnsembleAssociation() ; 
     
-      /////////////////
-      // Constructeur de copie, _e est vidé après cela.
+      /// Constructeur de copie.
       EnsembleAssociation(const EnsembleAssociation< OBJET >& _e);
     
-      /////////////////
-      // Ajoute un élément à l'ensemble.
+      /// Ajoute un élément à l'ensemble.
       void Ajouter(const Association< OBJET >& _elt);
 
-      /////////////////
-      // Ajoute des éléments à l'ensemble.
+      /// Ajoute des éléments à l'ensemble.
       void Ajouter(const EnsembleAssociation< OBJET >& _elt);
     
-      //////////////////
-      // Enlève l'élément _el, s'il n'y est pas ne fait rien.
+      /// Enlève l'élément _el, s'il n'y est pas ne fait rien.
       void Enlever(const Association< OBJET >& _el) ;
     
+      // @}
 
-      // ********************
-      // GROUP: Consultation
-      // ********************
+      // *************************
+      /// @name Consultation
+      // *************************      
+      // @{      
     
-    
-      ///////////////////
-      // Determine si _el fait partie de l'ensemble.
+      /// Determine si _el fait partie de l'ensemble.
       Booleen Contient(const Association< OBJET >& _el) const ;
     
-      /////////////////////
-      // Egalité de deux ensembles.
+      /// Egalité de deux ensembles.
       Booleen operator==(const EnsembleAssociation<OBJET>& _r) const ;
+      
+      // @}      
     };
     
-#include "implantation/ensemble_association.cxx"
+#include <base/implantation/ensemble_association.cxx>
     
   }
 }

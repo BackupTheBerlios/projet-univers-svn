@@ -24,9 +24,9 @@
 
 
 
-#include "iterateur_liste.h"
-#include "noeud_association.h"
-#include "association_virtuelle.h"
+#include <base/implantation/iterateur_liste.h>
+#include <base/implantation/noeud_association.h>
+#include <base/association_virtuelle.h>
 
 namespace ProjetUnivers {
 
@@ -35,13 +35,9 @@ namespace ProjetUnivers {
     
     template <class OBJET> class TamponListeAssociation ;
     
-    /*
-    CLASS
-      IterateurTamponListeAssociation
     
-      Classe générique fournissant un itérateur sur les listes AssociationListBuffer.
-    
-    */
+    /// Classe générique fournissant un itérateur sur les listes 
+    /// TamponListeAssociation.
     template <class OBJET> class IterateurTamponListeAssociation
       : public IterateurListe {
     
@@ -52,17 +48,14 @@ namespace ProjetUnivers {
       // **********************************************
     
     
-      //////////////////
-      // Constructeur, prenant la liste sur laquelle on va itérer.
+      /// Constructeur, prenant la liste sur laquelle on va itérer.
       IterateurTamponListeAssociation(const TamponListeAssociation<OBJET> &_l);
     
     
-      ////////////
-      // Ajoute un élément après.
+      /// Ajoute un élément après.
       void AjouterApres(const Association< OBJET > _n) ;
     
-      /////////////
-      // Ajoute un élément avant.
+      /// Ajoute un élément avant.
       void AjouterAvant(const Association< OBJET > _n) ;
     
     
@@ -70,36 +63,31 @@ namespace ProjetUnivers {
       // GROUP: Méthodes d'accès
       // ***********************
     
-      ///////////////
-      // Renvoie l'élément courant en association.
+      /// Renvoie l'élément courant en association.
       operator Association< OBJET >() ;
     
-      ///////////////
-      // Renvoie l'élément courant en référence.
+      /// Renvoie l'élément courant en référence.
       operator const OBJET&() ;
   
-      /////////////
-      // Accès à l'objet courant.
+      /// Accès à l'objet courant.
       OBJET& operator *() const ;
     
-      /////////////
-      // Opérateur de déréférenciation.
+      /// Opérateur de déréférenciation.
       OBJET* operator ->() const ;
     
     
     
     protected:
     
-      /////////////
-      // Conversion dynamique de noeudCourant qui est un NoeudAbstrait 
-      // en un NoeudAssociation<OBJET>.
+      /// Conversion dynamique de noeudCourant qui est un NoeudAbstrait 
+      /// en un NoeudAssociation<OBJET>.
       UTILISATION_ASSOCIATION_VIRTUELLE(NoeudAssociation<OBJET>,noeudCourant)
     
     
     };
     
     
-    #include "iterateur_tampon_liste_association.cxx"
+    #include <base/implantation/iterateur_tampon_liste_association.cxx>
   }
 }
 

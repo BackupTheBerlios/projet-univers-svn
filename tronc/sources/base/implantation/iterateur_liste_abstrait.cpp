@@ -18,15 +18,16 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include "iterateur_liste_abstrait.h"
-#include "association.h"
+#include <base/implantation/iterateur_liste_abstrait.h>
+#include <base/association.h>
 
 namespace ProjetUnivers {
 
   namespace Base {
     
-    IterateurListeAbstrait::IterateurListeAbstrait(const Association< NoeudAbstrait >& n,
-    					       const Association<ListeAbstraite>& l)
+    IterateurListeAbstrait::IterateurListeAbstrait(
+                    const Association< NoeudAbstrait >& n,
+    					      const Association<ListeAbstraite>& l)
     : BASE_VREF(noeudCourant)(n),
       BASE_VREF(liste)(l)
     {}

@@ -26,34 +26,31 @@
 #include <iostream>
 #include <string>
 
-#include "types.h"
-#include "implantation/tampon_chaine.h"
-#include "min_max.h"
+#include <base/types.h>
+#include <base/implantation/tampon_chaine.h>
+#include <base/min_max.h>
 
 
 namespace ProjetUnivers {
 
   namespace Base {
     
-    /*
-    CLASS
-    	Chaine
     
-    	Classe des chaînes de caractères.
+    ///	Classe des chaînes de caractères.
     
-    FONCTIONNEMENT
-    
-    	Cette classe évite les copies de chaînes en maintenant le nombre de 
-    	référence à une chaîne particulière, c'est le rôle de StringBuffer qui contient 
-    	effectivement un char*.
-     */
+    /// FONCTIONNEMENT 
+    /// 
+    ///	  Cette classe évite les copies de chaînes en maintenant le nombre de 
+    ///	  référence à une chaîne particulière, c'est le rôle de 
+    ///   TamponChaine qui contient effectivement un char*.
     class Chaine {
     public:
     
-      ///////////////////////
-      // GROUP: Constructeurs
-      ///////////////////////
-    
+      // *************************
+      /// @name Constructeurs
+      // *************************      
+      // @{  
+     
       Chaine(const char* _s, int _len);
       Chaine();
       Chaine(const char* _s);
@@ -70,8 +67,7 @@ namespace ProjetUnivers {
       Chaine(double _val);
         
       ~Chaine();
-        
-      //operator Int () const ;
+      
     
     	
       Chaine& operator = (const Chaine& _s);
@@ -87,7 +83,7 @@ namespace ProjetUnivers {
       char& operator [] (int _pos);
     
       /////////////////
-      // Renvoie la même chaîne en majuscule.
+      /// Renvoie la même chaîne en majuscule.
       Chaine upper() const ;
     
       Chaine operator() (int _pos, int _len) const;
@@ -99,12 +95,13 @@ namespace ProjetUnivers {
       Chaine& operator += (char _c);
       Chaine& append(char _c);
     
-      
+      // @}     
     
-      // ********************************
-      // GROUP: Opérateurs de comparaison
-      // ********************************
-    
+      // *************************
+      /// @name Opérateurs de comparaison
+      // *************************      
+      // @{  
+     
     
       
       friend inline Booleen operator == (const Chaine& _s1, const Chaine& _s2);
@@ -114,7 +111,7 @@ namespace ProjetUnivers {
       friend inline Booleen operator >= (const Chaine& _s1, const Chaine& _s2);
       friend inline Booleen operator > (const Chaine& _s1, const Chaine& _s2);
     
-      
+      // @}
     
     
       // GROUP: Opérateurs de construction
@@ -125,13 +122,17 @@ namespace ProjetUnivers {
       friend inline Chaine operator + (const Chaine& _s, char _c);
       friend inline Chaine operator + (char _c, const Chaine& _s);
     
-      // ****************
-      // GROUP: Recherche
-      // ****************
+
+      // *************************
+      /// @name Recherche
+      // *************************      
+      // @{  
       
       Booleen contains(const Chaine& _s) const;
       int find(const Chaine& _s) const;
-    
+
+      // @}
+          
     protected:
         
       short cmp(const Chaine& _s) const;
@@ -144,11 +145,11 @@ namespace ProjetUnivers {
     private:
     
       ////////////////
-      // Prends une référence à _p_rep.
+      /// Prends une référence à _p_rep.
       static Implantation::TamponChaine* take_rep(Implantation::TamponChaine* _p_rep);
     
       //////////////////
-      // Abandonne la référence à _p_rep.
+      /// Abandonne la référence à _p_rep.
       static void drop_rep(Implantation::TamponChaine* _p_rep);
     
       static Implantation::TamponChaine chaineVide ;
@@ -156,7 +157,7 @@ namespace ProjetUnivers {
       static char number_buffer[];
     
       //////////////////
-      // Copie partagée.
+      /// Copie partagée.
       Implantation::TamponChaine* p_rep;
     
     

@@ -22,8 +22,8 @@
 #ifndef _PU_BASE_TAMPON_LISTE_ASSOCIATION_H_
 #define _PU_BASE_TAMPON_LISTE_ASSOCIATION_H_
 
-#include "association.h"
-#include "iterateur_tampon_liste_association.h"
+#include <base/association.h>
+#include <base/implantation/iterateur_tampon_liste_association.h>
 
 
 namespace ProjetUnivers {
@@ -34,20 +34,13 @@ namespace ProjetUnivers {
     template <class OBJET> class ListeAssociation ;
     
     
-    /*
-    CLASS
-      TamponListeAssociation
     
-      Classe générique des listes internes d'association. Cette classe ne doit 
-      pas être utilisée directement. D'ailleurs tout est privé pour empécher 
-      de vouloir l'utiliser. 
+    ///  Classe générique des listes internes d'association. Cette classe ne doit 
+    ///  pas être utilisée directement. D'ailleurs tout est privé pour empécher 
+    ///  de vouloir l'utiliser. 
     
-      Elle permet de partager les listes en association, et de construire des 
-      listes temporaires qui ne sont pas détruites lorsqu'on itère dessus.
-    
-    
-    
-    */
+    ///  Elle permet de partager les listes en association, et de construire des 
+    ///  listes temporaires qui ne sont pas détruites lorsqu'on itère dessus.
     template <class OBJET> class TamponListeAssociation 
       : public ListeAbstraite {
     
@@ -59,33 +52,26 @@ namespace ProjetUnivers {
       // ********************
     
     
-      //////////////
-      // Constructeur.
+      /// Constructeur.
       TamponListeAssociation() ;
     
-      //////////////
-      //Destructeur.
+      /// Destructeur.
       ~TamponListeAssociation() ;
     
-      //////////////
-      // Constructeur de copie.
+      /// Constructeur de copie.
       TamponListeAssociation(const TamponListeAssociation< OBJET >& _l) ;
     
-      ///////////////
-      // Ajoute un nouvel élément en début de liste.
+      /// Ajoute un nouvel élément en début de liste.
       void AjouterEnTete(const Association< OBJET > _elt) ;
     
-      ///////////////
-      // Ajoute un nouvel élément en fin de liste.
+      /// Ajoute un nouvel élément en fin de liste.
       void AjouterEnQueue(const Association< OBJET > _elt) ;
     
-      ////////////////
-      // Obtient une référence, et donc augmente le nombre de référencants.
+      /// Obtient une référence, et donc augmente le nombre de référencants.
       TamponListeAssociation< OBJET >* Prendre() ;
     
-      ////////////////
-      // Relache une référence et renvoie 
-      // vrai s'il faut la détruire.
+      /// Relache une référence et renvoie 
+      /// vrai s'il faut la détruire.
       Booleen Laisser() ;
     
       
@@ -96,16 +82,13 @@ namespace ProjetUnivers {
       // ***********************
     
     
-      ///////////////////
-      // Determine si _el fait partie de la liste et renvoie sa position.
+      /// Determine si @_el fait partie de la liste et renvoie sa position.
       unsigned int TrouverPosition(const Association< OBJET >& _el) const ;
     
-      //////////////////
-      // Enlève l'élément à la position _pos;
+      /// Enlève l'élément à la position @_pos;
       void Enlever(unsigned int _pos) ;
     
-      ////////////////////
-      // renvoie le nombre de références.
+      /// renvoie le nombre de références.
       unsigned int NombreDeReferences() const ;
       
       
@@ -114,24 +97,20 @@ namespace ProjetUnivers {
       // ********************
     
      
-      ////////////////////
-      // Nombre de références à la liste, 
-      // lorsque ce nombre tombe à zéro, il y a destruction.
+      /// Nombre de références à la liste, 
+      /// lorsque ce nombre tombe à zéro, il y a destruction.
       unsigned int nombreDeReferences ;
     
-      ///////////////
-      // Ce sont les seules classes qui ont le droit d'utiliser 
-      // les fonctionnalités de ce tampon
+      /// Ce sont les seules classes qui ont le droit d'utiliser 
+      /// les fonctionnalités de ce tampon
       friend class ListeAssociation<OBJET> ;
       friend class IterateurListeAssociation<OBJET> ;
     
     };
     
     
-    
-    // inclure le code des template dans la spec 
-    // nécessaire sur certains compilos
-    #include "tampon_liste_association.cxx"
+
+    #include <base/implantation/tampon_liste_association.cxx>
 
   }
 }

@@ -21,45 +21,37 @@
 #ifndef _PU_BASE_NOEUD_ABSTRAIT_H_
 #define _PU_BASE_NOEUD_ABSTRAIT_H_
 
-#include "composition.h"
-#include "association.h"
+#include <base/composition.h>
+#include <base/association.h>
 
 
 namespace ProjetUnivers {
 
   namespace Base {
       
-    /*
-    CLASS
-    	NoeudAbstrait
     
-    	Classe de base représentant le chainage des noeuds d'une liste.
-    */
+    ///	Classe de base représentant le chainage des noeuds d'une liste.
     class NoeudAbstrait {
     public:
     
-    	///////////////////
-    	// Elément suivant.
+    	/// Elément suivant.
     	Composition< NoeudAbstrait > suivant ;
     
-    	///////////////////
-    	// Elément précédent.
+    	/// Elément précédent.
     	Association< NoeudAbstrait > precedent ;
     
-    	///////////////
-    	// Constructeur par défaut.
+    	/// Constructeur par défaut.
+      /// \todo
+      ///   vérifier que ce constructeur est utile..
     	NoeudAbstrait() ;
     
-    	///////////////
-    	// Classe de base donc destructeur virtuel.
+    	/// Classe de base donc destructeur virtuel.
     	virtual ~NoeudAbstrait() ;
     
-    	///////////////////
-    	// Ajoute un noeud avant le noeud courant.
+    	/// Ajoute un noeud avant le noeud courant.
     	void AjouterAvant(NoeudAbstrait *_p_nouv_n_);
     
-    	//////////////////
-    	// Ajoute un noeud après le noeud courant.
+    	/// Ajoute un noeud après le noeud courant.
     	void AjouterApres(NoeudAbstrait *_p_nouv_n_);
     };
 

@@ -34,12 +34,8 @@ namespace ProjetUnivers {
     namespace Test {
 
 
-      /*
-      CLASS
-        TestComposition
       
-        Classe permettant de tester la classe de composition d'objets.
-      */
+      /// Classe permettant de tester la classe de composition d'objets.
       class TestComposition : public CppUnit::TestFixture {
       protected:
       
@@ -49,8 +45,7 @@ namespace ProjetUnivers {
         // ****************************
       
         
-        ///////////////
-        // Teste la destruction automatique d'un composant.
+        /// Teste la destruction automatique d'un composant.
         void testDestructionAutomatique();
            
       
@@ -72,12 +67,10 @@ namespace ProjetUnivers {
         
      public:
       
-        ///////////////
-        // Initialisation du test
+        /// Initialisation du test
         void setUp() ;
       
-        ///////////////
-        // Desinitialisation du test
+        /// Desinitialisation du test
         void tearDown() ;
       
       

@@ -25,10 +25,10 @@
 
 #include <cppunit/extensions/HelperMacros.h>
 
-#include "ensemble_association.h"
-#include "types.h"
-#include "composition.h"
-#include "ensemble_composition.h"
+#include <base/ensemble_association.h>
+#include <base/types.h>
+#include <base/composition.h>
+#include <base/ensemble_composition.h>
 
 namespace ProjetUnivers {
 
@@ -36,15 +36,10 @@ namespace ProjetUnivers {
   
     namespace Test {
       
-      // une classe locale pour le test  
+      /// une classe locale pour le test  
       class TempAssociation ;
         
-      /*
-      CLASS
-        TestEnsembleAssociation
-      
-        Classe permettant de tester la classe des ensemble en association.
-      */
+      ///  Classe permettant de tester la classe des ensemble en association.
       class TestEnsembleAssociation : public CppUnit::TestFixture {
       protected:
       
@@ -54,25 +49,14 @@ namespace ProjetUnivers {
         // ****************************
       
         
-        ///////////////
-        // Teste l'ajout d'un élément
+        /// Teste l'ajout d'un élément
         void testAjouter();
       
-        ///////////////
-        // Teste la suppression d'un élément
+        /// Teste la suppression d'un élément
         void testEnlever();
         
-        ///////////////
-        // Teste l'ensemble vide
+        /// Teste l'ensemble vide
         void testVide();
-        
-        /////////////////
-        // Teste la construction d'un ensemble.
-        
-        
-        /////////////////
-        // Teste la conversion d'un ensemble en composition.
-        
       
       
       
@@ -108,17 +92,16 @@ namespace ProjetUnivers {
       private:
       
       
-        ////////////////
-        // Un ensemble en association
+        /// Un ensemble en association
         EnsembleAssociation< TempAssociation > ensembleTeste ; 
   
-        // conteneur des éléments
+        /// conteneur des éléments
         EnsembleComposition< TempAssociation > elements ;
 
-        // conteneur temporaire des éléments
+        /// conteneur temporaire des éléments
         Composition< TempAssociation > element ;
 
-        // réérence temporaire
+        /// référence temporaire
         Association< TempAssociation > referenceElement ;
       
       };

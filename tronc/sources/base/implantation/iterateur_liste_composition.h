@@ -21,10 +21,10 @@
 #ifndef _PU_BASE_ITERATEUR_LISTE_COMPOSITION_H_
 #define _PU_BASE_ITERATEUR_LISTE_COMPOSITION_H_
 
-#include "association_virtuelle.h"
-#include "iterateur_liste.h"
-#include "noeud_composition.h"
-#include "liste_composition.h"
+#include <base/association_virtuelle.h>
+#include <base/implantation/iterateur_liste.h>
+#include <base/implantation/noeud_composition.h>
+#include <base/implantation/liste_composition.h>
 
 namespace ProjetUnivers {
 
@@ -32,19 +32,12 @@ namespace ProjetUnivers {
 
     template <class OBJET> class ListeComposition ;
     
-    /*
-    CLASS
-    	IterateurListeComposition
     
-    	Classe générique fournissant un itérateur sur les listes 
-    	ListeComposition.    // inclure le code des template dans la spec 
-    // nécessaire sur certains compilos
-
+    ///	Classe générique fournissant un itérateur sur les listes 
+    ///	ListeComposition.
     
-    UTILISATION
-    	Itérer sur les éléments d'une ListeComposition.
-    
-    */
+    /// UTILISATION
+    ///	Itérer sur les éléments d'une ListeComposition.
     template <class OBJET> class IterateurListeComposition 
     : public IterateurListe {
     
@@ -55,32 +48,25 @@ namespace ProjetUnivers {
     	// **********************************************
     
     
-    	//////////////////
-    	// Constructeur, prenant la liste sur laquelle on va itérer.
+    	/// Constructeur, prenant la liste sur laquelle on va itérer.
     	IterateurListeComposition(const ListeComposition< OBJET >& _l);
     
-    	///////////////////
-    	// Constructeur de copie.
+    	/// Constructeur de copie.
     	IterateurListeComposition(const IterateurListeComposition< OBJET >& _i) ;
     
-    	/////////////////
-    	// Libère l'élément courant.
+    	/// Libère l'élément courant.
     	OBJET* Liberer() ;
     
-    	////////////
-    	// Ajoute un élément après.
+    	/// Ajoute un élément après.
     	void AjouterApres(OBJET* _n) ;
     
-    	/////////////
-    	// Ajoute un élément avant.
+    	/// Ajoute un élément avant.
     	void AjouterAvant(OBJET* _n) ;
     
-    	///////////////////
-    	// Ajoute une liste.
+    	/// Ajoute une liste.
     	void Ajouter(const ListeComposition< OBJET >& _nouveaux) ;
     
-    	///////////////
-    	// Enlève le noeud courant.
+    	/// Enlève le noeud courant.
     	void Enlever() ;
 
       
@@ -89,29 +75,24 @@ namespace ProjetUnivers {
     	// ***********************
     
 
-      ///////////////
-      // Renvoie l'élément courant en association.
+      /// Renvoie l'élément courant en association.
       operator Association< OBJET >() ;
 
   
-      ///////////////
-      // Renvoie l'élément courant en référence.
+      /// Renvoie l'élément courant en référence.
       operator const OBJET&() ;
     
-    	/////////////
-    	// Opérateur de déréférenciation.
+    	/// Opérateur de déréférenciation.
     	OBJET* operator ->() const ;
     
     private:
     
-    	/////////////
-    	// Conversion dynamique de list 
-    	// en un ListeComposition<OBJET>.
+    	/// Conversion dynamique de list 
+    	/// en un ListeComposition<OBJET>.
     	UTILISATION_ASSOCIATION_VIRTUELLE(ListeComposition<OBJET>,liste)
     
-    	/////////////
-    	// Conversion dynamique de current_node qui est un ObAbstractNode 
-    	// en un NoeudComposition<OBJET>.
+    	/// Conversion dynamique de current_node qui est un ObAbstractNode 
+    	/// en un NoeudComposition<OBJET>.
     	UTILISATION_ASSOCIATION_VIRTUELLE(NoeudComposition<OBJET>,noeudCourant)
     
     
@@ -119,7 +100,7 @@ namespace ProjetUnivers {
     
     };
     
-    #include "iterateur_liste_composition.cxx"
+    #include <base/implantation/iterateur_liste_composition.cxx>
 
   }
 }

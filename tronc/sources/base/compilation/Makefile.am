@@ -1,6 +1,6 @@
 noinst_LIBRARIES = libbase.a
 
-INCLUDES = -I.. -I../implantation
+INCLUDES = -I../..
 
 libbase_a_SOURCES = ../implantation/association.cpp \
 ../implantation/chaine.cpp \

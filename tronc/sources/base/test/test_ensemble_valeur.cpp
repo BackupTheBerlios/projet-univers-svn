@@ -19,7 +19,7 @@
  ***************************************************************************/
 
 
-#include "test_ensemble_valeur.h"
+#include <base/test/test_ensemble_valeur.h>
 
 
 // enregistrement du test

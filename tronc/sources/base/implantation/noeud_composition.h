@@ -21,7 +21,7 @@
 #ifndef _PU_BASE_NOEUD_COMPOSITION_H_
 #define _PU_BASE_NOEUD_COMPOSITION_H_
 
-#include "noeud_abstrait.h"
+#include <base/implantation/noeud_abstrait.h>
 
 namespace ProjetUnivers {
 
@@ -30,35 +30,28 @@ namespace ProjetUnivers {
     template <class OBJET> class IterateurListeComposition ;
     
     
-    /*
-    CLASS
-      NoeudComposition
     
-      Classe des noeuds de ObCompositionList.
-    */
+    ///  Classe des noeuds de ObCompositionList.
     template <class OBJET> class NoeudComposition : public NoeudAbstrait {
     public:
     
-      /////////////////
-      // Constructeur.
+      /// Constructeur.
       NoeudComposition(OBJET* _elt) ;
     
-      /////////////////
-      // Libère l'élément .
+      /// Libère l'élément .
       OBJET* Liberer() ;
     
     
     private:
     
-      ///////////////
-      // Elément.
+      /// Elément.
       Composition< OBJET >	element ;
     
       friend class IterateurListeComposition<OBJET> ;
     
     };
     
-    #include "noeud_composition.cxx"
+    #include <base/implantation/noeud_composition.cxx>
 
   }
 }

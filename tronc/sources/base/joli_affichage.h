@@ -19,32 +19,31 @@
  ***************************************************************************/
 
 
-#ifndef PRETTY_PRINT_H_
-#define PRETTY_PRINT_H_
+#ifndef _JOLI_AFFICHAGE_
+#define _JOLI_AFFICHAGE_
 
 
-// Includes
-#include "chaine.h"
+
+#include <base/chaine.h>
 
 namespace ProjetUnivers {
 
   namespace Base {
     
+    /// @name Affichage avec indentation
+    // @{
     
-    
-    /////////////
-    // passe à la ligne suivante
+    /// Passe à la ligne suivante
     Chaine FinDeLigne() ;
     
-    /////////////
-    // passe à la ligne suivante, augmente l'indentation
+    /// Passe à la ligne suivante, augmente l'indentation
     Chaine FinDeLigneAugmenteIndentation() ;
     
-    /////////////
-    // passe à la ligne suivante, diminue l'indentation
+    /// Passe à la ligne suivante, diminue l'indentation
     Chaine FinDeLigneDiminueIndentation() ;
 
+    // @}
   }
 }
 
-#endif // PRETTY_PRINT_H_
+#endif // _JOLI_AFFICHAGE_

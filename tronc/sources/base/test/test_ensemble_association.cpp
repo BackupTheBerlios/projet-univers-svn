@@ -19,7 +19,7 @@
  ***************************************************************************/
 
 
-#include "test_ensemble_association.h"
+#include <base/test/test_ensemble_association.h>
 
 
 // enregistrement du test

@@ -24,9 +24,8 @@
 
 
 
-#include "chaine.h"
-
-#include "exception.h"
+#include <base/chaine.h>
+#include <base/exception.h>
 
 
 namespace ProjetUnivers {
@@ -34,24 +33,18 @@ namespace ProjetUnivers {
   namespace Base {
   
   
-    /*
-    CLASS
-      ExceptionBase
     
-      Classe des exceptions utilisées dans le module Base.
-    
-    
-    */
+    ///  Classe des exceptions utilisées dans le module Base.
     class ExceptionBase : public Exception {
     public:
 
-      ////////////////
-      // Constructeur.
+      /// Constructeur.
       ExceptionBase(const Chaine& _message) ;
 
-      ////////////////
-      // Constructeur de copie, le constructeur de copie est obligatoire
-      // pour les exceptions.
+      /// Constructeur de copie. 
+      /// \remark
+      ///   le constructeur de copie est obligatoire
+      ///   pour les exceptions.
       ExceptionBase(const ExceptionBase& x) ;
     
     };

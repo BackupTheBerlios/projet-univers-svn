@@ -24,66 +24,58 @@
 #define _PU_BASE_FONCTION_COMPOSITION_VALEUR_OBJET_H_
 
 
-#include "association.h"
+#include <base/association.h>
 
 
 namespace ProjetUnivers {
 
   namespace Base {
 
-    /*
-    CLASS
-      FonctionCompositionValeurObjet
-    
-      Une fonction, au sens mathématique, qui associe à tout élément de VALEUR 
-      un élément de OBJET. 
+    ///  Une fonction, au sens mathématique, qui associe à tout élément de VALEUR 
+    ///  un élément de OBJET. 
       
-      VALEUR doit être une classe de valeur, et OBJET une classe d'objet. 
-      
-      Cette fonction est en composition : lorsqu'elle est detruite, les 
-      éléments de OBJET le sont aussi.
-      
-    
-    */
+    ///  VALEUR doit être une classe de valeur, et OBJET une classe d'objet. 
+    ///  
+    ///  Cette fonction est en composition : lorsqu'elle est detruite, les 
+    ///  éléments de OBJET le sont aussi.
     template <class VALEUR, class OBJET > 
               class FonctionCompositionValeurObjet {
     public:
     
-      // *******************
-      // GROUP: Construction
-      // *******************
+      // *************************
+      /// @name Construction
+      // *************************      
+      // @{      
     
     
-      //////////////////
-      // Constructeur.
+      /// Constructeur.
       FonctionCompositionValeurObjet() ; 
 
-      //////////////////
-      // Ajoute un élément.
+      /// Ajoute un élément.
       void Ajouter(const VALEUR& , const OBJET*) ;
     
-      /////////////////
-      // Modifie l'élément associé à VALEUR. Si l'élément
-      // n'existe pas dans la fonction alors cela a l'effet de add.
+      /// Modifie l'élément associé à VALEUR. Si l'élément
+      /// n'existe pas dans la fonction alors cela a l'effet de add.
       void Modifier(const VALEUR&, const OBJET&) ;
     
-    
-      // *******************
-      // GROUP: Accès
-      // *******************
+      // @}
     
 
-      //////////////////
-      // Accès à un élément en fonction de l'identifiant.
+      // *************************
+      /// @name Accès
+      // *************************      
+      // @{      
+    
+
+      /// Accès à un élément en fonction de l'identifiant.
       Association< OBJET > Image(const VALEUR&) const ;
     
-      ////////////////////////
-      // Opérateur de comparaison
+      /// Opérateur de comparaison
     	Booleen operator==(
         const FonctionCompositionValeurObjet< VALEUR, OBJET >& _right) 
         const ;
     
-    
+      // @}
     private:
     
     
@@ -91,7 +83,7 @@ namespace ProjetUnivers {
     
     };
     
-    #include "fonction_composition_valeur_objet.cxx"
+    #include <base/impnatation/fonction_composition_valeur_objet.cxx>
 
 
   }

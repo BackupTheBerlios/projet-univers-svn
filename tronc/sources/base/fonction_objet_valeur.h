@@ -22,8 +22,7 @@
 #define FONCTION_OBJET_VALEUR_H
 
 
-#include "association.h"
-#include "string.h"
+#include <base/association.h"
 
 
 namespace ProjetUnivers {
@@ -32,58 +31,56 @@ namespace ProjetUnivers {
 
     
     
-    /*
-    CLASS
-      FonctionObjetValeur
     
-      Une fonction qui associe un élément de VALEUR à un élément de OBJET. 
-      OBJET doit être une classe d'objets et VALEUR une classe de valeurs.
-     
+    ///  Une fonction qui associe un élément de VALEUR à un élément de OBJET. 
+    ///  OBJET doit être une classe d'objets et VALEUR une classe de valeurs.
     
-    */
+    /// \ todo
+    ///   A réaliser et tester
     template <class OBJET, class VALEUR > class FonctionObjetValeur {
     public:
     
-      // *******************
-      // GROUP: Constructeur
-      // *******************
+      // *************************
+      /// @name Construction
+      // *************************      
+      // @{      
     
     
-      //////////////////
-      // Constructeur.
+      /// Constructeur.
       FonctionObjetValeur() ;
     
-      ///////////////
-      // Constructeur de copie.
+      /// Constructeur de copie.
       FonctionObjetValeur(const FonctionObjetValeur& _v);
     
-      
-      // *******************
-      // GROUP: Modification
-      // *******************
+      // @}
+            
+      // *************************
+      /// @name Modification
+      // *************************      
+      // @{      
     
-      //////////////////
-      // Ajoute un élément identifié par le nom du paramètre.
+      /// Ajoute un élément identifié par le nom du paramètre.
       void ajoute(const Association< OBJET >&, const VALEUR&) ;
     
-      /////////////////
-      // Modifie l'élément associé au paramètre de type OBJET. Si l'élément
+      /// Modifie l'élément associé au paramètre de type OBJET. Si l'élément
       // n'existe pas alors cela a l'effet de add.
       void change(const Association< OBJET >&, const VALEUR&) ;
     
+      // @}
+          
+
+      // *************************
+      /// @name Accès
+      // *************************      
+      // @{      
     
-      // *******************
-      // GROUP: Accès
-      // *******************
-    
-      //////////////////
-      // Accès à un élément en fonction de l'identifiant.
+      /// Accès à un élément en fonction de l'identifiant.
       VALEUR acces(const Association< OBJET >&) const ;
     
-      ////////////////////////
-      // Opérateur de comparaison
+      /// Opérateur de comparaison
     	Booleen operator==(const FonctionObjetValeur< OBJET,VALEUR >& _right) const ;
     
+      // @}
     
     private:
     
@@ -101,7 +98,7 @@ namespace ProjetUnivers {
     
     };
     
-#include "implantation/fonction_objet_valeur.cxx"
+#include <base/implantation/fonction_objet_valeur.cxx>
 
   }
 }

@@ -30,16 +30,14 @@ namespace ProjetUnivers {
 
   namespace Base {
 
-    //////////////////////
-    // Donne le minimum de _v1 et _v2
+    /// Donne le minimum de _v1 et _v2
     template <class T> inline T Minimum(T _v1, T _v2) 
     
     {
         return _v1 < _v2 ? _v1 : _v2;
     }
     
-    //////////////////////
-    // Donne le maximum de _v1 et _v2    
+    /// Donne le maximum de _v1 et _v2    
     template <class T> inline T Maximum(T _v1, T _v2) 
     
     {

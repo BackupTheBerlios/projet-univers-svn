@@ -21,8 +21,8 @@
 #ifndef _PU_BASE_LISTE_ABSTRAITE_H_
 #define _PU_BASE_LISTE_ABSTRAITE_H_
 
-#include "composition.h"
-#include "noeud_abstrait.h"
+#include <base/composition.h>
+#include <base/implantation/noeud_abstrait.h>
 
 
 namespace ProjetUnivers {
@@ -30,57 +30,46 @@ namespace ProjetUnivers {
   namespace Base {
   
       
-    /*
-    CLASS
-      ListeAbstraite
     
-      Classe de base des listes.
-    */
+    ///  Classe de base des listes.
     class ListeAbstraite {
     public:
     
-      ////////////////////
-      // Constructeur par défaut.
+      /// Constructeur par défaut.
+      /// \todo 
+      ///   vérifier si ce constructeur doit être public
       ListeAbstraite() ;
     
-      ///////////////////
-      // Destructeur virtuel, ne sert pas à 
-      // grand chose à part rendre la classe 
-      // polymorphe.
+      /// Destructeur virtuel, ne sert pas à 
+      /// grand chose à part rendre la classe 
+      /// polymorphe.
       virtual ~ListeAbstraite() ;
     
-      ////////////////
-      // Accès au nombre d'éléments.
+      /// Accès au nombre d'éléments.
       unsigned int NombreDElements() const ;
     
-      //////////////////
-      // Vide la liste.
+      /// Vide la liste.
       void Vider() ;
     
     protected:
     
-      ////////////////
       // Premier noeud.
       Composition< NoeudAbstrait > premierNoeud ;
     
-      ////////////////
-      // Dernier noeud.
+      /// Dernier noeud.
       Association< NoeudAbstrait > dernierNoeud ;
     
     
-      ///////////////
-      // Nombre d'éléments.
+      /// Nombre d'éléments.
       unsigned int nombreDElements ;
     
-      ////////////////
       // Ajoute un noeud en début de liste.
       void AjouterEnTete(NoeudAbstrait* _n) ;
     
-      ////////////////
-      // Ajoute un noeud en fin de liste.
+      /// Ajoute un noeud en fin de liste.
       void AjouterEnQueue(NoeudAbstrait* _n) ;
     
-      // il est bon d'avoir des amis
+      /// 
       friend class IterateurListe ;
     
     

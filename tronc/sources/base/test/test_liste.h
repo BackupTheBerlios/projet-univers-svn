@@ -23,10 +23,10 @@
 #define _PU_BASE_TEST_LISTE_H_
 
 
-// Includes
+
 #include <cppunit/extensions/HelperMacros.h>
-#include "liste_composition.h"
-#include "liste_association.h"
+#include <base/implantation/liste_composition.h>
+#include <base/implantation/liste_association.h>
 
 
 namespace ProjetUnivers {
@@ -37,37 +37,44 @@ namespace ProjetUnivers {
 
       class ElementTestListe ;
 
-      /*
-      CLASS
-        TestListe
-      
-        Teste les liste en association et en composition.
-      */
+      ///  Teste les liste en association et en composition.
       class TestListe : public CppUnit::TestFixture {
+      public:
+
+        /// Initialisation du test
+        void setUp() ;
+
+        /// Desinitialisation du test
+        void tearDown() ;
+
+
+
+
       protected:
 
 
-        // ****************************
-        // GROUP: Tests proprement dits
-        // ****************************
 
-        ////////////////
-        // Teste l'ajout dans la liste.
+        // *************************
+        /// @name Tests proprement dits
+        // *************************      
+        // @{  
+
+        /// Teste l'ajout dans la liste.
         void TestAjouter() ;
 
-        ///////////////
-        // Teste que, même une liste temporaire, peut être 
-        // parcourue.
+        /// Teste que, même une liste temporaire, peut être 
+        /// parcourue.
         void TestParcoursListeTemporaire() ;
 
-        //////////////
-        // Teste la destruction de liste en composition.
+        /// Teste la destruction de liste en composition.
         void TestDestruction() ;
 
+        // @}
 
-        // ********************
-        // GROUP: Mise en place
-        // ********************
+        // *************************
+        /// @name Mise en place
+        // *************************      
+        // @{  
 
 
         CPPUNIT_TEST_SUITE(TestListe) ;
@@ -78,19 +85,8 @@ namespace ProjetUnivers {
 
         CPPUNIT_TEST_SUITE_END() ;
 
-      public:
 
-        ///////////////
-        // Initialisation du test
-        void setUp() ;
-
-        ///////////////
-        // Desinitialisation du test
-        void tearDown() ;
-
-
-
-
+        // @}
 
 
 

@@ -25,9 +25,9 @@
 
 // Compileur dépendant
 // mais bien pratique...
-#if _MSC_VER > 1000     // VC++
-#pragma warning( disable : 4786 )   // disable warning debug symbol > 255...
-#endif // _MSC_VER > 1000
+//#if _MSC_VER > 1000     // VC++
+//#pragma warning( disable : 4786 )   // disable warning debug symbol > 255...
+//#endif // _MSC_VER > 1000
 
 
 
@@ -40,18 +40,18 @@ namespace ProjetUnivers {
     // GROUP: Définition des types de bases
     //*************************************
     
-    //////////////////
-    // Type des booléens
+    /// Type des booléens
     typedef unsigned short Booleen ;
     const Booleen FAUX(0) ;
     const Booleen VRAI(1) ; 
     
-    //////////////////
-    // Type des booléens étendus avec "peut-être", les valeurs sont 
-    // VRAI
-    // FAUX
-    // PEUTETRE
+    /// Type des booléens étendus avec "peut-être", les valeurs sont 
+    /// VRAI
+    /// FAUX
+    /// PEUTETRE
     typedef float BooleenEtendu ;
+    
+    
     const BooleenEtendu PEUTETRE(0.5) ;
     
     
@@ -61,21 +61,17 @@ namespace ProjetUnivers {
     // ********************
     
     
-    //////////////////
-    // Type des entiers
+    /// Type des entiers
     typedef long int Entier ;
     
-    /////////////////
-    // Entier maximum
+    /// Entier maximum
     const Entier EntierMaximum = LONG_MAX ;
     
-    //////////////////
-    // Type des caractères
+    /// Type des caractères
     typedef char Caracter ;
     
     
-    //////////////////
-    // Type des réels
+    /// Type des réels
     typedef double Reel ;
     
     

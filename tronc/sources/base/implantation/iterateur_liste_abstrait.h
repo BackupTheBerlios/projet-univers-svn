@@ -21,61 +21,51 @@
 #ifndef _PU_BASE_ITERATEUR_LISTE_ABSTRAIT_H_
 #define _PU_BASE_ITERATEUR_LISTE_ABSTRAIT_H_
 
-#include "liste_abstraite.h"
-#include "noeud_abstrait.h"
-#include "association_virtuelle.h"
-#include "association.h"
+#include <base/implantation/liste_abstraite.h>
+#include <base/implantation/noeud_abstrait.h>
+#include <base/association_virtuelle.h>
+#include <base/association.h>
 
 namespace ProjetUnivers {
 
   namespace Base {
   
     
-    /*
-    CLASS
-      IterateurListeAbstrait
     
-      Classe de base des itérateurs sur les listes.
-    */
+    /// Classe de base des itérateurs sur les listes.
+
     class IterateurListeAbstrait {
     public:
     
     
-      /////////////////
-      // Constructeur.
+
+      /// Constructeur.
       IterateurListeAbstrait(
           const Association< NoeudAbstrait >& n, 
     			const Association< ListeAbstraite >& l) ;
     
-      ////////////////
-      // Destructeur.
+      /// Destructeur.
       ~IterateurListeAbstrait() ;
     
-      ///////////////
-      // Passe à l'élément suivant.
+      /// Passe à l'élément suivant.
       void operator ++() ;
     
-      ///////////////
-      // Passe à l'élément précédent.
+      /// Passe à l'élément précédent.
       void operator --() ;
     
-      //////////////
-      // Dit si l'itérateur est valide.
+      /// Dit si l'itérateur est valide.
       Booleen Valide() const ;
     
-      ////////////////
-      // renvoie le nombre d'éléments de la liste.
+      /// renvoie le nombre d'éléments de la liste.
       unsigned int NombreDElements() const ;
     
     
     protected:
     
-      //////////////
-      // Noeud courant.
+      /// Noeud courant.
       DECLARATION_ASSOCIATION_VIRTUELLE(NoeudAbstrait,noeudCourant)
     
-      /////////////
-      // Liste parcourue.
+      /// Liste parcourue.
       DECLARATION_ASSOCIATION_VIRTUELLE(ListeAbstraite,liste)
     
     

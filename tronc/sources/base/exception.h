@@ -23,7 +23,7 @@
 
 
 
-#include "chaine.h"
+#include <base/chaine.h>
 
 
 namespace ProjetUnivers {
@@ -31,47 +31,37 @@ namespace ProjetUnivers {
   namespace Base {
   
   
-    /*
-    CLASS
-      Exception
     
-      Classe de base des exceptions utilisées dans le Projet Univers.
+    ///  Classe de base des exceptions utilisées dans le Projet Univers.
     
     
-    NOTE
-      Il me semble que c'est bisarre d'avoir une classe de valeur abstraite. 
-      Eventuellement, séparer la hiérarchie à part et mettre une méthode 
-      de copie abstraite.
-    */
+    /// NOTE
+    ///  Il me semble que c'est bisarre d'avoir une classe de valeur abstraite. 
+    ///  Eventuellement, séparer la hiérarchie à part et mettre une méthode 
+    ///  de copie abstraite.
     class Exception {
     public:
     
-      ////////////////
-      // Constructeur de copie, le constructeur de copie est obligatoire
-      // pour les exceptions.
+      /// Constructeur de copie, le constructeur de copie est obligatoire
+      /// pour les exceptions.
       Exception(const Exception& x) ;
     
-      ////////////////
-      // Classe abstraite donc destructeur virtuel.
+      /// Classe abstraite donc destructeur virtuel.
       virtual ~Exception() ;
     
-      ////////////////
-      // Message d'erreur correspondant à l'exception.
+      /// Message d'erreur correspondant à l'exception.
       Chaine Message() const ;
     
     
     protected:
     
-      ////////////////
-      // Message associé à l'exception.
+      /// Message associé à l'exception.
       Chaine		message ;
     
-      //////////////////
-      // numéro de l'erreur.
+      /// numéro de l'erreur.
       Entier		numeroErreur ;
     
-      ////////////////
-      // Classe virtuelle, donc constructeur protected.
+      /// Classe virtuelle, donc constructeur protected.
       Exception(const Chaine& _message,const EntierNonSigne& numero) ;
     
     };

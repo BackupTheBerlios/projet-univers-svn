@@ -25,7 +25,7 @@
 
 
 #include <cppunit/extensions/HelperMacros.h>
-#include "ensemble_valeur.h"
+#include <base/ensemble_valeur.h>
 
 namespace ProjetUnivers {
 
@@ -34,12 +34,8 @@ namespace ProjetUnivers {
     namespace Test {
 
 
-      /*
-      CLASS
-        TestEnsembleValeur
 
-        Classe permettant de tester la classe des ensemble de valeurs.
-      */
+      ///  Classe permettant de tester la classe des ensemble de valeurs.
       class TestEnsembleValeur : public CppUnit::TestFixture {
       protected:
 
@@ -49,20 +45,16 @@ namespace ProjetUnivers {
         // ****************************
 
   
-        ///////////////
-        // Teste l'ajout d'un élément
+        /// Teste l'ajout d'un élément
         void TestAjouter();
 
-        ///////////////
-        // Teste la suppression d'un élément
+        /// Teste la suppression d'un élément
         void TestEnlever();
   
-        ///////////////
-        // Teste le test d'appartenance d'un élément
+        /// Teste le test d'appartenance d'un élément
         void TestAppartient();
   
-        ///////////////
-        // Teste l'ensemble vide.
+        /// Teste l'ensemble vide.
         void TestVide() ;
 
 
