@@ -45,19 +45,26 @@
 
     <para>Monde</para>
 
-    <sect2>
-      <para>Un Monde est le groupement de plusieurs données :</para>
+    <para>Un Monde est le groupement de plusieurs données :</para>
 
-      <itemizedlist><listitem><para>un
-      Univers</para></listitem><listitem><para>une
-      Société</para></listitem><listitem><para>des
-      Biens</para></listitem></itemizedlist>
+    <itemizedlist>
+      <listitem>
+        <para>un Univers</para>
+      </listitem>
 
-      <para>Toutes les données d'un monde évoluent au cours du
-      <emphasis>Temps</emphasis>, ainsi des Étoiles explosent, des Factions
-      sont exterminées, des Personnages naissent ou meurent, des Biens sont
-      créer, changent de main ou sont détruits.</para>
-    </sect2>
+      <listitem>
+        <para>une Société</para>
+      </listitem>
+
+      <listitem>
+        <para>des Biens</para>
+      </listitem>
+    </itemizedlist>
+
+    <para>Toutes les données d'un monde évoluent au cours du
+    <emphasis>Temps</emphasis>, ainsi des Étoiles explosent, des Factions sont
+    exterminées, des Personnages naissent ou meurent, des Biens sont créer,
+    changent de main ou sont détruits.</para>
 
     <sect2>
       <title>Univers - Objets Physiques</title>
