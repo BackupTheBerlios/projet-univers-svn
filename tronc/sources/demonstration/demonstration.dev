@@ -1,5 +1,5 @@
 [Project]
-FileName=demonstration.dev
+FileName=DEMONS~1.DEV
 Name=Demonstration
 UnitCount=3
 Type=1
@@ -12,7 +12,7 @@ ResourceIncludes=
 MakeIncludes=
 Compiler=
 CppCompiler=-D _INC_TEMP_CODE__@@_
-Linker=../compilation/univers.a_@@_../compilation/noyau.a_@@_../compilation/base.a_@@_"C:/Program Files/DevCpp/lib/libOgreMain.a"_@@_
+Linker=../compilation/univers.a_@@_../compilation/noyau.a_@@_../compilation/base.a_@@_
 IsCpp=1
 Icon=
 ExeOutput=../compilation
