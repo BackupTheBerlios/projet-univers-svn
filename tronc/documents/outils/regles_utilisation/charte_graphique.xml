@@ -7,7 +7,7 @@
   <articleinfo>
     <abstract>
       <para>Ce document décrit les diverses contraintes imposées sur la
-      création des modèles 3D destinés au Projet Univers.</para>
+      structure des modèles 3D destinés au Projet Univers.</para>
     </abstract>
 
     <orgname>Équipe Projet Univers</orgname>
@@ -79,6 +79,18 @@
           <para>Ajout des entrés de hangars</para>
         </revdescription>
       </revision>
+
+      <revision>
+        <revnumber>1.5</revnumber>
+
+        <date>13 novembre 2004</date>
+
+        <revdescription>
+          <para>Ajout des objets non affichés boucliers.</para>
+
+          <para>Ajout de la notion de variante de composants.</para>
+        </revdescription>
+      </revision>
     </revhistory>
 
     <legalnotice>
@@ -144,11 +156,14 @@
     <sect2>
       <title>Le découpage d'un modèle en objets blender</title>
 
-      <para>Un modèle doit être logiquement séparé en "objets blender". La
-      question à se poser est la suivante :</para>
+      <para>Un modèle doit être logiquement séparé en "objets blender". Les
+      questions à se poser sont les suivantes :</para>
 
       <para><emphasis>est ce que ce morceau de vaisseau pourrait être détaché
       du reste ?</emphasis></para>
+
+      <para><emphasis>Est-ce que ce morceau peut être endommagé indépendamment
+      du reste du vaisseau ?</emphasis></para>
 
       <para>Si la réponse à cette question est oui, alors c'est qu'il faut en
       faire un objet distinct.</para>
@@ -179,7 +194,7 @@
       </itemizedlist>
 
       <para>Vous aurez besoin d'autres objets si vous composez une cinématique
-      d'explosion (les ailes par exemple). </para>
+      d'explosion (les ailes par exemple).</para>
 
       <para>Les objets constituant les parties d'un vaisseau</para>
 
@@ -188,7 +203,7 @@
 
         <para>Certains "points" dans l'espace devront être précisés à l'aide
         d'un objet blender <citation>empty</citation>. C'est le cas notamment
-        : </para>
+        :</para>
 
         <itemizedlist>
           <listitem>
@@ -203,7 +218,8 @@
         <para>Il est utile de construire des objets qui ne seront pas affichés
         pour représenter des zones de jeu du vaisseau, comme les zones
         d'entrée des différents hangars qui seront des objets n'ayant que 2
-        dimensions.</para>
+        dimensions. Il en va de même pour les boucliers, qui seront des
+        morceaux de sphères. </para>
       </sect3>
 
       <sect3>
@@ -213,71 +229,100 @@
         vaisseau, il convient de définir pour chaque composant, différents
         objets en fonction de l'état de destruction. Pour le même composant,
         par exemple le moteur droit, tous les objets représentant ses divers
-        états de destructions seront tous placé"s au même endroit. Le
-        programme PU se chargera de n'en afficher qu'un seul parmis ceux
-        là.</para>
+        états de destructions seront tous placés au même endroit. Le programme
+        PU se chargera de n'en afficher qu'un seul parmis ceux là.</para>
       </sect3>
 
       <sect3>
         <title>Les règles de nommage des objets</title>
 
-        <para>Chaque objet blender portera un nom qui dépend de ce que l'objet
-        représente. Les noms sont formés par une concaténation d'indications
-        écrites en majuscules qui sont séparées par des caractères
-        <classname>_</classname>. Les indications, dans l'ordre où elles
-        doivent apparaître, sont :</para>
+        <para>Chaque objet blender portera un nom blender qui dépend de ce que
+        l'objet représente. </para>
+
+        <para>Les noms sont formés par une concaténation d'indications
+        générales constituées de lettres majuscules et de chiffres, séparées
+        par le caractère <userinput>_</userinput>. </para>
+
+        <para>Les indications, dans l'ordre où elles doivent apparaître, sont
+        :</para>
 
         <orderedlist>
           <listitem>
-            <para>le nom du composant de vaisseau que l'objet représente. Les
-            composants sont :</para>
+            <para>Le nom de la catégorie du composant que l'objet blender
+            représente. </para>
+
+            <para>Les différentes catégories de composant sont :</para>
 
             <itemizedlist>
               <listitem>
-                <para><classname>MOTEUR</classname> pour les
-                propulseurs</para>
+                <para><classname>MOTEUR</classname> </para>
+
+                <para>pour les propulseurs.</para>
               </listitem>
 
               <listitem>
-                <para><classname>ARME</classname> pour toute arme</para>
+                <para>BOUCLIER </para>
+
+                <para>pour la surface des boucliers eux-mêmes (en non pas le
+                générateur, c.f. <link
+                linkend="generateur_bouclier">GENERATEURBOUCLIER</link>).</para>
               </listitem>
 
               <listitem>
-                <para><classname>BOUCLIER</classname> pour tout générateur de
-                bouclier</para>
+                <para><classname>ARME</classname> </para>
+
+                <para>pour toute arme</para>
+              </listitem>
+
+              <listitem id="generateur_bouclier">
+                <para><classname>GENERATEURBOUCLIER</classname> </para>
+
+                <para>pour tout générateur de bouclier.</para>
+
+                <para>Il doit y avoir exactement un générateur de bouclier
+                pour chaque bouclier, ils portent tous deux le même numéro
+                (c.f. <link linkend="numero">numéro</link>).</para>
               </listitem>
 
               <listitem>
-                <para><classname>COQUE</classname> pour tout morceau de coque,
-                le découpage étant au choix </para>
+                <para><classname>COQUE</classname></para>
+
+                <para>pour tout morceau de coque, le découpage étant au
+                choix</para>
               </listitem>
 
               <listitem>
-                <para><classname>COCKPIT</classname> pour le cockpit d'un
-                chasseur</para>
+                <para><classname>COCKPIT</classname> </para>
+
+                <para>pour le cockpit d'un chasseur</para>
               </listitem>
 
               <listitem>
-                <para><classname>ANTENNE</classname> pour les antennes de
-                communication</para>
+                <para><classname>ANTENNE</classname> </para>
+
+                <para>pour les antennes de communication</para>
               </listitem>
 
               <listitem>
-                <para><classname>POSTECOMMANDEMENT</classname> pour le poste
-                de commandement</para>
+                <para><classname>POSTECOMMANDEMENT</classname> </para>
+
+                <para>pour le poste de commandement</para>
               </listitem>
 
               <listitem>
-                <para><classname>HANGAR</classname> pour un hangar pouvant
-                accueillir d'autres vaisseaux</para>
+                <para><classname>HANGAR</classname> </para>
+
+                <para>pour un hangar pouvant accueillir d'autres
+                vaisseaux</para>
               </listitem>
 
               <listitem>
-                <para><classname>ENTREEHANGAR</classname> pour l'objet non
-                visible représentant la zone où on peut rentrer dans le
-                hangar. </para>
+                <para><classname>ENTREEHANGAR</classname> </para>
 
-                <para><emphasis>le numéro de cette entrée doit correspondre au
+                <para>pour l'objet non visible représentant la zone où on peut
+                rentrer dans le hangar.</para>
+
+                <para><emphasis>Le numéro de cette entrée doit correspondre au
                 numéro du hangar dont elle est l'entrée</emphasis></para>
               </listitem>
 
@@ -287,15 +332,37 @@
             </itemizedlist>
           </listitem>
 
-          <listitem>
-            <para>numéro, qui sert pour distinguer les différents objets de la
-            même catégorie, même s'il n'y en a qu'un.</para>
+          <listitem id="numero">
+            <para>Le numéro</para>
+
+            <para>qui sert pour distinguer les différents objets de la même
+            catégorie de composant.</para>
+
+            <para>La numérotation commence à 1. Un numéro doit toujours être
+            présent même s'il n'y a qu'un seul objet dans la catégorie.</para>
           </listitem>
 
           <listitem>
-            <para>l'indication de l'état de l'objet en pourcentage, i.e., 100
-            signifie que l'objet est parfaitement opérationnel, 0 qu'il est
-            totalement détruit.</para>
+            <para>L'état de l'objet en pourcentage </para>
+
+            <para>100 signifie que l'objet est parfaitement opérationnel, 0
+            qu'il est totalement détruit.</para>
+
+            <para>Ceci n'ayant pas de sens pour la surface des boucliers, par
+            convention, ils peuvent avoir n'importe quelle valeur.</para>
+          </listitem>
+
+          <listitem>
+            <para>Optionnellement un numéro de variante</para>
+
+            <para>Le numéro de variante permet de dire qu'il existe des
+            variations d'un vaisseau à l'autre même s'il s'agit du même
+            modèle. Le système d'affichage choisira une variante de chaque
+            composant et s'y tiendra.</para>
+
+            <remark>Ceci permet, par exemple, de d'avoir plusieurs modèles 3D
+            de moteurs différents sur une même famille de vaisseaux : moteur
+            variante 1 et 2.</remark>
           </listitem>
         </orderedlist>
 
@@ -306,15 +373,16 @@
             <listitem>
               <para><classname>MOTEUR_1_100</classname></para>
 
-              <para>est le nom d'un objet blender représentant un moteur qui
-              est en parfait état de marche.</para>
+              <para>est le nom d'un objet blender représentant le 1er moteur
+              qui est en parfait état de marche (100% de "points de
+              vie").</para>
             </listitem>
 
             <listitem>
               <para><classname>ARME_3_25</classname></para>
 
-              <para>est le nom d'un objet représentant une arme qui est à 75%
-              détruite</para>
+              <para>est le nom d'un objet représentant l'arme numéro 3 qui est
+              à 75% détruite (25% de "points de vie").</para>
             </listitem>
           </itemizedlist>
         </example>
@@ -382,12 +450,12 @@
       <title>Livraison des modèles</title>
 
       <para>Les modèles livrés sur le serveur de fichiers doivent l'être dans
-      : <filename>modeles</filename> puis dans le bon sous répertoire en
+      : <filename>modelés</filename> puis dans le bon sous répertoire en
       fonction du type du modèle.</para>
     </sect2>
 
     <sect2>
-      <title>Mapping de textures</title>
+      <title>Plaquage de textures</title>
 
       <para>Le moteur <ulink url="http://www.ogre3d.org/">Ogre</ulink> ainsi
       que le convertisseur blender vers Ogre supportent les textures en "UV
@@ -661,6 +729,12 @@
       sont rapide (fins, racés, maniables) et d'autre sont plutôt
       multitâches.</para>
 
+      <remark>Vu le découpage des modèles en objets, ce sont les différents
+      types d'objets pour lesquels on doit limiter le nombre de polygones. Ce
+      qui n'empêche pas d'avoir un nombre de polygones maximum pour chacune
+      des configurations (une configuration est le choix d'un état pour chacun
+      des composants).</remark>
+
       <sect3>
         <title>Limitations du nombre de Polygones</title>
 
@@ -698,7 +772,8 @@
       <title>Pour le groupe des Corvettes</title>
 
       <para>Il est possible de prévoir sur ses modèles une ou deux tourelles
-      lasers, en plus des canons du pilote (Pensez au faucon milénium).</para>
+      lasers, en plus des canons du pilote (Pensez au faucon
+      millénium).</para>
 
       <sect3>
         <title>Limitations du nombre de Polygones</title>
