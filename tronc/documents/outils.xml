@@ -147,8 +147,60 @@
       document expliquera comment faire pour ne pas le rentrer à chaque
       fois</remark></para>
 
-      <sect3>
+      <procedure>
+        <title>Procédure normale d'utilisation de TortoiseSVN</title>
+
+        <step>
+          <para><link linkend="creation_repertoire_local">Création d'un
+          répertoire de travail local</link></para>
+
+          <para>C'est une sorte d'initialisation du processus</para>
+        </step>
+
+        <step id="etape2">
+          <para>Il faut très régulièrement se <link
+          linkend="mise_a_jour">mettre à jour des modifications faites</link>,
+          surtout avant de travailler en local : il serait dommage de modifier
+          un fichier qui n'est pas la dernière version.</para>
+        </step>
+
+        <step>
+          <para>Travailler sur son répertoire local de travail</para>
+
+          <substeps>
+            <step>
+              <para>Si vous avez ajouté des nouveaux fichiers que vous voulez
+              partager avec l'équipe, il faut se conformer à <link
+              linkend="ajout">Ajouts de fichiers</link></para>
+
+              <warning>
+                <para>Cette opération n'envoie rien au serveur, elle permet de
+                dire au logiciel qui tourne sur votre machine que lors de la
+                prochaine livraison il faudra envoyer ces nouveaux fichiers
+                vers le serveur.</para>
+              </warning>
+            </step>
+
+            <step>
+              <para>Lorsque vous voulez que votre travail soit envoyé au
+              serveur il faut faire <link linkend="livraison">Livraison vers
+              le serveur</link>.</para>
+            </step>
+
+            <step>
+              <para>Recommencer à l'<link linkend="etape2">étape
+              2</link>.</para>
+            </step>
+          </substeps>
+        </step>
+      </procedure>
+
+      <sect3 id="creation_repertoire_local">
         <title>Création d'un répertoire de travail local</title>
+
+        <caution>
+          <para>Cette opération n'est à faire qu'une seule fois.</para>
+        </caution>
 
         <para>Il faut se créer un répertoire local qui contiendra des copies
         locales des fichiers présents sur le serveur. C'est dans ce répertoire
@@ -219,7 +271,7 @@
         </procedure>
       </sect3>
 
-      <sect3>
+      <sect3 id="mise_a_jour">
         <title>Téléchargement de la dernière version à jour</title>
 
         <para>Cette opération est pratiquement la même que la création d'un
@@ -264,7 +316,7 @@
         </procedure>
       </sect3>
 
-      <sect3>
+      <sect3 id="livraison">
         <title>Livraison vers le serveur</title>
 
         <para>Vous avez ajouté ou modifiés des fichiers et vous voulez rendre
@@ -319,8 +371,8 @@
         </procedure>
       </sect3>
 
-      <sect3>
-        <title>Ajouts de fichiers</title>
+      <sect3 id="ajout">
+        <title>Ajouts de fichiers et de répertoires</title>
 
         <para>Lorsque vous créez un nouveau fichier dans votre répertoire de
         travail local, subversion ne peut deviner tout seul si ce fichier doit
