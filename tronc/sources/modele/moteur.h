@@ -21,8 +21,8 @@
 #ifndef _PU_MODELE_MOTEUR_H_
 #define _PU_MODELE_MOTEUR_H_
 
-#include <modele/composant.h>
 #include <base/ensemble_association.h>
+#include <modele/composant.h>
 
 
 

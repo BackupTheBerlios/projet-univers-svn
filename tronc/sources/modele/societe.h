@@ -22,8 +22,8 @@
 #ifndef _PU_MODELE_SOCIETE_H_
 #define _PU_MODELE_SOCIETE_H_
 
-#include <base/ensemble_composition.h>
 #include <modele/objet_abstrait.h>
+#include <base/ensemble_composition.h>
 
 namespace ProjetUnivers {
 

@@ -22,7 +22,6 @@
 #define _PU_MODELE_ETAT_MISSION_H_
 
 #include <base/association.h>
-#include <noyau/etat.h>
 
 
 namespace ProjetUnivers {

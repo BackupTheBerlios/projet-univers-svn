@@ -20,8 +20,6 @@
 
 #include <modele/composant.h>
 
-
-
 namespace ProjetUnivers {
 
   namespace Modele {

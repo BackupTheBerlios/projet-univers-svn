@@ -23,12 +23,10 @@
 
 
 
-
 namespace ProjetUnivers {
 
   namespace Modele {
     
-    using namespace ProjetUnivers::Base ;
     
     
 

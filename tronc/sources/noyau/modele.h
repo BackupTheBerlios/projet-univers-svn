@@ -22,6 +22,8 @@
 #define _PU_NOYAU_MODELE_H_
 
 #include <base/ensemble_association.h>
+#include <base/association.h>
+
 
 namespace ProjetUnivers {
 
@@ -38,38 +40,47 @@ namespace ProjetUnivers {
     class Modele {
     public:
 
+      // *************************    
+      /// @name Méthode principale
+      // *************************
+      // @{
 
-
+      
+      /// Enregistre une vue.
+      
+      /*!
+        Toutes les vues enregistrées seront notifiées des changements 
+        de cet objet.
+      */
+      void EnregistrerVue(const Base::Association<Vue>& _vue) ;
 
 
 
     
-      // *************************
-      /// @name Constructeurs/Destructeurs
-      // *************************      
-      // @{  
-       
+      // @}
+      // *******************************
+      /// @name Constructeur Destructeur
+      // *******************************
+      // @{
+     
       
 
       /// Classe abstraite donc destructeur virtuel.
       virtual ~Modele() ;
     
-
-      
     
     protected:
-    
- 
- 
 
       /// Classe abstraite donc constructeur protégé.
       Modele() ;
        
       // }@
     
+    private:
     
-    /// Les vues qu'il faut notifier des changements.
-    Base::EnsembleAssociation< Vue > observateurs ;
+    
+      /// Les vues qu'il faut notifier des changements.
+      Base::EnsembleAssociation<Vue> observateurs ;
     
     
     

@@ -1,25 +1,10 @@
-noinst_LIBRARIES = libunivers.a
+noinst_LIBRARIES = libmodele.a
 
 INCLUDES = -I../..
 
-libunivers_a_SOURCES = ../bien.h \
-../etoile.h \
-../moteur.h \
-../systeme_stellaire.h \
-../commandes_pilotage.h \
-../galaxie.h \
-../objectif.h \
-../univers.h \
-../composant.h \
-../histoire.h \
-../planetoide.h \
-../vaisseau.h \
-../controle_commandes.h \
-../mission.h \
-../role.h \
-../etat_mission.h \
-../monde.h \
-../societe.h \
+libmodele_a_SOURCES = \
+../implantation/objet_physique.cpp \
+../implantation/objet_abstrait.cpp \
 ../implantation/bien.cpp \
 ../implantation/moteur.cpp \
 ../implantation/commandes_pilotage.cpp \
@@ -31,5 +16,3 @@ libunivers_a_SOURCES = ../bien.h \
 ../implantation/etoile.cpp \
 ../implantation/vaisseau.cpp \
 ../implantation/monde.cpp
-
-

@@ -18,16 +18,19 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <modele/vaisseau.h>
-#include <modele/composant.h>
 #include <noyau/position.h>
 
+#include <modele/composant.h>
+#include <modele/vaisseau.h>
+
+
+using namespace ProjetUnivers::Noyau ;
+ 
 namespace ProjetUnivers {
 
   namespace Modele {
     
-    using namespace ProjetUnivers::Noyau ;
-    
+   
     Vaisseau::Vaisseau()
     : Bien()
     {}

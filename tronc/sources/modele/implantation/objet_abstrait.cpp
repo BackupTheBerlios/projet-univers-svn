@@ -19,50 +19,22 @@
  ***************************************************************************/
 
 
-#ifndef _PROJET_UNIVERS_H_
-#define _PROJET_UNIVERS_H_
+#include <modele/objet_abstrait.h>
 
-/// ProjetUnivers est un jeu de combat spatial multi-joueur.
+namespace ProjetUnivers {
 
-/*!
-  
-  Voir : 
-  
-  - http://www.punivers.net/
-  - https://developer.berlios.de/projects/projet-univers
-  
-  Les différents sous-modules sont les suivants :
-  
-  - Base
-    Des types C++ et des templates utilisés dans toute l'application
+  namespace Modele {
+
     
-  - Noyau
-    Le cadre général de l'application et notament le patron MVC
-    
-  - Affichage
-    L'affichage des éléments
+    //////////////////
+    // Classe abstraite donc destructeur virtuel.
+    ObjetAbstrait::~ObjetAbstrait()
+    {}
+     
+    //////////////////////
+    // Classe abstraite donc constructeur protégé.
+    ObjetAbstrait::ObjetAbstrait() 
+    {}
   
-  - Modele
-    Le modèle de donnée
-    
-  - Controle
-    Les controleurs
-  Essai de graphe
-  
-  \dot
-  graph example {
-      node [shape=record, fontname=Helvetica, fontsize=10];
-      Affichage [ label="Affichage" URL="\ref Affichage"];
-      Modele [ label="Modele" URL="\ref Modele"];
-      Controle [ label="Controle" URL="\ref Controle"];
-      Controle -> Modele [ taillabel="lis modifie" arrowhead="open", style="dashed" ];
-      Controle -> Affichage [ taillabel="lis modifie" arrowhead="open", style="dashed" ];
-      Affichage -> Modele [ taillabel="lis" arrowhead="open", style="dashed" ];
-      Modele -> Affichage [ taillabel="notifie" arrowhead="open", style="dashed" ];
   }
-  \enddot  
-*/ 
-namespace ProjetUnivers
-{}
-
-#endif //_PROJET_UNIVERS_H_
+}

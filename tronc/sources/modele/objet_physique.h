@@ -36,7 +36,7 @@ namespace ProjetUnivers {
       Par opposition aux objets abstraits du monde 
         \see ObjetAbstrait.
     */
-    class ObjetPhysique : public Noyau::Modele {
+    class ObjetPhysique : public ProjetUnivers::Noyau::Modele {
     public:
     
 
@@ -52,13 +52,13 @@ namespace ProjetUnivers {
     protected:
     
       /// Classe abstraite donc constructeur protégé.
-      ObjetPhysique(const Noyau::Position&) ;
+      ObjetPhysique(const ProjetUnivers::Noyau::Position&) ;
     
     
       // @}
     
       /// Position actuelle dans un espace à trois dimensions
-      Noyau::Position position ;
+      ProjetUnivers::Noyau::Position position ;
       
       
             

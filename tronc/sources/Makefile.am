@@ -1,1 +1,1 @@
-SUBDIRS = base noyau modele meta
+SUBDIRS = base noyau modele meta controle

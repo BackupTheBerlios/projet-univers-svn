@@ -18,16 +18,16 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <modele/systeme_stellaire.h>
 #include <modele/etoile.h>
 #include <modele/planetoide.h>
+#include <modele/systeme_stellaire.h>
 
+using namespace ProjetUnivers::Noyau ;
 
 namespace ProjetUnivers {
 
   namespace Modele {
     
-    using namespace ProjetUnivers::Noyau ;
 
 
     // *******************

@@ -21,12 +21,14 @@
 #include <base/association.h>
 #include <modele/moteur.h>
 
+using namespace ProjetUnivers::Base ;
+
 namespace ProjetUnivers {
 
   namespace Modele {
 
 
-    using namespace ProjetUnivers::Base ;
+    
 
     Moteur::Moteur()
     {

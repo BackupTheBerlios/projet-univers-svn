@@ -18,51 +18,26 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#include <noyau/modele.h>
 
-#ifndef _PROJET_UNIVERS_H_
-#define _PROJET_UNIVERS_H_
+namespace ProjetUnivers {
 
-/// ProjetUnivers est un jeu de combat spatial multi-joueur.
+  namespace Noyau {
+    
+    void Modele::EnregistrerVue(const Base::Association<Vue>& _vue)
+    {
+      this->observateurs.Ajouter(_vue) ;  
+    }
+      
 
-/*!
-  
-  Voir : 
-  
-  - http://www.punivers.net/
-  - https://developer.berlios.de/projects/projet-univers
-  
-  Les différents sous-modules sont les suivants :
-  
-  - Base
-    Des types C++ et des templates utilisés dans toute l'application
+    /// Classe abstraite donc destructeur virtuel.
+    Modele::~Modele()
+    {}
     
-  - Noyau
-    Le cadre général de l'application et notament le patron MVC
+    /// Classe abstraite donc constructeur protégé.
+    Modele::Modele()
+    {}
     
-  - Affichage
-    L'affichage des éléments
-  
-  - Modele
-    Le modèle de donnée
-    
-  - Controle
-    Les controleurs
-  Essai de graphe
-  
-  \dot
-  graph example {
-      node [shape=record, fontname=Helvetica, fontsize=10];
-      Affichage [ label="Affichage" URL="\ref Affichage"];
-      Modele [ label="Modele" URL="\ref Modele"];
-      Controle [ label="Controle" URL="\ref Controle"];
-      Controle -> Modele [ taillabel="lis modifie" arrowhead="open", style="dashed" ];
-      Controle -> Affichage [ taillabel="lis modifie" arrowhead="open", style="dashed" ];
-      Affichage -> Modele [ taillabel="lis" arrowhead="open", style="dashed" ];
-      Modele -> Affichage [ taillabel="notifie" arrowhead="open", style="dashed" ];
   }
-  \enddot  
-*/ 
-namespace ProjetUnivers
-{}
+}
 
-#endif //_PROJET_UNIVERS_H_

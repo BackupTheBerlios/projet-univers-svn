@@ -22,31 +22,57 @@
 #ifndef _PU_NOYAU_CONTROLE_H_
 #define _PU_NOYAU_CONTROLE_H_
 
-#include <base/association.h>
 
 namespace ProjetUnivers {
 
   namespace Noyau {
   
-    class Etat ;
-  
   
   
     //// Classe abstraite des controles.
     
-    //// Un controle sert à récupérer les entrées et, en retours, modifie 
-    //// le modèle et/où l'affichage.
-    /// Il s'agit de la partie Contrôleur de l'application du patron : 
-    /// modele (Modele), vue (Vue), contrôleur (Controle)
-    class Controle // : public Objet
+    /*!
+      Un controle sert à récupérer les entrées et, en retours, modifie 
+      le modèle et/où l'affichage.
+      Il s'agit de la partie Contrôleur de l'application du patron : 
+      modele (Modele), vue (Vue), contrôleur (Controle)
+    */
+    class Controle
     {
     public:
+
+      // *************************    
+      /// @name Méthode principale
+      // *************************
+      // @{
+        
+        
+      /// Réalise son contrôle.
+      /*!
+        A redéfinir dans les sous-classes.
+      */
+      virtual void Controler() = 0 ;
     
     
-    
+      // @}
+      // *******************************
+      /// @name Constructeur Destructeur
+      // *******************************
+      // @{
+
+      
+      /// Destructeur de classe abstraite.
+      virtual ~Controle() ;
+      
     protected:
       
-    
+      /// Constructeur.
+      Controle() ;
+
+      // @}
+
+
+      
     };
   
   }

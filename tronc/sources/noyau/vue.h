@@ -21,7 +21,6 @@
 #ifndef _PU_NOYAU_VUE_H_
 #define _PU_NOYAU_VUE_H_
 
-#include <base/association_virtuelle.h>
 #include <base/association.h>
 
 
@@ -32,33 +31,50 @@ namespace ProjetUnivers {
     class Modele ;
     
   
-    /*
-    CLASS
-      Vue
-      
-      Un point de vue sur une partie du modèle.
-
-    TYPE_DE_CLASSE
-      Objet
-      Abstrait
-    */
     
     /// Point de vue sur une partie du modèle de données.
     
-    /// Il s'agit de la partie vue de l'application du patron : 
-    /// modele (Modele), vue (Vue), contrôleur (Controle)
+    /*!
+      Il s'agit de la partie vue de l'application du patron : 
+      modele (Modele), vue (Vue), contrôleur (Controle)
+    */
     class Vue {
     public:
-        
-    
-    
+
+      // ***************************
+      /// @name Méthodes principales
+      // ***************************
+      // @{
+ 
+ 
+      /// Notifie la vue que le modèle à changé.  
+      virtual void NotifierChangement() = 0 ;
+
+      /// Affiche la vue.
+      
+      /*!
+        \remark
+          vérifier que c'est utile...
+      */
+      virtual void Afficher() = 0 ;
+
+      // @}
+      // *******************************
+      /// @name Constructeur Destructeur
+      // *******************************
+      // @{
+
+
+      /// Destructeur de classe abstraite.
+      virtual ~Vue() ;
+      
     protected:
 
       /// Constructeur.
-      Vue(const Base::Association< Modele > _modele) ;
+      Vue(const Base::Association<Modele>& _modele) ;
       
       /// Modèle vu observé.
-      DECLARATION_ASSOCIATION_VIRTUELLE(Modele, modele)
+      Base::Association<Modele> modele ;
     
     };
   

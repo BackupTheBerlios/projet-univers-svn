@@ -21,8 +21,6 @@
 #ifndef _PU_MODELE_COMPOSANT_H_
 #define _PU_MODELE_COMPOSANT_H_
 
-#include <base/ensemble_composition.h>
-#include <base/composition.h>
 #include <modele/bien.h>
 
 
@@ -41,7 +39,7 @@ namespace ProjetUnivers {
     
       Abstrait
     */
-    class Composant : virtual public Bien {
+    class Composant : public Bien {
     public:
     
       /// Classe abstraite donc destructeur virtuel.

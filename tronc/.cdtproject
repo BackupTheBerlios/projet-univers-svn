@@ -21,6 +21,12 @@
 <stopOnError>false</stopOnError>
 <useDefaultCommand>true</useDefaultCommand>
 </target>
+<target name="check" targetID="org.eclipse.cdt.make.MakeTargetBuilder" path="sources/base">
+<buildCommand>make</buildCommand>
+<buildTarget>check</buildTarget>
+<stopOnError>false</stopOnError>
+<useDefaultCommand>true</useDefaultCommand>
+</target>
 <target name="all" targetID="org.eclipse.cdt.make.MakeTargetBuilder" path="">
 <buildCommand>make</buildCommand>
 <buildTarget>all</buildTarget>
@@ -33,9 +39,39 @@
 <stopOnError>false</stopOnError>
 <useDefaultCommand>true</useDefaultCommand>
 </target>
+<target name="clean" targetID="org.eclipse.cdt.make.MakeTargetBuilder" path="sources/noyau">
+<buildCommand>make</buildCommand>
+<buildTarget>clean</buildTarget>
+<stopOnError>false</stopOnError>
+<useDefaultCommand>true</useDefaultCommand>
+</target>
+<target name="all" targetID="org.eclipse.cdt.make.MakeTargetBuilder" path="sources/controle">
+<buildCommand>make</buildCommand>
+<buildTarget>all</buildTarget>
+<stopOnError>false</stopOnError>
+<useDefaultCommand>true</useDefaultCommand>
+</target>
 <target name="all" targetID="org.eclipse.cdt.make.MakeTargetBuilder" path="sources/modele">
 <buildCommand>make</buildCommand>
 <buildTarget>all</buildTarget>
+<stopOnError>false</stopOnError>
+<useDefaultCommand>true</useDefaultCommand>
+</target>
+<target name="clean" targetID="org.eclipse.cdt.make.MakeTargetBuilder" path="sources/modele">
+<buildCommand>make</buildCommand>
+<buildTarget>clean</buildTarget>
+<stopOnError>false</stopOnError>
+<useDefaultCommand>true</useDefaultCommand>
+</target>
+<target name="all" targetID="org.eclipse.cdt.make.MakeTargetBuilder" path="sources">
+<buildCommand>make</buildCommand>
+<buildTarget>all</buildTarget>
+<stopOnError>false</stopOnError>
+<useDefaultCommand>true</useDefaultCommand>
+</target>
+<target name="check" targetID="org.eclipse.cdt.make.MakeTargetBuilder" path="sources">
+<buildCommand>make</buildCommand>
+<buildTarget>check</buildTarget>
 <stopOnError>false</stopOnError>
 <useDefaultCommand>true</useDefaultCommand>
 </target>

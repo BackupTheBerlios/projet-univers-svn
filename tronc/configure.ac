@@ -49,7 +49,9 @@ AC_CONFIG_FILES([Makefile \
                  sources/modele/Makefile \
                  sources/modele/compilation/Makefile \
                  sources/meta/Makefile \
-                 sources/meta/compilation/Makefile])
+                 sources/meta/compilation/Makefile] \
+                 sources/controle/compilation/Makefile \
+                 sources/controle/Makefile)
                  
 #                 sources/demonstration/Makefile])
 # Checks for library functions.

@@ -19,17 +19,17 @@
  ***************************************************************************/
 
 
-
-#include <noyau/etat.h>
+#include <noyau/vue.h>
 #include <noyau/modele.h>
 #include <noyau/controle.h>
-#include <noyau/vue.h>
+#include <noyau/etat.h>
+
+using namespace ProjetUnivers::Base ;
 
 namespace ProjetUnivers {
 
   namespace Noyau {
-  
-    using namespace ProjetUnivers::Base ;
+    
 
     /////////////////////
     // Activation de l'état.

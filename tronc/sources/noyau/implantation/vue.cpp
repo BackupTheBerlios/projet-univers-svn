@@ -22,16 +22,20 @@
 #include <noyau/vue.h>
 #include <noyau/modele.h>
 
+using namespace ProjetUnivers::Base ;
 
 namespace ProjetUnivers {
 
   namespace Noyau {
   
-      /// Constructeur.
-    Vue::Vue(const Base::Association< Modele > _modele)
-    : BASE_VREF(modele)(_modele)
+    /// Constructeur.
+    Vue::Vue(const Association<Modele>& _modele)
+    : modele(_modele)
     {}
   
+    Vue::~Vue()
+    {}
+    
   }
 }
 

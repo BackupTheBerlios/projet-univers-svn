@@ -20,16 +20,14 @@
 
 #include <modele/etat_mission.h>
 
-
+using namespace ProjetUnivers::Base ;
 
 namespace ProjetUnivers {
 
   namespace Modele {
     
  
-    using namespace ProjetUnivers::Base ;
-    using namespace ProjetUnivers::Noyau ;
-
+ 
 
     ////////////////////
     // Initialisation de l'état.

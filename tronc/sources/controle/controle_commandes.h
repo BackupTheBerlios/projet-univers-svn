@@ -27,27 +27,45 @@
 
 namespace ProjetUnivers {
 
+  namespace Modele {
+    
+    class CommandesPilotage ;
+  }
+  
   namespace Controle {
     
     
-    class Mission ;
+    
     
       
     /// Le contrôle qui gère les commandes de pilotage.
 
     /*!
-    Type de classe
-    
-      Objet
-    
-      Concret
-    
+      
+      Récupère les entrées et effectue les actions correspondantes 
+      sur les commandes de pilotage.
+     
+      Type de classe :
+        - Objet
+        - Concret
     */
     class ControleCommandes : public Noyau::Controle {
     public:
 
+      /// Constructeur
+      ControleCommandes(
+        const Base::Association<Modele::CommandesPilotage>& _commandes) ;
 
-      
+
+      /// Réalise son contrôle.
+ 
+      /*!
+        
+        
+        
+      */
+      virtual void Controler() ;
+ 
       
 
       
@@ -56,9 +74,14 @@ namespace ProjetUnivers {
       // ****************
       /// @name Attributs
       // ****************
+      // @{
       
       
+      /// Les commandes de pilotage.
+      Base::Association<Modele::CommandesPilotage> commandes ;
 
+
+      // @}
     };
     
     
