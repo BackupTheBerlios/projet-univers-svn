@@ -77,7 +77,7 @@ namespace ProjetUnivers {
       
       ////////////////
       // Les composants du vaisseau.
-      EnsembleComposition< Composant > composants ;
+      Base::EnsembleComposition< Composant > composants ;
 
       ////////////////
       // Le fabriquant
