@@ -28,10 +28,6 @@ namespace ProjetUnivers {
   namespace Univers {
     
     
-    class Planetoide ;
-    class Etoile ;
-    
-    
 
 
     // *******************

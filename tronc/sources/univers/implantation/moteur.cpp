@@ -25,6 +25,9 @@ namespace ProjetUnivers {
 
   namespace Univers {
 
+
+    using namespace ProjetUnivers::Base ;
+
     Moteur::Moteur()
     {
       Association< Moteur > temp(*this) ; 

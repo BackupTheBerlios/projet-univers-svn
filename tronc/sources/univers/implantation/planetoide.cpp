@@ -19,19 +19,19 @@
  ***************************************************************************/
 
 #include "planetoide.h"
-
+#include "position.h"
 
 
 namespace ProjetUnivers {
 
   namespace Univers {
     
-   
+    
 
     ////////////////////
     // Constructeur.
     Planetoide::Planetoide()
-    : ObjetPhysique(Position())
+    : ObjetPhysique(Noyau::Position())
     {
       
       // par défaut, on pioche un nom de mesh dans la liste des mesh de 

@@ -26,7 +26,8 @@ namespace ProjetUnivers {
 
   namespace Univers {
     
-  
+    using namespace ProjetUnivers::Noyau ;
+    
     Vaisseau::Vaisseau()
     : Bien(), ObjetPhysique(Position())
     {}
