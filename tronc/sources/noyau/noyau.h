@@ -18,46 +18,30 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_NOYAU_VUE_H_
-#define _PU_NOYAU_VUE_H_
 
-#include <base/association_virtuelle.h>
+#ifndef _NOYAU_H_
+#define _NOYAU_H_
+
 
 namespace ProjetUnivers {
-
+  
+ 
+  /// Le module contenant des notions de bases du projet
+  
+  /*!
+    Contient le cadre modèle (Modele), vue (Vue), contrôleur
+ 
+    Contient les notions spatiales tri-dimentionnelles avec Position et 
+    Distance.
+     
+  */ 
   namespace Noyau {
   
-    class Modele ;
-    
   
-    /*
-    CLASS
-      Vue
-      
-      Un point de vue sur une partie du modèle.
-
-    TYPE_DE_CLASSE
-      Objet
-      Abstrait
-    */
-    
-    /// Point de vue sur une partie du modèle de données.
-    
-    /// Il s'agit de la partie vue de l'application du patron : 
-    /// modele (Modele), vue (Vue), contrôleur (Controle)
-    class Vue {
-    public:
-    
-    
-    
-    protected:
-      
-      /// Modèle vu.
-      DECLARATION_ASSOCIATION_VIRTUELLE(Modele, modele)
-    
-    };
   
   }
+  
 }
 
-#endif
+
+#endif //_NOYAU_H_

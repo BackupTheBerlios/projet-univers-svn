@@ -22,7 +22,7 @@
 #ifndef _PU_NOYAU_CONTROLE_H_
 #define _PU_NOYAU_CONTROLE_H_
 
-
+#include <base/association.h>
 
 namespace ProjetUnivers {
 
@@ -32,22 +32,20 @@ namespace ProjetUnivers {
   
   
   
-    /*
-    CLASS
-      Controle
-      
-      Classe abstraite des controles à appliquer à un état.
-    */
-    class Controle {
+    //// Classe abstraite des controles.
+    
+    //// Un controle sert à récupérer les entrées et, en retours, modifie 
+    //// le modèle et/où l'affichage.
+    /// Il s'agit de la partie Contrôleur de l'application du patron : 
+    /// modele (Modele), vue (Vue), contrôleur (Controle)
+    class Controle // : public Objet
+    {
     public:
     
     
     
     protected:
       
-      ////////////////////
-      // Etat sur lequel porte le controle.
-      Association< Etat > etat ;
     
     };
   

@@ -21,25 +21,23 @@
 #ifndef _PU_NOYAU_DISTANCE_H_
 #define _PU_NOYAU_DISTANCE_H_
 
-#include "types.h"
+#include <base/types.h>
 
 namespace ProjetUnivers {
 
   namespace Noyau {
 
-    /*
-    CLASS
-      Distance
       
-      Une distance éloignant deux points.
-      
-    EXPLICATION
+    /// Une distance éloignant deux points.
+    
+    /*!  
+    Expication
       
       La distance est stockée dans n'importe quelle unité pour des raisons de 
       précision. Ainsi, de grandes distances pouront être stokées en parsecs et
       de petites distances en mètres.
 
-    TYPE_DE_CLASSE
+    Type de classe
       Objet
       Valeur
     */
@@ -47,57 +45,58 @@ namespace ProjetUnivers {
     public:
     
       // ********************
-      // GROUP: Constructeurs
+      /// @name Constructeurs
       // ********************
+      // @{   
     
-    
-      ///////////////////
-      // Distance zéro.
+
+      /// Distance nulle.
       Distance() ;
       
-      ///////////////////
-      // Constructeur de copie.
+      /// Constructeur de copie.
       Distance(const Distance&) ;
     
       
+      // @}
       // ******************
-      // GROUP: Conversions
+      /// @name Conversions
       // ******************
-          
-          
-      //////////////////
-      // Convertit la distance en parsecs.
+      // @{
+      
+
+      /// Convertit la distance en parsecs.
       Base::Reel Parsec() const ; 
       
-      //////////////////
-      // Convertit la distance en mètres.
+      /// Convertit la distance en mètres.
       Base::Reel Metre() const ; 
       
-      //////////////////
-      // Convertit la distance en années lumières.
+      /// Convertit la distance en années lumières.
       Base::Reel AnneeLumiere() const ; 
+
     
-    
+      // @}    
       // ************
-      // GROUP: Accès
+      /// @name Accès
       // ************
+      // @{
       
-      //////////////////////
-      // Comparaison avec une autre distance. Plus ou moins précis en fonction 
-      // de la Distance : deux distances éloignées...
+      
+
+      /// Comparaison avec une autre distance. Plus ou moins précis en fonction 
+      /// de la Distance : deux distances éloignées...
       // BooleenEtendu Comparer(const Distance&) const ;
     
     
     private:
     
+      /// Les différentes unités de mesure
       typedef enum {_AnneeLumiere, _Parsec, _Metre} Unite ;
     
-      ///////////////
-      // Valeur.
+
+      /// Valeur.
       Base::Reel distance ;
   
-      ////////////////
-      // Unité de la distance
+      /// Unité de la distance
       Unite unite ;    
   
     };

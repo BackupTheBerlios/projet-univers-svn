@@ -21,62 +21,58 @@
 #ifndef _PU_NOYAU_POSITION_H_
 #define _PU_NOYAU_POSITION_H_
 
-#include "distance.h"
+#include <noyau/distance.h>
 
 namespace ProjetUnivers {
 
   namespace Noyau {
 
-    using namespace ProjetUnivers::Base ;
-    /*
-    CLASS
-      Position
-      
-      Une position absolue dans l'espace à trois dimensions . L'unité de 
-      mesure est le ???.
-      
-    TYPE_DE_CLASSE
-      Objet
-      Valeur
-    */
+    //using namespace ProjetUnivers::Base ;
+
+
+    /// Une position absolue dans un espace à trois dimensions.
     class Position {
     public:
     
-      // *******************
-      // GROUP: Constructeur
-      // *******************
-    
-      ///////////////
-      // Construit le point d'origine.
+      // *************************
+      /// @name Constructeurs
+      // *************************      
+      // @{  
+     
+
+      /// Construit le point d'origine.
       Position() ;
 
-      ///////////////////
-      // Construit la position indiquée.
+
+      /// Construit la position indiquée.
       Position(const Distance& x, 
                const Distance& y, const Distance& z) ;
       
-      ///////////////////
-      // Constructeur de copie.
+
+      /// Constructeur de copie.
       Position(const Position&) ;
       
+      // @}
+
+      // *************************
+      /// @name Accès
+      // *************************      
+      // @{  
+       
+     
       
-      // ************
-      // GROUP: Accès
-      // ************  
-      
-      
-      //////////////////
+
       // Calcule la distance.
       Distance CalculerDistance(const Position&) ; 
     
-    
+      // @}
     
     private:
     
-      ///////////////
-      // Implantation l'aide de trois distances, 
-      // qui sont les distances entre les divers projections sur les plans 
-      // des coordonnées et le point qui sert d'origine au système.      
+
+      /// Implantation l'aide de trois distances, 
+      /// qui sont les distances entre les divers projections sur les plans 
+      /// des coordonnées et le point qui sert d'origine au système.      
       Distance coordonneeX ;
       Distance coordonneeY ;
       Distance coordonneeZ ;      

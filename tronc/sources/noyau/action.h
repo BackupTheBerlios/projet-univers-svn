@@ -21,52 +21,52 @@
 #ifndef _PU_NOYAU_ACTION_H_
 #define _PU_NOYAU_ACTION_H_
 
-#include "association.h"
+#include <base/association.h>
 
 namespace ProjetUnivers {
 
   namespace Noyau {
 
-    using namespace ProjetUnivers::Base ;
 
     class Modele ;
     
     
-    /*
-    CLASS
-      Action
-      
-      Une action de jeu pouvant être réalisée par un joueur ou une IA.
-      
-    TYPE_DE_CLASSE
-      Objet
-      Abstrait
-    */
+    /// \brief 
+    /// Une action de jeu pouvant être réalisée par un joueur ou une IA.
+    
+    /// Une action décrit une opération de modification sur le modèle, il 
+    /// s'agit pas exemple ....
     class Action {
     public:
       
       
+
       // *************************
-      // GROUP: Méthode principale
+      /// @name Méthodes principales
+      // *************************      
+      // @{  
+      
+
+      /// Réalise l'action sur le modèle.
+
+      /// \remark 
+      ///     peut être il faudrait obtenir le résultat de l'action en 
+      ///     retours...
+      virtual void Realiser(const Base::Association< Modele >&) const = 0 ;
+      
+      
+      
+      // }@
+      
+
       // *************************
+      /// @name Constructeurs/Destructeurs
+      // *************************      
+      // @{  
       
       
-      ////////////////////////
-      // Réalise l'action sur le modèle.
-      virtual void Realiser(const Association< Modele >&) const = 0 ;
-      
-      // remarque, peut être il faudrait obtenir le résultat de l'action en 
-      // retours...
-      
-      
-      
-      // *******************
-      // GROUP: Destructeur
-      // *******************
-      
-      
-      //////////////////
-      // Classe abstraite donc destructeur virtuel.
+
+      /// Classe abstraite donc destructeur virtuel.
       virtual ~Action() ;
     
 
@@ -74,15 +74,13 @@ namespace ProjetUnivers {
     
     protected:
     
-      // *******************
-      // GROUP: Constructeur
-      // *******************
  
  
-      //////////////////////
-      // Classe abstraite donc constructeur protégé.
+
+      /// Classe abstraite donc constructeur protégé.
       Action() ;
     
+      // }@
     
     
     

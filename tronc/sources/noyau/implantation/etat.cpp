@@ -20,16 +20,16 @@
 
 
 
-#include "etat.h"
-#include "modele.h"
-#include "controle.h"
-#include "vue.h"
+#include <noyau/etat.h>
+#include <noyau/modele.h>
+#include <noyau/controle.h>
+#include <noyau/vue.h>
 
 namespace ProjetUnivers {
 
   namespace Noyau {
   
-
+    using namespace ProjetUnivers::Base ;
 
     /////////////////////
     // Activation de l'état.

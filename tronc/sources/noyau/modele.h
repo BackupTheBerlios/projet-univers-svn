@@ -21,6 +21,7 @@
 #ifndef _PU_NOYAU_MODELE_H_
 #define _PU_NOYAU_MODELE_H_
 
+#include <base/ensemble_association.h>
 
 namespace ProjetUnivers {
 
@@ -28,26 +29,29 @@ namespace ProjetUnivers {
   
  
   
-    /*
-    CLASS
-      Modele
-      
-      Classe abstraite des données utilisateur.
-
-    TYPE_DE_CLASSE
-      Objet
-      Abstrait
-    */
+   /// \brief 
+    /// Classe abstraite du modèle de données.
+    
+    /// Il s'agit de la partie Modèle de l'application du patron : 
+    /// 
+    /// modèle (Modele), vue (Vue), contrôleur (Controle)
     class Modele {
     public:
+
+
+
+
+
+
     
-      // *******************
-      // GROUP: Destructeur
-      // *******************
+      // *************************
+      /// @name Constructeurs/Destructeurs
+      // *************************      
+      // @{  
+       
       
-      
-      //////////////////
-      // Classe abstraite donc destructeur virtuel.
+
+      /// Classe abstraite donc destructeur virtuel.
       virtual ~Modele() ;
     
 
@@ -55,15 +59,20 @@ namespace ProjetUnivers {
     
     protected:
     
-      // *******************
-      // GROUP: Constructeur
-      // *******************
  
  
-      //////////////////////
-      // Classe abstraite donc constructeur protégé.
+
+      /// Classe abstraite donc constructeur protégé.
       Modele() ;
        
+      // }@
+    
+    
+    /// Les vues qu'il faut notifier des changements.
+    Base::EnsembleAssociation< Vue > observateurs ;
+    
+    
+    
     
     };
   

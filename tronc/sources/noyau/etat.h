@@ -22,45 +22,38 @@
 #define _PU_NOYAU_ETAT_H_
 
 
-#include "composition.h"
-#include "ensemble_composition.h"
+#include <base/composition.h>
+#include <base/ensemble_composition.h>
 
 
 namespace ProjetUnivers {
 
   namespace Noyau {
   
-    using namespace ProjetUnivers::Base ;
-    
+   
     class Modele ;
     class Controle ;
     class Vue ;
     
-    /*
-    CLASS
-      Etat
-      
-      Classe abstraite des états d'une partie.
-      
-    EXPLICATION
-      Un état caractérise le fait d'être dans une certaine étape du 
-      déroulement d'une partie, il s'agit par exemple 
-      du fait d'être dans un menu, 
-      ou dans une certaine situation au cours d'une partie. 
-       
-      Un état peut avoir des sous-états, mais un seul est alors activé. 
-       
-      Un état possède une donnée utilisateur, qui contient les 
-      informations fonctionnelles. 
-       
-      Un état de jeu possède aussi une vue qui sera affichée à l'écran.
-      
-      Un état a des contrôles qui sont exécutés périodiquement.
 
-    TYPE_DE_CLASSE
-      Abstraite
-      Objet
-    */
+
+    //// Classe obsolète ??
+    
+    /// EXPLICATION
+    ///      Un état caractérise le fait d'être dans une certaine étape du 
+    ///      déroulement d'une partie, il s'agit par exemple 
+    ///      du fait d'être dans un menu, 
+    ///      ou dans une certaine situation au cours d'une partie. 
+    ///       
+    ///      Un état peut avoir des sous-états, mais un seul est alors activé. 
+    ///       
+    ///      Un état possède une donnée utilisateur, qui contient les 
+    ///      informations fonctionnelles. 
+    ///       
+    ///      Un état de jeu possède aussi une vue qui sera affichée à l'écran.
+    ///      
+    ///      Un état a des contrôles qui sont exécutés périodiquement.
+    
     class Etat {
     public:
         
@@ -70,8 +63,7 @@ namespace ProjetUnivers {
       // ***************************
 
 
-      /////////////////////
-      // Activation de l'état.
+      /// Activation de l'état.
       void Entrer() ;
 
 
@@ -80,12 +72,10 @@ namespace ProjetUnivers {
       // ***************************
       
       
-      ///////////////////////
-      // Initialisation de l'état, réalisée une fois à l'entrée
+      /// Initialisation de l'état, réalisée une fois à l'entrée
       virtual void Initialiser() = 0 ;
 
-      //////////////////////
-      // Terminaison de l'état, réaliser à la sortie
+      /// Terminaison de l'état, réaliser à la sortie
       virtual void Finaliser() = 0 ;
 
 
@@ -94,34 +84,29 @@ namespace ProjetUnivers {
       // *****************************
         
       
-      //////////////////////
-      // Ajout d'un sous-état.
+      /// Ajout d'un sous-état.
       void AjouterSousEtat(Etat*) ;
       
-      //////////////////////
-      // Suppression d'un sous-état.
-      void SupprimererSousEtat(const Association< Etat >&) ;   
+      /// Suppression d'un sous-état.
+      void SupprimererSousEtat(const Base::Association< Etat >&) ;   
       
-      /////////////////////
-      // Active un sous-état.
-      void ActiverSousEtat(const Association< Etat >&) ;
+      /// Active un sous-état.
+      void ActiverSousEtat(const Base::Association< Etat >&) ;
       
       
       // *************
       // GROUP: Divers
       // *************
       
-      //////////////////
-      // Classe abstraite donc destructeur virtuel.
+      /// Classe abstraite donc destructeur virtuel.
       virtual ~Etat() ;
     
     
     protected:
     
-      //////////////////
-      // Le sous-état actif, s'il y a des sous-états.
-      // C'est un élément de sousEtats.
-      Association< Etat > sousEtatActif ;    
+      /// Le sous-état actif, s'il y a des sous-états.
+      /// C'est un élément de sousEtats.
+      Base::Association< Etat > sousEtatActif ;    
     
     
     
@@ -130,26 +115,21 @@ namespace ProjetUnivers {
       // ****************
     
     
-      ////////////////////
-      // Sous état éventuels.
-      EnsembleComposition< Etat > sousEtats ;
+      /// Sous état éventuels.
+      Base::EnsembleComposition< Etat > sousEtats ;
             
-      //////////////////////
-      // Sur état éventuel.
-      Association< Etat > surEtat ;
+      /// Sur état éventuel.
+      Base::Association< Etat > surEtat ;
       
-      ///////////////////
-      // Donnée utilisateur.
-      Composition< Modele > modele ;
+      /// Donnée utilisateur.
+      Base::Composition< Modele > modele ;
       
-      ///////////////////
-      // Les contrôles à appliquer dans l'état, ils sont appelés périodiquement.
-      EnsembleComposition< Controle > controle ;
+      /// Les contrôles à appliquer dans l'état, ils sont appelés périodiquement.
+      Base::EnsembleComposition< Controle > controle ;
       
-      //////////////////
       // Ce qu'il faut afficher à l'écran pour cet état. 
       // Il peut ne pas y en avoir.
-      Composition< Vue > vue ;
+      Base::Composition< Vue > vue ;
     
     };
   

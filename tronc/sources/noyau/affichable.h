@@ -21,38 +21,31 @@
 #ifndef _PU_NOYAU_AFFICHABLE_H_
 #define _PU_NOYAU_AFFICHABLE_H_
 
-#include "chaine.h"
-#include "composition.h"
+#include <base/chaine.h>
+#include <base/composition.h>
 
 namespace ProjetUnivers {
 
   namespace Noyau {
 
-    using namespace ProjetUnivers::Base ;
+    // using namespace ProjetUnivers::Base ;
 
-    /*
-    CLASS
-      Affichable
-      
-      Classe des objets affichables.
-      
-    TYPE_DE_CLASSE
-      Objet
-      Abstrait
-    */
+
+    /// Classe des objets affichables.
+    
+    /// \remark
+    ///   à supprimer...
     class Affichable {
     public:
     
-      //////////////////
-      // Classe abstraite donc destructeur virtuel.
+      /// Classe abstraite donc destructeur virtuel.
       virtual ~Affichable() ;
 
      
     protected:
 
-      //////////////////////
-      // Classe abstraite donc constructeur protégé.
-      // On indique le nom du mesh Ogre.
+      /// Classe abstraite donc constructeur protégé.
+      /// On indique le nom du mesh Ogre.
       Affichable(const Base::Chaine& _nomDuMesh = "") ;
   
   
@@ -61,13 +54,11 @@ namespace ProjetUnivers {
       // *********************************
       
   
-      ////////////////////
-      // Le nom du mesh Ogre, correspondant à l'affichage de 
+      /// Le nom du mesh Ogre, correspondant à l'affichage de 
       Base::Chaine nomDuMesh ;
   
-      ///////////////////////
-      // Les objets affichables le sont pour l'instant par Ogre.
-      // Composition< Ogre::Mesh > mesh ;
+      /// Les objets affichables le sont pour l'instant par Ogre.
+      /// Composition< Ogre::Mesh > mesh ;
     };
   }
 }
