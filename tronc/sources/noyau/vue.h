@@ -35,6 +35,10 @@ namespace ProjetUnivers {
       Vue
       
       Classe abstraite des controles à appliquer à un état.
+
+    TYPE_DE_CLASSE
+      Objet
+      Abstrait
     */
     class Vue {
     public:

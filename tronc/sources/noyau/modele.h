@@ -33,14 +33,37 @@ namespace ProjetUnivers {
       Modele
       
       Classe abstraite des données utilisateur.
+
+    TYPE_DE_CLASSE
+      Objet
+      Abstrait
     */
     class Modele {
     public:
     
+      // *******************
+      // GROUP: Destructeur
+      // *******************
+      
+      
+      //////////////////
+      // Classe abstraite donc destructeur virtuel.
+      virtual ~Modele() ;
     
+
+      
     
     protected:
-      
+    
+      // *******************
+      // GROUP: Constructeur
+      // *******************
+ 
+ 
+      //////////////////////
+      // Classe abstraite donc constructeur protégé.
+      Modele() ;
+       
     
     };
   

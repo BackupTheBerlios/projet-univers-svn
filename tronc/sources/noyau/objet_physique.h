@@ -22,9 +22,8 @@
 #define _PU_NOYAU_OBJET_PHYSIQUE_H_
 
 
-#include "affichable.h"
+// #include "affichable.h"
 #include "position.h"
-#include <OgreEntity.h>
 
 
 namespace ProjetUnivers {
@@ -41,7 +40,7 @@ namespace ProjetUnivers {
       Objet
       Abstrait
     */
-    class ObjetPhysique : public Affichable {
+    class ObjetPhysique {
     public:
     
       //////////////////
@@ -58,18 +57,11 @@ namespace ProjetUnivers {
       ObjetPhysique(const Position&) ;
     
       ///////////////
-      // Position
+      // Position actuelle dans un espace à trois dimensions
       Position position ;
       
       
-      // **********************
-      // GROUP: Spécifique Ogre
-      // **********************
             
-      ///////////////
-      // Le noeud entité de ogre de cet objet.
-      // en association ou en composition ??
-      // Ogre::Entity entite ;
       
   
     };

@@ -56,6 +56,7 @@ namespace ProjetUnivers {
       Un état de jeu possède aussi une vue qui sera affichée à l'écran.
       
       Un état a des contrôles qui sont exécutés périodiquement.
+
     TYPE_DE_CLASSE
       Abstraite
       Objet

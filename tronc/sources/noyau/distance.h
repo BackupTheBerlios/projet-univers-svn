@@ -27,7 +27,6 @@ namespace ProjetUnivers {
 
   namespace Noyau {
 
-    using namespace ProjetUnivers::Base ;
     /*
     CLASS
       Distance
@@ -39,12 +38,18 @@ namespace ProjetUnivers {
       La distance est stockée dans n'importe quelle unité pour des raisons de 
       précision. Ainsi, de grandes distances pouront être stokées en parsecs et
       de petites distances en mètres.
+
     TYPE_DE_CLASSE
       Objet
       Valeur
     */
     class Distance {
     public:
+    
+      // ********************
+      // GROUP: Constructeurs
+      // ********************
+    
     
       ///////////////////
       // Distance zéro.
@@ -53,18 +58,35 @@ namespace ProjetUnivers {
       ///////////////////
       // Constructeur de copie.
       Distance(const Distance&) ;
+    
       
+      // ******************
+      // GROUP: Conversions
+      // ******************
+          
+          
       //////////////////
       // Convertit la distance en parsecs.
-      Reel Parsec() const ; 
+      Base::Reel Parsec() const ; 
       
       //////////////////
       // Convertit la distance en mètres.
-      Reel Metre() const ; 
+      Base::Reel Metre() const ; 
       
       //////////////////
       // Convertit la distance en années lumières.
-      Reel AnneeLumiere() const ; 
+      Base::Reel AnneeLumiere() const ; 
+    
+    
+      // ************
+      // GROUP: Accès
+      // ************
+      
+      //////////////////////
+      // Comparaison avec une autre distance. Plus ou moins précis en fonction 
+      // de la Distance : deux distances éloignées...
+      // BooleenEtendu Comparer(const Distance&) const ;
+    
     
     private:
     
@@ -72,7 +94,7 @@ namespace ProjetUnivers {
     
       ///////////////
       // Valeur.
-      Reel distance ;
+      Base::Reel distance ;
   
       ////////////////
       // Unité de la distance

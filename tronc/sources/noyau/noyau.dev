@@ -1,7 +1,7 @@
 [Project]
 FileName=noyau.dev
 Name=Noyau
-UnitCount=13
+UnitCount=14
 Type=2
 Ver=1
 ObjFiles=
@@ -108,9 +108,9 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit14]
-FileName=implantation\planetoide.cpp
+FileName=..\..\..\..\projet-univers\tronc\sources\noyau\action.h
 CompileCpp=1
-Folder=Implantation
+Folder=
 Compile=1
 Link=1
 Priority=1000

@@ -21,9 +21,7 @@
 #ifndef _PU_NOYAU_POSITION_H_
 #define _PU_NOYAU_POSITION_H_
 
-#include <OgreVector3.h>
 #include "distance.h"
-#include "types.h"
 
 namespace ProjetUnivers {
 
@@ -34,7 +32,8 @@ namespace ProjetUnivers {
     CLASS
       Position
       
-      Une position absolue dans l'espace. L'unité de mesure est le ???.
+      Une position absolue dans l'espace à trois dimensions . L'unité de 
+      mesure est le ???.
       
     TYPE_DE_CLASSE
       Objet
@@ -43,24 +42,47 @@ namespace ProjetUnivers {
     class Position {
     public:
     
+      // *******************
+      // GROUP: Constructeur
+      // *******************
+    
+      ///////////////
+      // Construit le point d'origine.
+      Position() ;
+
       ///////////////////
-      // Construit la position indiquée, par défaut la position d'origine, 
-      // l'unité de mesure est le ???.
-      Position(const Reel& x = 0, const Reel& y = 0, const Reel& z = 0) ;
+      // Construit la position indiquée.
+      Position(const Distance& x, 
+               const Distance& y, const Distance& z) ;
       
       ///////////////////
       // Constructeur de copie.
       Position(const Position&) ;
       
+      
+      // ************
+      // GROUP: Accès
+      // ************  
+      
+      
       //////////////////
       // Calcule la distance.
-      Distance CalculeDistance(const Position&) ; 
+      Distance CalculerDistance(const Position&) ; 
+    
+    
     
     private:
     
       ///////////////
-      // Implantation à l'aide d'un vecteur à trois coordonnées.
-      Ogre::Vector3 vecteurCoordonnees ;
+      // Implantation l'aide de trois distances, 
+      // qui sont les distances entre les divers projections sur les plans 
+      // des coordonnées et le point qui sert d'origine au système.      
+      Distance coordonneeX ;
+      Distance coordonneeY ;
+      Distance coordonneeZ ;      
+      
+      
+  
   
     };
   }

@@ -23,7 +23,6 @@
 
 #include "chaine.h"
 #include "composition.h"
-#include <OgreMesh.h>
 
 namespace ProjetUnivers {
 
@@ -54,20 +53,21 @@ namespace ProjetUnivers {
       //////////////////////
       // Classe abstraite donc constructeur protégé.
       // On indique le nom du mesh Ogre.
-      Affichable(const Chaine& _nomDuMesh = "") ;
+      Affichable(const Base::Chaine& _nomDuMesh = "") ;
   
   
-      // ****************
-      // GROUP: Attributs
-      // ****************
+      // *********************************
+      // GROUP: Attributs spécifiques Ogre
+      // *********************************
+      
   
       ////////////////////
       // Le nom du mesh Ogre, correspondant à l'affichage de 
-      Chaine nomDuMesh ;
+      Base::Chaine nomDuMesh ;
   
       ///////////////////////
       // Les objets affichables le sont pour l'instant par Ogre.
-      Composition< Ogre::Mesh > mesh ;
+      // Composition< Ogre::Mesh > mesh ;
     };
   }
 }
