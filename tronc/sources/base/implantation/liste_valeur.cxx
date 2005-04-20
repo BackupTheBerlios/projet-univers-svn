@@ -45,7 +45,7 @@ namespace ProjetUnivers {
       
       template <typename VALEUR>    
       ListeValeur<VALEUR>::ListeValeur(const ListeValeur<VALEUR>& _liste)
-      : liste(_l.liste->Prendre()) 
+      : liste(_liste.liste->Prendre()) 
       {}
       
       template <typename VALEUR>
@@ -126,7 +126,7 @@ namespace ProjetUnivers {
         }
       
         // dans tous les cas on ajoute
-        liste->AjouterEnQueue(_n) ;
+        liste->AjouterEnQueue(_elt) ;
       
       
       
