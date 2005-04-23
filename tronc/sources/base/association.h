@@ -29,11 +29,9 @@ namespace ProjetUnivers {
 
     template <class OBJET> class Composition ;
     
-    // template <class OBJET> class Implantation::NoeudAssociation ;
    
     /// Classe générique désignant une association d'un élément d'une classe 
-    /// d'objets.
-    
+    /// d'objets.  
     /*!
     Utilisation
     
@@ -75,10 +73,9 @@ namespace ProjetUnivers {
     	
       /// Conversion de Composition en Association
       Association(const Composition<OBJET>& _x) ;
-    
-     // @}
  
-     
+    
+      // @}
       // *************************
       /// @name Opérateurs de déréférenciation
       // *************************      
@@ -88,14 +85,19 @@ namespace ProjetUnivers {
       // Vérifie que le pointeur est non NULL avant d'appeler.
       OBJET* operator ->() const ;
     
-    
-     // @}
-     
+      /// Accès à l'objet pointé.
+      OBJET& operator *() const 
+      {
+        return *pt ;
+      }
 
+    
+      // @}
       // *************************
       /// @name Affectations
       // *************************      
       // @{  
+    
     
       /// Affectation d'une autre association.
       Association<OBJET>& operator =(Association<OBJET> _r)
@@ -108,8 +110,8 @@ namespace ProjetUnivers {
       /// Affectation avec un pointeur d'agregation.
       Association<OBJET>& operator =(const Composition<OBJET>& _x) ;
     	
+      
       // @}
-    
       // *************************
       /// @name Comparaisons
       // *************************      
@@ -166,12 +168,9 @@ namespace ProjetUnivers {
       /// Cette méthode est INTERDITE donc on la déclare en privé.
       Association<OBJET>& operator =(OBJET* _p) ;
     
+    
       // @}
-    
-      //friend class Implantation::NoeudAssociation<OBJET> ;
     };
-    
-
   }
 }
 

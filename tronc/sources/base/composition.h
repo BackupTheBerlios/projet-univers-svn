@@ -138,23 +138,24 @@ namespace ProjetUnivers {
       
 
       /// Accès à l'objet pointé.
-      const OBJET& operator *() const
+      OBJET& operator *() const
       {
         return *pt ;
       }
     
       /// Accès à l'objet pointé.
-      OBJET& operator *() 
-      {
-        return *pt ;
-      }
+      //OBJET& operator *()
+      //{
+      //  return *pt ;
+      //}
+    
     
       // @}
-          
       // *************************
       /// @name Adoption/Abandon
       // *************************      
       // @{  
+      
       
       /// Constructeur, l'objet pointé est adopté. Par défaut, 
       /// le pointeur pointe sur NULL.
@@ -202,13 +203,13 @@ namespace ProjetUnivers {
         return rc ;
       }
     
-      // @}
-
     
+      // @}
       // *************************
       /// @name Opérateurs de comparaison
       // *************************      
       // @{  
+      
       
       /// Comparaison avec une Association.
       Booleen operator == (const Association<OBJET>& _p) ;
@@ -216,8 +217,8 @@ namespace ProjetUnivers {
       /// Comparaison avec une Association.
       Booleen operator !=(const  Association<OBJET>& _p) ;
     	
-      // @}
-          
+      
+      // @}    
     private:
     
       /// Pointeur sur l'objet agrégé.
@@ -229,6 +230,7 @@ namespace ProjetUnivers {
       /// @name Méthodes Interdites
       // *************************      
       // @{  
+      
       
       /// Méthode Interdite
       
@@ -242,8 +244,8 @@ namespace ProjetUnivers {
       /// utilisée.
       Composition(const Composition< OBJET >&) ;
     
-      // @}
-      
+    
+      // @}  
       friend class Association<OBJET> ;
     };
     

@@ -41,7 +41,7 @@ namespace ProjetUnivers {
     \todo
       Supprimer... car c'est un contrôle...???
     */
-    class EtatMission //: public Etat {
+    class EtatMission
     {
     public:
 

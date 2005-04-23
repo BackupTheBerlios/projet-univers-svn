@@ -21,6 +21,9 @@
 #ifndef _PU_MODELE_COMPOSANT_H_
 #define _PU_MODELE_COMPOSANT_H_
 
+#include <base/association.h>
+#include <base/types.h>
+
 #include <modele/bien.h>
 
 
@@ -28,16 +31,15 @@ namespace ProjetUnivers {
 
   namespace Modele {
     
+    class TypeDeComposant ;
     
       
     ///  Représente un composant d'un vaisseau.
     
     /*!
-    Type de classe
-    
-      Objet
-    
-      Abstrait
+      Type de classe
+      - Objet
+      - Abstrait
     */
     class Composant : public Bien {
     public:
@@ -50,7 +52,23 @@ namespace ProjetUnivers {
 
 
       /// Classe abstraite donc constructeur protégé.
+      Composant(const Base::Association< TypeDeComposant >& _type) ;
+
+      /// Classe abstraite donc constructeur protégé.
       Composant() ;
+
+      
+      /// Type du composant.
+      Base::Association< TypeDeComposant > type ;
+      
+      /// Pourcentage d'état de marche du composant.
+      
+      /*!
+        Un entier entre 0 et 100.
+      */
+      Base::Entier pourcentageEtatDeMarche ;
+      
+      
     };
     
     

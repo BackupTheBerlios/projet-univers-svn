@@ -18,22 +18,47 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#ifndef _PU_UNIVERS_PERSONNAGE_H_
+#define _PU_UNIVERS_PERSONNAGE_H_
 
-#include <noyau/vue.h>
+#include <base/association.h>
+#include <modele/poste.h>
 
-using namespace ProjetUnivers::Base ;
 
 namespace ProjetUnivers {
 
-  namespace Noyau {
-  
-    /// Constructeur.
-    Vue::Vue()
-    {}
-  
-    Vue::~Vue()
-    {}
+  namespace Modele {
+
+    class Vaisseau ;
+    
+
+    /// Un poste de pilote d'un vaisseau.
+    /*!
+      Un poste peut être par exemple le fait d'être le pilote d'un vaisseau.
+    
+      Type de classe :
+        - Objet
+        - Concret
+    */
+    class Pilote : public Poste {
+    public:
+
+
+
+
+      /// Constructeur.
+      Pilote() ;
+      
+    private:
+    
+      /// Vaisseau piloté
+      Base::Association< Vaisseau > vaisseau ;
+    
+      
+    };
     
   }
 }
+
+#endif
 

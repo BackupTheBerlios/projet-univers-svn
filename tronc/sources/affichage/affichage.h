@@ -34,7 +34,16 @@ namespace ProjetUnivers {
      
   */ 
   namespace Affichage 
-  {}
+  {
+  
+    /// Initialisation de l'affichage
+    /*!
+      C'est sans doute ici, que l'on devrait faire le choix du plugin 
+      d'affichage.
+    */
+    void Initialiser() ;
+    
+  }
   
 }
 

@@ -18,22 +18,38 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#ifndef _PU_UNIVERS_PERSONNAGE_H_
+#define _PU_UNIVERS_PERSONNAGE_H_
 
-#include <noyau/vue.h>
-
-using namespace ProjetUnivers::Base ;
+#include <modele/objet_abstrait.h>
 
 namespace ProjetUnivers {
 
-  namespace Noyau {
-  
-    /// Constructeur.
-    Vue::Vue()
-    {}
-  
-    Vue::~Vue()
-    {}
+  namespace Modele {
+
+    /// Un poste dans une structure.
+    /*!
+      Un poste peut être par exemple le fait d'être le pilote d'un vaisseau.
+    
+      Type de classe :
+        - Objet
+        - Abstrait
+    */
+    class Poste : public ObjetAbstrait {
+    public:
+    
+      /// Destructeur de classe abstraite.
+      virtual ~Poste() ;
+    
+    protected:
+    
+      /// Constructeur de classe abstraite.
+      Poste() ;
+      
+    };
     
   }
 }
+
+#endif
 

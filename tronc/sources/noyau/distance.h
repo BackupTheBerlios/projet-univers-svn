@@ -31,15 +31,12 @@ namespace ProjetUnivers {
     /// Une distance éloignant deux points.
     
     /*!  
-    Expication
-      
       La distance est stockée dans n'importe quelle unité pour des raisons de 
       précision. Ainsi, de grandes distances pouront être stokées en parsecs et
       de petites distances en mètres.
 
-    Type de classe
-      Objet
-      Valeur
+      Type de classe
+        - Valeur
     */
     class Distance {
     public:

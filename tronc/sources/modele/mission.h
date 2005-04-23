@@ -24,6 +24,7 @@
 #include <base/ensemble_composition.h>
 #include <base/ensemble_association.h>
 #include <base/composition.h>
+
 #include <modele/objet_abstrait.h>
 
 namespace ProjetUnivers {
@@ -35,17 +36,14 @@ namespace ProjetUnivers {
         
       
     /// Représente une mission.
-      
     /*!
     
-    \remark  
-      Une mission peut se jouer, et alors cela crée un EtatMission
+      \remark  
+        Une mission peut se jouer, et alors cela crée un EtatMission
 
-    Type de classe
-    
-      Objet
-    
-      Concret
+      Type de classe
+        - Objet
+        - Concret
     */
     class Mission : public ObjetAbstrait {
     public:
@@ -62,14 +60,14 @@ namespace ProjetUnivers {
       // ****************
       // @{
       
-      /////////////////
-      // Les différents rôles de la mission.
+      
+      /// Les différents rôles de la mission.
       Base::EnsembleComposition< Role > roles ;
   
-      /////////////////
-      // Les rôles qu'on peut jouer dans la mission.
-      // C'est un sous-ensemble de Mission::roles.
+      /// Les rôles qu'on peut jouer dans la mission.
+      /// C'est un sous-ensemble de Mission::roles.
       Base::EnsembleAssociation< Role > rolesJouables ;
+
 
       // @}
 

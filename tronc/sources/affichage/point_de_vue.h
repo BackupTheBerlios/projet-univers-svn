@@ -18,22 +18,44 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#ifndef _PU_AFFICHAGE_POINT_DE_VUE_H_
+#define _PU_AFFICHAGE_POINT_DE_VUE_H_
 
 #include <noyau/vue.h>
 
-using namespace ProjetUnivers::Base ;
-
 namespace ProjetUnivers {
 
-  namespace Noyau {
-  
-    /// Constructeur.
-    Vue::Vue()
-    {}
-  
-    Vue::~Vue()
-    {}
+
+
+  namespace Affichage {
+
+
+    /// Le fait de voir une partie du modèle depuis un certain endroit.
+    /*!
+      Type de classe :
+        - Objet
+        - Abstrait
+    */
+    class PointDeVue : public Noyau::Vue {
+    public:
+
+      /// Active ce point de vue???
+      /// virtual void Activer() ;
+
     
+      /// Destructeur de classe abstraite.
+      virtual ~ PointDeVue() ;
+
+    protected:
+      
+      /// Contructeur de classe abstraite.
+      PointDeVue() ;
+      
+    };
+
   }
 }
+
+
+#endif
 

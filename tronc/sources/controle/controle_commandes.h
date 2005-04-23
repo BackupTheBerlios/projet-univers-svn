@@ -27,6 +27,8 @@
 
 namespace ProjetUnivers {
 
+
+  // Déclaration en avant.
   namespace Modele {
     
     class CommandesPilotage ;

@@ -18,65 +18,91 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_NOYAU_VUE_H_
-#define _PU_NOYAU_VUE_H_
+#ifndef _PU_AFFICHAGE_VUE_PERSONNAGE_H_
+#define _PU_AFFICHAGE_VUE_PERSONNAGE_H_
 
 #include <base/association.h>
-
+#include <affichage/point_de_vue.h>
+#include <Ogre.h>
 
 namespace ProjetUnivers {
 
-  namespace Noyau {
- 
-    
-  
-    
-    /// Point de vue sur une partie du modèle de données.
-    
+  // Déclaration en-avant.
+  namespace Modele { 
+    class Personnage ;
+  }
+
+  namespace Affichage {
+
+
+    /// Le point de vue subjectif d'un personnage.
     /*!
-      Il s'agit de la partie vue de l'application du patron : 
-      modele (Modele), vue (Vue), contrôleur (Controle)
+      Type de classe :
+        - Objet
+        - Concret
     */
-    class Vue {
+    class VuePersonnage : public PointDeVue {
     public:
-
-      // ***************************
-      /// @name Méthodes principales
-      // ***************************
+    
+      // *******************
+      /// @name Construction 
+      // *******************
       // @{
- 
- 
-      /// Notifie la vue que le modèle à changé.  
-      virtual void NotifierChangement() = 0 ;
-
-      /// Affiche la vue.
+      
+      
+      /// Constructeur.
       
       /*!
-        \remark
-          vérifier que c'est utile...
+        Construit tout ce qu'il ya à construire.
       */
-      virtual void Afficher() = 0 ;
-
+      VuePersonnage(const Base::Association< Modele::Personnage >& _personnage) ;
+      
+      
       // @}
-      // *******************************
-      /// @name Constructeur Destructeur
-      // *******************************
+      // *******************
+      /// @name ??? 
+      // *******************
       // @{
-
-
-      /// Destructeur de classe abstraite.
-      virtual ~Vue() ;
       
-    protected:
-
-      /// Constructeur.
-      Vue() ;
       
+      /// Notification du changement du modèle.
+      virtual void NotifierChangement() ;
+      
+      /// Afficher la vue.
+      void Afficher() ;
+        
     
+      // @}
+    
+    private:
+    
+      /// construit le point de vue.
+      
+      /*!
+      */
+      void Construire() ;
+    
+      /// Le personnage qui voit.
+      Base::Association< Modele::Personnage > personnage ;
+      
+      /// @name Attributs OGRE
+      // @{
+      
+      /// Une surface d'écran... ailleurs ????
+      Ogre::Viewport* surface ;
+      
+      /// Une caméra attachée à la tête du personnage
+      Ogre::Camera* camera ;
+      
+      /// Un gestionnaire d'éléments de scène
+      Ogre::SceneManager* gestionnaire ;
+      
+      
+      //@}
+      
     };
-  
   }
 }
 
-#endif
 
+#endif

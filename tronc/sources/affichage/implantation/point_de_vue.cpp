@@ -18,22 +18,16 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-
-#include <noyau/vue.h>
-
-using namespace ProjetUnivers::Base ;
+#include <affichage/point_de_vue.h>
+#include <noyau/modele.h>
 
 namespace ProjetUnivers {
 
-  namespace Noyau {
-  
-    /// Constructeur.
-    Vue::Vue()
+  namespace Affichage {
+
+    PointDeVue::PointDeVue()
+    : Vue()
     {}
-  
-    Vue::~Vue()
-    {}
-    
+
   }
 }
-

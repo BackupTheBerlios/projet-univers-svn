@@ -36,11 +36,22 @@ namespace ProjetUnivers {
       Par opposition aux objets abstraits du monde 
         \see ObjetAbstrait.
     */
-    class ObjetPhysique : public ProjetUnivers::Noyau::Modele {
+    class ObjetPhysique : public Noyau::Modele {
     public:
     
+      // **********************
+      /// @name Lecture
+      // **********************
+      // @{
 
 
+      /// Position dans l'espace.
+      Noyau::Position Position() const ;
+
+
+
+
+      // @}
       // **********************
       /// @name Constructeur/Destructeur
       // **********************
@@ -52,17 +63,41 @@ namespace ProjetUnivers {
     protected:
     
       /// Classe abstraite donc constructeur protégé.
-      ObjetPhysique(const ProjetUnivers::Noyau::Position&) ;
+      ObjetPhysique(const Noyau::Position&) ;
     
     
       // @}
-    
-      /// Position actuelle dans un espace à trois dimensions
-      ProjetUnivers::Noyau::Position position ;
+      // **********************
+      /// @name Attributs    
+      // **********************
+      // @{
       
+      
+      /// Position actuelle dans un espace à trois dimensions
+      Noyau::Position position ;
+      
+      /// Orientation dans l'espace
+      /*!
+        C'est un vecteur normé.
+      */
+      
+      
+      
+      /// Vitesse
+      
+      
+      
+      /// Moment cinétique
+      /*!
+        C'est la rotation sur lui même.
+      */
+      
+      /// Accélération
+      
+      /// Accélération du moment cinétique?
       
             
-      
+      //@}
   
     };
   }

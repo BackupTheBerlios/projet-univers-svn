@@ -26,7 +26,7 @@ AC_PROG_RANLIB
 AC_PATH_PROG(OCC, occ2, occ2)
 
 # vérifie la présence de Ogre3d
-PKG_CHECK_MODULES(OGRE, [OGRE >= 0.13])
+PKG_CHECK_MODULES(OGRE, [OGRE >= 1.0])
 AC_SUBST(OGRE_CFLAGS)
 AC_SUBST(OGRE_LIBS)
 
@@ -49,9 +49,12 @@ AC_CONFIG_FILES([Makefile \
                  sources/modele/Makefile \
                  sources/modele/compilation/Makefile \
                  sources/meta/Makefile \
-                 sources/meta/compilation/Makefile] \
+                 sources/meta/compilation/Makefile \
                  sources/controle/compilation/Makefile \
-                 sources/controle/Makefile)
+                 sources/controle/Makefile \
+                 sources/affichage/Makefile \
+                 sources/affichage/compilation/Makefile
+                 ])
                  
 #                 sources/demonstration/Makefile])
 # Checks for library functions.

@@ -24,12 +24,13 @@
 #include <base/ensemble_composition.h>
 #include <base/ensemble_association.h>
 #include <base/composition.h>
-#include <univers/objet_abstrait.h>
+
+#include <modele/objet_abstrait.h>
 
 
 namespace ProjetUnivers {
 
-  namespace Univers {
+  namespace Modele {
     
     
     class Mission ;
@@ -41,11 +42,11 @@ namespace ProjetUnivers {
     /// peut être joué par un personnage".
     
     /*!
-    Type de classe
-    
-      Objet
-    
-      Abstrait
+      
+
+      Type de classe
+        - Objet
+        - Abstrait
     */
     class Role : public ObjetAsbtrait {
     public:

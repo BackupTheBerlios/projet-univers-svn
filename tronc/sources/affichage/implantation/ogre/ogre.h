@@ -19,21 +19,39 @@
  ***************************************************************************/
 
 
-#include <noyau/vue.h>
-
-using namespace ProjetUnivers::Base ;
+#ifndef _PU_AFFICHAGE_IMPLANTATION_OGRE_OGRE_H_
+#define _PU_AFFICHAGE_IMPLANTATION_OGRE_OGRE_H_
 
 namespace ProjetUnivers {
+  
+ 
+  namespace Affichage 
+  {
 
-  namespace Noyau {
+
+    namespace Implantation {
+      
+      /// Implantation du module affichage avec Ogre3d.
+      
+      /*!
+        Voir www.ogre3d.org     
+      */ 
+      namespace Ogre {  
   
-    /// Constructeur.
-    Vue::Vue()
-    {}
   
-    Vue::~Vue()
-    {}
+        /// Initialisation de l'affichage
+        /*!
+        */
+        void Initialiser() ;
+        
+      }
+    
+    }
     
   }
+  
 }
 
+
+
+#endif //_AFFICHAGE_H_

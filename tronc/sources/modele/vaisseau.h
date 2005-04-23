@@ -23,6 +23,7 @@
 
 #include <base/ensemble_composition.h>
 #include <base/composition.h>
+
 #include <modele/bien.h>
 
 namespace ProjetUnivers {
@@ -31,7 +32,7 @@ namespace ProjetUnivers {
     
     
     class Composant ;
-    
+    class Poste ;
       
     /// Représente un vaisseau.
     
@@ -50,20 +51,16 @@ namespace ProjetUnivers {
       /// @name Construction
       // *******************
       // @{
-      
+
+
       /// constructeur.
       Vaisseau() ;
     
       /// Ajoute un composant.
       void AjouterComposant(Composant* _composant) ;
 
+
       // @}
-
-	
-    protected:
-
-
-
     private:  
       
 
@@ -76,7 +73,10 @@ namespace ProjetUnivers {
       /// Les composants du vaisseau.
       Base::EnsembleComposition< Composant > composants ;
 
-      ////////////////
+      /// Les postes pouvant être occupés sur le vaisseau.
+      Base::EnsembleComposition< Poste > postes ;
+    
+
       /// Le fabriquant du vaisseau
 //    Base::Association< Groupe > fabriquant ;
  

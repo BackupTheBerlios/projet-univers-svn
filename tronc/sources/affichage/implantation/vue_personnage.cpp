@@ -18,22 +18,57 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-
-#include <noyau/vue.h>
-
-using namespace ProjetUnivers::Base ;
+#include <affichage/vue_personnage.h>
+#include <modele/personnage.h>
 
 namespace ProjetUnivers {
 
-  namespace Noyau {
-  
+  namespace Affichage {
+
     /// Constructeur.
-    Vue::Vue()
-    {}
-  
-    Vue::~Vue()
-    {}
+    VuePersonnage::VuePersonnage(
+        const Base::Association< Modele::Personnage >& _personnage)
+    : PointDeVue(), personnage(_personnage)
+    {
+      // enregistrement de la vue comme Vue sur le modèle
+      personnage->EnregistrerVue(*this) ;
+    }
+      
+    /// Notification du changement du modèle.
+    void VuePersonnage::NotifierChangement() 
+    {
+      // en fonction du changement, on ne fait pas la même chose 
+    }
+ 
+    void VuePersonnage::Construire() 
+    {
+      
+      // cas 1 :
+      // le personnage est pilote
+      
+      
+      // Construction de la caméra et des autres trucs Ogre
+      
+      
+      
+      
+      // on construit 2 choses :
+      // l'environnement local au vaisseau
+      // le reste
+      
+      
+      // construction de l'environnement local
+      // *************************************
     
+      // construction du reste
+      // *********************
+      
+      // c'est une sphère avec des étoiles dessus...
+      
+      
+    
+    }
+
   }
 }
 

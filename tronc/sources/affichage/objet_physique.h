@@ -23,12 +23,12 @@
 
 
 #include <base/association_virtuelle.h>
-
+#include <noyau/vue.h>
 
 namespace ProjetUnivers {
 
 
-  class Univers::ObjetPhysique ;
+  class Modele::ObjetPhysique ;
 
 
   namespace Affichage {
@@ -40,19 +40,15 @@ namespace ProjetUnivers {
     /// Classe de l'affichage des objets physiques du monde.
     
     /*!  
-    Explication
-    
-      C'est la classe de base de l'affichage des objets réels de Univers, comme 
+      C'est la classe de base de l'affichage des objets réels de Modele, comme 
       par exemple : un vaisseau, un astéroïde, une étoile. 
       
         
-    Type de classe
-    
-      Objet
-    
-      Abstrait
+      Type de classe :
+        - Objet
+        - Abstrait
     */
-    class ObjetPhysique {
+    class ObjetPhysique : public Noyau::Vue {
     public:
     
 
@@ -83,7 +79,7 @@ namespace ProjetUnivers {
       
       /// Classe abstraite donc constructeur protégé.
       ObjetPhysique(
-      	const Base::Association< Univers::ObjetPhysique>& _modele) ;
+      	const Base::Association< Modele::ObjetPhysique>& _modele) ;
 
       // @}
       // **********************************
@@ -92,7 +88,7 @@ namespace ProjetUnivers {
       // @{
       
       //// Référence à la partie "modèle" de l'élément.
-      DECLARATION_ASSOCIATION_VIRTUELLE(Univers::ObjetPhysique, modele) ;
+      DECLARATION_ASSOCIATION_VIRTUELLE(Modele::ObjetPhysique, modele) ;
       
       // @}
   
