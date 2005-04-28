@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN"
+"http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd">
+<article>
+  <title>Ordres</title>
+
+  <subtitle>Et désordres ^^</subtitle>
+
+  <articleinfo>
+    <abstract>
+      <para>Dans ce jeu nous étudions la possibilité de commander, chose qui
+      est assez rare dans les jeu de simulation spatiales.</para>
+    </abstract>
+
+    <orgname>Equipe Projet Univers</orgname>
+
+    <author>
+      <firstname>Nicolas</firstname>
+
+      <othername>Néostralie</othername>
+
+      <surname>Chanay</surname>
+
+      <email>neostralie@hotmail.com</email>
+    </author>
+
+    <revhistory>
+      <revision>
+        <revnumber>1</revnumber>
+
+        <date>8 Novembre 2004</date>
+
+        <revdescription>
+          <para>Création du document.</para>
+        </revdescription>
+      </revision>
+
+      <revision>
+        <revnumber>2</revnumber>
+
+        <date>29 avril 2005</date>
+
+        <revdescription>
+          <para>Réanalyse du problème.</para>
+        </revdescription>
+      </revision>
+    </revhistory>
+
+    <legalnotice>
+      <para>Ce document est sous license <ulink
+      url="http://www.gnu.org/copyleft/fdl.html">GNU Free Documentation
+      License</ulink></para>
+    </legalnotice>
+  </articleinfo>
+
+  <section>
+    <title>Définitions</title>
+
+    <section>
+      <title>Action</title>
+
+      <para>C'est dur à définire... Bin c'est une action. On la réalise et
+      elle a des conséquences sur l'univers.</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>Un "rayon laser" touche un "vaisseau"</para>
+        </listitem>
+
+        <listitem>
+          <para>un "canon lase"r émet un "rayon laser"</para>
+        </listitem>
+
+        <listitem>
+          <para>un "canon laser" décharge une "batterie"</para>
+        </listitem>
+
+        <listitem>
+          <para>le "propulseur" pousse le "chasseur"</para>
+        </listitem>
+
+        <listitem>
+          <para>le "pilote" demande au "propulseur" de "réduire sa poussée" au
+          moyen de son "boitier de commande"</para>
+        </listitem>
+
+        <listitem>
+          <para>le "vaisseau A" attaque le "vaisseau B"</para>
+        </listitem>
+
+        <listitem>
+          <para>le "vaisseau" avance</para>
+        </listitem>
+      </itemizedlist>
+    </section>
+
+    <section>
+      <title>Procédure</title>
+
+      <para>La procédure, c'est la définition d'une action particulière
+      réalisée par plusieurs actions</para>
+
+      <example>
+        <title>Attaque d'un "vaisseau A" par un "vaisseau B"</title>
+
+        <orderedlist>
+          <listitem>
+            <para>Si B n'est pas à porté de A donc A s'avance, si non, A reste
+            sur place</para>
+          </listitem>
+
+          <listitem>
+            <para>A vise B</para>
+          </listitem>
+
+          <listitem>
+            <para>A tir sur B</para>
+          </listitem>
+        </orderedlist>
+      </example>
+    </section>
+
+    <section>
+      <title>Ordre</title>
+
+      <para>L'ordre est une demande de réalisation d'une action par un tièrce
+      partie via un canal de communication vers cette partie du demandeur à
+      celui qui est senser éxécuter.</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>le "pilote" demande au "canon laser" d'émettre un "rayon
+          laser" grâce au "boitier de commande"</para>
+        </listitem>
+
+        <listitem>
+          <para>Le "général" demande au "vaisseau A" d'attaquer le "vaisseau
+          B" grâce à sa "radio"</para>
+        </listitem>
+      </itemizedlist>
+    </section>
+  </section>
+
+  <section>
+    <title>Les actions</title>
+
+    <para></para>
+  </section>
+</article>
