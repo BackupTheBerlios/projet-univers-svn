@@ -47,23 +47,27 @@ namespace ProjetUnivers {
       // le personnage est pilote
       
       
-      // Construction de la caméra et des autres trucs Ogre
+      // Construction de la caméra
       
       
       
       
+      // on crée le système dans lequel on est
       // on construit 2 choses :
-      // l'environnement local au vaisseau
+      // l'environnement local au vaisseau :
+      //   les planetes pas loin
       // le reste
-      
+           
       
       // construction de l'environnement local
       // *************************************
     
+
+    
       // construction du reste
       // *********************
       
-      // c'est une sphère avec des étoiles dessus...
+      
       
       
     

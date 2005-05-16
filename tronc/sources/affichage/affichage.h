@@ -22,26 +22,47 @@
 #ifndef _PU_AFFICHAGE_AFFICHAGE_H_
 #define _PU_AFFICHAGE_AFFICHAGE_H_
 
+#include <base/types.h>
+
 namespace ProjetUnivers {
   
  
   /// Le module réalisant l'affichage des objets de Modele.
   
   /*!
-    Réalisation de la partie vue du cadre
-    
-    modèle (Noyau::Modele), vue (Noyau::Vue), contrôleur
-     
+    La Vue de Modele qui réalise l'affichage à l'écran.
   */ 
   namespace Affichage 
   {
   
     /// Initialisation de l'affichage
     /*!
-      C'est sans doute ici, que l'on devrait faire le choix du plugin 
-      d'affichage.
+      Fait le choix 
+        - de la résolution d'affichage
+        - de la technique, par exemple OpenGL, DirectX
+        
+      Crée une fenêtre d'affichage
+      
+      \return FAUX si on doit arreter
+      \return VRAI si on peut et si on doit continuer
+    
+      \remark
+        c'est ici qu'on peut faire le choix de l'implantation
+
     */
-    void Initialiser() ;
+    Base::Booleen Initialiser() ;
+    
+    /// Termine l'affichage
+    /*!
+    */
+    void Terminer() ;
+
+
+    /// Raffraichi l'affichage
+    /*!
+      Met à jour tout ce qui doit être affiché
+    */
+    void Raffraichir() ;
     
   }
   
@@ -49,4 +70,4 @@ namespace ProjetUnivers {
 
 
 
-#endif //_AFFICHAGE_H_
+#endif //_PU_AFFICHAGE_AFFICHAGE_H_

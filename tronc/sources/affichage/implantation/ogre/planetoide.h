@@ -19,49 +19,75 @@
  ***************************************************************************/
 
 
-#ifndef _PU_AFFICHAGE_IMPLANTATION_OGRE_OGRE_H_
-#define _PU_AFFICHAGE_IMPLANTATION_OGRE_OGRE_H_
+#ifndef _AFFICHAGE_IMPLANTATION_OGRE_PLANETOIDE_H_
+#define _AFFICHAGE_IMPLANTATION_OGRE_PLANETOIDE_H_
 
-#include <base/types.h>
+#include <affichage/implantation/planetoide.h>
+
+namespace Ogre { 
+  class Mesh ;
+}
 
 namespace ProjetUnivers {
-  
- 
+   
   namespace Affichage 
   {
 
+    namespace Implantation 
+    {
 
-    namespace Implantation {
+      namespace Ogre 
+      {
       
-      /// Implantation du module affichage avec Ogre3d.
-      
-      /*!
-        Voir www.ogre3d.org     
-      */ 
-      namespace Ogre {  
+
+        /// Partie affichage d'un planetoide.
+        /*!
+          
+        
+          
+        */
+        class Planetoide 
+          : public Implantation::Planetoide
+        {
+          
+          
+        
+        
+         
+        protected:
+        
+          /// Constructeur.
+          Planetoide(const Base::Association< Modele::Planetoide>& _planetoide) ;
+          
+         
+        private:
+          
+          /// Lien vers la partie Modèle
+          Base::Association< Modele::Planetoide> planetoide ;
+          
+          /// Modèle 3D du planetoide
+          ::Ogre::Mesh* modele ;
+          
+          
+        };
   
-        /// Initialisation de l'affichage
+        /// Construiction.
         /*!
+          Est redéfini dans les modules d'extensions pour construire celui de la 
+          bonne classe ???
+          
+          \todo
+            En fait on doit se doter d'une classe qui construit, i.e., une classe 
+            fabricante, qu'on redéfinira dans les modules. Mais qui construira 
+            l'objet de la classe fabricante ? :)
         */
-        Base::Booleen Initialiser() ;
-        
-        /// Termine l'affichage
-        void Terminer() ;
-        
-        /// Raffraichi l'affichage
-        /*!
-          Met à jour tout ce qui doit être affiché
-        */
-        void Raffraichir() ;
-        
+        Planetoide* Construire(
+          const Base::Association< Modele::Planetoide>& _planetoide) ;
+  
       }
-    
-    }
-    
+    }    
+
   }
-  
 }
 
-
-
-#endif //_AFFICHAGE_H_
+#endif //_AFFICHAGE_IMPLANTATION_PLANETOIDE_H_

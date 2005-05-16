@@ -42,11 +42,13 @@ namespace ProjetUnivers {
     /*!  
       C'est la classe de base de l'affichage des objets réels de Modele, comme 
       par exemple : un vaisseau, un astéroïde, une étoile. 
-      
         
       Type de classe :
         - Objet
         - Abstrait
+      
+      \todo
+        a supprimmer ??
     */
     class ObjetPhysique : public Noyau::Vue {
     public:
@@ -80,15 +82,7 @@ namespace ProjetUnivers {
       /// Classe abstraite donc constructeur protégé.
       ObjetPhysique(
       	const Base::Association< Modele::ObjetPhysique>& _modele) ;
-
-      // @}
-      // **********************************
-      /// @name Lien vers la partie univers
-      // **********************************
-      // @{
       
-      //// Référence à la partie "modèle" de l'élément.
-      DECLARATION_ASSOCIATION_VIRTUELLE(Modele::ObjetPhysique, modele) ;
       
       // @}
   

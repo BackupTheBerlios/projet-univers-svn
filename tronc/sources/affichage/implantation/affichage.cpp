@@ -19,3 +19,30 @@
  ***************************************************************************/
 
 #include <affichage/affichage.h>
+#include <affichage/implantation/ogre/ogre.h>
+
+namespace ProjetUnivers {
+  
+   namespace Affichage 
+  {
+    
+    Base::Booleen Initialiser() 
+    {
+    
+      
+      // pour l'instant implantation avec Ogre3D
+      return Implantation::Ogre::Initialiser() ; 
+    }
+    
+    void Terminer()
+    {
+      Implantation::Ogre::Terminer() ;  
+    }
+  
+    void Raffraichir() 
+    {
+      Implantation::Ogre::Raffraichir() ;
+    }
+  }
+  
+}

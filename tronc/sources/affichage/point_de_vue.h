@@ -35,6 +35,8 @@ namespace ProjetUnivers {
       Type de classe :
         - Objet
         - Abstrait
+      \todo
+        A quoi ca sert cette classe ????
     */
     class PointDeVue : public Noyau::Vue {
     public:

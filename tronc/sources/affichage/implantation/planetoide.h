@@ -19,49 +19,70 @@
  ***************************************************************************/
 
 
-#ifndef _PU_AFFICHAGE_IMPLANTATION_OGRE_OGRE_H_
-#define _PU_AFFICHAGE_IMPLANTATION_OGRE_OGRE_H_
+#ifndef _AFFICHAGE_IMPLANTATION_PLANETOIDE_H_
+#define _AFFICHAGE_IMPLANTATION_PLANETOIDE_H_
 
-#include <base/types.h>
+#include <base/association.h>
 
 namespace ProjetUnivers {
   
- 
+  namespace Modele {
+    
+    class Planetoide ;
+  }
+  
   namespace Affichage 
   {
 
-
     namespace Implantation {
+
+
       
-      /// Implantation du module affichage avec Ogre3d.
-      
+
+      /// Partie affichage d'un planetoide.
       /*!
-        Voir www.ogre3d.org     
-      */ 
-      namespace Ogre {  
+        
+      
+        
+      */
+      class Planetoide
+      {
+        
+        
+      
+      
+       
+      protected:
+      
+        /// Constructeur.
+        Planetoide(const Base::Association< Modele::Planetoide>& _planetoide) ;
+        
+       
+      private:
+        
+        /// Lien vers la partie Modèle
+        Base::Association< Modele::Planetoide> planetoide ;
+        
+        /// Modèle 3D du planetoide ??
+        
+        
+      };
+
+      /// Construiction.
+      /*!
+        Est redéfini dans les modules d'extensions pour construire celui de la 
+        bonne classe ???
+        
+        \todo
+          En fait on doit se doter d'une classe qui construit, i.e., une classe 
+          fabricante, qu'on redéfinira dans les modules. Mais qui construira 
+          l'objet de la classe fabricante ? :)
+      */
+      Planetoide* Construire(
+        const Base::Association< Modele::Planetoide>& _planetoide) ;
   
-        /// Initialisation de l'affichage
-        /*!
-        */
-        Base::Booleen Initialiser() ;
-        
-        /// Termine l'affichage
-        void Terminer() ;
-        
-        /// Raffraichi l'affichage
-        /*!
-          Met à jour tout ce qui doit être affiché
-        */
-        void Raffraichir() ;
-        
-      }
-    
     }
-    
   }
-  
 }
 
-
-
-#endif //_AFFICHAGE_H_
+#endif //_AFFICHAGE_IMPLANTATION_PLANETOIDE_H_

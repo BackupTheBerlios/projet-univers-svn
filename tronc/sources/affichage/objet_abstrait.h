@@ -38,24 +38,19 @@ namespace ProjetUnivers {
 
       
     /// Classe de l'affichage des objets abstraits du monde.
-
     /*!
-    Explication
-    
       C'est la classe de base de l'affichage des objets qui ne sont pas réels 
       de Univers, comme par exemple : le contenu d'un message, 
       des statistiques, etc.
 
-    Exemples
-    
-      L'afficheur tête haute
+      Exemple
+        L'afficheur tête haute
 	    
-      
-    Type de classe
-    
-      Objet
-    
-      Abstrait
+      Type de classe :
+        - Objet
+        - Abstrait
+      \todo
+        a supprimmer ??
     */
     class ObjetAbstrait {
     public:
@@ -67,8 +62,7 @@ namespace ProjetUnivers {
       // ***************************
 
 
-      ////////////////
-      // Prépare l'affichage
+      /// Prépare l'affichage
       virtual void Afficher() = 0 ;
 
 
@@ -76,30 +70,20 @@ namespace ProjetUnivers {
       // *******************************
       /// @name Constructeur Destructeur
       // *******************************
+      // @{
 
-
-      //////////////////
-      // Classe abstraite donc destructeur virtuel.
+      /// Destructeur de classe abstraite
       virtual ~ObjetAbstrait() ;
     
     protected:
     
-
       
-      //////////////////////
-      // Classe abstraite donc constructeur protégé.
+      /// Classe abstraite donc constructeur protégé.
       ObjetAbstrait(
       	const Base::Association< Univers::ObjetAbstrait>& _modele) ;
 
-      
-      // **********************************
-      /// @name Lien vers la partie univers
-      // **********************************
 
-      ///////////////
-      // Référence à la partie "modèle" de l'élément.
-      DECLARATION_ASSOCIATION_VIRTUELLE(Univers::ObjetAbstrait, modele) ;
-      
+      // @}
   
     };
   }

@@ -18,50 +18,58 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#include <affichage/implantation/ogre/planetoide.h>
 
-#ifndef _PU_AFFICHAGE_IMPLANTATION_OGRE_OGRE_H_
-#define _PU_AFFICHAGE_IMPLANTATION_OGRE_OGRE_H_
-
-#include <base/types.h>
 
 namespace ProjetUnivers {
-  
- 
+   
   namespace Affichage 
   {
 
+    namespace Implantation 
+    {
 
-    namespace Implantation {
+      namespace Ogre 
+      {
       
-      /// Implantation du module affichage avec Ogre3d.
-      
-      /*!
-        Voir www.ogre3d.org     
-      */ 
-      namespace Ogre {  
+       
+          /// Constructeur.
+        Planetoide::Planetoide(
+          const Association< Modele::Planetoide>& _planetoide)
+        : Implantation::Planetoide(_planetoide)
+        {}
+          /// Modèle 3D du planetoide
+          //::Ogre::Mesh* modele ;
   
-        /// Initialisation de l'affichage
+        /// Construiction.
         /*!
+          Est redéfini dans les modules d'extensions pour construire celui de la 
+          bonne classe ???
+          
+          \todo
+            En fait on doit se doter d'une classe qui construit, i.e., une classe 
+            fabricante, qu'on redéfinira dans les modules. Mais qui construira 
+            l'objet de la classe fabricante ? :)
         */
-        Base::Booleen Initialiser() ;
-        
-        /// Termine l'affichage
-        void Terminer() ;
-        
-        /// Raffraichi l'affichage
-        /*!
-          Met à jour tout ce qui doit être affiché
-        */
-        void Raffraichir() ;
-        
+        Planetoide* Construire(
+          const Association< Modele::Planetoide>& _planetoide)
+        {
+          Composition< Planetoide > resultat(new Planetoide(_planetoide)) ;
+          
+          // si on trouve une donnée de ce planetoide alors c'est bon
+          
+          
+          
+          // sinon on en construit une par défaut
+          // ... on choppe les caracs et on construit une boule de la bonne 
+          // taille
+          // avec une atmo de la bonne couleur...
+          
+        }
+  
       }
-    
-    }
-    
+    }    
+
   }
-  
 }
 
-
-
-#endif //_AFFICHAGE_H_

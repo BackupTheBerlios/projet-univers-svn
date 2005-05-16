@@ -37,6 +37,8 @@ namespace ProjetUnivers {
 
     /// Le point de vue subjectif d'un personnage.
     /*!
+      C'est la vue à la première personne d'un personnage.
+      
       Type de classe :
         - Objet
         - Concret
@@ -85,20 +87,6 @@ namespace ProjetUnivers {
       /// Le personnage qui voit.
       Base::Association< Modele::Personnage > personnage ;
       
-      /// @name Attributs OGRE
-      // @{
-      
-      /// Une surface d'écran... ailleurs ????
-      Ogre::Viewport* surface ;
-      
-      /// Une caméra attachée à la tête du personnage
-      Ogre::Camera* camera ;
-      
-      /// Un gestionnaire d'éléments de scène
-      Ogre::SceneManager* gestionnaire ;
-      
-      
-      //@}
       
     };
   }
