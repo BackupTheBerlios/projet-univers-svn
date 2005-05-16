@@ -18,8 +18,8 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _O_TYPES_H_
-#define _O_TYPES_H_
+#ifndef _BASE_TYPES_H_
+#define _BASE_TYPES_H_
 
 #include <limits.h>
 

@@ -170,6 +170,9 @@ namespace ProjetUnivers {
     
     
       // @}
+      
+      friend class Composition<OBJET> ;
+      
     };
   }
 }

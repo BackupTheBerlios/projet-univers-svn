@@ -27,7 +27,8 @@
 #include <cppunit/extensions/HelperMacros.h>
 #include <base/implantation/liste_composition.h>
 #include <base/implantation/liste_association.h>
-
+#include <base/implantation/liste_valeur.h>
+#include <base/chaine.h>
 
 namespace ProjetUnivers {
   
@@ -101,6 +102,8 @@ namespace ProjetUnivers {
           // une liste 
           ListeComposition< ElementTestListe > liste ;
   
+          ListeValeur<Chaine> listeChaine ;
+          
         };
       }
     }

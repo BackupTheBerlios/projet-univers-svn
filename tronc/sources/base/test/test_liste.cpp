@@ -114,8 +114,24 @@ namespace ProjetUnivers {
           }
           
           CPPUNIT_ASSERT(resultat == 3) ;
+
+          // liste de valeurs
    
+          listeChaine.AjouterEnTete("toto") ;
+          listeChaine.AjouterEnTete("titi") ;
   
+          CPPUNIT_ASSERT(listeChaine.Contient("toto")) ;
+          CPPUNIT_ASSERT(listeChaine.Contient("titi")) ;
+          
+          // test de l'itérateur
+          
+          IterateurListeValeur<Chaine> chaine(listeChaine) ;
+
+          CPPUNIT_ASSERT(chaine == Chaine("titi")) ;
+          ++chaine ;
+
+          CPPUNIT_ASSERT(chaine == "toto") ;
+          
         }
   
   
@@ -180,6 +196,7 @@ namespace ProjetUnivers {
         {
   	      // 
           liste.Vider() ;
+          listeChaine.Vider() ;
         }
 
       }

@@ -27,10 +27,12 @@ namespace ProjetUnivers {
 
   namespace Base {
     
-    template <typename VALEUR> class IterateurListeValeur ;
-    template <typename VALEUR> class IterateurTamponListeValeur ;
     
     namespace Implantation {
+
+      template <typename VALEUR> class IterateurListeValeur ;
+      template <typename VALEUR> class IterateurTamponListeValeur ;
+
         
       ///  Classe des noeuds de TamponListeValeur.
       template <typename VALEUR> class NoeudValeur : public NoeudAbstrait {

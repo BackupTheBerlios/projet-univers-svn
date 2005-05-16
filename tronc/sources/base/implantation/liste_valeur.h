@@ -32,6 +32,7 @@ namespace ProjetUnivers {
       
       
       template <typename VALEUR> class TamponListeValeur ;
+      template <typename VALEUR> class IterateurListeValeur ;
       
       /// Une liste d'objets d'une classe de valeur.
       
@@ -103,7 +104,9 @@ namespace ProjetUnivers {
         /// Vrai liste proprement dite
         /// elle va être partagée par toutes les copies
         TamponListeValeur< VALEUR >* liste ;
-      
+
+        friend class IterateurListeValeur<VALEUR> ;      
+
       };
 
     }

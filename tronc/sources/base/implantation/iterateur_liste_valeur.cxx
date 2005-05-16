@@ -82,7 +82,7 @@ namespace ProjetUnivers {
       template <typename VALEUR>
       IterateurListeValeur<VALEUR>::operator VALEUR()
       {
-        return *noeudCourant()->element ;
+        return noeudCourant()->element ;
       }
     } 
   }
