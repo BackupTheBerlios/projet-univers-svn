@@ -145,5 +145,20 @@
     <title>Les actions</title>
 
     <para></para>
+
+    <section>
+      <title>Définition/ Destruction d'Assemblage</title>
+
+      <para>Un assemblage est un objet, il est définit par 2 objets, leur
+      position relative et la définition de leur degrés de liberté.</para>
+
+      <section>
+        <title>Degrés de Liberté</title>
+
+        <para>Les degrées de liberté définissent les rapport de mouvement
+        entre les objets. Ils sont de deux type : rotation et translation. Ces
+        deux mouvements se font selon des trajectoires ou axe définit.</para>
+      </section>
+    </section>
   </section>
 </article>
