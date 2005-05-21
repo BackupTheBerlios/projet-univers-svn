@@ -221,7 +221,7 @@ This file is part of Projet Univers.
         <programlisting>Copyright © <replaceable>date</replaceable> <replaceable>nom des auteurs</replaceable>
 
 The following files  
- - <replaceable>fichier1</replaceable><co id="liste_fichier" />
+ - <replaceable>fichier1     </replaceable><co id="liste_fichier" />
  - <replaceable>fichier2</replaceable>
  - ...
 
@@ -389,7 +389,7 @@ are part of Projet Univers.
     relation de parenté entre objets blender pour représenter la composition.
     Par exemple, un vaisseau est composé (est fait de) de plusieurs
     composants. De même chaque représentation de composant est elle-même
-    composé de plusieurs objets blender. </para>
+    composé de plusieurs objets blender.</para>
 
     <section>
       <title>Modèle de composant</title>
@@ -402,8 +402,8 @@ are part of Projet Univers.
         <title>Structure d'un modèle de composant</title>
 
         <para>Un modèle de composant est constitué de la représentation d'un
-        <emphasis role="bold">unique</emphasis> composant de type :
-        <itemizedlist>
+        <emphasis role="bold">unique</emphasis> composant d'un des types
+        suivant : <itemizedlist>
             <listitem>
               <para>MOTEUR</para>
             </listitem>
@@ -418,6 +418,9 @@ are part of Projet Univers.
           </itemizedlist>c.f. <link
         linkend="RepresentationComposants">Représentation des
         composants</link>.</para>
+
+        <remark>Un modèle de composant est donc un modèle de moteur ou un
+        modèle d'arme ou un modèle de tourelle.</remark>
       </important>
     </section>
 
@@ -445,23 +448,11 @@ are part of Projet Univers.
                 </listitem>
 
                 <listitem>
-                  <para>bombardier</para>
-                </listitem>
-
-                <listitem>
-                  <para>intercepteur</para>
-                </listitem>
-
-                <listitem>
                   <para>navette</para>
                 </listitem>
 
                 <listitem>
-                  <para>corvette de transport</para>
-                </listitem>
-
-                <listitem>
-                  <para>corvette de combat</para>
+                  <para>corvette</para>
                 </listitem>
 
                 <listitem>
@@ -474,50 +465,6 @@ are part of Projet Univers.
 
                 <listitem>
                   <para>cuirassé</para>
-                </listitem>
-
-                <listitem>
-                  <para>station civile</para>
-                </listitem>
-
-                <listitem>
-                  <para>station de combat</para>
-                </listitem>
-
-                <listitem>
-                  <para>station de defense</para>
-                </listitem>
-
-                <listitem>
-                  <para>satellite artificiel</para>
-                </listitem>
-
-                <listitem>
-                  <para>sonde</para>
-                </listitem>
-
-                <listitem>
-                  <para>balise de navigation</para>
-                </listitem>
-
-                <listitem>
-                  <para>satellite naturel</para>
-                </listitem>
-
-                <listitem>
-                  <para>trou noir</para>
-                </listitem>
-
-                <listitem>
-                  <para>planète</para>
-                </listitem>
-
-                <listitem>
-                  <para>curiosité</para>
-                </listitem>
-
-                <listitem>
-                  <para>etoile</para>
                 </listitem>
               </itemizedlist>
             </listitem>
@@ -593,8 +540,6 @@ are part of Projet Univers.
           </example></para>
       </important>
 
-      <para></para>
-
       <section>
         <title>Pont</title>
 
@@ -642,8 +587,6 @@ are part of Projet Univers.
 
               <para><remark>Il s'agit de ce qui est vu par l'équipage depuis
               l'intérieur du pont : tableau de bord etc... </remark></para>
-
-              <para><remark>à détailler...</remark></para>
             </listitem>
 
             <listitem>
@@ -852,9 +795,6 @@ are part of Projet Univers.
 
           <para>Un composant de type COQUE est représenté par un objet Empty
           nommé COQUE.xxx</para>
-
-          <para><remark>Il s'agit du modèle 3D représentant une partie de la
-          coque du vaisseau.</remark></para>
 
           <para>ayant comme propriété :</para>
 
@@ -1213,25 +1153,25 @@ are part of Projet Univers.
           <para>Un chasseur est un vaisseau mono-place destiné au combat
           spatial.</para>
 
-          <itemizedlist>
-            <listitem>
-              <para>Chasseur</para>
-            </listitem>
+          <para>Un chasseur mesure généralement moins de 15 mètres de
+          long.</para>
+        </listitem>
 
-            <listitem>
-              <para>Bombardier</para>
-            </listitem>
+        <listitem>
+          <para>Navette</para>
 
-            <listitem>
-              <para>Intercepteur</para>
-            </listitem>
-          </itemizedlist>
+          <para>Une navette est ...</para>
+
+          <para>Une navette mesure généralement de 15 à 50 mètres.</para>
         </listitem>
 
         <listitem>
           <para>Corvette</para>
 
-          <para>Une corvette est un vaisseau </para>
+          <para>Une corvette est ...</para>
+
+          <para>Une corvette mesure généralement entre 50 et 200
+          mètres.</para>
 
           <itemizedlist>
             <listitem>
@@ -1256,25 +1196,19 @@ are part of Projet Univers.
         </listitem>
 
         <listitem>
-          <para>Vaisseau lourd</para>
+          <para>Frégate</para>
+        </listitem>
 
-          <itemizedlist>
-            <listitem>
-              <para>Frégate</para>
-            </listitem>
+        <listitem>
+          <para>Destroyer</para>
+        </listitem>
 
-            <listitem>
-              <para>Destroyer</para>
-            </listitem>
+        <listitem>
+          <para>Croiseur</para>
+        </listitem>
 
-            <listitem>
-              <para>Croiseur</para>
-            </listitem>
-
-            <listitem>
-              <para>Cuirassé</para>
-            </listitem>
-          </itemizedlist>
+        <listitem>
+          <para>Cuirassé</para>
         </listitem>
 
         <listitem>

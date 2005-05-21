@@ -67,6 +67,17 @@
 
       <listitem>
 
+        <para>BASE</para>
+
+        <para>Module de classes génériques utilisées dans le projet. 
+        C&apos;est une sorte de librairie de templates standards : les 
+        ensembles, les fonctions, la composition, la gestion des 
+        modules d&apos;extension.</para>
+
+      </listitem>
+
+      <listitem>
+
         <para>NOYAU</para>
 
         <para>Module principal du moteur, contient le cadre 
@@ -79,7 +90,7 @@
         <para>MODELE</para>
 
         <para>Contient la description concetpuelle des objets de 
-        l&apos;univers</para>
+        l&apos;univers. </para>
 
       </listitem>
 
@@ -124,16 +135,16 @@
 
         <para>IA</para>
 
-        <para>module d&apos;intelligence artificielle</para>
+        <para>Module d&apos;intelligence artificielle</para>
 
       </listitem>
 
       <listitem>
 
-        <para>PHYSIQUE</para>
+        <para>ACTION</para>
 
-        <para>Module physique, gère tout le modèle physique du 
-        jeu</para>
+        <para>Module qui gère les changements d&apos;état de 
+        MODELE.</para>
 
       </listitem>
 
@@ -151,24 +162,61 @@
 
       <para>Il comporte le strict nécessaire au fonctionnement du jeu, 
       il n&apos;y a ni affichage, ni son, ni action de joueur, ni 
-      mission, juste le jeu en lui même. Il comprend la gestion des 
-      états (menu, phase de jeu, configuration, etc...), la gestion des 
-      autres modules, les classes de base et leur gestion, le système 
-      de gestion événementielle, la gestion de la mémoire et le 
-      chargement des fichiers</para>
+      mission, juste le jeu en lui même. </para>
+
+      <para>Ce module comprend :</para>
+
+      <itemizedlist>
+
+        <listitem>
+
+          <para>la définition du cadre Modèle, Vue, Contrôle 
+          (MVC).</para>
+
+        </listitem>
+
+      </itemizedlist>
 
     </sect2>
 
     <sect2>
 
-      <title>UNIVERS, l&apos;univers du jeu</title>
+      <title>MODELE, l&apos;univers du jeu</title>
 
-      <para>C&apos;est en fait une sur couche du module NOYAU. 
-      C&apos;est lui qui va faire que le jeux est celui qu&apos;il doit 
-      être, il s&apos;occupera de la gestion des joueurs, des missions. 
-      C&apos;est grâce à lui qu&apos;on pourra facilement générer des 
-      variantes. Dans la suite du document, je ne parlerais que de 
-      NOYAU.</para>
+      <para>Ce modèle sert à décrire les états du monde du jeu. Il 
+      s&apos;agit d&apos;une photographie instantanée du monde, ne 
+      contenant que les données fondamentales (par exemple, aucune 
+      données spécifiques à l&apos;affichage).</para>
+
+      <example>
+
+        <title>Un exemple d&apos;état</title>
+
+        <para>Un état du monde peut être constitué des informations 
+        suivantes : </para>
+
+        <para>quels sont les vaisseaux existants, de quels composants 
+        sont ils faits, combien de dégats chaque composant à-t-il reçu 
+        etc...</para>
+
+      </example>
+
+      <para>Le module ACTION sera responsable, pendant l&apos;exécution 
+      du jeu, de changer d&apos;état en modifiant les données de 
+      MODELE. </para>
+
+      <example>
+
+        <title>Un changement d&apos;état</title>
+
+        <para>Le monde est dans un état où le vaisseau A est placé aux 
+        coordonnées (X,Y,Z). Certaines actions sont réalisées et 
+        modifient ces coordonées, dans l&apos;état &quot;après la 
+        réalisation de ces actions&quot;, le même vaisseau A est placé 
+        aux coordonnées (X+dx, Y+dy, Z+dz) : il a visiblement 
+        bougé.</para>
+
+      </example>
 
     </sect2>
 
@@ -262,15 +310,16 @@
 
     <sect2>
 
-      <title>PHYSIQUE, le modèle physique</title>
+      <title>ACTION, le passage d&apos;un état à un autre</title>
 
       <para>Ce module gère la manière dont les objets de NOYAU vont 
       réagir aux informations fournies par ENTRÉE et IA.</para>
 
       <para>Il doit donc gérer les effets gravitationnels, 
       atmosphérique, les phénomènes d&apos;inertie, de voile 
-      (noir/rouge) et éventuellement il doit gérer les 
-      collisions.</para>
+      (noir/rouge) et les collisions.</para>
+
+      <para>C&apos;est un Controle sur MODELE.</para>
 
     </sect2>
 
@@ -285,17 +334,19 @@
     implémentations différentes.</para>
 
     <para>Par exemple, le module AFFICHAGE peut très bien être une 
-    implémentation utilisant le moteur 3D OGRE3D ou une autre 
+    implémentation utilisant le moteur Ogre3D ou une autre 
     implémentation utilisant Irlich. Ces 2 implémentations seront 
-    valide à partir du moment où elle respecte l&apos;interface 
+    valides à partir du moment où elles respectent l&apos;interface 
     standard du module AFFICHAGE.</para>
 
     <para>Chaque module possède donc une interface standard que chaque 
-    implémentation doit respecter afin que NOYAU puisse communiquer. Il 
-    se peut toutefois qu&apos;un module ait besoin de communiquer 
-    directement avec un autre sans passer par le NOYAU, pour cela, les 
-    modules peuvent disposer d&apos;autres interfaces.</para>
+    implémentation doit respecter afin que NOYAU puisse communiquer. 
+    </para>
 
+    <remark>Il se peut toutefois qu&apos;un module ait besoin de 
+    communiquer directement avec un autre sans passer par le NOYAU, 
+    pour cela, les modules peuvent disposer d&apos;autres 
+    interfaces.</remark>
   </sect1>
 
   <sect1>
@@ -304,11 +355,12 @@
 
     <para>Au final, le plus intéressant serait que chaque module (sauf 
     NOYAU) soit une librairie dynamique (DLL pour Windows, DSO pour 
-    Linux), qui serait chargé par un exécutable. L&apos;utilisateur 
-    pourrait choisir à loisir les implémentations suivant sa 
-    configuration ou ses propres goûts. Cela permet à d&apos;autres de 
-    développer des implémentations offrant d&apos;autres 
-    possibilités.</para>
+    Linux), qui serait chargée par les exécutables. </para>
+
+    <para>L&apos;utilisateur pourrait choisir à loisir les 
+    implémentations suivant sa configuration ou ses propres goûts. Cela 
+    permet à d&apos;autres de développer des implémentations offrant 
+    d&apos;autres possibilités.</para>
 
     <para>Mais dans un premier temps, tout les modules seront dans un 
     seul exécutable, la séparation modulaire se fera par le biais de 
