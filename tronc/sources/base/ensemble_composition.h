@@ -75,11 +75,11 @@ namespace ProjetUnivers {
       // @}   
     };
     
-#include <base/implantation/ensemble_composition.cxx>
 
   }
 }
 
+#include <base/implantation/ensemble_composition.cxx>
 
 
 #endif

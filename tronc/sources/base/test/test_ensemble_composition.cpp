@@ -19,7 +19,7 @@
  ***************************************************************************/
 
 #include <base/test/test_ensemble_composition.h>
-
+#include <base/iterateur_ensemble_composition.h>
 
 // enregistrement du test
 CPPUNIT_TEST_SUITE_REGISTRATION(
@@ -87,6 +87,19 @@ namespace ProjetUnivers {
         // on vérifie que la taille est bien de 2
         CPPUNIT_ASSERT(this->ensembleTeste.NombreDElements() == 2) ;
 
+        // on vérifie que le parcours est possible
+        
+        EntierPositif taille = 0 ;
+        
+        for(IterateurEnsembleComposition< TempComposition > i(ensembleTeste) ;
+            i.Valide() ;
+            ++i)
+        {
+        
+           ++taille ;
+        } 
+
+        CPPUNIT_ASSERT(taille == 2) ;
 
       }
 

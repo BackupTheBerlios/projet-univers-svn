@@ -50,20 +50,20 @@ UTILISATION :
 /// c'est à dire le nom de la classe de base. 
 #define DECLARATION_ASSOCIATION_VIRTUELLE(type,name) \
 	protected: \
-	ProjetUnivers::Base::Association< type > BASE_VREF(name) ; \
+	Association< type > BASE_VREF(name) ; \
 	public: \
-	ProjetUnivers::Base::Association< type > name() const { return BASE_VREF(name) ; } \
-	ProjetUnivers::Base::Association< type >& name() { return BASE_VREF(name) ; }
+	Association< type > name() const { return BASE_VREF(name) ; } \
+	Association< type >& name() { return BASE_VREF(name) ; }
 
 /// Ici type désigne le nom de la classe dérivée
 /// vers laquelle on veut convertir l'association. 
 #define UTILISATION_ASSOCIATION_VIRTUELLE(type,name) \
 	protected: \
-  ProjetUnivers::Base::Association< type > name() const \
+  Association< type > name() const \
 	{ \
     if(dynamic_cast<type*>(BASE_VREF(name).operator->()) == NULL)  \
       throw ExceptionBase("association virtuelle") ; \
-	  return ProjetUnivers::Base::Association< type >(*(static_cast<type*>(BASE_VREF(name).operator->()))) ; \
+	  return Association< type >(*(static_cast<type*>(BASE_VREF(name).operator->()))) ; \
 	}			
 
 // @}

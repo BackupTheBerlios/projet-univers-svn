@@ -17,37 +17,17 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-
-#ifndef _PU_BASE_ITERATEUR_ENSEMBLE_ASSOCIATION_H_
-#define _PU_BASE_ITERATEUR_ENSEMBLE_ASSOCIATION_H_
-
-#include <base/implantation/iterateur_liste_association.h>
-
 namespace ProjetUnivers {
 
   namespace Base {
 
-    template <class OBJET> class EnsembleAssociation ;
+      template <class OBJET> 
+      IterateurEnsembleAssociation<OBJET>::IterateurEnsembleAssociation
+      (const EnsembleAssociation<OBJET>& _l)
+        : Implantation::IterateurListeAssociation<OBJET>(_l)
+      {}
     
-    
-    /// Itérateur sur les ensemble en association.
-    template <class OBJET> class IterateurEnsembleAssociation 
-    : public Implantation::IterateurListeAssociation<OBJET> {
-    
-    public:
-    
-      /// Constructeur.
-      IterateurEnsembleAssociation(const EnsembleAssociation<OBJET>&) ;
-      
-      
-    };
 
+    
   }
 }
-
-#include <base/implantation/iterateur_ensemble_association.cxx>
-
-
-#endif 
-
-

@@ -87,11 +87,11 @@ namespace ProjetUnivers {
       // @}      
     };
     
-#include <base/implantation/ensemble_association.cxx>
     
   }
 }
 
+#include <base/implantation/ensemble_association.cxx>
 
 
 

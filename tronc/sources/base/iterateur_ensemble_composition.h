@@ -28,15 +28,25 @@ namespace ProjetUnivers {
   namespace Base {
    
     
+    template <class OBJET> class EnsembleComposition ;
+    
+    
     /// Itérateur sur les ensemble en composition.
     template <class OBJET> class IterateurEnsembleComposition 
         
         : public Implantation::IterateurListeComposition<OBJET> {
+
+    public:
+    
+      /// Constructeur.
+      IterateurEnsembleComposition(const EnsembleComposition<OBJET>&) ;
+
     };
 
   }
 }
 
+#include <base/implantation/iterateur_ensemble_composition.cxx>
 
 #endif 
 

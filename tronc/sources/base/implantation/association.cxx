@@ -23,33 +23,33 @@ namespace ProjetUnivers {
   namespace Base {
 
 
-    template <class T> inline Association<T>& 
-    Association<T>::operator =(const Composition<T>& _x)
+    template <class OBJET> inline Association<OBJET>& 
+    Association<OBJET>::operator =(const Composition<OBJET>& _x)
     {
     
       pt = _x.pt ;
       return *this ;
     }
     
-    template <class T> inline Booleen 
-    Association<T>::operator == (const Composition<T>& _x) const 
+    template <class OBJET> inline Booleen 
+    Association<OBJET>::operator == (const Composition<OBJET>& _x) const 
     {
       return pt == _x.pt ;
     }
     
-    template <class T> inline Booleen 
-    Association<T>::operator != (const Composition<T>& _x) const
+    template <class OBJET> inline Booleen 
+    Association<OBJET>::operator != (const Composition<OBJET>& _x) const
     {
       return pt == _x.pt ;
     }
     
-    template <class T> inline 
-    Association<T>::Association(const Composition<T>& _x)
+    template <class OBJET> inline 
+    Association<OBJET>::Association(const Composition<OBJET>& _x)
       : pt(_x.pt)
     {}
     
-    template <class T> inline T* 
-    Association<T>::operator ->() const {
+    template <class OBJET> inline OBJET* 
+    Association<OBJET>::operator ->() const {
     
       if (pt == NULL) 
       {

@@ -212,11 +212,17 @@ namespace ProjetUnivers {
       
       
       /// Comparaison avec une Association.
-      Booleen operator == (const Association<OBJET>& _p) ;
+      Booleen operator == (const Association<OBJET>& _p) const ;
     
       /// Comparaison avec une Association.
-      Booleen operator !=(const  Association<OBJET>& _p) ;
+      Booleen operator !=(const  Association<OBJET>& _p) const ;
     	
+      /// Comparaison avec un pointeur.
+      Booleen operator == (const OBJET* _p) const ;
+    
+      /// Comparaison avec un pointeur.
+      Booleen operator !=(const  OBJET* _p) const ;
+
       
       // @}    
     private:

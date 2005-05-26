@@ -92,9 +92,11 @@ namespace ProjetUnivers {
         // @}
       private:
       
-      	/// Conversion dynamique de list 
+      	/// Conversion dynamique de liste
       	/// en un ListeComposition<OBJET>.
       	UTILISATION_ASSOCIATION_VIRTUELLE(ListeComposition<OBJET>,liste)
+  
+  
       
       	/// Conversion dynamique de current_node qui est un ObAbstractNode 
       	/// en un NoeudComposition<OBJET>.
@@ -110,6 +112,7 @@ namespace ProjetUnivers {
     }
   }
 }
+
 #include <base/implantation/iterateur_liste_composition.cxx>
 #endif 
 
