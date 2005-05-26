@@ -31,78 +31,65 @@ namespace ProjetUnivers {
     /// Un compilateur C++ étendu.
     
     /*! 
-      Ce compilateur transforme certaine classes C++ pour implanter 
-      automatiquement un certain nombre de fonctionnalités :
       
+      Ce compilateur est un compilateur C++ qui :
+      - vérifie un ensemble de règles de programmation
+      - génère du code "caché", notament pour la persistance.
   
-      - La vérification des règles de programmation du projet
-        
-        Ces règles imposent notamment : 
-        
-        - de distinguer classes d'objets et classes de valeurs, c'est à dire :
-        
-          - les classes d'objets 
-            
-            - doivent hériter de Base::Objet
-            - ne doivent pas comporter de :
-            
-              - opérateur ==, !=
-            
-            
-          - les classes de valeurs 
-          
-            - doivent hériter de Base::Valeur
-            - doivent comporter 
-          
-        - de n'utiliser comme types d'attributs que les types suivants :
-          
-          - Base::Entier
-          
-          - Base::Reel
-          
-          - Base::Booleen
-          
-          - Base::Chaine
-          
-          - VALEUR
-            où VALEUR est une classe de valeurs
-            
-          - Base::Association<OBJET>
-            où OBJET est une classe d'objets
+      @section verification Règles de programmation
+      
+      Le compilateur vérifie les règles de programmation suivantes : 
+      -# Chaque classe du namespace ProjetUnivers est soit une 
+         classe d'objets soit une classe de valeurs.
+        - les classes d'objets 
+          - doivent hériter de Base::Objet
+          - ne doivent pas comporter :
+            - de surcharge de l'opérateur ==
+            - de surcharge de l'opérateur !=
+        - les classes de valeurs 
+          - doivent hériter de Base::Valeur
+          - doivent comporter 
+            - un constructeur de copie
+            - un constructeur par défaut
+            - une surcharge de l'opérateur d'affectation
+            - une surcharge de l'opérateur ==
+            - une surcharge de l'opérateur !=          
+      -# Chaque classe du namespace ProjetUnivers a uniquement des attributs 
+         d'un des types suivants :
+        - Base::Entier
+        - Base::Reel
+        - Base::Booleen
+        - Base::Chaine
+        - VALEUR
+          où VALEUR est une classe de valeurs
+        - Base::Association<OBJET>
+          où OBJET est une classe d'objets
+        - Base::Composition<OBJET>
+          où OBJET est une classe d'objets
+        - Base::EnsembleAssociation<OBJET>
+          où OBJET est une classe d'objets
+        - Base::EnsembleComposition<OBJET>
+          où OBJET est une classe d'objets
+        - Base::FonctionObjetValeur<OBJET,VALEUR>
+          où OBJET est une classe d'objets et VALEUR est une classe de valeurs
+        - Base::FonctionCompositionValeurObjet<VALEUR,OBJET>
+          où OBJET est une classe d'objets et VALEUR est une classe de valeurs
+        - Base::FonctionAssociationValeurObjet<VALEUR,OBJET>
+          où OBJET est une classe d'objets et VALEUR est une classe de valeurs
+        - n'importe quel type du moment qu'il n'est pas basé sur des classes 
+          du namespace ProjetUnivers
   
-          - Base::Composition<OBJET>
-            où OBJET est une classe d'objets
-  
-          - Base::EnsembleAssociation<OBJET>
-            où OBJET est une classe d'objets
-  
-          - Base::EnsembleComposition<OBJET>
-            où OBJET est une classe d'objets
-  
-          - Base::FonctionObjetValeur<OBJET,VALEUR>
-            où OBJET est une classe d'objets et VALEUR est une classe de valeurs
-         
-          - Base::FonctionCompositionValeurObjet<VALEUR,OBJET>
-            où OBJET est une classe d'objets et VALEUR est une classe de valeurs
-  
-          - Base::FonctionAssociationValeurObjet<VALEUR,OBJET>
-            où OBJET est une classe d'objets et VALEUR est une classe de valeurs
-          
-        de n'utiliser comme types d'attributs que les classes 
-        suivantes :
-  
-      - La persistance <b>transparente</b> des sous-classes de Base::Persistant.
-        
-        Cette persistance est totalement transparente, c'ets à dire qu'il sufffit 
-        d'utilise les classes comme d'habitude. Lorsque les objets sont modifiés 
-        cette modification est répercutée automatiquement dans la base de données.
-        
-        L'inconvénient est qu'il faut absolument respecter les règles exposées 
-        ci-dessus.
-        
-        \example
-        
-          
+      @section persistance Persistance 
+
+      Ce compilateur réalise la persistance <b>transparente</b> des 
+      sous-classes de Base::Persistant.
+      
+      Cette persistance est totalement transparente, c'ets à dire qu'il sufffit 
+      d'utiliser les classes comme d'habitude. Lorsque les objets sont modifiés 
+      cette modification est répercutée automatiquement dans la base de données.
+      
+      Cette persistance ne fonctionne que si les règles exposées ci-dessus sont 
+      vérifiées.
     */
     namespace Compilateur 
     {} 

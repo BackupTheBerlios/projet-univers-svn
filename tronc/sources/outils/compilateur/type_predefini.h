@@ -23,6 +23,7 @@
 #ifndef _PU_COMPILATEUR_TYPE_PREDEFINI_H_
 #define _PU_COMPILATEUR_TYPE_PREDEFINI_H_
 
+#include <opencxx/parser/Ptree.h>
 #include <outils/compilateur/type.h>
 
 
@@ -44,18 +45,54 @@ namespace ProjetUnivers {
           \result Le type de l'attribut
         */
         static TypePredefini* Construire(Opencxx::Member& _membre) ;
+
+        /// Initialisation de la structure.
+        virtual void Initialiser() ;
  
+        /// Determine si ce type est un type autorisé pour un attribut.
+        /*!
+          Ce type est un type autorisé pour un attribut si c'est un des types 
+          suivants :
+          
+          - 
+          -
+
+        */
+        virtual Base::Booleen VerifieRegles() const ;
 
         /// Transforme en chaine pour l'affichage.
         virtual Base::Chaine Afficher() const ;
         
-      protected:
+      private:
 
-        /// Constructeur.      
-        TypePredefini(const Base::Chaine& _nomComplet) ;
+
+      /// Identifie la selection par un namespace
+      /*!
+        Reconnait des arbre de la forme : 
+        [<i>namespace</i> :: <i>reste</i>]
+        
+        @param[in] environement 
+          l'environement dans lequel il faut chercher
+
+        @param[in] type 
+          l'arbre qu'il faut chercher
+      */
+       static TypePredefini* IdentifierParcoursNamespace
+                                 (Opencxx::Ptree* type, 
+                                  Opencxx::Environment* environement) ;
+         
+
+        /// Constructeur.
+        /*!
+          @param[in] _environement 
+            l'environement dans le quel est définit le type
+          @param[in] _nom
+            le petit nom du type 
+        */
+        TypePredefini(Opencxx::Environment* _environement, const Base::Chaine& _nom) ;
       
-        /// Le nom de la classe.
-        Base::Chaine nomComplet ;
+        /// Le nom du type prédéfini
+        Base::Chaine nom ;
              
       };
     }

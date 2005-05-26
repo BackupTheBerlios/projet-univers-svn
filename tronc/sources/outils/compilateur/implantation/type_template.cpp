@@ -18,12 +18,15 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <outils/compilateur/type_template.h>
+#include <rlog/rlog.h>
+
+#include <opencxx/mop.h>
 #include <base/implantation/liste_valeur.h>
 #include <base/implantation/iterateur_liste_valeur.h>
-#include <opencxx/mop.h>
 
-using namespace std ;
+#include <outils/compilateur/type_template.h>
+#include <outils/compilateur/utilitaires_opencxx.h>
+
 using namespace Opencxx ;
 using namespace ProjetUnivers::Base ;
 using namespace ProjetUnivers::Base::Implantation ;
@@ -41,72 +44,75 @@ namespace ProjetUnivers {
         [<i>namespace</i> :: <i>reste</i>]
       */
       TypeTemplate* TypeTemplate::IdentifierParcoursNamespace
-                  (Ptree* type, Environment* environement, 
-                   const ListeValeur<Chaine>& prefixe) 
+                  (Ptree* type, Environment* environement) 
       {
       
-      //  cout << "coucou 1" << endl ;
+        rDebug("coucou 1") ;
           
       
         Ptree* espaceDeNom ;
         Ptree* suiteType ;
       
-        if (PtreeUtil::Match(type, "[%? :: %? %_]", &espaceDeNom, &suiteType))
+        if (PtreeUtil::Match(type, "[%? :: %r]", &espaceDeNom, &suiteType))
         {
           
-      //    cout << "coucou 2" << endl ;
+          rDebug("coucou 2") ;
           
           
-          // on vérifie que le premier élément est bien un identifiant de 
-          // namespace
+          /*!
+            on vérifie que le premier élément est bien un identifiant de 
+            namespace
+          */
+          char* nom = espaceDeNom->GetPosition() ;
+          int len = espaceDeNom->GetLength() ;
+          
           Environment* environementNameSpace 
-            = environement->LookupNamespace0(espaceDeNom) ;
+            = environement->LookupNamespace(nom, len) ;
+
+          Class* Classe 
+            = environement->LookupClassMetaobject(espaceDeNom) ;
       
-      //    cout << "coucou 3" << endl ;
+          rDebug("coucou 3") ;
           
           // ce n'est pas un namespace... on arrete
-          if (environementNameSpace == NULL)
-            return NULL ;
+          if (environementNameSpace != NULL) 
+            
+            return IdentifierParcoursNamespace(suiteType, environementNameSpace) ;
           
-      //    cout << "coucou 4" << endl ;
+          if (Classe != NULL)
           
-          // si on en a trouvé un c'est que c'ets un namespace 
+            return IdentifierParcoursNamespace(suiteType, Classe->GetEnvironment()) ;
             
-          if (environementNameSpace->IsNamespace() != NULL)
-          {  
-      
-            
-            // on a bien affaire à un namespace cool...
-            // maintenant on cherche à reconnaitre la suite...
-            Chaine nom = espaceDeNom->ToString() ;
-      
-            ListeValeur<Chaine> nouveauPrefixe(prefixe) ;
-            nouveauPrefixe.AjouterEnQueue(nom) ;
-            
-            // récurrence
-            return IdentifierParcoursNamespace(suiteType, 
-                    environement, nouveauPrefixe) ;
-          }
+          rDebug(" " + Chaine(espaceDeNom->ToString())+"non reconnu dans "+
+                 NomComplet(environement)) ;
+          return NULL ;
+          
         }
         
-        Ptree* classeTemplate ;
+        Ptree* nomClasseTemplate ;
         Ptree* parametres ;
         
-        if (PtreeUtil::Match(type, "[%? [< %? >]]", &classeTemplate, &parametres))
+        if (PtreeUtil::Match(type, "[[%? [< %? >]]]", 
+                             &nomClasseTemplate, &parametres))
         {
-          // on a affaire à un template
-          Chaine nomTemplate(classeTemplate->ToString()) ;
       
-          ListeValeur<Chaine> nomComplet(prefixe) ;
-          nomComplet.AjouterEnQueue(nomTemplate) ;
+      
+          rDebug("dans "+NomComplet(environement)+ 
+                 " on a trouve le template "+nomClasseTemplate->ToString()) ;
+                  
+          // on récupère sa classe
+          TemplateClass* classeTemplate = static_cast<TemplateClass*>(
+            environement->LookupClassMetaobject(nomClasseTemplate)) ;
           
           Composition<TypeTemplate> resultat(
-              new TypeTemplate(nomComplet, parametres)) ;
+              new TypeTemplate(classeTemplate, parametres)) ;
       
           return resultat.Liberer() ;
          
           
         }
+        
+        rDebug(" "+Chaine(type->ToString())+" na pas la forme dun template") ;
         
         // ce n'en est pas un
         return NULL ;
@@ -127,22 +133,35 @@ namespace ProjetUnivers {
                      TypeInfo informationType, 
                      Environment* environement)
       {
-        ListeValeur<Chaine> nomComplet ;
+
+
+        rDebug("TypeTemplate::IdentifierTypeTemplate") ;
+        
       
         switch(informationType.WhatIs())
         {
         case TemplateType:  
           
-          nomComplet.AjouterEnQueue(informationType.FullTypeName()->ToString()) ;
+//          nomComplet.AjouterEnQueue(informationType.FullTypeName()->ToString()) ;
+        { 
+         
+          rDebug("whatis dit que c'ets un template") ;
+               
+          Class* classe = environement->LookupClassMetaobject(
+            informationType.FullTypeName()) ;
+          TemplateClass* classeTemplate = static_cast<TemplateClass*>(classe) ;
       
           Ptree* parametre ;
           PtreeUtil::Match(type, "[%* [< %? >]]", &parametre) ;
       
-          return new TypeTemplate(nomComplet, parametre) ;
+          return new TypeTemplate(classeTemplate, parametre) ;
           break ;
-      
+        }
+        
         case UndefType :
-          
+
+          rDebug("whatis dit que c'ets indefini") ;
+                
           // ici c'ets plus compliqué, on a probablemenr affaire à un 
           // template un peu trop compliqué pour OpenC++ (avec des namesapces)
           
@@ -151,12 +170,15 @@ namespace ProjetUnivers {
           // Ptree correspondant : 
           // [0 [Base :: [Association [< [[[A] [0]]] >]]] [[a]] ;]
           
-          return IdentifierParcoursNamespace(type, environement, ListeValeur<Chaine>()) ;
+          return IdentifierParcoursNamespace(type, environement) ;
           
       
           break;
           
         default:
+        
+          rDebug("whatis dit que c'ets autre chose") ;
+        
           return NULL ;
         
         }
@@ -175,12 +197,15 @@ namespace ProjetUnivers {
         Class* classe = _membre.Supplier() ;
         MemberList* membres = classe->GetMemberList() ;
         Entier nombreDeMembres = membres->Number() ;
+        int rang = _membre.Nth() ;
         Ptree* declarationAttribut 
-            = membres->Ref(nombreDeMembres-1)->definition ;
+            = membres->Ref(rang)->definition ;
 
         Environment* environement 
             = classe->GetEnvironment()->GetOuterEnvironment() ;
         
+        
+        rDebug("TypeTemplate::Construire = "+informationType.WhatIs()) ;
         return IdentifierTypeTemplate(declarationAttribut->Cdr()->Car(),
                                       informationType, 
                                       environement) ;
@@ -188,29 +213,42 @@ namespace ProjetUnivers {
       
   
       TypeTemplate::TypeTemplate(
-                     const ListeValeur<Chaine>& _nomComplet, 
-                     Ptree* _parametres)
-      : Type(), nomComplet(_nomComplet), parametres(_parametres)
+                     TemplateClass* _classeTemplate,
+                     Ptree* _parametres) 
+      : Type(_classeTemplate->GetEnvironment()->GetOuterEnvironment()), 
+        classeTemplate(_classeTemplate), parametres(_parametres)
       {}
+
+      void TypeTemplate::Initialiser()
+      {
+        // @todo
+      }
+
+
+
+
+
       
       Chaine TypeTemplate::Afficher() const
       {
         
-        Chaine resultat ;
-        
-        for(IterateurListeValeur<Chaine> i(nomComplet) ; i.Valide() ; ++i)
-        {
-          if (resultat == Chaine(""))
-            resultat = i ;
-          else
-            resultat = resultat + "::" + (Chaine)i ;  
-        }
-        
+        Chaine resultat(NomComplet(this->espaceDeNom)) ;
+                
         Chaine sortieParametres(parametres->ToString()) ;
       
-        return resultat + "<" + sortieParametres +">" ;
+        return "template " + resultat + Chaine("::") + 
+               classeTemplate->Name()->ToString() + 
+               "<" + sortieParametres +">" ;
         
       }
+  
+      Booleen TypeTemplate::VerifieRegles() const 
+      {
+        
+        // todo
+        return VRAI ;
+      }
+
   
     } 
   }

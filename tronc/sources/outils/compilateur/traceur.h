@@ -18,66 +18,28 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <outils/compilateur/type_enumere.h>
-//#include <opencxx/mop.h>
+ 
+#ifndef _PU_COMPILATEUR_TRACEUR_H_
+#define _PU_COMPILATEUR_TRACEUR_H_
 
-#include <outils/compilateur/utilitaires_opencxx.h>
-
-using namespace Opencxx ;
-using namespace ProjetUnivers::Base ;
+/// Essai au lieu de le définir à la compil
+//#define RLOG_COMPONENT "trace_compilateur"
 
 namespace ProjetUnivers {
 
   namespace Outils {
-    
+  
     namespace Compilateur 
     {
-
-      TypeEnumere* TypeEnumere::Construire(Member& _membre)
-      {
-
-        TypeInfo informationType ;
-        _membre.Signature(informationType) ;
-
-        
-        if (informationType.WhatIs() == EnumType)
-        {
-          Ptree* spec ;
-          informationType.IsEnum(spec) ;
-          
-          return new TypeEnumere(spec->Cdr()->Cdr()->Car()->Cdr()->Car()) ;
-          
-          
-        }
-        else
-          
-          return NULL ;
-          
-      }
-
-      void TypeEnumere::Initialiser()
-      {}
-   
-  
-          /// Transforme en chaine pour l'affichage.
-      Chaine TypeEnumere::Afficher() const
-      {
-        return "enumere " + Chaine(this->elements->ToString()) ;  
-      }
-          
-      TypeEnumere::TypeEnumere(Ptree* _elements)
-      : Type(NULL), elements(_elements)
-      {}
-
-      Booleen TypeEnumere::VerifieRegles() const 
-      {
-        
-        return VRAI ;
-        
-          
-      }
-
+ 
+      /// Lance le traceur.
+      void OuvrirTraceur() ;
+      
+      /// Ferme le traceur.
+      void FermerTraceur() ;
 
     }
   }
 }
+
+#endif

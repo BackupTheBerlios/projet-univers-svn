@@ -44,7 +44,16 @@ namespace ProjetUnivers {
           \result Le type de l'attribut
         */
         static TypeEnumere* Construire(Opencxx::Member& _membre) ;
+
+        /// Initialisation de la structure.
+        virtual void Initialiser() ;
+
  
+        /// Determine si ce type est un type autorisé pour un attribut.
+        /*!
+          Ce type est autorisé quel que soit sa définition.
+        */
+        virtual Base::Booleen VerifieRegles() const ;
 
         /// Transforme en chaine pour l'affichage.
         virtual Base::Chaine Afficher() const ;

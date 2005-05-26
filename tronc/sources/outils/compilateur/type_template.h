@@ -26,8 +26,7 @@
 #include <outils/compilateur/type.h>
 #include <base/implantation/liste_valeur.h>
 #include <opencxx/TypeInfo.h>
-
-class Opencxx::Environment ;
+#include <opencxx/TemplateClass.h>
 
 
 namespace ProjetUnivers {
@@ -44,17 +43,32 @@ namespace ProjetUnivers {
       
         /// Faux constructeur.
         static TypeTemplate* Construire(::Opencxx::Member& _membre) ;
+
+        /// Initialisation de la structure.
+        virtual void Initialiser() ;
         
+        /// Determine si ce type est un type autorisé pour un attribut.
+        /*!
+          Ce type est un type autorisé pour un attribut si c'est une des 
+          classes suivantes :
+          
+          - ProjetUnivers::Base::Association< OBJET >
+          
+          ...
+
+        */
+        virtual Base::Booleen VerifieRegles() const ;
+
         /// Transforme en chaine pour l'affichage.
         virtual Base::Chaine Afficher() const ;
 
 
-      protected:
+      private:
       
         /// Constructeur  
         TypeTemplate(
-          const Base::Implantation::ListeValeur<Base::Chaine>& _nomComplet, 
-          ::Opencxx::Ptree* _parametres) ;
+          Opencxx::TemplateClass* _ClassTemplate,
+          Opencxx::Ptree* _parametres) ;
 
         static TypeTemplate* IdentifierTypeTemplate
                     (Opencxx::Ptree* type,   
@@ -62,19 +76,19 @@ namespace ProjetUnivers {
                      Opencxx::Environment* environement) ;
 
         static TypeTemplate* IdentifierParcoursNamespace
-                  (Opencxx::Ptree* type, Opencxx::Environment* environement, 
-                   const Base::Implantation::ListeValeur<Base::Chaine>& prefixe) ;
+                  (Opencxx::Ptree* type, Opencxx::Environment* environement) ;
                      
 
-        
-      private:
         
         /// Le nom complet de la classe template.
         /*!
           Une liste des noms des namespaces, le dernier élément est le nom 
           de la classe template proprement dite.
         */
-        Base::Implantation::ListeValeur<Base::Chaine> nomComplet ;
+        //Base::Implantation::ListeValeur<Base::Chaine> nomComplet ;
+        
+        /// Classe template
+        Opencxx::TemplateClass* classeTemplate ;
         
         /// Les paramètres.
         Opencxx::Ptree* parametres ;

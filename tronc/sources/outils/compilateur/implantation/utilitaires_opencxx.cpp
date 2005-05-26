@@ -86,6 +86,107 @@ namespace ProjetUnivers {
       }
       
       
+      /// Recherche une classe dans l'environement spécifié
+      /*!
+        Est capable de traiter les identificateurs de classes avec parcours 
+        de namespaces/classes.
+      */
+//      Class* RechercheClasse(Environment* _environement, Ptree* _identificateur)
+//      {
+//        
+//        
+//        
+//                
+//      }
+//
+//
+//      /*!
+//        Recherche _parentSuppute dans les sur-classes de _classe.
+//      */
+//      Booleen HeriteDe(Class* _classe, Ptree* _parentSuppute)
+//      {
+//        
+//        
+//        Ptree* parents = _classe->BaseClasses() ;
+//        
+//        // parents est de la forme :
+//        /*!
+//          [: [public classe] , [classe] , ... , [protected classe] ]
+//          [: ([ {virtual} (empty | public | protected | private) classe]) ]
+//          Il faut reconnaitre les : 
+//          [public classe] 
+//          [classe]
+//          [virtual protected classe]
+//        */
+//
+//        Ptree* parent ;
+//        
+//        while(parents) 
+//        {
+//          
+//          parent = parents->Cdr()->Car() ;
+//          parents = parents->Cdr()->Cdr() ;
+//          
+//          Ptree* nomParent ;
+//          
+//          if (PtreeUtil::Match(parent, "[%* %?]", &nomParent) ||
+//              PtreeUtil::Match(parent, "[%?]", &nomParent) || 
+//              PtreeUtil::Match(parent, "[%* %* %?]", &nomParent))
+//          {
+//            if (Eq(nomParent,_parentSuppute))
+//            
+//              return VRAI ;
+//              
+//            else
+//            {
+//              Class* classeParente = _classe->GetEnvironment()
+//              bool grandParent = 
+//            }
+//              
+//              
+//          }
+//          
+//        }
+//
+//                        
+//        
+//        while (PtreeUtil::Match(parents, "[%? [< %? >]]",
+//        
+//        
+//        
+//        
+//      }
+//      
+//      Booleen HeriteDe(Class* _classe, const Chaine& _nomClasse) 
+//      {
+//        
+//        
+//        Ptree* nomClasse = (new Leaf(_nomClasse,_nomClasse.len())) ;
+//        Ptree* nomBase = (new Leaf("Base",4)) ;
+//        Ptree* nomProjetUnivers = (new Leaf("ProjetUnivers",13)) ;
+//        Token tokenScope ;
+//        tokenScope.ptr = "::" ;
+//        tokenScope.len = 2 ;
+//        tokenScope.kind = 274 ;
+//        Ptree* scope = new Leaf(tokenScope) ;
+//        Ptree* nomClasse2 = PtreeUtil::List(nomBase, scope, nomClasse) ;
+//        Ptree* nomClasse3 = PtreeUtil::List(
+//                                  nomProjetUnivers, scope, nomClasse2) ;  
+//
+//        // Maintenant, on cherche nomClasse, nomClasse2, nomClasse3 dans 
+//        // toutes les classes...
+//        
+//        
+//        
+//       // Class*         
+//        
+//
+//
+//        
+//
+//      }
+
+      
       
 
     }

@@ -18,66 +18,66 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <outils/compilateur/type_enumere.h>
-//#include <opencxx/mop.h>
+#include <stdio.h>
 
-#include <outils/compilateur/utilitaires_opencxx.h>
+#include <rlog/rlog.h>
+#include <rlog/StdioNode.h>
+#include <rlog/RLogChannel.h>
 
-using namespace Opencxx ;
-using namespace ProjetUnivers::Base ;
+#include <base/composition.h>
+#include <outils/compilateur/traceur.h>
 
 namespace ProjetUnivers {
 
   namespace Outils {
-    
+  
     namespace Compilateur 
     {
 
-      TypeEnumere* TypeEnumere::Construire(Member& _membre)
+      const char* nomFichierDebug = "compilateur_debug.log" ;
+      const char* nomFichierSortie = "compilateur_sortie.log" ;
+
+      FILE* debug ;
+      FILE* sortie ;
+      
+      Base::Composition<rlog::StdioNode> traceurDebug ;
+      Base::Composition<rlog::StdioNode> traceurSortie ;
+
+      /// Lance le traceur.
+      void OuvrirTraceur()
       {
-
-        TypeInfo informationType ;
-        _membre.Signature(informationType) ;
-
         
-        if (informationType.WhatIs() == EnumType)
-        {
-          Ptree* spec ;
-          informationType.IsEnum(spec) ;
-          
-          return new TypeEnumere(spec->Cdr()->Cdr()->Car()->Cdr()->Car()) ;
-          
-          
-        }
-        else
-          
-          return NULL ;
+        // erreurs et debug
+        debug = fopen(nomFichierDebug, "w") ;
+        traceurDebug = new rlog::StdioNode(fileno(debug)) ;
+
+
+        traceurDebug->subscribeTo( rlog::GetGlobalChannel( "warning" ));
+        traceurDebug->subscribeTo( rlog::GetGlobalChannel( "error" ));
+        traceurDebug->subscribeTo( rlog::GetGlobalChannel( "debug" ));  
+
+        // sortie
+        sortie = fopen(nomFichierSortie, "w") ;
+        traceurSortie = new rlog::StdioNode(fileno(sortie)) ;
+        
+        // on se définit notre propre channel de sortie
+        DEF_CHANNEL("compilateur", rlog::Log_Info) ;
+
+        traceurSortie->subscribeTo( rlog::GetGlobalChannel( "compilateur" ));
           
       }
-
-      void TypeEnumere::Initialiser()
-      {}
-   
-  
-          /// Transforme en chaine pour l'affichage.
-      Chaine TypeEnumere::Afficher() const
+      
+      /// Ferme le traceur.
+      void FermerTraceur() 
       {
-        return "enumere " + Chaine(this->elements->ToString()) ;  
-      }
-          
-      TypeEnumere::TypeEnumere(Ptree* _elements)
-      : Type(NULL), elements(_elements)
-      {}
+        fclose(debug) ;
+        fclose(sortie) ;
 
-      Booleen TypeEnumere::VerifieRegles() const 
-      {
-        
-        return VRAI ;
-        
-          
       }
 
 
     }
   }
 }
+ 
+ 

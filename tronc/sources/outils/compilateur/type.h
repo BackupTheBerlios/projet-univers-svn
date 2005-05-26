@@ -25,6 +25,8 @@
 
 #include <base/chaine.h>
 #include <opencxx/Member.h>
+#include <opencxx/Environment.h>
+
 
 namespace ProjetUnivers {
 
@@ -37,6 +39,12 @@ namespace ProjetUnivers {
       class Type 
       {
       public:
+
+        /*!
+          @name Construction
+        */
+        //@{
+
       
         // Construction.
         /*!
@@ -45,19 +53,36 @@ namespace ProjetUnivers {
         */
         static Type* Construire(::Opencxx::Member& _membre) ;
  
+        /// Initialisation de la structure.
+        virtual void Initialiser() = 0 ;
 
+
+        //@}
+        /*!
+          @name Introspection
+        */
+        //@{
+        
+        
         /// Transforme en chaine pour l'affichage.
         virtual Base::Chaine Afficher() const = 0 ;
         
-
-       
+        /// Determine si ce type est un type autorisé pour un attribut.
+        virtual Base::Booleen VerifieRegles() const = 0 ;
+      
+        //@}
+        
+                 
         /// Destructeur de classe abstraite.
         virtual ~Type() ;
       
       protected:
       
         /// Constructeur de classe abstraite.
-        Type() ;
+        Type(Opencxx::Environment* _espaceDeNom) ;
+       
+        /// Environement (namespace ou classe) où est déclaré ce type
+        Opencxx::Environment* espaceDeNom ;
        
       };
     

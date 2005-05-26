@@ -44,22 +44,30 @@ namespace ProjetUnivers {
 
 
       /// Test si le membre est un attribut.
-      Base::Booleen EstAttribut(::Opencxx::Member& _membre) ;
+      Base::Booleen EstAttribut(Opencxx::Member& _membre) ;
       
       /// Donne le nom complet d'un namespace.
       /*!
         \remarks 
           marche avec openc++ 2.8.5 (la mienne)
       */
-      Base::Chaine NomComplet(::Opencxx::Environment* _espaceDeNom) ;
+      Base::Chaine NomComplet(Opencxx::Environment* _espaceDeNom) ;
       
       /// Donne le nom complet d'une classe.
       /*!
         \remarks 
           marche avec openc++ 2.8.5 (la mienne)
       */
-      Base::Chaine NomComplet(::Opencxx::Class* _classe) ;
+      Base::Chaine NomComplet(Opencxx::Class* _classe) ;
       
+      
+      /// Recherche une classe dans l'environement spécifié
+      /*!
+        Est capable de traiter les identificateurs de classes avec parcours 
+        de namespaces.
+      */
+//      ::Opencxx::Class* RechercheClasse(::Opencxx::Environment* _environement, 
+//                                        ::Opencxx::Ptree* _identificateur) ;
       
       
 

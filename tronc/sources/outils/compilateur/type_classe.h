@@ -25,6 +25,7 @@
 
 #include <outils/compilateur/type.h>
 
+class MetaClasse ;
 
 namespace ProjetUnivers {
 
@@ -32,7 +33,8 @@ namespace ProjetUnivers {
   
     namespace Compilateur 
     {
-    
+
+      
       /// Types des classes C++
       class TypeClasse : public Type
       {
@@ -44,7 +46,19 @@ namespace ProjetUnivers {
           \result Le type de l'attribut
         */
         static TypeClasse* Construire(Opencxx::Member& _membre) ;
+
+        /// Initialisation de la structure.
+        virtual void Initialiser() ;
+
  
+        /// Determine si ce type est un type autorisé pour un attribut.
+        /*!
+          Ce type est un type autorisé pour un attribut si :
+          
+          - la classe est une classe de valeurs.
+
+        */
+        virtual Base::Booleen VerifieRegles() const ;
 
         /// Transforme en chaine pour l'affichage.
         virtual Base::Chaine Afficher() const ;
@@ -52,10 +66,10 @@ namespace ProjetUnivers {
       protected:
 
         /// Constructeur.      
-        TypeClasse(const Base::Chaine& _nomComplet) ;
+        TypeClasse(Opencxx::Environment* _espaceDeNom, MetaClasse* _classe) ;
       
-        /// Le nom de la classe.
-        Base::Chaine nomComplet ;
+        /// La classe proprement dite.
+        MetaClasse* classe ;
              
       };
     }

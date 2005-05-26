@@ -18,66 +18,74 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <outils/compilateur/type_enumere.h>
-//#include <opencxx/mop.h>
 
-#include <outils/compilateur/utilitaires_opencxx.h>
 
-using namespace Opencxx ;
-using namespace ProjetUnivers::Base ;
+#ifndef _PU_COMPILATEUR_ATTRIBUT_H_
+#define _PU_COMPILATEUR_ATTRIBUT_H_
+
+#include <base/chaine.h>
+#include <base/composition.h>
+#include <outils/compilateur/type.h>
+
 
 namespace ProjetUnivers {
 
   namespace Outils {
-    
+  
     namespace Compilateur 
     {
-
-      TypeEnumere* TypeEnumere::Construire(Member& _membre)
+    
+      /// Attribut d'une classe C++.
+      class Attribut 
       {
+      public:
 
-        TypeInfo informationType ;
-        _membre.Signature(informationType) ;
+        /*!
+          @name Construction
+        */
+        //@{
 
+        /// Construit un attribut à partir d'un membre.
+        /*!
+          Précondition :
+            _membre doit est un attribut.
+        */
+        Attribut(Opencxx::Member& _membre) ;
+
+        /// Initialisation de la structure.
+        void Initialiser() ;
+
+        //@}
+        /*!
+          @name Introspection
+        */
+        //@{
+
+
+        /// La partie du modèle acedb correspondant.
+        Base::Chaine ModeleAceDBEquivalent() const ;
+
+        /// Determine si l'attribut vérifie les règles de programmations.
+        Base::Booleen VerifieRegles() const ;
+
+        /// Affiche l'attribut.
+        Base::Chaine Afficher() const ;
+
+
+        //@}
         
-        if (informationType.WhatIs() == EnumType)
-        {
-          Ptree* spec ;
-          informationType.IsEnum(spec) ;
-          
-          return new TypeEnumere(spec->Cdr()->Cdr()->Car()->Cdr()->Car()) ;
-          
-          
-        }
-        else
-          
-          return NULL ;
-          
-      }
-
-      void TypeEnumere::Initialiser()
-      {}
-   
-  
-          /// Transforme en chaine pour l'affichage.
-      Chaine TypeEnumere::Afficher() const
-      {
-        return "enumere " + Chaine(this->elements->ToString()) ;  
-      }
-          
-      TypeEnumere::TypeEnumere(Ptree* _elements)
-      : Type(NULL), elements(_elements)
-      {}
-
-      Booleen TypeEnumere::VerifieRegles() const 
-      {
+      private:
+      
+        /// Nom
+        Base::Chaine nom ;
         
-        return VRAI ;
+        /// Type
+        Base::Composition<Type> type ;
         
-          
-      }
-
-
+        
+      };
     }
   }
 }
+
+#endif //_PU_COMPILATEUR_ATTRIBUT_H_

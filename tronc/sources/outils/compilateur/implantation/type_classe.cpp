@@ -18,10 +18,14 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <outils/compilateur/type_classe.h>
+
+#include <rlog/rlog.h>
+
 #include <opencxx/mop.h>
 
+#include <outils/compilateur/type_classe.h>
 #include <outils/compilateur/utilitaires_opencxx.h>
+#include <outils/compilateur/meta_classe.h>
 
 using namespace Opencxx ;
 using namespace ProjetUnivers::Base ;
@@ -39,12 +43,16 @@ namespace ProjetUnivers {
         TypeInfo informationType ;
         _membre.Signature(informationType) ;
 
+        rDebug("TypeClasse::Construire = "+informationType.WhatIs()) ;
         
         if (informationType.WhatIs() == ClassType)
         {
           Class* classe = informationType.ClassMetaobject() ;
+
+          MetaClasse* metaClasse = static_cast<MetaClasse*>(classe) ;
           
-          return new TypeClasse(NomComplet(classe)) ;
+          return new TypeClasse(
+            metaClasse->GetEnvironment()->GetOuterEnvironment(), metaClasse) ;
           
           
         }
@@ -53,18 +61,32 @@ namespace ProjetUnivers {
           return NULL ;
           
       }
+
+      
+      void TypeClasse::Initialiser()
+      {
+        this->classe->Initialiser() ;
+      }
    
   
-          /// Transforme en chaine pour l'affichage.
+      
       Chaine TypeClasse::Afficher() const
       {
-        return this->nomComplet ;  
+        return "classe " + NomComplet(this->classe) ;  
       }
           
-      TypeClasse::TypeClasse(const Chaine& _nomComplet)
-      : Type(), nomComplet(_nomComplet)
+      TypeClasse::TypeClasse(Environment* _espaceDeNom, MetaClasse* _classe)
+      : Type(_espaceDeNom), classe(_classe)
       {}
 
+      Booleen TypeClasse::VerifieRegles() const 
+      {
+        
+        // la classe doit être une classe de valeur...
+        return classe->Valeur() ;
+        
+          
+      }
 
 
     }

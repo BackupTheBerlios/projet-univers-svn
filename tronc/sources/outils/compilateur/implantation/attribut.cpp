@@ -18,66 +18,61 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <outils/compilateur/type_enumere.h>
-//#include <opencxx/mop.h>
 
-#include <outils/compilateur/utilitaires_opencxx.h>
+#include <outils/compilateur/attribut.h>
+#include <opencxx/mop.h>
 
 using namespace Opencxx ;
-using namespace ProjetUnivers::Base ;
 
 namespace ProjetUnivers {
 
+  using namespace Base ;
+
   namespace Outils {
-    
+  
     namespace Compilateur 
     {
+  
+      Attribut::Attribut(Member& _membre)
+      : nom(_membre.Name()->ToString()), type(Type::Construire(_membre))
+      {}
 
-      TypeEnumere* TypeEnumere::Construire(Member& _membre)
+      void Attribut::Initialiser()
       {
-
-        TypeInfo informationType ;
-        _membre.Signature(informationType) ;
-
+        if (type != NULL)
+          type->Initialiser() ;
+      }
+  
+      Booleen Attribut::VerifieRegles() const 
+      {
         
-        if (informationType.WhatIs() == EnumType)
+        if (this->type != 0)
         {
-          Ptree* spec ;
-          informationType.IsEnum(spec) ;
           
-          return new TypeEnumere(spec->Cdr()->Cdr()->Car()->Cdr()->Car()) ;
+          Booleen validiteType(type->VerifieRegles()) ;
+
+          /*!
+            \todo
+              vérifier que le nom est bien un identificateur dans les 
+              bonnes formes
+          */
+          Booleen validiteNom(VRAI) ;
           
-          
+          return validiteType && validiteNom ;
         }
         else
-          
-          return NULL ;
-          
+          return FAUX ;
       }
-
-      void TypeEnumere::Initialiser()
-      {}
-   
-  
-          /// Transforme en chaine pour l'affichage.
-      Chaine TypeEnumere::Afficher() const
+    
+      Chaine Attribut::Afficher() const
       {
-        return "enumere " + Chaine(this->elements->ToString()) ;  
+        if (type != NULL)
+          return nom + " : " + type->Afficher() ;  
+        else
+          return nom + " : type non reconnu" ;  
       }
-          
-      TypeEnumere::TypeEnumere(Ptree* _elements)
-      : Type(NULL), elements(_elements)
-      {}
-
-      Booleen TypeEnumere::VerifieRegles() const 
-      {
-        
-        return VRAI ;
-        
-          
-      }
-
-
+      
     }
   }
+  
 }

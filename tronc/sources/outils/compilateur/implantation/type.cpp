@@ -19,6 +19,8 @@
  ***************************************************************************/
 
 
+#include <rlog/rlog.h>
+
 #include <outils/compilateur/utilitaires_opencxx.h>
 
 #include <outils/compilateur/type.h>
@@ -28,6 +30,7 @@
 #include <outils/compilateur/type_enumere.h>
 
 using namespace Opencxx ;
+
 
 namespace ProjetUnivers {
 
@@ -40,7 +43,8 @@ namespace ProjetUnivers {
       Type::~Type()
       {}
        
-      Type::Type()
+      Type::Type(Environment* _espaceDeNom)
+      : espaceDeNom(_espaceDeNom)
       {}
 
     
@@ -53,6 +57,8 @@ namespace ProjetUnivers {
       */
       Type* Type::Construire(Member& _membre)
       {
+
+        rDebug("Type::Construire") ;
         
         Type* resultat ;
         
@@ -67,7 +73,13 @@ namespace ProjetUnivers {
           if (resultat)
             return resultat ;
 
+          resultat = TypeEnumere::Construire(_membre) ;
+          if (resultat)
+            return resultat ;
           
+          resultat = TypePredefini::Construire(_membre) ;
+          if (resultat)
+            return resultat ;
          
          
           
