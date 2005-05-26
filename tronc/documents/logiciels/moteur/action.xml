@@ -1,267 +1,205 @@
-<?xml version='1.0'?>
-<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN" "http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd">
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN"
+"http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd">
 <article>
-
   <title>Actions de Jeu</title>
 
   <articleinfo>
-
     <abstract>
-
-      <para>Ce document décrit les différentes interactions du jeu, 
-      celles initiée par l&apos;utilisateur et celles inititées en 
-      internes. </para>
-
+      <para>Ce document décrit les différentes interactions du jeu, celles
+      initiée par l'utilisateur et celles inititées en internes.</para>
     </abstract>
 
     <orgname>Equipe Projet Univers</orgname>
+
     <author>
-
       <firstname>Nicolas</firstname>
-      <othername>Néostralie</othername>
-      <surname>Chanay</surname>
-      <email>neostralie@hotmail.com</email>
 
+      <othername>Néostralie</othername>
+
+      <surname>Chanay</surname>
+
+      <email>neostralie@hotmail.com</email>
     </author>
 
     <revhistory>
+      <revision>
+        <revnumber>1</revnumber>
 
-      <revision><revnumber>1</revnumber><date>8 Novembre 
-      2004</date><revdescription><para>Création du 
-      document.</para></revdescription></revision>
+        <date>8 Novembre 2004</date>
 
-      <revision><revnumber>2</revnumber><date>29 avril 
-      2005</date><revdescription><para>Réanalyse du 
-      problème.</para></revdescription></revision>
+        <revdescription>
+          <para>Création du document.</para>
+        </revdescription>
+      </revision>
 
+      <revision>
+        <revnumber>2</revnumber>
+
+        <date>29 avril 2005</date>
+
+        <revdescription>
+          <para>Réanalyse du problème.</para>
+        </revdescription>
+      </revision>
     </revhistory>
 
     <legalnotice>
-
-      <para>Ce document est sous license 
-      <ulink url="http://www.gnu.org/copyleft/fdl.html">GNU Free 
-      Documentation License</ulink></para>
-
+      <para>Ce document est sous license <ulink
+      url="http://www.gnu.org/copyleft/fdl.html">GNU Free Documentation
+      License</ulink></para>
     </legalnotice>
-
   </articleinfo>
 
   <section>
-
     <title>Introduction</title>
 
-    <para>Le modèle de données décrit l&apos;état du monde à un instant 
-    donné. Il s&apos;agit d&apos;une photographie de ce monde. </para>
+    <para>Le modèle de données décrit l'état du monde à un instant donné. Il
+    s'agit d'une photographie de ce monde.</para>
 
-    <para>Tout se passe comme si on appliquait un système tour à tour. 
-    Chaque tour de jeu permet de passer d&apos;un état du monde à un 
-    autre. Ce passage est décrit comme l&apos;application d&apos;un 
-    ensemble d&apos;interactions entre des objets du modèle de 
-    données.</para>
+    <para>Tout se passe comme si on appliquait un système tour à tour. Chaque
+    tour de jeu permet de passer d'un état du monde à un autre. Ce passage est
+    décrit comme l'application d'un ensemble d'interactions entre des objets
+    du modèle de données.</para>
 
-    <para>On a donc un état : l&apos;état courant (le monde tel 
-    qu&apos;il est maintenant) et un ensemble d&apos;interactions à 
-    traiter au prochain tour. Cet ensemble est issu du module des 
-    entrées (les entrées clavier, souris, manche à balais) ainsi que 
-    d&apos;autres modules (le module inteligence artificiel, le module 
-    réseau et le module de gestion de la physique).</para>
+    <para>On a donc un état : l'état courant (le monde tel qu'il est
+    maintenant) et un ensemble d'interactions à traiter au prochain tour. Cet
+    ensemble est issu du module des entrées (les entrées clavier, souris,
+    manche à balais) ainsi que d'autres modules (le module inteligence
+    artificiel, le module réseau et le module de gestion de la
+    physique).</para>
 
-    <para>L&apos;execution d&apos;un tour de jeu revient à appliquer 
-    chaque interaction &quot;à traiter&quot; sur le modèle de données. 
-    A la fin de ces applications, le modèle de données est dans nouvel 
-    état : du &quot;temps&quot; s&apos;ets écoulé avec ses 
-    conséquences; les vaisseaux ont bougé, des collisions se sont 
-    produites etc...</para>
+    <para>L'execution d'un tour de jeu revient à appliquer chaque interaction
+    "à traiter" sur le modèle de données. A la fin de ces applications, le
+    modèle de données est dans nouvel état : du "temps" s'est écoulé avec ses
+    conséquences; les vaisseaux ont bougé, des collisions se sont produites
+    etc...</para>
 
     <example>
+      <title>Une interaction provoquée par l'utilisateur.</title>
 
-      <title>Une interaction provoquée par l&apos;utilisateur.</title>
+      <para>L'utilisateur appuie sur la touche permettant de tirer ses lasers.
+      Ceci est représenté par une interaction "commander le tir des lasers"
+      qui est mise dans l'ensemble des interactions à traiter pendant le
+      prochain tour.</para>
 
-      <para>L&apos;utilisateur appuie sur la touche permettant de tirer 
-      ses lasers. Ceci est représenté par une interaction 
-      &quot;commander le tir des lasers&quot; qui est mise dans 
-      l&apos;ensemble des interactions à traiter pendant le prochain 
-      tour. </para>
-
-      <para>Realisation de cette interaction : l&apos;objet du modèle 
-      de données représentant le bouton de tir est activé, et cette 
-      activation se propage le long d&apos;une connection, qui si elle 
-      n&apos;est pas brisée, arrive aux lasers concernés qui 
-      déclenchent l&apos;émission de lasers suivant les paramètres 
-      d&apos;energie d&apos;état du composant &quot;laser&quot;.</para>
-
+      <para>Realisation de cette interaction : l'objet du modèle de données
+      représentant le bouton de tir est activé, et cette activation se propage
+      le long d'une connection, qui si elle n'est pas brisée, arrive aux
+      lasers concernés qui déclenchent l'émission de lasers suivant les
+      paramètres d'energie d'état du composant "laser".</para>
     </example>
 
-    <para>Ce document décrit les différentes interactions possibles et 
-    leur réalisation. </para>
-
+    <para>Ce document décrit les différentes interactions possibles et leur
+    réalisation.</para>
   </section>
 
   <section>
-
     <title>Définitions</title>
 
     <section>
-
       <title>Action</title>
 
-      <para>C&apos;est dur à définire... Bin c&apos;est une action. On 
-      la réalise et elle a des conséquences sur l&apos;univers.</para>
+      <para>C'est dur à définire... Bin c'est une action. On la réalise et
+      elle a des conséquences sur l'univers.</para>
 
       <itemizedlist>
-
         <listitem>
-
-          <para>Un &quot;rayon laser&quot; touche un 
-          &quot;vaisseau&quot;</para>
-
+          <para>Un "rayon laser" touche un "vaisseau"</para>
         </listitem>
 
         <listitem>
-
-          <para>un &quot;canon lase&quot;r émet un &quot;rayon 
-          laser&quot;</para>
-
+          <para>un "canon lase"r émet un "rayon laser"</para>
         </listitem>
 
         <listitem>
-
-          <para>un &quot;canon laser&quot; décharge une 
-          &quot;batterie&quot;</para>
-
+          <para>un "canon laser" décharge une "batterie"</para>
         </listitem>
 
         <listitem>
-
-          <para>le &quot;propulseur&quot; pousse le 
-          &quot;chasseur&quot;</para>
-
+          <para>le "propulseur" pousse le "chasseur"</para>
         </listitem>
 
         <listitem>
-
-          <para>le &quot;pilote&quot; demande au &quot;propulseur&quot; 
-          de &quot;réduire sa poussée&quot; au moyen de son 
-          &quot;boitier de commande&quot;</para>
-
+          <para>le "pilote" demande au "propulseur" de "réduire sa poussée" au
+          moyen de son "boitier de commande"</para>
         </listitem>
 
         <listitem>
-
-          <para>le &quot;vaisseau A&quot; attaque le &quot;vaisseau 
-          B&quot;</para>
-
+          <para>le "vaisseau A" attaque le "vaisseau B"</para>
         </listitem>
 
         <listitem>
-
-          <para>le &quot;vaisseau&quot; avance</para>
-
+          <para>le "vaisseau" avance</para>
         </listitem>
-
       </itemizedlist>
-
     </section>
 
     <section>
-
       <title>Procédure</title>
 
-      <para>La procédure, c&apos;est la définition d&apos;une action 
-      particulière réalisée par plusieurs actions</para>
+      <para>La procédure, c'est la définition d'une action particulière
+      réalisée par plusieurs actions</para>
 
       <example>
-
-        <title>Attaque d&apos;un &quot;vaisseau A&quot; par un 
-        &quot;vaisseau B&quot;</title>
+        <title>Attaque d'un "vaisseau A" par un "vaisseau B"</title>
 
         <orderedlist>
-
           <listitem>
-
-            <para>Si B n&apos;est pas à porté de A donc A 
-            s&apos;avance, si non, A reste sur place</para>
-
+            <para>Si B n'est pas à porté de A donc A s'avance, si non, A reste
+            sur place</para>
           </listitem>
 
           <listitem>
-
             <para>A vise B</para>
-
           </listitem>
 
           <listitem>
-
             <para>A tir sur B</para>
-
           </listitem>
-
         </orderedlist>
-
       </example>
-
     </section>
 
     <section>
-
       <title>Ordre</title>
 
-      <para>L&apos;ordre est une demande de réalisation d&apos;une 
-      action par un tièrce partie via un canal de communication vers 
-      cette partie du demandeur à celui qui est senser éxécuter.</para>
+      <para>L'ordre est une demande de réalisation d'une action par un tièrce
+      partie via un canal de communication vers cette partie du demandeur à
+      celui qui est senser éxécuter.</para>
 
       <itemizedlist>
-
         <listitem>
-
-          <para>le &quot;pilote&quot; demande au &quot;canon 
-          laser&quot; d&apos;émettre un &quot;rayon laser&quot; grâce 
-          au &quot;boitier de commande&quot;</para>
-
+          <para>le "pilote" demande au "canon laser" d'émettre un "rayon
+          laser" grâce au "boitier de commande"</para>
         </listitem>
 
         <listitem>
-
-          <para>Le &quot;général&quot; demande au &quot;vaisseau 
-          A&quot; d&apos;attaquer le &quot;vaisseau B&quot; grâce à sa 
-          &quot;radio&quot;</para>
-
+          <para>Le "général" demande au "vaisseau A" d'attaquer le "vaisseau
+          B" grâce à sa "radio"</para>
         </listitem>
-
       </itemizedlist>
-
     </section>
-
   </section>
 
   <section>
-
     <title>Les actions</title>
 
-    <para />
+    <para></para>
 
     <section>
+      <title>Définition/ Destruction d'Assemblage</title>
 
-      <title>Définition/ Destruction d&apos;Assemblage</title>
-
-      <para>Un assemblage est un objet, il est définit par 2 objets, 
-      leur position relative et la définition de leur degrés de 
-      liberté.</para>
+      <para>Un assemblage est un objet, il est définit par 2 objets, leur
+      position relative et la définition de leur degrés de liberté.</para>
 
       <section>
-
         <title>Degrés de Liberté</title>
 
-        <para>Les degrées de liberté définissent les rapport de 
-        mouvement entre les objets. Ils sont de deux type : rotation et 
-        translation. Ces deux mouvements se font selon des trajectoires 
-        ou axe définit.</para>
-
+        <para>Les degrées de liberté définissent les rapport de mouvement
+        entre les objets. Ils sont de deux type : rotation et translation. Ces
+        deux mouvements se font selon des trajectoires ou axe définit.</para>
       </section>
-
     </section>
-
   </section>
-
 </article>
-
