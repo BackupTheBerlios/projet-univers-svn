@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN"
+"http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd">
+<article>
+  <title>Compte rendu de la réunion du 25 avril 2005</title>
+
+  <section>
+    <title>Ordre du jour</title>
+
+    <itemizedlist>
+      <listitem>
+        <para>Arsenal</para>
+      </listitem>
+
+      <listitem>
+        <para>Physique</para>
+      </listitem>
+
+      <listitem>
+        <para>Interface joueur</para>
+      </listitem>
+
+      <listitem>
+        <para>Autre points évoqués</para>
+      </listitem>
+    </itemizedlist>
+  </section>
+
+  <section>
+    <title>Arsenal</title>
+
+    <section>
+      <title>Généralité sur les Vaisseau</title>
+
+      <para>Un vaisseau est constituer d'une coque et de différents élements
+      effectuants différentes fonctions. Les vaisseau ont un volum maximum
+      d'emport. Les éléments sont placé selon des points de motages par type
+      d'éléments. Et il existe de familles de compatibilité pour les éléments
+      d'un même type.</para>
+    </section>
+
+    <section>
+      <title>Moteurs</title>
+
+      <para>Les moteurs sont des éléments très lourd.</para>
+    </section>
+
+    <section>
+      <title>Boucliers</title>
+
+      <itemizedlist>
+        <listitem>
+          <para>Forme</para>
+
+          <itemizedlist>
+            <listitem>
+              <para>Bule</para>
+            </listitem>
+
+            <listitem>
+              <para>Peau (à la XWA)</para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+
+        <listitem>
+          <para>Différents type d'absorbtion de dégats</para>
+
+          <itemizedlist>
+            <listitem>
+              <para>Spécialisé : résiste très bien à un type de dégats.</para>
+            </listitem>
+
+            <listitem>
+              <para>Universel : résiste un peu mieu à tout</para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+      </itemizedlist>
+    </section>
+
+    <section>
+      <title>Armes</title>
+
+      <itemizedlist>
+        <listitem>
+          <para>Différents types de dégats</para>
+
+          <itemizedlist>
+            <listitem>
+              <para>Energie</para>
+            </listitem>
+
+            <listitem>
+              <para>EMP</para>
+            </listitem>
+
+            <listitem>
+              <para>Physique</para>
+            </listitem>
+
+            <listitem>
+              <para>Expérience</para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+
+        <listitem>
+          <para>Exemple d'arme : </para>
+
+          <itemizedlist>
+            <listitem>
+              <para>Laser</para>
+            </listitem>
+
+            <listitem>
+              <para>Plasma</para>
+            </listitem>
+
+            <listitem>
+              <para>ION</para>
+            </listitem>
+
+            <listitem>
+              <para>billes de métals</para>
+            </listitem>
+
+            <listitem>
+              <para>Jouets en Peluches</para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+
+        <listitem>
+          <para>Diférents types de comportement</para>
+
+          <itemizedlist>
+            <listitem>
+              <para>Instantaté : méga arme qui pompe un max d'énergie.</para>
+            </listitem>
+
+            <listitem>
+              <para>Projectils</para>
+
+              <itemizedlist>
+                <listitem>
+                  <para>Guidé</para>
+                </listitem>
+
+                <listitem>
+                  <para>Non Guidé</para>
+                </listitem>
+              </itemizedlist>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+      </itemizedlist>
+    </section>
+  </section>
+
+  <section>
+    <title>Physique</title>
+
+    <itemizedlist>
+      <listitem>
+        <para>L'espace est un fluide</para>
+      </listitem>
+
+      <listitem>
+        <para>Intégration des Voile noir et rouge ce qui implique des règlages
+        du compensateur inertiel ainsi que des caractéristiques physique
+        différentes pour chaque races (voir 5.1)</para>
+      </listitem>
+    </itemizedlist>
+
+    <section>
+      <title>Mouvement et direction</title>
+
+      <itemizedlist>
+        <listitem>
+          <para>Chaque tuyère provoque une poussée indépendante et parfois
+          orientable.</para>
+        </listitem>
+
+        <listitem>
+          <para>Les changement de direction des vaisseau sont fait soit par
+          l'orientation de la poussée soit par des tuyères secondaires.</para>
+        </listitem>
+
+        <listitem>
+          <para>Le poids des vaisseau influe sur leur caractéristiques de
+          vol.</para>
+        </listitem>
+
+        <listitem>
+          <para>Les vaisseaux ont un comportement différente dans l'espace et
+          dans l'athmosphère.</para>
+        </listitem>
+      </itemizedlist>
+    </section>
+  </section>
+
+  <section>
+    <title>Interface joueur</title>
+
+    <section>
+      <title>Viseur tête haute</title>
+
+      <section>
+        <title>2D</title>
+
+        <para>Interface 2D comme on trouve dans XWA et XvT.</para>
+      </section>
+
+      <section>
+        <title>3D</title>
+
+        <para>Il est à noter que dans ce cockpit, la tête peu tourner (dans
+        les limites physiologique de la race).</para>
+
+        <orderedlist>
+          <listitem>
+            <para>Le cockpit</para>
+
+            <itemizedlist>
+              <listitem>
+                <para>Le cockpit est créer par le modeur du vaisseau.</para>
+              </listitem>
+
+              <listitem>
+                <para>Il affiche directement intégrer dans le model des
+                informations simple. Ces informations simples peuvent être
+                approfondi en "entrant" dans l'écran de gestion
+                associé.</para>
+              </listitem>
+
+              <listitem>
+                <para>Les informations simples peuvent être de tous les
+                éxemples donné dans 4.2.</para>
+              </listitem>
+            </itemizedlist>
+          </listitem>
+
+          <listitem>
+            <para>Le casque</para>
+
+            <itemizedlist>
+              <listitem>
+                <para>Possibilité de le Tunner</para>
+              </listitem>
+
+              <listitem>
+                <para>Dépend de plusieurs critère (race, constructeur,
+                autre)</para>
+              </listitem>
+
+              <listitem>
+                <para>Personalisable en fonction des info disponible et de la
+                place disponible.</para>
+              </listitem>
+            </itemizedlist>
+          </listitem>
+        </orderedlist>
+      </section>
+    </section>
+
+    <section>
+      <title>Ce qu'il peu y avoire dans un cockpit</title>
+
+      <para>Voici donc toutes les informations et commandes qu'il pourai y
+      avoir d'accessible à partir du cockpit. L'exaustivité de cette liste n'a
+      pas été démontrer.</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>Vitesse</para>
+        </listitem>
+
+        <listitem>
+          <para>Radar</para>
+        </listitem>
+
+        <listitem>
+          <para>Dégat ("chaque boulon")</para>
+        </listitem>
+
+        <listitem>
+          <para>Raglages</para>
+        </listitem>
+
+        <listitem>
+          <para>Horizon artificiel</para>
+        </listitem>
+
+        <listitem>
+          <para>Réglage et contrôles</para>
+
+          <itemizedlist>
+            <listitem>
+              <para>Répartition de l'énergie avec le schéma électrique du
+              vaisseau.</para>
+            </listitem>
+
+            <listitem>
+              <para>Gaz</para>
+            </listitem>
+
+            <listitem>
+              <para>Direction</para>
+            </listitem>
+
+            <listitem>
+              <para>Armes</para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+
+        <listitem>
+          <para>Viseur divers et varié (dont le viseur branlant de la dernière
+          chance)</para>
+        </listitem>
+
+        <listitem>
+          <para>Voyants</para>
+        </listitem>
+
+        <listitem>
+          <para>Sirènes</para>
+        </listitem>
+      </itemizedlist>
+    </section>
+  </section>
+
+  <section>
+    <title>Autres points évoqués</title>
+
+    <section>
+      <title>Aspect Jeu de Rôle</title>
+
+      <itemizedlist>
+        <listitem>
+          <para>Personalisation de l'avatard</para>
+
+          <itemizedlist>
+            <listitem>
+              <para>Race</para>
+            </listitem>
+
+            <listitem>
+              <para>Caractéristiques</para>
+            </listitem>
+
+            <listitem>
+              <para>Compétences</para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+
+        <listitem>
+          <para>Revoire la définition du nombre maximum de polygones par
+          vaisseau.</para>
+        </listitem>
+      </itemizedlist>
+    </section>
+  </section>
+</article>
