@@ -169,29 +169,30 @@ namespace ProjetUnivers {
       {}
 
 
-      TypePredefini* TypePredefini::Construire(Member& _membre)
+      TypePredefini* TypePredefini::Construire(Opencxx::TypeInfo& informationType,
+                                               Opencxx::Environment* environement)
       {
 
-        TypeInfo informationType ;
-        _membre.Signature(informationType) ;
         
         if (informationType.WhatIs() == BuiltInType)
         {
   
           // un peu de bricolage
-          Class* classe = _membre.Supplier() ;
-          MemberList* membres = classe->GetMemberList() ;
-          int rang = _membre.Nth() ;
-          Ptree* declarationAttribut 
-              = membres->Ref(rang)->definition ;
-  
-          Environment* environement 
-              = classe->GetEnvironment()->GetOuterEnvironment() ;
+//          Class* classe = _membre.Supplier() ;
+//          MemberList* membres = classe->GetMemberList() ;
+//          int rang = _membre.Nth() ;
+//          Ptree* declarationAttribut 
+//              = membres->Ref(rang)->definition ;
+//  
+//          Environment* environement 
+//              = classe->GetEnvironment()->GetOuterEnvironment() ;
+//          
+          Ptree* nomType = informationType.FullTypeName() ;
           
           rDebug("TypePredefini::Construire "+
-                 Chaine(declarationAttribut->ToString())) ;
+                 Chaine(nomType->ToString())) ;
           
-          return IdentifierParcoursNamespace(declarationAttribut->Cdr()->Car(),
+          return IdentifierParcoursNamespace(nomType,
                                              environement) ;
         }
         else
@@ -209,13 +210,23 @@ namespace ProjetUnivers {
       : Type(_environement), nom(_nom)
       {}
 
-      Booleen TypePredefini::VerifieRegles() const 
+      Booleen TypePredefini::TypeAttributCorrect() const 
       {
         /*! 
           \todo
             tester qu'on utilise bien les bons types
         */
         return VRAI ;
+      }
+      
+      Base::Booleen TypePredefini::Valeur() const
+      {
+        return VRAI ;
+      }
+
+      Base::Booleen TypePredefini::Objet() const
+      {
+        return FAUX ;
       }
 
 

@@ -11,6 +11,20 @@ namespace ProjetUnivers
   
     class Valeur
     {} ;
+
+    class Objet
+    {} ;
+
+    
+    template <class T, int nombre> class TempAvecNombre
+    {};
+
+    template <class T, int nombre, class U> class TempAvecTroisParametres
+    {};
+
+    template <class T, class U> class FonctionObjetValeur
+    {};
+
     
   }
 }
@@ -24,9 +38,9 @@ namespace ProjetUnivers {
     
       int toto ;
       
-      ProjetUnivers::Base::Booleen estVrai ;
+      ::ProjetUnivers::Base::Booleen estVrai ;
     
-      void Fonction()
+      virtual void Fonction()
       {
       }
     };
@@ -35,15 +49,28 @@ namespace ProjetUnivers {
     class B : public A
     {
     public:
-      ProjetUnivers::Base::Association<A> a ;
-      // Base::FonctionObjetValeur<A,B> fonction ;
+
+      bool operator==(const B& _toto) const ;
+      virtual ~B() ;
+
+
+      // marche
+
+      ProjetUnivers::Base::Association<A> associationA ;
+      Base::FonctionObjetValeur<A,B> fonctionAB ;
+      A valeurA ;
       
-      A attribut_classe ;
+      virtual void Test();
+      B() ;
       
-      void Test();
+      // marche pas
+      B(const B& _toto) ;
       
     };
     
+    
+    class ObjetA : public Base::Objet
+    {};
     
   }
   
@@ -57,8 +84,7 @@ namespace ProjetUnivers {
     {
     public:
     
-      Temp<Modele::B> temp ;
-      ProjetUnivers::Base::Composition<Modele::A> a ;
+      ProjetUnivers::Base::Composition<Modele::A> CompositionA ;
       Modele::A objet ;
 
       int i ;
@@ -66,6 +92,33 @@ namespace ProjetUnivers {
       int fonction(void) const ;
     };
     
+    class C : public Base::Objet
+    {
+    public:
+      
+      Base::Association<A> associationA ;  
+    };
+    
+    
+    class D : public C
+    {};
+    
+    class ValeurA : public Base::Valeur
+    {
+    public:
+      Base::Association< Modele::ObjetA> objetA ;  
+    };
+
+    class ValeurB : public Base::Valeur
+    {
+    public:
+      Base::Association< Modele::ObjetA> objetA ;  
+      ValeurA valeurA ;
+      
+      Base::FonctionObjetValeur< Modele::ObjetA, ValeurA> fonctionObjetValeur ;
+      
+    };
+
     
   }
 }

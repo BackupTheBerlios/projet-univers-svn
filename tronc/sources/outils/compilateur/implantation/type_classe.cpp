@@ -37,11 +37,9 @@ namespace ProjetUnivers {
     namespace Compilateur 
     {
 
-      TypeClasse* TypeClasse::Construire(Member& _membre)
+      TypeClasse* TypeClasse::Construire(Opencxx::TypeInfo& informationType,
+                                         Opencxx::Environment* environement)
       {
-
-        TypeInfo informationType ;
-        _membre.Signature(informationType) ;
 
         rDebug("TypeClasse::Construire = "+informationType.WhatIs()) ;
         
@@ -79,14 +77,30 @@ namespace ProjetUnivers {
       : Type(_espaceDeNom), classe(_classe)
       {}
 
-      Booleen TypeClasse::VerifieRegles() const 
+      Booleen TypeClasse::TypeAttributCorrect() const 
       {
         
-        // la classe doit être une classe de valeur...
-        return classe->Valeur() ;
-        
+        // la classe doit être une classe de valeur...ou bien ne pas faire 
+        // partie de PU
+        if (classe->NamespaceProjetUnivers())
+        {
+          
+          return classe->Valeur() ;
+        }
+        return VRAI ;
           
       }
+
+      Base::Booleen TypeClasse::Valeur() const
+      {
+        return classe->Valeur() ;
+      }
+
+      Base::Booleen TypeClasse::Objet() const
+      {
+        return classe->Objet() ;
+      }
+
 
 
     }

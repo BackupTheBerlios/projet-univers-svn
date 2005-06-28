@@ -23,9 +23,13 @@
 #ifndef _PU_COMPILATEUR_TYPE_H_
 #define _PU_COMPILATEUR_TYPE_H_
 
-#include <base/chaine.h>
 #include <opencxx/Member.h>
 #include <opencxx/Environment.h>
+
+
+#include <base/chaine.h>
+
+#include <outils/compilateur/parametre_template.h>
 
 
 namespace ProjetUnivers {
@@ -36,7 +40,7 @@ namespace ProjetUnivers {
     {
     
       /// Types C++
-      class Type 
+      class Type : public ParametreTemplate
       {
       public:
 
@@ -47,11 +51,8 @@ namespace ProjetUnivers {
 
       
         // Construction.
-        /*!
-          \param _membre Un attribut d'une classe.
-          \result Le type de l'attribut
-        */
-        static Type* Construire(::Opencxx::Member& _membre) ;
+        static Type* Construire(Opencxx::TypeInfo& informationType,
+                                Opencxx::Environment* environement) ;
  
         /// Initialisation de la structure.
         virtual void Initialiser() = 0 ;
@@ -64,13 +65,18 @@ namespace ProjetUnivers {
         //@{
         
         
+        /// Determine si ce type est un type autorisé pour un attribut.
+        virtual Base::Booleen TypeAttributCorrect() const = 0 ;
+      
+        virtual Base::Booleen Valeur() const = 0 ;
+
+        virtual Base::Booleen Objet() const = 0 ;
+      
+        //@}
+
         /// Transforme en chaine pour l'affichage.
         virtual Base::Chaine Afficher() const = 0 ;
         
-        /// Determine si ce type est un type autorisé pour un attribut.
-        virtual Base::Booleen VerifieRegles() const = 0 ;
-      
-        //@}
         
                  
         /// Destructeur de classe abstraite.

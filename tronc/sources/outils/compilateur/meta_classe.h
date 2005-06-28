@@ -153,9 +153,82 @@ private:
   /// Génère la partie d'un schéma XML pour cet attribut.
   void GenererSchemaXml() const ;
 
-  /// Determine si la classe vérifie les règles de programmatoins.
+
+  /*!
+    @name Vérification des règles
+    
+    Une classe est soit Concrète soit Abstraite.
+    Une classe est soit Objet soit Valeur.
+    Une classe Valeur est Concrete.
+    
+  */
+  //@{
+
+
+  /// Determine si la classe vérifie les règles de programmations.
   bool VerifieRegles() ;
 
+
+  /// La classe est-elle abstraite.
+  /*!
+    Une classe abstraite possède 
+    - des méthode virtuelles pures
+    - un destructeur virtuel non pur public
+    - un constructeur protégé
+    - des méthodes non virtuelles
+    - des attributs
+  */
+  bool Abstraite() const ;
+
+  /// La classe est-elle concrète.
+  /*!
+    Une classe concrète possède 
+    - au moins un constructeur public
+    - uniquement des méthodes non virtuelles
+    - des attributs
+    - éventuellement des destructeurs
+  */
+  bool Concrete() const ;
+
+
+  /// Calcule si la classe est une classe de valeur
+  /*!
+    Une classe de valeur possède :
+    - un constructeur par défaut
+    - un constructeur de copie
+    - un opérateur ==
+    - un opérateur !=
+    - aucune méthode virtuelle
+  */
+  bool EstValeur() const ;
+  
+  /// Calcule si la classe est une classe d'objet
+  /*!
+    Une classe d'objet possède :
+    - aucun constructeur de copie
+    - aucun opérateur ==
+    - aucun opérateur !=
+  */
+  bool EstObjet() const ;
+  
+  bool ExisteDeclarationConstructeurParDefautPublic ;
+  bool ExisteDeclarationConstructeurParDefautProtege ;
+  bool ExisteConstructeurDeCopiePublic ;
+  
+//  bool ExisteDeclarationConstructeurPublic ;
+//  bool ExisteDeclarationConstructeur ;
+//  bool ExisteDeclarationConstructeurParDefaut ;
+  
+  bool ExisteDestructeurVirtuelNonPur ;
+
+  bool ExisteOperateurEgalPublic ;
+  bool ExisteOperateurDifferentPublic ;
+
+  bool ExisteMethodeVirtuellePure ;
+  bool ExisteMethodeVirtuelleNonPure ;
+  
+
+  //@}
   ///@name Attributs
   //@{
 
@@ -165,6 +238,12 @@ private:
 
   /// Le nom de la classe
   ProjetUnivers::Base::Chaine nom ;
+  
+  /// Les constructeurs
+  
+  /// Les méthodes statiques ??
+  
+  
   
   /// Les classes parentes
   /*!

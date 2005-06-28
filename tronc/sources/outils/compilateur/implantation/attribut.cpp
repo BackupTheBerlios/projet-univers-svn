@@ -34,8 +34,15 @@ namespace ProjetUnivers {
     {
   
       Attribut::Attribut(Member& _membre)
-      : nom(_membre.Name()->ToString()), type(Type::Construire(_membre))
-      {}
+      : nom(_membre.Name()->ToString()), type()
+      {
+      
+        TypeInfo informationType ;
+        _membre.Signature(informationType) ;
+        
+        type = Type::Construire(informationType, _membre.Supplier()->GetEnvironment()) ;
+      
+      }
 
       void Attribut::Initialiser()
       {
@@ -49,7 +56,7 @@ namespace ProjetUnivers {
         if (this->type != 0)
         {
           
-          Booleen validiteType(type->VerifieRegles()) ;
+          Booleen validiteType(type->TypeAttributCorrect()) ;
 
           /*!
             \todo
@@ -66,10 +73,13 @@ namespace ProjetUnivers {
     
       Chaine Attribut::Afficher() const
       {
+        Chaine resultat = nom ;
         if (type != NULL)
-          return nom + " : " + type->Afficher() ;  
+          resultat += " : " + type->Afficher() ;  
         else
-          return nom + " : type non reconnu" ;  
+          resultat += " : type non reconnu" ;  
+        
+        return resultat ;
       }
       
     }

@@ -48,46 +48,31 @@ namespace ProjetUnivers {
       {}
 
     
-      // Construction.
-      /*!
-        Un faux constructeur.
-        \param _membre Un attribut d'une classe.
-        \result Le type de l'attribut
-        
-      */
-      Type* Type::Construire(Member& _membre)
+      Type* Type::Construire(Opencxx::TypeInfo& informationType,
+                             Opencxx::Environment* environement)
       {
 
         rDebug("Type::Construire") ;
         
         Type* resultat ;
         
-        if (EstAttribut(_membre))
-        {
-        
-          resultat = TypeTemplate::Construire(_membre) ;
-          if (resultat)
-            return resultat ;
-            
-          resultat = TypeClasse::Construire(_membre) ;
-          if (resultat)
-            return resultat ;
+        resultat = TypeTemplate::Construire(informationType, environement) ;
+        if (resultat)
+          return resultat ;
+          
+        resultat = TypeClasse::Construire(informationType, environement) ;
+        if (resultat)
+          return resultat ;
 
-          resultat = TypeEnumere::Construire(_membre) ;
-          if (resultat)
-            return resultat ;
-          
-          resultat = TypePredefini::Construire(_membre) ;
-          if (resultat)
-            return resultat ;
-         
-         
-          
-        }
+        resultat = TypeEnumere::Construire(informationType, environement) ;
+        if (resultat)
+          return resultat ;
         
-        else
-          return NULL ;
-                
+        resultat = TypePredefini::Construire(informationType, environement) ;
+        if (resultat)
+          return resultat ;
+         
+        
       }
 
       

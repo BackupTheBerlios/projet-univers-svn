@@ -18,74 +18,78 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <outils/compilateur/type_enumere.h>
-//#include <opencxx/mop.h>
 
-#include <outils/compilateur/utilitaires_opencxx.h>
 
-using namespace Opencxx ;
-using namespace ProjetUnivers::Base ;
+#ifndef _PU_COMPILATEUR_PARAMETRE_TEMPLATE_H_
+#define _PU_COMPILATEUR_PARAMETRE_TEMPLATE_H_
+
+#include <opencxx/parser/Ptree.h>
+#include <opencxx/Environment.h>
+
+#include <base/chaine.h>
+#include <base/types.h>
+
 
 namespace ProjetUnivers {
 
   namespace Outils {
-    
+      
     namespace Compilateur 
     {
-
-      TypeEnumere* TypeEnumere::Construire(Opencxx::TypeInfo& informationType,
-                                           Opencxx::Environment* environement)
-      {
-
-        
-        if (informationType.WhatIs() == EnumType)
-        {
-          Ptree* spec ;
-          informationType.IsEnum(spec) ;
-          
-          return new TypeEnumere(spec->Cdr()->Cdr()->Car()->Cdr()->Car()) ;
-          
-          
-        }
-        else
-          
-          return NULL ;
-          
-      }
-
-      void TypeEnumere::Initialiser()
-      {}
-   
   
-          /// Transforme en chaine pour l'affichage.
-      Chaine TypeEnumere::Afficher() const
+      /// Représente un paramètre d'instantiation d'un template
+      /*!
+        Un paramètre est soit un type, soit une valeur.
+      */
+      class ParametreTemplate
       {
-        return "enumere " + Chaine(this->elements->ToString()) ;  
-      }
-          
-      TypeEnumere::TypeEnumere(Ptree* _elements)
-      : Type(NULL), elements(_elements)
-      {}
+      public:
 
-      Booleen TypeEnumere::TypeAttributCorrect() const 
-      {
+        /*!
+          @name Construction
+        */
+        //@{
         
-        return VRAI ;
-        
-          
-      }
+        /// Construit le paramètre.
+        static ParametreTemplate* Construire(Opencxx::Ptree* parametre,
+                                             Opencxx::Environment* environement) ;
+
+        //@}
+        /*!
+          @name Affichage
+        */
+        //@{
+
+        /// Transforme en chaine pour l'affichage.
+        virtual Base::Chaine Afficher() const = 0 ;
+
+
+        //@}
+        /*!
+          @name Introspection
+        */
+        //@{
+
+        virtual Base::Booleen Valeur() const = 0 ;
+
+        virtual Base::Booleen Objet() const = 0 ;
+
+
+        //@}
+
+
+
+        /// Destructeur de classe abstraite.
+        virtual ~ParametreTemplate() ;
       
-      Base::Booleen TypeEnumere::Valeur() const
-      {
-        return VRAI ;
-      }
-
-      Base::Booleen TypeEnumere::Objet() const
-      {
-        return FAUX ;
-      }
-
-
+      protected:
+      
+        /// Constructeur de classe abstraite.
+        ParametreTemplate() ;
+        
+      };
     }
   }
 }
+
+#endif

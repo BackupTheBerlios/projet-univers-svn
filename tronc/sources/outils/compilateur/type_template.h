@@ -23,10 +23,14 @@
 #ifndef _PU_COMPILATEUR_TYPE_TEMPLATE_H_
 #define _PU_COMPILATEUR_TYPE_TEMPLATE_H_
 
-#include <outils/compilateur/type.h>
-#include <base/implantation/liste_valeur.h>
 #include <opencxx/TypeInfo.h>
 #include <opencxx/TemplateClass.h>
+
+
+#include <outils/compilateur/type.h>
+
+#include <base/implantation/liste_composition.h>
+
 
 
 namespace ProjetUnivers {
@@ -36,13 +40,32 @@ namespace ProjetUnivers {
     namespace Compilateur 
     {
   
+      class ParametreTemplate ;
+
+      /// Les différents templates du module Base
+      enum BaseTemplate
+      {
+        NonPrisEnCompte,
+        Association,
+        Composition,
+        EnsembleAssociation,
+        EnsembleComposition,
+        EnsembleValeur,
+        FonctionObjetValeur,
+        FonctionCompositionObjetObjet,
+        FonctionAssociationObjetObjet,
+        FonctionCompositionValeurObjet,
+        FonctionAssociationValeurObjet
+      } ;
+      
       /// Type des templates C++.
       class TypeTemplate : public Type
       {
       public:
       
         /// Faux constructeur.
-        static TypeTemplate* Construire(::Opencxx::Member& _membre) ;
+        static TypeTemplate* Construire(Opencxx::TypeInfo& informationType,
+                                        Opencxx::Environment* environement) ;
 
         /// Initialisation de la structure.
         virtual void Initialiser() ;
@@ -57,41 +80,83 @@ namespace ProjetUnivers {
           ...
 
         */
-        virtual Base::Booleen VerifieRegles() const ;
+        virtual Base::Booleen TypeAttributCorrect() const ;
 
         /// Transforme en chaine pour l'affichage.
         virtual Base::Chaine Afficher() const ;
 
 
       private:
+
+
+
+        /*!
+          @name Outils de construction
+        */        
+        //@{
+
       
         /// Constructeur  
         TypeTemplate(
           Opencxx::TemplateClass* _ClassTemplate,
           Opencxx::Ptree* _parametres) ;
 
+        /// Constructeur  
+        TypeTemplate(Opencxx::TemplateClass* _ClassTemplate) ;
+
+
         static TypeTemplate* IdentifierTypeTemplate
-                    (Opencxx::Ptree* type,   
-                     Opencxx::TypeInfo informationType, 
+                    (Opencxx::TypeInfo informationType, 
                      Opencxx::Environment* environement) ;
 
         static TypeTemplate* IdentifierParcoursNamespace
                   (Opencxx::Ptree* type, Opencxx::Environment* environement) ;
-                     
-
-        
-        /// Le nom complet de la classe template.
+            
+             
+        //@}
         /*!
-          Une liste des noms des namespaces, le dernier élément est le nom 
-          de la classe template proprement dite.
-        */
-        //Base::Implantation::ListeValeur<Base::Chaine> nomComplet ;
+          @name Introspection
+        */        
+        //@{
+
+
+
+
+
+        /// Template de base.
+        BaseTemplate TemplateDeBase() const ;
+
+        /// Vrai si le template fait partie de ::ProjetUnivers::Base.
+        Base::Booleen NamespaceProjetUniversBase() const ;
+        
+        virtual Base::Booleen Valeur() const ;
+
+        virtual Base::Booleen Objet() const ;
+
+        /// Vrai si le type représente une composition.
+        Base::Booleen EstComposition() const ;
+
+
+        //@}
+        /*!
+          @name Attributs
+        */        
+        //@{
         
         /// Classe template
         Opencxx::TemplateClass* classeTemplate ;
         
         /// Les paramètres.
+        Base::Implantation::ListeComposition<ParametreTemplate> _parametres ;
+        
+        /*!
+          @deprecated
+        */
         Opencxx::Ptree* parametres ;
+
+        //@}
+        
+
       
       };
   

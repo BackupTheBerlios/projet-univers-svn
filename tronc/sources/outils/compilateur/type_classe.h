@@ -40,12 +40,9 @@ namespace ProjetUnivers {
       {
       public:
 
-        // Construction.
-        /*!
-          \param _membre Un attribut d'une classe.
-          \result Le type de l'attribut
-        */
-        static TypeClasse* Construire(Opencxx::Member& _membre) ;
+        /// Construction.
+        static TypeClasse* Construire(Opencxx::TypeInfo& informationType,
+                                      Opencxx::Environment* environement) ;
 
         /// Initialisation de la structure.
         virtual void Initialiser() ;
@@ -58,7 +55,12 @@ namespace ProjetUnivers {
           - la classe est une classe de valeurs.
 
         */
-        virtual Base::Booleen VerifieRegles() const ;
+        virtual Base::Booleen TypeAttributCorrect() const ;
+
+        virtual Base::Booleen Valeur() const ;
+
+        virtual Base::Booleen Objet() const ;
+
 
         /// Transforme en chaine pour l'affichage.
         virtual Base::Chaine Afficher() const ;

@@ -18,10 +18,15 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <outils/compilateur/type_enumere.h>
-//#include <opencxx/mop.h>
+#include <rlog/rlog.h>
 
-#include <outils/compilateur/utilitaires_opencxx.h>
+#include <opencxx/parser/token-names.h>
+
+#include <base/chaine.h>
+
+
+#include <outils/compilateur/parametre_template.h>
+#include <outils/compilateur/traceur.h>
 
 using namespace Opencxx ;
 using namespace ProjetUnivers::Base ;
@@ -29,62 +34,35 @@ using namespace ProjetUnivers::Base ;
 namespace ProjetUnivers {
 
   namespace Outils {
-    
+      
     namespace Compilateur 
     {
-
-      TypeEnumere* TypeEnumere::Construire(Opencxx::TypeInfo& informationType,
-                                           Opencxx::Environment* environement)
+      /// Construit le paramètre.
+      ParametreTemplate* ParametreTemplate::Construire(Ptree* parametre,
+                                                      Environment* environement)
       {
-
-        
-        if (informationType.WhatIs() == EnumType)
+      
+        if (parametre->IsA(Constant))
         {
-          Ptree* spec ;
-          informationType.IsEnum(spec) ;
-          
-          return new TypeEnumere(spec->Cdr()->Cdr()->Car()->Cdr()->Car()) ;
-          
-          
+          rDebug(Chaine(parametre->ToString()) + "est une constante") ;
         }
         else
-          
-          return NULL ;
-          
+        {
+          rDebug(Chaine(parametre->ToString()) + "n'est pas une constante") ;          
+        }
+        
       }
 
-      void TypeEnumere::Initialiser()
-      {}
-   
-  
-          /// Transforme en chaine pour l'affichage.
-      Chaine TypeEnumere::Afficher() const
+      Base::Chaine ParametreTemplate::Afficher() const
       {
-        return "enumere " + Chaine(this->elements->ToString()) ;  
+        return "" ;
       }
-          
-      TypeEnumere::TypeEnumere(Ptree* _elements)
-      : Type(NULL), elements(_elements)
+
+      ParametreTemplate::~ParametreTemplate()
       {}
 
-      Booleen TypeEnumere::TypeAttributCorrect() const 
-      {
-        
-        return VRAI ;
-        
-          
-      }
-      
-      Base::Booleen TypeEnumere::Valeur() const
-      {
-        return VRAI ;
-      }
-
-      Base::Booleen TypeEnumere::Objet() const
-      {
-        return FAUX ;
-      }
-
+      ParametreTemplate::ParametreTemplate()
+      {}
 
     }
   }

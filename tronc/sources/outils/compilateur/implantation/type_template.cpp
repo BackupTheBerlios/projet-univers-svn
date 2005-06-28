@@ -21,9 +21,15 @@
 #include <rlog/rlog.h>
 
 #include <opencxx/mop.h>
+#include <opencxx/parser/PtreeUtil.h>
+
+#include <base/composition.h>
 #include <base/implantation/liste_valeur.h>
 #include <base/implantation/iterateur_liste_valeur.h>
+#include <base/implantation/iterateur_liste_composition.h>
 
+
+#include <outils/compilateur/parametre_template.h>
 #include <outils/compilateur/type_template.h>
 #include <outils/compilateur/utilitaires_opencxx.h>
 
@@ -38,86 +44,118 @@ namespace ProjetUnivers {
     namespace Compilateur 
     {
 
-      /// Identifie la selection par un namespace
-      /*!
-        Reconnait des arbre de la forme : 
-        [<i>namespace</i> :: <i>reste</i>]
-      */
-      TypeTemplate* TypeTemplate::IdentifierParcoursNamespace
-                  (Ptree* type, Environment* environement) 
-      {
-      
-        rDebug("coucou 1") ;
-          
-      
-        Ptree* espaceDeNom ;
-        Ptree* suiteType ;
-      
-        if (PtreeUtil::Match(type, "[%? :: %r]", &espaceDeNom, &suiteType))
-        {
-          
-          rDebug("coucou 2") ;
-          
-          
-          /*!
-            on vérifie que le premier élément est bien un identifiant de 
-            namespace
-          */
-          char* nom = espaceDeNom->GetPosition() ;
-          int len = espaceDeNom->GetLength() ;
-          
-          Environment* environementNameSpace 
-            = environement->LookupNamespace(nom, len) ;
-
-          Class* Classe 
-            = environement->LookupClassMetaobject(espaceDeNom) ;
-      
-          rDebug("coucou 3") ;
-          
-          // ce n'est pas un namespace... on arrete
-          if (environementNameSpace != NULL) 
-            
-            return IdentifierParcoursNamespace(suiteType, environementNameSpace) ;
-          
-          if (Classe != NULL)
-          
-            return IdentifierParcoursNamespace(suiteType, Classe->GetEnvironment()) ;
-            
-          rDebug(" " + Chaine(espaceDeNom->ToString())+"non reconnu dans "+
-                 NomComplet(environement)) ;
-          return NULL ;
-          
-        }
-        
-        Ptree* nomClasseTemplate ;
-        Ptree* parametres ;
-        
-        if (PtreeUtil::Match(type, "[[%? [< %? >]]]", 
-                             &nomClasseTemplate, &parametres))
-        {
-      
-      
-          rDebug("dans "+NomComplet(environement)+ 
-                 " on a trouve le template "+nomClasseTemplate->ToString()) ;
-                  
-          // on récupère sa classe
-          TemplateClass* classeTemplate = static_cast<TemplateClass*>(
-            environement->LookupClassMetaobject(nomClasseTemplate)) ;
-          
-          Composition<TypeTemplate> resultat(
-              new TypeTemplate(classeTemplate, parametres)) ;
-      
-          return resultat.Liberer() ;
-         
-          
-        }
-        
-        rDebug(" "+Chaine(type->ToString())+" na pas la forme dun template") ;
-        
-        // ce n'en est pas un
-        return NULL ;
-      
-      }
+//      /// Identifie la selection par un namespace
+//      /*!
+//        Reconnait des arbre de la forme : 
+//        [<i>namespace</i> :: <i>reste</i>]
+//      */
+//      TypeTemplate* TypeTemplate::IdentifierParcoursNamespace
+//                  (Ptree* type, Environment* environement) 
+//      {
+//      
+//        rDebug("coucou 1") ;
+//          
+//      
+//        Ptree* espaceDeNom ;
+//        Ptree* suiteType ;
+//      
+//        if (PtreeUtil::Match(type, "[%? :: %r]", &espaceDeNom, &suiteType))
+//        {
+//          
+//          rDebug("coucou 2") ;
+//          
+//          
+//          /*!
+//            on vérifie que le premier élément est bien un identifiant de 
+//            namespace
+//          */
+//          char* nom = espaceDeNom->GetPosition() ;
+//          int len = espaceDeNom->GetLength() ;
+//          
+//          Environment* environementNameSpace 
+//            = environement->LookupNamespace(nom, len) ;
+//
+//          Class* Classe 
+//            = environement->LookupClassMetaobject(espaceDeNom) ;
+//      
+//          rDebug("coucou 3") ;
+//          
+//          // ce n'est pas un namespace... on arrete
+//          if (environementNameSpace != NULL) 
+//            
+//            return IdentifierParcoursNamespace(suiteType, environementNameSpace) ;
+//          
+//          if (Classe != NULL)
+//          
+//            return IdentifierParcoursNamespace(suiteType, Classe->GetEnvironment()) ;
+//            
+//          rDebug(" " + Chaine(espaceDeNom->ToString())+"non reconnu dans "+
+//                 NomComplet(environement)) ;
+//          return NULL ;
+//          
+//        }
+//        
+//        Ptree* nomClasseTemplate ;
+//        Ptree* parametres ;
+//        
+//        if (PtreeUtil::Match(type, "[[%? [< %? >]]]", 
+//                             &nomClasseTemplate, &parametres))
+//        {
+//      
+//      
+//          rDebug("dans "+NomComplet(environement)+ 
+//                 " on a trouve le template "+nomClasseTemplate->ToString()) ;
+//                  
+//          // on récupère sa classe
+//          TemplateClass* classeTemplate = static_cast<TemplateClass*>(
+//            environement->LookupClassMetaobject(nomClasseTemplate)) ;
+//          
+//          // les paramètres
+//          parametres->Display() ;
+//          
+//          int nombreParametres = (PtreeUtil::Length(parametres) +1)/2 ;
+//          
+//          for(int numeroParametre = 1 ;
+//              numeroParametre <= nombreParametres;
+//              ++numeroParametre)
+//          {
+//          
+//            /// de la forme 
+//            /// x où x est un nombre
+//            /// [type [0]]    
+//            Ptree* parametre 
+//              = PtreeUtil::Nth(parametres,2*(numeroParametre-1)) ;
+//
+//            parametre->Display() ;            
+//
+//            Ptree* type ; 
+//
+//            if (PtreeUtil::Match(parametre, "[%? %*]", &type))
+//            {
+//              //this->parametres.Ajouter(Type::Construire  
+//              rDebug("parametre classe = " + Chaine(type->ToString())) ;
+//              rDebug("encoding = " + Chaine(type->GetEncodedName())) ;
+//            }              
+//            else
+//              rDebug("pas de classe parametre trouvée") ;
+//            
+//          }
+//              
+//          
+//          Composition<TypeTemplate> resultat(
+//              new TypeTemplate(classeTemplate, parametres)) ;
+//      
+//          return resultat.Liberer() ;
+//         
+//          
+//        }
+//        
+//        rDebug(" "+Chaine(type->ToString())+" na pas la forme dun template") ;
+//        
+//        // ce n'en est pas un
+//        return NULL ;
+//      
+//      }
       
       
       
@@ -129,8 +167,7 @@ namespace ProjetUnivers {
         opencxx.
       */
       TypeTemplate* TypeTemplate::IdentifierTypeTemplate
-                    (Ptree* type,   
-                     TypeInfo informationType, 
+                    (TypeInfo informationType, 
                      Environment* environement)
       {
 
@@ -142,38 +179,42 @@ namespace ProjetUnivers {
         {
         case TemplateType:  
           
-//          nomComplet.AjouterEnQueue(informationType.FullTypeName()->ToString()) ;
         { 
          
           rDebug("whatis dit que c'ets un template") ;
+
+          
                
-          Class* classe = environement->LookupClassMetaobject(
-            informationType.FullTypeName()) ;
-          TemplateClass* classeTemplate = static_cast<TemplateClass*>(classe) ;
+          TemplateClass* classeTemplate 
+            =  informationType.TemplateClassMetaobject() ;
+
+
+          Base::Composition<TypeTemplate>
+            resultat(new TypeTemplate(classeTemplate)) ;
+
+
+          // arguments
+          int nombreArguments = 0 ;
+          TypeInfo typeArgument ;
       
-          Ptree* parametre ;
-          PtreeUtil::Match(type, "[%* [< %? >]]", &parametre) ;
+          while(informationType.NthTemplateArgument(nombreArguments++,typeArgument))
+          {
+            
+            if (typeArgument.WhatIs() == UndefType)
+            {
+              rDebug("parametre n'a pas de type") ;
+              
+              
+            }
+            else
+            
+              resultat->_parametres.AjouterEnQueue(Type::Construire(typeArgument, environement)) ;
+          }
+
       
-          return new TypeTemplate(classeTemplate, parametre) ;
+          return resultat.Liberer() ;
           break ;
         }
-        
-        case UndefType :
-
-          rDebug("whatis dit que c'ets indefini") ;
-                
-          // ici c'ets plus compliqué, on a probablemenr affaire à un 
-          // template un peu trop compliqué pour OpenC++ (avec des namesapces)
-          
-          // exemple : 
-          // Base::Association< A > a ;
-          // Ptree correspondant : 
-          // [0 [Base :: [Association [< [[[A] [0]]] >]]] [[a]] ;]
-          
-          return IdentifierParcoursNamespace(type, environement) ;
-          
-      
-          break;
           
         default:
         
@@ -187,27 +228,12 @@ namespace ProjetUnivers {
 
 
 
-      TypeTemplate* TypeTemplate::Construire(Opencxx::Member& _membre)
+      TypeTemplate* TypeTemplate::Construire(Opencxx::TypeInfo& informationType,
+                                             Environment* environement)
       {
-        TypeInfo informationType ;
-        _membre.Signature(informationType) ;
-      
-        
-        // un peu de bricolage
-        Class* classe = _membre.Supplier() ;
-        MemberList* membres = classe->GetMemberList() ;
-        Entier nombreDeMembres = membres->Number() ;
-        int rang = _membre.Nth() ;
-        Ptree* declarationAttribut 
-            = membres->Ref(rang)->definition ;
-
-        Environment* environement 
-            = classe->GetEnvironment()->GetOuterEnvironment() ;
-        
         
         rDebug("TypeTemplate::Construire = "+informationType.WhatIs()) ;
-        return IdentifierTypeTemplate(declarationAttribut->Cdr()->Car(),
-                                      informationType, 
+        return IdentifierTypeTemplate(informationType, 
                                       environement) ;
       }
       
@@ -218,6 +244,12 @@ namespace ProjetUnivers {
       : Type(_classeTemplate->GetEnvironment()->GetOuterEnvironment()), 
         classeTemplate(_classeTemplate), parametres(_parametres)
       {}
+
+      TypeTemplate::TypeTemplate(TemplateClass* _classeTemplate )
+      : Type(_classeTemplate->GetEnvironment()->GetOuterEnvironment()), 
+        classeTemplate(_classeTemplate), parametres()
+      {}
+
 
       void TypeTemplate::Initialiser()
       {
@@ -232,21 +264,231 @@ namespace ProjetUnivers {
       Chaine TypeTemplate::Afficher() const
       {
         
+        rDebug("TypeTemplate::Afficher") ;
+        
         Chaine resultat(NomComplet(this->espaceDeNom)) ;
-                
-        Chaine sortieParametres(parametres->ToString()) ;
-      
+
+        rDebug("TypeTemplate::Afficher 2") ;        
+
+        Chaine sortieParametres ;
+//        if (parametres)
+//          sortieParametres = (parametres->ToString()) ;
+
+        for(IterateurListeComposition<ParametreTemplate> parametre(this->_parametres) ;
+            parametre.Valide() ;
+            ++parametre)
+        {
+        
+          sortieParametres += ',' ;
+          sortieParametres += parametre->Afficher() ;
+          rDebug("parametre = " + parametre->Afficher()) ;
+        }
+
+
+        rDebug("fin TypeTemplate::Afficher") ;
+        
         return "template " + resultat + Chaine("::") + 
                classeTemplate->Name()->ToString() + 
                "<" + sortieParametres +">" ;
+
         
       }
+
+      Base::Booleen TypeTemplate::NamespaceProjetUniversBase() const
+      {
+        Environment* courant = this->classeTemplate->GetEnvironment() ;
+        Environment* precedent ;
+        
+        while (courant->GetOuterEnvironment() != NULL 
+               && courant->GetOuterEnvironment()->IsNamespace() != NULL)
+        {       
+          precedent = courant ;
+          courant = courant->GetOuterEnvironment() ;
+        
+        }
+        
+        if (Chaine(courant->IsNamespace()->ToString()) == Chaine("ProjetUnivers")
+            && Chaine(precedent->IsNamespace()->ToString()) == Chaine("Base"))
+        
+          return true ;
+        
+        else
+          
+          return false ;
   
-      Booleen TypeTemplate::VerifieRegles() const 
+        
+      }
+
+
+      BaseTemplate TypeTemplate::TemplateDeBase() const
+      {
+      
+        Chaine nom(this->classeTemplate->Name()->ToString()) ;
+        
+        rDebug(nom) ;
+        
+        if (nom == Chaine("Association"))
+          return Compilateur::Association ;
+        else if (nom == Chaine("Composition"))
+          return Compilateur::Composition ;
+        else if (nom == Chaine("EnsembleComposition"))
+          return Compilateur::EnsembleComposition ;
+        else if (nom == Chaine("EnsembleAssociation"))
+          return Compilateur::EnsembleAssociation ;
+        else if (nom == Chaine("FonctionObjetValeur"))
+          return Compilateur::FonctionObjetValeur ;
+        else if (nom == Chaine("FonctionCompositionObjetObjet"))
+          return Compilateur::FonctionCompositionObjetObjet ;
+        else if (nom == Chaine("FonctionAssociationObjetObjet"))
+          return Compilateur::FonctionAssociationObjetObjet ;
+        else if (nom == Chaine("FonctionCompositionValeurObjet"))
+          return Compilateur::FonctionCompositionValeurObjet ;
+        else if (nom == Chaine("FonctionAssociationValeurObjet"))
+          return Compilateur::FonctionAssociationValeurObjet ;
+        
+        else
+          return Compilateur::NonPrisEnCompte ;
+      }
+
+
+  
+      /*
+      @todo
+        générer des erreurs de compilation explicites
+      */
+      Booleen TypeTemplate::TypeAttributCorrect() const
       {
         
-        // todo
+        IterateurListeComposition<ParametreTemplate> parametre(this->_parametres) ;
+        
+        // 1. est il un des templates de PU::Base
+        if (this->NamespaceProjetUniversBase())
+        {
+
+          Booleen parametreObjet ;
+          
+          rDebug("Vérification du type en tant que type d'attribut") ;
+          rDebug(this->Afficher()) ;
+          
+          BaseTemplate identiteTemplate(this->TemplateDeBase()) ;
+          
+          switch (identiteTemplate)
+          {
+          case Compilateur::Association:
+          case Compilateur::Composition:
+          case Compilateur::EnsembleAssociation:
+          case Compilateur::EnsembleComposition:
+            
+            rDebug("un seul paramètre objet") ;
+            
+            // le template a un seul paramètre Objet
+            if (this->_parametres.NombreDElements() != 1)
+            {
+              classeTemplate->ErrorMessage("mauvais nombre d'arguments",0,0) ;
+              return FAUX ;
+            }
+            
+
+            parametreObjet = parametre->Objet() ;
+            if (parametreObjet == VRAI)
+              rDebug("le parametre est objet") ;
+            else
+              rDebug("le parametre n'est pas objet") ;
+            
+            return parametreObjet ;
+            break ;
+
+          case Compilateur::EnsembleValeur:
+          
+            // le template a un seul paramètre Valeur
+
+            if (this->_parametres.NombreDElements() != 1)
+              return FAUX ;
+            
+            return parametre->Valeur() ;
+            break ;
+            
+          case Compilateur::FonctionCompositionValeurObjet:
+          case Compilateur::FonctionAssociationValeurObjet:
+          
+            // le premier parametre est valeur, le second objet
+            if (this->_parametres.NombreDElements() != 2)
+              return FAUX ;
+            
+            if (! parametre->Valeur())
+              return FAUX ;
+            
+            ++parametre ;            
+            return parametre->Objet() ;
+            break ;
+            
+          case Compilateur::FonctionCompositionObjetObjet:
+          case Compilateur::FonctionAssociationObjetObjet:
+
+            // les 2 paramètres sont objets
+            if (this->_parametres.NombreDElements() != 2)
+              return FAUX ;
+            
+            if (! parametre->Objet())
+              return FAUX ;
+            
+            ++parametre ;            
+            return parametre->Objet() ;
+            
+            break ;
+          default:
+          
+            return VRAI ;
+            // ??
+            
+          }
+          
+
+        }
+        
+
         return VRAI ;
+      }
+
+      Base::Booleen TypeTemplate::EstComposition() const
+      {
+
+        if (this->NamespaceProjetUniversBase())
+        {
+
+          BaseTemplate identiteTemplate(this->TemplateDeBase()) ;
+          
+          switch (identiteTemplate)
+          {
+          case Compilateur::Composition:
+          case Compilateur::EnsembleComposition:
+          case Compilateur::FonctionCompositionObjetObjet:
+          case Compilateur::FonctionCompositionValeurObjet:
+            return VRAI ;
+          default:
+            return FAUX ;
+          }        
+        }
+        
+        return FAUX ;
+      }
+
+      Base::Booleen TypeTemplate::Valeur() const
+      {
+        if (this->NamespaceProjetUniversBase())
+        {
+        
+          return !EstComposition() ;
+          
+        }
+        
+        return FAUX ;
+        
+      }
+
+      Base::Booleen TypeTemplate::Objet() const
+      {
+        return FAUX ;        
       }
 
   

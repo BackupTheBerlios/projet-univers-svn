@@ -17,7 +17,8 @@ $(COMPILATEUR_IMPLANTATION)/type_template.cpp \
 $(COMPILATEUR_IMPLANTATION)/type.cpp \
 $(COMPILATEUR_IMPLANTATION)/utilitaires_opencxx.cpp \
 $(COMPILATEUR_IMPLANTATION)/attribut.cpp \
-$(COMPILATEUR_IMPLANTATION)/traceur.cpp
+$(COMPILATEUR_IMPLANTATION)/traceur.cpp \
+$(COMPILATEUR_IMPLANTATION)/parametre_template.cpp
 
 libcompilateur_a_CXXFLAGS = -DRLOG_COMPONENT="compilateur"
 
