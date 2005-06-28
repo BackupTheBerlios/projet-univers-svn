@@ -18,15 +18,17 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef STRING_BUFFER_H_
-#define STRING_BUFFER_H_
+#ifndef _PU_BASE_TAMPON_CHAINE_H_
+#define _PU_BASE_TAMPON_CHAINE_H_
 
 #include <base/types.h>
-
+#include <string>
 
 namespace ProjetUnivers {
 
   namespace Base {
+
+    class Chaine ;
 
     namespace Implantation {
       
@@ -35,16 +37,13 @@ namespace ProjetUnivers {
       
       
       /*!
-        FONCTIONNEMENT          
         Lorsque le nombre de références à cette copie tombe à 0, elle est 
         détruite.
       */
       class TamponChaine {
       public:
         
-        // ********************
         /// @name Constructeurs
-        // ********************
         // @{
 
 
@@ -64,135 +63,153 @@ namespace ProjetUnivers {
         TamponChaine(char _c);
         
         
-        TamponChaine(const char* _s1, const EntierPositif& _s1_len, 
-                      const char*_s2, const EntierPositif& _s2_len);
+//        TamponChaine(const char* _s1, const EntierPositif& _s1_len, 
+//                      const char*_s2, const EntierPositif& _s2_len);
                       
-        TamponChaine(const char* _s, const EntierPositif& _s_len, char _c);
-        TamponChaine(char _c, const char* _s, const EntierPositif& _s_len);
-        
-        ~TamponChaine();
-        
-        /// Accès à la longueur de la chaîne.
-        EntierPositif len() const;
+//        TamponChaine(const char* _s, const EntierPositif& _s_len, char _c);
+//        TamponChaine(char _c, const char* _s, const EntierPositif& _s_len);
 
-        /// Opérateur de conversion en char*.
-        operator char*() const ;
+        TamponChaine& operator +=(const TamponChaine&) ;
 
 
         // @}
-        // **************************************
+        /// @name Accès
+        // @{
+
+        
+        /// Accès à la longueur de la chaîne.
+//        EntierPositif Longueur() const;
+
+        /// Opérateur de conversion en char*.
+        operator const char*() const ;
+
+
+        // @}
         /// @name gestion du nombre de références
-        // **************************************
         // @{
 
 
         /// Récupère un pointeur sur la chaine, augmente le 
         /// nombre de références
-        TamponChaine* take() ;
+        TamponChaine* Prendre() ;
         
         /// Laisse tomber une référence à la chaine, 
         /// diminue le nombre de références
-        Booleen drop() ;
+        Booleen Laisser() ;
 
 
         // @}        
+        /// @name Comparaison
+        // @{
+        
+        
+        /// Comparaison.
+        Booleen operator ==(const TamponChaine& ) const ;
+
+        // @}
+        
+
 
         
       private:
-        
+
+        /// Constructeur de copie de classe d'objet        
         TamponChaine(const TamponChaine& _s) ;
+        
+        /// idem
         TamponChaine& operator=(const TamponChaine& _s) ;
 
-      private:
         
         /// Nombre de références à la chaîne.
-        EntierPositif nb_ref ;
+        EntierPositif nombreReferences ;
         
-        /// Taille de la chaîne.
-        EntierPositif size ;
+        /// Chaîne proprement dite.
+        std::string chaine ;
         
-        /// Chaîne proprment dite.
-        char* s ;
+        
+        friend class Chaine ;
 
       };
-      
+
+
+
+      inline Booleen TamponChaine::operator ==(const TamponChaine& droite) const
+      {
+        return chaine == droite.chaine ;
+      }
+
+
       inline TamponChaine::TamponChaine(const EntierPositif& _size)
-        : nb_ref(1), size(_size), s(new char[_size + 1])
+        : nombreReferences(1), chaine()
       {}
       
       inline TamponChaine::TamponChaine(const char *_s, const EntierPositif& _len)
-        : nb_ref(1), size(_len), s(new char[_len + 1])
-      {
-        memcpy(s, _s, _len);
-        s[_len] = '\0';
-      }
+        : nombreReferences(1), chaine(_s)
+      {}
       
       inline TamponChaine::TamponChaine(const char *_s)
-        : nb_ref(1), size(strlen(_s)), s(new char[size + 1])
-      {
-        strcpy(s, _s);
-      }
+        : nombreReferences(1), chaine(_s)
+      {}
       
       inline TamponChaine::TamponChaine(char _c)
-        : nb_ref(1), size(1), s(new char[2])
+        : nombreReferences(1), chaine()
       {
-        s[0] = _c;
-        s[1] = '\0';
+        chaine.append(1,_c) ;
       }
       
       inline TamponChaine::TamponChaine()
-        : nb_ref(1), size(0), s(new char[1])
+        : nombreReferences(1), chaine()
+      {}
+
+
+      inline TamponChaine::TamponChaine(const TamponChaine& _s)
+        : nombreReferences(1), chaine(_s.chaine)
+      {}
+      
+
+      inline TamponChaine& TamponChaine::operator +=(const TamponChaine& _s)
       {
-        s[0] = '\0';
+        this->chaine += _s.chaine ;
       }
+
       
-      inline TamponChaine::TamponChaine(const char *_s1, 
-        const EntierPositif& _s1_len, 
-          const char *_s2, const EntierPositif& _s2_len)
-        : nb_ref(1), size(_s1_len + _s2_len), s(new char[size + 1])
-      {
-        memcpy(s, _s1, _s1_len);
-        memcpy(s + _s1_len, _s2, _s2_len);
-        s[size] = '\0';
-      }
+//      
+//      inline TamponChaine::TamponChaine(
+//        const char *_s1, 
+//        const EntierPositif& _s1_len, 
+//        const char *_s2, const EntierPositif& _s2_len)
+//      : nombreReferences(1), chaine( std::string(_s1) + std::string(_s2))
+//      {}
+//      
+//      inline TamponChaine::TamponChaine(
+//        const char *_s, 
+//        const EntierPositif& _s_len, 
+//        char _c)
+//      : nombreReferences(1), chaine( std::string(_s) + std::string(_c))
+//      {}
+//      
+//      inline TamponChaine::TamponChaine(
+//        char _c, const char *_s, 
+//        const EntierPositif& _s_len)
+//        : nombreReferences(1), chaine( std::string(c) + std::string(_s))
+//      {}
       
-      inline TamponChaine::TamponChaine(const char *_s, 
-        const EntierPositif& _s_len, char _c)
-        : nb_ref(1), size(_s_len + 1), s(new char[size + 1])
-      {
-        memcpy(s, _s, _s_len);
-        s[_s_len] = _c;
-        s[size] = '\0';
-      }
       
-      inline TamponChaine::TamponChaine(char _c, const char *_s, 
-        const EntierPositif& _s_len)
-        : nb_ref(1), size(_s_len + 1), s(new char[size + 1])
-      {
-        s[0] = _c;
-        memcpy(s + 1, _s, _s_len);
-        s[size] = '\0';
-      }
+//      inline EntierPositif TamponChaine::Longueur() const {
+//        return size;
+//      }
       
-      inline TamponChaine::~TamponChaine() {
-        delete [] s;
-      }
-      
-      inline EntierPositif TamponChaine::len() const {
-        return size;
-      }
-      
-      inline TamponChaine *TamponChaine::take() {
-        ++nb_ref;
+      inline TamponChaine *TamponChaine::Prendre() {
+        ++nombreReferences;
         return this;
       }
       
-      inline Booleen TamponChaine::drop() {
-        return --nb_ref == 0;
+      inline Booleen TamponChaine::Laisser() {
+        return --nombreReferences == 0;
       }
       
-      inline TamponChaine::operator char *() const {
-        return s;
+      inline TamponChaine::operator const char *() const {
+        return chaine.c_str() ;
       }
 
         

@@ -40,7 +40,8 @@ test_base_SOURCES = ../test/test_base.cpp \
 ../test/test_ensemble_composition.cpp \
 ../test/test_ensemble_valeur.cpp \
 ../test/test_association_virtuelle.cpp \
-../test/test_liste.cpp
+../test/test_liste.cpp \
+../test/test_chaine.cpp
 
 test_base_CXXFLAGS = $(CPPUNIT_CFLAGS)
 test_base_LDFLAGS = $(CPPUNIT_LIBS)
