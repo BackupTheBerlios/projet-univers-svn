@@ -50,22 +50,21 @@ namespace ProjetUnivers {
     {
     public:
 
-      bool operator==(const B& _toto) const ;
-      virtual ~B() ;
-
 
       // marche
 
       ProjetUnivers::Base::Association<A> associationA ;
       Base::FonctionObjetValeur<A,B> fonctionAB ;
       A valeurA ;
-      
       virtual void Test();
       B() ;
-      
-      // marche pas
       B(const B& _toto) ;
-      
+      virtual ~B() ;
+      bool operator==(const B& _toto) const ;
+      virtual void VirtuellePure() = 0 ;
+            
+      // marche pas
+            
     };
     
     

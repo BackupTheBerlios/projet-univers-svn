@@ -174,19 +174,14 @@ void MetaClasse::Initialiser()
     
       
       // Traitement des membres
+      int nombreDeMembres = 0 ;
 
-      MemberList* membres = this->GetMemberList() ;
-      int nombreDeMembres = membres->Number() ;
+      Member membre ;
           
-      while(nombreDeMembres > 0) 
+      while(this->NthMember(nombreDeMembres, membre)) 
       {
 
-        Member membre ;
-        LookupMember(membres->Ref(nombreDeMembres-1)->name, membre) ;      
-        rDebug(" membre = "+ Chaine(membre.Name()->ToString())) ;
-        rDebug("membre fonction = "+membre.IsFunction()) ;
-        rDebug("membre destructeur = "+membre.IsDestructor()) ;
-        rDebug("membre constructeur = "+membre.IsConstructor()) ;
+        rDebug(" membre = "+ Chaine(membre.Definition()->ToString())) ;
            
         if (membre.IsAttribute()) 
 
@@ -196,11 +191,17 @@ void MetaClasse::Initialiser()
         else if (membre.IsConstructor())
         {
 
+          
+          rDebug("membre est constructeur") ;
+
+
 //          ExisteDeclarationConstructeur = true ;
         
           TypeInfo constructeur ;
           membre.Signature(constructeur) ;
           int nombreArguments = constructeur.NumOfArguments() ;
+
+          rDebug("nombre arguments = " + Chaine(nombreArguments)) ;
           
           if (nombreArguments == 0)
           {
@@ -217,19 +218,43 @@ void MetaClasse::Initialiser()
           }
           else if (nombreArguments == 1)
           {
+
+            rDebug("constructeur avec un argument") ;
+            
             TypeInfo argument ;
             if (membre.IsPublic() && constructeur.NthArgument(0, argument))
             {
-              if (argument.IsConst() && argument.IsReferenceType())
+
+              rDebug("argument est public") ;
+              
+              if (argument.IsConst())              
+                rDebug("argument est const") ;
+              if (argument.IsReferenceType())
+                rDebug("argument est reference") ;
+              
+              
+              
+              
+              if (argument.IsReferenceType())
               {
+                
                 TypeInfo argumentClass ;
                 argument.Dereference(argumentClass) ;
                 
-                if (argumentClass.WhatIs() == ClassType &&
+                if (argumentClass.IsConst())
+                  rDebug("argument est reference to const") ;
+                
+                if (argumentClass.WhatIs() == ClassType)
+                  rDebug("argument est reference to class") ;
+                
+                
+                if (argumentClass.IsConst() && 
+                    argumentClass.WhatIs() == ClassType &&
                     argumentClass.ClassMetaobject() == this)
-                
+                {
+                  rDebug("constructeur de copie") ;
                   ExisteConstructeurDeCopiePublic = true ;
-                
+                }
               }
             }
             
@@ -238,6 +263,9 @@ void MetaClasse::Initialiser()
         }
         else if (membre.IsDestructor())
         {
+          
+        rDebug("membre est destructeur") ;
+          
           if (membre.IsPublic() && membre.IsVirtual() && 
               ! membre.IsPureVirtual())
           
@@ -246,6 +274,8 @@ void MetaClasse::Initialiser()
         }
         else if (! membre.IsStatic() && ! membre.IsPrivate())
         {
+
+          rDebug("membre est fonction") ;
         
           // méthode d'objets non privée
           
@@ -257,9 +287,15 @@ void MetaClasse::Initialiser()
 
 
 
-          Chaine nom(membre.Name()->ToString()) ;            
-          if (nom == Chaine("operator =="))
+          Chaine nom(membre.Name()->ToString()) ;
+          
+          rDebug("la methode sappelle : " + nom ) ;
+          
+          
+          if (nom == "operator ==")
           {
+            
+            rDebug("la methode est operateur de comparaison") ;
             
             TypeInfo comparaison ;
             membre.Signature(comparaison) ;
@@ -270,15 +306,18 @@ void MetaClasse::Initialiser()
                 comparaison.NthArgument(0, parametre))
             {
 
-              if (parametre.IsConst() && parametre.IsReferenceType())
+              if (parametre.IsReferenceType())
               {
                 TypeInfo argumentClass ;
                 parametre.Dereference(argumentClass) ;
                 
-                if (argumentClass.WhatIs() == ClassType &&
+                if (argumentClass.IsConst() && 
+                    argumentClass.WhatIs() == ClassType &&
                     argumentClass.ClassMetaobject() == this)
-                
+                {
+                  rDebug("operateur egalite") ;
                   ExisteOperateurEgalPublic = true ;
+                }
                 
               }
 
@@ -292,7 +331,7 @@ void MetaClasse::Initialiser()
           
         }
  
-        --nombreDeMembres ;  
+        nombreDeMembres++ ;  
       }
     
       // les classes parentes
