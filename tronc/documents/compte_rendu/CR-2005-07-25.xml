@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+"http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd">
+<article>
+  <title>Compte rendu de la réunion du 25 juillet 2005</title>
+
+  <section>
+    <title>Ordre du jour</title>
+
+    <orderedlist>
+      <listitem>
+        <para>Réaction face au CR de la précédente réunion</para>
+      </listitem>
+
+      <listitem>
+        <para>Aspects JDR</para>
+      </listitem>
+
+      <listitem>
+        <para>Postes</para>
+      </listitem>
+
+      <listitem>
+        <para>Système amis/ennemis</para>
+      </listitem>
+    </orderedlist>
+  </section>
+
+  <section>
+    <title>Réaction face au CR de la précédente réunion</title>
+
+    <para>Minos trouve le CR trop résumé.</para>
+
+    <para>Sinon, unanimité pour dire que c'est bien.</para>
+  </section>
+
+  <section>
+    <title>Aspects JDR</title>
+
+    <section>
+      <title>Définition</title>
+
+      <para>L'aspect JDR est tout ce qui concerne la personnalisation des
+      avatars des joueurs, ce qui a ensuite une influence sur la simulation
+      (par exemple sur le pilotage) ou sur l'apparence.</para>
+
+      <para>Rappel : L'avatar est l'objet informatique qui "représente" un
+      joueur dans l'ordinateur.</para>
+
+      <para><example>
+          <title>Exemples de personnalisations</title>
+
+          <itemizedlist>
+            <listitem>
+              <para>couleur des cheveux d'un personnage</para>
+            </listitem>
+
+            <listitem>
+              <para>résistance a la force centrifuge</para>
+            </listitem>
+
+            <listitem>
+              <para>compétence de pilotage, de réparation</para>
+
+              <para>par exemple il pourrait être plus difficile de piloter un
+              vaisseau d'une culutre étrangère à la sienne, même si on a un
+              bon niveau de pilotage sur les vaisseaux auxquels on est
+              habitué</para>
+
+              <para>de même il pourrait être plus difficile d'utiliser un
+              "nouvel" appareil parcequ'on n'ets tout simpelment pas
+              habitué</para>
+            </listitem>
+          </itemizedlist>
+        </example></para>
+    </section>
+
+    <section>
+      <title>Optionnel</title>
+
+      <para>L'aspect JDR est optionnel.</para>
+
+      <para>Notamment dans le cas du jeu multi-joueur standard, tous les
+      joueurs doivent pouvoir être à égalité.</para>
+    </section>
+
+    <section>
+      <title>Système</title>
+
+      <para>Le système (compétences et règles) reste à définir et devra faire
+      l'objet de réunions : il faudra segmenter ce sujet.</para>
+
+      <remark>Le système rolemaster peut être une référence, vu sa structure
+      presque totalement optionnelle.</remark>
+    </section>
+  </section>
+
+  <section>
+    <title>Postes</title>
+
+    <para>Tout comme dans le cahier des charges, la distinction entre le fait
+    de pouvoir donner des ordres et le poste où se trouve le personnage a été
+    réaffirmée.</para>
+
+    <formalpara>
+      <title>Définition</title>
+
+      <para>Un poste est un endroit physique où se trouve un personnage ainsi
+      que ce qu'il a à y faire. "à vos postes de combat" est un ordre
+      signifiant à tous les membres d'un équipage de rejoindre physiquement
+      l'endroit où ils ont des choses à faire.</para>
+    </formalpara>
+
+    <formalpara>
+      <title>Description</title>
+
+      <para>On peut définir un poste comme étant constitué d'un siège (là où
+      va s'asseoir celui qui prend le poste) et d'une ou plusieurs consoles de
+      commandes.</para>
+    </formalpara>
+
+    <example>
+      <title>Exemples de postes</title>
+
+      <para>quelques exemples détaillés de postes :</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>poste de pilotage</para>
+
+          <para>un siège situé généralement dans l'axe de l'appareil, face à
+          une vitre</para>
+
+          <para>des consoles de commandes comprenant notamment : </para>
+
+          <itemizedlist>
+            <listitem>
+              <para>le contrôle de la direction</para>
+            </listitem>
+
+            <listitem>
+              <para>le contrôle des moteurs</para>
+            </listitem>
+
+            <listitem>
+              <para>généralement (mais pas obligatoire) des contrôles
+              d'armes</para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+
+        <listitem>
+          <para>poste de commandant de vaisseau</para>
+
+          <formalpara>
+            <title>Objectif</title>
+
+            <para>être le commandant d'un vaisseau, donner les ordres aux
+            différents membres d'équipage</para>
+          </formalpara>
+
+          <para>un siège situé sur la passerelle ou même debout (en
+          promenade)</para>
+
+          <para>le fait de parler aux différents membres d'équipages pour
+          leurs donner des ordres</para>
+
+          <para>éventuellement une console de communication et tout autre
+          console</para>
+        </listitem>
+
+        <listitem>
+          <para>poste d'artilleur</para>
+
+          <para>un siège soit dans la tourelle soit dans une partie quelconque
+          du vaisseau (contrôle à distance du/des canons)</para>
+
+          <para>une console de tir dont l'interface peut être relativement
+          diverse :</para>
+
+          <itemizedlist>
+            <listitem>
+              <para>commande de tir avec viseur (classique)</para>
+            </listitem>
+
+            <listitem>
+              <para>commande de tir sans viseur mais avec une liste de cibles
+              et de sous cibles (commande de plusieurs tourelles)</para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+      </itemizedlist>
+    </example>
+
+    <para>Neostralie propose d'ajouter un poste "capitaine de vaisseau" qui
+    consiste à diriger un vaisseau, généralement gros, dont les différents
+    systèmes sont eux même contrôlés par des joueurs ou des IAs.</para>
+
+    <para>Le poste "coordinateur" est en partie réalisé par un appareil de
+    visualisation qui permet de voir "une carte" générale, ce coordinateur,
+    s'il n'a pas le "grade" suffisant, n'est alors qu'un spectateur.</para>
+
+    <para>Un personnage dans un vaisseau peut soit être assis à un siège soit
+    se balader. Il peut aussi, quitter un siège (se lever) et s'asseoir sur un
+    siège vide.</para>
+
+    <section>
+      <title>Chaîne de commandement</title>
+
+      <para>Avoir la possibilité de créer une véritable chaîne de commandement
+      : chef de groupe, de vol, d'escadron, de groupe de combat, de toute la
+      flotte.</para>
+
+      <para>Cette notion "remplace" la notion de grade du le cahier des
+      charges.</para>
+
+      <section>
+        <title>Fonctionnement</title>
+
+        <para>Une chaîne de commandement est constituée de relations A
+        commande B, où A et B sont des individus, qui forment une hiérarchie
+        (il n'y a pas de cycle, chaque élément a au plus un
+        commandant).</para>
+
+        <para>Un individus n'obéis qu'à son supérieur direct.</para>
+
+        <para>Il est possible de modifier les liens de commandement
+        (transfert, départ, entrée volontaire). Le transfert est une action
+        particulière réalisée par le chef d'un individus qui dit quelque chose
+        comme : "maintenant toi IndividusX qui était sous mes ordres tu passes
+        sous les ordres de IndividusY". Le départ est une action d'un
+        individus qui décide de ne plus obéir, et l'entrée volontaire est la
+        mise au ordre d'un individus.</para>
+
+        <para>On peut alors appeler groupe tout ensemble d'individus qui
+        contient tous les subordonnés de chacun de ses éléments et tel qu'il
+        existe un seul élément qui commande transitivement tous les éléments
+        (appelé chef).</para>
+
+        <example>
+          <title>Une chaîne de commandement</title>
+
+          <para>Les membres sont Individus1, ..., Individus4, ...,
+          Individus10.</para>
+
+          <para>Les relations de subordinations sont les suivantes :</para>
+
+          <itemizedlist>
+            <listitem>
+              <para>Individus1 commande Individus2</para>
+            </listitem>
+
+            <listitem>
+              <para>Individus1 commande Individus3</para>
+            </listitem>
+
+            <listitem>
+              <para>Individus5 commande Individus6</para>
+            </listitem>
+
+            <listitem>
+              <para>Individus5 commande Individus7</para>
+            </listitem>
+
+            <listitem>
+              <para>Individus8 commande Individus9</para>
+            </listitem>
+
+            <listitem>
+              <para>Individus8 commande Individus10</para>
+            </listitem>
+
+            <listitem>
+              <para>Individus4 commande Individus5</para>
+            </listitem>
+
+            <listitem>
+              <para>Individus4 commande Individus1</para>
+            </listitem>
+          </itemizedlist>
+
+          <para>Cette relation forme bien une hiérarchie (pas de cycle et
+          chaque individus a un seul supérieur direct) et il y a 4 groupes
+          dont 2 sous groupes. Remarquez que les groupes sont "calculables" à
+          partir des relations de subordination.</para>
+
+          <graphic fileref="schema1.jpg" />
+        </example>
+      </section>
+    </section>
+  </section>
+
+  <section>
+    <title>Points non abordés</title>
+
+    <para>Le point 4 n'a pas été abordé et est donc repoussé à la prochaine
+    réunion.</para>
+  </section>
+</article>
