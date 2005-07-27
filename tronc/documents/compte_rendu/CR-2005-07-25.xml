@@ -131,7 +131,7 @@
           <para>un siège situé généralement dans l'axe de l'appareil, face à
           une vitre</para>
 
-          <para>des consoles de commandes comprenant notamment : </para>
+          <para>des consoles de commandes comprenant notamment :</para>
 
           <itemizedlist>
             <listitem>
@@ -284,7 +284,7 @@
           dont 2 sous groupes. Remarquez que les groupes sont "calculables" à
           partir des relations de subordination.</para>
 
-          <graphic fileref="schema1.jpg" />
+          <graphic fileref="images/schema1.jpg" />
         </example>
       </section>
     </section>
