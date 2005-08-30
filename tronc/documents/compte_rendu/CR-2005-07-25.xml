@@ -4,27 +4,51 @@
 <article>
   <title>Compte rendu de la réunion du 25 juillet 2005</title>
 
-  <section>
-    <title>Ordre du jour</title>
+  <orderedlist>
+    <listitem>
+      <para>Membres présents :</para>
 
-    <orderedlist>
-      <listitem>
-        <para>Réaction face au CR de la précédente réunion</para>
-      </listitem>
+      <itemizedlist>
+        <listitem>
+          <para>Faro</para>
+        </listitem>
 
-      <listitem>
-        <para>Aspects JDR</para>
-      </listitem>
+        <listitem>
+          <para>Minos</para>
+        </listitem>
 
-      <listitem>
-        <para>Postes</para>
-      </listitem>
+        <listitem>
+          <para>Neostralie</para>
+        </listitem>
 
-      <listitem>
-        <para>Système amis/ennemis</para>
-      </listitem>
-    </orderedlist>
-  </section>
+        <listitem>
+          <para>Rogma</para>
+        </listitem>
+      </itemizedlist>
+    </listitem>
+
+    <listitem>
+      <para>Ordre du jour :</para>
+
+      <orderedlist>
+        <listitem>
+          <para>Réaction face au CR de la précédente réunion</para>
+        </listitem>
+
+        <listitem>
+          <para>Aspects JDR</para>
+        </listitem>
+
+        <listitem>
+          <para>Postes</para>
+        </listitem>
+
+        <listitem>
+          <para>Système amis/ennemis</para>
+        </listitem>
+      </orderedlist>
+    </listitem>
+  </orderedlist>
 
   <section>
     <title>Réaction face au CR de la précédente réunion</title>
