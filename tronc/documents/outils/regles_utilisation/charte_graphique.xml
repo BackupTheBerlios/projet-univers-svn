@@ -119,6 +119,9 @@
   <section>
     <title>Introduction à la modélisation 3D pour un jeu</title>
 
+    <para>Une <link linkend="FAQ">Foire Aux Questions</link> se trouve à la
+    fin de ce document.</para>
+
     <para>Un modèle blender pour un vaisseau du projet univers n'est pas
     uniquement une oeuvre d'art en trois dimensions constituée de triangles et
     de textures. Un tel modèle doit être vu comme quelque chose
@@ -1641,4 +1644,88 @@ are part of Projet Univers.
       </glossentry>
     </glossdiv>
   </glossary>
+
+  <appendix>
+    <title>Notes et liste des choses à faire</title>
+
+    <para>Quelques notes qui sont mieux ici que sur des feuilles de papier
+    éparses.</para>
+
+    <note>
+      <title>Schéma technique d'un vaisseau</title>
+
+      <para>Il pourrait être envisagé de définir le circuit d'alimentation en
+      energie d'un vaisseau dans ce format.</para>
+    </note>
+
+    <para>Une liste des choses à faire.</para>
+  </appendix>
+
+  <appendix id="FAQ">
+    <title>Foire aux questions</title>
+
+    <qandaset>
+      <qandadiv>
+        <qandaentry>
+          <question>
+            <para>Comment créer les liens parent/enfant?</para>
+          </question>
+
+          <answer>
+            <procedure>
+              <step>
+                <para>Selectionner le futur objet fils</para>
+              </step>
+
+              <step>
+                <para>Selectionner le futur objet père en gardant
+                <keycap>Shift</keycap> appuyé</para>
+
+                <para>A ce moment là vous devez avoir les deux objets
+                selectionnés</para>
+              </step>
+
+              <step>
+                <para>Faire <command>make parent</command> (<keycombo>
+                    <keycap>Ctrl</keycap>
+
+                    <keycap>p</keycap>
+                  </keycombo>)</para>
+              </step>
+
+              <step>
+                <para>Vous pouvez vérifier vos liens de parentés dans la
+                fenêtre <guimenuitem>Outliner</guimenuitem> et dans sa vue
+                <guimenuitem>Show Outliner</guimenuitem>, les objets y sont
+                rangés comme dans des répertoires</para>
+              </step>
+            </procedure>
+          </answer>
+        </qandaentry>
+
+        <qandaentry>
+          <question>
+            <para>Comment ajouter une propriété à uin objet?</para>
+          </question>
+
+          <answer>
+            <procedure>
+              <step>
+                <para>fenêtre <guimenuitem>Buttons Window</guimenuitem></para>
+              </step>
+
+              <step>
+                <para>panel <guimenuitem>Logic</guimenuitem></para>
+              </step>
+
+              <step>
+                <para>le bouton <guibutton>Add Property</guibutton> en bas à
+                gauche</para>
+              </step>
+            </procedure>
+          </answer>
+        </qandaentry>
+      </qandadiv>
+    </qandaset>
+  </appendix>
 </article>
