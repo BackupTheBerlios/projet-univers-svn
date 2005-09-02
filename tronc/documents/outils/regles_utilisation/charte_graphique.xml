@@ -1648,8 +1648,8 @@ are part of Projet Univers.
   <appendix>
     <title>Notes et liste des choses à faire</title>
 
-    <para>Quelques notes qui sont mieux ici que sur des feuilles de papier
-    éparses.</para>
+    <para>Quelques notes/listes de chosesp ossibles à faire qui sont mieux ici
+    que sur des feuilles de papier éparses.</para>
 
     <note>
       <title>Schéma technique d'un vaisseau</title>
@@ -1658,7 +1658,28 @@ are part of Projet Univers.
       energie d'un vaisseau dans ce format.</para>
     </note>
 
-    <para>Une liste des choses à faire.</para>
+    <note>
+      <title>L'intérieur des vaisseaux</title>
+
+      <para>A la limitte, on devrait permettre de modéliser entièrement
+      l'intérieur d'un vaisseau.</para>
+    </note>
+
+    <note>
+      <title>Amarrage des vaisseaux</title>
+
+      <para>Peut être peut on ajouter des composants spéciaux permettant
+      l'amarrage de 2 vaisseaux.</para>
+    </note>
+
+    <note>
+      <title>Attaches entre parties de coques</title>
+
+      <para>Pourquoi ne pas définir des attaches entre parties de coques :
+      cela permettrait de briser un vaisseau en 2. Pour cela l'existence ou
+      non d'une attache sur un morceau de coque devrait dépendre de la
+      quantité de dégats.</para>
+    </note>
   </appendix>
 
   <appendix id="FAQ">
@@ -1674,15 +1695,15 @@ are part of Projet Univers.
           <answer>
             <procedure>
               <step>
-                <para>Selectionner le futur objet fils</para>
+                <para>Sélectionner le futur objet fils</para>
               </step>
 
               <step>
-                <para>Selectionner le futur objet père en gardant
+                <para>Sélectionner le futur objet père en gardant
                 <keycap>Shift</keycap> appuyé</para>
 
                 <para>A ce moment là vous devez avoir les deux objets
-                selectionnés</para>
+                sélectionnés</para>
               </step>
 
               <step>
@@ -1705,13 +1726,13 @@ are part of Projet Univers.
 
         <qandaentry>
           <question>
-            <para>Comment ajouter une propriété à uin objet?</para>
+            <para>Comment ajouter une propriété à un objet?</para>
           </question>
 
           <answer>
             <procedure>
               <step>
-                <para>fenêtre <guimenuitem>Buttons Window</guimenuitem></para>
+                <para>Fenêtre <guimenuitem>Buttons Window</guimenuitem></para>
               </step>
 
               <step>
