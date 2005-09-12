@@ -18,68 +18,52 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_BASE_ITERATEUR_ENSEMBLE_COMPOSITION_H_
-#define _PU_BASE_ITERATEUR_ENSEMBLE_COMPOSITION_H_
 
-#include <set>
-#include <iterator>
-#include <base/implantation/iterateur_liste_composition.h>
+#include <base/association.h>
+#include <base/composition.h>
+#include <base/types.h>
+#include <base/test/test_association.h>
+
+
+CPPUNIT_TEST_SUITE_REGISTRATION(ProjetUnivers::Base::Test::TestAssociation) ;
 
 namespace ProjetUnivers {
 
   namespace Base {
-   
-    
-    template <typename OBJET> class EnsembleComposition ;
-    
-    
-    /// Itérateur sur les ensemble en composition.
-    template <typename OBJET> class IterateurEnsembleComposition 
-    {
-    public:
-    
-      /// Constructeur.
-      IterateurEnsembleComposition(const EnsembleComposition<OBJET>&) ;
+  
+    namespace Test {
 
-      /// Passe à l'élément suivant.
-      void operator ++() ;
-    
-      /// Passe à l'élément précédent.
-      void operator --() ;
-    
 
-      // @}
-      // ***********************
-      /// @name Méthodes d'accès
-      // ***********************
-      // @{
-
-      /// Dit si l'itérateur est valide.
-      Booleen Valide() const ;      
+      namespace {
+        class Parent 
+        {};
+  
+        class Enfant : public Parent
+        {};
+      }
+            
+      void TestAssociation::testConversionImplicite() {
       
-      /// Renvoie l'élément courant en association.
-      operator Association<OBJET>() ;
-     
-      /// Opérateur de déréférenciation.
-      OBJET* operator ->() const ;
-    
-    
-      // @}
-
-    private:
-    
-      const std::set<OBJET*>* ensemble ;
-    
-      typename std::set<OBJET*>::iterator iterateur ;            
+        Composition<Enfant> enfant(new Enfant()) ;
+        Association<Enfant> enfantAssociation(enfant) ;
+        Association<Parent> parent(enfantAssociation) ;
+        
+        Association<Parent> parent2(enfant) ;
+        Association<Parent> parent3 = enfant ;
+        Association<Parent> parent4 = enfantAssociation ;        
+        
+        
+        CPPUNIT_ASSERT(parent == enfantAssociation) ;
+        CPPUNIT_ASSERT(parent == parent3) ;
+        
+      }
       
-
-    };
-
-  }
+      void TestAssociation::setUp() {
+      }
+      
+      void TestAssociation::tearDown() {
+      }
+    }
+  }  
 }
-
-#include <base/implantation/iterateur_ensemble_composition.cxx>
-
-#endif 
-
 

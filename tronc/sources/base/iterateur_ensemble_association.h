@@ -21,24 +21,60 @@
 #ifndef _PU_BASE_ITERATEUR_ENSEMBLE_ASSOCIATION_H_
 #define _PU_BASE_ITERATEUR_ENSEMBLE_ASSOCIATION_H_
 
-#include <base/implantation/iterateur_liste_association.h>
+#include <set>
+#include <iterator>
+#include <base/association.h>
 
 namespace ProjetUnivers {
 
   namespace Base {
 
-    template <class OBJET> class EnsembleAssociation ;
+    template <typename OBJET> class EnsembleAssociation ;
     
     
     /// Itérateur sur les ensemble en association.
-    template <class OBJET> class IterateurEnsembleAssociation 
-    : public Implantation::IterateurListeAssociation<OBJET> {
-    
+    template <typename OBJET> class IterateurEnsembleAssociation 
+    {
     public:
     
       /// Constructeur.
       IterateurEnsembleAssociation(const EnsembleAssociation<OBJET>&) ;
+
+      /// Passe à l'élément suivant.
+      void operator ++() ;
+    
+      /// Passe à l'élément précédent.
+      void operator --() ;
+    
+
+      // @}
+      // ***********************
+      /// @name Méthodes d'accès
+      // ***********************
+      // @{
+
+      /// Dit si l'itérateur est valide.
+      Booleen Valide() const ;      
       
+      /// Renvoie l'élément courant en association.
+      operator Association<OBJET>() ;
+    
+      /// Renvoie l'élément courant en référence.
+      operator const OBJET&() ;
+     
+      /// Opérateur de déréférenciation.
+      OBJET* operator ->() const ;
+    
+      /// Opérateur de déréférenciation.
+      Association<OBJET> operator *() const ;
+
+    
+      // @}
+
+    private:
+    
+      Implantation::TamponEnsembleAssociation<OBJET>* tampon ;
+      typename std::set<OBJET*>::iterator iterateur ;            
       
     };
 

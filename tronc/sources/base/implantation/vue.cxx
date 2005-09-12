@@ -18,68 +18,32 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_BASE_ITERATEUR_ENSEMBLE_COMPOSITION_H_
-#define _PU_BASE_ITERATEUR_ENSEMBLE_COMPOSITION_H_
-
-#include <set>
-#include <iterator>
-#include <base/implantation/iterateur_liste_composition.h>
+#include <base/derive_de.h>
 
 namespace ProjetUnivers {
 
   namespace Base {
-   
-    
-    template <typename OBJET> class EnsembleComposition ;
-    
-    
-    /// Itérateur sur les ensemble en composition.
-    template <typename OBJET> class IterateurEnsembleComposition 
+
+    class Modele ;
+
+    template <class MODELE> 
+    Vue<MODELE>::Vue(const Association<MODELE>& _modele)
+    : Implantation::BaseVue(), observe(_modele)
     {
-    public:
-    
-      /// Constructeur.
-      IterateurEnsembleComposition(const EnsembleComposition<OBJET>&) ;
-
-      /// Passe à l'élément suivant.
-      void operator ++() ;
-    
-      /// Passe à l'élément précédent.
-      void operator --() ;
-    
-
-      // @}
-      // ***********************
-      /// @name Méthodes d'accès
-      // ***********************
-      // @{
-
-      /// Dit si l'itérateur est valide.
-      Booleen Valide() const ;      
       
-      /// Renvoie l'élément courant en association.
-      operator Association<OBJET>() ;
-     
-      /// Opérateur de déréférenciation.
-      OBJET* operator ->() const ;
+      // vérifie que MODELE dérive de Base::Modele
+      DeriveDe<MODELE,ProjetUnivers::Base::Modele>() ;
+      observe->AjouterVue(*this) ;
+    }
     
-    
-      // @}
+    template <class MODELE> 
+    Vue<MODELE>::~Vue()
+    {
+      observe->EnleverVue(*this) ;
+    }
 
-    private:
     
-      const std::set<OBJET*>* ensemble ;
     
-      typename std::set<OBJET*>::iterator iterateur ;            
-      
-
-    };
-
+   
   }
 }
-
-#include <base/implantation/iterateur_ensemble_composition.cxx>
-
-#endif 
-
-

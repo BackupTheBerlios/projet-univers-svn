@@ -43,17 +43,16 @@ namespace ProjetUnivers {
       return pt == _x.pt ;
     }
     
-    template <class OBJET> inline 
+    template <class OBJET>  
     Association<OBJET>::Association(const Composition<OBJET>& _x)
       : pt(_x.pt)
     {}
     
-    template <class OBJET> inline OBJET* 
+    template <class OBJET> OBJET* 
     Association<OBJET>::operator ->() const {
     
       if (pt == NULL) 
       {
-    
         throw ExceptionBase("Association::->") ;
       }
     	

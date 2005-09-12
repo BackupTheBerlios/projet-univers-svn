@@ -44,16 +44,19 @@ namespace ProjetUnivers {
         // @{      
         
         /// Teste l'affectation
-        void testAffectation();
-           
+        void TesteAffectation();
       
+        /// Teste la création     
+        void TesteCreation() ;
+        
         // @}
         
       
       
         CPPUNIT_TEST_SUITE(TestChaine) ;
       
-        CPPUNIT_TEST(testAffectation) ;
+        CPPUNIT_TEST(TesteAffectation) ;
+        CPPUNIT_TEST(TesteCreation) ;
       
         CPPUNIT_TEST_SUITE_END() ;
       

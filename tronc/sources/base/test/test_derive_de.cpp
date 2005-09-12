@@ -18,68 +18,48 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_BASE_ITERATEUR_ENSEMBLE_COMPOSITION_H_
-#define _PU_BASE_ITERATEUR_ENSEMBLE_COMPOSITION_H_
+#include <base/composition.h>
+#include <base/vue.h>
+#include <base/modele.h>
 
-#include <set>
-#include <iterator>
-#include <base/implantation/iterateur_liste_composition.h>
 
-namespace ProjetUnivers {
+/*!
+  Vérifie qu'il existe uen erreur de compilation dans ce programme.
+*/
 
-  namespace Base {
-   
-    
-    template <typename OBJET> class EnsembleComposition ;
-    
-    
-    /// Itérateur sur les ensemble en composition.
-    template <typename OBJET> class IterateurEnsembleComposition 
-    {
-    public:
-    
-      /// Constructeur.
-      IterateurEnsembleComposition(const EnsembleComposition<OBJET>&) ;
-
-      /// Passe à l'élément suivant.
-      void operator ++() ;
-    
-      /// Passe à l'élément précédent.
-      void operator --() ;
-    
-
-      // @}
-      // ***********************
-      /// @name Méthodes d'accès
-      // ***********************
-      // @{
-
-      /// Dit si l'itérateur est valide.
-      Booleen Valide() const ;      
-      
-      /// Renvoie l'élément courant en association.
-      operator Association<OBJET>() ;
      
-      /// Opérateur de déréférenciation.
-      OBJET* operator ->() const ;
-    
-    
-      // @}
+namespace {
+ 
+  class A 
+  {
+  public:
+    A()
+    {}
+  };
 
-    private:
+  class VueA : public ProjetUnivers::Base::Vue<A>
+  {
+  public:
     
-      const std::set<OBJET*>* ensemble ;
-    
-      typename std::set<OBJET*>::iterator iterateur ;            
+    VueA(const ProjetUnivers::Base::Association<A>& _a)
+    : ProjetUnivers::Base::Vue<A>(_a)
+    {}
       
-
-    };
-
-  }
+    virtual void Raffraichir()
+    {}
+           
+    
+  };
+   
+   
 }
 
-#include <base/implantation/iterateur_ensemble_composition.cxx>
-
-#endif 
-
-
+int toto()
+{
+  
+  ProjetUnivers::Base::Composition<A> a(new A()) ;
+  
+  
+  // doit provoquer une erreur de compilation car A ne dérive pas de Modele.
+  VueA vueA(a) ;  
+}

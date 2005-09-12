@@ -27,21 +27,37 @@ libbase_a_SOURCES = \
 ../implantation/noeud_composition.cpp \
 ../implantation/noeud_valeur.cpp \
 ../implantation/tampon_liste_association.cpp \
-../implantation/tampon_liste_valeur.cpp
-
+../implantation/tampon_liste_valeur.cpp \
+../implantation/point_de_vue.cpp \
+../implantation/vue.cpp \
+../implantation/modele.cpp \
+../implantation/base_vue.cpp \
+../implantation/agregation.cpp
 
 TESTS = test_base
-check_PROGRAMS = $(TESTS)
 
+check_PROGRAMS = $(TESTS) test_derive_de.o
 
 test_base_SOURCES = ../test/test_base.cpp \
 ../test/test_composition.cpp \
+../test/test_agregation.cpp \
+../test/test_association.cpp \
+../test/test_association_virtuelle.cpp \
 ../test/test_ensemble_association.cpp \
 ../test/test_ensemble_composition.cpp \
 ../test/test_ensemble_valeur.cpp \
-../test/test_association_virtuelle.cpp \
+../test/test_chaine.cpp \
 ../test/test_liste.cpp \
-../test/test_chaine.cpp
+../test/test_mvc.cpp 
+
+# vérifie que "test_derive_de.cpp" ne compile pas
+test_derive_de.o : ../test/test_derive_de.cpp
+	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
+	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) \
+	-c ../test/test_derive_de.cpp 2> test_derive_erreurs; \
+	then echo "test_derive_de : Erreur"; exit 1; else echo "test_derive_de : OK"; exit 0; fi
+
+
 
 test_base_CXXFLAGS = $(CPPUNIT_CFLAGS)
 test_base_LDFLAGS = $(CPPUNIT_LIBS)

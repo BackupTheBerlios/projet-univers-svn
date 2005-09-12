@@ -110,11 +110,11 @@ namespace ProjetUnivers {
 
 
     
-      operator const char* () const;
+      operator const char* () const ;
 //      operator char* ();
       
 //      int length() const;
-//      int len() const;
+      EntierPositif Longueur() const ;
             
 //      char operator [] (int _pos) const;
 //      char& operator [] (int _pos);
@@ -247,9 +247,11 @@ namespace ProjetUnivers {
 //      return representation->len();
 //    }
 //    
-//    inline int Chaine::len() const {
-//      return length();
-//    }
+
+ 
+    inline EntierPositif Chaine::Longueur() const {
+      return representation->Longueur() ;
+    }
     
     inline Chaine &Chaine::operator = (const Chaine &_s) {
      

@@ -83,7 +83,7 @@ namespace ProjetUnivers {
     
     };
     
-    #include <base/impnatation/fonction_composition_valeur_objet.cxx>
+    #include <base/implantation/fonction_composition_valeur_objet.cxx>
 
 
   }

@@ -18,68 +18,46 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_BASE_ITERATEUR_ENSEMBLE_COMPOSITION_H_
-#define _PU_BASE_ITERATEUR_ENSEMBLE_COMPOSITION_H_
+#ifndef _PU_BASE_DERIVE_DE_H_
+#define _PU_BASE_DERIVE_DE_H_
 
-#include <set>
-#include <iterator>
-#include <base/implantation/iterateur_liste_composition.h>
 
 namespace ProjetUnivers {
 
   namespace Base {
-   
-    
-    template <typename OBJET> class EnsembleComposition ;
-    
-    
-    /// Itérateur sur les ensemble en composition.
-    template <typename OBJET> class IterateurEnsembleComposition 
+
+
+    /// Vérifie statiquement si Enfant dérive de Parent
+    /*!
+      Code proposé par Stroustrup pour vérifier statiquement si un type dérive 
+      d'un autre.
+      
+      Utilisation
+      
+        Mettre :
+        @code 
+          DeriveDe<A,B>() ; 
+        @endcode
+        aux endroits où on désire vérifier que A dérive de B.
+        
+        @see
+          Vue
+
+    */
+    template<class Enfant, class Parent> struct DeriveDe 
     {
-    public:
-    
-      /// Constructeur.
-      IterateurEnsembleComposition(const EnsembleComposition<OBJET>&) ;
-
-      /// Passe à l'élément suivant.
-      void operator ++() ;
-    
-      /// Passe à l'élément précédent.
-      void operator --() ;
-    
-
-      // @}
-      // ***********************
-      /// @name Méthodes d'accès
-      // ***********************
-      // @{
-
-      /// Dit si l'itérateur est valide.
-      Booleen Valide() const ;      
+      static void Contrainte(Enfant* _enfant) 
+      { 
+        Parent* parent = _enfant ; 
+      }
       
-      /// Renvoie l'élément courant en association.
-      operator Association<OBJET>() ;
-     
-      /// Opérateur de déréférenciation.
-      OBJET* operator ->() const ;
-    
-    
-      // @}
-
-    private:
-    
-      const std::set<OBJET*>* ensemble ;
-    
-      typename std::set<OBJET*>::iterator iterateur ;            
+      DeriveDe() 
+      { 
+        void(*p)(Enfant*) = Contrainte ; 
+      }
       
-
-    };
-
+     };
   }
 }
 
-#include <base/implantation/iterateur_ensemble_composition.cxx>
-
-#endif 
-
-
+#endif

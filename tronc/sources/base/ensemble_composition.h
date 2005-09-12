@@ -22,22 +22,22 @@
 #define _PU_BASE_ENSEMBLE_COMPOSITION_H_
 
 #include <base/association.h>
-#include <base/implantation/liste_composition.h>
-
+#include <set>
 
 namespace ProjetUnivers {
 
   namespace Base {
     
+    template <typename OBJET> class EnsembleAssociation ;
+    template <typename OBJET> class IterateurEnsembleComposition ;
     
     ///  Représente un ensemble d'éléments d'une classe d'objets en composition.
     
-    /// UTILISATION
-    ///   Même utilisations que pour Composition, en ce qui concerne 
-    ///   les ensembles.
-    template <class OBJET> class EnsembleComposition 
-        : public Implantation::ListeComposition<OBJET> {
-
+    /*!
+     Mêmes utilisations que pour Composition, en ce qui concerne les ensembles.
+    */
+    template <typename OBJET> class EnsembleComposition 
+    {
     public:
     
     
@@ -51,14 +51,20 @@ namespace ProjetUnivers {
       // Constructeur par défaut.
       EnsembleComposition() ;
     
-      // Destructeur par défaut.
+      // Destructeur.
       ~EnsembleComposition() ;
     
       // Aggrege un élément à l'ensemble.
       void Ajouter(OBJET* _elt);
     
       // Enlève l'élément _el, s'il n'y est pas ne fait rien.
-      void Enlever(const Association< OBJET >& _el) ;
+      void Enlever(const Association<OBJET>& _el) ;
+    
+      /// Conversion.
+      operator EnsembleAssociation<OBJET>() const ;
+
+      /// Enlève tous les éléments.
+      void Vider() ;
     
       // @}   
     
@@ -67,12 +73,24 @@ namespace ProjetUnivers {
       // *************************      
       // @{  
      
+
+      /// Accès au nombre d'éléments.
+      EntierPositif NombreDElements() const ;
     
       /// Determine si _el fait partie de l'ensemble.
-      Booleen Contient(const Association< OBJET >& _el) const ;
+      Booleen Contient(const Association<OBJET>& _el) const ;
     
  
-      // @}   
+      // @}
+
+
+    private:
+    
+      std::set<OBJET*> ensemble ;
+      
+      friend class IterateurEnsembleComposition<OBJET> ;
+
+      
     };
     
 

@@ -18,68 +18,69 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_BASE_ITERATEUR_ENSEMBLE_COMPOSITION_H_
-#define _PU_BASE_ITERATEUR_ENSEMBLE_COMPOSITION_H_
 
-#include <set>
-#include <iterator>
-#include <base/implantation/iterateur_liste_composition.h>
+#ifndef _PU_BASE_TEST_MVC_H_
+#define _PU_BASE_TEST_MVC_H_
+
+
+
+#include <cppunit/extensions/HelperMacros.h>
 
 namespace ProjetUnivers {
-
+  
   namespace Base {
-   
     
-    template <typename OBJET> class EnsembleComposition ;
-    
-    
-    /// Itérateur sur les ensemble en composition.
-    template <typename OBJET> class IterateurEnsembleComposition 
-    {
-    public:
-    
-      /// Constructeur.
-      IterateurEnsembleComposition(const EnsembleComposition<OBJET>&) ;
-
-      /// Passe à l'élément suivant.
-      void operator ++() ;
-    
-      /// Passe à l'élément précédent.
-      void operator --() ;
-    
-
-      // @}
-      // ***********************
-      /// @name Méthodes d'accès
-      // ***********************
-      // @{
-
-      /// Dit si l'itérateur est valide.
-      Booleen Valide() const ;      
+    namespace Implantation {
       
-      /// Renvoie l'élément courant en association.
-      operator Association<OBJET>() ;
-     
-      /// Opérateur de déréférenciation.
-      OBJET* operator ->() const ;
-    
-    
-      // @}
-
-    private:
-    
-      const std::set<OBJET*>* ensemble ;
-    
-      typename std::set<OBJET*>::iterator iterateur ;            
-      
-
-    };
-
+      namespace Test {
+  
+        class ElementTestListe ;
+  
+        ///  Teste le cadre Modèle Vue Controle.
+        class TestMVC : public CppUnit::TestFixture {
+        public:
+  
+          /// Initialisation du test
+          void setUp() ;
+  
+          /// Desinitialisation du test
+          void tearDown() ;
+  
+        protected:
+  
+          // *************************
+          /// @name Tests proprement dits
+          // *************************      
+          // @{  
+  
+          void TesteObservation() ;
+  
+          // @}
+  
+          // *************************
+          /// @name Mise en place
+          // *************************      
+          // @{  
+  
+  
+          CPPUNIT_TEST_SUITE(TestMVC) ;
+  
+          CPPUNIT_TEST(TesteObservation) ;
+  
+          CPPUNIT_TEST_SUITE_END() ;
+  
+  
+          // @}
+  
+        private:
+        
+        };
+      }
+    }
   }
 }
 
-#include <base/implantation/iterateur_ensemble_composition.cxx>
-
 #endif 
+    
 
 

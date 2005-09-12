@@ -19,6 +19,8 @@
  ***************************************************************************/
 
 
+#include <string>
+
 #include <base/test/test_chaine.h>
 #include <base/chaine.h>
 
@@ -32,7 +34,7 @@ namespace ProjetUnivers {
     namespace Test {
      
      
-      void TestChaine::testAffectation()
+      void TestChaine::TesteAffectation()
       {
       
         Chaine test("ceci est un test") ;
@@ -48,6 +50,27 @@ namespace ProjetUnivers {
 
       }
       
+      void TestChaine::TesteCreation() 
+      {
+        const char* temp = "bonjour" ;
+        
+        {
+          Chaine chaine(temp) ;
+        }
+        
+        // chaine a été détruite et maintenant, temp doit toujours exister
+        // et valoir la même chose
+        CPPUNIT_ASSERT(std::string("bonjour") == std::string(temp)) ;
+        
+
+        // idem mais avec une modification au lieu de destruction
+        Chaine chaine(temp) ;
+        chaine += "toto" ;
+        
+        CPPUNIT_ASSERT(std::string("bonjour") == std::string(temp)) ;        
+        
+        
+      }
       
       void TestChaine::setUp()
       {

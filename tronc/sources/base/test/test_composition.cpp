@@ -32,24 +32,26 @@ namespace ProjetUnivers {
   
     namespace Test {
 
-      Booleen vivant = VRAI ;
+      namespace {
 
-      class Element {
-      public:
-      
-        Element() {
+        Booleen vivant = VRAI ;
+  
+        class Element {
+        public:
         
-          // on met un drapeau en place
-          vivant = VRAI ;
-        }
-      
-        ~Element() {
-          // le destructeur modifier le drapeau
-          vivant = FAUX ;
+          Element() {
           
-        }
-      };
-
+            // on met un drapeau en place
+            vivant = VRAI ;
+          }
+        
+          ~Element() {
+            // le destructeur modifier le drapeau
+            vivant = FAUX ;
+            
+          }
+        };
+      }
       
       void TestComposition::testDestructionAutomatique() {
       

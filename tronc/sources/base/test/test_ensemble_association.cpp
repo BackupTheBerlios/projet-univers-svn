@@ -33,28 +33,43 @@ namespace ProjetUnivers {
   
     namespace Test {
 
-      class TempAssociation {
-      public:
-      
-        TempAssociation(const Entier& _v = 0)
-        : valeur(_v)
-        {}
 
-        Entier valeur ;
-      };
+       
+       
+        class TempAssociation {
+        public:
+        
+          TempAssociation(const Entier& _v = 0)
+          : valeur(_v)
+          {}
+  
+          Entier valeur ;
+        };
+
+      namespace {
+
+        class A
+        {};
+        
+        class B : virtual public A
+        {};
+        
+        class C : virtual public A
+        {} ;
+        
+        class D : public B, public C
+        {};
+    
+
+      }
 
 
-
-
-      ///////////////
-      // Teste l'ajout d'un élément
       void TestEnsembleAssociation::testAjouter() 
       {
       
         // on ajoute un élément ...
         element = new TempAssociation(1) ;
         this->ensembleTeste.Ajouter(element) ;
-
         // puis on vérifie qu'il est dedans
         CPPUNIT_ASSERT(this->ensembleTeste.Contient(element) == VRAI) ;
 
@@ -62,14 +77,11 @@ namespace ProjetUnivers {
         elements.Ajouter(element.Liberer()) ;
 
         // on ajoute un autre élément ...
-
         element = new TempAssociation(2) ;
-
         this->ensembleTeste.Ajouter(element) ;
 
         // puis on vérifie qu'il est dedans
         CPPUNIT_ASSERT(this->ensembleTeste.Contient(element) == VRAI) ;
-
         // on le transfert dans le conteneur
         elements.Ajouter(element.Liberer()) ;
 
@@ -80,9 +92,37 @@ namespace ProjetUnivers {
 
       }
 
+
+      void TestEnsembleAssociation::testAjouter2() 
+      {
+
+        EnsembleAssociation<A> ensemble ;
+        
+        Composition<D> d1(new D()) ;
+        Composition<D> d2(new D()) ;
+        Composition<D> d3(new D()) ;
+        
+        ensemble.Ajouter(d1) ;
+        ensemble.Ajouter(d2) ;
+        ensemble.Ajouter(d3) ;
+
+        CPPUNIT_ASSERT(ensemble.Contient(d1)) ;
+        CPPUNIT_ASSERT(ensemble.Contient(d2)) ;
+        CPPUNIT_ASSERT(ensemble.Contient(d3)) ;
+        
+        EntierPositif nombre(0) ;
+        
+        for(IterateurEnsembleAssociation<A> a(ensemble) ;
+            a.Valide() ;
+            ++a)
+        {
+          ++nombre ;
+        }
+
+        CPPUNIT_ASSERT(nombre == 3) ;
+
+      }
       
-      ///////////////
-      // Teste l'ensemble vide
       void TestEnsembleAssociation::testVide() 
       {
 
@@ -102,23 +142,16 @@ namespace ProjetUnivers {
            
         // on ajoute un élément ...
         element = new TempAssociation(1) ;
-
         this->ensembleTeste.Ajouter(element) ;
-
         referenceElement = element ;
-
         // on le transfert dans le conteneur
         elements.Ajouter(element.Liberer()) ;
 
         // on ajoute un autre élément ...
-
         element = new TempAssociation(2) ;
-
         this->ensembleTeste.Ajouter(element) ;
-
         // on le transfert dans le conteneur
         elements.Ajouter(element.Liberer()) ;
-  
         // on enlève le premier élément
         this->ensembleTeste.Enlever(referenceElement) ;
         

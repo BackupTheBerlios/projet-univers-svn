@@ -18,68 +18,61 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_BASE_ITERATEUR_ENSEMBLE_COMPOSITION_H_
-#define _PU_BASE_ITERATEUR_ENSEMBLE_COMPOSITION_H_
+ 
 
-#include <set>
-#include <iterator>
-#include <base/implantation/iterateur_liste_composition.h>
-
+ 
 namespace ProjetUnivers {
 
   namespace Base {
-   
+
+    template <typename OBJET> Agregation<OBJET>::Agregation(OBJET* _pointeur)
+    : pointeur(_pointeur)
+    {}
     
-    template <typename OBJET> class EnsembleComposition ;
+    template <typename OBJET> 
+    Agregation<OBJET>::Agregation(const Agregation<OBJET>& _agregation)
+    : pointeur(_agregation.pointeur)
+    {}
     
-    
-    /// Itérateur sur les ensemble en composition.
-    template <typename OBJET> class IterateurEnsembleComposition 
+    template <typename OBJET> 
+    OBJET* Agregation<OBJET>::operator ->() const
     {
-    public:
+      return pointeur.operator->() ;
+    }
     
-      /// Constructeur.
-      IterateurEnsembleComposition(const EnsembleComposition<OBJET>&) ;
+    template <typename OBJET> 
+    OBJET& Agregation<OBJET>::operator *() const
+    {
+      return *pointeur ;
+    }
 
-      /// Passe à l'élément suivant.
-      void operator ++() ;
     
-      /// Passe à l'élément précédent.
-      void operator --() ;
+    template <typename OBJET> 
+    Agregation<OBJET>& 
+    Agregation<OBJET>::operator=(const Agregation<OBJET>& _agregation)
+    {
+      this->pointeur =_agregation.pointeur ;
+      return *this ;
+    }
     
+    
+    template <typename OBJET> 
+    Booleen 
+    Agregation<OBJET>::operator==(const Agregation<OBJET>& _agregation) const
+    {
+      return _agregation.pointeur == pointeur ;
+    }
 
-      // @}
-      // ***********************
-      /// @name Méthodes d'accès
-      // ***********************
-      // @{
+    
+    template <typename OBJET> 
+    Booleen 
+    Agregation<OBJET>::operator!= (const Agregation<OBJET>& _agregation) const
+    {
+      return _agregation.pointeur != pointeur ;      
+    }
 
-      /// Dit si l'itérateur est valide.
-      Booleen Valide() const ;      
-      
-      /// Renvoie l'élément courant en association.
-      operator Association<OBJET>() ;
-     
-      /// Opérateur de déréférenciation.
-      OBJET* operator ->() const ;
-    
-    
-      // @}
 
-    private:
     
-      const std::set<OBJET*>* ensemble ;
-    
-      typename std::set<OBJET*>::iterator iterateur ;            
-      
-
-    };
 
   }
 }
-
-#include <base/implantation/iterateur_ensemble_composition.cxx>
-
-#endif 
-
-

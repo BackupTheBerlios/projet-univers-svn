@@ -18,68 +18,71 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_BASE_ITERATEUR_ENSEMBLE_COMPOSITION_H_
-#define _PU_BASE_ITERATEUR_ENSEMBLE_COMPOSITION_H_
 
-#include <set>
-#include <iterator>
-#include <base/implantation/iterateur_liste_composition.h>
+#include <base/agregation.h>
+#include <base/types.h>
+#include <base/test/test_agregation.h>
+
+
+CPPUNIT_TEST_SUITE_REGISTRATION(ProjetUnivers::Base::Test::TestAgregation) ;
 
 namespace ProjetUnivers {
 
   namespace Base {
-   
-    
-    template <typename OBJET> class EnsembleComposition ;
-    
-    
-    /// Itérateur sur les ensemble en composition.
-    template <typename OBJET> class IterateurEnsembleComposition 
-    {
-    public:
-    
-      /// Constructeur.
-      IterateurEnsembleComposition(const EnsembleComposition<OBJET>&) ;
+  
+    namespace Test {
 
-      /// Passe à l'élément suivant.
-      void operator ++() ;
-    
-      /// Passe à l'élément précédent.
-      void operator --() ;
-    
 
-      // @}
-      // ***********************
-      /// @name Méthodes d'accès
-      // ***********************
-      // @{
-
-      /// Dit si l'itérateur est valide.
-      Booleen Valide() const ;      
+      namespace {
+        
+        class Parent 
+        {
+        public:
+          virtual ~Parent()
+          {}
+          
+        protected:
+          Parent()
+          {}
+        };
+  
+        class Enfant : public Parent
+        {
+        public:
+          Enfant()
+          : Parent()
+          {}
+          
+          ~Enfant()
+          {}
+          
+        };
+      }
+            
+      void TestAgregation::testConversionImplicite() {
       
-      /// Renvoie l'élément courant en association.
-      operator Association<OBJET>() ;
-     
-      /// Opérateur de déréférenciation.
-      OBJET* operator ->() const ;
-    
-    
-      // @}
+        Agregation<Enfant> enfant(new Enfant()) ;
 
-    private:
-    
-      const std::set<OBJET*>* ensemble ;
-    
-      typename std::set<OBJET*>::iterator iterateur ;            
+        Agregation<Parent> parent(enfant) ;
+        Agregation<Parent> parent2 = enfant ;
+        
+        
+        CPPUNIT_ASSERT(parent == enfant) ;
+        CPPUNIT_ASSERT(parent == parent2) ;
+       
+       
+      }
       
+      void TestAgregation::setUp() 
+      {
+      }
+      
+      void TestAgregation::tearDown() 
+      {
+      }
 
-    };
 
-  }
+    }
+  }  
 }
-
-#include <base/implantation/iterateur_ensemble_composition.cxx>
-
-#endif 
-
 

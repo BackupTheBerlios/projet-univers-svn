@@ -17,44 +17,83 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+
+#include <base/implantation/tampon_ensemble_association.h>
+
 namespace ProjetUnivers {
 
   namespace Base {
     
-    template <class OBJET> inline 
+    template <typename OBJET> inline 
     EnsembleComposition<OBJET>::EnsembleComposition()
-    : Implantation::ListeComposition<OBJET>()
     {}
     
-    template <class OBJET> inline 
+    template <typename OBJET> inline 
     EnsembleComposition<OBJET>::~EnsembleComposition()
-    {}
+    {
+      for(typename std::set<OBJET*>::iterator objet = ensemble.begin() ;
+          objet != ensemble.end() ;
+          ++objet)
+      {
+        delete *objet ;
+      }
+    }
     
-    template <class OBJET> inline
+    template <typename OBJET> inline
     void EnsembleComposition<OBJET>::Ajouter(OBJET* _elt)
     {
-      Composition<OBJET> element(_elt) ;
-      
-      if (! Contient(element))
-        Implantation::ListeComposition<OBJET>::AjouterEnTete(element.Liberer()) ;
+        
+      ensemble.insert(_elt) ;
         
     }
         
-    template <class OBJET> inline
+    template <typename OBJET> inline
     void EnsembleComposition<OBJET>::Enlever(const Association< OBJET >& _el)
     {
-      // on cherche l'élément
-      unsigned int position(Implantation::ListeComposition<OBJET>::Position(_el)) ;
-      if (position != 0)
-        Implantation::ListeComposition<OBJET>::Enlever(position) ;
+
+      ensemble.erase(_el.operator->()) ;
+      delete (_el.operator->()) ;
     }
         
-        
-    template <class OBJET> inline
+    template <typename OBJET> inline
+    EnsembleComposition<OBJET>::operator EnsembleAssociation<OBJET>() const
+    {
+      EnsembleAssociation<OBJET> resultat ;
+      resultat.tampon = new Implantation::TamponEnsembleAssociation<OBJET>() ;
+      resultat.tampon->ensemble = ensemble ;
+      
+      return resultat ;
+       
+    }
+
+    template <typename OBJET> inline
+    void EnsembleComposition<OBJET>::Vider()
+    {
+      for(typename std::set<OBJET*>::iterator objet = ensemble.begin() ;
+          objet != ensemble.end() ;
+          ++objet)
+      {
+        delete *objet ;
+      }
+      
+      ensemble.clear() ;
+      
+    }
+
+
+    template <typename OBJET> inline
     Booleen 
     EnsembleComposition<OBJET>::Contient(const Association< OBJET >& _el) const
     {
-      return Implantation::ListeComposition<OBJET>::Contient(_el) ;
+      return ensemble.find(_el.operator->()) != ensemble.end() ;
     }
+
+    template <typename OBJET> inline
+    EntierPositif EnsembleComposition<OBJET>::NombreDElements() const
+    {
+      return ensemble.size() ;
+    }
+    
+    
   }
 }

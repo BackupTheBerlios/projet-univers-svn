@@ -18,68 +18,65 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_BASE_ITERATEUR_ENSEMBLE_COMPOSITION_H_
-#define _PU_BASE_ITERATEUR_ENSEMBLE_COMPOSITION_H_
+#ifndef _PU_BASE_IMPLANTATION_TAMPON_ENSEMBLE_ASSOCIATION_H_
+#define _PU_BASE_IMPLANTATION_TAMPON_ENSEMBLE_ASSOCIATION_H_
+
+
 
 #include <set>
-#include <iterator>
-#include <base/implantation/iterateur_liste_composition.h>
+#include <base/association.h>
 
 namespace ProjetUnivers {
 
   namespace Base {
-   
-    
+
+    template <typename OBJET> class IterateurEnsembleAssociation ;
     template <typename OBJET> class EnsembleComposition ;
-    
-    
-    /// Itérateur sur les ensemble en composition.
-    template <typename OBJET> class IterateurEnsembleComposition 
-    {
-    public:
-    
-      /// Constructeur.
-      IterateurEnsembleComposition(const EnsembleComposition<OBJET>&) ;
 
-      /// Passe à l'élément suivant.
-      void operator ++() ;
-    
-      /// Passe à l'élément précédent.
-      void operator --() ;
-    
+    namespace Implantation {
 
-      // @}
-      // ***********************
-      /// @name Méthodes d'accès
-      // ***********************
-      // @{
+      template <typename OBJET> class TamponEnsembleAssociation 
+      {
+      public:
 
-      /// Dit si l'itérateur est valide.
-      Booleen Valide() const ;      
+
+        /// Obtient une référence, et donc augmente le nombre de référencants.
+        TamponEnsembleAssociation<OBJET>* Prendre()
+        {
+          ++nombreDeReferences ;
+          return this ;
+        }
       
-      /// Renvoie l'élément courant en association.
-      operator Association<OBJET>() ;
-     
-      /// Opérateur de déréférenciation.
-      OBJET* operator ->() const ;
-    
-    
-      // @}
+        /// Relache une référence et renvoie vrai s'il faut la détruire.
+        Booleen Laisser()
+        {
+          --nombreDeReferences ;
+          
+          if (nombreDeReferences == 0)
 
-    private:
-    
-      const std::set<OBJET*>* ensemble ;
-    
-      typename std::set<OBJET*>::iterator iterateur ;            
-      
+            return VRAI ;
+          else
+            return FAUX ;
+        }
 
-    };
+        TamponEnsembleAssociation()
+        : nombreDeReferences(1)
+        {}
 
+        TamponEnsembleAssociation(const TamponEnsembleAssociation& _tampon)
+        : nombreDeReferences(1), ensemble(_tampon.ensemble) 
+        {}
+
+        
+        /// Lorsque ce nombre tombe à zéro, il y a destruction.
+        EntierPositif nombreDeReferences ;
+        
+        std::set<OBJET*> ensemble ;
+        
+        friend class IterateurEnsembleAssociation<OBJET> ;
+        friend class EnsembleComposition<OBJET> ;        
+      };
+    }
   }
 }
-
-#include <base/implantation/iterateur_ensemble_composition.cxx>
-
-#endif 
-
-
+#endif

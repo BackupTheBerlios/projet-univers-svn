@@ -252,7 +252,8 @@ namespace ProjetUnivers {
     
     
       // @}  
-      friend class Association<OBJET> ;
+      template <class Y> friend class Association ;
+      
     };
     
   }

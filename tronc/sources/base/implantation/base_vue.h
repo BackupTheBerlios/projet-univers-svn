@@ -18,68 +18,64 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_BASE_ITERATEUR_ENSEMBLE_COMPOSITION_H_
-#define _PU_BASE_ITERATEUR_ENSEMBLE_COMPOSITION_H_
+#ifndef _PU_BASE_BASE_VUE_H_
+#define _PU_BASE_BASE_VUE_H_
 
-#include <set>
-#include <iterator>
-#include <base/implantation/iterateur_liste_composition.h>
+
+#include <base/association.h>
+#include <base/types.h>
 
 namespace ProjetUnivers {
 
   namespace Base {
-   
     
-    template <typename OBJET> class EnsembleComposition ;
+    class PointDeVue ;
     
-    
-    /// Itérateur sur les ensemble en composition.
-    template <typename OBJET> class IterateurEnsembleComposition 
-    {
-    public:
-    
-      /// Constructeur.
-      IterateurEnsembleComposition(const EnsembleComposition<OBJET>&) ;
+    namespace Implantation {
 
-      /// Passe à l'élément suivant.
-      void operator ++() ;
-    
-      /// Passe à l'élément précédent.
-      void operator --() ;
-    
+      /// Classe de base des vues.
+      /*!
+        @todo
+          Choisir quoi faire lorsqu'on a oublié d'ajouter la vue à un point de 
+          vue; pour l'instant la vue n'est pas raffraichie.
+      */
+      class BaseVue
+      {
+      public:
 
-      // @}
-      // ***********************
-      /// @name Méthodes d'accès
-      // ***********************
-      // @{
+        /// Destructeur de classe abstraite.
+        virtual ~BaseVue()
+        {}
 
-      /// Dit si l'itérateur est valide.
-      Booleen Valide() const ;      
+        /// Raffraichissement de la vue.
+        /*
+          C'ets ce que doit surcharger chaque vue.
+          
+          @pre
+            le modèle à changé
+        */
+        virtual void Raffraichir() = 0 ;
+
+        /// Marque la vue comme devant être raffraichie au prochain tour.
+        void MarquerARaffraichir() ;
+
+        /// Marque la vue comme devant être détruite au prochain tour.
+        void MarquerADetruire() ;
+
+
+      protected:
       
-      /// Renvoie l'élément courant en association.
-      operator Association<OBJET>() ;
-     
-      /// Opérateur de déréférenciation.
-      OBJET* operator ->() const ;
-    
-    
-      // @}
+        /// Constructeur de classe abstraite.
+        BaseVue() ;
+        
+        /// Les vues sont groupées au sein d'un point de vue
+        Association<PointDeVue> pointDeVue ;
 
-    private:
-    
-      const std::set<OBJET*>* ensemble ;
-    
-      typename std::set<OBJET*>::iterator iterateur ;            
-      
-
-    };
-
+        friend class PointDeVue ;
+      };
+    }    
   }
 }
 
-#include <base/implantation/iterateur_ensemble_composition.cxx>
-
-#endif 
-
+#endif
 

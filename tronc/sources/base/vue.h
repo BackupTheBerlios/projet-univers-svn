@@ -18,68 +18,54 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_BASE_ITERATEUR_ENSEMBLE_COMPOSITION_H_
-#define _PU_BASE_ITERATEUR_ENSEMBLE_COMPOSITION_H_
+#ifndef _PU_BASE_VUE_H_
+#define _PU_BASE_VUE_H_
 
-#include <set>
-#include <iterator>
-#include <base/implantation/iterateur_liste_composition.h>
+
+#include <base/association.h>
+#include <base/implantation/base_vue.h>
+
 
 namespace ProjetUnivers {
 
   namespace Base {
-   
     
-    template <typename OBJET> class EnsembleComposition ;
+
+    /// L'abstraction d'une vue sur un MODELE
+    /*!
+      Une Vue sur un modèle est notifiée des changements apparus sur ce 
+     modèle. 
+      La notification est effectuée globalement lorsque le PointDeVue 
+      contenant cette Vue est raffraichi.
     
+      @precondition
+        MODELE doit être une sous classe de ProjetUnivers::Base::Modele
     
-    /// Itérateur sur les ensemble en composition.
-    template <typename OBJET> class IterateurEnsembleComposition 
+    */
+    template <class MODELE> class Vue : virtual public Implantation::BaseVue
     {
     public:
     
-      /// Constructeur.
-      IterateurEnsembleComposition(const EnsembleComposition<OBJET>&) ;
-
-      /// Passe à l'élément suivant.
-      void operator ++() ;
+      /// Raffraichissement de la vue.
+      virtual void Raffraichir() = 0 ;
     
-      /// Passe à l'élément précédent.
-      void operator --() ;
+      /// Destructeur de classe abstraite.
+      virtual ~Vue() ;
     
-
-      // @}
-      // ***********************
-      /// @name Méthodes d'accès
-      // ***********************
-      // @{
-
-      /// Dit si l'itérateur est valide.
-      Booleen Valide() const ;      
-      
-      /// Renvoie l'élément courant en association.
-      operator Association<OBJET>() ;
-     
-      /// Opérateur de déréférenciation.
-      OBJET* operator ->() const ;
+    protected:
     
+      /// Constructeur de classe abstraite.
+      Vue(const Association<MODELE>& _modele) ;
     
-      // @}
-
-    private:
-    
-      const std::set<OBJET*>* ensemble ;
-    
-      typename std::set<OBJET*>::iterator iterateur ;            
-      
-
+      /// Ce que la vue voit.
+      Association<MODELE> observe ;
     };
-
+    
   }
 }
 
-#include <base/implantation/iterateur_ensemble_composition.cxx>
+#include <base/implantation/vue.cxx>
 
-#endif 
 
+#endif
 

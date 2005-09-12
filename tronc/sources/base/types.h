@@ -75,7 +75,7 @@ namespace ProjetUnivers {
     const Entier EntierMaximum = LONG_MAX ;
     
     /// Type des caractères
-    typedef char Caracter ;
+    typedef char Caractere ;
     
     
     /// Type des réels

@@ -21,12 +21,43 @@ namespace ProjetUnivers {
 
   namespace Base {
 
-      template <class OBJET> 
+      template <typename OBJET> 
       IterateurEnsembleComposition<OBJET>::IterateurEnsembleComposition
       (const EnsembleComposition<OBJET>& _l)
-        : Implantation::IterateurListeComposition<OBJET>(_l)
+        : iterateur(_l.ensemble.begin()), ensemble(&(_l.ensemble))
       {}
     
+
+      template <typename OBJET> 
+      void IterateurEnsembleComposition<OBJET>::operator ++()
+      {
+        ++iterateur ;
+      }
+    
+      template <typename OBJET> 
+      void IterateurEnsembleComposition<OBJET>::operator --()
+      {
+        --iterateur ;
+      }
+
+      template <typename OBJET> 
+      Booleen IterateurEnsembleComposition<OBJET>::Valide() const
+      {
+        return iterateur != ensemble->end() ;
+      }
+      
+      template <typename OBJET> 
+      IterateurEnsembleComposition<OBJET>::operator Association<OBJET>()
+      {
+        return *iterateur ;
+      }
+     
+      template <typename OBJET> 
+      OBJET* IterateurEnsembleComposition<OBJET>::operator ->() const
+      {
+        return *iterateur ;
+      }
+
 
     
   }

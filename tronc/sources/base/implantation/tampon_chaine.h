@@ -78,7 +78,7 @@ namespace ProjetUnivers {
 
         
         /// Accès à la longueur de la chaîne.
-//        EntierPositif Longueur() const;
+        EntierPositif Longueur() const;
 
         /// Opérateur de conversion en char*.
         operator const char*() const ;
@@ -195,9 +195,9 @@ namespace ProjetUnivers {
 //      {}
       
       
-//      inline EntierPositif TamponChaine::Longueur() const {
-//        return size;
-//      }
+      inline EntierPositif TamponChaine::Longueur() const {
+        return chaine.length() ;
+      }
       
       inline TamponChaine *TamponChaine::Prendre() {
         ++nombreReferences;

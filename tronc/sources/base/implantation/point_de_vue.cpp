@@ -18,68 +18,60 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_BASE_ITERATEUR_ENSEMBLE_COMPOSITION_H_
-#define _PU_BASE_ITERATEUR_ENSEMBLE_COMPOSITION_H_
+#include <base/implantation/base_vue.h>
+#include <base/point_de_vue.h>
+#include <base/iterateur_ensemble_association.h>
 
-#include <set>
-#include <iterator>
-#include <base/implantation/iterateur_liste_composition.h>
 
 namespace ProjetUnivers {
 
   namespace Base {
-   
     
-    template <typename OBJET> class EnsembleComposition ;
-    
-    
-    /// Itérateur sur les ensemble en composition.
-    template <typename OBJET> class IterateurEnsembleComposition 
+
+    void PointDeVue::Raffraichir()
     {
-    public:
-    
-      /// Constructeur.
-      IterateurEnsembleComposition(const EnsembleComposition<OBJET>&) ;
-
-      /// Passe à l'élément suivant.
-      void operator ++() ;
-    
-      /// Passe à l'élément précédent.
-      void operator --() ;
-    
-
-      // @}
-      // ***********************
-      /// @name Méthodes d'accès
-      // ***********************
-      // @{
-
-      /// Dit si l'itérateur est valide.
-      Booleen Valide() const ;      
+      for(IterateurEnsembleAssociation<Implantation::BaseVue> vue(vuesARaffraichir) ;
+          vue.Valide() ;
+          ++vue)
+      {
+        vue->Raffraichir() ;
+      }
       
-      /// Renvoie l'élément courant en association.
-      operator Association<OBJET>() ;
-     
-      /// Opérateur de déréférenciation.
-      OBJET* operator ->() const ;
-    
-    
-      // @}
-
-    private:
-    
-      const std::set<OBJET*>* ensemble ;
-    
-      typename std::set<OBJET*>::iterator iterateur ;            
+      vuesARaffraichir.Vider() ;
       
+    }
+  
+    PointDeVue::PointDeVue()
+    {}
 
-    };
-
+    void PointDeVue::Ajouter(Implantation::BaseVue* _vue)
+    {
+      if (_vue != NULL)
+      {
+        _vue->pointDeVue = *this ;
+        vues.Ajouter(_vue) ;
+      }
+      // sinon ... ???
+    }
+    
+    void PointDeVue::Enlever(const Association<Implantation::BaseVue>& _vue)
+    {
+      vues.Enlever(_vue) ;
+    }
+    
+    void PointDeVue::PenserARaffraichir(
+                                  const Association<Implantation::BaseVue> _vue)
+    {
+      vuesARaffraichir.Ajouter(_vue) ;
+    }
+    
+    void PointDeVue::PenserADetruire(
+                                  const Association<Implantation::BaseVue> _vue)
+    {
+      vuesADetruire.Ajouter(_vue) ;
+    }
+    
+    
   }
 }
-
-#include <base/implantation/iterateur_ensemble_composition.cxx>
-
-#endif 
-
 

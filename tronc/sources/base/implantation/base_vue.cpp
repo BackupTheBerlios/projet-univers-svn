@@ -18,68 +18,38 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_BASE_ITERATEUR_ENSEMBLE_COMPOSITION_H_
-#define _PU_BASE_ITERATEUR_ENSEMBLE_COMPOSITION_H_
+#include <base/point_de_vue.h>
+#include <base/implantation/base_vue.h>
 
-#include <set>
-#include <iterator>
-#include <base/implantation/iterateur_liste_composition.h>
 
 namespace ProjetUnivers {
 
   namespace Base {
-   
     
-    template <typename OBJET> class EnsembleComposition ;
+    class PointDeVue ;
     
-    
-    /// Itérateur sur les ensemble en composition.
-    template <typename OBJET> class IterateurEnsembleComposition 
-    {
-    public:
-    
-      /// Constructeur.
-      IterateurEnsembleComposition(const EnsembleComposition<OBJET>&) ;
+    namespace Implantation {
 
-      /// Passe à l'élément suivant.
-      void operator ++() ;
-    
-      /// Passe à l'élément précédent.
-      void operator --() ;
-    
 
-      // @}
-      // ***********************
-      /// @name Méthodes d'accès
-      // ***********************
-      // @{
+      void BaseVue::MarquerARaffraichir()
+      {
+        if (pointDeVue != Association<PointDeVue>())
+          pointDeVue->PenserARaffraichir(*this) ;
+      }
 
-      /// Dit si l'itérateur est valide.
-      Booleen Valide() const ;      
-      
-      /// Renvoie l'élément courant en association.
-      operator Association<OBJET>() ;
-     
-      /// Opérateur de déréférenciation.
-      OBJET* operator ->() const ;
-    
-    
-      // @}
+      void BaseVue::MarquerADetruire()
+      {
+        if (pointDeVue != Association<PointDeVue>())
+          pointDeVue->PenserADetruire(*this) ;
+          
+        // cette vue n'a pas de point de vue... elle ne sera pas 
+        // raffraichie
+      }
 
-    private:
-    
-      const std::set<OBJET*>* ensemble ;
-    
-      typename std::set<OBJET*>::iterator iterateur ;            
-      
 
-    };
-
+      BaseVue::BaseVue()
+      : pointDeVue()
+      {}
+    }
   }
 }
-
-#include <base/implantation/iterateur_ensemble_composition.cxx>
-
-#endif 
-
-

@@ -18,96 +18,130 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#include <base/implantation/tampon_ensemble_association.h>
+#include <base/iterateur_ensemble_association.h>
+
+#include <iostream>
+
 namespace ProjetUnivers {
 
   namespace Base {
 
     
-    template <class OBJET> EnsembleAssociation<OBJET>::EnsembleAssociation<OBJET>()
-    : Implantation::ListeAssociation<OBJET>()
+    template <typename OBJET> EnsembleAssociation<OBJET>::EnsembleAssociation<OBJET>()
+    : tampon(new Implantation::TamponEnsembleAssociation<OBJET>())
     {}
     
     
-    //////////////////
-    // Constructeur de copie.
-    template <class OBJET> 
-    EnsembleAssociation<OBJET>::EnsembleAssociation
-    (const EnsembleAssociation< OBJET >& _s)
-      : Implantation::ListeAssociation<OBJET>(_s)
+    template <typename OBJET> 
+    EnsembleAssociation<OBJET>::
+    EnsembleAssociation(const EnsembleAssociation<OBJET>& _s)
+      : tampon(_s.tampon->Prendre())
     {}
     
     
-    template <class OBJET> 
+    template <typename OBJET> 
     void 
-    EnsembleAssociation<OBJET>::Ajouter(const Association<OBJET>& _el) {
-    
-      if (! Contient(_el))
-    
-        Implantation::ListeAssociation<OBJET>::AjouterEnQueue(_el) ;
+    EnsembleAssociation<OBJET>::Ajouter(const Association<OBJET>& _el) 
+    {
+
+      // soit il faut copier l'ensemble à modifier (s'il est partagé)
+      // soit on peut directement le modifier
+      
+      if (tampon->nombreDeReferences == 1)
+      {
+        tampon->ensemble.insert(&(*_el)) ;
+      }
+      else
+      {
+
+        if (! Contient(_el))
+        {
+          Implantation::TamponEnsembleAssociation<OBJET>* nouveauTampon 
+             = new Implantation::TamponEnsembleAssociation<OBJET>(*tampon) ;
+
+          if (tampon->Laisser())
+            delete tampon ;
+          
+          tampon = nouveauTampon ;
+
+          tampon->ensemble.insert(&(*_el)) ;
+        }      
+      }
     }
     
-    //////////////////
-    // Ajoute des éléments.
-    template <class OBJET> 
+    template <typename OBJET> 
     void 
-    EnsembleAssociation<OBJET>::Ajouter(const EnsembleAssociation< OBJET >& _el) {
+    EnsembleAssociation<OBJET>::Ajouter(const EnsembleAssociation<OBJET>& _el) 
+    {
     
-      for(Implantation::IterateurListeAssociation<OBJET> i(_el) ; i.Valide() ; ++i)
+      for(IterateurEnsembleAssociation<OBJET> i(_el) ; i.Valide() ; ++i)
     
+        // bof --> ne faire qu'une copie
         Ajouter(i) ;
     }
     
     
     
-    //////////////////
-    // Enlève un élément.
-    template <class OBJET> 
+    template <typename OBJET>
     void 
-    EnsembleAssociation<OBJET>::Enlever(const Association<OBJET>& _el) {
-    
-      unsigned int position = this->Position(_el) ;
-      
-      
-      if (position != 0)
-    
-        Implantation::ListeAssociation<OBJET>::Enlever(position) ;
+    EnsembleAssociation<OBJET>::Enlever(const Association<OBJET>& _el) 
+    {
+
+      if (Contient(_el))
+      {
+        if (tampon->nombreDeReferences != 1) 
+        {
+          Implantation::TamponEnsembleAssociation<OBJET>* nouveauTampon 
+             = new Implantation::TamponEnsembleAssociation<OBJET>(*tampon) ;
+
+          if (tampon->Laisser())
+            delete tampon ;
+          
+          tampon = nouveauTampon ;
+
+        }
+          
+        tampon->ensemble.erase(_el.operator->()) ;
+      }
+    }
+
+    template <typename OBJET>
+    void 
+    EnsembleAssociation<OBJET>::Vider()
+    {
+      if (tampon->Laisser())
+        delete tampon ;
+        
+      tampon = new Implantation::TamponEnsembleAssociation<OBJET>() ;
     }
     
     
-    
-    template <class OBJET> 
+    template <typename OBJET> 
     Booleen 
     EnsembleAssociation<OBJET>::
     Contient(const Association<OBJET>& _r) const
     {
-      return Implantation::ListeAssociation<OBJET>::Contient(_r) ;
+      return tampon->ensemble.find(_r.operator->()) != tampon->ensemble.end() ;
     }
     
-    ///////////////////////
-    // Egalité.
-    template <class OBJET> 
+    template <typename OBJET> 
     Booleen 
     EnsembleAssociation<OBJET>::
     operator==(const EnsembleAssociation<OBJET>& _r) const
     {
     
-      if (this->NombreDElements() != _r.NombreDElements())
-    
-        return FAUX ;
-    
-      for(
-      Implantation::IterateurListeAssociation<OBJET> i(_r) ;
-      i.Valide() ;
-      ++i)
-      {
-        if (! this->Contient(i)) 
-    
-          return FAUX ;
-      }
-    
-      return VRAI ;
-    
+      return tampon->ensemble == _r.tampon->ensemble ;
     }
+
+    template <typename OBJET> 
+    EntierPositif 
+    EnsembleAssociation<OBJET>::
+    NombreDElements() const 
+    {
+      return tampon->ensemble.size() ;
+    }
+
     
   }
 }

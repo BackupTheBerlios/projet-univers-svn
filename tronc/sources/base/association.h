@@ -18,8 +18,9 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef ASSOCIATION_H
-#define ASSOCIATION_H
+#ifndef _PU_BASE_ASSOCIATION_H_
+#define _PU_BASE_ASSOCIATION_H_
+
 
 #include <base/exception_base.h>
 
@@ -30,8 +31,7 @@ namespace ProjetUnivers {
     template <class OBJET> class Composition ;
     
    
-    /// Classe générique désignant une association d'un élément d'une classe 
-    /// d'objets.  
+    /// Association d'un élément d'une classe d'objets.  
     /*!
     Utilisation
     
@@ -52,28 +52,30 @@ namespace ProjetUnivers {
       Association()
         : pt(NULL)
       {}
-    
-    
 
       /// Constructeur, prends une référence à l'objet.
-      Association(OBJET &_x)
-        : pt(&_x)
-      {}
-    
-
-      /// Constructeur, prends une référence à l'objet.
-      Association(const OBJET &_x)
+      Association(const OBJET& _x)
         : pt((OBJET*)&_x)
       {}
     
       /// Constructeur de copie.
       Association(const Association<OBJET>& _x)
-        :pt(_x.pt)
+      : pt(_x.pt)
       {}
     	
       /// Conversion de Composition en Association
       Association(const Composition<OBJET>& _x) ;
  
+      /// Conversion depuis un autre type.
+      template <class OBJET2> Association(const Association<OBJET2>& _x)
+      : pt(_x.pt)
+      {}
+
+      /// Conversion depuis un autre type.
+      template <class OBJET2> Association(const Composition<OBJET2>& _x)
+      : pt(_x.pt)
+      {}
+
     
       // @}
       // *************************
@@ -82,7 +84,7 @@ namespace ProjetUnivers {
       // @{  
     
     
-      // Vérifie que le pointeur est non NULL avant d'appeler.
+      /// Vérifie que le pointeur est non NULL avant d'appeler.
       OBJET* operator ->() const ;
     
       /// Accès à l'objet pointé.
@@ -100,16 +102,15 @@ namespace ProjetUnivers {
     
     
       /// Affectation d'une autre association.
-      Association<OBJET>& operator =(Association<OBJET> _r)
+      Association<OBJET>& operator =(const Association<OBJET>& _r)
       {
-    
         pt = _r.pt ;
         return *this ;
       }
     
       /// Affectation avec un pointeur d'agregation.
       Association<OBJET>& operator =(const Composition<OBJET>& _x) ;
-    	
+     
       
       // @}
       // *************************
@@ -117,35 +118,48 @@ namespace ProjetUnivers {
       // *************************      
       // @{  
     
-    
+
+      /// Egalité avec une autre association.
+      template <class OBJET2> 
+      Booleen operator == (const Association<OBJET2>& _x) const
+      {
+        return pt == _x.pt ;
+      }
+
       /// Egalité avec une autre association.
       Booleen operator == (const Association<OBJET>& _x) const
       {
         return pt == _x.pt ;
       }
     
-      // Comparaison avec une agrégation.
+      /// Comparaison avec une agrégation.
       Booleen operator == (const Composition<OBJET>& _x) const ;
     
-      // Comparaison avec un pointeur.
-      Booleen operator ==(const OBJET* _x) const {
+      /// Comparaison avec un pointeur.
+      template <class OBJET2> Booleen operator ==(const OBJET2* _x) const {
     		
         return pt == _x ;
       }
-    	
+
+      /// Différence avec une autre association.
+      template <class OBJET2> 
+      Booleen operator !=(const  Association<OBJET2>& _x) const 
+      {
+        return pt != _x.pt ;
+      }
 
       /// Différence avec une autre association.
       Booleen operator !=(const  Association<OBJET>& _x) const 
       {
         return pt != _x.pt ;
       }
+
     
       /// Différence avec un pointeur.
-      Booleen operator !=(const OBJET* _x) const {
+      template <class OBJET2> Booleen operator !=(const OBJET2* _x) const {
     		
         return pt != _x ;
       }
-      
 
       /// Comparaison avec une agrégation.
       Booleen operator != (const Composition<OBJET>& _x) const ;
@@ -154,7 +168,7 @@ namespace ProjetUnivers {
     private:
     
     
-      /// pointeur sur l'jet en association.
+      /// pointeur sur l'ojet en association.
       OBJET*	pt ;
     
 
@@ -165,13 +179,16 @@ namespace ProjetUnivers {
     
     
       /// Affectation d'un pointeur. 
-      /// Cette méthode est INTERDITE donc on la déclare en privé.
-      Association<OBJET>& operator =(OBJET* _p) ;
+      /*!
+        Cette méthode est interdite, donc on la déclare explicitement en privé.
+      */
+      template <typename OBJET2> Association<OBJET>& operator =(OBJET2* _p) ;
     
     
       // @}
       
-      friend class Composition<OBJET> ;
+      template<class Y> friend class Association ;
+      template<class Y> friend class Composition ;
       
     };
   }

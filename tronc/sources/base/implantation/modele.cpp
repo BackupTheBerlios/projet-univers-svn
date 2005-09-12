@@ -18,68 +18,53 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_BASE_ITERATEUR_ENSEMBLE_COMPOSITION_H_
-#define _PU_BASE_ITERATEUR_ENSEMBLE_COMPOSITION_H_
 
-#include <set>
-#include <iterator>
-#include <base/implantation/iterateur_liste_composition.h>
+#include <base/implantation/base_vue.h>
+#include <base/modele.h>
+
+#include <base/iterateur_ensemble_association.h>
+
 
 namespace ProjetUnivers {
 
   namespace Base {
-   
     
-    template <typename OBJET> class EnsembleComposition ;
-    
-    
-    /// Itérateur sur les ensemble en composition.
-    template <typename OBJET> class IterateurEnsembleComposition 
+    void Modele::AjouterVue(const Association<Implantation::BaseVue>& _vue)
     {
-    public:
-    
-      /// Constructeur.
-      IterateurEnsembleComposition(const EnsembleComposition<OBJET>&) ;
-
-      /// Passe à l'élément suivant.
-      void operator ++() ;
-    
-      /// Passe à l'élément précédent.
-      void operator --() ;
-    
-
-      // @}
-      // ***********************
-      /// @name Méthodes d'accès
-      // ***********************
-      // @{
-
-      /// Dit si l'itérateur est valide.
-      Booleen Valide() const ;      
+      observateurs.Ajouter(_vue) ;  
+    }
       
-      /// Renvoie l'élément courant en association.
-      operator Association<OBJET>() ;
-     
-      /// Opérateur de déréférenciation.
-      OBJET* operator ->() const ;
+    void Modele::EnleverVue(const Association<Implantation::BaseVue>& _vue)
+    {
+      observateurs.Enlever(_vue) ;
+    }
     
-    
-      // @}
-
-    private:
-    
-      const std::set<OBJET*>* ensemble ;
-    
-      typename std::set<OBJET*>::iterator iterateur ;            
+    Modele::~Modele()
+    {
+      for(IterateurEnsembleAssociation<Implantation::BaseVue> vue(observateurs) ;
+          vue.Valide() ;
+          ++vue)
+      {
+        vue->MarquerADetruire() ;
+      }  
       
+    }
+    
+    Modele::Modele()
+    {}
 
-    };
-
+    void Modele::Notifier()
+    {
+      for(IterateurEnsembleAssociation<Implantation::BaseVue> vue(observateurs) ;
+          vue.Valide() ;
+          ++vue)
+      {
+        vue->MarquerARaffraichir() ;
+      }  
+    }
+    
+    
   }
 }
-
-#include <base/implantation/iterateur_ensemble_composition.cxx>
-
-#endif 
 
 

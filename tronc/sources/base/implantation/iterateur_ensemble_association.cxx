@@ -21,11 +21,49 @@ namespace ProjetUnivers {
 
   namespace Base {
 
-      template <class OBJET> 
+      template <typename OBJET> 
       IterateurEnsembleAssociation<OBJET>::IterateurEnsembleAssociation
       (const EnsembleAssociation<OBJET>& _l)
-        : Implantation::IterateurListeAssociation<OBJET>(_l)
+        : tampon(_l.tampon->Prendre()), iterateur(_l.tampon->ensemble.begin())
       {}
+    
+      template <typename OBJET> 
+      void IterateurEnsembleAssociation<OBJET>::operator ++()
+      {
+        ++iterateur ;
+      }
+    
+      template <typename OBJET> 
+      void IterateurEnsembleAssociation<OBJET>::operator --()
+      {
+        --iterateur ;
+      }
+            
+      template <typename OBJET> 
+      Booleen IterateurEnsembleAssociation<OBJET>::Valide() const
+      {
+        return iterateur != tampon->ensemble.end() ;
+      }
+      
+      template <typename OBJET> 
+      IterateurEnsembleAssociation<OBJET>::operator Association<OBJET>()
+      {
+        return *iterateur ;
+      }
+    
+      template <typename OBJET> 
+      IterateurEnsembleAssociation<OBJET>::operator const OBJET&()
+      {
+        return **iterateur ;
+      }
+     
+      template <typename OBJET> 
+      OBJET* IterateurEnsembleAssociation<OBJET>::operator ->() const 
+      {
+        return (*iterateur) ;
+      }
+
+    
     
 
     

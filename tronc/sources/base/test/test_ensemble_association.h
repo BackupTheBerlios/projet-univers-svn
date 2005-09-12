@@ -51,6 +51,9 @@ namespace ProjetUnivers {
         
         /// Teste l'ajout d'un élément
         void testAjouter();
+
+        /// Teste l'ajout d'un élément
+        void testAjouter2();
       
         /// Teste la suppression d'un élément
         void testEnlever();
@@ -68,6 +71,7 @@ namespace ProjetUnivers {
         CPPUNIT_TEST_SUITE(TestEnsembleAssociation) ;
       
         CPPUNIT_TEST(testAjouter) ;
+        CPPUNIT_TEST(testAjouter2) ;
         CPPUNIT_TEST(testEnlever) ;
         CPPUNIT_TEST(testVide) ;
       
