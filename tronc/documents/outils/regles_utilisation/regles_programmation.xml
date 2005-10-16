@@ -157,8 +157,16 @@
 
       <para>Une classe de valeurs est une classe qui possède un 
       constructeur de copie, une surcharge de l&apos;opérateur 
-      d&apos;affectation et de l&apos;opérateur de comparaison. Un type 
-      prédéfini est considéré comme une classe de valeurs.</para>
+      d&apos;affectation et de l&apos;opérateur de comparaison. </para>
+
+      <para>Les objets C++ d&apos;une classe de valeurs sont manipulée 
+      par copie : il va exister plusieurs copie de la &quot;même&quot; 
+      valeur. C&apos;est classiquement le cas des entiers : il existe 
+      plusieurs copies du même entier.</para>
+
+      <para>Les types prédéfinis sont tous des classes de valeurs (même 
+      si en fait, ils ne sont pas forcement représentés par des 
+      classes, mais parfois par des types).</para>
 
       <para>Les types prédéfinis sont :</para>
 
@@ -213,10 +221,6 @@
 
       </itemizedlist>
 
-      <para>Les objets C++ d&apos;une classe de valeurs est manipulée 
-      par copie : il va exister plusieurs copie de la &quot;même&quot; 
-      valeur. C&apos;est classiquement le cas des entiers.</para>
-
       <example>
 
         <title>Exemple de classe de valeurs</title>
@@ -247,9 +251,9 @@
       comparaison.</para>
 
       <para>Les objets C++ d&apos;une classe d&apos;objet sont 
-      manipulés par références, cela permet à plusieurs objets C++ de 
+      manipulés par pointeur, cela permet à plusieurs objets C++ de 
       référencer le même objet. Ceci implique une chose : tous ceux qui 
-      référencent un objet verrons tous les modifications que subit cet 
+      référencent un objet verront tous les modifications que subit cet 
       objet.</para>
 
       <para>Les classes d&apos;objets ne se trouvent pas directement 
@@ -291,17 +295,20 @@
 
       <para>L&apos;optimisation se fait en dernier, la première étape 
       est de produire un code qui marche et qui soit clair. Dites vous 
-      toujours que si c&apos;est bien clair et que vous définissez des 
+      toujours que si le code est clair et que vous définissez des 
       classes quitte à ce que ce soient un nouveau nom pour des 
       entiers, alors il sera d&apos;autant plus facile d&apos;optimiser 
-      plus tard. Donc pleins de classes avec des noms clairs.</para>
+      plus tard. </para>
+
+      <para>L&apos;optimisation n&apos;est pas l&apos;objectif, il ne 
+      faut donc pas chercher à optimiser.</para>
 
       <example>
 
         <title>Exemple</title>
 
         <para>Objectif : On veut se doter d&apos;éléments qui symbolise 
-        des moments dans un monde.</para>
+        des moments (ou des instants) dans un monde.</para>
 
         <informalexample>
 
@@ -783,8 +790,11 @@
         est alors de savoir quoi mettre comme commentaires. Les 
         commentaires ne doivent pas être une &quot;réformulation&quot; 
         du code qu&apos;ils commentent. Il faut par exemple éviter de 
-        rappeler le type d&apos;une variable dans son 
-        commentaire.</para>
+        rappeler le type d&apos;une variable dans son commentaire. 
+        D&apos;une manière générale le commentaire doit être utile, si 
+        on peut déduire le commentaire du morceau de code qu&apos;il 
+        commente alors c&apos;est qu&apos;il n&apos;est pas très 
+        utile.</para>
 
         <para>Les commentaires commencent généralement par 
         <token>///</token> sauf pour certains commentaires qui 
@@ -798,7 +808,7 @@
         c&apos;est fait ?&quot;.</para>
 
         <para>Dans le cas du projet univers, le monde imaginaire est un 
-        monde de vaisseaus, de pilotes, de planetes, etc... Un 
+        monde de vaisseaux, de pilotes, de planetes, etc... Un 
         commentaire doit indiquer ce que l&apos;élément C++ (classe, 
         etc..) représente dans ce monde. Par exemple, le commentaire 
         associé à une classe appelée <classname>Vaisseau</classname> 
@@ -877,7 +887,7 @@ void changerAge(const Entier&amp; _nouvelAge) ;</programlisting>
 
           <listitem>
 
-            <para>\example</para>
+            <para>@example ou \example</para>
 
             <para>qui permet de définir un example</para>
 
@@ -885,7 +895,7 @@ void changerAge(const Entier&amp; _nouvelAge) ;</programlisting>
 
           <listitem>
 
-            <para>\todo</para>
+            <para>@todo ou \todo</para>
 
             <para>qui decrit ce qu&apos;il reste à faire</para>
 
@@ -893,7 +903,7 @@ void changerAge(const Entier&amp; _nouvelAge) ;</programlisting>
 
           <listitem>
 
-            <para>\remark</para>
+            <para>@remark ou \remark</para>
 
             <para>qui permet d&apos;indiquer des remarques</para>
 
@@ -951,7 +961,7 @@ void changerAge(const Entier&amp; _nouvelAge) ;</programlisting>
 // @{
 ...
 
-//@}
+// @}
 // **************************************
 /// @name Finalisation
 // **************************************
@@ -999,6 +1009,9 @@ void changerAge(const Entier&amp; _nouvelAge) ;</programlisting>
 
         <title>Une classe est un ensemble d&apos;objets du monde</title>
 
+        <para>Une classe représente un ensemble d&apos;objets du monde 
+        imaginaire que simule le programme.</para>
+
         <para>Les classes concrètes modélisent des ensembles 
         d&apos;objets du monde qui sont disjointes deux à deux et qui 
         sont rigides, i.e., une fois qu&apos;on y est on y reste.</para>
@@ -1030,8 +1043,8 @@ void changerAge(const Entier&amp; _nouvelAge) ;</programlisting>
         <title>Trois types de classes</title>
 
         <para>Chaque classe doit être soit une classes de valeurs, soit 
-        une classe d&apos;objets abstraite soit une classe 
-        d&apos;objets concrète.</para>
+        une classe abstraite d&apos;objets soit une classe concrète 
+        d&apos;objets.</para>
 
         <para>Les seules classes pour lesquelles on écrit un 
         destructeur sont les classe d&apos;objets abstraites. Pour 
@@ -1292,69 +1305,71 @@ private:
 
           <listitem>
 
-            <para>Association&lt; O &gt;</para>
+            <para>Base::Association&lt; O &gt;</para>
 
           </listitem>
 
           <listitem>
 
-            <para>Composition&lt; O &gt;</para>
+            <para>Base::Composition&lt; O &gt;</para>
 
           </listitem>
 
           <listitem>
 
-            <para>EnsembleValeur&lt; V &gt;</para>
+            <para>Base::EnsembleValeur&lt; V &gt;</para>
 
           </listitem>
 
           <listitem>
 
-            <para>EnsembleAssociation&lt; O &gt;</para>
+            <para>Base::EnsembleAssociation&lt; O &gt;</para>
 
           </listitem>
 
           <listitem>
 
-            <para>EnsembleComposition&lt; O &gt;</para>
+            <para>Base::EnsembleComposition&lt; O &gt;</para>
 
           </listitem>
 
           <listitem>
 
-            <para>FonctionObjetValeur&lt; O, V &gt;</para>
+            <para>Base::FonctionObjetValeur&lt; O, V &gt;</para>
 
           </listitem>
 
           <listitem>
 
-            <para>FonctionValeurValeur&lt; V, V&apos; &gt;</para>
+            <para>Base::FonctionValeurValeur&lt; V, V&apos; &gt;</para>
 
           </listitem>
 
           <listitem>
 
-            <para>FonctionCompositionObjetObjet&lt; O, O&apos; 
+            <para>Base::FonctionCompositionObjetObjet&lt; O, O&apos; 
             &gt;</para>
 
           </listitem>
 
           <listitem>
 
-            <para>FonctionCompositionValeurObjet&lt; V, O &gt;</para>
-
-          </listitem>
-
-          <listitem>
-
-            <para>FonctionAssociationObjetObjet&lt; O, O&apos; 
+            <para>Base::FonctionCompositionValeurObjet&lt; V, O 
             &gt;</para>
 
           </listitem>
 
           <listitem>
 
-            <para>FonctionAssociationValeurObjet&lt; V, O &gt;</para>
+            <para>Base::FonctionAssociationObjetObjet&lt; O, O&apos; 
+            &gt;</para>
+
+          </listitem>
+
+          <listitem>
+
+            <para>Base::FonctionAssociationValeurObjet&lt; V, O 
+            &gt;</para>
 
           </listitem>
 
@@ -1400,7 +1415,7 @@ private:
 
               <para>Une roue est une partie d&apos;une voiture, il y a 
               4 roues, donc on mettra un attribut de type 
-              EnsembleComposition&lt; Roue &gt; dans la classe 
+              Base::EnsembleComposition&lt; Roue &gt; dans la classe 
               Voiture.</para>
 
             </example>
@@ -1446,19 +1461,19 @@ private:
 
           <listitem>
 
-            <para>ListeValeur&lt; V &gt;</para>
+            <para>Base::Implantation::ListeValeur&lt; V &gt;</para>
 
           </listitem>
 
           <listitem>
 
-            <para>ListeAssociation&lt; O &gt;</para>
+            <para>Base::Implantation::ListeAssociation&lt; O &gt;</para>
 
           </listitem>
 
           <listitem>
 
-            <para>ListeComposition&lt; O &gt;</para>
+            <para>Base::Implantation::ListeComposition&lt; O &gt;</para>
 
           </listitem>
 
@@ -1494,7 +1509,7 @@ private:
 
           <listitem>
 
-            <para>const Association&lt; O &gt;&amp;</para>
+            <para>const Base::Association&lt; O &gt;&amp;</para>
 
           </listitem>
 
@@ -1502,51 +1517,48 @@ private:
 
             <para>O*</para>
 
-          </listitem>
-
-          <listitem>
-
-            <para>const O&amp;</para>
-
-            <para><remark>A utiliser avec parcimonie.</remark></para>
+            <para>ce type permet de passer en paramètre un objet 
+            qu&apos;on vient de construire et qui n&apos;est pas encore 
+            le composant d&apos;un objet</para>
 
           </listitem>
 
           <listitem>
 
-            <para>const EnsembleAssociation&lt; O &gt;&amp;</para>
+            <para>const Base::EnsembleAssociation&lt; O &gt;&amp;</para>
 
           </listitem>
 
           <listitem>
 
-            <para>const EnsembleValeur&lt; V &gt;&amp;</para>
+            <para>const Base::EnsembleValeur&lt; V &gt;&amp;</para>
 
           </listitem>
 
           <listitem>
 
-            <para>const FonctionObjetValeur&lt; O, V &gt;&amp;</para>
-
-          </listitem>
-
-          <listitem>
-
-            <para>const FonctionValeurValeur&lt; V, V&apos; 
+            <para>const Base::FonctionObjetValeur&lt; O, V 
             &gt;&amp;</para>
 
           </listitem>
 
           <listitem>
 
-            <para>const FonctionAssociationObjetObjet&lt; O, O&apos; 
+            <para>const Base::FonctionValeurValeur&lt; V, V&apos; 
             &gt;&amp;</para>
 
           </listitem>
 
           <listitem>
 
-            <para>const FonctionAssociationValeurObjet&lt; V, O 
+            <para>const Base::FonctionAssociationObjetObjet&lt; O, 
+            O&apos; &gt;&amp;</para>
+
+          </listitem>
+
+          <listitem>
+
+            <para>const Base::FonctionAssociationValeurObjet&lt; V, O 
             &gt;&amp;</para>
 
           </listitem>
@@ -1559,7 +1571,8 @@ private:
         être passée en paramètre. Le type pointeur sur classe 
         d&apos;objet O* sert à donner la responsabilité d&apos;un objet 
         à quelqu&apos;un. C&apos;est d&apos;ailleurs le type du 
-        paramètre de add dans EnsembleComposition&lt; O &gt;.</para>
+        paramètre de Ajouter dans Base::EnsembleComposition&lt; O 
+        &gt;.</para>
 
       </sect3>
 
@@ -1587,44 +1600,44 @@ private:
 
           <listitem>
 
-            <para>Association&lt; O &gt;</para>
+            <para>Base::Association&lt; O &gt;</para>
 
           </listitem>
 
           <listitem>
 
-            <para>EnsembleAssociation&lt; O &gt;</para>
+            <para>Base::EnsembleAssociation&lt; O &gt;</para>
 
           </listitem>
 
           <listitem>
 
-            <para>EnsembleValeur&lt; V &gt;</para>
+            <para>Base::EnsembleValeur&lt; V &gt;</para>
 
           </listitem>
 
           <listitem>
 
-            <para>FonctionObjetValeur&lt; O, V &gt;</para>
+            <para>Base::FonctionObjetValeur&lt; O, V &gt;</para>
 
           </listitem>
 
           <listitem>
 
-            <para>FonctionValeurValeur&lt; V, V&apos; &gt;</para>
+            <para>Base::FonctionValeurValeur&lt; V, V&apos; &gt;</para>
 
           </listitem>
 
           <listitem>
 
-            <para>FonctionAssociationObjetObjet&lt; O, O&apos; 
+            <para>Base::FonctionAssociationObjetObjet&lt; O, O&apos; 
             &gt;</para>
 
           </listitem>
 
           <listitem>
 
-            <para>FonctionAssociationValeurObjet&lt; O, O&apos; 
+            <para>Base::FonctionAssociationValeurObjet&lt; O, O&apos; 
             &gt;</para>
 
           </listitem>
@@ -1818,6 +1831,8 @@ namespace Reseau {
 
           <para>une extension eclipse pour subversion</para>
 
+          <para>Utile pour la gestion des fichiers partagés</para>
+
         </listitem>
 
         <listitem>
@@ -1826,6 +1841,8 @@ namespace Reseau {
           <ulink url="http://vex.sourceforge.net/install.html">Vex</ulink></para>
 
           <para>une extension eclipse pour DocBook</para>
+
+          <para>Utile pour la rédaction de documents.</para>
 
         </listitem>
 
