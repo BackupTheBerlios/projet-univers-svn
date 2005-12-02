@@ -18,52 +18,36 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_MODELE_OBJET_ABSTRAIT_H_
-#define _PU_MODELE_OBJET_ABSTRAIT_H_
+#ifndef _PU_MODELE_CONTRAINTE_FIXE__H_
+#define _PU_MODELE_CONTRAINTE_FIXE__H_
 
+#include <base/association.h>
 
-#include <modele/objet.h>
+#include <modele/contrainte.h>
+
 
 namespace ProjetUnivers {
 
   namespace Modele {
 
-    
-    /// Classe des objets abstraits du monde.
-    
-    /*!
-      Un objet qui n'ets pas fait de matière.
-      
-      Exemples :
-      - un ordre
-      - un clan/groupe/entreprise
-      - des évènements historiques
-      
-      Un objet est abstrait par opposition aux objets concrèts du monde.
-        \see ObjetPhysique.
-    */
-    class ObjetAbstrait : public Objet 
-    {
+    /// Liaison fixe entre deux objets.
+    class ContrainteFixe : public Contrainte {
     public:
-    
 
-      /// Classe abstraite donc destructeur virtuel.
-      virtual ~ObjetAbstrait() ;
-    
-
-
-    
-    protected:
-    
-      /// Classe abstraite donc constructeur protégé.
-      ObjetAbstrait() ;
-    
+      /// Construit avec les deux objets reliés.
+      Contrainte(const Base::Association<ObjetPhysique>&,
+                 const Base::Association<ObjetPhysique>&) ;
       
       
-            
+    private:
       
-  
+      Base::Association<ObjetPhysique> objet1 ;
+      Base::Association<ObjetPhysique> objet2 ;
+      
     };
+
   }
 }
+
+
 #endif

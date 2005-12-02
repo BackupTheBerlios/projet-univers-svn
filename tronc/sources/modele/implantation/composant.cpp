@@ -19,6 +19,8 @@
  ***************************************************************************/
 
 #include <modele/composant.h>
+#include <modele/type_de_composant.h>
+
 
 namespace ProjetUnivers {
 
@@ -28,14 +30,11 @@ namespace ProjetUnivers {
 
 
 
-    Composant::Composant()
-    {}
+//    Composant::Composant(const Base::Association<TypeDeComposant>& _type)
+//    : Destructible(_type->resistance)
+//    {}
     
-    
-    //////////////////
-    // Classe abstraite donc destructeur virtuel.
-    Composant::~Composant()
-    {}
+        
     
     
   }

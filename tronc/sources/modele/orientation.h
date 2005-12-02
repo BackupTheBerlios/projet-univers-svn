@@ -18,52 +18,62 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_MODELE_OBJET_ABSTRAIT_H_
-#define _PU_MODELE_OBJET_ABSTRAIT_H_
+#ifndef _PU_MODELE_ORIENTATION_H_
+#define _PU_MODELE_ORIENTATION_H_
 
+#include <base/types.h>
+#include <base/association.h>
+#include <OgreQuaternion.h>
 
-#include <modele/objet.h>
 
 namespace ProjetUnivers {
 
   namespace Modele {
 
-    
-    /// Classe des objets abstraits du monde.
-    
+
+    class Objet ;
+
+    /// Une orientation d'un objet dans l'espace.
     /*!
-      Un objet qui n'ets pas fait de matière.
+    C'est un vecteur.
       
-      Exemples :
-      - un ordre
-      - un clan/groupe/entreprise
-      - des évènements historiques
       
-      Un objet est abstrait par opposition aux objets concrèts du monde.
-        \see ObjetPhysique.
     */
-    class ObjetAbstrait : public Objet 
-    {
+    class Orientation {
     public:
     
+      /// @name Constructeurs
+      // @{  
 
-      /// Classe abstraite donc destructeur virtuel.
-      virtual ~ObjetAbstrait() ;
+     
+      /// Orientation.
+      Orientation() ;
+
+      /// Constructeur de copie.
+      Orientation(const Orientation&) ;
+
+      Orientation(const Base::Association<Objet>& _origine,
+                  const Ogre::Quaternion& _orientation) ; 
+                  
+      
+      // @}
+
+    
+    private:
     
 
+      /// Origine 
+      Base::Association<Objet> origine ;
 
-    
-    protected:
-    
-      /// Classe abstraite donc constructeur protégé.
-      ObjetAbstrait() ;
-    
-      
-      
-            
-      
+      // orientation par rapport à origine.
+      Ogre::Quaternion orientation ;
+ 
+
   
     };
   }
 }
+
+
+
 #endif

@@ -21,33 +21,49 @@
 #ifndef _PU_MODELE_PLANETOIDE_H_
 #define _PU_MODELE_PLANETOIDE_H_
 
+
+#include <base/association.h>
+
 #include <modele/objet_physique.h>
+#include <modele/distance.h>
+#include <modele/nom.h>
 
 namespace ProjetUnivers {
 
   namespace Modele {
     
-    
-    
+    class SystemeStellaire ;
       
     /// Représente une planète ou un astéroïde.
 
     /*!
-    Type de classe
-    
-      Objet
-    
-      Concret
     */
     class Planetoide : public ObjetPhysique {
     public:
 
       /// Constructeur.
-      Planetoide() ;
+      Planetoide(const Nom& _nom) ;
+
+
       
       
     private:
+
+      /*!
+        @name Attributs
+      */
+      // @{
+
+      Nom nom ;
       
+      Base::Association<SystemeStellaire> systeme ;
+      
+      /// Le diametre du planetoide
+      Distance diametre ;
+      
+      //@}
+
+
 
     };
     

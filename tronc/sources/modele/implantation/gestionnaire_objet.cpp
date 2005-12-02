@@ -18,52 +18,46 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_MODELE_OBJET_ABSTRAIT_H_
-#define _PU_MODELE_OBJET_ABSTRAIT_H_
 
-
+#include <modele/gestionnaire_objet.h>
 #include <modele/objet.h>
+
+
 
 namespace ProjetUnivers {
 
   namespace Modele {
-
     
-    /// Classe des objets abstraits du monde.
-    
-    /*!
-      Un objet qui n'ets pas fait de matière.
+    namespace GestionnaireObjet {
       
-      Exemples :
-      - un ordre
-      - un clan/groupe/entreprise
-      - des évènements historiques
+
+      Base::Association<ObjetPhysique> Ajouter(ObjetPhysique*) ;
+
+      void Ajouter(Contrainte*) ;
+                            
+      void Enlever(const Base::Association<Contrainte>&) ;
+
+      void Enlever(const Base::Association<ObjetPhysique>&) ;
       
-      Un objet est abstrait par opposition aux objets concrèts du monde.
-        \see ObjetPhysique.
-    */
-    class ObjetAbstrait : public Objet 
-    {
-    public:
-    
-
-      /// Classe abstraite donc destructeur virtuel.
-      virtual ~ObjetAbstrait() ;
-    
-
-
-    
-    protected:
-    
-      /// Classe abstraite donc constructeur protégé.
-      ObjetAbstrait() ;
-    
       
+      void CreerInstance(const Base::Association<TypeObjet>&) ;
+      
+
+
+      void Ajouter(TypeContrainte*) ;
+      void Ajouter(TypeObjet*) ;
+                             
+
+      Base::EnsembleComposition<Objet> objets ;
+      Base::EnsembleAssociation<Assemblage> assemblages ;
+      Base::EnsembleComposition<TypeObjet> typeObjets ;
+      Base::EnsembleComposition<TypeContrainte> typeContraintes ;
       
             
-      
-  
-    };
+    }
+
+    
+
   }
+
 }
-#endif

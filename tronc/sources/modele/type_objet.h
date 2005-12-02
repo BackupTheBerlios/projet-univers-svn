@@ -18,52 +18,56 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_MODELE_OBJET_ABSTRAIT_H_
-#define _PU_MODELE_OBJET_ABSTRAIT_H_
+#ifndef _PU_MODELE_TYPE_OBJET_H_
+#define _PU_MODELE_TYPE_OBJET_H_
 
+#include <base/association.h>
 
-#include <modele/objet.h>
+#include <modele/nom.h>
+
 
 namespace ProjetUnivers {
 
   namespace Modele {
 
+    class Groupe ;
     
-    /// Classe des objets abstraits du monde.
     
+    /// Un emsemble d'objets.
     /*!
-      Un objet qui n'ets pas fait de matière.
-      
-      Exemples :
-      - un ordre
-      - un clan/groupe/entreprise
-      - des évènements historiques
-      
-      Un objet est abstrait par opposition aux objets concrèts du monde.
-        \see ObjetPhysique.
+    @par Type de classe
+    - Abstraite
+    - Objet
+    
     */
-    class ObjetAbstrait : public Objet 
-    {
+    class TypeObjet {
     public:
     
-
-      /// Classe abstraite donc destructeur virtuel.
-      virtual ~ObjetAbstrait() ;
+      /// Le nom du type.
+      Nom AccesNom() const ;
     
-
-
-    
+      /// Destructeur de classe abstraite.
+      virtual ~TypeObjet() ;  
+      
     protected:
-    
-      /// Classe abstraite donc constructeur protégé.
-      ObjetAbstrait() ;
-    
+      
+      /// Constructeur de classe abstraite.
+      TypeObjet(const Nom&) ;
+      
+      Nom nom ;
       
       
-            
+      /// pas sûr ???
+      /*!
+        Dans la perspective d'un "tout objet", donc notre propre modèle de 
+        données, il convient peut être de mettre un Objet, ayant la propriété 
+        d'être un constructeur de pièces.
+      */
+      // Base::Association<Groupe> constructeur ;
       
-  
     };
+
   }
 }
-#endif
+
+#endif /*_PU_MODELE_TYPE_OBJET_H_*/

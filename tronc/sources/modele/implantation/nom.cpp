@@ -18,52 +18,58 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_MODELE_OBJET_ABSTRAIT_H_
-#define _PU_MODELE_OBJET_ABSTRAIT_H_
 
-
-#include <modele/objet.h>
+#include <modele/nom.h>
 
 namespace ProjetUnivers {
 
   namespace Modele {
 
-    
-    /// Classe des objets abstraits du monde.
-    
-    /*!
-      Un objet qui n'ets pas fait de matière.
       
-      Exemples :
-      - un ordre
-      - un clan/groupe/entreprise
-      - des évènements historiques
+    Nom::Nom()
+    {}
       
-      Un objet est abstrait par opposition aux objets concrèts du monde.
-        \see ObjetPhysique.
-    */
-    class ObjetAbstrait : public Objet 
+    Nom::Nom(const Base::Chaine& _nom)
+    : nom(_nom)
+    {}
+      
+    Nom::Nom(const Nom& _nom)
+    : nom(_nom.nom)
+    {}
+    
+    Nom::operator Base::Chaine() const
     {
-    public:
+      return nom ;
+    }
+    
+    Nom& Nom::operator=(const Base::Chaine& _nom)
+    {
+      nom =_nom ;
+      return *this ;
+    }
+    
+    Nom& Nom::operator=(const Nom& _nom)
+    {
+      nom =_nom.nom ;
+      return *this ;
+      
+    }
+      
+    Base::Booleen Nom::operator==(const Base::Chaine& _chaine) const
+    {
+      return nom == _chaine ;
+    }
+    
+    Base::Booleen Nom::operator==(const Nom& _nom) const 
+    {
+      return nom == _nom.nom ;
+    }
     
 
-      /// Classe abstraite donc destructeur virtuel.
-      virtual ~ObjetAbstrait() ;
+    Base::Booleen Nom::EstIndefini() const
+    {
+      return nom == "" ;
+    }
     
-
-
-    
-    protected:
-    
-      /// Classe abstraite donc constructeur protégé.
-      ObjetAbstrait() ;
-    
-      
-      
-            
-      
-  
-    };
   }
 }
-#endif

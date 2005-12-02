@@ -21,8 +21,8 @@
 #include <modele/etoile.h>
 #include <modele/planetoide.h>
 #include <modele/systeme_stellaire.h>
+#include <modele/position.h>
 
-using namespace ProjetUnivers::Noyau ;
 
 namespace ProjetUnivers {
 
@@ -37,8 +37,8 @@ namespace ProjetUnivers {
 
     ////////////////////
     // Constructeur.
-    SystemeStellaire::SystemeStellaire()
-      : ObjetPhysique(Position())
+    SystemeStellaire::SystemeStellaire(const Nom& _nom)
+      : ObjetPhysique(), nom(_nom)
     {}
     
     //////////////////

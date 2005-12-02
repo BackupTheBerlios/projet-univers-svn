@@ -18,51 +18,77 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_MODELE_OBJET_ABSTRAIT_H_
-#define _PU_MODELE_OBJET_ABSTRAIT_H_
+#ifndef _PU_MODELE_OBJET_H_
+#define _PU_MODELE_OBJET_H_
 
+#include <base/association.h>
+#include <base/modele.h>
 
-#include <modele/objet.h>
+#include <modele/position.h>
+#include <modele/orientation.h>
 
 namespace ProjetUnivers {
 
   namespace Modele {
 
-    
-    /// Classe des objets abstraits du monde.
+
+    /// Classe des objets du monde.
     
     /*!
-      Un objet qui n'ets pas fait de matière.
+      Chaque objet possède une position. 
+
+      @par Containtes
       
-      Exemples :
-      - un ordre
-      - un clan/groupe/entreprise
-      - des évènements historiques
+      Un Objet peut être sa propre origine mais cela ne doit pas arriver 
+      indirectement : si o1 est l'origine de p1, si o2 a p1 comme position, o2 
+      ne peut être l'origine de la position de p1.
       
-      Un objet est abstrait par opposition aux objets concrèts du monde.
-        \see ObjetPhysique.
     */
-    class ObjetAbstrait : public Objet 
+    class Objet : public Base::Modele 
     {
     public:
     
+      /// Position de l'objet.
+      Position AccesPosition() const ;
+
+      /// Orientation de l'objet
+      Orientation AccessOrientation() const ;
+
+      /// 
+      Base::Association<Objet> AccesReferentiel() const ;
+
+
+      /// Vrai si les deux objets font partie d'un même reférentiel.
+      Base::Booleen MemeReferentiel(const Base::Association<Objet>&) const ;
+      
+      
+
+      /// @name Constructeur/Destructeur
 
       /// Classe abstraite donc destructeur virtuel.
-      virtual ~ObjetAbstrait() ;
+      virtual ~Objet() ;
     
-
-
+      
     
     protected:
     
       /// Classe abstraite donc constructeur protégé.
-      ObjetAbstrait() ;
-    
+      Objet(const Position&) ;
+      Objet() ;
+
+      /// Position de l'objet.
+      /*!
+        Si cela n'a pas réélement de sens alors la position est la 
+        position nulle par rapport à lui même.
+      */
+      Position position ;
+
+      /// Orientation dans l'espace
+      /*!
+        C'est un vecteur normé.
+      */
+      Orientation orientation ;
       
-      
-            
-      
-  
     };
   }
 }

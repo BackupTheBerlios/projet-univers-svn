@@ -19,6 +19,8 @@
  ***************************************************************************/
 
 #include <modele/etoile.h>
+#include <modele/position.h>
+
 
 namespace ProjetUnivers {
 
@@ -30,7 +32,7 @@ namespace ProjetUnivers {
     ////////////////////
     // Constructeur.
     Etoile::Etoile()
-    : ObjetPhysique(Noyau::Position())
+    : ObjetPhysique()
     {}
     
     

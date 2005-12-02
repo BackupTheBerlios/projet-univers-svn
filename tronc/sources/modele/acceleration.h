@@ -18,52 +18,83 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_MODELE_OBJET_ABSTRAIT_H_
-#define _PU_MODELE_OBJET_ABSTRAIT_H_
+#ifndef _PU_MODELE_ACCELERATION_H_
+#define _PU_MODELE_ACCELERATION_H_
 
+#include <base/types.h>
 
-#include <modele/objet.h>
 
 namespace ProjetUnivers {
 
   namespace Modele {
 
-    
-    /// Classe des objets abstraits du monde.
-    
+
+
+    /// Une acceleration.
     /*!
-      Un objet qui n'ets pas fait de matière.
-      
-      Exemples :
-      - un ordre
-      - un clan/groupe/entreprise
-      - des évènements historiques
-      
-      Un objet est abstrait par opposition aux objets concrèts du monde.
-        \see ObjetPhysique.
+      C'est un vecteur d'accélération.
     */
-    class ObjetAbstrait : public Objet 
-    {
+    class Acceleration {
     public:
     
+      // *************************
+      /// @name Constructeurs
+      // *************************      
+      // @{  
 
-      /// Classe abstraite donc destructeur virtuel.
-      virtual ~ObjetAbstrait() ;
-    
+     
+      /// Acceleration nulle.
+      Acceleration() ;
+
+      /// Constructeur de copie.
+      Acceleration(const Acceleration&) ;
+
+      /// Constructeur avec des m.s^-2
+//      Acceleration MetreSecondesMoins2(const Base::Reel& _ms2, const Vecteur&) ;
 
 
-    
-    protected:
-    
-      /// Classe abstraite donc constructeur protégé.
-      ObjetAbstrait() ;
-    
+      /// Calcul
+      Acceleration operator +(const Acceleration&) const ;
+
+      /// Calcul
+      Acceleration operator -(const Acceleration&) const ;
       
+      /// Calcul
+      Acceleration operator *(const Base::Reel&) const ;
+
       
-            
-      
+      // @}
+
+      // *************************
+      /// @name Accès
+      // *************************      
+      // @{  
+       
+     
+      /// Donne l'acceleration en m.s-2.
+      Base::Reel MetreSecondesMoins2() const ;
+
+
+      // @}
+    
+    private:
+    
+      /// Les différentes unités de mesure
+      typedef enum 
+      {
+        /// L'unité m.s^-2
+        _MetreSecondeMoins2, 
+        
+      } Unite ;
+
+      Base::Reel valeur ;
+      Unite unite ;
+  
   
     };
   }
 }
+
+
+
 #endif

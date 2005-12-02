@@ -29,9 +29,6 @@ namespace ProjetUnivers {
     
     
     
-
-      ////////////////////
-      // Constructeur.
     CommandesPilotage::CommandesPilotage()
     {}
     

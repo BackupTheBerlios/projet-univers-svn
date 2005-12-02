@@ -18,52 +18,29 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_MODELE_OBJET_ABSTRAIT_H_
-#define _PU_MODELE_OBJET_ABSTRAIT_H_
 
+#include <modele/orientation.h>
 
-#include <modele/objet.h>
 
 namespace ProjetUnivers {
 
   namespace Modele {
 
-    
-    /// Classe des objets abstraits du monde.
-    
-    /*!
-      Un objet qui n'ets pas fait de matière.
-      
-      Exemples :
-      - un ordre
-      - un clan/groupe/entreprise
-      - des évènements historiques
-      
-      Un objet est abstrait par opposition aux objets concrèts du monde.
-        \see ObjetPhysique.
-    */
-    class ObjetAbstrait : public Objet 
-    {
-    public:
-    
+    Orientation::Orientation()
+    : origine(), orientation()
+    {}
 
-      /// Classe abstraite donc destructeur virtuel.
-      virtual ~ObjetAbstrait() ;
-    
+    Orientation::Orientation(const Orientation& _orientation)
+    : origine(_orientation.origine), orientation(_orientation.orientation)
+    {}
+
+    Orientation::Orientation(const Base::Association<Objet>& _origine,
+                             const Ogre::Quaternion& _orientation)
+    : origine(_origine), orientation(_orientation)
+    {}
 
 
-    
-    protected:
-    
-      /// Classe abstraite donc constructeur protégé.
-      ObjetAbstrait() ;
-    
-      
-      
-            
-      
-  
-    };
   }
 }
-#endif
+
+

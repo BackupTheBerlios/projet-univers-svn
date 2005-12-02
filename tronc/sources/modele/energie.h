@@ -18,52 +18,90 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_MODELE_OBJET_ABSTRAIT_H_
-#define _PU_MODELE_OBJET_ABSTRAIT_H_
+#ifndef _PU_MODELE_ENERGIE_H_
+#define _PU_MODELE_ENERGIE_H_
 
+#include <base/types.h>
 
-#include <modele/objet.h>
 
 namespace ProjetUnivers {
 
   namespace Modele {
 
-    
-    /// Classe des objets abstraits du monde.
-    
-    /*!
-      Un objet qui n'ets pas fait de matière.
-      
-      Exemples :
-      - un ordre
-      - un clan/groupe/entreprise
-      - des évènements historiques
-      
-      Un objet est abstrait par opposition aux objets concrèts du monde.
-        \see ObjetPhysique.
-    */
-    class ObjetAbstrait : public Objet 
-    {
+
+
+    /// Une quantité d'énergie.
+    class Energie {
     public:
     
+      // *************************
+      /// @name Constructeurs
+      // *************************      
+      // @{  
 
-      /// Classe abstraite donc destructeur virtuel.
-      virtual ~ObjetAbstrait() ;
-    
+     
+      /// Energie nulle.
+      Energie() ;
+
+      /// Constructeur de copie.
+      Energie(const Energie&) ;
+
+      /// Constructeur avec des Joules
+      Energie Joule(const Base::Reel& _joules) ;
+
+      /// Constructeur avec des électron-volts
+      Energie ElectronVolt(const Base::Reel& _eV) ;
 
 
-    
-    protected:
-    
-      /// Classe abstraite donc constructeur protégé.
-      ObjetAbstrait() ;
-    
+      /// Calcul
+      Energie operator +(const Energie&) const ;
+
+      /// Calcul
+      Energie operator -(const Energie&) const ;
       
+      /// Calcul
+      Base::Reel operator /(const Energie&) const ;
+
+      /// Calcul
+      Energie operator *(const Base::Reel&) const ;
+
       
-            
-      
+      // @}
+
+      // *************************
+      /// @name Accès
+      // *************************      
+      // @{  
+       
+     
+      /// Donne l'énergie en Joules.
+      Base::Reel Joule() const ;
+
+      /// Comparaison
+      Base::Booleen operator <(const Energie&) const ;
+
+      // @}
+    
+    private:
+    
+      /// Les différentes unités de mesure
+      typedef enum 
+      {
+        /// L'unité Joule
+        _Joule, 
+        
+        /// L'électron-volt ~= 1,602 177 33 x 10-19 Joules
+        _eV
+      } Unite ;
+
+      Base::Reel valeur ;
+      Unite unite ;
+  
   
     };
   }
 }
+
+
+
 #endif

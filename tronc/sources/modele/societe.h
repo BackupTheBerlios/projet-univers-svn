@@ -22,8 +22,10 @@
 #ifndef _PU_MODELE_SOCIETE_H_
 #define _PU_MODELE_SOCIETE_H_
 
-#include <modele/objet_abstrait.h>
 #include <base/ensemble_composition.h>
+
+#include <modele/objet_abstrait.h>
+#include <modele/nom.h>
 
 namespace ProjetUnivers {
 
@@ -40,10 +42,8 @@ namespace ProjetUnivers {
 
     /*!
     Type de classe
-    
-      Objet
-    
-      Concret
+    - Objet
+    - Concret
     */
     class Societe : public ObjetAbstrait {
     public:
@@ -56,7 +56,8 @@ namespace ProjetUnivers {
       /// Les différents biens.
       Base::EnsembleComposition< Bien > biens ;
       
-
+      Nom nom ;
+      
     };
 
   }

@@ -25,13 +25,13 @@
 #include <base/types.h>
 
 #include <modele/bien.h>
+#include <modele/destructible.h>
 
 
 namespace ProjetUnivers {
 
   namespace Modele {
     
-    class TypeDeComposant ;
     
       
     ///  Représente un composant d'un vaisseau.
@@ -39,34 +39,49 @@ namespace ProjetUnivers {
     /*!
       Type de classe
       - Objet
-      - Abstrait
+      - Concret
     */
-    class Composant : public Bien {
+    class Composant : public Bien, public Destructible
+    {
     public:
+
+      /// Les différents types de composant.
+      typedef enum {
+        Coque
+      } TypeDeComposant ;
+
+
+      /// Le type du composant.
+//      virtual Base::Association<TypeDeComposant> AccesType() const = 0 ;
+
     
-      /// Classe abstraite donc destructeur virtuel.
-      virtual ~Composant() ;
     
   	
-    protected:
-
 
       /// Classe abstraite donc constructeur protégé.
-      Composant(const Base::Association< TypeDeComposant >& _type) ;
+      Composant(const TypeDeComposant& _type) ;
 
-      /// Classe abstraite donc constructeur protégé.
-      Composant() ;
 
+    private:
+    
+      /*! @name Attributs
+      */
       
-      /// Type du composant.
-      Base::Association< TypeDeComposant > type ;
       
       /// Pourcentage d'état de marche du composant.
       
       /*!
         Un entier entre 0 et 100.
+        
+        @deprecated
+          dépend des dégats subits ?
       */
       Base::Entier pourcentageEtatDeMarche ;
+      
+      /// Type du composant.
+      TypeDeComposant type ;
+      
+      
       
       
     };

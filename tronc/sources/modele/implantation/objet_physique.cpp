@@ -26,16 +26,17 @@ namespace ProjetUnivers {
   namespace Modele {
 
     
-    //////////////////
-    // Classe abstraite donc destructeur virtuel.
     ObjetPhysique::~ObjetPhysique()
     {}
      
-    //////////////////////
-    // Classe abstraite donc constructeur protégé.
-    ObjetPhysique::ObjetPhysique(const Noyau::Position& _p) 
-    : position(_p)
+    ObjetPhysique::ObjetPhysique(const Position& _p) 
+    : Objet(_p)
     {}
+
+    ObjetPhysique::ObjetPhysique() 
+    : Objet()
+    {}
+
   
   }
 }

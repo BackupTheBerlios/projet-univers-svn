@@ -22,7 +22,7 @@
 #define _PU_MODELE_UNIVERS_H_
 
 
-#include <modele/objet_abstrait.h>
+#include <modele/objet_physique.h>
 
 namespace ProjetUnivers {
 
@@ -30,16 +30,14 @@ namespace ProjetUnivers {
     
     
     
-    /// Représente l'univers physique naturel d'un monde.
+    /// L'univers physique naturel d'un monde.
     
     /*!
     Type de classe
-    
-      Objet
-    
-      Concret
+    - Objet
+    - Concret
     */
-    class Univers : public ObjetAbstrait {
+    class Univers : public ObjetPhysique {
     public:
 
       /// Constructeur.

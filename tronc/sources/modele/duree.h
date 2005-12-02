@@ -18,52 +18,91 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_MODELE_OBJET_ABSTRAIT_H_
-#define _PU_MODELE_OBJET_ABSTRAIT_H_
+#ifndef _PU_MODELE_DUREE_H_
+#define _PU_MODELE_DUREE_H_
 
-
-#include <modele/objet.h>
+#include <base/types.h>
 
 namespace ProjetUnivers {
 
   namespace Modele {
 
-    
-    /// Classe des objets abstraits du monde.
-    
-    /*!
-      Un objet qui n'ets pas fait de matière.
       
-      Exemples :
-      - un ordre
-      - un clan/groupe/entreprise
-      - des évènements historiques
-      
-      Un objet est abstrait par opposition aux objets concrèts du monde.
-        \see ObjetPhysique.
+    /// Une durée.
+    
+    /*!  
+      Type de classe :
+      - Valeur
     */
-    class ObjetAbstrait : public Objet 
+    class Duree 
     {
     public:
     
-
-      /// Classe abstraite donc destructeur virtuel.
-      virtual ~ObjetAbstrait() ;
+      // ********************
+      /// @name Constructeurs
+      // ********************
+      // @{   
     
 
+      /// Durée nulle.
+      Duree() ;
+      
+      /// Constructeur de copie.
+      Duree(const Duree&) ;
+    
+      /// Calcul
+      Duree operator +(const Duree&) const ;
+
+      /// Calcul
+      Duree operator -(const Duree&) const ;
+
+      
+      // @}
+      // ******************
+      /// @name Conversions
+      // ******************
+      // @{
+      
+
+      /// Convertit la distance en secondes.
+      Base::Reel Seconde() const ; 
+      
 
     
-    protected:
+      // @}    
+      // ************
+      /// @name Accès
+      // ************
+      // @{
+      
+      
+
+      /// Comparaison avec une autre durée. 
+      /*!
+      */
+      // BooleenEtendu Comparer(const Duree&) const ;
     
-      /// Classe abstraite donc constructeur protégé.
-      ObjetAbstrait() ;
+      // @}
+      
+    private:
     
-      
-      
-            
-      
+      /// Les différentes unités
+      typedef enum {
+        _Seconde
+      } Unite ;
+
+
+      Base::Reel valeur ;
+      Unite unite ;    
   
     };
+
+
+
   }
 }
+
+
+
+
 #endif

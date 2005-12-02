@@ -24,9 +24,15 @@ namespace ProjetUnivers {
 
   namespace Modele {
 
-    ////////////////////
-    // Constructeur.
+    /*!
+      La position d'un univers est relative à lui même, du coup il est à 
+      distance 0 de lui-même.
+      
+      Un peu compliqué mais élégant.
+      
+    */
     Univers::Univers()
+    : ObjetPhysique(Position(*this))
     {}
   
     

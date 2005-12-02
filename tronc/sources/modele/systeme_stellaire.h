@@ -24,7 +24,9 @@
 #include <base/ensemble_composition.h>
 #include <base/types.h>
 #include <base/chaine.h>
+
 #include <modele/objet_physique.h>
+#include <modele/nom.h>
 
 
 
@@ -41,13 +43,9 @@ namespace ProjetUnivers {
     /// Représente un système stellaire.
 
     /*!
-    Type de classe
-    
-      Objet
-    
-      Concret
     */
-    class SystemeStellaire : public ObjetPhysique {
+    class SystemeStellaire : public ObjetPhysique 
+    {
     public:
 
 
@@ -57,7 +55,7 @@ namespace ProjetUnivers {
       // @{
 
       /// Constructeur.
-      SystemeStellaire() ;
+      SystemeStellaire(const Nom& _nom) ;
       
       /// Ajoute une étoile.
       void AjouterEtoile(Etoile* _etoile) ;
@@ -74,15 +72,15 @@ namespace ProjetUnivers {
       // *******************
       // @{
 
+      /// Nom du système.
+      Nom nom ;
       
       /// Etoiles du système 
-      Base::EnsembleComposition< Etoile > etoiles ;
+      Base::EnsembleComposition<Etoile> etoiles ;
       
       /// Planètes/Satélites
-      Base::EnsembleComposition< Planetoide > planetoides ;
+      Base::EnsembleComposition<Planetoide> planetoides ;
 
-      /// Nom du système.
-      Base::Chaine nom ;
 
       // @}
     };

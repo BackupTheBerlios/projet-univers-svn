@@ -23,7 +23,7 @@
 
 
 #include <modele/objet_physique.h>
-
+#include <modele/nom.h>
 
 namespace ProjetUnivers {
 
@@ -48,7 +48,9 @@ namespace ProjetUnivers {
       
       
     private:
-      
+
+
+      Nom nom ;
 
     };
     

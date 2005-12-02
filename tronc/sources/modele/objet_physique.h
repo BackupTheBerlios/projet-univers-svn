@@ -21,9 +21,13 @@
 #ifndef _PU_MODELE_OBJET_PHYSIQUE_H_
 #define _PU_MODELE_OBJET_PHYSIQUE_H_
 
+#include <modele/objet.h>
 
-#include <noyau/position.h>
-#include <noyau/modele.h>
+#include <modele/position.h>
+#include <modele/vitesse.h>
+#include <modele/acceleration.h>
+#include <modele/orientation.h>
+
 
 namespace ProjetUnivers {
 
@@ -33,25 +37,15 @@ namespace ProjetUnivers {
     /// Classe des objets physiques du monde.
     
     /*!
-      Par opposition aux objets abstraits du monde 
+      Un objet du monde fait de matière.
+      
+      Par opposition aux objets abstraits du monde.
         \see ObjetAbstrait.
     */
-    class ObjetPhysique : public Noyau::Modele {
+    class ObjetPhysique : public Objet 
+    {
     public:
     
-      // **********************
-      /// @name Lecture
-      // **********************
-      // @{
-
-
-      /// Position dans l'espace.
-      Noyau::Position Position() const ;
-
-
-
-
-      // @}
       // **********************
       /// @name Constructeur/Destructeur
       // **********************
@@ -63,7 +57,8 @@ namespace ProjetUnivers {
     protected:
     
       /// Classe abstraite donc constructeur protégé.
-      ObjetPhysique(const Noyau::Position&) ;
+      ObjetPhysique(const Position&) ;
+      ObjetPhysique() ;
     
     
       // @}
@@ -73,31 +68,24 @@ namespace ProjetUnivers {
       // @{
       
       
-      /// Position actuelle dans un espace à trois dimensions
-      Noyau::Position position ;
-      
-      /// Orientation dans l'espace
-      /*!
-        C'est un vecteur normé.
-      */
-      
-      
-      
       /// Vitesse
+      Vitesse vitesse ;
       
       
-      
-      /// Moment cinétique
-      /*!
-        C'est la rotation sur lui même.
-      */
-      
-      /// Accélération
-      
-      /// Accélération du moment cinétique?
-      
+      /// Vitesse de rotation
+      // VitesseRotation vitesseRotation ;
             
       //@}
+      
+      /// @name Attributs Déduits
+      // @{
+      
+      /// Accélération
+      Acceleration acceleration ;
+      
+      //@}
+
+
   
     };
   }

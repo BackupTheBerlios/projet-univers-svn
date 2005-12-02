@@ -18,52 +18,83 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_MODELE_OBJET_ABSTRAIT_H_
-#define _PU_MODELE_OBJET_ABSTRAIT_H_
+#ifndef _PU_MODELE_VITESSE_H_
+#define _PU_MODELE_VITESSE_H_
 
+#include <base/types.h>
 
-#include <modele/objet.h>
 
 namespace ProjetUnivers {
 
   namespace Modele {
 
-    
-    /// Classe des objets abstraits du monde.
-    
+
+
+    /// Une vitesse.
     /*!
-      Un objet qui n'ets pas fait de matière.
-      
-      Exemples :
-      - un ordre
-      - un clan/groupe/entreprise
-      - des évènements historiques
-      
-      Un objet est abstrait par opposition aux objets concrèts du monde.
-        \see ObjetPhysique.
+      C'est un vecteur vitesse.
     */
-    class ObjetAbstrait : public Objet 
-    {
+    class Vitesse {
     public:
     
+      // *************************
+      /// @name Constructeurs
+      // *************************      
+      // @{  
 
-      /// Classe abstraite donc destructeur virtuel.
-      virtual ~ObjetAbstrait() ;
-    
+     
+      /// Vitesse nulle.
+      Vitesse() ;
+
+      /// Constructeur de copie.
+      Vitesse(const Vitesse&) ;
+
+      /// Constructeur avec des m.s-1
+//      Vitesse MetreSecondesMoins1(const Base::Reel& _ms1, const Vecteur&) ;
 
 
-    
-    protected:
-    
-      /// Classe abstraite donc constructeur protégé.
-      ObjetAbstrait() ;
-    
+      /// Calcul
+      Vitesse operator +(const Vitesse&) const ;
+
+      /// Calcul
+      Vitesse operator -(const Vitesse&) const ;
       
+      /// Calcul
+      Vitesse operator *(const Base::Reel&) const ;
+
       
-            
-      
+      // @}
+
+      // *************************
+      /// @name Accès
+      // *************************      
+      // @{  
+       
+     
+      /// Donne la vitesse en m.s-1.
+      Base::Reel MetreSecondesMoins1() const ;
+
+
+      // @}
+    
+    private:
+    
+      /// Les différentes unités de mesure
+      typedef enum 
+      {
+        /// L'unité m.s-1
+        _MetreSecondeMoins1, 
+        
+      } Unite ;
+
+      Base::Reel valeur ;
+      Unite unite ;
+  
   
     };
   }
 }
+
+
+
 #endif

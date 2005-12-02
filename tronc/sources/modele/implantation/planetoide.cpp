@@ -19,7 +19,6 @@
  ***************************************************************************/
 
 #include <modele/planetoide.h>
-#include <noyau/position.h>
 
 
 namespace ProjetUnivers {
@@ -28,16 +27,9 @@ namespace ProjetUnivers {
     
     
 
-    ////////////////////
-    // Constructeur.
-    Planetoide::Planetoide()
-    : ObjetPhysique(Noyau::Position())
-    {
-      
-      // par défaut, on pioche un nom de mesh dans la liste des mesh de 
-      // 
-    
-    }
+    Planetoide::Planetoide(const Nom& _nom)
+    : ObjetPhysique(), nom(_nom)
+    {}
     
   }
 }

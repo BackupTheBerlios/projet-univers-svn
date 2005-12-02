@@ -21,7 +21,7 @@
 
 
 #include <modele/bien.h>
-
+#include <modele/position.h>
 
 namespace ProjetUnivers {
 
@@ -37,7 +37,7 @@ namespace ProjetUnivers {
     //////////////////////
     // Classe abstraite donc constructeur protégé.
     Bien::Bien()
-    : ObjetPhysique(Noyau::Position())
+    : ObjetPhysique()
     {}
 
   }

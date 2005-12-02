@@ -18,52 +18,84 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_MODELE_OBJET_ABSTRAIT_H_
-#define _PU_MODELE_OBJET_ABSTRAIT_H_
+#ifndef _PU_MODELE_MASSE_H_
+#define _PU_MODELE_MASSE_H_
 
+#include <base/types.h>
 
-#include <modele/objet.h>
 
 namespace ProjetUnivers {
 
   namespace Modele {
 
-    
-    /// Classe des objets abstraits du monde.
-    
-    /*!
-      Un objet qui n'ets pas fait de matière.
-      
-      Exemples :
-      - un ordre
-      - un clan/groupe/entreprise
-      - des évènements historiques
-      
-      Un objet est abstrait par opposition aux objets concrèts du monde.
-        \see ObjetPhysique.
-    */
-    class ObjetAbstrait : public Objet 
+
+
+    /// Une quantité de matière.
+    class Masse 
     {
     public:
     
+      /// @name Constructeurs
+      // @{  
 
-      /// Classe abstraite donc destructeur virtuel.
-      virtual ~ObjetAbstrait() ;
-    
+     
+      /// Masse nulle.
+      Masse() ;
+
+      /// Constructeur de copie.
+      Masse(const Masse&) ;
+
+      /// Constructeur avec des kilogrammes
+      Masse Kilogramme(const Base::Reel& _kilogramme) ;
 
 
-    
-    protected:
-    
-      /// Classe abstraite donc constructeur protégé.
-      ObjetAbstrait() ;
-    
+      /// Calcul
+      Masse operator +(const Masse&) const ;
+
+      /// Calcul
+      Masse operator -(const Masse&) const ;
       
+      /// Calcul
+      Base::Reel operator /(const Masse&) const ;
+
+      /// Calcul
+      Masse operator *(const Base::Reel&) const ;
+
       
-            
-      
+      // @}
+
+      // *************************
+      /// @name Accès
+      // *************************      
+      // @{  
+       
+     
+      /// Converti en kilogrammes.
+      Base::Reel Kilogramme() const ;
+
+      /// Comparaison
+      Base::Booleen operator <(const Masse&) const ;
+
+      // @}
+    
+    private:
+    
+      /// Les différentes unités de mesure
+      typedef enum 
+      {
+        /// L'unité kilogramme
+        _Kilogramme, 
+        
+      } Unite ;
+
+      Base::Reel valeur ;
+      Unite unite ;
+  
   
     };
   }
 }
+
+
+
 #endif

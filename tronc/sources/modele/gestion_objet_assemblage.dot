@@ -18,52 +18,70 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_MODELE_OBJET_ABSTRAIT_H_
-#define _PU_MODELE_OBJET_ABSTRAIT_H_
+/*
+  Diagramme des classes des objets/assemblages.
+*/
+
+digraph ArchitectureObjetAssemblage {
+	
+	rankdir = BT;
+
+	node [shape=record];
+
+	// Classes
+	// ************
+	
+	Assemblage;
+	Objet;
+	ObjetPhysique;
+	ObjetAbstrait;
+	Contrainte;
+	GestionnaireObjets [label="{GestionnaireObjets | AjouterObjet()}"];
+	
+	TypeObjetPhysique ;
+	TypeAssemblage;
+	
+	
+	// Compositions
+	// ************
+		
+	GestionnaireObjets -> Objet 
+		[arrowtail=diamond, arrowhead=none, headlabel="*"];
+
+	GestionnaireObjets -> Assemblage 
+		[arrowtail=diamond, arrowhead=none, headlabel="*"];
+
+	GestionnaireObjets -> Contrainte 
+		[arrowtail=diamond, arrowhead=none, headlabel="*"];
+
+	GestionnaireObjets -> TypeObjetPhysique 
+		[arrowtail=diamond, arrowhead=none, headlabel="*"];
+	
+
+	// Associations
+	// ************
+	
+	Assemblage -> Contrainte 
+		[arrowhead=none, headlabel="*"];
+
+	Assemblage -> ObjetPhysique 
+		[label="composants", arrowhead=none, headlabel="*"];
+	
+	Contrainte -> ObjetPhysique
+		[arrowhead=none, headlabel="2"];
+	
+	// Héritages
+	// ************
+	
+
+	Assemblage -> ObjetPhysique -> Objet
+		[arrowhead=normal, weight=10];
+
+	Contrainte -> ObjetPhysique
+		[arrowhead=normal, weight=10];
 
 
-#include <modele/objet.h>
+	TypeAssemblage -> TypeObjetPhysique -> ObjetAbstrait -> Objet
+		[arrowhead=normal, weight=10];
 
-namespace ProjetUnivers {
-
-  namespace Modele {
-
-    
-    /// Classe des objets abstraits du monde.
-    
-    /*!
-      Un objet qui n'ets pas fait de matière.
-      
-      Exemples :
-      - un ordre
-      - un clan/groupe/entreprise
-      - des évènements historiques
-      
-      Un objet est abstrait par opposition aux objets concrèts du monde.
-        \see ObjetPhysique.
-    */
-    class ObjetAbstrait : public Objet 
-    {
-    public:
-    
-
-      /// Classe abstraite donc destructeur virtuel.
-      virtual ~ObjetAbstrait() ;
-    
-
-
-    
-    protected:
-    
-      /// Classe abstraite donc constructeur protégé.
-      ObjetAbstrait() ;
-    
-      
-      
-            
-      
-  
-    };
-  }
 }
-#endif

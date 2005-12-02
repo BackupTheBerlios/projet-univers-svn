@@ -21,9 +21,12 @@
 #ifndef _PU_MODELE_GALAXIE_H_
 #define _PU_MODELE_GALAXIE_H_
 
+#include <base/chaine.h>
+#include <base/ensemble_composition.h>
 
+
+#include <modele/nom.h>
 #include <modele/objet_physique.h>
-
 
 
 namespace ProjetUnivers {
@@ -32,22 +35,46 @@ namespace ProjetUnivers {
     
     
     
+    class SystemeStellaire ;
+    
       
-    ///  Représente une galaxie.
+    ///  Une galaxie.
 
     /*!
-    TYPE_DE_CLASSE
-      Objet
-      Concret
+      C'est l'objet physique qui représente une partie de la galaxie.
+
+      
+      @deprecated ???
+        Soit : 
+        - Une galaxie n'a d'intéret que comme une information encyclopédique à 
+        propos des systèmes
+        - soit, on sépare information encyclopédique, et modèles réél (qui est 
+        une "instantiation" du premier)... ce qui donne 2 modèles 
+        par exemple on peut avoir 2 groupes de personnes se battant chacun dans 
+        la même galaxie l'un à l'autre bout avec une transmission vidéo entre eux 
+        (comme dans X2) 
+      
     */
     class Galaxie : public ObjetPhysique {
     public:
 
       /// Constructeur.
-      Galaxie() ;
+      Galaxie(const Nom& _nom) ;
+      
+      /// Ajoute un nouveau système
+      void Ajouter(SystemeStellaire* _systeme) ;
       
       
     private:
+      
+
+      Nom nom ;
+
+      /// Les systèmes "actifs".
+      /*!
+        Ceux dont on a obligatoirement besoin pour le jeux...
+      */      
+      Base::EnsembleComposition<SystemeStellaire> systemes ;
       
 
     };

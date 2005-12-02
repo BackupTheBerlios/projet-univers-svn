@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<TypeDeVaisseau>
+
+  <nom>
+  	<Nom>
+	  "Zarg"
+	</Nom>
+  </nom>
+
+  <typesDeComposants>
+  	<TypeDeCoque>
+      
+      <nom>
+        <Nom>
+	      "Aile1"
+	    </Nom>
+      </nom>
+      
+      <etats>
+        <element>
+          100
+        </element>
+        <image>
+          <EtatTypeDeCoque>
+
+            <energie>
+              <Energie>
+                <valeur>
+                  10
+                </valeur>
+                <unite>
+                  _Joule
+                </unite>
+              </Energie>
+            </energie>
+            
+            <masse>
+              <Masse>
+                <valeur>
+                  10
+                </valeur>
+                <unite>
+                  _Kilogramme
+                </unite>
+              </Masse>
+            </masse>
+          
+          </EtatTypeDeCoque>
+        </image>
+      </etats>
+
+      
+      
+      
+      
+      
+  	</TypeDeCoque>
+
+  </typesDeComposants>
+
+</TypeDeVaisseau>

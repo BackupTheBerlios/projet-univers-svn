@@ -18,52 +18,55 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_MODELE_OBJET_ABSTRAIT_H_
-#define _PU_MODELE_OBJET_ABSTRAIT_H_
+
+#ifndef _PU_MODELE_TYPE_ASSEMBLAGE_H_
+#define _PU_MODELE_TYPE_ASSEMBLAGE_H_
 
 
-#include <modele/objet.h>
+
+
+#include <modele/type_objet.h>
+
 
 namespace ProjetUnivers {
 
   namespace Modele {
 
-    
-    /// Classe des objets abstraits du monde.
+
+    class TypeContrainte ;
+
+    /// Une famille d'assemblages.
     
     /*!
-      Un objet qui n'ets pas fait de matière.
-      
-      Exemples :
-      - un ordre
-      - un clan/groupe/entreprise
-      - des évènements historiques
-      
-      Un objet est abstrait par opposition aux objets concrèts du monde.
-        \see ObjetPhysique.
+    @par Type de classe
+    - Concrète
+    - Objet
+    
     */
-    class ObjetAbstrait : public Objet 
-    {
+    class TypeAssemblage : public TypeObjet {
     public:
-    
 
-      /// Classe abstraite donc destructeur virtuel.
-      virtual ~ObjetAbstrait() ;
+      /*!
+        @name Construction
+        
+      */
+      
+      /// Constructeur.
+      TypeAssemblage(const Nom&) ;
     
-
-
-    
-    protected:
-    
-      /// Classe abstraite donc constructeur protégé.
-      ObjetAbstrait() ;
-    
+      ///
+      void Ajouter(const Base::Association<TypeObjet>&) ;
+      void Ajouter(const Base::Association<TypeContrainte>&) ;
       
       
-            
+    private:
       
-  
+      Base::EnsembleAssociation<TypeObjet> composants ;
+      Base::EnsembleAssociation<TypeContrainte> contraintes ;
+      
+      
     };
+
   }
 }
-#endif
+#endif /*_PU_MODELE_TYPE_ASSEMBLAGE_H_*/

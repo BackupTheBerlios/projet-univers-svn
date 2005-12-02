@@ -99,6 +99,9 @@ namespace ProjetUnivers {
       Base::Chaine prenom ;
       
       /// Poste occupé par le personnage dans la mission en cours.
+      /*!
+        Attribut non persistant.
+      */
       Base::Association< Poste > poste ;
       
       

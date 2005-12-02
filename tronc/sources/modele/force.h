@@ -18,52 +18,91 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_MODELE_OBJET_ABSTRAIT_H_
-#define _PU_MODELE_OBJET_ABSTRAIT_H_
+#ifndef _PU_MODELE_FORCE_H_
+#define _PU_MODELE_FORCE_H_
 
-
-#include <modele/objet.h>
+#include <base/types.h>
 
 namespace ProjetUnivers {
 
   namespace Modele {
 
-    
-    /// Classe des objets abstraits du monde.
-    
-    /*!
-      Un objet qui n'ets pas fait de matière.
       
-      Exemples :
-      - un ordre
-      - un clan/groupe/entreprise
-      - des évènements historiques
-      
-      Un objet est abstrait par opposition aux objets concrèts du monde.
-        \see ObjetPhysique.
+    /// Une force.
+    
+    /*!  
+      Type de classe :
+      - Valeur
     */
-    class ObjetAbstrait : public Objet 
+    class Force 
     {
     public:
     
-
-      /// Classe abstraite donc destructeur virtuel.
-      virtual ~ObjetAbstrait() ;
+      // ********************
+      /// @name Constructeurs
+      // ********************
+      // @{   
     
 
+      /// Force nulle.
+      Force() ;
+      
+      /// Constructeur de copie.
+      Force(const Force&) ;
+    
+      /// Calcul
+      Force operator +(const Force&) const ;
+
+      /// Calcul
+      Force operator -(const Force&) const ;
+
+      
+      // @}
+      // ******************
+      /// @name Conversions
+      // ******************
+      // @{
+      
+
+      /// Convertit la distance en newton.
+      Base::Reel Newton() const ; 
+      
 
     
-    protected:
+      // @}    
+      // ************
+      /// @name Accès
+      // ************
+      // @{
+      
+      
+
+      /// Comparaison avec une autre durée. 
+      /*!
+      */
+      // BooleenEtendu Comparer(const Force&) const ;
     
-      /// Classe abstraite donc constructeur protégé.
-      ObjetAbstrait() ;
+      // @}
+      
+    private:
     
-      
-      
-            
-      
+      /// Les différentes unités
+      typedef enum {
+        _Newton
+      } Unite ;
+
+
+      Base::Reel valeur ;
+      Unite unite ;    
   
     };
+
+
+
   }
 }
+
+
+
+
 #endif

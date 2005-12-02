@@ -21,102 +21,77 @@
 #ifndef _PU_MODELE_TYPE_COMPOSANT_H_
 #define _PU_MODELE_TYPE_COMPOSANT_H_
 
-#include <modele/type_de_bien.h>
+
+#include <base/association.h>
+#include <base/fonction_composition_valeur_objet.h>
+
+#include <modele/objet_abstrait.h>
+#include <modele/duree.h>
+#include <modele/nom.h>
+#include <modele/energie.h>
+#include <modele/masse.h>
+
 
 namespace ProjetUnivers {
 
   namespace Modele {
     
+    class Composant ;
+    class EtatTypeDeComposant ;
     
-      
     /// Représente le type d'un composant.
     
     /*!
       
       Un Composant représente une instance réélle d'un TypeDeComposant. C'est 
-      la même différence qu'entre une voiture donnée (la miènne par exemple) et 
-      le modèle de cette voiture (une renault clio modèle xxx). 
+      la même différence qu'entre une voiture donnée (la mienne par exemple) et 
+      le modèle de cette voiture (une renault clio). 
     
       Type de classe
-        - Objet
-        - Abstrait
+      - Objet
+      - Abstrait
     */
-    class TypeDeComposant : public TypeDeBien {
+    class TypeDeComposant : public ObjetAbstrait
+    {
     public:
 
-      /// Simule l'action de ce type de composant.
+      /// Simule l'action de ce type de composant sur un composant particulier.
       /*
         Simule l'action pendant une certaine durée d'une instance de ce type de 
         composant étant dans certain état.
-        
-        
       */
-      virtual void Simuler(const EtatComposant& etat, const Duree& _duree) = 0 ;
+      virtual void Simuler(const Base::Association<Composant>& _etat, 
+                           const Duree& _duree) const = 0 ;
 
 
+      /// 
+      virtual Composant* Construire() const ;
     
-      /// Les différentes catégories d'un type de composant.
+      /// Destructeur de classe abstraite.
+      virtual ~TypeDeComposant() ;
       
-      /*!
-        \todo
-          supprimer et remplacer par des sous classes...
-      */
-      typedef enum 
-        {
-          /// catégorie des moteurs
-          Moteur, 
-          
-          /// catégorie des lasers
-          Laser,
-          
-          /// catégories des commandes.
-          
-          /*!
-            Boutons et autres manches à balais.
-          */
-          Commande,
-          
-          /// Générateur d'énergie.
-          GenerateurEnergie,
-          
-          /// Générateur de bouclier.
-          GenerateurBouclier, 
-          
-          /// Morceau de coque.
-          
-          /*!
-            C'ets une catégorie assez générale où on peut mettre tout ce qu'on 
-            ne sait pas où mettre.
-          */
-          MorceauCoque, 
-          
-          /// Répartiteur d'énérgie.
-          
-          /*!
-            Distribue l'énérgie produite entre les divers autres composants.
-          */
-          RepartiteurDEnergie
-        }
-        CategorieTypeDeComposant ;
 
-
-    private:    
+    protected:    
     
-      /// Catégorie effective du type.
-      
-      /*!
-      */
-      CategorieTypeDeComposant categorie ;
-      
-      
+      /// Constructeur de classe abstraite.
+      TypeDeComposant(const Nom&, const Energie&, const Masse&) ;
+    
       /// Nom du type de composant.
-      Base::Chaine nom ;
+      Nom nom ;
 
+      /// Une fonction des pourcentages de dégats vers les états
+      Base::FonctionCompositionValeurObjet<Base::Entier,
+                                           EtatTypeDeComposant> etats ;
+
+
+      // ->dans état
+      /// Points de vie du composant neuf.
+      Energie resistance ;
       
-      /// inventeur.
-      
-      /// date d'invention.
-      
+      /// La masse du composant neuf.
+      Masse masse ;
+
+      friend class Composant ;
 
     };
     

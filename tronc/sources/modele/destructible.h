@@ -18,52 +18,59 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_MODELE_OBJET_ABSTRAIT_H_
-#define _PU_MODELE_OBJET_ABSTRAIT_H_
+
+#ifndef _PU_MODELE_DESTRUCTIBLE_H_
+#define _PU_MODELE_DESTRUCTIBLE_H_
 
 
-#include <modele/objet.h>
+#include <modele/energie.h>
 
 namespace ProjetUnivers {
 
+
   namespace Modele {
 
+
     
-    /// Classe des objets abstraits du monde.
-    
+      
+    /// Propriété des objets pouvant subir des dégâts et être détruits
+
     /*!
-      Un objet qui n'ets pas fait de matière.
-      
-      Exemples :
-      - un ordre
-      - un clan/groupe/entreprise
-      - des évènements historiques
-      
-      Un objet est abstrait par opposition aux objets concrèts du monde.
-        \see ObjetPhysique.
     */
-    class ObjetAbstrait : public Objet 
+    class Destructible
     {
     public:
-    
-
+   
+      /// Valeur de point de vie en pourcentage.
+      /*!
+        100% correspond à un objet neuf
+        0% à un objet détruit
+      */
+      Base::Reel PourcentagePointsDeVie() const ;
+   
+      /// Fait dubir un dégat d'une certaine quantité d'énergie.
+      void SubirDegats(const Energie& _energie) ;
+   
       /// Classe abstraite donc destructeur virtuel.
-      virtual ~ObjetAbstrait() ;
+      virtual ~Destructible() ;
     
-
-
-    
+   
     protected:
-    
+
+
       /// Classe abstraite donc constructeur protégé.
-      ObjetAbstrait() ;
-    
+      Destructible(const Energie& _pointsDeVieTotal) ;
       
+      /// Enérgie nécéssaire à sa destruction
+      Energie pointsDeVieTotal ;
       
-            
-      
-  
+      Energie pointsDeVieActuel ;
+
+
     };
+
   }
+
 }
+
 #endif

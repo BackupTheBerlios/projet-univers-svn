@@ -18,51 +18,67 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_MODELE_OBJET_ABSTRAIT_H_
-#define _PU_MODELE_OBJET_ABSTRAIT_H_
+#ifndef _PU_MODELE_NOM_H_
+#define _PU_MODELE_NOM_H_
 
-
-#include <modele/objet.h>
+#include <base/types.h>
+#include <base/chaine.h>
 
 namespace ProjetUnivers {
 
   namespace Modele {
 
-    
-    /// Classe des objets abstraits du monde.
+      
+    /// Un nom.
     
     /*!
-      Un objet qui n'ets pas fait de matière.
+      Cette classe de valeur est un exemple de ce qu'il faut préférer. Au lieu 
+      de dire "un nom est une chaine" et utiliser une chaine partout où on veut 
+      un nom, on a définit une classe des noms et on la réalise avec une chaine 
+      sachant que plus tard, on pourra faire autrement.
       
-      Exemples :
-      - un ordre
-      - un clan/groupe/entreprise
-      - des évènements historiques
-      
-      Un objet est abstrait par opposition aux objets concrèts du monde.
-        \see ObjetPhysique.
+      @todo
+        ajouter 
     */
-    class ObjetAbstrait : public Objet 
-    {
+    class Nom {
     public:
-    
 
-      /// Classe abstraite donc destructeur virtuel.
-      virtual ~ObjetAbstrait() ;
-    
-
-
-    
-    protected:
-    
-      /// Classe abstraite donc constructeur protégé.
-      ObjetAbstrait() ;
-    
+      /// Constructeur par défaut.
+      /*!
+        Instantié à indéfini.
+      */
+      Nom() ;
       
+      Nom(const Base::Chaine&) ;
       
-            
+      /// Constructeur de copie.
+      Nom(const Nom&) ;
+    
+      /// Conversion vers une chaine.
+      operator Base::Chaine() const ; 
+    
+      /// Operateur d'affectation.
+      Nom& operator=(const Base::Chaine&) ;
+      Nom& operator=(const Nom&) ;
       
-  
+      /// Operateur de comparaison
+      Base::Booleen operator==(const Base::Chaine&) const ;
+      Base::Booleen operator==(const Nom&) const ;
+    
+      /// Vrai si le nom n'en est pas un.
+      Base::Booleen EstIndefini() const ;
+    
+    
+    private:
+    
+      /// Pour l'instant une simple chaine
+      /*!
+        @todo
+          une fonction des langues vers les chaines
+        
+      */
+      Base::Chaine nom ;
+      
     };
   }
 }

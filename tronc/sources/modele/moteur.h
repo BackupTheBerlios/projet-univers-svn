@@ -21,7 +21,6 @@
 #ifndef _PU_MODELE_MOTEUR_H_
 #define _PU_MODELE_MOTEUR_H_
 
-#include <base/ensemble_association.h>
 #include <modele/composant.h>
 
 
@@ -31,29 +30,27 @@ namespace ProjetUnivers {
   namespace Modele {
     
     
+    class TypeDeMoteur ;
+    class TypeDeComposant ;
     
-      
     ///  Représente un moteur sur un vaisseau.
     
     /*!
-    Type de classe
-    
-      Concrète
-    
-      Objet
     */
-    class Moteur : public Composant 
+    class Moteur // : public Composant 
     {
     public:
 
 
       /// Constructeur.
-      Moteur() ;
+      Moteur(const Base::Association<TypeDeMoteur>& type) ;
+ 
+      /// Le type du composant.
+      virtual Base::Association<TypeDeComposant> AccesType() const ;
  
     private:
     
-      /// ??? qu'est ce que c'est ???
-      Base::EnsembleAssociation<Moteur> moteurs ;
+      Base::Association<TypeDeMoteur> type ;
     };
     
     

@@ -28,14 +28,15 @@ namespace ProjetUnivers {
   namespace Modele {
 
 
-    
+    Moteur::Moteur(const Base::Association<TypeDeMoteur>& _type)
+    : Composant(_type)
+    {}
 
-    Moteur::Moteur()
+    Base::Association<TypeDeComposant> Moteur::AccesType() const
     {
-      Association< Moteur > temp(*this) ; 
-      this->moteurs.Ajouter(temp) ;
-    
+      return type ;
     }
+
   
   }
 }

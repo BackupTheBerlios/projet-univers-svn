@@ -30,28 +30,22 @@ namespace ProjetUnivers {
 
   namespace Modele {
     
-    
+    class TypeDeVaisseau ;
     class Composant ;
     class Poste ;
-      
+    class Coque ;
+    
     /// Représente un vaisseau.
     
     /*!
-    Type de classe
-    
-      Objet
-    
-      Concret  
     */
-    class Vaisseau : public Bien {
+    class Vaisseau : public Bien 
+    {
     public:
     
 
-      // *******************
       /// @name Construction
-      // *******************
       // @{
-
 
       /// constructeur.
       Vaisseau() ;
@@ -59,28 +53,37 @@ namespace ProjetUnivers {
       /// Ajoute un composant.
       void AjouterComposant(Composant* _composant) ;
 
-
       // @}
+
     private:  
       
 
-      // ****************
-      /// @name Attributs
-      // ****************
+      /*! 
+        @name Attributs
+      */
       // @{
+      
+      
+      Base::Association<TypeDeVaisseau> type ;
+
+      /// Les morceaux de coque du vaisseau
+      Base::EnsembleComposition<Coque> morceauxDeCoque ;
+
+//      Base::EnsembleComposition<Coque>
+
+      // @}
       
 
       /// Les composants du vaisseau.
+      /*!
+        Tous les composants ont une position relative au vaisseau.
+      */
       Base::EnsembleComposition< Composant > composants ;
 
       /// Les postes pouvant être occupés sur le vaisseau.
       Base::EnsembleComposition< Poste > postes ;
     
 
-      /// Le fabriquant du vaisseau
-//    Base::Association< Groupe > fabriquant ;
- 
- 
       // @}
     };
     
