@@ -18,6 +18,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#include <base/ensemble_composition.h>
 
 #include <modele/gestionnaire_objet.h>
 #include <modele/objet.h>
@@ -29,29 +30,37 @@ namespace ProjetUnivers {
   namespace Modele {
     
     namespace GestionnaireObjet {
-      
 
-      Base::Association<ObjetPhysique> Ajouter(ObjetPhysique*) ;
-
-      void Ajouter(Contrainte*) ;
-                            
-      void Enlever(const Base::Association<Contrainte>&) ;
-
-      void Enlever(const Base::Association<ObjetPhysique>&) ;
-      
-      
-      void CreerInstance(const Base::Association<TypeObjet>&) ;
-      
-
-
-      void Ajouter(TypeContrainte*) ;
-      void Ajouter(TypeObjet*) ;
-                             
+      /*!
+        @name Variables du module.
+      */
+      // @{
 
       Base::EnsembleComposition<Objet> objets ;
-      Base::EnsembleAssociation<Assemblage> assemblages ;
-      Base::EnsembleComposition<TypeObjet> typeObjets ;
-      Base::EnsembleComposition<TypeContrainte> typeContraintes ;
+
+
+      // @}
+
+      void Ajouter(Objet* _objet)
+      {
+        objets.Ajouter(_objet) ;
+      }
+      
+      Objet* Enlever(const Base::Association<Objet>& _objet)
+      {
+      }
+
+      
+//      void CreerInstance(const Base::Association<TypeObjet>&)
+//      {
+//      }
+      
+
+
+//      void Ajouter(TypeContrainte*) ;
+//      void Ajouter(TypeObjet*) ;
+                             
+
       
             
     }

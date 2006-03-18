@@ -30,10 +30,9 @@ namespace ProjetUnivers {
 
   namespace Modele {
     
-    class ObjetPhysique ;
-    class Assemblage ;
+    class Objet ;
     class Contrainte ;    
-    class TypeObjet ;
+    class EnsembleDObjet ;
     class TypeContrainte ;
       
     ///  Gère les objets.
@@ -50,10 +49,7 @@ namespace ProjetUnivers {
     */
     namespace GestionnaireObjet {
       
-//    class GestionnaireObjet : public Base::Singleton
-//    {
-//    public:
-
+      // ******************************************************
       /*!
         @name Opération sur les objets
         
@@ -63,56 +59,52 @@ namespace ProjetUnivers {
         - détruire un objet (Detruire)
         - construire une objet
       */
+      // ******************************************************
       // @{
 
       
-
-      Base::Association<ObjetPhysique> Ajouter(ObjetPhysique*) ;
-
-      void Ajouter(Contrainte*) ;
-                            
-      void Enlever(const Base::Association<Contrainte>&) ;
-
-      void Enlever(const Base::Association<ObjetPhysique>&) ;
+      /// Enregistre l'objet dans le gestionnaire.
+      void Ajouter(Objet*) ;
       
-      
-      /// Créer un objet à partir d'un modèle.
+      /// Retire l'objet du gestionnaire.
       /*!
+        L'objet est renvoyé.
+      */
+      Objet* Enlever(const Base::Association<Objet>&) ;
+      
+      
+      /// Crée un objet élément d'un ensemble.
+      /*!
+        L'objet est géré par le gestionnaire.
         Si le modèle de l'objet est trop vague, comme par exemple 
         "un vaisseau", en prend un au hasard.
         
       */
-      void CreerInstance(const Base::Association<TypeObjet>&) ;
+//      Base::Association<Objet> 
+//          CreerInstance(const Base::Association<EnsembleDObjet>&) ;
       
       // @}
       
+      // *************************************
       /*!
         @name Opération sur les types d'objets
         
       */
+      // *************************************
       // @{
 
 
-      void Ajouter(TypeContrainte*) ;
-      void Ajouter(TypeObjet*) ;
+      /// Enregistre un type de contrainte.
+//      void Ajouter(TypeContrainte*) ;
+
+      /// Enregistre un type d'objet.
+//      void Ajouter(TypeObjet*) ;
                              
       
       // @}
       
             
     }
-
-    
-//      Base::EnsembleComposition<Objet> objets ;
-//
-//      Base::EnsembleAssociation<Assemblage> assemblages ;
-//
-//      
-//      Base::EnsembleComposition<TypeObjet> typeObjets ;
-//      Base::EnsembleComposition<TypeContrainte> typeContraintes ;
-//      
-//
-//    };
 
 
   }
