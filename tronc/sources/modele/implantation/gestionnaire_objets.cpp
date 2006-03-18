@@ -29,7 +29,7 @@ namespace ProjetUnivers {
 
   namespace Modele {
     
-    namespace GestionnaireObjet {
+    namespace GestionnaireObjets {
 
       /*!
         @name Variables du module.

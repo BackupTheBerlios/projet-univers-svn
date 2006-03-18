@@ -47,7 +47,7 @@ namespace ProjetUnivers {
         - si oui alors un assemblage peut être un élément d'un autre assemblage
       
     */
-    namespace GestionnaireObjet {
+    namespace GestionnaireObjets {
       
       // ******************************************************
       /*!
