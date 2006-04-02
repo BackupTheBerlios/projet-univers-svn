@@ -18,67 +18,60 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_BASE_BASE_VUE_H_
-#define _PU_BASE_BASE_VUE_H_
+#include <base/derive_de.h>
 
-
-#include <base/association.h>
-#include <base/types.h>
+//#include <base/objet.h>
+//#include <base/valeur.h>
 
 namespace ProjetUnivers {
 
   namespace Base {
+
+
+    template <class OBJET, typename VALEUR> 
+    FonctionObjetValeur<OBJET,VALEUR>::FonctionObjetValeur()
+    : fonction()
+    {
+//      DeriveDe<OBJET, ProjetUnivers::Base::Objet>() ;
+//      DeriveDe<VALEUR, ProjetUnivers::Base::Valeur>() ;
+    }
     
-    class PointDeVue ;
+    template <class OBJET, typename VALEUR> 
+    FonctionObjetValeur<OBJET,VALEUR>::
+    FonctionObjetValeur(const FonctionObjetValeur& _v)
+    : fonction(_v.fonction)
+    {}
     
-    namespace Implantation {
-
-      /// Classe de base des vues.
-      /*!
-        @todo
-          Choisir quoi faire lorsqu'on a oublié d'ajouter la vue à un point de 
-          vue; pour l'instant la vue n'est pas raffraichie.
-      */
-      class BaseVue
-      {
-      public:
-
-        /// Destructeur de classe abstraite.
-        virtual ~BaseVue()
-        {}
-
-        /// Raffraichissement de la vue.
-        /*
-          C'ets ce que doit surcharger chaque vue.
-          
-          @pre
-            le modèle à changé
-        */
-        virtual void Raffraichir() = 0 ;
-
-        /// Marque la vue comme devant être raffraichie au prochain tour.
-        void MarquerARaffraichir() ;
-
-        /// Marque la vue comme devant être détruite au prochain tour.
-        void MarquerADetruire() ;
+    template <class OBJET, typename VALEUR> 
+    void FonctionObjetValeur<OBJET,VALEUR>::
+    Ajouter(const Association< OBJET >& _cle, const VALEUR& _valeur)
+    {
+      fonction[_cle.pt] = _valeur ;
+    }
+    
+    template <class OBJET, typename VALEUR> 
+    void FonctionObjetValeur<OBJET,VALEUR>::
+    Changer(const Association< OBJET >& _cle, const VALEUR& _valeur)
+    {
+      fonction[_cle.pt] = _valeur ;
+    }
+    
+    template <class OBJET, typename VALEUR> 
+    VALEUR FonctionObjetValeur<OBJET,VALEUR>::
+    Acces(const Association<OBJET>& _cle) const
+    {
+      return fonction[_cle.pt] ;
+    }
+    
+    template <class OBJET, typename VALEUR> 
+    Booleen FonctionObjetValeur<OBJET,VALEUR>::
+    operator==(const FonctionObjetValeur< OBJET,VALEUR >& _right) const
+    {
+      return fonction == _right.fonction ;
+    }
 
 
-      protected:
-      
-        /// Constructeur de classe abstraite.
-        BaseVue() ;
-        
-        /// Les vues sont groupées au sein d'un point de vue
-        Association<PointDeVue> pointDeVue ;
 
-        /*!
-          Chemin complet pour gcc 4
-        */
-        friend class ::ProjetUnivers::Base::PointDeVue ;
-      };
-    }    
+
   }
 }
-
-#endif
-

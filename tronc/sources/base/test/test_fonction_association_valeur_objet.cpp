@@ -18,67 +18,59 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_BASE_BASE_VUE_H_
-#define _PU_BASE_BASE_VUE_H_
+#include <base/test/test_fonction_association_valeur_objet.h>
+#include <base/composition.h>
 
+// enregistrement du test
+CPPUNIT_TEST_SUITE_REGISTRATION(
+  ProjetUnivers::Base::Test::TestFonctionAssociationValeurObjet) ;
 
-#include <base/association.h>
-#include <base/types.h>
 
 namespace ProjetUnivers {
 
   namespace Base {
-    
-    class PointDeVue ;
-    
-    namespace Implantation {
+  
+    namespace Test {
 
-      /// Classe de base des vues.
-      /*!
-        @todo
-          Choisir quoi faire lorsqu'on a oublié d'ajouter la vue à un point de 
-          vue; pour l'instant la vue n'est pas raffraichie.
-      */
-      class BaseVue
+
+      namespace
       {
-      public:
-
-        /// Destructeur de classe abstraite.
-        virtual ~BaseVue()
-        {}
-
-        /// Raffraichissement de la vue.
-        /*
-          C'ets ce que doit surcharger chaque vue.
-          
-          @pre
-            le modèle à changé
-        */
-        virtual void Raffraichir() = 0 ;
-
-        /// Marque la vue comme devant être raffraichie au prochain tour.
-        void MarquerARaffraichir() ;
-
-        /// Marque la vue comme devant être détruite au prochain tour.
-        void MarquerADetruire() ;
+        class ClasseObjet
+        {};
+      }
 
 
-      protected:
-      
-        /// Constructeur de classe abstraite.
-        BaseVue() ;
+
+      void TestFonctionAssociationValeurObjet::testAjouter() 
+      {
+        Base::Composition<ClasseObjet> objet(new ClasseObjet()) ;
+        FonctionAssociationValeurObjet<int,ClasseObjet> fonction ;
+
+        fonction.Ajouter(3,objet) ;
+        CPPUNIT_ASSERT(fonction.Acces(3) == objet) ;        
         
-        /// Les vues sont groupées au sein d'un point de vue
-        Association<PointDeVue> pointDeVue ;
+        
 
-        /*!
-          Chemin complet pour gcc 4
-        */
-        friend class ::ProjetUnivers::Base::PointDeVue ;
-      };
-    }    
+      }
+
+      
+      void TestFonctionAssociationValeurObjet::testVide() 
+      {
+        FonctionAssociationValeurObjet<int,ClasseObjet> fonction ;
+        CPPUNIT_ASSERT(fonction.Acces(3) == NULL) ;        
+
+      }
+
+ 
+      void TestFonctionAssociationValeurObjet::setUp() 
+      {}
+    
+      void TestFonctionAssociationValeurObjet::tearDown() 
+      {}
+
+
+
+    }
   }
 }
-
-#endif
 

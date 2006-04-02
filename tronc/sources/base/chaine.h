@@ -40,10 +40,13 @@ namespace ProjetUnivers {
         
     /*! 
     
-    FONCTIONNEMENT 
+    @par BaseChaineFonctionnement Fonctionnement
 	    Cette classe évite les copies de chaînes en maintenant le nombre de 
-  	  référence à une chaîne particulière, c'est le rôle de 
+    	  référence à une chaîne particulière, c'est le rôle de 
       TamponChaine qui contient effectivement un char*.
+    @todo
+      re-implanter à l'aide de std::string      
+    
     */
     class Chaine {
     public:
@@ -90,41 +93,28 @@ namespace ProjetUnivers {
       ~Chaine();
     	
       /*!
-      @name Affectation
+        @name Affectation
       */
       // @{
       
       Chaine& operator = (const Chaine& _s);
-//      Chaine& operator = (const char* _s);
-//      Chaine& operator = (char _c);
 
       Chaine& operator += (const Chaine& _s);
-//      Chaine& operator += (const char* _s);
-//      Chaine& operator += (char _c);
             
       // @}  
       /*!
-      @name Acces
+        @name Acces
       */
       // @{
-
-
     
       operator const char* () const ;
-//      operator char* ();
       
-//      int length() const;
       EntierPositif Longueur() const ;
-            
-//      char operator [] (int _pos) const;
-//      char& operator [] (int _pos);
-    
-      /////////////////
-      /// Renvoie la même chaîne en majuscule.
-//      Chaine upper() const ;
-    
-//      Chaine operator() (int _pos, int _len) const;
-    
+
+      /*!
+        @todo 
+          franciser
+      */    
       Chaine& append(const char* _s, int _s_len);
       Chaine& append(const Chaine& _s);
       Chaine& append(const char* _s);
@@ -148,27 +138,14 @@ namespace ProjetUnivers {
       friend inline Booleen operator > (const Chaine& _s1, const Chaine& _s2);
     
       // @}
-    
-    
 
-//      friend inline Chaine operator + (const Chaine& _s1, const char* _s2);
-//      friend inline Chaine operator + (const char* _s1, const Chaine& _s2);
-//      friend inline Chaine operator + (const Chaine& _s, char _c);
-//      friend inline Chaine operator + (char _c, const Chaine& _s);
-    
-
-      // *************************
-      /// @name Recherche
-      // *************************      
-      // @{  
-      
-//      Booleen contains(const Chaine& _s) const;
-//      int find(const Chaine& _s) const;
-
-      // @}
           
     protected:
         
+      /*!
+        @todo 
+          franciser
+      */    
       short cmp(const Chaine& _s) const;
         
       Chaine(const char* _s1, int _s1_len, const char* _s2, int _s2_len);
@@ -193,6 +170,9 @@ namespace ProjetUnivers {
     
       /// Copie partagée.
       Implantation::TamponChaine* representation;
+
+
+      friend class Implantation::TamponChaine ;
 
     };
 
@@ -243,10 +223,6 @@ namespace ProjetUnivers {
       Laisser(representation);
     }
     
-//    inline int Chaine::length() const {
-//      return representation->len();
-//    }
-//    
 
  
     inline EntierPositif Chaine::Longueur() const {
@@ -265,49 +241,11 @@ namespace ProjetUnivers {
       return *this;
     }
     
-//    inline Chaine &Chaine::operator = (const char *_s) {
-//      if (*_s) {
-//        Implantation::TamponChaine *p_new_rep = new Implantation::TamponChaine(_s);
-//        Laisser(representation);
-//        representation = p_new_rep;
-//      }
-//      else {
-//        Laisser(representation);
-//        representation = Prendre(&chaineVide);
-//      }
-//      return *this;
-//    }
-    
-//    inline Chaine &Chaine::operator = (char _c) {
-//      Laisser(representation);
-//      representation = new Implantation::TamponChaine(_c);
-//      return *this;
-//    }
     
     inline Chaine::operator const char *() const {
       return (const char *)*representation;
     }
     
-//    inline Chaine::operator char *() {
-//      return (char *)*representation;
-//    }
-    
-//    inline char Chaine::operator [] (int _pos) const {
-//      return _pos < length() ? (operator const char *())[_pos] : '\0';    
-//    }
-//    
-//    inline char &Chaine::operator [] (int _pos) {
-//      if (_pos >= length()) {
-//        Implantation::TamponChaine *p_new_rep = new Implantation::TamponChaine(*representation, _pos + 1);
-//        Laisser(representation);
-//        representation = p_new_rep;
-//      }
-//      return (operator char *())[_pos];    
-//    }
-//    
-//    inline Chaine Chaine::operator() (int _pos, int _len) const {
-//      return _pos < len() ? Chaine(operator const char *() + _pos, Minimum(_len, len() - _pos)) : Chaine();
-//    }
     
     
     
@@ -325,21 +263,6 @@ namespace ProjetUnivers {
     
     }
     
-//    inline Chaine &Chaine::append(const Chaine &_s) {
-//      return operator += (_s);
-//    }
-//    
-//    inline Chaine &Chaine::operator += (const char *_s) {
-//      return append(_s, strlen(_s));
-//    }
-//    
-//    inline Chaine &Chaine::append(const char *_s) {
-//      return operator += (_s);
-//    }
-//    
-//    inline Chaine &Chaine::append(char _c) {
-//      return operator += (_c);
-//    }
     
     inline Booleen operator == (const Chaine &_s1, const Chaine &_s2) {
       return (_s1.cmp(_s2) == 0) ;
@@ -378,17 +301,6 @@ namespace ProjetUnivers {
       return _s1.cmp(_s2) > 0;
     }
     
-//    inline Chaine::Chaine(const char *_s1, int _s1_len, const char *_s2, int _s2_len)
-//      : representation(new Implantation::TamponChaine(_s1, _s1_len, _s2, _s2_len))
-//    {}
-//    
-//    inline Chaine::Chaine(const char *_s, int _s_len, char _c)
-//      : representation(new Implantation::TamponChaine(_s, _s_len, _c))
-//    {}
-//    
-//    inline Chaine::Chaine(char _c, const char *_s, int _s_len)
-//      : representation(new Implantation::TamponChaine(_c, _s, _s_len))
-//    {}
     
     inline Chaine operator + (const Chaine &_s1, const Chaine &_s2) {
       
@@ -396,27 +308,6 @@ namespace ProjetUnivers {
       resultat += _s2 ;
       return resultat ;
     }
-    
-//    inline Chaine operator + (const Chaine &_s1, const char *_s2) {
-//      return Chaine(_s1, _s1.len() , _s2, strlen(_s2));
-//    }
-//    
-//    inline Chaine operator + (const char *_s1, const Chaine &_s2) {
-//      return Chaine(_s1, strlen(_s1), _s2, _s2.len());
-//    }
-//    
-//    inline Chaine operator + (const Chaine &_s, char _c) {
-//      return Chaine(_s, _s.len(), _c);
-//    }
-//    
-//    inline Chaine operator + (char _c, const Chaine &_s) {
-//      return Chaine(_c, _s, _s.len());
-//    }
-    
-//    inline Booleen Chaine::contains(const Chaine &_s) const {
-//      return find(_s) != -1;
-//    }
-    
 
     
     inline Chaine::Chaine(short _val)

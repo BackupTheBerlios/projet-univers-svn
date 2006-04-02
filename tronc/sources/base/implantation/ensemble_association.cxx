@@ -28,7 +28,7 @@ namespace ProjetUnivers {
   namespace Base {
 
     
-    template <typename OBJET> EnsembleAssociation<OBJET>::EnsembleAssociation<OBJET>()
+    template <typename OBJET> EnsembleAssociation<OBJET>::EnsembleAssociation()
     : tampon(new Implantation::TamponEnsembleAssociation<OBJET>())
     {}
     

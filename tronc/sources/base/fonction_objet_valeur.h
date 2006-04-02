@@ -18,8 +18,10 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
  
-#ifndef FONCTION_OBJET_VALEUR_H
-#define FONCTION_OBJET_VALEUR_H
+#ifndef _BASE_FONCTION_OBJET_VALEUR_H_
+#define _BASE_FONCTION_OBJET_VALEUR_H_
+
+#include <map>
 
 
 #include <base/association.h>
@@ -33,16 +35,16 @@ namespace ProjetUnivers {
     
     
     ///  Une fonction qui associe un élément de VALEUR à un élément de OBJET. 
-    ///  OBJET doit être une classe d'objets et VALEUR une classe de valeurs.
+    /*!  
+      OBJET doit être une classe d'objets et VALEUR une classe de valeurs.
     
-    /// \ todo
-    ///   A réaliser et tester
-    template <class OBJET, class VALEUR > class FonctionObjetValeur {
+      @todo
+        A réaliser et tester
+    */
+    template <class OBJET, typename VALEUR > class FonctionObjetValeur {
     public:
     
-      // *************************
       /// @name Construction
-      // *************************      
       // @{      
     
     
@@ -54,17 +56,17 @@ namespace ProjetUnivers {
     
       // @}
             
-      // *************************
       /// @name Modification
-      // *************************      
       // @{      
     
       /// Ajoute un élément identifié par le nom du paramètre.
-      void ajoute(const Association< OBJET >&, const VALEUR&) ;
+      void Ajouter(const Association<OBJET>&, const VALEUR&) ;
     
-      /// Modifie l'élément associé au paramètre de type OBJET. Si l'élément
-      // n'existe pas alors cela a l'effet de add.
-      void change(const Association< OBJET >&, const VALEUR&) ;
+      /// Modifie l'élément associé au paramètre de type OBJET. 
+      /*!
+        Si l'élément n'existe pas alors cela a l'effet de Ajouter.
+      */
+      void Changer(const Association<OBJET>&, const VALEUR&) ;
     
       // @}
           
@@ -75,34 +77,25 @@ namespace ProjetUnivers {
       // @{      
     
       /// Accès à un élément en fonction de l'identifiant.
-      VALEUR acces(const Association< OBJET >&) const ;
+      VALEUR Acces(const Association<OBJET>&) const ;
     
       /// Opérateur de comparaison
-    	Booleen operator==(const FonctionObjetValeur< OBJET,VALEUR >& _right) const ;
+    	Booleen operator==(const FonctionObjetValeur<OBJET,VALEUR>& _right) const ;
     
       // @}
     
     private:
     
     
-    
-      ////////////////////
-      // Données stokées dans un tableau de listes.
-      //ObValueArray< ObValueList< ObValuePair< String, VALEUR > > > dictionaire ;
-    
-      ///////////////////
-      // Fonction de hashage.
-      //static UnsignedInteger hashFonction(const String&) ;
-    
-      //friend class ObValueDictionaryIterator< OBJET,VALEUR> ;
+      std::map<OBJET*,VALEUR> fonction ;
+      
     
     };
-    
-#include <base/implantation/fonction_objet_valeur.cxx>
 
   }
 }
 
+#include <base/implantation/fonction_objet_valeur.cxx>
 
 
 #endif

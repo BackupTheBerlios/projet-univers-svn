@@ -23,6 +23,7 @@
 #ifndef _PU_BASE_FONCTION_COMPOSITION_VALEUR_OBJET_H_
 #define _PU_BASE_FONCTION_COMPOSITION_VALEUR_OBJET_H_
 
+#include <map>
 
 #include <base/association.h>
 
@@ -31,64 +32,70 @@ namespace ProjetUnivers {
 
   namespace Base {
 
-    ///  Une fonction, au sens mathématique, qui associe à tout élément de VALEUR 
-    ///  un élément de OBJET. 
+    ///  Une fonction de Valeur vers Objet en composition.
       
-    ///  VALEUR doit être une classe de valeur, et OBJET une classe d'objet. 
-    ///  
-    ///  Cette fonction est en composition : lorsqu'elle est detruite, les 
-    ///  éléments de OBJET le sont aussi.
-    template <class VALEUR, class OBJET > 
+    /*!
+      Valeur doit être une classe de valeur, et ObjetT une classe d'objet. 
+
+      Cette fonction est en composition : lorsqu'elle est detruite, les 
+      éléments de Objet le sont aussi.
+    */
+    template <typename Valeur, class Objet > 
               class FonctionCompositionValeurObjet {
     public:
     
-      // *************************
       /// @name Construction
-      // *************************      
       // @{      
     
     
       /// Constructeur.
       FonctionCompositionValeurObjet() ; 
 
+      /// Destructeur.
+      ~FonctionCompositionValeurObjet() ; 
+
+
       /// Ajoute un élément.
-      void Ajouter(const VALEUR& , const OBJET*) ;
+      void Ajouter(const Valeur& , const Objet*) ;
     
       /// Modifie l'élément associé à VALEUR. Si l'élément
       /// n'existe pas dans la fonction alors cela a l'effet de add.
-      void Modifier(const VALEUR&, const OBJET&) ;
+      void Modifier(const Valeur&, const Objet*) ;
+
+      /// Libère et enlève l'image de @c _element.
+      Objet* Liberer(const Valeur& _element) ;
+      Objet* Enlever(const Valeur& _element) ;
+    
     
       // @}
-    
-
-      // *************************
       /// @name Accès
-      // *************************      
       // @{      
     
 
       /// Accès à un élément en fonction de l'identifiant.
-      Association< OBJET > Image(const VALEUR&) const ;
+      Association< Objet >  operator[](const Valeur&) const ;
+      Association< Objet > Image(const Valeur&) const ;
     
       /// Opérateur de comparaison
     	Booleen operator==(
-        const FonctionCompositionValeurObjet< VALEUR, OBJET >& _right) 
+        const FonctionCompositionValeurObjet<Valeur,Objet >& _right) 
         const ;
     
       // @}
+
+
     private:
     
+      std::map<Valeur,Objet*> fonction ;
     
     
     
     };
-    
-    #include <base/implantation/fonction_composition_valeur_objet.cxx>
-
 
   }
 }
 
+#include <base/implantation/fonction_composition_valeur_objet.cxx>
 
 
 #endif

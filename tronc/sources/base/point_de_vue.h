@@ -24,15 +24,12 @@
 #include <base/association.h>
 #include <base/ensemble_composition.h>
 #include <base/ensemble_association.h>
+#include <base/implantation/base_vue.h>
 
 namespace ProjetUnivers {
 
   namespace Base {
     
-    namespace Implantation
-    {
-      class BaseVue ;
-    }
     
 
     /// Un point de vue est une observation cohérente d'un modèle de données.
@@ -70,6 +67,11 @@ namespace ProjetUnivers {
       /// Constructeur.
       PointDeVue() ;
 
+      /// Destructeur.
+      virtual ~PointDeVue()
+      {}
+
+
       /// Ajoute une vue.
       void Ajouter(Implantation::BaseVue* _vue) ;
 
@@ -77,7 +79,6 @@ namespace ProjetUnivers {
       void Enlever(const Association<Implantation::BaseVue>& _vue) ;
 
       // @}
-
       /*!
         @name Utilisation
         

@@ -29,7 +29,7 @@ namespace ProjetUnivers {
   namespace Base {
 
    
-    /// Une agrégation.
+    /// Une agrégation, ou composition faible.
     /*!
     Une agrégation est une relation entre un tout et ses parties mais qui, 
     contrairement à la composition, permet de partager ses parties.

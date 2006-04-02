@@ -126,8 +126,10 @@ namespace ProjetUnivers {
         /// Chaîne proprement dite.
         std::string chaine ;
         
-        
-        friend class Chaine ;
+        /*!
+          Chemin complet pour gcc 4
+        */
+        friend class ::ProjetUnivers::Base::Chaine ;
 
       };
 

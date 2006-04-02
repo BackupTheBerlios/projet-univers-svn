@@ -29,6 +29,7 @@ namespace ProjetUnivers {
   namespace Base {
 
     template <class OBJET> class Composition ;
+    template <class OBJET, typename VALEUR> class FonctionObjetValeur ;
     
    
     /// Association d'un élément d'une classe d'objets.  
@@ -68,7 +69,7 @@ namespace ProjetUnivers {
  
       /// Conversion depuis un autre type.
       template <class OBJET2> Association(const Association<OBJET2>& _x)
-      : pt(_x.pt)
+      : pt((OBJET*)_x.pt)
       {}
 
       /// Conversion depuis un autre type.
@@ -187,9 +188,9 @@ namespace ProjetUnivers {
     
       // @}
       
-      template<class Y> friend class Association ;
-      template<class Y> friend class Composition ;
-      
+      template<class ANY> friend class Association ;
+      template<class ANY> friend class Composition ;
+      template <class ANY,typename VALEUR> friend class FonctionObjetValeur ;
     };
   }
 }
