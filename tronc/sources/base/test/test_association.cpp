@@ -40,6 +40,13 @@ namespace ProjetUnivers {
   
         class Enfant : public Parent
         {};
+        
+        void FonctionEnfant(const Association<Enfant>& _enfant)
+        {}
+          
+        void FonctionParent(const Association<Parent>& _parent)
+        {}
+        
       }
             
       void TestAssociation::testConversionImplicite() {
@@ -55,6 +62,10 @@ namespace ProjetUnivers {
         
         CPPUNIT_ASSERT(parent == enfantAssociation) ;
         CPPUNIT_ASSERT(parent == parent3) ;
+       
+        FonctionEnfant(enfant) ;
+        FonctionParent(enfant) ;
+        
         
       }
       

@@ -37,7 +37,7 @@ namespace ProjetUnivers {
     
     ////////////////
     // fonction locale d'affichage de indentation espaces
-    Chaine afficheEspaces() {
+    Chaine AfficheEspaces() {
     
       Chaine resultat ;
     
@@ -48,31 +48,47 @@ namespace ProjetUnivers {
     
       return resultat ;
     }
+
+    void AugmenteIndentation()
+    {
+      // on accroit l'indentation
+      indentation = indentation + tabulation ;
+    }
     
+    /// Diminue l'indentation
+    void DiminueIndentation()
+    {
+        // on décroit l'indentation
+      if (indentation >= tabulation)
+      {    
+       indentation = indentation - tabulation ;
+      }
+      else
+      {
+        indentation = 0 ;
+      }      
+      
+    }
     
     Chaine FinDeLigne()
     {
-      return "\n" + afficheEspaces() ;
+      return "\n" ;
+    }
+    
+    Chaine FinDeLigneEtIndente()
+    {
+      return "\n" + AfficheEspaces() ;
     }
     
     Chaine FinDeLigneAugmenteIndentation()
     {
-    	// on accroit l'indentation
-      indentation = indentation + tabulation ;
-     
+      AugmenteIndentation() ;
       return FinDeLigne() ;
     }
     
     Chaine FinDeLigneDiminueIndentation()
     {
-    	// on décroit l'indentation
-      if (indentation < tabulation)
-    
-        throw ExceptionBase(
-          "erreur joli affichage : ne peut plus decroitre indentation") ;
-    
-      indentation = indentation - tabulation ;
-     
+      DiminueIndentation() ;
       return FinDeLigne() ;
     
     }

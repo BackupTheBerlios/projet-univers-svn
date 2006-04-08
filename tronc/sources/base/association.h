@@ -23,6 +23,7 @@
 
 
 #include <base/exception_base.h>
+#include <base/derive_de.h>
 
 namespace ProjetUnivers {
 
@@ -43,10 +44,10 @@ namespace ProjetUnivers {
     template <class OBJET> class Association {
     public:
     
-      // *************************
-      /// @name Constructeurs
-      // *************************      
-      // @{  
+    // *************************
+    /// @name Constructeurs
+    // *************************      
+    // @{  
     
     
       /// Constructeur par défaut.
@@ -58,31 +59,27 @@ namespace ProjetUnivers {
       Association(const OBJET& _x)
         : pt((OBJET*)&_x)
       {}
-    
-      /// Constructeur de copie.
-      Association(const Association<OBJET>& _x)
-      : pt(_x.pt)
-      {}
-    	
-      /// Conversion de Composition en Association
-      Association(const Composition<OBJET>& _x) ;
  
       /// Conversion depuis un autre type.
       template <class OBJET2> Association(const Association<OBJET2>& _x)
       : pt((OBJET*)_x.pt)
-      {}
+      {
+        DeriveDe<OBJET2,OBJET>() ;
+      }
 
       /// Conversion depuis un autre type.
       template <class OBJET2> Association(const Composition<OBJET2>& _x)
-      : pt(_x.pt)
-      {}
+      : pt((OBJET*)_x.pt)
+      {
+        DeriveDe<OBJET2,OBJET>() ;      
+      }
 
     
-      // @}
-      // *************************
-      /// @name Opérateurs de déréférenciation
-      // *************************      
-      // @{  
+    // @}
+    // *************************
+    /// @name Opérateurs de déréférenciation
+    // *************************      
+    // @{  
     
     
       /// Vérifie que le pointeur est non NULL avant d'appeler.
@@ -95,29 +92,39 @@ namespace ProjetUnivers {
       }
 
     
-      // @}
-      // *************************
-      /// @name Affectations
-      // *************************      
-      // @{  
+    // @}
+    // *************************
+    /// @name Affectations
+    // *************************      
+    // @{  
     
     
       /// Affectation d'une autre association.
-      Association<OBJET>& operator =(const Association<OBJET>& _r)
+      template <class OBJET2> 
+      Association<OBJET>& operator =(const Association<OBJET2>& _r)
       {
-        pt = _r.pt ;
+        DeriveDe<OBJET2,OBJET>() ;
+        pt = (OBJET*)_r.pt ;
         return *this ;
+        
       }
     
       /// Affectation avec un pointeur d'agregation.
-      Association<OBJET>& operator =(const Composition<OBJET>& _x) ;
+      template <class OBJET2> 
+      Association<OBJET>& operator =(const Composition<OBJET2>& _x)
+      {
+        DeriveDe<OBJET2,OBJET>() ;
+        pt = (OBJET*)_x.pt ;
+        return *this ;
+        
+      }
      
       
-      // @}
-      // *************************
-      /// @name Comparaisons
-      // *************************      
-      // @{  
+    // @}
+    // *************************
+    /// @name Comparaisons
+    // *************************      
+    // @{  
     
 
       /// Egalité avec une autre association.
@@ -165,7 +172,7 @@ namespace ProjetUnivers {
       /// Comparaison avec une agrégation.
       Booleen operator != (const Composition<OBJET>& _x) const ;
     
-      // @}
+    // @}
     private:
     
     

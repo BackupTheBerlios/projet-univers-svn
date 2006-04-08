@@ -13,6 +13,7 @@ libbase_a_SOURCES = \
 ../implantation/ensemble_valeur.cpp \
 ../implantation/exception_base.cpp \
 ../implantation/exception.cpp \
+../implantation/fonction_association_objet_objet.cpp \
 ../implantation/fonction_association_valeur_objet.cpp \
 ../implantation/fonction_composition_valeur_objet.cpp \
 ../implantation/fonction_objet_valeur.cpp \
@@ -50,6 +51,7 @@ test_base_SOURCES = ../test/test_base.cpp \
 ../test/test_ensemble_association.cpp \
 ../test/test_ensemble_composition.cpp \
 ../test/test_ensemble_valeur.cpp \
+../test/test_fonction_association_objet_objet.cpp \
 ../test/test_fonction_association_valeur_objet.cpp \
 ../test/test_liste.cpp \
 ../test/test_mvc.cpp 

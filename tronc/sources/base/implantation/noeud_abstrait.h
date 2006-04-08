@@ -33,7 +33,11 @@ namespace ProjetUnivers {
       
         
       ///	Classe de base représentant le chainage des noeuds d'une liste.
-      class NoeudAbstrait {
+      /*!
+        @deprecated
+      */
+      class NoeudAbstrait 
+      {
       public:
 
 

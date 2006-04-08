@@ -36,7 +36,11 @@ namespace ProjetUnivers {
       class NoeudAbstrait ;
       
       ///  Classe de base des listes.
-      class ListeAbstraite {
+      /*!
+        @deprecated
+      */
+      class ListeAbstraite 
+      {
       public:
       
         /// Constructeur par défaut.

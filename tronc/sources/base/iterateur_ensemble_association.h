@@ -30,6 +30,10 @@ namespace ProjetUnivers {
   namespace Base {
 
     template <typename OBJET> class EnsembleAssociation ;
+    namespace Implantation
+    {
+      template <typename OBJET> class TamponEnsembleAssociation ;
+    }
     
     
     /// Itérateur sur les ensemble en association.
@@ -47,11 +51,11 @@ namespace ProjetUnivers {
       void operator --() ;
     
 
-      // @}
-      // ***********************
-      /// @name Méthodes d'accès
-      // ***********************
-      // @{
+    // @}
+    // ***********************
+    /// @name Méthodes d'accès
+    // ***********************
+    // @{
 
       /// Dit si l'itérateur est valide.
       Booleen Valide() const ;      
@@ -69,7 +73,7 @@ namespace ProjetUnivers {
       Association<OBJET> operator *() const ;
 
     
-      // @}
+    // @}
 
     private:
     

@@ -27,7 +27,7 @@ namespace ProjetUnivers {
     namespace Implantation {
         
       NoeudAbstrait::NoeudAbstrait()
-        :suivant(NULL),precedent(NULL)
+        :suivant(),precedent()
       {}
       
       NoeudAbstrait::~NoeudAbstrait()

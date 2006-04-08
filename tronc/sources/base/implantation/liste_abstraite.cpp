@@ -29,7 +29,7 @@ namespace ProjetUnivers {
     namespace Implantation {
         
       ListeAbstraite::ListeAbstraite()
-        :premierNoeud(NULL),dernierNoeud(NULL),nombreDElements(0)
+        :premierNoeud(),dernierNoeud(),nombreDElements(0)
       {}
       
       ListeAbstraite::~ListeAbstraite() 

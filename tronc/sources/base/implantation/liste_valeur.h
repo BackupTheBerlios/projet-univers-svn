@@ -35,7 +35,10 @@ namespace ProjetUnivers {
       template <typename VALEUR> class IterateurListeValeur ;
       
       /// Une liste d'objets d'une classe de valeur.
-      
+      /*!
+        @todo 
+          remplacer l'implantation
+      */
       template <typename VALEUR> class ListeValeur 
       {
       public:

@@ -35,7 +35,7 @@ namespace ProjetUnivers {
     namespace Test {
       
       
-      ///  Classe permettant de tester la classe des ensemble en composition.
+      ///  Test de Base::TestFonctionAssociationValeurObjet.
       class TestFonctionAssociationValeurObjet : public CppUnit::TestFixture {
       protected:
       
@@ -66,10 +66,6 @@ namespace ProjetUnivers {
         CPPUNIT_TEST_SUITE_END() ;
       
       public:
- #ifndef TEST_FONCTION_ASSOCIATION_VALEUR_OBJET_H_
-#define TEST_FONCTION_ASSOCIATION_VALEUR_OBJET_H_
-
-#endif /*TEST_FONCTION_ASSOCIATION_VALEUR_OBJET_H_*/
       
         // *******************************************
         // GROUP: Initialisation et femeture des tests

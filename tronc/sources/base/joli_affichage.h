@@ -19,8 +19,8 @@
  ***************************************************************************/
 
 
-#ifndef _JOLI_AFFICHAGE_
-#define _JOLI_AFFICHAGE_
+#ifndef _PU_BASE_JOLI_AFFICHAGE_
+#define _PU_BASE_JOLI_AFFICHAGE_
 
 
 
@@ -30,20 +30,49 @@ namespace ProjetUnivers {
 
   namespace Base {
     
-    /// @name Affichage avec indentation
-    // @{
+  /*!
+    @name Affichage avec indentation
+    
+    @par Utilisation Utilisation
+    
+    
+
+  */
+  // @{
     
     /// Passe à la ligne suivante
+    /*!
+      conserve l'indentation actuelle.
+    */
+    Chaine FinDeLigneEtIndente() ;
+
+    /// Passe à la ligne suivante
+    /*!
+      N'indente pas.
+    */
     Chaine FinDeLigne() ;
+
+    /// Augmente l'indentation
+    void AugmenteIndentation() ;
     
+    /// Diminue l'indentation
+    void DiminueIndentation() ;
+
+    /// Affichage des espaces.
+    Chaine AfficheEspaces() ;
+
     /// Passe à la ligne suivante, augmente l'indentation
     Chaine FinDeLigneAugmenteIndentation() ;
     
     /// Passe à la ligne suivante, diminue l'indentation
     Chaine FinDeLigneDiminueIndentation() ;
 
-    // @}
+  // @}
+
+    
+
+
   }
 }
 
-#endif // _JOLI_AFFICHAGE_
+#endif 

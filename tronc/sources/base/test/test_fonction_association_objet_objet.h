@@ -17,60 +17,74 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+
+
+#ifndef _PU_BASE_TEST_FONCTION_ASSOCIATION_OBJET_OBJET_H_
+#define _PU_BASE_TEST_FONCTION_ASSOCIATION_OBJET_OBJET_H_
+
+
+#include <cppunit/extensions/HelperMacros.h>
+
+
+
 namespace ProjetUnivers {
 
   namespace Base {
-
-      template <typename OBJET> 
-      IterateurEnsembleAssociation<OBJET>::IterateurEnsembleAssociation
-      (const EnsembleAssociation<OBJET>& _l)
-        : tampon(_l.tampon->Prendre()), iterateur(_l.tampon->ensemble.begin())
-      {}
-    
-      template <typename OBJET> 
-      void IterateurEnsembleAssociation<OBJET>::operator ++()
-      {
-        ++iterateur ;
-      }
-    
-      template <typename OBJET> 
-      void IterateurEnsembleAssociation<OBJET>::operator --()
-      {
-        --iterateur ;
-      }
-            
-      template <typename OBJET> 
-      Booleen IterateurEnsembleAssociation<OBJET>::Valide() const
-      {
-        return iterateur != tampon->ensemble.end() ;
-      }
+  
+    namespace Test {
       
-      template <typename OBJET> 
-      IterateurEnsembleAssociation<OBJET>::operator Association<OBJET>()
-      {
-        return (*iterateur) ;
-      }
-    
-      template <typename OBJET> 
-      IterateurEnsembleAssociation<OBJET>::operator const OBJET&()
-      {
-        return **iterateur ;
-      }
-     
-      template <typename OBJET> 
-      OBJET* IterateurEnsembleAssociation<OBJET>::operator ->() const 
-      {
-        return (*iterateur) ;
-      }
-
-      template <typename OBJET> 
-      Association<OBJET> IterateurEnsembleAssociation<OBJET>::operator *() const 
-      {
-        return **iterateur ;
-      }
-    
-    
-
-    
+      
+      ///  Test de Base::FonctionAssociationObjetObjet.
+      class TestFonctionAssociationObjetObjet : public CppUnit::TestFixture {
+      protected:
+      
+        
+        // ****************************
+        // GROUP: Tests proprement dits
+        // ****************************
+      
+        
+        /// Teste l'ajout d'un élément
+        void testAjouter();
+      
+        /// Teste l'ensemble vide
+        void testVide();
+        
+      
+      
+        // *******************************
+        // GROUP: Enregistrement des tests
+        // *******************************
+      
+      
+        CPPUNIT_TEST_SUITE(TestFonctionAssociationObjetObjet) ;
+      
+        CPPUNIT_TEST(testAjouter) ;
+        CPPUNIT_TEST(testVide) ;
+      
+        CPPUNIT_TEST_SUITE_END() ;
+      
+      public:
+      
+        // *******************************************
+        // GROUP: Initialisation et femeture des tests
+        // *******************************************
+        
+      
+        ///////////////
+        // Initialisation du test
+        void setUp() ;
+      
+        ///////////////
+        // Desinitialisation du test
+        void tearDown() ;
+      
+      
+       
+      };
+    }
   }
 }
+
+
+#endif

@@ -17,60 +17,62 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+
+#include <base/composition.h>
+#include <base/test/test_fonction_association_objet_objet.h>
+#include <base/fonction_association_objet_objet.h>
+
+// enregistrement du test
+CPPUNIT_TEST_SUITE_REGISTRATION(
+  ProjetUnivers::Base::Test::TestFonctionAssociationObjetObjet) ;
+
+
 namespace ProjetUnivers {
 
   namespace Base {
+  
+    namespace Test {
 
-      template <typename OBJET> 
-      IterateurEnsembleAssociation<OBJET>::IterateurEnsembleAssociation
-      (const EnsembleAssociation<OBJET>& _l)
-        : tampon(_l.tampon->Prendre()), iterateur(_l.tampon->ensemble.begin())
+
+      namespace
+      {
+        class ClasseObjet
+        {};
+      }
+
+
+
+      void TestFonctionAssociationObjetObjet::testAjouter() 
+      {
+        Base::Composition<ClasseObjet> objet(new ClasseObjet()) ;
+        FonctionAssociationObjetObjet<ClasseObjet,ClasseObjet> fonction ;
+
+        fonction.Ajouter(objet,objet) ;
+        CPPUNIT_ASSERT(fonction.Acces(objet) == objet) ;        
+        
+        
+
+      }
+
+      
+      void TestFonctionAssociationObjetObjet::testVide() 
+      {
+        FonctionAssociationObjetObjet<ClasseObjet,ClasseObjet> fonction ;
+        Base::Composition<ClasseObjet> objet(new ClasseObjet()) ;
+        CPPUNIT_ASSERT(fonction.Acces(objet) == NULL) ;        
+
+      }
+
+ 
+      void TestFonctionAssociationObjetObjet::setUp() 
       {}
     
-      template <typename OBJET> 
-      void IterateurEnsembleAssociation<OBJET>::operator ++()
-      {
-        ++iterateur ;
-      }
-    
-      template <typename OBJET> 
-      void IterateurEnsembleAssociation<OBJET>::operator --()
-      {
-        --iterateur ;
-      }
-            
-      template <typename OBJET> 
-      Booleen IterateurEnsembleAssociation<OBJET>::Valide() const
-      {
-        return iterateur != tampon->ensemble.end() ;
-      }
-      
-      template <typename OBJET> 
-      IterateurEnsembleAssociation<OBJET>::operator Association<OBJET>()
-      {
-        return (*iterateur) ;
-      }
-    
-      template <typename OBJET> 
-      IterateurEnsembleAssociation<OBJET>::operator const OBJET&()
-      {
-        return **iterateur ;
-      }
-     
-      template <typename OBJET> 
-      OBJET* IterateurEnsembleAssociation<OBJET>::operator ->() const 
-      {
-        return (*iterateur) ;
-      }
+      void TestFonctionAssociationObjetObjet::tearDown() 
+      {}
 
-      template <typename OBJET> 
-      Association<OBJET> IterateurEnsembleAssociation<OBJET>::operator *() const 
-      {
-        return **iterateur ;
-      }
-    
-    
 
-    
+
+    }
   }
 }
+
