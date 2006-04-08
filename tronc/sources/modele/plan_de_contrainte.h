@@ -17,77 +17,65 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#ifndef _PU_MODELE_PLAN_DE_CONTRAINTE_H_
+#define _PU_MODELE_PLAN_DE_CONTRAINTE_H_
 
-#ifndef _PU_MODELE_NOM_H_
-#define _PU_MODELE_NOM_H_
 
-#include <base/types.h>
-#include <base/chaine.h>
+#include <base/association.h>
 
+#include <modele/objet.h>
 
 namespace ProjetUnivers {
 
   namespace Modele {
-
-      
-    /// Un nom.
-    
+ 
+    class PlanDePointDAttache ;
+ 
+    /// Liaison entre deux points d'attache dans un plan d'assemblage.
     /*!
-      Cette classe de valeur est un exemple de ce qu'il faut préférer. Au lieu 
-      de dire "un nom est une chaine" et utiliser une chaine partout où on veut 
-      un nom, on a définit une classe des noms et on la réalise avec une chaine 
-      sachant que plus tard, on pourra faire autrement.
-      
-      @todo
-        ajouter 
+
     */
-    class Nom
+    class PlanDeContrainte : public Objet
     {
     public:
-
-      /// Constructeur par défaut.
+      
+      /// Les différents types de contraintes
       /*!
-        Construit le nom indéfini.
-      */
-      Nom() ;
-      
-      
-      Nom(const Base::Chaine&) ;
-      
-      /// Constructeur de copie.
-      Nom(const Nom&) ;
-    
-      /// Conversion vers une chaine pour l'affichage.
-      operator Base::Chaine() const ; 
-    
-      /// Operateur d'affectation.
-      Nom& operator=(const Base::Chaine&) ;
-      Nom& operator=(const Nom&) ;
-      
-      /// Operateurs de comparaison
-      Base::Booleen operator==(const Base::Chaine&) const ;
-      Base::Booleen operator==(const Nom&) const ;
-      Base::Booleen operator!=(const Nom&) const ;
-    
-      /// Vrai si le nom n'en est pas un.
-      /*!
-        C'est le nom de ce qui n'a pas de nom.
-      */
-      Base::Booleen EstIndefini() const ;
-    
-    
-    private:
-    
-      /// Pour l'instant une simple chaine
-      /*!
-        @todo
-          Un nom peut varier d'une langue à l'autre :
-          implanter à l'aide d'une fonction des langues vers les chaines
         
       */
-      Base::Chaine nom ;
+      typedef enum
+      {
+        /// Pour une liaison rigide.
+        Rigide,
+        
+        /// Pour une liaison souple
+        Souple
+        
+      } TypeDeContrainte ;
+      
+      
+      /// Construit une contrainte entre deux plans de points d'attache.
+      PlanDeContrainte(const Base::Association<PlanDePointDAttache>&,
+                       const Base::Association<PlanDePointDAttache>&,
+                       const TypeDeContrainte&) ;
+
+      Base::Association<PlanDePointDAttache> AccesPlanDePointDAttache1() const ;
+      Base::Association<PlanDePointDAttache> AccesPlanDePointDAttache2() const ;
+
+      /// Chaine représentant une référence à l'objet.
+      virtual Base::Chaine AfficherReference() const ;
+      
+      /// Chaine représentant la définition de l'objet.      
+      virtual Base::Chaine AfficherDefinition() const ;
+                       
+    private:
+    
+      Base::Association<PlanDePointDAttache> planDePointDAttache1 ;
+      Base::Association<PlanDePointDAttache> planDePointDAttache2 ;
+      TypeDeContrainte typeDeContrainte ;
       
     };
   }
 }
+
 #endif

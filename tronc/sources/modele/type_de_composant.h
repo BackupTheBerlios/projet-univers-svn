@@ -30,7 +30,7 @@
 #include <modele/nom.h>
 #include <modele/energie.h>
 #include <modele/masse.h>
-
+#include <modele/simulateur.h>
 
 namespace ProjetUnivers {
 
@@ -42,6 +42,7 @@ namespace ProjetUnivers {
     /// Représente le type d'un composant.
     
     /*!
+      @deprecated
       
       Un Composant représente une instance réélle d'un TypeDeComposant. C'est 
       la même différence qu'entre une voiture donnée (la mienne par exemple) et 
@@ -51,7 +52,7 @@ namespace ProjetUnivers {
       - Objet
       - Abstrait
     */
-    class TypeDeComposant : public ObjetAbstrait
+    class TypeDeComposant : public ObjetAbstrait , public Simulateur<Composant>
     {
     public:
 
@@ -84,7 +85,7 @@ namespace ProjetUnivers {
                                            EtatTypeDeComposant> etats ;
 
 
-      // ->dans état
+      /// @todo mettre dans état...???
       /// Points de vie du composant neuf.
       Energie resistance ;
       

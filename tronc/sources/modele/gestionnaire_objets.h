@@ -22,6 +22,7 @@
 #define _PU_MODELE_GESTIONNAIRE_OBJET_H_
 
 #include <base/ensemble_composition.h>
+#include <base/chaine.h>
 
 
 
@@ -49,22 +50,22 @@ namespace ProjetUnivers {
     */
     namespace GestionnaireObjets {
       
-      // ******************************************************
-      /*!
-        @name Opération sur les objets
-        
-        On peut 
-        - ajouter une contrainte entre 2 objets (Assembler)
-        - supprimer une contriante entre 2 objets (Desassembler)
-        - détruire un objet (Detruire)
-        - construire une objet
-      */
-      // ******************************************************
-      // @{
+    // ******************************************************
+    /*!
+      @name Opération sur les objets
+      
+      On peut 
+      - ajouter une contrainte entre 2 objets (Assembler)
+      - supprimer une contriante entre 2 objets (Desassembler)
+      - détruire un objet (Detruire)
+      - construire une objet
+    */
+    // ******************************************************
+    // @{
 
       
       /// Enregistre l'objet dans le gestionnaire.
-      void Ajouter(Objet*) ;
+      Base::Association<Objet> Ajouter(Objet*) ;
       
       /// Retire l'objet du gestionnaire.
       /*!
@@ -82,16 +83,18 @@ namespace ProjetUnivers {
       */
 //      Base::Association<Objet> 
 //          CreerInstance(const Base::Association<EnsembleDObjet>&) ;
+
+      /// Affiche l'état du gestionnaire.
+      Base::Chaine AfficherObjets() ;
       
-      // @}
+    // @}
+    // *************************************
+    /*!
+      @name Opération sur les types d'objets
       
-      // *************************************
-      /*!
-        @name Opération sur les types d'objets
-        
-      */
-      // *************************************
-      // @{
+    */
+    // *************************************
+    // @{
 
 
       /// Enregistre un type de contrainte.
@@ -101,7 +104,7 @@ namespace ProjetUnivers {
 //      void Ajouter(TypeObjet*) ;
                              
       
-      // @}
+    // @}
       
             
     }

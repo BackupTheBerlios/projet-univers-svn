@@ -18,58 +18,21 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_MODELE_TYPE_OBJET_H_
-#define _PU_MODELE_TYPE_OBJET_H_
 
-#include <base/association.h>
 
-#include <modele/nom.h>
-
+#include <modele/exception.h>
 
 namespace ProjetUnivers {
 
   namespace Modele {
 
-    class Groupe ;
-    
-    
-    /// Un emsemble d'objets.
-    /*!
-      @deprecated
- 
-      @par Type de classe
-      - Abstraite
-      - Objet
-    
-    */
-    class TypeObjet {
-    public:
-    
-      /// Le nom du type.
-      Nom AccesNom() const ;
-    
-      /// Destructeur de classe abstraite.
-      virtual ~TypeObjet() ;  
-      
-    protected:
-      
-      /// Constructeur de classe abstraite.
-      TypeObjet(const Nom&) ;
-      
-      Nom nom ;
-      
-      
-      /// pas sûr ???
-      /*!
-        Dans la perspective d'un "tout objet", donc notre propre modèle de 
-        données, il convient peut être de mettre un Objet, ayant la propriété 
-        d'être un constructeur de pièces.
-      */
-      // Base::Association<Groupe> constructeur ;
-      
-    };
+
+    Exception::Exception(const Base::Chaine&)
+    {}
+
+    Exception::~Exception()
+    {}
 
   }
 }
 
-#endif /*_PU_MODELE_TYPE_OBJET_H_*/

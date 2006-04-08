@@ -24,7 +24,7 @@
 #include <base/association.h>
 #include <base/types.h>
 
-#include <modele/bien.h>
+#include <modele/mobile.h>
 #include <modele/destructible.h>
 
 
@@ -33,55 +33,51 @@ namespace ProjetUnivers {
   namespace Modele {
     
     
-      
+    
+    class PlanDeComposant ;
+    class PointDAttache ;
+    class PlanDePointDAttache ;
+    
     ///  Représente un composant d'un vaisseau.
     
     /*!
-      Type de classe
+      @par Type de classe
       - Objet
       - Concret
+      
     */
-    class Composant : public Bien, public Destructible
+    class Composant : public Mobile, public Destructible
     {
     public:
 
-      /// Les différents types de composant.
-      typedef enum {
-        Coque
-      } TypeDeComposant ;
 
+      /// Construit un composant selon un plan.
+      Composant(const Base::Association<PlanDeComposant>&) ;
+      Composant(const Nom&, const Base::Association<PlanDeComposant>&) ;
 
-      /// Le type du composant.
-//      virtual Base::Association<TypeDeComposant> AccesType() const = 0 ;
-
-    
-    
-  	
-
-      /// Classe abstraite donc constructeur protégé.
-      Composant(const TypeDeComposant& _type) ;
-
+      /// Accès à un point d'attache en fonction de son plan.
+      Base::Association<PointDAttache> 
+        AccesPointDAttache(const Base::Association<PlanDePointDAttache>&) const ;
 
     private:
     
-      /*! @name Attributs
-      */
+    /*! 
+      @name Attributs
+    */
+    // @{
       
+      /// Le plan de construction du composant.
+      Base::Association<PlanDeComposant> plan ;
       
-      /// Pourcentage d'état de marche du composant.
-      
+      /// Les points d'attaches actifs.
       /*!
-        Un entier entre 0 et 100.
-        
-        @deprecated
-          dépend des dégats subits ?
+        Cet ensemble diminue avec l'augmentation des dégats du composant, 
+        conformément aux informations de this->plan.
       */
-      Base::Entier pourcentageEtatDeMarche ;
-      
-      /// Type du composant.
-      TypeDeComposant type ;
+      Base::EnsembleAssociation<PointDAttache> pointsDAttaches ;
       
       
+    // @}
       
       
     };

@@ -28,13 +28,13 @@ namespace ProjetUnivers {
 
     
       
-    Base::Reel Destructible::PourcentagePointsDeVie() const 
+    Base::Entier Destructible::PourcentagePointsDeVie() const 
     {
-      return pointsDeVieActuel/pointsDeVieTotal ;
+      return (Base::Entier)(pointsDeVieActuel/pointsDeVieTotal) ;
     }
    
     
-    void Destructible::SubirDegats(const Energie& _energie)
+    void Destructible::FaireSubirDegats(const Energie& _energie)
     {
 
       pointsDeVieActuel = pointsDeVieActuel - _energie ;
@@ -48,7 +48,9 @@ namespace ProjetUnivers {
     {}
     
     Destructible::Destructible(const Energie& _pointsDeVieTotal)
-    : pointsDeVieTotal(_pointsDeVieTotal), pointsDeVieActuel(_pointsDeVieTotal)
+    : Objet(),
+      pointsDeVieTotal(_pointsDeVieTotal), 
+      pointsDeVieActuel(_pointsDeVieTotal)
     {}
       
 

@@ -19,7 +19,7 @@
  ***************************************************************************/
 
 #include <modele/position.h>
-#include <modele/objet.h>
+#include <modele/positionne.h>
 
 namespace ProjetUnivers {
 
@@ -29,7 +29,7 @@ namespace ProjetUnivers {
 //    Position::Position()
 //    {}
      
-    Position::Position(const Base::Association<Objet>& _origine)
+    Position::Position(const Base::Association<Positionne>& _origine)
     : origine(_origine)
     {
       if (_origine->AccesPosition().origine == _origine)
@@ -50,7 +50,7 @@ namespace ProjetUnivers {
         _nouvelleOrigine et _position.origine possèdent un ancêtre commun.
     */
     Position::Position(const Position& _position, 
-                       const Base::Association<Objet>& _nouvelleOrigine)
+                       const Base::Association<Positionne>& _nouvelleOrigine)
     : origine(_nouvelleOrigine), 
       coordonneeX(),
       coordonneeY(),
@@ -64,7 +64,7 @@ namespace ProjetUnivers {
     }
 
     Position 
-    Position::Relocaliser(const Base::Association<Objet>& _origine) const
+    Position::Relocaliser(const Base::Association<Positionne>& _origine) const
     {
       Position resultat(_origine) ;
       resultat.coordonneeX = coordonneeX ;

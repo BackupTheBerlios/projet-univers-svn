@@ -18,76 +18,77 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <modele/objet.h>
-#include <modele/attribut_inexistant.h>
-#include <modele/valeur.h>
+#include <base/iterateur_ensemble_association.h>
 #include <base/joli_affichage.h>
+#include <modele/plan_de_point_d_attache.h>
+#include <modele/plan_d_etat_de_composant.h>
 
 namespace ProjetUnivers {
 
   namespace Modele {
-
-
     
-    Objet::~Objet()
+    PlanDEtatDeComposant::PlanDEtatDeComposant(
+          const Base::Association<PlanDeComposant>& _planDeComposant)
+    : Objet(), planDeComposant(_planDeComposant)
     {}
-    
-    Objet::Objet()
-    {}
+      
+    void PlanDEtatDeComposant::Ajouter(
+          const Base::Association<PlanDePointDAttache>& _plan)
+    {
+      this->plansDePointsDAttache.Ajouter(_plan) ;
+    }
 
-    Objet::Objet(const Nom& _nom)
-    : nom(_nom)
-    {}
-
-    Base::Chaine Objet::AfficherReference() const
+    Base::Chaine PlanDEtatDeComposant::AfficherReference() const
     {
       Base::Chaine resultat ;
-
+      
       resultat += Base::AfficheEspaces() ;
-      resultat += "<objet nom=\"" ;
-      resultat += nom ;
+      resultat += "<PlanDEtatDeComposant identificateur=\"" ;
+      resultat += identificateur ;
       resultat += "\"/>" ;
       resultat += Base::FinDeLigne() ;
       
-      return resultat ;
+      return resultat ; 
       
     }
     
-    Base::Chaine Objet::AfficherDefinition() const
+    Base::Chaine PlanDEtatDeComposant::AfficherDefinition() const
     {
       Base::Chaine resultat ;
-
+      
       resultat += Base::AfficheEspaces() ;
-      resultat += "<objet nom=\"" ;
+      resultat += "<PlanDEtatDeComposant nom=\"" ;
       resultat += nom ;
-      resultat += "\">" ;
+      resultat += "\" identificateur=" ;
+      resultat += identificateur ;
+      resultat += ">" ;
       resultat += Base::FinDeLigne() ;
-      resultat += Base::AfficheEspaces() + "</objet>" + Base::FinDeLigne() ;
+      Base::AugmenteIndentation() ;
+
+      resultat += Base::AfficheEspaces() + "<plansDePointsDAttache>" ;
+      resultat += Base::FinDeLigne() ;
+      Base::AugmenteIndentation() ;
+      
+      for(Base::IterateurEnsembleAssociation<PlanDePointDAttache> point(this->plansDePointsDAttache) ;
+          point.Valide() ;
+          ++point)
+      {
+        resultat += point->AfficherReference() ;
+      }
+      
+      Base::DiminueIndentation() ;
+      resultat += Base::AfficheEspaces() + "</plansDePointsDAttache>" ;
+      resultat += Base::FinDeLigne() ;
+      
+      Base::DiminueIndentation() ;
+      resultat += Base::AfficheEspaces() + "</PlanDEtatDeComposant>" ;
+      resultat += Base::FinDeLigne() ;
       
       return resultat ;
-      
+ 
     }
 
-
-
-//    Valeur 
-//    Objet::AccesAttributLocal(const Base::Chaine& _nomAttribut) const 
-//    throw(AttributInexistant)
-//    {
-//      
-//      /// recherche dans les attributs codés en dur
-//      if (_nomAttribut == "nom")
-//        return this->nom ;
-//      if (_nomAttribut == "identificateur")
-//        return this->identificateur ;
-//      
-//      /// recherche dans les attributs variables
-//      
-//      /// on n'a pas trouvé
-//      throw AttributInexistant(_nomAttribut) ;
-//    }
-
-
+    
+    
   }
 }
-

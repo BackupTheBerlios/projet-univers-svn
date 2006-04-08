@@ -36,6 +36,9 @@ namespace ProjetUnivers {
     ///  Représente un moteur sur un vaisseau.
     
     /*!
+      @deprecated
+
+
     */
     class Moteur // : public Composant 
     {

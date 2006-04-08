@@ -87,18 +87,18 @@ namespace ProjetUnivers {
   font en sorte que forment un graphe connexe.
 
 
-  @dotfile exemple_objets.dot "Exemple d'assemblage"
+  @dotfile exemple_assemblage.dot "Exemple d'assemblage"
 
   La destruction d'un objet physique peut entrainer la destruction de 
   contraintes (celles où il intervient) et donc la destruction d'un 
   assemblageainsi que l'apparition de nouveaux assemblages; c'est le cas
   lorsqu'un vaisseau se casse en plusieurs morceaux (voir exemple suivant).
   
-  @dotfile exemple_objets_casse.dot "L'exemple précédent cassé en 2"
+  @dotfile exemple_assemblage_casse.dot "L'exemple précédent cassé en 2"
   L'aile 1 a été détruite et est donc désolidarisée du reste, le moteur est 
   intact mais n'est plus relié au vaisseau.
   
-  
+  @dotfile gestion_objet_assemblage.dot
 
   
   

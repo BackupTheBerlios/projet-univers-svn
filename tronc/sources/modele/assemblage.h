@@ -1,4 +1,4 @@
-../***************************************************************************
+/***************************************************************************
  *   Copyright (C) 2004 by Equipe Projet Univers                           *
  *   rogma.boami@free.fr                                                   *
  *                                                                         *
@@ -22,7 +22,8 @@
 #define _PU_MODELE_ASSEMBLAGE_H_
 
 #include <base/ensemble_association.h>
-#include <modele/objet_physique.h>
+
+#include <modele/objet.h>
 
 
 namespace ProjetUnivers {
@@ -30,12 +31,14 @@ namespace ProjetUnivers {
   namespace Modele {
     
     
-    
+    class Contrainte ;
+    class PlanDAssemblage ;
+    class Positionne ;
       
     ///  Un assemblage d'objets.
     
     /*!
-    Un assemblage est le regroupement d'un ensemble d'objets physiques qui sont 
+    Un assemblage est le regroupement d'un ensemble d'objets qui sont 
     physiquement reliés les uns aux autres.
     
     
@@ -58,44 +61,105 @@ namespace ProjetUnivers {
     
       Il convient de considérer des logiciels comme OpenCascade.
       
-    @par Fonctionnement
-    
-    @par Questions
-    
-      Est-ce un objet physique ?
-        - si oui alors un assemblage peut être un élément d'un autre assemblage
-      
+     
     */
-    class Assemblage : public ObjetPhysique
+    class Assemblage : public virtual Objet
     {
     public:
 
+    // ***************************************************
+    /*!
+      @name Méthodes principales
+    */
+    // ***************************************************
+    // @{
+      
+      /// Constructeur.
+      /*!
+        @param[in] _nom Le nom de l'objet
+        @param[in] _plan Le plan décrivant l'assemblage
+      */
+      Assemblage(const Base::Association<PlanDAssemblage>& _plan) ;
+      Assemblage(const Nom& _nom, 
+                 const Base::Association<PlanDAssemblage>& _plan) ;
+
+
+    // @}
+    // *********************************************
+    /*!
+      @name Construction d'un assemblage "à la main"
+
+      @par Cas d'utilisation 1
+      
+      Cela sert classiquement à modifier un assemblage existant pour le 
+      casser.
+
+      @par Cas d'utilisation 2
+      
+      -# Construire un objet avec Assemblage
+      -# Ajouter les objets par AjouterObjet
+      -# Ajouter les conrtaintes par AjouterContrainte
+
+      @remark
+       Cette méthode de construction n'est pas recommandée.
+
+    */
+    // *********************************************
+    // @{
+
       /// Constructeur.
       Assemblage() ;
+      Assemblage(const Nom& _nom) ;
+
 
       /// Ajoute un objet avec une certaine contrainte.
-      void Ajouter(ObjetPhysique* _objet) ;
+      void AjouterObjet(const Base::Association<Positionne>& _objet) ;
 
-      /// Ajoute un objet avec une certaine contrainte.
-      void Ajouter(Contrainte* _liberte) ;
+      /// Ajoute une contrainte entre objets.
+      /*!
+        @pre les objets intervenant dans la contrainte doivent être des objets 
+        de l'assemblage.
+      */
+      void AjouterContrainte(const Base::Association<Contrainte>& _liberte) ;
       
-      /// Enlève l'objet, celui-ci est renvoyé.
-      ObjetPhysique* Enlever(const Base::Association<ObjetPhysique>& _objet) ;
+      /// Enlève un objet.
+      void EnleverObjet(const Base::Association<Objet>& _objet) ;
+      
+      /// Enlève une contrainte.
+      void EnleverContrainte(const Base::Association<Contrainte>& _objet) ;
  
+      
+    // @}
+    /*!
+      @name Affichage
+    */
+    // @{
+    
+      /// Chaine représentant une référence à l'objet.
+      virtual Base::Chaine AfficherReference() const ;
+      
+      /// Chaine représentant la définition de l'objet.      
+      virtual Base::Chaine AfficherDefinition() const ;
+      
+    // @}
+     
+      
+      
     private:
 
       /*!
       @remark
           Les objets ont tous des positions relatives à l'assemblage.
       */
-      Base::EnsembleAssociation<ObjetPhysique> composants ;
+      Base::EnsembleAssociation<Positionne> composants ;
 
       /// Les contraintes entre les composants de l'assemblage.
       /*!
       Chacune des contraintes doit porter sur des objets de composants.
       */
-      Base::EnsembleAssociation<Contrainte> constraintes ;
+      Base::EnsembleAssociation<Contrainte> contraintes ;
 
+      Base::Association<PlanDAssemblage> plan ;
 
     };
     

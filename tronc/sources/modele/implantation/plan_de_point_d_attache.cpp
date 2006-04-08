@@ -18,76 +18,62 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_MODELE_NOM_H_
-#define _PU_MODELE_NOM_H_
-
-#include <base/types.h>
-#include <base/chaine.h>
-
+#include <base/joli_affichage.h>
+#include <modele/plan_de_composant.h>
+#include <modele/plan_de_point_d_attache.h>
 
 namespace ProjetUnivers {
 
   namespace Modele {
+ 
+    PlanDePointDAttache::PlanDePointDAttache(
+      const Base::Association<PlanDeComposant>& _plan)
+    : planDeComposant(_plan)
+    {}
 
-      
-    /// Un nom.
-    
-    /*!
-      Cette classe de valeur est un exemple de ce qu'il faut préférer. Au lieu 
-      de dire "un nom est une chaine" et utiliser une chaine partout où on veut 
-      un nom, on a définit une classe des noms et on la réalise avec une chaine 
-      sachant que plus tard, on pourra faire autrement.
-      
-      @todo
-        ajouter 
-    */
-    class Nom
+
+    Base::Association<PlanDeComposant> 
+    PlanDePointDAttache::AccesPlanDeComposant() const
     {
-    public:
+      return this->planDeComposant ;
+    }
 
-      /// Constructeur par défaut.
-      /*!
-        Construit le nom indéfini.
-      */
-      Nom() ;
+    Base::Chaine PlanDePointDAttache::AfficherReference() const
+    {
+      Base::Chaine resultat ;
       
+      resultat += Base::AfficheEspaces() ;
+      resultat += "<PlanDePointDAttache identificateur=\"" ;
+      resultat += identificateur ;
+      resultat += "\"/>" ;
+      resultat += Base::FinDeLigne() ;
       
-      Nom(const Base::Chaine&) ;
+      return resultat ; 
       
-      /// Constructeur de copie.
-      Nom(const Nom&) ;
+    }
     
-      /// Conversion vers une chaine pour l'affichage.
-      operator Base::Chaine() const ; 
-    
-      /// Operateur d'affectation.
-      Nom& operator=(const Base::Chaine&) ;
-      Nom& operator=(const Nom&) ;
+    Base::Chaine PlanDePointDAttache::AfficherDefinition() const
+    {
+      Base::Chaine resultat ;
       
-      /// Operateurs de comparaison
-      Base::Booleen operator==(const Base::Chaine&) const ;
-      Base::Booleen operator==(const Nom&) const ;
-      Base::Booleen operator!=(const Nom&) const ;
-    
-      /// Vrai si le nom n'en est pas un.
-      /*!
-        C'est le nom de ce qui n'a pas de nom.
-      */
-      Base::Booleen EstIndefini() const ;
-    
-    
-    private:
-    
-      /// Pour l'instant une simple chaine
-      /*!
-        @todo
-          Un nom peut varier d'une langue à l'autre :
-          implanter à l'aide d'une fonction des langues vers les chaines
-        
-      */
-      Base::Chaine nom ;
+      resultat += Base::AfficheEspaces() ;
+      resultat += "<PlanDePointDAttache nom=\"" ;
+      resultat += nom ;
+      resultat += "\" identificateur=" ;
+      resultat += identificateur ;
+      resultat += ">" ;
+      resultat += Base::FinDeLigne() ;
+      Base::AugmenteIndentation() ;
+ 
+      resultat += this->planDeComposant->AfficherReference() ;
+ 
+      Base::DiminueIndentation() ;
+      resultat += Base::AfficheEspaces() + "</PlanDAssemblage>" ;
+      resultat += Base::FinDeLigne() ;
       
-    };
+      return resultat ;
+       
+    }
+ 
   }
 }
-#endif

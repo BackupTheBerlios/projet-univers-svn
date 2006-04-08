@@ -21,75 +21,132 @@
 #ifndef _PU_MODELE_OBJET_H_
 #define _PU_MODELE_OBJET_H_
 
-#include <base/association.h>
-#include <base/modele.h>
+#include <base/chaine.h>
+#include <base/ensemble_association.h>
 
-#include <modele/position.h>
-#include <modele/orientation.h>
+#include <modele/nom.h>
+#include <modele/identificateur.h>
+#include <modele/attribut_inexistant.h>
 
 namespace ProjetUnivers {
 
   namespace Modele {
-
-
-    /// Classe des objets du monde.
+  
+    class EnsembleDObjets ;
+    class Valeur ;
     
-    /*!
-      Chaque objet possède une position. 
-
-      @par Containtes
-      
-      Un Objet peut être sa propre origine mais cela ne doit pas arriver 
-      indirectement : si o1 est l'origine de p1, si o2 a p1 comme position, o2 
-      ne peut être l'origine de la position de p1.
-      
-    */
-    class Objet : public Base::Modele 
-    {
+    /// Un objet du jeu.
+    class Objet {
     public:
-    
-      /// Position de l'objet.
-      Position AccesPosition() const ;
+  
+      /// Construction d'un objet appartenants à certains ensembles.
+      static 
+        Identificateur 
+        ConstruireObjet(const Base::EnsembleAssociation<EnsembleDObjets>& _types) ;
 
-      /// Orientation de l'objet
-      Orientation AccessOrientation() const ;
-
-      /// 
-      Base::Association<Objet> AccesReferentiel() const ;
-
-
-      /// Vrai si les deux objets font partie d'un même reférentiel.
-      Base::Booleen MemeReferentiel(const Base::Association<Objet>&) const ;
+    /*!
+      @name Affichage
       
+      Construit une chaine XML représentant l'objet.
+    */
+    // @{
+
+      /// Chaine représentant une référence à l'objet.
+      virtual Base::Chaine AfficherReference() const ;
       
+      /// Chaine représentant la définition de l'objet.      
+      virtual Base::Chaine AfficherDefinition() const ;
 
-      /// @name Constructeur/Destructeur
-
-      /// Classe abstraite donc destructeur virtuel.
+    // @}
+      
+//      /*!
+//        @name Accès aux attributs
+//      */
+//      // @{
+//      
+//      /// Accès à la valeur d'un attribut.
+//      virtual Valeur AccesAttribut(const Base::Chaine& _nomAttribut) const  
+//      throw(AttributInexistant) = 0 ;
+//
+//      /// Modifie la valeur d'un attribut.      
+//      virtual void ModifierAttribut(const Base::Chaine& _nomAttribut,
+//                                    const Valeur& _nouvelleValeur) = 0 ;
+//      
+//      // @}
+//      /*!
+//        @name Accès aux ensembles
+//      */
+//      // @{
+//      
+//      virtual Base::Booleen 
+//              EstDans(const Base::Association<EnsembleDObjets>& _ensemble) 
+//              const = 0 ;
+//      
+//      // @}
+      
+      /// Destructeur de classe abstraite.
       virtual ~Objet() ;
-    
-      
-    
+
     protected:
-    
-      /// Classe abstraite donc constructeur protégé.
-      Objet(const Position&) ;
+
+      /// Constructeurs de classe abstraite.  
       Objet() ;
-
-      /// Position de l'objet.
-      /*!
-        Si cela n'a pas réélement de sens alors la position est la 
-        position nulle par rapport à lui même.
-      */
-      Position position ;
-
-      /// Orientation dans l'espace
-      /*!
-        C'est un vecteur normé.
-      */
-      Orientation orientation ;
+      Objet(const Nom&) ;
+    
       
-    };
-  }
+      /// Accès aux attributs locaux
+      
+      Valeur 
+      AccesAttributLocal(const Base::Chaine& _nomAttribut) const  
+      throw(AttributInexistant) ;
+      
+      void ModifierAttributLocal(const Base::Chaine& _nomAttribut,
+                                    const Valeur& _nouvelleValeur) ;
+      
+    // @}
+    /*!
+      @name Accès aux ensembles
+    */
+    // @{
+      
+      Base::Booleen 
+      EstDansLocal(const Base::Association<EnsembleDObjets>& _ensemble) const ;
+    
+    
+    // @}
+    /*!
+      @name Attributs
+    */
+    // @{
+       
+      /// Identificateur de l'objet.
+      Identificateur identificateur ;
+
+      /// Nom de l'objet.
+      /*!
+        Pas forcément unique.
+      */
+      Nom nom ;
+
+    /*!
+     * 
+    
+      /// Ensembles d'appartenance de l'objet.
+      Base::EnsembleAssociation<EnsembleDObjets> types ;
+      
+      /// Les valeurs des attributs de l'objet qui ne sont pas codées en dur.
+      Base::FonctionValeurValeur<Base::Chaine,Valeur> champs ;
+      
+      /// Ensembles d'appartenance de l'objet.
+      Base::EnsembleAssociation<EnsembleDObjet> ensembles ;
+      */
+      
+      // @}
+      
+    };  
+  } 
+  
 }
-#endif
+
+
+#endif // _PU_MODELE_OBJET_H_

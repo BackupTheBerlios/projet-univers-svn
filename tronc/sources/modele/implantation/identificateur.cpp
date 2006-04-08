@@ -18,58 +18,31 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_MODELE_TYPE_OBJET_H_
-#define _PU_MODELE_TYPE_OBJET_H_
-
-#include <base/association.h>
-
-#include <modele/nom.h>
-
+#include <modele/identificateur.h>
 
 namespace ProjetUnivers {
 
   namespace Modele {
-
-    class Groupe ;
     
+    Identificateur::Identificateur()
+    : valeur(++DerniereValeurUtilisee)
+    {}
     
-    /// Un emsemble d'objets.
-    /*!
-      @deprecated
- 
-      @par Type de classe
-      - Abstraite
-      - Objet
+    Identificateur::Identificateur(const Identificateur& _id)
+    : valeur(_id.valeur)
+    {}
     
-    */
-    class TypeObjet {
-    public:
+    Base::EntierPositif Identificateur::DerniereValeurUtilisee = 0 ;
+      
+    Identificateur::operator Base::EntierPositif() const
+    {
+      return this->valeur ;
+    }
+    Identificateur::operator Base::Chaine() const 
+    {
+      return Base::Chaine(this->valeur) ;
+    }
     
-      /// Le nom du type.
-      Nom AccesNom() const ;
-    
-      /// Destructeur de classe abstraite.
-      virtual ~TypeObjet() ;  
-      
-    protected:
-      
-      /// Constructeur de classe abstraite.
-      TypeObjet(const Nom&) ;
-      
-      Nom nom ;
-      
-      
-      /// pas sûr ???
-      /*!
-        Dans la perspective d'un "tout objet", donc notre propre modèle de 
-        données, il convient peut être de mettre un Objet, ayant la propriété 
-        d'être un constructeur de pièces.
-      */
-      // Base::Association<Groupe> constructeur ;
-      
-    };
-
   }
 }
 
-#endif /*_PU_MODELE_TYPE_OBJET_H_*/

@@ -17,56 +17,41 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#ifndef _PU_MODELE_IDENTIFICATEUR_H_
+#define _PU_MODELE_IDENTIFICATEUR_H_
 
-#include <base/ensemble_composition.h>
-
-#include <modele/gestionnaire_objet.h>
-#include <modele/objet.h>
-
-
+#include <base/types.h>
+#include <base/chaine.h>
 
 namespace ProjetUnivers {
 
   namespace Modele {
     
-    namespace GestionnaireObjet {
-
-      /*!
-        @name Variables du module.
-      */
-      // @{
-
-      Base::EnsembleComposition<Objet> objets ;
-
-
-      // @}
-
-      void Ajouter(Objet* _objet)
-      {
-        objets.Ajouter(_objet) ;
-      }
-      
-      Objet* Enlever(const Base::Association<Objet>& _objet)
-      {
-      }
-
-      
-//      void CreerInstance(const Base::Association<TypeObjet>&)
-//      {
-//      }
-      
-
-
-//      void Ajouter(TypeContrainte*) ;
-//      void Ajouter(TypeObjet*) ;
-                             
-
-      
-            
-    }
-
     
-
+    class Identificateur
+    {
+    public:
+      
+      /// Construit un nouvel identificateur.
+      Identificateur() ;
+      
+      /// Constructeur de copie.
+      Identificateur(const Identificateur&) ;
+    
+      /// Conversion en entier.
+      operator Base::EntierPositif() const ;
+      operator Base::Chaine() const ;
+      
+    private:
+      
+      Base::EntierPositif valeur ;
+      
+      static Base::EntierPositif DerniereValeurUtilisee ;
+      
+    };
+    
   }
-
 }
+
+
+#endif 

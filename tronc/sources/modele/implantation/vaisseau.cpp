@@ -29,18 +29,13 @@ namespace ProjetUnivers {
   namespace Modele {
     
    
-    Vaisseau::Vaisseau()
-    : Bien()
+    Vaisseau::Vaisseau(const Base::Association<PlanDAssemblage>& _plan)
+    : Mobile(), Destructible(Energie()),Assemblage(_plan)
     {}
-  
-
-    void Vaisseau::AjouterComposant(Composant* _composant) 
-    {
-      
-      this->composants.Ajouter(_composant) ;
-    }
-	    
- 
+    Vaisseau::Vaisseau(const Nom& _nom,
+                       const Base::Association<PlanDAssemblage>& _plan)
+    : Objet(_nom), Mobile(), Destructible(Energie()),Assemblage(_plan)
+    {}                    
 
     
   }

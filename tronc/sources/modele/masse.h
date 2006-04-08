@@ -35,8 +35,12 @@ namespace ProjetUnivers {
     {
     public:
     
-      /// @name Constructeurs
-      // @{  
+    /*! 
+      @name Constructeurs
+
+      Fonctions de conversion, calculs dimensionnés,...
+    */
+    // @{  
 
      
       /// Masse nulle.
@@ -46,7 +50,7 @@ namespace ProjetUnivers {
       Masse(const Masse&) ;
 
       /// Constructeur avec des kilogrammes
-      Masse Kilogramme(const Base::Reel& _kilogramme) ;
+      Masse Kilogramme(const Base::Reel&) ;
 
 
       /// Calcul
@@ -56,18 +60,20 @@ namespace ProjetUnivers {
       Masse operator -(const Masse&) const ;
       
       /// Calcul
+      Masse operator /(const Base::Reel&) const ;
+
+      /// Calcul
       Base::Reel operator /(const Masse&) const ;
 
       /// Calcul
       Masse operator *(const Base::Reel&) const ;
 
       
-      // @}
-
-      // *************************
-      /// @name Accès
-      // *************************      
-      // @{  
+    // @}
+    // *************************
+    /// @name Accès
+    // *************************      
+    // @{  
        
      
       /// Converti en kilogrammes.
@@ -76,7 +82,7 @@ namespace ProjetUnivers {
       /// Comparaison
       Base::Booleen operator <(const Masse&) const ;
 
-      // @}
+    // @}
     
     private:
     

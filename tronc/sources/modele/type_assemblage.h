@@ -38,9 +38,11 @@ namespace ProjetUnivers {
     /// Une famille d'assemblages.
     
     /*!
-    @par Type de classe
-    - Concrète
-    - Objet
+      @deprecated
+ 
+      @par Type de classe
+      - Concrète
+      - Objet
     
     */
     class TypeAssemblage : public TypeObjet {

@@ -48,7 +48,7 @@ namespace ProjetUnivers {
         // @{
 
         /// Une construction.
-        static Vaisseau* Construire() ;
+        static Base::Association<Vaisseau> Construire() ;
 
         
         /// Teste une construction.

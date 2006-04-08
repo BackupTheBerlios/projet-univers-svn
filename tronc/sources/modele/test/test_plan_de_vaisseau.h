@@ -18,64 +18,78 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <base/composition.h>
 
 
-#include <modele/assemblage.h>
-#include <modele/contrainte_fixe.h>
-#include <modele/composant.h>
-#include <modele/gestionnaire_objets.h>
-#include <modele/plan_d_assemblage.h>
-#include <modele/vaisseau.h>
-
-#include <modele/test/test_plan_de_vaisseau.h>
-#include <modele/test/test_vaisseau.h>
+#ifndef _PU_MODELE_TEST_PLAN_DE_VAISSEAU_H_
+#define _PU_MODELE_TEST_PLAN_DE_VAISSEAU_H_
 
 
-CPPUNIT_TEST_SUITE_REGISTRATION(ProjetUnivers::
-                                Modele::
-                                Test::
-                                TestVaisseau) ;
+#include <cppunit/extensions/HelperMacros.h>
 
-using namespace ProjetUnivers::Base ;
 
 namespace ProjetUnivers {
 
   namespace Modele {
 
+    class PlanDAssemblage ;
+  
     namespace Test {
 
 
-      Association<Vaisseau> TestVaisseau::Construire()
-      {
+            
+      /// Test de Modele::PlanDAssemblage.
+      class TestPlanDeVaisseau : public CppUnit::TestFixture {
+      public:
+  
+        /// Une construction.
+        static Base::Association<PlanDAssemblage> Construire() ;
 
-        Association<PlanDAssemblage> planZarg(TestPlanDeVaisseau::Construire()) ;
+      // *******************************
+      /// @name Méthodes obligatoires
+      // *******************************
+      // @{
 
-
-        Composition<Vaisseau> vaisseau(new Vaisseau(Nom("Zarg 01"),planZarg)) ; 
-        Association<Vaisseau> resultat(vaisseau) ;
-        GestionnaireObjets::Ajouter(vaisseau.Liberer()) ;
-        
-        return resultat ;
-      }
-
-      void TestVaisseau::testConstruction()
-      {
-        Base::Association<Vaisseau> vaisseau(TestVaisseau::Construire()) ;
-        
-        std::cout << GestionnaireObjets::AfficherObjets() << std::endl ;
-        
-      }
-
-      void TestVaisseau::setUp() 
-      {
-      }
       
-      void TestVaisseau::tearDown() 
-      {
-      }
+        /// Initialisation du test
+        void setUp() ;
+      
+        /// Desinitialisation du test
+        void tearDown() ;
+      
+      // @}
+        
+      protected:
+      
+        
+      // ****************************
+      /// @name Tests proprement dits
+      // ****************************
+      // @{
+        
+        /// Teste une construction.
+        void testConstruction() ;
+           
+      // @}
+      // *******************************
+      /// @name Enregistrement des tests
+      // *******************************
+      // @{      
+    
+        CPPUNIT_TEST_SUITE(TestPlanDeVaisseau) ;
+      
+        CPPUNIT_TEST(testConstruction) ;
+      
+        CPPUNIT_TEST_SUITE_END() ;
+      
+      // @}      
+                
+       
+      
+      };
 
     }
   }
 }
 
+
+#endif

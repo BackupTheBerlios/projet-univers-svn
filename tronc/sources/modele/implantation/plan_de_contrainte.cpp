@@ -18,76 +18,70 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <modele/objet.h>
-#include <modele/attribut_inexistant.h>
-#include <modele/valeur.h>
 #include <base/joli_affichage.h>
+#include <modele/plan_de_point_d_attache.h>
+#include <modele/plan_de_contrainte.h>
 
 namespace ProjetUnivers {
 
   namespace Modele {
-
-
-    
-    Objet::~Objet()
+ 
+    PlanDeContrainte::PlanDeContrainte(
+      const Base::Association<PlanDePointDAttache>& _p1,
+      const Base::Association<PlanDePointDAttache>& _p2,
+      const TypeDeContrainte& _type)
+    : planDePointDAttache1(_p1), 
+      planDePointDAttache2(_p2),
+      typeDeContrainte(_type)
     {}
     
-    Objet::Objet()
-    {}
+    Base::Association<PlanDePointDAttache> 
+    PlanDeContrainte::AccesPlanDePointDAttache1() const
+    {
+      return this->planDePointDAttache1 ;
+    }
+    
+    Base::Association<PlanDePointDAttache> 
+    PlanDeContrainte::AccesPlanDePointDAttache2() const
+    {
+      return this->planDePointDAttache2 ;
+    }
 
-    Objet::Objet(const Nom& _nom)
-    : nom(_nom)
-    {}
-
-    Base::Chaine Objet::AfficherReference() const
+    Base::Chaine PlanDeContrainte::AfficherReference() const
     {
       Base::Chaine resultat ;
-
+      
       resultat += Base::AfficheEspaces() ;
-      resultat += "<objet nom=\"" ;
-      resultat += nom ;
+      resultat += "<PlanDeContrainte identificateur=\"" ;
+      resultat += identificateur ;
       resultat += "\"/>" ;
       resultat += Base::FinDeLigne() ;
       
-      return resultat ;
+      return resultat ; 
       
     }
     
-    Base::Chaine Objet::AfficherDefinition() const
+    Base::Chaine PlanDeContrainte::AfficherDefinition() const
     {
       Base::Chaine resultat ;
-
+      
       resultat += Base::AfficheEspaces() ;
-      resultat += "<objet nom=\"" ;
+      resultat += "<PlanDeContrainte nom=\"" ;
       resultat += nom ;
-      resultat += "\">" ;
+      resultat += "\" identificateur=" ;
+      resultat += identificateur ;
+      resultat += ">" ;
       resultat += Base::FinDeLigne() ;
-      resultat += Base::AfficheEspaces() + "</objet>" + Base::FinDeLigne() ;
+      Base::AugmenteIndentation() ;
+      
+      resultat += this->planDePointDAttache1->AfficherReference() ;
+      resultat += this->planDePointDAttache2->AfficherReference() ;
+      Base::DiminueIndentation() ;
+      resultat += Base::AfficheEspaces() + "</PlanDAssemblage>" ;
+      resultat += Base::FinDeLigne() ;
       
       return resultat ;
-      
-    }
-
-
-
-//    Valeur 
-//    Objet::AccesAttributLocal(const Base::Chaine& _nomAttribut) const 
-//    throw(AttributInexistant)
-//    {
-//      
-//      /// recherche dans les attributs codés en dur
-//      if (_nomAttribut == "nom")
-//        return this->nom ;
-//      if (_nomAttribut == "identificateur")
-//        return this->identificateur ;
-//      
-//      /// recherche dans les attributs variables
-//      
-//      /// on n'a pas trouvé
-//      throw AttributInexistant(_nomAttribut) ;
-//    }
-
+     }
 
   }
 }
-

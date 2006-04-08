@@ -34,10 +34,10 @@ namespace ProjetUnivers {
     class Energie {
     public:
     
-      // *************************
-      /// @name Constructeurs
-      // *************************      
-      // @{  
+    // *************************
+    /// @name Constructeurs
+    // *************************      
+    // @{  
 
      
       /// Energie nulle.
@@ -47,11 +47,13 @@ namespace ProjetUnivers {
       Energie(const Energie&) ;
 
       /// Constructeur avec des Joules
-      Energie Joule(const Base::Reel& _joules) ;
+      static Energie Joule(const Base::Reel& _joules) ;
 
       /// Constructeur avec des électron-volts
-      Energie ElectronVolt(const Base::Reel& _eV) ;
+      static Energie ElectronVolt(const Base::Reel& _eV) ;
 
+      /// Affectation
+      Energie& operator=(const Energie&) ;
 
       /// Calcul
       Energie operator +(const Energie&) const ;
@@ -66,12 +68,11 @@ namespace ProjetUnivers {
       Energie operator *(const Base::Reel&) const ;
 
       
-      // @}
-
-      // *************************
-      /// @name Accès
-      // *************************      
-      // @{  
+    // @}
+    // *************************
+    /// @name Accès
+    // *************************      
+    // @{  
        
      
       /// Donne l'énergie en Joules.
@@ -80,7 +81,7 @@ namespace ProjetUnivers {
       /// Comparaison
       Base::Booleen operator <(const Energie&) const ;
 
-      // @}
+    // @}
     
     private:
     
@@ -93,10 +94,16 @@ namespace ProjetUnivers {
         /// L'électron-volt ~= 1,602 177 33 x 10-19 Joules
         _eV
       } Unite ;
+ 
 
       Base::Reel valeur ;
       Unite unite ;
   
+
+      /// Méthode interne de conversion d'unités.
+      static Base::Reel Convertir(const Energie& _energie, 
+                                  const Energie::Unite& _unite) ;
+
   
     };
   }

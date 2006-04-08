@@ -30,19 +30,25 @@ namespace ProjetUnivers {
 
   namespace Modele {
 
-    /// Liaison fixe entre deux objets.
+
+    class PointDAttache ;
+
+    /// Liaison fixe entre deux points d'attache.
+    /*!
+      @deprecated
+    */
     class ContrainteFixe : public Contrainte {
     public:
 
       /// Construit avec les deux objets reliés.
-      Contrainte(const Base::Association<ObjetPhysique>&,
-                 const Base::Association<ObjetPhysique>&) ;
+      ContrainteFixe(const Base::Association<Objet>&,
+                     const Base::Association<Objet>&) ;
       
       
     private:
       
-      Base::Association<ObjetPhysique> objet1 ;
-      Base::Association<ObjetPhysique> objet2 ;
+      Base::Association<Objet> objet1 ;
+      Base::Association<Objet> objet2 ;
       
     };
 

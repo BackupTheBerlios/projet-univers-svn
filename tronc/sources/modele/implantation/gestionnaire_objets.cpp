@@ -18,11 +18,14 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+
+#include <base/joli_affichage.h>
 #include <base/ensemble_composition.h>
+#include <base/iterateur_ensemble_composition.h>
 
-#include <modele/gestionnaire_objet.h>
+#include <modele/gestionnaire_objets.h>
 #include <modele/objet.h>
-
+#include <modele/exception.h>
 
 
 namespace ProjetUnivers {
@@ -31,25 +34,53 @@ namespace ProjetUnivers {
     
     namespace GestionnaireObjets {
 
-      /*!
-        @name Variables du module.
-      */
-      // @{
+    /*!
+      @name Variables du module.
+    */
+    // @{
 
       Base::EnsembleComposition<Objet> objets ;
 
 
-      // @}
+    // @}
 
-      void Ajouter(Objet* _objet)
+      Base::Association<Objet> Ajouter(Objet* _objet)
       {
-        objets.Ajouter(_objet) ;
+        if (_objet != NULL)
+        {
+          Objet& reference = *_objet ;
+          objets.Ajouter(_objet) ;
+          return reference ;
+        }
+        
+        throw Exception("GestionnaireObjets::Ajouter appelé sans objet") ;
       }
       
       Objet* Enlever(const Base::Association<Objet>& _objet)
       {
       }
 
+      Base::Chaine AfficherObjets()
+      {
+        Base::Chaine resultat ;
+        resultat += "<GestionnaireObjets>" ;
+        resultat += Base::FinDeLigne() ;
+        Base::AugmenteIndentation() ;
+
+        for(Base::IterateurEnsembleComposition<Objet> objet(objets) ;
+            objet.Valide() ;
+            ++objet)
+        {
+          resultat += objet->AfficherDefinition() ;
+        }
+        
+        Base::DiminueIndentation() ;
+        resultat += Base::AfficheEspaces() ;
+        resultat += "</GestionnaireObjets>" ;
+        resultat += Base::FinDeLigne() ;
+        
+        return resultat ;
+      }
       
 //      void CreerInstance(const Base::Association<TypeObjet>&)
 //      {

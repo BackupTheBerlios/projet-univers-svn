@@ -18,58 +18,36 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_MODELE_TYPE_OBJET_H_
-#define _PU_MODELE_TYPE_OBJET_H_
 
-#include <base/association.h>
-
-#include <modele/nom.h>
-
+#include <modele/ensemble_d_objet.h>
 
 namespace ProjetUnivers {
 
   namespace Modele {
-
-    class Groupe ;
+  
+    EnsembleDObjets* EnsembleDObjets::Contruire(const Nom& _nom)
+    {
+      return NULL ;
+    }
     
+    void EnsembleDObjets::Ajouter(const Base::Association<Objet>& _objet)
+    {
+      this->objets.Ajouter(_objet) ;
+    }
     
-    /// Un emsemble d'objets.
-    /*!
-      @deprecated
- 
-      @par Type de classe
-      - Abstraite
-      - Objet
+    void EnsembleDObjets::Enlever(const Base::Association<Objet>& _objet)
+    {
+      this->objets.Enlever(_objet) ;
+      
+    }
     
-    */
-    class TypeObjet {
-    public:
+    EnsembleDObjets::~EnsembleDObjets()
+    {}
     
-      /// Le nom du type.
-      Nom AccesNom() const ;
-    
-      /// Destructeur de classe abstraite.
-      virtual ~TypeObjet() ;  
-      
-    protected:
-      
-      /// Constructeur de classe abstraite.
-      TypeObjet(const Nom&) ;
-      
-      Nom nom ;
-      
-      
-      /// pas sûr ???
-      /*!
-        Dans la perspective d'un "tout objet", donc notre propre modèle de 
-        données, il convient peut être de mettre un Objet, ayant la propriété 
-        d'être un constructeur de pièces.
-      */
-      // Base::Association<Groupe> constructeur ;
-      
-    };
-
-  }
+    EnsembleDObjets::EnsembleDObjets(const Nom& _nom)
+    : nom(_nom)
+    {}
+  } 
+  
 }
 
-#endif /*_PU_MODELE_TYPE_OBJET_H_*/

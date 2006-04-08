@@ -18,58 +18,24 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_MODELE_TYPE_OBJET_H_
-#define _PU_MODELE_TYPE_OBJET_H_
 
-#include <base/association.h>
-
-#include <modele/nom.h>
-
+#include <modele/point_d_attache.h>
 
 namespace ProjetUnivers {
 
   namespace Modele {
-
-    class Groupe ;
     
-    
-    /// Un emsemble d'objets.
-    /*!
-      @deprecated
- 
-      @par Type de classe
-      - Abstraite
-      - Objet
-    
-    */
-    class TypeObjet {
-    public:
-    
-      /// Le nom du type.
-      Nom AccesNom() const ;
-    
-      /// Destructeur de classe abstraite.
-      virtual ~TypeObjet() ;  
+    PointDAttache::PointDAttache(
+                  const Base::Association<PlanDePointDAttache>& _plan,
+                  const Base::Association<Composant>& _composant)
+    : plan(_plan), composant(_composant)
+    {}
       
-    protected:
-      
-      /// Constructeur de classe abstraite.
-      TypeObjet(const Nom&) ;
-      
-      Nom nom ;
-      
-      
-      /// pas sûr ???
-      /*!
-        Dans la perspective d'un "tout objet", donc notre propre modèle de 
-        données, il convient peut être de mettre un Objet, ayant la propriété 
-        d'être un constructeur de pièces.
-      */
-      // Base::Association<Groupe> constructeur ;
-      
-    };
-
+    Base::Association<PlanDePointDAttache> 
+    PointDAttache::AccesPlanPointDAttache() const
+    {
+      return this->plan ;
+    }
   }
 }
 
-#endif /*_PU_MODELE_TYPE_OBJET_H_*/

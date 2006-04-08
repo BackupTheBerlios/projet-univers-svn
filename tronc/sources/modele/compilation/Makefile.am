@@ -3,26 +3,31 @@ noinst_LIBRARIES = libmodele.a
 INCLUDES = -I../.. $(OGRE_CFLAGS)
 
 libmodele_a_SOURCES = \
-../implantation/gestionnaire_objet.cpp \
-../implantation/objet_physique.cpp \
-../implantation/objet_abstrait.cpp \
-../implantation/bien.cpp \
-../implantation/planetoide.cpp \
+../implantation/acceleration.cpp \
+../implantation/assemblage.cpp \
 ../implantation/composant.cpp \
-../implantation/systeme_stellaire.cpp \
-../implantation/etat_mission.cpp \
-../implantation/univers.cpp \
-../implantation/etoile.cpp \
-../implantation/vaisseau.cpp \
-../implantation/monde.cpp \
+../implantation/contrainte.cpp \
 ../implantation/destructible.cpp \
-../implantation/societe.cpp \
+../implantation/distance.cpp \
+../implantation/energie.cpp \
+../implantation/exception.cpp \
+../implantation/gestionnaire_objets.cpp \
+../implantation/identificateur.cpp \
+../implantation/masse.cpp \
+../implantation/mobile.cpp \
 ../implantation/nom.cpp \
 ../implantation/objet.cpp \
+../implantation/orientation.cpp \
+../implantation/plan_d_assemblage.cpp \
+../implantation/plan_d_etat_de_composant.cpp \
+../implantation/plan_de_contrainte.cpp \
+../implantation/plan_de_point_d_attache.cpp \
+../implantation/plan_de_composant.cpp \
+../implantation/point_d_attache.cpp \
 ../implantation/position.cpp \
-../implantation/distance.cpp \
-../implantation/orientation.cpp
-
+../implantation/positionne.cpp \
+../implantation/vaisseau.cpp \
+../implantation/vitesse.cpp 
 
 
 TESTS = test_modele
@@ -30,10 +35,10 @@ TESTS = test_modele
 check_PROGRAMS = $(TESTS)
 
 test_modele_SOURCES = \
+../test/test_distance.cpp \
 ../test/test_modele.cpp \
-../test/test_type_de_vaisseau.cpp \
-../test/test_vaisseau.cpp \
-../test/test_distance.cpp
+../test/test_plan_de_vaisseau.cpp \
+../test/test_vaisseau.cpp 
 
 test_modele_CXXFLAGS = $(CPPUNIT_CFLAGS)
 test_modele_LDFLAGS = $(CPPUNIT_LIBS)

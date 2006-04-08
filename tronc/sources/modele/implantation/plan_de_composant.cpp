@@ -18,76 +18,96 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <modele/objet.h>
-#include <modele/attribut_inexistant.h>
-#include <modele/valeur.h>
 #include <base/joli_affichage.h>
+
+
+#include <modele/plan_de_composant.h>
+#include <modele/plan_d_etat_de_composant.h>
 
 namespace ProjetUnivers {
 
   namespace Modele {
-
-
     
-    Objet::~Objet()
-    {}
     
-    Objet::Objet()
+    PlanDeComposant::PlanDeComposant(const Nom& _nom)
+    : Objet(_nom)
     {}
 
-    Objet::Objet(const Nom& _nom)
-    : nom(_nom)
-    {}
+      
+    Base::Association<PlanDEtatDeComposant> 
+      PlanDeComposant::Etat(const Base::Entier& _pourcentagePointDeVie) const
+    {
+      /// 
+      /*!
+        @todo 
+          implanter; il faut trouver dans l'ensemble des couples 
+         (point de vie, etat) l'état qui correspond au point de vie le plus 
+          proche de _pourcentagePointDeVie
+      
+        Pour l'instant on ne renvoie qu'un truc.
+      
+      
+      */
+      return this->etat ;
+    }
 
-    Base::Chaine Objet::AfficherReference() const
+    void 
+    PlanDeComposant::DefinirEtat(
+        const Base::Entier& _degat,
+        const Base::Association<PlanDEtatDeComposant>& _etat)
+    {
+      /*!
+        temporaire
+      */
+      etat = _etat ;
+    }
+
+
+    Base::Chaine PlanDeComposant::AfficherReference() const
     {
       Base::Chaine resultat ;
-
+      
       resultat += Base::AfficheEspaces() ;
-      resultat += "<objet nom=\"" ;
-      resultat += nom ;
+      resultat += "<PlanDeComposant identificateur=\"" ;
+      resultat += identificateur ;
       resultat += "\"/>" ;
       resultat += Base::FinDeLigne() ;
       
-      return resultat ;
-      
+      return resultat ; 
     }
     
-    Base::Chaine Objet::AfficherDefinition() const
+    Base::Chaine PlanDeComposant::AfficherDefinition() const
     {
       Base::Chaine resultat ;
-
+      
       resultat += Base::AfficheEspaces() ;
-      resultat += "<objet nom=\"" ;
+      resultat += "<PlanDeComposant nom=\"" ;
       resultat += nom ;
-      resultat += "\">" ;
+      resultat += "\" identificateur=" ;
+      resultat += identificateur ;
+      resultat += ">" ;
       resultat += Base::FinDeLigne() ;
-      resultat += Base::AfficheEspaces() + "</objet>" + Base::FinDeLigne() ;
+      Base::AugmenteIndentation() ;
+
+      resultat += this->etat->AfficherReference() ;
+       
+      Base::DiminueIndentation() ;
+      resultat += Base::AfficheEspaces() + "</PlanDeComposant>" ;
+      resultat += Base::FinDeLigne() ;
       
       return resultat ;
       
     }
 
 
-
-//    Valeur 
-//    Objet::AccesAttributLocal(const Base::Chaine& _nomAttribut) const 
-//    throw(AttributInexistant)
+//    Base::Association<PointDAttache> 
+//      PlanDeComposant::AccesPointDAttache(
+//            const Base::Association<PlanDePointDAttache>& _plan) const
 //    {
-//      
-//      /// recherche dans les attributs codés en dur
-//      if (_nomAttribut == "nom")
-//        return this->nom ;
-//      if (_nomAttribut == "identificateur")
-//        return this->identificateur ;
-//      
-//      /// recherche dans les attributs variables
-//      
-//      /// on n'a pas trouvé
-//      throw AttributInexistant(_nomAttribut) ;
+//      this->etat->AccesPointDAttache(_plan) ;
 //    }
 
-
+      
   }
 }
 

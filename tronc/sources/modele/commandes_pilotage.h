@@ -35,6 +35,8 @@ namespace ProjetUnivers {
     /// Modélise les commandes de pilotage d'un vaisseau.
 
     /*!
+ 
+      @deprecated
       Cet objet modélise les boutons, manettes et autres manches à balais.
 
       Type de classe

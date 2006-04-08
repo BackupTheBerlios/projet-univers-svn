@@ -24,6 +24,7 @@
 
 
 #include <modele/energie.h>
+#include <modele/objet.h>
 
 namespace ProjetUnivers {
 
@@ -33,23 +34,32 @@ namespace ProjetUnivers {
 
     
       
-    /// Propriété des objets pouvant subir des dégâts et être détruits
+    /// Propriété des objets pouvant subir des dégâts et être détruits.
 
     /*!
+      @todo
+        Cette classe n'est qu'un squelette, implanter tache 2378.
     */
-    class Destructible
+    class Destructible : public virtual Objet
     {
     public:
+   
+    /*!
+      @name Méthodes principales
+    */
+    // @{
    
       /// Valeur de point de vie en pourcentage.
       /*!
         100% correspond à un objet neuf
         0% à un objet détruit
       */
-      Base::Reel PourcentagePointsDeVie() const ;
+      Base::Entier PourcentagePointsDeVie() const ;
    
       /// Fait dubir un dégat d'une certaine quantité d'énergie.
-      void SubirDegats(const Energie& _energie) ;
+      void FaireSubirDegats(const Energie& _energie) ;
+   
+    // @}
    
       /// Classe abstraite donc destructeur virtuel.
       virtual ~Destructible() ;
@@ -64,6 +74,7 @@ namespace ProjetUnivers {
       /// Enérgie nécéssaire à sa destruction
       Energie pointsDeVieTotal ;
       
+      /// Energie restante.
       Energie pointsDeVieActuel ;
 
 

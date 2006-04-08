@@ -21,23 +21,49 @@
 #ifndef _PU_MODELE_CONTRAINTE_H_
 #define _PU_MODELE_CONTRAINTE_H_
 
+#include <modele/objet.h>
+
 namespace ProjetUnivers {
 
   namespace Modele {
+    
+    class PlanDeContrainte ;
+    class PointDAttache ;
+    class Assemblage ;
 
-    /// Classe abstraite des contraintes de liaisons entre objets.
-    class Contrainte : public ObjetPhysique {
+    /// Liaison entre deux points d'attache.
+    class Contrainte : public Objet
+    {
     public:
     
-      /// Destructeur de class abatrite
-      virtual ~Contrainte() ;
+    
+      /// Constructeur.
+      Contrainte(const Base::Association<PlanDeContrainte>&,
+                 const Base::Association<PointDAttache>&,
+                 const Base::Association<PointDAttache>&) ;
+    
       
-    protected:
+    private:
       
-      /// Constructeur de classe abstraite.
-      Contrainte() ;
+    /*!
+      @name Mécanique interne
       
       
+    */
+    // @{
+      
+
+
+    // @}
+
+      /// Les deux points d'attache de la liaison.
+      Base::Association<PointDAttache> pointDAttache1 ;
+      Base::Association<PointDAttache> pointDAttache2 ;
+      
+      ///
+      Base::Association<PlanDeContrainte> plan ;
+      
+      friend class Assemblage ;
     };
 
   }

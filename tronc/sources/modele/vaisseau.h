@@ -24,67 +24,78 @@
 #include <base/ensemble_composition.h>
 #include <base/composition.h>
 
-#include <modele/bien.h>
+#include <modele/assemblage.h>
+#include <modele/destructible.h>
+#include <modele/mobile.h>
 
 namespace ProjetUnivers {
 
   namespace Modele {
     
-    class TypeDeVaisseau ;
-    class Composant ;
-    class Poste ;
-    class Coque ;
+    
+   
+    class PlanDAssemblage ;
     
     /// Représente un vaisseau.
     
     /*!
+     Il n'est pas sûr que cette classe soir encore d'actualité. Un Assemblage 
+     peut éventuellement suffire.
+     * 
     */
-    class Vaisseau : public Bien 
+    class Vaisseau : public Mobile, public Destructible, public Assemblage 
     {
     public:
     
 
-      /// @name Construction
-      // @{
-
-      /// constructeur.
-      Vaisseau() ;
+    /*! 
+      @name Acces
+    */
+    // @{
     
-      /// Ajoute un composant.
-      void AjouterComposant(Composant* _composant) ;
+  
 
-      // @}
+    // @}
+
+    /*! 
+      @name Simulation
+    */
+    // @{
+    
+    
+    
+    // @}
+    /// @name Construction
+    // @{
+
+
+      /// Construit un vaisseau à partir d'un plan.
+      /*!
+        
+      */
+      Vaisseau(const Base::Association<PlanDAssemblage>& _plan) ;
+    
+      /// Construit un vaisseau à partir d'un plan.
+      /*!
+        
+      */
+      Vaisseau(const Nom& _nom,
+               const Base::Association<PlanDAssemblage>& _plan) ;
+
+
+    // @}
 
     private:  
       
 
-      /*! 
-        @name Attributs
-      */
-      // @{
+    /*! 
+      @name Attributs
       
-      
-      Base::Association<TypeDeVaisseau> type ;
+    */
+    // @{
+  
 
-      /// Les morceaux de coque du vaisseau
-      Base::EnsembleComposition<Coque> morceauxDeCoque ;
-
-//      Base::EnsembleComposition<Coque>
-
-      // @}
-      
-
-      /// Les composants du vaisseau.
-      /*!
-        Tous les composants ont une position relative au vaisseau.
-      */
-      Base::EnsembleComposition< Composant > composants ;
-
-      /// Les postes pouvant être occupés sur le vaisseau.
-      Base::EnsembleComposition< Poste > postes ;
-    
-
-      // @}
+    // @}
     };
     
     
