@@ -19,10 +19,14 @@
  ***************************************************************************/
 
 #include <base/iterateur_ensemble_association.h>
+#include <base/joli_affichage.h>
 
+#include <modele/gestionnaire_objets.h>
 #include <modele/energie.h>
 #include <modele/plan_de_composant.h>
 #include <modele/point_d_attache.h>
+#include <modele/plan_de_point_d_attache.h>
+#include <modele/plan_d_etat_de_composant.h>
 
 #include <modele/composant.h>
 
@@ -32,38 +36,99 @@ namespace ProjetUnivers {
   namespace Modele {
 
    
-      Composant::Composant(const Base::Association<PlanDeComposant>& _plan)
-      : Mobile(), Destructible(Energie::Joule(100)),plan(_plan)
+    Composant::Composant(const Base::Association<PlanDeComposant>& _plan)
+    : Mobile(), Destructible(Energie::Joule(100)),plan(_plan)
+    {
+      /*!
+        Construction des points d'attaches
+          
+      */
+      for(Base::IterateurEnsembleAssociation<PlanDePointDAttache> 
+            point(_plan->Etat(100)->plansDePointsDAttache) ;
+          point.Valide() ;
+          ++point)
       {
-        /*!
-          @todo 
-            construire les points d'attaches
-            
-        */
+        Base::Composition<PointDAttache> 
+          pointDAttache(new PointDAttache(*point,*this)) ;
+        this->pointsDAttaches.Ajouter(pointDAttache) ;
+        GestionnaireObjets::Ajouter(pointDAttache.Liberer()) ;
       }
       
-      Composant::Composant(const Nom& _nom, 
-                           const Base::Association<PlanDeComposant>& _plan)
-      : Objet(_nom), Mobile(), Destructible(Energie::Joule(100)),plan(_plan)
-      {}
-        
-      Base::Association<PointDAttache> 
-      Composant::AccesPointDAttache(
-        const Base::Association<PlanDePointDAttache>& _p) const
-      {
-        for(Base::IterateurEnsembleAssociation<PointDAttache> point(this->pointsDAttaches) ;
-            point.Valide() ;
-            ++point)
-        {
-          if (point->AccesPlanPointDAttache() == _p)
-          {
-            return *point ;
-          }
-        
-        }
-        return Base::Association<PointDAttache>() ;
-      }
+      
+    }
     
+    Composant::Composant(const Nom& _nom, 
+                         const Base::Association<PlanDeComposant>& _plan)
+    : Objet(_nom), Mobile(), Destructible(Energie::Joule(100)),plan(_plan)
+    {}
+      
+    Base::Association<PointDAttache> 
+    Composant::AccesPointDAttache(
+      const Base::Association<PlanDePointDAttache>& _p) const
+    {
+      for(Base::IterateurEnsembleAssociation<PointDAttache> point(this->pointsDAttaches) ;
+          point.Valide() ;
+          ++point)
+      {
+        if (point->AccesPlanPointDAttache() == _p)
+        {
+          return *point ;
+        }
+      
+      }
+      return Base::Association<PointDAttache>() ;
+    }
+  
+
+    Base::Chaine Composant::AfficherReference() const
+    {
+      Base::Chaine resultat ;
+      
+      resultat += Base::AfficheEspaces() ;
+      resultat += "<Composant identificateur=\"" ;
+      resultat += identificateur ;
+      resultat += "\"/>" ;
+      resultat += Base::FinDeLigne() ;
+      
+      return resultat ; 
+    }
+    
+    Base::Chaine Composant::AfficherDefinition() const
+    {
+      Base::Chaine resultat ;
+      
+      resultat += Base::AfficheEspaces() ;
+      resultat += "<Composant nom=\"" ;
+      resultat += nom ;
+      resultat += "\" identificateur=" ;
+      resultat += identificateur ;
+      resultat += ">" ;
+      resultat += Base::FinDeLigne() ;
+      Base::AugmenteIndentation() ;
+
+      resultat += Base::AfficheEspaces() + "<pointsDAttache>" ;
+      resultat += Base::FinDeLigne() ;
+      Base::AugmenteIndentation() ;
+
+      for(Base::IterateurEnsembleAssociation<PointDAttache> point(this->pointsDAttaches) ;
+          point.Valide() ;
+          ++point)
+      {
+        resultat += point->AfficherReference() ;
+      }
+
+      Base::DiminueIndentation() ;
+      resultat += Base::AfficheEspaces() + "</pointsDAttache>" ;
+      resultat += Base::FinDeLigne() ;
+       
+      Base::DiminueIndentation() ;
+      resultat += Base::AfficheEspaces() + "</Composant>" ;
+      resultat += Base::FinDeLigne() ;
+      
+      return resultat ;
+      
+    }
+
     
   }
 

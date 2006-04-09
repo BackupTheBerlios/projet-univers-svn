@@ -22,7 +22,7 @@
 
 
 #include <modele/assemblage.h>
-#include <modele/contrainte_fixe.h>
+#include <modele/contrainte.h>
 #include <modele/composant.h>
 #include <modele/gestionnaire_objets.h>
 #include <modele/plan_d_assemblage.h>

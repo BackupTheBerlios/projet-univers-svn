@@ -49,6 +49,23 @@ namespace ProjetUnivers {
     // @}
       
       Base::Association<PlanDePointDAttache> AccesPlanPointDAttache() const ;
+
+    /*!
+      @name Affichage
+      
+      Construit une chaine XML représentant l'objet.
+    */
+    // @{
+
+      /// Chaine représentant une référence à l'objet.
+      virtual Base::Chaine AfficherReference() const ;
+      
+      /// Chaine représentant la définition de l'objet.      
+      virtual Base::Chaine AfficherDefinition() const ;
+
+    // @}
+
+
     private:
       
       

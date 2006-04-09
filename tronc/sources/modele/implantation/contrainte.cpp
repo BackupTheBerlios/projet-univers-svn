@@ -17,8 +17,10 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <base/joli_affichage.h>
 
 #include <modele/contrainte.h>
+#include <modele/point_d_attache.h>
 
 namespace ProjetUnivers {
 
@@ -30,6 +32,45 @@ namespace ProjetUnivers {
                            const Base::Association<PointDAttache>& _p2)
     : plan(_plan), pointDAttache1(_p1), pointDAttache2(_p2)
     {}
+
+
+    Base::Chaine Contrainte::AfficherReference() const
+    {
+      Base::Chaine resultat ;
+      
+      resultat += Base::AfficheEspaces() ;
+      resultat += "<Contrainte identificateur=\"" ;
+      resultat += identificateur ;
+      resultat += "\"/>" ;
+      resultat += Base::FinDeLigne() ;
+      
+      return resultat ; 
+      
+    }
+    
+    Base::Chaine Contrainte::AfficherDefinition() const
+    {
+      Base::Chaine resultat ;
+      
+      resultat += Base::AfficheEspaces() ;
+      resultat += "<Contrainte nom=\"" ;
+      resultat += nom ;
+      resultat += "\" identificateur=" ;
+      resultat += identificateur ;
+      resultat += ">" ;
+      resultat += Base::FinDeLigne() ;
+      Base::AugmenteIndentation() ;
+      
+      resultat += this->pointDAttache1->AfficherReference() ;
+      resultat += this->pointDAttache1->AfficherReference() ;
+      Base::DiminueIndentation() ;
+      resultat += Base::AfficheEspaces() + "</Contrainte>" ;
+      resultat += Base::FinDeLigne() ;
+      
+      return resultat ;
+     }
+
+
     
   }
   

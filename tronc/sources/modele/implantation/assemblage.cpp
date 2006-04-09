@@ -112,12 +112,16 @@ namespace ProjetUnivers {
 
     Assemblage::Assemblage(const Base::Association<PlanDAssemblage>& _plan)
     : plan(_plan)
-    {}
+    {
+      Construire(this,_plan) ;
+    }
 
     Assemblage::Assemblage(const Nom& _nom, 
                            const Base::Association<PlanDAssemblage>& _plan)
     : Objet(_nom), plan(_plan)
-    {}
+    {
+      Construire(this,_plan) ;
+    }
 
 
     void Assemblage::AjouterObjet(

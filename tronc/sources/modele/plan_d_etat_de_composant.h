@@ -31,7 +31,7 @@ namespace ProjetUnivers {
     class Modele3D ;
     class PlanDePointDAttache ;
     class PlanDeComposant ;
-    
+    class Composant ;
     
     /// Plan d'un composant dans un certain état.
     /*!
@@ -89,6 +89,7 @@ namespace ProjetUnivers {
       
       Masse masse ;
 
+      friend class Composant ;
             
     };
     

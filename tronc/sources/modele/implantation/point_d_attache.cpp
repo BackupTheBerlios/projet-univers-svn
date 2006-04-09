@@ -18,6 +18,10 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#include <base/joli_affichage.h>
+
+#include <modele/composant.h>
+#include <modele/plan_de_point_d_attache.h>
 
 #include <modele/point_d_attache.h>
 
@@ -36,6 +40,46 @@ namespace ProjetUnivers {
     {
       return this->plan ;
     }
+
+
+    Base::Chaine PointDAttache::AfficherReference() const
+    {
+      Base::Chaine resultat ;
+      
+      resultat += Base::AfficheEspaces() ;
+      resultat += "<PointDAttache identificateur=\"" ;
+      resultat += identificateur ;
+      resultat += "\"/>" ;
+      resultat += Base::FinDeLigne() ;
+      
+      return resultat ; 
+      
+    }
+    
+    Base::Chaine PointDAttache::AfficherDefinition() const
+    {
+      Base::Chaine resultat ;
+      
+      resultat += Base::AfficheEspaces() ;
+      resultat += "<PointDAttache nom=\"" ;
+      resultat += nom ;
+      resultat += "\" identificateur=" ;
+      resultat += identificateur ;
+      resultat += ">" ;
+      resultat += Base::FinDeLigne() ;
+      Base::AugmenteIndentation() ;
+      
+      resultat += this->plan->AfficherReference() ;
+      resultat += this->composant->AfficherReference() ;
+
+      Base::DiminueIndentation() ;
+      resultat += Base::AfficheEspaces() + "</PointDAttache>" ;
+      resultat += Base::FinDeLigne() ;
+      
+      return resultat ;
+     }
+
+
   }
 }
 
