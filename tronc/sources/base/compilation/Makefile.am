@@ -51,6 +51,7 @@ test_base_SOURCES = ../test/test_base.cpp \
 ../test/test_ensemble_association.cpp \
 ../test/test_ensemble_composition.cpp \
 ../test/test_ensemble_valeur.cpp \
+../test/test_iterateur_ensemble_association.cpp \
 ../test/test_fonction_association_objet_objet.cpp \
 ../test/test_fonction_association_valeur_objet.cpp \
 ../test/test_liste.cpp \
