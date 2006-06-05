@@ -22,47 +22,48 @@
 #ifndef _PROJET_UNIVERS_H_
 #define _PROJET_UNIVERS_H_
 
-/// ProjetUnivers est un jeu de combat spatial multi-joueur.
 
 /*!
+  @mainpage
   
+  @section Developpement
+  
+  ProjetUnivers
+  
+*/
+
+
+/// ProjetUnivers est un jeu de combat spatial multi-joueur.
+/*!
   Voir : 
   
   - http://www.punivers.net/
   - https://developer.berlios.de/projects/projet-univers
   
-  Les différents sous-modules sont les suivants :
+  Les différents modules sont les suivants :
   
-  - Base
-    Des types C++ et des templates utilisés dans toute l'application
+  - Base\n
+    Des types C++ et des templates utilisés dans toute l'application.\n
+    Le cadre général de l'application et notament le patron MVC.
     
-  - Noyau
-    Le cadre général de l'application et notament le patron MVC
-    
-  - Affichage
-    L'affichage des éléments
+  - Affichage\n
+    L'affichage 3D et 2D.
   
-  - Modele
-    Le modèle de donnée
+  - Modele\n
+    Le modèle statique de donnée de l'univers.
     
-  - Controle
-    Les controleurs
-  Essai de graphe
+  - Controle\n
+    Les controleurs.
+    
+  - Action\n
+    Le modèle de données dynamique de l'univers, contient les différentes 
+    actions qui peuvent être réalisées.
+    
+  @dotfile architecture.dot "Architecture Globale"
   
-  \dot
-  graph example {
-      node [shape=record, fontname=Helvetica, fontsize=10];
-      Affichage [ label="Affichage" URL="\ref Affichage"];
-      Modele [ label="Modele" URL="\ref Modele"];
-      Controle [ label="Controle" URL="\ref Controle"];
-      Controle -> Modele [ taillabel="lis modifie" arrowhead="open", style="dashed" ];
-      Controle -> Affichage [ taillabel="lis modifie" arrowhead="open", style="dashed" ];
-      Affichage -> Modele [ taillabel="lis" arrowhead="open", style="dashed" ];
-      Modele -> Affichage [ taillabel="notifie" arrowhead="open", style="dashed" ];
-  }
-  \enddot  
 */ 
 namespace ProjetUnivers
 {}
+
 
 #endif //_PROJET_UNIVERS_H_

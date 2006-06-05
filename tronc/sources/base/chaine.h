@@ -40,7 +40,7 @@ namespace ProjetUnivers {
         
     /*! 
     
-    @par BaseChaineFonctionnement Fonctionnement
+    @par Fonctionnement
 	    Cette classe évite les copies de chaînes en maintenant le nombre de 
     	  référence à une chaîne particulière, c'est le rôle de 
       TamponChaine qui contient effectivement un char*.

@@ -26,18 +26,18 @@ namespace ProjetUnivers {
 
     class Modele ;
 
-    template <class MODELE> 
-    Vue<MODELE>::Vue(const Association<MODELE>& _modele)
+    template <class Modele> 
+    Vue<Modele>::Vue(const Association<Modele>& _modele)
     : Implantation::BaseVue(), observe(_modele)
     {
       
-      // vérifie que MODELE dérive de Base::Modele
-      DeriveDe<MODELE,ProjetUnivers::Base::Modele>() ;
+      // vérifie que Modele dérive de Base::Modele
+      DeriveDe<Modele,ProjetUnivers::Base::Modele>() ;
       observe->AjouterVue(*this) ;
     }
     
-    template <class MODELE> 
-    Vue<MODELE>::~Vue()
+    template <class Modele> 
+    Vue<Modele>::~Vue()
     {
       observe->EnleverVue(*this) ;
     }

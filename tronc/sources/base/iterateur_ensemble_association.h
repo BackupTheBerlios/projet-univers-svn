@@ -38,7 +38,7 @@ namespace ProjetUnivers {
     
     /// Itérateur sur les ensemble en association.
     /*!
-      @par Test Tests
+      @par Tests
         Testé le 08/04/2006 avec TestIterateurEnsembleAssociation :
         - Parcours
         - Copie

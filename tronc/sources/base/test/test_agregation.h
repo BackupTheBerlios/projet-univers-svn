@@ -46,8 +46,11 @@ namespace ProjetUnivers {
         // @{
 
 
-        /// Teste la conversion implicite dans de nombreuses situations.
+        /// Teste la conversion implicite dans différentes situations.
         void testConversionImplicite();
+
+        /// Teste la destruction lorsque le dernier pointeur est relaché.
+        void testDestructionAutomatique();
 
 
         // @}
@@ -59,6 +62,7 @@ namespace ProjetUnivers {
       
         CPPUNIT_TEST_SUITE(TestAgregation) ;
         CPPUNIT_TEST(testConversionImplicite) ;
+        CPPUNIT_TEST(testDestructionAutomatique) ;
         CPPUNIT_TEST_SUITE_END() ;
       
         // @}      

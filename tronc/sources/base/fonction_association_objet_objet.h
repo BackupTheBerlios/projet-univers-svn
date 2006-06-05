@@ -36,7 +36,7 @@ namespace ProjetUnivers
     /*!  
       ObjetCle et ObjetValeur doivent être des classe d'objets.
       
-      @par Test Test
+      @par Test
         Testé le 06/04/2006 avec TestFonctionAssociationObjetObjet :
         - Constructeur
         - Ajouter

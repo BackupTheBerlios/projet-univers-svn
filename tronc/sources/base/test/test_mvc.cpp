@@ -114,7 +114,7 @@ namespace ProjetUnivers {
           {
           public:
   
-            virtual void Raffraichir()
+            void Raffraichir()
             {
               personne_attribut = personne->AccesAttribut() ;
               tete_attribut = personne->AccesTete()->AccesAttribut() ;
@@ -126,7 +126,10 @@ namespace ProjetUnivers {
               Vue<ModeleTete>(_personne->AccesTete()), personne(_personne),
               personne_attribut(_personne->AccesAttribut()),
               tete_attribut(_personne->AccesTete()->AccesAttribut())
-            {}
+            {
+              this->AjouterMiseAJourElementaire(
+                    boost::bind(&VuePersonne::Raffraichir,this)) ;
+            }
             
             
             Entier AccesPersonneAttribut() const
@@ -155,7 +158,7 @@ namespace ProjetUnivers {
           {
           public:
   
-            virtual void Raffraichir()
+            void Raffraichir()
             {
               personne_attribut = Vue<ModelePersonne>::observe->AccesAttribut() ;
               raffraichie = VRAI ;
@@ -164,7 +167,10 @@ namespace ProjetUnivers {
             AffichagePersonne(const Association<ModelePersonne>& _personne)
             : Vue<ModelePersonne>(_personne), 
               personne_attribut(_personne->AccesAttribut())
-            {}
+            {
+             this->AjouterMiseAJourElementaire(
+                    boost::bind(&AffichagePersonne::Raffraichir,this)) ;            
+            }
             
             
             Entier AccesPersonneAttribut() const

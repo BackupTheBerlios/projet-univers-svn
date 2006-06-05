@@ -33,7 +33,7 @@ namespace ProjetUnivers {
   /*!
     @name Affichage avec indentation
     
-    @par Utilisation Utilisation
+    @par Utilisation
     
     
 

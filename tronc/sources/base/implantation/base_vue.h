@@ -21,9 +21,12 @@
 #ifndef _PU_BASE_BASE_VUE_H_
 #define _PU_BASE_BASE_VUE_H_
 
+#include <boost/signal.hpp>
+#include <boost/bind.hpp>
 
 #include <base/association.h>
 #include <base/types.h>
+
 
 namespace ProjetUnivers {
 
@@ -43,18 +46,14 @@ namespace ProjetUnivers {
       {
       public:
 
-        /// Destructeur de classe abstraite.
-        virtual ~BaseVue()
-        {}
-
         /// Raffraichissement de la vue.
-        /*
-          C'ets ce que doit surcharger chaque vue.
-          
-          @pre
-            le modèle à changé
-        */
-        virtual void Raffraichir() = 0 ;
+        void Raffraichir() ;
+
+
+      /*!
+        @name Gestion des mises à jour
+      */
+      // @{
 
         /// Marque la vue comme devant être raffraichie au prochain tour.
         void MarquerARaffraichir() ;
@@ -62,11 +61,20 @@ namespace ProjetUnivers {
         /// Marque la vue comme devant être détruite au prochain tour.
         void MarquerADetruire() ;
 
+      // @}
+
+        /// Destructeur de classe abstraite.
+        virtual ~BaseVue() ;
+        
 
       protected:
       
         /// Constructeur de classe abstraite.
         BaseVue() ;
+
+        /// Enregistre une mise à jour pour la vue.
+        void AjouterMiseAJourElementaire(
+                            const boost::signal0<void>::slot_type&) ;
         
         /// Les vues sont groupées au sein d'un point de vue
         Association<PointDeVue> pointDeVue ;
@@ -75,6 +83,10 @@ namespace ProjetUnivers {
           Chemin complet pour gcc 4
         */
         friend class ::ProjetUnivers::Base::PointDeVue ;
+       
+        /// Les mises à jour élémentaires de l'objet
+        boost::signal0<void> misesAJourElementaires ;
+         
       };
     }    
   }

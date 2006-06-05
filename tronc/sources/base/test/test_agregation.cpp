@@ -57,10 +57,34 @@ namespace ProjetUnivers {
           {}
           
         };
+        
+        /// une classe qui mémorise le nombre de ses instances.
+        class Objet
+        {
+        public:
+        
+          Objet()
+          {
+            ++nombreDInstance ;
+          }
+
+          ~Objet()
+          {
+            --nombreDInstance ;
+          }
+          
+          
+          static unsigned int nombreDInstance ;
+          
+        };
+        
+        unsigned int Objet::nombreDInstance = 0 ;
+        
       }
             
-      void TestAgregation::testConversionImplicite() {
-      
+      void TestAgregation::testConversionImplicite() 
+      {
+     
         Agregation<Enfant> enfant(new Enfant()) ;
 
         Agregation<Parent> parent(enfant) ;
@@ -72,6 +96,29 @@ namespace ProjetUnivers {
        
        
       }
+
+
+      void TestAgregation::testDestructionAutomatique()
+      {
+
+        Agregation<Objet> o1(new Objet()) ;
+
+        {
+          Agregation<Objet> o2 = o1 ;
+          
+          
+        }
+        
+        CPPUNIT_ASSERT(Objet::nombreDInstance == 1) ;
+
+        /// plus personne ne point sur l'objet
+        o1 = NULL ;
+        
+        CPPUNIT_ASSERT(Objet::nombreDInstance == 0) ;
+        
+
+      }
+
       
       void TestAgregation::setUp() 
       {

@@ -66,6 +66,6 @@ test_derive_de.o : ../test/test_derive_de.cpp
 
 
 
-test_base_CXXFLAGS = $(CPPUNIT_CFLAGS)
+test_base_CXXFLAGS = $(CPPUNIT_CFLAGS) 
 test_base_LDFLAGS = $(CPPUNIT_LIBS)
-test_base_LDADD = libbase.a 
+test_base_LDADD = libbase.a -l$(BOOST_SIGNALS_LIB)

@@ -35,42 +35,33 @@ namespace ProjetUnivers {
     /// Un point de vue est une observation cohérente d'un modèle de données.
     /*!
       Un point de vue est un ensemble de vues. Généralement, toutes ces vues 
-      portent sur des modèles reliés les uns aux autres. Ces vues doivent être 
-      toutes avoir été raffraichies, pour former un point de vue cohérent (i.e. 
-      on n'a pas oublié de raffraichir une vue). 
+      portent sur des modèles reliés les uns aux autres. 
       
-      Exemples :
+      Ces vues doivent toutes avoir été raffraichies pour que le point de vue 
+      puisse être affiché. 
+      
+      @par Exemples 
       - ce que voit un personnage
       - ce que détecte un capteur
     
-      Utilisation :
+      @par Utilisation 
       -# Création d'un point de vue
       -# Enregistrement des vues par PointDeVue::Ajouter
       -# Raffraichissement périodique par PointDeVue::Raffraichir
-    
-      @todo
-        Envisager la possibilité de remplacer la composition par une 
-        aggregation (pointeur à comptage de référence) ce qui permettrait à des 
-        point de vue différents de partager les mêmes vues. Exemple : un point 
-        de vue d'un personnage et un point de vue d'une caméra.
+        
     */
     class PointDeVue 
     {
     public:
 
-      /*!
-        @name Construction
-        
-      */
-      // @{
+    /*!
+      @name Construction
+      
+    */
+    // @{
 
       /// Constructeur.
       PointDeVue() ;
-
-      /// Destructeur.
-      virtual ~PointDeVue()
-      {}
-
 
       /// Ajoute une vue.
       void Ajouter(Implantation::BaseVue* _vue) ;
@@ -78,35 +69,42 @@ namespace ProjetUnivers {
       /// Enlève une vue.
       void Enlever(const Association<Implantation::BaseVue>& _vue) ;
 
-      // @}
-      /*!
-        @name Utilisation
-        
-      */
-      // @{
+    // @}
+    /*!
+      @name Utilisation
+      
+    */
+    // @{
 
     
       /// Raffraichissement du point de vue.
       void Raffraichir() ;
 
     
-      // @}
+    // @}
       
+      /// Destructeur, détruit les vues.
+      virtual ~PointDeVue()
+      {}
+
       
     private:
 
-      /*!
-        @name Pour la gestion des vues
-        
-        
-      */
-
+    /*!
+      @name Pour la gestion des vues
+      
+      
+    */
+    // @{
+    
       /// Marque _vue comme devant être rafraichie.
       void PenserARaffraichir(const Association<Implantation::BaseVue> _vue) ;
     
       /// Marque _vue comme devant être supprimée.
       void PenserADetruire(const Association<Implantation::BaseVue> _vue) ;
       
+    //@}
+    
       /// Les vues constituant ce point de vue.
       EnsembleComposition<Implantation::BaseVue> vues ;
 

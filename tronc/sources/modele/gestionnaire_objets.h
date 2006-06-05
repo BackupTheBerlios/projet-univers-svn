@@ -37,15 +37,9 @@ namespace ProjetUnivers {
     class TypeContrainte ;
       
     ///  Gère les objets.
-    
     /*!
 
     @par Fonctionnement
-    
-    @par Questions
-    
-      Est-ce un objet physique ?
-        - si oui alors un assemblage peut être un élément d'un autre assemblage
       
     */
     namespace GestionnaireObjets {

@@ -31,6 +31,18 @@ namespace ProjetUnivers {
     namespace Implantation {
 
 
+      void BaseVue::Raffraichir()
+      {
+        this->misesAJourElementaires() ;
+      }
+
+      void 
+      BaseVue::AjouterMiseAJourElementaire(
+            const boost::signal0<void>::slot_type& _f)
+      {
+        this->misesAJourElementaires.connect(_f) ;
+      }
+
       void BaseVue::MarquerARaffraichir()
       {
         if (pointDeVue != Association<PointDeVue>())
@@ -50,6 +62,12 @@ namespace ProjetUnivers {
       BaseVue::BaseVue()
       : pointDeVue()
       {}
+
+      BaseVue::~BaseVue()
+      {
+        /// @todo : supprimer des vues du modèle et du point de vue... ?
+      }
+
     }
   }
 }

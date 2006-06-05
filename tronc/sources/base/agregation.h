@@ -34,7 +34,7 @@ namespace ProjetUnivers {
     Une agrégation est une relation entre un tout et ses parties mais qui, 
     contrairement à la composition, permet de partager ses parties.
 
-    Utilisation
+    @par Utilisation
     
       A utiliser en remplacement du couple Composition/Association lorsqu'on 
       souhaite que l'objet soit partagé par plusieurs propriétaires. Dès que 
@@ -43,8 +43,12 @@ namespace ProjetUnivers {
     @warning
       On ne doit utiliser que des agregations.
       
-    Implantation
+    @par Implantation
       Réalisé avec boost::shared_ptr.
+    @par Test
+      Testé le 13/05/2006 avec TestAgregation :
+      - Conversion implicite
+      - Destruction automatique
     
     */
     template <typename OBJET> class Agregation {
