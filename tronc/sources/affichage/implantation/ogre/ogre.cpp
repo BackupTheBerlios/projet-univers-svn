@@ -38,18 +38,6 @@ namespace ProjetUnivers {
       namespace Ogre {  
       
         
-        /// le système ogre      
-        Base::Composition<Root> systeme ;
-        
-        /// la fenetre d'affichage
-        /*!
-          \remark
-            C'est un pointeur, Ogre gère lui même sas mémoire et sétruira 
-            l'objet lorsqu'on n'en aura plus besoin. Ce pointeur doit être 
-            considéré comme une association.
-        */
-        RenderWindow* fenetre ;
-        
         /// Charge les ressources à partir du fichier ressources.cfg
         void ChargerRessources() 
         {
@@ -78,10 +66,12 @@ namespace ProjetUnivers {
           
         }
         
-        Booleen ChoixPilote()
+        
+        
+        Booleen ChoixPiloteAffichage()
         {
           // affiche l'écran de configuration et demande si on continue
-          if(systeme->showConfigDialog())
+          if(racine->showConfigDialog())
           {
             return VRAI ;
           }
@@ -91,26 +81,31 @@ namespace ProjetUnivers {
           }
         }
         
+        
+        
         Booleen Initialiser() {
       
           // On se crée une application Ogre
           // *******************************
-          systeme = new Root() ;
+          racine = new Root() ;
           
           // On charge le fichier de configuration des ressources
           // ****************************************************
           ChargerRessources() ;
         
           // On laisse l'utilisateur choisir le pilote d'affichage
-          Booleen continuer = ChoixPilote() ;
+          Booleen continuer = ChoixPiloteAffichage() ;
           if (! continuer)
           {
-            systeme = NULL ;
+            racine = NULL ;
             return FAUX ;
           }
           
           // on se crée une fenetre par défaut
-          fenetre = systeme->initialise(true) ;
+          fenetre = racine->initialise(true) ;
+          
+          // un manager
+          gestionnaire = racine->createSceneManager(ST_GENERIC) ;
           
           // voila, ca a marché
           return VRAI ;
@@ -118,19 +113,20 @@ namespace ProjetUnivers {
 
         void Terminer() 
         {
-          systeme = NULL ;  
+          racine = NULL ;  
         }
 
         /// Raffraichi l'affichage
         /*!
-          Met à jour tout ce qui doit être affiché
+          Met à jour tout ce qui doit être affiché. On se sert de cette méthode 
+          pour ne pas passer par la boucle standard de Ogre.
         */
         void Raffraichir()
         {
           /// cf. http://www.ogre3d.org/phpBB2/viewtopic.php?t=2733
-          systeme->_fireFrameStarted();
+          racine->_fireFrameStarted();
           fenetre->update() ;
-          systeme->_fireFrameEnded();   
+          racine->_fireFrameEnded();   
         }
          
       }

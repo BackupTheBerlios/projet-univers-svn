@@ -30,7 +30,7 @@ namespace ProjetUnivers {
   /// Le module réalisant l'affichage des objets de Modele.
   
   /*!
-    La Vue de Modele qui réalise l'affichage à l'écran.
+    C'est la Vue de Modele qui réalise l'affichage à l'écran.
   */ 
   namespace Affichage 
   {
@@ -43,10 +43,10 @@ namespace ProjetUnivers {
         
       Crée une fenêtre d'affichage
       
-      \return FAUX si on doit arreter
-      \return VRAI si on peut et si on doit continuer
+      @return FAUX si on doit arreter
+      @return VRAI si on peut et si on doit continuer
     
-      \remark
+      @remark
         c'est ici qu'on peut faire le choix de l'implantation
 
     */

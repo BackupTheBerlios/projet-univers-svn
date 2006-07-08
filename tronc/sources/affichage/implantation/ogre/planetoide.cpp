@@ -18,8 +18,11 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#include <base/composition.h>
+
 #include <affichage/implantation/ogre/planetoide.h>
 
+using namespace ProjetUnivers::Base ;
 
 namespace ProjetUnivers {
    
@@ -33,24 +36,11 @@ namespace ProjetUnivers {
       {
       
        
-          /// Constructeur.
         Planetoide::Planetoide(
           const Association< Modele::Planetoide>& _planetoide)
         : Implantation::Planetoide(_planetoide)
         {}
-          /// Modèle 3D du planetoide
-          //::Ogre::Mesh* modele ;
   
-        /// Construiction.
-        /*!
-          Est redéfini dans les modules d'extensions pour construire celui de la 
-          bonne classe ???
-          
-          \todo
-            En fait on doit se doter d'une classe qui construit, i.e., une classe 
-            fabricante, qu'on redéfinira dans les modules. Mais qui construira 
-            l'objet de la classe fabricante ? :)
-        */
         Planetoide* Construire(
           const Association< Modele::Planetoide>& _planetoide)
         {
@@ -65,7 +55,22 @@ namespace ProjetUnivers {
           // taille
           // avec une atmo de la bonne couleur...
           
+          return resultat.Liberer() ;
         }
+        
+        /// Construction par défaut
+        Planetoide* ConstruireParDefaut(
+          const Association< Modele::Planetoide>& _planetoide)
+        {
+          Composition< Planetoide > resultat(new Planetoide(_planetoide)) ;
+        
+          /// un mesh en forme de boule de la bonne taille :
+          
+          
+          /// une texture au hasard
+          
+          
+          return resultat.Liberer() ;
   
       }
     }    

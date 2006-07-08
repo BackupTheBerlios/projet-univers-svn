@@ -28,8 +28,6 @@ namespace ProjetUnivers {
     
     Base::Booleen Initialiser() 
     {
-    
-      
       // pour l'instant implantation avec Ogre3D
       return Implantation::Ogre::Initialiser() ; 
     }

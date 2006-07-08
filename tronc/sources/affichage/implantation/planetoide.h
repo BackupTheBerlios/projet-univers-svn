@@ -23,16 +23,18 @@
 #define _AFFICHAGE_IMPLANTATION_PLANETOIDE_H_
 
 #include <base/association.h>
+#include <base/vue.h>
+
 
 namespace ProjetUnivers {
   
-  namespace Modele {
-    
+  namespace Modele
+  {
     class Planetoide ;
   }
   
-  namespace Affichage 
-  {
+  
+  namespace Affichage {
 
     namespace Implantation {
 
@@ -41,43 +43,52 @@ namespace ProjetUnivers {
 
       /// Partie affichage d'un planetoide.
       /*!
-        
+        @deprecated
       
         
       */
-      class Planetoide
+      class Planetoide : public Base::Vue<Modele::Planetoide>
       {
+      public:
+        /*!
+          @name Raffraichissement
+          
+          
+        */  
+        // @{
         
         
-      
-      
-       
+        /// Le modèle a changé, on réactualise la vue.
+        virtual void Raffraichir() ;
+          
+            
+        // @}
+
+        virtual ~Planetoide() ;
+
       protected:
-      
+            
         /// Constructeur.
         Planetoide(const Base::Association< Modele::Planetoide>& _planetoide) ;
         
-       
       private:
+      
+      
         
-        /// Lien vers la partie Modèle
-        Base::Association< Modele::Planetoide> planetoide ;
-        
-        /// Modèle 3D du planetoide ??
-        
-        
+              
       };
 
-      /// Construiction.
-      /*!
-        Est redéfini dans les modules d'extensions pour construire celui de la 
-        bonne classe ???
-        
-        \todo
-          En fait on doit se doter d'une classe qui construit, i.e., une classe 
-          fabricante, qu'on redéfinira dans les modules. Mais qui construira 
-          l'objet de la classe fabricante ? :)
-      */
+
+
+        /*!
+          Est redéfini dans les modules d'extensions pour construire celui de la 
+          bonne classe ???
+          
+          \todo
+            En fait on doit se doter d'une classe qui construit, i.e., une classe 
+            fabricante, qu'on redéfinira dans les modules. Mais qui construira 
+            l'objet de la classe fabricante ? :)
+        */
       Planetoide* Construire(
         const Base::Association< Modele::Planetoide>& _planetoide) ;
   

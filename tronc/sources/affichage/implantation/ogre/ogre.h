@@ -22,7 +22,10 @@
 #ifndef _PU_AFFICHAGE_IMPLANTATION_OGRE_OGRE_H_
 #define _PU_AFFICHAGE_IMPLANTATION_OGRE_OGRE_H_
 
+#include <Ogre.h>
+
 #include <base/types.h>
+#include <base/composition.h>
 
 namespace ProjetUnivers {
   
@@ -51,8 +54,34 @@ namespace ProjetUnivers {
         /// Raffraichi l'affichage
         /*!
           Met à jour tout ce qui doit être affiché
+
+          @todo
+            Changer le nom en "Afficher"
         */
         void Raffraichir() ;
+        
+        /*!
+          @name Variables Locales
+        */
+        // @{
+
+        
+        /// le système ogre      
+        Base::Composition< ::Ogre::Root > racine ;
+        
+        /// la fenetre d'affichage
+        /*!
+          @remark
+            C'est un pointeur, Ogre gère lui même sa mémoire et détruira 
+            l'objet lorsqu'on n'en aura plus besoin. 
+            Ce pointeur doit être considéré comme une association.
+        */
+        ::Ogre::RenderWindow* fenetre ;
+        
+        ::Ogre::SceneManager* gestionnaire ;
+
+        // @}
+        
         
       }
     

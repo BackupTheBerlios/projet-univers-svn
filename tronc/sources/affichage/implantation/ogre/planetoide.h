@@ -19,14 +19,13 @@
  ***************************************************************************/
 
 
-#ifndef _AFFICHAGE_IMPLANTATION_OGRE_PLANETOIDE_H_
-#define _AFFICHAGE_IMPLANTATION_OGRE_PLANETOIDE_H_
+#ifndef _PU_AFFICHAGE_IMPLANTATION_OGRE_PLANETOIDE_H_
+#define _PU_AFFICHAGE_IMPLANTATION_OGRE_PLANETOIDE_H_
 
-#include <affichage/implantation/planetoide.h>
+#include <Ogre.h>
 
-namespace Ogre { 
-  class Mesh ;
-}
+#include <base/association.h>
+
 
 namespace ProjetUnivers {
    
@@ -40,49 +39,48 @@ namespace ProjetUnivers {
       {
       
 
-        /// Partie affichage d'un planetoide.
+        /// Partie affichage d'un planetoide dans lme moteur Ogre3d.
         /*!
           
         
-          
         */
-        class Planetoide 
-          : public Implantation::Planetoide
+        class Planetoide : public Base::Vue<Modele::Planetoide>
         {
-          
-          
-        
-        
-         
-        protected:
+        public:
+
         
           /// Constructeur.
           Planetoide(const Base::Association< Modele::Planetoide>& _planetoide) ;
           
+          /*!
+            @name Raffraichissement
+            
+                        
+          */  
+          // @{
+          
+          
+          /// Le modèle a changé, on réactualise la vue.
+          virtual void Raffraichir() ;
+          
+            
+          // @}
+          
          
         private:
-          
-          /// Lien vers la partie Modèle
-          Base::Association< Modele::Planetoide> planetoide ;
           
           /// Modèle 3D du planetoide
           ::Ogre::Mesh* modele ;
           
+          /// entité 3D
+          ::Ogre::Entity entite ;
+          
           
         };
   
-        /// Construiction.
-        /*!
-          Est redéfini dans les modules d'extensions pour construire celui de la 
-          bonne classe ???
-          
-          \todo
-            En fait on doit se doter d'une classe qui construit, i.e., une classe 
-            fabricante, qu'on redéfinira dans les modules. Mais qui construira 
-            l'objet de la classe fabricante ? :)
-        */
-        Planetoide* Construire(
-          const Base::Association< Modele::Planetoide>& _planetoide) ;
+        /// Construction.
+//        Planetoide* Construire(
+//          const Base::Association< Modele::Planetoide>& _planetoide) ;
   
       }
     }    
