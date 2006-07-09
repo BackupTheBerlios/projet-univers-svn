@@ -31,6 +31,9 @@ namespace ProjetUnivers {
 
 
     /// Une position absolue dans un espace à trois dimensions.
+    /*!
+      @deprecated ??
+    */
     class Position {
     public:
     
@@ -40,13 +43,21 @@ namespace ProjetUnivers {
       // @{  
      
 
-      /// Construit le point d'origine.
+      /// Construit le point d'origine de l'univers.
       Position() ;
+
+      /// La position particulière d'un objet physique.
+      Position(const Association< ObjetPhysique >&) ;
 
 
       /// Construit la position indiquée.
-      Position(const Distance& x, 
-               const Distance& y, const Distance& z) ;
+      /*!
+        On donne une origine et 3 distances.
+      */  
+      Position(const Position& _origine,
+               const Distance& x, 
+               const Distance& y, 
+               const Distance& z) ;
       
 
       /// Constructeur de copie.
@@ -62,7 +73,7 @@ namespace ProjetUnivers {
      
       
 
-      // Calcule la distance.
+      // Distance entre 2 Position.
       Distance CalculerDistance(const Position&) ; 
     
       // @}
@@ -70,9 +81,12 @@ namespace ProjetUnivers {
     private:
     
 
-      /// Implantation l'aide de trois distances, 
-      /// qui sont les distances entre les divers projections sur les plans 
-      /// des coordonnées et le point qui sert d'origine au système.      
+      /*!
+        Implantation l'aide de trois distances, 
+        qui sont les distances entre les divers projections sur les plans 
+        des coordonnées et le point qui sert d'origine au système.      
+      */
+      Position origine ;
       Distance coordonneeX ;
       Distance coordonneeY ;
       Distance coordonneeZ ;      

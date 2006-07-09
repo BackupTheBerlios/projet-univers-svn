@@ -18,8 +18,8 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _CONTROLE_H_
-#define _CONTROLE_H_
+#ifndef PU_CONTROLE_H_
+#define PU_CONTROLE_H_
 
 namespace ProjetUnivers {
   
@@ -33,12 +33,30 @@ namespace ProjetUnivers {
     
     Ce module reçoit les informations des entrées et modifie Affichage et 
     Modele.
+    
+    @deprecated
      
   */ 
   namespace Controle 
-  {}
+  {
+      
+    class Action ;
+    
+    void Initialiser() ;
+
+    void Terminer() ;
+    
+    /// Execute les actions en cours.
+    /*!
+      @post
+        Il n'y a plus d'actions à traiter
+    */
+    void Traiter() ;
+    
+    void Ajouter(Action*) ;
+  }
 
   
 }
 
-#endif //_CONTROLE_H_
+#endif //PU_CONTROLE_H_
