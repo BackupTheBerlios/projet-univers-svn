@@ -39,7 +39,7 @@ namespace ProjetUnivers {
       
         ++nombreDElements ;
       
-        if (! (dernierNoeud == NULL)) {
+        if (dernierNoeud) {
       
           _n->suivant = premierNoeud.Liberer() ;
           premierNoeud = _n ;
@@ -58,7 +58,7 @@ namespace ProjetUnivers {
       
         ++nombreDElements ;
       
-        if (!(dernierNoeud == NULL)) {
+        if (dernierNoeud) {
       
           _n->precedent = dernierNoeud ;
           dernierNoeud->suivant = _n ;

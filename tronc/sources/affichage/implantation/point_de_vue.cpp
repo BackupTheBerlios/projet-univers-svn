@@ -18,16 +18,39 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#include <modele/personnage.h>
+
 #include <affichage/point_de_vue.h>
-#include <noyau/modele.h>
 
 namespace ProjetUnivers {
 
   namespace Affichage {
 
-    PointDeVue::PointDeVue()
-    : Vue()
+    /*!
+      La partie commune à tous les points de vues de personnage.
+    
+    */
+
+    PointDeVue::PointDeVue(const Base::Association<Modele::Objet>& _observateur)
+    : Base::PointDeVue(), observateur(_observateur)
     {}
+
+    PointDeVue::~PointDeVue()
+    {}
+ 
+    void PointDeVue::Construire() 
+    {
+      
+      // cas 1 :
+      // le personnage est pilote
+      
+      
+      
+      
+      
+    
+    }
 
   }
 }
+

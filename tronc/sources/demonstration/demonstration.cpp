@@ -18,23 +18,44 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-
+#include <affichage/affichage.h>
+#include <entrees/entrees.h>
+#include <action/action.h>
+#include <modele/modele.h>
 
 
 /*
-PROGRAM
-  Demonstration
+  Programme de démonstration
   
   
 
 */
 int main() {
 
-  // l'état de jeu
-//  Composition< Etat > etat ;
 
-//  etat = new EtatMission() ;
+  /// initialisation
+  ProjetUnivers::Affichage::Initialiser() ;
+  ProjetUnivers::Action::Initialiser() ;
+  ProjetUnivers::Entrees::Initialiser() ;
+  ProjetUnivers::Modele::Initialiser() ;
   
-//  etat->entrer() ;
+
+  /// boucle principale
+  while (! ProjetUnivers::Action::Termine())
+  {
+    ProjetUnivers::Entrees::Traiter() ;
+    ProjetUnivers::Action::Traiter() ;
+
+    ProjetUnivers::Affichage::Raffraichir() ;
+  }
+    
+  /// sortie
+  ProjetUnivers::Modele::Terminer() ;
+  ProjetUnivers::Entrees::Terminer() ;
+  ProjetUnivers::Action::Terminer() ;
+  ProjetUnivers::Affichage::Terminer() ;
+  
+  
+
   
 }

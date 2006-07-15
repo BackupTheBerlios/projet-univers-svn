@@ -22,6 +22,9 @@
 #include <rlog/rlog.h>
 
 #include <iterator>
+#include <fstream>
+#include <iostream>
+
 
 #include <opencxx/TypeInfo.h>
 
@@ -31,9 +34,21 @@
 #include <outils/compilateur/meta_classe.h>
 #include <outils/compilateur/utilitaires_opencxx.h>
 
+using namespace std;
 using namespace Opencxx ;
 using namespace ProjetUnivers::Outils::Compilateur ;
 using namespace ProjetUnivers::Base ;
+
+
+/*!
+  Quelques constantes
+*/
+const Chaine NomProjetUnivers = "ProjetUnivers" ;
+const Chaine NomModuleBase = NomProjetUnivers + "::" + "Base" ;
+const Chaine NomValeur = NomModuleBase + "::" + "Valeur" ;
+const Chaine NomObjet = NomModuleBase + "::" + "Objet" ;
+const Chaine NomPersistant = NomModuleBase + "::" + "Persistante" ;
+const Chaine NomBase = "Base" ;
 
 
 bool MetaClasse::Valeur() 
@@ -44,7 +59,7 @@ bool MetaClasse::Valeur()
       parent != this->parents.end() ;
       ++parent)
   {   
-    if (NomComplet(*parent) == Chaine("ProjetUnivers::Base::Valeur"))
+    if (NomComplet(*parent) == NomValeur)
       
       return VRAI ;
 
@@ -67,7 +82,7 @@ bool MetaClasse::Objet()
       parent != this->parents.end() ;
       ++parent)
   {   
-    if (NomComplet(*parent) == Chaine("ProjetUnivers::Base::Objet"))
+    if (NomComplet(*parent) == NomObjet)
       
       return VRAI ;
     
@@ -89,7 +104,7 @@ bool MetaClasse::Persistante()
       parent != this->parents.end() ;
       ++parent)
   {   
-    if (NomComplet(*parent) == Chaine("ProjetUnivers::Base::Persistante"))
+    if (NomComplet(*parent) == NomPersistant)
       
       return VRAI ;
     
@@ -102,6 +117,43 @@ bool MetaClasse::Persistante()
   return FAUX ;  
 }
 
+
+bool MetaClasse::Abstraite() const 
+{
+  return ExisteDeclarationConstructeur && 
+         ! ExisteDeclarationConstructeurPublic ;
+  
+}
+
+bool MetaClasse::Concrete() const 
+{
+  return ExisteDeclarationConstructeurPublic ||
+         ! ExisteDeclarationConstructeur ;
+  
+}
+
+bool MetaClasse::EstObjet() const 
+{
+  return ! ExisteConstructeurDeCopiePublic &&
+         ! ExisteOperateurEgalPublic && 
+         ! ExisteOperateurDifferentPublic ;
+  
+}
+
+bool MetaClasse::EstValeur() const 
+{
+  return 
+    (
+      ExisteDeclarationConstructeurParDefautPublic ||
+      ! ExisteDeclarationConstructeur
+    ) &&
+    ExisteConstructeurDeCopiePublic &&
+    ExisteOperateurEgalPublic &&
+    ExisteOperateurDifferentPublic &&
+    ! ExisteMethodeVirtuellePure &&
+    ! ExisteMethodeVirtuelleNonPure ;
+  
+}
 
 bool MetaClasse::NamespaceProjetUnivers() 
 {
@@ -122,8 +174,8 @@ bool MetaClasse::NamespaceProjetUnivers()
   rDebug("fin MetaClasse::NamespaceProjetUnivers") ;
 
   
-  if (Chaine(courant->IsNamespace()->ToString()) == Chaine("ProjetUnivers")
-      && Chaine(precedent->IsNamespace()->ToString()) != Chaine("Base"))
+  if (Chaine(courant->IsNamespace()->ToString()) == NomProjetUnivers
+      && Chaine(precedent->IsNamespace()->ToString()) != NomBase)
   
     return true ;
   
@@ -175,56 +227,45 @@ void MetaClasse::Initialiser()
       
       // Traitement des membres
       int nombreDeMembres = 0 ;
-
       Member membre ;
-          
+
       while(this->NthMember(nombreDeMembres, membre)) 
       {
-
         rDebug(" membre = "+ Chaine(membre.Definition()->ToString())) ;
            
         if (membre.IsAttribute()) 
 
           attributs.Ajouter(new Attribut(membre)) ;
 
-        // constructeur
         else if (membre.IsConstructor())
         {
-
-          
           rDebug("membre est constructeur") ;
 
+//          methodes.Ajouter(new Methode(membre)) ;
 
-//          ExisteDeclarationConstructeur = true ;
+          ExisteDeclarationConstructeur = true ;
+          if (membre.IsPublic())
+            ExisteDeclarationConstructeurPublic = true ;
         
           TypeInfo constructeur ;
           membre.Signature(constructeur) ;
           int nombreArguments = constructeur.NumOfArguments() ;
-
           rDebug("nombre arguments = " + Chaine(nombreArguments)) ;
           
           if (nombreArguments == 0)
           {
-          
-            // constructeur par défaut
-//            ExisteDeclarationConstructeurParDefaut = true ;
-
             if (membre.IsPublic())
               ExisteDeclarationConstructeurParDefautPublic = true ;
             else if (membre.IsProtected())
               ExisteDeclarationConstructeurParDefautProtege = true ;
-
-            
           }
           else if (nombreArguments == 1)
           {
-
             rDebug("constructeur avec un argument") ;
             
             TypeInfo argument ;
             if (membre.IsPublic() && constructeur.NthArgument(0, argument))
             {
-
               rDebug("argument est public") ;
               
               if (argument.IsConst())              
@@ -232,12 +273,8 @@ void MetaClasse::Initialiser()
               if (argument.IsReferenceType())
                 rDebug("argument est reference") ;
               
-              
-              
-              
               if (argument.IsReferenceType())
               {
-                
                 TypeInfo argumentClass ;
                 argument.Dereference(argumentClass) ;
                 
@@ -246,7 +283,6 @@ void MetaClasse::Initialiser()
                 
                 if (argumentClass.WhatIs() == ClassType)
                   rDebug("argument est reference to class") ;
-                
                 
                 if (argumentClass.IsConst() && 
                     argumentClass.WhatIs() == ClassType &&
@@ -263,72 +299,65 @@ void MetaClasse::Initialiser()
         }
         else if (membre.IsDestructor())
         {
+          rDebug("membre est destructeur") ;
           
-        rDebug("membre est destructeur") ;
-          
+//          methodes.Ajouter(new Methode(membre)) ;
+
           if (membre.IsPublic() && membre.IsVirtual() && 
               ! membre.IsPureVirtual())
-          
             ExisteDestructeurVirtuelNonPur = true ;
-        
         }
-        else if (! membre.IsStatic() && ! membre.IsPrivate())
+        else 
         {
-
           rDebug("membre est fonction") ;
-        
-          // méthode d'objets non privée
-          
-          if (membre.IsVirtual() && ! membre.IsPureVirtual())
-            ExisteMethodeVirtuelleNonPure = true ;
 
-          else if (membre.IsPureVirtual())
-            ExisteMethodeVirtuellePure = true ;
-
-
-
-          Chaine nom(membre.Name()->ToString()) ;
+//          methodes.Ajouter(new Methode(membre)) ;
           
-          rDebug("la methode sappelle : " + nom ) ;
-          
-          
-          if (nom == "operator ==")
+          if (! membre.IsStatic() && ! membre.IsPrivate())
           {
+            // méthode d'objets non privée
             
-            rDebug("la methode est operateur de comparaison") ;
+            if (membre.IsVirtual() && ! membre.IsPureVirtual())
+              ExisteMethodeVirtuelleNonPure = true ;
+  
+            else if (membre.IsPureVirtual())
+              ExisteMethodeVirtuellePure = true ;
+  
+            Chaine nom(membre.Name()->ToString()) ;
+            rDebug("la methode sappelle : " + nom ) ;
             
-            TypeInfo comparaison ;
-            membre.Signature(comparaison) ;
-            int nombreArguments(comparaison.NumOfArguments()) ;
-            TypeInfo parametre ;
-            
-            if (nombreArguments == 1 && membre.IsPublic() && 
-                comparaison.NthArgument(0, parametre))
+            if (nom == "operator ==")
             {
-
-              if (parametre.IsReferenceType())
+              rDebug("la methode est operateur de comparaison") ;
+              
+              TypeInfo comparaison ;
+              membre.Signature(comparaison) ;
+              int nombreArguments(comparaison.NumOfArguments()) ;
+              TypeInfo parametre ;
+              
+              if (nombreArguments == 1 && membre.IsPublic() && 
+                  comparaison.NthArgument(0, parametre))
               {
-                TypeInfo argumentClass ;
-                parametre.Dereference(argumentClass) ;
-                
-                if (argumentClass.IsConst() && 
-                    argumentClass.WhatIs() == ClassType &&
-                    argumentClass.ClassMetaobject() == this)
+                if (parametre.IsReferenceType())
                 {
-                  rDebug("operateur egalite") ;
-                  ExisteOperateurEgalPublic = true ;
+                  TypeInfo argumentClass ;
+                  parametre.Dereference(argumentClass) ;
+                  
+                  if (argumentClass.IsConst() && 
+                      argumentClass.WhatIs() == ClassType &&
+                      argumentClass.ClassMetaobject() == this)
+                  {
+                    rDebug("operateur egalite") ;
+                    /*! 
+                      @todo
+                        tester que ca renvoie ProjetUnivers::Base::Booleen
+                    */
+                    ExisteOperateurEgalPublic = true ;
+                  }
                 }
-                
               }
-
-            
-              
             }
-            
-              
-
-          }  
-          
+          }
         }
  
         nombreDeMembres++ ;  
@@ -397,10 +426,10 @@ void MetaClasse::Initialiser()
 
 bool MetaClasse::VerifieRegles() {
 
+  // 1. vérification des types des attributs.
 
   Booleen validiteAttributs = VRAI ;
   
-  // vérification des types des attributs.
   for(IterateurEnsembleComposition<Attribut> attribut(attributs) ;
       attribut.Valide() ;
       ++attribut)
@@ -408,23 +437,56 @@ bool MetaClasse::VerifieRegles() {
       validiteAttributs = validiteAttributs && attribut->VerifieRegles() ;
   }
 
-  return validiteAttributs ;
+  // 2. vérification des règles générales
+
+  return validiteAttributs && 
+         RegleAbstrait() &&
+         RegleAbstraitConcret() &&
+         RegleObjetValeur() &&
+         RegleValeurConcrete() ;
 }
 
-
-
-
-bool MetaClasse::EstValeur() const
+bool MetaClasse::RegleAbstrait() const
 {
-  
+
+  return ! this->Abstraite() ||
+         (
+           ExisteDestructeurVirtuelNonPur &&
+           ! ExisteMethodeVirtuelleNonPure &&
+           ExisteDeclarationConstructeurParDefautProtege
+         ) ;
+
 }
-  
-bool MetaClasse::EstObjet() const
+
+bool MetaClasse::RegleAbstraitConcret() const
 {
-  
+
+  return this->Abstraite() || this->Concrete() ;
 }
 
+bool MetaClasse::RegleObjetValeur() const
+{
 
+  return this->EstObjet() || this->EstValeur() ;
+}
+
+bool MetaClasse::RegleValeurConcrete() const
+{
+  return ! this->EstValeur() || this->Concrete() ;
+}
+
+bool MetaClasse::RegleParentsAbstraites() const 
+{
+  for(std::set<MetaClasse*>::iterator parent = this->parents.begin() ; 
+      parent != this->parents.end() ;
+      ++parent)
+  {
+    if (! (*parent)->Abstraite())
+      return false ;
+  }
+  
+  return true ;
+}
 
 
 const char* MetaClasse::Afficher()  
@@ -502,7 +564,17 @@ const char* MetaClasse::Afficher()
 }
 
 MetaClasse::MetaClasse()
-: initialisee(false)
+: initialisee(false), 
+  ExisteDeclarationConstructeurParDefautPublic(false),
+  ExisteDeclarationConstructeurParDefautProtege(false),
+  ExisteConstructeurDeCopiePublic(false),
+  ExisteDeclarationConstructeur(false),
+  ExisteDeclarationConstructeurPublic(false),
+  ExisteDestructeurVirtuelNonPur(false),
+  ExisteOperateurEgalPublic(false),
+  ExisteOperateurDifferentPublic(false),
+  ExisteMethodeVirtuellePure(false),
+  ExisteMethodeVirtuelleNonPure(false)
 {}
 
 
@@ -536,6 +608,14 @@ void MetaClasse::TranslateClass(Environment* env)
     else
       rLog(RLOG_CHANNEL("compilateur"), "la classe " + this->nom + 
                                       " ne vérifie pas les règles") ;
+
+    // sortie vers un fichier
+    ofstream sortieClasse(this->nom + ".struct", ios::out) ;
+    sortieClasse << this->Afficher() ;
+    
+
+    
+    
 
   }
   rDebug("fin MetaClasse::TranslateClass") ;

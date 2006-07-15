@@ -38,7 +38,7 @@ namespace ProjetUnivers {
       
       void IterateurListeAbstrait::operator ++() {
       
-        if (!(noeudCourant() == NULL))
+        if (noeudCourant())
       
           noeudCourant() = noeudCourant()->suivant ;
       
@@ -49,7 +49,7 @@ namespace ProjetUnivers {
       
       void IterateurListeAbstrait::operator --() {
       
-        if (!(noeudCourant() == NULL))
+        if (noeudCourant())
       
           noeudCourant() = noeudCourant()->precedent ;
       
@@ -61,7 +61,7 @@ namespace ProjetUnivers {
       
       Booleen IterateurListeAbstrait::Valide() const {
       
-        return ! (noeudCourant() == NULL) ;
+        return noeudCourant() ;
       }
       
       IterateurListeAbstrait::~IterateurListeAbstrait()

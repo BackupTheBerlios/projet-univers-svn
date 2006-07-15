@@ -126,6 +126,12 @@ namespace ProjetUnivers {
     // *************************      
     // @{  
     
+      /// Permet le test à non NULL
+      operator bool() const
+      {
+        return pt != NULL ;
+      }
+
 
       /// Egalité avec une autre association.
       template <class OBJET2> 

@@ -355,6 +355,7 @@ namespace ProjetUnivers {
       /*
       @todo
         générer des erreurs de compilation explicites
+        ... pas sur...
       */
       Booleen TypeTemplate::TypeAttributCorrect() const
       {
@@ -384,6 +385,8 @@ namespace ProjetUnivers {
             // le template a un seul paramètre Objet
             if (this->_parametres.NombreDElements() != 1)
             {
+              /// @todo corriger
+              // provoque une erreur interne parceque pas de where...
               classeTemplate->ErrorMessage("mauvais nombre d'arguments",0,0) ;
               return FAUX ;
             }
@@ -450,6 +453,13 @@ namespace ProjetUnivers {
         return VRAI ;
       }
 
+      Booleen TypeTemplate::TypeParametreCorrect() const
+      {
+
+        return FAUX ;
+      }
+      
+      
       Base::Booleen TypeTemplate::EstComposition() const
       {
 

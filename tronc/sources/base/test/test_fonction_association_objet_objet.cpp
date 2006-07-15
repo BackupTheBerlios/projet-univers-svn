@@ -59,7 +59,7 @@ namespace ProjetUnivers {
       {
         FonctionAssociationObjetObjet<ClasseObjet,ClasseObjet> fonction ;
         Base::Composition<ClasseObjet> objet(new ClasseObjet()) ;
-        CPPUNIT_ASSERT(fonction.Acces(objet) == NULL) ;        
+        CPPUNIT_ASSERT(!fonction.Acces(objet)) ;        
 
       }
 

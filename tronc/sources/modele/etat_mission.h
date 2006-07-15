@@ -35,37 +35,33 @@ namespace ProjetUnivers {
     ///  Représente le fait de jouer une mission.
 
     /*!
-    TYPE_DE_CLASSE
-      Objet
-      Concret
-    \todo
-      Supprimer... car c'est un contrôle...???
+    @par Type de classe
+      - Objet
+      - Concret
     */
     class EtatMission
     {
     public:
 
 
-      ////////////////////
-      // Initialisation de l'état.
-      // Construction des controles.
+      /// Initialisation de l'état.
       virtual void Initialiser() ;
       
-      //////////////////////
-      // Terminaison de l'état, réaliser à la sortie
+      /// Sortie de la mission.
       virtual void Finaliser() ;
 
       
     private:
 
-      // ****************
-      // GROUP: Attributs
-      // ****************
+    /*!
+      @name: Attributs
+    */
+    //@{    
       
-      
-      /////////////////
-      // La mission jouée
+      /// La mission jouée
       Base::Association< Mission > mission ; 
+
+    //@}
 
     };
     

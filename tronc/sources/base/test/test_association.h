@@ -47,6 +47,9 @@ namespace ProjetUnivers {
         
         /// Teste la conversion implicite dans de nombreuses situations.
         void testConversionImplicite();
+        
+        /// Vérifie que le test de validité est correct
+        void testTestValidite() ;
            
         // @}
         // *******************************
@@ -57,7 +60,8 @@ namespace ProjetUnivers {
         CPPUNIT_TEST_SUITE(TestAssociation) ;
       
         CPPUNIT_TEST(testConversionImplicite) ;
-      
+        CPPUNIT_TEST(testTestValidite) ;
+        
         CPPUNIT_TEST_SUITE_END() ;
       
         // @}      

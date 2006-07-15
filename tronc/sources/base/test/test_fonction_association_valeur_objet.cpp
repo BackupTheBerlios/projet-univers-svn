@@ -57,7 +57,7 @@ namespace ProjetUnivers {
       void TestFonctionAssociationValeurObjet::testVide() 
       {
         FonctionAssociationValeurObjet<int,ClasseObjet> fonction ;
-        CPPUNIT_ASSERT(fonction.Acces(3) == NULL) ;        
+        CPPUNIT_ASSERT(!fonction.Acces(3)) ;        
 
       }
 

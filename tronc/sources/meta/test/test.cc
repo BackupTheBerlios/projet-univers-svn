@@ -12,12 +12,17 @@ template <class T, class V> class FonctionObjetValeur
 namespace PU {
   template <class T> class Zob
   {};
+  
+  typedef int TypeEntier ;
+  
 }
   
-
+typedef enum {a, b, c} enumere ;
 typedef unsigned short Booleen ;
 
 class Titi ;
+
+//metaclass Serialisable Test ;
 
 class test {
 public:
@@ -34,7 +39,7 @@ protected:
   PU::Zob< test> unZob ;
 };
 
-metaclass Serialisable Titi ;    // metaclass declaration
+//metaclass Serialisable Titi ;    // metaclass declaration
 
 
 
@@ -49,8 +54,20 @@ private:
 
   Composition< test > toto ;
   FonctionObjetValeur< test, Booleen> estBeau ;
+  enumere attribut_enum ;
+  PU::TypeEntier entier ;
   
 public:  
   Booleen zob ;
   int age ;
+  
+  /// commentaire 1
+  mutable int truc ; /// commentaire 2
+  /// commentaire 3
 };
+
+int main()
+{
+  return 0 ;
+}
+

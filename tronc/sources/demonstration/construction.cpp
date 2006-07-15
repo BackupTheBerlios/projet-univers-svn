@@ -18,11 +18,14 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include "construction.h"
-#include "composition.h"
-#include "vaisseau.h"
-#include "moteur.h"
-#include "commandes_pilotage.h"
+
+#include <base/composition.h>
+
+#include <modele/vaisseau.h>
+#include <modele/moteur.h>
+#include <modele/commandes_pilotage.h>
+
+#include <demonstration/construction.h>
 
 
 namespace ProjetUnivers {
@@ -30,7 +33,7 @@ namespace ProjetUnivers {
   namespace Demonstration {
   
     using namespace ProjetUnivers::Base ;
-    using namespace ProjetUnivers::Univers ;
+    using namespace ProjetUnivers::Modele ;
 
     
     ///////////////

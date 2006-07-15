@@ -38,14 +38,15 @@ namespace ProjetUnivers {
     /// Représente une mission.
     /*!
     
-      \remark  
+      @remark  
         Une mission peut se jouer, et alors cela crée un EtatMission
 
       Type de classe
         - Objet
         - Concret
     */
-    class Mission : public ObjetAbstrait {
+    class Mission : public ObjetAbstrait 
+    {
     public:
 
 
@@ -55,11 +56,11 @@ namespace ProjetUnivers {
     private:
       
 
-      // ****************
-      /// @name Attributs
-      // ****************
-      // @{
-      
+    // ****************
+    /// @name Attributs
+    // ****************
+    // @{
+    
       
       /// Les différents rôles de la mission.
       Base::EnsembleComposition< Role > roles ;
@@ -69,7 +70,7 @@ namespace ProjetUnivers {
       Base::EnsembleAssociation< Role > rolesJouables ;
 
 
-      // @}
+    // @}
 
     };
     

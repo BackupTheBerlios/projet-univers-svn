@@ -69,6 +69,18 @@ namespace ProjetUnivers {
         
       }
       
+      void TestAssociation::testTestValidite()
+      {
+        Composition<Enfant> enfant(new Enfant()) ;
+        Association<Enfant> associationEnfant ;
+        
+        CPPUNIT_ASSERT(! associationEnfant) ;
+        
+        associationEnfant = enfant ;
+        CPPUNIT_ASSERT(associationEnfant) ;
+        
+      }
+      
       void TestAssociation::setUp() {
       }
       

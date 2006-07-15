@@ -25,7 +25,7 @@
 #include <Ogre.h>
 
 #include <base/types.h>
-#include <base/composition.h>
+#include <base/association.h>
 
 namespace ProjetUnivers {
   
@@ -50,6 +50,20 @@ namespace ProjetUnivers {
         
         /// Termine l'affichage
         void Terminer() ;
+
+        /// Accès aux descripteur de la fenetre d'affichage
+        /*!
+          Utilisé pour initialiser le module Entrees
+        */
+        size_t DescripteurFenetre() ;
+
+        /// Accès à la taille de la fenêtre
+        void TailleFenetre(unsigned int& width,
+                           unsigned int& height,
+                           unsigned int& depth,
+                           int& left,
+                           int& top );
+
         
         /// Raffraichi l'affichage
         /*!
@@ -67,7 +81,7 @@ namespace ProjetUnivers {
 
         
         /// le système ogre      
-        Base::Composition< ::Ogre::Root > racine ;
+        Base::Association< ::Ogre::Root > Racine() ;
         
         /// la fenetre d'affichage
         /*!
@@ -76,9 +90,9 @@ namespace ProjetUnivers {
             l'objet lorsqu'on n'en aura plus besoin. 
             Ce pointeur doit être considéré comme une association.
         */
-        ::Ogre::RenderWindow* fenetre ;
+        ::Ogre::RenderWindow* Fenetre() ;
         
-        ::Ogre::SceneManager* gestionnaire ;
+        ::Ogre::SceneManager* Gestionnaire() ;
 
         // @}
         

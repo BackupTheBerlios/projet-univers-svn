@@ -21,43 +21,63 @@
 #ifndef _PU_AFFICHAGE_POINT_DE_VUE_H_
 #define _PU_AFFICHAGE_POINT_DE_VUE_H_
 
-#include <noyau/vue.h>
+
+#include <base/association.h>
+#include <base/point_de_vue.h>
 
 namespace ProjetUnivers {
 
-
+  // Déclaration en-avant.
+  namespace Modele { 
+    class Objet ;
+  }
 
   namespace Affichage {
 
 
-    /// Le fait de voir une partie du modèle depuis un certain endroit.
+    /// Le point de vue subjectif par rapport à un observateur.
     /*!
+      C'est par exmple la vue à la première personne d'un personnage.
+      
       Type de classe :
         - Objet
         - Abstrait
-      \todo
-        A quoi ca sert cette classe ????
     */
-    class PointDeVue : public Noyau::Vue {
+    class PointDeVue : public Base::PointDeVue 
+    {
     public:
 
-      /// Active ce point de vue???
-      /// virtual void Activer() ;
-
+      virtual ~PointDeVue() ;
     
-      /// Destructeur de classe abstraite.
-      virtual ~ PointDeVue() ;
-
+      /// Contruit le point de vue
+      virtual void Construire() ;
+    
     protected:
+
+     /*!
+        @name Construction
+      */
+      // @{
       
-      /// Contructeur de classe abstraite.
-      PointDeVue() ;
+      
+      /// Constructeur.
+      
+      /*!
+        Construit tout ce qu'il ya à construire.
+      */
+      PointDeVue(const Base::Association<Modele::Objet>& _observateur) ;
+      
+      
+      // @}
+    
+      /// L'observateur.
+      Base::Association<Modele::Objet> observateur ;
+      
+      
       
     };
-
   }
 }
 
 
 #endif
-

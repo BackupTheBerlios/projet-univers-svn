@@ -68,8 +68,13 @@ namespace ProjetUnivers {
         /// Determine si ce type est un type autorisé pour un attribut.
         virtual Base::Booleen TypeAttributCorrect() const = 0 ;
       
+        /// Determine si ce type est un type autorisé pour un paramètre.
+        virtual Base::Booleen TypeParametreCorrect() const = 0 ;      
+      
+        /// Determine si ce type est un type de valeur.
         virtual Base::Booleen Valeur() const = 0 ;
 
+        /// Determine si ce type est un type d'objets.
         virtual Base::Booleen Objet() const = 0 ;
       
         //@}

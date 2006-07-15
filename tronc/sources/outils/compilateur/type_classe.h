@@ -57,6 +57,11 @@ namespace ProjetUnivers {
         */
         virtual Base::Booleen TypeAttributCorrect() const ;
 
+        /*!
+          Ce type n'est pas autorisé pour un paramètre.
+        */
+        virtual Base::Booleen TypeParametreCorrect() const ;      
+
         virtual Base::Booleen Valeur() const ;
 
         virtual Base::Booleen Objet() const ;

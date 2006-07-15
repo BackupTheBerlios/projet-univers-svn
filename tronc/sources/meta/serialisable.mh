@@ -25,35 +25,43 @@
 
 using namespace Opencxx ;
 
-/*
-CLASS
-  Serialisable
 
-  Classe des classes C++ qui sont sérialisées en XML.
+///  Classe des classes C++ qui sont sérialisées en XML.
 
-EXPLICATION
-  
+/*!
   Cette méta classe représente le fait pour une classe C++ d'ête sérialisée en 
   XML
-  
-  
-A_FAIRE
-  
-  
-  
 */
 class Serialisable : public Class {
 public:
 
-  ///////////////////////
-  // Modifie une classe sérialisable C en ajoutant deux méthodes 
-  // publiques : 
-  // -  static C* Lire(const Base::Chaine&) 
-  //      qui désérialise à partir de xml.
-  // -  Base::Chaine Ecrire() const 
-  //      qui sérialisent un objet et ses composants 
-  //      en xml.
-  void TranslateClass(Environment* env) ;
+  /// Ajoutant les méthodes de sérialisation et desérialisation.
+  /*!
+    Ajoute deux méthodes publiques : 
+    -  static C* Lire(const Base::Chaine&) 
+      qui désérialise à partir de xml.
+    -  Base::Chaine Ecrire() const 
+      qui sérialisent un objet et ses composants 
+      en xml.
+  */
+  void TranslateClass(Opencxx::Environment* env) ;
  
+
+
+  /// Serialisable est la méta classe par défaut.
+  /*!
+    Ceci est très pratique puis que le code C++ n'a pas à étre changé. 
+    On peut donc ainsi introspecter et modifier du code qui reste du 
+    pur C++.  
+   
+  */
+  static bool Initialize() ;
+
+  virtual Ptree* TranslateMemberRead(Environment*,
+               Ptree* object, Ptree* access_op,
+               Ptree* member_name);
+               
+  virtual Ptree* TranslateMemberRead(Environment*, Ptree* member_name);
+
 };
 

@@ -66,6 +66,9 @@ namespace ProjetUnivers {
         Base::Chaine ModeleAceDBEquivalent() const ;
 
         /// Determine si l'attribut vérifie les règles de programmations.
+        /*!
+          En cas d'erreur, cette méthode engendre une erreur de compilation.
+        */
         Base::Booleen VerifieRegles() const ;
 
         /// Affiche l'attribut.
@@ -76,12 +79,17 @@ namespace ProjetUnivers {
         
       private:
       
+        /// Une copie du membre
+        Opencxx::Member membre ;
+      
         /// Nom
         Base::Chaine nom ;
         
         /// Type
         Base::Composition<Type> type ;
         
+        Opencxx::Class* classe ;
+
         
       };
     }

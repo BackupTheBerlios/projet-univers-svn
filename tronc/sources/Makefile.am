@@ -1,1 +1,8 @@
-SUBDIRS = base noyau modele meta controle affichage compilation demonstration
+SUBDIRS = \
+action \
+affichage \
+base \
+demonstration \
+entrees \
+modele
+	

@@ -18,8 +18,10 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _MODELE_MODELE_H_
-#define _MODELE_MODELE_H_
+#ifndef PU_MODELE_MODELE_H_
+#define PU_MODELE_MODELE_H_
+
+#include <base/association.h>
 
 namespace ProjetUnivers {
   
@@ -27,17 +29,48 @@ namespace ProjetUnivers {
   /// Le module contenant le modèle de données.
   
   /*!
-    Réalisation de la partie modèle du cadre Modele/Vue/controle.
+    Réalisation de la partie modèle du cadre Modele/Vue/controle, noyau 
+    fonctionnel du jeu.
     
     Ce module contient toutes les informations sur les objets manipulés dans 
-    le jeu. On y décrire les éléments du jeu sans se soucier ni 
-    de leur affichage ni de ce qui déclenche leur modifications. 
-    
-    En d'autres termes, il s'agit d'un noyau fonctionnel.
+    le jeu. Ils sont décrit sans se soucier ni de leur affichage ni de ce qui 
+    déclenche leur modifications. 
     
   */ 
   namespace Modele 
-  {}
+  {
+    
+  class Objet ;
+  
+  /*!
+    @name Initialisation/Terminaison.
+  */
+  //@{        
+    
+    /// Initialise le module.
+    void Initialiser() ;
+
+    /// Termine le module.
+    void Terminer() ;
+
+  //@}
+  /*!
+    @name Gestion des objets.
+  
+  
+  */
+  //@{
+    
+    /// Accès à un objet par son nom
+    Base::Association<Objet> AccesObjet(const Base::Chaine& _nom) ;
+
+
+
+  //@}
+
+
+    
+  }
 
   /*!
   @page DescriptionModele Description générale du module Modele
@@ -99,9 +132,6 @@ namespace ProjetUnivers {
   intact mais n'est plus relié au vaisseau.
   
   @dotfile gestion_objet_assemblage.dot
-
-  
-  
     
   */
 

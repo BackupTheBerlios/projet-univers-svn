@@ -1,8 +1,8 @@
-noinst_LIBRARIES = libmodele.a
+lib_LTLIBRARIES = libmodele.la
 
 INCLUDES = -I../.. $(OGRE_CFLAGS)
 
-libmodele_a_SOURCES = \
+libmodele_la_SOURCES = \
 ../implantation/acceleration.cpp \
 ../implantation/assemblage.cpp \
 ../implantation/composant.cpp \
@@ -27,7 +27,8 @@ libmodele_a_SOURCES = \
 ../implantation/position.cpp \
 ../implantation/positionne.cpp \
 ../implantation/vaisseau.cpp \
-../implantation/vitesse.cpp 
+../implantation/vitesse.cpp  \
+../implantation/modele.cpp
 
 
 TESTS = test_modele
@@ -42,4 +43,4 @@ test_modele_SOURCES = \
 
 test_modele_CXXFLAGS = $(CPPUNIT_CFLAGS)
 test_modele_LDFLAGS = $(CPPUNIT_LIBS)
-test_modele_LDADD = libmodele.a ../../base/compilation/libbase.a
+test_modele_LDADD = libmodele.la ../../base/compilation/libbase.la

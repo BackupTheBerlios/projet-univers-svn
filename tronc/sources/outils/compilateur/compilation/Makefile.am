@@ -15,6 +15,8 @@ $(COMPILATEUR_IMPLANTATION)/type_enumere.cpp \
 $(COMPILATEUR_IMPLANTATION)/type_predefini.cpp \
 $(COMPILATEUR_IMPLANTATION)/type_template.cpp \
 $(COMPILATEUR_IMPLANTATION)/type.cpp \
+$(COMPILATEUR_IMPLANTATION)/type_vide.cpp \
+$(COMPILATEUR_IMPLANTATION)/type_pointeur.cpp \
 $(COMPILATEUR_IMPLANTATION)/utilitaires_opencxx.cpp \
 $(COMPILATEUR_IMPLANTATION)/attribut.cpp \
 $(COMPILATEUR_IMPLANTATION)/traceur.cpp \
@@ -38,7 +40,7 @@ compilateur : $(compilateur_DEPENDENCIES)
 
 check-am : compilateur libcompilateur.a
 	./compilateur $(INCLUDES) -v -- ../test/test2.cc
-
+	./compilateur $(INCLUDES) -v -- ../test/test1.cpp
 
 
 #all-am : compilateur	

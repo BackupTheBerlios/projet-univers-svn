@@ -218,6 +218,12 @@ namespace ProjetUnivers {
         */
         return VRAI ;
       }
+
+      Booleen TypePredefini::TypeParametreCorrect() const 
+      {
+        return FAUX ;
+      }
+
       
       Base::Booleen TypePredefini::Valeur() const
       {

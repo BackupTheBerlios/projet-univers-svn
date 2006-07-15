@@ -68,12 +68,15 @@ namespace ProjetUnivers {
       {}
 
       Booleen TypeEnumere::TypeAttributCorrect() const 
-      {
-        
+      { 
         return VRAI ;
-        
-          
       }
+
+      Booleen TypeEnumere::TypeParametreCorrect() const 
+      { 
+        return FAUX ;
+      }
+
       
       Base::Booleen TypeEnumere::Valeur() const
       {

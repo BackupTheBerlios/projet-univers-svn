@@ -82,6 +82,8 @@ namespace ProjetUnivers {
         */
         virtual Base::Booleen TypeAttributCorrect() const ;
 
+        virtual Base::Booleen TypeParametreCorrect() const ;      
+
         /// Transforme en chaine pour l'affichage.
         virtual Base::Chaine Afficher() const ;
 

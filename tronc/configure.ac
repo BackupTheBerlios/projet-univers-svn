@@ -6,6 +6,7 @@ AC_CONFIG_SRCDIR([sources/demonstration/demonstration.cpp])
 AM_CONFIG_HEADER(sources/config.h)
 AM_INIT_AUTOMAKE([ProjetUnivers], 0.1.0)
 AC_PROG_LIBTOOL
+AM_PROG_LIBTOOL
 
 
 ################
@@ -80,12 +81,24 @@ AM_PATH_CPPUNIT(1.1.0)
 AC_PROG_LEX
 
 # vérifie la présence de Ogre3d
-PKG_CHECK_MODULES(OGRE, [OGRE >= 1.0])
+PKG_CHECK_MODULES(OGRE, [OGRE >= 1.2])
 AC_SUBST(OGRE_CFLAGS)
 AC_SUBST(OGRE_LIBS)
 
 # vérifie la présence de boost signals
 AX_BOOST_SIGNALS
+
+
+# vérifie la présence de OIS
+PKG_CHECK_MODULES(OIS, [OIS >= 0.7])
+AC_SUBST(OIS_CFLAGS)
+AC_SUBST(OIS_LIBS)
+
+# vérifie la présence de RLOG
+PKG_CHECK_MODULES(librlog, [librlog >= 1.3])
+AC_SUBST(librlog_CFLAGS)
+AC_SUBST(librlog_LIBS)
+
 
 ####################################
 # Configuration des libs utilisaires
@@ -135,6 +148,10 @@ AC_CONFIG_FILES([Makefile \
                  sources/outils/compilateur/compilation/Makefile \
                  sources/demonstration/Makefile \
                  sources/demonstration/compilation/Makefile \
+                 sources/entrees/Makefile \
+                 sources/entrees/compilation/Makefile \
+                 sources/action/Makefile \
+                 sources/action/compilation/Makefile \
                  ])
 
 AC_OUTPUT

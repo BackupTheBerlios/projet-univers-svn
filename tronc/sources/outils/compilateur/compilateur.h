@@ -78,7 +78,8 @@ namespace ProjetUnivers {
           où OBJET est une classe d'objets et VALEUR est une classe de valeurs
         - n'importe quel type du moment qu'il n'est pas basé sur des classes 
           du namespace ProjetUnivers
-  
+      -# Chaque classe parente d'une classe est Abstraite.
+      
       @section persistance Persistance 
 
       Ce compilateur réalise la persistance <b>transparente</b> des 

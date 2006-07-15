@@ -90,6 +90,11 @@ namespace ProjetUnivers {
         return VRAI ;
           
       }
+      Base::Booleen TypeClasse::TypeParametreCorrect() const
+      {
+        return FAUX ;
+      }
+      
 
       Base::Booleen TypeClasse::Valeur() const
       {

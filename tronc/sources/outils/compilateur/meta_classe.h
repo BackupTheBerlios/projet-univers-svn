@@ -28,7 +28,9 @@
 
 #include <base/ensemble_composition.h>
 #include <base/chaine.h>
+
 #include <outils/compilateur/attribut.h>
+//#include <outils/compilateur/fonction.h>
 
 using namespace Opencxx ;
 
@@ -160,7 +162,7 @@ private:
     Une classe est soit Concrète soit Abstraite.
     Une classe est soit Objet soit Valeur.
     Une classe Valeur est Concrete.
-    
+    Une classe Abstraite possède certaines contraintes.
   */
   //@{
 
@@ -169,14 +171,43 @@ private:
   bool VerifieRegles() ;
 
 
+  /// Une règle vérifiée ou non
+  /*!
+    Abstraite => 
+      - destructeur virtuel non pur
+      - méthodes virtuelles pures ou méthodes non virtuelles
+      - un constructeur protégé
+  */
+  bool RegleAbstrait() const ;
+
+  /// Chaque classe est soit une classe abstraite soit une classe concrète.
+  bool RegleAbstraitConcret() const ;
+
+
+  /// Chaque classe est soit une classe de valeur soit une classe d'objet.
+  bool RegleObjetValeur() const ;
+
+  /// Une classe de Valeur est Concrete.
+  bool RegleValeurConcrete() const ;
+
+  /// Chaque classe parente d'une classe est Abstraite.
+  bool RegleParentsAbstraites() const ;
+  
+  // @}
+  /*!
+    @name Calcul des propriétés élémentaires de la classe
+  
+    Il s'agit de savoir si elle possède des constructeurs, lesquels et 
+    certaines méthodes bien particulières. Les propriétés élémentaires sont 
+    calculées pendant Initialiser et sont stokées.
+  */
+  //@{
+  
+
   /// La classe est-elle abstraite.
   /*!
-    Une classe abstraite possède 
-    - des méthode virtuelles pures
-    - un destructeur virtuel non pur public
-    - un constructeur protégé
-    - des méthodes non virtuelles
-    - des attributs
+    Une classe est abstraite si et seulement si elle possède 
+    - aucun constructeur public
   */
   bool Abstraite() const ;
 
@@ -184,12 +215,8 @@ private:
   /*!
     Une classe concrète possède 
     - au moins un constructeur public
-    - uniquement des méthodes non virtuelles
-    - des attributs
-    - éventuellement des destructeurs
   */
   bool Concrete() const ;
-
 
   /// Calcule si la classe est une classe de valeur
   /*!
@@ -211,13 +238,13 @@ private:
   */
   bool EstObjet() const ;
   
+  
+  /// Stokage des propriétés de la classe
   bool ExisteDeclarationConstructeurParDefautPublic ;
   bool ExisteDeclarationConstructeurParDefautProtege ;
   bool ExisteConstructeurDeCopiePublic ;
-  
-//  bool ExisteDeclarationConstructeurPublic ;
-//  bool ExisteDeclarationConstructeur ;
-//  bool ExisteDeclarationConstructeurParDefaut ;
+  bool ExisteDeclarationConstructeur ;
+  bool ExisteDeclarationConstructeurPublic ;
   
   bool ExisteDestructeurVirtuelNonPur ;
 
@@ -241,7 +268,11 @@ private:
   
   /// Les constructeurs
   
-  /// Les méthodes statiques ??
+  /// Les méthodes
+  /*!
+    Ce sont des *fonctions* possédant un paramètre this.
+  */
+//  ProjetUnivers::Base::EnsembleComposition<ProjetUnivers::Outils::Compilateur::Fonction> methodes ;
   
   
   

@@ -22,6 +22,8 @@
 #ifndef _PU_AFFICHAGE_AFFICHAGE_H_
 #define _PU_AFFICHAGE_AFFICHAGE_H_
 
+#include <stddef.h>
+
 #include <base/types.h>
 
 namespace ProjetUnivers {
@@ -57,6 +59,18 @@ namespace ProjetUnivers {
     */
     void Terminer() ;
 
+    /// Accès aux descripteur de la fenetre d'affichage
+    /*!
+      Utilisé pour initialiser le module Entrees
+    */
+    size_t DescripteurFenetre() ;
+
+    /// Accès à la taille de la fenêtre
+    void TailleFenetre(unsigned int& width,
+                       unsigned int& height,
+                       unsigned int& depth,
+                       int& left,
+                       int& top );
 
     /// Raffraichi l'affichage
     /*!

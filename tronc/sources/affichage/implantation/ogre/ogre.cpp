@@ -18,9 +18,13 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#include <stddef.h>
+#include <Ogre.h>
+
+#include <plateforme.h>
 #include <affichage/implantation/ogre/ogre.h>
 #include <base/composition.h>
-#include <Ogre.h>
+
 
 // on préfixe avec la racine des namespaces pour 
 // qu'il n'y ait pas de confusion
@@ -37,6 +41,74 @@ namespace ProjetUnivers {
       
       namespace Ogre {  
       
+        /// le système ogre      
+        Base::Composition< ::Ogre::Root> racine ;
+        
+        /// la fenetre d'affichage
+        /*!
+          @remark
+            C'est un pointeur, Ogre gère lui même sa mémoire et détruira 
+            l'objet lorsqu'on n'en aura plus besoin. 
+            Ce pointeur doit être considéré comme une association.
+        */
+        ::Ogre::RenderWindow* fenetre ;
+        
+        ::Ogre::SceneManager* gestionnaire ;
+
+
+        /// le système ogre      
+        Base::Association< ::Ogre::Root > Racine()
+        {
+          return racine ;
+        }
+        
+        /// la fenetre d'affichage
+        /*!
+          @remark
+            C'est un pointeur, Ogre gère lui même sa mémoire et détruira 
+            l'objet lorsqu'on n'en aura plus besoin. 
+            Ce pointeur doit être considéré comme une association.
+        */
+        ::Ogre::RenderWindow* Fenetre()
+        {
+          return fenetre ;
+        }
+        
+        
+        ::Ogre::SceneManager* Gestionnaire()
+        {
+          return gestionnaire ;
+        }
+        
+
+        size_t DescripteurFenetre()
+        {
+          size_t windowHnd = 0;
+
+        // Get window handle
+#if PU_PLATEFORME == PU_PLATEFORME_WIN32
+          fenetre->getCustomAttribute( "HWND", &windowHnd );
+        // Uncomment these two lines to allow users to switch keyboards via the language bar
+        //paramList.insert(std::make_pair(std::string("w32_keyboard"), std::string("DISCL_FOREGROUND") ));
+        //paramList.insert(std::make_pair(std::string("w32_keyboard"), std::string("DISCL_NONEXCLUSIVE") ));
+
+#elif PU_PLATEFORME == PU_PLATEFORME_LINUX
+
+          fenetre->getCustomAttribute( "GLXWINDOW", &windowHnd );
+#endif
+          
+          return windowHnd ;
+        }
+
+        /// Accès à la taille de la fenêtre
+        void TailleFenetre(unsigned int& width,
+                           unsigned int& height,
+                           unsigned int& depth,
+                           int& left,
+                           int& top )
+        {
+          fenetre->getMetrics( width, height, depth, left, top ) ;
+        }
         
         /// Charge les ressources à partir du fichier ressources.cfg
         void ChargerRessources() 

@@ -18,9 +18,12 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#include <rlog/rlog.h>
+
+#include <opencxx/mop.h>
 
 #include <outils/compilateur/attribut.h>
-#include <opencxx/mop.h>
+
 
 using namespace Opencxx ;
 
@@ -33,8 +36,12 @@ namespace ProjetUnivers {
     namespace Compilateur 
     {
   
+      /// Message d'erreur pour les types d'attribut
+      const Chaine MessageErreurTypeAttribut = "type d'attribut incorect" ;
+  
       Attribut::Attribut(Member& _membre)
-      : nom(_membre.Name()->ToString()), type()
+      : membre(_membre), nom(_membre.Name()->ToString()), type(),
+        classe(_membre.Supplier())
       {
       
         TypeInfo informationType ;
@@ -57,6 +64,32 @@ namespace ProjetUnivers {
         {
           
           Booleen validiteType(type->TypeAttributCorrect()) ;
+
+          if ( ! validiteType)
+          {
+            
+            char* nomCString = (char *)malloc(sizeof(char)*(nom.Longueur() +1)) ;
+            strcpy(nomCString, nom) ;
+            
+            Ptree* ArbreNom = (new Leaf(nomCString,
+                               nom.Longueur())) ;
+                               
+                               
+            
+            
+            Chaine message = "dans la classe : " + Chaine(classe->Name()->ToString()) + 
+                             " l'attribut " + membre.Name()->ToString() + 
+                             " a un type interdit" ;
+
+            rDebug(message) ;
+            
+            classe->ErrorMessage(
+                                 classe->GetEnvironment()->GetOuterEnvironment(), 
+                                 "type d'attribut incorrect:", 
+                                 membre.Name(), 
+                                 membre.Name()) ;
+                                   
+          }
 
           /*!
             \todo

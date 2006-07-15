@@ -36,6 +36,21 @@ namespace ProjetUnivers {
     {
       Implantation::Ogre::Terminer() ;  
     }
+
+    size_t DescripteurFenetre()
+    {
+      return Implantation::Ogre::DescripteurFenetre() ;
+    }
+
+    /// Accès à la taille de la fenêtre
+    void TailleFenetre(unsigned int& width,
+                       unsigned int& height,
+                       unsigned int& depth,
+                       int& left,
+                       int& top)
+    {
+      Implantation::Ogre::TailleFenetre(width,height,depth,left,top) ;
+    }
   
     void Raffraichir() 
     {

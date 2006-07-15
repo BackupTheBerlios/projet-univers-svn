@@ -22,8 +22,6 @@
 #ifndef _PU_COMPILATEUR_TRACEUR_H_
 #define _PU_COMPILATEUR_TRACEUR_H_
 
-/// Essai au lieu de le définir à la compil
-//#define RLOG_COMPONENT "trace_compilateur"
 
 namespace ProjetUnivers {
 

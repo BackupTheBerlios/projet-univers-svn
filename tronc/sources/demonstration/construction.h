@@ -21,13 +21,13 @@
 #ifndef _PU_DEMONSTRATION_CONSTRUCTION_H
 #define _PU_DEMONSTRATION_CONSTRUCTION_H
 
-#include "mission.h"
+#include <modele/mission.h>
 
 namespace ProjetUnivers {
 
   namespace Demonstration {
   
-    using namespace ProjetUnivers::Univers ;
+    using namespace ProjetUnivers::Modele ;
     
     
     ///////////////
