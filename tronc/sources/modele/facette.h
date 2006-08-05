@@ -17,63 +17,78 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#ifndef PU_MODELE_MONDE_FACETTE_H_
+#define PU_MODELE_MONDE_FACETTE_H_
 
-#include <base/joli_affichage.h>
-#include <modele/plan_de_composant.h>
-#include <modele/plan_de_point_d_attache.h>
 
 namespace ProjetUnivers {
-
   namespace Modele {
- 
-    PlanDePointDAttache::PlanDePointDAttache(
-      const Base::Association<PlanDeComposant>& _plan)
-    : planDeComposant(_plan)
-    {}
+    namespace Monde {
+
+      /// Une facette d'un objet.
+      /*!
+        C'est une partie d'un objet dans un modèle à délégation.
+        Une facette appartient à un seul objet. 
+        Un objet peut avoir autant de facettes qu'il veut.
+        Un objet ne peut avoir qu'une seule facette d'un certain type :
+        - par exemple, un objet ne peut avoir qu'une seule facette de type 
+          Positionné, car l'objet n'a qu'une seule position.
+          
+        Une facette d'objet regoupe un ensemble d'attributs de l'objet.
+      */
+      class Facette
+      {
+      public:
+
+      /*!
+        @name Partie "objet"
+      
+      */
+      // @{
+      
+        virtual 
+          Base::Association<Facette> 
+          AccesFacette(const Base::Chaine& _nom) const :
+          
+      
+      // @}
+      
+        /// Type de la facette.
+        virtual Base::Chaine Type() const = 0 ;
+
+        /// Autres facettes obligatoires
+        /*!
+          Il s'agit en quelque sorte d'un héritage de facette.
+          
+          @todo 
+            voir si c'ets vraiment utile
+        */
+//        virtual Base::EnsembleValeur<Base::Chaine> FacettesResquises() const = 0 ;
+
+        virtual ~Facette() ;
 
 
-    Base::Association<PlanDeComposant> 
-    PlanDePointDAttache::AccesPlanDeComposant() const
-    {
-      return this->planDeComposant ;
-    }
+        /// Conversion vers une autre Facette
+        /*!
+          pas au point.
+        */
+//        template <class T> operator Base::Association<T>() const ;
 
-    Base::Chaine PlanDePointDAttache::AfficherReference() const
-    {
-      Base::Chaine resultat ;
+
+      protected: 
       
-      resultat += Base::AfficheEspaces() ;
-      resultat += "<PlanDePointDAttache identificateur=\"" ;
-      resultat += identificateur ;
-      resultat += "\"/>" ;
-      resultat += Base::FinDeLigne() ;
-      
-      return resultat ; 
-      
+        Facette() ;
+        
+      };
+
+      template <class T> 
+        operator T&() const ;
+
+
     }
-    
-    Base::Chaine PlanDePointDAttache::AfficherDefinition() const
-    {
-      Base::Chaine resultat ;
-      
-      resultat += Base::AfficheEspaces() ;
-      resultat += "<PlanDePointDAttache nom=\"" ;
-      resultat += nom ;
-      resultat += "\" identificateur=" ;
-      resultat += identificateur ;
-      resultat += ">" ;
-      resultat += Base::FinDeLigne() ;
-      Base::AugmenteIndentation() ;
- 
-      resultat += this->planDeComposant->AfficherReference() ;
- 
-      Base::DiminueIndentation() ;
-      resultat += Base::AfficheEspaces() + "</PlanDAssemblage>" ;
-      resultat += Base::FinDeLigne() ;
-      
-      return resultat ;
-       
-    }
- 
   }
 }
+
+
+
+#endif /*PU_MODELE_MONDE_TRAIT_H_*/

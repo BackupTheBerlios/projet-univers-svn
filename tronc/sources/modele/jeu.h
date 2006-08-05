@@ -17,69 +17,38 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#ifndef PU_MODELE_JEU_JEU_H_
+#define PU_MODELE_JEU_JEU_H_
 
-#include <base/joli_affichage.h>
-
-#include <modele/composant.h>
-#include <modele/plan_de_point_d_attache.h>
-
-#include <modele/point_d_attache.h>
+#include <base/association.h>
+#include <base/chaine.h>
 
 namespace ProjetUnivers {
-
   namespace Modele {
-    
-    PointDAttache::PointDAttache(
-                  const Base::Association<PlanDePointDAttache>& _plan,
-                  const Base::Association<Composant>& _composant)
-    : plan(_plan), composant(_composant)
-    {}
-      
-    Base::Association<PlanDePointDAttache> 
-    PointDAttache::AccesPlanPointDAttache() const
-    {
-      return this->plan ;
-    }
+    namespace Jeu {    
 
+      class Etat ;
+      
+      /// Initialise le module.
+      /*!
+        Place dans l'état initial.
+      */
+      void Initialiser() ; 
 
-    Base::Chaine PointDAttache::AfficherReference() const
-    {
-      Base::Chaine resultat ;
+      /// Termine le module.
+      void Terminer() ;
+
+      /// Change d'état.
+      void Changer(const Base::Chaine& _etat) ;
       
-      resultat += Base::AfficheEspaces() ;
-      resultat += "<PointDAttache identificateur=\"" ;
-      resultat += identificateur ;
-      resultat += "\"/>" ;
-      resultat += Base::FinDeLigne() ;
+      /// Renvoie l'état courant.
+      Base::Association<Etat> EtatCourant() ;
       
-      return resultat ; 
       
     }
-    
-    Base::Chaine PointDAttache::AfficherDefinition() const
-    {
-      Base::Chaine resultat ;
-      
-      resultat += Base::AfficheEspaces() ;
-      resultat += "<PointDAttache nom=\"" ;
-      resultat += nom ;
-      resultat += "\" identificateur=" ;
-      resultat += identificateur ;
-      resultat += ">" ;
-      resultat += Base::FinDeLigne() ;
-      Base::AugmenteIndentation() ;
-      
-      resultat += this->plan->AfficherReference() ;
-      resultat += this->composant->AfficherReference() ;
-
-      Base::DiminueIndentation() ;
-      resultat += Base::AfficheEspaces() + "</PointDAttache>" ;
-      resultat += Base::FinDeLigne() ;
-      
-      return resultat ;
-     }
-
-
   }
 }
 
+
+
+#endif /*PU_MODELE_JEU_JEU_H_*/
