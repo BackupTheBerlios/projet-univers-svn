@@ -18,14 +18,12 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#include <base/test/test_fonction_composition_valeur_objet.h>
+#include <base/composition.h>
 
-#ifndef _PU_BASE_TEST_FONCTION_ASSOCIATION_VALEUR_OBJET_H_
-#define _PU_BASE_TEST_FONCTION_ASSOCIATION_VALEUR_OBJET_H_
-
-
-#include <cppunit/extensions/HelperMacros.h>
-
-#include <base/fonction_association_valeur_objet.h>
+// enregistrement du test
+CPPUNIT_TEST_SUITE_REGISTRATION(
+  ProjetUnivers::Base::Test::TestFonctionCompositionValeurObjet) ;
 
 
 namespace ProjetUnivers {
@@ -33,63 +31,46 @@ namespace ProjetUnivers {
   namespace Base {
   
     namespace Test {
-      
-      
-      ///  Test de Base::TestFonctionAssociationValeurObjet.
-      class TestFonctionAssociationValeurObjet : public CppUnit::TestFixture {
-      protected:
-      
+
+
+      namespace
+      {
+        class ClasseObjet
+        {};
+      }
+
+
+
+      void TestFonctionCompositionValeurObjet::testAjouter() 
+      {
+        Base::Composition<ClasseObjet> objet(new ClasseObjet()) ;
+        Base::Association<ClasseObjet> associationObjet(objet) ;
         
-      // ****************************
-      /// @name Tests proprement dits
-      // ****************************
-      // @{      
+        FonctionCompositionValeurObjet<int,ClasseObjet> fonction ;
+
         
-        /// Teste l'ajout d'un élément
-        void testAjouter();
+        fonction.Ajouter(3,objet.Liberer()) ;
+        CPPUNIT_ASSERT(fonction[3] == associationObjet) ;        
+
+      }
+
       
-        /// Teste l'ensemble vide
-        void testVide();
-        
-      
-      
-      // @}      
-      // *******************************
-      /// @name Enregistrement des tests
-      // *******************************
-      // @{      
-      
-      
-        CPPUNIT_TEST_SUITE(TestFonctionAssociationValeurObjet) ;
-      
-        CPPUNIT_TEST(testAjouter) ;
-        CPPUNIT_TEST(testVide) ;
-      
-        CPPUNIT_TEST_SUITE_END() ;
-      
-      public:
-      
-      // @}      
-      // *******************************************
-      /// @name Initialisation et femeture des tests
-      // *******************************************
-      // @{      
-        
-      
-        ///////////////
-        // Initialisation du test
-        void setUp() ;
-      
-        ///////////////
-        // Desinitialisation du test
-        void tearDown() ;
-      
-      // @}      
-       
-      };
+      void TestFonctionCompositionValeurObjet::testVide() 
+      {
+        FonctionCompositionValeurObjet<int,ClasseObjet> fonction ;
+        CPPUNIT_ASSERT(!fonction[3]) ;        
+      }
+
+ 
+      void TestFonctionCompositionValeurObjet::setUp() 
+      {}
+    
+      void TestFonctionCompositionValeurObjet::tearDown() 
+      {}
+
+
+
     }
   }
 }
 
-
-#endif

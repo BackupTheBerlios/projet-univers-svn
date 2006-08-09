@@ -44,14 +44,14 @@ namespace ProjetUnivers {
     
     template <typename Valeur, class Objet > 
     void FonctionCompositionValeurObjet<Valeur,Objet>::
-    Ajouter(const Valeur& _cle, const Objet* _image)
+    Ajouter(const Valeur& _cle, Objet* _image)
     {
       fonction[_cle] = _image ;
     }
     
     template <typename Valeur, class Objet > 
     void FonctionCompositionValeurObjet<Valeur,Objet>::
-    Modifier(const Valeur& _cle, const Objet* _image)
+    Modifier(const Valeur& _cle, Objet* _image)
     {
       // l'ancien
       Objet* temporaire = fonction[_cle] ;
@@ -61,31 +61,39 @@ namespace ProjetUnivers {
       fonction[_cle] = _image ;
     }
 
-//    template <typename Valeur, class Objet > 
-//    Objet* FonctionCompositionValeurObjet<Valeur,Objet>::
-//    Liberer(const Valeur& _element)
-//    {
-//      // l'ancien
-//      Objet* temporaire = fonction[_cle] ;
-//      
-//      fonction[_cle] = NULL ;
-//      
-//      return temporaire ;
-//    }
+    template <typename Valeur, class Objet > 
+    Association<Objet> FonctionCompositionValeurObjet<Valeur,Objet>::
+    operator[](const Valeur& _cle) const
+    {
+      /// l'élément est-il dans la fonction ?
+      typename std::map<Valeur,Objet*>::const_iterator estDedans 
+          = this->fonction.find(_cle) ;
+          
+      if (estDedans == this->fonction.end())
+      {
+        /// pas d'objet associé à @c _cle
+        /*!
+          @todo
+            trouver un moye nde différencier entre 
+            - _cle est associé à NULL
+            - _cle n'est associé à personne
+        */
+        return Association<Objet>() ;
+      }
+      else
+      {
+        return *(estDedans->second) ;
+      }
+    }
 
-//    template <typename Valeur, class Objet > 
-//    Objet* FonctionCompositionValeurObjet<Valeur,Objet>::
-//    Enlever(const Valeur& _element) 
-//    {
-//      // l'ancien
-//      Objet* temporaire = fonction[_cle] ;
-//      
-//      fonction[_cle] = NULL ;
-//      
-//      return temporaire ;
-//      
-//    }
+    template <typename Valeur, class Objet > 
 
-   
+    Booleen FonctionCompositionValeurObjet<Valeur,Objet>::operator==(
+      const FonctionCompositionValeurObjet<Valeur,Objet >& _right) 
+      const
+    {
+      return fonction == _right.fonction ;      
+    }
+    
   }
 }

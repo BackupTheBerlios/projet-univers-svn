@@ -51,10 +51,12 @@ namespace ProjetUnivers {
         friend class IterateurTamponListeValeur<VALEUR> ;
       };
       
-      #include <base/implantation/noeud_valeur.cxx>
     }
   }
 }
+
+#include <base/implantation/noeud_valeur.cxx>
+
 #endif 
 
 

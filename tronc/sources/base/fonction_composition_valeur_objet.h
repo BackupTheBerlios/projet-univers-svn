@@ -35,17 +35,24 @@ namespace ProjetUnivers {
     ///  Une fonction de Valeur vers Objet en composition.
       
     /*!
-      Valeur doit être une classe de valeur, et ObjetT une classe d'objet. 
+      Valeur doit être une classe de valeur, et Objet une classe d'objet. 
 
       Cette fonction est en composition : lorsqu'elle est detruite, les 
       éléments de Objet le sont aussi.
+      @par Test
+        Testé le 02/04/2006 avec TestFonctionCompositionValeurObjet :
+        - Constructeur
+        - Ajouter
+        - Acces (à un existant et à un non existant)
+ 
+
     */
     template <typename Valeur, class Objet > 
               class FonctionCompositionValeurObjet {
     public:
     
-      /// @name Construction
-      // @{      
+    /// @name Construction
+    // @{      
     
     
       /// Constructeur.
@@ -56,39 +63,39 @@ namespace ProjetUnivers {
 
 
       /// Ajoute un élément.
-      void Ajouter(const Valeur& , const Objet*) ;
+      void Ajouter(const Valeur& , Objet*) ;
     
-      /// Modifie l'élément associé à VALEUR. Si l'élément
-      /// n'existe pas dans la fonction alors cela a l'effet de add.
-      void Modifier(const Valeur&, const Objet*) ;
+      /// Modifie l'élément associé à Vakeur.
+      /*!
+        Si l'élément n'existe pas dans la fonction alors cela a l'effet de 
+        Ajouter.
+      */
+      void Modifier(const Valeur&, Objet*) ;
 
       /// Libère et enlève l'image de @c _element.
       Objet* Liberer(const Valeur& _element) ;
       Objet* Enlever(const Valeur& _element) ;
     
     
-      // @}
-      /// @name Accès
-      // @{      
-    
+    // @}
+    /// @name Accès
+    // @{      
+  
 
       /// Accès à un élément en fonction de l'identifiant.
-      Association< Objet >  operator[](const Valeur&) const ;
-      Association< Objet > Image(const Valeur&) const ;
+      Association<Objet>  operator[](const Valeur&) const ;
     
       /// Opérateur de comparaison
     	Booleen operator==(
         const FonctionCompositionValeurObjet<Valeur,Objet >& _right) 
         const ;
     
-      // @}
+    // @}
 
 
     private:
     
       std::map<Valeur,Objet*> fonction ;
-    
-    
     
     };
 

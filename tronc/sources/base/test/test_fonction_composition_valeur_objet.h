@@ -19,13 +19,13 @@
  ***************************************************************************/
 
 
-#ifndef _PU_BASE_TEST_FONCTION_ASSOCIATION_VALEUR_OBJET_H_
-#define _PU_BASE_TEST_FONCTION_ASSOCIATION_VALEUR_OBJET_H_
+#ifndef _PU_BASE_TEST_FONCTION_COMPOSITION_VALEUR_OBJET_H_
+#define _PU_BASE_TEST_FONCTION_COMPOSITION_VALEUR_OBJET_H_
 
 
 #include <cppunit/extensions/HelperMacros.h>
 
-#include <base/fonction_association_valeur_objet.h>
+#include <base/fonction_composition_valeur_objet.h>
 
 
 namespace ProjetUnivers {
@@ -36,7 +36,9 @@ namespace ProjetUnivers {
       
       
       ///  Test de Base::TestFonctionAssociationValeurObjet.
-      class TestFonctionAssociationValeurObjet : public CppUnit::TestFixture {
+      class TestFonctionCompositionValeurObjet 
+              : public CppUnit::TestFixture 
+      {
       protected:
       
         
@@ -52,15 +54,13 @@ namespace ProjetUnivers {
         void testVide();
         
       
-      
       // @}      
       // *******************************
       /// @name Enregistrement des tests
       // *******************************
-      // @{      
+      // @{
       
-      
-        CPPUNIT_TEST_SUITE(TestFonctionAssociationValeurObjet) ;
+        CPPUNIT_TEST_SUITE(TestFonctionCompositionValeurObjet) ;
       
         CPPUNIT_TEST(testAjouter) ;
         CPPUNIT_TEST(testVide) ;
@@ -68,13 +68,12 @@ namespace ProjetUnivers {
         CPPUNIT_TEST_SUITE_END() ;
       
       public:
-      
+
       // @}      
       // *******************************************
       /// @name Initialisation et femeture des tests
       // *******************************************
-      // @{      
-        
+      // @{  
       
         ///////////////
         // Initialisation du test
@@ -85,6 +84,7 @@ namespace ProjetUnivers {
         void tearDown() ;
       
       // @}      
+      
        
       };
     }

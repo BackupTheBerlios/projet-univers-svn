@@ -32,9 +32,9 @@ namespace ProjetUnivers
   namespace Base 
   {
     
-    ///  Une fonction qui associe un élément de Objet à un élément de VALEUR. 
+    ///  Une fonction qui associe un élément de Objet à un élément de Valeur. 
     /*!  
-      Objet doit être une classe d'objets et VALEUR une classe de valeurs.
+      Objet doit être une classe d'objets et Valeur une classe de valeurs.
       
       @par Test
         Testé le 02/04/2006 avec TestFonctionAssociationValeurObjet :
@@ -47,8 +47,8 @@ namespace ProjetUnivers
     {
     public:
     
-      /// @name Construction
-      // @{      
+    /// @name Construction
+    // @{      
     
     
       /// Constructeur.
@@ -57,10 +57,9 @@ namespace ProjetUnivers
       /// Constructeur de copie.
       FonctionAssociationValeurObjet(const FonctionAssociationValeurObjet&);
     
-      // @}
-            
-      /// @name Modification
-      // @{      
+    // @}
+    /// @name Modification
+    // @{      
     
       /// Ajoute un élément.
       void Ajouter(const Valeur&, const Association<Objet>&) ;
@@ -71,13 +70,11 @@ namespace ProjetUnivers
       */
       void Changer(const Valeur&, const Association<Objet>&) ;
     
-      // @}
-          
-
-      // *************************
-      /// @name Accès
-      // *************************      
-      // @{      
+    // @}
+    // *************************
+    /// @name Accès
+    // *************************      
+    // @{      
     
       /// Accès à un élément en fonction de l'identifiant.
       Association<Objet> Acces(const Valeur&) const ;
@@ -89,7 +86,7 @@ namespace ProjetUnivers
       */
       Booleen operator==(const FonctionAssociationValeurObjet<Valeur,Objet>&) const ;
     
-      // @}
+    // @}
     
     private:
     

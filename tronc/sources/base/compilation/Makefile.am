@@ -1,7 +1,7 @@
 lib_LTLIBRARIES = libbase.la
 
 SOURCES = $(top_srcdir)/sources
-INCLUDES = -I$(SOURCES)
+INCLUDES = -I$(SOURCES) $(librlog_CFLAGS)
 
 libbase_la_SOURCES = \
 $(SOURCES)/base/implantation/association.cpp \
@@ -37,6 +37,7 @@ $(SOURCES)/base/implantation/noeud_valeur.cpp \
 $(SOURCES)/base/implantation/point_de_vue.cpp \
 $(SOURCES)/base/implantation/tampon_liste_association.cpp \
 $(SOURCES)/base/implantation/tampon_liste_valeur.cpp \
+$(SOURCES)/base/implantation/traceur.cpp \
 $(SOURCES)/base/implantation/vue.cpp 
 
 
@@ -58,6 +59,7 @@ $(SOURCES)/base/test/test_ensemble_valeur.cpp \
 $(SOURCES)/base/test/test_iterateur_ensemble_association.cpp \
 $(SOURCES)/base/test/test_fonction_association_objet_objet.cpp \
 $(SOURCES)/base/test/test_fonction_association_valeur_objet.cpp \
+$(SOURCES)/base/test/test_fonction_composition_valeur_objet.cpp \
 $(SOURCES)/base/test/test_liste.cpp \
 $(SOURCES)/base/test/test_mvc.cpp 
 
@@ -71,7 +73,7 @@ test_derive_de.o : $(SOURCES)/base/test/test_derive_de.cpp
 
 test_base_CXXFLAGS = $(CPPUNIT_CFLAGS) 
 test_base_LDFLAGS = $(CPPUNIT_LIBS) -l$(BOOST_SIGNALS_LIB)
-test_base_LDADD = libbase.la 
+test_base_LDADD = libbase.la $(librlog_LIBS)
 
 #-l
 
