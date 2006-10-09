@@ -18,63 +18,29 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <base/composition.h>
 
-#include <affichage/implantation/ogre/planetoide.h>
+#include <modele/orientation.h>
 
-using namespace ProjetUnivers::Base ;
 
 namespace ProjetUnivers {
-   
-  namespace Affichage 
-  {
 
-    namespace Implantation 
-    {
+  namespace Modele {
 
-      namespace Ogre 
-      {
-      
-       
-        Planetoide::Planetoide(
-          const Association< Modele::Planetoide>& _planetoide)
-        : Implantation::Planetoide(_planetoide)
-        {}
-  
-        Planetoide* Construire(
-          const Association< Modele::Planetoide>& _planetoide)
-        {
-          Composition< Planetoide > resultat(new Planetoide(_planetoide)) ;
-          
-          // si on trouve une donnée de ce planetoide alors c'est bon
-          
-          
-          
-          // sinon on en construit une par défaut
-          // ... on choppe les caracs et on construit une boule de la bonne 
-          // taille
-          // avec une atmo de la bonne couleur...
-          
-          return resultat.Liberer() ;
-        }
-        
-        /// Construction par défaut
-        Planetoide* ConstruireParDefaut(
-          const Association< Modele::Planetoide>& _planetoide)
-        {
-          Composition< Planetoide > resultat(new Planetoide(_planetoide)) ;
-        
-          /// un mesh en forme de boule de la bonne taille :
-          
-          
-          /// une texture au hasard
-          
-          
-          return resultat.Liberer() ;
-  
-      }
-    }    
+    Orientation::Orientation()
+    : origine(), orientation()
+    {}
+
+    Orientation::Orientation(const Orientation& _orientation)
+    : origine(_orientation.origine), orientation(_orientation.orientation)
+    {}
+
+    Orientation::Orientation(const Base::Association<Objet>& _origine,
+                             const Ogre::Quaternion& _orientation)
+    : origine(_origine), orientation(_orientation)
+    {}
+
 
   }
 }
+
 

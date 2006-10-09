@@ -65,7 +65,7 @@ namespace ProjetUnivers {
                            int& top );
 
         
-        /// Raffraichi l'affichage
+        /// Raffraichissement de l'affichage.
         /*!
           Met à jour tout ce qui doit être affiché
 
@@ -81,7 +81,7 @@ namespace ProjetUnivers {
 
         
         /// le système ogre      
-        Base::Association< ::Ogre::Root > Racine() ;
+        Base::Association< ::Ogre::Root> Racine() ;
         
         /// la fenetre d'affichage
         /*!
@@ -107,4 +107,4 @@ namespace ProjetUnivers {
 
 
 
-#endif //_AFFICHAGE_H_
+#endif 

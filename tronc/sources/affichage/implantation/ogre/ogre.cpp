@@ -36,9 +36,7 @@ namespace ProjetUnivers {
   using namespace Base ;
   
   namespace Affichage {
-
     namespace Implantation {
-      
       namespace Ogre {  
       
         /// le système ogre      

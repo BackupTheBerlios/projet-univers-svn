@@ -46,17 +46,26 @@ namespace ProjetUnivers {
     {
     public:
     
-      // ********************
-      /// @name Constructeurs
-      // ********************
-      // @{   
+    // ********************
+    /// @name Constructeurs
+    // ********************
+    // @{   
     
+      /// Les différentes unités de mesure utilisée.
+      typedef enum {
+        _Metre,
+        _AnneeLumiere, 
+        _Parsec 
+      } Unite ;
 
       /// Distance nulle.
       Distance() ;
       
       /// Constructeur de copie.
       Distance(const Distance&) ;
+
+      /// Constructeur unité, valeur
+      Distance(const Unite&, const Base::Reel&) ;
     
       /// Calcul
       Distance operator +(const Distance&) const ;
@@ -64,12 +73,14 @@ namespace ProjetUnivers {
       /// Calcul
       Distance operator -(const Distance&) const ;
 
+
+
       
-      // @}
-      // ******************
-      /// @name Conversions
-      // ******************
-      // @{
+    // @}
+    // ******************
+    /// @name Conversions
+    // ******************
+    // @{
       
 
       /// Convertit la distance en parsecs.
@@ -82,11 +93,11 @@ namespace ProjetUnivers {
       Base::Reel AnneeLumiere() const ; 
 
     
-      // @}    
-      // ************
-      /// @name Accès
-      // ************
-      // @{
+    // @}    
+    // ************
+    /// @name Accès
+    // ************
+    // @{
       
       
 
@@ -98,16 +109,10 @@ namespace ProjetUnivers {
       */
       // BooleenEtendu Comparer(const Distance&) const ;
     
-      // @}
+    // @}
       
     private:
     
-      /// Les différentes unités de mesure utilisée.
-      typedef enum {
-        _Metre,
-        _AnneeLumiere, 
-        _Parsec 
-      } Unite ;
 
       /// Valeur.
       Base::Reel distance ;

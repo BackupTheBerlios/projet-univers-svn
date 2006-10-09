@@ -18,6 +18,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#include <base/traceur.h>
 #include <affichage/affichage.h>
 #include <entrees/entrees.h>
 #include <action/action.h>
@@ -34,26 +35,29 @@ int main() {
 
 
   /// initialisation
-  ProjetUnivers::Affichage::Initialiser() ;
-  ProjetUnivers::Action::Initialiser() ;
-  ProjetUnivers::Entrees::Initialiser() ;
+  ProjetUnivers::Base::Traceur::Initialiser() ;
+  ProjetUnivers::Base::Traceur::MessageInformation("demarrage de projet univers") ;
+//  ProjetUnivers::Affichage::Initialiser() ;
+//  ProjetUnivers::Action::Initialiser() ;
+//  ProjetUnivers::Entrees::Initialiser() ;
   ProjetUnivers::Modele::Initialiser() ;
-  
+  ProjetUnivers::Modele::Charger("TestDemonstration") ;
 
   /// boucle principale
-  while (! ProjetUnivers::Action::Termine())
-  {
-    ProjetUnivers::Entrees::Traiter() ;
-    ProjetUnivers::Action::Traiter() ;
-
-    ProjetUnivers::Affichage::Raffraichir() ;
-  }
+//  while (! ProjetUnivers::Action::Termine())
+//  {
+//    ProjetUnivers::Entrees::Traiter() ;
+//    ProjetUnivers::Action::Traiter() ;
+//
+//    ProjetUnivers::Affichage::Raffraichir() ;
+//  }
     
   /// sortie
   ProjetUnivers::Modele::Terminer() ;
-  ProjetUnivers::Entrees::Terminer() ;
-  ProjetUnivers::Action::Terminer() ;
-  ProjetUnivers::Affichage::Terminer() ;
+//  ProjetUnivers::Entrees::Terminer() ;
+//  ProjetUnivers::Action::Terminer() ;
+//  ProjetUnivers::Affichage::Terminer() ;
+  ProjetUnivers::Base::Traceur::Terminer() ;
   
   
 

@@ -29,6 +29,8 @@ namespace ProjetUnivers {
   /// Le module contenant le modèle de données.
   
   /*!
+  @par Introduction
+  
     Réalisation de la partie modèle du cadre Modele/Vue/controle, noyau 
     fonctionnel du jeu.
     
@@ -36,15 +38,25 @@ namespace ProjetUnivers {
     le jeu. Ils sont décrit sans se soucier ni de leur affichage ni de ce qui 
     déclenche leur modifications. 
     
+  @par Fonctionnement
+    
+    Pour l'instant, et comme tous les autres modules de ce niveau :
+    - c'est un "singleton", c'est à dire qu'il n'y en a qu'un
+    - son interface est "non objet"; c'est à dire que ce son des traitements 
+      globaux
+    
   */ 
   namespace Modele 
   {
     
   class Objet ;
+  class Facette ;
   
+  // ******************************************************
   /*!
     @name Initialisation/Terminaison.
   */
+  // ******************************************************
   //@{        
     
     /// Initialise le module.
@@ -53,12 +65,37 @@ namespace ProjetUnivers {
     /// Termine le module.
     void Terminer() ;
 
+    /// Charge un modèle depuis le disque.
+    /*!
+      
+    */
+    void Charger(const Base::Chaine& _nom) ;
+
   //@}
+  // ******************************************************
   /*!
-    @name Gestion des objets.
-  
-  
+    @name Opération sur les objets
+    
+    On peut ajouter un objet, surtout utile pour les objets "racines"
   */
+  // ******************************************************
+  // @{
+
+      
+    /// Enregistre un objet dans le gestionnaire.
+    Base::Association<Objet> Ajouter(Objet*) ;
+
+    /// Enregistre un objet dans le gestionnaire.
+    Base::Association<Objet> Enregistrer(const Base::Association<Objet>&) ;
+
+
+
+  //@}
+  // ******************************************************
+  /*!
+    @name Accès aux objets et facettes.
+  */
+  // ******************************************************
   //@{
     
     /// Accès à un objet par son nom

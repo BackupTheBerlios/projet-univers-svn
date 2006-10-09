@@ -30,85 +30,44 @@ namespace ProjetUnivers {
   namespace Modele {
 
 
-    class Positionne ;
-
     /// Une position dans un espace à trois dimensions.
     /*!
       Une position est :
       - un point d'origine : une sorte de référentiel
       - 3 coordonnées par rapport à ce point
       
-      @see Objet
+      @see Positionne
     */
     class Position 
     {
     public:
     
-    /// @name Constructeurs
+    // *************************
+    /*!
+      @name Construction
+    */
+    // *************************
     // @{  
 
-
       /// Constructeur par défaut.
-      /// Position() ;
-     
-      /// La position d'un objet physique.
-      /*!
-      */
-      Position(const Base::Association<Positionne>& _objet) ;
-
-      /// La même position mais relative à un objet particulier.
-      /*! 
-        La position et l'objet doivent être dans le même espace.
-
-      @dot
-      digraph example {
-
-        node [shape=record, style=rounded, fontname=Helvetica, fontsize=10];
+      Position() ;
       
-        
-        Affichage [ label="Affichage" URL="\ref Affichage"];
-        Modele [ label="Modele" URL="\ref Modele"];
-        Controle [ label="Controle" URL="\ref Controle"];
-      
-        Controle -> Modele [ label="lecture/modification" arrowhead="open", style="dashed" ];
-        Controle -> Affichage [ label="lecture/modification" arrowhead="open", style="dashed" ];
-        Affichage -> Modele [ label="lecture" arrowhead="open", style="dashed" ];
-        Modele -> Affichage [ label="notification" arrowhead="open", style="dashed" ];
-      }
-      @enddot
-         
-        @remark
-          Position(p,objet) == p
-      */
-      Position(const Position&, const Base::Association<Positionne>&) ;
-
-      /// Relocalise la position par rapport à un objet particulier.
-      /*!
-        Tout se passe comme si on déplaçait l'objet.
-        Sa nouvelle origine est l'objet passé en paramètre.
-        
-        @remark
-          objet != p.origine => p != p.Relocaliser(objet)
-      */
-      Position Relocaliser(const Base::Association<Positionne>&) const ;
-
-
       /// Construit la position indiquée.
       /*!
         On donne une origine et 3 distances.
       */  
-      Position(const Position& _origine,
-               const Distance& x, 
+      Position(const Distance& x, 
                const Distance& y, 
                const Distance& z) ;
-      
 
       /// Constructeur de copie.
       Position(const Position&) ;
       
     // @}
     // *************************
-    /// @name Accès
+    /*!
+      @name Construction
+    */
     // *************************      
     // @{  
       
@@ -118,28 +77,23 @@ namespace ProjetUnivers {
       // Distance entre 2 Position.
       Distance CalculerDistance(const Position&) const ; 
     
+      Distance AccesCoordonneeX() const ;
+      Distance AccesCoordonneeY() const ;
+      Distance AccesCoordonneeZ() const ;
+      
     // @}
     
     private:
     
-
-      /// Vrai si this est utilisé comme origine de _position
-//      Base::Booleen EstOrigine(const Position& _position) const ;
 
       /*!
         Implantation l'aide de trois distances, 
         qui sont les distances entre les divers projections sur les plans 
         des coordonnées et le point qui sert d'origine au système.      
       */
-      Base::Association<Positionne> origine ;
       Distance coordonneeX ;
       Distance coordonneeY ;
       Distance coordonneeZ ;      
-      
-      /// Le référentiel du système de coordonnées.
-      Base::Association<Positionne> referentiel ;
-  
-      friend class Positionne ;
       
     };
   }

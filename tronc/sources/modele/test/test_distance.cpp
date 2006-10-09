@@ -18,10 +18,6 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-//#include <base/composition.h>
-//
-//#include <modele/type_de_composant.h>
-//#include <modele/type_de_vaisseau.h>
 #include <modele/test/test_distance.h>
 #include <modele/distance.h>
 

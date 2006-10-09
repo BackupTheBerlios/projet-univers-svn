@@ -24,7 +24,7 @@
 
 
 #include <modele/energie.h>
-#include <modele/objet.h>
+#include <modele/facette.h>
 
 namespace ProjetUnivers {
 
@@ -40,9 +40,12 @@ namespace ProjetUnivers {
       @todo
         Cette classe n'est qu'un squelette, implanter tache 2378.
     */
-    class Destructible : public virtual Objet
+    class Destructible : public Facette
     {
     public:
+
+      /// Construit à neuf.
+      Destructible(const Energie& _pointsDeVieTotal) ;
    
     /*!
       @name Méthodes principales
@@ -68,8 +71,6 @@ namespace ProjetUnivers {
     protected:
 
 
-      /// Classe abstraite donc constructeur protégé.
-      Destructible(const Energie& _pointsDeVieTotal) ;
       
       /// Enérgie nécéssaire à sa destruction
       Energie pointsDeVieTotal ;

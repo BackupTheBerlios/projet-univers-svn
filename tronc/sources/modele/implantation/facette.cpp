@@ -17,75 +17,28 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <base/traceur.h>
 
-
-#ifndef _PU_AFFICHAGE_IMPLANTATION_OGRE_PLANETOIDE_H_
-#define _PU_AFFICHAGE_IMPLANTATION_OGRE_PLANETOIDE_H_
-
-#include <Ogre.h>
-
-#include <base/association.h>
-
+#include <modele/facette.h>
+#include <modele/objet.h>
 
 namespace ProjetUnivers {
-   
-  namespace Affichage 
-  {
 
-    namespace Implantation 
+  namespace Modele {
+
+
+    Facette::Facette()
+    {}
+
+    Facette::~Facette()
+    {}
+
+    Base::Association<Objet> Facette::AccesObjet() const
     {
-
-      namespace Ogre 
-      {
-      
-
-        /// Partie affichage d'un planetoide dans lme moteur Ogre3d.
-        /*!
-          
-        
-        */
-        class Planetoide : public Base::Vue<Modele::Planetoide>
-        {
-        public:
+      return this->objet ;
+    }
 
         
-          /// Constructeur.
-          Planetoide(const Base::Association< Modele::Planetoide>& _planetoide) ;
-          
-          /*!
-            @name Raffraichissement
-            
-                        
-          */  
-          // @{
-          
-          
-          /// Le modèle a changé, on réactualise la vue.
-          virtual void Raffraichir() ;
-          
-            
-          // @}
-          
-         
-        private:
-          
-          /// Modèle 3D du planetoide
-          ::Ogre::Mesh* modele ;
-          
-          /// entité 3D
-          ::Ogre::Entity entite ;
-          
-          
-        };
-  
-        /// Construction.
-//        Planetoide* Construire(
-//          const Base::Association< Modele::Planetoide>& _planetoide) ;
-  
-      }
-    }    
-
   }
 }
 
-#endif //_AFFICHAGE_IMPLANTATION_PLANETOIDE_H_

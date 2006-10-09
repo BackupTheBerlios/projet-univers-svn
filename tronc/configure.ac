@@ -85,9 +85,10 @@ PKG_CHECK_MODULES(OGRE, [OGRE >= 1.2])
 AC_SUBST(OGRE_CFLAGS)
 AC_SUBST(OGRE_LIBS)
 
-# vérifie la présence de boost signals
+# vérifie la présence de boost signals et de serialization (shared_ptr)
+AX_BOOST_BASE
 AX_BOOST_SIGNALS
-
+AX_BOOST_SERIALIZATION
 
 # vérifie la présence de OIS
 PKG_CHECK_MODULES(OIS, [OIS >= 0.7])
@@ -131,18 +132,11 @@ AC_CONFIG_FILES([Makefile \
                  sources/Makefile \
                  sources/base/Makefile \
                  sources/base/compilation/Makefile \
-                 sources/noyau/Makefile \
-                 sources/noyau/compilation/Makefile \
                  sources/modele/Makefile \
                  sources/modele/compilation/Makefile \
-                 sources/meta/Makefile \
-                 sources/meta/compilation/Makefile \
-                 sources/controle/compilation/Makefile \
-                 sources/controle/Makefile \
                  sources/affichage/Makefile \
                  sources/affichage/compilation/Makefile \
                  sources/affichage/compilation/ogre/Makefile \
-                 sources/test-acedb/Makefile \
                  sources/outils/Makefile \
                  sources/outils/compilateur/Makefile \
                  sources/outils/compilateur/compilation/Makefile \

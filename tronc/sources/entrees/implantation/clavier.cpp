@@ -18,6 +18,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#include <base/traceur.h>
 #include <action/action.h>
 #include <entrees/implantation/clavier.h>
 
@@ -34,8 +35,21 @@ namespace ProjetUnivers {
   
       bool Clavier::keyPressed(const OIS::KeyEvent &e)    
       {
-        /// pour l'instant : on sort
-        Action::Ajouter("Sortie") ;
+        
+        /// log
+        Base::Traceur::MessageInterne(
+              Base::Chaine("bouton presse timestamp = ") + 
+              Base::Chaine(e.timeStamp)) ;
+
+        /// pour l'instant : on sort si c'est entrée
+        switch(e.key)
+        {
+        case OIS::KC_RETURN:
+          Action::Ajouter("Sortie") ;
+          break ;
+        default:
+          break ;
+        }
         return true ;
       }
       

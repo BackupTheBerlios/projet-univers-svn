@@ -24,8 +24,7 @@
 #include <base/association.h>
 #include <base/types.h>
 
-#include <modele/mobile.h>
-#include <modele/destructible.h>
+#include <modele/facette.h>
 
 
 namespace ProjetUnivers {
@@ -38,27 +37,27 @@ namespace ProjetUnivers {
     class PointDAttache ;
     class PlanDePointDAttache ;
     
-    ///  Représente un composant d'un vaisseau.
-    
+    /// Propriété d'avoir des points d'attaches
     /*!
       @par Type de classe
       - Objet
       - Concret
-      
     */
-    class Composant : public Mobile, public Destructible
+    class Attachable : public Facette
     {
     public:
 
+    /*!
+      @name Construction
+      
+    */
+    // @{
 
-      /// Construit un composant selon un plan.
-      Composant(const Base::Association<PlanDeComposant>&) ;
-      Composant(const Nom&, const Base::Association<PlanDeComposant>&) ;
+      Attachable() ;
+      
+      void Ajouter(const Base::Association<PointDAttache>&) ;
 
-      /// Accès à un point d'attache en fonction de son plan.
-      Base::Association<PointDAttache> 
-        AccesPointDAttache(const Base::Association<PlanDePointDAttache>&) const ;
-
+    // @}
     /*!
       @name Affichage
       
@@ -80,9 +79,6 @@ namespace ProjetUnivers {
       @name Attributs
     */
     // @{
-      
-      /// Le plan de construction du composant.
-      Base::Association<PlanDeComposant> plan ;
       
       /// Les points d'attaches actifs.
       /*!

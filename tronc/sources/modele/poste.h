@@ -21,31 +21,28 @@
 #ifndef _PU_UNIVERS_PERSONNAGE_H_
 #define _PU_UNIVERS_PERSONNAGE_H_
 
-#include <modele/objet_abstrait.h>
+#include <modele/facette.h>
 
 namespace ProjetUnivers {
 
   namespace Modele {
 
-    /// Un poste dans une structure.
+    /// Propriété d'être un poste dans une structure.
     /*!
-      Un poste peut être par exemple le fait d'être le pilote d'un vaisseau.
-    
-      Type de classe :
-        - Objet
-        - Abstrait
+      Une fois un acteur positionné à un poste, celui ci peut activer les 
+      commandes.
     */
-    class Poste : public ObjetAbstrait {
+    class Poste : public Facette
+    {
     public:
     
-      /// Destructeur de classe abstraite.
-      virtual ~Poste() ;
-    
-    protected:
-    
-      /// Constructeur de classe abstraite.
-      Poste() ;
       
+      Poste(const Base::Association<Objet>& _commandes) ;
+    
+    private:
+      
+      /// Les commandes que ce poste permet de controler.
+      Base::Association<Objet> commandes ;
     };
     
   }

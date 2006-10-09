@@ -21,17 +21,18 @@
 #ifndef _PU_MODELE_POINT_D_ATTACHE_H_
 #define _PU_MODELE_POINT_D_ATTACHE_H_
 
-#include <modele/objet.h>
+#include <modele/facette.h>
+#include <modele/position.h>
+#include <modele/orientation.h>
+
 
 namespace ProjetUnivers {
 
   namespace Modele {
     
-    class Composant ;
-    class PlanDePointDAttache ;
     
     /// Un endroi d'un composant où on peut en attacher un autre.
-    class PointDAttache : public Objet
+    class PointDAttache : public Facette
     {
     public:
     
@@ -43,13 +44,10 @@ namespace ProjetUnivers {
     // @{
     
       /// Constructeur.
-      PointDAttache(const Base::Association<PlanDePointDAttache>&,
-                    const Base::Association<Composant>&) ;
+      PointDAttache(const Position&,
+                    const Orientation&) ;
     
     // @}
-      
-      Base::Association<PlanDePointDAttache> AccesPlanPointDAttache() const ;
-
     /*!
       @name Affichage
       
@@ -68,15 +66,9 @@ namespace ProjetUnivers {
 
     private:
       
-      
-      /// Informations communes.
-      Base::Association<PlanDePointDAttache> plan ;
-
-      /// Le composant de ce point d'attache
-      /*!
-        Relation inverse de Composant::pointsDAttaches
-      */
-      Base::Association<Composant> composant ;
+      /// Position relative au composant.
+      Position position ;
+      Orientation orientation ;
     };
 
   }

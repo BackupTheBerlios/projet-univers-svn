@@ -19,81 +19,40 @@
  ***************************************************************************/
 
 
-#ifndef _AFFICHAGE_IMPLANTATION_PLANETOIDE_H_
-#define _AFFICHAGE_IMPLANTATION_PLANETOIDE_H_
+#ifndef _PU_AFFICHAGE_IMPLANTATION_OGRE_MOBILE_H_
+#define _PU_AFFICHAGE_IMPLANTATION_OGRE_MOBILE_H_
+
+#include <Ogre.h>
 
 #include <base/association.h>
 #include <base/vue.h>
 
+#include <modele/mobile.h>
+
+#include <affichage/implantation/ogre/facette.h>
 
 namespace ProjetUnivers {
-  
-  namespace Modele
-  {
-    class Planetoide ;
-  }
-  
-  
   namespace Affichage {
-
     namespace Implantation {
+      namespace Ogre {
 
-
-      
-
-      /// Partie affichage d'un planetoide.
-      /*!
-        @deprecated
-      
-        
-      */
-      class Planetoide : public Base::Vue<Modele::Planetoide>
-      {
-      public:
-        /*!
-          @name Raffraichissement
-          
-          
-        */  
-        // @{
-        
-        
-        /// Le modèle a changé, on réactualise la vue.
-        virtual void Raffraichir() ;
-          
-            
-        // @}
-
-        virtual ~Planetoide() ;
-
-      protected:
-            
-        /// Constructeur.
-        Planetoide(const Base::Association< Modele::Planetoide>& _planetoide) ;
-        
-      private:
-      
-      
-        
-              
-      };
-
-
-
-        /*!
-          Est redéfini dans les modules d'extensions pour construire celui de la 
-          bonne classe ???
-          
-          \todo
-            En fait on doit se doter d'une classe qui construit, i.e., une classe 
-            fabricante, qu'on redéfinira dans les modules. Mais qui construira 
-            l'objet de la classe fabricante ? :)
-        */
-      Planetoide* Construire(
-        const Base::Association< Modele::Planetoide>& _planetoide) ;
   
+        class Mobile : public Base::Vue<Modele::Mobile>,
+                        public Facette
+        {
+        public:
+        
+          /// Met à jour la position.
+          void RaffraichirPosition() ;
+
+          /// Constructeur de classe abstraite.
+          Mobile(const Base::Association<Modele::Mobile>& objet) ;
+  
+                  
+        };
+
+      }      
     }
   }
 }
-
-#endif //_AFFICHAGE_IMPLANTATION_PLANETOIDE_H_
+#endif

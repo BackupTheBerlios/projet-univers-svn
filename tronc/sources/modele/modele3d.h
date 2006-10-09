@@ -21,18 +21,17 @@
 #ifndef _PU_MODELE_MODELE_3D_H_
 #define _PU_MODELE_MODELE_3D_H_
 
-#include <modele/objet.h>
-
 namespace ProjetUnivers {
-
   namespace Modele {
     
     
     /// Représente une forme en 3d.
     /*!
+      @par Etat
+        planning
       
     */
-    class Modele3D : public Objet
+    class Modele3D
     {
     public:
     
@@ -42,7 +41,7 @@ namespace ProjetUnivers {
     // @{
     
       /// Constructeur.
-      Modele3D(const Base::Chaine&) ;
+      Modele3D(const Base::Chaine& _nom) ;
       
     // @}
 

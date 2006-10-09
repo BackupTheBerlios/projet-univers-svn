@@ -21,25 +21,23 @@
 #ifndef _PU_MODELE_CONTRAINTE_H_
 #define _PU_MODELE_CONTRAINTE_H_
 
-#include <modele/objet.h>
+#include <modele/facette.h>
 
 namespace ProjetUnivers {
 
   namespace Modele {
     
-    class PlanDeContrainte ;
     class PointDAttache ;
     class Assemblage ;
 
     /// Liaison entre deux points d'attache.
-    class Contrainte : public Objet
+    class Contrainte : public Facette
     {
     public:
     
     
       /// Constructeur.
-      Contrainte(const Base::Association<PlanDeContrainte>&,
-                 const Base::Association<PointDAttache>&,
+      Contrainte(const Base::Association<PointDAttache>&,
                  const Base::Association<PointDAttache>&) ;
     
     /*!
@@ -74,8 +72,6 @@ namespace ProjetUnivers {
       Base::Association<PointDAttache> pointDAttache1 ;
       Base::Association<PointDAttache> pointDAttache2 ;
       
-      ///
-      Base::Association<PlanDeContrainte> plan ;
       
       friend class Assemblage ;
     };

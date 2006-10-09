@@ -38,6 +38,9 @@ namespace ProjetUnivers {
 
             
       /// Test de Modele::PlanDAssemblage.
+      /*!
+        @deprecated
+      */
       class TestPlanDeVaisseau : public CppUnit::TestFixture {
       public:
   

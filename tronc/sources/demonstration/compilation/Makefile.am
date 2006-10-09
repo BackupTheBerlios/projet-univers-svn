@@ -14,9 +14,9 @@ $(SOURCES)/affichage/compilation/ogre/libaffichageogre.la \
 $(SOURCES)/action/compilation/libaction.la \
 $(SOURCES)/entrees/compilation/libentrees.la \
 $(SOURCES)/modele/compilation/libmodele.la \
-$(OIS_LIBS)
-
-demonstration_LDFLAGS = -l$(BOOST_SIGNALS_LIB)
+$(OIS_LIBS) \
+$(librlog_LIBS) \
+-l$(BOOST_SIGNALS_LIB)
 
 #all-local :
 #	cp demonstration $(SOURCES)/compilation/demonstration

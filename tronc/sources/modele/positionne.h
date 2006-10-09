@@ -21,7 +21,8 @@
 #ifndef _PU_MODELE_POSITIONNE_H_
 #define _PU_MODELE_POSITIONNE_H_
 
-#include <modele/objet.h>
+
+#include <modele/facette.h>
 #include <modele/position.h>
 #include <modele/orientation.h>
 
@@ -30,9 +31,27 @@ namespace ProjetUnivers {
   namespace Modele {
 
     /// Propriété des objets ayant une position dans un espace.
-    class Positionne : public virtual Objet
+    class Positionne : public Facette
     {
     public:
+
+    /*!
+      @name Construction
+    */
+    // @{
+    
+      /// Constructeur.
+      Positionne(const Position&) ;
+
+      /// Positionne par rapport à son propre référentiel.
+      Positionne() ;
+  
+
+    // @}
+    /*!
+      @name Acces
+    */
+    // @{
 
       /// Position de l'objet.
       Position AccesPosition() const ;
@@ -40,24 +59,15 @@ namespace ProjetUnivers {
       /// Orientation de l'objet
       Orientation AccessOrientation() const ;
 
-      /// 
-      Base::Association<Positionne> AccesReferentiel() const ;
+    // @}
+        
+    private:
 
-
-      /// Vrai si les deux objets font partie d'un même reférentiel.
-      Base::Booleen MemeReferentiel(const Base::Association<Positionne>&) const ;
-    
-    protected:
-    
-      /// Constructeur de classe abstraite.
-      Positionne(const Position&) ;
-
-      /// Positionne par rapport à son propre référentiel.
-      Positionne() ;
-
+      
       Position position ;  
       Orientation orientation ;
-      
+    
+//      friend class Position ;
     };
   }
 }

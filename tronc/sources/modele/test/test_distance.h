@@ -40,19 +40,19 @@ namespace ProjetUnivers {
       protected:
       
         
-        // ****************************
-        /// @name Tests proprement dits
-        // ****************************
-        // @{
+      // ****************************
+      /// @name Tests proprement dits
+      // ****************************
+      // @{
         
         /// Teste l'ordre sur les unités.
         void testComparaisonUnite() ;
            
-        // @}
-        // *******************************
-        /// @name Enregistrement des tests
-        // *******************************
-        // @{      
+      // @}
+      // *******************************
+      /// @name Enregistrement des tests
+      // *******************************
+      // @{      
       
         CPPUNIT_TEST_SUITE(TestDistance) ;
       
@@ -60,14 +60,14 @@ namespace ProjetUnivers {
       
         CPPUNIT_TEST_SUITE_END() ;
       
-        // @}      
+      // @}      
                 
      public:
 
-        // *******************************
-        /// @name Méthodes obligatoires
-        // *******************************
-        // @{
+      // *******************************
+      /// @name Méthodes obligatoires
+      // *******************************
+      // @{
 
       
         /// Initialisation du test
@@ -76,7 +76,7 @@ namespace ProjetUnivers {
         /// Desinitialisation du test
         void tearDown() ;
       
-        // @}      
+      // @}      
       
       
       };

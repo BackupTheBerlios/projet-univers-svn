@@ -21,7 +21,7 @@
 #ifndef _PU_MODELE_MOBILE_H_
 #define _PU_MODELE_MOBILE_H_
 
-#include <modele/positionne.h>
+#include <modele/facette.h>
 #include <modele/vitesse.h>
 #include <modele/acceleration.h>
 
@@ -30,17 +30,20 @@ namespace ProjetUnivers {
   namespace Modele {
 
     /// Propriété des objets se déplacant dans un espace.
-    class Mobile : public virtual Positionne
+    class Mobile : public Facette
     {
     public:
+
+      /// Constructeur.
+      Mobile() ;
+      
     
     protected:
     
-      /// Constructeur de classe abstraite.
-      Mobile() ;
-
       Vitesse vitesse ;
       Acceleration acceleration ;
+
+      /// Accélération angulaire
       
     };
   }

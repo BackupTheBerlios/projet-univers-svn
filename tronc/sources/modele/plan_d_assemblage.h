@@ -29,7 +29,7 @@ namespace ProjetUnivers {
   namespace Modele {
       
       
-    class PlanDeComposant ;
+    class PlanDeCBase::Chaineomposant ;
     class PlanDeContrainte ;
       
     /// Un plan d'assemblage.

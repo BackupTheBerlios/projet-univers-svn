@@ -38,6 +38,9 @@ namespace ProjetUnivers {
 
             
       /// Test de Modele::Vaisseau.
+      /*!
+        @deprecated
+      */
       class TestVaisseau : public CppUnit::TestFixture {
       protected:
       
