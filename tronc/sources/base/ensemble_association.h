@@ -38,6 +38,7 @@ namespace ProjetUnivers {
     }
     
     template <typename OBJET> class IterateurEnsembleAssociation ;
+    template <typename OBJET> class EnsembleComposition ;
     
     ///  Représente un ensemble d'élément d'une classe d'objets en association.
     
@@ -100,7 +101,7 @@ namespace ProjetUnivers {
       Implantation::TamponEnsembleAssociation<OBJET>* tampon ;
 
       friend class IterateurEnsembleAssociation<OBJET> ;
-    
+      friend class EnsembleComposition<OBJET> ;
     };
     
     

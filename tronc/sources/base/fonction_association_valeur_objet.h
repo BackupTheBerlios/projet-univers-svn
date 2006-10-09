@@ -70,6 +70,10 @@ namespace ProjetUnivers
       */
       void Changer(const Valeur&, const Association<Objet>&) ;
     
+      /// Supprime les éléments.
+      void Vider() ;
+      
+      
     // @}
     // *************************
     /// @name Accès
@@ -78,6 +82,9 @@ namespace ProjetUnivers
     
       /// Accès à un élément en fonction de l'identifiant.
       Association<Objet> Acces(const Valeur&) const ;
+    
+      /// Accès à un élément en fonction de l'identifiant.
+      Association<Objet> operator[](const Valeur&) const ;
     
       /// Opérateur de comparaison
       /*!

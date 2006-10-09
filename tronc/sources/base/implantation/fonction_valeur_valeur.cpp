@@ -18,39 +18,4 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-
-#ifndef _PU_BASE_ERREUR_H_
-#define _PU_BASE_ERREUR_H_
-
-#include <cassert>
-
-/*!
-  @name Gestion des erreurs
-  
-  Ce système permet de changer à la compilation entre une assertion et une 
-  exception.
-  
-  
-  
-*/
-
-
-/// Déclenche une erreur/exception si @c condition est faux
-/*!
-  @param condition une expression renvoyant un booleen
-  @param exception une exception
-*/
-#ifdef _DEBUG
-  
-  #define VerifieCondition(condition, exception) assert((condition) == ProjetUnivers::Base::VRAI) ;
-
-#else
-
-  #define VerifieCondition(condition, exception) { if ((condition) == ProjetUnivers::Base::FAUX) throw exception ; }
-
-#endif
-
-
-
-
-#endif /*_PU_BASE_ERREUR_H_*/
+#include <base/fonction_valeur_valeur.h>

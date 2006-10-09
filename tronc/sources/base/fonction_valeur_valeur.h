@@ -17,77 +17,84 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+ 
+#ifndef _BASE_FONCTION_VALEUR_VALEUR_H_
+#define _BASE_FONCTION_VALEUR_VALEUR_H_
 
-#ifndef _PU_BASE_VUE_H_
-#define _PU_BASE_VUE_H_
+#include <map>
 
 
 #include <base/association.h>
-#include <base/implantation/base_vue.h>
 
 
 namespace ProjetUnivers {
-
   namespace Base {
     
-
-    /// L'abstraction d'une vue sur un Modele
-    /*!
-    @par Utilisation
-
-      Dériver de cette classe et fournir à son constructeur une fonction 
-      void -> void s'exécutant sur this.
-      Cette fonction sera appelée lors du réffraichissement des points de vue 
-      de cette vue.
-
-      class Vue1 : public Base::Vue<Modele1>
-      {
-      public:
-      
-        void RaffraichirLocalement() ;
-      
-        Vue1(const Base::Association<Modele>& _modele)
-        : Base::Vue<Modele1>(_modele)
-        {
-          this->AjouterMiseAJourElementaire(
-                           boost::bind(&Vue1::RaffraichirLocalement,this)) ;            
-        
-        }
-      
-      };
-           
-    @par Fonctionnement
+    ///  Une fonction qui associe un élément de VALEUR à un élément de CLE.
+    /*!  
+      Cle et Valeur doivent être des classes de valeurs.
     
-      Une Vue sur un modèle est notifiée des changements apparus sur ce 
-      modèle. 
-      La notification est effectuée globalement lorsque le PointDeVue 
-      contenant cette Vue est raffraichi.
-    
-    @pre
-      Modele doit être une sous classe de ProjetUnivers::Base::Modele
-    
+      @todo
+        A réaliser et tester
     */
-    template <class Modele> class Vue : virtual public Implantation::BaseVue
-    {
+    template <class Cle, typename Valeur > class FonctionValeurValeur {
     public:
     
-      /// Destructeur de classe abstraite.
-      virtual ~Vue() ;
+      /// @name Construction
+      // @{      
     
-    protected:
     
-      /// Constructeur de classe abstraite.
-      Vue(const Association<Modele>& _modele) ;
+      /// Constructeur.
+      FonctionValeurValeur() ;
     
-      /// Ce que la vue voit.
-      Association<Modele> observe ;
+      /// Constructeur de copie.
+      FonctionValeurValeur(const FonctionValeurValeur& _v);
+    
+      // @}
+            
+      /// @name Modification
+      // @{      
+    
+      /// Ajoute @c _valeur identifié par @c _cle.
+      void Ajouter(const Cle& _cle, const Valeur& _valeur) ;
+    
+      /// Modifie l'élément associé à la clé. 
+      /*!
+        Si l'élément n'existe pas alors cela a l'effet de Ajouter.
+      */
+      void Changer(const Cle&, const Valeur&) ;
+    
+      // @}
+          
+
+      // *************************
+      /// @name Accès
+      // *************************      
+      // @{      
+    
+      /// Accès à un élément en fonction de l'identifiant.
+      Valeur Acces(const Cle&) const ;
+
+      /// Accès à un élément en fonction de l'identifiant.
+      Valeur& operator[](const Cle&) const ;
+    
+      /// Opérateur de comparaison
+      Booleen operator==(const FonctionValeurValeur<Cle,Valeur>& _right) const ;
+    
+      // @}
+    
+    private:
+    
+    
+      mutable std::map<Cle,Valeur> fonction ;
+      
+    
     };
-    
+
   }
 }
 
-#include <base/implantation/vue.cxx>
+#include <base/implantation/fonction_valeur_valeur.cxx>
 
 
 #endif
-

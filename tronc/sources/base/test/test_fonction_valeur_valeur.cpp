@@ -18,76 +18,77 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_BASE_VUE_H_
-#define _PU_BASE_VUE_H_
+#include <base/test/test_fonction_valeur_valeur.h>
+#include <base/composition.h>
 
-
-#include <base/association.h>
-#include <base/implantation/base_vue.h>
+// enregistrement du test
+CPPUNIT_TEST_SUITE_REGISTRATION(
+  ProjetUnivers::Base::Test::TestFonctionValeurValeur) ;
 
 
 namespace ProjetUnivers {
 
   namespace Base {
-    
+  
+    namespace Test {
 
-    /// L'abstraction d'une vue sur un Modele
-    /*!
-    @par Utilisation
-
-      Dériver de cette classe et fournir à son constructeur une fonction 
-      void -> void s'exécutant sur this.
-      Cette fonction sera appelée lors du réffraichissement des points de vue 
-      de cette vue.
-
-      class Vue1 : public Base::Vue<Modele1>
-      {
-      public:
-      
-        void RaffraichirLocalement() ;
-      
-        Vue1(const Base::Association<Modele>& _modele)
-        : Base::Vue<Modele1>(_modele)
+      namespace {
+       
+        /// une class locale pour le test
+        class Objet
         {
-          this->AjouterMiseAJourElementaire(
-                           boost::bind(&Vue1::RaffraichirLocalement,this)) ;            
+        public:
+          
+          int contenu ;
+        };
+      }
+
+      void TestFonctionValeurValeur::testAjouter() 
+      {
+        FonctionValeurValeur<int,int> fonction ;
         
-        }
+        fonction.Ajouter(3,7) ;
+        CPPUNIT_ASSERT(fonction[3] == 7) ;
+
+        fonction.Ajouter(4,10) ;
+        CPPUNIT_ASSERT(fonction[4] == 10) ;
+
+        
+
+
+      }
+
+      void TestFonctionValeurValeur::testChanger() 
+      {
+        FonctionValeurValeur<int,int> fonction ;
+        
+        fonction.Ajouter(3,7) ;
+        CPPUNIT_ASSERT(fonction[3] == 7) ;
+
+        fonction.Ajouter(4,10) ;
+        CPPUNIT_ASSERT(fonction[4] == 10) ;
+
+        fonction.Changer(3,20) ;
+        CPPUNIT_ASSERT(fonction[3] == 20) ;
+
+      }
       
-      };
-           
-    @par Fonctionnement
+      void TestFonctionValeurValeur::testVide() 
+      {
+        FonctionValeurValeur<int,int> fonction ;
+        CPPUNIT_ASSERT(!fonction[3]) ;        
+      }
+
+ 
+      void TestFonctionValeurValeur::setUp() 
+      {}
     
-      Une Vue sur un modèle est notifiée des changements apparus sur ce 
-      modèle. 
-      La notification est effectuée globalement lorsque le PointDeVue 
-      contenant cette Vue est raffraichi.
-    
-    @pre
-      Modele doit être une sous classe de ProjetUnivers::Base::Modele
-    
-    */
-    template <class Modele> class Vue : virtual public Implantation::BaseVue
-    {
-    public:
-    
-      /// Destructeur de classe abstraite.
-      virtual ~Vue() ;
-    
-    protected:
-    
-      /// Constructeur de classe abstraite.
-      Vue(const Association<Modele>& _modele) ;
-    
-      /// Ce que la vue voit.
-      Association<Modele> observe ;
-    };
-    
+      void TestFonctionValeurValeur::tearDown() 
+      {}
+
+
+
+    }
   }
 }
-
-#include <base/implantation/vue.cxx>
-
-
-#endif
 

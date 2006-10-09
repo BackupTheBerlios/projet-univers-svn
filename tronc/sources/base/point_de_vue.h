@@ -1,4 +1,5 @@
 /***************************************************************************
+/***************************************************************************
  *   Copyright (C) 2004 by Equipe Projet Univers                           *
  *   rogma.boami@free.fr                                                   *
  *                                                                         *
@@ -27,7 +28,6 @@
 #include <base/implantation/base_vue.h>
 
 namespace ProjetUnivers {
-
   namespace Base {
     
     
@@ -118,6 +118,7 @@ namespace ProjetUnivers {
       friend class Implantation::BaseVue ;
       
     };
+
     
   }
 }

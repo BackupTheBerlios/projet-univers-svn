@@ -18,6 +18,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#include <base/ensemble_association.h>
 #include <base/test/test_ensemble_composition.h>
 #include <base/iterateur_ensemble_composition.h>
 
@@ -33,7 +34,7 @@ namespace ProjetUnivers {
     namespace Test {
 
 
-
+        
       class TempComposition {
       public:
       
@@ -53,7 +54,7 @@ namespace ProjetUnivers {
         static Entier nombreDObjetsDetruits ;
 
       };
-
+    
       Entier TempComposition::nombreDObjetsDetruits = 0 ;
 
 
@@ -145,6 +146,15 @@ namespace ProjetUnivers {
         
       }
       
+      void TestEnsembleComposition::testConversion()
+      {
+        this->ensembleTeste.Ajouter(new TempComposition(1)) ;
+        this->ensembleTeste.Ajouter(new TempComposition(2)) ;
+        
+        EnsembleAssociation<TempComposition> 
+          ensemble(this->ensembleTeste) ;
+        
+      }
  
       ///////////////
       // Initialisation du test
@@ -160,7 +170,6 @@ namespace ProjetUnivers {
       {
         this->ensembleTeste.Vider() ;
       }
-
 
 
     }

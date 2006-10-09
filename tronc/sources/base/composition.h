@@ -24,6 +24,7 @@
 
 
 
+#include <base/erreur.h>
 
 #include <base/exception_base.h>
 
@@ -123,9 +124,7 @@ namespace ProjetUnivers {
       /// Vérifie que le pointeur est non NULL. 
       OBJET* operator ->() const
       {
-        if (pt == NULL) 
-    
-          throw ExceptionBase("Composition::->") ;
+        VerifieCondition(pt != NULL, ExceptionBase("Composition::->")) ;
     
         return pt ;
       }

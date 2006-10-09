@@ -19,13 +19,13 @@
  ***************************************************************************/
 
 
-#ifndef _PU_BASE_TEST_FONCTION_COMPOSITION_VALEUR_OBJET_H_
-#define _PU_BASE_TEST_FONCTION_COMPOSITION_VALEUR_OBJET_H_
+#ifndef _PU_BASE_TEST_FONCTION_VALEUR_VALEUR_H_
+#define _PU_BASE_TEST_FONCTION_VALEUR_VALEUR_H_
 
 
 #include <cppunit/extensions/HelperMacros.h>
 
-#include <base/fonction_composition_valeur_objet.h>
+#include <base/fonction_valeur_valeur.h>
 
 
 namespace ProjetUnivers {
@@ -35,8 +35,8 @@ namespace ProjetUnivers {
     namespace Test {
       
       
-      ///  Test de Base::FonctionCompositionValeurObjet.
-      class TestFonctionCompositionValeurObjet 
+      ///  Test de Base::FonctionValeurValeurObjet.
+      class TestFonctionValeurValeur 
               : public CppUnit::TestFixture 
       {
       protected:
@@ -49,6 +49,9 @@ namespace ProjetUnivers {
         
         /// Teste l'ajout d'un élément
         void testAjouter();
+
+        /// Teste la modification
+        void testChanger();
       
         /// Teste l'ensemble vide
         void testVide();
@@ -60,9 +63,10 @@ namespace ProjetUnivers {
       // *******************************
       // @{
       
-        CPPUNIT_TEST_SUITE(TestFonctionCompositionValeurObjet) ;
+        CPPUNIT_TEST_SUITE(TestFonctionValeurValeur) ;
       
         CPPUNIT_TEST(testAjouter) ;
+        CPPUNIT_TEST(testChanger) ;
         CPPUNIT_TEST(testVide) ;
       
         CPPUNIT_TEST_SUITE_END() ;

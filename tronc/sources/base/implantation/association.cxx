@@ -18,18 +18,12 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#include <base/erreur.h>
+
 namespace ProjetUnivers {
 
   namespace Base {
 
-
-//    template <class OBJET> inline Association<OBJET>& 
-//    Association<OBJET>::operator =(const Composition<OBJET>& _x)
-//    {
-//    
-//      pt = _x.pt ;
-//      return *this ;
-//    }
     
     template <class OBJET> inline Booleen 
     Association<OBJET>::operator == (const Composition<OBJET>& _x) const 
@@ -43,18 +37,10 @@ namespace ProjetUnivers {
       return pt == _x.pt ;
     }
     
-//    template <class OBJET>  
-//    Association<OBJET>::Association(const Composition<OBJET>& _x)
-//      : pt(_x.pt)
-//    {}
-    
     template <class OBJET> OBJET* 
     Association<OBJET>::operator ->() const {
     
-      if (pt == NULL) 
-      {
-        throw ExceptionBase("Association::->") ;
-      }
+      VerifieCondition(pt != NULL, ExceptionBase("Association::->")) ;
     	
       return pt ;
     	

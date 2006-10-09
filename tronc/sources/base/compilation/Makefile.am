@@ -18,6 +18,7 @@ $(SOURCES)/base/implantation/fonction_association_objet_objet.cpp \
 $(SOURCES)/base/implantation/fonction_association_valeur_objet.cpp \
 $(SOURCES)/base/implantation/fonction_composition_valeur_objet.cpp \
 $(SOURCES)/base/implantation/fonction_objet_valeur.cpp \
+$(SOURCES)/base/implantation/fonction_valeur_valeur.cpp \
 $(SOURCES)/base/implantation/iterateur_liste.cpp \
 $(SOURCES)/base/implantation/iterateur_liste_abstrait.cpp \
 $(SOURCES)/base/implantation/iterateur_liste_association.cpp \
@@ -60,6 +61,7 @@ $(SOURCES)/base/test/test_iterateur_ensemble_association.cpp \
 $(SOURCES)/base/test/test_fonction_association_objet_objet.cpp \
 $(SOURCES)/base/test/test_fonction_association_valeur_objet.cpp \
 $(SOURCES)/base/test/test_fonction_composition_valeur_objet.cpp \
+$(SOURCES)/base/test/test_fonction_valeur_valeur.cpp \
 $(SOURCES)/base/test/test_liste.cpp \
 $(SOURCES)/base/test/test_mvc.cpp 
 

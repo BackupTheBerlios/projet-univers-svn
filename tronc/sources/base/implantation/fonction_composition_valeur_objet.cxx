@@ -33,6 +33,13 @@ namespace ProjetUnivers {
     FonctionCompositionValeurObjet<Valeur,Objet>::
     ~FonctionCompositionValeurObjet()
     {
+      Vider() ;
+    }
+
+    template <typename Valeur, class Objet >
+    void 
+    FonctionCompositionValeurObjet<Valeur,Objet>::Vider()
+    {
       // détruire tous les éléments.
       for(typename std::map<Valeur,Objet*>::iterator i(fonction.begin()) ;
           i != fonction.end() ;
@@ -40,8 +47,10 @@ namespace ProjetUnivers {
       {
         delete (*i).second ;
       }
+      
     }
-    
+
+
     template <typename Valeur, class Objet > 
     void FonctionCompositionValeurObjet<Valeur,Objet>::
     Ajouter(const Valeur& _cle, Objet* _image)

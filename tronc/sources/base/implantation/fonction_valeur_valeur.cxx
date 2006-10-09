@@ -18,39 +18,64 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#include <base/derive_de.h>
 
-#ifndef _PU_BASE_ERREUR_H_
-#define _PU_BASE_ERREUR_H_
-
-#include <cassert>
-
-/*!
-  @name Gestion des erreurs
-  
-  Ce système permet de changer à la compilation entre une assertion et une 
-  exception.
-  
-  
-  
-*/
+namespace ProjetUnivers {
+  namespace Base {
 
 
-/// Déclenche une erreur/exception si @c condition est faux
-/*!
-  @param condition une expression renvoyant un booleen
-  @param exception une exception
-*/
-#ifdef _DEBUG
-  
-  #define VerifieCondition(condition, exception) assert((condition) == ProjetUnivers::Base::VRAI) ;
+    template <class Cle, typename Valeur> 
+    FonctionValeurValeur<Cle,Valeur>::FonctionValeurValeur()
+    : fonction()
+    {
+//      DeriveDe<Cle, ProjetUnivers::Base::Valeur>() ;
+//      DeriveDe<Valeur, ProjetUnivers::Base::Valeur>() ;
+    }
+    
+    template <class Cle, typename Valeur> 
+    FonctionValeurValeur<Cle,Valeur>::
+    FonctionValeurValeur(const FonctionValeurValeur& _v)
+    : fonction(_v.fonction)
+    {}
+    
+    template <class Cle, typename Valeur> 
+    void FonctionValeurValeur<Cle,Valeur>::
+    Ajouter(const Cle& _cle, const Valeur& _valeur)
+    {
+      fonction[_cle] = _valeur ;
+    }
+    
+    template <class Cle, typename Valeur> 
+    void FonctionValeurValeur<Cle,Valeur>::
+    Changer(const Cle& _cle, const Valeur& _valeur)
+    {
+      fonction[_cle] = _valeur ;
+    }
+    
+    template <class Cle, typename Valeur> 
+    Valeur FonctionValeurValeur<Cle,Valeur>::
+    Acces(const Cle& _cle) const
+    {
+      return fonction[_cle] ;
+    }
 
-#else
+    template <class Cle, typename Valeur> 
+    Valeur& FonctionValeurValeur<Cle,Valeur>::
+    operator[](const Cle& _cle) const
+    {
+      return fonction[_cle] ;
+    }
 
-  #define VerifieCondition(condition, exception) { if ((condition) == ProjetUnivers::Base::FAUX) throw exception ; }
+    
+    template <class Cle, typename Valeur> 
+    Booleen FonctionValeurValeur<Cle,Valeur>::
+    operator==(const FonctionValeurValeur< Cle,Valeur >& _right) const
+    {
+      return fonction == _right.fonction ;
+    }
 
-#endif
 
 
 
-
-#endif /*_PU_BASE_ERREUR_H_*/
+  }
+}

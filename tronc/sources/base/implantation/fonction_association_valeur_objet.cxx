@@ -40,6 +40,12 @@ namespace ProjetUnivers
     {}
     
     template <typename Valeur, class Objet>
+    void FonctionAssociationValeurObjet<Valeur,Objet>::Vider()
+    {
+      fonction.empty() ;
+    }
+    
+    template <typename Valeur, class Objet>
     void 
     FonctionAssociationValeurObjet<Valeur,Objet>::Ajouter(
       const Valeur& _cle, const Association<Objet>& _valeur)
@@ -68,7 +74,7 @@ namespace ProjetUnivers
         /// pas d'objet associé à @c _cle
         /*!
           @todo
-            trouver un moye nde différencier entre 
+            trouver un moyen de différencier entre 
             - _cle est associé à NULL
             - _cle n'est associé à personne
         */
@@ -79,6 +85,14 @@ namespace ProjetUnivers
         return *(estDedans->second) ;
       }
     }
+
+    template <typename Valeur, class Objet>
+    Association<Objet> 
+    FonctionAssociationValeurObjet<Valeur,Objet>::operator[](const Valeur& _cle) const
+    {
+      return Acces(_cle) ;
+    }
+
   
   
     

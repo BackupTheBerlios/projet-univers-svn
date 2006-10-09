@@ -39,6 +39,7 @@ namespace ProjetUnivers {
 
       Cette fonction est en composition : lorsqu'elle est detruite, les 
       éléments de Objet le sont aussi.
+
       @par Test
         Testé le 02/04/2006 avec TestFonctionCompositionValeurObjet :
         - Constructeur
@@ -61,6 +62,8 @@ namespace ProjetUnivers {
       /// Destructeur.
       ~FonctionCompositionValeurObjet() ; 
 
+      /// Vide la fonction.
+      void Vider() ;
 
       /// Ajoute un élément.
       void Ajouter(const Valeur& , Objet*) ;
