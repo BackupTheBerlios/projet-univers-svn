@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Equipe Projet Univers                           *
+ *   Copyright (C) 2006 by Equipe Projet Univers                           *
  *   rogma.boami@free.fr                                                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,8 +18,11 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <base/vue.h>
+#include <base/traceur.h>
+
 #include <modele/solide.h>
+
+#include <affichage/implantation/ogre/positionne.h>
 
 #include <affichage/implantation/ogre/solide.h>
 
@@ -29,9 +32,13 @@ namespace ProjetUnivers {
     namespace Implantation {
       namespace Ogre {
 
+        /// Indique que la cette vue s'applique au modèle dans ce point de vue
+        EnregistreVue(Ogre::Solide,Modele::Solide, Ogre::PointDeVue) ;
+
+
         /// Constructeur.
         Solide::Solide(const Base::Association<Modele::Solide>& _objet)
-        : Base::Vue<Modele::Solide>(_objet), modele(NULL)
+        : Vue<Modele::Solide>(_objet), modele(NULL)
         {}
 
 
@@ -44,15 +51,25 @@ namespace ProjetUnivers {
         /// Crée une entité.
         void Solide::Initialiser()
         {
-          
-          Base::Association<Positionne> positionne(*(this->objet)) ;
-          
-          /// on crée l'élément 3D
-          modele = this->pointDeVue->AccesGestionnaire()
-                            ->createEntity("",observe->AccesModele()) ;
-          
-          /// on le place sur le noeud
-          positionne->AccesNoeud()->attachObject(modele) ;
+          Base::Traceur::MessageInterne("Entering Solide::Initialiser") ;
+
+          if (! this->initialise)
+          {
+            Base::Association<Positionne> positionne(*(this->objet)) ;
+            positionne->Initialiser() ;
+            
+            /// on crée l'élément 3D
+            modele = this->AccesPointDeVue()->AccesGestionnaire()
+                              ->createEntity("",(const char*)observe->AccesModele().AccesNom()) ;
+            
+            /// on le place sur le noeud
+            positionne->AccesNoeud()->attachObject(modele) ;
+            
+            this->initialise = Base::VRAI ;
+          }
+
+          Base::Traceur::MessageInterne("Leaving Solide::Initialiser") ;
+
         }
         
         /// Détruit l'entité.

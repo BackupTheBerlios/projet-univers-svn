@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Equipe Projet Univers                           *
+ *   Copyright (C) 2006 by Equipe Projet Univers                           *
  *   rogma.boami@free.fr                                                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -29,7 +29,7 @@ namespace ProjetUnivers {
     namespace Implantation {
       namespace Ogre {
 
-        class PointdeVue ;
+        class PointDeVue ;
                       
         /// Une vue Ogre.
         /*!
@@ -41,6 +41,9 @@ namespace ProjetUnivers {
     
           /// Objet de cette facette.          
           Base::Association<PointDeVue> AccesPointDeVue() const ;
+
+          /// Mise à jour de la vue.
+          virtual void Raffraichir() = 0 ;
     
           /// Destructeur de classe abstraite.    
           virtual ~Vue() ;

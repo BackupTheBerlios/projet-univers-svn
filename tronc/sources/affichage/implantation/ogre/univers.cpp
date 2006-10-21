@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Equipe Projet Univers                           *
+ *   Copyright (C) 2006 by Equipe Projet Univers                           *
  *   rogma.boami@free.fr                                                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -20,7 +20,10 @@
 
 #include <Ogre.h>
 
+#include <base/traceur.h>
 #include <base/erreur.h>
+
+#include <affichage/exception.h>
 
 #include <affichage/implantation/ogre/univers.h>
 
@@ -30,27 +33,42 @@ namespace ProjetUnivers {
     namespace Implantation {
       namespace Ogre {
 
+        /// Indique que la cette vue s'applique au modèle dans ce point de vue
+        EnregistreVue(Ogre::Univers,Modele::Univers, Ogre::PointDeVue) ;
+
+
         Univers::Univers(const Base::Association<Modele::Univers>& _univers)
-        : Base::Vue<Modele::Univers>()
-        {}
+        : Ogre::Vue<Modele::Univers>(_univers)
+        {
+          Base::Traceur::MessageInterne("Built Ogre::Univers") ;
+        }
         
         /// Initialise la vue.
         void Univers::Initialiser()
         {
-          VerifieCondition(this->pointdeVue, 
-                           Exception("Univers::Initialiser sans point de vue")) ;
+          Base::Traceur::MessageInterne("Entering Univers::Initialiser") ;
           
-          this->pointdeVue->AccesGestionnaire()->setSkyBox( true, "Examples/SpaceSkyBox" );
+          if (! this->initialise)
+          {
+            
+//            VerifieCondition(this->AccesPointDeVue(), 
+//                             Exception("Univers::Initialiser sans point de vue")) ;
+            
+            this->AccesPointDeVue()->AccesGestionnaire()->setSkyBox( true, "Examples/SpaceSkyBox" );
           
+            this->initialise = Base::VRAI ;
+          }
+          Base::Traceur::MessageInterne("Leaving Univers::Initialiser") ;
+                    
         }
 
         /// Termine la vue.
         void Univers::Terminer()
         {
-          VerifieCondition(this->pointdeVue, 
+          VerifieCondition(!!this->AccesPointDeVue(), 
                            Exception("Univers::Terminer sans point de vue")) ;
           
-          this->pointdeVue->AccesGestionnaire()->setSkyBox( false, "" );
+          this->AccesPointDeVue()->AccesGestionnaire()->setSkyBox( false, "" );
           
         }
 

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Equipe Projet Univers                           *
+ *   Copyright (C) 2006 by Equipe Projet Univers                           *
  *   rogma.boami@free.fr                                                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -25,13 +25,13 @@
 #include <base/traceur.h>
 
 #include <modele/exception.h>
-#include <modele/objet.h>
 #include <modele/facette.h>
-#include <modele/positionne.h>
-#include <modele/univers.h>
+#include <modele/objet.h>
 #include <modele/observateur.h>
+#include <modele/positionne.h>
 #include <modele/systeme_stellaire.h>
-
+#include <modele/solide.h>
+#include <modele/univers.h>
 
 #include <modele/modele.h>
 
@@ -74,29 +74,6 @@ namespace ProjetUnivers {
 
       
 
-//      Base::Chaine AfficherObjets()
-//      {
-//        Base::Chaine resultat ;
-//        resultat += "<Modele>" ;
-//        resultat += Base::FinDeLigne() ;
-//        Base::AugmenteIndentation() ;
-//
-//        for(Base::IterateurEnsembleComposition<Objet> objet(objets) ;
-//            objet.Valide() ;
-//            ++objet)
-//        {
-//          resultat += objet->AfficherDefinition() ;
-//        }
-//        
-//        Base::DiminueIndentation() ;
-//        resultat += Base::AfficheEspaces() ;
-//        resultat += "</Modele>" ;
-//        resultat += Base::FinDeLigne() ;
-//        
-//        return resultat ;
-//      }
-      
-
     
     /*!
       @par Etat 
@@ -114,8 +91,13 @@ namespace ProjetUnivers {
     */
     void Terminer()
     {
+      Base::Traceur::MessageInterne("Deleting objects") ;
       objets.Vider() ;
+
+      Base::Traceur::MessageInterne("Deleting object references") ;
       registreObjets.Vider() ;
+      
+      Base::Traceur::MessageInterne("Module Modele terminated") ;
       
     }
 
@@ -174,6 +156,8 @@ namespace ProjetUnivers {
         vaisseau->Ajouter(new Positionne(Position(Distance(Distance::_Metre, 10000),
                                                   Distance(Distance::_Metre, 10000),
                                                   Distance(Distance::_Metre, 10000)) )) ;
+        
+        vaisseau->Ajouter(new Solide(Modele3D("razor.mesh"))) ;
 
         Base::Traceur::MessageInterne("construction d'un vaisseau terminée") ;
         

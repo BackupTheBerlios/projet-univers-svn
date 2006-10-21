@@ -29,7 +29,7 @@
 
 #include <modele/mobile.h>
 
-#include <affichage/implantation/ogre/facette.h>
+#include <affichage/facette.h>
 
 namespace ProjetUnivers {
   namespace Affichage {

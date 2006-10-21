@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Equipe Projet Univers                           *
+ *   Copyright (C) 2006 by Equipe Projet Univers                           *
  *   rogma.boami@free.fr                                                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -25,7 +25,8 @@
 
 #include <modele/solide.h>
 
-#include <affichage/implantation/ogre/facette.h>
+#include <affichage/implantation/ogre/vue.h>
+#include <affichage/facette.h>
 
 namespace ProjetUnivers {
   namespace Affichage {
@@ -37,7 +38,7 @@ namespace ProjetUnivers {
         @par Etat actuel
           planning
         */
-        class Solide : public Base::Vue<Modele::Solide>, 
+        class Solide : public Vue<Modele::Solide>, 
                         public Facette
         {
         public:

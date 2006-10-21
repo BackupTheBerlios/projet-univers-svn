@@ -20,10 +20,13 @@
 
 #include <base/traceur.h>
 #include <affichage/affichage.h>
+#include <affichage/point_de_vue.h>
+
 #include <entrees/entrees.h>
 #include <action/action.h>
 #include <modele/modele.h>
 
+using namespace ProjetUnivers ;
 
 /*
   Programme de démonstration
@@ -35,31 +38,45 @@ int main() {
 
 
   /// initialisation
-  ProjetUnivers::Base::Traceur::Initialiser() ;
-  ProjetUnivers::Base::Traceur::MessageInformation("demarrage de projet univers") ;
-//  ProjetUnivers::Affichage::Initialiser() ;
-//  ProjetUnivers::Action::Initialiser() ;
-//  ProjetUnivers::Entrees::Initialiser() ;
-  ProjetUnivers::Modele::Initialiser() ;
-  ProjetUnivers::Modele::Charger("TestDemonstration") ;
+  Base::Traceur::Initialiser() ;
+  Base::Traceur::MessageInformation("Demarrage de projet univers") ;
+  Modele::Initialiser() ;
+  Affichage::Initialiser() ;
+  Action::Initialiser() ;
+  Entrees::Initialiser() ;
+
+  Base::Traceur::MessageInformation("Modules initialisés") ;
+
+  Modele::Charger("TestDemonstration") ;
+
+  Base::Association<Modele::Objet> observateur(Modele::AccesObjet("Observateur")) ;
+  
+  /// Création d'un point de vue sur ce modèle
+  Base::Association<Affichage::PointDeVue> pdv(
+      Affichage::AjouterPointDeVue(Affichage::PointDeVue::Construire(observateur))) ;
+
+  Affichage::ActiverPointDeVue(pdv) ;
+
+  Base::Traceur::MessageInformation("Demarrage de la boucle principale") ;
 
   /// boucle principale
-//  while (! ProjetUnivers::Action::Termine())
-//  {
-//    ProjetUnivers::Entrees::Traiter() ;
-//    ProjetUnivers::Action::Traiter() ;
-//
-//    ProjetUnivers::Affichage::Raffraichir() ;
-//  }
+  while (! Action::Termine())
+  {
+    Entrees::Traiter() ;
+    Action::Traiter() ;
+    Affichage::Raffraichir() ;
+  }
+
+  Base::Traceur::MessageInformation("Sortie de la boucle principale") ;
     
   /// sortie
-  ProjetUnivers::Modele::Terminer() ;
-//  ProjetUnivers::Entrees::Terminer() ;
-//  ProjetUnivers::Action::Terminer() ;
-//  ProjetUnivers::Affichage::Terminer() ;
-  ProjetUnivers::Base::Traceur::Terminer() ;
+  Entrees::Terminer() ;
+  Action::Terminer() ;
+  Affichage::Terminer() ;
+  Modele::Terminer() ;
+  Base::Traceur::MessageInformation("Modules desinitialisés") ;
+  Base::Traceur::Terminer() ;
   
-  
-
+  return 0 ;
   
 }

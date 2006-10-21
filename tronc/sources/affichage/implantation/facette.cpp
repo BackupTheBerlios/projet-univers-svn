@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Equipe Projet Univers                           *
+ *   Copyright (C) 2006 by Equipe Projet Univers                           *
  *   rogma.boami@free.fr                                                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -27,6 +27,7 @@ namespace ProjetUnivers {
 
 
     Facette::Facette()
+    : initialise(Base::FAUX)
     {}
 
     Facette::~Facette()

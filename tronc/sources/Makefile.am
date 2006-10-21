@@ -1,8 +1,8 @@
 SUBDIRS = \
-action \
-affichage \
 base \
-demonstration \
+modele \
+affichage \
 entrees \
-modele
+action \
+demonstration 
 	

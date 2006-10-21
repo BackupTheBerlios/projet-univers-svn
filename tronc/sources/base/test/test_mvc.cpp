@@ -109,33 +109,24 @@ namespace ProjetUnivers {
 
           
           
-          /// Une vue sur 2 modèles
-          class VuePersonne : public Vue<ModelePersonne>, public Vue<ModeleTete>
+          /// Une vue sur une tete
+          class VueTete : public Vue<ModeleTete>
           {
           public:
   
             void Raffraichir()
             {
-              personne_attribut = personne->AccesAttribut() ;
-              tete_attribut = personne->AccesTete()->AccesAttribut() ;
+              tete_attribut = Vue<ModeleTete>::observe->AccesAttribut() ;
               raffraichie = VRAI ;
             }
   
-            VuePersonne(const Association<ModelePersonne>& _personne)
-            : Vue<ModelePersonne>(_personne), 
-              Vue<ModeleTete>(_personne->AccesTete()), personne(_personne),
-              personne_attribut(_personne->AccesAttribut()),
-              tete_attribut(_personne->AccesTete()->AccesAttribut())
+            VueTete(const Association<ModeleTete>& _tete)
+            : Vue<ModeleTete>(_tete),
+              tete_attribut(_tete->AccesAttribut())
             {
-              this->AjouterMiseAJourElementaire(
-                    boost::bind(&VuePersonne::Raffraichir,this)) ;
             }
             
             
-            Entier AccesPersonneAttribut() const
-            {
-              return personne_attribut ;
-            }
             
             Entier AccesTeteAttribut() const 
             {
@@ -145,10 +136,7 @@ namespace ProjetUnivers {
             Booleen raffraichie ;
             
           private:
-          
-            Association<ModelePersonne> personne ;
             
-            Entier personne_attribut ;
             Entier tete_attribut ;
             
           };
@@ -168,8 +156,6 @@ namespace ProjetUnivers {
             : Vue<ModelePersonne>(_personne), 
               personne_attribut(_personne->AccesAttribut())
             {
-             this->AjouterMiseAJourElementaire(
-                    boost::bind(&AffichagePersonne::Raffraichir,this)) ;            
             }
             
             
@@ -194,8 +180,9 @@ namespace ProjetUnivers {
           
           try {
           // Création du modèle
-          Composition<ModeleTete> tete(new ModeleTete()) ;
-          Composition<ModelePersonne> CompPersonne(new ModelePersonne(tete.Liberer())) ;
+          Composition<ModeleTete> compTete(new ModeleTete()) ;
+          Association<ModeleTete> tete(compTete) ;
+          Composition<ModelePersonne> CompPersonne(new ModelePersonne(compTete.Liberer())) ;
           Association<ModelePersonne> personne(CompPersonne) ;
           
           
@@ -203,61 +190,49 @@ namespace ProjetUnivers {
           Composition<PointDeVue> pointDeVue(new PointDeVue()) ;          
           
           // Création des vues
-          Composition<VuePersonne> vuePersonne(new VuePersonne(personne)) ;
-          Association<VuePersonne> vue(vuePersonne) ;
-          pointDeVue->Ajouter(vuePersonne.Liberer()) ;
+          Composition<VueTete> compVueTete(new VueTete(tete)) ;
+          Association<VueTete> vueTete(compVueTete) ;
+          pointDeVue->Ajouter(compVueTete.Liberer()) ;
 
-          Composition<VuePersonne> vuePersonne2(new VuePersonne(personne)) ;
-          Association<VuePersonne> vue3 = (vuePersonne2) ;
-          pointDeVue->Ajouter(vuePersonne2.Liberer()) ;
 
-          Composition<AffichagePersonne> affichagePersonne(new AffichagePersonne(personne)) ;
-          Association<AffichagePersonne> vue2(affichagePersonne) ;
-          pointDeVue->Ajouter(affichagePersonne.Liberer()) ;
+          Composition<AffichagePersonne> compAffichagePersonne(new AffichagePersonne(personne)) ;
+          Association<AffichagePersonne> vuePersonne(compAffichagePersonne) ;
+          pointDeVue->Ajouter(compAffichagePersonne.Liberer()) ;
           
-          vue->raffraichie = FAUX ;
-          vue2->raffraichie = FAUX ;
-          vue3->raffraichie = FAUX ;
+          vueTete->raffraichie = FAUX ;
+          vuePersonne->raffraichie = FAUX ;
           
           // Utilisation
           
           // changement de personne
           personne->ChangerAttribut(10) ;
           pointDeVue->Raffraichir() ;
-          CPPUNIT_ASSERT(vue->AccesPersonneAttribut() == 10) ;
-          CPPUNIT_ASSERT(vue->AccesTeteAttribut() == 0) ;
-          CPPUNIT_ASSERT(vue->raffraichie == VRAI) ;
-          CPPUNIT_ASSERT(vue2->raffraichie == VRAI) ;
-          CPPUNIT_ASSERT(vue3->raffraichie == VRAI) ;
+          CPPUNIT_ASSERT(vueTete->AccesTeteAttribut() == 0) ;
+          CPPUNIT_ASSERT(vueTete->raffraichie == FAUX) ;
+          CPPUNIT_ASSERT(vuePersonne->raffraichie == VRAI) ;
           
-          vue->raffraichie = FAUX ;
-          vue2->raffraichie = FAUX ;
-          vue3->raffraichie = FAUX ;
+          vueTete->raffraichie = FAUX ;
+          vuePersonne->raffraichie = FAUX ;
 
           // aucun changement du modèle
           pointDeVue->Raffraichir() ;
-          CPPUNIT_ASSERT(vue->raffraichie == FAUX) ;
-          CPPUNIT_ASSERT(vue2->raffraichie == FAUX) ;
-          CPPUNIT_ASSERT(vue3->raffraichie == FAUX) ;
+          CPPUNIT_ASSERT(vueTete->raffraichie == FAUX) ;
+          CPPUNIT_ASSERT(vuePersonne->raffraichie == FAUX) ;
 
           // changement de tete
           personne->AccesTete()->ChangerAttribut(20) ;
 
           pointDeVue->Raffraichir() ;
-          CPPUNIT_ASSERT(vue->AccesPersonneAttribut() == 10) ;
-          CPPUNIT_ASSERT(vue->AccesTeteAttribut() == 20) ;
-          CPPUNIT_ASSERT(vue->raffraichie == VRAI) ;
-          CPPUNIT_ASSERT(vue2->raffraichie == FAUX) ;
-          CPPUNIT_ASSERT(vue3->raffraichie == VRAI) ;
+          CPPUNIT_ASSERT(vueTete->AccesTeteAttribut() == 20) ;
+          CPPUNIT_ASSERT(vueTete->raffraichie == VRAI) ;
+          CPPUNIT_ASSERT(vuePersonne->raffraichie == FAUX) ;
 
           // Changement des 2
           personne->ChangerAttribut(100) ;
           personne->AccesTete()->ChangerAttribut(200) ;
           pointDeVue->Raffraichir() ;
-          CPPUNIT_ASSERT(vue->AccesPersonneAttribut() == 100) ;
-          CPPUNIT_ASSERT(vue->AccesTeteAttribut() == 200) ;
-          CPPUNIT_ASSERT(vue2->AccesPersonneAttribut() == 100) ;
-          CPPUNIT_ASSERT(vue3->AccesPersonneAttribut() == 100) ;
+          CPPUNIT_ASSERT(vueTete->AccesTeteAttribut() == 200) ;
+          CPPUNIT_ASSERT(vuePersonne->AccesPersonneAttribut() == 100) ;
           
           
           }

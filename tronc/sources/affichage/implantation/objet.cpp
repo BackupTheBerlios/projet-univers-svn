@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Equipe Projet Univers                           *
+ *   Copyright (C) 2006 by Equipe Projet Univers                           *
  *   rogma.boami@free.fr                                                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -22,8 +22,11 @@
 
 #include <base/traceur.h>
 #include <base/erreur.h>
+#include <base/iterateur_ensemble_composition.h>
 
 #include <affichage/exception.h>
+#include <affichage/point_de_vue.h>
+
 #include <affichage/objet.h>
 
 
@@ -41,35 +44,35 @@ namespace ProjetUnivers {
                    const Base::Association<PointDeVue>& _pointDeVue)
       : Base::Vue<Modele::Objet>(_objet)
       {
-        /// on a besoin d'un constructeur de vue
-        /*!
-          Quelque chose qui permet à chaque classe de vue de s'enregistrer 
-          auprès d'une facette
-          
-          dans le .cpp de la vue : 
-          
-          DECLARE_VUE(Vue, Modele, PointDeVue) ;
-          
-          qui ajoute dans une map 
-          
-
-        */
         Base::Traceur::MessageInterne("Entering Affichage::Objet::Objet") ;
+        
+        this->pointDeVue = _pointDeVue ;
+
         Base::Traceur::MessageInterne("Leaving Affichage::Objet::Objet") ;
-        
-        
-        
       }
           
-      /// Initialise le point de vue
+      /// Initialise les facettes de la vue puis ses fils
       void Objet::Initialiser() 
       {
-//        for(Base::IterateurFonctionCompositionValeurObjet<Base::Chaine, Facette> facette(facettes) ;
-//            facette.Valide() ;
-//            ++facette)
-//        {
-//          facette->Initialiser() ;
-//        }
+
+        Base::Traceur::MessageInterne("Entering Objet::Initialiser") ;
+        Base::Traceur::MessageInterne("Initialising facettes") ;
+
+        for(Base::IterateurEnsembleAssociation<Facette> facette(ensembleFacettes) ;
+            facette.Valide() ;
+            ++facette)
+        {
+          facette->Initialiser() ;
+        }
+
+        Base::Traceur::MessageInterne("Initialising sub-objects") ;
+        
+        for(Base::IterateurEnsembleComposition<Objet> fils(this->contenu) ;
+            fils.Valide() ;
+            ++fils)
+        {
+          fils->Initialiser() ;
+        }
       }
       
       void Objet::Terminer()
@@ -77,9 +80,21 @@ namespace ProjetUnivers {
         
       }
 
+      void Objet::Raffraichir()
+      {
+        /// il faut voir si de nouvelles facettes sont apparues
+        
+        /// il faut regarder si les liens de parentés ont changés
+      }
+
+
       Base::Association<Objet> Objet::Ajouter(Objet* _contenu)
       {
-        this->contenu.Ajouter(_contenu) ;
+        if (_contenu)
+        {
+          _contenu->conteneur = *this ;
+          this->contenu.Ajouter(_contenu) ;
+        }
       }
     
       Base::Association<Objet> Objet::Ajouter(Facette* _facette)
@@ -95,9 +110,13 @@ namespace ProjetUnivers {
         
         
         _facette->objet = *this ;
+        _facette->pointDeVue = this->pointDeVue ;
+        
+        ensembleFacettes.Ajouter(temporaire) ;
+        
         /// on range les facettes en fonction de leur classe
-          facettes.Ajouter(typeid(*_facette).name(), temporaire.Liberer()) ;
-        }
+        facettes.Ajouter(typeid(*_facette).name(), temporaire.Liberer()) ;
+      }
  
       /// Acces au conteneur de la vue
       Base::Association<Objet> Objet::AccesConteneur() const

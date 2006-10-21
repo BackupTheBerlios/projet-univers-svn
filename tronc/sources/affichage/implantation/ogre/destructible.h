@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Equipe Projet Univers                           *
+ *   Copyright (C) 2006 by Equipe Projet Univers                           *
  *   rogma.boami@free.fr                                                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -22,17 +22,12 @@
 #ifndef _PU_AFFICHAGE_IMPLANTATION_OGRE_DESTRUCTIBLE_H_
 #define _PU_AFFICHAGE_IMPLANTATION_OGRE_DESTRUCTIBLE_H_
 
-#include <modele/detructible.h>
+#include <modele/destructible.h>
 
-#include <affichage/implantation/ogre/facette.h>
+#include <affichage/implantation/ogre/vue.h>
+#include <affichage/facette.h>
 
 namespace ProjetUnivers {
-  
-  namespace Modele
-  {
-    class Destructible ;
-  }
-  
   namespace Affichage {
     namespace Implantation {
       namespace Ogre {
@@ -45,18 +40,22 @@ namespace ProjetUnivers {
           @par Etat
             planning
         */
-        class Destructible : public Base::Vue<Modele::Destructible>,
+        class Destructible : public Vue<Modele::Destructible>,
                               public Facette
         {
         public:
 
           /// Constructeur.
-          Destructible() ;
-
+          Destructible(const Base::Association<Modele::Destructible>& _objet) ;
         
-          /// Rafraichie l'état de l'objet.
+          /// Initialise la vue.
+          virtual void Initialiser() ;
+
+          /// Termine la vue.
+          virtual void Terminer() ;
+        
+          /// Mise à jour.
           virtual void Raffraichir() ;
-          
           
         private:
 

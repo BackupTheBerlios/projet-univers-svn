@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Equipe Projet Univers                           *
+ *   Copyright (C) 2006 by Equipe Projet Univers                           *
  *   rogma.boami@free.fr                                                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -92,7 +92,7 @@ namespace ProjetUnivers {
 
       Base::EnsembleAssociation<Objet> AccesContenu() const ;
   
-      /// Le conteneur récursfi de plus haut niveau.
+      /// Le conteneur récursif de plus haut niveau.
       Base::Association<Objet> AccesRacine() const ;
       
     // @}
@@ -138,6 +138,10 @@ namespace ProjetUnivers {
       Base::FonctionCompositionValeurObjet<Base::Chaine, Facette> facettes ;
 
       /// Redondant, mais pour simplifier le travail
+      /*!
+        @todo 
+          supprimer
+      */
       Base::EnsembleAssociation<Facette> ensembleFacettes ;
 
       /// L'éventuel objet qui contient celui-ci
@@ -151,50 +155,45 @@ namespace ProjetUnivers {
       
     };  
 
-      template <class T> 
-      Objet::operator Base::Association<T>() const
+    template <class T> Objet::operator Base::Association<T>() const
+    {
+      /// T doit être une sous classe de Facette
+      Base::DeriveDe<T,Facette>() ;
+      
+      /// on attrape la facette 
+      Base::Association<Facette> facette = facettes[typeid(T).name()] ;
+      
+      /// si elle existe on effectue la conversion :
+      if (facette)
       {
-        /// T doit être une sous classe de Facette
-        Base::DeriveDe<T,Facette>() ;
-        
-        /// on attrape la facette 
-        Base::Association<Facette> facette = facettes[typeid(T).name()] ;
-        
-        /// si elle existe on effectue la conversion :
-        if (facette)
-        {
-          Facette* pFacette = facette.operator->() ;
-          T* t = static_cast<T*>(pFacette) ; 
-          return *t ;
-        }
-        else
-          return Base::Association<T>() ;
+        Facette* pFacette = facette.operator->() ;
+        T* t = static_cast<T*>(pFacette) ; 
+        return *t ;
       }
+      else
+        return Base::Association<T>() ;
+    }
 
-      template <class T> Base::Association<T> 
-      Objet::AccesParent() const
+    template <class T> Base::Association<T> Objet::AccesParent() const
+    {
+      /// T doit être une sous classe de Facette
+      Base::DeriveDe<T,Facette>() ;
+      
+      Base::Association<Objet> iterateur(*this) ;
+      Base::Association<T> facette(*iterateur) ;
+      
+      while((! facette) && iterateur)
       {
-        /// T doit être une sous classe de Facette
-        Base::DeriveDe<T,Facette>() ;
-        
-        Base::Association<Objet> iterateur(*this) ;
-        Base::Association<T> facette(*iterateur) ;
-        
-        while((! facette) && iterateur)
+        iterateur = iterateur->AccesConteneur() ;
+        if (iterateur)
         {
-          iterateur = iterateur->AccesConteneur() ;
-          if (iterateur)
-          {
-            facette = *iterateur ;
-          }
+          facette = *iterateur ;
         }
-        
-        return facette ;
-        
       }
-
-
-
+      
+      return facette ;
+      
+    }
 
   } 
   

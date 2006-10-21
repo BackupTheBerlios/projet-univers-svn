@@ -150,13 +150,25 @@ namespace ProjetUnivers {
         // on ajoute un autre élément ...
         element = new TempAssociation(2) ;
         this->ensembleTeste.Ajouter(element) ;
+        
+        Association<TempAssociation> deuxieme_element(element) ;
+        
         // on le transfert dans le conteneur
         elements.Ajouter(element.Liberer()) ;
+
         // on enlève le premier élément
         this->ensembleTeste.Enlever(referenceElement) ;
         
         // on vérifie qu'il n'est pas dedans
-        CPPUNIT_ASSERT(this->ensembleTeste.Contient(referenceElement) == FAUX) ;
+        CPPUNIT_ASSERT(! this->ensembleTeste.Contient(referenceElement)) ;
+        
+        // on enlève le deuxième élément
+        this->ensembleTeste.Enlever(deuxieme_element) ;
+        
+        // on vérifie qu'il n'est pas dedans
+        CPPUNIT_ASSERT(! this->ensembleTeste.Contient(deuxieme_element)) ;
+        
+        CPPUNIT_ASSERT(this->ensembleTeste.NombreDElements() == 0) ;
         
       }
       

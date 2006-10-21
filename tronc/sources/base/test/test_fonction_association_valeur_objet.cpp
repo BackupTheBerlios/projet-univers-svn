@@ -61,6 +61,19 @@ namespace ProjetUnivers {
 
       }
 
+
+      void TestFonctionAssociationValeurObjet::testVider() 
+      {
+        Base::Composition<ClasseObjet> objet(new ClasseObjet()) ;
+        FonctionAssociationValeurObjet<int,ClasseObjet> fonction ;
+
+        fonction.Ajouter(3,objet) ;
+        fonction.Vider() ;
+
+        CPPUNIT_ASSERT(!fonction.Acces(3)) ;
+
+      }
+
  
       void TestFonctionAssociationValeurObjet::setUp() 
       {}

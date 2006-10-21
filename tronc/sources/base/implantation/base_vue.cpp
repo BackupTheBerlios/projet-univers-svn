@@ -23,7 +23,6 @@
 
 
 namespace ProjetUnivers {
-
   namespace Base {
     
     class PointDeVue ;
@@ -31,29 +30,20 @@ namespace ProjetUnivers {
     namespace Implantation {
 
 
-      void BaseVue::Raffraichir()
-      {
-        this->misesAJourElementaires() ;
-      }
-
-      void 
-      BaseVue::AjouterMiseAJourElementaire(
-            const boost::signal0<void>::slot_type& _f)
-      {
-        this->misesAJourElementaires.connect(_f) ;
-      }
-
       void BaseVue::MarquerARaffraichir()
       {
-        if (pointDeVue != Association<PointDeVue>())
+        if (pointDeVue)
+        {
           pointDeVue->PenserARaffraichir(*this) ;
+        }
       }
 
       void BaseVue::MarquerADetruire()
       {
-        if (pointDeVue != Association<PointDeVue>())
+        if (pointDeVue)
+        {
           pointDeVue->PenserADetruire(*this) ;
-          
+        } 
         // cette vue n'a pas de point de vue... elle ne sera pas 
         // raffraichie
       }

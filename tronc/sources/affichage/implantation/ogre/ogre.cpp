@@ -22,8 +22,12 @@
 #include <Ogre.h>
 
 #include <plateforme.h>
-#include <affichage/implantation/ogre/ogre.h>
+
+
+#include <base/traceur.h>
 #include <base/composition.h>
+
+#include <affichage/implantation/ogre/ogre.h>
 
 
 // on préfixe avec la racine des namespaces pour 
@@ -40,7 +44,7 @@ namespace ProjetUnivers {
       namespace Ogre {  
       
         /// le système ogre      
-        Base::Composition< ::Ogre::Root> racine ;
+        ::Ogre::Root* racine = NULL ;
         
         /// la fenetre d'affichage
         /*!
@@ -51,13 +55,19 @@ namespace ProjetUnivers {
         */
         ::Ogre::RenderWindow* fenetre ;
         
-        ::Ogre::SceneManager* gestionnaire ;
 
 
         /// le système ogre      
         Base::Association< ::Ogre::Root > Racine()
         {
-          return racine ;
+          if (racine)
+          {
+            return *racine ;
+          }
+          else
+          {
+            return Base::Association< ::Ogre::Root >() ;
+          }
         }
         
         /// la fenetre d'affichage
@@ -70,12 +80,6 @@ namespace ProjetUnivers {
         ::Ogre::RenderWindow* Fenetre()
         {
           return fenetre ;
-        }
-        
-        
-        ::Ogre::SceneManager* Gestionnaire()
-        {
-          return gestionnaire ;
         }
         
 
@@ -132,8 +136,9 @@ namespace ProjetUnivers {
                 ResourceGroupManager::getSingleton().addResourceLocation(
                     nomArchitecture, nomType, nomSection);
             }
+            
           }
-          
+          ResourceGroupManager::getSingleton().initialiseAllResourceGroups() ;
         }
         
         
@@ -159,9 +164,6 @@ namespace ProjetUnivers {
           // *******************************
           racine = new Root() ;
           
-          // On charge le fichier de configuration des ressources
-          // ****************************************************
-          ChargerRessources() ;
         
           // On laisse l'utilisateur choisir le pilote d'affichage
           Booleen continuer = ChoixPiloteAffichage() ;
@@ -170,12 +172,13 @@ namespace ProjetUnivers {
             racine = NULL ;
             return FAUX ;
           }
-          
+
           // on se crée une fenetre par défaut
           fenetre = racine->initialise(true) ;
-          
-          // un manager
-          gestionnaire = racine->createSceneManager(ST_GENERIC) ;
+
+          // On charge le fichier de configuration des ressources
+          // ****************************************************
+          ChargerRessources() ;
           
           // voila, ca a marché
           return VRAI ;
@@ -183,7 +186,15 @@ namespace ProjetUnivers {
 
         void Terminer() 
         {
-          racine = NULL ;  
+          if (racine)
+          {
+            Base::Traceur::MessageInterne("stopping Ogre") ;
+            delete racine ;
+            racine = NULL ;  
+            Base::Traceur::MessageInterne("Ogre stopeed") ;
+            
+          }
+          
         }
 
         /// Raffraichi l'affichage

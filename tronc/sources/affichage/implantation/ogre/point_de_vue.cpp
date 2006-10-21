@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Equipe Projet Univers                           *
+ *   Copyright (C) 2006 by Equipe Projet Univers                           *
  *   rogma.boami@free.fr                                                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -24,6 +24,9 @@
 
 #include <affichage/exception.h>
 #include <affichage/implantation/ogre/ogre.h>
+#include <affichage/implantation/ogre/univers.h>
+#include <affichage/implantation/ogre/observateur.h>
+
 #include <affichage/implantation/ogre/point_de_vue.h>
 
 namespace ProjetUnivers {
@@ -70,29 +73,86 @@ namespace ProjetUnivers {
           
         /// Initialise le point de vue
         /*!
-        @par Etat
-          stub null
         */
         void PointDeVue::Initialiser()
         {
+          Base::Traceur::MessageInterne("Entering PointDeVue::Initialiser") ;
+          
+          if (! initialise)
+          {
 
-          /// initialisation de Ogre
-          surface = Racine()->initialise(true) ;
-          gestionnaire = Racine()->createSceneManager(::Ogre::ST_GENERIC) ;
+            /// initialisation de Ogre
+            VerifieCondition(Racine(),
+                             Exception("Pas de racine")) ;
 
-          /// Initialise la racine.
-          this->univers->Initialiser() ;
+            gestionnaire = Racine()->createSceneManager(::Ogre::ST_GENERIC) ;
+
+            if (! gestionnaire)
+            {
+              throw Exception("initialisation of ogre failed") ;
+            }
+
+            Base::Traceur::MessageInterne("Built scene manager") ;
+  
+            /// Initialise la racine.
+            /// la ligne suivante fait peter une segmentation fault !!
+            
+            this->univers = this->vueObservateur->AccesParent<Univers>()->AccesObjet() ;
+            
+            Base::Traceur::MessageInterne("got universe") ;
+
+            
+            VerifieCondition(this->univers,
+                             Exception("pas d'univers pour le point de vue")) ;
+
+            Base::Traceur::MessageInterne("Going to initialise Univers") ;
+
+            this->univers->Initialiser() ;
+
+            
+            initialise = Base::VRAI ;
+          }
+          Base::Traceur::MessageInterne("Leaving PointDeVue::Initialiser") ;
+          
         }
-        
+                
         /// Néttoie le point de vue.
         void PointDeVue::Terminer()
         {
           /// Supprimme tous les éléments de la scène
-          this->gestionnaire->clearScene() ;
+          if (this->gestionnaire)
+          {
+            this->gestionnaire->clearScene() ;
+          }
           
           /// Termine les objets un par un
-          this->univers->Terminer() ;
+          if (this->univers)
+          {
+            this->univers->Terminer() ;
+          }
         }
+
+        void PointDeVue::Activer()
+        {
+          Base::Traceur::MessageInterne("Entering PointDeVue::Activer") ;
+          
+          Base::Association<Observateur> observateur(*vueObservateur) ;
+          
+          Fenetre()->addViewport(observateur->AccesCamera()) ;
+        }
+
+        /*!
+          @todo
+            trouver un truc plus subtil 
+            removeViewport(zorder) ?
+        */
+        void PointDeVue::Desactiver()
+        {
+          Base::Association<Observateur> observateur(*vueObservateur) ;
+         
+          Fenetre()->removeAllViewports() ;
+        }
+
           
         ::Ogre::SceneManager* PointDeVue::AccesGestionnaire() const
         {

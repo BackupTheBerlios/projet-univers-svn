@@ -26,7 +26,12 @@ namespace ProjetUnivers {
   namespace Affichage {
 
 
-    Exception::Exception(const Base::Chaine&)
+    Exception::Exception(const Base::Chaine& _message)
+    : message(_message)
+    {}
+    
+    Exception::Exception(const Exception& _e)
+    : message(_e.message)
     {}
 
     Exception::~Exception()

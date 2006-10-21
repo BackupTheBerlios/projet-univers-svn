@@ -51,6 +51,8 @@ namespace ProjetUnivers {
         /// Teste l'ensemble vide
         void testVide();
         
+        /// Teste le vidage.
+        void testVider();
       
       
       // @}      
@@ -64,6 +66,7 @@ namespace ProjetUnivers {
       
         CPPUNIT_TEST(testAjouter) ;
         CPPUNIT_TEST(testVide) ;
+        CPPUNIT_TEST(testVider) ;
       
         CPPUNIT_TEST_SUITE_END() ;
       

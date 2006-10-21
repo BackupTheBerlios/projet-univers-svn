@@ -42,11 +42,11 @@
 */
 #ifdef _DEBUG
   
-  #define VerifieCondition(condition, exception) assert((condition) == ProjetUnivers::Base::VRAI) ;
+  #define VerifieCondition(condition, exception) assert((condition)) ;
 
 #else
 
-  #define VerifieCondition(condition, exception) { if ((condition) == ProjetUnivers::Base::FAUX) throw exception ; }
+  #define VerifieCondition(condition, exception) { if (!(condition)) throw exception ; }
 
 #endif
 

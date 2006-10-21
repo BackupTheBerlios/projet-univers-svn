@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Equipe Projet Univers                           *
+ *   Copyright (C) 2006 by Equipe Projet Univers                           *
  *   rogma.boami@free.fr                                                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -62,11 +62,20 @@ namespace ProjetUnivers {
       static PointDeVue* 
           Construire(const Base::Association<Modele::Objet>& _observateur) ;
 
+      /// Le point de vue est celui affiché.
+      virtual void Activer() = 0 ;
+
+      /// Le point de vue n'est plus affiché.
+      virtual void Desactiver() = 0 ;
+ 
       /// Initialise le point de vue
       virtual void Initialiser() = 0 ;
 
       /// Termine le point de vue
       virtual void Terminer() = 0 ;
+
+      /// La vue de l'observateur.
+      Base::Association<Objet> AccesVueObservateur() const ;
 
       /// Destructeur de classe abstraite.
       virtual ~PointDeVue() ;
@@ -109,6 +118,11 @@ namespace ProjetUnivers {
     
       /// L'observateur.
       Base::Association<Modele::Objet> observateur ;
+
+      /// L'observateur coté affichage.
+      Base::Association<Objet> vueObservateur ;
+
+      Base::Booleen initialise ;
       
       /// Constructeurs des vues.
       static 

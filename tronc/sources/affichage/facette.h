@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Equipe Projet Univers                           *
+ *   Copyright (C) 2006 by Equipe Projet Univers                           *
  *   rogma.boami@free.fr                                                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -22,6 +22,7 @@
 
 #include <base/association.h>
 #include <base/modele.h>
+#include <base/implantation/base_vue.h>
 
 
 namespace ProjetUnivers {
@@ -32,38 +33,26 @@ namespace ProjetUnivers {
     /// Une facette d'affichage d'un objet.
     /*!
     */
-    class Facette
+    class Facette : virtual public Base::Implantation::BaseVue
     {
     public:
 
+      /// Objet de cette facette.          
+      Base::Association<Objet> AccesObjet() const ;
+   
+    
+    // @}
     /*!
-      @name Accès
-      
+      @name Construction/Destruction
     */
     // @{
 
-      /// Objet de cette facette.          
-      Base::Association<Objet> AccesObjet() const ;
-    
-    // @}          
-    /*!
-      @name Mises à jour
-      
-      Par défaut, ces traitements ne font rien.
-    */
-    // @{
-    
-    
-//      /// Initialise la vue.
-//      virtual void Initialiser() ;
-//
-//      /// Termine la vue.
-//      virtual void Terminer() ;
-//    
-//      /// Mise à jour.
-//      virtual void Raffraichir() ;
-    
-    // @}
+
+      /// Initialise la vue, active les ressources nécessaires.
+      virtual void Initialiser() =0 ;
+
+      /// Termine la vue, libère les ressources.
+      virtual void Terminer() = 0 ;
 
       /// Destructeur de classe abstraite.    
       virtual ~Facette() ;
@@ -73,9 +62,17 @@ namespace ProjetUnivers {
     
       /// Constructeur de classe abstraite.
       Facette() ;
-      
+    // @}
+    
       /// Objet sur lequel s'applique la facette.
+      /*!
+      @remark
+        Mis à jour par l'objet lorsque la facette lui est attachée.
+      */
       Base::Association<Objet> objet ;
+      
+      /// Vrai si la facette a été initialisée.
+      Base::Booleen initialise ;
       
       friend class Objet ;
             

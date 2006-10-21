@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Equipe Projet Univers                           *
+ *   Copyright (C) 2006 by Equipe Projet Univers                           *
  *   rogma.boami@free.fr                                                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -97,17 +97,35 @@ namespace ProjetUnivers {
         */
         void Positionne::Initialiser()
         {
+          Base::Traceur::MessageInterne("Entering Positionne::Initialiser") ;
+          
           /*! 
             on crée un noeud qu'on rattache en dessous du conteneur
           */
-          if (! noeud)
+          if (! this->initialise)
           {
-            noeud = this->AccesPointDeVue()->AccesGestionnaire()->createSceneNode() ;
             
             /// On récupère le connteneur et son noeud
-            Base::Association<Positionne> conteneur(*this->AccesObjet()->AccesConteneur()) ;
-            conteneur->noeud->addChild(noeud) ;
+            Base::Association<Objet> conteneur(this->AccesObjet()->AccesConteneur()) ;
+            
+            if (conteneur)
+            {
+              Base::Association<Positionne> parent(*conteneur) ;
+              noeud = this->AccesPointDeVue()->AccesGestionnaire()->createSceneNode() ;
+              parent->noeud->addChild(noeud) ;
+            }
+            else
+            {
+              Base::Traceur::MessageInterne("root node") ;
+              
+              /// on est à la racine.
+              noeud = this->AccesPointDeVue()->AccesGestionnaire()->getRootSceneNode() ;
+            }
+            
+            this->initialise = Base::VRAI ;
           }
+
+          Base::Traceur::MessageInterne("Leaving Positionne::Initialiser") ;
 
         }
 

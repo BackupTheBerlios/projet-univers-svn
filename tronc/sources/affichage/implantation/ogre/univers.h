@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Equipe Projet Univers                           *
+ *   Copyright (C) 2006 by Equipe Projet Univers                           *
  *   rogma.boami@free.fr                                                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -25,11 +25,12 @@
 
 #include <base/association.h>
 #include <base/composition.h>
-#include <base/vue.h>
 
 #include <modele/univers.h>
 
-#include <affichage/implantation/ogre/facette.h>
+#include <affichage/implantation/ogre/vue.h>
+#include <affichage/facette.h>
+
 
 namespace ProjetUnivers {
   namespace Affichage {
@@ -46,7 +47,7 @@ namespace ProjetUnivers {
           aux autres corps (galaxies et autres)... mais cela suposerait d'avoir 
           un gros univers.
         */
-        class Univers : public Base::Vue<Modele::Univers>,
+        class Univers : public Ogre::Vue<Modele::Univers>,
                          public Facette 
         {
         public:

@@ -57,6 +57,7 @@ $(SOURCES)/base/test/test_composition.cpp \
 $(SOURCES)/base/test/test_ensemble_association.cpp \
 $(SOURCES)/base/test/test_ensemble_composition.cpp \
 $(SOURCES)/base/test/test_ensemble_valeur.cpp \
+$(SOURCES)/base/test/test_erreur.cpp \
 $(SOURCES)/base/test/test_iterateur_ensemble_association.cpp \
 $(SOURCES)/base/test/test_fonction_association_objet_objet.cpp \
 $(SOURCES)/base/test/test_fonction_association_valeur_objet.cpp \

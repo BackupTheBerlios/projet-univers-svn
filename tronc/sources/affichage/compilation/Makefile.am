@@ -17,7 +17,7 @@ $(SOURCES)/affichage/implantation/point_de_vue.cpp
 
 libaffichage_la_LIBADD = \
 $(SOURCES)/base/compilation/libbase.la \
-$(BOOST_SIGNALS_LIB)
+$(SOURCES)/modele/compilation/libmodele.la 
 
 #all-local :
 #	cp libaffichage.la $(SOURCES)/compilation/libaffichage.la
@@ -33,7 +33,7 @@ $(SOURCES)/affichage/test/test_affichage.cpp \
 $(SOURCES)/affichage/test/test_point_de_vue.cpp 
 
 test_affichage_CXXFLAGS = $(CPPUNIT_CFLAGS) 
-test_affichage_LDFLAGS = $(CPPUNIT_LIBS) -l$(BOOST_SIGNALS_LIB)
+test_affichage_LDFLAGS = $(CPPUNIT_LIBS) 
 
 test_affichage_LDADD = \
 $(SOURCES)/affichage/compilation/libaffichage.la \

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Equipe Projet Univers                           *
+ *   Copyright (C) 2006 by Equipe Projet Univers                           *
  *   rogma.boami@free.fr                                                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -43,13 +43,18 @@ namespace ProjetUnivers {
         
         void Observateur::Initialiser()
         {
-          Base::Association<Positionne> positionne(*(this->objet)) ;
-
-          camera = this->AccesPointDeVue()->AccesGestionnaire()->createCamera("camera") ;
-
-          /// on le place sur le noeud
-          positionne->AccesNoeud()->attachObject(camera) ;
-
+          if (! this->initialise)
+          {
+            Base::Association<Positionne> positionne(*(this->objet)) ;
+            positionne->Initialiser() ;
+  
+            camera = this->AccesPointDeVue()->AccesGestionnaire()->createCamera("camera") ;
+              
+            /// on le place sur le noeud
+            positionne->AccesNoeud()->attachObject(camera) ;
+            
+            this->initialise = Base::VRAI ;
+          }
         }
           
         void Observateur::Terminer()
@@ -60,6 +65,11 @@ namespace ProjetUnivers {
         
         void Observateur::Raffraichir()
         {
+        }
+
+        ::Ogre::Camera* Observateur::AccesCamera() const
+        {
+          return this->camera ;
         }
         
         

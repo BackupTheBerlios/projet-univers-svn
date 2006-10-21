@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Equipe Projet Univers                           *
+ *   Copyright (C) 2006 by Equipe Projet Univers                           *
  *   rogma.boami@free.fr                                                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -22,25 +22,32 @@
 
 
 namespace ProjetUnivers {
-   
-  namespace Affichage 
-  {
+  namespace Affichage {
+    namespace Implantation {
+      namespace Ogre {
 
-    namespace Implantation 
-    {
 
-      namespace Ogre 
-      {
-        
-        Destructible::Destructible()
+        /// Constructeur.
+        Destructible::Destructible
+                    (const Base::Association<Modele::Destructible>& _objet)
+        : Vue<Modele::Destructible>(_objet)
+        {}
+      
+        /// Initialise la vue.
+        void Destructible::Initialiser()
         {
-          actionsRaffraichissement.Ajouter(&Destructible::RaffraichirEtat) ;
+        }
+
+        /// Termine la vue.
+        void Destructible::Terminer()
+        {
+        }
+      
+        /// Mise à jour.
+        void Destructible::Raffraichir()
+        {
         }
         
-        void Destructible::RaffraichirEtat()
-        {
-          
-        }
       }
     }
   }

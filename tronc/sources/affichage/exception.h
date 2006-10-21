@@ -25,7 +25,6 @@
 #include <base/chaine.h>
 
 namespace ProjetUnivers {
-
   namespace Affichage {
 
     /// Erreurs dans Affichage.
@@ -34,7 +33,7 @@ namespace ProjetUnivers {
     public:
     
       /// Constructeur de copie.
-      Exception(const Exception&) ;
+      Exception(const Exception& _e) ;
       
       /// Construction.
       Exception(const Base::Chaine&) ;

@@ -36,7 +36,23 @@ namespace ProjetUnivers {
       namespace
       {
         class ClasseObjet
-        {};
+        {
+        public:
+        
+          ClasseObjet()
+          {
+            ++ nombre_instances ;
+          }
+        
+          ~ClasseObjet()
+          {
+            --nombre_instances ;
+          }
+          
+          static int nombre_instances ;
+        };
+        
+        int ClasseObjet::nombre_instances = 0 ;
       }
 
 
@@ -59,6 +75,25 @@ namespace ProjetUnivers {
       {
         FonctionCompositionValeurObjet<int,ClasseObjet> fonction ;
         CPPUNIT_ASSERT(!fonction[3]) ;        
+      }
+
+
+      void TestFonctionCompositionValeurObjet::testVider() 
+      {
+        Base::Composition<ClasseObjet> objet(new ClasseObjet()) ;
+        Base::Association<ClasseObjet> associationObjet(objet) ;
+        
+        FonctionCompositionValeurObjet<int,ClasseObjet> fonction ;
+
+        CPPUNIT_ASSERT(ClasseObjet::nombre_instances == 1) ;
+        
+        fonction.Ajouter(3,objet.Liberer()) ;
+        
+        fonction.Vider() ;
+        
+        CPPUNIT_ASSERT(!fonction[3]) ;
+        CPPUNIT_ASSERT(ClasseObjet::nombre_instances == 0) ;
+
       }
 
  

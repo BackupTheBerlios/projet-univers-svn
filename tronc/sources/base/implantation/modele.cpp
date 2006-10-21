@@ -18,6 +18,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#include <base/traceur.h>
 
 #include <base/implantation/base_vue.h>
 #include <base/modele.h>
@@ -41,6 +42,8 @@ namespace ProjetUnivers {
     
     Modele::~Modele()
     {
+      
+      Traceur::MessageInterne(Chaine(observateurs.NombreDElements()) + " elements") ;
       for(IterateurEnsembleAssociation<Implantation::BaseVue> vue(observateurs) ;
           vue.Valide() ;
           ++vue)

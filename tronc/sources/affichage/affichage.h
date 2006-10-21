@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Equipe Projet Univers                           *
+ *   Copyright (C) 2006 by Equipe Projet Univers                           *
  *   rogma.boami@free.fr                                                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,33 +17,35 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-
-
 #ifndef _PU_AFFICHAGE_AFFICHAGE_H_
 #define _PU_AFFICHAGE_AFFICHAGE_H_
 
 #include <stddef.h>
 
+#include <base/association.h>
 #include <base/types.h>
 
 namespace ProjetUnivers {
-  
  
   /// Le module réalisant l'affichage des objets de Modele.
-  
   /*!
     C'est la Vue de Modele qui réalise l'affichage à l'écran.
+    
+    - l'affichage possède l'écran et la racine
+    - il a des points de vues qui eux possèdent des scene manager
+    - un est affiché (actif), les autres sont maintenus mais ne sont pas affichés
   */ 
-  namespace Affichage 
-  {
+  namespace Affichage {
+  
+    class PointDeVue ;
   
     /// Initialisation de l'affichage
     /*!
-      Fait le choix 
-        - de la résolution d'affichage
-        - de la technique, par exemple OpenGL, DirectX
+      Fait le choix :
+      - de la résolution d'affichage
+      - de la technique d'affichage, par exemple OpenGL, DirectX
         
-      Crée une fenêtre d'affichage
+      Crée une fenêtre d'affichage et affiche le point de vue actif.
       
       @return FAUX si on doit arreter
       @return VRAI si on peut et si on doit continuer
@@ -71,6 +73,20 @@ namespace ProjetUnivers {
                        unsigned int& depth,
                        int& left,
                        int& top );
+
+    /// Ajoute un point de vue.
+    Base::Association<PointDeVue> AjouterPointDeVue(PointDeVue*) ;
+
+    /// Supprime le point de vue.
+    void SupprimerPointDeVue(const Base::Association<PointDeVue>&) ;
+    
+    
+    /// 
+    void DesactiverPointDeVue(const Base::Association<PointDeVue>&) ;
+    
+    /// Le point de vue devient celui actif.
+    void ActiverPointDeVue(const Base::Association<PointDeVue>&) ;
+    
 
     /// Raffraichi l'affichage
     /*!

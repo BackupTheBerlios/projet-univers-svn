@@ -22,7 +22,10 @@
 
 #include <modele/modele.h>
 
+
 #include <affichage/point_de_vue.h>
+#include <affichage/implantation/ogre/univers.h>
+
 #include <affichage/test/test_point_de_vue.h>
 
 
@@ -54,6 +57,20 @@ namespace ProjetUnivers {
 
         Base::Traceur::MessageInterne("Leaving TestPointDeVue::testConstruction") ;
 
+        /// Vérification de la structure.
+        Base::Association<Objet> vueObservateur(pdv->AccesVueObservateur()) ;
+        CPPUNIT_ASSERT_MESSAGE("no Observateur view object",vueObservateur) ;
+        
+        Base::Association<Implantation::Ogre::Univers> 
+          vueUnivers(vueObservateur->AccesParent<Implantation::Ogre::Univers>()) ;
+        CPPUNIT_ASSERT_MESSAGE("no Univers view object",vueUnivers) ;
+        
+        Base::Association<Implantation::Ogre::PointDeVue> 
+          ogrePointdeVue(vueUnivers->AccesPointDeVue()) ;
+          
+        CPPUNIT_ASSERT_MESSAGE("no specific view point",ogrePointdeVue) ;
+        
+        pdv = NULL ;
       }
       
       void TestPointDeVue::setUp()

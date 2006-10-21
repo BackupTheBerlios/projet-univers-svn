@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Equipe Projet Univers                           *
+ *   Copyright (C) 2006 by Equipe Projet Univers                           *
  *   rogma.boami@free.fr                                                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -21,8 +21,6 @@
 #ifndef _PU_BASE_BASE_VUE_H_
 #define _PU_BASE_BASE_VUE_H_
 
-#include <boost/signal.hpp>
-#include <boost/bind.hpp>
 
 #include <base/association.h>
 #include <base/types.h>
@@ -46,8 +44,8 @@ namespace ProjetUnivers {
       {
       public:
 
-        /// Raffraichissement de la vue.
-        void Raffraichir() ;
+        /// Mise à jour.
+        virtual void Raffraichir() = 0 ;
 
 
       /*!
@@ -71,10 +69,6 @@ namespace ProjetUnivers {
       
         /// Constructeur de classe abstraite.
         BaseVue() ;
-
-        /// Enregistre une mise à jour pour la vue.
-        void AjouterMiseAJourElementaire(
-                            const boost::signal0<void>::slot_type&) ;
         
         /// Les vues sont groupées au sein d'un point de vue
         Association<PointDeVue> pointDeVue ;
@@ -83,9 +77,6 @@ namespace ProjetUnivers {
           Chemin complet pour gcc 4
         */
         friend class ::ProjetUnivers::Base::PointDeVue ;
-       
-        /// Les mises à jour élémentaires de l'objet
-        boost::signal0<void> misesAJourElementaires ;
          
       };
     }    

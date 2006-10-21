@@ -12,6 +12,7 @@ libmodele_la_SOURCES = \
 ../implantation/masse.cpp \
 ../implantation/mobile.cpp \
 ../implantation/modele.cpp \
+../implantation/modele3d.cpp \
 ../implantation/nom.cpp \
 ../implantation/objet.cpp \
 ../implantation/observateur.cpp \

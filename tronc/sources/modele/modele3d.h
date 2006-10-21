@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Equipe Projet Univers                           *
+ *   Copyright (C) 2006 by Equipe Projet Univers                           *
  *   rogma.boami@free.fr                                                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -21,14 +21,16 @@
 #ifndef _PU_MODELE_MODELE_3D_H_
 #define _PU_MODELE_MODELE_3D_H_
 
+#include <base/chaine.h>
+
 namespace ProjetUnivers {
   namespace Modele {
     
     
     /// Représente une forme en 3d.
     /*!
-      @par Etat
-        planning
+    @par Type de classe
+    - Valeur
       
     */
     class Modele3D
@@ -43,12 +45,27 @@ namespace ProjetUnivers {
       /// Constructeur.
       Modele3D(const Base::Chaine& _nom) ;
       
+      /// Constructeur de copie.
+      Modele3D(const Modele3D&) ;
+      
+            
+    // @}
+    /*!
+      @name Accès
+    */
+    // @{
+    
+      /// Acès au nom.
+      Base::Chaine AccesNom() const ;
+      
+            
     // @}
 
     
     private:
     
-    
+      /// Identificateur.
+      Base::Chaine nom ;
             
     };
     

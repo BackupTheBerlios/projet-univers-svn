@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Equipe Projet Univers                           *
+ *   Copyright (C) 2006 by Equipe Projet Univers                           *
  *   rogma.boami@free.fr                                                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -43,20 +43,12 @@ namespace ProjetUnivers {
     */
 
     PointDeVue::PointDeVue(const Base::Association<Modele::Objet>& _observateur)
-    : Base::PointDeVue(), observateur(_observateur)
+    : Base::PointDeVue(), observateur(_observateur), initialise(Base::FAUX)
     {}
 
     PointDeVue::~PointDeVue()
     {}
 
-   
-//    Base::Association<Objet> 
-//    PointDeVue::AccesVue(const Base::Association<Modele::Objet>& _modele) const
-//    {
-//      for(Base::IterateurEnsembleComposition<
-//    }
-//   
-    
 
     void PointDeVue::Construire()
     {
@@ -86,10 +78,16 @@ namespace ProjetUnivers {
       
       Base::Composition<Objet> resultat ;
       
-      if (this->EstVisible(_modele) == Base::VRAI)
+      if (this->EstVisible(_modele))
       {
         /// On construit l'objet
         resultat = new Objet(_modele,*this) ;
+        
+        /// On mémorise l'observateur
+        if (_modele == this->observateur)
+        {
+          this->vueObservateur = resultat ;
+        }
         
         /// ses facettes
         for (Base::IterateurEnsembleAssociation<Modele::Facette> 
@@ -158,7 +156,14 @@ namespace ProjetUnivers {
     {
       std::cout << "Registering constructor for " << _classePointDeVue << " " << _classeModele << std::endl ;
       constructeurs.Ajouter(std::make_pair<Base::Chaine,Base::Chaine>(_classePointDeVue,_classeModele),_constructeur) ;
+      std::cout << "Registered constructor" << std::endl ;
     }
+
+    Base::Association<Objet> PointDeVue::AccesVueObservateur() const
+    {
+      return this->vueObservateur ;
+    }
+
 
   }
 }

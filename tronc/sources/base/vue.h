@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Equipe Projet Univers                           *
+ *   Copyright (C) 2006 by Equipe Projet Univers                           *
  *   rogma.boami@free.fr                                                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -35,26 +35,7 @@ namespace ProjetUnivers {
     /*!
     @par Utilisation
 
-      Dériver de cette classe et fournir à son constructeur une fonction 
-      void -> void s'exécutant sur this.
-      Cette fonction sera appelée lors du réffraichissement des points de vue 
-      de cette vue.
-
-      class Vue1 : public Base::Vue<Modele1>
-      {
-      public:
-      
-        void RaffraichirLocalement() ;
-      
-        Vue1(const Base::Association<Modele>& _modele)
-        : Base::Vue<Modele1>(_modele)
-        {
-          this->AjouterMiseAJourElementaire(
-                           boost::bind(&Vue1::RaffraichirLocalement,this)) ;            
-        
-        }
-      
-      };
+      Dériver de cette classe et implanter Raffraichir.
            
     @par Fonctionnement
     
@@ -70,6 +51,9 @@ namespace ProjetUnivers {
     template <class Modele> class Vue : virtual public Implantation::BaseVue
     {
     public:
+    
+      /// Mise à jour.
+      virtual void Raffraichir() = 0 ;
     
       /// Destructeur de classe abstraite.
       virtual ~Vue() ;

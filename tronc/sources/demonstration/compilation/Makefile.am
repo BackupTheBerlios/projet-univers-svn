@@ -6,7 +6,7 @@ INCLUDES = -I../..
 demonstration_SOURCES = \
 ../demonstration.cpp
 
-
+demonstration_LDFLAGS='-ldl'
 demonstration_LDADD = \
 $(SOURCES)/base/compilation/libbase.la \
 $(SOURCES)/affichage/compilation/libaffichage.la \
@@ -15,8 +15,4 @@ $(SOURCES)/action/compilation/libaction.la \
 $(SOURCES)/entrees/compilation/libentrees.la \
 $(SOURCES)/modele/compilation/libmodele.la \
 $(OIS_LIBS) \
-$(librlog_LIBS) \
--l$(BOOST_SIGNALS_LIB)
-
-#all-local :
-#	cp demonstration $(SOURCES)/compilation/demonstration
+$(librlog_LIBS) 

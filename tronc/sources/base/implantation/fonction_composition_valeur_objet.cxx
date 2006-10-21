@@ -48,6 +48,8 @@ namespace ProjetUnivers {
         delete (*i).second ;
       }
       
+      fonction.clear() ;
+      
     }
 
 

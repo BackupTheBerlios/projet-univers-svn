@@ -42,7 +42,7 @@ namespace ProjetUnivers
     template <typename Valeur, class Objet>
     void FonctionAssociationValeurObjet<Valeur,Objet>::Vider()
     {
-      fonction.empty() ;
+      fonction.clear() ;
     }
     
     template <typename Valeur, class Objet>

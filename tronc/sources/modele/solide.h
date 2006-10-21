@@ -22,14 +22,14 @@
 #define _PU_MODELE_SOLIDE_H_
 
 #include <base/association.h>
+
 #include <modele/facette.h>
+#include <modele/modele3d.h>
 
 
 namespace ProjetUnivers {
-
   namespace Modele {
 
-    class Modele3D ;
 
     /// Propriété d'être fait de matière solide.
     class Solide : public Facette 
@@ -41,14 +41,18 @@ namespace ProjetUnivers {
     // **********************
     // @{
 
-      Solide(const Base::Association<Modele3D>& _volume) ;
+      /// Constructeur.
+      Solide(const Modele3D& _volume) ;
+      
+      /// Accès au modèle 3d.
+      Modele3D AccesModele() const ;
       
     //@}
 
     private:
       
       /// Volume du solide
-      Base::Association<Modele3D> volume ;
+      Modele3D volume ;
   
     };
   }

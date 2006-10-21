@@ -26,9 +26,15 @@ namespace ProjetUnivers {
   namespace Modele {
 
      
-    Solide::Solide(const Base::Association<Modele3D>& _volume) 
+    Solide::Solide(const Modele3D& _volume) 
     : Facette(), volume(_volume)
     {}
+
+    /// Accès au modèle 3d.
+    Modele3D Solide::AccesModele() const
+    {
+      return volume ;
+    }
 
   
   }

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Equipe Projet Univers                           *
+ *   Copyright (C) 2006 by Equipe Projet Univers                           *
  *   rogma.boami@free.fr                                                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -60,6 +60,12 @@ namespace ProjetUnivers {
               l'objet qui voie (par exemple un personnage, une caméra,...)
           */
           PointDeVue(const Base::Association<Modele::Objet>& _observateur) ;
+
+          /// Le point de vue est celui affiché.
+          virtual void Activer() ;
+
+          /// Le point de vue n'est plus affiché.
+          virtual void Desactiver() ;
           
           /// Initialise le point de vue
           virtual void Initialiser() ;

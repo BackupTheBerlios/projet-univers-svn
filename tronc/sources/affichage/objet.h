@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Equipe Projet Univers                           *
+ *   Copyright (C) 2006 by Equipe Projet Univers                           *
  *   rogma.boami@free.fr                                                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -57,6 +57,9 @@ namespace ProjetUnivers {
       /// Termine la vue
       virtual void Terminer() ;
 
+      /// Mise à jour de la vue.
+      virtual void Raffraichir() ;
+
       /// Ajoute une vue comme contenu
       /*!
         Les vues peuvent en contenir d'autres.
@@ -83,13 +86,27 @@ namespace ProjetUnivers {
       /// Acces au conteneur de la vue
       Base::Association<Objet> AccesConteneur() const ;
   
+      /// Accès récursif au premier conteneur ayant la facette @ T
+      template <class T> Base::Association<T> AccesParent() const ;
+  
+  
     // @}
 
 
     private:
 
       /// Facettes d'affichage de l'objet
+      /*!
+        Associe les nom des classes de facettes aux facettes.
+      */
       Base::FonctionCompositionValeurObjet<Base::Chaine, Facette> facettes ;          
+
+      /// Redondant, mais pour simplifier le travail
+      /*!
+        @todo 
+          supprimer
+      */
+      Base::EnsembleAssociation<Facette> ensembleFacettes ;
       
       /// L'éventuel objet qui contient celui-ci
       Base::Association<Objet> conteneur ;
@@ -118,6 +135,28 @@ namespace ProjetUnivers {
       else
         return Base::Association<T>() ;
     }
+
+    template <class T> Base::Association<T> Objet::AccesParent() const
+    {
+      /// T doit être une sous classe de Facette
+      Base::DeriveDe<T,Facette>() ;
+      
+      Base::Association<Objet> iterateur(*this) ;
+      Base::Association<T> facette(*iterateur) ;
+      
+      while((! facette) && iterateur)
+      {
+        iterateur = iterateur->AccesConteneur() ;
+        if (iterateur)
+        {
+          facette = *iterateur ;
+        }
+      }
+      
+      return facette ;
+      
+    }
+
 
   }
 }
