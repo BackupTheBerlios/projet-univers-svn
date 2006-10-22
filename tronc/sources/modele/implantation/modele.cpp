@@ -23,6 +23,7 @@
 
 #include <base/iterateur_ensemble_composition.h>
 #include <base/traceur.h>
+#include <base/erreur.h>
 
 #include <modele/exception.h>
 #include <modele/facette.h>
@@ -107,7 +108,9 @@ namespace ProjetUnivers {
     */
     Base::Association<Objet> AccesObjet(const Base::Chaine& _nom)
     {
-      return registreObjets[_nom] ;
+      Base::Association<Objet> resultat(registreObjets[_nom]) ;
+      VerifieCondition(resultat, Exception("pas d'objet de ce nom")) ;
+      return resultat ;
     }
 
     /*!
@@ -153,9 +156,9 @@ namespace ProjetUnivers {
         /// 3. Ajout d'un vaisseau
         Base::Traceur::MessageInterne("construction d'un vaisseau...") ;
         Base::Association<Objet> vaisseau = systeme->Ajouter(new Objet(Nom("Vaisseau"))) ;
-        vaisseau->Ajouter(new Positionne(Position(Distance(Distance::_Metre, 10000),
-                                                  Distance(Distance::_Metre, 10000),
-                                                  Distance(Distance::_Metre, 10000)) )) ;
+        vaisseau->Ajouter(new Positionne(Position(Distance(Distance::_Metre, 0),
+                                                  Distance(Distance::_Metre, 0),
+                                                  Distance(Distance::_Metre, 0)) )) ;
         
         vaisseau->Ajouter(new Solide(Modele3D("razor.mesh"))) ;
 
@@ -164,9 +167,9 @@ namespace ProjetUnivers {
         /// 4. Ajout d'un observateur
         Base::Traceur::MessageInterne("construction d'un observateur...") ;
         Base::Association<Objet> observateur = systeme->Ajouter(new Objet(Nom("Observateur"))) ;
-        observateur->Ajouter(new Positionne(Position(Distance(Distance::_Metre, 11000),
-                                                     Distance(Distance::_Metre, 11000),
-                                                     Distance(Distance::_Metre, 11000)) )) ;
+        observateur->Ajouter(new Positionne(Position(Distance(Distance::_Metre, 0),
+                                                     Distance(Distance::_Metre, 0),
+                                                     Distance(Distance::_Metre, 500000)) )) ;
 
         /// Il a la faculté d'observer
         observateur->Ajouter(new Observateur()) ;
