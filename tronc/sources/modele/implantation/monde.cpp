@@ -19,36 +19,23 @@
  ***************************************************************************/
 
 
-#ifndef _PU_MODELE_POSSEDE_H_
-#define _PU_MODELE_POSSEDE_H_
-
-
-#include <modele/facette.h>
-
+#include <modele/societe.h>
+#include <modele/univers.h>
+#include <modele/monde.h>
 
 namespace ProjetUnivers {
+
   namespace Modele {
-
-      
-    /// Propriété des objets pouvant être possédé.
-    /*!
-      @par Etat
-        planning
-    */
-    class Possede : public Facette 
-    {
-    public:
-      
-      Possede() ;		
     
-  	
-    private:
-
-      Base::Association<Objet> proprietaire ;
-    };
-
+    
+    
+    Monde::Monde(Univers* _univers, Societe* _societe)
+    : univers(_univers), societe(_societe)
+    {}
+    
+    
   }
 
 }
 
-#endif
+

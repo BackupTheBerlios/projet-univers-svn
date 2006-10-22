@@ -57,6 +57,8 @@ namespace ProjetUnivers {
       /// On enregistre l'objet dans le modèle
       Enregistrer(resultat) ;
       
+      this->Notifier() ;
+      
       return resultat ;
     }
 
@@ -109,7 +111,8 @@ namespace ProjetUnivers {
       facettes.Ajouter(typeid(*_facette).name(), temporaire.Liberer()) ;
 
       Base::Traceur::MessageInterne("Objet::Ajouter#3") ;
-
+      
+      this->Notifier() ;
     }
 
     Nom Objet::AccesNom() const

@@ -25,12 +25,16 @@
 
 
 namespace ProjetUnivers {
-
   namespace Modele {
 
 
 
     /// Une quantité d'énergie.
+    /*!
+    @par Etat
+      planning
+
+    */
     class Energie {
     public:
     

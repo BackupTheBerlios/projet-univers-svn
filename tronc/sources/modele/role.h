@@ -18,35 +18,78 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#ifndef _PU_UNIVERS_ROLE_H_
+#define _PU_UNIVERS_ROLE_H_
 
-#ifndef _PU_MODELE_POSSEDE_H_
-#define _PU_MODELE_POSSEDE_H_
-
+#include <base/ensemble_composition.h>
+#include <base/ensemble_association.h>
+#include <base/composition.h>
 
 #include <modele/facette.h>
 
 
 namespace ProjetUnivers {
   namespace Modele {
-
+    
+    
+    class Mission ;
+    class Objectif ;
+    class Poste ;
+    
       
-    /// Propriété des objets pouvant être possédé.
+    /// Représente un rôle dans une mission.
     /*!
+      C'est "quelque chose qui peut être joué par un personnage.
+
       @par Etat
         planning
+
+      @par Type de classe
+        - Objet
+        - Abstrait
     */
-    class Possede : public Facette 
+    class Role : public Facette
     {
     public:
-      
-      Possede() ;		
     
-  	
+    
+      /// Destructeur.
+	    virtual ~Role() ;
+
+	
+
+    protected:
+
+	
+      /// Constructeur.
+      Role() ;
+  
+      
+
+      // ****************
+      /// @name Attributs
+      // ****************
+
+      
+      /// Mission dans lequel ce rôle apparait, attribut inverse de 
+      /// Mission::roles.
+      Base::Association< Mission > mission ;
+
+      /// L'objectif du rôle.
+      Base::Association< Objectif > objectif ;
+
+      //////////////////
+      // Postes associés au rôle.
+      Base::EnsembleAssociation< Poste > postes ;
+
+
+
     private:
-
-      Base::Association<Objet> proprietaire ;
+      
+ 
     };
-
+    
+    
   }
 
 }

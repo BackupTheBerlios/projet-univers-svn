@@ -29,20 +29,23 @@ namespace ProjetUnivers {
 
       
     /// Une force.
-    
     /*!  
-      Type de classe :
+      @par Type de classe :
       - Valeur
+      
+      @par Etat 
+        planning
+
     */
     class Force 
     {
     public:
     
-      // ********************
-      /// @name Constructeurs
-      // ********************
-      // @{   
-    
+    // ********************
+    /// @name Constructeurs
+    // ********************
+    // @{   
+  
 
       /// Force nulle.
       Force() ;

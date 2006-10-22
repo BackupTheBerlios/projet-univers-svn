@@ -18,35 +18,33 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-
-#ifndef _PU_MODELE_POSSEDE_H_
-#define _PU_MODELE_POSSEDE_H_
-
+#ifndef _PU_MODELE_COMANDES_PILOTAGE_H_
+#define _PU_MODELE_COMANDES_PILOTAGE_H_
 
 #include <modele/facette.h>
 
 
 namespace ProjetUnivers {
   namespace Modele {
-
-      
-    /// Propriété des objets pouvant être possédé.
+    
+    
+    
+    /// Modélise les commandes de pilotage d'un vaisseau.
     /*!
-      @par Etat
-        planning
+    @par Etat
+      planning
     */
-    class Possede : public Facette 
+    class CommandesPilotage : public Facette 
     {
     public:
-      
-      Possede() ;		
+
+      /// Constructeur.
+      CommandesPilotage(const Base::Association<Objet>&) ;
     
-  	
-    private:
 
-      Base::Association<Objet> proprietaire ;
     };
-
+    
+    
   }
 
 }

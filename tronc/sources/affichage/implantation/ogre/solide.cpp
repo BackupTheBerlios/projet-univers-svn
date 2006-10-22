@@ -60,7 +60,7 @@ namespace ProjetUnivers {
             
             /// on crée l'élément 3D
             modele = this->AccesPointDeVue()->AccesGestionnaire()
-                              ->createEntity("",(const char*)observe->AccesModele().AccesNom()) ;
+                              ->createEntity("vaisseau",(const char*)observe->AccesModele().AccesNom()) ;
             
             /// on le place sur le noeud
             positionne->AccesNoeud()->attachObject(modele) ;

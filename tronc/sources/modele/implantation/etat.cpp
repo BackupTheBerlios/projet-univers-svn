@@ -19,36 +19,40 @@
  ***************************************************************************/
 
 
-#ifndef _PU_MODELE_POSSEDE_H_
-#define _PU_MODELE_POSSEDE_H_
+#include <modele/jeu/etat.h>
 
-
-#include <modele/facette.h>
-
+using namespace ProjetUnivers::Base ;
 
 namespace ProjetUnivers {
+
   namespace Modele {
-
-      
-    /// Propriété des objets pouvant être possédé.
-    /*!
-      @par Etat
-        planning
-    */
-    class Possede : public Facette 
-    {
-    public:
-      
-      Possede() ;		
     
-  	
-    private:
+    namespace Jeu {
 
-      Base::Association<Objet> proprietaire ;
-    };
-
+      void Etat::Entrer()
+      {
+      }
+      
+      void Etat::AjouterSousEtat(Etat* _nouveau)
+      {
+        this->sousEtats.Ajouter(_nouveau) ;
+      }
+      
+      void Etat::SupprimererSousEtat(const Association< Etat >& _supprime)
+      {
+        this->sousEtats.Enlever(_supprime) ;
+      }
+      
+      void Etat::ActiverSousEtat(const Association< Etat >& _active)
+      {
+        /// @todo implanter
+      }
+      
+      Etat::~Etat()
+      {}
+    
+    }  
   }
-
 }
 
-#endif
+

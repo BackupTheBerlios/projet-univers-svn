@@ -24,13 +24,16 @@
 #include <modele/facette.h>
 
 namespace ProjetUnivers {
-
   namespace Modele {
     
     class PointDAttache ;
     class Assemblage ;
 
     /// Liaison entre deux points d'attache.
+    /*!
+    @par Etat
+      planning
+    */
     class Contrainte : public Facette
     {
     public:

@@ -53,6 +53,9 @@ namespace ProjetUnivers {
             /// on le place sur le noeud
             positionne->AccesNoeud()->attachObject(camera) ;
             
+            camera->setFOVy(::Ogre::Degree(70)) ;
+//            camera->setNearClipDistance() ;
+                        
             this->initialise = Base::VRAI ;
           }
         }

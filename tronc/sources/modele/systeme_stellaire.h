@@ -24,7 +24,6 @@
 #include <modele/facette.h>
 
 namespace ProjetUnivers {
-
   namespace Modele {
     
     /// Représente un système stellaire.
@@ -73,6 +72,10 @@ namespace ProjetUnivers {
 
     
     /// Acces au systeme stellaire contenant l'objet paramètre.
+    /*!
+    @deprecated 
+      utiliser AccesParent<SystemeStellaire> à la place
+    */
     Base::Association<SystemeStellaire> AccesSysteme(const Base::Association<Objet>&) ;
     
     

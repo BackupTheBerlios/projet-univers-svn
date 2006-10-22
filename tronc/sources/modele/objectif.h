@@ -18,35 +18,58 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#ifndef _PU_MODELE_OBJECTIF_H_
+#define _PU_MODELE_OBJECTIF_H_
 
-#ifndef _PU_MODELE_POSSEDE_H_
-#define _PU_MODELE_POSSEDE_H_
 
-
+#include <base/association.h>
 #include <modele/facette.h>
-
 
 namespace ProjetUnivers {
   namespace Modele {
 
+    class Univers ;
       
-    /// Propriété des objets pouvant être possédé.
+    /// Représente un objectif d'une mission.
+
     /*!
+      @par Utilisation
+        Un Objectif de mission peut être complexe ou simple, et on peut tester 
+        s'il est vérifié.
+
       @par Etat
         planning
+    
+      @par Type de classe
+        - Objet
+        - Abstrait
     */
-    class Possede : public Facette 
+    class Objectif : public Facette 
     {
     public:
-      
-      Possede() ;		
+
+
+      /// Classe abstraite donc contructeur virtuel.
+      virtual ~Objectif() ;
+
+      /// Détermine si l'objectif est satisfait dans _univers.
+      virtual Booleen satisfait(
+          const Base::Association< Univers >& _univers) const = 0 ;
+          
+    protected:
     
-  	
+      	
+
+      /// Constructeur.
+      Objectif() ;
+
+    
     private:
-
-      Base::Association<Objet> proprietaire ;
+      
+ 
     };
-
+    
+    
   }
 
 }

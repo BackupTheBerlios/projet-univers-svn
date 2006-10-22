@@ -27,11 +27,13 @@
 
 
 namespace ProjetUnivers {
-
   namespace Modele {
     
     
-    /// Un endroi d'un composant où on peut en attacher un autre.
+    /// Un endroit d'un composant où on peut en attacher un autre.
+    /*!
+    @deprecated
+    */
     class PointDAttache : public Facette
     {
     public:

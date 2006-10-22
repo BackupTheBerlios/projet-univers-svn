@@ -28,7 +28,6 @@
 
 
 namespace ProjetUnivers {
-
   namespace Modele {
     
     
@@ -42,6 +41,8 @@ namespace ProjetUnivers {
       @par Type de classe
       - Objet
       - Concret
+    @par Etat
+      planning
     */
     class Attachable : public Facette
     {

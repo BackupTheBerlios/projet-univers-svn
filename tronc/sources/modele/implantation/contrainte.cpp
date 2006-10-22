@@ -17,41 +17,61 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODELE_JEU_JEU_H_
-#define PU_MODELE_JEU_JEU_H_
+#include <base/joli_affichage.h>
 
-#include <base/association.h>
-#include <base/chaine.h>
+#include <modele/contrainte.h>
+#include <modele/point_d_attache.h>
 
 namespace ProjetUnivers {
+
   namespace Modele {
-    namespace Jeu {    
 
-      class Etat ;
-      
-      /// Initialise le module.
-      /*!
-      Place dans l'état initial.
-    
-      @par Etat
-        planning
-      */
-      void Initialiser() ; 
 
-      /// Termine le module.
-      void Terminer() ;
+    Contrainte::Contrainte(const Base::Association<PlanDeContrainte>& _plan,
+                           const Base::Association<PointDAttache>& _p1,
+                           const Base::Association<PointDAttache>& _p2)
+    : plan(_plan), pointDAttache1(_p1), pointDAttache2(_p2)
+    {}
 
-      /// Change d'état.
-      void Changer(const Base::Chaine& _etat) ;
+
+    Base::Chaine Contrainte::AfficherReference() const
+    {
+      Base::Chaine resultat ;
       
-      /// Renvoie l'état courant.
-      Base::Association<Etat> EtatCourant() ;
+      resultat += Base::AfficheEspaces() ;
+      resultat += "<Contrainte identificateur=\"" ;
+      resultat += identificateur ;
+      resultat += "\"/>" ;
+      resultat += Base::FinDeLigne() ;
       
+      return resultat ; 
       
     }
+    
+    Base::Chaine Contrainte::AfficherDefinition() const
+    {
+      Base::Chaine resultat ;
+      
+      resultat += Base::AfficheEspaces() ;
+      resultat += "<Contrainte nom=\"" ;
+      resultat += nom ;
+      resultat += "\" identificateur=" ;
+      resultat += identificateur ;
+      resultat += ">" ;
+      resultat += Base::FinDeLigne() ;
+      Base::AugmenteIndentation() ;
+      
+      resultat += this->pointDAttache1->AfficherReference() ;
+      resultat += this->pointDAttache1->AfficherReference() ;
+      Base::DiminueIndentation() ;
+      resultat += Base::AfficheEspaces() + "</Contrainte>" ;
+      resultat += Base::FinDeLigne() ;
+      
+      return resultat ;
+     }
+
+
+    
   }
+  
 }
-
-
-
-#endif /*PU_MODELE_JEU_JEU_H_*/

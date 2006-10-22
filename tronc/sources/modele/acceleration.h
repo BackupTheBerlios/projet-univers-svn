@@ -25,7 +25,6 @@
 
 
 namespace ProjetUnivers {
-
   namespace Modele {
 
 
@@ -33,14 +32,16 @@ namespace ProjetUnivers {
     /// Une acceleration.
     /*!
       C'est un vecteur d'accélération.
+    @par Etat
+      planning
     */
     class Acceleration {
     public:
     
-      // *************************
-      /// @name Constructeurs
-      // *************************      
-      // @{  
+    // *************************
+    /// @name Constructeurs
+    // *************************      
+    // @{  
 
      
       /// Acceleration nulle.
@@ -63,19 +64,18 @@ namespace ProjetUnivers {
       Acceleration operator *(const Base::Reel&) const ;
 
       
-      // @}
-
-      // *************************
-      /// @name Accès
-      // *************************      
-      // @{  
+    // @}
+    // *************************
+    /// @name Accès
+    // *************************      
+    // @{  
        
      
       /// Donne l'acceleration en m.s-2.
       Base::Reel MetreSecondesMoins2() const ;
 
 
-      // @}
+    // @}
     
     private:
     

@@ -25,12 +25,14 @@
 
 
 namespace ProjetUnivers {
-
   namespace Modele {
 
-
-
     /// Une quantité de matière.
+    /*!
+    @par Etat
+      planning
+    
+    */
     class Masse 
     {
     public:

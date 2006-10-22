@@ -26,14 +26,13 @@
 #include <modele/objet.h>
 
 namespace ProjetUnivers {
-
   namespace Modele {
  
     class PlanDePointDAttache ;
  
     /// Liaison entre deux points d'attache dans un plan d'assemblage.
     /*!
-
+    @deprecated
     */
     class PlanDeContrainte : public Objet
     {

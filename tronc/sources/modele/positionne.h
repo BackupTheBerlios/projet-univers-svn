@@ -57,7 +57,15 @@ namespace ProjetUnivers {
       Position AccesPosition() const ;
 
       /// Orientation de l'objet
-      Orientation AccessOrientation() const ;
+      Orientation AccesOrientation() const ;
+
+    // @}
+    /*!
+      @name Update
+    */
+    // @{
+
+      void ModifierOrientation(const Orientation&) ;
 
     // @}
         

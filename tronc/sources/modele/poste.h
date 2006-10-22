@@ -24,13 +24,14 @@
 #include <modele/facette.h>
 
 namespace ProjetUnivers {
-
   namespace Modele {
 
     /// Propriété d'être un poste dans une structure.
     /*!
       Une fois un acteur positionné à un poste, celui ci peut activer les 
       commandes.
+    @par Etat
+      planning
     */
     class Poste : public Facette
     {

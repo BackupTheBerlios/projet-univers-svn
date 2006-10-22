@@ -29,8 +29,7 @@
 #include <modele/nom.h>
 
 namespace ProjetUnivers {
-
-  namespace Modele {
+  namespace Modesle {
     
     class SystemeStellaire ;
       

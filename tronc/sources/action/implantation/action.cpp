@@ -20,6 +20,11 @@
 
 
 #include <base/implantation/liste_valeur.h>
+
+#include <modele/modele.h>
+#include <modele/objet.h>
+#include <modele/positionne.h>
+
 #include <action/action.h>
 
 namespace ProjetUnivers {
@@ -50,6 +55,69 @@ namespace ProjetUnivers {
       {
         finished = Base::VRAI ;
       }
+      else if (_action.nom == "Haut")
+      {
+        Base::Association<Modele::Objet> observateur(Modele::AccesObjet("Observateur")) ;
+        Base::Association<Modele::Positionne> positionne(*observateur) ;
+        
+        positionne->ModifierOrientation(
+          Modele::Orientation(
+            positionne->AccesOrientation().AccesQuaternion() 
+            * 
+            Ogre::Quaternion(sqrt(0.5),0,sqrt(0.5),0))) ;
+            
+        
+      }
+      else if (_action.nom == "Bas")
+      {
+        Base::Association<Modele::Objet> observateur(Modele::AccesObjet("Observateur")) ;
+        Base::Association<Modele::Positionne> positionne(*observateur) ;
+        
+        positionne->ModifierOrientation(
+          Modele::Orientation(
+            positionne->AccesOrientation().AccesQuaternion() 
+            * 
+            Ogre::Quaternion(sqrt(0.5),0,-sqrt(0.5),0))) ;
+        
+      }
+      else if (_action.nom == "Droite")
+      {
+        Base::Association<Modele::Objet> observateur(Modele::AccesObjet("Observateur")) ;
+        Base::Association<Modele::Positionne> positionne(*observateur) ;
+        
+        positionne->ModifierOrientation(
+          Modele::Orientation(
+            positionne->AccesOrientation().AccesQuaternion() 
+            * 
+            Ogre::Quaternion(sqrt(0.5),-sqrt(0.5),0,0))) ;
+        
+      }
+      else if (_action.nom == "Gauche")
+      {
+        Base::Association<Modele::Objet> observateur(Modele::AccesObjet("Observateur")) ;
+        Base::Association<Modele::Positionne> positionne(*observateur) ;
+        
+        positionne->ModifierOrientation(
+          Modele::Orientation(
+            positionne->AccesOrientation().AccesQuaternion() 
+            * 
+            Ogre::Quaternion(sqrt(0.5),sqrt(0.5),0,0))) ;
+        
+        
+      }
+      else if (_action.nom == "RegarderVaisseau")
+      {
+        Base::Association<Modele::Objet> observateur(Modele::AccesObjet("Observateur")) ;
+        Base::Association<Modele::Positionne> observateurPositionne(*observateur) ;
+
+        Base::Association<Modele::Objet> vaisseau(Modele::AccesObjet("Vaisseau")) ;
+        Base::Association<Modele::Positionne> vaisseauPositionne(*vaisseau) ;
+
+        
+        
+      }
+      
+      
     }
     
     

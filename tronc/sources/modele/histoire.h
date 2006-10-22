@@ -23,7 +23,7 @@
 
 #include <base/association.h>
 #include <base/ensemble_composition.h>
-#include <modele/objet_abstrait.h>
+#include <modele/facette.h>
 
 namespace ProjetUnivers {
 
@@ -33,15 +33,15 @@ namespace ProjetUnivers {
     
       
     /// Représente une histoire.
-
     /*!
-    Type de classe
+    @par Type de classe
+    - Objet
+    - Concret
+    @par Etat
+      planning
     
-      Objet
-    
-      Concret
     */
-    class Histoire : public ObjetAbstrait {
+    class Histoire : public Facette {
     public:
 
       

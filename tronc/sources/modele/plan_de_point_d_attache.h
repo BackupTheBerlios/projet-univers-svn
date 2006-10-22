@@ -26,14 +26,14 @@
 #include <modele/objet.h>
 
 namespace ProjetUnivers {
-
   namespace Modele {
  
     class PlanDeComposant ;
     
     /// Un point d'attache dans un plan d'assemblage.
     /*!
-      C'ets un endrois où on peut attacher un autre plan d'assemblage.
+      C'est un endroit où on peut attacher un autre plan d'assemblage.
+    @deprecated
     */
     class PlanDePointDAttache : public Objet
     {

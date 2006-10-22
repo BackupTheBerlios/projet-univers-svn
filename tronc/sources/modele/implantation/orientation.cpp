@@ -27,18 +27,21 @@ namespace ProjetUnivers {
   namespace Modele {
 
     Orientation::Orientation()
-    : origine(), orientation()
+    : orientation()
     {}
 
     Orientation::Orientation(const Orientation& _orientation)
-    : origine(_orientation.origine), orientation(_orientation.orientation)
+    : orientation(_orientation.orientation)
     {}
 
-    Orientation::Orientation(const Base::Association<Objet>& _origine,
-                             const Ogre::Quaternion& _orientation)
-    : origine(_origine), orientation(_orientation)
+    Orientation::Orientation(const Ogre::Quaternion& _orientation)
+    : orientation(_orientation)
     {}
 
+    Ogre::Quaternion Orientation::AccesQuaternion() const 
+    {
+      return orientation ;
+    }
 
   }
 }

@@ -17,41 +17,33 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODELE_JEU_JEU_H_
-#define PU_MODELE_JEU_JEU_H_
 
-#include <base/association.h>
-#include <base/chaine.h>
+#include <modele/jeu/jeu.h>
 
 namespace ProjetUnivers {
   namespace Modele {
     namespace Jeu {    
-
-      class Etat ;
       
-      /// Initialise le module.
-      /*!
-      Place dans l'état initial.
-    
-      @par Etat
-        planning
-      */
-      void Initialiser() ; 
+      void Initialiser()
+      {
+      }
 
-      /// Termine le module.
-      void Terminer() ;
+      void Terminer()
+      {
+      }
 
-      /// Change d'état.
-      void Changer(const Base::Chaine& _etat) ;
+      void Changer(const Base::Chaine& _etat)
+      {
+      }
       
-      /// Renvoie l'état courant.
-      Base::Association<Etat> EtatCourant() ;
+      Base::Association<Etat> EtatCourant()
+      {
+        return Base::Association<Etat>() ;
+        
+      }
       
       
     }
   }
 }
 
-
-
-#endif /*PU_MODELE_JEU_JEU_H_*/

@@ -51,10 +51,20 @@ namespace ProjetUnivers {
           if (! this->initialise)
           {
             
-//            VerifieCondition(this->AccesPointDeVue(), 
-//                             Exception("Univers::Initialiser sans point de vue")) ;
+            VerifieCondition(this->AccesPointDeVue(), 
+                             Exception("Univers::Initialiser sans point de vue")) ;
             
-            this->AccesPointDeVue()->AccesGestionnaire()->setSkyBox( true, "Examples/SpaceSkyBox" );
+            this->AccesPointDeVue()->AccesGestionnaire()
+                  ->setSkyBox( true, "PU/SpaceSkyBox", 50000 );
+            
+            ::Ogre::Light* lumiere = 
+                this->AccesPointDeVue()->AccesGestionnaire()
+                  ->createLight("MainLight");
+                  
+            /// lumière
+            this->AccesPointDeVue()->AccesGestionnaire()
+                  ->setAmbientLight(::Ogre::ColourValue(0.5, 0.5, 0.5));
+
           
             this->initialise = Base::VRAI ;
           }

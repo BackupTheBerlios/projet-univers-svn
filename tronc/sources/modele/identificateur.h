@@ -24,10 +24,14 @@
 #include <base/chaine.h>
 
 namespace ProjetUnivers {
-
   namespace Modele {
     
     
+    /*!
+    @par Etat
+      planning
+    @deprecated ??
+    */
     class Identificateur
     {
     public:

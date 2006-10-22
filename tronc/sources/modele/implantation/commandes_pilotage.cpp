@@ -19,36 +19,23 @@
  ***************************************************************************/
 
 
-#ifndef _PU_MODELE_POSSEDE_H_
-#define _PU_MODELE_POSSEDE_H_
+#include <modele/commandes_pilotage.h>
 
-
-#include <modele/facette.h>
 
 
 namespace ProjetUnivers {
+
   namespace Modele {
-
-      
-    /// Propriété des objets pouvant être possédé.
-    /*!
-      @par Etat
-        planning
-    */
-    class Possede : public Facette 
-    {
-    public:
-      
-      Possede() ;		
     
-  	
-    private:
-
-      Base::Association<Objet> proprietaire ;
-    };
-
+    
+    
+    CommandesPilotage::CommandesPilotage()
+    {}
+    
+    
+    
   }
 
 }
 
-#endif
+

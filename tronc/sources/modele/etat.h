@@ -41,6 +41,10 @@ namespace ProjetUnivers {
          
         Un état possède une donnée utilisateur, qui contient les 
         informations fonctionnelles. 
+    @par Etat
+      planning
+
+
       */
       class Etat {
       public:

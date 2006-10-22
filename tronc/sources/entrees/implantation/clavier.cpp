@@ -47,6 +47,23 @@ namespace ProjetUnivers {
         case OIS::KC_RETURN:
           Action::Ajouter("Sortie") ;
           break ;
+          
+        case OIS::KC_UP:
+          Action::Ajouter("Haut") ;
+          break ;
+
+        case OIS::KC_DOWN:
+          Action::Ajouter("Bas") ;
+          break ;
+
+        case OIS::KC_LEFT:
+          Action::Ajouter("Gauche") ;
+          break ;
+          
+        case OIS::KC_RIGHT:
+          Action::Ajouter("Droite") ;
+          break ;
+
         default:
           break ;
         }

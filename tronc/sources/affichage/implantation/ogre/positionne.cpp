@@ -110,9 +110,13 @@ namespace ProjetUnivers {
             
             if (conteneur)
             {
+              Base::Traceur::MessageInterne("Attaching object to parent") ;
+              
               Base::Association<Positionne> parent(*conteneur) ;
               noeud = this->AccesPointDeVue()->AccesGestionnaire()->createSceneNode() ;
               parent->noeud->addChild(noeud) ;
+              noeud->setPosition(Conversion(observe->AccesPosition())) ;
+              noeud->setOrientation(observe->AccesOrientation().AccesQuaternion()) ;
             }
             else
             {
@@ -146,6 +150,7 @@ namespace ProjetUnivers {
         {
           /// on le replace par rapport à son parent
           noeud->setPosition(Conversion(observe->AccesPosition())) ;
+          noeud->setOrientation(observe->AccesOrientation().AccesQuaternion()) ;
         }
 
         ::Ogre::SceneNode* Positionne::AccesNoeud()

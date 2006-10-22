@@ -1,8 +1,9 @@
 # Makefile pour action
 lib_LTLIBRARIES = libaction.la 
 
+
 SOURCES = $(top_srcdir)/sources
-INCLUDES = -I$(SOURCES)
+INCLUDES = -I$(SOURCES) $(OGRE_CFLAGS)
 
 libaction_la_SOURCES = \
 $(SOURCES)/action/implantation/action.cpp

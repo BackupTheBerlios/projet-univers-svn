@@ -27,18 +27,17 @@
 #include <modele/facette.h>
 
 namespace ProjetUnivers {
-
-
   namespace Modele {
 
 
     
       
     /// Propriété des objets pouvant subir des dégâts et être détruits.
-
     /*!
-      @todo
-        Cette classe n'est qu'un squelette, implanter tache 2378.
+    @todo
+      Cette classe n'est qu'un squelette, implanter tache 2378.
+    @par Etat
+      planning
     */
     class Destructible : public Facette
     {

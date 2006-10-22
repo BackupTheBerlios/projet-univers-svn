@@ -3,55 +3,52 @@
  *   rogma.boami@free.fr                                                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
+ *   it under the terms of the GNU Lesser General Public License as        *
+ *   published by the Free Software Foundation; either version 2.1 of the  *
+ *   License, or (at your option) any later version.                       *
  *                                                                         *
  *   This program is distributed in the hope that it will be useful,       *
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
+ *   GNU Lesser General Public License for more details.                   *
  *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
+ *   You should have received a copy of the GNU General Lesser Public      *
+ *   License along with this program; if not, write to the                 *
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_MODELE_MOBILE_H_
-#define _PU_MODELE_MOBILE_H_
+#ifndef _PU_BASE_PERSISTANT_H_
+#define _PU_BASE_PERSISTANT_H_
 
-#include <modele/facette.h>
-#include <modele/vitesse.h>
-#include <modele/acceleration.h>
 
 namespace ProjetUnivers {
-
-  namespace Modele {
-
-    /// Propriété des objets se déplacant dans un espace.
+  namespace Base {
+    
+    
+    /// Classe de bases des classes persistantes.
     /*!
+      Cette sur classe sert principalement à marquer les classes qui doivent 
+      être modifiées par OpenC++.
     @par Etat
       planning
-
     */
-    class Mobile : public Facette
+    class Persistant
     {
     public:
-
-      /// Constructeur.
-      Mobile() ;
       
-    
+      virtual ~Persistant()
+      {}
+      
     protected:
-    
-      Vitesse vitesse ;
-      Acceleration acceleration ;
-
-      /// Accélération angulaire
       
+      Persistant()
+      {}
     };
+    
   }
+  
 }
 
-#endif 
+
+#endif //_PU_BASE_PERSISTANT_H_

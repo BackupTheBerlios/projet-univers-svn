@@ -24,24 +24,24 @@
 #include <base/types.h>
 
 namespace ProjetUnivers {
-
   namespace Modele {
 
       
     /// Une durée.
-    
     /*!  
-      Type de classe :
+    @par Type de classe :
       - Valeur
+    @par Etat
+      planning
     */
     class Duree 
     {
     public:
     
-      // ********************
-      /// @name Constructeurs
-      // ********************
-      // @{   
+    // ********************
+    /// @name Constructeurs
+    // ********************
+    // @{   
     
 
       /// Durée nulle.
@@ -57,11 +57,11 @@ namespace ProjetUnivers {
       Duree operator -(const Duree&) const ;
 
       
-      // @}
-      // ******************
-      /// @name Conversions
-      // ******************
-      // @{
+    // @}
+    // ******************
+    /// @name Conversions
+    // ******************
+    // @{
       
 
       /// Convertit la distance en secondes.
@@ -69,12 +69,12 @@ namespace ProjetUnivers {
       
 
     
-      // @}    
-      // ************
-      /// @name Accès
-      // ************
-      // @{
-      
+    // @}    
+    // ************
+    /// @name Accès
+    // ************
+    // @{
+    
       
 
       /// Comparaison avec une autre durée. 
@@ -82,7 +82,7 @@ namespace ProjetUnivers {
       */
       // BooleenEtendu Comparer(const Duree&) const ;
     
-      // @}
+    // @}
       
     private:
     

@@ -27,7 +27,6 @@
 #include <modele/objet.h>
 
 namespace ProjetUnivers {
-
   namespace Modele {
     
     class PlanDEtatDeComposant ;
@@ -36,7 +35,7 @@ namespace ProjetUnivers {
     
     /// Un plan de composant 
     /*!
-      
+    @deprecated
     */
     class PlanDeComposant : public Objet
     {

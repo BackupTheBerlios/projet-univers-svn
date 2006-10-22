@@ -17,41 +17,87 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODELE_JEU_JEU_H_
-#define PU_MODELE_JEU_JEU_H_
+
+#ifndef _PU_UNIVERS_PERSONNAGE_H_
+#define _PU_UNIVERS_PERSONNAGE_H_
 
 #include <base/association.h>
 #include <base/chaine.h>
+#include <modele/facette.h>
+
 
 namespace ProjetUnivers {
   namespace Modele {
-    namespace Jeu {    
 
-      class Etat ;
-      
-      /// Initialise le module.
-      /*!
-      Place dans l'état initial.
-    
+    /// Personnage.
+    /*!
+      Un personnage est une entité physique du monde qui est douée d'une 
+      autonomie de choix d'actions, i.e., une âme.  
+      Cette âme peyut être contrôlée soit 
+        - directement par le joueur 
+        - par programme (une IA).
       @par Etat
         planning
+        
+    */
+    class Personnage : public Facette
+    {
+    public:
+    
+    /// @name Construction
+    // @{
+
+      Personnage(const Base::Chaine& _nom, const Base::Chaine& _prenom) ;
+
+    // @}
+    /// @name Modifications
+    // @{
+    
+    
+    
+    
+    // @}
+    /// @name Lecture
+    // @{
+      
+      
+      /// Accès au nom
+      Base::Chaine Nom() const ;
+      
+      /// Accès au prénom
+      Base::Chaine Prenom() const ;
+      
+      
+      
+    //@}
+    private:
+
+      /// @name Attributs
+      // @{
+      
+    
+      /// Le nom de famille du personnage.
+      /*!
+        @todo
+          généraliser pour les cultures qui possède un autre système de 
+          désignation d'individus.
       */
-      void Initialiser() ; 
-
-      /// Termine le module.
-      void Terminer() ;
-
-      /// Change d'état.
-      void Changer(const Base::Chaine& _etat) ;
+      Base::Chaine nom ;
       
-      /// Renvoie l'état courant.
-      Base::Association<Etat> EtatCourant() ;
+      /// Le prénom du personnage.      
+      /*!
+        \todo
+          généraliser pour les cultures qui possède un autre système de 
+          désignation d'individus.
+      */
+      Base::Chaine prenom ;
       
       
-    }
+      
+    // @}
+    };
+    
   }
 }
 
-
-
-#endif /*PU_MODELE_JEU_JEU_H_*/
+#endif

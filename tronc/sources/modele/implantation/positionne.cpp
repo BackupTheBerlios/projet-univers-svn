@@ -23,7 +23,6 @@
 
 
 namespace ProjetUnivers {
-
   namespace Modele {
 
 
@@ -41,6 +40,21 @@ namespace ProjetUnivers {
     {
       return position ;
     }
+
+    Orientation Positionne::AccesOrientation() const
+    {
+      return this->orientation ;
+    }
+
+
+    void Positionne::ModifierOrientation(const Orientation& _orientation)
+    {
+      this->orientation = _orientation ;
+      
+      this->Notifier() ;
+    }
+
+
 
 
 //    Base::Association<Positionne> Positionne::AccesReferentiel() const

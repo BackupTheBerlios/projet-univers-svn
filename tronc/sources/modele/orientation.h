@@ -42,8 +42,8 @@ namespace ProjetUnivers {
     class Orientation {
     public:
     
-      /// @name Constructeurs
-      // @{  
+    /// @name Constructeurs
+    // @{  
 
      
       /// Orientation.
@@ -52,11 +52,12 @@ namespace ProjetUnivers {
       /// Constructeur de copie.
       Orientation(const Orientation&) ;
 
-      Orientation(const Base::Association<Objet>& _origine,
-                  const Ogre::Quaternion& _orientation) ; 
-                  
+      Orientation(const Ogre::Quaternion& _orientation) ; 
       
-      // @}
+    // @}
+      
+      Ogre::Quaternion AccesQuaternion() const ;
+
 
     
     private:

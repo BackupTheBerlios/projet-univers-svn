@@ -40,6 +40,8 @@ namespace ProjetUnivers {
       
       Ici, on est donc implictement dans un certain état de dégat et sur un 
       composant.
+
+      @deprecated
       
     */
     class PlanDEtatDeComposant : public Objet

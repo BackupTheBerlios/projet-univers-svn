@@ -18,37 +18,38 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#include <modele/etat_mission.h>
 
-#ifndef _PU_MODELE_POSSEDE_H_
-#define _PU_MODELE_POSSEDE_H_
-
-
-#include <modele/facette.h>
-
+using namespace ProjetUnivers::Base ;
 
 namespace ProjetUnivers {
+
   namespace Modele {
-
-      
-    /// Propriété des objets pouvant être possédé.
-    /*!
-      @par Etat
-        planning
-    */
-    class Possede : public Facette 
-    {
-    public:
-      
-      Possede() ;		
     
-  	
-    private:
+ 
+ 
 
-      Base::Association<Objet> proprietaire ;
-    };
+    ////////////////////
+    // Initialisation de l'état.
+    
+    void EtatMission::Initialiser() {
+    
+      // Construction des controles
+      
+      
+    }
+    
+    //////////////////////
+    // Terminaison de l'état, réaliser à la sortie
+    void EtatMission::Finaliser() {
+    
+      // Destruction des controles ??
+    }
 
+
+    
   }
 
 }
 
-#endif
+

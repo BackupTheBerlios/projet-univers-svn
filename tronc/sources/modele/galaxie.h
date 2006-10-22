@@ -31,7 +31,6 @@
 
 
 namespace ProjetUnivers {
-
   namespace Modele {
     
     

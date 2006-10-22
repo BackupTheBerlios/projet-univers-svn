@@ -36,6 +36,8 @@ namespace ProjetUnivers {
     /*!
       Défini les caractéristique communes des assemblages construits à partir 
       de ce plan. 
+
+      @deprecated
     */
     class PlanDAssemblage : public Objet
     {

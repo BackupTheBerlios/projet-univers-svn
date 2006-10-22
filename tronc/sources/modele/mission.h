@@ -18,35 +18,56 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#ifndef _PU_MODELE_MISSION_H_
+#define _PU_MODELE_MISSION_H_
 
-#ifndef _PU_MODELE_POSSEDE_H_
-#define _PU_MODELE_POSSEDE_H_
-
+#include <base/ensemble_association.h>
 
 #include <modele/facette.h>
 
-
 namespace ProjetUnivers {
   namespace Modele {
-
+    
+    
+    class Role ;
+        
       
-    /// Propriété des objets pouvant être possédé.
+    /// Propriété d'être une mission.
     /*!
+      @remark  
+        Une mission peut se jouer, et alors cela crée un EtatMission
       @par Etat
         planning
     */
-    class Possede : public Facette 
+    class Mission : public Facette 
     {
     public:
+
+      Mission() ;
+
       
-      Possede() ;		
-    
-  	
     private:
+      
 
-      Base::Association<Objet> proprietaire ;
+    // ****************
+    /// @name Attributs
+    // ****************
+    // @{
+    
+      
+      /// Les différents rôles de la mission.
+      Base::EnsembleAssociation< Role > roles ;
+  
+      /// Les rôles qu'on peut jouer dans la mission.
+      /// C'est un sous-ensemble de Mission::roles.
+      Base::EnsembleAssociation< Role > rolesJouables ;
+
+
+    // @}
+
     };
-
+    
+    
   }
 
 }
