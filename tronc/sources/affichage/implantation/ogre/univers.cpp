@@ -38,7 +38,7 @@ namespace ProjetUnivers {
 
 
         Univers::Univers(const Base::Association<Modele::Univers>& _univers)
-        : Ogre::Vue<Modele::Univers>(_univers)
+        : Ogre::Vue<Modele::Univers>(_univers), lumiere(NULL)
         {
           Base::Traceur::MessageInterne("Built Ogre::Univers") ;
         }
@@ -57,7 +57,7 @@ namespace ProjetUnivers {
             this->AccesPointDeVue()->AccesGestionnaire()
                   ->setSkyBox( true, "PU/SpaceSkyBox", 50000 );
             
-            ::Ogre::Light* lumiere = 
+            lumiere = 
                 this->AccesPointDeVue()->AccesGestionnaire()
                   ->createLight("MainLight");
                   
@@ -75,14 +75,21 @@ namespace ProjetUnivers {
         /// Termine la vue.
         void Univers::Terminer()
         {
-          VerifieCondition(!!this->AccesPointDeVue(), 
-                           Exception("Univers::Terminer sans point de vue")) ;
-          
-          this->AccesPointDeVue()->AccesGestionnaire()->setSkyBox( false, "" );
+          if (this->initialise)
+          {
+            VerifieCondition(this->AccesPointDeVue(), 
+                             Exception("Univers::Terminer sans point de vue")) ;
+            
+            this->AccesPointDeVue()->AccesGestionnaire()->setSkyBox( false, "" );
+            this->AccesPointDeVue()->AccesGestionnaire()
+                 ->destroyLight(lumiere) ;
+
+            this->initialise = Base::FAUX ;
+          }          
           
         }
 
-        void Univers::Raffraichir()
+        void Univers::Rafraichir(const Base::Evenement&)
         {
           /*!
             Rien n'a faire

@@ -136,13 +136,13 @@ namespace ProjetUnivers {
     }
   
   
-    void Raffraichir() 
+    void Rafraichir() 
     {
       VerifieCondition(initialise, Exception("Module non initialisé")) ;
       VerifieCondition(Base::Booleen(pointDeVueActif), Exception("Pas de point de vue actif")) ;
     
-      pointDeVueActif->Raffraichir() ;
-      Implantation::Ogre::Raffraichir() ;
+      pointDeVueActif->Rafraichir() ;
+      Implantation::Ogre::Rafraichir() ;
     }
   }
   

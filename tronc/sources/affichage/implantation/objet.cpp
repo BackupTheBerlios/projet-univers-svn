@@ -80,11 +80,40 @@ namespace ProjetUnivers {
         
       }
 
-      void Objet::Raffraichir()
+      void Objet::Rafraichir(const Base::Evenement& _evenement)
       {
         /// il faut voir si de nouvelles facettes sont apparues
-        
+
         /// il faut regarder si les liens de parentés ont changés
+        if (_evenement.nom == "fils") 
+        {
+          switch(_evenement.action)
+          {
+          case Base::Evenement::Ajout :
+          {
+            Base::Association<Modele::Objet> nouveau(
+              *dynamic_cast<Modele::Objet*>(&*_evenement.parametre)) ;
+            
+            Base::Association<Objet> nouvelle_vue(  
+              this->Ajouter(this->AccesPointDeVue()->ConstruireVue(nouveau))) ;
+            
+            nouvelle_vue->Initialiser() ;
+                          
+          }          
+          break ;
+          case Base::Evenement::Suppression :
+          {
+            /// le paramètre a déjà été supprimé...
+            Base::Association<Modele::Objet> supprime(
+              *dynamic_cast<Modele::Objet*>(&*_evenement.parametre)) ;
+
+            /// récupérer la vue correspondant à cet 
+          }          
+          break ;
+          default:
+            break ;
+          }
+        }
       }
 
 
@@ -94,6 +123,7 @@ namespace ProjetUnivers {
         {
           _contenu->conteneur = *this ;
           this->contenu.Ajouter(_contenu) ;
+          return *_contenu ;
         }
       }
     
@@ -122,6 +152,12 @@ namespace ProjetUnivers {
       Base::Association<Objet> Objet::AccesConteneur() const
       {
         return this->conteneur ;
+      }
+ 
+      Base::Association<PointDeVue> Objet::AccesPointDeVue() const
+      {
+        PointDeVue* temp = static_cast<PointDeVue*>( &(*this->pointDeVue));
+        return *temp ;
       }
  
   }

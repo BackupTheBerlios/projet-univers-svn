@@ -64,6 +64,11 @@ namespace ProjetUnivers {
           Action::Ajouter("Droite") ;
           break ;
 
+        case OIS::KC_C:
+          Action::Ajouter("CreerObjet") ;
+          break ;
+
+
         default:
           break ;
         }

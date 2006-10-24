@@ -64,7 +64,7 @@ int main() {
   {
     Entrees::Traiter() ;
     Action::Traiter() ;
-    Affichage::Raffraichir() ;
+    Affichage::Rafraichir() ;
   }
 
   Base::Traceur::MessageInformation("Sortie de la boucle principale") ;

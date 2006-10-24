@@ -25,6 +25,8 @@
 
 #include <affichage/implantation/ogre/positionne.h>
 
+using namespace ::Ogre ;
+
 namespace ProjetUnivers {
   namespace Affichage {
     namespace Implantation {
@@ -110,13 +112,32 @@ namespace ProjetUnivers {
             
             if (conteneur)
             {
-              Base::Traceur::MessageInterne("Attaching object to parent") ;
               
               Base::Association<Positionne> parent(*conteneur) ;
-              noeud = this->AccesPointDeVue()->AccesGestionnaire()->createSceneNode() ;
-              parent->noeud->addChild(noeud) ;
+        
+              noeud = static_cast<SceneNode*>(parent->noeud->createChild()) ;
+
+              Base::Traceur::MessageInterne(
+                "creating scene node " + noeud->getName() + 
+                " with parent " + parent->noeud->getName() +
+                " with position " + 
+                ::Ogre::StringConverter::toString(noeud->getPosition()) + 
+                " with orientation " + 
+                ::Ogre::StringConverter::toString(noeud->getOrientation())
+                ) ;
+
               noeud->setPosition(Conversion(observe->AccesPosition())) ;
               noeud->setOrientation(observe->AccesOrientation().AccesQuaternion()) ;
+
+              Base::Traceur::MessageInterne(
+                "modification of scene node " + noeud->getName() + 
+                " with position " + 
+                ::Ogre::StringConverter::toString(noeud->getPosition()) + 
+                " with orientation " + 
+                ::Ogre::StringConverter::toString(noeud->getOrientation())
+                ) ;
+
+
             }
             else
             {
@@ -136,9 +157,13 @@ namespace ProjetUnivers {
         /// Termine la vue.
         void Positionne::Terminer()
         {
-          /*! 
-            rien n'a faire, le manager détruira les noeuds.
-          */
+          if (this->initialise)
+          {
+            this->AccesPointDeVue()->AccesGestionnaire()
+                 ->destroySceneNode(this->noeud->getName()) ;
+           
+            this->initialise = Base::VRAI ;
+          }          
         }
         
         /// La position à changé
@@ -146,11 +171,19 @@ namespace ProjetUnivers {
         @par Etat actuel
           terminé
         */
-        void Positionne::Raffraichir()
+        void Positionne::Rafraichir(const Base::Evenement&)
         {
           /// on le replace par rapport à son parent
           noeud->setPosition(Conversion(observe->AccesPosition())) ;
           noeud->setOrientation(observe->AccesOrientation().AccesQuaternion()) ;
+
+          Base::Traceur::MessageInterne(
+            "modification of scene node " + noeud->getName() + 
+            " with position " + 
+            ::Ogre::StringConverter::toString(noeud->getPosition()) + 
+            " with orientation " + 
+            ::Ogre::StringConverter::toString(noeud->getOrientation())
+            ) ;
         }
 
         ::Ogre::SceneNode* Positionne::AccesNoeud()

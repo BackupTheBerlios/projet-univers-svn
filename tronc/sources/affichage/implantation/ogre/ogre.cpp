@@ -197,12 +197,12 @@ namespace ProjetUnivers {
           
         }
 
-        /// Raffraichi l'affichage
+        /// Rafraichi l'affichage
         /*!
           Met à jour tout ce qui doit être affiché. On se sert de cette méthode 
           pour ne pas passer par la boucle standard de Ogre.
         */
-        void Raffraichir()
+        void Rafraichir()
         {
           /// cf. http://www.ogre3d.org/phpBB2/viewtopic.php?t=2733
           racine->_fireFrameStarted();

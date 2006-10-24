@@ -55,7 +55,7 @@ namespace ProjetUnivers {
           virtual void Terminer() ;
         
           /// Mise à jour.
-          virtual void Raffraichir() ;
+          virtual void Rafraichir(const Base::Evenement&) ;
           
         private:
 

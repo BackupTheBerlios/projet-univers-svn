@@ -22,6 +22,7 @@
 
 #include <modele/facette.h>
 #include <modele/objet.h>
+#include <modele/positionne.h>
 
 #include <affichage/point_de_vue.h>
 #include <affichage/implantation/ogre/point_de_vue.h>
@@ -61,9 +62,13 @@ namespace ProjetUnivers {
 
       Base::Traceur::MessageInterne("Entering Affichage::PointDeVue::Construire") ;
       
-      Base::Association<Modele::Objet> ancetre = 
-                                              this->observateur->AccesRacine() ;
-      this->Ajouter(ConstruireVue(ancetre)) ;
+      Base::Association<Modele::Positionne> ancetrePositionne = 
+                  this->observateur->AccesRacine<Modele::Positionne>() ;
+
+      if (ancetrePositionne)
+      {
+        this->Ajouter(ConstruireVue(ancetrePositionne->AccesObjet())) ;
+      }
       
       Base::Traceur::MessageInterne("Leaving Affichage:PointDeVue::Construire") ;
       
@@ -80,14 +85,20 @@ namespace ProjetUnivers {
       
       if (this->EstVisible(_modele))
       {
+        Base::Traceur::MessageInterne("building View Object") ;
+
         /// On construit l'objet
         resultat = new Objet(_modele,*this) ;
+
+        Base::Traceur::MessageInterne("built View Object") ;
         
         /// On mémorise l'observateur
         if (_modele == this->observateur)
         {
           this->vueObservateur = resultat ;
         }
+
+        Base::Traceur::MessageInterne("building View Facettes") ;
         
         /// ses facettes
         for (Base::IterateurEnsembleAssociation<Modele::Facette> 

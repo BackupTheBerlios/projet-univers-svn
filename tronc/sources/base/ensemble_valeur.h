@@ -21,30 +21,31 @@
 #ifndef _PU_BASE_ENSEMBLE_VALEUR_H_
 #define _PU_BASE_ENSEMBLE_VALEUR_H_
 
-#include <base/association.h>
-#include <base/implantation/liste_valeur.h>
-#include <base/implantation/iterateur_liste_valeur.h>
+#include <vector>
+#include <base/types.h>
+#include <base/implantation/tampon_ensemble_valeur.h>
+
 
 namespace ProjetUnivers {
-
   namespace Base {
 
 
+    template <typename Valeur> class IterateurEnsembleValeur ;
+
     ///  Représente un ensemble d'élément d'une classe de valeur.
-    
     /*!
 
     */
-    template <typename VALEUR> class EnsembleValeur 
-            : public Implantation::ListeValeur<VALEUR> {
+    template <typename Valeur> class EnsembleValeur
+    {
     public:
     
     
       
-      // *************************
-      /// @name Construction
-      // *************************      
-      // @{      
+    // *************************
+    /// @name Construction
+    // *************************      
+    // @{      
       
 
       /// Constructeur par défaut.
@@ -53,33 +54,44 @@ namespace ProjetUnivers {
       EnsembleValeur() ; 
     
       /// Constructeur de copie.
-      EnsembleValeur(const EnsembleValeur< VALEUR >& _e);
+      EnsembleValeur(const EnsembleValeur< Valeur >& _e);
     
       /// Ajoute un élément à l'ensemble.
-      void Ajouter(const VALEUR& _elt);
+      void Ajouter(const Valeur& _elt);
 
       /// Ajoute des éléments à l'ensemble.
-      void Ajouter(const EnsembleValeur< VALEUR >& _elt);
+      void Ajouter(const EnsembleValeur< Valeur >& _elt);
     
       /// Enlève l'élément _el, s'il n'y est pas ne fait rien.
-      void Enlever(const VALEUR& _el) ;
+      void Enlever(const Valeur& _el) ;
     
+      /// Vide l'ensemble
+      void Vider() ;
+      
+      
+    // @}
+    // *************************
+    /// @name Consultation
+    // *************************      
+    // @{      
     
-      // @}
-      // *************************
-      /// @name Consultation
-      // *************************      
-      // @{      
-    
+      /// Accès au nombre d'éléments.
+      EntierPositif NombreDElements() const ;
     
       /// Determine si _el fait partie de l'ensemble.
-      Booleen Contient(const VALEUR& _el) const ;
+      Booleen Contient(const Valeur& _el) const ;
       
       /// Egalité de deux ensembles.
-      Booleen operator==(const EnsembleValeur<VALEUR>& _r) const ;
+      Booleen operator==(const EnsembleValeur<Valeur>& _r) const ;
       
 
-      // @}      
+    // @}
+    private:
+
+      Implantation::TamponEnsembleValeur<Valeur>* tampon ;
+
+      friend class IterateurEnsembleValeur<Valeur> ;
+      
     };
         
   }

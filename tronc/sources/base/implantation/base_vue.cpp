@@ -30,11 +30,11 @@ namespace ProjetUnivers {
     namespace Implantation {
 
 
-      void BaseVue::MarquerARaffraichir()
+      void BaseVue::MarquerARafraichir(const Evenement& _evenement)
       {
         if (pointDeVue)
         {
-          pointDeVue->PenserARaffraichir(*this) ;
+          pointDeVue->PenserARafraichir(*this,_evenement) ;
         }
       }
 
@@ -45,7 +45,7 @@ namespace ProjetUnivers {
           pointDeVue->PenserADetruire(*this) ;
         } 
         // cette vue n'a pas de point de vue... elle ne sera pas 
-        // raffraichie
+        // rafraichie
       }
 
 

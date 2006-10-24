@@ -154,22 +154,36 @@ namespace ProjetUnivers {
         /// Ajouter(new Solide(planete1, 
         
         /// 3. Ajout d'un vaisseau
-        Base::Traceur::MessageInterne("construction d'un vaisseau...") ;
-        Base::Association<Objet> vaisseau = systeme->Ajouter(new Objet(Nom("Vaisseau"))) ;
-        vaisseau->Ajouter(new Positionne(Position(Distance(Distance::_Metre, 0),
-                                                  Distance(Distance::_Metre, 0),
-                                                  Distance(Distance::_Metre, 0)) )) ;
-        
-        vaisseau->Ajouter(new Solide(Modele3D("razor.mesh"))) ;
+        {
+          Base::Traceur::MessageInterne("construction d'un vaisseau...") ;
+          Base::Association<Objet> vaisseau = systeme->Ajouter(new Objet(Nom("Vaisseau"))) ;
+          vaisseau->Ajouter(new Positionne(Position(Distance(Distance::_Metre, 0),
+                                                    Distance(Distance::_Metre, 0),
+                                                    Distance(Distance::_Metre, -500000)) )) ;
+          
+          vaisseau->Ajouter(new Solide(Modele3D("razor.mesh"))) ;
+  
+          Base::Traceur::MessageInterne("construction d'un vaisseau terminée") ;
+        }
+        {
+          Base::Traceur::MessageInterne("construction d'un vaisseau...") ;
+          Base::Association<Objet> vaisseau = systeme->Ajouter(new Objet(Nom("Vaisseau3"))) ;
+          vaisseau->Ajouter(new Positionne(Position(Distance(Distance::_Metre, 0),
+                                                    Distance(Distance::_Metre, 100000),
+                                                    Distance(Distance::_Metre, -500000)) )) ;
+          
+          vaisseau->Ajouter(new Solide(Modele3D("razor.mesh"))) ;
+  
+          Base::Traceur::MessageInterne("construction d'un vaisseau terminée") ;
+        }
 
-        Base::Traceur::MessageInterne("construction d'un vaisseau terminée") ;
-        
+                
         /// 4. Ajout d'un observateur
         Base::Traceur::MessageInterne("construction d'un observateur...") ;
         Base::Association<Objet> observateur = systeme->Ajouter(new Objet(Nom("Observateur"))) ;
         observateur->Ajouter(new Positionne(Position(Distance(Distance::_Metre, 0),
                                                      Distance(Distance::_Metre, 0),
-                                                     Distance(Distance::_Metre, 500000)) )) ;
+                                                     Distance(Distance::_Metre, 0)) )) ;
 
         /// Il a la faculté d'observer
         observateur->Ajouter(new Observateur()) ;

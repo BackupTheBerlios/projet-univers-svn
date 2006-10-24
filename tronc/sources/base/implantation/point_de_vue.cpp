@@ -20,25 +20,31 @@
 
 #include <base/implantation/base_vue.h>
 #include <base/point_de_vue.h>
-#include <base/iterateur_ensemble_association.h>
+#include <base/iterateur_ensemble_valeur.h>
 
 
 namespace ProjetUnivers {
-
   namespace Base {
-    
 
-    void PointDeVue::Raffraichir()
+    void PointDeVue::Rafraichir()
     {
-      for(IterateurEnsembleAssociation<Implantation::BaseVue> vue(vuesARaffraichir) ;
-          vue.Valide() ;
-          ++vue)
+      
+      for(IterateurEnsembleValeur<PointDeVue::Rafraichissement> rafraichissement(rafraichissements) ;
+          rafraichissement.Valide() ;
+          ++rafraichissement)
       {
-        vue->Raffraichir() ;
+        rafraichissement->vue->Rafraichir(rafraichissement->evenement) ;
+      }
+      rafraichissements.Vider() ;
+
+      for (IterateurEnsembleAssociation<Implantation::BaseVue> vue(vuesADetruire) ;
+           vue.Valide() ;
+           ++vue)
+      {
+        this->vues.Enlever(*vue) ;
       }
       
-      vuesARaffraichir.Vider() ;
-      
+      vuesADetruire.Vider() ;
     }
   
     PointDeVue::PointDeVue()
@@ -46,7 +52,7 @@ namespace ProjetUnivers {
 
     void PointDeVue::Ajouter(Implantation::BaseVue* _vue)
     {
-      if (_vue != NULL)
+      if (_vue)
       {
         _vue->pointDeVue = *this ;
         vues.Ajouter(_vue) ;
@@ -59,16 +65,20 @@ namespace ProjetUnivers {
       vues.Enlever(_vue) ;
     }
     
-    void PointDeVue::PenserARaffraichir(
-                                  const Association<Implantation::BaseVue> _vue)
+    void PointDeVue::PenserARafraichir(
+                                  const Association<Implantation::BaseVue> _vue,
+                                  const Evenement& _evenement)
     {
-      vuesARaffraichir.Ajouter(_vue) ;
+      rafraichissements.Ajouter(Rafraichissement(_vue,_evenement)) ;
     }
     
     void PointDeVue::PenserADetruire(
                                   const Association<Implantation::BaseVue> _vue)
     {
-      vuesADetruire.Ajouter(_vue) ;
+      if (this->vues.Contient(_vue))
+      {
+        vuesADetruire.Ajouter(_vue) ;
+      }
     }
     
     

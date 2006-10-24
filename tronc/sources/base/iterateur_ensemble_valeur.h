@@ -18,19 +18,17 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_BASE_ITERATEUR_ENSEMBLE_ASSOCIATION_H_
-#define _PU_BASE_ITERATEUR_ENSEMBLE_ASSOCIATION_H_
+#ifndef _PU_BASE_ITERATEUR_ENSEMBLE_VALEUR_H_
+#define _PU_BASE_ITERATEUR_ENSEMBLE_VALEUR_H_
 
-#include <set>
+#include <vector>
 #include <iterator>
 #include <base/association.h>
 
 namespace ProjetUnivers {
-
   namespace Base {
 
     template <typename Valeur> class EnsembleValeur ;
-    
     
     /// Itérateur sur les ensemble de valeur.
     template <typename Valeur> class IterateurEnsembleValeur 
@@ -38,36 +36,33 @@ namespace ProjetUnivers {
     public:
     
       /// Constructeur.
-      IterateurEnsembleAssociation(const EnsembleValeur<Valeur>&) ;
+      IterateurEnsembleValeur(const EnsembleValeur<Valeur>&) ;
 
       /// Passe à l'élément suivant.
       void operator ++() ;
     
-      /// Passe à l'élément précédent.
-      void operator --() ;
-    
 
-      // @}
-      // ***********************
-      /// @name Méthodes d'accès
-      // ***********************
-      // @{
+    // @}
+    // ***********************
+    /// @name Méthodes d'accès
+    // ***********************
+    // @{
 
       /// Dit si l'itérateur est valide.
       Booleen Valide() const ;      
      
       /// Opérateur de déréférenciation.
-      Valeur* operator ->() const ;
+      const Valeur* operator ->() const ;
     
       /// Opérateur de déréférenciation.
       Valeur& operator*() const ;
     
-      // @}
+    // @}
 
     private:
     
       Implantation::TamponEnsembleValeur<Valeur>* tampon ;
-      typename std::set<Valeur>::iterator iterateur ;            
+      typename std::vector<Valeur>::iterator iterateur ;            
       
     };
 

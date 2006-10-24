@@ -62,11 +62,16 @@ namespace ProjetUnivers {
           
         void Observateur::Terminer()
         {
-          this->AccesPointDeVue()->AccesGestionnaire()->destroyCamera(this->camera) ;
+          if (this->initialise)
+          {
+            this->AccesPointDeVue()->AccesGestionnaire()->destroyCamera(this->camera) ;
+            this->initialise = Base::FAUX ;
+
+          }
         }
           
         
-        void Observateur::Raffraichir()
+        void Observateur::Rafraichir(const Base::Evenement&)
         {
         }
 

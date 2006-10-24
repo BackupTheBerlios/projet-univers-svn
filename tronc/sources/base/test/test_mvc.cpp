@@ -114,7 +114,7 @@ namespace ProjetUnivers {
           {
           public:
   
-            void Raffraichir()
+            void Rafraichir(const Evenement& _evenement)
             {
               tete_attribut = Vue<ModeleTete>::observe->AccesAttribut() ;
               raffraichie = VRAI ;
@@ -126,6 +126,11 @@ namespace ProjetUnivers {
             {
             }
             
+            /// Suppression.
+            virtual void Supprimer()
+            {
+              
+            }
             
             
             Entier AccesTeteAttribut() const 
@@ -146,7 +151,7 @@ namespace ProjetUnivers {
           {
           public:
   
-            void Raffraichir()
+            void Rafraichir(const Evenement& _evenement)
             {
               personne_attribut = Vue<ModelePersonne>::observe->AccesAttribut() ;
               raffraichie = VRAI ;
@@ -206,7 +211,7 @@ namespace ProjetUnivers {
           
           // changement de personne
           personne->ChangerAttribut(10) ;
-          pointDeVue->Raffraichir() ;
+          pointDeVue->Rafraichir() ;
           CPPUNIT_ASSERT(vueTete->AccesTeteAttribut() == 0) ;
           CPPUNIT_ASSERT(vueTete->raffraichie == FAUX) ;
           CPPUNIT_ASSERT(vuePersonne->raffraichie == VRAI) ;
@@ -215,14 +220,14 @@ namespace ProjetUnivers {
           vuePersonne->raffraichie = FAUX ;
 
           // aucun changement du modèle
-          pointDeVue->Raffraichir() ;
+          pointDeVue->Rafraichir() ;
           CPPUNIT_ASSERT(vueTete->raffraichie == FAUX) ;
           CPPUNIT_ASSERT(vuePersonne->raffraichie == FAUX) ;
 
           // changement de tete
           personne->AccesTete()->ChangerAttribut(20) ;
 
-          pointDeVue->Raffraichir() ;
+          pointDeVue->Rafraichir() ;
           CPPUNIT_ASSERT(vueTete->AccesTeteAttribut() == 20) ;
           CPPUNIT_ASSERT(vueTete->raffraichie == VRAI) ;
           CPPUNIT_ASSERT(vuePersonne->raffraichie == FAUX) ;
@@ -230,7 +235,7 @@ namespace ProjetUnivers {
           // Changement des 2
           personne->ChangerAttribut(100) ;
           personne->AccesTete()->ChangerAttribut(200) ;
-          pointDeVue->Raffraichir() ;
+          pointDeVue->Rafraichir() ;
           CPPUNIT_ASSERT(vueTete->AccesTeteAttribut() == 200) ;
           CPPUNIT_ASSERT(vuePersonne->AccesPersonneAttribut() == 100) ;
           

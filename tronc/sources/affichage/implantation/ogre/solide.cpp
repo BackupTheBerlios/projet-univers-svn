@@ -60,7 +60,8 @@ namespace ProjetUnivers {
             
             /// on crée l'élément 3D
             modele = this->AccesPointDeVue()->AccesGestionnaire()
-                              ->createEntity("vaisseau",(const char*)observe->AccesModele().AccesNom()) ;
+                     ->createEntity((const char*)(Base::Chaine)observe->AccesObjet()->AccesNom(),
+                                    (const char*)observe->AccesModele().AccesNom()) ;
             
             /// on le place sur le noeud
             positionne->AccesNoeud()->attachObject(modele) ;
@@ -75,7 +76,20 @@ namespace ProjetUnivers {
         /// Détruit l'entité.
         void Solide::Terminer()
         {
-          
+          if (this->initialise)
+          {
+            /// Positionne doit avoir été terminé
+            Base::Association<Positionne> positionne(*(this->objet)) ;
+            if (positionne)
+            {
+              positionne->Terminer() ;
+            }  
+            
+            this->AccesPointDeVue()->AccesGestionnaire()
+                 ->destroyEntity(this->modele) ;
+           
+            this->initialise = Base::VRAI ;
+          }          
         }
       
         /// 
@@ -83,7 +97,7 @@ namespace ProjetUnivers {
         @par Etat
           stub vide
         */
-        void Solide::Raffraichir()
+        void Solide::Rafraichir(const Base::Evenement&)
         {
           
         }

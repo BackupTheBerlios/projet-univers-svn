@@ -24,10 +24,10 @@
 
 #include <base/association.h>
 #include <base/ensemble_association.h>
+#include <base/evenement.h>
 
 
 namespace ProjetUnivers {
-
   namespace Base {
     
     namespace Implantation
@@ -35,7 +35,8 @@ namespace ProjetUnivers {
       class BaseVue ;
     }
 
-
+    class Objet ;
+    
     /// L'abstraction d'un modèle.
     /*!
       A utiliser en combinaison avec ProjetUnivers::Base::Vue.
@@ -63,15 +64,12 @@ namespace ProjetUnivers {
       Modele() ;
 
       /// Notifie les vues du changement.
-      void Notifier() ;
+      void Notifier(const Evenement& _evenement = Evenement()) ;
     
     private:
     
       /// Les vues pour lesquelles il faut avertir des changements.
       EnsembleAssociation<Implantation::BaseVue> observateurs ;
-      
-      /// Les constructeurs de vue à appeler lorsqu'on crée un nouveau modèle
-//      static Implantation::BaseVue* (*) const Association<Modele>&) ...
 
     };
     

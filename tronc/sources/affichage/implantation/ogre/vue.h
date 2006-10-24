@@ -43,7 +43,7 @@ namespace ProjetUnivers {
           Base::Association<PointDeVue> AccesPointDeVue() const ;
 
           /// Mise à jour de la vue.
-          virtual void Raffraichir() = 0 ;
+          virtual void Rafraichir(const Base::Evenement&) = 0 ;
     
           /// Destructeur de classe abstraite.    
           virtual ~Vue() ;

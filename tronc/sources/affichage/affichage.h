@@ -88,11 +88,11 @@ namespace ProjetUnivers {
     void ActiverPointDeVue(const Base::Association<PointDeVue>&) ;
     
 
-    /// Raffraichi l'affichage
+    /// Rafraichi l'affichage
     /*!
       Met à jour tout ce qui doit être affiché
     */
-    void Raffraichir() ;
+    void Rafraichir() ;
     
   }
   

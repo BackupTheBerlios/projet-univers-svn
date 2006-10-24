@@ -75,13 +75,14 @@ namespace ProjetUnivers {
         // @{
         
           /// Le modèle a changé, on réactualise la vue.
-          virtual void Raffraichir() ;
+          virtual void Rafraichir(const Base::Evenement&) ;
             
         // @}
         
         private:
           
           /// Le ciel étoilé n'a pas besoin d'être stocké.
+          ::Ogre::Light* lumiere ;
           
         };
       }

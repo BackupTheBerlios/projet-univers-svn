@@ -137,6 +137,7 @@ namespace ProjetUnivers {
                                          ConstructeurVue _constructeur) ;
       
       template <class Modele, class PointDeVue> friend class EnregistrementVue ;
+      friend class Objet ;
     };
     
     /// Indique que ClasseVue est la vue de ClasseModele dans ClassePointDeVue

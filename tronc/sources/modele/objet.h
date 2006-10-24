@@ -100,6 +100,10 @@ namespace ProjetUnivers {
       @name Accès aux Facettes
     */
     // @{
+
+      /// Accès récursif au plus haut conteneur ayant la facette @ T
+      template <class T> Base::Association<T> AccesRacine() const ;
+
       
       /// Accès à la facette T.
       /*!
@@ -194,6 +198,32 @@ namespace ProjetUnivers {
       return facette ;
       
     }
+
+    template <class T> Base::Association<T> Objet::AccesRacine() const
+    {
+      /// T doit être une sous classe de Facette
+      Base::DeriveDe<T,Facette>() ;
+      
+      Base::Association<Objet> iterateur(*this) ;
+      Base::Association<T> facette(*iterateur) ;
+      
+      Base::Association<T> plus_haute_facette_trouvee ;
+      
+      while(facette && iterateur)
+      {
+        plus_haute_facette_trouvee = facette ;
+        
+        iterateur = iterateur->AccesConteneur() ;
+        if (iterateur)
+        {
+          facette = *iterateur ;
+        }
+      }
+      
+      return plus_haute_facette_trouvee ;
+      
+    }
+
 
   } 
   

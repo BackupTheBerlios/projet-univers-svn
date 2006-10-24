@@ -18,19 +18,23 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#include <OgreVector3.h>
 
 #include <base/implantation/liste_valeur.h>
 
 #include <modele/modele.h>
 #include <modele/objet.h>
 #include <modele/positionne.h>
+#include <modele/solide.h>
+#include <modele/systeme_stellaire.h>
 
 #include <action/action.h>
 
+using namespace ProjetUnivers::Modele ;
+using namespace ::Ogre ;
+
 namespace ProjetUnivers {
-  
-  namespace Action 
-  {
+  namespace Action {
 
     Base::Booleen finished ;
 
@@ -64,7 +68,7 @@ namespace ProjetUnivers {
           Modele::Orientation(
             positionne->AccesOrientation().AccesQuaternion() 
             * 
-            Ogre::Quaternion(sqrt(0.5),0,sqrt(0.5),0))) ;
+            Quaternion(Degree(45),Vector3::NEGATIVE_UNIT_X))) ;
             
         
       }
@@ -77,7 +81,7 @@ namespace ProjetUnivers {
           Modele::Orientation(
             positionne->AccesOrientation().AccesQuaternion() 
             * 
-            Ogre::Quaternion(sqrt(0.5),0,-sqrt(0.5),0))) ;
+            Quaternion(Degree(45),Vector3::UNIT_X))) ;
         
       }
       else if (_action.nom == "Droite")
@@ -89,7 +93,7 @@ namespace ProjetUnivers {
           Modele::Orientation(
             positionne->AccesOrientation().AccesQuaternion() 
             * 
-            Ogre::Quaternion(sqrt(0.5),-sqrt(0.5),0,0))) ;
+            Quaternion(Degree(45),Vector3::NEGATIVE_UNIT_Y))) ;
         
       }
       else if (_action.nom == "Gauche")
@@ -101,23 +105,38 @@ namespace ProjetUnivers {
           Modele::Orientation(
             positionne->AccesOrientation().AccesQuaternion() 
             * 
-            Ogre::Quaternion(sqrt(0.5),sqrt(0.5),0,0))) ;
+            Quaternion(Degree(45),Vector3::UNIT_Y))) ;
         
         
       }
       else if (_action.nom == "RegarderVaisseau")
       {
+        /*!
+          @par Etat 
+            planning...
+        */
         Base::Association<Modele::Objet> observateur(Modele::AccesObjet("Observateur")) ;
         Base::Association<Modele::Positionne> observateurPositionne(*observateur) ;
 
         Base::Association<Modele::Objet> vaisseau(Modele::AccesObjet("Vaisseau")) ;
         Base::Association<Modele::Positionne> vaisseauPositionne(*vaisseau) ;
-
-        
         
       }
-      
-      
+      else if (_action.nom == "CreerObjet")
+      {
+        Base::Association<Modele::Objet> observateur(Modele::AccesObjet("Observateur")) ;
+        
+        Base::Association<Modele::Objet> systeme(
+          observateur->AccesParent<Modele::SystemeStellaire>()->AccesObjet()) ;
+        
+        Base::Association<Objet> vaisseau = systeme->Ajouter(new Objet(Nom("Vaisseau2"))) ;
+        vaisseau->Ajouter(new Positionne(Position(Distance(Distance::_Metre, 0),
+                                                  Distance(Distance::_Metre, 500000),
+                                                  Distance(Distance::_Metre, 0)) )) ;
+        
+        vaisseau->Ajouter(new Solide(Modele3D("razor.mesh"))) ;
+        
+      }
     }
     
     

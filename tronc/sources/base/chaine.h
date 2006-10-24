@@ -51,10 +51,10 @@ namespace ProjetUnivers {
     class Chaine {
     public:
     
-      // *************************
-      /// @name Constructeurs
-      // *************************      
-      // @{  
+    // *************************
+    /// @name Constructeurs
+    // *************************      
+    // @{  
 
       Chaine();
      
@@ -83,6 +83,8 @@ namespace ProjetUnivers {
       Chaine(float _val);
 
       Chaine(double _val);
+
+      Chaine(const std::string& _chaine);
 
       friend Chaine operator + (const Chaine& _s1, const Chaine& _s2);
 
@@ -342,6 +344,9 @@ namespace ProjetUnivers {
       : representation(new Implantation::TamponChaine((sprintf(number_buffer, "%g", _val), number_buffer)))
     {}    
     
+    inline Chaine::Chaine(const std::string& _chaine)
+    : representation((_chaine.c_str() != 0) ? new Implantation::TamponChaine(_chaine.c_str()) : Prendre(&chaineVide))
+    {}
     
 
   }

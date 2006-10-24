@@ -17,80 +17,147 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-namespace ProjetUnivers {
+#include <base/iterateur_ensemble_valeur.h>
 
+namespace ProjetUnivers {
   namespace Base {
  
       
-      template <typename VALEUR> 
-      EnsembleValeur<VALEUR>::EnsembleValeur()
-      : Implantation::ListeValeur<VALEUR>()
-      {}
-    
-      /// Constructeur de copie.
-      template <typename VALEUR> 
-      EnsembleValeur<VALEUR>::EnsembleValeur(const EnsembleValeur<VALEUR>& _e)
-      : Implantation::ListeValeur<VALEUR>(_e)
-      {}
-    
-      /// Ajoute un élément à l'ensemble.
-      template <typename VALEUR> 
-      void EnsembleValeur<VALEUR>::Ajouter(const VALEUR& _elt)
-      {
-        if (! this->Contient(_elt))
-        {
-          this->AjouterEnTete(_elt) ;
-        }
-      }
-
-      /// Ajoute des éléments à l'ensemble.
-      template <typename VALEUR> 
-      void EnsembleValeur<VALEUR>::Ajouter(const EnsembleValeur<VALEUR>& _elt)
-      {
-        for(Implantation::IterateurListeValeur<VALEUR> valeur(_elt) ; 
-            valeur.Valide() ;
-            ++valeur)
-        {
-          Ajouter(valeur) ;
-        }
-        
-      }
-    
-      /// Enlève l'élément _el, s'il n'y est pas ne fait rien.
-      template <typename VALEUR> 
-      void EnsembleValeur<VALEUR>::Enlever(const VALEUR& _el)
-      {
-        EntierPositif position(Position(_el)) ;
-        
-        if (position != 0)
-        {
-          Implantation::ListeValeur<VALEUR>::Enlever(position) ;
-        }
-      }
-    
-    
-      // @}
-      // *************************
-      /// @name Consultation
-      // *************************      
-      // @{      
-    
-    
-      /// Determine si _el fait partie de l'ensemble.
-      template <typename VALEUR> 
-      Booleen EnsembleValeur<VALEUR>::Contient(const VALEUR& _el) const
-      {
-        return (this->Position(_el) != 0) ;
-      }
-    
-      /// Egalité de deux ensembles.
-      template <typename VALEUR> 
-      Booleen EnsembleValeur<VALEUR>::operator==(const EnsembleValeur<VALEUR>& _r) const 
-      {
-      
-      
-      }
+    template <typename Valeur> 
+    EnsembleValeur<Valeur>::EnsembleValeur()
+    : tampon(new Implantation::TamponEnsembleValeur<Valeur>())
+    {}
   
+    /// Constructeur de copie.
+    template <typename Valeur> 
+    EnsembleValeur<Valeur>::EnsembleValeur(const EnsembleValeur<Valeur>& _e)
+    : tampon(_e.tampon->Prendre())
+    {}
+
+    template <typename Valeur> 
+    void EnsembleValeur<Valeur>::Vider()
+    {
+      if (tampon->Laisser())
+        delete tampon ;
+        
+      tampon = new Implantation::TamponEnsembleValeur<Valeur>() ;
+      
+    }
+    
+    /// Ajoute un élément à l'ensemble.
+    template <typename Valeur> 
+    void EnsembleValeur<Valeur>::Ajouter(const Valeur& _elt)
+    {
+      if (tampon->nombreDeReferences == 1)
+      {
+        if (! Contient(_elt))
+        {
+          tampon->ensemble.push_back(_elt) ;
+        }
+      }
+      else
+      {
+
+        if (! Contient(_elt))
+        {
+          Implantation::TamponEnsembleValeur<Valeur>* nouveauTampon 
+             = new Implantation::TamponEnsembleValeur<Valeur>(*tampon) ;
+
+          if (tampon->Laisser())
+            delete tampon ;
+          
+          tampon = nouveauTampon ;
+
+          tampon->ensemble.push_back(_elt) ;
+        }      
+      }
+    }
+
+    /// Ajoute des éléments à l'ensemble.
+    template <typename Valeur> 
+    void EnsembleValeur<Valeur>::Ajouter(const EnsembleValeur<Valeur>& _elt)
+    {
+      for(IterateurEnsembleValeur<Valeur> valeur(_elt) ; 
+          valeur.Valide() ;
+          ++valeur)
+      {
+        Ajouter(valeur) ;
+      }
+      
+    }
+  
+    /// Enlève l'élément _el, s'il n'y est pas ne fait rien.
+    template <typename Valeur> 
+    void EnsembleValeur<Valeur>::Enlever(const Valeur& _el)
+    {
+      typename std::vector<Valeur>::iterator position ;
+      bool trouve = false ;
+      for(typename std::vector<Valeur>::iterator i = tampon->ensemble.begin() ; 
+          !trouve && i != tampon->ensemble.end() ;
+          ++i)
+      {
+        if (*i == _el)
+        {
+          trouve = true ;
+          position = i ;
+        }
+      }    
+     
+      if (trouve)
+      {
+        if (tampon->nombreDeReferences != 1) 
+        {
+          Implantation::TamponEnsembleValeur<Valeur>* nouveauTampon 
+             = new Implantation::TamponEnsembleValeur<Valeur>(*tampon) ;
+
+          if (tampon->Laisser())
+            delete tampon ;
+          
+          tampon = nouveauTampon ;
+
+        }
+
+        tampon->ensemble.erase(position) ;
+      }
+    }
+  
+  
+    // @}
+    // *************************
+    /// @name Consultation
+    // *************************      
+    // @{      
+  
+  
+    /// Determine si _el fait partie de l'ensemble.
+    template <typename Valeur> 
+    Booleen EnsembleValeur<Valeur>::Contient(const Valeur& _el) const
+    {
+      
+      for(typename std::vector<Valeur>::iterator i = tampon->ensemble.begin() ; 
+      i != tampon->ensemble.end() ;
+          ++i)
+      {
+        if (*i == _el)
+          return VRAI ;
+      }    
+      return FAUX ;    
+    }
+  
+    /// Egalité de deux ensembles.
+    template <typename Valeur> 
+    Booleen EnsembleValeur<Valeur>::operator==(const EnsembleValeur<Valeur>& _r) const 
+    {
+      return tampon->ensemble == _r.tampon->ensemble ;
+    }
+  
+    template <typename Valeur> 
+    EntierPositif 
+    EnsembleValeur<Valeur>::
+    NombreDElements() const 
+    {
+      return tampon->ensemble.size() ;
+    }
  
   }
 }

@@ -69,7 +69,7 @@ namespace ProjetUnivers {
           @par Etat
             stub vide
           */
-          void Raffraichir() ;
+          void Rafraichir(const Base::Evenement&) ;
 
 
         // @}

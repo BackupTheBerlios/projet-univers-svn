@@ -23,14 +23,15 @@
 
 
 #include <base/association.h>
+#include <base/evenement.h>
 #include <base/types.h>
 
 
 namespace ProjetUnivers {
-
   namespace Base {
     
     class PointDeVue ;
+    class Modele ;
     
     namespace Implantation {
 
@@ -38,14 +39,14 @@ namespace ProjetUnivers {
       /*!
         @todo
           Choisir quoi faire lorsqu'on a oublié d'ajouter la vue à un point de 
-          vue; pour l'instant la vue n'est pas raffraichie.
+          vue; pour l'instant la vue n'est pas rafraichie.
       */
       class BaseVue
       {
       public:
 
         /// Mise à jour.
-        virtual void Raffraichir() = 0 ;
+        virtual void Rafraichir(const Evenement& _evenement) = 0 ;
 
 
       /*!
@@ -53,8 +54,8 @@ namespace ProjetUnivers {
       */
       // @{
 
-        /// Marque la vue comme devant être raffraichie au prochain tour.
-        void MarquerARaffraichir() ;
+        /// Marque la vue comme devant être rafraichie au prochain tour.
+        void MarquerARafraichir(const Evenement& _evenement) ;
 
         /// Marque la vue comme devant être détruite au prochain tour.
         void MarquerADetruire() ;
@@ -69,6 +70,9 @@ namespace ProjetUnivers {
       
         /// Constructeur de classe abstraite.
         BaseVue() ;
+
+        /// Efface la relation vers modèle
+        virtual void DetacherDeModele() = 0 ;
         
         /// Les vues sont groupées au sein d'un point de vue
         Association<PointDeVue> pointDeVue ;
@@ -77,7 +81,7 @@ namespace ProjetUnivers {
           Chemin complet pour gcc 4
         */
         friend class ::ProjetUnivers::Base::PointDeVue ;
-         
+        friend class ::ProjetUnivers::Base::Modele ;
       };
     }    
   }

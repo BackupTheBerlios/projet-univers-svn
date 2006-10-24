@@ -49,20 +49,21 @@ namespace ProjetUnivers {
           ++vue)
       {
         vue->MarquerADetruire() ;
-      }  
+        vue->DetacherDeModele() ;
+      }
       
     }
     
     Modele::Modele()
     {}
 
-    void Modele::Notifier()
+    void Modele::Notifier(const Evenement& _evenement)
     {
       for(IterateurEnsembleAssociation<Implantation::BaseVue> vue(observateurs) ;
           vue.Valide() ;
           ++vue)
       {
-        vue->MarquerARaffraichir() ;
+        vue->MarquerARafraichir(_evenement) ;
       }  
     }
     

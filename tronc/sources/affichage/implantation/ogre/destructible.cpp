@@ -44,7 +44,7 @@ namespace ProjetUnivers {
         }
       
         /// Mise à jour.
-        void Destructible::Raffraichir()
+        void Destructible::Rafraichir(const Base::Evenement&)
         {
         }
         

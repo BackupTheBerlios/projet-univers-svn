@@ -1,5 +1,4 @@
 /***************************************************************************
-/***************************************************************************
  *   Copyright (C) 2004 by Equipe Projet Univers                           *
  *   rogma.boami@free.fr                                                   *
  *                                                                         *
@@ -25,6 +24,8 @@
 #include <base/association.h>
 #include <base/ensemble_composition.h>
 #include <base/ensemble_association.h>
+#include <base/ensemble_valeur.h>
+#include <base/evenement.h>
 #include <base/implantation/base_vue.h>
 
 namespace ProjetUnivers {
@@ -37,7 +38,7 @@ namespace ProjetUnivers {
       Un point de vue est un ensemble de vues. Généralement, toutes ces vues 
       portent sur des modèles reliés les uns aux autres. 
       
-      Ces vues doivent toutes avoir été raffraichies pour que le point de vue 
+      Ces vues doivent toutes avoir été rafraichies pour que le point de vue 
       puisse être affiché. 
       
       @par Exemples 
@@ -77,8 +78,8 @@ namespace ProjetUnivers {
     // @{
 
     
-      /// Raffraichissement du point de vue.
-      void Raffraichir() ;
+      /// Rafraichissement du point de vue.
+      virtual void Rafraichir() ;
 
     
     // @}
@@ -98,7 +99,8 @@ namespace ProjetUnivers {
     // @{
     
       /// Marque _vue comme devant être rafraichie.
-      void PenserARaffraichir(const Association<Implantation::BaseVue> _vue) ;
+      void PenserARafraichir(const Association<Implantation::BaseVue> _vue,
+                              const Evenement& _evenement) ;
     
       /// Marque _vue comme devant être supprimée.
       void PenserADetruire(const Association<Implantation::BaseVue> _vue) ;
@@ -109,11 +111,34 @@ namespace ProjetUnivers {
       EnsembleComposition<Implantation::BaseVue> vues ;
 
       /// Ses vues qui doivent être détruites au prochain tour.
+      /*!
+      @invariant
+        vuesADetruire inclus dans vues
+      */
       EnsembleAssociation<Implantation::BaseVue> vuesADetruire ;
       
-      /// Ses vues qui doivent être raffraichies au prochain tour.
-      EnsembleAssociation<Implantation::BaseVue> vuesARaffraichir ;
       
+      struct Rafraichissement
+      {
+        Rafraichissement(const Association<Implantation::BaseVue>& _vue,
+                         const Evenement& _evenement)
+        : vue(_vue), evenement(_evenement)
+        {}
+
+        bool operator==(const Rafraichissement& _r) const
+        {
+          return vue == _r.vue && evenement == _r.evenement ;
+        }
+          
+        Association<Implantation::BaseVue> vue ;
+        Evenement evenement ;
+      };
+      
+      /// Les rafraichissements à effectuer au prochain tour.
+      /*!
+        N'importe quelles des vues cosntituant récursivement ce point de vue.
+      */
+      EnsembleValeur<Rafraichissement> rafraichissements ;
       
       friend class Implantation::BaseVue ;
       

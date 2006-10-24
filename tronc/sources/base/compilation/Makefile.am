@@ -12,6 +12,7 @@ $(SOURCES)/base/implantation/composition.cpp \
 $(SOURCES)/base/implantation/ensemble_association.cpp \
 $(SOURCES)/base/implantation/ensemble_composition.cpp \
 $(SOURCES)/base/implantation/ensemble_valeur.cpp \
+$(SOURCES)/base/implantation/evenement.cpp \
 $(SOURCES)/base/implantation/exception_base.cpp \
 $(SOURCES)/base/implantation/exception.cpp \
 $(SOURCES)/base/implantation/fonction_association_objet_objet.cpp \

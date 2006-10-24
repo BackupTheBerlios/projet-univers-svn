@@ -58,7 +58,7 @@ namespace ProjetUnivers {
       virtual void Terminer() ;
 
       /// Mise à jour de la vue.
-      virtual void Raffraichir() ;
+      virtual void Rafraichir(const Base::Evenement&) ;
 
       /// Ajoute une vue comme contenu
       /*!
@@ -89,7 +89,8 @@ namespace ProjetUnivers {
       /// Accès récursif au premier conteneur ayant la facette @ T
       template <class T> Base::Association<T> AccesParent() const ;
   
-  
+      Base::Association<PointDeVue> AccesPointDeVue() const ;
+
     // @}
 
 

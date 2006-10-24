@@ -74,7 +74,7 @@ namespace ProjetUnivers {
           Modele::Observateur ne contient pour l'instant aucune donnée 
           susceptible de changer
           */
-          void Raffraichir() ;
+          void Rafraichir(const Base::Evenement&) ;
 
 
         // @}

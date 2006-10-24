@@ -35,14 +35,14 @@ namespace ProjetUnivers {
     /*!
     @par Utilisation
 
-      Dériver de cette classe et implanter Raffraichir.
+      Dériver de cette classe et implanter Rafraichir.
            
     @par Fonctionnement
     
       Une Vue sur un modèle est notifiée des changements apparus sur ce 
       modèle. 
       La notification est effectuée globalement lorsque le PointDeVue 
-      contenant cette Vue est raffraichi.
+      contenant cette Vue est rafraichi.
     
     @pre
       Modele doit être une sous classe de ProjetUnivers::Base::Modele
@@ -53,7 +53,7 @@ namespace ProjetUnivers {
     public:
     
       /// Mise à jour.
-      virtual void Raffraichir() = 0 ;
+      virtual void Rafraichir(const Evenement& _evenement) = 0 ;
     
       /// Destructeur de classe abstraite.
       virtual ~Vue() ;
@@ -63,6 +63,9 @@ namespace ProjetUnivers {
       /// Constructeur de classe abstraite.
       Vue(const Association<Modele>& _modele) ;
     
+      /// Efface la relation vers modèle
+      virtual void DetacherDeModele() ;
+      
       /// Ce que la vue voit.
       Association<Modele> observe ;
     };

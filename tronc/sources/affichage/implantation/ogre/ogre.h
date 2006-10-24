@@ -65,14 +65,14 @@ namespace ProjetUnivers {
                            int& top );
 
         
-        /// Raffraichissement de l'affichage.
+        /// Rafraichissement de l'affichage.
         /*!
           Met à jour tout ce qui doit être affiché
 
           @todo
             Changer le nom en "Afficher"
         */
-        void Raffraichir() ;
+        void Rafraichir() ;
         
         /*!
           @name Variables Locales

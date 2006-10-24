@@ -57,7 +57,7 @@ namespace ProjetUnivers {
       /// On enregistre l'objet dans le modèle
       Enregistrer(resultat) ;
       
-      this->Notifier() ;
+      this->Notifier(Base::Evenement(Base::Evenement::Ajout,"fils",resultat)) ;
       
       return resultat ;
     }
@@ -95,7 +95,7 @@ namespace ProjetUnivers {
 
     void Objet::Ajouter(Facette* _facette)
     {
-      Base::Traceur::MessageInterne("Objet::Ajouter#1") ;
+      Base::Traceur::MessageInterne("Modele::Objet::Ajouter(Facette)#1") ;
       Base::Composition<Facette> temporaire(_facette) ;
 
       /// erreur si l'objet a déjà une facette de ce type là
@@ -110,7 +110,7 @@ namespace ProjetUnivers {
       /// on range les facettes en fonction de leur classe
       facettes.Ajouter(typeid(*_facette).name(), temporaire.Liberer()) ;
 
-      Base::Traceur::MessageInterne("Objet::Ajouter#3") ;
+      Base::Traceur::MessageInterne("Modele::Objet::Ajouter(facette)#3") ;
       
       this->Notifier() ;
     }

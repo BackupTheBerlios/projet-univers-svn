@@ -41,6 +41,11 @@ namespace ProjetUnivers {
     {
       observe->EnleverVue(*this) ;
     }
+    template <class Modele> 
+    void Vue<Modele>::DetacherDeModele()
+    {
+      observe = Association<Modele>() ;
+    }
 
     
     
