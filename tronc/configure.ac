@@ -137,9 +137,6 @@ AC_CONFIG_FILES([Makefile \
                  sources/affichage/Makefile \
                  sources/affichage/compilation/Makefile \
                  sources/affichage/compilation/ogre/Makefile \
-                 sources/outils/Makefile \
-                 sources/outils/compilateur/Makefile \
-                 sources/outils/compilateur/compilation/Makefile \
                  sources/demonstration/Makefile \
                  sources/demonstration/compilation/Makefile \
                  sources/entrees/Makefile \
