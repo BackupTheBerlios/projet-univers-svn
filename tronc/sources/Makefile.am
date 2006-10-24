@@ -2,7 +2,7 @@ SUBDIRS = \
 base \
 modele \
 affichage \
-entrees \
 action \
+entrees \
 demonstration 
 	
