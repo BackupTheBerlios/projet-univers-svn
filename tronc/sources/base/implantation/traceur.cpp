@@ -25,7 +25,6 @@
 #include <rlog/RLogChannel.h>
 
 #include <base/composition.h>
-#include <outils/compilateur/traceur.h>
 
 namespace ProjetUnivers {
 
