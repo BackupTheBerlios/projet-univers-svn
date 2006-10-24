@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN"
+"http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd">
+<article lang="Français">
+  <title>Architecture Globale</title>
+
+  <articleinfo>
+    <orgname>Équipe Projet Univers</orgname>
+
+    <author>
+      <personname>
+        <firstname>Raphaël</firstname>
+
+        <surname>Davaillaud</surname>
+      </personname>
+
+      <email>drahpal@free.fr</email>
+    </author>
+
+    <author>
+      <personname>
+        <firstname>Mathieu</firstname>
+
+        <surname>Roger</surname>
+      </personname>
+
+      <email>rogma.boami@free.fr</email>
+    </author>
+
+    <revhistory>
+      <revision>
+        <revnumber>0.1</revnumber>
+
+        <date>03 septembre 2004</date>
+
+        <revdescription>
+          <para>Création initiale</para>
+        </revdescription>
+      </revision>
+
+      <revision>
+        <revnumber>0.2</revnumber>
+
+        <date>27 novembre 2004</date>
+
+        <revdescription>
+          <para>Les noms anglais deviennent français.</para>
+        </revdescription>
+      </revision>
+
+      <revision>
+        <revnumber>0.3</revnumber>
+
+        <date>30 mars 2005</date>
+
+        <revdescription>
+          <para>changements pour tenir compte de la réalité et descritpion en
+          terme de modèle vue controleur</para>
+        </revdescription>
+      </revision>
+    </revhistory>
+
+    <legalnotice>
+      <para>Ce document est sous licence <ulink
+      url="http://www.gnu.org/copyleft/fdl.html">GNU Free Documentation
+      License</ulink></para>
+    </legalnotice>
+  </articleinfo>
+
+  <section>
+    <title>Introduction</title>
+
+    <para>Ce document décrit l'architecture globale du moteur du jeu.</para>
+
+    <section>
+      <title>Différentes approches</title>
+
+      <para></para>
+    </section>
+  </section>
+
+  <section>
+    <title>Architecture</title>
+
+    <para>Le moteur est séparé en différents modules comme suit :</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>BASE</para>
+
+        <para>Module de classes génériques utilisées dans le projet. C'est une
+        sorte de librairie de templates standards : les ensembles, les
+        fonctions, la composition, la gestion des modules d'extension.</para>
+      </listitem>
+
+      <listitem>
+        <para>NOYAU</para>
+
+        <para>Module principal du moteur, contient le cadre applicatif</para>
+      </listitem>
+
+      <listitem>
+        <para>MODELE</para>
+
+        <para>Contient la description concetpuelle des objets de
+        l'univers.</para>
+      </listitem>
+
+      <listitem>
+        <para>ENTRÉE</para>
+
+        <para>Module des entrées, clavier, souris et joystick...</para>
+      </listitem>
+
+      <listitem>
+        <para>AFFICHAGE</para>
+
+        <para>Module d'affichage, gère l'affichage 3D et 2D</para>
+
+        <remark>c'est une vue sur MODELE</remark>
+      </listitem>
+
+      <listitem>
+        <para>RÉSEAU</para>
+
+        <para>Module gérant la communication réseau</para>
+
+        <remark>c'est une vue sur MODELE et aussi une ENTRÉE</remark>
+      </listitem>
+
+      <listitem>
+        <para>SON</para>
+
+        <para>Module de son et de musique</para>
+
+        <remark>c'est une vue sur MODELE</remark>
+      </listitem>
+
+      <listitem>
+        <para>IA</para>
+
+        <para>Module d'intelligence artificielle</para>
+      </listitem>
+
+      <listitem>
+        <para>ACTION</para>
+
+        <para>Module qui gère les changements d'état de MODELE.</para>
+      </listitem>
+    </itemizedlist>
+  </section>
+
+  <section>
+    <title>Description des modules</title>
+
+    <section>
+      <title>NOYAU, le noyau</title>
+
+      <para>Il comporte le strict nécessaire au fonctionnement du jeu, il n'y
+      a ni affichage, ni son, ni action de joueur, ni mission, juste le jeu en
+      lui même.</para>
+
+      <para>Ce module comprend :</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>la définition du cadre Modèle, Vue, Contrôle (MVC).</para>
+        </listitem>
+      </itemizedlist>
+    </section>
+
+    <section>
+      <title>MODELE, l'univers du jeu</title>
+
+      <para>Ce modèle sert à décrire les états du monde du jeu. Il s'agit
+      d'une photographie instantanée du monde, ne contenant que les données
+      fondamentales (par exemple, aucune données spécifiques à
+      l'affichage).</para>
+
+      <example>
+        <title>Un exemple d'état</title>
+
+        <para>Un état du monde peut être constitué des informations suivantes
+        :</para>
+
+        <para>quels sont les vaisseaux existants, de quels composants sont ils
+        faits, combien de dégats chaque composant à-t-il reçu etc...</para>
+      </example>
+
+      <para>Le module ACTION sera responsable, pendant l'exécution du jeu, de
+      changer d'état en modifiant les données de MODELE.</para>
+
+      <example>
+        <title>Un changement d'état</title>
+
+        <para>Le monde est dans un état où le vaisseau A est placé aux
+        coordonnées (X,Y,Z). Certaines actions sont réalisées et modifient ces
+        coordonées, dans l'état "après la réalisation de ces actions", le même
+        vaisseau A est placé aux coordonnées (X+dx, Y+dy, Z+dz) : il a
+        visiblement bougé.</para>
+      </example>
+    </section>
+
+    <section>
+      <title>ENTRÉE, les entrées utilisateur</title>
+
+      <para>Ce module gère les entrées utilisateur et envoi les informations
+      au module NOYAU pour action.</para>
+
+      <para>Sa communication avec le NOYAU ne se résume pas à passer la touche
+      pressée ou le mouvement du joystick, mais plutôt d'envoyer une
+      information de type action, par exemple : "demande d'accélération",
+      "affichage de la console" ou encore "envoi d'une communication".</para>
+
+      <para>Ce module doit donc pouvoir être configuré par le NOYAU pour lui
+      affecter les entrées correspondantes à ces actions. Cette configuration
+      serait multi-mode, un mode console, un mode menu, un mode vol, etc...
+      chaque mode aura une grille de correspondance entrée/action.</para>
+    </section>
+
+    <section>
+      <title>AFFICHAGE, l'affichage</title>
+
+      <para>Il se charge uniquement de l'affichage d'un état de NOYAU.</para>
+
+      <para>Le module AFFICHAGE ne fait que lire les informations du NOYAU, il
+      n'agit pas sur elles. Plus précisément le NOYAU dispose d'objets pouvant
+      être affichés ( <foreignphrase
+      lang="anglais">Renderable</foreignphrase>) et d'autres non (
+      <foreignphrase lang="anglais"> Non-Renderable</foreignphrase>).</para>
+
+      <para>Les objets pouvant être affichés posséderont des propriétés
+      obligatoires telle que la source (généralement un mesh) et sa position
+      dans l'espace local d'affichage (ceci pour la phase de jeu). Le module
+      AFFICHAGE va lire ces informations et les traduire en informations
+      graphique et les afficher sur l'écran.</para>
+
+      <para>Il y a aussi d'autres type d'objet pouvant être affichés
+      représentant des informations abstraites, par exemple, un menu, le
+      résumé de l'état d'un vaisseau, la notification d'une communication ou
+      tout autre élément visuel.</para>
+    </section>
+
+    <section>
+      <title>RÉSEAU, la communication réseau</title>
+
+      <para>Il se charge de la gestion du jeu en réseau.</para>
+
+      <para>Il interagit avec NOYAU pour permettre de partager les
+      informations sur un réseau.</para>
+    </section>
+
+    <section>
+      <title>SON, l'audio</title>
+
+      <para>De la même manière que le module AFFICHAGE, il ne fait que lire
+      des informations du NOYAU pour diffuser du son.</para>
+
+      <para>Il s'occupe également de la diffusion des musiques d'ambiance, par
+      exemple de la lecture de fichier audio ou de CD audio</para>
+    </section>
+
+    <section>
+      <title>IA, l'intelligence artificielle</title>
+
+      <para>Ce module est similaire au module ENTRÉE dans la mesure où il est
+      sensé commander des objets de NOYAU en y envoyant des informations. La
+      différence réside dans le fait qu'il reçoit également des informations
+      sur l'état de NOYAU pour remplacer le fait qu'un utilisateur le voit
+      directement à l'écran.</para>
+    </section>
+
+    <section>
+      <title>ACTION, le passage d'un état à un autre</title>
+
+      <para>Ce module gère la manière dont les objets de NOYAU vont réagir aux
+      informations fournies par ENTRÉE et IA.</para>
+
+      <para>Il doit donc gérer les effets gravitationnels, atmosphérique, les
+      phénomènes d'inertie, de voile (noir/rouge) et les collisions.</para>
+
+      <para>C'est un Controle sur MODELE.</para>
+    </section>
+  </section>
+
+  <section>
+    <title>Module et implémentation</title>
+
+    <para>Le module NOYAU est le module central du moteur, celui là ne peut
+    être remplacé, alors que les autres peuvent avoir des implémentations
+    différentes.</para>
+
+    <para>Par exemple, le module AFFICHAGE peut très bien être une
+    implémentation utilisant le moteur Ogre3D ou une autre implémentation
+    utilisant Irlich. Ces 2 implémentations seront valides à partir du moment
+    où elles respectent l'interface standard du module AFFICHAGE.</para>
+
+    <para>Chaque module possède donc une interface standard que chaque
+    implémentation doit respecter afin que NOYAU puisse communiquer.</para>
+
+    <remark>Il se peut toutefois qu'un module ait besoin de communiquer
+    directement avec un autre sans passer par le NOYAU, pour cela, les modules
+    peuvent disposer d'autres interfaces.</remark>
+  </section>
+
+  <section>
+    <title>Réalisation technique</title>
+
+    <para>Au final, le plus intéressant serait que chaque module (sauf NOYAU)
+    soit une librairie dynamique (DLL pour Windows, DSO pour Linux), qui
+    serait chargée par les exécutables.</para>
+
+    <para>L'utilisateur pourrait choisir à loisir les implémentations suivant
+    sa configuration ou ses propres goûts. Cela permet à d'autres de
+    développer des implémentations offrant d'autres possibilités.</para>
+
+    <para>Mais dans un premier temps, tout les modules seront dans un seul
+    exécutable, la séparation modulaire se fera par le biais de l'utilisation
+    de <foreignphrase lang="english"> namespaces</foreignphrase> distinct
+    reprenant le nom du module. Sans oublier d'utiliser les interfaces
+    standard.</para>
+  </section>
+</article>

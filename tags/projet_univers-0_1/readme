@@ -1,0 +1,34 @@
+ProjetUnivers
+
+Dépendances 
+
+La version actuelle dépend des modules suivants 
+
+  - Ogre 3d (www.ogre3d.org)
+  - OIS (http://www.wreckedgames.com/wiki/index.php/WreckedLibs:OIS)
+  - CppUnit (http://sourceforge.net/projects/cppunit)
+  - RLog (http://arg0.net/wiki/rlog)
+
+Installation
+
+Sous linux : 
+
+  ./reconf
+  ./configure
+  make
+  make install
+  
+Sous windows
+  todo
+
+Fichiers
+- doxygen.Doxyfile :fichier de configuration poru doxygen
+- sources : répertoires des sources 
+- sources/action : modules des actions effectuées sur  modele
+- sources/affichage : module d'affichage 2D/3D
+- sources/base : module de types de base (listes et autres)
+- sources/demonstration : programme de demonstration
+- sources/entrees : module de récupération des entrées (clavier et 
+	autres)
+- sources/modele :
+- sources/outils :
