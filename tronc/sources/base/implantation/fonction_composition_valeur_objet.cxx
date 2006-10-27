@@ -105,6 +105,16 @@ namespace ProjetUnivers {
     {
       return fonction == _right.fonction ;      
     }
+
+    template <typename Valeur, class Objet > 
+    Objet* 
+    FonctionCompositionValeurObjet<Valeur,Objet>::
+    Enlever(const Valeur& _element)
+    {
+      Objet* result = this->fonction[_element] ;
+      this->fonction[_element] = NULL ;
+      return result ;
+    }
     
   }
 }

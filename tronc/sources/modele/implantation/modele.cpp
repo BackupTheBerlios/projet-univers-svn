@@ -195,6 +195,17 @@ namespace ProjetUnivers {
             
     }
 
+    void Enlever(const Base::Association<Objet>& _objet)
+    {
+      if (_objet->AccesConteneur())
+      {
+        _objet->AccesConteneur()->Enlever(_objet) ;
+      }
+      else
+      {
+        objets.Enlever(_objet) ;
+      }
+    }
     
   }
 }

@@ -39,7 +39,10 @@ namespace ProjetUnivers {
     template <class Modele> 
     Vue<Modele>::~Vue()
     {
-      observe->EnleverVue(*this) ;
+      if (observe)
+      {
+        observe->EnleverVue(*this) ;
+      }
     }
     template <class Modele> 
     void Vue<Modele>::DetacherDeModele()

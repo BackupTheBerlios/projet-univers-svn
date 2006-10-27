@@ -68,8 +68,15 @@ namespace ProjetUnivers {
       Base::Association<Objet> Ajouter(Objet* _contenu) ;
       
       /// Ajoute une facette.      
-      Base::Association<Objet> Ajouter(Facette* _facette) ;
+      Base::Association<Facette> Ajouter(Facette* _facette) ;
       
+      /// Enleve et détruit un objet.      
+      void Enlever(const Base::Association<Objet>& _objet) ;
+      
+      /// Enleve et détruit une facette.      
+      void Enlever(const Base::Association<Facette>& _facette) ;
+
+
 
     // @}
     /*!

@@ -68,6 +68,11 @@ namespace ProjetUnivers {
           Action::Ajouter("CreerObjet") ;
           break ;
 
+        case OIS::KC_D:
+          Action::Ajouter("DetruireObjet") ;
+          break ;
+
+
 
         default:
           break ;

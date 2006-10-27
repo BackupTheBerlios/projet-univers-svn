@@ -31,16 +31,18 @@
 #include <base/chaine.h>
 
 
-#include <affichage/objet.h>
-
 namespace ProjetUnivers {
 
   namespace Modele { 
     class Objet ;
+    class Facette ;
   }
 
   namespace Affichage {
 
+    class Objet ;
+    class Facette ;
+    
     /// Type des fonction de construction de facette.
     typedef 
     boost::function1<Facette*, const Base::Association<Modele::Facette>&>
@@ -73,6 +75,10 @@ namespace ProjetUnivers {
 
       /// Termine le point de vue
       virtual void Terminer() = 0 ;
+
+      /// Demande au point de vue de détruire la vue.
+      virtual void Detruire
+        (const Base::Association<Base::Implantation::BaseVue>&) ;
 
       /// La vue de l'observateur.
       Base::Association<Objet> AccesVueObservateur() const ;

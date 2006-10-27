@@ -62,6 +62,10 @@ namespace ProjetUnivers {
       return resultat ;
     }
 
+    void Objet::Enlever(const Base::Association<Objet>& _objet)
+    {
+      this->contenu.Enlever(_objet) ;
+    }
 
     Base::Chaine Objet::AfficherReference() const
     {

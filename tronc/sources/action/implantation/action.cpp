@@ -21,6 +21,7 @@
 #include <OgreVector3.h>
 
 #include <base/implantation/liste_valeur.h>
+#include <base/traceur.h>
 
 #include <modele/modele.h>
 #include <modele/objet.h>
@@ -136,6 +137,12 @@ namespace ProjetUnivers {
         
         vaisseau->Ajouter(new Solide(Modele3D("razor.mesh"))) ;
         
+      }
+      else if (_action.nom == "DetruireObjet")
+      {
+        Base::Association<Modele::Objet> vaisseau(Modele::AccesObjet("Vaisseau2")) ;
+        Base::Traceur::MessageInterne("perparing to destroy object") ;
+        Modele::Enlever(vaisseau) ;
       }
     }
     

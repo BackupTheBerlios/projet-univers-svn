@@ -40,6 +40,5 @@ test_modele_LDADD = \
 libmodele.la \
 ../../base/compilation/libbase.la \
 $(OIS_LIBS) \
-$(librlog_LIBS) \
--l$(BOOST_SIGNALS_LIB)
+$(librlog_LIBS) 
 

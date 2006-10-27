@@ -91,25 +91,17 @@ namespace ProjetUnivers {
             {
               throw Exception("initialisation of ogre failed") ;
             }
-
             Base::Traceur::MessageInterne("Built scene manager") ;
   
             /// Initialise la racine.
-            /// la ligne suivante fait peter une segmentation fault !!
-            
             this->univers = this->vueObservateur->AccesParent<Univers>()->AccesObjet() ;
-            
             Base::Traceur::MessageInterne("got universe") ;
-
-            
             VerifieCondition(this->univers,
                              Exception("pas d'univers pour le point de vue")) ;
 
             Base::Traceur::MessageInterne("Going to initialise Univers") ;
-
             this->univers->Initialiser() ;
 
-            
             initialise = Base::VRAI ;
           }
           Base::Traceur::MessageInterne("Leaving PointDeVue::Initialiser") ;

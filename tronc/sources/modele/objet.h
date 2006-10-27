@@ -65,6 +65,9 @@ namespace ProjetUnivers {
       */
       Base::Association<Objet> Ajouter(Objet* _contenu) ;
 
+      /// Supprime un objet.
+      void Enlever(const Base::Association<Objet>&) ;
+
     // @}
     /*!
       @name Affichage

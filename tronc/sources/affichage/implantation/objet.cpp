@@ -125,9 +125,11 @@ namespace ProjetUnivers {
           this->contenu.Ajouter(_contenu) ;
           return *_contenu ;
         }
+        
+        return Base::Association<Objet>() ;
       }
     
-      Base::Association<Objet> Objet::Ajouter(Facette* _facette)
+      Base::Association<Facette> Objet::Ajouter(Facette* _facette)
       {
         /// Composition temporaire pour détruire l'objet au cas où.
         Base::Composition<Facette> temporaire(_facette) ;
@@ -138,6 +140,8 @@ namespace ProjetUnivers {
                          Base::Association<Facette>(), 
                          Exception("facette déjà existante")) ;
         
+        Base::Traceur::MessageInterne(Base::Chaine("registering facette ") + 
+            typeid(*_facette).name()) ;
         
         _facette->objet = *this ;
         _facette->pointDeVue = this->pointDeVue ;
@@ -146,7 +150,26 @@ namespace ProjetUnivers {
         
         /// on range les facettes en fonction de leur classe
         facettes.Ajouter(typeid(*_facette).name(), temporaire.Liberer()) ;
+        
+        return *_facette ;
       }
+      
+      void Objet::Enlever(const Base::Association<Objet>& _objet)
+      {
+        this->contenu.Enlever(_objet) ;
+      }
+      
+      void Objet::Enlever(const Base::Association<Facette>& _facette)
+      {
+        Base::Traceur::MessageInterne(typeid(*_facette).name()) ;
+        
+        _facette->Terminer() ;
+        this->ensembleFacettes.Enlever(_facette) ;
+        Facette* element = this->facettes.Enlever(typeid(*_facette).name()) ;
+        delete element ;
+      }
+      
+ 
  
       /// Acces au conteneur de la vue
       Base::Association<Objet> Objet::AccesConteneur() const

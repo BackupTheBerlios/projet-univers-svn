@@ -21,6 +21,8 @@
 #ifndef _PU_BASE_POINT_DE_VUE_H_
 #define _PU_BASE_POINT_DE_VUE_H_
 
+#include <vector>
+
 #include <base/association.h>
 #include <base/ensemble_composition.h>
 #include <base/ensemble_association.h>
@@ -81,6 +83,8 @@ namespace ProjetUnivers {
       /// Rafraichissement du point de vue.
       virtual void Rafraichir() ;
 
+      /// Demande au point de vue de détruire la vue.
+      virtual void Detruire(const Association<Implantation::BaseVue>&) ;
     
     // @}
       
@@ -88,6 +92,11 @@ namespace ProjetUnivers {
       virtual ~PointDeVue()
       {}
 
+    protected:
+    
+      /// Les vues constituant ce point de vue.
+      EnsembleComposition<Implantation::BaseVue> vues ;
+    
       
     private:
 
@@ -106,16 +115,18 @@ namespace ProjetUnivers {
       void PenserADetruire(const Association<Implantation::BaseVue> _vue) ;
       
     //@}
-    
-      /// Les vues constituant ce point de vue.
-      EnsembleComposition<Implantation::BaseVue> vues ;
 
-      /// Ses vues qui doivent être détruites au prochain tour.
+      /// Les vues qui doivent être détruites au prochain tour.
       /*!
-      @invariant
-        vuesADetruire inclus dans vues
+      C'est une collection 
+      -# ordonnée (car l'ordre est important pour la destruction) en effet on 
+         suppose que l'ordre de destruction des objets du modèle respecte la 
+         composition (ce qui est le cas).
+      -# pour le reste, il serait plus judicieux de mettre un vecteur sans 
+         désalocation (pour ne pas réallouer l'espace alloué) étant donné que 
+         le nombre d'objets à détruire sera en pratique "borné".
       */
-      EnsembleAssociation<Implantation::BaseVue> vuesADetruire ;
+      std::vector<Implantation::BaseVue*> vuesADetruire ;
       
       
       struct Rafraichissement

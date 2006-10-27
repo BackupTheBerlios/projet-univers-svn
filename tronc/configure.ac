@@ -1,23 +1,12 @@
 AC_PREREQ(2.50)
 
 # Version
-AC_INIT([ProjetUnivers], 0.1.0)
+AC_INIT([ProjetUnivers], 0.2.0)
 AC_CONFIG_SRCDIR([sources/demonstration/demonstration.cpp])
 AM_CONFIG_HEADER(sources/config.h)
-AM_INIT_AUTOMAKE([ProjetUnivers], 0.1.0)
+AM_INIT_AUTOMAKE([ProjetUnivers], 0.2.0)
 AC_PROG_LIBTOOL
 AM_PROG_LIBTOOL
-
-
-################
-# Defines
-################
-
-
-# le code des templates doit être inclus
-# obsolete ?
-AC_DEFINE(_INC_TEMP_CODE_, 1, \ 
-	[Mis si le code des templates doit être inclus dans les spécifications])
 
 
 #############################################
@@ -87,8 +76,6 @@ AC_SUBST(OGRE_LIBS)
 
 # vérifie la présence de boost signals et de serialization (shared_ptr)
 AX_BOOST_BASE
-AX_BOOST_SIGNALS
-AX_BOOST_SERIALIZATION
 
 # vérifie la présence de OIS
 PKG_CHECK_MODULES(OIS, [OIS >= 0.7])

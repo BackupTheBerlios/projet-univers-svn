@@ -88,6 +88,8 @@ namespace ProjetUnivers {
     /// Enregistre un objet dans le gestionnaire.
     Base::Association<Objet> Enregistrer(const Base::Association<Objet>&) ;
 
+    /// Supprime un objet.
+    void Enlever(const Base::Association<Objet>&) ;
 
 
   //@}

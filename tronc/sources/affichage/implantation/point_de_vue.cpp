@@ -24,6 +24,8 @@
 #include <modele/objet.h>
 #include <modele/positionne.h>
 
+#include <affichage/exception.h>
+#include <affichage/objet.h>
 #include <affichage/point_de_vue.h>
 #include <affichage/implantation/ogre/point_de_vue.h>
 
@@ -175,6 +177,48 @@ namespace ProjetUnivers {
       return this->vueObservateur ;
     }
 
+    void PointDeVue::Detruire(const Base::Association<Base::Implantation::BaseVue>& _vue)
+    {
+      Base::Traceur::MessageInterne("PointDeVue::Detruire removing view element") ;
+
+      Objet* object = dynamic_cast<Objet*>(&*_vue) ;
+      if (object)
+      {
+        Base::Traceur::MessageInterne("element is object") ;
+
+        Base::Association<Objet> element(*object) ;
+        Base::Association<Objet> conteneur(object->AccesConteneur()) ;
+        if (conteneur)
+        {
+          conteneur->Enlever(element) ;
+          Base::Traceur::MessageInterne("removed element from object") ;
+        }
+        else
+        {
+          this->vues.Enlever(_vue) ;
+          Base::Traceur::MessageInterne("removed element from view point") ;
+        }
+      }
+      else
+      {
+
+        Facette* facette = dynamic_cast<Facette*>(&*_vue) ;
+        if (facette)
+        {
+          Base::Traceur::MessageInterne("element is facette") ;
+          
+          Base::Association<Facette> element(*facette) ;
+          facette->AccesObjet()->Enlever(element) ;
+          Base::Traceur::MessageInterne("removed element") ;
+          
+        }
+        else
+        {
+          /// error
+          throw Exception("internal error") ;
+        }
+      }
+    }
 
   }
 }

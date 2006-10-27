@@ -37,14 +37,15 @@ namespace ProjetUnivers {
       }
       rafraichissements.Vider() ;
 
-      for (IterateurEnsembleAssociation<Implantation::BaseVue> vue(vuesADetruire) ;
-           vue.Valide() ;
+      for (std::vector<Implantation::BaseVue*>::iterator vue = vuesADetruire.begin() ;
+           vue != vuesADetruire.end() ;
            ++vue)
       {
-        this->vues.Enlever(*vue) ;
+        this->Detruire(**vue) ;
       }
       
-      vuesADetruire.Vider() ;
+      /// on vide sans détruire l'espace alloué
+      vuesADetruire.resize(0) ;
     }
   
     PointDeVue::PointDeVue()
@@ -75,10 +76,11 @@ namespace ProjetUnivers {
     void PointDeVue::PenserADetruire(
                                   const Association<Implantation::BaseVue> _vue)
     {
-      if (this->vues.Contient(_vue))
-      {
-        vuesADetruire.Ajouter(_vue) ;
-      }
+      vuesADetruire.push_back(&*_vue) ;
+    }
+    void PointDeVue::Detruire(const Association<Implantation::BaseVue>& _vue)
+    {
+      this->vues.Enlever(_vue) ;
     }
     
     
