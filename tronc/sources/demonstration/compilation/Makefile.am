@@ -8,11 +8,11 @@ demonstration_SOURCES = \
 
 demonstration_LDFLAGS='-ldl'
 demonstration_LDADD = \
+$(OIS_LIBS) \
 $(SOURCES)/base/compilation/libbase.la \
 $(SOURCES)/affichage/compilation/libaffichage.la \
 $(SOURCES)/affichage/compilation/ogre/libaffichageogre.la \
 $(SOURCES)/action/compilation/libaction.la \
 $(SOURCES)/entrees/compilation/libentrees.la \
 $(SOURCES)/modele/compilation/libmodele.la \
-$(OIS_LIBS) \
 $(librlog_LIBS) 

@@ -54,6 +54,7 @@ namespace ProjetUnivers {
       ///     retours...
       virtual void Realiser(const Base::Association< Modele >&) const = 0 ;
       
+      virtual void Perform(const Base::Map<Base::String,Base::Value> _parameters) const = 0 ;
       
       
       // }@

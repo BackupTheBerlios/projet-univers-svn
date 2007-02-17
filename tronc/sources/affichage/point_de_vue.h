@@ -76,15 +76,25 @@ namespace ProjetUnivers {
       /// Termine le point de vue
       virtual void Terminer() = 0 ;
 
-      /// Demande au point de vue de détruire la vue.
+      /// Demande au point de vue de détruire une de ses vue.
       virtual void Detruire
         (const Base::Association<Base::Implantation::BaseVue>&) ;
+
+      /// Destructeur de classe abstraite.
+      virtual ~PointDeVue() ;
+
+      /// Change l'observateur de la vue.
+      virtual void ChangerObservateur
+        (const Base::Association<Modele::Objet>& _observateur) = 0 ;
 
       /// La vue de l'observateur.
       Base::Association<Objet> AccesVueObservateur() const ;
 
-      /// Destructeur de classe abstraite.
-      virtual ~PointDeVue() ;
+      /// Retrouver une vue à partir du modèle.
+      Base::Association<Objet> RechercherVue
+        (const Base::Association<Modele::Objet>& _objet) const ;
+
+
     
     protected:
 

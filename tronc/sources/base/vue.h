@@ -27,10 +27,10 @@
 
 
 namespace ProjetUnivers {
-
   namespace Base {
     
-
+    class Modele ;
+    
     /// L'abstraction d'une vue sur un Modele
     /*!
     @par Utilisation
@@ -48,7 +48,7 @@ namespace ProjetUnivers {
       Modele doit être une sous classe de ProjetUnivers::Base::Modele
     
     */
-    template <class Modele> class Vue : virtual public Implantation::BaseVue
+    template <class M> class Vue : virtual public Implantation::BaseVue
     {
     public:
     
@@ -58,16 +58,18 @@ namespace ProjetUnivers {
       /// Destructeur de classe abstraite.
       virtual ~Vue() ;
     
+      virtual Association<Modele> AccesObserve() const ;
+    
     protected:
     
       /// Constructeur de classe abstraite.
-      Vue(const Association<Modele>& _modele) ;
+      Vue(const Association<M>& _modele) ;
     
       /// Efface la relation vers modèle
       virtual void DetacherDeModele() ;
       
       /// Ce que la vue voit.
-      Association<Modele> observe ;
+      Association<M> observe ;
     };
     
   }

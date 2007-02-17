@@ -152,6 +152,18 @@ namespace ProjetUnivers {
         }
 
 
+        void PointDeVue::ChangerObservateur
+          (const Base::Association<Modele::Objet>& _observateur)
+        {
+          if (_observateur != vueObservateur->AccesObserve())
+          {
+            this->Desactiver() ;
+            this->vueObservateur = this->RechercherVue(_observateur) ;
+            this->Activer() ;
+          }
+        }
+
+
       }
     }
   }

@@ -65,6 +65,8 @@ namespace ProjetUnivers {
         /// Destructeur de classe abstraite.
         virtual ~BaseVue() ;
         
+        /// Acces au modele.
+        virtual Association<Modele> AccesObserve() const = 0 ;
 
       protected:
       

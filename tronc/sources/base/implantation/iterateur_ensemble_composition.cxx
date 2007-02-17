@@ -49,7 +49,7 @@ namespace ProjetUnivers {
       template <typename OBJET> 
       IterateurEnsembleComposition<OBJET>::operator Association<OBJET>()
       {
-        return *iterateur ;
+        return **iterateur ;
       }
      
       template <typename OBJET> 

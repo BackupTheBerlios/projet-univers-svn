@@ -98,6 +98,11 @@ namespace ProjetUnivers {
   
       Base::Association<PointDeVue> AccesPointDeVue() const ;
 
+      /// Retrouver une vue dans les fils du modèle
+      Base::Association<Objet> RechercherFils
+        (const Base::Association<Modele::Objet>& _objet) const ;
+
+
     // @}
 
 

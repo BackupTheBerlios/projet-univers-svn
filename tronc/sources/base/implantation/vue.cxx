@@ -21,13 +21,12 @@
 #include <base/derive_de.h>
 
 namespace ProjetUnivers {
-
   namespace Base {
 
     class Modele ;
 
-    template <class Modele> 
-    Vue<Modele>::Vue(const Association<Modele>& _modele)
+    template <class M> 
+    Vue<M>::Vue(const Association<M>& _modele)
     : Implantation::BaseVue(), observe(_modele)
     {
       
@@ -36,19 +35,26 @@ namespace ProjetUnivers {
       observe->AjouterVue(*this) ;
     }
     
-    template <class Modele> 
-    Vue<Modele>::~Vue()
+    template <class M> 
+    Vue<M>::~Vue()
     {
       if (observe)
       {
         observe->EnleverVue(*this) ;
       }
     }
-    template <class Modele> 
-    void Vue<Modele>::DetacherDeModele()
+    template <class M> 
+    void Vue<M>::DetacherDeModele()
     {
-      observe = Association<Modele>() ;
+      observe = Association<M>() ;
     }
+
+    template <class M> 
+     Association<Modele> Vue<M>::AccesObserve() const
+     {
+       Modele* result = dynamic_cast<Modele*>(&*observe) ;
+       return *result ;
+     }
 
     
     

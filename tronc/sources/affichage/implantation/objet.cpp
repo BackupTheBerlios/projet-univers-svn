@@ -182,6 +182,23 @@ namespace ProjetUnivers {
         PointDeVue* temp = static_cast<PointDeVue*>( &(*this->pointDeVue));
         return *temp ;
       }
+
+      Base::Association<Objet> Objet::RechercherFils
+        (const Base::Association<Modele::Objet>& _objet) const
+      {
+        for(Base::IterateurEnsembleComposition<Objet> fils(this->contenu) ;
+            fils.Valide() ;
+            ++fils)
+        {
+          if (fils->AccesObserve() == _objet)
+          {
+            return fils ;
+          }
+        }
+        
+        throw Exception("fils non trouve") ;        
+       }
+
  
   }
 }

@@ -73,6 +73,9 @@ namespace ProjetUnivers {
           /// termine le point de vue
           virtual void Terminer() ;
           
+          /// Change l'observateur de la vue.
+          virtual void ChangerObservateur
+            (const Base::Association<Modele::Objet>& _observateur) ;
           
         // @}
         /*!

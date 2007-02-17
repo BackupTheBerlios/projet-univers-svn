@@ -19,6 +19,7 @@
  ***************************************************************************/
 
 #include <base/traceur.h>
+#include <base/iterateur_ensemble_composition.h>
 
 #include <modele/facette.h>
 #include <modele/objet.h>
@@ -31,8 +32,8 @@
 
 
 namespace ProjetUnivers {
-
   namespace Affichage {
+
 
     /// Stockage de la variable statique
     Base::FonctionValeurValeur<
@@ -219,6 +220,30 @@ namespace ProjetUnivers {
         }
       }
     }
+
+    Base::Association<Objet> PointDeVue::RechercherVue
+      (const Base::Association<Modele::Objet>& _objet) const
+    {
+      Base::Association<Modele::Positionne> parent(*_objet->AccesConteneur()) ;
+      if (! parent)
+      {
+        for(Base::IterateurEnsembleComposition<Base::Implantation::BaseVue> vue(this->vues) ;
+            vue.Valide() ;
+            ++vue)
+        {
+          if (vue->AccesObserve() == _objet)
+          {
+            Objet* result = dynamic_cast<Objet*>(vue.operator->()) ;
+            return *result ;
+          }
+        }
+      }
+      else
+      {
+        return RechercherVue(_objet->AccesConteneur())->RechercherFils(_objet) ;
+      }
+    }
+
 
   }
 }
