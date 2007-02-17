@@ -1,6 +1,7 @@
 2006-07-14 rogma <rogma.boami@free.fr>
 
 	* entrees, action, affichage : 
+
 				general interface and testing implementation
 
 
@@ -29,4 +30,8 @@
 																			correction de include/délcarations en avant
 			- objet.h/cpp : correction du type de retours de Ajouter(Facette*)
 															 ajout de Enlever pour Objet et Facette
+
+2006-02-17 rogma <rogma.boami@free.fr>
+
+  * affichage/point_de_vue.h : ajout de changer_observateur
 

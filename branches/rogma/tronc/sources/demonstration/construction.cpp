@@ -33,7 +33,7 @@ namespace ProjetUnivers {
   namespace Demonstration {
   
     using namespace ProjetUnivers::Base ;
-    using namespace ProjetUnivers::Modele ;
+    using namespace ProjetUnivers::Model ;
 
     
     ///////////////
@@ -44,8 +44,8 @@ namespace ProjetUnivers {
       Composition< Vaisseau > vaisseau(new Vaisseau()) ;
       Composition< Composant > composant(new Moteur()) ;
       
-      vaisseau->AjouterComposant(new Moteur()) ;
-      vaisseau->AjouterComposant(new CommandesPilotage()) ;
+      vaisseau->addComposant(new Moteur()) ;
+      vaisseau->addComposant(new CommandesPilotage()) ;
     
       
     

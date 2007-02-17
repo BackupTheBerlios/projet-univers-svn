@@ -27,7 +27,7 @@ namespace ProjetUnivers {
 
   namespace Demonstration {
   
-    using namespace ProjetUnivers::Modele ;
+    using namespace ProjetUnivers::Model ;
     
     
     ///////////////

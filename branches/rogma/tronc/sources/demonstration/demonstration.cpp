@@ -38,24 +38,24 @@ int main() {
 
 
   /// initialisation
-  Base::Traceur::Initialiser() ;
+  Base::Traceur::init() ;
   Base::Traceur::MessageInformation("Demarrage de projet univers") ;
-  Modele::Initialiser() ;
-  Affichage::Initialiser() ;
-  Action::Initialiser() ;
-  Entrees::Initialiser() ;
+  Model::init() ;
+  Display::init() ;
+  Action::init() ;
+  Entrees::init() ;
 
   Base::Traceur::MessageInformation("Modules initialisés") ;
 
-  Modele::Charger("TestDemonstration") ;
+  Model::load("TestDemonstration") ;
 
-  Base::Association<Modele::Objet> observateur(Modele::AccesObjet("Observateur")) ;
+  Base::Association<Model::Object> observateur(Model::AccesObject("Observateur")) ;
   
   /// Création d'un point de vue sur ce modèle
-  Base::Association<Affichage::PointDeVue> pdv(
-      Affichage::AjouterPointDeVue(Affichage::PointDeVue::Construire(observateur))) ;
+  Base::Association<Display::ViewPoint> pdv(
+      Display::addViewPoint(Display::ViewPoint::Construire(observateur))) ;
 
-  Affichage::ActiverPointDeVue(pdv) ;
+  Display::ActiverViewPoint(pdv) ;
 
   Base::Traceur::MessageInformation("Demarrage de la boucle principale") ;
 
@@ -64,18 +64,18 @@ int main() {
   {
     Entrees::Traiter() ;
     Action::Traiter() ;
-    Affichage::Rafraichir() ;
+    Display::update() ;
   }
 
   Base::Traceur::MessageInformation("Sortie de la boucle principale") ;
     
   /// sortie
-  Entrees::Terminer() ;
-  Action::Terminer() ;
-  Affichage::Terminer() ;
-  Modele::Terminer() ;
+  Entrees::close() ;
+  Action::close() ;
+  Display::close() ;
+  Model::close() ;
   Base::Traceur::MessageInformation("Modules desinitialisés") ;
-  Base::Traceur::Terminer() ;
+  Base::Traceur::close() ;
   
   return 0 ;
   

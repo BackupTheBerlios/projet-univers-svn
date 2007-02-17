@@ -31,7 +31,7 @@
 
 #include <action/action.h>
 
-using namespace ProjetUnivers::Modele ;
+using namespace ProjetUnivers::Model ;
 using namespace ::Ogre ;
 
 namespace ProjetUnivers {
@@ -42,7 +42,7 @@ namespace ProjetUnivers {
     struct Action
     {
       /// nom de l'action
-      Base::Chaine nom ;
+      std::string nom ;
       
       /// Moment de l'action
       
@@ -62,11 +62,11 @@ namespace ProjetUnivers {
       }
       else if (_action.nom == "Haut")
       {
-        Base::Association<Modele::Objet> observateur(Modele::AccesObjet("Observateur")) ;
-        Base::Association<Modele::Positionne> positionne(*observateur) ;
+        Base::Association<Model::Object> observateur(Model::AccesObject("Observateur")) ;
+        Base::Association<Model::Positionne> positionne(*observateur) ;
         
         positionne->ModifierOrientation(
-          Modele::Orientation(
+          Model::Orientation(
             positionne->AccesOrientation().AccesQuaternion() 
             * 
             Quaternion(Degree(45),Vector3::NEGATIVE_UNIT_X))) ;
@@ -75,11 +75,11 @@ namespace ProjetUnivers {
       }
       else if (_action.nom == "Bas")
       {
-        Base::Association<Modele::Objet> observateur(Modele::AccesObjet("Observateur")) ;
-        Base::Association<Modele::Positionne> positionne(*observateur) ;
+        Base::Association<Model::Object> observateur(Model::AccesObject("Observateur")) ;
+        Base::Association<Model::Positionne> positionne(*observateur) ;
         
         positionne->ModifierOrientation(
-          Modele::Orientation(
+          Model::Orientation(
             positionne->AccesOrientation().AccesQuaternion() 
             * 
             Quaternion(Degree(45),Vector3::UNIT_X))) ;
@@ -87,11 +87,11 @@ namespace ProjetUnivers {
       }
       else if (_action.nom == "Droite")
       {
-        Base::Association<Modele::Objet> observateur(Modele::AccesObjet("Observateur")) ;
-        Base::Association<Modele::Positionne> positionne(*observateur) ;
+        Base::Association<Model::Object> observateur(Model::AccesObject("Observateur")) ;
+        Base::Association<Model::Positionne> positionne(*observateur) ;
         
         positionne->ModifierOrientation(
-          Modele::Orientation(
+          Model::Orientation(
             positionne->AccesOrientation().AccesQuaternion() 
             * 
             Quaternion(Degree(45),Vector3::NEGATIVE_UNIT_Y))) ;
@@ -99,11 +99,11 @@ namespace ProjetUnivers {
       }
       else if (_action.nom == "Gauche")
       {
-        Base::Association<Modele::Objet> observateur(Modele::AccesObjet("Observateur")) ;
-        Base::Association<Modele::Positionne> positionne(*observateur) ;
+        Base::Association<Model::Object> observateur(Model::AccesObject("Observateur")) ;
+        Base::Association<Model::Positionne> positionne(*observateur) ;
         
         positionne->ModifierOrientation(
-          Modele::Orientation(
+          Model::Orientation(
             positionne->AccesOrientation().AccesQuaternion() 
             * 
             Quaternion(Degree(45),Vector3::UNIT_Y))) ;
@@ -116,44 +116,44 @@ namespace ProjetUnivers {
           @par Etat 
             planning...
         */
-        Base::Association<Modele::Objet> observateur(Modele::AccesObjet("Observateur")) ;
-        Base::Association<Modele::Positionne> observateurPositionne(*observateur) ;
+        Base::Association<Model::Object> observateur(Model::AccesObject("Observateur")) ;
+        Base::Association<Model::Positionne> observateurPositionne(*observateur) ;
 
-        Base::Association<Modele::Objet> vaisseau(Modele::AccesObjet("Vaisseau")) ;
-        Base::Association<Modele::Positionne> vaisseauPositionne(*vaisseau) ;
+        Base::Association<Model::Object> vaisseau(Model::AccesObject("Vaisseau")) ;
+        Base::Association<Model::Positionne> vaisseauPositionne(*vaisseau) ;
         
       }
-      else if (_action.nom == "CreerObjet")
+      else if (_action.nom == "CreerObject")
       {
-        Base::Association<Modele::Objet> observateur(Modele::AccesObjet("Observateur")) ;
+        Base::Association<Model::Object> observateur(Model::AccesObject("Observateur")) ;
         
-        Base::Association<Modele::Objet> systeme(
-          observateur->AccesParent<Modele::SystemeStellaire>()->AccesObjet()) ;
+        Base::Association<Model::Object> systeme(
+          observateur->AccesParent<Model::SystemeStellaire>()->AccesObject()) ;
         
-        Base::Association<Objet> vaisseau = systeme->Ajouter(new Objet(Nom("Vaisseau2"))) ;
-        vaisseau->Ajouter(new Positionne(Position(Distance(Distance::_Metre, 0),
+        Base::Association<Object> vaisseau = systeme->add(new Object(Nom("Vaisseau2"))) ;
+        vaisseau->add(new Positionne(Position(Distance(Distance::_Metre, 0),
                                                   Distance(Distance::_Metre, 500000),
                                                   Distance(Distance::_Metre, 0)) )) ;
         
-        vaisseau->Ajouter(new Solide(Modele3D("razor.mesh"))) ;
+        vaisseau->add(new Solide(Model3D("razor.mesh"))) ;
         
       }
-      else if (_action.nom == "DetruireObjet")
+      else if (_action.nom == "destroyObject")
       {
-        Base::Association<Modele::Objet> vaisseau(Modele::AccesObjet("Vaisseau2")) ;
+        Base::Association<Model::Object> vaisseau(Model::AccesObject("Vaisseau2")) ;
         Base::Traceur::MessageInterne("perparing to destroy object") ;
-        Modele::Enlever(vaisseau) ;
+        Model::remove(vaisseau) ;
       }
     }
     
     
-    void Initialiser()
+    void init()
     {
       actions.Vider() ;
       finished = Base::FAUX ;
     }
 
-    void Terminer()
+    void close()
     {
       actions.Vider() ;
     }
@@ -170,11 +170,11 @@ namespace ProjetUnivers {
       actions.Vider() ;
     }
 
-    void Ajouter(const Base::Chaine& _nomAction)
+    void add(const std::string& _nomAction)
     {
       Action temp ;
       temp.nom = _nomAction ;
-      actions.AjouterEnQueue(temp) ;
+      actions.addEnQueue(temp) ;
     }
 
     Base::Booleen Termine()

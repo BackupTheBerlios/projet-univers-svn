@@ -21,13 +21,13 @@
 #ifndef PU_ACTION_ACTION_H_
 #define PU_ACTION_ACTION_H_
 
-#include <base/chaine.h>
+#include <string.h>
 
 
 namespace ProjetUnivers {
   
  
-  /// Gestion des actions sur Modele.
+  /// Gestion des actions sur Model.
   /*!
     
   */ 
@@ -40,10 +40,10 @@ namespace ProjetUnivers {
   //@{        
     
     /// Initialise le module.
-    void Initialiser() ;
+    void init() ;
 
     /// Termine le module.
-    void Terminer() ;
+    void close() ;
 
   //@}
   /*!
@@ -69,7 +69,7 @@ namespace ProjetUnivers {
         il faut ajouter un timestamp à l'action (pour savoir à quel moment 
         on l'a déclenché)
     */
-    void Ajouter(const Base::Chaine& _nomAction) ;
+    void add(const std::string& _nomAction) ;
 
     /// 
     /*!
