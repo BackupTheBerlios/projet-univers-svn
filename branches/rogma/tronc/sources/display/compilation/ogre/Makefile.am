@@ -1,20 +1,20 @@
-lib_LTLIBRARIES = libaffichageogre.la
+lib_LTLIBRARIES = libdisplayogre.la
 
 SOURCES = $(top_srcdir)/sources
 INCLUDES = -I$(SOURCES) $(OGRE_CFLAGS)
 
-libaffichageogre_la_SOURCES = \
-$(SOURCES)/affichage/implantation/ogre/destructible.cpp \
-$(SOURCES)/affichage/implantation/ogre/vue.cpp \
-$(SOURCES)/affichage/implantation/ogre/observateur.cpp \
-$(SOURCES)/affichage/implantation/ogre/ogre.cpp \
-$(SOURCES)/affichage/implantation/ogre/point_de_vue.cpp \
-$(SOURCES)/affichage/implantation/ogre/positionne.cpp \
-$(SOURCES)/affichage/implantation/ogre/solide.cpp \
-$(SOURCES)/affichage/implantation/ogre/univers.cpp
+libdisplayogre_la_SOURCES = \
+$(SOURCES)/display/implementation/ogre/destroyable.cpp \
+$(SOURCES)/display/implementation/ogre/view.cpp \
+$(SOURCES)/display/implementation/ogre/observer.cpp \
+$(SOURCES)/display/implementation/ogre/ogre.cpp \
+$(SOURCES)/display/implementation/ogre/view_point.cpp \
+$(SOURCES)/display/implementation/ogre/positionned.cpp \
+$(SOURCES)/display/implementation/ogre/solid.cpp \
+$(SOURCES)/display/implementation/ogre/universe.cpp
 
-libaffichageogre_la_LIBADD = \
-$(SOURCES)/base/compilation/libbase.la \
-$(SOURCES)/modele/compilation/libmodele.la \
+libdisplayogre_la_LIBADD = \
+$(SOURCES)/kernel/compilation/libkernel.la \
+$(SOURCES)/model/compilation/libmodel.la \
 $(OGRE_LIBS) 
 

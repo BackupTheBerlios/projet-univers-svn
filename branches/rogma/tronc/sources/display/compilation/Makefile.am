@@ -2,43 +2,43 @@
 
 SUBDIRS = ogre
 
-lib_LTLIBRARIES = libaffichage.la 
+lib_LTLIBRARIES = libdisplay.la 
 
 SOURCES = $(top_srcdir)/sources
 INCLUDES = -I$(SOURCES) $(OGRE_CFLAGS)
 
-libaffichage_la_SOURCES = \
-$(SOURCES)/affichage/implantation/affichage.cpp \
-$(SOURCES)/affichage/implantation/exception.cpp \
-$(SOURCES)/affichage/implantation/facette.cpp \
-$(SOURCES)/affichage/implantation/objet.cpp \
-$(SOURCES)/affichage/implantation/point_de_vue.cpp 
+libdisplay_la_SOURCES = \
+$(SOURCES)/display/implementation/display.cpp \
+$(SOURCES)/display/implementation/exception.cpp \
+$(SOURCES)/display/implementation/trait.cpp \
+$(SOURCES)/display/implementation/object.cpp \
+$(SOURCES)/display/implementation/view_point.cpp 
 
 
-libaffichage_la_LIBADD = \
-$(SOURCES)/base/compilation/libbase.la \
-$(SOURCES)/modele/compilation/libmodele.la 
+libdisplay_la_LIBADD = \
+$(SOURCES)/base/compilation/libkernel.la \
+$(SOURCES)/modele/compilation/libmodel.la 
 
 #all-local :
-#	cp libaffichage.la $(SOURCES)/compilation/libaffichage.la
+#	cp libdisplay.la $(SOURCES)/compilation/libdisplay.la
 
 # tests
 
-TESTS = test_affichage
+TESTS = test_display
 
 check_PROGRAMS = $(TESTS) 
 
-test_affichage_SOURCES = \
-$(SOURCES)/affichage/test/test_affichage.cpp \
-$(SOURCES)/affichage/test/test_point_de_vue.cpp 
+test_display_SOURCES = \
+$(SOURCES)/display/test/test_display.cpp \
+$(SOURCES)/display/test/test_view_point.cpp 
 
-test_affichage_CXXFLAGS = $(CPPUNIT_CFLAGS) 
-test_affichage_LDFLAGS = $(CPPUNIT_LIBS) 
+test_display_CXXFLAGS = $(CPPUNIT_CFLAGS) 
+test_display_LDFLAGS = $(CPPUNIT_LIBS) 
 
-test_affichage_LDADD = \
-$(SOURCES)/affichage/compilation/libaffichage.la \
-$(SOURCES)/affichage/compilation/ogre/libaffichageogre.la \
-$(SOURCES)/base/compilation/libbase.la \
-$(SOURCES)/modele/compilation/libmodele.la \
+test_display_LDADD = \
+$(SOURCES)/display/compilation/libdisplay.la \
+$(SOURCES)/display/compilation/ogre/libdisplayogre.la \
+$(SOURCES)/kernel/compilation/libkernel.la \
+$(SOURCES)/model/compilation/libmodel.la \
 $(librlog_LIBS) 
 
