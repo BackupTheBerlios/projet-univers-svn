@@ -17,12 +17,11 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_AFFICHAGE_FACETTE_H_
-#define PU_AFFICHAGE_FACETTE_H_
+#ifndef PU_DISPLAY_TRAIT_H_
+#define PU_DISPLAY_TRAIT_H_
 
-#include <base/association.h>
-#include <base/modele.h>
-#include <base/implantation/base_vue.h>
+#include <kernel/model.h>
+#include <kernel/implementation/base_vue.h>
 
 
 namespace ProjetUnivers {
@@ -33,12 +32,12 @@ namespace ProjetUnivers {
     /// Une facette d'affichage d'un objet.
     /*!
     */
-    class Trait : virtual public Base::Implantation::BaseVue
+    class Trait : virtual public Kernel::Implementation::BaseView
     {
     public:
 
       /// Object de cette facette.          
-      Base::Association<Object> AccesObject() const ;
+      Object* getObject() const ;
    
     
     // @}
@@ -69,10 +68,10 @@ namespace ProjetUnivers {
       @remark
         Mis à jour par l'objet lorsque la facette lui est attachée.
       */
-      Base::Association<Object> objet ;
+      Object* objet ;
       
       /// Vrai si la facette a été initialisée.
-      Base::Booleen initialise ;
+      bool initialised ;
       
       friend class Object ;
             
@@ -82,4 +81,4 @@ namespace ProjetUnivers {
 
 
 
-#endif /*PU_AFFICHAGE_FACETTE_H_*/
+#endif /*PU_DISPLAY_TRAIT_H_*/

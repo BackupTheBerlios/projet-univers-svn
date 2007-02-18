@@ -18,27 +18,24 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_AFFICHAGE_OBJET_H_
-#define _PU_AFFICHAGE_OBJET_H_
+#ifndef PU_DISPLAY_OBJECT_H_
+#define PU_DISPLAY_OBJECT_H_
 
-
-#include <base/fonction_composition_valeur_objet.h>
-#include <base/vue.h>
-
-#include <modele/objet.h>
-
-#include <affichage/facette.h>
+#include <map>
+#include <kernel/view.h>
+#include <model/object.h>
+#include <display/trait.h>
 
 namespace ProjetUnivers {
   namespace Display {
     
     class ViewPoint ;
     
-    /// Vue d'affichage d'un objet.
+    /// View d'affichage d'un objet.
     /*!
 
     */
-    class Object : public Base::Vue<Model::Object>
+    class Object : public Kernel::View<Model::Object>
     {
     public:
 
@@ -48,8 +45,8 @@ namespace ProjetUnivers {
     // @{
 
       /// Construction d'une vue de @c _objet relative à @c _pointDeVe
-      Object(const Base::Association<Model::Object>& _objet, 
-            const Base::Association<ViewPoint>& _pointDeVue) ;
+      Object(Model::Object* _object, 
+             ViewPoint* _viewPoint) ;
           
       /// Initialise la vue
       virtual void init() ;
@@ -58,23 +55,23 @@ namespace ProjetUnivers {
       virtual void close() ;
 
       /// Mise à jour de la vue.
-      virtual void update(const Base::Evenement&) ;
+      virtual void update(const Kernel::Event&) ;
 
       /// Ajoute une vue comme contenu
       /*!
         Les vues peuvent en contenir d'autres.
 
       */
-      Base::Association<Object> add(Object* _contenu) ;
+      Object* add(Object* _content) ;
       
       /// Ajoute une facette.      
-      Base::Association<Trait> add(Trait* _facette) ;
+      Trait* add(Trait* _trait) ;
       
       /// Enleve et détruit un objet.      
-      void remove(const Base::Association<Object>& _objet) ;
+      void remove(Object* _object) ;
       
       /// Enleve et détruit une facette.      
-      void remove(const Base::Association<Trait>& _facette) ;
+      void remove(Trait* _trait) ;
 
 
 
@@ -88,19 +85,18 @@ namespace ProjetUnivers {
       /*!
         T doit être une sous classe de Trait.
       */
-      template <class T> operator Base::Association<T>() const ;
+      template <class T> getTrait<T>() const ;
 
-      /// Acces au conteneur de la vue
-      Base::Association<Object> AccesConteneur() const ;
+      /// get au conteneur de la vue
+      Object* getContener() const ;
   
       /// Accès récursif au premier conteneur ayant la facette @ T
-      template <class T> Base::Association<T> AccesParent() const ;
+      template <class T> T* getParent() const ;
   
-      Base::Association<ViewPoint> AccesViewPoint() const ;
+      ViewPoint* getViewPoint() const ;
 
       /// Retrouver une vue dans les fils du modèle
-      Base::Association<Object> RechercherFils
-        (const Base::Association<Model::Object>& _objet) const ;
+      Object* getSon(Model::Object* _object) const ;
 
 
     // @}
@@ -111,62 +107,56 @@ namespace ProjetUnivers {
       /// Traits d'affichage de l'objet
       /*!
         Associe les nom des classes de facettes aux facettes.
+        @composite
       */
-      Base::FonctionCompositionValeurObject<std::string, Trait> facettes ;          
-
-      /// Redondant, mais pour simplifier le travail
-      /*!
-        @todo 
-          supprimer
-      */
-      Base::EnsembleAssociation<Trait> ensembleTraits ;
+      std::map<std::string, Trait*> traits ;          
       
       /// L'éventuel objet qui contient celui-ci
-      Base::Association<Object> conteneur ;
+      Object* contener ;
 
       /// Les objets contenus dans celui-ci
-      Base::EnsembleComposition<Object> contenu ;
+      std::set<Object*> content ;
       
     };
 
 
-    template <class T>  Object::operator Base::Association<T>() const
+    template <class T>  Object::getTrait<T>() const
     {
       /// T doit être une sous classe de Trait
-      Base::DeriveDe<T,Trait>() ;
+      Kernel::Inherits<T,Trait>() ;
       
       /// on attrape la facette 
-      Base::Association<Trait> facette = facettes[typeid(T).name()] ;
+      Trait* trait = traits[typeid(T).name()] ;
       
       /// si elle existe on effectue la conversion :
-      if (facette)
+      if (trait)
       {
-        Trait* pTrait = facette.operator->() ;
-        T* t = static_cast<T*>(pTrait) ; 
-        return *t ;
+        return static_cast<T*>(trait) ;
       }
       else
-        return Base::Association<T>() ;
+      {
+        return NULL ;
+      }
     }
 
-    template <class T> Base::Association<T> Object::AccesParent() const
+    template <class T> T* Object::getParent() const
     {
       /// T doit être une sous classe de Trait
-      Base::DeriveDe<T,Trait>() ;
+      Kernel::Inherits<T,Trait>() ;
       
-      Base::Association<Object> iterateur(*this) ;
-      Base::Association<T> facette(*iterateur) ;
+      Object* iterator(this) ;
+      T* trait = iterateur->getTrait<T>() ;
       
-      while((! facette) && iterateur)
+      while((! trait) && iterator)
       {
-        iterateur = iterateur->AccesConteneur() ;
-        if (iterateur)
+        iterator = iterator->getContener() ;
+        if (iterator)
         {
-          facette = *iterateur ;
+          trait = iterateur->getTrait<T>() ;
         }
       }
       
-      return facette ;
+      return trait ;
       
     }
 

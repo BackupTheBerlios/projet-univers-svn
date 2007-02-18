@@ -18,18 +18,18 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <base/traceur.h>
+#include <kernel/log.h>
 
-#include <modele/modele.h>
-
-
-#include <affichage/point_de_vue.h>
-#include <affichage/implantation/ogre/univers.h>
-
-#include <affichage/test/test_point_de_vue.h>
+#include <model/model.h>
 
 
-/// Enregistrement du test
+#include <display/point_de_vue.h>
+#include <display/implementation/ogre/univers.h>
+
+#include <display/test/test_point_de_vue.h>
+
+
+/// Registerment du test
 CPPUNIT_TEST_SUITE_REGISTRATION(ProjetUnivers::Display::Test::TestViewPoint) ;
 
 
@@ -40,35 +40,35 @@ namespace ProjetUnivers {
       void TestViewPoint::testConstruction()
       {
 
-        Base::Traceur::MessageInterne("Entering TestViewPoint::testConstruction") ;
+        Kernel::Log::InternalMessage("Entering TestViewPoint::testConstruction") ;
 
         /// On construit un modèle
         Model::load("TestDemonstration") ;
         
-        Base::Traceur::MessageInterne("TestViewPoint::testConstruction#1") ;
+        Kernel::Log::InternalMessage("TestViewPoint::testConstruction#1") ;
         
-        Base::Association<Model::Object> 
-                                observateur(Model::AccesObject("Observateur")) ;
+        Kernel::Association<Model::Object> 
+                                observateur(Model::getObject("Observer")) ;
 
-        Base::Traceur::MessageInterne("TestViewPoint::testConstruction#2") ;
+        Kernel::Log::InternalMessage("TestViewPoint::testConstruction#2") ;
         
         /// On en construit un point de vue
-        Base::Composition<ViewPoint> pdv(ViewPoint::Construire(observateur)) ;
+        Kernel::Composition<ViewPoint> pdv(ViewPoint::Construire(observateur)) ;
 
-        Base::Traceur::MessageInterne("Leaving TestViewPoint::testConstruction") ;
+        Kernel::Log::InternalMessage("Leaving TestViewPoint::testConstruction") ;
 
         /// Vérification de la structure.
-        Base::Association<Object> vueObservateur(pdv->AccesVueObservateur()) ;
-        CPPUNIT_ASSERT_MESSAGE("no Observateur view object",vueObservateur) ;
+        Kernel::Association<Object> vueObserver(pdv->getViewObserver()) ;
+        CPPUNIT_ASSERT_MESSAGE("no Observer view object",vueObserver) ;
         
-        Base::Association<Implantation::Ogre::Univers> 
-          vueUnivers(vueObservateur->AccesParent<Implantation::Ogre::Univers>()) ;
+        Kernel::Association<Implementation::Ogre::Univers> 
+          vueUnivers(vueObserver->getParent<Implementation::Ogre::Univers>()) ;
         CPPUNIT_ASSERT_MESSAGE("no Univers view object",vueUnivers) ;
         
-        Base::Association<Implantation::Ogre::ViewPoint> 
-          ogrePointdeVue(vueUnivers->AccesViewPoint()) ;
+        Kernel::Association<Implementation::Ogre::ViewPoint> 
+          ogrePointdeView(vueUnivers->getViewPoint()) ;
           
-        CPPUNIT_ASSERT_MESSAGE("no specific view point",ogrePointdeVue) ;
+        CPPUNIT_ASSERT_MESSAGE("no specific view point",ogrePointdeView) ;
         
         pdv = NULL ;
       }

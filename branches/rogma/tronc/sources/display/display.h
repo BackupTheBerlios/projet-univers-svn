@@ -17,19 +17,19 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef _PU_AFFICHAGE_AFFICHAGE_H_
-#define _PU_AFFICHAGE_AFFICHAGE_H_
+#ifndef _PU_DISPLAY_DISPLAY_H_
+#define _PU_DISPLAY_DISPLAY_H_
 
 #include <stddef.h>
 
-#include <base/association.h>
-#include <base/types.h>
+#include <kernel/association.h>
+#include <kernel/types.h>
 
 namespace ProjetUnivers {
  
   /// Le module réalisant l'affichage des objets de Model.
   /*!
-    C'est la Vue de Model qui réalise l'affichage à l'écran.
+    C'est la View de Model qui réalise l'affichage à l'écran.
     
     - l'affichage possède l'écran et la racine
     - il a des points de vues qui eux possèdent des scene manager
@@ -54,7 +54,7 @@ namespace ProjetUnivers {
         c'est ici qu'on peut faire le choix de l'implantation
 
     */
-    Base::Booleen init() ;
+    bool init() ;
     
     /// Termine l'affichage
     /*!
@@ -63,29 +63,29 @@ namespace ProjetUnivers {
 
     /// Accès aux descripteur de la fenetre d'affichage
     /*!
-      Utilisé pour initialiser le module Entrees
+      Utilisé pour initialiser le module Input
     */
-    size_t DescripteurFenetre() ;
+    size_t getWindowHandle() ;
 
     /// Accès à la taille de la fenêtre
-    void TailleFenetre(unsigned int& width,
+    void getWindowSize(unsigned int& width,
                        unsigned int& height,
                        unsigned int& depth,
                        int& left,
                        int& top );
 
     /// Ajoute un point de vue.
-    Base::Association<ViewPoint> addViewPoint(ViewPoint*) ;
+    Kernel::Association<ViewPoint> addViewPoint(ViewPoint*) ;
 
     /// Supprime le point de vue.
-    void SupprimerViewPoint(const Base::Association<ViewPoint>&) ;
+    void removeViewPoint(ViewPoint*) ;
     
     
     /// 
-    void DesactiverViewPoint(const Base::Association<ViewPoint>&) ;
+    void desactivateViewPoint(ViewPoint*) ;
     
     /// Le point de vue devient celui actif.
-    void ActiverViewPoint(const Base::Association<ViewPoint>&) ;
+    void activateViewPoint(ViewPoint*) ;
     
 
     /// Rafraichi l'affichage
@@ -100,4 +100,4 @@ namespace ProjetUnivers {
 
 
 
-#endif //_PU_AFFICHAGE_AFFICHAGE_H_
+#endif //_PU_DISPLAY_DISPLAY_H_

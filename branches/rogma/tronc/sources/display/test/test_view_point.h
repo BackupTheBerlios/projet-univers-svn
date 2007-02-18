@@ -17,8 +17,8 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_AFFICHAGE_TEST_TEST_POINT_DE_VUE_H_
-#define PU_AFFICHAGE_TEST_TEST_POINT_DE_VUE_H_
+#ifndef PU_DISPLAY_TEST_TEST_POINT_DE_VUE_H_
+#define PU_DISPLAY_TEST_TEST_POINT_DE_VUE_H_
 
 
 #include <cppunit/extensions/HelperMacros.h>
@@ -48,7 +48,7 @@ namespace ProjetUnivers {
            
       // @}
       // *******************************
-      /// @name Enregistrement des tests
+      /// @name Registerment des tests
       // *******************************
       // @{      
     
@@ -84,4 +84,4 @@ namespace ProjetUnivers {
 }
 
 
-#endif /*PU_AFFICHAGE_TEST_TEST_POINT_DE_VUE_H_*/
+#endif /*PU_DISPLAY_TEST_TEST_POINT_DE_VUE_H_*/

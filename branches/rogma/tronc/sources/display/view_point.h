@@ -18,17 +18,14 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_AFFICHAGE_POINT_DE_VUE_H_
-#define _PU_AFFICHAGE_POINT_DE_VUE_H_
+#ifndef _PU_DISPLAY_VIEW_POINT_H_
+#define _PU_DISPLAY_VIEW_POINT_H_
 
-#include <base/traceur.h>
+#include <kernel/log.h>
 
 #include <boost/function.hpp>
 
-#include <base/fonction_valeur_valeur.h>
-#include <base/association.h>
-#include <base/point_de_vue.h>
-#include <base/chaine.h>
+#include <kernel/view_point.h>
 
 
 namespace ProjetUnivers {
@@ -44,9 +41,7 @@ namespace ProjetUnivers {
     class Trait ;
     
     /// Type des fonction de construction de facette.
-    typedef 
-    boost::function1<Trait*, const Base::Association<Model::Trait>&>
-    ConstructeurVue ;
+    typedef boost::function1<Trait*, Model::Trait*> ViewBuilder ;
 
     /// Le point de vue subjectif par rapport à un observateur.
     /*!
@@ -56,19 +51,18 @@ namespace ProjetUnivers {
       - Object
       - Abstrait
     */
-    class ViewPoint : public Base::ViewPoint 
+    class ViewPoint : public Kernel::ViewPoint 
     {
     public:
 
       /// Construit un point de vue.
-      static ViewPoint* 
-          Construire(const Base::Association<Model::Object>& _observateur) ;
+      static ViewPoint* build(Model::Object* _observer) ;
 
       /// Le point de vue est celui affiché.
-      virtual void Activer() = 0 ;
+      virtual void activate() = 0 ;
 
       /// Le point de vue n'est plus affiché.
-      virtual void Desactiver() = 0 ;
+      virtual void desactivate() = 0 ;
  
       /// Initialise le point de vue
       virtual void init() = 0 ;
@@ -78,21 +72,19 @@ namespace ProjetUnivers {
 
       /// Demande au point de vue de détruire une de ses vue.
       virtual void destroy
-        (const Base::Association<Base::Implantation::BaseVue>&) ;
+        (Kernel::Implementation::KernelView*) ;
 
       /// Destructeur de classe abstraite.
       virtual ~ViewPoint() ;
 
       /// Change l'observateur de la vue.
-      virtual void ChangerObservateur
-        (const Base::Association<Model::Object>& _observateur) = 0 ;
+      virtual void changeObserver(Model::Object* _observer) = 0 ;
 
       /// La vue de l'observateur.
-      Base::Association<Object> AccesVueObservateur() const ;
+      Object* getObserverView() const ;
 
       /// Retrouver une vue à partir du modèle.
-      Base::Association<Object> RechercherVue
-        (const Base::Association<Model::Object>& _objet) const ;
+      Object* getView(Model::Object* _model) const ;
 
 
     
@@ -104,7 +96,7 @@ namespace ProjetUnivers {
     // @{
       
       /// Constructeur.
-      ViewPoint(const Base::Association<Model::Object>& _observateur) ;
+      ViewPoint(Model::Object* _observer) ;
       
       /// Constructeur.
       /*!
@@ -112,60 +104,57 @@ namespace ProjetUnivers {
         sait pas dans quelle sous classe on est, la construction se fait en 
         deux temps.
       */
-      void Construire() ;
+      void build() ;
       
       /// Construit récursivement une structure de vue pour @c _modele.
       /*!
-        Si ! this->EstVisible(_modele) renvoie NULL
+        Si ! this->isVisible(_modele) renvoie NULL
         @todo Tester.
       */
-      Object* ConstruireVue(const Base::Association<Model::Object>& _modele) ;
+      Object* buildView(Model::Object* _model) ;
       
       /// Vrai si l'objet doit être représenté dans le point de vue.
       /*!
         @constraint
           Si objet1 n'est pas visible alors aucun de ses composants ne l'est
       */
-      virtual Base::Booleen EstVisible
-              (const Base::Association<Model::Object>& _modele) const = 0 ;
+      virtual bool isVisible(Model::Object* _model) const = 0 ;
 
           
     // @}
     
       /// L'observateur.
-      Base::Association<Model::Object> observateur ;
+      Model::Object* observer ;
 
       /// L'observateur coté affichage.
-      Base::Association<Object> vueObservateur ;
+      Object* observerView ;
 
-      Base::Booleen initialise ;
+      bool initialised ;
       
       /// Constructeurs des vues.
-      static 
-      Base::FonctionValeurValeur<
-          std::pair<std::string,std::string>, 
-          ConstructeurVue> constructeurs ;
+      static std::map<std::pair<std::string,std::string>,
+                      ViewBuilder> builders ;
       
-      /// Enregistre @c _constructeur comme constructeur de @c _classeModel 
+      /// Register @c _constructeur comme constructeur de @c _classeModel 
       /// dans @c _classeViewPoint.
-      static void EnregistreConstruction(const std::string& _classeModel,
-                                         const std::string& _classeViewPoint,
-                                         ConstructeurVue _constructeur) ;
+      static void registerbuilder(const std::string& _classModel,
+                                  const std::string& _classViewPoint,
+                                  ViewBuilder _builder) ;
       
-      template <class Model, class ViewPoint> friend class EnregistrementVue ;
+      template <class Model, class ViewPoint> friend class ViewRegistration ;
       friend class Object ;
     };
     
-    /// Indique que ClasseVue est la vue de ClasseModel dans ClasseViewPoint
+    /// Indique que ClasseView est la vue de ClasseModel dans ClasseViewPoint
     /*!
     @par Utilisation
       
-      Dans le cpp d'une classe de Vue faire : 
+      Dans le cpp d'une classe de View faire : 
       
-        EnregistreVue(ClasseVue,ClasseModel,ClasseViewPoint) ;
+        RegisterView(ClasseView,ClasseModel,ClasseViewPoint) ;
         
     @example
-      EnregistreVue(Display::Mobile,Model::Mobile,Ogre::ViewPoint) ;
+      RegisterView(Display::Mobile,Model::Mobile,Ogre::ViewPoint) ;
       
     
     @par Fonctionnement
@@ -173,37 +162,35 @@ namespace ProjetUnivers {
         CPPUNIT_TEST_SUITE_REGISTRATION
       
     */
-    #define EnregistreVue(ClasseVue,ClasseModel,ClasseViewPoint)   \
-      namespace {                                                    \
-        Trait* construction(                                       \
-                      const Base::Association<Model::Trait>& _modele)\
-        {                                                            \
-          Base::Association<ClasseModel> temp(                       \
-            * static_cast<ClasseModel*>( & (*_modele))) ;          \
-          return new ClasseVue(temp) ;                            \
-        }                                                            \
-        EnregistrementVue<ClasseModel, ClasseViewPoint>           \
-            temp(&construction) ;                                    \
+    #define registerView(ClassView,ClassModel,ClassViewPoint)   \
+      namespace {                                               \
+        Trait* build(Model::Trait* _model)                      \
+        {                                                       \
+          ClassModel* temp(static_cast<ClassModel*>( _model))) ;\
+          return new ClassView(temp) ;                          \
+        }                                                       \
+        ViewRegistration<ClassModel, ClassViewPoint>            \
+            temp(&build) ;                                      \
       }                                                                
       
-    template <class M, class P> class EnregistrementVue
+    template <class M, class P> class ViewRegistration
     {
     public:
       
       /// Constructeur.
       /*!
         Ce constructeur est appelé à l'initialisation du module à cause de la 
-        déclaration de variable statique dans la macro EnregistreVue.
+        déclaration de variable statique dans la macro RegisterView.
         
         Le nom interne des classes M et P sert de clé à l'enregistrement de la 
         fonction constructrice.
       */
-      EnregistrementVue(ConstructeurVue constructeur)
+      ViewRegistration(ViewBuilder builder)
       {
         
-        Display::ViewPoint::EnregistreConstruction(typeid(M).name(),
-                                                      typeid(P).name(),
-                                                      constructeur) ;
+        Display::ViewPoint::registerBuilder(typeid(M).name(),
+                                            typeid(P).name(),
+                                            builder) ;
       }
     };
     

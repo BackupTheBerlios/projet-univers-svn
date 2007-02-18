@@ -19,10 +19,10 @@
  ***************************************************************************/
 
 
-#ifndef _PU_AFFICHAGE_EXCEPTION_H_
-#define _PU_AFFICHAGE_EXCEPTION_H_
+#ifndef _PU_DISPLAY_EXCEPTION_H_
+#define _PU_DISPLAY_EXCEPTION_H_
 
-#include <base/chaine.h>
+#include <String>
 
 namespace ProjetUnivers {
   namespace Display {
@@ -51,4 +51,4 @@ namespace ProjetUnivers {
   }
 }
 
-#endif /*_PU_AFFICHAGE_EXCEPTION_H_*/
+#endif /*_PU_DISPLAY_EXCEPTION_H_*/
