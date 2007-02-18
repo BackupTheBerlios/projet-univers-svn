@@ -59,7 +59,7 @@ namespace ProjetUnivers {
       @post
         Il n'y a plus d'actions à traiter
     */
-    void Traiter() ;
+    void update() ;
 
 
     /// Ajoute une action
@@ -72,10 +72,7 @@ namespace ProjetUnivers {
     void add(const std::string& _nomAction) ;
 
     /// 
-    /*!
-      temporaire
-    */
-    Base::Booleen Termine() ;
+    bool finished() ;
 
   //@}
   

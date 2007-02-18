@@ -20,14 +20,14 @@
 
 #include <OgreVector3.h>
 
-#include <base/implantation/liste_valeur.h>
-#include <base/traceur.h>
+#include <list>
+#include <kernel/log.h>
 
-#include <modele/modele.h>
-#include <modele/objet.h>
-#include <modele/positionne.h>
-#include <modele/solide.h>
-#include <modele/systeme_stellaire.h>
+#include <model/model.h>
+#include <model/object.h>
+#include <model/positionned.h>
+#include <model/solid.h>
+#include <model/stellar_system.h>
 
 #include <action/action.h>
 
@@ -37,37 +37,31 @@ using namespace ::Ogre ;
 namespace ProjetUnivers {
   namespace Action {
 
-    Base::Booleen finished ;
+    bool is_finished ;
 
     struct Action
     {
-      /// nom de l'action
-      std::string nom ;
-      
-      /// Moment de l'action
+      std::string name ;
       
     };
 
-    /// Actions à traiter
-    /*!
-    */
-    Base::Implantation::ListeValeur<Action> actions ;
+    std::list<Action> actions ;
     
     
-    void Traiter(const Action& _action)
+    void perfom(const Action& _action)
     {
       if (_action.nom == "Sortie")
       {
-        finished = Base::VRAI ;
+        finished = true ;
       }
       else if (_action.nom == "Haut")
       {
-        Base::Association<Model::Object> observateur(Model::AccesObject("Observateur")) ;
-        Base::Association<Model::Positionne> positionne(*observateur) ;
+        Kernel::Association<Model::Object> observateur(Model::getObject("Observer")) ;
+        Kernel::Association<Model::Positionne> positionne(*observateur) ;
         
         positionne->ModifierOrientation(
           Model::Orientation(
-            positionne->AccesOrientation().AccesQuaternion() 
+            positionne->getOrientation().getQuaternion() 
             * 
             Quaternion(Degree(45),Vector3::NEGATIVE_UNIT_X))) ;
             
@@ -75,36 +69,36 @@ namespace ProjetUnivers {
       }
       else if (_action.nom == "Bas")
       {
-        Base::Association<Model::Object> observateur(Model::AccesObject("Observateur")) ;
-        Base::Association<Model::Positionne> positionne(*observateur) ;
+        Kernel::Association<Model::Object> observateur(Model::getObject("Observer")) ;
+        Kernel::Association<Model::Positionne> positionne(*observateur) ;
         
         positionne->ModifierOrientation(
           Model::Orientation(
-            positionne->AccesOrientation().AccesQuaternion() 
+            positionne->getOrientation().getQuaternion() 
             * 
             Quaternion(Degree(45),Vector3::UNIT_X))) ;
         
       }
       else if (_action.nom == "Droite")
       {
-        Base::Association<Model::Object> observateur(Model::AccesObject("Observateur")) ;
-        Base::Association<Model::Positionne> positionne(*observateur) ;
+        Kernel::Association<Model::Object> observateur(Model::getObject("Observer")) ;
+        Kernel::Association<Model::Positionne> positionne(*observateur) ;
         
         positionne->ModifierOrientation(
           Model::Orientation(
-            positionne->AccesOrientation().AccesQuaternion() 
+            positionne->getOrientation().getQuaternion() 
             * 
             Quaternion(Degree(45),Vector3::NEGATIVE_UNIT_Y))) ;
         
       }
       else if (_action.nom == "Gauche")
       {
-        Base::Association<Model::Object> observateur(Model::AccesObject("Observateur")) ;
-        Base::Association<Model::Positionne> positionne(*observateur) ;
+        Kernel::Association<Model::Object> observateur(Model::getObject("Observer")) ;
+        Kernel::Association<Model::Positionne> positionne(*observateur) ;
         
         positionne->ModifierOrientation(
           Model::Orientation(
-            positionne->AccesOrientation().AccesQuaternion() 
+            positionne->getOrientation().getQuaternion() 
             * 
             Quaternion(Degree(45),Vector3::UNIT_Y))) ;
         
@@ -116,21 +110,21 @@ namespace ProjetUnivers {
           @par Etat 
             planning...
         */
-        Base::Association<Model::Object> observateur(Model::AccesObject("Observateur")) ;
-        Base::Association<Model::Positionne> observateurPositionne(*observateur) ;
+        Kernel::Association<Model::Object> observateur(Model::getObject("Observer")) ;
+        Kernel::Association<Model::Positionne> observateurPositionne(*observateur) ;
 
-        Base::Association<Model::Object> vaisseau(Model::AccesObject("Vaisseau")) ;
-        Base::Association<Model::Positionne> vaisseauPositionne(*vaisseau) ;
+        Kernel::Association<Model::Object> vaisseau(Model::getObject("Vaisseau")) ;
+        Kernel::Association<Model::Positionne> vaisseauPositionne(*vaisseau) ;
         
       }
       else if (_action.nom == "CreerObject")
       {
-        Base::Association<Model::Object> observateur(Model::AccesObject("Observateur")) ;
+        Kernel::Association<Model::Object> observateur(Model::getObject("Observer")) ;
         
-        Base::Association<Model::Object> systeme(
-          observateur->AccesParent<Model::SystemeStellaire>()->AccesObject()) ;
+        Kernel::Association<Model::Object> systeme(
+          observateur->getParent<Model::SystemeStellaire>()->getObject()) ;
         
-        Base::Association<Object> vaisseau = systeme->add(new Object(Nom("Vaisseau2"))) ;
+        Kernel::Association<Object> vaisseau = systeme->add(new Object(Name("Vaisseau2"))) ;
         vaisseau->add(new Positionne(Position(Distance(Distance::_Metre, 0),
                                                   Distance(Distance::_Metre, 500000),
                                                   Distance(Distance::_Metre, 0)) )) ;
@@ -140,8 +134,8 @@ namespace ProjetUnivers {
       }
       else if (_action.nom == "destroyObject")
       {
-        Base::Association<Model::Object> vaisseau(Model::AccesObject("Vaisseau2")) ;
-        Base::Traceur::MessageInterne("perparing to destroy object") ;
+        Kernel::Association<Model::Object> vaisseau(Model::getObject("Vaisseau2")) ;
+        Kernel::Log::InternalMessage("perparing to destroy object") ;
         Model::remove(vaisseau) ;
       }
     }
@@ -149,8 +143,8 @@ namespace ProjetUnivers {
     
     void init()
     {
-      actions.Vider() ;
-      finished = Base::FAUX ;
+      actions.clear() ;
+      finished = false ;
     }
 
     void close()
@@ -158,28 +152,28 @@ namespace ProjetUnivers {
       actions.Vider() ;
     }
 
-    void Traiter()
+    void update()
     {
-      for(Base::Implantation::IterateurListeValeur<Action> action(actions) ;
-          action.Valide() ;
+      for(std::list<Action>::iterator action = actions.begin() ;
+          action =! actions.end() ;
           ++action)
       {
-        Traiter(action) ;
+        perfom(*action) ;
       }
       
-      actions.Vider() ;
+      actions.clear() ;
     }
 
     void add(const std::string& _nomAction)
     {
       Action temp ;
-      temp.nom = _nomAction ;
-      actions.addEnQueue(temp) ;
+      temp.name = _nomAction ;
+      actions.push_back(temp) ;
     }
 
-    Base::Booleen Termine()
+    bool finished()
     {
-      return finished ;
+      return is_finished ;
     }
 
 
