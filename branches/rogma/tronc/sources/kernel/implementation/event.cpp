@@ -17,7 +17,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include<kernel/evenement.h>
+#include <kernel/event.h>
 
 namespace ProjetUnivers {
   namespace Kernel {
@@ -27,21 +27,23 @@ namespace ProjetUnivers {
     {}
 
     Event::Event(const Action& _action, 
-                         const Chaine& _nom, 
-                         const Association<Model>& _parametre)
-    : action(_action), nom(_nom), parametre(_parametre)
+                 const std::string& _name, 
+                 Model* _parameter)
+    : action(_action), name(_name), parameter(_parameter)
     {}
       
       /// Constructeur de copie.
-    Event::Event(const Event& _evenement)
-    : action(_evenement.action), nom(_evenement.nom), 
-      parametre(_evenement.parametre)
+    Event::Event(const Event& _event)
+    : action(_event.action), 
+      name(_event.name), 
+      parameter(_event.parameter)
     {}
     
-    bool Event::operator==(const Event& _evenement) const
+    bool Event::operator==(const Event& _event) const
     {
-      return action == _evenement.action && nom ==_evenement.nom
-              && parametre == _evenement.parametre ;
+      return action == _event.action 
+             && name ==_event.name
+             && parameter == _event.parameter ;
     }
          
   }

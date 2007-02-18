@@ -22,7 +22,7 @@
 #define _PU_KERNEL_VIEW_POINT_H_
 
 #include <vector>
-#include <std>
+#include <set>
 
 #include <kernel/event.h>
 #include <kernel/implementation/base_view.h>
@@ -64,7 +64,7 @@ namespace ProjetUnivers {
       ViewPoint() ;
 
       /// Ajoute une vue.
-      void add(Implementation::KernelView* _vue) ;
+      void add(Implementation::BaseView* _vue) ;
 
       /// Enlève une vue.
       void remove(Implementation::BaseView* _vue) ;
@@ -92,6 +92,9 @@ namespace ProjetUnivers {
     protected:
     
       /// Les vues constituant ce point de vue.
+      /*!
+        @composite
+      */
       std::set<Implementation::BaseView*> views ;
     
       
@@ -105,11 +108,11 @@ namespace ProjetUnivers {
     // @{
     
       /// Marque _vue comme devant être rafraichie.
-      void markToUdate(const Association<Implementation::KernelView> _vue,
-                       const Event& _evenement) ;
+      void markToUpdate(Implementation::BaseView* _view,
+                       const Event& _event) ;
     
       /// Marque _vue comme devant être supprimée.
-      void markToDestroy(const Association<Implementation::KernelView> _vue) ;
+      void markToDestroy(Implementation::BaseView* _view) ;
       
     //@}
 
@@ -123,13 +126,13 @@ namespace ProjetUnivers {
          désalocation (pour ne pas réallouer l'espace alloué) étant donné que 
          le nombre d'objets à détruire sera en pratique "borné".
       */
-      std::vector<Implementation::KernelView*> viewsToDestroy ;
+      std::vector<Implementation::BaseView*> viewsToDestroy ;
       
       
       struct Update
       {
-        Update(const Association<Implementation::KernelView>& _view,
-                         const Event& _event)
+        Update(Implementation::BaseView* _view,
+               const Event& _event)
         : view(_view), event(_event)
         {}
 
@@ -146,7 +149,7 @@ namespace ProjetUnivers {
       /*!
         N'importe quelles des vues constituant récursivement ce point de vue.
       */
-      std::set<Update> rafraichissements ;
+      std::vector<Update> updates ;
       
       friend class Implementation::BaseView ;
       

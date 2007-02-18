@@ -33,12 +33,12 @@ namespace ProjetUnivers {
       
     void Model::removeView(Implementation::BaseView* _view)
     {
-      views.remove(_view) ;
+      views.erase(_view) ;
     }
     
     Model::~Model()
     {
-      for(std::set<Implementation::KernelView*>::iterator view = views.begin() ;
+      for(std::set<Implementation::BaseView*>::iterator view = views.begin() ;
           view != views.end() ;
           ++view)
       {
@@ -53,7 +53,7 @@ namespace ProjetUnivers {
 
     void Model::notify(const Event& _evenement)
     {
-      for(std::set<Implementation::KernelView*>::iterator view = views.begin() ;
+      for(std::set<Implementation::BaseView*>::iterator view = views.begin() ;
           view != views.end() ;
           ++view)
       {

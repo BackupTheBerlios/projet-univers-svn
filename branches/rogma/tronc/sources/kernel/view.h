@@ -22,8 +22,7 @@
 #define _PU_KERNEL_VUE_H_
 
 
-#include <kernel/association.h>
-#include <kernel/implementation/base_vue.h>
+#include <kernel/implementation/base_view.h>
 
 
 namespace ProjetUnivers {

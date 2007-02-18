@@ -22,7 +22,7 @@
 
 
 #include <cppunit/extensions/HelperMacros.h>
-#include <kernel/erreur.h>
+#include <kernel/error.h>
 
 namespace ProjetUnivers {
   namespace Kernel {
@@ -30,7 +30,7 @@ namespace ProjetUnivers {
 
 
       ///  Test des erreurs.
-      class TestErreur : public CppUnit::TestFixture {
+      class TestError : public CppUnit::TestFixture {
       protected:
 
   
@@ -48,7 +48,7 @@ namespace ProjetUnivers {
         // *******************************
 
 
-        CPPUNIT_TEST_SUITE(TestErreur) ;
+        CPPUNIT_TEST_SUITE(TestError) ;
 
         CPPUNIT_TEST(TestExpression) ;
 

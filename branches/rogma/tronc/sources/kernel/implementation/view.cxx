@@ -30,8 +30,8 @@ namespace ProjetUnivers {
     {
       
       // vérifie que Modele dérive de Base::Modele
-      Inherits<Model,ProjetUnivers::Kernel::Model>() ;
-      observed->addView(*this) ;
+      Inherits<M,ProjetUnivers::Kernel::Model>() ;
+      observed->addView(this) ;
     }
     
     template <class M> 
@@ -39,7 +39,7 @@ namespace ProjetUnivers {
     {
       if (observed)
       {
-        observed->removeView(*this) ;
+        observed->removeView(this) ;
       }
     }
     template <class M> 
@@ -52,7 +52,7 @@ namespace ProjetUnivers {
      Model* View<M>::getModel() const
      {
        Model* result = dynamic_cast<Model*>(observed) ;
-       return *result ;
+       return result ;
      }
 
     

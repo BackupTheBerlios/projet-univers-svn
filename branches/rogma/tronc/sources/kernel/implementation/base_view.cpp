@@ -18,8 +18,8 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <kernel/point_de_vue.h>
-#include <kernel/implementation/base_vue.h>
+#include <kernel/view_point.h>
+#include <kernel/implementation/base_view.h>
 
 
 namespace ProjetUnivers {
@@ -30,30 +30,30 @@ namespace ProjetUnivers {
     namespace Implementation {
 
 
-      void KernelView::MarquerAupdate(const Event& _evenement)
+      void BaseView::markToUpdate(const Event& _event)
       {
-        if (pointDeView)
+        if (viewPoint)
         {
-          pointDeView->PenserAupdate(*this,_evenement) ;
+          viewPoint->markToUpdate(this,_event) ;
         }
       }
 
-      void KernelView::MarquerAdestroy()
+      void BaseView::markToDestroy()
       {
-        if (pointDeView)
+        if (viewPoint)
         {
-          pointDeView->PenserAdestroy(*this) ;
+          viewPoint->markToDestroy(this) ;
         } 
         // cette vue n'a pas de point de vue... elle ne sera pas 
         // rafraichie
       }
 
 
-      KernelView::KernelView()
-      : pointDeView()
+      BaseView::BaseView()
+      : viewPoint()
       {}
 
-      KernelView::~KernelView()
+      BaseView::~BaseView()
       {
         /// @todo : supprimer des vues du modèle et du point de vue... ?
       }

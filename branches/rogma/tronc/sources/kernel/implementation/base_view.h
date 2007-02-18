@@ -23,7 +23,6 @@
 
 
 #include <kernel/event.h>
-#include <kernel/types.h>
 
 
 namespace ProjetUnivers {
@@ -40,12 +39,12 @@ namespace ProjetUnivers {
           Choisir quoi faire lorsqu'on a oublié d'ajouter la vue à un point de 
           vue; pour l'instant la vue n'est pas rafraichie.
       */
-      class KernelView
+      class BaseView
       {
       public:
 
         /// Mise à jour.
-        virtual void update(const Event& _evenement) = 0 ;
+        virtual void update(const Event& _event) = 0 ;
 
 
       /*!
@@ -54,29 +53,29 @@ namespace ProjetUnivers {
       // @{
 
         /// Marque la vue comme devant être rafraichie au prochain tour.
-        void MarquerAupdate(const Event& _evenement) ;
+        void markToUpdate(const Event& _event) ;
 
         /// Marque la vue comme devant être détruite au prochain tour.
-        void MarquerAdestroy() ;
+        void markToDestroy() ;
 
       // @}
 
         /// Destructeur de classe abstraite.
-        virtual ~KernelView() ;
+        virtual ~BaseView() ;
         
         /// get au modele.
-        virtual Association<Model> getObserve() const = 0 ;
+        virtual Model* getModel() const = 0 ;
 
       protected:
       
         /// Constructeur de classe abstraite.
-        KernelView() ;
+        BaseView() ;
 
         /// Efface la relation vers modèle
-        virtual void DetacherDeModel() = 0 ;
+        virtual void detach() = 0 ;
         
         /// Les vues sont groupées au sein d'un point de vue
-        Association<ViewPoint> pointDeView ;
+        ViewPoint* viewPoint ;
 
         /*!
           Chemin complet pour gcc 4

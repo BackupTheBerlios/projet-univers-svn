@@ -24,8 +24,6 @@
 #include <rlog/StdioNode.h>
 #include <rlog/RLogChannel.h>
 
-#include <kernel/composition.h>
-
 namespace ProjetUnivers {
 
   namespace Kernel {
@@ -46,8 +44,8 @@ namespace ProjetUnivers {
       {
         
         // erreurs et debug
-        debug = fopen(debugFileName, "w") ;
-        debugLog = new rlog::StdioNode(fileno(debug)) ;
+        debug = fopen(debugFileName.c_str(), "w") ;
+        debugLog.reset(new rlog::StdioNode(fileno(debug))) ;
   
   
         debugLog->subscribeTo( rlog::GetGlobalChannel( "warning" ));
@@ -55,8 +53,8 @@ namespace ProjetUnivers {
         debugLog->subscribeTo( rlog::GetGlobalChannel( "debug" ));  
   
         // sortie
-        sortie = fopen(outputFileName, "w") ;
-        outputLog = new rlog::StdioNode(fileno(sortie)) ;
+        sortie = fopen(outputFileName.c_str(), "w") ;
+        outputLog.reset(new rlog::StdioNode(fileno(sortie))) ;
         
         // on se définit notre propre channel de sortie
         DEF_CHANNEL("ProjetUnivers", rlog::Log_Info) ;
@@ -74,18 +72,18 @@ namespace ProjetUnivers {
 
       void ErrorMessage(const std::string& _message)
       {
-        rError(_message) ;
+        rError(_message.c_str()) ;
       }
       
       /// Trace un message d'information.
       void InformationMessage(const std::string& _message)
       {
-        rLog(RLOG_CHANNEL("ProjetUnivers"), _message) ;
+        rLog(RLOG_CHANNEL("ProjetUnivers"), _message.c_str()) ;
       }
 
       void InternalMessage(const std::string& _message)
       {
-        rDebug(_message) ;
+        rDebug(_message.c_str()) ;
       }
 
 

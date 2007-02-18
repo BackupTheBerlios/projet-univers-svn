@@ -19,8 +19,8 @@
  ***************************************************************************/
 
 
-#include <kernel/joli_affichage.h>
-#include <kernel/exception_base.h>
+#include <kernel/pretty_print.h>
+#include <kernel/exception_kernel.h>
 
 namespace ProjetUnivers {
 
@@ -29,67 +29,67 @@ namespace ProjetUnivers {
     
     ////////////////
     // Indentation courante, initialisée à 0
-    EntierPositif indentation(0) ;
+    unsigned int indent(0) ;
     
     //////////////
     // Décalage, à ajouter où à soustraire
-    EntierPositif tabulation(2) ;
+    unsigned int tabulation(2) ;
     
     ////////////////
-    // fonction locale d'affichage de indentation espaces
-    Chaine AfficheEspaces() {
+    // fonction locale d'affichage de indent espaces
+    std::string PrintIndent() {
     
-      Chaine resultat ;
+      std::string resultat ;
     
       // on ajoute des espaces
-      for(EntierPositif i(0) ; i < indentation ; ++i)
+      for(unsigned int i(0) ; i < indent ; ++i)
         
         resultat += " " ;
     
       return resultat ;
     }
 
-    void AugmenteIndentation()
+    void IncreaseIndent()
     {
-      // on accroit l'indentation
-      indentation = indentation + tabulation ;
+      // on accroit l'indent
+      indent = indent + tabulation ;
     }
     
-    /// Diminue l'indentation
+    /// Diminue l'indent
     void DiminueIndentation()
     {
-        // on décroit l'indentation
-      if (indentation >= tabulation)
+        // on décroit l'indent
+      if (indent >= tabulation)
       {    
-       indentation = indentation - tabulation ;
+       indent = indent - tabulation ;
       }
       else
       {
-        indentation = 0 ;
+        indent = 0 ;
       }      
       
     }
     
-    Chaine FinDeLigne()
+    std::string EndOfLine()
     {
       return "\n" ;
     }
     
-    Chaine FinDeLigneEtIndente()
+    std::string EndOfLineEtIndente()
     {
-      return "\n" + AfficheEspaces() ;
+      return "\n" + PrintIndent() ;
     }
     
-    Chaine FinDeLigneAugmenteIndentation()
+    std::string EndOfLineIncreaseIndent()
     {
-      AugmenteIndentation() ;
-      return FinDeLigne() ;
+      IncreaseIndent() ;
+      return EndOfLine() ;
     }
     
-    Chaine FinDeLigneDiminueIndentation()
+    std::string EndOfLineDiminueIndentation()
     {
       DiminueIndentation() ;
-      return FinDeLigne() ;
+      return EndOfLine() ;
     
     }
   }   

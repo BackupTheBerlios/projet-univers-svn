@@ -47,13 +47,13 @@ namespace ProjetUnivers {
     // @{
     
       /// Trace un message d'erreur.
-      void ErrorMessage(const Chaine&) ;
+      void ErrorMessage(const std::string&) ;
       
       /// Trace un message d'information.
-      void InformationMessage(const Chaine&) ;
+      void InformationMessage(const std::string&) ;
 
       /// Trace un message interne.
-      void InternalMessage(const Chaine&) ;    
+      void InternalMessage(const std::string&) ;    
 
     // @}
     

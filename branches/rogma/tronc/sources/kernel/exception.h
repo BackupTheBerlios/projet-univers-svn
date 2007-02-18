@@ -23,7 +23,7 @@
 
 
 
-#include <kernel/chaine.h>
+#include <string>
 
 
 namespace ProjetUnivers {

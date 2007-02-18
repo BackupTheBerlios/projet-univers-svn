@@ -19,7 +19,7 @@
  ***************************************************************************/
 
 
-#include <kernel/exception_base.h>
+#include <kernel/exception_kernel.h>
 
 namespace ProjetUnivers {
 

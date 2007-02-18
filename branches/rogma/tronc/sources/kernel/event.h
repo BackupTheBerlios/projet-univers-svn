@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Equipe Projet Univers                           *
+ *   Copyright (C) 2006 by Equipe Projet Univers                           *
  *   rogma.boami@free.fr                                                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,62 +18,68 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_KERNEL_MODEL_H_
-#define _PU_KERNEL_MODEL_H_
+#ifndef _PU_KERNEL_EVENT_H_
+#define _PU_KERNEL_EVENT_H_
 
-#include <set>
-
-#include <kernel/event.h>
+#include <string>
 
 
 namespace ProjetUnivers {
   namespace Kernel {
-    
-    namespace Implementation
-    {
-      class BaseView ;
-    }
 
-    class Object ;
-    
-    /// L'abstraction d'un modèle.
+    class Model ;
+
+    /// Définition d'un évènement survenu sur un Modele.
     /*!
-      A utiliser en combinaison avec ProjetUnivers::Kernel::View.
+    @todo
+      Le paramètre peut être une valeur aussi?
     */
-    class Model
+    struct Event
     {
-    public:
-    
-      /// Register une vue.
-      /*!
-        Toutes les vues enregistrées seront notifiées des changements 
-        de cet objet.
-      */
-      void addView(Implementation::BaseView* _view) ;
+      /// Représentation la mise à jour
+      typedef enum
+      {
+        /// Pour un attribut mono-valué
+        Update,
+        /// Pour un attribut multi-valué
+        Add,
+        /// Pour un attribut multi-valué
+        Delete,
+        /// Valeur par défaut
+        Undefined
+
+      } Action ;
       
-      /// Des-enregistre une vue.
-      void removeView(Implementation::BaseView* _view) ;
-    
-      /// Classe abstraite donc destructeur virtuel.
-      virtual ~Model() ;
-    
-    protected:
-
-      /// Classe abstraite donc constructeur protégé.
-      Model() ;
-
-      /// Notifie les vues du changement.
-      void notify(const Event& _evenement = Event()) ;
-    
-    private:
-    
-      /// Les vues pour lesquelles il faut avertir des changements.
-      std::set<Implementation::BaseView*> views ;
-
+      /// Constructeur par défaut.
+      Event() ;
+      
+      /// Constructeur par défaut.
+      Event(const Action&, const std::string&, Model*) ;
+      
+      
+      /// Constructeur de copie.
+      Event(const Event&) ;
+      
+      bool operator==(const Event&) const ;
+      
+      
+      /// Action 
+      Action action ;
+      
+      /// Nom de l'élément modifié.
+      /*!
+      c'ets généralement le nom d'un atribut C++; mais pas forcément.
+      */
+      std::string name ;
+      
+      /// Paramètre de l'évenement.
+      /*!
+      @todo
+        voir ce dont on a besoin, par exemple de plusieurs paramètres ?
+      */
+      Model* parameter ;
     };
-    
   }
 }
 
-#endif
-
+#endif /*_PU_KERNEL_EVENT_H_*/

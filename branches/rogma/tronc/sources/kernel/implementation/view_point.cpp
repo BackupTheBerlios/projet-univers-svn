@@ -18,9 +18,8 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <kernel/implementation/base_vue.h>
-#include <kernel/point_de_vue.h>
-#include <kernel/iterateur_ensemble_valeur.h>
+#include <kernel/implementation/base_view.h>
+#include <kernel/view_point.h>
 
 
 namespace ProjetUnivers {
@@ -29,58 +28,59 @@ namespace ProjetUnivers {
     void ViewPoint::update()
     {
       
-      for(IterateurEnsembleValeur<ViewPoint::Rafraichissement> rafraichissement(rafraichissements) ;
-          rafraichissement.Valide() ;
-          ++rafraichissement)
+      for(std::vector<Update>::iterator update = updates.begin() ;
+          update != updates.end() ;
+          ++update)
       {
-        rafraichissement->vue->update(rafraichissement->evenement) ;
+        update->view->update(update->event) ;
       }
-      rafraichissements.Vider() ;
+      updates.clear() ;
 
-      for (std::vector<Implementation::KernelView*>::iterator vue = vuesAdestroy.begin() ;
-           vue != vuesAdestroy.end() ;
-           ++vue)
+      for (std::vector<Implementation::BaseView*>::iterator view = viewsToDestroy.begin() ;
+           view != viewsToDestroy.end() ;
+           ++view)
       {
-        this->destroy(**vue) ;
+        this->destroy(*view) ;
       }
       
       /// on vide sans détruire l'espace alloué
-      vuesAdestroy.resize(0) ;
+      viewsToDestroy.resize(0) ;
     }
   
     ViewPoint::ViewPoint()
     {}
 
-    void ViewPoint::add(Implementation::KernelView* _vue)
+    void ViewPoint::add(Implementation::BaseView* _view)
     {
-      if (_vue)
+      if (_view)
       {
-        _vue->pointDeView = *this ;
-        vues.add(_vue) ;
+        _view->viewPoint = this ;
+        views.insert(_view) ;
       }
       // sinon ... ???
     }
     
-    void ViewPoint::remove(const Association<Implementation::KernelView>& _vue)
+    void ViewPoint::remove(Implementation::BaseView* _view)
     {
-      vues.remove(_vue) ;
+      destroy(_view) ;
     }
     
-    void ViewPoint::PenserAupdate(
-                                  const Association<Implementation::KernelView> _vue,
-                                  const Event& _evenement)
+    void ViewPoint::markToUpdate(Implementation::BaseView* _view,
+                                  const Event& _event)
     {
-      rafraichissements.add(Rafraichissement(_vue,_evenement)) ;
+      updates.push_back(Update(_view,_event)) ;
     }
     
-    void ViewPoint::PenserAdestroy(
-                                  const Association<Implementation::KernelView> _vue)
+    void ViewPoint::markToDestroy(Implementation::BaseView* _view)
     {
-      vuesAdestroy.push_back(&*_vue) ;
+      viewsToDestroy.push_back(_view) ;
     }
-    void ViewPoint::destroy(const Association<Implementation::KernelView>& _vue)
+    void ViewPoint::destroy(Implementation::BaseView* _view)
     {
-      this->vues.remove(_vue) ;
+      if (this->views.erase(_view) != 0)
+      {
+        delete _view ;
+      }
     }
     
     

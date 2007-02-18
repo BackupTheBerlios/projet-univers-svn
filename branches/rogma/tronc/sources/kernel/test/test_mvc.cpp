@@ -23,29 +23,49 @@ using namespace std ;
 
 #include <kernel/test/test_mvc.h>
 
-#include <kernel/implementation/liste_association.h>
-#include <kernel/implementation/iterateur_liste_association.h>
 
+#include <kernel/exception.h>
 #include <kernel/model.h>
-#include <kernel/vue.h>
-#include <kernel/point_de_vue.h>
+#include <kernel/view.h>
+#include <kernel/view_point.h>
 
 
 CPPUNIT_TEST_SUITE_REGISTRATION(
     ProjetUnivers::Kernel::Implementation::Test::TestMVC) ;
 
 namespace ProjetUnivers {
-  
   namespace Kernel {
-    
     namespace Implementation {
-      
       namespace Test {
 
         /// un espace de nom local
         namespace
         {
-          class ModelTete ;
+          class ModelTete : public Model
+          {
+          public:
+          
+            ModelTete()
+            : Model(), attribut(0)
+            {}
+          
+            void ChangerAttribut(const int& nouvelleValeur) 
+            {
+              attribut = nouvelleValeur ;
+              notify() ;
+            }  
+            
+            int getAttribut() const
+            {
+              return attribut ;
+            }
+            
+          private:
+          
+            /// un attribut qui va etre modifié
+            int attribut ;
+            
+          };
           
           
           class ModelPersonne : public Model
@@ -56,56 +76,36 @@ namespace ProjetUnivers {
             : Model(), attribut(0), tete(_tete)
             {}
           
-            void ChangerAttribut(const Entier& nouvelleValeur) 
+            void ChangerAttribut(const int& nouvelleValeur) 
             {
               attribut = nouvelleValeur ;
               notify() ;
             }  
             
-            Entier getAttribut() const
+            int getAttribut() const
             {
               return attribut ;
             }
             
-            Association<ModelTete> getTete() const
+            ModelTete* getTete() const
             {
               return tete ;
             }
             
-          private:
-          
-            /// un attribut qui va etre modifié
-            Entier attribut ;
-            
-            Composition<ModelTete> tete ; 
-            
-          };
-
-          class ModelTete : public Model
-          {
-          public:
-          
-            ModelTete()
-            : Model(), attribut(0)
-            {}
-          
-            void ChangerAttribut(const Entier& nouvelleValeur) 
+            ~ModelPersonne()
             {
-              attribut = nouvelleValeur ;
-              notify() ;
-            }  
-            
-            Entier getAttribut() const
-            {
-              return attribut ;
+              delete tete ;
             }
             
           private:
           
             /// un attribut qui va etre modifié
-            Entier attribut ;
+            int attribut ;
+            
+            ModelTete* tete ; 
             
           };
+
 
           
           
@@ -116,11 +116,11 @@ namespace ProjetUnivers {
   
             void update(const Event& _evenement)
             {
-              tete_attribut = View<ModelTete>::observe->getAttribut() ;
-              raffraichie = VRAI ;
+              tete_attribut = View<ModelTete>::observed->getAttribut() ;
+              raffraichie = true ;
             }
   
-            ViewTete(const Association<ModelTete>& _tete)
+            ViewTete(ModelTete* _tete)
             : View<ModelTete>(_tete),
               tete_attribut(_tete->getAttribut())
             {
@@ -133,16 +133,16 @@ namespace ProjetUnivers {
             }
             
             
-            Entier getTeteAttribut() const 
+            int getTeteAttribut() const 
             {
               return tete_attribut ;
             }
             
-            Booleen raffraichie ;
+            bool raffraichie ;
             
           private:
             
-            Entier tete_attribut ;
+            int tete_attribut ;
             
           };
           
@@ -153,26 +153,26 @@ namespace ProjetUnivers {
   
             void update(const Event& _evenement)
             {
-              personne_attribut = View<ModelPersonne>::observe->getAttribut() ;
-              raffraichie = VRAI ;
+              personne_attribut = View<ModelPersonne>::observed->getAttribut() ;
+              raffraichie = true ;
             }
   
-            DisplayPersonne(const Association<ModelPersonne>& _personne)
+            DisplayPersonne(ModelPersonne* _personne)
             : View<ModelPersonne>(_personne), 
               personne_attribut(_personne->getAttribut())
             {
             }
             
             
-            Entier getPersonneAttribut() const
+            int getPersonneAttribut() const
             {
               return personne_attribut ;
             }
             
-            Booleen raffraichie ;
+            bool raffraichie ;
             
           private:
-            Entier personne_attribut ;
+            int personne_attribut ;
           };
           
           
@@ -185,57 +185,56 @@ namespace ProjetUnivers {
           
           try {
           // Création du modèle
-          Composition<ModelTete> compTete(new ModelTete()) ;
-          Association<ModelTete> tete(compTete) ;
-          Composition<ModelPersonne> CompPersonne(new ModelPersonne(compTete.Liberer())) ;
-          Association<ModelPersonne> personne(CompPersonne) ;
-          
+          std::auto_ptr<ModelTete> head(new ModelTete()) ;
+          ModelTete* tempHead = head.get() ;
+          std::auto_ptr<ModelPersonne> CompPersonne(new ModelPersonne(head.release())) ;
+          ModelPersonne* personne = CompPersonne.get() ;
           
           // point de vue
-          Composition<ViewPoint> pointDeView(new ViewPoint()) ;          
+          std::auto_ptr<ViewPoint> viewPoint(new ViewPoint()) ;          
           
           // Création des vues
-          Composition<ViewTete> compViewTete(new ViewTete(tete)) ;
-          Association<ViewTete> vueTete(compViewTete) ;
-          pointDeView->add(compViewTete.Liberer()) ;
+          std::auto_ptr<ViewTete> compViewTete(new ViewTete(tempHead)) ;
+          ViewTete* vueTete = compViewTete.get() ;
+          viewPoint->add(compViewTete.release()) ;
 
 
-          Composition<DisplayPersonne> compDisplayPersonne(new DisplayPersonne(personne)) ;
-          Association<DisplayPersonne> vuePersonne(compDisplayPersonne) ;
-          pointDeView->add(compDisplayPersonne.Liberer()) ;
+          std::auto_ptr<DisplayPersonne> compDisplayPersonne(new DisplayPersonne(CompPersonne.get())) ;
+          DisplayPersonne* vuePersonne(compDisplayPersonne.get()) ;
+          viewPoint->add(compDisplayPersonne.release()) ;
           
-          vueTete->raffraichie = FAUX ;
-          vuePersonne->raffraichie = FAUX ;
+          vueTete->raffraichie = false ;
+          vuePersonne->raffraichie = false ;
           
           // Utilisation
           
           // changement de personne
           personne->ChangerAttribut(10) ;
-          pointDeView->update() ;
+          viewPoint->update() ;
           CPPUNIT_ASSERT(vueTete->getTeteAttribut() == 0) ;
-          CPPUNIT_ASSERT(vueTete->raffraichie == FAUX) ;
-          CPPUNIT_ASSERT(vuePersonne->raffraichie == VRAI) ;
+          CPPUNIT_ASSERT(! vueTete->raffraichie) ;
+          CPPUNIT_ASSERT(vuePersonne->raffraichie) ;
           
-          vueTete->raffraichie = FAUX ;
-          vuePersonne->raffraichie = FAUX ;
+          vueTete->raffraichie = false ;
+          vuePersonne->raffraichie = false ;
 
           // aucun changement du modèle
-          pointDeView->update() ;
-          CPPUNIT_ASSERT(vueTete->raffraichie == FAUX) ;
-          CPPUNIT_ASSERT(vuePersonne->raffraichie == FAUX) ;
+          viewPoint->update() ;
+          CPPUNIT_ASSERT(! vueTete->raffraichie) ;
+          CPPUNIT_ASSERT(! vuePersonne->raffraichie) ;
 
           // changement de tete
           personne->getTete()->ChangerAttribut(20) ;
 
-          pointDeView->update() ;
+          viewPoint->update() ;
           CPPUNIT_ASSERT(vueTete->getTeteAttribut() == 20) ;
-          CPPUNIT_ASSERT(vueTete->raffraichie == VRAI) ;
-          CPPUNIT_ASSERT(vuePersonne->raffraichie == FAUX) ;
+          CPPUNIT_ASSERT(vueTete->raffraichie) ;
+          CPPUNIT_ASSERT(! vuePersonne->raffraichie) ;
 
           // Changement des 2
           personne->ChangerAttribut(100) ;
           personne->getTete()->ChangerAttribut(200) ;
-          pointDeView->update() ;
+          viewPoint->update() ;
           CPPUNIT_ASSERT(vueTete->getTeteAttribut() == 200) ;
           CPPUNIT_ASSERT(vuePersonne->getPersonneAttribut() == 100) ;
           

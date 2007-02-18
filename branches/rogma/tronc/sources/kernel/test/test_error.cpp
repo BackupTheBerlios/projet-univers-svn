@@ -18,14 +18,13 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <kernel/association.h>
-#include <kernel/exception_base.h>
+#include <kernel/exception_kernel.h>
 
-#include <kernel/test/test_erreur.h>
+#include <kernel/test/test_error.h>
 
 // enregistrement du test
 CPPUNIT_TEST_SUITE_REGISTRATION(
-  ProjetUnivers::Kernel::Test::TestErreur) ;
+  ProjetUnivers::Kernel::Test::TestError) ;
 
 namespace ProjetUnivers {
   namespace Kernel {
@@ -39,11 +38,11 @@ namespace ProjetUnivers {
 
   
       /// Teste certaines expressions.
-      void TestErreur::TestExpression()
+      void TestError::TestExpression()
       {
         try 
         {
-          Association<Object> element ;
+          Object* element = NULL ;
           check(element,ExceptionKernel("failed")) ;
           
           CPPUNIT_ASSERT(false) ;
@@ -60,12 +59,12 @@ namespace ProjetUnivers {
 
 
       /// Initialisation du test
-      void TestErreur::setUp()
+      void TestError::setUp()
       {        
       }
 
       /// Desinitialisation du test
-      void TestErreur::tearDown()
+      void TestError::tearDown()
       {
       }
 

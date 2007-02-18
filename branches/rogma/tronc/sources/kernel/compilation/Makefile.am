@@ -5,7 +5,7 @@ INCLUDES = -I$(SOURCES) $(librlog_CFLAGS)
 
 libkernel_la_SOURCES = \
 $(SOURCES)/kernel/implementation/base_view.cpp \
-$(SOURCES)/kernel/implementation/evenent.cpp \
+$(SOURCES)/kernel/implementation/event.cpp \
 $(SOURCES)/kernel/implementation/exception_kernel.cpp \
 $(SOURCES)/kernel/implementation/exception.cpp \
 $(SOURCES)/kernel/implementation/pretty_print.cpp \
