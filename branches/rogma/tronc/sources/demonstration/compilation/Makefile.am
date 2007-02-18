@@ -9,10 +9,10 @@ demonstration_SOURCES = \
 demonstration_LDFLAGS='-ldl'
 demonstration_LDADD = \
 $(OIS_LIBS) \
-$(SOURCES)/base/compilation/libbase.la \
-$(SOURCES)/affichage/compilation/libaffichage.la \
-$(SOURCES)/affichage/compilation/ogre/libaffichageogre.la \
+$(SOURCES)/kernel/compilation/libkernel.la \
+$(SOURCES)/display/compilation/libdisplay.la \
+$(SOURCES)/display/compilation/ogre/libdisplayogre.la \
 $(SOURCES)/action/compilation/libaction.la \
-$(SOURCES)/entrees/compilation/libentrees.la \
-$(SOURCES)/modele/compilation/libmodele.la \
+$(SOURCES)/input/compilation/libinput.la \
+$(SOURCES)/model/compilation/libmodel.la \
 $(librlog_LIBS) 

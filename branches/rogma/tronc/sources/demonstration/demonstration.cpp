@@ -18,13 +18,13 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <base/traceur.h>
-#include <affichage/affichage.h>
-#include <affichage/point_de_vue.h>
+#include <kernel/log.h>
+#include <display/display.h>
+#include <display/view_point.h>
 
-#include <entrees/entrees.h>
+#include <input/entrees.h>
 #include <action/action.h>
-#include <modele/modele.h>
+#include <model/model.h>
 
 using namespace ProjetUnivers ;
 
@@ -38,44 +38,44 @@ int main() {
 
 
   /// initialisation
-  Base::Traceur::init() ;
-  Base::Traceur::MessageInformation("Demarrage de projet univers") ;
+  Kernel::Log::init() ;
+  Kernel::Log::InformationMessage("Demarrage de projet univers") ;
   Model::init() ;
   Display::init() ;
   Action::init() ;
-  Entrees::init() ;
+  Input::init() ;
 
-  Base::Traceur::MessageInformation("Modules initialisés") ;
+  Kernel::Log::InformationMessage("Modules initialisés") ;
 
   Model::load("TestDemonstration") ;
 
-  Base::Association<Model::Object> observateur(Model::AccesObject("Observateur")) ;
+  Model::Object* observer(Model::getObject("Observer")) ;
   
   /// Création d'un point de vue sur ce modèle
-  Base::Association<Display::ViewPoint> pdv(
-      Display::addViewPoint(Display::ViewPoint::Construire(observateur))) ;
+  Kernel::Association<Display::ViewPoint> pdv(
+      Display::addViewPoint(Display::ViewPoint::build(observateur))) ;
 
-  Display::ActiverViewPoint(pdv) ;
+  Display::activateViewPoint(pdv) ;
 
-  Base::Traceur::MessageInformation("Demarrage de la boucle principale") ;
+  Kernel::Log::InformationMessage("Demarrage de la boucle principale") ;
 
   /// boucle principale
-  while (! Action::Termine())
+  while (! Action::finished())
   {
-    Entrees::Traiter() ;
-    Action::Traiter() ;
+    Input::update() ;
+    Action::update() ;
     Display::update() ;
   }
 
-  Base::Traceur::MessageInformation("Sortie de la boucle principale") ;
+  Kernel::Log::InformationMessage("Sortie de la boucle principale") ;
     
   /// sortie
-  Entrees::close() ;
+  Input::close() ;
   Action::close() ;
   Display::close() ;
   Model::close() ;
-  Base::Traceur::MessageInformation("Modules desinitialisés") ;
-  Base::Traceur::close() ;
+  Kernel::Log::InformationMessage("Modules desinitialisés") ;
+  Kernel::Log::close() ;
   
   return 0 ;
   
