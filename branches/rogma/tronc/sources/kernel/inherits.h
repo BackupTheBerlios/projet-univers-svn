@@ -18,13 +18,13 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_BASE_DERIVE_DE_H_
-#define _PU_BASE_DERIVE_DE_H_
+#ifndef _PU_KERNEL_INHERITS_H_
+#define _PU_KERNEL_INHERITS_H_
 
 
 namespace ProjetUnivers {
 
-  namespace Base {
+  namespace Kernel {
 
 
     /// Vérifie statiquement si Enfant dérive de Parent
@@ -36,24 +36,24 @@ namespace ProjetUnivers {
       
         Mettre :
         @code 
-          DeriveDe<A,B>() ; 
+          Inherits<A,B>() ; 
         @endcode
         aux endroits où on désire vérifier que A dérive de B.
         
         @see
-          Vue
+          View
 
     */
-    template<class Enfant, class Parent> struct DeriveDe 
+    template<class Child, class Parent> struct Inherits 
     {
-      static void Contrainte(Enfant* _enfant) 
+      static void constraint(Child* _child) 
       { 
-        Parent* parent = _enfant ; 
+        Parent* parent = _child ; 
       }
       
-      DeriveDe() 
+      Inherits() 
       { 
-        void(*p)(Enfant*) = Contrainte ; 
+        void(*p)(Child*) = constraint ; 
       }
       
      };

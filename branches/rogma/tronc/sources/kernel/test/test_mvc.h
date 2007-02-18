@@ -19,8 +19,8 @@
  ***************************************************************************/
 
 
-#ifndef _PU_BASE_TEST_MVC_H_
-#define _PU_BASE_TEST_MVC_H_
+#ifndef _PU_KERNEL_TEST_MVC_H_
+#define _PU_KERNEL_TEST_MVC_H_
 
 
 
@@ -28,15 +28,15 @@
 
 namespace ProjetUnivers {
   
-  namespace Base {
+  namespace Kernel {
     
-    namespace Implantation {
+    namespace Implementation {
       
       namespace Test {
   
         class ElementTestListe ;
   
-        ///  Teste le cadre Modèle Vue Controle.
+        ///  Teste le cadre Modèle View Controle.
         class TestMVC : public CppUnit::TestFixture {
         public:
   

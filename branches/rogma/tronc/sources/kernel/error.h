@@ -19,8 +19,8 @@
  ***************************************************************************/
 
 
-#ifndef _PU_BASE_ERREUR_H_
-#define _PU_BASE_ERREUR_H_
+#ifndef _PU_KERNEL_ERROR_H_
+#define _PU_KERNEL_ERROR_H_
 
 #include <cassert>
 
@@ -42,15 +42,15 @@
 */
 #ifdef _DEBUG
   
-  #define VerifieCondition(condition, exception) assert((condition)) ;
+  #define check(condition, exception) assert((condition)) ;
 
 #else
 
-  #define VerifieCondition(condition, exception) { if (!(condition)) throw exception ; }
+  #define check(condition, exception) { if (!(condition)) throw exception ; }
 
 #endif
 
 
 
 
-#endif /*_PU_BASE_ERREUR_H_*/
+#endif /*_PU_KERNEL_ERROR_H_*/

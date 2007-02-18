@@ -19,16 +19,14 @@
  ***************************************************************************/
 
  
-#ifndef _PU_BASE_TRACEUR_H_
-#define _PU_BASE_TRACEUR_H_
+#ifndef _PU_KERNEL_LOG_H_
+#define _PU_KERNEL_LOG_H_
 
-#include <base/chaine.h>
+#include <string>
 
 namespace ProjetUnivers {
-
-  namespace Base {
-  
-    namespace Traceur
+  namespace Kernel {
+    namespace Log
     {
         
     /*!
@@ -49,13 +47,13 @@ namespace ProjetUnivers {
     // @{
     
       /// Trace un message d'erreur.
-      void MessageErreur(const Chaine&) ;
+      void ErrorMessage(const Chaine&) ;
       
       /// Trace un message d'information.
-      void MessageInformation(const Chaine&) ;
+      void InformationMessage(const Chaine&) ;
 
       /// Trace un message interne.
-      void MessageInterne(const Chaine&) ;    
+      void InternalMessage(const Chaine&) ;    
 
     // @}
     

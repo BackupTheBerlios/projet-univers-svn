@@ -18,16 +18,16 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_BASE_VUE_H_
-#define _PU_BASE_VUE_H_
+#ifndef _PU_KERNEL_VUE_H_
+#define _PU_KERNEL_VUE_H_
 
 
-#include <base/association.h>
-#include <base/implantation/base_vue.h>
+#include <kernel/association.h>
+#include <kernel/implementation/base_vue.h>
 
 
 namespace ProjetUnivers {
-  namespace Base {
+  namespace Kernel {
     
     class Model ;
     
@@ -39,43 +39,43 @@ namespace ProjetUnivers {
            
     @par Fonctionnement
     
-      Une Vue sur un modèle est notifiée des changements apparus sur ce 
+      Une View sur un modèle est notifiée des changements apparus sur ce 
       modèle. 
       La notification est effectuée globalement lorsque le ViewPoint 
-      contenant cette Vue est rafraichi.
+      contenant cette View est rafraichi.
     
     @pre
-      Model doit être une sous classe de ProjetUnivers::Base::Model
+      Model doit être une sous classe de ProjetUnivers::Kernel::Model
     
     */
-    template <class M> class Vue : virtual public Implantation::BaseVue
+    template <class M> class View : virtual public Implementation::BaseView
     {
     public:
     
       /// Mise à jour.
-      virtual void update(const Evenement& _evenement) = 0 ;
+      virtual void update(const Event& _event) = 0 ;
     
       /// Destructeur de classe abstraite.
-      virtual ~Vue() ;
+      virtual ~View() ;
     
-      virtual Association<Model> AccesObserve() const ;
+      virtual Model* getModel() const ;
     
     protected:
     
       /// Constructeur de classe abstraite.
-      Vue(const Association<M>& _modele) ;
+      View(M* _model) ;
     
       /// Efface la relation vers modèle
-      virtual void DetacherDeModel() ;
+      virtual void detach() ;
       
       /// Ce que la vue voit.
-      Association<M> observe ;
+      M* observed ;
     };
     
   }
 }
 
-#include <base/implantation/vue.cxx>
+#include <kernel/implementation/view.cxx>
 
 
 #endif

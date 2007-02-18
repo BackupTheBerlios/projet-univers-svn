@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Equipe Projet Univers                           *
+ *   Copyright (C) 2006 by Equipe Projet Univers                           *
  *   rogma.boami@free.fr                                                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,47 +17,32 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-
-#include <base/point_de_vue.h>
-#include <base/implantation/base_vue.h>
-
+#include<kernel/evenement.h>
 
 namespace ProjetUnivers {
-  namespace Base {
+  namespace Kernel {
+
+    /// Constructeur par défaut.
+    Event::Event()
+    {}
+
+    Event::Event(const Action& _action, 
+                         const Chaine& _nom, 
+                         const Association<Model>& _parametre)
+    : action(_action), nom(_nom), parametre(_parametre)
+    {}
+      
+      /// Constructeur de copie.
+    Event::Event(const Event& _evenement)
+    : action(_evenement.action), nom(_evenement.nom), 
+      parametre(_evenement.parametre)
+    {}
     
-    class ViewPoint ;
-    
-    namespace Implantation {
-
-
-      void BaseVue::MarquerAupdate(const Evenement& _evenement)
-      {
-        if (pointDeVue)
-        {
-          pointDeVue->PenserAupdate(*this,_evenement) ;
-        }
-      }
-
-      void BaseVue::MarquerAdestroy()
-      {
-        if (pointDeVue)
-        {
-          pointDeVue->PenserAdestroy(*this) ;
-        } 
-        // cette vue n'a pas de point de vue... elle ne sera pas 
-        // rafraichie
-      }
-
-
-      BaseVue::BaseVue()
-      : pointDeVue()
-      {}
-
-      BaseVue::~BaseVue()
-      {
-        /// @todo : supprimer des vues du modèle et du point de vue... ?
-      }
-
+    bool Event::operator==(const Event& _evenement) const
+    {
+      return action == _evenement.action && nom ==_evenement.nom
+              && parametre == _evenement.parametre ;
     }
+         
   }
 }

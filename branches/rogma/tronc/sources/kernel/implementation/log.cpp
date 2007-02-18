@@ -24,44 +24,44 @@
 #include <rlog/StdioNode.h>
 #include <rlog/RLogChannel.h>
 
-#include <base/composition.h>
+#include <kernel/composition.h>
 
 namespace ProjetUnivers {
 
-  namespace Base {
+  namespace Kernel {
 
-    namespace Traceur
+    namespace Log
     {
   
-      const Chaine nomFichierDebug("debug.log") ;
-      const Chaine nomFichierSortie("sortie.log") ;
+      const std::string debugFileName("debug.log") ;
+      const std::string outputFileName("sortie.log") ;
   
       FILE* debug ;
       FILE* sortie ;
       
-      Base::Composition<rlog::StdioNode> traceurDebug ;
-      Base::Composition<rlog::StdioNode> traceurSortie ;
+      std::auto_ptr<rlog::StdioNode> debugLog ;
+      std::auto_ptr<rlog::StdioNode> outputLog ;
   
       void init()
       {
         
         // erreurs et debug
-        debug = fopen(nomFichierDebug, "w") ;
-        traceurDebug = new rlog::StdioNode(fileno(debug)) ;
+        debug = fopen(debugFileName, "w") ;
+        debugLog = new rlog::StdioNode(fileno(debug)) ;
   
   
-        traceurDebug->subscribeTo( rlog::GetGlobalChannel( "warning" ));
-        traceurDebug->subscribeTo( rlog::GetGlobalChannel( "error" ));
-        traceurDebug->subscribeTo( rlog::GetGlobalChannel( "debug" ));  
+        debugLog->subscribeTo( rlog::GetGlobalChannel( "warning" ));
+        debugLog->subscribeTo( rlog::GetGlobalChannel( "error" ));
+        debugLog->subscribeTo( rlog::GetGlobalChannel( "debug" ));  
   
         // sortie
-        sortie = fopen(nomFichierSortie, "w") ;
-        traceurSortie = new rlog::StdioNode(fileno(sortie)) ;
+        sortie = fopen(outputFileName, "w") ;
+        outputLog = new rlog::StdioNode(fileno(sortie)) ;
         
         // on se définit notre propre channel de sortie
         DEF_CHANNEL("ProjetUnivers", rlog::Log_Info) ;
   
-        traceurSortie->subscribeTo( rlog::GetGlobalChannel( "ProjetUnivers" ));
+        outputLog->subscribeTo( rlog::GetGlobalChannel( "ProjetUnivers" ));
           
       }
       
@@ -72,18 +72,18 @@ namespace ProjetUnivers {
   
       }
 
-      void MessageErreur(const Chaine& _message)
+      void ErrorMessage(const std::string& _message)
       {
         rError(_message) ;
       }
       
       /// Trace un message d'information.
-      void MessageInformation(const Chaine& _message)
+      void InformationMessage(const std::string& _message)
       {
         rLog(RLOG_CHANNEL("ProjetUnivers"), _message) ;
       }
 
-      void MessageInterne(const Chaine& _message)
+      void InternalMessage(const std::string& _message)
       {
         rDebug(_message) ;
       }

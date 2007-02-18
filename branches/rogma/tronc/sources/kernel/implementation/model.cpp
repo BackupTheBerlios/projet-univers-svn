@@ -18,72 +18,51 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <base/implantation/base_vue.h>
-#include <base/point_de_vue.h>
-#include <base/iterateur_ensemble_valeur.h>
+#include <kernel/log.h>
 
+#include <kernel/implementation/base_view.h>
+#include <kernel/model.h>
 
 namespace ProjetUnivers {
-  namespace Base {
-
-    void ViewPoint::update()
+  namespace Kernel {
+    
+    void Model::addView(Implementation::BaseView* _view)
     {
-      
-      for(IterateurEnsembleValeur<ViewPoint::Rafraichissement> rafraichissement(rafraichissements) ;
-          rafraichissement.Valide() ;
-          ++rafraichissement)
-      {
-        rafraichissement->vue->update(rafraichissement->evenement) ;
-      }
-      rafraichissements.Vider() ;
-
-      for (std::vector<Implantation::BaseVue*>::iterator vue = vuesAdestroy.begin() ;
-           vue != vuesAdestroy.end() ;
-           ++vue)
-      {
-        this->destroy(**vue) ;
-      }
-      
-      /// on vide sans détruire l'espace alloué
-      vuesAdestroy.resize(0) ;
+      views.insert(_view) ;  
     }
-  
-    ViewPoint::ViewPoint()
+      
+    void Model::removeView(Implementation::BaseView* _view)
+    {
+      views.remove(_view) ;
+    }
+    
+    Model::~Model()
+    {
+      for(std::set<Implementation::KernelView*>::iterator view = views.begin() ;
+          view != views.end() ;
+          ++view)
+      {
+        (*view)->markToDestroy() ;
+        (*view)->detach() ;
+      }
+      
+    }
+    
+    Model::Model()
     {}
 
-    void ViewPoint::add(Implantation::BaseVue* _vue)
+    void Model::notify(const Event& _evenement)
     {
-      if (_vue)
+      for(std::set<Implementation::KernelView*>::iterator view = views.begin() ;
+          view != views.end() ;
+          ++view)
       {
-        _vue->pointDeVue = *this ;
-        vues.add(_vue) ;
-      }
-      // sinon ... ???
-    }
-    
-    void ViewPoint::remove(const Association<Implantation::BaseVue>& _vue)
-    {
-      vues.remove(_vue) ;
-    }
-    
-    void ViewPoint::PenserAupdate(
-                                  const Association<Implantation::BaseVue> _vue,
-                                  const Evenement& _evenement)
-    {
-      rafraichissements.add(Rafraichissement(_vue,_evenement)) ;
-    }
-    
-    void ViewPoint::PenserAdestroy(
-                                  const Association<Implantation::BaseVue> _vue)
-    {
-      vuesAdestroy.push_back(&*_vue) ;
-    }
-    void ViewPoint::destroy(const Association<Implantation::BaseVue>& _vue)
-    {
-      this->vues.remove(_vue) ;
+        (*view)->markToUpdate(_evenement) ;
+      }  
     }
     
     
   }
 }
+
 

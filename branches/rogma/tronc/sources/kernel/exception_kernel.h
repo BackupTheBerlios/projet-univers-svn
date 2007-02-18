@@ -19,27 +19,27 @@
  ***************************************************************************/
 
 
-#ifndef _PU_BASE_EXCEPTION_BASE_H_
-#define _PU_BASE_EXCEPTION_BASE_H_
+#ifndef _PU_KERNEL_KERNEL_EXCEPTION_H_
+#define _PU_KERNEL_KERNEL_EXCEPTION_H_
 
 
 
-#include <base/chaine.h>
-#include <base/exception.h>
+#include <string>
+#include <kernel/exception.h>
 
 
 namespace ProjetUnivers {
   
-  namespace Base {
+  namespace Kernel {
   
   
     
-    ///  Classe des exceptions utilisées dans le module Base.
-    class ExceptionBase : public Exception {
+    ///  Classe des exceptions utilisées dans le module Kernel.
+    class ExceptionKernel : public Exception {
     public:
 
       /// Constructeur.
-      ExceptionBase(const Chaine& _message) ;
+      ExceptionKernel(const std::string& _message) ;
 
       /// Constructeur de copie.
       
@@ -48,7 +48,7 @@ namespace ProjetUnivers {
           le constructeur de copie est obligatoire
           pour les exceptions.
       */
-      ExceptionBase(const ExceptionBase& x) ;
+      ExceptionKernel(const ExceptionKernel& x) ;
     
     };
 

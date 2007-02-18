@@ -18,20 +18,17 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_BASE_POINT_DE_VUE_H_
-#define _PU_BASE_POINT_DE_VUE_H_
+#ifndef _PU_KERNEL_VIEW_POINT_H_
+#define _PU_KERNEL_VIEW_POINT_H_
 
 #include <vector>
+#include <std>
 
-#include <base/association.h>
-#include <base/ensemble_composition.h>
-#include <base/ensemble_association.h>
-#include <base/ensemble_valeur.h>
-#include <base/evenement.h>
-#include <base/implantation/base_vue.h>
+#include <kernel/event.h>
+#include <kernel/implementation/base_view.h>
 
 namespace ProjetUnivers {
-  namespace Base {
+  namespace Kernel {
     
     
 
@@ -49,7 +46,7 @@ namespace ProjetUnivers {
     
       @par Utilisation 
       -# Création d'un point de vue
-      -# Enregistrement des vues par ViewPoint::add
+      -# Registerment des vues par ViewPoint::add
       -# Raffraichissement périodique par ViewPoint::Raffraichir
         
     */
@@ -67,10 +64,10 @@ namespace ProjetUnivers {
       ViewPoint() ;
 
       /// Ajoute une vue.
-      void add(Implantation::BaseVue* _vue) ;
+      void add(Implementation::KernelView* _vue) ;
 
       /// Enlève une vue.
-      void remove(const Association<Implantation::BaseVue>& _vue) ;
+      void remove(Implementation::BaseView* _vue) ;
 
     // @}
     /*!
@@ -84,7 +81,7 @@ namespace ProjetUnivers {
       virtual void update() ;
 
       /// Demande au point de vue de détruire la vue.
-      virtual void destroy(const Association<Implantation::BaseVue>&) ;
+      virtual void destroy(Implementation::BaseView*) ;
     
     // @}
       
@@ -95,7 +92,7 @@ namespace ProjetUnivers {
     protected:
     
       /// Les vues constituant ce point de vue.
-      EnsembleComposition<Implantation::BaseVue> vues ;
+      std::set<Implementation::BaseView*> views ;
     
       
     private:
@@ -108,11 +105,11 @@ namespace ProjetUnivers {
     // @{
     
       /// Marque _vue comme devant être rafraichie.
-      void PenserAupdate(const Association<Implantation::BaseVue> _vue,
-                              const Evenement& _evenement) ;
+      void markToUdate(const Association<Implementation::KernelView> _vue,
+                       const Event& _evenement) ;
     
       /// Marque _vue comme devant être supprimée.
-      void PenserAdestroy(const Association<Implantation::BaseVue> _vue) ;
+      void markToDestroy(const Association<Implementation::KernelView> _vue) ;
       
     //@}
 
@@ -126,32 +123,32 @@ namespace ProjetUnivers {
          désalocation (pour ne pas réallouer l'espace alloué) étant donné que 
          le nombre d'objets à détruire sera en pratique "borné".
       */
-      std::vector<Implantation::BaseVue*> vuesAdestroy ;
+      std::vector<Implementation::KernelView*> viewsToDestroy ;
       
       
-      struct Rafraichissement
+      struct Update
       {
-        Rafraichissement(const Association<Implantation::BaseVue>& _vue,
-                         const Evenement& _evenement)
-        : vue(_vue), evenement(_evenement)
+        Update(const Association<Implementation::KernelView>& _view,
+                         const Event& _event)
+        : view(_view), event(_event)
         {}
 
-        bool operator==(const Rafraichissement& _r) const
+        bool operator==(const Update& _r) const
         {
-          return vue == _r.vue && evenement == _r.evenement ;
+          return view == _r.view && event == _r.event ;
         }
           
-        Association<Implantation::BaseVue> vue ;
-        Evenement evenement ;
+        Implementation::BaseView* view ;
+        Event event ;
       };
       
       /// Les rafraichissements à effectuer au prochain tour.
       /*!
-        N'importe quelles des vues cosntituant récursivement ce point de vue.
+        N'importe quelles des vues constituant récursivement ce point de vue.
       */
-      EnsembleValeur<Rafraichissement> rafraichissements ;
+      std::set<Update> rafraichissements ;
       
-      friend class Implantation::BaseVue ;
+      friend class Implementation::BaseView ;
       
     };
 

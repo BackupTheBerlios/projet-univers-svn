@@ -18,46 +18,46 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <base/derive_de.h>
+#include <kernel/point_de_vue.h>
+#include <kernel/implementation/base_vue.h>
+
 
 namespace ProjetUnivers {
-  namespace Base {
-
-    class Modele ;
-
-    template <class M> 
-    Vue<M>::Vue(const Association<M>& _modele)
-    : Implantation::BaseVue(), observe(_modele)
-    {
-      
-      // vérifie que Modele dérive de Base::Modele
-      DeriveDe<Modele,ProjetUnivers::Base::Modele>() ;
-      observe->AjouterVue(*this) ;
-    }
+  namespace Kernel {
     
-    template <class M> 
-    Vue<M>::~Vue()
-    {
-      if (observe)
+    class ViewPoint ;
+    
+    namespace Implementation {
+
+
+      void KernelView::MarquerAupdate(const Event& _evenement)
       {
-        observe->EnleverVue(*this) ;
+        if (pointDeView)
+        {
+          pointDeView->PenserAupdate(*this,_evenement) ;
+        }
       }
-    }
-    template <class M> 
-    void Vue<M>::DetacherDeModele()
-    {
-      observe = Association<M>() ;
-    }
 
-    template <class M> 
-     Association<Modele> Vue<M>::AccesObserve() const
-     {
-       Modele* result = dynamic_cast<Modele*>(&*observe) ;
-       return *result ;
-     }
+      void KernelView::MarquerAdestroy()
+      {
+        if (pointDeView)
+        {
+          pointDeView->PenserAdestroy(*this) ;
+        } 
+        // cette vue n'a pas de point de vue... elle ne sera pas 
+        // rafraichie
+      }
 
-    
-    
-   
+
+      KernelView::KernelView()
+      : pointDeView()
+      {}
+
+      KernelView::~KernelView()
+      {
+        /// @todo : supprimer des vues du modèle et du point de vue... ?
+      }
+
+    }
   }
 }

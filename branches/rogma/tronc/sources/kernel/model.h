@@ -18,42 +18,41 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_BASE_MODELE_H_
-#define _PU_BASE_MODELE_H_
+#ifndef _PU_KERNEL_MODEL_H_
+#define _PU_KERNEL_MODEL_H_
 
+#include <set>
 
-#include <base/association.h>
-#include <base/ensemble_association.h>
-#include <base/evenement.h>
+#include <kernel/event.h>
 
 
 namespace ProjetUnivers {
-  namespace Base {
+  namespace Kernel {
     
-    namespace Implantation
+    namespace Implementation
     {
-      class BaseVue ;
+      class KernelView ;
     }
 
     class Object ;
     
     /// L'abstraction d'un modèle.
     /*!
-      A utiliser en combinaison avec ProjetUnivers::Base::Vue.
+      A utiliser en combinaison avec ProjetUnivers::Kernel::View.
     */
     class Model
     {
     public:
     
-      /// Enregistre une vue.
+      /// Register une vue.
       /*!
         Toutes les vues enregistrées seront notifiées des changements 
         de cet objet.
       */
-      void addVue(const Association<Implantation::BaseVue>& _vue) ;
+      void addView(const Association<Implementation::KernelView>& _vue) ;
       
       /// Des-enregistre une vue.
-      void removeVue(const Association<Implantation::BaseVue>& _vue) ;
+      void removeView(const Association<Implementation::KernelView>& _vue) ;
     
       /// Classe abstraite donc destructeur virtuel.
       virtual ~Model() ;
@@ -64,12 +63,12 @@ namespace ProjetUnivers {
       Model() ;
 
       /// Notifie les vues du changement.
-      void Notifier(const Evenement& _evenement = Evenement()) ;
+      void notify(const Event& _evenement = Event()) ;
     
     private:
     
       /// Les vues pour lesquelles il faut avertir des changements.
-      EnsembleAssociation<Implantation::BaseVue> observateurs ;
+      std::set<Implementation::KernelView*> views ;
 
     };
     

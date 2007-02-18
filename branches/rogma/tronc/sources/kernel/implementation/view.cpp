@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Equipe Projet Univers                           *
+ *   Copyright (C) 2004 by Equipe Projet Univers                           *
  *   rogma.boami@free.fr                                                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,32 +17,6 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include<base/evenement.h>
 
-namespace ProjetUnivers {
-  namespace Base {
 
-    /// Constructeur par défaut.
-    Evenement::Evenement()
-    {}
-
-    Evenement::Evenement(const Action& _action, 
-                         const Chaine& _nom, 
-                         const Association<Model>& _parametre)
-    : action(_action), nom(_nom), parametre(_parametre)
-    {}
-      
-      /// Constructeur de copie.
-    Evenement::Evenement(const Evenement& _evenement)
-    : action(_evenement.action), nom(_evenement.nom), 
-      parametre(_evenement.parametre)
-    {}
-    
-    bool Evenement::operator==(const Evenement& _evenement) const
-    {
-      return action == _evenement.action && nom ==_evenement.nom
-              && parametre == _evenement.parametre ;
-    }
-         
-  }
-}
+#include <kernel/vue.h>

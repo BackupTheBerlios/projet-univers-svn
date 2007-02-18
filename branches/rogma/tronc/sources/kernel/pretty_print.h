@@ -19,22 +19,18 @@
  ***************************************************************************/
 
 
-#ifndef _PU_BASE_JOLI_AFFICHAGE_
-#define _PU_BASE_JOLI_AFFICHAGE_
+#ifndef _PU_KERNEL_PRETTY_PRINT_H_
+#define _PU_KERNEL_PRETTY_PRINT_H_
 
 
 
-#include <base/chaine.h>
+#include <kernel/chaine.h>
 
 namespace ProjetUnivers {
-
-  namespace Base {
+  namespace Kernel {
     
   /*!
-    @name Display avec indentation
-    
-    @par Utilisation
-    
+    @name Display with indent
     
 
   */
@@ -44,28 +40,28 @@ namespace ProjetUnivers {
     /*!
       conserve l'indentation actuelle.
     */
-    Chaine FinDeLigneEtIndente() ;
+    std::string EndOfLineIndent() ;
 
     /// Passe à la ligne suivante
     /*!
       N'indente pas.
     */
-    Chaine FinDeLigne() ;
+    std::string EndOfLine() ;
 
     /// Augmente l'indentation
-    void AugmenteIndentation() ;
+    void IncreaseIndent() ;
     
     /// Diminue l'indentation
-    void DiminueIndentation() ;
+    void DecreaseIndent() ;
 
     /// Display des espaces.
-    Chaine AfficheEspaces() ;
+    std::string PrintIndent() ;
 
     /// Passe à la ligne suivante, augmente l'indentation
-    Chaine FinDeLigneAugmenteIndentation() ;
+    std::string EndOfLineIncreaseIndent() ;
     
     /// Passe à la ligne suivante, diminue l'indentation
-    Chaine FinDeLigneDiminueIndentation() ;
+    std::string EndOfLineDecreaseIndent() ;
 
   // @}
 

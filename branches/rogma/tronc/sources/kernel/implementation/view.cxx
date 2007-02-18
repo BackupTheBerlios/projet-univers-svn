@@ -18,57 +18,45 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <base/traceur.h>
-
-#include <base/implantation/base_vue.h>
-#include <base/modele.h>
-
-#include <base/iterateur_ensemble_association.h>
-
+#include <kernel/inherits.h>
 
 namespace ProjetUnivers {
+  namespace Kernel {
+    class Model ;
 
-  namespace Base {
-    
-    void Model::addVue(const Association<Implantation::BaseVue>& _vue)
-    {
-      observateurs.add(_vue) ;  
-    }
-      
-    void Model::removeVue(const Association<Implantation::BaseVue>& _vue)
-    {
-      observateurs.remove(_vue) ;
-    }
-    
-    Model::~Model()
+    template <class M> 
+    View<M>::View(M* _model)
+    : Implementation::BaseView(), observed(_model)
     {
       
-      Traceur::MessageInterne(Chaine(observateurs.NombreDElements()) + " elements") ;
-      for(IterateurEnsembleAssociation<Implantation::BaseVue> vue(observateurs) ;
-          vue.Valide() ;
-          ++vue)
+      // vérifie que Modele dérive de Base::Modele
+      Inherits<Model,ProjetUnivers::Kernel::Model>() ;
+      observed->addView(*this) ;
+    }
+    
+    template <class M> 
+    View<M>::~View()
+    {
+      if (observed)
       {
-        vue->MarquerAdestroy() ;
-        vue->DetacherDeModel() ;
+        observed->removeView(*this) ;
       }
-      
     }
-    
-    Model::Model()
-    {}
-
-    void Model::Notifier(const Evenement& _evenement)
+    template <class M> 
+    void View<M>::detach()
     {
-      for(IterateurEnsembleAssociation<Implantation::BaseVue> vue(observateurs) ;
-          vue.Valide() ;
-          ++vue)
-      {
-        vue->MarquerAupdate(_evenement) ;
-      }  
+      observed = NULL ;
     }
+
+    template <class M> 
+     Model* View<M>::getModel() const
+     {
+       Model* result = dynamic_cast<Model*>(observed) ;
+       return *result ;
+     }
+
     
     
+   
   }
 }
-
-

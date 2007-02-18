@@ -19,18 +19,18 @@
  ***************************************************************************/
 
 
-#include <base/exception.h>
+#include <kernel/exception.h>
 
 namespace ProjetUnivers {
 
-  namespace Base {    
+  namespace Kernel {    
     
     // Classe de base
     // **************
     
     Exception::Exception
-        (const Chaine& _message,
-        const EntierPositif& numero)
+        (const std::string& _message,
+        const unsigned int& numero)
         
       : message(_message),numeroErreur(numero)
     {} 
@@ -43,9 +43,9 @@ namespace ProjetUnivers {
     {}
     
     
-    Chaine Exception::Message() const {
+    std::string Exception::Message() const {
     
-      return Chaine("ERREUR") + Chaine(numeroErreur) + Chaine(" : ") + message;
+      return std::string("ERREUR") + std::string(numeroErreur) + std::string(" : ") + message;
     }
   }   
 }

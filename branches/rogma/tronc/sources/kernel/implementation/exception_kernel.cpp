@@ -19,78 +19,26 @@
  ***************************************************************************/
 
 
-#include <base/joli_affichage.h>
-#include <base/exception_base.h>
+#include <kernel/exception_base.h>
 
 namespace ProjetUnivers {
 
-  namespace Base {    
+  namespace Kernel {    
     
+    // Classe de base
+    // **************
     
-    ////////////////
-    // Indentation courante, initialisée à 0
-    EntierPositif indentation(0) ;
-    
-    //////////////
-    // Décalage, à ajouter où à soustraire
-    EntierPositif tabulation(2) ;
-    
-    ////////////////
-    // fonction locale d'affichage de indentation espaces
-    Chaine AfficheEspaces() {
-    
-      Chaine resultat ;
-    
-      // on ajoute des espaces
-      for(EntierPositif i(0) ; i < indentation ; ++i)
+    ExceptionKernel::ExceptionKernel
+        (const std::string& _message)
         
-        resultat += " " ;
+      : Exception(_message,1)
+    {} 
     
-      return resultat ;
-    }
-
-    void AugmenteIndentation()
-    {
-      // on accroit l'indentation
-      indentation = indentation + tabulation ;
-    }
+   
+    ExceptionKernel::ExceptionKernel(const ExceptionKernel& x)
+      : Exception(x.message,x.numeroErreur)
+    {}
     
-    /// Diminue l'indentation
-    void DiminueIndentation()
-    {
-        // on décroit l'indentation
-      if (indentation >= tabulation)
-      {    
-       indentation = indentation - tabulation ;
-      }
-      else
-      {
-        indentation = 0 ;
-      }      
-      
-    }
     
-    Chaine FinDeLigne()
-    {
-      return "\n" ;
-    }
-    
-    Chaine FinDeLigneEtIndente()
-    {
-      return "\n" + AfficheEspaces() ;
-    }
-    
-    Chaine FinDeLigneAugmenteIndentation()
-    {
-      AugmenteIndentation() ;
-      return FinDeLigne() ;
-    }
-    
-    Chaine FinDeLigneDiminueIndentation()
-    {
-      DiminueIndentation() ;
-      return FinDeLigne() ;
-    
-    }
   }   
 }

@@ -18,9 +18,9 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <base/composition.h>
-#include <base/vue.h>
-#include <base/modele.h>
+#include <kernel/composition.h>
+#include <kernel/vue.h>
+#include <kernel/model.h>
 
 
 /*!
@@ -37,12 +37,12 @@ namespace {
     {}
   };
 
-  class VueA : public ProjetUnivers::Base::Vue<A>
+  class ViewA : public ProjetUnivers::Kernel::View<A>
   {
   public:
     
-    VueA(const ProjetUnivers::Base::Association<A>& _a)
-    : ProjetUnivers::Base::Vue<A>(_a)
+    ViewA(const ProjetUnivers::Kernel::Association<A>& _a)
+    : ProjetUnivers::Kernel::View<A>(_a)
     {}
       
     virtual void Raffraichir()
@@ -57,9 +57,9 @@ namespace {
 int toto()
 {
   
-  ProjetUnivers::Base::Composition<A> a(new A()) ;
+  ProjetUnivers::Kernel::Composition<A> a(new A()) ;
   
   
   // doit provoquer une erreur de compilation car A ne dérive pas de Model.
-  VueA vueA(a) ;  
+  ViewA vueA(a) ;  
 }

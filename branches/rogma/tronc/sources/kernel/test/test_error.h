@@ -17,15 +17,15 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef _PU_BASE_TEST_ERREUR_H_
-#define _PU_BASE_TEST_ERREUR_H_
+#ifndef _PU_KERNEL_TEST_ERREUR_H_
+#define _PU_KERNEL_TEST_ERREUR_H_
 
 
 #include <cppunit/extensions/HelperMacros.h>
-#include <base/erreur.h>
+#include <kernel/erreur.h>
 
 namespace ProjetUnivers {
-  namespace Base {
+  namespace Kernel {
     namespace Test {
 
 
@@ -44,7 +44,7 @@ namespace ProjetUnivers {
 
 
         // *******************************
-        /// @name Enregistrement des tests
+        /// @name Registerment des tests
         // *******************************
 
 

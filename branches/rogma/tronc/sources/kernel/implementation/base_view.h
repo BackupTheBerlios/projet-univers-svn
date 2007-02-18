@@ -18,22 +18,21 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_BASE_BASE_VUE_H_
-#define _PU_BASE_BASE_VUE_H_
+#ifndef _PU_KERNEL_BASE_VIEW_H_
+#define _PU_KERNEL_BASE_VIEW_H_
 
 
-#include <base/association.h>
-#include <base/evenement.h>
-#include <base/types.h>
+#include <kernel/event.h>
+#include <kernel/types.h>
 
 
 namespace ProjetUnivers {
-  namespace Base {
+  namespace Kernel {
     
     class ViewPoint ;
     class Model ;
     
-    namespace Implantation {
+    namespace Implementation {
 
       /// Classe de base des vues.
       /*!
@@ -41,12 +40,12 @@ namespace ProjetUnivers {
           Choisir quoi faire lorsqu'on a oublié d'ajouter la vue à un point de 
           vue; pour l'instant la vue n'est pas rafraichie.
       */
-      class BaseVue
+      class KernelView
       {
       public:
 
         /// Mise à jour.
-        virtual void update(const Evenement& _evenement) = 0 ;
+        virtual void update(const Event& _evenement) = 0 ;
 
 
       /*!
@@ -55,7 +54,7 @@ namespace ProjetUnivers {
       // @{
 
         /// Marque la vue comme devant être rafraichie au prochain tour.
-        void MarquerAupdate(const Evenement& _evenement) ;
+        void MarquerAupdate(const Event& _evenement) ;
 
         /// Marque la vue comme devant être détruite au prochain tour.
         void MarquerAdestroy() ;
@@ -63,27 +62,27 @@ namespace ProjetUnivers {
       // @}
 
         /// Destructeur de classe abstraite.
-        virtual ~BaseVue() ;
+        virtual ~KernelView() ;
         
-        /// Acces au modele.
-        virtual Association<Model> AccesObserve() const = 0 ;
+        /// get au modele.
+        virtual Association<Model> getObserve() const = 0 ;
 
       protected:
       
         /// Constructeur de classe abstraite.
-        BaseVue() ;
+        KernelView() ;
 
         /// Efface la relation vers modèle
         virtual void DetacherDeModel() = 0 ;
         
         /// Les vues sont groupées au sein d'un point de vue
-        Association<ViewPoint> pointDeVue ;
+        Association<ViewPoint> pointDeView ;
 
         /*!
           Chemin complet pour gcc 4
         */
-        friend class ::ProjetUnivers::Base::ViewPoint ;
-        friend class ::ProjetUnivers::Base::Model ;
+        friend class ::ProjetUnivers::Kernel::ViewPoint ;
+        friend class ::ProjetUnivers::Kernel::Model ;
       };
     }    
   }
