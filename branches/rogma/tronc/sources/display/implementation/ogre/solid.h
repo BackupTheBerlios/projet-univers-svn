@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Equipe Projet Univers                           *
+ *   Copyright (C) 2006 by Equipe Projet Univers                           *
  *   rogma.boami@free.fr                                                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,21 +18,70 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#ifndef _PU_DISPLAY_IMPLEMENTATION_OGRE_SOLID_H_
+#define _PU_DISPLAY_IMPLEMENTATION_OGRE_SOLID_H_
 
-#ifndef PU_PLATEFORME_H_
-#define PU_PLATEFORME_H_
+#include <kernel/view.h>
 
-/// determine la plateforme
-#define PU_PLATEFORME_WIN32 1
-#define PU_PLATEFORME_LINUX 2
-#define PU_PLATEFORME_APPLE 3
+#include <model/solid.h>
 
-#if defined( __WIN32__ ) || defined( _WIN32 )
-#   define PU_PLATEFORME PU_PLATEFORME_WIN32
-#elif defined( __APPLE_CC__)
-#   define PU_PLATEFORME PU_PLATEFORME_APPLE
-#else
-#   define PU_PLATEFORME PU_PLATEFORME_LINUX
-#endif
+#include <display/implementation/ogre/view.h>
+#include <display/trait.h>
 
+namespace ProjetUnivers {
+  namespace Display {
+    namespace Implementation {
+      namespace Ogre {
+
+        /// Display des objets 3D.
+        /*!
+        @par Etat actuel
+          planning
+        */
+        class Solid : public View<Model::Solid>, 
+                      public Trait
+        {
+        public:
+        
+        // **********************
+        /// @name Constructeur/Destructeur
+        // **********************
+        // @{
+
+          /// Constructeur.
+          Solid(Model::Solid* _object) ;
+
+
+        //@}
+        /*!
+          @name Mise à jour
+        */
+        // @{
+        
+          /// Crée une entité.
+          void init() ;
+          
+          /// Détruit l'entité.
+          void close() ;
+        
+          /// 
+          /*!
+          @par Etat
+            stub vide
+          */
+          void update(const Kernel::Event&) ;
+
+
+        // @}
+    
+        private:
+          
+          /// Modèle 3D.
+          ::Ogre::Entity* model ;
+      
+        };
+      }
+    }
+  }
+}
 #endif
