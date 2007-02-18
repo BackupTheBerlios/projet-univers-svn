@@ -25,41 +25,39 @@
 #include <OISInputManager.h>
 
 
-#include <base/composition.h>
-#include <base/association.h>
-#include <affichage/affichage.h>
-#include <entrees/implantation/clavier.h>
-#include <entrees/entrees.h>
+#include <display/display.h>
+#include <input/implementation/keyboard.h>
+#include <input/input.h>
 
 namespace ProjetUnivers {
-  namespace Entrees {
+  namespace Input {
 
     namespace {
       
       /// Detruit les objets locaux
-      class SystemeOIS
+      class OISSystem
       {  
       public:
         /// Gestionnaire OIS d'entrées
-        OIS::InputManager* gestionnaire ;
+        OIS::InputManager* manager ;
    
         /// Clavier
-        OIS::Keyboard* clavier ;
+        OIS::Keyboard* keyboard ;
     
-        SystemeOIS()
-        : gestionnaire(), clavier()
+        OISSystem()
+        : manager(), keyboard()
         {}
         
-        ~SystemeOIS()
+        ~OISSystem()
         {
-          if (clavier) 
+          if (keyboard) 
           {
-            gestionnaire->destroyInputObject(clavier);
-            clavier = NULL ;
+            manager->destroyInputObject(keyboard);
+            keyboard = NULL ;
           }
-          if (gestionnaire)
+          if (manager)
           {
-            gestionnaire->destroyInputSystem() ;
+            manager->destroyInputSystem() ;
           }
         }  
           
@@ -67,10 +65,10 @@ namespace ProjetUnivers {
     }
 
     /// Les élément de OIS
-    Base::Composition<SystemeOIS> ois ;
+    std::ato_ptr<SystemeOIS*> ois ;
    
     /// Notre écouteur de clavier
-    Base::Composition<Implantation::Clavier> clavier ;
+    std::ato_ptr<Implementation::Keyboard*> keyboard ;
    
     void init()
     {
@@ -82,26 +80,26 @@ namespace ProjetUnivers {
       
       ois = new SystemeOIS() ;
       
-      OIS::ParamList parametres ;    
-      size_t descripteurDeFenetre = 0;
-      std::ostringstream nomDescripteurDeFenetre ;
+      OIS::ParamList parameters ;    
+      size_t window_hanlde = 0;
+      std::ostringstream window_hanlde_name ;
 
-      descripteurDeFenetre = Display::DescripteurFenetre() ;
-      nomDescripteurDeFenetre << (unsigned int) descripteurDeFenetre;
-      parametres.insert(std::make_pair(
+      window_hanlde = Display::getWindowHandle() ;
+      window_hanlde_name << (unsigned int) window_hanlde;
+      parameters.insert(std::make_pair(
                           std::string("WINDOW"), 
-                          nomDescripteurDeFenetre.str())) ;
+                          window_hanlde_name.str())) ;
 
       // création du gestionnaire
-      ois->gestionnaire = OIS::InputManager::createInputSystem(parametres) ;
+      ois->manager = OIS::InputManager::createInputSystem(parameters) ;
 
       // création d'un clavier, avec son écouteur
-      ois->clavier = static_cast<OIS::Keyboard*>(
-                  ois->gestionnaire->createInputObject(OIS::OISKeyboard,true)) ;
+      ois->keyboard = static_cast<OIS::Keyboard*>(
+                  ois->manager->createInputObject(OIS::OISKeyboard,true)) ;
     
-      clavier = new Implantation::Clavier() ;
+      keyboard = new Implementation::Keyboard() ;
       
-      ois->clavier->setEventCallback(clavier.operator->()) ;
+      ois->keyboard->setEventCallback(keyboard.operator->()) ;
 
     }       
     

@@ -18,6 +18,9 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#ifndef _PU_INPUT_INPUT_H_
+#define _PU_INPUT_INPUT_H_
+
 namespace ProjetUnivers {
 
   /// Gestion des entrées
@@ -25,7 +28,7 @@ namespace ProjetUnivers {
     Certaines entrées ou combinaisons d'entrées engendrent des actions dans 
     la pile d'acions à réaliser.
   */
-  namespace Entrees {
+  namespace Input {
    
     /// Intitailise le module d'entrées
     void init() ;
@@ -38,8 +41,10 @@ namespace ProjetUnivers {
       La fonction qui associe une entrée ou une combinaison d'entrée avec une 
       action dépend de l'état dans lequel se trouve ce module. 
     */
-    void Traiter() ;
+    void update() ;
    
     
   }
 }
+
+#endif

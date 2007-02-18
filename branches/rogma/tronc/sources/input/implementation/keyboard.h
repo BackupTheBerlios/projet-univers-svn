@@ -17,74 +17,40 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#ifndef PU_INPUT_IMPLEMENTATION_KEYBOARD_H_
+#define PU_INPUT_IMPLEMENTATION_KEYBOARD_H_
 
-#include <base/traceur.h>
-#include <action/action.h>
-#include <entrees/implantation/clavier.h>
+#include <OISKeyboard.h>
 
 namespace ProjetUnivers {
-  namespace Entrees {
-   
-    namespace Implantation {
-      
-      Clavier::Clavier()
-      {} 
-      
-      Clavier::~Clavier()
-      {}
+  namespace Input {
+
+    namespace Implementation {
+
+      /// Ecouteur du clavier
+      /*!
   
-      bool Clavier::keyPressed(const OIS::KeyEvent &e)    
+      */
+      class Keyboard : public OIS::KeyListener
       {
-        
-        /// log
-        Base::Traceur::MessageInterne(
-              std::string("bouton presse timestamp = ") + 
-              std::string(e.timeStamp)) ;
-
-        /// pour l'instant : on sort si c'est entrée
-        switch(e.key)
-        {
-        case OIS::KC_RETURN:
-          Action::add("Sortie") ;
-          break ;
-          
-        case OIS::KC_UP:
-          Action::add("Haut") ;
-          break ;
-
-        case OIS::KC_DOWN:
-          Action::add("Bas") ;
-          break ;
-
-        case OIS::KC_LEFT:
-          Action::add("Gauche") ;
-          break ;
-          
-        case OIS::KC_RIGHT:
-          Action::add("Droite") ;
-          break ;
-
-        case OIS::KC_C:
-          Action::add("CreerObject") ;
-          break ;
-
-        case OIS::KC_D:
-          Action::add("destroyObject") ;
-          break ;
-
-
-
-        default:
-          break ;
-        }
-        return true ;
-      }
+      public:
       
-      bool Clavier::keyReleased(const OIS::KeyEvent &e)
-      {
-        return true ;
-      }
+        /// Constructeur.
+        Keyboard() ;  
+        
+        /// Destructeur.
+        virtual ~Keyboard() ;
+  
+        /// Appelé lorsqu'une touche est pressée
+        virtual bool keyPressed(const OIS::KeyEvent &e) ;    
+  
+        /// Appelé lorsqu'une touche est relachée.
+        virtual bool keyReleased(const OIS::KeyEvent &e) ;
+      };
     }
   }
 }
 
+
+
+#endif /*PU_INPUT_IMPLEMENTATION_KEYBOARD_H_*/

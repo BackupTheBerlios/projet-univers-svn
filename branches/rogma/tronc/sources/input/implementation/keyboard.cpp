@@ -17,40 +17,74 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_ENTREES_IMPLANTATION_CLAVIER_H_
-#define PU_ENTREES_IMPLANTATION_CLAVIER_H_
 
-#include <OISKeyboard.h>
+#include <kernel/log.h>
+#include <action/action.h>
+#include <input/implementation/keyboard.h>
 
 namespace ProjetUnivers {
-  namespace Entrees {
-
-    namespace Implantation {
-
-      /// Ecouteur du clavier
-      /*!
-  
-      */
-      class Clavier : public OIS::KeyListener
-      {
-      public:
+  namespace Input {
+   
+    namespace Implementation {
       
-        /// Constructeur.
-        Clavier() ;  
+      Keyboard::Keyboard()
+      {} 
+      
+      Keyboard::~Keyboard()
+      {}
+  
+      bool Keyboard::keyPressed(const OIS::KeyEvent &e)    
+      {
         
-        /// Destructeur.
-        virtual ~Clavier() ;
-  
-        /// Appelé lorsqu'une touche est pressée
-        virtual bool keyPressed(const OIS::KeyEvent &e) ;    
-  
-        /// Appelé lorsqu'une touche est relachée.
-        virtual bool keyReleased(const OIS::KeyEvent &e) ;
-      };
+        /// log
+        Kernel::Log::InternalMessage(
+              std::string("bouton presse timestamp = ") + 
+              std::string(e.timeStamp)) ;
+
+        /// pour l'instant : on sort si c'est entrée
+        switch(e.key)
+        {
+        case OIS::KC_RETURN:
+          Action::add("Sortie") ;
+          break ;
+          
+        case OIS::KC_UP:
+          Action::add("Haut") ;
+          break ;
+
+        case OIS::KC_DOWN:
+          Action::add("Bas") ;
+          break ;
+
+        case OIS::KC_LEFT:
+          Action::add("Gauche") ;
+          break ;
+          
+        case OIS::KC_RIGHT:
+          Action::add("Droite") ;
+          break ;
+
+        case OIS::KC_C:
+          Action::add("CreerObject") ;
+          break ;
+
+        case OIS::KC_D:
+          Action::add("destroyObject") ;
+          break ;
+
+
+
+        default:
+          break ;
+        }
+        return true ;
+      }
+      
+      bool Keyboard::keyReleased(const OIS::KeyEvent &e)
+      {
+        return true ;
+      }
     }
   }
 }
 
-
-
-#endif /*PU_ENTREES_IMPLANTATION_CLAVIER_H_*/
