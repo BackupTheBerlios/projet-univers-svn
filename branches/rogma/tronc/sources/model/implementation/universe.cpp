@@ -18,25 +18,18 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <base/association.h>
-#include <modele/moteur.h>
-
-using namespace ProjetUnivers::Base ;
+#include <model/universe.h>
 
 namespace ProjetUnivers {
-
   namespace Model {
 
-
-    Moteur::Moteur(const Base::Association<TypeDeMoteur>& _type)
-    : Composant(_type)
+ 
+    Universe::Universe()
+    : Trait()
     {}
-
-    Base::Association<TypeDeComposant> Moteur::AccesType() const
-    {
-      return type ;
-    }
-
-  
+    
   }
+
 }
+
+

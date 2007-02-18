@@ -18,12 +18,12 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_MODELE_ETOILE_H_
-#define _PU_MODELE_ETOILE_H_
+#ifndef _PU_MODEL_STAR_H_
+#define _PU_MODEL_STAR_H_
 
 
-#include <modele/facette.h>
-#include <modele/nom.h>
+#include <model/trait.h>
+#include <model/name.h>
 
 namespace ProjetUnivers {
   namespace Model {
@@ -34,19 +34,19 @@ namespace ProjetUnivers {
     @par Etat
       planning
     */
-    class Etoile : public Trait 
+    class Star : public Trait 
     {
     public:
 
 
       /// Constructeur.
-      Etoile(const Nom& ) ;
+      Star(const Name& ) ;
       
       
     private:
 
 
-      Nom nom ;
+      Name name ;
 
     };
     

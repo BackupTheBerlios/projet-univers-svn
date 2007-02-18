@@ -18,15 +18,14 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_MODELE_MOBILE_H_
-#define _PU_MODELE_MOBILE_H_
+#ifndef _PU_MODEL_MOBILE_H_
+#define _PU_MODEL_MOBILE_H_
 
-#include <modele/facette.h>
-#include <modele/vitesse.h>
-#include <modele/acceleration.h>
+#include <model/trait.h>
+#include <model/speed.h>
+#include <model/acceleration.h>
 
 namespace ProjetUnivers {
-
   namespace Model {
 
     /// Propriété des objets se déplacant dans un espace.
@@ -45,7 +44,7 @@ namespace ProjetUnivers {
     
     protected:
     
-      Vitesse vitesse ;
+      Speed vitesse ;
       Acceleration acceleration ;
 
       /// Accélération angulaire

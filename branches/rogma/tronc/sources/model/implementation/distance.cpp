@@ -18,46 +18,45 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <modele/distance.h>
+#include <model/distance.h>
 
 namespace ProjetUnivers {
-
   namespace Model {
 
 
     /// opérateur d'ordre sur les unité de distances
-    Base::Booleen operator<=(Distance::Unite _u1, 
-                            Distance::Unite _u2)
+    bool operator<=(Distance::Unit _u1, 
+                    Distance::Unit _u2)
     {
 
-      if (_u1 == Distance::_Metre)
-        return Base::VRAI ;
+      if (_u1 == Distance::_Meter)
+        return true ;
 
-      if (_u1 == Distance::_AnneeLumiere)
+      if (_u1 == Distance::_LightYear)
       {
-        if (_u2 == Distance::_Parsec || _u2 == Distance::_AnneeLumiere)
-          return Base::VRAI ;
+        if (_u2 == Distance::_Parsec || _u2 == Distance::_LightYear)
+          return true ;
         else
-          return Base::FAUX ;
+          return false ;
       }
         
       if (_u1 == Distance::_Parsec && _u2 != Distance::_Parsec)
     
-        return Base::FAUX;
+        return false;
       
-      return Base::VRAI ;
+      return true ;
     }
 
     Distance::Distance()
-    : distance(0), unite(_Metre)
+    : distance(0), unit(_Meter)
     {}
 
-    Distance::Distance(const Unite& _unite, const Base::Reel& _valeur)
-    : distance(_valeur), unite(_unite)
+    Distance::Distance(const Unit& _unit, const float& _value)
+    : distance(_value), unit(_unit)
     {}
       
     Distance::Distance(const Distance& _distance)
-    : distance(_distance.distance), unite(_distance.unite)
+    : distance(_distance.distance), unit(_distance.unit)
     {}
     
     Distance Distance::operator +(const Distance& _distance) const
@@ -71,13 +70,13 @@ namespace ProjetUnivers {
     }
 
       
-    Base::Reel Distance::Parsec() const
+    float Distance::Parsec() const
     {
-      switch (unite)
+      switch (unit)
       {
-      case _Metre:
+      case _Meter:
         return distance / 3.08e+16 ;
-      case _AnneeLumiere:
+      case _LightYear:
         return distance / 3.26  ;
       case _Parsec:
         return distance ;
@@ -85,13 +84,13 @@ namespace ProjetUnivers {
       
     }
       
-    Base::Reel Distance::Metre() const
+    float Distance::Meter() const
     {
-      switch (unite)
+      switch (unit)
       {
-      case _Metre:
+      case _Meter:
         return distance  ;
-      case _AnneeLumiere:
+      case _LightYear:
         return distance * 9.46e+15 ;
       case _Parsec:
         return distance * 3.08e+16 ;
@@ -99,13 +98,13 @@ namespace ProjetUnivers {
       
     }
      
-    Base::Reel Distance::AnneeLumiere() const
+    float Distance::LightYear() const
     {
-      switch (unite)
+      switch (unit)
       {
-      case _Metre:
+      case _Meter:
         return distance / 9.46e+15 ;
-      case _AnneeLumiere:
+      case _LightYear:
         return distance ;
       case _Parsec:
         return distance * 3.26 ;

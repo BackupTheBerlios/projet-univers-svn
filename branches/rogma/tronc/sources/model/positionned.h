@@ -18,20 +18,19 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_MODELE_POSITIONNE_H_
-#define _PU_MODELE_POSITIONNE_H_
+#ifndef _PU_MODEL_POSITIONNED_H_
+#define _PU_MODEL_POSITIONNED_H_
 
 
-#include <modele/facette.h>
-#include <modele/position.h>
-#include <modele/orientation.h>
+#include <model/trait.h>
+#include <model/position.h>
+#include <model/orientation.h>
 
 namespace ProjetUnivers {
-
   namespace Model {
 
     /// Propriété des objets ayant une position dans un espace.
-    class Positionne : public Trait
+    class Positionned : public Trait
     {
     public:
 
@@ -41,23 +40,23 @@ namespace ProjetUnivers {
     // @{
     
       /// Constructeur.
-      Positionne(const Position&) ;
+      Positionned(const Position&) ;
 
       /// Positionne par rapport à son propre référentiel.
-      Positionne() ;
+      Positionned() ;
   
 
     // @}
     /*!
-      @name Acces
+      @name get
     */
     // @{
 
       /// Position de l'objet.
-      Position AccesPosition() const ;
+      Position getPosition() const ;
 
       /// Orientation de l'objet
-      Orientation AccesOrientation() const ;
+      Orientation getOrientation() const ;
 
     // @}
     /*!
@@ -65,7 +64,7 @@ namespace ProjetUnivers {
     */
     // @{
 
-      void ModifierOrientation(const Orientation&) ;
+      void changeOrientation(const Orientation&) ;
 
     // @}
         
@@ -75,7 +74,6 @@ namespace ProjetUnivers {
       Position position ;  
       Orientation orientation ;
     
-//      friend class Position ;
     };
   }
 }

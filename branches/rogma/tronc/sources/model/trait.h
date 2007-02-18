@@ -17,11 +17,10 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODELE_FACETTE_H_
-#define PU_MODELE_FACETTE_H_
+#ifndef PU_MODEL_TRAIT_H_
+#define PU_MODEL_TRAIT_H_
 
-#include <base/association.h>
-#include <base/modele.h>
+#include <kernel/model.h>
 
 
 namespace ProjetUnivers {
@@ -40,45 +39,15 @@ namespace ProjetUnivers {
         
       Une facette d'objet regoupe un ensemble d'attributs de l'objet.
     */
-    class Trait : public Base::Model
+    class Trait : public Kernel::Model
     {
     public:
 
-    /*!
-      @name Partie "objet"
-    
-    */
-    // @{
-      
-      Base::Association<Object> AccesObject() const ;
-      
-//        virtual 
-//          Base::Association<Trait> 
-//          AccesTrait(const std::string& _nom) const :
-//          
-    
-    // @}
-    
-      /// Type de la facette.
-//      virtual std::string Type() const = 0 ;
-
-      /// Autres facettes obligatoires
-      /*!
-        Il s'agit en quelque sorte d'un héritage de facette.
-        
-        @todo 
-          voir si c'ets vraiment utile
-      */
-//        virtual Base::EnsembleValeur<std::string> TraitsResquises() const = 0 ;
+      /// Access to object.      
+      Object* getObject() const ;
 
       virtual ~Trait() ;
-
-
-      /// Conversion vers une autre Trait
-      /*!
-        pas au point.
-      */
-
+    
 
     protected: 
     
@@ -86,7 +55,7 @@ namespace ProjetUnivers {
       Trait() ;
       
       /// Object sur lequel s'applique la facette.
-      Base::Association<Object> objet ;
+      Object* object ;
       
       friend class Object ;
             
@@ -99,4 +68,4 @@ namespace ProjetUnivers {
 
 
 
-#endif /*PU_MODELE_FACETTE_H_*/
+#endif /*PU_MODEL_TRAIT_H_*/

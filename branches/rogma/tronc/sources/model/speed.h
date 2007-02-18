@@ -18,14 +18,12 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_MODELE_VITESSE_H_
-#define _PU_MODELE_VITESSE_H_
+#ifndef _PU_MODEL_SPEED_H_
+#define _PU_MODEL_SPEED_H_
 
-#include <base/types.h>
 
 
 namespace ProjetUnivers {
-
   namespace Model {
 
 
@@ -34,7 +32,7 @@ namespace ProjetUnivers {
     /*!
       C'est un vecteur vitesse.
     */
-    class Vitesse {
+    class Speed {
     public:
     
       // *************************
@@ -43,24 +41,21 @@ namespace ProjetUnivers {
       // @{  
 
      
-      /// Vitesse nulle.
-      Vitesse() ;
+      /// Speed nulle.
+      Speed() ;
 
       /// Constructeur de copie.
-      Vitesse(const Vitesse&) ;
-
-      /// Constructeur avec des m.s-1
-//      Vitesse MetreSecondesMoins1(const Base::Reel& _ms1, const Vecteur&) ;
+      Speed(const Speed&) ;
 
 
       /// Calcul
-      Vitesse operator +(const Vitesse&) const ;
+      Speed operator +(const Speed&) const ;
 
       /// Calcul
-      Vitesse operator -(const Vitesse&) const ;
+      Speed operator -(const Speed&) const ;
       
       /// Calcul
-      Vitesse operator *(const Base::Reel&) const ;
+      Speed operator *(const float&) const ;
 
       
       // @}
@@ -72,7 +67,7 @@ namespace ProjetUnivers {
        
      
       /// Donne la vitesse en m.s-1.
-      Base::Reel MetreSecondesMoins1() const ;
+      float MeterPerSecond() const ;
 
 
       // @}
@@ -83,12 +78,12 @@ namespace ProjetUnivers {
       typedef enum 
       {
         /// L'unité m.s-1
-        _MetreSecondeMoins1, 
+        _MeterPerSecond, 
         
-      } Unite ;
+      } Unit ;
 
-      Base::Reel valeur ;
-      Unite unite ;
+      float value ;
+      Unit unit ;
   
   
     };

@@ -18,10 +18,9 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef PU_MODELE_MODELE_H_
-#define PU_MODELE_MODELE_H_
+#ifndef PU_MODEL_MODEL_H_
+#define PU_MODEL_MODEL_H_
 
-#include <base/association.h>
 
 namespace ProjetUnivers {
   
@@ -31,7 +30,7 @@ namespace ProjetUnivers {
   /*!
   @par Introduction
   
-    Réalisation de la partie modèle du cadre Model/Vue/controle, noyau 
+    Réalisation de la partie modèle du cadre Model/View/controle, noyau 
     fonctionnel du jeu.
     
     Ce module contient toutes les informations sur les objets manipulés dans 
@@ -69,7 +68,7 @@ namespace ProjetUnivers {
     /*!
       
     */
-    void load(const std::string& _nom) ;
+    void load(const std::string& _name) ;
 
   //@}
   // ******************************************************
@@ -82,14 +81,14 @@ namespace ProjetUnivers {
   // @{
 
       
-    /// Enregistre un objet dans le gestionnaire.
-    Base::Association<Object> add(Object*) ;
+    /// Register un objet dans le gestionnaire.
+    Object add(Object*) ;
 
-    /// Enregistre un objet dans le gestionnaire.
-    Base::Association<Object> register(const Base::Association<Object>&) ;
+    /// Register un objet dans le gestionnaire.
+    Object* registerObject(Object*) ;
 
     /// Supprime un objet.
-    void remove(const Base::Association<Object>&) ;
+    void remove(Object*) ;
 
 
   //@}
@@ -101,7 +100,7 @@ namespace ProjetUnivers {
   //@{
     
     /// Accès à un objet par son nom
-    Base::Association<Object> AccesObject(const std::string& _nom) ;
+    Object* getObject(const std::string& _name) ;
 
 
 
@@ -118,7 +117,7 @@ namespace ProjetUnivers {
   
   Ces classes abstraites modélisent le fait d'avoir une propriété particulière, 
   c'est le cas de :
-  - Destructible
+  - Destroyable
   - ObjectPhysique
   - ObjectAbstrait
   
@@ -126,12 +125,12 @@ namespace ProjetUnivers {
   @section ClassesDeValeur Classes de valeurs
   
   Ces classes modélisent généralement des notions simples du monde :
-  - Nom
-  - Energie
+  - Name
+  - Energy
   - Distance
   - Position
   - Orientation
-  - Vitesse
+  - Speed
   - Acceleration
 
   @section ModelComposition Un modèle d'objets composés

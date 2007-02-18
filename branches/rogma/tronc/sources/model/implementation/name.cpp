@@ -18,45 +18,56 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-
-
-#include <modele/destructible.h>
+#include <model/name.h>
 
 namespace ProjetUnivers {
-
   namespace Model {
 
-    
       
-    Base::Entier Destructible::PourcentagePointsDeVie() const 
-    {
-      return (Base::Entier)(pointsDeVieActuel/pointsDeVieTotal) ;
-    }
-   
-    
-    void Destructible::FaireSubirDegats(const Energie& _energie)
-    {
-
-      pointsDeVieActuel = pointsDeVieActuel - _energie ;
-
-      if (pointsDeVieActuel < Energie())
-      
-        pointsDeVieActuel = Energie() ;
-    }
-   
-    Destructible::~Destructible()
-    {}
-    
-    Destructible::Destructible(const Energie& _pointsDeVieTotal)
-    : Object(),
-      pointsDeVieTotal(_pointsDeVieTotal), 
-      pointsDeVieActuel(_pointsDeVieTotal)
+    Name::Name()
     {}
       
+    Name::Name(const std::string& _name)
+    : name(_name)
+    {}
+      
+    Name::Name(const Name& _name)
+    : name(_name.name)
+    {}
+    
+    Name::operator std::string() const
+    {
+      return name ;
+    }
+    
+    Name& Name::operator=(const std::string& _name)
+    {
+      name =_name ;
+      return *this ;
+    }
+    
+    Name& Name::operator=(const Name& _name)
+    {
+      name =_name.name ;
+      return *this ;
+      
+    }
+      
+    bool Name::operator==(const std::string& _value) const
+    {
+      return name == _value ;
+    }
+    
+    bool Name::operator==(const Name& _name) const 
+    {
+      return name == _name.name ;
+    }
+    
 
-
-
+    bool Name::EstIndefini() const
+    {
+      return name == "" ;
+    }
+    
   }
-
 }
-

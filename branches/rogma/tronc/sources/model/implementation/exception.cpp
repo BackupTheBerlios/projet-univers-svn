@@ -18,14 +18,20 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <modele/acceleration.h>
+
+
+#include <model/exception.h>
 
 namespace ProjetUnivers {
-
   namespace Model {
 
-    Acceleration::Acceleration()
+
+    Exception::Exception(const std::string&)
+    {}
+
+    Exception::~Exception()
     {}
 
   }
 }
+

@@ -18,8 +18,8 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <modele/test/test_distance.h>
-#include <modele/distance.h>
+#include <model/test/test_distance.h>
+#include <model/distance.h>
 
 
 CPPUNIT_TEST_SUITE_REGISTRATION(ProjetUnivers::
@@ -33,12 +33,12 @@ namespace ProjetUnivers {
 
     namespace Test {
 
-      void TestDistance::testComparaisonUnite()
+      void TestDistance::testComparisonUnit()
       {
-        CPPUNIT_ASSERT(Distance::_Metre <= Distance::_AnneeLumiere) ;
-        CPPUNIT_ASSERT(Distance::_Metre <= Distance::_Parsec) ;
-        CPPUNIT_ASSERT(Distance::_AnneeLumiere <= Distance::_Parsec) ;
-        CPPUNIT_ASSERT(Distance::_AnneeLumiere <= Distance::_AnneeLumiere) ;
+        CPPUNIT_ASSERT(Distance::_Meter <= Distance::_LightYear) ;
+        CPPUNIT_ASSERT(Distance::_Meter <= Distance::_Parsec) ;
+        CPPUNIT_ASSERT(Distance::_LightYear <= Distance::_Parsec) ;
+        CPPUNIT_ASSERT(Distance::_LightYear <= Distance::_LightYear) ;
       }
       
       void TestDistance::setUp() 

@@ -18,55 +18,40 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_MODELE_GALAXIE_H_
-#define _PU_MODELE_GALAXIE_H_
-
-#include <base/chaine.h>
-#include <base/ensemble_association.h>
-#include <base/association.h>
+#ifndef _PU_MODEL_GALAXY_H_
+#define _PU_MODEL_GALAXY_H_
 
 
-#include <modele/nom.h>
-#include <modele/facette.h>
+#include <model/name.h>
+#include <model/trait.h>
 
 
 namespace ProjetUnivers {
   namespace Model {
     
-    
-    
-    class SystemeStellaire ;
-    
+    class StellarSystem ;
       
     /// Une galaxie.
-
     /*!
     @par Etat
       planning
       
     */
-    class Galaxie : public Trait 
+    class Galaxy : public Trait 
     {
     public:
 
       /// Constructeur.
-      Galaxie(const Nom& _nom) ;
+      Galaxy(const Name& _nom) ;
       
       /// Ajoute un nouveau système
-      void add(const Base::Association<SystemeStellaire>& _systeme) ;
+      void add(StellarSystem* _system) ;
       
       
     private:
       
 
-      Nom nom ;
-
-      /// Les systèmes "actifs".
-      /*!
-        Ceux dont on a obligatoirement besoin pour le jeux...
-      */      
-      Base::EnsembleAssociation<SystemeStellaire> systemes ;
-      
+      Name nom ;
 
     };
     

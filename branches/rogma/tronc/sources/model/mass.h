@@ -18,10 +18,9 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_MODELE_MASSE_H_
-#define _PU_MODELE_MASSE_H_
+#ifndef _PU_MODEL_MASS_H_
+#define _PU_MODEL_MASS_H_
 
-#include <base/types.h>
 
 
 namespace ProjetUnivers {
@@ -33,7 +32,7 @@ namespace ProjetUnivers {
       planning
     
     */
-    class Masse 
+    class Mass 
     {
     public:
     
@@ -45,30 +44,30 @@ namespace ProjetUnivers {
     // @{  
 
      
-      /// Masse nulle.
-      Masse() ;
+      /// Mass nulle.
+      Mass() ;
 
       /// Constructeur de copie.
-      Masse(const Masse&) ;
+      Mass(const Mass&) ;
 
       /// Constructeur avec des kilogrammes
-      Masse Kilogramme(const Base::Reel&) ;
+      static Mass Kilogram(const float&) ;
 
 
       /// Calcul
-      Masse operator +(const Masse&) const ;
+      Mass operator +(const Mass&) const ;
 
       /// Calcul
-      Masse operator -(const Masse&) const ;
+      Mass operator -(const Mass&) const ;
       
       /// Calcul
-      Masse operator /(const Base::Reel&) const ;
+      Mass operator /(const float&) const ;
 
       /// Calcul
-      Base::Reel operator /(const Masse&) const ;
+      float operator /(const Mass&) const ;
 
       /// Calcul
-      Masse operator *(const Base::Reel&) const ;
+      Mass operator *(const float&) const ;
 
       
     // @}
@@ -79,10 +78,10 @@ namespace ProjetUnivers {
        
      
       /// Converti en kilogrammes.
-      Base::Reel Kilogramme() const ;
+      float Kilogram() const ;
 
       /// Comparaison
-      Base::Booleen operator <(const Masse&) const ;
+      bool operator <(const Mass&) const ;
 
     // @}
     
@@ -92,12 +91,12 @@ namespace ProjetUnivers {
       typedef enum 
       {
         /// L'unité kilogramme
-        _Kilogramme, 
+        _Kilogram, 
         
-      } Unite ;
+      } Unit ;
 
-      Base::Reel valeur ;
-      Unite unite ;
+      float value ;
+      Unit unit ;
   
   
     };

@@ -18,20 +18,17 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <modele/planetoide.h>
+#include <model/force_generator.h>
 
+using namespace ProjetUnivers::Kernel ;
 
 namespace ProjetUnivers {
-
   namespace Model {
-    
-    
 
-    Planetoide::Planetoide(const Nom& _nom)
-    : ObjectPhysique(), nom(_nom)
+    ForceGenerator::ForceGenerator()
+    : Trait()
     {}
-    
+
+  
   }
 }
-
-   

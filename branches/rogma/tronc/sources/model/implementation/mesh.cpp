@@ -18,24 +18,24 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <modele/modele3d.h>
+#include <model/mesh.h>
 
 namespace ProjetUnivers {
   namespace Model {
     
     /// Constructeur.
-    Model3D::Model3D(const std::string& _nom)
-    : nom(_nom)
+    Mesh::Mesh(const std::string& _name)
+    : name(_name)
     {}
       
     /// Constructeur de copie.
-    Model3D::Model3D(const Model3D& _modele)
-    : nom(_modele.nom)
+    Mesh::Mesh(const Mesh& _model)
+    : name(_model.name)
     {}
       
-    std::string Model3D::AccesNom() const
+    std::string Mesh::getName() const
     {
-      return nom ;
+      return name ;
     }
     
   }

@@ -20,19 +20,42 @@
 
 
 
-#include <modele/exception.h>
+#include <model/destroyable.h>
 
 namespace ProjetUnivers {
-
   namespace Model {
 
+    
+      
+    float Destroyable::getLife() const 
+    {
+      return (resistance/totalResistance) ;
+    }
+   
+    
+    void Destroyable::damage(const Energy& _energy)
+    {
 
-    Exception::Exception(const std::string&)
-    {}
+      resistance = resistance - _energy ;
 
-    Exception::~Exception()
+      if (resistance < Energy())
+      
+        resistance = Energy() ;
+    }
+   
+    Destroyable::~Destroyable()
     {}
+    
+    Destroyable::Destroyable(const Energy& _totalResistance)
+    : Object(),
+      totalResistance(_totalResistance), 
+      resistance(_totalResistance)
+    {}
+      
+
+
 
   }
+
 }
 

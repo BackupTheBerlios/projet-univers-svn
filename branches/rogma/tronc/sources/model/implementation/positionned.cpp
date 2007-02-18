@@ -18,32 +18,43 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-
-#include <modele/orientation.h>
+#include <model/object.h>
+#include <model/positionned.h>
 
 
 namespace ProjetUnivers {
-
   namespace Model {
 
-    Orientation::Orientation()
-    : orientation()
+
+    Positionned::Positionned(const Position& _position)
+    : Trait(), position(_position)
     {}
 
-    Orientation::Orientation(const Orientation& _orientation)
-    : orientation(_orientation.orientation)
-    {}
-
-    Orientation::Orientation(const Ogre::Quaternion& _orientation)
-    : orientation(_orientation)
-    {}
-
-    Ogre::Quaternion Orientation::AccesQuaternion() const 
+    Positionned::Positionned()
+    : Trait(), position()
     {
-      return orientation ;
+      
     }
 
+    Position Positionned::getPosition() const 
+    {
+      return position ;
+    }
+
+    Orientation Positionned::getOrientation() const
+    {
+      return this->orientation ;
+    }
+
+
+    void Positionned::changeOrientation(const Orientation& _orientation)
+    {
+      this->orientation = _orientation ;
+      
+      this->notify() ;
+    }
+
+
+    
   }
 }
-
-

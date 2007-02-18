@@ -18,135 +18,131 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <modele/exception.h>
-
-
-#include <modele/masse.h>
-
+#include <model/exception.h>
+#include <model/mass.h>
 
 namespace ProjetUnivers {
-
   namespace Model {
 
 
-    Masse::Masse()
-    : valeur(), unite(_Kilogramme)
+    Mass::Mass()
+    : value(), unit(_Kilogram)
     {}
 
-    Masse::Masse(const Masse& _m)
-    : valeur(_m.valeur), unite(_m.unite)
+    Mass::Mass(const Mass& _m)
+    : value(_m.value), unit(_m.unit)
     {}
 
     /// Constructeur avec des kilogrammes
-    Masse Masse::Kilogramme(const Base::Reel& _k)
+    Mass Mass::Kilogramme(const float& _k)
     {
-      Masse resultat ;
-      resultat.unite = _Kilogramme ;
-      resultat.valeur = _k ;
-      return resultat ;
+      Mass result ;
+      result.unit = _Kilogram ;
+      result.value = _k ;
+      return result ;
     }
 
 
     /// Calcul
-    Masse Masse::operator +(const Masse& _m) const
+    Mass Mass::operator +(const Mass& _m) const
     {
-      Masse resultat ;
+      Mass result ;
 
-      if (this->unite == _m.unite)
+      if (this->unit == _m.unit)
       {
-        resultat.unite = _m.unite ;
-        resultat.valeur = this->valeur + _m.valeur ;
+        result.unit = _m.unit ;
+        result.value = this->value + _m.value ;
 
       }
       else
       {
-        throw Exception("Masse::operator + pas encore implanté") ;
+        throw Exception("Mass::operator+ @todo") ;
       }
 
-      return resultat ;
+      return result ;
       
     }
 
     /// Calcul
-    Masse Masse::operator -(const Masse& _m) const
+    Mass Mass::operator -(const Mass& _m) const
     {
-      Masse resultat ;
+      Mass result ;
 
-      if (this->unite == _m.unite)
+      if (this->unit == _m.unit)
       {
-        resultat.unite = _m.unite ;
-        resultat.valeur = this->valeur - _m.valeur ;
+        result.unit = _m.unit ;
+        result.value = this->value - _m.value ;
 
       }
       else
       {
-        throw Exception("Masse::operator - pas encore implanté") ;
+        throw Exception("Mass::operator- @todo") ;
       }
 
-      return resultat ;
+      return result ;
     }
     
-    Base::Reel Masse::operator /(const Masse& _m) const
+    float Mass::operator /(const Mass& _m) const
     {
 
-      if (this->unite == _m.unite)
+      if (this->unit == _m.unit)
       {
-        return this->valeur / _m.valeur ;
+        return this->value / _m.value ;
 
       }
       else
       {
-        throw Exception("Masse::operator / pas encore implanté") ;
+        throw Exception("Mass::operator/ @todo") ;
         return 0 ;
       }
 
     }
     
     /// Calcul
-    Masse Masse::operator /(const Base::Reel& _n) const
+    Mass Mass::operator /(const float& _n) const
     {
-      Masse resultat ;
+      Mass result ;
 
-      resultat.unite = this->unite ;
-      resultat.valeur = this->valeur / _n ;
+      result.unit = this->unit ;
+      result.value = this->value / _n ;
 
-      return resultat ;
+      return result ;
     }
 
     /// Calcul
-    Masse Masse::operator *(const Base::Reel& _n) const
+    Mass Mass::operator *(const float& _n) const
     {
-      Masse resultat ;
+      Mass result ;
 
-      resultat.unite = this->unite ;
-      resultat.valeur = this->valeur * _n ;
+      result.unit = this->unit ;
+      result.value = this->value * _n ;
 
-      return resultat ;
+      return result ;
     }
    
     /// Converti en kilogrammes.
-    Base::Reel Masse::Kilogramme() const
+    float Mass::Kilogram() const
     {
-      if (this->unite == _Kilogramme)
+      if (this->unit == _Kilogram)
       {
-        return this->valeur ;
+        return this->value ;
       }
       else
       {
-        throw Exception("Masse::Kilogramme pas encore implanté") ;
+        throw Exception("Mass::Kilogram @todo") ;
       }
     }
 
     /// Comparaison
-    Base::Booleen Masse::operator <(const Masse& _m) const
+    bool Mass::operator <(const Mass& _m) const
     {
-      if (this->unite == _m.unite)
+      if (this->unit == _m.unit)
       {
-        return this->valeur < _m.valeur ;
+        return this->value < _m.value ;
       }
       else
       {
-        throw Exception("Masse::operator < pas encore implanté") ;
+        throw Exception("Mass::operator< @todo") ;
       }
     }
 

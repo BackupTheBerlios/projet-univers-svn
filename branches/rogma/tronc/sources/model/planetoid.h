@@ -18,50 +18,29 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_MODELE_PLANETOIDE_H_
-#define _PU_MODELE_PLANETOIDE_H_
+#ifndef _PU_MODEL_PLANETOID_H_
+#define _PU_MODEL_PLANETOID_H_
 
 
-#include <base/association.h>
-
-#include <modele/facette.h>
-#include <modele/distance.h>
-#include <modele/nom.h>
+#include <model/trait.h>
 
 namespace ProjetUnivers {
-  namespace Modesle {
+  namespace Model {
     
-    class SystemeStellaire ;
+    class StellarSystem ;
       
     /// Propriété d'être une planète ou un astéroïde.
     /*!
       @par Etat
         planning
     */
-    class Planetoide : public Trait 
+    class Planetoid : public Trait 
     {
     public:
 
       /// Constructeur.
-      Planetoide(const Nom& _nom,
-                 const Base::Association<SystemeStellaire>& _systeme,
-                 const Distance& _diametre) ;
+      Planetoid() ;
       
-    private:
-
-    /*!
-      @name Attributs
-    */
-    // @{
-
-      Nom nom ;
-      
-      Base::Association<SystemeStellaire> systeme ;
-      
-      /// Le diametre du planetoide
-      Distance diametre ;
-      
-    //@}
 
     };
     

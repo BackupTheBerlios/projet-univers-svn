@@ -20,8 +20,8 @@
 
 
 
-#ifndef _PU_MODELE_TEST_TYPE_DISTANCE_H_
-#define _PU_MODELE_TEST_TYPE_DISTANCE_H_
+#ifndef _PU_MODEL_TEST_DISTANCE_H_
+#define _PU_MODEL_TEST_DISTANCE_H_
 
 
 #include <cppunit/extensions/HelperMacros.h>
@@ -46,17 +46,17 @@ namespace ProjetUnivers {
       // @{
         
         /// Teste l'ordre sur les unités.
-        void testComparaisonUnite() ;
+        void testComparisonUnit() ;
            
       // @}
       // *******************************
-      /// @name Enregistrement des tests
+      /// @name Registerment des tests
       // *******************************
       // @{      
       
         CPPUNIT_TEST_SUITE(TestDistance) ;
       
-        CPPUNIT_TEST(testComparaisonUnite) ;
+        CPPUNIT_TEST(testComparisonUnit) ;
       
         CPPUNIT_TEST_SUITE_END() ;
       

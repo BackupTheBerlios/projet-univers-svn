@@ -19,15 +19,30 @@
  ***************************************************************************/
 
 
-#include <modele/mobile.h>
+#include <model/orientation.h>
+
 
 namespace ProjetUnivers {
-
   namespace Model {
 
-    Mobile::Mobile()
-    : Trait(), vitesse(), acceleration()
+    Orientation::Orientation()
+    : orientation()
     {}
+
+    Orientation::Orientation(const Orientation& _orientation)
+    : orientation(_orientation.orientation)
+    {}
+
+    Orientation::Orientation(const Ogre::Quaternion& _orientation)
+    : orientation(_orientation)
+    {}
+
+    Ogre::Quaternion Orientation::getQuaternion() const 
+    {
+      return orientation ;
+    }
 
   }
 }
+
+

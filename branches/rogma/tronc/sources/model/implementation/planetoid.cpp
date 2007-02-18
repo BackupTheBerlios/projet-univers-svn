@@ -18,85 +18,17 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_MODELE_COMPOSANT_H_
-#define _PU_MODELE_COMPOSANT_H_
-
-#include <base/association.h>
-#include <base/types.h>
-
-#include <modele/facette.h>
+#include <model/planetoid.h>
 
 
 namespace ProjetUnivers {
   namespace Model {
-    
-    
-    
-    class PlanDeComposant ;
-    class PointDAttache ;
-    class PlanDePointDAttache ;
-    
-    /// Propriété d'avoir des points d'attaches
-    /*!
-      @par Type de classe
-      - Object
-      - Concret
-    @par Etat
-      planning
-    */
-    class Attachable : public Trait
-    {
-    public:
 
-    /*!
-      @name Construction
-      
-    */
-    // @{
-
-      Attachable() ;
-      
-      void add(const Base::Association<PointDAttache>&) ;
-
-    // @}
-    /*!
-      @name Display
-      
-      Construit une chaine XML représentant l'objet.
-    */
-    // @{
-
-      /// Chaine représentant une référence à l'objet.
-      virtual std::string AfficherReference() const ;
-      
-      /// Chaine représentant la définition de l'objet.      
-      virtual std::string AfficherDefinition() const ;
-
-    // @}
-
-    private:
-    
-    /*! 
-      @name Attributs
-    */
-    // @{
-      
-      /// Les points d'attaches actifs.
-      /*!
-        Cet ensemble diminue avec l'augmentation des dégats du composant, 
-        conformément aux informations de this->plan.
-      */
-      Base::EnsembleAssociation<PointDAttache> pointsDAttaches ;
-      
-      
-    // @}
-      
-      
-    };
-    
+    Planetoid::Planetoid()
+    : Trait()
+    {}
     
   }
-
 }
 
-#endif
+   

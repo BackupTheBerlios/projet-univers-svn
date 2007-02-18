@@ -19,12 +19,12 @@
  ***************************************************************************/
 
 
-#include <modele/modele.h>
-#include <modele/objet.h>
-#include <modele/systeme_stellaire.h>
-#include <modele/univers.h>
+#include <model/model.h>
+#include <model/object.h>
+#include <model/stellar_system.h>
+#include <model/universe.h>
 
-#include <modele/test/test_demonstration.h>
+#include <model/test/test_demonstration.h>
 
 
 CPPUNIT_TEST_SUITE_REGISTRATION(ProjetUnivers::
@@ -42,18 +42,18 @@ namespace ProjetUnivers {
           faire un copier coller de son contenu dans le setup + une destruction 
           dans le tearDown puis executer les commandes d'accès diverses
       */
-      void TestDemonstration::testConstruction()
+      void TestDemonstration::testBuild()
       {
         Model::load("TestDemonstration") ;
 
-        Base::Association<Object> observateur(Model::AccesObject("Observateur")) ;
-        CPPUNIT_ASSERT_MESSAGE("pas d'observateur",observateur) ;
+        Object* observer(Model::getObject("Observer")) ;
+        CPPUNIT_ASSERT_MESSAGE("pas d'observateur",observer) ;
         
-        Base::Association<Univers> univers(observateur->AccesParent<Univers>()) ;
-        CPPUNIT_ASSERT_MESSAGE("pas d'univers pour l'observateur",univers) ;
+        Universe* universe(observer->getParent<Universe>()) ;
+        CPPUNIT_ASSERT_MESSAGE("pas d'univers pour l'observateur",universe) ;
 
-        Base::Association<SystemeStellaire> systeme(AccesSysteme(observateur)) ;
-        CPPUNIT_ASSERT_MESSAGE("pas de systeme stellaire pour l'observateur",systeme) ;
+        StellarSystem* system(observer->getParent<StellarSystem>()) ;
+        CPPUNIT_ASSERT_MESSAGE("pas de systeme stellaire pour l'observateur",system) ;
         
       }
 

@@ -18,69 +18,19 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <base/traceur.h>
+#include <model/star.h>
+#include <model/position.h>
 
-#include <modele/objet.h>
-#include <modele/systeme_stellaire.h>
 
 namespace ProjetUnivers {
   namespace Model {
-    
 
-
-    // *******************
-    // GROUP: Constructeur
-    // *******************
-
-
-    ////////////////////
-    // Constructeur.
-    SystemeStellaire::SystemeStellaire()
-      : Trait()
+    Star::Star()
+    : Trait()
     {}
     
-//    //////////////////
-//    // Ajoute une étoile.
-//    void SystemeStellaire::addEtoile(Etoile* _etoile)
-//    {
-//      this->etoiles.add(_etoile) ;
-//    }  
-//  
-    
-//    //////////////////
-//    // Ajoute un planétoïde.
-//    void SystemeStellaire::addPlanetoide(Planetoide* _planetoide)
-//    {
-//      this->planetoides.add(_planetoide) ;
-//    }
-//
-
-    /// Acces au systeme stellaire contenant l'objet paramètre.
-    Base::Association<SystemeStellaire> 
-    AccesSysteme(const Base::Association<Object>& _objet)
-    {
-      Base::Traceur::MessageInterne("AccesSysteme") ;
-//      Base::Association<Object> iterateur = _objet ;
-//      Base::Association<SystemeStellaire> systemeStellaire(*iterateur) ;
-//      
-//      while((! systemeStellaire) && iterateur)
-//      {
-//        Base::Traceur::MessageInterne("un tour de boucle") ;
-//        iterateur = iterateur->AccesConteneur() ;
-//        if (iterateur)
-//        {
-//          systemeStellaire = *iterateur ;
-//        }
-//      }
-//      
-//      return systemeStellaire ;
-
-        return _objet->AccesParent<SystemeStellaire>() ;
-      
-    }     
     
   }
 
 }
-
 

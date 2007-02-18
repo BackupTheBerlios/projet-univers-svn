@@ -20,19 +20,15 @@
 
 
 
-#ifndef _PU_MODELE_TEST_DEMONSTRATION_H_
-#define _PU_MODELE_TEST_DEMONSTRATION_H_
+#ifndef _PU_MODEL_TEST_DEMONSTRATION_H_
+#define _PU_MODEL_TEST_DEMONSTRATION_H_
 
 
 #include <cppunit/extensions/HelperMacros.h>
 
 
 namespace ProjetUnivers {
-
   namespace Model {
-
-    class PlanDAssemblage ;
-  
     namespace Test {
 
 
@@ -51,17 +47,17 @@ namespace ProjetUnivers {
       // @{
         
         /// Teste une construction.
-        void testConstruction() ;
+        void testBuild() ;
            
       // @}
       // *******************************
-      /// @name Enregistrement des tests
+      /// @name Registerment des tests
       // *******************************
       // @{      
     
         CPPUNIT_TEST_SUITE(TestDemonstration) ;
       
-        CPPUNIT_TEST(testConstruction) ;
+        CPPUNIT_TEST(testBuild) ;
       
         CPPUNIT_TEST_SUITE_END() ;
 

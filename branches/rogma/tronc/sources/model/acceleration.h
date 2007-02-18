@@ -18,16 +18,12 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_MODELE_ACCELERATION_H_
-#define _PU_MODELE_ACCELERATION_H_
-
-#include <base/types.h>
+#ifndef _PU_MODEL_ACCELERATION_H_
+#define _PU_MODEL_ACCELERATION_H_
 
 
 namespace ProjetUnivers {
   namespace Model {
-
-
 
     /// Une acceleration.
     /*!
@@ -51,7 +47,7 @@ namespace ProjetUnivers {
       Acceleration(const Acceleration&) ;
 
       /// Constructeur avec des m.s^-2
-//      Acceleration MetreSecondesMoins2(const Base::Reel& _ms2, const Vecteur&) ;
+//      Acceleration MetreSecondesMoins2(const float& _ms2, const Vecteur&) ;
 
 
       /// Calcul
@@ -61,7 +57,7 @@ namespace ProjetUnivers {
       Acceleration operator -(const Acceleration&) const ;
       
       /// Calcul
-      Acceleration operator *(const Base::Reel&) const ;
+      Acceleration operator *(const float&) const ;
 
       
     // @}
@@ -72,7 +68,7 @@ namespace ProjetUnivers {
        
      
       /// Donne l'acceleration en m.s-2.
-      Base::Reel MetreSecondesMoins2() const ;
+      float MeterPerSecondSquared() const ;
 
 
     // @}
@@ -83,12 +79,12 @@ namespace ProjetUnivers {
       typedef enum 
       {
         /// L'unité m.s^-2
-        _MetreSecondeMoins2, 
+        MeterPerSecondSquared, 
         
-      } Unite ;
+      } Unit ;
 
-      Base::Reel valeur ;
-      Unite unite ;
+      float value ;
+      Unit unit ;
   
   
     };

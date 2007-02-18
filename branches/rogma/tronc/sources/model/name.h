@@ -18,15 +18,12 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_MODELE_NOM_H_
-#define _PU_MODELE_NOM_H_
+#ifndef _PU_MODEL_NAME_H_
+#define _PU_MODEL_NAME_H_
 
-#include <base/types.h>
-#include <base/chaine.h>
-
+#include <string>
 
 namespace ProjetUnivers {
-
   namespace Model {
 
       
@@ -41,7 +38,7 @@ namespace ProjetUnivers {
       @todo
         ajouter 
     */
-    class Nom
+    class Name
     {
     public:
 
@@ -49,31 +46,31 @@ namespace ProjetUnivers {
       /*!
         Construit le nom indéfini.
       */
-      Nom() ;
+      Name() ;
       
       
-      Nom(const std::string&) ;
+      Name(const std::string&) ;
       
       /// Constructeur de copie.
-      Nom(const Nom&) ;
+      Name(const Name&) ;
     
       /// Conversion vers une chaine pour l'affichage.
       operator std::string() const ; 
     
       /// Operateur d'affectation.
-      Nom& operator=(const std::string&) ;
-      Nom& operator=(const Nom&) ;
+      Name& operator=(const std::string&) ;
+      Name& operator=(const Name&) ;
       
       /// Operateurs de comparaison
-      Base::Booleen operator==(const std::string&) const ;
-      Base::Booleen operator==(const Nom&) const ;
-      Base::Booleen operator!=(const Nom&) const ;
+      bool operator==(const std::string&) const ;
+      bool operator==(const Name&) const ;
+      bool operator!=(const Name&) const ;
     
       /// Vrai si le nom n'en est pas un.
       /*!
         C'est le nom de ce qui n'a pas de nom.
       */
-      Base::Booleen EstIndefini() const ;
+      bool isDefined() const ;
     
     
     private:
@@ -85,7 +82,7 @@ namespace ProjetUnivers {
           implanter à l'aide d'une fonction des langues vers les chaines
         
       */
-      std::string nom ;
+      std::string name ;
       
     };
   }

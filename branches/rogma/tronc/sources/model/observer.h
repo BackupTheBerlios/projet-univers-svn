@@ -17,26 +17,25 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODELE_OBSERVATEUR_H_
-#define PU_MODELE_OBSERVATEUR_H_
+#ifndef PU_MODEL_OBSERVER_H_
+#define PU_MODEL_OBSERVER_H_
 
-#include <modele/facette.h>
+#include <model/trait.h>
 
 namespace ProjetUnivers {
-
   namespace Model {
 
     /// Propriété des objets pouvant observer.
-    class Observateur : public Trait
+    class Observer : public Trait
     {
     public:
 
       /// Constructeur.
-      Observateur() ;
+      Observer() ;
 
     };
   }
 }
 
 
-#endif /*PU_MODELE_OBSERVATEUR_H_*/
+#endif /*PU_MODEL_OBSERVER_H_*/

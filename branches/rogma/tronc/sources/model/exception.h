@@ -19,13 +19,12 @@
  ***************************************************************************/
 
 
-#ifndef _PU_MODELE_EXCEPTION_H_
-#define _PU_MODELE_EXCEPTION_H_
+#ifndef _PU_MODEL_EXCEPTION_H_
+#define _PU_MODEL_EXCEPTION_H_
 
-#include <base/chaine.h>
+#include <string>
 
 namespace ProjetUnivers {
-
   namespace Model {
 
     /// Erreurs dans Model.
@@ -52,4 +51,4 @@ namespace ProjetUnivers {
   }
 }
 
-#endif /*_PU_MODELE_EXCEPTION_H_*/
+#endif /*_PU_MODEL_EXCEPTION_H_*/

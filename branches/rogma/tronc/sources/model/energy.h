@@ -18,10 +18,9 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_MODELE_ENERGIE_H_
-#define _PU_MODELE_ENERGIE_H_
+#ifndef _PU_MODEL_ENERGY_H_
+#define _PU_MODEL_ENERGY_H_
 
-#include <base/types.h>
 
 
 namespace ProjetUnivers {
@@ -35,7 +34,7 @@ namespace ProjetUnivers {
       planning
 
     */
-    class Energie {
+    class Energy {
     public:
     
     // *************************
@@ -44,32 +43,32 @@ namespace ProjetUnivers {
     // @{  
 
      
-      /// Energie nulle.
-      Energie() ;
+      /// Energy nulle.
+      Energy() ;
 
       /// Constructeur de copie.
-      Energie(const Energie&) ;
+      Energy(const Energy&) ;
 
       /// Constructeur avec des Joules
-      static Energie Joule(const Base::Reel& _joules) ;
+      static Energy Joule(const float& _joules) ;
 
       /// Constructeur avec des électron-volts
-      static Energie ElectronVolt(const Base::Reel& _eV) ;
+      static Energy ElectronVolt(const float& _eV) ;
 
       /// Affectation
-      Energie& operator=(const Energie&) ;
+      Energy& operator=(const Energy&) ;
 
       /// Calcul
-      Energie operator +(const Energie&) const ;
+      Energy operator +(const Energy&) const ;
 
       /// Calcul
-      Energie operator -(const Energie&) const ;
+      Energy operator -(const Energy&) const ;
       
       /// Calcul
-      Base::Reel operator /(const Energie&) const ;
+      float operator /(const Energy&) const ;
 
       /// Calcul
-      Energie operator *(const Base::Reel&) const ;
+      Energy operator *(const float&) const ;
 
       
     // @}
@@ -80,10 +79,10 @@ namespace ProjetUnivers {
        
      
       /// Donne l'énergie en Joules.
-      Base::Reel Joule() const ;
+      float Joule() const ;
 
       /// Comparaison
-      Base::Booleen operator <(const Energie&) const ;
+      bool operator <(const Energy&) const ;
 
     // @}
     
@@ -97,16 +96,16 @@ namespace ProjetUnivers {
         
         /// L'électron-volt ~= 1,602 177 33 x 10-19 Joules
         _eV
-      } Unite ;
+      } Unit ;
  
 
-      Base::Reel valeur ;
-      Unite unite ;
+      float value ;
+      Unit unit ;
   
 
       /// Méthode interne de conversion d'unités.
-      static Base::Reel Convertir(const Energie& _energie, 
-                                  const Energie::Unite& _unite) ;
+      static float convert(const Energy& _energy, 
+                           const Energy::Unit& _unit) ;
 
   
     };

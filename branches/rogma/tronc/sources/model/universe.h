@@ -18,27 +18,25 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_MODELE_UNIVERS_H_
-#define _PU_MODELE_UNIVERS_H_
+#ifndef _PU_MODEL_UNIVERSE_H_
+#define _PU_MODEL_UNIVERSE_H_
 
 
-#include <modele/facette.h>
+#include <model/trait.h>
 
 namespace ProjetUnivers {
-
   namespace Model {
-    
     
     
     /// Propriété d'un objet d'être un univers.
     /*!
     */
-    class Univers : public Trait 
+    class Universe : public Trait 
     {
     public:
 
       /// Constructeur.
-      Univers() ;
+      Universe() ;
       
     private:
       

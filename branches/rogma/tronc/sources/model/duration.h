@@ -18,10 +18,9 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_MODELE_DUREE_H_
-#define _PU_MODELE_DUREE_H_
+#ifndef _PU_MODEL_DURATION_H_
+#define _PU_MODEL_DURATION_H_
 
-#include <base/types.h>
 
 namespace ProjetUnivers {
   namespace Model {
@@ -34,7 +33,7 @@ namespace ProjetUnivers {
     @par Etat
       planning
     */
-    class Duree 
+    class Duration 
     {
     public:
     
@@ -45,16 +44,16 @@ namespace ProjetUnivers {
     
 
       /// Durée nulle.
-      Duree() ;
+      Duration() ;
       
       /// Constructeur de copie.
-      Duree(const Duree&) ;
+      Duration(const Duration&) ;
     
       /// Calcul
-      Duree operator +(const Duree&) const ;
+      Duration operator +(const Duration&) const ;
 
       /// Calcul
-      Duree operator -(const Duree&) const ;
+      Duration operator -(const Duration&) const ;
 
       
     // @}
@@ -65,7 +64,7 @@ namespace ProjetUnivers {
       
 
       /// Convertit la distance en secondes.
-      Base::Reel Seconde() const ; 
+      float Second() const ; 
       
 
     
@@ -75,12 +74,6 @@ namespace ProjetUnivers {
     // ************
     // @{
     
-      
-
-      /// Comparaison avec une autre durée. 
-      /*!
-      */
-      // BooleenEtendu Comparer(const Duree&) const ;
     
     // @}
       
@@ -88,12 +81,12 @@ namespace ProjetUnivers {
     
       /// Les différentes unités
       typedef enum {
-        _Seconde
-      } Unite ;
+        _Second
+      } Unit ;
 
 
-      Base::Reel valeur ;
-      Unite unite ;    
+      float value ;
+      Unit unit ;    
   
     };
 

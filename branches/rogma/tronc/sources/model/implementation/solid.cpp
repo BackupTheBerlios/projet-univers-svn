@@ -18,19 +18,23 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <modele/univers.h>
+
+#include <model/solid.h>
 
 namespace ProjetUnivers {
-
   namespace Model {
 
- 
-    Univers::Univers()
-    : Trait()
+     
+    Solid::Solid(const Mesh& _mesh) 
+    : Trait(), mesh(_mesh)
     {}
-    
+
+    /// Accès au modèle 3d.
+    Mesh Solid::getModel() const
+    {
+      return mesh ;
+    }
+
+  
   }
-
 }
-
-

@@ -18,62 +18,61 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <base/erreur.h>
+#include <kernel/error.h>
 
-#include <modele/energie.h>
-#include <modele/exception.h>
+#include <model/energy.h>
+#include <model/exception.h>
 
 
 
 namespace ProjetUnivers {
-
   namespace Model {
 
-    Energie::Energie()
-    : unite(_Joule)
+    Energy::Energy()
+    : unit(_Joule)
     {}
 
 
-    Energie::Energie(const Energie& _energie)
-    : valeur(_energie.valeur), unite(_energie.unite)
+    Energy::Energy(const Energy& _energie)
+    : valeur(_energie.value), unit(_energie.unit)
     {}
 
 
-    Energie Energie::Joule(const Base::Reel& _joules)
+    Energy Energy::Joule(const float& _joules)
     {
-      Energie resultat ;
+      Energy result ;
       
-      resultat.valeur = _joules ;
-      resultat.unite = _Joule ;
+      result.value = _joules ;
+      result.unit = _Joule ;
       
-      return resultat ;  
+      return result ;  
     }
     
     
-    Energie& Energie::operator=(const Energie& _energie)
+    Energy& Energy::operator=(const Energy& _energie)
     {
-      this->valeur = _energie.valeur ;
-      this->unite = _energie.unite ;
+      this->value = _energie.value ;
+      this->unit = _energie.unit ;
       
       return *this ;
     }
     
     
-    /// Donne la valeur convertie de _energie en _unite
-    Base::Reel Energie::Convertir(const Energie& _energie, const Energie::Unite& _unite)
+    /// Donne la value convertie de _energie en _unit
+    float Energy::Convertir(const Energy& _energie, const Energy::Unit& _unit)
     {
-      if (_energie.unite == _unite)
+      if (_energie.unit == _unit)
       {
-        return _energie.valeur ;
+        return _energie.value ;
       }
-      else if (_energie.unite == _Joule && _unite == _eV)
+      else if (_energie.unit == _Joule && _unit == _eV)
       {
-        return _energie.valeur * 6,24150974e18 ;
+        return _energie.value * 6,24150974e18 ;
       }
-      // ici on a : _energie.unite == _eV && _unite == _Joule
+      // ici on a : _energie.unit == _eV && _unit == _Joule
       else
       {
-        return _energie.valeur * 1,60217733e-19 ; 
+        return _energie.value * 1,60217733e-19 ; 
       }
       
       /*! 
@@ -82,63 +81,63 @@ namespace ProjetUnivers {
     }
     
     
-    Energie Energie::operator -(const Energie& _operande) const
+    Energy Energy::operator -(const Energy& _operande) const
     {
-      Energie resultat(*this) ;
+      Energy result(*this) ;
       
       // le cas facile
-      if (this->unite == _operande.unite)
+      if (this->unit == _operande.unit)
       {
-        resultat.valeur -= _operande.valeur ;  
+        result.value -= _operande.value ;  
       }
       // il faut choisir une unité de conversion
       // ici : on prend lle Joule
       else
       {
         
-        resultat.valeur = Convertir(resultat,Energie::_Joule) - 
-                          Convertir(_operande,Energie::_Joule) ;
-        resultat.unite = Energie::_Joule ;
+        result.value = convert(resultat,Energy::_Joule) - 
+                       convert(_operande,Energy::_Joule) ;
+        result.unit = Energy::_Joule ;
         
       }
       
-      return resultat ;
+      return result ;
       
     }
 
 
-    Base::Reel Energie::operator /(const Energie& _operande) const
+    float Energy::operator /(const Energy& _operande) const
     {
       
       // le cas division par zéro.
-      VerifieCondition(_operande.valeur != 0, 
+      check(_operande.value != 0, 
                        Exception("division par zero")) ;
       
       // le cas normal
-      if (this->unite == _operande.unite)
+      if (this->unit == _operande.unit)
       {
-        return this->valeur / _operande.valeur ;
+        return this->value / _operande.value ;
       }
       else
       {
-        return Convertir(*this, Energie::_eV) / 
-               Convertir(_operande, Energie::_eV) ;
+        return convert(*this, Energy::_eV) / 
+               convert(_operande, Energy::_eV) ;
       }
       
     }
 
 
 
-    Base::Booleen Energie::operator<(const Energie& _operande) const
+    bool Energy::operator<(const Energy& _operande) const
     {
-      if (this->unite == _operande.unite)
+      if (this->unit == _operande.unit)
       {
-        return this->valeur < _operande.valeur ;
+        return this->value < _operande.value ;
       }
       else
       {
-        return Convertir(*this, Energie::_eV) < 
-               Convertir(_operande, Energie::_eV) ;
+        return convert(*this, Energy::_eV) < 
+               convert(_operande, Energy::_eV) ;
       }
     }
     

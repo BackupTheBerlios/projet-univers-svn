@@ -18,13 +18,11 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_MODELE_DISTANCE_H_
-#define _PU_MODELE_DISTANCE_H_
+#ifndef _PU_MODEL_DISTANCE_H_
+#define _PU_MODEL_DISTANCE_H_
 
-#include <base/types.h>
 
 namespace ProjetUnivers {
-
   namespace Model {
 
     namespace Test
@@ -53,10 +51,10 @@ namespace ProjetUnivers {
     
       /// Les différentes unités de mesure utilisée.
       typedef enum {
-        _Metre,
-        _AnneeLumiere, 
+        _Meter,
+        _LightYear, 
         _Parsec 
-      } Unite ;
+      } Unit ;
 
       /// Distance nulle.
       Distance() ;
@@ -65,7 +63,7 @@ namespace ProjetUnivers {
       Distance(const Distance&) ;
 
       /// Constructeur unité, valeur
-      Distance(const Unite&, const Base::Reel&) ;
+      Distance(const Unit&, const float&) ;
     
       /// Calcul
       Distance operator +(const Distance&) const ;
@@ -84,13 +82,13 @@ namespace ProjetUnivers {
       
 
       /// Convertit la distance en parsecs.
-      Base::Reel Parsec() const ; 
+      float Parsec() const ; 
       
       /// Convertit la distance en mètres.
-      Base::Reel Metre() const ; 
+      float Meter() const ; 
       
       /// Convertit la distance en années lumières.
-      Base::Reel AnneeLumiere() const ; 
+      float LightYear() const ; 
 
     
     // @}    
@@ -99,15 +97,6 @@ namespace ProjetUnivers {
     // ************
     // @{
       
-      
-
-      /// Comparaison avec une autre distance. 
-      /*!
-        Plus ou moins précis en fonction de la Distance : deux distances 
-        importantes, peuvent être considérées comme égales alors qu'elles sont 
-        véritablement différentes.
-      */
-      // BooleenEtendu Comparer(const Distance&) const ;
     
     // @}
       
@@ -115,17 +104,17 @@ namespace ProjetUnivers {
     
 
       /// Valeur.
-      Base::Reel distance ;
+      float distance ;
   
       /// Unité de la distance
-      Unite unite ;    
+      Unit unit ;    
   
-      friend Base::Booleen operator<=(Distance::Unite, Distance::Unite) ;
+      friend bool operator<=(Distance::Unit, Distance::Unit) ;
                             
       friend class ::ProjetUnivers::Model::Test::TestDistance ;
     };
 
-    Base::Booleen operator<=(Distance::Unite,Distance::Unite) ;
+    bool operator<=(Distance::Unit,Distance::Unit) ;
 
 
   }

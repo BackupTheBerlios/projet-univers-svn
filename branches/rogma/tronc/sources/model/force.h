@@ -18,13 +18,10 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_MODELE_FORCE_H_
-#define _PU_MODELE_FORCE_H_
-
-#include <base/types.h>
+#ifndef _PU_MODEL_FORCE_H_
+#define _PU_MODEL_FORCE_H_
 
 namespace ProjetUnivers {
-
   namespace Model {
 
       
@@ -60,43 +57,39 @@ namespace ProjetUnivers {
       Force operator -(const Force&) const ;
 
       
-      // @}
-      // ******************
-      /// @name Conversions
-      // ******************
-      // @{
+    // @}
+    // ******************
+    /// @name Conversions
+    // ******************
+    // @{
       
 
       /// Convertit la distance en newton.
-      Base::Reel Newton() const ; 
+      float Newton() const ; 
       
 
     
-      // @}    
-      // ************
-      /// @name Accès
-      // ************
-      // @{
+    // @}    
+    // ************
+    /// @name Accès
+    // ************
+    // @{
       
       
 
-      /// Comparaison avec une autre durée. 
-      /*!
-      */
-      // BooleenEtendu Comparer(const Force&) const ;
     
-      // @}
+    // @}
       
     private:
     
       /// Les différentes unités
       typedef enum {
         _Newton
-      } Unite ;
+      } Unit ;
 
 
-      Base::Reel valeur ;
-      Unite unite ;    
+      float valeur ;
+      Unit unit ;    
   
     };
 

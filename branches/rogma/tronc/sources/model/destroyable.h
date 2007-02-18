@@ -19,12 +19,12 @@
  ***************************************************************************/
 
 
-#ifndef _PU_MODELE_DESTRUCTIBLE_H_
-#define _PU_MODELE_DESTRUCTIBLE_H_
+#ifndef _PU_MODEL_DESTRUCTIBLE_H_
+#define _PU_MODEL_DESTRUCTIBLE_H_
 
 
-#include <modele/energie.h>
-#include <modele/facette.h>
+#include <model/energie.h>
+#include <model/trait.h>
 
 namespace ProjetUnivers {
   namespace Model {
@@ -39,12 +39,12 @@ namespace ProjetUnivers {
     @par Etat
       planning
     */
-    class Destructible : public Trait
+    class Destroyable : public Trait
     {
     public:
 
       /// Construit à neuf.
-      Destructible(const Energie& _pointsDeVieTotal) ;
+      Destroyable(const Energy& _pointsDeVieTotal) ;
    
     /*!
       @name Méthodes principales
@@ -56,15 +56,15 @@ namespace ProjetUnivers {
         100% correspond à un objet neuf
         0% à un objet détruit
       */
-      Base::Entier PourcentagePointsDeVie() const ;
+      float getLife() const ;
    
       /// Fait dubir un dégat d'une certaine quantité d'énergie.
-      void FaireSubirDegats(const Energie& _energie) ;
+      void damage(const Energy& _energy) ;
    
     // @}
    
       /// Classe abstraite donc destructeur virtuel.
-      virtual ~Destructible() ;
+      virtual ~Destroyable() ;
     
    
     protected:
@@ -72,10 +72,10 @@ namespace ProjetUnivers {
 
       
       /// Enérgie nécéssaire à sa destruction
-      Energie pointsDeVieTotal ;
+      Energy totalResistance ;
       
-      /// Energie restante.
-      Energie pointsDeVieActuel ;
+      /// Energy restante.
+      Energy resistance ;
 
 
     };

@@ -18,24 +18,20 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#include <kernel/log.h>
 
-#include <modele/solide.h>
+#include <model/object.h>
+#include <model/stellar_system.h>
 
 namespace ProjetUnivers {
-
   namespace Model {
 
-     
-    Solide::Solide(const Model3D& _volume) 
-    : Trait(), volume(_volume)
+    StellarSystem::StellarSystem()
+      : Trait()
     {}
-
-    /// Accès au modèle 3d.
-    Model3D Solide::AccesModel() const
-    {
-      return volume ;
-    }
-
-  
+    
   }
+
 }
+
+

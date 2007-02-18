@@ -18,30 +18,25 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_MODELE_OBJET_H_
-#define _PU_MODELE_OBJET_H_
+#ifndef _PU_MODEL_OBJECT_H_
+#define _PU_MODEL_OBJECT_H_s
 
 #include <typeinfo>
 
-#include <base/traceur.h>
-#include <base/derive_de.h>
-#include <base/chaine.h>
-#include <base/ensemble_composition.h>
-#include <base/modele.h>
+#include <kernel/log.h>
+#include <kernel/inherits.h>
+#include <kernel/ensemble_composition.h>
+#include <kernel/model.h>
 
-#include <base/fonction_composition_valeur_objet.h>
-
-#include <modele/nom.h>
-#include <modele/identificateur.h>
+#include <model/name.h>
 
 namespace ProjetUnivers {
-
   namespace Model {
   
     class Trait ;
     
     /// Un objet du jeu.
-    class Object : public Base::Model {
+    class Object : public Kernel::Model {
     public:
   
     /*!
@@ -51,37 +46,22 @@ namespace ProjetUnivers {
     
       /// Constructeurs.
       Object() ;
-      Object(const Nom&) ;
+      Object(const Name&) ;
     
       ~Object() ;
 
       /// Ajoute une facette.
-      void add(Trait* _facette) ;
+      void add(Trait* _trait) ;
 
       /// Ajoute un objet comme contenu
       /*!
         Les objets peuvent en contenir d'autres.
 
       */
-      Base::Association<Object> add(Object* _contenu) ;
+      Object* add(Object* _content) ;
 
       /// Supprime un objet.
-      void remove(const Base::Association<Object>&) ;
-
-    // @}
-    /*!
-      @name Display
-      
-      Construit une chaine XML représentant l'objet.
-    */
-    // @{
-
-      /// Chaine représentant une référence à l'objet.
-      virtual std::string AfficherReference() const ;
-      
-      /// Chaine représentant la définition de l'objet.      
-      virtual std::string AfficherDefinition() const ;
-
+      void remove(Object*) ;
 
     // @}
     /*!
@@ -89,14 +69,14 @@ namespace ProjetUnivers {
     */
     // @{
 
-      Nom AccesNom() const ;
+      Name getName() const ;
 
-      Base::Association<Object> AccesConteneur() const ;
+      Object* getContener() const ;
 
-      Base::EnsembleAssociation<Object> AccesContenu() const ;
+      std::set<Object*>::iterator getContent() const ;
   
       /// Le conteneur récursif de plus haut niveau.
-      Base::Association<Object> AccesRacine() const ;
+      Object* getRoot() const ;
       
     // @}
     /*!
@@ -105,20 +85,20 @@ namespace ProjetUnivers {
     // @{
 
       /// Accès récursif au plus haut conteneur ayant la facette @ T
-      template <class T> Base::Association<T> AccesRacine() const ;
+      template <class T> Kernel::Association<T> getRoot() const ;
 
       
       /// Accès à la facette T.
       /*!
         T doit être une sous classe de Trait.
       */
-      template <class T> operator Base::Association<T>() const ;
+      template <class T> T* getTrait() const ;
 
       /// Accès récursif au premier conteneur ayant la facette @ T
-      template <class T> Base::Association<T> AccesParent() const ;
+      template <class T> T* getParent() const ;
 
       /// Accès aux facettes de l'objet.
-      Base::EnsembleAssociation<Trait> AccesTraits() const ;
+      std::set<Trait*>::iterator getTraits() const ;
 
     // @}
       
@@ -132,98 +112,92 @@ namespace ProjetUnivers {
     */
     // @{
        
-      /// Identificateur de l'objet.
-      Identificateur identificateur ;
-
-      /// Nom de l'objet.
+      /// Name de l'objet.
       /*!
         Pas forcément unique.
       */
-      Nom nom ;
+      Name name ;
     
       /// Les facettes de l'objet
-      Base::FonctionCompositionValeurObject<std::string, Trait> facettes ;
-
-      /// Redondant, mais pour simplifier le travail
       /*!
-        @todo 
-          supprimer
+        @composite
       */
-      Base::EnsembleAssociation<Trait> ensembleTraits ;
+      std::map<std::string, Trait*> facettes ;
 
       /// L'éventuel objet qui contient celui-ci
-      Base::Association<Object> conteneur ;
+      Object* contener ;
 
       /// Les objets contenus dans celui-ci
-      Base::EnsembleComposition<Object> contenu ;
+      /*!
+        @composite
+      */
+      std::set<Object*> content ;
 
       
     // @}
       
     };  
 
-    template <class T> Object::operator Base::Association<T>() const
+    template <class T> T* Object::getTrait() const
     {
       /// T doit être une sous classe de Trait
-      Base::DeriveDe<T,Trait>() ;
+      Kernel::Inherits<T,Trait>() ;
       
       /// on attrape la facette 
-      Base::Association<Trait> facette = facettes[typeid(T).name()] ;
+      Trait* trait = traits[typeid(T).name()] ;
       
       /// si elle existe on effectue la conversion :
-      if (facette)
+      if (trait)
       {
-        Trait* pTrait = facette.operator->() ;
-        T* t = static_cast<T*>(pTrait) ; 
-        return *t ;
+        return static_cast<T*>(trait) ;
       }
       else
-        return Base::Association<T>() ;
+        return NULL ;
     }
 
-    template <class T> Base::Association<T> Object::AccesParent() const
+    template <class T> T* Object::getParent() const
     {
       /// T doit être une sous classe de Trait
-      Base::DeriveDe<T,Trait>() ;
+      Kernel::Inherits<T,Trait>() ;
       
-      Base::Association<Object> iterateur(*this) ;
-      Base::Association<T> facette(*iterateur) ;
+      Object* iterator(this) ;
+      T* trait(iterator->getTrait<T>()) ;
       
-      while((! facette) && iterateur)
+      while((! trait) && iterator)
       {
-        iterateur = iterateur->AccesConteneur() ;
-        if (iterateur)
+        iterator = iterator->getContener() ;
+        if (iterator)
         {
-          facette = *iterateur ;
+          trait = iterator->getTrait<T>() ;
         }
       }
       
-      return facette ;
+      return trait ;
       
     }
 
-    template <class T> Base::Association<T> Object::AccesRacine() const
+    template <class T> T* Object::getRoot() const
     {
       /// T doit être une sous classe de Trait
-      Base::DeriveDe<T,Trait>() ;
+      Kernel::Inherits<T,Trait>() ;
       
-      Base::Association<Object> iterateur(*this) ;
-      Base::Association<T> facette(*iterateur) ;
+      Object* iterator(this) ;
+      T* trait(iterator->getTrait<T>()) ;
       
-      Base::Association<T> plus_haute_facette_trouvee ;
+      T* highest_trait_found ;
       
-      while(facette && iterateur)
+      while(trait && iterator)
       {
-        plus_haute_facette_trouvee = facette ;
+        highest_trait_found = trait ;
         
-        iterateur = iterateur->AccesConteneur() ;
-        if (iterateur)
+        iterator = iterator->getConteneur() ;
+        if (iterator)
         {
-          facette = *iterateur ;
+          trait = iterator->getTrait<T>() ;
         }
       }
       
-      return plus_haute_facette_trouvee ;
+      return highest_trait_found ;
       
     }
 
@@ -233,4 +207,4 @@ namespace ProjetUnivers {
 }
 
 
-#endif // _PU_MODELE_OBJET_H_
+#endif // _PU_MODEL_OBJECT_H_

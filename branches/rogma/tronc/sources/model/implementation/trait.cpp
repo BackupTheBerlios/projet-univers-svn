@@ -17,13 +17,12 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <base/traceur.h>
+#include <kernel/log.h>
 
-#include <modele/facette.h>
-#include <modele/objet.h>
+#include <model/trait.h>
+#include <model/object.h>
 
 namespace ProjetUnivers {
-
   namespace Model {
 
 
@@ -33,9 +32,9 @@ namespace ProjetUnivers {
     Trait::~Trait()
     {}
 
-    Base::Association<Object> Trait::AccesObject() const
+    Object* Trait::getObject() const
     {
-      return this->objet ;
+      return this->object ;
     }
 
         

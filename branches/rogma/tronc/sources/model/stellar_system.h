@@ -18,10 +18,10 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_UNIVERS_SYSTEME_STELLAIRE_H_
-#define _PU_UNIVERS_SYSTEME_STELLAIRE_H_
+#ifndef _PU_MODEL_STELLAR_SYSTEM_H_
+#define _PU_MODEL_STELLAR_SYSTEM_H_
 
-#include <modele/facette.h>
+#include <model/trait.h>
 
 namespace ProjetUnivers {
   namespace Model {
@@ -31,10 +31,9 @@ namespace ProjetUnivers {
       @par Etat
         planning
     */
-    class SystemeStellaire : public Trait 
+    class StellarSystem : public Trait 
     {
     public:
-
 
     // *******************
     /*! 
@@ -44,42 +43,9 @@ namespace ProjetUnivers {
     // @{
 
       /// Constructeur.
-      SystemeStellaire() ;
-      
-      
-    // @}
-    // *******************
-    /*! 
-      @name Acces
-    */
-    // *******************
-    // @{
-
-      /// Les étoiles du système
-      Base::EnsembleAssociation<Object> AccesEtoiles() const ;
-    
-    // @}
+      StellarSystem() ;
 
     };
-
-
-  // *******************
-  /*! 
-    @name Fonctions d'aide
-  */
-  // *******************
-  // @{
-
-    
-    /// Acces au systeme stellaire contenant l'objet paramètre.
-    /*!
-    @deprecated 
-      utiliser AccesParent<SystemeStellaire> à la place
-    */
-    Base::Association<SystemeStellaire> AccesSysteme(const Base::Association<Object>&) ;
-    
-    
-  // @}  
     
   }
 }

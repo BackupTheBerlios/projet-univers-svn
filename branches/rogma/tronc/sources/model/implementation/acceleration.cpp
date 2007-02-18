@@ -18,16 +18,13 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <modele/vitesse.h>
-
+#include <model/acceleration.h>
 
 namespace ProjetUnivers {
-
   namespace Model {
 
-    Vitesse::Vitesse()
+    Acceleration::Acceleration()
     {}
 
   }
 }
-

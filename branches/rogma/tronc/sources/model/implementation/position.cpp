@@ -17,58 +17,47 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <kernel/log.h>
 
+#include <model/position.h>
+#include <model/positionned.h>
 
-#include <modele/nom.h>
+#include <model/object.h>
 
 namespace ProjetUnivers {
-
   namespace Model {
 
-      
-    Nom::Nom()
-    {}
-      
-    Nom::Nom(const std::string& _nom)
-    : nom(_nom)
-    {}
-      
-    Nom::Nom(const Nom& _nom)
-    : nom(_nom.nom)
-    {}
-    
-    Nom::operator std::string() const
-    {
-      return nom ;
-    }
-    
-    Nom& Nom::operator=(const std::string& _nom)
-    {
-      nom =_nom ;
-      return *this ;
-    }
-    
-    Nom& Nom::operator=(const Nom& _nom)
-    {
-      nom =_nom.nom ;
-      return *this ;
-      
-    }
-      
-    Base::Booleen Nom::operator==(const std::string& _chaine) const
-    {
-      return nom == _chaine ;
-    }
-    
-    Base::Booleen Nom::operator==(const Nom& _nom) const 
-    {
-      return nom == _nom.nom ;
-    }
-    
 
-    Base::Booleen Nom::EstIndefini() const
+    Position::Position()
+    {}
+
+    Position::Position(const Position& _position)
+    : coordonneeX(_position.xCoordinate),
+      coordonneeY(_position.yCoordinate),
+      zCoordinate(_position.zCoordinate)
+    {}
+
+    Position::Position(const Distance& x, 
+                       const Distance& y, 
+                       const Distance& z)
+    : xCoordinate(x),
+      yCoordinate(y),
+      zCoordinate(z)
+    {}
+
+    Distance Position::getXCoordinate() const
     {
-      return nom == "" ;
+      return this->xCoordinate ;
+    }
+
+    Distance Position::getYCoordinate() const
+    {
+      return this->yCoordinate ;
+    }
+    
+    Distance Position::getZCoordinate() const
+    {
+      return this->zCoordinate ;
     }
     
   }

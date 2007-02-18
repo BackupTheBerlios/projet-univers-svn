@@ -18,17 +18,13 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_MODELE_POSITION_H_
-#define _PU_MODELE_POSITION_H_
+#ifndef _PU_MODEL_POSITION_H_
+#define _PU_MODEL_POSITION_H_
 
-
-#include <base/association.h>
-#include <modele/distance.h>
+#include <model/distance.h>
 
 namespace ProjetUnivers {
-
   namespace Model {
-
 
     /// Une position dans un espace à trois dimensions.
     /*!
@@ -72,14 +68,14 @@ namespace ProjetUnivers {
     // @{  
       
       /// Opérateur d'égatité.
-      Base::Booleen operator==(const Position&) const ;
+      bool operator==(const Position&) const ;
       
       // Distance entre 2 Position.
-      Distance CalculerDistance(const Position&) const ; 
+      Distance calculateDistance(const Position&) const ; 
     
-      Distance AccesCoordonneeX() const ;
-      Distance AccesCoordonneeY() const ;
-      Distance AccesCoordonneeZ() const ;
+      Distance getXCoordinate() const ;
+      Distance getYCoordinate() const ;
+      Distance getZCoordinate() const ;
       
     // @}
     
@@ -87,13 +83,13 @@ namespace ProjetUnivers {
     
 
       /*!
-        Implantation l'aide de trois distances, 
+        Implementation l'aide de trois distances, 
         qui sont les distances entre les divers projections sur les plans 
         des coordonnées et le point qui sert d'origine au système.      
       */
-      Distance coordonneeX ;
-      Distance coordonneeY ;
-      Distance coordonneeZ ;      
+      Distance xCoordinate ;
+      Distance yCoordinate ;
+      Distance zCoordinate ;      
       
     };
   }

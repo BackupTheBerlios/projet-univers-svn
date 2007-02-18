@@ -18,13 +18,12 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_MODELE_SOLIDE_H_
-#define _PU_MODELE_SOLIDE_H_
+#ifndef _PU_MODEL_SOLID_H_
+#define _PU_MODEL_SOLID_H_
 
-#include <base/association.h>
 
-#include <modele/facette.h>
-#include <modele/modele3d.h>
+#include <model/trait.h>
+#include <model/mesh.h>
 
 
 namespace ProjetUnivers {
@@ -32,7 +31,7 @@ namespace ProjetUnivers {
 
 
     /// Propriété d'être fait de matière solide.
-    class Solide : public Trait 
+    class Solid : public Trait 
     {
     public:
     
@@ -42,17 +41,17 @@ namespace ProjetUnivers {
     // @{
 
       /// Constructeur.
-      Solide(const Model3D& _volume) ;
+      Solid(const Mesh& _volume) ;
       
       /// Accès au modèle 3d.
-      Model3D AccesModel() const ;
+      Mesh getModel() const ;
       
     //@}
 
     private:
       
       /// Volume du solide
-      Model3D volume ;
+      Mesh mesh ;
   
     };
   }

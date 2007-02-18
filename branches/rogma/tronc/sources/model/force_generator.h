@@ -18,10 +18,10 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_MODELE_MOTEUR_H_
-#define _PU_MODELE_MOTEUR_H_
+#ifndef _PU_MODEL_FORCE_GENERATOR_H_
+#define _PU_MODEL_MOTEUR_H_
 
-#include <modele/facette.h>
+#include <model/trait.h>
 
 
 namespace ProjetUnivers {
@@ -34,12 +34,12 @@ namespace ProjetUnivers {
         planning
       
     */
-    class GenerateurDeForce : public Trait 
+    class ForceGenerator : public Trait 
     {
     public:
 
       /// Constructeur.
-      GenerateurDeForce() ;
+      ForceGenerator() ;
  
     private:
     
