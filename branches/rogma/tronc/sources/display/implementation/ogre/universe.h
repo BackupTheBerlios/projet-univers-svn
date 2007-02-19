@@ -55,7 +55,7 @@ namespace ProjetUnivers {
         // @{
           
           /// Constructeur.
-          Univers(Model::Universe* _universe) ;
+          Universe(Model::Universe* _universe) ;
 
           /// Initialise la vue.
           virtual void init() ;

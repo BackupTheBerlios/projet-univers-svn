@@ -18,8 +18,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <kernel/ensemble_composition.h>
-
+#include <kernel/error.h>
 
 #include <display/exception.h>
 #include <display/implementation/ogre/ogre.h>
@@ -97,7 +96,7 @@ namespace ProjetUnivers {
 
     size_t getWindowHandle()
     {
-      check(initialise, Exception("Module non initialisé")) ;
+      check(initialised, Exception("Module non initialisé")) ;
       
       return Implementation::Ogre::getWindowHandle() ;
     }
@@ -109,7 +108,7 @@ namespace ProjetUnivers {
                        int& left,
                        int& top)
     {
-      check(initialise, Exception("Module non initialisé")) ;
+      check(initialised, Exception("Module non initialisé")) ;
 
       Implementation::Ogre::getWindowSize(width,height,depth,left,top) ;
     }

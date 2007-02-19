@@ -22,8 +22,6 @@
 
 #include <stddef.h>
 
-#include <kernel/association.h>
-#include <kernel/types.h>
 
 namespace ProjetUnivers {
  
@@ -75,7 +73,7 @@ namespace ProjetUnivers {
                        int& top );
 
     /// Ajoute un point de vue.
-    Kernel::Association<ViewPoint> addViewPoint(ViewPoint*) ;
+    ViewPoint* addViewPoint(ViewPoint*) ;
 
     /// Supprime le point de vue.
     void removeViewPoint(ViewPoint*) ;

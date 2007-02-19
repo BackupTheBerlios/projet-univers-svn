@@ -20,9 +20,10 @@
 
 #include <kernel/log.h>
 
+#include <model/observer.h>
+
 #include <display/implementation/ogre/view_point.h>
 #include <display/implementation/ogre/positionned.h>
-
 #include <display/implementation/ogre/observer.h>
 
 namespace ProjetUnivers {
@@ -31,7 +32,7 @@ namespace ProjetUnivers {
       namespace Ogre {
         
         /// Indique que la cette vue s'applique au modèle dans ce point de vue
-        RegisterView(Ogre::Observer,Model::Observer, Ogre::ViewPoint) ;
+        RegisterView(Ogre::Observer, Model::Observer, Ogre::ViewPoint) ;
         
         Observer::Observer(Model::Observer* _observer) 
         : View<Model::Observer>(_observer), camera(NULL)
@@ -44,8 +45,8 @@ namespace ProjetUnivers {
         {
           if (! this->initialised)
           {
-            Positionned* positionned(this->objet->getTrait<Positionned>()) ;
-            positionne->init() ;
+            Positionned* positionned(this->object->getTrait<Positionned>()) ;
+            positionned->init() ;
   
             camera = this->getViewPoint()->getManager()->createCamera("camera") ;
               
@@ -61,7 +62,7 @@ namespace ProjetUnivers {
           
         void Observer::close()
         {
-          if (this->initialises)
+          if (this->initialised)
           {
             this->getViewPoint()->getManager()->destroyCamera(this->camera) ;
             this->initialised = false ;

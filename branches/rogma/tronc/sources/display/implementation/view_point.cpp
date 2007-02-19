@@ -62,9 +62,9 @@ namespace ProjetUnivers {
         Dès qu'un objet est invisible, on ne parcours pas ses fils.
       */
 
-      Kernel::Log::InternalMessage("Entering Display::ViewPoint::Construire") ;
+      Kernel::Log::InternalMessage("Entering Display::ViewPoint::build()") ;
       
-      Model::Positionned ancetrePositionne = 
+      Model::Positionned* ancetrePositionne = 
                   this->observer->getRoot<Model::Positionned>() ;
 
       if (ancetrePositionne)
@@ -72,16 +72,15 @@ namespace ProjetUnivers {
         this->add(buildView(ancetrePositionne->getObject())) ;
       }
       
-      Kernel::Log::InternalMessage("Leaving Display:ViewPoint::Construire") ;
+      Kernel::Log::InternalMessage("Leaving Display:ViewPoint::build()") ;
       
       
     }
 
-    Object* 
-    ViewPoint::buildView(Model::Object* _model)
+    Object* ViewPoint::buildView(Model::Object* _model)
     {
 
-      Kernel::Log::InternalMessage("Entering Display::ViewPoint::ConstruireView") ;
+      Kernel::Log::InternalMessage("Entering Display::ViewPoint::buildView(Model::Object*)") ;
       
       Object* result ;
       
@@ -90,7 +89,7 @@ namespace ProjetUnivers {
         Kernel::Log::InternalMessage("building View Object") ;
 
         /// On construit l'objet
-        result = new Object(_model,*this) ;
+        result = new Object(_model,this) ;
 
         Kernel::Log::InternalMessage("built View Object") ;
         
@@ -103,41 +102,45 @@ namespace ProjetUnivers {
         Kernel::Log::InternalMessage("building View Traits") ;
         
         /// ses facettes
-        for (Kernel::IterateurEnsembleAssociation<Model::Trait> 
-                facette(_modele->getTraits()) ; 
-             facette.Valide() ;
-             ++facette)
+        for (std::map<std::string, Model::Trait*>::const_iterator trait
+                =_model->getTraits().begin() ; 
+             trait != _model->getTraits().end() ;
+             ++trait)
         {
-          Kernel::Log::InternalMessage("searching constructor for " + std::string(typeid(*this).name()) + " " +  typeid(**facette).name()) ;
-          ConstructeurView constructeur = 
-            constructeurs[std::make_pair<std::string,std::string>(typeid(*this).name(),typeid(**facette).name())] ;
+          Kernel::Log::InternalMessage("searching constructor for " + std::string(typeid(*this).name()) + " " +  typeid(*trait->second).name()) ;
+          ViewBuilder builder = 
+            builders[std::make_pair<std::string,std::string>(
+                typeid(*this).name(),typeid(*trait->second).name())] ;
 
-          if (! constructeur.empty())
+          if (! builder.empty())
           {
-            resultat->add(constructeur(*facette)) ;
+            result->add(builder(trait->second)) ;
           }
           else
           {
-            Kernel::Log::InternalMessage("in Display::ViewPoint::ConstruireView : constructeur vide pour " + std::string(typeid(*this).name()) + " " +  typeid(**facette).name()) ;
+            Kernel::Log::InternalMessage(
+              "in Display::ViewPoint::buildView : empty builder for " 
+              + std::string(typeid(*this).name()) + " " 
+              +  typeid(*trait->second).name()) ;
           }            
           
           
         }
         
         /// On construit ses composants visibles
-        for (Kernel::IterateurEnsembleAssociation<Model::Object> 
-                                  fils(_modele->getContenu()) ;
-             fils.Valide() ;
-             ++fils)
+        for (std::set<Model::Object*>::iterator 
+                                  son = _model->getContent().begin() ;
+             son != _model->getContent().end() ;
+             ++son)
         {
-          if (this->isVisible(*fils) == true)
+          if (this->isVisible(*son) == true)
           {
-            result->add(this->buildView(*fils)) ;
+            result->add(this->buildView(*son)) ;
           }
         }
       }
 
-      Kernel::Log::InternalMessage("Leaving Display::ViewPoint::ConstruireView") ;
+      Kernel::Log::InternalMessage("Leaving Display::ViewPoint::buildView(Model::Object*)") ;
       
       return result ;
     }
@@ -147,7 +150,7 @@ namespace ProjetUnivers {
     ViewPoint* ViewPoint::build(Model::Object* _observer)
     {
       
-      Kernel::Log::InternalMessage("Entering Display::ViewPoint::Construire(const Kernel::Association<Model::Object>&)") ;
+      Kernel::Log::InternalMessage("Entering Display::ViewPoint::build(Model::Object*)") ;
       
       /// implantation à l'aide de Ogre
       ViewPoint* result(
@@ -155,19 +158,24 @@ namespace ProjetUnivers {
       
       result->build() ;
 
-      Kernel::Log::InternalMessage("Leaving Display::ViewPoint::Construire(const Kernel::Association<Model::Object>&)") ;
+      Kernel::Log::InternalMessage("Leaving Display::ViewPoint::build(Model::Object*)") ;
       
       return result ;
 
     }
 
-    void ViewPoint::registerbuilder(
+    void ViewPoint::registerBuilder(
                           const std::string& _classModel,
                           const std::string& _classViewPoint,
                           ViewBuilder _builder)
     {
-      std::cout << "Registering constructor for " << _classViewPoint << " " << _claseModel << std::endl ;
-      builders.insert(std::make_pair<std::string,std::string>(_classViewPoint,_classModel),_builder) ;
+      std::cout << "Registering constructor for " 
+                << _classViewPoint << " " << _classModel << std::endl ;
+
+      builders.insert(std::pair<std::pair<std::string,std::string>, ViewBuilder>(
+                        std::make_pair<std::string,std::string>(
+                          _classViewPoint,_classModel),_builder)) ;
+
       std::cout << "Registered constructor" << std::endl ;
     }
 
@@ -177,7 +185,7 @@ namespace ProjetUnivers {
     }
 
 
-    void ViewPoint::destroy(Kernel::Implementation::KernelView* _view)
+    void ViewPoint::destroy(Kernel::Implementation::BaseView* _view)
     {
       Kernel::Log::InternalMessage("ViewPoint::destroy removing view element") ;
       check(_view, Exception("ViewPoint::destroy")) ;
@@ -223,7 +231,8 @@ namespace ProjetUnivers {
                                  ->getTrait<Model::Positionned>()) ;
       if (! parent)
       {
-        for(std::set<Implementation::BaseView*>::iterator view = views.begin() ;
+        for(std::set<Kernel::Implementation::BaseView*>::iterator 
+            view = views.begin() ;
             view != views.end() ;
             ++view)
         {
@@ -236,7 +245,7 @@ namespace ProjetUnivers {
       }
       else
       {
-        return getView(_objet->getContener())->getSon(_object) ;
+        return getView(_object->getContener())->getSon(_object) ;
       }
     }
 

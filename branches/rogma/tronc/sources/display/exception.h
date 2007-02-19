@@ -22,7 +22,7 @@
 #ifndef _PU_DISPLAY_EXCEPTION_H_
 #define _PU_DISPLAY_EXCEPTION_H_
 
-#include <String>
+#include <string>
 
 namespace ProjetUnivers {
   namespace Display {

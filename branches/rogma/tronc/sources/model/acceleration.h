@@ -79,7 +79,7 @@ namespace ProjetUnivers {
       typedef enum 
       {
         /// L'unité m.s^-2
-        MeterPerSecondSquared, 
+        _MeterPerSecondSquared, 
         
       } Unit ;
 

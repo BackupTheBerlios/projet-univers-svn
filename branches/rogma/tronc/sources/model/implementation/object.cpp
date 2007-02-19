@@ -27,6 +27,9 @@
 #include <model/trait.h>
 #include <model/model.h>
 
+#include <model/observer.h>
+
+
 namespace ProjetUnivers {
   namespace Model {
     
@@ -34,10 +37,11 @@ namespace ProjetUnivers {
     {}
     
     Object::Object()
+    : Kernel::Model()
     {}
 
     Object::Object(const Name& _name)
-    : name(_name)
+    : Kernel::Model(),name(_name)
     {}
 
     Object* Object::add(Object* _object)
@@ -70,12 +74,9 @@ namespace ProjetUnivers {
       Kernel::Log::InternalMessage("Model::Object::add(Trait)#1") ;
 
       /// erreur si l'objet a déjà une facette de ce type là
-      check(facettes[typeid(*_trait).name()] 
-                       == 
-                       NULL, 
-                       Exception("trait already exists")) ;
+      check(traits[typeid(*_trait).name()]==NULL, 
+                   Exception("trait already exists")) ;
 
-//      this->ensembleTraits.add(temporaire) ;
 
       _trait->object = this ;
       /// on range les facettes en fonction de leur classe
@@ -97,16 +98,16 @@ namespace ProjetUnivers {
       return this->contener ;
     }
 
-    std::set<Object*>::iterator Object::getContent() const
+    const std::set<Object*>& Object::getContent() const
     {
-      return this->content.begin() ;
+      return this->content ;
     }
 
     Object* Object::getRoot() const
     {
       if (! this->contener)
       {
-        return this ;
+        return const_cast<Object*>(this) ;
       }
       else
       {
@@ -114,11 +115,29 @@ namespace ProjetUnivers {
       }
     }
     
-    /// @todo 
-    std::set<Trait*>::iterator Object::getTraits() const
+    const std::map<std::string, Trait*>& Object::getTraits() const
     {
       return this->traits ;
     }
+    
+    /// temp debug
+    Observer* Object::getObserverTrait() const
+    {
+      /// T doit être une sous classe de Trait
+      Kernel::Inherits<Observer,Trait>() ;
+      
+      /// on attrape la facette 
+      Trait* trait = (traits.find(typeid(Observer).name()))->second ;
+      
+      /// si elle existe on effectue la conversion :
+      if (trait)
+      {
+        return static_cast<Observer*>(trait) ;
+      }
+      else
+        return NULL ;
+    }
+
 
   }
 }

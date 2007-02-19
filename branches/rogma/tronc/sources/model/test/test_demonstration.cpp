@@ -23,6 +23,8 @@
 #include <model/object.h>
 #include <model/stellar_system.h>
 #include <model/universe.h>
+#include <model/observer.h>
+#include <model/positionned.h>
 
 #include <model/test/test_demonstration.h>
 
@@ -36,6 +38,11 @@ namespace ProjetUnivers {
   namespace Model {
     namespace Test {
 
+
+
+
+
+
       /*!
         @todo
           Ne pas passer par le chargement de TestDemonstration mais 
@@ -47,13 +54,22 @@ namespace ProjetUnivers {
         Model::load("TestDemonstration") ;
 
         Object* observer(Model::getObject("Observer")) ;
-        CPPUNIT_ASSERT_MESSAGE("pas d'observateur",observer) ;
+        CPPUNIT_ASSERT_MESSAGE("no Observer object",observer) ;
+        
+        CPPUNIT_ASSERT_MESSAGE("Observer has no Observer trait",
+                               observer->getObserverTrait()) ;
+        CPPUNIT_ASSERT_MESSAGE("Observer has no Positionned trait",
+                               observer->getTrait<Positionned>()) ;
         
         Universe* universe(observer->getParent<Universe>()) ;
-        CPPUNIT_ASSERT_MESSAGE("pas d'univers pour l'observateur",universe) ;
+        CPPUNIT_ASSERT_MESSAGE("Observer has no Universe ancestor",
+                               universe) ;
+        CPPUNIT_ASSERT_MESSAGE("universe has no Positionned trait",
+                               universe->getObject()->getTrait<Positionned>()) ;
 
         StellarSystem* system(observer->getParent<StellarSystem>()) ;
-        CPPUNIT_ASSERT_MESSAGE("pas de systeme stellaire pour l'observateur",system) ;
+        CPPUNIT_ASSERT_MESSAGE("Observer has no StellarSystem ancestor",
+                               system) ;
         
       }
 

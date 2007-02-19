@@ -166,7 +166,7 @@ namespace ProjetUnivers {
         
           // On laisse l'utilisateur choisir le pilote d'affichage
           bool go_on = displayPiloteChoice() ;
-          if (! continuer)
+          if (! go_on)
           {
             root = NULL ;
             return false ;

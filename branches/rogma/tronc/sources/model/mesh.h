@@ -21,6 +21,7 @@
 #ifndef _PU_MODEL_MESH_H_
 #define _PU_MODEL_MESH_H_
 
+#include <string>
 
 namespace ProjetUnivers {
   namespace Model {

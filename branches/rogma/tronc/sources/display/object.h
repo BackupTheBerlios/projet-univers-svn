@@ -85,7 +85,7 @@ namespace ProjetUnivers {
       /*!
         T doit être une sous classe de Trait.
       */
-      template <class T> getTrait<T>() const ;
+      template <class T> T* getTrait() const ;
 
       /// get au conteneur de la vue
       Object* getContener() const ;
@@ -120,13 +120,13 @@ namespace ProjetUnivers {
     };
 
 
-    template <class T>  Object::getTrait<T>() const
+    template <class T> T* Object::getTrait() const
     {
       /// T doit être une sous classe de Trait
       Kernel::Inherits<T,Trait>() ;
       
       /// on attrape la facette 
-      Trait* trait = traits[typeid(T).name()] ;
+      Trait* trait = (traits.find(typeid(T).name()))->second ;
       
       /// si elle existe on effectue la conversion :
       if (trait)
@@ -144,15 +144,15 @@ namespace ProjetUnivers {
       /// T doit être une sous classe de Trait
       Kernel::Inherits<T,Trait>() ;
       
-      Object* iterator(this) ;
-      T* trait = iterateur->getTrait<T>() ;
+      Object* iterator(const_cast<Object*>(this)) ;
+      T* trait = iterator->getTrait<T>() ;
       
       while((! trait) && iterator)
       {
         iterator = iterator->getContener() ;
         if (iterator)
         {
-          trait = iterateur->getTrait<T>() ;
+          trait = iterator->getTrait<T>() ;
         }
       }
       

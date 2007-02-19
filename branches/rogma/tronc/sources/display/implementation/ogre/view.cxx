@@ -18,7 +18,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <affichage/implantation/ogre/view_point.h>
+#include <display/implementation/ogre/view_point.h>
 
 namespace ProjetUnivers {
   namespace Display {

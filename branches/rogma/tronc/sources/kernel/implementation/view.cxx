@@ -31,7 +31,7 @@ namespace ProjetUnivers {
       
       // vérifie que Modele dérive de Base::Modele
       Inherits<M,ProjetUnivers::Kernel::Model>() ;
-      observed->addView(this) ;
+      _model->addView(&*this) ;
     }
     
     template <class M> 

@@ -23,10 +23,10 @@
 #include <model/model.h>
 
 
-#include <display/point_de_vue.h>
-#include <display/implementation/ogre/univers.h>
+#include <display/view_point.h>
+#include <display/implementation/ogre/universe.h>
 
-#include <display/test/test_point_de_vue.h>
+#include <display/test/test_view_point.h>
 
 
 /// Registerment du test
@@ -37,7 +37,7 @@ namespace ProjetUnivers {
   namespace Display {
     namespace Test {
 
-      void TestViewPoint::testConstruction()
+      void TestViewPoint::testBuild()
       {
 
         Kernel::Log::InternalMessage("Entering TestViewPoint::testConstruction") ;
@@ -47,30 +47,28 @@ namespace ProjetUnivers {
         
         Kernel::Log::InternalMessage("TestViewPoint::testConstruction#1") ;
         
-        Kernel::Association<Model::Object> 
-                                observateur(Model::getObject("Observer")) ;
+        Model::Object* observer(Model::getObject("Observer")) ;
 
         Kernel::Log::InternalMessage("TestViewPoint::testConstruction#2") ;
         
         /// On en construit un point de vue
-        Kernel::Composition<ViewPoint> pdv(ViewPoint::Construire(observateur)) ;
+        std::auto_ptr<ViewPoint> pdv(ViewPoint::build(observer)) ;
 
         Kernel::Log::InternalMessage("Leaving TestViewPoint::testConstruction") ;
 
         /// Vérification de la structure.
-        Kernel::Association<Object> vueObserver(pdv->getViewObserver()) ;
+        Object* vueObserver(pdv->getObserverView()) ;
         CPPUNIT_ASSERT_MESSAGE("no Observer view object",vueObserver) ;
         
-        Kernel::Association<Implementation::Ogre::Univers> 
-          vueUnivers(vueObserver->getParent<Implementation::Ogre::Univers>()) ;
+        Implementation::Ogre::Universe* 
+          vueUnivers(vueObserver->getParent<Implementation::Ogre::Universe>()) ;
         CPPUNIT_ASSERT_MESSAGE("no Univers view object",vueUnivers) ;
         
-        Kernel::Association<Implementation::Ogre::ViewPoint> 
+        Implementation::Ogre::ViewPoint* 
           ogrePointdeView(vueUnivers->getViewPoint()) ;
           
         CPPUNIT_ASSERT_MESSAGE("no specific view point",ogrePointdeView) ;
         
-        pdv = NULL ;
       }
       
       void TestViewPoint::setUp()

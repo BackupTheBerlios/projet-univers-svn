@@ -19,6 +19,8 @@
  ***************************************************************************/
 
 #include <kernel/log.h>
+#include <kernel/error.h>
+#include <kernel/exception_kernel.h>
 
 #include <kernel/implementation/base_view.h>
 #include <kernel/model.h>
@@ -28,7 +30,10 @@ namespace ProjetUnivers {
     
     void Model::addView(Implementation::BaseView* _view)
     {
-      views.insert(_view) ;  
+      check(_view,ExceptionKernel("Model::addView no view")) ;
+      Log::InternalMessage("Entering Kernel::Model::addView") ;
+      this->views.insert(_view) ;
+      Log::InternalMessage("Leaving Kernel::Model::addView") ;
     }
       
     void Model::removeView(Implementation::BaseView* _view)
@@ -51,13 +56,13 @@ namespace ProjetUnivers {
     Model::Model()
     {}
 
-    void Model::notify(const Event& _evenement)
+    void Model::notify(const Event& _event)
     {
       for(std::set<Implementation::BaseView*>::iterator view = views.begin() ;
           view != views.end() ;
           ++view)
       {
-        (*view)->markToUpdate(_evenement) ;
+        (*view)->markToUpdate(_event) ;
       }  
     }
     

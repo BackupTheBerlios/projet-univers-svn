@@ -33,7 +33,7 @@ namespace ProjetUnivers {
       namespace Ogre {
 
         /// Indique que la cette vue s'applique au modèle dans ce point de vue
-        RegisterView(Ogre::Positionne,Model::Positionne, Ogre::ViewPoint) ;
+        RegisterView(Ogre::Positionned,Model::Positionned, Ogre::ViewPoint) ;
       
       
       /*!
@@ -120,9 +120,9 @@ namespace ProjetUnivers {
                 "creating scene node " + node->getName() + 
                 " with parent " + parent->node->getName() +
                 " with position " + 
-                ::Ogre::StringConverter::toString(noeud->getPosition()) + 
+                ::Ogre::StringConverter::toString(node->getPosition()) + 
                 " with orientation " + 
-                ::Ogre::StringConverter::toString(noeud->getOrientation())
+                ::Ogre::StringConverter::toString(node->getOrientation())
                 ) ;
 
               node->setPosition(convert(observed->getPosition())) ;

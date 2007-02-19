@@ -44,7 +44,7 @@ namespace ProjetUnivers {
     
     protected:
     
-      Speed vitesse ;
+      Speed        speed ;
       Acceleration acceleration ;
 
       /// Accélération angulaire

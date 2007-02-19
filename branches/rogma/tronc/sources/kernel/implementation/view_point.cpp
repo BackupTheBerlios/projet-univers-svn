@@ -18,6 +18,9 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#include <kernel/error.h>
+#include <kernel/exception_kernel.h>
+
 #include <kernel/implementation/base_view.h>
 #include <kernel/view_point.h>
 
@@ -52,12 +55,9 @@ namespace ProjetUnivers {
 
     void ViewPoint::add(Implementation::BaseView* _view)
     {
-      if (_view)
-      {
-        _view->viewPoint = this ;
-        views.insert(_view) ;
-      }
-      // sinon ... ???
+      check(_view,ExceptionKernel("")) ;
+      _view->viewPoint = this ;
+      views.insert(_view) ;
     }
     
     void ViewPoint::remove(Implementation::BaseView* _view)

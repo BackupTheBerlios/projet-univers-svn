@@ -16,8 +16,9 @@ $(SOURCES)/display/implementation/view_point.cpp
 
 
 libdisplay_la_LIBADD = \
-$(SOURCES)/base/compilation/libkernel.la \
-$(SOURCES)/modele/compilation/libmodel.la 
+$(SOURCES)/kernel/compilation/libkernel.la \
+$(SOURCES)/model/compilation/libmodel.la 
+
 
 #all-local :
 #	cp libdisplay.la $(SOURCES)/compilation/libdisplay.la
@@ -30,7 +31,8 @@ check_PROGRAMS = $(TESTS)
 
 test_display_SOURCES = \
 $(SOURCES)/display/test/test_display.cpp \
-$(SOURCES)/display/test/test_view_point.cpp 
+$(SOURCES)/display/test/test_mvc.cpp 
+
 
 test_display_CXXFLAGS = $(CPPUNIT_CFLAGS) 
 test_display_LDFLAGS = $(CPPUNIT_LIBS) 

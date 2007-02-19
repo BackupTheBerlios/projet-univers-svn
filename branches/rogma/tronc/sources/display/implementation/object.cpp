@@ -43,7 +43,7 @@ namespace ProjetUnivers {
       : Kernel::View<Model::Object>(_object)
       {
         Kernel::Log::InternalMessage("Entering Display::Object::Object") ;
-        
+        _object->addView((Kernel::Implementation::BaseView*)this) ;
         this->viewPoint = _viewPoint ;
 
         Kernel::Log::InternalMessage("Leaving Display::Object::Object") ;
@@ -57,7 +57,7 @@ namespace ProjetUnivers {
         Kernel::Log::InternalMessage("Initialising facettes") ;
 
         for(std::map<std::string, Trait*>::iterator trait = traits.begin() ;
-            trait = traits.end() ;
+            trait != traits.end() ;
             ++trait)
         {
           (*trait).second->init() ;
@@ -83,14 +83,14 @@ namespace ProjetUnivers {
         /// il faut voir si de nouvelles facettes sont apparues
 
         /// il faut regarder si les liens de parentés ont changés
-        if (_event.nom == "fils") 
+        if (_event.name == "fils") 
         {
           switch(_event.action)
           {
-          case Kernel::Event::Ajout :
+          case Kernel::Event::Add :
           {
             Model::Object* new_object = 
-                dynamic_cast<Model::Object*>(&*_event.parametre) ;
+                dynamic_cast<Model::Object*>(_event.parameter) ;
             
             Object* new_view(  
               this->add(this->getViewPoint()->buildView(new_object))) ;
@@ -99,11 +99,11 @@ namespace ProjetUnivers {
                           
           }          
           break ;
-          case Kernel::Event::Suppression :
+          case Kernel::Event::Delete :
           {
             /// le paramètre a déjà été supprimé...
             Model::Object* suppressed(
-              dynamic_cast<Model::Object*>(&*_event.parametre)) ;
+              dynamic_cast<Model::Object*>(_event.parameter)) ;
 
             /// récupérer la vue correspondant à cet
             /// .... todo.... 
@@ -120,8 +120,8 @@ namespace ProjetUnivers {
       {
         if (_content)
         {
-          _content->contener = *this ;
-          this->content.add(_content) ;
+          _content->contener = this ;
+          this->content.insert(_content) ;
         }
 
         return _content ;
@@ -137,12 +137,13 @@ namespace ProjetUnivers {
         Kernel::Log::InternalMessage(std::string("registering facette ") + 
             typeid(*_trait).name()) ;
         
-        _trait->object = *this ;
+        _trait->object = this ;
         _trait->viewPoint = this->viewPoint ;
         
         
         /// on range les facettes en fonction de leur classe
-        traits.insert(typeid(*_trait).name(), _trait) ;
+        traits.insert(std::pair<std::string,Trait*>(
+                        typeid(*_trait).name(), _trait)) ;
         
         return _trait ;
       }
@@ -161,7 +162,7 @@ namespace ProjetUnivers {
         {
           Kernel::Log::InternalMessage(typeid(*_trait).name()) ;
           _trait->close() ;
-          this->facettes.erase(typeid(*_trait).name()) ;
+          this->traits.erase(typeid(*_trait).name()) ;
           delete _trait ;
         }
       }

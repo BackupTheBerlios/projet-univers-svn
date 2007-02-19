@@ -37,7 +37,7 @@ namespace ProjetUnivers {
 
         /// Constructeur.
         Solid::Solid(Model::Solid* _object)
-        : View<Model::Solid>(_objet), model(NULL)
+        : View<Model::Solid>(_object), model(NULL)
         {}
 
 
@@ -54,13 +54,13 @@ namespace ProjetUnivers {
 
           if (! this->initialised)
           {
-            Positionned* positionned(this->objet->getTrait<Positionned>()) ;
+            Positionned* positionned(this->object->getTrait<Positionned>()) ;
             positionned->init() ;
             
             /// on crée l'élément 3D
             model = this->getViewPoint()->getManager()
-                    ->createEntity((const char*)(std::string)observe->getObject()->getName(),
-                                   (const char*)observed->getModel().getName()) ;
+                    ->createEntity(observed->getObject()->getName(),
+                                   observed->getModel().getName()) ;
             
             /// on le place sur le noeud
             positionned->getNode()->attachObject(model) ;
@@ -78,7 +78,7 @@ namespace ProjetUnivers {
           if (this->initialised)
           {
             /// Positionne doit avoir été terminé
-            Positionned* positionned(this->objet->getTrait<Positionned>()) ;
+            Positionned* positionned(this->object->getTrait<Positionned>()) ;
             if (positionned)
             {
               positionned->close() ;

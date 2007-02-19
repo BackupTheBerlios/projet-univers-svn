@@ -23,7 +23,7 @@
 #define _PU_MODEL_DESTRUCTIBLE_H_
 
 
-#include <model/energie.h>
+#include <model/energy.h>
 #include <model/trait.h>
 
 namespace ProjetUnivers {

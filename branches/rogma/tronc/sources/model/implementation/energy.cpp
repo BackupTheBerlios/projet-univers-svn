@@ -34,7 +34,7 @@ namespace ProjetUnivers {
 
 
     Energy::Energy(const Energy& _energie)
-    : valeur(_energie.value), unit(_energie.unit)
+    : value(_energie.value), unit(_energie.unit)
     {}
 
 
@@ -59,20 +59,20 @@ namespace ProjetUnivers {
     
     
     /// Donne la value convertie de _energie en _unit
-    float Energy::Convertir(const Energy& _energie, const Energy::Unit& _unit)
+    float Energy::convert(const Energy& _energy, const Energy::Unit& _unit)
     {
-      if (_energie.unit == _unit)
+      if (_energy.unit == _unit)
       {
-        return _energie.value ;
+        return _energy.value ;
       }
-      else if (_energie.unit == _Joule && _unit == _eV)
+      else if (_energy.unit == _Joule && _unit == _eV)
       {
-        return _energie.value * 6,24150974e18 ;
+        return _energy.value * 6,24150974e18 ;
       }
-      // ici on a : _energie.unit == _eV && _unit == _Joule
+      // ici on a : _energy.unit == _eV && _unit == _Joule
       else
       {
-        return _energie.value * 1,60217733e-19 ; 
+        return _energy.value * 1,60217733e-19 ; 
       }
       
       /*! 
@@ -95,7 +95,7 @@ namespace ProjetUnivers {
       else
       {
         
-        result.value = convert(resultat,Energy::_Joule) - 
+        result.value = convert(result,Energy::_Joule) - 
                        convert(_operande,Energy::_Joule) ;
         result.unit = Energy::_Joule ;
         

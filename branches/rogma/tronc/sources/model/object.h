@@ -19,20 +19,22 @@
  ***************************************************************************/
 
 #ifndef _PU_MODEL_OBJECT_H_
-#define _PU_MODEL_OBJECT_H_s
+#define _PU_MODEL_OBJECT_H_
 
 #include <typeinfo>
+#include <map>
+#include <set>
 
 #include <kernel/log.h>
 #include <kernel/inherits.h>
-#include <kernel/ensemble_composition.h>
 #include <kernel/model.h>
 
 #include <model/name.h>
 
 namespace ProjetUnivers {
   namespace Model {
-  
+
+    class Observer ;
     class Trait ;
     
     /// Un objet du jeu.
@@ -73,7 +75,7 @@ namespace ProjetUnivers {
 
       Object* getContener() const ;
 
-      std::set<Object*>::iterator getContent() const ;
+      const std::set<Object*>& getContent() const ;
   
       /// Le conteneur récursif de plus haut niveau.
       Object* getRoot() const ;
@@ -85,7 +87,7 @@ namespace ProjetUnivers {
     // @{
 
       /// Accès récursif au plus haut conteneur ayant la facette @ T
-      template <class T> Kernel::Association<T> getRoot() const ;
+      template <class T> T* getRoot() const ;
 
       
       /// Accès à la facette T.
@@ -98,10 +100,11 @@ namespace ProjetUnivers {
       template <class T> T* getParent() const ;
 
       /// Accès aux facettes de l'objet.
-      std::set<Trait*>::iterator getTraits() const ;
+      const std::map<std::string, Trait*>& getTraits() const ;
 
     // @}
       
+    Observer* getObserverTrait() const ;
 
     private:
 
@@ -122,7 +125,7 @@ namespace ProjetUnivers {
       /*!
         @composite
       */
-      std::map<std::string, Trait*> facettes ;
+      std::map<std::string, Trait*> traits ;
 
       /// L'éventuel objet qui contient celui-ci
       Object* contener ;
@@ -144,7 +147,7 @@ namespace ProjetUnivers {
       Kernel::Inherits<T,Trait>() ;
       
       /// on attrape la facette 
-      Trait* trait = traits[typeid(T).name()] ;
+      Trait* trait = (traits.find(typeid(T).name()))->second ;
       
       /// si elle existe on effectue la conversion :
       if (trait)
@@ -160,7 +163,7 @@ namespace ProjetUnivers {
       /// T doit être une sous classe de Trait
       Kernel::Inherits<T,Trait>() ;
       
-      Object* iterator(this) ;
+      Object* iterator(const_cast<Object*>(this)) ;
       T* trait(iterator->getTrait<T>()) ;
       
       while((! trait) && iterator)
@@ -181,7 +184,7 @@ namespace ProjetUnivers {
       /// T doit être une sous classe de Trait
       Kernel::Inherits<T,Trait>() ;
       
-      Object* iterator(this) ;
+      Object* iterator(const_cast<Object*>(this)) ;
       T* trait(iterator->getTrait<T>()) ;
       
       T* highest_trait_found ;
@@ -190,7 +193,7 @@ namespace ProjetUnivers {
       {
         highest_trait_found = trait ;
         
-        iterator = iterator->getConteneur() ;
+        iterator = iterator->getContener() ;
         if (iterator)
         {
           trait = iterator->getTrait<T>() ;

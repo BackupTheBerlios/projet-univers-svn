@@ -21,6 +21,8 @@
 #ifndef PU_MODEL_MODEL_H_
 #define PU_MODEL_MODEL_H_
 
+#include <string>
+
 
 namespace ProjetUnivers {
   
@@ -81,10 +83,10 @@ namespace ProjetUnivers {
   // @{
 
       
-    /// Register un objet dans le gestionnaire.
-    Object add(Object*) ;
+    /// Register a new object.
+    Object* add(Object*) ;
 
-    /// Register un objet dans le gestionnaire.
+    /// Register a new object.
     Object* registerObject(Object*) ;
 
     /// Supprime un objet.

@@ -18,33 +18,32 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <affichage/implantation/ogre/destructible.h>
+#include <display/implementation/ogre/destroyable.h>
 
 
 namespace ProjetUnivers {
   namespace Display {
-    namespace Implantation {
+    namespace Implementation {
       namespace Ogre {
 
 
         /// Constructeur.
-        Destructible::Destructible
-                    (const Base::Association<Model::Destructible>& _objet)
-        : Vue<Model::Destructible>(_objet)
+        Destroyable::Destroyable(Model::Destroyable* _object)
+        : View<Model::Destroyable>(_object)
         {}
       
         /// Initialise la vue.
-        void Destructible::init()
+        void Destroyable::init()
         {
         }
 
         /// Termine la vue.
-        void Destructible::close()
+        void Destroyable::close()
         {
         }
       
         /// Mise à jour.
-        void Destructible::update(const Base::Evenement&)
+        void Destroyable::update(const Kernel::Event&)
         {
         }
         

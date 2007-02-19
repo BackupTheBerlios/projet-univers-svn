@@ -34,7 +34,7 @@ namespace ProjetUnivers {
     {}
 
     /// Constructeur avec des kilogrammes
-    Mass Mass::Kilogramme(const float& _k)
+    Mass Mass::Kilogram(const float& _k)
     {
       Mass result ;
       result.unit = _Kilogram ;

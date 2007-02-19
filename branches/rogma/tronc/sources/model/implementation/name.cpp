@@ -64,7 +64,7 @@ namespace ProjetUnivers {
     }
     
 
-    bool Name::EstIndefini() const
+    bool Name::isUndefined() const
     {
       return name == "" ;
     }

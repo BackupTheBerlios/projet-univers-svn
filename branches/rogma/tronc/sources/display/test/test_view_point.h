@@ -17,8 +17,8 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_DISPLAY_TEST_TEST_POINT_DE_VUE_H_
-#define PU_DISPLAY_TEST_TEST_POINT_DE_VUE_H_
+#ifndef PU_DISPLAY_TEST_TEST_VIEW_POINT_H_
+#define PU_DISPLAY_TEST_TEST_VIEW_POINT_H_
 
 
 #include <cppunit/extensions/HelperMacros.h>
@@ -44,7 +44,7 @@ namespace ProjetUnivers {
       // @{
         
         /// Teste une construction.
-        void testConstruction() ;
+        void testBuild() ;
            
       // @}
       // *******************************
@@ -54,7 +54,7 @@ namespace ProjetUnivers {
     
         CPPUNIT_TEST_SUITE(TestViewPoint) ;
       
-        CPPUNIT_TEST(testConstruction) ;
+        CPPUNIT_TEST(testBuild) ;
       
         CPPUNIT_TEST_SUITE_END() ;
 
@@ -84,4 +84,4 @@ namespace ProjetUnivers {
 }
 
 
-#endif /*PU_DISPLAY_TEST_TEST_POINT_DE_VUE_H_*/
+#endif /*PU_DISPLAY_TEST_TEST_VIEW_POINT_H_*/

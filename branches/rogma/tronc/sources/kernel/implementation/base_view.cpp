@@ -50,7 +50,7 @@ namespace ProjetUnivers {
 
 
       BaseView::BaseView()
-      : viewPoint()
+      : viewPoint(NULL)
       {}
 
       BaseView::~BaseView()

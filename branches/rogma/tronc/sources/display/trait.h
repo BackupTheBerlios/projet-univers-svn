@@ -21,7 +21,7 @@
 #define PU_DISPLAY_TRAIT_H_
 
 #include <kernel/model.h>
-#include <kernel/implementation/base_vue.h>
+#include <kernel/implementation/base_view.h>
 
 
 namespace ProjetUnivers {
@@ -68,7 +68,7 @@ namespace ProjetUnivers {
       @remark
         Mis à jour par l'objet lorsque la facette lui est attachée.
       */
-      Object* objet ;
+      Object* object ;
       
       /// Vrai si la facette a été initialisée.
       bool initialised ;

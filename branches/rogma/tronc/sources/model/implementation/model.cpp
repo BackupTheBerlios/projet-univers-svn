@@ -17,9 +17,9 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <kernel/joli_affichage.h>
+
 #include <kernel/log.h>
-#include <kernel/errorr.h>
+#include <kernel/error.h>
 
 #include <model/exception.h>
 #include <model/trait.h>
@@ -80,9 +80,10 @@ namespace ProjetUnivers {
         return _object ;
       }
 
-      Kernel::Association<Object> register(const Kernel::Association<Object>& _object)
+      Object* registerObject(Object* _object)
       {
-        registreObjects.add(_object->getName(), _object) ;
+        registeredObjects.insert(
+            std::pair<std::string,Object*>(_object->getName(), _object)) ;
       }
 
       
@@ -139,8 +140,8 @@ namespace ProjetUnivers {
         Object* universe = add(new Object(Name("Univers"))) ;
         
         /// ses facettes
-        univers->add(new Universe()) ;
-        univers->add(new Positionned()) ;
+        universe->add(new Universe()) ;
+        universe->add(new Positionned()) ;
 
         Kernel::Log::InternalMessage("construction de Univers terminée") ;
 
@@ -169,22 +170,22 @@ namespace ProjetUnivers {
         {
           Kernel::Log::InternalMessage("building ship...") ;
           Object* ship = system->add(new Object(Name("Vaisseau"))) ;
-          ship->add(new Positionned(Position(Distance(Distance::_Metre, 0),
-                                                    Distance(Distance::_Metre, 0),
-                                                    Distance(Distance::_Metre, -500000)) )) ;
+          ship->add(new Positionned(Position(Distance(Distance::_Meter, 0),
+                                             Distance(Distance::_Meter, 0),
+                                             Distance(Distance::_Meter, -500000)) )) ;
           
-          ship->add(new Solid(Model3D("razor.mesh"))) ;
+          ship->add(new Solid(Mesh("razor.mesh"))) ;
   
           Kernel::Log::InternalMessage("building ship done") ;
         }
         {
           Kernel::Log::InternalMessage("building ship...") ;
           Object* ship = system->add(new Object(Name("Vaisseau3"))) ;
-          ship->add(new Positionned(Position(Distance(Distance::_Metre, 0),
-                                                    Distance(Distance::_Metre, 100000),
-                                                    Distance(Distance::_Metre, -500000)) )) ;
+          ship->add(new Positionned(Position(Distance(Distance::_Meter, 0),
+                                             Distance(Distance::_Meter, 100000),
+                                             Distance(Distance::_Meter, -500000)) )) ;
           
-          ship->add(new Solid(Model3D("razor.mesh"))) ;
+          ship->add(new Solid(Mesh("razor.mesh"))) ;
   
           Kernel::Log::InternalMessage("building ship done") ;
         }
@@ -193,9 +194,9 @@ namespace ProjetUnivers {
         /// 4. Ajout d'un observateur
         Kernel::Log::InternalMessage("building observer...") ;
         Object* observer = system->add(new Object(Name("Observer"))) ;
-        observer->add(new Positionned(Position(Distance(Distance::_Metre, 0),
-                                                     Distance(Distance::_Metre, 0),
-                                                     Distance(Distance::_Metre, 0)) )) ;
+        observer->add(new Positionned(Position(Distance(Distance::_Meter, 0),
+                                               Distance(Distance::_Meter, 0),
+                                               Distance(Distance::_Meter, 0)) )) ;
 
         /// Il a la faculté d'observer
         observer->add(new Observer()) ;

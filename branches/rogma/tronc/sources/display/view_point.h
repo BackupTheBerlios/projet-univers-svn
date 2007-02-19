@@ -21,6 +21,8 @@
 #ifndef _PU_DISPLAY_VIEW_POINT_H_
 #define _PU_DISPLAY_VIEW_POINT_H_
 
+#include <map>
+
 #include <kernel/log.h>
 
 #include <boost/function.hpp>
@@ -71,8 +73,7 @@ namespace ProjetUnivers {
       virtual void close() = 0 ;
 
       /// Demande au point de vue de détruire une de ses vue.
-      virtual void destroy
-        (Kernel::Implementation::KernelView*) ;
+      virtual void destroy(Kernel::Implementation::BaseView*) ;
 
       /// Destructeur de classe abstraite.
       virtual ~ViewPoint() ;
@@ -137,7 +138,7 @@ namespace ProjetUnivers {
       
       /// Register @c _constructeur comme constructeur de @c _classeModel 
       /// dans @c _classeViewPoint.
-      static void registerbuilder(const std::string& _classModel,
+      static void registerBuilder(const std::string& _classModel,
                                   const std::string& _classViewPoint,
                                   ViewBuilder _builder) ;
       
@@ -162,11 +163,11 @@ namespace ProjetUnivers {
         CPPUNIT_TEST_SUITE_REGISTRATION
       
     */
-    #define registerView(ClassView,ClassModel,ClassViewPoint)   \
+    #define RegisterView(ClassView,ClassModel,ClassViewPoint)   \
       namespace {                                               \
         Trait* build(Model::Trait* _model)                      \
         {                                                       \
-          ClassModel* temp(static_cast<ClassModel*>( _model))) ;\
+          ClassModel* temp(static_cast<ClassModel*>( _model)) ; \
           return new ClassView(temp) ;                          \
         }                                                       \
         ViewRegistration<ClassModel, ClassViewPoint>            \

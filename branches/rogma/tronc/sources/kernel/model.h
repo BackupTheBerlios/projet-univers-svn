@@ -63,7 +63,7 @@ namespace ProjetUnivers {
       Model() ;
 
       /// Notifie les vues du changement.
-      void notify(const Event& _evenement = Event()) ;
+      void notify(const Event& _event = Event()) ;
     
     private:
     

@@ -22,14 +22,16 @@
 #ifndef _PU_AFFICHAGE_IMPLANTATION_OGRE_DESTRUCTIBLE_H_
 #define _PU_AFFICHAGE_IMPLANTATION_OGRE_DESTRUCTIBLE_H_
 
-#include <modele/destructible.h>
+#include <kernel/event.h>
 
-#include <affichage/implantation/ogre/vue.h>
-#include <affichage/facette.h>
+#include <model/destroyable.h>
+
+#include <display/implementation/ogre/view.h>
+#include <display/trait.h>
 
 namespace ProjetUnivers {
   namespace Display {
-    namespace Implantation {
+    namespace Implementation {
       namespace Ogre {
         
         /// Display d'un élément destructible.
@@ -40,13 +42,13 @@ namespace ProjetUnivers {
           @par Etat
             planning
         */
-        class Destructible : public Vue<Model::Destructible>,
-                              public Trait
+        class Destroyable : public View<Model::Destroyable>,
+                            public Trait
         {
         public:
 
           /// Constructeur.
-          Destructible(const Base::Association<Model::Destructible>& _objet) ;
+          Destroyable(Model::Destroyable* _object) ;
         
           /// Initialise la vue.
           virtual void init() ;
@@ -55,7 +57,7 @@ namespace ProjetUnivers {
           virtual void close() ;
         
           /// Mise à jour.
-          virtual void update(const Base::Evenement&) ;
+          virtual void update(const Kernel::Event&) ;
           
         private:
 

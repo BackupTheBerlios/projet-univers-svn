@@ -81,7 +81,7 @@ namespace ProjetUnivers {
             
             this->getViewPoint()->getManager()->setSkyBox( false, "" );
             this->getViewPoint()->getManager()
-                 ->destroyLight(lumiere) ;
+                 ->destroyLight(light) ;
 
             this->initialised = false ;
           }          

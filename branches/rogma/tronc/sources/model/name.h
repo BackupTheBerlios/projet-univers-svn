@@ -70,7 +70,7 @@ namespace ProjetUnivers {
       /*!
         C'est le nom de ce qui n'a pas de nom.
       */
-      bool isDefined() const ;
+      bool isUndefined() const ;
     
     
     private:

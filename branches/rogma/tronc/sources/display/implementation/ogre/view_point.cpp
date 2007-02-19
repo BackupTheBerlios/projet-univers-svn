@@ -84,7 +84,7 @@ namespace ProjetUnivers {
 
             manager = getRoot()->createSceneManager(::Ogre::ST_GENERIC) ;
 
-            if (! gestionnaire)
+            if (! manager)
             {
               throw Exception("initialisation of ogre failed") ;
             }
@@ -117,7 +117,7 @@ namespace ProjetUnivers {
           /// Termine les objets un par un
           if (this->universe)
           {
-            this->univers->close() ;
+            this->universe->close() ;
           }
         }
 
@@ -149,7 +149,7 @@ namespace ProjetUnivers {
 
         void ViewPoint::changeObserver(Model::Object* _observer)
         {
-          if (_observer != observerView->getObserver())
+          if (_observer != observerView->getModel())
           {
             this->desactivate() ;
             this->observerView = this->getView(_observer) ;

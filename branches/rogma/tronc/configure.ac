@@ -117,17 +117,17 @@ AC_TYPE_SIZE_T
 # la liste des makefile à générer
 AC_CONFIG_FILES([Makefile \
                  sources/Makefile \
-                 sources/base/Makefile \
-                 sources/base/compilation/Makefile \
-                 sources/modele/Makefile \
-                 sources/modele/compilation/Makefile \
-                 sources/affichage/Makefile \
-                 sources/affichage/compilation/Makefile \
-                 sources/affichage/compilation/ogre/Makefile \
+                 sources/kernel/Makefile \
+                 sources/kernel/compilation/Makefile \
+                 sources/model/Makefile \
+                 sources/model/compilation/Makefile \
+                 sources/display/Makefile \
+                 sources/display/compilation/Makefile \
+                 sources/display/compilation/ogre/Makefile \
                  sources/demonstration/Makefile \
                  sources/demonstration/compilation/Makefile \
-                 sources/entrees/Makefile \
-                 sources/entrees/compilation/Makefile \
+                 sources/input/Makefile \
+                 sources/input/compilation/Makefile \
                  sources/action/Makefile \
                  sources/action/compilation/Makefile \
                  ])

@@ -32,8 +32,8 @@ namespace ProjetUnivers {
     {}
 
     Position::Position(const Position& _position)
-    : coordonneeX(_position.xCoordinate),
-      coordonneeY(_position.yCoordinate),
+    : xCoordinate(_position.xCoordinate),
+      yCoordinate(_position.yCoordinate),
       zCoordinate(_position.zCoordinate)
     {}
 

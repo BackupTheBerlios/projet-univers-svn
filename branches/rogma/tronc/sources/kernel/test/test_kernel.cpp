@@ -23,10 +23,13 @@
 #include <cppunit/ui/text/TestRunner.h>
 #include <cppunit/CompilerOutputter.h>
 
+#include <kernel/log.h>
 
 int 
 main( int argc, char* argv[] )
 {
+  ProjetUnivers::Kernel::Log::init() ;
+  
   // if command line contains "-selftest" then this is the post build check
   // => the output must be in the compiler error format.
   bool selfTest = (argc > 1)  &&  
@@ -47,6 +50,8 @@ main( int argc, char* argv[] )
 
   // Run the test.
   bool wasSucessful = runner.run( "" );
+
+  ProjetUnivers::Kernel::Log::close() ;
 
   // Return error code 1 if the one of test failed.
   return wasSucessful ? 0 : 1;
