@@ -12,6 +12,7 @@ $(SOURCES)/kernel/implementation/pretty_print.cpp \
 $(SOURCES)/kernel/implementation/model.cpp \
 $(SOURCES)/kernel/implementation/view_point.cpp \
 $(SOURCES)/kernel/implementation/log.cpp \
+$(SOURCES)/kernel/implementation/string.cpp \
 $(SOURCES)/kernel/implementation/view.cpp 
 
 

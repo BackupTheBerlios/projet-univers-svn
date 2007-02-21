@@ -27,7 +27,7 @@ namespace ProjetUnivers {
 
 
     Trait::Trait()
-    : initialised(false)
+    : initialised(false),object(NULL)
     {}
 
     Trait::~Trait()

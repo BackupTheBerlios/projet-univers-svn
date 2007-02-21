@@ -47,6 +47,9 @@ namespace ProjetUnivers {
       
       void clear()
       {
+        
+        Kernel::Log::InternalMessage("Model Clearing local objects") ;
+        
         for(std::set<Object*>::iterator object = objects.begin() ;
             object != objects.end() ;
             ++object)
@@ -54,10 +57,15 @@ namespace ProjetUnivers {
           delete *object ;
         }
         
+        objects.clear() ;
+
+        Kernel::Log::InternalMessage("Model Cleared local objects") ;
+        
       }
 
       ~LocalMemory()
       {
+        Kernel::Log::InternalMessage("~LocalMemory") ;
         clear() ;
       }
     };
@@ -210,6 +218,7 @@ namespace ProjetUnivers {
 
     void remove(Object* _object)
     {
+      registeredObjects.erase(_object->getName()) ;
       if (_object->getContener())
       {
         _object->getContener()->remove(_object) ;
@@ -217,6 +226,7 @@ namespace ProjetUnivers {
       else
       {
         local.objects.erase(_object) ;
+        delete _object ;
       }
     }
     

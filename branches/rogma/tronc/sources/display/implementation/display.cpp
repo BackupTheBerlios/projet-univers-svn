@@ -50,6 +50,7 @@ namespace ProjetUnivers {
         {
           delete *viewpoint ;
         }
+        viewPoints.clear() ;
       }      
       ~LocalMemory()
       {
@@ -60,7 +61,7 @@ namespace ProjetUnivers {
     LocalMemory local ;
     
     /// Le point de vue actif.
-    ViewPoint* active ;
+    ViewPoint* active = NULL ;
 
     bool initialised = false ;
 

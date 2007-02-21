@@ -69,7 +69,7 @@ namespace ProjetUnivers {
         il faut ajouter un timestamp à l'action (pour savoir à quel moment 
         on l'a déclenché)
     */
-    void add(const std::string& _nomAction) ;
+    void add(const std::string& _name) ;
 
     /// 
     bool finished() ;

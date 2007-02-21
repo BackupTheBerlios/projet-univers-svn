@@ -108,6 +108,7 @@ namespace ProjetUnivers {
              ++trait)
         {
           Kernel::Log::InternalMessage("searching constructor for " + std::string(typeid(*this).name()) + " " +  typeid(*trait->second).name()) ;
+                
           ViewBuilder builder = 
             builders[std::make_pair<std::string,std::string>(
                 typeid(*this).name(),typeid(*trait->second).name())] ;
@@ -172,9 +173,12 @@ namespace ProjetUnivers {
       std::cout << "Registering constructor for " 
                 << _classViewPoint << " " << _classModel << std::endl ;
 
-      builders.insert(std::pair<std::pair<std::string,std::string>, ViewBuilder>(
-                        std::make_pair<std::string,std::string>(
-                          _classViewPoint,_classModel),_builder)) ;
+      builders[std::make_pair<std::string,std::string>
+                (_classViewPoint,_classModel)] = _builder ;
+//                
+//      builders.insert(std::pair<std::pair<std::string,std::string>, ViewBuilder>(
+//                        std::make_pair<std::string,std::string>(
+//                          _classViewPoint,_classModel),_builder)) ;
 
       std::cout << "Registered constructor" << std::endl ;
     }

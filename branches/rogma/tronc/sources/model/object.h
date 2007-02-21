@@ -25,6 +25,7 @@
 #include <map>
 #include <set>
 
+#include <kernel/string.h>
 #include <kernel/log.h>
 #include <kernel/inherits.h>
 #include <kernel/model.h>
@@ -94,7 +95,7 @@ namespace ProjetUnivers {
       /*!
         T doit être une sous classe de Trait.
       */
-      template <class T> T* getTrait() const ;
+      template <class T> T* getTrait() ;
 
       /// Accès récursif au premier conteneur ayant la facette @ T
       template <class T> T* getParent() const ;
@@ -104,7 +105,6 @@ namespace ProjetUnivers {
 
     // @}
       
-    Observer* getObserverTrait() const ;
 
     private:
 
@@ -141,21 +141,32 @@ namespace ProjetUnivers {
       
     };  
 
-    template <class T> T* Object::getTrait() const
+    template <class T> T* Object::getTrait() 
     {
+
+      Kernel::Log::InternalMessage("Object::getTrait()") ;
+
       /// T doit être une sous classe de Trait
       Kernel::Inherits<T,Trait>() ;
-      
+
+      Kernel::Log::InternalMessage("Asking :") ;
+      Kernel::Log::InternalMessage(typeid(T).name()) ;
+
       /// on attrape la facette 
-      Trait* trait = (traits.find(typeid(T).name()))->second ;
+      Trait* trait = traits[typeid(T).name()] ;
       
       /// si elle existe on effectue la conversion :
       if (trait)
       {
+        Kernel::Log::InternalMessage("Trait found") ;
+        
         return static_cast<T*>(trait) ;
       }
       else
+      {
+        Kernel::Log::InternalMessage("Trait not found") ;
         return NULL ;
+      }
     }
 
     template <class T> T* Object::getParent() const
@@ -181,22 +192,29 @@ namespace ProjetUnivers {
 
     template <class T> T* Object::getRoot() const
     {
+      Kernel::Log::InternalMessage("Object::getRoot()") ;
+
       /// T doit être une sous classe de Trait
       Kernel::Inherits<T,Trait>() ;
       
       Object* iterator(const_cast<Object*>(this)) ;
-      T* trait(iterator->getTrait<T>()) ;
+      T* highest_trait_found(iterator->getTrait<T>()) ;
       
-      T* highest_trait_found ;
-      
-      while(trait && iterator)
+      while(highest_trait_found && iterator)
       {
-        highest_trait_found = trait ;
+        Kernel::Log::InternalMessage(
+          (std::string("highest_trait_found=") 
+           + toString((int)highest_trait_found)
+           + std::string(" iterator=")
+           + toString((int)iterator)).c_str()) ;
+          
+
+        highest_trait_found = highest_trait_found ;
         
         iterator = iterator->getContener() ;
         if (iterator)
         {
-          trait = iterator->getTrait<T>() ;
+          highest_trait_found = iterator->getTrait<T>() ;
         }
       }
       

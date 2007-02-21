@@ -86,8 +86,7 @@ namespace ProjetUnivers {
     // @}
       
       /// Destructeur, détruit les vues.
-      virtual ~ViewPoint()
-      {}
+      virtual ~ViewPoint() ;
 
     protected:
     

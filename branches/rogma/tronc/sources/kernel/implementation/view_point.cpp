@@ -28,6 +28,17 @@
 namespace ProjetUnivers {
   namespace Kernel {
 
+
+    ViewPoint::~ViewPoint()
+    {
+      for (std::set<Implementation::BaseView*>::iterator view = views.begin() ;
+           view != views.end() ;
+           ++view)
+      {
+        delete *view ;
+      }
+    }
+
     void ViewPoint::update()
     {
       

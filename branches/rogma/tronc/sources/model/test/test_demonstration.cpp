@@ -19,6 +19,8 @@
  ***************************************************************************/
 
 
+#include <kernel/log.h>
+
 #include <model/model.h>
 #include <model/object.h>
 #include <model/stellar_system.h>
@@ -57,19 +59,44 @@ namespace ProjetUnivers {
         CPPUNIT_ASSERT_MESSAGE("no Observer object",observer) ;
         
         CPPUNIT_ASSERT_MESSAGE("Observer has no Observer trait",
-                               observer->getObserverTrait()) ;
+                               observer->getTrait<Observer>()) ;
+
+        Kernel::Log::InternalMessage("Testing Observer has Positionned trait") ;
+        
         CPPUNIT_ASSERT_MESSAGE("Observer has no Positionned trait",
                                observer->getTrait<Positionned>()) ;
+
+        CPPUNIT_ASSERT_MESSAGE("Observer has Universe trait",
+                               observer->getTrait<Universe>()==NULL) ;
+
+
+        Kernel::Log::InternalMessage("Testing Observer has Universe ancestor") ;
         
         Universe* universe(observer->getParent<Universe>()) ;
         CPPUNIT_ASSERT_MESSAGE("Observer has no Universe ancestor",
                                universe) ;
-        CPPUNIT_ASSERT_MESSAGE("universe has no Positionned trait",
-                               universe->getObject()->getTrait<Positionned>()) ;
+
+
+        Kernel::Log::InternalMessage("Testing Universe has object") ;
+        Object* universe_object = universe->getObject() ;
+        
+        CPPUNIT_ASSERT_MESSAGE("universe has no object",
+                               universe_object) ;
+
+
+        Kernel::Log::InternalMessage("Testing Universe has Universe trait") ;
+                               
+        CPPUNIT_ASSERT_MESSAGE("universe has no Universe trait",
+                               universe->getObject()->getTrait<Universe>()) ;
+
+        Kernel::Log::InternalMessage("Testing Observer has StellarSystem ancestor") ;
 
         StellarSystem* system(observer->getParent<StellarSystem>()) ;
         CPPUNIT_ASSERT_MESSAGE("Observer has no StellarSystem ancestor",
                                system) ;
+
+        CPPUNIT_ASSERT_MESSAGE("Observer has no Positionned root",
+                               observer->getRoot<Positionned>()) ;
         
       }
 

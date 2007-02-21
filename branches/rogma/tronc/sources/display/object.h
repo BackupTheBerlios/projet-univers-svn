@@ -73,11 +73,11 @@ namespace ProjetUnivers {
       /// Enleve et détruit une facette.      
       void remove(Trait* _trait) ;
 
-
+      ~Object() ;
 
     // @}
     /*!
-      @name Accès
+      @name Access
     */
     // @{
       
@@ -100,7 +100,15 @@ namespace ProjetUnivers {
 
 
     // @}
+    /*!
+      @name Debug
+    */
+    // @{
 
+      /// Prints object structure.
+      std::string print() const ;
+
+    // @}
 
     private:
 
@@ -126,12 +134,13 @@ namespace ProjetUnivers {
       Kernel::Inherits<T,Trait>() ;
       
       /// on attrape la facette 
-      Trait* trait = (traits.find(typeid(T).name()))->second ;
+      std::map<std::string, Trait*>::const_iterator 
+              found = traits.find(typeid(T).name()) ;
       
       /// si elle existe on effectue la conversion :
-      if (trait)
+      if (found != traits.end())
       {
-        return static_cast<T*>(trait) ;
+        return static_cast<T*>(found->second) ;
       }
       else
       {

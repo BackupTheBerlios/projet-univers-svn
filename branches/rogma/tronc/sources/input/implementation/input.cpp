@@ -65,20 +65,20 @@ namespace ProjetUnivers {
     }
 
     /// Les élément de OIS
-    std::ato_ptr<SystemeOIS*> ois ;
+    std::auto_ptr<OISSystem> ois ;
    
     /// Notre écouteur de clavier
-    std::ato_ptr<Implementation::Keyboard*> keyboard ;
+    std::auto_ptr<Implementation::Keyboard> keyboard ;
    
     void init()
     {
       
-      if (ois != NULL)
+      if (ois.get() != NULL)
       {
         return ;
       }
       
-      ois = new SystemeOIS() ;
+      ois.reset(new OISSystem()) ;
       
       OIS::ParamList parameters ;    
       size_t window_hanlde = 0;
@@ -97,7 +97,7 @@ namespace ProjetUnivers {
       ois->keyboard = static_cast<OIS::Keyboard*>(
                   ois->manager->createInputObject(OIS::OISKeyboard,true)) ;
     
-      keyboard = new Implementation::Keyboard() ;
+      keyboard.reset(new Implementation::Keyboard()) ;
       
       ois->keyboard->setEventCallback(keyboard.operator->()) ;
 
@@ -105,14 +105,14 @@ namespace ProjetUnivers {
     
     void close()
     {
-      ois = NULL ;
+      ois.reset(NULL) ;
      
     }
     
-    void Traiter()
+    void update()
     {
       /// capture sur tous les systèmes d'entrée
-      ois->clavier->capture() ;
+      ois->keyboard->capture() ;
     }
     
   }

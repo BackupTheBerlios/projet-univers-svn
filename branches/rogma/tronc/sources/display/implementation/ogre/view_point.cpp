@@ -36,7 +36,7 @@ namespace ProjetUnivers {
 
 
         ViewPoint::ViewPoint(Model::Object* _observer)
-        : Display::ViewPoint(_observer)
+        : Display::ViewPoint(_observer), universe(NULL)
         {
 
           Kernel::Log::InternalMessage("Entering Ogre::ViewPoint::ViewPoint(const Kernel::Association<Model::Object>&)") ;

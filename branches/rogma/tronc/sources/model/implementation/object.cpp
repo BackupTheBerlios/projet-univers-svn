@@ -21,27 +21,44 @@
 
 #include <kernel/log.h>
 #include <kernel/error.h>
+#include <kernel/string.h>
 
 #include <model/exception.h>
-#include <model/object.h>
 #include <model/trait.h>
 #include <model/model.h>
-
 #include <model/observer.h>
+
+#include <model/object.h>
 
 
 namespace ProjetUnivers {
   namespace Model {
     
     Object::~Object()
-    {}
+    {
+      for(std::map<std::string, Trait*>::iterator trait = traits.begin() ;
+          trait != traits.end() ;
+          ++trait)
+      {
+        delete trait->second ;
+      }
+      
+      for(std::set<Object*>::iterator son = content.begin() ;
+          son != content.end() ;
+          ++son)
+      {
+        delete *son ;
+      }
+      
+    }
     
     Object::Object()
-    : Kernel::Model()
+    : Kernel::Model(),
+      contener(NULL)
     {}
 
     Object::Object(const Name& _name)
-    : Kernel::Model(),name(_name)
+    : Kernel::Model(),name(_name),contener(NULL)
     {}
 
     Object* Object::add(Object* _object)
@@ -63,6 +80,7 @@ namespace ProjetUnivers {
     void Object::remove(Object* _object)
     {
       this->content.erase(_object) ;
+      delete _object ;
     }
 
 
@@ -77,11 +95,32 @@ namespace ProjetUnivers {
       check(traits[typeid(*_trait).name()]==NULL, 
                    Exception("trait already exists")) ;
 
+      Kernel::Log::InternalMessage("Registering :") ;
+      Kernel::Log::InternalMessage(typeid(*_trait).name()) ;
+      Kernel::Log::InternalMessage("with value :") ;
+      Kernel::Log::InternalMessage(toString((int)_trait).c_str()) ;
 
       _trait->object = this ;
       /// on range les facettes en fonction de leur classe
-      traits.insert(std::pair<std::string,Trait*>(
-                        typeid(*_trait).name(), _trait)) ;
+      traits[typeid(*_trait).name()] = _trait ;
+
+#ifdef _DEBUG          
+      std::map<std::string, Trait*>::const_iterator it = traits.find(typeid(*_trait).name()) ;
+      if (it != traits.end())
+      {
+        Kernel::Log::InternalMessage("trait found") ;
+        std::pair<std::string, Trait*> temp = *it ;
+        Kernel::Log::InternalMessage("trait name = ") ;
+        Kernel::Log::InternalMessage(temp.first.c_str()) ;
+        
+        Kernel::Log::InternalMessage("trait value = ") ;
+        Kernel::Log::InternalMessage(toString((int)temp.second).c_str()) ;
+        
+      }
+#endif      
+
+      Kernel::Log::InternalMessage("traits number = ") ;
+      Kernel::Log::InternalMessage(toString(traits.size()).c_str()) ;
 
       Kernel::Log::InternalMessage("Model::Object::add(facette)#3") ;
       
@@ -120,24 +159,6 @@ namespace ProjetUnivers {
       return this->traits ;
     }
     
-    /// temp debug
-    Observer* Object::getObserverTrait() const
-    {
-      /// T doit être une sous classe de Trait
-      Kernel::Inherits<Observer,Trait>() ;
-      
-      /// on attrape la facette 
-      Trait* trait = (traits.find(typeid(Observer).name()))->second ;
-      
-      /// si elle existe on effectue la conversion :
-      if (trait)
-      {
-        return static_cast<Observer*>(trait) ;
-      }
-      else
-        return NULL ;
-    }
-
 
   }
 }

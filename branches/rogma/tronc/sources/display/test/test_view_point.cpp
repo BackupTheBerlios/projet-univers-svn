@@ -25,6 +25,8 @@
 
 #include <display/view_point.h>
 #include <display/implementation/ogre/universe.h>
+#include <display/implementation/ogre/positionned.h>
+#include <display/implementation/ogre/observer.h>
 
 #include <display/test/test_view_point.h>
 
@@ -39,35 +41,48 @@ namespace ProjetUnivers {
 
       void TestViewPoint::testBuild()
       {
-
+        Model::init() ;
         Kernel::Log::InternalMessage("Entering TestViewPoint::testConstruction") ;
-
         /// On construit un modèle
         Model::load("TestDemonstration") ;
-        
-        Kernel::Log::InternalMessage("TestViewPoint::testConstruction#1") ;
-        
-        Model::Object* observer(Model::getObject("Observer")) ;
+        Model::Object* model_observer(Model::getObject("Observer")) ;
 
-        Kernel::Log::InternalMessage("TestViewPoint::testConstruction#2") ;
-        
+        Kernel::Log::InternalMessage("TestViewPoint building viewpoint") ;
         /// On en construit un point de vue
-        std::auto_ptr<ViewPoint> pdv(ViewPoint::build(observer)) ;
+        std::auto_ptr<ViewPoint> pdv(ViewPoint::build(model_observer)) ;
 
-        Kernel::Log::InternalMessage("Leaving TestViewPoint::testConstruction") ;
-
+        Kernel::Log::InternalMessage("TestViewPoint getting observer view") ;
         /// Vérification de la structure.
-        Object* vueObserver(pdv->getObserverView()) ;
-        CPPUNIT_ASSERT_MESSAGE("no Observer view object",vueObserver) ;
+        Object* observer(pdv->getObserverView()) ;
+        CPPUNIT_ASSERT_MESSAGE("no Observer view object",observer) ;
+
+        Kernel::Log::InternalMessage("TestViewPoint getting positionned trait") ;
+
+        Implementation::Ogre::Positionned* 
+          observer_positionned = observer->getTrait<Implementation::Ogre::Positionned>() ;
+        CPPUNIT_ASSERT_MESSAGE("no Positionned trait for observer",observer_positionned) ;
+
+        Kernel::Log::InternalMessage("TestViewPoint getting observer trait") ;
         
+        Implementation::Ogre::Observer* 
+          observer_observer = observer->getTrait<Implementation::Ogre::Observer>() ;
+        CPPUNIT_ASSERT_MESSAGE("no Observer trait for observer",observer_observer) ;
+
+        Kernel::Log::InternalMessage("TestViewPoint getting Universe view") ;
         Implementation::Ogre::Universe* 
-          vueUnivers(vueObserver->getParent<Implementation::Ogre::Universe>()) ;
+          vueUnivers(observer->getParent<Implementation::Ogre::Universe>()) ;
         CPPUNIT_ASSERT_MESSAGE("no Univers view object",vueUnivers) ;
-        
+
+        Kernel::Log::InformationMessage(vueUnivers->getObject()->print().c_str()) ;
+
+
+        Kernel::Log::InternalMessage("TestViewPoint getting ogre viewpoint") ;
         Implementation::Ogre::ViewPoint* 
           ogrePointdeView(vueUnivers->getViewPoint()) ;
-          
         CPPUNIT_ASSERT_MESSAGE("no specific view point",ogrePointdeView) ;
+
+        
+        Kernel::Log::InternalMessage("Leaving TestViewPoint::testConstruction") ;
         
       }
       

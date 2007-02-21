@@ -22,7 +22,7 @@
 #include <display/display.h>
 #include <display/view_point.h>
 
-#include <input/entrees.h>
+#include <input/input.h>
 #include <action/action.h>
 #include <model/model.h>
 
@@ -52,8 +52,10 @@ int main() {
   Model::Object* observer(Model::getObject("Observer")) ;
   
   /// Création d'un point de vue sur ce modèle
-  Kernel::Association<Display::ViewPoint> pdv(
-      Display::addViewPoint(Display::ViewPoint::build(observateur))) ;
+  Display::ViewPoint* pdv(
+      Display::addViewPoint(Display::ViewPoint::build(observer))) ;
+
+  Kernel::Log::InternalMessage("Activating Viewpoint") ;
 
   Display::activateViewPoint(pdv) ;
 

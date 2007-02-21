@@ -31,6 +31,7 @@ check_PROGRAMS = $(TESTS)
 
 test_display_SOURCES = \
 $(SOURCES)/display/test/test_display.cpp \
+$(SOURCES)/display/test/test_view_point.cpp \
 $(SOURCES)/display/test/test_mvc.cpp 
 
 

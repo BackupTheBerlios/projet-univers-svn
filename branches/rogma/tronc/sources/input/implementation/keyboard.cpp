@@ -18,6 +18,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#include <kernel/string.h>
 #include <kernel/log.h>
 #include <action/action.h>
 #include <input/implementation/keyboard.h>
@@ -38,8 +39,8 @@ namespace ProjetUnivers {
         
         /// log
         Kernel::Log::InternalMessage(
-              std::string("bouton presse timestamp = ") + 
-              std::string(e.timeStamp)) ;
+              (std::string("bouton presse timestamp = ") + 
+              toString(e.timeStamp)).c_str() ) ;
 
         /// pour l'instant : on sort si c'est entrée
         switch(e.key)
@@ -65,10 +66,12 @@ namespace ProjetUnivers {
           break ;
 
         case OIS::KC_C:
-          Action::add("CreerObject") ;
+           Kernel::Log::InternalMessage("Input : added create object") ;
+           Action::add("CreerObject") ;
           break ;
 
         case OIS::KC_D:
+           Kernel::Log::InternalMessage("Input : added destroy object") ;
           Action::add("destroyObject") ;
           break ;
 

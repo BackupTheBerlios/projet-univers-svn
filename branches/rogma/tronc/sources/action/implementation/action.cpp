@@ -50,16 +50,16 @@ namespace ProjetUnivers {
     
     void perfom(const Action& _action)
     {
-      if (_action.nom == "Sortie")
+      if (_action.name == "Sortie")
       {
-        finished = true ;
+        is_finished = true ;
       }
-      else if (_action.nom == "Haut")
+      else if (_action.name == "Haut")
       {
-        Kernel::Association<Model::Object> observateur(Model::getObject("Observer")) ;
-        Kernel::Association<Model::Positionne> positionne(*observateur) ;
+        Object* observateur(Model::getObject("Observer")) ;
+        Positionned* positionne(observateur->getTrait<Positionned>()) ;
         
-        positionne->ModifierOrientation(
+        positionne->changeOrientation(
           Model::Orientation(
             positionne->getOrientation().getQuaternion() 
             * 
@@ -67,36 +67,36 @@ namespace ProjetUnivers {
             
         
       }
-      else if (_action.nom == "Bas")
+      else if (_action.name == "Bas")
       {
-        Kernel::Association<Model::Object> observateur(Model::getObject("Observer")) ;
-        Kernel::Association<Model::Positionne> positionne(*observateur) ;
+        Object* observateur(Model::getObject("Observer")) ;
+        Positionned* positionne(observateur->getTrait<Positionned>()) ;
         
-        positionne->ModifierOrientation(
+        positionne->changeOrientation(
           Model::Orientation(
             positionne->getOrientation().getQuaternion() 
             * 
             Quaternion(Degree(45),Vector3::UNIT_X))) ;
         
       }
-      else if (_action.nom == "Droite")
+      else if (_action.name == "Droite")
       {
-        Kernel::Association<Model::Object> observateur(Model::getObject("Observer")) ;
-        Kernel::Association<Model::Positionne> positionne(*observateur) ;
+        Object* observateur(Model::getObject("Observer")) ;
+        Positionned* positionne(observateur->getTrait<Positionned>()) ;
         
-        positionne->ModifierOrientation(
+        positionne->changeOrientation(
           Model::Orientation(
             positionne->getOrientation().getQuaternion() 
             * 
             Quaternion(Degree(45),Vector3::NEGATIVE_UNIT_Y))) ;
         
       }
-      else if (_action.nom == "Gauche")
+      else if (_action.name == "Gauche")
       {
-        Kernel::Association<Model::Object> observateur(Model::getObject("Observer")) ;
-        Kernel::Association<Model::Positionne> positionne(*observateur) ;
+        Object* observateur(Model::getObject("Observer")) ;
+        Positionned* positionne(observateur->getTrait<Positionned>()) ;
         
-        positionne->ModifierOrientation(
+        positionne->changeOrientation(
           Model::Orientation(
             positionne->getOrientation().getQuaternion() 
             * 
@@ -104,39 +104,42 @@ namespace ProjetUnivers {
         
         
       }
-      else if (_action.nom == "RegarderVaisseau")
+      else if (_action.name == "RegarderVaisseau")
       {
         /*!
           @par Etat 
             planning...
         */
-        Kernel::Association<Model::Object> observateur(Model::getObject("Observer")) ;
-        Kernel::Association<Model::Positionne> observateurPositionne(*observateur) ;
+        Object* observateur(Model::getObject("Observer")) ;
+        Positionned* positionne(observateur->getTrait<Positionned>()) ;
 
-        Kernel::Association<Model::Object> vaisseau(Model::getObject("Vaisseau")) ;
-        Kernel::Association<Model::Positionne> vaisseauPositionne(*vaisseau) ;
+        Object* vaisseau(Model::getObject("Vaisseau")) ;
+        Positionned* vaisseauPositionne(vaisseau->getTrait<Positionned>()) ;
+
         
       }
-      else if (_action.nom == "CreerObject")
+      else if (_action.name == "CreerObject")
       {
-        Kernel::Association<Model::Object> observateur(Model::getObject("Observer")) ;
+        Object* observateur(Model::getObject("Observer")) ;
         
-        Kernel::Association<Model::Object> systeme(
-          observateur->getParent<Model::SystemeStellaire>()->getObject()) ;
+        Object* system(observateur->getParent<StellarSystem>()->getObject()) ;
         
-        Kernel::Association<Object> vaisseau = systeme->add(new Object(Name("Vaisseau2"))) ;
-        vaisseau->add(new Positionne(Position(Distance(Distance::_Metre, 0),
-                                                  Distance(Distance::_Metre, 500000),
-                                                  Distance(Distance::_Metre, 0)) )) ;
+        Object* vaisseau = system->add(new Object(Name("Vaisseau2"))) ;
+        vaisseau->add(new Positionned(Position(Distance(Distance::_Meter, 0),
+                                               Distance(Distance::_Meter, 500000),
+                                               Distance(Distance::_Meter, 0)) )) ;
         
-        vaisseau->add(new Solide(Model3D("razor.mesh"))) ;
+        vaisseau->add(new Solid(Model::Mesh("razor.mesh"))) ;
         
       }
-      else if (_action.nom == "destroyObject")
+      else if (_action.name == "destroyObject")
       {
-        Kernel::Association<Model::Object> vaisseau(Model::getObject("Vaisseau2")) ;
+        Object* vaisseau(Model::getObject("Vaisseau2")) ;
         Kernel::Log::InternalMessage("perparing to destroy object") ;
-        Model::remove(vaisseau) ;
+        if (vaisseau)
+        {
+          Model::remove(vaisseau) ;
+        }
       }
     }
     
@@ -144,18 +147,18 @@ namespace ProjetUnivers {
     void init()
     {
       actions.clear() ;
-      finished = false ;
+      is_finished = false ;
     }
 
     void close()
     {
-      actions.Vider() ;
+      actions.clear() ;
     }
 
     void update()
     {
       for(std::list<Action>::iterator action = actions.begin() ;
-          action =! actions.end() ;
+          action != actions.end() ;
           ++action)
       {
         perfom(*action) ;
@@ -164,10 +167,10 @@ namespace ProjetUnivers {
       actions.clear() ;
     }
 
-    void add(const std::string& _nomAction)
+    void add(const std::string& _name)
     {
       Action temp ;
-      temp.name = _nomAction ;
+      temp.name = _name ;
       actions.push_back(temp) ;
     }
 
