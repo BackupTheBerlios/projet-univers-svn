@@ -18,68 +18,70 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef PU_ACTION_ACTION_H_
-#define PU_ACTION_ACTION_H_
 
-#include <string.h>
+#ifndef _PU_MODEL_DESTRUCTIBLE_H_
+#define _PU_MODEL_DESTRUCTIBLE_H_
 
+
+#include <model/energy.h>
+#include <model/trait.h>
 
 namespace ProjetUnivers {
-  
- 
-  /// Gestion des actions sur Model.
-  /*!
+  namespace Model {
+
+
     
-  */ 
-  namespace Action 
-  {
+      
+    /// Propriété des objets pouvant subir des dégâts et être détruits.
+    /*!
+    @todo
+      Cette classe n'est qu'un squelette, implanter tache 2378.
+    @par Etat
+      planning
+    */
+    class Destroyable : public Trait
+    {
+    public:
 
-  /*!
-    @name Initialisation/Terminaison.
-  */
-  //@{        
+      /// Construit à neuf.
+      Destroyable(const Energy& _pointsDeVieTotal) ;
+   
+    /*!
+      @name Méthodes principales
+    */
+    // @{
+   
+      /// Valeur de point de vie en pourcentage.
+      /*!
+        100% correspond à un objet neuf
+        0% à un objet détruit
+      */
+      float getLife() const ;
+   
+      /// Fait dubir un dégat d'une certaine quantité d'énergie.
+      void damage(const Energy& _energy) ;
+   
+    // @}
+   
+      /// Classe abstraite donc destructeur virtuel.
+      virtual ~Destroyable() ;
     
-    /// Initialise le module.
-    void init() ;
-
-    /// Termine le module.
-    void close() ;
-
-  //@}
-  /*!
-    @name Gestion des actions.
-  
-  
-  */
-  //@{
-  
-  
-    /// Execute les actions en cours.
-    /*!
-      @post
-        Il n'y a plus d'actions à traiter
-    */
-    void update() ;
+   
+    protected:
 
 
-    /// Ajoute une action
-    /*!
-      Les actions sont désignées par un identificateur @c _nomAction.
-      @todo 
-        il faut ajouter un timestamp à l'action (pour savoir à quel moment 
-        on l'a déclenché)
-    */
-    void add(const std::string& _name) ;
+      
+      /// Enérgie nécéssaire à sa destruction
+      Energy totalResistance ;
+      
+      /// Energy restante.
+      Energy resistance ;
 
-    /// 
-    bool finished() ;
 
-  //@}
-  
+    };
+
   }
 
-  
 }
 
 #endif
-

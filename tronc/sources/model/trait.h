@@ -17,69 +17,55 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#ifndef PU_MODEL_TRAIT_H_
+#define PU_MODEL_TRAIT_H_
 
-#ifndef PU_ACTION_ACTION_H_
-#define PU_ACTION_ACTION_H_
-
-#include <string.h>
+#include <kernel/model.h>
 
 
 namespace ProjetUnivers {
-  
- 
-  /// Gestion des actions sur Model.
-  /*!
-    
-  */ 
-  namespace Action 
-  {
+  namespace Model {
 
-  /*!
-    @name Initialisation/Terminaison.
-  */
-  //@{        
-    
-    /// Initialise le module.
-    void init() ;
+    class Object ;
 
-    /// Termine le module.
-    void close() ;
-
-  //@}
-  /*!
-    @name Gestion des actions.
-  
-  
-  */
-  //@{
-  
-  
-    /// Execute les actions en cours.
+    /// Une facette d'un objet.
     /*!
-      @post
-        Il n'y a plus d'actions à traiter
+      C'est une partie d'un objet dans un modèle à délégation.
+      Une facette appartient à un seul objet. 
+      Un objet peut avoir autant de facettes qu'il veut.
+      Un objet ne peut avoir qu'une seule facette d'un certain type :
+      - par exemple, un objet ne peut avoir qu'une seule facette de type 
+        Positionné, car l'objet n'a qu'une seule position.
+        
+      Une facette d'objet regoupe un ensemble d'attributs de l'objet.
     */
-    void update() ;
+    class Trait : public Kernel::Model
+    {
+    public:
+
+      /// Access to object.      
+      Object* getObject() const ;
+
+      virtual ~Trait() ;
+    
+
+    protected: 
+    
+      /// Créé une facette pour un objet.
+      Trait() ;
+      
+      /// Object sur lequel s'applique la facette.
+      Object* object ;
+      
+      friend class Object ;
+            
+    };
 
 
-    /// Ajoute une action
-    /*!
-      Les actions sont désignées par un identificateur @c _nomAction.
-      @todo 
-        il faut ajouter un timestamp à l'action (pour savoir à quel moment 
-        on l'a déclenché)
-    */
-    void add(const std::string& _name) ;
 
-    /// 
-    bool finished() ;
-
-  //@}
-  
   }
-
-  
 }
 
-#endif
 
+
+#endif /*PU_MODEL_TRAIT_H_*/

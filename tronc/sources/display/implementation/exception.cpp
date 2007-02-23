@@ -18,68 +18,25 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef PU_ACTION_ACTION_H_
-#define PU_ACTION_ACTION_H_
 
-#include <string.h>
 
+#include <display/exception.h>
 
 namespace ProjetUnivers {
-  
- 
-  /// Gestion des actions sur Model.
-  /*!
+  namespace Display {
+
+
+    Exception::Exception(const std::string& _message)
+    : message(_message)
+    {}
     
-  */ 
-  namespace Action 
-  {
+    Exception::Exception(const Exception& _e)
+    : message(_e.message)
+    {}
 
-  /*!
-    @name Initialisation/Terminaison.
-  */
-  //@{        
-    
-    /// Initialise le module.
-    void init() ;
+    Exception::~Exception()
+    {}
 
-    /// Termine le module.
-    void close() ;
-
-  //@}
-  /*!
-    @name Gestion des actions.
-  
-  
-  */
-  //@{
-  
-  
-    /// Execute les actions en cours.
-    /*!
-      @post
-        Il n'y a plus d'actions à traiter
-    */
-    void update() ;
-
-
-    /// Ajoute une action
-    /*!
-      Les actions sont désignées par un identificateur @c _nomAction.
-      @todo 
-        il faut ajouter un timestamp à l'action (pour savoir à quel moment 
-        on l'a déclenché)
-    */
-    void add(const std::string& _name) ;
-
-    /// 
-    bool finished() ;
-
-  //@}
-  
   }
-
-  
 }
-
-#endif
 

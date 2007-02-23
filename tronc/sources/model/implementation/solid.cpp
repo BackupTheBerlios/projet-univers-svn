@@ -18,67 +18,23 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <kernel/log.h>
-#include <display/display.h>
-#include <display/view_point.h>
 
-#include <input/input.h>
-#include <action/action.h>
-#include <model/model.h>
+#include <model/solid.h>
 
-using namespace ProjetUnivers ;
+namespace ProjetUnivers {
+  namespace Model {
 
-/*
-  Programme de démonstration
+     
+    Solid::Solid(const Mesh& _mesh) 
+    : Trait(), mesh(_mesh)
+    {}
+
+    /// Accès au modèle 3d.
+    Mesh Solid::getModel() const
+    {
+      return mesh ;
+    }
+
   
-  
-
-*/
-int main() {
-
-
-  /// initialisation
-  Kernel::Log::init() ;
-  Kernel::Log::InformationMessage("Demarrage de projet univers") ;
-  Model::init() ;
-  Display::init() ;
-  Action::init() ;
-  Input::init() ;
-
-  Kernel::Log::InformationMessage("Modules initialisés") ;
-
-  Model::load("TestDemonstration") ;
-
-  Model::Object* observer(Model::getObject("Observer")) ;
-  
-  /// Création d'un point de vue sur ce modèle
-  Display::ViewPoint* pdv(
-      Display::addViewPoint(Display::ViewPoint::build(observer))) ;
-
-  Kernel::Log::InternalMessage("Activating Viewpoint") ;
-
-  Display::activateViewPoint(pdv) ;
-
-  Kernel::Log::InformationMessage("Demarrage de la boucle principale") ;
-
-  /// boucle principale
-  while (! Action::finished())
-  {
-    Input::update() ;
-    Action::update() ;
-    Display::update() ;
   }
-
-  Kernel::Log::InformationMessage("Sortie de la boucle principale") ;
-    
-  /// sortie
-  Input::close() ;
-  Action::close() ;
-  Display::close() ;
-  Model::close() ;
-  Kernel::Log::InformationMessage("Modules desinitialisés") ;
-  Kernel::Log::close() ;
-  
-  return 0 ;
-  
 }

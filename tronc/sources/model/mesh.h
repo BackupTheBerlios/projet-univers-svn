@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Equipe Projet Univers                           *
+ *   Copyright (C) 2006 by Equipe Projet Univers                           *
  *   rogma.boami@free.fr                                                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,68 +18,58 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef PU_ACTION_ACTION_H_
-#define PU_ACTION_ACTION_H_
+#ifndef _PU_MODEL_MESH_H_
+#define _PU_MODEL_MESH_H_
 
-#include <string.h>
-
+#include <string>
 
 namespace ProjetUnivers {
-  
- 
-  /// Gestion des actions sur Model.
-  /*!
+  namespace Model {
     
-  */ 
-  namespace Action 
-  {
-
-  /*!
-    @name Initialisation/Terminaison.
-  */
-  //@{        
     
-    /// Initialise le module.
-    void init() ;
-
-    /// Termine le module.
-    void close() ;
-
-  //@}
-  /*!
-    @name Gestion des actions.
-  
-  
-  */
-  //@{
-  
-  
-    /// Execute les actions en cours.
+    /// Représente une forme en 3d.
     /*!
-      @post
-        Il n'y a plus d'actions à traiter
+    @par Type de classe
+    - Valeur
+      
     */
-    void update() ;
-
-
-    /// Ajoute une action
+    class Mesh
+    {
+    public:
+    
     /*!
-      Les actions sont désignées par un identificateur @c _nomAction.
-      @todo 
-        il faut ajouter un timestamp à l'action (pour savoir à quel moment 
-        on l'a déclenché)
+      @name Construction
     */
-    void add(const std::string& _name) ;
+    // @{
+    
+      /// Constructeur.
+      Mesh(const std::string& _name) ;
+      
+      /// Constructeur de copie.
+      Mesh(const Mesh&) ;
+      
+            
+    // @}
+    /*!
+      @name Accès
+    */
+    // @{
+    
+      /// Acès au nom.
+      std::string getName() const ;
+      
+            
+    // @}
 
-    /// 
-    bool finished() ;
-
-  //@}
-  
+    
+    private:
+    
+      /// Identificateur.
+      std::string name ;
+            
+    };
+    
   }
-
-  
 }
 
-#endif
-
+#endif 

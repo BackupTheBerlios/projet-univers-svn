@@ -18,68 +18,21 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef PU_ACTION_ACTION_H_
-#define PU_ACTION_ACTION_H_
 
-#include <string.h>
+#ifndef PU_PLATEFORM_H_
+#define PU_PLATEFORM_H_
 
+/// determine la plateforme
+#define PU_PLATEFORM_WIN32 1
+#define PU_PLATEFORM_LINUX 2
+#define PU_PLATEFORM_APPLE 3
 
-namespace ProjetUnivers {
-  
- 
-  /// Gestion des actions sur Model.
-  /*!
-    
-  */ 
-  namespace Action 
-  {
-
-  /*!
-    @name Initialisation/Terminaison.
-  */
-  //@{        
-    
-    /// Initialise le module.
-    void init() ;
-
-    /// Termine le module.
-    void close() ;
-
-  //@}
-  /*!
-    @name Gestion des actions.
-  
-  
-  */
-  //@{
-  
-  
-    /// Execute les actions en cours.
-    /*!
-      @post
-        Il n'y a plus d'actions à traiter
-    */
-    void update() ;
-
-
-    /// Ajoute une action
-    /*!
-      Les actions sont désignées par un identificateur @c _nomAction.
-      @todo 
-        il faut ajouter un timestamp à l'action (pour savoir à quel moment 
-        on l'a déclenché)
-    */
-    void add(const std::string& _name) ;
-
-    /// 
-    bool finished() ;
-
-  //@}
-  
-  }
-
-  
-}
-
+#if defined( __WIN32__ ) || defined( _WIN32 )
+#   define PU_PLATEFORM PU_PLATEFORM_WIN32
+#elif defined( __APPLE_CC__)
+#   define PU_PLATEFORM PU_PLATEFORM_APPLE
+#else
+#   define PU_PLATEFORM PU_PLATEFORM_LINUX
 #endif
 
+#endif

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Equipe Projet Univers                           *
+ *   Copyright (C) 2006 by Equipe Projet Univers                           *
  *   rogma.boami@free.fr                                                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,69 +17,45 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#ifndef PU_DISPLAY_IMPLEMENTATION_OGRE_VIEW_H_
+#define PU_DISPLAY_IMPLEMENTATION_OGRE_VIEW_H_
 
-#ifndef PU_ACTION_ACTION_H_
-#define PU_ACTION_ACTION_H_
-
-#include <string.h>
-
+#include <kernel/view.h>
 
 namespace ProjetUnivers {
-  
- 
-  /// Gestion des actions sur Model.
-  /*!
+  namespace Display {
+    namespace Implementation {
+      namespace Ogre {
+
+        class ViewPoint ;
+                      
+        /// Une vue Ogre.
+        /*!
+          Sert à factoriser certaines opérations.
+        */
+        template <class Model> class View : public Kernel::View<Model>
+        {
+        public:
     
-  */ 
-  namespace Action 
-  {
+          /// Object de cette facette.          
+          ViewPoint* getViewPoint() const ;
 
-  /*!
-    @name Initialisation/Terminaison.
-  */
-  //@{        
+          /// Mise à jour de la vue.
+          virtual void update(const Kernel::Event&) = 0 ;
     
-    /// Initialise le module.
-    void init() ;
-
-    /// Termine le module.
-    void close() ;
-
-  //@}
-  /*!
-    @name Gestion des actions.
-  
-  
-  */
-  //@{
-  
-  
-    /// Execute les actions en cours.
-    /*!
-      @post
-        Il n'y a plus d'actions à traiter
-    */
-    void update() ;
-
-
-    /// Ajoute une action
-    /*!
-      Les actions sont désignées par un identificateur @c _nomAction.
-      @todo 
-        il faut ajouter un timestamp à l'action (pour savoir à quel moment 
-        on l'a déclenché)
-    */
-    void add(const std::string& _name) ;
-
-    /// 
-    bool finished() ;
-
-  //@}
-  
+          /// Destructeur de classe abstraite.    
+          virtual ~View() ;
+        
+        protected: 
+        
+          /// Constructeur de classe abstraite.
+          View(Model* _model) ;
+        };
+      }
+    }
   }
-
-  
 }
 
-#endif
+#include <display/implementation/ogre/view.cxx>
 
+#endif /*PU_DISPLAY_IMPLEMENTATION_OGRE_VIEW_H_*/

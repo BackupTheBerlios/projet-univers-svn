@@ -18,68 +18,64 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef PU_ACTION_ACTION_H_
-#define PU_ACTION_ACTION_H_
+#ifndef _PU_MODEL_POSITIONNED_H_
+#define _PU_MODEL_POSITIONNED_H_
 
-#include <string.h>
 
+#include <model/trait.h>
+#include <model/position.h>
+#include <model/orientation.h>
 
 namespace ProjetUnivers {
-  
- 
-  /// Gestion des actions sur Model.
-  /*!
-    
-  */ 
-  namespace Action 
-  {
+  namespace Model {
 
-  /*!
-    @name Initialisation/Terminaison.
-  */
-  //@{        
-    
-    /// Initialise le module.
-    void init() ;
+    /// Propriété des objets ayant une position dans un espace.
+    class Positionned : public Trait
+    {
+    public:
 
-    /// Termine le module.
-    void close() ;
-
-  //@}
-  /*!
-    @name Gestion des actions.
-  
-  
-  */
-  //@{
-  
-  
-    /// Execute les actions en cours.
     /*!
-      @post
-        Il n'y a plus d'actions à traiter
+      @name Construction
     */
-    void update() ;
+    // @{
+    
+      /// Constructeur.
+      Positionned(const Position&) ;
 
-
-    /// Ajoute une action
-    /*!
-      Les actions sont désignées par un identificateur @c _nomAction.
-      @todo 
-        il faut ajouter un timestamp à l'action (pour savoir à quel moment 
-        on l'a déclenché)
-    */
-    void add(const std::string& _name) ;
-
-    /// 
-    bool finished() ;
-
-  //@}
+      /// Positionne par rapport à son propre référentiel.
+      Positionned() ;
   
+
+    // @}
+    /*!
+      @name get
+    */
+    // @{
+
+      /// Position de l'objet.
+      Position getPosition() const ;
+
+      /// Orientation de l'objet
+      Orientation getOrientation() const ;
+
+    // @}
+    /*!
+      @name Update
+    */
+    // @{
+
+      void changeOrientation(const Orientation&) ;
+
+    // @}
+        
+    private:
+
+      
+      Position position ;  
+      Orientation orientation ;
+    
+    };
   }
-
-  
 }
 
-#endif
-
+#endif 

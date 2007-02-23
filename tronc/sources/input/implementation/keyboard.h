@@ -17,69 +17,40 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#ifndef PU_INPUT_IMPLEMENTATION_KEYBOARD_H_
+#define PU_INPUT_IMPLEMENTATION_KEYBOARD_H_
 
-#ifndef PU_ACTION_ACTION_H_
-#define PU_ACTION_ACTION_H_
-
-#include <string.h>
-
+#include <OISKeyboard.h>
 
 namespace ProjetUnivers {
+  namespace Input {
+
+    namespace Implementation {
+
+      /// Ecouteur du clavier
+      /*!
   
- 
-  /// Gestion des actions sur Model.
-  /*!
-    
-  */ 
-  namespace Action 
-  {
-
-  /*!
-    @name Initialisation/Terminaison.
-  */
-  //@{        
-    
-    /// Initialise le module.
-    void init() ;
-
-    /// Termine le module.
-    void close() ;
-
-  //@}
-  /*!
-    @name Gestion des actions.
+      */
+      class Keyboard : public OIS::KeyListener
+      {
+      public:
+      
+        /// Constructeur.
+        Keyboard() ;  
+        
+        /// Destructeur.
+        virtual ~Keyboard() ;
   
+        /// Appelé lorsqu'une touche est pressée
+        virtual bool keyPressed(const OIS::KeyEvent &e) ;    
   
-  */
-  //@{
-  
-  
-    /// Execute les actions en cours.
-    /*!
-      @post
-        Il n'y a plus d'actions à traiter
-    */
-    void update() ;
-
-
-    /// Ajoute une action
-    /*!
-      Les actions sont désignées par un identificateur @c _nomAction.
-      @todo 
-        il faut ajouter un timestamp à l'action (pour savoir à quel moment 
-        on l'a déclenché)
-    */
-    void add(const std::string& _name) ;
-
-    /// 
-    bool finished() ;
-
-  //@}
-  
+        /// Appelé lorsqu'une touche est relachée.
+        virtual bool keyReleased(const OIS::KeyEvent &e) ;
+      };
+    }
   }
-
-  
 }
 
-#endif
 
+
+#endif /*PU_INPUT_IMPLEMENTATION_KEYBOARD_H_*/

@@ -6,10 +6,8 @@ SOURCES = $(top_srcdir)/sources
 INCLUDES = -I$(SOURCES) $(OGRE_CFLAGS)
 
 libaction_la_SOURCES = \
-$(SOURCES)/action/implantation/action.cpp
+$(SOURCES)/action/implementation/action.cpp
 
 libaction_la_LIBADD = \
-$(SOURCES)/base/compilation/libbase.la 
+$(SOURCES)/kernel/compilation/libkernel.la 
 
-#all-local :
-#	cp libaction.la $(SOURCES)/compilation/libaction.la

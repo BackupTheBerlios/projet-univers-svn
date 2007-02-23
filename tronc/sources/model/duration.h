@@ -18,68 +18,84 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef PU_ACTION_ACTION_H_
-#define PU_ACTION_ACTION_H_
-
-#include <string.h>
+#ifndef _PU_MODEL_DURATION_H_
+#define _PU_MODEL_DURATION_H_
 
 
 namespace ProjetUnivers {
-  
- 
-  /// Gestion des actions sur Model.
-  /*!
-    
-  */ 
-  namespace Action 
-  {
+  namespace Model {
 
-  /*!
-    @name Initialisation/Terminaison.
-  */
-  //@{        
-    
-    /// Initialise le module.
-    void init() ;
-
-    /// Termine le module.
-    void close() ;
-
-  //@}
-  /*!
-    @name Gestion des actions.
-  
-  
-  */
-  //@{
-  
-  
-    /// Execute les actions en cours.
-    /*!
-      @post
-        Il n'y a plus d'actions à traiter
+      
+    /// Une durée.
+    /*!  
+    @par Type de classe :
+      - Valeur
+    @par Etat
+      planning
     */
-    void update() ;
+    class Duration 
+    {
+    public:
+    
+    // ********************
+    /// @name Constructeurs
+    // ********************
+    // @{   
+    
+
+      /// Durée nulle.
+      Duration() ;
+      
+      /// Constructeur de copie.
+      Duration(const Duration&) ;
+    
+      /// Calcul
+      Duration operator +(const Duration&) const ;
+
+      /// Calcul
+      Duration operator -(const Duration&) const ;
+
+      
+    // @}
+    // ******************
+    /// @name Conversions
+    // ******************
+    // @{
+      
+
+      /// Convertit la distance en secondes.
+      float Second() const ; 
+      
+
+    
+    // @}    
+    // ************
+    /// @name Accès
+    // ************
+    // @{
+    
+    
+    // @}
+      
+    private:
+    
+      /// Les différentes unités
+      typedef enum {
+        _Second
+      } Unit ;
 
 
-    /// Ajoute une action
-    /*!
-      Les actions sont désignées par un identificateur @c _nomAction.
-      @todo 
-        il faut ajouter un timestamp à l'action (pour savoir à quel moment 
-        on l'a déclenché)
-    */
-    void add(const std::string& _name) ;
-
-    /// 
-    bool finished() ;
-
-  //@}
+      float value ;
+      Unit unit ;    
   
+    };
+
+
+
   }
-
-  
 }
 
-#endif
 
+
+
+#endif

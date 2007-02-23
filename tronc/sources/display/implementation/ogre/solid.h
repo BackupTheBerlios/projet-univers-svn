@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Equipe Projet Univers                           *
+ *   Copyright (C) 2006 by Equipe Projet Univers                           *
  *   rogma.boami@free.fr                                                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,68 +18,70 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef PU_ACTION_ACTION_H_
-#define PU_ACTION_ACTION_H_
+#ifndef _PU_DISPLAY_IMPLEMENTATION_OGRE_SOLID_H_
+#define _PU_DISPLAY_IMPLEMENTATION_OGRE_SOLID_H_
 
-#include <string.h>
+#include <kernel/view.h>
 
+#include <model/solid.h>
+
+#include <display/implementation/ogre/view.h>
+#include <display/trait.h>
 
 namespace ProjetUnivers {
-  
- 
-  /// Gestion des actions sur Model.
-  /*!
+  namespace Display {
+    namespace Implementation {
+      namespace Ogre {
+
+        /// Display des objets 3D.
+        /*!
+        @par Etat actuel
+          planning
+        */
+        class Solid : public View<Model::Solid>, 
+                      public Trait
+        {
+        public:
+        
+        // **********************
+        /// @name Constructeur/Destructeur
+        // **********************
+        // @{
+
+          /// Constructeur.
+          Solid(Model::Solid* _object) ;
+
+
+        //@}
+        /*!
+          @name Mise à jour
+        */
+        // @{
+        
+          /// Crée une entité.
+          void init() ;
+          
+          /// Détruit l'entité.
+          void close() ;
+        
+          /// 
+          /*!
+          @par Etat
+            stub vide
+          */
+          void update(const Kernel::Event&) ;
+
+
+        // @}
     
-  */ 
-  namespace Action 
-  {
-
-  /*!
-    @name Initialisation/Terminaison.
-  */
-  //@{        
-    
-    /// Initialise le module.
-    void init() ;
-
-    /// Termine le module.
-    void close() ;
-
-  //@}
-  /*!
-    @name Gestion des actions.
-  
-  
-  */
-  //@{
-  
-  
-    /// Execute les actions en cours.
-    /*!
-      @post
-        Il n'y a plus d'actions à traiter
-    */
-    void update() ;
-
-
-    /// Ajoute une action
-    /*!
-      Les actions sont désignées par un identificateur @c _nomAction.
-      @todo 
-        il faut ajouter un timestamp à l'action (pour savoir à quel moment 
-        on l'a déclenché)
-    */
-    void add(const std::string& _name) ;
-
-    /// 
-    bool finished() ;
-
-  //@}
-  
+        private:
+          
+          /// Modèle 3D.
+          ::Ogre::Entity* model ;
+      
+        };
+      }
+    }
   }
-
-  
 }
-
 #endif
-

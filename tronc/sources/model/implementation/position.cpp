@@ -17,69 +17,48 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <kernel/log.h>
 
-#ifndef PU_ACTION_ACTION_H_
-#define PU_ACTION_ACTION_H_
+#include <model/position.h>
+#include <model/positionned.h>
 
-#include <string.h>
-
+#include <model/object.h>
 
 namespace ProjetUnivers {
-  
- 
-  /// Gestion des actions sur Model.
-  /*!
+  namespace Model {
+
+
+    Position::Position()
+    {}
+
+    Position::Position(const Position& _position)
+    : xCoordinate(_position.xCoordinate),
+      yCoordinate(_position.yCoordinate),
+      zCoordinate(_position.zCoordinate)
+    {}
+
+    Position::Position(const Distance& x, 
+                       const Distance& y, 
+                       const Distance& z)
+    : xCoordinate(x),
+      yCoordinate(y),
+      zCoordinate(z)
+    {}
+
+    Distance Position::getXCoordinate() const
+    {
+      return this->xCoordinate ;
+    }
+
+    Distance Position::getYCoordinate() const
+    {
+      return this->yCoordinate ;
+    }
     
-  */ 
-  namespace Action 
-  {
-
-  /*!
-    @name Initialisation/Terminaison.
-  */
-  //@{        
+    Distance Position::getZCoordinate() const
+    {
+      return this->zCoordinate ;
+    }
     
-    /// Initialise le module.
-    void init() ;
-
-    /// Termine le module.
-    void close() ;
-
-  //@}
-  /*!
-    @name Gestion des actions.
-  
-  
-  */
-  //@{
-  
-  
-    /// Execute les actions en cours.
-    /*!
-      @post
-        Il n'y a plus d'actions à traiter
-    */
-    void update() ;
-
-
-    /// Ajoute une action
-    /*!
-      Les actions sont désignées par un identificateur @c _nomAction.
-      @todo 
-        il faut ajouter un timestamp à l'action (pour savoir à quel moment 
-        on l'a déclenché)
-    */
-    void add(const std::string& _name) ;
-
-    /// 
-    bool finished() ;
-
-  //@}
-  
   }
-
-  
 }
-
-#endif
-

@@ -17,69 +17,71 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#ifndef PU_DISPLAY_TEST_TEST_VIEW_POINT_H_
+#define PU_DISPLAY_TEST_TEST_VIEW_POINT_H_
 
-#ifndef PU_ACTION_ACTION_H_
-#define PU_ACTION_ACTION_H_
 
-#include <string.h>
+#include <cppunit/extensions/HelperMacros.h>
 
 
 namespace ProjetUnivers {
-  
- 
-  /// Gestion des actions sur Model.
-  /*!
+  namespace Display {
+    namespace Test {
+
+
+            
+      /// Test de la mise à jour MV
+      /*!
+
+      */
+      class TestViewPoint : public CppUnit::TestFixture {
+      protected:
+      
+        
+      // ****************************
+      /// @name Tests proprement dits
+      // ****************************
+      // @{
+        
+        /// Teste une construction.
+        void testBuild() ;
+           
+      // @}
+      // *******************************
+      /// @name Registerment des tests
+      // *******************************
+      // @{      
     
-  */ 
-  namespace Action 
-  {
+        CPPUNIT_TEST_SUITE(TestViewPoint) ;
+      
+        CPPUNIT_TEST(testBuild) ;
+      
+        CPPUNIT_TEST_SUITE_END() ;
 
-  /*!
-    @name Initialisation/Terminaison.
-  */
-  //@{        
-    
-    /// Initialise le module.
-    void init() ;
-
-    /// Termine le module.
-    void close() ;
-
-  //@}
-  /*!
-    @name Gestion des actions.
+      public:
   
-  
-  */
-  //@{
-  
-  
-    /// Execute les actions en cours.
-    /*!
-      @post
-        Il n'y a plus d'actions à traiter
-    */
-    void update() ;
+      // @}
+      // *******************************
+      /// @name Méthodes obligatoires
+      // *******************************
+      // @{
 
+      
+        /// Initialisation du test
+        void setUp() ;
+      
+        /// Desinitialisation du test
+        void tearDown() ;
+      
+      // @}      
+                
+       
+      
+      };
 
-    /// Ajoute une action
-    /*!
-      Les actions sont désignées par un identificateur @c _nomAction.
-      @todo 
-        il faut ajouter un timestamp à l'action (pour savoir à quel moment 
-        on l'a déclenché)
-    */
-    void add(const std::string& _name) ;
-
-    /// 
-    bool finished() ;
-
-  //@}
-  
+    }
   }
-
-  
 }
 
-#endif
 
+#endif /*PU_DISPLAY_TEST_TEST_VIEW_POINT_H_*/

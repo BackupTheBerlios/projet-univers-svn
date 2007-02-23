@@ -18,67 +18,33 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <kernel/log.h>
-#include <display/display.h>
-#include <display/view_point.h>
-
-#include <input/input.h>
-#include <action/action.h>
-#include <model/model.h>
-
-using namespace ProjetUnivers ;
-
-/*
-  Programme de démonstration
-  
-  
-
-*/
-int main() {
+#ifndef _PU_MODEL_PLANETOID_H_
+#define _PU_MODEL_PLANETOID_H_
 
 
-  /// initialisation
-  Kernel::Log::init() ;
-  Kernel::Log::InformationMessage("Demarrage de projet univers") ;
-  Model::init() ;
-  Display::init() ;
-  Action::init() ;
-  Input::init() ;
+#include <model/trait.h>
 
-  Kernel::Log::InformationMessage("Modules initialisés") ;
-
-  Model::load("TestDemonstration") ;
-
-  Model::Object* observer(Model::getObject("Observer")) ;
-  
-  /// Création d'un point de vue sur ce modèle
-  Display::ViewPoint* pdv(
-      Display::addViewPoint(Display::ViewPoint::build(observer))) ;
-
-  Kernel::Log::InternalMessage("Activating Viewpoint") ;
-
-  Display::activateViewPoint(pdv) ;
-
-  Kernel::Log::InformationMessage("Demarrage de la boucle principale") ;
-
-  /// boucle principale
-  while (! Action::finished())
-  {
-    Input::update() ;
-    Action::update() ;
-    Display::update() ;
-  }
-
-  Kernel::Log::InformationMessage("Sortie de la boucle principale") ;
+namespace ProjetUnivers {
+  namespace Model {
     
-  /// sortie
-  Input::close() ;
-  Action::close() ;
-  Display::close() ;
-  Model::close() ;
-  Kernel::Log::InformationMessage("Modules desinitialisés") ;
-  Kernel::Log::close() ;
-  
-  return 0 ;
-  
+    class StellarSystem ;
+      
+    /// Propriété d'être une planète ou un astéroïde.
+    /*!
+      @par Etat
+        planning
+    */
+    class Planetoid : public Trait 
+    {
+    public:
+
+      /// Constructeur.
+      Planetoid() ;
+      
+
+    };
+    
+  }
 }
+
+#endif

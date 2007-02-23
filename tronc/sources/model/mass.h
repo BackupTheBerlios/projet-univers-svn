@@ -18,68 +18,91 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef PU_ACTION_ACTION_H_
-#define PU_ACTION_ACTION_H_
+#ifndef _PU_MODEL_MASS_H_
+#define _PU_MODEL_MASS_H_
 
-#include <string.h>
 
 
 namespace ProjetUnivers {
-  
- 
-  /// Gestion des actions sur Model.
-  /*!
-    
-  */ 
-  namespace Action 
-  {
+  namespace Model {
 
-  /*!
-    @name Initialisation/Terminaison.
-  */
-  //@{        
-    
-    /// Initialise le module.
-    void init() ;
-
-    /// Termine le module.
-    void close() ;
-
-  //@}
-  /*!
-    @name Gestion des actions.
-  
-  
-  */
-  //@{
-  
-  
-    /// Execute les actions en cours.
+    /// Une quantité de matière.
     /*!
-      @post
-        Il n'y a plus d'actions à traiter
+    @par Etat
+      planning
+    
     */
-    void update() ;
+    class Mass 
+    {
+    public:
+    
+    /*! 
+      @name Constructeurs
 
-
-    /// Ajoute une action
-    /*!
-      Les actions sont désignées par un identificateur @c _nomAction.
-      @todo 
-        il faut ajouter un timestamp à l'action (pour savoir à quel moment 
-        on l'a déclenché)
+      Fonctions de conversion, calculs dimensionnés,...
     */
-    void add(const std::string& _name) ;
+    // @{  
 
-    /// 
-    bool finished() ;
+     
+      /// Mass nulle.
+      Mass() ;
 
-  //@}
+      /// Constructeur de copie.
+      Mass(const Mass&) ;
+
+      /// Constructeur avec des kilogrammes
+      static Mass Kilogram(const float&) ;
+
+
+      /// Calcul
+      Mass operator +(const Mass&) const ;
+
+      /// Calcul
+      Mass operator -(const Mass&) const ;
+      
+      /// Calcul
+      Mass operator /(const float&) const ;
+
+      /// Calcul
+      float operator /(const Mass&) const ;
+
+      /// Calcul
+      Mass operator *(const float&) const ;
+
+      
+    // @}
+    // *************************
+    /// @name Accès
+    // *************************      
+    // @{  
+       
+     
+      /// Converti en kilogrammes.
+      float Kilogram() const ;
+
+      /// Comparaison
+      bool operator <(const Mass&) const ;
+
+    // @}
+    
+    private:
+    
+      /// Les différentes unités de mesure
+      typedef enum 
+      {
+        /// L'unité kilogramme
+        _Kilogram, 
+        
+      } Unit ;
+
+      float value ;
+      Unit unit ;
   
+  
+    };
   }
-
-  
 }
 
-#endif
 
+
+#endif

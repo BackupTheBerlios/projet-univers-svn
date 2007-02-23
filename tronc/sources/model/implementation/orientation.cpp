@@ -18,68 +18,31 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef PU_ACTION_ACTION_H_
-#define PU_ACTION_ACTION_H_
 
-#include <string.h>
+#include <model/orientation.h>
 
 
 namespace ProjetUnivers {
-  
- 
-  /// Gestion des actions sur Model.
-  /*!
-    
-  */ 
-  namespace Action 
-  {
+  namespace Model {
 
-  /*!
-    @name Initialisation/Terminaison.
-  */
-  //@{        
-    
-    /// Initialise le module.
-    void init() ;
+    Orientation::Orientation()
+    : orientation()
+    {}
 
-    /// Termine le module.
-    void close() ;
+    Orientation::Orientation(const Orientation& _orientation)
+    : orientation(_orientation.orientation)
+    {}
 
-  //@}
-  /*!
-    @name Gestion des actions.
-  
-  
-  */
-  //@{
-  
-  
-    /// Execute les actions en cours.
-    /*!
-      @post
-        Il n'y a plus d'actions à traiter
-    */
-    void update() ;
+    Orientation::Orientation(const Ogre::Quaternion& _orientation)
+    : orientation(_orientation)
+    {}
 
+    Ogre::Quaternion Orientation::getQuaternion() const 
+    {
+      return orientation ;
+    }
 
-    /// Ajoute une action
-    /*!
-      Les actions sont désignées par un identificateur @c _nomAction.
-      @todo 
-        il faut ajouter un timestamp à l'action (pour savoir à quel moment 
-        on l'a déclenché)
-    */
-    void add(const std::string& _name) ;
-
-    /// 
-    bool finished() ;
-
-  //@}
-  
   }
-
-  
 }
 
-#endif
 

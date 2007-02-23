@@ -18,68 +18,56 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef PU_ACTION_ACTION_H_
-#define PU_ACTION_ACTION_H_
-
-#include <string.h>
-
+#include <model/name.h>
 
 namespace ProjetUnivers {
-  
- 
-  /// Gestion des actions sur Model.
-  /*!
+  namespace Model {
+
+      
+    Name::Name()
+    {}
+      
+    Name::Name(const std::string& _name)
+    : name(_name)
+    {}
+      
+    Name::Name(const Name& _name)
+    : name(_name.name)
+    {}
     
-  */ 
-  namespace Action 
-  {
-
-  /*!
-    @name Initialisation/Terminaison.
-  */
-  //@{        
+    Name::operator std::string() const
+    {
+      return name ;
+    }
     
-    /// Initialise le module.
-    void init() ;
+    Name& Name::operator=(const std::string& _name)
+    {
+      name =_name ;
+      return *this ;
+    }
+    
+    Name& Name::operator=(const Name& _name)
+    {
+      name =_name.name ;
+      return *this ;
+      
+    }
+      
+    bool Name::operator==(const std::string& _value) const
+    {
+      return name == _value ;
+    }
+    
+    bool Name::operator==(const Name& _name) const 
+    {
+      return name == _name.name ;
+    }
+    
 
-    /// Termine le module.
-    void close() ;
-
-  //@}
-  /*!
-    @name Gestion des actions.
-  
-  
-  */
-  //@{
-  
-  
-    /// Execute les actions en cours.
-    /*!
-      @post
-        Il n'y a plus d'actions à traiter
-    */
-    void update() ;
-
-
-    /// Ajoute une action
-    /*!
-      Les actions sont désignées par un identificateur @c _nomAction.
-      @todo 
-        il faut ajouter un timestamp à l'action (pour savoir à quel moment 
-        on l'a déclenché)
-    */
-    void add(const std::string& _name) ;
-
-    /// 
-    bool finished() ;
-
-  //@}
-  
+    bool Name::isUndefined() const
+    {
+      return name == "" ;
+    }
+    
   }
-
-  
 }
-
-#endif
-

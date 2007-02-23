@@ -18,67 +18,36 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <kernel/log.h>
-#include <display/display.h>
-#include <display/view_point.h>
+#ifndef _PU_MODEL_FORCE_GENERATOR_H_
+#define _PU_MODEL_MOTEUR_H_
 
-#include <input/input.h>
-#include <action/action.h>
-#include <model/model.h>
-
-using namespace ProjetUnivers ;
-
-/*
-  Programme de démonstration
-  
-  
-
-*/
-int main() {
+#include <model/trait.h>
 
 
-  /// initialisation
-  Kernel::Log::init() ;
-  Kernel::Log::InformationMessage("Demarrage de projet univers") ;
-  Model::init() ;
-  Display::init() ;
-  Action::init() ;
-  Input::init() ;
+namespace ProjetUnivers {
+  namespace Model {
+    
+    /// Propriété des objets pouvant engendrer une force physique.
+    /*!
+      C'est le cas par exemple des moteurs.
+      @par Etat
+        planning
+      
+    */
+    class ForceGenerator : public Trait 
+    {
+    public:
 
-  Kernel::Log::InformationMessage("Modules initialisés") ;
-
-  Model::load("TestDemonstration") ;
-
-  Model::Object* observer(Model::getObject("Observer")) ;
-  
-  /// Création d'un point de vue sur ce modèle
-  Display::ViewPoint* pdv(
-      Display::addViewPoint(Display::ViewPoint::build(observer))) ;
-
-  Kernel::Log::InternalMessage("Activating Viewpoint") ;
-
-  Display::activateViewPoint(pdv) ;
-
-  Kernel::Log::InformationMessage("Demarrage de la boucle principale") ;
-
-  /// boucle principale
-  while (! Action::finished())
-  {
-    Input::update() ;
-    Action::update() ;
-    Display::update() ;
+      /// Constructeur.
+      ForceGenerator() ;
+ 
+    private:
+    
+    };
+    
+    
   }
 
-  Kernel::Log::InformationMessage("Sortie de la boucle principale") ;
-    
-  /// sortie
-  Input::close() ;
-  Action::close() ;
-  Display::close() ;
-  Model::close() ;
-  Kernel::Log::InformationMessage("Modules desinitialisés") ;
-  Kernel::Log::close() ;
-  
-  return 0 ;
-  
 }
+
+#endif

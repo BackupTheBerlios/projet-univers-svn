@@ -18,68 +18,33 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef PU_ACTION_ACTION_H_
-#define PU_ACTION_ACTION_H_
-
-#include <string.h>
-
+#ifndef _PU_INPUT_INPUT_H_
+#define _PU_INPUT_INPUT_H_
 
 namespace ProjetUnivers {
-  
- 
-  /// Gestion des actions sur Model.
-  /*!
-    
-  */ 
-  namespace Action 
-  {
 
+  /// Gestion des entrées
   /*!
-    @name Initialisation/Terminaison.
+    Certaines entrées ou combinaisons d'entrées engendrent des actions dans 
+    la pile d'acions à réaliser.
   */
-  //@{        
-    
-    /// Initialise le module.
+  namespace Input {
+   
+    /// Intitailise le module d'entrées
     void init() ;
-
+   
     /// Termine le module.
     void close() ;
-
-  //@}
-  /*!
-    @name Gestion des actions.
-  
-  
-  */
-  //@{
-  
-  
-    /// Execute les actions en cours.
+    
+    /// Engendre les actions correspondant aux entrées qui restent dans la pile.
     /*!
-      @post
-        Il n'y a plus d'actions à traiter
+      La fonction qui associe une entrée ou une combinaison d'entrée avec une 
+      action dépend de l'état dans lequel se trouve ce module. 
     */
     void update() ;
-
-
-    /// Ajoute une action
-    /*!
-      Les actions sont désignées par un identificateur @c _nomAction.
-      @todo 
-        il faut ajouter un timestamp à l'action (pour savoir à quel moment 
-        on l'a déclenché)
-    */
-    void add(const std::string& _name) ;
-
-    /// 
-    bool finished() ;
-
-  //@}
-  
+   
+    
   }
-
-  
 }
 
 #endif
-

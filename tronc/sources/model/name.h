@@ -18,68 +18,73 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef PU_ACTION_ACTION_H_
-#define PU_ACTION_ACTION_H_
+#ifndef _PU_MODEL_NAME_H_
+#define _PU_MODEL_NAME_H_
 
-#include <string.h>
-
+#include <string>
 
 namespace ProjetUnivers {
-  
- 
-  /// Gestion des actions sur Model.
-  /*!
+  namespace Model {
+
+      
+    /// Un nom.
     
-  */ 
-  namespace Action 
-  {
+    /*!
+      Cette classe de valeur est un exemple de ce qu'il faut préférer. Au lieu 
+      de dire "un nom est une chaine" et utiliser une chaine partout où on veut 
+      un nom, on a définit une classe des noms et on la réalise avec une chaine 
+      sachant que plus tard, on pourra faire autrement.
+      
+      @todo
+        ajouter 
+    */
+    class Name
+    {
+    public:
 
-  /*!
-    @name Initialisation/Terminaison.
-  */
-  //@{        
+      /// Constructeur par défaut.
+      /*!
+        Construit le nom indéfini.
+      */
+      Name() ;
+      
+      
+      Name(const std::string&) ;
+      
+      /// Constructeur de copie.
+      Name(const Name&) ;
     
-    /// Initialise le module.
-    void init() ;
-
-    /// Termine le module.
-    void close() ;
-
-  //@}
-  /*!
-    @name Gestion des actions.
-  
-  
-  */
-  //@{
-  
-  
-    /// Execute les actions en cours.
-    /*!
-      @post
-        Il n'y a plus d'actions à traiter
-    */
-    void update() ;
-
-
-    /// Ajoute une action
-    /*!
-      Les actions sont désignées par un identificateur @c _nomAction.
-      @todo 
-        il faut ajouter un timestamp à l'action (pour savoir à quel moment 
-        on l'a déclenché)
-    */
-    void add(const std::string& _name) ;
-
-    /// 
-    bool finished() ;
-
-  //@}
-  
+      /// Conversion vers une chaine pour l'affichage.
+      operator std::string() const ; 
+    
+      /// Operateur d'affectation.
+      Name& operator=(const std::string&) ;
+      Name& operator=(const Name&) ;
+      
+      /// Operateurs de comparaison
+      bool operator==(const std::string&) const ;
+      bool operator==(const Name&) const ;
+      bool operator!=(const Name&) const ;
+    
+      /// Vrai si le nom n'en est pas un.
+      /*!
+        C'est le nom de ce qui n'a pas de nom.
+      */
+      bool isUndefined() const ;
+    
+    
+    private:
+    
+      /// Pour l'instant une simple chaine
+      /*!
+        @todo
+          Un nom peut varier d'une langue à l'autre :
+          implanter à l'aide d'une fonction des langues vers les chaines
+        
+      */
+      std::string name ;
+      
+    };
   }
-
-  
 }
-
 #endif
-

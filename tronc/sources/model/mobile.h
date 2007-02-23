@@ -18,68 +18,39 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef PU_ACTION_ACTION_H_
-#define PU_ACTION_ACTION_H_
+#ifndef _PU_MODEL_MOBILE_H_
+#define _PU_MODEL_MOBILE_H_
 
-#include <string.h>
-
+#include <model/trait.h>
+#include <model/speed.h>
+#include <model/acceleration.h>
 
 namespace ProjetUnivers {
-  
- 
-  /// Gestion des actions sur Model.
-  /*!
-    
-  */ 
-  namespace Action 
-  {
+  namespace Model {
 
-  /*!
-    @name Initialisation/Terminaison.
-  */
-  //@{        
-    
-    /// Initialise le module.
-    void init() ;
-
-    /// Termine le module.
-    void close() ;
-
-  //@}
-  /*!
-    @name Gestion des actions.
-  
-  
-  */
-  //@{
-  
-  
-    /// Execute les actions en cours.
+    /// Propriété des objets se déplacant dans un espace.
     /*!
-      @post
-        Il n'y a plus d'actions à traiter
+    @par Etat
+      planning
+
     */
-    void update() ;
+    class Mobile : public Trait
+    {
+    public:
 
+      /// Constructeur.
+      Mobile() ;
+      
+    
+    protected:
+    
+      Speed        speed ;
+      Acceleration acceleration ;
 
-    /// Ajoute une action
-    /*!
-      Les actions sont désignées par un identificateur @c _nomAction.
-      @todo 
-        il faut ajouter un timestamp à l'action (pour savoir à quel moment 
-        on l'a déclenché)
-    */
-    void add(const std::string& _name) ;
-
-    /// 
-    bool finished() ;
-
-  //@}
-  
+      /// Accélération angulaire
+      
+    };
   }
-
-  
 }
 
-#endif
-
+#endif 

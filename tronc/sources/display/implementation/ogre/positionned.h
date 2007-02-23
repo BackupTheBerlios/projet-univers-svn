@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Equipe Projet Univers                           *
+ *   Copyright (C) 2006 by Equipe Projet Univers                           *
  *   rogma.boami@free.fr                                                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,68 +18,57 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef PU_ACTION_ACTION_H_
-#define PU_ACTION_ACTION_H_
 
-#include <string.h>
+#ifndef _DISPLAY_IMPLEMENTATION_OGRE_POSITIONNED_H_
+#define _DISPLAY_IMPLEMENTATION_OGRE_POSITIONNED_H_
 
+#include <Ogre.h>
+
+#include <model/positionned.h>
+
+#include <display/implementation/ogre/view.h>
+#include <display/trait.h>
 
 namespace ProjetUnivers {
-  
- 
-  /// Gestion des actions sur Model.
-  /*!
-    
-  */ 
-  namespace Action 
-  {
+  namespace Display {
+    namespace Implementation {
+      namespace Ogre {
 
-  /*!
-    @name Initialisation/Terminaison.
-  */
-  //@{        
-    
-    /// Initialise le module.
-    void init() ;
+        class ViewPoint ;
+        
+        /// View sur les éléments ayant une position.
+        class Positionned : public View<Model::Positionned>,
+                            public Trait
+        {
+        public:
 
-    /// Termine le module.
-    void close() ;
+          /// Constructeur.
+          Positionned(Model::Positionned* _object) ;
+        
+          /// Initialise la vue.
+          virtual void init() ;
 
-  //@}
-  /*!
-    @name Gestion des actions.
-  
-  
-  */
-  //@{
-  
-  
-    /// Execute les actions en cours.
-    /*!
-      @post
-        Il n'y a plus d'actions à traiter
-    */
-    void update() ;
+          /// Termine la vue.
+          virtual void close() ;
+        
+          /// Mise à jour.
+          virtual void update(const Kernel::Event&) ;
+          
+          /// get au noeud.
+          /*!
+            Initialise la vue si cela n'a pas été fait.
+          */
+          ::Ogre::SceneNode* getNode() ;
+          
+        private:
+          
+          /// Noeud dans la scène.
+          ::Ogre::SceneNode* node ;
 
+        };
 
-    /// Ajoute une action
-    /*!
-      Les actions sont désignées par un identificateur @c _nomAction.
-      @todo 
-        il faut ajouter un timestamp à l'action (pour savoir à quel moment 
-        on l'a déclenché)
-    */
-    void add(const std::string& _name) ;
-
-    /// 
-    bool finished() ;
-
-  //@}
-  
+      }      
+    }
   }
-
-  
 }
-
 #endif
-

@@ -1,8 +1,8 @@
 SUBDIRS = \
-base \
-modele \
-affichage \
+kernel \
+model \
+display \
 action \
-entrees \
+input \
 demonstration 
 	
