@@ -18,21 +18,19 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_DISPLAY_IMPLEMENTATION_OGRE_VIEW_POINT_H_
-#define _PU_DISPLAY_IMPLEMENTATION_OGRE_VIEW_POINT_H_
+#ifndef PU_DISPLAY_IMPLEMENTATION_OGRE_REAL_WORLD_VIEW_POINT_H_
+#define PU_DISPLAY_IMPLEMENTATION_OGRE_REAL_WORLD_VIEW_POINT_H_
 
 #include <Ogre.h>
 
-#include <display/object.h>
-#include <display/view_point.h>
+#include <kernel/object.h>
+#include <display/implementation/real_world_view_point.h>
 
 
 namespace ProjetUnivers {
   namespace Display {
     namespace Implementation {
       namespace Ogre {
-        
-        class Univers ;
         
         /// Le point de vue subjectif d'un personnage réalisé avec Ogre3d.
         /*!
@@ -42,7 +40,7 @@ namespace ProjetUnivers {
           - Object
           - Concret
         */
-        class ViewPoint : public Display::ViewPoint {
+        class RealWorldViewPoint : public Display::Implementation::RealWorldViewPoint {
         public:
         
         /*!
@@ -56,25 +54,22 @@ namespace ProjetUnivers {
             @param[in] _observateur 
               l'objet qui voie (par exemple un personnage, une caméra,...)
           */
-          ViewPoint(Model::Object* _observer) ;
-
-          /// Le point de vue est celui affiché.
-          virtual void activate() ;
-
-          /// Le point de vue n'est plus affiché.
-          virtual void desactivate() ;
+          RealWorldViewPoint(Kernel::Object* _observer) ;
           
           /// Initialise le point de vue
-          virtual void init() ;
+          virtual void onInit() ;
           
           /// termine le point de vue
-          virtual void close() ;
+          virtual void onClose() ;
           
           /// Change l'observateur de la vue.
-          virtual void changeObserver(Model::Object* _observer) ;
+          virtual void onChangeObserver(Kernel::Object* _observer) ;
+
+          /// Make this as the displayed viewpoint. 
+          virtual void activate() ;
           
         // @}
-        /*!_PU_DISPLAY_IMPLEMENTATION_OGRE_POINT_DE_VUE_H_
+        /*
           @name accès 
         */
         // @{
@@ -87,14 +82,14 @@ namespace ProjetUnivers {
         private:
         
           /// Vrai si l'objet est interessant pour le point de vue
-          virtual bool isVisible(Model::Object* _model) const ;
+          virtual bool isVisible(Kernel::Object* _model) const ;
         /*!
           @name Attributs
         */
         // @{
           
           /// Object représentant l'univers affiché
-          Object* universe ;
+          Kernel::Object* universe ;
         
         // @}
         /*!

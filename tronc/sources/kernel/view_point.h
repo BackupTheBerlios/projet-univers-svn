@@ -18,140 +18,91 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_KERNEL_VIEW_POINT_H_
-#define _PU_KERNEL_VIEW_POINT_H_
+#ifndef PU_KERNEL_VIEW_POINT_H_
+#define PU_KERNEL_VIEW_POINT_H_
 
-#include <vector>
-#include <set>
-
-#include <kernel/event.h>
-#include <kernel/implementation/base_view.h>
 
 namespace ProjetUnivers {
   namespace Kernel {
     
+    class Model ;
+    class Trait ;
+    class Object ;
+    class BaseTraitView ;
     
-
-    /// Un point de vue est une observation cohérente d'un modèle de données.
+    /// Coherent set of views.
     /*!
-      Un point de vue est un ensemble de vues. Généralement, toutes ces vues 
-      portent sur des modèles reliés les uns aux autres. 
+      A view point is a set of views. Generally speaking, all these views 
+      looks on model that are related to each other. These views must all 
+      be updated in order to have a coherent view point.       
       
-      Ces vues doivent toutes avoir été rafraichies pour que le point de vue 
-      puisse être affiché. 
-      
-      @par Exemples 
-      - ce que voit un personnage
-      - ce que détecte un capteur
+      @par Examples 
+      - what a character looks
+      - what a detector detects
     
-      @par Utilisation 
-      -# Création d'un point de vue
-      -# Registerment des vues par ViewPoint::add
-      -# Raffraichissement périodique par ViewPoint::Raffraichir
+      @par Usage
+      -# create a ViewPoint
+      -# register views by ViewPoint::add
+      -# updates periodically the view point by ViewPoint::update
         
     */
     class ViewPoint 
     {
     public:
-
-    /*!
-      @name Construction
-      
-    */
-    // @{
-
-      /// Constructeur.
-      ViewPoint() ;
-
-      /// Ajoute une vue.
-      void add(Implementation::BaseView* _vue) ;
-
-      /// Enlève une vue.
-      void remove(Implementation::BaseView* _vue) ;
-
-    // @}
-    /*!
-      @name Utilisation
-      
-    */
-    // @{
-
     
-      /// Rafraichissement du point de vue.
-      virtual void update() ;
-
-      /// Demande au point de vue de détruire la vue.
-      virtual void destroy(Implementation::BaseView*) ;
-    
-    // @}
-      
-      /// Destructeur, détruit les vues.
+      /// Destructor, destroys all the views.
       virtual ~ViewPoint() ;
 
+      /// initialise the viewpoint.
+      void init() ;
+
+      /// terminate the viewpoint.
+      void close() ;
+      
     protected:
-    
-      /// Les vues constituant ce point de vue.
-      /*!
-        @composite
-      */
-      std::set<Implementation::BaseView*> views ;
-    
-      
-    private:
 
-    /*!
-      @name Pour la gestion des vues
-      
-      
-    */
-    // @{
-    
-      /// Marque _vue comme devant être rafraichie.
-      void markToUpdate(Implementation::BaseView* _view,
-                       const Event& _event) ;
-    
-      /// Marque _vue comme devant être supprimée.
-      void markToDestroy(Implementation::BaseView* _view) ;
-      
-    //@}
-
-      /// Les vues qui doivent être détruites au prochain tour.
+      /// called during initialisation before views initialisation.
       /*!
-      C'est une collection 
-      -# ordonnée (car l'ordre est important pour la destruction) en effet on 
-         suppose que l'ordre de destruction des objets du modèle respecte la 
-         composition (ce qui est le cas).
-      -# pour le reste, il serait plus judicieux de mettre un vecteur sans 
-         désalocation (pour ne pas réallouer l'espace alloué) étant donné que 
-         le nombre d'objets à détruire sera en pratique "borné".
+        Default implementation does nothing. Specific viewpoint should 
+        probably redefine this.
       */
-      std::vector<Implementation::BaseView*> viewsToDestroy ;
-      
-      
-      struct Update
-      {
-        Update(Implementation::BaseView* _view,
-               const Event& _event)
-        : view(_view), event(_event)
-        {}
+      virtual void onInit() ;
 
-        bool operator==(const Update& _r) const
-        {
-          return view == _r.view && event == _r.event ;
-        }
-          
-        Implementation::BaseView* view ;
-        Event event ;
-      };
-      
-      /// Les rafraichissements à effectuer au prochain tour.
+      /// called during closing after views closing.
       /*!
-        N'importe quelles des vues constituant récursivement ce point de vue.
+        Default implementation does nothing. Specific viewpoint should 
+        probably redefine this.
       */
-      std::vector<Update> updates ;
-      
-      friend class Implementation::BaseView ;
-      
+      virtual void onClose() ;
+
+      /// called when changing viewpoint observer.
+      /*!
+        Default implementation does nothing. Specific viewpoint should 
+        probably redefine this.
+      */
+      virtual void onChangeObserver() ;
+
+      /// Should i_object should have views in the viewpoint.
+      /*!
+        Must be redefined for specialised viewpoints. Default implementation 
+        returns true.
+        
+        @constraint
+          if !isVisible(object) 
+          then 
+            whatever child of object !isVisible(child)
+      */
+      virtual bool isVisible(Object* i_object) const ;
+
+      /// Constructor.
+      ViewPoint(Model* i_model) ;
+    
+      bool initialised ;
+      Model* model ;
+
+      friend class Model ;
+      friend class BaseTraitView ;
+      friend class Object ;
     };
 
     

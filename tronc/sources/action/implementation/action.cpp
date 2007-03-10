@@ -21,10 +21,11 @@
 #include <OgreVector3.h>
 
 #include <list>
+#include <kernel/error.h>
 #include <kernel/log.h>
+#include <kernel/object.h>
 
 #include <model/model.h>
-#include <model/object.h>
 #include <model/positionned.h>
 #include <model/solid.h>
 #include <model/stellar_system.h>
@@ -33,6 +34,7 @@
 
 using namespace ProjetUnivers::Model ;
 using namespace ::Ogre ;
+using namespace ProjetUnivers::Kernel ;
 
 namespace ProjetUnivers {
   namespace Action {
@@ -121,25 +123,26 @@ namespace ProjetUnivers {
       else if (_action.name == "CreerObject")
       {
         Object* observateur(Model::getObject("Observer")) ;
-        
         Object* system(observateur->getParent<StellarSystem>()->getObject()) ;
-        
-        Object* vaisseau = system->add(new Object(Name("Vaisseau2"))) ;
-        vaisseau->add(new Positionned(Position(Distance(Distance::_Meter, 0),
-                                               Distance(Distance::_Meter, 500000),
-                                               Distance(Distance::_Meter, 0)) )) ;
-        
-        vaisseau->add(new Solid(Model::Mesh("razor.mesh"))) ;
-        
+        check(system,std::string("action::creer_objet error")) ;         
+        Object* vaisseau = Model::createObject("Vaisseau2",system) ;
+        if (vaisseau)
+        {
+          Model::addTrait(vaisseau,new Positionned(Position(Distance(Distance::_Meter, 0),
+                                                            Distance(Distance::_Meter, 500000),
+                                                            Distance(Distance::_Meter, 0)) )) ;
+          
+          Model::addTrait(vaisseau,new Solid(Model::Mesh("razor.mesh"))) ;
+        }
+        else
+        {
+          Kernel::Log::InternalMessage("Action object already exists") ;
+        }
       }
       else if (_action.name == "destroyObject")
       {
-        Object* vaisseau(Model::getObject("Vaisseau2")) ;
-        Kernel::Log::InternalMessage("perparing to destroy object") ;
-        if (vaisseau)
-        {
-          Model::remove(vaisseau) ;
-        }
+        Kernel::Log::InternalMessage("preparing to destroy object") ;
+        Model::destroyObject("Vaisseau2") ;
       }
     }
     

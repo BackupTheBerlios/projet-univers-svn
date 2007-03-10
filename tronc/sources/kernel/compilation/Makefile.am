@@ -4,16 +4,17 @@ SOURCES = $(top_srcdir)/sources
 INCLUDES = -I$(SOURCES) $(librlog_CFLAGS)
 
 libkernel_la_SOURCES = \
-$(SOURCES)/kernel/implementation/base_view.cpp \
-$(SOURCES)/kernel/implementation/event.cpp \
+$(SOURCES)/kernel/implementation/object.cpp \
+$(SOURCES)/kernel/implementation/trait.cpp \
+$(SOURCES)/kernel/implementation/base_trait_view.cpp \
+$(SOURCES)/kernel/implementation/trait_view.cpp \
 $(SOURCES)/kernel/implementation/exception_kernel.cpp \
 $(SOURCES)/kernel/implementation/exception.cpp \
 $(SOURCES)/kernel/implementation/pretty_print.cpp \
 $(SOURCES)/kernel/implementation/model.cpp \
 $(SOURCES)/kernel/implementation/view_point.cpp \
 $(SOURCES)/kernel/implementation/log.cpp \
-$(SOURCES)/kernel/implementation/string.cpp \
-$(SOURCES)/kernel/implementation/view.cpp 
+$(SOURCES)/kernel/implementation/string.cpp 
 
 
 # tests
@@ -24,7 +25,7 @@ check_PROGRAMS = $(TESTS) test_inherits.o
 
 test_kernel_SOURCES = $(SOURCES)/kernel/test/test_kernel.cpp \
 $(SOURCES)/kernel/test/test_error.cpp \
-$(SOURCES)/kernel/test/test_mvc.cpp 
+$(SOURCES)/kernel/test/test_model_view.cpp 
 
 # vérifie que "test_derive_de.cpp" ne compile pas
 test_inherits.o : $(SOURCES)/kernel/test/test_inherits.cpp

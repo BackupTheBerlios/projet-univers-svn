@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Equipe Projet Univers                           *
+ *   Copyright (C) 2007 by Equipe Projet Univers                           *
  *   rogma.boami@free.fr                                                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,5 +17,34 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#ifndef PU_DISPLAY_DISPLAY_INPUT_H_
+#define PU_DISPLAY_DISPLAY_INPUT_H_
 
-#include <display/implementation/ogre/view_point.h>
+#include <stddef.h>
+
+namespace ProjetUnivers {
+  namespace Display {
+
+  /*!
+    @name Interface for input module.
+  */
+  // @{
+
+    /// Accès aux descripteur de la fenetre d'affichage
+    size_t getWindowHandle() ;
+
+    /// Accès à la taille de la fenêtre
+    void getWindowSize(unsigned int& width,
+                       unsigned int& height,
+                       unsigned int& depth,
+                       int& left,
+                       int& top );
+  
+  
+  // @}
+
+  }
+}
+
+
+#endif /*PU_DISPLAY_DISPLAY_INPUT_H_*/

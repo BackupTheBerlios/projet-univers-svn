@@ -17,28 +17,41 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <kernel/log.h>
 
-#include <display/trait.h>
-#include <display/object.h>
+#include <kernel/log.h>
+#include <kernel/error.h>
+#include <kernel/object.h>
+
+#include <model/model.h>
+
+#include <display/exception.h>
+#include <display/implementation/real_world_view_point.h>
+#include <display/implementation/ogre/real_world_view_point.h>
+
 
 namespace ProjetUnivers {
   namespace Display {
+    namespace Implementation {
 
-
-    Trait::Trait()
-    : initialised(false),object(NULL)
-    {}
-
-    Trait::~Trait()
-    {}
-
-    Object* Trait::getObject() const
-    {
-      return this->object ;
-    }
-
-        
+      /*!
+        Common part for all real worl viepoint implementations.
+        For now we use Ogre as renderer.
+      */
+  
+      RealWorldViewPoint::RealWorldViewPoint(Kernel::Object* i_observer)
+      : Kernel::ViewPoint(Model::getRealWorlModel()), 
+        observer(i_observer)
+      {}
+  
+      RealWorldViewPoint::~RealWorldViewPoint()
+      {}
+  
+      Kernel::Object* RealWorldViewPoint::getObserverView() const
+      {
+        return observer ;
+      }
+    
+    }  
   }
 }
 

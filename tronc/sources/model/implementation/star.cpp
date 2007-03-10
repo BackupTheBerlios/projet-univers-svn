@@ -26,7 +26,7 @@ namespace ProjetUnivers {
   namespace Model {
 
     Star::Star()
-    : Trait()
+    : Kernel::Trait()
     {}
     
     

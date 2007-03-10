@@ -18,8 +18,8 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_KERNEL_EXCEPTION_H_
-#define _PU_KERNEL_EXCEPTION_H_
+#ifndef PU_KERNEL_EXCEPTION_H_
+#define PU_KERNEL_EXCEPTION_H_
 
 
 

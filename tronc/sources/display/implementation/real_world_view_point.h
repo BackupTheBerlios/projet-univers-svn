@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Equipe Projet Univers                           *
+ *   Copyright (C) 2006 by Equipe Projet Univers                           *
  *   rogma.boami@free.fr                                                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,71 +17,49 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_DISPLAY_TEST_TEST_VIEW_POINT_H_
-#define PU_DISPLAY_TEST_TEST_VIEW_POINT_H_
 
+#ifndef PU_DISPLAY_VIEW_POINT_H_
+#define PU_DISPLAY_VIEW_POINT_H_
 
-#include <cppunit/extensions/HelperMacros.h>
+#include <kernel/view_point.h>
 
 
 namespace ProjetUnivers {
+
+  namespace Kernel { 
+    class Object ;
+  }
+
   namespace Display {
-    namespace Test {
-
-
-            
-      /// Test de la mise à jour MV
+    namespace Implementation {
+        
+      /// ViewPoint on the real world.
       /*!
-
       */
-      class TestViewPoint : public CppUnit::TestFixture {
-      protected:
-      
-        
-      // ****************************
-      /// @name Tests proprement dits
-      // ****************************
-      // @{
-        
-        /// Teste une construction.
-        void testBuild() ;
-           
-      // @}
-      // *******************************
-      /// @name Registerment des tests
-      // *******************************
-      // @{      
-    
-        CPPUNIT_TEST_SUITE(TestViewPoint) ;
-      
-        CPPUNIT_TEST(testBuild) ;
-      
-        CPPUNIT_TEST_SUITE_END() ;
-
+      class RealWorldViewPoint : public Kernel::ViewPoint 
+      {
       public:
   
-      // @}
-      // *******************************
-      /// @name Méthodes obligatoires
-      // *******************************
-      // @{
-
-      
-        /// Initialisation du test
-        void setUp() ;
-      
-        /// Desinitialisation du test
-        void tearDown() ;
-      
-      // @}      
-                
-       
-      
+        /// Abstractclass means virtual destructor..
+        virtual ~RealWorldViewPoint() ;
+  
+        /// La vue de l'observateur.
+        Kernel::Object* getObserverView() const ;
+        
+        /// Make this as the displayed viewpoint. 
+        virtual void activate() = 0 ;
+        
+      protected:
+        
+        /// protected constructor
+        RealWorldViewPoint(Kernel::Object* i_observer) ;
+  
+        Kernel::Object* observer ;
       };
 
-    }
+    }            
   }
 }
 
 
-#endif /*PU_DISPLAY_TEST_TEST_VIEW_POINT_H_*/
+#endif

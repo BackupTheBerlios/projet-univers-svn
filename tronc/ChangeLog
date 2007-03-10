@@ -38,3 +38,9 @@
 2006-02-22 rogma <rogma.boami@free.fr>
 
   * change language to english
+
+2006-03-10 rogma <rogma.boami@free.fr>
+	
+	* kernel : now contains model view framework
+	* model : simplified uses kernel model
+	* display : simplified uses kernel view and viewpoint

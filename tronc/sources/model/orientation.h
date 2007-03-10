@@ -18,16 +18,18 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_MODEL_ORIENTATION_H_
-#define _PU_MODEL_ORIENTATION_H_
+#ifndef PU_MODEL_ORIENTATION_H_
+#define PU_MODEL_ORIENTATION_H_
 
 #include <OgreQuaternion.h>
 
 
 namespace ProjetUnivers {
-  namespace Model {
-
+  namespace Kernel
+  {
     class Object ;
+  }
+  namespace Model {
 
     /// Une orientation d'un objet dans l'espace.
     /*!
@@ -60,7 +62,7 @@ namespace ProjetUnivers {
     
 
       /// Origine 
-      Object* origin ;
+      Kernel::Object* origin ;
 
       // orientation par rapport à origine.
       Ogre::Quaternion orientation ;

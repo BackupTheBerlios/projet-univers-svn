@@ -5,23 +5,22 @@ INCLUDES = -I../.. $(OGRE_CFLAGS)
 libmodel_la_SOURCES = \
 ../implementation/acceleration.cpp \
 ../implementation/distance.cpp \
+../implementation/destroyable.cpp \
 ../implementation/energy.cpp \
 ../implementation/exception.cpp \
-../implementation/trait.cpp \
 ../implementation/mass.cpp \
 ../implementation/mobile.cpp \
 ../implementation/model.cpp \
 ../implementation/mesh.cpp \
 ../implementation/name.cpp \
-../implementation/object.cpp \
 ../implementation/observer.cpp \
 ../implementation/orientation.cpp \
 ../implementation/position.cpp \
 ../implementation/positionned.cpp \
 ../implementation/solid.cpp \
+../implementation/speed.cpp \
 ../implementation/stellar_system.cpp \
-../implementation/universe.cpp \
-../implementation/speed.cpp  
+../implementation/universe.cpp
 
 
 TESTS = test_model

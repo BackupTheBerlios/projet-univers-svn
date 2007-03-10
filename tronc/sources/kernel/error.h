@@ -19,8 +19,8 @@
  ***************************************************************************/
 
 
-#ifndef _PU_KERNEL_ERROR_H_
-#define _PU_KERNEL_ERROR_H_
+#ifndef PU_KERNEL_ERROR_H_
+#define PU_KERNEL_ERROR_H_
 
 #include <cassert>
 
@@ -53,4 +53,4 @@
 
 
 
-#endif /*_PU_KERNEL_ERROR_H_*/
+#endif /*PU_KERNEL_ERROR_H_*/

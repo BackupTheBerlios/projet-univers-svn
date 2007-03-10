@@ -20,10 +20,11 @@
 
 #include <kernel/log.h>
 #include <kernel/error.h>
+#include <kernel/trait.h>
+#include <kernel/object.h>
+#include <kernel/model.h>
 
 #include <model/exception.h>
-#include <model/trait.h>
-#include <model/object.h>
 #include <model/observer.h>
 #include <model/positionned.h>
 #include <model/stellar_system.h>
@@ -37,65 +38,59 @@ namespace ProjetUnivers {
   {
 
   /*!
-    @name Variables du module.
+    @name Module data.
   */
   // @{
     
-    struct LocalMemory
-    {
-      std::set<Object*> objects ;
-      
-      void clear()
-      {
-        
-        Kernel::Log::InternalMessage("Model Clearing local objects") ;
-        
-        for(std::set<Object*>::iterator object = objects.begin() ;
-            object != objects.end() ;
-            ++object)
-        {
-          delete *object ;
-        }
-        
-        objects.clear() ;
-
-        Kernel::Log::InternalMessage("Model Cleared local objects") ;
-        
-      }
-
-      ~LocalMemory()
-      {
-        Kernel::Log::InternalMessage("~LocalMemory") ;
-        clear() ;
-      }
-    };
-    
-    LocalMemory local ;
-    
-    std::map<std::string,Object*> registeredObjects ;
+    /// our real world.
+    std::auto_ptr<Kernel::Model> model(new Kernel::Model("real world")) ;    
 
   // @}
 
-      Object* add(Object* _object)
-      {
-        check(_object,Exception("Model::add(Object*)")) ;
-        
-        local.objects.insert(_object) ;
-        
-        registeredObjects.insert(
-          std::pair<std::string,Object*>(_object->getName(), _object)) ;
-        
-        return _object ;
-      }
 
-      Object* registerObject(Object* _object)
-      {
-        registeredObjects.insert(
-            std::pair<std::string,Object*>(_object->getName(), _object)) ;
-      }
-
+    Kernel::Object* getObject(const std::string& i_name)
+    {
+      return model->getObject(i_name) ;
+    }
       
+    Kernel::Object* createObject(const std::string& i_name)
+    {
+      return model->createObject(i_name) ;
+    }
+    
+    Kernel::Object* createObject(const std::string& i_name, 
+                                 Kernel::Object* i_parent)
+    {
+      return model->createObject(i_name,i_parent) ;
+    } 
 
+    void destroyObject(const std::string& i_name)
+    {
+      model->destroyObject(i_name) ;
+    }
+    
+    void destroyObject(Kernel::Object* i_object)
+    {
+      model->destroyObject(i_object) ;
+    }
+
+    void changeParent(Kernel::Object* i_object, 
+                      Kernel::Object* i_new_parent)
+    {
+      model->changeParent(i_object,i_new_parent) ;
+    }
+
+    void addTrait(Kernel::Object* i_object, 
+                  Kernel::Trait* i_new_trait) 
+    {
+      model->addTrait(i_object,i_new_trait) ;
+    }
+
+    void destroyTrait(Kernel::Object* i_object, 
+                      Kernel::Trait* i_trait) 
+    {
+      model->destroyTrait(i_object,i_trait) ;
+    }
     
     /*!
       @par Etat 
@@ -103,8 +98,7 @@ namespace ProjetUnivers {
     */
     void init()
     {
-      local.objects.clear() ;
-      registeredObjects.clear() ;
+      model.reset(new Kernel::Model("real world")) ;
     }
 
     /*!
@@ -114,25 +108,11 @@ namespace ProjetUnivers {
     void close()
     {
       Kernel::Log::InternalMessage("Deleting objects") ;
-      local.objects.clear() ;
-
-      Kernel::Log::InternalMessage("Deleting object references") ;
-      registeredObjects.clear() ;
-      
+      model.reset() ;      
       Kernel::Log::InternalMessage("Module Model terminated") ;
       
     }
 
-    /*!
-      @par Etat 
-        OK
-    */
-    Object* getObject(const std::string& _name)
-    {
-      Object* result(registeredObjects[_name]) ;
-      check(result, Exception("no object with such name " + _name)) ;
-      return result ;
-    }
 
     /*!
       @par Etat 
@@ -145,21 +125,22 @@ namespace ProjetUnivers {
       {
         /// 1. Construction d'un univers
         Kernel::Log::InternalMessage("building Universe...") ;
-        Object* universe = add(new Object(Name("Univers"))) ;
+        Kernel::Object* universe = model->createObject("Univers") ;
         
         /// ses facettes
-        universe->add(new Universe()) ;
-        universe->add(new Positionned()) ;
-
+        model->addTrait(universe,new Universe()) ;
+        model->addTrait(universe,new Positionned()) ;
+        
         Kernel::Log::InternalMessage("construction de Univers terminée") ;
 
         /// 1.4 Une galaxie
         
         /// 1.5 Un système stellaire
         Kernel::Log::InternalMessage("building stellar system...") ;
-        Object* system = universe->add(new Object(Name("Systeme#1"))) ;
-        system->add(new Positionned(Position())) ;
-        system->add(new StellarSystem()) ;
+
+        Kernel::Object* system = model->createObject("Systeme#1",universe) ;
+        model->addTrait(system,new StellarSystem()) ;
+        model->addTrait(system,new Positionned()) ;
          
         Kernel::Log::InternalMessage("building stellar system done") ;
         
@@ -167,8 +148,8 @@ namespace ProjetUnivers {
         
         /// 2. Ajout d'objects planetes
         Kernel::Log::InternalMessage("building planet...") ;
-        Object* planet1 = system->add(new Object(Name("Planete#1"))) ;
-        planet1->add(new Positionned(Position())) ;
+        Kernel::Object* planet1 = model->createObject("Planete#1",system) ;
+        model->addTrait(planet1,new Positionned()) ;
 
         Kernel::Log::InternalMessage("building planet done") ;
 
@@ -177,23 +158,23 @@ namespace ProjetUnivers {
         /// 3. Ajout d'un vaisseau
         {
           Kernel::Log::InternalMessage("building ship...") ;
-          Object* ship = system->add(new Object(Name("Vaisseau"))) ;
-          ship->add(new Positionned(Position(Distance(Distance::_Meter, 0),
-                                             Distance(Distance::_Meter, 0),
-                                             Distance(Distance::_Meter, -500000)) )) ;
+          Kernel::Object* ship = model->createObject("Vaisseau",system) ;
+          model->addTrait(ship,new Positionned(Position(Distance(Distance::_Meter, 0),
+                                                        Distance(Distance::_Meter, 0),
+                                                        Distance(Distance::_Meter, -500000)) )) ;
           
-          ship->add(new Solid(Mesh("razor.mesh"))) ;
+          model->addTrait(ship,new Solid(Mesh("razor.mesh"))) ;
   
           Kernel::Log::InternalMessage("building ship done") ;
         }
         {
           Kernel::Log::InternalMessage("building ship...") ;
-          Object* ship = system->add(new Object(Name("Vaisseau3"))) ;
-          ship->add(new Positionned(Position(Distance(Distance::_Meter, 0),
-                                             Distance(Distance::_Meter, 100000),
-                                             Distance(Distance::_Meter, -500000)) )) ;
+          Kernel::Object* ship = model->createObject("Vaisseau#3",system) ;
+          model->addTrait(ship,new Positionned(Position(Distance(Distance::_Meter, 0),
+                                                        Distance(Distance::_Meter, 100000),
+                                                        Distance(Distance::_Meter, -500000)) )) ;
           
-          ship->add(new Solid(Mesh("razor.mesh"))) ;
+          model->addTrait(ship,new Solid(Mesh("razor.mesh"))) ;
   
           Kernel::Log::InternalMessage("building ship done") ;
         }
@@ -201,35 +182,24 @@ namespace ProjetUnivers {
                 
         /// 4. Ajout d'un observateur
         Kernel::Log::InternalMessage("building observer...") ;
-        Object* observer = system->add(new Object(Name("Observer"))) ;
-        observer->add(new Positionned(Position(Distance(Distance::_Meter, 0),
-                                               Distance(Distance::_Meter, 0),
-                                               Distance(Distance::_Meter, 0)) )) ;
+        Kernel::Object* observer = model->createObject("Observer",system) ;
+        model->addTrait(observer,new Positionned(Position(Distance(Distance::_Meter, 0),
+                                                          Distance(Distance::_Meter, 0),
+                                                          Distance(Distance::_Meter, 0)) )) ;
 
         /// Il a la faculté d'observer
-        observer->add(new Observer()) ;
+        model->addTrait(observer,new Observer()) ;
 
         Kernel::Log::InternalMessage("building observer done") ;
       
       }
-      
             
     }
-
-    void remove(Object* _object)
-    {
-      registeredObjects.erase(_object->getName()) ;
-      if (_object->getContener())
-      {
-        _object->getContener()->remove(_object) ;
-      }
-      else
-      {
-        local.objects.erase(_object) ;
-        delete _object ;
-      }
-    }
     
+    Kernel::Model* getRealWorlModel()
+    {
+      return model.get() ;
+    }
   }
 }
 

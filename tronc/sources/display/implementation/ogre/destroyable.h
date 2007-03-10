@@ -19,20 +19,20 @@
  ***************************************************************************/
 
 
-#ifndef _PU_AFFICHAGE_IMPLANTATION_OGRE_DESTRUCTIBLE_H_
-#define _PU_AFFICHAGE_IMPLANTATION_OGRE_DESTRUCTIBLE_H_
+#ifndef PU_AFFICHAGE_IMPLANTATION_OGRE_DESTRUCTIBLE_H_
+#define PU_AFFICHAGE_IMPLANTATION_OGRE_DESTRUCTIBLE_H_
 
-#include <kernel/event.h>
+#include <kernel/trait_view.h>
 
 #include <model/destroyable.h>
 
-#include <display/implementation/ogre/view.h>
-#include <display/trait.h>
+#include <display/implementation/ogre/real_world_view_point.h>
 
 namespace ProjetUnivers {
   namespace Display {
     namespace Implementation {
       namespace Ogre {
+        
         
         /// Display d'un élément destructible.
         /*!
@@ -42,24 +42,26 @@ namespace ProjetUnivers {
           @par Etat
             planning
         */
-        class Destroyable : public View<Model::Destroyable>,
-                            public Trait
+        class Destroyable : public Kernel::TraitView<Model::Destroyable,
+                                                     RealWorldViewPoint>
         {
         public:
 
           /// Constructeur.
-          Destroyable(Model::Destroyable* _object) ;
-        
+          Destroyable(Model::Destroyable* i_object,
+                      RealWorldViewPoint* i_viewpoint) ;
+
+        protected:
+
           /// Initialise la vue.
-          virtual void init() ;
+          virtual void onInit() ;
 
           /// Termine la vue.
-          virtual void close() ;
+          virtual void onClose() ;
         
           /// Mise à jour.
-          virtual void update(const Kernel::Event&) ;
+          virtual void onUpdate() ;
           
-        private:
 
         };
       }

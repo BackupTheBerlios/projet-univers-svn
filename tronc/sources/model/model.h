@@ -26,155 +26,80 @@
 
 namespace ProjetUnivers {
   
- 
-  /// Le module contenant le modèle de données.
-  
+  namespace Kernel {
+    class Object ;
+    class Kernel::Trait ;
+  }
+   
+  /// Game data model.
   /*!
   @par Introduction
   
-    Réalisation de la partie modèle du cadre Model/View/controle, noyau 
-    fonctionnel du jeu.
+    Model part of Model/View/Control. Functionnal core.
     
-    Ce module contient toutes les informations sur les objets manipulés dans 
-    le jeu. Ils sont décrit sans se soucier ni de leur affichage ni de ce qui 
-    déclenche leur modifications. 
-    
-  @par Fonctionnement
-    
-    Pour l'instant, et comme tous les autres modules de ce niveau :
-    - c'est un "singleton", c'est à dire qu'il n'y en a qu'un
-    - son interface est "non objet"; c'est à dire que ce son des traitements 
-      globaux
+    This module contains all data about manipulated objects in the game 
+    regardless of displaying and events that triggers modifications.
     
   */ 
   namespace Model 
   {
     
-  class Object ;
-  class Trait ;
   
-  // ******************************************************
   /*!
-    @name Initialisation/Terminaison.
+    @name Init/Close.
   */
-  // ******************************************************
   //@{        
     
-    /// Initialise le module.
+    /// Starts the module.
     void init() ;
 
-    /// Termine le module.
+    /// Closes le module.
     void close() ;
 
-    /// Charge un modèle depuis le disque.
-    /*!
-      
-    */
+    /// Load a model from disk.
     void load(const std::string& _name) ;
-
-  //@}
-  // ******************************************************
-  /*!
-    @name Opération sur les objets
     
-    On peut ajouter un objet, surtout utile pour les objets "racines"
+  //@}
+  /*!
+    @name Interface
+    
   */
-  // ******************************************************
   // @{
 
+    /// Get an object.
+    Kernel::Object* getObject(const std::string& i_name) ;
       
-    /// Register a new object.
-    Object* add(Object*) ;
+    /// Creates a new Kernel::Object with name.
+    Kernel::Object* createObject(const std::string& i_name) ; 
 
-    /// Register a new object.
-    Object* registerObject(Object*) ;
+    /// Creates a new Kernel::Object with name and given parent.
+    Kernel::Object* createObject(const std::string& i_name, 
+                                 Kernel::Object* i_parent) ; 
 
-    /// Supprime un objet.
-    void remove(Object*) ;
+    /// Destroy an Kernel::Object of given name.
+    void destroyObject(const std::string& i_name) ;
 
+    /// Destroy a given Kernel::Object.
+    void destroyObject(Kernel::Object* i_object) ;
+
+    /// Changes parent of a given Kernel::Object.
+    void changeParent(Kernel::Object* i_object, 
+                      Kernel::Object* i_new_parent) ;
+
+    /// Adds a new trait to an Kernel::Object.
+    void addTrait(Kernel::Object* i_object, 
+                  Kernel::Trait* i_new_trait) ;
+
+    /// Destroy an Kernel::Object's trait.
+    void destroyTrait(Kernel::Object* i_object, 
+                      Kernel::Trait* i_trait) ;
 
   //@}
-  // ******************************************************
-  /*!
-    @name Accès aux objets et facettes.
-  */
-  // ******************************************************
-  //@{
-    
-    /// Accès à un objet par son nom
-    Object* getObject(const std::string& _name) ;
 
-
-
-  //@}
-
-
+    /// Access to real world model. 
+    Kernel::Model* getRealWorlModel() ;
     
   }
-
-  /*!
-  @page DescriptionModel Description générale du module Model
-  
-  @section Proprietes Classes de propriétés
-  
-  Ces classes abstraites modélisent le fait d'avoir une propriété particulière, 
-  c'est le cas de :
-  - Destroyable
-  - ObjectPhysique
-  - ObjectAbstrait
-  
-  
-  @section ClassesDeValeur Classes de valeurs
-  
-  Ces classes modélisent généralement des notions simples du monde :
-  - Name
-  - Energy
-  - Distance
-  - Position
-  - Orientation
-  - Speed
-  - Acceleration
-
-  @section ModelComposition Un modèle d'objets composés
-   
-  Les objets physiques élémentaires sont assemblés ensemble à l'aide de 
-  contraintes.
-  
-  @subsection Contraintes Contraintes   
-  Une contrainte relie 2 objets physiques en restreignant la façon dont ils 
-  peuvent bouger l'un par rapport à l'autre, les deux objets doivent se toucher.
-   
-  Il existe plusieurs types de contraintes :
-  - fixe; les deux objets sont physiquement reliés par des boulons l'un à 
-    l'autre
-  - ...
-  
-  @subsection Assemblages Assemblages
-  Dans un assemblage chaque objet peut éventuellement bouger.
-   
-  Un assemblage est une composante connexe du graphe formé par : 
-  - les objets comme noeuds
-  - les contraintes entre objets comme arcs
-   
-  Un assemblage ne peut exister que si les liens de contraintes entre ses objets 
-  font en sorte que forment un graphe connexe.
-
-
-  @dotfile exemple_assemblage.dot "Exemple d'assemblage"
-
-  La destruction d'un objet physique peut entrainer la destruction de 
-  contraintes (celles où il intervient) et donc la destruction d'un 
-  assemblageainsi que l'apparition de nouveaux assemblages; c'est le cas
-  lorsqu'un vaisseau se casse en plusieurs morceaux (voir exemple suivant).
-  
-  @dotfile exemple_assemblage_casse.dot "L'exemple précédent cassé en 2"
-  L'aile 1 a été détruite et est donc désolidarisée du reste, le moteur est 
-  intact mais n'est plus relié au vaisseau.
-  
-  @dotfile gestion_objet_assemblage.dot
-    
-  */
-
   
 }
 

@@ -33,62 +33,54 @@ namespace ProjetUnivers {
       namespace Ogre {
 
         /// Indique que la cette vue s'applique au modèle dans ce point de vue
-        RegisterView(Ogre::Universe,Model::Universe, Ogre::ViewPoint) ;
+        RegisterView(Ogre::Universe,Model::Universe, Ogre::RealWorldViewPoint) ;
 
 
-        Universe::Universe(Model::Universe* _universe)
-        : Ogre::View<Model::Universe>(_universe), light(NULL)
+        Universe::Universe(Model::Universe* i_universe,
+                           RealWorldViewPoint* i_viewpoint)
+        : Kernel::TraitView<Model::Universe,RealWorldViewPoint>(i_universe,i_viewpoint), 
+          light(NULL)
         {
           Kernel::Log::InternalMessage("Built Ogre::Universe") ;
         }
         
         /// Initialise la vue.
-        void Universe::init()
+        void Universe::onInit()
         {
-          Kernel::Log::InternalMessage("Entering Universe::init") ;
+          Kernel::Log::InternalMessage("Display::Universe::onInit Entering") ;
+            
+          check(getViewPoint(), 
+                Exception("Universe::onInit sans point de vue")) ;
           
-          if (! this->initialised)
-          {
-            
-            check(this->getViewPoint(), 
-                             Exception("Universe::init sans point de vue")) ;
-            
-            this->getViewPoint()->getManager()
-                  ->setSkyBox( true, "PU/SpaceSkyBox", 50000 );
-            
-            light = 
-                this->getViewPoint()->getManager()
-                  ->createLight("MainLight");
-                  
-            /// lumière
-            this->getViewPoint()->getManager()
-                  ->setAmbientLight(::Ogre::ColourValue(0.5, 0.5, 0.5));
+          this->getViewPoint()->getManager()
+              ->setSkyBox( true, "PU/SpaceSkyBox", 50000 );
+          
+          light = this->getViewPoint()->getManager()
+                      ->createLight("MainLight");
+                
+          /// lumière
+          this->getViewPoint()->getManager()
+                ->setAmbientLight(::Ogre::ColourValue(0.5, 0.5, 0.5));
 
-          
-            this->initialised = true ;
-          }
-          Kernel::Log::InternalMessage("Leaving Universe::init") ;
-                    
+          Kernel::Log::InternalMessage("Display::Universe::onInit Leaving") ;
         }
 
         /// Termine la vue.
-        void Universe::close()
+        void Universe::onClose()
         {
-          if (this->initialised)
-          {
-            check(this->getViewPoint(), 
-                             Exception("Universe::close sans point de vue")) ;
-            
-            this->getViewPoint()->getManager()->setSkyBox( false, "" );
-            this->getViewPoint()->getManager()
-                 ->destroyLight(light) ;
+          Kernel::Log::InternalMessage("Display::Universe::onClose Entering") ;
 
-            this->initialised = false ;
-          }          
+          check(getViewPoint(), 
+                Exception("Universe::onClose sans point de vue")) ;
           
+          this->getViewPoint()->getManager()->setSkyBox( false, "" );
+          this->getViewPoint()->getManager()
+               ->destroyLight(light) ;
+
+          Kernel::Log::InternalMessage("Display::Universe::onClose Leaving") ;
         }
 
-        void Universe::update(const Kernel::Event&)
+        void Universe::onUpdate()
         {
           /*!
             Rien n'a faire

@@ -22,7 +22,6 @@
 namespace ProjetUnivers {
   namespace Kernel {
 
-    /// Constructeur par défaut.
     Event::Event()
     {}
 
@@ -32,7 +31,6 @@ namespace ProjetUnivers {
     : action(_action), name(_name), parameter(_parameter)
     {}
       
-      /// Constructeur de copie.
     Event::Event(const Event& _event)
     : action(_event.action), 
       name(_event.name), 

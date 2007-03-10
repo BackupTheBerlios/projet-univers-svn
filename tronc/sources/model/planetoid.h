@@ -18,11 +18,11 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_MODEL_PLANETOID_H_
-#define _PU_MODEL_PLANETOID_H_
+#ifndef PU_MODEL_PLANETOID_H_
+#define PU_MODEL_PLANETOID_H_
 
 
-#include <model/trait.h>
+#include <kernel/trait.h>
 
 namespace ProjetUnivers {
   namespace Model {
@@ -34,7 +34,7 @@ namespace ProjetUnivers {
       @par Etat
         planning
     */
-    class Planetoid : public Trait 
+    class Planetoid : public Kernel::Trait 
     {
     public:
 

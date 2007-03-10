@@ -19,8 +19,8 @@
  ***************************************************************************/
 
 
-#ifndef _PU_KERNEL_PRETTY_PRINT_H_
-#define _PU_KERNEL_PRETTY_PRINT_H_
+#ifndef PU_KERNEL_PRETTY_PRINT_H_
+#define PU_KERNEL_PRETTY_PRINT_H_
 
 
 

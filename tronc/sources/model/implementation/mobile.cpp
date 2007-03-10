@@ -26,7 +26,7 @@ namespace ProjetUnivers {
   namespace Model {
 
     Mobile::Mobile()
-    : Trait(), speed(), acceleration()
+    : Kernel::Trait(), speed(), acceleration()
     {}
 
   }

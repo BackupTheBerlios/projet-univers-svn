@@ -19,8 +19,8 @@
  ***************************************************************************/
 
 
-#ifndef _PU_DISPLAY_IMPLEMENTATION_OGRE_OGRE_H_
-#define _PU_DISPLAY_IMPLEMENTATION_OGRE_OGRE_H_
+#ifndef PU_DISPLAY_IMPLEMENTATION_OGRE_OGRE_H_
+#define PU_DISPLAY_IMPLEMENTATION_OGRE_OGRE_H_
 
 #include <Ogre.h>
 
@@ -29,60 +29,38 @@ namespace ProjetUnivers {
   namespace Display {
     namespace Implementation {
       
-      /// Implementation du module affichage avec Ogre3d.
-      
+      /// Ogre3d display implementation.
       /*!
-        Voir www.ogre3d.org     
+        @see www.ogre3d.org     
       */ 
       namespace Ogre {  
   
-        /// Initialisation de l'affichage
-        /*!
-        */
+        /// Ogre initialisation.
         bool init() ;
         
-        /// Termine l'affichage
+        /// Close Ogre.
         void close() ;
 
-        /// Accès aux descripteur de la fenetre d'affichage
+        /// Access to window handle.
         /*!
-          Utilisé pour initialiser le module Input
+          Used by Input module.
         */
         size_t getWindowHandle() ;
 
-        /// Accès à la taille de la fenêtre
+        /// Window size.
         void getWindowSize(unsigned int& width,
                            unsigned int& height,
                            unsigned int& depth,
                            int& left,
                            int& top );
-
         
-        /// Rafraichissement de l'affichage.
-        /*!
-          Met à jour tout ce qui doit être affiché
-
-          @todo
-            Changer le nom en "Afficher"
-        */
+        /// Update display.
         void update() ;
         
-        /*!
-          @name Variables Locales
-        */
-        // @{
-
-        
-        /// le système ogre      
+        /// Ogre system root node.      
         ::Ogre::Root* getRoot() ;
         
-        /// la fenetre d'affichage
-        /*!
-          @remark
-            C'est un pointeur, Ogre gère lui même sa mémoire et détruira 
-            l'objet lorsqu'on n'en aura plus besoin. 
-            Ce pointeur doit être considéré comme une association.
-        */
+        /// Window
         ::Ogre::RenderWindow* getWindow() ;
         
         ::Ogre::SceneManager* getManager() ;

@@ -18,7 +18,6 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <model/object.h>
 #include <model/positionned.h>
 
 
@@ -27,11 +26,11 @@ namespace ProjetUnivers {
 
 
     Positionned::Positionned(const Position& _position)
-    : Trait(), position(_position)
+    : Kernel::Trait(), position(_position)
     {}
 
     Positionned::Positionned()
-    : Trait(), position()
+    : Kernel::Trait(), position()
     {
       
     }

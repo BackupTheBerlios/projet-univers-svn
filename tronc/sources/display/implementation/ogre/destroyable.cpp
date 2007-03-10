@@ -26,24 +26,28 @@ namespace ProjetUnivers {
     namespace Implementation {
       namespace Ogre {
 
+        RegisterView(Ogre::Destroyable, 
+                     Model::Destroyable, 
+                     Ogre::RealWorldViewPoint) ;
 
         /// Constructeur.
-        Destroyable::Destroyable(Model::Destroyable* _object)
-        : View<Model::Destroyable>(_object)
+        Destroyable::Destroyable(Model::Destroyable* i_object,
+                                 RealWorldViewPoint* i_viewpoint)
+        : Kernel::TraitView<Model::Destroyable,RealWorldViewPoint>(i_object,i_viewpoint)
         {}
       
         /// Initialise la vue.
-        void Destroyable::init()
+        void Destroyable::onInit()
         {
         }
 
         /// Termine la vue.
-        void Destroyable::close()
+        void Destroyable::onClose()
         {
         }
       
         /// Mise à jour.
-        void Destroyable::update(const Kernel::Event&)
+        void Destroyable::onUpdate()
         {
         }
         

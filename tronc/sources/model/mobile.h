@@ -18,10 +18,10 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_MODEL_MOBILE_H_
-#define _PU_MODEL_MOBILE_H_
+#ifndef PU_MODEL_MOBILE_H_
+#define PU_MODEL_MOBILE_H_
 
-#include <model/trait.h>
+#include <kernel/trait.h>
 #include <model/speed.h>
 #include <model/acceleration.h>
 
@@ -34,7 +34,7 @@ namespace ProjetUnivers {
       planning
 
     */
-    class Mobile : public Trait
+    class Mobile : public Kernel::Trait
     {
     public:
 

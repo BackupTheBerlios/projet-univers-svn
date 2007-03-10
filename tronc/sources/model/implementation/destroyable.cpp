@@ -18,8 +18,6 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-
-
 #include <model/destroyable.h>
 
 namespace ProjetUnivers {
@@ -39,15 +37,19 @@ namespace ProjetUnivers {
       resistance = resistance - _energy ;
 
       if (resistance < Energy())
-      
+      {
         resistance = Energy() ;
+      }
+      
+      notify() ;
+      
     }
    
     Destroyable::~Destroyable()
     {}
     
     Destroyable::Destroyable(const Energy& _totalResistance)
-    : Object(),
+    : Kernel::Trait(),
       totalResistance(_totalResistance), 
       resistance(_totalResistance)
     {}

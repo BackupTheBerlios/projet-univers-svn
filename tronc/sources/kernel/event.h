@@ -18,8 +18,8 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_KERNEL_EVENT_H_
-#define _PU_KERNEL_EVENT_H_
+#ifndef PU_KERNEL_EVENT_H_
+#define PU_KERNEL_EVENT_H_
 
 #include <string>
 
@@ -29,57 +29,57 @@ namespace ProjetUnivers {
 
     class Model ;
 
-    /// Définition d'un évènement survenu sur un Modele.
+    /// Update on Model event.
     /*!
-    @todo
-      Le paramètre peut être une valeur aussi?
     */
     struct Event
     {
-      /// Représentation la mise à jour
+      /// Kinds of update
       typedef enum
       {
-        /// Pour un attribut mono-valué
+        /// Mono-valued attribute modification.
         Update,
-        /// Pour un attribut multi-valué
+        /// Multi-valued attribute insert.
         Add,
-        /// Pour un attribut multi-valué
+        /// Multi-valued attribute remove.
+        Remove,
+        /// Object deleted.
         Delete,
-        /// Valeur par défaut
+        /// Object created.
+        New,
+        /// Default value.
         Undefined
 
       } Action ;
       
-      /// Constructeur par défaut.
+      /// Default constructor.
       Event() ;
       
-      /// Constructeur par défaut.
-      Event(const Action&, const std::string&, Model*) ;
+      /// 
+      Event(const Action&, const std::string& , Model*) ;
       
       
-      /// Constructeur de copie.
+      /// Copy constructor.
       Event(const Event&) ;
       
+      /// Comparison operator.
       bool operator==(const Event&) const ;
       
       
       /// Action 
       Action action ;
       
-      /// Nom de l'élément modifié.
-      /*!
-      c'ets généralement le nom d'un atribut C++; mais pas forcément.
-      */
+      /// Modified attribute.
       std::string name ;
       
-      /// Paramètre de l'évenement.
+      /// Object modified.
       /*!
-      @todo
-        voir ce dont on a besoin, par exemple de plusieurs paramètres ?
+        ObjectId ??? mainly because of destruction.
       */
       Model* parameter ;
+
     };
   }
 }
 
-#endif /*_PU_KERNEL_EVENT_H_*/
+#endif /*PU_KERNEL_EVENT_H_*/

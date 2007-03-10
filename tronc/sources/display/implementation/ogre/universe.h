@@ -18,15 +18,15 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_DISPLAY_IMPLEMENTATION_OGRE_UNIVERSE_H_
-#define _PU_DISPLAY_IMPLEMENTATION_OGRE_UNIVERSE_H_
+#ifndef PU_DISPLAY_IMPLEMENTATION_OGRE_UNIVERSE_H_
+#define PU_DISPLAY_IMPLEMENTATION_OGRE_UNIVERSE_H_
 
 #include <Ogre.h>
 
+#include <kernel/trait_view.h>
 #include <model/universe.h>
+#include <display/implementation/ogre/real_world_view_point.h>
 
-#include <display/implementation/ogre/view.h>
-#include <display/trait.h>
 
 
 namespace ProjetUnivers {
@@ -44,8 +44,8 @@ namespace ProjetUnivers {
           aux autres corps (galaxies et autres)... mais cela suposerait d'avoir 
           un gros univers.
         */
-        class Universe : public Ogre::View<Model::Universe>,
-                         public Trait 
+        class Universe : public Kernel::TraitView<Model::Universe,
+                                                  RealWorldViewPoint>
         {
         public:
         
@@ -55,27 +55,28 @@ namespace ProjetUnivers {
         // @{
           
           /// Constructeur.
-          Universe(Model::Universe* _universe) ;
+          Universe(Model::Universe* i_universe,
+                   RealWorldViewPoint* i_viewpoint) ;
 
-          /// Initialise la vue.
-          virtual void init() ;
-
-          /// Termine la vue.
-          virtual void close() ;
-
-          
+        protected:
+        
         // @}
         /*!
-          @name Raffraichissement
+          @name Updates
                       
         */  
         // @{
         
+          /// Initialise la vue.
+          virtual void onInit() ;
+
+          /// Termine la vue.
+          virtual void onClose() ;
+        
           /// Le modèle a changé, on réactualise la vue.
-          virtual void update(const Kernel::Event&) ;
+          virtual void onUpdate() ;
             
         // @}
-        
         private:
           
           /// Le ciel étoilé n'a pas besoin d'être stocké.
@@ -88,4 +89,5 @@ namespace ProjetUnivers {
 }
 
 
-#endif
+#endif        
+

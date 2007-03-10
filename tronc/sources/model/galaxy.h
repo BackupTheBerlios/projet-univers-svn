@@ -18,12 +18,12 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_MODEL_GALAXY_H_
-#define _PU_MODEL_GALAXY_H_
+#ifndef PU_MODEL_GALAXY_H_
+#define PU_MODEL_GALAXY_H_
 
 
 #include <model/name.h>
-#include <model/trait.h>
+#include <kernel/trait.h>
 
 
 namespace ProjetUnivers {
@@ -37,7 +37,7 @@ namespace ProjetUnivers {
       planning
       
     */
-    class Galaxy : public Trait 
+    class Galaxy : public Kernel::Trait 
     {
     public:
 

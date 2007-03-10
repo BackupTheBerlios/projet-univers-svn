@@ -19,12 +19,11 @@
  ***************************************************************************/
 
 #include <kernel/log.h>
-#include <display/display.h>
-#include <display/view_point.h>
-
-#include <input/input.h>
-#include <action/action.h>
+#include <kernel/object.h>
 #include <model/model.h>
+#include <display/display.h>
+#include <action/action.h>
+#include <input/input.h>
 
 using namespace ProjetUnivers ;
 
@@ -49,15 +48,12 @@ int main() {
 
   Model::load("TestDemonstration") ;
 
-  Model::Object* observer(Model::getObject("Observer")) ;
+  Kernel::Object* observer(Model::getObject("Observer")) ;
   
   /// Création d'un point de vue sur ce modèle
-  Display::ViewPoint* pdv(
-      Display::addViewPoint(Display::ViewPoint::build(observer))) ;
+  Display::buildRealWorldViewPoint(observer) ;
 
   Kernel::Log::InternalMessage("Activating Viewpoint") ;
-
-  Display::activateViewPoint(pdv) ;
 
   Kernel::Log::InformationMessage("Demarrage de la boucle principale") ;
 

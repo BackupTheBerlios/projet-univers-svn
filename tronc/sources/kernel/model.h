@@ -18,58 +18,78 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_KERNEL_MODEL_H_
-#define _PU_KERNEL_MODEL_H_
+#ifndef PU_KERNEL_MODEL_H_
+#define PU_KERNEL_MODEL_H_
 
 #include <set>
-
-#include <kernel/event.h>
-
+#include <map>
+#include <string>
 
 namespace ProjetUnivers {
   namespace Kernel {
     
-    namespace Implementation
-    {
-      class BaseView ;
-    }
-
+    class ViewPoint ;
     class Object ;
+    class Trait ;
     
-    /// L'abstraction d'un modèle.
-    /*!
-      A utiliser en combinaison avec ProjetUnivers::Kernel::View.
-    */
+    /// A set of Objects.
     class Model
     {
     public:
     
-      /// Register une vue.
-      /*!
-        Toutes les vues enregistrées seront notifiées des changements 
-        de cet objet.
-      */
-      void addView(Implementation::BaseView* _view) ;
+      /// Builds a new model.
+      Model(const std::string& i_name = "") ;
+
+      /// Get an object.
+      Object* getObject(const std::string& i_name) ;
+        
+      /// Creates a new Object with name.
+      Object* createObject(const std::string& i_name) ; 
+  
+      /// Creates a new Object with name and given parent.
+      Object* createObject(const std::string& i_name, 
+                           Object* i_parent) ; 
+  
+      /// Destroy an Object of given name.
+      void destroyObject(const std::string& i_name) ;
+  
+      /// Destroy a given Object.
+      void destroyObject(Object* i_object) ;
+  
+      /// Changes parent of a given Object.
+      void changeParent(Object* i_object, 
+                        Object* i_new_parent) ;
+  
+      /// Adds a new trait to an Object.
+      void addTrait(Object* i_object, 
+                    Trait* i_new_trait) ;
+  
+      /// Destroy an Object's trait.
+      void destroyTrait(Object* i_object, 
+                        Trait* i_trait) ;
       
-      /// Des-enregistre une vue.
-      void removeView(Implementation::BaseView* _view) ;
     
-      /// Classe abstraite donc destructeur virtuel.
-      virtual ~Model() ;
-    
-    protected:
-
-      /// Classe abstraite donc constructeur protégé.
-      Model() ;
-
-      /// Notifie les vues du changement.
-      void notify(const Event& _event = Event()) ;
+      ~Model() ;
     
     private:
     
-      /// Les vues pour lesquelles il faut avertir des changements.
-      std::set<Implementation::BaseView*> views ;
+      /// root objects @composite
+      std::set<Object*> objects ;
+      std::map<std::string,Object*> objects_dictionnary ;
 
+      /// Register a view point.
+      void _register(ViewPoint* i_viewpoint) ;
+      
+      /// Init objects according to a viewpoint
+      void _init(ViewPoint* i_viewpoint) ;
+
+      /// Close objects according to a viewpoint
+      void _close(ViewPoint* i_viewpoint) ;
+      
+      std::set<ViewPoint*> viewpoints ;
+      friend class ViewPoint ;
+      friend class Trait ;
+      friend class Object ;
     };
     
   }

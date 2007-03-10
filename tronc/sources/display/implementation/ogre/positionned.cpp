@@ -20,9 +20,7 @@
 
 #include <kernel/log.h>
 
-#include <display/view_point.h>
-#include <display/implementation/ogre/view_point.h>
-
+#include <display/implementation/ogre/real_world_view_point.h>
 #include <display/implementation/ogre/positionned.h>
 
 using namespace ::Ogre ;
@@ -33,7 +31,7 @@ namespace ProjetUnivers {
       namespace Ogre {
 
         /// Indique que la cette vue s'applique au modèle dans ce point de vue
-        RegisterView(Ogre::Positionned,Model::Positionned, Ogre::ViewPoint) ;
+        RegisterView(Ogre::Positionned,Model::Positionned, Ogre::RealWorldViewPoint) ;
       
       
       /*!
@@ -84,8 +82,10 @@ namespace ProjetUnivers {
       // @}
       
         /// Constructeur.
-        Positionned::Positionned(Model::Positionned* _object)
-        : View<Model::Positionned>(_object), node(NULL)
+        Positionned::Positionned(Model::Positionned* i_object,
+                                 RealWorldViewPoint* i_viewpoint)
+        : Kernel::TraitView<Model::Positionned,RealWorldViewPoint>(i_object,i_viewpoint), 
+          node(NULL)
         {
           Kernel::Log::InternalMessage("Entering Ogre::Positionned::Positionned") ;
           Kernel::Log::InternalMessage("Leaving Ogre::Positionned::Positionned") ;
@@ -96,73 +96,73 @@ namespace ProjetUnivers {
         @pre
           La vue correspondant au conteneur à déjà été initialisée.
         */
-        void Positionned::init()
+        void Positionned::onInit()
         {
           Kernel::Log::InternalMessage("Entering Positionned::init") ;
           
           /*! 
             on crée un noeud qu'on rattache en dessous du conteneur
           */
-          if (! this->initialised)
+            
+          /// On récupère le connteneur et son noeud
+          Kernel::Object* contener(getObject()->getParent()) ;
+          
+          if (contener)
           {
             
-            /// On récupère le connteneur et son noeud
-            Object* contener(this->getObject()->getContener()) ;
-            
-            if (contener)
-            {
-              
-              Positionned* parent(contener->getTrait<Positionned>()) ;
-        
-              node = static_cast<SceneNode*>(parent->node->createChild()) ;
+            Positionned* parent(contener->getView<Positionned>(viewpoint)) ;
+      
+            node = static_cast<SceneNode*>(parent->node->createChild()) ;
 
-              Kernel::Log::InternalMessage(
-                "creating scene node " + node->getName() + 
-                " with parent " + parent->node->getName() +
-                " with position " + 
-                ::Ogre::StringConverter::toString(node->getPosition()) + 
-                " with orientation " + 
-                ::Ogre::StringConverter::toString(node->getOrientation())
-                ) ;
+            Kernel::Log::InternalMessage(
+              "creating scene node " + node->getName() + 
+              " with parent " + parent->node->getName() +
+              " with position " + 
+              ::Ogre::StringConverter::toString(node->getPosition()) + 
+              " with orientation " + 
+              ::Ogre::StringConverter::toString(node->getOrientation())
+              ) ;
 
-              node->setPosition(convert(observed->getPosition())) ;
-              node->setOrientation(observed->getOrientation().getQuaternion()) ;
+            node->setPosition(convert(getModel()->getPosition())) ;
+            node->setOrientation(getModel()->getOrientation().getQuaternion()) ;
 
-              Kernel::Log::InternalMessage(
-                "modification of scene node " + node->getName() + 
-                " with position " + 
-                ::Ogre::StringConverter::toString(node->getPosition()) + 
-                " with orientation " + 
-                ::Ogre::StringConverter::toString(node->getOrientation())
-                ) ;
+            Kernel::Log::InternalMessage(
+              "modification of scene node " + node->getName() + 
+              " with position " + 
+              ::Ogre::StringConverter::toString(node->getPosition()) + 
+              " with orientation " + 
+              ::Ogre::StringConverter::toString(node->getOrientation())
+              ) ;
 
 
-            }
-            else
-            {
-              Kernel::Log::InternalMessage("root node") ;
-              
-              /// on est à la racine.
-              node = this->getViewPoint()->getManager()->getRootSceneNode() ;
-            }
-            
-            this->initialised = true ;
           }
+          else
+          {
+            Kernel::Log::InternalMessage("root node") ;
+            
+            /// on est à la racine.
+            node = this->getViewPoint()->getManager()->getRootSceneNode() ;
+          }
+          
 
           Kernel::Log::InternalMessage("Leaving Positionned::init") ;
 
         }
 
         /// Termine la vue.
-        void Positionned::close()
+        void Positionned::onClose()
         {
-          if (this->initialised)
+          Kernel::Log::InternalMessage("Display::Positionned::onClose Entering") ;
+          
+          /*!
+            Ogre seams to refuse destroying root node !
+          */
+          if (getObject()->getParent())
           {
             this->getViewPoint()->getManager()
                 ->destroySceneNode(this->node->getName()) ;
-           
-            this->initialised = true ;
-          }          
+          }
+          Kernel::Log::InternalMessage("Display::Positionned::onClose Leaving") ;
         }
         
         /// La position à changé
@@ -170,11 +170,11 @@ namespace ProjetUnivers {
         @par Etat actuel
           terminé
         */
-        void Positionned::update(const Kernel::Event&)
+        void Positionned::onUpdate()
         {
           /// on le replace par rapport à son parent
-          node->setPosition(convert(observed->getPosition())) ;
-          node->setOrientation(observed->getOrientation().getQuaternion()) ;
+          node->setPosition(convert(getModel()->getPosition())) ;
+          node->setOrientation(getModel()->getOrientation().getQuaternion()) ;
 
           Kernel::Log::InternalMessage(
             "modification of scene node " + node->getName() + 
@@ -185,11 +185,30 @@ namespace ProjetUnivers {
             ) ;
         }
 
+        void Positionned::onChangeParent(Kernel::Object* i_old_parent)
+        {
+          if (i_old_parent)
+          {
+            Positionned* parent = i_old_parent->getView<Positionned>(viewpoint) ;
+            parent->getNode()->removeChild(node) ;
+          }
+
+          if (getObject()->getParent())
+          {
+            Positionned* parent = getObject()->getParent()->getView<Positionned>(viewpoint) ;
+            parent->getNode()->addChild(node) ;
+          }
+          else
+          {
+            /// error cannot create another root scene node
+            Kernel::Log::ErrorMessage("cannot create another root node") ;
+          }
+        }
         ::Ogre::SceneNode* Positionned::getNode()
         {
           if (node == NULL)
           {
-            this->init() ;
+            this->_init() ;
           }
           
           return node ;

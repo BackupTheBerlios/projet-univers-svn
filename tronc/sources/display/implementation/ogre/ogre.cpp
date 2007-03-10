@@ -179,6 +179,8 @@ namespace ProjetUnivers {
           // ****************************************************
           loadRessources() ;
           
+          Kernel::Log::InternalMessage("Ogre launched") ;
+          
           // voila, ca a marché
           return true ;
         }
@@ -187,10 +189,10 @@ namespace ProjetUnivers {
         {
           if (root)
           {
-            Kernel::Log::InternalMessage("stopping Ogre") ;
+            Kernel::Log::InternalMessage("stopping Ogre..") ;
             delete root ;
             root = NULL ;  
-            Kernel::Log::InternalMessage("Ogre stopeed") ;
+            Kernel::Log::InternalMessage("...Ogre stopped") ;
             
           }
           
@@ -208,6 +210,7 @@ namespace ProjetUnivers {
           window->update() ;
           root->_fireFrameEnded();   
         }
+        
          
       }
     }

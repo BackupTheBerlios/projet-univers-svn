@@ -1,10 +1,10 @@
 AC_PREREQ(2.50)
 
 # Version
-AC_INIT([ProjetUnivers], 0.2.0)
+AC_INIT([ProjetUnivers], 0.2.2)
 AC_CONFIG_SRCDIR([sources/demonstration/demonstration.cpp])
 AM_CONFIG_HEADER(sources/config.h)
-AM_INIT_AUTOMAKE([ProjetUnivers], 0.2.0)
+AM_INIT_AUTOMAKE([ProjetUnivers], 0.2.2)
 AC_PROG_LIBTOOL
 AM_PROG_LIBTOOL
 

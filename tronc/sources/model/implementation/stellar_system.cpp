@@ -20,14 +20,13 @@
 
 #include <kernel/log.h>
 
-#include <model/object.h>
 #include <model/stellar_system.h>
 
 namespace ProjetUnivers {
   namespace Model {
 
     StellarSystem::StellarSystem()
-      : Trait()
+      : Kernel::Trait()
     {}
     
   }

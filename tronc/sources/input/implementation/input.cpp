@@ -25,7 +25,7 @@
 #include <OISInputManager.h>
 
 
-#include <display/display.h>
+#include <display/display_input.h>
 #include <input/implementation/keyboard.h>
 #include <input/input.h>
 

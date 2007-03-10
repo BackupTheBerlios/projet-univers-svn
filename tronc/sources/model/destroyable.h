@@ -19,12 +19,12 @@
  ***************************************************************************/
 
 
-#ifndef _PU_MODEL_DESTRUCTIBLE_H_
-#define _PU_MODEL_DESTRUCTIBLE_H_
+#ifndef PU_MODEL_DESTROYABLE_H_
+#define PU_MODEL_DESTROYABLE_H_
 
 
 #include <model/energy.h>
-#include <model/trait.h>
+#include <kernel/trait.h>
 
 namespace ProjetUnivers {
   namespace Model {
@@ -39,7 +39,7 @@ namespace ProjetUnivers {
     @par Etat
       planning
     */
-    class Destroyable : public Trait
+    class Destroyable : public Kernel::Trait
     {
     public:
 

@@ -25,7 +25,7 @@ namespace ProjetUnivers {
 
  
     Universe::Universe()
-    : Trait()
+    : Kernel::Trait()
     {}
     
   }

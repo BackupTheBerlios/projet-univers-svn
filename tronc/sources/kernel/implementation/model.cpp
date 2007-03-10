@@ -22,51 +22,193 @@
 #include <kernel/error.h>
 #include <kernel/exception_kernel.h>
 
-#include <kernel/implementation/base_view.h>
+#include <kernel/object.h>
+#include <kernel/trait.h>
+#include <kernel/view_point.h>
 #include <kernel/model.h>
+
+#include <typeinfo>
+
 
 namespace ProjetUnivers {
   namespace Kernel {
     
-    void Model::addView(Implementation::BaseView* _view)
+
+    Object* Model::getObject(const std::string& i_name)
     {
-      check(_view,ExceptionKernel("Model::addView no view")) ;
-      Log::InternalMessage("Entering Kernel::Model::addView") ;
-      this->views.insert(_view) ;
-      Log::InternalMessage("Leaving Kernel::Model::addView") ;
+      if (objects_dictionnary.find(i_name)!= objects_dictionnary.end())
+      {
+        return objects_dictionnary[i_name] ;
+      }
+      else
+      {
+        return NULL ;
+      }
+    }
+
+
+    Object* Model::createObject(const std::string& i_name) 
+    {
+      if (objects_dictionnary.find(i_name) == objects_dictionnary.end())
+      {
+        Object* result = new Object(this,i_name) ;
+        objects.insert(result) ;
+        objects_dictionnary[i_name] = result ;
+        return result ;
+      }
+      return NULL ;
     }
       
-    void Model::removeView(Implementation::BaseView* _view)
+    /// Creates a new Object with name.
+    Object* Model::createObject(const std::string& i_name,
+                                Object* i_parent)
     {
-      views.erase(_view) ;
+      check(i_parent,ExceptionKernel("Model::createObject no parent")) ;
+      
+      if (objects_dictionnary.find(i_name) == objects_dictionnary.end())
+      {
+        Object* result = new Object(this,i_name) ;
+        i_parent->_add(result) ;
+        objects_dictionnary[i_name] = result ;
+        
+        return result ;
+      }
+      
+      return NULL ;
+      
     }
+
+
+    /// Destroy an Object of given name.
+    void Model::destroyObject(const std::string& i_name)
+    {
+      Object* object = getObject(i_name) ;
+      if (object)
+      {
+        destroyObject(object) ;
+      }
+    }
+
+    /// Destroy a given Object.
+    void Model::destroyObject(Object* i_object)
+    {
+      check(i_object,ExceptionKernel("Model::destroyObject no object")) ;
+      
+      i_object->_close() ;
+
+      objects_dictionnary.erase(i_object->getName()) ;
+      
+      if (i_object->parent == NULL)
+      {
+        /// a top object
+        objects.erase(i_object) ;
+        delete i_object ;  /// model is the contener of the root objects
+      } 
+      else
+      {
+        /// a sub object
+        i_object->parent->_remove(i_object) ;
+      }
+      
+    }
+
+    /// Changes parent of a given Object.
+    void Model::changeParent(Object* i_object, 
+                             Object* i_new_parent)
+    {
+      check(i_object,ExceptionKernel("Model::changeParent no object")) ;
+      check(i_new_parent,ExceptionKernel("Model::changeParent no new parent")) ;
+      
+      Object* old_parent = i_object->parent ;
+      
+      if (i_object->parent == NULL)
+      {
+        /// a top object
+        objects.erase(i_object) ;
+
+      }
+      else
+      {
+        i_object->parent->_release(i_object) ;
+      }
+
+      i_new_parent->_add(i_object) ;
+      i_object->_changed_parent(old_parent) ;
+
+    }
+
+    /// Adds a new trait to an Object.
+    void Model::addTrait(Object* i_object, 
+                         Trait* i_new_trait)
+    {
+      check(i_object,ExceptionKernel("Model::destroyTrait no object")) ;
+      check(i_new_trait,ExceptionKernel("Model::destroyTrait no new trait")) ;
+      
+      i_object->_add(i_new_trait) ;
+      
+    }
+
+    /// Destroy an Object's trait.
+    void Model::destroyTrait(Object* i_object, 
+                            Trait* i_trait)
+    {
+      check(i_object,ExceptionKernel("Model::destroyTrait no object")) ;
+      check(i_trait,ExceptionKernel("Model::destroyTrait no trait")) ;
+
+      i_object->_remove(i_trait) ;
+    }
+
+
     
     Model::~Model()
     {
-      for(std::set<Implementation::BaseView*>::iterator view = views.begin() ;
-          view != views.end() ;
-          ++view)
+      for(std::set<Object*>::iterator object = objects.begin() ;
+          object != objects.end() ;
+          ++object)
       {
-        (*view)->markToDestroy() ;
-        (*view)->detach() ;
+        delete *object ;
       }
       
     }
     
-    Model::Model()
+    Model::Model(const std::string& i_name)
     {}
 
-    void Model::notify(const Event& _event)
+    void Model::_register(ViewPoint* i_viewpoint)
     {
-      for(std::set<Implementation::BaseView*>::iterator view = views.begin() ;
-          view != views.end() ;
-          ++view)
+      viewpoints.insert(i_viewpoint) ;
+
+      Log::InternalMessage(
+        (std::string("Model::_register") + typeid(*i_viewpoint).name()).c_str()) ;
+
+      for(std::set<Object*>::iterator object = objects.begin() ;
+          object != objects.end() ;
+          ++object)
       {
-        (*view)->markToUpdate(_event) ;
-      }  
+        (*object)->_create_views(i_viewpoint) ;
+      }      
     }
     
-    
+    void Model::_init(ViewPoint* i_viewpoint)
+    {
+      for(std::set<Object*>::iterator object = objects.begin() ;
+          object != objects.end() ;
+          ++object)
+      {
+        (*object)->_init(i_viewpoint) ;
+      }      
+    }
+  
+    void Model::_close(ViewPoint* i_viewpoint)
+    {
+      for(std::set<Object*>::iterator object = objects.begin() ;
+          object != objects.end() ;
+          ++object)
+      {
+        (*object)->_close(i_viewpoint) ;
+      }      
+      
+    }
   }
 }
 

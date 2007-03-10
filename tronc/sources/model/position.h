@@ -18,8 +18,8 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_MODEL_POSITION_H_
-#define _PU_MODEL_POSITION_H_
+#ifndef PU_MODEL_POSITION_H_
+#define PU_MODEL_POSITION_H_
 
 #include <model/distance.h>
 

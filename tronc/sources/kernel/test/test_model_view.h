@@ -19,71 +19,91 @@
  ***************************************************************************/
 
 
-
-#ifndef PU_MODEL_TEST_DISTANCE_H_
-#define PU_MODEL_TEST_DISTANCE_H_
+#ifndef PU_KERNEL_TEST_MODEL_VIEW_H_
+#define PU_KERNEL_TEST_MODEL_VIEW_H_
 
 
 #include <cppunit/extensions/HelperMacros.h>
 
-
 namespace ProjetUnivers {
-
-  namespace Model {
-
-  
+  namespace Kernel {
     namespace Test {
 
-            
-      /// Test de Model::Distance
-      class TestDistance : public CppUnit::TestFixture {
-      protected:
-      
-        
-      // ****************************
-      /// @name Tests proprement dits
-      // ****************************
-      // @{
-        
-        /// Teste l'ordre sur les unités.
-        void testComparisonUnit() ;
-           
-      // @}
-      // *******************************
-      /// @name Registerment des tests
-      // *******************************
-      // @{      
-      
-        CPPUNIT_TEST_SUITE(TestDistance) ;
-      
-        CPPUNIT_TEST(testComparisonUnit) ;
-      
-        CPPUNIT_TEST_SUITE_END() ;
-      
-      // @}      
-                
-     public:
 
-      // *******************************
-      /// @name Méthodes obligatoires
-      // *******************************
-      // @{
+      ///  Test for Model/View.
+      /*!
+      @par Status 
+        fully tested on 07/03/04.
+      */
+      class TestModelView : public CppUnit::TestFixture {
+      public:
 
-      
         /// Initialisation du test
         void setUp() ;
-      
+
         /// Desinitialisation du test
         void tearDown() ;
-      
-      // @}      
-      
+
+      protected:
+
+      /// @name Tests methods
+      // @{  
+
+        /// Tests construction on empty model.
+        void testBuildOnEmptyModel() ;
+
+        /// Tests construction on a non empty model.
+        void testBuildOnNonEmptyModel() ;
+
+        /// Tests destroying a root object.
+        void testDestroyRootObject() ;
+
+        /// Tests destroying a sub object.
+        void testDestroySubObject() ;
+
+        /// Tests destroying a trait.
+        void testDestroyTrait() ;
+
+        /// Tests changing a parentship.
+        void testchangeParent() ;
+
+        /// Tests modification of a trait.
+        void testUpdate() ;
+
+        /// Tests view access.
+        void testViewAccess() ;
+
+        /// Tests creating, destroying then recreating an object.
+        void testCreateTwice() ;
+
+        /// Tests destroying an unexisting object.
+        void testDestroyUnexisting() ;
+
+      // @}
+
+
+        CPPUNIT_TEST_SUITE(TestModelView) ;
+
+        CPPUNIT_TEST(testBuildOnEmptyModel) ;
+        CPPUNIT_TEST(testBuildOnNonEmptyModel) ;
+        CPPUNIT_TEST(testDestroyRootObject) ;
+        CPPUNIT_TEST(testDestroySubObject) ;
+        CPPUNIT_TEST(testDestroyTrait) ;
+        CPPUNIT_TEST(testchangeParent) ;
+        CPPUNIT_TEST(testUpdate) ;
+        CPPUNIT_TEST(testViewAccess) ;
+        CPPUNIT_TEST(testCreateTwice) ;
+        CPPUNIT_TEST(testDestroyUnexisting) ;
+
+        CPPUNIT_TEST_SUITE_END() ;
+
       
       };
-
     }
   }
 }
 
+#endif 
+    
 
-#endif
+

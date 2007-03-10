@@ -18,15 +18,13 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_DISPLAY_IMPLEMENTATION_OGRE_SOLID_H_
-#define _PU_DISPLAY_IMPLEMENTATION_OGRE_SOLID_H_
+#ifndef PU_DISPLAY_IMPLEMENTATION_OGRE_SOLID_H_
+#define PU_DISPLAY_IMPLEMENTATION_OGRE_SOLID_H_
 
-#include <kernel/view.h>
-
+#include <kernel/trait_view.h>
 #include <model/solid.h>
+#include <display/implementation/ogre/real_world_view_point.h>
 
-#include <display/implementation/ogre/view.h>
-#include <display/trait.h>
 
 namespace ProjetUnivers {
   namespace Display {
@@ -38,8 +36,8 @@ namespace ProjetUnivers {
         @par Etat actuel
           planning
         */
-        class Solid : public View<Model::Solid>, 
-                      public Trait
+        class Solid : public Kernel::TraitView<Model::Solid,
+                                               RealWorldViewPoint>
         {
         public:
         
@@ -49,9 +47,10 @@ namespace ProjetUnivers {
         // @{
 
           /// Constructeur.
-          Solid(Model::Solid* _object) ;
+          Solid(Model::Solid* i_object,
+                RealWorldViewPoint* i_viewpoint) ;
 
-
+        protected:
         //@}
         /*!
           @name Mise à jour
@@ -59,25 +58,23 @@ namespace ProjetUnivers {
         // @{
         
           /// Crée une entité.
-          void init() ;
+          void onInit() ;
           
           /// Détruit l'entité.
-          void close() ;
+          void onClose() ;
         
           /// 
           /*!
           @par Etat
             stub vide
           */
-          void update(const Kernel::Event&) ;
-
+          void onUpdate() ;
 
         // @}
-    
         private:
           
           /// Modèle 3D.
-          ::Ogre::Entity* model ;
+          ::Ogre::Entity* mesh ;
       
         };
       }

@@ -20,8 +20,8 @@
 
 
 
-#ifndef _PU_MODEL_TEST_DEMONSTRATION_H_
-#define _PU_MODEL_TEST_DEMONSTRATION_H_
+#ifndef PU_MODEL_TEST_DEMONSTRATION_H_
+#define PU_MODEL_TEST_DEMONSTRATION_H_
 
 
 #include <cppunit/extensions/HelperMacros.h>

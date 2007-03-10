@@ -20,13 +20,13 @@
 #ifndef PU_MODEL_OBSERVER_H_
 #define PU_MODEL_OBSERVER_H_
 
-#include <model/trait.h>
+#include <kernel/trait.h>
 
 namespace ProjetUnivers {
   namespace Model {
 
     /// Propriété des objets pouvant observer.
-    class Observer : public Trait
+    class Observer : public Kernel::Trait
     {
     public:
 

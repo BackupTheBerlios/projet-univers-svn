@@ -24,10 +24,10 @@
 
 #include <Ogre.h>
 
+#include <kernel/trait_view.h>
 #include <model/positionned.h>
+#include <display/implementation/ogre/real_world_view_point.h>
 
-#include <display/implementation/ogre/view.h>
-#include <display/trait.h>
 
 namespace ProjetUnivers {
   namespace Display {
@@ -37,28 +37,35 @@ namespace ProjetUnivers {
         class ViewPoint ;
         
         /// View sur les éléments ayant une position.
-        class Positionned : public View<Model::Positionned>,
-                            public Trait
+        class Positionned : public Kernel::TraitView<Model::Positionned,
+                                                     RealWorldViewPoint>
         {
         public:
 
           /// Constructeur.
-          Positionned(Model::Positionned* _object) ;
-        
-          /// Initialise la vue.
-          virtual void init() ;
+          Positionned(Model::Positionned* _object,
+                      RealWorldViewPoint* i_viewpoint) ;
 
-          /// Termine la vue.
-          virtual void close() ;
-        
-          /// Mise à jour.
-          virtual void update(const Kernel::Event&) ;
-          
           /// get au noeud.
           /*!
             Initialise la vue si cela n'a pas été fait.
           */
           ::Ogre::SceneNode* getNode() ;
+
+        protected:
+        
+          /// Initialise la vue.
+          virtual void onInit() ;
+
+          /// Destroy the node.
+          virtual void onClose() ;
+        
+          /// Position/Orientation update.
+          virtual void onUpdate() ;
+          
+          /// must detach/reattach node.
+          virtual void onChangeParent(Kernel::Object* i_old_parent) ;
+          
           
         private:
           

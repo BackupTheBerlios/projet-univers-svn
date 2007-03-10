@@ -20,9 +20,10 @@
 
 
 #include <kernel/log.h>
+#include <kernel/object.h>
+#include <kernel/trait.h>
 
 #include <model/model.h>
-#include <model/object.h>
 #include <model/stellar_system.h>
 #include <model/universe.h>
 #include <model/observer.h>
@@ -35,6 +36,8 @@ CPPUNIT_TEST_SUITE_REGISTRATION(ProjetUnivers::
                                 Model::
                                 Test::
                                 TestDemonstration) ;
+
+using namespace ProjetUnivers::Kernel ;
 
 namespace ProjetUnivers {
   namespace Model {
@@ -53,6 +56,7 @@ namespace ProjetUnivers {
       */
       void TestDemonstration::testBuild()
       {
+        Model::init() ;
         Model::load("TestDemonstration") ;
 
         Object* observer(Model::getObject("Observer")) ;
@@ -97,6 +101,8 @@ namespace ProjetUnivers {
 
         CPPUNIT_ASSERT_MESSAGE("Observer has no Positionned root",
                                observer->getRoot<Positionned>()) ;
+
+        Model::close() ;
         
       }
 

@@ -18,45 +18,56 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#include <kernel/inherits.h>
 
-#include <cppunit/extensions/TestFactoryRegistry.h>
-#include <cppunit/ui/text/TestRunner.h>
-#include <cppunit/CompilerOutputter.h>
+namespace ProjetUnivers {
+  namespace Kernel {
+    class Model ;
 
-#include <kernel/log.h>
+    template <class _Trait,class _ViewPoint> 
+    TraitView<_Trait,_ViewPoint>::TraitView(_Trait* i_model,_ViewPoint* i_viewpoint)
+    : BaseTraitView(i_model,i_viewpoint)
+    {
+      Inherits<_Trait,ProjetUnivers::Kernel::Trait>() ;
+    }
+    
+    template <class _Trait,class _ViewPoint> 
+    TraitView<_Trait,_ViewPoint>::~TraitView()
+    {}
+    
+    template <class _Trait,class _ViewPoint> 
+    _Trait* TraitView<_Trait,_ViewPoint>::getModel() const
+    {
+      _Trait* result = dynamic_cast<_Trait*>(trait) ;
+      return result ;
+    }
 
-int 
-main( int argc, char* argv[] )
-{
+    template <class _Trait,class _ViewPoint>
+    _ViewPoint* TraitView<_Trait,_ViewPoint>::getViewPoint() const
+    {
+      return static_cast<_ViewPoint*>(viewpoint) ;
+    }
+    /// default implementation : empty
+    
+    template <class _Trait,class _ViewPoint>
+    void TraitView<_Trait,_ViewPoint>::onInit() 
+    {
+    }
+    
+    template <class _Trait,class _ViewPoint>
+    void TraitView<_Trait,_ViewPoint>::onClose()
+    {
+    } 
+    
+    template <class _Trait,class _ViewPoint>
+    void TraitView<_Trait,_ViewPoint>::onChangeParent(Object* i_old_parent)
+    {
+    }
 
-  ProjetUnivers::Kernel::Log::init() ;
-  
-  // if command line contains "-selftest" then this is the post build check
-  // => the output must be in the compiler error format.
-  bool selfTest = (argc > 1)  &&  
-                  (std::string("-selftest") == argv[1]);
-
-  CppUnit::TextUi::TestRunner runner;
-  CppUnit::TestFactoryRegistry &registry = CppUnit::TestFactoryRegistry::getRegistry();
-  
-  runner.addTest( registry.makeTest() );
-
-  if ( selfTest )
-  { // Change the default outputter to a compiler error format outputter
-    // The test runner owns the new outputter.
-    runner.setOutputter( CppUnit::CompilerOutputter::defaultOutputter( 
-                                                        &runner.result(),
-                                                        std::cerr ) );
+    template <class _Trait,class _ViewPoint>    
+    void TraitView<_Trait,_ViewPoint>::onUpdate()
+    {
+    }
+   
   }
-
-  // Run the test.
-  bool wasSucessful = runner.run( "" );
-
-  ProjetUnivers::Kernel::Log::close() ;
-
-
-  // Return error code 1 if the one of test failed.
-  return wasSucessful ? 0 : 1;
 }
-
-

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Equipe Projet Univers                           *
+ *   Copyright (C) 2007 by Equipe Projet Univers                           *
  *   rogma.boami@free.fr                                                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,13 +17,18 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef _PU_DISPLAY_DISPLAY_H_
-#define _PU_DISPLAY_DISPLAY_H_
+#ifndef PU_DISPLAY_DISPLAY_H_
+#define PU_DISPLAY_DISPLAY_H_
 
-#include <stddef.h>
 
 
 namespace ProjetUnivers {
+
+  namespace Kernel
+  {
+    class Object ;
+  }
+
  
   /// Le module réalisant l'affichage des objets de Model.
   /*!
@@ -34,62 +39,25 @@ namespace ProjetUnivers {
     - un est affiché (actif), les autres sont maintenus mais ne sont pas affichés
   */ 
   namespace Display {
-  
-    class ViewPoint ;
-  
-    /// Initialisation de l'affichage
-    /*!
-      Fait le choix :
-      - de la résolution d'affichage
-      - de la technique d'affichage, par exemple OpenGL, DirectX
-        
-      Crée une fenêtre d'affichage et affiche le point de vue actif.
-      
-      @return FAUX si on doit arreter
-      @return VRAI si on peut et si on doit continuer
     
-      @remark
-        c'est ici qu'on peut faire le choix de l'implantation
-
-    */
+    namespace Implementation
+    {
+      class RealWorldViewPoint ;
+    }
+    
+    /// Module initialisation.
     bool init() ;
     
-    /// Termine l'affichage
-    /*!
-    */
+    /// Module closing.
     void close() ;
-
-    /// Accès aux descripteur de la fenetre d'affichage
-    /*!
-      Utilisé pour initialiser le module Input
-    */
-    size_t getWindowHandle() ;
-
-    /// Accès à la taille de la fenêtre
-    void getWindowSize(unsigned int& width,
-                       unsigned int& height,
-                       unsigned int& depth,
-                       int& left,
-                       int& top );
-
-    /// Ajoute un point de vue.
-    ViewPoint* addViewPoint(ViewPoint*) ;
-
-    /// Supprime le point de vue.
-    void removeViewPoint(ViewPoint*) ;
+  
+    /// Creates the standard representation for the world 
+    Kernel::ViewPoint* buildRealWorldViewPoint(Kernel::Object* i_observer) ; 
     
+    /// Make @c i_viewpoint the displayed viewpoint. 
+    void activateViewPoint(Implementation::RealWorldViewPoint* i_viewpoint) ;
     
-    /// 
-    void desactivateViewPoint(ViewPoint*) ;
-    
-    /// Le point de vue devient celui actif.
-    void activateViewPoint(ViewPoint*) ;
-    
-
-    /// Rafraichi l'affichage
-    /*!
-      Met à jour tout ce qui doit être affiché
-    */
+    /// Update display
     void update() ;
     
   }
@@ -98,4 +66,4 @@ namespace ProjetUnivers {
 
 
 
-#endif //_PU_DISPLAY_DISPLAY_H_
+#endif //PU_DISPLAY_DISPLAY_H_

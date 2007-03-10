@@ -20,13 +20,12 @@
 
 #include <model/force_generator.h>
 
-using namespace ProjetUnivers::Kernel ;
 
 namespace ProjetUnivers {
   namespace Model {
 
     ForceGenerator::ForceGenerator()
-    : Trait()
+    : Kernel::Trait()
     {}
 
   

@@ -21,7 +21,8 @@
 #include <kernel/error.h>
 #include <kernel/exception_kernel.h>
 
-#include <kernel/implementation/base_view.h>
+#include <kernel/model.h>
+#include <kernel/object.h>
 #include <kernel/view_point.h>
 
 
@@ -31,70 +32,60 @@ namespace ProjetUnivers {
 
     ViewPoint::~ViewPoint()
     {
-      for (std::set<Implementation::BaseView*>::iterator view = views.begin() ;
-           view != views.end() ;
-           ++view)
-      {
-        delete *view ;
-      }
     }
 
-    void ViewPoint::update()
+    ViewPoint::ViewPoint(Model* i_model)
+    : initialised(false),
+      model(i_model)
     {
-      
-      for(std::vector<Update>::iterator update = updates.begin() ;
-          update != updates.end() ;
-          ++update)
-      {
-        update->view->update(update->event) ;
-      }
-      updates.clear() ;
-
-      for (std::vector<Implementation::BaseView*>::iterator view = viewsToDestroy.begin() ;
-           view != viewsToDestroy.end() ;
-           ++view)
-      {
-        this->destroy(*view) ;
-      }
-      
-      /// on vide sans détruire l'espace alloué
-      viewsToDestroy.resize(0) ;
     }
+
+    void ViewPoint::init()
+    {
+      if (! initialised)
+      {
+        model->_register(this) ;
   
-    ViewPoint::ViewPoint()
-    {}
-
-    void ViewPoint::add(Implementation::BaseView* _view)
-    {
-      check(_view,ExceptionKernel("")) ;
-      _view->viewPoint = this ;
-      views.insert(_view) ;
-    }
-    
-    void ViewPoint::remove(Implementation::BaseView* _view)
-    {
-      destroy(_view) ;
-    }
-    
-    void ViewPoint::markToUpdate(Implementation::BaseView* _view,
-                                  const Event& _event)
-    {
-      updates.push_back(Update(_view,_event)) ;
-    }
-    
-    void ViewPoint::markToDestroy(Implementation::BaseView* _view)
-    {
-      viewsToDestroy.push_back(_view) ;
-    }
-    void ViewPoint::destroy(Implementation::BaseView* _view)
-    {
-      if (this->views.erase(_view) != 0)
-      {
-        delete _view ;
+        /// call local init for viewpoint
+        onInit() ;
+        
+        initialised = true ;
+        
+        /// must init all the objects according to current viewpoint
+        model->_init(this) ;
       }
     }
-    
-    
+
+    void ViewPoint::close()
+    {
+      if (initialised)
+      {
+        initialised = true ;
+        
+        /// must init all the objects according to current viewpoint
+        model->_close(this) ;
+
+        /// call local close for viewpoint
+        onClose() ;
+
+      }
+    }
+
+    void ViewPoint::onInit()
+    {
+    }
+    void ViewPoint::onClose()
+    {
+    }
+
+    void ViewPoint::onChangeObserver()
+    {
+    }
+
+    bool ViewPoint::isVisible(Object* i_object) const
+    {
+      return true ;
+    }
   }
 }
 

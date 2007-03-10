@@ -19,8 +19,8 @@
  ***************************************************************************/
 
 
-#ifndef _PU_DISPLAY_EXCEPTION_H_
-#define _PU_DISPLAY_EXCEPTION_H_
+#ifndef PU_DISPLAY_EXCEPTION_H_
+#define PU_DISPLAY_EXCEPTION_H_
 
 #include <string>
 
@@ -51,4 +51,4 @@ namespace ProjetUnivers {
   }
 }
 
-#endif /*_PU_DISPLAY_EXCEPTION_H_*/
+#endif /*PU_DISPLAY_EXCEPTION_H_*/

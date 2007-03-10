@@ -19,18 +19,21 @@
  ***************************************************************************/
 
 #include <kernel/error.h>
+#include <kernel/view_point.h>
 
 #include <display/exception.h>
+#include <display/implementation/real_world_view_point.h>
 #include <display/implementation/ogre/ogre.h>
-#include <display/view_point.h>
+#include <display/implementation/ogre/real_world_view_point.h>
 
 #include <display/display.h>
+#include <display/display_input.h>
 
 namespace ProjetUnivers {
   namespace Display {
 
   /*!
-    @name Attributs
+    @name Attributes
   */
   // @{
 
@@ -40,11 +43,11 @@ namespace ProjetUnivers {
       /*!
         @composite
       */
-      std::set<ViewPoint*> viewPoints ;
+      std::set<Kernel::ViewPoint*> viewPoints ;
       
       void clear() 
       {
-        for(std::set<ViewPoint*>::iterator viewpoint = viewPoints.begin() ;
+        for(std::set<Kernel::ViewPoint*>::iterator viewpoint = viewPoints.begin() ;
             viewpoint != viewPoints.end() ;
             ++viewpoint)
         {
@@ -60,8 +63,8 @@ namespace ProjetUnivers {
     
     LocalMemory local ;
     
-    /// Le point de vue actif.
-    ViewPoint* active = NULL ;
+    /// active wiepoint.
+    Implementation::RealWorldViewPoint* active = NULL ;
 
     bool initialised = false ;
 
@@ -91,6 +94,11 @@ namespace ProjetUnivers {
     
     void close()
     {
+      if (active)
+      {
+        active->close() ;
+      }
+      
       local.clear() ;
       Implementation::Ogre::close() ;
     }
@@ -115,15 +123,31 @@ namespace ProjetUnivers {
     }
 
     /// Ajoute un point de vue.
-    ViewPoint* addViewPoint(ViewPoint* _pdv)
+    Kernel::ViewPoint* addViewPoint(Kernel::ViewPoint* _pdv)
     {
       local.viewPoints.insert(_pdv) ;
       return _pdv ;
     }
 
-    /// Supprime le point de vue.
-    void removeViewPoint(ViewPoint* _pdv)
+    /// 
+    void desactivateViewPoint(Kernel::ViewPoint* _pdv)
     {
+      if (_pdv)
+      {
+        _pdv->close() ;
+      }
+    }
+
+
+    /// Supprime le point de vue.
+    void removeViewPoint(Kernel::ViewPoint* _pdv)
+    {
+      if (active == _pdv)
+      {
+        desactivateViewPoint(active) ;
+        active == NULL ;
+      }
+      
       if (local.viewPoints.erase(_pdv) != 0)
       {
         delete _pdv ;
@@ -131,37 +155,36 @@ namespace ProjetUnivers {
     }
     
     
-    /// 
-    /*!
-      Inutile car il suffit d'activer un autre point de vue ?
-    */
-    void desactivateViewPoint(ViewPoint* _pdv)
-    {
-      if (_pdv)
-      {
-        _pdv->desactivate() ;
-      }
-    }
     
     /// Le point de vue devient celui actif.
-    void activateViewPoint(ViewPoint* _pdv)
+    void activateViewPoint(Implementation::RealWorldViewPoint* i_viewpoint)
     {
-      if (_pdv)
+      if (i_viewpoint)
       {
         desactivateViewPoint(active) ;
-        active = _pdv ;
+        active = i_viewpoint ;
+        
+        /// if not initialised init it.
         active->init() ;
+        
         active->activate() ;
+        
       }      
     }
-  
+    
+    Kernel::ViewPoint* buildRealWorldViewPoint(Kernel::Object* i_observer)
+    {
+      Implementation::RealWorldViewPoint* temp = new Implementation::Ogre::RealWorldViewPoint(i_observer) ;
+      addViewPoint(temp) ;
+      /// ??? 
+      activateViewPoint(temp) ;
+      return temp ;
+    }
   
     void update() 
     {
       check(initialised, Exception("Module non initialisé")) ;
       check(active!=NULL, Exception("Pas de point de vue actif")) ;
-    
-      active->update() ;
       Implementation::Ogre::update() ;
     }
   }

@@ -22,8 +22,6 @@
 #include <model/position.h>
 #include <model/positionned.h>
 
-#include <model/object.h>
-
 namespace ProjetUnivers {
   namespace Model {
 

@@ -32,12 +32,14 @@ namespace ProjetUnivers {
       namespace Ogre {
 
         /// Indique que la cette vue s'applique au modèle dans ce point de vue
-        RegisterView(Ogre::Solid,Model::Solid, Ogre::ViewPoint) ;
+        RegisterView(Ogre::Solid,Model::Solid,Ogre::RealWorldViewPoint) ;
 
 
         /// Constructeur.
-        Solid::Solid(Model::Solid* _object)
-        : View<Model::Solid>(_object), model(NULL)
+        Solid::Solid(Model::Solid* i_object,
+                     RealWorldViewPoint* i_viewpoint)
+        : Kernel::TraitView<Model::Solid,RealWorldViewPoint>(i_object,i_viewpoint), 
+          mesh(NULL)
         {}
 
 
@@ -48,47 +50,43 @@ namespace ProjetUnivers {
       // @{
       
         /// Crée une entité.
-        void Solid::init()
+        void Solid::onInit()
         {
-          Kernel::Log::InternalMessage("Entering Solid::init") ;
+          Kernel::Log::InternalMessage("Entering Solid::onInit") ;
 
-          if (! this->initialised)
-          {
-            Positionned* positionned(this->object->getTrait<Positionned>()) ;
-            positionned->init() ;
-            
-            /// on crée l'élément 3D
-            model = this->getViewPoint()->getManager()
-                    ->createEntity(observed->getObject()->getName(),
-                                   observed->getModel().getName()) ;
-            
-            /// on le place sur le noeud
-            positionned->getNode()->attachObject(model) ;
-            
-            this->initialised = true ;
-          }
+          Positionned* positionned(getView<Positionned>()) ;
+          positionned->_init() ;
+          
+          /// on crée l'élément 3D
+          mesh = this->getViewPoint()->getManager()
+                  ->createEntity(getObject()->getName(),
+                                 getModel()->getMesh().getName()) ;
+          
+          /// on le place sur le noeud
+          positionned->getNode()->attachObject(mesh) ;
 
-          Kernel::Log::InternalMessage("Leaving Solid::init") ;
-
+          Kernel::Log::InternalMessage("Leaving Solid::onInit") ;
         }
         
         /// Détruit l'entité.
-        void Solid::close()
+        void Solid::onClose()
         {
-          if (this->initialised)
+          Kernel::Log::InternalMessage("Display::Solid::onClose Entering") ;
+          /// Positionne doit avoir été terminé
+          /*!
+            @why ???
+              try without...
+          */
+          Positionned* positionned(getView<Positionned>()) ;
+          if (positionned)
           {
-            /// Positionne doit avoir été terminé
-            Positionned* positionned(this->object->getTrait<Positionned>()) ;
-            if (positionned)
-            {
-              positionned->close() ;
-            }  
-            
-            this->getViewPoint()->getManager()
-                 ->destroyEntity(this->model) ;
-           
-            this->initialised = true ;
-          }          
+            positionned->_close() ;
+          }  
+          
+          this->getViewPoint()->getManager()
+               ->destroyEntity(mesh) ;
+
+          Kernel::Log::InternalMessage("Display::Solid::onClose Leaving") ;
         }
       
         /// 
@@ -96,7 +94,7 @@ namespace ProjetUnivers {
         @par Etat
           stub vide
         */
-        void Solid::update(const Kernel::Event&)
+        void Solid::onUpdate()
         {
           
         }

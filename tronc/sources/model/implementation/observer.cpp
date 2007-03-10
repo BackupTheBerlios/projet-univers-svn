@@ -24,7 +24,7 @@ namespace ProjetUnivers {
   namespace Model {
 
     Observer::Observer()
-    : Trait()
+    : Kernel::Trait()
     {}
   }
 }

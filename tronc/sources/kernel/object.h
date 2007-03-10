@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Equipe Projet Univers                           *
+ *   Copyright (C) 2007 by Equipe Projet Univers                           *
  *   rogma.boami@free.fr                                                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,129 +17,142 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#ifndef PU_KERNEL_OBJECT_H_
+#define PU_KERNEL_OBJECT_H_
 
-#ifndef _PU_MODEL_OBJECT_H_
-#define _PU_MODEL_OBJECT_H_
-
-#include <typeinfo>
-#include <map>
 #include <set>
+#include <map>
+#include <typeinfo>
 
+#include <kernel/exception_kernel.h>
+#include <kernel/error.h>
 #include <kernel/string.h>
 #include <kernel/log.h>
 #include <kernel/inherits.h>
-#include <kernel/model.h>
 
-#include <model/name.h>
+#include <kernel/trait.h>
+
 
 namespace ProjetUnivers {
-  namespace Model {
+  namespace Kernel {
 
-    class Observer ;
     class Trait ;
+    class Model ;
+    class ViewPoint ;
     
-    /// Un objet du jeu.
-    class Object : public Kernel::Model {
+    /// A model object.
+    /*!
+      An object has traits and eventually sub-objects. When an object is 
+      destroyed, his traits and sub objects are also destroyed.
+    */
+    class Object 
+    {
     public:
+
+      /// Constructor.
+      Object(Model* i_model,const std::string& i_name = "") ;
+
+      /// Get object's name.
+      std::string getName() const ;
+
+      virtual Object* getParent() const ;
   
-    /*!
-      @name Construction
-    */
-    // @{
-    
-      /// Constructeurs.
-      Object() ;
-      Object(const Name&) ;
-    
-      ~Object() ;
+      /// Get top most ancestor.
+      virtual Object* getRoot() const ;
 
-      /// Ajoute une facette.
-      void add(Trait* _trait) ;
-
-      /// Ajoute un objet comme contenu
-      /*!
-        Les objets peuvent en contenir d'autres.
-
-      */
-      Object* add(Object* _content) ;
-
-      /// Supprime un objet.
-      void remove(Object*) ;
-
-    // @}
-    /*!
-      @name Accès
-    */
-    // @{
-
-      Name getName() const ;
-
-      Object* getContener() const ;
-
-      const std::set<Object*>& getContent() const ;
-  
-      /// Le conteneur récursif de plus haut niveau.
-      Object* getRoot() const ;
-      
-    // @}
-    /*!
-      @name Accès aux Traits
-    */
-    // @{
-
-      /// Accès récursif au plus haut conteneur ayant la facette @ T
-      template <class T> T* getRoot() const ;
-
-      
-      /// Accès à la facette T.
-      /*!
-        T doit être une sous classe de Trait.
-      */
+      /// Access to trait of type T if exists.
       template <class T> T* getTrait() ;
 
-      /// Accès récursif au premier conteneur ayant la facette @ T
+      /// Access to trait's view of type _View if exists.
+      template <class _View> _View* getView(ViewPoint* i_viewpoint) ;
+
+      /// Top most ancestor with T trait.
+      template <class T> T* getRoot() const ;
+
+      /// First ancestor with trait T.
       template <class T> T* getParent() const ;
 
-      /// Accès aux facettes de l'objet.
-      const std::map<std::string, Trait*>& getTraits() const ;
-
-    // @}
-      
+      /// destrucs the traits
+      ~Object() ;
 
     private:
-
     
-    // @}
+      /// Add a sub-object
+      Object* _add(Object* i_child) ;
+
+      /// Remove a sub-object.
+      void _remove(Object* i_child) ;
+    
+      /// Detach a sub-object.
+      Object* _release(Object* i_child) ;
+
+      /// Add a trait.
+      void _add(Trait* i_trait) ;
+
+      /// Remove a trait.
+      void _remove(Trait* i_trait) ;
+
+      /// update the views for a change_parent. 
+      void _changed_parent(Object* i_old_parent) ;
+      
+      /// update the views.
+      void _updated() ;
+      
+      /// init the views after construction.
+      void _init() ;
+
+      /// init the views after construction.
+      void _init(ViewPoint* i_viewpoint) ;
+
+      /// closes the views before destruction.
+      void _close() ;
+
+      /// close the views before viewpoint closing.
+      void _close(ViewPoint* i_viewpoint) ;
+
+      
+      /// recursivelly create views for a viewpoint.
+      void _create_views(ViewPoint* i_viewpoint) ;
+
     /*!
-      @name Attributs
-    */
+      @name attributes
+    */    
     // @{
-       
-      /// Name de l'objet.
-      /*!
-        Pas forcément unique.
-      */
-      Name name ;
     
-      /// Les facettes de l'objet
-      /*!
-        @composite
-      */
+      std::string name ;
+      /// @composite
       std::map<std::string, Trait*> traits ;
-
-      /// L'éventuel objet qui contient celui-ci
-      Object* contener ;
-
-      /// Les objets contenus dans celui-ci
-      /*!
-        @composite
-      */
-      std::set<Object*> content ;
-
+      Object* parent ;
+      /// @composite
+      std::set<Object*> children ;
+      Model* model ;
       
     // @}
+
+      friend class Trait ;    
+      friend class Model ;
+    };
+
+    template <class _View> _View* Object::getView(ViewPoint* i_viewpoint)
+    {
+      check(i_viewpoint,ExceptionKernel("Object::getView error")) ;
       
-    };  
+      if (Trait::m_trait_of_view.find(std::pair<std::string,std::string>(
+                       typeid(_View).name(), typeid(*i_viewpoint).name()))
+          != Trait::m_trait_of_view.end()
+         )
+      {
+        std::string trait_class_name =
+          Trait::m_trait_of_view[std::pair<std::string,std::string>(
+              typeid(_View).name(), typeid(*i_viewpoint).name())] ;
+        
+        Trait* trait = traits[trait_class_name] ; 
+        check(trait,ExceptionKernel("Object::getView error")) ;
+        return trait->getView<_View>(i_viewpoint) ;
+      }
+      
+      return NULL ;
+    }
 
     template <class T> T* Object::getTrait() 
     {
@@ -179,7 +192,7 @@ namespace ProjetUnivers {
       
       while((! trait) && iterator)
       {
-        iterator = iterator->getContener() ;
+        iterator = iterator->getParent() ;
         if (iterator)
         {
           trait = iterator->getTrait<T>() ;
@@ -211,7 +224,7 @@ namespace ProjetUnivers {
 
         highest_trait_found = highest_trait_found ;
         
-        iterator = iterator->getContener() ;
+        iterator = iterator->getParent() ;
         if (iterator)
         {
           highest_trait_found = iterator->getTrait<T>() ;
@@ -223,9 +236,7 @@ namespace ProjetUnivers {
     }
 
 
-  } 
-  
-}
+  }
+}      
 
-
-#endif // _PU_MODEL_OBJECT_H_
+#endif /*PU_KERNEL_OBJECT_H_*/

@@ -18,16 +18,14 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _PU_DISPLAY_IMPLEMENTATION_OGRE_OBSERVATEUR_H_
-#define _PU_DISPLAY_IMPLEMENTATION_OGRE_OBSERVATEUR_H_
+#ifndef PU_DISPLAY_IMPLEMENTATION_OGRE_OBSERVATEUR_H_
+#define PU_DISPLAY_IMPLEMENTATION_OGRE_OBSERVATEUR_H_
 
 #include <Ogre.h>
 
-#include <display/implementation/ogre/view.h>
-
+#include <kernel/trait_view.h>
 #include <model/observer.h>
-
-#include <display/trait.h>
+#include <display/implementation/ogre/real_world_view_point.h>
 
 namespace ProjetUnivers {
   namespace Display {
@@ -35,11 +33,11 @@ namespace ProjetUnivers {
       namespace Ogre {
         
         
-        /// La propriété d'être observateur.
+        /// Observer view.
         /*!
         */
-        class Observer : public View<Model::Observer>,
-                         public Trait
+        class Observer : public Kernel::TraitView<Model::Observer,
+                                                  RealWorldViewPoint>
         {
         public:
         
@@ -49,41 +47,37 @@ namespace ProjetUnivers {
         // @{
 
 
-          /// Constructeur.
-          Observer(Model::Observer*) ;
+          /// Constructor.
+          Observer(Model::Observer*,RealWorldViewPoint*) ;
 
+          ::Ogre::Camera* getCamera() const ;
 
         // @}
+        protected:
+
         /*!
-          @name Mise à jour
+          @name Updates.
         */
         // @{
         
-          /// Crée une caméra.
-          void init() ;
+          /// Build a camera.
+          void onInit() ;
           
-          /// Détruit la caméra.
-          void close() ;
-        
+          /// Dstroy the camera.
+          void onClose() ;
+          
           /// 
           /*!
-          @par Etat
-            stub vide
-          
-          Model::Observer ne contient pour l'instant aucune donnée 
-          susceptible de changer
+          @par state
+            empty stub vide
+            Model::Observer stil does not contains any changeable data. 
           */
-          void update(const Kernel::Event&) ;
-
+          void onUpdate() ;
 
         // @}
-        
-          ::Ogre::Camera* getCamera() const ;
-          
         private:
 
-          /// La caméra
-          ::Ogre::Camera* camera ;
+          ::Ogre::Camera* m_camera ;
 
         };
       }

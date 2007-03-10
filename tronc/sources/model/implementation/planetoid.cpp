@@ -25,7 +25,7 @@ namespace ProjetUnivers {
   namespace Model {
 
     Planetoid::Planetoid()
-    : Trait()
+    : Kernel::Trait()
     {}
     
   }
