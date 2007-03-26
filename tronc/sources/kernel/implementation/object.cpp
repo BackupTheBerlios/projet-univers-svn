@@ -216,9 +216,12 @@ namespace ProjetUnivers {
 
     void Object::_close(ViewPoint* i_viewpoint)
     {
+      Log::InternalMessage("Object::_close entering " + name) ;
       if (i_viewpoint->isVisible(this))
       {
         
+        Log::InternalMessage("Object::_close closing childs") ;
+
         for(std::set<Object*>::iterator child = children.begin() ;
             child != children.end() ;
             ++child)
@@ -226,14 +229,19 @@ namespace ProjetUnivers {
           (*child)->_close(i_viewpoint) ;
         }
 
+        Log::InternalMessage("Object::_close closing traits") ;
+        
         for(std::map<std::string, Trait*>::iterator trait = traits.begin() ;
             trait != traits.end() ;
             ++trait)
         {
+          Log::InternalMessage("traits=" + toString((int)trait->second)) ;
+          
           trait->second->_close(i_viewpoint) ;
         }
 
       }
+      Log::InternalMessage("Object::_close leaving " + name) ;
     }
 
     void Object::_create_views(ViewPoint* i_viewpoint)

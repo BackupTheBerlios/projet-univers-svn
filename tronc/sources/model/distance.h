@@ -29,6 +29,8 @@ namespace ProjetUnivers {
     {
       class TestDistance ;
     }
+    
+    class Position ;
       
     /// Une distance éloignant deux points.
     
@@ -49,11 +51,12 @@ namespace ProjetUnivers {
     // ********************
     // @{   
     
-      /// Les différentes unités de mesure utilisée.
+      /// Measure units.
       typedef enum {
         _Meter,
         _LightYear, 
         _Parsec 
+
       } Unit ;
 
       /// Distance nulle.
@@ -104,14 +107,26 @@ namespace ProjetUnivers {
     
 
       /// Valeur.
-      float distance ;
+      float m_value ;
   
       /// Unité de la distance
-      Unit unit ;    
-  
+      Unit  m_unit ;    
+
+      /// Internal unit conversions.
+      static float convert(float i_value,
+                           Unit  i_from,
+                           Unit  i_to) ;
+      
+      /// Choose the best unit from i_unit1 and i_unit2.
+      static Unit bestCompatibleUnit(Unit  i_unit1,
+                                     Unit  i_unit2) ;
+      
+      /// Unit comparison; test purpose.
       friend bool operator<=(Distance::Unit, Distance::Unit) ;
+
                             
       friend class ::ProjetUnivers::Model::Test::TestDistance ;
+      friend class ::ProjetUnivers::Model::Position ;
     };
 
     bool operator<=(Distance::Unit,Distance::Unit) ;

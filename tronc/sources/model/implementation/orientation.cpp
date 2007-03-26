@@ -17,32 +17,31 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-
-
 #include <model/orientation.h>
-
 
 namespace ProjetUnivers {
   namespace Model {
 
     Orientation::Orientation()
-    : orientation()
+    : m_orientation()
     {}
 
     Orientation::Orientation(const Orientation& _orientation)
-    : orientation(_orientation.orientation)
+    : m_orientation(_orientation.m_orientation)
     {}
 
     Orientation::Orientation(const Ogre::Quaternion& _orientation)
-    : orientation(_orientation)
+    : m_orientation(_orientation)
     {}
 
     Ogre::Quaternion Orientation::getQuaternion() const 
     {
-      return orientation ;
+      return m_orientation ;
     }
-
+    
+    Orientation Orientation::operator*(const Orientation& i_orientation) const
+    {
+      return m_orientation * i_orientation.m_orientation ; 
+    }
   }
 }
-
-

@@ -28,7 +28,8 @@ namespace ProjetUnivers {
   
   namespace Kernel {
     class Object ;
-    class Kernel::Trait ;
+    class Trait ;
+    class Model ;
   }
    
   /// Game data model.
@@ -61,7 +62,7 @@ namespace ProjetUnivers {
     
   //@}
   /*!
-    @name Interface
+    @name Modification Interface
     
   */
   // @{
@@ -94,11 +95,76 @@ namespace ProjetUnivers {
     void destroyTrait(Kernel::Object* i_object, 
                       Kernel::Trait* i_trait) ;
 
+  // @}
+  /*!
+    @name Semantic relationships 
+  
+    Parentship has several meanings according to object structure. For 
+    example isInside relationship is used for 3 object relative placement. 
+    isPartOf is used for physics and collision.  
+    
+    Definition of these relationship is mainly for internal documentation  
+    purpose; as a kind of model describing.
+
+    @todo 
+      Define 
+      - isOn : a person is on a planet, a worm is inside a planet
+      - isMember : a person is a member of a party
+  */
+  // @{
+
+    /// True iff @c i_content is inside @c i_contener.
+    /*!
+      @c i_content is inside @c i_contener iff 
+      - both are Positionned and 
+      - @c i_contener is an ancestor of @c i_content 
+    */
+    bool isInside(Kernel::Object* i_content,Kernel::Object* i_contener) ;
+
+
+    /// True iff @c i_part is a part of @c i_whole.
+    /*!
+      @c i_part is a part of @c i_whole iff 
+      - @c i_part is a direct part of @c i_whole or 
+      - @c i_part is a part of x and x is a direct part of @c i_whole
+
+      @c i_part is a direct part of @c i_whole iff 
+      - both are Positionned and 
+      - @c i_whole is Composite
+      - @c i_part is Component
+      - @c i_whole is the parent of @c i_part 
+    */
+    bool isPartOf(Kernel::Object* i_part,Kernel::Object* i_whole) ;
+
+    /// True iff @c i_object is a whole.
+    /*!
+      @c i_object is a whole iff :
+      - @c i_object is not component
+      
+      @remark 
+        If an object is an elementary whole (i.e. an object whitout component) 
+        it still remains a whole when subdividing it into compenents. It is 
+        a very good idea that view points relies on being a whole, because it 
+        is more likely to be a property that resists model evolutions.   
+    
+    */
+    bool isAWhole(Kernel::Object* i_object) ;
+
   //@}
+  /*!
+    @name Interface for other modules
+    
+    Ce n'est pas au point. Pour l'instant c'est ce qu'utilise display .
+    
+    --> le sortir en model_display.h
+  */
+  // @{
 
     /// Access to real world model. 
     Kernel::Model* getRealWorlModel() ;
-    
+  
+  // @}
+  
   }
   
 }

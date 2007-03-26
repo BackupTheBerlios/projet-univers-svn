@@ -21,59 +21,60 @@
 #ifndef PU_MODEL_SPEED_H_
 #define PU_MODEL_SPEED_H_
 
-
+#include <OgreVector3.h>
 
 namespace ProjetUnivers {
   namespace Model {
 
-
-
-    /// Une vitesse.
+    /// A speed.
     /*!
-      C'est un vecteur vitesse.
+      Implementation with Ogre::Vector3.
     */
     class Speed {
     public:
     
-      // *************************
-      /// @name Constructeurs
-      // *************************      
-      // @{  
+    /*! 
+      @name Constructeurs
+    */
+    // @{  
 
      
-      /// Speed nulle.
+      /// Zero speed.
       Speed() ;
 
-      /// Constructeur de copie.
+      /// Copy constructor.
       Speed(const Speed&) ;
+      
+      /// Constructor.
+      static Speed MeterPerSecond(const float& i_x,
+                                  const float& i_y,
+                                  const float& i_z) ;
 
-
-      /// Calcul
+      /// Addition.
       Speed operator +(const Speed&) const ;
 
-      /// Calcul
+      /// Substraction.
       Speed operator -(const Speed&) const ;
       
-      /// Calcul
+      /// Multiplication.
       Speed operator *(const float&) const ;
+      Speed operator /(const float&) const ;
 
       
-      // @}
-
-      // *************************
-      /// @name Accès
-      // *************************      
-      // @{  
-       
+    // @}
+    /*!
+      @name Access.
+    */
+    // @{  
      
-      /// Donne la vitesse en m.s-1.
-      float MeterPerSecond() const ;
+      /// Speed vector in m.s-1.
+      Ogre::Vector3 MeterPerSecond() const ;
 
 
-      // @}
+    // @}
     
     private:
-    
+
       /// Les différentes unités de mesure
       typedef enum 
       {
@@ -82,8 +83,14 @@ namespace ProjetUnivers {
         
       } Unit ;
 
-      float value ;
-      Unit unit ;
+      /// internal purpose constructor.
+      Speed(const Unit& i_unit,
+            const float& i_x,
+            const float& i_y,
+            const float& i_z) ;
+
+      Ogre::Vector3 m_value ;
+      Unit          m_unit ;
   
   
     };

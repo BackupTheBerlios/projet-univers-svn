@@ -25,44 +25,38 @@
 
 
 namespace ProjetUnivers {
-  
  
-  /// Gestion des actions sur Model.
-  /*!
-    
-  */ 
+  /// Actions on Model.
   namespace Action 
   {
 
   /*!
-    @name Initialisation/Terminaison.
+    @name Init/close.
   */
   //@{        
     
-    /// Initialise le module.
+    /// Module initialisation.
     void init() ;
 
-    /// Termine le module.
+    /// Module closing.
     void close() ;
 
   //@}
   /*!
-    @name Gestion des actions.
-  
+    @name actions management.
   
   */
   //@{
   
-  
-    /// Execute les actions en cours.
+    /// Execute pending actions.
     /*!
       @post
-        Il n'y a plus d'actions à traiter
+        there is no more actions to process.
     */
     void update() ;
 
 
-    /// Ajoute une action
+    ///   Add an action
     /*!
       Les actions sont désignées par un identificateur @c _nomAction.
       @todo 
@@ -71,7 +65,10 @@ namespace ProjetUnivers {
     */
     void add(const std::string& _name) ;
 
-    /// 
+    /// True iff finished.
+    /*!
+      @todo treat termination in an other way.
+    */
     bool finished() ;
 
   //@}

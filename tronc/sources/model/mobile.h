@@ -23,31 +23,31 @@
 
 #include <kernel/trait.h>
 #include <model/speed.h>
-#include <model/acceleration.h>
+#include <model/angular_speed.h>
 
 namespace ProjetUnivers {
   namespace Model {
 
-    /// Propriété des objets se déplacant dans un espace.
+    /// For objects that move relativly to their parent.
     /*!
-    @par Etat
-      planning
-
     */
     class Mobile : public Kernel::Trait
     {
     public:
 
-      /// Constructeur.
+      /// Construct.
       Mobile() ;
       
-    
+      void setSpeed(const Speed& i_new_speed) ;
+      void setAngularSpeed(const AngularSpeed& i_new_angular_speed) ;
+
+      const Speed& getSpeed() const ;
+      const AngularSpeed& getAngularSpeed() const ;
+      
     protected:
     
-      Speed        speed ;
-      Acceleration acceleration ;
-
-      /// Accélération angulaire
+      Speed        m_speed ;
+      AngularSpeed m_angular_speed ;
       
     };
   }

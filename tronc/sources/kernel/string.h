@@ -4,7 +4,7 @@
 #include <string>
 #include <sstream>
 
-/// Convert int to string.
-std::string toString(const int& _i) ;
+/// Convert numeric to string.
+std::string toString(const float& _i) ;
 
 #endif /*PU_KERNEL_STRING_H_*/

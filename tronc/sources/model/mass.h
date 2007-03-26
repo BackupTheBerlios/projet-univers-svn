@@ -26,73 +26,54 @@
 namespace ProjetUnivers {
   namespace Model {
 
-    /// Une quantité de matière.
+    /// A quantity of matter.
     /*!
-    @par Etat
-      planning
-    
     */
     class Mass 
     {
     public:
     
     /*! 
-      @name Constructeurs
-
-      Fonctions de conversion, calculs dimensionnés,...
+      @name Constructors
     */
     // @{  
-
      
-      /// Mass nulle.
+      /// Null mass.
       Mass() ;
 
-      /// Constructeur de copie.
+      /// copy Ccnstructor.
       Mass(const Mass&) ;
 
-      /// Constructeur avec des kilogrammes
+      /// Build in kilograms.
       static Mass Kilogram(const float&) ;
 
-
-      /// Calcul
       Mass operator +(const Mass&) const ;
-
-      /// Calcul
       Mass operator -(const Mass&) const ;
-      
-      /// Calcul
       Mass operator /(const float&) const ;
-
-      /// Calcul
       float operator /(const Mass&) const ;
-
-      /// Calcul
       Mass operator *(const float&) const ;
 
       
     // @}
-    // *************************
-    /// @name Accès
-    // *************************      
+    /*! 
+      @name Access
+    */
     // @{  
-       
      
-      /// Converti en kilogrammes.
+      /// Convert to kilograms.
       float Kilogram() const ;
 
-      /// Comparaison
+      /// Comparison.
       bool operator <(const Mass&) const ;
 
     // @}
     
     private:
     
-      /// Les différentes unités de mesure
+      /// Measure units
       typedef enum 
       {
-        /// L'unité kilogramme
-        _Kilogram, 
-        
+        _Kilogram
       } Unit ;
 
       float value ;

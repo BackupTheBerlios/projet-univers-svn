@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Equipe Projet Univers                           *
+ *   Copyright (C) 2007 by Equipe Projet Univers                           *
  *   rogma.boami@free.fr                                                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,7 +17,6 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-
 #ifndef PU_MODEL_DURATION_H_
 #define PU_MODEL_DURATION_H_
 
@@ -26,54 +25,43 @@ namespace ProjetUnivers {
   namespace Model {
 
       
-    /// Une durée.
+    /// A time duration.
     /*!  
-    @par Type de classe :
-      - Valeur
-    @par Etat
-      planning
     */
     class Duration 
     {
     public:
     
-    // ********************
-    /// @name Constructeurs
-    // ********************
+    /*! 
+      @name Constructors
+    */
     // @{   
     
 
-      /// Durée nulle.
+      /// Zero duration.
       Duration() ;
       
-      /// Constructeur de copie.
+      /// Build a duration in seconds.
+      static Duration Second(float i_seconds) ;
+      
+      /// Copy constructor.
       Duration(const Duration&) ;
     
-      /// Calcul
+      /// Addition
       Duration operator +(const Duration&) const ;
 
-      /// Calcul
+      /// Substraction
       Duration operator -(const Duration&) const ;
 
       
     // @}
-    // ******************
-    /// @name Conversions
-    // ******************
+    /*! 
+      @name Convertions
+    */
     // @{
-      
 
-      /// Convertit la distance en secondes.
+      /// Duration in seconds.
       float Second() const ; 
-      
-
-    
-    // @}    
-    // ************
-    /// @name Accès
-    // ************
-    // @{
-    
     
     // @}
       
@@ -83,19 +71,16 @@ namespace ProjetUnivers {
       typedef enum {
         _Second
       } Unit ;
+      
+      /// Private constructor.
+      Duration(Unit i_unit,float i_value) ;
 
-
-      float value ;
-      Unit unit ;    
+      float m_value ;
+      Unit  m_unit ;    
   
     };
 
-
-
   }
 }
-
-
-
 
 #endif

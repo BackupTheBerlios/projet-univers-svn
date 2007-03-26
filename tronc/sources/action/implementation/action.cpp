@@ -128,9 +128,9 @@ namespace ProjetUnivers {
         Object* vaisseau = Model::createObject("Vaisseau2",system) ;
         if (vaisseau)
         {
-          Model::addTrait(vaisseau,new Positionned(Position(Distance(Distance::_Meter, 0),
-                                                            Distance(Distance::_Meter, 500000),
-                                                            Distance(Distance::_Meter, 0)) )) ;
+          Model::addTrait(vaisseau,new Positionned(Position::Meter(0,
+                                                                   500000,
+                                                                   0))) ;
           
           Model::addTrait(vaisseau,new Solid(Model::Mesh("razor.mesh"))) ;
         }

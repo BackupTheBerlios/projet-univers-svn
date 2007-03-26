@@ -30,29 +30,22 @@ namespace ProjetUnivers {
   namespace Model {
 
 
-    /// Propriété d'être fait de matière solide.
+    /// For objects that ar solid.
     class Solid : public Kernel::Trait 
     {
     public:
-    
-    // **********************
-    /// @name Constructeur/Destructeur
-    // **********************
-    // @{
 
-      /// Constructeur.
+      /// Constructor.
       Solid(const Mesh& _volume) ;
       
-      /// Accès au modèle 3d.
+      /// Access to 3D model.
       Mesh getMesh() const ;
       
-    //@}
 
     private:
       
-      /// Volume du solide
-      Mesh mesh ;
-  
+      /// Volume and texture properties.
+      Mesh m_mesh ;
     };
   }
 }

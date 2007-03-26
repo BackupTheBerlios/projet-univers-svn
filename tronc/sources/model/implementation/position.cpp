@@ -29,33 +29,112 @@ namespace ProjetUnivers {
     Position::Position()
     {}
 
-    Position::Position(const Position& _position)
-    : xCoordinate(_position.xCoordinate),
-      yCoordinate(_position.yCoordinate),
-      zCoordinate(_position.zCoordinate)
+    Position::Position(const Position& i_position)
+    : m_unit(i_position.m_unit),
+      m_value(i_position.m_value)
     {}
 
-    Position::Position(const Distance& x, 
-                       const Distance& y, 
-                       const Distance& z)
-    : xCoordinate(x),
-      yCoordinate(y),
-      zCoordinate(z)
+    Position::Position(Distance::Unit i_unit,
+                       float          i_x, 
+                       float          i_y, 
+                       float          i_z)
+    : m_unit(i_unit),
+      m_value(i_x,i_y,i_z)
     {}
 
+    Position Position::Meter(float i_x, 
+                             float i_y, 
+                             float i_z)
+    {
+      return Position(Distance::_Meter,i_x,i_y,i_z) ;
+    }
+
+
+    Ogre::Vector3 Position::Meter() const
+    {
+      if (m_unit == Distance::_Meter)
+      {
+        return m_value ;
+      }
+      return Ogre::Vector3(Distance::convert(m_value[0],
+                                             m_unit,
+                                             Distance::_Meter),
+                           Distance::convert(m_value[1],
+                                             m_unit,
+                                             Distance::_Meter),
+                           Distance::convert(m_value[2],
+                                             m_unit,
+                                             Distance::_Meter)) ;                                            
+    }
+    
+    Position Position::operator+(const Position& i_position) const
+    {
+      Distance::Unit result_unit = Distance::bestCompatibleUnit(m_unit,
+                                                                i_position.m_unit) ;
+      /// convert all data into the result_unit
+      return Position(result_unit,
+                      Distance::convert(m_value[0],
+                                        m_unit,
+                                        result_unit) +
+                      Distance::convert(i_position.m_value[0],
+                                        i_position.m_unit,
+                                        result_unit),
+                      Distance::convert(m_value[1],
+                                        m_unit,
+                                        result_unit) +
+                      Distance::convert(i_position.m_value[1],
+                                        i_position.m_unit,
+                                        result_unit),
+                      Distance::convert(m_value[2],
+                                        m_unit,
+                                        result_unit) +
+                      Distance::convert(i_position.m_value[2],
+                                        i_position.m_unit,
+                                        result_unit)) ;
+      
+    }
+
+    Position Position::operator-(const Position& i_position) const
+    {
+      
+      Distance::Unit result_unit = Distance::bestCompatibleUnit(m_unit,
+                                                                i_position.m_unit) ;
+      /// convert all data into the result_unit
+      return Position(result_unit,
+                      Distance::convert(m_value[0],
+                                        m_unit,
+                                        result_unit) -
+                      Distance::convert(i_position.m_value[0],
+                                        i_position.m_unit,
+                                        result_unit),
+                      Distance::convert(m_value[1],
+                                        m_unit,
+                                        result_unit) -
+                      Distance::convert(i_position.m_value[1],
+                                        i_position.m_unit,
+                                        result_unit),
+                      Distance::convert(m_value[2],
+                                        m_unit,
+                                        result_unit) -+
+                      Distance::convert(i_position.m_value[2],
+                                        i_position.m_unit,
+                                        result_unit)) ;
+      
+    }
+    
     Distance Position::getXCoordinate() const
     {
-      return this->xCoordinate ;
+      return Distance(m_unit,m_value[0]) ;
     }
 
     Distance Position::getYCoordinate() const
     {
-      return this->yCoordinate ;
+      return Distance(m_unit,m_value[1]) ;
     }
     
     Distance Position::getZCoordinate() const
     {
-      return this->zCoordinate ;
+      return Distance(m_unit,m_value[2]) ;
     }
     
   }

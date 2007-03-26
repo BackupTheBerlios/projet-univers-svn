@@ -17,17 +17,41 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-
-
 #include <model/mobile.h>
 
 namespace ProjetUnivers {
-
   namespace Model {
 
     Mobile::Mobile()
-    : Kernel::Trait(), speed(), acceleration()
+    : Kernel::Trait(), 
+      m_speed(), 
+      m_angular_speed()
     {}
+
+    void Mobile::setSpeed(const Speed& i_new_speed)
+    {
+      m_speed = i_new_speed ;
+      notify() ;
+    }
+
+    const Speed& Mobile::getSpeed() const
+    {
+      return m_speed ;
+    }
+
+    const AngularSpeed& Mobile::getAngularSpeed() const
+    {
+      return m_angular_speed ;
+    }
+
+        
+    void Mobile::setAngularSpeed(const AngularSpeed& i_new_angular_speed)
+    {
+      m_angular_speed = i_new_angular_speed ;
+      notify() ;
+    }
+
+
 
   }
 }

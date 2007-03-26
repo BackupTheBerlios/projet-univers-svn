@@ -25,49 +25,42 @@
 
 
 namespace ProjetUnivers {
-  namespace Kernel
-  {
-    class Object ;
-  }
   namespace Model {
 
-    /// Une orientation d'un objet dans l'espace.
+    /// An orientation of an object in space.
     /*!
-    C'est un vecteur.
-      
+      A quaternion.         
       
     */
     class Orientation {
     public:
     
-    /// @name Constructeurs
+    /*! 
+      @name Constructors
+    */
     // @{  
 
      
-      /// Orientation.
+      /// Default orientation.
       Orientation() ;
 
-      /// Constructeur de copie.
+      /// Copy constructor.
       Orientation(const Orientation&) ;
 
       Orientation(const Ogre::Quaternion& _orientation) ; 
       
     // @}
       
+      /// Acces to quaternion.
       Ogre::Quaternion getQuaternion() const ;
 
-
+      /// Compose orientations.
+      Orientation operator*(const Orientation&) const ;
     
     private:
-    
 
-      /// Origine 
-      Kernel::Object* origin ;
-
-      // orientation par rapport à origine.
-      Ogre::Quaternion orientation ;
- 
-
+      // orientation.
+      Ogre::Quaternion m_orientation ;
   
     };
   }

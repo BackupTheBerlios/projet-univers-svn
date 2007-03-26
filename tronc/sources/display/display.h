@@ -23,7 +23,6 @@
 
 
 namespace ProjetUnivers {
-
   namespace Kernel
   {
     class Object ;

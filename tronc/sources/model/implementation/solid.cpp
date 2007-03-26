@@ -25,14 +25,15 @@ namespace ProjetUnivers {
   namespace Model {
 
      
-    Solid::Solid(const Mesh& _mesh) 
-    : Kernel::Trait(), mesh(_mesh)
+    Solid::Solid(const Mesh& i_mesh) 
+    : Kernel::Trait(), 
+      m_mesh(i_mesh)
     {}
 
     /// Accès au modèle 3d.
     Mesh Solid::getMesh() const
     {
-      return mesh ;
+      return m_mesh ;
     }
 
   

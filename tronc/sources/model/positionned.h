@@ -29,20 +29,28 @@
 namespace ProjetUnivers {
   namespace Model {
 
-    /// Propriété des objets ayant une position dans un espace.
+    /// For objects that have a position and orientation in space.
+    /*!
+      Iff their parent is also positionned, the position of the object is 
+      relative to its parent; whereas, its position is "absolute" and any 
+      absolute position is equivalent to (0,0,0).
+    */
     class Positionned : public Kernel::Trait
     {
     public:
 
     /*!
-      @name Construction
+      @name Constructors
     */
     // @{
     
-      /// Constructeur.
+      /// Constructor.
       Positionned(const Position&) ;
 
-      /// Positionne par rapport à son propre référentiel.
+      /// Constructor.
+      Positionned(const Position&,const Orientation&) ;
+
+      /// Origin position.
       Positionned() ;
   
 
@@ -52,11 +60,25 @@ namespace ProjetUnivers {
     */
     // @{
 
-      /// Position de l'objet.
-      Position getPosition() const ;
+      /// Access to position relative to its parent.
+      const Position& getPosition() const ;
 
-      /// Orientation de l'objet
-      Orientation getOrientation() const ;
+      /// Access to position relative to @c i_ancestor.
+      /*!
+        @pre i_ancestor is a Positionned ancestor of this->getObject(), 
+        and every object between the two are also Positionned 
+      */
+      Position getPosition(Kernel::Object* i_ancestor) const ;
+
+      /// Access to orientation relative to its parent.
+      const Orientation& getOrientation() const ;
+
+      /// Access to orientation relative to @c i_ancestor.
+      /*!
+        @pre i_ancestor is a Positionned ancestor of this->getObject(), 
+        and every object between the two are also Positionned 
+      */
+      Orientation getOrientation(Kernel::Object* i_ancestor) const ;
 
     // @}
     /*!
@@ -66,13 +88,16 @@ namespace ProjetUnivers {
 
       void changeOrientation(const Orientation&) ;
 
+      void changePosition(const Position&) ;
+
+
     // @}
         
     private:
 
       
-      Position position ;  
-      Orientation orientation ;
+      Position    m_position ;  
+      Orientation m_orientation ;
     
     };
   }

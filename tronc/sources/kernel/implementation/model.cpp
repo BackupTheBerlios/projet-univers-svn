@@ -1,19 +1,19 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Equipe Projet Univers                           *
+ *   Copyright (C) 2007 by Equipe Projet Univers                           *
  *   rogma.boami@free.fr                                                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU Lesser General Public License as        *
- *   published by the Free Software Foundation; either version 2.1 of the  *
- *   License, or (at your option) any later version.                       *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
  *                                                                         *
  *   This program is distributed in the hope that it will be useful,       *
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU Lesser General Public License for more details.                   *
+ *   GNU General Public License for more details.                          *
  *                                                                         *
- *   You should have received a copy of the GNU General Lesser Public      *
- *   License along with this program; if not, write to the                 *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program; if not, write to the                         *
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
@@ -162,6 +162,17 @@ namespace ProjetUnivers {
     
     Model::~Model()
     {
+      /// 1. close all view points
+      for(std::set<ViewPoint*>::iterator viewpoint = viewpoints.begin() ;
+          viewpoint != viewpoints.end() ;
+          ++viewpoint)
+      {
+        _close(*viewpoint) ;
+        /// notify viewpoint it has no longer a model
+        (*viewpoint)->model = NULL ;
+      }
+      
+      /// 2. destroy objects 
       for(std::set<Object*>::iterator object = objects.begin() ;
           object != objects.end() ;
           ++object)
@@ -187,6 +198,14 @@ namespace ProjetUnivers {
       {
         (*object)->_create_views(i_viewpoint) ;
       }      
+    }
+
+    void Model::_unregister(ViewPoint* i_viewpoint)
+    {
+      viewpoints.erase(i_viewpoint) ;
+
+      Log::InternalMessage(
+        (std::string("Model::_unregister") + typeid(*i_viewpoint).name()).c_str()) ;
     }
     
     void Model::_init(ViewPoint* i_viewpoint)

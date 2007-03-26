@@ -17,6 +17,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <kernel/object.h>
 
 #include <model/positionned.h>
 
@@ -25,34 +26,106 @@ namespace ProjetUnivers {
   namespace Model {
 
 
-    Positionned::Positionned(const Position& _position)
-    : Kernel::Trait(), position(_position)
+    Positionned::Positionned(const Position& i_position)
+    : Kernel::Trait(), 
+      m_position(i_position),
+      m_orientation()
     {}
 
+    Positionned::Positionned(
+        const Position&    i_position,
+        const Orientation& i_orientation)
+    : Kernel::Trait(), 
+      m_position(i_position),
+      m_orientation(i_orientation)
+    {}
+
+
     Positionned::Positionned()
-    : Kernel::Trait(), position()
+    : Kernel::Trait(), 
+      m_position(),
+      m_orientation()
     {
       
     }
 
-    Position Positionned::getPosition() const 
+    const Position& Positionned::getPosition() const 
     {
-      return position ;
+      return m_position ;
     }
 
-    Orientation Positionned::getOrientation() const
+    const Orientation& Positionned::getOrientation() const
     {
-      return this->orientation ;
+      return m_orientation ;
     }
 
 
-    void Positionned::changeOrientation(const Orientation& _orientation)
+    Position Positionned::getPosition(Kernel::Object* i_ancestor) const 
     {
-      this->orientation = _orientation ;
+      if (! getObject()->getParent() || i_ancestor == getObject())
+      {
+        return Position() ;
+      }
       
-      this->notify() ;
+      if (i_ancestor == getObject()->getParent())
+      {
+        return m_position ;
+      }
+      else
+      {
+        Positionned* 
+          positionned = getObject()->getParent()->getTrait<Positionned>() ;
+        
+        if (positionned)
+        {
+          return m_position + positionned->getPosition(i_ancestor) ;          
+        }
+        else
+        {
+          return m_position ;
+        }
+      }
     }
 
+    Orientation Positionned::getOrientation(Kernel::Object* i_ancestor) const
+    {
+      if (! getObject()->getParent() || i_ancestor == getObject())
+      {
+        return Orientation() ;
+      }
+      
+      if (i_ancestor == getObject()->getParent())
+      {
+        return m_orientation ;
+      }
+      else
+      {
+        Positionned* 
+          positionned = getObject()->getParent()->getTrait<Positionned>() ;
+        
+        if (positionned)
+        {
+          return positionned->getOrientation(i_ancestor)*m_orientation ;          
+        }
+        else
+        {
+          return m_orientation ;
+        }
+      }
+    }
+
+
+    void Positionned::changeOrientation(const Orientation& i_orientation)
+    {
+      m_orientation = i_orientation ;
+      notify() ;
+    }
+
+    void Positionned::changePosition(const Position& i_position)
+    {
+      m_position = i_position ;
+      notify() ;
+    }
 
     
   }

@@ -51,7 +51,7 @@ namespace ProjetUnivers {
           
           /// Constructeur.
           /*!
-            @param[in] _observateur 
+            @param[in] _observer 
               l'objet qui voie (par exemple un personnage, une caméra,...)
           */
           RealWorldViewPoint(Kernel::Object* _observer) ;

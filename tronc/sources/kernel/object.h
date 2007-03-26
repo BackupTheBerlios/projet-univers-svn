@@ -164,16 +164,13 @@ namespace ProjetUnivers {
 
       Kernel::Log::InternalMessage("Asking :") ;
       Kernel::Log::InternalMessage(typeid(T).name()) ;
-
-      /// on attrape la facette 
-      Trait* trait = traits[typeid(T).name()] ;
       
-      /// si elle existe on effectue la conversion :
-      if (trait)
+      /// if trait exist convert :
+      if (traits.find(typeid(T).name()) != traits.end())
       {
         Kernel::Log::InternalMessage("Trait found") ;
         
-        return static_cast<T*>(trait) ;
+        return static_cast<T*>(traits[typeid(T).name()]) ;
       }
       else
       {

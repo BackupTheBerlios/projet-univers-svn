@@ -48,10 +48,13 @@ namespace ProjetUnivers {
     {
       _close() ;
       
+      Log::InternalMessage("Trait::~Trait destroying views") ;
+
       for(std::map<ViewPoint*,BaseTraitView*>::iterator view = views.begin() ;
           view != views.end() ;
           ++view)
       {
+        check(view->second,"Trait::~Trait no view") ;
         delete view->second ;
       }
     }

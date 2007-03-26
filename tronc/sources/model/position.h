@@ -21,58 +21,68 @@
 #ifndef PU_MODEL_POSITION_H_
 #define PU_MODEL_POSITION_H_
 
+#include <OgreVector3.h>
+
 #include <model/distance.h>
 
 namespace ProjetUnivers {
   namespace Model {
 
-    /// Une position dans un espace à trois dimensions.
+    /// A position in a three dimention world.
     /*!
-      Une position est :
-      - un point d'origine : une sorte de référentiel
-      - 3 coordonnées par rapport à ce point
+      A position is relative to the Positionned parent (if exists).
       
-      @see Positionne
+      Position are held in a (right/left?) hand coordinate:
+      - x axe : positive to rigth
+      - y axe : positive to front 
+      - z axe : positive to up 
+      
+      @see Positionned
     */
     class Position 
     {
     public:
     
-    // *************************
     /*!
       @name Construction
     */
-    // *************************
     // @{  
 
-      /// Constructeur par défaut.
+      /// Constructor.
       Position() ;
       
-      /// Construit la position indiquée.
-      /*!
-        On donne une origine et 3 distances.
-      */  
-      Position(const Distance& x, 
-               const Distance& y, 
-               const Distance& z) ;
-
-      /// Constructeur de copie.
+      /// Build position in meter.
+      static Position Meter(float i_x, 
+                            float i_y, 
+                            float i_z) ;
+      
+      
+      /// Copy constructor.
       Position(const Position&) ;
       
-    // @}
-    // *************************
-    /*!
-      @name Construction
-    */
-    // *************************      
-    // @{  
+      /// Addition.
+      Position operator+(const Position& i_position) const ;
+
+      /// Substraction.
+      Position operator-(const Position& i_position) const ;
+
       
-      /// Opérateur d'égatité.
+    // @}
+    /*!
+      @name Access
+    */
+    // @{  
+
+      /// Coordinates in meter
+      Ogre::Vector3 Meter() const ;
+      
+      // Distance between 2 Position.
+      Distance calculateDistance(const Position&) const ; 
+
+      /// ????
       bool operator==(const Position&) const ;
       
-      // Distance entre 2 Position.
-      Distance calculateDistance(const Position&) const ; 
-    
+      /// @deprecated    
       Distance getXCoordinate() const ;
       Distance getYCoordinate() const ;
       Distance getZCoordinate() const ;
@@ -80,16 +90,16 @@ namespace ProjetUnivers {
     // @}
     
     private:
-    
+      
+      Ogre::Vector3   m_value ;
+      Distance::Unit  m_unit ;
 
-      /*!
-        Implementation l'aide de trois distances, 
-        qui sont les distances entre les divers projections sur les plans 
-        des coordonnées et le point qui sert d'origine au système.      
-      */
-      Distance xCoordinate ;
-      Distance yCoordinate ;
-      Distance zCoordinate ;      
+      /// Internal constructor.
+      Position(Distance::Unit i_unit,
+               float          i_x, 
+               float          i_y, 
+               float          i_z) ;
+      
       
     };
   }

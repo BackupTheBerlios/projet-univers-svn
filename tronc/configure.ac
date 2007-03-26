@@ -9,9 +9,9 @@ AC_PROG_LIBTOOL
 AM_PROG_LIBTOOL
 
 
-#############################################
-# Vérification de la présences des programmes
-#############################################
+#########################
+# Check programs presence
+#########################
 
 
 # Vérifie la présence d'un compilateur C++
@@ -48,15 +48,11 @@ AC_SUBST(OCC_CXXFLAGS, `$LIBOCC_CONFIG --cflags`)
 #fi
 
 
-######################################
-# Vérification de la présences des lib
-######################################
+#####################
+# Check libs presence
+#####################
 
-
-# Vérifie la présence de cppunit 
-# pour gerer les tests de non régrétion
-
-# définit les variables CPPUNIT_CFLAGS et CPPUNIT_LIBS
+# Check/config CPPUNIT
 AM_PATH_CPPUNIT(1.1.0)
 
 
@@ -69,31 +65,35 @@ AM_PATH_CPPUNIT(1.1.0)
 # et définit LEXLIB
 AC_PROG_LEX
 
-# vérifie la présence de Ogre3d
+# Check/config Ogre3d
 PKG_CHECK_MODULES(OGRE, [OGRE >= 1.2])
 AC_SUBST(OGRE_CFLAGS)
 AC_SUBST(OGRE_LIBS)
 
-# vérifie la présence de boost signals et de serialization (shared_ptr)
+# Check boost
 AX_BOOST_BASE
 
-# vérifie la présence de OIS
+# Check/config OIS
 PKG_CHECK_MODULES(OIS, [OIS >= 0.7])
 AC_SUBST(OIS_CFLAGS)
 AC_SUBST(OIS_LIBS)
 
-# vérifie la présence de RLOG
+# Check/config RLOG
 PKG_CHECK_MODULES(librlog, [librlog >= 1.3])
 AC_SUBST(librlog_CFLAGS)
 AC_SUBST(librlog_LIBS)
 
+# Check/config ODE
+AC_CHECK_HEADERS([ode/ode.h],,
+ 			  AC_MSG_ERROR([ODE development library needed]))
+AC_SUBST(ODE_LIBS, "-lode")
 
-####################################
-# Configuration des libs utilisaires
-####################################
+##################
+# Config used libs
+##################
 
 
-# Configuration de AceDB
+# AceDB Config
 # définit les variables ACEDB_CFLAGS et ACEDB_LIBS
 if test `uname -o` == GNU/Linux; then
   AC_SUBST(ACEDDB_CFLAGS, "-fwritable-strings -Wall -DACEDB4 -DLINUX")
@@ -114,7 +114,7 @@ AC_C_CONST
 AC_C_INLINE
 AC_TYPE_SIZE_T
 
-# la liste des makefile à générer
+# Makefiles
 AC_CONFIG_FILES([Makefile \
                  sources/Makefile \
                  sources/kernel/Makefile \
@@ -130,6 +130,9 @@ AC_CONFIG_FILES([Makefile \
                  sources/input/compilation/Makefile \
                  sources/action/Makefile \
                  sources/action/compilation/Makefile \
+                 sources/physic/Makefile \
+                 sources/physic/compilation/Makefile \
+                 sources/physic/compilation/ode/Makefile \
                  ])
 
 AC_OUTPUT

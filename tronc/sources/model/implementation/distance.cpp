@@ -18,6 +18,8 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#include <kernel/error.h>
+
 #include <model/distance.h>
 
 namespace ProjetUnivers {
@@ -48,67 +50,106 @@ namespace ProjetUnivers {
     }
 
     Distance::Distance()
-    : distance(0), unit(_Meter)
+    : m_value(0), 
+      m_unit(_Meter)
     {}
 
     Distance::Distance(const Unit& _unit, const float& _value)
-    : distance(_value), unit(_unit)
+    : m_value(_value), m_unit(_unit)
     {}
       
     Distance::Distance(const Distance& _distance)
-    : distance(_distance.distance), unit(_distance.unit)
+    : m_value(_distance.m_value), m_unit(_distance.m_unit)
     {}
     
     Distance Distance::operator +(const Distance& _distance) const
     {
-      
+      /// @todo
+      check(false,"note yet implemented") ;
     }
 
     Distance Distance::operator -(const Distance& _distance) const
     {
+      /// @todo
+      check(false,"note yet implemented") ;
+    }
+
+    float Distance::convert(float i_value,
+                            Unit  i_from,
+                            Unit  i_to)
+    {
+      switch (i_from)
+      {
+      case _Meter:
+        {
+          switch (i_to)
+          {
+          case _Meter:
+            return i_value ;
+          case _LightYear:
+            return i_value / 9.46e+15 ;
+          case _Parsec:
+            return i_value / 3.08e+16 ;
+          }
+        }
+      case _LightYear:
+        {
+          switch (i_to)
+          {
+          case _Meter:
+            return i_value * 9.46e+15 ;
+          case _LightYear:
+            return i_value ;
+          case _Parsec:
+            return i_value / 3.26 ;
+          }
+        }
+      case _Parsec:
+        {
+          switch (i_to)
+          {
+          case _Meter:
+            return i_value * 3.08e+16 ;
+          case _LightYear:
+            return i_value * 3.26;
+          case _Parsec:
+            return i_value ;
+          }
+        }
+      }
       
     }
+  
+    Distance::Unit Distance::bestCompatibleUnit(
+        Distance::Unit i_unit1,
+        Distance::Unit i_unit2)
+    {
+      if (i_unit1 <= i_unit2)
+      {
+        return i_unit2 ;
+      }
+      else
+      {
+        return i_unit1 ;
+      }
+    }
+
 
       
     float Distance::Parsec() const
     {
-      switch (unit)
-      {
-      case _Meter:
-        return distance / 3.08e+16 ;
-      case _LightYear:
-        return distance / 3.26  ;
-      case _Parsec:
-        return distance ;
-      }
-      
+      return convert(m_value,m_unit,_Parsec) ;
     }
       
     float Distance::Meter() const
     {
-      switch (unit)
-      {
-      case _Meter:
-        return distance  ;
-      case _LightYear:
-        return distance * 9.46e+15 ;
-      case _Parsec:
-        return distance * 3.08e+16 ;
-      }
-      
+      return convert(m_value,m_unit,_Meter) ;
     }
+      
      
     float Distance::LightYear() const
     {
-      switch (unit)
-      {
-      case _Meter:
-        return distance / 9.46e+15 ;
-      case _LightYear:
-        return distance ;
-      case _Parsec:
-        return distance * 3.26 ;
-      }
+      return convert(m_value,m_unit,_LightYear) ;
     }
 
   }

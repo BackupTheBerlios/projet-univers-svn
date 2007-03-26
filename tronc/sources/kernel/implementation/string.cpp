@@ -1,7 +1,7 @@
 
 #include <kernel/string.h>
 
-std::string toString(const int& _i) 
+std::string toString(const float& _i) 
 {
   std::stringstream ss;
   std::string str;
@@ -9,3 +9,4 @@ std::string toString(const int& _i)
   ss >> str;
   return str ;  
 }
+

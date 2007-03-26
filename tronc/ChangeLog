@@ -31,16 +31,29 @@
 			- objet.h/cpp : correction du type de retours de Ajouter(Facette*)
 															 ajout de Enlever pour Objet et Facette
 
-2006-02-17 rogma <rogma.boami@free.fr>
+2007-02-17 rogma <rogma.boami@free.fr>
 
   * affichage/point_de_vue.h : ajout de changer_observateur
 
-2006-02-22 rogma <rogma.boami@free.fr>
+2007-02-22 rogma <rogma.boami@free.fr>
 
   * change language to english
 
-2006-03-10 rogma <rogma.boami@free.fr>
+2007-03-10 rogma <rogma.boami@free.fr>
 	
 	* kernel : now contains model view framework
 	* model : simplified uses kernel model
 	* display : simplified uses kernel view and viewpoint
+
+2007-03-25 rogma <rogma.boami@free.fr>
+  
+  * kernel : bug corrections : 
+  	- getTrait made an empty trait (test added)
+  	- detroying a model with initialised viewpoint made an error (test added)
+  * model : added functionnalities
+  	- Positionned now can compute position/orientation relatively to 
+  		an other object (test added)
+  	- changes on Position, Orientation
+  	- PhysicalObject, PhysicalWorld, Massive, AngularSpeed, Component, 
+  		Composite added
+  * physic : creation of the physic module

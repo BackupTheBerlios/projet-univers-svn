@@ -26,6 +26,10 @@
 
 #include <model/exception.h>
 #include <model/observer.h>
+#include <model/massive.h>
+#include <model/mobile.h>
+#include <model/physical_object.h>
+#include <model/physical_world.h>
 #include <model/positionned.h>
 #include <model/stellar_system.h>
 #include <model/solid.h>
@@ -141,7 +145,8 @@ namespace ProjetUnivers {
         Kernel::Object* system = model->createObject("Systeme#1",universe) ;
         model->addTrait(system,new StellarSystem()) ;
         model->addTrait(system,new Positionned()) ;
-         
+        model->addTrait(system,new PhysicalWorld()) ;
+        
         Kernel::Log::InternalMessage("building stellar system done") ;
         
         
@@ -159,22 +164,28 @@ namespace ProjetUnivers {
         {
           Kernel::Log::InternalMessage("building ship...") ;
           Kernel::Object* ship = model->createObject("Vaisseau",system) ;
-          model->addTrait(ship,new Positionned(Position(Distance(Distance::_Meter, 0),
-                                                        Distance(Distance::_Meter, 0),
-                                                        Distance(Distance::_Meter, -500000)) )) ;
+          model->addTrait(ship,new Positionned(Position::Meter(0,
+                                                               0,
+                                                               -500000))) ;
           
           model->addTrait(ship,new Solid(Mesh("razor.mesh"))) ;
-  
+          model->addTrait(ship,new Mobile()) ;
+          model->addTrait(ship,new Massive(Mass::Kilogram(1000))) ;
+          model->addTrait(ship,new PhysicalObject()) ;
+          
           Kernel::Log::InternalMessage("building ship done") ;
         }
         {
           Kernel::Log::InternalMessage("building ship...") ;
           Kernel::Object* ship = model->createObject("Vaisseau#3",system) ;
-          model->addTrait(ship,new Positionned(Position(Distance(Distance::_Meter, 0),
-                                                        Distance(Distance::_Meter, 100000),
-                                                        Distance(Distance::_Meter, -500000)) )) ;
+          model->addTrait(ship,new Positionned(Position::Meter(0,
+                                                               100000,
+                                                               -500000))) ;
           
           model->addTrait(ship,new Solid(Mesh("razor.mesh"))) ;
+          model->addTrait(ship,new Mobile()) ;
+          model->addTrait(ship,new Massive(Mass::Kilogram(1000))) ;
+          model->addTrait(ship,new PhysicalObject()) ;
   
           Kernel::Log::InternalMessage("building ship done") ;
         }
@@ -183,9 +194,9 @@ namespace ProjetUnivers {
         /// 4. Ajout d'un observateur
         Kernel::Log::InternalMessage("building observer...") ;
         Kernel::Object* observer = model->createObject("Observer",system) ;
-        model->addTrait(observer,new Positionned(Position(Distance(Distance::_Meter, 0),
-                                                          Distance(Distance::_Meter, 0),
-                                                          Distance(Distance::_Meter, 0)) )) ;
+        model->addTrait(observer,new Positionned(Position::Meter(0,
+                                                             0,
+                                                             0))) ;
 
         /// Il a la faculté d'observer
         model->addTrait(observer,new Observer()) ;
