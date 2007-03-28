@@ -1,0 +1,433 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN"
+"http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd">
+<article>
+  <title>La galaxie Projet Univers</title>
+
+  <articleinfo>
+    <abstract>
+      <para>La galaxie de Projet Univers est un espace vaste où toutes les
+      cultures, les systèmes politiques, les architectures et les races se
+      croisent. Le développement technologique est encore en plein essor et
+      les limites n'ont pas encore été atteintes. Les voyages spatiaux entre
+      systèmes planétairse sont devenus accessibles à tous. Toutefois, les
+      trajets restent relativement long; il faut 2 mois pour traverser la
+      galaxie. Aucune technologie actuelle ne permet de voyager entre les
+      galaxies ou dans le centre d'une galaxie.</para>
+    </abstract>
+
+    <orgname>Equipe Projet Univers</orgname>
+
+    <author>
+      <firstname>Morgan</firstname>
+
+      <othername>Minos</othername>
+
+      <surname>Sven</surname>
+
+      <email>morgan.sven@wanadoo.fr</email>
+    </author>
+
+    <author>
+      <firstname>Nicolas</firstname>
+
+      <othername>Faro</othername>
+
+      <surname>Petitdemange</surname>
+
+      <email>faro@lfxw.com</email>
+    </author>
+
+    <author>
+      <firstname>Mathieu</firstname>
+
+      <othername>Rogma</othername>
+
+      <surname>Roger</surname>
+
+      <email>rogmaboami@hotmail.com</email>
+    </author>
+
+    <revhistory>
+      <revision>
+        <revnumber>1</revnumber>
+
+        <date>9 aout 2004</date>
+
+        <revdescription>
+          <para>Conversion du document en DocBook.</para>
+
+          <para>Incorporation de l'histoire générale.</para>
+        </revdescription>
+      </revision>
+    </revhistory>
+
+    <legalnotice>
+      <para>Ce document est sous license <ulink
+      url="http://www.gnu.org/copyleft/fdl.html">GNU Free Documentation
+      License</ulink></para>
+    </legalnotice>
+  </articleinfo>
+
+  <sect1>
+    <title>Caractérisques des différents élements du monde</title>
+
+    <sect2>
+      <title>Représentation schématique de la galaxie</title>
+
+      <para>Afin de se repérer dans un espace aussi vaste, il est nécessaire
+      d'ordonner la galaxie selon un système permettant de situer un objet en
+      quelques secondes sur une carte.</para>
+
+      <para>Pour se faire, la galaxie est partagée en <link
+      linkend="cadrans">quatre quadrans</link>, Nord-ouest, Nord-Est,
+      Sud-Ouest, Sud-Est. Puis elle est divisée en 30 cercles concentriques.
+      De cette manière un système planétaire peut être situé assez facilement
+      en fournissant deux informations, le cadran et les deux cercles
+      l'englobant.</para>
+
+      <figure>
+        <title>Les quatres quadrans d'une galaxie. Le cadran 1<anchor
+        id="cadrans" /> est le cadran nord est, etc...</title>
+
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="http://www.punivers.net/images/univers.jpg" />
+          </imageobject>
+        </mediaobject>
+      </figure>
+
+      <para>Par exemple le système violet visible sur le schéma suivant peut
+      être situer par les informations suivantes : Cercle 20-21 cadran
+      Nord-Ouest (les 3 cercles visibles représentant les cercles
+      10-20-30).</para>
+
+      <example>
+        <title>L'exemple</title>
+
+        <graphic fileref="http://www.punivers.net/images/galaxie.jpg" />
+      </example>
+    </sect2>
+
+    <sect2>
+      <title>Caractérisation d'un système planétaire</title>
+
+      <para>Un système planétaire doit être décrit au minimum par les
+      informations suivantes :</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>Nom</para>
+        </listitem>
+
+        <listitem>
+          <para>Nombre de soleils et leurs noms</para>
+        </listitem>
+
+        <listitem>
+          <para>Nombre de planètes et leurs noms</para>
+        </listitem>
+
+        <listitem>
+          <para>Description partielle donnant l'importance de ce système dans
+          la galaxie que cela soit sur le plan commercial, militaire,
+          politique…</para>
+        </listitem>
+
+        <listitem>
+          <para>Appartenance à un régime (race), ou dominance d'un régime
+          (race)</para>
+        </listitem>
+      </itemizedlist>
+    </sect2>
+
+    <sect2>
+      <title>Caractérisation d'une planète</title>
+
+      <para>Une planète doit être décrite au minimum par les informations
+      suivantes :</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>Nom</para>
+        </listitem>
+
+        <listitem>
+          <para>Description partielle donnant l'importance de la planète à
+          l'échelle du système voire à l'échelle galactique, sur le plan
+          commercial, militaire, politique…</para>
+        </listitem>
+
+        <listitem>
+          <para>Appartenance à un régime (race), ou dominance d'un régime
+          (race)</para>
+        </listitem>
+
+        <listitem>
+          <para>Paysage dominant, climat, ressources</para>
+        </listitem>
+      </itemizedlist>
+    </sect2>
+
+    <sect2>
+      <title>Caractérisation d'une race</title>
+
+      <para>Une race doit être décrite au minimum par les informations
+      suivantes :</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>Nom</para>
+        </listitem>
+
+        <listitem>
+          <para>Description physique, compétences particulières</para>
+        </listitem>
+
+        <listitem>
+          <para>Part dans la population galactique, importance
+          politique</para>
+        </listitem>
+
+        <listitem>
+          <para>Niveau technologique</para>
+        </listitem>
+      </itemizedlist>
+    </sect2>
+
+    <sect2>
+      <title>Caractérisation d'un régime politique</title>
+
+      <para>Un régime politique doit être décrit au minimum par les
+      informations suivantes :</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>Nom</para>
+        </listitem>
+
+        <listitem>
+          <para>Type général du régime (Démocratie, Aristocratie, Théocratie,
+          Technocratie, Anarchie…)</para>
+        </listitem>
+
+        <listitem>
+          <para>Nuance par à rapport au concept de base s'il y en a</para>
+        </listitem>
+
+        <listitem>
+          <para>Orientation dans sa politique extérieur, sur le plan
+          commercial, militaire….</para>
+        </listitem>
+
+        <listitem>
+          <para>Race(s) dominante(s) dans la population et dans les
+          dirigeants</para>
+        </listitem>
+
+        <listitem>
+          <para>Niveau technologique</para>
+        </listitem>
+      </itemizedlist>
+    </sect2>
+  </sect1>
+
+  <sect1>
+    <title>Histoire du monde</title>
+
+    <para>La trame historique des principales races et de leurs développements
+    dans la galaxie est décrite ici..</para>
+
+    <sect2>
+      <title>An 3000 : La conquête spatiale</title>
+
+      <para>Trois races avancées commencent l’exploration de la galaxie à
+      partir du 3ème millénaires :</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>Les Malawishs, une race d’être pacifique ne cherchant qu’à
+          explorer, ils aident les races suffisamment évoluées dans leur
+          développement et ne colonisent que des planètes vides qu’ils terra
+          forment.</para>
+        </listitem>
+
+        <listitem>
+          <para>Les Ikawas, formant un empire expansionniste, isolationniste
+          et esclavagiste, exploitant toutes les populations rencontrées et ne
+          pouvant se défendre.</para>
+        </listitem>
+
+        <listitem>
+          <para>Les Archonites, aristocrates offrant leurs richesses aux
+          peuples se montrant digne d’honneur de les rallier.</para>
+        </listitem>
+      </itemizedlist>
+
+      <para>Des premiers contacts entre les Malawishs et les Archonites ont
+      lieu, cependant les distances encore importantes les séparant ne
+      permettent pas de véritables relations. Ce son côté l’empire Ikawa reste
+      impénétrable, ne répondant à aucun message et les émissaires se faisant
+      renvoyer sans aucune explication.</para>
+
+      <para>Les Archonites suggèrent tout de même aux Malawishs de développer
+      un peu plus leurs armements, car des informations décrivant les Ikawas
+      semblent assez inquiétante. Les Malawishs remercient les Archonites par
+      l'envoie de nourriture en quantité suffisante pour faire vivre une
+      planètes Archonites un an, et renforcent un peu leur armée. Avant
+      l'attaque des Ikawas (voir plus bas), les armées Malawishs avait donc
+      doublées, comptant maintenant 4 escadrons de Rangers, soit 4 corvettes
+      et 12 chasseurs par corvette, et une armée régulière de 10.000 hommes,
+      en grande partie sur les planètes frontière avec les Ikawas. </para>
+    </sect2>
+
+    <sect2>
+      <title>An 3100 : Guerre des 100ans</title>
+
+      <para>Les Ikawas attaquent simultanément les planètes principales
+      Malawishs et Archonites. </para>
+
+      <para>Les Malawishs étant des pacifistes convaincu ne possède pas
+      suffisamment d’armement pour pouvoir riposter 3 des quatre groupes de
+      Rangers sont balayés en très peu de temps, le quatrième se replie
+      rapidement sur la planète mère des Malawichs, qu'il ne réussit pas a
+      tenir. Les Rangers disparaissent alors mystérieusement, et les
+      recherches Ikawas seront vaines. Durant 90 ans les Malawishs furent
+      complètement asservies et leur population commença à décroître
+      dangereusement.En marge certains Malawishs, poussé par les anciens
+      Rangers ont formé une résistance commençant à apprendre l’art de la
+      guerre et plus particulièrement de la guérilla.</para>
+
+      <para>Du côté des Archonites le bilan est plus mitigé. Les prouesses de
+      pilotage et de commandement conjugué à un armement ancien mais robuste
+      et en masse ont permis de repousser la première vague et de bloquer le
+      front dans une zone peu enfoncer dans les territoires Archonites. De
+      nombreuses batailles secouèrent la frontière entre les Ikawas et les
+      Archonites, les avancées des un étant tout de suite contrées par
+      l’adversaire. On peut encore aujourd’hui voir une accumulation d’épave
+      de vaisseaux invraisemblable tout le long de ce front. </para>
+
+      <para>En 3190 une nouvelle avancée technologique des Archonites devait
+      voir la face de la galaxie changer. Les premiers croiseurs stellaires de
+      nouvelle génération étaient nés, des navires d’une taille encore jamais
+      imaginée commençait à entrer dans la bataille, ne semblant pas pouvoir
+      être contrés dans leur avancée. </para>
+    </sect2>
+
+    <sect2>
+      <title>An 3200 : Point d’équilibre</title>
+
+      <para>En dix années le front se stabilité au centre de la galaxie
+      uniformément partagée entre les Archonites et les Ikawas, avec une
+      enclave Malawishs sous protection Archonite. </para>
+
+      <para>Le peu de Malawishs survivant, sous l'impulsion de Lané Douli,
+      ancien chef des Rangers, fondèrent les bases d’une République qui se
+      retrouve affaiblie par le refus des Archonites d’y participer. Le refus
+      des Archonites est autant dut à leur farouche nationalisme, mais aussi
+      dut au fait que le Seigneurs des Archonites, John Delaroche, était en
+      totale désaccord sur la mise en oeuvre de cette république, qui risquait
+      de lui faire perdre du pouvoir, à lui ou à sa famille. </para>
+    </sect2>
+
+    <sect2>
+      <title>An 3200-3400 : La course à l’armement</title>
+
+      <para>Les Archonites et les Ikawas, ne voulant prendre aucun risque
+      d’être dominé dans le future par son voisin, cherchent les meilleures
+      avancées technologiques possibles. Les Ikawas continuent leurs attaques,
+      plus avec l'objectif de ralentir la recherche Archonites que pour gagner
+      du terrain.</para>
+
+      <para>Pendant ce temps les Malawishs continuent de persévérer leurs
+      idéaux tout en ne reproduisant pas les erreurs du passé. Ils s’équipent
+      d’armement Archonite puis développe leur première ligne personnelle. Ils
+      deviennent indépendants militairement en 3295, 100 ans an après la mort
+      de Lané Douli, à 150 ans.</para>
+    </sect2>
+
+    <sect2>
+      <title>An 3400-3430 : La fin des Archonites</title>
+
+      <para>Les Ikawas fort de leurs dernières évolutions et de leur soif de
+      conquête attaque de nouveau le reste de la galaxie. Les Archonites
+      semblent ne pouvoir résister, les Ikawas perforent les défenses
+      Archonites, et leur avancée semble ne pas rencontrer d’opposition. En 20
+      ans, seul deux bastions tiennent encore, la planète mère Archonite et la
+      république Malawishs.La planète mère des Archonites fini par tomber,
+      après la mort des Familles, le régime s’effondre.Les restes Archonites
+      prennent le nom de Technocorp poussé par des idées nouvelles, fondant
+      une technocratie.</para>
+
+      <para>Malgré ses troubles, le Technocorp arrive à reprendre la planète
+      mère ArchoniRte. </para>
+    </sect2>
+
+    <sect2>
+      <title>An 3430-3460 Un pouvoir mystérieux</title>
+
+      <para>L’Empire malgré ses répressions implacables et confronté à une
+      instabilité croissante dans l’ensemble des territoires, ne pouvant
+      maîtriser une galaxie entière. Des rebellions de mondes se proclamant
+      indépendant sont réprimés, des assauts pirates augmentent le climat
+      d’inefficacité du régime à pouvoir défendre ses populations, qui
+      style='mso-spacerun:yes'&gt; pour la majorité sont purement et
+      simplement exploité. Un mouvement religieux mystérieux, les Moltars,
+      attisent les troubles et demande aux peuples qui le peuvent de se
+      révolter et de s’unir sous une seule bannière. La réputation des Moltars
+      grandit, et une légende apparaît : les disciples seraient immortel et
+      posséderaient un savoir incommensurable et mystique. De plus en plus de
+      monde se rallient à la Religion Molt, mais les Ikawas, ne supportant
+      aucune fois, persécutèrent toutes personnes soupçonnées de suivre la
+      doctrine Molt. Vers 3455, une révolte terrible éclata, et de nombreux
+      monde de la bordure (les secteurs 25 à 30<remark>de quel quadran
+      ?</remark>) se révoltèrent.</para>
+
+      <para>Une part des indépendantistes, principalement du cadran Sud-Est
+      rejoignirent la République des Malawishs voyant en elle une possibilité
+      de poursuivre leur foi tout en étant sous sa protection. Les mondes de
+      la bordure, plus radicale fondèrent un gouvernement théocratique, le
+      Royaume de Molt.</para>
+    </sect2>
+
+    <sect2>
+      <title>An 3460-3500 : La chute d’un empire</title>
+
+      <para>En 3465, soit 10 après la rébellion Molt, un événement provoqua la
+      division de l’empire en trois parties. En effet, pour la première fois
+      depuis longtemps, la Meute dominante des Ikawas refusa, à la mort de son
+      Mâle, d'ouvrir une arène pour permettre aux guerriers de faire valoir le
+      droit de leur Meute à gouverner. Cette situation unique désorganisa les
+      Ikawas, et quand 3 meutes s'allièrent pour combattre la Meute dominante,
+      cela n’abouti qu’à un problème plus grand encore, car chacune demanda à
+      être la meute dirigeantes. Les Ikawas décidèrent alors de séparer leur
+      empire en 3, Et commença alors les Guerres entre les Ikawas. Les mondes
+      des frontières esseulées rejoignant le royaume de Molt ou la République.
+      Après quarante années de querelles, des Meutes plus mesuré prirent le
+      pouvoir, et un premier pacte de non agression fut signé et un semblant
+      d’empire ressoudé réapparu sur le plan commercial.</para>
+
+      <para>Parallèlement à tous ces événements durant le siècle, la
+      Technocorp ne faisait pas parler d’elle, mais progressait à une vitesse
+      vertigineuse dans leurs découvertes et applications techniques, au point
+      d’avoir creusé un fossé semblant infranchissable pour les autres
+      gouvernements.</para>
+    </sect2>
+  </sect1>
+
+  <sect1>
+    <title>Scénario de la première campagne</title>
+
+    <para>Cette première campagne servant au développement du jeu se déroulera
+    à partir de 3500, et opposera l'Empire Ikawa à la République des
+    Malawishs.</para>
+
+    <para>Suite à l'assassinat du président, dont toutes les preuves remontent
+    au Ikawa, la République attaque l'Empire. Mais en réalité le véritable
+    responsable n'est autre que le royaume de Molt.</para>
+
+    <para>Vous jouerez soit un nouveau pilote de la République confronté à la
+    bataille dès ces débuts, soit un pilote de Molt se préparant pour l'assaut
+    final lorsque les deux autres camps seront affaibli.</para>
+  </sect1>
+</article>
