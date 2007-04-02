@@ -61,7 +61,7 @@ namespace ProjetUnivers {
         Object* observateur(Model::getObject("Observer")) ;
         Positionned* positionne(observateur->getTrait<Positionned>()) ;
         
-        positionne->changeOrientation(
+        positionne->setOrientation(
           Model::Orientation(
             positionne->getOrientation().getQuaternion() 
             * 
@@ -74,7 +74,7 @@ namespace ProjetUnivers {
         Object* observateur(Model::getObject("Observer")) ;
         Positionned* positionne(observateur->getTrait<Positionned>()) ;
         
-        positionne->changeOrientation(
+        positionne->setOrientation(
           Model::Orientation(
             positionne->getOrientation().getQuaternion() 
             * 
@@ -86,7 +86,7 @@ namespace ProjetUnivers {
         Object* observateur(Model::getObject("Observer")) ;
         Positionned* positionne(observateur->getTrait<Positionned>()) ;
         
-        positionne->changeOrientation(
+        positionne->setOrientation(
           Model::Orientation(
             positionne->getOrientation().getQuaternion() 
             * 
@@ -98,7 +98,7 @@ namespace ProjetUnivers {
         Object* observateur(Model::getObject("Observer")) ;
         Positionned* positionne(observateur->getTrait<Positionned>()) ;
         
-        positionne->changeOrientation(
+        positionne->setOrientation(
           Model::Orientation(
             positionne->getOrientation().getQuaternion() 
             * 

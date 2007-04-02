@@ -50,7 +50,7 @@ namespace ProjetUnivers {
         
         void Observer::onInit()
         {
-          Kernel::Log::InternalMessage("Entering Observer::onInit") ;
+          Kernel::Log::InternalMessage("Display::Observer::onInit Entering") ;
 
           /// positionned view must be initialised first
           Positionned* positionned(getView<Positionned>()) ;
@@ -65,7 +65,7 @@ namespace ProjetUnivers {
           m_camera->setFOVy(::Ogre::Degree(70)) ;
 //            m_camera->setNearClipDistance() ;
                       
-          Kernel::Log::InternalMessage("Entering Observer::onClose") ;
+          Kernel::Log::InternalMessage("Display::Observer::onInit Leaving") ;
         }
           
         void Observer::onClose()

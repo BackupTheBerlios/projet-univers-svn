@@ -25,8 +25,12 @@
 namespace ProjetUnivers {
   namespace Model {
 
-    /// For objects that are physical woarlds.
+    /// For objects that are inertial reference frame.
     /*!
+      @see http://en.wikipedia.org/wiki/Inertial_frame_of_reference
+      
+      It is a "référentiel galiléen" where physic laws are valid.
+      
       @todo : make it a deduced trait
     */
     class PhysicalWorld : public Kernel::Trait

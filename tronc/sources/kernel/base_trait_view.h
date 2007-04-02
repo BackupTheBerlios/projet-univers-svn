@@ -17,8 +17,8 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_KERNEL_TRAIT_VIEW_H_
-#define PU_KERNEL_TRAIT_VIEW_H_
+#ifndef PU_KERNEL_BASE_TRAIT_VIEW_H_
+#define PU_KERNEL_BASE_TRAIT_VIEW_H_
 
 #include <kernel/object.h>
 #include <kernel/trait.h>
@@ -87,4 +87,4 @@ namespace ProjetUnivers {
   }
 }
 
-#endif /*PU_KERNEL_TRAIT_VIEW_H_*/
+#endif /*PU_KERNEL_BASE_TRAIT_VIEW_H_*/

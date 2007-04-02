@@ -86,9 +86,39 @@ namespace ProjetUnivers {
     */
     // @{
 
-      void changeOrientation(const Orientation&) ;
+      /// Change the current orientation.
+      void setOrientation(const Orientation& i_orientation) ;
 
-      void changePosition(const Position&) ;
+      /// Change the current orientation.
+      /*!
+        @param[in] 
+          i_orientation 
+          the new orientation relativelly to i_reference
+        @post 
+          getOrientation(i_reference) == i_orientation
+      */
+      void setOrientation(const Orientation& i_orientation,
+                          Kernel::Object*    i_reference) ;
+
+
+      /// Change the current position.
+      /*!
+        @param[in] 
+          i_position 
+          the new position relativelly to the positionned parent 
+      */
+      void setPosition(const Position& i_position) ;
+      
+      /// Change the current position.
+      /*!
+        @param[in] 
+          i_position 
+          the new position relativelly to i_reference 
+        @post 
+          getPosition(i_reference) == i_position
+      */
+      void setPosition(const Position& i_position,
+                       Kernel::Object* i_reference) ;
 
 
     // @}

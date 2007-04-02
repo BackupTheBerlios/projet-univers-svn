@@ -67,12 +67,12 @@ namespace ProjetUnivers {
       }
       else if (_energy.unit == _Joule && _unit == _eV)
       {
-        return _energy.value * 6,24150974e18 ;
+        return _energy.value * 6.24150974e18 ;
       }
       // ici on a : _energy.unit == _eV && _unit == _Joule
       else
       {
-        return _energy.value * 1,60217733e-19 ; 
+        return _energy.value * 1.60217733e-19 ; 
       }
       
       /*! 

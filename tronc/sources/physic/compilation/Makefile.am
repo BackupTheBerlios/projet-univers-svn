@@ -8,8 +8,13 @@ SOURCES = $(top_srcdir)/sources
 libphysic_la_SOURCES = \
 $(SOURCES)/physic/implementation/physic.cpp
 
-libphysic_la_LIBADD = \
-$(SOURCES)/kernel/compilation/libkernel.la 
+libphysic_la_LDFLAGS = \
+	$(SHARED_FLAGS) \
+	-L$(SOURCES)/kernel/compilation \
+	-L$(SOURCES)/model/compilation \
+	-L$(SOURCES)/physic/compilation/ode
+
+libphysic_la_LIBADD = -lkernel -lmodel -lphysicode $(ODE_LIBS) 
 
 TESTS = test_physic
 

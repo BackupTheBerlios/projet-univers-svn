@@ -9,8 +9,12 @@ libinput_la_SOURCES = \
 $(SOURCES)/input/implementation/input.cpp \
 $(SOURCES)/input/implementation/keyboard.cpp
 
-libinput_la_LIBADD = \
-$(SOURCES)/action/compilation/libaction.la \
-$(SOURCES)/display/compilation/libdisplay.la \
-$(SOURCES)/kernel/compilation/libkernel.la 
+libinput_la_LDFLAGS = \
+	$(SHARED_FLAGS) \
+	-L$(SOURCES)/kernel/compilation \
+	-L$(SOURCES)/action/compilation \
+	-L$(SOURCES)/display/compilation/ogre
+
+libinput_la_LIBADD = -laction -ldisplay -lkernel $(OIS_LIBS) 
+
 

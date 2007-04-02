@@ -25,6 +25,7 @@
 #include <kernel/trait.h>
 
 #include <model/model.h>
+#include <model/positionned.h>
 #include <model/duration.h>
 #include <model/physical_world.h>
 #include <model/mobile.h>
@@ -88,7 +89,6 @@ namespace ProjetUnivers {
         
         CPPUNIT_ASSERT(mass.mass) ;
         
-        std::cout << "mass=" << mass.mass << std::endl ;
         physic_viewpoint->close() ;
         
         Physic::close() ;
@@ -252,20 +252,21 @@ namespace ProjetUnivers {
         ship->getView<Implementation::Ode::PhysicalObject>(physic_viewpoint)->getBody()
             ->getPosition() ;
         
-        // check that object has moved
-        CPPUNIT_ASSERT(!( x == new_position[0] && 
-                          y == new_position[1] &&
-                          z == new_position[2])) ;
 
         Kernel::Log::InformationMessage(std::string("testSimulateMovingInitialSpeed new position") 
                                         + " x=" + toString(new_position[0]) 
                                         + ",y=" + toString(new_position[1]) 
                                         + ",z=" + toString(new_position[2])) ; 
+
+        // check that object has correctly moved
+        CPPUNIT_ASSERT( x+1 == new_position[0] && 
+                         y == new_position[1] &&
+                         z == new_position[2]) ;
+
         Physic::close() ;
         Model::close() ;
 
       }
-      
 
       void TestDemonstration::testSimulateMovingInitialRotation()
       {
@@ -404,6 +405,58 @@ namespace ProjetUnivers {
 
       }
 
+      void TestDemonstration::testModelPositionUpdate()
+      {
+        Model::init() ;
+        Model::load("TestDemonstration") ;
+        Physic::init() ;
+        Object* observer(Model::getObject("Observer")) ;
+        
+        {        
+          /// get the ship and set initial speed
+          Model::Mobile* ship(Model::getObject("Vaisseau")->getTrait<Model::Mobile>()) ;
+          CPPUNIT_ASSERT(ship) ;
+          ship->setSpeed(Model::Speed::MeterPerSecond(1,0,0)) ;
+        }
+        
+        /// store old position
+        Ogre::Vector3 old_position ;
+        {        
+          /// get the ship and set initial speed
+          Model::Positionned* ship(Model::getObject("Vaisseau")->getTrait<Model::Positionned>()) ;
+          CPPUNIT_ASSERT(ship) ;
+          old_position = ship->getPosition().Meter() ;
+        }
+        
+
+        /// build a physical viewpoint        
+        Kernel::ViewPoint* physic_viewpoint = Physic::buildRealWorldViewPoint(observer) ;
+        physic_viewpoint->init() ;
+
+        Physic::update(Model::Duration::Second(1)) ;
+
+        /// get new position
+        Ogre::Vector3 new_position ;
+        {        
+          /// get the ship and set initial speed
+          Model::Positionned* ship(Model::getObject("Vaisseau")->getTrait<Model::Positionned>()) ;
+          CPPUNIT_ASSERT(ship) ;
+          new_position = ship->getPosition().Meter() ;
+        }
+        
+        // check that object has moved
+        CPPUNIT_ASSERT( old_position[0]+1 == new_position[0] && 
+                        old_position[1] == new_position[1] &&
+                        old_position[2] == new_position[2]) ;
+
+        Kernel::Log::InformationMessage(std::string("testSimulateMovingInitialSpeed new position") 
+                                        + " x=" + toString(new_position[0]) 
+                                        + ",y=" + toString(new_position[1]) 
+                                        + ",z=" + toString(new_position[2])) ; 
+        Physic::close() ;
+        Model::close() ;
+
+      }
 
       void TestDemonstration::setUp() 
       {

@@ -88,6 +88,9 @@ namespace ProjetUnivers {
         /// Tests destroying a model with a view on it.
         void testDestroyModel() ;
 
+        /// Tests the top down apply.
+        void testForAll() ;
+        
       // @}
 
 
@@ -106,6 +109,7 @@ namespace ProjetUnivers {
         CPPUNIT_TEST(testCloseViewPoint) ;
         CPPUNIT_TEST(testNotPresentTrait) ;
         CPPUNIT_TEST(testDestroyModel) ;
+        CPPUNIT_TEST(testForAll) ;
 
         CPPUNIT_TEST_SUITE_END() ;
 

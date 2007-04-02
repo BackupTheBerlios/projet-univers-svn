@@ -56,6 +56,9 @@ namespace ProjetUnivers {
 
       /// Compose orientations.
       Orientation operator*(const Orientation&) const ;
+
+      /// Q^-1.
+      Orientation inverse() const ;
     
     private:
 

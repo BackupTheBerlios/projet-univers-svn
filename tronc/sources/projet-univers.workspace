@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_workspace_file>
+	<Workspace title="projet-univers">
+		<Project filename="kernel\compilation\kernel.cbp" />
+		<Project filename="action\compilation\action.cbp">
+			<Depends filename="kernel\compilation\kernel.cbp" />
+			<Depends filename="model\compilation\model.cbp" />
+		</Project>
+		<Project filename="input\compilation\input.cbp">
+			<Depends filename="kernel\compilation\kernel.cbp" />
+			<Depends filename="model\compilation\model.cbp" />
+			<Depends filename="display\compilation\display.cbp" />
+		</Project>
+		<Project filename="model\compilation\model.cbp">
+			<Depends filename="kernel\compilation\kernel.cbp" />
+		</Project>
+		<Project filename="display\compilation\display.cbp">
+			<Depends filename="kernel\compilation\kernel.cbp" />
+			<Depends filename="display\compilation\ogre\ogredisplay.cbp" />
+		</Project>
+		<Project filename="display\compilation\ogre\ogredisplay.cbp">
+			<Depends filename="kernel\compilation\kernel.cbp" />
+			<Depends filename="model\compilation\model.cbp" />
+		</Project>
+		<Project filename="demonstration\compilation\demonstration.cbp" active="1">
+			<Depends filename="kernel\compilation\kernel.cbp" />
+			<Depends filename="action\compilation\action.cbp" />
+			<Depends filename="input\compilation\input.cbp" />
+			<Depends filename="model\compilation\model.cbp" />
+			<Depends filename="display\compilation\display.cbp" />
+			<Depends filename="display\compilation\ogre\ogredisplay.cbp" />
+		</Project>
+	</Workspace>
+</CodeBlocks_workspace_file>

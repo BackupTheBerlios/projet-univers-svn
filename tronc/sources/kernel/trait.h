@@ -44,10 +44,16 @@ namespace ProjetUnivers {
       /// Access to a specific view.
       template<class View> View* getView(ViewPoint* i_viewpoint) ;
 
+      /// Access to the trait class's name associated with i_view, i_viewpoint.
+      static const std::string& getTraitName(const std::string& i_view,
+                                             const std::string& i_viewpoint) ;
+
+      /// Abstract class means virtual destructor.
       virtual ~Trait() ;
       
     protected: 
     
+      /// Abstract class means protected constructor.
       Trait() ;
       
       /// Trait's contener.

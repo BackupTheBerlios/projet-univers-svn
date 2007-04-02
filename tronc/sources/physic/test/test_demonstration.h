@@ -31,7 +31,7 @@ namespace ProjetUnivers {
 
 
             
-      /// A simple test from demonstration model.
+      /// A simple physic test from demonstration model.
       /*!
 
       */
@@ -61,6 +61,9 @@ namespace ProjetUnivers {
            
         /// Test a simulation with a half turn rotation.
         void testSimulateRotatingHalfTurn() ;
+
+        /// Test update of model's position.
+        void testModelPositionUpdate() ;
            
       // @}
       /*!
@@ -76,6 +79,7 @@ namespace ProjetUnivers {
         CPPUNIT_TEST(testSimulateMovingInitialSpeed) ;
         CPPUNIT_TEST(testSimulateMovingInitialRotation) ;
         CPPUNIT_TEST(testSimulateRotatingHalfTurn) ;
+        CPPUNIT_TEST(testModelPositionUpdate) ;
       
         CPPUNIT_TEST_SUITE_END() ;
 

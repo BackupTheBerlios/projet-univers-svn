@@ -48,7 +48,7 @@ namespace ProjetUnivers {
 
         /// object2 relative to root
         Ogre::Vector3 vector2 = object2->getTrait<Positionned>()
-                                      ->getPosition(root).Meter() ; 
+                                       ->getPosition(root).Meter() ; 
         CPPUNIT_ASSERT(vector2.x == 1) ;        
         CPPUNIT_ASSERT(vector2.y == 1) ;        
         CPPUNIT_ASSERT(vector2.z == 0) ;        
@@ -114,7 +114,88 @@ namespace ProjetUnivers {
 
 
       }
-      
+
+      void TestPositionned::testSetAbsolutePosition()
+      {
+        Model::init() ;
+        Kernel::Object* root = Model::createObject("root") ;
+        Model::addTrait(root,new Positionned(Position::Meter(0,0,0))) ;
+        
+        Kernel::Object* object1 = Model::createObject("object1",root) ;
+        Model::addTrait(object1,new Positionned(Position::Meter(1,0,0))) ;
+        
+        Kernel::Object* object2 = Model::createObject("object2",object1) ;
+        Model::addTrait(object2,new Positionned(Position::Meter(0,1,0))) ;
+
+        Kernel::Object* object3 = Model::createObject("object3",object2) ;
+        Model::addTrait(object3,new Positionned(Position::Meter(0,0,1))) ;
+
+        object3->getTrait<Positionned>()
+               ->setPosition(Position::Meter(2,2,2),root) ;
+
+        {
+          /// object3 relative to root
+          Ogre::Vector3 vector = object3->getTrait<Positionned>()
+                                        ->getPosition(root).Meter() ; 
+          CPPUNIT_ASSERT(vector.x == 2) ;        
+          CPPUNIT_ASSERT(vector.y == 2) ;        
+          CPPUNIT_ASSERT(vector.z == 2) ;        
+        }
+        
+        {
+          /// object3 relative to object2
+          Ogre::Vector3 vector = object3->getTrait<Positionned>()
+                                        ->getPosition(object2).Meter() ; 
+          CPPUNIT_ASSERT(vector.x == 1) ;        
+          CPPUNIT_ASSERT(vector.y == 1) ;        
+          CPPUNIT_ASSERT(vector.z == 2) ;        
+        }
+
+        {
+          /// object2 relative to root : must be unchanged
+          Ogre::Vector3 vector = object2->getTrait<Positionned>()
+                                        ->getPosition(root).Meter() ; 
+          CPPUNIT_ASSERT(vector.x == 1) ;        
+          CPPUNIT_ASSERT(vector.y == 1) ;        
+          CPPUNIT_ASSERT(vector.z == 0) ;        
+        }
+        
+      }
+
+      void TestPositionned::testSetAbsoluteOrientation()
+      {
+        Model::init() ;
+        Kernel::Object* root = Model::createObject("root") ;
+        Model::addTrait(root,new Positionned(Position::Meter(0,0,0),
+                                             Ogre::Quaternion(1,0,0,0))) ;
+        
+        Kernel::Object* object1 = Model::createObject("object1",root) ;
+        Model::addTrait(object1,new Positionned(Position::Meter(1,0,0),
+                                                Ogre::Quaternion(0,1,0,0))) ;
+        
+        Kernel::Object* object2 = Model::createObject("object2",object1) ;
+        Model::addTrait(object2,new Positionned(Position::Meter(0,1,0),
+                                                Ogre::Quaternion(0,0,1,0))) ;
+
+        Kernel::Object* object3 = Model::createObject("object3",object2) ;
+        Model::addTrait(object3,new Positionned(Position::Meter(0,0,1),
+                                                Ogre::Quaternion(0,0,0,1))) ;
+
+        object3->getTrait<Positionned>()
+               ->setOrientation(Ogre::Quaternion(0,0,1,0),root) ;
+
+        {
+          /// object3 relative to root
+          Ogre::Quaternion orientation = object3->getTrait<Positionned>()
+                                                ->getOrientation(root).getQuaternion() ; 
+  
+          CPPUNIT_ASSERT(orientation.w == 0) ;        
+          CPPUNIT_ASSERT(orientation.x == 0) ;        
+          CPPUNIT_ASSERT(orientation.y == 1) ;        
+          CPPUNIT_ASSERT(orientation.z == 0) ;        
+        }
+
+      }
       
       void TestPositionned::setUp() 
       {

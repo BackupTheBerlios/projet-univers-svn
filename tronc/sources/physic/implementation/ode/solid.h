@@ -35,7 +35,7 @@ namespace ProjetUnivers {
         /*!
           @todo 
             probably rename
-            its a view on Solid and Positionned
+            its a view on Solid and Positionned, i.e PhysicalVolume
         */
         class Solid : public Kernel::TraitView<Model::Solid,
                                                RealWorldViewPoint>

@@ -20,13 +20,14 @@
 #ifndef PU_KERNEL_VIEW_POINT_H_
 #define PU_KERNEL_VIEW_POINT_H_
 
+#include <boost/function.hpp>
+#include <kernel/object.h>
+#include <kernel/model.h>
 
 namespace ProjetUnivers {
   namespace Kernel {
     
-    class Model ;
     class Trait ;
-    class Object ;
     class BaseTraitView ;
     
     /// Coherent set of views.
@@ -57,6 +58,7 @@ namespace ProjetUnivers {
 
       /// terminate the viewpoint.
       void close() ;
+      
       
     protected:
 
@@ -102,8 +104,39 @@ namespace ProjetUnivers {
       friend class Model ;
       friend class BaseTraitView ;
       friend class Object ;
+
+      template <class _View> friend
+      void forAll(ViewPoint*                    i_viewpoint,
+                  boost::function1<void,_View*> i_operation) ;
+
     };
 
+
+    /// Execute i_operation on all @ _View of @c i_viewpoint.
+    /*!
+      i_operation is performed from top to down.
+       
+      i_operation is a _View*void --> void method of _View
+      _View is a trait view. 
+    */ 
+    template <class _View>
+    void forAll(ViewPoint*                    i_viewpoint,
+                boost::function1<void,_View*> i_operation)
+    {                   
+      
+      std::string         view_name(typeid(_View).name()) ;
+      const std::string&  trait_name(
+                            Trait::getTraitName(
+                              view_name,
+                              typeid(*i_viewpoint).name())) ;
+
+      for(std::set<Object*>::iterator object = i_viewpoint->model->m_objects.begin() ;
+          object != i_viewpoint->model->m_objects.end() ;
+          ++object)
+      {
+        (*object)->apply(trait_name,i_viewpoint,i_operation) ;
+      }
+    }
     
   }
 }

@@ -20,6 +20,7 @@
 #ifndef PU_KERNEL_MODEL_H_
 #define PU_KERNEL_MODEL_H_
 
+#include <boost/function.hpp>
 #include <set>
 #include <map>
 #include <string>
@@ -73,8 +74,8 @@ namespace ProjetUnivers {
     private:
     
       /// root objects @composite
-      std::set<Object*> objects ;
-      std::map<std::string,Object*> objects_dictionnary ;
+      std::set<Object*>             m_objects ;
+      std::map<std::string,Object*> m_objects_dictionnary ;
 
       /// Register a view point.
       void _register(ViewPoint* i_viewpoint) ;
@@ -88,10 +89,16 @@ namespace ProjetUnivers {
       /// Close objects according to a viewpoint
       void _close(ViewPoint* i_viewpoint) ;
       
-      std::set<ViewPoint*> viewpoints ;
+      std::set<ViewPoint*>        m_viewpoints ;
+      
       friend class ViewPoint ;
       friend class Trait ;
       friend class Object ;
+
+      template <class _View>
+      friend void forAll(ViewPoint*                    i_viewpoint,
+                         boost::function1<void,_View*> i_operation) ;
+
     };
     
   }

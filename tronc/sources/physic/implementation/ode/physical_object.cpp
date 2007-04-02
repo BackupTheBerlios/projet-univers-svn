@@ -65,6 +65,8 @@ namespace ProjetUnivers {
           updateMobile() ;
           updateMassive() ;
 
+          world->getView<PhysicalWorld>(getViewPoint())->registerObject(this) ;
+          
           Kernel::Log::InternalMessage("PhysicalObject::onInit leaving") ;
 
         }
@@ -95,7 +97,7 @@ namespace ProjetUnivers {
           check(massive,"PhysicalObject::updateMassive no Massive trait") ;
           Model::Mass mass = massive->getMass() ;
           
-          //m_body->setMass
+          //m_body->setMass(mass.Kilogram())
           
         }
         
@@ -113,12 +115,18 @@ namespace ProjetUnivers {
                               (dReal)position.y,
                               (dReal)position.z) ;
 
-          /// set orientation
+          /// @todo set orientation
         }
 
         void PhysicalObject::onClose()
         {
           Kernel::Log::InternalMessage("PhysicalObject::onClose entering") ;
+          /// get the first parent having the PhysicalWorld property
+          Model::PhysicalWorld* 
+              world = getObject()->getParent<Model::PhysicalWorld>() ; 
+          check(world,"PhysicalObject::onInit no world parent") ;
+          world->getView<PhysicalWorld>(getViewPoint())->unregisterObject(this) ;
+
           if (m_body)
           {
             delete m_body ;
@@ -129,14 +137,81 @@ namespace ProjetUnivers {
 
         void PhysicalObject::onChangeParent(Kernel::Object* i_old_parent)
         {
+          /// 1. remove body from old parent
+          
+          
+          /// 2. onInit
+          onInit() ;
         }
+
         void PhysicalObject::onUpdate()
         {
+          if (! m_is_being_updated)
+          {
+            /*!
+              Somehow brutal...
+            */ 
+            
+            updatePositionned() ;          
+            updateMobile() ;
+            updateMassive() ;
+          }
         }
         
         dBody* PhysicalObject::getBody() const
         {
           return m_body ;
+        }
+
+        void PhysicalObject::updateModel()
+        {
+          updateModelPositionned() ;
+          /// updateModelMobile() ;
+        }
+        
+
+        void PhysicalObject::updateModelPositionned()
+        {
+          m_is_being_updated = true ;
+          
+          /*!
+            Very brutal
+            
+            if the object has not moved, there is no reason to change position
+            
+          */
+          Model::Positionned* 
+              positionned = getObject()->getTrait<Model::Positionned>() ;
+
+          Model::PhysicalWorld* 
+              world = getObject()->getParent<Model::PhysicalWorld>() ; 
+          check(world,"PhysicalObject::onInit no world parent") ;
+          
+          /*! 
+            the position of the body is relative to the position of the world
+            in general, the world will be the direct parent of the body but 
+            it may be different in the future
+          */
+          const dReal* ode_position = m_body->getPosition() ;
+                              
+          positionned->setPosition(Model::Position::Meter(
+                                     ode_position[0],
+                                     ode_position[1],
+                                     ode_position[2]),
+                                   world->getObject()) ;
+
+          const dReal* ode_orientation = m_body->getQuaternion() ;
+
+          positionned->setOrientation(Model::Orientation(
+                                        Ogre::Quaternion(
+                                           ode_orientation[0],
+                                           ode_orientation[1],
+                                           ode_orientation[2],
+                                           ode_orientation[3])),
+                                      world->getObject()) ;
+          
+          m_is_being_updated = false ;
+          
         }
       }
     }

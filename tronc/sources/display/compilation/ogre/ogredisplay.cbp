@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="ogredisplay" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Release">
+				<Option output="..\..\..\dlls\ogredisplay.dll" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj\Release\" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add library="stlport.5.0" />
+					<Add library="OgreMain" />
+					<Add library="model" />
+					<Add library="kernel" />
+					<Add library="rlog" />
+					<Add library="display" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-mthreads" />
+			<Add option="-fmessage-length=0" />
+			<Add option="-fexceptions" />
+			<Add option="-fident" />
+			<Add option="-D_STLP_NO_CUSTOM_IO" />
+			<Add option="-D_STLP_USE_DYNAMIC_LIB" />
+			<Add option="-D_WINDOWS" />
+			<Add option="-DWIN32" />
+			<Add option="-D_WIN32" />
+			<Add option="-DNDEBUG" />
+			<Add directory="..\..\..\..\sources" />
+			<Add directory="$(OGRE_HOME)\stlport\stlport" />
+			<Add directory="$(OGRE_HOME)\include" />
+		</Compiler>
+		<Linker>
+			<Add option="-Wl,--enable-auto-image-base" />
+			<Add option="-Wl,--add-stdcall-alias" />
+			<Add directory="..\..\..\dlls" />
+			<Add directory="$(OGRE_HOME)\bin\release" />
+		</Linker>
+		<Unit filename="..\..\implementation\ogre\destroyable.cpp" />
+		<Unit filename="..\..\implementation\ogre\observer.cpp" />
+		<Unit filename="..\..\implementation\ogre\ogre.cpp" />
+		<Unit filename="..\..\implementation\ogre\positionned.cpp" />
+		<Unit filename="..\..\implementation\ogre\real_world_view_point.cpp" />
+		<Unit filename="..\..\implementation\ogre\solid.cpp" />
+		<Unit filename="..\..\implementation\ogre\universe.cpp" />
+		<Extensions>
+			<code_completion />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

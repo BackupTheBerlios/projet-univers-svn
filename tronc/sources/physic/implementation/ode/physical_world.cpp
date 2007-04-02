@@ -21,8 +21,7 @@
 
 #include <kernel/log.h>
 
-#include <physic/implementation/physic_internal.h>
-
+#include <physic/implementation/ode/physical_object.h>
 #include <physic/implementation/ode/physical_world.h>
 
 namespace ProjetUnivers {
@@ -50,7 +49,6 @@ namespace ProjetUnivers {
           }
           m_world = new dWorld() ;
           
-          addPhysicalWorld(this) ;
           Kernel::Log::InternalMessage("PhysicalWorld::onInit leaving") ;
         }
 
@@ -62,7 +60,6 @@ namespace ProjetUnivers {
             delete m_world ;
           }
 
-          removePhysicalWorld(this) ;
           Kernel::Log::InternalMessage("PhysicalWorld::onClose leaving") ;
         }
 
@@ -77,7 +74,33 @@ namespace ProjetUnivers {
         {
           return m_world ;
         }
+        
+        void PhysicalWorld::update(const Model::Duration& i_duration)
+        {
+          /// simulate
+          if (m_world)
+          {
+            dWorldStep(m_world->id(),i_duration.Second()) ;
+          }
+          
+          ///
+          for(std::set<PhysicalObject*>::iterator object = m_objects.begin() ;
+              object != m_objects.end() ;
+              ++object)
+          {
+            (*object)->updateModel() ;
+          }
+        }
+        
+        void PhysicalWorld::registerObject(PhysicalObject* i_object)
+        {
+          m_objects.insert(i_object) ;
+        }
 
+        void PhysicalWorld::unregisterObject(PhysicalObject* i_object)
+        {
+          m_objects.erase(i_object) ;
+        }
       }
     }
   }

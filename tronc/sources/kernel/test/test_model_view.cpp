@@ -194,6 +194,12 @@ namespace ProjetUnivers {
           bool updated ;
           int init_number ;
           static int number_of_instance ;
+          static int number_of_operation ;
+
+          void operation()
+          {
+            ++number_of_operation ;
+          }
           
         private:
           
@@ -201,6 +207,7 @@ namespace ProjetUnivers {
         };
 
         int ViewHead::number_of_instance = 0 ;
+        int ViewHead::number_of_operation = 0 ;
         
         namespace reghead{
         RegisterView(ViewHead,Head,TestViewPoint) ;
@@ -258,6 +265,12 @@ namespace ProjetUnivers {
           bool updated ;
           int init_number ;
           static int number_of_instance ;
+          static int number_of_operation ;
+
+          void operation()
+          {
+            ++number_of_operation ;
+          }
           
         private:
           int value ;
@@ -266,6 +279,7 @@ namespace ProjetUnivers {
         };
 
         int ViewPerson::number_of_instance = 0 ;
+        int ViewPerson::number_of_operation = 0 ;
         
         namespace regperson{
         RegisterView(ViewPerson,Person,TestViewPoint) ;
@@ -640,6 +654,47 @@ namespace ProjetUnivers {
         model.reset(NULL) ;
       }
 
+      void TestModelView::testForAll()
+      {
+        Log::InternalMessage("Kernel::Test::testForAll entering") ;
+        /// create a model
+        std::auto_ptr<Model> model(new Model()) ;
+
+        //// fill the model
+        Object* person = model->createObject("person") ;
+        model->addTrait(person,new Person()) ;
+        Object* head = model->createObject("head",person) ;
+        model->addTrait(head,new Head()) ;
+        
+        {
+          Object* person2 = model->createObject("person2") ;
+          model->addTrait(person2,new Person()) ;
+          Object* head2 = model->createObject("head2",person) ;
+          model->addTrait(head2,new Head()) ;
+        }
+
+        {
+          Object* person2 = model->createObject("person3") ;
+          model->addTrait(person2,new Person()) ;
+        }
+
+        /// create a view
+        std::auto_ptr<TestViewPoint> viewpoint(new TestViewPoint(model.get())) ;
+        
+        /// init the viewpoint
+        viewpoint->init() ;
+
+        ViewHead::number_of_operation = 0 ;
+        forAll<ViewHead>(viewpoint.get(),&ViewHead::operation) ;
+        CPPUNIT_ASSERT(ViewHead::number_of_operation == 2) ;
+
+        ViewPerson::number_of_operation = 0 ;
+        forAll<ViewPerson>(viewpoint.get(),&ViewPerson::operation) ;
+        CPPUNIT_ASSERT(ViewPerson::number_of_operation == 3) ;
+
+      }      
+      
+      
       void TestModelView::setUp()
       {
       }

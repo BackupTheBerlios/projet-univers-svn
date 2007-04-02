@@ -70,8 +70,8 @@ namespace ProjetUnivers {
             ExceptionKernel("Trait::_create_views no object's model")) ;
       
       /// we create corresponding views for all viewpoints
-      for(std::set<ViewPoint*>::iterator viewpoint = object->model->viewpoints.begin() ;
-          viewpoint != object->model->viewpoints.end() ;
+      for(std::set<ViewPoint*>::iterator viewpoint = object->model->m_viewpoints.begin() ;
+          viewpoint != object->model->m_viewpoints.end() ;
           ++viewpoint)
       {
         _create_views(*viewpoint) ;
@@ -190,6 +190,22 @@ namespace ProjetUnivers {
 
       std::cout << "Registered constructor" << std::endl ;
       
+    }
+
+    const std::string& Trait::getTraitName(const std::string& i_view,
+                                           const std::string& i_viewpoint)
+    {
+      std::map<std::pair<std::string,std::string>,
+               std::string>::const_iterator        
+         trait = m_trait_of_view.find(std::make_pair<std::string,std::string>(
+                                                     i_view,i_viewpoint)) ;
+      
+      if (trait != m_trait_of_view.end())
+      {
+        return trait->second ;
+      }
+      
+      return "" ;
     }
 
     void Trait::registerMapping(const std::string& i_view,

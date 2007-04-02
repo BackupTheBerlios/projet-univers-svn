@@ -36,9 +36,9 @@ namespace ProjetUnivers {
 
     Object* Model::getObject(const std::string& i_name)
     {
-      if (objects_dictionnary.find(i_name)!= objects_dictionnary.end())
+      if (m_objects_dictionnary.find(i_name)!= m_objects_dictionnary.end())
       {
-        return objects_dictionnary[i_name] ;
+        return m_objects_dictionnary[i_name] ;
       }
       else
       {
@@ -49,11 +49,11 @@ namespace ProjetUnivers {
 
     Object* Model::createObject(const std::string& i_name) 
     {
-      if (objects_dictionnary.find(i_name) == objects_dictionnary.end())
+      if (m_objects_dictionnary.find(i_name) == m_objects_dictionnary.end())
       {
         Object* result = new Object(this,i_name) ;
-        objects.insert(result) ;
-        objects_dictionnary[i_name] = result ;
+        m_objects.insert(result) ;
+        m_objects_dictionnary[i_name] = result ;
         return result ;
       }
       return NULL ;
@@ -65,11 +65,11 @@ namespace ProjetUnivers {
     {
       check(i_parent,ExceptionKernel("Model::createObject no parent")) ;
       
-      if (objects_dictionnary.find(i_name) == objects_dictionnary.end())
+      if (m_objects_dictionnary.find(i_name) == m_objects_dictionnary.end())
       {
         Object* result = new Object(this,i_name) ;
         i_parent->_add(result) ;
-        objects_dictionnary[i_name] = result ;
+        m_objects_dictionnary[i_name] = result ;
         
         return result ;
       }
@@ -96,13 +96,13 @@ namespace ProjetUnivers {
       
       i_object->_close() ;
 
-      objects_dictionnary.erase(i_object->getName()) ;
+      m_objects_dictionnary.erase(i_object->getName()) ;
       
       if (i_object->parent == NULL)
       {
         /// a top object
-        objects.erase(i_object) ;
-        delete i_object ;  /// model is the contener of the root objects
+        m_objects.erase(i_object) ;
+        delete i_object ;  /// model is the contener of the root m_objects
       } 
       else
       {
@@ -124,7 +124,7 @@ namespace ProjetUnivers {
       if (i_object->parent == NULL)
       {
         /// a top object
-        objects.erase(i_object) ;
+        m_objects.erase(i_object) ;
 
       }
       else
@@ -163,8 +163,8 @@ namespace ProjetUnivers {
     Model::~Model()
     {
       /// 1. close all view points
-      for(std::set<ViewPoint*>::iterator viewpoint = viewpoints.begin() ;
-          viewpoint != viewpoints.end() ;
+      for(std::set<ViewPoint*>::iterator viewpoint = m_viewpoints.begin() ;
+          viewpoint != m_viewpoints.end() ;
           ++viewpoint)
       {
         _close(*viewpoint) ;
@@ -172,9 +172,9 @@ namespace ProjetUnivers {
         (*viewpoint)->model = NULL ;
       }
       
-      /// 2. destroy objects 
-      for(std::set<Object*>::iterator object = objects.begin() ;
-          object != objects.end() ;
+      /// 2. destroy m_objects 
+      for(std::set<Object*>::iterator object = m_objects.begin() ;
+          object != m_objects.end() ;
           ++object)
       {
         delete *object ;
@@ -187,13 +187,13 @@ namespace ProjetUnivers {
 
     void Model::_register(ViewPoint* i_viewpoint)
     {
-      viewpoints.insert(i_viewpoint) ;
+      m_viewpoints.insert(i_viewpoint) ;
 
       Log::InternalMessage(
         (std::string("Model::_register") + typeid(*i_viewpoint).name()).c_str()) ;
 
-      for(std::set<Object*>::iterator object = objects.begin() ;
-          object != objects.end() ;
+      for(std::set<Object*>::iterator object = m_objects.begin() ;
+          object != m_objects.end() ;
           ++object)
       {
         (*object)->_create_views(i_viewpoint) ;
@@ -202,7 +202,7 @@ namespace ProjetUnivers {
 
     void Model::_unregister(ViewPoint* i_viewpoint)
     {
-      viewpoints.erase(i_viewpoint) ;
+      m_viewpoints.erase(i_viewpoint) ;
 
       Log::InternalMessage(
         (std::string("Model::_unregister") + typeid(*i_viewpoint).name()).c_str()) ;
@@ -210,8 +210,8 @@ namespace ProjetUnivers {
     
     void Model::_init(ViewPoint* i_viewpoint)
     {
-      for(std::set<Object*>::iterator object = objects.begin() ;
-          object != objects.end() ;
+      for(std::set<Object*>::iterator object = m_objects.begin() ;
+          object != m_objects.end() ;
           ++object)
       {
         (*object)->_init(i_viewpoint) ;
@@ -220,8 +220,8 @@ namespace ProjetUnivers {
   
     void Model::_close(ViewPoint* i_viewpoint)
     {
-      for(std::set<Object*>::iterator object = objects.begin() ;
-          object != objects.end() ;
+      for(std::set<Object*>::iterator object = m_objects.begin() ;
+          object != m_objects.end() ;
           ++object)
       {
         (*object)->_close(i_viewpoint) ;

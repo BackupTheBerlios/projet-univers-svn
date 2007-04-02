@@ -145,7 +145,7 @@ namespace ProjetUnivers {
       if (active == _pdv)
       {
         desactivateViewPoint(active) ;
-        active == NULL ;
+        active = NULL ;
       }
       
       if (local.viewPoints.erase(_pdv) != 0)

@@ -6,13 +6,12 @@ INCLUDES = -I../..
 demonstration_SOURCES = \
 ../demonstration.cpp
 
-demonstration_LDFLAGS='-ldl'
-demonstration_LDADD = \
-$(OIS_LIBS) \
-$(SOURCES)/kernel/compilation/libkernel.la \
-$(SOURCES)/display/compilation/libdisplay.la \
-$(SOURCES)/display/compilation/ogre/libdisplayogre.la \
-$(SOURCES)/action/compilation/libaction.la \
-$(SOURCES)/input/compilation/libinput.la \
-$(SOURCES)/model/compilation/libmodel.la \
-$(librlog_LIBS) 
+demonstration_LDFLAGS= '-ldl' \
+	-L$(SOURCES)/kernel/compilation \
+	-L$(SOURCES)/model/compilation \
+	-L$(SOURCES)/display/compilation \
+	-L$(SOURCES)/display/compilation/ogre \
+	-L$(SOURCES)/action/compilation \
+	-L$(SOURCES)/input/compilation 
+
+demonstration_LDADD = -lkernel -lmodel -ldisplay -ldisplayogre -linput -laction $(OIS_LIBS) 

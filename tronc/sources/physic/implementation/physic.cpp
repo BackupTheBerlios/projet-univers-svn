@@ -20,6 +20,8 @@
 #include <memory>
 #include <set>
 
+#include <boost/function.hpp>
+
 #include <ode/ode.h>
 
 #include <kernel/log.h>
@@ -31,7 +33,6 @@
 #include <physic/implementation/ode/physical_world.h>
 #include <physic/implementation/ode/real_world_view_point.h>
 
-#include <physic/implementation/physic_internal.h>
 #include <physic/physic.h>
 
 namespace ProjetUnivers {
@@ -44,12 +45,6 @@ namespace ProjetUnivers {
     
     /// active viewpoint.
     std::auto_ptr<Implementation::Ode::RealWorldViewPoint> viewpoint ;
-    
-    /// worlds to simulate.
-    /*!
-      Maybe in Ode::RealWorldViewPoint ???
-    */
-    std::set<Implementation::Ode::PhysicalWorld*> worlds ;
 
     bool initialised = false ;
 
@@ -77,7 +72,6 @@ namespace ProjetUnivers {
       }
       
       viewpoint.reset(NULL) ;
-      worlds.clear() ;
       Kernel::Log::InternalMessage("Physic::close leaving") ;
     }
 
@@ -88,15 +82,6 @@ namespace ProjetUnivers {
       return viewpoint.get() ;
     }
 
-    void addPhysicalWorld(Implementation::Ode::PhysicalWorld* i_world)
-    {
-      worlds.insert(i_world) ;
-    }
-    void removePhysicalWorld(Implementation::Ode::PhysicalWorld* i_world) 
-    {
-      worlds.erase(i_world) ;
-    }
-
     void update()
     {
       update(Model::Duration::Second(1)) ;
@@ -104,15 +89,15 @@ namespace ProjetUnivers {
 
     void update(const Model::Duration& i_duration)    
     {
-      /// simulate one frame for every worlds
-      for(std::set<Implementation::Ode::PhysicalWorld*>::iterator world = worlds.begin() ;
-          world != worlds.end() ;
-          ++world)
-      {
-        dWorldStep((*world)->getWorld()->id(),i_duration.Second()) ; 
-      }
-
-      /// that's all ??? 
+      boost::function2<void,
+                       Implementation::Ode::PhysicalWorld*,
+                       Model::Duration> f 
+                          = &Implementation::Ode::PhysicalWorld::update ;
+      
+      /// update for all physical worlds  
+      Kernel::forAll<Implementation::Ode::PhysicalWorld>(
+        viewpoint.get(),
+        std::bind2nd(f,i_duration)) ;
       
     }
 

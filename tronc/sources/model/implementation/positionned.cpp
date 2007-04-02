@@ -74,11 +74,11 @@ namespace ProjetUnivers {
       else
       {
         Positionned* 
-          positionned = getObject()->getParent()->getTrait<Positionned>() ;
+          parent = getObject()->getParent()->getTrait<Positionned>() ;
         
-        if (positionned)
+        if (parent)
         {
-          return m_position + positionned->getPosition(i_ancestor) ;          
+          return m_position + parent->getPosition(i_ancestor) ;          
         }
         else
         {
@@ -101,11 +101,11 @@ namespace ProjetUnivers {
       else
       {
         Positionned* 
-          positionned = getObject()->getParent()->getTrait<Positionned>() ;
+          parent = getObject()->getParent()->getTrait<Positionned>() ;
         
-        if (positionned)
+        if (parent)
         {
-          return positionned->getOrientation(i_ancestor)*m_orientation ;          
+          return parent->getOrientation(i_ancestor)*m_orientation ;          
         }
         else
         {
@@ -114,19 +114,69 @@ namespace ProjetUnivers {
       }
     }
 
-
-    void Positionned::changeOrientation(const Orientation& i_orientation)
+    void Positionned::setOrientation(const Orientation& i_orientation)
     {
       m_orientation = i_orientation ;
       notify() ;
     }
 
-    void Positionned::changePosition(const Position& i_position)
+    void Positionned::setPosition(const Position& i_position)
     {
       m_position = i_position ;
       notify() ;
     }
 
+    void Positionned::setOrientation(
+        const Orientation& i_orientation,
+        Kernel::Object*    i_reference)
+    {
+      if (! getObject()->getParent() || i_reference == getObject())
+      {
+        return ;
+      }
+      if (i_reference == getObject()->getParent())
+      {
+        m_orientation = i_orientation ;
+        notify() ;
+      }
+      else
+      {
+        Positionned* 
+          parent = getObject()->getParent()->getTrait<Positionned>() ;
+        
+        if (parent)
+        {
+          m_orientation = parent->getOrientation(i_reference).inverse()*i_orientation ;
+          notify() ;
+        }
+      }
+    }
+
+    void Positionned::setPosition(
+        const Position& i_position,
+        Kernel::Object*    i_reference)
+    {
+      if (! getObject()->getParent() || i_reference == getObject())
+      {
+        return ;
+      }
+      if (i_reference == getObject()->getParent())
+      {
+        m_position = i_position ;
+        notify() ;
+      }
+      else
+      {
+        Positionned* 
+          parent = getObject()->getParent()->getTrait<Positionned>() ;
+        
+        if (parent)
+        {
+          m_position = i_position - parent->getPosition(i_reference) ;
+          notify() ;
+        }
+      }
+    }
     
   }
 }

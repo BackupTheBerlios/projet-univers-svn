@@ -19,35 +19,6 @@ AC_LANG([C++])
 AC_PROG_CXX
 AC_PROG_CC
 
-
-# Vérifie la présence de ranlib
-AC_PROG_RANLIB
-
-
-# Vérifie la présence de xsltproc
-# pour transformer les docbooks en html
-AC_CHECK_PROG(GENERER_DOCBOOK, xsltproc, true, false)
-
-
-# Vérifie la présence de doxygen
-# pour générer la doc du programme en html
-AC_CHECK_PROG(GENERER_DOCUMENTATION_PROGRAMME, doxygen, true, false)
-
-# vérifie la présence de open c++ pour compiler les méta-programmes
-# \todo
-#   si ce n'ets pas présent ne pas provoquer d'erreur mais empecher la 
-#   compilation du module meta...
-AC_PATH_PROG(OCC, occ2, occ2)
-AC_PATH_PROG(LIBOCC_CONFIG, libocc-config, no)
-AC_SUBST(OCC_LIBS, "-L/usr/local/lib -locc -lltdl")
-AC_SUBST(OCC_CXXFLAGS, `$LIBOCC_CONFIG --cflags`)
-
-#if test "$LIBOCC_CONFIG" != "no" ; then
-#OCC_LIBS = `$LIBOCC_CONFIG --libs`
-#OCC_CXXFLAGS = `$LIBOCC_CONFIG --cflags`
-#fi
-
-
 #####################
 # Check libs presence
 #####################
@@ -55,18 +26,12 @@ AC_SUBST(OCC_CXXFLAGS, `$LIBOCC_CONFIG --cflags`)
 # Check/config CPPUNIT
 AM_PATH_CPPUNIT(1.1.0)
 
-
-# Vérifie la présence de glib
-# et définit les variables 
-# GLIB_LIBS et GLIB_CFLAGS
-#AM_PATH_GLIB(1.2)
-
 # Vérifie la présence de flex
 # et définit LEXLIB
 AC_PROG_LEX
 
 # Check/config Ogre3d
-PKG_CHECK_MODULES(OGRE, [OGRE >= 1.2])
+PKG_CHECK_MODULES(OGRE, [OGRE >= 1.0])
 AC_SUBST(OGRE_CFLAGS)
 AC_SUBST(OGRE_LIBS)
 
@@ -93,21 +58,9 @@ AC_SUBST(ODE_LIBS, "-lode")
 ##################
 
 
-# AceDB Config
-# définit les variables ACEDB_CFLAGS et ACEDB_LIBS
-if test `uname -o` == GNU/Linux; then
-  AC_SUBST(ACEDDB_CFLAGS, "-fwritable-strings -Wall -DACEDB4 -DLINUX")
-  AC_SUBST(ACEDB_LIBS, "libace.a libfree.a")
-else
-  AC_SUBST(ACEDDB_CFLAGS, "-fwritable-strings -Wall -DACEDB4 -DWIN32")
-  AC_SUBST(ACEDB_LIBS, "libace.dll libfree.dll")
-fi
-
-
 # Checks for header files.
 AC_HEADER_STDC
 AC_CHECK_HEADERS([limits.h stdlib.h])
-
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST

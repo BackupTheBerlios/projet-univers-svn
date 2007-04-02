@@ -30,6 +30,7 @@ namespace ProjetUnivers {
 
     /// For objects that move relativly to their parent.
     /*!
+      Any speed is relative to the parent physical world. 
     */
     class Mobile : public Kernel::Trait
     {

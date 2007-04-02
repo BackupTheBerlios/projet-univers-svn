@@ -43,5 +43,11 @@ namespace ProjetUnivers {
     {
       return m_orientation * i_orientation.m_orientation ; 
     }
+
+    Orientation Orientation::inverse() const
+    {
+      return m_orientation.Inverse() ;
+    }
+
   }
 }

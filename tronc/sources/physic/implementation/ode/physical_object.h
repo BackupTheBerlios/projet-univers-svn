@@ -45,6 +45,9 @@ namespace ProjetUnivers {
 
           dBody* getBody() const ;
           
+          /// Updates model according to simulation.
+          void updateModel() ;
+
         protected:
         
           /// Called after the view is created on a initialised viewpoint.
@@ -60,15 +63,23 @@ namespace ProjetUnivers {
           virtual void onUpdate() ;
         
         private:
+
           
-          
+          /// Set position and orientation from Model.
           void updatePositionned() ;
+          /// Set mass from Model.
           void updateMassive() ;
+          /// Set speeds from Model.
           void updateMobile() ;
+
+          /// Modify model position/orientation. 
+          void updateModelPositionned() ;
           
           /// ode's body
           dBody* m_body ;
-        
+          
+          /// Used to avoid that changeModelPosition triggers onUpdate.
+          bool m_is_being_updated ;
         };
 
       }

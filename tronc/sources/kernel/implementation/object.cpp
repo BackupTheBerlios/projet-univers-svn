@@ -277,7 +277,6 @@ namespace ProjetUnivers {
         trait->second->_changed_parent(i_old_parent) ;
       }
     }
-
-
+    
   }
 }

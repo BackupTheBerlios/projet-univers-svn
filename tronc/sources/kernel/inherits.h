@@ -45,12 +45,14 @@ namespace ProjetUnivers {
     {
       static void constraint(Child* _child) 
       { 
-        Parent* parent = _child ; 
+        Parent* parent = _child ;
+        parent = NULL ; 
       }
       
       Inherits() 
       { 
-        void(*p)(Child*) = constraint ; 
+        void(*p)(Child*) = constraint ;
+        p = NULL ; 
       }
       
      };

@@ -16,6 +16,7 @@ $(SOURCES)/kernel/implementation/view_point.cpp \
 $(SOURCES)/kernel/implementation/log.cpp \
 $(SOURCES)/kernel/implementation/string.cpp 
 
+libkernel_la_LDFLAGS = $(SHARED_FLAGS)  -lrlog
 
 # tests
 

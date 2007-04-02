@@ -57,3 +57,21 @@
   	- PhysicalObject, PhysicalWorld, Massive, AngularSpeed, Component, 
   		Composite added
   * physic : creation of the physic module
+
+2007-03-27 rogma <rogma.boami@free.fr>
+
+	Work on physic :
+	* model : 
+		- Positionned : added set position/orientation relative to any object
+	* physic : added modification of Position according to physic simulation
+	* kernel :
+  	- added forAll<View> that allows to call a method on each View element of 
+  		a viewpoint
+
+	Work on windows port :
+	* kernel :
+		- inherits.h removed some annoying warning about unused variables
+	* makefiles/autoconf : modifications for libtool
+	* display
+		- display.cpp corrected a possible bug
+	* added preliminary codeblocks projects for modules

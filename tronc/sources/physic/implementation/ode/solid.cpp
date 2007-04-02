@@ -44,7 +44,8 @@ namespace ProjetUnivers {
         void Solid::onInit()
         {
           Kernel::Log::InternalMessage("Solid::onInit entering") ;
-
+          
+          /// need to get the correct geom from volume.
           m_geometry = new dGeom() ;
           m_geometry_placeable = new dGeomTransform() ;
 
@@ -90,6 +91,7 @@ namespace ProjetUnivers {
         void Solid::onChangeParent(Kernel::Object* i_old_parent)
         {
         }
+        
         void Solid::onUpdate()
         {
         }

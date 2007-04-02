@@ -17,10 +17,10 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_KERNEL_VUE_H_
-#define PU_KERNEL_VUE_H_
+#ifndef PU_KERNEL_TRAIT_VIEW_H_
+#define PU_KERNEL_TRAIT_VIEW_H_
 
-
+#include <boost/function.hpp>
 #include <kernel/base_trait_view.h>
 
 
@@ -49,6 +49,17 @@ namespace ProjetUnivers {
     */
     template <class _Trait,class _ViewPoint> class TraitView : public BaseTraitView
     {
+    public:
+    
+      /// Access to object's trait viewed.     
+      virtual _Trait* getModel() const ;
+
+      /// Access to specialised viewpoint.
+      _ViewPoint* getViewPoint() const ;
+
+      /// Abstract class means virtual destructor.
+      virtual ~TraitView() ;
+
     protected:
     
     /*!
@@ -72,18 +83,7 @@ namespace ProjetUnivers {
       virtual void onUpdate() ;
 
     // @}
-    public:
-    
-      /// To have typed model.     
-      virtual _Trait* getModel() const ;
-
-      /// Abstract class means virtual destructor.
-      virtual ~TraitView() ;
-    
-      /// Access to specialised viewpoint.
-      _ViewPoint* getViewPoint() const ;
       
-    protected:    
       /// Abstract class means protected constructor.
       TraitView(_Trait* i_model,_ViewPoint* i_viewpoint) ;
       

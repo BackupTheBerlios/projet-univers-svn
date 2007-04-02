@@ -55,10 +55,10 @@ namespace ProjetUnivers {
       /// Get object's name.
       std::string getName() const ;
 
-      virtual Object* getParent() const ;
+      Object* getParent() const ;
   
       /// Get top most ancestor.
-      virtual Object* getRoot() const ;
+      Object* getRoot() const ;
 
       /// Access to trait of type T if exists.
       template <class T> T* getTrait() ;
@@ -71,6 +71,13 @@ namespace ProjetUnivers {
 
       /// First ancestor with trait T.
       template <class T> T* getParent() const ;
+
+      /// Apply i_operation on all _View.
+      template <class _View>
+      void apply(const std::string& i_trait_name,
+                 ViewPoint* i_viewpoint,
+                 boost::function1<void,_View*> i_operation) ;
+
 
       /// destrucs the traits
       ~Object() ;
@@ -229,6 +236,33 @@ namespace ProjetUnivers {
       }
       
       return highest_trait_found ;
+      
+    }
+
+    template <class _View>
+    void Object::apply(const std::string& i_trait_name,
+                       ViewPoint* i_viewpoint,
+                       boost::function1<void,_View*> i_operation)
+    {
+      std::map<std::string, Trait*>::const_iterator
+           trait = traits.find(i_trait_name) ;
+      
+      if (trait != traits.end())
+      {
+        _View* view = trait->second->getView<_View>(i_viewpoint) ;
+        if (view)
+        {
+          i_operation(view) ;
+        }
+      }
+
+      /// recursive
+      for(std::set<Object*>::iterator child = children.begin() ;
+          child != children.end() ;
+          ++child)
+      {
+        (*child)->apply<_View>(i_trait_name,i_viewpoint,i_operation) ;
+      }
       
     }
 
