@@ -27,6 +27,7 @@
 #include <kernel/trait.h>
 #include <kernel/model.h>
 #include <kernel/view_point.h>
+#include <kernel/deduced_trait.h>
 #include <kernel/object.h>
 
 
@@ -50,6 +51,47 @@ namespace ProjetUnivers {
     
     }
 
+    Model* Object::getModel() const
+    {
+      return m_model ;
+    }
+
+    bool Object::getValidity(const Formula* i_formula) const
+    {
+      check(Formula::getNumberOfFormulae() <= m_validities.size(),
+            "Object::getValidity not enought place") ;
+
+      return m_validities[i_formula->getIdentifier()] ; 
+    }
+    
+    void Object::setValidity(const Formula* i_formula,bool i_validity)
+    {
+      check(Formula::getNumberOfFormulae() <= m_validities.size(),
+            "Object::setValidity not enought place") ;
+
+      m_validities[i_formula->getIdentifier()] = i_validity ;
+    }
+
+    unsigned short Object::getNumberOfTrueChildFormulae(const Formula* i_formula) const
+    {
+      check(i_formula,"Object::getNumberOfTrueChildFormulae no formula") ;
+      check(Formula::getNumberOfFormulae() <= m_number_of_true_child_formulae.size(),
+            "Object::getNumberOfTrueChildFormulae not enought place") ;
+
+      return m_number_of_true_child_formulae[i_formula->getIdentifier()] ;
+    }
+    
+    void Object::setNumberOfTrueChildFormulae(const Formula*     i_formula,
+                                              unsigned short i_number)
+    {
+      check(i_formula,"Object::setNumberOfTrueChildFormulae no formula") ;
+      check(Formula::getNumberOfFormulae() <= m_number_of_true_child_formulae.size(),
+            "Object::setNumberOfTrueChildFormulae not enought place") ;
+
+      m_number_of_true_child_formulae[i_formula->getIdentifier()]
+        = i_number ;
+    }
+
   // @}  
   /*!
     @name Construction
@@ -60,32 +102,37 @@ namespace ProjetUnivers {
     Object::Object(Model* i_model,const std::string& i_name)
     : name(i_name),
       parent(NULL),
-      model(i_model)
+      m_model(i_model),
+      m_validities(Formula::getNumberOfFormulae()),
+      m_number_of_true_child_formulae(Formula::getNumberOfFormulae())
     {
+      DeducedTrait::evaluateInitial(this) ;
     }
 
     void Object::_add(Trait* i_trait)
     {
       check(i_trait,ExceptionKernel("Kernel::_add(Trait*) no trait")) ;
-      
       Kernel::Log::InternalMessage("Kernel::Object::_add(Trait)#1") ;
 
+      std::string trait_name(typeid(*i_trait).name()) ;
+
       /// erreur si l'objet a déjà une facette de ce type là
-      check(traits.find(typeid(*i_trait).name())==traits.end(), 
+      check(traits.find(trait_name)==traits.end(), 
             ExceptionKernel("trait already exists")) ;
 
       Kernel::Log::InternalMessage("Registering :") ;
-      Kernel::Log::InternalMessage(typeid(*i_trait).name()) ;
+      Kernel::Log::InternalMessage(trait_name) ;
       Kernel::Log::InternalMessage("with value :") ;
       Kernel::Log::InternalMessage(toString((int)i_trait).c_str()) ;
 
       i_trait->object = this ;
 
+
       /// on range les facettes en fonction de leur classe
-      traits[typeid(*i_trait).name()] = i_trait ;
+      traits[trait_name] = i_trait ;
 
 #ifdef _DEBUG          
-      std::map<std::string, Trait*>::const_iterator it = traits.find(typeid(*i_trait).name()) ;
+      std::map<std::string, Trait*>::const_iterator it = traits.find(trait_name) ;
       if (it != traits.end())
       {
         Kernel::Log::InternalMessage("trait found") ;
@@ -98,6 +145,8 @@ namespace ProjetUnivers {
 #endif      
       i_trait->_create_views() ;
       i_trait->_init() ;
+
+      TraitFormula::addTrait(this,trait_name) ;
 
       Kernel::Log::InternalMessage("traits number = ") ;
       Kernel::Log::InternalMessage(toString(traits.size()).c_str()) ;
@@ -131,11 +180,25 @@ namespace ProjetUnivers {
       return i_child ;
     }
 
+    void Object::_remove(const std::string& i_trait_name)
+    {
+      Trait* trait = traits[i_trait_name] ;
+      trait->_close() ;
+      TraitFormula::removeTrait(this,i_trait_name) ;
+      
+      this->traits.erase(i_trait_name) ;
+      delete trait ;
+    }
+    
     void Object::_remove(Trait* i_trait)
     {
+      check(i_trait,ExceptionKernel("Kernel::_remove(Trait*) no trait")) ;
+      std::string trait_name(typeid(*i_trait).name()) ;
+
       i_trait->_close() ;
+      TraitFormula::removeTrait(this,trait_name) ;
       
-      this->traits.erase(typeid(*i_trait).name()) ;
+      this->traits.erase(trait_name) ;
       delete i_trait ;
     }
 
@@ -278,5 +341,19 @@ namespace ProjetUnivers {
       }
     }
     
+    Trait* Object::_get(const std::string& i_trait_name) const
+    {
+      Log::InternalMessage("Object::_get searching " + i_trait_name) ;
+      std::map<std::string, Trait*>::const_iterator trait = traits.find(i_trait_name) ;
+      if (trait != traits.end()) 
+      {
+        Log::InternalMessage("Object::_get found") ;
+        return trait->second ;
+      }
+
+      Log::InternalMessage("Object::_get not found") ;
+
+      return NULL ;
+    }    
   }
 }

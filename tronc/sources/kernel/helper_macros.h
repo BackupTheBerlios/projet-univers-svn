@@ -17,68 +17,25 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_KERNEL_EVENT_H_
-#define PU_KERNEL_EVENT_H_
+#ifndef PU_KERNEL_HELPER_MACROS_H_
+#define PU_KERNEL_HELPER_MACROS_H_
 
-#include <string>
+/*!
+  Taken from cppunit licensed under LGPL.
+*/
+#define PU_JOIN( symbol1, symbol2 ) _PU_DO_JOIN( symbol1, symbol2 )
+
+/// \internal
+#define _PU_DO_JOIN( symbol1, symbol2 ) _PU_DO_JOIN2( symbol1, symbol2 )
+
+/// \internal
+#define _PU_DO_JOIN2( symbol1, symbol2 ) symbol1##symbol2
+
+/*! Adds the line number to the specified string to create a unique identifier.
+ * \param prefix Prefix added to the line number to create a unique identifier.
+ * \see PU_TEST_SUITE_REGISTRATION for an example of usage.
+ */
+#define PU_MAKE_UNIQUE_NAME( prefix ) PU_JOIN( prefix, __LINE__ )
 
 
-namespace ProjetUnivers {
-  namespace Kernel {
-
-    class Model ;
-
-    /// Update on Model event.
-    /*!
-    */
-    struct Event
-    {
-      /// Kinds of update
-      typedef enum
-      {
-        /// Mono-valued attribute modification.
-        Update,
-        /// Multi-valued attribute insert.
-        Add,
-        /// Multi-valued attribute remove.
-        Remove,
-        /// Object deleted.
-        Delete,
-        /// Object created.
-        New,
-        /// Default value.
-        Undefined
-
-      } Action ;
-      
-      /// Default constructor.
-      Event() ;
-      
-      /// 
-      Event(const Action&, const std::string& , Model*) ;
-      
-      
-      /// Copy constructor.
-      Event(const Event&) ;
-      
-      /// Comparison operator.
-      bool operator==(const Event&) const ;
-      
-      
-      /// Action 
-      Action action ;
-      
-      /// Modified attribute.
-      std::string name ;
-      
-      /// Object modified.
-      /*!
-        ObjectId ??? mainly because of destruction.
-      */
-      Model* parameter ;
-
-    };
-  }
-}
-
-#endif /*PU_KERNEL_EVENT_H_*/
+#endif /*HELPER_MACROS_H_*/

@@ -35,40 +35,55 @@ namespace ProjetUnivers {
     }
 
     ViewPoint::ViewPoint(Model* i_model)
-    : initialised(false),
-      model(i_model)
+    : m_initialised(false),
+      m_model(i_model)
     {
     }
 
     void ViewPoint::init()
     {
-      if (! initialised)
+      if (! m_initialised)
       {
-        model->_register(this) ;
+        m_model->_register(this) ;
 
         /// call local init for viewpoint
         onInit() ;
         
-        initialised = true ;
+        m_initialised = true ;
         
         /// must init all the objects according to current viewpoint
-        model->_init(this) ;
+        m_model->_init(this) ;
       }
     }
 
     void ViewPoint::close()
     {
-      if (initialised && model)
+      if (m_initialised && m_model)
       {
         /// must init all the objects according to current viewpoint
-        model->_close(this) ;
+        m_model->_close(this) ;
 
         /// call local close for viewpoint
         onClose() ;
 
-        model->_unregister(this) ;
-        initialised = false ;
+        m_model->_unregister(this) ;
+        m_initialised = false ;
       }
+    }
+    
+    void ViewPoint::setModel(Model* i_model)
+    {
+      m_model = i_model ;
+    }
+    
+    Model* ViewPoint::getModel() const
+    {
+      return m_model ;
+    }
+        
+    bool ViewPoint::isInitialised() const
+    {
+      return m_initialised ;
     }
 
     void ViewPoint::onInit()

@@ -27,6 +27,7 @@
 #include <kernel/model.h>
 #include <kernel/object.h>
 #include <kernel/base_trait_view.h>
+#include <kernel/deduced_trait.h>
 #include <kernel/trait.h>
 
 namespace ProjetUnivers {
@@ -66,12 +67,12 @@ namespace ProjetUnivers {
     void Trait::_create_views()
     {
       check(object,ExceptionKernel("Trait::_create_views no object")) ;
-      check(object->model,
+      check(object->getModel(),
             ExceptionKernel("Trait::_create_views no object's model")) ;
       
       /// we create corresponding views for all viewpoints
-      for(std::set<ViewPoint*>::iterator viewpoint = object->model->m_viewpoints.begin() ;
-          viewpoint != object->model->m_viewpoints.end() ;
+      for(std::set<ViewPoint*>::iterator viewpoint = object->getModel()->m_viewpoints.begin() ;
+          viewpoint != object->getModel()->m_viewpoints.end() ;
           ++viewpoint)
       {
         _create_views(*viewpoint) ;
@@ -182,15 +183,17 @@ namespace ProjetUnivers {
                                 const std::string& _viewpoint,
                                 ViewBuilder _builder)
     {
-      std::cout << "Registering constructor for " 
-                << _viewpoint << " " << _trait << std::endl ;
+//      std::cout << "Registering constructor for " 
+//                << _viewpoint << " " << _trait << std::endl ;
 
       builders[std::make_pair<std::string,std::string>
                 (_viewpoint,_trait)] = _builder ;
 
-      std::cout << "Registered constructor" << std::endl ;
+//      std::cout << "Registered constructor" << std::endl ;
       
     }
+
+    const std::string no_trait = "" ;
 
     const std::string& Trait::getTraitName(const std::string& i_view,
                                            const std::string& i_viewpoint)
@@ -205,7 +208,7 @@ namespace ProjetUnivers {
         return trait->second ;
       }
       
-      return "" ;
+      return no_trait ;
     }
 
     void Trait::registerMapping(const std::string& i_view,
@@ -222,6 +225,7 @@ namespace ProjetUnivers {
     void Trait::notify()
     {
       _updated() ;
+      TraitFormula::updateTrait(getObject(),typeid(*this).name()) ;
     }
 
   }

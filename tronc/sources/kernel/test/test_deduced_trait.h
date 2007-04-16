@@ -17,32 +17,71 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <kernel/event.h>
+#ifndef PU_KERNEL_TEST_DEDUCED_TRAIT_H_
+#define PU_KERNEL_TEST_DEDUCED_TRAIT_H_
+
+
+#include <cppunit/extensions/HelperMacros.h>
 
 namespace ProjetUnivers {
   namespace Kernel {
+    namespace Test {
 
-    Event::Event()
-    {}
 
-    Event::Event(const Action& _action, 
-                 const std::string& _name, 
-                 Model* _parameter)
-    : action(_action), name(_name), parameter(_parameter)
-    {}
+      ///  Test for deduced traits.
+      /*!
+      */
+      class TestDeducedTrait : public CppUnit::TestFixture {
+      public:
+
+        /// Initialisation du test
+        void setUp() ;
+
+        /// Desinitialisation du test
+        void tearDown() ;
+
+      protected:
+
+      /// @name Tests methods
+      // @{  
+
+        /// Tests an And formula.
+        void testAnd() ;
+
+        /// Tests an Or formula.
+        void testOr() ;
+
+        /// Tests a Not formula.
+        void testNot() ;
+        
+        /// Tests a composite formula.
+        void testComposite() ;
+        
+        /// Tests a composite formula with deduced traits.
+        void testCompositeWithDeduced() ;
+
+        /// Tests view on deduced trait.
+        void testDeducedTraitViews() ;
+
+        
+      // @}
+
+
+        CPPUNIT_TEST_SUITE(TestDeducedTrait) ;
+
+        CPPUNIT_TEST(testAnd) ;
+        CPPUNIT_TEST(testOr) ;
+        CPPUNIT_TEST(testNot) ;
+        CPPUNIT_TEST(testComposite) ;
+        CPPUNIT_TEST(testCompositeWithDeduced) ;
+        CPPUNIT_TEST(testDeducedTraitViews) ;
+
+        CPPUNIT_TEST_SUITE_END() ;
+
       
-    Event::Event(const Event& _event)
-    : action(_event.action), 
-      name(_event.name), 
-      parameter(_event.parameter)
-    {}
-    
-    bool Event::operator==(const Event& _event) const
-    {
-      return action == _event.action 
-             && name ==_event.name
-             && parameter == _event.parameter ;
+      };
     }
-         
   }
 }
+
+#endif /*PU_KERNEL_TEST_DEDUCED_TRAIT_H_*/

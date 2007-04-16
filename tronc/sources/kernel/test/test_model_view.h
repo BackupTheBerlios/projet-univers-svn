@@ -32,8 +32,6 @@ namespace ProjetUnivers {
 
       ///  Test for Model/View.
       /*!
-      @par Status 
-        fully tested on 07/03/04.
       */
       class TestModelView : public CppUnit::TestFixture {
       public:
@@ -91,6 +89,12 @@ namespace ProjetUnivers {
         /// Tests the top down apply.
         void testForAll() ;
         
+        /// Tests several viewpoints on the same model.
+        void testMultiViewPoint() ;
+
+        /// Tests several viewpoints of the same kind on the same model.
+        void testMultiViewPointOfTheSameKind() ;
+
       // @}
 
 
@@ -110,6 +114,8 @@ namespace ProjetUnivers {
         CPPUNIT_TEST(testNotPresentTrait) ;
         CPPUNIT_TEST(testDestroyModel) ;
         CPPUNIT_TEST(testForAll) ;
+        CPPUNIT_TEST(testMultiViewPoint) ;
+        CPPUNIT_TEST(testMultiViewPointOfTheSameKind) ;
 
         CPPUNIT_TEST_SUITE_END() ;
 

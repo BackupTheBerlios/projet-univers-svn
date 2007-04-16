@@ -59,6 +59,10 @@ namespace ProjetUnivers {
       /// terminate the viewpoint.
       void close() ;
       
+      /// Acces to model.
+      Model* getModel() const ;
+      
+      bool isInitialised() const ;
       
     protected:
 
@@ -95,11 +99,14 @@ namespace ProjetUnivers {
       */
       virtual bool isVisible(Object* i_object) const ;
 
+      /// Change model.
+      void setModel(Model* i_model) ;
+
       /// Constructor.
       ViewPoint(Model* i_model) ;
     
-      bool initialised ;
-      Model* model ;
+      bool   m_initialised ;
+      Model* m_model ;
 
       friend class Model ;
       friend class BaseTraitView ;
@@ -130,8 +137,8 @@ namespace ProjetUnivers {
                               view_name,
                               typeid(*i_viewpoint).name())) ;
 
-      for(std::set<Object*>::iterator object = i_viewpoint->model->m_objects.begin() ;
-          object != i_viewpoint->model->m_objects.end() ;
+      for(std::set<Object*>::iterator object = i_viewpoint->getModel()->m_objects.begin() ;
+          object != i_viewpoint->getModel()->m_objects.end() ;
           ++object)
       {
         (*object)->apply(trait_name,i_viewpoint,i_operation) ;

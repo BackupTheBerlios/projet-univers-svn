@@ -23,6 +23,7 @@
 #include <map>
 #include <boost/function.hpp>
 
+#include <kernel/helper_macros.h>
 #include <kernel/log.h>
 #include <kernel/string.h>
 
@@ -32,6 +33,7 @@ namespace ProjetUnivers {
     class Object ;
     class BaseTraitView ;
     class ViewPoint ;
+    class DeducedTrait ;
     
     /// Abstract class for object traits.
     class Trait
@@ -128,6 +130,7 @@ namespace ProjetUnivers {
 
       friend class Object ;
       friend class BaseTraitView ;
+      friend class DeducedTrait ;
     };
 
     /// Tells that ClassView is the view for ClassModelin ClassViewPoint.
@@ -147,7 +150,7 @@ namespace ProjetUnivers {
       
     */
     #define RegisterView(ClassView,ClassTrait,ClassViewPoint)                \
-      namespace {                                                            \
+      namespace PU_MAKE_UNIQUE_NAME(local) {                                 \
         ProjetUnivers::Kernel::BaseTraitView* build(                         \
           ProjetUnivers::Kernel::Trait* _model,                              \
           ProjetUnivers::Kernel::ViewPoint* _viewpoint)                      \

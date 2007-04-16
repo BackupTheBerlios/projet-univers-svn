@@ -169,7 +169,7 @@ namespace ProjetUnivers {
       {
         _close(*viewpoint) ;
         /// notify viewpoint it has no longer a model
-        (*viewpoint)->model = NULL ;
+        (*viewpoint)->setModel(NULL) ;
       }
       
       /// 2. destroy m_objects 

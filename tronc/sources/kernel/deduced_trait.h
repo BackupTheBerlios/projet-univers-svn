@@ -17,78 +17,59 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#ifndef PU_KERNEL_DEDUCED_TRAIT_H_
+#define PU_KERNEL_DEDUCED_TRAIT_H_
 
-#include <kernel/view_point.h>
-#include <kernel/object.h>
+#include <vector>
+#include <string>
+#include <set>
+#include <map>
+
+#include <kernel/helper_macros.h>
+
 #include <kernel/trait.h>
-#include <kernel/base_trait_view.h>
 
 namespace ProjetUnivers {
   namespace Kernel {
+    
+    /// Declare @c trait as a deduced trait defined by @c formula 
+    /*!
+      @param trait the trait class being defined
+      @param formula any combination of And, Or, Not HasTrait
+             see below.
+    */
+    #define DeclareDeducedTrait(trait,formula)  \
+      class trait : public DeducedTrait         \
+      {                                         \
+      };                                        \
+      namespace PU_MAKE_UNIQUE_NAME(local)      \
+      {                                         \
+        DeducedTrait* builder()                 \
+        {                                       \
+          return new trait() ;                  \
+        }                                       \
+                                                \
+        DeducedTraitDeclaration temp(           \
+          formula::build(),                     \
+          &builder,                             \
+          typeid(trait).name()) ;               \
+      }
 
-    void BaseTraitView::_init()
-    {
-      /*!
-        We initialise only if the view point has been initialised.
-      */
-      if (viewpoint)
-      {
-        if (! initialised && viewpoint->isInitialised())
-        {
-          onInit() ;
-          initialised = true ;        
-        }
-      }
-    }
-    
-    void BaseTraitView::_close()
-    {
-      if (initialised)
-      {
-        onClose() ;
-        initialised = false ;        
-      }
-    }
-    
-    void BaseTraitView::_changed_parent(Object* i_old_parent)
-    {
-      if (initialised)
-      {
-        onChangeParent(i_old_parent) ;
-      }
-    }
-    
-    void BaseTraitView::_updated()
-    {
-      if (initialised)
-      {
-        onUpdate() ;
-      }
-      
-    }
-    
-    
-    BaseTraitView::~BaseTraitView()
-    {
-      _close() ;
-      if (trait)
-      {
-        trait->views.erase(viewpoint) ;
-      }
-      
-    }
+    /// Conjunction of formulaes    
+    #define And(...) TemplateAnd< __VA_ARGS__ >
 
-    BaseTraitView::BaseTraitView(Trait* i_trait,ViewPoint* i_viewpoint)
-    : initialised(false),
-      trait(i_trait), 
-      viewpoint(i_viewpoint)
-    {
-      trait->views.insert(std::pair<ViewPoint*,BaseTraitView*>(i_viewpoint,this)) ;
-    }
+    /// Disjunction of formulaes    
+    #define Or(...) TemplateOr< __VA_ARGS__ >
+    
+    /// Negation of formula.
+    #define Not(f) TemplateNot<f>
+    
+    /// Elementary formula true iff object has trait @c t
+    #define HasTrait(t) TemplateHasTrait<t>
 
-    Object* BaseTraitView::getObject() const
-    {
-      return trait->getObject() ;
-    }
+
   }
 }
+#include <kernel/implementation/deduced_trait.cxx>
+
+#endif /*PU_KERNEL_DEDUCED_TRAIT_H_*/

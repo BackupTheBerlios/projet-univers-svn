@@ -22,6 +22,7 @@
 
 #include <set>
 #include <map>
+#include <vector>
 #include <typeinfo>
 
 #include <kernel/exception_kernel.h>
@@ -39,6 +40,11 @@ namespace ProjetUnivers {
     class Trait ;
     class Model ;
     class ViewPoint ;
+    class Formula ;
+    class FormulaAnd ;
+    class FormulaOr ;
+    class TraitFormula ;
+    class FormulaNot ;
     
     /// A model object.
     /*!
@@ -55,10 +61,14 @@ namespace ProjetUnivers {
       /// Get object's name.
       std::string getName() const ;
 
+      // Access to parent.
       Object* getParent() const ;
-  
+      
       /// Get top most ancestor.
       Object* getRoot() const ;
+
+      /// Acces to model.
+      Model* getModel() const ;
 
       /// Access to trait of type T if exists.
       template <class T> T* getTrait() ;
@@ -77,7 +87,6 @@ namespace ProjetUnivers {
       void apply(const std::string& i_trait_name,
                  ViewPoint* i_viewpoint,
                  boost::function1<void,_View*> i_operation) ;
-
 
       /// destrucs the traits
       ~Object() ;
@@ -99,6 +108,12 @@ namespace ProjetUnivers {
       /// Remove a trait.
       void _remove(Trait* i_trait) ;
 
+      /// Remove a trait by trait name.
+      void _remove(const std::string& i_trait_name) ;
+
+      /// Retreive the trait named @c i_trait_name.
+      Trait* _get(const std::string& i_trait_name) const ;
+
       /// update the views for a change_parent. 
       void _changed_parent(Object* i_old_parent) ;
       
@@ -117,10 +132,24 @@ namespace ProjetUnivers {
       /// close the views before viewpoint closing.
       void _close(ViewPoint* i_viewpoint) ;
 
-      
       /// recursivelly create views for a viewpoint.
       void _create_views(ViewPoint* i_viewpoint) ;
 
+    /*!
+      @name Deduction access
+    */    
+    // @{
+    
+      bool getValidity(const Formula* i_formula) const ;
+      
+      void setValidity(const Formula* i_formula,bool i_validity) ;
+
+      unsigned short getNumberOfTrueChildFormulae(const Formula* i_formula) const ;
+      
+      void setNumberOfTrueChildFormulae(const Formula* i_formula,
+                                        unsigned short i_number) ;
+                                        
+    // @}
     /*!
       @name attributes
     */    
@@ -132,13 +161,31 @@ namespace ProjetUnivers {
       Object* parent ;
       /// @composite
       std::set<Object*> children ;
-      Model* model ;
       
+      /// Model of the object.
+      Model*            m_model ;
+      
+      /// Validities for each formula
+      std::vector<bool> m_validities ;
+
+      /// Number of true chid formulae indexed by formulae.       
+      std::vector<unsigned short> m_number_of_true_child_formulae ;
+
     // @}
 
       friend class Trait ;    
       friend class Model ;
+      friend class Formula ;
+      friend class FormulaAnd ;
+      friend class FormulaOr ;
+      friend class FormulaNot ;
+      friend class TraitFormula ;
+      friend class DeducedTrait ;
+      
     };
+
+
+
 
     template <class _View> _View* Object::getView(ViewPoint* i_viewpoint)
     {
