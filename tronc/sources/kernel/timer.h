@@ -17,18 +17,33 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_PHYSICAL_OBJECT_H_
-#define PU_MODEL_PHYSICAL_OBJECT_H_
+#ifndef PU_KERNEL_TIMER_H_
+#define PU_KERNEL_TIMER_H_
 
-#include <kernel/deduced_trait.h>
+#include <boost/timer.hpp>
 
 namespace ProjetUnivers {
-  namespace Model {
+  namespace Kernel {
 
-    /// For objects that are physical.
-    class PhysicalObject : public Kernel::DeducedTrait
-    {};
+    /// Something that measure time.
+    class Timer
+    {
+    public:
+      
+      /// Constructor.
+      Timer() ;
+      
+      /// Reset the timer to zero.
+      void reset() ;
+      
+      /// Return the time elapsed in seconds.
+      float getSecond() const ; 
+
+    private:
+    
+      boost::timer m_timer ;
+    };
   }
 }
 
-#endif /*PU_MODEL_PHYSICAL_OBJECT_H_*/
+#endif /*PU_KERNEL_TIMER_H_*/

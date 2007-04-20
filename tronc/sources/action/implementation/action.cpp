@@ -29,6 +29,7 @@
 #include <model/positionned.h>
 #include <model/solid.h>
 #include <model/stellar_system.h>
+#include <model/mobile.h>
 
 #include <action/action.h>
 
@@ -125,14 +126,14 @@ namespace ProjetUnivers {
         Object* observateur(Model::getObject("Observer")) ;
         Object* system(observateur->getParent<StellarSystem>()->getObject()) ;
         check(system,std::string("action::creer_objet error")) ;         
-        Object* vaisseau = Model::createObject("Vaisseau2",system) ;
+        Object* vaisseau = Model::createObject("Asteroid",system) ;
         if (vaisseau)
         {
           Model::addTrait(vaisseau,new Positionned(Position::Meter(0,
                                                                    500000,
                                                                    0))) ;
           
-          Model::addTrait(vaisseau,new Solid(Model::Mesh("razor.mesh"))) ;
+          Model::addTrait(vaisseau,new Solid(Model::Mesh("asteroid.mesh"))) ;
         }
         else
         {
@@ -142,8 +143,24 @@ namespace ProjetUnivers {
       else if (_action.name == "destroyObject")
       {
         Kernel::Log::InternalMessage("preparing to destroy object") ;
-        Model::destroyObject("Vaisseau2") ;
+        Model::destroyObject("Asteroid") ;
       }
+      else if (_action.name == "moveObject")
+      {
+        Kernel::Log::InternalMessage("preparing to move object") ;
+        Kernel::Object* object = Model::getObject("Vaisseau") ;
+        if (object)
+        {
+          Model::Mobile* mobile = object->getTrait<Model::Mobile>() ;
+          if (mobile)
+          {
+            Kernel::Log::InternalMessage("moving object") ;
+            mobile->setAngularSpeed(Model::AngularSpeed::TurnPerSecond(0,1,0)) ;
+          }
+        }
+        
+      }
+
     }
     
     

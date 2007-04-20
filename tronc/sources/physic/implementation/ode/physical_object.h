@@ -21,7 +21,10 @@
 #define PU_PHYSIC_IMPLEMENTATION_ODE_PHYSICAL_OBJECT_H_
 
 #include <kernel/trait_view.h>
+
 #include <model/physical_object.h>
+#include <model/physical_world.h>
+
 #include <physic/implementation/ode/real_world_view_point.h>
 
 class dBody ;
@@ -65,15 +68,21 @@ namespace ProjetUnivers {
         private:
 
           
-          /// Set position and orientation from Model.
+          /// Set ODE position and orientation from Model.
           void updatePositionned() ;
-          /// Set mass from Model.
+          /// Set ODE mass from Model.
           void updateMassive() ;
-          /// Set speeds from Model.
+          /// Set ODE speeds from Model.
           void updateMobile() ;
+          
+          /// Calculate the world object of this body. 
+          Model::PhysicalWorld* determineWorld() const ;
 
           /// Modify model position/orientation. 
           void updateModelPositionned() ;
+
+          /// Modify model speed. 
+          void updateModelMobile() ;
           
           /// ode's body
           dBody* m_body ;

@@ -17,12 +17,21 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <model/mobile.h>
+#include <model/massive.h>
+#include <model/positionned.h>
+#include <model/whole.h>
+
 #include <model/physical_object.h>
 
 namespace ProjetUnivers {
   namespace Model {
 
-    PhysicalObject::PhysicalObject()
-    {}
+    DeclareDeducedTrait(PhysicalObject,
+                        And(HasTrait(Mobile),
+                            HasTrait(Positionned),
+                            HasTrait(Massive),
+                            HasTrait(Whole))) ;
+
   }
 }

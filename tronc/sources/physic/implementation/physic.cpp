@@ -79,6 +79,7 @@ namespace ProjetUnivers {
     {
       viewpoint.reset( 
         new Implementation::Ode::RealWorldViewPoint(i_observer)) ;
+      viewpoint->init() ;
       return viewpoint.get() ;
     }
 

@@ -75,3 +75,22 @@
 	* display
 		- display.cpp corrected a possible bug
 	* added preliminary codeblocks projects for modules
+
+2007-04-20 rogma <rogma.boami@free.fr>
+
+	Work on deduction :
+	* kernel :
+		- added deduced_trait.h/cpp : handling of deduced trait, formulas And, Or, Not, HasTrait + tests
+	* model : 
+		- used deduction for physical object, whole and physical world
+	* physic
+		- validated deduction usage throught small changes
+
+	Demo :
+	* kernel :
+		added timer
+	* demonstration
+		usage of physic module	
+	Diverse :
+	* kernel : renaming of member data, added preliminary timer class
+	* all : removed some warnings	

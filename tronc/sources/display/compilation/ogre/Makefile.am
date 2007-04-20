@@ -15,8 +15,7 @@ $(SOURCES)/display/implementation/ogre/universe.cpp
 libdisplayogre_la_LDFLAGS = \
 	$(SHARED_FLAGS) \
 	-L$(SOURCES)/kernel/compilation \
-	-L$(SOURCES)/model/compilation/ \
-	-L$(SOURCES)/display/compilation/
+	-L$(SOURCES)/model/compilation 
 
-libdisplayogre_la_LIBADD = -lkernel -ldisplay -lmodel $(OGRE_LIBS)
+libdisplayogre_la_LIBADD = -lkernel -lmodel $(OGRE_LIBS)
 

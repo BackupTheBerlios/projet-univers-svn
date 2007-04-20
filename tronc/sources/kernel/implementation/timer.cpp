@@ -17,18 +17,24 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_PHYSICAL_OBJECT_H_
-#define PU_MODEL_PHYSICAL_OBJECT_H_
-
-#include <kernel/deduced_trait.h>
+#include <kernel/timer.h>
 
 namespace ProjetUnivers {
-  namespace Model {
+  namespace Kernel {
 
-    /// For objects that are physical.
-    class PhysicalObject : public Kernel::DeducedTrait
-    {};
+    Timer::Timer()
+    : m_timer()
+    {}
+    
+    void Timer::reset()
+    {
+      m_timer.restart() ;
+    }
+    
+    float Timer::getSecond() const
+    {
+      return (float)m_timer.elapsed() ;
+    } 
+
   }
 }
-
-#endif /*PU_MODEL_PHYSICAL_OBJECT_H_*/

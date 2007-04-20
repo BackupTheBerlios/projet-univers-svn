@@ -30,16 +30,17 @@ namespace ProjetUnivers {
     {}
 
     Position::Position(const Position& i_position)
-    : m_unit(i_position.m_unit),
-      m_value(i_position.m_value)
+    : m_value(i_position.m_value),
+      m_unit(i_position.m_unit)
     {}
 
     Position::Position(Distance::Unit i_unit,
                        float          i_x, 
                        float          i_y, 
                        float          i_z)
-    : m_unit(i_unit),
-      m_value(i_x,i_y,i_z)
+    : m_value(i_x,i_y,i_z),
+      m_unit(i_unit)
+      
     {}
 
     Position Position::Meter(float i_x, 

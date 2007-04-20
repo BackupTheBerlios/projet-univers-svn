@@ -137,7 +137,6 @@ namespace ProjetUnivers {
             }
             
           }
-          ResourceGroupManager::getSingleton().initialiseAllResourceGroups() ;
         }
         
         
@@ -158,11 +157,15 @@ namespace ProjetUnivers {
         
         
         bool init() {
+
       
           // On se crée une application Ogre
           // *******************************
           root = new Root() ;
           
+          // On charge le fichier de configuration des ressources
+          // ****************************************************
+          loadRessources() ;
         
           // On laisse l'utilisateur choisir le pilote d'affichage
           bool go_on = displayPiloteChoice() ;
@@ -175,9 +178,7 @@ namespace ProjetUnivers {
           // on se crée une window par défaut
           window = root->initialise(true) ;
 
-          // On charge le fichier de configuration des ressources
-          // ****************************************************
-          loadRessources() ;
+          ResourceGroupManager::getSingleton().initialiseAllResourceGroups() ;
           
           Kernel::Log::InternalMessage("Ogre launched") ;
           

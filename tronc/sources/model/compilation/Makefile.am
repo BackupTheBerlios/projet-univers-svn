@@ -25,7 +25,8 @@ libmodel_la_SOURCES = \
 ../implementation/solid.cpp \
 ../implementation/speed.cpp \
 ../implementation/stellar_system.cpp \
-../implementation/universe.cpp
+../implementation/universe.cpp \
+../implementation/whole.cpp
 
 libmodel_la_LDFLAGS = $(SHARED_FLAGS) -L$(top_srcdir)/sources/kernel/compilation
 libmodel_la_LIBADD = -lkernel $(OGRE_LIBS) 

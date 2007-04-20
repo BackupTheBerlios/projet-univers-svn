@@ -71,10 +71,14 @@ namespace ProjetUnivers {
           break ;
 
         case OIS::KC_D:
-           Kernel::Log::InternalMessage("Input : added destroy object") ;
+          Kernel::Log::InternalMessage("Input : added destroy object") ;
           Action::add("destroyObject") ;
           break ;
 
+        case OIS::KC_M:
+          Kernel::Log::InternalMessage("Input : added move object") ;
+          Action::add("moveObject") ;
+          break ;
 
 
         default:

@@ -17,18 +17,16 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_PHYSICAL_OBJECT_H_
-#define PU_MODEL_PHYSICAL_OBJECT_H_
 
 #include <kernel/deduced_trait.h>
+#include <model/component.h>
+#include <model/whole.h>
 
 namespace ProjetUnivers {
   namespace Model {
 
-    /// For objects that are physical.
-    class PhysicalObject : public Kernel::DeducedTrait
-    {};
+    DeclareDeducedTrait(Whole,
+                        Not(HasTrait(Component))) ;
   }
 }
-
-#endif /*PU_MODEL_PHYSICAL_OBJECT_H_*/
+ 

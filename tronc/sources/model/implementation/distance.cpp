@@ -118,6 +118,7 @@ namespace ProjetUnivers {
         }
       }
       
+      return 0 ;
     }
   
     Distance::Unit Distance::bestCompatibleUnit(

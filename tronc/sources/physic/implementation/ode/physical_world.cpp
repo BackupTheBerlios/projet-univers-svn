@@ -29,9 +29,9 @@ namespace ProjetUnivers {
     namespace Implementation {
       namespace Ode {
 
-      RegisterView(PhysicalWorld, 
-                   Model::PhysicalWorld, 
-                   RealWorldViewPoint) ;
+        RegisterView(PhysicalWorld, 
+                     Model::PhysicalWorld, 
+                     RealWorldViewPoint) ;
 
         PhysicalWorld::PhysicalWorld(Model::PhysicalWorld* i_object,
                                      RealWorldViewPoint* i_viewpoint)
@@ -54,18 +54,19 @@ namespace ProjetUnivers {
 
         void PhysicalWorld::onClose()
         {
-          Kernel::Log::InternalMessage("PhysicalWorld::onClose entering") ;
+          Kernel::Log::InternalMessage("Physic::PhysicalWorld::onClose entering " + getObject()->getName()) ;
           if (m_world)
           {
             delete m_world ;
           }
 
-          Kernel::Log::InternalMessage("PhysicalWorld::onClose leaving") ;
+          Kernel::Log::InternalMessage("Physic::PhysicalWorld::onClose leaving " + getObject()->getName()) ;
         }
 
         void PhysicalWorld::onChangeParent(Kernel::Object* i_old_parent)
         {
         }
+
         void PhysicalWorld::onUpdate()
         {
         }
@@ -77,6 +78,7 @@ namespace ProjetUnivers {
         
         void PhysicalWorld::update(const Model::Duration& i_duration)
         {
+          Kernel::Log::InternalMessage("PhysicalWorld::update Entering") ;
           /// simulate
           if (m_world)
           {
@@ -90,6 +92,7 @@ namespace ProjetUnivers {
           {
             (*object)->updateModel() ;
           }
+          Kernel::Log::InternalMessage("PhysicalWorld::update Leaving") ;
         }
         
         void PhysicalWorld::registerObject(PhysicalObject* i_object)

@@ -20,10 +20,13 @@
 
 #include <kernel/log.h>
 #include <kernel/object.h>
+#include <kernel/timer.h>
 #include <model/model.h>
+#include <model/duration.h>
 #include <display/display.h>
 #include <action/action.h>
 #include <input/input.h>
+#include <physic/physic.h>
 
 using namespace ProjetUnivers ;
 
@@ -37,9 +40,10 @@ int main() {
 
 
   /// initialisation
-  Kernel::Log::init() ;
+//  Kernel::Log::init() ;
   Kernel::Log::InformationMessage("Demarrage de projet univers") ;
   Model::init() ;
+  Physic::init() ;
   Display::init() ;
   Action::init() ;
   Input::init() ;
@@ -52,15 +56,22 @@ int main() {
   
   /// Création d'un point de vue sur ce modèle
   Display::buildRealWorldViewPoint(observer) ;
-
+  Physic::buildRealWorldViewPoint(observer) ;
+  Physic::init() ;
+  
   Kernel::Log::InternalMessage("Activating Viewpoint") ;
 
   Kernel::Log::InformationMessage("Demarrage de la boucle principale") ;
+
+  Kernel::Timer timer ;
 
   /// boucle principale
   while (! Action::finished())
   {
     Input::update() ;
+    Model::Duration elapsed(Model::Duration::Second(timer.getSecond())) ;
+    timer.reset() ;
+    Physic::update(elapsed) ;
     Action::update() ;
     Display::update() ;
   }
@@ -71,9 +82,10 @@ int main() {
   Input::close() ;
   Action::close() ;
   Display::close() ;
+  Physic::close() ;
   Model::close() ;
   Kernel::Log::InformationMessage("Modules desinitialisés") ;
-  Kernel::Log::close() ;
+//  Kernel::Log::close() ;
   
   return 0 ;
   

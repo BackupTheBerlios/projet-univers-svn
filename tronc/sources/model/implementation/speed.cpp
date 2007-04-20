@@ -24,13 +24,13 @@ namespace ProjetUnivers {
   namespace Model {
 
     Speed::Speed()
-    : m_unit(_MeterPerSecond),
-      m_value(0,0,0)
+    : m_value(0,0,0),
+      m_unit(_MeterPerSecond)
     {}
 
     Speed::Speed(const Speed& i_speed)
-    : m_unit(i_speed.m_unit), 
-      m_value(i_speed.m_value)
+    : m_value(i_speed.m_value),
+      m_unit(i_speed.m_unit) 
     {}
 
     Speed Speed::MeterPerSecond(const float& i_x,
@@ -96,8 +96,8 @@ namespace ProjetUnivers {
                  const float& i_x,
                  const float& i_y,
                  const float& i_z)
-    : m_unit(i_unit),
-      m_value(i_x,i_y,i_z)
+    : m_value(i_x,i_y,i_z),
+      m_unit(i_unit)
     {}
 
 

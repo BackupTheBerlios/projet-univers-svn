@@ -16,7 +16,6 @@
 		</Project>
 		<Project filename="display\compilation\display.cbp">
 			<Depends filename="kernel\compilation\kernel.cbp" />
-			<Depends filename="display\compilation\ogre\ogredisplay.cbp" />
 		</Project>
 		<Project filename="display\compilation\ogre\ogredisplay.cbp">
 			<Depends filename="kernel\compilation\kernel.cbp" />

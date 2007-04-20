@@ -13,6 +13,7 @@ $(SOURCES)/kernel/implementation/log.cpp \
 $(SOURCES)/kernel/implementation/model.cpp \
 $(SOURCES)/kernel/implementation/pretty_print.cpp \
 $(SOURCES)/kernel/implementation/string.cpp \
+$(SOURCES)/kernel/implementation/timer.cpp \
 $(SOURCES)/kernel/implementation/trait.cpp \
 $(SOURCES)/kernel/implementation/trait_view.cpp \
 $(SOURCES)/kernel/implementation/view_point.cpp

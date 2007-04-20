@@ -39,33 +39,30 @@ namespace ProjetUnivers {
              see below.
     */
     #define DeclareDeducedTrait(trait,formula)  \
-      class trait : public DeducedTrait         \
-      {                                         \
-      };                                        \
       namespace PU_MAKE_UNIQUE_NAME(local)      \
       {                                         \
-        DeducedTrait* builder()                 \
+        Kernel::DeducedTrait* builder()         \
         {                                       \
           return new trait() ;                  \
         }                                       \
                                                 \
-        DeducedTraitDeclaration temp(           \
+        Kernel::DeducedTraitDeclaration temp(   \
           formula::build(),                     \
           &builder,                             \
           typeid(trait).name()) ;               \
       }
 
     /// Conjunction of formulaes    
-    #define And(...) TemplateAnd< __VA_ARGS__ >
+    #define And(...) Kernel::TemplateAnd< __VA_ARGS__ >
 
     /// Disjunction of formulaes    
-    #define Or(...) TemplateOr< __VA_ARGS__ >
+    #define Or(...) Kernel::TemplateOr< __VA_ARGS__ >
     
     /// Negation of formula.
-    #define Not(f) TemplateNot<f>
+    #define Not(f) Kernel::TemplateNot<f>
     
     /// Elementary formula true iff object has trait @c t
-    #define HasTrait(t) TemplateHasTrait<t>
+    #define HasTrait(t) Kernel::TemplateHasTrait<t>
 
 
   }

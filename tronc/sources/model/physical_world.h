@@ -20,7 +20,10 @@
 #ifndef PU_MODEL_PHYSICAL_WORLD_H_
 #define PU_MODEL_PHYSICAL_WORLD_H_
 
-#include <kernel/trait.h>
+#include <kernel/deduced_trait.h>
+
+#include <model/positionned.h>
+#include <model/whole.h>
 
 namespace ProjetUnivers {
   namespace Model {
@@ -29,19 +32,13 @@ namespace ProjetUnivers {
     /*!
       @see http://en.wikipedia.org/wiki/Inertial_frame_of_reference
       
-      It is a "référentiel galiléen" where physic laws are valid.
+      It is a "référentiel galiléen" where physic laws are valid. 
+      Any Mobile object has a speed relative to its PhysicalWorld parent.
+      @see Model::Mobile.
       
-      @todo : make it a deduced trait
     */
-    class PhysicalWorld : public Kernel::Trait
-    {
-    public:
-
-      /// Construct.
-      PhysicalWorld() ;
-      
-     
-    };
+    class PhysicalWorld : public Kernel::DeducedTrait
+    {};
   }
 }
 

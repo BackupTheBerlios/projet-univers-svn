@@ -45,6 +45,11 @@ namespace ProjetUnivers {
       static AngularSpeed TurnPerSecond(const float& i_wx,
                                         const float& i_wy,
                                         const float& i_wz) ;
+
+      /// Build from a vector whose norm is angular speed in radian.s-1.
+      static AngularSpeed RadianPerSecond(const float& i_wx,
+                                          const float& i_wy,
+                                          const float& i_wz) ;
   
       /// Copy constructor.
       AngularSpeed(const AngularSpeed&) ;

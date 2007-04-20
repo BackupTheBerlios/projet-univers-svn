@@ -145,7 +145,6 @@ namespace ProjetUnivers {
         Kernel::Object* system = model->createObject("Systeme#1",universe) ;
         model->addTrait(system,new StellarSystem()) ;
         model->addTrait(system,new Positionned()) ;
-        model->addTrait(system,new PhysicalWorld()) ;
         
         Kernel::Log::InternalMessage("building stellar system done") ;
         
@@ -171,7 +170,6 @@ namespace ProjetUnivers {
           model->addTrait(ship,new Solid(Mesh("razor.mesh"))) ;
           model->addTrait(ship,new Mobile()) ;
           model->addTrait(ship,new Massive(Mass::Kilogram(1000))) ;
-          model->addTrait(ship,new PhysicalObject()) ;
           
           Kernel::Log::InternalMessage("building ship done") ;
         }
@@ -185,7 +183,6 @@ namespace ProjetUnivers {
           model->addTrait(ship,new Solid(Mesh("razor.mesh"))) ;
           model->addTrait(ship,new Mobile()) ;
           model->addTrait(ship,new Massive(Mass::Kilogram(1000))) ;
-          model->addTrait(ship,new PhysicalObject()) ;
   
           Kernel::Log::InternalMessage("building ship done") ;
         }

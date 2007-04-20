@@ -25,13 +25,13 @@ namespace ProjetUnivers {
 
       
     Duration::Duration()
-    : m_unit(_Second),
-      m_value(0)
+    : m_value(0),
+      m_unit(_Second)
     {}
     
     Duration::Duration(Unit i_unit,float i_value)
-    : m_unit(i_unit),
-      m_value(i_value)
+    : m_value(i_value),
+      m_unit(i_unit)
     {}
     
     Duration Duration::Second(float i_seconds)
@@ -40,8 +40,9 @@ namespace ProjetUnivers {
     }
     
     Duration::Duration(const Duration& i_duration)
-    : m_unit(i_duration.m_unit),
-      m_value(i_duration.m_value)
+    : m_value(i_duration.m_value),
+    m_unit(i_duration.m_unit)
+
     {}
     
     Duration Duration::operator +(const Duration& i_duration) const

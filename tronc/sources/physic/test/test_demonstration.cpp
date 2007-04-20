@@ -56,6 +56,7 @@ namespace ProjetUnivers {
 
       void TestDemonstration::testBuild()
       {
+        Kernel::Log::InternalMessage("TestDemonstration::testBuild Entering") ;
         Model::init() ;
         Model::load("TestDemonstration") ;
         Physic::init() ;
@@ -93,6 +94,8 @@ namespace ProjetUnivers {
         
         Physic::close() ;
         Model::close() ;
+
+        Kernel::Log::InternalMessage("TestDemonstration::testBuild Leaving") ;
         
       }
 
@@ -407,6 +410,7 @@ namespace ProjetUnivers {
 
       void TestDemonstration::testModelPositionUpdate()
       {
+        Kernel::Log::InternalMessage("Physic::Test::TestDemonstration::testModelPositionUpdate Entering") ;
         Model::init() ;
         Model::load("TestDemonstration") ;
         Physic::init() ;
@@ -443,16 +447,16 @@ namespace ProjetUnivers {
           CPPUNIT_ASSERT(ship) ;
           new_position = ship->getPosition().Meter() ;
         }
+        Kernel::Log::InformationMessage(std::string("TestDemonstration::testModelPositionUpdate new position") 
+                                        + " x=" + toString(new_position[0]) 
+                                        + ",y=" + toString(new_position[1]) 
+                                        + ",z=" + toString(new_position[2])) ; 
         
         // check that object has moved
         CPPUNIT_ASSERT( old_position[0]+1 == new_position[0] && 
                         old_position[1] == new_position[1] &&
                         old_position[2] == new_position[2]) ;
 
-        Kernel::Log::InformationMessage(std::string("testSimulateMovingInitialSpeed new position") 
-                                        + " x=" + toString(new_position[0]) 
-                                        + ",y=" + toString(new_position[1]) 
-                                        + ",z=" + toString(new_position[2])) ; 
         Physic::close() ;
         Model::close() ;
 

@@ -118,21 +118,34 @@ namespace ProjetUnivers {
            
         };
         
+        
+        class DeducedTrait1 : public Kernel::DeducedTrait
+        {}; 
+        
+        
         /// A deduced trait.
         DeclareDeducedTrait(DeducedTrait1,
                             And(HasTrait(Trait1),
                                 HasTrait(Trait2),
                                 HasTrait(Trait3))) ;
 
+        class DeducedTrait2 : public Kernel::DeducedTrait
+        {}; 
+
         /// A deduced trait.
         DeclareDeducedTrait(DeducedTrait2,
                             Or(HasTrait(Trait1),
                                HasTrait(Trait2))) ;
 
+        class DeducedTrait3 : public Kernel::DeducedTrait
+        {}; 
 
         /// A deduced trait.
         DeclareDeducedTrait(DeducedTrait3,
                             Not(HasTrait(Trait1))) ;
+
+        class DeducedTrait4 : public Kernel::DeducedTrait
+        {}; 
 
         /// formula is ((T1^T2)U~(T3^T1)) 
         DeclareDeducedTrait(DeducedTrait4,
@@ -143,8 +156,14 @@ namespace ProjetUnivers {
                               And(HasTrait(Trait1),
                                   HasTrait(Trait2)))) ;
 
+        class DeducedTrait5 : public Kernel::DeducedTrait
+        {}; 
+
         DeclareDeducedTrait(DeducedTrait5,
                             Not(HasTrait(Trait1))) ;
+
+        class DeducedTrait6 : public Kernel::DeducedTrait
+        {}; 
 
         DeclareDeducedTrait(DeducedTrait6,
                             And(HasTrait(Trait2),
@@ -170,6 +189,9 @@ namespace ProjetUnivers {
           }
 
         };
+
+        class DeducedTrait7 : public Kernel::DeducedTrait
+        {}; 
 
         DeclareDeducedTrait(DeducedTrait7,
                             And(HasTrait(Trait1),

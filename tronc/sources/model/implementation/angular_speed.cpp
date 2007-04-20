@@ -26,8 +26,9 @@ namespace ProjetUnivers {
 
 
     AngularSpeed::AngularSpeed()
-    : m_unit(_TurnPerSecond),
-      m_value(0,0,0)
+    : m_value(0,0,0),
+      m_unit(_TurnPerSecond)
+      
     {}
 
     AngularSpeed AngularSpeed::TurnPerSecond(const float& i_wx,
@@ -42,6 +43,19 @@ namespace ProjetUnivers {
       
       return result ;
       
+    }
+
+    AngularSpeed AngularSpeed::RadianPerSecond(const float& i_wx,
+                                               const float& i_wy,
+                                               const float& i_wz)
+    {
+      AngularSpeed result ;
+      result.m_value[0] = i_wx ;
+      result.m_value[1] = i_wy ;
+      result.m_value[2] = i_wz ;
+      result.m_unit = _RadianPerSecond ;
+      
+      return result ;
     }
 
     AngularSpeed::AngularSpeed(const AngularSpeed& i_speed)
@@ -60,6 +74,8 @@ namespace ProjetUnivers {
         result.normalise() ;
         return result * (m_value.length() / (2 * pi)) ;
       }
+      default:
+        return Ogre::Vector3() ;
       }
     }
 
@@ -75,6 +91,9 @@ namespace ProjetUnivers {
       }
       case _RadianPerSecond:
         return m_value  ;
+
+      default:
+        return Ogre::Vector3() ;
       }
     }
 

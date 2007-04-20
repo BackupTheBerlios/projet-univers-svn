@@ -27,6 +27,7 @@
 #include <model/universe.h>
 #include <model/observer.h>
 #include <model/positionned.h>
+#include <model/physical_world.h>
 
 #include <model/test/test_demonstration.h>
 
@@ -108,6 +109,7 @@ namespace ProjetUnivers {
         CPPUNIT_ASSERT_MESSAGE("Observer has no Positionned root",
                                observer->getRoot<Positionned>()) ;
 
+        CPPUNIT_ASSERT(observer->getParent<PhysicalWorld>()) ;
         Model::close() ;
         
       }

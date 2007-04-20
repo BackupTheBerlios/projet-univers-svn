@@ -114,6 +114,8 @@ namespace ProjetUnivers {
         {
           Kernel::Log::InternalMessage("Ogre::RealWorldViewPoint::activate Entering") ;
           Observer* observer_view = observer->getView<Observer>(this) ;
+          check(observer_view,"RealWorldViewPoint::activate no obeserve view") ;
+          check(observer_view->getCamera(),"RealWorldViewPoint::activate no camera") ;
           getWindow()->addViewport(observer_view->getCamera()) ;
           Kernel::Log::InternalMessage("Ogre::RealWorldViewPoint::activate Leaving") ;
         }
