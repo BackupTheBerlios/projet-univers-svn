@@ -20,12 +20,12 @@
 #ifndef PU_PHYSIC_IMPLEMENTATION_ODE_PHYSICAL_OBJECT_H_
 #define PU_PHYSIC_IMPLEMENTATION_ODE_PHYSICAL_OBJECT_H_
 
-#include <kernel/trait_view.h>
+#include <kernel/controler.h>
 
 #include <model/physical_object.h>
 #include <model/physical_world.h>
 
-#include <physic/implementation/ode/real_world_view_point.h>
+#include <physic/implementation/ode/physic_system.h>
 
 class dBody ;
 
@@ -38,18 +38,20 @@ namespace ProjetUnivers {
         /*!
           @see Model::PhysicalWorld
         */
-        class PhysicalObject : public Kernel::TraitView<Model::PhysicalObject,
-                                                        RealWorldViewPoint>
+        class PhysicalObject : public Kernel::Controler<Model::PhysicalObject,
+                                                        PhysicSystem>
         {
         public:
 
           /// constructor.
-          PhysicalObject(Model::PhysicalObject*,RealWorldViewPoint*) ;
-
+          PhysicalObject(Model::PhysicalObject*,PhysicSystem*) ;
+          
+          /// Access to ODE implementation.
           dBody* getBody() const ;
           
           /// Updates model according to simulation.
-          void updateModel() ;
+          void simulate(const float&) ;
+          
 
         protected:
         

@@ -87,8 +87,8 @@ namespace ProjetUnivers {
         : Kernel::TraitView<Model::Positionned,RealWorldViewPoint>(i_object,i_viewpoint), 
           node(NULL)
         {
-          Kernel::Log::InternalMessage("Entering Ogre::Positionned::Positionned") ;
-          Kernel::Log::InternalMessage("Leaving Ogre::Positionned::Positionned") ;
+          InternalMessage("Entering Ogre::Positionned::Positionned") ;
+          InternalMessage("Leaving Ogre::Positionned::Positionned") ;
         }
       
         /// Initialise la vue.
@@ -98,7 +98,7 @@ namespace ProjetUnivers {
         */
         void Positionned::onInit()
         {
-          Kernel::Log::InternalMessage("Entering Positionned::init") ;
+          InternalMessage("Entering Positionned::init") ;
           
           /*! 
             on crée un noeud qu'on rattache en dessous du conteneur
@@ -114,7 +114,7 @@ namespace ProjetUnivers {
       
             node = static_cast<SceneNode*>(parent->node->createChild()) ;
 
-            Kernel::Log::InternalMessage(
+            InternalMessage(
               "creating scene node " + node->getName() + 
               " with parent " + parent->node->getName() +
               " with position " + 
@@ -126,7 +126,7 @@ namespace ProjetUnivers {
             node->setPosition(convert(getModel()->getPosition())) ;
             node->setOrientation(getModel()->getOrientation().getQuaternion()) ;
 
-            Kernel::Log::InternalMessage(
+            InternalMessage(
               "modification of scene node " + node->getName() + 
               " with position " + 
               ::Ogre::StringConverter::toString(node->getPosition()) + 
@@ -138,21 +138,21 @@ namespace ProjetUnivers {
           }
           else
           {
-            Kernel::Log::InternalMessage("root node") ;
+            InternalMessage("root node") ;
             
             /// on est à la racine.
             node = this->getViewPoint()->getManager()->getRootSceneNode() ;
           }
           
 
-          Kernel::Log::InternalMessage("Leaving Positionned::init") ;
+          InternalMessage("Leaving Positionned::init") ;
 
         }
 
         /// Termine la vue.
         void Positionned::onClose()
         {
-          Kernel::Log::InternalMessage("Display::Positionned::onClose Entering") ;
+          InternalMessage("Display::Positionned::onClose Entering") ;
           
           /*!
             Ogre seams to refuse destroying root node !
@@ -162,7 +162,7 @@ namespace ProjetUnivers {
             this->getViewPoint()->getManager()
                 ->destroySceneNode(this->node->getName()) ;
           }
-          Kernel::Log::InternalMessage("Display::Positionned::onClose Leaving") ;
+          InternalMessage("Display::Positionned::onClose Leaving") ;
         }
         
         /// La position à changé
@@ -176,7 +176,7 @@ namespace ProjetUnivers {
           node->setPosition(convert(getModel()->getPosition())) ;
           node->setOrientation(getModel()->getOrientation().getQuaternion()) ;
 
-          Kernel::Log::InternalMessage(
+          InternalMessage(
             "modification of scene node " + node->getName() + 
             " with position " + 
             ::Ogre::StringConverter::toString(node->getPosition()) + 
@@ -201,7 +201,7 @@ namespace ProjetUnivers {
           else
           {
             /// error cannot create another root scene node
-            Kernel::Log::ErrorMessage("cannot create another root node") ;
+            ErrorMessage("cannot create another root node") ;
           }
         }
         ::Ogre::SceneNode* Positionned::getNode()

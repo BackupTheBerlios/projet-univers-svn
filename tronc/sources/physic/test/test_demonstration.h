@@ -31,7 +31,7 @@ namespace ProjetUnivers {
 
 
             
-      /// A simple physic test from demonstration model.
+      /// Physic tests on demonstration model.
       /*!
 
       */
@@ -47,24 +47,35 @@ namespace ProjetUnivers {
         /// Test a build plus init.
         void testBuild() ;
 
-        /// Test a simulation with nothing moving.
+        /// Simulation with nothing moving.
         void testSimulateNoMove() ;
 
-        /// Test a simulation with a moving object.
+        /// Simulation with a moving object.
         void testSimulateMoving() ;
 
-        /// Test a simulation with a moving object with initial speed.
+        /// Simulation with a moving object with initial speed.
         void testSimulateMovingInitialSpeed() ;
 
-        /// Test a simulation with a moving object with initial angular speed.
+        /// Simulation with a moving object with initial angular speed.
         void testSimulateMovingInitialRotation() ;
            
-        /// Test a simulation with a half turn rotation.
+        /// Simulation with a half turn rotation.
         void testSimulateRotatingHalfTurn() ;
 
         /// Test update of model's position.
         void testModelPositionUpdate() ;
-           
+
+        /// Test a stabilizer.
+        /*!
+          Add a stabilizer on an object
+          Make it totate in the direction of the stabilizer
+          check that after a certain amount of time, the angular speed is null
+        */
+        void testStabilizer() ;
+        
+        /// Check that a stabilizer only affects its direction.
+        void testNegativeStabilizer() ;
+
       // @}
       /*!
         @name Test registration
@@ -80,6 +91,8 @@ namespace ProjetUnivers {
         CPPUNIT_TEST(testSimulateMovingInitialRotation) ;
         CPPUNIT_TEST(testSimulateRotatingHalfTurn) ;
         CPPUNIT_TEST(testModelPositionUpdate) ;
+        CPPUNIT_TEST(testStabilizer) ;
+        CPPUNIT_TEST(testNegativeStabilizer) ;
       
         CPPUNIT_TEST_SUITE_END() ;
 

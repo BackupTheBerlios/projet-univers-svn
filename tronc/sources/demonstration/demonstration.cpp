@@ -40,15 +40,15 @@ int main() {
 
 
   /// initialisation
-//  Kernel::Log::init() ;
-  Kernel::Log::InformationMessage("Demarrage de projet univers") ;
+  Kernel::Log::init() ;
+  InformationMessage("Demarrage de projet univers") ;
   Model::init() ;
   Physic::init() ;
   Display::init() ;
   Action::init() ;
   Input::init() ;
 
-  Kernel::Log::InformationMessage("Modules initialisés") ;
+  InformationMessage("Modules initialisés") ;
 
   Model::load("TestDemonstration") ;
 
@@ -56,12 +56,12 @@ int main() {
   
   /// Création d'un point de vue sur ce modèle
   Display::buildRealWorldViewPoint(observer) ;
-  Physic::buildRealWorldViewPoint(observer) ;
+  Physic::build(observer) ;
   Physic::init() ;
   
-  Kernel::Log::InternalMessage("Activating Viewpoint") ;
+  InternalMessage("Activating Viewpoint") ;
 
-  Kernel::Log::InformationMessage("Demarrage de la boucle principale") ;
+  InformationMessage("Demarrage de la boucle principale") ;
 
   Kernel::Timer timer ;
 
@@ -76,7 +76,7 @@ int main() {
     Display::update() ;
   }
 
-  Kernel::Log::InformationMessage("Sortie de la boucle principale") ;
+  InformationMessage("Sortie de la boucle principale") ;
     
   /// sortie
   Input::close() ;
@@ -84,8 +84,8 @@ int main() {
   Display::close() ;
   Physic::close() ;
   Model::close() ;
-  Kernel::Log::InformationMessage("Modules desinitialisés") ;
-//  Kernel::Log::close() ;
+  InformationMessage("Modules desinitialisés") ;
+  Kernel::Log::close() ;
   
   return 0 ;
   

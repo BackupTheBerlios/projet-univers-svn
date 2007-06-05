@@ -22,10 +22,11 @@
 
 #include <set>
 
-#include <kernel/trait_view.h>
+#include <kernel/controler.h>
+
 #include <model/physical_world.h>
 #include <model/duration.h>
-#include <physic/implementation/ode/real_world_view_point.h>
+#include <physic/implementation/ode/physic_system.h>
 
 class dWorld ;
 
@@ -40,25 +41,19 @@ namespace ProjetUnivers {
         /*!
           @see Model::PhysicalWorld
         */
-        class PhysicalWorld : public Kernel::TraitView<Model::PhysicalWorld,
-                                                       RealWorldViewPoint>
+        class PhysicalWorld : public Kernel::Controler<Model::PhysicalWorld,
+                                                       PhysicSystem>
         {
         public:
 
           /// constructor.
-          PhysicalWorld(Model::PhysicalWorld*,RealWorldViewPoint*) ;
+          PhysicalWorld(Model::PhysicalWorld*,PhysicSystem*) ;
 
           /// Simulate world during a certain duration and notify positions.
-          void update(const Model::Duration& i_duration) ;
+          void simulate(const float& i_duration) ;
           
           /// Access to ODE world. 
           dWorld* getWorld() const ;
-
-          /// Register physical object
-          void registerObject(PhysicalObject* i_object) ;
-          
-          /// Register physical object
-          void unregisterObject(PhysicalObject* i_object) ;
 
         protected:
         
@@ -79,9 +74,6 @@ namespace ProjetUnivers {
           /// ode's world
           dWorld* m_world ;
           
-          /// All the objects of the world
-          std::set<PhysicalObject*> m_objects ;          
-        
         };
 
       }

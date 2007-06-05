@@ -62,13 +62,13 @@ namespace ProjetUnivers {
         Object* observer(Model::getObject("Observer")) ;
         CPPUNIT_ASSERT_MESSAGE("no Observer object",observer) ;
         
-        Kernel::Log::InformationMessage(std::string("sizeof(Object)=") 
+        InternalMessage(std::string("sizeof(Object)=") 
                                         + toString(sizeof(Object))) ; 
         
         CPPUNIT_ASSERT_MESSAGE("Observer has no Observer trait",
                                observer->getTrait<Observer>()) ;
 
-        Kernel::Log::InternalMessage("Testing Observer has Positionned trait") ;
+        InternalMessage("Testing Observer has Positionned trait") ;
         
         CPPUNIT_ASSERT_MESSAGE("Observer has no Positionned trait",
                                observer->getTrait<Positionned>()) ;
@@ -77,33 +77,33 @@ namespace ProjetUnivers {
                                observer->getTrait<Universe>()==NULL) ;
 
 
-        Kernel::Log::InternalMessage("Testing Observer has Universe ancestor") ;
+        InternalMessage("Testing Observer has Universe ancestor") ;
         
         Universe* universe(observer->getParent<Universe>()) ;
         CPPUNIT_ASSERT_MESSAGE("Observer has no Universe ancestor",
                                universe) ;
 
 
-        Kernel::Log::InternalMessage("Testing Universe has object") ;
+        InternalMessage("Testing Universe has object") ;
         Object* universe_object = universe->getObject() ;
         
         CPPUNIT_ASSERT_MESSAGE("universe has no object",
                                universe_object) ;
 
 
-        Kernel::Log::InternalMessage("Testing Universe has Universe trait") ;
+        InternalMessage("Testing Universe has Universe trait") ;
                                
         CPPUNIT_ASSERT_MESSAGE("universe has no Universe trait",
                                universe->getObject()->getTrait<Universe>()) ;
 
-        Kernel::Log::InternalMessage("Testing Observer has StellarSystem ancestor") ;
+        InternalMessage("Testing Observer has StellarSystem ancestor") ;
 
         StellarSystem* system(observer->getParent<StellarSystem>()) ;
         CPPUNIT_ASSERT_MESSAGE("Observer has no StellarSystem ancestor",
                                system) ;
-        Kernel::Log::InformationMessage(std::string("sizeof(StellarSystem)=") 
+        InternalMessage(std::string("sizeof(StellarSystem)=") 
                                         + toString(sizeof(StellarSystem))) ; 
-        Kernel::Log::InformationMessage(std::string("sizeof(Positionned)=") 
+        InternalMessage(std::string("sizeof(Positionned)=") 
                                         + toString(sizeof(Positionned))) ; 
 
         CPPUNIT_ASSERT_MESSAGE("Observer has no Positionned root",

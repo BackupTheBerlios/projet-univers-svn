@@ -1,6 +1,7 @@
 lib_LTLIBRARIES = libmodel.la
 
 INCLUDES = -I../.. $(OGRE_CFLAGS)
+SOURCES = $(top_srcdir)/sources
 
 libmodel_la_SOURCES = \
 ../implementation/acceleration.cpp \
@@ -10,6 +11,8 @@ libmodel_la_SOURCES = \
 ../implementation/duration.cpp \
 ../implementation/energy.cpp \
 ../implementation/exception.cpp \
+../implementation/force.cpp \
+../implementation/force_generator.cpp \
 ../implementation/mass.cpp \
 ../implementation/massive.cpp \
 ../implementation/mobile.cpp \
@@ -24,12 +27,15 @@ libmodel_la_SOURCES = \
 ../implementation/positionned.cpp \
 ../implementation/solid.cpp \
 ../implementation/speed.cpp \
+../implementation/stabilizer.cpp \
 ../implementation/stellar_system.cpp \
+../implementation/torque_generator.cpp \
 ../implementation/universe.cpp \
 ../implementation/whole.cpp
 
-libmodel_la_LDFLAGS = $(SHARED_FLAGS) -L$(top_srcdir)/sources/kernel/compilation
-libmodel_la_LIBADD = -lkernel $(OGRE_LIBS) 
+libmodel_la_LIBADD = \
+$(SOURCES)/kernel/compilation/libkernel.la \
+$(OGRE_LIBS)
 
 TESTS = test_model
 

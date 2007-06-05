@@ -27,7 +27,6 @@ namespace ProjetUnivers {
   namespace Kernel {
   
     class ViewPoint ;
-    class Trait ;
     
     /// A view on a trait.
     class BaseTraitView

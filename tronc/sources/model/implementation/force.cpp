@@ -17,44 +17,68 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <ode/ode.h>
-
-#include <kernel/log.h>
-
-#include <model/model.h>
-
-#include <physic/implementation/ode/real_world_view_point.h>
+#include <model/force.h>
 
 namespace ProjetUnivers {
-  namespace Physic {
-    namespace Implementation {
-      namespace Ode {
-        
-        RealWorldViewPoint::RealWorldViewPoint(Kernel::Object* i_observer)
-        : Kernel::ViewPoint(Model::getRealWorlModel())
-        {}
-        
-        void RealWorldViewPoint::onInit()
-        {
-        }
-        
-        void RealWorldViewPoint::onClose()
-        {
-          Kernel::Log::InternalMessage("RealWorldViewPoint::onClose") ;
-        }
-        
-        /*!
-          To be visible an object needs :
-          - being positionned and (mobile or solid) 
-          - ??? 
-          not too far from the observer....
-        */
-        bool RealWorldViewPoint::isVisible(Kernel::Object* i_object) const
-        {
-          /// @temp
-          return true ;          
-        }
+  namespace Model {
+
+    Force::Force() 
+    : m_value(),
+      m_unit(_Newton)
+    {}
+    
+    Force::Force(const Force& i_f) 
+    : m_value(i_f.m_value),
+      m_unit(i_f.m_unit)
+    {}
+    
+    Force Force::Newton(const float& i_x,
+                        const float& i_y,
+                        const float& i_z) 
+    {
+      return Force(_Newton,i_x,i_y,i_z) ;
+    }
+    
+    Force Force::operator +(const Force& i_f) const 
+    {
+      if (m_unit == i_f.m_unit)
+      {
+        return Force(m_unit,
+                     m_value[0]+i_f.m_value[0],
+                     m_value[1]+i_f.m_value[1],
+                     m_value[1]+i_f.m_value[1]) ;
+                     
       }
     }
+    
+    Force Force::operator -(const Force& i_f) const 
+    {
+      if (m_unit == i_f.m_unit)
+      {
+        return Force(m_unit,
+                     m_value[0]-i_f.m_value[0],
+                     m_value[1]-i_f.m_value[1],
+                     m_value[1]-i_f.m_value[1]) ;
+                     
+      }
+    }
+
+    Ogre::Vector3 Force::Newton() const  
+    {
+      if (m_unit == _Newton)
+      {
+        return m_value ;
+      }
+    }
+    
+    Force::Force(const Unit&  i_unit,
+                 const float& i_x,
+                 const float& i_y,
+                 const float& i_z) 
+    : m_value(i_x,i_y,i_z),
+      m_unit(i_unit)
+    {}
+
+
   }
 }

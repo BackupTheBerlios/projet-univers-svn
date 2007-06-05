@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Equipe Projet Univers                           *
+ *   Copyright (C) 2007 by Equipe Projet Univers                           *
  *   rogma.boami@free.fr                                                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,83 +17,72 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-
 #ifndef PU_MODEL_FORCE_H_
 #define PU_MODEL_FORCE_H_
+
+#include <OgreVector3.h>
 
 namespace ProjetUnivers {
   namespace Model {
 
       
-    /// Une force.
+    /// A force.
     /*!  
-      @par Type de classe :
-      - Valeur
-      
-      @par Etat 
-        planning
-
     */
     class Force 
     {
     public:
     
-    // ********************
-    /// @name Constructeurs
-    // ********************
+    /// @name Constuctors
     // @{   
   
 
-      /// Force nulle.
+      /// Null force.
       Force() ;
       
-      /// Constructeur de copie.
+      /// Copy constructor.
       Force(const Force&) ;
-    
-      /// Calcul
+      
+      /// Build a force in newton.
+      static Force Newton(const float& i_x,
+                          const float& i_y,
+                          const float& i_z) ;
+      
+      /// Calculus
       Force operator +(const Force&) const ;
 
-      /// Calcul
+      /// Calculus
       Force operator -(const Force&) const ;
 
       
     // @}
-    // ******************
-    /// @name Conversions
-    // ******************
+    /// @name Convertions
     // @{
       
 
-      /// Convertit la distance en newton.
-      float Newton() const ; 
-      
+      /// Convert to newton.
+      Ogre::Vector3 Newton() const ; 
 
-    
-    // @}    
-    // ************
-    /// @name Accès
-    // ************
-    // @{
-      
-      
-
-    
     // @}
       
     private:
     
-      /// Les différentes unités
+      /// Units
       typedef enum {
         _Newton
       } Unit ;
 
+      /// internal purpose constructor.
+      Force(const Unit&  i_unit,
+            const float& i_x,
+            const float& i_y,
+            const float& i_z) ;
 
-      float valeur ;
-      Unit unit ;    
+
+      Ogre::Vector3 m_value ;
+      Unit          m_unit ;    
   
     };
-
-
 
   }
 }

@@ -17,37 +17,41 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-
 #ifndef PU_MODEL_FORCE_GENERATOR_H_
-#define PU_MODEL_MOTEUR_H_
+#define PU_MODEL_FORCE_GENERATOR_H_
 
 #include <kernel/trait.h>
-
+#include <model/force.h>
 
 namespace ProjetUnivers {
   namespace Model {
     
-    /// Propriété des objets pouvant engendrer une force physique.
+    /// For objects that generate physical forces.
     /*!
-      C'est le cas par exemple des moteurs.
-      @par Etat
-        planning
+      For example : engine...
       
+      It applies a force on its own position.      
     */
     class ForceGenerator : public Kernel::Trait 
     {
     public:
 
-      /// Constructeur.
+      /// Constructor.
       ForceGenerator() ;
+      
+      /// Set the force.
+      void setForce(const Force& i_force) ;
+      
+      /// Get the force.
+      const Force& getForce() const ;
  
     private:
     
+      Force m_applied_force ;
     };
     
     
   }
-
 }
 
 #endif

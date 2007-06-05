@@ -12,10 +12,7 @@ $(SOURCES)/display/implementation/ogre/real_world_view_point.cpp \
 $(SOURCES)/display/implementation/ogre/solid.cpp \
 $(SOURCES)/display/implementation/ogre/universe.cpp
 
-libdisplayogre_la_LDFLAGS = \
-	$(SHARED_FLAGS) \
-	-L$(SOURCES)/kernel/compilation \
-	-L$(SOURCES)/model/compilation 
-
-libdisplayogre_la_LIBADD = -lkernel -lmodel $(OGRE_LIBS)
-
+libdisplayogre_la_LIBADD = \
+$(SOURCES)/kernel/compilation/libkernel.la \
+$(SOURCES)/model/compilation/libmodel.la \
+$(OGRE_LIBS)

@@ -25,9 +25,19 @@ namespace ProjetUnivers {
   namespace Model {
 
     ForceGenerator::ForceGenerator()
-    : Kernel::Trait()
+    : Kernel::Trait(),
+      m_applied_force()
     {}
 
+    void ForceGenerator::setForce(const Force& i_force) 
+    {
+      m_applied_force = i_force ;
+    }
+
+    const Force& ForceGenerator::getForce() const 
+    {
+      return m_applied_force ;
+    }
   
   }
 }

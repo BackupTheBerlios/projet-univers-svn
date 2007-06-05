@@ -73,18 +73,15 @@ namespace ProjetUnivers {
       _close() ;
       if (trait)
       {
-        trait->views.erase(viewpoint) ;
+        trait->_remove_view(viewpoint,this) ;
       }
-      
     }
 
     BaseTraitView::BaseTraitView(Trait* i_trait,ViewPoint* i_viewpoint)
     : initialised(false),
       trait(i_trait), 
       viewpoint(i_viewpoint)
-    {
-      trait->views.insert(std::pair<ViewPoint*,BaseTraitView*>(i_viewpoint,this)) ;
-    }
+    {}
 
     Object* BaseTraitView::getObject() const
     {

@@ -52,7 +52,7 @@ namespace ProjetUnivers {
         /// Crée une entité.
         void Solid::onInit()
         {
-          Kernel::Log::InternalMessage("Entering Solid::onInit") ;
+          InternalMessage("Entering Solid::onInit") ;
 
           Positionned* positionned(getView<Positionned>()) ;
           positionned->_init() ;
@@ -65,13 +65,13 @@ namespace ProjetUnivers {
           /// on le place sur le noeud
           positionned->getNode()->attachObject(mesh) ;
 
-          Kernel::Log::InternalMessage("Leaving Solid::onInit") ;
+          InternalMessage("Leaving Solid::onInit") ;
         }
         
         /// Détruit l'entité.
         void Solid::onClose()
         {
-          Kernel::Log::InternalMessage("Display::Solid::onClose Entering") ;
+          InternalMessage("Display::Solid::onClose Entering") ;
           /// Positionne doit avoir été terminé
           /*!
             @why ???
@@ -86,7 +86,7 @@ namespace ProjetUnivers {
           this->getViewPoint()->getManager()
                ->destroyEntity(mesh) ;
 
-          Kernel::Log::InternalMessage("Display::Solid::onClose Leaving") ;
+          InternalMessage("Display::Solid::onClose Leaving") ;
         }
       
         /// 

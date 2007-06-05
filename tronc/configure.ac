@@ -7,6 +7,7 @@ AM_CONFIG_HEADER(sources/config.h)
 AM_INIT_AUTOMAKE([ProjetUnivers], 0.2.2)
 AC_PROG_LIBTOOL
 AM_PROG_LIBTOOL
+AC_PROG_RANLIB
 
 
 #########################

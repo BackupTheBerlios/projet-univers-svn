@@ -17,10 +17,13 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <kernel/deduced_trait.h>
 #include <model/mobile.h>
 #include <model/massive.h>
 #include <model/positionned.h>
 #include <model/whole.h>
+
+#include <model/physical_world.h>
 
 #include <model/physical_object.h>
 
@@ -32,6 +35,20 @@ namespace ProjetUnivers {
                             HasTrait(Positionned),
                             HasTrait(Massive),
                             HasTrait(Whole))) ;
+
+    Kernel::Object* PhysicalObject::getPhysicalWorld() const
+    {
+      Kernel::Object* parent = getObject()->getParent() ;
+      if (parent)
+      {
+        Model::PhysicalWorld* 
+            world = parent->getParent<Model::PhysicalWorld>() ;
+        
+        return world->getObject() ;
+      }
+      
+      return NULL ;
+    }
 
   }
 }

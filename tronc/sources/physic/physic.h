@@ -24,7 +24,7 @@ namespace ProjetUnivers {
   namespace Kernel
   {
     class Object ;
-    class ViewPoint ;
+    class ControlerSet ;
   }
   namespace Model
   {
@@ -44,7 +44,7 @@ namespace ProjetUnivers {
     void close() ;
 
     /// Creates the standard representation for the world 
-    Kernel::ViewPoint* buildRealWorldViewPoint(Kernel::Object* i_observer) ; 
+    Kernel::ControlerSet* build(Kernel::Object* i_observer) ; 
     
     /// simulate physics.
     void update() ;

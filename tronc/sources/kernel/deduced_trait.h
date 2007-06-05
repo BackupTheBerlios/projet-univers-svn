@@ -26,6 +26,7 @@
 #include <map>
 
 #include <kernel/helper_macros.h>
+#include <kernel/meta.h>
 
 #include <kernel/trait.h>
 
@@ -49,7 +50,7 @@ namespace ProjetUnivers {
         Kernel::DeducedTraitDeclaration temp(   \
           formula::build(),                     \
           &builder,                             \
-          typeid(trait).name()) ;               \
+          getClassTypeIdentifier(trait)) ;      \
       }
 
     /// Conjunction of formulaes    

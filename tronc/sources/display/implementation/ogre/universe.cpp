@@ -41,13 +41,13 @@ namespace ProjetUnivers {
         : Kernel::TraitView<Model::Universe,RealWorldViewPoint>(i_universe,i_viewpoint), 
           light(NULL)
         {
-          Kernel::Log::InternalMessage("Built Ogre::Universe") ;
+          InternalMessage("Built Ogre::Universe") ;
         }
         
         /// Initialise la vue.
         void Universe::onInit()
         {
-          Kernel::Log::InternalMessage("Display::Universe::onInit Entering") ;
+          InternalMessage("Display::Universe::onInit Entering") ;
             
           check(getViewPoint(), 
                 Exception("Universe::onInit sans point de vue")) ;
@@ -62,13 +62,13 @@ namespace ProjetUnivers {
           this->getViewPoint()->getManager()
                 ->setAmbientLight(::Ogre::ColourValue(0.5, 0.5, 0.5));
 
-          Kernel::Log::InternalMessage("Display::Universe::onInit Leaving") ;
+          InternalMessage("Display::Universe::onInit Leaving") ;
         }
 
         /// Termine la vue.
         void Universe::onClose()
         {
-          Kernel::Log::InternalMessage("Display::Universe::onClose Entering") ;
+          InternalMessage("Display::Universe::onClose Entering") ;
 
           check(getViewPoint(), 
                 Exception("Universe::onClose sans point de vue")) ;
@@ -77,7 +77,7 @@ namespace ProjetUnivers {
           this->getViewPoint()->getManager()
                ->destroyLight(light) ;
 
-          Kernel::Log::InternalMessage("Display::Universe::onClose Leaving") ;
+          InternalMessage("Display::Universe::onClose Leaving") ;
         }
 
         void Universe::onUpdate()

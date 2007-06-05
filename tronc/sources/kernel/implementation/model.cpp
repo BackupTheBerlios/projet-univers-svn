@@ -25,6 +25,7 @@
 #include <kernel/object.h>
 #include <kernel/trait.h>
 #include <kernel/view_point.h>
+#include <kernel/controler_set.h>
 #include <kernel/model.h>
 
 #include <typeinfo>
@@ -162,6 +163,8 @@ namespace ProjetUnivers {
     
     Model::~Model()
     {
+      InternalMessage("Kernel::Model::~Model entering") ;
+      
       /// 1. close all view points
       for(std::set<ViewPoint*>::iterator viewpoint = m_viewpoints.begin() ;
           viewpoint != m_viewpoints.end() ;
@@ -172,6 +175,17 @@ namespace ProjetUnivers {
         (*viewpoint)->setModel(NULL) ;
       }
       
+      /// 1. close all controler sets
+      for(std::set<ControlerSet*>::iterator controler_set = m_controler_sets.begin() ;
+          controler_set != m_controler_sets.end() ;
+          ++controler_set)
+      {
+        _close(*controler_set) ;
+        /// notify controler_set it has no longer a model
+        (*controler_set)->setModel(NULL) ;
+      }
+      
+      
       /// 2. destroy m_objects 
       for(std::set<Object*>::iterator object = m_objects.begin() ;
           object != m_objects.end() ;
@@ -180,6 +194,7 @@ namespace ProjetUnivers {
         delete *object ;
       }
       
+      InternalMessage("Kernel::Model::~Model Leaving") ;
     }
     
     Model::Model(const std::string& i_name)
@@ -189,7 +204,7 @@ namespace ProjetUnivers {
     {
       m_viewpoints.insert(i_viewpoint) ;
 
-      Log::InternalMessage(
+      InternalMessage(
         (std::string("Model::_register") + typeid(*i_viewpoint).name()).c_str()) ;
 
       for(std::set<Object*>::iterator object = m_objects.begin() ;
@@ -204,8 +219,25 @@ namespace ProjetUnivers {
     {
       m_viewpoints.erase(i_viewpoint) ;
 
-      Log::InternalMessage(
+      InternalMessage(
         (std::string("Model::_unregister") + typeid(*i_viewpoint).name()).c_str()) ;
+    }
+
+    void Model::_register(ControlerSet* i_controler_set)
+    {
+      m_controler_sets.insert(i_controler_set) ;
+
+      for(std::set<Object*>::iterator object = m_objects.begin() ;
+          object != m_objects.end() ;
+          ++object)
+      {
+        (*object)->_create_controlers(i_controler_set) ;
+      }      
+    }
+
+    void Model::_unregister(ControlerSet* i_controler_set)
+    {
+      m_controler_sets.erase(i_controler_set) ;
     }
     
     void Model::_init(ViewPoint* i_viewpoint)
@@ -226,8 +258,28 @@ namespace ProjetUnivers {
       {
         (*object)->_close(i_viewpoint) ;
       }      
-      
     }
+
+    void Model::_init(ControlerSet* i_controler_set)
+    {
+      for(std::set<Object*>::iterator object = m_objects.begin() ;
+          object != m_objects.end() ;
+          ++object)
+      {
+        (*object)->_init(i_controler_set) ;
+      }      
+    }
+
+    void Model::_close(ControlerSet* i_controler_set)
+    {
+      for(std::set<Object*>::iterator object = m_objects.begin() ;
+          object != m_objects.end() ;
+          ++object)
+      {
+        (*object)->_close(i_controler_set) ;
+      }      
+    }
+
   }
 }
 

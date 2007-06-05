@@ -95,6 +95,9 @@ namespace ProjetUnivers {
         /// Tests several viewpoints of the same kind on the same model.
         void testMultiViewPointOfTheSameKind() ;
 
+        /// Test views on trait class with inheritance.
+        void testTraitInheritance() ;
+
       // @}
 
 
@@ -116,6 +119,7 @@ namespace ProjetUnivers {
         CPPUNIT_TEST(testForAll) ;
         CPPUNIT_TEST(testMultiViewPoint) ;
         CPPUNIT_TEST(testMultiViewPointOfTheSameKind) ;
+        CPPUNIT_TEST(testTraitInheritance) ;
 
         CPPUNIT_TEST_SUITE_END() ;
 

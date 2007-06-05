@@ -29,7 +29,7 @@ namespace ProjetUnivers {
     
     class StellarSystem ;
       
-    /// Propriété d'être une planète ou un astéroïde.
+    /// For objects that are planets or asteroids.
     /*!
       @par Etat
         planning

@@ -19,6 +19,7 @@
  ***************************************************************************/
 #include <kernel/error.h>
 #include <kernel/exception_kernel.h>
+#include <kernel/log.h>
 
 #include <kernel/model.h>
 #include <kernel/object.h>
@@ -31,7 +32,9 @@ namespace ProjetUnivers {
 
     ViewPoint::~ViewPoint()
     {
+      InternalMessage("ViewPoint::~ViewPoint destroying") ;
       close() ;
+      InternalMessage("ViewPoint::~ViewPoint destroyed") ;
     }
 
     ViewPoint::ViewPoint(Model* i_model)

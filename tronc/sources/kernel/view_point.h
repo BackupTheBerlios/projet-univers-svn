@@ -21,6 +21,8 @@
 #define PU_KERNEL_VIEW_POINT_H_
 
 #include <boost/function.hpp>
+
+#include <kernel/meta.h>
 #include <kernel/object.h>
 #include <kernel/model.h>
 
@@ -62,6 +64,7 @@ namespace ProjetUnivers {
       /// Acces to model.
       Model* getModel() const ;
       
+      /// True iff the viewpoint has been initialised
       bool isInitialised() const ;
       
     protected:
@@ -119,11 +122,9 @@ namespace ProjetUnivers {
     };
 
 
-    /// Execute i_operation on all @ _View of @c i_viewpoint.
+    /// Top down execution of @c i_operation on all @ _View of @c i_viewpoint.
     /*!
-      i_operation is performed from top to down.
-       
-      i_operation is a _View*void --> void method of _View
+      i_operation is a _View -> void function
       _View is a trait view. 
     */ 
     template <class _View>
@@ -131,11 +132,11 @@ namespace ProjetUnivers {
                 boost::function1<void,_View*> i_operation)
     {                   
       
-      std::string         view_name(typeid(_View).name()) ;
-      const std::string&  trait_name(
+      TypeIdentifier         view_name(getClassTypeIdentifier(_View)) ;
+      const TypeIdentifier&  trait_name(
                             Trait::getTraitName(
                               view_name,
-                              typeid(*i_viewpoint).name())) ;
+                              getObjectTypeIdentifier(i_viewpoint))) ;
 
       for(std::set<Object*>::iterator object = i_viewpoint->getModel()->m_objects.begin() ;
           object != i_viewpoint->getModel()->m_objects.end() ;

@@ -33,6 +33,8 @@
 #include <model/positionned.h>
 #include <model/stellar_system.h>
 #include <model/solid.h>
+#include <model/stabilizer.h>
+#include <model/torque_generator.h>
 #include <model/universe.h>
 
 #include <model/model.h>
@@ -111,9 +113,9 @@ namespace ProjetUnivers {
     */
     void close()
     {
-      Kernel::Log::InternalMessage("Deleting objects") ;
+      InternalMessage("Deleting objects") ;
       model.reset() ;      
-      Kernel::Log::InternalMessage("Module Model terminated") ;
+      InternalMessage("Module Model terminated") ;
       
     }
 
@@ -128,40 +130,40 @@ namespace ProjetUnivers {
       if (_name == "TestDemonstration")
       {
         /// 1. Construction d'un univers
-        Kernel::Log::InternalMessage("building Universe...") ;
+        InternalMessage("building Universe...") ;
         Kernel::Object* universe = model->createObject("Univers") ;
         
         /// ses facettes
         model->addTrait(universe,new Universe()) ;
         model->addTrait(universe,new Positionned()) ;
         
-        Kernel::Log::InternalMessage("construction de Univers terminée") ;
+        InternalMessage("construction de Univers terminée") ;
 
         /// 1.4 Une galaxie
         
         /// 1.5 Un système stellaire
-        Kernel::Log::InternalMessage("building stellar system...") ;
+        InternalMessage("building stellar system...") ;
 
         Kernel::Object* system = model->createObject("Systeme#1",universe) ;
         model->addTrait(system,new StellarSystem()) ;
         model->addTrait(system,new Positionned()) ;
         
-        Kernel::Log::InternalMessage("building stellar system done") ;
+        InternalMessage("building stellar system done") ;
         
         
         
         /// 2. Ajout d'objects planetes
-        Kernel::Log::InternalMessage("building planet...") ;
+        InternalMessage("building planet...") ;
         Kernel::Object* planet1 = model->createObject("Planete#1",system) ;
         model->addTrait(planet1,new Positionned()) ;
 
-        Kernel::Log::InternalMessage("building planet done") ;
+        InternalMessage("building planet done") ;
 
         /// add(new Solide(planete1, 
         
         /// 3. Ajout d'un vaisseau
         {
-          Kernel::Log::InternalMessage("building ship...") ;
+          InternalMessage("building ship...") ;
           Kernel::Object* ship = model->createObject("Vaisseau",system) ;
           model->addTrait(ship,new Positionned(Position::Meter(0,
                                                                0,
@@ -171,10 +173,10 @@ namespace ProjetUnivers {
           model->addTrait(ship,new Mobile()) ;
           model->addTrait(ship,new Massive(Mass::Kilogram(1000))) ;
           
-          Kernel::Log::InternalMessage("building ship done") ;
+          InternalMessage("building ship done") ;
         }
         {
-          Kernel::Log::InternalMessage("building ship...") ;
+          InternalMessage("building ship...") ;
           Kernel::Object* ship = model->createObject("Vaisseau#3",system) ;
           model->addTrait(ship,new Positionned(Position::Meter(0,
                                                                100000,
@@ -183,13 +185,14 @@ namespace ProjetUnivers {
           model->addTrait(ship,new Solid(Mesh("razor.mesh"))) ;
           model->addTrait(ship,new Mobile()) ;
           model->addTrait(ship,new Massive(Mass::Kilogram(1000))) ;
-  
-          Kernel::Log::InternalMessage("building ship done") ;
+          model->addTrait(ship,new Stabilizer(0,1,0)) ;
+          
+          InternalMessage("building ship done") ;
         }
 
                 
         /// 4. Ajout d'un observateur
-        Kernel::Log::InternalMessage("building observer...") ;
+        InternalMessage("building observer...") ;
         Kernel::Object* observer = model->createObject("Observer",system) ;
         model->addTrait(observer,new Positionned(Position::Meter(0,
                                                              0,
@@ -198,7 +201,7 @@ namespace ProjetUnivers {
         /// Il a la faculté d'observer
         model->addTrait(observer,new Observer()) ;
 
-        Kernel::Log::InternalMessage("building observer done") ;
+        InternalMessage("building observer done") ;
       
       }
             

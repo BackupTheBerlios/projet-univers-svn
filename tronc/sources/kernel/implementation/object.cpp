@@ -24,6 +24,7 @@
 #include <kernel/string.h>
 #include <kernel/exception_kernel.h>
 
+#include <kernel/controler_set.h>
 #include <kernel/trait.h>
 #include <kernel/model.h>
 #include <kernel/view_point.h>
@@ -112,18 +113,18 @@ namespace ProjetUnivers {
     void Object::_add(Trait* i_trait)
     {
       check(i_trait,ExceptionKernel("Kernel::_add(Trait*) no trait")) ;
-      Kernel::Log::InternalMessage("Kernel::Object::_add(Trait)#1") ;
+      InternalMessage("Kernel::Object::_add(Trait) " + getObjectTypeIdentifier(i_trait).toString()) ;
 
-      std::string trait_name(typeid(*i_trait).name()) ;
+      TypeIdentifier trait_name(getObjectTypeIdentifier(i_trait)) ;
 
       /// erreur si l'objet a déjà une facette de ce type là
       check(traits.find(trait_name)==traits.end(), 
             ExceptionKernel("trait already exists")) ;
 
-      Kernel::Log::InternalMessage("Registering :") ;
-      Kernel::Log::InternalMessage(trait_name) ;
-      Kernel::Log::InternalMessage("with value :") ;
-      Kernel::Log::InternalMessage(toString((int)i_trait).c_str()) ;
+      InternalMessage("Registering :") ;
+      InternalMessage(trait_name.toString()) ;
+      InternalMessage("with value :") ;
+      InternalMessage(toString((int)i_trait).c_str()) ;
 
       i_trait->object = this ;
 
@@ -132,25 +133,26 @@ namespace ProjetUnivers {
       traits[trait_name] = i_trait ;
 
 #ifdef _DEBUG          
-      std::map<std::string, Trait*>::const_iterator it = traits.find(trait_name) ;
+      std::map<TypeIdentifier, Trait*>::const_iterator it = traits.find(trait_name) ;
       if (it != traits.end())
       {
-        Kernel::Log::InternalMessage("trait found") ;
-        std::pair<std::string, Trait*> temp = *it ;
-        Kernel::Log::InternalMessage("trait name = ") ;
-        Kernel::Log::InternalMessage(temp.first.c_str()) ;
-        Kernel::Log::InternalMessage("trait value = ") ;
-        Kernel::Log::InternalMessage(toString((int)temp.second).c_str()) ;
+        InternalMessage("trait found") ;
+        std::pair<TypeIdentifier, Trait*> temp = *it ;
+        InternalMessage("trait name = ") ;
+        InternalMessage(temp.first..toString()) ;
+        InternalMessage("trait value = ") ;
+        InternalMessage(toString((int)temp.second).c_str()) ;
       }
 #endif      
       i_trait->_create_views() ;
+      i_trait->_create_controlers() ;
       i_trait->_init() ;
 
       TraitFormula::addTrait(this,trait_name) ;
 
-      Kernel::Log::InternalMessage("traits number = ") ;
-      Kernel::Log::InternalMessage(toString(traits.size()).c_str()) ;
-      Kernel::Log::InternalMessage("Kernel::Object::add(facette)#3") ;
+      InternalMessage("traits number = ") ;
+      InternalMessage(toString(traits.size()).c_str()) ;
+      InternalMessage("Kernel::Object::add(facette)#3") ;
     }
 
     Object* Object::_add(Object* i_child)
@@ -180,8 +182,10 @@ namespace ProjetUnivers {
       return i_child ;
     }
 
-    void Object::_remove(const std::string& i_trait_name)
+    void Object::_remove(const TypeIdentifier& i_trait_name)
     {
+      InternalMessage("Object::_remove(TypeIdentifier) " + i_trait_name.toString()) ;
+
       Trait* trait = traits[i_trait_name] ;
       trait->_close() ;
       TraitFormula::removeTrait(this,i_trait_name) ;
@@ -193,7 +197,7 @@ namespace ProjetUnivers {
     void Object::_remove(Trait* i_trait)
     {
       check(i_trait,ExceptionKernel("Kernel::_remove(Trait*) no trait")) ;
-      std::string trait_name(typeid(*i_trait).name()) ;
+      TypeIdentifier trait_name(getObjectTypeIdentifier(i_trait)) ;
 
       i_trait->_close() ;
       TraitFormula::removeTrait(this,trait_name) ;
@@ -206,7 +210,7 @@ namespace ProjetUnivers {
     {
       //_close() ;
       
-      for(std::map<std::string, Trait*>::iterator trait = traits.begin() ;
+      for(std::map<TypeIdentifier, Trait*>::iterator trait = traits.begin() ;
           trait != traits.end() ;
           ++trait)
       {
@@ -223,7 +227,7 @@ namespace ProjetUnivers {
 
     void Object::_init()
     {
-      for(std::map<std::string, Trait*>::iterator trait = traits.begin() ;
+      for(std::map<TypeIdentifier, Trait*>::iterator trait = traits.begin() ;
           trait != traits.end() ;
           ++trait)
       {
@@ -242,7 +246,7 @@ namespace ProjetUnivers {
     {
       if (i_viewpoint->isVisible(this))
       {
-        for(std::map<std::string, Trait*>::iterator trait = traits.begin() ;
+        for(std::map<TypeIdentifier, Trait*>::iterator trait = traits.begin() ;
             trait != traits.end() ;
             ++trait)
         {
@@ -257,6 +261,26 @@ namespace ProjetUnivers {
         }
       }
     }
+
+    void Object::_init(ControlerSet* i_controler_set)
+    {
+      if (i_controler_set->isVisible(this))
+      {
+        for(std::map<TypeIdentifier, Trait*>::iterator trait = traits.begin() ;
+            trait != traits.end() ;
+            ++trait)
+        {
+          trait->second->_init(i_controler_set) ;
+        }
+        
+        for(std::set<Object*>::iterator child = children.begin() ;
+            child != children.end() ;
+            ++child)
+        {
+          (*child)->_init(i_controler_set) ;
+        }
+      }
+    }
     
     void Object::_close() 
     {
@@ -268,7 +292,7 @@ namespace ProjetUnivers {
         (*child)->_close() ;
       }
 
-      for(std::map<std::string, Trait*>::iterator trait = traits.begin() ;
+      for(std::map<TypeIdentifier, Trait*>::iterator trait = traits.begin() ;
           trait != traits.end() ;
           ++trait)
       {
@@ -279,11 +303,11 @@ namespace ProjetUnivers {
 
     void Object::_close(ViewPoint* i_viewpoint)
     {
-      Log::InternalMessage("Object::_close entering " + name) ;
+      InternalMessage("Object::_close(ViewPoint*) entering " + name) ;
       if (i_viewpoint->isVisible(this))
       {
         
-        Log::InternalMessage("Object::_close closing childs") ;
+        InternalMessage("Object::_close(ViewPoint*) closing childs") ;
 
         for(std::set<Object*>::iterator child = children.begin() ;
             child != children.end() ;
@@ -292,30 +316,60 @@ namespace ProjetUnivers {
           (*child)->_close(i_viewpoint) ;
         }
 
-        Log::InternalMessage("Object::_close closing traits") ;
+        InternalMessage("Object::_close(ViewPoint*) closing traits") ;
         
-        for(std::map<std::string, Trait*>::iterator trait = traits.begin() ;
+        for(std::map<TypeIdentifier, Trait*>::iterator trait = traits.begin() ;
             trait != traits.end() ;
             ++trait)
         {
-          Log::InternalMessage("traits=" + toString((int)trait->second)) ;
+          InternalMessage("trait*=" + toString((int)trait->second)) ;
           
           trait->second->_close(i_viewpoint) ;
         }
 
       }
-      Log::InternalMessage("Object::_close leaving " + name) ;
+      InternalMessage("Object::_close(ViewPoint*) leaving " + name) ;
+    }
+
+    void Object::_close(ControlerSet* i_controler_set)
+    {
+      InternalMessage("Object::_close entering " + name) ;
+      if (i_controler_set->isVisible(this))
+      {
+        
+        InternalMessage("Object::_close closing childs") ;
+
+        for(std::set<Object*>::iterator child = children.begin() ;
+            child != children.end() ;
+            ++child)
+        {
+          (*child)->_close(i_controler_set) ;
+        }
+
+        InternalMessage("Object::_close closing traits") ;
+        
+        for(std::map<TypeIdentifier, Trait*>::iterator trait = traits.begin() ;
+            trait != traits.end() ;
+            ++trait)
+        {
+          InternalMessage("traits=" + toString((int)trait->second)) ;
+          
+          trait->second->_close(i_controler_set) ;
+        }
+
+      }
+      InternalMessage("Object::_close leaving " + name) ;
     }
 
     void Object::_create_views(ViewPoint* i_viewpoint)
     {
-      Log::InternalMessage(
+      InternalMessage(
         (std::string("Object::_create_views ") + typeid(*i_viewpoint).name()).c_str()) ;
 
       if (i_viewpoint->isVisible(this))
       {
       
-        for(std::map<std::string, Trait*>::iterator trait = traits.begin() ;
+        for(std::map<TypeIdentifier, Trait*>::iterator trait = traits.begin() ;
             trait != traits.end() ;
             ++trait)
         {
@@ -330,10 +384,34 @@ namespace ProjetUnivers {
         }
       }
     }
+
+    void Object::_create_controlers(ControlerSet* i_controler_set)
+    {
+      InternalMessage(
+        (std::string("Object::_create_controlers ") + typeid(*i_controler_set).name()).c_str()) ;
+
+      if (i_controler_set->isVisible(this))
+      {
+
+        for(std::map<TypeIdentifier, Trait*>::iterator trait = traits.begin() ;
+            trait != traits.end() ;
+            ++trait)
+        {
+          trait->second->_create_controlers(i_controler_set) ;
+        }
+        
+        for(std::set<Object*>::iterator child = children.begin() ;
+            child != children.end() ;
+            ++child)
+        {
+          (*child)->_create_controlers(i_controler_set) ;
+        }
+      }
+    }
     
     void Object::_changed_parent(Object* i_old_parent)
     {
-      for(std::map<std::string, Trait*>::iterator trait = traits.begin() ;
+      for(std::map<TypeIdentifier, Trait*>::iterator trait = traits.begin() ;
           trait != traits.end() ;
           ++trait)
       {
@@ -341,19 +419,59 @@ namespace ProjetUnivers {
       }
     }
     
-    Trait* Object::_get(const std::string& i_trait_name) const
+    Trait* Object::_get(const TypeIdentifier& i_trait_name) const
     {
-      Log::InternalMessage("Object::_get searching " + i_trait_name) ;
-      std::map<std::string, Trait*>::const_iterator trait = traits.find(i_trait_name) ;
+      InternalMessage("Object::_get searching " + i_trait_name.toString()) ;
+      std::map<TypeIdentifier, Trait*>::const_iterator trait = traits.find(i_trait_name) ;
       if (trait != traits.end()) 
       {
-        Log::InternalMessage("Object::_get found") ;
+        InternalMessage("Object::_get found") ;
         return trait->second ;
       }
 
-      Log::InternalMessage("Object::_get not found") ;
+      InternalMessage("Object::_get not found") ;
 
       return NULL ;
     }    
+
+    void Object::applyTopDown(
+      ControlerSet*                         i_controler_set,
+      boost::function1<void,BaseControler*> i_operation)
+    {
+      for(std::map<TypeIdentifier, Trait*>::iterator trait = traits.begin() ;
+          trait != traits.end() ;
+          ++trait)
+      {
+        trait->second->apply(i_controler_set,i_operation) ;
+      }
+      
+      for(std::set<Object*>::iterator child = children.begin() ;
+          child != children.end() ;
+          ++child)
+      {
+        (*child)->applyTopDown(i_controler_set,i_operation) ; ;
+      }
+    }
+
+    void Object::applyBottomUp(
+      ControlerSet*                         i_controler_set,
+      boost::function1<void,BaseControler*> i_operation)
+    {
+      for(std::set<Object*>::iterator child = children.begin() ;
+          child != children.end() ;
+          ++child)
+      {
+        (*child)->applyBottomUp(i_controler_set,i_operation) ; ;
+      }
+
+      for(std::map<TypeIdentifier, Trait*>::iterator trait = traits.begin() ;
+          trait != traits.end() ;
+          ++trait)
+      {
+        trait->second->apply(i_controler_set,i_operation) ;
+      }
+    }
+
+
   }
 }

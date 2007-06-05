@@ -44,13 +44,13 @@ namespace ProjetUnivers {
         : Kernel::TraitView<Model::Observer,RealWorldViewPoint>(i_observer,i_viewpoint), 
           m_camera(NULL)
         {
-          Kernel::Log::InternalMessage("Building Ogre::Observer::Observer") ;
+          InternalMessage("Building Ogre::Observer::Observer") ;
         }
         
         
         void Observer::onInit()
         {
-          Kernel::Log::InternalMessage("Display::Observer::onInit Entering") ;
+          InternalMessage("Display::Observer::onInit Entering") ;
 
           /// positionned view must be initialised first
           Positionned* positionned(getView<Positionned>()) ;
@@ -65,7 +65,7 @@ namespace ProjetUnivers {
           m_camera->setFOVy(::Ogre::Degree(70)) ;
 //            m_camera->setNearClipDistance() ;
                       
-          Kernel::Log::InternalMessage("Display::Observer::onInit Leaving") ;
+          InternalMessage("Display::Observer::onInit Leaving") ;
         }
           
         void Observer::onClose()
@@ -75,9 +75,9 @@ namespace ProjetUnivers {
 //          check(positionned,Exception("error")) ;
 //          positionned->getNode()->detachObject(camera) ;
 
-          Kernel::Log::InternalMessage("Display::Observer::onClose Entering") ;
+          InternalMessage("Display::Observer::onClose Entering") ;
           this->getViewPoint()->getManager()->destroyCamera(m_camera) ;
-          Kernel::Log::InternalMessage("Display::Observer::onClose Leaving") ;
+          InternalMessage("Display::Observer::onClose Leaving") ;
         }
           
         

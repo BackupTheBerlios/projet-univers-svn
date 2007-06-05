@@ -35,15 +35,15 @@ namespace ProjetUnivers {
       namespace Ode {
 
         Solid::Solid(Model::Solid* i_object,
-                     RealWorldViewPoint* i_viewpoint)
-        : Kernel::TraitView<Model::Solid,RealWorldViewPoint>(i_object,i_viewpoint),
+                     PhysicSystem* i_physic)
+        : Kernel::Controler<Model::Solid,PhysicSystem>(i_object,i_physic),
           m_geometry(NULL),
           m_geometry_placeable(NULL)
         {}
 
         void Solid::onInit()
         {
-          Kernel::Log::InternalMessage("Solid::onInit entering") ;
+          InternalMessage("Solid::onInit entering") ;
           
           /// need to get the correct geom from volume.
           m_geometry = new dGeom() ;
@@ -55,7 +55,7 @@ namespace ProjetUnivers {
           check(body,"Solid::onInit no body parent") ;
           
           m_geometry_placeable->setBody(
-              body->getView<PhysicalObject>(getViewPoint())->getBody()->id()) ;
+              body->getControler<PhysicalObject>(getControlerSet())->getBody()->id()) ;
 
           m_geometry_placeable->setGeom(m_geometry->id()) ;
           
@@ -68,13 +68,13 @@ namespace ProjetUnivers {
                                             position.y,
                                             position.z) ; 
 
-          Kernel::Log::InternalMessage("Solid::onInit leaving") ;
+          InternalMessage("Solid::onInit leaving") ;
           
         }
 
         void Solid::onClose()
         {
-          Kernel::Log::InternalMessage("Solid::onClose entering") ;
+          InternalMessage("Solid::onClose entering") ;
           if (m_geometry)
           {
             delete m_geometry ;
@@ -85,7 +85,7 @@ namespace ProjetUnivers {
             delete m_geometry_placeable ;
             m_geometry_placeable = NULL ;
           }
-          Kernel::Log::InternalMessage("Solid::onClose leaving") ;
+          InternalMessage("Solid::onClose leaving") ;
         }
 
         void Solid::onChangeParent(Kernel::Object* i_old_parent)

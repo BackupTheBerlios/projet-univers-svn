@@ -38,7 +38,7 @@ namespace ProjetUnivers {
       {
         
         /// log
-        Kernel::Log::InternalMessage(
+        InternalMessage(
               (std::string("bouton presse timestamp = ") + 
               toString(e.timeStamp)).c_str() ) ;
 
@@ -66,17 +66,17 @@ namespace ProjetUnivers {
           break ;
 
         case OIS::KC_C:
-           Kernel::Log::InternalMessage("Input : added create object") ;
+           InternalMessage("Input : added create object") ;
            Action::add("CreerObject") ;
           break ;
 
         case OIS::KC_D:
-          Kernel::Log::InternalMessage("Input : added destroy object") ;
+          InternalMessage("Input : added destroy object") ;
           Action::add("destroyObject") ;
           break ;
 
         case OIS::KC_M:
-          Kernel::Log::InternalMessage("Input : added move object") ;
+          InternalMessage("Input : added move object") ;
           Action::add("moveObject") ;
           break ;
 

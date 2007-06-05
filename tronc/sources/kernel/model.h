@@ -31,6 +31,7 @@ namespace ProjetUnivers {
     class ViewPoint ;
     class Object ;
     class Trait ;
+    class ControlerSet ;
     
     /// A set of Objects.
     class Model
@@ -82,19 +83,34 @@ namespace ProjetUnivers {
 
       /// Unregister a view point.
       void _unregister(ViewPoint* i_viewpoint) ;
+
+      /// Register a controler set.
+      void _register(ControlerSet* i_controler_set) ;
+
+      /// Unregister a controler set.
+      void _unregister(ControlerSet* i_controler_set) ;
       
       /// Init objects according to a viewpoint
       void _init(ViewPoint* i_viewpoint) ;
 
       /// Close objects according to a viewpoint
       void _close(ViewPoint* i_viewpoint) ;
+
+      /// Init objects according to a controler set
+      void _init(ControlerSet* i_controler_set) ;
+
+      /// Close objects according to a controler set
+      void _close(ControlerSet* i_controler_set) ;
+
       
       std::set<ViewPoint*>        m_viewpoints ;
+      std::set<ControlerSet*>     m_controler_sets ;
       
       friend class ViewPoint ;
       friend class Trait ;
       friend class Object ;
-
+      friend class ControlerSet ;
+      
       template <class _View>
       friend void forAll(ViewPoint*                    i_viewpoint,
                          boost::function1<void,_View*> i_operation) ;

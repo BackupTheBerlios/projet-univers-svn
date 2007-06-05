@@ -4,6 +4,8 @@ SUBDIRS = ogre
 
 lib_LTLIBRARIES = libdisplay.la 
 
+LDADD=ogre/libdisplay.la
+
 SOURCES = $(top_srcdir)/sources
 INCLUDES = -I$(SOURCES) $(OGRE_CFLAGS)
 
@@ -12,11 +14,11 @@ $(SOURCES)/display/implementation/display.cpp \
 $(SOURCES)/display/implementation/exception.cpp \
 $(SOURCES)/display/implementation/real_world_view_point.cpp 
 
-libdisplay_la_LDFLAGS = \
-	$(SHARED_FLAGS) \
-	-L$(SOURCES)/kernel/compilation \
-	-L$(SOURCES)/model/compilation/ 
 
-libdisplay_la_LIBADD = -lkernel -lmodel $(OGRE_LIBS)
+libdisplay_la_LIBADD = \
+$(SOURCES)/kernel/compilation/libkernel.la \
+$(SOURCES)/model/compilation/libmodel.la \
+$(SOURCES)/display/compilation/ogre/libdisplayogre.la \
+$(OGRE_LIBS)
 
 

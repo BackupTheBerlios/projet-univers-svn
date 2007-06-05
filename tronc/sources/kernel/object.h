@@ -25,6 +25,7 @@
 #include <vector>
 #include <typeinfo>
 
+#include <kernel/meta.h>
 #include <kernel/exception_kernel.h>
 #include <kernel/error.h>
 #include <kernel/string.h>
@@ -40,6 +41,7 @@ namespace ProjetUnivers {
     class Trait ;
     class Model ;
     class ViewPoint ;
+    class ControlerSet ;
     class Formula ;
     class FormulaAnd ;
     class FormulaOr ;
@@ -74,6 +76,15 @@ namespace ProjetUnivers {
       template <class T> T* getTrait() ;
 
       /// Access to trait's view of type _View if exists.
+      /*!
+        @remark 
+          It may exist several @c _View on that object (mainly because 
+          the view may be attached to a base trait whose several subtraits are
+          attached to this object) : in that case, it returns one of the view 
+          in an unspecified manner. 
+          Note that in that case one can obtain exactly the desired view through 
+          Trait::getView after choosing the correct trait.     
+      */
       template <class _View> _View* getView(ViewPoint* i_viewpoint) ;
 
       /// Top most ancestor with T trait.
@@ -82,11 +93,21 @@ namespace ProjetUnivers {
       /// First ancestor with trait T.
       template <class T> T* getParent() const ;
 
-      /// Apply i_operation on all _View.
+      /// Apply @c i_operation on all _View.
       template <class _View>
-      void apply(const std::string& i_trait_name,
+      void apply(const TypeIdentifier& i_trait_name,
                  ViewPoint* i_viewpoint,
                  boost::function1<void,_View*> i_operation) ;
+
+      /// Apply @c i_operation on all controlers of @c i_controler_set.
+      void applyTopDown
+                (ControlerSet*                         i_controler_set,
+                 boost::function1<void,BaseControler*> i_operation) ;
+
+      /// Apply @c i_operation on all controlers of @c i_controler_set.
+      void applyBottomUp
+                (ControlerSet*                         i_controler_set,
+                 boost::function1<void,BaseControler*> i_operation) ;
 
       /// destrucs the traits
       ~Object() ;
@@ -109,10 +130,10 @@ namespace ProjetUnivers {
       void _remove(Trait* i_trait) ;
 
       /// Remove a trait by trait name.
-      void _remove(const std::string& i_trait_name) ;
+      void _remove(const TypeIdentifier& i_trait_name) ;
 
       /// Retreive the trait named @c i_trait_name.
-      Trait* _get(const std::string& i_trait_name) const ;
+      Trait* _get(const TypeIdentifier& i_trait_name) const ;
 
       /// update the views for a change_parent. 
       void _changed_parent(Object* i_old_parent) ;
@@ -120,20 +141,29 @@ namespace ProjetUnivers {
       /// update the views.
       void _updated() ;
       
-      /// init the views after construction.
+      /// init after construction.
       void _init() ;
 
       /// init the views after construction.
       void _init(ViewPoint* i_viewpoint) ;
 
-      /// closes the views before destruction.
+      /// init the controlers after construction.
+      void _init(ControlerSet* i_controler_set) ;
+
+      /// closes before destruction.
       void _close() ;
 
       /// close the views before viewpoint closing.
       void _close(ViewPoint* i_viewpoint) ;
 
+      /// close the controlers before controler set closing.
+      void _close(ControlerSet* i_controler_set) ;
+
       /// recursivelly create views for a viewpoint.
       void _create_views(ViewPoint* i_viewpoint) ;
+
+      /// recursivelly create controlers for a controler set.
+      void _create_controlers(ControlerSet* i_controler_set) ;
 
     /*!
       @name Deduction access
@@ -157,7 +187,7 @@ namespace ProjetUnivers {
     
       std::string name ;
       /// @composite
-      std::map<std::string, Trait*> traits ;
+      std::map<TypeIdentifier, Trait*> traits ;
       Object* parent ;
       /// @composite
       std::set<Object*> children ;
@@ -186,49 +216,57 @@ namespace ProjetUnivers {
 
 
 
-
     template <class _View> _View* Object::getView(ViewPoint* i_viewpoint)
     {
       check(i_viewpoint,ExceptionKernel("Object::getView error")) ;
+      InternalMessage(
+        "Object::getView for " + getObjectTypeIdentifier(i_viewpoint).toString()) ;
       
-      if (Trait::m_trait_of_view.find(std::pair<std::string,std::string>(
-                       typeid(_View).name(), typeid(*i_viewpoint).name()))
-          != Trait::m_trait_of_view.end()
-         )
+      TypeIdentifier trait_type = 
+        Trait::getTraitTypeOfView(
+                    getClassTypeIdentifier(_View), 
+                    getObjectTypeIdentifier(i_viewpoint)) ;
+      
+      if (trait_type != VoidTypeIdentifier)
       {
-        std::string trait_class_name =
-          Trait::m_trait_of_view[std::pair<std::string,std::string>(
-              typeid(_View).name(), typeid(*i_viewpoint).name())] ;
-        
-        Trait* trait = traits[trait_class_name] ; 
-        check(trait,ExceptionKernel("Object::getView error")) ;
-        return trait->getView<_View>(i_viewpoint) ;
+        InternalMessage("Object::getView found trait name " + trait_type.toString()) ;
+
+        for(std::map<TypeIdentifier, Trait*>::const_iterator trait = traits.begin() ;
+            trait != traits.end() ;
+            ++trait)
+        {
+          if (trait_type.isInstance(trait->second))
+          {
+            InternalMessage("Object::getView trait*=" + toString((int)trait->second)) ;
+            return trait->second->getView<_View>(i_viewpoint) ;
+          }
+        }
       }
       
+      InternalMessage("Object::getView return NULL") ;
       return NULL ;
     }
 
     template <class T> T* Object::getTrait() 
     {
 
-      Kernel::Log::InternalMessage("Object::getTrait()") ;
+      InternalMessage("Object::getTrait()") ;
 
       /// T doit être une sous classe de Trait
       Kernel::Inherits<T,Trait>() ;
 
-      Kernel::Log::InternalMessage("Asking :") ;
-      Kernel::Log::InternalMessage(typeid(T).name()) ;
+      InternalMessage("Asking trait " + getClassTypeIdentifier(T).toString()) ;
       
       /// if trait exist convert :
-      if (traits.find(typeid(T).name()) != traits.end())
+      if (traits.find(getClassTypeIdentifier(T)) != traits.end())
       {
-        Kernel::Log::InternalMessage("Trait found") ;
+        InternalMessage("Trait found") ;
         
-        return static_cast<T*>(traits[typeid(T).name()]) ;
+        return static_cast<T*>(traits[getClassTypeIdentifier(T)]) ;
       }
       else
       {
-        Kernel::Log::InternalMessage("Trait not found") ;
+        InternalMessage("Trait not found") ;
         return NULL ;
       }
     }
@@ -256,7 +294,7 @@ namespace ProjetUnivers {
 
     template <class T> T* Object::getRoot() const
     {
-      Kernel::Log::InternalMessage("Object::getRoot()") ;
+      InternalMessage("Object::getRoot()") ;
 
       /// T doit être une sous classe de Trait
       Kernel::Inherits<T,Trait>() ;
@@ -266,7 +304,7 @@ namespace ProjetUnivers {
       
       while(highest_trait_found && iterator)
       {
-        Kernel::Log::InternalMessage(
+        InternalMessage(
           (std::string("highest_trait_found=") 
            + toString((int)highest_trait_found)
            + std::string(" iterator=")
@@ -287,11 +325,11 @@ namespace ProjetUnivers {
     }
 
     template <class _View>
-    void Object::apply(const std::string& i_trait_name,
+    void Object::apply(const TypeIdentifier& i_trait_name,
                        ViewPoint* i_viewpoint,
                        boost::function1<void,_View*> i_operation)
     {
-      std::map<std::string, Trait*>::const_iterator
+      std::map<TypeIdentifier, Trait*>::const_iterator
            trait = traits.find(i_trait_name) ;
       
       if (trait != traits.end())

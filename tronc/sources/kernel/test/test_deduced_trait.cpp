@@ -223,7 +223,7 @@ namespace ProjetUnivers {
       
       void TestDeducedTrait::testAnd()
       {
-        Log::InternalMessage("Kernel::Test::TestDeducedTrait::testAnd entering") ;
+        InternalMessage("Kernel::Test::TestDeducedTrait::testAnd entering") ;
         /// create a model
         std::auto_ptr<Model> model(new Model()) ;
                                     
@@ -246,12 +246,12 @@ namespace ProjetUnivers {
         /// Check that object has lost DeducedTrait1
         CPPUNIT_ASSERT(! object->getTrait<DeducedTrait1>()) ;
         
-        Log::InternalMessage("Kernel::Test::TestDeducedTrait::testAnd leaving") ;
+        InternalMessage("Kernel::Test::TestDeducedTrait::testAnd leaving") ;
       }
 
       void TestDeducedTrait::testOr()
       {
-        Log::InternalMessage("Kernel::Test::TestDeducedTrait::testOr entering") ;
+        InternalMessage("Kernel::Test::TestDeducedTrait::testOr entering") ;
         /// create a model
         std::auto_ptr<Model> model(new Model()) ;
                                     
@@ -283,12 +283,12 @@ namespace ProjetUnivers {
         CPPUNIT_ASSERT(! object->getTrait<DeducedTrait2>()) ;
         
         
-        Log::InternalMessage("Kernel::Test::TestDeducedTrait::testOr leaving") ;
+        InternalMessage("Kernel::Test::TestDeducedTrait::testOr leaving") ;
       }
       
       void TestDeducedTrait::testNot()
       {
-        Log::InternalMessage("Kernel::Test::TestDeducedTrait::testNot entering") ;
+        InternalMessage("Kernel::Test::TestDeducedTrait::testNot entering") ;
         /// create a model
         std::auto_ptr<Model> model(new Model()) ;
 
@@ -302,13 +302,13 @@ namespace ProjetUnivers {
         /// Check that object has automatically lost DeducedTrait3
         CPPUNIT_ASSERT(! object->getTrait<DeducedTrait3>()) ;
         
-        Log::InternalMessage("Kernel::Test::TestDeducedTrait::testNot leaving") ;
+        InternalMessage("Kernel::Test::TestDeducedTrait::testNot leaving") ;
       }
       
       /// formula is ((T1^T2)U~(T3^T1)) 
       void TestDeducedTrait::testComposite()
       {
-        Log::InternalMessage("Kernel::Test::TestDeducedTrait::testComposite entering") ;
+        InternalMessage("Kernel::Test::TestDeducedTrait::testComposite entering") ;
         /// create a model
         std::auto_ptr<Model> model(new Model()) ;
 
@@ -327,13 +327,13 @@ namespace ProjetUnivers {
         /// Check that object has DeducedTrait4
         CPPUNIT_ASSERT(object->getTrait<DeducedTrait4>()) ;
         
-        Log::InternalMessage("Kernel::Test::TestDeducedTrait::testComposite Leaving") ;
+        InternalMessage("Kernel::Test::TestDeducedTrait::testComposite Leaving") ;
       }
       
       /// DeducedTrait5 <=> ~T1, DeducedTrait6 <=> T2^T3^DeducedTrait5
       void TestDeducedTrait::testCompositeWithDeduced()
       {
-        Log::InternalMessage("Kernel::Test::TestDeducedTrait::testCompositeWithDeduced entering") ;
+        InternalMessage("Kernel::Test::TestDeducedTrait::testCompositeWithDeduced entering") ;
         /// create a model
         std::auto_ptr<Model> model(new Model()) ;
 
@@ -364,7 +364,7 @@ namespace ProjetUnivers {
       
       void TestDeducedTrait::testDeducedTraitViews()
       {
-        Log::InternalMessage("Kernel::Test::TestDeducedTrait::testDeducedTraitViews entering") ;
+        InternalMessage("Kernel::Test::TestDeducedTrait::testDeducedTraitViews entering") ;
         /// create a model
         std::auto_ptr<Model> model(new Model()) ;
 
@@ -387,7 +387,7 @@ namespace ProjetUnivers {
 
         CPPUNIT_ASSERT(object->getView<View7>(viewpoint.get())->m_update_number == 1) ;
 
-        Log::InternalMessage("Kernel::Test::TestDeducedTrait::testDeducedTraitViews leaving") ;
+        InternalMessage("Kernel::Test::TestDeducedTrait::testDeducedTraitViews leaving") ;
         
       }
       

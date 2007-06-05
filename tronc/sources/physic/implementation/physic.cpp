@@ -20,8 +20,6 @@
 #include <memory>
 #include <set>
 
-#include <boost/function.hpp>
-
 #include <ode/ode.h>
 
 #include <kernel/log.h>
@@ -31,7 +29,7 @@
 #include <model/duration.h>
 
 #include <physic/implementation/ode/physical_world.h>
-#include <physic/implementation/ode/real_world_view_point.h>
+#include <physic/implementation/ode/physic_system.h>
 
 #include <physic/physic.h>
 
@@ -44,7 +42,7 @@ namespace ProjetUnivers {
   // @{
     
     /// active viewpoint.
-    std::auto_ptr<Implementation::Ode::RealWorldViewPoint> viewpoint ;
+    std::auto_ptr<Implementation::Ode::PhysicSystem> m_system ;
 
     bool initialised = false ;
 
@@ -56,31 +54,31 @@ namespace ProjetUnivers {
       {
         initialised = true ;
         
-        if (viewpoint.get())
+        if (m_system.get())
         {
-          viewpoint->init() ;
+          m_system->init() ;
         }      
       }
     }
     
     void close()
     {
-      Kernel::Log::InternalMessage("Physic::close entering") ;
-      if (viewpoint.get())
+      InternalMessage("Physic::close entering") ;
+      if (m_system.get())
       {
-        viewpoint->close() ;
+        m_system->close() ;
       }
       
-      viewpoint.reset(NULL) ;
-      Kernel::Log::InternalMessage("Physic::close leaving") ;
+      m_system.reset(NULL) ;
+      InternalMessage("Physic::close leaving") ;
     }
 
-    Kernel::ViewPoint* buildRealWorldViewPoint(Kernel::Object* i_observer)
+    Kernel::ControlerSet* build(Kernel::Object* i_observer)
     {
-      viewpoint.reset( 
-        new Implementation::Ode::RealWorldViewPoint(i_observer)) ;
-      viewpoint->init() ;
-      return viewpoint.get() ;
+      m_system.reset( 
+        new Implementation::Ode::PhysicSystem(i_observer)) ;
+      m_system->init() ;
+      return m_system.get() ;
     }
 
     void update()
@@ -90,16 +88,10 @@ namespace ProjetUnivers {
 
     void update(const Model::Duration& i_duration)    
     {
-      boost::function2<void,
-                       Implementation::Ode::PhysicalWorld*,
-                       Model::Duration> f 
-                          = &Implementation::Ode::PhysicalWorld::update ;
-      
-      /// update for all physical worlds  
-      Kernel::forAll<Implementation::Ode::PhysicalWorld>(
-        viewpoint.get(),
-        std::bind2nd(f,i_duration)) ;
-      
+      if (initialised && m_system.get())
+      {
+        m_system->simulate(i_duration.Second()) ;
+      }
     }
 
   }

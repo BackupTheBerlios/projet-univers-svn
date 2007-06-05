@@ -24,6 +24,13 @@
 
 #include <string>
 
+#define RLOG_COMPONENT "ProjetUnivers"
+
+#include <rlog/rlog.h>
+#include <rlog/StdioNode.h>
+#include <rlog/RLogChannel.h>
+
+
 namespace ProjetUnivers {
   namespace Kernel {
     namespace Log
@@ -47,15 +54,16 @@ namespace ProjetUnivers {
     // @{
     
       /// Trace un message d'erreur.
-      void ErrorMessage(const std::string&) ;
+      #define ErrorMessage(i_message) rError(std::string(i_message).c_str())
       
       /// Trace un message d'information.
-      void InformationMessage(const std::string&) ;
+      #define InformationMessage(i_message) rLog(RLOG_CHANNEL("ProjetUnivers"), std::string(i_message).c_str())
 
       /// Trace un message interne.
-      void InternalMessage(const std::string&) ;    
+      #define InternalMessage(i_message) rDebug(std::string(i_message).c_str())    
 
     // @}
+
     
     }    
   }

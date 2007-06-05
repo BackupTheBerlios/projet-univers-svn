@@ -78,9 +78,6 @@ namespace ProjetUnivers {
       
       // Distance between 2 Position.
       Distance calculateDistance(const Position&) const ; 
-
-      /// ????
-      bool operator==(const Position&) const ;
       
       /// @deprecated    
       Distance getXCoordinate() const ;

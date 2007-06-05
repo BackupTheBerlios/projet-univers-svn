@@ -169,16 +169,16 @@ namespace ProjetUnivers {
       /*!
         Two calls with the same parameter returns the same formula. 
       */
-      static TraitFormula* build(const std::string& i_trait_name) ;
+      static TraitFormula* build(const TypeIdentifier& i_trait_name) ;
     
       // Notify that @c i_object has gained @c i_trait_name.
-      static void addTrait(Object* i_object,const std::string& i_trait_name) ;
+      static void addTrait(Object* i_object,const TypeIdentifier& i_trait_name) ;
       
       // Notify that @c i_object has lost @c i_trait_name.
-      static void removeTrait(Object* i_object,const std::string& i_trait_name) ;
+      static void removeTrait(Object* i_object,const TypeIdentifier& i_trait_name) ;
       
       // Notify that @c i_trait_name has been updated for @c i_object.
-      static void updateTrait(Object* i_object,const std::string& i_trait_name) ;
+      static void updateTrait(Object* i_object,const TypeIdentifier& i_trait_name) ;
       
     protected:
 
@@ -192,15 +192,15 @@ namespace ProjetUnivers {
     private:
         
       /// A trait is an atomic formula
-      TraitFormula(const std::string& i_trait_name) ;
+      TraitFormula(const TypeIdentifier& i_trait_name) ;
       
       /// Find the traitformula associaited with @c i_trait_name.
       /*!
         Return NULL if not found.
       */
-      static TraitFormula* get(const std::string& i_trait_name) ;
+      static TraitFormula* get(const TypeIdentifier& i_trait_name) ;
     
-      static std::map<std::string,TraitFormula*> m_traits_formulae ;
+      static std::map<TypeIdentifier,TraitFormula*> m_traits_formulae ;
     };
     
     /// Conjunction of its child formulae.
@@ -298,7 +298,7 @@ namespace ProjetUnivers {
       /// Register @c i_builder as the builder of @c i_formula.
       static void registerTrait(Formula*            i_formula,
                                 DeducedTraitBuilder i_builder,
-                                const std::string&  i_trait_name) ;
+                                const TypeIdentifier&  i_trait_name) ;
       
       /// Calculate initial value.
       /*!
@@ -327,7 +327,7 @@ namespace ProjetUnivers {
       static std::map<Formula*,DeducedTraitBuilder> m_builders ;
 
       /// map formula to deduced trait names for destruction.
-      static std::map<Formula*,std::string> m_destructors ;
+      static std::map<Formula*,TypeIdentifier> m_destructors ;
       
       friend class Formula ;
       
@@ -340,7 +340,7 @@ namespace ProjetUnivers {
 
       DeducedTraitDeclaration(Formula*            i_formula,
                               DeducedTraitBuilder i_builder,
-                              const std::string&  i_trait_name)
+                              const TypeIdentifier&  i_trait_name)
       {
         DeducedTrait::registerTrait(i_formula,i_builder,i_trait_name) ;
       }
@@ -353,7 +353,7 @@ namespace ProjetUnivers {
       
       static Formula* build()
       {
-        return TraitFormula::build(typeid(T).name()) ;
+        return TraitFormula::build(getClassTypeIdentifier(T)) ;
       }
     };
     

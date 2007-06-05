@@ -91,6 +91,24 @@
 		added timer
 	* demonstration
 		usage of physic module	
+
 	Diverse :
 	* kernel : renaming of member data, added preliminary timer class
 	* all : removed some warnings	
+
+2007-04-22 rogma <rogma.boami@free.fr>
+
+	Diverse :
+	* kernel : added meta.h/cpp for centralization of class identification
+	* all modified makefiles
+
+2007-06-05 rogma <rogma.boami@free.fr>
+
+	Architecture :
+	* kernel : added controler.h/.cpp, a Model-modifying "procedure".
+	* model : added a stabilizer+torque generator for element that resist rotation
+  * physic : applied controler pattern+tested generator
+  
+  Demonstration :
+  * usage of stabilizer to slowly stop rotation of one of the ships
+ 	

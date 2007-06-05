@@ -29,38 +29,38 @@ namespace ProjetUnivers {
     namespace Implementation {
       namespace Ode {
 
-        RegisterView(PhysicalWorld, 
-                     Model::PhysicalWorld, 
-                     RealWorldViewPoint) ;
+        RegisterControler(PhysicalWorld, 
+                          Model::PhysicalWorld, 
+                          PhysicSystem) ;
 
         PhysicalWorld::PhysicalWorld(Model::PhysicalWorld* i_object,
-                                     RealWorldViewPoint* i_viewpoint)
-        : Kernel::TraitView<Model::PhysicalWorld,
-                            RealWorldViewPoint>(i_object,i_viewpoint),
+                                     PhysicSystem*         i_physic)
+        : Kernel::Controler<Model::PhysicalWorld,
+                            PhysicSystem>(i_object,i_physic),
           m_world(NULL)
         {}
 
         void PhysicalWorld::onInit()
         {
-          Kernel::Log::InternalMessage("PhysicalWorld::onInit entering") ;
+          InternalMessage("PhysicalWorld::onInit entering") ;
           if (m_world)
           {
             delete m_world ;
           }
           m_world = new dWorld() ;
           
-          Kernel::Log::InternalMessage("PhysicalWorld::onInit leaving") ;
+          InternalMessage("PhysicalWorld::onInit leaving") ;
         }
 
         void PhysicalWorld::onClose()
         {
-          Kernel::Log::InternalMessage("Physic::PhysicalWorld::onClose entering " + getObject()->getName()) ;
+          InternalMessage("Physic::PhysicalWorld::onClose entering " + getObject()->getName()) ;
           if (m_world)
           {
             delete m_world ;
           }
 
-          Kernel::Log::InternalMessage("Physic::PhysicalWorld::onClose leaving " + getObject()->getName()) ;
+          InternalMessage("Physic::PhysicalWorld::onClose leaving " + getObject()->getName()) ;
         }
 
         void PhysicalWorld::onChangeParent(Kernel::Object* i_old_parent)
@@ -76,34 +76,18 @@ namespace ProjetUnivers {
           return m_world ;
         }
         
-        void PhysicalWorld::update(const Model::Duration& i_duration)
+        void PhysicalWorld::simulate(const float& i_seconds)
         {
-          Kernel::Log::InternalMessage("PhysicalWorld::update Entering") ;
+          InternalMessage("PhysicalWorld::simulate " + getObject()->getName() + " Entering") ;
           /// simulate
           if (m_world)
           {
-            dWorldStep(m_world->id(),i_duration.Second()) ;
+            dWorldStep(m_world->id(),i_seconds) ;
           }
-          
-          ///
-          for(std::set<PhysicalObject*>::iterator object = m_objects.begin() ;
-              object != m_objects.end() ;
-              ++object)
-          {
-            (*object)->updateModel() ;
-          }
-          Kernel::Log::InternalMessage("PhysicalWorld::update Leaving") ;
+
+          InternalMessage("PhysicalWorld::simulate " + getObject()->getName() + " Leaving") ;
         }
         
-        void PhysicalWorld::registerObject(PhysicalObject* i_object)
-        {
-          m_objects.insert(i_object) ;
-        }
-
-        void PhysicalWorld::unregisterObject(PhysicalObject* i_object)
-        {
-          m_objects.erase(i_object) ;
-        }
       }
     }
   }

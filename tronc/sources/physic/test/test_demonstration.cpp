@@ -29,6 +29,7 @@
 #include <model/duration.h>
 #include <model/physical_world.h>
 #include <model/mobile.h>
+#include <model/stabilizer.h>
 
 #include <physic/physic.h>
 
@@ -46,7 +47,7 @@ namespace ProjetUnivers {
     namespace Test {
       
       /// Acceptable variable for comparison 
-      const float delta = 1e-5 ;
+      const float delta = 1e-4 ;
 
       bool equal(float i1,float i2)
       {
@@ -56,172 +57,158 @@ namespace ProjetUnivers {
 
       void TestDemonstration::testBuild()
       {
-        Kernel::Log::InternalMessage("TestDemonstration::testBuild Entering") ;
+        InternalMessage("Physic::Test::TestDemonstration::testBuild Entering") ;
         Model::init() ;
         Model::load("TestDemonstration") ;
         Physic::init() ;
         Object* observer(Model::getObject("Observer")) ;
         
         /// build a physical viewpoint        
-        Kernel::ViewPoint* physic_viewpoint = Physic::buildRealWorldViewPoint(observer) ;
-        physic_viewpoint->init() ;
+        Kernel::ControlerSet* physics = Physic::build(observer) ;
+        physics->init() ;
         
-        Kernel::Log::InternalMessage("Physic viewpoint initalised") ;
+        InternalMessage("Physic module initalised") ;
                 
         /// check view constructions
         Model::PhysicalWorld* world(observer->getParent<Model::PhysicalWorld>()) ;
         CPPUNIT_ASSERT(world) ;
 
-        Kernel::Log::InternalMessage("got Model::PhysicalWorld") ;
+        InternalMessage("got Model::PhysicalWorld") ;
         /// check for the world
-        CPPUNIT_ASSERT(world->getView<Implementation::Ode::PhysicalWorld>(physic_viewpoint)) ;
+        CPPUNIT_ASSERT(world->getControler<Implementation::Ode::PhysicalWorld>(physics)) ;
         CPPUNIT_ASSERT(
-          world->getView<Implementation::Ode::PhysicalWorld>(physic_viewpoint)->getWorld()->id()) ;
+          world->getControler<Implementation::Ode::PhysicalWorld>(physics)->getWorld()->id()) ;
 
         Model::PhysicalObject* ship(Model::getObject("Vaisseau")->getTrait<Model::PhysicalObject>()) ;
         CPPUNIT_ASSERT(ship) ;
-        CPPUNIT_ASSERT(ship->getView<Implementation::Ode::PhysicalObject>(physic_viewpoint)) ;
+        CPPUNIT_ASSERT(ship->getControler<Implementation::Ode::PhysicalObject>(physics)) ;
         CPPUNIT_ASSERT(
-          ship->getView<Implementation::Ode::PhysicalObject>(physic_viewpoint)->getBody()->id()) ;
+          ship->getControler<Implementation::Ode::PhysicalObject>(physics)->getBody()->id()) ;
         
         dMass mass ;
-        ship->getView<Implementation::Ode::PhysicalObject>(physic_viewpoint)
+        ship->getControler<Implementation::Ode::PhysicalObject>(physics)
             ->getBody()->getMass(&mass) ;
         
         CPPUNIT_ASSERT(mass.mass) ;
         
-        physic_viewpoint->close() ;
+        physics->close() ;
         
         Physic::close() ;
         Model::close() ;
 
-        Kernel::Log::InternalMessage("TestDemonstration::testBuild Leaving") ;
-        
+        InternalMessage("Physic::Test::TestDemonstration::testBuild Leaving") ;
       }
 
       void TestDemonstration::testSimulateNoMove()
       {
+        InternalMessage("Physic::Test::testSimulate::testSimulateNoMove entering") ;
+
         Model::init() ;
         Model::load("TestDemonstration") ;
         Physic::init() ;
         Object* observer(Model::getObject("Observer")) ;
         
         /// build a physical viewpoint        
-        Kernel::ViewPoint* physic_viewpoint = Physic::buildRealWorldViewPoint(observer) ;
-        physic_viewpoint->init() ;
+        Kernel::ControlerSet* physics = Physic::build(observer) ;
+        physics->init() ;
         
-        Kernel::Log::InternalMessage("Physic viewpoint initalised") ;
+        InternalMessage("Physic viewpoint initalised") ;
 
         /// get the ship
-        Model::PhysicalObject* ship(Model::getObject("Vaisseau")->getTrait<Model::PhysicalObject>()) ;
+        Model::Positionned* ship(Model::getObject("Vaisseau")->getTrait<Model::Positionned>()) ; 
         CPPUNIT_ASSERT(ship) ;
-        CPPUNIT_ASSERT(ship->getView<Implementation::Ode::PhysicalObject>(physic_viewpoint)) ;
-        CPPUNIT_ASSERT(
-          ship->getView<Implementation::Ode::PhysicalObject>(physic_viewpoint)->getBody()->id()) ;
+        
+        Ogre::Vector3 initial_position(ship->getPosition().Meter()) ;
 
-        /// store the position before simulation
-        const dReal* old_position =
-        ship->getView<Implementation::Ode::PhysicalObject>(physic_viewpoint)->getBody()
-            ->getPosition() ;
-
-        dReal x = old_position[0] ;
-        dReal y = old_position[1] ;
-        dReal z = old_position[2] ;
-
-        Kernel::Log::InternalMessage("Physic::Test::testSimulateNoMove got old position") ;
+        InternalMessage("Physic::Test::testSimulateNoMove got old position") ;
         
         Physic::update() ;
 
-        Kernel::Log::InternalMessage("Physic::Test::testSimulateNoMove updated") ;
+        InternalMessage("Physic::Test::testSimulateNoMove updated") ;
 
 
-        const dReal* new_position =
-        ship->getView<Implementation::Ode::PhysicalObject>(physic_viewpoint)->getBody()
-            ->getPosition() ;
+        Ogre::Vector3 final_position(ship->getPosition().Meter()) ;
 
-        Kernel::Log::InternalMessage("Physic::Test::testSimulate got new position") ;
+        InternalMessage("Physic::Test::testSimulate got new position") ;
         
         // check that object has not moved
-        CPPUNIT_ASSERT(( x == new_position[0] && 
-                         y == new_position[1] &&
-                         z == new_position[2])) ;
+        CPPUNIT_ASSERT(initial_position == final_position) ;
 
-        Kernel::Log::InternalMessage("Physic::Test::testSimulate closing modules") ;
+        InternalMessage("Physic::Test::testSimulate closing modules") ;
 
         Physic::close() ;
-        Kernel::Log::InternalMessage("Physic::Test::testSimulate closed Physic") ;
+        InternalMessage("Physic::Test::testSimulate closed Physic") ;
         Model::close() ;
-        Kernel::Log::InternalMessage("Physic::Test::testSimulate closed Model") ;
+        InternalMessage("Physic::Test::testSimulate closed Model") ;
 
-        Kernel::Log::InternalMessage("Physic::Test::testSimulate OK") ;
-        
+        InternalMessage("Physic::Test::testSimulate::testSimulateNoMove Leaving") ;
       }
 
       void TestDemonstration::testSimulateMoving()
       {
+        InternalMessage("Physic::Test::testSimulate::testSimulateMoving entering") ;
+
         Model::init() ;
         Model::load("TestDemonstration") ;
         Physic::init() ;
         Object* observer(Model::getObject("Observer")) ;
         
         /// build a physical viewpoint        
-        Kernel::ViewPoint* physic_viewpoint = Physic::buildRealWorldViewPoint(observer) ;
-        physic_viewpoint->init() ;
+        Kernel::ControlerSet* physics = Physic::build(observer) ;
+        physics->init() ;
         
-        Kernel::Log::InternalMessage("Physic viewpoint initalised") ;
+        InternalMessage("Physic viewpoint initalised") ;
         
         /// get the ship and apply a force
         Model::PhysicalObject* ship(Model::getObject("Vaisseau")->getTrait<Model::PhysicalObject>()) ;
         CPPUNIT_ASSERT(ship) ;
-        CPPUNIT_ASSERT(ship->getView<Implementation::Ode::PhysicalObject>(physic_viewpoint)) ;
+        CPPUNIT_ASSERT(ship->getControler<Implementation::Ode::PhysicalObject>(physics)) ;
         CPPUNIT_ASSERT(
-          ship->getView<Implementation::Ode::PhysicalObject>(physic_viewpoint)->getBody()->id()) ;
+          ship->getControler<Implementation::Ode::PhysicalObject>(physics)->getBody()->id()) ;
 
-        /// store the position before "move"
-        const dReal* old_position =
-        ship->getView<Implementation::Ode::PhysicalObject>(physic_viewpoint)->getBody()
-            ->getPosition() ;
-
-        dReal x = old_position[0] ;
-        dReal y = old_position[1] ;
-        dReal z = old_position[2] ;
-        
-        Kernel::Log::InformationMessage(std::string("testSimulateMoving initial position") 
-                                        + " x=" + toString(old_position[0]) 
-                                        + ",y=" + toString(old_position[1]) 
-                                        + ",z=" + toString(old_position[2])) ; 
+        Model::Positionned* positionned(Model::getObject("Vaisseau")->getTrait<Model::Positionned>()) ; 
+        CPPUNIT_ASSERT(positionned) ;
+        Ogre::Vector3 initial_position(positionned->getPosition().Meter()) ;
         
         /// give an impulse        
-        ship->getView<Implementation::Ode::PhysicalObject>(physic_viewpoint)->getBody()
+        ship->getControler<Implementation::Ode::PhysicalObject>(physics)->getBody()
             ->addForce(1,0,0) ;
         
         Physic::update(Model::Duration::Second(1)) ;
+
+        InternalMessage("testSimulateMoving physic updated") ;
         
-        const dReal* new_position =
-        ship->getView<Implementation::Ode::PhysicalObject>(physic_viewpoint)->getBody()
-            ->getPosition() ;
+        dBody* body = ship->getControler<Implementation::Ode::PhysicalObject>(physics)->getBody() ;
+        
+        InternalMessage("testSimulateMoving body = " +toString((int)body)) ;
+        
+        CPPUNIT_ASSERT(body) ;
+        
+        Ogre::Vector3 final_position(positionned->getPosition().Meter()) ;
         
         // check that object has moved
-        CPPUNIT_ASSERT(!( x == new_position[0] && 
-                          y == new_position[1] &&
-                          z == new_position[2])) ;
+        CPPUNIT_ASSERT(!( initial_position == final_position)) ;
 
-        Kernel::Log::InformationMessage(std::string("testSimulateMoving new position") 
-                                        + " x=" + toString(new_position[0]) 
-                                        + ",y=" + toString(new_position[1]) 
-                                        + ",z=" + toString(new_position[2])) ; 
 
+        InternalMessage("Physic::Test::testSimulate::testSimulateMoving closing modules...") ;
         Physic::close() ;
         Model::close() ;
         
-        
+        InternalMessage("Physic::Test::testSimulate::testSimulateMoving Leaving") ;
       }
 
       void TestDemonstration::testSimulateMovingInitialSpeed()
       {
+        InternalMessage("Physic::Test::testSimulate::testSimulateMovingInitialSpeed entering") ;
+
         Model::init() ;
+        InternalMessage("Physic::Test::testSimulate::testSimulateMovingInitialSpeed model initialised") ;
         Model::load("TestDemonstration") ;
+
+        InternalMessage("Physic::Test::testSimulate::testSimulateMovingInitialSpeed loaded model") ;
+
         Physic::init() ;
+
         Object* observer(Model::getObject("Observer")) ;
         {        
           /// get the ship and set initial speed
@@ -229,50 +216,44 @@ namespace ProjetUnivers {
           CPPUNIT_ASSERT(ship) ;
           ship->setSpeed(Model::Speed::MeterPerSecond(1,0,0)) ;
         }
+        InternalMessage("Physic::Test::testSimulate::testSimulateMovingInitialSpeed built model") ;
                 
         /// build a physical viewpoint        
-        Kernel::ViewPoint* physic_viewpoint = Physic::buildRealWorldViewPoint(observer) ;
-        physic_viewpoint->init() ;
+        Kernel::ControlerSet* physics = Physic::build(observer) ;
+        physics->init() ;
+
+        InternalMessage("Physic::Test::testSimulate::testSimulateMovingInitialSpeed initialised physics") ;
 
         Model::PhysicalObject* ship(Model::getObject("Vaisseau")->getTrait<Model::PhysicalObject>()) ;
         CPPUNIT_ASSERT(ship) ;
-        CPPUNIT_ASSERT(ship->getView<Implementation::Ode::PhysicalObject>(physic_viewpoint)) ;
+        CPPUNIT_ASSERT(ship->getControler<Implementation::Ode::PhysicalObject>(physics)) ;
         CPPUNIT_ASSERT(
-          ship->getView<Implementation::Ode::PhysicalObject>(physic_viewpoint)->getBody()->id()) ;
+          ship->getControler<Implementation::Ode::PhysicalObject>(physics)->getBody()->id()) ;
 
         /// store the position before "move"
-        const dReal* old_position =
-        ship->getView<Implementation::Ode::PhysicalObject>(physic_viewpoint)->getBody()
-            ->getPosition() ;
-
-        dReal x = old_position[0] ;
-        dReal y = old_position[1] ;
-        dReal z = old_position[2] ;
+        Model::Positionned* positionned(Model::getObject("Vaisseau")->getTrait<Model::Positionned>()) ; 
+        CPPUNIT_ASSERT(positionned) ;
+        Ogre::Vector3 initial_position(positionned->getPosition().Meter()) ;
 
         Physic::update(Model::Duration::Second(1)) ;
-        
-        const dReal* new_position =
-        ship->getView<Implementation::Ode::PhysicalObject>(physic_viewpoint)->getBody()
-            ->getPosition() ;
-        
 
-        Kernel::Log::InformationMessage(std::string("testSimulateMovingInitialSpeed new position") 
-                                        + " x=" + toString(new_position[0]) 
-                                        + ",y=" + toString(new_position[1]) 
-                                        + ",z=" + toString(new_position[2])) ; 
+        Ogre::Vector3 final_position(positionned->getPosition().Meter()) ;
 
         // check that object has correctly moved
-        CPPUNIT_ASSERT( x+1 == new_position[0] && 
-                         y == new_position[1] &&
-                         z == new_position[2]) ;
+        CPPUNIT_ASSERT( initial_position[0]+1 == final_position[0] && 
+                         initial_position[1] == final_position[1] &&
+                         initial_position[2] == final_position[2]) ;
 
         Physic::close() ;
         Model::close() ;
 
+        InternalMessage("Physic::Test::testSimulate::testSimulateMovingInitialSpeed leaving") ;
       }
 
       void TestDemonstration::testSimulateMovingInitialRotation()
       {
+        InternalMessage("Physic::Test::testSimulate::testSimulateMovingInitialRotation entering") ;
+
         Model::init() ;
         Model::load("TestDemonstration") ;
         Physic::init() ;
@@ -288,129 +269,101 @@ namespace ProjetUnivers {
         }
      
         /// build a physical viewpoint        
-        Kernel::ViewPoint* physic_viewpoint = Physic::buildRealWorldViewPoint(observer) ;
-        physic_viewpoint->init() ;
+        Kernel::ControlerSet* physics = Physic::build(observer) ;
+        physics->init() ;
 
         Model::PhysicalObject* ship(Model::getObject("Vaisseau")->getTrait<Model::PhysicalObject>()) ;
         CPPUNIT_ASSERT(ship) ;
-        CPPUNIT_ASSERT(ship->getView<Implementation::Ode::PhysicalObject>(physic_viewpoint)) ;
+        CPPUNIT_ASSERT(ship->getControler<Implementation::Ode::PhysicalObject>(physics)) ;
         CPPUNIT_ASSERT(
-          ship->getView<Implementation::Ode::PhysicalObject>(physic_viewpoint)->getBody()->id()) ;
+          ship->getControler<Implementation::Ode::PhysicalObject>(physics)->getBody()->id()) ;
 
         /// store the orientation before "rotation"
-        const dReal* old_orientation =
-        ship->getView<Implementation::Ode::PhysicalObject>(physic_viewpoint)->getBody()
-            ->getQuaternion() ;
-        
-        dReal w = old_orientation[0] ;
-        dReal x = old_orientation[1] ;
-        dReal y = old_orientation[2] ;
-        dReal z = old_orientation[3] ;
-
-        Kernel::Log::InformationMessage(std::string("testSimulateMovingInitialSpeed initial orientation") 
-                                        + " w=" + toString(old_orientation[0]) 
-                                        + ",x=" + toString(old_orientation[1]) 
-                                        + ",y=" + toString(old_orientation[2]) 
-                                        + ",z=" + toString(old_orientation[3])) ; 
-        
-        /// because of approximation of ode, have to split the second in small steps
-        const int steps_number = 100 ; 
-        for(int i = 1 ; i <= steps_number ; ++i)
-        {
-          Physic::update(Model::Duration::Second(1/steps_number)) ;
-        }
-        
-        /// check new orientation
-        const dReal* new_orientation =
-        ship->getView<Implementation::Ode::PhysicalObject>(physic_viewpoint)->getBody()
-            ->getQuaternion() ;
-
-        Kernel::Log::InformationMessage(std::string("testSimulateMovingInitialSpeed new orientation") 
-                                        + " w=" + toString(new_orientation[0]) 
-                                        + ",x=" + toString(new_orientation[1]) 
-                                        + ",y=" + toString(new_orientation[2]) 
-                                        + ",z=" + toString(new_orientation[3])) ; 
-        
-        // check that object has rotated a whole turn
-        CPPUNIT_ASSERT(( w == new_orientation[0] &&
-                         x == new_orientation[1] && 
-                         y == new_orientation[2] &&
-                         z == new_orientation[3])) ;
-
-        Physic::close() ;
-        Model::close() ;
-
-      }
-      
-      void TestDemonstration::testSimulateRotatingHalfTurn()
-      {
-        Model::init() ;
-        Model::load("TestDemonstration") ;
-        Physic::init() ;
-        Object* observer(Model::getObject("Observer")) ;
-
-        {        
-          /// get the ship and set initial angular speed
-          Model::Mobile* ship(Model::getObject("Vaisseau")->getTrait<Model::Mobile>()) ;
-          CPPUNIT_ASSERT(ship) ;
-          
-          /// one turn per second along the y axis
-          ship->setAngularSpeed(Model::AngularSpeed::TurnPerSecond(0,1,0)) ;
-        }
-     
-        /// build a physical viewpoint        
-        Kernel::ViewPoint* physic_viewpoint = Physic::buildRealWorldViewPoint(observer) ;
-        physic_viewpoint->init() ;
-
-        Model::PhysicalObject* ship(Model::getObject("Vaisseau")->getTrait<Model::PhysicalObject>()) ;
-        CPPUNIT_ASSERT(ship) ;
-        CPPUNIT_ASSERT(ship->getView<Implementation::Ode::PhysicalObject>(physic_viewpoint)) ;
-        CPPUNIT_ASSERT(
-          ship->getView<Implementation::Ode::PhysicalObject>(physic_viewpoint)->getBody()->id()) ;
-
-        /// store the orientation before "rotation"
-        const dReal* old_orientation =
-        ship->getView<Implementation::Ode::PhysicalObject>(physic_viewpoint)->getBody()
-            ->getQuaternion() ;
-        
-        Kernel::Log::InformationMessage(std::string("testSimulateRotatingHalfTurn initial orientation") 
-                                        + " w=" + toString(old_orientation[0]) 
-                                        + ",x=" + toString(old_orientation[1]) 
-                                        + ",y=" + toString(old_orientation[2]) 
-                                        + ",z=" + toString(old_orientation[3])) ; 
+        Model::Positionned* positionned(Model::getObject("Vaisseau")->getTrait<Model::Positionned>()) ; 
+        CPPUNIT_ASSERT(positionned) ;
+        Ogre::Quaternion initial_orientation(positionned->getOrientation().getQuaternion()) ;
         
         /// because of approximation of ode, have to split the second in small steps
         const int steps_number = 1000 ; 
         for(int i = 1 ; i <= steps_number ; ++i)
         {
-          Physic::update(Model::Duration::Second(0.5/steps_number)) ;
+          Physic::update(Model::Duration::Second(1.0/steps_number)) ;
         }
         
         /// check new orientation
-        const dReal* new_orientation =
-        ship->getView<Implementation::Ode::PhysicalObject>(physic_viewpoint)->getBody()
-            ->getQuaternion() ;
+        Ogre::Quaternion final_orientation(positionned->getOrientation().getQuaternion()) ;
 
-        Kernel::Log::InformationMessage(std::string("testSimulateRotatingHalfTurn new orientation") 
-                                        + " w=" + toString(new_orientation[0]) 
-                                        + ",x=" + toString(new_orientation[1]) 
-                                        + ",y=" + toString(new_orientation[2]) 
-                                        + ",z=" + toString(new_orientation[3])) ; 
-        
         // check that object has rotated a whole turn
-        CPPUNIT_ASSERT( equal(0,new_orientation[0]) &&
-                        equal(0,new_orientation[1]) && 
-                        equal(1,new_orientation[2]) &&
-                        equal(0,new_orientation[3])) ;
+        CPPUNIT_ASSERT( equal(-1,final_orientation.w) &&
+                        equal(0,final_orientation.x) && 
+                        equal(0,final_orientation.y) &&
+                        equal(0,final_orientation.z)) ;
 
         Physic::close() ;
         Model::close() ;
 
+        InternalMessage("Physic::Test::testSimulate::testSimulateMovingInitialRotation leaving") ;
+      }
+      
+      void TestDemonstration::testSimulateRotatingHalfTurn()
+      {
+        InternalMessage("Physic::Test::testSimulate::testSimulateRotatingHalfTurn entering") ;
+
+        Model::init() ;
+        Model::load("TestDemonstration") ;
+        Physic::init() ;
+        Object* observer(Model::getObject("Observer")) ;
+
+        {        
+          /// get the ship and set initial angular speed
+          Model::Mobile* ship(Model::getObject("Vaisseau")->getTrait<Model::Mobile>()) ;
+          CPPUNIT_ASSERT(ship) ;
+          
+          /// one turn per second along the y axis
+          ship->setAngularSpeed(Model::AngularSpeed::TurnPerSecond(0,0.5,0)) ;
+        }
+     
+        /// build a physical viewpoint        
+        Kernel::ControlerSet* physics = Physic::build(observer) ;
+        physics->init() ;
+
+        Model::PhysicalObject* ship(Model::getObject("Vaisseau")->getTrait<Model::PhysicalObject>()) ;
+        CPPUNIT_ASSERT(ship) ;
+        CPPUNIT_ASSERT(ship->getControler<Implementation::Ode::PhysicalObject>(physics)) ;
+        CPPUNIT_ASSERT(
+          ship->getControler<Implementation::Ode::PhysicalObject>(physics)->getBody()->id()) ;
+
+        /// store the orientation before "rotation"
+        Model::Positionned* positionned(Model::getObject("Vaisseau")->getTrait<Model::Positionned>()) ; 
+        CPPUNIT_ASSERT(positionned) ;
+        Ogre::Quaternion initial_orientation(positionned->getOrientation().getQuaternion()) ;
+        
+        
+        /// because of approximation of ode, have to split the second in small steps
+        const int steps_number = 1000 ; 
+        for(int i = 1 ; i <= steps_number ; ++i)
+        {
+          Physic::update(Model::Duration::Second(1.0/steps_number)) ;
+        }
+        
+        /// check new orientation
+        Ogre::Quaternion final_orientation(positionned->getOrientation().getQuaternion()) ;
+        
+        // check that object has rotated a whole turn
+        CPPUNIT_ASSERT( equal(0,final_orientation.w) &&
+                        equal(0,final_orientation.x) && 
+                        equal(1,final_orientation.y) &&
+                        equal(0,final_orientation.z)) ;
+
+        Physic::close() ;
+        Model::close() ;
+
+        InternalMessage("Physic::Test::testSimulate::testSimulateRotatingHalfTurn leaving") ;
       }
 
       void TestDemonstration::testModelPositionUpdate()
       {
-        Kernel::Log::InternalMessage("Physic::Test::TestDemonstration::testModelPositionUpdate Entering") ;
+        InternalMessage("Physic::Test::TestDemonstration::testModelPositionUpdate Entering") ;
         Model::init() ;
         Model::load("TestDemonstration") ;
         Physic::init() ;
@@ -434,8 +387,8 @@ namespace ProjetUnivers {
         
 
         /// build a physical viewpoint        
-        Kernel::ViewPoint* physic_viewpoint = Physic::buildRealWorldViewPoint(observer) ;
-        physic_viewpoint->init() ;
+        Kernel::ControlerSet* physics = Physic::build(observer) ;
+        physics->init() ;
 
         Physic::update(Model::Duration::Second(1)) ;
 
@@ -447,7 +400,7 @@ namespace ProjetUnivers {
           CPPUNIT_ASSERT(ship) ;
           new_position = ship->getPosition().Meter() ;
         }
-        Kernel::Log::InformationMessage(std::string("TestDemonstration::testModelPositionUpdate new position") 
+        InternalMessage(std::string("TestDemonstration::testModelPositionUpdate new position") 
                                         + " x=" + toString(new_position[0]) 
                                         + ",y=" + toString(new_position[1]) 
                                         + ",z=" + toString(new_position[2])) ; 
@@ -460,6 +413,118 @@ namespace ProjetUnivers {
         Physic::close() ;
         Model::close() ;
 
+        InternalMessage("Physic::Test::testSimulate::testModelPositionUpdate leaving") ;
+      }
+
+      void TestDemonstration::testStabilizer()
+      {
+        InternalMessage("Physic::Test::TestDemonstration::testStabilizer Entering") ;
+        Model::init() ;
+        Model::load("TestDemonstration") ;
+        Physic::init() ;
+        Object* observer(Model::getObject("Observer")) ;
+
+        /// get the ship and set initial angular speed
+        Model::Mobile* ship(Model::getObject("Vaisseau")->getTrait<Model::Mobile>()) ;
+        CPPUNIT_ASSERT(ship) ;
+        
+        /// one turn per second along the y axis
+        ship->setAngularSpeed(Model::AngularSpeed::TurnPerSecond(0,1,0)) ;
+
+        Model::addTrait(Model::getObject("Vaisseau"),new Model::Stabilizer(0,3,0)) ;
+     
+        /// build a physical viewpoint        
+        Kernel::ControlerSet* physics = Physic::build(observer) ;
+        physics->init() ;
+
+        /// store the orientation before "rotation"
+        Ogre::Quaternion initial_orientation =
+          Model::getObject("Vaisseau")->getTrait<Model::Positionned>()
+          ->getOrientation().getQuaternion() ;
+
+        InternalMessage(std::string("testStabilizer initial orientation") 
+                                        + " w=" + toString(initial_orientation.w) 
+                                        + ",x=" + toString(initial_orientation.x) 
+                                        + ",y=" + toString(initial_orientation.y) 
+                                        + ",z=" + toString(initial_orientation.z)) ; 
+
+
+        /// simulation during 1 seconds --> rotation should stop....
+        const int steps_number = 10000 ; 
+        for(int i = 1 ; i <= steps_number ; ++i)
+        {
+          Physic::update(Model::Duration::Second(20.0/steps_number)) ;
+        }
+        
+                
+        /// check that angular speed is null.
+        Ogre::Vector3 final_angular_speed = 
+          Model::getObject("Vaisseau")->getTrait<Model::Mobile>()
+          ->getAngularSpeed().TurnPerSecond() ;
+        
+        std::cout <<"final_angular_speed=" << final_angular_speed << std::endl ;
+        
+        CPPUNIT_ASSERT(equal(0,final_angular_speed[0]) && 
+                       equal(0,final_angular_speed[1]) &&
+                       equal(0,final_angular_speed[2])) ;
+        
+
+
+        Physic::close() ;
+        Model::close() ;
+
+        InternalMessage("Physic::Test::testSimulate::testStabilizer leaving") ;
+        
+      }
+
+      void TestDemonstration::testNegativeStabilizer()
+      {
+        InternalMessage("Physic::Test::TestDemonstration::testStabilizer Entering") ;
+        Model::init() ;
+        Model::load("TestDemonstration") ;
+        Physic::init() ;
+        Object* observer(Model::getObject("Observer")) ;
+
+        /// get the ship and set initial angular speed
+        Model::Mobile* ship(Model::getObject("Vaisseau")->getTrait<Model::Mobile>()) ;
+        CPPUNIT_ASSERT(ship) ;
+        
+        /// one turn per second along the y axis
+        ship->setAngularSpeed(Model::AngularSpeed::TurnPerSecond(0,1,0)) ;
+        
+        /// a stabilizer in an orthogonal direction form rotation.
+        Model::addTrait(Model::getObject("Vaisseau"),new Model::Stabilizer(3,0,0)) ;
+     
+        /// build a physical viewpoint        
+        Kernel::ControlerSet* physics = Physic::build(observer) ;
+        physics->init() ;
+
+        /// simulation during 1 seconds --> rotation should stop....
+        const int steps_number = 100 ; 
+        for(int i = 1 ; i <= steps_number ; ++i)
+        {
+          Physic::update(Model::Duration::Second(5.0/steps_number)) ;
+        }
+        
+                
+        /// check that angular speed is still the same.
+        Ogre::Vector3 final_angular_speed = 
+          Model::getObject("Vaisseau")->getTrait<Model::Mobile>()
+          ->getAngularSpeed().TurnPerSecond() ;
+        
+        std::cout <<"final_angular_speed=" << final_angular_speed << std::endl ;
+        
+        CPPUNIT_ASSERT(equal(0,final_angular_speed[0]) && 
+                       equal(1,final_angular_speed[1]) &&
+                       equal(0,final_angular_speed[2])) ;
+        
+
+
+        Physic::close() ;
+        Model::close() ;
+
+        InternalMessage("Physic::Test::TestDemonstration::testStabilizer leaving") ;
+        
       }
 
       void TestDemonstration::setUp() 

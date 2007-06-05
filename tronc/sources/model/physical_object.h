@@ -20,6 +20,7 @@
 #ifndef PU_MODEL_PHYSICAL_OBJECT_H_
 #define PU_MODEL_PHYSICAL_OBJECT_H_
 
+#include <kernel/object.h>
 #include <kernel/deduced_trait.h>
 
 namespace ProjetUnivers {
@@ -27,7 +28,13 @@ namespace ProjetUnivers {
 
     /// For objects that are physical.
     class PhysicalObject : public Kernel::DeducedTrait
-    {};
+    {
+    public:
+      
+      /// Access to the physical world of the object.
+      Kernel::Object* getPhysicalWorld() const ;
+      
+    };
   }
 }
 

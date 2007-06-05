@@ -20,9 +20,7 @@
 
 #include <stdio.h>
 
-#include <rlog/rlog.h>
-#include <rlog/StdioNode.h>
-#include <rlog/RLogChannel.h>
+#include <kernel/log.h>
 
 namespace ProjetUnivers {
 
@@ -70,21 +68,6 @@ namespace ProjetUnivers {
   
       }
 
-      void ErrorMessage(const std::string& _message)
-      {
-        rError(_message.c_str()) ;
-      }
-      
-      /// Trace un message d'information.
-      void InformationMessage(const std::string& _message)
-      {
-        rLog(RLOG_CHANNEL("ProjetUnivers"), _message.c_str()) ;
-      }
-
-      void InternalMessage(const std::string& _message)
-      {
-        rDebug(_message.c_str()) ;
-      }
 
 
     }

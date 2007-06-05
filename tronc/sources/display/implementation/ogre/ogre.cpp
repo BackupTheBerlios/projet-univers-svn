@@ -180,7 +180,7 @@ namespace ProjetUnivers {
 
           ResourceGroupManager::getSingleton().initialiseAllResourceGroups() ;
           
-          Kernel::Log::InternalMessage("Ogre launched") ;
+          InternalMessage("Ogre launched") ;
           
           // voila, ca a marché
           return true ;
@@ -190,10 +190,10 @@ namespace ProjetUnivers {
         {
           if (root)
           {
-            Kernel::Log::InternalMessage("stopping Ogre..") ;
+            InternalMessage("stopping Ogre..") ;
             delete root ;
             root = NULL ;  
-            Kernel::Log::InternalMessage("...Ogre stopped") ;
+            InternalMessage("...Ogre stopped") ;
             
           }
           
@@ -207,6 +207,7 @@ namespace ProjetUnivers {
         void update()
         {
           /// cf. http://www.ogre3d.org/phpBB2/viewtopic.php?t=2733
+          ::Ogre::PlatformManager::getSingleton().messagePump(window);
           root->_fireFrameStarted();
           window->update() ;
           root->_fireFrameEnded();   

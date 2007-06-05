@@ -17,41 +17,64 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_PHYSIC_IMPLEMENTATION_REAL_WORLD_VIEW_POINT_H_
-#define PU_PHYSIC_IMPLEMENTATION_REAL_WORLD_VIEW_POINT_H_
+#ifndef PU_PHYSIC_IMPLEMENTATION_ODE_TORQUE_GENERATOR_H_
+#define PU_PHYSIC_IMPLEMENTATION_ODE_TORQUE_GENERATOR_H_
 
-#include <kernel/view_point.h>
+#include <kernel/controler.h>
+#include <kernel/object.h>
 
+#include <model/torque_generator.h>
+
+#include <physic/implementation/ode/physic_system.h>
 
 namespace ProjetUnivers {
   namespace Physic {
     namespace Implementation {
       namespace Ode {
-
-        /// 
+        
+        class PhysicalWorld ;
+        class PhysicalObject ;
+              
+        /// .
         /*!
-          @todo find a better name
+          @see Model::TorqueGenerator
         */
-        class RealWorldViewPoint : public Kernel::ViewPoint
+        class TorqueGenerator : public Kernel::Controler<Model::TorqueGenerator,
+                                                         PhysicSystem>
         {
         public:
-        
-          RealWorldViewPoint(Kernel::Object* i_observer) ;
+
+          /// constructor.
+          TorqueGenerator(Model::TorqueGenerator*,PhysicSystem*) ;
           
-          /// Create a ODE world.
-          virtual void onInit() ;
-
-          /// Destroy the ODE world.
-          virtual void onClose() ;
-
+          /// simulation
+          virtual void prepare() ;
+          
         protected:
+        
+          /// Called after the view is created on a initialised viewpoint.
+          virtual void onInit() ;
           
-          virtual bool isVisible(Kernel::Object* i_object) const ;  
+          /// Called just before the view is destroyed.
+          virtual void onClose() ;
+    
+          /// Called when parent changed.
+          virtual void onChangeParent(Kernel::Object* i_old_parent) ;
           
+          /// Called when the model trait has changed.
+          virtual void onUpdate() ;
+        
+        private:
+
+          /// Calculate the object on which this torque applies. 
+          PhysicalObject* determineObject() const ;
+
+          PhysicalWorld*  m_world ;
+          PhysicalObject* m_object ;
         };
       }
     }
   }
 }
 
-#endif /*PU_PHYSIC_IMPLEMENTATION_REAL_WORLD_VIEW_POINT_H_*/
+#endif /*PU_PHYSIC_IMPLEMENTATION_ODE_TORQUE_GENERATOR_H_*/

@@ -20,9 +20,9 @@
 #ifndef PU_PHYSIC_IMPLEMENTATION_ODE_SOLID_H_
 #define PU_PHYSIC_IMPLEMENTATION_ODE_SOLID_H_
 
-#include <kernel/trait_view.h>
+#include <kernel/controler.h>
 #include <model/solid.h>
-#include <physic/implementation/ode/real_world_view_point.h>
+#include <physic/implementation/ode/physic_system.h>
 
 class dGeom ;
 
@@ -37,13 +37,13 @@ namespace ProjetUnivers {
             probably rename
             its a view on Solid and Positionned, i.e PhysicalVolume
         */
-        class Solid : public Kernel::TraitView<Model::Solid,
-                                               RealWorldViewPoint>
+        class Solid : public Kernel::Controler<Model::Solid,
+                                               PhysicSystem>
         {
         public:
 
           /// constructor.
-          Solid(Model::Solid*,RealWorldViewPoint*) ;
+          Solid(Model::Solid*,PhysicSystem*) ;
 
         protected:
         
