@@ -30,10 +30,10 @@ namespace ProjetUnivers {
   */
   // @{
 
-    /// Accès aux descripteur de la fenetre d'affichage
+    /// Access to window handle.
     size_t getWindowHandle() ;
 
-    /// Accès à la taille de la fenêtre
+    /// Access to window size.
     void getWindowSize(unsigned int& width,
                        unsigned int& height,
                        unsigned int& depth,

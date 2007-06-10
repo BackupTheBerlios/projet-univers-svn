@@ -88,9 +88,10 @@ namespace ProjetUnivers {
 
     void update(const Model::Duration& i_duration)    
     {
-      if (initialised && m_system.get())
+      float seconds = i_duration.Second() ;
+      if (initialised && m_system.get() && seconds != 0)
       {
-        m_system->simulate(i_duration.Second()) ;
+        m_system->simulate(seconds) ;
       }
     }
 

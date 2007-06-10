@@ -25,9 +25,9 @@
 namespace ProjetUnivers {
   namespace Model {
 
-    /// Une acceleration.
+    /// An acceleration.
     /*!
-      C'est un vecteur d'accélération.
+      It is a vector.
     @par Etat
       planning
     */
@@ -35,39 +35,39 @@ namespace ProjetUnivers {
     public:
     
     // *************************
-    /// @name Constructeurs
+    /// @name Construct
     // *************************      
     // @{  
 
      
-      /// Acceleration nulle.
+      /// Null acceleration.
       Acceleration() ;
 
-      /// Constructeur de copie.
+      /// Copy constructor.
       Acceleration(const Acceleration&) ;
 
       /// Constructeur avec des m.s^-2
 //      Acceleration MetreSecondesMoins2(const float& _ms2, const Vecteur&) ;
 
 
-      /// Calcul
+      /// Calculus
       Acceleration operator +(const Acceleration&) const ;
 
-      /// Calcul
+      /// Calculus
       Acceleration operator -(const Acceleration&) const ;
       
-      /// Calcul
+      /// Calculus
       Acceleration operator *(const float&) const ;
 
       
     // @}
     // *************************
-    /// @name Accès
+    /// @name Access
     // *************************      
     // @{  
        
      
-      /// Donne l'acceleration en m.s-2.
+      /// Convert to en m.s-2.
       float MeterPerSecondSquared() const ;
 
 
@@ -75,10 +75,10 @@ namespace ProjetUnivers {
     
     private:
     
-      /// Les différentes unités de mesure
+      /// Mesure units
       typedef enum 
       {
-        /// L'unité m.s^-2
+        /// Unit is m.s^-2
         _MeterPerSecondSquared, 
         
       } Unit ;

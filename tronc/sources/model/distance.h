@@ -32,22 +32,15 @@ namespace ProjetUnivers {
     
     class Position ;
       
-    /// Une distance éloignant deux points.
-    
+    /// A distance between 2 points.
     /*!  
-      La distance est stockée dans n'importe quelle unité pour des raisons de 
-      précision. Ainsi, de grandes distances pouront être stokées en parsecs et
-      de petites distances en mètres.
-
-      Type de classe :
-      - Valeur
     */
     class Distance 
     {
     public:
     
     // ********************
-    /// @name Constructeurs
+    /// @name Constructs
     // ********************
     // @{   
     
@@ -59,19 +52,19 @@ namespace ProjetUnivers {
 
       } Unit ;
 
-      /// Distance nulle.
+      /// Null distance.
       Distance() ;
       
-      /// Constructeur de copie.
+      /// Copy constructor.
       Distance(const Distance&) ;
 
-      /// Constructeur unité, valeur
+      /// Constructor with unit and value.
       Distance(const Unit&, const float&) ;
     
-      /// Calcul
+      /// Calculus
       Distance operator +(const Distance&) const ;
 
-      /// Calcul
+      /// Calculus
       Distance operator -(const Distance&) const ;
 
 
@@ -84,19 +77,19 @@ namespace ProjetUnivers {
     // @{
       
 
-      /// Convertit la distance en parsecs.
+      /// Convert to parsecs.
       float Parsec() const ; 
       
-      /// Convertit la distance en mètres.
+      /// Convert to meters.
       float Meter() const ; 
       
-      /// Convertit la distance en années lumières.
+      /// Convert to light years.
       float LightYear() const ; 
 
     
     // @}    
     // ************
-    /// @name Accès
+    /// @name Access
     // ************
     // @{
       
@@ -106,10 +99,10 @@ namespace ProjetUnivers {
     private:
     
 
-      /// Valeur.
+      /// value.
       float m_value ;
   
-      /// Unité de la distance
+      /// Unit of m_value.
       Unit  m_unit ;    
 
       /// Internal unit conversions.

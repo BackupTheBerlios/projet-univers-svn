@@ -26,23 +26,20 @@
 namespace ProjetUnivers {
   namespace Model {
     
-    /// Représente un système stellaire.
+    /// Trait for object that are stellar system.
     /*!
       @par Etat
         planning
+      
+      @todo :
+        make it a deduced trait like : hasChild(Star)
     */
     class StellarSystem : public Kernel::Trait 
     {
     public:
 
-    // *******************
-    /*! 
-      @name Constructeur
-    */
-    // *******************
-    // @{
 
-      /// Constructeur.
+      /// Construct.
       StellarSystem() ;
 
     };

@@ -27,22 +27,22 @@
 namespace ProjetUnivers {
   namespace Model {
 
-    /// Erreurs dans Model.
+    /// For errors in Model.
     class Exception
     {
     public:
     
-      /// Constructeur de copie.
+      /// Copy.
       Exception(const Exception&) ;
       
-      /// Construction.
+      /// Construct.
       Exception(const std::string&) ;
       
       virtual ~Exception() ;
     
     protected:
     
-      /// Message de l'erreur.
+      /// Error message.
       std::string message ;
     
 

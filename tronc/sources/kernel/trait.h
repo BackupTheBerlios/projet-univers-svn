@@ -388,7 +388,7 @@ namespace ProjetUnivers {
       InternalMessage(
         (std::string("Trait::getControler for ") + toString((int)i_controler_set)).c_str()) ;
       
-      std::map<ControlerSet*,BaseControler*>::const_iterator 
+      std::multimap<ControlerSet*,BaseControler*>::const_iterator 
         finder = m_controlers.find(i_controler_set) ;
       
       if (finder != m_controlers.end()) 

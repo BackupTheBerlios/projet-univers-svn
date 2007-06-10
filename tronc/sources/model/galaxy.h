@@ -31,7 +31,7 @@ namespace ProjetUnivers {
     
     class StellarSystem ;
       
-    /// Une galaxie.
+    /// A galaxy.
     /*!
     @par Etat
       planning
@@ -41,12 +41,10 @@ namespace ProjetUnivers {
     {
     public:
 
-      /// Constructeur.
+      /// Construc.
       Galaxy(const Name& _nom) ;
       
-      /// Ajoute un nouveau système
-      void add(StellarSystem* _system) ;
-      
+     
       
     private:
       

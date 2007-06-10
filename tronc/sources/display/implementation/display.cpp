@@ -39,7 +39,7 @@ namespace ProjetUnivers {
 
     struct LocalMemory 
     {
-      /// Les points de vue gérés par l'affichage.
+      /// Display view points.
       /*!
         @composite
       */
@@ -110,7 +110,6 @@ namespace ProjetUnivers {
       return Implementation::Ogre::getWindowHandle() ;
     }
 
-    /// Accès à la taille de la fenêtre
     void getWindowSize(unsigned int& width,
                        unsigned int& height,
                        unsigned int& depth,
@@ -122,14 +121,12 @@ namespace ProjetUnivers {
       Implementation::Ogre::getWindowSize(width,height,depth,left,top) ;
     }
 
-    /// Ajoute un point de vue.
     Kernel::ViewPoint* addViewPoint(Kernel::ViewPoint* _pdv)
     {
       local.viewPoints.insert(_pdv) ;
       return _pdv ;
     }
 
-    /// 
     void desactivateViewPoint(Kernel::ViewPoint* _pdv)
     {
       if (_pdv)
@@ -139,7 +136,6 @@ namespace ProjetUnivers {
     }
 
 
-    /// Supprime le point de vue.
     void removeViewPoint(Kernel::ViewPoint* _pdv)
     {
       if (active == _pdv)
@@ -156,7 +152,7 @@ namespace ProjetUnivers {
     
     
     
-    /// Le point de vue devient celui actif.
+    /// @c i_viewpoint becomes the active viewpoint.
     void activateViewPoint(Implementation::RealWorldViewPoint* i_viewpoint)
     {
       if (i_viewpoint)

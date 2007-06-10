@@ -79,6 +79,8 @@ namespace ProjetUnivers {
         void PhysicalWorld::simulate(const float& i_seconds)
         {
           InternalMessage("PhysicalWorld::simulate " + getObject()->getName() + " Entering") ;
+          InformationMessage("PhysicalWorld::simulate " + toString((float)i_seconds)) ;
+          
           /// simulate
           if (m_world)
           {

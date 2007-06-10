@@ -29,7 +29,7 @@ namespace ProjetUnivers {
   namespace Model {
     
       
-    /// Propriété des objets étant une étoile.
+    /// Trait for objects that are star.
     /*!
     @par Etat
       planning
@@ -39,7 +39,7 @@ namespace ProjetUnivers {
     public:
 
 
-      /// Constructeur.
+      /// Construct.
       Star(const Name& ) ;
       
       

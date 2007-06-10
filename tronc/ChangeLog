@@ -112,3 +112,11 @@
   Demonstration :
   * usage of stabilizer to slowly stop rotation of one of the ships
  	
+2007-06-10 rogma <rogma.boami@free.fr>
+ 	
+ 	Diverse : 
+ 	* all : some french comments turned into english
+ 	* added codeblocks project for windows compilation
+ 	* remove a bug in kernel
+ 	* small changes in log
+ 	

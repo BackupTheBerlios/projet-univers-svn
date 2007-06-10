@@ -27,10 +27,8 @@ namespace ProjetUnivers {
   namespace Model {
     
     
-    /// Représente une forme en 3d.
+    /// A 3d mesh.
     /*!
-    @par Type de classe
-    - Valeur
       
     */
     class Mesh
@@ -38,24 +36,24 @@ namespace ProjetUnivers {
     public:
     
     /*!
-      @name Construction
+      @name Construct
     */
     // @{
     
-      /// Constructeur.
+      /// Construct.
       Mesh(const std::string& _name) ;
       
-      /// Constructeur de copie.
+      /// Copy.
       Mesh(const Mesh&) ;
       
             
     // @}
     /*!
-      @name Accès
+      @name Access
     */
     // @{
     
-      /// Acès au nom.
+      /// Access to name.
       std::string getName() const ;
       
             
@@ -64,7 +62,7 @@ namespace ProjetUnivers {
     
     private:
     
-      /// Identificateur.
+      /// Mesh name.
       std::string name ;
             
     };

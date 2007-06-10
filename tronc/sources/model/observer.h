@@ -25,12 +25,12 @@
 namespace ProjetUnivers {
   namespace Model {
 
-    /// Propriété des objets pouvant observer.
+    /// Trait of object that can observe.
     class Observer : public Kernel::Trait
     {
     public:
 
-      /// Constructeur.
+      /// Construct.
       Observer() ;
 
     };

@@ -22,6 +22,7 @@
 					<Add library="rlog" />
 					<Add library="kernel" />
 					<Add library="model" />
+					<Add library="physicode" />
 				</Linker>
 			</Target>
 		</Build>

@@ -32,10 +32,10 @@ namespace ProjetUnivers {
 
     
       
-    /// Propriété des objets pouvant subir des dégâts et être détruits.
+    /// Trait for objects that can be damaged.
     /*!
     @todo
-      Cette classe n'est qu'un squelette, implanter tache 2378.
+      implement tache 2378.
     @par Etat
       planning
     */
@@ -43,27 +43,27 @@ namespace ProjetUnivers {
     {
     public:
 
-      /// Construit à neuf.
+      /// Build a new.
       Destroyable(const Energy& _pointsDeVieTotal) ;
    
     /*!
-      @name Méthodes principales
+      @name Principal methods
     */
     // @{
    
-      /// Valeur de point de vie en pourcentage.
+      /// Get a percentage of life points.
       /*!
-        100% correspond à un objet neuf
-        0% à un objet détruit
+        - 100% means a brand new
+        - 0%  means a completely destroyed one
       */
       float getLife() const ;
    
-      /// Fait dubir un dégat d'une certaine quantité d'énergie.
+      /// Damage the element.
       void damage(const Energy& _energy) ;
    
     // @}
    
-      /// Classe abstraite donc destructeur virtuel.
+      /// Abstact class means virtual destructor.
       virtual ~Destroyable() ;
     
    
@@ -71,10 +71,10 @@ namespace ProjetUnivers {
 
 
       
-      /// Enérgie nécéssaire à sa destruction
+      /// Energy to completelly destroy the element == total life points.
       Energy totalResistance ;
       
-      /// Energy restante.
+      /// Remaining energy.
       Energy resistance ;
 
 

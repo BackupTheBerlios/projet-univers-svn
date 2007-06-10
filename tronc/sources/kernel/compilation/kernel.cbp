@@ -46,15 +46,20 @@
 			<Add option="--enable-auto-import" />
 			<Add directory="$(OGRE_HOME)\bin\release" />
 		</Linker>
+		<Unit filename="..\implementation\base_controler.cpp" />
 		<Unit filename="..\implementation\base_trait_view.cpp" />
+		<Unit filename="..\implementation\controler.cpp" />
+		<Unit filename="..\implementation\controler_set.cpp" />
 		<Unit filename="..\implementation\deduced_trait.cpp" />
 		<Unit filename="..\implementation\exception.cpp" />
 		<Unit filename="..\implementation\exception_kernel.cpp" />
 		<Unit filename="..\implementation\log.cpp" />
+		<Unit filename="..\implementation\meta.cpp" />
 		<Unit filename="..\implementation\model.cpp" />
 		<Unit filename="..\implementation\object.cpp" />
 		<Unit filename="..\implementation\pretty_print.cpp" />
 		<Unit filename="..\implementation\string.cpp" />
+		<Unit filename="..\implementation\timer.cpp" />
 		<Unit filename="..\implementation\trait.cpp" />
 		<Unit filename="..\implementation\trait_view.cpp" />
 		<Unit filename="..\implementation\view_point.cpp" />

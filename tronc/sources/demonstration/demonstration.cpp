@@ -69,8 +69,15 @@ int main() {
   while (! Action::finished())
   {
     Input::update() ;
-    Model::Duration elapsed(Model::Duration::Second(timer.getSecond())) ;
-    timer.reset() ;
+    float seconds = timer.getSecond() ;
+    Model::Duration elapsed(Model::Duration::Second(seconds)) ;
+    
+    /// ...accuracy problem...
+    if (seconds != 0)
+    {
+      timer.reset() ;
+    }
+    
     Physic::update(elapsed) ;
     Action::update() ;
     Display::update() ;

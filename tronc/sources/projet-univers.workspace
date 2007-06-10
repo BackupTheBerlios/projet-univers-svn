@@ -21,6 +21,23 @@
 			<Depends filename="kernel\compilation\kernel.cbp" />
 			<Depends filename="model\compilation\model.cbp" />
 		</Project>
+		<Project filename="physic\compilation\ode\physicode.cbp">
+			<Depends filename="kernel\compilation\kernel.cbp" />
+			<Depends filename="model\compilation\model.cbp" />
+		</Project>
+		<Project filename="physic\compilation\physic.cbp">
+			<Depends filename="kernel\compilation\kernel.cbp" />
+			<Depends filename="model\compilation\model.cbp" />
+		</Project>
+		<Project filename="physic\compilation\test_physic.cbp">
+			<Depends filename="kernel\compilation\kernel.cbp" />
+			<Depends filename="model\compilation\model.cbp" />
+			<Depends filename="physic\compilation\ode\physicode.cbp" />
+			<Depends filename="physic\compilation\physic.cbp" />
+		</Project>
+		<Project filename="kernel\compilation\test_kernel.cbp">
+			<Depends filename="kernel\compilation\kernel.cbp" />
+		</Project>
 		<Project filename="demonstration\compilation\demonstration.cbp" active="1">
 			<Depends filename="kernel\compilation\kernel.cbp" />
 			<Depends filename="action\compilation\action.cbp" />
@@ -28,6 +45,8 @@
 			<Depends filename="model\compilation\model.cbp" />
 			<Depends filename="display\compilation\display.cbp" />
 			<Depends filename="display\compilation\ogre\ogredisplay.cbp" />
+			<Depends filename="physic\compilation\ode\physicode.cbp" />
+			<Depends filename="physic\compilation\physic.cbp" />
 		</Project>
 	</Workspace>
 </CodeBlocks_workspace_file>

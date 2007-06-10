@@ -2,12 +2,12 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="demonstration" />
+		<Option title="test_kernel" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Release">
-				<Option output="..\..\dlls\demonstration.exe" prefix_auto="1" extension_auto="1" />
+				<Option output="..\..\dlls\test_kernel.exe" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj\Release\" />
 				<Option type="0" />
 				<Option compiler="gcc" />
@@ -16,17 +16,10 @@
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
+					<Add library="cppunit" />
 					<Add library="stlport.5.0" />
 					<Add library="rlog" />
-					<Add library="ois" />
-					<Add library="ogredisplay" />
-					<Add library="display" />
 					<Add library="kernel" />
-					<Add library="action" />
-					<Add library="input" />
-					<Add library="model" />
-					<Add library="physic" />
-					<Add library="physicode" />
 				</Linker>
 			</Target>
 		</Build>
@@ -44,7 +37,6 @@
 			<Add option="-DNDEBUG" />
 			<Add directory="..\..\..\sources" />
 			<Add directory="$(OGRE_HOME)\stlport\stlport" />
-			<Add directory="C:\Dev-Cpp\include\ois" />
 			<Add directory="$(OGRE_HOME)\include" />
 		</Compiler>
 		<Linker>
@@ -53,7 +45,12 @@
 			<Add directory="$(OGRE_HOME)\bin\release" />
 			<Add directory="..\..\dlls" />
 		</Linker>
-		<Unit filename="..\demonstration.cpp" />
+		<Unit filename="..\test\test_error.cpp" />
+		<Unit filename="..\test\test_kernel.cpp" />
+		<Unit filename="..\test\test_meta.cpp" />
+		<Unit filename="..\test\test_model_controler.cpp" />
+		<Unit filename="..\test\test_model_view.cpp" />
+		<Unit filename="..\test\test_deduced_trait.cpp" />
 		<Extensions>
 			<code_completion />
 		</Extensions>

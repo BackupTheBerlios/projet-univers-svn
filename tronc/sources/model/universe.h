@@ -28,14 +28,14 @@ namespace ProjetUnivers {
   namespace Model {
     
     
-    /// Propriété d'un objet d'être un univers.
+    /// for objects that represent a universe.
     /*!
     */
     class Universe : public Kernel::Trait 
     {
     public:
 
-      /// Constructeur.
+      /// Construct.
       Universe() ;
       
     private:

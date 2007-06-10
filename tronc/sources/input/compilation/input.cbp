@@ -42,6 +42,7 @@
 			<Add directory="..\..\..\sources" />
 			<Add directory="$(OGRE_HOME)\stlport\stlport" />
 			<Add directory="C:\Dev-Cpp\include\ois" />
+			<Add directory="$(OGRE_HOME)\include" />
 		</Compiler>
 		<Linker>
 			<Add option="-Wl,--enable-auto-image-base" />

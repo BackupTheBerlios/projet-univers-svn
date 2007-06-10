@@ -27,37 +27,30 @@ namespace ProjetUnivers {
   namespace Model {
 
       
-    /// Un nom.
-    
+    /// A name.
     /*!
-      Cette classe de valeur est un exemple de ce qu'il faut préférer. Au lieu 
-      de dire "un nom est une chaine" et utiliser une chaine partout où on veut 
-      un nom, on a définit une classe des noms et on la réalise avec une chaine 
-      sachant que plus tard, on pourra faire autrement.
-      
-      @todo
-        ajouter 
+
     */
     class Name
     {
     public:
 
-      /// Constructeur par défaut.
+      /// Construct.
       /*!
-        Construit le nom indéfini.
+        The name is undefined.
       */
       Name() ;
       
-      
+      //: Basic construct.
       Name(const std::string&) ;
       
       /// Constructeur de copie.
       Name(const Name&) ;
     
-      /// Conversion vers une chaine pour l'affichage.
+      /// Convert to string.
       operator std::string() const ; 
     
-      /// Operateur d'affectation.
+      /// Assignment.
       Name& operator=(const std::string&) ;
       Name& operator=(const Name&) ;
       
@@ -66,20 +59,17 @@ namespace ProjetUnivers {
       bool operator==(const Name&) const ;
       bool operator!=(const Name&) const ;
     
-      /// Vrai si le nom n'en est pas un.
-      /*!
-        C'est le nom de ce qui n'a pas de nom.
-      */
+      /// True iff undefined.
       bool isUndefined() const ;
     
     
     private:
     
-      /// Pour l'instant une simple chaine
+      /// Basic implementation.
       /*!
         @todo
-          Un nom peut varier d'une langue à l'autre :
-          implanter à l'aide d'une fonction des langues vers les chaines
+          for future : map languages to string, because a name can change 
+          according to the language.
         
       */
       std::string name ;

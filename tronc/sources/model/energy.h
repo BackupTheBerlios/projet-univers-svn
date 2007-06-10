@@ -28,7 +28,7 @@ namespace ProjetUnivers {
 
 
 
-    /// Une quantité d'énergie.
+    /// An amount of energy.
     /*!
     @par Etat
       planning
@@ -38,63 +38,63 @@ namespace ProjetUnivers {
     public:
     
     // *************************
-    /// @name Constructeurs
+    /// @name Construct
     // *************************      
     // @{  
 
      
-      /// Energy nulle.
+      /// Null energy.
       Energy() ;
 
-      /// Constructeur de copie.
+      /// Copy constructor.
       Energy(const Energy&) ;
 
-      /// Constructeur avec des Joules
+      /// Joules to energy.
       static Energy Joule(const float& _joules) ;
 
-      /// Constructeur avec des électron-volts
+      /// Electron volt to energy.
       static Energy ElectronVolt(const float& _eV) ;
 
-      /// Affectation
+      /// Assignment.
       Energy& operator=(const Energy&) ;
 
-      /// Calcul
+      /// Calculus
       Energy operator +(const Energy&) const ;
 
-      /// Calcul
+      /// Calculus
       Energy operator -(const Energy&) const ;
       
-      /// Calcul
+      /// Calculus
       float operator /(const Energy&) const ;
 
-      /// Calcul
+      /// Calculus
       Energy operator *(const float&) const ;
 
       
     // @}
     // *************************
-    /// @name Accès
+    /// @name Access
     // *************************      
     // @{  
        
      
-      /// Donne l'énergie en Joules.
+      /// Convert to Joules.
       float Joule() const ;
 
-      /// Comparaison
+      /// Comparison
       bool operator <(const Energy&) const ;
 
     // @}
     
     private:
     
-      /// Les différentes unités de mesure
+      /// Measure units.
       typedef enum 
       {
-        /// L'unité Joule
+        /// Joule
         _Joule, 
         
-        /// L'électron-volt ~= 1,602 177 33 x 10-19 Joules
+        /// Electron-volt ~= 1,602 177 33 x 10-19 Joules
         _eV
       } Unit ;
  
@@ -103,7 +103,7 @@ namespace ProjetUnivers {
       Unit unit ;
   
 
-      /// Méthode interne de conversion d'unités.
+      /// Internal unit conversion.
       static float convert(const Energy& _energy, 
                            const Energy::Unit& _unit) ;
 

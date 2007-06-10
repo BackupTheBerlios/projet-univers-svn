@@ -29,13 +29,14 @@ namespace ProjetUnivers {
   }
 
  
-  /// Le module réalisant l'affichage des objets de Model.
+  /// 3D display of Model objects.
   /*!
-    C'est la View de Model qui réalise l'affichage à l'écran.
+    It is the Model's view responsible for graphic display.
     
-    - l'affichage possède l'écran et la racine
-    - il a des points de vues qui eux possèdent des scene manager
-    - un est affiché (actif), les autres sont maintenus mais ne sont pas affichés
+    Display :
+    - has the screen and the ogre Root
+    - has view points having scene manager
+    - one is displayed (the active one) others are maintained but not displayed. 
   */ 
   namespace Display {
     
