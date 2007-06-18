@@ -36,6 +36,12 @@ namespace ProjetUnivers {
       return m_mesh ;
     }
 
-  
+    float Solid::getDragCoefficient(const Orientation&) const
+    {
+      /*!
+        @todo find a rapid way to calculate 
+      */
+      return 1.0 ;
+    }
   }
 }

@@ -31,6 +31,7 @@
 #include <model/physical_object.h>
 #include <model/physical_world.h>
 #include <model/positionned.h>
+#include <model/oriented.h>
 #include <model/stellar_system.h>
 #include <model/solid.h>
 #include <model/stabilizer.h>
@@ -168,7 +169,7 @@ namespace ProjetUnivers {
           model->addTrait(ship,new Positionned(Position::Meter(0,
                                                                0,
                                                                -500000))) ;
-          
+          model->addTrait(ship,new Oriented()) ;
           model->addTrait(ship,new Solid(Mesh("razor.mesh"))) ;
           model->addTrait(ship,new Mobile()) ;
           model->addTrait(ship,new Massive(Mass::Kilogram(1000))) ;
@@ -181,6 +182,7 @@ namespace ProjetUnivers {
           model->addTrait(ship,new Positionned(Position::Meter(0,
                                                                100000,
                                                                -500000))) ;
+          model->addTrait(ship,new Oriented()) ;
           
           model->addTrait(ship,new Solid(Mesh("razor.mesh"))) ;
           model->addTrait(ship,new Mobile()) ;
@@ -197,6 +199,7 @@ namespace ProjetUnivers {
         model->addTrait(observer,new Positionned(Position::Meter(0,
                                                              0,
                                                              0))) ;
+        model->addTrait(observer,new Oriented()) ;
 
         /// Il a la faculté d'observer
         model->addTrait(observer,new Observer()) ;

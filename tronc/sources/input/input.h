@@ -17,31 +17,33 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#ifndef PU_INPUT_INPUT_H_
+#define PU_INPUT_INPUT_H_
 
-#ifndef _PU_INPUT_INPUT_H_
-#define _PU_INPUT_INPUT_H_
+#include <kernel/object.h>
 
 namespace ProjetUnivers {
 
-  /// Gestion des entrées
+  /// Input management
   /*!
-    Certaines entrées ou combinaisons d'entrées engendrent des actions dans 
-    la pile d'acions à réaliser.
   */
   namespace Input {
    
-    /// Intitailise le module d'entrées
+    /// Intitialize.
     void init() ;
    
-    /// Termine le module.
+    /// Terminate.
     void close() ;
     
-    /// Engendre les actions correspondant aux entrées qui restent dans la pile.
+    /// Build an input system relative to @c i_object.
+    void build(Kernel::Object* i_object) ;
+    
+    
+    /// Capture input and update. 
     /*!
-      La fonction qui associe une entrée ou une combinaison d'entrée avec une 
-      action dépend de l'état dans lequel se trouve ce module. 
+      @param[in] i_seconds time in seconds since last frame. 
     */
-    void update() ;
+    void update(const float& i_seconds) ;
    
     
   }

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Equipe Projet Univers                           *
+ *   Copyright (C) 2007 by Equipe Projet Univers                           *
  *   rogma.boami@free.fr                                                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,25 +17,57 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_SOUND_H_
-#define PU_SOUND_H_
-
+#include <model/ship_control.h>
 
 namespace ProjetUnivers {
-  
+  namespace Model {
+    
+    ShipControl::ShipControl(Oriented* i_stick)
+    : m_stick(i_stick)
+    {}
  
-  /// Sound view of Model.
-  /*!
-    @todo
-      implement...   
-  */ 
-  namespace Sound {
-  
-  
-  
+    Ogre::Vector3 ShipControl::NewtonMeter() const
+    {
+      if (m_stick)
+      {
+        /*!
+          Convert orientation to a torque....
+          
+          @todo : 
+          choose wiselly the correcpondance between pitch/Yaw/Roll and x/y/z
+          and the +/-... seem done ?
+          
+          @todo 
+            multiply result by a sensitivity factor
+          
+          @todo 
+            this is a quite humanly understable calculus :
+            find an optimal one.... 
+        */
+        const Ogre::Quaternion& quaternion 
+          = m_stick->getOrientation().getQuaternion() ;
+        
+        Ogre::Vector3 torque(0,0,0) ;
+        
+        /// up/down
+        torque += Ogre::Vector3::UNIT_X*quaternion.getPitch().valueRadians() ;
+        
+        /// left/rigth
+        torque += Ogre::Vector3::UNIT_Y*quaternion.getYaw().valueRadians() ;        
+        
+        /// rotation
+        torque += Ogre::Vector3::UNIT_Z*quaternion.getRoll().valueRadians() ;
+
+        return torque ;        
+        
+      }
+      else
+      {
+        // Default return value
+        return Ogre::Vector3(0,0,0) ;
+      }
+    }
+      
+    
   }
-  
 }
-
-
-#endif 

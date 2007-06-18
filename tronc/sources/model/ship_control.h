@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Equipe Projet Univers                           *
+ *   Copyright (C) 2007 by Equipe Projet Univers                           *
  *   rogma.boami@free.fr                                                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,25 +17,40 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_SOUND_H_
-#define PU_SOUND_H_
+#ifndef PU_MODEL_SHIP_CONTROL_H_
+#define PU_MODEL_SHIP_CONTROL_H_
 
+#include <model/torque_generator.h>
+#include <model/oriented.h>
 
 namespace ProjetUnivers {
-  
+  namespace Model {
+    
+    /// Change direction of a ship.
+    /*!
+    */
+    class ShipControl : public TorqueGenerator
+    {
+    public:
+
+      /// Constructor.
+      ShipControl(Oriented* i_stick) ;
  
-  /// Sound view of Model.
-  /*!
-    @todo
-      implement...   
-  */ 
-  namespace Sound {
-  
-  
-  
+      /// get the torque in newton.meter.
+      virtual Ogre::Vector3 NewtonMeter() const ;
+      
+    private:
+      
+      /// the stick 
+      /*!
+        it is a normalised orientation of a stick.
+      */ 
+      Oriented* m_stick ;
+      
+    };
+    
+    
   }
-  
 }
 
-
-#endif 
+#endif /*PU_MODEL_SHIP_CONTROL_H_*/

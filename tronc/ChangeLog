@@ -119,4 +119,12 @@
  	* added codeblocks project for windows compilation
  	* remove a bug in kernel
  	* small changes in log
- 	
+
+2007-06-18 rogma <rogma.boami@free.fr>
+	
+	* input : added mouse.h/cpp and mouse control of an oriented object
+	* model : separation of positionned into positionned and orientated, and 
+	  impact on other modules
+	* model : preliminary work on ship control : dragger, shipcontrol traits
+	* display : added 3D line display for tests
+	

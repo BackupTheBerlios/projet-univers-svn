@@ -26,6 +26,7 @@
 
 #include <model/model.h>
 #include <model/positionned.h>
+#include <model/oriented.h>
 #include <model/duration.h>
 #include <model/physical_world.h>
 #include <model/mobile.h>
@@ -279,9 +280,9 @@ namespace ProjetUnivers {
           ship->getControler<Implementation::Ode::PhysicalObject>(physics)->getBody()->id()) ;
 
         /// store the orientation before "rotation"
-        Model::Positionned* positionned(Model::getObject("Vaisseau")->getTrait<Model::Positionned>()) ; 
-        CPPUNIT_ASSERT(positionned) ;
-        Ogre::Quaternion initial_orientation(positionned->getOrientation().getQuaternion()) ;
+        Model::Oriented* oriented(Model::getObject("Vaisseau")->getTrait<Model::Oriented>()) ; 
+        CPPUNIT_ASSERT(oriented) ;
+        Ogre::Quaternion initial_orientation(oriented->getOrientation().getQuaternion()) ;
         
         /// because of approximation of ode, have to split the second in small steps
         const int steps_number = 1000 ; 
@@ -291,7 +292,7 @@ namespace ProjetUnivers {
         }
         
         /// check new orientation
-        Ogre::Quaternion final_orientation(positionned->getOrientation().getQuaternion()) ;
+        Ogre::Quaternion final_orientation(oriented->getOrientation().getQuaternion()) ;
 
         // check that object has rotated a whole turn
         CPPUNIT_ASSERT( equal(-1,final_orientation.w) &&
@@ -334,9 +335,9 @@ namespace ProjetUnivers {
           ship->getControler<Implementation::Ode::PhysicalObject>(physics)->getBody()->id()) ;
 
         /// store the orientation before "rotation"
-        Model::Positionned* positionned(Model::getObject("Vaisseau")->getTrait<Model::Positionned>()) ; 
-        CPPUNIT_ASSERT(positionned) ;
-        Ogre::Quaternion initial_orientation(positionned->getOrientation().getQuaternion()) ;
+        Model::Oriented* oriented(Model::getObject("Vaisseau")->getTrait<Model::Oriented>()) ; 
+        CPPUNIT_ASSERT(oriented) ;
+        Ogre::Quaternion initial_orientation(oriented->getOrientation().getQuaternion()) ;
         
         
         /// because of approximation of ode, have to split the second in small steps
@@ -347,7 +348,7 @@ namespace ProjetUnivers {
         }
         
         /// check new orientation
-        Ogre::Quaternion final_orientation(positionned->getOrientation().getQuaternion()) ;
+        Ogre::Quaternion final_orientation(oriented->getOrientation().getQuaternion()) ;
         
         // check that object has rotated a whole turn
         CPPUNIT_ASSERT( equal(0,final_orientation.w) &&
@@ -439,7 +440,7 @@ namespace ProjetUnivers {
 
         /// store the orientation before "rotation"
         Ogre::Quaternion initial_orientation =
-          Model::getObject("Vaisseau")->getTrait<Model::Positionned>()
+          Model::getObject("Vaisseau")->getTrait<Model::Oriented>()
           ->getOrientation().getQuaternion() ;
 
         InternalMessage(std::string("testStabilizer initial orientation") 

@@ -79,6 +79,12 @@ namespace ProjetUnivers {
       m_unit(i_unit)
     {}
 
+    Force Force::operator*(const float& i_factor) const
+    {
+      Force result(*this) ;
+      result.m_value *= i_factor ;
+      return result ;
+    }
 
   }
 }

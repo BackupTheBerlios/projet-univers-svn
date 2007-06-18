@@ -43,7 +43,7 @@ namespace ProjetUnivers {
       void setForce(const Force& i_force) ;
       
       /// Get the force.
-      const Force& getForce() const ;
+      virtual Force getAppliedForce() const ;
  
     private:
     

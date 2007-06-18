@@ -34,7 +34,7 @@ namespace ProjetUnivers {
     : m_orientation(_orientation)
     {}
 
-    Ogre::Quaternion Orientation::getQuaternion() const 
+    const Ogre::Quaternion& Orientation::getQuaternion() const 
     {
       return m_orientation ;
     }

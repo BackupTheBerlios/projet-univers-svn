@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Equipe Projet Univers                           *
+ *   Copyright (C) 2007 by Equipe Projet Univers                           *
  *   rogma.boami@free.fr                                                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,8 +17,6 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-
-
 #ifndef _DISPLAY_IMPLEMENTATION_OGRE_POSITIONNED_H_
 #define _DISPLAY_IMPLEMENTATION_OGRE_POSITIONNED_H_
 
@@ -36,31 +34,31 @@ namespace ProjetUnivers {
 
         class ViewPoint ;
         
-        /// View sur les éléments ayant une position.
+        /// View on object that have a position in space.
         class Positionned : public Kernel::TraitView<Model::Positionned,
                                                      RealWorldViewPoint>
         {
         public:
 
-          /// Constructeur.
+          /// Construct.
           Positionned(Model::Positionned* _object,
                       RealWorldViewPoint* i_viewpoint) ;
 
-          /// get au noeud.
+          /// get scene node.
           /*!
-            Initialise la vue si cela n'a pas été fait.
+            Init the view if necessary.
           */
           ::Ogre::SceneNode* getNode() ;
 
         protected:
         
-          /// Initialise la vue.
+          /// Build a scene node.
           virtual void onInit() ;
 
           /// Destroy the node.
           virtual void onClose() ;
         
-          /// Position/Orientation update.
+          /// Position update.
           virtual void onUpdate() ;
           
           /// must detach/reattach node.
@@ -69,8 +67,8 @@ namespace ProjetUnivers {
           
         private:
           
-          /// Noeud dans la scène.
-          ::Ogre::SceneNode* node ;
+          /// Scene node.
+          ::Ogre::SceneNode* m_node ;
 
         };
 

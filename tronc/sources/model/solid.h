@@ -24,7 +24,7 @@
 
 #include <kernel/trait.h>
 #include <model/mesh.h>
-
+#include <model/orientation.h>
 
 namespace ProjetUnivers {
   namespace Model {
@@ -40,7 +40,13 @@ namespace ProjetUnivers {
       
       /// Access to 3D model.
       Mesh getMesh() const ;
-      
+
+      /// Calculate the drag coefficient for the solid.
+      /*!
+        @see : 
+          http://en.wikipedia.org/wiki/Drag_coefficient
+      */
+      float getDragCoefficient(const Orientation&) const ;      
 
     private:
       

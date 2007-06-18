@@ -46,7 +46,6 @@ int main() {
   Physic::init() ;
   Display::init() ;
   Action::init() ;
-  Input::init() ;
 
   InformationMessage("Modules initialisés") ;
 
@@ -58,7 +57,9 @@ int main() {
   Display::buildRealWorldViewPoint(observer) ;
   Physic::build(observer) ;
   Physic::init() ;
-  
+
+  Input::build(observer) ;
+  Input::init() ;
   InternalMessage("Activating Viewpoint") ;
 
   InformationMessage("Demarrage de la boucle principale") ;
@@ -68,9 +69,9 @@ int main() {
   /// boucle principale
   while (! Action::finished())
   {
-    Input::update() ;
     float seconds = timer.getSecond() ;
     Model::Duration elapsed(Model::Duration::Second(seconds)) ;
+    Input::update(seconds) ;
     
     /// ...accuracy problem...
     if (seconds != 0)

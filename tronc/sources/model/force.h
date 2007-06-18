@@ -54,7 +54,9 @@ namespace ProjetUnivers {
       /// Calculus
       Force operator -(const Force&) const ;
 
-      
+      /// Calculus
+      Force operator*(const float&) const ;
+
     // @}
     /// @name Convertions
     // @{

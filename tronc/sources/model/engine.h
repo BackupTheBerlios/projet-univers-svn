@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Equipe Projet Univers                           *
+ *   Copyright (C) 2007 by Equipe Projet Univers                           *
  *   rogma.boami@free.fr                                                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,25 +17,54 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_SOUND_H_
-#define PU_SOUND_H_
+#ifndef PU_MODEL_ENGINE_H_
+#define PU_MODEL_ENGINE_H_
+
+
+#include <model/force_generator.h>
+#include <model/force.h>
 
 
 namespace ProjetUnivers {
-  
+  namespace Model {
+    
+    /// Ship/Other objects engine.
+    /*!
+    */
+    class Engine : public ForceGenerator
+    {
+    public:
+
+      /// Constructor.
+      Engine(const Force& i_force) ;
  
-  /// Sound view of Model.
-  /*!
-    @todo
-      implement...   
-  */ 
-  namespace Sound {
-  
-  
-  
+      /// Get the force.
+      /*!
+        @remark may be null even at full thrust. In order to keep a 
+        "standard" gameplay, speed is limitted.
+         
+      */
+      virtual Force getAppliedForce() const ;
+      
+    private:
+      
+      /// Thrust axis and "force". 
+      /*!
+        Relative to parent physical object.
+        Norm is 
+      */
+      Force m_full_thrust ;
+      
+      /*!
+        - 0 --> does not push
+        - 100 --> full thrust 
+      */
+      int m_percentage_thrust ;
+      
+    };
+    
+    
   }
-  
 }
 
-
-#endif 
+#endif /*PU_MODEL_ENGINE_H_*/

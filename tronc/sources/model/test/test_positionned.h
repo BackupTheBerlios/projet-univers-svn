@@ -40,14 +40,8 @@ namespace ProjetUnivers {
         /// Test Model::Positionned::getPosition(Kernel::Object*).
         void testGetPosition() ;
 
-        /// Test Model::Positionned::getOrientation(Kernel::Object*).
-        void testGetOrientation() ;
-
         /// Test Model::Positionned::setPosition(Position,Object*).
         void testSetAbsolutePosition() ;
-
-        /// Test Model::Positionned::setOrientation(Position,Object*).
-        void testSetAbsoluteOrientation() ;
 
            
       // @}
@@ -59,9 +53,7 @@ namespace ProjetUnivers {
         CPPUNIT_TEST_SUITE(TestPositionned) ;
       
         CPPUNIT_TEST(testGetPosition) ;
-        CPPUNIT_TEST(testGetOrientation) ;
         CPPUNIT_TEST(testSetAbsolutePosition) ;
-        CPPUNIT_TEST(testSetAbsoluteOrientation) ;
       
         CPPUNIT_TEST_SUITE_END() ;
       

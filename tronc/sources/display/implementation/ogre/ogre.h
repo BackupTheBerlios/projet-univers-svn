@@ -64,18 +64,10 @@ namespace ProjetUnivers {
         ::Ogre::RenderWindow* getWindow() ;
         
         ::Ogre::SceneManager* getManager() ;
-
-        // @}
-        
         
       }
-    
     }
-    
   }
-  
 }
-
-
 
 #endif 

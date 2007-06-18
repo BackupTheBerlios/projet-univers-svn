@@ -24,12 +24,11 @@
 
 #include <kernel/trait.h>
 #include <model/position.h>
-#include <model/orientation.h>
 
 namespace ProjetUnivers {
   namespace Model {
 
-    /// For objects that have a position and orientation in space.
+    /// For objects that have a position in space.
     /*!
       Iff their parent is also positionned, the position of the object is 
       relative to its parent; whereas, its position is "absolute" and any 
@@ -47,16 +46,13 @@ namespace ProjetUnivers {
       /// Constructor.
       Positionned(const Position&) ;
 
-      /// Constructor.
-      Positionned(const Position&,const Orientation&) ;
-
       /// Origin position.
       Positionned() ;
   
 
     // @}
     /*!
-      @name get
+      @name Access
     */
     // @{
 
@@ -70,36 +66,11 @@ namespace ProjetUnivers {
       */
       Position getPosition(Kernel::Object* i_ancestor) const ;
 
-      /// Access to orientation relative to its parent.
-      const Orientation& getOrientation() const ;
-
-      /// Access to orientation relative to @c i_ancestor.
-      /*!
-        @pre i_ancestor is a Positionned ancestor of this->getObject(), 
-        and every object between the two are also Positionned 
-      */
-      Orientation getOrientation(Kernel::Object* i_ancestor) const ;
-
     // @}
     /*!
       @name Update
     */
     // @{
-
-      /// Change the current orientation.
-      void setOrientation(const Orientation& i_orientation) ;
-
-      /// Change the current orientation.
-      /*!
-        @param[in] 
-          i_orientation 
-          the new orientation relativelly to i_reference
-        @post 
-          getOrientation(i_reference) == i_orientation
-      */
-      void setOrientation(const Orientation& i_orientation,
-                          Kernel::Object*    i_reference) ;
-
 
       /// Change the current position.
       /*!
@@ -127,7 +98,6 @@ namespace ProjetUnivers {
 
       
       Position    m_position ;  
-      Orientation m_orientation ;
     
     };
   }

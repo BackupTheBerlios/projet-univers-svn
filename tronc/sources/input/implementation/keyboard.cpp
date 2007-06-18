@@ -36,11 +36,6 @@ namespace ProjetUnivers {
   
       bool Keyboard::keyPressed(const OIS::KeyEvent &e)    
       {
-        
-        /// log
-        InternalMessage(
-              (std::string("bouton presse timestamp = ") + 
-              toString(e.timeStamp)).c_str() ) ;
 
         /// pour l'instant : on sort si c'est entrée
         switch(e.key)

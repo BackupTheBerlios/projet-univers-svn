@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Equipe Projet Univers                           *
+ *   Copyright (C) 2007 by Equipe Projet Univers                           *
  *   rogma.boami@free.fr                                                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,25 +17,23 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_SOUND_H_
-#define PU_SOUND_H_
+#include <model/engine.h>
 
 
 namespace ProjetUnivers {
-  
- 
-  /// Sound view of Model.
-  /*!
-    @todo
-      implement...   
-  */ 
-  namespace Sound {
-  
-  
-  
+  namespace Model {
+    
+
+    Engine::Engine(const Force& i_force)
+    : m_full_thrust(i_force),
+      m_percentage_thrust(0)
+    {}
+    
+    Force Engine::getAppliedForce() const
+    {
+      return m_full_thrust*(((float)m_percentage_thrust)/100) ;
+    }
+    
+    
   }
-  
 }
-
-
-#endif 

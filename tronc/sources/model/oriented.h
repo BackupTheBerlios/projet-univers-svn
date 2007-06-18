@@ -17,42 +17,81 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_STABILIZER_H_
-#define PU_MODEL_STABILIZER_H_
+#ifndef PU_MODEL_ORIENTED_H_
+#define PU_MODEL_ORIENTED_H_
 
-#include <OgreVector3.h>
-
-#include <model/torque_generator.h>
+#include <kernel/trait.h>
+#include <model/position.h>
+#include <model/orientation.h>
 
 namespace ProjetUnivers {
   namespace Model {
-    
-    /// For objects that resist rotation.
+
+    /// For objects that have an orientation in space.
     /*!
-      A stabilizer is made of a direction. It will resist against its 
-      physical object rotation in that direction. 
+      Iff their parent is also oriented, the orientation of the object is 
+      relative to its parent.
     */
-    class Stabilizer : public TorqueGenerator
+    class Oriented : public Kernel::Trait
     {
     public:
 
+    /*!
+      @name Constructors
+    */
+    // @{
+    
       /// Constructor.
-      Stabilizer(const float& i_x,  
-                 const float& i_y,
-                 const float& i_z) ;
- 
-      /// get the torque in newton.meter.
-      virtual Ogre::Vector3 NewtonMeter() const ;
-      
+      Oriented() ;
+
+      /// Constructor.
+      Oriented(const Orientation&) ;
+  
+
+    // @}
+    /*!
+      @name Access
+    */
+    // @{
+
+      /// Access to orientation relative to its parent.
+      const Orientation& getOrientation() const ;
+
+      /// Access to orientation relative to @c i_ancestor.
+      /*!
+        @pre i_ancestor is a Positionned ancestor of this->getObject(), 
+        and every object between the two are also Positionned 
+      */
+      Orientation getOrientation(Kernel::Object* i_ancestor) const ;
+
+    // @}
+    /*!
+      @name Update
+    */
+    // @{
+
+      /// Change the current orientation.
+      void setOrientation(const Orientation& i_orientation) ;
+
+      /// Change the current orientation.
+      /*!
+        @param[in] 
+          i_orientation 
+          the new orientation relativelly to i_reference
+        @post 
+          getOrientation(i_reference) == i_orientation
+      */
+      void setOrientation(const Orientation& i_orientation,
+                          Kernel::Object*    i_reference) ;
+
+    //@}
+    
     private:
-      
-      /// Resist against rotation around that axis. 
-      Ogre::Vector3 m_axis ;
-      
+
+      Orientation m_orientation ;
+
     };
-    
-    
   }
 }
 
-#endif /*PU_MODEL_STABILIZER_H_*/
+#endif /*PU_MODEL_ORIENTED_H_*/

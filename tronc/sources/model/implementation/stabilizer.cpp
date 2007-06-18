@@ -24,7 +24,7 @@
 
 #include <model/torque_generator.h>
 #include <model/mobile.h>
-#include <model/positionned.h>
+#include <model/oriented.h>
 #include <model/physical_object.h>
 
 #include <model/stabilizer.h>
@@ -45,13 +45,12 @@ namespace ProjetUnivers {
     Ogre::Vector3 Stabilizer::NewtonMeter() const
     {
       PhysicalObject* physical_object = getObject()->getParent<PhysicalObject>() ;
+      Oriented* oriented = physical_object->getObject()->getTrait<Oriented>() ;
 
-      if (physical_object)
+      if (physical_object && oriented)
       {
         
         Mobile* mobile = physical_object->getObject()->getTrait<Mobile>() ;
-        Positionned* positionned = physical_object->getObject()->getTrait<Positionned>() ;
-        check((mobile && positionned),"error") ;
         
         /// get the rotation against 
         const AngularSpeed& speed = mobile->getAngularSpeed() ;
@@ -63,7 +62,7 @@ namespace ProjetUnivers {
         
         
         Ogre::Quaternion object_orientation = 
-          positionned->getOrientation(physical_object->getPhysicalWorld()).getQuaternion() ;
+          oriented->getOrientation(physical_object->getPhysicalWorld()).getQuaternion() ;
         
         
         InternalMessage("Model::Stabilizer::NewtonMeter object orientation="

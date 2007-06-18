@@ -29,6 +29,10 @@ namespace ProjetUnivers {
 
     /// For objects that have a mass.
     /*!
+      Here we have a problem : 
+      - composite object have composite masses...
+      - this trait is a kind of mass for atomic objects
+      
     */
     class Massive : public Kernel::Trait
     {
@@ -37,14 +41,34 @@ namespace ProjetUnivers {
       /// Construct.
       Massive(const Mass& i_mass) ;
       
-      // access to mass.
+      /// Access to local mass.
+      /*!
+        Local mass is the mass of the object without its components.
+      */
       Mass getMass() const ;
+      
+//      /// Access to total mass.
+//      /*!
+//        Total mass is the mass of the object with its components.
+//      @todo
+//        Find a way to maintain it.
+//        A view on itself ???
+//        With onInit/onClose add/remove its local mass to direct Massive parent?
+//        Does not work with elementary update of a mass
+//      */
+//      Mass getTotalMass() const ;    
     
+      /// Set the local mass.
       void changeMass(const Mass& i_mass) ;
-    
+      
+//      void addTotalMass(const Mass& i_mass) ;
+//      void removeTotalMass(const Mass& i_mass) ;
+      
     private:
       
       Mass m_mass ;
+
+//      Mass m_total_mass ;
     };
   }
 }

@@ -52,7 +52,7 @@ namespace ProjetUnivers {
     // @}
       
       /// Acces to quaternion.
-      Ogre::Quaternion getQuaternion() const ;
+      const Ogre::Quaternion& getQuaternion() const ;
 
       /// Compose orientations.
       Orientation operator*(const Orientation&) const ;

@@ -18,64 +18,62 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include <kernel/object.h>
-
-#include <model/positionned.h>
-
+#include <model/oriented.h>
 
 namespace ProjetUnivers {
   namespace Model {
 
-
-    Positionned::Positionned(const Position& i_position)
+    Oriented::Oriented(
+        const Orientation& i_orientation)
     : Kernel::Trait(), 
-      m_position(i_position)
+      m_orientation(i_orientation)
     {}
 
-    Positionned::Positionned()
+    Oriented::Oriented()
     : Kernel::Trait(), 
-      m_position()
+      m_orientation()
     {}
 
-    const Position& Positionned::getPosition() const 
+    const Orientation& Oriented::getOrientation() const
     {
-      return m_position ;
+      return m_orientation ;
     }
 
-    Position Positionned::getPosition(Kernel::Object* i_ancestor) const 
+    Orientation Oriented::getOrientation(Kernel::Object* i_ancestor) const
     {
       if (! getObject()->getParent() || i_ancestor == getObject())
       {
-        return Position() ;
+        return Orientation() ;
       }
       
       if (i_ancestor == getObject()->getParent())
       {
-        return m_position ;
+        return m_orientation ;
       }
       else
       {
-        Positionned* 
-          parent = getObject()->getParent()->getTrait<Positionned>() ;
+        Oriented* 
+          parent = getObject()->getParent()->getTrait<Oriented>() ;
         
         if (parent)
         {
-          return m_position + parent->getPosition(i_ancestor) ;          
+          return parent->getOrientation(i_ancestor)*m_orientation ;          
         }
         else
         {
-          return m_position ;
+          return m_orientation ;
         }
       }
     }
 
-    void Positionned::setPosition(const Position& i_position)
+    void Oriented::setOrientation(const Orientation& i_orientation)
     {
-      m_position = i_position ;
+      m_orientation = i_orientation ;
       notify() ;
     }
-    
-    void Positionned::setPosition(
-        const Position& i_position,
+
+    void Oriented::setOrientation(
+        const Orientation& i_orientation,
         Kernel::Object*    i_reference)
     {
       if (! getObject()->getParent() || i_reference == getObject())
@@ -84,21 +82,20 @@ namespace ProjetUnivers {
       }
       if (i_reference == getObject()->getParent())
       {
-        m_position = i_position ;
+        m_orientation = i_orientation ;
         notify() ;
       }
       else
       {
-        Positionned* 
-          parent = getObject()->getParent()->getTrait<Positionned>() ;
+        Oriented* 
+          parent = getObject()->getParent()->getTrait<Oriented>() ;
         
         if (parent)
         {
-          m_position = i_position - parent->getPosition(i_reference) ;
+          m_orientation = parent->getOrientation(i_reference).inverse()*i_orientation ;
           notify() ;
         }
       }
     }
-    
   }
 }

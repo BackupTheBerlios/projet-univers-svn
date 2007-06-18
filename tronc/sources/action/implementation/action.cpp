@@ -27,6 +27,7 @@
 
 #include <model/model.h>
 #include <model/positionned.h>
+#include <model/oriented.h>
 #include <model/solid.h>
 #include <model/stellar_system.h>
 #include <model/mobile.h>
@@ -60,11 +61,11 @@ namespace ProjetUnivers {
       else if (_action.name == "Haut")
       {
         Object* observateur(Model::getObject("Observer")) ;
-        Positionned* positionne(observateur->getTrait<Positionned>()) ;
+        Oriented* oriented(observateur->getTrait<Oriented>()) ;
         
-        positionne->setOrientation(
+        oriented->setOrientation(
           Model::Orientation(
-            positionne->getOrientation().getQuaternion() 
+            oriented->getOrientation().getQuaternion() 
             * 
             Quaternion(Degree(45),Vector3::NEGATIVE_UNIT_X))) ;
             
@@ -73,11 +74,11 @@ namespace ProjetUnivers {
       else if (_action.name == "Bas")
       {
         Object* observateur(Model::getObject("Observer")) ;
-        Positionned* positionne(observateur->getTrait<Positionned>()) ;
+        Oriented* oriented(observateur->getTrait<Oriented>()) ;
         
-        positionne->setOrientation(
+        oriented->setOrientation(
           Model::Orientation(
-            positionne->getOrientation().getQuaternion() 
+            oriented->getOrientation().getQuaternion() 
             * 
             Quaternion(Degree(45),Vector3::UNIT_X))) ;
         
@@ -85,11 +86,11 @@ namespace ProjetUnivers {
       else if (_action.name == "Droite")
       {
         Object* observateur(Model::getObject("Observer")) ;
-        Positionned* positionne(observateur->getTrait<Positionned>()) ;
+        Oriented* oriented(observateur->getTrait<Oriented>()) ;
         
-        positionne->setOrientation(
+        oriented->setOrientation(
           Model::Orientation(
-            positionne->getOrientation().getQuaternion() 
+            oriented->getOrientation().getQuaternion() 
             * 
             Quaternion(Degree(45),Vector3::NEGATIVE_UNIT_Y))) ;
         
@@ -97,11 +98,11 @@ namespace ProjetUnivers {
       else if (_action.name == "Gauche")
       {
         Object* observateur(Model::getObject("Observer")) ;
-        Positionned* positionne(observateur->getTrait<Positionned>()) ;
+        Oriented* oriented(observateur->getTrait<Oriented>()) ;
         
-        positionne->setOrientation(
+        oriented->setOrientation(
           Model::Orientation(
-            positionne->getOrientation().getQuaternion() 
+            oriented->getOrientation().getQuaternion() 
             * 
             Quaternion(Degree(45),Vector3::UNIT_Y))) ;
         

@@ -27,6 +27,7 @@
 
 #include <display/display_input.h>
 #include <input/implementation/keyboard.h>
+#include <input/implementation/mouse.h>
 #include <input/input.h>
 
 namespace ProjetUnivers {
@@ -43,32 +44,43 @@ namespace ProjetUnivers {
    
         /// Clavier
         OIS::Keyboard* keyboard ;
-    
+        
+        OIS::Mouse* m_mouse ;
+        
         OISSystem()
-        : manager(), keyboard()
+        : manager(NULL), 
+          keyboard(NULL),
+          m_mouse(NULL)
         {}
         
         ~OISSystem()
         {
-          if (keyboard) 
-          {
-            manager->destroyInputObject(keyboard);
-            keyboard = NULL ;
-          }
           if (manager)
           {
-            manager->destroyInputSystem() ;
+            if (keyboard) 
+            {
+              manager->destroyInputObject(keyboard);
+              keyboard = NULL ;
+            }
+            if (m_mouse)
+            {
+              manager->destroyInputObject(m_mouse);
+            }
+            OIS::InputManager::destroyInputSystem(manager) ;
           }
         }  
           
       };
+    
+      /// Les élément de OIS
+      std::auto_ptr<OISSystem> ois ;
+     
+      /// Notre écouteur de clavier
+      std::auto_ptr<Implementation::Keyboard> keyboard_listener ;
+      std::auto_ptr<Implementation::Mouse> mouse_listener ;
+    
     }
 
-    /// Les élément de OIS
-    std::auto_ptr<OISSystem> ois ;
-   
-    /// Notre écouteur de clavier
-    std::auto_ptr<Implementation::Keyboard> keyboard ;
    
     void init()
     {
@@ -96,10 +108,13 @@ namespace ProjetUnivers {
       // création d'un clavier, avec son écouteur
       ois->keyboard = static_cast<OIS::Keyboard*>(
                   ois->manager->createInputObject(OIS::OISKeyboard,true)) ;
-    
-      keyboard.reset(new Implementation::Keyboard()) ;
+      keyboard_listener.reset(new Implementation::Keyboard()) ;
+      ois->keyboard->setEventCallback(keyboard_listener.get()) ;
       
-      ois->keyboard->setEventCallback(keyboard.operator->()) ;
+      ois->m_mouse = static_cast<OIS::Mouse*>(
+                  ois->manager->createInputObject(OIS::OISMouse,true)) ;
+      mouse_listener.reset(new Implementation::Mouse()) ;      
+      ois->m_mouse->setEventCallback(mouse_listener.get()) ;
 
     }       
     
@@ -108,11 +123,20 @@ namespace ProjetUnivers {
       ois.reset(NULL) ;
      
     }
-    
-    void update()
+
+    void build(Kernel::Object* i_object)
+    {
+      init() ;
+      
+      mouse_listener->setControledObject(i_object->getTrait<Model::Oriented>()) ;
+    }
+        
+    void update(const float& i_seconds)
     {
       /// capture sur tous les systèmes d'entrée
+      mouse_listener->setTimeDelay(i_seconds) ;
       ois->keyboard->capture() ;
+      ois->m_mouse->capture() ;
     }
     
   }

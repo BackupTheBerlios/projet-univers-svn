@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Equipe Projet Univers                           *
+ *   Copyright (C) 2007 by Equipe Projet Univers                           *
  *   rogma.boami@free.fr                                                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,25 +17,68 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_SOUND_H_
-#define PU_SOUND_H_
+#ifndef PU_MODEL_TEST_ORIENTED_H_
+#define PU_MODEL_TEST_ORIENTED_H_
 
+#include <cppunit/extensions/HelperMacros.h>
 
 namespace ProjetUnivers {
-  
- 
-  /// Sound view of Model.
-  /*!
-    @todo
-      implement...   
-  */ 
-  namespace Sound {
-  
-  
-  
+  namespace Model {
+    namespace Test {
+
+            
+      /// Test for Model::Oriented
+      class TestOriented : public CppUnit::TestFixture {
+      protected:
+      
+        
+      /*!
+        @name Test methods
+      */
+      // @{
+        
+
+        /// Test Model::Oriented::getOrientation(Kernel::Object*).
+        void testGetOrientation() ;
+
+        /// Test Model::Oriented::setOrientation(Position,Object*).
+        void testSetAbsoluteOrientation() ;
+
+           
+      // @}
+      /*!
+        @name Test registration
+      */
+      // @{      
+      
+        CPPUNIT_TEST_SUITE(TestOriented) ;
+      
+        CPPUNIT_TEST(testGetOrientation) ;
+        CPPUNIT_TEST(testSetAbsoluteOrientation) ;
+      
+        CPPUNIT_TEST_SUITE_END() ;
+      
+      // @}      
+                
+     public:
+
+      /*!
+        @name Mandatory methods
+      */
+      // @{
+
+      
+        void setUp() ;
+        void tearDown() ;
+      
+      // @}      
+      
+      
+      };
+
+    }
   }
-  
 }
 
 
-#endif 
+#endif

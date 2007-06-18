@@ -24,6 +24,7 @@
 #include <model/massive.h>
 #include <model/mobile.h>
 #include <model/positionned.h>
+#include <model/oriented.h>
 #include <model/physical_world.h>
 
 #include <physic/implementation/ode/physical_world.h>
@@ -169,27 +170,35 @@ namespace ProjetUnivers {
         
         void PhysicalObject::updatePositionned()
         {
-          Model::Positionned* positionned = getObject()->getTrait<Model::Positionned>() ;
           
           /// have to take the position relatively to the physical_world parent 
           Model::PhysicalWorld* world = determineWorld() ;
           if (world)
           {
+            Model::Positionned* positionned = getObject()->getTrait<Model::Positionned>() ;
           
             Ogre::Vector3 position = positionned->getPosition(world->getObject()).Meter() ;
             m_body->setPosition((dReal)position.x,
                                 (dReal)position.y,
                                 (dReal)position.z) ;
-          
-//            Ogre::Quaternion orientation = 
-//              positionned->getOrientation(world->getObject()).getQuaternion() ;
-//            
-            
+
+            Model::Oriented* oriented = 
+              getObject()->getTrait<Model::Oriented>() ;
+            if (oriented)
+            {
+              Ogre::Quaternion orientation = 
+                oriented->getOrientation(world->getObject()).getQuaternion() ;
+              
+              dQuaternion ode_quaternion ;
+              ode_quaternion[0] = (dReal)orientation.w ;
+              ode_quaternion[1] = (dReal)orientation.x ;
+              ode_quaternion[2] = (dReal)orientation.y ;
+              ode_quaternion[3] = (dReal)orientation.z ;
+              
+              m_body->setQuaternion(ode_quaternion) ;
+            }
           
           }
-          /// @todo set orientation
-          
-        
         }
 
       /*!
@@ -235,22 +244,28 @@ namespace ProjetUnivers {
                                        ode_position[2]),
                                      world->getObject()) ;
   
-            const dReal* ode_orientation = m_body->getQuaternion() ;
-  
-            InternalMessage("Ode::PhysicalObject::updateModelPositionned "
-                            + getObject()->getName() + " orientation="
-                            + toString(ode_orientation[0]) + "," 
-                            + toString(ode_orientation[1]) + "," 
-                            + toString(ode_orientation[2]) + "," 
-                            + toString(ode_orientation[3])) ; 
+            Model::Oriented* oriented = 
+              getObject()->getTrait<Model::Oriented>() ;
+            if (oriented)
+            {
+              const dReal* ode_orientation = m_body->getQuaternion() ;
+    
+              InternalMessage("Ode::PhysicalObject::updateModelPositionned "
+                              + getObject()->getName() + " orientation="
+                              + toString(ode_orientation[0]) + "," 
+                              + toString(ode_orientation[1]) + "," 
+                              + toString(ode_orientation[2]) + "," 
+                              + toString(ode_orientation[3])) ; 
+              
+              oriented->setOrientation(Model::Orientation(
+                                            Ogre::Quaternion(
+                                               ode_orientation[0],
+                                               ode_orientation[1],
+                                               ode_orientation[2],
+                                               ode_orientation[3])),
+                                       world->getObject()) ;
+            }
                         
-            positionned->setOrientation(Model::Orientation(
-                                          Ogre::Quaternion(
-                                             ode_orientation[0],
-                                             ode_orientation[1],
-                                             ode_orientation[2],
-                                             ode_orientation[3])),
-                                        world->getObject()) ;
           }          
           m_is_being_updated = false ;
           

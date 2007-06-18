@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Equipe Projet Univers                           *
+ *   Copyright (C) 2007 by Equipe Projet Univers                           *
  *   rogma.boami@free.fr                                                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,25 +17,50 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_SOUND_H_
-#define PU_SOUND_H_
+#ifndef _DISPLAY_IMPLEMENTATION_OGRE_ORIENTED_H_
+#define _DISPLAY_IMPLEMENTATION_OGRE_ORIENTED_H_
+
+#include <Ogre.h>
+
+#include <kernel/trait_view.h>
+#include <model/oriented.h>
+#include <display/implementation/ogre/real_world_view_point.h>
 
 
 namespace ProjetUnivers {
-  
- 
-  /// Sound view of Model.
-  /*!
-    @todo
-      implement...   
-  */ 
-  namespace Sound {
-  
-  
-  
+  namespace Display {
+    namespace Implementation {
+      namespace Ogre {
+
+        class ViewPoint ;
+        
+        /// View on element that are oriented in space.
+        class Oriented : public Kernel::TraitView<Model::Oriented,
+                                                     RealWorldViewPoint>
+        {
+        public:
+
+          /// Construct.
+          Oriented(Model::Oriented* _object,
+                   RealWorldViewPoint* i_viewpoint) ;
+
+        protected:
+        
+          /// Init the view.
+          virtual void onInit() ;
+
+          /// Orientation update.
+          virtual void onUpdate() ;
+          
+        private:
+          
+          /// Scene node.
+          ::Ogre::SceneNode* m_node ;
+
+        };
+
+      }      
+    }
   }
-  
 }
-
-
-#endif 
+#endif

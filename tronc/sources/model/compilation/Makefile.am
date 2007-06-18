@@ -8,8 +8,10 @@ libmodel_la_SOURCES = \
 ../implementation/angular_speed.cpp \
 ../implementation/distance.cpp \
 ../implementation/destroyable.cpp \
+../implementation/dragger.cpp \
 ../implementation/duration.cpp \
 ../implementation/energy.cpp \
+../implementation/engine.cpp \
 ../implementation/exception.cpp \
 ../implementation/force.cpp \
 ../implementation/force_generator.cpp \
@@ -21,12 +23,14 @@ libmodel_la_SOURCES = \
 ../implementation/name.cpp \
 ../implementation/observer.cpp \
 ../implementation/orientation.cpp \
+../implementation/oriented.cpp \
 ../implementation/physical_object.cpp \
 ../implementation/physical_world.cpp \
 ../implementation/position.cpp \
 ../implementation/positionned.cpp \
 ../implementation/solid.cpp \
 ../implementation/speed.cpp \
+../implementation/ship_control.cpp \
 ../implementation/stabilizer.cpp \
 ../implementation/stellar_system.cpp \
 ../implementation/torque_generator.cpp \
@@ -44,6 +48,7 @@ check_PROGRAMS = $(TESTS)
 test_model_SOURCES = \
 ../test/test_distance.cpp \
 ../test/test_model.cpp \
+../test/test_oriented.cpp \
 ../test/test_positionned.cpp \
 ../test/test_speed.cpp \
 ../test/test_demonstration.cpp 

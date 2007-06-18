@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Equipe Projet Univers                           *
+ *   Copyright (C) 2007 by Equipe Projet Univers                           *
  *   rogma.boami@free.fr                                                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,25 +17,33 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_SOUND_H_
-#define PU_SOUND_H_
+#ifndef PU_MODEL_DRAGGER_H_
+#define PU_MODEL_DRAGGER_H_
+
+
+#include <model/force_generator.h>
 
 
 namespace ProjetUnivers {
-  
+  namespace Model {
+    
+    /// Resist movement.
+    /*!
+      Same as Stabilizer but for linear movement.
+    */
+    class Dragger : public ForceGenerator
+    {
+    public:
+
+      /// Constructor.
+      Dragger() ;
  
-  /// Sound view of Model.
-  /*!
-    @todo
-      implement...   
-  */ 
-  namespace Sound {
-  
-  
-  
+      /// Get the force.
+      virtual Force getAppliedForce() const ;
+    };
+    
+    
   }
-  
 }
 
-
-#endif 
+#endif /*PU_MODEL_DRAGGER_H_*/
