@@ -8,7 +8,8 @@ INCLUDES = -I$(SOURCES) $(OIS_CFLAGS) $(OGRE_CFLAGS)
 libinput_la_SOURCES = \
 $(SOURCES)/input/implementation/input.cpp \
 $(SOURCES)/input/implementation/keyboard.cpp \
-$(SOURCES)/input/implementation/mouse.cpp
+$(SOURCES)/input/implementation/mouse.cpp \
+$(SOURCES)/input/implementation/joystick.cpp
 
 libinput_la_LIBADD = \
 $(SOURCES)/kernel/compilation/libkernel.la \

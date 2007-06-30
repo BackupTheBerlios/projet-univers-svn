@@ -17,48 +17,67 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_SHIP_CONTROL_H_
-#define PU_MODEL_SHIP_CONTROL_H_
+#ifndef PU_DISPLAY_IMPLEMENTATION_OGRE_SHIP_CONTROL_DEBUG_H_
+#define PU_DISPLAY_IMPLEMENTATION_OGRE_SHIP_CONTROL_DEBUG_H_
 
-#include <model/torque_generator.h>
-#include <model/oriented.h>
+#include <Ogre.h>
+
+#include <kernel/trait_view.h>
+#include <model/ship_control.h>
+#include <display/implementation/ogre/real_world_view_point.h>
+
 
 namespace ProjetUnivers {
-  namespace Model {
-    
-    /// Change direction of a ship.
-    /*!
-      @todo 
-        split into :
-        - xxx the engine system responsible for ship orientation
-        - yyy the computer that pilot xxx
-        
-    */
-    class ShipControl : public TorqueGenerator
-    {
-    public:
+  namespace Display {
+    namespace Implementation {
+      namespace Ogre {
 
-      /// Constructor.
-      ShipControl(Oriented* i_stick) ;
- 
-      /// get the torque in newton.meter.
-      virtual Ogre::Vector3 NewtonMeter() const ;
+        /// display a stick as 3D line.
+        /*!
+        */
+        class ShipControl : public Kernel::TraitView<Model::ShipControl,
+                                                     RealWorldViewPoint>
+        {
+        public:
+        
+        // **********************
+        /// @name Constructeur/Destructeur
+        // **********************
+        // @{
+
+          /// Constructeur.
+          ShipControl(Model::ShipControl* i_object,
+                      RealWorldViewPoint* i_viewpoint) ;
+
+        protected:
+        //@}
+        /*!
+          @name Mise à jour
+        */
+        // @{
+        
+          /// Crée une entité.
+          void onInit() ;
+          
+          /// Détruit l'entité.
+          void onClose() ;
+        
+          /// 
+          /*!
+          @par Etat
+            stub vide
+          */
+          void onUpdate() ;
+
+        // @}
+        private:
+          
+          /// Modèle 3D.
+          ::Ogre::Entity* m_object ;
       
-      /// Access to stick object.
-      Oriented* getStick() const ;
-      
-    private:
-      
-      /// the stick 
-      /*!
-        it is a normalised orientation of a stick.
-      */ 
-      Oriented* m_stick ;
-      
-    };
-    
-    
+        };
+      }
+    }
   }
 }
-
-#endif /*PU_MODEL_SHIP_CONTROL_H_*/
+#endif

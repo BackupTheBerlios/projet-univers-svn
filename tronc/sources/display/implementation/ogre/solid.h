@@ -31,10 +31,8 @@ namespace ProjetUnivers {
     namespace Implementation {
       namespace Ogre {
 
-        /// Display des objets 3D.
+        /// Display 3D objects.
         /*!
-        @par Etat actuel
-          planning
         */
         class Solid : public Kernel::TraitView<Model::Solid,
                                                RealWorldViewPoint>
@@ -42,7 +40,7 @@ namespace ProjetUnivers {
         public:
         
         // **********************
-        /// @name Constructeur/Destructeur
+        /// @name Construct
         // **********************
         // @{
 
@@ -53,19 +51,19 @@ namespace ProjetUnivers {
         protected:
         //@}
         /*!
-          @name Mise à jour
+          @name Updates
         */
         // @{
         
-          /// Crée une entité.
+          /// create a Ogre::Entity.
           void onInit() ;
           
-          /// Détruit l'entité.
+          /// Destroy the Ogre::Entity.
           void onClose() ;
         
           /// 
           /*!
-          @par Etat
+          @par state
             stub vide
           */
           void onUpdate() ;
@@ -73,7 +71,7 @@ namespace ProjetUnivers {
         // @}
         private:
           
-          /// Modèle 3D.
+          /// 3D ogre mesh.
           ::Ogre::Entity* mesh ;
       
         };

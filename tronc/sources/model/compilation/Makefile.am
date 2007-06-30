@@ -12,6 +12,7 @@ libmodel_la_SOURCES = \
 ../implementation/duration.cpp \
 ../implementation/energy.cpp \
 ../implementation/engine.cpp \
+../implementation/engine_control.cpp \
 ../implementation/exception.cpp \
 ../implementation/force.cpp \
 ../implementation/force_generator.cpp \
@@ -47,6 +48,7 @@ check_PROGRAMS = $(TESTS)
 
 test_model_SOURCES = \
 ../test/test_distance.cpp \
+../test/test_engine_control.cpp \
 ../test/test_model.cpp \
 ../test/test_oriented.cpp \
 ../test/test_positionned.cpp \

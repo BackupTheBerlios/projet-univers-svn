@@ -39,8 +39,7 @@ namespace ProjetUnivers {
           
           /// create a 3D line.
           ::Ogre::MovableObject* createLine(
-              const Model::Position& i_start_point,
-              const Model::Position& i_end_point,
+              const ::Ogre::Vector3& i_end_point,
               ::Ogre::SceneManager*  i_scene_manager) ;
         }
       }

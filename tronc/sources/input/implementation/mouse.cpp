@@ -78,6 +78,11 @@ namespace ProjetUnivers {
           m_controled_object->setOrientation(
              Model::Orientation(Ogre::Quaternion(rigth,up,view))) ;
           
+          /// local zAxis of orientation is "good", it is the orientation see from behind
+          std::cout 
+            << m_controled_object->getOrientation().getQuaternion().zAxis() 
+            << std::endl ;
+          
         }
         
         return true ;

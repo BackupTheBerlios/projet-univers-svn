@@ -37,25 +37,24 @@ namespace ProjetUnivers {
 
       /// Constructor.
       Engine(const Force& i_force) ;
- 
+      
+      /// Set the 
+      void setPowerPercentage(const int&) ;
+      
       /// Get the force.
-      /*!
-        @remark may be null even at full thrust. In order to keep a 
-        "standard" gameplay, speed is limitted.
-         
-      */
       virtual Force getAppliedForce() const ;
       
     private:
       
-      /// Thrust axis and "force". 
+      /// Maximal "force". 
       /*!
-        Relative to parent physical object.
-        Norm is 
+        Orientation is relative to parent physical object.
+        Thus normally a ship force is : (0,0,100) or something.
       */
       Force m_full_thrust ;
       
-      /*!
+      /// Thrust axis
+      /*!  
         - 0 --> does not push
         - 100 --> full thrust 
       */

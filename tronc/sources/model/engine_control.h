@@ -17,43 +17,43 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_SHIP_CONTROL_H_
-#define PU_MODEL_SHIP_CONTROL_H_
+#ifndef PU_MODEL_ENGINE_CONTROL_H_
+#define PU_MODEL_ENGINE_CONTROL_H_
 
-#include <model/torque_generator.h>
+#include <kernel/trait.h>
+
+#include <model/engine.h>
 #include <model/oriented.h>
 
 namespace ProjetUnivers {
   namespace Model {
     
-    /// Change direction of a ship.
+    /// Component that control engines.
     /*!
-      @todo 
-        split into :
-        - xxx the engine system responsible for ship orientation
-        - yyy the computer that pilot xxx
         
     */
-    class ShipControl : public TorqueGenerator
+    class EngineControl : public Kernel::Trait
     {
     public:
 
       /// Constructor.
-      ShipControl(Oriented* i_stick) ;
- 
-      /// get the torque in newton.meter.
-      virtual Ogre::Vector3 NewtonMeter() const ;
+      EngineControl(Oriented* i_throttle,Engine* i_engine) ;
       
-      /// Access to stick object.
-      Oriented* getStick() const ;
+      /// Perfom engine control.
+      void controlEngine() const ;
       
     private:
       
-      /// the stick 
+      /// The engine 
       /*!
-        it is a normalised orientation of a stick.
       */ 
-      Oriented* m_stick ;
+      Engine* m_engine ;
+      
+      /// The throttle.
+      /*!
+        An oriented object whose only interesting value is the Pitch ?
+      */
+      Oriented* m_throttle ;
       
     };
     
@@ -61,4 +61,4 @@ namespace ProjetUnivers {
   }
 }
 
-#endif /*PU_MODEL_SHIP_CONTROL_H_*/
+#endif /*PU_MODEL_ENGINE_CONTROL_H_*/

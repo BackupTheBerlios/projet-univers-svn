@@ -17,6 +17,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <model/physical_object.h>
 #include <model/ship_control.h>
 
 namespace ProjetUnivers {
@@ -30,44 +31,57 @@ namespace ProjetUnivers {
     {
       if (m_stick)
       {
-        /*!
-          Convert orientation to a torque....
+        PhysicalObject* physical_object = getObject()->getParent<PhysicalObject>() ;
+        if (physical_object)
+        {
+          Oriented* oriented = physical_object->getObject()->getTrait<Oriented>() ;
+          const Ogre::Quaternion& object_orientation 
+            = oriented->getOrientation().getQuaternion() ;
+          /*!
+            Convert orientation to a torque....
+            
+            @todo : 
+            choose wiselly the correcpondance between pitch/Yaw/Roll and x/y/z
+            and the +/-... seem done ?
+            
+            @todo 
+              multiply result by a sensitivity factor
+            
+            @todo 
+              this is a quite humanly understable calculus :
+              find an optimal one.... 
+          */
+          const Ogre::Quaternion& quaternion 
+            = m_stick->getOrientation().getQuaternion() ;
           
-          @todo : 
-          choose wiselly the correcpondance between pitch/Yaw/Roll and x/y/z
-          and the +/-... seem done ?
+  //        std::cout << "pitch=" << quaternion.getPitch().valueRadians()
+  //                  << ",Yaw=" << quaternion.getYaw().valueRadians()
+  //                  << ",Roll=" << quaternion.getRoll().valueRadians() 
+  //                  << std::endl ;
+                    
+          Ogre::Vector3 torque(0,0,0) ;
           
-          @todo 
-            multiply result by a sensitivity factor
+          /// up/down, relative to physical object parent
+          torque -= (object_orientation.xAxis())*quaternion.getPitch().valueRadians() ;
           
-          @todo 
-            this is a quite humanly understable calculus :
-            find an optimal one.... 
-        */
-        const Ogre::Quaternion& quaternion 
-          = m_stick->getOrientation().getQuaternion() ;
-        
-        Ogre::Vector3 torque(0,0,0) ;
-        
-        /// up/down
-        torque += Ogre::Vector3::UNIT_X*quaternion.getPitch().valueRadians() ;
-        
-        /// left/rigth
-        torque += Ogre::Vector3::UNIT_Y*quaternion.getYaw().valueRadians() ;        
-        
-        /// rotation
-        torque += Ogre::Vector3::UNIT_Z*quaternion.getRoll().valueRadians() ;
+          /// left/rigth
+          torque += (object_orientation.yAxis())*quaternion.getYaw().valueRadians() ;        
+  //        
+          /// rotation
+          torque -= Ogre::Vector3::UNIT_Z*quaternion.getRoll().valueRadians() ;
+  
+          return torque ;        
 
-        return torque ;        
-        
+        }
       }
-      else
-      {
-        // Default return value
-        return Ogre::Vector3(0,0,0) ;
-      }
+
+      // Default return value
+      return Ogre::Vector3(0,0,0) ;
     }
       
-    
+    Oriented* ShipControl::getStick() const
+    {
+      return m_stick ;
+    }
   }
 }

@@ -85,6 +85,13 @@ namespace ProjetUnivers {
       result.m_value *= i_factor ;
       return result ;
     }
-
+    
+    Force Force::operator*(const Orientation& i_orientation) const
+    {
+      Force result(*this) ;
+      result.m_value = i_orientation.getQuaternion()* result.m_value ;
+      return result ;
+      
+    }
   }
 }

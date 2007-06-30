@@ -38,12 +38,24 @@ namespace ProjetUnivers {
       // @{
         
         /// Test Model::Positionned::getPosition(Kernel::Object*).
-        void testGetPosition() ;
+        void testGetPosition1() ;
 
-        /// Test Model::Positionned::setPosition(Position,Object*).
-        void testSetAbsolutePosition() ;
+        /// Test getPosition(Object*) with non Positionned ancestor.
+        void testGetPosition2() ;
 
+        /// Test getPosition(Object*) with non Positionned intermediate.
+        void testGetPosition3() ;
            
+        /// Test setPosition(Position,Object*) in normal case.
+        void testSetPosition1() ;
+
+        /// Test setPosition(Position,Object*) with non Positionned ancestor.
+        void testSetPosition2() ;
+
+        /// Test setPosition(Position,Object*) with non Positionned intermediate.
+        void testSetPosition3() ;
+
+
       // @}
       /*!
         @name Test registration
@@ -52,8 +64,12 @@ namespace ProjetUnivers {
       
         CPPUNIT_TEST_SUITE(TestPositionned) ;
       
-        CPPUNIT_TEST(testGetPosition) ;
-        CPPUNIT_TEST(testSetAbsolutePosition) ;
+        CPPUNIT_TEST(testGetPosition1) ;
+        CPPUNIT_TEST(testGetPosition2) ;
+        CPPUNIT_TEST(testGetPosition3) ;
+        CPPUNIT_TEST(testSetPosition1) ;
+        CPPUNIT_TEST(testSetPosition2) ;
+        CPPUNIT_TEST(testSetPosition3) ;
       
         CPPUNIT_TEST_SUITE_END() ;
       

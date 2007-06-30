@@ -37,6 +37,7 @@
 #include <model/stabilizer.h>
 #include <model/torque_generator.h>
 #include <model/universe.h>
+#include <model/ship_control.h>
 
 #include <model/model.h>
 
@@ -187,7 +188,28 @@ namespace ProjetUnivers {
           model->addTrait(ship,new Solid(Mesh("razor.mesh"))) ;
           model->addTrait(ship,new Mobile()) ;
           model->addTrait(ship,new Massive(Mass::Kilogram(1000))) ;
-          model->addTrait(ship,new Stabilizer(0,1,0)) ;
+
+          Kernel::Object* st1 = model->createObject("st1",ship) ;
+          model->addTrait(st1,new Stabilizer(0,10,0)) ;
+
+          Kernel::Object* st2 = model->createObject("st2",ship) ;
+          model->addTrait(st2,new Stabilizer(10,0,0)) ;
+
+          Kernel::Object* st3 = model->createObject("st3",ship) ;
+          model->addTrait(st3,new Stabilizer(0,0,10)) ;
+
+
+
+
+          Kernel::Object* stick = model->createObject("stick",system) ;
+          model->addTrait(stick,new Positionned(Position::Meter(0,
+                                                                0,
+                                                                -150000))) ;
+          model->addTrait(stick,new Oriented()) ;
+          model->addTrait(stick,new Solid(Mesh("stick.mesh"))) ;
+          
+          model->addTrait(ship,new ShipControl(stick->getTrait<Oriented>())) ;
+          
           
           InternalMessage("building ship done") ;
         }
@@ -200,12 +222,13 @@ namespace ProjetUnivers {
                                                              0,
                                                              0))) ;
         model->addTrait(observer,new Oriented()) ;
-
         /// Il a la faculté d'observer
         model->addTrait(observer,new Observer()) ;
 
+
         InternalMessage("building observer done") ;
-      
+        
+        
       }
             
     }

@@ -52,12 +52,12 @@ namespace ProjetUnivers {
       }
       else
       {
-        Oriented* 
-          parent = getObject()->getParent()->getTrait<Oriented>() ;
+        Oriented* ancestor = getObject()->getParent()
+                             ->getParentUpTo<Oriented>(i_ancestor) ;
         
-        if (parent)
+        if (ancestor)
         {
-          return parent->getOrientation(i_ancestor)*m_orientation ;          
+          return ancestor->getOrientation(i_ancestor)*m_orientation ;          
         }
         else
         {
@@ -87,12 +87,12 @@ namespace ProjetUnivers {
       }
       else
       {
-        Oriented* 
-          parent = getObject()->getParent()->getTrait<Oriented>() ;
+        Oriented* ancestor = getObject()->getParent()
+                             ->getParentUpTo<Oriented>(i_reference) ;
         
-        if (parent)
+        if (ancestor)
         {
-          m_orientation = parent->getOrientation(i_reference).inverse()*i_orientation ;
+          m_orientation = ancestor->getOrientation(i_reference).inverse()*i_orientation ;
           notify() ;
         }
       }

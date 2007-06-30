@@ -58,7 +58,7 @@ int main() {
   Physic::build(observer) ;
   Physic::init() ;
 
-  Input::build(observer) ;
+  Input::build(Model::getObject("stick")) ;
   Input::init() ;
   InternalMessage("Activating Viewpoint") ;
 

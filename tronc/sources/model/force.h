@@ -21,6 +21,7 @@
 #define PU_MODEL_FORCE_H_
 
 #include <OgreVector3.h>
+#include <model/orientation.h>
 
 namespace ProjetUnivers {
   namespace Model {
@@ -56,7 +57,10 @@ namespace ProjetUnivers {
 
       /// Calculus
       Force operator*(const float&) const ;
-
+      
+      /// Re-orient a force
+      Force operator*(const Orientation&) const ;
+      
     // @}
     /// @name Convertions
     // @{

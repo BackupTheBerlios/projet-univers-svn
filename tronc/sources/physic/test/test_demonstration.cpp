@@ -463,7 +463,7 @@ namespace ProjetUnivers {
           Model::getObject("Vaisseau")->getTrait<Model::Mobile>()
           ->getAngularSpeed().TurnPerSecond() ;
         
-        std::cout <<"final_angular_speed=" << final_angular_speed << std::endl ;
+        //std::cout <<"final_angular_speed=" << final_angular_speed << std::endl ;
         
         CPPUNIT_ASSERT(equal(0,final_angular_speed[0]) && 
                        equal(0,final_angular_speed[1]) &&
@@ -513,7 +513,7 @@ namespace ProjetUnivers {
           Model::getObject("Vaisseau")->getTrait<Model::Mobile>()
           ->getAngularSpeed().TurnPerSecond() ;
         
-        std::cout <<"final_angular_speed=" << final_angular_speed << std::endl ;
+        //std::cout <<"final_angular_speed=" << final_angular_speed << std::endl ;
         
         CPPUNIT_ASSERT(equal(0,final_angular_speed[0]) && 
                        equal(1,final_angular_speed[1]) &&
@@ -527,6 +527,69 @@ namespace ProjetUnivers {
         InternalMessage("Physic::Test::TestDemonstration::testStabilizer leaving") ;
         
       }
+
+      void TestDemonstration::testStabilizer2()
+      {
+        InternalMessage("Physic::Test::TestDemonstration::testStabilizer2 Entering") ;
+        Model::init() ;
+        Model::load("TestDemonstration") ;
+        Physic::init() ;
+        Object* observer(Model::getObject("Observer")) ;
+
+        /// get the ship and set initial angular speed
+        Model::Mobile* ship(Model::getObject("Vaisseau")->getTrait<Model::Mobile>()) ;
+        CPPUNIT_ASSERT(ship) ;
+        
+        /// one turn per second along the y axis
+        ship->setAngularSpeed(Model::AngularSpeed::TurnPerSecond(0,-1,0)) ;
+
+        Model::addTrait(Model::getObject("Vaisseau"),new Model::Stabilizer(0,3,0)) ;
+     
+        /// build a physical viewpoint        
+        Kernel::ControlerSet* physics = Physic::build(observer) ;
+        physics->init() ;
+
+        /// store the orientation before "rotation"
+        Ogre::Quaternion initial_orientation =
+          Model::getObject("Vaisseau")->getTrait<Model::Oriented>()
+          ->getOrientation().getQuaternion() ;
+
+        InternalMessage(std::string("testStabilizer2 initial orientation") 
+                                        + " w=" + toString(initial_orientation.w) 
+                                        + ",x=" + toString(initial_orientation.x) 
+                                        + ",y=" + toString(initial_orientation.y) 
+                                        + ",z=" + toString(initial_orientation.z)) ; 
+
+
+        /// simulation during 1 seconds --> rotation should stop....
+        const int steps_number = 10000 ; 
+        for(int i = 1 ; i <= steps_number ; ++i)
+        {
+          Physic::update(Model::Duration::Second(20.0/steps_number)) ;
+        }
+        
+                
+        /// check that angular speed is null.
+        Ogre::Vector3 final_angular_speed = 
+          Model::getObject("Vaisseau")->getTrait<Model::Mobile>()
+          ->getAngularSpeed().TurnPerSecond() ;
+        
+        //std::cout <<"final_angular_speed=" << final_angular_speed << std::endl ;
+        
+        CPPUNIT_ASSERT(equal(0,final_angular_speed[0]) && 
+                       equal(0,final_angular_speed[1]) &&
+                       equal(0,final_angular_speed[2])) ;
+        
+
+
+        Physic::close() ;
+        Model::close() ;
+
+        InternalMessage("Physic::Test::testSimulate::testStabilizer2 leaving") ;
+        
+      }
+
+
 
       void TestDemonstration::setUp() 
       {

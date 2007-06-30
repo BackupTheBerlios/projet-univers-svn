@@ -83,12 +83,24 @@ namespace ProjetUnivers {
         // projection of speed onto the axis. 
         float force = global_axis.dotProduct(speed.TurnPerSecond()) ;
 
+        /// sign of force is : positive when axis and speed are oriented same way
+        float sign ;
+        if (force < 0)
+        {
+          sign = -1 ;    
+        }
+        else
+        {
+          sign = +1 ;    
+        }
+          
+
         InternalMessage("Model::Stabilizer::NewtonMeter force="
                         + toString((float)force)) ;
         
         global_axis.normalise() ;
         
-        global_axis *= -std::max(force,(force*force)) ;
+        global_axis *= -sign*std::max(std::max(force,-force),(force*force)) ;
 
         InternalMessage("Model::Stabilizer::NewtonMeter result="
                         + toString(global_axis[0]) + ","

@@ -30,9 +30,8 @@ namespace ProjetUnivers {
 
     /// For objects that have a position in space.
     /*!
-      Iff their parent is also positionned, the position of the object is 
-      relative to its parent; whereas, its position is "absolute" and any 
-      absolute position is equivalent to (0,0,0).
+      The position of the object is relative to its first positionned 
+      ancestor parent or to nothing if it has none. 
     */
     class Positionned : public Kernel::Trait
     {
@@ -61,8 +60,7 @@ namespace ProjetUnivers {
 
       /// Access to position relative to @c i_ancestor.
       /*!
-        @pre i_ancestor is a Positionned ancestor of this->getObject(), 
-        and every object between the two are also Positionned 
+        Skipps any non positionned intermediate object.
       */
       Position getPosition(Kernel::Object* i_ancestor) const ;
 

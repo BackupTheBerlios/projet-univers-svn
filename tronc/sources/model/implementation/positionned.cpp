@@ -54,12 +54,15 @@ namespace ProjetUnivers {
       }
       else
       {
-        Positionned* 
-          parent = getObject()->getParent()->getTrait<Positionned>() ;
+        // recursive case 
         
-        if (parent)
+        // first positionned ancestor 
+        Positionned* ancestor = getObject()->getParent()
+                                ->getParentUpTo<Positionned>(i_ancestor) ;
+        
+        if (ancestor)
         {
-          return m_position + parent->getPosition(i_ancestor) ;          
+          return m_position + ancestor->getPosition(i_ancestor) ;          
         }
         else
         {
@@ -76,7 +79,7 @@ namespace ProjetUnivers {
     
     void Positionned::setPosition(
         const Position& i_position,
-        Kernel::Object*    i_reference)
+        Kernel::Object* i_reference)
     {
       if (! getObject()->getParent() || i_reference == getObject())
       {
@@ -89,12 +92,13 @@ namespace ProjetUnivers {
       }
       else
       {
-        Positionned* 
-          parent = getObject()->getParent()->getTrait<Positionned>() ;
+        // first positionned ancestor 
+        Positionned* ancestor = getObject()->getParent()
+                                ->getParentUpTo<Positionned>(i_reference) ;
         
-        if (parent)
+        if (ancestor)
         {
-          m_position = i_position - parent->getPosition(i_reference) ;
+          m_position = i_position - ancestor->getPosition(i_reference) ;
           notify() ;
         }
       }

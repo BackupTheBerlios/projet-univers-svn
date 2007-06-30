@@ -38,13 +38,27 @@ namespace ProjetUnivers {
       // @{
         
 
-        /// Test Model::Oriented::getOrientation(Kernel::Object*).
-        void testGetOrientation() ;
+        /// Test getOrientation(Kernel::Object*) in normal case.
+        void testGetOrientation1() ;
 
-        /// Test Model::Oriented::setOrientation(Position,Object*).
-        void testSetAbsoluteOrientation() ;
+        /// Test getOrientation(Kernel::Object*) with non Oriented ancestor.
+        void testGetOrientation2() ;
 
-           
+        /// Test getOrientation(Kernel::Object*) with non Oriented intermediate.
+        void testGetOrientation3() ;
+
+        /// Test setOrientation(Position,Object*) in normal case.
+        void testSetOrientation1() ;
+        
+        /// Test setOrientation(Position,Object*) with non Oriented ancestor.
+        void testSetOrientation2() ;
+        
+        /// Test setOrientation(Position,Object*) with non Oriented intermediate.
+        void testSetOrientation3() ;
+        
+        /// Check that roll of default orientation is 0. 
+        void rollOfDefaultOrientation() ;
+        
       // @}
       /*!
         @name Test registration
@@ -53,8 +67,15 @@ namespace ProjetUnivers {
       
         CPPUNIT_TEST_SUITE(TestOriented) ;
       
-        CPPUNIT_TEST(testGetOrientation) ;
-        CPPUNIT_TEST(testSetAbsoluteOrientation) ;
+        CPPUNIT_TEST(testGetOrientation1) ;
+        CPPUNIT_TEST(testGetOrientation2) ;
+        CPPUNIT_TEST(testGetOrientation3) ;
+
+        CPPUNIT_TEST(testSetOrientation1) ;
+        CPPUNIT_TEST(testSetOrientation2) ;
+        CPPUNIT_TEST(testSetOrientation3) ;
+
+        CPPUNIT_TEST(rollOfDefaultOrientation) ;
       
         CPPUNIT_TEST_SUITE_END() ;
       

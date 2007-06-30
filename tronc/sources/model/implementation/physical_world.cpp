@@ -22,8 +22,7 @@
 namespace ProjetUnivers {
   namespace Model {
 
-    DeclareDeducedTrait(PhysicalWorld,
-                        And(HasTrait(Whole),
-                            HasTrait(Positionned))) ;
+    DeclareDeducedTrait(PhysicalWorld,HasTrait(Whole)) ;
+
   }
 }

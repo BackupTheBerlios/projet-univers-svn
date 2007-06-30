@@ -92,6 +92,9 @@ namespace ProjetUnivers {
 
       /// First ancestor with trait T.
       template <class T> T* getParent() const ;
+      
+      /// First ancestor with trait T and not up to @c i_object.
+      template <class T> T* getParentUpTo(Object* i_object) const ;
 
       /// Apply @c i_operation on all _View.
       template <class _View>
@@ -213,146 +216,9 @@ namespace ProjetUnivers {
       friend class DeducedTrait ;
       
     };
-
-
-
-    template <class _View> _View* Object::getView(ViewPoint* i_viewpoint)
-    {
-      check(i_viewpoint,ExceptionKernel("Object::getView error")) ;
-      InternalMessage(
-        "Object::getView for " + getObjectTypeIdentifier(i_viewpoint).toString()) ;
-      
-      TypeIdentifier trait_type = 
-        Trait::getTraitTypeOfView(
-                    getClassTypeIdentifier(_View), 
-                    getObjectTypeIdentifier(i_viewpoint)) ;
-      
-      if (trait_type != VoidTypeIdentifier)
-      {
-        InternalMessage("Object::getView found trait name " + trait_type.toString()) ;
-
-        for(std::map<TypeIdentifier, Trait*>::const_iterator trait = traits.begin() ;
-            trait != traits.end() ;
-            ++trait)
-        {
-          if (trait_type.isInstance(trait->second))
-          {
-            InternalMessage("Object::getView trait*=" + toString((int)trait->second)) ;
-            return trait->second->getView<_View>(i_viewpoint) ;
-          }
-        }
-      }
-      
-      InternalMessage("Object::getView return NULL") ;
-      return NULL ;
-    }
-
-    template <class T> T* Object::getTrait() 
-    {
-
-      InternalMessage("Object::getTrait()") ;
-
-      /// T doit être une sous classe de Trait
-      Kernel::Inherits<T,Trait>() ;
-
-      InternalMessage("Asking trait " + getClassTypeIdentifier(T).toString()) ;
-      
-      /// if trait exist convert :
-      if (traits.find(getClassTypeIdentifier(T)) != traits.end())
-      {
-        InternalMessage("Trait found") ;
-        
-        return static_cast<T*>(traits[getClassTypeIdentifier(T)]) ;
-      }
-      else
-      {
-        InternalMessage("Trait not found") ;
-        return NULL ;
-      }
-    }
-
-    template <class T> T* Object::getParent() const
-    {
-      /// T doit être une sous classe de Trait
-      Kernel::Inherits<T,Trait>() ;
-      
-      Object* iterator(const_cast<Object*>(this)) ;
-      T* trait(iterator->getTrait<T>()) ;
-      
-      while((! trait) && iterator)
-      {
-        iterator = iterator->getParent() ;
-        if (iterator)
-        {
-          trait = iterator->getTrait<T>() ;
-        }
-      }
-      
-      return trait ;
-      
-    }
-
-    template <class T> T* Object::getRoot() const
-    {
-      InternalMessage("Object::getRoot()") ;
-
-      /// T doit être une sous classe de Trait
-      Kernel::Inherits<T,Trait>() ;
-      
-      Object* iterator(const_cast<Object*>(this)) ;
-      T* highest_trait_found(iterator->getTrait<T>()) ;
-      
-      while(highest_trait_found && iterator)
-      {
-        InternalMessage(
-          (std::string("highest_trait_found=") 
-           + toString((int)highest_trait_found)
-           + std::string(" iterator=")
-           + toString((int)iterator)).c_str()) ;
-          
-
-        highest_trait_found = highest_trait_found ;
-        
-        iterator = iterator->getParent() ;
-        if (iterator)
-        {
-          highest_trait_found = iterator->getTrait<T>() ;
-        }
-      }
-      
-      return highest_trait_found ;
-      
-    }
-
-    template <class _View>
-    void Object::apply(const TypeIdentifier& i_trait_name,
-                       ViewPoint* i_viewpoint,
-                       boost::function1<void,_View*> i_operation)
-    {
-      std::map<TypeIdentifier, Trait*>::const_iterator
-           trait = traits.find(i_trait_name) ;
-      
-      if (trait != traits.end())
-      {
-        _View* view = trait->second->getView<_View>(i_viewpoint) ;
-        if (view)
-        {
-          i_operation(view) ;
-        }
-      }
-
-      /// recursive
-      for(std::set<Object*>::iterator child = children.begin() ;
-          child != children.end() ;
-          ++child)
-      {
-        (*child)->apply<_View>(i_trait_name,i_viewpoint,i_operation) ;
-      }
-      
-    }
-
-
   }
 }      
+
+#include <kernel/implementation/object.cxx>
 
 #endif /*PU_KERNEL_OBJECT_H_*/

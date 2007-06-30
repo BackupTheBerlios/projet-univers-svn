@@ -17,6 +17,9 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <kernel/object.h>
+#include <model/physical_world.h>
+#include <model/oriented.h>
 #include <model/engine.h>
 
 
@@ -31,9 +34,26 @@ namespace ProjetUnivers {
     
     Force Engine::getAppliedForce() const
     {
-      return m_full_thrust*(((float)m_percentage_thrust)/100) ;
+      // orient the force according to orientation of the parent physical world
+      PhysicalWorld* physical_world = getObject()->getParent<PhysicalWorld>() ;
+      if (physical_world)
+      {
+        Oriented* oriented = getObject()->getParent<Oriented>() ;
+
+        /// local orientation relative to world's one
+        const Orientation& orientation 
+          = oriented->getOrientation(physical_world->getObject()) ;
+        
+        return m_full_thrust*orientation*(((float)m_percentage_thrust)*0.01) ;
+      }
+      
+      // no physical world --> useless to push...
+      return Force() ;
     }
     
-    
+    void Engine::setPowerPercentage(const int& i_new)
+    {
+      m_percentage_thrust = i_new ;
+    }
   }
 }

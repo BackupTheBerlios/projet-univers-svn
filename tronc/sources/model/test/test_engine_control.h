@@ -17,48 +17,71 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_SHIP_CONTROL_H_
-#define PU_MODEL_SHIP_CONTROL_H_
+#ifndef PU_MODEL_TEST_ENGINE_CONTROL_H_
+#define PU_MODEL_TEST_ENGINE_CONTROL_H_
 
-#include <model/torque_generator.h>
-#include <model/oriented.h>
+
+#include <cppunit/extensions/HelperMacros.h>
+
 
 namespace ProjetUnivers {
   namespace Model {
-    
-    /// Change direction of a ship.
-    /*!
-      @todo 
-        split into :
-        - xxx the engine system responsible for ship orientation
-        - yyy the computer that pilot xxx
-        
-    */
-    class ShipControl : public TorqueGenerator
-    {
-    public:
+    namespace Test {
 
-      /// Constructor.
-      ShipControl(Oriented* i_stick) ;
- 
-      /// get the torque in newton.meter.
-      virtual Ogre::Vector3 NewtonMeter() const ;
-      
-      /// Access to stick object.
-      Oriented* getStick() const ;
-      
-    private:
-      
-      /// the stick 
+
+            
+      /// Test of EngineControl.
       /*!
-        it is a normalised orientation of a stick.
-      */ 
-      Oriented* m_stick ;
+
+      */
+      class TestEngineControl : public CppUnit::TestFixture {
+      protected:
       
-    };
+        
+      // ****************************
+      /// @name Tests 
+      // ****************************
+      // @{
+        
+        /// Basic test.
+        void basicTest() ;
+           
+      // @}
+      // *******************************
+      /// @name Test registration
+      // *******************************
+      // @{      
     
-    
+        CPPUNIT_TEST_SUITE(TestEngineControl) ;
+      
+        CPPUNIT_TEST(basicTest) ;
+      
+        CPPUNIT_TEST_SUITE_END() ;
+
+      public:
+  
+      // @}
+      // *******************************
+      /// @name Mandatory methods
+      // *******************************
+      // @{
+
+      
+        /// Initialisation du test
+        void setUp() ;
+      
+        /// Desinitialisation du test
+        void tearDown() ;
+      
+      // @}      
+                
+       
+      
+      };
+
+    }
   }
 }
 
-#endif /*PU_MODEL_SHIP_CONTROL_H_*/
+
+#endif

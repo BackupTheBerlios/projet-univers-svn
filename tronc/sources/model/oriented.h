@@ -29,8 +29,8 @@ namespace ProjetUnivers {
 
     /// For objects that have an orientation in space.
     /*!
-      Iff their parent is also oriented, the orientation of the object is 
-      relative to its parent.
+      The orientation of the object is relative to its first oriented 
+      ancestor parent or to nothing if it has none. 
     */
     class Oriented : public Kernel::Trait
     {
@@ -59,8 +59,7 @@ namespace ProjetUnivers {
 
       /// Access to orientation relative to @c i_ancestor.
       /*!
-        @pre i_ancestor is a Positionned ancestor of this->getObject(), 
-        and every object between the two are also Positionned 
+        Skipps any non positionned intermediate object.
       */
       Orientation getOrientation(Kernel::Object* i_ancestor) const ;
 

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Equipe Projet Univers                           *
+ *   Copyright (C) 2007 by Equipe Projet Univers                           *
  *   rogma.boami@free.fr                                                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,30 +17,26 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-
 #include <kernel/log.h>
-
-#include <model/solid.h>
-
-#include <display/implementation/ogre/utility.h>
 #include <display/implementation/ogre/positionned.h>
-#include <display/implementation/ogre/solid.h>
-
+#include <display/implementation/ogre/utility.h>
+#include <display/implementation/ogre/ship_control_debug.h>
 
 namespace ProjetUnivers {
   namespace Display {
     namespace Implementation {
       namespace Ogre {
 
-        /// Indique que la cette vue s'applique au modèle dans ce point de vue
-        RegisterView(Ogre::Solid,Model::Solid,Ogre::RealWorldViewPoint) ;
+        RegisterView(Ogre::ShipControl,
+                     Model::ShipControl,
+                     Ogre::RealWorldViewPoint) ;
 
 
-        /// Constructeur.
-        Solid::Solid(Model::Solid* i_object,
+        ShipControl::ShipControl(Model::ShipControl* i_object,
                      RealWorldViewPoint* i_viewpoint)
-        : Kernel::TraitView<Model::Solid,RealWorldViewPoint>(i_object,i_viewpoint), 
-          mesh(NULL)
+        : Kernel::TraitView<Model::ShipControl,
+                            RealWorldViewPoint>(i_object,i_viewpoint), 
+          m_object(NULL)
         {}
 
 
@@ -51,43 +47,32 @@ namespace ProjetUnivers {
       // @{
       
         /// Crée une entité.
-        void Solid::onInit()
+        void ShipControl::onInit()
         {
-          InternalMessage("Entering Solid::onInit") ;
+          InternalMessage("Entering ShipControl::onInit") ;
 
           Positionned* positionned(getView<Positionned>()) ;
           positionned->_init() ;
           
+          Model::Oriented* oriented(getModel()->getStick()) ;
+          
           /// on crée l'élément 3D
-          mesh = this->getViewPoint()->getManager()
-                  ->createEntity(Utility::getUniqueName(),
-                                 getModel()->getMesh().getName()) ;
+          m_object = this->getViewPoint()->getManager()
+                  ->createEntity(Utility::getUniqueName(),"stick.mesh") ; 
+            
           
           /// on le place sur le noeud
-          positionned->getNode()->attachObject(mesh) ;
+          positionned->getNode()->attachObject(m_object) ;
 
-          InternalMessage("Leaving Solid::onInit") ;
+          InternalMessage("Leaving ShipControl::onInit") ;
         }
         
-        /// Détruit l'entité.
-        void Solid::onClose()
+        void ShipControl::onClose()
         {
-          InternalMessage("Display::Solid::onClose Entering") ;
-          /// Positionne doit avoir été terminé
-          /*!
-            @why ???
-              try without...
-          */
-          Positionned* positionned(getView<Positionned>()) ;
-          if (positionned)
-          {
-            positionned->_close() ;
-          }  
+          InternalMessage("Display::ShipControl::onClose Entering") ;
           
-          this->getViewPoint()->getManager()
-               ->destroyEntity(mesh) ;
 
-          InternalMessage("Display::Solid::onClose Leaving") ;
+          InternalMessage("Display::ShipControl::onClose Leaving") ;
         }
       
         /// 
@@ -95,7 +80,7 @@ namespace ProjetUnivers {
         @par Etat
           stub vide
         */
-        void Solid::onUpdate()
+        void ShipControl::onUpdate()
         {
           
         }

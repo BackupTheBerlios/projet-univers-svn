@@ -1,35 +1,35 @@
 2006-07-14 rogma <rogma.boami@free.fr>
 
-	* entrees, action, affichage : 
+  * entrees, action, affichage : 
 
-				general interface and testing implementation
+        general interface and testing implementation
 
 
 2006-10-22 rogma <rogma.boami@free.fr>
 
-	* livraison version 0.1.0
+  * livraison version 0.1.0
 
 2006-10-27 rogma <rogma.boami@free.fr>
   
   * configure.ac : incrémentation de la version 
 
-	* modele 
-			- objet.h, modele.h : ajout de Enlever(Objet)
-	* entrees
-			- clavier.cpp (keyPressed) : ajout de la touche 'D' provoquant une 
-			  action
-	* base
-			- point_de_vue.h : ajout de Enlever(BaseVue)
-			- vue.cxx : correction d'une segmentation fault 
-												(ajout de test de validité de observe dans ~Vue)
-	* action
-			- action.cpp : ajout du traitement d'une nouvelle action détruisant 
-			  un objet
-	* affichage :
-			- point_de_vue.h : ajout d'une spécialisation de Detruire(BaseVue)
-																			correction de include/délcarations en avant
-			- objet.h/cpp : correction du type de retours de Ajouter(Facette*)
-															 ajout de Enlever pour Objet et Facette
+  * modele 
+      - objet.h, modele.h : ajout de Enlever(Objet)
+  * entrees
+      - clavier.cpp (keyPressed) : ajout de la touche 'D' provoquant une 
+        action
+  * base
+      - point_de_vue.h : ajout de Enlever(BaseVue)
+      - vue.cxx : correction d'une segmentation fault 
+                        (ajout de test de validité de observe dans ~Vue)
+  * action
+      - action.cpp : ajout du traitement d'une nouvelle action détruisant 
+        un objet
+  * affichage :
+      - point_de_vue.h : ajout d'une spécialisation de Detruire(BaseVue)
+                                      correction de include/délcarations en avant
+      - objet.h/cpp : correction du type de retours de Ajouter(Facette*)
+                               ajout de Enlever pour Objet et Facette
 
 2007-02-17 rogma <rogma.boami@free.fr>
 
@@ -40,91 +40,103 @@
   * change language to english
 
 2007-03-10 rogma <rogma.boami@free.fr>
-	
-	* kernel : now contains model view framework
-	* model : simplified uses kernel model
-	* display : simplified uses kernel view and viewpoint
+  
+  * kernel : now contains model view framework
+  * model : simplified uses kernel model
+  * display : simplified uses kernel view and viewpoint
 
 2007-03-25 rogma <rogma.boami@free.fr>
   
   * kernel : bug corrections : 
-  	- getTrait made an empty trait (test added)
-  	- detroying a model with initialised viewpoint made an error (test added)
+    - getTrait made an empty trait (test added)
+    - detroying a model with initialised viewpoint made an error (test added)
   * model : added functionnalities
-  	- Positionned now can compute position/orientation relatively to 
-  		an other object (test added)
-  	- changes on Position, Orientation
-  	- PhysicalObject, PhysicalWorld, Massive, AngularSpeed, Component, 
-  		Composite added
+    - Positionned now can compute position/orientation relatively to 
+      an other object (test added)
+    - changes on Position, Orientation
+    - PhysicalObject, PhysicalWorld, Massive, AngularSpeed, Component, 
+      Composite added
   * physic : creation of the physic module
 
 2007-03-27 rogma <rogma.boami@free.fr>
 
-	Work on physic :
-	* model : 
-		- Positionned : added set position/orientation relative to any object
-	* physic : added modification of Position according to physic simulation
-	* kernel :
-  	- added forAll<View> that allows to call a method on each View element of 
-  		a viewpoint
+  Work on physic :
+  * model : 
+    - Positionned : added set position/orientation relative to any object
+  * physic : added modification of Position according to physic simulation
+  * kernel :
+    - added forAll<View> that allows to call a method on each View element of 
+      a viewpoint
 
-	Work on windows port :
-	* kernel :
-		- inherits.h removed some annoying warning about unused variables
-	* makefiles/autoconf : modifications for libtool
-	* display
-		- display.cpp corrected a possible bug
-	* added preliminary codeblocks projects for modules
+  Work on windows port :
+  * kernel :
+    - inherits.h removed some annoying warning about unused variables
+  * makefiles/autoconf : modifications for libtool
+  * display
+    - display.cpp corrected a possible bug
+  * added preliminary codeblocks projects for modules
 
 2007-04-20 rogma <rogma.boami@free.fr>
 
-	Work on deduction :
-	* kernel :
-		- added deduced_trait.h/cpp : handling of deduced trait, formulas And, Or, Not, HasTrait + tests
-	* model : 
-		- used deduction for physical object, whole and physical world
-	* physic
-		- validated deduction usage throught small changes
+  Work on deduction :
+  * kernel :
+    - added deduced_trait.h/cpp : handling of deduced trait, formulas And, Or, Not, HasTrait + tests
+  * model : 
+    - used deduction for physical object, whole and physical world
+  * physic
+    - validated deduction usage throught small changes
 
-	Demo :
-	* kernel :
-		added timer
-	* demonstration
-		usage of physic module	
+  Demo :
+  * kernel :
+    added timer
+  * demonstration
+    usage of physic module  
 
-	Diverse :
-	* kernel : renaming of member data, added preliminary timer class
-	* all : removed some warnings	
+  Diverse :
+  * kernel : renaming of member data, added preliminary timer class
+  * all : removed some warnings  
 
 2007-04-22 rogma <rogma.boami@free.fr>
 
-	Diverse :
-	* kernel : added meta.h/cpp for centralization of class identification
-	* all modified makefiles
+  Diverse :
+  * kernel : added meta.h/cpp for centralization of class identification
+  * all modified makefiles
 
 2007-06-05 rogma <rogma.boami@free.fr>
 
-	Architecture :
-	* kernel : added controler.h/.cpp, a Model-modifying "procedure".
-	* model : added a stabilizer+torque generator for element that resist rotation
+  Architecture :
+  * kernel : added controler.h/.cpp, a Model-modifying "procedure".
+  * model : added a stabilizer+torque generator for element that resist rotation
   * physic : applied controler pattern+tested generator
   
   Demonstration :
   * usage of stabilizer to slowly stop rotation of one of the ships
- 	
+   
 2007-06-10 rogma <rogma.boami@free.fr>
- 	
- 	Diverse : 
- 	* all : some french comments turned into english
- 	* added codeblocks project for windows compilation
- 	* remove a bug in kernel
- 	* small changes in log
+   
+   Diverse : 
+   * all : some french comments turned into english
+   * added codeblocks project for windows compilation
+   * remove a bug in kernel
+   * small changes in log
 
 2007-06-18 rogma <rogma.boami@free.fr>
-	
-	* input : added mouse.h/cpp and mouse control of an oriented object
-	* model : separation of positionned into positionned and orientated, and 
-	  impact on other modules
-	* model : preliminary work on ship control : dragger, shipcontrol traits
-	* display : added 3D line display for tests
-	
+  
+  * input : added mouse.h/cpp and mouse control of an oriented object
+  * model : separation of positionned into positionned and orientated, and 
+    impact on other modules
+  * model : preliminary work on ship control : dragger, shipcontrol traits
+  * display : added 3D line display for tests
+
+2007-06-30 rogma <rogma.boami@free.fr>
+
+  * input : added joystick.h/cpp and control of an oriented object
+  * model : small modifications to demonstration model
+  * model/stabilizer : correction of a big bug (test added in physic/test); 
+    stabilizer would increase rotation speed iff angular velocity is opposed 
+    to stabilizer axis !!
+  * model/ship_control : quite working
+  * model/engine_control : working. Tests added.
+  * model : semantic modification for Positionned and Oriented, they are now 
+    relative to first Positionned/Oriented ancestor. Tests added.
+  * kernel : splitted object.h in two files, added getParentUpTo

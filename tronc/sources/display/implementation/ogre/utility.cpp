@@ -44,8 +44,7 @@ namespace ProjetUnivers {
             code extracted from http://www.ogre3d.org/wiki/index.php/Line3D.
           */
           ::Ogre::MovableObject* createLine(
-              const Model::Position& i_start_point,
-              const Model::Position& i_end_point,
+              const ::Ogre::Vector3& i_end_point,
               ::Ogre::SceneManager*  i_scene_manager)
           {
              ::Ogre::ManualObject* m_object 
@@ -61,8 +60,8 @@ namespace ProjetUnivers {
              
              m_object->begin("manual1Material", ::Ogre::RenderOperation::OT_LINE_LIST); 
   
-             m_object->position(3, 2, 1); 
-             m_object->position(4, 1, 0); 
+             m_object->position(0,0,0) ; 
+             m_object->position(i_end_point[0],i_end_point[1],i_end_point[2]) ; 
   
              m_object->end(); 
              

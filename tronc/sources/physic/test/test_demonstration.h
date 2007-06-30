@@ -76,6 +76,15 @@ namespace ProjetUnivers {
         /// Check that a stabilizer only affects its direction.
         void testNegativeStabilizer() ;
 
+        /// Test a stabilizer with opposite rotation.
+        /*!
+          Add a stabilizer on an object
+          Make it totate in the direction of the stabilizer
+          check that after a certain amount of time, the angular speed is null
+        */
+        void testStabilizer2() ;
+
+
       // @}
       /*!
         @name Test registration
@@ -93,6 +102,7 @@ namespace ProjetUnivers {
         CPPUNIT_TEST(testModelPositionUpdate) ;
         CPPUNIT_TEST(testStabilizer) ;
         CPPUNIT_TEST(testNegativeStabilizer) ;
+        CPPUNIT_TEST(testStabilizer2) ;
       
         CPPUNIT_TEST_SUITE_END() ;
 
