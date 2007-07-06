@@ -17,67 +17,38 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_DISPLAY_IMPLEMENTATION_OGRE_SHIP_CONTROL_DEBUG_H_
-#define PU_DISPLAY_IMPLEMENTATION_OGRE_SHIP_CONTROL_DEBUG_H_
-
-#include <Ogre.h>
-
-#include <kernel/trait_view.h>
-#include <model/ship_control.h>
-#include <display/implementation/ogre/real_world_view_point.h>
-
+#include <model/throttle.h>
 
 namespace ProjetUnivers {
-  namespace Display {
-    namespace Implementation {
-      namespace Ogre {
-
-        /// display a stick as 3D line.
-        /*!
-        */
-        class ShipControl : public Kernel::TraitView<Model::ShipControl,
-                                                     RealWorldViewPoint>
-        {
-        public:
-        
-        // **********************
-        /// @name Constructeur/Destructeur
-        // **********************
-        // @{
-
-          /// Constructeur.
-          ShipControl(Model::ShipControl* i_object,
-                      RealWorldViewPoint* i_viewpoint) ;
-
-        protected:
-        //@}
-        /*!
-          @name Mise à jour
-        */
-        // @{
-        
-          /// Crée une entité.
-          void onInit() ;
-          
-          /// Détruit l'entité.
-          void onClose() ;
-        
-          /// 
-          /*!
-          @par Etat
-            stub vide
-          */
-          void onUpdate() ;
-
-        // @}
-        private:
-          
-          /// Modèle 3D.
-          ::Ogre::Entity* m_object ;
+  namespace Model {
       
-        };
-      }
+    namespace
+    {
+      /// local data
+      const int max = 100 ;
     }
+
+    Throttle::Throttle()
+    : Oriented(),
+      m_y(0)
+    {}
+    
+    void Throttle::modify(const int& i_delta)
+    {
+      m_y += i_delta ;
+      if (m_y > max)
+      {
+        m_y = max ;
+      }
+      if (m_y < -max)
+      {
+        m_y = -max ;
+      }
+//      std::cout << "throttle::m_y =" << m_y << std::endl ;
+      
+      Ogre::Quaternion orientation(Ogre::Degree(0.9*m_y),Ogre::Vector3::UNIT_X) ;
+      m_orientation = Model::Orientation(orientation) ;
+    }
+
   }
 }
-#endif

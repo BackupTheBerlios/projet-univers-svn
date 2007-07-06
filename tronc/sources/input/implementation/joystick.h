@@ -21,7 +21,7 @@
 #define PU_INPUT_IMPLEMENTATION_JOYSTICK_H_
 
 #include <OISJoyStick.h>
-#include <model/oriented.h>
+#include <kernel/object.h>
 
 namespace ProjetUnivers {
   namespace Input {
@@ -48,7 +48,7 @@ namespace ProjetUnivers {
         
         void setTimeDelay(const float& i_seconds) ;
         
-        void setControledObject(Model::Oriented*) ;
+        void setControledObject(Kernel::Object*) ;
         
       /*!
         @name Interface implementation
@@ -76,7 +76,7 @@ namespace ProjetUnivers {
         float m_time_delay ;
         
         /// This joystick control the orientation of an object.
-        Model::Oriented* m_controled_object ;
+        Kernel::Object* m_controled_object ;
         
         /// sensibility.
         float m_sensibility ;

@@ -428,7 +428,17 @@ namespace ProjetUnivers {
         InternalMessage("Object::_get found") ;
         return trait->second ;
       }
-
+      
+      for(std::map<TypeIdentifier, Trait*>::const_iterator trait = traits.begin() ;
+          trait != traits.end() ;
+          ++trait)
+      {
+        if (i_trait_name.isInstance(trait->second))
+        {
+          return trait->second ;
+        }
+      }
+      
       InternalMessage("Object::_get not found") ;
 
       return NULL ;
@@ -472,6 +482,72 @@ namespace ProjetUnivers {
       }
     }
 
+    bool Object::call(const std::string& i_command) 
+    {
+      bool found = false ;
+      
+      for(std::map<TypeIdentifier, Trait*>::iterator trait = traits.begin() ;
+          trait != traits.end() && !found ;
+          ++trait)
+      {
+        found = trait->second->call(i_command) ;
+      }
+      
+      for(std::set<Object*>::iterator child = children.begin() ;
+          child != children.end() && ! found;
+          ++child)
+      {
+        found = (*child)->call(i_command) ;
+      }
+
+      return found ;
+    }
+
+    /// call an int command returns true iff succedeed.
+    bool Object::call(const std::string& i_command,const int& i_parameter) 
+    {
+      bool found = false ;
+      
+      for(std::map<TypeIdentifier, Trait*>::iterator trait = traits.begin() ;
+          trait != traits.end() && !found ;
+          ++trait)
+      {
+        found = trait->second->call(i_command,i_parameter) ;
+      }
+      
+      for(std::set<Object*>::iterator child = children.begin() ;
+          child != children.end() && ! found;
+          ++child)
+      {
+        found = (*child)->call(i_command,i_parameter) ;
+      }
+      
+      return found ;
+    }
+    
+    /// Access to all commands understood be the object.
+    std::set<std::string> Object::getCommands() const
+    {
+      std::set<std::string> result ;
+      for(std::map<TypeIdentifier, Trait*>::const_iterator 
+            trait = traits.begin() ;
+          trait != traits.end() ;
+          ++trait)
+      {
+        std::set<std::string> temp(trait->second->getCommands()) ;
+        result.insert(temp.begin(),temp.end()) ;
+      }
+      
+      for(std::set<Object*>::const_iterator child = children.begin() ;
+          child != children.end() ;
+          ++child)
+      {
+        std::set<std::string> temp((*child)->getCommands()) ;
+        result.insert(temp.begin(),temp.end()) ;
+      }
+      
+      return result ;
+    }
 
   }
 }

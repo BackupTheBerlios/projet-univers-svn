@@ -146,7 +146,7 @@ namespace ProjetUnivers {
       // mouse_listener->setControledObject(i_object->getTrait<Model::Oriented>()) ;
       if (joystick_listener.get())
       {
-        joystick_listener->setControledObject(i_object->getTrait<Model::Oriented>()) ;
+        joystick_listener->setControledObject(i_object) ;
       }
     }
         

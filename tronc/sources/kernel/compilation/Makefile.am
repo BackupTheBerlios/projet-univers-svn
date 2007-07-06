@@ -36,7 +36,9 @@ $(SOURCES)/kernel/test/test_kernel.cpp \
 $(SOURCES)/kernel/test/test_meta.cpp \
 $(SOURCES)/kernel/test/test_model_controler.cpp \
 $(SOURCES)/kernel/test/test_model_view.cpp \
-$(SOURCES)/kernel/test/test_deduced_trait.cpp 
+$(SOURCES)/kernel/test/test_deduced_trait.cpp \
+$(SOURCES)/kernel/test/test_command.cpp 
+
 
 # checks that "test_inherits.cpp" does not compile
 # its is a neagtive test for inherits : class does not inhertits and should 

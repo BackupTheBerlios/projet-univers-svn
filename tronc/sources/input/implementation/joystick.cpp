@@ -17,6 +17,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <iostream>
 #include <kernel/log.h>
 #include <kernel/string.h>
 
@@ -64,57 +65,10 @@ namespace ProjetUnivers {
           Y = - 100 * event.state.mAxes[1].abs / OIS::JoyStick::MAX_AXIS ;
           Z = 100 * event.state.mAxes[5].abs / OIS::JoyStick::MAX_AXIS ; 
           
-          std::cout << "X=" << X << ",Y=" << Y << ",Z=" << Z << std::endl ;
+          m_controled_object->call("set_axis_X",X) ;
+          m_controled_object->call("set_axis_Y",Y) ;
+          m_controled_object->call("set_axis_Z",Z) ;
 
-//          std::cout << "0=" << event.state.mAxes[0].abs
-//                    << ",1=" << event.state.mAxes[1].abs
-//                    << ",2=" << event.state.mAxes[2].abs
-//                    << ",3=" << event.state.mAxes[3].abs
-//                    << ",4=" << event.state.mAxes[4].abs
-//                    << ",5=" << event.state.mAxes[5].abs
-//                    << ",6=" << event.state.mAxes[6].abs
-//                    << ",7=" << event.state.mAxes[7].abs
-//                    << ",8=" << event.state.mAxes[8].abs
-//                    << ",9=" << event.state.mAxes[9].abs
-//                    << std::endl ;          
-//          /// it seem that for my stick POV is handled as buttons
-//          std::cout << "POV=" << event.state.mPOV[0].direction << std::endl ;
-
-          /// lookat method...
-          Ogre::Vector3 view(-X,Y,max/2.0) ;
-          view.normalise() ;
-          
-          Ogre::Vector3 y_rotation = 
-            Ogre::Quaternion(Ogre::Degree(-0.45*Z),Ogre::Vector3::NEGATIVE_UNIT_Z)
-            * Ogre::Vector3::UNIT_Y ;
-          
-          Ogre::Vector3 rigth = -view.crossProduct(y_rotation) ;
-          rigth.normalise() ;
-          Ogre::Vector3 up = view.crossProduct(rigth) ;
-          up.normalise() ;
-
-
-          std::cout << "X rigth = " << rigth << std::endl ;
-          std::cout << "Y up = " << up << std::endl ;
-          std::cout << "Z view = " << view << std::endl ;
-          
-          Ogre::Quaternion orientation(rigth,up,view) ;
-
-          std::cout << "pitch=" << orientation.getPitch().valueRadians()
-                    << ",Yaw=" << orientation.getYaw().valueRadians()
-                    << ",Roll=" << orientation.getRoll().valueRadians() 
-                    << std::endl ;
-          
-          m_controled_object->setOrientation(
-             Model::Orientation(orientation)) ;
-
-//          std::cout << "view = " << view << std::endl ;
-
-//          
-//          /// local zAxis of orientation is "good", it is the orientation see from behind
-//          std::cout 
-//            << m_controled_object->getOrientation().getQuaternion().zAxis() 
-//            << std::endl ;
         }
         return true ;
       }
@@ -147,7 +101,7 @@ namespace ProjetUnivers {
         m_time_delay = i_seconds ;
       }
       
-      void Joystick::setControledObject(Model::Oriented* i_object)
+      void Joystick::setControledObject(Kernel::Object* i_object)
       {
         m_controled_object = i_object ;
       }

@@ -28,6 +28,8 @@
 namespace ProjetUnivers {
   namespace Model {
     
+    class EngineControl ;
+    
     /// Ship/Other objects engine.
     /*!
     */
@@ -39,7 +41,7 @@ namespace ProjetUnivers {
       Engine(const Force& i_force) ;
       
       /// Set the 
-      void setPowerPercentage(const int&) ;
+      void setControler(EngineControl*) ;
       
       /// Get the force.
       virtual Force getAppliedForce() const ;
@@ -53,12 +55,8 @@ namespace ProjetUnivers {
       */
       Force m_full_thrust ;
       
-      /// Thrust axis
-      /*!  
-        - 0 --> does not push
-        - 100 --> full thrust 
-      */
-      int m_percentage_thrust ;
+      /// Controler of this engine
+      EngineControl* m_controler ;
       
     };
     

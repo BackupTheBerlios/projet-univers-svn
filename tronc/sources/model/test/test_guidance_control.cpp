@@ -22,18 +22,18 @@
 
 #include <model/physical_world.h>
 #include <model/physical_object.h>
-#include <model/engine_control.h>
-#include <model/engine.h>
+#include <model/guidance_control.h>
+#include <model/guidance_system.h>
 #include <model/mobile.h>
 #include <model/massive.h>
-#include <model/throttle.h>
-#include <model/test/test_engine_control.h>
+
+#include <model/test/test_guidance_control.h>
 
 
 CPPUNIT_TEST_SUITE_REGISTRATION(ProjetUnivers::
                                 Model::
                                 Test::
-                                TestEngineControl) ;
+                                TestGuidanceControl) ;
 
 namespace ProjetUnivers {
   namespace Model {
@@ -47,13 +47,16 @@ namespace ProjetUnivers {
         {
           return (fabs(i1 - i2) <= delta) ;
         }
+        
+        const float pi = 3.1415926535 ;
       }
 
-      void TestEngineControl::basicTest()
+
+      void TestGuidanceControl::basicTest()
       {
-        InternalMessage("Model::TestEngineControl::basicTest entering") ;
-        /// we construct a complete system
-        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestEngineControl::basicTest")) ;
+        InternalMessage("Model::TestGuidanceControl::basicTest entering") ;
+        /// we construct a complete system on a ship
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestGuidanceControl::basicTest")) ;
         
         /// should be a PhysicalWorld
         Kernel::Object* system = model->createObject("system") ;
@@ -66,66 +69,71 @@ namespace ProjetUnivers {
         model->addTrait(ship,new Massive(Mass::Kilogram(1000))) ;
         CPPUNIT_ASSERT(ship->getTrait<PhysicalObject>()) ;
         
-        Kernel::Object* throttle = model->createObject("throttle",ship) ;
-        model->addTrait(throttle,new Throttle()) ;
+        Kernel::Object* stick = model->createObject("stick",ship) ;
+        model->addTrait(stick,new Oriented()) ;
         
-        Kernel::Object* engine = model->createObject("engine",ship) ;
-        model->addTrait(engine,new Engine(Force::Newton(0,0,10))) ;
+        Kernel::Object* guidance_system = model->createObject("guidance_system",ship) ;
+        model->addTrait(guidance_system,new GuidanceSystem()) ;
 
-        Kernel::Object* engine_control = model->createObject("engine_control",ship) ;
-        model->addTrait(engine_control,
-                        new EngineControl(
-                          throttle->getTrait<Oriented>(),
-                          engine->getTrait<Engine>())) ;
+        Kernel::Object* guidance_control = model->createObject("guidance_control",ship) ;
+        model->addTrait(guidance_control,
+                        new GuidanceControl(
+                          stick->getTrait<Oriented>(),
+                          guidance_system->getTrait<GuidanceSystem>())) ;
         
         /// now we can test the control...
         {
           /// variables redefines to have direct access to interesting traits
           
-          Engine* engine = model->getObject("engine")->getTrait<Engine>() ;
-          CPPUNIT_ASSERT(engine) ;
-          EngineControl* engine_control = model->getObject("engine_control")->getTrait<EngineControl>() ;
-          CPPUNIT_ASSERT(engine_control) ;
-          Throttle* throttle = model->getObject("throttle")->getTrait<Throttle>() ;
-          CPPUNIT_ASSERT(throttle) ;
+          GuidanceSystem* guidance_system = model->getObject("guidance_system")->getTrait<GuidanceSystem>() ;
+          CPPUNIT_ASSERT(guidance_system) ;
+          GuidanceControl* guidance_control = model->getObject("guidance_control")->getTrait<GuidanceControl>() ;
+          CPPUNIT_ASSERT(guidance_control) ;
+          Oriented* stick = model->getObject("stick")->getTrait<Oriented>() ;
+          CPPUNIT_ASSERT(stick) ;
           
           /// basic init check          
-          CPPUNIT_ASSERT(engine->getAppliedForce().Newton() == Ogre::Vector3(0,0,0)) ;
+          CPPUNIT_ASSERT(guidance_system->NewtonMeter() == Ogre::Vector3(0,0,0)) ;
 
-          /// set throttle orientation at full thrust... 
-          throttle->modify(100) ;
-          CPPUNIT_ASSERT(equal(engine->getAppliedForce().Newton().z,10) &&
-                         equal(engine->getAppliedForce().Newton().x,0) &&
-                         equal(engine->getAppliedForce().Newton().y,0)) ;
+          /// set stick orientation at full thrust... 
+          Ogre::Quaternion orientation(0,1,0,0) ;
+          stick->setOrientation(orientation) ;
+
+//          std::cout << guidance_system->NewtonMeter() ;
+
+          CPPUNIT_ASSERT(equal(guidance_system->NewtonMeter().x,-pi) &&
+                         equal(guidance_system->NewtonMeter().y,0) &&
+                         equal(guidance_system->NewtonMeter().z,0)) ;
 
           /// reorient ship...
           ship->getTrait<Oriented>()->setOrientation(
             Ogre::Quaternion(sqrt(0.5),0,sqrt(0.5),0)) ;
           
-//          std::cout << engine->getAppliedForce().Newton() ;
+//          std::cout << guidance_system->NewtonMeter() ;
           
-          CPPUNIT_ASSERT(equal(engine->getAppliedForce().Newton().x,10) && 
-                         equal(engine->getAppliedForce().Newton().y,0) &&
-                         equal(engine->getAppliedForce().Newton().z,0)) ;
-
-          // change throttle...
-          throttle->setOrientation(Ogre::Quaternion(Ogre::Degree(45),Ogre::Vector3::UNIT_X)) ;
-          
-          CPPUNIT_ASSERT(equal(engine->getAppliedForce().Newton().x,5) && 
-                         equal(engine->getAppliedForce().Newton().y,0) &&
-                         equal(engine->getAppliedForce().Newton().z,0)) ;
-          
+          CPPUNIT_ASSERT(equal(guidance_system->NewtonMeter().x,0) &&
+                         equal(guidance_system->NewtonMeter().y,0) &&
+                         equal(guidance_system->NewtonMeter().z,pi)) ;
+//
+//          // change throttle...
+//          throttle->setOrientation(Ogre::Quaternion(Ogre::Degree(45),Ogre::Vector3::UNIT_X)) ;
+//          
+//          CPPUNIT_ASSERT(equal(engine->getAppliedForce().Newton().x,5) && 
+//                         equal(engine->getAppliedForce().Newton().y,0) &&
+//                         equal(engine->getAppliedForce().Newton().z,0)) ;
+//          
         }
       }
       
-      void TestEngineControl::setUp() 
+      void TestGuidanceControl::setUp() 
       {
       }
       
-      void TestEngineControl::tearDown() 
+      void TestGuidanceControl::tearDown() 
       {
       }
       
+
     }
   }
 }

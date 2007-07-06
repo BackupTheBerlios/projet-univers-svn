@@ -27,6 +27,8 @@ namespace ProjetUnivers {
 
 
     Position::Position()
+    : m_value(0,0,0),
+      m_unit(Distance::_Meter)
     {}
 
     Position::Position(const Position& i_position)
@@ -138,5 +140,10 @@ namespace ProjetUnivers {
       return Distance(m_unit,m_value[2]) ;
     }
     
+    std::ostream& operator<<(std::ostream& out,const Position& i_position)
+    {
+      out << "Position(Unit=" << i_position.m_unit << "," << i_position.m_value << ")" ;
+      return out ;
+    }
   }
 }

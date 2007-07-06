@@ -26,9 +26,14 @@ namespace ProjetUnivers {
     : Kernel::Trait(),
       m_engine(i_engine),
       m_throttle(i_throttle)
-    {}
-    
-    void EngineControl::controlEngine() const
+    {
+      if (m_engine)
+      {
+        m_engine->setControler(this) ;
+      }
+    }
+
+    int EngineControl::getPowerPercentage() const
     {
       int percentage = 0 ;
 
@@ -41,11 +46,7 @@ namespace ProjetUnivers {
         percentage = (int)(pitch/0.9) ;
       }
       
-      /// and set engine's setting
-      if (m_engine)
-      {
-        m_engine->setPowerPercentage(percentage) ;
-      }
+      return percentage ;      
     }
     
   }

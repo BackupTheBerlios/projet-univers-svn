@@ -134,8 +134,6 @@ namespace ProjetUnivers {
         return i_unit1 ;
       }
     }
-
-
       
     float Distance::Parsec() const
     {
@@ -146,12 +144,27 @@ namespace ProjetUnivers {
     {
       return convert(m_value,m_unit,_Meter) ;
     }
-      
      
     float Distance::LightYear() const
     {
       return convert(m_value,m_unit,_LightYear) ;
     }
 
+    std::ostream& operator<<(std::ostream& out,const Distance::Unit& i_unit)
+    {
+      switch(i_unit)
+      {
+      case Distance::_Meter:
+        out << "Meter" ;
+        return out ;
+      case Distance::_LightYear:
+        out << "LightYear" ;
+        return out ;
+       
+      case Distance::_Parsec : 
+        out << "Parsec" ;
+        return out ;
+      }
+    }
   }
 }

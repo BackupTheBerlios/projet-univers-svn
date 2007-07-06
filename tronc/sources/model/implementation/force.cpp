@@ -23,7 +23,7 @@ namespace ProjetUnivers {
   namespace Model {
 
     Force::Force() 
-    : m_value(),
+    : m_value(0,0,0),
       m_unit(_Newton)
     {}
     

@@ -18,18 +18,19 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include <model/physical_object.h>
-#include <model/ship_control.h>
+#include <model/guidance_system.h>
+#include <model/guidance_control.h>
 
 namespace ProjetUnivers {
   namespace Model {
     
-    ShipControl::ShipControl(Oriented* i_stick)
-    : m_stick(i_stick)
+    GuidanceSystem::GuidanceSystem()
+    : m_control(NULL)
     {}
  
-    Ogre::Vector3 ShipControl::NewtonMeter() const
+    Ogre::Vector3 GuidanceSystem::NewtonMeter() const
     {
-      if (m_stick)
+      if (m_control)
       {
         PhysicalObject* physical_object = getObject()->getParent<PhysicalObject>() ;
         if (physical_object)
@@ -52,7 +53,7 @@ namespace ProjetUnivers {
               find an optimal one.... 
           */
           const Ogre::Quaternion& quaternion 
-            = m_stick->getOrientation().getQuaternion() ;
+            = m_control->getStickOrientation().getQuaternion() ;
           
   //        std::cout << "pitch=" << quaternion.getPitch().valueRadians()
   //                  << ",Yaw=" << quaternion.getYaw().valueRadians()
@@ -66,9 +67,9 @@ namespace ProjetUnivers {
           
           /// left/rigth
           torque += (object_orientation.yAxis())*quaternion.getYaw().valueRadians() ;        
-  //        
+          
           /// rotation
-          torque -= Ogre::Vector3::UNIT_Z*quaternion.getRoll().valueRadians() ;
+          torque -= (object_orientation.zAxis())*quaternion.getRoll().valueRadians() ;
   
           return torque ;        
 
@@ -79,9 +80,9 @@ namespace ProjetUnivers {
       return Ogre::Vector3(0,0,0) ;
     }
       
-    Oriented* ShipControl::getStick() const
+    void GuidanceSystem::setControler(GuidanceControl* i_control)
     {
-      return m_stick ;
+      m_control = i_control ;
     }
   }
 }

@@ -140,3 +140,12 @@
   * model : semantic modification for Positionned and Oriented, they are now 
     relative to first Positionned/Oriented ancestor. Tests added.
   * kernel : splitted object.h in two files, added getParentUpTo
+
+2007-07-06 rogma <rogma.boami@free.fr>
+
+  * model : added stick/throttle plus tests
+  * kernel : 
+  	- changed behaviour of object : only one trait of type T can be added
+  	- getTrait<X> will now return trait of type Y when Y is subclass of X
+  	- added preliminary Command system
+  * input : usage of command system in joystick

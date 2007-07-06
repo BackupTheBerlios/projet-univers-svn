@@ -17,50 +17,49 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <kernel/object.h>
-#include <model/physical_world.h>
-#include <model/oriented.h>
-#include <model/engine_control.h>
-#include <model/engine.h>
+#ifndef PU_KERNEL_TEST_COMMAND_H_
+#define PU_KERNEL_TEST_COMMAND_H_
 
+
+#include <cppunit/extensions/HelperMacros.h>
 
 namespace ProjetUnivers {
-  namespace Model {
-    
+  namespace Kernel {
+    namespace Test {
 
-    Engine::Engine(const Force& i_force)
-    : m_full_thrust(i_force),
-      m_controler(NULL)
-    {}
-    
-    Force Engine::getAppliedForce() const
-    {
-      int percentage = 0 ;
 
-      if (m_controler)
-      {
-        percentage = m_controler->getPowerPercentage() ;
-      }
-      // orient the force according to orientation of the parent physical world
-      PhysicalWorld* physical_world = getObject()->getParent<PhysicalWorld>() ;
-      if (physical_world)
-      {
-        Oriented* oriented = getObject()->getParent<Oriented>() ;
+      ///  Test for trait command.
+      /*!
+      */
+      class TestCommand : public CppUnit::TestFixture {
+      public:
 
-        /// local orientation relative to world's one
-        const Orientation& orientation 
-          = oriented->getOrientation(physical_world->getObject()) ;
+        /// Initialisation du test
+        void setUp() ;
+
+        /// Desinitialisation du test
+        void tearDown() ;
+
+      protected:
+
+      /// @name Tests methods
+      // @{  
+
+        void basicTest() ;
         
-        return m_full_thrust*orientation*(((float)percentage)*0.01) ;
-      }
-      
-      // no physical world --> useless to push...
-      return Force() ;
-    }
+      // @}
 
-    void Engine::setControler(EngineControl* i_controler)
-    {
-      m_controler = i_controler ;
+
+        CPPUNIT_TEST_SUITE(TestCommand) ;
+
+        CPPUNIT_TEST(basicTest) ;
+
+        CPPUNIT_TEST_SUITE_END() ;
+
+      
+      };
     }
   }
 }
+
+#endif /*PU_KERNEL_TEST_COMMAND_H_*/

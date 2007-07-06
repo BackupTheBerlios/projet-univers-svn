@@ -34,7 +34,7 @@ namespace ProjetUnivers {
       void TestPositionned::testGetPosition1()
       {
         /// we construct a complete system
-        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestPositionned::testGetPosition")) ;
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestPositionned::testGetPosition1")) ;
         Kernel::Object* root = model->createObject("root") ;
         model->addTrait(root,new Positionned(Position::Meter(0,0,0))) ;
         
@@ -69,8 +69,11 @@ namespace ProjetUnivers {
         CPPUNIT_ASSERT(vector32.z == 1) ;        
 
         /// object3 relative to object3
-        Ogre::Vector3 vector33 = object3->getTrait<Positionned>()
-                                      ->getPosition(object3).Meter() ; 
+        Ogre::Vector3 vector33(object3->getTrait<Positionned>()
+                                      ->getPosition(object3).Meter()) ;
+                                       
+//        std::cout << "position=" << object3->getTrait<Positionned>()
+//                                      ->getPosition(object3) << std::endl ;
         CPPUNIT_ASSERT(vector33.x == 0) ;        
         CPPUNIT_ASSERT(vector33.y == 0) ;        
         CPPUNIT_ASSERT(vector33.z == 0) ;        

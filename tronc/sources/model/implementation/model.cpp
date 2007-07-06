@@ -37,7 +37,11 @@
 #include <model/stabilizer.h>
 #include <model/torque_generator.h>
 #include <model/universe.h>
-#include <model/ship_control.h>
+#include <model/guidance_system.h>
+#include <model/guidance_control.h>
+#include <model/engine.h>
+#include <model/engine_control.h>
+#include <model/stick.h>
 
 #include <model/model.h>
 
@@ -199,17 +203,36 @@ namespace ProjetUnivers {
           model->addTrait(st3,new Stabilizer(0,0,10)) ;
 
 
-
-
           Kernel::Object* stick = model->createObject("stick",system) ;
           model->addTrait(stick,new Positionned(Position::Meter(0,
                                                                 0,
                                                                 -150000))) ;
-          model->addTrait(stick,new Oriented()) ;
+          Stick* _stick = new Stick() ;
+          _stick->addAxis<Stick>("set_axis_X",&Stick::setX) ;
+          _stick->addAxis<Stick>("set_axis_Y",&Stick::setY) ;
+          _stick->addAxis<Stick>("set_axis_Z",&Stick::setZ) ;
+          
+          model->addTrait(stick,_stick) ;
           model->addTrait(stick,new Solid(Mesh("stick.mesh"))) ;
           
-          model->addTrait(ship,new ShipControl(stick->getTrait<Oriented>())) ;
+          model->addTrait(ship,new GuidanceSystem()) ;
+          model->addTrait(ship,new GuidanceControl(
+                                stick->getTrait<Oriented>(),
+                                ship->getTrait<GuidanceSystem>())) ;
+                    
+
+          /// engine + engine control...
+          Kernel::Object* throttle = model->createObject("throttle",ship) ;
+          model->addTrait(throttle,new Oriented()) ;
           
+          Kernel::Object* engine = model->createObject("engine",ship) ;
+          model->addTrait(engine,new Engine(Force::Newton(0,0,10))) ;
+  
+          Kernel::Object* engine_control = model->createObject("engine_control",ship) ;
+          model->addTrait(engine_control,
+                          new EngineControl(
+                            throttle->getTrait<Oriented>(),
+                            engine->getTrait<Engine>())) ;
           
           InternalMessage("building ship done") ;
         }

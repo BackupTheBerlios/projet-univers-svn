@@ -21,6 +21,7 @@
 #ifndef PU_MODEL_DISTANCE_H_
 #define PU_MODEL_DISTANCE_H_
 
+#include <ostream>
 
 namespace ProjetUnivers {
   namespace Model {
@@ -93,6 +94,8 @@ namespace ProjetUnivers {
     // ************
     // @{
       
+      /// Print operator.
+      friend std::ostream& operator<<(std::ostream&,const Unit&) ;
     
     // @}
       

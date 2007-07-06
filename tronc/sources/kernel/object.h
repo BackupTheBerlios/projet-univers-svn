@@ -52,14 +52,31 @@ namespace ProjetUnivers {
     /*!
       An object has traits and eventually sub-objects. When an object is 
       destroyed, his traits and sub objects are also destroyed.
+      
+      Trait can be added. Only one trait having class T can be added on 
+      the same object.
     */
     class Object 
     {
     public:
 
+    /*!
+      @name Construction
+    */
+    //@{
+
       /// Constructor.
       Object(Model* i_model,const std::string& i_name = "") ;
 
+      /// Destructs the objects and the traits.
+      ~Object() ;
+    
+    //@}
+    /*!
+      @name Access methods
+    */
+    //@{
+    
       /// Get object's name.
       std::string getName() const ;
 
@@ -94,9 +111,35 @@ namespace ProjetUnivers {
       template <class T> T* getParent() const ;
       
       /// First ancestor with trait T and not up to @c i_object.
+      /*!
+        @returns NULL 
+          if no object has T trait between this and @c i_object
+          or @c i_object is not ancestor of this.
+      */
       template <class T> T* getParentUpTo(Object* i_object) const ;
 
+      /// call a void command returns true iff succedeed.
+      /*!
+        Try first on object traits then on sub-objects...??
+      */
+      bool call(const std::string& i_command) ;
+
+      /// call an int command returns true iff succedeed.
+      bool call(const std::string& i_command, const int&) ;
+      
+      /// Access to all commands understood be the object.
+      std::set<std::string> getCommands() const ;
+      
+    //@}
+    /*!
+      @name Apply methods
+    */
+    //@{
+
       /// Apply @c i_operation on all _View.
+      /*!
+        @deprecated
+      */
       template <class _View>
       void apply(const TypeIdentifier& i_trait_name,
                  ViewPoint* i_viewpoint,
@@ -112,10 +155,16 @@ namespace ProjetUnivers {
                 (ControlerSet*                         i_controler_set,
                  boost::function1<void,BaseControler*> i_operation) ;
 
-      /// destrucs the traits
-      ~Object() ;
+    //@}
 
     private:
+
+    /*!
+      @name Internal construction
+      
+      @see Model for public construction methods.
+    */    
+    //@{
     
       /// Add a sub-object
       Object* _add(Object* i_child) ;
@@ -171,7 +220,7 @@ namespace ProjetUnivers {
     /*!
       @name Deduction access
     */    
-    // @{
+    //@{
     
       bool getValidity(const Formula* i_formula) const ;
       

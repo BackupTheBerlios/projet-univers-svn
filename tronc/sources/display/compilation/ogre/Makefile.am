@@ -12,8 +12,7 @@ $(SOURCES)/display/implementation/ogre/positionned.cpp \
 $(SOURCES)/display/implementation/ogre/real_world_view_point.cpp \
 $(SOURCES)/display/implementation/ogre/solid.cpp \
 $(SOURCES)/display/implementation/ogre/universe.cpp \
-$(SOURCES)/display/implementation/ogre/utility.cpp \
-$(SOURCES)/display/implementation/ogre/ship_control_debug.cpp
+$(SOURCES)/display/implementation/ogre/utility.cpp 
 
 libdisplayogre_la_LIBADD = \
 $(SOURCES)/kernel/compilation/libkernel.la \

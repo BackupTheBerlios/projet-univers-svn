@@ -40,7 +40,7 @@ namespace ProjetUnivers {
       EngineControl(Oriented* i_throttle,Engine* i_engine) ;
       
       /// Perfom engine control.
-      void controlEngine() const ;
+      int getPowerPercentage() const ;
       
     private:
       

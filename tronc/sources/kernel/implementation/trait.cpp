@@ -497,5 +497,60 @@ namespace ProjetUnivers {
       return VoidTypeIdentifier ;
     }
 
+
+    bool Trait::call(const std::string& i_command)
+    {
+      std::map<std::string,boost::function1<void,Trait*> >::const_iterator 
+        command = m_void_commands.find(i_command) ;
+      if (command != m_void_commands.end())
+      {
+        command->second(this) ;
+        return true ;
+      }
+      else
+      {
+        return false ;
+      }
+    }
+
+    bool Trait::call(const std::string& i_command, 
+                     const int&         i_parameter)
+    {
+      std::map<std::string,boost::function2<void,Trait*,int> >::const_iterator 
+        command = m_int_commands.find(i_command) ;
+      if (command != m_int_commands.end())
+      {
+        command->second(this,i_parameter) ;
+        return true ;
+      }
+      else
+      {
+        return false ;
+      }
+    }
+
+    std::set<std::string> Trait::getCommands() const
+    {
+      std::set<std::string> result ;
+      
+      for(std::map<std::string,boost::function1<void,Trait*> >::const_iterator
+            command = m_void_commands.begin() ;
+          command != m_void_commands.end() ;
+          ++command)
+      {
+        result.insert(command->first) ;
+      }
+
+      for(std::map<std::string,boost::function2<void,Trait*,int> >::const_iterator
+            command = m_int_commands.begin() ;
+          command != m_int_commands.end() ;
+          ++command)
+      {
+        result.insert(command->first) ;
+      }
+      
+      return result ;
+    }
+
   }
 }

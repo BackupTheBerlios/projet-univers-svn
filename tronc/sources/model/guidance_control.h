@@ -17,50 +17,46 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <kernel/object.h>
-#include <model/physical_world.h>
-#include <model/oriented.h>
-#include <model/engine_control.h>
-#include <model/engine.h>
+#ifndef PU_MODEL_GUIDANCE_CONTROL_H_
+#define PU_MODEL_GUIDANCE_CONTROL_H_
 
+#include <kernel/trait.h>
+#include <model/oriented.h>
 
 namespace ProjetUnivers {
   namespace Model {
     
-
-    Engine::Engine(const Force& i_force)
-    : m_full_thrust(i_force),
-      m_controler(NULL)
-    {}
+    class GuidanceSystem ;
     
-    Force Engine::getAppliedForce() const
+    /// Computer part that control orientation.
+    /*!
+      @see GuidanceSystem 
+    */
+    class GuidanceControl : public Kernel::Trait
     {
-      int percentage = 0 ;
+    public:
 
-      if (m_controler)
-      {
-        percentage = m_controler->getPowerPercentage() ;
-      }
-      // orient the force according to orientation of the parent physical world
-      PhysicalWorld* physical_world = getObject()->getParent<PhysicalWorld>() ;
-      if (physical_world)
-      {
-        Oriented* oriented = getObject()->getParent<Oriented>() ;
-
-        /// local orientation relative to world's one
-        const Orientation& orientation 
-          = oriented->getOrientation(physical_world->getObject()) ;
-        
-        return m_full_thrust*orientation*(((float)percentage)*0.01) ;
-      }
+      /// Constructor.
+      GuidanceControl(Oriented* i_stick,GuidanceSystem* i_system) ;
       
-      // no physical world --> useless to push...
-      return Force() ;
-    }
-
-    void Engine::setControler(EngineControl* i_controler)
-    {
-      m_controler = i_controler ;
-    }
+      /// Access to stick orientation.
+      Orientation getStickOrientation() const ;
+      
+    private:
+      
+      /// the stick 
+      /*!
+        it is a normalised orientation of a stick.
+      */ 
+      Oriented* m_stick ;
+      
+      /// The system controled.
+      GuidanceSystem* m_guidance_system ;
+      
+    };
+    
+    
   }
 }
+
+#endif /*PU_MODEL_GUIDANCE_CONTROL_H_*/

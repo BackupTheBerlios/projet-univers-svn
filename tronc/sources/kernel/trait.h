@@ -68,6 +68,17 @@ namespace ProjetUnivers {
       /// Abstract class means virtual destructor.
       virtual ~Trait() ;
       
+      /// Register a command for that trait.
+      template <class SpecializedTrait>
+      void addCommand(const std::string&            i_command_name,
+                      boost::function1<void,SpecializedTrait*> i_operation) ;
+
+      /// Register an axis update for that trait.
+      template <class SpecializedTrait>
+      void addAxis(const std::string&                i_command_name,
+                   boost::function2<void,SpecializedTrait*,int> i_axis_update) ;
+      
+      
     protected: 
     
       /// Abstract class means protected constructor.
@@ -111,6 +122,10 @@ namespace ProjetUnivers {
       void _close(ControlerSet* i_controler_set) ;
 
     // @}
+    /*!
+      @name System construction.
+    */
+    // @{
 
       /// create the views.
       void _create_views() ;
@@ -137,6 +152,7 @@ namespace ProjetUnivers {
       static TypeIdentifier getTraitTypeOfView(const TypeIdentifier& i_view_type,
                                                const TypeIdentifier& i_viewpoint_type) ;
       
+    // @}
     /*!
       @name View managment
     */
@@ -227,6 +243,39 @@ namespace ProjetUnivers {
         friend class ControlerRegistration ;
 
     // @}
+    /*!
+      @name Command managment
+      
+      Preliminary version.
+    */
+    // @{
+
+
+      /// call a void command returns true iff succedeed.
+      bool call(const std::string& i_command) ;
+
+      /// call an int command returns true iff succedeed.
+      bool call(const std::string& i_command, const int&) ;
+
+      /// Access to all commands understood be the trait.
+      std::set<std::string> getCommands() const ;
+    
+      /// Commands that the trait understand.
+      /*!
+        These are void commands, mainly triggered by buttons and keys.
+      */
+      std::map<std::string,boost::function1<void,Trait*> > m_void_commands ;
+    
+      /// Commands that the trait understand.
+      /*!
+        These are commands taking an int parameter, mainly obtained by 
+        mouse and joystick axes.
+      */
+      std::map<std::string,boost::function2<void,Trait*,int> > m_int_commands ;
+
+    
+    // @}
+    
     
       friend class Object ;
       friend class BaseTraitView ;
@@ -291,122 +340,10 @@ namespace ProjetUnivers {
         ProjetUnivers::Kernel::ControlerRegistration<                        \
             ClassTrait,ClassControlerSet,ClassControler> temp(&build) ;      \
       }                                                                
-    
-      
-    template <class _Trait,class _ViewPoint,class _View> 
-    class ViewRegistration
-    {
-    public:
-      
-      /// Constructor.
-      /*!
-        This constructor is called at the module init because of the variable 
-        declaration in macro RegisterView. 
-        
-        The internal C++ classes names is used as a registering key for 
-        builder.
-        
-        It also register mapping from ViewXViewPoint to Trait
-      */
-      ViewRegistration(Trait::ViewBuilder builder)
-      {
-        
-        Kernel::Trait::registerBuilder(getClassTypeIdentifier(_Trait),
-                                       getClassTypeIdentifier(_ViewPoint),
-                                       builder) ;
-        Kernel::Trait::registerMapping(getClassTypeIdentifier(_View),
-                                       getClassTypeIdentifier(_ViewPoint),
-                                       getClassTypeIdentifier(_Trait)) ;
-                                        
-      }
-    };
-    
-    template <class _Trait, class _ControlerSet, class _Controler> 
-    class ControlerRegistration
-    {
-    public:
-      
-      /// Constructor.
-      /*!
-        This constructor is called at the module init because of the variable 
-        declaration in macro RegisterControler. 
-        
-        The internal C++ classes names is used as a registering key for 
-        builder.
-        
-        It also register mapping from ControlerXControlerSet to Trait
-      */
-      ControlerRegistration(Trait::ControlerBuilder builder)
-      {
-        
-        Kernel::Trait::registerControler(getClassTypeIdentifier(_Trait),
-                                         getClassTypeIdentifier(_ControlerSet),
-                                         builder) ;
-
-        Kernel::Trait::registerControlerMapping(
-                                       getClassTypeIdentifier(_Controler),
-                                       getClassTypeIdentifier(_ControlerSet),
-                                       getClassTypeIdentifier(_Trait)) ;
-                                        
-      }
-    };
-    
-    
-    
-    
-    template<class View> View* Trait::getView(ViewPoint* i_viewpoint)
-    {
-      InternalMessage(
-        (std::string("Trait::getView for ") + toString((int)i_viewpoint)).c_str()) ;
-      
-      std::multimap<ViewPoint*,BaseTraitView*>::const_iterator
-        finder = m_views.lower_bound(i_viewpoint) ;
-      
-      if (finder != m_views.end() && finder->first == i_viewpoint) 
-      {
-        std::multimap<ViewPoint*,BaseTraitView*>::const_iterator
-          last = m_views.upper_bound(i_viewpoint) ;
-        
-        while(finder != last)
-        {
-          View* candidate = dynamic_cast<View*>(finder->second) ;
-          if (candidate)
-          {
-            InternalMessage("found view") ;
-            return candidate ;
-          }
-          ++finder ;
-        }
-      }
-      InternalMessage("not found view") ;
-      return NULL ;
-    }
-
-    template<class _Controler> 
-    _Controler* Trait::getControler(ControlerSet* i_controler_set)
-    {
-      InternalMessage(
-        (std::string("Trait::getControler for ") + toString((int)i_controler_set)).c_str()) ;
-      
-      std::multimap<ControlerSet*,BaseControler*>::const_iterator 
-        finder = m_controlers.find(i_controler_set) ;
-      
-      if (finder != m_controlers.end()) 
-      {
-        InternalMessage("found controler") ;
-        
-        return dynamic_cast<_Controler*>(finder->second) ;
-      }
-      else
-      {
-        InternalMessage("no controler found") ;
-        return NULL ;
-      }
-      
-    }
-    
 
   }
 }
+
+#include <kernel/implementation/trait.cxx>
 
 #endif /*PU_KERNEL_TRAIT_VIEW_H_*/

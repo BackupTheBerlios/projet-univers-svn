@@ -35,16 +35,12 @@ namespace ProjetUnivers {
       if (trait_type != VoidTypeIdentifier)
       {
         InternalMessage("Object::getView found trait name " + trait_type.toString()) ;
-
-        for(std::map<TypeIdentifier, Trait*>::const_iterator trait = traits.begin() ;
-            trait != traits.end() ;
-            ++trait)
+        
+        Trait* trait = _get(trait_type) ;
+        
+        if (trait)
         {
-          if (trait_type.isInstance(trait->second))
-          {
-            InternalMessage("Object::getView trait*=" + toString((int)trait->second)) ;
-            return trait->second->getView<_View>(i_viewpoint) ;
-          }
+          return trait->getView<_View>(i_viewpoint) ;
         }
       }
       
@@ -62,12 +58,14 @@ namespace ProjetUnivers {
 
       InternalMessage("Asking trait " + getClassTypeIdentifier(T).toString()) ;
       
+      Trait* trait = _get(getClassTypeIdentifier(T)) ;
+      
       /// if trait exist convert :
-      if (traits.find(getClassTypeIdentifier(T)) != traits.end())
+      if (trait)
       {
         InternalMessage("Trait found") ;
         
-        return static_cast<T*>(traits[getClassTypeIdentifier(T)]) ;
+        return static_cast<T*>(trait) ;
       }
       else
       {
@@ -156,12 +154,11 @@ namespace ProjetUnivers {
                        ViewPoint* i_viewpoint,
                        boost::function1<void,_View*> i_operation)
     {
-      std::map<TypeIdentifier, Trait*>::const_iterator
-           trait = traits.find(i_trait_name) ;
+      Trait* trait = _get(i_trait_name) ;
       
-      if (trait != traits.end())
+      if (trait)
       {
-        _View* view = trait->second->getView<_View>(i_viewpoint) ;
+        _View* view = trait->getView<_View>(i_viewpoint) ;
         if (view)
         {
           i_operation(view) ;

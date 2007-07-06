@@ -85,6 +85,9 @@ namespace ProjetUnivers {
       Distance getZCoordinate() const ;
       
     // @}
+      
+      /// Print operator.
+      friend std::ostream& operator<<(std::ostream&,const Position&) ;
     
     private:
       

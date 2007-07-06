@@ -53,30 +53,35 @@ namespace ProjetUnivers {
         {
           InternalMessage("Entering Positionned::init") ;
           
-          Positionned* positionned(
-            getObject()->getTrait<Model::Positionned>()
-            ->getView<Positionned>(getViewPoint())) ;
+          Model::Positionned* model_positionned 
+            = getObject()->getTrait<Model::Positionned>() ;
           
-          if (positionned)
+          if (model_positionned)
           {
-
-            positionned->_init() ;
-            
-            m_node = positionned->getNode() ;
-
-            InternalMessage(
-              "intitalising scene node " + m_node->getName() + 
-              " with orientation " + 
-              ::Ogre::StringConverter::toString(m_node->getOrientation())) ;
-
-            m_node->setOrientation(getModel()->getOrientation().getQuaternion()) ;
-
-            InternalMessage(
-              "modification of scene node " + m_node->getName() + 
-              " with orientation " + 
-              ::Ogre::StringConverter::toString(m_node->getOrientation())) ;
+            Positionned* positionned(
+              model_positionned
+              ->getView<Positionned>(getViewPoint())) ;
+          
+            if (positionned)
+            {
+  
+              positionned->_init() ;
+              
+              m_node = positionned->getNode() ;
+  
+              InternalMessage(
+                "intitalising scene node " + m_node->getName() + 
+                " with orientation " + 
+                ::Ogre::StringConverter::toString(m_node->getOrientation())) ;
+  
+              m_node->setOrientation(getModel()->getOrientation().getQuaternion()) ;
+  
+              InternalMessage(
+                "modification of scene node " + m_node->getName() + 
+                " with orientation " + 
+                ::Ogre::StringConverter::toString(m_node->getOrientation())) ;
+            }
           }
-
           InternalMessage("Leaving Positionned::init") ;
 
         }

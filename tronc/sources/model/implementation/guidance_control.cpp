@@ -17,50 +17,32 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <kernel/object.h>
-#include <model/physical_world.h>
-#include <model/oriented.h>
-#include <model/engine_control.h>
-#include <model/engine.h>
-
+#include <model/guidance_control.h>
+#include <model/guidance_system.h>
 
 namespace ProjetUnivers {
   namespace Model {
     
+      GuidanceControl::GuidanceControl(Oriented* i_stick,GuidanceSystem* i_system)
+      : Kernel::Trait(),
+        m_stick(i_stick),
+        m_guidance_system(i_system)
+      {
+        if (m_guidance_system)
+        {
+          m_guidance_system->setControler(this) ;
+        }
+      }
 
-    Engine::Engine(const Force& i_force)
-    : m_full_thrust(i_force),
-      m_controler(NULL)
-    {}
+      Orientation GuidanceControl::getStickOrientation() const
+      {
+        // normal behaviour
+        /*!
+          more complex behaviour including malfunctions could return a 
+          any orientation, e.g. a random one
+        */  
+        return m_stick->getOrientation() ;
+      }
     
-    Force Engine::getAppliedForce() const
-    {
-      int percentage = 0 ;
-
-      if (m_controler)
-      {
-        percentage = m_controler->getPowerPercentage() ;
-      }
-      // orient the force according to orientation of the parent physical world
-      PhysicalWorld* physical_world = getObject()->getParent<PhysicalWorld>() ;
-      if (physical_world)
-      {
-        Oriented* oriented = getObject()->getParent<Oriented>() ;
-
-        /// local orientation relative to world's one
-        const Orientation& orientation 
-          = oriented->getOrientation(physical_world->getObject()) ;
-        
-        return m_full_thrust*orientation*(((float)percentage)*0.01) ;
-      }
-      
-      // no physical world --> useless to push...
-      return Force() ;
-    }
-
-    void Engine::setControler(EngineControl* i_controler)
-    {
-      m_controler = i_controler ;
-    }
   }
 }

@@ -55,7 +55,7 @@ namespace ProjetUnivers {
     // @{
 
       /// Access to orientation relative to its parent.
-      const Orientation& getOrientation() const ;
+      virtual const Orientation& getOrientation() const ;
 
       /// Access to orientation relative to @c i_ancestor.
       /*!
@@ -85,9 +85,9 @@ namespace ProjetUnivers {
 
     //@}
     
-    private:
+    protected:
 
-      Orientation m_orientation ;
+      mutable Orientation m_orientation ;
 
     };
   }
