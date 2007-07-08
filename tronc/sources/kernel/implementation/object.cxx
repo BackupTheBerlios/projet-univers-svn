@@ -95,6 +95,24 @@ namespace ProjetUnivers {
       
     }
 
+    template <class T> T* Object::getAncestor() const
+    {
+      // T must be a subclass of Trait
+      Kernel::Inherits<T,Trait>() ;
+      
+      Object* iterator(getParent()) ;
+      T* trait = NULL ;
+      
+      while((! trait) && iterator)
+      {
+        trait = iterator->getTrait<T>() ;
+        iterator = iterator->getParent() ;
+      }
+      
+      return trait ;
+    }
+
+
     template <class T> T* Object::getParentUpTo(Object* i_object) const
     {
       // T must be a subclass of Trait

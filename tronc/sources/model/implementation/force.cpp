@@ -17,6 +17,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <kernel/log.h>
 #include <model/force.h>
 
 namespace ProjetUnivers {
@@ -69,6 +70,8 @@ namespace ProjetUnivers {
       {
         return m_value ;
       }
+      InternalMessage("Model::Force::Newton") ;
+      return Ogre::Vector3(0,0,0) ;
     }
     
     Force::Force(const Unit&  i_unit,

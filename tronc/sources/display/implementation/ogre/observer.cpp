@@ -63,7 +63,9 @@ namespace ProjetUnivers {
           positionned->getNode()->attachObject(m_camera) ;
           
           m_camera->setFOVy(::Ogre::Degree(70)) ;
-//            m_camera->setNearClipDistance() ;
+          
+          /// near clip distance is 1 cm
+          m_camera->setNearClipDistance(0.01/conversion_factor) ;
                       
           InternalMessage("Display::Observer::onInit Leaving") ;
         }

@@ -39,6 +39,9 @@ namespace ProjetUnivers {
 
       /// Modify the pitch.
       void modify(const int& i_delta) ;
+
+      /// Set the pitch.
+      void set(const int& i_delta) ;
     
     private:
 

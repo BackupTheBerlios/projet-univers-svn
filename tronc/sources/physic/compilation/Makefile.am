@@ -22,7 +22,8 @@ check_PROGRAMS = $(TESTS)
 
 test_physic_SOURCES = \
 ../test/test_physic.cpp \
-../test/test_demonstration.cpp 
+../test/test_demonstration.cpp \
+../test/test_dragger.cpp 
 
 
 test_physic_CXXFLAGS = $(CPPUNIT_CFLAGS)

@@ -17,62 +17,68 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_PHYSIC_IMPLEMENTATION_ODE_TORQUE_GENERATOR_H_
-#define PU_PHYSIC_IMPLEMENTATION_ODE_TORQUE_GENERATOR_H_
-
-#include <kernel/controler.h>
 #include <kernel/object.h>
-
-#include <model/torque_generator.h>
-
-#include <physic/implementation/ode/physic_system.h>
+#include <kernel/command_delegator.h>
 
 namespace ProjetUnivers {
-  namespace Physic {
-    namespace Implementation {
-      namespace Ode {
-        
-        class PhysicalObject ;
-              
-        /// .
-        /*!
-          @see Model::TorqueGenerator
-        */
-        class TorqueGenerator : public Kernel::Controler<Model::TorqueGenerator,
-                                                         PhysicSystem>
-        {
-        public:
-
-          /// constructor.
-          TorqueGenerator(Model::TorqueGenerator*,PhysicSystem*) ;
-          
-          /// simulation
-          virtual void prepare() ;
-          
-        protected:
-        
-          /// Called after the view is created on a initialised viewpoint.
-          virtual void onInit() ;
-          
-          /// Called just before the view is destroyed.
-          virtual void onClose() ;
+  namespace Kernel {
+   
+    CommandDelegator::CommandDelegator()
+    : Trait(),
+      m_delegates()
+    {}
     
-          /// Called when parent changed.
-          virtual void onChangeParent(Kernel::Object* i_old_parent) ;
-          
-          /// Called when the model trait has changed.
-          virtual void onUpdate() ;
-        
-        private:
+    void CommandDelegator::addDelegate(Object* i_delegate)
+    {
+      m_delegates.insert(i_delegate) ;
+    }
 
-          /// Calculate the object on which this torque applies. 
-          PhysicalObject* determineObject() const ;
+    bool CommandDelegator::call(
+      const TypeIdentifier& i_trait_type,
+      const std::string&    i_command)
+    {
+      bool found = false ;
 
-          PhysicalObject* m_object ;
-        };
+      for(std::set<Object*>::iterator delegate = m_delegates.begin() ;
+          delegate != m_delegates.end() && !found ;
+          ++delegate)
+      {
+        found = (*delegate)->call(i_command) ;
       }
+
+      return found ;
+     
+    }
+
+    bool CommandDelegator::call(
+      const TypeIdentifier& i_trait_type,
+      const std::string&    i_command, 
+      const int&            i_parameter)
+    {
+      bool found = false ;
+
+      for(std::set<Object*>::iterator delegate = m_delegates.begin() ;
+          delegate != m_delegates.end() && !found ;
+          ++delegate)
+      {
+        found = (*delegate)->call(i_command,i_parameter) ;
+      }
+
+      return found ;
+    }
+
+    std::set<std::string> CommandDelegator::getCommands() const
+    {
+      std::set<std::string> result ;
+      for(std::set<Object*>::iterator delegate = m_delegates.begin() ;
+          delegate != m_delegates.end();
+          ++delegate)
+      {
+        std::set<std::string> temp((*delegate)->getCommands()) ;
+        result.insert(temp.begin(),temp.end()) ;
+      }
+      
+      return result ;
     }
   }
 }
-
-#endif /*PU_PHYSIC_IMPLEMENTATION_ODE_TORQUE_GENERATOR_H_*/

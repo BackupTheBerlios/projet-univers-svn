@@ -107,10 +107,13 @@ namespace ProjetUnivers {
       /// Top most ancestor with T trait.
       template <class T> T* getRoot() const ;
 
-      /// First ancestor with trait T.
+      /// First ancestor (including @c this) with trait T.
       template <class T> T* getParent() const ;
       
-      /// First ancestor with trait T and not up to @c i_object.
+      /// First ancestor (excluding @c this) with trait T.
+      template <class T> T* getAncestor() const ;
+      
+      /// First ancestor (including @c this) with trait T and not up to @c i_object.
       /*!
         @returns NULL 
           if no object has T trait between this and @c i_object

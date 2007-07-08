@@ -31,14 +31,19 @@ namespace ProjetUnivers {
   namespace Display {
     namespace Implementation {
       namespace Ogre {
-        
-        /// Le point de vue subjectif d'un personnage réalisé avec Ogre3d.
+
         /*!
-          C'est la vue à la première personne d'un observateur.
+          Ogre coordinates are coded on 32 bits, thus half the precision 
+          is between 0 and 1.
           
-          @par Type de classe :
-          - Object
-          - Concret
+          Here we use the following scale factor : 
+          1 Ogre unit = 1000 meters 
+        */
+        const float conversion_factor = 1000 ;
+        
+        /// Subjection viewpoint of an observer.
+        /*!
+          First person view of an observer.
         */
         class RealWorldViewPoint : public Display::Implementation::RealWorldViewPoint {
         public:
@@ -52,17 +57,17 @@ namespace ProjetUnivers {
           /// Constructeur.
           /*!
             @param[in] _observer 
-              l'objet qui voie (par exemple un personnage, une caméra,...)
+              object that sees (e.g., a character, a camera,...)
           */
           RealWorldViewPoint(Kernel::Object* _observer) ;
           
-          /// Initialise le point de vue
+          /// Initialize view point
           virtual void onInit() ;
           
-          /// termine le point de vue
+          /// Terminate view point
           virtual void onClose() ;
           
-          /// Change l'observateur de la vue.
+          /// Change l'observer.
           virtual void onChangeObserver(Kernel::Object* _observer) ;
 
           /// Make this as the displayed viewpoint. 
@@ -70,44 +75,26 @@ namespace ProjetUnivers {
           
         // @}
         /*
-          @name accès 
+          @name Access 
         */
         // @{
 
-          /// Accès au gestionnaire Ogre.
+          /// Access to Ogre manager.
           ::Ogre::SceneManager* getManager() const ;
 
         // @}
         
         private:
         
-          /// Vrai si l'objet est interessant pour le point de vue
+          /// True iff object must be seen.
           virtual bool isVisible(Kernel::Object* _model) const ;
         /*!
-          @name Attributs
+          @name Attributes
         */
         // @{
-          
-          /// Object représentant l'univers affiché
-          Kernel::Object* universe ;
-        
-        // @}
-        /*!
-          @name Attributs Ogre
-        */
-        // @{
-          
-          /// Une surface d'écran
-          /*!
-            @remark
-              si on le met ailleur alors, on peut éventuellement changer la 
-              surface (lorsque elle n'est pas effectivement affichée ou si la 
-              surface est reduite/agrandie)
-          */
-          ::Ogre::RenderTarget* surface ;
 
-          /// Ce qui va gérer tous les objets à afficher.          
-          ::Ogre::SceneManager* manager ;
+          /// Manage 3D scene objects          
+          ::Ogre::SceneManager* m_manager ;
           
         // @}
           

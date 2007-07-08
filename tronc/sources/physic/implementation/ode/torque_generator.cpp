@@ -43,8 +43,7 @@ namespace ProjetUnivers {
             PhysicSystem*           i_system)
         : Kernel::Controler<Model::TorqueGenerator,
                             PhysicSystem>(i_object,i_system),
-          m_object(NULL),
-          m_world(NULL)
+          m_object(NULL)
         {}
         
         void TorqueGenerator::prepare()

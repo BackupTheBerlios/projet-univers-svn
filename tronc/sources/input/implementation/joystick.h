@@ -85,6 +85,7 @@ namespace ProjetUnivers {
         int X ;
         int Y ;        
         int Z ;
+        int m_throttle ;
         
       };
     }

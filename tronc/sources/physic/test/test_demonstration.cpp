@@ -31,6 +31,7 @@
 #include <model/physical_world.h>
 #include <model/mobile.h>
 #include <model/stabilizer.h>
+#include <model/throttle.h>
 
 #include <physic/physic.h>
 
@@ -586,6 +587,59 @@ namespace ProjetUnivers {
         Model::close() ;
 
         InternalMessage("Physic::Test::testSimulate::testStabilizer2 leaving") ;
+        
+      }
+
+
+      void TestDemonstration::testEngine()
+      {
+        InternalMessage("Physic::Test::TestDemonstration::testEngine Entering") ;
+        Model::init() ;
+        Model::load("TestDemonstration") ;
+        Physic::init() ;
+        Object* observer(Model::getObject("Observer")) ;
+
+        /// get the ship 
+        Kernel::Object* ship_object = Model::getObject("Vaisseau#3") ;
+        CPPUNIT_ASSERT(ship_object) ;
+        Model::Positionned* positionned(ship_object->getTrait<Model::Positionned>()) ;
+        CPPUNIT_ASSERT(positionned) ;
+        
+        Kernel::Object* throttle = Model::getObject("throttle") ;
+        CPPUNIT_ASSERT(throttle) ;
+        Model::Throttle* throttle_trait = throttle->getTrait<Model::Throttle>() ;
+        CPPUNIT_ASSERT(throttle_trait) ;
+        
+        throttle_trait->set(100) ;
+        
+        /// build a physical viewpoint        
+        Kernel::ControlerSet* physics = Physic::build(observer) ;
+        physics->init() ;
+
+        /// store the position before simulation
+        Ogre::Vector3 initial_position(positionned->getPosition().Meter()) ;
+
+//        std::cout <<"initial_position=" << initial_position << std::endl ;
+
+
+        /// simulation during 1 seconds ...
+        const int steps_number = 10 ; 
+        for(int i = 1 ; i <= steps_number ; ++i)
+        {
+          Physic::update(Model::Duration::Second(1.0/steps_number)) ;
+        }
+        
+        Ogre::Vector3 final_position(positionned->getPosition().Meter()) ;
+        
+        CPPUNIT_ASSERT(final_position.z != initial_position.z) ;
+        
+//        std::cout <<"final_position=" << final_position << std::endl ;
+        
+
+        Physic::close() ;
+        Model::close() ;
+
+        InternalMessage("Physic::Test::testSimulate::testEngine leaving") ;
         
       }
 

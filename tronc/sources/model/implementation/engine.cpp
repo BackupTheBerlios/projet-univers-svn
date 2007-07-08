@@ -19,6 +19,7 @@
  ***************************************************************************/
 #include <kernel/object.h>
 #include <model/physical_world.h>
+#include <model/physical_object.h>
 #include <model/oriented.h>
 #include <model/engine_control.h>
 #include <model/engine.h>
@@ -42,19 +43,23 @@ namespace ProjetUnivers {
         percentage = m_controler->getPowerPercentage() ;
       }
       // orient the force according to orientation of the parent physical world
-      PhysicalWorld* physical_world = getObject()->getParent<PhysicalWorld>() ;
-      if (physical_world)
+      PhysicalObject* physical_object = getObject()->getParent<PhysicalObject>() ;
+      if (physical_object)
       {
-        Oriented* oriented = getObject()->getParent<Oriented>() ;
-
-        /// local orientation relative to world's one
-        const Orientation& orientation 
-          = oriented->getOrientation(physical_world->getObject()) ;
-        
-        return m_full_thrust*orientation*(((float)percentage)*0.01) ;
-      }
-      
+        PhysicalWorld* physical_world = physical_object->getObject()->getAncestor<PhysicalWorld>() ;
+        if (physical_world)
+        {
+          Oriented* oriented = getObject()->getParent<Oriented>() ;
+  
+          /// local orientation relative to world's one
+          const Orientation& orientation 
+            = oriented->getOrientation(physical_world->getObject()) ;
+          
+          return m_full_thrust*orientation*(((float)percentage)*0.01) ;
+        }
+      }      
       // no physical world --> useless to push...
+      InternalMessage("Model::Engine::getAppliedForce no force") ;
       return Force() ;
     }
 

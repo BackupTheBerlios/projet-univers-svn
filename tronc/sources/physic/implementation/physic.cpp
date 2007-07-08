@@ -89,8 +89,13 @@ namespace ProjetUnivers {
     void update(const Model::Duration& i_duration)    
     {
       float seconds = i_duration.Second() ;
+//      std::cout << "initialised=" << initialised
+//                << " m_system.get()=" << m_system.get()
+//                << " seconds=" << seconds
+//                << std::endl ;
       if (initialised && m_system.get() && seconds != 0)
       {
+//        std::cout << "Physic::update" << std::endl ;
         m_system->simulate(seconds) ;
       }
     }

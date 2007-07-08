@@ -45,8 +45,7 @@ namespace ProjetUnivers {
             PhysicSystem*          i_system)
         : Kernel::Controler<Model::ForceGenerator,
                             PhysicSystem>(i_object,i_system),
-          m_object(NULL),
-          m_world(NULL)
+          m_object(NULL)
         {}
         
         void ForceGenerator::prepare()
@@ -54,16 +53,18 @@ namespace ProjetUnivers {
           /// set a force on it's body
           if (m_object)
           {
-            Ogre::Vector3 force(getModel()->getAppliedForce().Newton()) ;
+            Ogre::Vector3 force = getModel()->getAppliedForce().Newton() ;
             InternalMessage("Physic::ForceGenerator::prepare " +
-                            getObject()->getName() + " force = " +  
-                                          toString(force.x) + "," + 
-                                          toString(force.y) + "," +
-                                          toString(force.z)) ;
+                            getObject()->getName() 
+                            + " force = " +  
+                            toString(force.x) + "," + 
+                            toString(force.y) + "," +
+                            toString(force.z)
+                            + " applied on object " + m_object->getObject()->getName()) ;
              
-            m_object->getBody()->addForce(force.x,
-                                          force.y,
-                                          force.z) ;
+            m_object->getBody()->addForce((dReal)(force.x),
+                                          (dReal)(force.y),
+                                          (dReal)(force.z)) ;
           }
         }
         

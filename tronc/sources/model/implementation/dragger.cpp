@@ -47,8 +47,17 @@ namespace ProjetUnivers {
           eventually change coeeficient to tune resulting max speed...
       */
       PhysicalObject* physical_object = getObject()->getParent<PhysicalObject>() ;
-      Solid* solid = physical_object->getObject()->getTrait<Solid>() ;
-      Oriented* oriented = physical_object->getObject()->getTrait<Oriented>() ;
+      Solid* solid = physical_object ? 
+                          physical_object->getObject()->getTrait<Solid>() 
+                          : NULL ;
+      Oriented* oriented = physical_object ? 
+                              physical_object->getObject()->getTrait<Oriented>() 
+                              : NULL;
+
+//      std::cout << "Dragger::getAppliedForce physical_object=" << physical_object 
+//                << " solid=" << solid 
+//                << " oriented=" << oriented 
+//                << std::endl ;
 
       if (physical_object && solid && oriented)
       {
@@ -67,8 +76,9 @@ namespace ProjetUnivers {
           max(speed_value,speed_value*speed_value)*drag_coeff 
           ...
         */
-        meter_per_second *= (std::max((float)1.0,speed_value)*drag_coefficient) ;
+        meter_per_second *= -(std::max((float)1.0,speed_value)*drag_coefficient) ;
         
+//        std::cout << "Dragger::getAppliedForce calculate force=" << meter_per_second << std::endl ;
         /// result force....
         return Force::Newton(meter_per_second[0],
                              meter_per_second[1],
@@ -76,7 +86,7 @@ namespace ProjetUnivers {
         
       }
 
-      /// null force beacause not applicable.
+      /// null force because not applicable.
       return Force() ;
     }
     

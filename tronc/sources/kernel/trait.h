@@ -70,12 +70,14 @@ namespace ProjetUnivers {
       
       /// Register a command for that trait.
       template <class SpecializedTrait>
-      void addCommand(const std::string&            i_command_name,
+      static
+      void addCommand(const std::string&                       i_command_name,
                       boost::function1<void,SpecializedTrait*> i_operation) ;
 
       /// Register an axis update for that trait.
       template <class SpecializedTrait>
-      void addAxis(const std::string&                i_command_name,
+      static 
+      void addAxis(const std::string&                           i_command_name,
                    boost::function2<void,SpecializedTrait*,int> i_axis_update) ;
       
       
@@ -250,28 +252,38 @@ namespace ProjetUnivers {
     */
     // @{
 
+    protected:
 
       /// call a void command returns true iff succedeed.
-      bool call(const std::string& i_command) ;
+      virtual bool call(const TypeIdentifier& i_trait_type,
+                        const std::string&    i_command) ;
 
       /// call an int command returns true iff succedeed.
-      bool call(const std::string& i_command, const int&) ;
+      virtual bool call(const TypeIdentifier& i_trait_type,
+                        const std::string&    i_command, 
+                        const int&            i_parameter) ;
 
       /// Access to all commands understood be the trait.
-      std::set<std::string> getCommands() const ;
+      virtual std::set<std::string> getCommands() const ;
     
       /// Commands that the trait understand.
       /*!
         These are void commands, mainly triggered by buttons and keys.
       */
-      std::map<std::string,boost::function1<void,Trait*> > m_void_commands ;
+      static 
+      std::map<TypeIdentifier,
+               std::map<std::string,
+                        boost::function1<void,Trait*> > > m_void_commands ;
     
       /// Commands that the trait understand.
       /*!
         These are commands taking an int parameter, mainly obtained by 
         mouse and joystick axes.
       */
-      std::map<std::string,boost::function2<void,Trait*,int> > m_int_commands ;
+      static 
+      std::map<TypeIdentifier,
+               std::map<std::string,
+                        boost::function2<void,Trait*,int> > > m_int_commands ;
 
     
     // @}
@@ -339,6 +351,47 @@ namespace ProjetUnivers {
         static                                                               \
         ProjetUnivers::Kernel::ControlerRegistration<                        \
             ClassTrait,ClassControlerSet,ClassControler> temp(&build) ;      \
+      }                                                                
+
+    /// Register @c ClassTrait::MethodName as a command named @c CommandName .
+    /*!
+    @par Usage
+      In the .cpp of a trait clas : 
+      
+        RegisterCommand(CommandName,ClassTrait,MethodName) ;
+        
+    @example
+      RegisterCommand("fire",Model::Canon,fire) ;
+    
+    @par How does it works
+      Same principle than CPPUNIT_TEST_SUITE_REGISTRATION
+    */
+    #define RegisterCommand(CommandName,ClassTrait,MethodName)               \
+      namespace PU_MAKE_UNIQUE_NAME(local) {                                 \
+        static                                                               \
+        ProjetUnivers::Kernel::CommandRegistration<ClassTrait>               \
+          temp(CommandName,&ClassTrait::MethodName) ;                        \
+      }                                                                
+
+
+    /// Register @c ClassTrait::MethodName as an axis named @c CommandName .
+    /*!
+    @par Usage
+      In the .cpp of a trait clas : 
+      
+        RegisterCommand(CommandName,ClassTrait,MethodName) ;
+        
+    @example
+      RegisterCommand("fire",Model::Throttle,setThrottle) ;
+    
+    @par How does it works
+      Same principle than CPPUNIT_TEST_SUITE_REGISTRATION
+    */
+    #define RegisterAxis(AxisName,ClassTrait,MethodName)               \
+      namespace PU_MAKE_UNIQUE_NAME(local) {                           \
+        static                                                         \
+        ProjetUnivers::Kernel::AxisRegistration<ClassTrait>            \
+          temp(AxisName,&ClassTrait::MethodName) ;                     \
       }                                                                
 
   }

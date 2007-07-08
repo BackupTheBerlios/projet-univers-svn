@@ -37,20 +37,17 @@ namespace ProjetUnivers {
 
 
         RealWorldViewPoint::RealWorldViewPoint(Kernel::Object* i_observer)
-        : Display::Implementation::RealWorldViewPoint(i_observer), 
-          universe(NULL)
+        : Display::Implementation::RealWorldViewPoint(i_observer),
+          m_manager(NULL)
         {
-
           InternalMessage("Entering Ogre::RealWorldViewPoint::RealWorldViewPoint(const Kernel::Association<Model::Object>&)") ;
           InternalMessage("Leaving Ogre::RealWorldViewPoint::RealWorldViewPoint(const Kernel::Association<Model::Object>&)") ;
-        
         }
         
         
-        /// Vrai si l'objet est visible dans le point de vue
         /*!
-        @par Etat
-          Minimal
+        @par Status
+          Stub
         */
         bool RealWorldViewPoint::isVisible(Kernel::Object* _model) const
         {
@@ -76,11 +73,11 @@ namespace ProjetUnivers {
         {
           InternalMessage("RealWorldViewPoint::onInit Entering") ;
           /// initialisation de Ogre
-          check(getRoot(),Exception("Pas de racine")) ;
+          check(getRoot(),Exception("RealWorldViewPoint::onInit no root")) ;
 
-          manager = getRoot()->createSceneManager(::Ogre::ST_GENERIC) ;
+          m_manager = getRoot()->createSceneManager(::Ogre::ST_GENERIC) ;
 
-          if (! manager)
+          if (! m_manager)
           {
             throw Exception("initialisation of ogre failed") ;
           }
@@ -93,9 +90,9 @@ namespace ProjetUnivers {
         {
           InternalMessage("RealWorldViewPoint::onClose Entering") ;
           /// Supprimme tous les éléments de la scène
-          if (this->manager)
+          if (m_manager)
           {
-            this->manager->clearScene() ;
+            m_manager->clearScene() ;
           }
           InternalMessage("RealWorldViewPoint::onClose Leaving") ;
         }
@@ -107,7 +104,7 @@ namespace ProjetUnivers {
           
         ::Ogre::SceneManager* RealWorldViewPoint::getManager() const
         {
-          return this->manager ;
+          return m_manager ;
         }
 
         void RealWorldViewPoint::activate() 

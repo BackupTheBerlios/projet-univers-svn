@@ -132,13 +132,16 @@ namespace ProjetUnivers {
       notify() ;
     }
 
+    RegisterAxis("set_axis_X",Stick,setX) ;
+    RegisterAxis("set_axis_Y",Stick,setY) ;
+    RegisterAxis("set_axis_Z",Stick,setZ) ;
   
     void Stick::updateOrientation() const
     {
       if (!m_updated)
       {
         
-        std::cout << "X=" << m_x << ",Y=" << m_y << ",Z=" << m_z << std::endl ;
+//        std::cout << "X=" << m_x << ",Y=" << m_y << ",Z=" << m_z << std::endl ;
         /// technique with plannar mapping
         /* 
           map m_x,m_y on a square

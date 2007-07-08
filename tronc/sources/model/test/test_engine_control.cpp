@@ -65,6 +65,7 @@ namespace ProjetUnivers {
         model->addTrait(ship,new Mobile()) ;
         model->addTrait(ship,new Massive(Mass::Kilogram(1000))) ;
         CPPUNIT_ASSERT(ship->getTrait<PhysicalObject>()) ;
+        CPPUNIT_ASSERT(ship->getTrait<PhysicalWorld>()) ;
         
         Kernel::Object* throttle = model->createObject("throttle",ship) ;
         model->addTrait(throttle,new Throttle()) ;
@@ -82,7 +83,7 @@ namespace ProjetUnivers {
         {
           /// variables redefines to have direct access to interesting traits
           
-          Engine* engine = model->getObject("engine")->getTrait<Engine>() ;
+          ForceGenerator* engine = model->getObject("engine")->getTrait<ForceGenerator>() ;
           CPPUNIT_ASSERT(engine) ;
           EngineControl* engine_control = model->getObject("engine_control")->getTrait<EngineControl>() ;
           CPPUNIT_ASSERT(engine_control) ;
@@ -93,10 +94,11 @@ namespace ProjetUnivers {
           CPPUNIT_ASSERT(engine->getAppliedForce().Newton() == Ogre::Vector3(0,0,0)) ;
 
           /// set throttle orientation at full thrust... 
-          throttle->modify(100) ;
-          CPPUNIT_ASSERT(equal(engine->getAppliedForce().Newton().z,10) &&
-                         equal(engine->getAppliedForce().Newton().x,0) &&
-                         equal(engine->getAppliedForce().Newton().y,0)) ;
+          throttle->set(100) ;
+          Ogre::Vector3 force(engine->getAppliedForce().Newton()) ;
+          CPPUNIT_ASSERT(equal(force.z,10) &&
+                         equal(force.x,0) &&
+                         equal(force.y,0)) ;
 
           /// reorient ship...
           ship->getTrait<Oriented>()->setOrientation(

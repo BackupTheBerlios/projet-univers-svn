@@ -32,7 +32,6 @@ namespace ProjetUnivers {
     namespace Implementation {
       namespace Ode {
         
-        class PhysicalWorld ;
         class PhysicalObject ;
               
         /// .
@@ -40,7 +39,7 @@ namespace ProjetUnivers {
           @see Model::ForceGenerator
         */
         class ForceGenerator : public Kernel::Controler<Model::ForceGenerator,
-                                                         PhysicSystem>
+                                                        PhysicSystem>
         {
         public:
 
@@ -69,7 +68,6 @@ namespace ProjetUnivers {
           /// Calculate the object on which this force applies. 
           PhysicalObject* determineObject() const ;
 
-          PhysicalWorld*  m_world ;
           PhysicalObject* m_object ;
         };
       }

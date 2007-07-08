@@ -20,7 +20,9 @@ $(SOURCES)/kernel/implementation/string.cpp \
 $(SOURCES)/kernel/implementation/timer.cpp \
 $(SOURCES)/kernel/implementation/trait.cpp \
 $(SOURCES)/kernel/implementation/trait_view.cpp \
-$(SOURCES)/kernel/implementation/view_point.cpp
+$(SOURCES)/kernel/implementation/view_point.cpp \
+$(SOURCES)/kernel/implementation/command_delegator.cpp
+
 
 libkernel_la_LDFLAGS = -lrlog
 

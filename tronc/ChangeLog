@@ -149,3 +149,12 @@
   	- getTrait<X> will now return trait of type Y when Y is subclass of X
   	- added preliminary Command system
   * input : usage of command system in joystick
+  
+2007-07-08 rogma <rogma.boami@free.fr>
+
+  * kernel : 
+  	- added getAncestor<T> for getting first real ancestor having trait T
+    - added static registration for commands
+  * physic : test of dragger
+  * demo : added full piloting of one ship
+  

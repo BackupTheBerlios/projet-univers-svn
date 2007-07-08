@@ -48,33 +48,23 @@ namespace ProjetUnivers {
           Model::Distance z(_position.getZCoordinate()) ;
           
           /*!
-            Les coordonnées ogre sont codées sur 32 bits. 
-            
-            Il faut être capable d'ajuster l'échèle par un facteur de 
-            conversion, ici on pose : 1 unité Ogre = 1000 mètres.
-            
-            De plus on pourrait changer de système de coordonnées, Ogre utilise 
-            le système suivant : 
+            Ogre uses following conventions : 
             +X = right
             -X = left
             +Y = up
             -Y = down
             +Z = going into the screen
             -Z = going away from the screen
-            
-            On pourrait par exemple, inverser des axes etc...
-            
           */
           
-          const float facteurDeConversion = 1000 ;
           
           float XMeters = x.Meter() ;
           float YMeters = y.Meter() ;
           float ZMeters = z.Meter() ;
           
-          return ::Ogre::Vector3(XMeters/facteurDeConversion,
-                                 YMeters/facteurDeConversion,
-                                 ZMeters/facteurDeConversion) ;
+          return ::Ogre::Vector3(XMeters/conversion_factor,
+                                 YMeters/conversion_factor,
+                                 ZMeters/conversion_factor) ;
           
           
           
@@ -99,23 +89,18 @@ namespace ProjetUnivers {
         {
           InternalMessage("Entering Positionned::init") ;
           
-          /*! 
-            on crée un noeud qu'on rattache en dessous du conteneur
-          */
-            
-          /// On récupère le connteneur et son noeud
-          Kernel::Object* contener(getObject()->getParent()) ;
-          
-          if (contener)
+          Model::Positionned* positionned_ancestor 
+            = getObject()->getAncestor<Model::Positionned>() ;
+
+          if (positionned_ancestor)
           {
-            
-            Positionned* parent(contener->getView<Positionned>(viewpoint)) ;
+            Positionned* parent_node(positionned_ancestor->getView<Positionned>(viewpoint)) ;
       
-            m_node = static_cast<SceneNode*>(parent->m_node->createChild()) ;
+            m_node = static_cast<SceneNode*>(parent_node->m_node->createChild()) ;
 
             InternalMessage(
               "creating scene node " + m_node->getName() + 
-              " with parent " + parent->m_node->getName() +
+              " with parent " + parent_node->m_node->getName() +
               " with position " + 
               ::Ogre::StringConverter::toString(m_node->getPosition())) ;
 
@@ -125,17 +110,13 @@ namespace ProjetUnivers {
               "modification of scene node " + m_node->getName() + 
               " with position " + 
               ::Ogre::StringConverter::toString(m_node->getPosition())) ;
-
-
           }
           else
           {
             InternalMessage("root node") ;
             
-            /// on est à la racine.
             m_node = this->getViewPoint()->getManager()->getRootSceneNode() ;
           }
-          
 
           InternalMessage("Leaving Positionned::init") ;
 

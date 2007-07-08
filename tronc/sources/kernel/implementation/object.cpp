@@ -490,11 +490,11 @@ namespace ProjetUnivers {
           trait != traits.end() && !found ;
           ++trait)
       {
-        found = trait->second->call(i_command) ;
+        found = trait->second->call(trait->first,i_command) ;
       }
       
       for(std::set<Object*>::iterator child = children.begin() ;
-          child != children.end() && ! found;
+          child != children.end() && !found ;
           ++child)
       {
         found = (*child)->call(i_command) ;
@@ -512,11 +512,11 @@ namespace ProjetUnivers {
           trait != traits.end() && !found ;
           ++trait)
       {
-        found = trait->second->call(i_command,i_parameter) ;
+        found = trait->second->call(trait->first,i_command,i_parameter) ;
       }
       
       for(std::set<Object*>::iterator child = children.begin() ;
-          child != children.end() && ! found;
+          child != children.end() && !found ;
           ++child)
       {
         found = (*child)->call(i_command,i_parameter) ;

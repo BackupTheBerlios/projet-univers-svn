@@ -27,6 +27,7 @@
 #include <kernel/trait_view.h>
 #include <kernel/view_point.h>
 #include <kernel/deduced_trait.h>
+#include <kernel/command_delegator.h>
 
 #include <kernel/test/test_command.h>
 
@@ -65,6 +66,9 @@ namespace ProjetUnivers {
           int value ;
            
         };
+        
+        /// command registration
+        RegisterAxis("axis1",Trait1,change) ;
 
         class Trait2 : public Trait
         {
@@ -102,6 +106,10 @@ namespace ProjetUnivers {
           int value ;
           bool m_pushed ;
         };
+        
+        /// registration
+        RegisterCommand("push",Trait2,push) ;
+        RegisterAxis("axis2",Trait2,change) ;
         
         class Trait3 : public Trait
         {
@@ -142,7 +150,6 @@ namespace ProjetUnivers {
         
         {
           Trait1* trait = new Trait1() ;
-          trait->addAxis<Trait1>("axis1",&Trait1::change) ;
           model->addTrait(object,trait) ;
           
           CPPUNIT_ASSERT(object->call("axis1",10)) ;
@@ -155,7 +162,6 @@ namespace ProjetUnivers {
         
         {
           Trait2* trait = new Trait2() ;
-          trait->addCommand<Trait2>("push",&Trait2::push) ;
           model->addTrait(object,trait) ;
           
           CPPUNIT_ASSERT(! trait->isPushed()) ;
@@ -163,16 +169,44 @@ namespace ProjetUnivers {
           CPPUNIT_ASSERT(trait->isPushed()) ;
           
           std::set<std::string> commands(object->getCommands()) ;
-          CPPUNIT_ASSERT(commands.size() == 2) ;
-
-          trait->addAxis<Trait2>("axis2",&Trait2::change) ;
-        
-          CPPUNIT_ASSERT(object->getCommands().size() == 3) ;
+          CPPUNIT_ASSERT(commands.size() == 3) ;
           
         
         }        
         
         InternalMessage("Kernel::Test::TestCommand::basicTest leaving") ;
+      }
+
+      void TestCommand::testCommandDelegator()
+      {
+        InternalMessage("Kernel::Test::TestCommand::testCommandDelegator entering") ;
+        /// create a model
+        std::auto_ptr<Model> model(new Model()) ;
+                                    
+        //// fill the model
+        Object* object = model->createObject("object") ;
+        Trait1* trait1 = new Trait1() ;
+        model->addTrait(object,trait1) ;
+        Trait2* trait2 = new Trait2() ;
+        model->addTrait(object,trait2) ;
+        
+        Object* object2 = model->createObject("object2") ;
+        CommandDelegator* delegator = new CommandDelegator() ;
+        model->addTrait(object2,delegator) ;
+        
+        delegator->addDelegate(object) ;
+        
+        CPPUNIT_ASSERT(object2->call("axis1",10)) ;
+        CPPUNIT_ASSERT(trait1->getValue()==10) ;
+          
+        CPPUNIT_ASSERT(! trait2->isPushed()) ;
+        CPPUNIT_ASSERT(object2->call("push")) ;
+        CPPUNIT_ASSERT(trait2->isPushed()) ;
+          
+        std::set<std::string> commands(object2->getCommands()) ;
+        CPPUNIT_ASSERT(commands.size() == 3) ;
+        
+        InternalMessage("Kernel::Test::TestCommand::testCommandDelegator leaving") ;
       }
       
       void TestCommand::setUp()

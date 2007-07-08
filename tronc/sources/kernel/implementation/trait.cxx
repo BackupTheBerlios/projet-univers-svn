@@ -81,7 +81,34 @@ namespace ProjetUnivers {
       }
     };
     
+
+    template <class _Trait> class CommandRegistration
+    {
+    public:
+      
+      /// Constructor.
+      CommandRegistration(const std::string&             i_command_name,
+                          boost::function1<void,_Trait*> i_operation)
+      {
+        
+        Kernel::Trait::addCommand<_Trait>(i_command_name,
+                                          i_operation) ;
+      }
+    };
     
+    template <class _Trait> class AxisRegistration
+    {
+    public:
+      
+      /// Constructor.
+      AxisRegistration(const std::string&                 i_axis_name,
+                       boost::function2<void,_Trait*,int> i_operation)
+      {
+        
+        Kernel::Trait::addAxis<_Trait>(i_axis_name,
+                                       i_operation) ;
+      }
+    };
     
     
     template<class View> View* Trait::getView(ViewPoint* i_viewpoint)
@@ -146,7 +173,7 @@ namespace ProjetUnivers {
       const std::string&                       i_command_name,
       boost::function1<void,SpecializedTrait*> i_operation)
     {
-      m_void_commands[i_command_name] 
+      m_void_commands[getClassTypeIdentifier(SpecializedTrait)][i_command_name] 
         = boost::bind(i_operation, boost::bind(&convert<SpecializedTrait>, _1)) ;
     }
   
@@ -155,7 +182,7 @@ namespace ProjetUnivers {
       const std::string&                           i_command_name,
       boost::function2<void,SpecializedTrait*,int> i_axis_update)
     {
-      m_int_commands[i_command_name]
+      m_int_commands[getClassTypeIdentifier(SpecializedTrait)][i_command_name]
         = boost::bind(i_axis_update, boost::bind(&convert<SpecializedTrait>, _1),_2) ;
     }
 

@@ -32,9 +32,6 @@ namespace ProjetUnivers {
       - are registered onto Trait and automatically created when 
         the corresponding trait appears (like a view).
       - have a simulate method 
-      
-      @todo 
-        Determine a real framework on it.
     */
     template <class _Trait,class _ControlerSet>  
     class Controler : public BaseControler

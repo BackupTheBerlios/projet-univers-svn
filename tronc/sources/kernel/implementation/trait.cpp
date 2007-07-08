@@ -498,14 +498,28 @@ namespace ProjetUnivers {
     }
 
 
-    bool Trait::call(const std::string& i_command)
+    bool Trait::call(const TypeIdentifier& i_trait_type,
+                     const std::string&    i_command)
     {
-      std::map<std::string,boost::function1<void,Trait*> >::const_iterator 
-        command = m_void_commands.find(i_command) ;
-      if (command != m_void_commands.end())
+      
+      std::map<TypeIdentifier,
+               std::map<std::string,
+                        boost::function1<void,Trait*> > >::const_iterator 
+        group = m_void_commands.find(i_trait_type) ;
+      
+      if (group != m_void_commands.end())
       {
-        command->second(this) ;
-        return true ;
+        std::map<std::string,boost::function1<void,Trait*> >::const_iterator 
+          command = group->second.find(i_command) ;
+        if (command != group->second.end())
+        {
+          command->second(this) ;
+          return true ;
+        }
+        else
+        {
+          return false ;
+        }
       }
       else
       {
@@ -513,15 +527,28 @@ namespace ProjetUnivers {
       }
     }
 
-    bool Trait::call(const std::string& i_command, 
-                     const int&         i_parameter)
+    bool Trait::call(const TypeIdentifier& i_trait_type,
+                     const std::string&    i_command, 
+                     const int&            i_parameter)
     {
-      std::map<std::string,boost::function2<void,Trait*,int> >::const_iterator 
-        command = m_int_commands.find(i_command) ;
-      if (command != m_int_commands.end())
+      std::map<TypeIdentifier,
+               std::map<std::string,
+                        boost::function2<void,Trait*,int> > >::const_iterator
+        group = m_int_commands.find(i_trait_type) ;
+      
+      if (group != m_int_commands.end())
       {
-        command->second(this,i_parameter) ;
-        return true ;
+        std::map<std::string,boost::function2<void,Trait*,int> >::const_iterator 
+          command = group->second.find(i_command) ;
+        if (command != group->second.end())
+        {
+          command->second(this,i_parameter) ;
+          return true ;
+        }
+        else
+        {
+          return false ;
+        }
       }
       else
       {
@@ -531,26 +558,56 @@ namespace ProjetUnivers {
 
     std::set<std::string> Trait::getCommands() const
     {
+      TypeIdentifier trait_type = getObjectTypeIdentifier(this) ;
       std::set<std::string> result ;
-      
-      for(std::map<std::string,boost::function1<void,Trait*> >::const_iterator
-            command = m_void_commands.begin() ;
-          command != m_void_commands.end() ;
-          ++command)
-      {
-        result.insert(command->first) ;
+      {      
+        std::map<TypeIdentifier,
+                 std::map<std::string,
+                          boost::function1<void,Trait*> > >::const_iterator 
+          group = m_void_commands.find(trait_type) ;
+        
+        if (group != m_void_commands.end())
+        {
+          for(std::map<std::string,boost::function1<void,Trait*> >::const_iterator
+                command = group->second.begin() ;
+              command != group->second.end() ;
+              ++command)
+          {
+            result.insert(command->first) ;
+          }
+        }
       }
-
-      for(std::map<std::string,boost::function2<void,Trait*,int> >::const_iterator
-            command = m_int_commands.begin() ;
-          command != m_int_commands.end() ;
-          ++command)
       {
-        result.insert(command->first) ;
-      }
-      
+        std::map<TypeIdentifier,
+                 std::map<std::string,
+                          boost::function2<void,Trait*,int> > >::const_iterator
+          group = m_int_commands.find(trait_type) ;
+        
+        if (group != m_int_commands.end())
+        {
+          
+          for(std::map<std::string,boost::function2<void,Trait*,int> >::const_iterator
+                command = group->second.begin() ;
+              command != group->second.end() ;
+              ++command)
+          {
+            result.insert(command->first) ;
+          }
+        }
+      }      
       return result ;
     }
+
+    std::map<TypeIdentifier,
+             std::map<std::string,
+                      boost::function1<void,Trait*> > > 
+      Trait::m_void_commands ;
+  
+    std::map<TypeIdentifier,
+             std::map<std::string,
+                      boost::function2<void,Trait*,int> > > 
+      Trait::m_int_commands ;
+
 
   }
 }

@@ -19,7 +19,9 @@
  ***************************************************************************/
 #include <boost/function.hpp>
 #include <ode/ode.h>
+
 #include <kernel/log.h>
+#include <kernel/object.h>
 #include <kernel/base_controler.h>
 
 #include <model/model.h>
@@ -31,7 +33,7 @@ namespace ProjetUnivers {
       namespace Ode {
         
         PhysicSystem::PhysicSystem(Kernel::Object* i_observer)
-        : Kernel::ControlerSet(Model::getRealWorlModel())
+        : Kernel::ControlerSet(i_observer ? i_observer->getModel() : NULL)
         {}
         
         void PhysicSystem::simulate(const float& i_seconds)

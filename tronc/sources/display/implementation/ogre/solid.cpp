@@ -17,6 +17,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <OgreVector3.h>
 
 #include <kernel/log.h>
 
@@ -58,14 +59,19 @@ namespace ProjetUnivers {
           Positionned* positionned(getView<Positionned>()) ;
           positionned->_init() ;
           
-          /// on crée l'élément 3D
+          // build 3D object
           mesh = this->getViewPoint()->getManager()
                   ->createEntity(Utility::getUniqueName(),
                                  getModel()->getMesh().getName()) ;
           
-          /// on le place sur le noeud
+          // put it on the node
           positionned->getNode()->attachObject(mesh) ;
-
+          
+          // reset scale factor
+          positionned->getNode()->setScale(::Ogre::Vector3(1.0/conversion_factor,
+                                                         1.0/conversion_factor,
+                                                         1.0/conversion_factor)) ;
+          
           InternalMessage("Leaving Solid::onInit") ;
         }
         

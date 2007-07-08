@@ -84,6 +84,7 @@ namespace ProjetUnivers {
         */
         void testStabilizer2() ;
 
+        void testEngine() ;
 
       // @}
       /*!
@@ -103,6 +104,7 @@ namespace ProjetUnivers {
         CPPUNIT_TEST(testStabilizer) ;
         CPPUNIT_TEST(testNegativeStabilizer) ;
         CPPUNIT_TEST(testStabilizer2) ;
+        CPPUNIT_TEST(testEngine) ;
       
         CPPUNIT_TEST_SUITE_END() ;
 

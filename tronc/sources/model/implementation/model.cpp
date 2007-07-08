@@ -23,6 +23,7 @@
 #include <kernel/trait.h>
 #include <kernel/object.h>
 #include <kernel/model.h>
+#include <kernel/command_delegator.h>
 
 #include <model/exception.h>
 #include <model/observer.h>
@@ -42,6 +43,8 @@
 #include <model/engine.h>
 #include <model/engine_control.h>
 #include <model/stick.h>
+#include <model/throttle.h>
+#include <model/dragger.h>
 
 #include <model/model.h>
 
@@ -173,7 +176,7 @@ namespace ProjetUnivers {
           Kernel::Object* ship = model->createObject("Vaisseau",system) ;
           model->addTrait(ship,new Positionned(Position::Meter(0,
                                                                0,
-                                                               -500000))) ;
+                                                               -500))) ;
           model->addTrait(ship,new Oriented()) ;
           model->addTrait(ship,new Solid(Mesh("razor.mesh"))) ;
           model->addTrait(ship,new Mobile()) ;
@@ -185,13 +188,14 @@ namespace ProjetUnivers {
           InternalMessage("building ship...") ;
           Kernel::Object* ship = model->createObject("Vaisseau#3",system) ;
           model->addTrait(ship,new Positionned(Position::Meter(0,
-                                                               100000,
-                                                               -500000))) ;
+                                                               100,
+                                                               -500))) ;
           model->addTrait(ship,new Oriented()) ;
           
           model->addTrait(ship,new Solid(Mesh("razor.mesh"))) ;
           model->addTrait(ship,new Mobile()) ;
           model->addTrait(ship,new Massive(Mass::Kilogram(1000))) ;
+          model->addTrait(ship,new Dragger()) ;
 
           Kernel::Object* st1 = model->createObject("st1",ship) ;
           model->addTrait(st1,new Stabilizer(0,10,0)) ;
@@ -206,11 +210,8 @@ namespace ProjetUnivers {
           Kernel::Object* stick = model->createObject("stick",system) ;
           model->addTrait(stick,new Positionned(Position::Meter(0,
                                                                 0,
-                                                                -150000))) ;
+                                                                -150))) ;
           Stick* _stick = new Stick() ;
-          _stick->addAxis<Stick>("set_axis_X",&Stick::setX) ;
-          _stick->addAxis<Stick>("set_axis_Y",&Stick::setY) ;
-          _stick->addAxis<Stick>("set_axis_Z",&Stick::setZ) ;
           
           model->addTrait(stick,_stick) ;
           model->addTrait(stick,new Solid(Mesh("stick.mesh"))) ;
@@ -223,10 +224,10 @@ namespace ProjetUnivers {
 
           /// engine + engine control...
           Kernel::Object* throttle = model->createObject("throttle",ship) ;
-          model->addTrait(throttle,new Oriented()) ;
+          model->addTrait(throttle,new Throttle()) ;
           
           Kernel::Object* engine = model->createObject("engine",ship) ;
-          model->addTrait(engine,new Engine(Force::Newton(0,0,10))) ;
+          model->addTrait(engine,new Engine(Force::Newton(0,0,5000))) ;
   
           Kernel::Object* engine_control = model->createObject("engine_control",ship) ;
           model->addTrait(engine_control,
@@ -234,21 +235,27 @@ namespace ProjetUnivers {
                             throttle->getTrait<Oriented>(),
                             engine->getTrait<Engine>())) ;
           
+          
           InternalMessage("building ship done") ;
+
+          /// 4. Ajout d'un observateur
+          InternalMessage("building observer...") ;
+          Kernel::Object* observer = model->createObject("Observer",system) ;
+          model->addTrait(observer,new Positionned(Position::Meter(0,
+                                                               0,
+                                                               0))) ;
+          model->addTrait(observer,new Oriented()) ;
+          /// Il a la faculté d'observer
+          model->addTrait(observer,new Observer()) ;
+          Kernel::CommandDelegator* command = new Kernel::CommandDelegator() ;
+          command->addDelegate(throttle) ;
+          command->addDelegate(stick) ;
+          model->addTrait(observer,command) ;
+
         }
 
                 
-        /// 4. Ajout d'un observateur
-        InternalMessage("building observer...") ;
-        Kernel::Object* observer = model->createObject("Observer",system) ;
-        model->addTrait(observer,new Positionned(Position::Meter(0,
-                                                             0,
-                                                             0))) ;
-        model->addTrait(observer,new Oriented()) ;
-        /// Il a la faculté d'observer
-        model->addTrait(observer,new Observer()) ;
-
-
+        
         InternalMessage("building observer done") ;
         
         

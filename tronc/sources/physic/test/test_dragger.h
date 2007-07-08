@@ -17,62 +17,70 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_PHYSIC_IMPLEMENTATION_ODE_TORQUE_GENERATOR_H_
-#define PU_PHYSIC_IMPLEMENTATION_ODE_TORQUE_GENERATOR_H_
 
-#include <kernel/controler.h>
-#include <kernel/object.h>
+#ifndef PU_PHYSIC_TEST_DRAGGER_H_
+#define PU_PHYSIC_TEST_DRAGGER_H_
 
-#include <model/torque_generator.h>
+#include <cppunit/extensions/HelperMacros.h>
 
-#include <physic/implementation/ode/physic_system.h>
 
 namespace ProjetUnivers {
   namespace Physic {
-    namespace Implementation {
-      namespace Ode {
-        
-        class PhysicalObject ;
-              
-        /// .
-        /*!
-          @see Model::TorqueGenerator
-        */
-        class TorqueGenerator : public Kernel::Controler<Model::TorqueGenerator,
-                                                         PhysicSystem>
-        {
-        public:
+    namespace Test {
 
-          /// constructor.
-          TorqueGenerator(Model::TorqueGenerator*,PhysicSystem*) ;
-          
-          /// simulation
-          virtual void prepare() ;
-          
-        protected:
+
+            
+      /// Physic tests on a Model::Dragger.
+      /*!
+
+      */
+      class TestDragger : public CppUnit::TestFixture {
+      protected:
+      
         
-          /// Called after the view is created on a initialised viewpoint.
-          virtual void onInit() ;
-          
-          /// Called just before the view is destroyed.
-          virtual void onClose() ;
+      /*!
+        @name Test methods
+      */
+      // @{
+
+        /// A basic test        
+        void basicTest() ;
+
+
+      // @}
+      /*!
+        @name Test registration
+      */
+      // @{      
     
-          /// Called when parent changed.
-          virtual void onChangeParent(Kernel::Object* i_old_parent) ;
-          
-          /// Called when the model trait has changed.
-          virtual void onUpdate() ;
-        
-        private:
+        CPPUNIT_TEST_SUITE(TestDragger) ;
+      
+        CPPUNIT_TEST(basicTest) ;
+     
+        CPPUNIT_TEST_SUITE_END() ;
 
-          /// Calculate the object on which this torque applies. 
-          PhysicalObject* determineObject() const ;
+      public:
+  
+      // @}
+      /*!
+        @name Mandatory methods
+      */
+      // @{
 
-          PhysicalObject* m_object ;
-        };
-      }
+      
+        void setUp() ;
+      
+        void tearDown() ;
+      
+      // @}      
+                
+       
+      
+      };
+
     }
   }
 }
 
-#endif /*PU_PHYSIC_IMPLEMENTATION_ODE_TORQUE_GENERATOR_H_*/
+
+#endif
