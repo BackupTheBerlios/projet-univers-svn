@@ -63,6 +63,7 @@ test_model_SOURCES = \
 ../test/test_guidance_control.cpp \
 ../test/test_throttle.cpp \
 ../test/test_stick.cpp \
+../test/test_mesh.cpp \
 ../test/test_demonstration.cpp 
 
 test_model_CXXFLAGS = $(CPPUNIT_CFLAGS)

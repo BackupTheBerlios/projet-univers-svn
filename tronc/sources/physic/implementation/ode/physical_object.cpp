@@ -44,7 +44,8 @@ namespace ProjetUnivers {
                                        PhysicSystem*          i_physic)
         : Kernel::Controler<Model::PhysicalObject,
                             PhysicSystem>(i_object,i_physic),
-          m_body(NULL)
+          m_body(NULL),
+          m_collision_space(NULL)
         {}
         
         Model::PhysicalWorld* PhysicalObject::determineWorld() const
@@ -66,24 +67,31 @@ namespace ProjetUnivers {
           return m_body ;
         }
 
+        dSpace* PhysicalObject::getCollisionSpace() const
+        {
+          return m_collision_space ;
+        }
+
         void PhysicalObject::onInit()
         {
           InternalMessage("PhysicalObject::onInit entering " + getObject()->getName()) ;
           
           /// get the first parent having the PhysicalWorld property
-          Model::PhysicalWorld* world = determineWorld() ;
-          if (world)
+          Model::PhysicalWorld* model_world = determineWorld() ;
+          if (model_world)
           {
+            PhysicalWorld* world 
+              = model_world->getControler<PhysicalWorld>(getControlerSet()) ; 
             m_body = new dBody() ;
-            m_body->create(
-                world->getControler<PhysicalWorld>(getControlerSet())
-                                        ->getWorld()->id()) ;
+            m_body->create(world->getWorld()->id()) ;
   
             /// set the inital values :
             updatePositionned() ;          
             updateMobile() ;
             updateMassive() ;
-  
+            
+            // an object is a space in the world's space.
+            m_collision_space = new dSimpleSpace(world->getCollisionSpace()->id()) ;
           }
           else
           {
@@ -164,6 +172,11 @@ namespace ProjetUnivers {
           check(massive,"PhysicalObject::updateMassive no Massive trait") ;
           Model::Mass mass = massive->getMass() ;
           
+//          dMass ode_mass ;
+//          m_body->getMass(&ode_mass) ;
+//          
+//          std::cout << "mass = " << ode_mass.mass << std::endl ;
+          
           //m_body->setMass(mass.Kilogram())
           
         }
@@ -237,6 +250,12 @@ namespace ProjetUnivers {
               it may be different in the future
             */
             const dReal* ode_position = m_body->getPosition() ;
+
+            InformationMessage("Ode::PhysicalObject::updateModelPositionned "
+                            + getObject()->getName() + " position="
+                            + toString(ode_position[0]) + "," 
+                            + toString(ode_position[1]) + "," 
+                            + toString(ode_position[2])) ; 
                                 
             positionned->setPosition(Model::Position::Meter(
                                        ode_position[0],
@@ -287,7 +306,7 @@ namespace ProjetUnivers {
             
             const dReal* angular_speed = m_body->getAngularVel() ;
             
-            InternalMessage("Ode::PhysicalObject::updateModelMobile new angular speed=" 
+            InformationMessage("Ode::PhysicalObject::updateModelMobile new angular speed=" 
                             + toString(angular_speed[0]) + "," 
                             + toString(angular_speed[1]) + "," 
                             + toString(angular_speed[2])) ; 

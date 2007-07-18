@@ -20,6 +20,11 @@
 #ifndef PU_PHYSIC_IMPLEMENTATION_ODE_ODE_H_
 #define PU_PHYSIC_IMPLEMENTATION_ODE_ODE_H_
 
+#include <ode/ode.h>
+#include <kernel/string.h>
+#include <model/mesh.h>
+
+
 namespace ProjetUnivers {
   namespace Physic {
     namespace Implementation {
@@ -69,6 +74,31 @@ namespace ProjetUnivers {
                     
       */
       namespace Ode {
+        
+
+      /*!
+        @name ODE like functions
+      */
+      // @{
+              
+        /// custom implentation for dMassSetTrimesh
+        void meshToMass(const Model::Mesh& i_mesh,dMass* io_mass) ;
+
+        
+      //@}
+      /*!
+        @name Print functions
+      */
+      // @{
+      
+        std::string printReal(const dReal& i_real) ;
+        std::string printVector3(const dVector3& i_vector) ;
+        std::string printVector4(const dVector4& i_vector) ;
+        std::string printMatrix3(const dMatrix3& i_matrix) ;
+        std::string printMass(const dMass& i_mass) ;
+      
+      //@}
+        
       }
     }
   }

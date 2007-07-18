@@ -73,7 +73,7 @@ namespace ProjetUnivers {
         model->addTrait(stick,new Oriented()) ;
         
         Kernel::Object* guidance_system = model->createObject("guidance_system",ship) ;
-        model->addTrait(guidance_system,new GuidanceSystem()) ;
+        model->addTrait(guidance_system,new GuidanceSystem(1)) ;
 
         Kernel::Object* guidance_control = model->createObject("guidance_control",ship) ;
         model->addTrait(guidance_control,

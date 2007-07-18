@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Equipe Projet Univers                           *
+ *   Copyright (C) 2007 by Equipe Projet Univers                           *
  *   rogma.boami@free.fr                                                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,63 +17,75 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_MESH_H_
-#define PU_MODEL_MESH_H_
+#ifndef PU_MODEL_TEST_MESH_H_
+#define PU_MODEL_TEST_MESH_H_
 
-#include <Ogre.h>
-#include <string>
+
+#include <cppunit/extensions/HelperMacros.h>
+
 
 namespace ProjetUnivers {
   namespace Model {
-    
-    
-    /// A 3d mesh.
-    /*!
-      
-    */
-    class Mesh
-    {
-    public:
-    
-    /*!
-      @name Construct
-    */
-    // @{
-    
-      /// Construct.
-      Mesh(const std::string& _name) ;
-      
-      /// Copy.
-      Mesh(const Mesh&) ;
-      
-            
-    // @}
-    /*!
-      @name Access
-    */
-    // @{
-    
-      /// Access to name.
-      std::string getName() const ;
+    namespace Test {
 
-      /// Access to vertex and triangles
-      void getMeshInformation(
-        std::vector< ::Ogre::Vector3>& o_vertices,
-        std::vector<unsigned long>&    o_indices,
-        const ::Ogre::Vector3&         i_scale) const ;
-      
-            
-    // @}
 
-    
-    private:
-    
-      /// Mesh name.
-      std::string m_name ;
             
-    };
+      /// Test of Mesh.
+      /*!
+
+      */
+      class TestMesh : public CppUnit::TestFixture {
+      protected:
+      
+        
+      // ****************************
+      /// @name Tests 
+      // ****************************
+      // @{
+        
+        /// Tests mesh triangle loading.
+        void testGetInformation() ;
+
+        /// Tests loading a unexisting mesh.
+        void testUnexistingMesh() ;
+           
+      // @}
+      // *******************************
+      /// @name Test registration
+      // *******************************
+      // @{      
     
+        CPPUNIT_TEST_SUITE(TestMesh) ;
+      
+        CPPUNIT_TEST(testGetInformation) ;
+        CPPUNIT_TEST(testUnexistingMesh) ;
+      
+        CPPUNIT_TEST_SUITE_END() ;
+
+      public:
+  
+      // @}
+      // *******************************
+      /// @name Mandatory methods
+      // *******************************
+      // @{
+
+      
+        /// Initialisation du test
+        void setUp() ;
+      
+        /// Desinitialisation du test
+        void tearDown() ;
+      
+      // @}      
+                
+       
+      
+      };
+
+    }
   }
 }
 
-#endif 
+
+#endif

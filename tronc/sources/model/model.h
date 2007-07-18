@@ -59,7 +59,10 @@ namespace ProjetUnivers {
 
     /// Load a model from disk.
     void load(const std::string& _name) ;
-    
+
+    /// Load and init external ressources.
+    void initRessources() ;
+        
   //@}
   /*!
     @name Modification Interface

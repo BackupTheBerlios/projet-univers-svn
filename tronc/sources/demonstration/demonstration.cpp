@@ -55,8 +55,8 @@ int main() {
   
   /// Création d'un point de vue sur ce modèle
   Display::buildRealWorldViewPoint(observer) ;
+
   Physic::build(observer) ;
-  Physic::init() ;
 
   Input::build(observer) ;
   Input::init() ;

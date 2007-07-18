@@ -24,8 +24,9 @@
 namespace ProjetUnivers {
   namespace Model {
     
-    GuidanceSystem::GuidanceSystem()
-    : m_control(NULL)
+    GuidanceSystem::GuidanceSystem(const float& i_force)
+    : m_control(NULL),
+      m_force(i_force)
     {}
  
     Ogre::Vector3 GuidanceSystem::NewtonMeter() const
@@ -71,7 +72,7 @@ namespace ProjetUnivers {
           /// rotation
           torque -= (object_orientation.zAxis())*quaternion.getRoll().valueRadians() ;
   
-          return torque ;        
+          return torque*m_force ;        
 
         }
       }

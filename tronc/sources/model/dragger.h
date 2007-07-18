@@ -36,10 +36,14 @@ namespace ProjetUnivers {
     public:
 
       /// Constructor.
-      Dragger() ;
+      Dragger(const float & i_dragg) ;
  
       /// Get the force.
       virtual Force getAppliedForce() const ;
+    
+    private:
+      
+      float m_dragg_factor ;
     };
     
     

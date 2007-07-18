@@ -53,8 +53,6 @@ namespace ProjetUnivers {
             Ce pointeur doit être considéré comme une association.
         */
         ::Ogre::RenderWindow* window ;
-        
-
 
         /// le système ogre      
         ::Ogre::Root* getRoot()
@@ -80,7 +78,6 @@ namespace ProjetUnivers {
         {
           return window ;
         }
-        
 
         size_t getWindowHandle()
         {
@@ -139,8 +136,6 @@ namespace ProjetUnivers {
           }
         }
         
-        
-        
         bool displayPiloteChoice()
         {
           // affiche l'écran de configuration et demande si on continue
@@ -154,19 +149,18 @@ namespace ProjetUnivers {
           }
         }
         
-        
-        
         bool init() {
 
       
-          // On se crée une application Ogre
+          // build an ogre application
           // *******************************
           root = new Root() ;
           
           // On charge le fichier de configuration des ressources
           // ****************************************************
           loadRessources() ;
-        
+
+
           // On laisse l'utilisateur choisir le pilote d'affichage
           bool go_on = displayPiloteChoice() ;
           if (! go_on)

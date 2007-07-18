@@ -29,7 +29,8 @@ namespace ProjetUnivers {
   namespace Model {
     
 
-    Dragger::Dragger()
+    Dragger::Dragger(const float& i_dragg)
+    : m_dragg_factor(i_dragg)
     {}
     
     Force Dragger::getAppliedForce() const
@@ -82,7 +83,7 @@ namespace ProjetUnivers {
         /// result force....
         return Force::Newton(meter_per_second[0],
                              meter_per_second[1],
-                             meter_per_second[2]) ;
+                             meter_per_second[2])*m_dragg_factor ;
         
       }
 

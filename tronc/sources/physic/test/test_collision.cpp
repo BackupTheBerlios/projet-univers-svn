@@ -34,13 +34,12 @@
 #include <model/solid.h>
 #include <model/mobile.h>
 #include <model/massive.h>
-#include <model/dragger.h>
 
 #include <physic/physic.h>
 
-#include <physic/test/test_dragger.h>
+#include <physic/test/test_collision.h>
 
-CPPUNIT_TEST_SUITE_REGISTRATION(ProjetUnivers::Physic::Test::TestDragger) ;
+CPPUNIT_TEST_SUITE_REGISTRATION(ProjetUnivers::Physic::Test::TestCollision) ;
 
 namespace ProjetUnivers {
   namespace Physic {
@@ -58,68 +57,98 @@ namespace ProjetUnivers {
         
       }
 
-      void TestDragger::basicTest()
+      void TestCollision::basicTest()
       {
-        InternalMessage("Physic::Test::TestDragger::basicTest Entering") ;
+        InternalMessage("Physic::Test::TestCollision::basicTest Entering") ;
+
+        /*!
+          - build two mesh ships 
+          - send one against the other
+          - check that the second has moved
+        */
+
         /// we construct a complete system
-        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestDragger::basicTest")) ;
-        
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestCollision::basicTest")) ;
+
         /// should be a PhysicalWorld
         Kernel::Object* system = model->createObject("system") ;
         CPPUNIT_ASSERT(system->getTrait<Model::PhysicalWorld>()) ;
 
         Kernel::Object* ship = model->createObject("ship",system) ;
-        model->addTrait(ship,new Model::Positionned()) ;
+        model->addTrait(ship,new Model::Positionned(Model::Position::Meter(100,0,0))) ;
         model->addTrait(ship,new Model::Oriented()) ;
         model->addTrait(ship,new Model::Mobile()) ;
-        model->addTrait(ship,new Model::Solid(Model::Mesh("toto"))) ;
+        model->addTrait(ship,new Model::Solid(Model::Mesh("razor.mesh"))) ;
         model->addTrait(ship,new Model::Massive(Model::Mass::Kilogram(1000))) ;
 
         CPPUNIT_ASSERT(ship->getTrait<Model::PhysicalObject>()) ;
         CPPUNIT_ASSERT(ship->getTrait<Model::Solid>()) ;
         CPPUNIT_ASSERT(ship->getTrait<Model::PhysicalWorld>()) ;
         
-        Kernel::Object* dragger = model->createObject("dragger",ship) ;
-        model->addTrait(dragger,new Model::Dragger(1)) ;
+        Kernel::Object* ship2 = model->createObject("ship2",system) ;
+        model->addTrait(ship2,new Model::Positionned(Model::Position::Meter(100,-200,0))) ;
+        model->addTrait(ship2,new Model::Oriented()) ;
+        model->addTrait(ship2,new Model::Mobile()) ;
+        model->addTrait(ship2,new Model::Solid(Model::Mesh("razor.mesh"))) ;
+        model->addTrait(ship2,new Model::Massive(Model::Mass::Kilogram(1000))) ;
+
+        CPPUNIT_ASSERT(ship2->getTrait<Model::PhysicalObject>()) ;
+        CPPUNIT_ASSERT(ship2->getTrait<Model::Solid>()) ;
+        CPPUNIT_ASSERT(ship2->getTrait<Model::PhysicalWorld>()) ;
         
-        Model::Mobile* mobile = ship->getTrait<Model::Mobile>() ;
-        CPPUNIT_ASSERT(mobile) ;
-        
-        mobile->setSpeed(Model::Speed::MeterPerSecond(1,0,0)) ;
-        
-        CPPUNIT_ASSERT(ship->getModel()) ;
+        // send ship2 against ship 
+        ship2->getTrait<Model::Mobile>()->setSpeed(Model::Speed::MeterPerSecond(0,5,0)) ;
         
         /// build a physical viewpoint        
         Physic::init() ;
         Kernel::ControlerSet* physics = Physic::build(ship) ;
 
-        /// simulation during enought time seconds ...
+        {
+          Model::Speed ship_speed = ship->getTrait<Model::Mobile>()->getSpeed() ;
+          
+          std::cout << std::endl << "initial ship speed = " << ship_speed.MeterPerSecond() 
+                    << std::endl ;
+        }
+
         const int steps_number = 100 ; 
         for(int i = 1 ; i <= steps_number ; ++i)
         {
           Physic::update(Model::Duration::Second(0.1)) ;
         }
         
-        Ogre::Vector3 final_speed(mobile->getSpeed().MeterPerSecond()) ;
-        
-//        std::cout << "final_speed=" << final_speed << std::endl ;
-        
-        CPPUNIT_ASSERT(equal(final_speed.x,0) &&
-                       equal(final_speed.y,0) &&
-                       equal(final_speed.z,0)) ;
-        
+        /// check that collision has occured
+        {
+          Model::Speed ship_speed = ship->getTrait<Model::Mobile>()->getSpeed() ;
+          
+          std::cout << std::endl << "final ship speed = " << ship_speed.MeterPerSecond() 
+                    << std::endl ;
+        }
 
+        /// again in another direction
+        ship2->getTrait<Model::Positionned>()->setPosition(Model::Position::Meter(0,0,-200)) ;
+        ship2->getTrait<Model::Oriented>()->setOrientation(Model::Orientation()) ;
+
+        ship->getTrait<Model::Positionned>()->setPosition(Model::Position::Meter(0,0,0)) ;
+        ship->getTrait<Model::Oriented>()->setOrientation(Model::Orientation()) ;
+
+        ship2->getTrait<Model::Mobile>()->setSpeed(Model::Speed::MeterPerSecond(0,0,5)) ;
+
+        for(int i = 1 ; i <= steps_number ; ++i)
+        {
+          Physic::update(Model::Duration::Second(0.1)) ;
+        }
+        
         Physic::close() ;
 
-        InternalMessage("Physic::Test::TestDragger::basicTest leaving") ;
+        InternalMessage("Physic::Test::TestCollision::basicTest leaving") ;
         
       }
 
-      void TestDragger::setUp() 
+      void TestCollision::setUp() 
       {
       }
       
-      void TestDragger::tearDown() 
+      void TestCollision::tearDown() 
       {
       }
 

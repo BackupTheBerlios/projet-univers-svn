@@ -17,6 +17,8 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <Ogre.h>
+#include <OgreDefaultHardwareBufferManager.h>
 
 #include <kernel/log.h>
 #include <kernel/error.h>
@@ -48,6 +50,9 @@
 
 #include <model/model.h>
 
+
+using namespace Ogre ;
+
 namespace ProjetUnivers {
   namespace Model 
   {
@@ -59,6 +64,11 @@ namespace ProjetUnivers {
     
     /// our real world.
     std::auto_ptr<Kernel::Model> model(new Kernel::Model("real world")) ;    
+    
+    /// for ogre mesh loading     
+    std::auto_ptr<LogManager> log_manager ;
+    std::auto_ptr<DefaultHardwareBufferManager> hardware_buffer_manager ;
+    std::auto_ptr<Root> root ;
 
   // @}
 
@@ -181,6 +191,16 @@ namespace ProjetUnivers {
           model->addTrait(ship,new Solid(Mesh("razor.mesh"))) ;
           model->addTrait(ship,new Mobile()) ;
           model->addTrait(ship,new Massive(Mass::Kilogram(1000))) ;
+          model->addTrait(ship,new Dragger(0.0001)) ;
+
+          Kernel::Object* st1 = model->createObject("st01",ship) ;
+          model->addTrait(st1,new Stabilizer(0,10,0)) ;
+
+          Kernel::Object* st2 = model->createObject("st02",ship) ;
+          model->addTrait(st2,new Stabilizer(10,0,0)) ;
+
+          Kernel::Object* st3 = model->createObject("st03",ship) ;
+          model->addTrait(st3,new Stabilizer(0,0,10)) ;
           
           InternalMessage("building ship done") ;
         }
@@ -188,14 +208,14 @@ namespace ProjetUnivers {
           InternalMessage("building ship...") ;
           Kernel::Object* ship = model->createObject("Vaisseau#3",system) ;
           model->addTrait(ship,new Positionned(Position::Meter(0,
-                                                               100,
+                                                               300,
                                                                -500))) ;
           model->addTrait(ship,new Oriented()) ;
           
           model->addTrait(ship,new Solid(Mesh("razor.mesh"))) ;
           model->addTrait(ship,new Mobile()) ;
           model->addTrait(ship,new Massive(Mass::Kilogram(1000))) ;
-          model->addTrait(ship,new Dragger()) ;
+          model->addTrait(ship,new Dragger(0.01)) ;
 
           Kernel::Object* st1 = model->createObject("st1",ship) ;
           model->addTrait(st1,new Stabilizer(0,10,0)) ;
@@ -210,13 +230,13 @@ namespace ProjetUnivers {
           Kernel::Object* stick = model->createObject("stick",system) ;
           model->addTrait(stick,new Positionned(Position::Meter(0,
                                                                 0,
-                                                                -150))) ;
+                                                                -50))) ;
           Stick* _stick = new Stick() ;
           
           model->addTrait(stick,_stick) ;
           model->addTrait(stick,new Solid(Mesh("stick.mesh"))) ;
           
-          model->addTrait(ship,new GuidanceSystem()) ;
+          model->addTrait(ship,new GuidanceSystem(5)) ;
           model->addTrait(ship,new GuidanceControl(
                                 stick->getTrait<Oriented>(),
                                 ship->getTrait<GuidanceSystem>())) ;
@@ -227,7 +247,7 @@ namespace ProjetUnivers {
           model->addTrait(throttle,new Throttle()) ;
           
           Kernel::Object* engine = model->createObject("engine",ship) ;
-          model->addTrait(engine,new Engine(Force::Newton(0,0,5000))) ;
+          model->addTrait(engine,new Engine(Force::Newton(0,0,500))) ;
   
           Kernel::Object* engine_control = model->createObject("engine_control",ship) ;
           model->addTrait(engine_control,
@@ -267,6 +287,47 @@ namespace ProjetUnivers {
     {
       return model.get() ;
     }
+
+    void initRessources()
+    {
+      /// if sufficient ressources have not been initialised...
+      InternalMessage("Model::initRessources entering") ;
+      if (! MeshManager::getSingletonPtr())
+      {
+        log_manager.reset(new LogManager()) ;
+        log_manager->createLog("Ogre.log", false, false); 
+        root.reset(new Root()) ;
+        hardware_buffer_manager.reset(new DefaultHardwareBufferManager()) ;
+                
+        ConfigFile file ;
+        file.load("ressources.cfg") ;
+
+        // On parcours ses sections
+        ConfigFile::SectionIterator section = file.getSectionIterator();
+
+        String nomSection, nomType, nomArchitecture ;
+        while (section.hasMoreElements())
+        {
+          nomSection = section.peekNextKey();
+          ConfigFile::SettingsMultiMap* settings = section.getNext();
+          
+          ConfigFile::SettingsMultiMap::iterator i;
+          for (i = settings->begin(); i != settings->end(); ++i)
+          {
+              nomType = i->first;
+              nomArchitecture = i->second;
+              ResourceGroupManager::getSingleton().addResourceLocation(
+                  nomArchitecture, nomType, nomSection);
+          }
+          
+        }
+        
+      }
+
+      InternalMessage("Model::initRessources leaving") ;
+
+    }
+
   }
 }
 

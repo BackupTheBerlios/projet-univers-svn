@@ -34,7 +34,7 @@ namespace ProjetUnivers {
         
         class PhysicalObject ;
               
-        /// .
+        /// Force controler.
         /*!
           @see Model::ForceGenerator
         */

@@ -69,8 +69,8 @@ namespace ProjetUnivers {
           
           // reset scale factor
           positionned->getNode()->setScale(::Ogre::Vector3(1.0/conversion_factor,
-                                                         1.0/conversion_factor,
-                                                         1.0/conversion_factor)) ;
+                                                           1.0/conversion_factor,
+                                                           1.0/conversion_factor)) ;
           
           InternalMessage("Leaving Solid::onInit") ;
         }

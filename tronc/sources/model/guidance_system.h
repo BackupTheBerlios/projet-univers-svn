@@ -37,7 +37,7 @@ namespace ProjetUnivers {
     public:
 
       /// Constructor.
-      GuidanceSystem() ;
+      GuidanceSystem(const float& i_force) ;
  
       /// get the torque in newton.meter.
       virtual Ogre::Vector3 NewtonMeter() const ;
@@ -49,6 +49,9 @@ namespace ProjetUnivers {
       
       /// Computer that control this system
       GuidanceControl* m_control ;
+      
+      /// "force" of the control
+      float m_force ;
       
     };
     

@@ -157,4 +157,24 @@
     - added static registration for commands
   * physic : test of dragger
   * demo : added full piloting of one ship
+
+2007-07-19 rogma <rogma.boami@free.fr>
+
+	* model : 
+		- added Ogre's Mesh on demand loading for test purpose
+		- added Mesh::getMeshInformation that provide triangles of the mesh 
+		  for collision
+  * physic : major update 'collisions'
+  	- added mesh collision support
+  	- added ODE tests (usefull for testing ODE behaviour when developping)
+  	- remove TestDemonstration::testModelPositionUpdate because it is a "copy"
+  		of testSimulateMovingInitialSpeed
+    - removed Model::load in all TestDemonstration tests 
+
+todos :
+
+	* physic : 
+		try to keep all units in an acceptable "range", it means that we whould be 
+		able to convert model units in an arbitrary "ranging system".
+	
   

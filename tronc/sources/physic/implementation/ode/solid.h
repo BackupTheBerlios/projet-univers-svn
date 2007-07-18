@@ -20,6 +20,8 @@
 #ifndef PU_PHYSIC_IMPLEMENTATION_ODE_SOLID_H_
 #define PU_PHYSIC_IMPLEMENTATION_ODE_SOLID_H_
 
+#include <ode/ode.h>
+
 #include <kernel/controler.h>
 #include <model/solid.h>
 #include <physic/implementation/ode/physic_system.h>
@@ -31,11 +33,25 @@ namespace ProjetUnivers {
     namespace Implementation {
       namespace Ode {
         
+        class Solid ;
+        class PhysicalObject ;
+        
+        /// Callback function called when two solids collide.
+        /*!
+          
+        */
+        void onCollide(Solid* i_solid1,Solid* i_solid2) ;
+        
         /// ODE solid view
         /*!
-          @todo 
-            probably rename
-            its a view on Solid and Positionned, i.e PhysicalVolume
+          
+          Collision is organised as follows :
+          - each PhysicalWorld is a space
+          - each PhysiscalObject is a space put in its PhysicalWorld's space 
+          - eahc solid is a geometry put in its PhysiscalObject parent's space.
+          
+          @remark 
+            if we have a Solid that have no PhysiscalObject parent then ...
         */
         class Solid : public Kernel::Controler<Model::Solid,
                                                PhysicSystem>
@@ -44,6 +60,12 @@ namespace ProjetUnivers {
 
           /// constructor.
           Solid(Model::Solid*,PhysicSystem*) ;
+
+          /// simulation ??
+          virtual void prepare() ;
+          
+          /// Calcutae physical object.
+          PhysicalObject* getPhysicalObject() const ;
 
         protected:
         
@@ -61,10 +83,22 @@ namespace ProjetUnivers {
         
         private:
           
+          /// Internal creation of a trimesh geometry.
+          void createGeometry(const dSpaceID& i_space) ;
+          
           /// ODE Collision object
-          dGeom*          m_geometry ;
+          dGeomID          m_geometry_id ;
+
           /// To place m_geometry relatively to parent body.
           dGeomTransform* m_geometry_placeable ;
+        
+          /// vertices storage
+          dTriMeshDataID m_data ;
+          dVector3*      m_vertices ;
+          int*           m_indices ;
+          
+          /// everybody needs friends.
+          friend void onCollide(Solid* i_solid1,Solid* i_solid2) ;
         };
 
       }

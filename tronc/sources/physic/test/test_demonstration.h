@@ -50,9 +50,12 @@ namespace ProjetUnivers {
         /// Simulation with nothing moving.
         void testSimulateNoMove() ;
 
-        /// Simulation with a moving object.
+        /// Simulation with a moving object with a force.
         void testSimulateMoving() ;
 
+        /// Test the rotation of a solid with a torque.
+        void testRotationTorque() ;
+        
         /// Simulation with a moving object with initial speed.
         void testSimulateMovingInitialSpeed() ;
 
@@ -61,9 +64,6 @@ namespace ProjetUnivers {
            
         /// Simulation with a half turn rotation.
         void testSimulateRotatingHalfTurn() ;
-
-        /// Test update of model's position.
-        void testModelPositionUpdate() ;
 
         /// Test a stabilizer.
         /*!
@@ -83,7 +83,8 @@ namespace ProjetUnivers {
           check that after a certain amount of time, the angular speed is null
         */
         void testStabilizer2() ;
-
+        
+        /// test engine propulsion.
         void testEngine() ;
 
       // @}
@@ -94,17 +95,17 @@ namespace ProjetUnivers {
     
         CPPUNIT_TEST_SUITE(TestDemonstration) ;
       
-        CPPUNIT_TEST(testBuild) ;
-        CPPUNIT_TEST(testSimulateNoMove) ;
-        CPPUNIT_TEST(testSimulateMoving) ;
-        CPPUNIT_TEST(testSimulateMovingInitialSpeed) ;
-        CPPUNIT_TEST(testSimulateMovingInitialRotation) ;
-        CPPUNIT_TEST(testSimulateRotatingHalfTurn) ;
-        CPPUNIT_TEST(testModelPositionUpdate) ;
-        CPPUNIT_TEST(testStabilizer) ;
-        CPPUNIT_TEST(testNegativeStabilizer) ;
-        CPPUNIT_TEST(testStabilizer2) ;
-        CPPUNIT_TEST(testEngine) ;
+//        CPPUNIT_TEST(testBuild) ;
+//        CPPUNIT_TEST(testSimulateNoMove) ;
+//        CPPUNIT_TEST(testSimulateMoving) ;
+        CPPUNIT_TEST(testRotationTorque) ;
+//        CPPUNIT_TEST(testSimulateMovingInitialSpeed) ;
+//        CPPUNIT_TEST(testSimulateMovingInitialRotation) ;
+//        CPPUNIT_TEST(testSimulateRotatingHalfTurn) ;
+//        CPPUNIT_TEST(testStabilizer) ;
+//        CPPUNIT_TEST(testNegativeStabilizer) ;
+//        CPPUNIT_TEST(testStabilizer2) ;
+//        CPPUNIT_TEST(testEngine) ;
       
         CPPUNIT_TEST_SUITE_END() ;
 

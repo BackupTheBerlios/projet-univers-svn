@@ -35,6 +35,7 @@ namespace ProjetUnivers {
     namespace Implementation {
       namespace Ode {
         
+        class Solid ;
         class PhysicalObject ;
         
         /// ODE's representation of a physical world
@@ -46,8 +47,14 @@ namespace ProjetUnivers {
         {
         public:
 
-          /// constructor.
+          /// Constructor.
           PhysicalWorld(Model::PhysicalWorld*,PhysicSystem*) ;
+          
+          /// Register a mapping between a geometry and a solid.
+          void registerSolid(const dGeomID& i_geometry,Solid* i_solid) ;
+
+          /// Register a mapping between a geometry and a solid.
+          void unregisterSolid(const dGeomID& i_geometry) ;
 
           /// Simulate world during a certain duration and notify positions.
           void simulate(const float& i_duration) ;
@@ -55,6 +62,9 @@ namespace ProjetUnivers {
           /// Access to ODE world. 
           dWorld* getWorld() const ;
 
+          /// Access to ODE collision space. 
+          dSpace* getCollisionSpace() const ;
+          
         protected:
         
           /// Called after the view is created on a initialised viewpoint.
@@ -69,10 +79,30 @@ namespace ProjetUnivers {
           /// Called when the model trait has changed.
           virtual void onUpdate() ;
         
+          /// Called when two spaces collide.
+          static void onSpaceCollision(void*   i_world,
+                                       dGeomID i_space1,
+                                       dGeomID i_space2) ;
+
+          /// Called when two geometries collide.
+          static void onGeometryCollision(void*   i_world,
+                                          dGeomID i_geometry1,
+                                          dGeomID i_geometry2) ;
+        
         private:
           
-          /// ode's world
+          
+          /// ODE's world
           dWorld* m_world ;
+          
+          /// ODE collision space
+          dSpace* m_collision_space ;
+          
+          /// For solid retrieval.
+          std::map<dGeomID,Solid*> m_solid_of_geometry ;
+
+          /// Group for the contact joints.
+          dJointGroupID m_contact_group ;
           
         };
 

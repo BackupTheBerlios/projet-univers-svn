@@ -17,6 +17,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#define __cpluplus
 #include <ode/ode.h>
 
 #include <kernel/log.h>
@@ -25,6 +26,10 @@
 #include <model/physical_world.h>
 #include <model/physical_object.h>
 
+#include <physic/implementation/ode/mass_property.h>
+
+#include <physic/implementation/ode/ode.h>
+#include <physic/implementation/ode/physical_world.h>
 #include <physic/implementation/ode/physical_object.h>
 
 #include <physic/implementation/ode/solid.h>
@@ -34,40 +39,100 @@ namespace ProjetUnivers {
     namespace Implementation {
       namespace Ode {
 
+        RegisterControler(Solid, 
+                          Model::Solid, 
+                          PhysicSystem) ;
+
         Solid::Solid(Model::Solid* i_object,
                      PhysicSystem* i_physic)
         : Kernel::Controler<Model::Solid,PhysicSystem>(i_object,i_physic),
-          m_geometry(NULL),
+          m_geometry_id(0),
           m_geometry_placeable(NULL)
         {}
 
+        void Solid::prepare()
+        {
+        }
+
+        PhysicalObject* Solid::getPhysicalObject() const
+        {
+          Model::PhysicalObject* 
+              object = getObject()->getParent<Model::PhysicalObject>() ; 
+          
+          if (object)
+          {
+            return object->getControler<PhysicalObject>(getControlerSet()) ;
+          }
+          
+          return NULL ;
+        }
+        
+        /*
+          geom is put in the world's space
+        */
         void Solid::onInit()
         {
-          InternalMessage("Solid::onInit entering") ;
+          InternalMessage("Physic::Implementation::Ode::Solid::onInit entering") ;
           
-          /// need to get the correct geom from volume.
-          m_geometry = new dGeom() ;
-          m_geometry_placeable = new dGeomTransform() ;
+          /*
+            We need the parent physical object and parent physical world 
+          */
+          PhysicalObject* body = getPhysicalObject() ;
 
-          /// body attachment : need to get the physical object 
-          Model::PhysicalObject* 
-              body = getObject()->getParent<Model::PhysicalObject>() ; 
-          check(body,"Solid::onInit no body parent") ;
+          // precondition : physical object is initialised
           
-          m_geometry_placeable->setBody(
-              body->getControler<PhysicalObject>(getControlerSet())->getBody()->id()) ;
+          if (body)
+          {
+            body->_init() ;
+            Model::PhysicalWorld* world = body->determineWorld() ;
+            
+            if (world)
+            {
+              dSpaceID space_id = body->getCollisionSpace()->id() ; 
 
-          m_geometry_placeable->setGeom(m_geometry->id()) ;
-          
-          /// geom placement is relative to body 
-          Ogre::Vector3 position = 
-            getObject()->getTrait<Model::Positionned>()
-                       ->getPosition(body->getObject()).Meter() ;
-          
-          m_geometry_placeable->setPosition(position.x,
-                                            position.y,
-                                            position.z) ; 
+              createGeometry(space_id) ;
+              if (m_geometry_id)
+              {
+                InternalMessage("Physic::Implementation::Ode::Solid::onInit trace#1") ;
 
+                dMass mass ;
+                dReal aabb[6] ;
+                dGeomGetAABB(m_geometry_id,aabb) ;
+
+                dMassSetBoxTotal(&mass,1,aabb[1]-aabb[0],aabb[3]-aabb[2],aabb[5]-aabb[4]);
+//                dBodySetMass(body->getBody()->id(),&mass) ;
+                dGeomSetBody(m_geometry_id,body->getBody()->id()) ;
+                
+                world->getControler<PhysicalWorld>(getControlerSet())
+                     ->registerSolid(m_geometry_id,this) ;
+
+                InternalMessage("Physic::Implementation::Ode::Solid::onInit trace#1") ;
+
+              }
+//              createGeometry(0) ;
+//              
+//              m_geometry_placeable = new dGeomTransform(space_id) ;
+//              m_geometry_placeable->setBody(body->getBody()->id()) ;
+//              
+//              world->getControler<PhysicalWorld>(getControlerSet())
+//                   ->registerSolid(m_geometry_placeable->id(),this) ;
+//              
+//              m_geometry_placeable->setGeom(m_geometry_id) ;
+//              
+//              /// geom placement is relative to body 
+//              Ogre::Vector3 position = 
+//                getObject()->getParent<Model::Positionned>()
+//                           ->getPosition(body->getObject()).Meter() ;
+//
+//              dGeomSetOffsetPosition(m_geometry_placeable->id(),
+//                                     (dReal)position.x,
+//                                     (dReal)position.y,
+//                                     (dReal)position.z) ;
+              
+
+            }
+          }
+          
           InternalMessage("Solid::onInit leaving") ;
           
         }
@@ -75,17 +140,40 @@ namespace ProjetUnivers {
         void Solid::onClose()
         {
           InternalMessage("Solid::onClose entering") ;
-          if (m_geometry)
+          if (m_geometry_id)
           {
-            delete m_geometry ;
-            m_geometry = NULL ;
+            dGeomDestroy(m_geometry_id) ;
+            m_geometry_id = 0 ;
           }
           if (m_geometry_placeable)
           {
+            PhysicalObject* body = getPhysicalObject() ;
+            
+            if (body)
+            {
+              Model::PhysicalWorld* world = body->determineWorld() ;
+              
+              if (world)
+              {
+                world->getControler<PhysicalWorld>(getControlerSet())
+                     ->unregisterSolid(m_geometry_placeable->id()) ;
+              }
+            }
             delete m_geometry_placeable ;
             m_geometry_placeable = NULL ;
           }
           InternalMessage("Solid::onClose leaving") ;
+        }
+
+        void onCollide(Solid* i_solid1,Solid* i_solid2)
+        {
+          if (i_solid1 && i_solid2)
+          {
+//            std::cout << "collision between " 
+//                      << i_solid1->getObject()->getName() 
+//                      << " and " 
+//                      << i_solid2->getObject()->getName() << std::endl ;
+          }
         }
 
         void Solid::onChangeParent(Kernel::Object* i_old_parent)
@@ -96,6 +184,83 @@ namespace ProjetUnivers {
         {
         }
 
+        void Solid::createGeometry(const dSpaceID& i_space)
+        {
+          /// need to get the correct geom from volume.
+          std::vector< ::Ogre::Vector3> vertices ;
+          std::vector<unsigned long>    indices ;
+          Ogre::Vector3                 scale(1,1,1) ;        
+          
+          InternalMessage("Physic::Implementation::Ode::Solid::createGeometry trace#0") ;
+          getModel()->getMesh().getMeshInformation(vertices,indices,scale) ;
+
+//          InternalMessage("Physic::Implementation::Ode::Solid::createGeometry trace#1") ;
+          
+          if (vertices.size()>0 && indices.size() > 0)
+          {
+            m_vertices = new dVector3[vertices.size()];
+            m_indices = new int[indices.size()];
+            
+            for(unsigned int vertex_index = 0 ; 
+                vertex_index < vertices.size() ; 
+                ++vertex_index)
+            {
+              m_vertices[vertex_index][0] = (dReal)(vertices[vertex_index].x) ;
+              m_vertices[vertex_index][1] = (dReal)(vertices[vertex_index].y) ;
+              m_vertices[vertex_index][2] = (dReal)(vertices[vertex_index].z) ;
+              m_vertices[vertex_index][3] = 0 ;
+            }
+
+            for(unsigned int index = 0 ; 
+                index < indices.size() ; 
+                ++index)
+            {
+              m_indices[index] = (int)indices[index] ;
+            }
+
+            // try with reverse order
+//            for(unsigned int index = 0 ; 
+//                index < indices.size() ; 
+//                ++index)
+//            {
+//              m_indices[indices.size() - index -1] = (int)indices[index] ;
+//            }
+             
+
+            m_data = dGeomTriMeshDataCreate() ;
+
+//            InternalMessage("Physic::Implementation::Ode::Solid::createGeometry trace#2") ;
+
+            dGeomTriMeshDataBuildSingle(m_data,
+                                        m_vertices,3*sizeof(dReal),(int)vertices.size(),
+                                        m_indices,(int)indices.size(),3*sizeof(int)) ;
+                                  
+//            dGeomTriMeshDataBuildSimple(m_data,
+//                                        (const dReal*)m_vertices,
+//                                        (int)vertices.size(),
+//                                        (int*)m_indices,
+//                                        (int)indices.size()); 
+
+//            InternalMessage("Physic::Implementation::Ode::Solid::createGeometry trace#3") ;
+
+            m_geometry_id = dCreateTriMesh(i_space,m_data,0,0,0);
+            dGeomSetData(m_geometry_id,m_data) ;
+            
+//            InternalMessage("Physic::Implementation::Ode::Solid::createGeometry trace#4") ;
+//
+            InternalMessage("Physic::Implementation::Ode::Solid::createGeometry trace#5") ;
+//            
+//            std::cout << "aabb of geometry " << m_geometry_id << "=" ;
+//            
+//            for(int i = 1 ;i <= 6 ;++i)
+//            {
+//              std::cout << aabb[i-1] << " " ;
+//            }
+//            std::cout << std::endl ;
+
+
+          }
+        }
 
       }
     }

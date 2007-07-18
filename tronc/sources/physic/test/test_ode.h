@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Equipe Projet Univers                           *
+ *   Copyright (C) 2007 by Equipe Projet Univers                           *
  *   rogma.boami@free.fr                                                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,63 +17,78 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_MESH_H_
-#define PU_MODEL_MESH_H_
 
-#include <Ogre.h>
-#include <string>
+#ifndef PU_PHYSIC_TEST_ODE_H_
+#define PU_PHYSIC_TEST_ODE_H_
+
+
+#include <cppunit/extensions/HelperMacros.h>
+
 
 namespace ProjetUnivers {
-  namespace Model {
-    
-    
-    /// A 3d mesh.
-    /*!
-      
-    */
-    class Mesh
-    {
-    public:
-    
-    /*!
-      @name Construct
-    */
-    // @{
-    
-      /// Construct.
-      Mesh(const std::string& _name) ;
-      
-      /// Copy.
-      Mesh(const Mesh&) ;
-      
-            
-    // @}
-    /*!
-      @name Access
-    */
-    // @{
-    
-      /// Access to name.
-      std::string getName() const ;
+  namespace Physic {
+    namespace Test {
 
-      /// Access to vertex and triangles
-      void getMeshInformation(
-        std::vector< ::Ogre::Vector3>& o_vertices,
-        std::vector<unsigned long>&    o_indices,
-        const ::Ogre::Vector3&         i_scale) const ;
-      
-            
-    // @}
 
-    
-    private:
-    
-      /// Mesh name.
-      std::string m_name ;
             
-    };
+      /// Direct tests on ODE.
+      /*!
+        To check properties of ODE.
+      */
+      class TestODE : public CppUnit::TestFixture {
+      protected:
+      
+        
+      /*!
+        @name Test methods
+      */
+      // @{
+        
+        /// Test a simulation of two worlds.
+        void testTwoWorlds() ;
+        
+        /// Test trimesh collision.
+        void testTrimesh() ;
+
+        /// Test trimesh inertia calculus.
+        void testTrimeshInertia() ;
+                   
+      // @}
+      /*!
+        @name Test registration
+      */
+      // @{      
     
+        CPPUNIT_TEST_SUITE(TestODE) ;
+      
+        CPPUNIT_TEST(testTwoWorlds) ;
+        CPPUNIT_TEST(testTrimesh) ;
+        CPPUNIT_TEST(testTrimeshInertia) ;
+      
+        CPPUNIT_TEST_SUITE_END() ;
+
+      public:
+  
+      // @}
+      /*!
+        @name Mandatory methods
+      */
+      // @{
+
+      
+        void setUp() ;
+      
+        void tearDown() ;
+      
+      // @}      
+                
+       
+      
+      };
+
+    }
   }
 }
 
-#endif 
+
+#endif

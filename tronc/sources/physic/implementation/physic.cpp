@@ -54,6 +54,8 @@ namespace ProjetUnivers {
       {
         initialised = true ;
         
+        dInitODE() ;
+        
         if (m_system.get())
         {
           m_system->init() ;

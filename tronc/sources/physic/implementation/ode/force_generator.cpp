@@ -93,8 +93,8 @@ namespace ProjetUnivers {
 
           if (physical_object)
           {
-            InformationMessage(getObject()->getName() +  " has physical object : " 
-                               + physical_object->getObject()->getName()) ; 
+//            InformationMessage(getObject()->getName() +  " has physical object : " 
+//                               + physical_object->getObject()->getName()) ; 
             
             return physical_object->getControler<PhysicalObject>(getControlerSet()) ;
           }           

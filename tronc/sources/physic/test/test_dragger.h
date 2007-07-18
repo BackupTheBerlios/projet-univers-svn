@@ -55,7 +55,7 @@ namespace ProjetUnivers {
     
         CPPUNIT_TEST_SUITE(TestDragger) ;
       
-        CPPUNIT_TEST(basicTest) ;
+//        CPPUNIT_TEST(basicTest) ;
      
         CPPUNIT_TEST_SUITE_END() ;
 

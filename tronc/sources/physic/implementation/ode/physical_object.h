@@ -34,6 +34,8 @@ namespace ProjetUnivers {
     namespace Implementation {
       namespace Ode {
       
+        class Solid ;
+        
         /// ODE's representation of a physical object.
         /*!
           @see Model::PhysicalWorld
@@ -48,6 +50,9 @@ namespace ProjetUnivers {
           
           /// Access to ODE implementation.
           dBody* getBody() const ;
+
+          /// Access to ODE collision space. 
+          dSpace* getCollisionSpace() const ;
           
           /// Updates model according to simulation.
           void simulate(const float&) ;
@@ -91,6 +96,11 @@ namespace ProjetUnivers {
           
           /// Used to avoid that changeModelPosition triggers onUpdate.
           bool m_is_being_updated ;
+          
+          /// ODE collision space
+          dSpace* m_collision_space ;
+          
+          friend class Solid ;
         };
 
       }

@@ -4,6 +4,8 @@ SOURCES = $(top_srcdir)/sources
 INCLUDES = -I$(SOURCES) $(OGRE_CFLAGS)
 
 libphysicode_la_SOURCES = \
+$(SOURCES)/physic/implementation/ode/mass_property.cpp \
+$(SOURCES)/physic/implementation/ode/ode.cpp \
 $(SOURCES)/physic/implementation/ode/physic_system.cpp \
 $(SOURCES)/physic/implementation/ode/physical_object.cpp \
 $(SOURCES)/physic/implementation/ode/physical_world.cpp \

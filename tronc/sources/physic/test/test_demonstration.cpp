@@ -20,18 +20,31 @@
 #include <math.h>
 #include <ode/ode.h>
 
+#include <kernel/model.h>
 #include <kernel/log.h>
 #include <kernel/object.h>
 #include <kernel/trait.h>
 
 #include <model/model.h>
+#include <model/observer.h>
+#include <model/massive.h>
+#include <model/mobile.h>
+#include <model/physical_object.h>
+#include <model/physical_world.h>
 #include <model/positionned.h>
 #include <model/oriented.h>
-#include <model/duration.h>
-#include <model/physical_world.h>
-#include <model/mobile.h>
+#include <model/stellar_system.h>
+#include <model/solid.h>
 #include <model/stabilizer.h>
+#include <model/torque_generator.h>
+#include <model/universe.h>
+#include <model/guidance_system.h>
+#include <model/guidance_control.h>
+#include <model/engine.h>
+#include <model/engine_control.h>
+#include <model/stick.h>
 #include <model/throttle.h>
+#include <model/dragger.h>
 
 #include <physic/physic.h>
 
@@ -106,21 +119,36 @@ namespace ProjetUnivers {
         InternalMessage("Physic::Test::testSimulate::testSimulateNoMove entering") ;
 
         Model::init() ;
-        Model::load("TestDemonstration") ;
         Physic::init() ;
-        Object* observer(Model::getObject("Observer")) ;
+
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestDemonstration::testSimulateNoMove")) ;
+        
+        /// should be a PhysicalWorld
+        Kernel::Object* system = model->createObject("system") ;
+        CPPUNIT_ASSERT(system->getTrait<Model::PhysicalWorld>()) ;
+
+        Kernel::Object* ship = model->createObject("ship",system) ;
+        model->addTrait(ship,new Model::Positionned()) ;
+        model->addTrait(ship,new Model::Oriented()) ;
+        model->addTrait(ship,new Model::Mobile()) ;
+        model->addTrait(ship,new Model::Solid(Model::Mesh("toto"))) ;
+        model->addTrait(ship,new Model::Massive(Model::Mass::Kilogram(1000))) ;
+
+        CPPUNIT_ASSERT(ship->getTrait<Model::PhysicalObject>()) ;
+        CPPUNIT_ASSERT(ship->getTrait<Model::Solid>()) ;
+        CPPUNIT_ASSERT(ship->getTrait<Model::PhysicalWorld>()) ;
         
         /// build a physical viewpoint        
-        Kernel::ControlerSet* physics = Physic::build(observer) ;
+        Kernel::ControlerSet* physics = Physic::build(ship) ;
         physics->init() ;
         
         InternalMessage("Physic viewpoint initalised") ;
 
         /// get the ship
-        Model::Positionned* ship(Model::getObject("Vaisseau")->getTrait<Model::Positionned>()) ; 
-        CPPUNIT_ASSERT(ship) ;
+        Model::Positionned* positionned(ship->getTrait<Model::Positionned>()) ; 
+        CPPUNIT_ASSERT(positionned) ;
         
-        Ogre::Vector3 initial_position(ship->getPosition().Meter()) ;
+        Ogre::Vector3 initial_position(positionned->getPosition().Meter()) ;
 
         InternalMessage("Physic::Test::testSimulateNoMove got old position") ;
         
@@ -129,7 +157,7 @@ namespace ProjetUnivers {
         InternalMessage("Physic::Test::testSimulateNoMove updated") ;
 
 
-        Ogre::Vector3 final_position(ship->getPosition().Meter()) ;
+        Ogre::Vector3 final_position(positionned->getPosition().Meter()) ;
 
         InternalMessage("Physic::Test::testSimulate got new position") ;
         
@@ -151,36 +179,52 @@ namespace ProjetUnivers {
         InternalMessage("Physic::Test::testSimulate::testSimulateMoving entering") ;
 
         Model::init() ;
-        Model::load("TestDemonstration") ;
         Physic::init() ;
-        Object* observer(Model::getObject("Observer")) ;
+
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestDemonstration::testSimulateMoving")) ;
+        
+        /// should be a PhysicalWorld
+        Kernel::Object* system = model->createObject("system") ;
+        CPPUNIT_ASSERT(system->getTrait<Model::PhysicalWorld>()) ;
+
+        Kernel::Object* ship = model->createObject("ship",system) ;
+        model->addTrait(ship,new Model::Positionned()) ;
+        model->addTrait(ship,new Model::Oriented()) ;
+        model->addTrait(ship,new Model::Mobile()) ;
+        model->addTrait(ship,new Model::Solid(Model::Mesh("toto"))) ;
+        model->addTrait(ship,new Model::Massive(Model::Mass::Kilogram(1000))) ;
+
+        CPPUNIT_ASSERT(ship->getTrait<Model::PhysicalObject>()) ;
+        CPPUNIT_ASSERT(ship->getTrait<Model::Solid>()) ;
+        CPPUNIT_ASSERT(ship->getTrait<Model::PhysicalWorld>()) ;
+
         
         /// build a physical viewpoint        
-        Kernel::ControlerSet* physics = Physic::build(observer) ;
+        Kernel::ControlerSet* physics = Physic::build(ship) ;
         physics->init() ;
         
         InternalMessage("Physic viewpoint initalised") ;
         
         /// get the ship and apply a force
-        Model::PhysicalObject* ship(Model::getObject("Vaisseau")->getTrait<Model::PhysicalObject>()) ;
-        CPPUNIT_ASSERT(ship) ;
-        CPPUNIT_ASSERT(ship->getControler<Implementation::Ode::PhysicalObject>(physics)) ;
+        Model::PhysicalObject* object(ship->getTrait<Model::PhysicalObject>()) ;
+        CPPUNIT_ASSERT(object) ;
+        CPPUNIT_ASSERT(object->getControler<Implementation::Ode::PhysicalObject>(physics)) ;
         CPPUNIT_ASSERT(
-          ship->getControler<Implementation::Ode::PhysicalObject>(physics)->getBody()->id()) ;
+          object->getControler<Implementation::Ode::PhysicalObject>(physics)->getBody()->id()) ;
 
-        Model::Positionned* positionned(Model::getObject("Vaisseau")->getTrait<Model::Positionned>()) ; 
+        Model::Positionned* positionned(ship->getTrait<Model::Positionned>()) ; 
         CPPUNIT_ASSERT(positionned) ;
         Ogre::Vector3 initial_position(positionned->getPosition().Meter()) ;
         
         /// give an impulse        
-        ship->getControler<Implementation::Ode::PhysicalObject>(physics)->getBody()
-            ->addForce(1,0,0) ;
+        object->getControler<Implementation::Ode::PhysicalObject>(physics)->getBody()
+              ->addForce(1,0,0) ;
         
         Physic::update(Model::Duration::Second(1)) ;
 
         InternalMessage("testSimulateMoving physic updated") ;
         
-        dBody* body = ship->getControler<Implementation::Ode::PhysicalObject>(physics)->getBody() ;
+        dBody* body = object->getControler<Implementation::Ode::PhysicalObject>(physics)->getBody() ;
         
         InternalMessage("testSimulateMoving body = " +toString((int)body)) ;
         
@@ -199,41 +243,112 @@ namespace ProjetUnivers {
         InternalMessage("Physic::Test::testSimulate::testSimulateMoving Leaving") ;
       }
 
+      void TestDemonstration::testRotationTorque()
+      {
+        InternalMessage("Physic::Test::testSimulate::testRotationTorque entering") ;
+
+        Model::init() ;
+        Physic::init() ;
+
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestDemonstration::testRotationTorque")) ;
+        
+        /// should be a PhysicalWorld
+        Kernel::Object* system = model->createObject("system") ;
+        CPPUNIT_ASSERT(system->getTrait<Model::PhysicalWorld>()) ;
+
+        Kernel::Object* ship = model->createObject("ship",system) ;
+        model->addTrait(ship,new Model::Positionned(Model::Position::Meter(100,100,100))) ;
+        model->addTrait(ship,new Model::Oriented()) ;
+        model->addTrait(ship,new Model::Mobile()) ;
+        model->addTrait(ship,new Model::Solid(Model::Mesh("toto"))) ;
+        model->addTrait(ship,new Model::Massive(Model::Mass::Kilogram(1000))) ;
+
+        CPPUNIT_ASSERT(ship->getTrait<Model::PhysicalObject>()) ;
+        CPPUNIT_ASSERT(ship->getTrait<Model::Solid>()) ;
+        CPPUNIT_ASSERT(ship->getTrait<Model::PhysicalWorld>()) ;
+
+        
+        /// build a physical viewpoint        
+        Kernel::ControlerSet* physics = Physic::build(ship) ;
+        physics->init() ;
+        
+        InternalMessage("Physic viewpoint initalised") ;
+        
+        /// get the ship and apply a force
+        Model::PhysicalObject* object(ship->getTrait<Model::PhysicalObject>()) ;
+        CPPUNIT_ASSERT(object) ;
+        CPPUNIT_ASSERT(object->getControler<Implementation::Ode::PhysicalObject>(physics)) ;
+        CPPUNIT_ASSERT(
+          object->getControler<Implementation::Ode::PhysicalObject>(physics)->getBody()->id()) ;
+
+        Model::Oriented* oriented(ship->getTrait<Model::Oriented>()) ; 
+        CPPUNIT_ASSERT(oriented) ;
+        Ogre::Quaternion initial_orientation(oriented->getOrientation().getQuaternion()) ;
+
+        dBody* body = object->getControler<Implementation::Ode::PhysicalObject>(physics)->getBody() ;
+        CPPUNIT_ASSERT(body) ;
+        
+        /// give an impulse        
+        body->addTorque(1,0,0) ;
+        
+        Physic::update(Model::Duration::Second(1)) ;
+
+        Ogre::Quaternion final_orientation(oriented->getOrientation().getQuaternion()) ;
+
+//        std::cout << "final_orientation=" << final_orientation << std::endl ;
+        // check that object has turned
+        CPPUNIT_ASSERT(!( initial_orientation == final_orientation)) ;
+
+        Physic::close() ;
+        Model::close() ;
+        
+        InternalMessage("Physic::Test::testSimulate::testRotationTorque Leaving") ;
+      }
+      
+      
       void TestDemonstration::testSimulateMovingInitialSpeed()
       {
         InternalMessage("Physic::Test::testSimulate::testSimulateMovingInitialSpeed entering") ;
 
         Model::init() ;
-        InternalMessage("Physic::Test::testSimulate::testSimulateMovingInitialSpeed model initialised") ;
-        Model::load("TestDemonstration") ;
-
-        InternalMessage("Physic::Test::testSimulate::testSimulateMovingInitialSpeed loaded model") ;
-
         Physic::init() ;
 
-        Object* observer(Model::getObject("Observer")) ;
-        {        
-          /// get the ship and set initial speed
-          Model::Mobile* ship(Model::getObject("Vaisseau")->getTrait<Model::Mobile>()) ;
-          CPPUNIT_ASSERT(ship) ;
-          ship->setSpeed(Model::Speed::MeterPerSecond(1,0,0)) ;
-        }
-        InternalMessage("Physic::Test::testSimulate::testSimulateMovingInitialSpeed built model") ;
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestDemonstration::testSimulateNoMove")) ;
+        
+        /// should be a PhysicalWorld
+        Kernel::Object* system = model->createObject("system") ;
+        CPPUNIT_ASSERT(system->getTrait<Model::PhysicalWorld>()) ;
+
+        Kernel::Object* ship = model->createObject("ship",system) ;
+        model->addTrait(ship,new Model::Positionned()) ;
+        model->addTrait(ship,new Model::Oriented()) ;
+        model->addTrait(ship,new Model::Mobile()) ;
+        model->addTrait(ship,new Model::Solid(Model::Mesh("toto"))) ;
+        model->addTrait(ship,new Model::Massive(Model::Mass::Kilogram(1000))) ;
+
+        CPPUNIT_ASSERT(ship->getTrait<Model::PhysicalObject>()) ;
+        CPPUNIT_ASSERT(ship->getTrait<Model::Solid>()) ;
+        CPPUNIT_ASSERT(ship->getTrait<Model::PhysicalWorld>()) ;
+
+        /// get the ship and set initial speed
+        Model::Mobile* mobile(ship->getTrait<Model::Mobile>()) ;
+        CPPUNIT_ASSERT(mobile) ;
+        mobile->setSpeed(Model::Speed::MeterPerSecond(1,0,0)) ;
                 
         /// build a physical viewpoint        
-        Kernel::ControlerSet* physics = Physic::build(observer) ;
+        Kernel::ControlerSet* physics = Physic::build(ship) ;
         physics->init() ;
 
         InternalMessage("Physic::Test::testSimulate::testSimulateMovingInitialSpeed initialised physics") ;
 
-        Model::PhysicalObject* ship(Model::getObject("Vaisseau")->getTrait<Model::PhysicalObject>()) ;
-        CPPUNIT_ASSERT(ship) ;
-        CPPUNIT_ASSERT(ship->getControler<Implementation::Ode::PhysicalObject>(physics)) ;
+        Model::PhysicalObject* object(ship->getTrait<Model::PhysicalObject>()) ;
+        CPPUNIT_ASSERT(object) ;
+        CPPUNIT_ASSERT(object->getControler<Implementation::Ode::PhysicalObject>(physics)) ;
         CPPUNIT_ASSERT(
-          ship->getControler<Implementation::Ode::PhysicalObject>(physics)->getBody()->id()) ;
+          object->getControler<Implementation::Ode::PhysicalObject>(physics)->getBody()->id()) ;
 
         /// store the position before "move"
-        Model::Positionned* positionned(Model::getObject("Vaisseau")->getTrait<Model::Positionned>()) ; 
+        Model::Positionned* positionned(ship->getTrait<Model::Positionned>()) ; 
         CPPUNIT_ASSERT(positionned) ;
         Ogre::Vector3 initial_position(positionned->getPosition().Meter()) ;
 
@@ -243,8 +358,8 @@ namespace ProjetUnivers {
 
         // check that object has correctly moved
         CPPUNIT_ASSERT( initial_position[0]+1 == final_position[0] && 
-                         initial_position[1] == final_position[1] &&
-                         initial_position[2] == final_position[2]) ;
+                        initial_position[1] == final_position[1] &&
+                        initial_position[2] == final_position[2]) ;
 
         Physic::close() ;
         Model::close() ;
@@ -257,31 +372,36 @@ namespace ProjetUnivers {
         InternalMessage("Physic::Test::testSimulate::testSimulateMovingInitialRotation entering") ;
 
         Model::init() ;
-        Model::load("TestDemonstration") ;
         Physic::init() ;
-        Object* observer(Model::getObject("Observer")) ;
 
-        {        
-          /// get the ship and set initial angular speed
-          Model::Mobile* ship(Model::getObject("Vaisseau")->getTrait<Model::Mobile>()) ;
-          CPPUNIT_ASSERT(ship) ;
-          
-          /// one turn per second along the y axis
-          ship->setAngularSpeed(Model::AngularSpeed::TurnPerSecond(0,1,0)) ;
-        }
-     
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestDemonstration::testSimulateNoMove")) ;
+        
+        /// should be a PhysicalWorld
+        Kernel::Object* system = model->createObject("system") ;
+        CPPUNIT_ASSERT(system->getTrait<Model::PhysicalWorld>()) ;
+
+        Kernel::Object* ship = model->createObject("ship",system) ;
+        model->addTrait(ship,new Model::Positionned()) ;
+        model->addTrait(ship,new Model::Oriented()) ;
+        model->addTrait(ship,new Model::Mobile()) ;
+        model->addTrait(ship,new Model::Solid(Model::Mesh("toto"))) ;
+        model->addTrait(ship,new Model::Massive(Model::Mass::Kilogram(1000))) ;
+
+        CPPUNIT_ASSERT(ship->getTrait<Model::PhysicalObject>()) ;
+        CPPUNIT_ASSERT(ship->getTrait<Model::Solid>()) ;
+        CPPUNIT_ASSERT(ship->getTrait<Model::PhysicalWorld>()) ;
+
+        /// get the ship and set initial speed
+        Model::Mobile* mobile(ship->getTrait<Model::Mobile>()) ;
+        CPPUNIT_ASSERT(mobile) ;
+        mobile->setAngularSpeed(Model::AngularSpeed::TurnPerSecond(0,1,0)) ;
+                
         /// build a physical viewpoint        
-        Kernel::ControlerSet* physics = Physic::build(observer) ;
+        Kernel::ControlerSet* physics = Physic::build(ship) ;
         physics->init() ;
 
-        Model::PhysicalObject* ship(Model::getObject("Vaisseau")->getTrait<Model::PhysicalObject>()) ;
-        CPPUNIT_ASSERT(ship) ;
-        CPPUNIT_ASSERT(ship->getControler<Implementation::Ode::PhysicalObject>(physics)) ;
-        CPPUNIT_ASSERT(
-          ship->getControler<Implementation::Ode::PhysicalObject>(physics)->getBody()->id()) ;
-
         /// store the orientation before "rotation"
-        Model::Oriented* oriented(Model::getObject("Vaisseau")->getTrait<Model::Oriented>()) ; 
+        Model::Oriented* oriented(ship->getTrait<Model::Oriented>()) ; 
         CPPUNIT_ASSERT(oriented) ;
         Ogre::Quaternion initial_orientation(oriented->getOrientation().getQuaternion()) ;
         
@@ -312,34 +432,38 @@ namespace ProjetUnivers {
         InternalMessage("Physic::Test::testSimulate::testSimulateRotatingHalfTurn entering") ;
 
         Model::init() ;
-        Model::load("TestDemonstration") ;
         Physic::init() ;
-        Object* observer(Model::getObject("Observer")) ;
 
-        {        
-          /// get the ship and set initial angular speed
-          Model::Mobile* ship(Model::getObject("Vaisseau")->getTrait<Model::Mobile>()) ;
-          CPPUNIT_ASSERT(ship) ;
-          
-          /// one turn per second along the y axis
-          ship->setAngularSpeed(Model::AngularSpeed::TurnPerSecond(0,0.5,0)) ;
-        }
-     
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestDemonstration::testSimulateNoMove")) ;
+        
+        /// should be a PhysicalWorld
+        Kernel::Object* system = model->createObject("system") ;
+        CPPUNIT_ASSERT(system->getTrait<Model::PhysicalWorld>()) ;
+
+        Kernel::Object* ship = model->createObject("ship",system) ;
+        model->addTrait(ship,new Model::Positionned()) ;
+        model->addTrait(ship,new Model::Oriented()) ;
+        model->addTrait(ship,new Model::Mobile()) ;
+        model->addTrait(ship,new Model::Solid(Model::Mesh("toto"))) ;
+        model->addTrait(ship,new Model::Massive(Model::Mass::Kilogram(1000))) ;
+
+        CPPUNIT_ASSERT(ship->getTrait<Model::PhysicalObject>()) ;
+        CPPUNIT_ASSERT(ship->getTrait<Model::Solid>()) ;
+        CPPUNIT_ASSERT(ship->getTrait<Model::PhysicalWorld>()) ;
+
+        /// get the ship and set initial speed
+        Model::Mobile* mobile(ship->getTrait<Model::Mobile>()) ;
+        CPPUNIT_ASSERT(mobile) ;
+        mobile->setAngularSpeed(Model::AngularSpeed::TurnPerSecond(0,0.5,0)) ;
+                
         /// build a physical viewpoint        
-        Kernel::ControlerSet* physics = Physic::build(observer) ;
+        Kernel::ControlerSet* physics = Physic::build(ship) ;
         physics->init() ;
 
-        Model::PhysicalObject* ship(Model::getObject("Vaisseau")->getTrait<Model::PhysicalObject>()) ;
-        CPPUNIT_ASSERT(ship) ;
-        CPPUNIT_ASSERT(ship->getControler<Implementation::Ode::PhysicalObject>(physics)) ;
-        CPPUNIT_ASSERT(
-          ship->getControler<Implementation::Ode::PhysicalObject>(physics)->getBody()->id()) ;
-
         /// store the orientation before "rotation"
-        Model::Oriented* oriented(Model::getObject("Vaisseau")->getTrait<Model::Oriented>()) ; 
+        Model::Oriented* oriented(ship->getTrait<Model::Oriented>()) ; 
         CPPUNIT_ASSERT(oriented) ;
         Ogre::Quaternion initial_orientation(oriented->getOrientation().getQuaternion()) ;
-        
         
         /// because of approximation of ode, have to split the second in small steps
         const int steps_number = 1000 ; 
@@ -363,85 +487,42 @@ namespace ProjetUnivers {
         InternalMessage("Physic::Test::testSimulate::testSimulateRotatingHalfTurn leaving") ;
       }
 
-      void TestDemonstration::testModelPositionUpdate()
-      {
-        InternalMessage("Physic::Test::TestDemonstration::testModelPositionUpdate Entering") ;
-        Model::init() ;
-        Model::load("TestDemonstration") ;
-        Physic::init() ;
-        Object* observer(Model::getObject("Observer")) ;
-        
-        {        
-          /// get the ship and set initial speed
-          Model::Mobile* ship(Model::getObject("Vaisseau")->getTrait<Model::Mobile>()) ;
-          CPPUNIT_ASSERT(ship) ;
-          ship->setSpeed(Model::Speed::MeterPerSecond(1,0,0)) ;
-        }
-        
-        /// store old position
-        Ogre::Vector3 old_position ;
-        {        
-          /// get the ship and set initial speed
-          Model::Positionned* ship(Model::getObject("Vaisseau")->getTrait<Model::Positionned>()) ;
-          CPPUNIT_ASSERT(ship) ;
-          old_position = ship->getPosition().Meter() ;
-        }
-        
-
-        /// build a physical viewpoint        
-        Kernel::ControlerSet* physics = Physic::build(observer) ;
-        physics->init() ;
-
-        Physic::update(Model::Duration::Second(1)) ;
-
-        /// get new position
-        Ogre::Vector3 new_position ;
-        {        
-          /// get the ship and set initial speed
-          Model::Positionned* ship(Model::getObject("Vaisseau")->getTrait<Model::Positionned>()) ;
-          CPPUNIT_ASSERT(ship) ;
-          new_position = ship->getPosition().Meter() ;
-        }
-        InternalMessage(std::string("TestDemonstration::testModelPositionUpdate new position") 
-                                        + " x=" + toString(new_position[0]) 
-                                        + ",y=" + toString(new_position[1]) 
-                                        + ",z=" + toString(new_position[2])) ; 
-        
-        // check that object has moved
-        CPPUNIT_ASSERT( old_position[0]+1 == new_position[0] && 
-                        old_position[1] == new_position[1] &&
-                        old_position[2] == new_position[2]) ;
-
-        Physic::close() ;
-        Model::close() ;
-
-        InternalMessage("Physic::Test::testSimulate::testModelPositionUpdate leaving") ;
-      }
-
       void TestDemonstration::testStabilizer()
       {
         InternalMessage("Physic::Test::TestDemonstration::testStabilizer Entering") ;
         Model::init() ;
-        Model::load("TestDemonstration") ;
         Physic::init() ;
-        Object* observer(Model::getObject("Observer")) ;
 
-        /// get the ship and set initial angular speed
-        Model::Mobile* ship(Model::getObject("Vaisseau")->getTrait<Model::Mobile>()) ;
-        CPPUNIT_ASSERT(ship) ;
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestDemonstration::testStabilizer")) ;
         
-        /// one turn per second along the y axis
-        ship->setAngularSpeed(Model::AngularSpeed::TurnPerSecond(0,1,0)) ;
+        /// should be a PhysicalWorld
+        Kernel::Object* system = model->createObject("system") ;
+        CPPUNIT_ASSERT(system->getTrait<Model::PhysicalWorld>()) ;
 
-        Model::addTrait(Model::getObject("Vaisseau"),new Model::Stabilizer(0,3,0)) ;
+        Kernel::Object* ship = model->createObject("ship",system) ;
+        model->addTrait(ship,new Model::Positionned()) ;
+        model->addTrait(ship,new Model::Oriented()) ;
+        model->addTrait(ship,new Model::Mobile()) ;
+        model->addTrait(ship,new Model::Solid(Model::Mesh("toto"))) ;
+        model->addTrait(ship,new Model::Massive(Model::Mass::Kilogram(1000))) ;
+
+        CPPUNIT_ASSERT(ship->getTrait<Model::PhysicalObject>()) ;
+        CPPUNIT_ASSERT(ship->getTrait<Model::Solid>()) ;
+        CPPUNIT_ASSERT(ship->getTrait<Model::PhysicalWorld>()) ;
+        
+        Model::Mobile* mobile = ship->getTrait<Model::Mobile>() ;
+        CPPUNIT_ASSERT(mobile) ;
+        mobile->setAngularSpeed(Model::AngularSpeed::TurnPerSecond(0,1,0)) ;
+
+        Model::addTrait(ship,new Model::Stabilizer(0,3,0)) ;
      
         /// build a physical viewpoint        
-        Kernel::ControlerSet* physics = Physic::build(observer) ;
+        Kernel::ControlerSet* physics = Physic::build(ship) ;
         physics->init() ;
 
         /// store the orientation before "rotation"
         Ogre::Quaternion initial_orientation =
-          Model::getObject("Vaisseau")->getTrait<Model::Oriented>()
+          ship->getTrait<Model::Oriented>()
           ->getOrientation().getQuaternion() ;
 
         InternalMessage(std::string("testStabilizer initial orientation") 
@@ -461,7 +542,7 @@ namespace ProjetUnivers {
                 
         /// check that angular speed is null.
         Ogre::Vector3 final_angular_speed = 
-          Model::getObject("Vaisseau")->getTrait<Model::Mobile>()
+          ship->getTrait<Model::Mobile>()
           ->getAngularSpeed().TurnPerSecond() ;
         
         //std::cout <<"final_angular_speed=" << final_angular_speed << std::endl ;
@@ -481,25 +562,41 @@ namespace ProjetUnivers {
 
       void TestDemonstration::testNegativeStabilizer()
       {
-        InternalMessage("Physic::Test::TestDemonstration::testStabilizer Entering") ;
+        InternalMessage("Physic::Test::TestDemonstration::testNegativeStabilizer Entering") ;
         Model::init() ;
-        Model::load("TestDemonstration") ;
         Physic::init() ;
-        Object* observer(Model::getObject("Observer")) ;
 
-        /// get the ship and set initial angular speed
-        Model::Mobile* ship(Model::getObject("Vaisseau")->getTrait<Model::Mobile>()) ;
-        CPPUNIT_ASSERT(ship) ;
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestDemonstration::testNegativeStabilizer")) ;
         
-        /// one turn per second along the y axis
-        ship->setAngularSpeed(Model::AngularSpeed::TurnPerSecond(0,1,0)) ;
+        /// should be a PhysicalWorld
+        Kernel::Object* system = model->createObject("system") ;
+        CPPUNIT_ASSERT(system->getTrait<Model::PhysicalWorld>()) ;
+
+        Kernel::Object* ship = model->createObject("ship",system) ;
+        model->addTrait(ship,new Model::Positionned()) ;
+        model->addTrait(ship,new Model::Oriented()) ;
+        model->addTrait(ship,new Model::Mobile()) ;
+        model->addTrait(ship,new Model::Solid(Model::Mesh("toto"))) ;
+        model->addTrait(ship,new Model::Massive(Model::Mass::Kilogram(1000))) ;
+
+        CPPUNIT_ASSERT(ship->getTrait<Model::PhysicalObject>()) ;
+        CPPUNIT_ASSERT(ship->getTrait<Model::Solid>()) ;
+        CPPUNIT_ASSERT(ship->getTrait<Model::PhysicalWorld>()) ;
         
-        /// a stabilizer in an orthogonal direction form rotation.
-        Model::addTrait(Model::getObject("Vaisseau"),new Model::Stabilizer(3,0,0)) ;
+        Model::Mobile* mobile = ship->getTrait<Model::Mobile>() ;
+        CPPUNIT_ASSERT(mobile) ;
+        mobile->setAngularSpeed(Model::AngularSpeed::TurnPerSecond(0,1,0)) ;
+
+        Model::addTrait(ship,new Model::Stabilizer(3,0,0)) ;
      
         /// build a physical viewpoint        
-        Kernel::ControlerSet* physics = Physic::build(observer) ;
+        Kernel::ControlerSet* physics = Physic::build(ship) ;
         physics->init() ;
+
+        /// store the orientation before "rotation"
+        Ogre::Quaternion initial_orientation =
+          ship->getTrait<Model::Oriented>()
+          ->getOrientation().getQuaternion() ;
 
         /// simulation during 1 seconds --> rotation should stop....
         const int steps_number = 100 ; 
@@ -511,7 +608,7 @@ namespace ProjetUnivers {
                 
         /// check that angular speed is still the same.
         Ogre::Vector3 final_angular_speed = 
-          Model::getObject("Vaisseau")->getTrait<Model::Mobile>()
+          ship->getTrait<Model::Mobile>()
           ->getAngularSpeed().TurnPerSecond() ;
         
         //std::cout <<"final_angular_speed=" << final_angular_speed << std::endl ;
@@ -525,37 +622,50 @@ namespace ProjetUnivers {
         Physic::close() ;
         Model::close() ;
 
-        InternalMessage("Physic::Test::TestDemonstration::testStabilizer leaving") ;
+        InternalMessage("Physic::Test::TestDemonstration::testNegativeStabilizer leaving") ;
         
       }
 
       void TestDemonstration::testStabilizer2()
       {
         InternalMessage("Physic::Test::TestDemonstration::testStabilizer2 Entering") ;
+
         Model::init() ;
-        Model::load("TestDemonstration") ;
         Physic::init() ;
-        Object* observer(Model::getObject("Observer")) ;
 
-        /// get the ship and set initial angular speed
-        Model::Mobile* ship(Model::getObject("Vaisseau")->getTrait<Model::Mobile>()) ;
-        CPPUNIT_ASSERT(ship) ;
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestDemonstration::testStabilizer2")) ;
         
-        /// one turn per second along the y axis
-        ship->setAngularSpeed(Model::AngularSpeed::TurnPerSecond(0,-1,0)) ;
+        /// should be a PhysicalWorld
+        Kernel::Object* system = model->createObject("system") ;
+        CPPUNIT_ASSERT(system->getTrait<Model::PhysicalWorld>()) ;
 
-        Model::addTrait(Model::getObject("Vaisseau"),new Model::Stabilizer(0,3,0)) ;
+        Kernel::Object* ship = model->createObject("ship",system) ;
+        model->addTrait(ship,new Model::Positionned()) ;
+        model->addTrait(ship,new Model::Oriented()) ;
+        model->addTrait(ship,new Model::Mobile()) ;
+        model->addTrait(ship,new Model::Solid(Model::Mesh("toto"))) ;
+        model->addTrait(ship,new Model::Massive(Model::Mass::Kilogram(1000))) ;
+
+        CPPUNIT_ASSERT(ship->getTrait<Model::PhysicalObject>()) ;
+        CPPUNIT_ASSERT(ship->getTrait<Model::Solid>()) ;
+        CPPUNIT_ASSERT(ship->getTrait<Model::PhysicalWorld>()) ;
+        
+        Model::Mobile* mobile = ship->getTrait<Model::Mobile>() ;
+        CPPUNIT_ASSERT(mobile) ;
+        mobile->setAngularSpeed(Model::AngularSpeed::TurnPerSecond(0,-1,0)) ;
+
+        Model::addTrait(ship,new Model::Stabilizer(0,3,0)) ;
      
         /// build a physical viewpoint        
-        Kernel::ControlerSet* physics = Physic::build(observer) ;
+        Kernel::ControlerSet* physics = Physic::build(ship) ;
         physics->init() ;
 
         /// store the orientation before "rotation"
         Ogre::Quaternion initial_orientation =
-          Model::getObject("Vaisseau")->getTrait<Model::Oriented>()
+          ship->getTrait<Model::Oriented>()
           ->getOrientation().getQuaternion() ;
 
-        InternalMessage(std::string("testStabilizer2 initial orientation") 
+        InternalMessage(std::string("testStabilizer initial orientation") 
                                         + " w=" + toString(initial_orientation.w) 
                                         + ",x=" + toString(initial_orientation.x) 
                                         + ",y=" + toString(initial_orientation.y) 
@@ -572,7 +682,7 @@ namespace ProjetUnivers {
                 
         /// check that angular speed is null.
         Ogre::Vector3 final_angular_speed = 
-          Model::getObject("Vaisseau")->getTrait<Model::Mobile>()
+          ship->getTrait<Model::Mobile>()
           ->getAngularSpeed().TurnPerSecond() ;
         
         //std::cout <<"final_angular_speed=" << final_angular_speed << std::endl ;
@@ -580,8 +690,6 @@ namespace ProjetUnivers {
         CPPUNIT_ASSERT(equal(0,final_angular_speed[0]) && 
                        equal(0,final_angular_speed[1]) &&
                        equal(0,final_angular_speed[2])) ;
-        
-
 
         Physic::close() ;
         Model::close() ;
@@ -590,22 +698,45 @@ namespace ProjetUnivers {
         
       }
 
-
       void TestDemonstration::testEngine()
       {
         InternalMessage("Physic::Test::TestDemonstration::testEngine Entering") ;
         Model::init() ;
-        Model::load("TestDemonstration") ;
         Physic::init() ;
-        Object* observer(Model::getObject("Observer")) ;
+
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestDemonstration::testStabilizer")) ;
+        
+        /// should be a PhysicalWorld
+        Kernel::Object* system = model->createObject("system") ;
+        CPPUNIT_ASSERT(system->getTrait<Model::PhysicalWorld>()) ;
+
+        Kernel::Object* ship = model->createObject("ship",system) ;
+        model->addTrait(ship,new Model::Positionned()) ;
+        model->addTrait(ship,new Model::Oriented()) ;
+        model->addTrait(ship,new Model::Mobile()) ;
+        model->addTrait(ship,new Model::Solid(Model::Mesh("toto"))) ;
+        model->addTrait(ship,new Model::Massive(Model::Mass::Kilogram(1000))) ;
+
+        CPPUNIT_ASSERT(ship->getTrait<Model::PhysicalObject>()) ;
+        CPPUNIT_ASSERT(ship->getTrait<Model::Solid>()) ;
+        CPPUNIT_ASSERT(ship->getTrait<Model::PhysicalWorld>()) ;
 
         /// get the ship 
-        Kernel::Object* ship_object = Model::getObject("Vaisseau#3") ;
-        CPPUNIT_ASSERT(ship_object) ;
-        Model::Positionned* positionned(ship_object->getTrait<Model::Positionned>()) ;
+        Model::Positionned* positionned(ship->getTrait<Model::Positionned>()) ;
         CPPUNIT_ASSERT(positionned) ;
+
+        Kernel::Object* throttle = model->createObject("throttle",ship) ;
+        model->addTrait(throttle,new Model::Throttle()) ;
         
-        Kernel::Object* throttle = Model::getObject("throttle") ;
+        Kernel::Object* engine = model->createObject("engine",ship) ;
+        model->addTrait(engine,new Model::Engine(Model::Force::Newton(0,0,5000))) ;
+
+        Kernel::Object* engine_control = model->createObject("engine_control",ship) ;
+        model->addTrait(engine_control,
+                        new Model::EngineControl(
+                          throttle->getTrait<Model::Oriented>(),
+                          engine->getTrait<Model::Engine>())) ;
+        
         CPPUNIT_ASSERT(throttle) ;
         Model::Throttle* throttle_trait = throttle->getTrait<Model::Throttle>() ;
         CPPUNIT_ASSERT(throttle_trait) ;
@@ -613,7 +744,7 @@ namespace ProjetUnivers {
         throttle_trait->set(100) ;
         
         /// build a physical viewpoint        
-        Kernel::ControlerSet* physics = Physic::build(observer) ;
+        Kernel::ControlerSet* physics = Physic::build(ship) ;
         physics->init() ;
 
         /// store the position before simulation
