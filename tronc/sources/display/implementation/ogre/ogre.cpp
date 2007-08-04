@@ -83,17 +83,8 @@ namespace ProjetUnivers {
         {
           size_t windowHnd = 0;
 
-        // Get window handle
-#if PU_PLATEFORM == PU_PLATEFORM_WIN32
-          window->getCustomAttribute( "HWND", &windowHnd );
-        // Uncomment these two lines to allow users to switch keyboards via the language bar
-        //paramList.insert(std::make_pair(std::string("w32_keyboard"), std::string("DISCL_FOREGROUND") ));
-        //paramList.insert(std::make_pair(std::string("w32_keyboard"), std::string("DISCL_NONEXCLUSIVE") ));
-
-#elif PU_PLATEFORM == PU_PLATEFORM_LINUX
-
-          window->getCustomAttribute( "GLXWINDOW", &windowHnd );
-#endif
+          // Get window handle
+          window->getCustomAttribute("WINDOW", &windowHnd) ;
           
           return windowHnd ;
         }
@@ -201,7 +192,7 @@ namespace ProjetUnivers {
         void update()
         {
           /// cf. http://www.ogre3d.org/phpBB2/viewtopic.php?t=2733
-          ::Ogre::PlatformManager::getSingleton().messagePump(window);
+          ::Ogre::WindowEventUtilities::messagePump();
           root->_fireFrameStarted();
           window->update() ;
           root->_fireFrameEnded();   
