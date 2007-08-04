@@ -72,24 +72,30 @@ namespace ProjetUnivers {
 //                    << ",7=" << event.state.mAxes[7].abs
 //                    << ",8=" << event.state.mAxes[8].abs
 //                    << ",9=" << event.state.mAxes[9].abs
+//                    << ",i_axis=" << i_axis
 //                    << std::endl ;          
 //          /// it seem that for my stick POV is handled as buttons
 //          std::cout << "POV=" << event.state.mPOV[0].direction << std::endl ;
 
-          X = 100 * event.state.mAxes[0].abs / OIS::JoyStick::MAX_AXIS ;
-          Y = - 100 * event.state.mAxes[1].abs / OIS::JoyStick::MAX_AXIS ;
-          Z = - 100 * event.state.mAxes[5].abs / OIS::JoyStick::MAX_AXIS ; 
-          
-          m_throttle = 50 + 50 * -event.state.mAxes[6].abs / OIS::JoyStick::MAX_AXIS ;
-
-//          std::cout << "throttle=" << m_throttle << std::endl ;
-          
-          m_controled_object->call("set_axis_X",X) ;
-          m_controled_object->call("set_axis_Y",Y) ;
-          m_controled_object->call("set_axis_Z",Z) ;
-          if (!m_controled_object->call("set_throttle",m_throttle))
-            std::cout << "throttle call failed" << std::endl ;
-          
+          switch(i_axis)
+          {
+          case 0:
+            X = 100 * event.state.mAxes[0].abs / OIS::JoyStick::MAX_AXIS ;
+            m_controled_object->call("set_axis_X",X) ;
+            break ;
+          case 1:
+            Y = - 100 * event.state.mAxes[1].abs / OIS::JoyStick::MAX_AXIS ;
+            m_controled_object->call("set_axis_Y",Y) ;
+            break ;
+          case 5:
+            Z = - 100 * event.state.mAxes[5].abs / OIS::JoyStick::MAX_AXIS ; 
+            m_controled_object->call("set_axis_Z",Z) ;
+            break ;
+          case 6:
+            m_throttle = 50 + 50 * -event.state.mAxes[6].abs / OIS::JoyStick::MAX_AXIS ;
+            m_controled_object->call("set_throttle",m_throttle) ;
+            break ;
+          }
 
         }
         return true ;
@@ -104,16 +110,16 @@ namespace ProjetUnivers {
       {
         return true ;
       }
-      
 
-      Joystick::Joystick(const float& i_sensibility)
+      Joystick::Joystick(::OIS::JoyStick* i_joystick,const float& i_sensibility)
       : m_time_delay(0.0),
         m_controled_object(NULL),
         m_sensibility(i_sensibility),
         X(0),
         Y(0),
         Z(0),
-        m_throttle(0)
+        m_throttle(0),
+        m_joystick(i_joystick)
       {}
       
       Joystick::~Joystick()

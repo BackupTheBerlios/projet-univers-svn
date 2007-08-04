@@ -52,7 +52,6 @@ namespace ProjetUnivers {
       return Position(Distance::_Meter,i_x,i_y,i_z) ;
     }
 
-
     Ogre::Vector3 Position::Meter() const
     {
       if (m_unit == Distance::_Meter)
@@ -124,7 +123,15 @@ namespace ProjetUnivers {
                                         result_unit)) ;
       
     }
-    
+
+    Position Position::operator*(const Orientation& orientation) const
+    {
+      Position result(*this) ;
+      result.m_value = orientation.getQuaternion()*result.m_value ;
+      
+      return result ;
+    }
+        
     Distance Position::getXCoordinate() const
     {
       return Distance(m_unit,m_value[0]) ;

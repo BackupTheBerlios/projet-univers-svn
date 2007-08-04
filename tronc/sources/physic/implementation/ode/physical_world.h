@@ -50,12 +50,6 @@ namespace ProjetUnivers {
           /// Constructor.
           PhysicalWorld(Model::PhysicalWorld*,PhysicSystem*) ;
           
-          /// Register a mapping between a geometry and a solid.
-          void registerSolid(const dGeomID& i_geometry,Solid* i_solid) ;
-
-          /// Register a mapping between a geometry and a solid.
-          void unregisterSolid(const dGeomID& i_geometry) ;
-
           /// Simulate world during a certain duration and notify positions.
           void simulate(const float& i_duration) ;
           

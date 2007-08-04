@@ -21,13 +21,15 @@
 #ifndef PU_MODEL_MASS_H_
 #define PU_MODEL_MASS_H_
 
-
+#include <model/energy.h>
 
 namespace ProjetUnivers {
   namespace Model {
 
-    /// A quantity of matter.
+    /// A mass.
     /*!
+      Energy forms (light) are also considered to be massive due to 
+      mass/energy equivalence.
     */
     class Mass 
     {
@@ -43,10 +45,13 @@ namespace ProjetUnivers {
 
       /// copy Ccnstructor.
       Mass(const Mass&) ;
+      
+      /// contruct from energy.
+      Mass(const Energy&) ;
 
       /// Build in kilograms.
       static Mass Kilogram(const float&) ;
-
+      
       Mass operator +(const Mass&) const ;
       Mass operator -(const Mass&) const ;
       Mass operator /(const float&) const ;

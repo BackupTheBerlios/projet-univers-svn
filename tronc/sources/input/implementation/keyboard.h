@@ -20,14 +20,15 @@
 #ifndef PU_INPUT_IMPLEMENTATION_KEYBOARD_H_
 #define PU_INPUT_IMPLEMENTATION_KEYBOARD_H_
 
-#include <OISKeyboard.h>
+#include <OIS/OISKeyboard.h>
+#include <kernel/object.h>
 
 namespace ProjetUnivers {
   namespace Input {
 
     namespace Implementation {
 
-      /// Ecouteur du clavier
+      /// Keyboard event handler.
       /*!
   
       */
@@ -35,17 +36,25 @@ namespace ProjetUnivers {
       {
       public:
       
-        /// Constructeur.
+        /// Contructor.
         Keyboard() ;  
         
-        /// Destructeur.
-        virtual ~Keyboard() ;
-  
-        /// Appelé lorsqu'une touche est pressée
+        /// Change the model object that receive the commands.         
+        void setControledObject(Kernel::Object*) ;
+
+        /// Called when a key is pressed.
         virtual bool keyPressed(const OIS::KeyEvent &e) ;    
   
-        /// Appelé lorsqu'une touche est relachée.
+        /// Called when a key is released.
         virtual bool keyReleased(const OIS::KeyEvent &e) ;
+
+        /// Destruct.
+        virtual ~Keyboard() ;
+      
+      private:
+
+        Kernel::Object* m_controled_object ;
+
       };
     }
   }

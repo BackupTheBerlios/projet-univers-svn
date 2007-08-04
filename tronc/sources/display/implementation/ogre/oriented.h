@@ -32,11 +32,9 @@ namespace ProjetUnivers {
     namespace Implementation {
       namespace Ogre {
 
-        class ViewPoint ;
-        
         /// View on element that are oriented in space.
         class Oriented : public Kernel::TraitView<Model::Oriented,
-                                                     RealWorldViewPoint>
+                                                  RealWorldViewPoint>
         {
         public:
 

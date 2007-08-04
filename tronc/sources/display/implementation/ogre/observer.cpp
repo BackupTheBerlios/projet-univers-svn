@@ -1,6 +1,7 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Equipe Projet Univers                           *
- *   rogma.boami@free.fr                                                   *
+ *   This file is part of ProjetUnivers                                    *
+ *   see http://www.punivers.net                                           *
+ *   Copyright (C) 2006-2007 Mathieu ROGER rogma.boami@free.fr             *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,7 +18,6 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-
 #include <kernel/log.h>
 
 #include <model/observer.h>
@@ -32,12 +32,9 @@ namespace ProjetUnivers {
     namespace Implementation {
       namespace Ogre {
         
-        /// Indique que la cette vue s'applique au modèle dans ce point de vue
         RegisterView(Ogre::Observer, 
                      Model::Observer, 
                      Ogre::RealWorldViewPoint) ;
-
-
         
         Observer::Observer(Model::Observer*    i_observer,
                            RealWorldViewPoint* i_viewpoint) 
@@ -46,7 +43,6 @@ namespace ProjetUnivers {
         {
           InternalMessage("Building Ogre::Observer::Observer") ;
         }
-        
         
         void Observer::onInit()
         {
@@ -81,7 +77,6 @@ namespace ProjetUnivers {
           this->getViewPoint()->getManager()->destroyCamera(m_camera) ;
           InternalMessage("Display::Observer::onClose Leaving") ;
         }
-          
         
         void Observer::onUpdate()
         {
@@ -91,7 +86,6 @@ namespace ProjetUnivers {
         {
           return m_camera ;
         }
-        
         
       }
     }

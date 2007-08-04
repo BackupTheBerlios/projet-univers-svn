@@ -18,10 +18,10 @@
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
-					<Add library="stlport.5.0" />
 					<Add library="rlog" />
 					<Add library="kernel" />
 					<Add library="model" />
+					<Add library="ode" />
 					<Add library="physicode" />
 				</Linker>
 			</Target>
@@ -32,23 +32,20 @@
 			<Add option="-fmessage-length=0" />
 			<Add option="-fexceptions" />
 			<Add option="-fident" />
-			<Add option="-D_STLP_NO_CUSTOM_IO" />
-			<Add option="-D_STLP_USE_DYNAMIC_LIB" />
 			<Add option="-D_WINDOWS" />
 			<Add option="-DWIN32" />
 			<Add option="-D_WIN32" />
 			<Add option="-DNDEBUG" />
 			<Add directory="..\..\..\sources" />
-			<Add directory="$(OGRE_HOME)\stlport\stlport" />
-			<Add directory="$(OGRE_HOME)\include" />
+			<Add directory="..\..\depends\include" />
 		</Compiler>
 		<Linker>
 			<Add option="-Wl,--enable-auto-image-base" />
 			<Add option="-Wl,--add-stdcall-alias" />
 			<Add option="--enable-runtime-pseudo-relocs" />
 			<Add option="--enable-auto-import" />
-			<Add directory="$(OGRE_HOME)\bin\release" />
 			<Add directory="..\..\dlls" />
+			<Add directory="..\..\depends\lib" />
 		</Linker>
 		<Unit filename="..\implementation\physic.cpp" />
 		<Extensions>

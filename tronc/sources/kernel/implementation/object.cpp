@@ -548,6 +548,10 @@ namespace ProjetUnivers {
       
       return result ;
     }
-
+    
+    std::set<Object*> Object::getChildren() const
+    {
+      return children ;
+    }
   }
 }

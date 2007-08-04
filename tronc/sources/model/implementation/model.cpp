@@ -27,6 +27,7 @@
 #include <kernel/model.h>
 #include <kernel/command_delegator.h>
 
+#include <model/laser.h>
 #include <model/exception.h>
 #include <model/observer.h>
 #include <model/massive.h>
@@ -71,7 +72,19 @@ namespace ProjetUnivers {
     std::auto_ptr<Root> root ;
 
   // @}
+    
+    namespace
+    {
+      int next_number = 0 ;
+    }
 
+    /// create a unique object name.
+    std::string getUniqueName()
+    {
+      return "PU::Model::Name" + toString(next_number++) ;
+    }
+
+  // @}
 
     Kernel::Object* getObject(const std::string& i_name)
     {
@@ -82,11 +95,22 @@ namespace ProjetUnivers {
     {
       return model->createObject(i_name) ;
     }
+
+    Kernel::Object* createObject()
+    {
+      return model->createObject(getUniqueName()) ;
+    }
+    
     
     Kernel::Object* createObject(const std::string& i_name, 
                                  Kernel::Object* i_parent)
     {
       return model->createObject(i_name,i_parent) ;
+    } 
+
+    Kernel::Object* createObject(Kernel::Object* i_parent)
+    {
+      return model->createObject(getUniqueName(),i_parent) ;
     } 
 
     void destroyObject(const std::string& i_name)
@@ -255,6 +279,9 @@ namespace ProjetUnivers {
                             throttle->getTrait<Oriented>(),
                             engine->getTrait<Engine>())) ;
           
+          Kernel::Object* laser = model->createObject("laser",ship) ;
+          model->addTrait(laser,new Laser(Position::Meter(19.2,0,23),
+                                         Orientation())) ;
           
           InternalMessage("building ship done") ;
 
@@ -270,6 +297,8 @@ namespace ProjetUnivers {
           Kernel::CommandDelegator* command = new Kernel::CommandDelegator() ;
           command->addDelegate(throttle) ;
           command->addDelegate(stick) ;
+          command->addDelegate(laser) ;
+          
           model->addTrait(observer,command) ;
 
         }

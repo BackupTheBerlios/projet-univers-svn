@@ -32,8 +32,6 @@ namespace ProjetUnivers {
     namespace Implementation {
       namespace Ogre {
 
-        class ViewPoint ;
-        
         /// View on object that have a position in space.
         class Positionned : public Kernel::TraitView<Model::Positionned,
                                                      RealWorldViewPoint>

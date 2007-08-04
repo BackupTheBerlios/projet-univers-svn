@@ -18,12 +18,13 @@
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
-					<Add library="stlport.5.0" />
 					<Add library="rlog" />
 					<Add library="ois" />
 					<Add library="display" />
 					<Add library="kernel" />
 					<Add library="action" />
+					<Add library="model" />
+					<Add library="OgreMain" />
 				</Linker>
 			</Target>
 		</Build>
@@ -33,25 +34,23 @@
 			<Add option="-fmessage-length=0" />
 			<Add option="-fexceptions" />
 			<Add option="-fident" />
-			<Add option="-D_STLP_NO_CUSTOM_IO" />
-			<Add option="-D_STLP_USE_DYNAMIC_LIB" />
 			<Add option="-D_WINDOWS" />
 			<Add option="-DWIN32" />
 			<Add option="-D_WIN32" />
 			<Add option="-DNDEBUG" />
 			<Add directory="..\..\..\sources" />
-			<Add directory="$(OGRE_HOME)\stlport\stlport" />
-			<Add directory="C:\Dev-Cpp\include\ois" />
-			<Add directory="$(OGRE_HOME)\include" />
+			<Add directory="..\..\depends\include" />
 		</Compiler>
 		<Linker>
 			<Add option="-Wl,--enable-auto-image-base" />
 			<Add option="-Wl,--add-stdcall-alias" />
-			<Add directory="$(OGRE_HOME)\bin\release" />
+			<Add directory="..\..\depends\lib" />
 			<Add directory="..\..\dlls" />
 		</Linker>
 		<Unit filename="..\implementation\input.cpp" />
+		<Unit filename="..\implementation\joystick.cpp" />
 		<Unit filename="..\implementation\keyboard.cpp" />
+		<Unit filename="..\implementation\mouse.cpp" />
 		<Extensions>
 			<code_completion />
 		</Extensions>

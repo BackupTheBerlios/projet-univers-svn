@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Equipe Projet Univers                           *
+ *   Copyright (C) 2007 by Equipe Projet Univers                           *
  *   rogma.boami@free.fr                                                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,71 +17,25 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#ifndef PU_MODEL_LASER_BEAM_H_
+#define PU_MODEL_LASER_BEAM_H_
 
-
-#ifndef PU_MODEL_DESTROYABLE_H_
-#define PU_MODEL_DESTROYABLE_H_
-
-
-#include <model/energy.h>
 #include <kernel/trait.h>
 
 namespace ProjetUnivers {
   namespace Model {
 
-
-    
-      
-    /// Trait for objects that can be damaged.
-    /*!
-    @todo
-      implement tache 2378.
-    @par Etat
-      planning
-    */
-    class Destroyable : public Kernel::Trait
+    /// For objects that are laser beams.
+    class LaserBeam : public Kernel::Trait
     {
     public:
-
-      /// Build a new.
-      Destroyable(const Energy& max_hit_points) ;
-   
-    /*!
-      @name Principal methods
-    */
-    // @{
-   
-      /// Get a percentage of life points.
-      /*!
-        - 100% means a brand new
-        - 0%  means a completely destroyed one
-      */
-      float getLife() const ;
-   
-      /// Damage the element.
-      void damage(const Energy& energy) ;
-   
-    // @}
-   
-      /// Abstact class means virtual destructor.
-      virtual ~Destroyable() ;
-    
-   
-    protected:
-
-
       
-      /// Energy to completelly destroy the element == total life points.
-      Energy m_max_hit_points ;
+      /// Constructor.
+      LaserBeam() ;
       
-      /// Remaining energy.
-      Energy m_remaining_hit_points ;
-
-
     };
 
   }
-
 }
 
-#endif
+#endif /*PU_MODEL_LASER_BEAM_H_*/

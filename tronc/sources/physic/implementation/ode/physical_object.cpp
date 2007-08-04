@@ -27,6 +27,7 @@
 #include <model/oriented.h>
 #include <model/physical_world.h>
 
+#include <physic/implementation/ode/ode.h>
 #include <physic/implementation/ode/physical_world.h>
 #include <physic/implementation/ode/physical_object.h>
 
@@ -48,20 +49,6 @@ namespace ProjetUnivers {
           m_collision_space(NULL)
         {}
         
-        Model::PhysicalWorld* PhysicalObject::determineWorld() const
-        {
-          Kernel::Object* parent = getObject()->getParent() ;
-          if (parent)
-          {
-            Model::PhysicalWorld* 
-                world = parent->getParent<Model::PhysicalWorld>() ;
-            
-            return world ;
-          }
-          
-          return NULL ;
-        }
-        
         dBody* PhysicalObject::getBody() const
         {
           return m_body ;
@@ -76,12 +63,9 @@ namespace ProjetUnivers {
         {
           InternalMessage("PhysicalObject::onInit entering " + getObject()->getName()) ;
           
-          /// get the first parent having the PhysicalWorld property
-          Model::PhysicalWorld* model_world = determineWorld() ;
-          if (model_world)
+          PhysicalWorld* world = getPhysicalWorld(this) ; 
+          if (world)
           {
-            PhysicalWorld* world 
-              = model_world->getControler<PhysicalWorld>(getControlerSet()) ; 
             m_body = new dBody() ;
             m_body->create(world->getWorld()->id()) ;
   
@@ -104,17 +88,11 @@ namespace ProjetUnivers {
         void PhysicalObject::onClose()
         {
           InternalMessage("Ode::PhysicalObject::onClose entering " + getObject()->getName()) ;
-          /// get the first parent having the PhysicalWorld property
-          Model::PhysicalWorld* world = determineWorld() ;
-          if (world)
+
+          if (m_body)
           {
-            InternalMessage("Ode::PhysicalObject::onClose deleting") ;
-  
-            if (m_body)
-            {
-              delete m_body ;
-              m_body = NULL ;
-            }
+            delete m_body ;
+            m_body = NULL ;
           }
           InternalMessage("Ode::PhysicalObject::onClose leaving " + getObject()->getName()) ;
         }
@@ -185,7 +163,7 @@ namespace ProjetUnivers {
         {
           
           /// have to take the position relatively to the physical_world parent 
-          Model::PhysicalWorld* world = determineWorld() ;
+          PhysicalWorld* world = getPhysicalWorld(this) ;
           if (world)
           {
             Model::Positionned* positionned = getObject()->getTrait<Model::Positionned>() ;
@@ -240,7 +218,7 @@ namespace ProjetUnivers {
           Model::Positionned* 
               positionned = getObject()->getTrait<Model::Positionned>() ;
 
-          Model::PhysicalWorld* world = determineWorld() ;
+          PhysicalWorld* world = getPhysicalWorld(this) ;
           if (world)
           {
           
@@ -297,19 +275,21 @@ namespace ProjetUnivers {
           Model::Mobile* 
               mobile = getObject()->getTrait<Model::Mobile>() ;
 
-          Model::PhysicalWorld* world = determineWorld() ;
+          PhysicalWorld* world = getPhysicalWorld(this) ;
           if (world)
           {
             const dReal* speed = m_body->getLinearVel() ;
+
+            InformationMessage("Ode::PhysicalObject::updateModelMobile new linear speed=" 
+                            + toString(speed[0]) + "," 
+                            + toString(speed[1]) + "," 
+                            + toString(speed[2])) ; 
+
             mobile->setSpeed(Model::Speed::MeterPerSecond(
                                   speed[0],speed[1],speed[2])) ;
             
             const dReal* angular_speed = m_body->getAngularVel() ;
             
-            InformationMessage("Ode::PhysicalObject::updateModelMobile new angular speed=" 
-                            + toString(angular_speed[0]) + "," 
-                            + toString(angular_speed[1]) + "," 
-                            + toString(angular_speed[2])) ; 
             
             mobile->setAngularSpeed(Model::AngularSpeed::RadianPerSecond(
                                         angular_speed[0],

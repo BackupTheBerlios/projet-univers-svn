@@ -23,6 +23,8 @@
 namespace ProjetUnivers {
   namespace Model {
 
+    const Speed Speed::c = Speed::MeterPerSecond(299792458,0,0) ;
+
     Speed::Speed()
     : m_value(0,0,0),
       m_unit(_MeterPerSecond)
@@ -61,7 +63,6 @@ namespace ProjetUnivers {
       return result ;
     }
 
-    /// Substraction.
     Speed Speed::operator -(const Speed& i_speed) const 
     {
       Speed result(*this) ;
@@ -73,7 +74,6 @@ namespace ProjetUnivers {
       
     }
     
-    /// Multiplication.
     Speed Speed::operator *(const float& i_value) const 
     {
       Speed result(*this) ;
@@ -89,8 +89,12 @@ namespace ProjetUnivers {
       
     }
     
-
-
+    Speed Speed::operator *(const Orientation& i_orientation) const
+    {
+      Speed result(*this) ;
+      result.m_value = i_orientation.getQuaternion()*result.m_value ;
+      return result ;
+    }
     
     Speed::Speed(const Unit&  i_unit,
                  const float& i_x,

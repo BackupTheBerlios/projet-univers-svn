@@ -17,8 +17,8 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-
 #include <model/exception.h>
+#include <model/speed.h>
 #include <model/mass.h>
 
 namespace ProjetUnivers {
@@ -33,7 +33,12 @@ namespace ProjetUnivers {
     : value(_m.value), unit(_m.unit)
     {}
 
-    /// Constructeur avec des kilogrammes
+    /// Here we use E=m.c²
+    Mass::Mass(const Energy& energy)
+    : value(energy.Joule()/(Speed::c.MeterPerSecond().length()*Speed::c.MeterPerSecond().length())), 
+      unit(_Kilogram)
+    {}
+
     Mass Mass::Kilogram(const float& _k)
     {
       Mass result ;
@@ -43,7 +48,6 @@ namespace ProjetUnivers {
     }
 
 
-    /// Calcul
     Mass Mass::operator +(const Mass& _m) const
     {
       Mass result ;
@@ -63,7 +67,6 @@ namespace ProjetUnivers {
       
     }
 
-    /// Calcul
     Mass Mass::operator -(const Mass& _m) const
     {
       Mass result ;
@@ -98,7 +101,6 @@ namespace ProjetUnivers {
 
     }
     
-    /// Calcul
     Mass Mass::operator /(const float& _n) const
     {
       Mass result ;
@@ -109,7 +111,6 @@ namespace ProjetUnivers {
       return result ;
     }
 
-    /// Calcul
     Mass Mass::operator *(const float& _n) const
     {
       Mass result ;
@@ -120,7 +121,6 @@ namespace ProjetUnivers {
       return result ;
     }
    
-    /// Converti en kilogrammes.
     float Mass::Kilogram() const
     {
       if (this->unit == _Kilogram)
@@ -133,7 +133,6 @@ namespace ProjetUnivers {
       }
     }
 
-    /// Comparaison
     bool Mass::operator <(const Mass& _m) const
     {
       if (this->unit == _m.unit)

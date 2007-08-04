@@ -24,6 +24,7 @@
 #include <physic/implementation/ode/solid.h>
 #include <physic/implementation/ode/physical_object.h>
 #include <physic/implementation/ode/physical_world.h>
+#include <physic/implementation/ode/ode.h>
 
 namespace ProjetUnivers {
   namespace Physic {
@@ -42,17 +43,6 @@ namespace ProjetUnivers {
           m_collision_space(NULL)
         {}
 
-        void PhysicalWorld::registerSolid(const dGeomID& i_geometry,
-                                          Solid* i_solid)
-        {
-          m_solid_of_geometry[i_geometry] = i_solid ;
-        }
-
-        void PhysicalWorld::unregisterSolid(const dGeomID& i_geometry)
-        {
-          m_solid_of_geometry.erase(i_geometry) ;
-        }
-        
         void PhysicalWorld::onInit()
         {
           InternalMessage("PhysicalWorld::onInit entering") ;
@@ -165,27 +155,10 @@ namespace ProjetUnivers {
           }
 
           // should call Solid callback...
-          Solid* solid1 = NULL ;  
-          Solid* solid2 = NULL ;  
-          PhysicalObject* object1 = NULL ;
-          PhysicalObject* object2 = NULL ;
-          
-          std::map<dGeomID,Solid*>::const_iterator solid_finder
-            = world->m_solid_of_geometry.find(i_geometry1) ;
-          
-          if (solid_finder != world->m_solid_of_geometry.end())
-          {
-            solid1 = solid_finder->second ;
-          }
-          object1 = solid1 ? solid1->getPhysicalObject() : NULL ;
-          
-          solid_finder = world->m_solid_of_geometry.find(i_geometry2) ;
-          if (solid_finder != world->m_solid_of_geometry.end())
-          {
-            solid2 = solid_finder->second ;
-          }
-
-          object2 = solid2 ? solid2->getPhysicalObject() : NULL ;
+          Solid* solid1 = dynamic_cast<Solid*>((Kernel::BaseControler*)dGeomGetData(i_geometry1)) ;  
+          Solid* solid2 = dynamic_cast<Solid*>((Kernel::BaseControler*)dGeomGetData(i_geometry2)) ;  
+          PhysicalObject* object1 = solid1 ? getPhysicalObject(solid1) : NULL ;
+          PhysicalObject* object2 = solid2 ? getPhysicalObject(solid2) : NULL ;
 
           if (solid1 && solid2 && object1 && object2)
           {
@@ -208,7 +181,7 @@ namespace ProjetUnivers {
             object2_position.z = temp_position[2] ;
             
             // calculate contact points
-            const int maximum_contact_points = 500 ;
+            const int maximum_contact_points = 200 ;
             static dContactGeom contact_points[maximum_contact_points] ;
             int number_of_contacts = dCollide(i_geometry1,
                                               i_geometry2,
@@ -335,7 +308,7 @@ namespace ProjetUnivers {
             collision detection
             
           */
-          dSpaceCollide(m_collision_space->id(),this,PhysicalWorld::onSpaceCollision) ;
+//          dSpaceCollide(m_collision_space->id(),this,PhysicalWorld::onSpaceCollision) ;
           
           InternalMessage("Physic::PhysicalWorld::simulate " + getObject()->getName() + " trace#1") ;
           

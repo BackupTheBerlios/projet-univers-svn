@@ -24,6 +24,7 @@
 #include <OgreVector3.h>
 
 #include <model/distance.h>
+#include <model/orientation.h>
 
 namespace ProjetUnivers {
   namespace Model {
@@ -66,7 +67,9 @@ namespace ProjetUnivers {
       /// Substraction.
       Position operator-(const Position& i_position) const ;
 
-      
+      /// Change a relative position when reorienting. 
+      Position operator*(const Orientation& orientation) const ;
+
     // @}
     /*!
       @name Access

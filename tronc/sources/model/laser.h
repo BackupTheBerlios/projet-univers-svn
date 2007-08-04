@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Equipe Projet Univers                           *
+ *   Copyright (C) 2007 by Equipe Projet Univers                           *
  *   rogma.boami@free.fr                                                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,89 +17,42 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#ifndef PU_MODEL_LASER_H_
+#define PU_MODEL_LASER_H_
 
-#ifndef PU_MODEL_SPEED_H_
-#define PU_MODEL_SPEED_H_
+#include <kernel/trait.h>
 
-#include <OgreVector3.h>
+#include <model/position.h>
 #include <model/orientation.h>
+
 
 namespace ProjetUnivers {
   namespace Model {
-
-    /// A speed.
-    /*!
-      Implementation with Ogre::Vector3.
-    */
-    class Speed {
-    public:
     
-    /*! 
-      @name Constructeurs
+    /// For objects that are laser weapons.
+    /*!
+      @todo parametrize initial speed.
     */
-    // @{  
-
-     
-      /// Zero speed.
-      Speed() ;
-
-      /// Copy constructor.
-      Speed(const Speed&) ;
+    class Laser : public Kernel::Trait
+    {
+    public:
       
       /// Constructor.
-      static Speed MeterPerSecond(const float& i_x,
-                                  const float& i_y,
-                                  const float& i_z) ;
-
-      /// Addition.
-      Speed operator +(const Speed&) const ;
-
-      /// Substraction.
-      Speed operator -(const Speed&) const ;
-      
-      /// Multiplication.
-      Speed operator *(const float&) const ;
-      Speed operator /(const float&) const ;
-      Speed operator *(const Orientation&) const ;
-      
-      /// Speed of light.
-      static const Speed c ;
-      
-    // @}
-    /*!
-      @name Access.
-    */
-    // @{  
-     
-      /// Speed vector in m.s-1.
-      Ogre::Vector3 MeterPerSecond() const ;
-
-    // @}
+      Laser(const Position& i_out_position,
+            const Orientation& i_out_orientation) ;
+    
+      /// Fire action.
+      void fire() ;
     
     private:
-
-      /// Les différentes unités de mesure
-      typedef enum 
-      {
-        /// L'unité m.s-1
-        _MeterPerSecond, 
-        
-      } Unit ;
-
-      /// internal purpose constructor.
-      Speed(const Unit& i_unit,
-            const float& i_x,
-            const float& i_y,
-            const float& i_z) ;
-
-      Ogre::Vector3 m_value ;
-      Unit          m_unit ;
-  
-  
+      
+      /// the position of the "output" relative to the laser
+      Position    m_out_position ;
+      
+      /// the orientation of the output relative to the laser
+      Orientation m_out_orientation ;
     };
   }
 }
 
-
-
-#endif
+#endif /*PU_MODEL_LASER_H_*/

@@ -50,23 +50,6 @@ namespace ProjetUnivers {
           m_geometry_placeable(NULL)
         {}
 
-        void Solid::prepare()
-        {
-        }
-
-        PhysicalObject* Solid::getPhysicalObject() const
-        {
-          Model::PhysicalObject* 
-              object = getObject()->getParent<Model::PhysicalObject>() ; 
-          
-          if (object)
-          {
-            return object->getControler<PhysicalObject>(getControlerSet()) ;
-          }
-          
-          return NULL ;
-        }
-        
         /*
           geom is put in the world's space
         */
@@ -77,14 +60,14 @@ namespace ProjetUnivers {
           /*
             We need the parent physical object and parent physical world 
           */
-          PhysicalObject* body = getPhysicalObject() ;
+          PhysicalObject* body = getPhysicalObject(this) ;
 
           // precondition : physical object is initialised
           
           if (body)
           {
             body->_init() ;
-            Model::PhysicalWorld* world = body->determineWorld() ;
+            PhysicalWorld* world = getPhysicalWorld(body) ;
             
             if (world)
             {
@@ -95,16 +78,9 @@ namespace ProjetUnivers {
               {
                 InternalMessage("Physic::Implementation::Ode::Solid::onInit trace#1") ;
 
-                dMass mass ;
-                dReal aabb[6] ;
-                dGeomGetAABB(m_geometry_id,aabb) ;
-
-                dMassSetBoxTotal(&mass,1,aabb[1]-aabb[0],aabb[3]-aabb[2],aabb[5]-aabb[4]);
-//                dBodySetMass(body->getBody()->id(),&mass) ;
                 dGeomSetBody(m_geometry_id,body->getBody()->id()) ;
                 
-                world->getControler<PhysicalWorld>(getControlerSet())
-                     ->registerSolid(m_geometry_id,this) ;
+                dGeomSetData(m_geometry_id,this) ;
 
                 InternalMessage("Physic::Implementation::Ode::Solid::onInit trace#1") ;
 
@@ -114,8 +90,7 @@ namespace ProjetUnivers {
 //              m_geometry_placeable = new dGeomTransform(space_id) ;
 //              m_geometry_placeable->setBody(body->getBody()->id()) ;
 //              
-//              world->getControler<PhysicalWorld>(getControlerSet())
-//                   ->registerSolid(m_geometry_placeable->id(),this) ;
+//              world->registerSolid(m_geometry_placeable->id(),this) ;
 //              
 //              m_geometry_placeable->setGeom(m_geometry_id) ;
 //              
@@ -140,6 +115,7 @@ namespace ProjetUnivers {
         void Solid::onClose()
         {
           InternalMessage("Solid::onClose entering") ;
+
           if (m_geometry_id)
           {
             dGeomDestroy(m_geometry_id) ;
@@ -147,33 +123,38 @@ namespace ProjetUnivers {
           }
           if (m_geometry_placeable)
           {
-            PhysicalObject* body = getPhysicalObject() ;
-            
-            if (body)
-            {
-              Model::PhysicalWorld* world = body->determineWorld() ;
-              
-              if (world)
-              {
-                world->getControler<PhysicalWorld>(getControlerSet())
-                     ->unregisterSolid(m_geometry_placeable->id()) ;
-              }
-            }
             delete m_geometry_placeable ;
             m_geometry_placeable = NULL ;
           }
+
           InternalMessage("Solid::onClose leaving") ;
         }
 
         void onCollide(Solid* i_solid1,Solid* i_solid2)
         {
-          if (i_solid1 && i_solid2)
-          {
-//            std::cout << "collision between " 
-//                      << i_solid1->getObject()->getName() 
-//                      << " and " 
-//                      << i_solid2->getObject()->getName() << std::endl ;
-          }
+//          if (i_solid1 && i_solid2)
+//          {
+//            /*!
+//              get the speed and mass to calculate cinetic energy
+//              and apply it to destroyable
+//              
+//              only a part of cinetic energy is converted into damage
+//              
+//              if one is laser beam then destroy it its full cinetic energy is 
+//              applied as damage 
+//            */
+//            Model::Destroyable* destroyable1 
+//              = i_solid1->getObject()->getTrait<Model::Destroyable>() ;
+//            Model::Destroyable* destroyable2 
+//              = i_solid2->getObject()->getTrait<Model::Destroyable>() ;
+//
+//            if (destroyable1 || destroyable2)
+//            {
+//              Model::Energy collision_energy ;
+//              
+//              
+//            }
+//          }
         }
 
         void Solid::onChangeParent(Kernel::Object* i_old_parent)

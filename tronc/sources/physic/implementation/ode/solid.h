@@ -26,8 +26,6 @@
 #include <model/solid.h>
 #include <physic/implementation/ode/physic_system.h>
 
-class dGeom ;
-
 namespace ProjetUnivers {
   namespace Physic {
     namespace Implementation {
@@ -61,12 +59,6 @@ namespace ProjetUnivers {
           /// constructor.
           Solid(Model::Solid*,PhysicSystem*) ;
 
-          /// simulation ??
-          virtual void prepare() ;
-          
-          /// Calcutae physical object.
-          PhysicalObject* getPhysicalObject() const ;
-
         protected:
         
           /// Called after the view is created on a initialised viewpoint.
@@ -92,7 +84,7 @@ namespace ProjetUnivers {
           /// To place m_geometry relatively to parent body.
           dGeomTransform* m_geometry_placeable ;
         
-          /// vertices storage
+          /// vertices storage : useless...
           dTriMeshDataID m_data ;
           dVector3*      m_vertices ;
           int*           m_indices ;

@@ -20,7 +20,7 @@
 #ifndef PU_INPUT_IMPLEMENTATION_MOUSE_H_
 #define PU_INPUT_IMPLEMENTATION_MOUSE_H_
 
-#include <OISMouse.h>
+#include <OIS/OISMouse.h>
 #include <model/oriented.h>
 
 namespace ProjetUnivers {

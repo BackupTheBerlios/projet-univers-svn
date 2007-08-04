@@ -22,12 +22,12 @@
 
 namespace ProjetUnivers {
   namespace Kernel {
-   
+
     CommandDelegator::CommandDelegator()
     : Trait(),
       m_delegates()
     {}
-    
+
     void CommandDelegator::addDelegate(Object* i_delegate)
     {
       m_delegates.insert(i_delegate) ;
@@ -47,12 +47,12 @@ namespace ProjetUnivers {
       }
 
       return found ;
-     
+
     }
 
     bool CommandDelegator::call(
       const TypeIdentifier& i_trait_type,
-      const std::string&    i_command, 
+      const std::string&    i_command,
       const int&            i_parameter)
     {
       bool found = false ;
@@ -70,14 +70,14 @@ namespace ProjetUnivers {
     std::set<std::string> CommandDelegator::getCommands() const
     {
       std::set<std::string> result ;
-      for(std::set<Object*>::iterator delegate = m_delegates.begin() ;
+      for(std::set<Object*>::const_iterator delegate = m_delegates.begin() ;
           delegate != m_delegates.end();
           ++delegate)
       {
         std::set<std::string> temp((*delegate)->getCommands()) ;
         result.insert(temp.begin(),temp.end()) ;
       }
-      
+
       return result ;
     }
   }

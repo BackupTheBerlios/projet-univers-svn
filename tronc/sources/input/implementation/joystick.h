@@ -20,7 +20,7 @@
 #ifndef PU_INPUT_IMPLEMENTATION_JOYSTICK_H_
 #define PU_INPUT_IMPLEMENTATION_JOYSTICK_H_
 
-#include <OISJoyStick.h>
+#include <OIS/OISJoyStick.h>
 #include <kernel/object.h>
 
 namespace ProjetUnivers {
@@ -44,10 +44,11 @@ namespace ProjetUnivers {
       public:
       
         /// Constructor.
-        Joystick(const float& i_sensibility = 0.1) ;  
+        Joystick(::OIS::JoyStick* i_joystick,const float& i_sensibility = 0.1) ;  
         
         void setTimeDelay(const float& i_seconds) ;
         
+        /// Change the model object that receive the commands.         
         void setControledObject(Kernel::Object*) ;
         
       /*!
@@ -87,6 +88,7 @@ namespace ProjetUnivers {
         int Z ;
         int m_throttle ;
         
+        ::OIS::JoyStick* m_joystick ;
       };
     }
   }

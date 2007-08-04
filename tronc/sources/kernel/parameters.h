@@ -1,6 +1,7 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Equipe Projet Univers                           *
- *   rogma.boami@free.fr                                                   *
+ *   This file is part of ProjetUnivers                                    *
+ *   see http://www.punivers.net                                           *
+ *   Copyright (C) 2006-2007 Mathieu ROGER rogma.boami@free.fr             *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,71 +18,50 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#ifndef PU_KERNEL_PARAMETERS_H_
+#define PU_KERNEL_PARAMETERS_H_
 
-
-#ifndef PU_MODEL_DESTROYABLE_H_
-#define PU_MODEL_DESTROYABLE_H_
-
-
-#include <model/energy.h>
-#include <kernel/trait.h>
+#include <map>
+#include <boost/variant.hpp>
 
 namespace ProjetUnivers {
-  namespace Model {
+  namespace Kernel {
 
-
-    
-      
-    /// Trait for objects that can be damaged.
-    /*!
-    @todo
-      implement tache 2378.
-    @par Etat
-      planning
-    */
-    class Destroyable : public Kernel::Trait
+    /// Handle parameters loaded from a configuration file.  
+    class Parameters 
     {
     public:
-
-      /// Build a new.
-      Destroyable(const Energy& max_hit_points) ;
-   
+      
+      /// Create and load the parameters
+      Parameters(const std::string& file_path) ;
+      
     /*!
-      @name Principal methods
+      @name Access methods
+      
+      Parametesr are organized in sections and have a name.
+      Handled basic types are boolean, string and numerics.
+      
     */
     // @{
-   
-      /// Get a percentage of life points.
-      /*!
-        - 100% means a brand new
-        - 0%  means a completely destroyed one
-      */
-      float getLife() const ;
-   
-      /// Damage the element.
-      void damage(const Energy& energy) ;
-   
+      
+      /// Access to a value of type T.
+      template <typename T>
+      T getValue(const std::string& section,
+                 const std::string& name) const ;
+      
     // @}
-   
-      /// Abstact class means virtual destructor.
-      virtual ~Destroyable() ;
-    
-   
-    protected:
 
-
+    private:
       
-      /// Energy to completelly destroy the element == total life points.
-      Energy m_max_hit_points ;
+      /// section --> name --> value 
+      std::map<std::string,
+               std::map<std::string,
+                        boost::variant<float,std::string,bool> > > m_parameters ;
       
-      /// Remaining energy.
-      Energy m_remaining_hit_points ;
-
-
     };
-
   }
-
 }
 
-#endif
+#include <kernel/implementation/parameters.cxx>
+
+#endif /*PU_KERNEL_PARAMETERS_H_*/

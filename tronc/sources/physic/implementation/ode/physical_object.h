@@ -20,14 +20,14 @@
 #ifndef PU_PHYSIC_IMPLEMENTATION_ODE_PHYSICAL_OBJECT_H_
 #define PU_PHYSIC_IMPLEMENTATION_ODE_PHYSICAL_OBJECT_H_
 
+#include <ode/ode.h>
+
 #include <kernel/controler.h>
 
 #include <model/physical_object.h>
 #include <model/physical_world.h>
 
 #include <physic/implementation/ode/physic_system.h>
-
-class dBody ;
 
 namespace ProjetUnivers {
   namespace Physic {
@@ -82,9 +82,6 @@ namespace ProjetUnivers {
           /// Set ODE speeds from Model.
           void updateMobile() ;
           
-          /// Calculate the world object of this body. 
-          Model::PhysicalWorld* determineWorld() const ;
-
           /// Modify model position/orientation. 
           void updateModelPositionned() ;
 

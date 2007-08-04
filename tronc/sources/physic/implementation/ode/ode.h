@@ -21,14 +21,17 @@
 #define PU_PHYSIC_IMPLEMENTATION_ODE_ODE_H_
 
 #include <ode/ode.h>
+
 #include <kernel/string.h>
+#include <kernel/base_controler.h>
+
 #include <model/mesh.h>
 
 
 namespace ProjetUnivers {
   namespace Physic {
     namespace Implementation {
-
+      
       /// Physics implementation throught ODE.
       /*!
       @par Physic calculus Conjecture
@@ -75,7 +78,9 @@ namespace ProjetUnivers {
       */
       namespace Ode {
         
-
+        class PhysicalObject ;
+        class PhysicalWorld ;
+        
       /*!
         @name ODE like functions
       */
@@ -98,6 +103,16 @@ namespace ProjetUnivers {
         std::string printMass(const dMass& i_mass) ;
       
       //@}
+      /*!
+        @name Classical queries.
+      */
+      // @{
+        
+        /// Get the physical object of the controler.
+        PhysicalObject* getPhysicalObject(const Kernel::BaseControler*) ;
+        
+        /// Get the physical world of the controler.
+        PhysicalWorld* getPhysicalWorld(const Kernel::BaseControler*) ;
         
       }
     }

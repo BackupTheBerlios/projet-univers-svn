@@ -19,12 +19,13 @@
  ***************************************************************************/
 
 #include <sstream>
-#include <OISMouse.h>
-#include <OISKeyboard.h>
-#include <OISJoyStick.h>
-#include <OISInputManager.h>
+#include <OIS/OISMouse.h>
+#include <OIS/OISKeyboard.h>
+#include <OIS/OISJoyStick.h>
+#include <OIS/OISInputManager.h>
 
-
+#include <kernel/log.h>
+#include <kernel/string.h>
 #include <display/display_input.h>
 #include <input/implementation/keyboard.h>
 #include <input/implementation/mouse.h>
@@ -85,7 +86,6 @@ namespace ProjetUnivers {
       std::auto_ptr<Implementation::Keyboard> keyboard_listener ;
       std::auto_ptr<Implementation::Mouse> mouse_listener ;
       std::auto_ptr<Implementation::Joystick> joystick_listener ;
-      
     }
 
    
@@ -104,6 +104,8 @@ namespace ProjetUnivers {
       std::ostringstream window_hanlde_name ;
 
       window_hanlde = Display::getWindowHandle() ;
+
+      InternalMessage("Input::init window_handle=" + toString(window_hanlde)) ;
       window_hanlde_name << (unsigned int) window_hanlde;
       parameters.insert(std::make_pair(
                           std::string("WINDOW"), 
@@ -122,12 +124,16 @@ namespace ProjetUnivers {
 //                  ois->manager->createInputObject(OIS::OISMouse,true)) ;
 //      mouse_listener.reset(new Implementation::Mouse()) ;      
 //      ois->m_mouse->setEventCallback(mouse_listener.get()) ;
-      
+//
+#if OIS_VERSION==0x010000      
       if (ois->manager->numJoysticks() > 0)
+#else
+      if (ois->manager->getNumberOfDevices(OIS::OISJoyStick) > 0)
+#endif
       {
         ois->m_joystick = static_cast<OIS::JoyStick*>(
                     ois->manager->createInputObject(OIS::OISJoyStick,true)) ;
-        joystick_listener.reset(new Implementation::Joystick()) ;      
+        joystick_listener.reset(new Implementation::Joystick(ois->m_joystick)) ;      
         ois->m_joystick->setEventCallback(joystick_listener.get()) ;
       }
 
@@ -148,6 +154,12 @@ namespace ProjetUnivers {
       {
         joystick_listener->setControledObject(i_object) ;
       }
+      
+      if (keyboard_listener.get())
+      {
+        keyboard_listener->setControledObject(i_object) ;
+      }
+      
     }
         
     void update(const float& i_seconds)

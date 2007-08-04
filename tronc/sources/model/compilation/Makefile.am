@@ -39,7 +39,9 @@ libmodel_la_SOURCES = \
 ../implementation/universe.cpp \
 ../implementation/whole.cpp \
 ../implementation/stick.cpp \
-../implementation/throttle.cpp 
+../implementation/throttle.cpp \
+../implementation/laser.cpp \
+../implementation/laser_beam.cpp 
 
 libmodel_la_LIBADD = \
 $(SOURCES)/kernel/compilation/libkernel.la \
@@ -64,6 +66,7 @@ test_model_SOURCES = \
 ../test/test_throttle.cpp \
 ../test/test_stick.cpp \
 ../test/test_mesh.cpp \
+../test/test_laser.cpp \
 ../test/test_demonstration.cpp 
 
 test_model_CXXFLAGS = $(CPPUNIT_CFLAGS)

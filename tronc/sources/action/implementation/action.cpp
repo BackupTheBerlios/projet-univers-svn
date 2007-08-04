@@ -131,10 +131,10 @@ namespace ProjetUnivers {
         if (vaisseau)
         {
           Model::addTrait(vaisseau,new Positionned(Position::Meter(0,
-                                                                   500000,
+                                                                   500,
                                                                    0))) ;
           
-          Model::addTrait(vaisseau,new Solid(Model::Mesh("asteroid.mesh"))) ;
+          Model::addTrait(vaisseau,new Solid(Model::Mesh("laser.mesh"))) ;
         }
         else
         {

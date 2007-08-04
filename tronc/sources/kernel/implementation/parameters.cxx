@@ -1,6 +1,7 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Equipe Projet Univers                           *
- *   rogma.boami@free.fr                                                   *
+ *   This file is part of ProjetUnivers                                    *
+ *   see http://www.punivers.net                                           *
+ *   Copyright (C) 2006-2007 Mathieu ROGER rogma.boami@free.fr             *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,71 +18,36 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-
-
-#ifndef PU_MODEL_DESTROYABLE_H_
-#define PU_MODEL_DESTROYABLE_H_
-
-
-#include <model/energy.h>
-#include <kernel/trait.h>
+#include <kernel/exception_kernel.h>
 
 namespace ProjetUnivers {
-  namespace Model {
+  namespace Kernel {
 
-
-    
-      
-    /// Trait for objects that can be damaged.
-    /*!
-    @todo
-      implement tache 2378.
-    @par Etat
-      planning
-    */
-    class Destroyable : public Kernel::Trait
+    template <typename T>
+    T Parameters::getValue(const std::string& section,
+                           const std::string& name) const
     {
-    public:
-
-      /// Build a new.
-      Destroyable(const Energy& max_hit_points) ;
-   
-    /*!
-      @name Principal methods
-    */
-    // @{
-   
-      /// Get a percentage of life points.
-      /*!
-        - 100% means a brand new
-        - 0%  means a completely destroyed one
-      */
-      float getLife() const ;
-   
-      /// Damage the element.
-      void damage(const Energy& energy) ;
-   
-    // @}
-   
-      /// Abstact class means virtual destructor.
-      virtual ~Destroyable() ;
-    
-   
-    protected:
-
-
+      std::map<std::string,std::map<std::string,
+        boost::variant<float,std::string,bool> > >::const_iterator 
+        section_iterator = m_parameters.find(section) ;
       
-      /// Energy to completelly destroy the element == total life points.
-      Energy m_max_hit_points ;
+      if (section_iterator == m_parameters.end())
+      {
+        throw ExceptionKernel(std::string("no section named : ") + section) ;
+      }
       
-      /// Remaining energy.
-      Energy m_remaining_hit_points ;
-
-
-    };
-
+      std::map<std::string,
+        boost::variant<float,std::string,bool> >::const_iterator 
+        parameter = section_iterator->second.find(name) ;
+      
+      T result ;
+        
+      if (parameter != section_iterator->second.end())
+      {
+        result = boost::get<T>(parameter->second) ;
+      }
+      
+      return result ;
+    }
   }
-
 }
-
-#endif

@@ -29,6 +29,7 @@ namespace ProjetUnivers {
     namespace Implementation {
       
       Keyboard::Keyboard()
+      : m_controled_object(NULL)
       {} 
       
       Keyboard::~Keyboard()
@@ -37,7 +38,8 @@ namespace ProjetUnivers {
       bool Keyboard::keyPressed(const OIS::KeyEvent &e)    
       {
 
-        /// pour l'instant : on sort si c'est entrée
+        
+
         switch(e.key)
         {
         case OIS::KC_RETURN:
@@ -75,6 +77,12 @@ namespace ProjetUnivers {
           Action::add("moveObject") ;
           break ;
 
+        case OIS::KC_F:
+          
+          if (m_controled_object)
+          {
+            m_controled_object->call("fire") ;
+          }
 
         default:
           break ;
@@ -86,6 +94,12 @@ namespace ProjetUnivers {
       {
         return true ;
       }
+
+      void Keyboard::setControledObject(Kernel::Object* i_object)
+      {
+        m_controled_object = i_object ;
+      }
+
     }
   }
 }

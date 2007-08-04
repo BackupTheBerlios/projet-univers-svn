@@ -2,15 +2,8 @@
 <CodeBlocks_workspace_file>
 	<Workspace title="projet-univers">
 		<Project filename="kernel\compilation\kernel.cbp" />
-		<Project filename="action\compilation\action.cbp">
-			<Depends filename="kernel\compilation\kernel.cbp" />
-			<Depends filename="model\compilation\model.cbp" />
-		</Project>
-		<Project filename="input\compilation\input.cbp">
-			<Depends filename="kernel\compilation\kernel.cbp" />
-			<Depends filename="model\compilation\model.cbp" />
-			<Depends filename="display\compilation\display.cbp" />
-		</Project>
+		<Project filename="action\compilation\action.cbp" />
+		<Project filename="input\compilation\input.cbp" />
 		<Project filename="model\compilation\model.cbp">
 			<Depends filename="kernel\compilation\kernel.cbp" />
 		</Project>

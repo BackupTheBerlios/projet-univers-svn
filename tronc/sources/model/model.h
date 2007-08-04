@@ -76,9 +76,15 @@ namespace ProjetUnivers {
     /// Creates a new Kernel::Object with name.
     Kernel::Object* createObject(const std::string& i_name) ; 
 
+    /// Creates a new Kernel::Object.
+    Kernel::Object* createObject() ; 
+
     /// Creates a new Kernel::Object with name and given parent.
     Kernel::Object* createObject(const std::string& i_name, 
                                  Kernel::Object* i_parent) ; 
+
+    /// Creates a new Kernel::Object with given parent.
+    Kernel::Object* createObject(Kernel::Object* i_parent) ; 
 
     /// Destroy an Kernel::Object of given name.
     void destroyObject(const std::string& i_name) ;

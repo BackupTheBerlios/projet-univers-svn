@@ -18,6 +18,8 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#include <physic/implementation/ode/physical_object.h>
+#include <physic/implementation/ode/physical_world.h>
 #include <physic/implementation/ode/mass_property.h>
 #include <physic/implementation/ode/ode.h>
 
@@ -125,6 +127,35 @@ namespace ProjetUnivers {
           
         }
 
+        PhysicalObject* getPhysicalObject(const Kernel::BaseControler* controler)
+        {
+          Model::PhysicalObject* 
+              object = controler->getObject()->getParent<Model::PhysicalObject>() ; 
+          
+          if (object)
+          {
+            return object->getControler<PhysicalObject>(controler->getControlerSet()) ;
+          }
+          
+          return NULL ;
+        }
+        
+        PhysicalWorld* getPhysicalWorld(const Kernel::BaseControler* controler)
+        {
+          PhysicalObject* object = getPhysicalObject(controler) ;
+          Kernel::Object* parent = object ? object->getObject()->getParent() : NULL ;
+
+          if (parent)
+          {
+            Model::PhysicalWorld* 
+                world = parent->getParent<Model::PhysicalWorld>() ;
+            
+            return world ? world->getControler<PhysicalWorld>(controler->getControlerSet()) : NULL ;
+          }
+          
+          return NULL ;
+          
+        }
       }
     }
   }

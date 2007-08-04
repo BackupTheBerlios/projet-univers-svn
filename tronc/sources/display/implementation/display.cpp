@@ -179,8 +179,8 @@ namespace ProjetUnivers {
   
     void update() 
     {
-      check(initialised, Exception("Module non initialisé")) ;
-      check(active!=NULL, Exception("Pas de point de vue actif")) ;
+//      check(initialised, Exception("Module non initialisé")) ;
+//      check(active!=NULL, Exception("Pas de point de vue actif")) ;
       Implementation::Ogre::update() ;
     }
   }

@@ -1,6 +1,7 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Equipe Projet Univers                           *
- *   rogma.boami@free.fr                                                   *
+ *   This file is part of ProjetUnivers                                    *
+ *   see http://www.punivers.net                                           *
+ *   Copyright (C) 2006-2007 Mathieu ROGER rogma.boami@free.fr             *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,71 +18,36 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <iostream>
+#include <kernel/parameters.h>
+#include <kernel/test/test_parameters.h>
 
-
-#ifndef PU_MODEL_DESTROYABLE_H_
-#define PU_MODEL_DESTROYABLE_H_
-
-
-#include <model/energy.h>
-#include <kernel/trait.h>
+CPPUNIT_TEST_SUITE_REGISTRATION(
+    ProjetUnivers::Kernel::Test::TestParameters) ;
 
 namespace ProjetUnivers {
-  namespace Model {
+  namespace Kernel {
+    namespace Test {
 
-
-    
+      void TestParameters::basicTest()
+      {
+        Parameters parameters("parameter.ini") ;
       
-    /// Trait for objects that can be damaged.
-    /*!
-    @todo
-      implement tache 2378.
-    @par Etat
-      planning
-    */
-    class Destroyable : public Kernel::Trait
-    {
-    public:
+        CPPUNIT_ASSERT(parameters.getValue<std::string>("test","value1") == "toto") ;
+        CPPUNIT_ASSERT(parameters.getValue<float>("test","value2") == 1) ;
+        CPPUNIT_ASSERT(!parameters.getValue<bool>("test","value3")) ;
+        
+        CPPUNIT_ASSERT(parameters.getValue<float>("physic","number_of_contact_points") == 10) ;
+      }
 
-      /// Build a new.
-      Destroyable(const Energy& max_hit_points) ;
-   
-    /*!
-      @name Principal methods
-    */
-    // @{
-   
-      /// Get a percentage of life points.
-      /*!
-        - 100% means a brand new
-        - 0%  means a completely destroyed one
-      */
-      float getLife() const ;
-   
-      /// Damage the element.
-      void damage(const Energy& energy) ;
-   
-    // @}
-   
-      /// Abstact class means virtual destructor.
-      virtual ~Destroyable() ;
-    
-   
-    protected:
+      void TestParameters::setUp()
+      {
+      }
 
+      void TestParameters::tearDown()
+      {
+      }
 
-      
-      /// Energy to completelly destroy the element == total life points.
-      Energy m_max_hit_points ;
-      
-      /// Remaining energy.
-      Energy m_remaining_hit_points ;
-
-
-    };
-
+    }
   }
-
 }
-
-#endif

@@ -21,7 +21,8 @@ $(SOURCES)/kernel/implementation/timer.cpp \
 $(SOURCES)/kernel/implementation/trait.cpp \
 $(SOURCES)/kernel/implementation/trait_view.cpp \
 $(SOURCES)/kernel/implementation/view_point.cpp \
-$(SOURCES)/kernel/implementation/command_delegator.cpp
+$(SOURCES)/kernel/implementation/command_delegator.cpp \
+$(SOURCES)/kernel/implementation/parameters.cpp
 
 
 libkernel_la_LDFLAGS = -lrlog
@@ -39,7 +40,8 @@ $(SOURCES)/kernel/test/test_meta.cpp \
 $(SOURCES)/kernel/test/test_model_controler.cpp \
 $(SOURCES)/kernel/test/test_model_view.cpp \
 $(SOURCES)/kernel/test/test_deduced_trait.cpp \
-$(SOURCES)/kernel/test/test_command.cpp 
+$(SOURCES)/kernel/test/test_command.cpp \
+$(SOURCES)/kernel/test/test_parameters.cpp 
 
 
 # checks that "test_inherits.cpp" does not compile

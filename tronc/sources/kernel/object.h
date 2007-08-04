@@ -133,6 +133,9 @@ namespace ProjetUnivers {
       /// Access to all commands understood be the object.
       std::set<std::string> getCommands() const ;
       
+      /// Access to all children.
+      std::set<Object*> getChildren() const ;
+      
     //@}
     /*!
       @name Apply methods

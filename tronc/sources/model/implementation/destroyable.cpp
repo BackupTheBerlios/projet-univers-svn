@@ -27,18 +27,18 @@ namespace ProjetUnivers {
       
     float Destroyable::getLife() const 
     {
-      return (resistance/totalResistance) ;
+      return (m_remaining_hit_points/m_max_hit_points) ;
     }
    
     
-    void Destroyable::damage(const Energy& _energy)
+    void Destroyable::damage(const Energy& energy)
     {
 
-      resistance = resistance - _energy ;
+      m_remaining_hit_points = m_remaining_hit_points - energy ;
 
-      if (resistance < Energy())
+      if (m_remaining_hit_points < Energy())
       {
-        resistance = Energy() ;
+        m_remaining_hit_points = Energy() ;
       }
       
       notify() ;
@@ -48,10 +48,10 @@ namespace ProjetUnivers {
     Destroyable::~Destroyable()
     {}
     
-    Destroyable::Destroyable(const Energy& _totalResistance)
+    Destroyable::Destroyable(const Energy& max_hit_points)
     : Kernel::Trait(),
-      totalResistance(_totalResistance), 
-      resistance(_totalResistance)
+      m_max_hit_points(max_hit_points), 
+      m_remaining_hit_points(max_hit_points)
     {}
       
 

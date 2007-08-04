@@ -30,8 +30,6 @@ namespace ProjetUnivers {
 
     /// An amount of energy.
     /*!
-    @par Etat
-      planning
 
     */
     class Energy {

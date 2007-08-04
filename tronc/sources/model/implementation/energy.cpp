@@ -32,11 +32,9 @@ namespace ProjetUnivers {
     : unit(_Joule)
     {}
 
-
     Energy::Energy(const Energy& _energie)
     : value(_energie.value), unit(_energie.unit)
     {}
-
 
     Energy Energy::Joule(const float& _joules)
     {
@@ -48,7 +46,6 @@ namespace ProjetUnivers {
       return result ;  
     }
     
-    
     Energy& Energy::operator=(const Energy& _energie)
     {
       this->value = _energie.value ;
@@ -57,8 +54,6 @@ namespace ProjetUnivers {
       return *this ;
     }
     
-    
-    /// Donne la value convertie de _energie en _unit
     float Energy::convert(const Energy& _energy, const Energy::Unit& _unit)
     {
       if (_energy.unit == _unit)
@@ -79,7 +74,6 @@ namespace ProjetUnivers {
         @todo ici erreur
       */
     }
-    
     
     Energy Energy::operator -(const Energy& _operande) const
     {
@@ -105,7 +99,6 @@ namespace ProjetUnivers {
       
     }
 
-
     float Energy::operator /(const Energy& _operande) const
     {
       
@@ -126,8 +119,6 @@ namespace ProjetUnivers {
       
     }
 
-
-
     bool Energy::operator<(const Energy& _operande) const
     {
       if (this->unit == _operande.unit)
@@ -141,5 +132,9 @@ namespace ProjetUnivers {
       }
     }
     
+    float Energy::Joule() const
+    {
+      return convert(*this,_Joule) ;
+    }
   }
 }
