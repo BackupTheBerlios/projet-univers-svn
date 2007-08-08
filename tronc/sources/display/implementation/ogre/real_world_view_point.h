@@ -24,7 +24,7 @@
 #include <Ogre.h>
 
 #include <kernel/object.h>
-#include <display/implementation/real_world_view_point.h>
+#include <kernel/view_point.h>
 
 
 namespace ProjetUnivers {
@@ -45,7 +45,8 @@ namespace ProjetUnivers {
         /*!
           First person view of an observer.
         */
-        class RealWorldViewPoint : public Display::Implementation::RealWorldViewPoint {
+        class RealWorldViewPoint : public Kernel::ViewPoint 
+        {
         public:
         
         /*!
@@ -81,6 +82,9 @@ namespace ProjetUnivers {
 
           /// Access to Ogre manager.
           ::Ogre::SceneManager* getManager() const ;
+          
+          /// Access to observer.
+          Kernel::Object* getObserver() const ;
 
         // @}
         
@@ -95,6 +99,8 @@ namespace ProjetUnivers {
 
           /// Manage 3D scene objects          
           ::Ogre::SceneManager* m_manager ;
+
+          Kernel::Object* m_observer ;
           
         // @}
           

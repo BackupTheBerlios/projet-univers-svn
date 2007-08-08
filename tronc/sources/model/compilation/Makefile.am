@@ -43,9 +43,11 @@ libmodel_la_SOURCES = \
 ../implementation/laser.cpp \
 ../implementation/laser_beam.cpp 
 
-libmodel_la_LIBADD = \
+libmodel_la_LDFLAGS = -no-undefined
+libmodel_la_LDFLAGS += \
 $(SOURCES)/kernel/compilation/libkernel.la \
-$(OGRE_LIBS)
+$(OGRE_LIBS) \
+$(librlog_LIBS)
 
 TESTS = test_model
 

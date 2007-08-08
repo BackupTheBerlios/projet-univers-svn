@@ -56,6 +56,7 @@ namespace ProjetUnivers {
       */
       void TestDemonstration::testBuild()
       {
+        InternalMessage("TestDemonstration::testBuild") ;
         Model::init() ;
         Model::load("TestDemonstration") ;
 

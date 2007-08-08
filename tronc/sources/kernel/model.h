@@ -50,6 +50,12 @@ namespace ProjetUnivers {
       /// Creates a new Object with name and given parent.
       Object* createObject(const std::string& i_name, 
                            Object* i_parent) ; 
+
+      /// Creates a new Object.
+      Object* createObject() ; 
+  
+      /// Creates a new Object with given parent.
+      Object* createObject(Object* i_parent) ; 
   
       /// Destroy an Object of given name.
       void destroyObject(const std::string& i_name) ;

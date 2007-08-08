@@ -22,7 +22,6 @@
 
 #include <model/observer.h>
 
-#include <display/exception.h>
 #include <display/implementation/ogre/real_world_view_point.h>
 #include <display/implementation/ogre/positionned.h>
 #include <display/implementation/ogre/observer.h>
@@ -50,7 +49,7 @@ namespace ProjetUnivers {
 
           /// positionned view must be initialised first
           Positionned* positionned(getView<Positionned>()) ;
-          check(positionned,Exception("error")) ;
+          check(positionned,"error") ;
           positionned->_init() ;
 
           m_camera = this->getViewPoint()->getManager()->createCamera("camera") ;
@@ -68,11 +67,6 @@ namespace ProjetUnivers {
           
         void Observer::onClose()
         {
-          /// ?
-//          Positionned* positionned(getView<Positionned>()) ;
-//          check(positionned,Exception("error")) ;
-//          positionned->getNode()->detachObject(camera) ;
-
           InternalMessage("Display::Observer::onClose Entering") ;
           this->getViewPoint()->getManager()->destroyCamera(m_camera) ;
           InternalMessage("Display::Observer::onClose Leaving") ;

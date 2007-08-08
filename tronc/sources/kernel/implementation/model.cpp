@@ -34,6 +34,17 @@
 namespace ProjetUnivers {
   namespace Kernel {
     
+    namespace
+    {
+      int next_number = 0 ;
+    }
+
+    /// create a unique object name.
+    std::string getUniqueName()
+    {
+      return "PU::Kernel::Name" + toString(next_number++) ;
+    }
+
 
     Object* Model::getObject(const std::string& i_name)
     {
@@ -77,6 +88,18 @@ namespace ProjetUnivers {
       
       return NULL ;
       
+    }
+
+
+    Object* Model::createObject() 
+    {
+      return createObject(getUniqueName()) ;
+    }
+      
+    /// Creates a new Object with name.
+    Object* Model::createObject(Object* i_parent)
+    {
+      return createObject(getUniqueName(),i_parent) ;
     }
 
 

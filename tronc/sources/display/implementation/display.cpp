@@ -21,8 +21,6 @@
 #include <kernel/error.h>
 #include <kernel/view_point.h>
 
-#include <display/exception.h>
-#include <display/implementation/real_world_view_point.h>
 #include <display/implementation/ogre/ogre.h>
 #include <display/implementation/ogre/real_world_view_point.h>
 
@@ -64,7 +62,7 @@ namespace ProjetUnivers {
     LocalMemory local ;
     
     /// active wiepoint.
-    Implementation::RealWorldViewPoint* active = NULL ;
+    Implementation::Ogre::RealWorldViewPoint* active = NULL ;
 
     bool initialised = false ;
 
@@ -105,7 +103,7 @@ namespace ProjetUnivers {
 
     size_t getWindowHandle()
     {
-      check(initialised, Exception("Module non initialisé")) ;
+      check(initialised, "Uninitialised module") ;
       
       return Implementation::Ogre::getWindowHandle() ;
     }
@@ -116,7 +114,7 @@ namespace ProjetUnivers {
                        int& left,
                        int& top)
     {
-      check(initialised, Exception("Module non initialisé")) ;
+      check(initialised,"Module non initialisé") ;
 
       Implementation::Ogre::getWindowSize(width,height,depth,left,top) ;
     }
@@ -135,7 +133,6 @@ namespace ProjetUnivers {
       }
     }
 
-
     void removeViewPoint(Kernel::ViewPoint* _pdv)
     {
       if (active == _pdv)
@@ -149,11 +146,9 @@ namespace ProjetUnivers {
         delete _pdv ;
       }
     }
-    
-    
-    
+
     /// @c i_viewpoint becomes the active viewpoint.
-    void activateViewPoint(Implementation::RealWorldViewPoint* i_viewpoint)
+    void activateViewPoint(Implementation::Ogre::RealWorldViewPoint* i_viewpoint)
     {
       if (i_viewpoint)
       {
@@ -167,20 +162,17 @@ namespace ProjetUnivers {
         
       }      
     }
-    
+
     Kernel::ViewPoint* buildRealWorldViewPoint(Kernel::Object* i_observer)
     {
-      Implementation::RealWorldViewPoint* temp = new Implementation::Ogre::RealWorldViewPoint(i_observer) ;
+      Implementation::Ogre::RealWorldViewPoint* temp = new Implementation::Ogre::RealWorldViewPoint(i_observer) ;
       addViewPoint(temp) ;
-      /// ??? 
       activateViewPoint(temp) ;
       return temp ;
     }
   
     void update() 
     {
-//      check(initialised, Exception("Module non initialisé")) ;
-//      check(active!=NULL, Exception("Pas de point de vue actif")) ;
       Implementation::Ogre::update() ;
     }
   }

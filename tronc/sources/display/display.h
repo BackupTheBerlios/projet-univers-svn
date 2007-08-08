@@ -40,11 +40,6 @@ namespace ProjetUnivers {
   */ 
   namespace Display {
     
-    namespace Implementation
-    {
-      class RealWorldViewPoint ;
-    }
-    
     /// Module initialisation.
     bool init() ;
     
@@ -53,9 +48,6 @@ namespace ProjetUnivers {
   
     /// Creates the standard representation for the world 
     Kernel::ViewPoint* buildRealWorldViewPoint(Kernel::Object* i_observer) ; 
-    
-    /// Make @c i_viewpoint the displayed viewpoint. 
-    void activateViewPoint(Implementation::RealWorldViewPoint* i_viewpoint) ;
     
     /// Update display
     void update() ;

@@ -10,15 +10,15 @@ SOURCES = $(top_srcdir)/sources
 INCLUDES = -I$(SOURCES) $(OGRE_CFLAGS)
 
 libdisplay_la_SOURCES = \
-$(SOURCES)/display/implementation/display.cpp \
-$(SOURCES)/display/implementation/exception.cpp \
-$(SOURCES)/display/implementation/real_world_view_point.cpp 
+$(SOURCES)/display/implementation/display.cpp
 
 
-libdisplay_la_LIBADD = \
+libdisplay_la_LDFLAGS = -no-undefined
+libdisplay_la_LDFLAGS += \
 $(SOURCES)/kernel/compilation/libkernel.la \
 $(SOURCES)/model/compilation/libmodel.la \
 $(SOURCES)/display/compilation/ogre/libdisplayogre.la \
-$(OGRE_LIBS)
+$(OGRE_LIBS) \
+$(librlog_LIBS)
 
 

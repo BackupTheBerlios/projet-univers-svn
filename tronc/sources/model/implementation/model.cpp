@@ -73,18 +73,6 @@ namespace ProjetUnivers {
 
   // @}
     
-    namespace
-    {
-      int next_number = 0 ;
-    }
-
-    /// create a unique object name.
-    std::string getUniqueName()
-    {
-      return "PU::Model::Name" + toString(next_number++) ;
-    }
-
-  // @}
 
     Kernel::Object* getObject(const std::string& i_name)
     {
@@ -98,9 +86,8 @@ namespace ProjetUnivers {
 
     Kernel::Object* createObject()
     {
-      return model->createObject(getUniqueName()) ;
+      return model->createObject() ;
     }
-    
     
     Kernel::Object* createObject(const std::string& i_name, 
                                  Kernel::Object* i_parent)
@@ -110,7 +97,7 @@ namespace ProjetUnivers {
 
     Kernel::Object* createObject(Kernel::Object* i_parent)
     {
-      return model->createObject(getUniqueName(),i_parent) ;
+      return model->createObject(i_parent) ;
     } 
 
     void destroyObject(const std::string& i_name)

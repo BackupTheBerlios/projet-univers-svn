@@ -25,13 +25,14 @@ $(SOURCES)/kernel/implementation/command_delegator.cpp \
 $(SOURCES)/kernel/implementation/parameters.cpp
 
 
-libkernel_la_LDFLAGS = -lrlog
+libkernel_la_LDFLAGS = -no-undefined
+libkernel_la_LDFLAGS += $(librlog_LIBS)
 
 # tests
 
 TESTS = test_kernel
 
-check_PROGRAMS = $(TESTS) test_inherits.o
+check_PROGRAMS = $(TESTS)
 
 test_kernel_SOURCES = \
 $(SOURCES)/kernel/test/test_error.cpp \

@@ -3,12 +3,11 @@ AC_PREREQ(2.50)
 # Version
 AC_INIT([ProjetUnivers], 0.2.2)
 AC_CONFIG_SRCDIR([sources/demonstration/demonstration.cpp])
-#AM_CONFIG_HEADER(config.h)
 AM_INIT_AUTOMAKE([ProjetUnivers], 0.2.2, NO-DEFINE)
+
+AC_LIBTOOL_WIN32_DLL 
 AC_PROG_LIBTOOL
 AM_PROG_LIBTOOL
-#AC_PROG_RANLIB
-
 
 #########################
 # Check programs presence
@@ -50,8 +49,7 @@ AC_SUBST(librlog_CFLAGS)
 AC_SUBST(librlog_LIBS)
 
 # Check/config ODE
-AC_CHECK_HEADERS([ode/ode.h],,
- 			  AC_MSG_ERROR([ODE development library needed]))
+AC_CHECK_HEADERS([ode/ode.h])
 AC_SUBST(ODE_LIBS, "-lode")
 
 ##################

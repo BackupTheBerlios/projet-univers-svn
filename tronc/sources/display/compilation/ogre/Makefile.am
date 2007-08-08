@@ -14,7 +14,10 @@ $(SOURCES)/display/implementation/ogre/solid.cpp \
 $(SOURCES)/display/implementation/ogre/universe.cpp \
 $(SOURCES)/display/implementation/ogre/utility.cpp 
 
-libdisplayogre_la_LIBADD = \
+libdisplayogre_la_LDFLAGS = -no-undefined
+libdisplayogre_la_LDFLAGS += \
 $(SOURCES)/kernel/compilation/libkernel.la \
 $(SOURCES)/model/compilation/libmodel.la \
-$(OGRE_LIBS)
+$(OGRE_LIBS) \
+$(librlog_LIBS)
+

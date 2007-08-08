@@ -23,7 +23,6 @@
 #include <kernel/log.h>
 #include <kernel/error.h>
 
-#include <display/exception.h>
 #include <display/implementation/ogre/universe.h>
 
 
@@ -49,8 +48,7 @@ namespace ProjetUnivers {
         {
           InternalMessage("Display::Universe::onInit Entering") ;
             
-          check(getViewPoint(), 
-                Exception("Universe::onInit sans point de vue")) ;
+          check(getViewPoint(),"Universe::onInit sans point de vue") ;
           
           this->getViewPoint()->getManager()
               ->setSkyBox( true, "PU/SpaceSkyBox", 50000 );
@@ -70,8 +68,7 @@ namespace ProjetUnivers {
         {
           InternalMessage("Display::Universe::onClose Entering") ;
 
-          check(getViewPoint(), 
-                Exception("Universe::onClose sans point de vue")) ;
+          check(getViewPoint(),"Universe::onClose sans point de vue") ;
           
           this->getViewPoint()->getManager()->setSkyBox( false, "" );
           this->getViewPoint()->getManager()

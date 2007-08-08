@@ -14,8 +14,10 @@ $(SOURCES)/physic/implementation/ode/torque_generator.cpp \
 $(SOURCES)/physic/implementation/ode/force_generator.cpp 
 
 
-libphysicode_la_LIBADD = \
+libphysicode_la_LDFLAGS = -no-undefined
+libphysicode_la_LDFLAGS += \
 $(SOURCES)/kernel/compilation/libkernel.la \
 $(SOURCES)/model/compilation/libmodel.la \
-$(ODE_LIBS) 
+$(ODE_LIBS) \
+$(librlog_LIBS)
 

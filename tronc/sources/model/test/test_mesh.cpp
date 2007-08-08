@@ -69,9 +69,9 @@ namespace ProjetUnivers {
           max_z = std::max(max_z,vertex->z) ;
         }
         
-        std::cout << "aabb = " << min_x << " " << max_x 
-                  << " " <<  min_y << " " << max_y
-                  << " " <<  min_z << " " << max_z << std::endl ;
+//        std::cout << "aabb = " << min_x << " " << max_x 
+//                  << " " <<  min_y << " " << max_y
+//                  << " " <<  min_z << " " << max_z << std::endl ;
         
         // indices represents triangles 
         CPPUNIT_ASSERT(indices.size()%3==0) ;

@@ -102,7 +102,7 @@ namespace ProjetUnivers {
 //          std::cout << guidance_system->NewtonMeter() ;
 
           CPPUNIT_ASSERT(equal(guidance_system->NewtonMeter().x,-pi) &&
-                         equal(guidance_system->NewtonMeter().y,0) &&
+                         equal(guidance_system->NewtonMeter().y,pi) &&
                          equal(guidance_system->NewtonMeter().z,0)) ;
 
           /// reorient ship...
@@ -112,16 +112,8 @@ namespace ProjetUnivers {
 //          std::cout << guidance_system->NewtonMeter() ;
           
           CPPUNIT_ASSERT(equal(guidance_system->NewtonMeter().x,0) &&
-                         equal(guidance_system->NewtonMeter().y,0) &&
+                         equal(guidance_system->NewtonMeter().y,pi) &&
                          equal(guidance_system->NewtonMeter().z,pi)) ;
-//
-//          // change throttle...
-//          throttle->setOrientation(Ogre::Quaternion(Ogre::Degree(45),Ogre::Vector3::UNIT_X)) ;
-//          
-//          CPPUNIT_ASSERT(equal(engine->getAppliedForce().Newton().x,5) && 
-//                         equal(engine->getAppliedForce().Newton().y,0) &&
-//                         equal(engine->getAppliedForce().Newton().z,0)) ;
-//          
         }
       }
       

@@ -17,9 +17,9 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <kernel/model.h>
 #include <kernel/object.h>
 
+#include <model/model.h>
 #include <model/physical_world.h>
 #include <model/physical_object.h>
 #include <model/laser.h>
@@ -44,33 +44,38 @@ namespace ProjetUnivers {
 
       void TestLaser::testFire()
       {
-        InternalMessage("Model::TestThrottle::basicTest entering") ;
+        InternalMessage("Model::TestLaser::testFire entering") ;
         // we construct a complete system
-        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLaser::testFire")) ;
+        Model::init() ;
 
         // should be a PhysicalWorld
-        Kernel::Object* system = model->createObject("system") ;
+        Kernel::Object* system = createObject("system") ;
         CPPUNIT_ASSERT(system->getTrait<PhysicalWorld>()) ;
 
-        Kernel::Object* ship = model->createObject("ship",system) ;
-        model->addTrait(ship,new Positionned()) ;
-        model->addTrait(ship,new Oriented()) ;
-        model->addTrait(ship,new Mobile()) ;
-        model->addTrait(ship,new Massive(Mass::Kilogram(1000))) ;
-        model->addTrait(ship,new Laser(Position(),Orientation())) ;
+        Kernel::Object* ship = createObject("ship",system) ;
+        addTrait(ship,new Positionned()) ;
+        addTrait(ship,new Oriented()) ;
+        addTrait(ship,new Mobile()) ;
+        addTrait(ship,new Massive(Mass::Kilogram(1000))) ;
+        addTrait(ship,new Laser(Position(),Orientation())) ;
         CPPUNIT_ASSERT(ship->getTrait<PhysicalObject>()) ;
         CPPUNIT_ASSERT(ship->getTrait<PhysicalWorld>()) ;
 
         CPPUNIT_ASSERT(system->getChildren().size()==1) ;
 
+        InternalMessage("built ship") ;
+
         ship->call("fire") ;
-        
+
+        InternalMessage("fire") ;
         std::set<Kernel::Object*> objects(system->getChildren()) ;
         // check that system has a new laser beam child
         CPPUNIT_ASSERT(objects.size()==2) ;
-        
+
         int found = 0 ;
-                
+
+        InternalMessage("Testing that a laser beam exists") ;
+
         for(std::set<Kernel::Object*>::const_iterator object = objects.begin() ;
             object != objects.end() ;
             ++object)
@@ -80,19 +85,20 @@ namespace ProjetUnivers {
             ++found ;
             // a laser beam must be a physical object
             CPPUNIT_ASSERT((*object)->getTrait<PhysicalObject>()) ;
-            
+
           }
         }
 
         CPPUNIT_ASSERT(found==1) ;
-        
-        
+        InternalMessage("Tested that a laser beam exists") ;
+
+
       }
-    
+
       void TestLaser::setUp()
       {
       }
-    
+
       void TestLaser::tearDown()
       {
       }

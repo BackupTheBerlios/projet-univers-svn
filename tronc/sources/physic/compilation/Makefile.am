@@ -10,11 +10,13 @@ LDADD=ode/libphysicode.la
 libphysic_la_SOURCES = \
 $(SOURCES)/physic/implementation/physic.cpp
 
-libphysic_la_LIBADD = \
+libphysic_la_LDFLAGS = -no-undefined
+libphysic_la_LDFLAGS += \
 $(SOURCES)/kernel/compilation/libkernel.la \
 $(SOURCES)/model/compilation/libmodel.la \
 $(SOURCES)/physic/compilation/ode/libphysicode.la \
-$(ODE_LIBS) 
+$(ODE_LIBS) \
+$(librlog_LIBS)
 
 TESTS = test_physic
 
