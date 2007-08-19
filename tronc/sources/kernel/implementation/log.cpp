@@ -40,6 +40,7 @@ namespace ProjetUnivers {
   
       void init()
       {
+      #ifndef NDEBUG
         
         // erreurs et debug
         debug = fopen(debugFileName.c_str(), "w") ;
@@ -58,14 +59,16 @@ namespace ProjetUnivers {
         DEF_CHANNEL("ProjetUnivers", rlog::Log_Info) ;
   
         outputLog->subscribeTo( rlog::GetGlobalChannel( "ProjetUnivers" ));
-          
+
+      #endif          
       }
       
       void close() 
       {
+      #ifndef NDEBUG
         fclose(debug) ;
         fclose(sortie) ;
-  
+      #endif          
       }
 
 
