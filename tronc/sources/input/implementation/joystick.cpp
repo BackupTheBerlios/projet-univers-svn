@@ -20,6 +20,7 @@
 #include <iostream>
 #include <kernel/log.h>
 #include <kernel/string.h>
+#include <kernel/parameters.h>
 
 #include <input/implementation/joystick.h>
 
@@ -62,39 +63,31 @@ namespace ProjetUnivers {
         if (m_controled_object)
         {
 
-//          std::cout << "0=" << event.state.mAxes[0].abs
-//                    << ",1=" << event.state.mAxes[1].abs
-//                    << ",2=" << event.state.mAxes[2].abs
-//                    << ",3=" << event.state.mAxes[3].abs
-//                    << ",4=" << event.state.mAxes[4].abs
-//                    << ",5=" << event.state.mAxes[5].abs
-//                    << ",6=" << event.state.mAxes[6].abs
-//                    << ",7=" << event.state.mAxes[7].abs
-//                    << ",8=" << event.state.mAxes[8].abs
-//                    << ",9=" << event.state.mAxes[9].abs
-//                    << ",i_axis=" << i_axis
-//                    << std::endl ;          
-//          /// it seem that for my stick POV is handled as buttons
-//          std::cout << "POV=" << event.state.mPOV[0].direction << std::endl ;
-
-          switch(i_axis)
+          if (Kernel::Parameters::getValue<bool>("Input","PrintAxes"))
           {
-          case 0:
+            std::cout << "axis number " << i_axis << "=" << event.state.mAxes[i_axis].abs
+                      << std::endl ;          
+          }
+
+          if (i_axis == Kernel::Parameters::getValue<float>("Input","XAxis"))
+          {
             X = 100 * event.state.mAxes[0].abs / OIS::JoyStick::MAX_AXIS ;
             m_controled_object->call("set_axis_X",X) ;
-            break ;
-          case 1:
+          } 
+          else if (i_axis == Kernel::Parameters::getValue<float>("Input","YAxis"))
+          {
             Y = - 100 * event.state.mAxes[1].abs / OIS::JoyStick::MAX_AXIS ;
             m_controled_object->call("set_axis_Y",Y) ;
-            break ;
-          case 5:
+          }
+          else if (i_axis == Kernel::Parameters::getValue<float>("Input","ZAxis"))
+          {
             Z = - 100 * event.state.mAxes[5].abs / OIS::JoyStick::MAX_AXIS ; 
             m_controled_object->call("set_axis_Z",Z) ;
-            break ;
-          case 6:
+          }
+          else if (i_axis == Kernel::Parameters::getValue<float>("Input","ThrottelAxis"))
+          {
             m_throttle = 50 + 50 * -event.state.mAxes[6].abs / OIS::JoyStick::MAX_AXIS ;
             m_controled_object->call("set_throttle",m_throttle) ;
-            break ;
           }
 
         }

@@ -197,6 +197,10 @@
     - modified compilation for mingw (windows) compatibility
   * model/physic : added parameter reading
 
+2007-08-19 rogma <rogma.boami@free.fr>
+  
+  * input : added parameter reading for joystick
+
 todos :
 
   * physic : 
