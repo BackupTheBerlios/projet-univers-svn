@@ -31,7 +31,7 @@ AM_PATH_CPPUNIT(1.1.0)
 AC_PROG_LEX
 
 # Check/config Ogre3d
-PKG_CHECK_MODULES(OGRE, [OGRE >= 1.0])
+PKG_CHECK_MODULES(OGRE, [OGRE >= 1.4])
 AC_SUBST(OGRE_CFLAGS)
 AC_SUBST(OGRE_LIBS)
 
@@ -51,6 +51,10 @@ AC_SUBST(librlog_LIBS)
 # Check/config ODE
 AC_CHECK_HEADERS([ode/ode.h])
 AC_SUBST(ODE_LIBS, "-lode")
+
+# Global c++ variable :
+PU_CXXFLAGS="$OGRE_CFLAGS $OIS_CFLAGS $librlog_CFLAGS"
+AC_SUBST(PU_CXXFLAGS)
 
 ##################
 # Config used libs

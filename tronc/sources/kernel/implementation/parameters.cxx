@@ -25,7 +25,21 @@ namespace ProjetUnivers {
 
     template <typename T>
     T Parameters::getValue(const std::string& section,
-                           const std::string& name) const
+                           const std::string& name) 
+    {
+      if (! m_instance.get())
+      {
+        m_instance.reset(new Parameters()) ; 
+      }
+      
+      return m_instance->internalGetValue<T>(section,name) ;
+
+    }
+    
+    
+    template <typename T>
+    T Parameters::internalGetValue(const std::string& section,
+                                   const std::string& name) const
     {
       std::map<std::string,std::map<std::string,
         boost::variant<float,std::string,bool> > >::const_iterator 

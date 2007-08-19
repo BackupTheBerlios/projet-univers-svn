@@ -81,6 +81,13 @@ namespace ProjetUnivers {
         class PhysicalObject ;
         class PhysicalWorld ;
         
+        /// Initialisation of ODE specific.
+        void init() ;
+        
+        /// Termination of ODE specific.
+        void close() ;
+        
+        
       /*!
         @name ODE like functions
       */
@@ -113,7 +120,21 @@ namespace ProjetUnivers {
         
         /// Get the physical world of the controler.
         PhysicalWorld* getPhysicalWorld(const Kernel::BaseControler*) ;
+
+      //@}
+      /*!
+        @name Contacts.
+      */
+      // @{
         
+        /// Array of contact points.
+        extern dContactGeom* contact_points ;
+        
+        /// Maximum size of contact_points.
+        extern int maximum_contact_points ;
+        
+      //@}
+
       }
     }
   }

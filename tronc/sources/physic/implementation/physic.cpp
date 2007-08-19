@@ -30,6 +30,7 @@
 
 #include <physic/implementation/ode/physical_world.h>
 #include <physic/implementation/ode/physic_system.h>
+#include <physic/implementation/ode/ode.h>
 
 #include <physic/physic.h>
 
@@ -54,7 +55,7 @@ namespace ProjetUnivers {
       {
         initialised = true ;
         
-        dInitODE() ;
+        Implementation::Ode::init() ;
         
         if (m_system.get())
         {
@@ -70,6 +71,8 @@ namespace ProjetUnivers {
       {
         m_system->close() ;
       }
+
+      Implementation::Ode::close() ;
       
       m_system.reset(NULL) ;
       InternalMessage("Physic::close leaving") ;

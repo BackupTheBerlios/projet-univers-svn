@@ -20,6 +20,7 @@
 #include <math.h>
 #include <ode/ode.h>
 
+#include <kernel/parameters.h>
 #include <kernel/log.h>
 #include <kernel/object.h>
 #include <kernel/trait.h>
@@ -69,7 +70,7 @@ namespace ProjetUnivers {
 
         /// we construct a complete system
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestCollision::basicTest")) ;
-
+        
         /// should be a PhysicalWorld
         Kernel::Object* system = model->createObject("system") ;
         CPPUNIT_ASSERT(system->getTrait<Model::PhysicalWorld>()) ;
@@ -146,6 +147,7 @@ namespace ProjetUnivers {
 
       void TestCollision::setUp() 
       {
+        Kernel::Parameters::load("demonstration.config") ;
       }
       
       void TestCollision::tearDown() 

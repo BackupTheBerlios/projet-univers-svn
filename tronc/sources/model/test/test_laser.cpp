@@ -18,6 +18,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include <kernel/object.h>
+#include <kernel/parameters.h>
 
 #include <model/model.h>
 #include <model/physical_world.h>
@@ -97,7 +98,8 @@ namespace ProjetUnivers {
 
       void TestLaser::setUp()
       {
-      }
+        Kernel::Parameters::load("demonstration.config") ;
+       }
 
       void TestLaser::tearDown()
       {

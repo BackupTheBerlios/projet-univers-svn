@@ -26,6 +26,7 @@
 #include <kernel/object.h>
 #include <kernel/model.h>
 #include <kernel/command_delegator.h>
+#include <kernel/parameters.h>
 
 #include <model/laser.h>
 #include <model/exception.h>
@@ -152,7 +153,7 @@ namespace ProjetUnivers {
 
     /*!
       @par Etat 
-        Test codé en dur
+        hard coded
     */
     void load(const std::string& _name)
     {
@@ -202,16 +203,16 @@ namespace ProjetUnivers {
           model->addTrait(ship,new Solid(Mesh("razor.mesh"))) ;
           model->addTrait(ship,new Mobile()) ;
           model->addTrait(ship,new Massive(Mass::Kilogram(1000))) ;
-          model->addTrait(ship,new Dragger(0.0001)) ;
+          model->addTrait(ship,new Dragger(Kernel::Parameters::getValue<float>("Model","DraggerCoeeficient"))) ;
 
           Kernel::Object* st1 = model->createObject("st01",ship) ;
-          model->addTrait(st1,new Stabilizer(0,10,0)) ;
+          model->addTrait(st1,new Stabilizer(0,Kernel::Parameters::getValue<float>("Model","StabilizerForce"),0)) ;
 
           Kernel::Object* st2 = model->createObject("st02",ship) ;
-          model->addTrait(st2,new Stabilizer(10,0,0)) ;
+          model->addTrait(st2,new Stabilizer(Kernel::Parameters::getValue<float>("Model","StabilizerForce"),0,0)) ;
 
           Kernel::Object* st3 = model->createObject("st03",ship) ;
-          model->addTrait(st3,new Stabilizer(0,0,10)) ;
+          model->addTrait(st3,new Stabilizer(0,0,Kernel::Parameters::getValue<float>("Model","StabilizerForce"))) ;
           
           InternalMessage("building ship done") ;
         }
@@ -226,16 +227,16 @@ namespace ProjetUnivers {
           model->addTrait(ship,new Solid(Mesh("razor.mesh"))) ;
           model->addTrait(ship,new Mobile()) ;
           model->addTrait(ship,new Massive(Mass::Kilogram(1000))) ;
-          model->addTrait(ship,new Dragger(0.01)) ;
+          model->addTrait(ship,new Dragger(Kernel::Parameters::getValue<float>("Model","DraggerCoeeficient"))) ;
 
           Kernel::Object* st1 = model->createObject("st1",ship) ;
-          model->addTrait(st1,new Stabilizer(0,10,0)) ;
+          model->addTrait(st1,new Stabilizer(0,Kernel::Parameters::getValue<float>("Model","StabilizerForce"),0)) ;
 
           Kernel::Object* st2 = model->createObject("st2",ship) ;
-          model->addTrait(st2,new Stabilizer(10,0,0)) ;
+          model->addTrait(st2,new Stabilizer(Kernel::Parameters::getValue<float>("Model","StabilizerForce"),0,0)) ;
 
           Kernel::Object* st3 = model->createObject("st3",ship) ;
-          model->addTrait(st3,new Stabilizer(0,0,10)) ;
+          model->addTrait(st3,new Stabilizer(0,0,Kernel::Parameters::getValue<float>("Model","StabilizerForce"))) ;
 
 
           Kernel::Object* stick = model->createObject("stick",system) ;
@@ -247,7 +248,7 @@ namespace ProjetUnivers {
           model->addTrait(stick,_stick) ;
           model->addTrait(stick,new Solid(Mesh("stick.mesh"))) ;
           
-          model->addTrait(ship,new GuidanceSystem(5)) ;
+          model->addTrait(ship,new GuidanceSystem(Kernel::Parameters::getValue<float>("Model","GuidanceForce"))) ;
           model->addTrait(ship,new GuidanceControl(
                                 stick->getTrait<Oriented>(),
                                 ship->getTrait<GuidanceSystem>())) ;
@@ -258,7 +259,7 @@ namespace ProjetUnivers {
           model->addTrait(throttle,new Throttle()) ;
           
           Kernel::Object* engine = model->createObject("engine",ship) ;
-          model->addTrait(engine,new Engine(Force::Newton(0,0,500))) ;
+          model->addTrait(engine,new Engine(Force::Newton(0,0,Kernel::Parameters::getValue<float>("Model","EngineMaxForce")))) ;
   
           Kernel::Object* engine_control = model->createObject("engine_control",ship) ;
           model->addTrait(engine_control,
@@ -267,7 +268,7 @@ namespace ProjetUnivers {
                             engine->getTrait<Engine>())) ;
           
           Kernel::Object* laser = model->createObject("laser",ship) ;
-          model->addTrait(laser,new Laser(Position::Meter(19.2,0,23),
+          model->addTrait(laser,new Laser(Position::Meter(19.2,0,30),
                                          Orientation())) ;
           
           InternalMessage("building ship done") ;

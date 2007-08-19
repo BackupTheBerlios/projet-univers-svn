@@ -17,6 +17,8 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <kernel/parameters.h>
+
 #include <model/model.h>
 #include <model/positionned.h>
 #include <model/oriented.h>
@@ -70,7 +72,7 @@ namespace ProjetUnivers {
 
         // orientation gives speed vector
         // basic_speed(full Z oriented) * orientation
-        Speed speed = Speed::MeterPerSecond(0,0,300)*orientation_of_the_beam ;
+        Speed speed = Speed::MeterPerSecond(0,0,Kernel::Parameters::getValue<float>("Model","LaserBeamSpeed"))*orientation_of_the_beam ;
         // maybe we should add the object speed ??
          
         addTrait(beam,new Mobile()) ;

@@ -20,6 +20,7 @@
 #include <math.h>
 #include <ode/ode.h>
 
+#include <kernel/parameters.h>
 #include <kernel/model.h>
 #include <kernel/log.h>
 #include <kernel/object.h>
@@ -778,6 +779,7 @@ namespace ProjetUnivers {
 
       void TestDemonstration::setUp() 
       {
+        Kernel::Parameters::load("demonstration.config") ;
       }
       
       void TestDemonstration::tearDown() 

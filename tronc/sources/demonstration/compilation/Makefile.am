@@ -2,6 +2,7 @@ bin_PROGRAMS = demonstration
 
 SOURCES = $(top_srcdir)/sources
 INCLUDES = -I../..
+AM_CXXFLAGS=$(PU_CXXFLAGS)
 
 demonstration_SOURCES = \
 ../demonstration.cpp

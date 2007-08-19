@@ -1,7 +1,8 @@
 lib_LTLIBRARIES = libmodel.la
 
-INCLUDES = -I../.. $(OGRE_CFLAGS)
 SOURCES = $(top_srcdir)/sources
+INCLUDES = -I$(SOURCES)
+AM_CXXFLAGS = $(PU_CXXFLAGS)
 
 libmodel_la_SOURCES = \
 ../implementation/acceleration.cpp \
@@ -71,7 +72,7 @@ test_model_SOURCES = \
 ../test/test_laser.cpp \
 ../test/test_demonstration.cpp 
 
-test_model_CXXFLAGS = $(CPPUNIT_CFLAGS)
+test_model_CXXFLAGS = $(CPPUNIT_CFLAGS) $(PU_CXXFLAGS)
 test_model_LDFLAGS = $(CPPUNIT_LIBS)
 test_model_LDADD = \
 libmodel.la \

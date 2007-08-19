@@ -20,6 +20,7 @@
 #include <ode/ode.h>
 
 #include <kernel/log.h>
+#include <kernel/parameters.h>
 
 #include <physic/implementation/ode/solid.h>
 #include <physic/implementation/ode/physical_object.h>
@@ -34,6 +35,7 @@ namespace ProjetUnivers {
         RegisterControler(PhysicalWorld, 
                           Model::PhysicalWorld, 
                           PhysicSystem) ;
+
 
         PhysicalWorld::PhysicalWorld(Model::PhysicalWorld* i_object,
                                      PhysicSystem*         i_physic)
@@ -52,10 +54,10 @@ namespace ProjetUnivers {
           }
           m_world = new dWorld() ;
 
-          dWorldSetCFM(m_world->id(),0.001) ;
-          dWorldSetERP(m_world->id(),1) ;
-          dWorldSetContactSurfaceLayer(m_world->id(), 0.1f) ;
-          dWorldSetContactMaxCorrectingVel(m_world->id(),5) ;
+          dWorldSetCFM(m_world->id(),Kernel::Parameters::getValue<float>("Physic","WorldCFM")) ;
+          dWorldSetERP(m_world->id(),Kernel::Parameters::getValue<float>("Physic","WorldERP")) ;
+          dWorldSetContactSurfaceLayer(m_world->id(),Kernel::Parameters::getValue<float>("Physic","WorldContactSurfaceLayer")) ;
+          dWorldSetContactMaxCorrectingVel(m_world->id(),Kernel::Parameters::getValue<float>("Physic","WorldContactMaxCorrectingVelocity")) ;
            
           if (m_collision_space)
           {
@@ -82,7 +84,7 @@ namespace ProjetUnivers {
           {
             delete m_collision_space ;
           }
-
+          
           InternalMessage("Physic::PhysicalWorld::onClose leaving " + getObject()->getName()) ;
         }
 
@@ -181,8 +183,6 @@ namespace ProjetUnivers {
             object2_position.z = temp_position[2] ;
             
             // calculate contact points
-            const int maximum_contact_points = 200 ;
-            static dContactGeom contact_points[maximum_contact_points] ;
             int number_of_contacts = dCollide(i_geometry1,
                                               i_geometry2,
                                               maximum_contact_points,
@@ -205,10 +205,10 @@ namespace ProjetUnivers {
               // create contact joint
               dContact contact ;
               contact.surface.mode = dContactSoftCFM|dContactSoftERP ;
-              contact.surface.mu = 0 ;
+              contact.surface.mu = Kernel::Parameters::getValue<float>("Physic","ContactMu") ;
               contact.surface.mu2 = 0 ;
-              contact.surface.bounce = 0 ;
-              contact.surface.bounce_vel = 0 ;
+              contact.surface.bounce = Kernel::Parameters::getValue<float>("Physic","ContactBounce") ;
+              contact.surface.bounce_vel = Kernel::Parameters::getValue<float>("Physic","ContactBounceVelocity") ;
               contact.surface.soft_erp = 1 ;
               contact.surface.soft_cfm = 1 ;
               contact.surface.motion1 = 0 ;
@@ -308,8 +308,11 @@ namespace ProjetUnivers {
             collision detection
             
           */
-//          dSpaceCollide(m_collision_space->id(),this,PhysicalWorld::onSpaceCollision) ;
-          
+          if (Kernel::Parameters::getValue<bool>("Physic","ActivateCollision"))
+          {
+            dSpaceCollide(m_collision_space->id(),this,PhysicalWorld::onSpaceCollision) ;
+          }
+                  
           InternalMessage("Physic::PhysicalWorld::simulate " + getObject()->getName() + " trace#1") ;
           
           // physical part

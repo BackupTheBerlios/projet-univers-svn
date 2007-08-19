@@ -1,7 +1,8 @@
 lib_LTLIBRARIES = libdisplayogre.la
 
 SOURCES = $(top_srcdir)/sources
-INCLUDES = -I$(SOURCES) $(OGRE_CFLAGS)
+INCLUDES = -I$(SOURCES)
+AM_CXXFLAGS=$(PU_CXXFLAGS)
 
 libdisplayogre_la_SOURCES = \
 $(SOURCES)/display/implementation/ogre/destroyable.cpp \

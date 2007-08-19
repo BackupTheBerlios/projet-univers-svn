@@ -114,7 +114,7 @@ namespace ProjetUnivers {
             // mass
             rfMass = afIntegral[0];
             
-            std::cout <<" rfMass =" <<  rfMass << std::endl ;
+//            std::cout <<" rfMass =" <<  rfMass << std::endl ;
             // center of mass
             if (rfMass != 0)
             {

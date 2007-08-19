@@ -18,6 +18,8 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#include <kernel/parameters.h>
+
 #include <physic/implementation/ode/physical_object.h>
 #include <physic/implementation/ode/physical_world.h>
 #include <physic/implementation/ode/mass_property.h>
@@ -28,6 +30,8 @@ namespace ProjetUnivers {
     namespace Implementation {
       namespace Ode {
 
+        dContactGeom* contact_points = NULL ;
+        int maximum_contact_points = 0 ;
 
         std::string printReal(const dReal& i_real)
         {
@@ -98,12 +102,12 @@ namespace ProjetUnivers {
           Ogre::Matrix3 inertia ;
           ComputeMassProperties(vertices,indices,true,mass,center,inertia) ;
         
-          std::cout << "center = " << center 
-                    << " inertia= " 
-                    << inertia.GetColumn(0) << " "  
-                    << inertia.GetColumn(1) << " "
-                    << inertia.GetColumn(2) 
-                    << std::endl ;
+//          std::cout << "center = " << center 
+//                    << " inertia= " 
+//                    << inertia.GetColumn(0) << " "  
+//                    << inertia.GetColumn(1) << " "
+//                    << inertia.GetColumn(2) 
+//                    << std::endl ;
 
           io_mass->mass = (dReal) mass ;
           io_mass->c[0] = (dReal) center.x ; 
@@ -156,6 +160,26 @@ namespace ProjetUnivers {
           return NULL ;
           
         }
+
+        void init() 
+        {
+  
+          dInitODE() ;
+
+          maximum_contact_points = (int)Kernel::Parameters::getValue<float>("Physic","MaxNumberOfContactPoints") ;
+          contact_points = new dContactGeom[maximum_contact_points] ;
+        }
+        
+        void close()
+        {
+          if (contact_points)
+          {
+            delete[] contact_points ;
+            contact_points = NULL ;
+          }
+        }
+
+
       }
     }
   }

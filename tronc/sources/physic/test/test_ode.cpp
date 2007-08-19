@@ -22,6 +22,7 @@
 #include <ode/ode.h>
 
 #include <kernel/log.h>
+#include <kernel/parameters.h>
 #include <model/mesh.h>
 
 #include <physic/implementation/ode/ode.h>
@@ -154,11 +155,11 @@ namespace ProjetUnivers {
         dMassAdjust(&mass,1) ;
         dBodySetMass(body->id(),&mass) ;
 
-        std::cout << "masse " << printMass(mass) << std::endl ;
+//        std::cout << "masse " << printMass(mass) << std::endl ;
 
         body->setPosition(100,100,100) ;
         body->getMass(&mass) ;
-        std::cout << "masse " << printMass(mass) << std::endl ;
+//        std::cout << "masse " << printMass(mass) << std::endl ;
 
 //        dGeomSetPosition(TriMesh, 0, 0, 0);
 //        dMatrix3 Rotation;
@@ -186,16 +187,17 @@ namespace ProjetUnivers {
         Ogre::Matrix3 inertia ;
         ComputeMassProperties(vertices,indices,true,mass,center,inertia) ;
       
-        std::cout << "center = " << center 
-                  << " inertia= " 
-                  << inertia.GetColumn(0) << " "  
-                  << inertia.GetColumn(1) << " "
-                  << inertia.GetColumn(2) 
-                  << std::endl ;
+//        std::cout << "center = " << center 
+//                  << " inertia= " 
+//                  << inertia.GetColumn(0) << " "  
+//                  << inertia.GetColumn(1) << " "
+//                  << inertia.GetColumn(2) 
+//                  << std::endl ;
       }
 
       void TestODE::setUp() 
       {
+        Kernel::Parameters::load("demonstration.config") ;
       }
       
       void TestODE::tearDown() 

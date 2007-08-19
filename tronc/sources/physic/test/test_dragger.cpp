@@ -20,6 +20,7 @@
 #include <math.h>
 #include <ode/ode.h>
 
+#include <kernel/parameters.h>
 #include <kernel/log.h>
 #include <kernel/object.h>
 #include <kernel/trait.h>
@@ -117,6 +118,7 @@ namespace ProjetUnivers {
 
       void TestDragger::setUp() 
       {
+        Kernel::Parameters::load("demonstration.config") ;
       }
       
       void TestDragger::tearDown() 

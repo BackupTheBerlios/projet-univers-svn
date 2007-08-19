@@ -32,8 +32,19 @@ namespace ProjetUnivers {
     {
     public:
       
-      /// Create and load the parameters
-      Parameters(const std::string& file_path) ;
+      /// Load new parameters.
+      static void load(const std::string& file_path) ;
+
+      /// Access to a value of type T.
+      template <typename T>
+      static T getValue(const std::string& section,
+                        const std::string& name) ;
+      
+
+    private:
+      
+      /// Load the parameters
+      void internal_load(const std::string& file_path) ;
       
     /*!
       @name Access methods
@@ -46,17 +57,19 @@ namespace ProjetUnivers {
       
       /// Access to a value of type T.
       template <typename T>
-      T getValue(const std::string& section,
-                 const std::string& name) const ;
+      T internalGetValue(const std::string& section,
+                         const std::string& name) const ;
       
     // @}
-
-    private:
       
       /// section --> name --> value 
       std::map<std::string,
                std::map<std::string,
                         boost::variant<float,std::string,bool> > > m_parameters ;
+      
+      
+      /// Singleton instance.
+      static std::auto_ptr<Parameters> m_instance ;
       
     };
   }

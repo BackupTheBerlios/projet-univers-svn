@@ -21,6 +21,7 @@
 #include <kernel/log.h>
 #include <kernel/object.h>
 #include <kernel/timer.h>
+#include <kernel/parameters.h>
 #include <model/model.h>
 #include <model/duration.h>
 #include <display/display.h>
@@ -31,7 +32,7 @@
 using namespace ProjetUnivers ;
 
 /*
-  Programme de démonstration
+  Demonstration program
   
   
 
@@ -39,21 +40,22 @@ using namespace ProjetUnivers ;
 int main() {
 
 
-  /// initialisation
+  /// init
   Kernel::Log::init() ;
+  Kernel::Parameters::load("demonstration.config") ;
+
   InformationMessage("Demarrage de projet univers") ;
   Model::init() ;
   Physic::init() ;
   Display::init() ;
   Action::init() ;
-
+  
   InformationMessage("Modules initialisés") ;
 
   Model::load("TestDemonstration") ;
 
   Kernel::Object* observer(Model::getObject("Observer")) ;
   
-  /// Création d'un point de vue sur ce modèle
   Display::buildRealWorldViewPoint(observer) ;
 
   Physic::build(observer) ;
@@ -66,7 +68,7 @@ int main() {
 
   Kernel::Timer timer ;
 
-  /// boucle principale
+  /// main loop
   while (! Action::finished())
   {
     float seconds = timer.getSecond() ;

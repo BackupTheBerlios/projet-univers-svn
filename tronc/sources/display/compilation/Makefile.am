@@ -7,7 +7,8 @@ lib_LTLIBRARIES = libdisplay.la
 LDADD=ogre/libdisplay.la
 
 SOURCES = $(top_srcdir)/sources
-INCLUDES = -I$(SOURCES) $(OGRE_CFLAGS)
+INCLUDES = -I$(SOURCES)
+AM_CXXFLAGS=$(PU_CXXFLAGS)
 
 libdisplay_la_SOURCES = \
 $(SOURCES)/display/implementation/display.cpp

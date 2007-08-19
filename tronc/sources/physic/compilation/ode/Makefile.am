@@ -1,7 +1,8 @@
 lib_LTLIBRARIES = libphysicode.la
 
 SOURCES = $(top_srcdir)/sources
-INCLUDES = -I$(SOURCES) $(OGRE_CFLAGS)
+INCLUDES = -I$(SOURCES)
+AM_CXXFLAGS=$(PU_CXXFLAGS)
 
 libphysicode_la_SOURCES = \
 $(SOURCES)/physic/implementation/ode/mass_property.cpp \
@@ -19,5 +20,6 @@ libphysicode_la_LDFLAGS += \
 $(SOURCES)/kernel/compilation/libkernel.la \
 $(SOURCES)/model/compilation/libmodel.la \
 $(ODE_LIBS) \
-$(librlog_LIBS)
+$(librlog_LIBS) \
+$(OGRE_LIBS)
 

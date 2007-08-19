@@ -2,8 +2,9 @@ SUBDIRS = ode
 
 lib_LTLIBRARIES = libphysic.la
 
-INCLUDES = -I../.. $(OGRE_CFLAGS)
 SOURCES = $(top_srcdir)/sources
+INCLUDES = -I$(SOURCES)
+AM_CXXFLAGS=$(PU_CXXFLAGS)
 
 LDADD=ode/libphysicode.la
 
@@ -30,7 +31,7 @@ test_physic_SOURCES = \
 ../test/test_ode.cpp 
 
 
-test_physic_CXXFLAGS = $(CPPUNIT_CFLAGS)
+test_physic_CXXFLAGS = $(CPPUNIT_CFLAGS) $(PU_CXXFLAGS)
 test_physic_LDFLAGS = $(CPPUNIT_LIBS)
 test_physic_LDADD = \
 libphysic.la \

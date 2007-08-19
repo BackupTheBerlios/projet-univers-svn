@@ -95,17 +95,17 @@ namespace ProjetUnivers {
     
         CPPUNIT_TEST_SUITE(TestDemonstration) ;
       
-//        CPPUNIT_TEST(testBuild) ;
-//        CPPUNIT_TEST(testSimulateNoMove) ;
-//        CPPUNIT_TEST(testSimulateMoving) ;
+        CPPUNIT_TEST(testBuild) ;
+        CPPUNIT_TEST(testSimulateNoMove) ;
+        CPPUNIT_TEST(testSimulateMoving) ;
         CPPUNIT_TEST(testRotationTorque) ;
-//        CPPUNIT_TEST(testSimulateMovingInitialSpeed) ;
-//        CPPUNIT_TEST(testSimulateMovingInitialRotation) ;
-//        CPPUNIT_TEST(testSimulateRotatingHalfTurn) ;
-//        CPPUNIT_TEST(testStabilizer) ;
-//        CPPUNIT_TEST(testNegativeStabilizer) ;
-//        CPPUNIT_TEST(testStabilizer2) ;
-//        CPPUNIT_TEST(testEngine) ;
+        CPPUNIT_TEST(testSimulateMovingInitialSpeed) ;
+        CPPUNIT_TEST(testSimulateMovingInitialRotation) ;
+        CPPUNIT_TEST(testSimulateRotatingHalfTurn) ;
+        CPPUNIT_TEST(testStabilizer) ;
+        CPPUNIT_TEST(testNegativeStabilizer) ;
+        CPPUNIT_TEST(testStabilizer2) ;
+        CPPUNIT_TEST(testEngine) ;
       
         CPPUNIT_TEST_SUITE_END() ;
 

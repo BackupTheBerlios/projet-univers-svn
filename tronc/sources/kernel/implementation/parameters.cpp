@@ -24,7 +24,19 @@
 namespace ProjetUnivers {
   namespace Kernel {
 
-    Parameters::Parameters(const std::string& file_path)
+    std::auto_ptr<Parameters> Parameters::m_instance(NULL) ;
+
+    void Parameters::load(const std::string& file_path)
+    {
+      if (! m_instance.get())
+      {
+        m_instance.reset(new Parameters()) ; 
+      }
+      
+      m_instance->internal_load(file_path) ;
+    }
+
+    void Parameters::internal_load(const std::string& file_path)
     {
       // open file and read it
       std::ifstream file(file_path.c_str()) ;

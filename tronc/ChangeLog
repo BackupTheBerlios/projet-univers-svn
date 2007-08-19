@@ -191,6 +191,12 @@
   * display : remove circular dependecy between display and display/ogre
   * model : removed a bug from test_laser
 
+2007-08-19 rogma <rogma.boami@free.fr>
+  
+  * all : 
+    - modified compilation for mingw (windows) compatibility
+  * model/physic : added parameter reading
+
 todos :
 
   * physic : 

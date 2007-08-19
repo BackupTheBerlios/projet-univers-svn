@@ -21,6 +21,7 @@
 #include <kernel/log.h>
 #include <kernel/object.h>
 #include <kernel/trait.h>
+#include <kernel/parameters.h>
 
 #include <model/model.h>
 #include <model/stellar_system.h>
@@ -117,7 +118,8 @@ namespace ProjetUnivers {
 
       void TestDemonstration::setUp() 
       {
-      }
+        Kernel::Parameters::load("demonstration.config") ;
+       }
       
       void TestDemonstration::tearDown() 
       {

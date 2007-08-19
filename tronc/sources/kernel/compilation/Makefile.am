@@ -1,7 +1,8 @@
 lib_LTLIBRARIES = libkernel.la
 
 SOURCES = $(top_srcdir)/sources
-INCLUDES = -I$(SOURCES) $(librlog_CFLAGS)
+INCLUDES = -I$(SOURCES)
+AM_CXXFLAGS=$(PU_CXXFLAGS)
 
 libkernel_la_SOURCES = \
 $(SOURCES)/kernel/implementation/object.cpp \

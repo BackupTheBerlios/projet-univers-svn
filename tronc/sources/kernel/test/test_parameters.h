@@ -49,6 +49,8 @@ namespace ProjetUnivers {
         /// A simple test.
         void basicTest() ;
         
+        /// A real test.
+        void testDemonstration() ;
         
       // @}
 
@@ -56,6 +58,7 @@ namespace ProjetUnivers {
         CPPUNIT_TEST_SUITE(TestParameters) ;
 
         CPPUNIT_TEST(basicTest) ;
+        CPPUNIT_TEST(testDemonstration) ;
 
         CPPUNIT_TEST_SUITE_END() ;
 
