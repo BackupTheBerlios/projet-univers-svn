@@ -71,22 +71,22 @@ namespace ProjetUnivers {
 
           if (i_axis == Kernel::Parameters::getValue<float>("Input","XAxis"))
           {
-            X = 100 * event.state.mAxes[0].abs / OIS::JoyStick::MAX_AXIS ;
+            X = 100 * event.state.mAxes[i_axis].abs / OIS::JoyStick::MAX_AXIS ;
             m_controled_object->call("set_axis_X",X) ;
           } 
           else if (i_axis == Kernel::Parameters::getValue<float>("Input","YAxis"))
           {
-            Y = - 100 * event.state.mAxes[1].abs / OIS::JoyStick::MAX_AXIS ;
+            Y = - 100 * event.state.mAxes[i_axis].abs / OIS::JoyStick::MAX_AXIS ;
             m_controled_object->call("set_axis_Y",Y) ;
           }
           else if (i_axis == Kernel::Parameters::getValue<float>("Input","ZAxis"))
           {
-            Z = - 100 * event.state.mAxes[5].abs / OIS::JoyStick::MAX_AXIS ; 
+            Z = - 100 * event.state.mAxes[i_axis].abs / OIS::JoyStick::MAX_AXIS ; 
             m_controled_object->call("set_axis_Z",Z) ;
           }
           else if (i_axis == Kernel::Parameters::getValue<float>("Input","ThrottelAxis"))
           {
-            m_throttle = 50 + 50 * -event.state.mAxes[6].abs / OIS::JoyStick::MAX_AXIS ;
+            m_throttle = 50 + 50 * -event.state.mAxes[i_axis].abs / OIS::JoyStick::MAX_AXIS ;
             m_controled_object->call("set_throttle",m_throttle) ;
           }
 
