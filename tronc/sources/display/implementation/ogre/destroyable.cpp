@@ -1,6 +1,7 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Equipe Projet Univers                           *
- *   rogma.boami@free.fr                                                   *
+ *   This file is part of ProjetUnivers                                    *
+ *   see http://www.punivers.net                                           *
+ *   Copyright (C) 2007 Mathieu ROGER                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,7 +18,6 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-
 #include <display/implementation/ogre/destroyable.h>
 
 

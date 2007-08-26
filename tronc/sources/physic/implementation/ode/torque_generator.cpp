@@ -1,6 +1,7 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Equipe Projet Univers                           *
- *   rogma.boami@free.fr                                                   *
+ *   This file is part of ProjetUnivers                                    *
+ *   see http://www.punivers.net                                           *
+ *   Copyright (C) 2007 Mathieu ROGER                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -54,9 +55,9 @@ namespace ProjetUnivers {
             Ogre::Vector3 torque(getModel()->NewtonMeter()) ;
             InternalMessage("Physic::TorqueGenerator::prepare " +
                             getObject()->getName() + " torque = " +  
-                                          toString(torque.x) + "," + 
-                                          toString(torque.y) + "," +
-                                          toString(torque.z)) ;
+                                          Kernel::toString(torque.x) + "," + 
+                                          Kernel::toString(torque.y) + "," +
+                                          Kernel::toString(torque.z)) ;
              
             m_object->getBody()->addTorque(torque.x,
                                            torque.y,

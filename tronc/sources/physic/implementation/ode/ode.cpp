@@ -1,6 +1,7 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Equipe Projet Univers                           *
- *   rogma.boami@free.fr                                                   *
+ *   This file is part of ProjetUnivers                                    *
+ *   see http://www.punivers.net                                           *
+ *   Copyright (C) 2007 Mathieu ROGER                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,7 +18,6 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-
 #include <kernel/parameters.h>
 
 #include <physic/implementation/ode/physical_object.h>
@@ -35,25 +35,25 @@ namespace ProjetUnivers {
 
         std::string printReal(const dReal& i_real)
         {
-          return toString((float)i_real) ;
+          return Kernel::toString((float)i_real) ;
         }
 
         std::string printVector3(const dVector3& i_vector) 
         {
           std::string result ;          
-          result = "Vector3(x=" + toString(i_vector[0]) 
-                   + ",y=" + toString(i_vector[1])
-                   + ",z=" + toString(i_vector[2]) + ")" ;
+          result = "Vector3(x=" + Kernel::toString(i_vector[0]) 
+                   + ",y=" + Kernel::toString(i_vector[1])
+                   + ",z=" + Kernel::toString(i_vector[2]) + ")" ;
           return result ;
         }
 
         std::string printVector4(const dVector4& i_vector) 
         {
           std::string result ;          
-          result = "Vector4(x=" + toString(i_vector[0]) 
-                   + ",y=" + toString(i_vector[1])
-                   + ",z=" + toString(i_vector[2]) 
-                   + ",z'=" + toString(i_vector[3]) + ")" ;
+          result = "Vector4(x=" + Kernel::toString(i_vector[0]) 
+                   + ",y=" + Kernel::toString(i_vector[1])
+                   + ",z=" + Kernel::toString(i_vector[2]) 
+                   + ",z'=" + Kernel::toString(i_vector[3]) + ")" ;
           return result ;
         }
 
@@ -61,20 +61,20 @@ namespace ProjetUnivers {
         {
           std::string result ;          
           result = "Matrix3(" 
-                   + toString(i_matrix[0]) + "," 
-                   + toString(i_matrix[1]) + "," 
-                   + toString(i_matrix[2]) + ","
-                   + toString(i_matrix[3]) + "|"
+                   + Kernel::toString(i_matrix[0]) + "," 
+                   + Kernel::toString(i_matrix[1]) + "," 
+                   + Kernel::toString(i_matrix[2]) + ","
+                   + Kernel::toString(i_matrix[3]) + "|"
 
-                   + toString(i_matrix[4]) + "," 
-                   + toString(i_matrix[5]) + "," 
-                   + toString(i_matrix[6]) + ","
-                   + toString(i_matrix[7]) + "|"
+                   + Kernel::toString(i_matrix[4]) + "," 
+                   + Kernel::toString(i_matrix[5]) + "," 
+                   + Kernel::toString(i_matrix[6]) + ","
+                   + Kernel::toString(i_matrix[7]) + "|"
 
-                   + toString(i_matrix[8]) + "," 
-                   + toString(i_matrix[9]) + "," 
-                   + toString(i_matrix[10]) + ","
-                   + toString(i_matrix[11]) + ")" ;
+                   + Kernel::toString(i_matrix[8]) + "," 
+                   + Kernel::toString(i_matrix[9]) + "," 
+                   + Kernel::toString(i_matrix[10]) + ","
+                   + Kernel::toString(i_matrix[11]) + ")" ;
           
           return result ;
         }
@@ -177,6 +177,8 @@ namespace ProjetUnivers {
             delete[] contact_points ;
             contact_points = NULL ;
           }
+          
+          dCloseODE() ;
         }
 
 

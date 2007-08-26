@@ -1,6 +1,7 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Equipe Projet Univers                           *
- *   rogma.boami@free.fr                                                   *
+ *   This file is part of ProjetUnivers                                    *
+ *   see http://www.punivers.net                                           *
+ *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -29,23 +30,23 @@ namespace ProjetUnivers {
     namespace Test {
 
 
-      ///  Test des erreurs.
+      /// Test .
       class TestError : public CppUnit::TestFixture {
       protected:
 
   
-        // ****************************
-        /// @name Tests proprement dits
-        // ****************************
+        // ************
+        /// @name Tests
+        // ************
 
   
-        /// Teste certaines expressions.
+        /// Test check macro.
         void TestExpression();
 
 
-        // *******************************
-        /// @name Registerment des tests
-        // *******************************
+        // ********************
+        /// @name Test register
+        // ********************
 
 
         CPPUNIT_TEST_SUITE(TestError) ;

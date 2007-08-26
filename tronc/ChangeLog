@@ -201,6 +201,21 @@
   
   * input : added parameter reading for joystick
 
+
+2007-08-26 rogma <rogma.boami@free.fr>
+  
+  * all : clarification of the copyright
+  * kernel 
+    - ControlerSet : clarified virtuality
+    - Controler : added a specialised access to controler set 
+    - Object : added an access to descendant (test added)
+  * model : added Logic sub-module for model dynamic behaviour
+    - Logic::LaserBeam controls the laser beam destruction after 
+      a certain amount of time (test added)
+  * physic/ode : 
+    - removed unused onInit onClose on PhysicSystem
+    - added a dCloseODE call
+
 todos :
 
   * physic : 

@@ -1,6 +1,7 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Equipe Projet Univers                           *
- *   rogma.boami@free.fr                                                   *
+ *   This file is part of ProjetUnivers                                    *
+ *   see http://www.punivers.net                                           *
+ *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -56,9 +57,9 @@ namespace ProjetUnivers {
         const AngularSpeed& speed = mobile->getAngularSpeed() ;
         
         InternalMessage("Model::Stabilizer::NewtonMeter angular speed="
-                        + toString(speed.RadianPerSecond()[0]) + ","
-                        + toString(speed.RadianPerSecond()[1]) + ","
-                        + toString(speed.RadianPerSecond()[2])) ;
+                        + Kernel::toString(speed.RadianPerSecond()[0]) + ","
+                        + Kernel::toString(speed.RadianPerSecond()[1]) + ","
+                        + Kernel::toString(speed.RadianPerSecond()[2])) ;
         
         
         Ogre::Quaternion object_orientation = 
@@ -66,18 +67,18 @@ namespace ProjetUnivers {
         
         
         InternalMessage("Model::Stabilizer::NewtonMeter object orientation="
-                        + toString(object_orientation.w) + ","
-                        + toString(object_orientation.x) + ","
-                        + toString(object_orientation.y) + ","
-                        + toString(object_orientation.z)) ;
+                        + Kernel::toString(object_orientation.w) + ","
+                        + Kernel::toString(object_orientation.x) + ","
+                        + Kernel::toString(object_orientation.y) + ","
+                        + Kernel::toString(object_orientation.z)) ;
         
         /// calculate 
         Ogre::Vector3 global_axis = object_orientation*m_axis ;
 
         InternalMessage("Model::Stabilizer::NewtonMeter global_axis="
-                        + toString(global_axis[0]) + ","
-                        + toString(global_axis[1]) + ","
-                        + toString(global_axis[2])) ;
+                        + Kernel::toString(global_axis[0]) + ","
+                        + Kernel::toString(global_axis[1]) + ","
+                        + Kernel::toString(global_axis[2])) ;
 
         
         // projection of speed onto the axis. 
@@ -96,16 +97,16 @@ namespace ProjetUnivers {
           
 
         InternalMessage("Model::Stabilizer::NewtonMeter force="
-                        + toString((float)force)) ;
+                        + Kernel::toString((float)force)) ;
         
         global_axis.normalise() ;
         
         global_axis *= -sign*std::max(std::max(force,-force),(force*force)) ;
 
         InternalMessage("Model::Stabilizer::NewtonMeter result="
-                        + toString(global_axis[0]) + ","
-                        + toString(global_axis[1]) + ","
-                        + toString(global_axis[2])) ;
+                        + Kernel::toString(global_axis[0]) + ","
+                        + Kernel::toString(global_axis[1]) + ","
+                        + Kernel::toString(global_axis[2])) ;
         
         return global_axis ;
       }

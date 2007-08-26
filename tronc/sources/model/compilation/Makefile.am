@@ -42,7 +42,11 @@ libmodel_la_SOURCES = \
 ../implementation/stick.cpp \
 ../implementation/throttle.cpp \
 ../implementation/laser.cpp \
-../implementation/laser_beam.cpp 
+../implementation/laser_beam.cpp \
+$(SOURCES)/model/implementation/logic.cpp \
+$(SOURCES)/model/implementation/logic_laser_beam.cpp \
+$(SOURCES)/model/implementation/logic_system.cpp 
+
 
 libmodel_la_LDFLAGS = -no-undefined
 libmodel_la_LDFLAGS += \
@@ -70,7 +74,8 @@ test_model_SOURCES = \
 ../test/test_stick.cpp \
 ../test/test_mesh.cpp \
 ../test/test_laser.cpp \
-../test/test_demonstration.cpp 
+../test/test_demonstration.cpp \
+$(SOURCES)/model/test/test_logic_laser_beam.cpp
 
 test_model_CXXFLAGS = $(CPPUNIT_CFLAGS) $(PU_CXXFLAGS)
 test_model_LDFLAGS = $(CPPUNIT_LIBS)

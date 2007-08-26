@@ -1,6 +1,7 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Equipe Projet Univers                           *
- *   rogma.boami@free.fr                                                   *
+ *   This file is part of ProjetUnivers                                    *
+ *   see http://www.punivers.net                                           *
+ *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,7 +18,6 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-
 namespace ProjetUnivers {
   namespace Kernel {
  
@@ -191,6 +191,29 @@ namespace ProjetUnivers {
         (*child)->apply<_View>(i_trait_name,i_viewpoint,i_operation) ;
       }
       
+    }
+    
+    template <class T> std::set<T*> Object::getDescendants() const
+    {
+      std::set<T*> result ;
+      // get the children
+      for(std::set<Object*>::iterator child = children.begin() ;
+          child != children.end() ;
+          ++child)
+      {
+        T* trait = (*child)->getTrait<T>() ;
+        if (trait)
+        {
+          result.insert(trait) ;
+        }      
+        // recursive call
+        
+        std::set<T*> temp = (*child)->getDescendants<T>() ;
+        
+        result.insert(temp.begin(),temp.end()) ;
+      }
+
+      return result ;
     }
   }
 }

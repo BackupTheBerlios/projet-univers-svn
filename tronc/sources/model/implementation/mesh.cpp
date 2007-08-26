@@ -1,6 +1,7 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Equipe Projet Univers                           *
- *   rogma.boami@free.fr                                                   *
+ *   This file is part of ProjetUnivers                                    *
+ *   see http://www.punivers.net                                           *
+ *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -126,8 +127,8 @@ namespace ProjetUnivers {
       }
     
       InternalMessage("Model::Mesh::getMeshInformation " 
-                      + toString(vertex_count) +" vertices "
-                      + toString(index_count) +" indexes" ) ;
+                      + Kernel::toString(vertex_count) +" vertices "
+                      + Kernel::toString(index_count) +" indexes" ) ;
                       
       // Allocate space for the vertices and indices
       o_vertices.reserve(vertex_count) ;
@@ -180,7 +181,7 @@ namespace ProjetUnivers {
           next_offset += vertex_data->vertexCount;
         }
         InternalMessage("Model::Mesh::getMeshInformation added " 
-                        + toString(o_vertices.size()) + " vertices") ;
+                        + Kernel::toString(o_vertices.size()) + " vertices") ;
     
         InternalMessage("Model::Mesh::getMeshInformation adding indexes...") ;
     

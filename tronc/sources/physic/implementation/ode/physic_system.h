@@ -1,6 +1,7 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Equipe Projet Univers                           *
- *   rogma.boami@free.fr                                                   *
+ *   This file is part of ProjetUnivers                                    *
+ *   see http://www.punivers.net                                           *
+ *   Copyright (C) 2007 Mathieu ROGER                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -38,13 +39,7 @@ namespace ProjetUnivers {
           /// Contructs.
           PhysicSystem(Kernel::Object* i_observer) ;
           
-          /// Create a ODE world.
-          virtual void onInit() ;
-
-          /// Destroy the ODE world.
-          virtual void onClose() ;
-          
-          /// Simulate the systeme during @c i_seconds seconds.
+          /// Simulate the system during @c i_seconds seconds.
           virtual void simulate(const float& i_seconds) ;
 
         protected:

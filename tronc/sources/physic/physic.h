@@ -1,6 +1,7 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Equipe Projet Univers                           *
- *   rogma.boami@free.fr                                                   *
+ *   This file is part of ProjetUnivers                                    *
+ *   see http://www.punivers.net                                           *
+ *   Copyright (C) 2007 Mathieu ROGER                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -37,7 +38,7 @@ namespace ProjetUnivers {
   */
   namespace Physic {
 
-    /// Initialised module.
+    /// Initialise module.
     void init() ; 
     
     /// Terminate module.
@@ -47,6 +48,9 @@ namespace ProjetUnivers {
     Kernel::ControlerSet* build(Kernel::Object* i_observer) ; 
     
     /// simulate physics.
+    /*!
+      @deprecated
+    */
     void update() ;
 
     /// simulate physics on a certain duration.

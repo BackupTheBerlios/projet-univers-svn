@@ -1,6 +1,7 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Equipe Projet Univers                           *
- *   rogma.boami@free.fr                                                   *
+ *   This file is part of ProjetUnivers                                    *
+ *   see http://www.punivers.net                                           *
+ *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,14 +18,13 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-
 #include <kernel/composition.h>
 #include <kernel/vue.h>
 #include <kernel/model.h>
 
 
 /*!
-  Vérifie qu'il existe uen erreur de compilation dans ce programme.
+  Check that exists a compile error in that program.
 */
 
      
@@ -60,6 +60,6 @@ int toto()
   ProjetUnivers::Kernel::Composition<A> a(new A()) ;
   
   
-  // doit provoquer une erreur de compilation car A ne dérive pas de Model.
+  // Must trigger a compile error.
   ViewA vueA(a) ;  
 }

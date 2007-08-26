@@ -43,7 +43,9 @@ $(SOURCES)/kernel/test/test_model_controler.cpp \
 $(SOURCES)/kernel/test/test_model_view.cpp \
 $(SOURCES)/kernel/test/test_deduced_trait.cpp \
 $(SOURCES)/kernel/test/test_command.cpp \
-$(SOURCES)/kernel/test/test_parameters.cpp 
+$(SOURCES)/kernel/test/test_parameters.cpp \
+$(SOURCES)/kernel/test/test_model.cpp 
+
 
 
 # checks that "test_inherits.cpp" does not compile

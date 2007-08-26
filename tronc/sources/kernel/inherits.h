@@ -1,6 +1,7 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Equipe Projet Univers                           *
- *   rogma.boami@free.fr                                                   *
+ *   This file is part of ProjetUnivers                                    *
+ *   see http://www.punivers.net                                           *
+ *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -24,22 +25,16 @@
 namespace ProjetUnivers {
   namespace Kernel {
 
-    /// Vérifie statiquement si Enfant dérive de Parent
+    /// Statically checks that @c Child inherits from @c Parent
     /*!
-      Code proposé par Stroustrup pour vérifier statiquement si un type dérive 
-      d'un autre.
+      Stroustrup's code.
       
-      Utilisation
-      
-        Mettre :
+      Usage :
+        Put 
         @code 
           Inherits<A,B>() ; 
         @endcode
-        aux endroits où on désire vérifier que A dérive de B.
-        
-        @see
-          View
-
+        where we whant to ensure that A inherits from B.
     */
     template<class Child, class Parent> struct Inherits 
     {

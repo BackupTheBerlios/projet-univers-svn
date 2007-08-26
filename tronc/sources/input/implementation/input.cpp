@@ -1,6 +1,7 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Equipe Projet Univers                           *
- *   rogma.boami@free.fr                                                   *
+ *   This file is part of ProjetUnivers                                    *
+ *   see http://www.punivers.net                                           *
+ *   Copyright (C) 2007 Mathieu ROGER                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,7 +18,6 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-
 #include <sstream>
 #include <OIS/OISMouse.h>
 #include <OIS/OISKeyboard.h>
@@ -79,10 +79,9 @@ namespace ProjetUnivers {
           
       };
     
-      /// Les élément de OIS
+      /// OIS element
       std::auto_ptr<OISSystem> ois ;
      
-      /// Notre écouteur de clavier
       std::auto_ptr<Implementation::Keyboard> keyboard_listener ;
       std::auto_ptr<Implementation::Mouse> mouse_listener ;
       std::auto_ptr<Implementation::Joystick> joystick_listener ;
@@ -105,7 +104,7 @@ namespace ProjetUnivers {
 
       window_hanlde = Display::getWindowHandle() ;
 
-      InternalMessage("Input::init window_handle=" + toString(window_hanlde)) ;
+      InternalMessage("Input::init window_handle=" + Kernel::toString(window_hanlde)) ;
       window_hanlde_name << (unsigned int) window_hanlde;
       parameters.insert(std::make_pair(
                           std::string("WINDOW"), 

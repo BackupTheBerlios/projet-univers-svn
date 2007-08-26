@@ -1,6 +1,7 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Equipe Projet Univers                           *
- *   rogma.boami@free.fr                                                   *
+ *   This file is part of ProjetUnivers                                    *
+ *   see http://www.punivers.net                                           *
+ *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,12 +18,11 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-
 #ifndef PU_MODEL_MODEL_H_
 #define PU_MODEL_MODEL_H_
 
 #include <string>
-
+#include <model/duration.h>
 
 namespace ProjetUnivers {
   
@@ -62,7 +62,10 @@ namespace ProjetUnivers {
 
     /// Load and init external ressources.
     void initRessources() ;
-        
+    
+    /// Update the model.
+    void update(const Duration&) ;        
+
   //@}
   /*!
     @name Modification Interface
@@ -109,16 +112,17 @@ namespace ProjetUnivers {
     @name Semantic relationships 
   
     Parentship has several meanings according to object structure. For 
-    example isInside relationship is used for 3 object relative placement. 
-    isPartOf is used for physics and collision.  
+    example isInside relationship is used for object relative placement. 
+    isPartOf can be used for physics and collision.  
     
     Definition of these relationship is mainly for internal documentation  
     purpose; as a kind of model describing.
 
     @todo 
-      Define 
+      Add :
       - isOn : a person is on a planet, a worm is inside a planet
       - isMember : a person is a member of a party
+      Implement these methods.
   */
   // @{
 
@@ -155,24 +159,11 @@ namespace ProjetUnivers {
         it still remains a whole when subdividing it into compenents. It is 
         a very good idea that view points relies on being a whole, because it 
         is more likely to be a property that resists model evolutions.   
-    
+      
     */
     bool isAWhole(Kernel::Object* i_object) ;
 
   //@}
-  /*!
-    @name Interface for other modules
-    
-    Ce n'est pas au point. Pour l'instant c'est ce qu'utilise display .
-    
-    --> le sortir en model_display.h
-  */
-  // @{
-
-    /// Access to real world model. 
-    Kernel::Model* getRealWorlModel() ;
-  
-  // @}
   
   }
   

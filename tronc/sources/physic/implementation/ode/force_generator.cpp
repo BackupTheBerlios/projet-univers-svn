@@ -1,6 +1,7 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Equipe Projet Univers                           *
- *   rogma.boami@free.fr                                                   *
+ *   This file is part of ProjetUnivers                                    *
+ *   see http://www.punivers.net                                           *
+ *   Copyright (C) 2007 Mathieu ROGER                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -20,6 +21,7 @@
 #include <ode/ode.h>
 
 #include <kernel/log.h>
+#include <kernel/string.h>
 #include <kernel/trait_view.h>
 
 #include <model/physical_world.h>
@@ -54,12 +56,13 @@ namespace ProjetUnivers {
           if (m_object)
           {
             Ogre::Vector3 force = getModel()->getAppliedForce().Newton() ;
+
             InternalMessage("Physic::ForceGenerator::prepare " +
                             getObject()->getName() 
                             + " force = " +  
-                            toString(force.x) + "," + 
-                            toString(force.y) + "," +
-                            toString(force.z)
+                            Kernel::toString(force.x) + "," + 
+                            Kernel::toString(force.y) + "," +
+                            Kernel::toString(force.z)
                             + " applied on object " + m_object->getObject()->getName()) ;
              
             m_object->getBody()->addForce((dReal)(force.x),

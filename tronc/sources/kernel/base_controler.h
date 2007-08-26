@@ -1,6 +1,7 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Equipe Projet Univers                           *
- *   rogma.boami@free.fr                                                   *
+ *   This file is part of ProjetUnivers                                    *
+ *   see http://www.punivers.net                                           *
+ *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -35,7 +36,7 @@ namespace ProjetUnivers {
       /// Any controler does a simulation. 
       virtual void simulate(const float& i_seconds) ;
 
-      /// Some controlers does a preparation. 
+      /// Some controlers prepare simulation. 
       virtual void prepare() ;
       
       /// init the controler after construction.

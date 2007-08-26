@@ -1,6 +1,7 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Equipe Projet Univers                           *
- *   rogma.boami@free.fr                                                   *
+ *   This file is part of ProjetUnivers                                    *
+ *   see http://www.punivers.net                                           *
+ *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -20,15 +21,11 @@
 #ifndef PU_MODEL_TEST_LASER_H_
 #define PU_MODEL_TEST_LASER_H_
 
-
 #include <cppunit/extensions/HelperMacros.h>
-
 
 namespace ProjetUnivers {
   namespace Model {
     namespace Test {
-
-
             
       /// Test of Laser.
       /*!

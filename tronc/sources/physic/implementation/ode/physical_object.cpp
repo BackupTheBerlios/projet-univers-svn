@@ -1,6 +1,7 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Equipe Projet Univers                           *
- *   rogma.boami@free.fr                                                   *
+ *   This file is part of ProjetUnivers                                    *
+ *   see http://www.punivers.net                                           *
+ *   Copyright (C) 2007 Mathieu ROGER                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -129,17 +130,17 @@ namespace ProjetUnivers {
           Ogre::Vector3 speed = mobile->getSpeed().MeterPerSecond() ;
           
           InternalMessage("PhysicalObject::updateMobile initial speed=" 
-                                       + toString(speed[0]) + ","
-                                       + toString(speed[1]) + ","
-                                       + toString(speed[2])) ;
+                                       + Kernel::toString(speed[0]) + ","
+                                       + Kernel::toString(speed[1]) + ","
+                                       + Kernel::toString(speed[2])) ;
 
           m_body->setLinearVel(speed[0],speed[1],speed[2]) ;
 
           Ogre::Vector3 angularSpeed = mobile->getAngularSpeed().RadianPerSecond() ;
           InternalMessage("PhysicalObject::updateMobile angular speed="
-                          + toString(angularSpeed[0]) + "," 
-                          + toString(angularSpeed[1]) + "," 
-                          + toString(angularSpeed[2])); 
+                          + Kernel::toString(angularSpeed[0]) + "," 
+                          + Kernel::toString(angularSpeed[1]) + "," 
+                          + Kernel::toString(angularSpeed[2])); 
 
           m_body->setAngularVel(angularSpeed[0],angularSpeed[1],angularSpeed[2]) ;
         }
@@ -231,9 +232,9 @@ namespace ProjetUnivers {
 
             InformationMessage("Ode::PhysicalObject::updateModelPositionned "
                             + getObject()->getName() + " position="
-                            + toString(ode_position[0]) + "," 
-                            + toString(ode_position[1]) + "," 
-                            + toString(ode_position[2])) ; 
+                            + Kernel::toString(ode_position[0]) + "," 
+                            + Kernel::toString(ode_position[1]) + "," 
+                            + Kernel::toString(ode_position[2])) ; 
                                 
             positionned->setPosition(Model::Position::Meter(
                                        ode_position[0],
@@ -249,10 +250,10 @@ namespace ProjetUnivers {
     
               InternalMessage("Ode::PhysicalObject::updateModelPositionned "
                               + getObject()->getName() + " orientation="
-                              + toString(ode_orientation[0]) + "," 
-                              + toString(ode_orientation[1]) + "," 
-                              + toString(ode_orientation[2]) + "," 
-                              + toString(ode_orientation[3])) ; 
+                              + Kernel::toString(ode_orientation[0]) + "," 
+                              + Kernel::toString(ode_orientation[1]) + "," 
+                              + Kernel::toString(ode_orientation[2]) + "," 
+                              + Kernel::toString(ode_orientation[3])) ; 
               
               oriented->setOrientation(Model::Orientation(
                                             Ogre::Quaternion(
@@ -281,9 +282,9 @@ namespace ProjetUnivers {
             const dReal* speed = m_body->getLinearVel() ;
 
             InformationMessage("Ode::PhysicalObject::updateModelMobile new linear speed=" 
-                            + toString(speed[0]) + "," 
-                            + toString(speed[1]) + "," 
-                            + toString(speed[2])) ; 
+                            + Kernel::toString(speed[0]) + "," 
+                            + Kernel::toString(speed[1]) + "," 
+                            + Kernel::toString(speed[2])) ; 
 
             mobile->setSpeed(Model::Speed::MeterPerSecond(
                                   speed[0],speed[1],speed[2])) ;

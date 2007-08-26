@@ -1,6 +1,7 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Equipe Projet Univers                           *
- *   rogma.boami@free.fr                                                   *
+ *   This file is part of ProjetUnivers                                    *
+ *   see http://www.punivers.net                                           *
+ *   Copyright (C) 2007 Mathieu ROGER                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -80,6 +81,7 @@ namespace ProjetUnivers {
 
                 dGeomSetBody(m_geometry_id,body->getBody()->id()) ;
                 
+                // user data of the geom is the solid controler.
                 dGeomSetData(m_geometry_id,this) ;
 
                 InternalMessage("Physic::Implementation::Ode::Solid::onInit trace#1") ;

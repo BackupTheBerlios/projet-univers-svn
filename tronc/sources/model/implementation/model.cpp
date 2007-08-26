@@ -1,6 +1,7 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Equipe Projet Univers                           *
- *   rogma.boami@free.fr                                                   *
+ *   This file is part of ProjetUnivers                                    *
+ *   see http://www.punivers.net                                           *
+ *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -49,6 +50,7 @@
 #include <model/stick.h>
 #include <model/throttle.h>
 #include <model/dragger.h>
+#include <model/implementation/logic.h>
 
 #include <model/model.h>
 
@@ -136,6 +138,9 @@ namespace ProjetUnivers {
     void init()
     {
       model.reset(new Kernel::Model("real world")) ;
+      
+      Implementation::Logic::build(model.get()) ;
+      Implementation::Logic::init() ;
     }
 
     /*!
@@ -146,6 +151,7 @@ namespace ProjetUnivers {
     {
       InternalMessage("Deleting objects") ;
       model.reset() ;      
+      Implementation::Logic::close() ;
       InternalMessage("Module Model terminated") ;
       
     }
@@ -300,10 +306,6 @@ namespace ProjetUnivers {
             
     }
     
-    Kernel::Model* getRealWorlModel()
-    {
-      return model.get() ;
-    }
 
     void initRessources()
     {
@@ -345,6 +347,10 @@ namespace ProjetUnivers {
 
     }
 
+    void update(const Duration& duration)
+    {
+      Implementation::Logic::update(duration) ;
+    }
   }
 }
 

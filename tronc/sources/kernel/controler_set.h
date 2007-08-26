@@ -1,6 +1,7 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Equipe Projet Univers                           *
- *   rogma.boami@free.fr                                                   *
+ *   This file is part of ProjetUnivers                                    *
+ *   see http://www.punivers.net                                           *
+ *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -40,8 +41,11 @@ namespace ProjetUnivers {
       /// Close the controler set.
       void close() ;
 
-      /// Simulate all controlers.
-      void simulate(const float& i_seconds) ;
+      /// Simulate all controlers top down.
+      /*!
+        Can be overridden for specific purpose. 
+      */
+      virtual void simulate(const float& i_seconds) ;
       
       /// True iff the controler set has been initialised
       bool isInitialised() const ; 
@@ -53,7 +57,7 @@ namespace ProjetUnivers {
       
       /// Should @c i_object should have controlers for that controler set.
       /*!
-        Must be redefined for specialised viewpoints. Default implementation 
+        Should be redefined for specialised viewpoints. Default implementation 
         returns true.
         
         @constraint

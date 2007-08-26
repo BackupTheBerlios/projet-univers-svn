@@ -1,6 +1,7 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Equipe Projet Univers                           *
- *   rogma.boami@free.fr                                                   *
+ *   This file is part of ProjetUnivers                                    *
+ *   see http://www.punivers.net                                           *
+ *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -120,6 +121,9 @@ namespace ProjetUnivers {
           or @c i_object is not ancestor of this.
       */
       template <class T> T* getParentUpTo(Object* i_object) const ;
+
+      /// Get all the descendant (excluding @c this) with trait T.
+      template <class T> std::set<T*> getDescendants() const ;
 
       /// call a void command returns true iff succedeed.
       /*!

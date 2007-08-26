@@ -1,6 +1,7 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Equipe Projet Univers                           *
- *   rogma.boami@free.fr                                                   *
+ *   This file is part of ProjetUnivers                                    *
+ *   see http://www.punivers.net                                           *
+ *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -56,6 +57,10 @@ namespace ProjetUnivers {
     void Controler<_Trait,_ControlerSet>::onUpdate()
     {
     }
-      
+    template<class _Trait,class _ControlerSet>
+    _ControlerSet* Controler<_Trait,_ControlerSet>::getControlerSet() const
+    {
+      return static_cast<_ControlerSet*>(m_controler_set) ;
+    }  
   }
 }

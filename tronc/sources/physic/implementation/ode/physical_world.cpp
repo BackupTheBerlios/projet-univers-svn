@@ -1,6 +1,7 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Equipe Projet Univers                           *
- *   rogma.boami@free.fr                                                   *
+ *   This file is part of ProjetUnivers                                    *
+ *   see http://www.punivers.net                                           *
+ *   Copyright (C) 2007 Mathieu ROGER                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -148,7 +149,7 @@ namespace ProjetUnivers {
 //
 //          std::cout << i_geometry2 << std::endl ;
           
-          // i_world is a world.
+          // i_world is in fact a world.
           PhysicalWorld* world = static_cast<PhysicalWorld*>(i_world) ;
           
           if (!world)
@@ -189,7 +190,7 @@ namespace ProjetUnivers {
                                               contact_points,
                                               sizeof(dContactGeom)) ;
 
-            InformationMessage("number of contact points = " + toString(number_of_contacts)) ;
+            InformationMessage("number of contact points = " + Kernel::toString(number_of_contacts)) ;
 
             Ogre::Vector3 result(0,0,0) ;
             
@@ -222,19 +223,19 @@ namespace ProjetUnivers {
               contact.fdir1[3] = 0 ;
   
               InformationMessage("contact point : depth=" 
-                                 + toString(contact_points[contact_index].depth)
+                                 + Kernel::toString(contact_points[contact_index].depth)
                                  + " normal(x=" 
-                                 + toString(contact_points[contact_index].normal[0]) 
+                                 + Kernel::toString(contact_points[contact_index].normal[0]) 
                                  + ",y=" 
-                                 + toString(contact_points[contact_index].normal[1]) 
+                                 + Kernel::toString(contact_points[contact_index].normal[1]) 
                                  + ",z=" 
-                                 + toString(contact_points[contact_index].normal[2]) 
+                                 + Kernel::toString(contact_points[contact_index].normal[2]) 
                                  + ") point(x=" 
-                                 + toString(contact_points[contact_index].pos[0]) 
+                                 + Kernel::toString(contact_points[contact_index].pos[0]) 
                                  + ",y=" 
-                                 + toString(contact_points[contact_index].pos[1]) 
+                                 + Kernel::toString(contact_points[contact_index].pos[1]) 
                                  + ",z=" 
-                                 + toString(contact_points[contact_index].pos[2]) 
+                                 + Kernel::toString(contact_points[contact_index].pos[2]) 
                                  + ")" 
                                  ) ;
 
@@ -254,9 +255,9 @@ namespace ProjetUnivers {
               float dot2 = v2.dotProduct(temp) ;
 
               InformationMessage("dot products dot1=" 
-                                 + toString(dot1)
+                                 + Kernel::toString(dot1)
                                  + " dot2=" 
-                                 + toString(dot2)
+                                 + Kernel::toString(dot2)
                                  ) ;
               result += contact_points[contact_index].depth*temp ;
               
@@ -284,13 +285,13 @@ namespace ProjetUnivers {
             }
             
             InformationMessage("average contact point : depth=" 
-                               + toString(result.length())
+                               + Kernel::toString(result.length())
                                + " normal(x=" 
-                               + toString(result.x) 
+                               + Kernel::toString(result.x) 
                                + ",y=" 
-                               + toString(result.y) 
+                               + Kernel::toString(result.y) 
                                + ",z=" 
-                               + toString(result.z) 
+                               + Kernel::toString(result.z) 
                                + ")" 
                                ) ;
           
@@ -300,7 +301,7 @@ namespace ProjetUnivers {
         void PhysicalWorld::simulate(const float& i_seconds)
         {
           InternalMessage("Physic::PhysicalWorld::simulate " + getObject()->getName() + " Entering") ;
-//          InformationMessage("PhysicalWorld::simulate " + toString((float)i_seconds)) ;
+//          InformationMessage("PhysicalWorld::simulate " + Kernel::toString((float)i_seconds)) ;
           
           check(m_collision_space,"no collision space") ;
           /// simulate

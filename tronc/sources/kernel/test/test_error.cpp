@@ -1,6 +1,7 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Equipe Projet Univers                           *
- *   rogma.boami@free.fr                                                   *
+ *   This file is part of ProjetUnivers                                    *
+ *   see http://www.punivers.net                                           *
+ *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,12 +18,11 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-
 #include <kernel/exception_kernel.h>
 
 #include <kernel/test/test_error.h>
 
-// enregistrement du test
+// test registration
 CPPUNIT_TEST_SUITE_REGISTRATION(
   ProjetUnivers::Kernel::Test::TestError) ;
 
@@ -35,9 +35,8 @@ namespace ProjetUnivers {
         class Object
         {};
       }
-
-  
-      /// Teste certaines expressions.
+ 
+      /// Test check macro.
       void TestError::TestExpression()
       {
         try 
@@ -55,21 +54,13 @@ namespace ProjetUnivers {
         }
       }
 
-
-
-
-      /// Initialisation du test
       void TestError::setUp()
       {        
       }
 
-      /// Desinitialisation du test
       void TestError::tearDown()
       {
       }
-
-
-
 
     }
   }
