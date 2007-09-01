@@ -31,6 +31,7 @@ libmodel_la_SOURCES = \
 ../implementation/position.cpp \
 ../implementation/positionned.cpp \
 ../implementation/solid.cpp \
+../implementation/sound_background.cpp \
 ../implementation/speed.cpp \
 ../implementation/guidance_system.cpp \
 ../implementation/guidance_control.cpp \
