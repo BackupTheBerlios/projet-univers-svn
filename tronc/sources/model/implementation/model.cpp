@@ -50,7 +50,7 @@
 #include <model/stick.h>
 #include <model/throttle.h>
 #include <model/dragger.h>
-#include <model/implementation/logic.h>
+#include <model/implementation/logic/logic.h>
 
 #include <model/model.h>
 
@@ -131,10 +131,6 @@ namespace ProjetUnivers {
       model->destroyTrait(i_object,i_trait) ;
     }
     
-    /*!
-      @par Etat 
-        minimal
-    */
     void init()
     {
       model.reset(new Kernel::Model("real world")) ;
@@ -143,10 +139,6 @@ namespace ProjetUnivers {
       Implementation::Logic::init() ;
     }
 
-    /*!
-      @par Etat 
-        minimal
-    */
     void close()
     {
       InternalMessage("Deleting objects") ;
@@ -156,9 +148,8 @@ namespace ProjetUnivers {
       
     }
 
-
     /*!
-      @par Etat 
+      @par Status 
         hard coded
     */
     void load(const std::string& _name)
@@ -274,7 +265,7 @@ namespace ProjetUnivers {
                             engine->getTrait<Engine>())) ;
           
           Kernel::Object* laser = model->createObject("laser",ship) ;
-          model->addTrait(laser,new Laser(Position::Meter(19.2,0,30),
+          model->addTrait(laser,new Laser(Position::Meter(19.2,0,57),
                                          Orientation())) ;
           
           InternalMessage("building ship done") ;
@@ -305,7 +296,6 @@ namespace ProjetUnivers {
       }
             
     }
-    
 
     void initRessources()
     {

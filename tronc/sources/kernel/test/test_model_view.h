@@ -97,6 +97,9 @@ namespace ProjetUnivers {
         /// Test views on trait class with inheritance.
         void testTraitInheritance() ;
 
+        /// Test views on trait class with virtual inheritance.
+        void testTraitVitrualInheritance() ;
+
       // @}
 
 
@@ -119,6 +122,7 @@ namespace ProjetUnivers {
         CPPUNIT_TEST(testMultiViewPoint) ;
         CPPUNIT_TEST(testMultiViewPointOfTheSameKind) ;
         CPPUNIT_TEST(testTraitInheritance) ;
+        CPPUNIT_TEST(testTraitVitrualInheritance) ;
 
         CPPUNIT_TEST_SUITE_END() ;
 

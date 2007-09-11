@@ -52,6 +52,14 @@ AC_SUBST(librlog_LIBS)
 AC_CHECK_HEADERS([ode/ode.h])
 AC_SUBST(ODE_LIBS, "-lode")
 
+# check OpenAL
+PKG_CHECK_MODULES(openal, [openal >= 0.0.8])
+AC_SUBST(openal_LIBS)
+
+# check alut
+PKG_CHECK_MODULES(freealut, [freealut >= 1.0])
+AC_SUBST(freealut_LIBS)
+
 # Global c++ variable :
 PU_CXXFLAGS="$OGRE_CFLAGS $OIS_CFLAGS $librlog_CFLAGS"
 AC_SUBST(PU_CXXFLAGS)
@@ -89,6 +97,9 @@ AC_CONFIG_FILES([Makefile \
                  sources/physic/Makefile \
                  sources/physic/compilation/Makefile \
                  sources/physic/compilation/ode/Makefile \
+                 sources/sound/Makefile \
+                 sources/sound/compilation/Makefile \
+                 sources/sound/compilation/openal/Makefile \
                  ])
 
 AC_OUTPUT

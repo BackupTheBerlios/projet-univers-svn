@@ -22,6 +22,7 @@
 #define PU_MODEL_LASER_BEAM_H_
 
 #include <kernel/trait.h>
+#include <model/energy.h>
 
 namespace ProjetUnivers {
   namespace Model {
@@ -33,6 +34,12 @@ namespace ProjetUnivers {
       
       /// Constructor.
       LaserBeam() ;
+      
+      /// Get the beam energy.
+      /*!
+        E = 1/2.mass.speed²
+      */
+      Energy getEnergy() const ;
       
     };
 

@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007 Morgan GRIGNARD                            *
+ *   Copyright (C) 2007 Morgan GRIGNARD                                    *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -21,11 +21,11 @@
 #ifndef PU_SOUND_IMPLEMENTATION_OPENAL_OPENAL_H_
 #define PU_SOUND_IMPLEMENTATION_OPENAL_OPENAL_H_
 
-#include <openal/al.h>
-#include <openal/alc.h>
+#include <AL/al.h>
+#include <AL/alc.h>
 
 namespace ProjetUnivers {
-  namespace Physic {
+  namespace Sound {
     namespace Implementation {
       
       /// Sound implementation throught OpenAL.
@@ -41,7 +41,9 @@ namespace ProjetUnivers {
         
         /// Update OpenAL
         void update() ;
-
+        
+        /// Humanly readable OpenAL error code. 
+        std::string getErrorString(const ALenum&) ;
       }
     }
   }

@@ -33,10 +33,6 @@ namespace ProjetUnivers {
       
     /// Trait for objects that can be damaged.
     /*!
-    @todo
-      implement tache 2378.
-    @par Etat
-      planning
     */
     class Destroyable : public Kernel::Trait
     {
@@ -64,18 +60,14 @@ namespace ProjetUnivers {
    
       /// Abstact class means virtual destructor.
       virtual ~Destroyable() ;
-    
    
     protected:
-
-
       
       /// Energy to completelly destroy the element == total life points.
       Energy m_max_hit_points ;
       
       /// Remaining energy.
       Energy m_remaining_hit_points ;
-
 
     };
 

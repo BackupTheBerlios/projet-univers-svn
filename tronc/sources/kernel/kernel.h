@@ -37,8 +37,9 @@ namespace ProjetUnivers {
     The system has some deduction capabilmities some Kernel::Trait may be 
     deduced from other, and their adding removal is completelly automatic.
     
-    For now (0.2.2) only logic formulas (And, Or, Not) over the traits of the same 
-    object are allowed. 
+    For now (0.2.2) only logic formulas (And, Or, Not) over the traits of the 
+    same object are allowed. Furthermore, each contruct may only have 10 
+    children.   
     
     Examples :
     - <code>DeclareDeducedTrait(Whole,Not(HasTrait(Component))) ;</code>
@@ -58,10 +59,10 @@ namespace ProjetUnivers {
     
   @par The view part
     
-    A Kernel::ViewPoint represents a set of coherent Kernel::TraiView on a 
-    Kernel::Model. 
-        
-    Kernel::TraiView are automatically attached to Kernel::Trait by using  
+    A Kernel::ViewPoint represents a set of coherent Kernel::TraitView on a 
+    Kernel::Model object. 
+    
+    Kernel::TraitView are automatically attached to Kernel::Trait by using  
     DeclareView declaration :
     
     Declaration : <code>RegisterView(ViewClass,TraitClass,ViewPointClass) ;
@@ -74,8 +75,9 @@ namespace ProjetUnivers {
   @par The Controler part
     
     Same as view part except :
-    - Kernel::ControlerSet may be bottom-up or top-down browse to call 
-      operations on the Kernel::Controler
+    - Kernel::ControlerSet have a @c simulate method that perform a bottom-up 
+      or top-down call to @c simulate method for Kernel::Controler of the 
+      ControlerSet.
     
   */ 
   namespace Kernel {

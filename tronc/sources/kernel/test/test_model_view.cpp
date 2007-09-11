@@ -403,7 +403,53 @@ namespace ProjetUnivers {
         }; 
         
         RegisterView(V2,T2,TestViewPoint) ;
+
         
+        class Tv1 : virtual public Trait
+        {};
+        
+        class Tv2 : virtual public Trait
+        {};
+        
+        class TvFinal : public Tv1, public Tv2
+        {};
+        
+        class Vv1 : public TraitView<Tv1,TestViewPoint>
+        {
+        public:
+        
+          Vv1(Tv1* i_object,TestViewPoint* i_viewpoint)
+          : TraitView<Tv1,TestViewPoint>(i_object,i_viewpoint)
+          {}
+          
+        }; 
+        
+        RegisterView(Vv1,Tv1,TestViewPoint) ;
+
+        class Vv2 : public TraitView<Tv2,TestViewPoint>
+        {
+        public:
+        
+          Vv2(Tv2* i_object,TestViewPoint* i_viewpoint)
+          : TraitView<Tv2,TestViewPoint>(i_object,i_viewpoint)
+          {}
+          
+        }; 
+        
+        RegisterView(Vv2,Tv2,TestViewPoint) ;
+
+        class VvFinal : public TraitView<TvFinal,TestViewPoint>
+        {
+        public:
+        
+          VvFinal(TvFinal* i_object,TestViewPoint* i_viewpoint)
+          : TraitView<TvFinal,TestViewPoint>(i_object,i_viewpoint)
+          {}
+          
+        }; 
+        
+        RegisterView(VvFinal,TvFinal,TestViewPoint) ;
+
       }
 
       void TestModelView::testBuildOnEmptyModel()
@@ -933,7 +979,36 @@ namespace ProjetUnivers {
         
       }
       
-      
+      void TestModelView::testTraitVitrualInheritance()
+      {
+        InternalMessage("Kernel::Test::testTraitVitrualInheritance entering") ;
+        /// create a model
+        std::auto_ptr<Model> model(new Model()) ;
+
+        //// fill the model
+        Object* o1 = model->createObject("o1") ;
+        model->addTrait(o1,new TvFinal()) ;
+
+        /// create a view
+        std::auto_ptr<TestViewPoint> viewpoint(new TestViewPoint(model.get())) ;
+        
+        /// init the viewpoint
+        viewpoint->init() ;
+        InternalMessage("Kernel::Test::testTraitVitrualInheritance viewpoint initialised") ;
+        Vv1* v1 = o1->getView<Vv1>(viewpoint.get()) ;
+        InternalMessage("Kernel::Test::testTraitVitrualInheritance looked up view") ;
+        CPPUNIT_ASSERT(v1) ;
+        Vv2* v2 = o1->getView<Vv2>(viewpoint.get()) ;
+        InternalMessage("Kernel::Test::testTraitVitrualInheritance looked up view") ;
+        CPPUNIT_ASSERT(v2) ;
+        VvFinal* vFinal = o1->getView<VvFinal>(viewpoint.get()) ;
+        InternalMessage("Kernel::Test::testTraitVitrualInheritance looked up view") ;
+        CPPUNIT_ASSERT(vFinal) ;
+
+        InternalMessage("Kernel::Test::testTraitVitrualInheritance leaving") ;
+        
+      }
+            
       void TestModelView::setUp()
       {
       }

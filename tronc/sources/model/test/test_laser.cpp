@@ -30,6 +30,7 @@
 #include <model/oriented.h>
 #include <model/mobile.h>
 #include <model/massive.h>
+#include <model/shot.h>
 
 #include <model/test/test_laser.h>
 
@@ -70,29 +71,8 @@ namespace ProjetUnivers {
         ship->call("fire") ;
 
         InternalMessage("fire") ;
-        std::set<Kernel::Object*> objects(system->getChildren()) ;
-        // check that system has a new laser beam child
-        CPPUNIT_ASSERT(objects.size()==2) ;
-
-        int found = 0 ;
-
-        InternalMessage("Testing that a laser beam exists") ;
-
-        for(std::set<Kernel::Object*>::const_iterator object = objects.begin() ;
-            object != objects.end() ;
-            ++object)
-        {
-          if ((*object)->getTrait<LaserBeam>())
-          {
-            ++found ;
-            // a laser beam must be a physical object
-            CPPUNIT_ASSERT((*object)->getTrait<PhysicalObject>()) ;
-
-          }
-        }
-
-        CPPUNIT_ASSERT(found==1) ;
-        InternalMessage("Tested that a laser beam exists") ;
+        CPPUNIT_ASSERT(system->getDescendants<LaserBeam>().size()==1) ;
+        CPPUNIT_ASSERT(system->getDescendants<Shot>().size()==1) ;
 
         Model::close() ;
       }

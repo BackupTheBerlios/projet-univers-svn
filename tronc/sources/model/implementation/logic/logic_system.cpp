@@ -18,51 +18,49 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <boost/function.hpp>
+
 #include <kernel/log.h>
+#include <kernel/base_controler.h>
+
 #include <model/model.h>
-#include <model/implementation/logic_laser_beam.h>
+#include <model/implementation/logic/logic_system.h>
 
 namespace ProjetUnivers {
   namespace Model {
     namespace Implementation {
-      
-      const float laser_duration = 2 ;
-        
-      RegisterControler(LogicLaserBeam, 
-                        Model::LaserBeam, 
-                        LogicSystem) ;
-      
-      LogicLaserBeam::LogicLaserBeam(Model::LaserBeam* i_object,
-                                     LogicSystem*      i_system)
-      : Kernel::Controler<Model::LaserBeam,
-                          LogicSystem>(i_object,i_system),
-        m_seconds_remaining(laser_duration)
-      {
-        InternalMessage("LogicLaserBeam controler built") ;
-      }
-      
-      void LogicLaserBeam::simulate(const float& i_seconds)
-      {
-        // remove some mass percentage to massive trait
-        // if reaches zero or negative : destroy the object (maybe in destructible controler instead?)
-        InternalMessage("LogicLaserBeam::simulate entering") ;
-        
-        m_seconds_remaining -= i_seconds ;
-
-        InternalMessage("LogicLaserBeam::simulate remaining : " + Kernel::toString(m_seconds_remaining)) ;
-        
-        if (m_seconds_remaining < 0)
+      namespace Logic {
+        LogicSystem::LogicSystem(Kernel::Model* model)
+        : Kernel::ControlerSet(model)
+        {}
+  
+        void LogicSystem::simulate(const float& i_seconds)
         {
-          InternalMessage("LogicLaserBeam::simulate destroying object") ;
-
-          // mark the object for destruction
-          getControlerSet()->addObjectToDestroy(getModel()->getObject()) ;
+          InternalMessage("Model::LogicSystem::simulate entering") ;
+          boost::function2<void,
+                           Kernel::BaseControler*,
+                           float> f 
+                              = &Kernel::BaseControler::simulate ;
+          
+          applyBottomUp(std::bind2nd(f,i_seconds)) ;
+          
+          for(std::set<Kernel::Object*>::iterator object = m_objects_to_destroy.begin() ;
+              object != m_objects_to_destroy.end() ;
+              ++object)
+          {
+            Model::destroyObject(*object) ;
+          }
+          
+          m_objects_to_destroy.clear() ;
+          InternalMessage("Model::LogicSystem::simulate leaving") ;
         }
-
-        InternalMessage("LogicLaserBeam::simulate leaving") ;
         
+        void LogicSystem::addObjectToDestroy(Kernel::Object* object)
+        {
+          m_objects_to_destroy.insert(object) ;
+        }
       }
-      
     }
   }
 }
+

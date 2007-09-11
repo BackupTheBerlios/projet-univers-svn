@@ -11,10 +11,32 @@ LDADD=ode/libsoundcode.la
 libsound_la_SOURCES = \
 $(SOURCES)/sound/implementation/sound.cpp
 
-libphysic_la_LDFLAGS = -no-undefined
-libphysic_la_LDFLAGS += \
+libsound_la_LDFLAGS = -no-undefined
+libsound_la_LDFLAGS += \
 $(SOURCES)/kernel/compilation/libkernel.la \
 $(SOURCES)/model/compilation/libmodel.la \
 $(SOURCES)/sound/compilation/openal/libsoundcode.la \
-$(OPENAL_LIBS) \
+$(openal_LIBS) \
 $(librlog_LIBS)
+
+TESTS = test_sound
+
+check_PROGRAMS = $(TESTS)
+
+test_sound_SOURCES = \
+../test/test_sound.cpp \
+../test/test_background_sound.cpp 
+
+
+test_sound_CXXFLAGS = $(CPPUNIT_CFLAGS) $(PU_CXXFLAGS)
+test_sound_LDFLAGS = $(CPPUNIT_LIBS)
+test_sound_LDADD = \
+libsound.la \
+openal/libsoundcode.la \
+../../model/compilation/libmodel.la \
+../../kernel/compilation/libkernel.la \
+$(OIS_LIBS) \
+$(librlog_LIBS) \
+$(OGRE_LIBS) \
+$(openal_LIBS) \
+$(freealut_LIBS)

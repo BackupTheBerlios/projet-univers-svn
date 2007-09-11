@@ -25,7 +25,7 @@
 #include <kernel/view_point.h>
 
 namespace ProjetUnivers {
-  namespace Display {
+  namespace Sound {
     namespace Implementation {
       namespace OpenAL {
 
@@ -38,14 +38,16 @@ namespace ProjetUnivers {
         */
         // @{
           
-          //TODO initialisation du futur gestionnaire d'évènement et destruction
-          /// Constructeur.
+          /// Constructor.
           /*!
             @param[in] _observer 
               object that sees (e.g., a character, a camera,...)
+            @todo 
+              initialisation du futur gestionnaire d'évènement et destruction
           */
-          RealWorldViewPoint(Kernel::Object* _observer) ;
+          RealWorldViewPoint(Kernel::Object* observer) ;
           
+        // @}
         };
       }
     }

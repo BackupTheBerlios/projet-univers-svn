@@ -29,6 +29,12 @@ namespace ProjetUnivers {
       m_angular_speed()
     {}
 
+    Mobile::Mobile(const Speed& speed)
+    : Kernel::Trait(), 
+      m_speed(speed), 
+      m_angular_speed()
+    {}
+
     void Mobile::setSpeed(const Speed& i_new_speed)
     {
       m_speed = i_new_speed ;
@@ -45,14 +51,11 @@ namespace ProjetUnivers {
       return m_angular_speed ;
     }
 
-        
     void Mobile::setAngularSpeed(const AngularSpeed& i_new_angular_speed)
     {
       m_angular_speed = i_new_angular_speed ;
       notify() ;
     }
-
-
 
   }
 }

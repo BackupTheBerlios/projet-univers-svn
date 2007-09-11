@@ -20,10 +20,14 @@
  ***************************************************************************/
 #include <kernel/log.h>
 
+#include <model/positionned.h>
+#include <model/oriented.h>
+#include <model/mobile.h>
+
 #include <sound/implementation/openal/observer.h>
 
 namespace ProjetUnivers {
-  namespace Display {
+  namespace Sound {
     namespace Implementation {
       namespace OpenAL {
         
@@ -39,53 +43,52 @@ namespace ProjetUnivers {
           InternalMessage("Building OpenAL::Observer") ;
         }
         
-        float Observer::getGain()
+        float Observer::getGain() const
         {
-        	return 1.0f;
+          return 1.0f;
         }
-                   	        
-        Position Observer::getPosition()
-        {	
-        	Model::Positionned* positionned = this->getObject()->getTrait<Model::Positionned>();
-        	if(positionned)
-        	{
-        		//TODO warning la position n'est pas absolu
-        		return positionned.getPosition();
-        	}
-        	else
-        	{
-        		return Position();
-        	}
+                             
+        Model::Position Observer::getPosition() const
+        {  
+          Model::Positionned* positionned = this->getObject()->getTrait<Model::Positionned>();
+          if(positionned)
+          {
+            //TODO warning la position n'est pas absolu
+            return positionned->getPosition();
+          }
+          else
+          {
+            return Model::Position();
+          }
         }
-                   	            
-        Orientation Observer::getOrientation()
+                                 
+        Model::Orientation Observer::getOrientation() const
         {
-        	Model::Oriented* oriented = this->getObject()->getTrait<Model::Oriented>();
-        	if(oriented)
-        	{
-        	   //TODO warning l'orientation n'est pas absolu
-        	   return oriented.getOrientation();
-        	}
-        	else
-        	{
-        	   return Orientation();
-        	}
+          Model::Oriented* oriented = this->getObject()->getTrait<Model::Oriented>();
+          if(oriented)
+          {
+             //TODO warning l'orientation n'est pas absolu
+             return oriented->getOrientation();
+          }
+          else
+          {
+             return Model::Orientation();
+          }
         }
-                   	            
-        Speed Observer::getSpeed()
+                                 
+        Model::Speed Observer::getSpeed() const
         {
-        	Model::Mobile* mobile = this->getObject()->getTrait<Model::Mobile>();
-        	if(mobile)
-        	{
-        		//TODO warning la vitesse n'est pas absolu
-        		return mobile.getSpeed();
-        	}
-        	else
-        	{
-        		return Speed();
-        	}
+          Model::Mobile* mobile = this->getObject()->getTrait<Model::Mobile>();
+          if(mobile)
+          {
+            //TODO warning la vitesse n'est pas absolu
+            return mobile->getSpeed();
+          }
+          else
+          {
+            return Model::Speed();
+          }
         }
-        
         
         void Observer::onInit()
         {
@@ -107,7 +110,7 @@ namespace ProjetUnivers {
         
         void Observer::onUpdate()
         {
-        	this->updateListener();
+          this->updateListener();
         }
         
       }

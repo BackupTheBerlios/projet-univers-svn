@@ -26,8 +26,9 @@
       - action.cpp : ajout du traitement d'une nouvelle action détruisant 
         un objet
   * affichage :
-      - point_de_vue.h : ajout d'une spécialisation de Detruire(BaseVue)
-                                      correction de include/délcarations en avant
+      - point_de_vue.h : 
+         ajout d'une spécialisation de Detruire(BaseVue)
+         correction de include/déclarations en avant
       - objet.h/cpp : correction du type de retours de Ajouter(Facette*)
                                ajout de Enlever pour Objet et Facette
 
@@ -80,7 +81,8 @@
 
   Work on deduction :
   * kernel :
-    - added deduced_trait.h/cpp : handling of deduced trait, formulas And, Or, Not, HasTrait + tests
+    - added deduced_trait.h/cpp : handling of deduced trait, formulas And, Or, 
+      Not, HasTrait + tests
   * model : 
     - used deduction for physical object, whole and physical world
   * physic
@@ -216,10 +218,37 @@
     - removed unused onInit onClose on PhysicSystem
     - added a dCloseODE call
 
+2007-09-11 Rogma, Minos
+  
+  * model : 
+    - changed compilation, now have a implementation/logic sub directory 
+      and still one lib model
+    - added trait representing collision
+    - model/logic : added collision controler, laser beam collision against 
+      destroyable perform damage (test added)
+    - added logic/destroyable controler (test added)
+    - added Shot trait representing weapon firing (test added)
+  * physic/ode : 
+    - produced collision objects 
+    - refactor solid and laser beam inherit collideable (laser beam does not 
+      need to be solid anymore) (added laserbeam/solid colision test)
+    - prevent laserbeam/laserbeam collision (added negative laserbeam/laserbeam 
+      collision test)
+  * display :
+    - added laser beam view
+  * kernel : modified RegisterView and RegisterControl to allow vitrual 
+    inheritance between trait classes. (test added)
+  * sound  :
+    - small compiling corrections
+    - added basic test for background sound
+    
 todos :
 
   * physic : 
-    try to keep all units in an acceptable "range", it means that we whould be 
-    able to convert model units in an arbitrary "ranging system".
-  
+    - try to keep all units in an acceptable "range", it means that we whould 
+      be able to convert model units in an arbitrary "ranging system".
+    - migrate PhysicalObject and PhysicalWorld to physic (for better separation
+      of concerns)
+  * all :
+    - make use of Quantities ??
   

@@ -22,16 +22,16 @@
 #include <sound/implementation/openal/real_world_view_point.h>
 
 namespace ProjetUnivers {
-  namespace Display {
+  namespace Sound {
     namespace Implementation {
       namespace OpenAL {
 
-      	RealWorldViewPoint::RealWorldViewPoint(Kernel::Object* _observer)
-      	: Kernel::ViewPoint(i_observer ? i_observer->getModel() : NULL)
-      	{
-      	   InternalMessage("Entering OpenAL::RealWorldViewPoint::RealWorldViewPoint(const Kernel::Association<Model::Object>&)") ;
-      	   InternalMessage("Leaving OpenAL::RealWorldViewPoint::RealWorldViewPoint(const Kernel::Association<Model::Object>&)") ;
-      	}
+        RealWorldViewPoint::RealWorldViewPoint(Kernel::Object* observer)
+        : Kernel::ViewPoint(observer ? observer->getModel() : NULL)
+        {
+           InternalMessage("Entering OpenAL::RealWorldViewPoint::RealWorldViewPoint(const Kernel::Association<Model::Object>&)") ;
+           InternalMessage("Leaving OpenAL::RealWorldViewPoint::RealWorldViewPoint(const Kernel::Association<Model::Object>&)") ;
+        }
           
       }
     }

@@ -25,6 +25,7 @@
 
 #include <kernel/controler.h>
 #include <model/solid.h>
+#include <physic/implementation/ode/collideable.h>
 #include <physic/implementation/ode/physic_system.h>
 
 namespace ProjetUnivers {
@@ -35,11 +36,6 @@ namespace ProjetUnivers {
         class Solid ;
         class PhysicalObject ;
         
-        /// Callback function called when two solids collide.
-        /*!
-          
-        */
-        void onCollide(Solid* i_solid1,Solid* i_solid2) ;
         
         /// ODE solid view
         /*!
@@ -53,12 +49,16 @@ namespace ProjetUnivers {
             if we have a Solid that have no PhysiscalObject parent then ...
         */
         class Solid : public Kernel::Controler<Model::Solid,
-                                               PhysicSystem>
+                                               PhysicSystem>,
+                      public Collideable
         {
         public:
 
           /// constructor.
           Solid(Model::Solid*,PhysicSystem*) ;
+
+          /// Check whether @c this is collideable with another Collideable.
+          virtual bool isCollideableWith(const Collideable*) const ;
 
         protected:
         
@@ -74,26 +74,21 @@ namespace ProjetUnivers {
           /// Called when the model trait has changed.
           virtual void onUpdate() ;
         
+          /// Access to controler.
+          virtual const Kernel::BaseControler* getControler() const ;
+        
+          /// Internal creation of a trimesh geometry.
+          virtual void createGeometry(const dSpaceID& i_space) ;
+        
         private:
           
-          /// Internal creation of a trimesh geometry.
-          void createGeometry(const dSpaceID& i_space) ;
           
-          /// ODE Collision object
-          dGeomID          m_geometry_id ;
-
-          /// To place m_geometry relatively to parent body.
-          dGeomTransform* m_geometry_placeable ;
-        
           /// vertices storage : useless...
           dTriMeshDataID m_data ;
           dVector3*      m_vertices ;
           int*           m_indices ;
           
-          /// everybody needs friends.
-          friend void onCollide(Solid* i_solid1,Solid* i_solid2) ;
         };
-
       }
     }
   }

@@ -18,43 +18,36 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_IMPLEMENTATION_LOGIC_LOGIC_SYSTEM_H_
-#define PU_MODEL_IMPLEMENTATION_LOGIC_LOGIC_SYSTEM_H_
+#include <kernel/log.h>
+#include <model/model.h>
 
-#include <kernel/controler_set.h>
-#include <kernel/model.h>
+#include <model/implementation/logic/shot.h>
 
 namespace ProjetUnivers {
   namespace Model {
     namespace Implementation {
+      namespace Logic {      
         
+        RegisterControler(Logic::Shot, 
+                          Model::Shot, 
+                          LogicSystem) ;
         
-      /// Set of controlers for internal behaviour of Model.
-      /*!
-        Uses default top down simulation.
-      */
-      class LogicSystem : public Kernel::ControlerSet
-      {
-      public:
-      
-        /// Contructs.
-        LogicSystem(Kernel::Model*) ;
+        Shot::Shot(Model::Shot* i_object,
+                   LogicSystem* i_system)
+        : Kernel::Controler<Model::Shot,
+                            LogicSystem>(i_object,i_system)
+        {
+          InternalMessage("Shot controler built") ;
+        }
         
-        /// simulate bottom up.
-        void simulate(const float& i_seconds) ;
-        
-        /// Add an object to be destroyed.
-        void addObjectToDestroy(Kernel::Object*) ;
-        
-      private:
-        
-        /// Objects to destroy.
-        std::set<Kernel::Object*> m_objects_to_destroy ;
-      };
-
+        void Shot::simulate(const float& i_seconds)
+        {
+          InternalMessage("Shot::simulate entering") ;
+          // mark the shot object for destruction
+          getControlerSet()->addObjectToDestroy(getModel()->getObject()) ;
+          InternalMessage("Shot::simulate leaving") ;
+        }
+      }      
     }
   }
 }
-
-
-#endif

@@ -43,9 +43,20 @@ namespace ProjetUnivers {
       */
       // @{
 
-        /// A basic test        
+        /// A basic test.
         void basicTest() ;
 
+        /// Test the bug for laser beams touching their own ship.         
+        void testBugLaser() ;
+
+        /// Test LaserBeam/Solid collision.
+        void testLaserBeamSolidCollision() ;
+        
+        /// Test that LaserBeam/LaserBeam does not collide.
+        void testLaserBeamLaserBeamNoCollision() ;
+        
+        /// Fire a beam against a ship
+        void testFire() ;
 
       // @}
       /*!
@@ -56,6 +67,10 @@ namespace ProjetUnivers {
         CPPUNIT_TEST_SUITE(TestCollision) ;
       
 //        CPPUNIT_TEST(basicTest) ;
+        CPPUNIT_TEST(testBugLaser) ;
+//        CPPUNIT_TEST(testLaserBeamSolidCollision) ;
+//        CPPUNIT_TEST(testLaserBeamLaserBeamNoCollision) ;
+//        CPPUNIT_TEST(testFire) ;
      
         CPPUNIT_TEST_SUITE_END() ;
 

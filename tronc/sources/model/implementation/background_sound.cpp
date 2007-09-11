@@ -19,17 +19,16 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <model/sound_background.h>
+#include <model/background_sound.h>
 
 namespace ProjetUnivers {
   namespace Model {
 
-  	BackgroundSound::BackgroundSound(const Name& fileName)
+  	BackgroundSound::BackgroundSound(const std::string& fileName)
   	:fileName(fileName)
   	{}
-      
 
-    Name BackgroundSound::getFileName() const
+    std::string BackgroundSound::getFileName() const
     {
     	return this->fileName;
     }

@@ -8,7 +8,7 @@ libsoundcode_la_SOURCES = \
 $(SOURCES)/sound/implementation/openal/observer.cpp \
 $(SOURCES)/sound/implementation/openal/openal.cpp \
 $(SOURCES)/sound/implementation/openal/real_world_view_point.cpp \
-$(SOURCES)/sound/implementation/openal/sound_background.cpp \
+$(SOURCES)/sound/implementation/openal/background_sound.cpp \
 $(SOURCES)/sound/implementation/openal/sound_emitter.cpp \
 $(SOURCES)/sound/implementation/openal/sound_listener.cpp
 
@@ -17,6 +17,6 @@ libsoundcode_la_LDFLAGS = -no-undefined
 libsoundcode_la_LDFLAGS += \
 $(SOURCES)/kernel/compilation/libkernel.la \
 $(SOURCES)/model/compilation/libmodel.la \
-$(OPENAL_LIBS) \
-$(librlog_LIBS) \
+$(openal_LIBS) \
+$(librlog_LIBS)
 

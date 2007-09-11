@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007 Morgan GRIGNARD                                                *
+ *   Copyright (C) 2007 Morgan GRIGNARD                                    *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -21,6 +21,8 @@
 #ifndef PU_SOUND_H_
 #define PU_SOUND_H_
 
+#include <kernel/view_point.h>
+#include <kernel/object.h>
 
 namespace ProjetUnivers {
   
@@ -30,8 +32,8 @@ namespace ProjetUnivers {
     It's a sound view of the world  
   */ 
   namespace Sound {
-  	
-  	/// Intitialize.
+    
+    /// Intitialize.
     void init() ;
      
     /// Terminate.
@@ -39,9 +41,11 @@ namespace ProjetUnivers {
       
     /// Update sound
     void update() ;
+
+    /// Creates the standard representation for the world 
+    Kernel::ViewPoint* build(Kernel::Object* observer) ; 
   
   }
-  
 }
 
 

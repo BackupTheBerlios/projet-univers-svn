@@ -18,6 +18,11 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <kernel/object.h>
+
+#include <model/massive.h>
+#include <model/mobile.h>
+
 #include <model/laser_beam.h>
 
 namespace ProjetUnivers {
@@ -25,5 +30,23 @@ namespace ProjetUnivers {
       
     LaserBeam::LaserBeam()
     {}
+  
+    Energy LaserBeam::getEnergy() const
+    {
+      Massive* massive = getObject()->getTrait<Massive>() ;
+      Mobile* mobile = getObject()->getTrait<Mobile>() ;
+      if (massive && mobile)
+      {
+        float mass_kilogram = massive->getMass().Kilogram() ;
+        float speed_meter_per_second = mobile->getSpeed().MeterPerSecond().length() ;
+        
+        return Energy::Joule(0.5*mass_kilogram
+                             *speed_meter_per_second*speed_meter_per_second) ;
+      }
+      else
+      {
+        return Energy() ;
+      }
+    }
   }
 }

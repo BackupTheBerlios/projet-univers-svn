@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007 Morgan GRIGNARD                                 *
+ *   Copyright (C) 2007 Morgan GRIGNARD                                    *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -31,34 +31,36 @@ namespace ProjetUnivers {
       namespace OpenAL {
 
     
-        /// An objects that can hear a sound must have an observer which extends this trait
+        /// Common part of object's views that hear sound.
         /*!
-          For example : the player...
+          An objects that can hear a sound must have an observer which extends 
+          this trait. For example : the player...
         */
         class SoundListener
         {
         public:
-        	
-        	/// Get the master gain between 0 and 1.0
-        	/// TODO vérifier les limites
-        	virtual float getGain() const = 0;
-  	        
-  	        /// Get the object's position relative to the world
-  	        virtual Position getPosition() const = 0;
-  	            
-  	        /// Get the object's orientation relative to the world
-  	        virtual Orientation getOrientation() const = 0;
-  	            
-  	        /// Get the object's speed relative to the world
-  	        virtual Speed getSpeed() const = 0;
-  	
-  	        /// Update the listener informations
-  	        void updateListener();
-  	        
-        	
+          
+          /// Get the master gain between 0 and 1.0
+          /// TODO vérifier les limites
+          virtual float getGain() const = 0 ;
+            
+          /// Get the object's position relative to the world
+          virtual Model::Position getPosition() const = 0 ;
+              
+          /// Get the object's orientation relative to the world
+          virtual Model::Orientation getOrientation() const = 0 ;
+              
+          /// Get the object's speed relative to the world
+          virtual Model::Speed getSpeed() const = 0 ;
+          
+          /// Update the listener informations
+          void updateListener() ;
+            
+          
         protected:
-            /// Constructor by default.
-            SoundListener();
+
+          /// Default constructor.
+          SoundListener() ;
       
         };
       

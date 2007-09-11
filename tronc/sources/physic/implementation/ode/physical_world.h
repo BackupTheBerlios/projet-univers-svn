@@ -22,6 +22,7 @@
 #define PU_PHYSIC_IMPLEMENTATION_ODE_PHYSICAL_WORLD_H_
 
 #include <set>
+#include <ode/ode.h>
 
 #include <kernel/controler.h>
 

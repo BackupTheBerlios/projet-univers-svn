@@ -230,7 +230,7 @@ namespace ProjetUnivers {
             */
             const dReal* ode_position = m_body->getPosition() ;
 
-            InformationMessage("Ode::PhysicalObject::updateModelPositionned "
+            InternalMessage("Ode::PhysicalObject::updateModelPositionned "
                             + getObject()->getName() + " position="
                             + Kernel::toString(ode_position[0]) + "," 
                             + Kernel::toString(ode_position[1]) + "," 

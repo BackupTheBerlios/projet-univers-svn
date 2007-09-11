@@ -23,30 +23,32 @@
 
 #include <kernel/controler.h>
 #include <model/laser_beam.h>
-#include <model/implementation/logic_system.h>
+#include <model/implementation/logic/logic_system.h>
 
 namespace ProjetUnivers {
   namespace Model {
     namespace Implementation {
+      namespace Logic {
         
-      /// Makes laser beam disappear after a certain amount of time.
-      class LogicLaserBeam : public Kernel::Controler<Model::LaserBeam,
-                                                     LogicSystem>
-      {
-      public:
+        /// Makes laser beam disappear after a certain amount of time.
+        class LaserBeam : public Kernel::Controler<Model::LaserBeam,
+                                                   LogicSystem>
+        {
+        public:
+          
+          /// Construct.
+          LaserBeam(Model::LaserBeam* i_object,
+                    LogicSystem*      i_system) ;
         
-        /// Construct.
-        LogicLaserBeam(Model::LaserBeam* i_object,
-                       LogicSystem*      i_system) ;
-      
-        /// Simulate world during a certain duration and notify positions.
-        void simulate(const float& i_seconds) ;
-      
-      private:
+          /// Manange LaserBeam life.
+          void simulate(const float& i_seconds) ;
         
-        /// Time remaining before disappearing in seconds)
-        float m_seconds_remaining ;
-      };
+        private:
+          
+          /// Time remaining before disappearing in seconds)
+          float m_seconds_remaining ;
+        };
+      }
     }
   }
 }

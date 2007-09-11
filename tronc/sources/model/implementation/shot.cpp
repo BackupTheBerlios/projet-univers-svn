@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2007 Mathieu ROGER                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,48 +18,12 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <boost/function.hpp>
-
-#include <kernel/log.h>
-#include <kernel/base_controler.h>
-
-#include <model/model.h>
-#include <model/implementation/logic_system.h>
+#include <model/shot.h>
 
 namespace ProjetUnivers {
   namespace Model {
-    namespace Implementation {
-        
-      LogicSystem::LogicSystem(Kernel::Model* model)
-      : Kernel::ControlerSet(model)
-      {}
-
-      void LogicSystem::simulate(const float& i_seconds)
-      {
-        InternalMessage("Model::LogicSystem::simulate entering") ;
-        boost::function2<void,
-                         Kernel::BaseControler*,
-                         float> f 
-                            = &Kernel::BaseControler::simulate ;
-        
-        applyBottomUp(std::bind2nd(f,i_seconds)) ;
-        
-        for(std::set<Kernel::Object*>::iterator object = m_objects_to_destroy.begin() ;
-            object != m_objects_to_destroy.end() ;
-            ++object)
-        {
-          Model::destroyObject(*object) ;
-        }
-        
-        m_objects_to_destroy.clear() ;
-        InternalMessage("Model::LogicSystem::simulate leaving") ;
-      }
-      
-      void LogicSystem::addObjectToDestroy(Kernel::Object* object)
-      {
-        m_objects_to_destroy.insert(object) ;
-      }
-    }
+    
+    Shot::Shot()
+    {}
   }
 }
-

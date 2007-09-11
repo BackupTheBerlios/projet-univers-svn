@@ -29,6 +29,7 @@
 #include <model/physical_object.h>
 #include <model/physical_world.h>
 #include <model/solid.h>
+#include <model/shot.h>
 
 #include <model/laser.h>
 
@@ -76,16 +77,22 @@ namespace ProjetUnivers {
         Speed speed = Speed::MeterPerSecond(0,0,Kernel::Parameters::getValue<float>("Model","LaserBeamSpeed"))*orientation_of_the_beam ;
         // maybe we should add the object speed ??
          
-        addTrait(beam,new Mobile()) ;
-        beam->getTrait<Mobile>()->setSpeed(speed) ;
+        addTrait(beam,new Mobile(speed)) ;
+        addTrait(beam,new Massive(Mass(Energy::Joule(10)))) ;
         
+        /*!
+          Here we have a limitation : 
+          laserbeam collision need to be applied on a physical object 
+          thus the beam need to be a physical object before being a beam
+        */
         addTrait(beam,new LaserBeam()) ;
         
-        addTrait(beam,new Massive(Mass(Energy::Joule(10)))) ;
-        // done
+        // shot
+        Kernel::Object* shot = createObject(world->getObject()) ;
+        addTrait(shot,new Positionned(position_of_the_beam)) ;
+        addTrait(shot,new Shot()) ;
         
-        // test with a mesh...
-        addTrait(beam,new Solid(Mesh("laser.mesh"))) ;
+        // done
         
       }
       // else : not much sense thus do nothing      

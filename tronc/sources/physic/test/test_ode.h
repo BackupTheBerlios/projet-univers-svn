@@ -52,7 +52,10 @@ namespace ProjetUnivers {
 
         /// Test trimesh inertia calculus.
         void testTrimeshInertia() ;
-                   
+
+        /// Test trimesh collision against a cube.
+        void testTrimeshCubeCollision() ;
+
       // @}
       /*!
         @name Test registration
@@ -61,9 +64,10 @@ namespace ProjetUnivers {
     
         CPPUNIT_TEST_SUITE(TestODE) ;
       
-        CPPUNIT_TEST(testTwoWorlds) ;
-        CPPUNIT_TEST(testTrimesh) ;
-        CPPUNIT_TEST(testTrimeshInertia) ;
+//        CPPUNIT_TEST(testTwoWorlds) ;
+//        CPPUNIT_TEST(testTrimesh) ;
+//        CPPUNIT_TEST(testTrimeshInertia) ;
+        CPPUNIT_TEST(testTrimeshCubeCollision) ;
       
         CPPUNIT_TEST_SUITE_END() ;
 

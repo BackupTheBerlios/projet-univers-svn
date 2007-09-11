@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007 Morgan GRIGNARD                                      *
+ *   Copyright (C) 2007 Morgan GRIGNARD                                    *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -20,7 +20,8 @@
  ***************************************************************************/
 #include <kernel/log.h>
 
-#include <sound/implementation/openal.h>
+#include <sound/implementation/openal/openal.h>
+#include <sound/implementation/openal/real_world_view_point.h>
 
 #include <sound/sound.h>
 
@@ -33,7 +34,7 @@ namespace ProjetUnivers {
   // @{
 
     bool initialised = false ;
-
+    std::auto_ptr<Implementation::OpenAL::RealWorldViewPoint> m_sound_system ;
   // @}
     
     void init() 
@@ -62,6 +63,12 @@ namespace ProjetUnivers {
     void update()
     {
       Implementation::OpenAL::update() ;
+    }
+
+    Kernel::ViewPoint* build(Kernel::Object* observer)
+    {
+      m_sound_system.reset(new Implementation::OpenAL::RealWorldViewPoint(observer)) ;
+      m_sound_system->init() ;
     }
 
   }

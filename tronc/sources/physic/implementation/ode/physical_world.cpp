@@ -20,13 +20,19 @@
  ***************************************************************************/
 #include <ode/ode.h>
 
+#include <OgreStringConverter.h>
+
 #include <kernel/log.h>
 #include <kernel/parameters.h>
 
+#include <model/model.h>
+#include <model/collision.h>
+
 #include <physic/implementation/ode/solid.h>
 #include <physic/implementation/ode/physical_object.h>
-#include <physic/implementation/ode/physical_world.h>
 #include <physic/implementation/ode/ode.h>
+#include <physic/implementation/ode/collideable.h>
+#include <physic/implementation/ode/physical_world.h>
 
 namespace ProjetUnivers {
   namespace Physic {
@@ -125,29 +131,8 @@ namespace ProjetUnivers {
                                                 dGeomID i_geometry2)
         {
           // due to organisation i_geometry1 and i_geometry2 are not spaces.
-//          std::cout << "collision between " ;
-//          
-//          if (dGeomIsSpace(i_geometry1))
-//          {
-//            std::cout << "space " ; 
-//          }
-//          else
-//          {
-//            std::cout << "geometry " ; 
-//          }
-//            
-//          std::cout << i_geometry1 << " and " ;
-//          
-//          if (dGeomIsSpace(i_geometry2))
-//          {
-//            std::cout << "space " ; 
-//          }
-//          else
-//          {
-//            std::cout << "geometry " ; 
-//          }
-//
-//          std::cout << i_geometry2 << std::endl ;
+//          std::cout << "soupscon de collision" << std::endl ;
+          InternalMessage("PhysicalWorld::onGeometryCollision entering") ;
           
           // i_world is in fact a world.
           PhysicalWorld* world = static_cast<PhysicalWorld*>(i_world) ;
@@ -156,18 +141,29 @@ namespace ProjetUnivers {
           {
             return ;
           }
+          
+          // retreive usefull objects
+          Collideable* collideable1 
+            = static_cast<Collideable*>(dGeomGetData(i_geometry1)) ;  
+          Collideable* collideable2 
+            = static_cast<Collideable*>(dGeomGetData(i_geometry2)) ;  
+          PhysicalObject* object1 
+            = collideable1 ? getPhysicalObject(collideable1->getControler()) 
+                           : NULL ;
+          PhysicalObject* object2 
+            = collideable2 ? getPhysicalObject(collideable2->getControler()) 
+                           : NULL ;
 
-          // should call Solid callback...
-          Solid* solid1 = dynamic_cast<Solid*>((Kernel::BaseControler*)dGeomGetData(i_geometry1)) ;  
-          Solid* solid2 = dynamic_cast<Solid*>((Kernel::BaseControler*)dGeomGetData(i_geometry2)) ;  
-          PhysicalObject* object1 = solid1 ? getPhysicalObject(solid1) : NULL ;
-          PhysicalObject* object2 = solid2 ? getPhysicalObject(solid2) : NULL ;
+          InternalMessage("PhysicalWorld::onGeometryCollision "
+                          + (object1 ? object1->getObject()->getName() : "no object1")
+                          + " " 
+                          + (object2 ? object2->getObject()->getName() : "no object2")
+                          + (collideable1->isCollideableWith(collideable2) ? " collideable" : "not collideable")
+                          ) ;
 
-          if (solid1 && solid2 && object1 && object2)
+          if (object1 && object2 
+              && collideable1->isCollideableWith(collideable2))
           {
-            // call to custom callback function for gameplay reaction
-            onCollide(solid1,solid2) ;
-            
             // object positions 
             Ogre::Vector3 object1_position ;
             Ogre::Vector3 object2_position ;
@@ -183,6 +179,12 @@ namespace ProjetUnivers {
             object2_position.y = temp_position[1] ;
             object2_position.z = temp_position[2] ;
             
+            InternalMessage("PhysicalWorld::onGeometryCollision object positions " 
+                            + Ogre::StringConverter::toString(object1_position)
+                            + ";"
+                            + Ogre::StringConverter::toString(object2_position)) ;
+                            
+            
             // calculate contact points
             int number_of_contacts = dCollide(i_geometry1,
                                               i_geometry2,
@@ -194,15 +196,14 @@ namespace ProjetUnivers {
 
             Ogre::Vector3 result(0,0,0) ;
             
+            int real_number_of_contact_points = 0 ;
+            Ogre::Vector3 average_contact_point(0,0,0) ;
+            
             for (int contact_index = 0 ; 
                  contact_index < number_of_contacts ; 
                  ++contact_index)
             {
-              
-              // test : set collision point to center of mass...               
-//              contact_points[contact_index]
-              
-              
+             
               // create contact joint
               dContact contact ;
               contact.surface.mode = dContactSoftCFM|dContactSoftERP ;
@@ -221,79 +222,50 @@ namespace ProjetUnivers {
               contact.fdir1[1] = 0 ;
               contact.fdir1[2] = 0 ;
               contact.fdir1[3] = 0 ;
-  
-              InformationMessage("contact point : depth=" 
-                                 + Kernel::toString(contact_points[contact_index].depth)
-                                 + " normal(x=" 
-                                 + Kernel::toString(contact_points[contact_index].normal[0]) 
-                                 + ",y=" 
-                                 + Kernel::toString(contact_points[contact_index].normal[1]) 
-                                 + ",z=" 
-                                 + Kernel::toString(contact_points[contact_index].normal[2]) 
-                                 + ") point(x=" 
-                                 + Kernel::toString(contact_points[contact_index].pos[0]) 
-                                 + ",y=" 
-                                 + Kernel::toString(contact_points[contact_index].pos[1]) 
-                                 + ",z=" 
-                                 + Kernel::toString(contact_points[contact_index].pos[2]) 
-                                 + ")" 
-                                 ) ;
 
               Ogre::Vector3 point(contact_points[contact_index].pos[0],
                                   contact_points[contact_index].pos[1],
                                   contact_points[contact_index].pos[2]) ;
-
               Ogre::Vector3 v1 = point - object1_position ;
-              Ogre::Vector3 v2 = point - object2_position ;
               
 
-              Ogre::Vector3 temp(contact_points[contact_index].normal[0],
-                                 contact_points[contact_index].normal[1],
-                                 contact_points[contact_index].normal[2]) ;
+              Ogre::Vector3 normal(contact_points[contact_index].normal[0],
+                                   contact_points[contact_index].normal[1],
+                                   contact_points[contact_index].normal[2]) ;
               
-              float dot1 = v1.dotProduct(temp) ;
-              float dot2 = v2.dotProduct(temp) ;
-
-              InformationMessage("dot products dot1=" 
-                                 + Kernel::toString(dot1)
-                                 + " dot2=" 
-                                 + Kernel::toString(dot2)
-                                 ) ;
-              result += contact_points[contact_index].depth*temp ;
+              float dot1 = v1.dotProduct(normal) ;
               
               if (dot1 < 0)
               {
+                average_contact_point += point ; 
+                
                 dJointID joint_id = dJointCreateContact(world->m_world->id(), 
                                                         world->m_contact_group, 
                                                         &contact) ;
                 
-                if (i_geometry1 != contact_points[contact_index].g1 ||
-                    i_geometry2 != contact_points[contact_index].g2)
-                {
-                  std::cout << "faut pas s'ettonner si ca marche pas " << std::endl ;
-                }
-                
                 dJointAttach(joint_id,
                              object1->getBody()->id(),
                              object2->getBody()->id()) ;
+                
+                ++real_number_of_contact_points ;
               }
             }
             
-            if (number_of_contacts != 0)
+            if (real_number_of_contact_points != 0)
             {
-              result = result / number_of_contacts ;
+              average_contact_point = average_contact_point / real_number_of_contact_points ;
+          
+              // create a collision object
+              Kernel::Object* collision_object = Model::createObject(world->getObject()) ;
+              
+              Model::Collision* collision_trait = 
+                new Model::Collision(collideable1->getControler()->getObject(),
+                                     collideable2->getControler()->getObject(),
+                                     Model::Position::Meter(average_contact_point.x,
+                                                            average_contact_point.y,
+                                                            average_contact_point.z)) ;
+              Model::addTrait(collision_object,collision_trait) ;
             }
-            
-            InformationMessage("average contact point : depth=" 
-                               + Kernel::toString(result.length())
-                               + " normal(x=" 
-                               + Kernel::toString(result.x) 
-                               + ",y=" 
-                               + Kernel::toString(result.y) 
-                               + ",z=" 
-                               + Kernel::toString(result.z) 
-                               + ")" 
-                               ) ;
           
           }          
         }

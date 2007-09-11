@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2007 Mathieu ROGER                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,69 +18,27 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <kernel/log.h>
+#ifndef PU_MODEL_SHOT_H_
+#define PU_MODEL_SHOT_H_
 
-#include <model/implementation/logic_system.h>
-#include <model/implementation/logic.h>
+#include <kernel/trait.h>
+
 
 namespace ProjetUnivers {
   namespace Model {
-    namespace Implementation {
-      namespace Logic {
-
-        /// active controler set.
-        std::auto_ptr<LogicSystem> m_system ;
     
-        bool initialised = false ;
-
-        void init()
-        {
-          if (! initialised)
-          {
-            initialised = true ;
-            
-            if (m_system.get())
-            {
-              m_system->init() ;
-            }      
-          }
-        }
-        
-        void close()
-        {
-          if (m_system.get())
-          {
-            m_system->close() ;
-          }
-          initialised = false ;
-          m_system.reset(NULL) ;
-        }
-    
-        Kernel::ControlerSet* build(Kernel::Model* model)
-        {
-          close() ;
-          m_system.reset(new LogicSystem(model)) ;
-          init() ;
-          return m_system.get() ;
-        } 
-        
-        void update(const Model::Duration& i_duration)
-        {
-          float seconds = i_duration.Second() ;
-
-          InternalMessage("Model::Logic::simulate entering") ;
-  
-          if (initialised && m_system.get() && seconds != 0)
-          {
-            m_system->simulate(seconds) ;
-          }
-
-          InternalMessage("Model::Logic::simulate leaving") ;
-          
-        }
-
-      }
-    }
+    /// For objects that are laser shots.
+    /*!
+      It represents the fact of shooting something.
+    */
+    class Shot : public Kernel::Trait
+    {
+    public:
+      
+      /// Constructor.
+      Shot() ;
+    };
   }
 }
 
+#endif /*PU_MODEL_SHOT_H_*/

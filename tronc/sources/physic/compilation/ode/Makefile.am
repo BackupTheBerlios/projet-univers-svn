@@ -12,7 +12,9 @@ $(SOURCES)/physic/implementation/ode/physical_object.cpp \
 $(SOURCES)/physic/implementation/ode/physical_world.cpp \
 $(SOURCES)/physic/implementation/ode/solid.cpp \
 $(SOURCES)/physic/implementation/ode/torque_generator.cpp \
-$(SOURCES)/physic/implementation/ode/force_generator.cpp 
+$(SOURCES)/physic/implementation/ode/force_generator.cpp \
+$(SOURCES)/physic/implementation/ode/collideable.cpp \
+$(SOURCES)/physic/implementation/ode/laser_beam.cpp 
 
 
 libphysicode_la_LDFLAGS = -no-undefined

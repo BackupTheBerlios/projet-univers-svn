@@ -18,70 +18,29 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_LOGIC_TEST_LASER_BEAM_H_
-#define PU_MODEL_LOGIC_TEST_LASER_BEAM_H_
-
-#include <cppunit/extensions/HelperMacros.h>
+#include <model/collision.h>
 
 namespace ProjetUnivers {
   namespace Model {
-    namespace Test {
-
-
-            
-      /// Test of Logic::LaserBeam.
-      /*!
-
-      */
-      class LogicTestLaserBeam : public CppUnit::TestFixture {
-      protected:
-      
-        
-      // ****************************
-      /// @name Tests 
-      // ****************************
-      // @{
-        
-        /// Tests that laser beams disappear.
-        void testDisappearing() ;
-
-           
-      // @}
-      // *******************************
-      /// @name Test registration
-      // *******************************
-      // @{      
     
-        CPPUNIT_TEST_SUITE(LogicTestLaserBeam) ;
-      
-        CPPUNIT_TEST(testDisappearing) ;
-      
-        CPPUNIT_TEST_SUITE_END() ;
+      Collision::Collision(Kernel::Object* object1,
+                           Kernel::Object* object2,
+                           const Model::Position& position)
+      : Kernel::Trait(),
+        m_object1(object1),
+        m_object2(object2),
+        m_position(position)
+      {}
 
-      public:
-  
-      // @}
-      // *******************************
-      /// @name Mandatory methods
-      // *******************************
-      // @{
+      Kernel::Object* Collision::getObject1() const
+      {
+        return m_object1 ;
+      }
 
-      
-        /// Initialisation du test
-        void setUp() ;
-      
-        /// Desinitialisation du test
-        void tearDown() ;
-      
-      // @}      
-                
-       
-      
-      };
-
-    }
+      Kernel::Object* Collision::getObject2() const
+      {
+        return m_object2 ;
+      }
+    
   }
 }
-
-
-#endif

@@ -27,11 +27,13 @@ namespace ProjetUnivers {
   namespace Model {
 
     Energy::Energy()
-    : unit(_Joule)
+    : value(0),
+      unit(_Joule)
     {}
 
     Energy::Energy(const Energy& _energie)
-    : value(_energie.value), unit(_energie.unit)
+    : value(_energie.value), 
+      unit(_energie.unit)
     {}
 
     Energy Energy::Joule(const float& _joules)

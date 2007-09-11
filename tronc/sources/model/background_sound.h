@@ -21,8 +21,9 @@
 #ifndef PU_MODEL_SOUND_BACKGROUND_H_
 #define PU_MODEL_SOUND_BACKGROUND_H_
 
+#include <string>
+
 #include <kernel/trait.h>
-#include <model/name.h>
 
 namespace ProjetUnivers {
   namespace Model {
@@ -35,15 +36,15 @@ namespace ProjetUnivers {
     public:
 
       /// Constructor.
-      BackgroundSound(const Name& fileName) ;
+      BackgroundSound(const std::string& fileName) ;
       
 
-      Name getFileName() const ; 
+      std::string getFileName() const ; 
 
     private:
       
       /// Sound FileName
-      Name fileName ;
+      std::string fileName ;
     };
   }
 }

@@ -29,7 +29,7 @@
 #include <sound/implementation/openal/real_world_view_point.h>
 
 namespace ProjetUnivers {
-  namespace Display {
+  namespace Sound {
     namespace Implementation {
       namespace OpenAL {
         
@@ -37,8 +37,9 @@ namespace ProjetUnivers {
         /// Sound Observer view.
         /*!
         */
-        class Observer : public Kernel::TraitView<Model::Observer,RealWorldViewPoint>,
-        				 public SoundListener
+        class Observer : public Kernel::TraitView<Model::Observer,
+                                                  RealWorldViewPoint>, 
+                         public SoundListener
         {
         public:
         
@@ -54,19 +55,19 @@ namespace ProjetUnivers {
 
         // @}
           
-        /// @Implements
-        /// TODO voir sur quelles facettes on pourra gérer le cas
-        /// où la personne n'étend plus ou de manière déformée
-        virtual float getGain() const;
-            	        
-        /// @Implements
-        virtual Position getPosition() const;
-            	            
-        /// @Implements
-        virtual Orientation getOrientation() const;
-            	            
-        /// @Implements
-        virtual Speed getSpeed() const; 
+          /// @Implements
+          /// TODO voir sur quelles facettes on pourra gérer le cas
+          /// où la personne n'étend plus ou de manière déformée
+          virtual float getGain() const ;
+                        
+          /// @Implements
+          virtual Model::Position getPosition() const ;
+                            
+          /// @Implements
+          virtual Model::Orientation getOrientation() const ;
+                            
+          /// @Implements
+          virtual Model::Speed getSpeed() const ; 
           
           
         protected:
@@ -85,6 +86,7 @@ namespace ProjetUnivers {
           /// TODO
           void onUpdate() ;
 
+        // @}
         };
       }
     }
