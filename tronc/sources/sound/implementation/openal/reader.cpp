@@ -18,46 +18,57 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <AL/al.h>
 
 #include <kernel/log.h>
 
-#include <sound/implementation/openal/openal.h>
-#include <sound/implementation/openal/sound_listener.h>
 
-#include <OgreVector3.h>
-#include <OgreQuaternion.h>
+#include <sound/implementation/openal/openal.h>
+#include <sound/implementation/openal/reader.h>
 
 namespace ProjetUnivers {
   namespace Sound {
     namespace Implementation {
       namespace OpenAL {
-
-        SoundListener::SoundListener()
-        {}
         
-        void SoundListener::updateListener()
-        {                     
-          Ogre::Vector3 position = this->getPosition().Meter() ;
-          alListener3f(AL_POSITION, (float)position.x, (float)position.y, (float)position.z);
-          Ogre::Quaternion orientation = this->getOrientation().getQuaternion();
+        Reader::Reader()
+        : m_source(0), m_fileName(0), m_isEvent(false), m_finish(false),
+          m_format(0), m_sampleRate(0), m_samplesByBuffer(0)
+        {}
 
-          ALfloat openal_orientation[6] ;
-          openal_orientation[0] = orientation.zAxis().x ;
-          openal_orientation[1] = orientation.zAxis().y ;
-          openal_orientation[2] = orientation.zAxis().z ;
-          openal_orientation[3] = orientation.yAxis().x ;
-          openal_orientation[4] = orientation.yAxis().y ;
-          openal_orientation[5] = orientation.yAxis().z ;
-          
-          //alListenerfv(AL_DIRECTION, openal_orientation) ;
-          InformationMessage("after direction " + getErrorString(alGetError())) ;           
-                      
-          Ogre::Vector3 speed = this->getSpeed().MeterPerSecond();
-          alListener3f(AL_VELOCITY, (float)speed.x, (float)speed.y, (float)speed.z) ;
-          alListenerf(AL_GAIN,getGain()) ;
+        Reader::Reader(ALuint p_source, std::string p_fileName, bool p_isEvent) 
+        : m_source(p_source), m_fileName(p_fileName), m_isEvent(p_isEvent), m_finish(false),
+          m_format(0), m_sampleRate(0), m_samplesByBuffer(0)  
+        {
+          InformationMessage("Al status enter constructor " + getErrorString(alGetError())) ;
+          alGenBuffers(2, m_buffers);
+          InformationMessage("Al status leave constructor " + getErrorString(alGetError())) ;
         }
-      
+        
+        Reader::~Reader()
+        {
+          alSourceStop(m_source) ;
+          alDeleteBuffers(2, m_buffers) ;
+          alDeleteSources(1,&m_source) ;
+        }
+          
+        void Reader::update()
+        {
+          InformationMessage("Enter update reader") ;   
+          // Get the empty buffers
+          ALint NbProcessed;
+          alGetSourcei(m_source, AL_BUFFERS_PROCESSED, &NbProcessed); 
+          // Load this buffers with content
+          for (ALint i = 0; i < NbProcessed && !m_finish; ++i)
+          {
+            InformationMessage("call load") ; 
+            ALuint buffer;
+            alSourceUnqueueBuffers(m_source, 1, &buffer);
+            loadBuffer(buffer);
+            alSourceQueueBuffers(m_source, 1, &buffer);
+          }
+          InformationMessage("leave update reader") ;   
+        }
+        
       }
     }
   }

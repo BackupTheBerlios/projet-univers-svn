@@ -38,5 +38,5 @@ openal/libsoundcode.la \
 $(OIS_LIBS) \
 $(librlog_LIBS) \
 $(OGRE_LIBS) \
-$(openal_LIBS) \
-$(freealut_LIBS)
+$(openal_LIBS)
+

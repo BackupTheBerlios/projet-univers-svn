@@ -24,13 +24,15 @@
 #include <AL/al.h>
 #include <AL/alc.h>
 
+#include <sound/implementation/openal/manager.h>
+
 namespace ProjetUnivers {
   namespace Sound {
     namespace Implementation {
       
       /// Sound implementation throught OpenAL.
       /*!                  
-      */
+                */
       namespace OpenAL {
         
         /// Initialisation of OpenAL specific.
@@ -44,6 +46,8 @@ namespace ProjetUnivers {
         
         /// Humanly readable OpenAL error code. 
         std::string getErrorString(const ALenum&) ;
+        
+        Manager* getManager();
       }
     }
   }

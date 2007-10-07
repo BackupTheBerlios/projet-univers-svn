@@ -18,47 +18,60 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <AL/al.h>
+#ifndef PU_SOUND_IMPLEMENTATION_OPENAL_OGG_READER_H_
+#define PU_SOUND_IMPLEMENTATION_OPENAL_OGG_READER_H_
 
-#include <kernel/log.h>
-
-#include <sound/implementation/openal/openal.h>
-#include <sound/implementation/openal/sound_listener.h>
-
-#include <OgreVector3.h>
-#include <OgreQuaternion.h>
+#include <vorbis/vorbisfile.h>
+#include <sound/implementation/openal/reader.h>
 
 namespace ProjetUnivers {
   namespace Sound {
     namespace Implementation {
       namespace OpenAL {
-
-        SoundListener::SoundListener()
-        {}
+        /// Interface  of a soundfile reader use for streaming
+        /*!
+                      */
+        class OggReader : public Reader
+        {
         
-        void SoundListener::updateListener()
-        {                     
-          Ogre::Vector3 position = this->getPosition().Meter() ;
-          alListener3f(AL_POSITION, (float)position.x, (float)position.y, (float)position.z);
-          Ogre::Quaternion orientation = this->getOrientation().getQuaternion();
-
-          ALfloat openal_orientation[6] ;
-          openal_orientation[0] = orientation.zAxis().x ;
-          openal_orientation[1] = orientation.zAxis().y ;
-          openal_orientation[2] = orientation.zAxis().z ;
-          openal_orientation[3] = orientation.yAxis().x ;
-          openal_orientation[4] = orientation.yAxis().y ;
-          openal_orientation[5] = orientation.yAxis().z ;
+        public:
+        /*!
+                     @name Construction 
+                    */
+        // @{
+        
+          /// Constructor by default for container like vector
+          OggReader() ;
           
-          //alListenerfv(AL_DIRECTION, openal_orientation) ;
-          InformationMessage("after direction " + getErrorString(alGetError())) ;           
-                      
-          Ogre::Vector3 speed = this->getSpeed().MeterPerSecond();
-          alListener3f(AL_VELOCITY, (float)speed.x, (float)speed.y, (float)speed.z) ;
-          alListenerf(AL_GAIN,getGain()) ;
-        }
-      
+          /// Constructor in use
+          OggReader(ALuint p_source, std::string p_fileName, bool p_isEvent) ;
+        // @}
+          
+          
+          /// @Implements
+          /// Open the file, create and load the 2 buffers to link to the source
+          virtual void onInit();
+          
+          /// @Implements
+          /// Close the file, delete the  buffers
+          virtual void onClose();
+          
+          
+          
+        private:
+          
+          /// @Implements
+          /// Read the sound file to load the buffer with content
+          virtual void loadBuffer(ALuint buffer);
+          
+          ///File
+          OggVorbis_File* m_stream;
+          FILE* m_file;        
+        };
       }
     }
   }
 }
+
+
+#endif /*PU_SOUND_IMPLEMENTATION_OPENAL_OGG_READER_H_*/

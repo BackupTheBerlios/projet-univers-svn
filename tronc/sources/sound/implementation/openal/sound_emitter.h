@@ -27,6 +27,8 @@
 #include <model/orientation.h>
 #include <model/speed.h>
 
+#include <sound/implementation/openal/reader.h>
+
 namespace ProjetUnivers {
   namespace Sound {
     namespace Implementation {
@@ -80,8 +82,8 @@ namespace ProjetUnivers {
           /// Get the sound's filename
           virtual std::string getSoundFileName() const = 0 ;
           
-          /// Indicate if the sound is looping
-          virtual bool isLooping() const = 0 ;
+          /// Indicate if the sound is an event
+          virtual bool isEvent() const = 0 ;
           
           /// Indicate if the source is active now considering damages or other elements
           virtual bool isActive() const = 0 ;
@@ -117,10 +119,10 @@ namespace ProjetUnivers {
         private:
           
           /// OpenAL source
-          ALuint source ;
+          ALuint m_source ;
           
-          /// sound buffer.
-          ALuint m_buffer ;
+          /// Update the buffers in the stream
+          Reader* m_reader ;
         };
       
       }

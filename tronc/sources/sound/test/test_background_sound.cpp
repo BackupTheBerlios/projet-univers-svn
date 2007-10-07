@@ -29,6 +29,7 @@
 #include <model/oriented.h>
 #include <model/observer.h>
 #include <model/background_sound.h>
+#include <model/collision.h>
 
 #include <sound/sound.h>
 #include <sound/test/test_background_sound.h>
@@ -43,8 +44,12 @@ namespace ProjetUnivers {
       void TestBackgroundSound::basicTest()
       {
         /*!
-          - build a background sound object 
-          - a listener
+          - build a background sound object wih a ogg
+          - build an event colision with a wav (default sound.wav in OpenAL::colision.cpp code) 
+          - build a listener
+          - destroy the event  before the end of the sound
+          - update the module for streaming during 10secondes
+          -destroy all and clean sound module
         */
 
         // we construct a complete system
@@ -58,21 +63,35 @@ namespace ProjetUnivers {
         Model::addTrait(listener,new Model::Oriented()) ;
 
         Kernel::Object* emmiter = Model::createObject(system) ;
-        Model::addTrait(emmiter,new Model::BackgroundSound("sound.wav")) ;
+        Model::addTrait(emmiter,new Model::BackgroundSound("sound.ogg")) ;
         Model::addTrait(emmiter,new Model::Positionned()) ;
         Model::addTrait(emmiter,new Model::Oriented()) ;
         
-        /// build a physical viewpoint        
+        
+        Kernel::Object* elm1 = Model::createObject(system) ;
+        Kernel::Object* elm2 = Model::createObject(system) ;
+        Kernel::Object* collision = Model::createObject(system) ;
+        const Model::Position& posRef = Model::Position();
+        Model::addTrait(collision,new Model::Collision(elm1, elm2, posRef)) ;
+        
+        /// build a sound viewpoint        
         Sound::init() ;
         Kernel::ViewPoint* sound = Sound::build(listener) ;
         
+        Model::destroyObject(collision) ;
+        
         Kernel::Timer timer ;
         int i = 0 ;
-        while(timer.getSecond() <= 2.0)
+        while(timer.getSecond() <= 10.0)
         {
           ++i ;
+          Sound::update() ;
         }          
         InternalMessage("i=" + Kernel::toString(i)) ;
+        
+        Sound::close();
+        Model::close();
+        InternalMessage("after sound close") ;
         
       }
 

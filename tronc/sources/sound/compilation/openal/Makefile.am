@@ -10,7 +10,12 @@ $(SOURCES)/sound/implementation/openal/openal.cpp \
 $(SOURCES)/sound/implementation/openal/real_world_view_point.cpp \
 $(SOURCES)/sound/implementation/openal/background_sound.cpp \
 $(SOURCES)/sound/implementation/openal/sound_emitter.cpp \
-$(SOURCES)/sound/implementation/openal/sound_listener.cpp
+$(SOURCES)/sound/implementation/openal/sound_listener.cpp \
+$(SOURCES)/sound/implementation/openal/reader.cpp \
+$(SOURCES)/sound/implementation/openal/wav_reader.cpp \
+$(SOURCES)/sound/implementation/openal/ogg_reader.cpp \
+$(SOURCES)/sound/implementation/openal/manager.cpp \
+$(SOURCES)/sound/implementation/openal/collision.cpp
 
 
 libsoundcode_la_LDFLAGS = -no-undefined
@@ -20,4 +25,7 @@ $(SOURCES)/model/compilation/libmodel.la \
 $(openal_LIBS) \
 $(librlog_LIBS) \
 $(OGRE_LIBS) \
-$(freealut_LIBS)
+$(ogg_LIBS) \
+$(libsndfile_LIBS) \
+$(vorbis_LIBS) \
+$(vorbisfile_LIBS)

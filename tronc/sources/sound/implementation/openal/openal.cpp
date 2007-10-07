@@ -21,21 +21,22 @@
 #include <kernel/log.h>
 #include <kernel/string.h>
 
-#include <AL/alut.h>
 #include <sound/implementation/openal/openal.h>
 
 namespace ProjetUnivers {
   namespace Sound {
     namespace Implementation {
       namespace OpenAL {
-    
-        namespace { 
-          
+        
+        /*!
+                        @name Attributes
+                      */
+        // @{
           bool initialised = false ;
-          
           ALCdevice* device ;
           ALCcontext* context ;
-        }
+          Manager* manager;
+        // @}
         
         void init() 
         {
@@ -66,19 +67,10 @@ namespace ProjetUnivers {
             return ;
           }
           
-          InformationMessage("Al status " + Kernel::toString(alGetError())) ;
+          InformationMessage("Al status end init openal " + getErrorString(alGetError())) ;
           
-          ALboolean alut_error = alutInitWithoutContext(NULL,NULL) ;
-          if (alut_error ==AL_FALSE)
-          {
-            initialised = false ;
-            ErrorMessage("[ALUT] init error:" + std::string(alutGetErrorString(alutGetError())));
-            return ;
-           
-          }
+          manager = new Manager();
 
-          InformationMessage("Alut status " + std::string(alutGetErrorString(alutGetError()))) ;
-          
           initialised = true ;
           
           InternalMessage("Sound::OpenAL::init leaving") ;
@@ -87,6 +79,8 @@ namespace ProjetUnivers {
         void close()
         {
           InternalMessage("Sound::OpenAL::close entering") ;
+          
+          delete manager;
           
           // Désactivation du contexte
           alcMakeContextCurrent(NULL);
@@ -97,14 +91,12 @@ namespace ProjetUnivers {
           // Fermeture du device
           alcCloseDevice(device);
           
-          alutExit() ;
-          
           InternalMessage("Sound::OpenAL::close leaving") ;
         }
     
         void update()
         {
-          //TODO voir les besoins pour les streams
+          manager->update();
         }
         
         std::string getErrorString(const ALenum& error)
@@ -124,6 +116,11 @@ namespace ProjetUnivers {
           case AL_OUT_OF_MEMORY:
             return "Unable to allocate memory" ;
           }
+        }
+        
+        Manager* getManager()
+        {
+          return manager;
         }
       }
     }

@@ -36,63 +36,40 @@ namespace ProjetUnivers {
       namespace OpenAL {
 
         SoundEmitter::SoundEmitter()
-        : source(0)
+        : m_source(0)
         {}
               
         void SoundEmitter::initSound()
         {
           InternalMessage("SoundEmitter::initSound") ;
-          if(!this->source)
+          if(!m_source)
           {
-            std::string name = getSoundFileName() ;
-
-            //TODO catch les problèmes mémoires pour récupérer un buffer ou une source
-            alGenSources((ALsizei)1,&source) ;
-            //TODO lecture format audio divers , pour l'instant test wav
-            //TODO conversion filename de logique vers physique, pour l'instant on test avec
-            //directement name = physique
-            
-            InformationMessage("Al status " + getErrorString(alGetError())) ;
-            InformationMessage("SoundEmitter::initSound Alut status " + std::string(alutGetErrorString(alutGetError()))) ;
-            InformationMessage("SoundEmitter::initSound " + name) ;
-            m_buffer = alutCreateBufferFromFile(name.c_str());
-            if(m_buffer == AL_NONE)
-            {
-              ErrorMessage("[OpenAL] Can't generate a buffer" 
-                           + std::string(alutGetErrorString(alutGetError())));
-              return ;
-            }
-            
-            alSourcei(this->source, AL_BUFFER, m_buffer);
-            
-            //TODO vérifier la conversion brutale de bool vers AL_TRUE et AL_FALSE de type ALuint
-            alSourcei(this->source, AL_LOOPING, this->isLooping()) ;
-            alSourcei(this->source, AL_SOURCE_RELATIVE, this->isListenerRelative()) ;
-            
-            this->updateSource();      
+            alGenSources(1,&m_source) ;
+            m_reader = getManager()->createReader(m_source, getSoundFileName().c_str(), isEvent()) ;
+            alSourcei(m_source, AL_SOURCE_RELATIVE, isListenerRelative()) ;
+            updateSource();      
           }  
         }
         
         void SoundEmitter::startSound()
         {
-          if(!this->source)
+          if(!m_source)
           {
-            this->initSound() ;
+            initSound() ;
           }
-          // TODO ajouter dans un gestionnaire pour les events
-          alSourcePlay(this->source);
+          alSourcePlay(m_source);
         }
         
         void SoundEmitter::updateSource()
         {                     
-          Ogre::Vector3 position = this->getPosition().Meter() ;
-          alSource3f(this->source,
+          Ogre::Vector3 position = getPosition().Meter() ;
+          alSource3f(m_source,
                      AL_POSITION, 
                      (float)position.x, 
                      (float)position.y, 
                      (float)position.z);
                       
-          Ogre::Quaternion orientation = this->getOrientation().getQuaternion();
+          Ogre::Quaternion orientation = getOrientation().getQuaternion();
 
           ALfloat openal_orientation[6] ;
           openal_orientation[0] = orientation.zAxis().x ;
@@ -102,51 +79,45 @@ namespace ProjetUnivers {
           openal_orientation[4] = orientation.yAxis().y ;
           openal_orientation[5] = orientation.yAxis().z ;
           
-          alSourcefv(this->source, 
+          alSourcefv(m_source, 
                      AL_DIRECTION, 
                      openal_orientation) ;
                       
-          Ogre::Vector3 speed = this->getSpeed().MeterPerSecond();
-          alSource3f(this->source, AL_VELOCITY, (float)speed.x, (float)speed.y, (float)speed.z) ;
+          Ogre::Vector3 speed = getSpeed().MeterPerSecond();
+          alSource3f(m_source, AL_VELOCITY, (float)speed.x, (float)speed.y, (float)speed.z) ;
                       
-          alSourcef(this->source, AL_CONE_OUTER_ANGLE, this->getOuterAngle());
-          alSourcef(this->source, AL_CONE_INNER_ANGLE, this->getInnerAngle());
-          alSourcef(this->source, AL_MAX_DISTANCE, this->getMaxDistance());
+          alSourcef(m_source, AL_CONE_OUTER_ANGLE, getOuterAngle());
+          alSourcef(m_source, AL_CONE_INNER_ANGLE, getInnerAngle());
+          alSourcef(m_source, AL_MAX_DISTANCE, getMaxDistance());
           
           ALint state;
-          alGetSourcei(this->source, AL_SOURCE_STATE, &state);
-          
-//          std::cout << "state =" << state << std::endl ;
-//          std::cout << "AL_STOPPED= " << AL_STOPPED << std::endl ; 
-//          std::cout << "AL_PLAYING= " << AL_PLAYING << std::endl ; 
-          
-          if(this->isActive() && (state == AL_STOPPED || state == AL_INITIAL)) 
+          alGetSourcei(m_source, AL_SOURCE_STATE, &state);
+
+          if(isActive() && (state == AL_STOPPED || state == AL_INITIAL)) 
           {
-            this->startSound();
+            startSound();
           }
 
-          if(!this->isActive() && state == AL_PLAYING) 
+          if(!isActive() && state == AL_PLAYING) 
           {
-            this->stopSound();
+            stopSound();
           }
         }
         
         void SoundEmitter::stopSound()
         {
-          if(this->source)
+          if(m_source)
           {
-            alSourceStop(this->source);
+            alSourceStop(m_source);
           }
-          //TODO voir si on libère dès l'arrêt car on peut relancer ( suivant le rapport consommation mémoire/ perf)
         }
             
         void SoundEmitter::deleteSound()
         {
-          if(this->source)
+          if(!isEvent())
           {
-            alDeleteSources(1,&this->source);
-            alDeleteBuffers(1,&m_buffer);
-            
+            stopSound();
+            m_reader->m_finish = true;
           }
         }
       

@@ -20,87 +20,87 @@
  ***************************************************************************/
 #include <kernel/log.h>
 
-#include <sound/implementation/openal/background_sound.h>
+#include <sound/implementation/openal/collision.h>
 
 namespace ProjetUnivers {
   namespace Sound {
     namespace Implementation {
       namespace OpenAL {
 
-        RegisterView(OpenAL::BackgroundSound, 
-                     Model::BackgroundSound, 
+        RegisterView(OpenAL::Collision, 
+                     Model::Collision, 
                      OpenAL::RealWorldViewPoint) ;
              
-        BackgroundSound::BackgroundSound(
-          Model::BackgroundSound* i_observer,
+        Collision::Collision(
+          Model::Collision* i_observer,
           RealWorldViewPoint*     i_viewpoint) 
-        : Kernel::TraitView<Model::BackgroundSound,RealWorldViewPoint>(i_observer,i_viewpoint),
+        : Kernel::TraitView<Model::Collision,RealWorldViewPoint>(i_observer,i_viewpoint),
         SoundEmitter()
         {
-          InternalMessage("Building OpenAL::BackgroundSound") ;
+          InternalMessage("Building OpenAL::Collision") ;
         }
                     
-        std::string BackgroundSound::getSoundFileName() const
+        std::string Collision::getSoundFileName() const
         {
-          return this->getModel()->getFileName();
+          return "sound.wav";
         }
           
-        bool BackgroundSound::isEvent() const
-        {
-          return false;
-        }
-          
-        bool BackgroundSound::isActive() const
+        bool Collision::isEvent() const
         {
           return true;
         }
           
-        bool BackgroundSound::isListenerRelative() const
+        bool Collision::isActive() const
         {
           return true;
         }
           
-        Model::Position BackgroundSound::getPosition() const
+        bool Collision::isListenerRelative() const
+        {
+          return true;
+        }
+          
+        Model::Position Collision::getPosition() const
         {
           return Model::Position();
         }
           
-        Model::Orientation BackgroundSound::getOrientation() const
+        Model::Orientation Collision::getOrientation() const
         {
           return Model::Orientation();
         }
           
-        Model::Speed BackgroundSound::getSpeed() const
+        Model::Speed Collision::getSpeed() const
         {
           return Model::Speed();
         }
     
-        float BackgroundSound::getOuterAngle() const
+        float Collision::getOuterAngle() const
         {
           return 360 ;
         }
         
-        float BackgroundSound::getInnerAngle() const
+        float Collision::getInnerAngle() const
         {
           return 360;
         }
        
-        float BackgroundSound::getMaxDistance() const
+        float Collision::getMaxDistance() const
         {
           return 1000;
         }
           
-        void BackgroundSound::onInit()
+        void Collision::onInit()
         {
           this->initSound();
         }
                     
-        void BackgroundSound::onClose()
+        void Collision::onClose()
         {
           this->deleteSound();
         }
                     
-        void BackgroundSound::onUpdate()
+        void Collision::onUpdate()
         {
           this->updateSource();
         } 

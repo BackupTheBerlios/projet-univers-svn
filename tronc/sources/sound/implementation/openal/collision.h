@@ -18,12 +18,12 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_SOUND_IMPLEMENTATION_BACKGROUND_SOUND_H_
-#define PU_SOUND_IMPLEMENTATION_BACKGROUND_SOUND_H_
+#ifndef PU_SOUND_IMPLEMENTATION_COLISION_H_
+#define PU_SOUND_IMPLEMENTATION_COLISION_H_
 
 #include <kernel/trait_view.h>
 
-#include <model/background_sound.h>
+#include <model/collision.h>
 
 #include <sound/implementation/openal/sound_emitter.h>
 #include <sound/implementation/openal/real_world_view_point.h>
@@ -35,7 +35,7 @@ namespace ProjetUnivers {
 
     
         /// Sound background observer
-        class BackgroundSound : public Kernel::TraitView<Model::BackgroundSound,
+        class Collision : public Kernel::TraitView<Model::Collision,
                                                          RealWorldViewPoint>,
                                 public SoundEmitter
         {
@@ -47,7 +47,7 @@ namespace ProjetUnivers {
         // @{
 
           /// Constructor.
-          BackgroundSound(Model::BackgroundSound*,RealWorldViewPoint*) ;
+          Collision(Model::Collision*,RealWorldViewPoint*) ;
 
         // @}
                     

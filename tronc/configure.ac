@@ -56,9 +56,21 @@ AC_SUBST(ODE_LIBS, "-lode")
 PKG_CHECK_MODULES(openal, [openal >= 0.0.8])
 AC_SUBST(openal_LIBS)
 
-# check alut
-PKG_CHECK_MODULES(freealut, [freealut >= 1.0])
-AC_SUBST(freealut_LIBS)
+# check Ogg
+PKG_CHECK_MODULES(ogg, [ogg >= 1.1.3])
+AC_SUBST(ogg_LIBS)
+
+# check Vorbis
+PKG_CHECK_MODULES(vorbis, [vorbis >= 1.2])
+AC_SUBST(vorbis_LIBS)
+
+# check Vorbisfile
+PKG_CHECK_MODULES(vorbisfile, [vorbisfile >= 1.2])
+AC_SUBST(vorbisfile_LIBS)
+
+# check Libsndfile
+PKG_CHECK_MODULES(libsndfile, [libsndfile >= 1.0.17])
+AC_SUBST(libsndfile_LIBS)
 
 # Global c++ variable :
 PU_CXXFLAGS="$OGRE_CFLAGS $OIS_CFLAGS $librlog_CFLAGS"

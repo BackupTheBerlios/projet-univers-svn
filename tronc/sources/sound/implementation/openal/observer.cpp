@@ -24,6 +24,7 @@
 #include <model/oriented.h>
 #include <model/mobile.h>
 
+#include <sound/implementation/openal/openal.h>
 #include <sound/implementation/openal/observer.h>
 
 namespace ProjetUnivers {
@@ -101,11 +102,11 @@ namespace ProjetUnivers {
           
         void Observer::onClose()
         {
-          InternalMessage("Display::Observer::onClose Entering") ;
+          InternalMessage("OpenAL::Observer::onClose Entering") ;
 
           //Just one listener by context in openal , it's destroy with openal context
           
-          InternalMessage("Display::Observer::onClose Leaving") ;
+          InternalMessage("OpenAL::Observer::onClose Leaving") ;
         }
         
         void Observer::onUpdate()

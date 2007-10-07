@@ -18,46 +18,69 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <AL/al.h>
 
 #include <kernel/log.h>
-
-#include <sound/implementation/openal/openal.h>
-#include <sound/implementation/openal/sound_listener.h>
-
-#include <OgreVector3.h>
-#include <OgreQuaternion.h>
+ 
+#include <sound/implementation/openal/manager.h>
+#include <sound/implementation/openal/wav_reader.h>
+#include <sound/implementation/openal/ogg_reader.h>
 
 namespace ProjetUnivers {
   namespace Sound {
     namespace Implementation {
       namespace OpenAL {
-
-        SoundListener::SoundListener()
+        Manager::Manager()
         {}
         
-        void SoundListener::updateListener()
-        {                     
-          Ogre::Vector3 position = this->getPosition().Meter() ;
-          alListener3f(AL_POSITION, (float)position.x, (float)position.y, (float)position.z);
-          Ogre::Quaternion orientation = this->getOrientation().getQuaternion();
-
-          ALfloat openal_orientation[6] ;
-          openal_orientation[0] = orientation.zAxis().x ;
-          openal_orientation[1] = orientation.zAxis().y ;
-          openal_orientation[2] = orientation.zAxis().z ;
-          openal_orientation[3] = orientation.yAxis().x ;
-          openal_orientation[4] = orientation.yAxis().y ;
-          openal_orientation[5] = orientation.yAxis().z ;
-          
-          //alListenerfv(AL_DIRECTION, openal_orientation) ;
-          InformationMessage("after direction " + getErrorString(alGetError())) ;           
-                      
-          Ogre::Vector3 speed = this->getSpeed().MeterPerSecond();
-          alListener3f(AL_VELOCITY, (float)speed.x, (float)speed.y, (float)speed.z) ;
-          alListenerf(AL_GAIN,getGain()) ;
+        Manager::~Manager()
+        {
+          for (std::vector<Reader*>::iterator iter = m_readers.begin() ; iter != m_readers.end(); iter++) 
+          {
+            delete *iter ;
+          }
+          m_readers.clear() ;
         }
-      
+        
+        Reader* Manager::createReader(ALuint p_source, std::string p_fileName, bool p_isEvent)
+        {
+          //TODO remplacer par une test mime ou au moins extension du fichier et non un choix arbitraite event= wav
+          Reader* res ;
+          if(p_isEvent)
+          {
+            res = new WavReader(p_source, p_fileName, p_isEvent) ;
+          }
+          else
+          {
+            res = new OggReader(p_source, p_fileName, p_isEvent) ;
+          }
+          res->onInit() ;
+          m_readers.push_back(res) ;
+          return res;
+        }
+        
+        void Manager::update()
+        {
+          if(m_timer.getSecond() > 1.0)
+          {
+            m_timer.reset() ;
+            for (std::vector<Reader*>::iterator iter = m_readers.begin() ; iter != m_readers.end(); ) 
+            {
+              if((*iter)->m_finish)
+              {
+                (*iter)->onClose() ;
+                delete *iter;
+                iter = m_readers.erase(iter) ;
+              }
+              else
+              {
+                InformationMessage("enter manager update") ;     
+                (*iter)->update() ;
+                ++iter;
+                InformationMessage("leave manager update") ;     
+              }
+            }
+          }          
+        }
       }
     }
   }

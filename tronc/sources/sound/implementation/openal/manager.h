@@ -18,47 +18,56 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <AL/al.h>
+#ifndef PU_SOUND_IMPLEMENTATION_OPENAL_MANAGER_H_
+#define PU_SOUND_IMPLEMENTATION_OPENAL_MANAGER_H_
 
-#include <kernel/log.h>
 
-#include <sound/implementation/openal/openal.h>
-#include <sound/implementation/openal/sound_listener.h>
+#include <kernel/timer.h>
 
-#include <OgreVector3.h>
-#include <OgreQuaternion.h>
+#include <sound/implementation/openal/reader.h>
+
+#include <vector>
+#include <string>
 
 namespace ProjetUnivers {
   namespace Sound {
     namespace Implementation {
       namespace OpenAL {
-
-        SoundListener::SoundListener()
-        {}
+        /// Reader manager, update the buffers and create/delete the reader during their life
+        /*!
+                      */
+        class Manager
+        {
         
-        void SoundListener::updateListener()
-        {                     
-          Ogre::Vector3 position = this->getPosition().Meter() ;
-          alListener3f(AL_POSITION, (float)position.x, (float)position.y, (float)position.z);
-          Ogre::Quaternion orientation = this->getOrientation().getQuaternion();
-
-          ALfloat openal_orientation[6] ;
-          openal_orientation[0] = orientation.zAxis().x ;
-          openal_orientation[1] = orientation.zAxis().y ;
-          openal_orientation[2] = orientation.zAxis().z ;
-          openal_orientation[3] = orientation.yAxis().x ;
-          openal_orientation[4] = orientation.yAxis().y ;
-          openal_orientation[5] = orientation.yAxis().z ;
+        public:
+        /*!
+                     @name Construction 
+                    */
+        // @{
+        
+          /// Constructor 
+          Manager() ;
+        // @}
+        
+          ~Manager();
           
-          //alListenerfv(AL_DIRECTION, openal_orientation) ;
-          InformationMessage("after direction " + getErrorString(alGetError())) ;           
-                      
-          Ogre::Vector3 speed = this->getSpeed().MeterPerSecond();
-          alListener3f(AL_VELOCITY, (float)speed.x, (float)speed.y, (float)speed.z) ;
-          alListenerf(AL_GAIN,getGain()) ;
-        }
-      
+          
+          /// Create a reader which match the soundFile type
+          Reader* createReader(ALuint p_source,std::string p_fileName, bool p_isEvent);
+          
+          /// Close the file, delete the  buffers
+          void update();
+            
+        private:
+          
+          std::vector<Reader*> m_readers;
+          Kernel::Timer m_timer;
+             
+        };
       }
     }
   }
 }
+
+
+#endif /*PU_SOUND_IMPLEMENTATION_OPENAL_MANAGER_H_*/
