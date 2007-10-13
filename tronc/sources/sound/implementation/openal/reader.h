@@ -31,22 +31,11 @@ namespace ProjetUnivers {
       namespace OpenAL {
         /// Interface  of a soundfile reader use for streaming
         /*!
-                      */
+        */
         class Reader
         {
         
         public:
-        /*!
-                     @name Construction 
-                    */
-        // @{
-        
-          /// Constructor by default for container like vector
-          Reader() ;
-          
-          /// Constructor in use
-          Reader(ALuint p_source, std::string p_fileName, bool p_isEvent) ;
-        // @}
         
           virtual ~Reader() ;
           
@@ -66,6 +55,15 @@ namespace ProjetUnivers {
           bool m_finish ;
           
         protected:
+        
+          /*!
+        name Construction 
+        */
+        // @{
+          
+          /// Constructor in use
+          Reader(const ALuint& p_source, const std::string& p_fileName, const bool& p_isEvent) ;
+        // @}
           
           /// OpenAL source
           ALuint m_source ;

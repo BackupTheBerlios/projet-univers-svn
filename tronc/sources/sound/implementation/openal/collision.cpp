@@ -59,20 +59,10 @@ namespace ProjetUnivers {
         {
           return true;
         }
-          
-        Model::Position Collision::getPosition() const
+        
+        Kernel::Object* Collision::getObject() const
         {
-          return Model::Position();
-        }
-          
-        Model::Orientation Collision::getOrientation() const
-        {
-          return Model::Orientation();
-        }
-          
-        Model::Speed Collision::getSpeed() const
-        {
-          return Model::Speed();
+          return getModel()->getObject() ;
         }
     
         float Collision::getOuterAngle() const

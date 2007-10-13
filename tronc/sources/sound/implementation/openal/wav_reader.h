@@ -30,21 +30,18 @@ namespace ProjetUnivers {
       namespace OpenAL {
         /// Interface  of a soundfile reader use for streaming
         /*!
-                      */
+        */
         class WavReader : public Reader
         {
         
         public:
         /*!
-                     @name Construction 
-                    */
+         @name Construction 
+        */
         // @{
-        
-          /// Constructor by default for container like vector
-          WavReader() ;
           
           /// Constructor in use
-          WavReader(ALuint p_source, std::string p_fileName, bool p_isEvent) ;
+          WavReader(const ALuint& p_source, const std::string& p_fileName, const bool& p_isEvent) ;
         // @}
           
           

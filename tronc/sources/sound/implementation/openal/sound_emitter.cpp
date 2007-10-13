@@ -23,6 +23,10 @@
 #include <kernel/string.h>
 #include <kernel/log.h>
 
+#include <model/positionned.h>
+#include <model/oriented.h>
+#include <model/mobile.h>
+
 #include <sound/implementation/openal/openal.h>
 #include <sound/implementation/openal/sound_emitter.h>
 
@@ -41,14 +45,20 @@ namespace ProjetUnivers {
               
         void SoundEmitter::initSound()
         {
-          InternalMessage("SoundEmitter::initSound") ;
+          InternalMessage("SoundEmitter::initSound entering") ;
           if(!m_source)
           {
             alGenSources(1,&m_source) ;
+            if(!getManager())
+            {
+            	InternalMessage("Manager NULL!!") ;
+            }
             m_reader = getManager()->createReader(m_source, getSoundFileName().c_str(), isEvent()) ;
+            InternalMessage("reader ok") ;
             alSourcei(m_source, AL_SOURCE_RELATIVE, isListenerRelative()) ;
             updateSource();      
-          }  
+          } 
+          InternalMessage("SoundEmitter::initSound leaving") ; 
         }
         
         void SoundEmitter::startSound()
@@ -61,7 +71,8 @@ namespace ProjetUnivers {
         }
         
         void SoundEmitter::updateSource()
-        {                     
+        {
+          InternalMessage("SoundEmitter::updateSource entering") ;                     
           Ogre::Vector3 position = getPosition().Meter() ;
           alSource3f(m_source,
                      AL_POSITION, 
@@ -102,6 +113,7 @@ namespace ProjetUnivers {
           {
             stopSound();
           }
+          InternalMessage("SoundEmitter::updateSource leaving") ; 
         }
         
         void SoundEmitter::stopSound()
@@ -118,6 +130,62 @@ namespace ProjetUnivers {
           {
             stopSound();
             m_reader->m_finish = true;
+          }
+        }
+        
+        Model::Position SoundEmitter::getPosition() const
+        {
+          Model::Positionned* positionned = getObject()->getTrait<Model::Positionned>();
+          if(positionned)
+          {
+            if(isListenerRelative())
+            {
+              return positionned->getPosition(getManager()->getListener());
+            }
+            else
+            {
+              return positionned->getPosition(getManager()->getReference());
+            }
+          }
+          else
+          {
+          	//default value
+            return Model::Position();
+          }
+        }
+              
+        Model::Orientation SoundEmitter::getOrientation() const
+        {
+          Model::Oriented* oriented = getObject()->getTrait<Model::Oriented>();
+          if(oriented)
+          {
+            if(isListenerRelative())
+            {
+              return oriented->getOrientation(getManager()->getListener());
+            }
+            else
+            {
+              return oriented->getOrientation(getManager()->getReference());
+            }
+          }
+          else
+          {
+          	//default value
+            return Model::Orientation();
+          }
+        }
+              
+        Model::Speed SoundEmitter::getSpeed() const
+        {
+          Model::Mobile* mobile = getObject()->getTrait<Model::Mobile>();
+          if(mobile)
+          {
+            return mobile->getSpeed();
+          }
+          else
+          {
+          	//default value
+            return Model::Speed();
           }
         }
       

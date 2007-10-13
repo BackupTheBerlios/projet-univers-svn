@@ -29,7 +29,8 @@ namespace ProjetUnivers {
   namespace Sound {
     namespace Implementation {
       namespace OpenAL {
-        Manager::Manager()
+        Manager::Manager(Kernel::Object* listener, Kernel::Object* reference)
+        : m_listener(listener), m_reference(reference)
         {}
         
         Manager::~Manager()
@@ -56,6 +57,16 @@ namespace ProjetUnivers {
           res->onInit() ;
           m_readers.push_back(res) ;
           return res;
+        }
+        
+        Kernel::Object* Manager::getListener()
+        {
+          return m_listener;	
+        }
+          
+        Kernel::Object* Manager::getReference()
+        {
+          return m_reference;
         }
         
         void Manager::update()

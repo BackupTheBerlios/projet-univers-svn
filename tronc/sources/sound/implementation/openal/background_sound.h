@@ -35,8 +35,7 @@ namespace ProjetUnivers {
 
     
         /// Sound background observer
-        class BackgroundSound : public Kernel::TraitView<Model::BackgroundSound,
-                                                         RealWorldViewPoint>,
+        class BackgroundSound : public Kernel::TraitView<Model::BackgroundSound,RealWorldViewPoint>,
                                 public SoundEmitter
         {
         public:
@@ -63,14 +62,8 @@ namespace ProjetUnivers {
           /// Indicate if the source is relative to the world or the listener
           virtual bool isListenerRelative() const ;
           
-          /// Get the object's position relative to the world or the listener
-          virtual Model::Position getPosition() const ;
-          
-          /// Get the object's orientation relative to the world or the listener
-          virtual Model::Orientation getOrientation() const ;
-          
-          /// Get the object's speed relative to the world or listener
-          virtual Model::Speed getSpeed() const ;
+          ///Acces to the object with the trait
+          Kernel::Object* getObject() const ;
           
           /// Get the cone's outer angle
           virtual float getOuterAngle() const ;

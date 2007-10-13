@@ -56,6 +56,8 @@ namespace ProjetUnivers {
         Model::init() ;
         
         Kernel::Object* system = Model::createObject("system") ;
+        Model::addTrait(system, new Model::Positionned()) ;
+        Model::addTrait(system, new Model::Oriented()) ;
 
         Kernel::Object* listener = Model::createObject(system) ;
         Model::addTrait(listener,new Model::Observer()) ;
@@ -73,12 +75,16 @@ namespace ProjetUnivers {
         Kernel::Object* collision = Model::createObject(system) ;
         const Model::Position& posRef = Model::Position();
         Model::addTrait(collision,new Model::Collision(elm1, elm2, posRef)) ;
-        
+        InternalMessage("fin definition world") ;
         /// build a sound viewpoint        
         Sound::init() ;
-        Kernel::ViewPoint* sound = Sound::build(listener) ;
+        InternalMessage("after sound init") ;
+        Sound::build(listener, system) ;
+        InternalMessage("after sound build") ;
         
-        Model::destroyObject(collision) ;
+        //Model::destroyObject(collision) ;
+        
+        InternalMessage("after destroy colision") ;
         
         Kernel::Timer timer ;
         int i = 0 ;

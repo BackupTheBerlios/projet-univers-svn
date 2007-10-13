@@ -23,6 +23,7 @@
 
 
 #include <kernel/timer.h>
+#include <kernel/object.h>
 
 #include <sound/implementation/openal/reader.h>
 
@@ -46,22 +47,30 @@ namespace ProjetUnivers {
         // @{
         
           /// Constructor 
-          Manager() ;
+          Manager(Kernel::Object* listener, Kernel::Object* reference) ;
         // @}
         
-          ~Manager();
+          ~Manager() ;
           
           
           /// Create a reader which match the soundFile type
-          Reader* createReader(ALuint p_source,std::string p_fileName, bool p_isEvent);
+          Reader* createReader(ALuint p_source,std::string p_fileName, bool p_isEvent) ;
           
-          /// Close the file, delete the  buffers
-          void update();
+          /// Give a pointer to the listener
+          Kernel::Object* getListener() ;
+          
+          /// Give a pointer to the reference object of the world/soundWorld if it isn't the same
+          Kernel::Object* getReference() ;
+          
+          /// Close the files of finish sounds, delete the  buffers
+          void update() ;
             
         private:
           
-          std::vector<Reader*> m_readers;
-          Kernel::Timer m_timer;
+          std::vector<Reader*> m_readers ;
+          Kernel::Timer m_timer ;
+          Kernel::Object* m_listener ;
+          Kernel::Object* m_reference ;
              
         };
       }

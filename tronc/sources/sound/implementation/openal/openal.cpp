@@ -29,8 +29,8 @@ namespace ProjetUnivers {
       namespace OpenAL {
         
         /*!
-                        @name Attributes
-                      */
+          @name Attributes
+         */
         // @{
           bool initialised = false ;
           ALCdevice* device ;
@@ -68,8 +68,6 @@ namespace ProjetUnivers {
           }
           
           InformationMessage("Al status end init openal " + getErrorString(alGetError())) ;
-          
-          manager = new Manager();
 
           initialised = true ;
           
@@ -97,6 +95,11 @@ namespace ProjetUnivers {
         void update()
         {
           manager->update();
+        }
+        
+        void build(Kernel::Object* listener, Kernel::Object* reference)
+        {
+        	manager = new Manager(listener, reference);
         }
         
         std::string getErrorString(const ALenum& error)

@@ -32,11 +32,7 @@ namespace ProjetUnivers {
     namespace Implementation {
       namespace OpenAL {
         
-        OggReader::OggReader()
-        :Reader(), m_stream(0), m_file(0)
-        {}
-        
-        OggReader::OggReader(ALuint p_source, std::string p_fileName, bool p_isEvent)
+        OggReader::OggReader(const ALuint& p_source, const std::string& p_fileName, const bool& p_isEvent)
         :Reader(p_source, p_fileName, p_isEvent), m_stream(0), m_file(0)
         {}
         

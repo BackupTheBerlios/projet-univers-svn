@@ -29,13 +29,8 @@ namespace ProjetUnivers {
   namespace Sound {
     namespace Implementation {
       namespace OpenAL {
-        
-        Reader::Reader()
-        : m_source(0), m_fileName(0), m_isEvent(false), m_finish(false),
-          m_format(0), m_sampleRate(0), m_samplesByBuffer(0)
-        {}
 
-        Reader::Reader(ALuint p_source, std::string p_fileName, bool p_isEvent) 
+        Reader::Reader(const ALuint& p_source, const std::string& p_fileName, const bool& p_isEvent) 
         : m_source(p_source), m_fileName(p_fileName), m_isEvent(p_isEvent), m_finish(false),
           m_format(0), m_sampleRate(0), m_samplesByBuffer(0)  
         {

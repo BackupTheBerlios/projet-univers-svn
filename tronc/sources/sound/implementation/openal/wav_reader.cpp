@@ -30,11 +30,7 @@ namespace ProjetUnivers {
     namespace Implementation {
       namespace OpenAL {
         
-        WavReader::WavReader()
-        :Reader(), m_file(0)
-        {}
-        
-        WavReader::WavReader(ALuint p_source, std::string p_fileName, bool p_isEvent)
+        WavReader::WavReader(const ALuint& p_source, const std::string& p_fileName, const bool& p_isEvent)
         :Reader(p_source, p_fileName, p_isEvent), m_file(0)
         {}
         

@@ -44,6 +44,9 @@ namespace ProjetUnivers {
         /// Update OpenAL
         void update() ;
         
+        /// Create the manager
+        void build(Kernel::Object* listener, Kernel::Object* reference) ;
+        
         /// Humanly readable OpenAL error code. 
         std::string getErrorString(const ALenum&) ;
         

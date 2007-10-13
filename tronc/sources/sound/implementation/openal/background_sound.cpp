@@ -59,22 +59,12 @@ namespace ProjetUnivers {
         {
           return true;
         }
-          
-        Model::Position BackgroundSound::getPosition() const
+        
+        Kernel::Object* BackgroundSound::getObject() const
         {
-          return Model::Position();
+          getModel()->getObject() ;
         }
-          
-        Model::Orientation BackgroundSound::getOrientation() const
-        {
-          return Model::Orientation();
-        }
-          
-        Model::Speed BackgroundSound::getSpeed() const
-        {
-          return Model::Speed();
-        }
-    
+        
         float BackgroundSound::getOuterAngle() const
         {
           return 360 ;

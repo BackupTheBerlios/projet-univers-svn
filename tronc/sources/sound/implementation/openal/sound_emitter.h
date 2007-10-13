@@ -27,6 +27,7 @@
 #include <model/orientation.h>
 #include <model/speed.h>
 
+#include <sound/implementation/openal/openal.h>
 #include <sound/implementation/openal/reader.h>
 
 namespace ProjetUnivers {
@@ -91,14 +92,17 @@ namespace ProjetUnivers {
           /// Indicate if the source is relative to the world or the listener
           virtual bool isListenerRelative() const = 0 ;
           
+          ///Acces to the object with the trait
+          virtual Kernel::Object* getObject() const = 0 ;
+          
           /// Get the object's position relative to the world or the listener
-          virtual Model::Position getPosition() const = 0 ;
+          Model::Position getPosition() const;
               
           /// Get the object's orientation relative to the world or the listener
-          virtual Model::Orientation getOrientation() const = 0 ;
+          Model::Orientation getOrientation() const;
               
           /// Get the object's speed relative to the world or listener
-          virtual Model::Speed getSpeed() const = 0 ;
+          Model::Speed getSpeed() const;
           
           /// Get the cone's outer angle
           virtual float getOuterAngle() const = 0 ;

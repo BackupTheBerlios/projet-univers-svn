@@ -65,10 +65,15 @@ namespace ProjetUnivers {
       Implementation::OpenAL::update() ;
     }
 
-    Kernel::ViewPoint* build(Kernel::Object* observer)
+    Kernel::ViewPoint* build(Kernel::Object* listener, Kernel::Object* reference)
     {
-      m_sound_system.reset(new Implementation::OpenAL::RealWorldViewPoint(observer)) ;
-      m_sound_system->init() ;
+      InternalMessage("Sound::build entering") ;
+      // the manager must be initialised  with OpenAL::build before build RealWorldViewPoint
+      Implementation::OpenAL::build(listener, reference) ; 
+      InternalMessage("Sound::build openal::build") ;
+      m_sound_system.reset(new Implementation::OpenAL::RealWorldViewPoint(listener)) ;
+      m_sound_system->init() ;     
+      InternalMessage("Sound::build leaving") ;  
     }
 
   }
