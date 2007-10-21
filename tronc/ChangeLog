@@ -251,4 +251,42 @@ todos :
       of concerns)
   * all :
     - make use of Quantities ??
+    
+2007-10-13 Minos
+  
+  * sound  :
+    - add manager and reader for streaming
+    - deduction of trait information for position, orientation and speed
+    - for the compilation now, Ogg, Vorbis, Vorbisfile and libsndfile are needed
+    
+todos :
+
+  * sound : 
+    - just keep relative model to a global reference
+    - tests configuration in mouvement
+    
+2007-10-21 Minos
+
+  * model :
+    - add ear to represent the hearing of player
+    - add listener, deduced trait for the sound (ear, positionned, ...)
+    - add engine_sound, deduced trait for the sound (ear, positionned, ...)
+  * sound :
+    - add listener to replace observer, observe Model::listener
+    - add engine_sound, observe Model::engine_sound
+    - sound_emitter now implements default behavior
+    - some fix on sound_emitter and sound_listener in properties setting.
+    - openal now is configure in software mode, hardware (nvidia integrated shipset in my case)
+      don't work for moving alone listener, and later for some effect
+    * test :
+      - add moving_object, source move on three axis
+      - add cone_propertie, a listener turn around an engine and heard the variation with the angle
+      
+todos :
+  
+  * sound :
+    - global effect on the mixed sound in function of Model::ear state
+    - device selection between software/hardware
+    
+    
   
