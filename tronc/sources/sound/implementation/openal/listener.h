@@ -18,78 +18,78 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_SOUND_IMPLEMENTATION_BACKGROUND_SOUND_H_
-#define PU_SOUND_IMPLEMENTATION_BACKGROUND_SOUND_H_
+#ifndef PU_SOUND_IMPLEMENTATION_OPENAL_LISTENER_H_
+#define PU_SOUND_IMPLEMENTATION_OPENAL_LISTENER_H_
 
 #include <kernel/trait_view.h>
 
-#include <model/background_sound.h>
+#include <model/listener.h>
 
-#include <sound/implementation/openal/sound_emitter.h>
+#include <sound/implementation/openal/sound_listener.h>
 #include <sound/implementation/openal/real_world_view_point.h>
 
 namespace ProjetUnivers {
   namespace Sound {
     namespace Implementation {
       namespace OpenAL {
-
-    
-        /// Sound background observer
-        class BackgroundSound : public Kernel::TraitView<Model::BackgroundSound,RealWorldViewPoint>,
-                                public SoundEmitter
+        
+        
+        /// Sound Observer view.
+        /*!
+        */
+        class Listener : public Kernel::TraitView<Model::Listener,
+                                                  RealWorldViewPoint>, 
+                         public SoundListener
         {
         public:
-          
+        
         /*!
           @name Construction 
         */
         // @{
 
-          /// Constructor.
-          BackgroundSound(Model::BackgroundSound*,RealWorldViewPoint*) ;
-        
-        // @{
 
+          /// Constructor.
+          Listener(Model::Listener*,RealWorldViewPoint*) ;
+
+
+        // @}
+          
+          /// @Implements
+          virtual float getGain() const ;
+                        
+          /// @Implements
+          virtual Model::Position getPosition() const ;
+                            
+          /// @Implements
+          virtual Model::Orientation getOrientation() const ;
+                            
+          /// @Implements
+          virtual Model::Speed getSpeed() const ; 
+          
+          
         protected:
-        
-        // @}
-        
-         /*!
-          @name Access methods
-          
-          Redefinition of some properties of the sound to emit.
-          
-        */
-        
-        // @{
-                    
-          /// Get the sound's filename
-          virtual std::string getSoundFileName() const ;
-          
-          /// Indicate if the sound is looping
-          virtual bool isEvent() const ;
-          
-          ///Acces to the object with the trait
-          Kernel::Object* getObject() const ;
-          
-        // @}
-          
+
         /*!
           @name Updates.
         */
         // @{
-                  
+        
+          /// TODO
           void onInit() ;
-                      
+          
+          /// TODO
           void onClose() ;
-                      
+          
+          /// TODO
           void onUpdate() ;
 
-        // @}      
+        // @}
         };
       }
     }
   }
 }
 
-#endif /*PU_SOUND_IMPLEMENTATION_BACKGROUND_SOUND_H_*/
+
+#endif /*PU_SOUND_IMPLEMENTATION_OPENAL_LISTENER_H_*/

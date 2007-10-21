@@ -39,7 +39,7 @@ namespace ProjetUnivers {
                           public SoundEmitter
         {
         public:
-          
+        
         /*!
           @name Construction 
         */
@@ -47,8 +47,21 @@ namespace ProjetUnivers {
 
           /// Constructor.
           Collision(Model::Collision*,RealWorldViewPoint*) ;
-
+          
+        // @{
+          
+        protected:
+        
         // @}
+        
+         /*!
+          @name Access methods
+          
+          Redefinition of some properties of the sound to emit.
+          
+        */
+        
+        // @{
                     
           /// Get the sound's filename
           virtual std::string getSoundFileName() const ;
@@ -56,37 +69,20 @@ namespace ProjetUnivers {
           /// Indicate if the sound is looping
           virtual bool isEvent() const ;
           
-          /// Indicate if the source is active now considering damages or other elements
-          virtual bool isActive() const ;
-          
-          /// Indicate if the source is relative to the world or the listener
-          virtual bool isListenerRelative() const ;
-          
           ///Acces to the object with the trait
-          virtual Kernel::Object* getObject() const ;
+          Kernel::Object* getObject() const ;
           
-          /// Get the cone's outer angle
-          virtual float getOuterAngle() const ;
-          
-          /// Get the cone's inner angle
-          virtual float getInnerAngle() const ;
-          
-          /// Get the calculate max distance
-          virtual float getMaxDistance() const ;
-          
-        protected:
+        // @}
+        
         /*!
           @name Updates.
         */
         // @{
                   
-          /// TODO
           void onInit() ;
                       
-          /// TODO
           void onClose() ;
                       
-          /// TODO
           void onUpdate() ;
 
         // @}      

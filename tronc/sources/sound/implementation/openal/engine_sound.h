@@ -18,12 +18,12 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_SOUND_IMPLEMENTATION_BACKGROUND_SOUND_H_
-#define PU_SOUND_IMPLEMENTATION_BACKGROUND_SOUND_H_
+#ifndef PU_SOUND_IMPLEMENTATION_SOUND_OBJECT_H_
+#define PU_SOUND_IMPLEMENTATION_SOUND_OBJECT_H_
 
 #include <kernel/trait_view.h>
 
-#include <model/background_sound.h>
+#include <model/engine_sound.h>
 
 #include <sound/implementation/openal/sound_emitter.h>
 #include <sound/implementation/openal/real_world_view_point.h>
@@ -35,8 +35,8 @@ namespace ProjetUnivers {
 
     
         /// Sound background observer
-        class BackgroundSound : public Kernel::TraitView<Model::BackgroundSound,RealWorldViewPoint>,
-                                public SoundEmitter
+        class EngineSound : public Kernel::TraitView<Model::EngineSound,RealWorldViewPoint>,
+                       public SoundEmitter
         {
         public:
           
@@ -46,21 +46,18 @@ namespace ProjetUnivers {
         // @{
 
           /// Constructor.
-          BackgroundSound(Model::BackgroundSound*,RealWorldViewPoint*) ;
-        
-        // @{
+          EngineSound(Model::EngineSound*,RealWorldViewPoint*) ;
 
-        protected:
-        
         // @}
         
-         /*!
+        protected:
+        
+        /*!
           @name Access methods
           
           Redefinition of some properties of the sound to emit.
           
         */
-        
         // @{
                     
           /// Get the sound's filename
@@ -72,8 +69,14 @@ namespace ProjetUnivers {
           ///Acces to the object with the trait
           Kernel::Object* getObject() const ;
           
-        // @}
+          float getOuterGain() const ;
+        
+          float getOuterAngle() const ;
           
+          float getInnerAngle() const ;
+        
+        // @}
+        
         /*!
           @name Updates.
         */
@@ -92,4 +95,4 @@ namespace ProjetUnivers {
   }
 }
 
-#endif /*PU_SOUND_IMPLEMENTATION_BACKGROUND_SOUND_H_*/
+#endif /*PU_SOUND_IMPLEMENTATION_SOUND_OBJECT_H_*/

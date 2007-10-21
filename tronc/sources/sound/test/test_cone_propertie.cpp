@@ -18,6 +18,10 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <AL/al.h>
+
+#include <OgreQuaternion.h>
+
 #include <kernel/object.h>
 #include <kernel/model.h>
 #include <kernel/timer.h>
@@ -25,35 +29,40 @@
 #include <kernel/string.h>
 
 #include <model/model.h>
-#include <model/ear.h>
+#include <model/duration.h>
 #include <model/positionned.h>
+#include <model/position.h>
 #include <model/oriented.h>
+#include <model/orientation.h>
+#include <model/ear.h>
 #include <model/mobile.h>
-#include <model/background_sound.h>
-#include <model/collision.h>
+#include <model/engine.h>
+#include <model/force.h>
 
 #include <sound/sound.h>
-#include <sound/test/test_background_sound.h>
+#include <sound/test/test_cone_propertie.h>
+
+#include <cmath>
+#include <iostream>
+#define PI 3.14
 
 CPPUNIT_TEST_SUITE_REGISTRATION(
-  ProjetUnivers::Sound::Test::TestBackgroundSound) ;
+  ProjetUnivers::Sound::Test::TestConePropertie) ;
 
 namespace ProjetUnivers {
   namespace Sound {
     namespace Test {
 
-      void TestBackgroundSound::basicTest()
+      void TestConePropertie::basicTest()
       {
         /*!
-          - build a background sound object wih a ogg
-          - build an event colision with a wav (default sound.wav in OpenAL::colision.cpp code) 
+          - build a engine
           - build a listener
-          - destroy the event  before the end of the sound
-          - update the module for streaming during 10secondes
-          -destroy all and clean sound module
+          - move the listener in a circle around the engine
+            to heard the variation with the angle.
+          
         */
-
-        // we construct a complete system
+      
         Model::init() ;
         
         Kernel::Object* system = Model::createObject("system") ;
@@ -62,52 +71,58 @@ namespace ProjetUnivers {
 
         Kernel::Object* listener = Model::createObject(system) ;
         Model::addTrait(listener,new Model::Ear()) ;
-        Model::addTrait(listener,new Model::Positionned()) ;
-        Model::addTrait(listener,new Model::Oriented()) ;
+        Model::Positionned* listenerPos = new Model::Positionned(Model::Position::Meter(0,0,0));
+        Model::addTrait(listener,listenerPos) ;
+        Model::addTrait(listener,new Model::Oriented(Model::Orientation(Ogre::Quaternion(1.0, 0.0, 10.0, 0.0)))) ;
         Model::addTrait(listener,new Model::Mobile());
 
-        Kernel::Object* emmiter = Model::createObject(system) ;
-        Model::addTrait(emmiter,new Model::BackgroundSound("sound.ogg")) ;
-        Model::addTrait(emmiter,new Model::Positionned()) ;
-        Model::addTrait(emmiter,new Model::Oriented()) ;
+        Kernel::Object* engine = Model::createObject(system) ;
+        Model::addTrait(engine,new Model::Engine(Model::Force::Newton(10,10,10))) ;
+        Model::Positionned* enginePos = new Model::Positionned(Model::Position::Meter(0,0,0));
+        Model::addTrait(engine,enginePos);
+        Model::addTrait(engine,new Model::Oriented(Model::Orientation(Ogre::Quaternion(1.0, 0.0, -10.0, 0.0)))) ;
+        Model::addTrait(engine,new Model::Mobile());
         
-        
-        Kernel::Object* elm1 = Model::createObject(system) ;
-        Kernel::Object* elm2 = Model::createObject(system) ;
-        Kernel::Object* collision = Model::createObject(system) ;
-        const Model::Position& posRef = Model::Position();
-        Model::addTrait(collision,new Model::Collision(elm1, elm2, posRef)) ;
-        InternalMessage("fin definition world") ;
         /// build a sound viewpoint        
         Sound::init() ;
-        InternalMessage("after sound init") ;
         Sound::build(listener, system) ;
-        InternalMessage("after sound build") ;
         
-        Model::destroyObject(collision) ;
-        
-        InternalMessage("after destroy colision") ;
         
         Kernel::Timer timer ;
-        int i = 0 ;
-        while(timer.getSecond() <= 10.0)
+
+        float angle = 0;
+        int tour = 0;
+        while (timer.getSecond() <= 20)
         {
-          ++i ;
+          //variation between 0 and 100% of 2PI
+          angle += 0.00005;
+          if (angle > 1)
+          {
+            angle = 0;
+            tour++;
+          }
+          listenerPos->setPosition(Model::Position::Meter(0.0,5*std::cos(angle*2*PI),5*std::sin(angle*2*PI)));
+          float seconds = timer.getSecond() ;
+          Model::Duration elapsed(Model::Duration::Second(seconds)) ;
+          Model::update(elapsed) ;
           Sound::update() ;
-        }          
-        InternalMessage("i=" + Kernel::toString(i)) ;
+        }
+        
+        std::cout << "nbtour:" << tour << std::endl;
+        
+
+        
         
         Sound::close();
         Model::close();
-        InternalMessage("after sound close") ;
         
       }
 
-      void TestBackgroundSound::setUp() 
+      void TestConePropertie::setUp() 
       {
       }
       
-      void TestBackgroundSound::tearDown() 
+      void TestConePropertie::tearDown() 
       {
       }
       

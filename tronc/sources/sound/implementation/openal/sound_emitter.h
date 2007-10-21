@@ -69,14 +69,14 @@ namespace ProjetUnivers {
           void deleteSound() ;
         
         // @}
+        
+        protected:
+        
         /*!
           @name Access methods
           
           These must be redefined by sub classes. They globally describe the 
           sound to emit. 
-          
-          @remark 
-            these methods could become protected or private ??
         */
         // @{
 
@@ -87,10 +87,7 @@ namespace ProjetUnivers {
           virtual bool isEvent() const = 0 ;
           
           /// Indicate if the source is active now considering damages or other elements
-          virtual bool isActive() const = 0 ;
-          
-          /// Indicate if the source is relative to the world or the listener
-          virtual bool isListenerRelative() const = 0 ;
+          virtual bool isActive() const;
           
           ///Acces to the object with the trait
           virtual Kernel::Object* getObject() const = 0 ;
@@ -104,18 +101,34 @@ namespace ProjetUnivers {
           /// Get the object's speed relative to the world or listener
           Model::Speed getSpeed() const;
           
-          /// Get the cone's outer angle
-          virtual float getOuterAngle() const = 0 ;
+          /// Get the gain, must be between 1 and 0 , 1 indicate the sound is not attenuated
+          virtual float getGain() const;
+          
+          /// Get the gain after the outerCone limit, must be between 1 and 0 , 1 indicate the sound is not attenuated
+          virtual float getOuterGain() const;
+          
+          /// Change the frequency, add 100% or reduce by 50% is equivalent to an octave variation
+          virtual float getPitch() const;
+          
+          //TODO: voir l'utilisation de Min gain et Max gain avec un système de priorités selon les sons
           
           /// Get the cone's inner angle
-          virtual float getInnerAngle() const = 0 ;
+          virtual float getInnerAngle() const;
           
-          /// Get the calculate max distance
-          virtual float getMaxDistance() const = 0 ;
+          /// Get the cone's outer angle
+          virtual float getOuterAngle() const;
+          
+          /// Get the reference distance where the gain equal the value of getGain
+          virtual float getRefDistance() const;
+          
+          /// Get the limit distance
+          virtual float getMaxDistance() const;
+          
+          /// Indicate the factor of attenuation
+          virtual float getRolloffFactor() const;
+          
           
         // @}
-          
-        protected:
 
           /// Default constructor.
           SoundEmitter() ;

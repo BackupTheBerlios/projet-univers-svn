@@ -49,37 +49,12 @@ namespace ProjetUnivers {
         {
           return false;
         }
-          
-        bool BackgroundSound::isActive() const
-        {
-          return true;
-        }
-          
-        bool BackgroundSound::isListenerRelative() const
-        {
-          return true;
-        }
         
         Kernel::Object* BackgroundSound::getObject() const
         {
           getModel()->getObject() ;
         }
-        
-        float BackgroundSound::getOuterAngle() const
-        {
-          return 360 ;
-        }
-        
-        float BackgroundSound::getInnerAngle() const
-        {
-          return 360;
-        }
-       
-        float BackgroundSound::getMaxDistance() const
-        {
-          return 1000;
-        }
-          
+                  
         void BackgroundSound::onInit()
         {
           this->initSound();

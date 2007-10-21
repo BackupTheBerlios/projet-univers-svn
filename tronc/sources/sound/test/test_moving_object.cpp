@@ -25,30 +25,31 @@
 #include <kernel/string.h>
 
 #include <model/model.h>
-#include <model/ear.h>
+#include <model/duration.h>
 #include <model/positionned.h>
+#include <model/position.h>
 #include <model/oriented.h>
+#include <model/ear.h>
 #include <model/mobile.h>
-#include <model/background_sound.h>
-#include <model/collision.h>
+#include <model/engine.h>
+#include <model/force.h>
 
 #include <sound/sound.h>
-#include <sound/test/test_background_sound.h>
+#include <sound/test/test_moving_object.h>
 
 CPPUNIT_TEST_SUITE_REGISTRATION(
-  ProjetUnivers::Sound::Test::TestBackgroundSound) ;
+  ProjetUnivers::Sound::Test::TestMovingObject) ;
 
 namespace ProjetUnivers {
   namespace Sound {
     namespace Test {
 
-      void TestBackgroundSound::basicTest()
+      void TestMovingObject::basicTest()
       {
         /*!
-          - build a background sound object wih a ogg
-          - build an event colision with a wav (default sound.wav in OpenAL::colision.cpp code) 
+          - build a engine
           - build a listener
-          - destroy the event  before the end of the sound
+          - move the engine position
           - update the module for streaming during 10secondes
           -destroy all and clean sound module
         */
@@ -62,40 +63,71 @@ namespace ProjetUnivers {
 
         Kernel::Object* listener = Model::createObject(system) ;
         Model::addTrait(listener,new Model::Ear()) ;
-        Model::addTrait(listener,new Model::Positionned()) ;
+        Model::Positionned* listenerPos = new Model::Positionned();
+        Model::addTrait(listener,listenerPos) ;
         Model::addTrait(listener,new Model::Oriented()) ;
         Model::addTrait(listener,new Model::Mobile());
 
-        Kernel::Object* emmiter = Model::createObject(system) ;
-        Model::addTrait(emmiter,new Model::BackgroundSound("sound.ogg")) ;
-        Model::addTrait(emmiter,new Model::Positionned()) ;
-        Model::addTrait(emmiter,new Model::Oriented()) ;
+        Kernel::Object* engine = Model::createObject(system) ;
+        Model::addTrait(engine,new Model::Engine(Model::Force::Newton(10,10,10))) ;
+        Model::Positionned* enginePos = new Model::Positionned(Model::Position::Meter(0,0,-50));
+        Model::addTrait(engine,enginePos);
+        Model::addTrait(engine,new Model::Oriented()) ;
+        Model::addTrait(engine,new Model::Mobile());
         
-        
-        Kernel::Object* elm1 = Model::createObject(system) ;
-        Kernel::Object* elm2 = Model::createObject(system) ;
-        Kernel::Object* collision = Model::createObject(system) ;
-        const Model::Position& posRef = Model::Position();
-        Model::addTrait(collision,new Model::Collision(elm1, elm2, posRef)) ;
-        InternalMessage("fin definition world") ;
         /// build a sound viewpoint        
         Sound::init() ;
-        InternalMessage("after sound init") ;
         Sound::build(listener, system) ;
-        InternalMessage("after sound build") ;
         
-        Model::destroyObject(collision) ;
-        
-        InternalMessage("after destroy colision") ;
         
         Kernel::Timer timer ;
-        int i = 0 ;
-        while(timer.getSecond() <= 10.0)
+
+        /// moving on Z axis
+        while (timer.getSecond() <= 10)
         {
-          ++i ;
+       	  enginePos->setPosition(enginePos->getPosition()+ Model::Position::Meter(0,0,0.005));
+          float seconds = timer.getSecond() ;
+          Model::Duration elapsed(Model::Duration::Second(seconds)) ;
+          Model::update(elapsed) ;
           Sound::update() ;
-        }          
-        InternalMessage("i=" + Kernel::toString(i)) ;
+        }
+        
+        /// moving on X axis
+        timer.reset();
+        enginePos->setPosition(Model::Position::Meter(-50,0,0));
+        while (timer.getSecond() <= 10)
+        {
+       	  enginePos->setPosition(enginePos->getPosition()+ Model::Position::Meter(0.005,0,0));
+          float seconds = timer.getSecond() ;
+          Model::Duration elapsed(Model::Duration::Second(seconds)) ;
+          Model::update(elapsed) ;
+          Sound::update() ;
+        }
+        
+        /// moving on Y axis
+        timer.reset();
+        enginePos->setPosition(Model::Position::Meter(0,-50,0));
+        while (timer.getSecond() <= 10)
+        {
+       	  enginePos->setPosition(enginePos->getPosition()+ Model::Position::Meter(0,0.005,0));
+          float seconds = timer.getSecond() ;
+          Model::Duration elapsed(Model::Duration::Second(seconds)) ;
+          Model::update(elapsed) ;
+          Sound::update() ;
+        }
+        
+        /// moving on X axis listener and source
+        timer.reset();
+        enginePos->setPosition(Model::Position::Meter(0,0,-100));
+        while (timer.getSecond() <= 10)
+        {
+       	  listenerPos->setPosition(listenerPos->getPosition()+ Model::Position::Meter(0,0,-0.005));
+       	  enginePos->setPosition(enginePos->getPosition()+ Model::Position::Meter(0,0,0.005));
+          float seconds = timer.getSecond() ;
+          Model::Duration elapsed(Model::Duration::Second(seconds)) ;
+          Model::update(elapsed) ;
+          Sound::update() ;
+        }
         
         Sound::close();
         Model::close();
@@ -103,11 +135,11 @@ namespace ProjetUnivers {
         
       }
 
-      void TestBackgroundSound::setUp() 
+      void TestMovingObject::setUp() 
       {
       }
       
-      void TestBackgroundSound::tearDown() 
+      void TestMovingObject::tearDown() 
       {
       }
       

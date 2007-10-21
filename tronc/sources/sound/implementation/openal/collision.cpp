@@ -49,37 +49,12 @@ namespace ProjetUnivers {
         {
           return true;
         }
-          
-        bool Collision::isActive() const
-        {
-          return true;
-        }
-          
-        bool Collision::isListenerRelative() const
-        {
-          return true;
-        }
-        
+
         Kernel::Object* Collision::getObject() const
         {
           return getModel()->getObject() ;
         }
-    
-        float Collision::getOuterAngle() const
-        {
-          return 360 ;
-        }
         
-        float Collision::getInnerAngle() const
-        {
-          return 360;
-        }
-       
-        float Collision::getMaxDistance() const
-        {
-          return 1000;
-        }
-          
         void Collision::onInit()
         {
           this->initSound();

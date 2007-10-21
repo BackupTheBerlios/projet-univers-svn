@@ -18,78 +18,74 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_SOUND_IMPLEMENTATION_BACKGROUND_SOUND_H_
-#define PU_SOUND_IMPLEMENTATION_BACKGROUND_SOUND_H_
+#include <kernel/log.h>
 
-#include <kernel/trait_view.h>
-
-#include <model/background_sound.h>
-
-#include <sound/implementation/openal/sound_emitter.h>
-#include <sound/implementation/openal/real_world_view_point.h>
+#include <sound/implementation/openal/engine_sound.h>
 
 namespace ProjetUnivers {
   namespace Sound {
     namespace Implementation {
       namespace OpenAL {
 
-    
-        /// Sound background observer
-        class BackgroundSound : public Kernel::TraitView<Model::BackgroundSound,RealWorldViewPoint>,
-                                public SoundEmitter
+        RegisterView(OpenAL::EngineSound, 
+                     Model::EngineSound, 
+                     OpenAL::RealWorldViewPoint) ;
+             
+        EngineSound::EngineSound(
+          Model::EngineSound* i_observer,
+          RealWorldViewPoint*     i_viewpoint) 
+        : Kernel::TraitView<Model::EngineSound,RealWorldViewPoint>(i_observer,i_viewpoint),
+        SoundEmitter()
         {
-        public:
-          
-        /*!
-          @name Construction 
-        */
-        // @{
-
-          /// Constructor.
-          BackgroundSound(Model::BackgroundSound*,RealWorldViewPoint*) ;
-        
-        // @{
-
-        protected:
-        
-        // @}
-        
-         /*!
-          @name Access methods
-          
-          Redefinition of some properties of the sound to emit.
-          
-        */
-        
-        // @{
+          InternalMessage("Building OpenAL::EngineSound") ;
+        }
                     
-          /// Get the sound's filename
-          virtual std::string getSoundFileName() const ;
+        std::string EngineSound::getSoundFileName() const
+        {
+          return "engine.ogg";
+        }
           
-          /// Indicate if the sound is looping
-          virtual bool isEvent() const ;
-          
-          ///Acces to the object with the trait
-          Kernel::Object* getObject() const ;
-          
-        // @}
-          
-        /*!
-          @name Updates.
-        */
-        // @{
+        bool EngineSound::isEvent() const
+        {
+          return false;
+        }
+        
+        Kernel::Object* EngineSound::getObject() const
+        {
+          getModel()->getObject() ;
+        }
+        
+        float EngineSound::getOuterGain() const
+        {
+        	return 0.5;	
+        }
+        
+        float EngineSound::getOuterAngle() const
+        {
+          return 170;
+        }
+        
+        float EngineSound::getInnerAngle() const
+        {
+          return 45;
+        }
                   
-          void onInit() ;
-                      
-          void onClose() ;
-                      
-          void onUpdate() ;
-
-        // @}      
-        };
+        void EngineSound::onInit()
+        {
+          this->initSound();
+        }
+                    
+        void EngineSound::onClose()
+        {
+          this->deleteSound();
+        }
+                    
+        void EngineSound::onUpdate()
+        {
+          this->updateSource();
+        } 
+      
       }
     }
   }
 }
-
-#endif /*PU_SOUND_IMPLEMENTATION_BACKGROUND_SOUND_H_*/

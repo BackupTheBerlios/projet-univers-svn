@@ -76,7 +76,7 @@ namespace ProjetUnivers {
             m_timer.reset() ;
             for (std::vector<Reader*>::iterator iter = m_readers.begin() ; iter != m_readers.end(); ) 
             {
-              if((*iter)->m_finish)
+              if((*iter)->isFinish())
               {
                 (*iter)->onClose() ;
                 delete *iter;

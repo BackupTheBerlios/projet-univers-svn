@@ -41,7 +41,7 @@ namespace ProjetUnivers {
         void init() 
         {
           InternalMessage("Sound::OpenAL::init entering") ;
-          device = alcOpenDevice(NULL);
+          device = alcOpenDevice("Generic Software");
           if(device == NULL)
           {
             initialised = false ;
@@ -67,11 +67,11 @@ namespace ProjetUnivers {
             return ;
           }
           
-          InformationMessage("Al status end init openal " + getErrorString(alGetError())) ;
+          alDistanceModel(AL_INVERSE_DISTANCE_CLAMPED);
 
           initialised = true ;
           
-          InternalMessage("Sound::OpenAL::init leaving") ;
+          InternalMessage("Sound::OpenAL::init leaving with status: " + getErrorString(alGetError())) ;
       }
     
         void close()

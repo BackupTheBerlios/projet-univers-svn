@@ -34,9 +34,9 @@ namespace ProjetUnivers {
         : m_source(p_source), m_fileName(p_fileName), m_isEvent(p_isEvent), m_finish(false),
           m_format(0), m_sampleRate(0), m_samplesByBuffer(0)  
         {
-          InformationMessage("Al status enter constructor " + getErrorString(alGetError())) ;
+          InternalMessage("Enter constructor, Al status:" + getErrorString(alGetError())) ;
           alGenBuffers(2, m_buffers);
-          InformationMessage("Al status leave constructor " + getErrorString(alGetError())) ;
+          InternalMessage("Leave constructor, Al status:" + getErrorString(alGetError())) ;
         }
         
         Reader::~Reader()
@@ -50,18 +50,28 @@ namespace ProjetUnivers {
         {
           InformationMessage("Enter update reader") ;   
           // Get the empty buffers
-          ALint NbProcessed;
-          alGetSourcei(m_source, AL_BUFFERS_PROCESSED, &NbProcessed); 
+          ALint NbProcessed ;
+          alGetSourcei(m_source, AL_BUFFERS_PROCESSED, &NbProcessed) ; 
           // Load this buffers with content
           for (ALint i = 0; i < NbProcessed && !m_finish; ++i)
           {
             InformationMessage("call load") ; 
             ALuint buffer;
-            alSourceUnqueueBuffers(m_source, 1, &buffer);
+            alSourceUnqueueBuffers(m_source, 1, &buffer) ;
             loadBuffer(buffer);
-            alSourceQueueBuffers(m_source, 1, &buffer);
+            alSourceQueueBuffers(m_source, 1, &buffer) ;
           }
           InformationMessage("leave update reader") ;   
+        }
+        
+        bool Reader::isFinish() const
+        {
+        	return m_finish ;	
+        }
+        
+        void Reader::setFinish(bool isFinish)
+        {
+          m_finish = isFinish ;	
         }
         
       }

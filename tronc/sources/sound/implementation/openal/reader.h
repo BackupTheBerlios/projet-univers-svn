@@ -51,8 +51,11 @@ namespace ProjetUnivers {
           /// Close the file, delete the  buffers
           virtual void onClose() = 0 ;
           
-          ///Indicate the sound life end and that the manager can delete this reader
-          bool m_finish ;
+          /// Indicate if the reader is finish and can be destroy
+          bool isFinish() const ;
+          /// Change the finish state
+          void setFinish(bool isFinish) ;
+          
           
         protected:
         
@@ -64,7 +67,9 @@ namespace ProjetUnivers {
           /// Constructor in use
           Reader(const ALuint& p_source, const std::string& p_fileName, const bool& p_isEvent) ;
         // @}
-          
+        
+          ///Indicate the sound life end and that the manager can delete this reader
+          bool m_finish ; 
           /// OpenAL source
           ALuint m_source ;
           /// OpenAL buffers 
