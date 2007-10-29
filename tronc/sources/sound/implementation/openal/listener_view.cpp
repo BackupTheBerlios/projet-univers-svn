@@ -32,24 +32,24 @@ namespace ProjetUnivers {
     namespace Implementation {
       namespace OpenAL {
         
-        RegisterView(OpenAL::Listener, 
-                     Model::Listener, 
+        RegisterView(OpenAL::ListenerView, 
+                     OpenAL::Listener, 
                      OpenAL::RealWorldViewPoint) ;
         
-        Listener::Listener(Model::Listener*    i_observer,
-                           RealWorldViewPoint* i_viewpoint) 
-        : Kernel::TraitView<Model::Listener,RealWorldViewPoint>(i_observer,i_viewpoint),
+        ListenerView::ListenerView(OpenAL:Listener*    i_observer,
+                                   RealWorldViewPoint* i_viewpoint) 
+        : Kernel::TraitView<OpenAL::Listener,RealWorldViewPoint>(i_observer,i_viewpoint),
           SoundListener()
         {
           InternalMessage("Building OpenAL::Listener") ;
         }
         
-        float Listener::getGain() const
+        float ListenerView::getGain() const
         {
           return 1.0f;
         }
                              
-        Model::Position Listener::getPosition() const
+        Model::Position ListenerView::getPosition() const
         {  
           Model::Positionned* positionned = getObject()->getTrait<Model::Positionned>();
           if(positionned)
@@ -63,7 +63,7 @@ namespace ProjetUnivers {
           }
         }
                                  
-        Model::Orientation Listener::getOrientation() const
+        Model::Orientation ListenerView::getOrientation() const
         {
           Model::Oriented* oriented = getObject()->getTrait<Model::Oriented>();
           if(oriented)
@@ -77,7 +77,7 @@ namespace ProjetUnivers {
           }
         }
                                  
-        Model::Speed Listener::getSpeed() const
+        Model::Speed ListenerView::getSpeed() const
         {
           Model::Mobile* mobile = getObject()->getTrait<Model::Mobile>();
           if(mobile)
@@ -91,7 +91,7 @@ namespace ProjetUnivers {
           }
         }
         
-        void Listener::onInit()
+        void ListenerView::onInit()
         {
           InternalMessage("OpenAL::Listener::onInit Entering") ;
 
@@ -100,7 +100,7 @@ namespace ProjetUnivers {
           InternalMessage("OpenAL::Listener::onInit Leaving") ;
         }
           
-        void Listener::onClose()
+        void ListenerView::onClose()
         {
           InternalMessage("OpenAL::Listener::onClose Entering") ;
 
@@ -109,7 +109,7 @@ namespace ProjetUnivers {
           InternalMessage("OpenAL::Listener::onClose Leaving") ;
         }
         
-        void Listener::onUpdate()
+        void ListenerView::onUpdate()
         {
           this->updateListener();
         }
