@@ -25,8 +25,8 @@ check_PROGRAMS = $(TESTS)
 
 test_sound_SOURCES = \
 ../test/test_sound.cpp \
-../test/test_moving_object.cpp \
 ../test/test_cone_propertie.cpp
+
 
 
 test_sound_CXXFLAGS = $(CPPUNIT_CFLAGS) $(PU_CXXFLAGS)

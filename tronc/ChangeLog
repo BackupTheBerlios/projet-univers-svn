@@ -287,6 +287,18 @@ todos :
   * sound :
     - global effect on the mixed sound in function of Model::ear state
     - device selection between software/hardware
+
+2007-10-29 Minos
+
+  * model :
+    - move sound deduced trait to sound module
+  * sound :
+    - rename viewer and refactor to not have conflit with deduced trait now in sound module
     
+      
+note : 
+  * Log can cause bug, the kernel begin to be too verbose ~20mo/sec in the test_cone_propertie.
+  Exemple: the sound buffer becomes empty and the sound stop, because i can't write on the hard disk
+  the log's flow when an application use another sector of the hard disk.
     
   

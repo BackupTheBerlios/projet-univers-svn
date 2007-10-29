@@ -32,10 +32,10 @@ namespace ProjetUnivers {
       namespace OpenAL {
 
     DeclareDeducedTrait(Listener,
-                        And(HasTrait(Mobile),
-                            HasTrait(Positionned),
-                            HasTrait(Oriented),
-                            HasTrait(Ear))) ;
+                        And(HasTrait(Model::Mobile),
+                            HasTrait(Model::Positionned),
+                            HasTrait(Model::Oriented),
+                            HasTrait(Model::Ear))) ;
 
       }
     }

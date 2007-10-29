@@ -25,7 +25,7 @@
 #include <model/mobile.h>
 
 #include <sound/implementation/openal/openal.h>
-#include <sound/implementation/openal/listener.h>
+#include <sound/implementation/openal/listener_view.h>
 
 namespace ProjetUnivers {
   namespace Sound {
@@ -36,10 +36,11 @@ namespace ProjetUnivers {
                      OpenAL::Listener, 
                      OpenAL::RealWorldViewPoint) ;
         
-        ListenerView::ListenerView(OpenAL:Listener*    i_observer,
-                                   RealWorldViewPoint* i_viewpoint) 
-        : Kernel::TraitView<OpenAL::Listener,RealWorldViewPoint>(i_observer,i_viewpoint),
-          SoundListener()
+        ListenerView::ListenerView(
+          OpenAL::Listener* i_observer,
+          OpenAL::RealWorldViewPoint*     i_viewpoint) 
+        : Kernel::TraitView<OpenAL::Listener,OpenAL::RealWorldViewPoint>(i_observer,i_viewpoint),
+        SoundListener()
         {
           InternalMessage("Building OpenAL::Listener") ;
         }

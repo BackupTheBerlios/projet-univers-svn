@@ -65,9 +65,7 @@ namespace ProjetUnivers {
         
         void SoundEmitter::updateSource()
         {
-          InternalMessage("SoundEmitter::updateSource entering") ;
-          
-		  ALint state;
+          ALint state;
           alGetSourcei(m_source, AL_SOURCE_STATE, &state);
           
           if(!isActive() && state == AL_PLAYING) 
@@ -115,8 +113,6 @@ namespace ProjetUnivers {
           {
             startSound();
           }
-
-          InternalMessage("SoundEmitter::updateSource leaving") ; 
         }
         
         void SoundEmitter::stopSound()

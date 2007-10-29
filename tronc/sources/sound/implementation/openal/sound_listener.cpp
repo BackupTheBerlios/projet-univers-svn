@@ -37,9 +37,7 @@ namespace ProjetUnivers {
         {}
         
         void SoundListener::updateListener()
-        {    
-          
-          InformationMessage("updateListener enter, openAL ETAT: " + getErrorString(alGetError())) ;                          
+        {                           
           Ogre::Vector3 position = this->getPosition().Meter() ;
           alListener3f(AL_POSITION, (float)position.x, (float)position.y, (float)position.z);
           Ogre::Quaternion orientation = this->getOrientation().getQuaternion();
@@ -57,7 +55,6 @@ namespace ProjetUnivers {
           Ogre::Vector3 speed = this->getSpeed().MeterPerSecond();
           alListener3f(AL_VELOCITY, (float)speed.x, (float)speed.y, (float)speed.z) ;
           alListenerf(AL_GAIN,getGain()) ;
-          InformationMessage("updateListener leaving, openAL ETAT: " + getErrorString(alGetError())) ;
         }
       
       }

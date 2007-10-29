@@ -20,7 +20,8 @@
  ***************************************************************************/
 #include <kernel/log.h>
 
-#include <sound/implementation/openal/engine_sound.h>
+#include <sound/implementation/openal/openal.h>
+#include <sound/implementation/openal/engine_sound_view.h>
 
 namespace ProjetUnivers {
   namespace Sound {
@@ -33,14 +34,14 @@ namespace ProjetUnivers {
              
         EngineSoundView::EngineSoundView(
           OpenAL::EngineSound* i_observer,
-          RealWorldViewPoint*     i_viewpoint) 
-        : Kernel::TraitView<OpenAL::EngineSound,RealWorldViewPoint>(i_observer,i_viewpoint),
+          OpenAL::RealWorldViewPoint*     i_viewpoint) 
+        : Kernel::TraitView<OpenAL::EngineSound,OpenAL::RealWorldViewPoint>(i_observer,i_viewpoint),
         SoundEmitter()
         {
           InternalMessage("Building OpenAL::EngineSound") ;
         }
                     
-        std::string EngineSound::getSoundFileName() const
+        std::string EngineSoundView::getSoundFileName() const
         {
           return "engine.ogg";
         }
