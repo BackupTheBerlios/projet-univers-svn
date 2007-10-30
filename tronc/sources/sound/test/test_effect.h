@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2007 Morgan GRIGNARD                                    *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,54 +18,65 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <kernel/exception_kernel.h>
+#ifndef PU_SOUND_TEST_EFFECT_H_
+#define PU_SOUND_TEST_EFFECT_H_
+
+#include <cppunit/extensions/HelperMacros.h>
 
 namespace ProjetUnivers {
-  namespace Kernel {
+  namespace Sound {
+    namespace Test {
 
-    template <typename T>
-    T Parameters::getValue(const std::string& section,
-                           const std::string& name) 
-    {
-      if (! m_instance.get())
-      {
-        m_instance.reset(new Parameters()) ; 
-      }
+            
+      /// Basic test for openal
+      class TestEffect : public CppUnit::TestFixture {
+      protected:
       
-      return m_instance->internalGetValue<T>(section,name) ;
-
-    }
-    
-    
-    template <typename T>
-    T Parameters::internalGetValue(const std::string& section,
-                                   const std::string& name) const
-    {
-      std::map<std::string,std::map<std::string,
-        boost::variant<float,std::string,bool> > >::const_iterator 
-        section_iterator = m_parameters.find(section) ;
-      
-      if (section_iterator == m_parameters.end())
-      {
-        throw ExceptionKernel(std::string("no section named : ") + section) ;
-      }
-      
-      std::map<std::string,
-        boost::variant<float,std::string,bool> >::const_iterator 
-        parameter = section_iterator->second.find(name) ;
-      
-      T result ;
         
-      if (parameter != section_iterator->second.end())
-      {
-        result = boost::get<T>(parameter->second) ;
-      }
-      else
-      {
-      	throw ExceptionKernel(std::string("no parameter named : ") + name) ;
-      } 
+      // ************
+      /// @name Tests
+      // ************
+      // @{
+        
+        /// 
+        void basicTest() ;
+           
+      // @}
+      // *******************************
+      /// @name Register
+      // *******************************
+      // @{      
       
-      return result ;
+        CPPUNIT_TEST_SUITE(TestEffect) ;
+      
+        CPPUNIT_TEST(basicTest) ;
+      
+        CPPUNIT_TEST_SUITE_END() ;
+      
+      // @}      
+                
+     public:
+
+      // ************
+      /// @name Setup
+      // ************
+      // @{
+
+      
+        /// Initit
+        void setUp() ;
+      
+        /// Close
+        void tearDown() ;
+      
+      // @}      
+      
+      
+      };
+
     }
   }
 }
+
+
+#endif /*PU_SOUND_TEST_EFFECT_H_*/

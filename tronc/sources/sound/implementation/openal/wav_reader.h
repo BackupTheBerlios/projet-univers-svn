@@ -41,7 +41,7 @@ namespace ProjetUnivers {
         // @{
           
           /// Constructor in use
-          WavReader(const ALuint& p_source, const std::string& p_fileName, const bool& p_isEvent) ;
+          WavReader(const ALuint& p_source, const std::string& p_fileName, const bool& p_isEvent, const float& p_updateTime) ;
         // @}
           
           

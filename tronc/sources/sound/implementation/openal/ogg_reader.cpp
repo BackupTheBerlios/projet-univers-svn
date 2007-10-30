@@ -32,8 +32,8 @@ namespace ProjetUnivers {
     namespace Implementation {
       namespace OpenAL {
         
-        OggReader::OggReader(const ALuint& p_source, const std::string& p_fileName, const bool& p_isEvent)
-        :Reader(p_source, p_fileName, p_isEvent), m_stream(0), m_file(0)
+        OggReader::OggReader(const ALuint& p_source, const std::string& p_fileName, const bool& p_isEvent, const float& p_updateTime)
+        :Reader(p_source, p_fileName, p_isEvent, p_updateTime), m_stream(0), m_file(0)
         {}
         
         void OggReader::onInit()
@@ -57,9 +57,8 @@ namespace ProjetUnivers {
           // Récupération des informations du son
           vorbis_info* Infos = ov_info(m_stream, -1);
 
-          //TODO voir l'utilité des cast vu coté wav
           m_sampleRate = Infos->rate;
-          m_samplesByBuffer  = Infos->channels * Infos->rate; 
+          m_samplesByBuffer  = Infos->channels * Infos->rate * m_updateTime ; 
           switch (Infos->channels)
           {
             case 1 : m_format = AL_FORMAT_MONO16;   break;

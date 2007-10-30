@@ -25,7 +25,7 @@ check_PROGRAMS = $(TESTS)
 
 test_sound_SOURCES = \
 ../test/test_sound.cpp \
-../test/test_cone_propertie.cpp
+../test/test_effect.cpp
 
 
 

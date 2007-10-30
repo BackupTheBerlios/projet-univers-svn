@@ -18,54 +18,52 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <kernel/exception_kernel.h>
+#include <sound/sound.h>
+#include <sound/test/test_openal_init.h>
+
+#include <AL/al.h>
+#include <AL/alc.h>
+#include <AL/efx.h>
+
+CPPUNIT_TEST_SUITE_REGISTRATION(
+  ProjetUnivers::Sound::Test::TestOpenALInit) ;
 
 namespace ProjetUnivers {
-  namespace Kernel {
+  namespace Sound {
+    namespace Test {
 
-    template <typename T>
-    T Parameters::getValue(const std::string& section,
-                           const std::string& name) 
-    {
-      if (! m_instance.get())
+      void TestOpenALInit::basicTest()
       {
-        m_instance.reset(new Parameters()) ; 
-      }
-      
-      return m_instance->internalGetValue<T>(section,name) ;
-
-    }
-    
-    
-    template <typename T>
-    T Parameters::internalGetValue(const std::string& section,
-                                   const std::string& name) const
-    {
-      std::map<std::string,std::map<std::string,
-        boost::variant<float,std::string,bool> > >::const_iterator 
-        section_iterator = m_parameters.find(section) ;
-      
-      if (section_iterator == m_parameters.end())
-      {
-        throw ExceptionKernel(std::string("no section named : ") + section) ;
-      }
-      
-      std::map<std::string,
-        boost::variant<float,std::string,bool> >::const_iterator 
-        parameter = section_iterator->second.find(name) ;
-      
-      T result ;
+        /*!
+          - just init sound module and show the EFX version and the number of effect slot
+        */
+ 
+        Sound::init() ;
         
-      if (parameter != section_iterator->second.end())
-      {
-        result = boost::get<T>(parameter->second) ;
+        ALCdevice* device;
+        ALCcontext* contexte;
+        ALint auxSlotNumber;
+        ALint minVersion;
+        ALint maxVersion;
+        
+        contexte = alcGetCurrentContext();
+        device = alcGetContextsDevice(contexte);
+        alcGetIntegerv(device, ALC_MAX_AUXILIARY_SENDS, 1, &auxSlotNumber);
+        alcGetIntegerv(device, ALC_EFX_MINOR_VERSION, 1, &minVersion);
+        alcGetIntegerv(device, ALC_EFX_MAJOR_VERSION, 1, &maxVersion);   
+        printf("Your system can support :\n -%d aux effect slot\n -an EFX version between %d and %d",auxSlotNumber, minVersion, maxVersion);
       }
-      else
+
+      void TestOpenALInit::setUp() 
       {
-      	throw ExceptionKernel(std::string("no parameter named : ") + name) ;
-      } 
+      }
       
-      return result ;
+      void TestOpenALInit::tearDown() 
+      {
+      }
+      
+
     }
   }
 }
+

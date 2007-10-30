@@ -75,7 +75,7 @@ namespace ProjetUnivers {
         /*!
           @name Access methods
           
-          These must be redefined by sub classes. They globally describe the 
+          These can be redefined by sub classes. They globally describe the 
           sound to emit. 
         */
         // @{

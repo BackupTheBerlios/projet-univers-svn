@@ -40,14 +40,12 @@ namespace ProjetUnivers {
           virtual ~Reader() ;
           
           
-          /// @Implements
           /// Open the file, create and load the 2 buffers to link to the source
           virtual void onInit() = 0 ;
           
           ///Look for empty buffer which are already heard and load them with content
           void update() ;
           
-          /// @Implements
           /// Close the file, delete the  buffers
           virtual void onClose() = 0 ;
           
@@ -65,7 +63,7 @@ namespace ProjetUnivers {
         // @{
           
           /// Constructor in use
-          Reader(const ALuint& p_source, const std::string& p_fileName, const bool& p_isEvent) ;
+          Reader(const ALuint& p_source, const std::string& p_fileName, const bool& p_isEvent, const float& p_updateTime) ;
         // @}
         
           ///Indicate the sound life end and that the manager can delete this reader
@@ -81,6 +79,9 @@ namespace ProjetUnivers {
           /// Indicate if the sound is an event and don't must loop
           bool m_isEvent ;
           
+          /// Indicate the buffer size in seconde
+          float m_updateTime;
+          
           ///Sound format
           ALenum m_format ;
           ///Sound rate
@@ -89,7 +90,6 @@ namespace ProjetUnivers {
           ALsizei m_samplesByBuffer ; 
         
         private:
-          /// @Implements
           /// Read the sound file to load the buffer with content
           virtual void loadBuffer(ALuint buffer) = 0 ;
           

@@ -38,26 +38,35 @@ namespace ProjetUnivers {
         */
         class SoundListener
         {
-        public:
+        protected:
+        
+        /*!
+          @name Access methods
+          
+          These can be redefined by sub classes. They globally describe the listener. 
+        */
+        // @{
           
           /// Get the master gain between 0 and 1.0
           /// TODO vérifier les limites
-          virtual float getGain() const = 0 ;
+          virtual float getGain() const ;
+          
+           ///Acces to the object with the trait
+          virtual Kernel::Object* getObject() const = 0 ;
             
           /// Get the object's position relative to the world
-          virtual Model::Position getPosition() const = 0 ;
+          virtual Model::Position getPosition() const ;
               
           /// Get the object's orientation relative to the world
-          virtual Model::Orientation getOrientation() const = 0 ;
+          virtual Model::Orientation getOrientation() const ;
               
           /// Get the object's speed relative to the world
-          virtual Model::Speed getSpeed() const = 0 ;
+          virtual Model::Speed getSpeed() const ;
           
           /// Update the listener informations
           void updateListener() ;
-            
           
-        protected:
+        // @}
 
           /// Default constructor.
           SoundListener() ;

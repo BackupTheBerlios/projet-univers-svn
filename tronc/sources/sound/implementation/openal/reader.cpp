@@ -30,8 +30,8 @@ namespace ProjetUnivers {
     namespace Implementation {
       namespace OpenAL {
 
-        Reader::Reader(const ALuint& p_source, const std::string& p_fileName, const bool& p_isEvent) 
-        : m_source(p_source), m_fileName(p_fileName), m_isEvent(p_isEvent), m_finish(false),
+        Reader::Reader(const ALuint& p_source, const std::string& p_fileName, const bool& p_isEvent, const float& p_updateTime) 
+        : m_source(p_source), m_fileName(p_fileName), m_isEvent(p_isEvent), m_updateTime(p_updateTime), m_finish(false),
           m_format(0), m_sampleRate(0), m_samplesByBuffer(0)  
         {
           InternalMessage("Enter constructor, Al status:" + getErrorString(alGetError())) ;

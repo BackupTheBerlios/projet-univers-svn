@@ -23,12 +23,14 @@
 #include <cppunit/CompilerOutputter.h>
 
 #include <kernel/log.h>
+#include <kernel/parameters.h>
 
 int 
 main( int argc, char* argv[] )
 {
 
   ProjetUnivers::Kernel::Log::init() ;
+  ProjetUnivers::Kernel::Parameters::load("sound.config") ;
   
   // if command line contains "-selftest" then this is the post build check
   // => the output must be in the compiler error format.

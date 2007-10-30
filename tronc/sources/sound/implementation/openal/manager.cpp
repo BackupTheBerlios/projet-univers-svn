@@ -20,6 +20,7 @@
  ***************************************************************************/
 
 #include <kernel/log.h>
+#include <kernel/parameters.h>
  
 #include <sound/implementation/openal/manager.h>
 #include <sound/implementation/openal/wav_reader.h>
@@ -31,7 +32,16 @@ namespace ProjetUnivers {
       namespace OpenAL {
         Manager::Manager(Kernel::Object* listener, Kernel::Object* reference)
         : m_listener(listener), m_reference(reference)
-        {}
+        {
+          try
+          {
+            m_updateTime = Kernel::Parameters::getValue<float>("Sound","UpdateTime") ;
+          }
+          catch(Kernel::ExceptionKernel e)
+          {
+          	m_updateTime = 1;
+          }
+        }
         
         Manager::~Manager()
         {
@@ -46,13 +56,16 @@ namespace ProjetUnivers {
         {
           //TODO remplacer par une test mime ou au moins extension du fichier et non un choix arbitraite event= wav
           Reader* res ;
+          //Query a buffer a little bigger to evite the case 
+          //where openal thread try to use the buffer when we load it
           if(p_isEvent)
           {
-            res = new WavReader(p_source, p_fileName, p_isEvent) ;
+          	
+            res = new WavReader(p_source, p_fileName, p_isEvent, m_updateTime*1.10) ;
           }
           else
           {
-            res = new OggReader(p_source, p_fileName, p_isEvent) ;
+            res = new OggReader(p_source, p_fileName, p_isEvent, m_updateTime*1.10) ;
           }
           res->onInit() ;
           m_readers.push_back(res) ;
@@ -71,7 +84,7 @@ namespace ProjetUnivers {
         
         void Manager::update()
         {
-          if(m_timer.getSecond() > 1.0)
+          if(m_timer.getSecond() > m_updateTime)
           {
             m_timer.reset() ;
             for (std::vector<Reader*>::iterator iter = m_readers.begin() ; iter != m_readers.end(); ) 

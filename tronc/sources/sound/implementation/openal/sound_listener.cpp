@@ -22,6 +22,10 @@
 
 #include <kernel/log.h>
 
+#include <model/positionned.h>
+#include <model/oriented.h>
+#include <model/mobile.h>
+
 #include <sound/implementation/openal/openal.h>
 #include <sound/implementation/openal/sound_listener.h>
 
@@ -35,6 +39,53 @@ namespace ProjetUnivers {
 
         SoundListener::SoundListener()
         {}
+        
+        float SoundListener::getGain() const
+        {
+          return 1.0f;
+        }
+                             
+        Model::Position SoundListener::getPosition() const
+        {  
+          Model::Positionned* positionned = getObject()->getTrait<Model::Positionned>();
+          if(positionned)
+          {
+            return positionned->getPosition(getManager()->getReference());
+          }
+          else
+          {
+          	//default value
+            return Model::Position();
+          }
+        }
+                                 
+        Model::Orientation SoundListener::getOrientation() const
+        {
+          Model::Oriented* oriented = getObject()->getTrait<Model::Oriented>();
+          if(oriented)
+          {
+            return oriented->getOrientation(getManager()->getReference());
+          }
+          else
+          {
+          	//default value
+            return Model::Orientation();
+          }
+        }
+                                 
+        Model::Speed SoundListener::getSpeed() const
+        {
+          Model::Mobile* mobile = getObject()->getTrait<Model::Mobile>();
+          if(mobile)
+          {
+            return mobile->getSpeed();
+          }
+          else
+          {
+          	//default value
+            return Model::Speed();
+          }
+        }
         
         void SoundListener::updateListener()
         {                           

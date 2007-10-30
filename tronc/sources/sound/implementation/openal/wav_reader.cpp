@@ -30,8 +30,8 @@ namespace ProjetUnivers {
     namespace Implementation {
       namespace OpenAL {
         
-        WavReader::WavReader(const ALuint& p_source, const std::string& p_fileName, const bool& p_isEvent)
-        :Reader(p_source, p_fileName, p_isEvent), m_file(0)
+        WavReader::WavReader(const ALuint& p_source, const std::string& p_fileName, const bool& p_isEvent, const float& p_updateTime)
+        :Reader(p_source, p_fileName, p_isEvent, p_updateTime), m_file(0)
         {}
         
         void WavReader::onInit()
@@ -47,7 +47,7 @@ namespace ProjetUnivers {
           }
           //Get file information
           m_sampleRate = fileInfos.samplerate;
-          m_samplesByBuffer  = fileInfos.channels * fileInfos.samplerate;
+          m_samplesByBuffer  = fileInfos.channels * fileInfos.samplerate  * m_updateTime ; 
           switch (fileInfos.channels)
           {
             case 1 : m_format = AL_FORMAT_MONO16;   break;
@@ -77,16 +77,28 @@ namespace ProjetUnivers {
         {
           //get the samples
           std::vector<ALshort> samples(m_samplesByBuffer);
-          ALsizei totalRead = sf_read_short(m_file, &samples[0], m_samplesByBuffer);
-          if (totalRead < m_samplesByBuffer)
+          ALsizei totalRead  = 0;
+          while (totalRead < m_samplesByBuffer)
           {
-            if(m_isEvent)
+          	ALsizei read = sf_read_short(m_file, &samples[totalRead], m_samplesByBuffer - totalRead);
+            if (read > 0)
             {
-              m_finish = true;
+              totalRead += read;
             }
             else
             {
-              sf_seek(m_file, 0, SEEK_SET);
+              //End of file
+              if(m_isEvent)
+              {
+                //mark  for event the reader ready for destruction
+                m_finish = true;
+                break ;
+              }
+              else
+              {
+                //loop for over sound
+                sf_seek(m_file, 0, SEEK_SET);
+              }
             }
           }
           

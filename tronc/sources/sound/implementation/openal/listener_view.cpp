@@ -20,10 +20,6 @@
  ***************************************************************************/
 #include <kernel/log.h>
 
-#include <model/positionned.h>
-#include <model/oriented.h>
-#include <model/mobile.h>
-
 #include <sound/implementation/openal/openal.h>
 #include <sound/implementation/openal/listener_view.h>
 
@@ -49,47 +45,10 @@ namespace ProjetUnivers {
         {
           return 1.0f;
         }
-                             
-        Model::Position ListenerView::getPosition() const
-        {  
-          Model::Positionned* positionned = getObject()->getTrait<Model::Positionned>();
-          if(positionned)
-          {
-            return positionned->getPosition(getManager()->getReference());
-          }
-          else
-          {
-          	//default value
-            return Model::Position();
-          }
-        }
-                                 
-        Model::Orientation ListenerView::getOrientation() const
+        
+        Kernel::Object* ListenerView::getObject() const
         {
-          Model::Oriented* oriented = getObject()->getTrait<Model::Oriented>();
-          if(oriented)
-          {
-            return oriented->getOrientation(getManager()->getReference());
-          }
-          else
-          {
-          	//default value
-            return Model::Orientation();
-          }
-        }
-                                 
-        Model::Speed ListenerView::getSpeed() const
-        {
-          Model::Mobile* mobile = getObject()->getTrait<Model::Mobile>();
-          if(mobile)
-          {
-            return mobile->getSpeed();
-          }
-          else
-          {
-          	//default value
-            return Model::Speed();
-          }
+          getModel()->getObject() ;
         }
         
         void ListenerView::onInit()

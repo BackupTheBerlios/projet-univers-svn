@@ -53,21 +53,25 @@ namespace ProjetUnivers {
 
 
         // @}
+        
+        protected:
+        
+         /*!
+          @name Access methods
+          
+          Redefinition of some properties of the listener.
+          
+        */
+        // @{
           
           /// @Implements
           virtual float getGain() const ;
-                        
-          /// @Implements
-          virtual Model::Position getPosition() const ;
-                            
-          /// @Implements
-          virtual Model::Orientation getOrientation() const ;
-                            
-          /// @Implements
-          virtual Model::Speed getSpeed() const ; 
           
+          ///Acces to the object with the trait
+          Kernel::Object* getObject() const ;
           
-        protected:
+        // @}
+          
 
         /*!
           @name Updates.

@@ -25,16 +25,16 @@
 #include <kernel/log.h>
 
 #include <kernel/timer.h>
-#include <sound/test/test_openal.h>
+#include <sound/test/test_openal_lib.h>
 
 CPPUNIT_TEST_SUITE_REGISTRATION(
-  ProjetUnivers::Sound::Test::TestOpenAL) ;
+  ProjetUnivers::Sound::Test::TestOpenALLib) ;
 
 namespace ProjetUnivers {
   namespace Sound {
     namespace Test {
 
-      void TestOpenAL::basicTest()
+      void TestOpenALLib::basicTest()
       {
         ALCdevice* device ;
         ALCcontext* context ;
@@ -95,11 +95,11 @@ namespace ProjetUnivers {
         
       }
 
-      void TestOpenAL::setUp() 
+      void TestOpenALLib::setUp() 
       {
       }
       
-      void TestOpenAL::tearDown() 
+      void TestOpenALLib::tearDown() 
       {
       }
       

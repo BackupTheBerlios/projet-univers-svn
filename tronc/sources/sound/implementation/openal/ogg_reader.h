@@ -41,10 +41,9 @@ namespace ProjetUnivers {
         // @{
           
           /// Constructor in use
-          OggReader(const ALuint& p_source, const std::string& p_fileName, const bool& p_isEvent) ;
+          OggReader(const ALuint& p_source, const std::string& p_fileName, const bool& p_isEvent, const float& p_updateTime) ;
         // @}
-          
-          
+
           /// @Implements
           /// Open the file, create and load the 2 buffers to link to the source
           virtual void onInit();

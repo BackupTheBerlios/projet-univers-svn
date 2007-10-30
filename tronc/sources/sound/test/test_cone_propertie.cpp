@@ -92,7 +92,7 @@ namespace ProjetUnivers {
 
         float angle = 0;
         int tour = 0;
-        while (timer.getSecond() <= 20)
+        while (timer.getSecond() <= 10)
         {
           //variation between 0 and 100% of 2PI
           angle += 0.00005;

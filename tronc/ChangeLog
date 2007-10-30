@@ -300,5 +300,25 @@ note :
   * Log can cause bug, the kernel begin to be too verbose ~20mo/sec in the test_cone_propertie.
   Exemple: the sound buffer becomes empty and the sound stop, because i can't write on the hard disk
   the log's flow when an application use another sector of the hard disk.
+  
+2007-10-30 Minos
+
+  * kernel :
+    - Parameters.cxx: add exception when the parameter name in getValue() doesn't exist
+  * sound :
+    - SoundListener: refactor, implements a default behavior like SoundEmitter
+    - OpenAL: 
+      > add initialisation in software or hardware mode according to the configuration file
+      > add parameter for attenuation model choice
+      > add EFX extension launch, version test
+      > add EFX functions pointer initialisation
+    - Manager: 
+      >add updateTime according to the configuration file to manage the time between update and buffers' size
+      >fix bug in streaming, know we assure no famine with an update rate a little more important than buffer size
+    - WavReader:
+      >fix bug to follow the same algorithm than OggReader and ensure a buffer of the good size for looping sound
+    - Test:
+      >TestOpenALInit: add new basic test to know the platform possibilities
+      >TestEffect: add basic test to see how effect work
     
   

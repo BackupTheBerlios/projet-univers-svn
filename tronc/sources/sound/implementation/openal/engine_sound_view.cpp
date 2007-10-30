@@ -58,7 +58,7 @@ namespace ProjetUnivers {
         
         float EngineSoundView::getOuterGain() const
         {
-        	return 0.5;	
+        	return 0.25;	
         }
         
         float EngineSoundView::getOuterAngle() const

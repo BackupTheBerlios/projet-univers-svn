@@ -36,14 +36,14 @@ namespace ProjetUnivers {
       namespace OpenAL {
         /// Reader manager, update the buffers and create/delete the reader during their life
         /*!
-                      */
+        */
         class Manager
         {
         
         public:
         /*!
-                     @name Construction 
-                    */
+          @name Construction 
+        */
         // @{
         
           /// Constructor 
@@ -69,6 +69,7 @@ namespace ProjetUnivers {
           
           std::vector<Reader*> m_readers ;
           Kernel::Timer m_timer ;
+          float m_updateTime ;
           Kernel::Object* m_listener ;
           Kernel::Object* m_reference ;
              
