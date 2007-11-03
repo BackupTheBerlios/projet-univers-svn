@@ -28,7 +28,7 @@ namespace ProjetUnivers {
     namespace Test {
 
             
-      /// Test de Sound::TestMovingObject
+      /// Test of spatialisation effect with movement
       class TestMovingObject : public CppUnit::TestFixture {
       protected:
       

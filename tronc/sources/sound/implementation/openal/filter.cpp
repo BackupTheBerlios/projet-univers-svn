@@ -18,61 +18,67 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_SOUND_IMPLEMENTATION_OPENAL_WAV_READER_H_
-#define PU_SOUND_IMPLEMENTATION_OPENAL_WAV_READER_H_
-
-#include <sndfile.h>
-#include <sound/implementation/openal/reader.h>
+#include <sound/implementation/openal/filter.h>
 
 namespace ProjetUnivers {
   namespace Sound {
     namespace Implementation {
       namespace OpenAL {
-        /// Interface  of a soundfile reader use for streaming
-        /*!
-        */
-        class WavReader : public Reader
+
+        Filter::Filter(const float& p_gain, const float& p_gainHF)
         {
+          m_gain = p_gain ;
+          m_gainHF = p_gainHF ;
+        }
         
-        public:
-        /*!
-         @name Construction 
-        */
-        // @{
-          
-          /// Constructor in use
-          WavReader(const ALuint& p_source, const std::string& p_fileName, const bool& p_isEvent, const float& p_updateTime) ;
-        // @}
-          
-          
-          /// @Implements
-          /// Open the file, create and load the 2 buffers to link to the source
-          virtual void onInit(const int& posInFile, const int& posInBuffer) ;
-          
-          /// @Implements
-          /// Close the file, delete the  buffers
-          virtual void onClose();
-          
-          // @Implements
-          /// Indicate the position in the file in samples
-          virtual int getPos() const ;
-          
-          
-          
-        private:
-          
-          /// @Implements
-          /// Read the sound file to load the buffer with content
-          virtual void loadBuffer(ALuint buffer);
-          
-          /// File
-          SNDFILE* m_file;
-          
-        };
+        Filter operator+(const Filter& p_f1, const Filter& p_f2)
+        {
+          return Filter(p_f1.m_gain * p_f2.m_gain, p_f1.m_gainHF * p_f2.m_gainHF);
+        }
+        Filter operator-(const Filter& p_f1, const Filter& p_f2)
+        {
+          float r_gain ;
+          float r_gainHF ;
+          if(p_f2.m_gain != 0)
+          {
+          	r_gain = p_f1.m_gain / p_f2.m_gain ;
+          }
+          else
+          {
+          	r_gain = 0 ;
+          }
+          if(p_f2.m_gainHF != 0)
+          {
+          	r_gainHF = p_f1.m_gainHF / p_f2.m_gainHF ;
+          }
+          else
+          {
+          	r_gainHF = 0 ;
+          }
+          return Filter(r_gain , r_gainHF);	
+        } 
+
+		float Filter::getGain() const
+		{
+		  return m_gain ;	
+		}
+		
+        void Filter::setGain(const float& p_gain)
+        {
+          m_gain = p_gain ;
+        }
+        
+        float Filter::getGainHF() const
+        {
+          return m_gainHF ;	
+        }
+        
+        void Filter::setGainHF(const float& p_gainHF)
+        {
+          m_gainHF = p_gainHF ;
+        }   
+             
       }
     }
   }
 }
-
-
-#endif /*PU_SOUND_IMPLEMENTATION_OPENAL_WAV_READER_H_*/

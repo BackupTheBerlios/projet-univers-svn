@@ -86,6 +86,8 @@ namespace ProjetUnivers {
           void onClose() ;
                       
           void onUpdate() ;
+          
+          void onChangeParent(Kernel::Object* i_old_parent) ;
 
         // @}      
         };

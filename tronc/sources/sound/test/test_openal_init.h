@@ -28,7 +28,7 @@ namespace ProjetUnivers {
     namespace Test {
 
             
-      /// Basic test for openal
+      /// Basic test of openal module initialisation
       class TestOpenALInit : public CppUnit::TestFixture {
       protected:
       

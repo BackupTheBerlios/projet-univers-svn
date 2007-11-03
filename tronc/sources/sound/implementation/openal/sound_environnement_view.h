@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2007 Morgan GRIGNARD                                    *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,65 +18,62 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_SOUND_TEST_BACKGROUND_SOUND_H_
-#define PU_SOUND_TEST_BACKGROUND_SOUND_H_
+#ifndef PU_SOUND_IMPLEMENTATION_OPENAL_SOUND_ENVIRONNEMENT_VIEW_H_
+#define PU_SOUND_IMPLEMENTATION_OPENAL_SOUND_ENVIRONNEMENT_VIEW_H_
 
-#include <cppunit/extensions/HelperMacros.h>
+#include <kernel/trait_view.h>
+
+#include <model/sound_environnement.h>
+
+#include <sound/implementation/openal/real_world_view_point.h>
 
 namespace ProjetUnivers {
   namespace Sound {
-    namespace Test {
+    namespace Implementation {
+      namespace OpenAL {
+    
+        /// View on a soundEnvironnement, create the corresponding reverb effect
+        class SoundEnvironnementView : public Kernel::TraitView<Model::SoundEnvironnement,RealWorldViewPoint>
+        {
+        public:
 
-            
-      /// Test of a basic static soundEmitter
-      class TestBackgroundSound : public CppUnit::TestFixture {
-      protected:
-      
+    
+         /// Constructor
+          SoundEnvironnementView(Model::SoundEnvironnement*,RealWorldViewPoint*) ;
+
         
-      // ************
-      /// @name Tests
-      // ************
-      // @{
+          /// Accessor to the effect slot
+          ALuint getAuxEffectSlot() ;
+      
+        protected:
         
-        /// 
-        void basicTest() ;
-           
-      // @}
-      // *******************************
-      /// @name Register
-      // *******************************
-      // @{      
-      
-        CPPUNIT_TEST_SUITE(TestBackgroundSound) ;
-      
-        CPPUNIT_TEST(basicTest) ;
-      
-        CPPUNIT_TEST_SUITE_END() ;
-      
-      // @}      
-                
-     public:
+        /*!
+          @name Updates.
+        */
+        // @{
+                  
+          void onInit() ;
+                      
+          void onClose() ;
+                      
+          void onUpdate() ;
 
-      // ************
-      /// @name Setup
-      // ************
-      // @{
-
+        // @}      
       
-        /// Initit
-        void setUp() ;
-      
-        /// Close
-        void tearDown() ;
-      
-      // @}      
-      
-      
-      };
-
+        private:
+    
+          /// Container of an effect
+          ALuint m_auxEffectSlot ;
+          /// Effect
+          ALuint m_effect ;
+          
+        
+       
+        };
+    
+      }
     }
   }
 }
 
-
-#endif
+#endif /*PU_SOUND_IMPLEMENTATION_OPENAL_SOUND_ENVIRONNEMENT_VIEW_H_*/

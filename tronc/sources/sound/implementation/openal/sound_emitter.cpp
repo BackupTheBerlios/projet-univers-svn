@@ -25,7 +25,9 @@
 #include <model/oriented.h>
 #include <model/mobile.h>
 
+#include <sound/sound.h>
 #include <sound/implementation/openal/openal.h>
+#include <sound/implementation/openal/sound_environnement_view.h>
 #include <sound/implementation/openal/sound_emitter.h>
 
 
@@ -38,20 +40,21 @@ namespace ProjetUnivers {
       namespace OpenAL {
 
         SoundEmitter::SoundEmitter()
-        : m_source(0)
+        : m_source(0), m_auxEffectSlot(0), m_reader(0), m_posInFile(0), m_posInBuffer(0)
         {}
               
         void SoundEmitter::initSound()
         {
-          InternalMessage("SoundEmitter::initSound entering") ;
+          InformationMessage("SoundEmitter::initSound entering") ;
           if(!m_source)
           {
+          	InformationMessage("SoundEmitter::init real") ;
             alGenSources(1,&m_source) ;
-            m_reader = getManager()->createReader(m_source, getSoundFileName().c_str(), isEvent()) ;
+            m_reader = getManager()->createReader(m_source, getSoundFileName().c_str(), isEvent(), m_posInFile, m_posInBuffer) ;
             alSourcei(m_source, AL_SOURCE_RELATIVE, AL_FALSE) ;
             updateSource();   
           } 
-          InternalMessage("SoundEmitter::initSound leaving") ; 
+          InformationMessage("SoundEmitter::initSound leaving") ; 
         }
         
         void SoundEmitter::startSound()
@@ -106,13 +109,80 @@ namespace ProjetUnivers {
                        openal_orientation) ;
                       
             Ogre::Vector3 speed = getSpeed().MeterPerSecond();
-            alSource3f(m_source, AL_VELOCITY, (float)speed.x, (float)speed.y, (float)speed.z) ;        
+            alSource3f(m_source, AL_VELOCITY, (float)speed.x, (float)speed.y, (float)speed.z) ;
+            
+            
+            //update Environnement Effect
+            
+            Model::SoundEnvironnement* env  = getObject()->getParent<Model::SoundEnvironnement>() ;
+            if(env)
+            {
+              SoundEnvironnementView* envView  = env->getView<SoundEnvironnementView>(getViewPoint()) ;
+              if(envView)
+              {
+                ALuint auxEffectSlot = envView->getAuxEffectSlot() ; 
+                //SoundEnvironnement has changed
+                if(auxEffectSlot != m_auxEffectSlot)
+                {
+                  m_auxEffectSlot = auxEffectSlot ;
+              	  alSource3i(m_source, AL_AUXILIARY_SEND_FILTER, m_auxEffectSlot, 0, 0) ;
+              	  InformationMessage("update add reverb") ;	
+                }
+              }
+              else
+              {
+                InformationMessage("no envView") ;	
+              }
+            }
+            else
+            {
+              InformationMessage("no env") ;	
+            }
+            
           }
           
           if(isActive() && (state == AL_STOPPED || state == AL_INITIAL)) 
           {
             startSound();
           }
+        }
+        
+        void SoundEmitter::changeParentSource()
+        {
+          
+          InformationMessage("SoundEmitter::changeParent : enter") ;
+          	
+          Model::SoundEnvironnement* env  = getObject()->getParent<Model::SoundEnvironnement>() ;
+            if(env)
+            {
+              SoundEnvironnementView* envView  = env->getView<SoundEnvironnementView>(getViewPoint()) ;
+              if(envView)
+              {
+                ALuint auxEffectSlot = envView->getAuxEffectSlot() ; 
+                //SoundEnvironnement has changed
+                if(auxEffectSlot != m_auxEffectSlot)
+                {
+                  m_auxEffectSlot = auxEffectSlot ;
+              	  //TODO see filter parameter for occlusion , exclusion case
+              	  alSource3i(m_source, AL_AUXILIARY_SEND_FILTER, m_auxEffectSlot, 0, 0) ;
+              	  InformationMessage("update add reverb") ;	
+                }
+                else
+                {
+                  InformationMessage("same reverb") ;	
+                }
+              }
+              else
+              {
+                InformationMessage("no envView") ;	
+              }
+            }
+            else
+            {
+              InformationMessage("no env") ;	
+            }
+            
+          InformationMessage("SoundEmitter::changeParent : leaving") ;
         }
         
         void SoundEmitter::stopSound()
@@ -125,11 +195,17 @@ namespace ProjetUnivers {
             
         void SoundEmitter::deleteSound()
         {
+          InformationMessage("SoundEmitter::deleteSound : enter") ;
           if(!isEvent())
           {
-            stopSound();
-            m_reader->setFinish(true);
+              alGetSourcei(m_source, AL_SAMPLE_OFFSET, &m_posInBuffer) ;
+              stopSound();
+              m_posInFile = m_reader->getPos() ;
+              m_reader->setFinish(true) ; 
           }
+          m_auxEffectSlot = 0 ;
+          m_source = 0 ;
+          InformationMessage("SoundEmitter::deleteSound : leaving") ;
         }
         
         Model::Position SoundEmitter::getPosition() const

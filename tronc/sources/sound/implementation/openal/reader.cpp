@@ -41,9 +41,11 @@ namespace ProjetUnivers {
         
         Reader::~Reader()
         {
+          InformationMessage("[Reader] Enter destructor") ;
           alSourceStop(m_source) ;
           alDeleteBuffers(2, m_buffers) ;
           alDeleteSources(1,&m_source) ;
+          InformationMessage("[Reader] Leave destructor") ;
         }
           
         void Reader::update()

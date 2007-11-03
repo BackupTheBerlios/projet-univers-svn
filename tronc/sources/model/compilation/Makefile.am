@@ -49,6 +49,7 @@ libmodel_la_SOURCES = \
 ../implementation/collision.cpp \
 ../implementation/shot.cpp \
 ../implementation/ear.cpp \
+../implementation/sound_environnement.cpp \
 ../implementation/logic/logic.cpp \
 ../implementation/logic/laser_beam.cpp \
 ../implementation/logic/logic_system.cpp \

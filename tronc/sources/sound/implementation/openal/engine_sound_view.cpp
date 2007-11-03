@@ -43,7 +43,7 @@ namespace ProjetUnivers {
                     
         std::string EngineSoundView::getSoundFileName() const
         {
-          return "engine.ogg";
+          return "hit.wav";
         }
           
         bool EngineSoundView::isEvent() const
@@ -84,7 +84,13 @@ namespace ProjetUnivers {
         void EngineSoundView::onUpdate()
         {
           this->updateSource();
-        } 
+        }
+        
+        void EngineSoundView::onChangeParent(Kernel::Object* i_old_parent)
+        {
+          InformationMessage("call onChangeParent") ;
+          this->changeParentSource() ;
+        }
       
       }
     }

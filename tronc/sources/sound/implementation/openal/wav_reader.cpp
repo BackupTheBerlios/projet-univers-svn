@@ -34,7 +34,7 @@ namespace ProjetUnivers {
         :Reader(p_source, p_fileName, p_isEvent, p_updateTime), m_file(0)
         {}
         
-        void WavReader::onInit()
+        void WavReader::onInit(const int& posInFile, const int& posInBuffer)
         {
           InternalMessage("enter wavreader Init") ;   
           // Open the file
@@ -47,7 +47,7 @@ namespace ProjetUnivers {
           }
           //Get file information
           m_sampleRate = fileInfos.samplerate;
-          m_samplesByBuffer  = fileInfos.channels * fileInfos.samplerate  * m_updateTime ; 
+          m_samplesByBuffer  = (ALsizei)(fileInfos.channels * fileInfos.samplerate  * m_updateTime) ; 
           switch (fileInfos.channels)
           {
             case 1 : m_format = AL_FORMAT_MONO16;   break;
@@ -55,6 +55,13 @@ namespace ProjetUnivers {
             default :
               ErrorMessage("[OpenAL::WavReader] Audio Format audio not supported (more than 2 channel)");
           }
+          
+          int pos = 0 ;
+		  if(posInFile > 0)
+		  {
+		  	pos = posInFile - m_samplesByBuffer + posInBuffer + 1;
+		  }
+          sf_seek(m_file, pos, SEEK_SET);
           
           //Load the buffers and link with the source
           loadBuffer(m_buffers[0]);
@@ -108,6 +115,11 @@ namespace ProjetUnivers {
           {
             ErrorMessage("[OpenAL::WavReader] Impossible to load the buffer with the samples");
           }
+        }
+        
+        int WavReader::getPos() const
+        {
+          return 0;
         }
         
       }

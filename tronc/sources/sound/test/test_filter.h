@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2007 Morgan GRIGNARD                                    *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,8 +18,8 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_SOUND_TEST_BACKGROUND_SOUND_H_
-#define PU_SOUND_TEST_BACKGROUND_SOUND_H_
+#ifndef PU_SOUND_TEST_FILTER_H_
+#define PU_SOUND_TEST_FILTER_H_
 
 #include <cppunit/extensions/HelperMacros.h>
 
@@ -28,8 +28,8 @@ namespace ProjetUnivers {
     namespace Test {
 
             
-      /// Test of a basic static soundEmitter
-      class TestBackgroundSound : public CppUnit::TestFixture {
+      /// Test filter classe
+      class TestFilter : public CppUnit::TestFixture {
       protected:
       
         
@@ -47,7 +47,7 @@ namespace ProjetUnivers {
       // *******************************
       // @{      
       
-        CPPUNIT_TEST_SUITE(TestBackgroundSound) ;
+        CPPUNIT_TEST_SUITE(TestFilter) ;
       
         CPPUNIT_TEST(basicTest) ;
       
@@ -79,4 +79,4 @@ namespace ProjetUnivers {
 }
 
 
-#endif
+#endif /*PU_SOUND_TEST_FILTER_H_*/

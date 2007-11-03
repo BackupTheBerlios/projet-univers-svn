@@ -44,7 +44,7 @@ namespace ProjetUnivers {
 
     /// Creates the standard representation for the world 
     Kernel::ViewPoint* build(Kernel::Object* listener, Kernel::Object* reference) ;
-  
+    
   }
 }
 

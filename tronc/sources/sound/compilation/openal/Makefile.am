@@ -18,7 +18,9 @@ $(SOURCES)/sound/implementation/openal/sound_emitter.cpp \
 $(SOURCES)/sound/implementation/openal/background_sound.cpp \
 $(SOURCES)/sound/implementation/openal/collision.cpp \
 $(SOURCES)/sound/implementation/openal/engine_sound.cpp \
-$(SOURCES)/sound/implementation/openal/engine_sound_view.cpp 
+$(SOURCES)/sound/implementation/openal/engine_sound_view.cpp \
+$(SOURCES)/sound/implementation/openal/sound_environnement_view.cpp \
+$(SOURCES)/sound/implementation/openal/filter.cpp 
 
 
 libsoundcode_la_LDFLAGS = -no-undefined

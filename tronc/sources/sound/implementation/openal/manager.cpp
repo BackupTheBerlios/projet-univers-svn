@@ -47,18 +47,19 @@ namespace ProjetUnivers {
         {
           for (std::vector<Reader*>::iterator iter = m_readers.begin() ; iter != m_readers.end(); iter++) 
           {
+          	(*iter)->onClose() ;
             delete *iter ;
           }
           m_readers.clear() ;
         }
         
-        Reader* Manager::createReader(ALuint p_source, std::string p_fileName, bool p_isEvent)
+        Reader* Manager::createReader(const ALuint& p_source,const std::string& p_fileName, const bool& p_isEvent, const int& m_posInFile, const int& m_posInBuffer)
         {
           //TODO remplacer par une test mime ou au moins extension du fichier et non un choix arbitraite event= wav
           Reader* res ;
           //Query a buffer a little bigger to evite the case 
           //where openal thread try to use the buffer when we load it
-          if(p_isEvent)
+          if(!p_isEvent)
           {
           	
             res = new WavReader(p_source, p_fileName, p_isEvent, m_updateTime*1.10) ;
@@ -67,7 +68,7 @@ namespace ProjetUnivers {
           {
             res = new OggReader(p_source, p_fileName, p_isEvent, m_updateTime*1.10) ;
           }
-          res->onInit() ;
+          res->onInit(m_posInFile, m_posInBuffer) ;
           m_readers.push_back(res) ;
           return res;
         }

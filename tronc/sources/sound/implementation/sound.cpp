@@ -21,7 +21,6 @@
 #include <kernel/log.h>
 
 #include <sound/implementation/openal/openal.h>
-#include <sound/implementation/openal/real_world_view_point.h>
 
 #include <sound/sound.h>
 
@@ -34,7 +33,6 @@ namespace ProjetUnivers {
   // @{
 
     bool initialised = false ;
-    std::auto_ptr<Implementation::OpenAL::RealWorldViewPoint> m_sound_system ;
   // @}
     
     void init() 
@@ -43,7 +41,6 @@ namespace ProjetUnivers {
       if (! initialised)
       {
         initialised = true ;
-        
         Implementation::OpenAL::init() ;    
       }
       InternalMessage("Sound::init leaving") ;
@@ -54,7 +51,6 @@ namespace ProjetUnivers {
       InternalMessage("Sound::close entering") ;
 
       Implementation::OpenAL::close() ;
-      
       initialised = false ;
       
       InternalMessage("Sound::close leaving") ;
@@ -68,12 +64,8 @@ namespace ProjetUnivers {
     Kernel::ViewPoint* build(Kernel::Object* listener, Kernel::Object* reference)
     {
       InternalMessage("Sound::build entering") ;
-      // the manager must be initialised  with OpenAL::build before build RealWorldViewPoint
-      Implementation::OpenAL::build(listener, reference) ; 
-      InternalMessage("Sound::build openal::build") ;
-      m_sound_system.reset(new Implementation::OpenAL::RealWorldViewPoint(listener)) ;
-      m_sound_system->init() ;     
-      InternalMessage("Sound::build leaving") ;  
+      InternalMessage("Sound::build leaving") ; 
+      return Implementation::OpenAL::build(listener, reference) ;      
     }
 
   }

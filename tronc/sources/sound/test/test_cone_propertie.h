@@ -18,8 +18,8 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_SOUND_TEST_MOVING_OBJECT_H_
-#define PU_SOUND_TEST_MOVING_OBJECT_H_
+#ifndef PU_SOUND_TEST_CONE_PROPERTIE_H_
+#define PU_SOUND_TEST_CONE_PROPERTIE_H_
 
 #include <cppunit/extensions/HelperMacros.h>
 
@@ -28,7 +28,7 @@ namespace ProjetUnivers {
     namespace Test {
 
             
-      /// Test de Sound::TestMovingObject
+      /// Test de Sound::TestConePropertie
       class TestConePropertie : public CppUnit::TestFixture {
       protected:
       
@@ -79,4 +79,4 @@ namespace ProjetUnivers {
 }
 
 
-#endif
+#endif /*PU_SOUND_TEST_CONE_PROPERTIE_H_*/

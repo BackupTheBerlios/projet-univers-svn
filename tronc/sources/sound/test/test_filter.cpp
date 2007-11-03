@@ -18,65 +18,47 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_SOUND_TEST_BACKGROUND_SOUND_H_
-#define PU_SOUND_TEST_BACKGROUND_SOUND_H_
+#include <sound/implementation/openal/filter.h>
 
-#include <cppunit/extensions/HelperMacros.h>
+#include <sound/test/test_filter.h>
+
+CPPUNIT_TEST_SUITE_REGISTRATION(
+  ProjetUnivers::Sound::Test::TestFilter) ;
 
 namespace ProjetUnivers {
   namespace Sound {
     namespace Test {
-
-            
-      /// Test of a basic static soundEmitter
-      class TestBackgroundSound : public CppUnit::TestFixture {
-      protected:
-      
+      using namespace Implementation::OpenAL;
+      void TestFilter::basicTest()
+      {
+        /*!
+          - create a source and try reverb and filter on it
+        */
         
-      // ************
-      /// @name Tests
-      // ************
-      // @{
+        Filter a = Filter(0.5,0.25);
+        Filter b = Filter(0.5,0.75);
+        Filter c = Filter(0.0,1.0);
+        Filter d = Filter(1.0,0.0);
         
-        /// 
-        void basicTest() ;
-           
-      // @}
-      // *******************************
-      /// @name Register
-      // *******************************
-      // @{      
-      
-        CPPUNIT_TEST_SUITE(TestBackgroundSound) ;
-      
-        CPPUNIT_TEST(basicTest) ;
-      
-        CPPUNIT_TEST_SUITE_END() ;
-      
-      // @}      
-                
-     public:
+        Filter plus1 = a + b ;
+        CPPUNIT_ASSERT(plus1.getGain() == 0.25 && plus1.getGainHF() == 0.1875);
+        Filter moins2 = a - c ;
+        CPPUNIT_ASSERT(moins2.getGain() == 0.0 && moins2.getGainHF() == 0.25);
+        Filter moins3 = a - d ;
+        CPPUNIT_ASSERT(moins3.getGain() == 0.5 && moins3.getGainHF() == 0.0);
+        
+      }
 
-      // ************
-      /// @name Setup
-      // ************
-      // @{
-
+      void TestFilter::setUp() 
+      {
+      }
       
-        /// Initit
-        void setUp() ;
+      void TestFilter::tearDown() 
+      {
+      }
       
-        /// Close
-        void tearDown() ;
-      
-      // @}      
-      
-      
-      };
 
     }
   }
 }
 
-
-#endif

@@ -28,7 +28,7 @@ namespace ProjetUnivers {
     namespace Test {
 
             
-      /// Basic test for openal
+      /// Test reverb and filter effect
       class TestEffect : public CppUnit::TestFixture {
       protected:
       

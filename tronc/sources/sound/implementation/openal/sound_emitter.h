@@ -62,6 +62,9 @@ namespace ProjetUnivers {
           /// Update the source informations
           void updateSource() ;
           
+          /// Update the source environnement
+          void SoundEmitter::changeParentSource() ;
+          
           /// Stop the source
           void stopSound() ;
           
@@ -137,9 +140,15 @@ namespace ProjetUnivers {
           
           /// OpenAL source
           ALuint m_source ;
+          /// Container of an effect
+          ALuint m_auxEffectSlot ;
           
           /// Update the buffers in the stream
           Reader* m_reader ;
+          
+          /// Position before closing reader, usefull in the changeParent case to restart at the same point
+          int m_posInFile ;
+          int m_posInBuffer ;
         };
       
       }

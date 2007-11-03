@@ -42,8 +42,6 @@ namespace ProjetUnivers {
           /*!
             @param[in] _observer 
               object that sees (e.g., a character, a camera,...)
-            @todo 
-              initialisation du futur gestionnaire d'évènement et destruction
           */
           RealWorldViewPoint(Kernel::Object* observer) ;
           

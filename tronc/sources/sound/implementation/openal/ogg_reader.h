@@ -46,13 +46,15 @@ namespace ProjetUnivers {
 
           /// @Implements
           /// Open the file, create and load the 2 buffers to link to the source
-          virtual void onInit();
+          virtual void onInit(const int& posInFile, const int& posInBuffer) ;
           
           /// @Implements
           /// Close the file, delete the  buffers
           virtual void onClose();
           
-          
+          // @Implements
+          /// Indicate the position in the file in samples
+          virtual int getPos() const ;
           
         private:
           

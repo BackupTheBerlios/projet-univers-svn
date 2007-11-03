@@ -38,29 +38,29 @@
 #include <model/mobile.h>
 #include <model/engine.h>
 #include <model/force.h>
+#include <model/background_sound.h>
+#include <model/sound_environnement.h>
+#include <model/collision.h>
 
 #include <sound/sound.h>
-#include <sound/test/test_cone_propertie.h>
+#include <sound/test/test_sound_environnement.h>
 
-#include <cmath>
 #include <iostream>
-#define PI 3.14
 
 CPPUNIT_TEST_SUITE_REGISTRATION(
-  ProjetUnivers::Sound::Test::TestConePropertie) ;
+  ProjetUnivers::Sound::Test::TestSoundEnvironnement) ;
 
 namespace ProjetUnivers {
   namespace Sound {
     namespace Test {
 
-      void TestConePropertie::basicTest()
+      void TestSoundEnvironnement::basicTest()
       {
         /*!
-          - build a engine
-          - build a listener
-          - move the listener in a circle around the engine
-            to heard the variation with the angle.
-          
+          - build a SoundEnvironnement
+          - build an Engine in this environnement
+          - build a listener in the same environnement   
+          - change a parent and listen the sound continue with just a little artefact between the close and init
         */
       
         Model::init() ;
@@ -75,7 +75,7 @@ namespace ProjetUnivers {
         Model::addTrait(listener,listenerPos) ;
         Model::addTrait(listener,new Model::Oriented(Model::Orientation(Ogre::Quaternion(1.0, 0.0, 10.0, 0.0)))) ;
         Model::addTrait(listener,new Model::Mobile());
-
+        
         Kernel::Object* engine = Model::createObject(system) ;
         Model::addTrait(engine,new Model::Engine(Model::Force::Newton(10,10,10))) ;
         Model::Positionned* enginePos = new Model::Positionned(Model::Position::Meter(0,0,0));
@@ -89,35 +89,48 @@ namespace ProjetUnivers {
         
         
         Kernel::Timer timer ;
-
-        float angle = 0;
-        int tour = 0;
-        while (tour < 1)
+        
+        while (timer.getSecond() <= 3)
         {
-          //variation between 0 and 100% of 2PI
-          angle += 0.00005;
-          if (angle > 1)
-          {
-            angle = 0;
-            tour++;
-          }
-          listenerPos->setPosition(Model::Position::Meter(0.0,5*std::cos(angle*2*PI),5*std::sin(angle*2*PI)));
           float seconds = timer.getSecond() ;
           Model::Duration elapsed(Model::Duration::Second(seconds)) ;
           Model::update(elapsed) ;
           Sound::update() ;
-        }      
+        }
         
+        Kernel::Object* env = Model::createObject(system) ;
+        Model::SoundEnvironnement* soundEnv = new Model::SoundEnvironnement() ;
+        soundEnv->setDensity(0.5) ;
+        soundEnv->setDiffusion(1.0) ;
+        soundEnv->setGain(0.5) ;
+        soundEnv->setGainHF(1.0) ;
+        soundEnv->setDecayTime(2.0) ;
+        soundEnv->setDecayHFRatio(1.1) ;
+        soundEnv->setReflexionsGain(1.0) ;
+        soundEnv->setReflexionsDelay(2.0) ;
+        soundEnv->setLateReverbGain(1.0) ;
+        soundEnv->setLateReverbDelay(2.5) ;
+        Model::addTrait(env, soundEnv) ;
+        Model::changeParent(engine,env) ;
+        
+        while (timer.getSecond() <= 6)
+        {
+          float seconds = timer.getSecond() ;
+          Model::Duration elapsed(Model::Duration::Second(seconds)) ;
+          Model::update(elapsed) ;
+          Sound::update() ;
+        } 
+
         Sound::close();
         Model::close();
         
       }
 
-      void TestConePropertie::setUp() 
+      void TestSoundEnvironnement::setUp() 
       {
       }
       
-      void TestConePropertie::tearDown() 
+      void TestSoundEnvironnement::tearDown() 
       {
       }
       

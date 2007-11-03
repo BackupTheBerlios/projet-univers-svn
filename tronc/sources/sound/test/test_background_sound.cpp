@@ -97,9 +97,11 @@ namespace ProjetUnivers {
         }          
         InternalMessage("i=" + Kernel::toString(i)) ;
         
+       
         Sound::close();
         Model::close();
-        InternalMessage("after sound close") ;
+        
+        InternalMessage("after all close") ;
         
       }
 

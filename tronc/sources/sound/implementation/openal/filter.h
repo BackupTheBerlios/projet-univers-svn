@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2007 Morgan GRIGNARD                                    *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,65 +18,55 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_SOUND_TEST_BACKGROUND_SOUND_H_
-#define PU_SOUND_TEST_BACKGROUND_SOUND_H_
+#ifndef PU_SOUND_IMPLEMENTATION_OPENAL_FILTER_H_
+#define PU_SOUND_IMPLEMENTATION_OPENAL_FILTER_H_
 
-#include <cppunit/extensions/HelperMacros.h>
+#include <kernel/trait.h>
 
 namespace ProjetUnivers {
   namespace Sound {
-    namespace Test {
-
+    namespace Implementation {
+      namespace OpenAL {
+    
+        /// Describe attenuation filter for occlusion and obstruction
+        class Filter
+        {
+        public:
+    
+          /// Constructor
+          Filter(const float& p_gain, const float& p_gainHF) ;
+      
+          /// Add two filters
+          friend Filter operator+(const Filter& p_f1, const Filter& p_f1) ;
+          /// Sub the second to the first filter
+          // No meaning? When we sub a 0.0 gain we can't know the gain before...
+          // @TODO see if usefull
+          friend Filter operator-(const Filter& p_f1, const Filter& p_f1) ;
+          
+        /*!
+          @name Access methods
+        */
+        // @{
+          
+          float getGain() const ;
+          void setGain(const float& p_gain) ;
+          float getGainHF() const ;
+          void setGainHF(const float& p_gainHF) ;
+        
+        // @}
+        private:
+    
+          float m_gain ;
+          float m_gainHF ;
+    
+        // @}
+       
+        };
             
-      /// Test of a basic static soundEmitter
-      class TestBackgroundSound : public CppUnit::TestFixture {
-      protected:
-      
-        
-      // ************
-      /// @name Tests
-      // ************
-      // @{
-        
-        /// 
-        void basicTest() ;
-           
-      // @}
-      // *******************************
-      /// @name Register
-      // *******************************
-      // @{      
-      
-        CPPUNIT_TEST_SUITE(TestBackgroundSound) ;
-      
-        CPPUNIT_TEST(basicTest) ;
-      
-        CPPUNIT_TEST_SUITE_END() ;
-      
-      // @}      
-                
-     public:
-
-      // ************
-      /// @name Setup
-      // ************
-      // @{
-
-      
-        /// Initit
-        void setUp() ;
-      
-        /// Close
-        void tearDown() ;
-      
-      // @}      
-      
-      
-      };
-
+    
+      }
     }
   }
 }
 
-
-#endif
+#endif /*PU_SOUND_IMPLEMENTATION_OPENAL_FILTER_H_*/

@@ -23,6 +23,7 @@
 #include <kernel/parameters.h>
 
 #include <sound/implementation/openal/openal.h>
+#include <sound/implementation/openal/real_world_view_point.h>
 
 #include <AL/efx.h>
 
@@ -41,6 +42,7 @@ namespace ProjetUnivers {
           ALCdevice* device ;
           ALCcontext* context ;
           Manager* manager;
+          RealWorldViewPoint*  sound_system ;
         // @}
         
         // Effect objects
@@ -112,11 +114,11 @@ namespace ProjetUnivers {
             return ;
           }
           
-          //Context creation with a request of 1 auxiliary slot for effect
-          //more isn't possible without a sound card
+          //Context creation with a request of 4 auxiliary slot for effect
+          //but it  isn't possible without a sound card, just 1 will be create
           ALint attributs[4] = { 0 };
           attributs[0] = ALC_MAX_AUXILIARY_SENDS;
-          attributs[1] = 1;
+          attributs[1] = 4;
           
           context = alcCreateContext(device, attributs);
           if(context == NULL)
@@ -219,16 +221,7 @@ namespace ProjetUnivers {
           alDistanceModel(stringToEnum[attenuationModel]) ;
           
           
-          //Verification of initialisation without error 
-          ALenum error ;
-          
-          if((error = alGetError()) != AL_NO_ERROR)
-          {
-            initialised = false ;
-            ErrorMessage("[OpenAL] init error:" + error) ;
-            return ;
-          }
-          
+          //Verification of initialisation without error  
           initialised = true ;
           
           InternalMessage("Sound::OpenAL::init leaving with status: " + getErrorString(alGetError())) ;
@@ -238,8 +231,9 @@ namespace ProjetUnivers {
         {
           InternalMessage("Sound::OpenAL::close entering") ;
           
+          delete sound_system ;
           delete manager;
-          
+
           // Désactivation du contexte
           alcMakeContextCurrent(NULL) ;
   
@@ -247,8 +241,11 @@ namespace ProjetUnivers {
           alcDestroyContext(context) ;
   
           // Fermeture du device
-          alcCloseDevice(device) ;
-          
+          if(!alcCloseDevice(device))
+          {
+          	InformationMessage("Sound::OpenAL::close can't close device, some device or buffer remain") ;
+          }
+          initialised = false ;
           InternalMessage("Sound::OpenAL::close leaving") ;
         }
     
@@ -257,9 +254,12 @@ namespace ProjetUnivers {
           manager->update() ;
         }
         
-        void build(Kernel::Object* listener, Kernel::Object* reference)
+        Kernel::ViewPoint* build(Kernel::Object* listener, Kernel::Object* reference)
         {
         	manager = new Manager(listener, reference) ;
+        	sound_system = new Implementation::OpenAL::RealWorldViewPoint(listener) ;
+        	sound_system->init() ;
+        	return sound_system ;
         }
         
         std::string getErrorString(const ALenum& error)
@@ -281,10 +281,16 @@ namespace ProjetUnivers {
           }
         }
         
+        Kernel::ViewPoint* getViewPoint()
+        {
+          return sound_system ;	
+        }
+        
         Manager* getManager()
         {
-          return manager;
+          return manager ;
         }
+        
       }
     }
   }

@@ -320,5 +320,21 @@ note :
     - Test:
       >TestOpenALInit: add new basic test to know the platform possibilities
       >TestEffect: add basic test to see how effect work
+      
+2007-11-3 Minos
+
+  * model :
+    - SoundEnvironnement : add , just for save, it will change taking into consideration the hardware limitation
+  * sound :
+    - SoundEnvironnementView : add , just for save, it will change taking into consideration the hardware limitation
+    - Filter : add
+    - Sound::close : fix bug when closing Sound before Model, the sound viewpoint wasn't destroy before openal 
+    - SoundEmitter, Reader : fix bug when changeParent() on a source, the close() init() serie destroyed the reader but didn't reinitialize
+                     fix the position where restart, artefact remain
+    - Test:
+      >TestFilter: add test of add-sub action on filter
+      >TestEffect: refactor with CPPUNIT ASSERT in place of log, add some test to know the hardware limitation
+      
+  * todo : reconsider the implementation with the limitation
     
   

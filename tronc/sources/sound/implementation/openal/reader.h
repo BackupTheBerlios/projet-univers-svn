@@ -37,11 +37,10 @@ namespace ProjetUnivers {
         
         public:
         
-          virtual ~Reader() ;
-          
+          virtual ~Reader() ; 
           
           /// Open the file, create and load the 2 buffers to link to the source
-          virtual void onInit() = 0 ;
+          virtual void onInit(const int& posInFile, const int& posInBuffer) = 0 ;
           
           ///Look for empty buffer which are already heard and load them with content
           void update() ;
@@ -53,6 +52,9 @@ namespace ProjetUnivers {
           bool isFinish() const ;
           /// Change the finish state
           void setFinish(bool isFinish) ;
+          
+          /// Indicate the position in the file in samples
+          virtual int getPos() const = 0 ;
           
           
         protected:

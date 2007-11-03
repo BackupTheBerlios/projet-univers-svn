@@ -27,8 +27,6 @@
 namespace ProjetUnivers {
   namespace Model {
     
-    class GuidanceSystem ;
-    
     /// Player's ears
     //TODO restoring hearing with time
     //TODO Deafening effect after explosion for example

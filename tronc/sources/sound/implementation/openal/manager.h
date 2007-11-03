@@ -54,7 +54,7 @@ namespace ProjetUnivers {
           
           
           /// Create a reader which match the soundFile type
-          Reader* createReader(ALuint p_source,std::string p_fileName, bool p_isEvent) ;
+          Reader* createReader(const ALuint& p_source, const std::string& p_fileName,const bool& p_isEvent, const int& m_posInFile, const int& m_posInBuffer) ;
           
           /// Give a pointer to the listener
           Kernel::Object* getListener() ;

@@ -36,7 +36,7 @@ namespace ProjetUnivers {
         :Reader(p_source, p_fileName, p_isEvent, p_updateTime), m_stream(0), m_file(0)
         {}
         
-        void OggReader::onInit()
+        void OggReader::onInit(const int& posInFile, const int& posInBuffer)
         {
           InternalMessage("enter oggreader Init") ;  
           // Open File
@@ -58,7 +58,7 @@ namespace ProjetUnivers {
           vorbis_info* Infos = ov_info(m_stream, -1);
 
           m_sampleRate = Infos->rate;
-          m_samplesByBuffer  = Infos->channels * Infos->rate * m_updateTime ; 
+          m_samplesByBuffer  = (ALsizei)(Infos->channels * Infos->rate * m_updateTime) ; 
           switch (Infos->channels)
           {
             case 1 : m_format = AL_FORMAT_MONO16;   break;
@@ -67,6 +67,12 @@ namespace ProjetUnivers {
               ErrorMessage("[OpenAL::OggReader] Audio Format audio not supported (more than 2 channel)");
           }
 
+          int pos = 0 ;
+		  if(posInFile > 0)
+		  {
+		  	pos = posInFile - m_samplesByBuffer + posInBuffer + 1 ;
+		  }
+          ov_pcm_seek(m_stream, pos);
           
           //Load the buffers and link with the source
           loadBuffer(m_buffers[0]);
@@ -125,6 +131,11 @@ namespace ProjetUnivers {
           {
             ErrorMessage("[OpenAL::OggReader] Impossible to load the buffer with the samples");
           }
+        }
+        
+        int OggReader::getPos() const
+        {
+          ov_pcm_tell(m_stream);
         }     
         
       }

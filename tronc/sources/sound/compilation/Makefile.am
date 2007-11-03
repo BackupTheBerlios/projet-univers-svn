@@ -29,6 +29,7 @@ test_sound_SOURCES = \
 
 
 
+
 test_sound_CXXFLAGS = $(CPPUNIT_CFLAGS) $(PU_CXXFLAGS)
 test_sound_LDFLAGS = $(CPPUNIT_LIBS)
 test_sound_LDADD = \

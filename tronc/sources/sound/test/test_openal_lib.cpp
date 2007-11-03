@@ -36,6 +36,10 @@ namespace ProjetUnivers {
 
       void TestOpenALLib::basicTest()
       {
+      	/*!
+          - init openal directly to see if the lib work
+        */
+        
         ALCdevice* device ;
         ALCcontext* context ;
         device = alcOpenDevice(NULL);
