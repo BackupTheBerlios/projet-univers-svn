@@ -42,7 +42,6 @@ namespace ProjetUnivers {
           
           For example : engine...
           
-          TODO regarder si openal est en mètre aussi
         */
         class SoundEmitter 
         {

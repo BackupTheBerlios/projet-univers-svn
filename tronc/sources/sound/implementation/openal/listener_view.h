@@ -37,8 +37,8 @@ namespace ProjetUnivers {
         /*!
         */
         class ListenerView : public Kernel::TraitView<Listener,
-                                                  RealWorldViewPoint>, 
-                         public SoundListener
+                                                      RealWorldViewPoint>, 
+                             public SoundListener
         {
         public:
         

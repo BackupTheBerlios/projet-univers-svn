@@ -39,10 +39,10 @@ namespace ProjetUnivers {
     /// Terminate.
     void close() ;
       
-    /// Update sound
+    /// Update sound.
     void update() ;
 
-    /// Creates the standard representation for the world 
+    /// Creates the standard representation for the world.
     Kernel::ViewPoint* build(Kernel::Object* listener, Kernel::Object* reference) ;
     
   }

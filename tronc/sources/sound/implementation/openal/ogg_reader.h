@@ -28,7 +28,8 @@ namespace ProjetUnivers {
   namespace Sound {
     namespace Implementation {
       namespace OpenAL {
-        /// Interface  of a soundfile reader use for streaming
+
+        /// Streaming reader for ogg files.
         /*!
         */
         class OggReader : public Reader
@@ -41,7 +42,10 @@ namespace ProjetUnivers {
         // @{
           
           /// Constructor in use
-          OggReader(const ALuint& p_source, const std::string& p_fileName, const bool& p_isEvent, const float& p_updateTime) ;
+          OggReader(const ALuint& p_source, 
+                    const std::string& p_fileName, 
+                    const bool& p_isEvent, 
+                    const float& p_updateTime) ;
         // @}
 
           /// @Implements

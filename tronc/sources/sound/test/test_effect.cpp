@@ -93,7 +93,7 @@ namespace ProjetUnivers {
         
         Implementation::OpenAL::alFilteri(filter,AL_FILTER_TYPE,AL_FILTER_LOWPASS);
         Implementation::OpenAL::alFilterf(filter, AL_LOWPASS_GAIN, 1.0f);
-		Implementation::OpenAL::alFilterf(filter, AL_LOWPASS_GAINHF, 0.0f);
+        Implementation::OpenAL::alFilterf(filter, AL_LOWPASS_GAINHF, 0.0f);
         CPPUNIT_ASSERT(alGetError() == AL_NO_ERROR) ;
         
         
@@ -165,20 +165,20 @@ namespace ProjetUnivers {
         //Filter for direct output , no pass
         Implementation::OpenAL::alFilteri(filters[0],AL_FILTER_TYPE,AL_FILTER_LOWPASS);
         Implementation::OpenAL::alFilterf(filters[0], AL_LOWPASS_GAIN, 0.0f);
-		Implementation::OpenAL::alFilterf(filters[0], AL_LOWPASS_GAINHF, 0.0f);
+        Implementation::OpenAL::alFilterf(filters[0], AL_LOWPASS_GAINHF, 0.0f);
 		
-		//Filter aux1 , all pass
+        //Filter aux1 , all pass
         Implementation::OpenAL::alFilteri(filters[1],AL_FILTER_TYPE,AL_FILTER_LOWPASS);
         Implementation::OpenAL::alFilterf(filters[1], AL_LOWPASS_GAIN, 1.0f);
-		Implementation::OpenAL::alFilterf(filters[1], AL_LOWPASS_GAINHF, 1.0f);
+        Implementation::OpenAL::alFilterf(filters[1], AL_LOWPASS_GAINHF, 1.0f);
 		
-		alSourcei(source, AL_DIRECT_FILTER, filters[0]);
-		alSource3i(source, AL_AUXILIARY_SEND_FILTER, AL_EFFECTSLOT_NULL, 0, filters[1]);
+        alSourcei(source, AL_DIRECT_FILTER, filters[0]);
+        alSource3i(source, AL_AUXILIARY_SEND_FILTER, AL_EFFECTSLOT_NULL, 0, filters[1]);
 		
-		//With just 1 auxEffectSlot there is just 1 auxiliary output for a source
-		//alSource3i(source, AL_AUXILIARY_SEND_FILTER, AL_EFFECTSLOT_NULL, 1, filters[2]);
-		
-		CPPUNIT_ASSERT(alGetError() == AL_NO_ERROR) ;
+        //With just 1 auxEffectSlot there is just 1 auxiliary output for a source
+        //alSource3i(source, AL_AUXILIARY_SEND_FILTER, AL_EFFECTSLOT_NULL, 1, filters[2]);
+        
+        CPPUNIT_ASSERT(alGetError() == AL_NO_ERROR) ;
         timer.reset();
         //Sound with just direct output at 0 gain and aux0 output at 1.0 without effect
         //Without auxEffectSlot there isn't any output

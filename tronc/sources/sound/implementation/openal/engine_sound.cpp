@@ -31,7 +31,7 @@ namespace ProjetUnivers {
     namespace Implementation {
       namespace OpenAL {
 
-	    // Temporary formula, trait with the same behavior than engine will be add after
+	      // Temporary formula, trait with the same behavior than engine will be add after
         DeclareDeducedTrait(EngineSound,
                             And(HasTrait(Model::Mobile),
                                 HasTrait(Model::Positionned),

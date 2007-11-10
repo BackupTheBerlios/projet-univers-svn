@@ -29,6 +29,7 @@ namespace ProjetUnivers {
   namespace Sound {
     namespace Implementation {
       namespace OpenAL {
+
         /// Interface  of a soundfile reader use for streaming
         /*!
         */
@@ -59,13 +60,16 @@ namespace ProjetUnivers {
           
         protected:
         
-          /*!
-        name Construction 
+        /*!
+          @name Construction 
         */
         // @{
           
           /// Constructor in use
-          Reader(const ALuint& p_source, const std::string& p_fileName, const bool& p_isEvent, const float& p_updateTime) ;
+          Reader(const ALuint& p_source, 
+                 const std::string& p_fileName, 
+                 const bool& p_isEvent, 
+                 const float& p_updateTime) ;
         // @}
         
           ///Indicate the sound life end and that the manager can delete this reader

@@ -29,6 +29,7 @@ namespace ProjetUnivers {
     namespace Implementation {
       namespace OpenAL {
 
+        /// Standard sound viewpoint.
         class RealWorldViewPoint : public Kernel::ViewPoint 
         {
         public:

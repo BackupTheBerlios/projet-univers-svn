@@ -56,7 +56,10 @@ namespace ProjetUnivers {
         // @}
         private:
     
+          /// @todo describe
           float m_gain ;
+          
+          /// @todo describe
           float m_gainHF ;
     
         // @}

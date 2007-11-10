@@ -31,11 +31,11 @@ namespace ProjetUnivers {
     namespace Implementation {
       namespace OpenAL {
 
-    DeclareDeducedTrait(Listener,
-                        And(HasTrait(Model::Mobile),
-                            HasTrait(Model::Positionned),
-                            HasTrait(Model::Oriented),
-                            HasTrait(Model::Ear))) ;
+        DeclareDeducedTrait(Listener,
+                            And(HasTrait(Model::Mobile),
+                                HasTrait(Model::Positionned),
+                                HasTrait(Model::Oriented),
+                                HasTrait(Model::Ear))) ;
 
       }
     }

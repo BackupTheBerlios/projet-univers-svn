@@ -34,16 +34,16 @@ namespace ProjetUnivers {
     namespace Implementation {
       namespace OpenAL {
         
-        /*!
-          @name Attributes
-         */
-        // @{
-          bool initialised = false ;
-          ALCdevice* device ;
-          ALCcontext* context ;
-          Manager* manager;
-          RealWorldViewPoint*  sound_system ;
-        // @}
+      /*!
+        @name Attributes
+       */
+      // @{
+        bool initialised = false ;
+        ALCdevice* device ;
+        ALCcontext* context ;
+        Manager* manager;
+        RealWorldViewPoint*  sound_system ;
+      // @}
         
         // Effect objects
         LPALGENEFFECTS alGenEffects = NULL;

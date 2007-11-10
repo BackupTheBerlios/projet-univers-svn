@@ -28,7 +28,8 @@ namespace ProjetUnivers {
   namespace Sound {
     namespace Implementation {
       namespace OpenAL {
-        /// Interface  of a soundfile reader use for streaming
+
+        /// Streaming reader for wav files.
         /*!
         */
         class WavReader : public Reader
