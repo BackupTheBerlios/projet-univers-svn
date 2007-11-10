@@ -165,21 +165,20 @@ namespace ProjetUnivers {
       /*!
         @composite
       */
-      std::multimap<ViewPoint*,BaseTraitView*> m_views ;
+      std::multimap<ViewPoint*,BaseTraitView*>             m_views ;
 
       typedef 
-      boost::function2<BaseTraitView*, Trait*, ViewPoint*> 
-        ViewBuilder ;
+      boost::function2<BaseTraitView*, Trait*, ViewPoint*> ViewBuilder ;
 
       /// ViewPoint -> Trait X ViewBuilder (in term of classes names)
       static std::multimap<
         TypeIdentifier,
-        std::pair<TypeIdentifier,ViewBuilder> > m_view_builders ;
+        std::pair<TypeIdentifier,ViewBuilder> >            m_view_builders ;
       
       /// View X ViewPoint -> Trait (in term of classes names)
       static std::map<
         std::pair<TypeIdentifier,TypeIdentifier>,
-        TypeIdentifier>                         m_trait_of_view ;
+        TypeIdentifier>                                    m_trait_of_view ;
       
       /// Register @c _builder as the builder for @c _trait in @c _viewpoint
       /*!
@@ -324,6 +323,8 @@ namespace ProjetUnivers {
             ClassTrait,ClassViewPoint,ClassView> temp(&build) ;              \
       }                                                                
 
+    /// ClassView is the view for every trait in ClassViewPoint.
+    #define RegisterUniversalView(ClassView,ClassViewPoint)
 
     /// Tells that ClassControler is the controler for ClassTrait in ClassControlerSet.
     /*!

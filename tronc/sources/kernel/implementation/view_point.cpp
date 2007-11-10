@@ -93,6 +93,7 @@ namespace ProjetUnivers {
     void ViewPoint::onInit()
     {
     }
+
     void ViewPoint::onClose()
     {
     }

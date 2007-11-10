@@ -1008,7 +1008,110 @@ namespace ProjetUnivers {
         InternalMessage("Kernel::Test::testTraitVitrualInheritance leaving") ;
         
       }
-            
+
+      namespace 
+      {
+        class Trait1 : public Trait
+        {};
+
+        class View1 : public TraitView<Trait1,TestViewPoint>
+        {
+        public:
+
+          View1(Trait1* i_trait,TestViewPoint* i_viewpoint)
+          : TraitView<Trait1,TestViewPoint>(i_trait,i_viewpoint),
+            changed_parent_number(0)
+          {
+            ++total_number_of_instance ;
+          }
+          
+          ~View1()
+          {
+          }
+
+          /// Called after the view is created on a initialised viewpoint.
+          void onInit()
+          {
+            ++total_number_of_init ;
+          }
+          
+          /// Called just before the view is destroyed.
+          void onClose()
+          {
+            ++total_number_of_close ;
+          }
+      
+          /// Called when parent changed.
+          void onChangeParent(Object* i_old_parent)
+          {
+          }
+          
+          /// Called when the model trait has changed.
+          void onUpdate()
+          {
+          }
+          
+          /// reinit all
+          static void metaInit()
+          {
+            total_number_of_instance = 0 ;
+            total_number_of_init = 0 ;
+            total_number_of_close = 0 ;
+          }
+          
+          int changed_parent_number ;
+          
+          /// total number of created instances
+          static int total_number_of_instance ;
+
+          /// total number of init call
+          static int total_number_of_init ;
+
+          /// total number of close call
+          static int total_number_of_close ;
+
+        };
+
+        int View1::total_number_of_instance = 0 ;
+        int View1::total_number_of_init = 0 ;
+        int View1::total_number_of_close = 0 ;
+        
+        RegisterView(View1,Trait1,TestViewPoint) ;
+        
+      }
+
+      void TestModelView::testchangeParentIsAtomic()
+      {
+        InternalMessage("Kernel::Test::testchangeParentIsAtomic entering") ;
+        /// create a model
+        std::auto_ptr<Model> model(new Model()) ;
+        
+        View1::metaInit() ;
+        
+        Object* parent1 = model->createObject("parent1") ;
+        Object* parent2 = model->createObject("parent2") ;
+        Object* child = model->createObject("child",parent1) ;
+        model->addTrait(child,new Trait1()) ;
+
+        /// create a view
+        std::auto_ptr<TestViewPoint> viewpoint(new TestViewPoint(model.get())) ;
+        
+        /// init the viewpoint
+        viewpoint->init() ;
+
+        /// there should only be one update.
+        CPPUNIT_ASSERT(View1::total_number_of_instance == 1) ;
+        CPPUNIT_ASSERT(View1::total_number_of_init == 1) ;
+        CPPUNIT_ASSERT(View1::total_number_of_close == 0) ;
+        
+        model->changeParent(child,parent2) ;
+        
+        CPPUNIT_ASSERT(View1::total_number_of_instance == 1) ;
+        CPPUNIT_ASSERT(View1::total_number_of_close == 0) ;
+        CPPUNIT_ASSERT(View1::total_number_of_init == 1) ;
+        
+      }
+                  
       void TestModelView::setUp()
       {
       }

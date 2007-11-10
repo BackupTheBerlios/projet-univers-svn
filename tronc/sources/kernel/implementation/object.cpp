@@ -43,13 +43,45 @@ namespace ProjetUnivers {
 
     Object* Object::getParent() const
     {
-      return parent ;
+      return m_parent ;
     }
 
-    /// Get top most ancestor.
-    Object* Object::getRoot() const
+    const Object* Object::getRoot() const
     {
-    
+      if (m_parent)
+      {
+        return m_parent->getRoot() ;
+      }
+      else
+      {
+        return this ;
+      }
+    }
+
+    const Object* Object::getCommonAncestor(const Object* object) const
+    {
+      if (m_model == object->m_model)
+      {
+        std::list<Object*> ancestors(getAncestorPath()) ;
+        std::list<Object*> object_ancestors(object->getAncestorPath()) ;
+        
+        const Object* result = NULL ;
+        
+        std::list<Object*>::const_iterator i = ancestors.begin() ;
+        std::list<Object*>::const_iterator j = object_ancestors.begin() ;
+        
+        while (i != ancestors.end() && j != object_ancestors.end() &&
+               *i == *j)
+        {
+          result = *i ;
+          ++i ;
+          ++j ;
+        } 
+        
+        return result ;
+      }
+
+      return NULL ;
     }
 
     Model* Object::getModel() const
@@ -59,7 +91,7 @@ namespace ProjetUnivers {
 
     bool Object::getValidity(const Formula* i_formula) const
     {
-      check(Formula::getNumberOfFormulae() <= m_validities.size(),
+      CHECK(Formula::getNumberOfFormulae() <= m_validities.size(),
             "Object::getValidity not enought place") ;
 
       return m_validities[i_formula->getIdentifier()] ; 
@@ -67,7 +99,7 @@ namespace ProjetUnivers {
     
     void Object::setValidity(const Formula* i_formula,bool i_validity)
     {
-      check(Formula::getNumberOfFormulae() <= m_validities.size(),
+      CHECK(Formula::getNumberOfFormulae() <= m_validities.size(),
             "Object::setValidity not enought place") ;
 
       m_validities[i_formula->getIdentifier()] = i_validity ;
@@ -75,8 +107,8 @@ namespace ProjetUnivers {
 
     unsigned short Object::getNumberOfTrueChildFormulae(const Formula* i_formula) const
     {
-      check(i_formula,"Object::getNumberOfTrueChildFormulae no formula") ;
-      check(Formula::getNumberOfFormulae() <= m_number_of_true_child_formulae.size(),
+      CHECK(i_formula,"Object::getNumberOfTrueChildFormulae no formula") ;
+      CHECK(Formula::getNumberOfFormulae() <= m_number_of_true_child_formulae.size(),
             "Object::getNumberOfTrueChildFormulae not enought place") ;
 
       return m_number_of_true_child_formulae[i_formula->getIdentifier()] ;
@@ -85,8 +117,8 @@ namespace ProjetUnivers {
     void Object::setNumberOfTrueChildFormulae(const Formula*     i_formula,
                                               unsigned short i_number)
     {
-      check(i_formula,"Object::setNumberOfTrueChildFormulae no formula") ;
-      check(Formula::getNumberOfFormulae() <= m_number_of_true_child_formulae.size(),
+      CHECK(i_formula,"Object::setNumberOfTrueChildFormulae no formula") ;
+      CHECK(Formula::getNumberOfFormulae() <= m_number_of_true_child_formulae.size(),
             "Object::setNumberOfTrueChildFormulae not enought place") ;
 
       m_number_of_true_child_formulae[i_formula->getIdentifier()]
@@ -102,7 +134,7 @@ namespace ProjetUnivers {
 
     Object::Object(Model* i_model,const std::string& i_name)
     : name(i_name),
-      parent(NULL),
+      m_parent(NULL),
       m_model(i_model),
       m_validities(Formula::getNumberOfFormulae()),
       m_number_of_true_child_formulae(Formula::getNumberOfFormulae())
@@ -112,13 +144,13 @@ namespace ProjetUnivers {
 
     void Object::_add(Trait* i_trait)
     {
-      check(i_trait,ExceptionKernel("Kernel::_add(Trait*) no trait")) ;
+      CHECK(i_trait,ExceptionKernel("Kernel::_add(Trait*) no trait")) ;
       InternalMessage("Kernel::Object::_add(Trait) " + getObjectTypeIdentifier(i_trait).toString()) ;
 
       TypeIdentifier trait_name(getObjectTypeIdentifier(i_trait)) ;
 
       /// erreur si l'objet a déjà une facette de ce type là
-      check(traits.find(trait_name)==traits.end(), 
+      CHECK(traits.find(trait_name)==traits.end(), 
             ExceptionKernel("trait already exists")) ;
 
       InternalMessage("Registering :") ;
@@ -157,11 +189,11 @@ namespace ProjetUnivers {
 
     Object* Object::_add(Object* i_child)
     {
-      check(i_child,
+      CHECK(i_child,
             ExceptionKernel("Object::add(Object*) : _object is NULL")) ;
 
       /// on met à jour le lien contenu/contenant
-      i_child->parent = this ;
+      i_child->m_parent = this ;
       children.insert(i_child) ;
 
       /// useless
@@ -169,6 +201,14 @@ namespace ProjetUnivers {
 
       return i_child ;
     }
+
+    Object* Object::_attach(Object* i_child)
+    {
+      i_child->m_parent = this ;
+      children.insert(i_child) ;
+      return i_child ;
+    }
+
 
     void Object::_remove(Object* i_child)
     {
@@ -181,6 +221,13 @@ namespace ProjetUnivers {
       this->children.erase(i_child) ;
       return i_child ;
     }
+
+    Object* Object::_detach(Object* i_child)
+    {
+      this->children.erase(i_child) ;
+      return i_child ;
+    }
+    
 
     void Object::_remove(const TypeIdentifier& i_trait_name)
     {
@@ -196,7 +243,7 @@ namespace ProjetUnivers {
     
     void Object::_remove(Trait* i_trait)
     {
-      check(i_trait,ExceptionKernel("Kernel::_remove(Trait*) no trait")) ;
+      CHECK(i_trait,ExceptionKernel("Kernel::_remove(Trait*) no trait")) ;
       TypeIdentifier trait_name(getObjectTypeIdentifier(i_trait)) ;
 
       i_trait->_close() ;
@@ -552,6 +599,34 @@ namespace ProjetUnivers {
     std::set<Object*> Object::getChildren() const
     {
       return children ;
+    }
+
+    std::list<Object*> Object::getAncestorPath() const
+    {
+      std::list<Object*> result ;
+      if (m_parent)
+      {
+        result = m_parent->getAncestorPath() ;
+      }
+      
+      result.push_back(const_cast<Object*>(this)) ;
+      return result ;
+    }
+    
+    bool Object::isAncestor(const Object* object) const
+    {
+      if (this == object)
+      {
+        return true ;
+      }
+      else if (object->getParent() == NULL)
+      {
+        return false ;
+      }
+      else
+      {
+        return isAncestor(object->getParent()) ;
+      }
     }
   }
 }

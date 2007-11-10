@@ -23,7 +23,7 @@ namespace ProjetUnivers {
  
     template <class _View> _View* Object::getView(ViewPoint* i_viewpoint)
     {
-      check(i_viewpoint,ExceptionKernel("Object::getView error")) ;
+      CHECK(i_viewpoint,ExceptionKernel("Object::getView error")) ;
       InternalMessage(
         "Object::getView for " + getObjectTypeIdentifier(i_viewpoint).toString()) ;
       
@@ -113,7 +113,7 @@ namespace ProjetUnivers {
     }
 
 
-    template <class T> T* Object::getParentUpTo(Object* i_object) const
+    template <class T> T* Object::getParentUpTo(const Object* i_object) const
     {
       // T must be a subclass of Trait
       Kernel::Inherits<T,Trait>() ;

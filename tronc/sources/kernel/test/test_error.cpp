@@ -42,7 +42,7 @@ namespace ProjetUnivers {
         try 
         {
           Object* element = NULL ;
-          check(element,ExceptionKernel("failed")) ;
+          CHECK(element,ExceptionKernel("failed")) ;
           
           CPPUNIT_ASSERT(false) ;
         }

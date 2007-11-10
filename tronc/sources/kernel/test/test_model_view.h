@@ -64,6 +64,9 @@ namespace ProjetUnivers {
         /// Tests changing a parentship.
         void testchangeParent() ;
 
+        /// Changing a parentship must not call other updates.
+        void testchangeParentIsAtomic() ;
+
         /// Tests modification of a trait.
         void testUpdate() ;
 
@@ -123,6 +126,7 @@ namespace ProjetUnivers {
         CPPUNIT_TEST(testMultiViewPointOfTheSameKind) ;
         CPPUNIT_TEST(testTraitInheritance) ;
         CPPUNIT_TEST(testTraitVitrualInheritance) ;
+        CPPUNIT_TEST(testchangeParentIsAtomic) ;
 
         CPPUNIT_TEST_SUITE_END() ;
 

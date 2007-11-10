@@ -21,6 +21,7 @@
 #ifndef PU_KERNEL_OBJECT_H_
 #define PU_KERNEL_OBJECT_H_
 
+#include <list>
 #include <set>
 #include <map>
 #include <vector>
@@ -85,8 +86,14 @@ namespace ProjetUnivers {
       Object* getParent() const ;
       
       /// Get top most ancestor.
-      Object* getRoot() const ;
-
+      const Object* getRoot() const ;
+      
+      /// A common ancestor iff exists.
+      const Object* getCommonAncestor(const Object*) const ;
+      
+      /// True iff @c this is ancestor of @c object
+      bool isAncestor(const Object* object) const ;
+      
       /// Acces to model.
       Model* getModel() const ;
 
@@ -120,7 +127,7 @@ namespace ProjetUnivers {
           if no object has T trait between this and @c i_object
           or @c i_object is not ancestor of this.
       */
-      template <class T> T* getParentUpTo(Object* i_object) const ;
+      template <class T> T* getParentUpTo(const Object* i_object) const ;
 
       /// Get all the descendant (excluding @c this) with trait T.
       template <class T> std::set<T*> getDescendants() const ;
@@ -182,8 +189,14 @@ namespace ProjetUnivers {
       /// Remove a sub-object.
       void _remove(Object* i_child) ;
     
-      /// Detach a sub-object.
+      /// Detach and close a sub-object.
       Object* _release(Object* i_child) ;
+
+      /// Detach a sub-object.
+      Object* _detach(Object* i_child) ;
+
+      /// Attach a sub-object.
+      Object* _attach(Object* i_child) ;
 
       /// Add a trait.
       void _add(Trait* i_trait) ;
@@ -242,26 +255,31 @@ namespace ProjetUnivers {
                                         unsigned short i_number) ;
                                         
     // @}
+      
+      /// Returns the path from root to this.
+      std::list<Object*> getAncestorPath() const ;
+    
+    
     /*!
       @name attributes
     */    
     // @{
     
-      std::string name ;
+      std::string                      name ;
       /// @composite
       std::map<TypeIdentifier, Trait*> traits ;
-      Object* parent ;
+      Object*                          m_parent ;
       /// @composite
-      std::set<Object*> children ;
+      std::set<Object*>                children ;
       
       /// Model of the object.
-      Model*            m_model ;
+      Model*                           m_model ;
       
       /// Validities for each formula
-      std::vector<bool> m_validities ;
+      std::vector<bool>                m_validities ;
 
       /// Number of true chid formulae indexed by formulae.       
-      std::vector<unsigned short> m_number_of_true_child_formulae ;
+      std::vector<unsigned short>      m_number_of_true_child_formulae ;
 
     // @}
 

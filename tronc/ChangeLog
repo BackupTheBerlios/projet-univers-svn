@@ -1,15 +1,15 @@
-2006-07-14 rogma <rogma.boami@free.fr>
+2006-07-14 rogma 
 
   * entrees, action, affichage : 
 
         general interface and testing implementation
 
 
-2006-10-22 rogma <rogma.boami@free.fr>
+2006-10-22 rogma 
 
   * livraison version 0.1.0
 
-2006-10-27 rogma <rogma.boami@free.fr>
+2006-10-27 rogma 
   
   * configure.ac : incrémentation de la version 
 
@@ -32,21 +32,21 @@
       - objet.h/cpp : correction du type de retours de Ajouter(Facette*)
                                ajout de Enlever pour Objet et Facette
 
-2007-02-17 rogma <rogma.boami@free.fr>
+2007-02-17 rogma 
 
   * affichage/point_de_vue.h : ajout de changer_observateur
 
-2007-02-22 rogma <rogma.boami@free.fr>
+2007-02-22 rogma 
 
   * change language to english
 
-2007-03-10 rogma <rogma.boami@free.fr>
+2007-03-10 rogma 
   
   * kernel : now contains model view framework
   * model : simplified uses kernel model
   * display : simplified uses kernel view and viewpoint
 
-2007-03-25 rogma <rogma.boami@free.fr>
+2007-03-25 rogma 
   
   * kernel : bug corrections : 
     - getTrait made an empty trait (test added)
@@ -59,7 +59,7 @@
       Composite added
   * physic : creation of the physic module
 
-2007-03-27 rogma <rogma.boami@free.fr>
+2007-03-27 rogma 
 
   Work on physic :
   * model : 
@@ -77,7 +77,7 @@
     - display.cpp corrected a possible bug
   * added preliminary codeblocks projects for modules
 
-2007-04-20 rogma <rogma.boami@free.fr>
+2007-04-20 rogma 
 
   Work on deduction :
   * kernel :
@@ -98,13 +98,13 @@
   * kernel : renaming of member data, added preliminary timer class
   * all : removed some warnings  
 
-2007-04-22 rogma <rogma.boami@free.fr>
+2007-04-22 rogma 
 
   Diverse :
   * kernel : added meta.h/cpp for centralization of class identification
   * all modified makefiles
 
-2007-06-05 rogma <rogma.boami@free.fr>
+2007-06-05 rogma 
 
   Architecture :
   * kernel : added controler.h/.cpp, a Model-modifying "procedure".
@@ -114,7 +114,7 @@
   Demonstration :
   * usage of stabilizer to slowly stop rotation of one of the ships
    
-2007-06-10 rogma <rogma.boami@free.fr>
+2007-06-10 rogma 
    
    Diverse : 
    * all : some french comments turned into english
@@ -122,7 +122,7 @@
    * remove a bug in kernel
    * small changes in log
 
-2007-06-18 rogma <rogma.boami@free.fr>
+2007-06-18 rogma 
   
   * input : added mouse.h/cpp and mouse control of an oriented object
   * model : separation of positionned into positionned and orientated, and 
@@ -130,7 +130,7 @@
   * model : preliminary work on ship control : dragger, shipcontrol traits
   * display : added 3D line display for tests
 
-2007-06-30 rogma <rogma.boami@free.fr>
+2007-06-30 rogma 
 
   * input : added joystick.h/cpp and control of an oriented object
   * model : small modifications to demonstration model
@@ -143,7 +143,7 @@
     relative to first Positionned/Oriented ancestor. Tests added.
   * kernel : splitted object.h in two files, added getParentUpTo
 
-2007-07-06 rogma <rogma.boami@free.fr>
+2007-07-06 rogma 
 
   * model : added stick/throttle plus tests
   * kernel : 
@@ -152,7 +152,7 @@
     - added preliminary Command system
   * input : usage of command system in joystick
   
-2007-07-08 rogma <rogma.boami@free.fr>
+2007-07-08 rogma 
 
   * kernel : 
     - added getAncestor<T> for getting first real ancestor having trait T
@@ -160,7 +160,7 @@
   * physic : test of dragger
   * demo : added full piloting of one ship
 
-2007-07-19 rogma <rogma.boami@free.fr>
+2007-07-19 rogma 
 
   * model : 
     - added Ogre's Mesh on demand loading for test purpose
@@ -173,7 +173,7 @@
       of testSimulateMovingInitialSpeed
     - removed Model::load in all TestDemonstration tests 
 
-2007-08-04 rogma <rogma.boami@free.fr>
+2007-08-04 rogma 
   
   * input : joystick bug correction (throttle would be set to middle when 
     changing direction)
@@ -186,25 +186,25 @@
   * all : 
     - updated codeblock config for windows compiling
   
-2007-08-09 rogma <rogma.boami@free.fr>
+2007-08-09 rogma 
   
   * all : 
     - modified compilation for mingw (windows) compatibility
   * display : remove circular dependecy between display and display/ogre
   * model : removed a bug from test_laser
 
-2007-08-19 rogma <rogma.boami@free.fr>
+2007-08-19 rogma 
   
   * all : 
     - modified compilation for mingw (windows) compatibility
   * model/physic : added parameter reading
 
-2007-08-19 rogma <rogma.boami@free.fr>
+2007-08-19 rogma 
   
   * input : added parameter reading for joystick
 
 
-2007-08-26 rogma <rogma.boami@free.fr>
+2007-08-26 rogma 
   
   * all : clarification of the copyright
   * kernel 
@@ -241,16 +241,10 @@
   * sound  :
     - small compiling corrections
     - added basic test for background sound
-    
-todos :
 
-  * physic : 
-    - try to keep all units in an acceptable "range", it means that we whould 
-      be able to convert model units in an arbitrary "ranging system".
-    - migrate PhysicalObject and PhysicalWorld to physic (for better separation
-      of concerns)
-  * all :
-    - make use of Quantities ??
+2007-09-29 rogma 
+
+  * sound : makefile change for windows compilation
     
 2007-10-13 Minos
   
@@ -259,11 +253,10 @@ todos :
     - deduction of trait information for position, orientation and speed
     - for the compilation now, Ogg, Vorbis, Vorbisfile and libsndfile are needed
     
-todos :
-
-  * sound : 
-    - just keep relative model to a global reference
-    - tests configuration in mouvement
+  * todos :
+    -  sound : 
+      - just keep relative model to a global reference
+      - tests configuration in movement
     
 2007-10-21 Minos
 
@@ -278,15 +271,13 @@ todos :
     - some fix on sound_emitter and sound_listener in properties setting.
     - openal now is configure in software mode, hardware (nvidia integrated shipset in my case)
       don't work for moving alone listener, and later for some effect
-    * test :
-      - add moving_object, source move on three axis
-      - add cone_propertie, a listener turn around an engine and heard the variation with the angle
-      
-todos :
-  
-  * sound :
-    - global effect on the mixed sound in function of Model::ear state
-    - device selection between software/hardware
+  * test :
+    - add moving_object, source move on three axis
+    - add cone_propertie, a listener turn around an engine and heard the variation with the angle
+  * todos :
+    - sound :
+      - global effect on the mixed sound in function of Model::ear state
+      - device selection between software/hardware
 
 2007-10-29 Minos
 
@@ -294,12 +285,12 @@ todos :
     - move sound deduced trait to sound module
   * sound :
     - rename viewer and refactor to not have conflit with deduced trait now in sound module
-    
-      
-note : 
-  * Log can cause bug, the kernel begin to be too verbose ~20mo/sec in the test_cone_propertie.
-  Exemple: the sound buffer becomes empty and the sound stop, because i can't write on the hard disk
-  the log's flow when an application use another sector of the hard disk.
+  * note : 
+    - Log can cause bug, the kernel begin to be too verbose ~20mo/sec in the 
+      test_cone_propertie.
+      Exemple: the sound buffer becomes empty and the sound stop, because i 
+      can't write on the hard disk the log's flow when an application use 
+      another sector of the hard disk.
   
 2007-10-30 Minos
 
@@ -335,6 +326,21 @@ note :
       >TestFilter: add test of add-sub action on filter
       >TestEffect: refactor with CPPUNIT ASSERT in place of log, add some test to know the hardware limitation
       
-  * todo : reconsider the implementation with the limitation
+2007-11-11 rogma 
+
+  * kernel :
+    - added ancestor queries on objects.
+    - correction of bug : changing parent caused close, init and change parent 
+      event instead of change parent (test added)
     
+todos :
+
+  * physic : 
+    - try to keep all units in an acceptable "range", it means that we whould 
+      be able to convert model units in an arbitrary "ranging system".
+    - migrate PhysicalObject and PhysicalWorld to physic (for better separation
+      of concerns)
+  * sound : reconsider the implementation with the limitation
+  * all :
+    - make use of Quantities ??
   

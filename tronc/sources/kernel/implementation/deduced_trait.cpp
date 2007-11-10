@@ -171,7 +171,7 @@ namespace ProjetUnivers {
 
     void FormulaNot::addChild(Formula* i_formula)
     {
-      check(m_children.size() == 0,"FormulaNot can has only one child formula") ;
+      CHECK(m_children.size() == 0,"FormulaNot can has only one child formula") ;
       
       Formula::addChild(i_formula) ;
     }
@@ -191,8 +191,8 @@ namespace ProjetUnivers {
     TraitFormula::TraitFormula(const TypeIdentifier& i_trait_name)
     : Formula()
     {
-      check((m_identifier==-1),"TraitFormula::TraitFormula invalid identifier") ;
-      check((m_depth==0),"TraitFormula::TraitFormula invalid depth") ;
+      CHECK((m_identifier==-1),"TraitFormula::TraitFormula invalid identifier") ;
+      CHECK((m_depth==0),"TraitFormula::TraitFormula invalid depth") ;
     }
 
     DeducedTrait::~DeducedTrait()
@@ -314,7 +314,7 @@ namespace ProjetUnivers {
 
     void FormulaNot::eval(Object* i_object)
     {
-      check((m_children.size()== 1),"FormulaNot::eval children problem") ;
+      CHECK((m_children.size()== 1),"FormulaNot::eval children problem") ;
       InternalMessage("FormulaNot::eval Entering id=" + toString((float)m_identifier)) ;
       
       bool validity ; 
@@ -354,7 +354,7 @@ namespace ProjetUnivers {
 
     void TraitFormula::addTrait(Object* i_object,const TypeIdentifier& i_trait_name)
     {
-      check(i_object,"TraitFormula::addTrait no object")
+      CHECK(i_object,"TraitFormula::addTrait no object")
 
       InternalMessage("TraitFormula::addTrait") ;
       TraitFormula* trait_formula = get(i_trait_name) ;
@@ -379,8 +379,8 @@ namespace ProjetUnivers {
                               Object* i_object)
     {
 
-      check(i_formula,"DeducedTrait::notify no formula")
-      check(i_object,"DeducedTrait::notify no object")
+      CHECK(i_formula,"DeducedTrait::notify no formula")
+      CHECK(i_object,"DeducedTrait::notify no object")
       InternalMessage("DeducedTrait::notify") ;
 
       if (i_validity)
@@ -409,7 +409,7 @@ namespace ProjetUnivers {
     void Formula::addChildTrue(Object* i_object)
     {
       InternalMessage("Formula::addChildTrue Entering id=" + toString((float)m_identifier)) ;
-      check(i_object,"Formula::addChildTrue no object") ;
+      CHECK(i_object,"Formula::addChildTrue no object") ;
       
       unsigned short true_child = i_object->getNumberOfTrueChildFormulae(this) ;
 
@@ -434,7 +434,7 @@ namespace ProjetUnivers {
 
     void Formula::becomeTrue(Object* i_object)
     {
-      check(i_object,"Formula::becomeTrue no object")
+      CHECK(i_object,"Formula::becomeTrue no object")
       InternalMessage("Formula::becomeTrue Entering id=" + toString((float)m_identifier)) ;
       if (m_identifier >= 0)
       {

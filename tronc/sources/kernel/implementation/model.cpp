@@ -75,7 +75,7 @@ namespace ProjetUnivers {
     Object* Model::createObject(const std::string& i_name,
                                 Object* i_parent)
     {
-      check(i_parent,ExceptionKernel("Model::createObject no parent")) ;
+      CHECK(i_parent,ExceptionKernel("Model::createObject no parent")) ;
       
       if (m_objects_dictionnary.find(i_name) == m_objects_dictionnary.end())
       {
@@ -116,13 +116,13 @@ namespace ProjetUnivers {
     /// Destroy a given Object.
     void Model::destroyObject(Object* i_object)
     {
-      check(i_object,ExceptionKernel("Model::destroyObject no object")) ;
+      CHECK(i_object,ExceptionKernel("Model::destroyObject no object")) ;
       
       i_object->_close() ;
 
       m_objects_dictionnary.erase(i_object->getName()) ;
       
-      if (i_object->parent == NULL)
+      if (i_object->getParent() == NULL)
       {
         /// a top object
         m_objects.erase(i_object) ;
@@ -131,7 +131,7 @@ namespace ProjetUnivers {
       else
       {
         /// a sub object
-        i_object->parent->_remove(i_object) ;
+        i_object->getParent()->_remove(i_object) ;
       }
       
     }
@@ -140,12 +140,12 @@ namespace ProjetUnivers {
     void Model::changeParent(Object* i_object, 
                              Object* i_new_parent)
     {
-      check(i_object,ExceptionKernel("Model::changeParent no object")) ;
-      check(i_new_parent,ExceptionKernel("Model::changeParent no new parent")) ;
+      CHECK(i_object,ExceptionKernel("Model::changeParent no object")) ;
+      CHECK(i_new_parent,ExceptionKernel("Model::changeParent no new parent")) ;
       
-      Object* old_parent = i_object->parent ;
+      Object* old_parent = i_object->getParent() ;
       
-      if (i_object->parent == NULL)
+      if (i_object->getParent() == NULL)
       {
         /// a top object
         m_objects.erase(i_object) ;
@@ -153,7 +153,7 @@ namespace ProjetUnivers {
       }
       else
       {
-        i_object->parent->_release(i_object) ;
+        i_object->getParent()->_detach(i_object) ;
       }
 
       i_new_parent->_add(i_object) ;
@@ -165,8 +165,8 @@ namespace ProjetUnivers {
     void Model::addTrait(Object* i_object, 
                          Trait* i_new_trait)
     {
-      check(i_object,ExceptionKernel("Model::destroyTrait no object")) ;
-      check(i_new_trait,ExceptionKernel("Model::destroyTrait no new trait")) ;
+      CHECK(i_object,ExceptionKernel("Model::destroyTrait no object")) ;
+      CHECK(i_new_trait,ExceptionKernel("Model::destroyTrait no new trait")) ;
       
       i_object->_add(i_new_trait) ;
       
@@ -176,8 +176,8 @@ namespace ProjetUnivers {
     void Model::destroyTrait(Object* i_object, 
                             Trait* i_trait)
     {
-      check(i_object,ExceptionKernel("Model::destroyTrait no object")) ;
-      check(i_trait,ExceptionKernel("Model::destroyTrait no trait")) ;
+      CHECK(i_object,ExceptionKernel("Model::destroyTrait no object")) ;
+      CHECK(i_trait,ExceptionKernel("Model::destroyTrait no trait")) ;
 
       i_object->_remove(i_trait) ;
     }
@@ -303,6 +303,10 @@ namespace ProjetUnivers {
       }      
     }
 
+    std::set<Object*> Model::getRoots() const
+    {
+      return m_objects ;
+    }
   }
 }
 

@@ -44,6 +44,9 @@ namespace ProjetUnivers {
 
       /// Get an object.
       Object* getObject(const std::string& i_name) ;
+      
+      /// Access to root objects.
+      std::set<Object*> getRoots() const ;
         
       /// Creates a new Object with name.
       Object* createObject(const std::string& i_name) ; 

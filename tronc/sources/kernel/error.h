@@ -24,28 +24,25 @@
 #include <cassert>
 
 /*!
-  @name Gestion des erreurs
+  @name Error handling
   
-  Ce système permet de changer à la compilation entre une assertion et une 
-  exception.
-  
-  
+  Compile time choosing between assertion and exception.  
   
 */
 
 
-/// Déclenche une erreur/exception si @c condition est faux
+/// Raise an error/exception if @c condition is false.
 /*!
-  @param condition une expression renvoyant un booleen
-  @param exception une exception
+  @param condition a boolean expression 
+  @param exception an exception 
 */
 #ifdef _DEBUG
   
-  #define check(condition, exception) assert((condition)) ;
+  #define CHECK(condition, exception) assert((condition)) ;
 
 #else
 
-  #define check(condition, exception) { if (!(condition)) throw exception ; }
+  #define CHECK(condition, exception) { if (!(condition)) throw exception ; }
 
 #endif
 
