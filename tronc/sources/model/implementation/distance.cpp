@@ -65,13 +65,13 @@ namespace ProjetUnivers {
     Distance Distance::operator +(const Distance& _distance) const
     {
       /// @todo
-      check(false,"note yet implemented") ;
+      CHECK(false,"note yet implemented") ;
     }
 
     Distance Distance::operator -(const Distance& _distance) const
     {
       /// @todo
-      check(false,"note yet implemented") ;
+      CHECK(false,"note yet implemented") ;
     }
 
     float Distance::convert(float i_value,
@@ -166,5 +166,11 @@ namespace ProjetUnivers {
         return out ;
       }
     }
+
+    bool Distance::operator <=(const Distance& d) const
+    {
+      return convert(m_value,m_unit,_Meter) <= convert(d.m_value,d.m_unit,_Meter) ;
+    }
+    
   }
 }

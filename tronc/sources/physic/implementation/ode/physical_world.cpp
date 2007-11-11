@@ -275,7 +275,7 @@ namespace ProjetUnivers {
           InternalMessage("Physic::PhysicalWorld::simulate " + getObject()->getName() + " Entering") ;
 //          InformationMessage("PhysicalWorld::simulate " + Kernel::toString((float)i_seconds)) ;
           
-          check(m_collision_space,"no collision space") ;
+          CHECK(m_collision_space,"no collision space") ;
           /// simulate
           /* 
             collision detection

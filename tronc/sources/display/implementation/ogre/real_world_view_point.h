@@ -71,8 +71,12 @@ namespace ProjetUnivers {
           /// Change l'observer.
           virtual void onChangeObserver(Kernel::Object* _observer) ;
 
-          /// Make this as the displayed viewpoint. 
+          /// This viewpoint is displayed. 
           virtual void activate() ;
+
+          /// This viewpoint is not displayed. 
+          virtual void desactivate() ;
+
           
         // @}
         /*

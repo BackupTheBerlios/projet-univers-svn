@@ -126,7 +126,7 @@ namespace ProjetUnivers {
       {
         Object* observateur(Model::getObject("Observer")) ;
         Object* system(observateur->getParent<StellarSystem>()->getObject()) ;
-        check(system,std::string("action::creer_objet error")) ;         
+        CHECK(system,std::string("action::creer_objet error")) ;         
         Object* vaisseau = Model::createObject("Asteroid",system) ;
         if (vaisseau)
         {

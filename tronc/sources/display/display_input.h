@@ -28,6 +28,8 @@ namespace ProjetUnivers {
 
   /*!
     @name Interface for input module.
+    
+    
   */
   // @{
 
@@ -41,7 +43,9 @@ namespace ProjetUnivers {
                        int& left,
                        int& top );
   
-  
+    /// Send a key event to GUI.
+    void injectKey(const unsigned int& key_code) ;
+    
   // @}
 
   }

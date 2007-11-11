@@ -103,7 +103,7 @@ namespace ProjetUnivers {
     {
       
       // le cas division par zéro.
-      check(_operande.value != 0, 
+      CHECK(_operande.value != 0, 
                        Exception("division par zero")) ;
       
       // le cas normal

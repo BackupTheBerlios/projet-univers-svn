@@ -20,17 +20,15 @@
  ***************************************************************************/
 #include <stddef.h>
 #include <Ogre.h>
+#include <CEGUI.h>
 
 #include <plateform.h>
-
 
 #include <kernel/log.h>
 
 #include <display/implementation/ogre/ogre.h>
 
 
-// on préfixe avec la racine des namespaces pour 
-// qu'il n'y ait pas de confusion
 using namespace ::Ogre ;
 using namespace std ;
 
@@ -53,6 +51,11 @@ namespace ProjetUnivers {
             Ce pointeur doit être considéré comme une association.
         */
         ::Ogre::RenderWindow* window ;
+        
+        // gui
+        ::CEGUI::OgreCEGUIRenderer* CEGUIRenderer ;
+        ::CEGUI::System* CEGUISystem ;
+
 
         /// le système ogre      
         ::Ogre::Root* getRoot()
@@ -79,6 +82,11 @@ namespace ProjetUnivers {
           return window ;
         }
 
+        ::CEGUI::OgreCEGUIRenderer* getCEGUIRenderer()
+        {
+          return CEGUIRenderer ;
+        }
+        
         size_t getWindowHandle()
         {
           size_t windowHnd = 0;
@@ -162,25 +170,58 @@ namespace ProjetUnivers {
 
           // on se crée une window par défaut
           window = root->initialise(true) ;
-
+          
+          CEGUIRenderer = new CEGUI::OgreCEGUIRenderer(window) ;
+          CEGUISystem = new CEGUI::System(CEGUIRenderer) ;
+          CEGUI::Logger::getSingleton().setLoggingLevel(CEGUI::Informative) ;
+          
           ResourceGroupManager::getSingleton().initialiseAllResourceGroups() ;
           
+          // cegui 
+          CEGUI::Imageset::setDefaultResourceGroup("imagesets");
+          CEGUI::Font::setDefaultResourceGroup("fonts");
+          CEGUI::Scheme::setDefaultResourceGroup("schemes");
+          CEGUI::WidgetLookManager::setDefaultResourceGroup("looknfeels");
+          CEGUI::WindowManager::setDefaultResourceGroup("layouts");
+          CEGUI::SchemeManager::getSingleton().loadScheme("ProjetUnivers.scheme") ;
+          
+          // useless if scheme contains a font reference.
+          CEGUI::Font* font = CEGUI::FontManager::getSingleton().createFont("bluehighway-12.font") ;
+          
+//          CEGUI::SchemeManager::getSingleton()
+//            .loadScheme((CEGUI::utf8*)"TaharezLook.scheme") ;
+//          CEGUISystem->setDefaultFont(font);                          
+//          font = CEGUI::FontManager::getSingleton()
+//            .createFont("Commonwealth-10.font") ;
+
           InternalMessage("Ogre launched") ;
           
-          // voila, ca a marché
+          // voila
           return true ;
         }
 
         void close() 
         {
+          InternalMessage("stopping Ogre..") ;
+          if(CEGUISystem)
+          {
+            delete CEGUISystem;
+            CEGUISystem = 0;
+          }
+          
+          if(CEGUIRenderer)
+          {
+            delete CEGUIRenderer;
+            CEGUIRenderer = 0;
+          }
+
           if (root)
           {
-            InternalMessage("stopping Ogre..") ;
             delete root ;
             root = NULL ;  
-            InternalMessage("...Ogre stopped") ;
-            
           }
+
+          InternalMessage("...Ogre stopped") ;
           
         }
 
@@ -198,7 +239,13 @@ namespace ProjetUnivers {
           root->_fireFrameEnded();   
         }
         
-         
+        void injectKey(const unsigned int& key_code)
+        {
+          if (CEGUISystem)
+          {
+            CEGUISystem->injectKeyDown(key_code) ;
+          }
+        }
       }
     }
   }

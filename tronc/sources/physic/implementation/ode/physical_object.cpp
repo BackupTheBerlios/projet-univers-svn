@@ -148,7 +148,7 @@ namespace ProjetUnivers {
         void PhysicalObject::updateMassive()
         {
           Model::Massive* massive = getObject()->getTrait<Model::Massive>() ;
-          check(massive,"PhysicalObject::updateMassive no Massive trait") ;
+          CHECK(massive,"PhysicalObject::updateMassive no Massive trait") ;
           Model::Mass mass = massive->getMass() ;
           
 //          dMass ode_mass ;

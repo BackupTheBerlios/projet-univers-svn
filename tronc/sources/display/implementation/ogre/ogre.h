@@ -22,7 +22,7 @@
 #define PU_DISPLAY_IMPLEMENTATION_OGRE_OGRE_H_
 
 #include <Ogre.h>
-
+#include <OgreCEGUIRenderer.h>
 
 namespace ProjetUnivers {
   namespace Display {
@@ -62,8 +62,12 @@ namespace ProjetUnivers {
         /// Window
         ::Ogre::RenderWindow* getWindow() ;
         
-        ::Ogre::SceneManager* getManager() ;
-        
+        ///
+        ::CEGUI::OgreCEGUIRenderer* getCEGUIRenderer() ;        
+
+        /// Send a key event to GUI.
+        void injectKey(const unsigned int& key_code) ;
+
       }
     }
   }

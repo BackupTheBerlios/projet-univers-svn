@@ -21,23 +21,18 @@
 #ifndef PU_DISPLAY_DISPLAY_H_
 #define PU_DISPLAY_DISPLAY_H_
 
-
+#include <kernel/object.h>
+#include <kernel/view_point.h>
 
 namespace ProjetUnivers {
-  namespace Kernel
-  {
-    class Object ;
-  }
-
  
   /// 3D display of Model objects.
   /*!
-    It is the Model's view responsible for graphic display.
-    
-    Display :
+    It is the Model's view responsible for graphic display. This module :
     - has the screen and the ogre Root
     - has view points having scene manager
-    - one is displayed (the active one) others are maintained but not displayed. 
+    - some are displayed (the active ones) others are maintained but not 
+      displayed. 
   */ 
   namespace Display {
     

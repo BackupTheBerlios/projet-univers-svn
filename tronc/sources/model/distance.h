@@ -68,8 +68,6 @@ namespace ProjetUnivers {
       /// Calculus
       Distance operator -(const Distance&) const ;
 
-
-
       
     // @}
     // ******************
@@ -96,6 +94,9 @@ namespace ProjetUnivers {
       
       /// Print operator.
       friend std::ostream& operator<<(std::ostream&,const Unit&) ;
+    
+      /// Comparison.
+      bool operator <=(const Distance&) const ;
     
     // @}
       

@@ -130,7 +130,7 @@ namespace ProjetUnivers {
           /*!
             Ogre seams to refuse destroying root node !
           */
-          if (getObject()->getParent())
+          if (getObject()->getAncestor<Model::Positionned>())
           {
             this->getViewPoint()->getManager()
                 ->destroySceneNode(this->m_node->getName()) ;

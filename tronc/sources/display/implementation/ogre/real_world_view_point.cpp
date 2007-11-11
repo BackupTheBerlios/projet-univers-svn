@@ -46,14 +46,10 @@ namespace ProjetUnivers {
         }
         
         
-        /*!
-        @par Status
-          Stub
-        */
-        bool RealWorldViewPoint::isVisible(Kernel::Object* _model) const
+        bool RealWorldViewPoint::isVisible(Kernel::Object* object) const
         {
-          
-          return true ;
+          // objects must reside in the same Kernel::Model
+          return object->getModel() == m_observer->getModel() ; 
           
           /*!
           @todo
@@ -74,7 +70,7 @@ namespace ProjetUnivers {
         void RealWorldViewPoint::onInit()
         {
           InternalMessage("RealWorldViewPoint::onInit Entering") ;
-          check(getRoot(),"RealWorldViewPoint::onInit no root") ;
+          CHECK(getRoot(),"RealWorldViewPoint::onInit no root") ;
 
           m_manager = getRoot()->createSceneManager(::Ogre::ST_GENERIC) ;
 
@@ -82,6 +78,8 @@ namespace ProjetUnivers {
           {
             throw "initialisation of ogre failed" ;
           }
+          
+          getCEGUIRenderer()->setTargetSceneManager(m_manager) ;
   
           InternalMessage("RealWorldViewPoint::onInit Leaving") ;
         }
@@ -111,10 +109,15 @@ namespace ProjetUnivers {
         {
           InternalMessage("Ogre::RealWorldViewPoint::activate Entering") ;
           Observer* observer_view = m_observer->getView<Observer>(this) ;
-          check(observer_view,"RealWorldViewPoint::activate no obeserve view") ;
-          check(observer_view->getCamera(),"RealWorldViewPoint::activate no camera") ;
+          CHECK(observer_view,"RealWorldViewPoint::activate no obeserve view") ;
+          CHECK(observer_view->getCamera(),"RealWorldViewPoint::activate no camera") ;
           getWindow()->addViewport(observer_view->getCamera()) ;
           InternalMessage("Ogre::RealWorldViewPoint::activate Leaving") ;
+        }
+
+        void RealWorldViewPoint::desactivate()
+        {
+          
         }
       }
     }

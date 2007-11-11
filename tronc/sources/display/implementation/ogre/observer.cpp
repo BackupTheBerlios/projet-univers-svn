@@ -49,7 +49,7 @@ namespace ProjetUnivers {
 
           /// positionned view must be initialised first
           Positionned* positionned(getView<Positionned>()) ;
-          check(positionned,"error") ;
+          CHECK(positionned,"error") ;
           positionned->_init() ;
 
           m_camera = this->getViewPoint()->getManager()->createCamera("camera") ;

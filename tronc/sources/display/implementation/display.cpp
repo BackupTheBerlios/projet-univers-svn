@@ -103,7 +103,7 @@ namespace ProjetUnivers {
 
     size_t getWindowHandle()
     {
-      check(initialised, "Uninitialised module") ;
+      CHECK(initialised, "Uninitialised module") ;
       
       return Implementation::Ogre::getWindowHandle() ;
     }
@@ -114,7 +114,7 @@ namespace ProjetUnivers {
                        int& left,
                        int& top)
     {
-      check(initialised,"Module non initialisé") ;
+      CHECK(initialised,"Module non initialisé") ;
 
       Implementation::Ogre::getWindowSize(width,height,depth,left,top) ;
     }
@@ -174,6 +174,11 @@ namespace ProjetUnivers {
     void update() 
     {
       Implementation::Ogre::update() ;
+    }
+
+    void injectKey(const unsigned int& key_code)
+    {
+      Implementation::Ogre::injectKey(key_code) ;
     }
   }
   
