@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007 Morgan GRIGNARD, Mathieu ROGER                     *
+ *   Copyright (C) 2007 Mathieu ROGER                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,39 +18,46 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_EAR_H_
-#define PU_MODEL_EAR_H_
+#ifndef PU_KERNEL_TRAIT_REFERENCE_H_
+#define PU_KERNEL_TRAIT_REFERENCE_H_
 
-#include <kernel/trait.h>
+#include <kernel/object_reference.h>
 
 namespace ProjetUnivers {
-  namespace Model {
+  namespace Kernel {
+
+    class Model ;
     
-    /// Player's ears
-    //TODO restoring hearing with time
-    //TODO Deafening effect after explosion for example
-    class Ear : public Kernel::Trait
+    /// Used to reference an object's trait.
+    /*!
+      Use this instead of pointer to trait, for it checks for object and trait 
+      existence.
+      
+      @todo add a test that demonstrates that.
+      
+      @see ObjectReference
+    */
+    template <class Trait> class TraitReference
     {
     public:
-
-      /// Constructor.
-      Ear() ;
       
-      /// Access to hearing.
-      int getHearing() const ;
+      /// Constructor.      
+      TraitReference(Trait*) ;
       
-      /// Modify hearing.
-      void setHearing(int newHearing);
+      /// Copy constructor.      
+      TraitReference(const TraitReference<Trait>&) ;
       
+      /// Conversion back to trait.
+      operator Trait*() const ;
+    
     private:
       
-      /// The percentage of hearing 
-      int hearing;
-      
+      ObjectReference m_object ;      
     };
-    
-    
+
   }
 }
 
-#endif /*PU_MODEL_EAR_H_*/
+#include <kernel/implementation/trait_reference.cxx>
+
+#endif /*PU_KERNEL_TRAIT_REFERENCE_H_*/

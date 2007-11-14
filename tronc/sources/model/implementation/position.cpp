@@ -148,10 +148,26 @@ namespace ProjetUnivers {
       return Distance(m_unit,m_value[2]) ;
     }
     
+    Distance Position::calculateDistance(const Position& position) const
+    {
+      Position temp(position - *this) ;
+      return Distance(temp.m_unit,temp.m_value.length()) ;
+    }
+    
     std::ostream& operator<<(std::ostream& out,const Position& i_position)
     {
       out << "Position(Unit=" << i_position.m_unit << "," << i_position.m_value << ")" ;
       return out ;
+    }
+
+    bool Position::operator!=(const Position& position) const
+    {
+      return ! (*this == position) ;
+    }
+
+    bool Position::operator==(const Position& position) const
+    {
+      return m_value == position.m_value && m_unit == position.m_unit ; 
     }
   }
 }

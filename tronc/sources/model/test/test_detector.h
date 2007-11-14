@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2007 Mathieu ROGER                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,8 +18,8 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_TEST_POSITIONNED_H_
-#define PU_MODEL_TEST_POSITIONNED_H_
+#ifndef PU_MODEL_TEST_DETECTOR_H_
+#define PU_MODEL_TEST_DETECTOR_H_
 
 #include <cppunit/extensions/HelperMacros.h>
 
@@ -27,75 +27,74 @@ namespace ProjetUnivers {
   namespace Model {
     namespace Test {
 
+
             
-      /// Test for Model::Positionned
-      class TestPositionned : public CppUnit::TestFixture {
+      /// Test of Detector.
+      /*!
+
+      */
+      class TestDetector : public CppUnit::TestFixture {
       protected:
       
         
-      /*!
-        @name Test methods
-      */
+      // ****************************
+      /// @name Tests 
+      // ****************************
       // @{
         
-        /// Test Model::Positionned::getPosition(Kernel::Object*).
-        void testGetPosition1() ;
+        /// Basic test.
+        void detectOneObject() ;
 
-        /// Test getPosition(Object*) with non Positionned ancestor.
-        void testGetPosition2() ;
+        /// Test detected object destruction.
+        void detectDisappeareance() ;
 
-        /// Test getPosition(Object*) with non Positionned intermediate.
-        void testGetPosition3() ;
+        /// Test moving object detection and detection data update.
+        void detectMovingObject() ;
 
-        /// Test getPosition(Object*) between branches.
-        void testGetPosition4() ;
-           
-        /// Test setPosition(Position,Object*) in normal case.
-        void testSetPosition1() ;
+        /// Test moving object detection and disapearing when out of range.
+        void detectObjectMovingOutOfRange() ;
 
-        /// Test setPosition(Position,Object*) with non Positionned ancestor.
-        void testSetPosition2() ;
-
-        /// Test setPosition(Position,Object*) with non Positionned intermediate.
-        void testSetPosition3() ;
-
-        /// Test getRelativePosition().
-        void testGetRelativePosition() ;
+        /// Test destruction of computer
+        void testComputerDestruction() ;
         
+        /// Test destruction of detector
+        void testDetectorDestruction() ;
+
       // @}
-      /*!
-        @name Test registration
-      */
+      // *******************************
+      /// @name Test registration
+      // *******************************
       // @{      
+    
+        CPPUNIT_TEST_SUITE(TestDetector) ;
       
-        CPPUNIT_TEST_SUITE(TestPositionned) ;
-      
-        CPPUNIT_TEST(testGetPosition1) ;
-        CPPUNIT_TEST(testGetPosition2) ;
-        CPPUNIT_TEST(testGetPosition3) ;
-        CPPUNIT_TEST(testGetPosition4) ;
-        CPPUNIT_TEST(testSetPosition1) ;
-        CPPUNIT_TEST(testSetPosition2) ;
-        CPPUNIT_TEST(testSetPosition3) ;
-        CPPUNIT_TEST(testGetRelativePosition) ;
+        CPPUNIT_TEST(detectOneObject) ;
+        CPPUNIT_TEST(detectDisappeareance) ;
+        CPPUNIT_TEST(detectMovingObject) ;
+        CPPUNIT_TEST(detectObjectMovingOutOfRange) ;
+        CPPUNIT_TEST(testComputerDestruction) ;
+        CPPUNIT_TEST(testDetectorDestruction) ;
       
         CPPUNIT_TEST_SUITE_END() ;
-      
-      // @}      
-                
-     public:
 
-      /*!
-        @name Mandatory methods
-      */
+      public:
+  
+      // @}
+      // *******************************
+      /// @name Mandatory methods
+      // *******************************
       // @{
 
       
+        /// Initialisation du test
         void setUp() ;
+      
+        /// Desinitialisation du test
         void tearDown() ;
       
       // @}      
-      
+                
+       
       
       };
 

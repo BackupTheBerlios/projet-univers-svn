@@ -332,15 +332,30 @@
     - added ancestor queries on objects.
     - correction of bug : changing parent caused close, init and change parent 
       event instead of change parent (test added)
+    -changed check macro name
+    
+2007-11-14 rogma 
+
+  * kernel :
+    - added ObjectReference and TraitReference to ease managing of object 
+      referencing other in case of destruction.
+  * model :
+    - added Detector for object detecting other objects.
+    - added Computer for object that store ComputerData
+    - added basic menu data 
+  * display :
+    - added basic Menu view
     
 todos :
 
   * physic : 
     - try to keep all units in an acceptable "range", it means that we whould 
       be able to convert model units in an arbitrary "ranging system".
-    - migrate PhysicalObject and PhysicalWorld to physic (for better separation
-      of concerns)
-  * sound : reconsider the implementation with the limitation
+    - migrate Model::PhysicalObject and Model::PhysicalWorld to Physic (for 
+      better separation of concerns)
+  * sound : 
+    - reconsider the implementation with the limitation
+    - move deduced trait to sound::implementation level (i.e. one up) ??
   * all :
     - make use of Quantities ??
   

@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007 Morgan GRIGNARD, Mathieu ROGER                     *
+ *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,39 +18,49 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_EAR_H_
-#define PU_MODEL_EAR_H_
+#ifndef PU_MODEL_IMPLEMENTATION_DETECTOR_OBJECT_VIEW_H_
+#define PU_MODEL_IMPLEMENTATION_DETECTOR_OBJECT_VIEW_H_
 
-#include <kernel/trait.h>
+#include <kernel/trait_view.h>
+#include <kernel/object_reference.h>
+
+#include <model/implementation/detectable.h>
+#include <model/implementation/detector_view_point.h>
 
 namespace ProjetUnivers {
   namespace Model {
-    
-    /// Player's ears
-    //TODO restoring hearing with time
-    //TODO Deafening effect after explosion for example
-    class Ear : public Kernel::Trait
-    {
-    public:
+    namespace Implementation {
+      
+      /// Implementation of object detection.
+      class DetectorObjectView : public Kernel::TraitView<Detectable,
+                                                          DetectorViewPoint>
+      {
+      public:
+        
+        /// Construct.
+        DetectorObjectView(Detectable*,DetectorViewPoint*) ;
 
-      /// Constructor.
-      Ear() ;
-      
-      /// Access to hearing.
-      int getHearing() const ;
-      
-      /// Modify hearing.
-      void setHearing(int newHearing);
-      
-    private:
-      
-      /// The percentage of hearing 
-      int hearing;
-      
-    };
-    
-    
+        /// Check if object is detectable.
+        void check() ;
+        
+      protected:
+        
+        /// Called just before the view is destroyed.
+        virtual void onClose() ;
+        
+      private:
+        
+        /// Object representing detection information
+        /*!
+          Placed under the detector object.
+          Remove and added when necessary.
+        */
+        Kernel::ObjectReference m_detection_information ;
+
+      };
+    }
   }
 }
 
-#endif /*PU_MODEL_EAR_H_*/
+
+#endif /*PU_MODEL_IMPLEMENTATION_DETECTOR_OBJECT_VIEW_H_*/

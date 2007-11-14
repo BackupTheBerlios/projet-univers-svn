@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007 Morgan GRIGNARD, Mathieu ROGER                     *
+ *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,39 +18,35 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_EAR_H_
-#define PU_MODEL_EAR_H_
+#ifndef PU_MODEL_MENU_H_
+#define PU_MODEL_MENU_H_
 
+#include <string>
 #include <kernel/trait.h>
+
 
 namespace ProjetUnivers {
   namespace Model {
-    
-    /// Player's ears
-    //TODO restoring hearing with time
-    //TODO Deafening effect after explosion for example
-    class Ear : public Kernel::Trait
+
+    /// For objects that hare a menu
+    /*!
+    */
+    class Menu : public Kernel::Trait
     {
     public:
-
-      /// Constructor.
-      Ear() ;
       
-      /// Access to hearing.
-      int getHearing() const ;
+      /// Construct.
+      Menu(const std::string& file) ;
       
-      /// Modify hearing.
-      void setHearing(int newHearing);
+      /// Access to layout filename.
+      const std::string& getFileName() const ;
       
     private:
       
-      /// The percentage of hearing 
-      int hearing;
-      
+      /// Layout file.
+      std::string m_file ;
     };
-    
-    
   }
 }
 
-#endif /*PU_MODEL_EAR_H_*/
+#endif /*PU_MODEL_MENU_H_*/

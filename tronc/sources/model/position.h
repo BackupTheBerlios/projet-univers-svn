@@ -49,7 +49,7 @@ namespace ProjetUnivers {
     */
     // @{  
 
-      /// Constructor.
+      /// Null position.
       Position() ;
       
       /// Build position in meter.
@@ -86,6 +86,12 @@ namespace ProjetUnivers {
       Distance getXCoordinate() const ;
       Distance getYCoordinate() const ;
       Distance getZCoordinate() const ;
+      
+      /// Comparison.
+      bool operator!=(const Position&) const ;
+
+      /// Comparison.
+      bool operator==(const Position&) const ;
       
     // @}
       

@@ -98,7 +98,7 @@ namespace ProjetUnivers {
        float m_lateReverbDelay ;
        float m_roomRollofFactor ;
        float m_airAbsorptionGainHF ;
-       bool m_decayHFLimit ;
+       bool  m_decayHFLimit ;
        
     };
   }

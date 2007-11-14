@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007 Morgan GRIGNARD, Mathieu ROGER                     *
+ *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,39 +18,39 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_EAR_H_
-#define PU_MODEL_EAR_H_
-
-#include <kernel/trait.h>
+#include <model/implementation/logic/detector.h>
 
 namespace ProjetUnivers {
   namespace Model {
-    
-    /// Player's ears
-    //TODO restoring hearing with time
-    //TODO Deafening effect after explosion for example
-    class Ear : public Kernel::Trait
-    {
-    public:
+    namespace Implementation {
+      namespace Logic {
 
-      /// Constructor.
-      Ear() ;
+
+        RegisterControler(Logic::Detector, 
+                          Model::Detector, 
+                          LogicSystem) ;
+
+        Detector::Detector(Model::Detector* i_object,
+                           LogicSystem*     i_system)
+        : Kernel::Controler<Model::Detector,
+                            LogicSystem>(i_object,i_system)
+        {}
       
-      /// Access to hearing.
-      int getHearing() const ;
-      
-      /// Modify hearing.
-      void setHearing(int newHearing);
-      
-    private:
-      
-      /// The percentage of hearing 
-      int hearing;
-      
-    };
-    
-    
+        void Detector::simulate(const float& i_seconds)
+        {
+          getModel()->detect() ;
+        }
+        
+        void Detector::onInit()
+        {
+          /*! 
+            detector must build a viewpoint but only after it has been added
+            to an object : thus we put its initialisation here
+          */ 
+          getModel()->init() ;
+        }
+      }
+    }
   }
 }
 
-#endif /*PU_MODEL_EAR_H_*/

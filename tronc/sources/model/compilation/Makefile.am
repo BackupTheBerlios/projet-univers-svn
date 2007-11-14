@@ -13,6 +13,8 @@ libmodel_la_SOURCES = \
 ../implementation/destroyable.cpp \
 ../implementation/dragger.cpp \
 ../implementation/duration.cpp \
+../implementation/computer.cpp \
+../implementation/computer_data.cpp \
 ../implementation/energy.cpp \
 ../implementation/engine.cpp \
 ../implementation/engine_control.cpp \
@@ -48,6 +50,11 @@ libmodel_la_SOURCES = \
 ../implementation/laser_beam.cpp \
 ../implementation/collision.cpp \
 ../implementation/shot.cpp \
+../implementation/detector.cpp \
+../implementation/detector_view_point.cpp \
+../implementation/detectable.cpp \
+../implementation/detector_object_view.cpp \
+../implementation/menu.cpp \
 ../implementation/ear.cpp \
 ../implementation/sound_environnement.cpp \
 ../implementation/logic/logic.cpp \
@@ -55,6 +62,7 @@ libmodel_la_SOURCES = \
 ../implementation/logic/logic_system.cpp \
 ../implementation/logic/collision.cpp \
 ../implementation/logic/destroyable.cpp \
+../implementation/logic/detector.cpp \
 ../implementation/logic/shot.cpp 
 
 libmodel_la_LDFLAGS = -no-undefined
@@ -62,6 +70,8 @@ libmodel_la_LDFLAGS += \
 $(SOURCES)/kernel/compilation/libkernel.la \
 $(OGRE_LIBS) \
 $(librlog_LIBS)
+
+libmodel_la_DEPENDENCIES = ../../kernel/compilation/libkernel.la
 
 TESTS = test_model
 
@@ -83,8 +93,10 @@ test_model_SOURCES = \
 ../test/test_stick.cpp \
 ../test/test_mesh.cpp \
 ../test/test_laser.cpp \
-../test/test_demonstration.cpp \
-../test/test_logic.cpp
+../test/test_logic.cpp \
+../test/test_detector.cpp \
+../test/test_demonstration.cpp 
+
 
 test_model_CXXFLAGS = $(CPPUNIT_CFLAGS) $(PU_CXXFLAGS)
 test_model_LDFLAGS = $(CPPUNIT_LIBS)

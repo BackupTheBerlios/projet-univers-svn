@@ -35,10 +35,19 @@
 namespace ProjetUnivers {
   namespace Kernel {
 
+    namespace 
+    {
+      int next_identifier = 1 ;
+    }
  
     std::string Object::getName() const
     {
       return name ;
+    }
+
+    int Object::getIdentifier() const
+    {
+      return m_identifier ;
     }
 
     Object* Object::getParent() const
@@ -134,6 +143,7 @@ namespace ProjetUnivers {
 
     Object::Object(Model* i_model,const std::string& i_name)
     : name(i_name),
+      m_identifier(next_identifier++),
       m_parent(NULL),
       m_model(i_model),
       m_validities(Formula::getNumberOfFormulae()),

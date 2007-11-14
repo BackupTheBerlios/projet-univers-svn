@@ -21,9 +21,11 @@
 #include <kernel/exception.h>
 #include <kernel/model.h>
 #include <kernel/object.h>
+#include <kernel/object_reference.h>
 #include <kernel/trait.h>
 #include <kernel/trait_view.h>
 #include <kernel/view_point.h>
+#include <kernel/trait_reference.h>
 
 #include <kernel/test/test_model.h>
 
@@ -145,6 +147,126 @@ namespace ProjetUnivers {
         CPPUNIT_ASSERT(heads.size() == 3) ;
         
       }
+
+      void TestModel::testObjectReference()
+      {
+        /// create a model
+        std::auto_ptr<Model> model(new Model("TestModel::testObjectReference")) ;
+
+        //// fill the model
+        Object* object = model->createObject("referenced object") ;
+        
+        ObjectReference reference(object) ;
+        
+        {
+          Object* object = reference ;
+          CPPUNIT_ASSERT(object->getName() == "referenced object") ;
+        }
+      }
+        
+      void TestModel::testObjectReferenceToDestroyedObject()
+      {
+        /// create a model
+        std::auto_ptr<Model> model(new Model("TestModel::testObjectReferenceToDestroyedObject")) ;
+
+        //// fill the model
+        Object* object = model->createObject() ;
+        ObjectReference reference(object) ;
+        
+        model->destroyObject(object) ;
+        
+        {
+          Object* object = reference ;
+          CPPUNIT_ASSERT(!object) ;
+        }
+
+      }
+
+      void TestModel::testTraitReference()
+      {
+        /// create a model
+        std::auto_ptr<Model> model(new Model("TestModel::testTraitReference")) ;
+
+        //// fill the model
+        Object* object = model->createObject("referenced object") ;
+        model->addTrait(object,new Person()) ;
+        
+        TraitReference<Person> reference(object->getTrait<Person>()) ;
+        
+        {
+          Person* person = reference ;
+          CPPUNIT_ASSERT(person) ;
+        }
+      }
+        
+      void TestModel::testTraitReferenceToRemovedTrait()
+      {
+        /// create a model
+        std::auto_ptr<Model> model(new Model("TestModel::testTraitReferenceToRemovedTrait")) ;
+
+        //// fill the model
+        Object* object = model->createObject("referenced object") ;
+        model->addTrait(object,new Person()) ;
+        
+        TraitReference<Person> reference(object->getTrait<Person>()) ;
+        model->destroyTrait(object,reference) ;
+        
+        {
+          Person* person = reference ;
+          CPPUNIT_ASSERT(!person) ;
+        }
+      }
+
+      void TestModel::testTraitReferenceToDestroyedObject()
+      {
+        /// create a model
+        std::auto_ptr<Model> model(new Model("TestModel::testTraitReferenceToDestroyedObject")) ;
+
+        //// fill the model
+        Object* object = model->createObject("referenced object") ;
+        model->addTrait(object,new Person()) ;
+        
+        TraitReference<Person> reference(object->getTrait<Person>()) ;
+        model->destroyObject(object) ;
+        
+        {
+          Person* person = reference ;
+          CPPUNIT_ASSERT(!person) ;
+        }
+      }
+
+      void TestModel::conversionTestObjectReference()
+      {
+        /// create a model
+        std::auto_ptr<Model> model(new Model("TestModel::conversionTestObjectReference")) ;
+        
+        {
+          Object* object = model->createObject("referenced object") ;
+          ObjectReference reference(object) ;
+          CPPUNIT_ASSERT(reference) ;
+        }
+        
+        {        
+          ObjectReference reference(NULL) ;
+          CPPUNIT_ASSERT(!reference) ;
+        }
+      }
+
+      void TestModel::testObjectReferenceToDestroyedModel()
+      {
+        /// create a model
+        std::auto_ptr<Model> model(new Model("TestModel::testObjectReferenceToDestroyedModel")) ;
+
+        Object* object = model->createObject() ;
+        ObjectReference reference(object) ;
+        
+        model.reset(NULL) ;
+        
+        {
+          Object* object = reference ;
+          CPPUNIT_ASSERT(!object) ;
+        }
+      }      
 
       void TestModel::setUp()
       {

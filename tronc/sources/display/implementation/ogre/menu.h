@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007 Morgan GRIGNARD, Mathieu ROGER                     *
+ *   Copyright (C) 2007 Mathieu ROGER                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,39 +18,54 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_EAR_H_
-#define PU_MODEL_EAR_H_
+#ifndef PU_DISPLAY_IMPLEMENTATION_OGRE_MENU_H_
+#define PU_DISPLAY_IMPLEMENTATION_OGRE_MENU_H_
 
-#include <kernel/trait.h>
+#include <CEGUI/CEGUIWindow.h>
+
+#include <kernel/trait_view.h>
+#include <model/menu.h>
+#include <display/implementation/ogre/real_world_view_point.h>
 
 namespace ProjetUnivers {
-  namespace Model {
-    
-    /// Player's ears
-    //TODO restoring hearing with time
-    //TODO Deafening effect after explosion for example
-    class Ear : public Kernel::Trait
-    {
-    public:
+  namespace Display {
+    namespace Implementation {
+      namespace Ogre {
+        
+        
+        /// Observer view.
+        /*!
+        */
+        class Menu : public Kernel::TraitView<Model::Menu,
+                                              RealWorldViewPoint>
+        {
+        public:
 
-      /// Constructor.
-      Ear() ;
-      
-      /// Access to hearing.
-      int getHearing() const ;
-      
-      /// Modify hearing.
-      void setHearing(int newHearing);
-      
-    private:
-      
-      /// The percentage of hearing 
-      int hearing;
-      
-    };
-    
-    
+          /// Constructor.
+          Menu(Model::Menu*,RealWorldViewPoint*) ;
+
+        protected:
+
+        /*!
+          @name Updates.
+        */
+        // @{
+        
+          /// Build a CEGUI window.
+          void onInit() ;
+          
+          /// Destroy the window.
+          void onClose() ;
+          
+        // @}
+          
+        private:
+
+          CEGUI::Window* m_window ;
+        };
+      }
+    }
   }
 }
 
-#endif /*PU_MODEL_EAR_H_*/
+#endif /*PU_DISPLAY_IMPLEMENTATION_OGRE_MENU_H_*/

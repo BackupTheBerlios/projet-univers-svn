@@ -50,6 +50,7 @@
 #include <model/stick.h>
 #include <model/throttle.h>
 #include <model/dragger.h>
+#include <model/menu.h>
 #include <model/implementation/logic/logic.h>
 
 #include <model/model.h>
@@ -287,14 +288,31 @@ namespace ProjetUnivers {
           model->addTrait(observer,command) ;
 
         }
-
-                
-        
         InternalMessage("building observer done") ;
-        
-        
       }
-            
+      else if (_name == "TestMenu")
+      {
+        Kernel::Object* universe = model->createObject("Univers") ;
+        
+        /// ses facettes
+        model->addTrait(universe,new Menu("ProjetUnivers.layout")) ;
+        model->addTrait(universe,new Universe()) ;
+        model->addTrait(universe,new Positionned()) ;
+
+        Kernel::Object* ship = model->createObject("Vaisseau",universe) ;
+        model->addTrait(ship,new Positionned(Position::Meter(0,
+                                                             0,
+                                                             -500))) ;
+        model->addTrait(ship,new Oriented()) ;
+        model->addTrait(ship,new Solid(Mesh("razor.mesh"))) ;
+
+        /// 4. Ajout d'un observateur
+        InternalMessage("building observer...") ;
+        Kernel::Object* observer = model->createObject("Observer",universe) ;
+        model->addTrait(observer,new Positionned()) ;
+        model->addTrait(observer,new Oriented()) ;
+        model->addTrait(observer,new Observer()) ;
+      }            
     }
 
     void initRessources()

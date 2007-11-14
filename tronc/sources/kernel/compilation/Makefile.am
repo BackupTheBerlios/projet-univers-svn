@@ -5,7 +5,6 @@ INCLUDES = -I$(SOURCES)
 AM_CXXFLAGS=$(PU_CXXFLAGS)
 
 libkernel_la_SOURCES = \
-$(SOURCES)/kernel/implementation/object.cpp \
 $(SOURCES)/kernel/implementation/base_controler.cpp \
 $(SOURCES)/kernel/implementation/base_trait_view.cpp \
 $(SOURCES)/kernel/implementation/controler.cpp \
@@ -16,10 +15,13 @@ $(SOURCES)/kernel/implementation/deduced_trait.cpp \
 $(SOURCES)/kernel/implementation/log.cpp \
 $(SOURCES)/kernel/implementation/meta.cpp \
 $(SOURCES)/kernel/implementation/model.cpp \
+$(SOURCES)/kernel/implementation/object.cpp \
+$(SOURCES)/kernel/implementation/object_reference.cpp \
 $(SOURCES)/kernel/implementation/pretty_print.cpp \
 $(SOURCES)/kernel/implementation/string.cpp \
 $(SOURCES)/kernel/implementation/timer.cpp \
 $(SOURCES)/kernel/implementation/trait.cpp \
+$(SOURCES)/kernel/implementation/trait_reference.cpp \
 $(SOURCES)/kernel/implementation/trait_view.cpp \
 $(SOURCES)/kernel/implementation/view_point.cpp \
 $(SOURCES)/kernel/implementation/command_delegator.cpp \

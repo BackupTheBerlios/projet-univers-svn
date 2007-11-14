@@ -18,84 +18,78 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_PHYSIC_TEST_COLLISION_H_
-#define PU_PHYSIC_TEST_COLLISION_H_
-
-#include <cppunit/extensions/HelperMacros.h>
-
+#ifndef PU_KERNEL_OBJECT_REFERENCE_H_
+#define PU_KERNEL_OBJECT_REFERENCE_H_
 
 namespace ProjetUnivers {
-  namespace Physic {
-    namespace Test {
+  namespace Kernel {
 
-
-            
-      /// Collision tests.
-      /*!
-
-      */
-      class TestCollision : public CppUnit::TestFixture {
-      protected:
-      
-        
-      /*!
-        @name Test methods
-      */
-      // @{
-
-        /// A basic test.
-        void basicTest() ;
-
-        /// Test the bug for laser beams touching their own ship.         
-        void testBugLaser() ;
-
-        /// Test LaserBeam/Solid collision.
-        void testLaserBeamSolidCollision() ;
-        
-        /// Test that LaserBeam/LaserBeam does not collide.
-        void testLaserBeamLaserBeamNoCollision() ;
-        
-        /// Fire a beam against a ship
-        void testFire() ;
-
-      // @}
-      /*!
-        @name Test registration
-      */
-      // @{      
+    class Object ;
+    class Model ;
     
-        CPPUNIT_TEST_SUITE(TestCollision) ;
+    /// Used to reference an object.
+    /*!
+      Use this instead of pointer to Object, for it checks for object 
+      existence.
       
-        CPPUNIT_TEST(basicTest) ;
-        CPPUNIT_TEST(testBugLaser) ;
-        CPPUNIT_TEST(testLaserBeamSolidCollision) ;
-        CPPUNIT_TEST(testLaserBeamLaserBeamNoCollision) ;
-        CPPUNIT_TEST(testFire) ;
-     
-        CPPUNIT_TEST_SUITE_END() ;
+      Imagine we have an object "pointing" on another one that will be 
+      destroyed latter. After that destruction, the pointer is invalid : 
+      instead use an object reference, if the object is destroyed, the reference 
+      equals a NULL pointer.
+      
+      @todo add a test that demonstrates that.
+      
+    */
+    class ObjectReference
+    {
+    public:
+      
+      /// Constructor.      
+      ObjectReference(Object*) ;
 
-      public:
-  
-      // @}
-      /*!
-        @name Mandatory methods
-      */
-      // @{
+      /// Constructor.      
+      ObjectReference() ;
 
+      /// Destructor.      
+      ~ObjectReference() ;
       
-        void setUp() ;
+      /// Copy constructor.      
+      ObjectReference(const ObjectReference&) ;
       
-        void tearDown() ;
+      /// Assignment.
+      ObjectReference& operator=(const ObjectReference&) ;
       
-      // @}      
-                
-       
+      /// Access to object.
+      Object* operator->() ;
       
-      };
+      /// Comparison
+      bool operator==(const ObjectReference&) const ;
+      
+      /// Conversion back to object.
+      operator Object*() const ;
+      
+      /// Is NULL.
+      bool operator!() const ;
+      
+      /// Is not NULL.
+      operator bool() const ;
+      
+    private:
+      
+      void _setModel(Model*) ;
+      
+      /// Model of the object
+      Model* m_model ;
+      
+      /// OID.
+      int    m_object_identifier ;
+      
+      friend class Model ;
+      
+    };
 
-    }
   }
 }
 
 
-#endif
+#endif /*PU_KERNEL_OBJECT_REFERENCE_H_*/

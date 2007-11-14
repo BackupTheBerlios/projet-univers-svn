@@ -41,6 +41,27 @@ namespace ProjetUnivers {
         /// Test for Object::getDescendants.
         void testGetDescendants() ;
 
+        /// Basic test for ObjectReference.
+        void testObjectReference() ;
+
+        /// Conversion test for ObjectReference.
+        void conversionTestObjectReference() ;
+        
+        /// Test referencing a destroyed object.
+        void testObjectReferenceToDestroyedObject() ;
+
+        /// Test referencing a destroyed object in a destroyed model.
+        void testObjectReferenceToDestroyedModel() ;
+
+        /// Basic test for TraitReference.
+        void testTraitReference() ;
+        
+        /// Test referencing a removed trait.
+        void testTraitReferenceToRemovedTrait() ;
+
+        /// Test referencing a trait of a destroyed object.
+        void testTraitReferenceToDestroyedObject() ;
+
 
         // *********************
         /// @name Registerration
@@ -50,6 +71,13 @@ namespace ProjetUnivers {
         CPPUNIT_TEST_SUITE(TestModel) ;
 
         CPPUNIT_TEST(testGetDescendants) ;
+        CPPUNIT_TEST(testObjectReference) ;
+        CPPUNIT_TEST(conversionTestObjectReference) ;
+        CPPUNIT_TEST(testObjectReferenceToDestroyedObject) ;
+        CPPUNIT_TEST(testObjectReferenceToDestroyedModel) ;
+        CPPUNIT_TEST(testTraitReference) ;
+        CPPUNIT_TEST(testTraitReferenceToRemovedTrait) ;
+        CPPUNIT_TEST(testTraitReferenceToDestroyedObject) ;
 
         CPPUNIT_TEST_SUITE_END() ;
 

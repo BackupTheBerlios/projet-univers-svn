@@ -82,6 +82,9 @@ namespace ProjetUnivers {
       /// Get object's name.
       std::string getName() const ;
 
+      /// Get object's identifier.
+      int getIdentifier() const ;
+
       // Access to parent.
       Object* getParent() const ;
       
@@ -266,6 +269,10 @@ namespace ProjetUnivers {
     // @{
     
       std::string                      name ;
+      
+      /// Unique identifier.
+      int                              m_identifier ;
+      
       /// @composite
       std::map<TypeIdentifier, Trait*> traits ;
       Object*                          m_parent ;

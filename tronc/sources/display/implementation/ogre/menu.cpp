@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007 Morgan GRIGNARD, Mathieu ROGER                     *
+ *   Copyright (C) 2007 Mathieu ROGER                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,39 +18,50 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_EAR_H_
-#define PU_MODEL_EAR_H_
+#include <CEGUI/CEGUISystem.h>
+#include <CEGUI/CEGUIWindowManager.h>
 
-#include <kernel/trait.h>
+#include <display/implementation/ogre/menu.h>
 
 namespace ProjetUnivers {
-  namespace Model {
-    
-    /// Player's ears
-    //TODO restoring hearing with time
-    //TODO Deafening effect after explosion for example
-    class Ear : public Kernel::Trait
-    {
-    public:
+  namespace Display {
+    namespace Implementation {
+      namespace Ogre {
+        
+        RegisterView(Ogre::Menu, 
+                     Model::Menu, 
+                     Ogre::RealWorldViewPoint) ;
+        
+        Menu::Menu(Model::Menu* object,RealWorldViewPoint* viewpoint)
+        : Kernel::TraitView<Model::Menu,RealWorldViewPoint>(object,viewpoint), 
+          m_window(NULL)
+        {
+          InternalMessage("Building Ogre::Menu::Menu") ;
+        }
 
-      /// Constructor.
-      Ear() ;
-      
-      /// Access to hearing.
-      int getHearing() const ;
-      
-      /// Modify hearing.
-      void setHearing(int newHearing);
-      
-    private:
-      
-      /// The percentage of hearing 
-      int hearing;
-      
-    };
-    
-    
+        void Menu::onInit()
+        {
+          InternalMessage("Building Ogre::Menu::onInit entering") ;
+          
+          m_window = CEGUI::WindowManager::getSingleton().loadWindowLayout(
+            getModel()->getFileName()) ;
+          
+          InternalMessage("Building Ogre::Menu::onInit #1") ;
+
+          CEGUI::System::getSingleton().setGUISheet(m_window) ;
+          InternalMessage("Building Ogre::Menu::onInit leaving") ;
+        }
+        
+        void Menu::onClose()
+        {
+          if (m_window)
+          {
+             CEGUI::WindowManager::getSingleton().destroyWindow(m_window) ;
+             m_window = NULL ;
+          }
+        }
+        
+      }
+    }
   }
 }
-
-#endif /*PU_MODEL_EAR_H_*/

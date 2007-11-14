@@ -23,6 +23,7 @@
 #include <kernel/exception_kernel.h>
 
 #include <kernel/object.h>
+#include <kernel/object_reference.h>
 #include <kernel/trait.h>
 #include <kernel/view_point.h>
 #include <kernel/controler_set.h>
@@ -45,7 +46,6 @@ namespace ProjetUnivers {
       return "PU::Kernel::Name" + toString(next_number++) ;
     }
 
-
     Object* Model::getObject(const std::string& i_name)
     {
       if (m_objects_dictionnary.find(i_name)!= m_objects_dictionnary.end())
@@ -58,6 +58,19 @@ namespace ProjetUnivers {
       }
     }
 
+    Object* Model::getObject(const int& identifier) const
+    {
+      std::map<int,Object*>::const_iterator finder 
+        = m_objects_by_identifier.find(identifier) ;
+      if (finder != m_objects_by_identifier.end())
+      {
+        return finder->second ;
+      }
+      else
+      {
+        return NULL ;
+      }
+    }
 
     Object* Model::createObject(const std::string& i_name) 
     {
@@ -66,6 +79,7 @@ namespace ProjetUnivers {
         Object* result = new Object(this,i_name) ;
         m_objects.insert(result) ;
         m_objects_dictionnary[i_name] = result ;
+        m_objects_by_identifier[result->getIdentifier()] = result ;
         return result ;
       }
       return NULL ;
@@ -82,6 +96,7 @@ namespace ProjetUnivers {
         Object* result = new Object(this,i_name) ;
         i_parent->_add(result) ;
         m_objects_dictionnary[i_name] = result ;
+        m_objects_by_identifier[result->getIdentifier()] = result ;
         
         return result ;
       }
@@ -89,7 +104,6 @@ namespace ProjetUnivers {
       return NULL ;
       
     }
-
 
     Object* Model::createObject() 
     {
@@ -101,7 +115,6 @@ namespace ProjetUnivers {
     {
       return createObject(getUniqueName(),i_parent) ;
     }
-
 
     /// Destroy an Object of given name.
     void Model::destroyObject(const std::string& i_name)
@@ -121,6 +134,7 @@ namespace ProjetUnivers {
       i_object->_close() ;
 
       m_objects_dictionnary.erase(i_object->getName()) ;
+      m_objects_by_identifier.erase(i_object->getIdentifier()) ;
       
       if (i_object->getParent() == NULL)
       {
@@ -181,12 +195,17 @@ namespace ProjetUnivers {
 
       i_object->_remove(i_trait) ;
     }
-
-
     
     Model::~Model()
     {
       InternalMessage("Kernel::Model::~Model entering") ;
+      
+      for(std::set<ObjectReference*>::iterator reference = m_references.begin() ;
+          reference != m_references.end() ;
+          ++reference)
+      {
+        (*reference)->_setModel(NULL) ;
+      }
       
       /// 1. close all view points
       for(std::set<ViewPoint*>::iterator viewpoint = m_viewpoints.begin() ;
@@ -221,6 +240,7 @@ namespace ProjetUnivers {
     }
     
     Model::Model(const std::string& i_name)
+    : m_name(i_name)
     {}
 
     void Model::_register(ViewPoint* i_viewpoint)
@@ -307,6 +327,17 @@ namespace ProjetUnivers {
     {
       return m_objects ;
     }
+
+    void Model::_registerReference(ObjectReference* reference)
+    {
+      m_references.insert(reference) ;
+    }
+
+    void Model::_unregisterReference(ObjectReference* reference)
+    {
+      m_references.erase(reference) ;
+    }
+
   }
 }
 

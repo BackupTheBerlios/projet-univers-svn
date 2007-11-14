@@ -33,6 +33,7 @@ namespace ProjetUnivers {
     class Object ;
     class Trait ;
     class ControlerSet ;
+    class ObjectReference ;
     
     /// A set of Objects.
     class Model
@@ -43,7 +44,13 @@ namespace ProjetUnivers {
       Model(const std::string& i_name = "") ;
 
       /// Get an object.
+      /*!
+        @deprecated.
+      */
       Object* getObject(const std::string& i_name) ;
+
+      /// Get an object by identifier.
+      Object* getObject(const int& identifier) const ;
       
       /// Access to root objects.
       std::set<Object*> getRoots() const ;
@@ -83,10 +90,15 @@ namespace ProjetUnivers {
       ~Model() ;
     
     private:
+
+      std::string                 m_name ;
     
       /// root objects @composite
       std::set<Object*>             m_objects ;
+      
+      /// 
       std::map<std::string,Object*> m_objects_dictionnary ;
+      std::map<int,Object*>         m_objects_by_identifier ;
 
       /// Register a view point.
       void _register(ViewPoint* i_viewpoint) ;
@@ -112,9 +124,20 @@ namespace ProjetUnivers {
       /// Close objects according to a controler set
       void _close(ControlerSet* i_controler_set) ;
 
-      
       std::set<ViewPoint*>        m_viewpoints ;
       std::set<ControlerSet*>     m_controler_sets ;
+
+    /*!
+      @name Back reference handling
+      
+      Reference to object need to be "cleared" when model is destroyed. 
+    */
+          
+      void _registerReference(ObjectReference*) ;
+
+      void _unregisterReference(ObjectReference*) ;
+      
+      std::set<ObjectReference*>  m_references ;
       
       friend class ViewPoint ;
       friend class Trait ;
@@ -125,6 +148,7 @@ namespace ProjetUnivers {
       friend void forAll(ViewPoint*                    i_viewpoint,
                          boost::function1<void,_View*> i_operation) ;
 
+      friend class ObjectReference ;
     };
     
   }

@@ -27,6 +27,9 @@
 namespace ProjetUnivers {
   namespace Model {
 
+    /// Calculate the position of o1 relative to o2.
+    Position getRelativePosition(const Kernel::Object* o1,const Kernel::Object* o2) ;
+
     /// For objects that have a position in space.
     /*!
       The position of the object is relative to its first positionned 
@@ -57,11 +60,8 @@ namespace ProjetUnivers {
       /// Access to position relative to its parent.
       const Position& getPosition() const ;
 
-      /// Access to position relative to @c i_ancestor.
-      /*!
-        Skipps any non positionned intermediate object.
-      */
-      Position getPosition(Kernel::Object* i_ancestor) const ;
+      /// Access to position relative to another object.
+      Position getPosition(const Kernel::Object* object) const ;
 
     // @}
     /*!
@@ -82,6 +82,8 @@ namespace ProjetUnivers {
         @param[in] 
           i_position 
           the new position relativelly to i_reference 
+        @pre 
+          i_reference is an ancestor of this
         @post 
           getPosition(i_reference) == i_position
       */
@@ -92,8 +94,14 @@ namespace ProjetUnivers {
     // @}
         
     private:
-
       
+      /// Access to position relative to an ancestor.
+      /*!
+        Skips any non positionned intermediate object.
+      */
+      Position getPositionAncestor(const Kernel::Object* ancestor) const ;
+
+      /// Position relative to the parent object.
       Position    m_position ;  
     
     };

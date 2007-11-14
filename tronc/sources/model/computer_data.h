@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007 Morgan GRIGNARD, Mathieu ROGER                     *
+ *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,39 +18,34 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_EAR_H_
-#define PU_MODEL_EAR_H_
+#ifndef PU_MODEL_COMPUTER_DATA_H_
+#define PU_MODEL_COMPUTER_DATA_H_
 
+#include <string>
 #include <kernel/trait.h>
+
+#include <model/position.h>
+#include <model/speed.h>
+
 
 namespace ProjetUnivers {
   namespace Model {
-    
-    /// Player's ears
-    //TODO restoring hearing with time
-    //TODO Deafening effect after explosion for example
-    class Ear : public Kernel::Trait
+
+    /// Trait for objects that are computer data.
+    /*!
+      In game data that are stored in in game computers.
+    */
+    class ComputerData : public Kernel::Trait
     {
     public:
-
-      /// Constructor.
-      Ear() ;
       
-      /// Access to hearing.
-      int getHearing() const ;
-      
-      /// Modify hearing.
-      void setHearing(int newHearing);
-      
-    private:
-      
-      /// The percentage of hearing 
-      int hearing;
+      /// Constructs.
+      ComputerData() ;
       
     };
-    
-    
+
   }
+
 }
 
-#endif /*PU_MODEL_EAR_H_*/
+#endif

@@ -42,7 +42,26 @@ namespace ProjetUnivers {
       return m_position ;
     }
 
-    Position Positionned::getPosition(Kernel::Object* i_ancestor) const 
+    Position Positionned::getPosition(const Kernel::Object* object) const 
+    {
+      const Kernel::Object* ancestor = getObject()->getCommonAncestor(object) ;
+      
+      if (object == ancestor)
+      {
+        return getPositionAncestor(object) ;
+      }
+      
+      Positionned* positionned = object->getParent<Positionned>() ;
+      
+      if (ancestor && positionned)
+      {
+        return getPositionAncestor(ancestor) 
+               - positionned->getPositionAncestor(ancestor) ; 
+      }
+      return Position() ;
+    }
+    
+    Position Positionned::getPositionAncestor(const Kernel::Object* i_ancestor) const 
     {
       if (! getObject()->getParent() || i_ancestor == getObject())
       {
@@ -74,8 +93,11 @@ namespace ProjetUnivers {
 
     void Positionned::setPosition(const Position& i_position)
     {
-      m_position = i_position ;
-      notify() ;
+      if (m_position != i_position)
+      {
+        m_position = i_position ;
+        notify() ;
+      }
     }
     
     void Positionned::setPosition(
@@ -103,6 +125,18 @@ namespace ProjetUnivers {
           notify() ;
         }
       }
+    }
+    
+    Position getRelativePosition(const Kernel::Object* o1,const Kernel::Object* o2)
+    {
+      Positionned* positionned = o1->getParent<Positionned>() ; 
+      if (! positionned)
+      {
+        return Position() ;
+      }
+      
+      Position position = positionned->getPosition(o2) ;
+      return position ;
     }
     
   }
