@@ -1,9 +1,9 @@
 AC_PREREQ(2.50)
 
 # Version
-AC_INIT([ProjetUnivers], 0.2.2)
+AC_INIT([ProjetUnivers], 0.2.3)
 AC_CONFIG_SRCDIR([sources/demonstration/demonstration.cpp])
-AM_INIT_AUTOMAKE([ProjetUnivers], 0.2.2, NO-DEFINE)
+AM_INIT_AUTOMAKE([ProjetUnivers], 0.2.3, NO-DEFINE)
 
 AC_LIBTOOL_WIN32_DLL 
 AC_PROG_LIBTOOL
@@ -69,11 +69,21 @@ PKG_CHECK_MODULES(vorbisfile, [vorbisfile >= 1.2])
 AC_SUBST(vorbisfile_LIBS)
 
 # check Libsndfile
-PKG_CHECK_MODULES(libsndfile, [libsndfile >= 1.0.17])
+PKG_CHECK_MODULES(libsndfile, [sndfile >= 1.0.17])
 AC_SUBST(libsndfile_LIBS)
 
+# check CEGUI
+PKG_CHECK_MODULES(CEGUI, [CEGUI >= 0.5])
+AC_SUBST(CEGUI_LIBS)
+
+# check CEGUI-OGRE
+PKG_CHECK_MODULES(CEGUI_OGRE, [CEGUI-OGRE >= 1.4])
+AC_SUBST(CEGUI_OGRE_LIBS)
+AC_SUBST(CEGUI_OGRE_CFLAGS)
+
+
 # Global c++ variable :
-PU_CXXFLAGS="$OGRE_CFLAGS $OIS_CFLAGS $librlog_CFLAGS"
+PU_CXXFLAGS="$OGRE_CFLAGS $OIS_CFLAGS $librlog_CFLAGS $CEGUI_OGRE_CFLAGS"
 AC_SUBST(PU_CXXFLAGS)
 
 ##################
