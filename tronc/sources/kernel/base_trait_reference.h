@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2007 Mathieu ROGER                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,51 +18,30 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_ENGINE_H_
-#define PU_MODEL_ENGINE_H_
-
-#include <kernel/trait_reference.h>
-
-#include <model/force_generator.h>
-#include <model/force.h>
+#ifndef PU_KERNEL_BASE_TRAIT_REFERENCE_H_
+#define PU_KERNEL_BASE_TRAIT_REFERENCE_H_
 
 namespace ProjetUnivers {
-  namespace Model {
+  namespace Kernel {
     
-    class EngineControl ;
+    class Trait ;
     
-    /// Ship/Other objects engine.
-    /*!
-    */
-    class Engine : public ForceGenerator
+    /// Base class for TraitReference.
+    class BaseTraitReference
     {
-    public:
-
+    protected:
+      
       /// Constructor.
-      Engine(const Force& i_force) ;
-      
-      /// Set the 
-      void setControler(EngineControl*) ;
-      
-      /// Get the force.
-      virtual Force getAppliedForce() const ;
-      
+      BaseTraitReference() ;
+    
     private:
       
-      /// Maximal "force". 
-      /*!
-        Orientation is relative to parent physical object.
-        Thus normally a ship force is : (0,0,100) or something.
-      */
-      Force m_full_thrust ;
+      /// Reset reference to NULL.
+      virtual void _reset() = 0 ;
       
-      /// Controler of this engine
-      Kernel::TraitReference<EngineControl> m_controler ;
-      
+      friend class Trait ;
     };
-    
-    
   }
 }
 
-#endif /*PU_MODEL_ENGINE_H_*/
+#endif /*PU_KERNEL_BASE_TRAIT_REFERENCE_H_*/

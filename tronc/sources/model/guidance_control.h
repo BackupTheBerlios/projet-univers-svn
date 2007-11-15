@@ -22,6 +22,8 @@
 #define PU_MODEL_GUIDANCE_CONTROL_H_
 
 #include <kernel/trait.h>
+#include <kernel/trait_reference.h>
+
 #include <model/oriented.h>
 
 namespace ProjetUnivers {
@@ -49,10 +51,10 @@ namespace ProjetUnivers {
       /*!
         it is a normalised orientation of a stick.
       */ 
-      Oriented* m_stick ;
+      Kernel::TraitReference<Oriented>       m_stick ;
       
       /// The system controled.
-      GuidanceSystem* m_guidance_system ;
+      Kernel::TraitReference<GuidanceSystem> m_guidance_system ;
       
     };
     

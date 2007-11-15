@@ -22,6 +22,7 @@
 #define PU_KERNEL_TRAIT_REFERENCE_H_
 
 #include <kernel/object_reference.h>
+#include <kernel/base_trait_reference.h>
 
 namespace ProjetUnivers {
   namespace Kernel {
@@ -37,22 +38,50 @@ namespace ProjetUnivers {
       
       @see ObjectReference
     */
-    template <class Trait> class TraitReference
+    template <class Trait> class TraitReference : public BaseTraitReference
     {
     public:
       
       /// Constructor.      
       TraitReference(Trait*) ;
+
+      /// Desstructor.      
+      ~TraitReference() ;
       
       /// Copy constructor.      
       TraitReference(const TraitReference<Trait>&) ;
-      
+
       /// Conversion back to trait.
       operator Trait*() const ;
+
+      /// Assignment.
+      TraitReference<Trait>& operator=(const TraitReference<Trait>&) ;
+
+      /// Assignment.
+      TraitReference<Trait>& operator=(Trait*) ;
+      
+      /// Access to object.
+      Trait* operator->() ;
+
+      /// Access to object.
+      const Trait* operator->() const ;
+      
+      /// Comparison
+      bool operator==(const TraitReference<Trait>&) const ;
+      
+      /// Is NULL.
+      bool operator!() const ;
+      
+      /// Is not NULL.
+      operator bool() const ;
     
     private:
       
-      ObjectReference m_object ;      
+      Trait* m_trait ;      
+
+      /// Reset reference to NULL.
+      virtual void _reset() ;
+      
     };
 
   }

@@ -27,9 +27,6 @@
 
 namespace ProjetUnivers {
   namespace Model {
-
-
-    
       
     /// Trait for objects that can be damaged.
     /*!

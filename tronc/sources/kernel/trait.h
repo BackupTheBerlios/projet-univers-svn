@@ -38,6 +38,7 @@ namespace ProjetUnivers {
     class DeducedTrait ;
     class ControlerSet ;
     class BaseControler ;
+    class BaseTraitReference ;
     
     /// Abstract class for object traits.
     class Trait
@@ -285,10 +286,24 @@ namespace ProjetUnivers {
                std::map<std::string,
                         boost::function2<void,Trait*,int> > > m_int_commands ;
 
-    
+    private:
+        
     // @}
-    
-    
+    /*!
+      @name Reference managment
+    */
+    // @{
+      
+      void _registerReference(BaseTraitReference*) ;
+      void _unregisterReference(BaseTraitReference*) ;
+      
+      /// Trait references pointing on this.
+      std::set<BaseTraitReference*> m_references ;
+      
+      template <class Trait> friend class TraitReference ;  
+      
+    // @}
+      
       friend class Object ;
       friend class BaseTraitView ;
       friend class BaseControler ;

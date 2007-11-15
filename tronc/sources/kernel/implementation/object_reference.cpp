@@ -65,6 +65,21 @@ namespace ProjetUnivers {
       }
     }
 
+    ObjectReference& ObjectReference::operator=(Object* object)
+    {
+      if (m_model)
+      {
+        m_model->_unregisterReference(this) ;
+      }
+      m_model = object?object->getModel():NULL ;
+      m_object_identifier = object?object->getIdentifier():-1 ;
+      if (m_model)
+      {
+        m_model->_registerReference(this) ;
+      }
+      return *this ;
+    }
+
     ObjectReference::ObjectReference(const ObjectReference& reference)
     : m_model(reference.m_model),
       m_object_identifier(reference.m_object_identifier)

@@ -19,6 +19,8 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include <kernel/log.h>
+#include <kernel/object.h>
+
 #include <model/model.h>
 
 #include <model/destroyable.h>

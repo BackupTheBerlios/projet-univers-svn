@@ -345,6 +345,13 @@
     - added basic menu data 
   * display :
     - added basic Menu view
+
+2007-11-15 rogma 
+
+  * kernel :
+    - TraitReference enhancement
+  * model :
+    - usage of TraitReference and ObjectReference in every traits
     
 todos :
 

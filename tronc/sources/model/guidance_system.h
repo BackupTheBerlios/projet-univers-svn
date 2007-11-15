@@ -21,6 +21,8 @@
 #ifndef PU_MODEL_GUIDANCE_SYSTEM_H_
 #define PU_MODEL_GUIDANCE_SYSTEM_H_
 
+#include <kernel/trait_reference.h>
+
 #include <model/torque_generator.h>
 
 namespace ProjetUnivers {
@@ -49,7 +51,7 @@ namespace ProjetUnivers {
     private:
       
       /// Computer that control this system
-      GuidanceControl* m_control ;
+      Kernel::TraitReference<GuidanceControl> m_control ;
       
       /// "force" of the control
       float m_force ;

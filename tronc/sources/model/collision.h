@@ -22,7 +22,7 @@
 #define PU_MODEL_COLLISION_H_
 
 #include <kernel/trait.h>
-#include <kernel/object.h>
+#include <kernel/object_reference.h>
 
 #include <model/position.h>
 
@@ -49,8 +49,8 @@ namespace ProjetUnivers {
     private:
       
       /// Objects involved in the collision.
-      Kernel::Object* m_object1 ;
-      Kernel::Object* m_object2 ;
+      Kernel::ObjectReference m_object1 ;
+      Kernel::ObjectReference m_object2 ;
       
       /// Average position of the collision. 
       Model::Position m_position ;

@@ -182,6 +182,24 @@ namespace ProjetUnivers {
 
       }
 
+      void TestModel::testObjectReferenceAffectation()
+      {
+        /// create a model
+        std::auto_ptr<Model> model(new Model("TestModel::testObjectReferenceAffectation")) ;
+
+        //// fill the model
+        Object* object = model->createObject() ;
+        ObjectReference reference = object ;
+        
+        model->destroyObject(object) ;
+        
+        {
+          Object* object = reference ;
+          CPPUNIT_ASSERT(!object) ;
+        }
+
+      }
+      
       void TestModel::testTraitReference()
       {
         /// create a model

@@ -23,6 +23,7 @@
 #include <kernel/log.h>
 #include <kernel/string.h>
 #include <kernel/exception_kernel.h>
+#include <kernel/base_trait_reference.h>
 
 #include <kernel/base_controler.h>
 #include <kernel/controler_set.h>
@@ -59,6 +60,13 @@ namespace ProjetUnivers {
     Trait::~Trait()
     {
       _close() ;
+      
+      for(std::set<BaseTraitReference*>::iterator reference = m_references.begin() ;
+          reference != m_references.end() ;
+          ++reference)
+      {
+        (*reference)->_reset() ;
+      }
       
       InternalMessage("Trait::~Trait destroying " + toString(m_views.size()) + " views") ;
       m_destroying = true ;
@@ -608,6 +616,16 @@ namespace ProjetUnivers {
              std::map<std::string,
                       boost::function2<void,Trait*,int> > > 
       Trait::m_int_commands ;
+
+    void Trait::_registerReference(BaseTraitReference* reference)
+    {
+      m_references.insert(reference) ;
+    }
+
+    void Trait::_unregisterReference(BaseTraitReference* reference)
+    {
+      m_references.erase(reference) ;
+    }
 
 
   }

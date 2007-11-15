@@ -22,6 +22,7 @@
 #define PU_MODEL_ENGINE_CONTROL_H_
 
 #include <kernel/trait.h>
+#include <kernel/trait_reference.h>
 
 #include <model/engine.h>
 #include <model/oriented.h>
@@ -48,13 +49,13 @@ namespace ProjetUnivers {
       /// The engine 
       /*!
       */ 
-      Engine* m_engine ;
+      Kernel::TraitReference<Engine>   m_engine ;
       
       /// The throttle.
       /*!
         An oriented object whose only interesting value is the Pitch ?
       */
-      Oriented* m_throttle ;
+      Kernel::TraitReference<Oriented> m_throttle ;
       
     };
     

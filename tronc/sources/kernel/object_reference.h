@@ -37,8 +37,6 @@ namespace ProjetUnivers {
       instead use an object reference, if the object is destroyed, the reference 
       equals a NULL pointer.
       
-      @todo add a test that demonstrates that.
-      
     */
     class ObjectReference
     {
@@ -50,7 +48,7 @@ namespace ProjetUnivers {
       /// Constructor.      
       ObjectReference() ;
 
-      /// Destructor.      
+      /// Destructor.
       ~ObjectReference() ;
       
       /// Copy constructor.      
@@ -58,6 +56,9 @@ namespace ProjetUnivers {
       
       /// Assignment.
       ObjectReference& operator=(const ObjectReference&) ;
+
+      /// Assignment.
+      ObjectReference& operator=(Object*) ;
       
       /// Access to object.
       Object* operator->() ;

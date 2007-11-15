@@ -21,12 +21,7 @@
 #ifndef PU_MODEL_COMPUTER_DATA_H_
 #define PU_MODEL_COMPUTER_DATA_H_
 
-#include <string>
 #include <kernel/trait.h>
-
-#include <model/position.h>
-#include <model/speed.h>
-
 
 namespace ProjetUnivers {
   namespace Model {

@@ -6,6 +6,7 @@ AM_CXXFLAGS=$(PU_CXXFLAGS)
 
 libkernel_la_SOURCES = \
 $(SOURCES)/kernel/implementation/base_controler.cpp \
+$(SOURCES)/kernel/implementation/base_trait_reference.cpp \
 $(SOURCES)/kernel/implementation/base_trait_view.cpp \
 $(SOURCES)/kernel/implementation/controler.cpp \
 $(SOURCES)/kernel/implementation/controler_set.cpp \
