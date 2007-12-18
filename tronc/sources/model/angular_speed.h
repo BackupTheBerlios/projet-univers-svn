@@ -23,6 +23,8 @@
 
 #include <OgreVector3.h>
 
+#include <kernel/reader.h>
+
 namespace ProjetUnivers {
   namespace Model {
 
@@ -78,6 +80,13 @@ namespace ProjetUnivers {
       Ogre::Vector3 TurnPerSecond() const ;
 
     // @}
+
+      /// Read angular speed.
+      /*!
+        stored as <AngularSpeed x=".." y=".." z=".." 
+                                unit="TurnPerSecond|RadianPerSecond"/>
+      */          
+      static AngularSpeed read(Kernel::Reader* reader) ;
     
     private:
     

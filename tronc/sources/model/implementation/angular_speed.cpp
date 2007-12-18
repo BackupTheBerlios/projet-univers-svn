@@ -18,6 +18,8 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <kernel/log.h>
+
 #include <model/angular_speed.h>
 
 namespace ProjetUnivers {
@@ -97,6 +99,72 @@ namespace ProjetUnivers {
         return Ogre::Vector3() ;
       }
     }
+
+    AngularSpeed AngularSpeed::read(Kernel::Reader* reader)
+    {
+      AngularSpeed result ;
+      
+      std::map<std::string,std::string>::const_iterator finder ; 
+
+      finder = reader->getAttributes().find("x") ;
+      if (finder != reader->getAttributes().end())
+      {
+        result.m_value.x = atof(finder->second.c_str()) ;
+      }
+      else
+      {
+        ErrorMessage("Model::AngularSpeed::read required attribute : x") ;
+      }
+
+      finder = reader->getAttributes().find("y") ;
+      if (finder != reader->getAttributes().end())
+      {
+        result.m_value.y = atof(finder->second.c_str()) ;
+      }
+      else
+      {
+        ErrorMessage("Model::AngularSpeed::read required attribute : y") ;
+      }
+
+      finder = reader->getAttributes().find("z") ;
+      if (finder != reader->getAttributes().end())
+      {
+        result.m_value.z = atof(finder->second.c_str()) ;
+      }
+      else
+      {
+        ErrorMessage("Model::AngularSpeed::read required attribute : z") ;
+      }
+      
+      finder = reader->getAttributes().find("unit") ;
+      if (finder != reader->getAttributes().end())
+      {
+        if (finder->second == "TurnPerSecond")
+        {
+          result.m_unit = _TurnPerSecond ;
+        }
+        else if (finder->second == "RadianPerSecond")
+        {
+          result.m_unit = _RadianPerSecond ;
+        }
+        else 
+        {
+          ErrorMessage("Model::AngularSpeed::read invalid unit : " + finder->second) ;
+        }
+      }
+      else
+      {
+        ErrorMessage("Model::AngularSpeed::read required attribute : unit") ;
+      }
+      
+      // move out of node
+      while (!reader->isEndNode() && reader->processNode())
+      {}
+      
+      reader->processNode() ;
+      
+      return result ;            
+    }   
 
   }
 }

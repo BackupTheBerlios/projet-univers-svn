@@ -22,6 +22,7 @@
 #define PU_MODEL_LASER_H_
 
 #include <kernel/trait.h>
+#include <kernel/reader.h>
 
 #include <model/position.h>
 #include <model/orientation.h>
@@ -41,6 +42,15 @@ namespace ProjetUnivers {
       /// Constructor.
       Laser(const Position& i_out_position,
             const Orientation& i_out_orientation) ;
+
+      /// Read a Laser trait.
+      /*!
+        stored as <Laser>
+                    <Position .../>
+                    <Orientation .../>
+                  </Laser>
+      */     
+      static Kernel::Trait* read(Kernel::Reader* reader) ;
     
       /// Fire action.
       void fire() ;

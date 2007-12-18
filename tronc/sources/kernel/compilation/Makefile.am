@@ -26,7 +26,10 @@ $(SOURCES)/kernel/implementation/trait_reference.cpp \
 $(SOURCES)/kernel/implementation/trait_view.cpp \
 $(SOURCES)/kernel/implementation/view_point.cpp \
 $(SOURCES)/kernel/implementation/command_delegator.cpp \
-$(SOURCES)/kernel/implementation/parameters.cpp
+$(SOURCES)/kernel/implementation/parameters.cpp \
+$(SOURCES)/kernel/implementation/reader.cpp \
+$(SOURCES)/kernel/implementation/xml_reader.cpp
+
 
 
 libkernel_la_LDFLAGS = -no-undefined
@@ -47,6 +50,7 @@ $(SOURCES)/kernel/test/test_model_view.cpp \
 $(SOURCES)/kernel/test/test_deduced_trait.cpp \
 $(SOURCES)/kernel/test/test_command.cpp \
 $(SOURCES)/kernel/test/test_parameters.cpp \
+$(SOURCES)/kernel/test/test_xml_reader.cpp \
 $(SOURCES)/kernel/test/test_model.cpp 
 
 
@@ -61,9 +65,9 @@ test_inherits.o : $(SOURCES)/kernel/test/test_inherits.cpp
 	then echo "test_inherits : Erreur"; exit 1; else echo "test_inherits : OK"; exit 0; fi
 
 
-test_kernel_CXXFLAGS = $(CPPUNIT_CFLAGS) 
-test_kernel_LDFLAGS = $(CPPUNIT_LIBS)
-test_kernel_LDADD = libkernel.la $(librlog_LIBS)
+test_kernel_CXXFLAGS = $(PU_CXXFLAGS) 
+test_kernel_LDFLAGS = $(CPPUNIT_LIBS) 
+test_kernel_LDADD = libkernel.la $(librlog_LIBS) $(libXML_LIBS)
 
 
 

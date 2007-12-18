@@ -21,6 +21,7 @@
 #ifndef PU_MODEL_MASS_H_
 #define PU_MODEL_MASS_H_
 
+#include <kernel/reader.h>
 #include <model/energy.h>
 
 namespace ProjetUnivers {
@@ -58,6 +59,11 @@ namespace ProjetUnivers {
       float operator /(const Mass&) const ;
       Mass operator *(const float&) const ;
 
+      /// Read Mass.
+      /*!
+        stored as <Mass value=".." unit="Kilogram"/>
+      */          
+      static Mass read(Kernel::Reader* reader) ;
       
     // @}
     /*! 
@@ -81,8 +87,8 @@ namespace ProjetUnivers {
         _Kilogram
       } Unit ;
 
-      float value ;
-      Unit unit ;
+      float m_value ;
+      Unit  m_unit ;
   
   
     };

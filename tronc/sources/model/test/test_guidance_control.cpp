@@ -23,7 +23,7 @@
 
 #include <model/physical_world.h>
 #include <model/physical_object.h>
-#include <model/guidance_control.h>
+#include <model/guidance_controler.h>
 #include <model/guidance_system.h>
 #include <model/mobile.h>
 #include <model/massive.h>
@@ -77,10 +77,10 @@ namespace ProjetUnivers {
         model->addTrait(guidance_system,new GuidanceSystem(1)) ;
 
         Kernel::Object* guidance_control = model->createObject("guidance_control",ship) ;
-        model->addTrait(guidance_control,
-                        new GuidanceControl(
-                          stick->getTrait<Oriented>(),
-                          guidance_system->getTrait<GuidanceSystem>())) ;
+        model->addTrait(guidance_control,new GuidanceControler()) ;
+
+        connectStickControler(stick,guidance_control) ;
+        connectControlerGuidanceSystem(guidance_control,guidance_system) ;
         
         /// now we can test the control...
         {
@@ -88,7 +88,7 @@ namespace ProjetUnivers {
           
           GuidanceSystem* guidance_system = model->getObject("guidance_system")->getTrait<GuidanceSystem>() ;
           CPPUNIT_ASSERT(guidance_system) ;
-          GuidanceControl* guidance_control = model->getObject("guidance_control")->getTrait<GuidanceControl>() ;
+          GuidanceControler* guidance_control = model->getObject("guidance_control")->getTrait<GuidanceControler>() ;
           CPPUNIT_ASSERT(guidance_control) ;
           Oriented* stick = model->getObject("stick")->getTrait<Oriented>() ;
           CPPUNIT_ASSERT(stick) ;

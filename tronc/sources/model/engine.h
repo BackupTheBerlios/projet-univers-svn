@@ -22,6 +22,7 @@
 #define PU_MODEL_ENGINE_H_
 
 #include <kernel/trait_reference.h>
+#include <kernel/reader.h>
 
 #include <model/force_generator.h>
 #include <model/force.h>
@@ -29,7 +30,7 @@
 namespace ProjetUnivers {
   namespace Model {
     
-    class EngineControl ;
+    class EngineControler ;
     
     /// Ship/Other objects engine.
     /*!
@@ -40,9 +41,16 @@ namespace ProjetUnivers {
 
       /// Constructor.
       Engine(const Force& i_force) ;
-      
-      /// Set the 
-      void setControler(EngineControl*) ;
+
+      /// Read an Engine trait.
+      /*!
+        stored as 
+          <Engine>
+            [<ObjectReference ... [name="controler"]/>]
+            <Force ... />
+          </Engine>
+      */     
+      static Kernel::Trait* read(Kernel::Reader* reader) ;
       
       /// Get the force.
       virtual Force getAppliedForce() const ;
@@ -57,7 +65,9 @@ namespace ProjetUnivers {
       Force m_full_thrust ;
       
       /// Controler of this engine
-      Kernel::TraitReference<EngineControl> m_controler ;
+      Kernel::TraitReference<EngineControler> m_controler ;
+      
+      friend void connectControlerEngine(Kernel::Object*,Kernel::Object*) ;
       
     };
     

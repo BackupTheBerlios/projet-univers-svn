@@ -21,6 +21,7 @@
 #ifndef PU_MODEL_THROTTLE_H_
 #define PU_MODEL_THROTTLE_H_
 
+#include <kernel/reader.h>
 #include <model/oriented.h>
 
 namespace ProjetUnivers {
@@ -37,6 +38,12 @@ namespace ProjetUnivers {
     
       /// Constructor.
       Throttle() ;
+
+      /// Read a Throttle trait.
+      /*!
+        stored as <Throttle [y="..."]/>
+      */     
+      static Kernel::Trait* read(Kernel::Reader* reader) ;
 
       /// Modify the pitch.
       void modify(const int& i_delta) ;

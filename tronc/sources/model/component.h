@@ -22,6 +22,7 @@
 #define PU_MODEL_COMPONENT_H_
 
 #include <kernel/trait.h>
+#include <kernel/reader.h>
 
 namespace ProjetUnivers {
   namespace Model {
@@ -34,6 +35,13 @@ namespace ProjetUnivers {
       
       /// Contructor.
       Component() ;
+      
+      /// Read a Component trait.
+      /*!
+        stored as <Component/>
+      */     
+      static Kernel::Trait* read(Kernel::Reader* reader) ;
+      
     };
   }
 }

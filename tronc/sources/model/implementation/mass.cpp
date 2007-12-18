@@ -18,6 +18,8 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <kernel/log.h>
+
 #include <model/exception.h>
 #include <model/speed.h>
 #include <model/mass.h>
@@ -26,36 +28,36 @@ namespace ProjetUnivers {
   namespace Model {
 
     Mass::Mass()
-    : value(), unit(_Kilogram)
+    : m_value(), 
+      m_unit(_Kilogram)
     {}
 
     Mass::Mass(const Mass& _m)
-    : value(_m.value), unit(_m.unit)
+    : m_value(_m.m_value), m_unit(_m.m_unit)
     {}
 
     /// Here we use E=m.c²
     Mass::Mass(const Energy& energy)
-    : value(energy.Joule()/(Speed::c.MeterPerSecond().length()*Speed::c.MeterPerSecond().length())), 
-      unit(_Kilogram)
+    : m_value(energy.Joule()/(Speed::c.MeterPerSecond().length()*Speed::c.MeterPerSecond().length())), 
+      m_unit(_Kilogram)
     {}
 
     Mass Mass::Kilogram(const float& _k)
     {
       Mass result ;
-      result.unit = _Kilogram ;
-      result.value = _k ;
+      result.m_unit = _Kilogram ;
+      result.m_value = _k ;
       return result ;
     }
-
 
     Mass Mass::operator +(const Mass& _m) const
     {
       Mass result ;
 
-      if (this->unit == _m.unit)
+      if (this->m_unit == _m.m_unit)
       {
-        result.unit = _m.unit ;
-        result.value = this->value + _m.value ;
+        result.m_unit = _m.m_unit ;
+        result.m_value = this->m_value + _m.m_value ;
 
       }
       else
@@ -71,10 +73,10 @@ namespace ProjetUnivers {
     {
       Mass result ;
 
-      if (this->unit == _m.unit)
+      if (this->m_unit == _m.m_unit)
       {
-        result.unit = _m.unit ;
-        result.value = this->value - _m.value ;
+        result.m_unit = _m.m_unit ;
+        result.m_value = this->m_value - _m.m_value ;
 
       }
       else
@@ -88,9 +90,9 @@ namespace ProjetUnivers {
     float Mass::operator /(const Mass& _m) const
     {
 
-      if (this->unit == _m.unit)
+      if (this->m_unit == _m.m_unit)
       {
-        return this->value / _m.value ;
+        return this->m_value / _m.m_value ;
 
       }
       else
@@ -105,8 +107,8 @@ namespace ProjetUnivers {
     {
       Mass result ;
 
-      result.unit = this->unit ;
-      result.value = this->value / _n ;
+      result.m_unit = this->m_unit ;
+      result.m_value = this->m_value / _n ;
 
       return result ;
     }
@@ -115,17 +117,17 @@ namespace ProjetUnivers {
     {
       Mass result ;
 
-      result.unit = this->unit ;
-      result.value = this->value * _n ;
+      result.m_unit = this->m_unit ;
+      result.m_value = this->m_value * _n ;
 
       return result ;
     }
    
     float Mass::Kilogram() const
     {
-      if (this->unit == _Kilogram)
+      if (this->m_unit == _Kilogram)
       {
-        return this->value ;
+        return this->m_value ;
       }
       else
       {
@@ -135,15 +137,57 @@ namespace ProjetUnivers {
 
     bool Mass::operator <(const Mass& _m) const
     {
-      if (this->unit == _m.unit)
+      if (this->m_unit == _m.m_unit)
       {
-        return this->value < _m.value ;
+        return this->m_value < _m.m_value ;
       }
       else
       {
         throw Exception("Mass::operator< @todo") ;
       }
     }
+
+    Mass Mass::read(Kernel::Reader* reader)
+    {
+      Mass result ;
+      
+      std::map<std::string,std::string>::const_iterator finder ; 
+
+      finder = reader->getAttributes().find("value") ;
+      if (finder != reader->getAttributes().end())
+      {
+        result.m_value = atof(finder->second.c_str()) ;
+      }
+      else
+      {
+        ErrorMessage("Model::Mass::read required attribute : value") ;
+      }
+
+      finder = reader->getAttributes().find("unit") ;
+      if (finder != reader->getAttributes().end())
+      {
+        if (finder->second == "Kilogram")
+        {
+          result.m_unit = _Kilogram ;
+        }
+        else 
+        {
+          ErrorMessage("Model::Mass::read invalid unit : " + finder->second) ;
+        }
+      }
+      else
+      {
+        ErrorMessage("Model::Mass::read required attribute : unit") ;
+      }
+      
+      // move out of node
+      while (!reader->isEndNode() && reader->processNode())
+      {}
+      
+      reader->processNode() ;
+      
+      return result ;            
+    }   
 
   }
 }

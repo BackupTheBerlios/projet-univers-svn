@@ -43,7 +43,7 @@ namespace ProjetUnivers {
           Collision is organised as follows :
           - each PhysicalWorld is a space
           - each PhysiscalObject is a space put in its PhysicalWorld's space 
-          - eahc solid is a geometry put in its PhysiscalObject parent's space.
+          - each solid is a geometry put in its PhysiscalObject parent's space.
           
           @remark 
             if we have a Solid that have no PhysiscalObject parent then ...

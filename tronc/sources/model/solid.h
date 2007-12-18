@@ -22,6 +22,7 @@
 #define PU_MODEL_SOLID_H_
 
 #include <kernel/trait.h>
+#include <kernel/reader.h>
 #include <model/mesh.h>
 #include <model/orientation.h>
 
@@ -36,6 +37,15 @@ namespace ProjetUnivers {
 
       /// Constructor.
       Solid(const Mesh& _volume) ;
+
+      /// Read a Solid trait.
+      /*!
+        stored as 
+          <Solid>
+            <Mesh .../>
+          </Solid>
+      */     
+      static Kernel::Trait* read(Kernel::Reader* reader) ;
       
       /// Access to 3D model.
       Mesh getMesh() const ;

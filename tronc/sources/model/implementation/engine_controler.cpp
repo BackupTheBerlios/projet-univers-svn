@@ -18,25 +18,75 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <model/ear.h>
+#include <model/engine.h>
+#include <model/engine_controler.h>
 
 namespace ProjetUnivers {
   namespace Model {
-    
-      Ear::Ear()
-      : Kernel::Trait(),
-        hearing(100)
-      {}
 
-      int Ear::getHearing() const
+    RegisterTrait(EngineControler) ;
+    
+    void connectThrottleControler(Kernel::Object* throttle,
+                                  Kernel::Object* controler)
+    {
+      EngineControler* temp = controler->getTrait<EngineControler>() ;
+      if (temp)
       {
-        return hearing;
+        temp->m_throttle = throttle ;
+      }
+    }
+
+    void connectControlerEngine(Kernel::Object* controler,
+                                Kernel::Object* engine)
+    {
+      Engine* temp = engine->getTrait<Engine>() ;
+      if (temp)
+      {
+        temp->m_controler = controler ;
+      }
+    }
+    
+    EngineControler::EngineControler()
+    : Kernel::Trait(),
+      m_throttle()
+    {}
+
+    Kernel::Trait* EngineControler::read(Kernel::Reader* reader)
+    {
+      EngineControler* result = new EngineControler() ;
+      
+      while (!reader->isEndNode() && reader->processNode())
+      {
+        if (reader->isTraitNode() && 
+            reader->getTraitName() == "ObjectReference")
+        {
+          result->m_throttle = Kernel::ObjectReference::read(reader) ;
+        }
+        else 
+        {
+          Trait::read(reader) ;
+        }
+      }
+      reader->processNode() ;
+
+      return result ;
+    }
+
+    int EngineControler::getPowerPercentage() const
+    {
+      int percentage = 0 ;
+
+      /// get throttle pitch
+      if (m_throttle)
+      {
+        float pitch 
+          = m_throttle->getOrientation().getQuaternion().getPitch().valueDegrees() ;
+        
+        percentage = (int)(pitch/0.9) ;
       }
       
-      void Ear::setHearing(int newHearing)
-      {
-      	hearing = newHearing;
-      }
+      return percentage ;      
+    }
     
   }
 }

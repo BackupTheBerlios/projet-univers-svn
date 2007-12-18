@@ -24,6 +24,8 @@
 namespace ProjetUnivers {
   namespace Model {
 
+    RegisterTrait(Oriented) ;
+
     Oriented::Oriented(
         const Orientation& i_orientation)
     : Kernel::Trait(), 
@@ -34,6 +36,27 @@ namespace ProjetUnivers {
     : Kernel::Trait(), 
       m_orientation()
     {}
+
+    Kernel::Trait* Oriented::read(Kernel::Reader* reader)
+    {
+      Oriented* result = new Oriented() ;
+      
+      while (!reader->isEndNode() && reader->processNode())
+      {
+        if (reader->isTraitNode() && 
+            reader->getTraitName() == "Orientation")
+        {
+          result->m_orientation = Orientation::read(reader) ;
+        }
+        else 
+        {
+          Trait::read(reader) ;
+        }
+      }
+      reader->processNode() ;
+
+      return result ;
+    }
 
     const Orientation& Oriented::getOrientation() const
     {

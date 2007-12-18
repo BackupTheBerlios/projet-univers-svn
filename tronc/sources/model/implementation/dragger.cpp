@@ -19,6 +19,8 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include <algorithm>
+#include <kernel/log.h>
+
 #include <model/mobile.h>
 #include <model/oriented.h>
 #include <model/physical_object.h>
@@ -28,10 +30,37 @@
 namespace ProjetUnivers {
   namespace Model {
     
+    RegisterTrait(Dragger) ;
 
     Dragger::Dragger(const float& i_dragg)
     : m_dragg_factor(i_dragg)
     {}
+
+    Kernel::Trait* Dragger::read(Kernel::Reader* reader)
+    {
+      Dragger* result = new Dragger(0) ;
+      
+      std::map<std::string,std::string>::const_iterator finder ; 
+
+      finder = reader->getAttributes().find("drag_factor") ;
+      if (finder != reader->getAttributes().end())
+      {
+        result->m_dragg_factor = atof(finder->second.c_str()) ;
+      }
+      else
+      {
+        ErrorMessage("Model::Distance::read required attribute : drag_factor") ;
+        
+      }
+      
+      // move out of node
+      while (!reader->isEndNode() && reader->processNode())
+      {}
+      
+      reader->processNode() ;
+
+      return result ;
+    }
     
     Force Dragger::getAppliedForce() const
     {

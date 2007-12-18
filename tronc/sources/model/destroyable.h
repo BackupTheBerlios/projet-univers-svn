@@ -21,9 +21,10 @@
 #ifndef PU_MODEL_DESTROYABLE_H_
 #define PU_MODEL_DESTROYABLE_H_
 
+#include <kernel/reader.h>
+#include <kernel/trait.h>
 
 #include <model/energy.h>
-#include <kernel/trait.h>
 
 namespace ProjetUnivers {
   namespace Model {
@@ -37,6 +38,16 @@ namespace ProjetUnivers {
 
       /// Build a new.
       Destroyable(const Energy& max_hit_points) ;
+
+      /// Read a Destroyable trait.
+      /*!
+        stored as 
+          <Destroyable>
+            <Energy ... name="max_hit_points"/>
+            <Energy ... name="current_hit_points"/>
+          </Destroyable>        
+      */     
+      static Kernel::Trait* read(Kernel::Reader* reader) ;
    
     /*!
       @name Principal methods

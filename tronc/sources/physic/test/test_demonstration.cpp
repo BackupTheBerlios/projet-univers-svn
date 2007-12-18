@@ -41,9 +41,9 @@
 #include <model/torque_generator.h>
 #include <model/universe.h>
 #include <model/guidance_system.h>
-#include <model/guidance_control.h>
+#include <model/guidance_controler.h>
 #include <model/engine.h>
-#include <model/engine_control.h>
+#include <model/engine_controler.h>
 #include <model/stick.h>
 #include <model/throttle.h>
 #include <model/dragger.h>
@@ -306,7 +306,6 @@ namespace ProjetUnivers {
         
         InternalMessage("Physic::Test::testSimulate::testRotationTorque Leaving") ;
       }
-      
       
       void TestDemonstration::testSimulateMovingInitialSpeed()
       {
@@ -735,9 +734,10 @@ namespace ProjetUnivers {
 
         Kernel::Object* engine_control = model->createObject("engine_control",ship) ;
         model->addTrait(engine_control,
-                        new Model::EngineControl(
-                          throttle->getTrait<Model::Oriented>(),
-                          engine->getTrait<Model::Engine>())) ;
+                        new Model::EngineControler()) ;
+
+        Model::connectThrottleControler(throttle,engine_control) ;
+        Model::connectControlerEngine(engine_control,engine) ;                   
         
         CPPUNIT_ASSERT(throttle) ;
         Model::Throttle* throttle_trait = throttle->getTrait<Model::Throttle>() ;
@@ -775,8 +775,6 @@ namespace ProjetUnivers {
         InternalMessage("Physic::Test::testSimulate::testEngine leaving") ;
         
       }
-
-
 
       void TestDemonstration::setUp() 
       {

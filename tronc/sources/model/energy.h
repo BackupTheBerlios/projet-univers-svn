@@ -21,6 +21,8 @@
 #ifndef PU_MODEL_ENERGY_H_
 #define PU_MODEL_ENERGY_H_
 
+#include <kernel/reader.h>
+
 namespace ProjetUnivers {
   namespace Model {
 
@@ -64,6 +66,11 @@ namespace ProjetUnivers {
       /// Calculus
       Energy operator *(const float&) const ;
 
+      /// Read energy.
+      /*!
+        stored as <Energy value=".." unit="Joule|eV"/>
+      */          
+      static Energy read(Kernel::Reader* reader) ;
       
     // @}
     // *************************
@@ -93,8 +100,8 @@ namespace ProjetUnivers {
       } Unit ;
  
 
-      float value ;
-      Unit unit ;
+      float m_value ;
+      Unit  m_unit ;
   
 
       /// Internal unit conversion.

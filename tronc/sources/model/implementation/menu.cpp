@@ -24,9 +24,36 @@
 namespace ProjetUnivers {
   namespace Model {
 
+    RegisterTrait(Menu) ;
+
     Menu::Menu(const std::string& file)
     : m_file(file)
     {}
+
+    Kernel::Trait* Menu::read(Kernel::Reader* reader)
+    {
+      Menu* result = new Menu("") ;
+      
+      std::map<std::string,std::string>::const_iterator finder ; 
+
+      finder = reader->getAttributes().find("file") ;
+      if (finder != reader->getAttributes().end())
+      {
+        result->m_file = finder->second.c_str() ;
+      }
+      else
+      {
+        ErrorMessage("Model::Distance::read required attribute : file") ;
+      }
+      
+      // move out of node
+      while (!reader->isEndNode() && reader->processNode())
+      {}
+      
+      reader->processNode() ;
+
+      return result ;
+    }
     
     const std::string& Menu::getFileName() const
     {

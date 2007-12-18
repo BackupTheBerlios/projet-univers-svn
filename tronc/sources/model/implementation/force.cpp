@@ -97,5 +97,68 @@ namespace ProjetUnivers {
       return result ;
       
     }
+
+    Force Force::read(Kernel::Reader* reader)
+    {
+      Force result ;
+      
+      std::map<std::string,std::string>::const_iterator finder ; 
+
+      finder = reader->getAttributes().find("x") ;
+      if (finder != reader->getAttributes().end())
+      {
+        result.m_value.x = atof(finder->second.c_str()) ;
+      }
+      else
+      {
+        ErrorMessage("Model::Force::read required attribute : x") ;
+      }
+
+      finder = reader->getAttributes().find("y") ;
+      if (finder != reader->getAttributes().end())
+      {
+        result.m_value.y = atof(finder->second.c_str()) ;
+      }
+      else
+      {
+        ErrorMessage("Model::Force::read required attribute : y") ;
+      }
+
+      finder = reader->getAttributes().find("z") ;
+      if (finder != reader->getAttributes().end())
+      {
+        result.m_value.z = atof(finder->second.c_str()) ;
+      }
+      else
+      {
+        ErrorMessage("Model::Force::read required attribute : z") ;
+      }
+      
+      finder = reader->getAttributes().find("unit") ;
+      if (finder != reader->getAttributes().end())
+      {
+        if (finder->second == "Newton")
+        {
+          result.m_unit = _Newton ;
+        }
+        else 
+        {
+          ErrorMessage("Model::Force::read invalid unit : " + finder->second) ;
+        }
+      }
+      else
+      {
+        ErrorMessage("Model::Force::read required attribute : unit") ;
+      }
+      
+      // move out of node
+      while (!reader->isEndNode() && reader->processNode())
+      {}
+      
+      reader->processNode() ;
+      
+      return result ;            
+    }   
+
   }
 }

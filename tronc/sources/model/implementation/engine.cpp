@@ -22,17 +22,44 @@
 #include <model/physical_world.h>
 #include <model/physical_object.h>
 #include <model/oriented.h>
-#include <model/engine_control.h>
+#include <model/engine_controler.h>
 #include <model/engine.h>
 
 namespace ProjetUnivers {
   namespace Model {
     
+    RegisterTrait(Engine) ;
 
     Engine::Engine(const Force& i_force)
     : m_full_thrust(i_force),
       m_controler(NULL)
     {}
+
+    Kernel::Trait* Engine::read(Kernel::Reader* reader)
+    {
+      Engine* result = new Engine(Force()) ;
+      
+      while (!reader->isEndNode() && reader->processNode())
+      {
+        if (reader->isTraitNode() && 
+            reader->getTraitName() == "ObjectReference")
+        {
+          result->m_controler = Kernel::ObjectReference::read(reader) ;
+        }
+        else if (reader->isTraitNode() && 
+                 reader->getTraitName() == "Force")
+        {
+          result->m_full_thrust = Force::read(reader) ;
+        }
+        else 
+        {
+          Trait::read(reader) ;
+        }
+      }
+      reader->processNode() ;
+
+      return result ;
+    }
     
     Force Engine::getAppliedForce() const
     {
@@ -42,6 +69,11 @@ namespace ProjetUnivers {
       {
         percentage = m_controler->getPowerPercentage() ;
       }
+      else
+      {
+        ErrorMessage("Engine::getAppliedForce no controler") ;
+      }
+      
       // orient the force according to orientation of the parent physical world
       PhysicalObject* physical_object = getObject()->getParent<PhysicalObject>() ;
       if (physical_object)
@@ -63,9 +95,5 @@ namespace ProjetUnivers {
       return Force() ;
     }
 
-    void Engine::setControler(EngineControl* i_controler)
-    {
-      m_controler = i_controler ;
-    }
   }
 }

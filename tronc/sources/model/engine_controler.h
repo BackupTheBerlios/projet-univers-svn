@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007 Morgan GRIGNARD, Mathieu ROGER                     *
+ *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,39 +18,60 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_EAR_H_
-#define PU_MODEL_EAR_H_
+#ifndef PU_MODEL_ENGINE_CONTROLER_H_
+#define PU_MODEL_ENGINE_CONTROLER_H_
 
 #include <kernel/trait.h>
+#include <kernel/trait_reference.h>
+#include <kernel/reader.h>
+
+#include <model/engine.h>
+#include <model/oriented.h>
 
 namespace ProjetUnivers {
   namespace Model {
+
+    /// Connect a throttle to a engine controler. 
+    void connectThrottleControler(Kernel::Object* throttle,
+                                  Kernel::Object* controler) ;
+
+    /// Connect an engine controler to an engine. 
+    void connectControlerEngine(Kernel::Object* controler,
+                                Kernel::Object* engine) ;
     
-    /// Player's ears
-    //TODO restoring hearing with time
-    //TODO Deafening effect after explosion for example
-    class Ear : public Kernel::Trait
+    /// Component that control engines.
+    class EngineControler : public Kernel::Trait
     {
     public:
 
       /// Constructor.
-      Ear() ;
+      EngineControler() ;
+
+      /// Read an EngineControler trait.
+      /*!
+        stored as 
+          <EngineControler>
+            <ObjectReference id=".." [name=throttle]/> 
+          </EngineControler>
+      */     
+      static Kernel::Trait* read(Kernel::Reader* reader) ;
       
-      /// Access to hearing.
-      int getHearing() const ;
-      
-      /// Modify hearing.
-      void setHearing(int newHearing);
+      /// Perfom engine control.
+      int getPowerPercentage() const ;
       
     private:
       
-      /// The percentage of hearing 
-      int hearing;
-      
+      /// The throttle.
+      /*!
+        An oriented object whose only interesting value is the Pitch ?
+      */
+      Kernel::TraitReference<Oriented> m_throttle ;
+
+      friend void connectThrottleControler(Kernel::Object*,Kernel::Object*) ;
     };
     
     
   }
 }
 
-#endif /*PU_MODEL_EAR_H_*/
+#endif /*PU_MODEL_ENGINE_CONTROLER_H_*/

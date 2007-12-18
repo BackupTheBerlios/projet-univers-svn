@@ -23,10 +23,21 @@
 namespace ProjetUnivers {
   namespace Model {
 
+    RegisterTrait(Computer) ;
+    
     Computer::Computer()
     : Trait(),
       m_memory(new Kernel::Model())
     {}
+
+    Kernel::Trait* Computer::read(Kernel::Reader* reader)
+    {
+      while (!reader->isEndNode() && reader->processNode())
+      {}
+      
+      reader->processNode() ;
+      return new Computer() ;
+    }
     
     Kernel::Model* Computer::getMemoryModel() const
     {

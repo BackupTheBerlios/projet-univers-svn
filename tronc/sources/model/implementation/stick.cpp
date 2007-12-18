@@ -22,6 +22,8 @@
 
 namespace ProjetUnivers {
   namespace Model {
+
+    RegisterTrait(Stick) ;
       
     namespace
     {
@@ -36,6 +38,18 @@ namespace ProjetUnivers {
       m_z(0),
       m_updated(true)
     {}
+
+    Kernel::Trait* Stick::read(Kernel::Reader* reader)
+    {
+      Stick* result = new Stick() ;
+      
+      while (!reader->isEndNode() && reader->processNode())
+      {}
+
+      reader->processNode() ;
+
+      return result ;
+    }
     
     const Orientation& Stick::getOrientation() const
     {

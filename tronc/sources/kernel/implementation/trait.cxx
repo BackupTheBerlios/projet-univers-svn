@@ -22,6 +22,17 @@
 
 namespace ProjetUnivers {
   namespace Kernel {
+    
+    /// For static registration of readers. 
+    class TraitReaderRegistration
+    {
+    public:
+      
+      TraitReaderRegistration(const std::string& name,Trait::ReaderFunction reader) 
+      {
+        Trait::_registerReader(name,reader) ;
+      }
+    };
 
     template <class _Trait,class _ViewPoint,class _View> 
     class ViewRegistration

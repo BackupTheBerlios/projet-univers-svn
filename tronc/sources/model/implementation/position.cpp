@@ -169,5 +169,76 @@ namespace ProjetUnivers {
     {
       return m_value == position.m_value && m_unit == position.m_unit ; 
     }
+
+    Position Position::read(Kernel::Reader* reader)
+    {
+      Position result(Distance::_Meter,0,0,0) ;
+      
+      std::map<std::string,std::string>::const_iterator finder ; 
+
+      finder = reader->getAttributes().find("x") ;
+      if (finder != reader->getAttributes().end())
+      {
+        result.m_value.x = atof(finder->second.c_str()) ;
+      }
+      else
+      {
+        ErrorMessage("Model::Position::read required attribute : x") ;
+      }
+
+      finder = reader->getAttributes().find("y") ;
+      if (finder != reader->getAttributes().end())
+      {
+        result.m_value.y = atof(finder->second.c_str()) ;
+      }
+      else
+      {
+        ErrorMessage("Model::Position::read required attribute : y") ;
+      }
+
+      finder = reader->getAttributes().find("z") ;
+      if (finder != reader->getAttributes().end())
+      {
+        result.m_value.z = atof(finder->second.c_str()) ;
+      }
+      else
+      {
+        ErrorMessage("Model::Position::read required attribute : z") ;
+      }
+      
+      finder = reader->getAttributes().find("unit") ;
+      if (finder != reader->getAttributes().end())
+      {
+        if (finder->second == "LightYear")
+        {
+          result.m_unit = Distance::_LightYear ;
+        }
+        else if (finder->second == "Parsec")
+        {
+          result.m_unit = Distance::_Parsec ;
+        }
+        else if (finder->second == "Meter")
+        {
+          result.m_unit = Distance::_Meter ;
+        }
+        else 
+        {
+          ErrorMessage("Model::Position::read invalid unit : " + finder->second) ;
+        }
+      }
+      else
+      {
+        ErrorMessage("Model::Position::read required attribute : unit") ;
+      }
+      
+      // move out of node
+      while (!reader->isEndNode() && reader->processNode())
+      {}
+      
+      reader->processNode() ;
+      
+      return result ;            
+    }   
+
   }
 }

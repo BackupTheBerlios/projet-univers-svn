@@ -19,6 +19,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include <kernel/error.h>
+#include <kernel/log.h>
 
 #include <model/energy.h>
 #include <model/exception.h>
@@ -27,52 +28,54 @@ namespace ProjetUnivers {
   namespace Model {
 
     Energy::Energy()
-    : value(0),
-      unit(_Joule)
+    : m_value(0),
+      m_unit(_Joule)
     {}
 
     Energy::Energy(const Energy& _energie)
-    : value(_energie.value), 
-      unit(_energie.unit)
+    : m_value(_energie.m_value), 
+      m_unit(_energie.m_unit)
     {}
 
     Energy Energy::Joule(const float& _joules)
     {
       Energy result ;
       
-      result.value = _joules ;
-      result.unit = _Joule ;
+      result.m_value = _joules ;
+      result.m_unit = _Joule ;
       
       return result ;  
     }
     
     Energy& Energy::operator=(const Energy& _energie)
     {
-      this->value = _energie.value ;
-      this->unit = _energie.unit ;
+      this->m_value = _energie.m_value ;
+      this->m_unit = _energie.m_unit ;
       
       return *this ;
     }
     
     float Energy::convert(const Energy& _energy, const Energy::Unit& _unit)
     {
-      if (_energy.unit == _unit)
+      if (_energy.m_unit == _unit)
       {
-        return _energy.value ;
+        return _energy.m_value ;
       }
-      else if (_energy.unit == _Joule && _unit == _eV)
+      else if (_energy.m_unit == _Joule && _unit == _eV)
       {
-        return _energy.value * 6.24150974e18 ;
+        return _energy.m_value * 6.24150974e18 ;
       }
       // ici on a : _energy.unit == _eV && _unit == _Joule
       else
       {
-        return _energy.value * 1.60217733e-19 ; 
+        return _energy.m_value * 1.60217733e-19 ; 
       }
       
       /*! 
         @todo ici erreur
       */
+      ErrorMessage("Model::Energy::convert") ;
+      return 0 ;
     }
     
     Energy Energy::operator -(const Energy& _operande) const
@@ -80,18 +83,18 @@ namespace ProjetUnivers {
       Energy result(*this) ;
       
       // le cas facile
-      if (this->unit == _operande.unit)
+      if (this->m_unit == _operande.m_unit)
       {
-        result.value -= _operande.value ;  
+        result.m_value -= _operande.m_value ;  
       }
       // il faut choisir une unité de conversion
       // ici : on prend lle Joule
       else
       {
         
-        result.value = convert(result,Energy::_Joule) - 
+        result.m_value = convert(result,Energy::_Joule) - 
                        convert(_operande,Energy::_Joule) ;
-        result.unit = Energy::_Joule ;
+        result.m_unit = Energy::_Joule ;
         
       }
       
@@ -103,13 +106,13 @@ namespace ProjetUnivers {
     {
       
       // le cas division par zéro.
-      CHECK(_operande.value != 0, 
+      CHECK(_operande.m_value != 0, 
                        Exception("division par zero")) ;
       
       // le cas normal
-      if (this->unit == _operande.unit)
+      if (this->m_unit == _operande.m_unit)
       {
-        return this->value / _operande.value ;
+        return this->m_value / _operande.m_value ;
       }
       else
       {
@@ -121,9 +124,9 @@ namespace ProjetUnivers {
 
     bool Energy::operator<(const Energy& _operande) const
     {
-      if (this->unit == _operande.unit)
+      if (this->m_unit == _operande.m_unit)
       {
-        return this->value < _operande.value ;
+        return this->m_value < _operande.m_value ;
       }
       else
       {
@@ -136,5 +139,53 @@ namespace ProjetUnivers {
     {
       return convert(*this,_Joule) ;
     }
+
+    Energy Energy::read(Kernel::Reader* reader)
+    {
+      Energy result ;
+      
+      std::map<std::string,std::string>::const_iterator finder ; 
+
+      finder = reader->getAttributes().find("value") ;
+      if (finder != reader->getAttributes().end())
+      {
+        result.m_value = atof(finder->second.c_str()) ;
+      }
+      else
+      {
+        ErrorMessage("Model::Energy::read required attribute : value") ;
+      }
+
+      
+      finder = reader->getAttributes().find("unit") ;
+      if (finder != reader->getAttributes().end())
+      {
+        if (finder->second == "Joule")
+        {
+          result.m_unit = _Joule ;
+        }
+        else if (finder->second == "eV")
+        {
+          result.m_unit = _eV ;
+        }
+        else 
+        {
+          ErrorMessage("Model::Energy::read invalid unit : " + finder->second) ;
+        }
+      }
+      else
+      {
+        ErrorMessage("Model::Energy::read required attribute : unit") ;
+      }
+      
+      // move out of node
+      while (!reader->isEndNode() && reader->processNode())
+      {}
+      
+      reader->processNode() ;
+      
+      return result ;            
+    }   
+
   }
 }

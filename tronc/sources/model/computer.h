@@ -25,6 +25,7 @@
 
 #include <kernel/trait.h>
 #include <kernel/model.h>
+#include <kernel/reader.h>
 
 namespace ProjetUnivers {
   namespace Model {
@@ -42,6 +43,13 @@ namespace ProjetUnivers {
 
       /// Constructs.
       Computer() ;
+      
+      /// Read a Computer trait.
+      /*!
+        stored as 
+          <Computer/>
+      */     
+      static Kernel::Trait* read(Kernel::Reader* reader) ;
       
       /// Access to memory.
       Kernel::Model* getMemoryModel() const ;

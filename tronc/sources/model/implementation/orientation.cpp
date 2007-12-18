@@ -18,6 +18,8 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <OgreVector3.h>
+#include <kernel/log.h>
 #include <model/orientation.h>
 
 namespace ProjetUnivers {
@@ -34,6 +36,46 @@ namespace ProjetUnivers {
     Orientation::Orientation(const Ogre::Quaternion& _orientation)
     : m_orientation(_orientation)
     {}
+
+    Orientation Orientation::read(Kernel::Reader* reader)
+    {
+      std::map<std::string,std::string>::const_iterator finder ; 
+      Ogre::Degree degree ; 
+
+      finder = reader->getAttributes().find("angle_degree") ;
+      if (finder != reader->getAttributes().end())
+      {
+        degree = atof(finder->second.c_str()) ;
+      }
+      
+      Ogre::Vector3 axis ;
+
+      finder = reader->getAttributes().find("axis_x") ;
+      if (finder != reader->getAttributes().end())
+      {
+        axis.x = atof(finder->second.c_str()) ;
+      }
+      
+      finder = reader->getAttributes().find("axis_y") ;
+      if (finder != reader->getAttributes().end())
+      {
+        axis.y = atof(finder->second.c_str()) ;
+      }
+
+      finder = reader->getAttributes().find("axis_z") ;
+      if (finder != reader->getAttributes().end())
+      {
+        axis.z = atof(finder->second.c_str()) ;
+      }
+      
+      // move out of node
+      while (!reader->isEndNode() && reader->processNode())
+      {}
+      
+      reader->processNode() ;
+      
+      return Orientation(Ogre::Quaternion(degree,axis)) ;            
+    }   
 
     const Ogre::Quaternion& Orientation::getQuaternion() const 
     {

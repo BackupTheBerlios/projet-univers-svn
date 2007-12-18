@@ -22,21 +22,16 @@
 #define PU_KERNEL_HELPER_MACROS_H_
 
 /*!
-  Taken from cppunit licensed under LGPL.
+  Taken from Cppunit licensed under LGPL.
 */
+
+/// internal
 #define PU_JOIN( symbol1, symbol2 ) _PU_DO_JOIN( symbol1, symbol2 )
-
-/// \internal
 #define _PU_DO_JOIN( symbol1, symbol2 ) _PU_DO_JOIN2( symbol1, symbol2 )
-
-/// \internal
 #define _PU_DO_JOIN2( symbol1, symbol2 ) symbol1##symbol2
 
-/*! Adds the line number to the specified string to create a unique identifier.
- * \param prefix Prefix added to the line number to create a unique identifier.
- * \see PU_TEST_SUITE_REGISTRATION for an example of usage.
- */
+/// Generate a "fairly" unique name.
 #define PU_MAKE_UNIQUE_NAME( prefix ) PU_JOIN( prefix, __LINE__ )
 
 
-#endif /*HELPER_MACROS_H_*/
+#endif /*PU_KERNEL_HELPER_MACROS_H_*/

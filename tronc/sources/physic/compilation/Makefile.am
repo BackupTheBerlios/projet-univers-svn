@@ -41,7 +41,8 @@ ode/libphysicode.la \
 $(OIS_LIBS) \
 $(librlog_LIBS) \
 $(OGRE_LIBS) \
-$(ODE_LIBS) 
+$(ODE_LIBS) \
+$(libXML_LIBS)
 
 memory_check : test_physic
 	valgrind ./test_physic

@@ -22,6 +22,8 @@
 #define PU_MODEL_FORCE_GENERATOR_H_
 
 #include <kernel/trait.h>
+#include <kernel/reader.h>
+
 #include <model/force.h>
 
 namespace ProjetUnivers {
@@ -39,6 +41,15 @@ namespace ProjetUnivers {
 
       /// Constructor.
       ForceGenerator() ;
+
+      /// Read a ForceGenerator trait.
+      /*!
+        stored as 
+          <ForceGenerator>
+            <Force .../>
+          </ForceGenerator>
+      */     
+      static Kernel::Trait* read(Kernel::Reader* reader) ;
       
       /// Set the force.
       void setForce(const Force& i_force) ;

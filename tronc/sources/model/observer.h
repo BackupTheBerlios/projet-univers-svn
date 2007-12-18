@@ -22,6 +22,7 @@
 #define PU_MODEL_OBSERVER_H_
 
 #include <kernel/trait.h>
+#include <kernel/reader.h>
 
 namespace ProjetUnivers {
   namespace Model {
@@ -33,6 +34,13 @@ namespace ProjetUnivers {
 
       /// Construct.
       Observer() ;
+
+      /// Read an Observer trait.
+      /*!
+        stored as 
+          <Observer/>
+      */     
+      static Kernel::Trait* read(Kernel::Reader* reader) ;
 
     };
   }

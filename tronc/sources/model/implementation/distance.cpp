@@ -18,6 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <kernel/log.h>
 #include <kernel/error.h>
 
 #include <model/distance.h>
@@ -73,6 +74,56 @@ namespace ProjetUnivers {
       /// @todo
       CHECK(false,"note yet implemented") ;
     }
+
+    Distance Distance::read(Kernel::Reader* reader)
+    {
+      Distance result ;
+      
+      std::map<std::string,std::string>::const_iterator finder ; 
+
+      finder = reader->getAttributes().find("value") ;
+      if (finder != reader->getAttributes().end())
+      {
+        result.m_value = atof(finder->second.c_str()) ;
+      }
+      else
+      {
+        ErrorMessage("Model::Distance::read required attribute : value") ;
+      }
+      
+      finder = reader->getAttributes().find("unit") ;
+      if (finder != reader->getAttributes().end())
+      {
+        if (finder->second == "LightYear")
+        {
+          result.m_unit = Distance::_LightYear ;
+        }
+        else if (finder->second == "Parsec")
+        {
+          result.m_unit = Distance::_Parsec ;
+        }
+        else if (finder->second == "Meter")
+        {
+          result.m_unit = Distance::_Meter ;
+        }
+        else 
+        {
+          ErrorMessage("Model::Distance::read invalid unit : " + finder->second) ;
+        }
+      }
+      else
+      {
+        ErrorMessage("Model::Distance::read required attribute : unit") ;
+      }
+      
+      // move out of node
+      while (!reader->isEndNode() && reader->processNode())
+      {}
+      
+      reader->processNode() ;
+      
+      return result ;            
+    }   
 
     float Distance::convert(float i_value,
                             Unit  i_from,

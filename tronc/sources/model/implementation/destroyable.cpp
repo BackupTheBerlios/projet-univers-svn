@@ -22,6 +22,8 @@
 
 namespace ProjetUnivers {
   namespace Model {
+
+    RegisterTrait(Destroyable) ;
       
     float Destroyable::getLife() const 
     {
@@ -50,6 +52,34 @@ namespace ProjetUnivers {
       m_max_hit_points(max_hit_points), 
       m_remaining_hit_points(max_hit_points)
     {}
+
+    Kernel::Trait* Destroyable::read(Kernel::Reader* reader)
+    {
+      Destroyable* result = new Destroyable(Energy()) ;
+      
+      while (!reader->isEndNode() && reader->processNode())
+      {
+        if (reader->isTraitNode() && 
+            reader->getTraitName() == "Energy")
+        {
+          if (reader->getName() == "max_hit_points")
+          {
+            result->m_max_hit_points = Energy::read(reader) ;
+          }
+          else if (reader->getName() == "current_hit_points")
+          {
+            result->m_remaining_hit_points = Energy::read(reader) ;
+          }
+        }
+        else
+        {
+          Trait::read(reader) ;
+        }
+      }
+      reader->processNode() ;
+
+      return result ;
+    }
 
   }
 }

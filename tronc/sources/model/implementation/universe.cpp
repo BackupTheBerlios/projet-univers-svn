@@ -22,13 +22,23 @@
 
 namespace ProjetUnivers {
   namespace Model {
+
+    RegisterTrait(Universe) ;
  
     Universe::Universe()
     : Kernel::Trait()
     {}
+
+    Kernel::Trait* Universe::read(Kernel::Reader* reader)
+    {
+      while (!reader->isEndNode() && reader->processNode())
+      {}
+      
+      reader->processNode() ;
+      return new Universe() ;
+    }
     
   }
-
 }
 
 

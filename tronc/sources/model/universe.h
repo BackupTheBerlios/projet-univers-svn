@@ -22,29 +22,27 @@
 #define PU_MODEL_UNIVERSE_H_
 
 #include <kernel/trait.h>
+#include <kernel/reader.h>
 
 namespace ProjetUnivers {
   namespace Model {
     
     
     /// for objects that represent a universe.
-    /*!
-    */
     class Universe : public Kernel::Trait 
     {
     public:
 
       /// Construct.
       Universe() ;
-      
-    private:
-      
 
+      /// Read a Universe trait.
+      /*!
+        stored as <Universe/>
+      */     
+      static Kernel::Trait* read(Kernel::Reader* reader) ;
     };
-    
-    
   }
-
 }
 
 #endif

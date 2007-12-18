@@ -22,6 +22,7 @@
 #define PU_MODEL_STABILIZER_H_
 
 #include <OgreVector3.h>
+#include <kernel/reader.h>
 
 #include <model/torque_generator.h>
 
@@ -41,6 +42,13 @@ namespace ProjetUnivers {
       Stabilizer(const float& i_x,  
                  const float& i_y,
                  const float& i_z) ;
+
+      /// Read a Stabilizer trait.
+      /*!
+        stored as 
+          <Stabilizer axis_x=".." axis_y=".." axis_z=".."/>
+      */     
+      static Kernel::Trait* read(Kernel::Reader* reader) ;
  
       /// get the torque in newton.meter.
       virtual Ogre::Vector3 NewtonMeter() const ;

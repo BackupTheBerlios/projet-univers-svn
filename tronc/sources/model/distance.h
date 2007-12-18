@@ -23,6 +23,8 @@
 
 #include <ostream>
 
+#include <kernel/reader.h>
+
 namespace ProjetUnivers {
   namespace Model {
 
@@ -67,6 +69,12 @@ namespace ProjetUnivers {
 
       /// Calculus
       Distance operator -(const Distance&) const ;
+
+      /// Read a distance.
+      /*!
+        stored as <Distance value=".." unit="Meter|LightYear|Parsec"/>
+      */          
+      static Distance read(Kernel::Reader* reader) ;
 
       
     // @}

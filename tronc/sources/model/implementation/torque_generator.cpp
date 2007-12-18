@@ -22,27 +22,89 @@
 
 namespace ProjetUnivers {
   namespace Model {
+
+    RegisterTrait(TorqueGenerator) ;
     
-      TorqueGenerator::TorqueGenerator() 
-      : Kernel::Trait(), 
-        m_torque(0,0,0)
-      {}
+    TorqueGenerator::TorqueGenerator() 
+    : Kernel::Trait(), 
+      m_torque(0,0,0)
+    {}
+
+    Kernel::Trait* TorqueGenerator::read(Kernel::Reader* reader)
+    {
+      TorqueGenerator* result = new TorqueGenerator() ;
       
-      TorqueGenerator::~TorqueGenerator()
+      std::map<std::string,std::string>::const_iterator finder ; 
+
+      finder = reader->getAttributes().find("x") ;
+      if (finder != reader->getAttributes().end())
+      {
+        result->m_torque.x = atof(finder->second.c_str()) ;
+      }
+      else
+      {
+        ErrorMessage("Model::TorqueGenerator::read required attribute : x") ;
+      }
+
+      finder = reader->getAttributes().find("y") ;
+      if (finder != reader->getAttributes().end())
+      {
+        result->m_torque.y = atof(finder->second.c_str()) ;
+      }
+      else
+      {
+        ErrorMessage("Model::TorqueGenerator::read required attribute : y") ;
+      }
+
+      finder = reader->getAttributes().find("z") ;
+      if (finder != reader->getAttributes().end())
+      {
+        result->m_torque.z = atof(finder->second.c_str()) ;
+      }
+      else
+      {
+        ErrorMessage("Model::TorqueGenerator::read required attribute : z") ;
+      }
+
+      finder = reader->getAttributes().find("unit") ;
+      if (finder != reader->getAttributes().end())
+      {
+        if (finder->second == "NewtonMeter")
+        {
+        }
+        else 
+        {
+          ErrorMessage("Model::TorqueGenerator::read invalid unit : " + finder->second) ;
+        }
+      }
+      else
+      {
+        ErrorMessage("Model::TorqueGenerator::read required attribute : unit") ;
+      }
+      
+      while (!reader->isEndNode() && reader->processNode())
       {}
 
-      void TorqueGenerator::setNewtonMeter(const float& i_x,  
-                                           const float& i_y,
-                                           const float& i_z)
-      {
-        m_torque[0] = i_x ;
-        m_torque[1] = i_y ;
-        m_torque[2] = i_z ;
-      }
-      
-      Ogre::Vector3 TorqueGenerator::NewtonMeter() const
-      {
-        return m_torque ;
-      }
+      reader->processNode() ;
+
+      return result ;
+    }
+    
+    TorqueGenerator::~TorqueGenerator()
+    {}
+
+    void TorqueGenerator::setNewtonMeter(const float& i_x,  
+                                         const float& i_y,
+                                         const float& i_z)
+    {
+      m_torque[0] = i_x ;
+      m_torque[1] = i_y ;
+      m_torque[2] = i_z ;
+    }
+    
+    Ogre::Vector3 TorqueGenerator::NewtonMeter() const
+    {
+      return m_torque ;
+    }
   }
 }

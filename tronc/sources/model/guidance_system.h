@@ -22,13 +22,14 @@
 #define PU_MODEL_GUIDANCE_SYSTEM_H_
 
 #include <kernel/trait_reference.h>
+#include <kernel/reader.h>
 
 #include <model/torque_generator.h>
 
 namespace ProjetUnivers {
   namespace Model {
     
-    class GuidanceControl ;
+    class GuidanceControler ;
     
     /// Change direction of a ship.
     /*!
@@ -42,19 +43,31 @@ namespace ProjetUnivers {
       /// Constructor.
       GuidanceSystem(const float& i_force) ;
  
+       /// Read a GuidanceSystem trait.
+      /*!
+        stored as 
+          <GuidanceSystem force="...">
+            [<ObjectReference id=".." [name=controler]/>] 
+          </GuidanceSystem>
+      */     
+      static Kernel::Trait* read(Kernel::Reader* reader) ;
+ 
       /// get the torque in newton.meter.
       virtual Ogre::Vector3 NewtonMeter() const ;
       
       /// Update the control.
-      void setControler(GuidanceControl*) ;
+      void setControler(Kernel::Object*) ;
       
     private:
       
       /// Computer that control this system
-      Kernel::TraitReference<GuidanceControl> m_control ;
+      Kernel::TraitReference<GuidanceControler> m_control ;
       
       /// "force" of the control
       float m_force ;
+      
+      friend void connectControlerGuidanceSystem(Kernel::Object* controler,
+                                                 Kernel::Object* system) ;
       
     };
     

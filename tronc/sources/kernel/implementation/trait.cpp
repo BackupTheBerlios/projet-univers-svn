@@ -32,6 +32,7 @@
 #include <kernel/object.h>
 #include <kernel/base_trait_view.h>
 #include <kernel/deduced_trait.h>
+#include <kernel/reader.h>
 #include <kernel/trait.h>
 
 namespace ProjetUnivers {
@@ -51,6 +52,7 @@ namespace ProjetUnivers {
       
     std::map<std::pair<TypeIdentifier,TypeIdentifier>,
              TypeIdentifier>                 Trait::m_trait_of_controler ;
+
 
     Object* Trait::getObject() const
     {
@@ -627,6 +629,37 @@ namespace ProjetUnivers {
       m_references.erase(reference) ;
     }
 
+    std::map<std::string,Trait::ReaderFunction> Trait::m_readers ;
 
+    void Trait::_registerReader(const std::string& name,ReaderFunction reader)
+    {
+      m_readers[name] = reader ;
+    }
+    
+    Trait* Trait::read(Reader* reader)
+    {
+      if (reader && reader->isBeginNode() && reader->isTraitNode())
+      {
+        std::map<std::string,Trait::ReaderFunction>::const_iterator 
+          finder = m_readers.find(reader->getTraitName()) ;
+        
+        if (finder != m_readers.end())
+        {
+          return finder->second(reader) ;
+        }
+        else
+        {
+          while (!reader->isEndNode() && reader->processNode())
+          {
+            if (reader->isTraitNode())
+            {
+              Trait::read(reader) ;
+            }
+          }
+          reader->processNode() ;
+        }
+      }
+      return NULL ; 
+    }
   }
 }

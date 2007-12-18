@@ -23,6 +23,8 @@
 
 #include <OgreVector3.h>
 
+#include <kernel/reader.h>
+
 #include <model/distance.h>
 #include <model/orientation.h>
 
@@ -97,6 +99,12 @@ namespace ProjetUnivers {
       
       /// Print operator.
       friend std::ostream& operator<<(std::ostream&,const Position&) ;
+
+      /// Read position.
+      /*!
+        stored as <Position x=".." y=".." z=".." unit="Meter|LightYear|Parsec"/>
+      */          
+      static Position read(Kernel::Reader* reader) ;
     
     private:
       

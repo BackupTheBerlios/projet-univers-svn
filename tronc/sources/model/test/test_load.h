@@ -18,8 +18,8 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_TEST_LOGIC_H_
-#define PU_MODEL_TEST_LOGIC_H_
+#ifndef PU_MODEL_TEST_LOAD_H_
+#define PU_MODEL_TEST_LOAD_H_
 
 #include <cppunit/extensions/HelperMacros.h>
 
@@ -29,43 +29,66 @@ namespace ProjetUnivers {
 
 
             
-      /// Test of Model::Implementation::Logic classes.
-      /*!
-
-      */
-      class TestLogic : public CppUnit::TestFixture {
+      /// Test of Model::load.
+      class TestLoad : public CppUnit::TestFixture {
       protected:
       
         
-      // ****************************
-      /// @name Tests 
-      // ****************************
+      /*! 
+        @name Tests 
+      */
       // @{
         
-        /// Tests that laser beams disappear after some time.
-        void testLaserBeamDisappearing() ;
-        
-        /// A destroyable object disappears when it takes too much damage. 
-        void testDestroyable() ;
+        void testLoadComponent() ;
+        void testLoadComputer() ;
+        void testLoadDestroyable() ;
+        void testLoadDetector() ;
+        void testLoadDragger() ;
+        void testLoadEngine() ;
+        void testLoadForceGenerator() ;
+        void testLoadGuidanceControler() ;
+        void testLoadGuidanceSystem() ;
+        void testLoadHearing() ;
+        void testLoadLaser() ;
+        void testLoadMassive() ;
+        void testLoadMenu() ;
+        void testLoadMobile() ;
+        void testLoadObserver() ;
+        void testLoadOriented() ;
+        void testLoadPositionned() ;
+        void testLoadSolid() ;
+        void testLoadStabilizer() ;
+        void testLoadStick() ;
+        void testLoadTorqueGenerator() ;
+        void testLoadUniverse() ;
 
-        /// A LaserBeam/Destroyable collision produce damage. 
-        void testLaserBeamDestroyableCollision() ;
-        
-        /// A Shot disappear just after creation.
-        void testShotDisappearing() ;
-        
       // @}
-      // *******************************
-      /// @name Test registration
-      // *******************************
+      /*! 
+        @name Tests registration
+      */
       // @{      
     
-        CPPUNIT_TEST_SUITE(TestLogic) ;
+        CPPUNIT_TEST_SUITE(TestLoad) ;
       
-        CPPUNIT_TEST(testLaserBeamDisappearing) ;
-        CPPUNIT_TEST(testDestroyable) ;
-        CPPUNIT_TEST(testLaserBeamDestroyableCollision) ;
-        CPPUNIT_TEST(testShotDisappearing) ;
+        CPPUNIT_TEST(testLoadComponent) ;
+        CPPUNIT_TEST(testLoadComputer) ;
+        CPPUNIT_TEST(testLoadDestroyable) ;
+        CPPUNIT_TEST(testLoadDetector) ;
+        CPPUNIT_TEST(testLoadDragger) ;
+        CPPUNIT_TEST(testLoadEngine) ;
+        CPPUNIT_TEST(testLoadForceGenerator) ;
+        CPPUNIT_TEST(testLoadLaser) ;
+        CPPUNIT_TEST(testLoadMassive) ;
+        CPPUNIT_TEST(testLoadMenu) ;
+        CPPUNIT_TEST(testLoadMobile) ;
+        CPPUNIT_TEST(testLoadObserver) ;
+        CPPUNIT_TEST(testLoadOriented) ;
+        CPPUNIT_TEST(testLoadPositionned) ;
+        CPPUNIT_TEST(testLoadSolid) ;
+        CPPUNIT_TEST(testLoadStabilizer) ;
+        CPPUNIT_TEST(testLoadStick) ;
+        CPPUNIT_TEST(testLoadTorqueGenerator) ;
+        CPPUNIT_TEST(testLoadUniverse) ;
       
         CPPUNIT_TEST_SUITE_END() ;
 
@@ -95,4 +118,4 @@ namespace ProjetUnivers {
 }
 
 
-#endif /*PU_MODEL_TEST_LOGIC_H_*/
+#endif /*PU_MODEL_TEST_LOAD_H_*/

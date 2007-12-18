@@ -49,6 +49,8 @@ namespace ProjetUnivers {
     class FormulaOr ;
     class TraitFormula ;
     class FormulaNot ;
+    class Reader ;
+    
     
     /// A model object.
     /*!

@@ -209,7 +209,7 @@ namespace ProjetUnivers {
         Object* object = model->createObject("referenced object") ;
         model->addTrait(object,new Person()) ;
         
-        TraitReference<Person> reference(object->getTrait<Person>()) ;
+        TraitReference<Person> reference(object) ;
         
         {
           Person* person = reference ;
@@ -226,7 +226,7 @@ namespace ProjetUnivers {
         Object* object = model->createObject("referenced object") ;
         model->addTrait(object,new Person()) ;
         
-        TraitReference<Person> reference(object->getTrait<Person>()) ;
+        TraitReference<Person> reference(object) ;
         model->destroyTrait(object,reference) ;
         
         {
@@ -244,7 +244,7 @@ namespace ProjetUnivers {
         Object* object = model->createObject("referenced object") ;
         model->addTrait(object,new Person()) ;
         
-        TraitReference<Person> reference(object->getTrait<Person>()) ;
+        TraitReference<Person> reference(object) ;
         model->destroyObject(object) ;
         
         {

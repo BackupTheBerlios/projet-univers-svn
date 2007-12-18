@@ -18,36 +18,54 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <model/engine_control.h>
+#include <kernel/log.h>
+
+#include <model/hearing.h>
 
 namespace ProjetUnivers {
   namespace Model {
     
-    EngineControl::EngineControl(Oriented* i_throttle,Engine* i_engine)
+    RegisterTrait(Hearing) ;
+
+    Hearing::Hearing()
     : Kernel::Trait(),
-      m_engine(i_engine),
-      m_throttle(i_throttle)
-    {
-      if (m_engine)
-      {
-        m_engine->setControler(this) ;
-      }
-    }
+      m_hearing_percentage(100)
+    {}
 
-    int EngineControl::getPowerPercentage() const
+    Kernel::Trait* Hearing::read(Kernel::Reader* reader)
     {
-      int percentage = 0 ;
+      Hearing* result = new Hearing() ;
+      
+      std::map<std::string,std::string>::const_iterator finder ; 
 
-      /// get throttle pitch
-      if (m_throttle)
+      finder = reader->getAttributes().find("hearing_percentage") ;
+      if (finder != reader->getAttributes().end())
       {
-        float pitch 
-          = m_throttle->getOrientation().getQuaternion().getPitch().valueDegrees() ;
-        
-        percentage = (int)(pitch/0.9) ;
+        result->m_hearing_percentage = atoi(finder->second.c_str()) ;
+        if (result->m_hearing_percentage > 100)
+        {
+          result->m_hearing_percentage = 100 ;
+          ErrorMessage("Model::Hearing::read warning : read hearing percentage > 100") ;
+        }
       }
       
-      return percentage ;      
+      // move out of node
+      while (!reader->isEndNode() && reader->processNode())
+      {}
+      
+      reader->processNode() ;
+
+      return result ;
+    }
+
+    int Hearing::getHearing() const
+    {
+      return m_hearing_percentage;
+    }
+    
+    void Hearing::setHearing(int newHearing)
+    {
+    	m_hearing_percentage = newHearing;
     }
     
   }

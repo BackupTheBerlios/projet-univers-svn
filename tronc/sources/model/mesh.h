@@ -23,6 +23,7 @@
 
 #include <Ogre.h>
 #include <string>
+#include <kernel/reader.h>
 
 namespace ProjetUnivers {
   namespace Model {
@@ -47,7 +48,12 @@ namespace ProjetUnivers {
       /// Copy.
       Mesh(const Mesh&) ;
       
-            
+      /// Read a Mesh.
+      /*!
+        stored as <Mesh ogre_ressource=".."/>
+      */          
+      static Mesh read(Kernel::Reader* reader) ;
+
     // @}
     /*!
       @name Access

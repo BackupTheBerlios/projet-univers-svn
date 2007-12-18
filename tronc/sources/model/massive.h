@@ -22,6 +22,7 @@
 #define PU_MODEL_MASSIVE_H_
 
 #include <kernel/trait.h>
+#include <kernel/reader.h>
 
 #include <model/mass.h>
 
@@ -41,6 +42,15 @@ namespace ProjetUnivers {
       
       /// Construct.
       Massive(const Mass& i_mass) ;
+
+      /// Read a Massive trait.
+      /*!
+        stored as 
+          <Massive>
+            [<Mass .../>]
+          </Massive>
+      */     
+      static Kernel::Trait* read(Kernel::Reader* reader) ;
       
       /// Access to local mass.
       /*!

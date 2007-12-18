@@ -36,6 +36,31 @@ namespace ProjetUnivers {
     Mesh::Mesh(const Mesh& _model)
     : m_name(_model.m_name)
     {}
+
+    Mesh Mesh::read(Kernel::Reader* reader)
+    {
+      Mesh result("") ;
+      
+      std::map<std::string,std::string>::const_iterator finder ; 
+
+      finder = reader->getAttributes().find("ogre_ressource") ;
+      if (finder != reader->getAttributes().end())
+      {
+        result.m_name = finder->second.c_str() ;
+      }
+      else
+      {
+        ErrorMessage("Model::Mesh::read required attribute : ogre_ressource") ;
+      }
+      
+      // move out of node
+      while (!reader->isEndNode() && reader->processNode())
+      {}
+      
+      reader->processNode() ;
+      
+      return result ;            
+    }   
       
     std::string Mesh::getName() const
     {

@@ -19,6 +19,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include <typeinfo>
+#include <iostream>
 #include <kernel/error.h>
 #include <kernel/log.h>
 #include <kernel/string.h>
@@ -29,6 +30,7 @@
 #include <kernel/model.h>
 #include <kernel/view_point.h>
 #include <kernel/deduced_trait.h>
+#include <kernel/reader.h>
 #include <kernel/object.h>
 
 
@@ -638,5 +640,6 @@ namespace ProjetUnivers {
         return isAncestor(object->getParent()) ;
       }
     }
+
   }
 }

@@ -27,6 +27,8 @@
 namespace ProjetUnivers {
   namespace Model {
 
+    RegisterTrait(Detector) ;
+    
     Detector::Detector(Kernel::Object* computer)
     : m_implementation(),
       m_range(Distance::_Meter,1000),
@@ -38,7 +40,38 @@ namespace ProjetUnivers {
       m_range(range),
       m_computer(computer)
     {}
-    
+
+    Kernel::Trait* Detector::read(Kernel::Reader* reader)
+    {
+      Detector* result = new Detector(NULL) ;
+      
+      while (!reader->isEndNode() && reader->processNode())
+      {
+        if (reader->isTraitNode() && 
+            reader->getTraitName() == "ObjectReference")
+        {
+          result->m_computer = Kernel::ObjectReference::read(reader) ;
+        }
+        else if (reader->isTraitNode() && 
+                 reader->getTraitName() == "Distance")
+        {
+          result->m_range = Distance::read(reader) ;
+        }
+        else 
+        {
+          Trait::read(reader) ;
+        }
+      }
+      reader->processNode() ;
+      
+      if (!result->m_computer)
+      {
+        ErrorMessage("Model::Detector::read required computer sub node") ;
+      }
+
+      return result ;
+    }
+
     void Detector::detect()
     {
       InternalMessage("Model::Detector::detect entering") ;

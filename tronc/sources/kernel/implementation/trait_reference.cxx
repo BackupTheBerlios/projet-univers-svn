@@ -25,108 +25,91 @@ namespace ProjetUnivers {
   namespace Kernel {
 
     template <class Trait>
-    TraitReference<Trait>::TraitReference(Trait* trait)
-    : m_trait(trait)
-    {
-      if (m_trait)
-      {
-        m_trait->_registerReference(this) ; 
-      }
-    }
+    TraitReference<Trait>::TraitReference()
+    : m_object()
+    {}
 
     template <class Trait>
-    TraitReference<Trait>::~TraitReference()
-    {
-      if (m_trait)
-      {
-        m_trait->_unregisterReference(this) ; 
-      }
-    }
-        
+    TraitReference<Trait>::TraitReference(Object* object)
+    : m_object(object)
+    {}
+    
     template <class Trait>
     TraitReference<Trait>::TraitReference(const TraitReference<Trait>& reference)
-    : m_trait(reference.m_trait)
-    {
-      if (m_trait)
-      {
-        m_trait->_registerReference(this) ; 
-      }
-    }
+    : m_object(reference.m_object)
+    {}
       
     template <class Trait>
     TraitReference<Trait>::operator Trait*() const
     {
-      return m_trait ;
+      Object* object = m_object ;
+      if (object)
+      {
+        return object->getTrait<Trait>() ;
+      }
+      return NULL ;
+    }
+
+    template <class Trait>
+    TraitReference<Trait>& TraitReference<Trait>::operator=(Object* object)
+    {
+      m_object = object ;
+      return *this ;
     }
 
     template <class Trait>
     TraitReference<Trait>& 
     TraitReference<Trait>::operator=(const TraitReference<Trait>& reference)
     {
-      if (&reference != this)
+      if (this != &reference)
       {
-        if (m_trait)
-        {
-          m_trait->_unregisterReference(this) ; 
-        }
-        m_trait = reference.m_trait ;
-        if (m_trait)
-        {
-          m_trait->_registerReference(this) ; 
-        }
+        m_object = reference.m_object ;
       }
+      
+      return *this ;
     }
-    
-    template <class Trait>
-    TraitReference<Trait>& 
-    TraitReference<Trait>::operator=(Trait* reference)
-    {
-      if (m_trait)
-      {
-        m_trait->_unregisterReference(this) ; 
-      }
-      m_trait = reference ;
-      if (m_trait)
-      {
-        m_trait->_registerReference(this) ; 
-      }
-    }
-    
+
     template <class Trait>
     Trait* TraitReference<Trait>::operator->()
     {
-      return m_trait ;
+      return (Trait*)*this ;
     }
 
     template <class Trait>
     const Trait* TraitReference<Trait>::operator->() const 
     {
-      return m_trait ;
+      return (Trait*)*this ;
     }
     
     template <class Trait>
     bool 
     TraitReference<Trait>::operator==(const TraitReference<Trait>& reference) const
     {
-      return m_trait == reference.m_trait ;
+      return m_object == reference.m_object ;
     }
     
     template <class Trait>
     bool TraitReference<Trait>::operator!() const
     {
-      return m_trait == NULL ; 
+      Object* object = m_object ;
+      if (object)
+      {
+        return object->getTrait<Trait>() == NULL ;
+      }
+      
+      return true ;
     }
     
     template <class Trait>
     TraitReference<Trait>::operator bool() const
     {
-      return m_trait != NULL ; 
-    }
-    
-    template <class Trait>
-    void TraitReference<Trait>::_reset()
-    {
-      m_trait = NULL ;
+      Object* object = m_object ;
+      if (object)
+      {
+        return object->getTrait<Trait>() != NULL ;
+      }
+      
+      return false ;
     }
     
   }

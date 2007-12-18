@@ -39,6 +39,7 @@ namespace ProjetUnivers {
     class ControlerSet ;
     class BaseControler ;
     class BaseTraitReference ;
+    class Reader ;
     
     /// Abstract class for object traits.
     class Trait
@@ -81,6 +82,9 @@ namespace ProjetUnivers {
       static 
       void addAxis(const std::string&                           i_command_name,
                    boost::function2<void,SpecializedTrait*,int> i_axis_update) ;
+      
+      /// Build a trait from a reader.
+      static Trait* read(Reader*) ;
       
       
     protected: 
@@ -304,11 +308,27 @@ namespace ProjetUnivers {
       
     // @}
       
+      typedef boost::function1<Trait*, Reader*> ReaderFunction ;  
+      
+      /// Register a reader function.
+      static void _registerReader(const std::string& name,ReaderFunction reader) ;
+      
+      static std::map<std::string,ReaderFunction> m_readers ;
+      
       friend class Object ;
       friend class BaseTraitView ;
       friend class BaseControler ;
       friend class DeducedTrait ;
+      friend class TraitReaderRegistration ;
     };
+    
+    /// Tells that @c TraitClass is a trait class.
+    #define RegisterTrait(TraitClass)                                        \
+      namespace PU_MAKE_UNIQUE_NAME(register_trait) {                        \
+        static                                                               \
+        ProjetUnivers::Kernel::TraitReaderRegistration                       \
+          temp(#TraitClass,&TraitClass::read) ;                              \
+      }
 
     /// Tells that ClassView is the view for ClassTrait in ClassViewPoint.
     /*!
@@ -323,13 +343,13 @@ namespace ProjetUnivers {
       Same principle than CPPUNIT_TEST_SUITE_REGISTRATION
     */
     #define RegisterView(ClassView,ClassTrait,ClassViewPoint)                \
-      namespace PU_MAKE_UNIQUE_NAME(local) {                                 \
+      namespace PU_MAKE_UNIQUE_NAME(register_view) {                         \
         static                                                               \
         ProjetUnivers::Kernel::BaseTraitView* build(                         \
           ProjetUnivers::Kernel::Trait* _model,                              \
           ProjetUnivers::Kernel::ViewPoint* _viewpoint)                      \
         {                                                                    \
-          ClassTrait* temp(dynamic_cast<ClassTrait*>( _model)) ;              \
+          ClassTrait* temp(dynamic_cast<ClassTrait*>( _model)) ;             \
           ClassViewPoint* temp2(static_cast<ClassViewPoint*>( _viewpoint)) ; \
           return new ClassView(temp,temp2) ;                                 \
         }                                                                    \
@@ -337,9 +357,6 @@ namespace ProjetUnivers {
         ProjetUnivers::Kernel::ViewRegistration<                             \
             ClassTrait,ClassViewPoint,ClassView> temp(&build) ;              \
       }                                                                
-
-    /// ClassView is the view for every trait in ClassViewPoint.
-    #define RegisterUniversalView(ClassView,ClassViewPoint)
 
     /// Tells that ClassControler is the controler for ClassTrait in ClassControlerSet.
     /*!
@@ -355,13 +372,13 @@ namespace ProjetUnivers {
       Same principle than CPPUNIT_TEST_SUITE_REGISTRATION
     */
     #define RegisterControler(ClassControler,ClassTrait,ClassControlerSet)   \
-      namespace PU_MAKE_UNIQUE_NAME(local) {                                 \
+      namespace PU_MAKE_UNIQUE_NAME(register_controler) {                    \
         static                                                               \
         ProjetUnivers::Kernel::BaseControler* build(                         \
           ProjetUnivers::Kernel::Trait* _model,                              \
           ProjetUnivers::Kernel::ControlerSet* _set)                         \
         {                                                                    \
-          ClassTrait* temp(dynamic_cast<ClassTrait*>(_model)) ;               \
+          ClassTrait* temp(dynamic_cast<ClassTrait*>(_model)) ;              \
           ClassControlerSet* temp2(static_cast<ClassControlerSet*>( _set)) ; \
           return new ClassControler(temp,temp2) ;                            \
         }                                                                    \
@@ -384,7 +401,7 @@ namespace ProjetUnivers {
       Same principle than CPPUNIT_TEST_SUITE_REGISTRATION
     */
     #define RegisterCommand(CommandName,ClassTrait,MethodName)               \
-      namespace PU_MAKE_UNIQUE_NAME(local) {                                 \
+      namespace PU_MAKE_UNIQUE_NAME(register_command) {                      \
         static                                                               \
         ProjetUnivers::Kernel::CommandRegistration<ClassTrait>               \
           temp(CommandName,&ClassTrait::MethodName) ;                        \
@@ -405,7 +422,7 @@ namespace ProjetUnivers {
       Same principle than CPPUNIT_TEST_SUITE_REGISTRATION
     */
     #define RegisterAxis(AxisName,ClassTrait,MethodName)               \
-      namespace PU_MAKE_UNIQUE_NAME(local) {                           \
+      namespace PU_MAKE_UNIQUE_NAME(register_axis) {                   \
         static                                                         \
         ProjetUnivers::Kernel::AxisRegistration<ClassTrait>            \
           temp(AxisName,&ClassTrait::MethodName) ;                     \

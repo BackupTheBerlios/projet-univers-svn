@@ -23,6 +23,8 @@
 namespace ProjetUnivers {
   namespace Model {
 
+    RegisterTrait(Mobile) ;
+
     Mobile::Mobile()
     : Kernel::Trait(), 
       m_speed(), 
@@ -34,6 +36,32 @@ namespace ProjetUnivers {
       m_speed(speed), 
       m_angular_speed()
     {}
+
+    Kernel::Trait* Mobile::read(Kernel::Reader* reader)
+    {
+      Mobile* result = new Mobile() ;
+      
+      while (!reader->isEndNode() && reader->processNode())
+      {
+        if (reader->isTraitNode() && 
+            reader->getTraitName() == "Speed")
+        {
+          result->m_speed = Speed::read(reader) ;
+        }
+        else if (reader->isTraitNode() && 
+                 reader->getTraitName() == "AngularSpeed")
+        {
+          result->m_angular_speed = AngularSpeed::read(reader) ;
+        }
+        else 
+        {
+          Trait::read(reader) ;
+        }
+      }
+      reader->processNode() ;
+
+      return result ;
+    }
 
     void Mobile::setSpeed(const Speed& i_new_speed)
     {

@@ -23,6 +23,8 @@
 
 #include <OgreQuaternion.h>
 
+#include <kernel/reader.h>
+
 namespace ProjetUnivers {
   namespace Model {
 
@@ -47,6 +49,14 @@ namespace ProjetUnivers {
       Orientation(const Orientation&) ;
 
       Orientation(const Ogre::Quaternion& _orientation) ; 
+
+      /// Read an Orientation.
+      /*!
+        stored as 
+          <Orientation [angle_degree=".." axis_x=".." axis_y=".." axis_z=".."]/>
+          an axis and an angle
+      */     
+      static Orientation read(Kernel::Reader* reader) ;
       
     // @}
       

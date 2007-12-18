@@ -37,12 +37,36 @@ namespace ProjetUnivers {
   namespace Model {
     
     RegisterCommand("fire",Laser,fire) ;
+
+    RegisterTrait(Laser) ;
       
     Laser::Laser(const Position& i_out_position,
                  const Orientation& i_out_orientation)
     : m_out_position(i_out_position),
       m_out_orientation(i_out_orientation)
     {}
+
+    Kernel::Trait* Laser::read(Kernel::Reader* reader)
+    {
+      Laser* result = new Laser(Position(),Orientation()) ;
+      
+      while (!reader->isEndNode() && reader->processNode())
+      {
+        if (reader->isTraitNode() && 
+            reader->getTraitName() == "Position")
+        {
+          result->m_out_position = Position::read(reader) ;
+        }
+        else if (reader->isTraitNode() && 
+                 reader->getTraitName() == "Orientation")
+        {
+          result->m_out_orientation = Orientation::read(reader) ;
+        }
+      }
+      reader->processNode() ;
+
+      return result ;
+    }
     
     void Laser::fire()
     {

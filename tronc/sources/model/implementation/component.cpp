@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2007 Mathieu ROGER                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,80 +18,24 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <model/throttle.h>
+#include <model/component.h>
 
 namespace ProjetUnivers {
   namespace Model {
-
-    RegisterTrait(Throttle) ;
+    
       
-    namespace
-    {
-      /// local data
-      const int max = 100 ;
-    }
-
-    Throttle::Throttle()
-    : Oriented(),
-      m_y(0)
+    Component::Component()
     {}
-
-    Kernel::Trait* Throttle::read(Kernel::Reader* reader)
+      
+    Kernel::Trait* Component::read(Kernel::Reader* reader)
     {
-      Throttle* result = new Throttle() ;
-      
-      std::map<std::string,std::string>::const_iterator finder ; 
-
-      finder = reader->getAttributes().find("y") ;
-      if (finder != reader->getAttributes().end())
-      {
-        result->m_y = atoi(finder->second.c_str()) ;
-      }
-      
-      // move out of node
       while (!reader->isEndNode() && reader->processNode())
       {}
       
       reader->processNode() ;
-
-      return result ;
-    }
-    
-    void Throttle::modify(const int& i_delta)
-    {
-      m_y += i_delta ;
-      if (m_y > max)
-      {
-        m_y = max ;
-      }
-      if (m_y < -max)
-      {
-        m_y = -max ;
-      }
-//      std::cout << "throttle::m_y =" << m_y << std::endl ;
-      
-      Ogre::Quaternion orientation(Ogre::Degree(0.9*m_y),Ogre::Vector3::UNIT_X) ;
-      m_orientation = Model::Orientation(orientation) ;
+      return new Component() ;
     }
 
-    void Throttle::set(const int& i_y)
-    {
-      m_y = i_y ;
-      if (m_y > max)
-      {
-        m_y = max ;
-      }
-      if (m_y < -max)
-      {
-        m_y = -max ;
-      }
-//      std::cout << "throttle::m_y =" << m_y << std::endl ;
-      
-      Ogre::Quaternion orientation(Ogre::Degree(0.9*m_y),Ogre::Vector3::UNIT_X) ;
-      m_orientation = Model::Orientation(orientation) ;
-    }
-
-    RegisterAxis("set_throttle",Throttle,set) ;
-
+    RegisterTrait(Component) ;
   }
 }

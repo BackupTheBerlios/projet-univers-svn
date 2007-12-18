@@ -23,9 +23,20 @@
 namespace ProjetUnivers {
   namespace Model {
 
+    RegisterTrait(Observer) ;
+
     Observer::Observer()
     : Kernel::Trait()
     {}
+
+    Kernel::Trait* Observer::read(Kernel::Reader* reader)
+    {
+      while (!reader->isEndNode() && reader->processNode())
+      {}
+      
+      reader->processNode() ;
+      return new Observer() ;
+    }
   }
 }
 

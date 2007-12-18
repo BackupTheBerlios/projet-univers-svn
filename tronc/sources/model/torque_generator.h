@@ -23,6 +23,7 @@
 #include <OgreVector3.h>
 
 #include <kernel/trait.h>
+#include <kernel/reader.h>
 
 namespace ProjetUnivers {
   namespace Model {
@@ -41,6 +42,12 @@ namespace ProjetUnivers {
 
       /// Constructor.
       TorqueGenerator() ;
+
+      /// Read a TorqueGenerator trait.
+      /*!
+        stored as <TorqueGenerator x=".." y=".." z=".." unit="NewtonMeter"/>
+      */          
+      static Kernel::Trait* read(Kernel::Reader* reader) ;
 
       /// get the torque in newton.meter.
       virtual Ogre::Vector3 NewtonMeter() const ;

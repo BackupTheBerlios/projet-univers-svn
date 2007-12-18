@@ -23,20 +23,25 @@
 
 #include <string>
 #include <kernel/trait.h>
+#include <kernel/reader.h>
 
 
 namespace ProjetUnivers {
   namespace Model {
 
-    /// For objects that hare a menu
-    /*!
-    */
+    /// For objects that are a menu
     class Menu : public Kernel::Trait
     {
     public:
       
       /// Construct.
       Menu(const std::string& file) ;
+
+      /// Read a Menu trait.
+      /*!
+        stored as <Menu file="..."/>
+      */     
+      static Kernel::Trait* read(Kernel::Reader* reader) ;
       
       /// Access to layout filename.
       const std::string& getFileName() const ;

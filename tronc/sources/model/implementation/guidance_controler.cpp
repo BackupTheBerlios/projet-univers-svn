@@ -18,80 +18,75 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <model/throttle.h>
+#include <model/guidance_controler.h>
+#include <model/guidance_system.h>
 
 namespace ProjetUnivers {
   namespace Model {
 
-    RegisterTrait(Throttle) ;
-      
-    namespace
+    RegisterTrait(GuidanceControler) ;
+    
+    void connectStickControler(Kernel::Object* stick,
+                               Kernel::Object* controler)
     {
-      /// local data
-      const int max = 100 ;
+      GuidanceControler* temp = controler->getTrait<GuidanceControler>() ;
+      if (temp)
+      {
+        temp->m_stick = stick ;
+      }
     }
 
-    Throttle::Throttle()
-    : Oriented(),
-      m_y(0)
+    /// Connect an guidance controler to a guidance system. 
+    void connectControlerGuidanceSystem(Kernel::Object* controler,
+                                        Kernel::Object* system)
+    {
+      GuidanceSystem* temp = system->getTrait<GuidanceSystem>() ;
+      if (temp)
+      {
+        temp->m_control = controler ;
+      }
+    }
+    
+    GuidanceControler::GuidanceControler()
+    : Kernel::Trait(),
+      m_stick()
     {}
 
-    Kernel::Trait* Throttle::read(Kernel::Reader* reader)
+    Kernel::Trait* GuidanceControler::read(Kernel::Reader* reader)
     {
-      Throttle* result = new Throttle() ;
+      GuidanceControler* result = new GuidanceControler() ;
       
-      std::map<std::string,std::string>::const_iterator finder ; 
-
-      finder = reader->getAttributes().find("y") ;
-      if (finder != reader->getAttributes().end())
-      {
-        result->m_y = atoi(finder->second.c_str()) ;
-      }
-      
-      // move out of node
       while (!reader->isEndNode() && reader->processNode())
-      {}
-      
+      {
+        if (reader->isTraitNode() && 
+            reader->getTraitName() == "ObjectReference")
+        {
+          result->m_stick = Kernel::ObjectReference::read(reader) ;
+        }
+        else 
+        {
+          Trait::read(reader) ;
+        }
+      }
       reader->processNode() ;
+      
+      if (!result->m_stick)
+      {
+        ErrorMessage("Model::GuidanceControler::read required stick reference") ;
+      }
 
       return result ;
     }
+
+    Orientation GuidanceControler::getStickOrientation() const
+    {
+      // normal behaviour
+      /*!
+        more complex behaviour including malfunctions could return a 
+        any orientation, e.g. a random one
+      */  
+      return m_stick->getOrientation() ;
+    }
     
-    void Throttle::modify(const int& i_delta)
-    {
-      m_y += i_delta ;
-      if (m_y > max)
-      {
-        m_y = max ;
-      }
-      if (m_y < -max)
-      {
-        m_y = -max ;
-      }
-//      std::cout << "throttle::m_y =" << m_y << std::endl ;
-      
-      Ogre::Quaternion orientation(Ogre::Degree(0.9*m_y),Ogre::Vector3::UNIT_X) ;
-      m_orientation = Model::Orientation(orientation) ;
-    }
-
-    void Throttle::set(const int& i_y)
-    {
-      m_y = i_y ;
-      if (m_y > max)
-      {
-        m_y = max ;
-      }
-      if (m_y < -max)
-      {
-        m_y = -max ;
-      }
-//      std::cout << "throttle::m_y =" << m_y << std::endl ;
-      
-      Ogre::Quaternion orientation(Ogre::Degree(0.9*m_y),Ogre::Vector3::UNIT_X) ;
-      m_orientation = Model::Orientation(orientation) ;
-    }
-
-    RegisterAxis("set_throttle",Throttle,set) ;
-
   }
 }

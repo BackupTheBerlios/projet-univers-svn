@@ -25,6 +25,8 @@
 
 #include <kernel/object_reference.h>
 #include <kernel/trait.h>
+#include <kernel/reader.h>
+
 #include <model/distance.h>
 
 namespace ProjetUnivers {
@@ -43,7 +45,6 @@ namespace ProjetUnivers {
       objects; for example, a detector does not detect its ship, nor its solar 
       system, nor its galaxy... 
       
-      
     */
     class Detector : public Kernel::Trait
     {
@@ -54,6 +55,16 @@ namespace ProjetUnivers {
       
       /// Constructs with a computer and a range.
       Detector(Kernel::Object* computer,const Distance& range) ;
+
+      /// Read a Detector trait.
+      /*!
+        stored as 
+          <Detector>
+            [<ObjectReference ... [name="computer"]/>]
+            [<Distance ... [name="range"]/>]
+          </Detector>
+      */     
+      static Kernel::Trait* read(Kernel::Reader* reader) ;
 
       /// Initialisation.
       void init() ;

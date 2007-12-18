@@ -23,10 +23,33 @@
 namespace ProjetUnivers {
   namespace Model {
 
+    RegisterTrait(ForceGenerator) ;
+
     ForceGenerator::ForceGenerator()
     : Kernel::Trait(),
       m_applied_force()
     {}
+
+    Kernel::Trait* ForceGenerator::read(Kernel::Reader* reader)
+    {
+      ForceGenerator* result = new ForceGenerator() ;
+      
+      while (!reader->isEndNode() && reader->processNode())
+      {
+        if (reader->isTraitNode() && 
+            reader->getTraitName() == "Force")
+        {
+          result->m_applied_force = Force::read(reader) ;
+        }
+        else 
+        {
+          Trait::read(reader) ;
+        }
+      }
+      reader->processNode() ;
+
+      return result ;
+    }
 
     void ForceGenerator::setForce(const Force& i_force) 
     {

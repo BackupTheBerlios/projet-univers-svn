@@ -21,6 +21,8 @@
 #ifndef PU_MODEL_DRAGGER_H_
 #define PU_MODEL_DRAGGER_H_
 
+#include <kernel/reader.h>
+
 #include <model/force_generator.h>
 
 namespace ProjetUnivers {
@@ -36,6 +38,13 @@ namespace ProjetUnivers {
 
       /// Constructor.
       Dragger(const float & i_dragg) ;
+
+      /// Read a Dragger trait.
+      /*!
+        stored as 
+          <Dragger dragg_factor=".."/>
+      */     
+      static Kernel::Trait* read(Kernel::Reader* reader) ;
  
       /// Get the force.
       virtual Force getAppliedForce() const ;

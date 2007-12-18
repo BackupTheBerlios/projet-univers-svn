@@ -23,7 +23,7 @@
 
 #include <model/physical_world.h>
 #include <model/physical_object.h>
-#include <model/engine_control.h>
+#include <model/engine_controler.h>
 #include <model/engine.h>
 #include <model/mobile.h>
 #include <model/massive.h>
@@ -75,18 +75,17 @@ namespace ProjetUnivers {
         model->addTrait(engine,new Engine(Force::Newton(0,0,10))) ;
 
         Kernel::Object* engine_control = model->createObject("engine_control",ship) ;
-        model->addTrait(engine_control,
-                        new EngineControl(
-                          throttle->getTrait<Oriented>(),
-                          engine->getTrait<Engine>())) ;
-        
+        model->addTrait(engine_control,new EngineControler()) ;
+
+        connectControlerEngine(engine_control,engine) ;
+        connectThrottleControler(throttle,engine_control) ;
         /// now we can test the control...
         {
           /// variables redefines to have direct access to interesting traits
           
           ForceGenerator* engine = model->getObject("engine")->getTrait<ForceGenerator>() ;
           CPPUNIT_ASSERT(engine) ;
-          EngineControl* engine_control = model->getObject("engine_control")->getTrait<EngineControl>() ;
+          EngineControler* engine_control = model->getObject("engine_control")->getTrait<EngineControler>() ;
           CPPUNIT_ASSERT(engine_control) ;
           Throttle* throttle = model->getObject("throttle")->getTrait<Throttle>() ;
           CPPUNIT_ASSERT(throttle) ;
@@ -96,6 +95,7 @@ namespace ProjetUnivers {
 
           /// set throttle orientation at full thrust... 
           throttle->set(100) ;
+
           Ogre::Vector3 force(engine->getAppliedForce().Newton()) ;
           CPPUNIT_ASSERT(equal(force.z,10) &&
                          equal(force.x,0) &&

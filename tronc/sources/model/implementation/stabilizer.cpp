@@ -32,12 +32,58 @@
 
 namespace ProjetUnivers {
   namespace Model {
+
+    RegisterTrait(Stabilizer) ;
     
     Stabilizer::Stabilizer(const float& i_x,  
                            const float& i_y,
                            const float& i_z)
     : m_axis(i_x,i_y,i_z)
     {}
+
+    Kernel::Trait* Stabilizer::read(Kernel::Reader* reader)
+    {
+      Stabilizer* result = new Stabilizer(0,0,0) ;
+
+      std::map<std::string,std::string>::const_iterator finder ; 
+      
+      finder = reader->getAttributes().find("axis_x") ;
+      if (finder != reader->getAttributes().end())
+      {
+        result->m_axis.x = atof(finder->second.c_str()) ;
+      }
+      else
+      {
+        ErrorMessage("Model::Stabilizer::read required attribute : axis_x") ;
+      }
+
+      finder = reader->getAttributes().find("axis_y") ;
+      if (finder != reader->getAttributes().end())
+      {
+        result->m_axis.y = atof(finder->second.c_str()) ;
+      }
+      else
+      {
+        ErrorMessage("Model::Stabilizer::read required attribute : axis_y") ;
+      }
+
+      finder = reader->getAttributes().find("axis_z") ;
+      if (finder != reader->getAttributes().end())
+      {
+        result->m_axis.z = atof(finder->second.c_str()) ;
+      }
+      else
+      {
+        ErrorMessage("Model::Stabilizer::read required attribute : axis_z") ;
+      }
+      
+      while (!reader->isEndNode() && reader->processNode())
+      {}
+      
+      reader->processNode() ;
+
+      return result ;
+    }
 
     /// Applies resistance to rotation.
     /*!

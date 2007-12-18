@@ -26,6 +26,7 @@
 namespace ProjetUnivers {
   namespace Model {
 
+    RegisterTrait(Positionned) ;
 
     Positionned::Positionned(const Position& i_position)
     : Kernel::Trait(), 
@@ -36,6 +37,27 @@ namespace ProjetUnivers {
     : Kernel::Trait(), 
       m_position()
     {}
+
+    Kernel::Trait* Positionned::read(Kernel::Reader* reader)
+    {
+      Positionned* result = new Positionned() ;
+      
+      while (!reader->isEndNode() && reader->processNode())
+      {
+        if (reader->isTraitNode() && 
+            reader->getTraitName() == "Position")
+        {
+          result->m_position = Position::read(reader) ;
+        }
+        else 
+        {
+          Trait::read(reader) ;
+        }
+      }
+      reader->processNode() ;
+
+      return result ;
+    }
 
     const Position& Positionned::getPosition() const 
     {

@@ -26,6 +26,7 @@ namespace ProjetUnivers {
 
     class Object ;
     class Model ;
+    class Reader ;
     
     /// Used to reference an object.
     /*!
@@ -53,6 +54,12 @@ namespace ProjetUnivers {
       
       /// Copy constructor.      
       ObjectReference(const ObjectReference&) ;
+
+      /// Read an ObjectReference.
+      /*!
+        stored as <Reference id=".."/>
+      */          
+      static ObjectReference read(Reader* reader) ;
       
       /// Assignment.
       ObjectReference& operator=(const ObjectReference&) ;
@@ -86,6 +93,11 @@ namespace ProjetUnivers {
       int    m_object_identifier ;
       
       friend class Model ;
+      
+      /// In case this reference is a temporary one : reder that is reading it.
+      Reader* m_reader ;
+      
+      friend class Reader ;
       
     };
 

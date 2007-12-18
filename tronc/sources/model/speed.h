@@ -22,6 +22,9 @@
 #define PU_MODEL_SPEED_H_
 
 #include <OgreVector3.h>
+
+#include <kernel/reader.h>
+
 #include <model/orientation.h>
 
 namespace ProjetUnivers {
@@ -75,6 +78,12 @@ namespace ProjetUnivers {
       Ogre::Vector3 MeterPerSecond() const ;
 
     // @}
+
+      /// Read speed.
+      /*!
+        stored as <Speed x=".." y=".." z=".." unit="MeterPerSecond|..."/>
+      */          
+      static Speed read(Kernel::Reader* reader) ;
     
     private:
 

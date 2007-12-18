@@ -23,9 +23,32 @@
 namespace ProjetUnivers {
   namespace Model {
 
+    RegisterTrait(Massive) ;
+
     Massive::Massive(const Mass& i_mass)
     : m_mass(i_mass)
     {} 
+
+    Kernel::Trait* Massive::read(Kernel::Reader* reader)
+    {
+      Massive* result = new Massive(Mass()) ;
+      
+      while (!reader->isEndNode() && reader->processNode())
+      {
+        if (reader->isTraitNode() && 
+            reader->getTraitName() == "Mass")
+        {
+          result->m_mass = Mass::read(reader) ;
+        }
+        else 
+        {
+          Trait::read(reader) ;
+        }
+      }
+      reader->processNode() ;
+
+      return result ;
+    }
     
     Mass Massive::getMass() const 
     {

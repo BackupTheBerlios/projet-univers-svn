@@ -22,6 +22,7 @@
 #define PU_MODEL_POSITIONNED_H_
 
 #include <kernel/trait.h>
+#include <kernel/reader.h>
 #include <model/position.h>
 
 namespace ProjetUnivers {
@@ -50,6 +51,14 @@ namespace ProjetUnivers {
       /// Origin position.
       Positionned() ;
   
+      /// Read a Positionned trait.
+      /*!
+        stored as 
+          <Positionned>
+            [<Positionn .../>]
+          </Positionned>
+      */     
+      static Kernel::Trait* read(Kernel::Reader* reader) ;
 
     // @}
     /*!

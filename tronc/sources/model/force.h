@@ -22,6 +22,7 @@
 #define PU_MODEL_FORCE_H_
 
 #include <OgreVector3.h>
+#include <kernel/reader.h>
 #include <model/orientation.h>
 
 namespace ProjetUnivers {
@@ -61,6 +62,12 @@ namespace ProjetUnivers {
       
       /// Re-orient a force
       Force operator*(const Orientation&) const ;
+
+      /// Read a Force.
+      /*!
+        stored as <Force x=".." y=".." z=".." unit="Newton"/>
+      */          
+      static Force read(Kernel::Reader* reader) ;
       
     // @}
     /// @name Convertions

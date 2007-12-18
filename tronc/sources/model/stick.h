@@ -21,6 +21,7 @@
 #ifndef PU_MODEL_STICK_H_
 #define PU_MODEL_STICK_H_
 
+#include <kernel/reader.h>
 #include <model/oriented.h>
 
 namespace ProjetUnivers {
@@ -35,6 +36,12 @@ namespace ProjetUnivers {
     
       /// Constructor.
       Stick() ;
+
+      /// Read a Stick trait.
+      /*!
+        stored as <Stick/>
+      */          
+      static Kernel::Trait* read(Kernel::Reader* reader) ;
 
       /// Access redefinition.
       virtual const Orientation& getOrientation() const ;

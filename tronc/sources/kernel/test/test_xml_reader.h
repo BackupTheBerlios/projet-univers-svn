@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2007 Mathieu ROGER                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,48 +18,55 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_GUIDANCE_CONTROL_H_
-#define PU_MODEL_GUIDANCE_CONTROL_H_
+#ifndef PU_KERNEL_TEST_TEST_XML_READER_H_
+#define PU_KERNEL_TEST_TEST_XML_READER_H_
 
-#include <kernel/trait.h>
-#include <kernel/trait_reference.h>
-
-#include <model/oriented.h>
+#include <cppunit/extensions/HelperMacros.h>
 
 namespace ProjetUnivers {
-  namespace Model {
-    
-    class GuidanceSystem ;
-    
-    /// Computer part that control orientation.
-    /*!
-      @see GuidanceSystem 
-    */
-    class GuidanceControl : public Kernel::Trait
-    {
-    public:
+  namespace Kernel {
+    namespace Test {
 
-      /// Constructor.
-      GuidanceControl(Oriented* i_stick,GuidanceSystem* i_system) ;
-      
-      /// Access to stick orientation.
-      Orientation getStickOrientation() const ;
-      
-    private:
-      
-      /// the stick 
+
+      ///  Test for XMLReader.
       /*!
-        it is a normalised orientation of a stick.
-      */ 
-      Kernel::TraitReference<Oriented>       m_stick ;
+      */
+      class TestXMLReader : public CppUnit::TestFixture {
+      public:
+
+        /// Test initialisation.
+        void setUp() ;
+
+        /// Test closing.
+        void tearDown() ;
+
+      protected:
+
+      /*!
+        @name Tests methods
+      */
+      // @{  
+
+        /// A simple test.
+        void basicTest() ;
+        
+        /// A simple test.
+        void XMLCharTest() ;
+        
+      // @}
+
+
+        CPPUNIT_TEST_SUITE(TestXMLReader) ;
+
+        CPPUNIT_TEST(basicTest) ;
+        CPPUNIT_TEST(XMLCharTest) ;
+
+        CPPUNIT_TEST_SUITE_END() ;
+
       
-      /// The system controled.
-      Kernel::TraitReference<GuidanceSystem> m_guidance_system ;
-      
-    };
-    
-    
+      };
+    }
   }
 }
 
-#endif /*PU_MODEL_GUIDANCE_CONTROL_H_*/
+#endif /*PU_KERNEL_TEST_TEST_XML_READER_H_*/

@@ -22,6 +22,7 @@
 #define PU_MODEL_ORIENTED_H_
 
 #include <kernel/trait.h>
+#include <kernel/reader.h>
 #include <model/position.h>
 #include <model/orientation.h>
 
@@ -48,6 +49,14 @@ namespace ProjetUnivers {
       /// Constructor.
       Oriented(const Orientation&) ;
   
+      /// Read an Oriented trait.
+      /*!
+        stored as 
+          <Oriented>
+            [<Orientation .../>]
+          </Oriented>
+      */     
+      static Kernel::Trait* read(Kernel::Reader* reader) ;
 
     // @}
     /*!

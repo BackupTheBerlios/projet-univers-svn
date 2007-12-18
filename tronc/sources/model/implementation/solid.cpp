@@ -23,11 +23,39 @@
 namespace ProjetUnivers {
   namespace Model {
 
+    RegisterTrait(Solid) ;
      
     Solid::Solid(const Mesh& i_mesh) 
     : Kernel::Trait(), 
       m_mesh(i_mesh)
     {}
+
+    Kernel::Trait* Solid::read(Kernel::Reader* reader)
+    {
+      Solid* result = new Solid(Mesh("")) ;
+      
+      while (!reader->isEndNode() && reader->processNode())
+      {
+        if (reader->isTraitNode() && 
+            reader->getTraitName() == "Mesh")
+        {
+          result->m_mesh = Mesh::read(reader) ;
+        }
+        else 
+        {
+          Trait::read(reader) ;
+        }
+      }
+      
+      if (result->getMesh().getName() == "")
+      {
+        ErrorMessage("Model::Solid::read must provide a mesh") ;
+      }
+      
+      reader->processNode() ;
+
+      return result ;
+    }
 
     /// Accès au modèle 3d.
     Mesh Solid::getMesh() const

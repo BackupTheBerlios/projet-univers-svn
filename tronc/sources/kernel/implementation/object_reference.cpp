@@ -20,6 +20,7 @@
  ***************************************************************************/
 #include <kernel/object.h>
 #include <kernel/model.h>
+#include <kernel/reader.h>
 #include <kernel/object_reference.h>
 
 namespace ProjetUnivers {
@@ -27,7 +28,8 @@ namespace ProjetUnivers {
     
     ObjectReference::ObjectReference(Object* object)
     : m_model(object?object->getModel():NULL),
-      m_object_identifier(object?object->getIdentifier():-1)
+      m_object_identifier(object?object->getIdentifier():-1),
+      m_reader(NULL)
     {
       if (m_model)
       {
@@ -37,7 +39,8 @@ namespace ProjetUnivers {
     
     ObjectReference::ObjectReference()
     : m_model(NULL),
-      m_object_identifier(-1)
+      m_object_identifier(-1),
+      m_reader(NULL)
     {}
 
     ObjectReference::~ObjectReference()
@@ -46,6 +49,39 @@ namespace ProjetUnivers {
       {
         m_model->_unregisterReference(this) ;
       }
+      
+      if (m_reader)
+      {
+        m_reader->_unregisterReference(this) ;
+      }
+    }
+    
+    ObjectReference ObjectReference::read(Reader* reader)
+    {
+      ObjectReference result ;
+      
+      std::map<std::string,std::string>::const_iterator finder ; 
+
+      finder = reader->getAttributes().find("id") ;
+      if (finder != reader->getAttributes().end())
+      {
+        result.m_object_identifier = atoi(finder->second.c_str()) ;
+      }
+      else
+      {
+        ErrorMessage("Kernel::ObjectReference::read required attribute : id") ;
+      }
+
+      // move out of node
+      while (!reader->isEndNode() && reader->processNode())
+      {}
+      
+      reader->processNode() ;
+      
+      reader->_registerReference(&result) ;
+      result.m_reader = reader ;
+      
+      return result ;            
     }
     
     ObjectReference& ObjectReference::operator=(const ObjectReference& reference)
@@ -56,11 +92,20 @@ namespace ProjetUnivers {
         {
           m_model->_unregisterReference(this) ;
         }
+        if (m_reader)
+        {
+          m_reader->_unregisterReference(this) ;
+        }
         m_model = reference.m_model ;
         m_object_identifier = reference.m_object_identifier ;
+        m_reader = reference.m_reader ;
         if (m_model)
         {
           m_model->_registerReference(this) ;
+        }
+        if (m_reader)
+        {
+          m_reader->_registerReference(this) ;
         }
       }
     }
@@ -71,8 +116,15 @@ namespace ProjetUnivers {
       {
         m_model->_unregisterReference(this) ;
       }
+
+      if (m_reader)
+      {
+        m_reader->_unregisterReference(this) ;
+      }
+      
       m_model = object?object->getModel():NULL ;
       m_object_identifier = object?object->getIdentifier():-1 ;
+      m_reader = NULL ;
       if (m_model)
       {
         m_model->_registerReference(this) ;
@@ -82,11 +134,17 @@ namespace ProjetUnivers {
 
     ObjectReference::ObjectReference(const ObjectReference& reference)
     : m_model(reference.m_model),
-      m_object_identifier(reference.m_object_identifier)
+      m_object_identifier(reference.m_object_identifier),
+      m_reader(reference.m_reader)
     {
       if (m_model)
       {
         m_model->_registerReference(this) ;
+      }
+      
+      if (m_reader)
+      {
+        m_reader->_registerReference(this) ;
       }
     }
     

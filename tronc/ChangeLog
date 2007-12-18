@@ -352,6 +352,16 @@
     - TraitReference enhancement
   * model :
     - usage of TraitReference and ObjectReference in every traits
+
+2007-12-18 rogma 
+
+  * kernel :
+    - xml reading
+    - simplification of Traitreference : takes an object instead of a trait
+  * model :
+    - changed Ear into Hearing : generalisation
+    - changed EngineControl into EngineControler
+    - added xml read methods + tests
     
 todos :
 

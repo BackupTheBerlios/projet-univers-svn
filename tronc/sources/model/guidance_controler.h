@@ -18,49 +18,65 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_ENGINE_CONTROL_H_
-#define PU_MODEL_ENGINE_CONTROL_H_
+#ifndef PU_MODEL_GUIDANCE_CONTROLER_H_
+#define PU_MODEL_GUIDANCE_CONTROLER_H_
 
 #include <kernel/trait.h>
 #include <kernel/trait_reference.h>
+#include <kernel/reader.h>
 
-#include <model/engine.h>
 #include <model/oriented.h>
 
 namespace ProjetUnivers {
   namespace Model {
     
-    /// Component that control engines.
+    class GuidanceSystem ;
+
+    /// Connect a stick to a guidance controler. 
+    void connectStickControler(Kernel::Object* stick,
+                               Kernel::Object* controler) ;
+
+    /// Connect an guidance controler to a guidance system. 
+    void connectControlerGuidanceSystem(Kernel::Object* controler,
+                                        Kernel::Object* system) ;
+    
+    /// Computer part that control orientation.
     /*!
-        
+      @see GuidanceSystem 
     */
-    class EngineControl : public Kernel::Trait
+    class GuidanceControler : public Kernel::Trait
     {
     public:
 
       /// Constructor.
-      EngineControl(Oriented* i_throttle,Engine* i_engine) ;
+      GuidanceControler() ;
+
+      /// Read a GuidanceControler trait.
+      /*!
+        stored as 
+          <GuidanceControler>
+            [<ObjectReference id=".." [name=stick]/>] 
+          </GuidanceControler>
+      */     
+      static Kernel::Trait* read(Kernel::Reader* reader) ;
       
-      /// Perfom engine control.
-      int getPowerPercentage() const ;
+      /// Access to stick orientation.
+      Orientation getStickOrientation() const ;
       
     private:
       
-      /// The engine 
+      /// the stick 
       /*!
+        it is a normalised orientation of a stick.
       */ 
-      Kernel::TraitReference<Engine>   m_engine ;
+      Kernel::TraitReference<Oriented>       m_stick ;
       
-      /// The throttle.
-      /*!
-        An oriented object whose only interesting value is the Pitch ?
-      */
-      Kernel::TraitReference<Oriented> m_throttle ;
-      
+      friend void connectStickControler(Kernel::Object* stick,
+                                        Kernel::Object* controler) ;
     };
     
     
   }
 }
 
-#endif /*PU_MODEL_ENGINE_CONTROL_H_*/
+#endif /*PU_MODEL_GUIDANCE_CONTROLER_H_*/

@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2007 Morgan GRIGNARD, Mathieu ROGER                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,32 +18,52 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <model/guidance_control.h>
-#include <model/guidance_system.h>
+#ifndef PU_MODEL_HEARING_H_
+#define PU_MODEL_HEARING_H_
+
+#include <kernel/trait.h>
+#include <kernel/reader.h>
 
 namespace ProjetUnivers {
   namespace Model {
     
-      GuidanceControl::GuidanceControl(Oriented* i_stick,GuidanceSystem* i_system)
-      : Kernel::Trait(),
-        m_stick(i_stick),
-        m_guidance_system(i_system)
-      {
-        if (m_guidance_system)
-        {
-          m_guidance_system->setControler(this) ;
-        }
-      }
+    /// For object that can hear.
+    /*!
+      @todo Restoring hearing with time
+      @todo Deafening effect after explosion for example
+    */
+    class Hearing : public Kernel::Trait
+    {
+    public:
 
-      Orientation GuidanceControl::getStickOrientation() const
-      {
-        // normal behaviour
-        /*!
-          more complex behaviour including malfunctions could return a 
-          any orientation, e.g. a random one
-        */  
-        return m_stick->getOrientation() ;
-      }
+      /// Constructor.
+      Hearing() ;
+
+      /// Read a Hearing trait.
+      /*!
+        stored as 
+          <Hearing hearing_percentage=".."/>
+      */     
+      static Kernel::Trait* read(Kernel::Reader* reader) ;
+      
+      /// Access to hearing.
+      int getHearing() const ;
+      
+      /// Modify hearing.
+      void setHearing(int newHearing);
+      
+    private:
+      
+      /// The percentage of hearing 
+      /*!
+        value in [0,100]
+      */
+      int m_hearing_percentage ;
+      
+    };
+    
     
   }
 }
+
+#endif /*PU_MODEL_HEARING_H_*/

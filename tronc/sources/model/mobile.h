@@ -22,6 +22,7 @@
 #define PU_MODEL_MOBILE_H_
 
 #include <kernel/trait.h>
+#include <kernel/reader.h>
 #include <model/speed.h>
 #include <model/angular_speed.h>
 
@@ -49,6 +50,16 @@ namespace ProjetUnivers {
 
       /// Construct with initial linear speed.
       Mobile(const Speed& speed) ;
+
+      /// Read a Mobile trait.
+      /*!
+        stored as 
+          <Mobile>
+            [<Speed .../>]
+            [<AngularSpeed />]
+          </Mobile>
+      */     
+      static Kernel::Trait* read(Kernel::Reader* reader) ;
       
       /// Set the linear speed.
       void setSpeed(const Speed& i_new_speed) ;

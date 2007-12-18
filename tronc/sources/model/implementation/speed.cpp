@@ -18,6 +18,8 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <kernel/log.h>
+
 #include <model/speed.h>
 
 namespace ProjetUnivers {
@@ -104,6 +106,67 @@ namespace ProjetUnivers {
       m_unit(i_unit)
     {}
 
+    Speed Speed::read(Kernel::Reader* reader)
+    {
+      Speed result ;
+      
+      std::map<std::string,std::string>::const_iterator finder ; 
+
+      finder = reader->getAttributes().find("x") ;
+      if (finder != reader->getAttributes().end())
+      {
+        result.m_value.x = atof(finder->second.c_str()) ;
+      }
+      else
+      {
+        ErrorMessage("Model::Speed::read required attribute : x") ;
+      }
+
+      finder = reader->getAttributes().find("y") ;
+      if (finder != reader->getAttributes().end())
+      {
+        result.m_value.y = atof(finder->second.c_str()) ;
+      }
+      else
+      {
+        ErrorMessage("Model::Speed::read required attribute : y") ;
+      }
+
+      finder = reader->getAttributes().find("z") ;
+      if (finder != reader->getAttributes().end())
+      {
+        result.m_value.z = atof(finder->second.c_str()) ;
+      }
+      else
+      {
+        ErrorMessage("Model::Speed::read required attribute : z") ;
+      }
+      
+      finder = reader->getAttributes().find("unit") ;
+      if (finder != reader->getAttributes().end())
+      {
+        if (finder->second == "MeterPerSecond")
+        {
+          result.m_unit = _MeterPerSecond ;
+        }
+        else 
+        {
+          ErrorMessage("Model::Speed::read invalid unit : " + finder->second) ;
+        }
+      }
+      else
+      {
+        ErrorMessage("Model::Speed::read required attribute : unit") ;
+      }
+      
+      // move out of node
+      while (!reader->isEndNode() && reader->processNode())
+      {}
+      
+      reader->processNode() ;
+      
+      return result ;            
+    }   
 
   }
 }

@@ -13,11 +13,12 @@ libmodel_la_SOURCES = \
 ../implementation/destroyable.cpp \
 ../implementation/dragger.cpp \
 ../implementation/duration.cpp \
+../implementation/component.cpp \
 ../implementation/computer.cpp \
 ../implementation/computer_data.cpp \
 ../implementation/energy.cpp \
 ../implementation/engine.cpp \
-../implementation/engine_control.cpp \
+../implementation/engine_controler.cpp \
 ../implementation/exception.cpp \
 ../implementation/force.cpp \
 ../implementation/force_generator.cpp \
@@ -38,7 +39,7 @@ libmodel_la_SOURCES = \
 ../implementation/background_sound.cpp \
 ../implementation/speed.cpp \
 ../implementation/guidance_system.cpp \
-../implementation/guidance_control.cpp \
+../implementation/guidance_controler.cpp \
 ../implementation/stabilizer.cpp \
 ../implementation/stellar_system.cpp \
 ../implementation/torque_generator.cpp \
@@ -55,7 +56,7 @@ libmodel_la_SOURCES = \
 ../implementation/detectable.cpp \
 ../implementation/detector_object_view.cpp \
 ../implementation/menu.cpp \
-../implementation/ear.cpp \
+../implementation/hearing.cpp \
 ../implementation/sound_environnement.cpp \
 ../implementation/logic/logic.cpp \
 ../implementation/logic/laser_beam.cpp \
@@ -95,6 +96,7 @@ test_model_SOURCES = \
 ../test/test_laser.cpp \
 ../test/test_logic.cpp \
 ../test/test_detector.cpp \
+../test/test_load.cpp \
 ../test/test_demonstration.cpp 
 
 
@@ -105,5 +107,5 @@ libmodel.la \
 $(SOURCES)/kernel/compilation/libkernel.la \
 $(OIS_LIBS) \
 $(librlog_LIBS) \
-$(OGRE_LIBS) 
-
+$(OGRE_LIBS) \
+$(libXML_LIBS)

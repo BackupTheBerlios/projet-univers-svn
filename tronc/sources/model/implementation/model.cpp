@@ -28,6 +28,7 @@
 #include <kernel/model.h>
 #include <kernel/command_delegator.h>
 #include <kernel/parameters.h>
+#include <kernel/xml_reader.h>
 
 #include <model/laser.h>
 #include <model/exception.h>
@@ -44,9 +45,9 @@
 #include <model/torque_generator.h>
 #include <model/universe.h>
 #include <model/guidance_system.h>
-#include <model/guidance_control.h>
+#include <model/guidance_controler.h>
 #include <model/engine.h>
-#include <model/engine_control.h>
+#include <model/engine_controler.h>
 #include <model/stick.h>
 #include <model/throttle.h>
 #include <model/dragger.h>
@@ -153,10 +154,10 @@ namespace ProjetUnivers {
       @par Status 
         hard coded
     */
-    void load(const std::string& _name)
+    void load(const std::string& name)
     {
      
-      if (_name == "TestDemonstration")
+      if (name == "TestDemonstration")
       {
         /// 1. Construction d'un univers
         InternalMessage("building Universe...") ;
@@ -247,11 +248,11 @@ namespace ProjetUnivers {
           model->addTrait(stick,new Solid(Mesh("stick.mesh"))) ;
           
           model->addTrait(ship,new GuidanceSystem(Kernel::Parameters::getValue<float>("Model","GuidanceForce"))) ;
-          model->addTrait(ship,new GuidanceControl(
-                                stick->getTrait<Oriented>(),
-                                ship->getTrait<GuidanceSystem>())) ;
-                    
-
+          model->addTrait(ship,new GuidanceControler()) ;
+          // stick,ship
+          connectStickControler(stick,ship) ;
+          connectControlerGuidanceSystem(ship,ship) ;
+          
           /// engine + engine control...
           Kernel::Object* throttle = model->createObject("throttle",ship) ;
           model->addTrait(throttle,new Throttle()) ;
@@ -260,10 +261,10 @@ namespace ProjetUnivers {
           model->addTrait(engine,new Engine(Force::Newton(0,0,Kernel::Parameters::getValue<float>("Model","EngineMaxForce")))) ;
   
           Kernel::Object* engine_control = model->createObject("engine_control",ship) ;
-          model->addTrait(engine_control,
-                          new EngineControl(
-                            throttle->getTrait<Oriented>(),
-                            engine->getTrait<Engine>())) ;
+          model->addTrait(engine_control,new EngineControler()) ;
+
+          connectThrottleControler(throttle,engine_control) ;
+          connectControlerEngine(engine_control,engine) ;                   
           
           Kernel::Object* laser = model->createObject("laser",ship) ;
           model->addTrait(laser,new Laser(Position::Meter(19.2,0,57),
@@ -290,7 +291,7 @@ namespace ProjetUnivers {
         }
         InternalMessage("building observer done") ;
       }
-      else if (_name == "TestMenu")
+      else if (name == "TestMenu")
       {
         Kernel::Object* universe = model->createObject("Univers") ;
         
@@ -312,6 +313,11 @@ namespace ProjetUnivers {
         model->addTrait(observer,new Positionned()) ;
         model->addTrait(observer,new Oriented()) ;
         model->addTrait(observer,new Observer()) ;
+      }
+      else
+      {
+        std::auto_ptr<Kernel::XMLReader> reader(Kernel::XMLReader::getFileReader(name)) ;
+        reader->read(model.get()) ;
       }            
     }
 
