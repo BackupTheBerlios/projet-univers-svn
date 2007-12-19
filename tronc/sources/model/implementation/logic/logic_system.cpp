@@ -36,7 +36,7 @@ namespace ProjetUnivers {
   
         void LogicSystem::simulate(const float& i_seconds)
         {
-          InternalMessage("Model::LogicSystem::simulate entering") ;
+          InternalMessage("Model","Model::LogicSystem::simulate entering") ;
           boost::function2<void,
                            Kernel::BaseControler*,
                            float> f 
@@ -52,7 +52,7 @@ namespace ProjetUnivers {
           }
           
           m_objects_to_destroy.clear() ;
-          InternalMessage("Model::LogicSystem::simulate leaving") ;
+          InternalMessage("Model","Model::LogicSystem::simulate leaving") ;
         }
         
         void LogicSystem::addObjectToDestroy(Kernel::Object* object)

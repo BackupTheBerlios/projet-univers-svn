@@ -142,7 +142,7 @@ namespace ProjetUnivers {
       
       void TestCommand::basicTest()
       {
-        InternalMessage("Kernel::Test::TestCommand::basicTest entering") ;
+        InternalMessage("Kernel","Kernel::Test::TestCommand::basicTest entering") ;
         /// create a model
         std::auto_ptr<Model> model(new Model()) ;
                                     
@@ -175,12 +175,12 @@ namespace ProjetUnivers {
         
         }        
         
-        InternalMessage("Kernel::Test::TestCommand::basicTest leaving") ;
+        InternalMessage("Kernel","Kernel::Test::TestCommand::basicTest leaving") ;
       }
 
       void TestCommand::testCommandDelegator()
       {
-        InternalMessage("Kernel::Test::TestCommand::testCommandDelegator entering") ;
+        InternalMessage("Kernel","Kernel::Test::TestCommand::testCommandDelegator entering") ;
         /// create a model
         std::auto_ptr<Model> model(new Model()) ;
                                     
@@ -207,7 +207,7 @@ namespace ProjetUnivers {
         std::set<std::string> commands(object2->getCommands()) ;
         CPPUNIT_ASSERT(commands.size() == 3) ;
         
-        InternalMessage("Kernel::Test::TestCommand::testCommandDelegator leaving") ;
+        InternalMessage("Kernel","Kernel::Test::TestCommand::testCommandDelegator leaving") ;
       }
       
       void TestCommand::setUp()

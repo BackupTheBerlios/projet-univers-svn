@@ -131,7 +131,7 @@ namespace ProjetUnivers {
         
         Sound::close();
         Model::close();
-        InternalMessage("after sound close") ;
+        InternalMessage("Sound","after sound close") ;
         
       }
 

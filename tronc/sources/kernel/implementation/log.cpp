@@ -20,45 +20,43 @@
  ***************************************************************************/
 #include <stdio.h>
 
+#include <kernel/parameters.h>
 #include <kernel/log.h>
 
 namespace ProjetUnivers {
-
   namespace Kernel {
-
-    namespace Log
-    {
-  
-      const std::string debugFileName("debug.log") ;
-      const std::string outputFileName("sortie.log") ;
-  
-      FILE* debug ;
-      FILE* sortie ;
+    namespace Log {
       
+      const std::string errorFileName("error.log") ;
+      std::auto_ptr<rlog::StdioNode> errorLog ;
+      FILE* error ;
+
+      const std::string debugFileName("debug.log") ;
       std::auto_ptr<rlog::StdioNode> debugLog ;
-      std::auto_ptr<rlog::StdioNode> outputLog ;
+      FILE* debug ;
   
       void init()
       {
       #ifndef NDEBUG
-        
-        // erreurs et debug
+
+        // error
+        error = fopen(errorFileName.c_str(), "w") ;
+        errorLog.reset(new rlog::StdioNode(fileno(error))) ;
+
+        errorLog->subscribeTo( rlog::GetGlobalChannel( "error" ));
+
+        // debug
         debug = fopen(debugFileName.c_str(), "w") ;
         debugLog.reset(new rlog::StdioNode(fileno(debug))) ;
-  
-  
-        debugLog->subscribeTo( rlog::GetGlobalChannel( "warning" ));
-        debugLog->subscribeTo( rlog::GetGlobalChannel( "error" ));
-        debugLog->subscribeTo( rlog::GetGlobalChannel( "debug" ));  
-  
-        // sortie
-        sortie = fopen(outputFileName.c_str(), "w") ;
-        outputLog.reset(new rlog::StdioNode(fileno(sortie))) ;
+
+        std::set<std::string> logs(Parameters::getActivatedLogs()) ;
         
-        // on se définit notre propre channel de sortie
-        DEF_CHANNEL("ProjetUnivers", rlog::Log_Info) ;
-  
-        outputLog->subscribeTo( rlog::GetGlobalChannel( "ProjetUnivers" ));
+        for(std::set<std::string>::const_iterator log = logs.begin() ;
+            log != logs.end() ;
+            ++log)
+        {
+          debugLog->subscribeTo(rlog::GetGlobalChannel(log->c_str()));
+        }
 
       #endif          
       }
@@ -67,13 +65,10 @@ namespace ProjetUnivers {
       {
       #ifndef NDEBUG
         fclose(debug) ;
-        fclose(sortie) ;
+        fclose(error) ;
       #endif          
       }
 
-
-
     }
-
   }
 }

@@ -45,16 +45,16 @@ namespace ProjetUnivers {
               
         void SoundEmitter::initSound()
         {
-          InformationMessage("SoundEmitter::initSound entering") ;
+          InformationMessage("Sound","SoundEmitter::initSound entering") ;
           if(!m_source)
           {
-          	InformationMessage("SoundEmitter::init real") ;
+          	InformationMessage("Sound","SoundEmitter::init real") ;
             alGenSources(1,&m_source) ;
             m_reader = getManager()->createReader(m_source, getSoundFileName().c_str(), isEvent(), m_posInFile, m_posInBuffer) ;
             alSourcei(m_source, AL_SOURCE_RELATIVE, AL_FALSE) ;
             updateSource();   
           } 
-          InformationMessage("SoundEmitter::initSound leaving") ; 
+          InformationMessage("Sound","SoundEmitter::initSound leaving") ; 
         }
         
         void SoundEmitter::startSound()
@@ -126,17 +126,17 @@ namespace ProjetUnivers {
                 {
                   m_auxEffectSlot = auxEffectSlot ;
               	  alSource3i(m_source, AL_AUXILIARY_SEND_FILTER, m_auxEffectSlot, 0, 0) ;
-              	  InformationMessage("update add reverb") ;	
+              	  InformationMessage("Sound","update add reverb") ;	
                 }
               }
               else
               {
-                InformationMessage("no envView") ;	
+                InformationMessage("Sound","no envView") ;	
               }
             }
             else
             {
-              InformationMessage("no env") ;	
+              InformationMessage("Sound","no env") ;	
             }
             
           }
@@ -150,7 +150,7 @@ namespace ProjetUnivers {
         void SoundEmitter::changeParentSource()
         {
           
-          InformationMessage("SoundEmitter::changeParent : enter") ;
+          InformationMessage("Sound","SoundEmitter::changeParent : enter") ;
           	
           Model::SoundEnvironnement* env  = getObject()->getParent<Model::SoundEnvironnement>() ;
             if(env)
@@ -165,24 +165,24 @@ namespace ProjetUnivers {
                   m_auxEffectSlot = auxEffectSlot ;
               	  //TODO see filter parameter for occlusion , exclusion case
               	  alSource3i(m_source, AL_AUXILIARY_SEND_FILTER, m_auxEffectSlot, 0, 0) ;
-              	  InformationMessage("update add reverb") ;	
+              	  InformationMessage("Sound","update add reverb") ;	
                 }
                 else
                 {
-                  InformationMessage("same reverb") ;	
+                  InformationMessage("Sound","same reverb") ;	
                 }
               }
               else
               {
-                InformationMessage("no envView") ;	
+                InformationMessage("Sound","no envView") ;	
               }
             }
             else
             {
-              InformationMessage("no env") ;	
+              InformationMessage("Sound","no env") ;	
             }
             
-          InformationMessage("SoundEmitter::changeParent : leaving") ;
+          InformationMessage("Sound","SoundEmitter::changeParent : leaving") ;
         }
         
         void SoundEmitter::stopSound()
@@ -195,7 +195,7 @@ namespace ProjetUnivers {
             
         void SoundEmitter::deleteSound()
         {
-          InformationMessage("SoundEmitter::deleteSound : enter") ;
+          InformationMessage("Sound","SoundEmitter::deleteSound : enter") ;
           if(!isEvent())
           {
               alGetSourcei(m_source, AL_SAMPLE_OFFSET, &m_posInBuffer) ;
@@ -205,7 +205,7 @@ namespace ProjetUnivers {
           }
           m_auxEffectSlot = 0 ;
           m_source = 0 ;
-          InformationMessage("SoundEmitter::deleteSound : leaving") ;
+          InformationMessage("Sound","SoundEmitter::deleteSound : leaving") ;
         }
         
         Model::Position SoundEmitter::getPosition() const

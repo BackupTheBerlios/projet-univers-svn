@@ -37,23 +37,23 @@ namespace ProjetUnivers {
     
     void init() 
     {
-      InternalMessage("Sound::init entering") ;
+      InternalMessage("Sound","Sound::init entering") ;
       if (! initialised)
       {
         initialised = true ;
         Implementation::OpenAL::init() ;    
       }
-      InternalMessage("Sound::init leaving") ;
+      InternalMessage("Sound","Sound::init leaving") ;
     }
     
     void close()
     {
-      InternalMessage("Sound::close entering") ;
+      InternalMessage("Sound","Sound::close entering") ;
 
       Implementation::OpenAL::close() ;
       initialised = false ;
       
-      InternalMessage("Sound::close leaving") ;
+      InternalMessage("Sound","Sound::close leaving") ;
     }
 
     void update()
@@ -63,8 +63,8 @@ namespace ProjetUnivers {
 
     Kernel::ViewPoint* build(Kernel::Object* listener, Kernel::Object* reference)
     {
-      InternalMessage("Sound::build entering") ;
-      InternalMessage("Sound::build leaving") ; 
+      InternalMessage("Sound","Sound::build entering") ;
+      InternalMessage("Sound","Sound::build leaving") ; 
       return Implementation::OpenAL::build(listener, reference) ;      
     }
 

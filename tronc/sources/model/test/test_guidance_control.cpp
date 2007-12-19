@@ -55,7 +55,7 @@ namespace ProjetUnivers {
 
       void TestGuidanceControl::basicTest()
       {
-        InternalMessage("Model::TestGuidanceControl::basicTest entering") ;
+        InternalMessage("Model","Model::TestGuidanceControl::basicTest entering") ;
         /// we construct a complete system on a ship
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestGuidanceControl::basicTest")) ;
         

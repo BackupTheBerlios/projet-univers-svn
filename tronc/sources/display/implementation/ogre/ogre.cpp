@@ -194,7 +194,7 @@ namespace ProjetUnivers {
 //          font = CEGUI::FontManager::getSingleton()
 //            .createFont("Commonwealth-10.font") ;
 
-          InternalMessage("Ogre launched") ;
+          InternalMessage("Display","Ogre launched") ;
           
           // voila
           return true ;
@@ -202,7 +202,7 @@ namespace ProjetUnivers {
 
         void close() 
         {
-          InternalMessage("stopping Ogre..") ;
+          InternalMessage("Display","stopping Ogre..") ;
           if(CEGUISystem)
           {
             delete CEGUISystem;
@@ -221,7 +221,7 @@ namespace ProjetUnivers {
             root = NULL ;  
           }
 
-          InternalMessage("...Ogre stopped") ;
+          InternalMessage("Display","...Ogre stopped") ;
           
         }
 

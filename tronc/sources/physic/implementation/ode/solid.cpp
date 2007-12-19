@@ -75,7 +75,7 @@ namespace ProjetUnivers {
           std::vector<unsigned long>    indices ;
           Ogre::Vector3                 scale(1,1,1) ;        
           
-          InternalMessage("Physic::Implementation::Ode::Solid::createGeometry trace#0") ;
+          InternalMessage("Physic","Physic::Implementation::Ode::Solid::createGeometry trace#0") ;
           getModel()->getMesh().getMeshInformation(vertices,indices,scale) ;
 
           if (vertices.size()>0 && indices.size() > 0)
@@ -108,7 +108,7 @@ namespace ProjetUnivers {
                                   
             m_geometry_id = dCreateTriMesh(i_space,m_data,0,0,0);
             dGeomSetData(m_geometry_id,m_data) ;
-            InternalMessage("Physic::Implementation::Ode::Solid::createGeometry trace#5") ;
+            InternalMessage("Physic","Physic::Implementation::Ode::Solid::createGeometry trace#5") ;
           }
         }
         

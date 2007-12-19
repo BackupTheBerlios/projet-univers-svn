@@ -47,7 +47,7 @@ namespace ProjetUnivers {
 
       void TestLaser::testFire()
       {
-        InternalMessage("Model::TestLaser::testFire entering") ;
+        InternalMessage("Model","Model::TestLaser::testFire entering") ;
         // we construct a complete system
         Model::init() ;
 
@@ -66,11 +66,11 @@ namespace ProjetUnivers {
 
         CPPUNIT_ASSERT(system->getChildren().size()==1) ;
 
-        InternalMessage("built ship") ;
+        InternalMessage("Model","built ship") ;
 
         ship->call("fire") ;
 
-        InternalMessage("fire") ;
+        InternalMessage("Model","fire") ;
         CPPUNIT_ASSERT(system->getDescendants<LaserBeam>().size()==1) ;
         CPPUNIT_ASSERT(system->getDescendants<Shot>().size()==1) ;
 

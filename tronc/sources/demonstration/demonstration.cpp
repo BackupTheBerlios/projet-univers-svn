@@ -42,15 +42,16 @@ int main() {
   Kernel::Log::init() ;
   Kernel::Parameters::load("demonstration.config") ;
 
-  InformationMessage("Demarrage de projet univers") ;
+  InformationMessage("Demonstration","Demarrage de projet univers") ;
   Model::init() ;
   Physic::init() ;
   Display::init() ;
   Action::init() ;
   
-  InformationMessage("Modules initialisés") ;
+  InformationMessage("Demonstration","Modules initialisés") ;
 
-  Model::load("TestDemonstration") ;
+  Model::load("TestMenu") ;
+//  Model::load("TestDemonstration") ;
 
   Kernel::Object* observer(Model::getObject("Observer")) ;
   
@@ -60,9 +61,9 @@ int main() {
 
   Input::build(observer) ;
   Input::init() ;
-  InternalMessage("Activating Viewpoint") ;
+  InternalMessage("Demonstration","Activating Viewpoint") ;
 
-  InformationMessage("Demarrage de la boucle principale") ;
+  InformationMessage("Demonstration","Demarrage de la boucle principale") ;
 
   Kernel::Timer timer ;
 
@@ -84,7 +85,7 @@ int main() {
     Display::update() ;
   }
 
-  InformationMessage("Sortie de la boucle principale") ;
+  InformationMessage("Demonstration","Sortie de la boucle principale") ;
     
   /// sortie
   Input::close() ;
@@ -92,7 +93,7 @@ int main() {
   Display::close() ;
   Physic::close() ;
   Model::close() ;
-  InformationMessage("Modules desinitialisés") ;
+  InformationMessage("Demonstration","Modules desinitialisés") ;
   Kernel::Log::close() ;
   
   return 0 ;

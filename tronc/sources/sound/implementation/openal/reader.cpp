@@ -34,36 +34,36 @@ namespace ProjetUnivers {
         : m_source(p_source), m_fileName(p_fileName), m_isEvent(p_isEvent), m_updateTime(p_updateTime), m_finish(false),
           m_format(0), m_sampleRate(0), m_samplesByBuffer(0)  
         {
-          InternalMessage("Enter constructor, Al status:" + getErrorString(alGetError())) ;
+          InternalMessage("Sound","Enter constructor, Al status:" + getErrorString(alGetError())) ;
           alGenBuffers(2, m_buffers);
-          InternalMessage("Leave constructor, Al status:" + getErrorString(alGetError())) ;
+          InternalMessage("Sound","Leave constructor, Al status:" + getErrorString(alGetError())) ;
         }
         
         Reader::~Reader()
         {
-          InformationMessage("[Reader] Enter destructor") ;
+          InformationMessage("Sound","[Reader] Enter destructor") ;
           alSourceStop(m_source) ;
           alDeleteBuffers(2, m_buffers) ;
           alDeleteSources(1,&m_source) ;
-          InformationMessage("[Reader] Leave destructor") ;
+          InformationMessage("Sound","[Reader] Leave destructor") ;
         }
           
         void Reader::update()
         {
-          InformationMessage("Enter update reader") ;   
+          InformationMessage("Sound","Enter update reader") ;   
           // Get the empty buffers
           ALint NbProcessed ;
           alGetSourcei(m_source, AL_BUFFERS_PROCESSED, &NbProcessed) ; 
           // Load this buffers with content
           for (ALint i = 0; i < NbProcessed && !m_finish; ++i)
           {
-            InformationMessage("call load") ; 
+            InformationMessage("Sound","call load") ; 
             ALuint buffer;
             alSourceUnqueueBuffers(m_source, 1, &buffer) ;
             loadBuffer(buffer);
             alSourceQueueBuffers(m_source, 1, &buffer) ;
           }
-          InformationMessage("leave update reader") ;   
+          InformationMessage("Sound","leave update reader") ;   
         }
         
         bool Reader::isFinish() const

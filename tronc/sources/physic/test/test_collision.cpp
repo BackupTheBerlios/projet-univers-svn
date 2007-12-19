@@ -65,7 +65,7 @@ namespace ProjetUnivers {
 
       void TestCollision::basicTest()
       {
-        InternalMessage("Physic::Test::TestCollision::basicTest Entering") ;
+        InternalMessage("Physic","Physic::Test::TestCollision::basicTest Entering") ;
 
         /*!
           - build two mesh ships 
@@ -145,13 +145,13 @@ namespace ProjetUnivers {
         
         Physic::close() ;
 
-        InternalMessage("Physic::Test::TestCollision::basicTest leaving") ;
+        InternalMessage("Physic","Physic::Test::TestCollision::basicTest leaving") ;
         
       }
 
       void TestCollision::testBugLaser()
       {
-        InternalMessage("Physic::Test::TestCollision::testBugLaser Entering") ;
+        InternalMessage("Physic","Physic::Test::TestCollision::testBugLaser Entering") ;
 
         /*!
           - build a mesh ship 
@@ -185,13 +185,13 @@ namespace ProjetUnivers {
         Physic::init() ;
         Kernel::ControlerSet* physics = Physic::build(ship) ;
 
-        InternalMessage("Physic::Test::TestCollision::testBugLaser built ship") ;
+        InternalMessage("Physic","Physic::Test::TestCollision::testBugLaser built ship") ;
 
         CPPUNIT_ASSERT(system->getDescendants<Model::Collision>().size()==0) ;
 
         ship->call("fire") ;
 
-        InternalMessage("Physic::Test::TestCollision::testBugLaser fire") ;
+        InternalMessage("Physic","Physic::Test::TestCollision::testBugLaser fire") ;
 
         CPPUNIT_ASSERT(system->getDescendants<Model::LaserBeam>().size()==1) ;
         
@@ -202,12 +202,12 @@ namespace ProjetUnivers {
         Physic::close() ;
         Model::close() ;
         
-        InternalMessage("Physic::Test::TestCollision::testBugLaser leaving") ;
+        InternalMessage("Physic","Physic::Test::TestCollision::testBugLaser leaving") ;
       }
 
       void TestCollision::testLaserBeamSolidCollision()
       {
-        InternalMessage("Physic::Test::TestCollision::testLaserBeamSolidCollision Entering") ;
+        InternalMessage("Physic","Physic::Test::TestCollision::testLaserBeamSolidCollision Entering") ;
 
         /*!
           - build a solid object ship 
@@ -307,7 +307,7 @@ namespace ProjetUnivers {
 
       void TestCollision::testFire()
       {
-        InternalMessage("Physic::Test::TestCollision::testFire Entering") ;
+        InternalMessage("Physic","Physic::Test::TestCollision::testFire Entering") ;
 
         /*!
           - build two mesh ship 
@@ -348,11 +348,11 @@ namespace ProjetUnivers {
         Physic::init() ;
         Kernel::ControlerSet* physics = Physic::build(ship) ;
 
-        InternalMessage("Physic::Test::TestCollision::testFire built ship") ;
+        InternalMessage("Physic","Physic::Test::TestCollision::testFire built ship") ;
 
         ship->call("fire") ;
 
-        InternalMessage("Physic::Test::TestCollision::testFire fire") ;
+        InternalMessage("Physic","Physic::Test::TestCollision::testFire fire") ;
 
         CPPUNIT_ASSERT(system->getDescendants<Model::LaserBeam>().size()==1) ;
         
@@ -371,7 +371,7 @@ namespace ProjetUnivers {
         Physic::close() ;
         Model::close() ;
         
-        InternalMessage("Physic::Test::TestCollision::testFire leaving") ;
+        InternalMessage("Physic","Physic::Test::TestCollision::testFire leaving") ;
       }
 
       void TestCollision::setUp() 

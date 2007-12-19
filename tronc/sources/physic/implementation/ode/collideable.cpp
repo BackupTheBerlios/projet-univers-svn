@@ -33,7 +33,7 @@ namespace ProjetUnivers {
           
         void Collideable::onInitCollideable()
         {
-          InternalMessage("Physic::Implementation::Ode::Collideable::onInitCollideable entering "
+          InternalMessage("Physic","Physic::Implementation::Ode::Collideable::onInitCollideable entering "
                           + getControler()->getObject()->getName()) ;
           
           /*
@@ -46,36 +46,36 @@ namespace ProjetUnivers {
           if (body)
           {
             
-            InternalMessage("Physic::Implementation::Ode::Collideable::onInit init physical object") ;
+            InternalMessage("Physic","Physic::Implementation::Ode::Collideable::onInit init physical object") ;
             body->_init() ;
             PhysicalWorld* world = getPhysicalWorld(body) ;
             
             if (world)
             {
 
-              InternalMessage("Physic::Implementation::Ode::Collideable::onInit creating geometry") ;
+              InternalMessage("Physic","Physic::Implementation::Ode::Collideable::onInit creating geometry") ;
               dSpaceID space_id = body->getCollisionSpace()->id() ; 
               createGeometry(space_id) ;
               if (m_geometry_id)
               {
-                InternalMessage("Physic::Implementation::Ode::Collideable::onInit trace#1") ;
+                InternalMessage("Physic","Physic::Implementation::Ode::Collideable::onInit trace#1") ;
                 
                 dGeomSetBody(m_geometry_id,body->getBody()->id()) ;
                                 
                 // user data of the geom is the controler.
                 dGeomSetData(m_geometry_id,this) ;
 
-                InternalMessage("Physic::Implementation::Ode::Collideable::onInit trace#1") ;
+                InternalMessage("Physic","Physic::Implementation::Ode::Collideable::onInit trace#1") ;
 
               }
             }
           }
-          InternalMessage("Collideable::onInit leaving") ;
+          InternalMessage("Physic","Collideable::onInit leaving") ;
         }
         
         void Collideable::onCloseCollideable()
         {
-          InternalMessage("Physic::Ode::Collideable::onCloseCollideable entering") ;
+          InternalMessage("Physic","Physic::Ode::Collideable::onCloseCollideable entering") ;
 
           if (m_geometry_id)
           {
@@ -88,7 +88,7 @@ namespace ProjetUnivers {
             m_geometry_placeable = 0 ;
           }
 
-          InternalMessage("Physic::Ode::Collideable::onCloseCollideable leaving") ;
+          InternalMessage("Physic","Physic::Ode::Collideable::onCloseCollideable leaving") ;
         }
 
         Collideable::~Collideable()

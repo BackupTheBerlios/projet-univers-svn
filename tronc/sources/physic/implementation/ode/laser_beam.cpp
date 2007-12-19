@@ -38,7 +38,7 @@ namespace ProjetUnivers {
                              PhysicSystem* i_physic)
         : Kernel::Controler<Model::LaserBeam,PhysicSystem>(i_object,i_physic)
         {
-          InternalMessage("Physic::Implementation::Ode::LaserBeam built") ;
+          InternalMessage("Physic","Physic::Implementation::Ode::LaserBeam built") ;
         }
 
         /*
@@ -46,7 +46,7 @@ namespace ProjetUnivers {
         */
         void LaserBeam::onInit()
         {
-          InternalMessage("ODE::LaserBeam::onInit") ;
+          InternalMessage("Physic","ODE::LaserBeam::onInit") ;
           onInitCollideable() ;
         }
 

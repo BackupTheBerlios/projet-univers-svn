@@ -22,6 +22,8 @@
 #define PU_KERNEL_PARAMETERS_H_
 
 #include <map>
+#include <string>
+#include <set>
 #include <boost/variant.hpp>
 
 namespace ProjetUnivers {
@@ -32,7 +34,13 @@ namespace ProjetUnivers {
     {
     public:
       
+      /// Empty the parameters. 
+      static void reset() ;
+      
       /// Load new parameters.
+      /*!
+        Add parameters to already loaded parameters.
+      */
       static void load(const std::string& file_path) ;
 
       /// Access to a value of type T.
@@ -40,6 +48,12 @@ namespace ProjetUnivers {
       static T getValue(const std::string& section,
                         const std::string& name) ;
       
+      /// Access to the modules where log is activated.
+      /*!
+        To activate a log : 
+          add log=true in the module section of the parameter file.
+      */
+      static std::set<std::string> getActivatedLogs() ;
 
     private:
       

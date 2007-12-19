@@ -67,7 +67,7 @@ namespace ProjetUnivers {
     
     void close()
     {
-      InternalMessage("Physic::close entering") ;
+      InternalMessage("Physic","Physic::close entering") ;
       if (m_system.get())
       {
         m_system->close() ;
@@ -78,7 +78,7 @@ namespace ProjetUnivers {
       initialised = false ;
       
       m_system.reset(NULL) ;
-      InternalMessage("Physic::close leaving") ;
+      InternalMessage("Physic","Physic::close leaving") ;
     }
 
     Kernel::ControlerSet* build(Kernel::Object* i_observer)

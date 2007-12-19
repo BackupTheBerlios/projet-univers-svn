@@ -53,7 +53,7 @@ namespace ProjetUnivers {
           if (m_object)
           {
             Ogre::Vector3 torque(getModel()->NewtonMeter()) ;
-            InternalMessage("Physic::TorqueGenerator::prepare " +
+            InternalMessage("Physic","Physic::TorqueGenerator::prepare " +
                             getObject()->getName() + " torque = " +  
                                           Kernel::toString(torque.x) + "," + 
                                           Kernel::toString(torque.y) + "," +
@@ -90,7 +90,7 @@ namespace ProjetUnivers {
 
           if (physical_object)
           {
-//            InformationMessage(getObject()->getName() +  " has physical object : " 
+//            InformationMessage("Physic",getObject()->getName() +  " has physical object : " 
 //                               + physical_object->getObject()->getName()) ; 
             
             return physical_object->getControler<PhysicalObject>(getControlerSet()) ;

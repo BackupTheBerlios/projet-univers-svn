@@ -36,20 +36,20 @@ namespace ProjetUnivers {
         : Kernel::TraitView<Model::Menu,RealWorldViewPoint>(object,viewpoint), 
           m_window(NULL)
         {
-          InternalMessage("Building Ogre::Menu::Menu") ;
+          InternalMessage("Display","Building Ogre::Menu::Menu") ;
         }
 
         void Menu::onInit()
         {
-          InternalMessage("Building Ogre::Menu::onInit entering") ;
+          InternalMessage("Display","Building Ogre::Menu::onInit entering") ;
           
           m_window = CEGUI::WindowManager::getSingleton().loadWindowLayout(
             getModel()->getFileName()) ;
           
-          InternalMessage("Building Ogre::Menu::onInit #1") ;
+          InternalMessage("Display","Building Ogre::Menu::onInit #1") ;
 
           CEGUI::System::getSingleton().setGUISheet(m_window) ;
-          InternalMessage("Building Ogre::Menu::onInit leaving") ;
+          InternalMessage("Display","Building Ogre::Menu::onInit leaving") ;
         }
         
         void Menu::onClose()

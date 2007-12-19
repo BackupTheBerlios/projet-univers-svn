@@ -38,7 +38,7 @@ namespace ProjetUnivers {
         
         void OggReader::onInit(const int& posInFile, const int& posInBuffer)
         {
-          InternalMessage("enter oggreader Init") ;  
+          InternalMessage("Sound","enter oggreader Init") ;  
           // Open File
           m_file = fopen(m_fileName.c_str(), "rb");
           if (!m_file)
@@ -80,10 +80,10 @@ namespace ProjetUnivers {
           alSourceQueueBuffers(m_source, 2, m_buffers);
           if (alGetError() != AL_NO_ERROR)
           {
-            InformationMessage("[OpenAL::OggReader] Impossible to queue the buffers");
+            InformationMessage("Sound","[OpenAL::OggReader] Impossible to queue the buffers");
           }
           
-          InternalMessage("leave oggreader Init") ;  
+          InternalMessage("Sound","leave oggreader Init") ;  
         }
           
         void OggReader::onClose()

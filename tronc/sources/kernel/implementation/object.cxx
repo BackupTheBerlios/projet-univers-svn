@@ -24,7 +24,7 @@ namespace ProjetUnivers {
     template <class _View> _View* Object::getView(ViewPoint* i_viewpoint)
     {
       CHECK(i_viewpoint,ExceptionKernel("Object::getView error")) ;
-      InternalMessage(
+      InternalMessage("Kernel",
         "Object::getView for " + getObjectTypeIdentifier(i_viewpoint).toString()) ;
       
       TypeIdentifier trait_type = 
@@ -34,7 +34,7 @@ namespace ProjetUnivers {
       
       if (trait_type != VoidTypeIdentifier)
       {
-        InternalMessage("Object::getView found trait name " + trait_type.toString()) ;
+        InternalMessage("Kernel","Object::getView found trait name " + trait_type.toString()) ;
         
         Trait* trait = _get(trait_type) ;
         
@@ -44,32 +44,32 @@ namespace ProjetUnivers {
         }
       }
       
-      InternalMessage("Object::getView return NULL") ;
+      InternalMessage("Kernel","Object::getView return NULL") ;
       return NULL ;
     }
 
     template <class T> T* Object::getTrait() 
     {
 
-      InternalMessage("Object::getTrait()") ;
+      InternalMessage("Kernel","Object::getTrait()") ;
 
       /// T doit être une sous classe de Trait
       Kernel::Inherits<T,Trait>() ;
 
-      InternalMessage("Asking trait " + getClassTypeIdentifier(T).toString()) ;
+      InternalMessage("Kernel","Asking trait " + getClassTypeIdentifier(T).toString()) ;
       
       Trait* trait = _get(getClassTypeIdentifier(T)) ;
       
       /// if trait exist convert :
       if (trait)
       {
-        InternalMessage("Trait found") ;
+        InternalMessage("Kernel","Trait found") ;
         
         return static_cast<T*>(trait) ;
       }
       else
       {
-        InternalMessage("Trait not found") ;
+        InternalMessage("Kernel","Trait not found") ;
         return NULL ;
       }
     }
@@ -137,7 +137,7 @@ namespace ProjetUnivers {
 
     template <class T> T* Object::getRoot() const
     {
-      InternalMessage("Object::getRoot()") ;
+      InternalMessage("Kernel","Object::getRoot()") ;
 
       // T must be a subclass of Trait
       Kernel::Inherits<T,Trait>() ;
@@ -147,7 +147,7 @@ namespace ProjetUnivers {
       
       while(highest_trait_found && iterator)
       {
-        InternalMessage(
+        InternalMessage("Kernel",
           (std::string("highest_trait_found=") 
            + toString((int)highest_trait_found)
            + std::string(" iterator=")

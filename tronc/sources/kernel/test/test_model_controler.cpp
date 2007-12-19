@@ -483,7 +483,7 @@ namespace ProjetUnivers {
 
       void TestModelControler::testBuildOnEmptyModel()
       {
-        InternalMessage("Kernel::Test::TestModelControler::testBuildOnEmptyModel entering") ;
+        InternalMessage("Kernel","Kernel::Test::TestModelControler::testBuildOnEmptyModel entering") ;
 
         std::auto_ptr<Model> model(new Model()) ;
         std::auto_ptr<TestControlerSet> controler(new TestControlerSet(model.get())) ;
@@ -511,14 +511,14 @@ namespace ProjetUnivers {
         CPPUNIT_ASSERT(headcontroler) ;
         CPPUNIT_ASSERT(headcontroler->init_number == 1) ;
         
-        InformationMessage("sizeof(Object)=" + toString(sizeof(*person))) ;
+        InformationMessage("Kernel","sizeof(Object)=" + toString(sizeof(*person))) ;
 
-        InternalMessage("Kernel::Test::TestModelControler::testBuildOnEmptyModel leaving") ;
+        InternalMessage("Kernel","Kernel::Test::TestModelControler::testBuildOnEmptyModel leaving") ;
       }
       
       void TestModelControler::testBuildOnNonEmptyModel()
       {
-        InternalMessage("Kernel::Test::TestModelControler::testBuildOnNonEmptyModel entering") ;
+        InternalMessage("Kernel","Kernel::Test::TestModelControler::testBuildOnNonEmptyModel entering") ;
         /// create a model
         std::auto_ptr<Model> model(new Model()) ;
 
@@ -547,12 +547,12 @@ namespace ProjetUnivers {
           = headtrait->getControler<ControlerHead>(controler.get()) ;
         CPPUNIT_ASSERT(headcontroler) ;
         CPPUNIT_ASSERT(headcontroler->init_number == 1) ;
-        InternalMessage("Kernel::Test::TestModelControler::testBuildOnNonEmptyModel leaving") ;
+        InternalMessage("Kernel","Kernel::Test::TestModelControler::testBuildOnNonEmptyModel leaving") ;
       }
       
       void TestModelControler::testDestroyRootObject() 
       {
-        InternalMessage("Kernel::Test::TestModelControler::testDestroyRootObject entering") ;
+        InternalMessage("Kernel","Kernel::Test::TestModelControler::testDestroyRootObject entering") ;
         /// create a model
         std::auto_ptr<Model> model(new Model()) ;
 
@@ -571,12 +571,12 @@ namespace ProjetUnivers {
         model->destroyObject(person) ;
         CPPUNIT_ASSERT(ControlerPerson::number_of_instance == 0) ;
         CPPUNIT_ASSERT(ControlerHead::number_of_instance == 0) ;
-        InternalMessage("Kernel::Test::TestModelControler::testDestroyRootObject leaving") ;
+        InternalMessage("Kernel","Kernel::Test::TestModelControler::testDestroyRootObject leaving") ;
       }
       
       void TestModelControler::testDestroySubObject()
       {
-        InternalMessage("Kernel::Test::TestModelControler::testDestroySubObject entering") ;
+        InternalMessage("Kernel","Kernel::Test::TestModelControler::testDestroySubObject entering") ;
         /// create a model
         std::auto_ptr<Model> model(new Model()) ;
 
@@ -595,12 +595,12 @@ namespace ProjetUnivers {
         model->destroyObject(head) ;
         CPPUNIT_ASSERT(ControlerPerson::number_of_instance == 1) ;
         CPPUNIT_ASSERT(ControlerHead::number_of_instance == 0) ;
-        InternalMessage("Kernel::Test::TestModelControler::testDestroySubObject leaving") ;
+        InternalMessage("Kernel","Kernel::Test::TestModelControler::testDestroySubObject leaving") ;
       }
       
       void TestModelControler::testDestroyTrait()
       {
-        InternalMessage("Kernel::Test::TestModelControler::testDestroyTrait entering") ;
+        InternalMessage("Kernel","Kernel::Test::TestModelControler::testDestroyTrait entering") ;
         /// create a model
         std::auto_ptr<Model> model(new Model()) ;
 
@@ -622,7 +622,7 @@ namespace ProjetUnivers {
         model->destroyTrait(person,persontrait) ;
         CPPUNIT_ASSERT(ControlerPerson::number_of_instance == 0) ;
         CPPUNIT_ASSERT(ControlerHead::number_of_instance == 1) ;
-        InternalMessage("Kernel::Test::TestModelControler::testDestroyTrait leaving") ;
+        InternalMessage("Kernel","Kernel::Test::TestModelControler::testDestroyTrait leaving") ;
       }
       
       void TestModelControler::testCloseControlerSet()
@@ -690,14 +690,14 @@ namespace ProjetUnivers {
         /// init the controler set
         controler->init() ;
 
-        InternalMessage("Kernel::Test::TestModelControler::testDestroyModel destroying model...") ;
+        InternalMessage("Kernel","Kernel::Test::TestModelControler::testDestroyModel destroying model...") ;
 
         model.reset(NULL) ;
       }
 
       void TestModelControler::testSimulateAll()
       {
-        InternalMessage("Kernel::Test::TestModelControler::testSimulateAll entering") ;
+        InternalMessage("Kernel","Kernel::Test::TestModelControler::testSimulateAll entering") ;
         /// create a model
         std::auto_ptr<Model> model(new Model()) ;
 
@@ -836,7 +836,7 @@ namespace ProjetUnivers {
 
       void TestModelControler::testBaseTraitControler()
       {
-        InternalMessage("Kernel::Test::TestModelControler::testBaseTraitControler entering") ;
+        InternalMessage("Kernel","Kernel::Test::TestModelControler::testBaseTraitControler entering") ;
         /// create a model
         std::auto_ptr<Model> model(new Model()) ;
 
@@ -853,7 +853,7 @@ namespace ProjetUnivers {
         
         CPPUNIT_ASSERT(ControlerBase::number_of_instance == 2) ;
         
-        InternalMessage("Kernel::Test::TestModelControler::testBaseTraitControler leaving") ;
+        InternalMessage("Kernel","Kernel::Test::TestModelControler::testBaseTraitControler leaving") ;
       }
       
       void TestModelControler::setUp()

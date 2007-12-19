@@ -138,24 +138,24 @@ namespace ProjetUnivers {
         }
         else
         {
-          InternalMessage("Action object already exists") ;
+          InternalMessage("Action","Action object already exists") ;
         }
       }
       else if (_action.name == "destroyObject")
       {
-        InternalMessage("preparing to destroy object") ;
+        InternalMessage("Action","preparing to destroy object") ;
         Model::destroyObject("Asteroid") ;
       }
       else if (_action.name == "moveObject")
       {
-        InternalMessage("preparing to move object") ;
+        InternalMessage("Action","preparing to move object") ;
         Kernel::Object* object = Model::getObject("Vaisseau#3") ;
         if (object)
         {
           Model::Mobile* mobile = object->getTrait<Model::Mobile>() ;
           if (mobile)
           {
-            InternalMessage("moving object") ;
+            InternalMessage("Action","moving object") ;
             Ogre::Vector3 angular_speed = mobile->getAngularSpeed().TurnPerSecond() ;
             angular_speed[1] += 1 ;
             mobile->setAngularSpeed(Model::AngularSpeed::TurnPerSecond(

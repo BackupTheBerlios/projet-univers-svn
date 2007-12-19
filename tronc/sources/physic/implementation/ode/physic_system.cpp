@@ -40,7 +40,7 @@ namespace ProjetUnivers {
         void PhysicSystem::simulate(const float& i_seconds)
         {
           
-          InternalMessage("Ode::PhysicSystem::simulate preparation") ;
+          InternalMessage("Physic","Ode::PhysicSystem::simulate preparation") ;
 
           /// 1. apply all force/torque on objects
           applyTopDown(&Kernel::BaseControler::prepare) ;
@@ -51,7 +51,7 @@ namespace ProjetUnivers {
                            float> f 
                               = &Kernel::BaseControler::simulate ;
 
-          InternalMessage("Ode::PhysicSystem::simulate simulation") ;
+          InternalMessage("Physic","Ode::PhysicSystem::simulate simulation") ;
           
           applyTopDown(std::bind2nd(f,i_seconds)) ;
           

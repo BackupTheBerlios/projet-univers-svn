@@ -62,7 +62,7 @@ namespace ProjetUnivers {
 
       void TestDragger::basicTest()
       {
-        InternalMessage("Physic::Test::TestDragger::basicTest Entering") ;
+        InternalMessage("Physic","Physic::Test::TestDragger::basicTest Entering") ;
         /// we construct a complete system
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestDragger::basicTest")) ;
         
@@ -113,7 +113,7 @@ namespace ProjetUnivers {
 
         Physic::close() ;
 
-        InternalMessage("Physic::Test::TestDragger::basicTest leaving") ;
+        InternalMessage("Physic","Physic::Test::TestDragger::basicTest leaving") ;
         
       }
 

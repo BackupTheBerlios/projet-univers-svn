@@ -52,7 +52,7 @@ namespace ProjetUnivers {
 
       void TestEngineControl::basicTest()
       {
-        InternalMessage("Model::TestEngineControl::basicTest entering") ;
+        InternalMessage("Model","Model::TestEngineControl::basicTest entering") ;
         /// we construct a complete system
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestEngineControl::basicTest")) ;
         

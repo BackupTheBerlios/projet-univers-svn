@@ -77,7 +77,7 @@ namespace ProjetUnivers {
       std::vector<unsigned long>&    o_indices,
       const Ogre::Vector3&           i_scale) const
     {
-      InternalMessage("Model::Mesh::getMeshInformation entering") ;
+      InternalMessage("Model","Model::Mesh::getMeshInformation entering") ;
 
       bool added_shared = false;
       size_t current_offset = 0;
@@ -93,13 +93,13 @@ namespace ProjetUnivers {
       
       if (! manager)
       {
-        InternalMessage("Model::Mesh::getMeshInformation no manager") ;
+        InternalMessage("Model","Model::Mesh::getMeshInformation no manager") ;
         o_vertices.clear() ;
         o_indices.clear() ;
         return ;
       }
       
-      InternalMessage("Model::Mesh::getMeshInformation manager found") ;
+      InternalMessage("Model","Model::Mesh::getMeshInformation manager found") ;
       // Load the mesh
       Ogre::Mesh* mesh = NULL ;
       try
@@ -107,18 +107,18 @@ namespace ProjetUnivers {
         
         MeshPtr local_mesh =
         manager->load(m_name,Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME) ; 
-       InternalMessage("Model::Mesh::getMeshInformation loaded") ;
+       InternalMessage("Model","Model::Mesh::getMeshInformation loaded") ;
         
         mesh = local_mesh.get() ; 
       }
       catch(Ogre::Exception& e)
       {
-        InternalMessage("Model::Mesh::getMeshInformation exception " + std::string(e.getDescription())) ;
+        InternalMessage("Model","Model::Mesh::getMeshInformation exception " + std::string(e.getDescription())) ;
       }
       
       if (!mesh)
       {
-        InternalMessage("Model::Mesh::getMeshInformation no mesh") ;
+        InternalMessage("Model","Model::Mesh::getMeshInformation no mesh") ;
         o_vertices.clear() ;
         o_indices.clear() ;
         return ;
@@ -126,7 +126,7 @@ namespace ProjetUnivers {
       
       vertex_count = index_count = 0;
 
-      InternalMessage("Model::Mesh::getMeshInformation calculating vertice count...") ;
+      InternalMessage("Model","Model::Mesh::getMeshInformation calculating vertice count...") ;
     
       // Calculate how many vertices and indices we're going to need
       for ( unsigned short i = 0; i < mesh->getNumSubMeshes(); ++i)
@@ -151,7 +151,7 @@ namespace ProjetUnivers {
         index_count += submesh->indexData->indexCount;
       }
     
-      InternalMessage("Model::Mesh::getMeshInformation " 
+      InternalMessage("Model","Model::Mesh::getMeshInformation " 
                       + Kernel::toString(vertex_count) +" vertices "
                       + Kernel::toString(index_count) +" indexes" ) ;
                       
@@ -161,7 +161,7 @@ namespace ProjetUnivers {
     
       added_shared = false;
 
-      InternalMessage("Model::Mesh::getMeshInformation adding vertices...") ;
+      InternalMessage("Model","Model::Mesh::getMeshInformation adding vertices...") ;
     
       // Run through the submeshes again, adding the data into the arrays
       for (unsigned short i = 0 ;i < mesh->getNumSubMeshes() ;++i)
@@ -205,10 +205,10 @@ namespace ProjetUnivers {
           vbuf->unlock();
           next_offset += vertex_data->vertexCount;
         }
-        InternalMessage("Model::Mesh::getMeshInformation added " 
+        InternalMessage("Model","Model::Mesh::getMeshInformation added " 
                         + Kernel::toString(o_vertices.size()) + " vertices") ;
     
-        InternalMessage("Model::Mesh::getMeshInformation adding indexes...") ;
+        InternalMessage("Model","Model::Mesh::getMeshInformation adding indexes...") ;
     
         Ogre::IndexData* index_data = submesh->indexData;
         size_t numTris = index_data->indexCount / 3;
@@ -227,7 +227,7 @@ namespace ProjetUnivers {
           for ( size_t k = 0; k < numTris*3; ++k)
           {
             o_indices.push_back(pLong[k] + static_cast<unsigned long>(offset)) ;
-            InternalMessage("Model::Mesh::getMeshInformation adding one index") ;
+            InternalMessage("Model","Model::Mesh::getMeshInformation adding one index") ;
           }
         }
         else
@@ -243,7 +243,7 @@ namespace ProjetUnivers {
         current_offset = next_offset;
       }
 
-      InternalMessage("Model::Mesh::getMeshInformation leaving") ;
+      InternalMessage("Model","Model::Mesh::getMeshInformation leaving") ;
 
     }
     

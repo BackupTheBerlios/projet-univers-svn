@@ -40,7 +40,7 @@ namespace ProjetUnivers {
         : Kernel::TraitView<Model::SoundEnvironnement,RealWorldViewPoint>(i_observer,i_viewpoint),
           m_auxEffectSlot(0), m_effect(0)
         {
-          InformationMessage("Building OpenAL::SoundEnvironnementView") ;
+          InformationMessage("Sound","Building OpenAL::SoundEnvironnementView") ;
         }
         
         ALuint SoundEnvironnementView::getAuxEffectSlot()
@@ -50,13 +50,13 @@ namespace ProjetUnivers {
         
         void SoundEnvironnementView::onInit()
         {
-          InformationMessage("OpenAL::SoundEnvironnementView::init enter") ;
+          InformationMessage("Sound","OpenAL::SoundEnvironnementView::init enter") ;
           alGenAuxiliaryEffectSlots(1, &m_auxEffectSlot) ;
-          InformationMessage("OpenAL::SoundEmitter::gen slot: " + getErrorString(alGetError())) ; 
+          InformationMessage("Sound","OpenAL::SoundEmitter::gen slot: " + getErrorString(alGetError())) ; 
           alGenEffects(1, &m_effect) ;
           update();
-          InformationMessage("OpenAL::SoundEnvironnementView::init leaving with status: " + getErrorString(alGetError())) ;
-          InformationMessage("OpenAL::SoundEnvironnementView::init leaving") ;
+          InformationMessage("Sound","OpenAL::SoundEnvironnementView::init leaving with status: " + getErrorString(alGetError())) ;
+          InformationMessage("Sound","OpenAL::SoundEnvironnementView::init leaving") ;
         }
 
 

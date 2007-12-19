@@ -38,7 +38,7 @@ namespace ProjetUnivers {
         : Kernel::TraitView<OpenAL::EngineSound,OpenAL::RealWorldViewPoint>(i_observer,i_viewpoint),
         SoundEmitter()
         {
-          InternalMessage("Building OpenAL::EngineSound") ;
+          InternalMessage("Sound","Building OpenAL::EngineSound") ;
         }
                     
         std::string EngineSoundView::getSoundFileName() const
@@ -88,7 +88,7 @@ namespace ProjetUnivers {
         
         void EngineSoundView::onChangeParent(Kernel::Object* i_old_parent)
         {
-          InformationMessage("call onChangeParent") ;
+          InformationMessage("Sound","call onChangeParent") ;
           this->changeParentSource() ;
         }
       

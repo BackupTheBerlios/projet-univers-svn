@@ -39,28 +39,28 @@ namespace ProjetUnivers {
                             LogicSystem>(i_object,i_system),
           m_seconds_remaining(laser_duration)
         {
-          InternalMessage("Logic::LaserBeam controler built") ;
+          InternalMessage("Model","Logic::LaserBeam controler built") ;
         }
         
         void LaserBeam::simulate(const float& i_seconds)
         {
           // remove some mass percentage to massive trait
           // if reaches zero or negative : destroy the object (maybe in destructible controler instead?)
-          InternalMessage("Logic::LaserBeam::simulate entering") ;
+          InternalMessage("Model","Logic::LaserBeam::simulate entering") ;
           
           m_seconds_remaining -= i_seconds ;
   
-          InternalMessage("Logic::LaserBeam::simulate remaining : " + Kernel::toString(m_seconds_remaining)) ;
+          InternalMessage("Model","Logic::LaserBeam::simulate remaining : " + Kernel::toString(m_seconds_remaining)) ;
           
           if (m_seconds_remaining < 0)
           {
-            InternalMessage("Logic::LaserBeam::simulate destroying object") ;
+            InternalMessage("Model","Logic::LaserBeam::simulate destroying object") ;
   
             // mark the object for destruction
             getControlerSet()->addObjectToDestroy(getModel()->getObject()) ;
           }
   
-          InternalMessage("Logic::LaserBeam::simulate leaving") ;
+          InternalMessage("Model","Logic::LaserBeam::simulate leaving") ;
           
         }
       }      

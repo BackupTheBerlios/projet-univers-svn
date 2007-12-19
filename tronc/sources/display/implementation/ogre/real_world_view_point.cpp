@@ -41,8 +41,8 @@ namespace ProjetUnivers {
           m_manager(NULL),
           m_observer(i_observer)
         {
-          InternalMessage("Entering Ogre::RealWorldViewPoint::RealWorldViewPoint(const Kernel::Association<Model::Object>&)") ;
-          InternalMessage("Leaving Ogre::RealWorldViewPoint::RealWorldViewPoint(const Kernel::Association<Model::Object>&)") ;
+          InternalMessage("Display","Entering Ogre::RealWorldViewPoint::RealWorldViewPoint(const Kernel::Association<Model::Object>&)") ;
+          InternalMessage("Display","Leaving Ogre::RealWorldViewPoint::RealWorldViewPoint(const Kernel::Association<Model::Object>&)") ;
         }
         
         
@@ -69,7 +69,7 @@ namespace ProjetUnivers {
           
         void RealWorldViewPoint::onInit()
         {
-          InternalMessage("RealWorldViewPoint::onInit Entering") ;
+          InternalMessage("Display","RealWorldViewPoint::onInit Entering") ;
           CHECK(getRoot(),"RealWorldViewPoint::onInit no root") ;
 
           m_manager = getRoot()->createSceneManager(::Ogre::ST_GENERIC) ;
@@ -81,18 +81,18 @@ namespace ProjetUnivers {
           
           getCEGUIRenderer()->setTargetSceneManager(m_manager) ;
   
-          InternalMessage("RealWorldViewPoint::onInit Leaving") ;
+          InternalMessage("Display","RealWorldViewPoint::onInit Leaving") ;
         }
                 
         void RealWorldViewPoint::onClose()
         {
-          InternalMessage("RealWorldViewPoint::onClose Entering") ;
+          InternalMessage("Display","RealWorldViewPoint::onClose Entering") ;
           /// Supprimme tous les éléments de la scène
           if (m_manager)
           {
             m_manager->clearScene() ;
           }
-          InternalMessage("RealWorldViewPoint::onClose Leaving") ;
+          InternalMessage("Display","RealWorldViewPoint::onClose Leaving") ;
         }
 
         void RealWorldViewPoint::onChangeObserver(Kernel::Object* _observer)
@@ -107,12 +107,12 @@ namespace ProjetUnivers {
 
         void RealWorldViewPoint::activate() 
         {
-          InternalMessage("Ogre::RealWorldViewPoint::activate Entering") ;
+          InternalMessage("Display","Ogre::RealWorldViewPoint::activate Entering") ;
           Observer* observer_view = m_observer->getView<Observer>(this) ;
           CHECK(observer_view,"RealWorldViewPoint::activate no obeserve view") ;
           CHECK(observer_view->getCamera(),"RealWorldViewPoint::activate no camera") ;
           getWindow()->addViewport(observer_view->getCamera()) ;
-          InternalMessage("Ogre::RealWorldViewPoint::activate Leaving") ;
+          InternalMessage("Display","Ogre::RealWorldViewPoint::activate Leaving") ;
         }
 
         void RealWorldViewPoint::desactivate()

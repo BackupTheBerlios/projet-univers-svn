@@ -39,7 +39,7 @@ namespace ProjetUnivers {
       
       void DetectorObjectView::check()
       {
-        InternalMessage("Model::DetectorObjectView::check entering") ;
+        InternalMessage("Model","Model::DetectorObjectView::check entering") ;
         
         Detector* detector = getViewPoint()->getObserver() ;
         if (!detector)
@@ -61,7 +61,7 @@ namespace ProjetUnivers {
         }
         else if (in_range)
         {
-          InternalMessage("Model::DetectorObjectView::check in range") ;
+          InternalMessage("Model","Model::DetectorObjectView::check in range") ;
 
           if (! m_detection_information)
           {
@@ -80,7 +80,7 @@ namespace ProjetUnivers {
           m_detection_information->getTrait<Positionned>()->setPosition(position) ;
         }
         
-        InternalMessage("Model::DetectorObjectView::check leaving") ;
+        InternalMessage("Model","Model::DetectorObjectView::check leaving") ;
       }
 
       void DetectorObjectView::onClose()

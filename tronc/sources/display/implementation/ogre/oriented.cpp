@@ -42,8 +42,8 @@ namespace ProjetUnivers {
         : Kernel::TraitView<Model::Oriented,RealWorldViewPoint>(i_object,i_viewpoint), 
           m_node(NULL)
         {
-          InternalMessage("Entering Ogre::Positionned::Positionned") ;
-          InternalMessage("Leaving Ogre::Positionned::Positionned") ;
+          InternalMessage("Display","Entering Ogre::Positionned::Positionned") ;
+          InternalMessage("Display","Leaving Ogre::Positionned::Positionned") ;
         }
       
         /*!
@@ -52,7 +52,7 @@ namespace ProjetUnivers {
         */
         void Oriented::onInit()
         {
-          InternalMessage("Entering Positionned::init") ;
+          InternalMessage("Display","Entering Positionned::init") ;
           
           Model::Positionned* model_positionned 
             = getObject()->getTrait<Model::Positionned>() ;
@@ -70,20 +70,20 @@ namespace ProjetUnivers {
               
               m_node = positionned->getNode() ;
   
-              InternalMessage(
+              InternalMessage("Display",
                 "intitalising scene node " + m_node->getName() + 
                 " with orientation " + 
                 ::Ogre::StringConverter::toString(m_node->getOrientation())) ;
   
               m_node->setOrientation(getModel()->getOrientation().getQuaternion()) ;
   
-              InternalMessage(
+              InternalMessage("Display",
                 "modification of scene node " + m_node->getName() + 
                 " with orientation " + 
                 ::Ogre::StringConverter::toString(m_node->getOrientation())) ;
             }
           }
-          InternalMessage("Leaving Positionned::init") ;
+          InternalMessage("Display","Leaving Positionned::init") ;
 
         }
 
@@ -92,7 +92,7 @@ namespace ProjetUnivers {
         {
           m_node->setOrientation(getModel()->getOrientation().getQuaternion()) ;
 
-          InternalMessage(
+          InternalMessage("Display",
             "modification of scene node " + m_node->getName() + 
             " with orientation " + 
             ::Ogre::StringConverter::toString(m_node->getOrientation())

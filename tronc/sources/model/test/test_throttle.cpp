@@ -49,7 +49,7 @@ namespace ProjetUnivers {
 
       void TestThrottle::basicTest()
       {
-        InternalMessage("Model::TestThrottle::basicTest entering") ;
+        InternalMessage("Model","Model::TestThrottle::basicTest entering") ;
         /// we construct a complete system
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestThrottle::basicTest")) ;
 

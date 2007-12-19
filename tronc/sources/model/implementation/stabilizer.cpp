@@ -102,7 +102,7 @@ namespace ProjetUnivers {
         /// get the rotation against 
         const AngularSpeed& speed = mobile->getAngularSpeed() ;
         
-        InternalMessage("Model::Stabilizer::NewtonMeter angular speed="
+        InternalMessage("Model","Model::Stabilizer::NewtonMeter angular speed="
                         + Kernel::toString(speed.RadianPerSecond()[0]) + ","
                         + Kernel::toString(speed.RadianPerSecond()[1]) + ","
                         + Kernel::toString(speed.RadianPerSecond()[2])) ;
@@ -112,7 +112,7 @@ namespace ProjetUnivers {
           oriented->getOrientation(physical_object->getPhysicalWorld()).getQuaternion() ;
         
         
-        InternalMessage("Model::Stabilizer::NewtonMeter object orientation="
+        InternalMessage("Model","Model::Stabilizer::NewtonMeter object orientation="
                         + Kernel::toString(object_orientation.w) + ","
                         + Kernel::toString(object_orientation.x) + ","
                         + Kernel::toString(object_orientation.y) + ","
@@ -121,7 +121,7 @@ namespace ProjetUnivers {
         /// calculate 
         Ogre::Vector3 global_axis = object_orientation*m_axis ;
 
-        InternalMessage("Model::Stabilizer::NewtonMeter global_axis="
+        InternalMessage("Model","Model::Stabilizer::NewtonMeter global_axis="
                         + Kernel::toString(global_axis[0]) + ","
                         + Kernel::toString(global_axis[1]) + ","
                         + Kernel::toString(global_axis[2])) ;
@@ -142,14 +142,14 @@ namespace ProjetUnivers {
         }
           
 
-        InternalMessage("Model::Stabilizer::NewtonMeter force="
+        InternalMessage("Model","Model::Stabilizer::NewtonMeter force="
                         + Kernel::toString((float)force)) ;
         
         global_axis.normalise() ;
         
         global_axis *= -sign*std::max(std::max(force,-force),(force*force)) ;
 
-        InternalMessage("Model::Stabilizer::NewtonMeter result="
+        InternalMessage("Model","Model::Stabilizer::NewtonMeter result="
                         + Kernel::toString(global_axis[0]) + ","
                         + Kernel::toString(global_axis[1]) + ","
                         + Kernel::toString(global_axis[2])) ;

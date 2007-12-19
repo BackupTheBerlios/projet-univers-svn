@@ -35,14 +35,14 @@ namespace ProjetUnivers {
         : Kernel::Controler<Model::Destroyable,
                             LogicSystem>(i_object,i_system)
         {
-          InternalMessage("Logic::Destroyable controler built") ;
+          InternalMessage("Model","Logic::Destroyable controler built") ;
         }
       
         void Destroyable::simulate(const float& i_seconds)
         {
           if (getModel()->getLife() <= 0)
           {
-            InternalMessage("Logic::Destroyable destroying object") ;
+            InternalMessage("Model","Logic::Destroyable destroying object") ;
             getControlerSet()->addObjectToDestroy(getObject()) ;
           }
         }

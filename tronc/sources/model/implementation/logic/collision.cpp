@@ -41,12 +41,12 @@ namespace ProjetUnivers {
         : Kernel::Controler<Model::Collision,
                             LogicSystem>(i_object,i_system)
         {
-          InternalMessage("Collision controler built") ;
+          InternalMessage("Model","Collision controler built") ;
         }
         
         void Collision::simulate(const float& i_seconds)
         {
-          InternalMessage("Collision::simulate entering") ;
+          InternalMessage("Model","Collision::simulate entering") ;
           
           /*
             if one object is a laser beam
@@ -95,7 +95,7 @@ namespace ProjetUnivers {
           // mark the collision object for destruction
           getControlerSet()->addObjectToDestroy(getModel()->getObject()) ;
           
-          InternalMessage("Collision::simulate leaving") ;
+          InternalMessage("Model","Collision::simulate leaving") ;
         }
       }      
     }

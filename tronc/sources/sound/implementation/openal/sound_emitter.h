@@ -62,7 +62,7 @@ namespace ProjetUnivers {
           void updateSource() ;
           
           /// Update the source environnement
-          void SoundEmitter::changeParentSource() ;
+          void changeParentSource() ;
           
           /// Stop the source
           void stopSound() ;

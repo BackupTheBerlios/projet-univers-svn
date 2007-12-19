@@ -29,8 +29,8 @@ namespace ProjetUnivers {
         RealWorldViewPoint::RealWorldViewPoint(Kernel::Object* observer)
         : Kernel::ViewPoint(observer ? observer->getModel() : NULL)
         {
-           InternalMessage("Entering OpenAL::RealWorldViewPoint::RealWorldViewPoint(const Kernel::Association<Model::Object>&)") ;
-           InternalMessage("Leaving OpenAL::RealWorldViewPoint::RealWorldViewPoint(const Kernel::Association<Model::Object>&)") ;
+           InternalMessage("Sound","Entering OpenAL::RealWorldViewPoint::RealWorldViewPoint(const Kernel::Association<Model::Object>&)") ;
+           InternalMessage("Sound","Leaving OpenAL::RealWorldViewPoint::RealWorldViewPoint(const Kernel::Association<Model::Object>&)") ;
         }
           
       }

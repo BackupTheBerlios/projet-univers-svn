@@ -36,30 +36,36 @@ namespace ProjetUnivers {
     {
         
     /*!
-      @name Initialisation
+      @name Start/Close
     */ 
     // @{
     
-      /// Lance le traceur.
+      /// Init logging system.
       void init() ;
       
-      /// Ferme le traceur.
+      /// Close logging system.
       void close() ;
   
     // @}
     /*!
-      @name Utilisation
+      @name Logging
+      
+      Log message are sent to modules. 
+      Logging on a module is activated through parameter file. @see Parameters.
     */ 
     // @{
     
-      /// Trace un message d'erreur.
-      #define ErrorMessage(i_message) rError(std::string(i_message).c_str())
+      /// Send an error message.
+      #define ErrorMessage(message) \
+        rError(std::string(message).c_str())
       
-      /// Trace un message d'information.
-      #define InformationMessage(i_message) rLog(RLOG_CHANNEL("ProjetUnivers"), std::string(i_message).c_str())
+      /// Send an information message from @c module.
+      #define InformationMessage(module,message) \
+        rLog(RLOG_CHANNEL(module),std::string(message).c_str())
 
-      /// Trace un message interne.
-      #define InternalMessage(i_message) rDebug(std::string(i_message).c_str())    
+      /// Send an internal message from @c module.
+      #define InternalMessage(module,message) \
+        rLog(RLOG_CHANNEL(module),std::string(message).c_str())    
 
     // @}
 

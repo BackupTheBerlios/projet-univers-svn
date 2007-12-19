@@ -454,7 +454,7 @@ namespace ProjetUnivers {
 
       void TestModelView::testBuildOnEmptyModel()
       {
-        InternalMessage("Kernel::Test::testBuildOnEmptyModel entering") ;
+        InternalMessage("Kernel","Kernel::Test::testBuildOnEmptyModel entering") ;
         {
           std::auto_ptr<Model> model(new Model()) ;
           std::auto_ptr<TestViewPoint> viewpoint(new TestViewPoint(model.get())) ;
@@ -480,14 +480,14 @@ namespace ProjetUnivers {
           CPPUNIT_ASSERT(headview) ;
           CPPUNIT_ASSERT(headview->init_number == 1) ;
           
-          InformationMessage("sizeof(Object)=" + toString(sizeof(*person))) ;
+          InformationMessage("Kernel","sizeof(Object)=" + toString(sizeof(*person))) ;
         }
-        InternalMessage("Kernel::Test::testBuildOnEmptyModel leaving") ;
+        InternalMessage("Kernel","Kernel::Test::testBuildOnEmptyModel leaving") ;
       }
       
       void TestModelView::testBuildOnNonEmptyModel()
       {
-        InternalMessage("Kernel::Test::testBuildOnNonEmptyModel entering") ;
+        InternalMessage("Kernel","Kernel::Test::testBuildOnNonEmptyModel entering") ;
         /// create a model
         std::auto_ptr<Model> model(new Model()) ;
 
@@ -513,12 +513,12 @@ namespace ProjetUnivers {
         ViewHead* headview = head->getView<ViewHead>(viewpoint.get()) ;
         CPPUNIT_ASSERT(headview) ;
         CPPUNIT_ASSERT(headview->init_number == 1) ;
-        InternalMessage("Kernel::Test::testBuildOnNonEmptyModel leaving") ;
+        InternalMessage("Kernel","Kernel::Test::testBuildOnNonEmptyModel leaving") ;
       }
       
       void TestModelView::testDestroyRootObject() 
       {
-        InternalMessage("Kernel::Test::testDestroyRootObject entering") ;
+        InternalMessage("Kernel","Kernel::Test::testDestroyRootObject entering") ;
         /// create a model
         std::auto_ptr<Model> model(new Model()) ;
 
@@ -537,12 +537,12 @@ namespace ProjetUnivers {
         model->destroyObject(person) ;
         CPPUNIT_ASSERT(ViewPerson::number_of_instance == 0) ;
         CPPUNIT_ASSERT(ViewHead::number_of_instance == 0) ;
-        InternalMessage("Kernel::Test::testDestroyRootObject leaving") ;
+        InternalMessage("Kernel","Kernel::Test::testDestroyRootObject leaving") ;
       }
       
       void TestModelView::testDestroySubObject()
       {
-        InternalMessage("Kernel::Test::testDestroySubObject entering") ;
+        InternalMessage("Kernel","Kernel::Test::testDestroySubObject entering") ;
         /// create a model
         std::auto_ptr<Model> model(new Model()) ;
 
@@ -561,12 +561,12 @@ namespace ProjetUnivers {
         model->destroyObject(head) ;
         CPPUNIT_ASSERT(ViewPerson::number_of_instance == 1) ;
         CPPUNIT_ASSERT(ViewHead::number_of_instance == 0) ;
-        InternalMessage("Kernel::Test::testDestroySubObject leaving") ;
+        InternalMessage("Kernel","Kernel::Test::testDestroySubObject leaving") ;
       }
       
       void TestModelView::testDestroyTrait()
       {
-        InternalMessage("Kernel::Test::testDestroyTrait entering") ;
+        InternalMessage("Kernel","Kernel::Test::testDestroyTrait entering") ;
         /// create a model
         std::auto_ptr<Model> model(new Model()) ;
 
@@ -588,12 +588,12 @@ namespace ProjetUnivers {
         model->destroyTrait(person,persontrait) ;
         CPPUNIT_ASSERT(ViewPerson::number_of_instance == 0) ;
         CPPUNIT_ASSERT(ViewHead::number_of_instance == 1) ;
-        InternalMessage("Kernel::Test::testDestroyTrait leaving") ;
+        InternalMessage("Kernel","Kernel::Test::testDestroyTrait leaving") ;
       }
       
       void TestModelView::testchangeParent()
       {
-        InternalMessage("Kernel::Test::testchangeParent entering") ;
+        InternalMessage("Kernel","Kernel::Test::testchangeParent entering") ;
         /// create a model
         std::auto_ptr<Model> model(new Model()) ;
 
@@ -614,26 +614,26 @@ namespace ProjetUnivers {
         /// init the viewpoint
         viewpoint->init() ;
 
-        InternalMessage("Kernel::Test::testchangeParent viewpoint initialised") ;
+        InternalMessage("Kernel","Kernel::Test::testchangeParent viewpoint initialised") ;
 
         Head* headtrait = head->getTrait<Head>() ;
         CPPUNIT_ASSERT(headtrait) ;
         ViewHead* headview = headtrait->getView<ViewHead>(viewpoint.get()) ;
         CPPUNIT_ASSERT(headview) ;
         
-        InternalMessage("Kernel::Test::testchangeParent #1") ;
+        InternalMessage("Kernel","Kernel::Test::testchangeParent #1") ;
 
         Head* headtrait2 = head2->getTrait<Head>() ;
         CPPUNIT_ASSERT(headtrait2) ;
         ViewHead* headview2 = headtrait2->getView<ViewHead>(viewpoint.get()) ;
         CPPUNIT_ASSERT(headview2) ;
 
-        InternalMessage("Kernel::Test::testchangeParent #2") ;
+        InternalMessage("Kernel","Kernel::Test::testchangeParent #2") ;
         
         CPPUNIT_ASSERT(headview->getValue()== 0);
         CPPUNIT_ASSERT(headview2->getValue()== 0) ;
 
-        InternalMessage("Kernel::Test::testchangeParent #3") ;
+        InternalMessage("Kernel","Kernel::Test::testchangeParent #3") ;
         
         headtrait->change(1) ;
         headtrait2->change(2) ;
@@ -641,19 +641,19 @@ namespace ProjetUnivers {
         CPPUNIT_ASSERT(headview->getValue()== 1) ;
         CPPUNIT_ASSERT(headview2->getValue()== 2) ;
 
-        InternalMessage("Kernel::Test::testchangeParent swapping heads ...") ;
+        InternalMessage("Kernel","Kernel::Test::testchangeParent swapping heads ...") ;
         
         /// swap heads
         model->changeParent(head,person2) ;
         model->changeParent(head2,person) ;
         
         CPPUNIT_ASSERT(headview2->getModel()->getObject()->getParent() == person) ;
-        InternalMessage("Kernel::Test::testchangeParent leaving") ;
+        InternalMessage("Kernel","Kernel::Test::testchangeParent leaving") ;
       }
       
       void TestModelView::testUpdate()
       {
-        InternalMessage("Kernel::Test::testUpdate entering") ;
+        InternalMessage("Kernel","Kernel::Test::testUpdate entering") ;
         /// create a model
         std::auto_ptr<Model> model(new Model()) ;
 
@@ -679,13 +679,13 @@ namespace ProjetUnivers {
         persontrait->changeValue(10) ;
         
         CPPUNIT_ASSERT(personview->getValue()==10) ;
-        InternalMessage("Kernel::Test::testUpdate leaving") ;
+        InternalMessage("Kernel","Kernel::Test::testUpdate leaving") ;
                 
       }
 
       void TestModelView::testViewAccess()
       {
-        InternalMessage("Kernel::Test::testViewAccess entering") ;
+        InternalMessage("Kernel","Kernel::Test::testViewAccess entering") ;
         /// create a model
         std::auto_ptr<Model> model(new Model()) ;
 
@@ -703,13 +703,13 @@ namespace ProjetUnivers {
         CPPUNIT_ASSERT(personview) ;
         ViewHead*   headview   = personview->getView<ViewHead>() ;
         CPPUNIT_ASSERT(headview) ;
-        InternalMessage("Kernel::Test::testViewAccess leaving") ;
+        InternalMessage("Kernel","Kernel::Test::testViewAccess leaving") ;
                 
       }
 
       void TestModelView::testCreateTwice()
       {
-        InternalMessage("Kernel::Test::testCreateTwice entering") ;
+        InternalMessage("Kernel","Kernel::Test::testCreateTwice entering") ;
         /// create a model
         std::auto_ptr<Model> model(new Model()) ;
 
@@ -720,7 +720,7 @@ namespace ProjetUnivers {
         /// recreate
         person = model->createObject("person") ;
         CPPUNIT_ASSERT(person) ;
-        InternalMessage("Kernel::Test::testCreateTwice leaving") ;
+        InternalMessage("Kernel","Kernel::Test::testCreateTwice leaving") ;
       }
 
       void TestModelView::testDestroyUnexisting()
@@ -814,14 +814,14 @@ namespace ProjetUnivers {
         /// init the viewpoint
         viewpoint->init() ;
 
-        InternalMessage("Kernel::Test::testDestroyModel destroying model...") ;
+        InternalMessage("Kernel","Kernel::Test::testDestroyModel destroying model...") ;
 
         model.reset(NULL) ;
       }
 
       void TestModelView::testForAll()
       {
-        InternalMessage("Kernel::Test::testForAll entering") ;
+        InternalMessage("Kernel","Kernel::Test::testForAll entering") ;
         /// create a model
         std::auto_ptr<Model> model(new Model()) ;
 
@@ -956,7 +956,7 @@ namespace ProjetUnivers {
       
       void TestModelView::testTraitInheritance()
       {
-        InternalMessage("Kernel::Test::testTraitInheritance entering") ;
+        InternalMessage("Kernel","Kernel::Test::testTraitInheritance entering") ;
         /// create a model
         std::auto_ptr<Model> model(new Model()) ;
 
@@ -970,18 +970,18 @@ namespace ProjetUnivers {
         
         /// init the viewpoint
         viewpoint->init() ;
-        InternalMessage("Kernel::Test::testTraitInheritance viewpoint initialised") ;
+        InternalMessage("Kernel","Kernel::Test::testTraitInheritance viewpoint initialised") ;
         V1* v1 = o1->getView<V1>(viewpoint.get()) ;
-        InternalMessage("Kernel::Test::testTraitInheritance looked up view") ;
+        InternalMessage("Kernel","Kernel::Test::testTraitInheritance looked up view") ;
         CPPUNIT_ASSERT(v1) ;
-        InternalMessage("Kernel::Test::testTraitInheritance leaving") ;
+        InternalMessage("Kernel","Kernel::Test::testTraitInheritance leaving") ;
                 
         
       }
       
       void TestModelView::testTraitVitrualInheritance()
       {
-        InternalMessage("Kernel::Test::testTraitVitrualInheritance entering") ;
+        InternalMessage("Kernel","Kernel::Test::testTraitVitrualInheritance entering") ;
         /// create a model
         std::auto_ptr<Model> model(new Model()) ;
 
@@ -994,18 +994,18 @@ namespace ProjetUnivers {
         
         /// init the viewpoint
         viewpoint->init() ;
-        InternalMessage("Kernel::Test::testTraitVitrualInheritance viewpoint initialised") ;
+        InternalMessage("Kernel","Kernel::Test::testTraitVitrualInheritance viewpoint initialised") ;
         Vv1* v1 = o1->getView<Vv1>(viewpoint.get()) ;
-        InternalMessage("Kernel::Test::testTraitVitrualInheritance looked up view") ;
+        InternalMessage("Kernel","Kernel::Test::testTraitVitrualInheritance looked up view") ;
         CPPUNIT_ASSERT(v1) ;
         Vv2* v2 = o1->getView<Vv2>(viewpoint.get()) ;
-        InternalMessage("Kernel::Test::testTraitVitrualInheritance looked up view") ;
+        InternalMessage("Kernel","Kernel::Test::testTraitVitrualInheritance looked up view") ;
         CPPUNIT_ASSERT(v2) ;
         VvFinal* vFinal = o1->getView<VvFinal>(viewpoint.get()) ;
-        InternalMessage("Kernel::Test::testTraitVitrualInheritance looked up view") ;
+        InternalMessage("Kernel","Kernel::Test::testTraitVitrualInheritance looked up view") ;
         CPPUNIT_ASSERT(vFinal) ;
 
-        InternalMessage("Kernel::Test::testTraitVitrualInheritance leaving") ;
+        InternalMessage("Kernel","Kernel::Test::testTraitVitrualInheritance leaving") ;
         
       }
 
@@ -1082,7 +1082,7 @@ namespace ProjetUnivers {
 
       void TestModelView::testchangeParentIsAtomic()
       {
-        InternalMessage("Kernel::Test::testchangeParentIsAtomic entering") ;
+        InternalMessage("Kernel","Kernel::Test::testchangeParentIsAtomic entering") ;
         /// create a model
         std::auto_ptr<Model> model(new Model()) ;
         

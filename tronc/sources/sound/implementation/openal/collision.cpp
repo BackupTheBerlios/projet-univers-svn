@@ -37,7 +37,7 @@ namespace ProjetUnivers {
         : Kernel::TraitView<Model::Collision,RealWorldViewPoint>(i_observer,i_viewpoint),
         SoundEmitter()
         {
-          InternalMessage("Building OpenAL::Collision") ;
+          InternalMessage("Sound","Building OpenAL::Collision") ;
         }
                     
         std::string Collision::getSoundFileName() const

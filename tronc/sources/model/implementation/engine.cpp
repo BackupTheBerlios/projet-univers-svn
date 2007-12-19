@@ -91,7 +91,7 @@ namespace ProjetUnivers {
         }
       }      
       // no physical world --> useless to push...
-      InternalMessage("Model::Engine::getAppliedForce no force") ;
+      InternalMessage("Model","Model::Engine::getAppliedForce no force") ;
       return Force() ;
     }
 

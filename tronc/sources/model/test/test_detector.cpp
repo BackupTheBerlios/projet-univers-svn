@@ -43,7 +43,7 @@ namespace ProjetUnivers {
 
       void TestDetector::detectOneObject()
       {
-        InternalMessage("Model::TestDetector::detectOneObject entering") ;
+        InternalMessage("Model","Model::TestDetector::detectOneObject entering") ;
         /*!
           We create a ship with a detector and a second object to detect. 
         */        
@@ -72,12 +72,12 @@ namespace ProjetUnivers {
         //the second chip has been detected.
         CPPUNIT_ASSERT(ship->getTrait<Computer>()->getMemoryModel()->getRoots().size() == 1) ;
 
-        InternalMessage("Model::TestDetector::detectOneObject leaving") ;
+        InternalMessage("Model","Model::TestDetector::detectOneObject leaving") ;
       }
 
       void TestDetector::detectDisappeareance()
       {
-        InternalMessage("Model::TestDetector::detectDisappeareance entering") ;
+        InternalMessage("Model","Model::TestDetector::detectDisappeareance entering") ;
 
         /*!
           We create a ship with a detector and a second object to detect. 
@@ -114,13 +114,13 @@ namespace ProjetUnivers {
 
         CPPUNIT_ASSERT(ship->getTrait<Computer>()->getMemoryModel()->getRoots().size() == 0) ;
         
-        InternalMessage("Model::TestDetector::detectDisappeareance leaving") ;
+        InternalMessage("Model","Model::TestDetector::detectDisappeareance leaving") ;
         
       }
 
       void TestDetector::detectMovingObject()
       {
-        InternalMessage("Model::TestDetector::detectMovingObject entering") ;
+        InternalMessage("Model","Model::TestDetector::detectMovingObject entering") ;
 
         /*!
           We create a ship with a detector and a second object to detect. 
@@ -163,12 +163,12 @@ namespace ProjetUnivers {
         CPPUNIT_ASSERT(detection->getTrait<Positionned>()->getPosition() == Position::Meter(0,100,0)) ;
         
         
-        InternalMessage("Model::TestDetector::detectMovingObject leaving") ;
+        InternalMessage("Model","Model::TestDetector::detectMovingObject leaving") ;
       }
 
       void TestDetector::detectObjectMovingOutOfRange()
       {
-        InternalMessage("Model::TestDetector::detectObjectMovingOutOfRange entering") ;
+        InternalMessage("Model","Model::TestDetector::detectObjectMovingOutOfRange entering") ;
 
         /*!
           We create a ship with a detector and a second object to detect. 
@@ -210,12 +210,12 @@ namespace ProjetUnivers {
         // there is no more object         
         CPPUNIT_ASSERT(ship->getTrait<Computer>()->getMemoryModel()->getRoots().size() == 0) ;
         
-        InternalMessage("Model::TestDetector::detectObjectMovingOutOfRange leaving") ;
+        InternalMessage("Model","Model::TestDetector::detectObjectMovingOutOfRange leaving") ;
       }
 
       void TestDetector::testComputerDestruction()
       {
-        InternalMessage("Model::TestDetector::testComputerDestruction entering") ;
+        InternalMessage("Model","Model::TestDetector::testComputerDestruction entering") ;
 
         /*!
           We create a ship with a detector and a second object to detect. 
@@ -241,16 +241,16 @@ namespace ProjetUnivers {
         CPPUNIT_ASSERT(ship->getTrait<Computer>()->getMemoryModel()->getRoots().size() == 0) ;
         Model::update(Duration::Second(0.1)) ;
 
-        InternalMessage("Model::TestDetector::testComputerDestruction destroying computer") ;
+        InternalMessage("Model","Model::TestDetector::testComputerDestruction destroying computer") ;
         destroyTrait(ship,ship->getTrait<Computer>()) ;
         Model::update(Duration::Second(0.1)) ;
 
-        InternalMessage("Model::TestDetector::testComputerDestruction leaving") ;
+        InternalMessage("Model","Model::TestDetector::testComputerDestruction leaving") ;
       }
       
       void TestDetector::testDetectorDestruction()
       {
-        InternalMessage("Model::TestDetector::testDetectorDestruction entering") ;
+        InternalMessage("Model","Model::TestDetector::testDetectorDestruction entering") ;
 
         /*!
           We create a ship with a detector and a second object to detect. 
@@ -276,11 +276,11 @@ namespace ProjetUnivers {
         CPPUNIT_ASSERT(ship->getTrait<Computer>()->getMemoryModel()->getRoots().size() == 0) ;
         Model::update(Duration::Second(0.1)) ;
 
-        InternalMessage("Model::TestDetector::testDetectorDestruction destroying computer") ;
+        InternalMessage("Model","Model::TestDetector::testDetectorDestruction destroying computer") ;
         destroyTrait(ship,ship->getTrait<Detector>()) ;
         Model::update(Duration::Second(0.1)) ;
 
-        InternalMessage("Model::TestDetector::testDetectorDestruction leaving") ;
+        InternalMessage("Model","Model::TestDetector::testDetectorDestruction leaving") ;
       }
 
       void TestDetector::setUp() 

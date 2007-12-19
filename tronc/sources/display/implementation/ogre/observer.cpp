@@ -40,12 +40,12 @@ namespace ProjetUnivers {
         : Kernel::TraitView<Model::Observer,RealWorldViewPoint>(i_observer,i_viewpoint), 
           m_camera(NULL)
         {
-          InternalMessage("Building Ogre::Observer::Observer") ;
+          InternalMessage("Display","Building Ogre::Observer::Observer") ;
         }
         
         void Observer::onInit()
         {
-          InternalMessage("Display::Observer::onInit Entering") ;
+          InternalMessage("Display","Display::Observer::onInit Entering") ;
 
           /// positionned view must be initialised first
           Positionned* positionned(getView<Positionned>()) ;
@@ -62,14 +62,14 @@ namespace ProjetUnivers {
           /// near clip distance is 1 cm
           m_camera->setNearClipDistance(0.01/conversion_factor) ;
                       
-          InternalMessage("Display::Observer::onInit Leaving") ;
+          InternalMessage("Display","Display::Observer::onInit Leaving") ;
         }
           
         void Observer::onClose()
         {
-          InternalMessage("Display::Observer::onClose Entering") ;
+          InternalMessage("Display","Display::Observer::onClose Entering") ;
           this->getViewPoint()->getManager()->destroyCamera(m_camera) ;
-          InternalMessage("Display::Observer::onClose Leaving") ;
+          InternalMessage("Display","Display::Observer::onClose Leaving") ;
         }
         
         void Observer::onUpdate()

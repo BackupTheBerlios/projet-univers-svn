@@ -49,7 +49,7 @@ namespace ProjetUnivers {
 
       void TestLogic::testLaserBeamDisappearing()
       {
-        InternalMessage("Model::TestLogic::testLaserBeamDisappearing entering") ;
+        InternalMessage("Model","Model::TestLogic::testLaserBeamDisappearing entering") ;
         // we construct a complete system
         Model::init() ;
         
@@ -68,14 +68,14 @@ namespace ProjetUnivers {
 
         CPPUNIT_ASSERT(system->getChildren().size()==1) ;
 
-        InternalMessage("Model::TestLogic::testLaserBeamDisappearing built ship") ;
+        InternalMessage("Model","Model::TestLogic::testLaserBeamDisappearing built ship") ;
 
 //        CPPUNIT_ASSERT(Implementation::Logic::build(system)) ;
 //        Implementation::Logic::init() ;
 
         ship->call("fire") ;
 
-        InternalMessage("Model::TestLogic::testLaserBeamDisappearing fire") ;
+        InternalMessage("Model","Model::TestLogic::testLaserBeamDisappearing fire") ;
         
         // check that system has a new laser beam child
         CPPUNIT_ASSERT(system->getDescendants<LaserBeam>().size()==1) ;
@@ -97,7 +97,7 @@ namespace ProjetUnivers {
 
       void TestLogic::testDestroyable()
       {
-        InternalMessage("Model::TestLogic::testDestroyable entering") ;
+        InternalMessage("Model","Model::TestLogic::testDestroyable entering") ;
         // we construct a complete system
         Model::init() ;
         
@@ -134,7 +134,7 @@ namespace ProjetUnivers {
 
       void TestLogic::testLaserBeamDestroyableCollision()
       {
-        InternalMessage("Model::TestLogic::testLaserBeamDestroyableCollision entering") ;
+        InternalMessage("Model","Model::TestLogic::testLaserBeamDestroyableCollision entering") ;
         // we construct a complete system
         Model::init() ;
         
@@ -166,7 +166,7 @@ namespace ProjetUnivers {
 
       void TestLogic::testShotDisappearing()
       {
-        InternalMessage("Model::TestLogic::testShotDisappearing entering") ;
+        InternalMessage("Model","Model::TestLogic::testShotDisappearing entering") ;
         // we construct a complete system
         Model::init() ;
         
@@ -178,7 +178,7 @@ namespace ProjetUnivers {
 
         CPPUNIT_ASSERT(system->getChildren().size()==1) ;
 
-        InternalMessage("Model::TestLogic::testShotDisappearing built ship") ;
+        InternalMessage("Model","Model::TestLogic::testShotDisappearing built ship") ;
 
         Model::update(Duration::Second(1)) ;
         

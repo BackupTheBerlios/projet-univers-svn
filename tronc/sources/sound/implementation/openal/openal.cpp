@@ -86,7 +86,7 @@ namespace ProjetUnivers {
         
         void init() 
         {
-          InternalMessage("Sound::OpenAL::init entering") ;
+          InternalMessage("Sound","Sound::OpenAL::init entering") ;
           
           //Open a device
           std::string deviceType;
@@ -138,7 +138,7 @@ namespace ProjetUnivers {
           if(false)//TODO test EFX requirement when we will have some
           {
           	initialised = false ;
-            InformationMessage("[OpenAL] Context don't support the required EFX version") ;
+            InformationMessage("Sound","[OpenAL] Context don't support the required EFX version") ;
             return ;
           } 
                 
@@ -186,7 +186,7 @@ namespace ProjetUnivers {
 			alGetAuxiliaryEffectSloti && alGetAuxiliaryEffectSlotiv && alGetAuxiliaryEffectSlotf &&
 			alGetAuxiliaryEffectSlotfv))
 		  {
-		  	InformationMessage("[OpenAL] Device doesn't support all EFX functions") ;		  	
+		  	InformationMessage("Sound","[OpenAL] Device doesn't support all EFX functions") ;		  	
 		  }
           
           //Get the real number of auxiliary slot available
@@ -195,7 +195,7 @@ namespace ProjetUnivers {
           if(auxSlotNumber < 1)
           {
           	initialised = false ;
-            InformationMessage("[OpenAL] Context hasn't enough effect slot") ;
+            InformationMessage("Sound","[OpenAL] Context hasn't enough effect slot") ;
             return ;
           }
 
@@ -224,12 +224,12 @@ namespace ProjetUnivers {
           //Verification of initialisation without error  
           initialised = true ;
           
-          InternalMessage("Sound::OpenAL::init leaving with status: " + getErrorString(alGetError())) ;
+          InternalMessage("Sound","Sound::OpenAL::init leaving with status: " + getErrorString(alGetError())) ;
       }
     
         void close()
         {
-          InternalMessage("Sound::OpenAL::close entering") ;
+          InternalMessage("Sound","Sound::OpenAL::close entering") ;
           
           delete sound_system ;
           delete manager;
@@ -243,10 +243,10 @@ namespace ProjetUnivers {
           // Fermeture du device
           if(!alcCloseDevice(device))
           {
-          	InformationMessage("Sound::OpenAL::close can't close device, some device or buffer remain") ;
+          	InformationMessage("Sound","Sound::OpenAL::close can't close device, some device or buffer remain") ;
           }
           initialised = false ;
-          InternalMessage("Sound::OpenAL::close leaving") ;
+          InternalMessage("Sound","Sound::OpenAL::close leaving") ;
         }
     
         void update()

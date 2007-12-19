@@ -104,7 +104,7 @@ namespace ProjetUnivers {
 
       window_hanlde = Display::getWindowHandle() ;
 
-      InternalMessage("Input::init window_handle=" + Kernel::toString(window_hanlde)) ;
+      InternalMessage("Input","Input::init window_handle=" + Kernel::toString(window_hanlde)) ;
       window_hanlde_name << (unsigned int) window_hanlde;
       parameters.insert(std::make_pair(
                           std::string("WINDOW"), 

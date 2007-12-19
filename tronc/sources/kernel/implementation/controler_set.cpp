@@ -93,9 +93,9 @@ namespace ProjetUnivers {
     
     ControlerSet::~ControlerSet()
     {
-      InternalMessage("ControlerSet::~ControlerSet destroying") ;
+      InternalMessage("Kernel","ControlerSet::~ControlerSet destroying") ;
       close() ;
-      InternalMessage("ControlerSet::~ControlerSet destroyed") ;
+      InternalMessage("Kernel","ControlerSet::~ControlerSet destroyed") ;
     }
       
     ControlerSet::ControlerSet(Model* i_model)

@@ -37,7 +37,7 @@ namespace ProjetUnivers {
 
       void TestMesh::testGetInformation()
       {
-        InternalMessage("Model::TestMesh::testGetInformation entering") ;
+        InternalMessage("Model","Model::TestMesh::testGetInformation entering") ;
         
         Mesh test_mesh("razor.mesh") ;
         
@@ -115,12 +115,12 @@ namespace ProjetUnivers {
 //          ++index ;
         
         
-        InternalMessage("Model::TestMesh::testGetInformation leaving") ;
+        InternalMessage("Model","Model::TestMesh::testGetInformation leaving") ;
       }
       
       void TestMesh::testUnexistingMesh()
       {
-        InternalMessage("Model::TestMesh::testUnexistingMesh entering") ;
+        InternalMessage("Model","Model::TestMesh::testUnexistingMesh entering") ;
         
         Mesh test_mesh("unexisting") ;
         
@@ -133,7 +133,7 @@ namespace ProjetUnivers {
         CPPUNIT_ASSERT(vertices.empty()) ;
         CPPUNIT_ASSERT(indices.empty()) ;
         
-        InternalMessage("Model::TestMesh::testUnexistingMesh leaving") ;
+        InternalMessage("Model","Model::TestMesh::testUnexistingMesh leaving") ;
         
       }
       

@@ -33,9 +33,9 @@ namespace ProjetUnivers {
 
     ViewPoint::~ViewPoint()
     {
-      InternalMessage("ViewPoint::~ViewPoint destroying") ;
+      InternalMessage("Kernel","ViewPoint::~ViewPoint destroying") ;
       close() ;
-      InternalMessage("ViewPoint::~ViewPoint destroyed") ;
+      InternalMessage("Kernel","ViewPoint::~ViewPoint destroyed") ;
     }
 
     ViewPoint::ViewPoint(Model* i_model)

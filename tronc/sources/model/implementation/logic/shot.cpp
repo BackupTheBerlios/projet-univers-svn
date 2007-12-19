@@ -37,15 +37,15 @@ namespace ProjetUnivers {
         : Kernel::Controler<Model::Shot,
                             LogicSystem>(i_object,i_system)
         {
-          InternalMessage("Shot controler built") ;
+          InternalMessage("Model","Shot controler built") ;
         }
         
         void Shot::simulate(const float& i_seconds)
         {
-          InternalMessage("Shot::simulate entering") ;
+          InternalMessage("Model","Shot::simulate entering") ;
           // mark the shot object for destruction
           getControlerSet()->addObjectToDestroy(getModel()->getObject()) ;
-          InternalMessage("Shot::simulate leaving") ;
+          InternalMessage("Model","Shot::simulate leaving") ;
         }
       }      
     }

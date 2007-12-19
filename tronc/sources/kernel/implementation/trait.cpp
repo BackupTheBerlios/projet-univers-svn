@@ -70,7 +70,7 @@ namespace ProjetUnivers {
         (*reference)->_reset() ;
       }
       
-      InternalMessage("Trait::~Trait destroying " + toString(m_views.size()) + " views") ;
+      InternalMessage("Kernel","Trait::~Trait destroying " + toString(m_views.size()) + " views") ;
       m_destroying = true ;
       
       
@@ -78,12 +78,12 @@ namespace ProjetUnivers {
           view != m_views.end() ;
           ++view)
       {
-        InternalMessage("Trait::~Trait destroying a view") ;
+        InternalMessage("Kernel","Trait::~Trait destroying a view") ;
         CHECK(view->second,"Trait::~Trait no view") ;
         delete view->second ;
       }
 
-      InternalMessage("Trait::~Trait destroying controlers") ;
+      InternalMessage("Kernel","Trait::~Trait destroying controlers") ;
 
       for(std::multimap<ControlerSet*,BaseControler*>::iterator controler = m_controlers.begin() ;
           controler != m_controlers.end() ;
@@ -160,7 +160,7 @@ namespace ProjetUnivers {
     
     void Trait::_create_views(ViewPoint* i_viewpoint)
     {
-      InternalMessage(
+      InternalMessage("Kernel",
         "Trait::_create_views " + getObjectTypeIdentifier(i_viewpoint).toString() + " entering") ;
       
       /// nothing to do if we already have views associated with that viewpoint
@@ -191,7 +191,7 @@ namespace ProjetUnivers {
               m_views.insert(std::pair<ViewPoint*,BaseTraitView*>(
                               i_viewpoint,view)) ;
 
-              InternalMessage(
+              InternalMessage("Kernel",
                 "added trait view for viewpoint : " + viewpointType.toString()
                 + " trait : " + getObjectTypeIdentifier(this).toString()
                 + " view : " + getObjectTypeIdentifier(view).toString()) ;  
@@ -203,17 +203,17 @@ namespace ProjetUnivers {
       }
       else
       {
-          InternalMessage(
+          InternalMessage("Kernel",
             (std::string("already has view for viewpoint ") + 
              toString((int)i_viewpoint)).c_str()) ;  
       }
-      InternalMessage(
+      InternalMessage("Kernel",
         "Trait::_create_views " + getObjectTypeIdentifier(i_viewpoint).toString() + " leaving") ;
     }
 
     void Trait::_create_controlers(ControlerSet* i_controler_set)
     {
-      InternalMessage(
+      InternalMessage("Kernel",
         (std::string("Trait::_create_controlers ") + 
          getObjectTypeIdentifier(i_controler_set).toString())) ;
 
@@ -245,7 +245,7 @@ namespace ProjetUnivers {
               m_controlers.insert(std::pair<ControlerSet*,BaseControler*>(
                                      i_controler_set,controler)) ;
 
-              InternalMessage(
+              InternalMessage("Kernel",
                 "added trait controler for controler set : " + controlersetType.toString()
                 + " trait : " + getObjectTypeIdentifier(this).toString()
                 + " controelr : " + getObjectTypeIdentifier(controler).toString()) ;  
@@ -257,7 +257,7 @@ namespace ProjetUnivers {
       }
       else
       {
-          InternalMessage(
+          InternalMessage("Kernel",
             (std::string("already has controler for controelr set ") + 
              toString((int)i_controler_set)).c_str()) ;  
       }
@@ -331,8 +331,8 @@ namespace ProjetUnivers {
     
     void Trait::_close()
     {
-      InternalMessage("Trait::_close entering") ;
-      InternalMessage("Trait::_close closing " + toString(m_views.size()) + " views") ;
+      InternalMessage("Kernel","Trait::_close entering") ;
+      InternalMessage("Kernel","Trait::_close closing " + toString(m_views.size()) + " views") ;
       
       for(std::multimap<ViewPoint*,BaseTraitView*>::iterator view = m_views.begin() ;
           view != m_views.end() ;
@@ -341,7 +341,7 @@ namespace ProjetUnivers {
         view->second->_close() ;
       }
 
-      InternalMessage("Trait::_close closing " + toString(m_controlers.size()) + " controlers") ;
+      InternalMessage("Kernel","Trait::_close closing " + toString(m_controlers.size()) + " controlers") ;
 
       for(std::multimap<ControlerSet*,BaseControler*>::iterator controler = m_controlers.begin() ;
           controler != m_controlers.end() ;
@@ -350,7 +350,7 @@ namespace ProjetUnivers {
         controler->second->_close() ;
       }
       
-      InternalMessage("Trait::_close leaving") ;
+      InternalMessage("Kernel","Trait::_close leaving") ;
     }
 
     void Trait::_close(ViewPoint* i_viewpoint)

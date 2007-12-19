@@ -36,7 +36,7 @@ namespace ProjetUnivers {
         
         void WavReader::onInit(const int& posInFile, const int& posInBuffer)
         {
-          InternalMessage("enter wavreader Init") ;   
+          InternalMessage("Sound","enter wavreader Init") ;   
           // Open the file
           SF_INFO fileInfos;
           m_file = sf_open(m_fileName.c_str(), SFM_READ, &fileInfos);
@@ -72,7 +72,7 @@ namespace ProjetUnivers {
             ErrorMessage("[OpenAL::WavReader] Impossible to queue the buffers");
           }
           
-          InternalMessage("leave wavreader Init") ;   
+          InternalMessage("Sound","leave wavreader Init") ;   
         }
           
         void WavReader::onClose()

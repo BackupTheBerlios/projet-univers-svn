@@ -65,7 +65,7 @@ namespace ProjetUnivers {
           return ;
         }
         
-        InformationMessage("Al status " + Kernel::toString(alGetError())) ;
+        InformationMessage("Sound","Al status " + Kernel::toString(alGetError())) ;
         
         ALboolean alut_error = alutInitWithoutContext(NULL,NULL) ;
         if (alut_error ==AL_FALSE)

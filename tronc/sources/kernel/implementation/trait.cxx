@@ -124,7 +124,7 @@ namespace ProjetUnivers {
     
     template<class View> View* Trait::getView(ViewPoint* i_viewpoint)
     {
-      InternalMessage(
+      InternalMessage("Kernel",
         (std::string("Trait::getView for ") + toString((int)i_viewpoint)).c_str()) ;
       
       std::multimap<ViewPoint*,BaseTraitView*>::const_iterator
@@ -140,20 +140,20 @@ namespace ProjetUnivers {
           View* candidate = dynamic_cast<View*>(finder->second) ;
           if (candidate)
           {
-            InternalMessage("found view") ;
+            InternalMessage("Kernel","found view") ;
             return candidate ;
           }
           ++finder ;
         }
       }
-      InternalMessage("not found view") ;
+      InternalMessage("Kernel","not found view") ;
       return NULL ;
     }
 
     template<class _Controler> 
     _Controler* Trait::getControler(ControlerSet* i_controler_set)
     {
-      InternalMessage(
+      InternalMessage("Kernel",
         (std::string("Trait::getControler for ") + toString((int)i_controler_set)).c_str()) ;
       
       std::multimap<ControlerSet*,BaseControler*>::const_iterator 
@@ -161,13 +161,13 @@ namespace ProjetUnivers {
       
       if (finder != m_controlers.end()) 
       {
-        InternalMessage("found controler") ;
+        InternalMessage("Kernel","found controler") ;
         
         return dynamic_cast<_Controler*>(finder->second) ;
       }
       else
       {
-        InternalMessage("no controler found") ;
+        InternalMessage("Kernel","no controler found") ;
         return NULL ;
       }
       

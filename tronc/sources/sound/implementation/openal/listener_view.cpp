@@ -38,7 +38,7 @@ namespace ProjetUnivers {
         : Kernel::TraitView<OpenAL::Listener,OpenAL::RealWorldViewPoint>(i_observer,i_viewpoint),
         SoundListener()
         {
-          InternalMessage("Building OpenAL::Listener") ;
+          InternalMessage("Sound","Building OpenAL::Listener") ;
         }
         
         float ListenerView::getGain() const
@@ -53,20 +53,20 @@ namespace ProjetUnivers {
         
         void ListenerView::onInit()
         {
-          InternalMessage("OpenAL::Listener::onInit Entering") ;
+          InternalMessage("Sound","OpenAL::Listener::onInit Entering") ;
 
           this->updateListener();
                       
-          InternalMessage("OpenAL::Listener::onInit Leaving") ;
+          InternalMessage("Sound","OpenAL::Listener::onInit Leaving") ;
         }
           
         void ListenerView::onClose()
         {
-          InternalMessage("OpenAL::Listener::onClose Entering") ;
+          InternalMessage("Sound","OpenAL::Listener::onClose Entering") ;
 
           //Just one listener by context in openal , it's destroy with openal context
           
-          InternalMessage("OpenAL::Listener::onClose Leaving") ;
+          InternalMessage("Sound","OpenAL::Listener::onClose Leaving") ;
         }
         
         void ListenerView::onUpdate()

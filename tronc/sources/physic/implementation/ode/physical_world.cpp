@@ -54,7 +54,7 @@ namespace ProjetUnivers {
 
         void PhysicalWorld::onInit()
         {
-          InternalMessage("PhysicalWorld::onInit entering") ;
+          InternalMessage("Physic","PhysicalWorld::onInit entering") ;
           if (m_world)
           {
             delete m_world ;
@@ -75,12 +75,12 @@ namespace ProjetUnivers {
 
           m_contact_group = dJointGroupCreate(0) ;
                     
-          InternalMessage("PhysicalWorld::onInit leaving") ;
+          InternalMessage("Physic","PhysicalWorld::onInit leaving") ;
         }
 
         void PhysicalWorld::onClose()
         {
-          InternalMessage("Physic::PhysicalWorld::onClose entering " + getObject()->getName()) ;
+          InternalMessage("Physic","Physic::PhysicalWorld::onClose entering " + getObject()->getName()) ;
 
           if (m_world)
           {
@@ -92,7 +92,7 @@ namespace ProjetUnivers {
             delete m_collision_space ;
           }
           
-          InternalMessage("Physic::PhysicalWorld::onClose leaving " + getObject()->getName()) ;
+          InternalMessage("Physic","Physic::PhysicalWorld::onClose leaving " + getObject()->getName()) ;
         }
 
         void PhysicalWorld::onChangeParent(Kernel::Object* i_old_parent)
@@ -132,7 +132,7 @@ namespace ProjetUnivers {
         {
           // due to organisation i_geometry1 and i_geometry2 are not spaces.
 //          std::cout << "soupscon de collision" << std::endl ;
-          InternalMessage("PhysicalWorld::onGeometryCollision entering") ;
+          InternalMessage("Physic","PhysicalWorld::onGeometryCollision entering") ;
           
           // i_world is in fact a world.
           PhysicalWorld* world = static_cast<PhysicalWorld*>(i_world) ;
@@ -154,7 +154,7 @@ namespace ProjetUnivers {
             = collideable2 ? getPhysicalObject(collideable2->getControler()) 
                            : NULL ;
 
-          InternalMessage("PhysicalWorld::onGeometryCollision "
+          InternalMessage("Physic","PhysicalWorld::onGeometryCollision "
                           + (object1 ? object1->getObject()->getName() : "no object1")
                           + " " 
                           + (object2 ? object2->getObject()->getName() : "no object2")
@@ -179,7 +179,7 @@ namespace ProjetUnivers {
             object2_position.y = temp_position[1] ;
             object2_position.z = temp_position[2] ;
             
-            InternalMessage("PhysicalWorld::onGeometryCollision object positions " 
+            InternalMessage("Physic","PhysicalWorld::onGeometryCollision object positions " 
                             + Ogre::StringConverter::toString(object1_position)
                             + ";"
                             + Ogre::StringConverter::toString(object2_position)) ;
@@ -192,7 +192,7 @@ namespace ProjetUnivers {
                                               contact_points,
                                               sizeof(dContactGeom)) ;
 
-            InformationMessage("number of contact points = " + Kernel::toString(number_of_contacts)) ;
+            InformationMessage("Physic","number of contact points = " + Kernel::toString(number_of_contacts)) ;
 
             Ogre::Vector3 result(0,0,0) ;
             
@@ -272,8 +272,8 @@ namespace ProjetUnivers {
         
         void PhysicalWorld::simulate(const float& i_seconds)
         {
-          InternalMessage("Physic::PhysicalWorld::simulate " + getObject()->getName() + " Entering") ;
-//          InformationMessage("PhysicalWorld::simulate " + Kernel::toString((float)i_seconds)) ;
+          InternalMessage("Physic","Physic::PhysicalWorld::simulate " + getObject()->getName() + " Entering") ;
+//          InformationMessage("Physic","PhysicalWorld::simulate " + Kernel::toString((float)i_seconds)) ;
           
           CHECK(m_collision_space,"no collision space") ;
           /// simulate
@@ -286,7 +286,7 @@ namespace ProjetUnivers {
             dSpaceCollide(m_collision_space->id(),this,PhysicalWorld::onSpaceCollision) ;
           }
                   
-          InternalMessage("Physic::PhysicalWorld::simulate " + getObject()->getName() + " trace#1") ;
+          InternalMessage("Physic","Physic::PhysicalWorld::simulate " + getObject()->getName() + " trace#1") ;
           
           // physical part
           if (m_world)
@@ -296,7 +296,7 @@ namespace ProjetUnivers {
 
           dJointGroupEmpty(m_contact_group) ;
 
-          InternalMessage("PhysicalWorld::simulate " + getObject()->getName() + " Leaving") ;
+          InternalMessage("Physic","PhysicalWorld::simulate " + getObject()->getName() + " Leaving") ;
         }
         
       }

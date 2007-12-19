@@ -68,14 +68,14 @@ namespace ProjetUnivers {
         {
           float seconds = i_duration.Second() ;
 
-          InternalMessage("Model::Logic::simulate entering") ;
+          InternalMessage("Model","Model::Logic::simulate entering") ;
   
           if (initialised && m_system.get() && seconds != 0)
           {
             m_system->simulate(seconds) ;
           }
 
-          InternalMessage("Model::Logic::simulate leaving") ;
+          InternalMessage("Model","Model::Logic::simulate leaving") ;
           
         }
 

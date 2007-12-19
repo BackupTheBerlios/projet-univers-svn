@@ -16,4 +16,8 @@ $(SOURCES)/input/compilation/libinput.la \
 $(SOURCES)/action/compilation/libaction.la \
 $(SOURCES)/physic/compilation/libphysic.la \
 $(SOURCES)/physic/compilation/ode/libphysicode.la \
-$(OIS_LIBS) 
+$(OIS_LIBS)  \
+$(CEGUI_LIBS) \
+$(CEGUI_OGRE_LIBS) \
+-lCEGUIFalagardWRBase \
+$(libXML_LIBS)

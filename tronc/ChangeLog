@@ -362,6 +362,15 @@
     - changed Ear into Hearing : generalisation
     - changed EngineControl into EngineControler
     - added xml read methods + tests
+
+2007-12-19 rogma 
+
+  * kernel :
+    - changed logging system : logs are activated module based in the 
+      parameter file.
+    - changed : log messages are tagged by module name
+  * All :
+    - changed log messages accoardingly
     
 todos :
 

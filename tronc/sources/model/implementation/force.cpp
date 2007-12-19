@@ -71,7 +71,7 @@ namespace ProjetUnivers {
       {
         return m_value ;
       }
-      InternalMessage("Model::Force::Newton") ;
+      InternalMessage("Model","Model::Force::Newton") ;
       return Ogre::Vector3(0,0,0) ;
     }
     

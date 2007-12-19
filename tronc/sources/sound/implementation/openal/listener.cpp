@@ -19,7 +19,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include <kernel/deduced_trait.h>
-#include <model/ear.h>
+#include <model/hearing.h>
 #include <model/mobile.h>
 #include <model/oriented.h>
 #include <model/positionned.h>
@@ -35,7 +35,7 @@ namespace ProjetUnivers {
                             And(HasTrait(Model::Mobile),
                                 HasTrait(Model::Positionned),
                                 HasTrait(Model::Oriented),
-                                HasTrait(Model::Ear))) ;
+                                HasTrait(Model::Hearing))) ;
 
       }
     }

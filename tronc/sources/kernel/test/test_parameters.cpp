@@ -49,7 +49,17 @@ namespace ProjetUnivers {
         CPPUNIT_ASSERT(Parameters::getValue<bool>("Physic","ActivateCollision")) ;
         CPPUNIT_ASSERT(Parameters::getValue<float>("Physic","MaxNumberOfContactPoints") == 100) ;
       }
-
+      
+      void TestParameters::testGetActivatedLogs()
+      {
+        Parameters::reset() ;
+        Parameters::load("log.ini") ;
+        std::set<std::string> logs = Parameters::getActivatedLogs() ;
+        
+        CPPUNIT_ASSERT(logs.size() == 1) ;
+        CPPUNIT_ASSERT(*logs.begin() == "module2") ;
+      }
+      
       void TestParameters::setUp()
       {
       }

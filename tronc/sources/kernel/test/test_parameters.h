@@ -30,8 +30,6 @@ namespace ProjetUnivers {
 
 
       ///  Test for Parameters.
-      /*!
-      */
       class TestParameters : public CppUnit::TestFixture {
       public:
 
@@ -52,6 +50,9 @@ namespace ProjetUnivers {
         /// A real test.
         void testDemonstration() ;
         
+        /// Test activated log retreival.
+        void testGetActivatedLogs() ;
+        
       // @}
 
 
@@ -59,6 +60,7 @@ namespace ProjetUnivers {
 
         CPPUNIT_TEST(basicTest) ;
         CPPUNIT_TEST(testDemonstration) ;
+        CPPUNIT_TEST(testGetActivatedLogs) ;
 
         CPPUNIT_TEST_SUITE_END() ;
 

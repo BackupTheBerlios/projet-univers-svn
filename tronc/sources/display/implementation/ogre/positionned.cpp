@@ -77,8 +77,8 @@ namespace ProjetUnivers {
         : Kernel::TraitView<Model::Positionned,RealWorldViewPoint>(i_object,i_viewpoint), 
           m_node(NULL)
         {
-          InternalMessage("Entering Ogre::Positionned::Positionned") ;
-          InternalMessage("Leaving Ogre::Positionned::Positionned") ;
+          InternalMessage("Display","Entering Ogre::Positionned::Positionned") ;
+          InternalMessage("Display","Leaving Ogre::Positionned::Positionned") ;
         }
       
         /*!
@@ -87,7 +87,7 @@ namespace ProjetUnivers {
         */
         void Positionned::onInit()
         {
-          InternalMessage("Entering Positionned::init") ;
+          InternalMessage("Display","Entering Positionned::init") ;
           
           Model::Positionned* positionned_ancestor 
             = getObject()->getAncestor<Model::Positionned>() ;
@@ -98,7 +98,7 @@ namespace ProjetUnivers {
       
             m_node = static_cast<SceneNode*>(parent_node->m_node->createChild()) ;
 
-            InternalMessage(
+            InternalMessage("Display",
               "creating scene node " + m_node->getName() + 
               " with parent " + parent_node->m_node->getName() +
               " with position " + 
@@ -106,26 +106,26 @@ namespace ProjetUnivers {
 
             m_node->setPosition(convert(getModel()->getPosition())) ;
 
-            InternalMessage(
+            InternalMessage("Display",
               "modification of scene node " + m_node->getName() + 
               " with position " + 
               ::Ogre::StringConverter::toString(m_node->getPosition())) ;
           }
           else
           {
-            InternalMessage("root node") ;
+            InternalMessage("Display","root node") ;
             
             m_node = this->getViewPoint()->getManager()->getRootSceneNode() ;
           }
 
-          InternalMessage("Leaving Positionned::init") ;
+          InternalMessage("Display","Leaving Positionned::init") ;
 
         }
 
         /// Termine la vue.
         void Positionned::onClose()
         {
-          InternalMessage("Display::Positionned::onClose Entering") ;
+          InternalMessage("Display","Display::Positionned::onClose Entering") ;
           
           /*!
             Ogre seams to refuse destroying root node !
@@ -135,7 +135,7 @@ namespace ProjetUnivers {
             this->getViewPoint()->getManager()
                 ->destroySceneNode(this->m_node->getName()) ;
           }
-          InternalMessage("Display::Positionned::onClose Leaving") ;
+          InternalMessage("Display","Display::Positionned::onClose Leaving") ;
         }
         
         /// La position à changé
@@ -148,7 +148,7 @@ namespace ProjetUnivers {
           /// on le replace par rapport à son parent
           m_node->setPosition(convert(getModel()->getPosition())) ;
 
-          InternalMessage(
+          InternalMessage("Display",
             "modification of scene node " + m_node->getName() + 
             " with position " + 
             ::Ogre::StringConverter::toString(m_node->getPosition())) ;

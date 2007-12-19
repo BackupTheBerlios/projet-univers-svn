@@ -28,9 +28,8 @@
 int 
 main( int argc, char* argv[] )
 {
-
-  ProjetUnivers::Kernel::Log::init() ;
   ProjetUnivers::Kernel::Parameters::load("sound.config") ;
+  ProjetUnivers::Kernel::Log::init() ;
   
   // if command line contains "-selftest" then this is the post build check
   // => the output must be in the compiler error format.

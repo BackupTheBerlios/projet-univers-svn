@@ -26,6 +26,11 @@ namespace ProjetUnivers {
 
     std::auto_ptr<Parameters> Parameters::m_instance(NULL) ;
 
+    void Parameters::reset()
+    {
+      m_instance.reset() ;
+    }
+    
     void Parameters::load(const std::string& file_path)
     {
       if (! m_instance.get())
@@ -101,6 +106,41 @@ namespace ProjetUnivers {
         }
       }
       
+    }
+    
+    std::set<std::string> Parameters::getActivatedLogs()
+    {
+      std::set<std::string> result ;
+      
+      if (! m_instance.get())
+      {
+        return result ;
+      }
+      
+      for(std::map<
+            std::string,
+            std::map<
+              std::string,
+              boost::variant<
+                float,
+                std::string,
+                bool> > >::const_iterator parameter = m_instance->m_parameters.begin() ;
+          parameter != m_instance->m_parameters.end() ;
+          ++parameter)
+      {
+        std::map<std::string,boost::variant<float,std::string,bool> >::const_iterator 
+          finder = parameter->second.find("log") ;
+        
+        if (finder != parameter->second.end())
+        {
+          if (boost::get<bool>(finder->second))
+          {
+            result.insert(parameter->first) ;
+          }
+        }
+      }
+      
+      return result ;
     }
   }
 }

@@ -143,10 +143,10 @@ namespace ProjetUnivers {
 
     void close()
     {
-      InternalMessage("Deleting objects") ;
+      InternalMessage("Model","Deleting objects") ;
       model.reset() ;      
       Implementation::Logic::close() ;
-      InternalMessage("Module Model terminated") ;
+      InternalMessage("Model","Module Model terminated") ;
       
     }
 
@@ -160,40 +160,40 @@ namespace ProjetUnivers {
       if (name == "TestDemonstration")
       {
         /// 1. Construction d'un univers
-        InternalMessage("building Universe...") ;
+        InternalMessage("Model","building Universe...") ;
         Kernel::Object* universe = model->createObject("Univers") ;
         
         /// ses facettes
         model->addTrait(universe,new Universe()) ;
         model->addTrait(universe,new Positionned()) ;
         
-        InternalMessage("construction de Univers terminée") ;
+        InternalMessage("Model","construction de Univers terminée") ;
 
         /// 1.4 Une galaxie
         
         /// 1.5 Un système stellaire
-        InternalMessage("building stellar system...") ;
+        InternalMessage("Model","building stellar system...") ;
 
         Kernel::Object* system = model->createObject("Systeme#1",universe) ;
         model->addTrait(system,new StellarSystem()) ;
         model->addTrait(system,new Positionned()) ;
         
-        InternalMessage("building stellar system done") ;
+        InternalMessage("Model","building stellar system done") ;
         
         
         
         /// 2. Ajout d'objects planetes
-        InternalMessage("building planet...") ;
+        InternalMessage("Model","building planet...") ;
         Kernel::Object* planet1 = model->createObject("Planete#1",system) ;
         model->addTrait(planet1,new Positionned()) ;
 
-        InternalMessage("building planet done") ;
+        InternalMessage("Model","building planet done") ;
 
         /// add(new Solide(planete1, 
         
         /// 3. Ajout d'un vaisseau
         {
-          InternalMessage("building ship...") ;
+          InternalMessage("Model","building ship...") ;
           Kernel::Object* ship = model->createObject("Vaisseau",system) ;
           model->addTrait(ship,new Positionned(Position::Meter(0,
                                                                0,
@@ -213,10 +213,10 @@ namespace ProjetUnivers {
           Kernel::Object* st3 = model->createObject("st03",ship) ;
           model->addTrait(st3,new Stabilizer(0,0,Kernel::Parameters::getValue<float>("Model","StabilizerForce"))) ;
           
-          InternalMessage("building ship done") ;
+          InternalMessage("Model","building ship done") ;
         }
         {
-          InternalMessage("building ship...") ;
+          InternalMessage("Model","building ship...") ;
           Kernel::Object* ship = model->createObject("Vaisseau#3",system) ;
           model->addTrait(ship,new Positionned(Position::Meter(0,
                                                                300,
@@ -270,10 +270,10 @@ namespace ProjetUnivers {
           model->addTrait(laser,new Laser(Position::Meter(19.2,0,57),
                                          Orientation())) ;
           
-          InternalMessage("building ship done") ;
+          InternalMessage("Model","building ship done") ;
 
           /// 4. Ajout d'un observateur
-          InternalMessage("building observer...") ;
+          InternalMessage("Model","building observer...") ;
           Kernel::Object* observer = model->createObject("Observer",system) ;
           model->addTrait(observer,new Positionned(Position::Meter(0,
                                                                0,
@@ -289,7 +289,7 @@ namespace ProjetUnivers {
           model->addTrait(observer,command) ;
 
         }
-        InternalMessage("building observer done") ;
+        InternalMessage("Model","building observer done") ;
       }
       else if (name == "TestMenu")
       {
@@ -308,7 +308,7 @@ namespace ProjetUnivers {
         model->addTrait(ship,new Solid(Mesh("razor.mesh"))) ;
 
         /// 4. Ajout d'un observateur
-        InternalMessage("building observer...") ;
+        InternalMessage("Model","building observer...") ;
         Kernel::Object* observer = model->createObject("Observer",universe) ;
         model->addTrait(observer,new Positionned()) ;
         model->addTrait(observer,new Oriented()) ;
@@ -324,7 +324,7 @@ namespace ProjetUnivers {
     void initRessources()
     {
       /// if sufficient ressources have not been initialised...
-      InternalMessage("Model::initRessources entering") ;
+      InternalMessage("Model","Model::initRessources entering") ;
       if (! MeshManager::getSingletonPtr())
       {
         log_manager.reset(new LogManager()) ;
@@ -357,7 +357,7 @@ namespace ProjetUnivers {
         
       }
 
-      InternalMessage("Model::initRessources leaving") ;
+      InternalMessage("Model","Model::initRessources leaving") ;
 
     }
 

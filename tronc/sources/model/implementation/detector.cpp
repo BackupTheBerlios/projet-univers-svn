@@ -74,11 +74,11 @@ namespace ProjetUnivers {
 
     void Detector::detect()
     {
-      InternalMessage("Model::Detector::detect entering") ;
+      InternalMessage("Model","Model::Detector::detect entering") ;
       // perform detection pass on implementation
       Kernel::forAll<Implementation::DetectorObjectView>(
         m_implementation.get(),&Implementation::DetectorObjectView::check) ;
-      InternalMessage("Model::Detector::detect leaving") ;
+      InternalMessage("Model","Model::Detector::detect leaving") ;
     }
     
     void Detector::init()
@@ -101,7 +101,7 @@ namespace ProjetUnivers {
       // we do not detect parent objects :
       if (object->isAncestor(getObject()))
       {
-        InternalMessage("Model::Detector::canDetect does not detect parent") ;
+        InternalMessage("Model","Model::Detector::canDetect does not detect parent") ;
         return false ;
       }
       
@@ -109,7 +109,7 @@ namespace ProjetUnivers {
       Position position = getRelativePosition(object,getObject()) ;
       bool in_range = position.calculateDistance(Position()) <=  getRange() ; 
 
-      InternalMessage("Model::Detector::canDetect range test") ;
+      InternalMessage("Model","Model::Detector::canDetect range test") ;
       // @todo add structure checks
 
       return in_range ;      

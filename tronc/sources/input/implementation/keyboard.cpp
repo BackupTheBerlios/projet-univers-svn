@@ -21,6 +21,7 @@
 #include <kernel/string.h>
 #include <kernel/log.h>
 #include <action/action.h>
+#include <display/display_input.h>
 #include <input/implementation/keyboard.h>
 
 namespace ProjetUnivers {
@@ -38,54 +39,57 @@ namespace ProjetUnivers {
       bool Keyboard::keyPressed(const OIS::KeyEvent &e)    
       {
 
-        
-
         switch(e.key)
         {
         case OIS::KC_RETURN:
           Action::add("Sortie") ;
           break ;
-          
-        case OIS::KC_UP:
-          Action::add("Haut") ;
-          break ;
-
-        case OIS::KC_DOWN:
-          Action::add("Bas") ;
-          break ;
-
-        case OIS::KC_LEFT:
-          Action::add("Gauche") ;
-          break ;
-          
-        case OIS::KC_RIGHT:
-          Action::add("Droite") ;
-          break ;
-
-        case OIS::KC_C:
-           InternalMessage("Input : added create object") ;
-           Action::add("CreerObject") ;
-          break ;
-
-        case OIS::KC_D:
-          InternalMessage("Input : added destroy object") ;
-          Action::add("destroyObject") ;
-          break ;
-
-        case OIS::KC_M:
-          InternalMessage("Input : added move object") ;
-          Action::add("moveObject") ;
-          break ;
-
         case OIS::KC_F:
           
           if (m_controled_object)
           {
             m_controled_object->call("fire") ;
           }
-
-        default:
           break ;
+        default:
+          
+          Display::injectKey(e.key) ;
+          break ;
+          
+//        case OIS::KC_UP:
+//          Action::add("Haut") ;
+//          break ;
+//
+//        case OIS::KC_DOWN:
+//          Action::add("Bas") ;
+//          break ;
+//
+//        case OIS::KC_LEFT:
+//          Action::add("Gauche") ;
+//          break ;
+//          
+//        case OIS::KC_RIGHT:
+//          Action::add("Droite") ;
+//          break ;
+//
+//        case OIS::KC_C:
+//           InternalMessage("Input","Input : added create object") ;
+//           Action::add("CreerObject") ;
+//          break ;
+//
+//        case OIS::KC_D:
+//          InternalMessage("Input","Input : added destroy object") ;
+//          Action::add("destroyObject") ;
+//          break ;
+//
+//        case OIS::KC_M:
+//          InternalMessage("Input","Input : added move object") ;
+//          Action::add("moveObject") ;
+//          break ;
+//
+//
+//        default:
+//          break ;
         }
         return true ;
       }

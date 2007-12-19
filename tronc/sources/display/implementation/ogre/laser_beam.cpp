@@ -45,7 +45,7 @@ namespace ProjetUnivers {
       
         void LaserBeam::onInit()
         {
-          InternalMessage("Entering Ogre::LaserBeam::onInit") ;
+          InternalMessage("Display","Entering Ogre::LaserBeam::onInit") ;
 
           Positionned* positionned(getView<Positionned>()) ;
           positionned->_init() ;
@@ -63,12 +63,12 @@ namespace ProjetUnivers {
                                                            1.0/conversion_factor,
                                                            1.0/conversion_factor)) ;
           
-          InternalMessage("Leaving Ogre::LaserBeam::onInit") ;
+          InternalMessage("Display","Leaving Ogre::LaserBeam::onInit") ;
         }
         
         void LaserBeam::onClose()
         {
-          InternalMessage("Display::LaserBeam::onClose Entering") ;
+          InternalMessage("Display","Display::LaserBeam::onClose Entering") ;
           Positionned* positionned(getView<Positionned>()) ;
           if (positionned)
           {
@@ -78,7 +78,7 @@ namespace ProjetUnivers {
           this->getViewPoint()->getManager()
                ->destroyEntity(mesh) ;
 
-          InternalMessage("Display::LaserBeam::onClose Leaving") ;
+          InternalMessage("Display","Display::LaserBeam::onClose Leaving") ;
         }
       
         void LaserBeam::onUpdate()

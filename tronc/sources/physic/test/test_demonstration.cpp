@@ -74,7 +74,7 @@ namespace ProjetUnivers {
 
       void TestDemonstration::testBuild()
       {
-        InternalMessage("Physic::Test::TestDemonstration::testBuild Entering") ;
+        InternalMessage("Physic","Physic::Test::TestDemonstration::testBuild Entering") ;
         Model::init() ;
         Model::load("TestDemonstration") ;
         Physic::init() ;
@@ -84,13 +84,13 @@ namespace ProjetUnivers {
         Kernel::ControlerSet* physics = Physic::build(observer) ;
         physics->init() ;
         
-        InternalMessage("Physic module initalised") ;
+        InternalMessage("Physic","Physic module initalised") ;
                 
         /// check view constructions
         Model::PhysicalWorld* world(observer->getParent<Model::PhysicalWorld>()) ;
         CPPUNIT_ASSERT(world) ;
 
-        InternalMessage("got Model::PhysicalWorld") ;
+        InternalMessage("Physic","got Model::PhysicalWorld") ;
         /// check for the world
         CPPUNIT_ASSERT(world->getControler<Implementation::Ode::PhysicalWorld>(physics)) ;
         CPPUNIT_ASSERT(
@@ -113,12 +113,12 @@ namespace ProjetUnivers {
         Physic::close() ;
         Model::close() ;
 
-        InternalMessage("Physic::Test::TestDemonstration::testBuild Leaving") ;
+        InternalMessage("Physic","Physic::Test::TestDemonstration::testBuild Leaving") ;
       }
 
       void TestDemonstration::testSimulateNoMove()
       {
-        InternalMessage("Physic::Test::testSimulate::testSimulateNoMove entering") ;
+        InternalMessage("Physic","Physic::Test::testSimulate::testSimulateNoMove entering") ;
 
         Model::init() ;
         Physic::init() ;
@@ -144,7 +144,7 @@ namespace ProjetUnivers {
         Kernel::ControlerSet* physics = Physic::build(ship) ;
         physics->init() ;
         
-        InternalMessage("Physic viewpoint initalised") ;
+        InternalMessage("Physic","Physic viewpoint initalised") ;
 
         /// get the ship
         Model::Positionned* positionned(ship->getTrait<Model::Positionned>()) ; 
@@ -152,33 +152,33 @@ namespace ProjetUnivers {
         
         Ogre::Vector3 initial_position(positionned->getPosition().Meter()) ;
 
-        InternalMessage("Physic::Test::testSimulateNoMove got old position") ;
+        InternalMessage("Physic","Physic::Test::testSimulateNoMove got old position") ;
         
         Physic::update() ;
 
-        InternalMessage("Physic::Test::testSimulateNoMove updated") ;
+        InternalMessage("Physic","Physic::Test::testSimulateNoMove updated") ;
 
 
         Ogre::Vector3 final_position(positionned->getPosition().Meter()) ;
 
-        InternalMessage("Physic::Test::testSimulate got new position") ;
+        InternalMessage("Physic","Physic::Test::testSimulate got new position") ;
         
         // check that object has not moved
         CPPUNIT_ASSERT(initial_position == final_position) ;
 
-        InternalMessage("Physic::Test::testSimulate closing modules") ;
+        InternalMessage("Physic","Physic::Test::testSimulate closing modules") ;
 
         Physic::close() ;
-        InternalMessage("Physic::Test::testSimulate closed Physic") ;
+        InternalMessage("Physic","Physic::Test::testSimulate closed Physic") ;
         Model::close() ;
-        InternalMessage("Physic::Test::testSimulate closed Model") ;
+        InternalMessage("Physic","Physic::Test::testSimulate closed Model") ;
 
-        InternalMessage("Physic::Test::testSimulate::testSimulateNoMove Leaving") ;
+        InternalMessage("Physic","Physic::Test::testSimulate::testSimulateNoMove Leaving") ;
       }
 
       void TestDemonstration::testSimulateMoving()
       {
-        InternalMessage("Physic::Test::testSimulate::testSimulateMoving entering") ;
+        InternalMessage("Physic","Physic::Test::testSimulate::testSimulateMoving entering") ;
 
         Model::init() ;
         Physic::init() ;
@@ -205,7 +205,7 @@ namespace ProjetUnivers {
         Kernel::ControlerSet* physics = Physic::build(ship) ;
         physics->init() ;
         
-        InternalMessage("Physic viewpoint initalised") ;
+        InternalMessage("Physic","Physic viewpoint initalised") ;
         
         /// get the ship and apply a force
         Model::PhysicalObject* object(ship->getTrait<Model::PhysicalObject>()) ;
@@ -224,11 +224,11 @@ namespace ProjetUnivers {
         
         Physic::update(Model::Duration::Second(1)) ;
 
-        InternalMessage("testSimulateMoving physic updated") ;
+        InternalMessage("Physic","testSimulateMoving physic updated") ;
         
         dBody* body = object->getControler<Implementation::Ode::PhysicalObject>(physics)->getBody() ;
         
-        InternalMessage("testSimulateMoving body = " +toString((int)body)) ;
+        InternalMessage("Physic","testSimulateMoving body = " +toString((int)body)) ;
         
         CPPUNIT_ASSERT(body) ;
         
@@ -238,16 +238,16 @@ namespace ProjetUnivers {
         CPPUNIT_ASSERT(!( initial_position == final_position)) ;
 
 
-        InternalMessage("Physic::Test::testSimulate::testSimulateMoving closing modules...") ;
+        InternalMessage("Physic","Physic::Test::testSimulate::testSimulateMoving closing modules...") ;
         Physic::close() ;
         Model::close() ;
         
-        InternalMessage("Physic::Test::testSimulate::testSimulateMoving Leaving") ;
+        InternalMessage("Physic","Physic::Test::testSimulate::testSimulateMoving Leaving") ;
       }
 
       void TestDemonstration::testRotationTorque()
       {
-        InternalMessage("Physic::Test::testSimulate::testRotationTorque entering") ;
+        InternalMessage("Physic","Physic::Test::testSimulate::testRotationTorque entering") ;
 
         Model::init() ;
         Physic::init() ;
@@ -274,7 +274,7 @@ namespace ProjetUnivers {
         Kernel::ControlerSet* physics = Physic::build(ship) ;
         physics->init() ;
         
-        InternalMessage("Physic viewpoint initalised") ;
+        InternalMessage("Physic","Physic viewpoint initalised") ;
         
         /// get the ship and apply a force
         Model::PhysicalObject* object(ship->getTrait<Model::PhysicalObject>()) ;
@@ -304,12 +304,12 @@ namespace ProjetUnivers {
         Physic::close() ;
         Model::close() ;
         
-        InternalMessage("Physic::Test::testSimulate::testRotationTorque Leaving") ;
+        InternalMessage("Physic","Physic::Test::testSimulate::testRotationTorque Leaving") ;
       }
       
       void TestDemonstration::testSimulateMovingInitialSpeed()
       {
-        InternalMessage("Physic::Test::testSimulate::testSimulateMovingInitialSpeed entering") ;
+        InternalMessage("Physic","Physic::Test::testSimulate::testSimulateMovingInitialSpeed entering") ;
 
         Model::init() ;
         Physic::init() ;
@@ -340,7 +340,7 @@ namespace ProjetUnivers {
         Kernel::ControlerSet* physics = Physic::build(ship) ;
         physics->init() ;
 
-        InternalMessage("Physic::Test::testSimulate::testSimulateMovingInitialSpeed initialised physics") ;
+        InternalMessage("Physic","Physic::Test::testSimulate::testSimulateMovingInitialSpeed initialised physics") ;
 
         Model::PhysicalObject* object(ship->getTrait<Model::PhysicalObject>()) ;
         CPPUNIT_ASSERT(object) ;
@@ -365,12 +365,12 @@ namespace ProjetUnivers {
         Physic::close() ;
         Model::close() ;
 
-        InternalMessage("Physic::Test::testSimulate::testSimulateMovingInitialSpeed leaving") ;
+        InternalMessage("Physic","Physic::Test::testSimulate::testSimulateMovingInitialSpeed leaving") ;
       }
 
       void TestDemonstration::testSimulateMovingInitialRotation()
       {
-        InternalMessage("Physic::Test::testSimulate::testSimulateMovingInitialRotation entering") ;
+        InternalMessage("Physic","Physic::Test::testSimulate::testSimulateMovingInitialRotation entering") ;
 
         Model::init() ;
         Physic::init() ;
@@ -425,12 +425,12 @@ namespace ProjetUnivers {
         Physic::close() ;
         Model::close() ;
 
-        InternalMessage("Physic::Test::testSimulate::testSimulateMovingInitialRotation leaving") ;
+        InternalMessage("Physic","Physic::Test::testSimulate::testSimulateMovingInitialRotation leaving") ;
       }
       
       void TestDemonstration::testSimulateRotatingHalfTurn()
       {
-        InternalMessage("Physic::Test::testSimulate::testSimulateRotatingHalfTurn entering") ;
+        InternalMessage("Physic","Physic::Test::testSimulate::testSimulateRotatingHalfTurn entering") ;
 
         Model::init() ;
         Physic::init() ;
@@ -485,12 +485,12 @@ namespace ProjetUnivers {
         Physic::close() ;
         Model::close() ;
 
-        InternalMessage("Physic::Test::testSimulate::testSimulateRotatingHalfTurn leaving") ;
+        InternalMessage("Physic","Physic::Test::testSimulate::testSimulateRotatingHalfTurn leaving") ;
       }
 
       void TestDemonstration::testStabilizer()
       {
-        InternalMessage("Physic::Test::TestDemonstration::testStabilizer Entering") ;
+        InternalMessage("Physic","Physic::Test::TestDemonstration::testStabilizer Entering") ;
         Model::init() ;
         Physic::init() ;
 
@@ -526,7 +526,7 @@ namespace ProjetUnivers {
           ship->getTrait<Model::Oriented>()
           ->getOrientation().getQuaternion() ;
 
-        InternalMessage(std::string("testStabilizer initial orientation") 
+        InternalMessage("Physic",std::string("testStabilizer initial orientation") 
                                         + " w=" + toString(initial_orientation.w) 
                                         + ",x=" + toString(initial_orientation.x) 
                                         + ",y=" + toString(initial_orientation.y) 
@@ -557,13 +557,13 @@ namespace ProjetUnivers {
         Physic::close() ;
         Model::close() ;
 
-        InternalMessage("Physic::Test::testSimulate::testStabilizer leaving") ;
+        InternalMessage("Physic","Physic::Test::testSimulate::testStabilizer leaving") ;
         
       }
 
       void TestDemonstration::testNegativeStabilizer()
       {
-        InternalMessage("Physic::Test::TestDemonstration::testNegativeStabilizer Entering") ;
+        InternalMessage("Physic","Physic::Test::TestDemonstration::testNegativeStabilizer Entering") ;
         Model::init() ;
         Physic::init() ;
 
@@ -623,13 +623,13 @@ namespace ProjetUnivers {
         Physic::close() ;
         Model::close() ;
 
-        InternalMessage("Physic::Test::TestDemonstration::testNegativeStabilizer leaving") ;
+        InternalMessage("Physic","Physic::Test::TestDemonstration::testNegativeStabilizer leaving") ;
         
       }
 
       void TestDemonstration::testStabilizer2()
       {
-        InternalMessage("Physic::Test::TestDemonstration::testStabilizer2 Entering") ;
+        InternalMessage("Physic","Physic::Test::TestDemonstration::testStabilizer2 Entering") ;
 
         Model::init() ;
         Physic::init() ;
@@ -666,7 +666,7 @@ namespace ProjetUnivers {
           ship->getTrait<Model::Oriented>()
           ->getOrientation().getQuaternion() ;
 
-        InternalMessage(std::string("testStabilizer initial orientation") 
+        InternalMessage("Physic",std::string("testStabilizer initial orientation") 
                                         + " w=" + toString(initial_orientation.w) 
                                         + ",x=" + toString(initial_orientation.x) 
                                         + ",y=" + toString(initial_orientation.y) 
@@ -695,13 +695,13 @@ namespace ProjetUnivers {
         Physic::close() ;
         Model::close() ;
 
-        InternalMessage("Physic::Test::testSimulate::testStabilizer2 leaving") ;
+        InternalMessage("Physic","Physic::Test::testSimulate::testStabilizer2 leaving") ;
         
       }
 
       void TestDemonstration::testEngine()
       {
-        InternalMessage("Physic::Test::TestDemonstration::testEngine Entering") ;
+        InternalMessage("Physic","Physic::Test::TestDemonstration::testEngine Entering") ;
         Model::init() ;
         Physic::init() ;
 
@@ -772,7 +772,7 @@ namespace ProjetUnivers {
         Physic::close() ;
         Model::close() ;
 
-        InternalMessage("Physic::Test::testSimulate::testEngine leaving") ;
+        InternalMessage("Physic","Physic::Test::testSimulate::testEngine leaving") ;
         
       }
 

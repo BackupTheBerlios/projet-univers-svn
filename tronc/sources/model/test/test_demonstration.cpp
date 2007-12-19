@@ -57,20 +57,20 @@ namespace ProjetUnivers {
       */
       void TestDemonstration::testBuild()
       {
-        InternalMessage("TestDemonstration::testBuild") ;
+        InternalMessage("Model","TestDemonstration::testBuild") ;
         Model::init() ;
         Model::load("TestDemonstration") ;
 
         Object* observer(Model::getObject("Observer")) ;
         CPPUNIT_ASSERT_MESSAGE("no Observer object",observer) ;
         
-        InternalMessage(std::string("sizeof(Object)=") 
+        InternalMessage("Model",std::string("sizeof(Object)=") 
                                         + toString(sizeof(Object))) ; 
         
         CPPUNIT_ASSERT_MESSAGE("Observer has no Observer trait",
                                observer->getTrait<Observer>()) ;
 
-        InternalMessage("Testing Observer has Positionned trait") ;
+        InternalMessage("Model","Testing Observer has Positionned trait") ;
         
         CPPUNIT_ASSERT_MESSAGE("Observer has no Positionned trait",
                                observer->getTrait<Positionned>()) ;
@@ -79,33 +79,33 @@ namespace ProjetUnivers {
                                observer->getTrait<Universe>()==NULL) ;
 
 
-        InternalMessage("Testing Observer has Universe ancestor") ;
+        InternalMessage("Model","Testing Observer has Universe ancestor") ;
         
         Universe* universe(observer->getParent<Universe>()) ;
         CPPUNIT_ASSERT_MESSAGE("Observer has no Universe ancestor",
                                universe) ;
 
 
-        InternalMessage("Testing Universe has object") ;
+        InternalMessage("Model","Testing Universe has object") ;
         Object* universe_object = universe->getObject() ;
         
         CPPUNIT_ASSERT_MESSAGE("universe has no object",
                                universe_object) ;
 
 
-        InternalMessage("Testing Universe has Universe trait") ;
+        InternalMessage("Model","Testing Universe has Universe trait") ;
                                
         CPPUNIT_ASSERT_MESSAGE("universe has no Universe trait",
                                universe->getObject()->getTrait<Universe>()) ;
 
-        InternalMessage("Testing Observer has StellarSystem ancestor") ;
+        InternalMessage("Model","Testing Observer has StellarSystem ancestor") ;
 
         StellarSystem* system(observer->getParent<StellarSystem>()) ;
         CPPUNIT_ASSERT_MESSAGE("Observer has no StellarSystem ancestor",
                                system) ;
-        InternalMessage(std::string("sizeof(StellarSystem)=") 
+        InternalMessage("Model",std::string("sizeof(StellarSystem)=") 
                                         + toString(sizeof(StellarSystem))) ; 
-        InternalMessage(std::string("sizeof(Positionned)=") 
+        InternalMessage("Model",std::string("sizeof(Positionned)=") 
                                         + toString(sizeof(Positionned))) ; 
 
         CPPUNIT_ASSERT_MESSAGE("Observer has no Positionned root",

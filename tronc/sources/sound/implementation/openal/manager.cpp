@@ -98,10 +98,10 @@ namespace ProjetUnivers {
               }
               else
               {
-                InformationMessage("enter manager update") ;     
+                InformationMessage("Sound","enter manager update") ;     
                 (*iter)->update() ;
                 ++iter;
-                InformationMessage("leave manager update") ;     
+                InformationMessage("Sound","leave manager update") ;     
               }
             }
           }          

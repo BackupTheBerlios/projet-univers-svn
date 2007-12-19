@@ -198,7 +198,7 @@ namespace ProjetUnivers {
     
     Model::~Model()
     {
-      InternalMessage("Kernel::Model::~Model entering") ;
+      InternalMessage("Kernel","Kernel::Model::~Model entering") ;
       
       for(std::set<ObjectReference*>::iterator reference = m_references.begin() ;
           reference != m_references.end() ;
@@ -236,7 +236,7 @@ namespace ProjetUnivers {
         delete *object ;
       }
       
-      InternalMessage("Kernel::Model::~Model Leaving") ;
+      InternalMessage("Kernel","Kernel::Model::~Model Leaving") ;
     }
     
     Model::Model(const std::string& i_name)
@@ -247,7 +247,7 @@ namespace ProjetUnivers {
     {
       m_viewpoints.insert(i_viewpoint) ;
 
-      InternalMessage(
+      InternalMessage("Kernel",
         (std::string("Model::_register") + typeid(*i_viewpoint).name()).c_str()) ;
 
       for(std::set<Object*>::iterator object = m_objects.begin() ;
@@ -262,7 +262,7 @@ namespace ProjetUnivers {
     {
       m_viewpoints.erase(i_viewpoint) ;
 
-      InternalMessage(
+      InternalMessage("Kernel",
         (std::string("Model::_unregister") + typeid(*i_viewpoint).name()).c_str()) ;
     }
 

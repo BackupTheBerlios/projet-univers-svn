@@ -37,7 +37,7 @@ namespace ProjetUnivers {
         : Kernel::TraitView<Model::BackgroundSound,RealWorldViewPoint>(i_observer,i_viewpoint),
         SoundEmitter()
         {
-          InternalMessage("Building OpenAL::BackgroundSound") ;
+          InternalMessage("Sound","Building OpenAL::BackgroundSound") ;
         }
                     
         std::string BackgroundSound::getSoundFileName() const
