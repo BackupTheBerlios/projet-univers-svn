@@ -595,6 +595,11 @@ namespace ProjetUnivers {
       InternalMessage("Kernel","DeducedTrait::update Leaving") ;
     }
 
+    const TypeIdentifier& DeducedTrait::getLatestUpdatedTrait() const
+    {
+      return Trait::m_latest_updated_trait ;
+    }
+
     void FormulaOr::onChildUpdated(Object* i_object)
     {
       update(i_object) ;
@@ -609,6 +614,13 @@ namespace ProjetUnivers {
     {
       /// nothing
     }
+
+    void DeducedTrait::notify()
+    {
+      _updated() ;
+      TraitFormula::updateTrait(getObject(),getObjectTypeIdentifier(this)) ;
+    }
+
 
   // @}
 

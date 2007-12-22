@@ -26,16 +26,12 @@ AC_PROG_CC
 # Check/config CPPUNIT
 AM_PATH_CPPUNIT(1.1.0)
 
-# Vérifie la présence de flex
-# et définit LEXLIB
-AC_PROG_LEX
-
 # Check/config Ogre3d
 PKG_CHECK_MODULES(OGRE, [OGRE >= 1.4])
 AC_SUBST(OGRE_CFLAGS)
 AC_SUBST(OGRE_LIBS)
 
-# Check boost
+# Check/config boost
 AX_BOOST_BASE
 
 # Check/config OIS

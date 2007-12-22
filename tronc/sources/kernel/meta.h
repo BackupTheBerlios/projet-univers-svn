@@ -68,14 +68,18 @@ namespace ProjetUnivers {
       */
       bool isInstance(Trait* i_object) const ;
 
-    private:
-      
+      /// gcc typeid name to class name
+      std::string className() const ; 
+
       /// Assignment.
       TypeIdentifier& operator=(const TypeIdentifier& i_type_identifier) ;
 
-      /// Internal representation.
-      const std::type_info& m_representation ;
+    private:
+      
 
+      /// Internal representation.
+      std::string m_representation ;
+      
       /// For isInstance implementation.
       static std::map<TypeIdentifier,boost::function1<bool,Trait*> > 
         m_instance_tests ;
@@ -100,7 +104,8 @@ namespace ProjetUnivers {
     }
     
     /// Get the type identifier for @c i_object
-    #define getObjectTypeIdentifier(i_object) ProjetUnivers::Kernel::TypeIdentifier(typeid(*i_object))
+    #define getObjectTypeIdentifier(i_object) \
+      ProjetUnivers::Kernel::TypeIdentifier(typeid(*i_object))
     
     /// Get the type identifier for @c i_class
     #define getClassTypeIdentifier(i_class) \

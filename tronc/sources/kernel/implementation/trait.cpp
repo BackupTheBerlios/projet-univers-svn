@@ -53,6 +53,7 @@ namespace ProjetUnivers {
     std::map<std::pair<TypeIdentifier,TypeIdentifier>,
              TypeIdentifier>                 Trait::m_trait_of_controler ;
 
+    TypeIdentifier Trait::m_latest_updated_trait ;
 
     Object* Trait::getObject() const
     {
@@ -477,8 +478,10 @@ namespace ProjetUnivers {
  
     void Trait::notify()
     {
+      m_latest_updated_trait = getObjectTypeIdentifier(this) ;
       _updated() ;
       TraitFormula::updateTrait(getObject(),getObjectTypeIdentifier(this)) ;
+      m_latest_updated_trait = VoidTypeIdentifier ;
     }
 
     void Trait::apply(

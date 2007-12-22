@@ -96,8 +96,11 @@ namespace ProjetUnivers {
       Object* object ;
 
       /// Tells the views the trait has changed.
-      void notify() ;
+      virtual void notify() ;
 
+      /// The latest updated trait type.
+      static TypeIdentifier m_latest_updated_trait ;
+      
     private:
     
     /*!

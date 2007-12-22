@@ -57,13 +57,13 @@ namespace ProjetUnivers {
         
         /// Tests a composite formula.
         void testComposite() ;
-        
+
         /// Tests a composite formula with deduced traits.
         void testCompositeWithDeduced() ;
 
-        /// Tests view on deduced trait.
+        /// Tests view on deduced trait and correct notification.
         void testDeducedTraitViews() ;
-
+        
         
       // @}
 

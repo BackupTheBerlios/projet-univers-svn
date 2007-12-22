@@ -44,6 +44,9 @@ namespace ProjetUnivers {
         class C : public Trait
         {};
         
+        class IHaveALongName
+        {};
+        
       }
       
       void TestMeta::testIsInstance()
@@ -60,6 +63,12 @@ namespace ProjetUnivers {
         CPPUNIT_ASSERT(!(getClassTypeIdentifier(B).isInstance(&a))) ;
         CPPUNIT_ASSERT(!(getClassTypeIdentifier(B).isInstance(&c))) ;
         CPPUNIT_ASSERT(!(getClassTypeIdentifier(A).isInstance(&c))) ;
+      }
+
+      void TestMeta::testClassName()
+      {
+        CPPUNIT_ASSERT(getClassTypeIdentifier(A).className() == "A") ;
+        CPPUNIT_ASSERT(getClassTypeIdentifier(IHaveALongName).className() =="IHaveALongName") ;
       }
 
       void TestMeta::setUp()

@@ -27,11 +27,11 @@ namespace ProjetUnivers {
       TypeIdentifier::m_instance_tests ;
 
     TypeIdentifier::TypeIdentifier()
-    : m_representation(typeid(void))
+    : m_representation(typeid(void).name())
     {}
 
     TypeIdentifier::TypeIdentifier(const std::type_info& i_name)
-    : m_representation(i_name)
+    : m_representation(i_name.name())
     {}
 
     TypeIdentifier::TypeIdentifier(const TypeIdentifier& i_type_identifier)
@@ -41,19 +41,19 @@ namespace ProjetUnivers {
     TypeIdentifier::TypeIdentifier(
       const std::type_info& i_name,
       boost::function1<bool,Trait*> i_object_test)
-    : m_representation(i_name)
+    : m_representation(i_name.name())
     {
       m_instance_tests.insert(std::pair<TypeIdentifier,boost::function1<bool,Trait*> >(TypeIdentifier(i_name),i_object_test)) ;
     }
     
     std::string TypeIdentifier::toString() const
     {
-      return m_representation.name() ;
+      return m_representation ;
     }
     
     bool TypeIdentifier::operator <(const TypeIdentifier& i_type_identifier) const
     {
-      return m_representation.before(i_type_identifier.m_representation) ;
+      return m_representation < (i_type_identifier.m_representation) ;
     }
 
     bool TypeIdentifier::isInstance(Trait* i_object) const 
@@ -81,5 +81,70 @@ namespace ProjetUnivers {
       return m_representation != i_type_identifier.m_representation ;
     }
 
+    std::pair<int,int> getNumber(const std::string& name, const std::string::size_type& position)
+    {
+      std::string result ;
+      std::string::size_type current = position ;
+      
+      int number = 0 ;
+      
+      while(current < name.length() && name[current] >= '0' && name[current] <= '9')
+      {
+        result += name[current++] ;
+        number++ ;
+      }
+      
+      if (result != "")
+      {
+        return std::pair<int,int>(number,atoi(result.c_str())) ;
+      }
+      else
+      {
+        return std::pair<int,int>(1,1) ;
+      }
+    }
+
+    /*!
+      Of the form : 
+      
+      (N{number}{NamespaceName})*{number}{ClassName}E
+    */
+    std::string TypeIdentifier::className() const
+    {
+      std::string::size_type position = 0 ;
+      std::string name(m_representation) ;
+    
+      if (name[position] == 'N')
+      {
+        ++position ;
+      }  
+      else
+      {
+        std::pair<int,int> temp(getNumber(name,position)) ;
+        return name.substr(position+temp.first,temp.second) ;
+      }
+      
+      while(position <= name.length())
+      {
+        /// a number and a class...
+        std::pair<int,int> temp(getNumber(name,position)) ;
+        if (name[position+temp.first+temp.second] == 'E')
+        {
+          return name.substr(position+temp.first,temp.second) ;
+        }
+        position = position+temp.first+temp.second ;
+      }
+
+      return "" ;
+    }
+
+    TypeIdentifier& TypeIdentifier::operator=(const TypeIdentifier& type_identifier)
+    {
+      if (this != &type_identifier)
+      {
+        m_representation = type_identifier.m_representation ;
+      }
+      return *this ;
+    }
   }
 }

@@ -371,6 +371,12 @@
     - changed : log messages are tagged by module name
   * All :
     - changed log messages accoardingly
+
+2007-12-22 rogma 
+
+  * kernel :
+    - added DeducedTrait::getLatestUpdatedTrait to access latest non-deduced 
+      trait updated 
     
 todos :
 

@@ -29,8 +29,6 @@ namespace ProjetUnivers {
 
 
       ///  Test for TypeIdentifier.
-      /*!
-      */
       class TestMeta : public CppUnit::TestFixture {
       public:
 
@@ -47,7 +45,9 @@ namespace ProjetUnivers {
 
         /// Test the isInstance method.
         void testIsInstance() ;
-
+        
+        /// Test the className method.
+        void testClassName() ;
 
       // @}
 
@@ -55,6 +55,7 @@ namespace ProjetUnivers {
         CPPUNIT_TEST_SUITE(TestMeta) ;
 
         CPPUNIT_TEST(testIsInstance) ;
+        CPPUNIT_TEST(testClassName) ;
 
         CPPUNIT_TEST_SUITE_END() ;
 

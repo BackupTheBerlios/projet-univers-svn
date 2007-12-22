@@ -41,6 +41,9 @@ namespace ProjetUnivers {
       /// local classes
       namespace
       {
+        
+        TypeIdentifier last_modified_trait ;
+        
         class Trait1 : public Trait
         {
         public:
@@ -214,6 +217,7 @@ namespace ProjetUnivers {
           
           virtual void onUpdate()
           {
+            last_modified_trait = getModel()->getLatestUpdatedTrait() ;
             ++ m_update_number ;
           }
         };
@@ -383,18 +387,20 @@ namespace ProjetUnivers {
 
         CPPUNIT_ASSERT(object->getView<View7>(viewpoint.get())) ;
         CPPUNIT_ASSERT(object->getView<View7>(viewpoint.get())->m_update_number == 0) ;
-  
+        
+        last_modified_trait = TypeIdentifier() ;
         object->getTrait<Trait1>()->change(1) ;
-
         CPPUNIT_ASSERT(object->getView<View7>(viewpoint.get())->m_update_number == 1) ;
+        CPPUNIT_ASSERT(last_modified_trait.className() == "Trait1") ;
+
+        last_modified_trait = TypeIdentifier() ;
+        object->getTrait<Trait2>()->change(1) ;
+        CPPUNIT_ASSERT(object->getView<View7>(viewpoint.get())->m_update_number == 2) ;
+        CPPUNIT_ASSERT(last_modified_trait.className() == "Trait2") ;
 
         InternalMessage("Kernel","Kernel::Test::TestDeducedTrait::testDeducedTraitViews leaving") ;
         
       }
-      
-
-
-      
       
       void TestDeducedTrait::setUp()
       {
