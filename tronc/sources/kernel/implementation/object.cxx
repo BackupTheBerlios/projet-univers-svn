@@ -215,5 +215,26 @@ namespace ProjetUnivers {
 
       return result ;
     }
+
+    template <typename ReturnType>
+    ReturnType Object::callFunction(const std::string& function_name) const
+    throw (boost::bad_any_cast,std::exception)
+    {
+      for(std::map<TypeIdentifier,Trait*>::const_iterator trait = traits.begin() ;
+          trait != traits.end() ;
+          ++trait)
+      {
+        std::pair<bool,boost::any> temp(
+          trait->second->callFunction(trait->first,function_name)) ;
+        if (temp.first)
+        {
+          return boost::any_cast<ReturnType>(temp.second) ;
+        }
+      }
+      
+      // no function...
+      throw std::exception() ;
+    }
+
   }
 }

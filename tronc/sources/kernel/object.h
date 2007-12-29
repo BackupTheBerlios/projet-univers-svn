@@ -146,6 +146,18 @@ namespace ProjetUnivers {
       /// call an int command returns true iff succedeed.
       bool call(const std::string& i_command, const int&) ;
       
+      /// Call a function on object.
+      /*!
+        @exception boost::bad_any_cast 
+                   function exists but ReturnType cast is incorrect
+                   
+        @exception std::exception 
+                   function does not exist
+      */
+      template <typename ReturnType>
+      ReturnType callFunction(const std::string& function_name) const 
+      throw (boost::bad_any_cast,std::exception) ;
+      
       /// Access to all commands understood be the object.
       std::set<std::string> getCommands() const ;
       

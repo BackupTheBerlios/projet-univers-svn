@@ -612,6 +612,34 @@ namespace ProjetUnivers {
       return result ;
     }
 
+    std::pair<bool,boost::any> Trait::callFunction(
+      const TypeIdentifier& trait_type,
+      const std::string&    function)
+    {
+      std::map<TypeIdentifier,
+               std::map<std::string,
+                        boost::function1<boost::any,Trait*> > >::const_iterator
+        group = m_functions.find(trait_type) ;
+      
+      if (group != m_functions.end())
+      {
+        std::map<std::string,boost::function1<boost::any,Trait*> >::const_iterator 
+          command = group->second.find(function) ;
+        if (command != group->second.end())
+        {
+          return std::pair<bool,boost::any>(true,command->second(this)) ;
+        }
+        else
+        {
+          return std::pair<bool,boost::any>(false,false) ;
+        }
+      }
+      else
+      {
+        return std::pair<bool,boost::any>(false,false) ;
+      }
+    }
+
     std::map<TypeIdentifier,
              std::map<std::string,
                       boost::function1<void,Trait*> > > 
@@ -621,6 +649,12 @@ namespace ProjetUnivers {
              std::map<std::string,
                       boost::function2<void,Trait*,int> > > 
       Trait::m_int_commands ;
+
+    std::map<TypeIdentifier,
+             std::map<std::string,
+                      boost::function1<boost::any,Trait*> > > 
+      Trait::m_functions ;
+
 
     void Trait::_registerReference(BaseTraitReference* reference)
     {

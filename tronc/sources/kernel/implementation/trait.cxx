@@ -34,6 +34,7 @@ namespace ProjetUnivers {
       }
     };
 
+    /// Register a view.
     template <class _Trait,class _ViewPoint,class _View> 
     class ViewRegistration
     {
@@ -62,6 +63,7 @@ namespace ProjetUnivers {
       }
     };
     
+    /// Register a controler.
     template <class _Trait, class _ControlerSet, class _Controler> 
     class ControlerRegistration
     {
@@ -93,6 +95,7 @@ namespace ProjetUnivers {
     };
     
 
+    /// Register a command.
     template <class _Trait> class CommandRegistration
     {
     public:
@@ -107,6 +110,7 @@ namespace ProjetUnivers {
       }
     };
     
+    /// Register an axis.
     template <class _Trait> class AxisRegistration
     {
     public:
@@ -118,6 +122,21 @@ namespace ProjetUnivers {
         
         Kernel::Trait::addAxis<_Trait>(i_axis_name,
                                        i_operation) ;
+      }
+    };
+    
+    /// Register a function.
+    template <class _Trait> class FunctionRegistration
+    {
+    public:
+      
+      /// Constructor.
+      FunctionRegistration(const std::string&                   function_name,
+                           boost::function1<boost::any,_Trait*> function)
+      {
+        
+        Kernel::Trait::addFunction<_Trait>(function_name,
+                                           function) ;
       }
     };
     
@@ -197,6 +216,13 @@ namespace ProjetUnivers {
         = boost::bind(i_axis_update, boost::bind(&convert<SpecializedTrait>, _1),_2) ;
     }
 
+    template <class SpecializedTrait> void Trait::addFunction(
+          const std::string&                             function_name,
+          boost::function1<boost::any,SpecializedTrait*> function)
+    {
+      m_functions[getClassTypeIdentifier(SpecializedTrait)][function_name]
+        = boost::bind(function, boost::bind(&convert<SpecializedTrait>, _1)) ;
+    }
 
   }
 }

@@ -29,9 +29,7 @@ namespace ProjetUnivers {
     namespace Test {
 
 
-      ///  Test for trait command.
-      /*!
-      */
+      ///  Test for trait command and trait functions.
       class TestCommand : public CppUnit::TestFixture {
       public:
 
@@ -52,6 +50,12 @@ namespace ProjetUnivers {
         /// A test for command delegating.
         void testCommandDelegator() ; 
         
+        /// A test for function call and declaration.
+        void testFunctionCall() ;
+
+        /// A test for function call in the error cases.
+        void testFunctionCallErrorCases() ;
+        
       // @}
 
 
@@ -59,6 +63,7 @@ namespace ProjetUnivers {
 
         CPPUNIT_TEST(basicTest) ;
         CPPUNIT_TEST(testCommandDelegator) ;
+        CPPUNIT_TEST(testFunctionCall) ;
 
         CPPUNIT_TEST_SUITE_END() ;
 

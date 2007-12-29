@@ -23,6 +23,7 @@
 
 #include <map>
 #include <boost/function.hpp>
+#include <boost/any.hpp>
 
 #include <kernel/meta.h>
 #include <kernel/helper_macros.h>
@@ -45,6 +46,9 @@ namespace ProjetUnivers {
     class Trait
     {
     public:
+
+      /// Build a trait from a reader.
+      static Trait* read(Reader*) ;
     
       /// Access to object.      
       Object* getObject() const ;
@@ -55,7 +59,6 @@ namespace ProjetUnivers {
       /// Access to a specific controler.
       template<class _Controler> 
       _Controler* getControler(ControlerSet* i_controler_set) ;
-
 
       /// Access to the trait class's name associated with i_view, i_viewpoint.
       static const TypeIdentifier& getTraitName(const TypeIdentifier& i_view,
@@ -72,20 +75,19 @@ namespace ProjetUnivers {
       virtual ~Trait() ;
       
       /// Register a command for that trait.
-      template <class SpecializedTrait>
-      static
-      void addCommand(const std::string&                       i_command_name,
-                      boost::function1<void,SpecializedTrait*> i_operation) ;
+      template <class SpecializedTrait> static void addCommand(
+          const std::string&                       i_command_name,
+          boost::function1<void,SpecializedTrait*> i_operation) ;
 
       /// Register an axis update for that trait.
-      template <class SpecializedTrait>
-      static 
-      void addAxis(const std::string&                           i_command_name,
-                   boost::function2<void,SpecializedTrait*,int> i_axis_update) ;
+      template <class SpecializedTrait> static void addAxis(
+          const std::string&                           i_command_name,
+          boost::function2<void,SpecializedTrait*,int> i_axis_update) ;
       
-      /// Build a trait from a reader.
-      static Trait* read(Reader*) ;
-      
+      /// Add a definition for that funciton on this trait.
+      template <class SpecializedTrait> static void addFunction(
+          const std::string&                             function_name,
+          boost::function1<boost::any,SpecializedTrait*> function) ;
       
     protected: 
     
@@ -270,6 +272,11 @@ namespace ProjetUnivers {
       virtual bool call(const TypeIdentifier& i_trait_type,
                         const std::string&    i_command, 
                         const int&            i_parameter) ;
+      
+      /// Function call return <true,result> if succeeded <false,..> otherwise.
+      virtual std::pair<bool,boost::any> callFunction(
+          const TypeIdentifier& trait_type,
+          const std::string&    function) ; 
 
       /// Access to all commands understood be the trait.
       virtual std::set<std::string> getCommands() const ;
@@ -292,6 +299,12 @@ namespace ProjetUnivers {
       std::map<TypeIdentifier,
                std::map<std::string,
                         boost::function2<void,Trait*,int> > > m_int_commands ;
+      
+      /// Custom parameter less functions.
+      static 
+      std::map<TypeIdentifier,
+               std::map<std::string,
+                        boost::function1<boost::any,Trait*> > > m_functions ;
 
     private:
         
@@ -430,6 +443,31 @@ namespace ProjetUnivers {
         ProjetUnivers::Kernel::AxisRegistration<ClassTrait>            \
           temp(AxisName,&ClassTrait::MethodName) ;                     \
       }                                                                
+
+    /// Register @c ClassTrait::MethodName as a function named @c FunctionName.
+    /*!
+    @par Usage
+      In the .cpp of a trait clas : 
+      
+        RegisterFunction(FunctionName,ClassTrait,MethodName) ;
+        
+    @example
+      RegisterFunction("getPosition",Model::Positionned,getPosition) ;
+    
+    @par How does it works
+      Same principle than CPPUNIT_TEST_SUITE_REGISTRATION
+    */
+    #define RegisterFunction(FunctionName,ClassTrait,MethodName)       \
+      namespace PU_MAKE_UNIQUE_NAME(register_function) {               \
+        boost::any localFunction(ClassTrait* trait)                    \
+        {                                                              \
+          return trait->MethodName() ;                                 \
+        }                                                              \
+        static                                                         \
+        ProjetUnivers::Kernel::FunctionRegistration<ClassTrait>        \
+          temp(FunctionName,&localFunction) ;                          \
+      }                                                                
+    
 
   }
 }

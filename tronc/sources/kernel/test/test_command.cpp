@@ -71,6 +71,8 @@ namespace ProjetUnivers {
         /// command registration
         RegisterAxis("axis1",Trait1,change) ;
 
+        RegisterFunction("function1",Trait1,getValue) ;
+
         class Trait2 : public Trait
         {
         public:
@@ -111,6 +113,8 @@ namespace ProjetUnivers {
         /// registration
         RegisterCommand("push",Trait2,push) ;
         RegisterAxis("axis2",Trait2,change) ;
+
+        RegisterFunction("function1",Trait2,getValue) ;
         
         class Trait3 : public Trait
         {
@@ -138,6 +142,7 @@ namespace ProjetUnivers {
            
         };
 
+        RegisterFunction("function1",Trait3,getValue) ;
       }
       
       void TestCommand::basicTest()
@@ -180,7 +185,9 @@ namespace ProjetUnivers {
 
       void TestCommand::testCommandDelegator()
       {
-        InternalMessage("Kernel","Kernel::Test::TestCommand::testCommandDelegator entering") ;
+        InternalMessage(
+          "Kernel",
+          "Kernel::Test::TestCommand::testCommandDelegator entering") ;
         /// create a model
         std::auto_ptr<Model> model(new Model()) ;
                                     
@@ -209,7 +216,81 @@ namespace ProjetUnivers {
         
         InternalMessage("Kernel","Kernel::Test::TestCommand::testCommandDelegator leaving") ;
       }
-      
+
+      void TestCommand::testFunctionCall()
+      {
+        InternalMessage(
+          "Kernel",
+          "Kernel::Test::TestCommand::testFunctionCall entering") ;
+        /// create a model
+        std::auto_ptr<Model> model(new Model()) ;
+                                    
+        //// fill the model
+        Object* object = model->createObject("object") ;
+        Trait1* trait1 = new Trait1() ;
+        model->addTrait(object,trait1) ;
+        CPPUNIT_ASSERT(object->callFunction<int>("function1") == 0);        
+        
+        object->getTrait<Trait1>()->change(10) ;
+        CPPUNIT_ASSERT(object->callFunction<int>("function1") == 10);        
+        
+        model->addTrait(object,new Trait2()) ;
+        model->destroyTrait(object,trait1) ;
+        
+        object->getTrait<Trait2>()->change(50) ;
+        CPPUNIT_ASSERT(object->callFunction<int>("function1") == 50);        
+        
+        InternalMessage(
+          "Kernel",
+          "Kernel::Test::TestCommand::testFunctionCall leaving") ;
+      }
+
+      void TestCommand::testFunctionCallErrorCases()
+      {
+        InternalMessage(
+          "Kernel",
+          "Kernel::Test::TestCommand::testFunctionCallErrorCases entering") ;
+        /// create a model
+        std::auto_ptr<Model> model(new Model()) ;
+
+        //// fill the model
+        Object* object = model->createObject("object") ;
+        
+        /// test unexisting function
+        try
+        {
+          object->callFunction<int>("function1") ;
+          CPPUNIT_ASSERT(false) ;
+        }
+        catch(const std::exception&)
+        {
+          CPPUNIT_ASSERT(true) ;
+        }
+        catch(...)
+        {
+          CPPUNIT_ASSERT(false) ;
+        }
+
+        /// test bad cast call
+        try
+        {
+          object->callFunction<std::string>("function1") ;
+          CPPUNIT_ASSERT(false) ;
+        }
+        catch(const boost::bad_any_cast&)
+        {
+          CPPUNIT_ASSERT(true) ;
+        }
+        catch(...)
+        {
+          CPPUNIT_ASSERT(false) ;
+        }
+        
+        InternalMessage(
+          "Kernel",
+          "Kernel::Test::TestCommand::testFunctionCallErrorCases leaving") ;
+      }
+           
       void TestCommand::setUp()
       {
       }
@@ -217,10 +298,6 @@ namespace ProjetUnivers {
       void TestCommand::tearDown()
       {
       }
-
- 
-       
-       
     }
   }
 }
