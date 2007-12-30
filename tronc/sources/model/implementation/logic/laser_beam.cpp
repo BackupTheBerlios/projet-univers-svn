@@ -57,7 +57,7 @@ namespace ProjetUnivers {
             InternalMessage("Model","Logic::LaserBeam::simulate destroying object") ;
   
             // mark the object for destruction
-            getControlerSet()->addObjectToDestroy(getModel()->getObject()) ;
+            getControlerSet()->addObjectToDestroy(getTrait()->getObject()) ;
           }
   
           InternalMessage("Model","Logic::LaserBeam::simulate leaving") ;

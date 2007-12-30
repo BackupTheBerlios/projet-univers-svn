@@ -31,9 +31,6 @@ namespace ProjetUnivers {
 
             
       /// Physic tests on a Model::Dragger.
-      /*!
-
-      */
       class TestDragger : public CppUnit::TestFixture {
       protected:
       
@@ -55,7 +52,7 @@ namespace ProjetUnivers {
     
         CPPUNIT_TEST_SUITE(TestDragger) ;
       
-//        CPPUNIT_TEST(basicTest) ;
+        CPPUNIT_TEST(basicTest) ;
      
         CPPUNIT_TEST_SUITE_END() ;
 

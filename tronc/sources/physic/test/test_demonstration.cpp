@@ -77,6 +77,7 @@ namespace ProjetUnivers {
         InternalMessage("Physic","Physic::Test::TestDemonstration::testBuild Entering") ;
         Model::init() ;
         Model::load("TestDemonstration") ;
+        InternalMessage("Physic","Model loaded") ;
         Physic::init() ;
         Object* observer(Model::getObject("Observer")) ;
         

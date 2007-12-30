@@ -384,6 +384,11 @@
     - added function declaration and call on traits, similar behaviour as 
       commands, see Object::callFunction<T> and 
       RegisterFunction(name,trait,function).
+
+2007-12-30 rogma 
+
+  * kernel + all :
+    - renamed TraitView/Controler getModel into getTrait for clarity.
     
 todos :
 

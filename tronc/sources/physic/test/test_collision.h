@@ -31,9 +31,6 @@ namespace ProjetUnivers {
 
             
       /// Collision tests.
-      /*!
-
-      */
       class TestCollision : public CppUnit::TestFixture {
       protected:
       

@@ -48,7 +48,7 @@ namespace ProjetUnivers {
         
         Kernel::Object* ListenerView::getObject() const
         {
-          getModel()->getObject() ;
+          getTrait()->getObject() ;
         }
         
         void ListenerView::onInit()

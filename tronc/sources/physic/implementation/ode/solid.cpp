@@ -76,7 +76,7 @@ namespace ProjetUnivers {
           Ogre::Vector3                 scale(1,1,1) ;        
           
           InternalMessage("Physic","Physic::Implementation::Ode::Solid::createGeometry trace#0") ;
-          getModel()->getMesh().getMeshInformation(vertices,indices,scale) ;
+          getTrait()->getMesh().getMeshInformation(vertices,indices,scale) ;
 
           if (vertices.size()>0 && indices.size() > 0)
           {

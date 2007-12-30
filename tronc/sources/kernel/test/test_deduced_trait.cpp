@@ -217,7 +217,7 @@ namespace ProjetUnivers {
           
           virtual void onUpdate()
           {
-            last_modified_trait = getModel()->getLatestUpdatedTrait() ;
+            last_modified_trait = getTrait()->getLatestUpdatedTrait() ;
             ++ m_update_number ;
           }
         };

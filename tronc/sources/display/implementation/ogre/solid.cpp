@@ -63,7 +63,7 @@ namespace ProjetUnivers {
           // build 3D object
           mesh = this->getViewPoint()->getManager()
                   ->createEntity(Utility::getUniqueName(),
-                                 getModel()->getMesh().getName()) ;
+                                 getTrait()->getMesh().getName()) ;
           
           // put it on the node
           positionned->getNode()->attachObject(mesh) ;

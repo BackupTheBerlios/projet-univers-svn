@@ -53,7 +53,7 @@ namespace ProjetUnivers {
         
         Kernel::Object* EngineSoundView::getObject() const
         {
-          getModel()->getObject() ;
+          getTrait()->getObject() ;
         }
         
         float EngineSoundView::getOuterGain() const

@@ -40,7 +40,7 @@ namespace ProjetUnivers {
       
         void Destroyable::simulate(const float& i_seconds)
         {
-          if (getModel()->getLife() <= 0)
+          if (getTrait()->getLife() <= 0)
           {
             InternalMessage("Model","Logic::Destroyable destroying object") ;
             getControlerSet()->addObjectToDestroy(getObject()) ;

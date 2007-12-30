@@ -44,7 +44,7 @@ namespace ProjetUnivers {
           InternalMessage("Display","Building Ogre::Menu::onInit entering") ;
           
           m_window = CEGUI::WindowManager::getSingleton().loadWindowLayout(
-            getModel()->getFileName()) ;
+            getTrait()->getFileName()) ;
           
           InternalMessage("Display","Building Ogre::Menu::onInit #1") ;
 

@@ -3981,16 +3981,16 @@ namespace ProjetUnivers {
 
         dContactGeom contacts[100] ;
         int number = dCollide(TriMesh,cube,100,contacts,sizeof(dContactGeom)) ;
-        std::cout << "number of contact points " << number << std::endl ; 
+//        std::cout << "number of contact points " << number << std::endl ; 
         if (number)
         {
-          std::cout << "contact point " 
-                    << contacts[0].pos[0]
-                    << "," 
-                    << contacts[0].pos[1]
-                    << "," 
-                    << contacts[0].pos[2]
-                    << std::endl ;
+//          std::cout << "contact point " 
+//                    << contacts[0].pos[0]
+//                    << "," 
+//                    << contacts[0].pos[1]
+//                    << "," 
+//                    << contacts[0].pos[2]
+//                    << std::endl ;
         }
         
         CPPUNIT_ASSERT(number==0) ;

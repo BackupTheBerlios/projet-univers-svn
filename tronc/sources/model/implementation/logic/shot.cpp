@@ -44,7 +44,7 @@ namespace ProjetUnivers {
         {
           InternalMessage("Model","Shot::simulate entering") ;
           // mark the shot object for destruction
-          getControlerSet()->addObjectToDestroy(getModel()->getObject()) ;
+          getControlerSet()->addObjectToDestroy(getTrait()->getObject()) ;
           InternalMessage("Model","Shot::simulate leaving") ;
         }
       }      

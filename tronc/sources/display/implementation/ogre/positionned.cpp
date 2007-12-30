@@ -104,7 +104,7 @@ namespace ProjetUnivers {
               " with position " + 
               ::Ogre::StringConverter::toString(m_node->getPosition())) ;
 
-            m_node->setPosition(convert(getModel()->getPosition())) ;
+            m_node->setPosition(convert(getTrait()->getPosition())) ;
 
             InternalMessage("Display",
               "modification of scene node " + m_node->getName() + 
@@ -146,7 +146,7 @@ namespace ProjetUnivers {
         void Positionned::onUpdate()
         {
           /// on le replace par rapport à son parent
-          m_node->setPosition(convert(getModel()->getPosition())) ;
+          m_node->setPosition(convert(getTrait()->getPosition())) ;
 
           InternalMessage("Display",
             "modification of scene node " + m_node->getName() + 

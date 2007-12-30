@@ -22,7 +22,7 @@ namespace ProjetUnivers {
   namespace Kernel {
    
     template<class _Trait,class _ControlerSet> 
-    _Trait* Controler<_Trait,_ControlerSet>::getModel() const
+    _Trait* Controler<_Trait,_ControlerSet>::getTrait() const
     {
       _Trait* result = dynamic_cast<_Trait*>(m_trait) ;
       return result ;

@@ -75,7 +75,7 @@ namespace ProjetUnivers {
                 " with orientation " + 
                 ::Ogre::StringConverter::toString(m_node->getOrientation())) ;
   
-              m_node->setOrientation(getModel()->getOrientation().getQuaternion()) ;
+              m_node->setOrientation(getTrait()->getOrientation().getQuaternion()) ;
   
               InternalMessage("Display",
                 "modification of scene node " + m_node->getName() + 
@@ -90,7 +90,7 @@ namespace ProjetUnivers {
         
         void Oriented::onUpdate()
         {
-          m_node->setOrientation(getModel()->getOrientation().getQuaternion()) ;
+          m_node->setOrientation(getTrait()->getOrientation().getQuaternion()) ;
 
           InternalMessage("Display",
             "modification of scene node " + m_node->getName() + 

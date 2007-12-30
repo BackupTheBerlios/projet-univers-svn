@@ -52,7 +52,7 @@ namespace ProjetUnivers {
 
         Kernel::Object* Collision::getObject() const
         {
-          return getModel()->getObject() ;
+          return getTrait()->getObject() ;
         }
         
         void Collision::onInit()

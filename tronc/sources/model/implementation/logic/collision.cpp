@@ -54,25 +54,25 @@ namespace ProjetUnivers {
             and if the other is destroyable
             - manage damage 
           */
-          LaserBeam* laser1 = getModel()->getObject1()->getTrait<LaserBeam>() ;
-          LaserBeam* laser2 = getModel()->getObject2()->getTrait<LaserBeam>() ;
+          LaserBeam* laser1 = getTrait()->getObject1()->getTrait<LaserBeam>() ;
+          LaserBeam* laser2 = getTrait()->getObject2()->getTrait<LaserBeam>() ;
           LaserBeam* laser = NULL ; 
           
-          Destroyable* destroyable1 = getModel()->getObject1()->getTrait<Destroyable>() ;
-          Destroyable* destroyable2 = getModel()->getObject2()->getTrait<Destroyable>() ;
+          Destroyable* destroyable1 = getTrait()->getObject1()->getTrait<Destroyable>() ;
+          Destroyable* destroyable2 = getTrait()->getObject2()->getTrait<Destroyable>() ;
           Destroyable* destroyable = NULL ;
           
           if (laser1)
           {
             laser = laser1 ;
-            getControlerSet()->addObjectToDestroy(getModel()->getObject1()) ;
+            getControlerSet()->addObjectToDestroy(getTrait()->getObject1()) ;
 //            std::cout << "touche" << std::endl ;
           }
 
           if (laser2)
           {
             laser = laser2 ;
-            getControlerSet()->addObjectToDestroy(getModel()->getObject2()) ;
+            getControlerSet()->addObjectToDestroy(getTrait()->getObject2()) ;
 //            std::cout << "touche" << std::endl ;
           }
           
@@ -93,7 +93,7 @@ namespace ProjetUnivers {
           }          
           
           // mark the collision object for destruction
-          getControlerSet()->addObjectToDestroy(getModel()->getObject()) ;
+          getControlerSet()->addObjectToDestroy(getTrait()->getObject()) ;
           
           InternalMessage("Model","Collision::simulate leaving") ;
         }

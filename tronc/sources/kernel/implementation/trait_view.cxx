@@ -36,7 +36,7 @@ namespace ProjetUnivers {
     {}
     
     template <class _Trait,class _ViewPoint> 
-    _Trait* TraitView<_Trait,_ViewPoint>::getModel() const
+    _Trait* TraitView<_Trait,_ViewPoint>::getTrait() const
     {
       _Trait* result = dynamic_cast<_Trait*>(trait) ;
       return result ;

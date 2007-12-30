@@ -19,6 +19,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include <kernel/exception_kernel.h>
+#include <kernel/log.h>
 
 namespace ProjetUnivers {
   namespace Kernel {
@@ -47,6 +48,7 @@ namespace ProjetUnivers {
       
       if (section_iterator == m_parameters.end())
       {
+        ErrorMessage(std::string("no section named : ") + section) ;
         throw ExceptionKernel(std::string("no section named : ") + section) ;
       }
       
@@ -62,6 +64,7 @@ namespace ProjetUnivers {
       }
       else
       {
+        ErrorMessage(std::string("no parameter named : ") + name) ;
       	throw ExceptionKernel(std::string("no parameter named : ") + name) ;
       } 
       

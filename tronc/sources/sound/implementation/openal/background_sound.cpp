@@ -42,7 +42,7 @@ namespace ProjetUnivers {
                     
         std::string BackgroundSound::getSoundFileName() const
         {
-          return this->getModel()->getFileName();
+          return this->getTrait()->getFileName();
         }
           
         bool BackgroundSound::isEvent() const
@@ -52,7 +52,7 @@ namespace ProjetUnivers {
         
         Kernel::Object* BackgroundSound::getObject() const
         {
-          getModel()->getObject() ;
+          getTrait()->getObject() ;
         }
                   
         void BackgroundSound::onInit()

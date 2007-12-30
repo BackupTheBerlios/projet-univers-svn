@@ -68,7 +68,7 @@ namespace ProjetUnivers {
                       
         void SoundEnvironnementView::onUpdate()
         {
-          Model::SoundEnvironnement* env = getModel()->getObject()->getTrait<Model::SoundEnvironnement>() ;
+          Model::SoundEnvironnement* env = getTrait()->getObject()->getTrait<Model::SoundEnvironnement>() ;
           alEffecti(m_effect, AL_EFFECT_TYPE, AL_EFFECT_REVERB) ;
           alEffectf(m_effect, AL_REVERB_DENSITY, env->getDensity()) ;
           alEffectf(m_effect, AL_REVERB_DIFFUSION, env->getDiffusion()) ;

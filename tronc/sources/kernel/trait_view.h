@@ -53,7 +53,7 @@ namespace ProjetUnivers {
     public:
     
       /// Access to object's trait viewed.     
-      virtual _Trait* getModel() const ;
+      virtual _Trait* getTrait() const ;
 
       /// Access to specialised viewpoint.
       _ViewPoint* getViewPoint() const ;

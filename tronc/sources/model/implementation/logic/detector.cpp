@@ -38,7 +38,7 @@ namespace ProjetUnivers {
       
         void Detector::simulate(const float& i_seconds)
         {
-          getModel()->detect() ;
+          getTrait()->detect() ;
         }
         
         void Detector::onInit()
@@ -47,7 +47,7 @@ namespace ProjetUnivers {
             detector must build a viewpoint but only after it has been added
             to an object : thus we put its initialisation here
           */ 
-          getModel()->init() ;
+          getTrait()->init() ;
         }
       }
     }

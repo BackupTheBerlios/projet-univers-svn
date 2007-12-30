@@ -182,7 +182,7 @@ namespace ProjetUnivers {
           /// Called when the model trait has changed.
           void onUpdate()
           {
-            value = getModel()->getValue() ;
+            value = getTrait()->getValue() ;
             updated = true ;
           }
           
@@ -255,7 +255,7 @@ namespace ProjetUnivers {
           /// Called when the model trait has changed.
           void onUpdate()
           {
-            value = getModel()->getValue() ;
+            value = getTrait()->getValue() ;
             updated = true ;
           }
 
@@ -340,7 +340,7 @@ namespace ProjetUnivers {
           /// Called when the model trait has changed.
           void onUpdate()
           {
-            value = getModel()->getValue() ;
+            value = getTrait()->getValue() ;
             updated = true ;
           }
           
@@ -647,7 +647,7 @@ namespace ProjetUnivers {
         model->changeParent(head,person2) ;
         model->changeParent(head2,person) ;
         
-        CPPUNIT_ASSERT(headview2->getModel()->getObject()->getParent() == person) ;
+        CPPUNIT_ASSERT(headview2->getTrait()->getObject()->getParent() == person) ;
         InternalMessage("Kernel","Kernel::Test::testchangeParent leaving") ;
       }
       

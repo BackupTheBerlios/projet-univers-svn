@@ -40,7 +40,7 @@ namespace ProjetUnivers {
     public:
 
       /// Access to object's trait viewed.     
-      _Trait* getModel() const ;
+      _Trait* getTrait() const ;
       
       /// Abstract class means virtual destructor.
       virtual ~Controler() ;
