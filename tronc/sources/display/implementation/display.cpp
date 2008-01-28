@@ -23,9 +23,11 @@
 
 #include <display/implementation/ogre/ogre.h>
 #include <display/implementation/ogre/real_world_view_point.h>
+#include <display/implementation/hud_system.h>
 
 #include <display/display.h>
 #include <display/display_input.h>
+#include <display/implementation/display_hud.h>
 
 namespace ProjetUnivers {
   namespace Display {
@@ -60,6 +62,8 @@ namespace ProjetUnivers {
     };
     
     LocalMemory local ;
+    
+    std::set<Implementation::HUDSystem*> m_hud_systems ;
     
     /// active wiepoint.
     Implementation::Ogre::RealWorldViewPoint* active = NULL ;
@@ -173,12 +177,32 @@ namespace ProjetUnivers {
   
     void update() 
     {
+      for(std::set<Implementation::HUDSystem*>::const_iterator system = m_hud_systems.begin() ;
+          system != m_hud_systems.end() ;
+          ++system)
+      {
+        (*system)->updateHUD() ;
+      }
+      
       Implementation::Ogre::update() ;
     }
 
     void injectKey(const unsigned int& key_code)
     {
       Implementation::Ogre::injectKey(key_code) ;
+    }
+
+    namespace Implementation
+    {
+      void registerHUDSystem(HUDSystem* system)
+      {
+        m_hud_systems.insert(system) ;
+      }
+  
+      void unRegisterHUDSystem(HUDSystem* system)
+      {
+        m_hud_systems.erase(system) ;
+      }
     }
   }
   

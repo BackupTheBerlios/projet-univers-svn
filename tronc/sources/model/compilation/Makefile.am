@@ -58,6 +58,9 @@ libmodel_la_SOURCES = \
 ../implementation/menu.cpp \
 ../implementation/hearing.cpp \
 ../implementation/sound_environnement.cpp \
+../implementation/targeting_system.cpp \
+../implementation/target_displayer.cpp \
+../implementation/detection_data.cpp \
 ../implementation/logic/logic.cpp \
 ../implementation/logic/laser_beam.cpp \
 ../implementation/logic/logic_system.cpp \

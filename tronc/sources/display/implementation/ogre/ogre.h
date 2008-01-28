@@ -62,9 +62,12 @@ namespace ProjetUnivers {
         /// Window
         ::Ogre::RenderWindow* getWindow() ;
         
-        ///
+        /// Access to GUI system.
         ::CEGUI::OgreCEGUIRenderer* getCEGUIRenderer() ;        
-
+        
+        /// Access to overlay, created on demand.
+        ::Ogre::Overlay* getOverlay() ;
+        
         /// Send a key event to GUI.
         void injectKey(const unsigned int& key_code) ;
 

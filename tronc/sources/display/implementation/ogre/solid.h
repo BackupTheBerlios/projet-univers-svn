@@ -48,6 +48,10 @@ namespace ProjetUnivers {
           Solid(Model::Solid* i_object,
                 RealWorldViewPoint* i_viewpoint) ;
 
+          
+          ::Ogre::Entity* getEntity() const ;
+          
+
         protected:
         //@}
         /*!
@@ -72,7 +76,7 @@ namespace ProjetUnivers {
         private:
           
           /// 3D ogre mesh.
-          ::Ogre::Entity* mesh ;
+          ::Ogre::Entity* m_mesh ;
       
         };
       }

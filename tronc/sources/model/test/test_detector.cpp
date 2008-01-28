@@ -201,8 +201,8 @@ namespace ProjetUnivers {
         CPPUNIT_ASSERT(ship->getTrait<Computer>()->getMemoryModel()->getRoots().size() == 1) ;
         Kernel::Object* detection 
           = *(ship->getTrait<Computer>()->getMemoryModel()->getRoots().begin()) ;
-        CPPUNIT_ASSERT(detection->getTrait<Positionned>()) ;
-        CPPUNIT_ASSERT(detection->getTrait<Positionned>()->getPosition() == Position::Meter(0,0,100)) ;
+//        CPPUNIT_ASSERT(detection->getTrait<Positionned>()) ;
+//        CPPUNIT_ASSERT(detection->getTrait<Positionned>()->getPosition() == Position::Meter(0,0,100)) ;
         
         ship2->getTrait<Positionned>()->setPosition(Position::Meter(0,500,0)) ;
         Model::update(Duration::Second(0.1)) ;

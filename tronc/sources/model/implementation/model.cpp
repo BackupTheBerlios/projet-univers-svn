@@ -52,6 +52,10 @@
 #include <model/throttle.h>
 #include <model/dragger.h>
 #include <model/menu.h>
+#include <model/computer.h>
+#include <model/detector.h>
+#include <model/targeting_system.h>
+#include <model/target_displayer.h>
 #include <model/implementation/logic/logic.h>
 
 #include <model/model.h>
@@ -195,8 +199,8 @@ namespace ProjetUnivers {
         {
           InternalMessage("Model","building ship...") ;
           Kernel::Object* ship = model->createObject("Vaisseau",system) ;
-          model->addTrait(ship,new Positionned(Position::Meter(0,
-                                                               0,
+          model->addTrait(ship,new Positionned(Position::Meter(200,
+                                                               50,
                                                                -500))) ;
           model->addTrait(ship,new Oriented()) ;
           model->addTrait(ship,new Solid(Mesh("razor.mesh"))) ;
@@ -270,6 +274,7 @@ namespace ProjetUnivers {
           model->addTrait(laser,new Laser(Position::Meter(19.2,0,57),
                                          Orientation())) ;
           
+          
           InternalMessage("Model","building ship done") ;
 
           /// 4. Ajout d'un observateur
@@ -278,6 +283,24 @@ namespace ProjetUnivers {
           model->addTrait(observer,new Positionned(Position::Meter(0,
                                                                0,
                                                                0))) ;
+
+          // targeting system
+          Kernel::Object* computer = model->createObject("computer",observer) ;
+          model->addTrait(computer,new Computer()) ;
+          
+          Kernel::Object* detector = model->createObject("detector",observer) ;
+          model->addTrait(detector,new Detector(computer,Distance(Distance::_Meter,800))) ;
+          
+          Kernel::Object* target_selector = model->createObject("target_selector",observer) ;
+          model->addTrait(target_selector,new TargetingSystem()) ;
+          TargetingSystem::connect(target_selector,computer) ;
+          
+          Kernel::Object* target_display = model->createObject("target_display",observer) ;
+          model->addTrait(target_display,new TargetDisplayer()) ;
+          TargetDisplayer::connect(target_display,target_selector) ;
+          
+          target_selector->getTrait<TargetingSystem>()->selectNextTarget() ;
+
           model->addTrait(observer,new Oriented()) ;
           /// Il a la faculté d'observer
           model->addTrait(observer,new Observer()) ;
@@ -285,6 +308,7 @@ namespace ProjetUnivers {
           command->addDelegate(throttle) ;
           command->addDelegate(stick) ;
           command->addDelegate(laser) ;
+          command->addDelegate(target_selector) ;
           
           model->addTrait(observer,command) ;
 

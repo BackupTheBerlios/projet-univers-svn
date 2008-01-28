@@ -39,44 +39,25 @@ namespace ProjetUnivers {
   namespace Display {
     namespace Implementation {
       namespace Ogre {  
-      
-        /// le système ogre      
-        ::Ogre::Root* root = NULL ;
-        
-        /// la fenetre d'affichage
+
         /*!
+          Ogre data
           @remark
-            C'est un pointeur, Ogre gère lui même sa mémoire et détruira 
-            l'objet lorsqu'on n'en aura plus besoin. 
-            Ce pointeur doit être considéré comme une association.
+            Ogre handle memory, so no need to destroy.
         */
-        ::Ogre::RenderWindow* window ;
-        
+      
+        ::Ogre::Root* root = NULL ;
+        ::Ogre::RenderWindow* window = NULL ;
         // gui
-        ::CEGUI::OgreCEGUIRenderer* CEGUIRenderer ;
-        ::CEGUI::System* CEGUISystem ;
+        ::CEGUI::OgreCEGUIRenderer* CEGUIRenderer = NULL;
+        ::CEGUI::System* CEGUISystem = NULL ;
+        ::Ogre::Overlay* m_overlay = NULL ;
 
-
-        /// le système ogre      
         ::Ogre::Root* getRoot()
         {
-          if (root)
-          {
-            return root ;
-          }
-          else
-          {
-            return NULL ;
-          }
+          return root ;
         }
         
-        /// la fenetre d'affichage
-        /*!
-          @remark
-            C'est un pointeur, Ogre gère lui même sa mémoire et détruira 
-            l'objet lorsqu'on n'en aura plus besoin. 
-            Ce pointeur doit être considéré comme une association.
-        */
         ::Ogre::RenderWindow* getWindow()
         {
           return window ;
@@ -85,6 +66,17 @@ namespace ProjetUnivers {
         ::CEGUI::OgreCEGUIRenderer* getCEGUIRenderer()
         {
           return CEGUIRenderer ;
+        }
+        
+        ::Ogre::Overlay* getOverlay()
+        {
+          // on demand create
+          if (!m_overlay)
+          {
+            m_overlay = ::Ogre::OverlayManager::getSingleton().create("hud") ;
+          }
+          
+          return m_overlay ;
         }
         
         size_t getWindowHandle()
@@ -97,7 +89,6 @@ namespace ProjetUnivers {
           return windowHnd ;
         }
 
-        /// Accès à la taille de la fenêtre
         void getWindowSize(unsigned int& width,
                            unsigned int& height,
                            unsigned int& depth,
@@ -107,7 +98,6 @@ namespace ProjetUnivers {
           window->getMetrics( width, height, depth, left, top ) ;
         }
         
-        /// Charge les ressources à partir du fichier ressources.cfg
         void loadRessources() 
         {
             
@@ -225,10 +215,9 @@ namespace ProjetUnivers {
           
         }
 
-        /// Rafraichi l'affichage
+        /// update display
         /*!
-          Met à jour tout ce qui doit être affiché. On se sert de cette méthode 
-          pour ne pas passer par la boucle standard de Ogre.
+          this procedure avoid "normal" loop for Ogre.
         */
         void update()
         {
@@ -236,7 +225,7 @@ namespace ProjetUnivers {
           ::Ogre::WindowEventUtilities::messagePump();
           root->_fireFrameStarted();
           window->update() ;
-          root->_fireFrameEnded();   
+          root->_fireFrameEnded();
         }
         
         void injectKey(const unsigned int& key_code)

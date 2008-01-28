@@ -34,7 +34,7 @@ namespace ProjetUnivers {
     namespace Implementation {
       namespace Ogre {
 
-        /// Indique que la cette vue s'applique au modèle dans ce point de vue
+        /// This view will be automatically maintained.
         RegisterView(Ogre::Solid,Model::Solid,Ogre::RealWorldViewPoint) ;
 
 
@@ -42,7 +42,7 @@ namespace ProjetUnivers {
         Solid::Solid(Model::Solid* i_object,
                      RealWorldViewPoint* i_viewpoint)
         : Kernel::TraitView<Model::Solid,RealWorldViewPoint>(i_object,i_viewpoint), 
-          mesh(NULL)
+          m_mesh(NULL)
         {}
 
 
@@ -61,12 +61,12 @@ namespace ProjetUnivers {
           positionned->_init() ;
           
           // build 3D object
-          mesh = this->getViewPoint()->getManager()
-                  ->createEntity(Utility::getUniqueName(),
+          m_mesh = this->getViewPoint()->getManager()
+                   ->createEntity(Utility::getUniqueName(),
                                  getTrait()->getMesh().getName()) ;
           
           // put it on the node
-          positionned->getNode()->attachObject(mesh) ;
+          positionned->getNode()->attachObject(m_mesh) ;
           
           // reset scale factor
           positionned->getNode()->setScale(::Ogre::Vector3(1.0/conversion_factor,
@@ -92,7 +92,7 @@ namespace ProjetUnivers {
           }  
           
           this->getViewPoint()->getManager()
-               ->destroyEntity(mesh) ;
+               ->destroyEntity(m_mesh) ;
 
           InternalMessage("Display","Display::Solid::onClose Leaving") ;
         }
@@ -109,7 +109,11 @@ namespace ProjetUnivers {
 
 
       // @}
-    
+        
+        ::Ogre::Entity* Solid::getEntity() const
+        {
+          return m_mesh ;
+        }
       }
     }
   }

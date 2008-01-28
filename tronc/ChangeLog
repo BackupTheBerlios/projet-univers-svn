@@ -389,17 +389,49 @@
 
   * kernel + all :
     - renamed TraitView/Controler getModel into getTrait for clarity.
-    
+
+2008-01-23 rogma
+
+  * Model :
+    - changed detection data handling, DetectionData is nowa special trait that 
+      hold the "real" detected object
+    - added TargetDisplayer, TargetingSystem for displaying targets and selecting
+      targets in the set of detected targets
+  * Display 
+    - added TargetDisplayer for real target displaying
+  * Media
+    - added media pack
+
 todos :
 
+  * targets :
+    - remove link to real object in DetectionData, instead have :
+      - a position
+      - a radius 
+      They can both be obtained by the detector. Maybe we should use traits 
+      instead of class attributes for increasing extendability (by adding speed 
+      ...). Detectors could then be caractrized by their detection abilities :
+      SpeedDetector&MassDetector... but it is not clear now
+  
+  * model :
+    - be able to get bouding box (?), radius (for detection) and perform ray 
+    casting inside model. Code could rely on Ogre but we would have an encapsulation.
+  
+  * kernel :
+    - add an onDeduced event on deduced traits : it would allow one to perform 
+      custom code, for example to calculate deduced attribute in those traits. 
+      e.g., Solid <=> Sized, and Sized.size = Solid.Mesh.radius
+      Not mandatory because it can be calculate "on demand" in a getSize method 
+      in the deduced trait. 
+  
   * physic : 
     - try to keep all units in an acceptable "range", it means that we whould 
       be able to convert model units in an arbitrary "ranging system".
     - migrate Model::PhysicalObject and Model::PhysicalWorld to Physic (for 
-      better separation of concerns)
+      better separation of concerns) --> not so sure ?
   * sound : 
     - reconsider the implementation with the limitation
     - move deduced trait to sound::implementation level (i.e. one up) ??
   * all :
-    - make use of Quantities ??
+    - make use of Quantities library, @see http://sourceforge.net/projects/quantity ??
   

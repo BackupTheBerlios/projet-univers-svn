@@ -51,6 +51,11 @@ namespace ProjetUnivers {
             m_controled_object->call("fire") ;
           }
           break ;
+        case OIS::KC_S:
+          if (m_controled_object)
+          {
+            m_controled_object->call("selectNextTarget") ;
+          }
         default:
           
           Display::injectKey(e.key) ;

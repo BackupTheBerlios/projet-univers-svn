@@ -22,7 +22,7 @@
 #include <model/model.h>
 #include <model/computer.h>
 #include <model/computer_data.h>
-#include <model/positionned.h>
+#include <model/detection_data.h>
 #include <model/implementation/detector_object_view.h>
 
 namespace ProjetUnivers {
@@ -68,16 +68,10 @@ namespace ProjetUnivers {
             // create object 
             m_detection_information = computer->getMemoryModel()->createObject() ;
             computer->getMemoryModel()->addTrait(m_detection_information,
-                                                 new Positionned()) ;
+                                                 new DetectionData(getObject())) ;
             computer->getMemoryModel()->addTrait(m_detection_information,
                                                  new ComputerData()) ;
           }
-          
-          // update object position
-          Position position = getRelativePosition(getObject(),
-                                                  detector->getObject()) ;
-          
-          m_detection_information->getTrait<Positionned>()->setPosition(position) ;
         }
         
         InternalMessage("Model","Model::DetectorObjectView::check leaving") ;

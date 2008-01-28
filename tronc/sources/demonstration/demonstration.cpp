@@ -39,8 +39,8 @@ int main() {
 
 
   /// init
-  Kernel::Log::init() ;
   Kernel::Parameters::load("demonstration.config") ;
+  Kernel::Log::init() ;
 
   InformationMessage("Demonstration","Demarrage de projet univers") ;
   Model::init() ;
@@ -50,8 +50,8 @@ int main() {
   
   InformationMessage("Demonstration","Modules initialisés") ;
 
-  Model::load("TestMenu") ;
-//  Model::load("TestDemonstration") ;
+//  Model::load("TestMenu") ;
+  Model::load("TestDemonstration") ;
 
   Kernel::Object* observer(Model::getObject("Observer")) ;
   

@@ -15,7 +15,8 @@ $(SOURCES)/display/implementation/ogre/solid.cpp \
 $(SOURCES)/display/implementation/ogre/universe.cpp \
 $(SOURCES)/display/implementation/ogre/utility.cpp \
 $(SOURCES)/display/implementation/ogre/laser_beam.cpp \
-$(SOURCES)/display/implementation/ogre/menu.cpp 
+$(SOURCES)/display/implementation/ogre/menu.cpp \
+$(SOURCES)/display/implementation/ogre/target_displayer.cpp
 
 libdisplayogre_la_LDFLAGS = -no-undefined
 libdisplayogre_la_LDFLAGS += \

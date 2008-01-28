@@ -26,13 +26,8 @@
 namespace ProjetUnivers {
   namespace Model {
     namespace Test {
-
-
             
       /// Test of Detector.
-      /*!
-
-      */
       class TestDetector : public CppUnit::TestFixture {
       protected:
       
