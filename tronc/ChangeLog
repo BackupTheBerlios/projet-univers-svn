@@ -402,6 +402,12 @@
   * Media
     - added media pack
 
+2008-02-03 rogma
+  * Kernel :
+    - added manual view handling
+  * Model :
+    - corrected TargetingSystem::selectNextTarget,selectPreviousTarget
+
 todos :
 
   * targets :
@@ -415,14 +421,15 @@ todos :
   
   * model :
     - be able to get bouding box (?), radius (for detection) and perform ray 
-    casting inside model. Code could rely on Ogre but we would have an encapsulation.
+      casting inside model. Code could rely on Ogre but we would be an 
+      encapsulation.
   
   * kernel :
     - add an onDeduced event on deduced traits : it would allow one to perform 
       custom code, for example to calculate deduced attribute in those traits. 
       e.g., Solid <=> Sized, and Sized.size = Solid.Mesh.radius
       Not mandatory because it can be calculate "on demand" in a getSize method 
-      in the deduced trait. 
+      in the deduced trait with a mutable attribute. 
   
   * physic : 
     - try to keep all units in an acceptable "range", it means that we whould 
@@ -430,7 +437,8 @@ todos :
     - migrate Model::PhysicalObject and Model::PhysicalWorld to Physic (for 
       better separation of concerns) --> not so sure ?
   * sound : 
-    - reconsider the implementation with the limitation
+    - reconsider the implementation with the limitation 
+    - perform platform dependent compilation for special sound effects
     - move deduced trait to sound::implementation level (i.e. one up) ??
   * all :
     - make use of Quantities library, @see http://sourceforge.net/projects/quantity ??

@@ -18,17 +18,13 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <outils/compilateur/utilitaires_opencxx.h>
+#include <tools/compilateur/utilitaires_opencxx.h>
 
-using namespace ProjetUnivers::Base ;
 using namespace Opencxx ;
 
 namespace ProjetUnivers {
-
-  namespace Outils {
-  
-    namespace Compilateur 
-    {
+  namespace Tools {
+    namespace Compiler {
 
       /*!
         Quelques fonctions utiles pour openc++.
@@ -37,7 +33,7 @@ namespace ProjetUnivers {
 
 
       /// Test si le membre est un attribut.
-      Base::Booleen EstAttribut(Opencxx::Member& _membre)
+      bool EstAttribut(Opencxx::Member& _membre)
       {
         return ! _membre.IsFunction() && 
                ! _membre.IsConstructor() &&
@@ -49,17 +45,17 @@ namespace ProjetUnivers {
         \remarks 
           marche avec openc++ 2.8.5 (la mienne)
       */
-      Base::Chaine NomComplet(Opencxx::Environment* _espaceDeNom)
+      std::string NomComplet(Opencxx::Environment* _espaceDeNom)
       {
-        Chaine resultat ;
+        std::string resultat ;
         Opencxx::Environment* espaceDeNom = _espaceDeNom ;
         
         while(espaceDeNom != NULL && espaceDeNom->IsNamespace() != NULL)
         {
-          if (resultat == Chaine(""))
+          if (resultat == "")
             resultat = espaceDeNom->IsNamespace()->ToString() ;
           else
-            resultat = Chaine(espaceDeNom->IsNamespace()->ToString()) 
+            resultat = std::string(espaceDeNom->IsNamespace()->ToString()) 
                        + "::" + resultat ;
           
           espaceDeNom = espaceDeNom->GetOuterEnvironment() ;
@@ -73,9 +69,9 @@ namespace ProjetUnivers {
         \remarks 
           marche avec openc++ 2.8.5 (la mienne)
       */
-      Base::Chaine NomComplet(Opencxx::Class* _classe)
+      std::string NomComplet(Opencxx::Class* _classe)
       {
-        Chaine resultat ;
+        std::string resultat ;
       
         resultat = 
             NomComplet(_classe->GetEnvironment()->GetOuterEnvironment()) 
@@ -103,7 +99,7 @@ namespace ProjetUnivers {
 //      /*!
 //        Recherche _parentSuppute dans les sur-classes de _classe.
 //      */
-//      Booleen HeriteDe(Class* _classe, Ptree* _parentSuppute)
+//      bool HeriteDe(Class* _classe, Ptree* _parentSuppute)
 //      {
 //        
 //        
@@ -135,7 +131,7 @@ namespace ProjetUnivers {
 //          {
 //            if (Eq(nomParent,_parentSuppute))
 //            
-//              return VRAI ;
+//              return true ;
 //              
 //            else
 //            {
@@ -157,7 +153,7 @@ namespace ProjetUnivers {
 //        
 //      }
 //      
-//      Booleen HeriteDe(Class* _classe, const Chaine& _nomClasse) 
+//      bool HeriteDe(Class* _classe, const Chaine& _nomClasse) 
 //      {
 //        
 //        

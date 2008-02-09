@@ -23,15 +23,15 @@
 #ifndef _PU_COMPILATEUR_TYPE_CLASSE_H_
 #define _PU_COMPILATEUR_TYPE_CLASSE_H_
 
-#include <outils/compilateur/type.h>
+#include <tools/compilateur/type.h>
 
 class MetaClasse ;
 
 namespace ProjetUnivers {
 
-  namespace Outils {
+  namespace Tools {
   
-    namespace Compilateur 
+    namespace Compiler 
     {
 
       
@@ -55,20 +55,20 @@ namespace ProjetUnivers {
           - la classe est une classe de valeurs.
 
         */
-        virtual Base::Booleen TypeAttributCorrect() const ;
+        virtual bool TypeAttributCorrect() const ;
 
         /*!
           Ce type n'est pas autorisé pour un paramètre.
         */
-        virtual Base::Booleen TypeParametreCorrect() const ;      
+        virtual bool TypeParametreCorrect() const ;      
 
-        virtual Base::Booleen Valeur() const ;
+        virtual bool Valeur() const ;
 
-        virtual Base::Booleen Objet() const ;
+        virtual bool Objet() const ;
 
 
         /// Transforme en chaine pour l'affichage.
-        virtual Base::Chaine Afficher() const ;
+        virtual std::string Afficher() const ;
         
       protected:
 

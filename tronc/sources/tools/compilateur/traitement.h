@@ -23,22 +23,18 @@
 #ifndef _PU_COMPILATEUR_TRAITEMENT_H_
 #define _PU_COMPILATEUR_TRAITEMENT_H_
 
+#include <string>
+#include <map>
+
 #include <opencxx/parser/Ptree.h>
 #include <opencxx/Environment.h>
 
-#include <base/chaine.h>
-#include <base/types.h>
-#include <base/fonction_composition_valeur_objet.h>
-#include <base/composition.h>
-
-
 namespace ProjetUnivers {
-
-  namespace Outils {
+  namespace Tools {
+    namespace Compiler {
       
-    namespace Compilateur 
-    {
-  
+      class Type ;
+      
       /// Représente quelque chose d'homogène à une fonction C.
       /*!
         Classe abstraite pour une fonction ou une méthode. 
@@ -79,10 +75,10 @@ namespace ProjetUnivers {
         /// Constructeur.
         Traitement(const Opencxx::Member& _membre, 
                    const Type* _retours,
-                   const Base::Chaine& _nom);
+                   const std::string& _nom);
 
         /// Ajoute un paramètre.
-        void AjouterParamètre(const Base::Chaine _nom, const Type* _type) ;
+        void AjouterParamètre(const std::string _nom, const Type* _type) ;
 
         //@}
 
@@ -91,13 +87,13 @@ namespace ProjetUnivers {
         Opencxx::Member& membre ;
         
         /// Le type de retours
-        Base::Composition< Type > retours ;
+        Type* retours ;
 
         /// Le nom de la méthode
-        Base::Chaine nom ;
+        std::string nom ;
         
         /// Les parametres
-        Base::FonctionCompositionValeurObjet<Base::Chaine, Type> parametres ;
+        std::map<std::string, Type*> parametres ;
         
         
       };

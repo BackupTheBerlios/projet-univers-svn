@@ -38,14 +38,14 @@ namespace ProjetUnivers {
     template <class _Trait,class _ViewPoint> 
     _Trait* TraitView<_Trait,_ViewPoint>::getTrait() const
     {
-      _Trait* result = dynamic_cast<_Trait*>(trait) ;
+      _Trait* result = dynamic_cast<_Trait*>(m_trait) ;
       return result ;
     }
 
     template <class _Trait,class _ViewPoint>
     _ViewPoint* TraitView<_Trait,_ViewPoint>::getViewPoint() const
     {
-      return static_cast<_ViewPoint*>(viewpoint) ;
+      return static_cast<_ViewPoint*>(m_viewpoint) ;
     }
     /// default implementation : empty
     

@@ -21,22 +21,22 @@
 
 #include <rlog/rlog.h>
 
-#include <outils/compilateur/utilitaires_opencxx.h>
+#include <tools/compilateur/utilitaires_opencxx.h>
 
-#include <outils/compilateur/type.h>
-#include <outils/compilateur/type_template.h>
-#include <outils/compilateur/type_classe.h>
-#include <outils/compilateur/type_predefini.h>
-#include <outils/compilateur/type_enumere.h>
+#include <tools/compilateur/type.h>
+#include <tools/compilateur/type_template.h>
+#include <tools/compilateur/type_classe.h>
+#include <tools/compilateur/type_predefini.h>
+#include <tools/compilateur/type_enumere.h>
 
 using namespace Opencxx ;
 
 
 namespace ProjetUnivers {
 
-  namespace Outils {
+  namespace Tools {
   
-    namespace Compilateur 
+    namespace Compiler 
     {
 
       /// Destructeur de classe abstraite.

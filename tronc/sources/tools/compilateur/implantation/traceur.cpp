@@ -24,14 +24,13 @@
 #include <rlog/StdioNode.h>
 #include <rlog/RLogChannel.h>
 
-#include <base/composition.h>
-#include <outils/compilateur/traceur.h>
+#include <tools/compilateur/traceur.h>
 
 namespace ProjetUnivers {
 
-  namespace Outils {
+  namespace Tools {
   
-    namespace Compilateur 
+    namespace Compiler 
     {
 
       const char* nomFichierDebug = "compilateur_debug.log" ;
@@ -40,8 +39,8 @@ namespace ProjetUnivers {
       FILE* debug ;
       FILE* sortie ;
       
-      Base::Composition<rlog::StdioNode> traceurDebug ;
-      Base::Composition<rlog::StdioNode> traceurSortie ;
+      std::auto_ptr<rlog::StdioNode> traceurDebug ;
+      std::auto_ptr<rlog::StdioNode> traceurSortie ;
 
       /// Lance le traceur.
       void OuvrirTraceur()
@@ -49,7 +48,7 @@ namespace ProjetUnivers {
         
         // erreurs et debug
         debug = fopen(nomFichierDebug, "w") ;
-        traceurDebug = new rlog::StdioNode(fileno(debug)) ;
+        traceurDebug.reset(new rlog::StdioNode(fileno(debug))) ;
 
 
         traceurDebug->subscribeTo( rlog::GetGlobalChannel( "warning" ));
@@ -58,7 +57,7 @@ namespace ProjetUnivers {
 
         // sortie
         sortie = fopen(nomFichierSortie, "w") ;
-        traceurSortie = new rlog::StdioNode(fileno(sortie)) ;
+        traceurSortie.reset(new rlog::StdioNode(fileno(sortie))) ;
         
         // on se définit notre propre channel de sortie
         DEF_CHANNEL("compilateur", rlog::Log_Info) ;
@@ -79,5 +78,4 @@ namespace ProjetUnivers {
     }
   }
 }
- 
  

@@ -15,7 +15,7 @@ namespace ProjetUnivers {
     
       int toto ;
       
-      ::ProjetUnivers::Base::Booleen estVrai ;
+      ::ProjetUnivers::bool estVrai ;
     
       virtual void Fonction()
       {

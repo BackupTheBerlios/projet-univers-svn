@@ -24,14 +24,14 @@
 #define _PU_COMPILATEUR_TYPE_PREDEFINI_H_
 
 #include <opencxx/parser/Ptree.h>
-#include <outils/compilateur/type.h>
+#include <tools/compilateur/type.h>
 
 
 namespace ProjetUnivers {
 
-  namespace Outils {
+  namespace Tools {
   
-    namespace Compilateur 
+    namespace Compiler 
     {
     
       /// Types simples C++
@@ -55,16 +55,16 @@ namespace ProjetUnivers {
           -
 
         */
-        virtual Base::Booleen TypeAttributCorrect() const ;
+        virtual bool TypeAttributCorrect() const ;
 
-        virtual Base::Booleen TypeParametreCorrect() const ;      
+        virtual bool TypeParametreCorrect() const ;      
 
-        virtual Base::Booleen Valeur() const ;
+        virtual bool Valeur() const ;
 
-        virtual Base::Booleen Objet() const ;
+        virtual bool Objet() const ;
 
         /// Transforme en chaine pour l'affichage.
-        virtual Base::Chaine Afficher() const ;
+        virtual std::string Afficher() const ;
         
       private:
 
@@ -92,10 +92,10 @@ namespace ProjetUnivers {
           @param[in] _nom
             le petit nom du type 
         */
-        TypePredefini(Opencxx::Environment* _environement, const Base::Chaine& _nom) ;
+        TypePredefini(Opencxx::Environment* _environement, const std::string& _nom) ;
       
         /// Le nom du type prédéfini
-        Base::Chaine nom ;
+        std::string nom ;
              
       };
     }

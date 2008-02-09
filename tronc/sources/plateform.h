@@ -1,6 +1,7 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Equipe Projet Univers                           *
- *   rogma.boami@free.fr                                                   *
+ *   This file is part of ProjetUnivers                                    *
+ *   see http://www.punivers.net                                           *
+ *   Copyright (C) 2004-2008 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,12 +18,21 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-
-
 #ifndef PU_PLATEFORM_H_
 #define PU_PLATEFORM_H_
 
-/// determine la plateforme
+  /*!
+    Macro PU_PLATFORM indicate on which platform we are. It takes following 
+    values :
+    - PU_PLATEFORM_WIN32
+    - PU_PLATEFORM_LINUX
+    - PU_PLATEFORM_APPLE
+    
+    Usage :
+      #if PU_PLATEFORM == PU_PLATEFORM_WIN32
+        // specific WIN32 platform code...
+      #endif
+  */
 #define PU_PLATEFORM_WIN32 1
 #define PU_PLATEFORM_LINUX 2
 #define PU_PLATEFORM_APPLE 3

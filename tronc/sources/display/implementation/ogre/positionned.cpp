@@ -94,7 +94,7 @@ namespace ProjetUnivers {
 
           if (positionned_ancestor)
           {
-            Positionned* parent_node(positionned_ancestor->getView<Positionned>(viewpoint)) ;
+            Positionned* parent_node(positionned_ancestor->getView<Positionned>(getViewPoint())) ;
       
             m_node = static_cast<SceneNode*>(parent_node->m_node->createChild()) ;
 
@@ -158,13 +158,13 @@ namespace ProjetUnivers {
         {
           if (i_old_parent)
           {
-            Positionned* parent = i_old_parent->getView<Positionned>(viewpoint) ;
+            Positionned* parent = i_old_parent->getView<Positionned>(getViewPoint()) ;
             parent->getNode()->removeChild(m_node) ;
           }
 
           if (getObject()->getParent())
           {
-            Positionned* parent = getObject()->getParent()->getView<Positionned>(viewpoint) ;
+            Positionned* parent = getObject()->getParent()->getView<Positionned>(getViewPoint()) ;
             parent->getNode()->addChild(m_node) ;
           }
           else

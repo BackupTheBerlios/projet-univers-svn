@@ -1,6 +1,7 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Equipe Projet Univers                           *
- *   rogma.boami@free.fr                                                   *
+ *   This file is part of ProjetUnivers                                    *
+ *   see http://www.punivers.net                                           *
+ *   Copyright (C) 2008 Mathieu ROGER                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,74 +18,48 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-
-
-
-#ifndef _PU_COMPILATEUR_METHODE_H_
-#define _PU_COMPILATEUR_METHODE_H_
-
-
-
-#include <tools/compilateur/traitement.h>
-
-
 namespace ProjetUnivers {
+  namespace Kernel {
+    namespace Algorithm {
 
-  namespace Tools {
-      
-    namespace Compiler 
-    {
-  
-      /// Représente une méthode.
-      /*!
-        Une méthode est déclarée dans une classe.
-        
-        @remark
-        
-          Certaines méthodes (les méthodes virtuelles) sont en faites déclarées 
-          sur des profils ayant des "sous-profils"
-      */
-      class Methode : public Traitement
+      template <typename T> T findAfter(const std::set<T>& s,const T& object)      
       {
-      public:
-
-        /// Faux constructeur.
-        static Methode* Construire(const Member& _membre) ;
+        typename std::set<T>::const_iterator up = s.upper_bound(object) ;
         
+        if (up == s.end())
+        {
+          return *(s.begin()) ;
+        }
+        else
+        {
+          return *up ;
+        }
+      }
 
-        /*!
-          @name Vérification des règles
-        */
-        //@{
+      template <typename T> T findBefore(const std::set<T>& s,const T& object)      
+      {
+        typename std::set<T>::const_iterator up = s.lower_bound(object) ;
         
-        /// Dit si elle vérifie les règles
-        virtual bool VerifieRegles() const = 0 ;
-
-        //@}
-
-        /// Destructeur de classe abstraite.
-        virtual ~Methode() ;
-
-        
-      protected:
+        if (up == s.end())
+        {
+          return *(s.rbegin()) ;
+        }
+        else
+        {
+          if (object <= *up)
+          {
+            if (up == s.begin())
+              return *(s.rbegin()) ;
+            else
+            {
+              --up ;
+              return *up ;
+            }
+          }
+          return *up ;
+        }
+      }
       
-        /*!
-          @name Construction
-        */
-        //@{
-        
-        /// Constructeur de classe abstraite.
-        Methode(const Member& _membre) ;
-
-        //@}
-      
-        /// Classe de déclaration de la méthode.
-        Opencxx::Class* Classe() ;
-        
-      };
     }
   }
 }
-
-#endif
-

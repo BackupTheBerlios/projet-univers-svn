@@ -141,7 +141,6 @@ namespace ProjetUnivers {
           }
 
         };
-
        
         class ViewHead : public TraitView<Head,TestViewPoint>
         {
@@ -449,6 +448,83 @@ namespace ProjetUnivers {
         }; 
         
         RegisterView(VvFinal,TvFinal,TestViewPoint) ;
+
+
+        class ManualViewPoint : public ViewPoint
+        {
+        public:
+          
+          ManualViewPoint(Model* i_model)
+          : ViewPoint(i_model)
+          {}
+        
+        };
+
+        class ManualView : public TraitView<Person,ManualViewPoint>
+        {
+        public:
+
+
+          ManualView(Person* person,ManualViewPoint* viewpoint)
+          : TraitView<Person,ManualViewPoint>(person,viewpoint),
+            updated(false),
+            init_number(0),
+            value(person->getValue())
+          {
+            ++number_of_instance ;
+          }
+          
+          ~ManualView()
+          {
+            --number_of_instance ;
+          }
+
+          /// Called after the view is created on a initialised viewpoint.
+          void onInit()
+          {
+            ++init_number ;
+          }
+          
+          /// Called just before the view is destroyed.
+          void onClose()
+          {
+            --init_number ;
+          }
+      
+          /// Called when parent changed.
+          void onChangeParent(Object* i_old_parent)
+          {
+          }
+          
+          /// Called when the model trait has changed.
+          void onUpdate()
+          {
+            value = getTrait()->getValue() ;
+            updated = true ;
+          }
+          
+          int getValue() const 
+          {
+            return value ;
+          }
+          
+          bool updated ;
+          int init_number ;
+          static int number_of_instance ;
+          static int number_of_operation ;
+
+          void operation()
+          {
+            ++number_of_operation ;
+          }
+          
+        private:
+          
+          int value ;
+        };
+
+        int ManualView::number_of_instance = 0 ;
+        int ManualView::number_of_operation = 0 ;
 
       }
 
@@ -1111,7 +1187,44 @@ namespace ProjetUnivers {
         CPPUNIT_ASSERT(View1::total_number_of_init == 1) ;
         
       }
-                  
+
+      void TestModelView::testManualView()
+      {
+        // create a model
+        std::auto_ptr<Model> model(new Model()) ;
+
+        // fill the model
+        Object* person = model->createObject("person") ;
+        model->addTrait(person,new Person()) ;
+        
+        // create a viewpoint
+        std::auto_ptr<ManualViewPoint> viewpoint(new ManualViewPoint(model.get())) ;
+        
+        // manual add of a view
+        model->addManualView(new ManualView(person->getTrait<Person>(),
+                                            viewpoint.get())) ;
+        
+        /// init the viewpoint
+        viewpoint->init() ;
+        
+        Person* persontrait = person->getTrait<Person>() ;
+        CPPUNIT_ASSERT(persontrait) ;
+        ManualView* personview = persontrait->getView<ManualView>(viewpoint.get()) ;
+        CPPUNIT_ASSERT(personview) ;
+        
+        // test update
+        CPPUNIT_ASSERT(personview->getValue()==0) ;
+        persontrait->changeValue(10) ;
+        CPPUNIT_ASSERT(personview->getValue()==10) ;
+        
+        // test delete
+        CPPUNIT_ASSERT(ManualView::number_of_instance==1) ;
+        model->destroyTrait(person,persontrait) ;
+        CPPUNIT_ASSERT(ManualView::number_of_instance==0) ;
+        
+        InternalMessage("Kernel","Kernel::Test::testManualView leaving") ;
+      }
+      
       void TestModelView::setUp()
       {
       }

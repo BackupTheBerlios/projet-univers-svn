@@ -26,21 +26,20 @@
 #include <opencxx/parser/ErrorLog.h>
 #include <opencxx/parser/MopMsg.h>
 
-#include <outils/compilateur/type_predefini.h>
-#include <outils/compilateur/utilitaires_opencxx.h>
+#include <tools/compilateur/type_predefini.h>
+#include <tools/compilateur/utilitaires_opencxx.h>
 
 
 
 using namespace Opencxx ;
-using namespace ProjetUnivers::Base ;
 
 
 
 namespace ProjetUnivers {
 
-  namespace Outils {
+  namespace Tools {
     
-    namespace Compilateur 
+    namespace Compiler 
     {
 
       /// Identifie la selection par un namespace
@@ -88,8 +87,8 @@ namespace ProjetUnivers {
           // ce n'est pas un namespace... on arrete
           if (environementNameSpace == NULL && classe == NULL)
           {
-            rDebug(Chaine(espaceDeNom->ToString())+ 
-                   "non reconnu dans "+ NomComplet(environement)) ;
+//            rDebug(std::string(espaceDeNom->ToString())+ 
+//                   "non reconnu dans "+ NomComplet(environement)) ;
             return NULL ;
           }
           
@@ -97,15 +96,15 @@ namespace ProjetUnivers {
           if (environementNameSpace != NULL)
           {
 
-            rDebug("scope trouve = environement "+
-                   NomComplet(environementNameSpace));
+//            rDebug("scope trouve = environement "+
+//                   NomComplet(environementNameSpace));
 
             // récurrence
             return IdentifierParcoursNamespace(suiteType, 
                                                environementNameSpace) ;
           }
           
-          rDebug("scope trouve = classe "+NomComplet(classe)) ;
+//          rDebug("scope trouve = classe "+NomComplet(classe)) ;
           
           // c'est qu'il est défini dans une classe
           return IdentifierParcoursNamespace(suiteType, 
@@ -126,7 +125,7 @@ namespace ProjetUnivers {
         
 //          if (environement->GetBottom()->Lookup(nomType, informationType))
           
-          rDebug("type " + Chaine(nomType->ToString())) ;
+//          rDebug("type " + std::string(nomType->ToString())) ;
          
           Bind* lien ;
           if (environement->Lookup(nomType, lien))
@@ -189,8 +188,8 @@ namespace ProjetUnivers {
 //          
           Ptree* nomType = informationType.FullTypeName() ;
           
-          rDebug("TypePredefini::Construire "+
-                 Chaine(nomType->ToString())) ;
+//          rDebug("TypePredefini::Construire "+
+//                 Chaine(nomType->ToString())) ;
           
           return IdentifierParcoursNamespace(nomType,
                                              environement) ;
@@ -201,38 +200,38 @@ namespace ProjetUnivers {
    
   
           /// Transforme en chaine pour l'affichage.
-      Chaine TypePredefini::Afficher() const
+      std::string TypePredefini::Afficher() const
       {
         return "predefini " + NomComplet(this->espaceDeNom) + "::" + this->nom ;  
       }
           
-      TypePredefini::TypePredefini(Environment* _environement,const Chaine& _nom)
+      TypePredefini::TypePredefini(Environment* _environement,const std::string& _nom)
       : Type(_environement), nom(_nom)
       {}
 
-      Booleen TypePredefini::TypeAttributCorrect() const 
+      bool TypePredefini::TypeAttributCorrect() const 
       {
         /*! 
           \todo
             tester qu'on utilise bien les bons types
         */
-        return VRAI ;
+        return true ;
       }
 
-      Booleen TypePredefini::TypeParametreCorrect() const 
+      bool TypePredefini::TypeParametreCorrect() const 
       {
-        return FAUX ;
+        return false ;
       }
 
       
-      Base::Booleen TypePredefini::Valeur() const
+      bool TypePredefini::Valeur() const
       {
-        return VRAI ;
+        return true ;
       }
 
-      Base::Booleen TypePredefini::Objet() const
+      bool TypePredefini::Objet() const
       {
-        return FAUX ;
+        return false ;
       }
 
 

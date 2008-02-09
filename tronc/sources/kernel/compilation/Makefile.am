@@ -5,6 +5,7 @@ INCLUDES = -I$(SOURCES)
 AM_CXXFLAGS=$(PU_CXXFLAGS)
 
 libkernel_la_SOURCES = \
+$(SOURCES)/kernel/implementation/algorithm.cpp \
 $(SOURCES)/kernel/implementation/base_controler.cpp \
 $(SOURCES)/kernel/implementation/base_trait_reference.cpp \
 $(SOURCES)/kernel/implementation/base_trait_view.cpp \
@@ -42,6 +43,7 @@ TESTS = test_kernel
 check_PROGRAMS = $(TESTS)
 
 test_kernel_SOURCES = \
+$(SOURCES)/kernel/test/test_algorithm.cpp \
 $(SOURCES)/kernel/test/test_error.cpp \
 $(SOURCES)/kernel/test/test_kernel.cpp \
 $(SOURCES)/kernel/test/test_meta.cpp \

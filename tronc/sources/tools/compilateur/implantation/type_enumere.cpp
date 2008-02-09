@@ -18,19 +18,17 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <outils/compilateur/type_enumere.h>
-//#include <opencxx/mop.h>
+#include <tools/compilateur/type_enumere.h>
 
-#include <outils/compilateur/utilitaires_opencxx.h>
+#include <tools/compilateur/utilitaires_opencxx.h>
 
 using namespace Opencxx ;
-using namespace ProjetUnivers::Base ;
 
 namespace ProjetUnivers {
 
-  namespace Outils {
+  namespace Tools {
     
-    namespace Compilateur 
+    namespace Compiler 
     {
 
       TypeEnumere* TypeEnumere::Construire(Opencxx::TypeInfo& informationType,
@@ -58,34 +56,34 @@ namespace ProjetUnivers {
    
   
           /// Transforme en chaine pour l'affichage.
-      Chaine TypeEnumere::Afficher() const
+      std::string TypeEnumere::Afficher() const
       {
-        return "enumere " + Chaine(this->elements->ToString()) ;  
+        return std::string("enumere ") + this->elements->ToString() ;  
       }
           
       TypeEnumere::TypeEnumere(Ptree* _elements)
       : Type(NULL), elements(_elements)
       {}
 
-      Booleen TypeEnumere::TypeAttributCorrect() const 
+      bool TypeEnumere::TypeAttributCorrect() const 
       { 
-        return VRAI ;
+        return true ;
       }
 
-      Booleen TypeEnumere::TypeParametreCorrect() const 
+      bool TypeEnumere::TypeParametreCorrect() const 
       { 
-        return FAUX ;
+        return false ;
       }
 
       
-      Base::Booleen TypeEnumere::Valeur() const
+      bool TypeEnumere::Valeur() const
       {
-        return VRAI ;
+        return true ;
       }
 
-      Base::Booleen TypeEnumere::Objet() const
+      bool TypeEnumere::Objet() const
       {
-        return FAUX ;
+        return false ;
       }
 
 

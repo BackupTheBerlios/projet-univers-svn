@@ -31,28 +31,28 @@ namespace ProjetUnivers {
       /*!
         We initialise only if the view point has been initialised.
       */
-      if (viewpoint)
+      if (m_viewpoint)
       {
-        if (! initialised && viewpoint->isInitialised())
+        if (! m_initialised && m_viewpoint->isInitialised())
         {
           onInit() ;
-          initialised = true ;        
+          m_initialised = true ;        
         }
       }
     }
     
     void BaseTraitView::_close()
     {
-      if (initialised)
+      if (m_initialised)
       {
         onClose() ;
-        initialised = false ;        
+        m_initialised = false ;        
       }
     }
     
     void BaseTraitView::_changed_parent(Object* i_old_parent)
     {
-      if (initialised)
+      if (m_initialised)
       {
         onChangeParent(i_old_parent) ;
       }
@@ -60,32 +60,35 @@ namespace ProjetUnivers {
     
     void BaseTraitView::_updated()
     {
-      if (initialised)
+      if (m_initialised)
       {
         onUpdate() ;
       }
-      
     }
-    
     
     BaseTraitView::~BaseTraitView()
     {
       _close() ;
-      if (trait)
+      if (m_trait)
       {
-        trait->_remove_view(viewpoint,this) ;
+        m_trait->_remove_view(m_viewpoint,this) ;
       }
     }
 
-    BaseTraitView::BaseTraitView(Trait* i_trait,ViewPoint* i_viewpoint)
-    : initialised(false),
-      trait(i_trait), 
-      viewpoint(i_viewpoint)
+    BaseTraitView::BaseTraitView(Trait* trait,ViewPoint* viewpoint)
+    : m_initialised(false),
+      m_trait(trait), 
+      m_viewpoint(viewpoint)
     {}
 
     Object* BaseTraitView::getObject() const
     {
-      return trait->getObject() ;
+      return m_trait->getObject() ;
+    }
+    
+    Trait* BaseTraitView::getTrait() const
+    {
+      return m_trait ;
     }
   }
 }

@@ -17,26 +17,17 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-
-
-
 #ifndef _PU_COMPILATEUR_PARAMETRE_TEMPLATE_VALEUR_H_
 #define _PU_COMPILATEUR_PARAMETRE_TEMPLATE_VALEUR_H_
 
-//#include <opencxx/TypeInfo.h>
-//#include <opencxx/TemplateClass.h>
-
-//#include <base/ensemble_composition.h>
-
-#include <outils/compilateur/parametre_template.h>
-
+#include <tools/compilateur/parametre_template.h>
 
 
 namespace ProjetUnivers {
 
-  namespace Outils {
+  namespace Tools {
       
-    namespace Compilateur 
+    namespace Compiler 
     {
   
       /// Représente une valeur en tant que paramètre d'instantiation d'un template.
@@ -54,7 +45,7 @@ namespace ProjetUnivers {
         //@{
 
         /// Transforme en chaine pour l'affichage.
-        virtual Base::Chaine Afficher() const ;
+        virtual std::string Afficher() const ;
 
         //@}
       

@@ -54,6 +54,9 @@ namespace ProjetUnivers {
       /// abstract class means protected constructor.
       BaseTraitView(Trait* i_trait,ViewPoint* i_viewpoint) ;
 
+      /// Access to trait
+      Trait* getTrait() const ;
+      
       /// Called after the view is created on a initialised viewpoint.
       virtual void onInit() = 0 ;
       
@@ -72,17 +75,25 @@ namespace ProjetUnivers {
       /// update the view.
       void _updated() ;
 
-      bool initialised ;
-      Trait* trait ;
-      ViewPoint* viewpoint ;
+    /*!
+      @name data
+    */
+    //@{
+    
+      bool       m_initialised ;
+      Trait*     m_trait ;
+      ViewPoint* m_viewpoint ;
+
+    //@}
 
       friend class Trait ;
+      friend class Model ;
 
     };
     
     template <class _View> _View* BaseTraitView::getView() const
     {
-      return trait->object->getView<_View>(viewpoint) ;
+      return getObject()->getView<_View>(m_viewpoint) ;
     }
   }
 }

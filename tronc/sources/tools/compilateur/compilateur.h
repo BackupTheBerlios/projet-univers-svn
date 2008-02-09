@@ -17,16 +17,11 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-
-
-
 #ifndef _PU_OUTILS_COMPILATEUR_COMPILATEUR_H_
 #define _PU_OUTILS_COMPILATEUR_COMPILATEUR_H_
 
-
 namespace ProjetUnivers {
-
-  namespace Outils {
+  namespace Tools {
 
     /// Un compilateur C++ étendu.
     
@@ -58,8 +53,8 @@ namespace ProjetUnivers {
          d'un des types suivants :
         - Base::Entier
         - Base::Reel
-        - Base::Booleen
-        - Base::Chaine
+        - bool
+        - std::string
         - VALEUR
           où VALEUR est une classe de valeurs
         - Base::Association<OBJET>
@@ -92,7 +87,7 @@ namespace ProjetUnivers {
       Cette persistance ne fonctionne que si les règles exposées ci-dessus sont 
       vérifiées.
     */
-    namespace Compilateur 
+    namespace Compiler 
     {} 
   }
 }

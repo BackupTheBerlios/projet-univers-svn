@@ -54,8 +54,15 @@ namespace ProjetUnivers {
         case OIS::KC_S:
           if (m_controled_object)
           {
-            m_controled_object->call("selectNextTarget") ;
+            m_controled_object->call("Select Next Target") ;
           }
+          break ;
+        case OIS::KC_P:
+          if (m_controled_object)
+          {
+            m_controled_object->call("Select Previous Target") ;
+          }
+          break ;
         default:
           
           Display::injectKey(e.key) ;

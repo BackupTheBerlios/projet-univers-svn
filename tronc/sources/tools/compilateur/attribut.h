@@ -23,16 +23,15 @@
 #ifndef _PU_COMPILATEUR_ATTRIBUT_H_
 #define _PU_COMPILATEUR_ATTRIBUT_H_
 
-#include <base/chaine.h>
-#include <base/composition.h>
-#include <outils/compilateur/type.h>
+#include <memory>
+#include <tools/compilateur/type.h>
 
 
 namespace ProjetUnivers {
 
-  namespace Outils {
+  namespace Tools {
   
-    namespace Compilateur 
+    namespace Compiler 
     {
     
       /// Attribut d'une classe C++.
@@ -63,16 +62,16 @@ namespace ProjetUnivers {
 
 
         /// La partie du modèle acedb correspondant.
-        Base::Chaine ModeleAceDBEquivalent() const ;
+        std::string ModeleAceDBEquivalent() const ;
 
         /// Determine si l'attribut vérifie les règles de programmations.
         /*!
           En cas d'erreur, cette méthode engendre une erreur de compilation.
         */
-        Base::Booleen VerifieRegles() const ;
+        bool VerifieRegles() const ;
 
         /// Affiche l'attribut.
-        Base::Chaine Afficher() const ;
+        std::string Afficher() const ;
 
 
         //@}
@@ -83,10 +82,10 @@ namespace ProjetUnivers {
         Opencxx::Member membre ;
       
         /// Nom
-        Base::Chaine nom ;
+        std::string nom ;
         
         /// Type
-        Base::Composition<Type> type ;
+        std::auto_ptr<Type> type ;
         
         Opencxx::Class* classe ;
 

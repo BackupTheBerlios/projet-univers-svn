@@ -17,23 +17,20 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-
-
-
 #ifndef _PU_COMPILATEUR_TYPE_POINTEUR_H_
 #define _PU_COMPILATEUR_TYPE_POINTEUR_H_
 
-#include <base/composition.h>
 
-#include <outils/compilateur/type.h>
+#include <memory>
+#include <tools/compilateur/type.h>
 
 class MetaClasse ;
 
 namespace ProjetUnivers {
 
-  namespace Outils {
+  namespace Tools {
   
-    namespace Compilateur 
+    namespace Compiler 
     {
 
       
@@ -56,20 +53,20 @@ namespace ProjetUnivers {
           Si ce n'est pas un type faisant partie du module qui doit respecter 
           les règles alors c'est bon, sinon c'ets faux.
         */
-        virtual Base::Booleen TypeAttributCorrect() const ;
+        virtual bool TypeAttributCorrect() const ;
 
         /// Determine si ce type est un type autorisé pour un paramètre.
         /*!
           Ce type est autorisé pour un paramètre
         */
-        virtual Base::Booleen TypeParametreCorrect() const ;      
+        virtual bool TypeParametreCorrect() const ;      
 
-        virtual Base::Booleen Valeur() const ;
+        virtual bool Valeur() const ;
 
-        virtual Base::Booleen Objet() const ;
+        virtual bool Objet() const ;
 
         /// Transforme en chaine pour l'affichage.
-        virtual Base::Chaine Afficher() const ;
+        virtual std::string Afficher() const ;
         
       protected:
 
@@ -77,7 +74,7 @@ namespace ProjetUnivers {
         TypePointeur(Type* _pointe, Opencxx::Environment* _environement) ;
              
         /// Type pointé
-        Base::Composition< Type > pointe ;
+        std::auto_ptr<Type> pointe ;
       };
     }
   }

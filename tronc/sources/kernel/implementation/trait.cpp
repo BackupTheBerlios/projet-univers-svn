@@ -102,6 +102,16 @@ namespace ProjetUnivers {
       m_controlers()
     {}
 
+    void Trait::addView(ViewPoint* viewpoint,BaseTraitView* view)
+    {
+      m_views.insert(std::pair<ViewPoint*,BaseTraitView*>(viewpoint,view)) ;
+    }
+
+    void Trait::removeView(ViewPoint* viewpoint)
+    {
+      m_views.erase(viewpoint) ;
+    }
+
     void Trait::_remove_view(ViewPoint* i_viewpoint,BaseTraitView* i_view)
     {
       if (m_destroying)

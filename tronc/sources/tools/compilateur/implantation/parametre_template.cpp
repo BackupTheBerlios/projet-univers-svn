@@ -22,20 +22,19 @@
 
 #include <opencxx/parser/token-names.h>
 
-#include <base/chaine.h>
+#include <string>
 
 
-#include <outils/compilateur/parametre_template.h>
-#include <outils/compilateur/traceur.h>
+#include <tools/compilateur/parametre_template.h>
+#include <tools/compilateur/traceur.h>
 
 using namespace Opencxx ;
-using namespace ProjetUnivers::Base ;
 
 namespace ProjetUnivers {
 
-  namespace Outils {
+  namespace Tools {
       
-    namespace Compilateur 
+    namespace Compiler 
     {
       /// Construit le paramètre.
       ParametreTemplate* ParametreTemplate::Construire(Ptree* parametre,
@@ -44,16 +43,16 @@ namespace ProjetUnivers {
       
         if (parametre->IsA(Constant))
         {
-          rDebug(Chaine(parametre->ToString()) + "est une constante") ;
+          rDebug((std::string(parametre->ToString()) + "est une constante").c_str()) ;
         }
         else
         {
-          rDebug(Chaine(parametre->ToString()) + "n'est pas une constante") ;          
+          rDebug((std::string(parametre->ToString()) + "n'est pas une constante").c_str()) ;          
         }
         
       }
 
-      Base::Chaine ParametreTemplate::Afficher() const
+      std::string ParametreTemplate::Afficher() const
       {
         return "" ;
       }

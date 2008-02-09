@@ -23,14 +23,14 @@
 #ifndef _PU_COMPILATEUR_TYPE_ENUMERE_H_
 #define _PU_COMPILATEUR_TYPE_ENUMERE_H_
 
-#include <outils/compilateur/type.h>
+#include <tools/compilateur/type.h>
 
 
 namespace ProjetUnivers {
 
-  namespace Outils {
+  namespace Tools {
   
-    namespace Compilateur 
+    namespace Compiler 
     {
     
       /// Types des énumérés C++
@@ -50,21 +50,21 @@ namespace ProjetUnivers {
         /*!
           Ce type est autorisé quel que soit sa définition.
         */
-        virtual Base::Booleen TypeAttributCorrect() const ;
+        virtual bool TypeAttributCorrect() const ;
 
         /*!
           Ce type n'est pas autorisé. Il faut lui préférer 
           const T& où T est un type énuméré.
           const T& où T est un type énuméré.
         */
-        virtual Base::Booleen TypeParametreCorrect() const ;      
+        virtual bool TypeParametreCorrect() const ;      
 
-        virtual Base::Booleen Valeur() const ;
+        virtual bool Valeur() const ;
 
-        virtual Base::Booleen Objet() const ;
+        virtual bool Objet() const ;
 
         /// Transforme en chaine pour l'affichage.
-        virtual Base::Chaine Afficher() const ;
+        virtual std::string Afficher() const ;
         
       private:
         

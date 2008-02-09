@@ -24,11 +24,8 @@
 
 
 namespace ProjetUnivers {
-
-  namespace Outils {
-  
-    namespace Compilateur 
-    {
+  namespace Tools {
+    namespace Compiler {
  
       /// Lance le traceur.
       void OuvrirTraceur() ;

@@ -21,7 +21,6 @@
 #ifndef PU_KERNEL_TEST_COMMAND_H_
 #define PU_KERNEL_TEST_COMMAND_H_
 
-
 #include <cppunit/extensions/HelperMacros.h>
 
 namespace ProjetUnivers {

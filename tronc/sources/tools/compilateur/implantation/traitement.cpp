@@ -20,7 +20,7 @@
 
 #include <opencxx/mop.h>
 
-#include <outils/compilateur/traitement.h>
+#include <tools/compilateur/traitement.h>
 
 
 using namespace Opencxx ;
@@ -29,15 +29,15 @@ namespace ProjetUnivers {
 
   using namespace Base ;
 
-  namespace Outils {
+  namespace Tools {
   
-    namespace Compilateur 
+    namespace Compiler 
     {
 
       bool Traitement::VerifieRegles() const
       {
       
-        Booleen resultat = VRAI ;
+        bool resultat = true ;
         
         for(IterateurFonctionCompositionValeurObjet<Chaine, Type> parametre(this->parametres) ;
             parametre.Valide() ;

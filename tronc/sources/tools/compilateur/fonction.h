@@ -25,14 +25,14 @@
 
 #include <opencxx/Environment.h>
 
-#include <outils/compilateur/traitement.h>
+#include <tools/compilateur/traitement.h>
 
 
 namespace ProjetUnivers {
 
-  namespace Outils {
+  namespace Tools {
       
-    namespace Compilateur 
+    namespace Compiler 
     {
   
       /// Une fonction C.

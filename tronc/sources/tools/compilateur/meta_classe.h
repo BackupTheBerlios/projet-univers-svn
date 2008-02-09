@@ -17,20 +17,15 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-
-
-#ifndef _PU_COMPILATEUR_META_CLASSE_H_
-#define _PU_COMPILATEUR_META_CLASSE_H_
+#ifndef PU_COMPILER_META_CLASSE_H_
+#define PU_COMPILER_META_CLASSE_H_
 
 #include <set>
+#include <string>
 
 #include <opencxx/mop.h>
 
-#include <base/ensemble_composition.h>
-#include <base/chaine.h>
-
-#include <outils/compilateur/attribut.h>
-//#include <outils/compilateur/fonction.h>
+#include <tools/compilateur/attribut.h>
 
 using namespace Opencxx ;
 
@@ -80,7 +75,7 @@ public:
 
   /// Affichage
   /*!
-    \todo
+    @todo
       remplacer par string
   */
   const char* Afficher() ;
@@ -261,10 +256,10 @@ private:
 
 
   /// Les attributs de la classe
-  ProjetUnivers::Base::EnsembleComposition<ProjetUnivers::Outils::Compilateur::Attribut> attributs ;
+  std::set<ProjetUnivers::Tools::Compiler::Attribut*> attributs ;
 
   /// Le nom de la classe
-  ProjetUnivers::Base::Chaine nom ;
+  std::string nom ;
   
   /// Les constructeurs
   
@@ -272,9 +267,6 @@ private:
   /*!
     Ce sont des *fonctions* possédant un paramètre this.
   */
-//  ProjetUnivers::Base::EnsembleComposition<ProjetUnivers::Outils::Compilateur::Fonction> methodes ;
-  
-  
   
   /// Les classes parentes
   /*!
@@ -290,4 +282,4 @@ private:
 };
 
 
-#endif //_PU_COMPILATEUR_META_CLASSE_H_
+#endif //PU_COMPILER_META_CLASSE_H_

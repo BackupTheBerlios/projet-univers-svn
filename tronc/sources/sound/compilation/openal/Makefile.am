@@ -4,6 +4,14 @@ SOURCES = $(top_srcdir)/sources
 INCLUDES = -I$(SOURCES)
 AM_CXXFLAGS=$(PU_CXXFLAGS)
 
+# example of compilation dependent on available libs :
+# if HAVE_EFX
+# SUBDIRS = efx
+# else 
+# SUBDIRS = software
+# endif 
+
+
 libsoundcode_la_SOURCES = \
 $(SOURCES)/sound/implementation/openal/openal.cpp \
 $(SOURCES)/sound/implementation/openal/real_world_view_point.cpp \

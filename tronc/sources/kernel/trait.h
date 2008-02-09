@@ -89,6 +89,12 @@ namespace ProjetUnivers {
           const std::string&                             function_name,
           boost::function1<boost::any,SpecializedTrait*> function) ;
       
+      /// Manual adding of a view.
+      void addView(ViewPoint*,BaseTraitView*) ;
+
+      /// Manual removing of the viewpoint's views .
+      void removeView(ViewPoint*) ;
+      
     protected: 
     
       /// Abstract class means protected constructor.

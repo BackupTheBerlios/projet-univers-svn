@@ -26,14 +26,16 @@
 #include <map>
 #include <string>
 
+#include <kernel/object.h>
+
 namespace ProjetUnivers {
   namespace Kernel {
     
     class ViewPoint ;
-    class Object ;
     class Trait ;
     class ControlerSet ;
     class ObjectReference ;
+    class BaseTraitView ;
     
     /// A set of Objects.
     class Model
@@ -41,52 +43,58 @@ namespace ProjetUnivers {
     public:
     
       /// Builds a new model.
-      Model(const std::string& i_name = "") ;
+      Model(const std::string& name = "") ;
 
       /// Get an object.
       /*!
         @deprecated.
       */
-      Object* getObject(const std::string& i_name) ;
+      Object* getObject(const std::string& name) ;
 
       /// Get an object by identifier.
       Object* getObject(const int& identifier) const ;
       
       /// Access to root objects.
-      std::set<Object*> getRoots() const ;
-        
+      const std::set<Object*>& getRoots() const ;
+      
       /// Creates a new Object with name.
-      Object* createObject(const std::string& i_name) ; 
+      Object* createObject(const std::string& name) ; 
   
       /// Creates a new Object with name and given parent.
-      Object* createObject(const std::string& i_name, 
-                           Object* i_parent) ; 
+      Object* createObject(const std::string& name, 
+                           Object* parent) ; 
 
       /// Creates a new Object.
       Object* createObject() ; 
   
       /// Creates a new Object with given parent.
-      Object* createObject(Object* i_parent) ; 
+      Object* createObject(Object* parent) ; 
   
       /// Destroy an Object of given name.
-      void destroyObject(const std::string& i_name) ;
+      void destroyObject(const std::string& name) ;
   
       /// Destroy a given Object.
-      void destroyObject(Object* i_object) ;
+      void destroyObject(Object* object) ;
   
       /// Changes parent of a given Object.
-      void changeParent(Object* i_object, 
-                        Object* i_new_parent) ;
+      void changeParent(Object* object, 
+                        Object* new_parent) ;
   
       /// Adds a new trait to an Object.
-      void addTrait(Object* i_object, 
-                    Trait* i_new_trait) ;
+      void addTrait(Object* object, 
+                    Trait* new_trait) ;
   
       /// Destroy an Object's trait.
-      void destroyTrait(Object* i_object, 
-                        Trait* i_trait) ;
+      void destroyTrait(Object* object, 
+                        Trait* trait) ;
       
-    
+      /// Manually add a view.
+      /*!
+        The view already contains a reference to its viewpoint and trait.
+      */
+      void addManualView(BaseTraitView*) ;
+      
+      /// Destroy all objects, views and controlers. 
       ~Model() ;
     
     private:
@@ -94,35 +102,35 @@ namespace ProjetUnivers {
       std::string                 m_name ;
     
       /// root objects @composite
-      std::set<Object*>             m_objects ;
+      std::set<Object*> m_objects ;
       
       /// 
       std::map<std::string,Object*> m_objects_dictionnary ;
       std::map<int,Object*>         m_objects_by_identifier ;
 
       /// Register a view point.
-      void _register(ViewPoint* i_viewpoint) ;
+      void _register(ViewPoint* viewpoint) ;
 
       /// Unregister a view point.
-      void _unregister(ViewPoint* i_viewpoint) ;
+      void _unregister(ViewPoint* viewpoint) ;
 
       /// Register a controler set.
-      void _register(ControlerSet* i_controler_set) ;
+      void _register(ControlerSet* controler_set) ;
 
       /// Unregister a controler set.
-      void _unregister(ControlerSet* i_controler_set) ;
+      void _unregister(ControlerSet* controler_set) ;
       
       /// Init objects according to a viewpoint
-      void _init(ViewPoint* i_viewpoint) ;
+      void _init(ViewPoint* viewpoint) ;
 
       /// Close objects according to a viewpoint
-      void _close(ViewPoint* i_viewpoint) ;
+      void _close(ViewPoint* viewpoint) ;
 
       /// Init objects according to a controler set
-      void _init(ControlerSet* i_controler_set) ;
+      void _init(ControlerSet* controler_set) ;
 
       /// Close objects according to a controler set
-      void _close(ControlerSet* i_controler_set) ;
+      void _close(ControlerSet* controler_set) ;
 
       std::set<ViewPoint*>        m_viewpoints ;
       std::set<ControlerSet*>     m_controler_sets ;
@@ -145,8 +153,8 @@ namespace ProjetUnivers {
       friend class ControlerSet ;
       
       template <class _View>
-      friend void forAll(ViewPoint*                    i_viewpoint,
-                         boost::function1<void,_View*> i_operation) ;
+      friend void forAll(ViewPoint*                    viewpoint,
+                         boost::function1<void,_View*> operation) ;
 
       friend class ObjectReference ;
     };

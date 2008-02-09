@@ -229,7 +229,7 @@ namespace ProjetUnivers {
         std::auto_ptr<XMLReader> reader(XMLReader::getStringReader(content)) ;
         reader->read(model.get()) ;
         
-        std::set<Object*> roots = model->getRoots() ;
+        std::set<Object*> roots(model->getRoots()) ;
         CPPUNIT_ASSERT(roots.size()==2) ;
         Object* first = *roots.begin() ;
         CPPUNIT_ASSERT(first) ;        

@@ -17,28 +17,20 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-
-
-
 #ifndef _PU_COMPILATEUR_TYPE_TEMPLATE_H_
 #define _PU_COMPILATEUR_TYPE_TEMPLATE_H_
+
+#include <list>
 
 #include <opencxx/TypeInfo.h>
 #include <opencxx/TemplateClass.h>
 
-
-#include <outils/compilateur/type.h>
-
-#include <base/implantation/liste_composition.h>
-
+#include <tools/compilateur/type.h>
 
 
 namespace ProjetUnivers {
-
-  namespace Outils {
-      
-    namespace Compilateur 
-    {
+  namespace Tools {
+    namespace Compiler {
   
       class ParametreTemplate ;
 
@@ -80,12 +72,12 @@ namespace ProjetUnivers {
           ...
 
         */
-        virtual Base::Booleen TypeAttributCorrect() const ;
+        virtual bool TypeAttributCorrect() const ;
 
-        virtual Base::Booleen TypeParametreCorrect() const ;      
+        virtual bool TypeParametreCorrect() const ;      
 
         /// Transforme en chaine pour l'affichage.
-        virtual Base::Chaine Afficher() const ;
+        virtual std::string Afficher() const ;
 
 
       private:
@@ -129,14 +121,14 @@ namespace ProjetUnivers {
         BaseTemplate TemplateDeBase() const ;
 
         /// Vrai si le template fait partie de ::ProjetUnivers::Base.
-        Base::Booleen NamespaceProjetUniversBase() const ;
+        bool NamespaceProjetUniversBase() const ;
         
-        virtual Base::Booleen Valeur() const ;
+        virtual bool Valeur() const ;
 
-        virtual Base::Booleen Objet() const ;
+        virtual bool Objet() const ;
 
         /// Vrai si le type représente une composition.
-        Base::Booleen EstComposition() const ;
+        bool EstComposition() const ;
 
 
         //@}
@@ -149,7 +141,7 @@ namespace ProjetUnivers {
         Opencxx::TemplateClass* classeTemplate ;
         
         /// Les paramètres.
-        Base::Implantation::ListeComposition<ParametreTemplate> _parametres ;
+        std::list<ParametreTemplate*> _parametres ;
         
         /*!
           @deprecated

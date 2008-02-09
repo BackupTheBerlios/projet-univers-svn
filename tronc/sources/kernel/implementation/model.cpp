@@ -24,6 +24,7 @@
 
 #include <kernel/object.h>
 #include <kernel/object_reference.h>
+#include <kernel/base_trait_view.h>
 #include <kernel/trait.h>
 #include <kernel/view_point.h>
 #include <kernel/controler_set.h>
@@ -46,11 +47,11 @@ namespace ProjetUnivers {
       return "PU::Kernel::Name" + toString(next_number++) ;
     }
 
-    Object* Model::getObject(const std::string& i_name)
+    Object* Model::getObject(const std::string& name)
     {
-      if (m_objects_dictionnary.find(i_name)!= m_objects_dictionnary.end())
+      if (m_objects_dictionnary.find(name)!= m_objects_dictionnary.end())
       {
-        return m_objects_dictionnary[i_name] ;
+        return m_objects_dictionnary[name] ;
       }
       else
       {
@@ -72,13 +73,13 @@ namespace ProjetUnivers {
       }
     }
 
-    Object* Model::createObject(const std::string& i_name) 
+    Object* Model::createObject(const std::string& name) 
     {
-      if (m_objects_dictionnary.find(i_name) == m_objects_dictionnary.end())
+      if (m_objects_dictionnary.find(name) == m_objects_dictionnary.end())
       {
-        Object* result = new Object(this,i_name) ;
+        Object* result = new Object(this,name) ;
         m_objects.insert(result) ;
-        m_objects_dictionnary[i_name] = result ;
+        m_objects_dictionnary[name] = result ;
         m_objects_by_identifier[result->getIdentifier()] = result ;
         return result ;
       }
@@ -86,16 +87,16 @@ namespace ProjetUnivers {
     }
       
     /// Creates a new Object with name.
-    Object* Model::createObject(const std::string& i_name,
-                                Object* i_parent)
+    Object* Model::createObject(const std::string& name,
+                                Object* parent)
     {
-      CHECK(i_parent,ExceptionKernel("Model::createObject no parent")) ;
+      CHECK(parent,ExceptionKernel("Model::createObject no parent")) ;
       
-      if (m_objects_dictionnary.find(i_name) == m_objects_dictionnary.end())
+      if (m_objects_dictionnary.find(name) == m_objects_dictionnary.end())
       {
-        Object* result = new Object(this,i_name) ;
-        i_parent->_add(result) ;
-        m_objects_dictionnary[i_name] = result ;
+        Object* result = new Object(this,name) ;
+        parent->_add(result) ;
+        m_objects_dictionnary[name] = result ;
         m_objects_by_identifier[result->getIdentifier()] = result ;
         
         return result ;
@@ -111,15 +112,15 @@ namespace ProjetUnivers {
     }
       
     /// Creates a new Object with name.
-    Object* Model::createObject(Object* i_parent)
+    Object* Model::createObject(Object* parent)
     {
-      return createObject(getUniqueName(),i_parent) ;
+      return createObject(getUniqueName(),parent) ;
     }
 
     /// Destroy an Object of given name.
-    void Model::destroyObject(const std::string& i_name)
+    void Model::destroyObject(const std::string& name)
     {
-      Object* object = getObject(i_name) ;
+      Object* object = getObject(name) ;
       if (object)
       {
         destroyObject(object) ;
@@ -127,73 +128,73 @@ namespace ProjetUnivers {
     }
 
     /// Destroy a given Object.
-    void Model::destroyObject(Object* i_object)
+    void Model::destroyObject(Object* object)
     {
-      CHECK(i_object,ExceptionKernel("Model::destroyObject no object")) ;
+      CHECK(object,ExceptionKernel("Model::destroyObject no object")) ;
       
-      i_object->_close() ;
+      object->_close() ;
 
-      m_objects_dictionnary.erase(i_object->getName()) ;
-      m_objects_by_identifier.erase(i_object->getIdentifier()) ;
+      m_objects_dictionnary.erase(object->getName()) ;
+      m_objects_by_identifier.erase(object->getIdentifier()) ;
       
-      if (i_object->getParent() == NULL)
+      if (object->getParent() == NULL)
       {
         /// a top object
-        m_objects.erase(i_object) ;
-        delete i_object ;  /// model is the contener of the root m_objects
+        m_objects.erase(object) ;
+        delete object ;  /// model is the contener of the root m_objects
       } 
       else
       {
         /// a sub object
-        i_object->getParent()->_remove(i_object) ;
+        object->getParent()->_remove(object) ;
       }
       
     }
 
     /// Changes parent of a given Object.
-    void Model::changeParent(Object* i_object, 
-                             Object* i_new_parent)
+    void Model::changeParent(Object* object, 
+                             Object* new_parent)
     {
-      CHECK(i_object,ExceptionKernel("Model::changeParent no object")) ;
-      CHECK(i_new_parent,ExceptionKernel("Model::changeParent no new parent")) ;
+      CHECK(object,ExceptionKernel("Model::changeParent no object")) ;
+      CHECK(new_parent,ExceptionKernel("Model::changeParent no new parent")) ;
       
-      Object* old_parent = i_object->getParent() ;
+      Object* old_parent = object->getParent() ;
       
-      if (i_object->getParent() == NULL)
+      if (object->getParent() == NULL)
       {
         /// a top object
-        m_objects.erase(i_object) ;
+        m_objects.erase(object) ;
 
       }
       else
       {
-        i_object->getParent()->_detach(i_object) ;
+        object->getParent()->_detach(object) ;
       }
 
-      i_new_parent->_add(i_object) ;
-      i_object->_changed_parent(old_parent) ;
+      new_parent->_add(object) ;
+      object->_changed_parent(old_parent) ;
 
     }
 
     /// Adds a new trait to an Object.
-    void Model::addTrait(Object* i_object, 
-                         Trait* i_new_trait)
+    void Model::addTrait(Object* object, 
+                         Trait* new_trait)
     {
-      CHECK(i_object,ExceptionKernel("Model::destroyTrait no object")) ;
-      CHECK(i_new_trait,ExceptionKernel("Model::destroyTrait no new trait")) ;
+      CHECK(object,ExceptionKernel("Model::destroyTrait no object")) ;
+      CHECK(new_trait,ExceptionKernel("Model::destroyTrait no new trait")) ;
       
-      i_object->_add(i_new_trait) ;
+      object->_add(new_trait) ;
       
     }
 
     /// Destroy an Object's trait.
-    void Model::destroyTrait(Object* i_object, 
-                            Trait* i_trait)
+    void Model::destroyTrait(Object* object, 
+                            Trait* trait)
     {
-      CHECK(i_object,ExceptionKernel("Model::destroyTrait no object")) ;
-      CHECK(i_trait,ExceptionKernel("Model::destroyTrait no trait")) ;
+      CHECK(object,ExceptionKernel("Model::destroyTrait no object")) ;
+      CHECK(trait,ExceptionKernel("Model::destroyTrait no trait")) ;
 
-      i_object->_remove(i_trait) ;
+      object->_remove(trait) ;
     }
     
     Model::~Model()
@@ -239,95 +240,95 @@ namespace ProjetUnivers {
       InternalMessage("Kernel","Kernel::Model::~Model Leaving") ;
     }
     
-    Model::Model(const std::string& i_name)
-    : m_name(i_name)
+    Model::Model(const std::string& name)
+    : m_name(name)
     {}
 
-    void Model::_register(ViewPoint* i_viewpoint)
+    void Model::_register(ViewPoint* viewpoint)
     {
-      m_viewpoints.insert(i_viewpoint) ;
+      m_viewpoints.insert(viewpoint) ;
 
       InternalMessage("Kernel",
-        (std::string("Model::_register") + typeid(*i_viewpoint).name()).c_str()) ;
+        (std::string("Model::_register") + typeid(*viewpoint).name()).c_str()) ;
 
       for(std::set<Object*>::iterator object = m_objects.begin() ;
           object != m_objects.end() ;
           ++object)
       {
-        (*object)->_create_views(i_viewpoint) ;
+        (*object)->_create_views(viewpoint) ;
       }      
     }
 
-    void Model::_unregister(ViewPoint* i_viewpoint)
+    void Model::_unregister(ViewPoint* viewpoint)
     {
-      m_viewpoints.erase(i_viewpoint) ;
+      m_viewpoints.erase(viewpoint) ;
 
       InternalMessage("Kernel",
-        (std::string("Model::_unregister") + typeid(*i_viewpoint).name()).c_str()) ;
+        (std::string("Model::_unregister") + typeid(*viewpoint).name()).c_str()) ;
     }
 
-    void Model::_register(ControlerSet* i_controler_set)
+    void Model::_register(ControlerSet* controler_set)
     {
-      m_controler_sets.insert(i_controler_set) ;
+      m_controler_sets.insert(controler_set) ;
 
       for(std::set<Object*>::iterator object = m_objects.begin() ;
           object != m_objects.end() ;
           ++object)
       {
-        (*object)->_create_controlers(i_controler_set) ;
+        (*object)->_create_controlers(controler_set) ;
       }      
     }
 
-    void Model::_unregister(ControlerSet* i_controler_set)
+    void Model::_unregister(ControlerSet* controler_set)
     {
-      m_controler_sets.erase(i_controler_set) ;
+      m_controler_sets.erase(controler_set) ;
     }
     
-    void Model::_init(ViewPoint* i_viewpoint)
+    void Model::_init(ViewPoint* viewpoint)
     {
       for(std::set<Object*>::iterator object = m_objects.begin() ;
           object != m_objects.end() ;
           ++object)
       {
-        (*object)->_init(i_viewpoint) ;
+        (*object)->_init(viewpoint) ;
       }      
     }
   
-    void Model::_close(ViewPoint* i_viewpoint)
+    void Model::_close(ViewPoint* viewpoint)
     {
       for(std::set<Object*>::iterator object = m_objects.begin() ;
           object != m_objects.end() ;
           ++object)
       {
-        (*object)->_close(i_viewpoint) ;
+        (*object)->_close(viewpoint) ;
       }      
     }
 
-    void Model::_init(ControlerSet* i_controler_set)
+    void Model::_init(ControlerSet* controler_set)
     {
       for(std::set<Object*>::iterator object = m_objects.begin() ;
           object != m_objects.end() ;
           ++object)
       {
-        (*object)->_init(i_controler_set) ;
+        (*object)->_init(controler_set) ;
       }      
     }
 
-    void Model::_close(ControlerSet* i_controler_set)
+    void Model::_close(ControlerSet* controler_set)
     {
       for(std::set<Object*>::iterator object = m_objects.begin() ;
           object != m_objects.end() ;
           ++object)
       {
-        (*object)->_close(i_controler_set) ;
+        (*object)->_close(controler_set) ;
       }      
     }
 
-    std::set<Object*> Model::getRoots() const
+    const std::set<Object*>& Model::getRoots() const
     {
       return m_objects ;
     }
-
+    
     void Model::_registerReference(ObjectReference* reference)
     {
       m_references.insert(reference) ;
@@ -338,6 +339,10 @@ namespace ProjetUnivers {
       m_references.erase(reference) ;
     }
 
+    void Model::addManualView(BaseTraitView* view)
+    {
+      view->getTrait()->addView(view->m_viewpoint,view) ;
+    }
   }
 }
 

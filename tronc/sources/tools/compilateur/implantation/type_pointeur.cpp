@@ -23,16 +23,15 @@
 
 #include <opencxx/mop.h>
 
-#include <outils/compilateur/type_pointeur.h>
+#include <tools/compilateur/type_pointeur.h>
 
 using namespace Opencxx ;
-using namespace ProjetUnivers::Base ;
 
 namespace ProjetUnivers {
 
-  namespace Outils {
+  namespace Tools {
     
-    namespace Compilateur 
+    namespace Compiler 
     {
 
       TypePointeur* TypePointeur::Construire(Opencxx::TypeInfo& informationType,
@@ -61,10 +60,8 @@ namespace ProjetUnivers {
       {
         pointe->Initialiser() ;
       }
-   
-  
       
-      Chaine TypePointeur::Afficher() const
+      std::string TypePointeur::Afficher() const
       {
         return pointe->Afficher() + "*" ;  
       }
@@ -73,30 +70,30 @@ namespace ProjetUnivers {
       : Type(_environement), pointe(_pointe)
       {}
 
-      Booleen TypePointeur::TypeAttributCorrect() const 
+      bool TypePointeur::TypeAttributCorrect() const 
       {
         /// ça dépend de ce qu'est le type pointé...
-        return FAUX ;
+        return false ;
       }
 
-      Booleen TypePointeur::TypeParametreCorrect() const 
+      bool TypePointeur::TypeParametreCorrect() const 
       {
         /// correct si le type pointé est objet
         if (pointe->Objet())
-          return VRAI ;
+          return true ;
         else
-          return FAUX ;
+          return false ;
       }
 
 
-      Base::Booleen TypePointeur::Valeur() const
+      bool TypePointeur::Valeur() const
       {
-        return VRAI ;
+        return true ;
       }
 
-      Base::Booleen TypePointeur::Objet() const
+      bool TypePointeur::Objet() const
       {
-        return FAUX ;
+        return false ;
       }
 
 

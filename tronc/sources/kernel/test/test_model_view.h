@@ -103,6 +103,9 @@ namespace ProjetUnivers {
         /// Test views on trait class with virtual inheritance.
         void testTraitVitrualInheritance() ;
 
+        /// Test manual views handling.
+        void testManualView() ;
+
       // @}
 
 
@@ -127,6 +130,7 @@ namespace ProjetUnivers {
         CPPUNIT_TEST(testTraitInheritance) ;
         CPPUNIT_TEST(testTraitVitrualInheritance) ;
         CPPUNIT_TEST(testchangeParentIsAtomic) ;
+        CPPUNIT_TEST(testManualView) ;
 
         CPPUNIT_TEST_SUITE_END() ;
 

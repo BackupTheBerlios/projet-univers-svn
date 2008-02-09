@@ -17,38 +17,27 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-
-
 #include <rlog/rlog.h>
-
-#include <iterator>
-#include <fstream>
-#include <iostream>
-
 
 #include <opencxx/TypeInfo.h>
 
-#include <base/iterateur_ensemble_composition.h>
-
-#include <outils/compilateur/traceur.h>
-#include <outils/compilateur/meta_classe.h>
-#include <outils/compilateur/utilitaires_opencxx.h>
+#include <tools/compilateur/meta_classe.h>
+#include <tools/compilateur/traceur.h>
+#include <tools/compilateur/utilitaires_opencxx.h>
 
 using namespace std;
 using namespace Opencxx ;
-using namespace ProjetUnivers::Outils::Compilateur ;
-using namespace ProjetUnivers::Base ;
-
+using namespace ProjetUnivers::Tools::Compiler ;
 
 /*!
   Quelques constantes
 */
-const Chaine NomProjetUnivers = "ProjetUnivers" ;
-const Chaine NomModuleBase = NomProjetUnivers + "::" + "Base" ;
-const Chaine NomValeur = NomModuleBase + "::" + "Valeur" ;
-const Chaine NomObjet = NomModuleBase + "::" + "Objet" ;
-const Chaine NomPersistant = NomModuleBase + "::" + "Persistante" ;
-const Chaine NomBase = "Base" ;
+const std::string NomProjetUnivers = "ProjetUnivers" ;
+const std::string NomModuleBase = NomProjetUnivers + "::" + "Base" ;
+const std::string NomValeur = NomModuleBase + "::" + "Valeur" ;
+const std::string NomObjet = NomModuleBase + "::" + "Objet" ;
+const std::string NomPersistant = NomModuleBase + "::" + "Persistante" ;
+const std::string NomBase = "Base" ;
 
 
 bool MetaClasse::Valeur() 
@@ -61,16 +50,16 @@ bool MetaClasse::Valeur()
   {   
     if (NomComplet(*parent) == NomValeur)
       
-      return VRAI ;
+      return true ;
 
     if ( (*parent)->Valeur() )
       
-      return VRAI ;
+      return true ;
 
     
   }
   
-  return FAUX ;
+  return false ;
 }
 
 
@@ -84,17 +73,17 @@ bool MetaClasse::Objet()
   {   
     if (NomComplet(*parent) == NomObjet)
       
-      return VRAI ;
+      return true ;
     
     if ( (*parent)->Objet() )
       
-      return VRAI ;
+      return true ;
     
   }
   
   
   
-  return FAUX ;
+  return false ;
 }
 
 bool MetaClasse::Persistante() 
@@ -106,15 +95,15 @@ bool MetaClasse::Persistante()
   {   
     if (NomComplet(*parent) == NomPersistant)
       
-      return VRAI ;
+      return true ;
     
     if ( (*parent)->Persistante() )
       
-      return VRAI ;
+      return true ;
     
   }
   
-  return FAUX ;  
+  return false ;  
 }
 
 
@@ -174,8 +163,8 @@ bool MetaClasse::NamespaceProjetUnivers()
   rDebug("fin MetaClasse::NamespaceProjetUnivers") ;
 
   
-  if (Chaine(courant->IsNamespace()->ToString()) == NomProjetUnivers
-      && Chaine(precedent->IsNamespace()->ToString()) != NomBase)
+  if (std::string(courant->IsNamespace()->ToString()) == NomProjetUnivers
+      && std::string(precedent->IsNamespace()->ToString()) != NomBase)
   
     return true ;
   
@@ -190,7 +179,7 @@ bool MetaClasse::NamespaceProjetUnivers()
 void MetaClasse::GenererSchemaXml() const
 {
   
-  Chaine resultat ;
+  std::string resultat ;
   
 //        for(IterateurEnsembleComposition<Attribut> attribut(attributs) ;
 //            attribut.Valide() ;
@@ -219,7 +208,7 @@ void MetaClasse::Initialiser()
     initialisee = true ;
     
     this->nom = this->Name()->ToString() ;
-    rDebug("initialisation classe " + this->nom) ;
+    rDebug(("initialisation classe " + this->nom).c_str()) ;
       
     if (this->NamespaceProjetUnivers())
     {
@@ -231,11 +220,11 @@ void MetaClasse::Initialiser()
 
       while(this->NthMember(nombreDeMembres, membre)) 
       {
-        rDebug(" membre = "+ Chaine(membre.Definition()->ToString())) ;
+        rDebug((" membre = "+ std::string(membre.Definition()->ToString())).c_str()) ;
            
         if (membre.IsAttribute()) 
 
-          attributs.Ajouter(new Attribut(membre)) ;
+          attributs.insert(new Attribut(membre)) ;
 
         else if (membre.IsConstructor())
         {
@@ -250,7 +239,7 @@ void MetaClasse::Initialiser()
           TypeInfo constructeur ;
           membre.Signature(constructeur) ;
           int nombreArguments = constructeur.NumOfArguments() ;
-          rDebug("nombre arguments = " + Chaine(nombreArguments)) ;
+          rDebug("nombre arguments = %i",nombreArguments) ;
           
           if (nombreArguments == 0)
           {
@@ -323,8 +312,8 @@ void MetaClasse::Initialiser()
             else if (membre.IsPureVirtual())
               ExisteMethodeVirtuellePure = true ;
   
-            Chaine nom(membre.Name()->ToString()) ;
-            rDebug("la methode sappelle : " + nom ) ;
+            std::string nom(membre.Name()->ToString()) ;
+            rDebug("la methode sappelle : %s",nom.c_str()) ;
             
             if (nom == "operator ==")
             {
@@ -366,7 +355,7 @@ void MetaClasse::Initialiser()
       // les classes parentes
       rDebug("gestion des parents") ;
       Ptree* arebreParents = this->BaseClasses() ;
-      rDebug("parents = " + Chaine(arebreParents->ToString())) ;
+      rDebug("parents = %s",arebreParents->ToString()) ;
     
         
       while(arebreParents)
@@ -375,7 +364,7 @@ void MetaClasse::Initialiser()
         
         Ptree* parent = arebreParents->Cdr()->Car() ;
     
-        rDebug(Chaine(parent->ToString())) ;
+        rDebug(parent->ToString()) ;
     
         // parent->Display() ;
         // PtreeUtil::Last(parent)->Car()->Display() ;
@@ -405,11 +394,11 @@ void MetaClasse::Initialiser()
       }
       
       // idem pour les attributs
-      for(IterateurEnsembleComposition<Attribut> attribut(attributs) ;
-          attribut.Valide() ;
+      for(std::set<Attribut*>::iterator attribut = attributs.begin() ;
+          attribut != attributs.end() ;
           ++attribut)
       {
-        attribut->Initialiser() ;
+        (*attribut)->Initialiser() ;
       }
 
       rDebug("fin initialisation des classes utilisées") ;
@@ -417,7 +406,7 @@ void MetaClasse::Initialiser()
    
     }
 
-    rDebug("fin initialisation classe " + this->nom) ;
+    rDebug("fin initialisation classe %s",this->nom.c_str()) ;
 
             
   }    
@@ -428,13 +417,13 @@ bool MetaClasse::VerifieRegles() {
 
   // 1. vérification des types des attributs.
 
-  Booleen validiteAttributs = VRAI ;
+  bool validiteAttributs = true ;
   
-  for(IterateurEnsembleComposition<Attribut> attribut(attributs) ;
-      attribut.Valide() ;
+  for(std::set<Attribut*>::iterator attribut = attributs.begin() ;
+      attribut != attributs.end() ;
       ++attribut)
   {       
-      validiteAttributs = validiteAttributs && attribut->VerifieRegles() ;
+      validiteAttributs = validiteAttributs && (*attribut)->VerifieRegles() ;
   }
 
   // 2. vérification des règles générales
@@ -494,7 +483,7 @@ const char* MetaClasse::Afficher()
 
   rDebug("MetaClasse::Afficher") ;  
 
-  Chaine resultat ;
+  std::string resultat ;
   resultat = "Class " ; 
   
   if (this->Valeur())
@@ -522,11 +511,11 @@ const char* MetaClasse::Afficher()
 
   rDebug("MetaClasse::Afficher attributs") ;  
     
-  for(IterateurEnsembleComposition<Attribut> attribut(attributs) ;
-      attribut.Valide() ;
+  for(std::set<Attribut*>::iterator attribut = attributs.begin() ;
+      attribut != attributs.end() ;
       ++attribut)
   {
-    resultat = resultat + "  " + attribut->Afficher() + "\n" ;     
+    resultat = resultat + "  " + (*attribut)->Afficher() + "\n" ;     
   }
   
   resultat = resultat + "\n" ;
@@ -557,7 +546,7 @@ const char* MetaClasse::Afficher()
 
   rDebug("fin MetaClasse::Afficher") ;  
   
-  return resultat ;
+  return resultat.c_str() ;
   
     
   
@@ -595,23 +584,21 @@ void MetaClasse::TranslateClass(Environment* env)
   if (this->NamespaceProjetUnivers())
   {
     this->Initialiser() ;
-    Chaine affichage("\n") ;
+    std::string affichage("\n") ;
     affichage += this->Afficher() ;
 
-    rLog(RLOG_CHANNEL("compilateur"),affichage) ;
+    rLog(RLOG_CHANNEL("compilateur"),affichage.c_str()) ;
     
-    std::cout << affichage << std::endl ;
+//    std::cout << affichage << std::endl ;
     
     if (this->VerifieRegles())
-      rLog(RLOG_CHANNEL("compilateur"), "la classe " + this->nom + 
-                                      " vérifie les règles") ;
+      rLog(RLOG_CHANNEL("compilateur"), "la classe %s vérifie les règles",this->nom.c_str()) ;
     else
-      rLog(RLOG_CHANNEL("compilateur"), "la classe " + this->nom + 
-                                      " ne vérifie pas les règles") ;
+      rLog(RLOG_CHANNEL("compilateur"), "la classe %s ne vérifie pas les règles",this->nom.c_str()) ;
 
     // sortie vers un fichier
-    ofstream sortieClasse(this->nom + ".struct", ios::out) ;
-    sortieClasse << this->Afficher() ;
+//    ofstream sortieClasse(this->nom + ".struct", ios::out) ;
+//    sortieClasse << this->Afficher() ;
     
 
     

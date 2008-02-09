@@ -235,6 +235,26 @@ namespace ProjetUnivers {
       // no function...
       throw std::exception() ;
     }
+    
+    /// An order on objects. 
+    class ObjectOrder : public std::binary_function<const Object*,const Object*,bool> 
+    {
+    public:
+      /// true if x i less than y.
+      bool operator()(const Object* x,const Object* y) const
+      { 
+        if (!x && !y)
+          return false ;
+        
+        if (!x)
+          return true ;
+          
+        if (!y)
+          return false ;
+        
+        return x->getIdentifier() < y->getIdentifier() ;
+      }
+    };
 
   }
 }

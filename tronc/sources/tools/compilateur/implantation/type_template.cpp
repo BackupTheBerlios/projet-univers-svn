@@ -23,25 +23,17 @@
 #include <opencxx/mop.h>
 #include <opencxx/parser/PtreeUtil.h>
 
-#include <base/composition.h>
-#include <base/implantation/liste_valeur.h>
-#include <base/implantation/iterateur_liste_valeur.h>
-#include <base/implantation/iterateur_liste_composition.h>
-
-
-#include <outils/compilateur/parametre_template.h>
-#include <outils/compilateur/type_template.h>
-#include <outils/compilateur/utilitaires_opencxx.h>
+#include <tools/compilateur/parametre_template.h>
+#include <tools/compilateur/type_template.h>
+#include <tools/compilateur/utilitaires_opencxx.h>
 
 using namespace Opencxx ;
-using namespace ProjetUnivers::Base ;
-using namespace ProjetUnivers::Base::Implantation ;
 
 namespace ProjetUnivers {
 
-  namespace Outils {
+  namespace Tools {
     
-    namespace Compilateur 
+    namespace Compiler 
     {
 
 //      /// Identifie la selection par un namespace
@@ -189,7 +181,7 @@ namespace ProjetUnivers {
             =  informationType.TemplateClassMetaobject() ;
 
 
-          Base::Composition<TypeTemplate>
+          std::auto_ptr<TypeTemplate>
             resultat(new TypeTemplate(classeTemplate)) ;
 
 
@@ -208,11 +200,11 @@ namespace ProjetUnivers {
             }
             else
             
-              resultat->_parametres.AjouterEnQueue(Type::Construire(typeArgument, environement)) ;
+              resultat->_parametres.push_back(Type::Construire(typeArgument, environement)) ;
           }
 
       
-          return resultat.Liberer() ;
+          return resultat.release() ;
           break ;
         }
           
@@ -246,7 +238,9 @@ namespace ProjetUnivers {
       {}
 
       TypeTemplate::TypeTemplate(TemplateClass* _classeTemplate )
-      : Type(_classeTemplate->GetEnvironment()->GetOuterEnvironment()), 
+      : Type(_classeTemplate?
+                _classeTemplate->GetEnvironment()->GetOuterEnvironment():
+                NULL), 
         classeTemplate(_classeTemplate), parametres()
       {}
 
@@ -261,41 +255,44 @@ namespace ProjetUnivers {
 
 
       
-      Chaine TypeTemplate::Afficher() const
+      std::string TypeTemplate::Afficher() const
       {
         
         rDebug("TypeTemplate::Afficher") ;
         
-        Chaine resultat(NomComplet(this->espaceDeNom)) ;
+        std::string resultat(NomComplet(this->espaceDeNom)) ;
 
         rDebug("TypeTemplate::Afficher 2") ;        
 
-        Chaine sortieParametres ;
+        std::string sortieParametres ;
 //        if (parametres)
 //          sortieParametres = (parametres->ToString()) ;
 
-        for(IterateurListeComposition<ParametreTemplate> parametre(this->_parametres) ;
-            parametre.Valide() ;
+        for(std::list<ParametreTemplate*>::const_iterator parametre = _parametres.begin() ;
+            parametre != _parametres.end() ;
             ++parametre)
         {
         
           sortieParametres += ',' ;
-          sortieParametres += parametre->Afficher() ;
-          rDebug("parametre = " + parametre->Afficher()) ;
+          sortieParametres += (*parametre)->Afficher() ;
+          rDebug("parametre = %",(*parametre)->Afficher().c_str()) ;
         }
 
 
         rDebug("fin TypeTemplate::Afficher") ;
         
-        return "template " + resultat + Chaine("::") + 
-               classeTemplate->Name()->ToString() + 
+        return "template " + resultat + std::string("::") + 
+               std::string(classeTemplate?classeTemplate->Name()->ToString():"unknown")  + 
                "<" + sortieParametres +">" ;
 
         
       }
 
-      Base::Booleen TypeTemplate::NamespaceProjetUniversBase() const
+      bool TypeTemplate::NamespaceProjetUniversBase() const
       {
+        if (! classeTemplate)
+          return false ;
+          
         Environment* courant = this->classeTemplate->GetEnvironment() ;
         Environment* precedent ;
         
@@ -307,8 +304,8 @@ namespace ProjetUnivers {
         
         }
         
-        if (Chaine(courant->IsNamespace()->ToString()) == Chaine("ProjetUnivers")
-            && Chaine(precedent->IsNamespace()->ToString()) == Chaine("Base"))
+        if (std::string(courant->IsNamespace()->ToString()) == std::string("ProjetUnivers")
+            && std::string(precedent->IsNamespace()->ToString()) == std::string("Base"))
         
           return true ;
         
@@ -323,31 +320,31 @@ namespace ProjetUnivers {
       BaseTemplate TypeTemplate::TemplateDeBase() const
       {
       
-        Chaine nom(this->classeTemplate->Name()->ToString()) ;
+        std::string nom(this->classeTemplate->Name()->ToString()) ;
         
-        rDebug(nom) ;
+        rDebug(nom.c_str()) ;
         
-        if (nom == Chaine("Association"))
-          return Compilateur::Association ;
-        else if (nom == Chaine("Composition"))
-          return Compilateur::Composition ;
-        else if (nom == Chaine("EnsembleComposition"))
-          return Compilateur::EnsembleComposition ;
-        else if (nom == Chaine("EnsembleAssociation"))
-          return Compilateur::EnsembleAssociation ;
-        else if (nom == Chaine("FonctionObjetValeur"))
-          return Compilateur::FonctionObjetValeur ;
-        else if (nom == Chaine("FonctionCompositionObjetObjet"))
-          return Compilateur::FonctionCompositionObjetObjet ;
-        else if (nom == Chaine("FonctionAssociationObjetObjet"))
-          return Compilateur::FonctionAssociationObjetObjet ;
-        else if (nom == Chaine("FonctionCompositionValeurObjet"))
-          return Compilateur::FonctionCompositionValeurObjet ;
-        else if (nom == Chaine("FonctionAssociationValeurObjet"))
-          return Compilateur::FonctionAssociationValeurObjet ;
+        if (nom == std::string("Association"))
+          return Compiler::Association ;
+        else if (nom == std::string("Composition"))
+          return Compiler::Composition ;
+        else if (nom == std::string("EnsembleComposition"))
+          return Compiler::EnsembleComposition ;
+        else if (nom == std::string("EnsembleAssociation"))
+          return Compiler::EnsembleAssociation ;
+        else if (nom == std::string("FonctionObjetValeur"))
+          return Compiler::FonctionObjetValeur ;
+        else if (nom == std::string("FonctionCompositionObjetObjet"))
+          return Compiler::FonctionCompositionObjetObjet ;
+        else if (nom == std::string("FonctionAssociationObjetObjet"))
+          return Compiler::FonctionAssociationObjetObjet ;
+        else if (nom == std::string("FonctionCompositionValeurObjet"))
+          return Compiler::FonctionCompositionValeurObjet ;
+        else if (nom == std::string("FonctionAssociationValeurObjet"))
+          return Compiler::FonctionAssociationValeurObjet ;
         
         else
-          return Compilateur::NonPrisEnCompte ;
+          return Compiler::NonPrisEnCompte ;
       }
 
 
@@ -357,43 +354,43 @@ namespace ProjetUnivers {
         générer des erreurs de compilation explicites
         ... pas sur...
       */
-      Booleen TypeTemplate::TypeAttributCorrect() const
+      bool TypeTemplate::TypeAttributCorrect() const
       {
         
-        IterateurListeComposition<ParametreTemplate> parametre(this->_parametres) ;
+        std::list<ParametreTemplate*>::const_iterator parametre = _parametres.begin() ;
         
         // 1. est il un des templates de PU::Base
         if (this->NamespaceProjetUniversBase())
         {
 
-          Booleen parametreObjet ;
+          bool parametreObjet ;
           
           rDebug("Vérification du type en tant que type d'attribut") ;
-          rDebug(this->Afficher()) ;
+          rDebug(this->Afficher().c_str()) ;
           
           BaseTemplate identiteTemplate(this->TemplateDeBase()) ;
           
           switch (identiteTemplate)
           {
-          case Compilateur::Association:
-          case Compilateur::Composition:
-          case Compilateur::EnsembleAssociation:
-          case Compilateur::EnsembleComposition:
+          case Compiler::Association:
+          case Compiler::Composition:
+          case Compiler::EnsembleAssociation:
+          case Compiler::EnsembleComposition:
             
             rDebug("un seul paramètre objet") ;
             
             // le template a un seul paramètre Objet
-            if (this->_parametres.NombreDElements() != 1)
+            if (this->_parametres.size() != 1)
             {
               /// @todo corriger
               // provoque une erreur interne parceque pas de where...
               classeTemplate->ErrorMessage("mauvais nombre d'arguments",0,0) ;
-              return FAUX ;
+              return false ;
             }
             
 
-            parametreObjet = parametre->Objet() ;
-            if (parametreObjet == VRAI)
+            parametreObjet = (*parametre)->Objet() ;
+            if (parametreObjet == true)
               rDebug("le parametre est objet") ;
             else
               rDebug("le parametre n'est pas objet") ;
@@ -401,47 +398,47 @@ namespace ProjetUnivers {
             return parametreObjet ;
             break ;
 
-          case Compilateur::EnsembleValeur:
+          case Compiler::EnsembleValeur:
           
             // le template a un seul paramètre Valeur
 
-            if (this->_parametres.NombreDElements() != 1)
-              return FAUX ;
+            if (this->_parametres.size() != 1)
+              return false ;
             
-            return parametre->Valeur() ;
+            return (*parametre)->Valeur() ;
             break ;
             
-          case Compilateur::FonctionCompositionValeurObjet:
-          case Compilateur::FonctionAssociationValeurObjet:
+          case Compiler::FonctionCompositionValeurObjet:
+          case Compiler::FonctionAssociationValeurObjet:
           
             // le premier parametre est valeur, le second objet
-            if (this->_parametres.NombreDElements() != 2)
-              return FAUX ;
+            if (this->_parametres.size() != 2)
+              return false ;
             
-            if (! parametre->Valeur())
-              return FAUX ;
+            if (! (*parametre)->Valeur())
+              return false ;
             
             ++parametre ;            
-            return parametre->Objet() ;
+            return (*parametre)->Objet() ;
             break ;
             
-          case Compilateur::FonctionCompositionObjetObjet:
-          case Compilateur::FonctionAssociationObjetObjet:
+          case Compiler::FonctionCompositionObjetObjet:
+          case Compiler::FonctionAssociationObjetObjet:
 
             // les 2 paramètres sont objets
-            if (this->_parametres.NombreDElements() != 2)
-              return FAUX ;
+            if (this->_parametres.size() != 2)
+              return false ;
             
-            if (! parametre->Objet())
-              return FAUX ;
+            if (! (*parametre)->Objet())
+              return false ;
             
             ++parametre ;            
-            return parametre->Objet() ;
+            return (*parametre)->Objet() ;
             
             break ;
           default:
           
-            return VRAI ;
+            return true ;
             // ??
             
           }
@@ -450,17 +447,17 @@ namespace ProjetUnivers {
         }
         
 
-        return VRAI ;
+        return true ;
       }
 
-      Booleen TypeTemplate::TypeParametreCorrect() const
+      bool TypeTemplate::TypeParametreCorrect() const
       {
 
-        return FAUX ;
+        return false ;
       }
       
       
-      Base::Booleen TypeTemplate::EstComposition() const
+      bool TypeTemplate::EstComposition() const
       {
 
         if (this->NamespaceProjetUniversBase())
@@ -470,20 +467,20 @@ namespace ProjetUnivers {
           
           switch (identiteTemplate)
           {
-          case Compilateur::Composition:
-          case Compilateur::EnsembleComposition:
-          case Compilateur::FonctionCompositionObjetObjet:
-          case Compilateur::FonctionCompositionValeurObjet:
-            return VRAI ;
+          case Compiler::Composition:
+          case Compiler::EnsembleComposition:
+          case Compiler::FonctionCompositionObjetObjet:
+          case Compiler::FonctionCompositionValeurObjet:
+            return true ;
           default:
-            return FAUX ;
+            return false ;
           }        
         }
         
-        return FAUX ;
+        return false ;
       }
 
-      Base::Booleen TypeTemplate::Valeur() const
+      bool TypeTemplate::Valeur() const
       {
         if (this->NamespaceProjetUniversBase())
         {
@@ -492,13 +489,13 @@ namespace ProjetUnivers {
           
         }
         
-        return FAUX ;
+        return false ;
         
       }
 
-      Base::Booleen TypeTemplate::Objet() const
+      bool TypeTemplate::Objet() const
       {
-        return FAUX ;        
+        return false ;        
       }
 
   

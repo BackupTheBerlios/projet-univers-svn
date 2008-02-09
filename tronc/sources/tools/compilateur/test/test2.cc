@@ -1,7 +1,7 @@
 
-#include <base/association.h>
-#include <base/composition.h>
-#include <base/ensemble_association.h>
+//#include <base/association.h>
+//#include <base/composition.h>
+//#include <base/ensemble_association.h>
 
 namespace ProjetUnivers
 {

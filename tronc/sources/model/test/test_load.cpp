@@ -74,7 +74,7 @@ namespace ProjetUnivers {
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadComponent")) ;          
         reader->read(model.get()) ;
 
-        std::set<Kernel::Object*> roots = model->getRoots() ;
+        std::set<Kernel::Object*> roots(model->getRoots()) ;
         CPPUNIT_ASSERT(roots.size() == 1) ;
         Kernel::Object* root = *roots.begin() ;
         CPPUNIT_ASSERT(root->getTrait<Component>()) ;
@@ -93,7 +93,7 @@ namespace ProjetUnivers {
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadComputer")) ;          
         reader->read(model.get()) ;
 
-        std::set<Kernel::Object*> roots = model->getRoots() ;
+        std::set<Kernel::Object*> roots(model->getRoots()) ;
         CPPUNIT_ASSERT(roots.size() == 1) ;
         Kernel::Object* root = *roots.begin() ;
         CPPUNIT_ASSERT(root->getTrait<Computer>()) ;
@@ -115,7 +115,7 @@ namespace ProjetUnivers {
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadDestroyable")) ;          
         reader->read(model.get()) ;
 
-        std::set<Kernel::Object*> roots = model->getRoots() ;
+        std::set<Kernel::Object*> roots(model->getRoots()) ;
         CPPUNIT_ASSERT(roots.size() == 1) ;
         Kernel::Object* root = *roots.begin() ;
         CPPUNIT_ASSERT(root->getTrait<Destroyable>()) ;
@@ -141,7 +141,7 @@ namespace ProjetUnivers {
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadDetector")) ;          
         reader->read(model.get()) ;
 
-        std::set<Kernel::Object*> roots = model->getRoots() ;
+        std::set<Kernel::Object*> roots(model->getRoots()) ;
         CPPUNIT_ASSERT(roots.size() == 2) ;
         Kernel::Object* root = *roots.begin() ;
         CPPUNIT_ASSERT(root->getTrait<Detector>()) ;
@@ -162,7 +162,7 @@ namespace ProjetUnivers {
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadDragger")) ;          
         reader->read(model.get()) ;
 
-        std::set<Kernel::Object*> roots = model->getRoots() ;
+        std::set<Kernel::Object*> roots(model->getRoots()) ;
         CPPUNIT_ASSERT(roots.size() == 1) ;
         Kernel::Object* root = *roots.begin() ;
         CPPUNIT_ASSERT(root->getTrait<Dragger>()) ;
@@ -192,7 +192,7 @@ namespace ProjetUnivers {
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadEngine")) ;          
         reader->read(model.get()) ;
 
-        std::set<Kernel::Object*> roots = model->getRoots() ;
+        std::set<Kernel::Object*> roots(model->getRoots()) ;
         CPPUNIT_ASSERT(roots.size() == 3) ;
         std::set<Kernel::Object*>::iterator current = roots.begin() ; 
         Kernel::Object* engine = *current ;
@@ -221,7 +221,7 @@ namespace ProjetUnivers {
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadForceGenerator")) ;          
         reader->read(model.get()) ;
 
-        std::set<Kernel::Object*> roots = model->getRoots() ;
+        std::set<Kernel::Object*> roots(model->getRoots()) ;
         CPPUNIT_ASSERT(roots.size() == 1) ;
         std::set<Kernel::Object*>::iterator current = roots.begin() ; 
         Kernel::Object* engine = *current ;
@@ -242,7 +242,7 @@ namespace ProjetUnivers {
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadGuidanceControler")) ;          
         reader->read(model.get()) ;
 
-        std::set<Kernel::Object*> roots = model->getRoots() ;
+        std::set<Kernel::Object*> roots(model->getRoots()) ;
         CPPUNIT_ASSERT(roots.size() == 1) ;
         std::set<Kernel::Object*>::iterator current = roots.begin() ; 
         Kernel::Object* engine = *current ;
@@ -267,7 +267,7 @@ namespace ProjetUnivers {
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadGuidanceSystem")) ;          
         reader->read(model.get()) ;
 
-        std::set<Kernel::Object*> roots = model->getRoots() ;
+        std::set<Kernel::Object*> roots(model->getRoots()) ;
         CPPUNIT_ASSERT(roots.size() == 2) ;
         std::set<Kernel::Object*>::iterator current = roots.begin() ; 
         Kernel::Object* guidance_system = *current ;
@@ -291,7 +291,7 @@ namespace ProjetUnivers {
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadHearing")) ;          
         reader->read(model.get()) ;
 
-        std::set<Kernel::Object*> roots = model->getRoots() ;
+        std::set<Kernel::Object*> roots(model->getRoots()) ;
         CPPUNIT_ASSERT(roots.size() == 1) ;
         Kernel::Object* root = *roots.begin() ;
         CPPUNIT_ASSERT(root->getTrait<Hearing>()) ;
@@ -314,7 +314,7 @@ namespace ProjetUnivers {
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadLaser")) ;          
         reader->read(model.get()) ;
 
-        std::set<Kernel::Object*> roots = model->getRoots() ;
+        std::set<Kernel::Object*> roots(model->getRoots()) ;
         CPPUNIT_ASSERT(roots.size() == 1) ;
         Kernel::Object* root = *roots.begin() ;
         CPPUNIT_ASSERT(root->getTrait<Laser>()) ;
@@ -335,7 +335,7 @@ namespace ProjetUnivers {
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadMassive")) ;          
         reader->read(model.get()) ;
 
-        std::set<Kernel::Object*> roots = model->getRoots() ;
+        std::set<Kernel::Object*> roots(model->getRoots()) ;
         CPPUNIT_ASSERT(roots.size() == 1) ;
         Kernel::Object* root = *roots.begin() ;
         CPPUNIT_ASSERT(root->getTrait<Massive>()) ;
@@ -354,7 +354,7 @@ namespace ProjetUnivers {
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadMenu")) ;          
         reader->read(model.get()) ;
 
-        std::set<Kernel::Object*> roots = model->getRoots() ;
+        std::set<Kernel::Object*> roots(model->getRoots()) ;
         CPPUNIT_ASSERT(roots.size() == 1) ;
         Kernel::Object* root = *roots.begin() ;
         CPPUNIT_ASSERT(root->getTrait<Menu>()) ;
@@ -376,7 +376,7 @@ namespace ProjetUnivers {
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadMobile")) ;          
         reader->read(model.get()) ;
 
-        std::set<Kernel::Object*> roots = model->getRoots() ;
+        std::set<Kernel::Object*> roots(model->getRoots()) ;
         CPPUNIT_ASSERT(roots.size() == 1) ;
         Kernel::Object* root = *roots.begin() ;
         CPPUNIT_ASSERT(root->getTrait<Mobile>()) ;
@@ -395,7 +395,7 @@ namespace ProjetUnivers {
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadObserver")) ;          
         reader->read(model.get()) ;
 
-        std::set<Kernel::Object*> roots = model->getRoots() ;
+        std::set<Kernel::Object*> roots(model->getRoots()) ;
         CPPUNIT_ASSERT(roots.size() == 1) ;
         Kernel::Object* root = *roots.begin() ;
         CPPUNIT_ASSERT(root->getTrait<Observer>()) ;
@@ -416,7 +416,7 @@ namespace ProjetUnivers {
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadOriented")) ;          
         reader->read(model.get()) ;
 
-        std::set<Kernel::Object*> roots = model->getRoots() ;
+        std::set<Kernel::Object*> roots(model->getRoots()) ;
         CPPUNIT_ASSERT(roots.size() == 1) ;
         Kernel::Object* root = *roots.begin() ;
         CPPUNIT_ASSERT(root->getTrait<Oriented>()) ;
@@ -437,7 +437,7 @@ namespace ProjetUnivers {
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadPositionned")) ;          
         reader->read(model.get()) ;
 
-        std::set<Kernel::Object*> roots = model->getRoots() ;
+        std::set<Kernel::Object*> roots(model->getRoots()) ;
         CPPUNIT_ASSERT(roots.size() == 1) ;
         Kernel::Object* root = *roots.begin() ;
         CPPUNIT_ASSERT(root->getTrait<Positionned>()) ;
@@ -458,7 +458,7 @@ namespace ProjetUnivers {
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadSolid")) ;          
         reader->read(model.get()) ;
 
-        std::set<Kernel::Object*> roots = model->getRoots() ;
+        std::set<Kernel::Object*> roots(model->getRoots()) ;
         CPPUNIT_ASSERT(roots.size() == 1) ;
         Kernel::Object* root = *roots.begin() ;
         CPPUNIT_ASSERT(root->getTrait<Solid>()) ;
@@ -477,7 +477,7 @@ namespace ProjetUnivers {
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadStabilizer")) ;          
         reader->read(model.get()) ;
 
-        std::set<Kernel::Object*> roots = model->getRoots() ;
+        std::set<Kernel::Object*> roots(model->getRoots()) ;
         CPPUNIT_ASSERT(roots.size() == 1) ;
         Kernel::Object* root = *roots.begin() ;
         CPPUNIT_ASSERT(root->getTrait<Stabilizer>()) ;
@@ -496,7 +496,7 @@ namespace ProjetUnivers {
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadStick")) ;          
         reader->read(model.get()) ;
 
-        std::set<Kernel::Object*> roots = model->getRoots() ;
+        std::set<Kernel::Object*> roots(model->getRoots()) ;
         CPPUNIT_ASSERT(roots.size() == 1) ;
         Kernel::Object* root = *roots.begin() ;
         CPPUNIT_ASSERT(root->getTrait<Stick>()) ;
@@ -515,7 +515,7 @@ namespace ProjetUnivers {
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadTorqueGenerator")) ;          
         reader->read(model.get()) ;
 
-        std::set<Kernel::Object*> roots = model->getRoots() ;
+        std::set<Kernel::Object*> roots(model->getRoots()) ;
         CPPUNIT_ASSERT(roots.size() == 1) ;
         Kernel::Object* root = *roots.begin() ;
         CPPUNIT_ASSERT(root->getTrait<TorqueGenerator>()) ;
@@ -534,7 +534,7 @@ namespace ProjetUnivers {
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadUniverse")) ;          
         reader->read(model.get()) ;
 
-        std::set<Kernel::Object*> roots = model->getRoots() ;
+        std::set<Kernel::Object*> roots(model->getRoots()) ;
         CPPUNIT_ASSERT(roots.size() == 1) ;
         Kernel::Object* root = *roots.begin() ;
         CPPUNIT_ASSERT(root->getTrait<Universe>()) ;

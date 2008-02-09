@@ -22,22 +22,17 @@
 
 #include <opencxx/mop.h>
 
-#include <outils/compilateur/attribut.h>
+#include <tools/compilateur/attribut.h>
 
 
 using namespace Opencxx ;
 
 namespace ProjetUnivers {
-
-  using namespace Base ;
-
-  namespace Outils {
-  
-    namespace Compilateur 
-    {
+  namespace Tools {
+    namespace Compiler {
   
       /// Message d'erreur pour les types d'attribut
-      const Chaine MessageErreurTypeAttribut = "type d'attribut incorect" ;
+      const std::string MessageErreurTypeAttribut = "type d'attribut incorect" ;
   
       Attribut::Attribut(Member& _membre)
       : membre(_membre), nom(_membre.Name()->ToString()), type(),
@@ -47,47 +42,47 @@ namespace ProjetUnivers {
         TypeInfo informationType ;
         _membre.Signature(informationType) ;
         
-        type = Type::Construire(informationType, _membre.Supplier()->GetEnvironment()) ;
+        type.reset(Type::Construire(informationType, _membre.Supplier()->GetEnvironment())) ;
       
       }
 
       void Attribut::Initialiser()
       {
-        if (type != NULL)
+        if (type.get() != NULL)
           type->Initialiser() ;
       }
   
-      Booleen Attribut::VerifieRegles() const 
+      bool Attribut::VerifieRegles() const 
       {
         
-        if (this->type != 0)
+        if (this->type.get() != NULL)
         {
           
-          Booleen validiteType(type->TypeAttributCorrect()) ;
+          bool validiteType(type->TypeAttributCorrect()) ;
 
           if ( ! validiteType)
           {
             
-            char* nomCString = (char *)malloc(sizeof(char)*(nom.Longueur() +1)) ;
-            strcpy(nomCString, nom) ;
+            char* nomCString = (char *)malloc(sizeof(char)*(nom.length() +1)) ;
+            strcpy(nomCString, nom.c_str()) ;
             
             Ptree* ArbreNom = (new Leaf(nomCString,
-                               nom.Longueur())) ;
+                               nom.length())) ;
                                
                                
             
             
-            Chaine message = "dans la classe : " + Chaine(classe->Name()->ToString()) + 
-                             " l'attribut " + membre.Name()->ToString() + 
-                             " a un type interdit" ;
-
-            rDebug(message) ;
-            
-            classe->ErrorMessage(
-                                 classe->GetEnvironment()->GetOuterEnvironment(), 
-                                 "type d'attribut incorrect:", 
-                                 membre.Name(), 
-                                 membre.Name()) ;
+//            std::string message = "dans la classe : " + std::string(classe->Name()->ToString()) + 
+//                             " l'attribut " + membre.Name()->ToString() + 
+//                             " a un type interdit" ;
+//
+//            rDebug(message) ;
+//            
+//            classe->ErrorMessage(
+//                                 classe->GetEnvironment()->GetOuterEnvironment(), 
+//                                 "type d'attribut incorrect:", 
+//                                 membre.Name(), 
+//                                 membre.Name()) ;
                                    
           }
 
@@ -96,18 +91,18 @@ namespace ProjetUnivers {
               vérifier que le nom est bien un identificateur dans les 
               bonnes formes
           */
-          Booleen validiteNom(VRAI) ;
+          bool validiteNom(true) ;
           
           return validiteType && validiteNom ;
         }
         else
-          return FAUX ;
+          return false ;
       }
     
-      Chaine Attribut::Afficher() const
+      std::string Attribut::Afficher() const
       {
-        Chaine resultat = nom ;
-        if (type != NULL)
+        std::string resultat = nom ;
+        if (type.get() != NULL)
           resultat += " : " + type->Afficher() ;  
         else
           resultat += " : type non reconnu" ;  

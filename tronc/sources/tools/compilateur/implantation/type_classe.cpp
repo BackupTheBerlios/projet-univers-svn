@@ -17,25 +17,19 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-
-
 #include <rlog/rlog.h>
 
 #include <opencxx/mop.h>
 
-#include <outils/compilateur/type_classe.h>
-#include <outils/compilateur/utilitaires_opencxx.h>
-#include <outils/compilateur/meta_classe.h>
+#include <tools/compilateur/type_classe.h>
+#include <tools/compilateur/utilitaires_opencxx.h>
+#include <tools/compilateur/meta_classe.h>
 
 using namespace Opencxx ;
-using namespace ProjetUnivers::Base ;
 
 namespace ProjetUnivers {
-
-  namespace Outils {
-    
-    namespace Compilateur 
-    {
+  namespace Tools {
+    namespace Compiler {
 
       TypeClasse* TypeClasse::Construire(Opencxx::TypeInfo& informationType,
                                          Opencxx::Environment* environement)
@@ -68,7 +62,7 @@ namespace ProjetUnivers {
    
   
       
-      Chaine TypeClasse::Afficher() const
+      std::string TypeClasse::Afficher() const
       {
         return "classe " + NomComplet(this->classe) ;  
       }
@@ -77,7 +71,7 @@ namespace ProjetUnivers {
       : Type(_espaceDeNom), classe(_classe)
       {}
 
-      Booleen TypeClasse::TypeAttributCorrect() const 
+      bool TypeClasse::TypeAttributCorrect() const 
       {
         
         // la classe doit être une classe de valeur...ou bien ne pas faire 
@@ -87,21 +81,21 @@ namespace ProjetUnivers {
           
           return classe->Valeur() ;
         }
-        return VRAI ;
+        return true ;
           
       }
-      Base::Booleen TypeClasse::TypeParametreCorrect() const
+      bool TypeClasse::TypeParametreCorrect() const
       {
-        return FAUX ;
+        return false ;
       }
       
 
-      Base::Booleen TypeClasse::Valeur() const
+      bool TypeClasse::Valeur() const
       {
         return classe->Valeur() ;
       }
 
-      Base::Booleen TypeClasse::Objet() const
+      bool TypeClasse::Objet() const
       {
         return classe->Objet() ;
       }

@@ -1,6 +1,7 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Equipe Projet Univers                           *
- *   rogma.boami@free.fr                                                   *
+ *   This file is part of ProjetUnivers                                    *
+ *   see http://www.punivers.net                                           *
+ *   Copyright (C) 2008 Mathieu ROGER                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,74 +18,45 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#ifndef PU_KERNEL_ALGORITHM_H_
+#define PU_KERNEL_ALGORITHM_H_
 
-
-
-#ifndef _PU_COMPILATEUR_METHODE_H_
-#define _PU_COMPILATEUR_METHODE_H_
-
-
-
-#include <tools/compilateur/traitement.h>
-
+#include <set>
+#include <iterator>
 
 namespace ProjetUnivers {
+  namespace Kernel {
+    
+    /// Utility algorithms
+    namespace Algorithm {
 
-  namespace Tools {
-      
-    namespace Compiler 
-    {
-  
-      /// Représente une méthode.
+      /// Get the next @s element after @c i
       /*!
-        Une méthode est déclarée dans une classe.
-        
-        @remark
-        
-          Certaines méthodes (les méthodes virtuelles) sont en faites déclarées 
-          sur des profils ayant des "sous-profils"
-      */
-      class Methode : public Traitement
-      {
-      public:
+        @param s an non-empty set
+        @param i a "possible" element of s
 
-        /// Faux constructeur.
-        static Methode* Construire(const Member& _membre) ;
-        
-
-        /*!
-          @name Vérification des règles
-        */
-        //@{
-        
-        /// Dit si elle vérifie les règles
-        virtual bool VerifieRegles() const = 0 ;
-
-        //@}
-
-        /// Destructeur de classe abstraite.
-        virtual ~Methode() ;
-
-        
-      protected:
+        @return
+          @c r minimum element of @c s such that @c r > @c i if exists
+          first @c s element otherwise  
+      */ 
+      template <typename T> T findAfter(const std::set<T>& s,const T& object) ;
       
-        /*!
-          @name Construction
-        */
-        //@{
+      /// Get the previous @s element after @c i
+      /*!
+        @param s an non-empty set
+        @param i a "possible" element of s
+        @param T must be a type with <= operator
         
-        /// Constructeur de classe abstraite.
-        Methode(const Member& _membre) ;
+        @return
+          @c r maximum element of @c s such that @c r < @c i if exists
+          last @c s element otherwise  
+      */ 
+      template <typename T> T findBefore(const std::set<T>& s,const T& object) ;
 
-        //@}
-      
-        /// Classe de déclaration de la méthode.
-        Opencxx::Class* Classe() ;
-        
-      };
     }
   }
 }
 
-#endif
+#include <kernel/implementation/algorithm.cxx>
 
+#endif /*PU_KERNEL_ALGORITHM_H_*/

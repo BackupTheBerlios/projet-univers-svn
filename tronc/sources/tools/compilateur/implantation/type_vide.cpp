@@ -23,17 +23,16 @@
 
 #include <opencxx/mop.h>
 
-#include <outils/compilateur/type_vide.h>
-#include <outils/compilateur/utilitaires_opencxx.h>
+#include <tools/compilateur/type_vide.h>
+#include <tools/compilateur/utilitaires_opencxx.h>
 
 using namespace Opencxx ;
-using namespace ProjetUnivers::Base ;
 
 namespace ProjetUnivers {
 
-  namespace Outils {
+  namespace Tools {
     
-    namespace Compilateur 
+    namespace Compiler 
     {
 
       TypeVide* TypeVide::Construire(Opencxx::TypeInfo& informationType,
@@ -59,7 +58,7 @@ namespace ProjetUnivers {
    
   
       
-      Chaine TypeVide::Afficher() const
+      std::string TypeVide::Afficher() const
       {
         return "void" ;  
       }
@@ -68,25 +67,25 @@ namespace ProjetUnivers {
       : Type(NULL)
       {}
 
-      Booleen TypeVide::TypeAttributCorrect() const 
+      bool TypeVide::TypeAttributCorrect() const 
       {
-        return FAUX ;
+        return false ;
       }
 
-      Booleen TypeVide::TypeParametreCorrect() const 
+      bool TypeVide::TypeParametreCorrect() const 
       {
-        return VRAI ;
+        return true ;
       }
 
 
-      Base::Booleen TypeVide::Valeur() const
+      bool TypeVide::Valeur() const
       {
-        return FAUX ;
+        return false ;
       }
 
-      Base::Booleen TypeVide::Objet() const
+      bool TypeVide::Objet() const
       {
-        return FAUX ;
+        return false ;
       }
 
 

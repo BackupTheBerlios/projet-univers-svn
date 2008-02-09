@@ -52,6 +52,9 @@ AC_SUBST(ODE_LIBS, "-lode")
 PKG_CHECK_MODULES(openal, [openal >= 0.0.8])
 AC_SUBST(openal_LIBS)
 
+# AC_CHECK_HEADER([AL/efx.h],have_efx=yes,have_efx=no)
+# AM_CONDITIONAL(HAVE_EFX, test "x$have_efx" = "xyes")
+
 # check Ogg
 PKG_CHECK_MODULES(ogg, [ogg >= 1.1.3])
 AC_SUBST(ogg_LIBS)

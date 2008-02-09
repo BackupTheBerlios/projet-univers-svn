@@ -1,6 +1,7 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Equipe Projet Univers                           *
- *   rogma.boami@free.fr                                                   *
+ *   This file is part of ProjetUnivers                                    *
+ *   see http://www.punivers.net                                           *
+ *   Copyright (C) 2008 Mathieu ROGER                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,74 +18,51 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#ifndef PU_KERNEL_TEST_ALGORITHM_H_
+#define PU_KERNEL_TEST_ALGORITHM_H_
 
-
-
-#ifndef _PU_COMPILATEUR_METHODE_H_
-#define _PU_COMPILATEUR_METHODE_H_
-
-
-
-#include <tools/compilateur/traitement.h>
-
+#include <cppunit/extensions/HelperMacros.h>
 
 namespace ProjetUnivers {
+  namespace Kernel {
+    namespace Test {
 
-  namespace Tools {
-      
-    namespace Compiler 
-    {
-  
-      /// Représente une méthode.
-      /*!
-        Une méthode est déclarée dans une classe.
-        
-        @remark
-        
-          Certaines méthodes (les méthodes virtuelles) sont en faites déclarées 
-          sur des profils ayant des "sous-profils"
-      */
-      class Methode : public Traitement
-      {
+      ///  Test for Algorithm functions.
+      class TestAlgorithm : public CppUnit::TestFixture {
       public:
 
-        /// Faux constructeur.
-        static Methode* Construire(const Member& _membre) ;
-        
+        /// Initialisation du test
+        void setUp() ;
 
-        /*!
-          @name Vérification des règles
-        */
-        //@{
-        
-        /// Dit si elle vérifie les règles
-        virtual bool VerifieRegles() const = 0 ;
+        /// Desinitialisation du test
+        void tearDown() ;
 
-        //@}
-
-        /// Destructeur de classe abstraite.
-        virtual ~Methode() ;
-
-        
       protected:
-      
-        /*!
-          @name Construction
-        */
-        //@{
-        
-        /// Constructeur de classe abstraite.
-        Methode(const Member& _membre) ;
 
-        //@}
-      
-        /// Classe de déclaration de la méthode.
-        Opencxx::Class* Classe() ;
+      /// @name Tests methods
+      // @{  
+
+        /// findAfter findBefore test on a cardinality 2 set.
+        void testFindAfterBeforeOnSmallSet() ;
         
+        /// findAfter findBefore test on a bigger set.
+        void testFindAfterBeforeOnBigSet() ;
+       
+        
+      // @}
+
+
+        CPPUNIT_TEST_SUITE(TestAlgorithm) ;
+
+        CPPUNIT_TEST(testFindAfterBeforeOnSmallSet) ;
+        CPPUNIT_TEST(testFindAfterBeforeOnBigSet) ;
+
+        CPPUNIT_TEST_SUITE_END() ;
+
+      
       };
     }
   }
 }
 
-#endif
-
+#endif /*PU_KERNEL_TEST_ALGORITHM_H_*/

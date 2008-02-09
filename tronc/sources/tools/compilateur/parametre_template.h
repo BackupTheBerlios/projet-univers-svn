@@ -17,24 +17,20 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-
-
-
 #ifndef _PU_COMPILATEUR_PARAMETRE_TEMPLATE_H_
 #define _PU_COMPILATEUR_PARAMETRE_TEMPLATE_H_
 
 #include <opencxx/parser/Ptree.h>
 #include <opencxx/Environment.h>
 
-#include <base/chaine.h>
-#include <base/types.h>
+#include <string>
 
 
 namespace ProjetUnivers {
 
-  namespace Outils {
+  namespace Tools {
       
-    namespace Compilateur 
+    namespace Compiler 
     {
   
       /// Représente un paramètre d'instantiation d'un template
@@ -61,7 +57,7 @@ namespace ProjetUnivers {
         //@{
 
         /// Transforme en chaine pour l'affichage.
-        virtual Base::Chaine Afficher() const = 0 ;
+        virtual std::string Afficher() const = 0 ;
 
 
         //@}
@@ -70,9 +66,9 @@ namespace ProjetUnivers {
         */
         //@{
 
-        virtual Base::Booleen Valeur() const = 0 ;
+        virtual bool Valeur() const = 0 ;
 
-        virtual Base::Booleen Objet() const = 0 ;
+        virtual bool Objet() const = 0 ;
 
 
         //@}

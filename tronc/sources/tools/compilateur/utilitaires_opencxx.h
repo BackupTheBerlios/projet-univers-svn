@@ -17,48 +17,38 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#ifndef PU_COMPILER_UTILITAIRES_OPENCXX_H_
+#define PU_COMPILER_UTILITAIRES_OPENCXX_H_
 
-
-
-#ifndef _PU_COMPILATEUR_UTILITAIRES_OPENCXX_H_
-#define _PU_COMPILATEUR_UTILITAIRES_OPENCXX_H_
+#include <string>
 
 #include <opencxx/mop.h>
 
-
-#include <base/types.h>
-#include <base/chaine.h>
-
-
 namespace ProjetUnivers {
-
-  namespace Outils {
-  
-    namespace Compilateur 
-    {
+  namespace Tools {
+    namespace Compiler {
 
       /*!
         Quelques fonctions utiles pour openc++.
       
       */
 
-
       /// Test si le membre est un attribut.
-      Base::Booleen EstAttribut(Opencxx::Member& _membre) ;
+      bool EstAttribut(Opencxx::Member& _membre) ;
       
       /// Donne le nom complet d'un namespace.
       /*!
         \remarks 
           marche avec openc++ 2.8.5 (la mienne)
       */
-      Base::Chaine NomComplet(Opencxx::Environment* _espaceDeNom) ;
+      std::string NomComplet(Opencxx::Environment* _espaceDeNom) ;
       
       /// Donne le nom complet d'une classe.
       /*!
         \remarks 
           marche avec openc++ 2.8.5 (la mienne)
       */
-      Base::Chaine NomComplet(Opencxx::Class* _classe) ;
+      std::string NomComplet(Opencxx::Class* _classe) ;
       
       
       /// Recherche une classe dans l'environement spécifié
@@ -77,4 +67,4 @@ namespace ProjetUnivers {
 
 
 
-#endif //_PU_COMPILATEUR_UTILITAIRES_OPENCXX_H_
+#endif //PU_COMPILER_UTILITAIRES_OPENCXX_H_

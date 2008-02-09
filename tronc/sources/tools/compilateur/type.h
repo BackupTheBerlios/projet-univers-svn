@@ -27,16 +27,16 @@
 #include <opencxx/Environment.h>
 
 
-#include <base/chaine.h>
+#include <string>
 
-#include <outils/compilateur/parametre_template.h>
+#include <tools/compilateur/parametre_template.h>
 
 
 namespace ProjetUnivers {
 
-  namespace Outils {
+  namespace Tools {
   
-    namespace Compilateur 
+    namespace Compiler 
     {
     
       /// Types C++
@@ -66,21 +66,21 @@ namespace ProjetUnivers {
         
         
         /// Determine si ce type est un type autorisé pour un attribut.
-        virtual Base::Booleen TypeAttributCorrect() const = 0 ;
+        virtual bool TypeAttributCorrect() const = 0 ;
       
         /// Determine si ce type est un type autorisé pour un paramètre.
-        virtual Base::Booleen TypeParametreCorrect() const = 0 ;      
+        virtual bool TypeParametreCorrect() const = 0 ;      
       
         /// Determine si ce type est un type de valeur.
-        virtual Base::Booleen Valeur() const = 0 ;
+        virtual bool Valeur() const = 0 ;
 
         /// Determine si ce type est un type d'objets.
-        virtual Base::Booleen Objet() const = 0 ;
+        virtual bool Objet() const = 0 ;
       
         //@}
 
         /// Transforme en chaine pour l'affichage.
-        virtual Base::Chaine Afficher() const = 0 ;
+        virtual std::string Afficher() const = 0 ;
         
         
                  

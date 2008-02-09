@@ -23,15 +23,15 @@
 #ifndef _PU_COMPILATEUR_TYPE_VIDE_H_
 #define _PU_COMPILATEUR_TYPE_VIDE_H_
 
-#include <outils/compilateur/type.h>
+#include <tools/compilateur/type.h>
 
 class MetaClasse ;
 
 namespace ProjetUnivers {
 
-  namespace Outils {
+  namespace Tools {
   
-    namespace Compilateur 
+    namespace Compiler 
     {
 
       
@@ -52,21 +52,21 @@ namespace ProjetUnivers {
         /*!
           Ce type n'est pas autorisé pour un attribut
         */
-        virtual Base::Booleen TypeAttributCorrect() const ;
+        virtual bool TypeAttributCorrect() const ;
 
         /// Determine si ce type est un type autorisé pour un paramètre.
         /*!
           Ce type n'est pas autorisé pour un paramètre
         */
-        virtual Base::Booleen TypeParametreCorrect() const ;      
+        virtual bool TypeParametreCorrect() const ;      
 
-        virtual Base::Booleen Valeur() const ;
+        virtual bool Valeur() const ;
 
-        virtual Base::Booleen Objet() const ;
+        virtual bool Objet() const ;
 
 
         /// Transforme en chaine pour l'affichage.
-        virtual Base::Chaine Afficher() const ;
+        virtual std::string Afficher() const ;
         
       protected:
 
