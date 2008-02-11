@@ -11,8 +11,7 @@ INCLUDES = -I$(SOURCES)
 AM_CXXFLAGS=$(PU_CXXFLAGS)
 
 libdisplay_la_SOURCES = \
-$(SOURCES)/display/implementation/display.cpp \
-$(SOURCES)/display/implementation/hud_system.cpp
+$(SOURCES)/display/implementation/display.cpp 
 
 
 libdisplay_la_LDFLAGS = -no-undefined
@@ -23,4 +22,29 @@ $(SOURCES)/display/compilation/ogre/libdisplayogre.la \
 $(OGRE_LIBS) \
 $(librlog_LIBS)
 
+TESTS = test_display
 
+check_PROGRAMS = $(TESTS)
+
+# unit tests 
+# at first basic tests
+# then game logic test
+# finally a global test
+test_display_SOURCES = \
+../test/test_display.cpp \
+../test/test_target.cpp
+
+test_display_CXXFLAGS = $(CPPUNIT_CFLAGS) $(PU_CXXFLAGS)
+test_display_LDFLAGS = $(CPPUNIT_LIBS)
+test_display_LDADD = \
+libdisplay.la \
+ogre/libdisplayogre.la \
+$(SOURCES)/kernel/compilation/libkernel.la \
+$(SOURCES)/model/compilation/libmodel.la \
+$(OIS_LIBS) \
+$(librlog_LIBS) \
+$(OGRE_LIBS) \
+$(libXML_LIBS) \
+$(CEGUI_LIBS) \
+$(CEGUI_OGRE_LIBS) \
+-lCEGUIFalagardWRBase

@@ -18,31 +18,30 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_DISPLAY_IMPLEMENTATION_DISPLAY_INPUT_H_
-#define PU_DISPLAY_IMPLEMENTATION_DISPLAY_INPUT_H_
+#ifndef PU_DISPLAY_IMPLEMENTATION_DISPLAY_INTERNAL_H_
+#define PU_DISPLAY_IMPLEMENTATION_DISPLAY_INTERNAL_H_
+
+#include <kernel/view_point.h>
 
 namespace ProjetUnivers {
   namespace Display {
-    namespace Implementation {
       
-      class HUDSystem ;
-    /*!
-      @name Internal interface for HUD handling.
-    
-      Registered HUD systems are updated every frame. 
-    */
-    // @{
-      
-      /// Add a HUD display system.
-      void registerHUDSystem(HUDSystem*) ;
+  /*!
+    @name Internal interface for internal viewpoints.
   
-      /// Remove a HUD display system.
-      void unRegisterHUDSystem(HUDSystem*) ;
-      
-    // @}
-    }
+    Registered viewpoints are updated every frame. 
+  */
+  // @{
+    
+    /// Add a viewpoint.
+    Kernel::ViewPoint* addViewPoint(Kernel::ViewPoint* viewpoint) ;
+
+    /// Remove a viewpoint.
+    void removeViewPoint(Kernel::ViewPoint* viewpoint) ;
+    
+  // @}
   }
 }
 
 
-#endif /*PU_DISPLAY_IMPLEMENTATION_DISPLAY_INPUT_H_*/
+#endif /*PU_DISPLAY_IMPLEMENTATION_DISPLAY_INTERNAL_H_*/

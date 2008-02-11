@@ -39,12 +39,12 @@ namespace ProjetUnivers {
         RealWorldViewPoint::RealWorldViewPoint(Kernel::Object* i_observer)
         : Kernel::ViewPoint(i_observer ? i_observer->getModel() : NULL),
           m_manager(NULL),
-          m_observer(i_observer)
+          m_observer(i_observer),
+          m_root(NULL)
         {
           InternalMessage("Display","Entering Ogre::RealWorldViewPoint::RealWorldViewPoint(const Kernel::Association<Model::Object>&)") ;
           InternalMessage("Display","Leaving Ogre::RealWorldViewPoint::RealWorldViewPoint(const Kernel::Association<Model::Object>&)") ;
         }
-        
         
         bool RealWorldViewPoint::isVisible(Kernel::Object* object) const
         {
@@ -118,6 +118,16 @@ namespace ProjetUnivers {
         void RealWorldViewPoint::desactivate()
         {
           
+        }
+
+        void RealWorldViewPoint::setRootObject(Kernel::Object* root)
+        {
+          m_root = root ;
+        }
+
+        Kernel::Object* RealWorldViewPoint::getRootObject() const
+        {
+          return m_root ;
         }
       }
     }

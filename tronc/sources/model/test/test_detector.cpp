@@ -27,6 +27,7 @@
 #include <model/positionned.h>
 #include <model/oriented.h>
 #include <model/mobile.h>
+#include <model/solid.h>
 #include <model/massive.h>
 
 #include <model/test/test_detector.h>
@@ -55,15 +56,17 @@ namespace ProjetUnivers {
         addTrait(ship,new Positionned()) ;
         addTrait(ship,new Oriented()) ;
         addTrait(ship,new Mobile()) ;
+        addTrait(ship,new Solid(Mesh("razor.mesh"))) ;
         addTrait(ship,new Massive(Mass::Kilogram(1000))) ;
         addTrait(ship,new Computer()) ;
         addTrait(ship,new Detector(ship)) ;
 
         Kernel::Object* ship2 = createObject(system) ;
         addTrait(ship2,new Positionned(Position::Meter(0,0,500))) ;
+        addTrait(ship2,new Massive(Mass::Kilogram(1000))) ;
         addTrait(ship2,new Oriented()) ;
         addTrait(ship2,new Mobile()) ;
-        addTrait(ship2,new Massive(Mass::Kilogram(1000))) ;
+        addTrait(ship2,new Solid(Mesh("razor.mesh"))) ;
 
         CPPUNIT_ASSERT(ship->getTrait<Computer>()->getMemoryModel()->getRoots().size() == 0) ;
 
@@ -89,17 +92,19 @@ namespace ProjetUnivers {
         Kernel::Object* ship = createObject("ship",system) ;
         addTrait(ship,new Positionned()) ;
         addTrait(ship,new Oriented()) ;
-        addTrait(ship,new Mobile()) ;
         addTrait(ship,new Massive(Mass::Kilogram(1000))) ;
+        addTrait(ship,new Mobile()) ;
+        addTrait(ship,new Solid(Mesh("razor.mesh"))) ;
         addTrait(ship,new Computer()) ;
         addTrait(ship,new Detector(ship)) ;
 
         
         Kernel::Object* ship2 = createObject(system) ;
         addTrait(ship2,new Positionned(Position::Meter(0,0,500))) ;
+        addTrait(ship2,new Massive(Mass::Kilogram(1000))) ;
         addTrait(ship2,new Oriented()) ;
         addTrait(ship2,new Mobile()) ;
-        addTrait(ship2,new Massive(Mass::Kilogram(1000))) ;
+        addTrait(ship2,new Solid(Mesh("razor.mesh"))) ;
                 
 
         CPPUNIT_ASSERT(ship->getTrait<Computer>()->getMemoryModel()->getRoots().size() == 0) ;
@@ -131,18 +136,20 @@ namespace ProjetUnivers {
 
         Kernel::Object* ship = createObject("ship",system) ;
         addTrait(ship,new Positionned()) ;
+        addTrait(ship,new Massive(Mass::Kilogram(1000))) ;
         addTrait(ship,new Oriented()) ;
         addTrait(ship,new Mobile()) ;
-        addTrait(ship,new Massive(Mass::Kilogram(1000))) ;
+        addTrait(ship,new Solid(Mesh("razor.mesh"))) ;
         addTrait(ship,new Computer()) ;
         addTrait(ship,new Detector(ship)) ;
 
         
         Kernel::Object* ship2 = createObject(system) ;
         addTrait(ship2,new Positionned(Position::Meter(0,0,500))) ;
+        addTrait(ship2,new Massive(Mass::Kilogram(1000))) ;
         addTrait(ship2,new Oriented()) ;
         addTrait(ship2,new Mobile()) ;
-        addTrait(ship2,new Massive(Mass::Kilogram(1000))) ;
+        addTrait(ship2,new Solid(Mesh("razor.mesh"))) ;
                 
 
         CPPUNIT_ASSERT(ship->getTrait<Computer>()->getMemoryModel()->getRoots().size() == 0) ;
@@ -179,18 +186,20 @@ namespace ProjetUnivers {
 
         Kernel::Object* ship = createObject("ship",system) ;
         addTrait(ship,new Positionned()) ;
+        addTrait(ship,new Massive(Mass::Kilogram(1000))) ;
         addTrait(ship,new Oriented()) ;
         addTrait(ship,new Mobile()) ;
-        addTrait(ship,new Massive(Mass::Kilogram(1000))) ;
+        addTrait(ship,new Solid(Mesh("razor.mesh"))) ;
         addTrait(ship,new Computer()) ;
         addTrait(ship,new Detector(ship,Distance(Distance::_Meter,200))) ;
 
         
         Kernel::Object* ship2 = createObject(system) ;
         addTrait(ship2,new Positionned(Position::Meter(0,0,100))) ;
+        addTrait(ship2,new Massive(Mass::Kilogram(1000))) ;
         addTrait(ship2,new Oriented()) ;
         addTrait(ship2,new Mobile()) ;
-        addTrait(ship2,new Massive(Mass::Kilogram(1000))) ;
+        addTrait(ship2,new Solid(Mesh("razor.mesh"))) ;
                 
 
         CPPUNIT_ASSERT(ship->getTrait<Computer>()->getMemoryModel()->getRoots().size() == 0) ;
@@ -201,8 +210,8 @@ namespace ProjetUnivers {
         CPPUNIT_ASSERT(ship->getTrait<Computer>()->getMemoryModel()->getRoots().size() == 1) ;
         Kernel::Object* detection 
           = *(ship->getTrait<Computer>()->getMemoryModel()->getRoots().begin()) ;
-//        CPPUNIT_ASSERT(detection->getTrait<Positionned>()) ;
-//        CPPUNIT_ASSERT(detection->getTrait<Positionned>()->getPosition() == Position::Meter(0,0,100)) ;
+        CPPUNIT_ASSERT(detection->getTrait<Positionned>()) ;
+        CPPUNIT_ASSERT(detection->getTrait<Positionned>()->getPosition() == Position::Meter(0,0,100)) ;
         
         ship2->getTrait<Positionned>()->setPosition(Position::Meter(0,500,0)) ;
         Model::update(Duration::Second(0.1)) ;
@@ -226,17 +235,19 @@ namespace ProjetUnivers {
 
         Kernel::Object* ship = createObject("ship",system) ;
         addTrait(ship,new Positionned()) ;
+        addTrait(ship,new Massive(Mass::Kilogram(1000))) ;
         addTrait(ship,new Oriented()) ;
         addTrait(ship,new Mobile()) ;
-        addTrait(ship,new Massive(Mass::Kilogram(1000))) ;
+        addTrait(ship,new Solid(Mesh("razor.mesh"))) ;
         addTrait(ship,new Computer()) ;
         addTrait(ship,new Detector(ship)) ;
 
         Kernel::Object* ship2 = createObject(system) ;
         addTrait(ship2,new Positionned(Position::Meter(0,0,500))) ;
+        addTrait(ship2,new Massive(Mass::Kilogram(1000))) ;
         addTrait(ship2,new Oriented()) ;
         addTrait(ship2,new Mobile()) ;
-        addTrait(ship2,new Massive(Mass::Kilogram(1000))) ;
+        addTrait(ship2,new Solid(Mesh("razor.mesh"))) ;
 
         CPPUNIT_ASSERT(ship->getTrait<Computer>()->getMemoryModel()->getRoots().size() == 0) ;
         Model::update(Duration::Second(0.1)) ;
@@ -261,17 +272,19 @@ namespace ProjetUnivers {
 
         Kernel::Object* ship = createObject("ship",system) ;
         addTrait(ship,new Positionned()) ;
+        addTrait(ship,new Massive(Mass::Kilogram(1000))) ;
         addTrait(ship,new Oriented()) ;
         addTrait(ship,new Mobile()) ;
-        addTrait(ship,new Massive(Mass::Kilogram(1000))) ;
+        addTrait(ship,new Solid(Mesh("razor.mesh"))) ;
         addTrait(ship,new Computer()) ;
         addTrait(ship,new Detector(ship)) ;
 
         Kernel::Object* ship2 = createObject(system) ;
         addTrait(ship2,new Positionned(Position::Meter(0,0,500))) ;
+        addTrait(ship2,new Massive(Mass::Kilogram(1000))) ;
         addTrait(ship2,new Oriented()) ;
         addTrait(ship2,new Mobile()) ;
-        addTrait(ship2,new Massive(Mass::Kilogram(1000))) ;
+        addTrait(ship2,new Solid(Mesh("razor.mesh"))) ;
 
         CPPUNIT_ASSERT(ship->getTrait<Computer>()->getMemoryModel()->getRoots().size() == 0) ;
         Model::update(Duration::Second(0.1)) ;

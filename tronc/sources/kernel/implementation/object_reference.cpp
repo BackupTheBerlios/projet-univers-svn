@@ -170,7 +170,7 @@ namespace ProjetUnivers {
       return ((Object*)*this) != NULL ;
     }
     
-    Object* ObjectReference::operator->()
+    Object* ObjectReference::operator->() const
     {
       return ((Object*)*this) ;
     }
@@ -179,6 +179,11 @@ namespace ProjetUnivers {
     {
       return (m_model == reference.m_model) &&  
              (m_object_identifier == reference.m_object_identifier) ;
+    }
+
+    bool ObjectReference::operator<(const ObjectReference& reference) const 
+    {
+      return m_model < reference.m_model ;
     }
 
     void ObjectReference::_setModel(Model* model)

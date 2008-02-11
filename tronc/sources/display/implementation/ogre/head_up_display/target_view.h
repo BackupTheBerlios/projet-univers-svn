@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007 Mathieu ROGER                                      *
+ *   Copyright (C) 2008 Mathieu ROGER                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,59 +18,70 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_DISPLAY_IMPLEMENTATION_OGRE_HUD_TARGET_DISPLAYER_H_
-#define PU_DISPLAY_IMPLEMENTATION_OGRE_HUD_TARGET_DISPLAYER_H_
+#ifndef PU_DISPLAY_IMPLEMENTATION_OGRE_HUD_TARGET_VIEW_H_
+#define PU_DISPLAY_IMPLEMENTATION_OGRE_HUD_TARGET_VIEW_H_
 
+#include <Ogre.h>
 #include <kernel/trait_view.h>
-#include <model/target_displayer.h>
-#include <display/implementation/ogre/real_world_view_point.h>
+#include <display/implementation/ogre/head_up_display/target.h>
 #include <display/implementation/ogre/head_up_display/target_displayer_viewpoint.h>
-
 
 namespace ProjetUnivers {
   namespace Display {
     namespace Implementation {
       namespace Ogre {
+        namespace HeadUpDisplay {
 
-        /// Display targets.
-        class TargetDisplayer : public Kernel::TraitView<Model::TargetDisplayer,
-                                                         RealWorldViewPoint>
-        {
-        public:
-        
-        // **********************
-        /// @name Construct
-        // **********************
-        // @{
-
-          /// Constructeur.
-          TargetDisplayer(Model::TargetDisplayer* i_object,
-                          RealWorldViewPoint* i_viewpoint) ;
-
-        //@}
+          class TargetView : public Kernel::TraitView<Target,
+                                                      TargetDisplayerViewPoint>
+          {
+          public:
           
-
+          /*! 
+            @name Construct
+          */ 
+          // @{
+  
+            /// Constructeur.
+            TargetView(Target* object,
+                       TargetDisplayerViewPoint* viewpoint) ;
+          // @}
         protected:
-
-        /*!
-          @name Updates
-        */
-        // @{
-        
-          /// create a Ogre::Entity.
-          void onInit() ;
+          /*!
+            @name Updates
+          */
+          // @{
           
-          /// Destroy the Ogre::Entity.
-          void onClose() ;
-        
-
-        // @}
-        private:
+            /// .
+            void onInit() ;
+            
+            /// .
+            void onClose() ;
           
-          Kernel::ViewPoint* m_implementation ;
-        };
+            /// 
+            void onUpdate() ;
+  
+          // @}
+          private:
+
+            /// Create the overlay. 
+            void createOverlay() ;
+            
+            /// True iff the target is selected            
+            bool isSelected() const ;
+
+            /// 3D ogre element.
+            ::Ogre::OverlayContainer* m_container ;
+            ::Ogre::OverlayElement*   m_reticule ;
+            
+            ::Ogre::Camera*           m_camera ;            
+            bool m_is_shown ;
+          
+          };
+        }
       }
     }
   }
 }
-#endif
+
+#endif /*PU_DISPLAY_IMPLEMENTATION_OGRE_HUD_TARGET_VIEW_H_*/

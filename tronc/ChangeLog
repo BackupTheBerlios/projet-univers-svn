@@ -408,6 +408,16 @@
   * Model :
     - corrected TargetingSystem::selectNextTarget,selectPreviousTarget
 
+2008-02-11 rogma
+  * Model :
+    - added Selected trait to indicate that a DetectionData is selected by a 
+      TargetingSystem
+    - added Solid::getBoundingSphereRadius to obtain the size of a solid
+  * Display :
+    - added a hud viewpoitn that handle selection display
+  * Kernel :
+    - log cleaning : fewer clearer messages   
+
 todos :
 
   * targets :
@@ -420,7 +430,7 @@ todos :
       SpeedDetector&MassDetector... but it is not clear now
   
   * model :
-    - be able to get bouding box (?), radius (for detection) and perform ray 
+    - be able to get bouding box (?) and perform ray 
       casting inside model. Code could rely on Ogre but we would be an 
       encapsulation.
   

@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007 Mathieu ROGER                                      *
+ *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,17 +18,45 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <display/implementation/hud_system.h>
+#include <cppunit/extensions/TestFactoryRegistry.h>
+#include <cppunit/ui/text/TestRunner.h>
+#include <cppunit/CompilerOutputter.h>
 
-namespace ProjetUnivers {
-  namespace Display {
-    namespace Implementation {
+#include <kernel/parameters.h>
+#include <kernel/log.h>
 
-      HUDSystem::~HUDSystem()
-      {}
-      
-      HUDSystem::HUDSystem()
-      {}
-    }
+int 
+main( int argc, char* argv[] )
+{
+  ProjetUnivers::Kernel::Parameters::load("test.config") ;
+  ProjetUnivers::Kernel::Log::init() ;
+  
+  // if command line contains "-selftest" then this is the post build check
+  // => the output must be in the compiler error format.
+  bool selfTest = (argc > 1)  &&  
+                  (std::string("-selftest") == argv[1]);
+
+  CppUnit::TextUi::TestRunner runner;
+  CppUnit::TestFactoryRegistry &registry = CppUnit::TestFactoryRegistry::getRegistry();
+  
+  runner.addTest( registry.makeTest() );
+
+  if ( selfTest )
+  { // Change the default outputter to a compiler error format outputter
+    // The test runner owns the new outputter.
+    runner.setOutputter( CppUnit::CompilerOutputter::defaultOutputter( 
+                                                        &runner.result(),
+                                                        std::cerr ) );
   }
+
+  // Run the test.
+  bool wasSucessful = runner.run( "" );
+
+  ProjetUnivers::Kernel::Log::close() ;
+
+
+  // Return error code 1 if the one of test failed.
+  return wasSucessful ? 0 : 1;
 }
+
+

@@ -34,12 +34,6 @@ namespace ProjetUnivers {
                      Model::Positionned, 
                      Ogre::RealWorldViewPoint) ;
       
-      
-      /*!
-        @name Local methods
-      */  
-      // @{
-      
         /// Convert position to Ogre position
         ::Ogre::Vector3 convert(const Model::Position& _position)
         {
@@ -69,9 +63,13 @@ namespace ProjetUnivers {
           
           
         }
-      
-      // @}
-      
+
+        ::Ogre::Real convert(const Model::Distance& distance)
+        {
+          return distance.Meter()/conversion_factor ;
+        
+        }
+        
         Positionned::Positionned(Model::Positionned* i_object,
                                  RealWorldViewPoint* i_viewpoint)
         : Kernel::TraitView<Model::Positionned,RealWorldViewPoint>(i_object,i_viewpoint), 
@@ -116,6 +114,7 @@ namespace ProjetUnivers {
             InternalMessage("Display","root node") ;
             
             m_node = this->getViewPoint()->getManager()->getRootSceneNode() ;
+            getViewPoint()->setRootObject(getObject()) ;
           }
 
           InternalMessage("Display","Leaving Positionned::init") ;

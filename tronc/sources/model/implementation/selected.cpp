@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2008 Mathieu ROGER                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,71 +18,34 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_MESH_H_
-#define PU_MODEL_MESH_H_
-
-#include <Ogre.h>
-#include <string>
-#include <kernel/reader.h>
+#include <model/selected.h>
 
 namespace ProjetUnivers {
   namespace Model {
-    
-    
-    /// A 3d mesh.
-    /*!
-      
-    */
-    class Mesh
-    {
-    public:
-    
-    /*!
-      @name Construct
-    */
-    // @{
-    
-      /// Construct.
-      Mesh(const std::string& _name) ;
-      
-      /// Copy.
-      Mesh(const Mesh&) ;
-      
-      /// Read a Mesh.
-      /*!
-        stored as <Mesh ogre_ressource=".."/>
-      */          
-      static Mesh read(Kernel::Reader* reader) ;
 
-    // @}
-    /*!
-      @name Access
-    */
-    // @{
-    
-      /// Access to name.
-      std::string getName() const ;
+      Selected::Selected()
+      {}
 
-      /// Access to vertex and triangles
-      void getMeshInformation(
-        std::vector< ::Ogre::Vector3>& o_vertices,
-        std::vector<unsigned long>&    o_indices,
-        const ::Ogre::Vector3&         i_scale) const ;
-      
-      /// The radius of an englobing sphere.
-      float getBoundingSphereRadius() const ;
-            
-    // @}
+      bool Selected::isSelected(Kernel::Object* by) const
+      {
+        return m_selectors.find(by) != m_selectors.end() ;
+      }
 
-    
-    private:
-    
-      /// Mesh name.
-      std::string m_name ;
-            
-    };
-    
+      void Selected::select(Kernel::Object* by)
+      {
+        m_selectors.insert(by) ;
+        notify() ;
+      }
+
+      void Selected::unSelect(Kernel::Object* by)
+      {
+        m_selectors.erase(by) ;
+        notify() ;
+      }
+
+      bool Selected::isSelected() const
+      {
+        return m_selectors.size() != 0 ;
+      }
   }
 }
-
-#endif 

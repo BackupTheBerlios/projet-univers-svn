@@ -116,6 +116,9 @@ namespace ProjetUnivers {
       /// Abstract class means virtual destructor.
       virtual ~DeducedTrait() ;
 
+      /// Print all the registered deducedtrait.
+      static std::string printDeclarations() ;
+      
     protected: 
     
       /// Abstract class means protected constructor.

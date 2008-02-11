@@ -70,5 +70,10 @@ namespace ProjetUnivers {
       */
       return 1.0 ;
     }
+    
+    Distance Solid::getBoundingSphereRadius() const
+    {
+      return Distance(Distance::_Meter,m_mesh.getBoundingSphereRadius()) ;
+    }
   }
 }

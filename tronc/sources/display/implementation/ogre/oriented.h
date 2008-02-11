@@ -18,8 +18,8 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef _DISPLAY_IMPLEMENTATION_OGRE_ORIENTED_H_
-#define _DISPLAY_IMPLEMENTATION_OGRE_ORIENTED_H_
+#ifndef PU_DISPLAY_IMPLEMENTATION_OGRE_ORIENTED_H_
+#define PU_DISPLAY_IMPLEMENTATION_OGRE_ORIENTED_H_
 
 #include <Ogre.h>
 

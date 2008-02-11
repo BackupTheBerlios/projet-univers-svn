@@ -46,6 +46,9 @@ namespace ProjetUnivers {
 
       /// Access to selected target.
       Kernel::Object* getTarget() const ;
+
+      /// Access to computer model.
+      Kernel::Model* getComputerModel() const ;
       
     // @}  
     /*!
@@ -62,6 +65,12 @@ namespace ProjetUnivers {
       
     private:
       
+      /// Select an object as a target.
+      void selectTarget(Kernel::Object*) ;
+      
+      /// Unselect an object as a target.
+      void unSelectTarget(Kernel::Object*) ;
+
       /// The DetectionData targeted.
       Kernel::ObjectReference m_target ;
       

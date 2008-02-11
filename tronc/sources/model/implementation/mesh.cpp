@@ -107,7 +107,7 @@ namespace ProjetUnivers {
         
         MeshPtr local_mesh =
         manager->load(m_name,Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME) ; 
-       InternalMessage("Model","Model::Mesh::getMeshInformation loaded") ;
+        InternalMessage("Model","Model::Mesh::getMeshInformation loaded") ;
         
         mesh = local_mesh.get() ; 
       }
@@ -244,7 +244,35 @@ namespace ProjetUnivers {
       }
 
       InternalMessage("Model","Model::Mesh::getMeshInformation leaving") ;
+    }
 
+    float Mesh::getBoundingSphereRadius() const
+    {
+      initRessources() ;
+      Ogre::MeshManager* manager = Ogre::MeshManager::getSingletonPtr() ; 
+
+      // Load the mesh
+      Ogre::Mesh* mesh = NULL ;
+      try
+      {
+        MeshPtr local_mesh =
+        manager->load(m_name,Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME) ; 
+        InternalMessage("Model","Model::Mesh::getBoundingSphereRadius loaded") ;
+        mesh = local_mesh.get() ; 
+      }
+      catch(Ogre::Exception& e)
+      {
+        InternalMessage("Model","Model::Mesh::getBoundingSphereRadius exception " + std::string(e.getDescription())) ;
+      }
+      
+      if (mesh)
+      {
+        return mesh->getBoundingSphereRadius() ;
+      }
+      else
+      {
+        return -1 ;
+      }
     }
     
   }

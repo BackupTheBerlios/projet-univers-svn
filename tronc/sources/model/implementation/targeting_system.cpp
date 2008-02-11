@@ -22,6 +22,8 @@
 #include <kernel/log.h>
 #include <kernel/algorithm.h>
 
+#include <model/model.h>
+#include <model/selected.h>
 #include <model/computer.h>
 #include <model/computer_data.h>
 #include <model/targeting_system.h>
@@ -48,29 +50,6 @@ namespace ProjetUnivers {
         }
       }
     }
-
-    /// Get the next @s element after @c i
-    /*!
-      @param s an non-empty set
-      @param i a "possible" element of s
-      
-      @return
-        @c r minimum element of @c s such that @c r > @c i if exists
-        first @c s element otherwise  
-    */ 
-    Kernel::Object* find_after(const std::set<Kernel::Object*>& s,Kernel::Object* i)
-    {
-      std::set<Kernel::Object*>::const_iterator up = s.upper_bound(i) ;
-      
-      if (up == s.end())
-      {
-        return *(s.begin()) ;
-      }
-      else
-      {
-        return *up ;
-      }
-    }
     
     void TargetingSystem::selectNextTarget()
     {
@@ -79,64 +58,39 @@ namespace ProjetUnivers {
       if (!m_computer)
         return ;
 
+      InternalMessage("Model","TargetingSystem::selectNextTarget has computer") ;
+
+      Computer* computer = m_computer->getTrait<Computer>() ;
+      if (!computer)
+        return ;
+      
+      InternalMessage("Model","TargetingSystem::selectNextTarget computer is correct") ;
       /*!
         1 if no target take the first one 
         2 if a target take the next one
       */
-      const std::set<Kernel::Object*>& roots =
-        m_computer->getTrait<Computer>()->getMemoryModel()->getRoots() ;
+      const std::set<Kernel::Object*>& roots = computer->getMemoryModel()->getRoots() ;
+
       if (roots.size() > 0)
       {
         InternalMessage("Model","TargetingSystem::selectNextTarget selected") ;
         if (!m_target)
         {
-          m_target = *(roots.begin()) ;
+          selectTarget(*(roots.begin())) ;
         }
         else
         {
-          m_target = Kernel::Algorithm::findAfter<Kernel::Object*>(roots,m_target) ;
+          selectTarget(Kernel::Algorithm::findAfter<Kernel::Object*>(roots,m_target)) ;
         }
       }
       else
       {
-        m_target = NULL ;
+        InternalMessage("Model","TargetingSystem::selectNextTarget nothing to select") ;
+        unSelectTarget(m_target) ;
       }
+      notify() ;
 
       InternalMessage("Model","TargetingSystem::selectNextTarget leaving") ;
-    }
-
-    /// Get the previous @s element after @c i
-    /*!
-      @param s an non-empty set
-      @param i a "possible" element of s
-      
-      @return
-        @c r maximum element of @c s such that @c r < @c i if exists
-        last @c s element otherwise  
-    */ 
-    Kernel::Object* find_before(const std::set<Kernel::Object*>& s,
-                                Kernel::Object* object)
-    {
-      std::set<Kernel::Object*>::const_iterator up = s.lower_bound(object) ;
-      
-      if (up == s.end())
-      {
-        return *(s.rbegin()) ;
-      }
-      else
-      {
-        if (object <= *up)
-        {
-          if (up == s.begin())
-            return *(s.rbegin()) ;
-          else
-          {
-            --up ;
-            return *up ;
-          }
-        }
-        return *up ;
-      }
     }
 
     void TargetingSystem::selectPreviousTarget()
@@ -157,18 +111,19 @@ namespace ProjetUnivers {
         InternalMessage("Model","TargetingSystem::selectPreviousTarget selected") ;
         if (!m_target)
         {
-          m_target = *(roots.rbegin()) ;
+          selectTarget(*(roots.rbegin())) ;
         }
         else
         {
-          m_target = Kernel::Algorithm::findBefore<Kernel::Object*>(roots,m_target) ;
+          selectTarget(Kernel::Algorithm::findBefore<Kernel::Object*>(roots,m_target)) ;
         }
       }
       else
       {
-        m_target = NULL ;
+        unSelectTarget(m_target) ;
       }
-
+      
+      notify() ;
       InternalMessage("Model","TargetingSystem::selectPreviousTarget leaving") ;
     }
     
@@ -181,6 +136,54 @@ namespace ProjetUnivers {
     {
       return m_target ;
     }
+    
+    void TargetingSystem::selectTarget(Kernel::Object* object)
+    {
+      InternalMessage("Model","TargetingSystem::selectTarget entering") ;
       
+      unSelectTarget(m_target) ;
+      
+      m_target = object ;
+      Selected* selected = object->getTrait<Selected>() ;
+      
+      if (! selected)
+      {
+        Model::addTrait(object,new Selected()) ;
+        selected = object->getTrait<Selected>() ;
+      }
+      
+      selected->select(getObject()) ;
+      InternalMessage("Model","TargetingSystem::selectTarget leaving") ;
+    }
+    
+    void TargetingSystem::unSelectTarget(Kernel::Object* object)
+    {
+      if (! object)
+      {
+        m_target = NULL ;
+        return ;
+      }
+      
+      Selected* selected = object->getTrait<Selected>() ;
+      
+      if (selected)
+      {
+        selected->unSelect(getObject()) ;
+        if (! selected->isSelected())
+        {
+          Model::destroyTrait(selected->getObject(),selected) ;
+        }
+      }
+      m_target = NULL ;
+    }
+
+    Kernel::Model* TargetingSystem::getComputerModel() const
+    {
+      if(!m_computer)
+        return NULL ;
+      
+      return m_computer->getTrait<Computer>()->getMemoryModel() ;
+    
+    }
   }
 }

@@ -68,11 +68,14 @@ namespace ProjetUnivers {
       ObjectReference& operator=(Object*) ;
       
       /// Access to object.
-      Object* operator->() ;
+      Object* operator->() const ;
       
       /// Comparison
       bool operator==(const ObjectReference&) const ;
       
+      /// Comparison
+      bool operator<(const ObjectReference&) const ;
+
       /// Conversion back to object.
       operator Object*() const ;
       

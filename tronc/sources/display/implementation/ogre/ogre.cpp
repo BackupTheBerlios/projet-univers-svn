@@ -73,6 +73,7 @@ namespace ProjetUnivers {
           // on demand create
           if (!m_overlay)
           {
+            InternalMessage("Display","creating overlay") ;
             m_overlay = ::Ogre::OverlayManager::getSingleton().create("hud") ;
           }
           

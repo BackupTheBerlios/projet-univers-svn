@@ -24,13 +24,7 @@
 namespace ProjetUnivers {
   namespace Model {
     
-    DetectionData::DetectionData(Kernel::Object* detected_object)
-    : m_detected_object(detected_object)
+    DetectionData::DetectionData()
     {}
-    
-    Kernel::Object* DetectionData::getDetectedObject() const
-    {
-      return m_detected_object ;
-    }
   }
 }

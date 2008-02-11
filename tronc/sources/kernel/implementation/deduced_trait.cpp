@@ -81,16 +81,16 @@ namespace ProjetUnivers {
 
     TraitFormula* TraitFormula::get(const TypeIdentifier& i_trait_name)
     {
-      InternalMessage("Kernel","TraitFormula::get getting " + i_trait_name.toString()) ;
+//      InternalMessage("Kernel","TraitFormula::get getting " + i_trait_name.toString()) ;
       std::map<TypeIdentifier,TraitFormula*>::iterator trait ;
       trait = m_traits_formulae.find(i_trait_name) ;
       if (trait != m_traits_formulae.end())
       {
-        InternalMessage("Kernel","TraitFormula::get got " + i_trait_name.toString()) ;
+//        InternalMessage("Kernel","TraitFormula::get got " + i_trait_name.toString()) ;
         return trait->second ;
       }
 
-      InternalMessage("Kernel","TraitFormula::get did not got " + i_trait_name.toString()) ;
+//      InternalMessage("Kernel","TraitFormula::get did not got " + i_trait_name.toString()) ;
       return NULL ;      
     }
     
@@ -115,6 +115,23 @@ namespace ProjetUnivers {
 
     Formula::~Formula()
     {}
+
+    std::string Formula::print() const
+    {
+      std::string result(internalPrint() + "(") ;
+      
+      for(std::set<Formula*>::const_iterator child = m_children.begin() ;
+          child != m_children.end() ;
+          ++child)
+      {
+        if (child==m_children.begin())
+          result += (*child)->print() ;
+        else
+          result += "," + (*child)->print() ;
+      }
+      
+      return result + ")" ;
+    }
 
     void Formula::addChild(Formula* i_formula)
     {
@@ -155,6 +172,11 @@ namespace ProjetUnivers {
     {
       generateIdentifier() ;
     }
+
+    std::string FormulaOr::internalPrint() const
+    {
+      return "Or" ;
+    }
     
     FormulaAnd::FormulaAnd()
     : Formula()
@@ -162,11 +184,20 @@ namespace ProjetUnivers {
       generateIdentifier() ;
     }
 
+    std::string FormulaAnd::internalPrint() const
+    {
+      return "And" ;
+    }
 
     FormulaNot::FormulaNot()
     : Formula()
     {
       generateIdentifier() ;
+    }
+
+    std::string FormulaNot::internalPrint() const
+    {
+      return "Not" ;
     }
 
     void FormulaNot::addChild(Formula* i_formula)
@@ -189,10 +220,16 @@ namespace ProjetUnivers {
     }
 
     TraitFormula::TraitFormula(const TypeIdentifier& i_trait_name)
-    : Formula()
+    : Formula(),
+      m_trait(i_trait_name)
     {
       CHECK((m_identifier==-1),"TraitFormula::TraitFormula invalid identifier") ;
       CHECK((m_depth==0),"TraitFormula::TraitFormula invalid depth") ;
+    }
+
+    std::string TraitFormula::internalPrint() const
+    {
+      return "HasTrait(" + m_trait.toString() + ")" ;
     }
 
     DeducedTrait::~DeducedTrait()
@@ -211,7 +248,20 @@ namespace ProjetUnivers {
     DeducedTrait::DeducedTrait()
     {}
 
+    std::string DeducedTrait::printDeclarations()
+    {
+      std::string result ;
       
+      for(std::map<Formula*,TypeIdentifier>::const_iterator declaration = m_destructors.begin() ;
+          declaration != m_destructors.end() ;
+          ++declaration)
+      {
+        result += "DeclareDeducedTrait(" + declaration->second.toString() + ","
+                  + declaration->first->print() +")\n" ;  
+      }
+      
+      return result ;
+    }
 
         
 
@@ -229,7 +279,7 @@ namespace ProjetUnivers {
       
       for(int depth = 0 ; depth <= m_maximum_depth ; ++depth)
       {
-        InternalMessage("Kernel","Formula::init dealing with depth=" + toString((float)depth)) ;
+//        InternalMessage("Kernel","Formula::init dealing with depth=" + toString((float)depth)) ;
         
         for(std::set<Formula*>::const_iterator formula = m_stratification[depth].begin() ;
             formula != m_stratification[depth].end() ;
@@ -260,7 +310,7 @@ namespace ProjetUnivers {
 
     void FormulaAnd::eval(Object* i_object)
     {
-      InternalMessage("Kernel","FormulaAnd::eval Entering id=" + toString((float)m_identifier)) ;
+//      InternalMessage("Kernel","FormulaAnd::eval Entering id=" + toString((float)m_identifier)) ;
       bool validity = true ; 
       int true_child_number = 0 ;
        
@@ -279,15 +329,15 @@ namespace ProjetUnivers {
       i_object->setValidity(this,validity) ;
       i_object->setNumberOfTrueChildFormulae(this,true_child_number) ;
       
-      InternalMessage("Kernel","FormulaAnd::eval Leaving id=" 
-                           + toString((float)m_identifier)
-                           + " with initial value=" 
-                           + toString((float)validity)) ;
+//      InternalMessage("Kernel","FormulaAnd::eval Leaving id=" 
+//                           + toString((float)m_identifier)
+//                           + " with initial value=" 
+//                           + toString((float)validity)) ;
     }
 
     void FormulaOr::eval(Object* i_object)
     {
-      InternalMessage("Kernel","FormulaOr::eval Entering id=" + toString((float)m_identifier)) ;
+//      InternalMessage("Kernel","FormulaOr::eval Entering id=" + toString((float)m_identifier)) ;
       bool validity = false ; 
       int true_child_number = 0 ;
       
@@ -306,16 +356,16 @@ namespace ProjetUnivers {
       i_object->setValidity(this,validity) ;
       i_object->setNumberOfTrueChildFormulae(this,true_child_number) ;
 
-      InternalMessage("Kernel","FormulaOr::eval Leaving id=" 
-                           + toString((float)m_identifier)
-                           + " with initial value=" 
-                           + toString((float)validity)) ;
+//      InternalMessage("Kernel","FormulaOr::eval Leaving id=" 
+//                           + toString((float)m_identifier)
+//                           + " with initial value=" 
+//                           + toString((float)validity)) ;
     }
 
     void FormulaNot::eval(Object* i_object)
     {
       CHECK((m_children.size()== 1),"FormulaNot::eval children problem") ;
-      InternalMessage("Kernel","FormulaNot::eval Entering id=" + toString((float)m_identifier)) ;
+//      InternalMessage("Kernel","FormulaNot::eval Entering id=" + toString((float)m_identifier)) ;
       
       bool validity ; 
       int true_child_number = 0 ;
@@ -334,10 +384,10 @@ namespace ProjetUnivers {
       i_object->setNumberOfTrueChildFormulae(this,true_child_number) ;
       
       i_object->setValidity(this,validity) ;
-      InternalMessage("Kernel","FormulaNot::eval Leaving id=" 
-                           + toString((float)m_identifier)
-                           + " with initial value=" 
-                           + toString((float)validity)) ;
+//      InternalMessage("Kernel","FormulaNot::eval Leaving id=" 
+//                           + toString((float)m_identifier)
+//                           + " with initial value=" 
+//                           + toString((float)validity)) ;
     }
 
     void TraitFormula::eval(Object* i_object)
@@ -356,7 +406,7 @@ namespace ProjetUnivers {
     {
       CHECK(i_object,"TraitFormula::addTrait no object")
 
-      InternalMessage("Kernel","TraitFormula::addTrait") ;
+      InternalMessage("Kernel","TraitFormula::addTrait(" + i_trait_name.toString() + ")") ;
       TraitFormula* trait_formula = get(i_trait_name) ;
       if (trait_formula)
       {
@@ -381,7 +431,7 @@ namespace ProjetUnivers {
 
       CHECK(i_formula,"DeducedTrait::notify no formula")
       CHECK(i_object,"DeducedTrait::notify no object")
-      InternalMessage("Kernel","DeducedTrait::notify") ;
+//      InternalMessage("Kernel","DeducedTrait::notify") ;
 
       if (i_validity)
       {
@@ -408,26 +458,32 @@ namespace ProjetUnivers {
 
     void Formula::addChildTrue(Object* i_object)
     {
-      InternalMessage("Kernel","Formula::addChildTrue Entering id=" + toString((float)m_identifier)) ;
+//      InternalMessage("Kernel","Formula::addChildTrue Entering id=" + toString((float)m_identifier)) ;
       CHECK(i_object,"Formula::addChildTrue no object") ;
       
       unsigned short true_child = i_object->getNumberOfTrueChildFormulae(this) ;
 
-      InternalMessage("Kernel","Formula id=" + toString((float)m_identifier) + " has now " + toString((float)true_child + 1) + " true children") ;
+//      InternalMessage("Kernel","Formula id=" + toString((float)m_identifier) + " has now " + toString((float)true_child + 1) + " true children") ;
+      InternalMessage("Kernel","Formula " + print() 
+                               + " with a total of " + toString(m_children.size()) + "children "
+                               + " has now " + toString((float)true_child + 1) 
+                               + " true children for objectid= " 
+                               + toString(i_object->getIdentifier())) ;
+
       i_object->setNumberOfTrueChildFormulae(this,true_child+1) ;
       onAddChildTrue(i_object) ;
 
-      InternalMessage("Kernel","Formula::addChildTrue Leaving id=" + toString((float)m_identifier)) ;
+//      InternalMessage("Kernel","Formula::addChildTrue Leaving id=" + toString((float)m_identifier)) ;
     }
 
     void Formula::addChildFalse(Object* i_object)
     {
-      InternalMessage("Kernel","Formula::addChildFalse Entering id=" + toString((float)m_identifier)) ;
+//      InternalMessage("Kernel","Formula::addChildFalse Entering id=" + toString((float)m_identifier)) ;
 
       i_object->setNumberOfTrueChildFormulae(
         this,i_object->getNumberOfTrueChildFormulae(this)-1) ;
 
-      InternalMessage("Kernel","Formula id=" + toString((float)m_identifier) + " has now " + toString((float)i_object->getNumberOfTrueChildFormulae(this)) + " true children") ;
+//      InternalMessage("Kernel","Formula id=" + toString((float)m_identifier) + " has now " + toString((float)i_object->getNumberOfTrueChildFormulae(this)) + " true children") ;
 
       onAddChildFalse(i_object) ;
     }
@@ -435,22 +491,28 @@ namespace ProjetUnivers {
     void Formula::becomeTrue(Object* i_object)
     {
       CHECK(i_object,"Formula::becomeTrue no object")
-      InternalMessage("Kernel","Formula::becomeTrue Entering id=" + toString((float)m_identifier)) ;
+
+      InternalMessage("Kernel","Formula " + print() 
+                               + " has became true for objectid= " 
+                               + toString(i_object->getIdentifier())) ;
+
       if (m_identifier >= 0)
       {
-        InternalMessage("Kernel","Formula::becomeTrue setting object validity") ;
+//        InternalMessage("Kernel","Formula::becomeTrue setting object validity") ;
         i_object->setValidity(this,true) ;
       }
-      InternalMessage("Kernel","Formula::becomeTrue setting notifying deductions") ;
+//      InternalMessage("Kernel","Formula::becomeTrue setting notifying deductions") ;
       DeducedTrait::notify(this,true,i_object) ;
-      InternalMessage("Kernel","Formula::becomeTrue setting notifying parents") ;
+//      InternalMessage("Kernel","Formula::becomeTrue setting notifying parents") ;
       notifyParentTrue(i_object) ;
-      InternalMessage("Kernel","Formula::becomeTrue setting Leaving") ;
+//      InternalMessage("Kernel","Formula::becomeTrue setting Leaving") ;
     }
 
     void Formula::becomeFalse(Object* i_object)
     {
-      InternalMessage("Kernel","Formula::becomeFalse") ;
+      InternalMessage("Kernel","Formula " + print() 
+                               + " has became false for objectid= " 
+                               + toString(i_object->getIdentifier())) ;
       if (m_identifier >= 0)
       {
         i_object->setValidity(this,false) ;
@@ -489,13 +551,13 @@ namespace ProjetUnivers {
 
     void FormulaAnd::onAddChildTrue(Object* i_object) 
     {
-      InternalMessage("Kernel","FormulaAnd::onAddChildTrue Entering id=" + toString((float)m_identifier)) ;
+//      InternalMessage("Kernel","FormulaAnd::onAddChildTrue Entering id=" + toString((float)m_identifier)) ;
       if (! isValid(i_object) && 
           i_object->getNumberOfTrueChildFormulae(this) == m_children.size())
       {
         becomeTrue(i_object) ;
       }
-      InternalMessage("Kernel","FormulaAnd::onAddChildTrue Leaving id=" + toString((float)m_identifier)) ;
+//      InternalMessage("Kernel","FormulaAnd::onAddChildTrue Leaving id=" + toString((float)m_identifier)) ;
     }
     
     void FormulaOr::onAddChildTrue(Object* i_object) 
@@ -565,7 +627,7 @@ namespace ProjetUnivers {
     void Formula::update(Object* i_object)
     {
       /// notify deduced traits...
-      InternalMessage("Kernel","Formula::update Entering") ;
+//      InternalMessage("Kernel","Formula::update Entering") ;
       
       if (isValid(i_object))
       {
@@ -584,7 +646,7 @@ namespace ProjetUnivers {
     void DeducedTrait::update(Formula* i_formula,
                               Object* i_object)
     {
-      InternalMessage("Kernel","DeducedTrait::update Entering") ;
+//      InternalMessage("Kernel","DeducedTrait::update Entering") ;
 
       std::map<Formula*,TypeIdentifier>::const_iterator destructor ;
       destructor = m_destructors.find(i_formula) ;
@@ -592,7 +654,7 @@ namespace ProjetUnivers {
       {
         i_object->_get(destructor->second)->notify() ;
       }      
-      InternalMessage("Kernel","DeducedTrait::update Leaving") ;
+//      InternalMessage("Kernel","DeducedTrait::update Leaving") ;
     }
 
     const TypeIdentifier& DeducedTrait::getLatestUpdatedTrait() const

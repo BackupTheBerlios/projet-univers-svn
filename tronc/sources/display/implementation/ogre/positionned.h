@@ -18,13 +18,14 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef _DISPLAY_IMPLEMENTATION_OGRE_POSITIONNED_H_
-#define _DISPLAY_IMPLEMENTATION_OGRE_POSITIONNED_H_
+#ifndef PU_DISPLAY_IMPLEMENTATION_OGRE_POSITIONNED_H_
+#define PU_DISPLAY_IMPLEMENTATION_OGRE_POSITIONNED_H_
 
 #include <Ogre.h>
 
 #include <kernel/trait_view.h>
 #include <model/positionned.h>
+#include <model/distance.h>
 #include <display/implementation/ogre/real_world_view_point.h>
 
 
@@ -33,6 +34,12 @@ namespace ProjetUnivers {
     namespace Implementation {
       namespace Ogre {
 
+        /// Convert position to Ogre position
+        ::Ogre::Vector3 convert(const Model::Position& _position) ;
+        
+        /// Convert a distance to an Ogre distance.
+        ::Ogre::Real convert(const Model::Distance& distance) ;
+        
         /// View on object that have a position in space.
         class Positionned : public Kernel::TraitView<Model::Positionned,
                                                      RealWorldViewPoint>

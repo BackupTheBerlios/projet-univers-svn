@@ -57,6 +57,7 @@ libmodel_la_SOURCES = \
 ../implementation/detector_object_view.cpp \
 ../implementation/menu.cpp \
 ../implementation/hearing.cpp \
+../implementation/selected.cpp \
 ../implementation/sound_environnement.cpp \
 ../implementation/targeting_system.cpp \
 ../implementation/target_displayer.cpp \
@@ -100,6 +101,7 @@ test_model_SOURCES = \
 ../test/test_logic.cpp \
 ../test/test_detector.cpp \
 ../test/test_load.cpp \
+../test/test_targeting_system.cpp \
 ../test/test_demonstration.cpp 
 
 

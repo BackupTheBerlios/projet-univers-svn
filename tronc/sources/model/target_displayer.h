@@ -40,7 +40,10 @@ namespace ProjetUnivers {
                           Kernel::Object* targeting_system) ;
       
       /// Access to current target.
-      Kernel::Object* getTarget() const ;
+      Kernel::Object* getTargetingSystem() const ;
+      
+      /// Access to computer model.
+      Kernel::Model* getComputerModel() const ;
       
     private:
       

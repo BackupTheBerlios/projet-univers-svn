@@ -19,6 +19,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include <model/positionned.h>
+#include <model/solid.h>
 #include <model/massive.h>
 #include <model/whole.h>
 #include <model/implementation/detectable.h>
@@ -29,8 +30,9 @@ namespace ProjetUnivers {
 
       DeclareDeducedTrait(Detectable,
                           And(HasTrait(Positionned),
-                              HasTrait(Massive),
-                              HasTrait(Whole))) ;      
+                              HasTrait(Solid),
+                              HasTrait(Whole),
+                              HasTrait(Massive))) ;      
 
     }
   }

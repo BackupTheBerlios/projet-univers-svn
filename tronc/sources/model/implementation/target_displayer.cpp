@@ -44,20 +44,18 @@ namespace ProjetUnivers {
         }
       }
     }
-    
-    Kernel::Object* TargetDisplayer::getTarget() const
+
+    Kernel::Object* TargetDisplayer::getTargetingSystem() const
     {
-      if (m_targeting_system)
-      {
-        TargetingSystem* system = m_targeting_system->getTrait<TargetingSystem>() ;
-        if (system)
-        {
-          return system->getTarget() ;
-        }
-      }
-      InternalMessage("Model","TargetDisplayer::getTarget returned NULL") ;
-      return NULL ;
-    }
+      return m_targeting_system ;
+    }      
+    
+    Kernel::Model* TargetDisplayer::getComputerModel() const
+    {
+      if(! m_targeting_system)
+        return NULL ;
       
+      return m_targeting_system->getTrait<TargetingSystem>()->getComputerModel() ;
+    }
   }
 }

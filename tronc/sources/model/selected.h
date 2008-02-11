@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2008 Mathieu ROGER                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,71 +18,63 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_MESH_H_
-#define PU_MODEL_MESH_H_
+#ifndef PU_MODEL_SELECTED_H_
+#define PU_MODEL_SELECTED_H_
 
-#include <Ogre.h>
-#include <string>
-#include <kernel/reader.h>
+#include <set>
+#include <kernel/trait.h>
+#include <kernel/object.h>
+#include <kernel/object_reference.h>
 
 namespace ProjetUnivers {
   namespace Model {
-    
-    
-    /// A 3d mesh.
-    /*!
-      
-    */
-    class Mesh
+
+    /// For DetectionData that are selected.
+    class Selected : public Kernel::Trait
     {
     public:
-    
+
     /*!
-      @name Construct
+      @name Constructors
     */
     // @{
-    
-      /// Construct.
-      Mesh(const std::string& _name) ;
-      
-      /// Copy.
-      Mesh(const Mesh&) ;
-      
-      /// Read a Mesh.
-      /*!
-        stored as <Mesh ogre_ressource=".."/>
-      */          
-      static Mesh read(Kernel::Reader* reader) ;
+
+      /// Constructor.
+      Selected() ;
 
     // @}
     /*!
       @name Access
     */
     // @{
-    
-      /// Access to name.
-      std::string getName() const ;
-
-      /// Access to vertex and triangles
-      void getMeshInformation(
-        std::vector< ::Ogre::Vector3>& o_vertices,
-        std::vector<unsigned long>&    o_indices,
-        const ::Ogre::Vector3&         i_scale) const ;
       
-      /// The radius of an englobing sphere.
-      float getBoundingSphereRadius() const ;
-            
+      /// Tell if @c by is selecting this.
+      bool isSelected(Kernel::Object* by) const ;
+      
+      /// Tell if element is still selected.
+      bool isSelected() const ;
+      
     // @}
+    /*!
+      @name Update
+    */
+    // @{
+      
+      /// Make this selected by @c by.
+      void select(Kernel::Object* by) ;
 
-    
+      /// Make this un-selected by @c by.
+      void unSelect(Kernel::Object* by) ;
+
+    // @}
+        
     private:
+      
+      /// Those who selected this.
+      std::set<Kernel::ObjectReference> m_selectors ;
     
-      /// Mesh name.
-      std::string m_name ;
-            
     };
-    
   }
 }
 
-#endif 
+#endif /*PU_MODEL_SELECTED_H_*/

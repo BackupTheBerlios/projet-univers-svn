@@ -298,8 +298,6 @@ namespace ProjetUnivers {
           Kernel::Object* target_display = model->createObject("target_display",observer) ;
           model->addTrait(target_display,new TargetDisplayer()) ;
           TargetDisplayer::connect(target_display,target_selector) ;
-          
-          target_selector->getTrait<TargetingSystem>()->selectNextTarget() ;
 
           model->addTrait(observer,new Oriented()) ;
           /// Il a la faculté d'observer

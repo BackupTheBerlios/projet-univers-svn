@@ -61,9 +61,16 @@ namespace ProjetUnivers {
       
       /// Abstract class means virtual destrutor.
       virtual ~Formula() ;
-
+      
+      /// Print the formula.
+      std::string print() const ;
+      
     protected:
+      
 
+      /// Print the formula.
+      virtual std::string internalPrint() const = 0 ;
+      
       /// The distance to elementary formula
       int getDepth() const ;
       void setDepth(int i_depth) ;
@@ -179,7 +186,10 @@ namespace ProjetUnivers {
       
       // Notify that @c i_trait_name has been updated for @c i_object.
       static void updateTrait(Object* i_object,const TypeIdentifier& i_trait_name) ;
-      
+
+      /// Print the formula.
+      virtual std::string internalPrint() const ;
+
     protected:
 
       /// Initial value.
@@ -201,6 +211,8 @@ namespace ProjetUnivers {
       static TraitFormula* get(const TypeIdentifier& i_trait_name) ;
     
       static std::map<TypeIdentifier,TraitFormula*> m_traits_formulae ;
+      
+      TypeIdentifier m_trait ;
     };
     
     /// Conjunction of its child formulae.
@@ -213,6 +225,8 @@ namespace ProjetUnivers {
       /// Constructs.
       FormulaAnd() ;
     
+      /// Print the formula.
+      virtual std::string internalPrint() const ;
       
     private:  
 
@@ -234,6 +248,9 @@ namespace ProjetUnivers {
     
       /// Constructs.
       FormulaOr() ;
+
+      /// Print the formula.
+      virtual std::string internalPrint() const ;
       
     private:  
 
@@ -260,6 +277,9 @@ namespace ProjetUnivers {
 
       /// Add a child formula.
       virtual void addChild(Formula* i_formula) ;
+
+      /// Print the formula.
+      virtual std::string internalPrint() const ;
       
     private:  
 

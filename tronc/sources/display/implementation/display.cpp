@@ -23,11 +23,10 @@
 
 #include <display/implementation/ogre/ogre.h>
 #include <display/implementation/ogre/real_world_view_point.h>
-#include <display/implementation/hud_system.h>
 
 #include <display/display.h>
 #include <display/display_input.h>
-#include <display/implementation/display_hud.h>
+#include <display/implementation/display_internal.h>
 
 namespace ProjetUnivers {
   namespace Display {
@@ -43,17 +42,17 @@ namespace ProjetUnivers {
       /*!
         @composite
       */
-      std::set<Kernel::ViewPoint*> viewPoints ;
+      std::set<Kernel::ViewPoint*> m_viewPoints ;
       
       void clear() 
       {
-        for(std::set<Kernel::ViewPoint*>::iterator viewpoint = viewPoints.begin() ;
-            viewpoint != viewPoints.end() ;
+        for(std::set<Kernel::ViewPoint*>::iterator viewpoint = m_viewPoints.begin() ;
+            viewpoint != m_viewPoints.end() ;
             ++viewpoint)
         {
           delete *viewpoint ;
         }
-        viewPoints.clear() ;
+        m_viewPoints.clear() ;
       }      
       ~LocalMemory()
       {
@@ -62,8 +61,6 @@ namespace ProjetUnivers {
     };
     
     LocalMemory local ;
-    
-    std::set<Implementation::HUDSystem*> m_hud_systems ;
     
     /// active wiepoint.
     Implementation::Ogre::RealWorldViewPoint* active = NULL ;
@@ -123,31 +120,31 @@ namespace ProjetUnivers {
       Implementation::Ogre::getWindowSize(width,height,depth,left,top) ;
     }
 
-    Kernel::ViewPoint* addViewPoint(Kernel::ViewPoint* _pdv)
+    Kernel::ViewPoint* addViewPoint(Kernel::ViewPoint* viewpoint)
     {
-      local.viewPoints.insert(_pdv) ;
-      return _pdv ;
+      local.m_viewPoints.insert(viewpoint) ;
+      return viewpoint ;
     }
 
-    void desactivateViewPoint(Kernel::ViewPoint* _pdv)
+    void desactivateViewPoint(Kernel::ViewPoint* viewpoint)
     {
-      if (_pdv)
+      if (viewpoint)
       {
-        _pdv->close() ;
+        viewpoint->close() ;
       }
     }
 
-    void removeViewPoint(Kernel::ViewPoint* _pdv)
+    void removeViewPoint(Kernel::ViewPoint* viewpoint)
     {
-      if (active == _pdv)
+      if (active == viewpoint)
       {
         desactivateViewPoint(active) ;
         active = NULL ;
       }
       
-      if (local.viewPoints.erase(_pdv) != 0)
+      if (local.m_viewPoints.erase(viewpoint) != 0)
       {
-        delete _pdv ;
+        delete viewpoint ;
       }
     }
 
@@ -177,13 +174,6 @@ namespace ProjetUnivers {
   
     void update() 
     {
-      for(std::set<Implementation::HUDSystem*>::const_iterator system = m_hud_systems.begin() ;
-          system != m_hud_systems.end() ;
-          ++system)
-      {
-        (*system)->updateHUD() ;
-      }
-      
       Implementation::Ogre::update() ;
     }
 
@@ -191,19 +181,5 @@ namespace ProjetUnivers {
     {
       Implementation::Ogre::injectKey(key_code) ;
     }
-
-    namespace Implementation
-    {
-      void registerHUDSystem(HUDSystem* system)
-      {
-        m_hud_systems.insert(system) ;
-      }
-  
-      void unRegisterHUDSystem(HUDSystem* system)
-      {
-        m_hud_systems.erase(system) ;
-      }
-    }
   }
-  
 }

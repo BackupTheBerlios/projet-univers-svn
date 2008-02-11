@@ -21,6 +21,8 @@
 
 #include <model/model.h>
 #include <model/computer.h>
+#include <model/positionned.h>
+#include <model/solid.h>
 #include <model/computer_data.h>
 #include <model/detection_data.h>
 #include <model/implementation/detector_object_view.h>
@@ -61,17 +63,34 @@ namespace ProjetUnivers {
         }
         else if (in_range)
         {
-          InternalMessage("Model","Model::DetectorObjectView::check in range") ;
+          InternalMessage(
+            "Model",
+            "Model::DetectorObjectView::check in range updating detection data") ;
 
           if (! m_detection_information)
           {
+            Solid* solid = getObject()->getTrait<Solid>() ;
+            
             // create object 
             m_detection_information = computer->getMemoryModel()->createObject() ;
             computer->getMemoryModel()->addTrait(m_detection_information,
-                                                 new DetectionData(getObject())) ;
+                                                 new DetectionData()) ;
+            computer->getMemoryModel()->addTrait(m_detection_information,
+                                                 new Positionned()) ;
+            computer->getMemoryModel()->addTrait(m_detection_information,
+                                                 new Solid(solid->getMesh())) ;
+            // useless ??
             computer->getMemoryModel()->addTrait(m_detection_information,
                                                  new ComputerData()) ;
           }
+          
+          // update object position
+          Position position = getRelativePosition(getObject(),
+                                                  detector->getObject()) ;
+          
+          m_detection_information->getTrait<Positionned>()->setPosition(position) ;
+
+
         }
         
         InternalMessage("Model","Model::DetectorObjectView::check leaving") ;

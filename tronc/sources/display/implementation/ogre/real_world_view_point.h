@@ -31,7 +31,7 @@ namespace ProjetUnivers {
   namespace Display {
     namespace Implementation {
       namespace Ogre {
-
+        
         /*!
           Ogre coordinates are coded on 32 bits, thus half the precision 
           is between 0 and 1.
@@ -41,7 +41,7 @@ namespace ProjetUnivers {
         */
         const float conversion_factor = 1000 ;
         
-        /// Subjection viewpoint of an observer.
+        /// Subjective viewpoint of an observer.
         /*!
           First person view of an observer.
         */
@@ -55,12 +55,15 @@ namespace ProjetUnivers {
         // @{
           
           
-          /// Constructeur.
+          /// Constructor.
           /*!
             @param[in] _observer 
               object that sees (e.g., a character, a camera,...)
           */
           RealWorldViewPoint(Kernel::Object* _observer) ;
+          
+          /// Set the root in term of position.
+          void setRootObject(Kernel::Object*) ;
           
           /// Initialize view point
           virtual void onInit() ;
@@ -89,7 +92,10 @@ namespace ProjetUnivers {
           
           /// Access to observer.
           Kernel::Object* getObserver() const ;
-
+          
+          /// Set the root element in term of position.
+          Kernel::Object* getRootObject() const ;
+          
         // @}
         
         private:
@@ -104,7 +110,9 @@ namespace ProjetUnivers {
           /// Manage 3D scene objects          
           ::Ogre::SceneManager* m_manager ;
 
-          Kernel::Object* m_observer ;
+          Kernel::Object*       m_observer ;
+          
+          Kernel::Object*       m_root ;
           
         // @}
           

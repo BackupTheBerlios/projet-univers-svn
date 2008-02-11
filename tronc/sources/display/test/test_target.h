@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2007 Mathieu ROGER                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,71 +18,64 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_MESH_H_
-#define PU_MODEL_MESH_H_
+#ifndef PU_DISPLAY_TEST_TARGET_H_
+#define PU_DISPLAY_TEST_TARGET_H_
 
-#include <Ogre.h>
-#include <string>
-#include <kernel/reader.h>
+#include <cppunit/extensions/HelperMacros.h>
 
 namespace ProjetUnivers {
-  namespace Model {
-    
-    
-    /// A 3d mesh.
-    /*!
-      
-    */
-    class Mesh
-    {
-    public:
-    
-    /*!
-      @name Construct
-    */
-    // @{
-    
-      /// Construct.
-      Mesh(const std::string& _name) ;
-      
-      /// Copy.
-      Mesh(const Mesh&) ;
-      
-      /// Read a Mesh.
-      /*!
-        stored as <Mesh ogre_ressource=".."/>
-      */          
-      static Mesh read(Kernel::Reader* reader) ;
-
-    // @}
-    /*!
-      @name Access
-    */
-    // @{
-    
-      /// Access to name.
-      std::string getName() const ;
-
-      /// Access to vertex and triangles
-      void getMeshInformation(
-        std::vector< ::Ogre::Vector3>& o_vertices,
-        std::vector<unsigned long>&    o_indices,
-        const ::Ogre::Vector3&         i_scale) const ;
-      
-      /// The radius of an englobing sphere.
-      float getBoundingSphereRadius() const ;
+  namespace Display {
+    namespace Test {
             
-    // @}
+      /// Test of Detector.
+      class TestTarget : public CppUnit::TestFixture {
+      protected:
+      
+        
+      // ****************************
+      /// @name Tests 
+      // ****************************
+      // @{
+        
+        /// Basic test.
+        void testConstruct() ;
 
+      // @}
+      // *******************************
+      /// @name Test registration
+      // *******************************
+      // @{      
     
-    private:
-    
-      /// Mesh name.
-      std::string m_name ;
-            
-    };
-    
+        CPPUNIT_TEST_SUITE(TestTarget) ;
+      
+        CPPUNIT_TEST(testConstruct) ;
+      
+        CPPUNIT_TEST_SUITE_END() ;
+
+      public:
+  
+      // @}
+      // *******************************
+      /// @name Mandatory methods
+      // *******************************
+      // @{
+
+      
+        /// Initialisation du test
+        void setUp() ;
+      
+        /// Desinitialisation du test
+        void tearDown() ;
+      
+      // @}      
+                
+       
+      
+      };
+
+    }
   }
 }
 
-#endif 
+
+#endif

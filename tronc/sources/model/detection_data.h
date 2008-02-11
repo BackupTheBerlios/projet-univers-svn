@@ -33,16 +33,7 @@ namespace ProjetUnivers {
     public:
 
       /// Constructs.
-      DetectionData(Kernel::Object* detected_object) ;
-      
-      /// Access to the "real" detected object.
-      Kernel::Object* getDetectedObject() const ;
-      
-    private:
-      
-      /// The "real" object that is detected.
-      Kernel::ObjectReference m_detected_object ;
-      
+      DetectionData() ;
     };
   }
 }

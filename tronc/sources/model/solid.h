@@ -24,6 +24,7 @@
 #include <kernel/trait.h>
 #include <kernel/reader.h>
 #include <model/mesh.h>
+#include <model/distance.h>
 #include <model/orientation.h>
 
 namespace ProjetUnivers {
@@ -55,7 +56,10 @@ namespace ProjetUnivers {
         @see : 
           http://en.wikipedia.org/wiki/Drag_coefficient
       */
-      float getDragCoefficient(const Orientation&) const ;      
+      float getDragCoefficient(const Orientation&) const ;
+      
+      /// The radius of an englobing sphere. 
+      Distance getBoundingSphereRadius() const ;      
 
     private:
       
