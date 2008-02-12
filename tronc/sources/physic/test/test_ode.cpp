@@ -3993,7 +3993,7 @@ namespace ProjetUnivers {
 //                    << std::endl ;
         }
         
-        CPPUNIT_ASSERT(number==0) ;
+        CPPUNIT_ASSERT_MESSAGE("ODE's bug : it should not detect collision",number==0) ;
         dSpaceDestroy(space) ;
         dCloseODE() ;
       }
