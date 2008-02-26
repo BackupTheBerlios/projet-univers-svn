@@ -83,8 +83,11 @@ namespace ProjetUnivers {
 
       /// Read angular speed.
       /*!
-        stored as <AngularSpeed x=".." y=".." z=".." 
-                                unit="TurnPerSecond|RadianPerSecond"/>
+        stored as 
+        @code
+          <AngularSpeed x=".." y=".." z=".." 
+                        unit="TurnPerSecond|RadianPerSecond"/>
+        @endcode
       */          
       static AngularSpeed read(Kernel::Reader* reader) ;
     

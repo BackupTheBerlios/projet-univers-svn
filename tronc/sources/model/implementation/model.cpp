@@ -221,6 +221,30 @@ namespace ProjetUnivers {
         }
         {
           InternalMessage("Model","building ship...") ;
+          Kernel::Object* ship = model->createObject(system) ;
+          model->addTrait(ship,new Positionned(Position::Meter(-200,
+                                                               50,
+                                                               -500))) ;
+          model->addTrait(ship,new Oriented()) ;
+          model->addTrait(ship,new Solid(Mesh("razor.mesh"))) ;
+          model->addTrait(ship,new Mobile()) ;
+          model->addTrait(ship,new Massive(Mass::Kilogram(1000))) ;
+          model->addTrait(ship,new Dragger(Kernel::Parameters::getValue<float>("Model","DraggerCoeeficient"))) ;
+
+          Kernel::Object* st1 = model->createObject(ship) ;
+          model->addTrait(st1,new Stabilizer(0,Kernel::Parameters::getValue<float>("Model","StabilizerForce"),0)) ;
+
+          Kernel::Object* st2 = model->createObject(ship) ;
+          model->addTrait(st2,new Stabilizer(Kernel::Parameters::getValue<float>("Model","StabilizerForce"),0,0)) ;
+
+          Kernel::Object* st3 = model->createObject(ship) ;
+          model->addTrait(st3,new Stabilizer(0,0,Kernel::Parameters::getValue<float>("Model","StabilizerForce"))) ;
+          
+          InternalMessage("Model","building ship done") ;
+        }
+
+        {
+          InternalMessage("Model","building ship...") ;
           Kernel::Object* ship = model->createObject("Vaisseau#3",system) ;
           model->addTrait(ship,new Positionned(Position::Meter(0,
                                                                300,

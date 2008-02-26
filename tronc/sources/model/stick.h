@@ -39,7 +39,10 @@ namespace ProjetUnivers {
 
       /// Read a Stick trait.
       /*!
-        stored as <Stick/>
+        stored as 
+        @code
+          <Stick/>
+        @endcode
       */          
       static Kernel::Trait* read(Kernel::Reader* reader) ;
 

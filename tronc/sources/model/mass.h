@@ -61,7 +61,10 @@ namespace ProjetUnivers {
 
       /// Read Mass.
       /*!
-        stored as <Mass value=".." unit="Kilogram"/>
+        stored as 
+        @code
+          <Mass value=".." unit="Kilogram"/>
+        @endcode
       */          
       static Mass read(Kernel::Reader* reader) ;
       

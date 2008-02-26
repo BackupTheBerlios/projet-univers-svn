@@ -51,6 +51,8 @@ namespace ProjetUnivers {
             /*!
               @param[in] target_display 
                 object that display the targets
+              @param[in] real_world the real world viewpoint containing the 
+                displaying object
             */
             TargetDisplayerViewPoint(Kernel::Object* target_display,
                                      RealWorldViewPoint* real_world) ;

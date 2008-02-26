@@ -45,10 +45,12 @@ namespace ProjetUnivers {
       /// Read an Engine trait.
       /*!
         stored as 
+        @code
           <Engine>
             [<ObjectReference ... [name="controler"]/>]
             <Force ... />
           </Engine>
+        @endcode
       */     
       static Kernel::Trait* read(Kernel::Reader* reader) ;
       

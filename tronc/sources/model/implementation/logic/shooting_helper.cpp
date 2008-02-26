@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007 Mathieu ROGER                                      *
+ *   Copyright (C) 2008 Mathieu ROGER                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,66 +18,48 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_TARGETING_SYSTEM_H_
-#define PU_MODEL_TARGETING_SYSTEM_H_
-
-#include <kernel/object_reference.h>
-#include <kernel/trait.h>
+#include <kernel/log.h>
+#include <model/implementation/logic/shooting_helper.h>
 
 namespace ProjetUnivers {
   namespace Model {
-      
-    /// System that handle targets.
-    class TargetingSystem : public Kernel::Trait
-    {
-    public:
-    
-    /*!
-      @name Construction
-    */
-    // @{
-    
-      /// Constructs.
-      TargetingSystem() ;
+    namespace Implementation {
+      namespace Logic {
 
-      /// Connect a targeting system to a computer.
-      static void connect(Kernel::Object* targeting_system,
-                          Kernel::Object* computer) ;
-
-      /// Access to selected target.
-      Kernel::Object* getTarget() const ;
-
-      /// Access to computer model.
-      Kernel::Model* getComputerModel() const ;
-      
-    // @}  
-    /*!
-      @name Commands
-    */
-    // @{
-
-      void selectNextTarget() ;
-      void selectPreviousTarget() ;
-      void selectNearestTarget() ;
-      
-    // @}  
-      
-      
-    private:
-      
-      /// Select an object as a target.
-      void selectTarget(Kernel::Object*) ;
-      
-      /// Unselect an object as a target.
-      void unSelectTarget(Kernel::Object*) ;
-
-      /// The DetectionData targeted.
-      Kernel::ObjectReference m_target ;
-      
-      /// The computer that is ancestor of detection data.
-      Kernel::ObjectReference m_computer ;
-    };
+        RegisterControler(Logic::ShootingHelper,
+                          Model::ShootingHelper,
+                          Logic::LogicSystem) ;
+        
+        ShootingHelper::ShootingHelper(
+            Model::ShootingHelper* object,
+            LogicSystem* system)
+        : Kernel::Controler<Model::ShootingHelper,LogicSystem>(object,system)
+        {}
+            
+        void ShootingHelper::onInit()
+        {
+          InternalMessage("Model","Entering ShootingHelper::onInit") ;
+          m_implementation.reset(new ShootingHelperViewPoint(getObject())) ;
+          m_implementation->init() ;
+          InternalMessage("Model","Leaving ShootingHelper::onInit") ;
+        }
+        
+        void ShootingHelper::onClose() 
+        {
+          InternalMessage("Model","ShootingHelper::onClose") ;
+          if (m_implementation.get())
+          {
+            m_implementation->close() ;
+            m_implementation.reset(NULL) ;
+          }
+        }
+          
+        void ShootingHelper::onUpdate()
+        {
+          InternalMessage("Model","Entering ShootingHelper::onUpdate") ;
+          m_implementation->update() ;
+        }
+      }
+    }
   }
 }
-
-#endif /*PU_MODEL_TARGETING_SYSTEM_H_*/

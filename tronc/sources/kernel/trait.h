@@ -66,7 +66,7 @@ namespace ProjetUnivers {
 
       /// Apply @c i_operation on all controlers of @c i_controler_set.
       /*!
-        @deprecated.
+        @deprecated
       */
       void apply(ControlerSet*                         i_controler_set,
                  boost::function1<void,BaseControler*> i_operation) ;
@@ -358,8 +358,10 @@ namespace ProjetUnivers {
       In the .cpp of a view class : 
         RegisterView(ClassView,ClassTrait,ClassViewPoint) ;
         
-    @example
+    Example
+    @code
       RegisterView(Display::Mobile,Model::Mobile,Ogre::ViewPoint) ;
+    @endcode
     
     @par How does it works
       Same principle than CPPUNIT_TEST_SUITE_REGISTRATION
@@ -387,8 +389,10 @@ namespace ProjetUnivers {
       
         RegisterControler(ClassControler,ClassTrait,ClassControlerSet) ;
         
-    @example
+    Example
+    @code
       RegisterView(Logic::Stabilizer,Model::Stabilizer,Logic) ;
+    @endcode
     
     @par How does it works
       Same principle than CPPUNIT_TEST_SUITE_REGISTRATION
@@ -416,8 +420,10 @@ namespace ProjetUnivers {
       
         RegisterCommand(CommandName,ClassTrait,MethodName) ;
         
-    @example
+    Example
+    @code
       RegisterCommand("fire",Model::Canon,fire) ;
+    @endcode
     
     @par How does it works
       Same principle than CPPUNIT_TEST_SUITE_REGISTRATION
@@ -437,8 +443,10 @@ namespace ProjetUnivers {
       
         RegisterCommand(CommandName,ClassTrait,MethodName) ;
         
-    @example
+    Example
+    @code
       RegisterCommand("fire",Model::Throttle,setThrottle) ;
+    @endcode
     
     @par How does it works
       Same principle than CPPUNIT_TEST_SUITE_REGISTRATION
@@ -457,8 +465,10 @@ namespace ProjetUnivers {
       
         RegisterFunction(FunctionName,ClassTrait,MethodName) ;
         
-    @example
+    Example
+    @code
       RegisterFunction("getPosition",Model::Positionned,getPosition) ;
+    @endcode
     
     @par How does it works
       Same principle than CPPUNIT_TEST_SUITE_REGISTRATION

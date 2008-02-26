@@ -855,6 +855,79 @@ namespace ProjetUnivers {
         
         InternalMessage("Kernel","Kernel::Test::TestModelControler::testBaseTraitControler leaving") ;
       }
+
+      void TestModelControler::initControlerSetWithNullModel()
+      {
+        InternalMessage("Kernel","Kernel::Test::initControlerSetWithNullModel entering") ;
+        std::auto_ptr<Model> model ;
+        std::auto_ptr<TestControlerSet> controler_set(new TestControlerSet(model.get())) ;
+        /// init the controler set
+        controler_set->init() ;
+        InternalMessage("Kernel","Kernel::Test::initControlerSetWithNullModel leaving") ;
+      }
+      
+      void TestModelControler::setModelOnInitialisedControlerSetWithNullModel()
+      {
+        InternalMessage("Kernel","Kernel::Test::setModelOnInitialisedControlerSetWithNullModel entering") ;
+        std::auto_ptr<Model> model ;
+        std::auto_ptr<TestControlerSet> controler_set(new TestControlerSet(model.get())) ;
+        /// init the controler set
+        controler_set->init() ;
+        
+        model.reset(new Model()) ;
+        controler_set->setModel(model.get()) ;
+        
+        Object* person = model->createObject("person") ;
+        model->addTrait(person,new Person()) ;
+        Object* head = model->createObject("head",person) ;
+        model->addTrait(head,new Head()) ;
+
+        /// check the controlers are initialised
+        Trait* persontrait = person->getTrait<Person>() ;
+        CPPUNIT_ASSERT(persontrait) ;
+        ControlerPerson* personcontroler = persontrait->getControler<ControlerPerson>(controler_set.get()) ;
+        CPPUNIT_ASSERT(personcontroler) ;
+        CPPUNIT_ASSERT(personcontroler->init_number == 1) ;
+
+        Trait* headtrait = head->getTrait<Head>() ;
+        CPPUNIT_ASSERT(headtrait) ;
+        ControlerHead* headcontroler = headtrait->getControler<ControlerHead>(controler_set.get()) ;
+        CPPUNIT_ASSERT(headcontroler) ;
+        CPPUNIT_ASSERT(headcontroler->init_number == 1) ;
+        
+        InternalMessage("Kernel","Kernel::Test::setModelOnInitialisedViewPointWithNullModel leaving") ;
+      }
+
+      void TestModelControler::changeModelOnInitialisedControlerSet()
+      {
+        InternalMessage("Kernel","Kernel::Test::changeModelOnInitialisedControlerSet entering") ;
+        std::auto_ptr<Model> model(new Model()) ;
+        std::auto_ptr<TestControlerSet> controler_set(new TestControlerSet(model.get())) ;
+        /// init the viewpoint
+        controler_set->init() ;
+        
+        Object* person = model->createObject("person") ;
+        model->addTrait(person,new Person()) ;
+
+        /// check the views are initialised
+        Trait* persontrait = person->getTrait<Person>() ;
+        CPPUNIT_ASSERT(persontrait) ;
+        ControlerPerson* personcontroler = persontrait->getControler<ControlerPerson>(controler_set.get()) ;
+        CPPUNIT_ASSERT(personcontroler) ;
+        CPPUNIT_ASSERT(personcontroler->init_number == 1) ;
+
+        InternalMessage("Kernel","Kernel::Test::changeModelOnInitialisedControlerSet#1") ;
+        std::auto_ptr<Model> model2(new Model()) ;
+        controler_set->setModel(model2.get()) ;
+
+        InternalMessage("Kernel","Kernel::Test::changeModelOnInitialisedControlerSet#2") ;
+
+        /// check the views where closed
+        personcontroler = persontrait->getControler<ControlerPerson>(controler_set.get()) ;
+        CPPUNIT_ASSERT(personcontroler) ;                
+        CPPUNIT_ASSERT(personcontroler->init_number == 0) ;        
+        InternalMessage("Kernel","Kernel::Test::changeModelOnInitialisedControlerSet leaving") ;
+      }
       
       void TestModelControler::setUp()
       {
@@ -863,10 +936,6 @@ namespace ProjetUnivers {
       void TestModelControler::tearDown()
       {
       }
-
- 
-       
-       
     }
   }
 }

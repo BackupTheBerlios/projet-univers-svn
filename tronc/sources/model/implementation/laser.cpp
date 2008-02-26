@@ -98,7 +98,7 @@ namespace ProjetUnivers {
 
         // orientation gives speed vector
         // basic_speed(full Z oriented) * orientation
-        Speed speed = Speed::MeterPerSecond(0,0,Kernel::Parameters::getValue<float>("Model","LaserBeamSpeed"))*orientation_of_the_beam ;
+        Speed speed = Speed::MeterPerSecond(0,0,getLaserSpeedMeterPerSecond())*orientation_of_the_beam ;
         // maybe we should add the object speed ??
          
         addTrait(beam,new Mobile(speed)) ;
@@ -120,6 +120,11 @@ namespace ProjetUnivers {
         
       }
       // else : not much sense thus do nothing      
+    }
+    
+    float Laser::getLaserSpeedMeterPerSecond() const
+    {
+      return Kernel::Parameters::getValue<float>("Model","LaserBeamSpeed") ;
     }
   }
 }

@@ -45,7 +45,10 @@ namespace ProjetUnivers {
 
       /// Read a TorqueGenerator trait.
       /*!
-        stored as <TorqueGenerator x=".." y=".." z=".." unit="NewtonMeter"/>
+        stored as 
+        @code
+          <TorqueGenerator x=".." y=".." z=".." unit="NewtonMeter"/>
+        @endcode
       */          
       static Kernel::Trait* read(Kernel::Reader* reader) ;
 

@@ -46,7 +46,9 @@ namespace ProjetUnivers {
       /// Read a Stabilizer trait.
       /*!
         stored as 
+        @code
           <Stabilizer axis_x=".." axis_y=".." axis_z=".."/>
+        @endcode
       */     
       static Kernel::Trait* read(Kernel::Reader* reader) ;
  

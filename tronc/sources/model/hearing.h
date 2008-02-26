@@ -42,7 +42,9 @@ namespace ProjetUnivers {
       /// Read a Hearing trait.
       /*!
         stored as 
+        @code
           <Hearing hearing_percentage=".."/>
+        @endcode
       */     
       static Kernel::Trait* read(Kernel::Reader* reader) ;
       

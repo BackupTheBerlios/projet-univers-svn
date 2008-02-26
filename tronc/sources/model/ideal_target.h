@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007 Mathieu ROGER                                      *
+ *   Copyright (C) 2008 Mathieu ROGER                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,66 +18,43 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_TARGETING_SYSTEM_H_
-#define PU_MODEL_TARGETING_SYSTEM_H_
+#ifndef PU_MODEL_IDEAL_TARGET_H_
+#define PU_MODEL_IDEAL_TARGET_H_
 
-#include <kernel/object_reference.h>
 #include <kernel/trait.h>
+#include <kernel/reader.h>
 
 namespace ProjetUnivers {
   namespace Model {
-      
-    /// System that handle targets.
-    class TargetingSystem : public Kernel::Trait
+    
+    /// For objects that represent where to shoot.
+    /*!
+      For a targetted element, a computer object is built that represent where 
+      to shoot. If the ship is aimed at this positionned object then shooting 
+      will touch the targeted object provided it does not change direction and 
+      speed. 
+    */
+    class IdealTarget : public Kernel::Trait
     {
     public:
+
+      /// Constructor.
+      IdealTarget() ;
     
-    /*!
-      @name Construction
-    */
-    // @{
-    
-      /// Constructs.
-      TargetingSystem() ;
-
-      /// Connect a targeting system to a computer.
-      static void connect(Kernel::Object* targeting_system,
-                          Kernel::Object* computer) ;
-
-      /// Access to selected target.
-      Kernel::Object* getTarget() const ;
-
-      /// Access to computer model.
-      Kernel::Model* getComputerModel() const ;
+      /// Calculate the aimed status for the ship holding the computer.
+      void calculateIsAimed() ;
       
-    // @}  
-    /*!
-      @name Commands
-    */
-    // @{
-
-      void selectNextTarget() ;
-      void selectPreviousTarget() ;
-      void selectNearestTarget() ;
-      
-    // @}  
-      
+      /// Indicate if the target will be touched. 
+      bool isAimed() const ;
       
     private:
       
-      /// Select an object as a target.
-      void selectTarget(Kernel::Object*) ;
-      
-      /// Unselect an object as a target.
-      void unSelectTarget(Kernel::Object*) ;
-
-      /// The DetectionData targeted.
-      Kernel::ObjectReference m_target ;
-      
-      /// The computer that is ancestor of detection data.
-      Kernel::ObjectReference m_computer ;
+      /// True iff the current ship is aiming at the target. 
+      bool m_isAimed ;
     };
+    
+    
   }
 }
 
-#endif /*PU_MODEL_TARGETING_SYSTEM_H_*/
+#endif /*PU_MODEL_IDEAL_TARGET_H_*/

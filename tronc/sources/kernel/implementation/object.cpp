@@ -356,7 +356,7 @@ namespace ProjetUnivers {
       if (i_viewpoint->isVisible(this))
       {
         
-//        InternalMessage("Kernel","Object::_close(ViewPoint*) closing childs") ;
+        InternalMessage("Kernel","Object::_close(ViewPoint*) closing childs") ;
 
         for(std::set<Object*>::iterator child = children.begin() ;
             child != children.end() ;

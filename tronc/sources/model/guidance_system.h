@@ -46,9 +46,11 @@ namespace ProjetUnivers {
        /// Read a GuidanceSystem trait.
       /*!
         stored as 
+        @code
           <GuidanceSystem force="...">
             [<ObjectReference id=".." [name=controler]/>] 
           </GuidanceSystem>
+        @endcode
       */     
       static Kernel::Trait* read(Kernel::Reader* reader) ;
  

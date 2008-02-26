@@ -54,9 +54,11 @@ namespace ProjetUnivers {
       /// Read a Positionned trait.
       /*!
         stored as 
+        @code
           <Positionned>
             [<Positionn .../>]
           </Positionned>
+        @endcode
       */     
       static Kernel::Trait* read(Kernel::Reader* reader) ;
 
@@ -89,15 +91,18 @@ namespace ProjetUnivers {
       /// Change the current position.
       /*!
         @param[in] 
-          i_position 
-          the new position relativelly to i_reference 
+          position 
+          the new position relativelly to reference 
+        @param[in] 
+          reference 
+          the reference to set the position to 
         @pre 
-          i_reference is an ancestor of this
+          reference is an ancestor of this
         @post 
-          getPosition(i_reference) == i_position
+          getPosition(reference) == position
       */
-      void setPosition(const Position& i_position,
-                       Kernel::Object* i_reference) ;
+      void setPosition(const Position& position,
+                       Kernel::Object* reference) ;
 
 
     // @}

@@ -18,70 +18,64 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_DISPLAY_IMPLEMENTATION_OGRE_HUD_TARGET_VIEW_H_
-#define PU_DISPLAY_IMPLEMENTATION_OGRE_HUD_TARGET_VIEW_H_
-
-#include <Ogre.h>
-#include <kernel/trait_view.h>
-#include <display/implementation/target.h>
-#include <display/implementation/ogre/head_up_display/target_displayer_viewpoint.h>
+#include <kernel/log.h>
+#include <model/computer.h>
+#include <model/shooting_helper.h>
+#include <model/implementation/logic/shooting_helper_viewpoint.h>
 
 namespace ProjetUnivers {
-  namespace Display {
+  namespace Model {
     namespace Implementation {
-      namespace Ogre {
-        namespace HeadUpDisplay {
+      namespace Logic {
 
-          class Target : public Kernel::TraitView<Implementation::Target,
-                                                  TargetDisplayerViewPoint>
-          {
-          public:
-          
-          /*! 
-            @name Construct
-          */ 
-          // @{
-  
-            /// Constructor.
-            Target(Implementation::Target*  object,
-                   TargetDisplayerViewPoint* viewpoint) ;
-          // @}
-        protected:
-          /*!
-            @name Updates
-          */
-          // @{
-          
-            /// .
-            void onInit() ;
-            
-            /// .
-            void onClose() ;
-          
-            /// 
-            void onUpdate() ;
-  
-          // @}
-          private:
-
-            /// Create the overlay. 
-            void createOverlay() ;
-            
-            /// True iff the target is selected            
-            bool isSelected() const ;
-
-            /// 3D ogre element.
-            ::Ogre::OverlayContainer* m_container ;
-            ::Ogre::OverlayElement*   m_reticule ;
-            
-            ::Ogre::Camera*           m_camera ;            
-            bool m_is_shown ;
-          
-          };
+        ShootingHelperViewPoint::ShootingHelperViewPoint(Kernel::Object* shooting_helper)
+        : Kernel::ViewPoint(NULL),
+          m_shooting_helper(shooting_helper)
+        {
+          update() ;
         }
+        
+        void ShootingHelperViewPoint::update()
+        {
+          InternalMessage("Model","Entering ShootingHelperViewPoint::update") ;
+          if (!m_shooting_helper)
+            return ;
+          
+          InternalMessage("Model","ShootingHelperViewPoint::update#1") ;
+          ShootingHelper* sh = m_shooting_helper->getTrait<ShootingHelper>() ;
+          if (!sh)
+            return ;
+          
+          InternalMessage("Model","ShootingHelperViewPoint::update#2") ;
+          Kernel::Object* computer = sh->getComputer() ;
+          
+          if(!computer)
+            return ;
+
+          InternalMessage("Model","ShootingHelperViewPoint::update#3") ;
+          
+          Computer* trait = computer->getTrait<Computer>() ;
+          if (trait)
+          {
+            setModel(trait->getMemoryModel()) ;
+          }
+          InternalMessage("Model","Leaving ShootingHelperViewPoint::update#2") ;
+        
+        }
+
+        Kernel::Object* ShootingHelperViewPoint::getLaser() const 
+        {
+          if (!m_shooting_helper)
+            return NULL ;
+          ShootingHelper* sh = m_shooting_helper->getTrait<ShootingHelper>() ;
+          if (!sh)
+            return NULL ;
+          
+          return sh->getLaser() ;
+          
+        }
+        
       }
     }
   }
 }
-
-#endif /*PU_DISPLAY_IMPLEMENTATION_OGRE_HUD_TARGET_VIEW_H_*/

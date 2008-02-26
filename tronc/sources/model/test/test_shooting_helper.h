@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007 Mathieu ROGER                                      *
+ *   Copyright (C) 2008 Mathieu ROGER                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,66 +18,63 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_TARGETING_SYSTEM_H_
-#define PU_MODEL_TARGETING_SYSTEM_H_
+#ifndef PU_MODEL_TEST_SHOOTING_HELPER_H_
+#define PU_MODEL_TEST_SHOOTING_HELPER_H_
 
-#include <kernel/object_reference.h>
-#include <kernel/trait.h>
+#include <cppunit/extensions/HelperMacros.h>
 
 namespace ProjetUnivers {
   namespace Model {
-      
-    /// System that handle targets.
-    class TargetingSystem : public Kernel::Trait
-    {
-    public:
-    
-    /*!
-      @name Construction
-    */
-    // @{
-    
-      /// Constructs.
-      TargetingSystem() ;
+    namespace Test {
 
-      /// Connect a targeting system to a computer.
-      static void connect(Kernel::Object* targeting_system,
-                          Kernel::Object* computer) ;
+            
+      /// Test for the Model::ShootingHelper and associated logic.
+      class TestShootingHelper : public CppUnit::TestFixture {
+      protected:
+      
+        
+      /*!
+        @name Test methods
+      */
+      // @{
+        
+        /// A basic functional test.
+        void basicTest() ;
+        
+        /// @todo test with mobile object and different speed
+        
+        /// @todo test with connection/deconnection of Computer/TargetSelector
+        
+      // @}
+      /*!
+        @name Test registration
+      */
+      // @{      
+      
+        CPPUNIT_TEST_SUITE(TestShootingHelper) ;
 
-      /// Access to selected target.
-      Kernel::Object* getTarget() const ;
+        CPPUNIT_TEST(basicTest) ;
 
-      /// Access to computer model.
-      Kernel::Model* getComputerModel() const ;
+        CPPUNIT_TEST_SUITE_END() ;
       
-    // @}  
-    /*!
-      @name Commands
-    */
-    // @{
+      // @}      
+                
+     public:
 
-      void selectNextTarget() ;
-      void selectPreviousTarget() ;
-      void selectNearestTarget() ;
-      
-    // @}  
-      
-      
-    private:
-      
-      /// Select an object as a target.
-      void selectTarget(Kernel::Object*) ;
-      
-      /// Unselect an object as a target.
-      void unSelectTarget(Kernel::Object*) ;
+      /*!
+        @name Mandatory methods
+      */
+      // @{
 
-      /// The DetectionData targeted.
-      Kernel::ObjectReference m_target ;
       
-      /// The computer that is ancestor of detection data.
-      Kernel::ObjectReference m_computer ;
-    };
+        void setUp() ;
+        void tearDown() ;
+      
+      // @}      
+      };
+    }
   }
 }
 
-#endif /*PU_MODEL_TARGETING_SYSTEM_H_*/
+
+#endif /*PU_MODEL_TEST_SHOOTING_HELPER_H_*/

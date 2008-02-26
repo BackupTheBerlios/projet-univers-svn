@@ -82,6 +82,26 @@ namespace ProjetUnivers {
         /// Tests a controler on a base trait class.
         void testBaseTraitControler() ;
 
+        /// Test a bug : crash on init controler set with NULL model.
+        void initControlerSetWithNullModel() ;
+        
+        /// Test the correction of the preceeding bug.
+        /*!
+          # building a controler set with a NULL model
+          # init the controler set
+          # reset a non NULL model
+          # check that controlers have been initialised 
+        */
+        void setModelOnInitialisedControlerSetWithNullModel() ;
+
+        /// Test the correction of the preceeding bug.
+        /*!
+          # building a controler set on a model
+          # init the controler set
+          # reset another model
+          # check that controler have been closed 
+        */
+        void changeModelOnInitialisedControlerSet() ;
 
       // @}
 
@@ -98,7 +118,10 @@ namespace ProjetUnivers {
         CPPUNIT_TEST(testMultiControlerSet) ;
         CPPUNIT_TEST(testMultiControlerSetOfTheSameKind) ;
         CPPUNIT_TEST(testBaseTraitControler) ;
-
+        CPPUNIT_TEST(initControlerSetWithNullModel) ;
+        CPPUNIT_TEST(setModelOnInitialisedControlerSetWithNullModel) ;
+        CPPUNIT_TEST(changeModelOnInitialisedControlerSet) ;
+        
         CPPUNIT_TEST_SUITE_END() ;
 
       

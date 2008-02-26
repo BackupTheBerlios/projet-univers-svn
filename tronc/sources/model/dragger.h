@@ -42,7 +42,9 @@ namespace ProjetUnivers {
       /// Read a Dragger trait.
       /*!
         stored as 
+        @code
           <Dragger dragg_factor=".."/>
+        @endcode
       */     
       static Kernel::Trait* read(Kernel::Reader* reader) ;
  

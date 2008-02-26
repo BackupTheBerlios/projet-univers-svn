@@ -38,7 +38,11 @@ namespace ProjetUnivers {
       
       /// Read a Component trait.
       /*!
-        stored as <Component/>
+        stored as 
+        @code
+          <Component/>
+        @endcode
+          
       */     
       static Kernel::Trait* read(Kernel::Reader* reader) ;
       

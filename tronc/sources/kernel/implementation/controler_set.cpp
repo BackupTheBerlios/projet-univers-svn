@@ -64,15 +64,18 @@ namespace ProjetUnivers {
     {
       if (! m_initialised)
       {
-        m_model->_register(this) ;
-
-        /// call local init for controler set
-        // onInit() ;
+        if (m_model)
+        {
+          m_model->_register(this) ;
+        }
         
         m_initialised = true ;
         
-        /// must init all the objects according to current controler set
-        m_model->_init(this) ;
+        /// must init all the objects according to current viewpoint
+        if (m_model)
+        {
+          m_model->_init(this) ;
+        }
       }
     }
 
@@ -82,10 +85,6 @@ namespace ProjetUnivers {
       {
         /// must init all the objects according to current controler set
         m_model->_close(this) ;
-
-        /// call local close for controler set
-        // onClose() ;
-
         m_model->_unregister(this) ;
         m_initialised = false ;
       }
@@ -98,8 +97,8 @@ namespace ProjetUnivers {
       InternalMessage("Kernel","ControlerSet::~ControlerSet destroyed") ;
     }
       
-    ControlerSet::ControlerSet(Model* i_model)
-    : m_model(i_model),
+    ControlerSet::ControlerSet(Model* model)
+    : m_model(model),
       m_initialised(false)
     {}
     
@@ -113,9 +112,24 @@ namespace ProjetUnivers {
       return m_initialised ;
     }      
 
-    void ControlerSet::setModel(Model* i_model)
+    void ControlerSet::setModel(Model* model)
     {
-      m_model = i_model ;
+      InternalMessage("Kernel","ViewPoint::setModel Entering") ;
+      if (m_initialised && m_model)
+      {
+        /// must close all the objects according to current viewpoint
+        m_model->_close(this) ;
+        m_model->_unregister(this) ;
+      }
+      
+      m_model = model ;
+      
+      if (m_model)
+      {
+        m_model->_register(this) ;
+        m_model->_init(this) ;
+      }
+      InternalMessage("Kernel","ViewPoint::setModel Entering") ;
     }
   }
 }

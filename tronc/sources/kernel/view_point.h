@@ -53,11 +53,11 @@ namespace ProjetUnivers {
     {
     public:
     
-      /// Destructor, destroys all the views.
-      virtual ~ViewPoint() ;
-
       /// initialise the viewpoint.
       void init() ;
+
+      /// Change model.
+      void setModel(Model* model) ;
 
       /// terminate the viewpoint.
       void close() ;
@@ -67,6 +67,9 @@ namespace ProjetUnivers {
       
       /// True iff the viewpoint has been initialised
       bool isInitialised() const ;
+
+      /// Destructor, destroys all the views.
+      virtual ~ViewPoint() ;
       
     protected:
 
@@ -96,20 +99,18 @@ namespace ProjetUnivers {
         Must be redefined for specialised viewpoints. Default implementation 
         returns true.
         
-        @constraint
+        @invariant
           if !isVisible(object) 
           then 
             whatever child of object !isVisible(child)
       */
       virtual bool isVisible(Object* i_object) const ;
 
-      /// Change model.
-      void setModel(Model* i_model) ;
-
       /// Constructor.
       ViewPoint(Model* i_model) ;
     
       bool   m_initialised ;
+      bool   m_model_attached ;
       Model* m_model ;
 
       friend class Model ;

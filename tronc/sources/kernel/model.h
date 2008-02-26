@@ -47,7 +47,8 @@ namespace ProjetUnivers {
 
       /// Get an object.
       /*!
-        @deprecated.
+        @deprecated object does not need to be accessed by name, rather access 
+        them by properties
       */
       Object* getObject(const std::string& name) ;
 

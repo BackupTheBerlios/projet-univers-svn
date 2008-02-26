@@ -38,6 +38,9 @@ namespace ProjetUnivers {
       /// Initialise the controler set.
       void init() ;
 
+      /// Change the model.
+      void setModel(Model* i_model) ;
+      
       /// Close the controler set.
       void close() ;
 
@@ -60,7 +63,7 @@ namespace ProjetUnivers {
         Should be redefined for specialised viewpoints. Default implementation 
         returns true.
         
-        @constraint
+        @invariant
           if !isVisible(object) 
           then 
             whatever child of object !isVisible(child)
@@ -72,9 +75,6 @@ namespace ProjetUnivers {
  
       /// Apply a procedure on all controlers.
       void applyBottomUp(boost::function1<void,BaseControler*> i_procedure) ;
-      
-      /// Change the model.
-      void setModel(Model* i_model) ;
       
       /// Abstract class means protected constructor.
       ControlerSet(Model* i_model) ;

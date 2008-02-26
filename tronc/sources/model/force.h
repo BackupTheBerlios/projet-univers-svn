@@ -65,7 +65,10 @@ namespace ProjetUnivers {
 
       /// Read a Force.
       /*!
-        stored as <Force x=".." y=".." z=".." unit="Newton"/>
+        stored as 
+        @code
+          <Force x=".." y=".." z=".." unit="Newton"/>
+        @endcode
       */          
       static Force read(Kernel::Reader* reader) ;
       

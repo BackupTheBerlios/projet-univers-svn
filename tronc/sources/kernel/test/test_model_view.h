@@ -106,6 +106,37 @@ namespace ProjetUnivers {
         /// Test manual views handling.
         void testManualView() ;
 
+        /// Test a bug : crash on init viewpoint with NULL model.
+        void initViewPointWithNullModel() ;
+        
+        /// Test the correction of the preceeding bug.
+        /*!
+          # building a viewpoint with a NULL model
+          # init the viewpoint
+          # reset a non NULL model
+          # check that views have been initialised 
+        */
+        void setModelOnInitialisedViewPointWithNullModel() ;
+
+        /// Test the correction of the preceeding bug.
+        /*!
+          # building a viewpoint on a model
+          # init the viewpoint
+          # reset another model
+          # check that views have been closed 
+        */
+        void changeModelOnInitialisedViewPoint() ;
+
+        /// Test the correction of the preceeding bug.
+        /*!
+          # building a viewpoint on a model
+          # init the viewpoint
+          # reset another model
+          # adde object
+          # check that views on new model's objects exist 
+        */
+        void changeModelOnViewPoint() ;
+        
       // @}
 
 
@@ -131,6 +162,10 @@ namespace ProjetUnivers {
         CPPUNIT_TEST(testTraitVitrualInheritance) ;
         CPPUNIT_TEST(testchangeParentIsAtomic) ;
         CPPUNIT_TEST(testManualView) ;
+        CPPUNIT_TEST(initViewPointWithNullModel) ;
+        CPPUNIT_TEST(setModelOnInitialisedViewPointWithNullModel) ;
+        CPPUNIT_TEST(changeModelOnInitialisedViewPoint) ;
+        CPPUNIT_TEST(changeModelOnViewPoint) ;
 
         CPPUNIT_TEST_SUITE_END() ;
 

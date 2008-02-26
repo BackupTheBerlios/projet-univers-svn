@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007 Mathieu ROGER                                      *
+ *   Copyright (C) 2008 Mathieu ROGER                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,66 +18,39 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_TARGETING_SYSTEM_H_
-#define PU_MODEL_TARGETING_SYSTEM_H_
-
-#include <kernel/object_reference.h>
-#include <kernel/trait.h>
+#include <kernel/object.h>
+#include <model/shooting_helper.h>
 
 namespace ProjetUnivers {
   namespace Model {
-      
-    /// System that handle targets.
-    class TargetingSystem : public Kernel::Trait
+
+    ShootingHelper::ShootingHelper()
+    {}
+
+    void ShootingHelper::connect(
+        Kernel::Object* shooting_helper,
+        Kernel::Object* computer,
+        Kernel::Object* laser)
     {
-    public:
+      ShootingHelper* trait = shooting_helper->getTrait<ShootingHelper>() ;
+      
+      if (trait)
+      {
+        trait->m_computer = computer ;
+        trait->m_laser = laser ;
+        trait->notify() ;
+      }
+    }
+
+    Kernel::Object* ShootingHelper::getComputer() const
+    {
+      return m_computer ;
+    }
     
-    /*!
-      @name Construction
-    */
-    // @{
+    Kernel::Object* ShootingHelper::getLaser() const
+    {
+      return m_laser ;
+    }
     
-      /// Constructs.
-      TargetingSystem() ;
-
-      /// Connect a targeting system to a computer.
-      static void connect(Kernel::Object* targeting_system,
-                          Kernel::Object* computer) ;
-
-      /// Access to selected target.
-      Kernel::Object* getTarget() const ;
-
-      /// Access to computer model.
-      Kernel::Model* getComputerModel() const ;
-      
-    // @}  
-    /*!
-      @name Commands
-    */
-    // @{
-
-      void selectNextTarget() ;
-      void selectPreviousTarget() ;
-      void selectNearestTarget() ;
-      
-    // @}  
-      
-      
-    private:
-      
-      /// Select an object as a target.
-      void selectTarget(Kernel::Object*) ;
-      
-      /// Unselect an object as a target.
-      void unSelectTarget(Kernel::Object*) ;
-
-      /// The DetectionData targeted.
-      Kernel::ObjectReference m_target ;
-      
-      /// The computer that is ancestor of detection data.
-      Kernel::ObjectReference m_computer ;
-    };
   }
 }
-
-#endif /*PU_MODEL_TARGETING_SYSTEM_H_*/

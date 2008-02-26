@@ -81,7 +81,10 @@ namespace ProjetUnivers {
 
       /// Read speed.
       /*!
-        stored as <Speed x=".." y=".." z=".." unit="MeterPerSecond|..."/>
+        stored as 
+        @code
+          <Speed x=".." y=".." z=".." unit="MeterPerSecond|..."/>
+        @endcode
       */          
       static Speed read(Kernel::Reader* reader) ;
     

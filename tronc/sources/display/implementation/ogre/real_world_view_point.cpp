@@ -76,6 +76,7 @@ namespace ProjetUnivers {
 
           if (! m_manager)
           {
+            ErrorMessage("initialisation of ogre failed") ;
             throw "initialisation of ogre failed" ;
           }
           

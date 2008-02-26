@@ -26,11 +26,11 @@
 namespace ProjetUnivers {
   namespace Kernel {
    
-    /// A predefined trait that delegates command to other pbjects 
+    /// A predefined trait that delegates command to other objects 
     /*!
       Simply add this trait to an object and add delegate objects.
 
-      @example 
+      Example 
         * add a CommandDelegator to a pilot object, 
         * then add stick and throttle as delegates to the CommandDelegator
         * the pilot will respond to stick and throttle command relaying them 

@@ -42,10 +42,12 @@ namespace ProjetUnivers {
       /// Read a Destroyable trait.
       /*!
         stored as 
+        @code
           <Destroyable>
             <Energy ... name="max_hit_points"/>
             <Energy ... name="current_hit_points"/>
           </Destroyable>        
+        @endcode
       */     
       static Kernel::Trait* read(Kernel::Reader* reader) ;
    

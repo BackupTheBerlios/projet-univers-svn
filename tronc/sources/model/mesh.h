@@ -50,7 +50,10 @@ namespace ProjetUnivers {
       
       /// Read a Mesh.
       /*!
-        stored as <Mesh ogre_ressource=".."/>
+        stored as 
+        @code
+          <Mesh ogre_ressource=".."/>
+        @endcode
       */          
       static Mesh read(Kernel::Reader* reader) ;
 

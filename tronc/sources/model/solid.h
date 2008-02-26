@@ -42,9 +42,11 @@ namespace ProjetUnivers {
       /// Read a Solid trait.
       /*!
         stored as 
+        @code
           <Solid>
             <Mesh .../>
           </Solid>
+        @endcode
       */     
       static Kernel::Trait* read(Kernel::Reader* reader) ;
       

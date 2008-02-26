@@ -45,16 +45,22 @@ namespace ProjetUnivers {
 
       /// Read a Laser trait.
       /*!
-        stored as <Laser>
-                    <Position .../>
-                    <Orientation .../>
-                  </Laser>
+        stored as 
+        @code
+          <Laser>
+            <Position .../>
+            <Orientation .../>
+          </Laser>
+        @endcode
       */     
       static Kernel::Trait* read(Kernel::Reader* reader) ;
     
       /// Fire action.
       void fire() ;
     
+      /// Gives the speed of the laser "bullet".
+      float getLaserSpeedMeterPerSecond() const ;
+      
     private:
       
       /// the position of the "output" relative to the laser

@@ -38,7 +38,10 @@ namespace ProjetUnivers {
 
       /// Read a Universe trait.
       /*!
-        stored as <Universe/>
+        stored as 
+        @code
+          <Universe/>
+        @endcode
       */     
       static Kernel::Trait* read(Kernel::Reader* reader) ;
     };

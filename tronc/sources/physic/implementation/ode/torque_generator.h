@@ -35,7 +35,7 @@ namespace ProjetUnivers {
         
         class PhysicalObject ;
               
-        /// .
+        /// Apply torque to a PhysicalObject.
         /*!
           @see Model::TorqueGenerator
         */

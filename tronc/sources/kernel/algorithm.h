@@ -30,25 +30,26 @@ namespace ProjetUnivers {
     /// Utility algorithms
     namespace Algorithm {
 
-      /// Get the next @s element after @c i
+      /// Get the next @c s element after @c object
       /*!
         @param s an non-empty set
-        @param i a "possible" element of s
+        @param object a "possible" element of s
 
         @return
-          @c r minimum element of @c s such that @c r > @c i if exists
+          @c r minimum element of @c s such that @c r > @c object if exists
           first @c s element otherwise  
       */ 
       template <typename T> T findAfter(const std::set<T>& s,const T& object) ;
       
-      /// Get the previous @s element after @c i
+      /// Get the previous @c s element after @c object
       /*!
         @param s an non-empty set
-        @param i a "possible" element of s
-        @param T must be a type with <= operator
+        @param object a "possible" element of s
+        
+        T must be a type with <= operator
         
         @return
-          @c r maximum element of @c s such that @c r < @c i if exists
+          @c r maximum element of @c s such that @c r < @c object if exists
           last @c s element otherwise  
       */ 
       template <typename T> T findBefore(const std::set<T>& s,const T& object) ;

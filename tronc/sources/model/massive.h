@@ -46,9 +46,11 @@ namespace ProjetUnivers {
       /// Read a Massive trait.
       /*!
         stored as 
+        @code
           <Massive>
             [<Mass .../>]
           </Massive>
+        @endcode
       */     
       static Kernel::Trait* read(Kernel::Reader* reader) ;
       

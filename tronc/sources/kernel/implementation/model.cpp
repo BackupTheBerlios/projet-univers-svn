@@ -209,27 +209,30 @@ namespace ProjetUnivers {
       }
       
       /// 1. close all view points
+      InternalMessage("Kernel","Kernel::Model::~Model closing viewpoints") ;
       for(std::set<ViewPoint*>::iterator viewpoint = m_viewpoints.begin() ;
           viewpoint != m_viewpoints.end() ;
           ++viewpoint)
       {
         _close(*viewpoint) ;
         /// notify viewpoint it has no longer a model
-        (*viewpoint)->setModel(NULL) ;
+        (*viewpoint)->m_model = NULL ;
       }
       
       /// 1. close all controler sets
+      InternalMessage("Kernel","Kernel::Model::~Model closing controler sets") ;
       for(std::set<ControlerSet*>::iterator controler_set = m_controler_sets.begin() ;
           controler_set != m_controler_sets.end() ;
           ++controler_set)
       {
         _close(*controler_set) ;
         /// notify controler_set it has no longer a model
-        (*controler_set)->setModel(NULL) ;
+        (*controler_set)->m_model = NULL ;
       }
       
       
       /// 2. destroy m_objects 
+      InternalMessage("Kernel","Kernel::Model::~Model destroying objects") ;
       for(std::set<Object*>::iterator object = m_objects.begin() ;
           object != m_objects.end() ;
           ++object)
@@ -301,7 +304,7 @@ namespace ProjetUnivers {
           ++object)
       {
         (*object)->_close(viewpoint) ;
-      }      
+      }
     }
 
     void Model::_init(ControlerSet* controler_set)

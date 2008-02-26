@@ -418,12 +418,22 @@
   * Kernel :
     - log cleaning : fewer clearer messages   
 
+2008-02-26 rogma
+  * All :
+    - doxygen comment cleanup (removed warnings) 
+  * Model :
+    - DetectionData are added Mobile trait iff exists
+    - ShootingHelper : build a false target to shoot at using speed of current 
+      selected target (basic test added)
+  * Kernel :
+    - corrected some bugs/limitations : 
+      - crash when building a ViewPoint with NULL model (tested)
+      - no view init on new objects when changing the model of a initialised 
+        viewpoint plus some crash on it (tested)
+        
 todos :
 
   * targets :
-    - remove link to real object in DetectionData, instead have :
-      - a position
-      - a radius 
       They can both be obtained by the detector. Maybe we should use traits 
       instead of class attributes for increasing extendability (by adding speed 
       ...). Detectors could then be caractrized by their detection abilities :
@@ -431,25 +441,31 @@ todos :
   
   * model :
     - be able to get bouding box (?) and perform ray 
-      casting inside model. Code could rely on Ogre but we would be an 
+      casting inside Model. Code could rely on Ogre but we would be an 
       encapsulation.
-  
-  * kernel :
+       
+  * physic : 
+    - try to keep all units in an acceptable "range", it means that we whould 
+      be able to convert model units in an arbitrary "ranging system".
+    - migrate Model::PhysicalObject and Model::PhysicalWorld to Physic (for 
+      better separation of concerns) --> not so sure ?
+    - separate simulations : maybe objects can be simulated one by one in its 
+      own world !! should not have any complication for movement except for 
+      collision response. This could facilitate unit range to keep around one. 
+
+  * sound : 
+    - reconsider the implementation with the limitation 
+    - perform platform dependent compilation for special sound effects
+    - move deduced trait to sound::implementation level (i.e. one up) ??
+
+  * all :
+    - make use of Quantities library, @see http://sourceforge.net/projects/quantity ??
+
+  * kernel : (obsolete kept for documentation purpose)
     - add an onDeduced event on deduced traits : it would allow one to perform 
       custom code, for example to calculate deduced attribute in those traits. 
       e.g., Solid <=> Sized, and Sized.size = Solid.Mesh.radius
       Not mandatory because it can be calculate "on demand" in a getSize method 
       in the deduced trait with a mutable attribute. 
   
-  * physic : 
-    - try to keep all units in an acceptable "range", it means that we whould 
-      be able to convert model units in an arbitrary "ranging system".
-    - migrate Model::PhysicalObject and Model::PhysicalWorld to Physic (for 
-      better separation of concerns) --> not so sure ?
-  * sound : 
-    - reconsider the implementation with the limitation 
-    - perform platform dependent compilation for special sound effects
-    - move deduced trait to sound::implementation level (i.e. one up) ??
-  * all :
-    - make use of Quantities library, @see http://sourceforge.net/projects/quantity ??
   

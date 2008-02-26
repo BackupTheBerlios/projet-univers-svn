@@ -68,7 +68,10 @@ namespace ProjetUnivers {
 
       /// Read energy.
       /*!
-        stored as <Energy value=".." unit="Joule|eV"/>
+        stored as 
+        @code
+          <Energy value=".." unit="Joule|eV"/>
+        @endcode
       */          
       static Energy read(Kernel::Reader* reader) ;
       

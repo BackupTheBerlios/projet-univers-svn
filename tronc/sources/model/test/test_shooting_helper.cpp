@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2008 Mathieu ROGER                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -29,74 +29,36 @@
 #include <model/oriented.h>
 #include <model/mobile.h>
 #include <model/solid.h>
+#include <model/laser.h>
 #include <model/selected.h>
 #include <model/detection_data.h>
 #include <model/targeting_system.h>
+#include <model/ideal_target.h>
+#include <model/shooting_helper.h>
 
-#include <model/test/test_targeting_system.h>
-
+#include <model/test/test_shooting_helper.h>
 
 CPPUNIT_TEST_SUITE_REGISTRATION(ProjetUnivers::
                                 Model::
                                 Test::
-                                TestTargetingSystem) ;
+                                TestShootingHelper) ;
+
 
 namespace ProjetUnivers {
   namespace Model {
     namespace Test {
 
-      void TestTargetingSystem::selectOneObject()
+
+      void TestShootingHelper::basicTest()
       {
-        InternalMessage("Model","Model::TestTargetingSystem::selectOneObject entering") ;
-        /*!
-          We create a ship with a detector and a second object to detect. 
-        */        
-        Model::init() ;
-
-        Kernel::Object* system = createObject("system") ;
-
-        Kernel::Object* ship = createObject("ship",system) ;
-        addTrait(ship,new Positionned()) ;
-        addTrait(ship,new Massive(Mass::Kilogram(1000))) ;
-        addTrait(ship,new Oriented()) ;
-        addTrait(ship,new Mobile()) ;
-        addTrait(ship,new Solid(Mesh("razor.mesh"))) ;
-        addTrait(ship,new Computer()) ;
-        addTrait(ship,new Detector(ship)) ;
-        addTrait(ship,new TargetingSystem()) ;
-        TargetingSystem::connect(ship,ship) ;
-
-        Kernel::Object* ship2 = createObject(system) ;
-        addTrait(ship2,new Positionned(Position::Meter(0,0,500))) ;
-        addTrait(ship2,new Massive(Mass::Kilogram(1000))) ;
-        addTrait(ship2,new Oriented()) ;
-        addTrait(ship2,new Mobile()) ;
-        addTrait(ship2,new Solid(Mesh("razor.mesh"))) ;
-
-        Model::update(Duration::Second(0.1)) ;
-        
-        //the second ship has been detected.
-        CPPUNIT_ASSERT(ship->getTrait<Computer>()->getMemoryModel()->getRoots().size() == 1) ;
-        ship->getTrait<TargetingSystem>()->selectNextTarget() ;
-
-        Kernel::Object* data = *(ship->getTrait<Computer>()->getMemoryModel()->getRoots().begin()) ;
-        
-        CPPUNIT_ASSERT(data->getTrait<Positionned>()) ;
-        CPPUNIT_ASSERT(data->getTrait<Solid>()) ;
-        CPPUNIT_ASSERT(data->getTrait<DetectionData>()) ;
-        CPPUNIT_ASSERT(data->getTrait<Selected>()) ;
-        CPPUNIT_ASSERT(data->getTrait<Selected>()->isSelected()) ;
-        CPPUNIT_ASSERT(data->getTrait<Selected>()->isSelected(ship)) ;
-
-        InternalMessage("Model","Model::TestTargetingSystem::selectOneObject leaving") ;
-      }
-
-      void TestTargetingSystem::changeSelection()
-      {
-        InternalMessage("Model","Model::TestTargetingSystem::changeSelection entering") ;
-        /*!
-          We create a ship with a detector and a second object to detect. 
-        */        
+        InternalMessage("Model","Model::TestShootingHelper::basicTest entering") ;
+        /*! 
+          we construct a complete system :
+          a main ship 
+          two ships for detection
+          
+          we select a target and check the property of the ideal target 
+        */
         Model::init() ;
 
         Kernel::Object* system = createObject("system") ;
@@ -108,9 +70,12 @@ namespace ProjetUnivers {
         addTrait(ship,new Mobile()) ;
         addTrait(ship,new Solid(Mesh("razor.mesh"))) ;
         addTrait(ship,new Computer()) ;
+        addTrait(ship,new Laser(Position(),Orientation())) ;
         addTrait(ship,new Detector(ship)) ;
         addTrait(ship,new TargetingSystem()) ;
         TargetingSystem::connect(ship,ship) ;
+        addTrait(ship,new ShootingHelper()) ;
+        ShootingHelper::connect(ship,ship,ship) ;
         
         Kernel::Object* ship2 = createObject(system) ;
         addTrait(ship2,new Positionned(Position::Meter(0,0,500))) ;
@@ -118,6 +83,7 @@ namespace ProjetUnivers {
         addTrait(ship2,new Oriented()) ;
         addTrait(ship2,new Mobile()) ;
         addTrait(ship2,new Solid(Mesh("razor.mesh"))) ;
+        
         Kernel::Object* ship3 = createObject(system) ;
         addTrait(ship3,new Positionned(Position::Meter(0,500,0))) ;
         addTrait(ship3,new Massive(Mass::Kilogram(1000))) ;
@@ -135,34 +101,24 @@ namespace ProjetUnivers {
         ship->getTrait<TargetingSystem>()->selectNextTarget() ;
 
         Kernel::Object* data = *(data_pointer) ;
-        
-        CPPUNIT_ASSERT(data->getTrait<Positionned>()) ;
-        CPPUNIT_ASSERT(data->getTrait<Solid>()) ;
-        CPPUNIT_ASSERT(data->getTrait<DetectionData>()) ;
         CPPUNIT_ASSERT(data->getTrait<Selected>()) ;
-        CPPUNIT_ASSERT(data->getTrait<Selected>()->isSelected()) ;
-        CPPUNIT_ASSERT(data->getTrait<Selected>()->isSelected(ship)) ;
-
-        ship->getTrait<TargetingSystem>()->selectNextTarget() ;
-
-        CPPUNIT_ASSERT(data->getTrait<Positionned>()) ;
-        CPPUNIT_ASSERT(data->getTrait<Solid>()) ;
-        CPPUNIT_ASSERT(data->getTrait<DetectionData>()) ;
-        CPPUNIT_ASSERT(! data->getTrait<Selected>()) ;
         
-        InternalMessage("Model","Model::TestTargetingSystem::changeSelection leaving") ;
+        // get the ideal target data and check it
+        std::set<IdealTarget*> children = data->getDescendants<IdealTarget>() ; 
+        
+        CPPUNIT_ASSERT(children.size()==1) ;
+        
+        Model::close() ;
       }
-      
-      void TestTargetingSystem::setUp() 
+
+      void TestShootingHelper::setUp()
       {
       }
-      
-      void TestTargetingSystem::tearDown() 
+
+      void TestShootingHelper::tearDown()
       {
       }
-      
 
     }
   }
 }
-

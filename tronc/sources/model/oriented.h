@@ -52,9 +52,11 @@ namespace ProjetUnivers {
       /// Read an Oriented trait.
       /*!
         stored as 
+        @code
           <Oriented>
             [<Orientation .../>]
           </Oriented>
+        @endcode
       */     
       static Kernel::Trait* read(Kernel::Reader* reader) ;
 
@@ -85,13 +87,16 @@ namespace ProjetUnivers {
       /// Change the current orientation.
       /*!
         @param[in] 
-          i_orientation 
-          the new orientation relativelly to i_reference
+          orientation 
+          the new orientation relativelly to @c reference
+        @param[in] 
+          reference
+          the reference to which we set the orientation 
         @post 
-          getOrientation(i_reference) == i_orientation
+          getOrientation(reference) == orientation
       */
-      void setOrientation(const Orientation& i_orientation,
-                          Kernel::Object*    i_reference) ;
+      void setOrientation(const Orientation& orientation,
+                          Kernel::Object*    reference) ;
 
     //@}
     

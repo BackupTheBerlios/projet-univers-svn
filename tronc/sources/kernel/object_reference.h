@@ -57,7 +57,10 @@ namespace ProjetUnivers {
 
       /// Read an ObjectReference.
       /*!
-        stored as <Reference id=".."/>
+        stored as 
+        @code
+        <Reference id=".."/>
+        @endcode
       */          
       static ObjectReference read(Reader* reader) ;
       

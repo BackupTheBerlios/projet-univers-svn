@@ -58,16 +58,22 @@ libmodel_la_SOURCES = \
 ../implementation/menu.cpp \
 ../implementation/hearing.cpp \
 ../implementation/selected.cpp \
+../implementation/shooting_helper.cpp \
 ../implementation/sound_environnement.cpp \
 ../implementation/targeting_system.cpp \
 ../implementation/target_displayer.cpp \
 ../implementation/detection_data.cpp \
+../implementation/ideal_target.cpp \
+../implementation/target.cpp \
 ../implementation/logic/logic.cpp \
 ../implementation/logic/laser_beam.cpp \
 ../implementation/logic/logic_system.cpp \
 ../implementation/logic/collision.cpp \
 ../implementation/logic/destroyable.cpp \
 ../implementation/logic/detector.cpp \
+../implementation/logic/target.cpp \
+../implementation/logic/shooting_helper_viewpoint.cpp \
+../implementation/logic/shooting_helper.cpp \
 ../implementation/logic/shot.cpp 
 
 libmodel_la_LDFLAGS = -no-undefined
@@ -102,6 +108,7 @@ test_model_SOURCES = \
 ../test/test_detector.cpp \
 ../test/test_load.cpp \
 ../test/test_targeting_system.cpp \
+../test/test_shooting_helper.cpp \
 ../test/test_demonstration.cpp 
 
 

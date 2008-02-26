@@ -1224,6 +1224,113 @@ namespace ProjetUnivers {
         
         InternalMessage("Kernel","Kernel::Test::testManualView leaving") ;
       }
+
+      void TestModelView::initViewPointWithNullModel()
+      {
+        InternalMessage("Kernel","Kernel::Test::initViewPointWithNullModel entering") ;
+        std::auto_ptr<Model> model ;
+        std::auto_ptr<TestViewPoint> viewpoint(new TestViewPoint(model.get())) ;
+        /// init the viewpoint
+        viewpoint->init() ;
+        InternalMessage("Kernel","Kernel::Test::initViewPointWithNullModel leaving") ;
+      }
+      
+      void TestModelView::setModelOnInitialisedViewPointWithNullModel()
+      {
+        InternalMessage("Kernel","Kernel::Test::setModelOnInitialisedViewPointWithNullModel entering") ;
+        std::auto_ptr<Model> model ;
+        std::auto_ptr<TestViewPoint> viewpoint(new TestViewPoint(model.get())) ;
+        /// init the viewpoint
+        viewpoint->init() ;
+        
+        model.reset(new Model()) ;
+        viewpoint->setModel(model.get()) ;
+        
+        Object* person = model->createObject("person") ;
+        model->addTrait(person,new Person()) ;
+        Object* head = model->createObject("head",person) ;
+        model->addTrait(head,new Head()) ;
+
+        /// check the views are initialised
+        Trait* persontrait = person->getTrait<Person>() ;
+        CPPUNIT_ASSERT(persontrait) ;
+        ViewPerson* personview = persontrait->getView<ViewPerson>(viewpoint.get()) ;
+        CPPUNIT_ASSERT(personview) ;
+        CPPUNIT_ASSERT(personview->init_number == 1) ;
+
+        Trait* headtrait = head->getTrait<Head>() ;
+        CPPUNIT_ASSERT(headtrait) ;
+        ViewHead* headview = headtrait->getView<ViewHead>(viewpoint.get()) ;
+        CPPUNIT_ASSERT(headview) ;
+        CPPUNIT_ASSERT(headview->init_number == 1) ;
+        
+        InternalMessage("Kernel","Kernel::Test::setModelOnInitialisedViewPointWithNullModel leaving") ;
+      }
+      
+      void TestModelView::changeModelOnInitialisedViewPoint()
+      {
+        InternalMessage("Kernel","Kernel::Test::changeModelOnInitialisedViewPoint entering") ;
+        std::auto_ptr<Model> model(new Model()) ;
+        std::auto_ptr<TestViewPoint> viewpoint(new TestViewPoint(model.get())) ;
+        /// init the viewpoint
+        viewpoint->init() ;
+        
+        Object* person = model->createObject("person") ;
+        model->addTrait(person,new Person()) ;
+
+        /// check the views are initialised
+        Trait* persontrait = person->getTrait<Person>() ;
+        CPPUNIT_ASSERT(persontrait) ;
+        ViewPerson* personview = persontrait->getView<ViewPerson>(viewpoint.get()) ;
+        CPPUNIT_ASSERT(personview) ;
+        CPPUNIT_ASSERT(personview->init_number == 1) ;
+
+        InternalMessage("Kernel","Kernel::Test::changeModelOnInitialisedViewPoint#1") ;
+        std::auto_ptr<Model> model2(new Model()) ;
+        viewpoint->setModel(model2.get()) ;
+
+        InternalMessage("Kernel","Kernel::Test::changeModelOnInitialisedViewPoint#2") ;
+
+        /// check the views where closed
+        personview = persontrait->getView<ViewPerson>(viewpoint.get()) ;
+        CPPUNIT_ASSERT(personview) ;                
+        CPPUNIT_ASSERT(personview->init_number == 0) ;        
+        InternalMessage("Kernel","Kernel::Test::changeModelOnInitialisedViewPoint leaving") ;
+      }
+      
+      void TestModelView::changeModelOnViewPoint()
+      {
+        InternalMessage("Kernel","Kernel::Test::changeModelOnInitialisedViewPoint entering") ;
+        std::auto_ptr<Model> model(new Model()) ;
+        std::auto_ptr<TestViewPoint> viewpoint(new TestViewPoint(model.get())) ;
+        /// init the viewpoint
+        viewpoint->init() ;
+        
+        Object* person = model->createObject("person") ;
+        model->addTrait(person,new Person()) ;
+
+        /// check the views are initialised
+        Trait* persontrait = person->getTrait<Person>() ;
+        CPPUNIT_ASSERT(persontrait) ;
+        ViewPerson* personview = persontrait->getView<ViewPerson>(viewpoint.get()) ;
+        CPPUNIT_ASSERT(personview) ;
+        CPPUNIT_ASSERT(personview->init_number == 1) ;
+
+        InternalMessage("Kernel","Kernel::Test::changeModelOnInitialisedViewPoint#1") ;
+        std::auto_ptr<Model> model2(new Model()) ;
+        viewpoint->setModel(model2.get()) ;
+
+        person = model2->createObject("person") ;
+        model2->addTrait(person,new Person()) ;
+        
+        persontrait = person->getTrait<Person>() ;
+        CPPUNIT_ASSERT(persontrait) ;
+        personview = persontrait->getView<ViewPerson>(viewpoint.get()) ;
+        CPPUNIT_ASSERT(personview) ;
+        CPPUNIT_ASSERT(personview->init_number == 1) ;
+        
+        InternalMessage("Kernel","Kernel::Test::changeModelOnInitialisedViewPoint leaving") ;
+      }
       
       void TestModelView::setUp()
       {
@@ -1232,10 +1339,6 @@ namespace ProjetUnivers {
       void TestModelView::tearDown()
       {
       }
-
- 
-       
-       
     }
   }
 }

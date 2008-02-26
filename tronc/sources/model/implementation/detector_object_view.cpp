@@ -23,6 +23,7 @@
 #include <model/computer.h>
 #include <model/positionned.h>
 #include <model/solid.h>
+#include <model/mobile.h>
 #include <model/computer_data.h>
 #include <model/detection_data.h>
 #include <model/implementation/detector_object_view.h>
@@ -66,7 +67,9 @@ namespace ProjetUnivers {
           InternalMessage(
             "Model",
             "Model::DetectorObjectView::check in range updating detection data") ;
-
+          
+          bool mobile = false ;
+          
           if (! m_detection_information)
           {
             Solid* solid = getObject()->getTrait<Solid>() ;
@@ -82,14 +85,30 @@ namespace ProjetUnivers {
             // useless ??
             computer->getMemoryModel()->addTrait(m_detection_information,
                                                  new ComputerData()) ;
+              
           }
+          Mobile* mobileTrait = getObject()->getTrait<Mobile>() ;
+          
           
           // update object position
           Position position = getRelativePosition(getObject(),
                                                   detector->getObject()) ;
           
           m_detection_information->getTrait<Positionned>()->setPosition(position) ;
-
+          
+          // update speed if exists
+          if (mobileTrait)
+          {
+            Mobile* data = m_detection_information->getTrait<Mobile>() ;
+            if (! data)
+            {
+              data = new Mobile() ;
+              computer->getMemoryModel()->addTrait(m_detection_information,
+                                                   data) ;
+            }
+            data->setSpeed(mobileTrait->getSpeed()) ;
+            data->setAngularSpeed(mobileTrait->getAngularSpeed()) ;
+          }
 
         }
         

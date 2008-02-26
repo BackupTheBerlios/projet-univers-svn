@@ -102,7 +102,10 @@ namespace ProjetUnivers {
 
       /// Read position.
       /*!
-        stored as <Position x=".." y=".." z=".." unit="Meter|LightYear|Parsec"/>
+        stored as 
+        @code
+          <Position x=".." y=".." z=".." unit="Meter|LightYear|Parsec"/>
+        @endcode
       */          
       static Position read(Kernel::Reader* reader) ;
     

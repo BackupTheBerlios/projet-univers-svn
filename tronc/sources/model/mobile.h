@@ -54,10 +54,12 @@ namespace ProjetUnivers {
       /// Read a Mobile trait.
       /*!
         stored as 
+        @code
           <Mobile>
             [<Speed .../>]
             [<AngularSpeed />]
           </Mobile>
+        @endcode
       */     
       static Kernel::Trait* read(Kernel::Reader* reader) ;
       

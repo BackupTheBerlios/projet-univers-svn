@@ -38,17 +38,20 @@ namespace ProjetUnivers {
       InternalMessage("Kernel","ViewPoint::~ViewPoint destroyed") ;
     }
 
-    ViewPoint::ViewPoint(Model* i_model)
+    ViewPoint::ViewPoint(Model* model)
     : m_initialised(false),
-      m_model(i_model)
-    {
-    }
+      m_model_attached(model),
+      m_model(model)
+    {}
 
     void ViewPoint::init()
     {
       if (! m_initialised)
       {
-        m_model->_register(this) ;
+        if (m_model)
+        {
+          m_model->_register(this) ;
+        }
 
         /// call local init for viewpoint
         onInit() ;
@@ -56,28 +59,54 @@ namespace ProjetUnivers {
         m_initialised = true ;
         
         /// must init all the objects according to current viewpoint
-        m_model->_init(this) ;
+        if (m_model)
+        {
+          m_model->_init(this) ;
+        }
       }
     }
 
     void ViewPoint::close()
     {
+      InternalMessage("Kernel","ViewPoint::close Entering") ;
       if (m_initialised && m_model)
       {
-        /// must init all the objects according to current viewpoint
+        /// must close all the objects according to current viewpoint
         m_model->_close(this) ;
 
+        InternalMessage("Kernel","ViewPoint::close #1") ;
         /// call local close for viewpoint
         onClose() ;
 
+        InternalMessage("Kernel","ViewPoint::close #2") ;
+
         m_model->_unregister(this) ;
+        m_model = NULL ;
+        m_model_attached = false ;
         m_initialised = false ;
       }
+      InternalMessage("Kernel","ViewPoint::close Leaving") ;
     }
     
-    void ViewPoint::setModel(Model* i_model)
+    void ViewPoint::setModel(Model* model)
     {
-      m_model = i_model ;
+      InternalMessage("Kernel","ViewPoint::setModel Entering") ;
+      if (m_initialised && m_model)
+      {
+        /// must close all the objects according to current viewpoint
+        m_model->_close(this) ;
+        m_model->_unregister(this) ;
+      }
+      
+      m_model = model ;
+      
+      if (m_model)
+      {
+        m_model->_register(this) ;
+        m_model->_init(this) ;
+        m_model_attached = true ;
+      }
+      InternalMessage("Kernel","ViewPoint::setModel Entering") ;
     }
     
     Model* ViewPoint::getModel() const

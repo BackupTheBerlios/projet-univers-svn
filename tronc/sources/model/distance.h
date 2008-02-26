@@ -72,7 +72,10 @@ namespace ProjetUnivers {
 
       /// Read a distance.
       /*!
-        stored as <Distance value=".." unit="Meter|LightYear|Parsec"/>
+        stored as 
+        @code
+          <Distance value=".." unit="Meter|LightYear|Parsec"/>
+        @endcode
       */          
       static Distance read(Kernel::Reader* reader) ;
 

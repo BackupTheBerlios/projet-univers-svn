@@ -27,7 +27,7 @@
 #include <model/detection_data.h>
 #include <model/solid.h>
 #include <model/selected.h>
-#include <display/implementation/ogre/head_up_display/target.h>
+#include <display/implementation/target.h>
 #include <display/test/test_target.h>
 
 
@@ -59,7 +59,7 @@ namespace ProjetUnivers {
         memory->addTrait(data,new Model::DetectionData()) ;
         memory->addTrait(data,new Model::Selected()) ;
 
-        CPPUNIT_ASSERT(data->getTrait<Implementation::Ogre::HeadUpDisplay::Target>()) ;
+        CPPUNIT_ASSERT(data->getTrait<Implementation::Target>()) ;
         
         InternalMessage("Display","Display::TestTarget::testConstruct leaving") ;
       }

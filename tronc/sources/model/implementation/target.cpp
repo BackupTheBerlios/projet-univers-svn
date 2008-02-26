@@ -18,70 +18,24 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_DISPLAY_IMPLEMENTATION_OGRE_HUD_TARGET_VIEW_H_
-#define PU_DISPLAY_IMPLEMENTATION_OGRE_HUD_TARGET_VIEW_H_
-
-#include <Ogre.h>
-#include <kernel/trait_view.h>
-#include <display/implementation/ogre/head_up_display/target.h>
-#include <display/implementation/ogre/head_up_display/target_displayer_viewpoint.h>
+#include <model/positionned.h>
+#include <model/solid.h>
+#include <model/detection_data.h>
+#include <model/selected.h>
+#include <model/mobile.h>
+#include <model/implementation/target.h>
 
 namespace ProjetUnivers {
-  namespace Display {
+  namespace Model {
     namespace Implementation {
-      namespace Ogre {
-        namespace HeadUpDisplay {
-
-          class TargetView : public Kernel::TraitView<Target,
-                                                      TargetDisplayerViewPoint>
-          {
-          public:
           
-          /*! 
-            @name Construct
-          */ 
-          // @{
-  
-            /// Constructeur.
-            TargetView(Target* object,
-                       TargetDisplayerViewPoint* viewpoint) ;
-          // @}
-        protected:
-          /*!
-            @name Updates
-          */
-          // @{
-          
-            /// .
-            void onInit() ;
-            
-            /// .
-            void onClose() ;
-          
-            /// 
-            void onUpdate() ;
-  
-          // @}
-          private:
-
-            /// Create the overlay. 
-            void createOverlay() ;
-            
-            /// True iff the target is selected            
-            bool isSelected() const ;
-
-            /// 3D ogre element.
-            ::Ogre::OverlayContainer* m_container ;
-            ::Ogre::OverlayElement*   m_reticule ;
-            
-            ::Ogre::Camera*           m_camera ;            
-            bool m_is_shown ;
-          
-          };
-        }
-      }
+      DeclareDeducedTrait(
+          Target,
+          And(HasTrait(DetectionData),
+              HasTrait(Solid),
+              HasTrait(Positionned),
+              HasTrait(Selected),
+              HasTrait(Mobile))) ;
     }
   }
 }
-
-#endif /*PU_DISPLAY_IMPLEMENTATION_OGRE_HUD_TARGET_VIEW_H_*/

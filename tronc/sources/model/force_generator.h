@@ -45,9 +45,11 @@ namespace ProjetUnivers {
       /// Read a ForceGenerator trait.
       /*!
         stored as 
+        @code
           <ForceGenerator>
             <Force .../>
           </ForceGenerator>
+        @endcode
       */     
       static Kernel::Trait* read(Kernel::Reader* reader) ;
       

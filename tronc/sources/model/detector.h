@@ -59,10 +59,12 @@ namespace ProjetUnivers {
       /// Read a Detector trait.
       /*!
         stored as 
+        @code
           <Detector>
             [<ObjectReference ... [name="computer"]/>]
             [<Distance ... [name="range"]/>]
           </Detector>
+        @endcode
       */     
       static Kernel::Trait* read(Kernel::Reader* reader) ;
 

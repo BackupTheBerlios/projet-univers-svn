@@ -33,6 +33,58 @@ namespace ProjetUnivers {
       namespace Ogre {
 
         /// Display targets.
+        /*!
+        @dot
+        digraph 
+        {
+          compound=true;
+          concentrate=true ;
+          // model part
+          "Model::TargetDisplayer" [shape=box URL="\ref Model::TargetDisplayer"] ;
+          object -> "Model::Computer" [arrowhead=diamond] ;
+          "Model::TargetDisplayer" -> "Model::Computer" [arrowhead=none] ;
+          "Model::Positionned" -> object [arrowhead=diamond ltail=cluster_0] ;
+        
+          subgraph cluster_0
+          {
+            style="filled";
+            label="Display::Implementation::Target" ;
+            URL="\ref Display::Implementation::Target" ;
+            "Model::Positionned" [shape=box URL="\ref Model::Positionned"] ;
+            "Model::Selected" [shape=box URL="\ref Model::Selected"] ;
+            "Model::DetectionData" [shape=box URL="\ref Model::DetectionData"] ;
+            "Model::Solid" [shape=box URL="\ref Model::Solid"] ;
+          }
+        
+          // ogre part
+      
+          "Ogre::TargetDisplayer" [shape=ellipse URL="\ref Ogre::TargetDisplayer"] ;
+          "Ogre::TargetDisplayer" -> "Model::TargetDisplayer" [arrowhead=none] ;
+          "HeadUpDisplay::TargetDisplayerViewPoint" -> "Ogre::TargetDisplayer" [arrowhead=diamond] ;
+      
+          "Model::Selected" -> "HeadUpDisplay::Target" [arrowhead=none ltail=cluster_0] ;
+      
+          // hud viewpoint
+          subgraph cluster2
+          {
+            style="invis";
+            object [shape=point label=""] ;
+            "Model::Computer" [shape=box URL="\ref Model::Computer"] ;
+    
+            subgraph cluster_viewogre
+            {
+              label="Ogre::HeadUpDisplay" ;
+              URL="\ref Ogre::HeadUpDisplay" ;
+              style=dashed ;
+  
+              "HeadUpDisplay::TargetDisplayerViewPoint" [shape=ellipse URL="\ref HeadUpDisplay::TargetDisplayerViewPoint"] ;
+              "HeadUpDisplay::Target" [shape=ellipse URL="\ref HeadUpDisplay::Target"] ;
+              "HeadUpDisplay::Target" -> "HeadUpDisplay::TargetDisplayerViewPoint" [arrowhead=diamond] ;
+            }
+          }
+        }
+        @enddot
+        */
         class TargetDisplayer : public Kernel::TraitView<Model::TargetDisplayer,
                                                          RealWorldViewPoint>
         {

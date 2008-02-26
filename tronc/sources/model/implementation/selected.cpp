@@ -23,29 +23,29 @@
 namespace ProjetUnivers {
   namespace Model {
 
-      Selected::Selected()
-      {}
+    Selected::Selected()
+    {}
 
-      bool Selected::isSelected(Kernel::Object* by) const
-      {
-        return m_selectors.find(by) != m_selectors.end() ;
-      }
+    bool Selected::isSelected(Kernel::Object* by) const
+    {
+      return m_selectors.find(by) != m_selectors.end() ;
+    }
 
-      void Selected::select(Kernel::Object* by)
-      {
-        m_selectors.insert(by) ;
-        notify() ;
-      }
+    void Selected::select(Kernel::Object* by)
+    {
+      m_selectors.insert(by) ;
+      notify() ;
+    }
 
-      void Selected::unSelect(Kernel::Object* by)
-      {
-        m_selectors.erase(by) ;
-        notify() ;
-      }
+    void Selected::unSelect(Kernel::Object* by)
+    {
+      m_selectors.erase(by) ;
+      notify() ;
+    }
 
-      bool Selected::isSelected() const
-      {
-        return m_selectors.size() != 0 ;
-      }
+    bool Selected::isSelected() const
+    {
+      return m_selectors.size() != 0 ;
+    }
   }
 }

@@ -38,7 +38,9 @@ namespace ProjetUnivers {
       /// Read an Observer trait.
       /*!
         stored as 
+        @code
           <Observer/>
+        @endcode
       */     
       static Kernel::Trait* read(Kernel::Reader* reader) ;
 

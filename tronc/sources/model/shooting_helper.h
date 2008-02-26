@@ -18,8 +18,8 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_TARGETING_SYSTEM_H_
-#define PU_MODEL_TARGETING_SYSTEM_H_
+#ifndef PU_MODEL_SHOOTING_HELPER_H_
+#define PU_MODEL_SHOOTING_HELPER_H_
 
 #include <kernel/object_reference.h>
 #include <kernel/trait.h>
@@ -27,8 +27,8 @@
 namespace ProjetUnivers {
   namespace Model {
       
-    /// System that handle targets.
-    class TargetingSystem : public Kernel::Trait
+    /// Calculate where one should fire.
+    class ShootingHelper : public Kernel::Trait
     {
     public:
     
@@ -38,41 +38,25 @@ namespace ProjetUnivers {
     // @{
     
       /// Constructs.
-      TargetingSystem() ;
+      ShootingHelper() ;
 
-      /// Connect a targeting system to a computer.
-      static void connect(Kernel::Object* targeting_system,
-                          Kernel::Object* computer) ;
+      /// Connect a shooting helper to a computer.
+      static void connect(Kernel::Object* shooting_helper,
+                          Kernel::Object* computer,
+                          Kernel::Object* laser) ;
 
-      /// Access to selected target.
-      Kernel::Object* getTarget() const ;
-
-      /// Access to computer model.
-      Kernel::Model* getComputerModel() const ;
-      
-    // @}  
-    /*!
-      @name Commands
-    */
-    // @{
-
-      void selectNextTarget() ;
-      void selectPreviousTarget() ;
-      void selectNearestTarget() ;
-      
     // @}  
       
+      /// Access to Computer.
+      Kernel::Object* getComputer() const ;
+
+      /// Access to Laser.
+      Kernel::Object* getLaser() const ;
       
     private:
       
-      /// Select an object as a target.
-      void selectTarget(Kernel::Object*) ;
-      
-      /// Unselect an object as a target.
-      void unSelectTarget(Kernel::Object*) ;
-
-      /// The DetectionData targeted.
-      Kernel::ObjectReference m_target ;
+      /// The laser.
+      Kernel::ObjectReference m_laser ;
       
       /// The computer that is ancestor of detection data.
       Kernel::ObjectReference m_computer ;
@@ -80,4 +64,4 @@ namespace ProjetUnivers {
   }
 }
 
-#endif /*PU_MODEL_TARGETING_SYSTEM_H_*/
+#endif /*PU_MODEL_SHOOTING_HELPER_H_*/

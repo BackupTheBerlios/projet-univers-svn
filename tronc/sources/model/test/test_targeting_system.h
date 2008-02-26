@@ -43,6 +43,7 @@ namespace ProjetUnivers {
         /// Change selection.
         void changeSelection() ;
         
+        /// @todo test with removing Computer/detector ?
       // @}
       // *******************************
       /// @name Test registration

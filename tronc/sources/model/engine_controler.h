@@ -50,9 +50,11 @@ namespace ProjetUnivers {
       /// Read an EngineControler trait.
       /*!
         stored as 
+        @code
           <EngineControler>
             <ObjectReference id=".." [name=throttle]/> 
           </EngineControler>
+        @endcode
       */     
       static Kernel::Trait* read(Kernel::Reader* reader) ;
       

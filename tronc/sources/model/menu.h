@@ -39,7 +39,10 @@ namespace ProjetUnivers {
 
       /// Read a Menu trait.
       /*!
-        stored as <Menu file="..."/>
+        stored as 
+        @code
+          <Menu file="..."/>
+        @endcode
       */     
       static Kernel::Trait* read(Kernel::Reader* reader) ;
       

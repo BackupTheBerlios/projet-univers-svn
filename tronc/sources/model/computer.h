@@ -47,7 +47,9 @@ namespace ProjetUnivers {
       /// Read a Computer trait.
       /*!
         stored as 
+        @code
           <Computer/>
+        @endcode
       */     
       static Kernel::Trait* read(Kernel::Reader* reader) ;
       
