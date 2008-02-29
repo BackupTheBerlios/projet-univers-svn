@@ -71,12 +71,20 @@ namespace ProjetUnivers {
             bool isSelected() const ;
 
             /// 3D ogre element.
-            ::Ogre::OverlayContainer* m_container ;
+            ::Ogre::OverlayContainer* m_reticule_container ;
             ::Ogre::OverlayElement*   m_reticule ;
+
+            ::Ogre::OverlayContainer* m_arrow_container ;
+            ::Ogre::OverlayElement*   m_arrow ;
             
             ::Ogre::Camera*           m_camera ;            
-            bool m_is_shown ;
-          
+            
+            /// true iff reticule is shown
+            bool m_reticule_is_shown ;
+
+            /// true iff arrow is shown
+            bool m_arrow_is_shown ;
+            
           };
         }
       }

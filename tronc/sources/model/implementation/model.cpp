@@ -313,7 +313,7 @@ namespace ProjetUnivers {
           model->addTrait(computer,new Computer()) ;
           
           Kernel::Object* detector = model->createObject("detector",observer) ;
-          model->addTrait(detector,new Detector(computer,Distance(Distance::_Meter,800))) ;
+          model->addTrait(detector,new Detector(computer,Distance(Distance::_Meter,8000))) ;
           
           Kernel::Object* target_selector = model->createObject("target_selector",observer) ;
           model->addTrait(target_selector,new TargetingSystem()) ;

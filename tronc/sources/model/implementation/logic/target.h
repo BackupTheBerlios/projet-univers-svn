@@ -64,6 +64,9 @@ namespace ProjetUnivers {
         // @}
         private:
           
+          /// Destroy the ideal target object. 
+          void removeIdealTarget() ;
+          
           /// The associated ideal target.
           /*!
             It is child of the target object in the computer.

@@ -42,6 +42,12 @@ namespace ProjetUnivers {
 
         /// Change selection.
         void changeSelection() ;
+
+        /// Test a Computer destruction.
+        void destroyComputer() ;
+
+        /// Test a Detector destruction.
+        void destroyDetector() ;
         
         /// @todo test with removing Computer/detector ?
       // @}
@@ -54,7 +60,9 @@ namespace ProjetUnivers {
       
         CPPUNIT_TEST(selectOneObject) ;
         CPPUNIT_TEST(changeSelection) ;
-      
+        CPPUNIT_TEST(destroyComputer) ;
+        CPPUNIT_TEST(destroyDetector) ;
+
         CPPUNIT_TEST_SUITE_END() ;
 
       public:

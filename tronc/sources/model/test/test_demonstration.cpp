@@ -44,11 +44,6 @@ namespace ProjetUnivers {
   namespace Model {
     namespace Test {
 
-
-
-
-
-
       /*!
         @todo
           Ne pas passer par le chargement de TestDemonstration mais 

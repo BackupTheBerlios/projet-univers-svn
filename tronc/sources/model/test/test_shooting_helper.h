@@ -39,11 +39,33 @@ namespace ProjetUnivers {
       // @{
         
         /// A basic functional test.
+        /*!
+          Aiming a static target.
+        */ 
         void basicTest() ;
         
-        /// @todo test with mobile object and different speed
+        /// Test an object flying away from the shot.
+        void testMovingFront() ;
         
-        /// @todo test with connection/deconnection of Computer/TargetSelector
+        /// Test an object flying away from the shot and untouchable.
+        void testMovingUnshootable() ;
+        
+        /// Test an object moving in orthogonal direction of the shot.
+        void testMovingLateral() ;
+
+        /// Test a Computer destruction.
+        void destroyComputer() ;
+        
+        /// Test a Laser destruction.
+        void destroyLaser() ;
+        
+        /// Test a Computer deconnection.
+        /*!
+          We deconnect the computer but the ideal target still exists.
+          
+          @todo what is the correct behaviour ??
+        */
+        void deconnectComputer() ;
         
       // @}
       /*!
@@ -54,6 +76,12 @@ namespace ProjetUnivers {
         CPPUNIT_TEST_SUITE(TestShootingHelper) ;
 
         CPPUNIT_TEST(basicTest) ;
+        CPPUNIT_TEST(testMovingFront) ;
+        CPPUNIT_TEST(testMovingUnshootable) ;
+        CPPUNIT_TEST(testMovingLateral) ;
+        CPPUNIT_TEST(destroyComputer) ;
+        CPPUNIT_TEST(destroyLaser) ;
+        CPPUNIT_TEST(deconnectComputer) ;
 
         CPPUNIT_TEST_SUITE_END() ;
       

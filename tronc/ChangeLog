@@ -430,7 +430,17 @@
       - crash when building a ViewPoint with NULL model (tested)
       - no view init on new objects when changing the model of a initialised 
         viewpoint plus some crash on it (tested)
-        
+
+2008-03-01 rogma
+  * Model :
+    - ShootingHelper system : bug corrections, wrong equation, divide by 
+      zero (tested)
+    - ShootingHelper system test added
+    - TargetSelector system test added 
+  * Display :
+    - Target displaying : added arrow placement when target is out of screen and 
+    	rotate arrow to point to target
+    
 todos :
 
   * targets :
@@ -443,7 +453,12 @@ todos :
     - be able to get bouding box (?) and perform ray 
       casting inside Model. Code could rely on Ogre but we would be an 
       encapsulation.
-       
+    - ShootingHelper : how can it work with several Laser ?
+
+  * display :
+    - ShootingHelper display
+    - TargetSelector : must display also targets out of screen by an arrow
+    
   * physic : 
     - try to keep all units in an acceptable "range", it means that we whould 
       be able to convert model units in an arbitrary "ranging system".

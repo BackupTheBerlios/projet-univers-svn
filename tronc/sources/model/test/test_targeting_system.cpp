@@ -152,6 +152,84 @@ namespace ProjetUnivers {
         
         InternalMessage("Model","Model::TestTargetingSystem::changeSelection leaving") ;
       }
+
+      void TestTargetingSystem::destroyComputer()
+      {
+        InternalMessage("Model","Model::TestTargetingSystem::destroyComputer entering") ;
+        /*!
+          We create a ship with a detector and a second object to detect. 
+        */        
+        Model::init() ;
+
+        Kernel::Object* system = createObject("system") ;
+
+        Kernel::Object* ship = createObject("ship",system) ;
+        addTrait(ship,new Positionned()) ;
+        addTrait(ship,new Massive(Mass::Kilogram(1000))) ;
+        addTrait(ship,new Oriented()) ;
+        addTrait(ship,new Mobile()) ;
+        addTrait(ship,new Solid(Mesh("razor.mesh"))) ;
+        addTrait(ship,new Computer()) ;
+        addTrait(ship,new Detector(ship)) ;
+        addTrait(ship,new TargetingSystem()) ;
+        TargetingSystem::connect(ship,ship) ;
+
+        Kernel::Object* ship2 = createObject(system) ;
+        addTrait(ship2,new Positionned(Position::Meter(0,0,500))) ;
+        addTrait(ship2,new Massive(Mass::Kilogram(1000))) ;
+        addTrait(ship2,new Oriented()) ;
+        addTrait(ship2,new Mobile()) ;
+        addTrait(ship2,new Solid(Mesh("razor.mesh"))) ;
+
+        Model::update(Duration::Second(0.1)) ;
+        
+        //the second ship has been detected.
+        CPPUNIT_ASSERT(ship->getTrait<Computer>()->getMemoryModel()->getRoots().size() == 1) ;
+        ship->getTrait<TargetingSystem>()->selectNextTarget() ;
+
+        destroyTrait(ship,ship->getTrait<Computer>()) ;
+        
+        InternalMessage("Model","Model::TestTargetingSystem::destroyComputer leaving") ;
+      }
+
+      void TestTargetingSystem::destroyDetector()
+      {
+        InternalMessage("Model","Model::TestTargetingSystem::destroyDetector entering") ;
+        /*!
+          We create a ship with a detector and a second object to detect. 
+        */        
+        Model::init() ;
+
+        Kernel::Object* system = createObject("system") ;
+
+        Kernel::Object* ship = createObject("ship",system) ;
+        addTrait(ship,new Positionned()) ;
+        addTrait(ship,new Massive(Mass::Kilogram(1000))) ;
+        addTrait(ship,new Oriented()) ;
+        addTrait(ship,new Mobile()) ;
+        addTrait(ship,new Solid(Mesh("razor.mesh"))) ;
+        addTrait(ship,new Computer()) ;
+        addTrait(ship,new Detector(ship)) ;
+        addTrait(ship,new TargetingSystem()) ;
+        TargetingSystem::connect(ship,ship) ;
+
+        Kernel::Object* ship2 = createObject(system) ;
+        addTrait(ship2,new Positionned(Position::Meter(0,0,500))) ;
+        addTrait(ship2,new Massive(Mass::Kilogram(1000))) ;
+        addTrait(ship2,new Oriented()) ;
+        addTrait(ship2,new Mobile()) ;
+        addTrait(ship2,new Solid(Mesh("razor.mesh"))) ;
+
+        Model::update(Duration::Second(0.1)) ;
+        
+        //the second ship has been detected.
+        CPPUNIT_ASSERT(ship->getTrait<Computer>()->getMemoryModel()->getRoots().size() == 1) ;
+        ship->getTrait<TargetingSystem>()->selectNextTarget() ;
+
+        destroyTrait(ship,ship->getTrait<Detector>()) ;
+        
+        InternalMessage("Model","Model::TestTargetingSystem::destroyDetector leaving") ;
+      }
       
       void TestTargetingSystem::setUp() 
       {
@@ -160,8 +238,6 @@ namespace ProjetUnivers {
       void TestTargetingSystem::tearDown() 
       {
       }
-      
-
     }
   }
 }

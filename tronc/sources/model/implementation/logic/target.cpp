@@ -63,9 +63,23 @@ namespace ProjetUnivers {
           
           distance(position+t*speed) = t*laser_speed
           formal solver gives :
+            
+          delta = 
+              (-position.y^2-position.x^2)*speed.z^2
+              +(2*position.y*position.z*speed.y+2*position.x*position.z*speed.x)*speed.z
+              +(-position.z^2-position.x^2)*speed.y^2
+              +2*position.x*position.y*speed.x*speed.y
+              +(-position.z^2-position.y^2)*speed.x^2
+              +laser_speed^2*position.z^2
+              +laser_speed^2*position.y^2
+              +laser_speed^2*position.x^2
           
-          t = (sqrt((-4*position.y^2-4*position.x^2)*speed.z^2+(8*position.y*position.z*speed.y+8*position.x*position.z*speed.x-4*position.z*laser_speed)*speed.z+(-4*position.z^2-4*position.x^2)*speed.y^2+(8*position.x*position.y*speed.x-4*position.y*laser_speed)*speed.y+(-4*position.z^2-4*position.y^2)*speed.x^2-4*position.x*laser_speed*speed.x+laser_speed^2)-2*position.z*speed.z-2*position.y*speed.y-2*position.x*speed.x+laser_speed)
-              /(2*speed.z^2+2*speed.y^2+2*speed.x^2)
+          if delta > 0
+          t = (sqrt(delta)
+                -position.z*speed.z-position.y*speed.y-position.x*speed.x)
+              /(speed.z^2+speed.y^2+speed.x^2-laser_speed^2)
+          
+          special case for delta=0 when equation becomes linear
         */
         void Target::onUpdate()
         {
@@ -73,50 +87,75 @@ namespace ProjetUnivers {
           Laser* laser = laser_object ? laser_object->getTrait<Laser>():NULL ; 
           float laser_speed = laser? laser->getLaserSpeedMeterPerSecond():0 ;
 
-          if (laser_speed > 0)
+          if (laser_speed < 0)
           {
-            Ogre::Vector3 position = getObject()->getTrait<Positionned>()->getPosition().Meter() ;
-            Ogre::Vector3 speed = getObject()->getTrait<Mobile>()->getSpeed().MeterPerSecond() ;
+            removeIdealTarget() ;
+            return ;
+          }
+          Ogre::Vector3 position = getObject()->getTrait<Positionned>()->getPosition().Meter() ;
+          Ogre::Vector3 speed = getObject()->getTrait<Mobile>()->getSpeed().MeterPerSecond() ;
+          
+          float time ;
+          
+          if (speed.length() != 0)
+          {
             
-            float time ;
+            float delta = 
+                    (-pow(position.y,2)-pow(position.x,2))*pow(speed.z,2)
+                    +(2*position.y*position.z*speed.y+2*position.x*position.z*speed.x)*speed.z
+                    +(-pow(position.z,2)-pow(position.x,2))*pow(speed.y,2)
+                    +2*position.x*position.y*speed.x*speed.y
+                    +(-pow(position.z,2)-pow(position.y,2))*pow(speed.x,2)
+                    +pow(laser_speed,2)*pow(position.z,2)
+                    +pow(laser_speed,2)*pow(position.y,2)
+                    +pow(laser_speed,2)*pow(position.x,2) ;
             
-            if (speed.length() != 0)
+            float divisor = pow(speed.z,2)+pow(speed.y,2)+pow(speed.x,2)-pow(laser_speed,2) ;
+            
+            if (delta > 0 && divisor != 0)
             {
               time 
-              = (sqrt((-4*pow(position.y,2)-4*pow(position.x,2))*pow(speed.z,2)+(8*position.y*position.z*speed.y+8*position.x*position.z*speed.x-4*position.z*laser_speed)*speed.z+(-4*pow(position.z,2)-4*pow(position.x,2))*pow(speed.y,2)+(8*position.x*position.y*speed.x-4*position.y*laser_speed)*speed.y+(-4*pow(position.z,2)-4*pow(position.y,2))*pow(speed.x,2)-4*position.x*laser_speed*speed.x+pow(laser_speed,2))
-                 -2*position.z*speed.z-2*position.y*speed.y-2*position.x*speed.x+laser_speed)
-                 /(2*pow(speed.z,2)+2*pow(speed.y,2)+2*pow(speed.x,2)) ;
+              = (sqrt(delta)
+                  -position.z*speed.z-position.y*speed.y-position.x*speed.x)
+                 /(divisor) ;
             }
             else
             {
-              time = position.length()/laser_speed ;
+              /// no real solution : target is unreachable by laser
+              removeIdealTarget() ;
+              return ;
             }
-            
-            Ogre::Vector3 touch = position + speed*time ; 
-            Position touch_position(Position::Meter(touch.x,touch.y,touch.z)) ;
-            
-            // if no ideal target create
-            if (! m_ideal_target)
-            {
-              Kernel::Model* model = getObject()->getModel() ;
-              m_ideal_target = model->createObject(getObject()) ;
-              model->addTrait(m_ideal_target,new Positionned()) ;
-              model->addTrait(m_ideal_target,new IdealTarget()) ;
-            }
-            
-            // update ideal target
-            Positionned* positionned = m_ideal_target->getTrait<Positionned>() ;
-            positionned->setPosition(touch_position) ;
           }
           else
           {
-            // remove the helper object
-            if (m_ideal_target)
-            {
-              getObject()->getModel()->destroyObject(m_ideal_target) ;
-            }
+            time = position.length()/laser_speed ;
+          }
+          
+          Ogre::Vector3 touch = position + speed*fabs(time) ; 
+          Position touch_position(Position::Meter(touch.x,touch.y,touch.z)) ;
+          
+          // if no ideal target create
+          if (! m_ideal_target)
+          {
+            Kernel::Model* model = getObject()->getModel() ;
+            m_ideal_target = model->createObject(getObject()) ;
+            model->addTrait(m_ideal_target,new Positionned()) ;
+            model->addTrait(m_ideal_target,new IdealTarget()) ;
+          }
+          // update ideal target
+          Positionned* positionned = m_ideal_target->getTrait<Positionned>() ;
+          positionned->setPosition(touch_position) ;
+        }
+        
+        void Target::removeIdealTarget()
+        {
+          // remove the helper object
+          if (m_ideal_target)
+          {
+            getObject()->getModel()->destroyObject(m_ideal_target) ;
           }
         }
+        
       }
     }
   }
