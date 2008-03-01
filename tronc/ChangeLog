@@ -440,37 +440,68 @@
   * Display :
     - Target displaying : added arrow placement when target is out of screen and 
     	rotate arrow to point to target
-    
-todos :
 
-  * targets :
+2008-03-01 rogma
+
+	* Physic : 
+		- ShootingHelper system : added a test where we shoot at direction idicated 
+		  by the system and check that we hit the targeted target
+    
+  * Display :
+    - Target displaying : added tests for arrow rotation calculus and corrected 
+      some bugs
+    - ShootingHelper system : display a circle where to shoot at 
+    
+@todo :
+  
+  * Model : 
+
+    - ShootingHelper may connect several lasers (calculus is made on 
+      average speed) and can harmonize lasers (re-orient them to touche a position 
+      in the ship axe and at target distance)
+
+    - Laser whould not be able to be too much synchronized (max angle)
+
+    - Lasers on a ship should all point to the same direction, which is the 
+      direction of the ship ... coherence test
+    
+    - Lasers whould have a shooting cadence (add timers)
+
+    - Detector : handle of additional data (hit points, ...)
       They can both be obtained by the detector. Maybe we should use traits 
       instead of class attributes for increasing extendability (by adding speed 
       ...). Detectors could then be caractrized by their detection abilities :
       SpeedDetector&MassDetector... but it is not clear now
-  
-  * model :
+
     - be able to get bouding box (?) and perform ray 
       casting inside Model. Code could rely on Ogre but we would be an 
       encapsulation.
-    - ShootingHelper : how can it work with several Laser ?
-
-  * display :
-    - ShootingHelper display
-    - TargetSelector : must display also targets out of screen by an arrow
     
-  * physic : 
+    - add IFF to distinguish friend from foes, IFF trait that contains a 
+      reference to an object representing a party  
+    
+    - add Objectives, applyable to any system (player or IA)
+
+  * IA : 
+    - Basic IA 
+    
+	* physic : 
+
     - try to keep all units in an acceptable "range", it means that we whould 
       be able to convert model units in an arbitrary "ranging system".
+
     - migrate Model::PhysicalObject and Model::PhysicalWorld to Physic (for 
       better separation of concerns) --> not so sure ?
+
     - separate simulations : maybe objects can be simulated one by one in its 
       own world !! should not have any complication for movement except for 
       collision response. This could facilitate unit range to keep around one. 
 
   * sound : 
     - reconsider the implementation with the limitation 
+
     - perform platform dependent compilation for special sound effects
+
     - move deduced trait to sound::implementation level (i.e. one up) ??
 
   * all :

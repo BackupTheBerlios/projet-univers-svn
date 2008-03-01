@@ -43,6 +43,9 @@ namespace ProjetUnivers {
       Laser(const Position& i_out_position,
             const Orientation& i_out_orientation) ;
 
+      /// Change laser orientation.
+      void setOrientation(const Orientation&) ;
+      
       /// Read a Laser trait.
       /*!
         stored as 
@@ -60,6 +63,9 @@ namespace ProjetUnivers {
     
       /// Gives the speed of the laser "bullet".
       float getLaserSpeedMeterPerSecond() const ;
+      
+      /// Access to the out position of the laser.
+      const Position& getOutPosition() const ;
       
     private:
       

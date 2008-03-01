@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007 Mathieu ROGER                                      *
+ *   Copyright (C) 2008 Mathieu ROGER                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,68 +18,22 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_DISPLAY_TEST_TARGET_H_
-#define PU_DISPLAY_TEST_TARGET_H_
+#ifndef PU_DISPLAY_IMPLEMENTATION_IDEAL_TARGET_H_
+#define PU_DISPLAY_IMPLEMENTATION_IDEAL_TARGET_H_
 
-#include <cppunit/extensions/HelperMacros.h>
+#include <kernel/deduced_trait.h>
 
 namespace ProjetUnivers {
   namespace Display {
-    namespace Test {
-            
-      /// Test of Detector.
-      class TestTarget : public CppUnit::TestFixture {
-      protected:
-      
-        
-      // ****************************
-      /// @name Tests 
-      // ****************************
-      // @{
-        
-        /// Basic test.
-        void testConstruct() ;
-
-        /// test for HUD::Target::calculateRotation.
-        void testCalculateRotation() ;
-        
-      // @}
-      // *******************************
-      /// @name Test registration
-      // *******************************
-      // @{      
-    
-        CPPUNIT_TEST_SUITE(TestTarget) ;
-      
-        CPPUNIT_TEST(testConstruct) ;
-        CPPUNIT_TEST(testCalculateRotation) ;
-      
-        CPPUNIT_TEST_SUITE_END() ;
-
-      public:
-  
-      // @}
-      // *******************************
-      /// @name Mandatory methods
-      // *******************************
-      // @{
-
-      
-        /// Initialisation du test
-        void setUp() ;
-      
-        /// Desinitialisation du test
-        void tearDown() ;
-      
-      // @}      
-                
-       
-      
-      };
-
+    namespace Implementation {
+          
+      /// Where we should fire at
+      /*!
+        IdealTarget <=> Model::IdealTarget & Model::Positionned
+      */ 
+      class IdealTarget : public Kernel::DeducedTrait
+      {};
     }
   }
 }
-
-
-#endif
+#endif /*PU_DISPLAY_IMPLEMENTATION_IDEAL_TARGET_H_*/

@@ -28,6 +28,7 @@ test_physic_SOURCES = \
 ../test/test_demonstration.cpp \
 ../test/test_dragger.cpp \
 ../test/test_collision.cpp \
+../test/test_shooting_helper.cpp \
 ../test/test_ode.cpp 
 
 

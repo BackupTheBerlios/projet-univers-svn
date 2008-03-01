@@ -56,6 +56,7 @@
 #include <model/detector.h>
 #include <model/targeting_system.h>
 #include <model/target_displayer.h>
+#include <model/shooting_helper.h>
 #include <model/implementation/logic/logic.h>
 
 #include <model/model.h>
@@ -323,6 +324,14 @@ namespace ProjetUnivers {
           model->addTrait(target_display,new TargetDisplayer()) ;
           TargetDisplayer::connect(target_display,target_selector) ;
 
+          Kernel::Object* laser_observer = model->createObject(observer) ;
+          model->addTrait(laser_observer,new Laser(Position(),Orientation())) ;
+          
+          Kernel::Object* shooting_helper = model->createObject("shooting_helper",observer) ;
+          model->addTrait(shooting_helper,new ShootingHelper()) ;
+          ShootingHelper::connect(shooting_helper,computer,laser_observer) ;
+          
+          
           model->addTrait(observer,new Oriented()) ;
           /// Il a la faculté d'observer
           model->addTrait(observer,new Observer()) ;

@@ -72,9 +72,16 @@ namespace ProjetUnivers {
 
         Model::update(Duration::Second(0.1)) ;
         
-        //the second chip has been detected.
+        // The second ship has been detected.
         CPPUNIT_ASSERT(ship->getTrait<Computer>()->getMemoryModel()->getRoots().size() == 1) ;
-
+        std::set<Kernel::Object*>::const_iterator data_pointer 
+          = ship->getTrait<Computer>()->getMemoryModel()->getRoots().begin() ; 
+        
+        CPPUNIT_ASSERT((*data_pointer)->getTrait<Positionned>()) ;
+        Position position = (*data_pointer)->getTrait<Positionned>()->getPosition() ;
+        float distance = position.Meter().length() ;
+        CPPUNIT_ASSERT(distance != 0) ;
+        
         InternalMessage("Model","Model::TestDetector::detectOneObject leaving") ;
       }
 

@@ -3972,6 +3972,8 @@ namespace ProjetUnivers {
         TriMesh = dCreateTriMesh(space,Data,0,0,0) ;
         dGeomSetData(TriMesh, Data) ;
 
+        dGeomSetPosition(TriMesh,0,0,0) ;
+        
         dReal* aabb = new dReal[6] ;
         dGeomGetAABB(TriMesh,aabb) ;
         

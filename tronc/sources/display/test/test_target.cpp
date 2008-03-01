@@ -18,6 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <iostream>
 #include <kernel/model.h>
 #include <kernel/object.h>
 
@@ -28,6 +29,7 @@
 #include <model/solid.h>
 #include <model/selected.h>
 #include <display/implementation/target.h>
+#include <display/implementation/ogre/head_up_display/target.h>
 #include <display/test/test_target.h>
 
 
@@ -40,6 +42,18 @@ namespace ProjetUnivers {
   namespace Display {
     namespace Test {
 
+      namespace
+      {
+        /// Acceptable variable for comparison 
+        const float delta = 1e-4 ;
+
+        bool equal(float i1,float i2)
+        {
+          return (fabs(i1 - i2) <= delta) ;
+        }
+        
+      }
+      
       void TestTarget::testConstruct()
       {
         InternalMessage("Display","Display::TestTarget::testConstruct entering") ;
@@ -64,6 +78,22 @@ namespace ProjetUnivers {
         InternalMessage("Display","Display::TestTarget::testConstruct leaving") ;
       }
 
+      void TestTarget::testCalculateRotation()
+      {
+        using namespace Implementation::Ogre::HeadUpDisplay ;
+
+        CPPUNIT_ASSERT(equal(Target::calculateRotation(0,1).valueDegrees(),0)) ;
+        CPPUNIT_ASSERT(equal(Target::calculateRotation(1,1).valueDegrees(),45)) ;
+        CPPUNIT_ASSERT(equal(Target::calculateRotation(1,0).valueDegrees(),90)) ;
+        CPPUNIT_ASSERT(equal(Target::calculateRotation(1,-1).valueDegrees(),135)) ;
+        CPPUNIT_ASSERT(equal(Target::calculateRotation(0,-1).valueDegrees(),180)) ;
+        CPPUNIT_ASSERT(equal(Target::calculateRotation(-1,-1).valueDegrees(),225)) ;
+        CPPUNIT_ASSERT(equal(Target::calculateRotation(-1,0).valueDegrees(),270)) ;
+        CPPUNIT_ASSERT(equal(Target::calculateRotation(-1,1).valueDegrees(),315) ||
+                       equal(Target::calculateRotation(-1,1).valueDegrees(),-45)) ;
+
+      }
+      
       void TestTarget::setUp() 
       {
       }

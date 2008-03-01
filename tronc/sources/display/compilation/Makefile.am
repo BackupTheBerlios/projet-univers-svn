@@ -11,8 +11,9 @@ INCLUDES = -I$(SOURCES)
 AM_CXXFLAGS=$(PU_CXXFLAGS)
 
 libdisplay_la_SOURCES = \
-$(SOURCES)/display/implementation/display.cpp \ 
-$(SOURCES)/display/implementation/target.cpp 
+$(SOURCES)/display/implementation/display.cpp \
+$(SOURCES)/display/implementation/target.cpp \
+$(SOURCES)/display/implementation/ideal_target.cpp 
 
 
 libdisplay_la_LDFLAGS = -no-undefined

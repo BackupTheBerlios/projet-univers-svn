@@ -18,9 +18,8 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_PHYSIC_TEST_ODE_H_
-#define PU_PHYSIC_TEST_ODE_H_
-
+#ifndef PU_PHYSIC_TEST_SHOOTING_HELPER_H_
+#define PU_PHYSIC_TEST_SHOOTING_HELPER_H_
 
 #include <cppunit/extensions/HelperMacros.h>
 
@@ -31,11 +30,8 @@ namespace ProjetUnivers {
 
 
             
-      /// Direct tests on ODE.
-      /*!
-        To check properties of ODE.
-      */
-      class TestODE : public CppUnit::TestFixture {
+      /// Physic tests on a Model::ShootingHelper.
+      class TestShootingHelper : public CppUnit::TestFixture {
       protected:
       
         
@@ -43,29 +39,10 @@ namespace ProjetUnivers {
         @name Test methods
       */
       // @{
-        
-        /// Test a simulation of two worlds.
-        void testTwoWorlds() ;
-        
-        /// Test trimesh collision.
-        void testTrimesh() ;
 
-        /// Test trimesh inertia calculus.
-        void testTrimeshInertia() ;
+        /// A moving target : we shoot at the IdealTarget and hit it.        
+        void basicTest() ;
 
-        /// Test cube/cube collision.
-        void testCubeCubeCollision() ;
-
-        /// Test trimesh collision against a cube.
-        /*!
-          ODE's bug submitted as : 
-          http://sourceforge.net/tracker/index.php?func=detail&aid=1905353&group_id=24884&atid=382799
-          Marked as CPPUNIT_TEST_FAIL to get a clear result but test is KO. 
-        */
-        void testTrimeshCubeCollision() ;
-
-        /// Test trimesh collision against a cube.
-        void testTrimeshCubeCollisionBasic() ;
 
       // @}
       /*!
@@ -73,15 +50,10 @@ namespace ProjetUnivers {
       */
       // @{      
     
-        CPPUNIT_TEST_SUITE(TestODE) ;
+        CPPUNIT_TEST_SUITE(TestShootingHelper) ;
       
-        CPPUNIT_TEST(testTwoWorlds) ;
-        CPPUNIT_TEST(testTrimesh) ;
-        CPPUNIT_TEST(testTrimeshInertia) ;
-        CPPUNIT_TEST(testCubeCubeCollision) ;
-        CPPUNIT_TEST_FAIL(testTrimeshCubeCollision) ;
-        CPPUNIT_TEST(testTrimeshCubeCollisionBasic) ;
-      
+        CPPUNIT_TEST(basicTest) ;
+     
         CPPUNIT_TEST_SUITE_END() ;
 
       public:

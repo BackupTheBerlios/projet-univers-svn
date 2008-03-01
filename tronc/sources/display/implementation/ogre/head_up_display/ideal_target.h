@@ -18,22 +18,13 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_DISPLAY_IMPLEMENTATION_OGRE_HUD_TARGET_VIEW_H_
-#define PU_DISPLAY_IMPLEMENTATION_OGRE_HUD_TARGET_VIEW_H_
+#ifndef PU_DISPLAY_IMPLEMENTATION_OGRE_HUD_IDEAL_TARGET_H_
+#define PU_DISPLAY_IMPLEMENTATION_OGRE_HUD_IDEAL_TARGET_H_
 
 #include <Ogre.h>
 #include <kernel/trait_view.h>
-#include <display/implementation/target.h>
+#include <display/implementation/ideal_target.h>
 #include <display/implementation/ogre/head_up_display/target_displayer_viewpoint.h>
-
-namespace ProjetUnivers {
-  namespace Display {
-    namespace Test
-    {
-      class TestTarget ;
-    }
-  }
-}
 
 namespace ProjetUnivers {
   namespace Display {
@@ -41,8 +32,8 @@ namespace ProjetUnivers {
       namespace Ogre {
         namespace HeadUpDisplay {
 
-          class Target : public Kernel::TraitView<Implementation::Target,
-                                                  TargetDisplayerViewPoint>
+          class IdealTarget : public Kernel::TraitView<Implementation::IdealTarget,
+                                                       TargetDisplayerViewPoint>
           {
           public:
           
@@ -52,8 +43,8 @@ namespace ProjetUnivers {
           // @{
   
             /// Constructor.
-            Target(Implementation::Target*  object,
-                   TargetDisplayerViewPoint* viewpoint) ;
+            IdealTarget(Implementation::IdealTarget*  object,
+                        TargetDisplayerViewPoint* viewpoint) ;
           // @}
         protected:
           /*!
@@ -72,29 +63,14 @@ namespace ProjetUnivers {
   
           // @}
           private:
-            
-            /// Calculate the clockwize angle to up from @c (x,y) coordinates.  
-            static ::Ogre::Degree calculateRotation(float x,float y) ;
-            
-            /// True iff the target is selected            
-            bool isSelected() const ;
 
             /// 3D ogre element.
             ::Ogre::OverlayContainer* m_reticule_container ;
             ::Ogre::OverlayElement*   m_reticule ;
-
-            ::Ogre::OverlayContainer* m_arrow_container ;
-            ::Ogre::OverlayElement*   m_arrow ;
             
             /// true iff reticule is shown
             bool m_reticule_is_shown ;
 
-            /// true iff arrow is shown
-            bool m_arrow_is_shown ;
-            
-            /// for tests
-            friend class ProjetUnivers::Display::Test::TestTarget ;
-            
           };
         }
       }
@@ -102,4 +78,4 @@ namespace ProjetUnivers {
   }
 }
 
-#endif /*PU_DISPLAY_IMPLEMENTATION_OGRE_HUD_TARGET_VIEW_H_*/
+#endif /*PU_DISPLAY_IMPLEMENTATION_OGRE_HUD_IDEAL_TARGET_H_*/

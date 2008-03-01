@@ -27,6 +27,7 @@ namespace ProjetUnivers {
     namespace Implementation {
       namespace Logic {
           
+        //// @ todo configurate
         const float laser_duration = 2 ;
           
         RegisterControler(LaserBeam, 

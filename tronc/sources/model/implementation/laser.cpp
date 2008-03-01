@@ -46,6 +46,12 @@ namespace ProjetUnivers {
       m_out_orientation(i_out_orientation)
     {}
 
+    void Laser::setOrientation(const Orientation& orientation)
+    {
+      m_out_orientation = orientation ;
+      notify() ;
+    }
+    
     Kernel::Trait* Laser::read(Kernel::Reader* reader)
     {
       Laser* result = new Laser(Position(),Orientation()) ;
@@ -125,6 +131,11 @@ namespace ProjetUnivers {
     float Laser::getLaserSpeedMeterPerSecond() const
     {
       return Kernel::Parameters::getValue<float>("Model","LaserBeamSpeed") ;
+    }
+
+    const Position& Laser::getOutPosition() const
+    {
+      return m_out_position ;
     }
   }
 }

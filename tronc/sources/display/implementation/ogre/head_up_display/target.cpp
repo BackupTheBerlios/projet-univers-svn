@@ -282,8 +282,9 @@ namespace ProjetUnivers {
               {
                 /* 
                   screen_position is in [-1,1]
-                  but actual screen values are between [-0.5,0.5]
-                  do not know why we need to invert y
+                  but actual screen values are between [-0.5,0.5] with 0 at center
+                  we need to invert y because y is down oriented on the screen 
+                  instead of up oriented in the 3d 
                 */
                 m_reticule_container->setPosition(screen_position.x/2,-screen_position.y/2) ;
                 
@@ -306,15 +307,7 @@ namespace ProjetUnivers {
               else
               {
                 
-                ::Ogre::Degree angle ;
-                if (screen_position.y != 0)
-                {
-                  angle = ::Ogre::Math::ATan(screen_position.x/screen_position.y) ;
-                }
-                else
-                {
-                  angle = screen_position.x>0?90:180 ;
-                }
+                ::Ogre::Degree angle = calculateRotation(screen_position.x,screen_position.y) ;
 
                 InternalMessage(
                   "Display","TargetView::updateHUD setting angle is "
@@ -355,8 +348,8 @@ namespace ProjetUnivers {
                 ::Ogre::Technique* technique = material->getTechnique(0);
                 ::Ogre::Pass* pass = technique->getPass(0);
                 ::Ogre::TextureUnitState *texture = pass->getTextureUnitState(0);
-//                // to rotate it
                 
+                // invert rotation because setTextureRotate is anti clockwize
                 texture->setTextureRotate(-angle);                 
 
                 if (m_reticule_is_shown)
@@ -394,6 +387,23 @@ namespace ProjetUnivers {
                               ->isSelected(getViewPoint()->getTargetingSystem()) ;
           }          
 
+          ::Ogre::Degree Target::calculateRotation(float x,float y)
+          {
+            ::Ogre::Degree result ;
+            if (y != 0)
+            {
+              result = ::Ogre::Math::ATan(x/y) ;
+              if (y <0)
+              {
+                result = ::Ogre::Degree(180) + result ;
+              }
+            }
+            else
+            {
+              result = x>0?90:270 ;
+            }
+            return result ;
+          }
         }
       }
     }
