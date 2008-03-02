@@ -462,6 +462,10 @@
   * Physic : corrected bug (?) in TestShootingHelper, removed the solid part 
     of shooting ship to avoid inpredictable collsions between firing ship and 
     laser beam
+
+2008-03-02 rogma
+  
+  * Tools : suppressed compiler (unused)
   
 @todo :
   
