@@ -48,11 +48,13 @@ namespace ProjetUnivers {
     #define DeclareDeducedTrait(trait,formula)  \
       namespace PU_MAKE_UNIQUE_NAME(local)      \
       {                                         \
+        static                                  \
         Kernel::DeducedTrait* builder()         \
         {                                       \
           return new trait() ;                  \
         }                                       \
                                                 \
+        static                                  \
         Kernel::DeducedTraitDeclaration temp(   \
           formula::build(),                     \
           &builder,                             \

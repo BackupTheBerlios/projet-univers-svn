@@ -1,7 +1,6 @@
 /***************************************************************************
- *   This file is part of ProjetUnivers                                    *
- *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007 Mathieu ROGER                                      *
+ *   Copyright (C) 2004 by Equipe Projet Univers                           *
+ *   rogma.boami@free.fr                                                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,38 +17,45 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_DISPLAY_IMPLEMENTATION_OGRE_OGRE_UTILS_H_
-#define PU_DISPLAY_IMPLEMENTATION_OGRE_OGRE_UTILS_H_
+#include <rlog/rlog.h>
 
-#include <Ogre.h>
-#include <model/position.h>
+#include <opencxx/TypeInfo.h>
 
-namespace ProjetUnivers {
-  namespace Display {
-    namespace Implementation {
-      namespace Ogre {  
-        
-        /// Utility functions for Ogre
-        /*!
-        */
-        namespace Utility
-        {
-          
-          /// Create a unique Ogre name.
-          std::string getUniqueName() ;
-          
-          /// create a 3D line.
-          ::Ogre::MovableObject* createLine(
-              const ::Ogre::Vector3& i_end_point,
-              ::Ogre::SceneManager*  i_scene_manager) ;
-          
-          /// Set the color of an overlay element
-          void setColour(::Ogre::OverlayElement* element,
-                         const ::Ogre::ColourValue& colour) ;
-        }
-      }
-    }
-  }
+#include <tools/compilateur/test_meta_class.h>
+#include <tools/compilateur/traceur.h>
+#include <tools/compilateur/utilitaires_opencxx.h>
+
+using namespace std;
+using namespace Opencxx ;
+using namespace ProjetUnivers::Tools::Compiler ;
+
+MetaClasse::MetaClasse()
+{}
+
+bool MetaClasse::Initialize() 
+{
+  OuvrirTraceur() ;
+  Class::ChangeDefaultMetaclass("MetaClasse") ;
+  return true ;
+  
 }
 
-#endif /*PU_DISPLAY_IMPLEMENTATION_OGRE_OGRE_UTILS_H_*/
+void MetaClasse::TranslateClass(Environment* env)
+{
+  
+  rDebug("MetaClasse::TranslateClass") ;
+  
+  rDebug("fin MetaClasse::TranslateClass") ;
+}
+
+Ptree* MetaClasse::FinalizeClass()
+{
+  // ici on fait ce qu'on veut :
+  FermerTraceur() ;
+
+  return 0 ;
+  
+}
+
+
+

@@ -84,17 +84,10 @@ namespace ProjetUnivers {
         addTrait(ship2,new Mobile()) ;
         addTrait(ship2,new Solid(Mesh("razor.mesh"))) ;
         
-        Kernel::Object* ship3 = createObject(system) ;
-        addTrait(ship3,new Positionned(Position::Meter(0,500,0))) ;
-        addTrait(ship3,new Massive(Mass::Kilogram(1000))) ;
-        addTrait(ship3,new Oriented()) ;
-        addTrait(ship3,new Mobile()) ;
-        addTrait(ship3,new Solid(Mesh("razor.mesh"))) ;
-        
         Model::update(Duration::Second(0.1)) ;
         
-        // the ships have been detected.
-        CPPUNIT_ASSERT(ship->getTrait<Computer>()->getMemoryModel()->getRoots().size() == 2) ;
+        // the ship has been detected.
+        CPPUNIT_ASSERT(ship->getTrait<Computer>()->getMemoryModel()->getRoots().size() == 1) ;
         
         std::set<Kernel::Object*>::const_iterator data_pointer 
           = ship->getTrait<Computer>()->getMemoryModel()->getRoots().begin() ; 

@@ -18,38 +18,33 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_DISPLAY_IMPLEMENTATION_OGRE_OGRE_UTILS_H_
-#define PU_DISPLAY_IMPLEMENTATION_OGRE_OGRE_UTILS_H_
+#ifndef PU_TOOLS_COMPILER_TEST_TEST_TRAIT_H_
+#define PU_TOOLS_COMPILER_TEST_TEST_TRAIT_H_
 
-#include <Ogre.h>
-#include <model/position.h>
+#include <kernel/trait.h>
 
 namespace ProjetUnivers {
-  namespace Display {
-    namespace Implementation {
-      namespace Ogre {  
-        
-        /// Utility functions for Ogre
-        /*!
-        */
-        namespace Utility
+  namespace Tools {
+    namespace Compiler {
+      namespace Test {
+      
+        /// Test trait.
+        class TestTrait : public Kernel::Trait
         {
+        public:
+    
+          /// Constructor.
+          TestTrait(const int& value) ;
           
-          /// Create a unique Ogre name.
-          std::string getUniqueName() ;
+        private:
+    
+          int m_value ;
           
-          /// create a 3D line.
-          ::Ogre::MovableObject* createLine(
-              const ::Ogre::Vector3& i_end_point,
-              ::Ogre::SceneManager*  i_scene_manager) ;
           
-          /// Set the color of an overlay element
-          void setColour(::Ogre::OverlayElement* element,
-                         const ::Ogre::ColourValue& colour) ;
-        }
-      }
+        };
+      }    
     }
   }
 }
 
-#endif /*PU_DISPLAY_IMPLEMENTATION_OGRE_OGRE_UTILS_H_*/
+#endif /*PU_TOOLS_COMPILER_TEST_TEST_TRAIT_H_*/

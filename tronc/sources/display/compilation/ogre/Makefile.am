@@ -19,6 +19,7 @@ $(SOURCES)/display/implementation/ogre/menu.cpp \
 $(SOURCES)/display/implementation/ogre/target_displayer.cpp \
 $(SOURCES)/display/implementation/ogre/head_up_display/target.cpp \
 $(SOURCES)/display/implementation/ogre/head_up_display/ideal_target.cpp \
+$(SOURCES)/display/implementation/ogre/head_up_display/identified_target.cpp \
 $(SOURCES)/display/implementation/ogre/head_up_display/target_displayer_viewpoint.cpp
 
 libdisplayogre_la_LDFLAGS = -no-undefined

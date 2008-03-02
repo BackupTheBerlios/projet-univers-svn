@@ -83,6 +83,10 @@ namespace ProjetUnivers {
             return target_material ;
           }
 
+          void IdealTarget::setColour(const ::Ogre::ColourValue& colour)
+          {
+            Utility::setColour(m_reticule,colour) ;
+          }
           
           void IdealTarget::onInit()
           {
@@ -101,7 +105,12 @@ namespace ProjetUnivers {
             m_reticule = 
               ::Ogre::OverlayManager::getSingleton().createOverlayElement(
                     "Panel", Utility::getUniqueName()) ;
-            m_reticule->setMaterialName(getTargetMaterial()) ;
+
+            // clone material because we will modify it 
+            ::Ogre::MaterialPtr material = ::Ogre::MaterialManager::getSingleton().getByName(getTargetMaterial()); 
+            material = material->clone(Utility::getUniqueName()) ;
+            m_reticule->setMaterialName(material->getName()) ; 
+
             m_reticule->setHorizontalAlignment(::Ogre::GHA_CENTER) ;
             m_reticule->setVerticalAlignment(::Ogre::GVA_CENTER) ;
             

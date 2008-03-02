@@ -45,6 +45,9 @@ namespace ProjetUnivers {
             /// Constructor.
             IdealTarget(Implementation::IdealTarget*  object,
                         TargetDisplayerViewPoint* viewpoint) ;
+
+            /// Set the target colour.
+            void setColour(const ::Ogre::ColourValue&) ;
           // @}
         protected:
           /*!

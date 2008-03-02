@@ -451,7 +451,18 @@
     - Target displaying : added tests for arrow rotation calculus and corrected 
       some bugs
     - ShootingHelper system : display a circle where to shoot at 
-    
+
+2008-03-02 rogma
+
+	* Kernel : 
+      - small correction on DeclareDeducedTrait : making temporary variable and 
+        function static to avoid compile errors.
+  * Model : added IFF basic system (Transponder class)
+  * Display : added target colour change accoarding to IFF
+  * Physic : corrected bug (?) in TestShootingHelper, removed the solid part 
+    of shooting ship to avoid inpredictable collsions between firing ship and 
+    laser beam
+  
 @todo :
   
   * Model : 
@@ -477,13 +488,28 @@
       casting inside Model. Code could rely on Ogre but we would be an 
       encapsulation.
     
-    - add IFF to distinguish friend from foes, IFF trait that contains a 
-      reference to an object representing a party  
-    
     - add Objectives, applyable to any system (player or IA)
+    
+    - add configurable laser colour (depending of laser beam type)
+    
+    - TargetSelector : select closest enemy
+    
+    - a Player trait ?
+    
+    - Menu handling
 
   * IA : 
-    - Basic IA 
+    - Basic IA, need preliminary architecture design
+    
+  * Input :
+    
+    - do not crash whithout keyboard/joystick/mouse
+    - be able to map any axis on any thing
+    - be able to map keys to actions 
+  
+  * Action :
+    - get rid of it ?? the only applied action for now is "quit", it could be 
+      transfered elsewhere maybe ...
     
 	* physic : 
 
@@ -497,21 +523,21 @@
       own world !! should not have any complication for movement except for 
       collision response. This could facilitate unit range to keep around one. 
 
-  * sound : 
+  * Sound : 
     - reconsider the implementation with the limitation 
 
     - perform platform dependent compilation for special sound effects
 
     - move deduced trait to sound::implementation level (i.e. one up) ??
 
-  * all :
-    - make use of Quantities library, @see http://sourceforge.net/projects/quantity ??
-
-  * kernel : (obsolete kept for documentation purpose)
+  * Kernel : (obsolete kept for documentation purpose)
     - add an onDeduced event on deduced traits : it would allow one to perform 
       custom code, for example to calculate deduced attribute in those traits. 
       e.g., Solid <=> Sized, and Sized.size = Solid.Mesh.radius
       Not mandatory because it can be calculate "on demand" in a getSize method 
       in the deduced trait with a mutable attribute. 
   
+  * all :
+    - make use of Quantities library, @see http://sourceforge.net/projects/quantity ??
+
   

@@ -89,7 +89,6 @@ namespace ProjetUnivers {
         Model::addTrait(ship,new Model::Oriented()) ;
         Model::addTrait(ship,new Model::Massive(Model::Mass::Kilogram(1000))) ;
         Model::addTrait(ship,new Model::Mobile()) ;
-        Model::addTrait(ship,new Model::Solid(Model::Mesh("razor.mesh"))) ;
         Model::addTrait(ship,new Model::Computer()) ;
         Model::addTrait(ship,new Model::Laser(Model::Position::Meter(19.2,0,35),Model::Orientation())) ;
         Model::addTrait(ship,new Model::Detector(ship)) ;

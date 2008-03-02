@@ -26,6 +26,7 @@
 #include <model/mobile.h>
 #include <model/computer_data.h>
 #include <model/detection_data.h>
+#include <model/transponder.h>
 #include <model/implementation/detector_object_view.h>
 
 namespace ProjetUnivers {
@@ -87,9 +88,6 @@ namespace ProjetUnivers {
                                                  new ComputerData()) ;
               
           }
-          Mobile* mobileTrait = getObject()->getTrait<Mobile>() ;
-          
-          
           // update object position
           Position position = getRelativePosition(getObject(),
                                                   detector->getObject()) ;
@@ -97,6 +95,8 @@ namespace ProjetUnivers {
           m_detection_information->getTrait<Positionned>()->setPosition(position) ;
           
           // update speed if exists
+          Mobile* mobileTrait = getObject()->getTrait<Mobile>() ;
+          
           if (mobileTrait)
           {
             Mobile* data = m_detection_information->getTrait<Mobile>() ;
@@ -108,6 +108,33 @@ namespace ProjetUnivers {
             }
             data->setSpeed(mobileTrait->getSpeed()) ;
             data->setAngularSpeed(mobileTrait->getAngularSpeed()) ;
+          }
+
+          // update identification
+          Transponder* identified = 
+              getObject()->getTrait<Transponder>() ; 
+          
+          Transponder* identifedData = 
+              m_detection_information->getTrait<Transponder>() ; 
+          
+          if (identified)
+          {
+            if (! identifedData)
+            {
+              // gained identification
+              addTrait(m_detection_information,
+                       new Transponder(identified->getCode())) ;
+            }
+            else if (identifedData->getCode() != identified->getCode())
+            {
+              // changed identification
+              identifedData->setCode(identified->getCode()) ;
+            }
+          }
+          else if (identifedData)
+          {
+            // lost identification
+            destroyTrait(m_detection_information,identifedData) ;
           }
 
         }

@@ -11,6 +11,8 @@ material PU/material/reticule
       texture_unit
       {
         texture mire.png
+        // merge the texture with red : kept for documentation
+//        colour_op_ex modulate src_current src_manual 1 0 0
       }
     }
   }

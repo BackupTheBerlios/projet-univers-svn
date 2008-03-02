@@ -121,7 +121,15 @@ namespace ProjetUnivers {
             m_reticule = 
               ::Ogre::OverlayManager::getSingleton().createOverlayElement(
                     "Panel", Utility::getUniqueName()) ;
-            m_reticule->setMaterialName(getReticuleMaterial()) ;
+
+            // clone material because we will modify it 
+            /*!
+              @todo maybe we can share materials for targets (friend, neutral, foe) 
+            */
+            ::Ogre::MaterialPtr material = ::Ogre::MaterialManager::getSingleton().getByName(getReticuleMaterial()); 
+            material = material->clone(Utility::getUniqueName()) ;
+            m_reticule->setMaterialName(material->getName()) ; 
+            
             m_reticule->setHorizontalAlignment(::Ogre::GHA_CENTER) ;
             m_reticule->setVerticalAlignment(::Ogre::GVA_CENTER) ;
             m_reticule_container->_addChild(m_reticule) ;
@@ -139,7 +147,8 @@ namespace ProjetUnivers {
               ::Ogre::OverlayManager::getSingleton().createOverlayElement(
                     "Panel", Utility::getUniqueName()) ;
 
-            ::Ogre::MaterialPtr material = ::Ogre::MaterialManager::getSingleton().getByName(getArrowMaterial()); 
+            // clone material because we will modify it only for that object
+            material = ::Ogre::MaterialManager::getSingleton().getByName(getArrowMaterial()); 
             material = material->clone(Utility::getUniqueName()) ;
             m_arrow->setMaterialName(material->getName()) ; 
             
@@ -171,12 +180,16 @@ namespace ProjetUnivers {
               getOverlay()->remove2D(m_reticule_container) ;
               ::Ogre::OverlayManager::getSingleton().destroyOverlayElement(m_reticule) ;
               ::Ogre::OverlayManager::getSingleton().destroyOverlayElement(m_reticule_container) ;
+              m_reticule_container = NULL ;
+              m_reticule = NULL ;
             }
             if (m_arrow_container)
             {
               getOverlay()->remove2D(m_arrow_container) ;
               ::Ogre::OverlayManager::getSingleton().destroyOverlayElement(m_arrow) ;
               ::Ogre::OverlayManager::getSingleton().destroyOverlayElement(m_arrow_container) ;
+              m_arrow_container = NULL ;
+              m_arrow = NULL ;
             }
           }
           
@@ -347,7 +360,7 @@ namespace ProjetUnivers {
                 ::Ogre::MaterialPtr material = m_arrow->getMaterial();
                 ::Ogre::Technique* technique = material->getTechnique(0);
                 ::Ogre::Pass* pass = technique->getPass(0);
-                ::Ogre::TextureUnitState *texture = pass->getTextureUnitState(0);
+                ::Ogre::TextureUnitState* texture = pass->getTextureUnitState(0);
                 
                 // invert rotation because setTextureRotate is anti clockwize
                 texture->setTextureRotate(-angle);                 
@@ -379,6 +392,12 @@ namespace ProjetUnivers {
                 m_arrow_is_shown = false ;
               }
             }
+          }
+          
+          void Target::setTargetColour(const ::Ogre::ColourValue& colour)
+          {
+            Utility::setColour(m_arrow,colour) ;
+            Utility::setColour(m_reticule,colour) ;
           }
           
           bool Target::isSelected() const

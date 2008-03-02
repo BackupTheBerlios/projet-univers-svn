@@ -64,6 +64,7 @@ libmodel_la_SOURCES = \
 ../implementation/target_displayer.cpp \
 ../implementation/detection_data.cpp \
 ../implementation/ideal_target.cpp \
+../implementation/transponder.cpp \
 ../implementation/target.cpp \
 ../implementation/logic/logic.cpp \
 ../implementation/logic/laser_beam.cpp \

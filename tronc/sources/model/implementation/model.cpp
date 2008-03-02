@@ -57,6 +57,7 @@
 #include <model/targeting_system.h>
 #include <model/target_displayer.h>
 #include <model/shooting_helper.h>
+#include <model/transponder.h>
 #include <model/implementation/logic/logic.h>
 
 #include <model/model.h>
@@ -178,23 +179,22 @@ namespace ProjetUnivers {
         
         /// 1.5 Un système stellaire
         InternalMessage("Model","building stellar system...") ;
-
         Kernel::Object* system = model->createObject("Systeme#1",universe) ;
         model->addTrait(system,new StellarSystem()) ;
         model->addTrait(system,new Positionned()) ;
-        
         InternalMessage("Model","building stellar system done") ;
-        
         
         
         /// 2. Ajout d'objects planetes
         InternalMessage("Model","building planet...") ;
         Kernel::Object* planet1 = model->createObject("Planete#1",system) ;
         model->addTrait(planet1,new Positionned()) ;
-
         InternalMessage("Model","building planet done") ;
 
-        /// add(new Solide(planete1, 
+        // 2 teams
+        Kernel::Object* team1 = model->createObject() ;
+        Kernel::Object* team2 = model->createObject() ;
+        
         
         /// 3. Ajout d'un vaisseau
         {
@@ -218,6 +218,8 @@ namespace ProjetUnivers {
           Kernel::Object* st3 = model->createObject("st03",ship) ;
           model->addTrait(st3,new Stabilizer(0,0,Kernel::Parameters::getValue<float>("Model","StabilizerForce"))) ;
           
+          model->addTrait(ship, new Transponder(team1)) ;
+          
           InternalMessage("Model","building ship done") ;
         }
         {
@@ -240,7 +242,7 @@ namespace ProjetUnivers {
 
           Kernel::Object* st3 = model->createObject(ship) ;
           model->addTrait(st3,new Stabilizer(0,0,Kernel::Parameters::getValue<float>("Model","StabilizerForce"))) ;
-          
+
           InternalMessage("Model","building ship done") ;
         }
 
@@ -299,6 +301,8 @@ namespace ProjetUnivers {
           model->addTrait(laser,new Laser(Position::Meter(19.2,0,57),
                                          Orientation())) ;
           
+          model->addTrait(ship, new Transponder(team2)) ;
+          
           
           InternalMessage("Model","building ship done") ;
 
@@ -342,6 +346,8 @@ namespace ProjetUnivers {
           command->addDelegate(target_selector) ;
           
           model->addTrait(observer,command) ;
+          model->addTrait(observer, new Transponder(team1)) ;
+          
 
         }
         InternalMessage("Model","building observer done") ;

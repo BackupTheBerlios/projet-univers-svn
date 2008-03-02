@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007 Mathieu ROGER                                      *
+ *   Copyright (C) 2008 Mathieu ROGER                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,38 +18,60 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_DISPLAY_IMPLEMENTATION_OGRE_OGRE_UTILS_H_
-#define PU_DISPLAY_IMPLEMENTATION_OGRE_OGRE_UTILS_H_
+#ifndef PU_DISPLAY_IMPLEMENTATION_OGRE_HUD_IDENTIFIED_TARGET_H_
+#define PU_DISPLAY_IMPLEMENTATION_OGRE_HUD_IDENTIFIED_TARGET_H_
 
 #include <Ogre.h>
-#include <model/position.h>
+#include <kernel/trait_view.h>
+#include <display/implementation/identified_target.h>
+#include <display/implementation/ogre/head_up_display/target_displayer_viewpoint.h>
 
 namespace ProjetUnivers {
   namespace Display {
     namespace Implementation {
-      namespace Ogre {  
-        
-        /// Utility functions for Ogre
-        /*!
-        */
-        namespace Utility
-        {
+      namespace Ogre {
+        namespace HeadUpDisplay {
+
+          class Target ;
           
-          /// Create a unique Ogre name.
-          std::string getUniqueName() ;
+          class IdentifiedTarget : public Kernel::TraitView<Implementation::IdentifiedTarget,
+                                                            TargetDisplayerViewPoint>
+          {
+          public:
           
-          /// create a 3D line.
-          ::Ogre::MovableObject* createLine(
-              const ::Ogre::Vector3& i_end_point,
-              ::Ogre::SceneManager*  i_scene_manager) ;
+          /*! 
+            @name Construct
+          */ 
+          // @{
+  
+            /// Constructor.
+            IdentifiedTarget(Implementation::IdentifiedTarget*  object,
+                             TargetDisplayerViewPoint*          viewpoint) ;
+          // @}
+        protected:
+          /*!
+            @name Updates
+          */
+          // @{
           
-          /// Set the color of an overlay element
-          void setColour(::Ogre::OverlayElement* element,
-                         const ::Ogre::ColourValue& colour) ;
+            /// Set color of the associated Target.
+            void onInit() ;
+            
+            /// Re-init color of the associated Target.
+            void onClose() ;
+          
+            /// Set color of the associated Target.
+            void onUpdate() ;
+  
+          // @}
+          private:
+
+            /// The target view to update.
+            Target* m_target ;
+          };
         }
       }
     }
   }
 }
-
-#endif /*PU_DISPLAY_IMPLEMENTATION_OGRE_OGRE_UTILS_H_*/
+#endif /*PU_DISPLAY_IMPLEMENTATION_OGRE_HUD_IDENTIFIED_TARGET_H_*/
