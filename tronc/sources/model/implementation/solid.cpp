@@ -26,7 +26,7 @@ namespace ProjetUnivers {
     RegisterTrait(Solid) ;
      
     Solid::Solid(const Mesh& i_mesh) 
-    : Kernel::Trait(), 
+    : Sized(Distance(Distance::_Meter,i_mesh.getBoundingSphereRadius())), 
       m_mesh(i_mesh)
     {}
 

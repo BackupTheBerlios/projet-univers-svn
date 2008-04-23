@@ -261,7 +261,7 @@ namespace ProjetUnivers {
 
               // calculate projected size
               ::Ogre::Real radius = convert(getObject()->getTrait<Model::Solid>()
-                                                       ->getBoundingSphereRadius()) ; 
+                                                       ->getRadius()) ; 
 
               InternalMessage(
                 "Display","Target::updateHUD radius="

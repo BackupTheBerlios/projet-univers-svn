@@ -71,30 +71,24 @@ namespace ProjetUnivers {
           void IdentifiedTarget::onUpdate()
           {
             InternalMessage("Display","Entering IdentifiedTarget::onUpdate") ;
-            Model::Transponder* identified = 
-              getViewPoint()->getTargetingSystem()->getAncestor<Model::Transponder>() ;
-            
             // calculate colour
             ::Ogre::ColourValue colour ;
-            if (identified)
+            if (Model::Transponder::areFriend(getObject(),getViewPoint()->getTargetingSystem()))
             {
-              if (identified->getCode() == 
-                  getObject()->getTrait<Model::Transponder>()->getCode())
-              {
-                InternalMessage("Display","IdentifiedTarget::onUpdate friend") ;
-                colour = ::Ogre::ColourValue::Green ;
-              }
-              else
-              {
-                InternalMessage("Display","IdentifiedTarget::onUpdate enemy") ;
-                colour = ::Ogre::ColourValue::Red ;
-              }
+              InternalMessage("Display","IdentifiedTarget::onUpdate friend") ;
+              colour = ::Ogre::ColourValue::Green ;
+            }
+            else if (Model::Transponder::areFoe(getObject(),getViewPoint()->getTargetingSystem()))
+            {
+              InternalMessage("Display","IdentifiedTarget::onUpdate enemy") ;
+              colour = ::Ogre::ColourValue::Red ;
             }
             else
             {
               InternalMessage("Display","IdentifiedTarget::onUpdate un-identified") ;
               colour = ::Ogre::ColourValue::White ;
             }
+            
             m_target->setTargetColour(colour) ;
 
             std::set<Implementation::IdealTarget*> ideal_targets = 

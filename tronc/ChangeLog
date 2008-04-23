@@ -416,7 +416,7 @@
   * Display :
     - added a hud viewpoitn that handle selection display
   * Kernel :
-    - log cleaning : fewer clearer messages   
+    - log cleaning : fewer, clearer messages   
 
 2008-02-26 rogma
   * All :
@@ -455,8 +455,8 @@
 2008-03-02 rogma
 
 	* Kernel : 
-      - small correction on DeclareDeducedTrait : making temporary variable and 
-        function static to avoid compile errors.
+    - small correction on DeclareDeducedTrait : making temporary variable and 
+      function static to avoid compile errors.
   * Model : added IFF basic system (Transponder class)
   * Display : added target colour change accoarding to IFF
   * Physic : corrected bug (?) in TestShootingHelper, removed the solid part 
@@ -466,13 +466,48 @@
 2008-03-02 rogma
   
   * Tools : suppressed compiler (unused)
+
+2008-04-24 rogma
   
+  * ArtificialIntelligence : creation
+    - added steering behaviours taken from OpenSteer + tests
+    - added controler for autonomous agents
+
+  * Model :
+    - added trait for autonomous agents
+    - added WithObjectives, applyable to any system (player or IA)
+    - added Objective value class, representing a basic objective
+    - added selectNearestTarget (tested)
+    - added selectNearestEnemy (tested)
+    - added WithLifeTime that generalize object disappearing after a certain 
+      amount of time (here LaserBeam)
+    - added Sized for object that have a size 
+    - added Shootable trait for a selected target that can be shot
+    
+  * Kernel : 
+    - factorisation of interception time calculus (taken from 
+      Model::Implementation::Logic::Target)
+    - added usage of object references in command delegator  
+    - corrected a bug on manual view : manual view added on an initialised 
+      viewpoint were not initialised.
+    - corrected a bug with CommandDelegator : infinite loop in case of cycle.
+    - corrected a bug on ObjectReference when using it in a set.
+    - corrected a bug : updating a trait not in an object when the trait was 
+      involved in a formula caused a segementation fault
+      
+  * Input:
+    - made keyboard, joytick optional
+    - added a hack to print command list when pressing 'l'
+     
 @todo :
   
   * Model : 
 
+    - Event traits like Collision, Shot should be implemented through 
+      WithLifetime with a life time of zero
+         
     - ShootingHelper may connect several lasers (calculus is made on 
-      average speed) and can harmonize lasers (re-orient them to touche a position 
+      average speed) and can harmonize lasers (re-orient them to touch a position 
       in the ship axe and at target distance)
 
     - Laser whould not be able to be too much synchronized (max angle)
@@ -492,15 +527,19 @@
       casting inside Model. Code could rely on Ogre but we would be an 
       encapsulation.
     
-    - add Objectives, applyable to any system (player or IA)
-    
     - add configurable laser colour (depending of laser beam type)
-    
-    - TargetSelector : select closest enemy
     
     - a Player trait ?
     
     - Menu handling
+    
+    - should define isInside like 
+      IsInside <=> parent(Positionned ^ Sized) ^ Positionned
+      i.e., being decendent means that we are inside 
+      changing node position can then move object hierarchy
+    
+    - PhysicalWorld <=> Whole ??
+      PhysicalObject should not depend on mobile ?  
 
   * IA : 
     - Basic IA, need preliminary architecture design
@@ -517,6 +556,8 @@
     
 	* physic : 
 
+    - bug : Physic::init() then Physic::build() works but not the inverse
+    
     - try to keep all units in an acceptable "range", it means that we whould 
       be able to convert model units in an arbitrary "ranging system".
 
@@ -534,13 +575,14 @@
 
     - move deduced trait to sound::implementation level (i.e. one up) ??
 
-  * Kernel : (obsolete kept for documentation purpose)
+  * Kernel : 
     - add an onDeduced event on deduced traits : it would allow one to perform 
       custom code, for example to calculate deduced attribute in those traits. 
       e.g., Solid <=> Sized, and Sized.size = Solid.Mesh.radius
       Not mandatory because it can be calculate "on demand" in a getSize method 
       in the deduced trait with a mutable attribute. 
-  
+      --> obsolete kept for documentation purpose
+    
   * all :
     - make use of Quantities library, @see http://sourceforge.net/projects/quantity ??
 

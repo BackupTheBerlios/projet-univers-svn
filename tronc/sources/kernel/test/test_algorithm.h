@@ -47,6 +47,9 @@ namespace ProjetUnivers {
         
         /// findAfter findBefore test on a bigger set.
         void testFindAfterBeforeOnBigSet() ;
+        
+        /// Chech that interception time is positive.
+        void calculateInterceptionTime() ;
        
         
       // @}
@@ -56,6 +59,7 @@ namespace ProjetUnivers {
 
         CPPUNIT_TEST(testFindAfterBeforeOnSmallSet) ;
         CPPUNIT_TEST(testFindAfterBeforeOnBigSet) ;
+        CPPUNIT_TEST(calculateInterceptionTime) ;
 
         CPPUNIT_TEST_SUITE_END() ;
 

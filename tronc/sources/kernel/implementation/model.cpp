@@ -345,6 +345,7 @@ namespace ProjetUnivers {
     void Model::addManualView(BaseTraitView* view)
     {
       view->getTrait()->addView(view->m_viewpoint,view) ;
+      view->_init() ;
     }
   }
 }

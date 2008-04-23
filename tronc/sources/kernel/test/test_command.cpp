@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2008 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -204,6 +204,7 @@ namespace ProjetUnivers {
         
         delegator->addDelegate(object) ;
         
+        CPPUNIT_ASSERT(trait1->getValue()==0) ;
         CPPUNIT_ASSERT(object2->call("axis1",10)) ;
         CPPUNIT_ASSERT(trait1->getValue()==10) ;
           
@@ -217,6 +218,44 @@ namespace ProjetUnivers {
         InternalMessage("Kernel","Kernel::Test::TestCommand::testCommandDelegator leaving") ;
       }
 
+      void TestCommand::testCommandDelegatorWithTwoDelegates()
+      {
+        InternalMessage(
+          "Kernel",
+          "Kernel::Test::TestCommand::testCommandDelegatorWithTwoDelegates entering") ;
+        /// create a model
+        std::auto_ptr<Model> model(new Model()) ;
+                                    
+        //// fill the model
+        Object* object1 = model->createObject() ;
+        Trait1* trait1 = new Trait1() ;
+        model->addTrait(object1,trait1) ;
+        
+        Object* object3 = model->createObject() ;
+        Trait2* trait2 = new Trait2() ;
+        model->addTrait(object3,trait2) ;
+        
+        Object* object = model->createObject("object") ;
+        CommandDelegator* delegator = new CommandDelegator() ;
+        model->addTrait(object,delegator) ;
+        
+        delegator->addDelegate(object1) ;
+        delegator->addDelegate(object3) ;
+        
+        CPPUNIT_ASSERT(trait1->getValue()==0) ;
+        CPPUNIT_ASSERT(object->call("axis1",10)) ;
+        CPPUNIT_ASSERT(trait1->getValue()==10) ;
+          
+        CPPUNIT_ASSERT(! trait2->isPushed()) ;
+        CPPUNIT_ASSERT(object->call("push")) ;
+        CPPUNIT_ASSERT(trait2->isPushed()) ;
+          
+        std::set<std::string> commands(object->getCommands()) ;
+        CPPUNIT_ASSERT(commands.size() == 3) ;
+        
+        InternalMessage("Kernel","Kernel::Test::TestCommand::testCommandDelegatorWithTwoDelegates leaving") ;
+      }
+      
       void TestCommand::testFunctionCall()
       {
         InternalMessage(
@@ -290,7 +329,57 @@ namespace ProjetUnivers {
           "Kernel",
           "Kernel::Test::TestCommand::testFunctionCallErrorCases leaving") ;
       }
-           
+
+      void TestCommand::callUnexistingCommand()
+      {
+        InternalMessage(
+          "Kernel",
+          "Kernel::Test::TestCommand::callUnexistingCommand entering") ;
+        // create a model
+        std::auto_ptr<Model> model(new Model()) ;
+
+        // fill the model
+        Object* object = model->createObject("object") ;
+        Trait1* trait1 = new Trait1() ;
+        model->addTrait(object,trait1) ;
+
+        Object* object2 = model->createObject(object) ;
+        model->addTrait(object2,new Trait2()) ;
+        model->addTrait(object2,new Trait3()) ;
+        
+        CPPUNIT_ASSERT(! object->call("unexisting function")) ;
+        InternalMessage(
+          "Kernel",
+          "Kernel::Test::TestCommand::callUnexistingCommand leaving") ;
+      }
+      
+      void TestCommand::callOnRecursiveStructure()
+      {
+        InternalMessage(
+          "Kernel",
+          "Kernel::Test::TestCommand::callOnRecursiveStructure entering") ;
+        {
+          // create a model
+          std::auto_ptr<Model> model(new Model()) ;
+  
+          // fill the model
+          Object* object = model->createObject("object") ;
+          Trait1* trait1 = new Trait1() ;
+          model->addTrait(object,trait1) ;
+  
+          Object* object2 = model->createObject(object) ;
+          model->addTrait(object2,new CommandDelegator()) ;
+          model->addTrait(object2,new Trait3()) ;
+          object2->getTrait<CommandDelegator>()->addDelegate(object) ;
+          
+          CPPUNIT_ASSERT(! object->call("unexisting function")) ;
+        }
+        
+        InternalMessage(
+          "Kernel",
+          "Kernel::Test::TestCommand::callOnRecursiveStructure leaving") ;
+      }
+      
       void TestCommand::setUp()
       {
       }

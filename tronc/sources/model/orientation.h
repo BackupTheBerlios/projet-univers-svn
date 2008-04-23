@@ -48,6 +48,7 @@ namespace ProjetUnivers {
       /// Copy constructor.
       Orientation(const Orientation&) ;
 
+      /// Construct from a quaternion.
       Orientation(const Ogre::Quaternion& _orientation) ; 
 
       /// Read an Orientation.

@@ -18,11 +18,19 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <kernel/log.h>
+#include <kernel/string.h>
+#include <kernel/algorithm.h>
 #include <model/position.h>
 #include <model/positionned.h>
+#include <model/oriented.h>
+#include <model/solid.h>
 #include <model/laser.h>
+#include <model/shootable.h>
 #include <model/mobile.h>
 #include <model/ideal_target.h>
+#include <model/physical_world.h>
+#include <model/physical_object.h>
 #include <model/implementation/logic/target.h>
 
 namespace ProjetUnivers {
@@ -53,91 +61,44 @@ namespace ProjetUnivers {
           }
         }
         
-        
-        /*!
-          We have to solve the following equation : 
-          
-          position    is the position of the target
-          speed       is the speed vector of the target
-          laser_speed is the laser beam speed
-          
-          distance(position+t*speed) = t*laser_speed
-          formal solver gives :
-            
-          delta = 
-              (-position.y^2-position.x^2)*speed.z^2
-              +(2*position.y*position.z*speed.y+2*position.x*position.z*speed.x)*speed.z
-              +(-position.z^2-position.x^2)*speed.y^2
-              +2*position.x*position.y*speed.x*speed.y
-              +(-position.z^2-position.y^2)*speed.x^2
-              +laser_speed^2*position.z^2
-              +laser_speed^2*position.y^2
-              +laser_speed^2*position.x^2
-          
-          if delta > 0
-          t = (sqrt(delta)
-                -position.z*speed.z-position.y*speed.y-position.x*speed.x)
-              /(speed.z^2+speed.y^2+speed.x^2-laser_speed^2)
-          
-          special case for delta=0 when equation becomes linear
-        */
         void Target::onUpdate()
         {
+          InternalMessage("Model","entering Logic::Target::onUpdate") ;
+          
           Kernel::Object* laser_object = getViewPoint()->getLaser() ;
           Laser* laser = laser_object ? laser_object->getTrait<Laser>():NULL ; 
           float laser_speed = laser? laser->getLaserSpeedMeterPerSecond():0 ;
 
-          if (laser_speed < 0)
+          if (laser_speed <= 0)
           {
             removeIdealTarget() ;
+            InternalMessage("Model","leaving Logic::Target::onUpdate") ;
             return ;
           }
           Ogre::Vector3 position = getObject()->getTrait<Positionned>()->getPosition().Meter() ;
           Ogre::Vector3 speed = getObject()->getTrait<Mobile>()->getSpeed().MeterPerSecond() ;
           
-          float time ;
+          std::pair<bool,float> reachable_time = 
+            Kernel::Algorithm::calculateInterceptionTime(position,speed,laser_speed) ;
           
-          if (speed.length() != 0)
+
+          if (! reachable_time.first)
           {
-            
-            float delta = 
-                    (-pow(position.y,2)-pow(position.x,2))*pow(speed.z,2)
-                    +(2*position.y*position.z*speed.y+2*position.x*position.z*speed.x)*speed.z
-                    +(-pow(position.z,2)-pow(position.x,2))*pow(speed.y,2)
-                    +2*position.x*position.y*speed.x*speed.y
-                    +(-pow(position.z,2)-pow(position.y,2))*pow(speed.x,2)
-                    +pow(laser_speed,2)*pow(position.z,2)
-                    +pow(laser_speed,2)*pow(position.y,2)
-                    +pow(laser_speed,2)*pow(position.x,2) ;
-            
-            float divisor = pow(speed.z,2)+pow(speed.y,2)+pow(speed.x,2)-pow(laser_speed,2) ;
-            
-            if (delta > 0 && divisor != 0)
-            {
-              time 
-              = (sqrt(delta)
-                  -position.z*speed.z-position.y*speed.y-position.x*speed.x)
-                 /(divisor) ;
-            }
-            else
-            {
-              /// no real solution : target is unreachable by laser
-              removeIdealTarget() ;
-              return ;
-            }
+            /// no real solution : target is unreachable by laser
+            removeIdealTarget() ;
+            InternalMessage("Model","leaving Logic::Target::onUpdate") ;
+            return ;
           }
-          else
-          {
-            time = position.length()/laser_speed ;
-          }
+
+          const float time = reachable_time.second ;
           
           Ogre::Vector3 touch = position + speed*fabs(time) ; 
           Position touch_position(Position::Meter(touch.x,touch.y,touch.z)) ;
           
+          Kernel::Model* model = getObject()->getModel() ;
           // if no ideal target create
           if (! m_ideal_target)
           {
-            Kernel::Model* model = getObject()->getModel() ;
             m_ideal_target = model->createObject(getObject()) ;
             model->addTrait(m_ideal_target,new Positionned()) ;
             model->addTrait(m_ideal_target,new IdealTarget()) ;
@@ -145,6 +106,77 @@ namespace ProjetUnivers {
           // update ideal target
           Positionned* positionned = m_ideal_target->getTrait<Positionned>() ;
           positionned->setPosition(touch_position) ;
+          
+          // calculate shootable status
+          InternalMessage("Model","calculating shootable status") ;
+          bool shootable = true ;
+          
+          // range
+          float beam_duration_in_seconds = laser->getLaserBeamLifeDuration().Second() ;
+          if (time > beam_duration_in_seconds)
+            shootable = false ;
+          
+          // direction
+          if (shootable)
+          {
+            InternalMessage("Model","calculating shootable status#0") ;
+            PhysicalObject* object = laser->getObject()->getParent<PhysicalObject>() ;
+            if (!object)
+              return ;
+            PhysicalWorld* world = object ? object->getObject()->getAncestor<PhysicalWorld>() : NULL ; 
+            if (!world)
+              return ;
+            Oriented* oriented = laser->getObject()->getParent<Oriented>() ;
+            Orientation orientation_of_laser = oriented->getOrientation(world->getObject()) ;
+
+            const Position& position_of_the_beam = 
+              laser->getOutPosition()*orientation_of_laser + 
+              getRelativePosition(laser->getObject(),world->getObject()) ;
+
+            Orientation orientation_of_the_beam =
+              orientation_of_laser*laser->getOutOrientation() ;
+            
+            // the line of the beam 
+            Ogre::Vector3 out_of_laser = position_of_the_beam.Meter() ;
+            Ogre::Vector3 forward_of_laser = 
+              out_of_laser + orientation_of_the_beam.getQuaternion().zAxis() ;
+            
+            // calculate nearest point of that line with target position 
+            Ogre::Vector3 A = position - out_of_laser ;
+            Ogre::Vector3 u = (forward_of_laser-out_of_laser).normalisedCopy() ;
+            Ogre::Vector3 nearest_point = out_of_laser + (A.dotProduct(u)) * u ;
+            
+            InternalMessage("Model","out_of_laser=" + Ogre::StringConverter::toString(out_of_laser)) ;
+            InternalMessage("Model","forward_of_laser=" + Ogre::StringConverter::toString(forward_of_laser)) ;
+            InternalMessage("Model","nearest_point=" + Ogre::StringConverter::toString(nearest_point)) ;
+            InternalMessage("Model","orientation_of_the_beam=" + Ogre::StringConverter::toString(orientation_of_the_beam.getQuaternion())) ;
+            
+            if (nearest_point.dotProduct(u) >= 0)
+            {
+              float target_size = getObject()->getTrait<Solid>()->getRadius().Meter() ;
+              if (target_size <= (position-nearest_point).length())
+              {
+                shootable = false ;
+              }
+            }
+            else
+            {
+              shootable = false ;
+            }
+         
+            InternalMessage("Model",shootable?"shootable=true":"shootable=false") ;
+            Shootable* shootable_trait = getObject()->getTrait<Shootable>() ;
+            if (shootable_trait && !shootable)
+            {
+              model->destroyTrait(getObject(),shootable_trait) ;
+            }
+            else if (!shootable_trait && shootable)
+            {
+              model->addTrait(getObject(),new Shootable()) ;
+            }
+            
+          }
+          InternalMessage("Model","leaving Logic::Target::onUpdate") ;
         }
         
         void Target::removeIdealTarget()

@@ -16,6 +16,7 @@ $(SOURCES)/input/compilation/libinput.la \
 $(SOURCES)/action/compilation/libaction.la \
 $(SOURCES)/physic/compilation/libphysic.la \
 $(SOURCES)/physic/compilation/ode/libphysicode.la \
+$(SOURCES)/artificial_intelligence/compilation/libai.la \
 $(OIS_LIBS)  \
 $(CEGUI_LIBS) \
 $(CEGUI_OGRE_LIBS) \

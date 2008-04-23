@@ -183,7 +183,7 @@ namespace ProjetUnivers {
 
     bool ObjectReference::operator<(const ObjectReference& reference) const 
     {
-      return m_model < reference.m_model ;
+      return m_object_identifier < reference.m_object_identifier ;
     }
 
     void ObjectReference::_setModel(Model* model)

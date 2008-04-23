@@ -135,6 +135,10 @@ namespace ProjetUnivers {
         joystick_listener.reset(new Implementation::Joystick(ois->m_joystick)) ;      
         ois->m_joystick->setEventCallback(joystick_listener.get()) ;
       }
+      else
+      {
+        InternalMessage("Input","no joystick found") ;
+      }
 
     }       
     
@@ -164,10 +168,13 @@ namespace ProjetUnivers {
     void update(const float& i_seconds)
     {
       /// capture sur tous les systèmes d'entrée
-//      mouse_listener->setTimeDelay(i_seconds) ;
-      ois->keyboard->capture() ;
-//      ois->m_mouse->capture() ;
-      ois->m_joystick->capture() ;
+      if (ois->keyboard)
+        ois->keyboard->capture() ;
+      if (ois->m_joystick)
+        ois->m_joystick->capture() ;
+      
+      //      mouse_listener->setTimeDelay(i_seconds) ;
+      //      ois->m_mouse->capture() ;
     }
     
   }

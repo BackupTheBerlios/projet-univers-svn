@@ -20,48 +20,40 @@
  ***************************************************************************/
 #include <kernel/log.h>
 #include <model/model.h>
-#include <model/implementation/logic/laser_beam.h>
+#include <model/implementation/logic/with_lifetime.h>
 
 namespace ProjetUnivers {
   namespace Model {
     namespace Implementation {
       namespace Logic {
           
-        //// @ todo configurate
-        const float laser_duration = 2 ;
-          
-        RegisterControler(LaserBeam, 
-                          Model::LaserBeam, 
+        RegisterControler(WithLifetime, 
+                          Model::WithLifetime, 
                           LogicSystem) ;
         
-        LaserBeam::LaserBeam(Model::LaserBeam* i_object,
-                             LogicSystem*      i_system)
-        : Kernel::Controler<Model::LaserBeam,
-                            LogicSystem>(i_object,i_system),
-          m_seconds_remaining(laser_duration)
+        WithLifetime::WithLifetime(Model::WithLifetime* i_object,
+                                   LogicSystem*      i_system)
+        : Kernel::Controler<Model::WithLifetime,
+                            LogicSystem>(i_object,i_system)
         {
-          InternalMessage("Model","Logic::LaserBeam controler built") ;
+          InternalMessage("Model","Logic::WithLifetime controler built") ;
         }
         
-        void LaserBeam::simulate(const float& i_seconds)
+        void WithLifetime::simulate(const float& i_seconds)
         {
-          // remove some mass percentage to massive trait
-          // if reaches zero or negative : destroy the object (maybe in destructible controler instead?)
-          InternalMessage("Model","Logic::LaserBeam::simulate entering") ;
+          InternalMessage("Model","Logic::WithLifetime::simulate entering") ;
           
-          m_seconds_remaining -= i_seconds ;
-  
-          InternalMessage("Model","Logic::LaserBeam::simulate remaining : " + Kernel::toString(m_seconds_remaining)) ;
+          getTrait()->removeLifeTime(Duration::Second(i_seconds)) ;
           
-          if (m_seconds_remaining < 0)
+          if (getTrait()->getLifeTimeInSeconds() < 0)
           {
-            InternalMessage("Model","Logic::LaserBeam::simulate destroying object") ;
+            InternalMessage("Model","Logic::WithLifetime::simulate destroying object") ;
   
             // mark the object for destruction
             getControlerSet()->addObjectToDestroy(getTrait()->getObject()) ;
           }
   
-          InternalMessage("Model","Logic::LaserBeam::simulate leaving") ;
+          InternalMessage("Model","Logic::WithLifetime::simulate leaving") ;
           
         }
       }      

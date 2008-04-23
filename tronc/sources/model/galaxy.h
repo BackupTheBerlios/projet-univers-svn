@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2008 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -21,7 +21,6 @@
 #ifndef PU_MODEL_GALAXY_H_
 #define PU_MODEL_GALAXY_H_
 
-#include <model/name.h>
 #include <kernel/trait.h>
 
 namespace ProjetUnivers {
@@ -39,21 +38,11 @@ namespace ProjetUnivers {
     {
     public:
 
-      /// Construc.
-      Galaxy(const Name& _nom) ;
-      
-     
-      
-    private:
-      
-
-      Name nom ;
-
+      /// Construction.
+      Galaxy() ;
     };
     
-    
   }
-
 }
 
 #endif

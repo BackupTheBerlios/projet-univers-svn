@@ -40,7 +40,7 @@ namespace ProjetUnivers {
       it is no longer valid and propagate it new false-ness to formulas using 
       it. 
       
-      In the furture, equivalent formula should be shared in order to speed up 
+      In the future, equivalent formula should be shared in order to speed up 
       the propagation calculus. Any sharing could be calculated at startup. 
     */
     class Formula 
@@ -48,16 +48,16 @@ namespace ProjetUnivers {
     public:
 
       /// Add a child formula.
-      virtual void addChild(Formula* i_formula) ;
+      virtual void addChild(Formula* formula) ;
       
       /// True iff the formula is valid.
-      bool isValid(Object* i_object) const ;      
+      bool isValid(Object* object) const ;      
       
       /// Acces to formula identifier.
       int getIdentifier() const ;
       
       /// Calculate initial state.
-      static void evaluateInitial(Object* i_object) ;
+      static void evaluateInitial(Object* object) ;
       
       /// Abstract class means virtual destrutor.
       virtual ~Formula() ;
@@ -81,7 +81,7 @@ namespace ProjetUnivers {
     // @{
 
       /// Add a parent formula.
-      void addParent(Formula* i_formula) ;
+      void addParent(Formula* formula) ;
       
       /// Abstract class means protected construtor.
       Formula() ;
@@ -95,31 +95,31 @@ namespace ProjetUnivers {
     // @{
 
       /// Initial value.
-      virtual void eval(Object* i_object) = 0 ;
+      virtual void eval(Object* object) = 0 ;
       
       /// Declare that a child formula has became true.
-      void addChildTrue(Object* i_object) ;
+      void addChildTrue(Object* object) ;
 
       /// Declare that a child formula has became false.
-      void addChildFalse(Object* i_object) ;
+      void addChildFalse(Object* object) ;
 
       /// Callback on child changing state.
-      virtual void onAddChildTrue(Object* i_object) = 0 ;
+      virtual void onAddChildTrue(Object* object) = 0 ;
 
       /// Callback on child changing state.
-      virtual void onAddChildFalse(Object* i_object) = 0 ;
+      virtual void onAddChildFalse(Object* object) = 0 ;
 
       /// Tells the parents the formula changed state.      
-      void notifyParentTrue(Object* i_object) ;
+      void notifyParentTrue(Object* object) ;
 
       /// Tells the parents the formula changed state.      
-      void notifyParentFalse(Object* i_object) ;
+      void notifyParentFalse(Object* object) ;
 
       /// Make the formula become true.
-      void becomeTrue(Object* i_object) ;
+      void becomeTrue(Object* object) ;
 
       /// Make the formula become false.
-      void becomeFalse(Object* i_object) ;
+      void becomeFalse(Object* object) ;
 
     // @}
     /*!
@@ -128,9 +128,9 @@ namespace ProjetUnivers {
     // @{
       
       /// The formula has been modified.
-      void update(Object* i_object) ;
+      void update(Object* object) ;
 
-      virtual void onChildUpdated(Object* i_object) = 0 ;
+      virtual void onChildUpdated(Object* object) = 0 ;
       
     // @}
     /*!
@@ -176,16 +176,16 @@ namespace ProjetUnivers {
       /*!
         Two calls with the same parameter returns the same formula. 
       */
-      static TraitFormula* build(const TypeIdentifier& i_trait_name) ;
+      static TraitFormula* build(const TypeIdentifier& trait_name) ;
     
-      // Notify that @c i_object has gained @c i_trait_name.
-      static void addTrait(Object* i_object,const TypeIdentifier& i_trait_name) ;
+      // Notify that @c object has gained @c trait_name.
+      static void addTrait(Object* object,const TypeIdentifier& trait_name) ;
       
-      // Notify that @c i_object has lost @c i_trait_name.
-      static void removeTrait(Object* i_object,const TypeIdentifier& i_trait_name) ;
+      // Notify that @c object has lost @c trait_name.
+      static void removeTrait(Object* object,const TypeIdentifier& trait_name) ;
       
-      // Notify that @c i_trait_name has been updated for @c i_object.
-      static void updateTrait(Object* i_object,const TypeIdentifier& i_trait_name) ;
+      // Notify that @c trait_name has been updated for @c object.
+      static void updateTrait(Object* object,const TypeIdentifier& trait_name) ;
 
       /// Print the formula.
       virtual std::string internalPrint() const ;
@@ -193,22 +193,22 @@ namespace ProjetUnivers {
     protected:
 
       /// Initial value.
-      virtual void eval(Object* i_object) ;
+      virtual void eval(Object* object) ;
       
-      virtual void onAddChildTrue(Object* i_object) ;
-      virtual void onAddChildFalse(Object* i_object) ;
-      virtual void onChildUpdated(Object* i_object) ;
+      virtual void onAddChildTrue(Object* object) ;
+      virtual void onAddChildFalse(Object* object) ;
+      virtual void onChildUpdated(Object* object) ;
 
     private:
         
       /// A trait is an atomic formula
-      TraitFormula(const TypeIdentifier& i_trait_name) ;
+      TraitFormula(const TypeIdentifier& trait_name) ;
       
-      /// Find the traitformula associaited with @c i_trait_name.
+      /// Find the trait formula associaited with @c trait_name.
       /*!
         Return NULL if not found.
       */
-      static TraitFormula* get(const TypeIdentifier& i_trait_name) ;
+      static TraitFormula* get(const TypeIdentifier& trait_name) ;
     
       static std::map<TypeIdentifier,TraitFormula*> m_traits_formulae ;
       
@@ -231,11 +231,11 @@ namespace ProjetUnivers {
     private:  
 
       /// Initial value.
-      virtual void eval(Object* i_object) ;
+      virtual void eval(Object* object) ;
 
-      virtual void onAddChildTrue(Object* i_object) ;
-      virtual void onAddChildFalse(Object* i_object) ;
-      virtual void onChildUpdated(Object* i_object) ;
+      virtual void onAddChildTrue(Object* object) ;
+      virtual void onAddChildFalse(Object* object) ;
+      virtual void onChildUpdated(Object* object) ;
       
     };
 
@@ -255,14 +255,13 @@ namespace ProjetUnivers {
     private:  
 
       /// Initial value.
-      virtual void eval(Object* i_object) ;
+      virtual void eval(Object* object) ;
 
-      virtual void onAddChildTrue(Object* i_object) ;
-      virtual void onAddChildFalse(Object* i_object) ;
-      virtual void onChildUpdated(Object* i_object) ;
+      virtual void onAddChildTrue(Object* object) ;
+      virtual void onAddChildFalse(Object* object) ;
+      virtual void onChildUpdated(Object* object) ;
       
     };
-
     
     /// Negation of its child formula.
     /*
@@ -276,7 +275,7 @@ namespace ProjetUnivers {
       FormulaNot() ;
 
       /// Add a child formula.
-      virtual void addChild(Formula* i_formula) ;
+      virtual void addChild(Formula* formula) ;
 
       /// Print the formula.
       virtual std::string internalPrint() const ;
@@ -284,25 +283,80 @@ namespace ProjetUnivers {
     private:  
 
       /// Initial value.
-      virtual void eval(Object* i_object) ;
+      virtual void eval(Object* object) ;
 
-      virtual void onAddChildTrue(Object* i_object) ;
-      virtual void onAddChildFalse(Object* i_object) ;
-      virtual void onChildUpdated(Object* i_object) ;
+      virtual void onAddChildTrue(Object*  object) ;
+      virtual void onAddChildFalse(Object* object) ;
+      virtual void onChildUpdated(Object*  object) ;
       
     };
 
+    /// True iff child formula is true on a descendant.
+    class FormulaHasDescendant : public Formula
+    {
+    public:
+    
+      /// Constructs.
+      FormulaHasDescendant() ;
 
+      /// Add a child formula.
+      virtual void addChild(Formula* formula) ;
+
+      /// Print the formula.
+      virtual std::string internalPrint() const ;
+      
+    private:  
+
+      /// Initial value.
+      virtual void eval(Object* object) ;
+
+      virtual void onAddChildTrue(Object*  object) ;
+      virtual void onAddChildFalse(Object* object) ;
+      virtual void onChildUpdated(Object*  object) ;
+    };
+
+    /// True iff child formula is true on an ancestor.
+    class FormulaHasAncestor : public Formula
+    {
+    public:
+    
+      /// Constructs.
+      FormulaHasAncestor() ;
+
+      /// Add a child formula.
+      virtual void addChild(Formula* formula) ;
+
+      /// Print the formula.
+      virtual std::string internalPrint() const ;
+      
+    private:  
+
+      /// Initial value.
+      virtual void eval(Object* object) ;
+
+      virtual void onAddChildTrue(Object*  object) ;
+      virtual void onAddChildFalse(Object* object) ;
+      virtual void onChildUpdated(Object*  object) ;
+    };
+
+    
+  // @}
+  /*!
+    @name Declarations.
+  */
+  // @{
+    
+    
     /// A deduced trait declaration.    
     class DeducedTraitDeclaration
     {
     public:
 
-      DeducedTraitDeclaration(Formula*            i_formula,
-                              DeducedTraitBuilder i_builder,
-                              const TypeIdentifier&  i_trait_name)
+      DeducedTraitDeclaration(Formula*              formula,
+                              DeducedTraitBuilder   builder,
+                              const TypeIdentifier& trait_name)
       {
-        DeducedTrait::registerTrait(i_formula,i_builder,i_trait_name) ;
+        DeducedTrait::registerTrait(formula,builder,trait_name) ;
       }
     };
 

@@ -60,6 +60,9 @@ namespace ProjetUnivers {
         /// Check that roll of default orientation is 0. 
         void rollOfDefaultOrientation() ;
         
+        /// Check that the forward direction of default orientation is (0,0,1).
+        void forwardOfDefaultOrientation() ;
+        
       // @}
       /*!
         @name Test registration
@@ -77,7 +80,8 @@ namespace ProjetUnivers {
         CPPUNIT_TEST(testSetOrientation3) ;
 
         CPPUNIT_TEST(rollOfDefaultOrientation) ;
-      
+        CPPUNIT_TEST(forwardOfDefaultOrientation) ;
+
         CPPUNIT_TEST_SUITE_END() ;
       
       // @}      

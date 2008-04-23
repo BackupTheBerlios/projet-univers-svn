@@ -37,8 +37,8 @@ namespace ProjetUnivers {
       
       Position are held in a (right/left?) hand coordinate:
       - x axe : positive to rigth
-      - y axe : positive to front 
-      - z axe : positive to up 
+      - y axe : positive to up 
+      - z axe : negative to front 
       
       @see Positionned
     */

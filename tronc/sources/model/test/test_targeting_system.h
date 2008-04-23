@@ -49,7 +49,18 @@ namespace ProjetUnivers {
         /// Test a Detector destruction.
         void destroyDetector() ;
         
-        /// @todo test with removing Computer/detector ?
+        /// Test the nearest target selection.
+        void selectNearestTarget() ;
+        
+        /// Test the nearest enemy selection.
+        void selectNearestEnemy() ;
+        
+        /*!
+          @todo 
+            test of selection whithout data
+            test of real object destruction
+        */
+        
       // @}
       // *******************************
       /// @name Test registration
@@ -62,6 +73,8 @@ namespace ProjetUnivers {
         CPPUNIT_TEST(changeSelection) ;
         CPPUNIT_TEST(destroyComputer) ;
         CPPUNIT_TEST(destroyDetector) ;
+        CPPUNIT_TEST(selectNearestTarget) ;
+        CPPUNIT_TEST(selectNearestEnemy) ;
 
         CPPUNIT_TEST_SUITE_END() ;
 

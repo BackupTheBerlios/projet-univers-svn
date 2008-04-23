@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2008 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -286,6 +286,28 @@ namespace ProjetUnivers {
         }
       }      
 
+      void TestModel::testSetOfObjectReferences()
+      {
+        /// create a model
+        std::auto_ptr<Model> model(new Model("TestModel::testSetOfObjectReferences")) ;
+
+        Object* object1 = model->createObject() ;
+        Object* object2 = model->createObject() ;
+        
+        std::set<ObjectReference> set ;
+        set.insert(object1) ;
+        set.insert(object2) ;
+        
+        CPPUNIT_ASSERT(set.size()==2) ;
+        
+      }
+      
+      void TestModel::notifyOnNotAssignedTrait()
+      {
+        Head* head = new Head() ;
+        head->change(10) ;
+      }
+      
       void TestModel::setUp()
       {
       }

@@ -28,6 +28,7 @@
 #include <action/action.h>
 #include <input/input.h>
 #include <physic/physic.h>
+//#include <artificial_intelligence/artificial_intelligence.h>
 
 using namespace ProjetUnivers ;
 
@@ -53,6 +54,8 @@ int main() {
 //  Model::load("TestMenu") ;
   Model::load("TestDemonstration") ;
 
+  InformationMessage("Demonstration","Model loaded") ;
+  
   Kernel::Object* observer(Model::getObject("Observer")) ;
   
   Display::buildRealWorldViewPoint(observer) ;
@@ -61,6 +64,10 @@ int main() {
 
   Input::build(observer) ;
   Input::init() ;
+
+//  ArtificialIntelligence::build(observer) ;
+//  ArtificialIntelligence::init() ;
+
   InternalMessage("Demonstration","Activating Viewpoint") ;
 
   InformationMessage("Demonstration","Demarrage de la boucle principale") ;
@@ -82,6 +89,7 @@ int main() {
     Model::update(elapsed) ;
     Physic::update(elapsed) ;
     Action::update() ;
+//    ArtificialIntelligence::update(elapsed) ;
     Display::update() ;
   }
 

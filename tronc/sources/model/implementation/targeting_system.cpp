@@ -25,6 +25,8 @@
 #include <model/model.h>
 #include <model/selected.h>
 #include <model/computer.h>
+#include <model/transponder.h>
+#include <model/positionned.h>
 #include <model/computer_data.h>
 #include <model/targeting_system.h>
 
@@ -33,6 +35,8 @@ namespace ProjetUnivers {
 
     RegisterCommand("Select Next Target",TargetingSystem,selectNextTarget) ;
     RegisterCommand("Select Previous Target",TargetingSystem,selectPreviousTarget) ;
+    RegisterCommand("Select Nearest Target",TargetingSystem,selectNearestTarget) ;
+    RegisterCommand("Select Nearest Enemy",TargetingSystem,selectNearestEnemy) ;
 
     TargetingSystem::TargetingSystem()
     {}
@@ -129,7 +133,94 @@ namespace ProjetUnivers {
     
     void TargetingSystem::selectNearestTarget()
     {
-      /// @todo
+      InternalMessage("Model","TargetingSystem::selectNearestTarget entering") ;
+      
+      if (!m_computer)
+        return ;
+
+      InternalMessage("Model","TargetingSystem::selectNearestTarget has computer") ;
+
+      Computer* computer = m_computer->getTrait<Computer>() ;
+      if (!computer)
+        return ;
+      
+      InternalMessage("Model","TargetingSystem::selectNearestTarget computer is correct") ;
+      const std::set<Kernel::Object*>& roots = computer->getMemoryModel()->getRoots() ;
+
+      Distance shortest_distance ;
+      Kernel::Object* target = NULL ; 
+        
+        
+      for(std::set<Kernel::Object*>::const_iterator object = roots.begin() ;
+          object != roots.end() ;
+          ++object)
+      {
+        Distance distance = (*object)->getTrait<Positionned>()
+                      ->getPosition().calculateDistance(Position()) ;
+        
+        if (!target || distance <= shortest_distance)
+        {
+          shortest_distance = distance ;
+          target = *object ;
+        }
+      }
+      
+      if (target)
+      {  
+        selectTarget(target) ;
+        notify() ;
+      }
+      InternalMessage("Model","TargetingSystem::selectNearestTarget leaving") ;
+    }
+    
+    void TargetingSystem::selectNearestEnemy()
+    {
+      InternalMessage("Model","TargetingSystem::selectNearestEnemy entering") ;
+      
+      if (!m_computer)
+        return ;
+
+      InternalMessage("Model","TargetingSystem::selectNearestEnemy has computer") ;
+
+      Computer* computer = m_computer->getTrait<Computer>() ;
+      if (!computer)
+        return ;
+      
+      InternalMessage("Model","TargetingSystem::selectNearestEnemy computer is correct") ;
+      const std::set<Kernel::Object*>& roots = computer->getMemoryModel()->getRoots() ;
+
+      Distance shortest_distance ;
+      Kernel::Object* target = NULL ; 
+        
+      Transponder* detecting_identification = getObject()->getParent<Transponder>() ;
+      if (!detecting_identification)
+        return ;
+      
+      for(std::set<Kernel::Object*>::const_iterator object = roots.begin() ;
+          object != roots.end() ;
+          ++object)
+      {
+        Distance distance = (*object)->getTrait<Positionned>()
+                      ->getPosition().calculateDistance(Position()) ;
+        
+        Transponder* detected_identification = (*object)->getTrait<Transponder>() ;
+        
+        InternalMessage("Model","TargetingSystem::selectNearestEnemy testing") ;
+        if (detected_identification && 
+            Transponder::areFoe(detecting_identification->getObject(),*object) && 
+            (!target || distance <= shortest_distance))
+        {
+          shortest_distance = distance ;
+          target = *object ;
+        }
+      }
+      
+      if (target)
+      {  
+        selectTarget(target) ;
+        notify() ;
+      }
+      InternalMessage("Model","TargetingSystem::selectNearestEnemy leaving") ;
     }
     
     Kernel::Object* TargetingSystem::getTarget() const
@@ -148,10 +239,14 @@ namespace ProjetUnivers {
       
       if (! selected)
       {
-        Model::addTrait(object,new Selected()) ;
+        InternalMessage("Model","TargetingSystem::selectTarget#0") ;
+        object->getModel()->addTrait(object,new Selected()) ;
+        InternalMessage("Model","TargetingSystem::selectTarget#1") ;
         selected = object->getTrait<Selected>() ;
+        InternalMessage("Model","TargetingSystem::selectTarget#2") ;
       }
       
+      InternalMessage("Model","TargetingSystem::selectTarget#3") ;
       selected->select(getObject()) ;
       InternalMessage("Model","TargetingSystem::selectTarget leaving") ;
     }

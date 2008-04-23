@@ -22,6 +22,7 @@
 #define PU_KERNEL_COMMAND_DELEGATOR_H_
 
 #include <kernel/trait.h>
+#include <kernel/object_reference.h>
 
 namespace ProjetUnivers {
   namespace Kernel {
@@ -44,18 +45,21 @@ namespace ProjetUnivers {
       CommandDelegator() ;
       
       /// Trait will delegate commands to @c i_delegate. 
-      void addDelegate(Object* i_delegate) ;
+      void addDelegate(Object* delegate) ;
+      
+      /// Access to delegates.
+      const std::set<ObjectReference>& getDelegates() const ;
       
     protected:
 
       /// call a void command returns true iff succedeed.
-      virtual bool call(const TypeIdentifier& i_trait_type,
-                        const std::string&    i_command) ;
+      virtual bool call(const TypeIdentifier& trait_type,
+                        const std::string&    command) ;
 
       /// call an int command returns true iff succedeed.
-      virtual bool call(const TypeIdentifier& i_trait_type,
-                        const std::string&    i_command, 
-                        const int&            i_parameter) ;
+      virtual bool call(const TypeIdentifier& trait_type,
+                        const std::string&    command, 
+                        const int&            parameter) ;
 
       /// Access to all commands understood be the trait.
       virtual std::set<std::string> getCommands() const ;
@@ -63,7 +67,7 @@ namespace ProjetUnivers {
     private:
     
       /// Objects to which commands are send
-      std::set<Object*> m_delegates ;
+      std::set<ObjectReference> m_delegates ;
     
     };
   }

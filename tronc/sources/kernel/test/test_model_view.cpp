@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2008 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -1225,6 +1225,44 @@ namespace ProjetUnivers {
         InternalMessage("Kernel","Kernel::Test::testManualView leaving") ;
       }
 
+      void TestModelView::testManualViewOnInitViewPoint()
+      {
+        // create a model
+        std::auto_ptr<Model> model(new Model()) ;
+
+        // fill the model
+        Object* person = model->createObject("person") ;
+        model->addTrait(person,new Person()) ;
+        
+        // create a viewpoint
+        std::auto_ptr<ManualViewPoint> viewpoint(new ManualViewPoint(model.get())) ;
+
+        /// init the viewpoint
+        viewpoint->init() ;
+        
+        // manual add of a view
+        model->addManualView(new ManualView(person->getTrait<Person>(),
+                                            viewpoint.get())) ;
+        
+        
+        Person* persontrait = person->getTrait<Person>() ;
+        CPPUNIT_ASSERT(persontrait) ;
+        ManualView* personview = persontrait->getView<ManualView>(viewpoint.get()) ;
+        CPPUNIT_ASSERT(personview) ;
+        
+        // test update
+        CPPUNIT_ASSERT(personview->getValue()==0) ;
+        persontrait->changeValue(10) ;
+        CPPUNIT_ASSERT(personview->getValue()==10) ;
+        
+        // test delete
+        CPPUNIT_ASSERT(ManualView::number_of_instance==1) ;
+        model->destroyTrait(person,persontrait) ;
+        CPPUNIT_ASSERT(ManualView::number_of_instance==0) ;
+        
+        InternalMessage("Kernel","Kernel::Test::testManualViewOnInitViewPoint leaving") ;
+      }
+      
       void TestModelView::initViewPointWithNullModel()
       {
         InternalMessage("Kernel","Kernel::Test::initViewPointWithNullModel entering") ;

@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2008 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -65,7 +65,12 @@ namespace ProjetUnivers {
         /// Test referencing a trait of a destroyed object.
         void testTraitReferenceToDestroyedObject() ;
 
+        /// Test a set of object references.
+        void testSetOfObjectReferences() ;
 
+        /// Check that a notify on a trait whithout object is correct.
+        void notifyOnNotAssignedTrait() ;
+        
         // *********************
         /// @name Registerration
         // *********************
@@ -82,6 +87,8 @@ namespace ProjetUnivers {
         CPPUNIT_TEST(testTraitReference) ;
         CPPUNIT_TEST(testTraitReferenceToRemovedTrait) ;
         CPPUNIT_TEST(testTraitReferenceToDestroyedObject) ;
+        CPPUNIT_TEST(testSetOfObjectReferences) ;
+        CPPUNIT_TEST(notifyOnNotAssignedTrait) ;
 
         CPPUNIT_TEST_SUITE_END() ;
 

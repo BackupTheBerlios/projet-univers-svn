@@ -29,26 +29,23 @@ namespace ProjetUnivers {
 
 
             
-      /// Test du modèle de démonstration.
-      /*!
-
-      */
+      /// Test for demonstration Model.
       class TestDemonstration : public CppUnit::TestFixture {
       protected:
       
         
-      // ****************************
-      /// @name Tests proprement dits
-      // ****************************
+      /*!
+       @name Test methods
+      */
       // @{
         
-        /// Teste une construction.
+        /// Test the building of the demonstration model.
         void testBuild() ;
            
       // @}
-      // *******************************
-      /// @name Registerment des tests
-      // *******************************
+      /*!
+        @name Registerment des tests
+      */
       // @{      
     
         CPPUNIT_TEST_SUITE(TestDemonstration) ;
@@ -60,27 +57,23 @@ namespace ProjetUnivers {
       public:
   
       // @}
-      // *******************************
-      /// @name Méthodes obligatoires
-      // *******************************
+      /*!
+        @name Mandatory methods
+      */
       // @{
 
       
-        /// Initialisation du test
+        /// Test init.
         void setUp() ;
       
-        /// Desinitialisation du test
+        /// Test shutdown.
         void tearDown() ;
       
       // @}      
-                
-       
-      
       };
 
     }
   }
 }
-
 
 #endif

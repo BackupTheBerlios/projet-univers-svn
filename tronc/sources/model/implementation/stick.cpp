@@ -18,6 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <kernel/log.h>
 #include <model/stick.h>
 
 namespace ProjetUnivers {
@@ -101,6 +102,7 @@ namespace ProjetUnivers {
 
     void Stick::setX(const int& i_x)
     {
+      InternalMessage("Model","Stick::setX") ;
       m_x = i_x ;
       if (m_x > max)
       {

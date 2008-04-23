@@ -34,7 +34,14 @@ namespace ProjetUnivers {
     /// For objects that have a position in space.
     /*!
       The position of the object is relative to its first positionned 
-      ancestor parent or to nothing if it has none. 
+      ancestor parent or to nothing if it has none.
+      
+      @todo
+        setPosition may change Object parentship to keep the following 
+        invariant : 
+        
+        isInside(child,parent) <=> isDescendent(child,parent) 
+       
     */
     class Positionned : public Kernel::Trait
     {

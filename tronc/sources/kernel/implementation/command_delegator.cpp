@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2008 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -29,40 +29,46 @@ namespace ProjetUnivers {
       m_delegates()
     {}
 
-    void CommandDelegator::addDelegate(Object* i_delegate)
+    void CommandDelegator::addDelegate(Object* delegate)
     {
-      m_delegates.insert(i_delegate) ;
+      m_delegates.insert(delegate) ;
+      notify() ;
     }
 
     bool CommandDelegator::call(
-      const TypeIdentifier& i_trait_type,
-      const std::string&    i_command)
+      const TypeIdentifier& trait_type,
+      const std::string&    command)
     {
       bool found = false ;
 
-      for(std::set<Object*>::iterator delegate = m_delegates.begin() ;
+      for(std::set<ObjectReference>::iterator delegate = m_delegates.begin() ;
           delegate != m_delegates.end() && !found ;
           ++delegate)
       {
-        found = (*delegate)->call(i_command) ;
+        if (*delegate)
+        {
+          found = (*delegate)->_call(command) ;
+        }
       }
 
       return found ;
-
     }
 
     bool CommandDelegator::call(
-      const TypeIdentifier& i_trait_type,
-      const std::string&    i_command,
-      const int&            i_parameter)
+      const TypeIdentifier& trait_type,
+      const std::string&    command,
+      const int&            parameter)
     {
       bool found = false ;
 
-      for(std::set<Object*>::iterator delegate = m_delegates.begin() ;
+      for(std::set<ObjectReference>::iterator delegate = m_delegates.begin() ;
           delegate != m_delegates.end() && !found ;
           ++delegate)
       {
-        found = (*delegate)->call(i_command,i_parameter) ;
+        if (*delegate)
+        {
+          found = (*delegate)->_call(command,parameter) ;
+        }
       }
 
       return found ;
@@ -71,15 +77,24 @@ namespace ProjetUnivers {
     std::set<std::string> CommandDelegator::getCommands() const
     {
       std::set<std::string> result ;
-      for(std::set<Object*>::const_iterator delegate = m_delegates.begin() ;
+      for(std::set<ObjectReference>::const_iterator delegate = m_delegates.begin() ;
           delegate != m_delegates.end();
           ++delegate)
       {
-        std::set<std::string> temp((*delegate)->getCommands()) ;
-        result.insert(temp.begin(),temp.end()) ;
+        if (*delegate)
+        {
+          std::set<std::string> temp((*delegate)->_getCommands()) ;
+          result.insert(temp.begin(),temp.end()) ;
+        }
       }
 
       return result ;
     }
+  
+    const std::set<ObjectReference>& CommandDelegator::getDelegates() const
+    {
+      return m_delegates ;
+    }
+    
   }
 }

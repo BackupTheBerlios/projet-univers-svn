@@ -83,6 +83,12 @@ namespace ProjetUnivers {
       if (m_initialised)
       {
         onUpdate() ;
+        
+        /*!
+          @todo
+            maybe we should introduce a little "consistency check" here 
+            by calling a Model::checkConsistency(Object)?
+        */
       }
     }
 

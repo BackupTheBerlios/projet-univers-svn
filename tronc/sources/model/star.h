@@ -22,36 +22,25 @@
 #define PU_MODEL_STAR_H_
 
 #include <kernel/trait.h>
-#include <model/name.h>
 
 namespace ProjetUnivers {
   namespace Model {
     
       
-    /// Trait for objects that are star.
+    ///For objects that are star.
     /*!
-    @par Etat
+    @par State
       planning
     */
     class Star : public Kernel::Trait 
     {
     public:
 
-
-      /// Construct.
-      Star(const Name& ) ;
-      
-      
-    private:
-
-
-      Name name ;
-
+      /// Construction.
+      Star() ;
     };
     
-    
   }
-
 }
 
 #endif

@@ -9,6 +9,7 @@ AM_CXXFLAGS = $(PU_CXXFLAGS)
 libmodel_la_SOURCES = \
 ../implementation/acceleration.cpp \
 ../implementation/angular_speed.cpp \
+../implementation/autonomous_character.cpp \
 ../implementation/distance.cpp \
 ../implementation/destroyable.cpp \
 ../implementation/dragger.cpp \
@@ -27,8 +28,8 @@ libmodel_la_SOURCES = \
 ../implementation/mobile.cpp \
 ../implementation/model.cpp \
 ../implementation/mesh.cpp \
-../implementation/name.cpp \
 ../implementation/observer.cpp \
+../implementation/objective.cpp \
 ../implementation/orientation.cpp \
 ../implementation/oriented.cpp \
 ../implementation/physical_object.cpp \
@@ -66,8 +67,12 @@ libmodel_la_SOURCES = \
 ../implementation/ideal_target.cpp \
 ../implementation/transponder.cpp \
 ../implementation/target.cpp \
+../implementation/with_lifetime.cpp \
+../implementation/with_objectives.cpp \
+../implementation/shootable.cpp \
+../implementation/sized.cpp \
 ../implementation/logic/logic.cpp \
-../implementation/logic/laser_beam.cpp \
+../implementation/logic/with_lifetime.cpp \
 ../implementation/logic/logic_system.cpp \
 ../implementation/logic/collision.cpp \
 ../implementation/logic/destroyable.cpp \

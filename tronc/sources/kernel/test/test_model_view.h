@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2008 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -106,6 +106,9 @@ namespace ProjetUnivers {
         /// Test manual views handling.
         void testManualView() ;
 
+        /// Test manual view construction on an initialised viewpoint.
+        void testManualViewOnInitViewPoint() ;
+        
         /// Test a bug : crash on init viewpoint with NULL model.
         void initViewPointWithNullModel() ;
         
@@ -162,6 +165,7 @@ namespace ProjetUnivers {
         CPPUNIT_TEST(testTraitVitrualInheritance) ;
         CPPUNIT_TEST(testchangeParentIsAtomic) ;
         CPPUNIT_TEST(testManualView) ;
+        CPPUNIT_TEST(testManualViewOnInitViewPoint) ;
         CPPUNIT_TEST(initViewPointWithNullModel) ;
         CPPUNIT_TEST(setModelOnInitialisedViewPointWithNullModel) ;
         CPPUNIT_TEST(changeModelOnInitialisedViewPoint) ;

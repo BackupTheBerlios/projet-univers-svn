@@ -140,7 +140,6 @@ namespace ProjetUnivers {
           
           void IdealTarget::onUpdate()
           {
-            
             InternalMessage("Display","IdealTarget::onUpdate calculating reticule position") ;
 
             ::Ogre::Camera* camera = getViewPoint()->getCamera() ;
@@ -227,6 +226,8 @@ namespace ProjetUnivers {
                 m_reticule_is_shown = false ;
               }
             }
+            InternalMessage("Display","IdealTarget::onUpdate leaving") ;
+            
           }
           
 

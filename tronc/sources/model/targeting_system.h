@@ -59,6 +59,7 @@ namespace ProjetUnivers {
       void selectNextTarget() ;
       void selectPreviousTarget() ;
       void selectNearestTarget() ;
+      void selectNearestEnemy() ;
       
     // @}  
       

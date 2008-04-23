@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2008 Mathieu ROGER                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,54 +18,24 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <model/name.h>
+#include <model/with_lifetime.h>
 
 namespace ProjetUnivers {
   namespace Model {
       
-    Name::Name()
+    WithLifetime::WithLifetime(const Duration& life)
+    : m_life_time(life)
     {}
-      
-    Name::Name(const std::string& _name)
-    : name(_name)
-    {}
-      
-    Name::Name(const Name& _name)
-    : name(_name.name)
-    {}
-    
-    Name::operator std::string() const
-    {
-      return name ;
-    }
-    
-    Name& Name::operator=(const std::string& _name)
-    {
-      name =_name ;
-      return *this ;
-    }
-    
-    Name& Name::operator=(const Name& _name)
-    {
-      name =_name.name ;
-      return *this ;
-      
-    }
-      
-    bool Name::operator==(const std::string& _value) const
-    {
-      return name == _value ;
-    }
-    
-    bool Name::operator==(const Name& _name) const 
-    {
-      return name == _name.name ;
-    }
-    
 
-    bool Name::isUndefined() const
+    float WithLifetime::getLifeTimeInSeconds() const
     {
-      return name == "" ;
+      return m_life_time.Second() ;
+    }
+  
+    void WithLifetime::removeLifeTime(const Duration& duration)
+    {
+      m_life_time = m_life_time - duration ;
+      notify() ;
     }
     
   }

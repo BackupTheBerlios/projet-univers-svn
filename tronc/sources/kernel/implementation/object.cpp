@@ -37,6 +37,8 @@
 namespace ProjetUnivers {
   namespace Kernel {
 
+    std::set<const Kernel::Object*> Object::m_already_called_objects ;
+    
     namespace 
     {
       int next_identifier = 1 ;
@@ -171,7 +173,7 @@ namespace ProjetUnivers {
 //      InternalMessage("Kernel","with value :") ;
 //      InternalMessage("Kernel",toString((int)i_trait).c_str()) ;
 
-      i_trait->object = this ;
+      i_trait->m_object = this ;
 
 
       /// on range les facettes en fonction de leur classe
@@ -533,6 +535,35 @@ namespace ProjetUnivers {
 
     bool Object::call(const std::string& i_command) 
     {
+      InternalMessage("Kernel","entering Object::call") ;
+      // clear the previous called objects
+      m_already_called_objects.clear() ;
+
+      return _call(i_command) ;
+    }
+
+    bool Object::call(const std::string& i_command,const int& i_parameter) 
+    {
+      // clear the previous called objects
+      m_already_called_objects.clear() ;
+      
+      return _call(i_command,i_parameter) ;
+    }
+    
+    std::set<std::string> Object::getCommands() const
+    {
+      // clear the previous called objects
+      m_already_called_objects.clear() ;
+      
+      return _getCommands() ;
+    }
+
+    bool Object::_call(const std::string& i_command) 
+    {
+      if (m_already_called_objects.find(this) != m_already_called_objects.end())
+        return false ;
+
+      m_already_called_objects.insert(this) ;
       bool found = false ;
       
       for(std::map<TypeIdentifier, Trait*>::iterator trait = traits.begin() ;
@@ -546,15 +577,18 @@ namespace ProjetUnivers {
           child != children.end() && !found ;
           ++child)
       {
-        found = (*child)->call(i_command) ;
+        found = (*child)->_call(i_command) ;
       }
 
       return found ;
     }
 
-    /// call an int command returns true iff succedeed.
-    bool Object::call(const std::string& i_command,const int& i_parameter) 
+    bool Object::_call(const std::string& i_command,const int& i_parameter) 
     {
+      if (m_already_called_objects.find(this) != m_already_called_objects.end())
+        return false ;
+
+      m_already_called_objects.insert(this) ;
       bool found = false ;
       
       for(std::map<TypeIdentifier, Trait*>::iterator trait = traits.begin() ;
@@ -568,16 +602,21 @@ namespace ProjetUnivers {
           child != children.end() && !found ;
           ++child)
       {
-        found = (*child)->call(i_command,i_parameter) ;
+        found = (*child)->_call(i_command,i_parameter) ;
       }
       
       return found ;
     }
     
-    /// Access to all commands understood be the object.
-    std::set<std::string> Object::getCommands() const
+    std::set<std::string> Object::_getCommands() const
     {
       std::set<std::string> result ;
+
+      if (m_already_called_objects.find(this) != m_already_called_objects.end())
+        return result ;
+
+      m_already_called_objects.insert(this) ;
+      
       for(std::map<TypeIdentifier, Trait*>::const_iterator 
             trait = traits.begin() ;
           trait != traits.end() ;
@@ -591,7 +630,7 @@ namespace ProjetUnivers {
           child != children.end() ;
           ++child)
       {
-        std::set<std::string> temp((*child)->getCommands()) ;
+        std::set<std::string> temp((*child)->_getCommands()) ;
         result.insert(temp.begin(),temp.end()) ;
       }
       

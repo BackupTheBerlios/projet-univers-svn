@@ -48,7 +48,7 @@ namespace ProjetUnivers {
       return NULL ;
     }
 
-    template <class T> T* Object::getTrait() 
+    template <class T> T* Object::getTrait() const
     {
 
 //      InternalMessage("Kernel","Object::getTrait()") ;
@@ -213,6 +213,19 @@ namespace ProjetUnivers {
       return result ;
     }
 
+    template <class T> std::set<T*> Object::getChildren() const
+    {
+      std::set<T*> result(getDescendants<T>()) ;
+
+      Object* iterator(const_cast<Object*>(this)) ;
+      T* trait(iterator->getTrait<T>()) ;
+      
+      if (trait)
+        result.insert(trait) ;
+
+      return result ;
+    }
+    
     template <typename ReturnType>
     ReturnType Object::callFunction(const std::string& function_name) const
     throw (boost::bad_any_cast,std::exception)

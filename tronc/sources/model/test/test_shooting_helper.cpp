@@ -35,6 +35,7 @@
 #include <model/targeting_system.h>
 #include <model/ideal_target.h>
 #include <model/shooting_helper.h>
+#include <model/shootable.h>
 
 #include <model/test/test_shooting_helper.h>
 
@@ -458,8 +459,269 @@ namespace ProjetUnivers {
         CPPUNIT_ASSERT(children.size()==1) ;
         
         Model::close() ;
+        InternalMessage("Model","Model::TestShootingHelper::destroyComputer leaving") ;
       }
       
+      void TestShootingHelper::testShootable()
+      {
+        InternalMessage("Model","Model::TestShootingHelper::testShootable entering") ;
+        /*! 
+          we construct a complete system :
+          a main ship 
+          a ship for detection
+          
+          we select a target and check the property of the ideal target
+        */
+        Model::init() ;
+
+        Kernel::Object* system = createObject("system") ;
+
+        Kernel::Object* ship = createObject("ship",system) ;
+        addTrait(ship,new Positionned()) ;
+        addTrait(ship,new Oriented()) ;
+        addTrait(ship,new Massive(Mass::Kilogram(1000))) ;
+        addTrait(ship,new Mobile()) ;
+        addTrait(ship,new Solid(Mesh("razor.mesh"))) ;
+        addTrait(ship,new Computer()) ;
+        addTrait(ship,new Laser(Position(),Orientation())) ;
+        addTrait(ship,new Detector(ship)) ;
+        addTrait(ship,new TargetingSystem()) ;
+        TargetingSystem::connect(ship,ship) ;
+        addTrait(ship,new ShootingHelper()) ;
+        ShootingHelper::connect(ship,ship,ship) ;
+        
+        Kernel::Object* ship2 = createObject(system) ;
+        addTrait(ship2,new Positionned(Position::Meter(0,0,500))) ;
+        addTrait(ship2,new Massive(Mass::Kilogram(1000))) ;
+        addTrait(ship2,new Oriented()) ;
+        addTrait(ship2,new Mobile(Speed::MeterPerSecond(0,10,0))) ;
+        addTrait(ship2,new Solid(Mesh("razor.mesh"))) ;
+        
+        Model::update(Duration::Second(0.1)) ;
+        
+        // the ship has been detected.
+        CPPUNIT_ASSERT(ship->getTrait<Computer>()->getMemoryModel()->getRoots().size() == 1) ;
+        
+        std::set<Kernel::Object*>::const_iterator data_pointer 
+          = ship->getTrait<Computer>()->getMemoryModel()->getRoots().begin() ; 
+        ship->getTrait<TargetingSystem>()->selectNextTarget() ;
+
+        Kernel::Object* data = *(data_pointer) ;
+        CPPUNIT_ASSERT(data->getTrait<Selected>()) ;
+        
+        CPPUNIT_ASSERT(data->getTrait<Shootable>()) ;
+        
+        InternalMessage("Model","Model::TestShootingHelper::testShootable leaving") ;
+      }
+
+      void TestShootingHelper::testShootableWithRotation()
+      {
+        InternalMessage("Model","Model::TestShootingHelper::testShootableWithRotation entering") ;
+        /*! 
+          we construct a complete system :
+          a main ship 
+          a ship for detection
+          
+          we select a target and check the property of the ideal target
+        */
+        Model::init() ;
+
+        Kernel::Object* system = createObject("system") ;
+
+        Kernel::Object* ship = createObject("ship",system) ;
+        addTrait(ship,new Positionned()) ;
+        addTrait(ship,new Oriented(Orientation(Ogre::Quaternion(Ogre::Degree(-45),Ogre::Vector3::UNIT_Y)))) ;
+        addTrait(ship,new Massive(Mass::Kilogram(1000))) ;
+        addTrait(ship,new Mobile()) ;
+        addTrait(ship,new Solid(Mesh("razor.mesh"))) ;
+        addTrait(ship,new Computer()) ;
+        addTrait(ship,new Laser(Position(),Orientation())) ;
+        addTrait(ship,new Detector(ship)) ;
+        addTrait(ship,new TargetingSystem()) ;
+        TargetingSystem::connect(ship,ship) ;
+        addTrait(ship,new ShootingHelper()) ;
+        ShootingHelper::connect(ship,ship,ship) ;
+        
+        Kernel::Object* ship2 = createObject(system) ;
+        addTrait(ship2,new Positionned(Position::Meter(-100,0,100))) ;
+        addTrait(ship2,new Massive(Mass::Kilogram(1000))) ;
+        addTrait(ship2,new Oriented()) ;
+        addTrait(ship2,new Mobile(Speed::MeterPerSecond(0,10,0))) ;
+        addTrait(ship2,new Solid(Mesh("razor.mesh"))) ;
+        
+        Model::update(Duration::Second(0.1)) ;
+        
+        // the ship has been detected.
+        CPPUNIT_ASSERT(ship->getTrait<Computer>()->getMemoryModel()->getRoots().size() == 1) ;
+        
+        std::set<Kernel::Object*>::const_iterator data_pointer 
+          = ship->getTrait<Computer>()->getMemoryModel()->getRoots().begin() ; 
+        ship->getTrait<TargetingSystem>()->selectNextTarget() ;
+
+        Kernel::Object* data = *(data_pointer) ;
+        CPPUNIT_ASSERT(data->getTrait<Selected>()) ;
+        
+        CPPUNIT_ASSERT(data->getTrait<Shootable>()) ;
+        
+        InternalMessage("Model","Model::TestShootingHelper::testShootableWithRotation leaving") ;
+      }
+      
+      void TestShootingHelper::testNotShootableBehind()
+      {
+        InternalMessage("Model","Model::TestShootingHelper::testNotShootableBehind entering") ;
+        /*! 
+          we construct a complete system :
+          a main ship 
+          a ship for detection
+          
+          we select a target and check the property of the ideal target
+        */
+        Model::init() ;
+
+        Kernel::Object* system = createObject("system") ;
+
+        Kernel::Object* ship = createObject("ship",system) ;
+        addTrait(ship,new Positionned()) ;
+        addTrait(ship,new Oriented()) ;
+        addTrait(ship,new Massive(Mass::Kilogram(1000))) ;
+        addTrait(ship,new Mobile()) ;
+        addTrait(ship,new Solid(Mesh("razor.mesh"))) ;
+        addTrait(ship,new Computer()) ;
+        addTrait(ship,new Laser(Position(),Orientation())) ;
+        addTrait(ship,new Detector(ship)) ;
+        addTrait(ship,new TargetingSystem()) ;
+        TargetingSystem::connect(ship,ship) ;
+        addTrait(ship,new ShootingHelper()) ;
+        ShootingHelper::connect(ship,ship,ship) ;
+        
+        Kernel::Object* ship2 = createObject(system) ;
+        addTrait(ship2,new Positionned(Position::Meter(0,0,-500))) ;
+        addTrait(ship2,new Massive(Mass::Kilogram(1000))) ;
+        addTrait(ship2,new Oriented()) ;
+        addTrait(ship2,new Mobile(Speed::MeterPerSecond(0,10,0))) ;
+        addTrait(ship2,new Solid(Mesh("razor.mesh"))) ;
+        
+        Model::update(Duration::Second(0.1)) ;
+        
+        // the ship has been detected.
+        CPPUNIT_ASSERT(ship->getTrait<Computer>()->getMemoryModel()->getRoots().size() == 1) ;
+        
+        std::set<Kernel::Object*>::const_iterator data_pointer 
+          = ship->getTrait<Computer>()->getMemoryModel()->getRoots().begin() ; 
+        ship->getTrait<TargetingSystem>()->selectNextTarget() ;
+
+        Kernel::Object* data = *(data_pointer) ;
+        CPPUNIT_ASSERT(data->getTrait<Selected>()) ;
+
+        CPPUNIT_ASSERT(!data->getTrait<Shootable>()) ;
+        
+        InternalMessage("Model","Model::TestShootingHelper::testNotShootableBehind leaving") ;
+      }
+
+      void TestShootingHelper::testNotShootableOnTheSide()
+      {
+        InternalMessage("Model","Model::TestShootingHelper::testNotShootableOnTheSide entering") ;
+        /*! 
+          we construct a complete system :
+          a main ship 
+          a ship for detection
+          
+          we select a target and check the property of the ideal target
+        */
+        Model::init() ;
+
+        Kernel::Object* system = createObject("system") ;
+
+        Kernel::Object* ship = createObject("ship",system) ;
+        addTrait(ship,new Positionned()) ;
+        addTrait(ship,new Oriented()) ;
+        addTrait(ship,new Massive(Mass::Kilogram(1000))) ;
+        addTrait(ship,new Mobile()) ;
+        addTrait(ship,new Solid(Mesh("razor.mesh"))) ;
+        addTrait(ship,new Computer()) ;
+        addTrait(ship,new Laser(Position(),Orientation())) ;
+        addTrait(ship,new Detector(ship)) ;
+        addTrait(ship,new TargetingSystem()) ;
+        TargetingSystem::connect(ship,ship) ;
+        addTrait(ship,new ShootingHelper()) ;
+        ShootingHelper::connect(ship,ship,ship) ;
+        
+        Kernel::Object* ship2 = createObject(system) ;
+        addTrait(ship2,new Solid(Mesh("razor.mesh"))) ;
+        addTrait(ship2,new Positionned(Position::Meter(ship2->getTrait<Solid>()->getRadius().Meter()+10,0,400))) ;
+        addTrait(ship2,new Massive(Mass::Kilogram(1000))) ;
+        addTrait(ship2,new Oriented()) ;
+        addTrait(ship2,new Mobile(Speed::MeterPerSecond(0,10,0))) ;
+        
+        Model::update(Duration::Second(0.1)) ;
+        
+        // the ship has been detected.
+        CPPUNIT_ASSERT(ship->getTrait<Computer>()->getMemoryModel()->getRoots().size() == 1) ;
+        
+        std::set<Kernel::Object*>::const_iterator data_pointer 
+          = ship->getTrait<Computer>()->getMemoryModel()->getRoots().begin() ; 
+        ship->getTrait<TargetingSystem>()->selectNextTarget() ;
+
+        Kernel::Object* data = *(data_pointer) ;
+        CPPUNIT_ASSERT(data->getTrait<Selected>()) ;
+
+        CPPUNIT_ASSERT(!data->getTrait<Shootable>()) ;
+        
+        InternalMessage("Model","Model::TestShootingHelper::testNotShootableOnTheSide leaving") ;
+      }
+
+      void TestShootingHelper::testShootableOnTheSide()
+      {
+        InternalMessage("Model","Model::TestShootingHelper::testShootableOnTheSide entering") ;
+        /*! 
+          we construct a complete system :
+          a main ship 
+          a ship for detection
+          
+          we select a target and check the property of the ideal target
+        */
+        Model::init() ;
+
+        Kernel::Object* system = createObject("system") ;
+
+        Kernel::Object* ship = createObject("ship",system) ;
+        addTrait(ship,new Positionned()) ;
+        addTrait(ship,new Oriented()) ;
+        addTrait(ship,new Massive(Mass::Kilogram(1000))) ;
+        addTrait(ship,new Mobile()) ;
+        addTrait(ship,new Solid(Mesh("razor.mesh"))) ;
+        addTrait(ship,new Computer()) ;
+        addTrait(ship,new Laser(Position(),Orientation())) ;
+        addTrait(ship,new Detector(ship)) ;
+        addTrait(ship,new TargetingSystem()) ;
+        TargetingSystem::connect(ship,ship) ;
+        addTrait(ship,new ShootingHelper()) ;
+        ShootingHelper::connect(ship,ship,ship) ;
+        
+        Kernel::Object* ship2 = createObject(system) ;
+        addTrait(ship2,new Solid(Mesh("razor.mesh"))) ;
+        addTrait(ship2,new Positionned(Position::Meter(ship2->getTrait<Solid>()->getRadius().Meter()-10,0,400))) ;
+        addTrait(ship2,new Massive(Mass::Kilogram(1000))) ;
+        addTrait(ship2,new Oriented()) ;
+        addTrait(ship2,new Mobile(Speed::MeterPerSecond(0,10,0))) ;
+        
+        Model::update(Duration::Second(0.1)) ;
+        
+        // the ship has been detected.
+        CPPUNIT_ASSERT(ship->getTrait<Computer>()->getMemoryModel()->getRoots().size() == 1) ;
+        
+        std::set<Kernel::Object*>::const_iterator data_pointer 
+          = ship->getTrait<Computer>()->getMemoryModel()->getRoots().begin() ; 
+        ship->getTrait<TargetingSystem>()->selectNextTarget() ;
+
+        Kernel::Object* data = *(data_pointer) ;
+        CPPUNIT_ASSERT(data->getTrait<Selected>()) ;
+
+        CPPUNIT_ASSERT(data->getTrait<Shootable>()) ;
+        
+        InternalMessage("Model","Model::TestShootingHelper::testShootableOnTheSide leaving") ;
+      }
+
       void TestShootingHelper::setUp()
       {
       }

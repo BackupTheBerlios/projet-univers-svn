@@ -232,13 +232,21 @@ namespace ProjetUnivers {
         }
 
       }
-
       
       void TestOriented::rollOfDefaultOrientation()
       {
         Ogre::Quaternion quaternion ;
         float roll = quaternion.getRoll().valueRadians() ;
         CPPUNIT_ASSERT(roll==0) ; 
+      }
+      
+      void TestOriented::forwardOfDefaultOrientation()
+      {
+        Orientation orientation ;
+        CPPUNIT_ASSERT(orientation.getQuaternion().zAxis() == Ogre::Vector3::UNIT_Z) ;
+        CPPUNIT_ASSERT(orientation.getQuaternion().yAxis() == Ogre::Vector3::UNIT_Y) ;
+        CPPUNIT_ASSERT(orientation.getQuaternion().xAxis() == Ogre::Vector3::UNIT_X) ;
+        
       }
       
       void TestOriented::setUp() 

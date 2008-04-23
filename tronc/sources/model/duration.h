@@ -52,6 +52,8 @@ namespace ProjetUnivers {
       /// Substraction
       Duration operator -(const Duration&) const ;
 
+      /// Assignment.
+      Duration& operator=(const Duration&) ;
       
     // @}
     /*! 

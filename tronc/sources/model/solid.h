@@ -21,10 +21,9 @@
 #ifndef PU_MODEL_SOLID_H_
 #define PU_MODEL_SOLID_H_
 
-#include <kernel/trait.h>
 #include <kernel/reader.h>
 #include <model/mesh.h>
-#include <model/distance.h>
+#include <model/sized.h>
 #include <model/orientation.h>
 
 namespace ProjetUnivers {
@@ -32,7 +31,7 @@ namespace ProjetUnivers {
 
 
     /// For objects that ar solid.
-    class Solid : public Kernel::Trait 
+    class Solid : public Sized 
     {
     public:
 
@@ -60,11 +59,11 @@ namespace ProjetUnivers {
       */
       float getDragCoefficient(const Orientation&) const ;
       
+    private:
+      
       /// The radius of an englobing sphere. 
       Distance getBoundingSphereRadius() const ;      
 
-    private:
-      
       /// Volume and texture properties.
       Mesh m_mesh ;
     };

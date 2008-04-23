@@ -45,8 +45,7 @@ namespace ProjetUnivers {
     
       @par Usage
       -# create a ViewPoint
-      -# register views by ViewPoint::add
-      -# updates periodically the view point by ViewPoint::update
+      -# call init()
         
     */
     class ViewPoint 

@@ -85,9 +85,14 @@ PKG_CHECK_MODULES(libXML, [libxml-2.0 >= 2.0])
 AC_SUBST(libXML_LIBS)
 AC_SUBST(libXML_CFLAGS)
 
+# check clanlib
+AC_PATH_PROG(CLANLIB_CONFIG, clanlib-config, no)
+AC_SUBST(CLAN_LIBS, `$CLANLIB_CONFIG --libs`)
+AC_SUBST(CLAN_CXXFLAGS, `$CLANLIB_CONFIG --cflags`)
+
 
 # Global c++ variable :
-PU_CXXFLAGS="$OGRE_CFLAGS $OIS_CFLAGS $librlog_CFLAGS $CEGUI_OGRE_CFLAGS $libXML_CFLAGS"
+PU_CXXFLAGS="$OGRE_CFLAGS $OIS_CFLAGS $librlog_CFLAGS $CEGUI_OGRE_CFLAGS $libXML_CFLAGS $CLAN_CXXFLAGS"
 AC_SUBST(PU_CXXFLAGS)
 
 ##################
@@ -126,6 +131,8 @@ AC_CONFIG_FILES([Makefile \
                  sources/sound/Makefile \
                  sources/sound/compilation/Makefile \
                  sources/sound/compilation/openal/Makefile \
+                 sources/artificial_intelligence/Makefile \
+                 sources/artificial_intelligence/compilation/Makefile \
                  ])
 
 AC_OUTPUT

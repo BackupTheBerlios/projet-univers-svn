@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2008 Mathieu ROGER                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,40 +18,50 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_IMPLEMENTATION_LOGIC_LASER_BEAM_H_
-#define PU_MODEL_IMPLEMENTATION_LOGIC_LASER_BEAM_H_
-
-#include <kernel/controler.h>
-#include <model/laser_beam.h>
-#include <model/implementation/logic/logic_system.h>
+#include <artificial_intelligence/implementation/ai_system.h>
+#include <artificial_intelligence/artificial_intelligence.h>
 
 namespace ProjetUnivers {
-  namespace Model {
-    namespace Implementation {
-      namespace Logic {
-        
-        /// Makes laser beam disappear after a certain amount of time.
-        class LaserBeam : public Kernel::Controler<Model::LaserBeam,
-                                                   LogicSystem>
-        {
-        public:
-          
-          /// Construct.
-          LaserBeam(Model::LaserBeam* i_object,
-                    LogicSystem*      i_system) ;
-        
-          /// Manange LaserBeam life.
-          void simulate(const float& i_seconds) ;
-        
-        private:
-          
-          /// Time remaining before disappearing in seconds)
-          float m_seconds_remaining ;
-        };
+  namespace ArtificialIntelligence {
+
+    std::auto_ptr<Implementation::AISystem> m_viewPoint ;
+    
+    bool init()
+    {
+      if(m_viewPoint.get())
+      {
+        m_viewPoint->init() ;
       }
     }
+    
+    void close()
+    {
+      if(m_viewPoint.get())
+      {
+        m_viewPoint->close() ;
+      }
+    }
+  
+    void build(Kernel::Object* i_observer)
+    {
+      m_viewPoint.reset(new Implementation::AISystem(i_observer->getModel())) ;
+    }
+    
+    void update(const Model::Duration& duration)
+    {
+      if(m_viewPoint.get())
+      {
+        m_viewPoint->simulate(duration.Second()) ;
+      }
+    }
+    
+    namespace Implementation {
+      
+      AISystem* getAISystem()
+      {
+        return m_viewPoint.get() ;
+      }
+    }
+    
   }
 }
-
-
-#endif

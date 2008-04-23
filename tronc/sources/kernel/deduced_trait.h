@@ -35,6 +35,7 @@ namespace ProjetUnivers {
   namespace Kernel {
     
     class Formula ;
+    
     /// Function type that build a deduced trait.
     typedef boost::function0<DeducedTrait*> DeducedTraitBuilder ;
 
@@ -101,16 +102,19 @@ namespace ProjetUnivers {
     {
     public:
 
-      /// Register @c i_builder as the builder of @c i_formula.
-      static void registerTrait(Formula*            i_formula,
-                                DeducedTraitBuilder i_builder,
-                                const TypeIdentifier&  i_trait_name) ;
+      /// Register @c builder as the builder of @c formula.
+      /*!
+        @param trait_name is the deduced trait type
+      */
+      static void registerTrait(Formula*              formula,
+                                DeducedTraitBuilder   builder,
+                                const TypeIdentifier& trait_name) ;
       
       /// Calculate initial value.
       /*!
         @todo calculate the object vector once for all...
       */
-      static void evaluateInitial(Object* i_object) ;
+      static void evaluateInitial(Object* object) ;
 
       /// Identify the latest updated trait.
       const TypeIdentifier& getLatestUpdatedTrait() const ;
@@ -129,14 +133,14 @@ namespace ProjetUnivers {
       /// Tells the views the trait has changed.
       virtual void notify() ;
       
-      /// Notify that @c i_formula has gained @c i_validity on @c i_object
-      static void notify(Formula* i_formula,
-                         bool i_validity,
-                         Object* i_object) ;
+      /// Notify that @c formula has gained @c validity on @c object
+      static void notify(Formula* formula,
+                         bool     validity,
+                         Object*  object) ;
       
-      /// Notify that @c i_formula is updated on @c i_object
-      static void update(Formula* i_formula,
-                         Object* i_object) ;
+      /// Notify that @c formula is updated on @c object
+      static void update(Formula* formula,
+                         Object*  object) ;
 
       /// map formula to deduced trait builders for construction.
       static std::map<Formula*,DeducedTraitBuilder> m_builders ;

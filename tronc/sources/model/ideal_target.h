@@ -41,16 +41,6 @@ namespace ProjetUnivers {
       /// Constructor.
       IdealTarget() ;
     
-      /// Calculate the aimed status for the ship holding the computer.
-      void calculateIsAimed() ;
-      
-      /// Indicate if the target will be touched. 
-      bool isAimed() const ;
-      
-    private:
-      
-      /// True iff the current ship is aiming at the target. 
-      bool m_isAimed ;
     };
     
     

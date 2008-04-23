@@ -68,10 +68,9 @@ namespace ProjetUnivers {
       {
         m_y = -max ;
       }
-//      std::cout << "throttle::m_y =" << m_y << std::endl ;
-      
       Ogre::Quaternion orientation(Ogre::Degree(0.9*m_y),Ogre::Vector3::UNIT_X) ;
       m_orientation = Model::Orientation(orientation) ;
+      notify() ;
     }
 
     void Throttle::set(const int& i_y)
@@ -85,13 +84,12 @@ namespace ProjetUnivers {
       {
         m_y = -max ;
       }
-//      std::cout << "throttle::m_y =" << m_y << std::endl ;
-      
       Ogre::Quaternion orientation(Ogre::Degree(0.9*m_y),Ogre::Vector3::UNIT_X) ;
       m_orientation = Model::Orientation(orientation) ;
+      notify() ;
     }
 
     RegisterAxis("set_throttle",Throttle,set) ;
-
+    RegisterAxis("Change Throttle",Throttle,modify) ;
   }
 }

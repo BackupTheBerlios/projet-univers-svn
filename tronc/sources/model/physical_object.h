@@ -28,6 +28,15 @@ namespace ProjetUnivers {
   namespace Model {
 
     /// For objects that are physical.
+    /*!
+      @todo
+        here we have quite a bug : take an object that is Positionned and Mobile 
+        it will not be moved, and will be considered as a PhysicalWorld
+        --> Massive whould be removed from PhysicalObject conditions
+        Forces and torque would only be applied on PhysicalObject that are also 
+        Massives. 
+        
+    */
     class PhysicalObject : public Kernel::DeducedTrait
     {
     public:

@@ -18,8 +18,9 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <model/transponder.h>
 #include <kernel/trait.h>
+#include <kernel/object.h>
+#include <model/transponder.h>
 
 namespace ProjetUnivers {
   namespace Model {
@@ -39,5 +40,33 @@ namespace ProjetUnivers {
       return m_code ;
     }
 
+    bool Transponder::areFoe(Kernel::Object* code1,Kernel::Object* code2)
+    {
+      if (!code1 || !code2)
+        return false ;
+      
+      Transponder* identification1 = code1->getParent<Transponder>() ;
+      Transponder* identification2 = code2->getParent<Transponder>() ;
+      
+      if (!identification1 || !identification2)
+        return false ;
+      
+      return identification1->getCode() != identification2->getCode() ;  
+    }
+
+    bool Transponder::areFriend(Kernel::Object* code1,Kernel::Object* code2)
+    {
+      if (!code1 || !code2)
+        return false ;
+      
+      Transponder* identification1 = code1->getParent<Transponder>() ;
+      Transponder* identification2 = code2->getParent<Transponder>() ;
+      
+      if (!identification1 || !identification2)
+        return false ;
+      
+      return identification1->getCode() == identification2->getCode() ;  
+    }
+    
   }
 }

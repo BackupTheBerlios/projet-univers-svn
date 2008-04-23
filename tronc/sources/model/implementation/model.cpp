@@ -34,6 +34,7 @@
 #include <model/exception.h>
 #include <model/observer.h>
 #include <model/massive.h>
+#include <model/component.h>
 #include <model/mobile.h>
 #include <model/physical_object.h>
 #include <model/physical_world.h>
@@ -58,6 +59,8 @@
 #include <model/target_displayer.h>
 #include <model/shooting_helper.h>
 #include <model/transponder.h>
+#include <model/with_objectives.h>
+#include <model/autonomous_character.h>
 #include <model/implementation/logic/logic.h>
 
 #include <model/model.h>
@@ -220,6 +223,11 @@ namespace ProjetUnivers {
           
           model->addTrait(ship, new Transponder(team1)) ;
           
+//          model->addTrait(ship,new WithObjectives()) ;
+//          ship->getTrait<WithObjectives>()->addObjective(Objective::patrol(system)) ;
+//          model->addTrait(ship,new AutonomousCharacter()) ;
+          
+          
           InternalMessage("Model","building ship done") ;
         }
         {
@@ -273,10 +281,8 @@ namespace ProjetUnivers {
           model->addTrait(stick,new Positionned(Position::Meter(0,
                                                                 0,
                                                                 -50))) ;
-          Stick* _stick = new Stick() ;
-          
-          model->addTrait(stick,_stick) ;
-          model->addTrait(stick,new Solid(Mesh("stick.mesh"))) ;
+          model->addTrait(stick,new Stick()) ;
+          model->addTrait(stick,new Solid(Mesh("manche_a_balais.mesh"))) ;
           
           model->addTrait(ship,new GuidanceSystem(Kernel::Parameters::getValue<float>("Model","GuidanceForce"))) ;
           model->addTrait(ship,new GuidanceControler()) ;
@@ -300,6 +306,7 @@ namespace ProjetUnivers {
           Kernel::Object* laser = model->createObject("laser",ship) ;
           model->addTrait(laser,new Laser(Position::Meter(19.2,0,57),
                                          Orientation())) ;
+          model->addTrait(laser, new Component()) ;
           
           model->addTrait(ship, new Transponder(team2)) ;
           
@@ -330,7 +337,7 @@ namespace ProjetUnivers {
 
           Kernel::Object* laser_observer = model->createObject(observer) ;
           model->addTrait(laser_observer,new Laser(Position(),Orientation())) ;
-          
+
           Kernel::Object* shooting_helper = model->createObject("shooting_helper",observer) ;
           model->addTrait(shooting_helper,new ShootingHelper()) ;
           ShootingHelper::connect(shooting_helper,computer,laser_observer) ;
@@ -339,13 +346,12 @@ namespace ProjetUnivers {
           model->addTrait(observer,new Oriented()) ;
           /// Il a la faculté d'observer
           model->addTrait(observer,new Observer()) ;
-          Kernel::CommandDelegator* command = new Kernel::CommandDelegator() ;
-          command->addDelegate(throttle) ;
-          command->addDelegate(stick) ;
-          command->addDelegate(laser) ;
-          command->addDelegate(target_selector) ;
+          model->addTrait(observer,new Kernel::CommandDelegator()) ;
+          observer->getTrait<Kernel::CommandDelegator>()->addDelegate(stick) ;
+          observer->getTrait<Kernel::CommandDelegator>()->addDelegate(throttle) ;
+          observer->getTrait<Kernel::CommandDelegator>()->addDelegate(laser) ;
+          observer->getTrait<Kernel::CommandDelegator>()->addDelegate(target_selector) ;
           
-          model->addTrait(observer,command) ;
           model->addTrait(observer, new Transponder(team1)) ;
           
 
@@ -426,6 +432,41 @@ namespace ProjetUnivers {
     {
       Implementation::Logic::update(duration) ;
     }
+
+    Kernel::Object* getControledShip(Kernel::Object* agent)
+    {
+      Kernel::CommandDelegator* delegator = agent->getTrait<Kernel::CommandDelegator>() ;
+      if (! delegator)
+        return NULL ;
+
+      const std::set<Kernel::ObjectReference>& delegates = delegator->getDelegates() ;
+      /*
+        we look up in delegates something that is a physical object...
+      */
+      for(std::set<Kernel::ObjectReference>::const_iterator delegate = delegates.begin() ; 
+          delegate != delegates.end() ;
+          ++delegate)
+      {
+        if (*delegate)
+        {
+          Kernel::Object* temp = getShip(*delegate) ;
+          if (temp)
+            return temp ;
+        }
+      }
+      return NULL ;
+    }
+    
+    Kernel::Object* getShip(Kernel::Object* object)
+    {
+      /// @todo find a proper way
+      Model::PhysicalObject* result = object->getParent<PhysicalObject>() ;
+      if (result)
+        return result->getObject() ;
+      
+      return NULL ;
+    }
+    
   }
 }
 

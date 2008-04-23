@@ -26,6 +26,7 @@
 
 #include <model/position.h>
 #include <model/orientation.h>
+#include <model/duration.h>
 
 
 namespace ProjetUnivers {
@@ -66,6 +67,12 @@ namespace ProjetUnivers {
       
       /// Access to the out position of the laser.
       const Position& getOutPosition() const ;
+
+      /// Access to the out orientation of the laser.
+      const Orientation& getOutOrientation() const ;
+      
+      /// Acces to the life duration of the beam produced.
+      Duration getLaserBeamLifeDuration() const ;
       
     private:
       

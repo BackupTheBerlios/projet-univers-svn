@@ -77,7 +77,17 @@ namespace ProjetUnivers {
       return 0 ;
     } 
   
-
+    Duration& Duration::operator=(const Duration& duration)
+    {
+      if (&duration != this)
+      {
+        m_value = duration.m_value ;
+        m_unit = duration.m_unit ;
+      }
+      
+      return *this ;
+    }
+    
   }
 }
 

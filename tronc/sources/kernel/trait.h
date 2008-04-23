@@ -101,7 +101,7 @@ namespace ProjetUnivers {
       Trait() ;
       
       /// Trait's contener.
-      Object* object ;
+      Object* m_object ;
 
       /// Tells the views the trait has changed.
       virtual void notify() ;

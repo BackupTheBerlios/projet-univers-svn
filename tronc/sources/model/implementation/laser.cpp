@@ -19,6 +19,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include <kernel/parameters.h>
+#include <kernel/log.h>
 
 #include <model/model.h>
 #include <model/positionned.h>
@@ -30,6 +31,7 @@
 #include <model/physical_world.h>
 #include <model/solid.h>
 #include <model/shot.h>
+#include <model/with_lifetime.h>
 
 #include <model/laser.h>
 
@@ -76,7 +78,7 @@ namespace ProjetUnivers {
     
     void Laser::fire()
     {
-      
+      InternalMessage("Model","entering fire") ;
       Positionned* positionned = getObject()->getParent<Positionned>() ;
       Oriented* oriented = getObject()->getParent<Oriented>() ;
       PhysicalObject* object = getObject()->getParent<PhysicalObject>() ;
@@ -84,6 +86,7 @@ namespace ProjetUnivers {
       
       if (world && positionned && oriented)
       {
+        InternalMessage("Model","firing") ;
         // create a laserbeam object
         Kernel::Object* beam = createObject(world->getObject()) ;
         
@@ -114,8 +117,11 @@ namespace ProjetUnivers {
           Here we have a limitation : 
           laserbeam collision need to be applied on a physical object 
           thus the beam need to be a physical object before being a beam
+          
+          @todo use a deduced trait in physics on PhysicalObject and LaserBeam
         */
         addTrait(beam,new LaserBeam()) ;
+        addTrait(beam,new WithLifetime(getLaserBeamLifeDuration())) ;
         
         // shot
         Kernel::Object* shot = createObject(world->getObject()) ;
@@ -125,7 +131,9 @@ namespace ProjetUnivers {
         // done
         
       }
-      // else : not much sense thus do nothing      
+      // else : not much sense thus do nothing
+      InternalMessage("Model","leaving fire") ;
+      
     }
     
     float Laser::getLaserSpeedMeterPerSecond() const
@@ -137,5 +145,17 @@ namespace ProjetUnivers {
     {
       return m_out_position ;
     }
+
+    const Orientation& Laser::getOutOrientation() const
+    {
+      return m_out_orientation ;
+    }
+    
+    Duration Laser::getLaserBeamLifeDuration() const
+    {
+      /// @todo configurate
+      return Duration::Second(2) ;
+    }
+  
   }
 }

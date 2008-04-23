@@ -22,7 +22,7 @@
 #define PU_KERNEL_ALGORITHM_H_
 
 #include <set>
-#include <iterator>
+#include <OgreVector3.h>
 
 namespace ProjetUnivers {
   namespace Kernel {
@@ -54,6 +54,25 @@ namespace ProjetUnivers {
       */ 
       template <typename T> T findBefore(const std::set<T>& s,const T& object) ;
 
+      
+      /// Calculate interception time between two moving elements.
+      /*!
+        Hypothesis : 
+        - all units must be consistent
+        - time is calculated considering target keeps actual speed and interceptor 
+          goes at interceptor_speed
+        
+        @param [in] target_positon target position
+        @param [in] target_speed target actual speed
+        @param [in] interceptor_speed interceptor speed
+        
+        @return boolean says if target is reachable, float gives time
+      */
+      std::pair<bool,float> calculateInterceptionTime(
+          const Ogre::Vector3& target_positon,
+          const Ogre::Vector3& target_speed,
+          const float& interceptor_speed) ;    
+      
     }
   }
 }

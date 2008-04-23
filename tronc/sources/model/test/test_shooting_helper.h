@@ -67,6 +67,21 @@ namespace ProjetUnivers {
         */
         void deconnectComputer() ;
         
+        /// A target in front.
+        void testShootable() ;
+
+        /// A target in front all system rotated 45 degrees.
+        void testShootableWithRotation() ;
+        
+        /// A target aligned but behind.
+        void testNotShootableBehind() ;
+        
+        /// A target in front but decaled on the side.
+        void testNotShootableOnTheSide() ;
+
+        /// A target in front and decaled on the side, shoot it in the back.
+        void testShootableOnTheSide() ;
+        
       // @}
       /*!
         @name Test registration
@@ -82,6 +97,11 @@ namespace ProjetUnivers {
         CPPUNIT_TEST(destroyComputer) ;
         CPPUNIT_TEST(destroyLaser) ;
         CPPUNIT_TEST(deconnectComputer) ;
+        CPPUNIT_TEST(testShootable) ;
+        CPPUNIT_TEST(testShootableWithRotation) ;
+        CPPUNIT_TEST(testNotShootableBehind) ;
+        CPPUNIT_TEST(testNotShootableOnTheSide) ;
+        CPPUNIT_TEST(testShootableOnTheSide) ;
 
         CPPUNIT_TEST_SUITE_END() ;
       

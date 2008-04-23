@@ -163,6 +163,16 @@ namespace ProjetUnivers {
     */
     bool isAWhole(Kernel::Object* i_object) ;
 
+    /// Return the ship controled by @c agent.
+    /*!
+      @return NULL if not exist
+    */
+    Kernel::Object* getControledShip(Kernel::Object* agent) ;
+    
+    /// Return the ship of an object
+    Kernel::Object* getShip(Kernel::Object* object) ;
+    
+    
   //@}
   
   }

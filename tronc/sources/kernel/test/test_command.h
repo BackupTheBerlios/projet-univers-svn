@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2008 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -48,12 +48,21 @@ namespace ProjetUnivers {
         
         /// A test for command delegating.
         void testCommandDelegator() ; 
+
+        /// A test for command delegating.
+        void testCommandDelegatorWithTwoDelegates() ; 
         
         /// A test for function call and declaration.
         void testFunctionCall() ;
 
         /// A test for function call in the error cases.
         void testFunctionCallErrorCases() ;
+        
+        /// Call an unexisting command.
+        void callUnexistingCommand() ;
+        
+        /// Command call on a recursive structure.
+        void callOnRecursiveStructure() ;
         
       // @}
 
@@ -62,7 +71,10 @@ namespace ProjetUnivers {
 
         CPPUNIT_TEST(basicTest) ;
         CPPUNIT_TEST(testCommandDelegator) ;
+        CPPUNIT_TEST(testCommandDelegatorWithTwoDelegates) ;
         CPPUNIT_TEST(testFunctionCall) ;
+        CPPUNIT_TEST(callUnexistingCommand) ;
+        CPPUNIT_TEST(callOnRecursiveStructure) ;
 
         CPPUNIT_TEST_SUITE_END() ;
 

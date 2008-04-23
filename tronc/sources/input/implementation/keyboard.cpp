@@ -18,6 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <iostream>
 #include <kernel/string.h>
 #include <kernel/log.h>
 #include <action/action.h>
@@ -63,6 +64,20 @@ namespace ProjetUnivers {
             m_controled_object->call("Select Previous Target") ;
           }
           break ;
+        case OIS::KC_L:
+          if (m_controled_object)
+          {
+            std::set<std::string> commands = m_controled_object->getCommands() ;
+            for(std::set<std::string>::iterator command = commands.begin() ;
+                command != commands.end() ; 
+                ++command)
+            {
+              std::cout << *command << std::endl ;
+            }
+            
+          }
+          break ;
+        
         default:
           
           Display::injectKey(e.key) ;

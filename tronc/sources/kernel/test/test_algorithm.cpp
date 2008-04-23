@@ -86,7 +86,21 @@ namespace ProjetUnivers {
         CPPUNIT_ASSERT(Algorithm::findBefore<int>(ensemble,45)==40) ;
         CPPUNIT_ASSERT(Algorithm::findAfter<int>(ensemble,45)==10) ;
       }
-           
+
+      void TestAlgorithm::calculateInterceptionTime()
+      {
+        Ogre::Vector3 target_position(150,150,0) ;
+        Ogre::Vector3 target_speed(5,0,0) ;
+        float interceptor_speed = 10 ;
+        
+        std::pair<bool,float> reachable_time = 
+          Algorithm::calculateInterceptionTime(target_position,target_speed,interceptor_speed) ;
+        
+        CPPUNIT_ASSERT(reachable_time.first) ;
+        CPPUNIT_ASSERT(reachable_time.second > 0) ;
+        
+      }
+      
       void TestAlgorithm::setUp()
       {
       }

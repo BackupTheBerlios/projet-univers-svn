@@ -24,18 +24,7 @@ namespace ProjetUnivers {
   namespace Model {
     
     IdealTarget::IdealTarget()
-    : m_isAimed(false)
     {}
-  
-    void IdealTarget::calculateIsAimed()
-    {
-       /// @todo
-    }
-    
-    bool IdealTarget::isAimed() const 
-    {
-      return m_isAimed ;
-    }
     
   }
 }

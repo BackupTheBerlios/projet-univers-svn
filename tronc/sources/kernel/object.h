@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2008 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -50,7 +50,7 @@ namespace ProjetUnivers {
     class TraitFormula ;
     class FormulaNot ;
     class Reader ;
-    
+    class CommandDelegator ;
     
     /// A model object.
     /*!
@@ -103,7 +103,7 @@ namespace ProjetUnivers {
       Model* getModel() const ;
 
       /// Access to trait of type T if exists.
-      template <class T> T* getTrait() ;
+      template <class T> T* getTrait() const ;
 
       /// Access to trait's view of type _View if exists.
       /*!
@@ -137,13 +137,20 @@ namespace ProjetUnivers {
       /// Get all the descendant (excluding @c this) with trait T.
       template <class T> std::set<T*> getDescendants() const ;
 
-      /// call a void command returns true iff succedeed.
+      /// Get all the descendant (including @c this) with trait T.
+      template <class T> std::set<T*> getChildren() const ;
+      
+      /// Call a void command.
       /*!
         Try first on object traits then on sub-objects...??
+        @return true iff succedeed.
       */
       bool call(const std::string& i_command) ;
 
-      /// call an int command returns true iff succedeed.
+      /// Call an int command.
+      /*!
+        @return true iff succedeed.
+      */
       bool call(const std::string& i_command, const int&) ;
       
       /// Call a function on object.
@@ -257,6 +264,21 @@ namespace ProjetUnivers {
       /// recursivelly create controlers for a controler set.
       void _create_controlers(ControlerSet* i_controler_set) ;
 
+      /// Internal call a void command.
+      /*!
+        @return true iff succedeed.
+      */
+      bool _call(const std::string& i_command) ;
+
+      /// Internal call an int command.
+      /*!
+        @return true iff succedeed.
+      */
+      bool _call(const std::string& i_command, const int&) ;
+      
+      /// Internal access to all commands understood be the object.
+      std::set<std::string> _getCommands() const ;
+      
     /*!
       @name Deduction access
     */    
@@ -302,6 +324,13 @@ namespace ProjetUnivers {
       /// Number of true chid formulae indexed by formulae.       
       std::vector<unsigned short>      m_number_of_true_child_formulae ;
 
+      /// Record the objects on which we have already try calling a function
+      /*!
+        Avoid infinite loops when the structure of CommandDelegator contains a 
+        cycle.
+      */
+      static std::set<const Kernel::Object*> m_already_called_objects ;
+      
     // @}
 
       friend class Trait ;    
@@ -312,7 +341,7 @@ namespace ProjetUnivers {
       friend class FormulaNot ;
       friend class TraitFormula ;
       friend class DeducedTrait ;
-      
+      friend class CommandDelegator ;
     };
   }
 }      

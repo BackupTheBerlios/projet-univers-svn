@@ -28,6 +28,7 @@ $(SOURCES)/kernel/implementation/trait_view.cpp \
 $(SOURCES)/kernel/implementation/view_point.cpp \
 $(SOURCES)/kernel/implementation/command_delegator.cpp \
 $(SOURCES)/kernel/implementation/parameters.cpp \
+$(SOURCES)/kernel/implementation/percentage.cpp \
 $(SOURCES)/kernel/implementation/reader.cpp \
 $(SOURCES)/kernel/implementation/xml_reader.cpp
 
@@ -52,6 +53,7 @@ $(SOURCES)/kernel/test/test_model_view.cpp \
 $(SOURCES)/kernel/test/test_deduced_trait.cpp \
 $(SOURCES)/kernel/test/test_command.cpp \
 $(SOURCES)/kernel/test/test_parameters.cpp \
+$(SOURCES)/kernel/test/test_percentage.cpp \
 $(SOURCES)/kernel/test/test_xml_reader.cpp \
 $(SOURCES)/kernel/test/test_model.cpp 
 

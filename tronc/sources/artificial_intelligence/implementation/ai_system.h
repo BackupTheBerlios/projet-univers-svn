@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2008 Mathieu ROGER                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,63 +18,30 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_NAME_H_
-#define PU_MODEL_NAME_H_
+#ifndef PU_AI_IMPLEMENTATION_SYSTEM_H_
+#define PU_AI_IMPLEMENTATION_SYSTEM_H_
 
-#include <string>
+#include <model/duration.h>
+#include <kernel/controler_set.h>
 
 namespace ProjetUnivers {
-  namespace Model {
-
-      
-    /// A name.
-    /*!
-
-    */
-    class Name
-    {
-    public:
-
-      /// Construct.
-      /*!
-        The name is undefined.
-      */
-      Name() ;
-      
-      //: Basic construct.
-      Name(const std::string&) ;
-      
-      /// Constructeur de copie.
-      Name(const Name&) ;
+  namespace ArtificialIntelligence {
+    namespace Implementation {
     
-      /// Convert to string.
-      operator std::string() const ; 
-    
-      /// Assignment.
-      Name& operator=(const std::string&) ;
-      Name& operator=(const Name&) ;
-      
-      /// Operateurs de comparaison
-      bool operator==(const std::string&) const ;
-      bool operator==(const Name&) const ;
-      bool operator!=(const Name&) const ;
-    
-      /// True iff undefined.
-      bool isUndefined() const ;
-    
-    
-    private:
-    
-      /// Basic implementation.
-      /*!
-        @todo
-          for future : map languages to string, because a name can change 
-          according to the language.
+      /// Standard controler set for AI calculus.
+      class AISystem : public Kernel::ControlerSet
+      {
+      public:
         
-      */
-      std::string name ;
-      
-    };
+        /// Build the view point.
+        AISystem(Kernel::Model* model) ;
+        
+        /// Simulate the system during @c seconds seconds.
+        virtual void simulate(const float& seconds) ;
+        
+      };
+    }    
   }
 }
-#endif
+
+#endif //PU_IMPLEMENTATION_VIEW_POINT_H_
