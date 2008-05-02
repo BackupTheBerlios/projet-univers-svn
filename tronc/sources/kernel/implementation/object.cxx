@@ -23,7 +23,7 @@ namespace ProjetUnivers {
  
     template <class _View> _View* Object::getView(ViewPoint* i_viewpoint)
     {
-      CHECK(i_viewpoint,ExceptionKernel("Object::getView error")) ;
+      CHECK(i_viewpoint,"Object::getView error") ;
 //      InternalMessage("Kernel",
 //        "Object::getView for " + getObjectTypeIdentifier(i_viewpoint).toString()) ;
       

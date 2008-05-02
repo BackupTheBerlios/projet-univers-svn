@@ -55,6 +55,9 @@ namespace ProjetUnivers {
         /// Test destruction of detector
         void testDetectorDestruction() ;
 
+        /// Test the relative position of the detected object.
+        void testRelativePosition() ;
+        
       // @}
       // *******************************
       /// @name Test registration
@@ -69,6 +72,7 @@ namespace ProjetUnivers {
         CPPUNIT_TEST(detectObjectMovingOutOfRange) ;
         CPPUNIT_TEST(testComputerDestruction) ;
         CPPUNIT_TEST(testDetectorDestruction) ;
+        CPPUNIT_TEST(testRelativePosition) ;
       
         CPPUNIT_TEST_SUITE_END() ;
 

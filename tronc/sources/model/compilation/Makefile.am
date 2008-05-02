@@ -78,6 +78,7 @@ libmodel_la_SOURCES = \
 ../implementation/logic/destroyable.cpp \
 ../implementation/logic/detector.cpp \
 ../implementation/logic/target.cpp \
+../implementation/logic/laser.cpp \
 ../implementation/logic/shooting_helper_viewpoint.cpp \
 ../implementation/logic/shooting_helper.cpp \
 ../implementation/logic/shot.cpp 
@@ -102,6 +103,7 @@ test_model_SOURCES = \
 ../test/test_distance.cpp \
 ../test/test_model.cpp \
 ../test/test_oriented.cpp \
+../test/test_orientation.cpp \
 ../test/test_positionned.cpp \
 ../test/test_speed.cpp \
 ../test/test_engine_control.cpp \

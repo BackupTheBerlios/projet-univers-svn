@@ -29,8 +29,10 @@ namespace ProjetUnivers {
 
     /// For objects that are a throttle.
     /*!
-      Throttle have exactly one axis.
-      usage : getOrientation().getPitch()
+      Throttle have exactly one axis. Value ranges in [0,100].  
+      usage : 
+        getOrientation().getPitch()
+      @invariant getOrientation().getPitch() in [0,90°].
     */
     class Throttle : public Oriented
     {
@@ -53,6 +55,7 @@ namespace ProjetUnivers {
     
     private:
 
+      /// Current value in [0,100].
       int m_y ;
     };
   }

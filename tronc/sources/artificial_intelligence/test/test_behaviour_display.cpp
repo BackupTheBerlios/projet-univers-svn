@@ -77,17 +77,17 @@ public:
 
       CL_Display::clear_display() ;
 
-//      Ogre::Vector3 steering_target = SteeringBehaviour::evade(target,seeker) ;
-//      target.simulate(steering_target) ;
-      target.simulate(zero) ;
+      Ogre::Vector3 steering_target = SteeringBehaviour::evade(target,seeker) ;
+      target.simulate(steering_target) ;
+//      target.simulate(zero) ;
 
-      Ogre::Vector3 steering = SteeringBehaviour::pursuit(seeker,target) ;
-      Ogre::Vector3 steering2 = SteeringBehaviour::separate(seeker,targets,0.1) ; 
-      if (steering2.length() != 0)
-        steering = steering2 ;
+      Ogre::Vector3 steering = SteeringBehaviour::offsetPursuit(seeker,target,Ogre::Vector3(0,0,-target.getRadius())) ;
+//      Ogre::Vector3 steering2 = SteeringBehaviour::separate(seeker,targets,0.1) ; 
+//      if (steering2.length() != 0)
+//        steering = steering2 ;
 //      steering += steering2 ; 
-      font->print_center(size/2,size/2, "separation x =" + toString(steering2.x)) ;
-      font->print_center(size/2,size/2+10, "separation y =" + toString(steering2.y)) ;
+//      font->print_center(size/2,size/2, "separation x =" + toString(steering2.x)) ;
+//      font->print_center(size/2,size/2+10, "separation y =" + toString(steering2.y)) ;
       
       seeker.simulate(steering) ;
 

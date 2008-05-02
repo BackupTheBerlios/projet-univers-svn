@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2008 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,6 +18,8 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <kernel/error.h>
+#include <kernel/log.h>
 #include <model/duration.h>
 
 namespace ProjetUnivers {
@@ -87,6 +89,50 @@ namespace ProjetUnivers {
       
       return *this ;
     }
+
+    Duration Duration::read(Kernel::Reader* reader)
+    {
+      Duration result ;
+      
+      std::map<std::string,std::string>::const_iterator finder ; 
+
+      finder = reader->getAttributes().find("value") ;
+      if (finder != reader->getAttributes().end())
+      {
+        result.m_value = atof(finder->second.c_str()) ;
+      }
+      else
+      {
+        ErrorMessage("Model::Energy::read required attribute : value") ;
+      }
+
+      
+      finder = reader->getAttributes().find("unit") ;
+      if (finder != reader->getAttributes().end())
+      {
+        if (finder->second == "Second")
+        {
+          result.m_unit = _Second ;
+        }
+        else 
+        {
+          ErrorMessage("Model::Duration::read invalid unit : " + finder->second) ;
+        }
+      }
+      else
+      {
+        ErrorMessage("Model::Duration::read required attribute : unit") ;
+      }
+      
+      // move out of node
+      while (!reader->isEndNode() && reader->processNode())
+      {}
+      
+      reader->processNode() ;
+      
+      return result ;            
+    }   
+
     
   }
 }

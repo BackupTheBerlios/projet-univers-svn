@@ -43,7 +43,9 @@ namespace ProjetUnivers {
         /// Tests fire method.
         void testFire() ;
 
-           
+        /// Tests the energy of teh produced beam
+        void beamEnergy() ;
+        
       // @}
       // *******************************
       /// @name Test registration
@@ -53,6 +55,7 @@ namespace ProjetUnivers {
         CPPUNIT_TEST_SUITE(TestLaser) ;
       
         CPPUNIT_TEST(testFire) ;
+        CPPUNIT_TEST(beamEnergy) ;
       
         CPPUNIT_TEST_SUITE_END() ;
 

@@ -71,7 +71,7 @@ namespace ProjetUnivers {
         addTrait(ship,new Mobile()) ;
         addTrait(ship,new Solid(Mesh("razor.mesh"))) ;
         addTrait(ship,new Computer()) ;
-        addTrait(ship,new Laser(Position(),Orientation())) ;
+        addTrait(ship,new Laser(Position(),Orientation(),Energy::Joule(10))) ;
         addTrait(ship,new Detector(ship)) ;
         addTrait(ship,new TargetingSystem()) ;
         TargetingSystem::connect(ship,ship) ;
@@ -132,7 +132,7 @@ namespace ProjetUnivers {
         addTrait(ship,new Mobile()) ;
         addTrait(ship,new Solid(Mesh("razor.mesh"))) ;
         addTrait(ship,new Computer()) ;
-        addTrait(ship,new Laser(Position(),Orientation())) ;
+        addTrait(ship,new Laser(Position(),Orientation(),Energy::Joule(10))) ;
         addTrait(ship,new Detector(ship)) ;
         addTrait(ship,new TargetingSystem()) ;
         TargetingSystem::connect(ship,ship) ;
@@ -192,7 +192,7 @@ namespace ProjetUnivers {
         addTrait(ship,new Mobile()) ;
         addTrait(ship,new Solid(Mesh("razor.mesh"))) ;
         addTrait(ship,new Computer()) ;
-        addTrait(ship,new Laser(Position(),Orientation())) ;
+        addTrait(ship,new Laser(Position(),Orientation(),Energy::Joule(10))) ;
         float laser_speed_meter_per_second = ship->getTrait<Laser>()->getLaserSpeedMeterPerSecond() ;
         addTrait(ship,new Detector(ship)) ;
         addTrait(ship,new TargetingSystem()) ;
@@ -246,7 +246,7 @@ namespace ProjetUnivers {
         addTrait(ship,new Mobile()) ;
         addTrait(ship,new Solid(Mesh("razor.mesh"))) ;
         addTrait(ship,new Computer()) ;
-        addTrait(ship,new Laser(Position(),Orientation())) ;
+        addTrait(ship,new Laser(Position(),Orientation(),Energy::Joule(10))) ;
         addTrait(ship,new Detector(ship)) ;
         addTrait(ship,new TargetingSystem()) ;
         TargetingSystem::connect(ship,ship) ;
@@ -308,7 +308,7 @@ namespace ProjetUnivers {
         addTrait(ship,new Mobile()) ;
         addTrait(ship,new Solid(Mesh("razor.mesh"))) ;
         addTrait(ship,new Computer()) ;
-        addTrait(ship,new Laser(Position(),Orientation())) ;
+        addTrait(ship,new Laser(Position(),Orientation(),Energy::Joule(10))) ;
         addTrait(ship,new Detector(ship)) ;
         addTrait(ship,new TargetingSystem()) ;
         TargetingSystem::connect(ship,ship) ;
@@ -365,7 +365,7 @@ namespace ProjetUnivers {
         addTrait(ship,new Mobile()) ;
         addTrait(ship,new Solid(Mesh("razor.mesh"))) ;
         addTrait(ship,new Computer()) ;
-        addTrait(ship,new Laser(Position(),Orientation())) ;
+        addTrait(ship,new Laser(Position(),Orientation(),Energy::Joule(10))) ;
         addTrait(ship,new Detector(ship)) ;
         addTrait(ship,new TargetingSystem()) ;
         TargetingSystem::connect(ship,ship) ;
@@ -422,7 +422,7 @@ namespace ProjetUnivers {
         addTrait(ship,new Mobile()) ;
         addTrait(ship,new Solid(Mesh("razor.mesh"))) ;
         addTrait(ship,new Computer()) ;
-        addTrait(ship,new Laser(Position(),Orientation())) ;
+        addTrait(ship,new Laser(Position(),Orientation(),Energy::Joule(10))) ;
         addTrait(ship,new Detector(ship)) ;
         addTrait(ship,new TargetingSystem()) ;
         TargetingSystem::connect(ship,ship) ;
@@ -483,7 +483,7 @@ namespace ProjetUnivers {
         addTrait(ship,new Mobile()) ;
         addTrait(ship,new Solid(Mesh("razor.mesh"))) ;
         addTrait(ship,new Computer()) ;
-        addTrait(ship,new Laser(Position(),Orientation())) ;
+        addTrait(ship,new Laser(Position(),Orientation(),Energy::Joule(10))) ;
         addTrait(ship,new Detector(ship)) ;
         addTrait(ship,new TargetingSystem()) ;
         TargetingSystem::connect(ship,ship) ;
@@ -535,7 +535,7 @@ namespace ProjetUnivers {
         addTrait(ship,new Mobile()) ;
         addTrait(ship,new Solid(Mesh("razor.mesh"))) ;
         addTrait(ship,new Computer()) ;
-        addTrait(ship,new Laser(Position(),Orientation())) ;
+        addTrait(ship,new Laser(Position(),Orientation(),Energy::Joule(10))) ;
         addTrait(ship,new Detector(ship)) ;
         addTrait(ship,new TargetingSystem()) ;
         TargetingSystem::connect(ship,ship) ;
@@ -587,7 +587,7 @@ namespace ProjetUnivers {
         addTrait(ship,new Mobile()) ;
         addTrait(ship,new Solid(Mesh("razor.mesh"))) ;
         addTrait(ship,new Computer()) ;
-        addTrait(ship,new Laser(Position(),Orientation())) ;
+        addTrait(ship,new Laser(Position(),Orientation(),Energy::Joule(10))) ;
         addTrait(ship,new Detector(ship)) ;
         addTrait(ship,new TargetingSystem()) ;
         TargetingSystem::connect(ship,ship) ;
@@ -639,7 +639,7 @@ namespace ProjetUnivers {
         addTrait(ship,new Mobile()) ;
         addTrait(ship,new Solid(Mesh("razor.mesh"))) ;
         addTrait(ship,new Computer()) ;
-        addTrait(ship,new Laser(Position(),Orientation())) ;
+        addTrait(ship,new Laser(Position(),Orientation(),Energy::Joule(10))) ;
         addTrait(ship,new Detector(ship)) ;
         addTrait(ship,new TargetingSystem()) ;
         TargetingSystem::connect(ship,ship) ;
@@ -691,7 +691,7 @@ namespace ProjetUnivers {
         addTrait(ship,new Mobile()) ;
         addTrait(ship,new Solid(Mesh("razor.mesh"))) ;
         addTrait(ship,new Computer()) ;
-        addTrait(ship,new Laser(Position(),Orientation())) ;
+        addTrait(ship,new Laser(Position(),Orientation(),Energy::Joule(10))) ;
         addTrait(ship,new Detector(ship)) ;
         addTrait(ship,new TargetingSystem()) ;
         TargetingSystem::connect(ship,ship) ;

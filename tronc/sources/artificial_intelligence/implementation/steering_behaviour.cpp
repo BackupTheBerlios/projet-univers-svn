@@ -153,7 +153,7 @@ namespace ProjetUnivers {
                                 "," + Kernel::toString(seeking_position.y) + 
                                 "," + Kernel::toString(seeking_position.z)) ;
           
-          Ogre::Vector3 desiredVelocity = seeking_position - agent.getPosition() ;
+          Ogre::Vector3 desiredVelocity  = seeking_position - agent.getPosition() ;
           agent.normalizeSpeed(desiredVelocity) ;
           
           Ogre::Vector3 result = desiredVelocity-agent.getSpeed() ;
@@ -168,6 +168,80 @@ namespace ProjetUnivers {
         }
       }
 
+      
+      Ogre::Vector3 SteeringBehaviour::offsetPursuit(
+          const Vehicle& agent,
+          const Vehicle& target,
+          const float&   distance)
+      {
+        
+        InternalMessage("AI","agent.getPosition() =" + 
+                                    Kernel::toString(agent.getPosition().x) + 
+                              "," + Kernel::toString(agent.getPosition().y) + 
+                              "," + Kernel::toString(agent.getPosition().z)) ;
+        
+        InternalMessage("AI","target.getPosition() =" + 
+                                    Kernel::toString(target.getPosition().x) + 
+                              "," + Kernel::toString(target.getPosition().y) + 
+                              "," + Kernel::toString(target.getPosition().z)) ;
+        
+        Ogre::Vector3 offset = target.getPosition() -
+                               agent.getPosition() ;
+        
+        InternalMessage("AI","offset =" + 
+                                    Kernel::toString(offset.x) + 
+                              "," + Kernel::toString(offset.y) + 
+                              "," + Kernel::toString(offset.z)) ;
+        
+        // calculate interception time
+        std::pair<bool,float> reachable_time = 
+          Kernel::Algorithm::calculateInterceptionTime(offset,
+                                                       target.getSpeed(),
+                                                       agent.getMaxSpeed()) ;
+        
+        if (! reachable_time.first)
+        {
+          InternalMessage("AI","offsetPursuit unreachable") ; 
+          return Ogre::Vector3::ZERO ;
+        }
+        else
+        {
+          InternalMessage("AI","time =" + Kernel::toString(reachable_time.second)) ; 
+          
+          if (!finite(reachable_time.second))
+          {
+            reachable_time.second = 0 ;
+          }
+          
+          const Ogre::Vector3 seeking_position = 
+            target.predictFuturePosition(reachable_time.second) ;
+          
+          InternalMessage("AI","seeking_position =" + 
+                                      Kernel::toString(seeking_position.x) + 
+                                "," + Kernel::toString(seeking_position.y) + 
+                                "," + Kernel::toString(seeking_position.z)) ;
+          
+          Ogre::Vector3 desiredVelocity  = seeking_position - agent.getPosition() ;
+          
+          Ogre::Vector3 delta = desiredVelocity ;
+          delta.normalise() ;
+          desiredVelocity = desiredVelocity - delta*distance ;
+          
+          agent.normalizeSpeed(desiredVelocity) ;
+          
+          Ogre::Vector3 result = desiredVelocity-agent.getSpeed() ;
+          
+          InternalMessage("AI","result =" + 
+                                      Kernel::toString(result.x) + 
+                                "," + Kernel::toString(result.y) + 
+                                "," + Kernel::toString(result.z)) ;
+          
+          return result ;
+          
+        }
+      }
+
+      
       /// Returns a float randomly distributed between 0 and 1
       float frandom01 (void)
       {
@@ -237,9 +311,6 @@ namespace ProjetUnivers {
         return desiredVelocity-agent.getSpeed() ;
       }
 
-      /*!
-        @todo the speed reduction must be removed and used in pursuit
-      */
       Ogre::Vector3 SteeringBehaviour::separate(
           const Vehicle&           agent, 
           const std::set<Vehicle*>& neighbours,
@@ -257,7 +328,7 @@ namespace ProjetUnivers {
 
           Ogre::Vector3 offset = (*neighbour)->predictFuturePosition(simulation_time)-
                                  agent.predictFuturePosition(simulation_time) ;
-          const float futureDistance = offset.normalise() ;
+          const float futureDistance = offset.length() ;
           InternalMessage("AI","SteeringBehaviour::separate offset=" + 
                                       Kernel::toString(offset.x) + 
                                 "," + Kernel::toString(offset.y) + 
@@ -265,30 +336,7 @@ namespace ProjetUnivers {
           
           if (futureDistance < minCenterToCenter)
           {
-            if (futureDistance == 0)
-            {
-              offset = agent.getForward() ;
-              offset.normalise() ;
-              offset *= -agent.getMaxSpeed() ;
-            }
-            else
-            {
-              InternalMessage("AI","SteeringBehaviour minCenterToCenter-futureDistance =" + Kernel::toString(minCenterToCenter-futureDistance)) ;
-              InternalMessage("AI","SteeringBehaviour agent.getMaxSpeed() =" + Kernel::toString(agent.getMaxSpeed())) ;
-              /// privilagiate speed reduction 
-              if ((agent.getSpeed().length() - (minCenterToCenter-futureDistance))/agent.getMaxSpeed() > 0.5)
-              {
-                InternalMessage("AI","SteeringBehaviour privilegiate speed reduction") ;
-                offset = agent.getForward() ;
-                offset.normalise() ;
-                offset *= (futureDistance-minCenterToCenter)*3 ;
-              }
-              else
-              {
-                offset = offset * (futureDistance-minCenterToCenter) ;
-              }
-            }
-            result += offset ;
+            result += offset / (futureDistance*futureDistance) ;
           }
           InternalMessage("AI","SteeringBehaviour::futureDistance =" + Kernel::toString(futureDistance)) ;
         }

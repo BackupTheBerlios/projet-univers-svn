@@ -175,7 +175,8 @@ namespace ProjetUnivers {
         Model::addTrait(ship,new Model::Solid(Model::Mesh("razor.mesh"))) ;
         Model::addTrait(ship,new Model::Massive(Model::Mass::Kilogram(1000))) ;
         Model::addTrait(ship,new Model::Laser(Model::Position::Meter(19.2,0,50+7),
-                                              Model::Orientation())) ;
+                                              Model::Orientation(),
+                                              Model::Energy::Joule(10))) ;
         CPPUNIT_ASSERT(ship->getTrait<Model::PhysicalObject>()) ;
         CPPUNIT_ASSERT(ship->getTrait<Model::PhysicalWorld>()) ;
 
@@ -235,7 +236,8 @@ namespace ProjetUnivers {
         Model::addTrait(beam,new Model::Positionned(Model::Position::Meter(0,0,-100))) ;
         Model::addTrait(beam,new Model::Oriented()) ;
         Model::addTrait(beam,new Model::Mobile(Model::Speed::MeterPerSecond(0,0,50))) ;
-        Model::addTrait(beam,new Model::Massive(Model::Mass(Model::Energy::Joule(10)))) ;
+        Model::addTrait(beam,new Model::Massive(Model::Mass(Model::Energy::Joule(10),
+                                                            beam->getTrait<Model::Mobile>()->getSpeed()))) ;
         Model::addTrait(beam,new Model::LaserBeam()) ;
         CPPUNIT_ASSERT(beam->getTrait<Model::PhysicalObject>()) ;
         
@@ -277,7 +279,8 @@ namespace ProjetUnivers {
           Model::addTrait(beam,new Model::Oriented()) ;
           Model::addTrait(beam,new Model::Mobile()) ;
           Model::addTrait(beam,new Model::LaserBeam()) ;
-          Model::addTrait(beam,new Model::Massive(Model::Mass(Model::Energy::Joule(10)))) ;
+          Model::addTrait(beam,new Model::Massive(Model::Mass(Model::Energy::Joule(10),
+                                                              beam->getTrait<Model::Mobile>()->getSpeed()))) ;
         }
 
         {
@@ -286,7 +289,8 @@ namespace ProjetUnivers {
           Model::addTrait(beam,new Model::Oriented()) ;
           Model::addTrait(beam,new Model::Mobile(Model::Speed::MeterPerSecond(0,0,10))) ;
           Model::addTrait(beam,new Model::LaserBeam()) ;
-          Model::addTrait(beam,new Model::Massive(Model::Mass(Model::Energy::Joule(10)))) ;
+          Model::addTrait(beam,new Model::Massive(Model::Mass(Model::Energy::Joule(10),
+                                                              beam->getTrait<Model::Mobile>()->getSpeed()))) ;
         }
         /// build a physical viewpoint        
         Physic::init() ;
@@ -329,7 +333,8 @@ namespace ProjetUnivers {
         Model::addTrait(ship,new Model::Solid(Model::Mesh("razor.mesh"))) ;
         Model::addTrait(ship,new Model::Massive(Model::Mass::Kilogram(1000))) ;
         Model::addTrait(ship,new Model::Laser(Model::Position::Meter(19.2,0,35),
-                                              Model::Orientation())) ;
+                                              Model::Orientation(),
+                                              Model::Energy::Joule(10))) ;
         CPPUNIT_ASSERT(ship->getTrait<Model::PhysicalObject>()) ;
         CPPUNIT_ASSERT(ship->getTrait<Model::PhysicalWorld>()) ;
 

@@ -28,6 +28,10 @@ namespace ProjetUnivers {
   namespace Model {
       
     /// Represents detection information on objects.
+    /*!
+      Detection data are generally also Positionned, in that case, the position 
+      is in the local space of the Detector. 
+    */
     class DetectionData : public Kernel::Trait
     {
     public:

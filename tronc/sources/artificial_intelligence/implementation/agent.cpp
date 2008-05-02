@@ -47,7 +47,10 @@ namespace ProjetUnivers {
         m_previous_X(0),
         m_previous_Y(0),
         m_delta_throttle(0),
-        m_max_steering(1,1,1)
+        m_max_steering(1,1,1),
+        m_max_steering_X(1),
+        m_max_steering_Y(1),
+        m_max_steering_speed(0)
       {}
 
       void Agent::onInit()
@@ -141,12 +144,13 @@ namespace ProjetUnivers {
           // if enemy selected pursuit it
           if (m_target)
           {
-            m_steering += SteeringBehaviour::pursuit(*m_vehicle,*m_target) ;
+            m_steering += SteeringBehaviour::offsetPursuit(*m_vehicle,*m_target,m_target->getRadius()*2) ;
           }
           
           // if in range shoot
           if (target && target->getTrait<Model::Shootable>())
           {
+            InternalMessage("Agent","fire") ;
             getObject()->call("fire") ;
           }
           break ;
@@ -163,9 +167,145 @@ namespace ProjetUnivers {
         }
         }
       }
+
+      Ogre::Vector3 Agent::calculateSteeringCommands(const float& seconds_since_last_frame)
+      {
+        return calculateSteeringCommands2(seconds_since_last_frame) ;
+      }
+      
+      Ogre::Vector3 Agent::calculateSteeringCommands1(const float& seconds_since_last_frame)
+      {
+        // get the steering behaviour and apply commands
+        InternalMessage("Agent","m_steering=" + Ogre::StringConverter::toString(m_steering)) ;
+
+        // Steering calibration
+        m_steering = m_previous_orientation.Inverse()*m_steering ;
+        
+        // previous steering in m.s-2
+        Ogre::Vector3 real_steering = m_vehicle->getSpeed()-m_previous_speed ; 
+        InternalMessage("Agent","position=" + Ogre::StringConverter::toString(m_vehicle->getPosition())) ;
+        InternalMessage("Agent","orientation=" + Ogre::StringConverter::toString(m_vehicle->getOrientation())) ;
+        InternalMessage("Agent","speed=" + Ogre::StringConverter::toString(m_vehicle->getSpeed())) ;
+        InternalMessage("Agent","previous speed=" + Ogre::StringConverter::toString(m_previous_speed)) ;
+        
+        real_steering = m_previous_orientation.Inverse()*real_steering ;
+        
+        InternalMessage("Agent","m_max_steering=" + Ogre::StringConverter::toString(m_max_steering)) ;
+        InternalMessage("Agent","real_steering=" + Ogre::StringConverter::toString(real_steering)) ;
+
+        InternalMessage("Agent","previous Y=" + Kernel::toString(float(m_previous_Y))) ;
+        InternalMessage("Agent","previous X=" + Kernel::toString(float(m_previous_X))) ;
+        InternalMessage("Agent","previous thottle=" + Kernel::toString(float(m_delta_throttle))) ;
+        
+        if (m_previous_X != 0 && real_steering.x != 0)
+          m_max_steering.x = fabs(real_steering.x/float(m_previous_X)) ;
+        
+        if (m_previous_Y != 0 && real_steering.y != 0)
+          m_max_steering.y = fabs(real_steering.y/float(m_previous_Y)) ;
+        
+        if (m_delta_throttle != 0 && real_steering.z != 0)
+          m_max_steering.z = fabs(real_steering.z/float(m_delta_throttle)) ;
+
+        InternalMessage("Agent","m_max_steering=" + Ogre::StringConverter::toString(m_max_steering)) ;
+        
+        Kernel::Percentage X = -m_steering.x/m_max_steering.x ;
+        Kernel::Percentage Y = m_steering.y/m_max_steering.y ;
+        Kernel::Percentage throttle = m_steering.z/m_max_steering.z ; 
+        
+        return Ogre::Vector3(int(X),int(Y),int(throttle)) ;
+      }
+      
+      Ogre::Vector3 Agent::calculateSteeringCommands2(const float& seconds_since_last_frame)
+      {
+        InternalMessage("Agent","m_steering=" + Ogre::StringConverter::toString(m_steering)) ;
+        InternalMessage("Agent","seconds_since_last_frame=" + Kernel::toString(seconds_since_last_frame)) ;
+        
+        // calibration : calculate previous steering 
+        calibrateSteering(seconds_since_last_frame) ;
+        
+        // angle between front and desired velocity
+        Ogre::Vector3 aim_speed_local_space 
+          = m_vehicle->getOrientation().Inverse()*(m_vehicle->getSpeed() + m_steering) ;
+        
+        InternalMessage("Agent","aim_speed_local_space=" + Ogre::StringConverter::toString(aim_speed_local_space)) ;
+        
+        Ogre::Quaternion rotation = Ogre::Vector3::UNIT_Z.getRotationTo(aim_speed_local_space) ;
+        rotation.normalise() ;
+        
+        InternalMessage("Agent","rotation yaw=" + Kernel::toString(rotation.getYaw().valueDegrees())) ;
+        InternalMessage("Agent","rotation pitch=" + Kernel::toString(rotation.getPitch().valueDegrees())) ;
+
+        InternalMessage("Agent","divider yaw=" + Kernel::toString((m_max_steering_X*seconds_since_last_frame).valueDegrees())) ;
+        
+        // x part 
+        Kernel::Percentage X = 
+          float(rotation.getYaw().valueDegrees()/
+              fabs((m_max_steering_X*seconds_since_last_frame).valueDegrees())) ;
+        
+        // Y part
+        Kernel::Percentage Y = 
+          float(rotation.getPitch().valueDegrees()/
+              fabs((m_max_steering_Y*seconds_since_last_frame).valueDegrees())) ;
+        
+        // throttle part
+        float delta_speed = aim_speed_local_space.length()-m_vehicle->getSpeed().length() ;
+        
+        Kernel::Percentage throttle = 
+          delta_speed / (m_max_steering_speed*seconds_since_last_frame) ;
+        
+        return Ogre::Vector3(-int(X),int(Y),int(throttle)) ;
+      }
+
+      void Agent::calibrateSteering(const float& seconds_since_last_frame)
+      {
+        // previous_orientation then delta == current_orientation
+//        Ogre::Quaternion delta = m_vehicle->getOrientation()*(m_previous_orientation.Inverse()) ; 
+        
+        Ogre::Quaternion delta = m_previous_orientation.zAxis().getRotationTo(m_vehicle->getOrientation().zAxis()) ;
+        delta.normalise() ;
+        
+        InternalMessage("Agent","calibrateSteering::delta=" + Ogre::StringConverter::toString(delta)) ;
+        
+        InternalMessage("Agent","calibrateSteering::delta yaw=" + Kernel::toString(delta.getYaw().valueDegrees())) ;
+        InternalMessage("Agent","calibrateSteering::delta pitch=" + Kernel::toString(delta.getPitch().valueDegrees())) ;
+
+        if (int(m_previous_X) != 0)
+        {
+          m_max_steering_X = (delta.getYaw()/float(m_previous_X))/seconds_since_last_frame ;
+        }
+        
+        if (int(m_previous_Y) != 0)
+        {
+          m_max_steering_Y = (delta.getPitch()/float(m_previous_Y))/seconds_since_last_frame ;
+        }
+
+        if (m_max_steering_X.valueRadians() == 0)
+          m_max_steering_X = Ogre::Degree(1) ;
+          
+        if (m_max_steering_Y.valueRadians() == 0)
+          m_max_steering_Y = Ogre::Degree(1) ;
+        
+        // 
+        float delta_speed = m_previous_speed.length()-m_vehicle->getSpeed().length() ;
+        
+        if(int(m_delta_throttle) != 0)
+        {
+          m_max_steering_speed = fabs((delta_speed/float(m_delta_throttle))/seconds_since_last_frame) ;
+        }
+        
+        if (m_max_steering_speed == 0)
+          m_max_steering_speed = 1 ;
+        
+        InternalMessage("Agent","calibration m_max_steering_X=" + Kernel::toString(m_max_steering_X.valueDegrees())) ;
+        InternalMessage("Agent","calibration m_max_steering_Y=" + Kernel::toString(m_max_steering_Y.valueDegrees())) ;
+        InternalMessage("Agent","calibration m_max_steering_speed=" + Kernel::toString(m_max_steering_speed)) ;
+      }
       
       void Agent::simulate(const float& seconds)
       {
+        if (seconds == 0)
+          return ;
+        
         // re-init the steering behaviour
         m_steering = Ogre::Vector3::ZERO ;
         
@@ -180,61 +320,36 @@ namespace ProjetUnivers {
         }
         
         // calculate avoidance
-        Ogre::Vector3 separate_steering = SteeringBehaviour::separate(*m_vehicle,m_other_vehicles,seconds) ;
-        
-        if (separate_steering != Ogre::Vector3::ZERO)
-        {
-          m_steering = separate_steering ;
-          InternalMessage("AI","separating") ;
-        }
+//        Ogre::Vector3 separate_steering = SteeringBehaviour::separate(*m_vehicle,m_other_vehicles,seconds) ;
+//        
+//        if (separate_steering != Ogre::Vector3::ZERO)
+//        {
+//          m_steering = separate_steering ;
+//          InternalMessage("AI","separating") ;
+//        }
 
-        m_steering = m_previous_orientation.Inverse()*m_steering ;
+        Ogre::Vector3 commands = calculateSteeringCommands(seconds) ;
         
-        // get the steering behaviour and apply commands
-        InternalMessage("AI","m_steering=" + Ogre::StringConverter::toString(m_steering)) ;
-
-        // Steering calibration
-        
-        // previous steering in m.s-2
-        Ogre::Vector3 real_steering = m_vehicle->getSpeed()-m_previous_speed ; 
-        InternalMessage("AI","position=" + Ogre::StringConverter::toString(m_vehicle->getPosition())) ;
-        InternalMessage("AI","orientation=" + Ogre::StringConverter::toString(m_vehicle->getOrientation())) ;
-        InternalMessage("AI","speed=" + Ogre::StringConverter::toString(m_vehicle->getSpeed())) ;
-        InternalMessage("AI","previous speed=" + Ogre::StringConverter::toString(m_previous_speed)) ;
-        
-        real_steering = m_previous_orientation.Inverse()*real_steering ;
-        
-        InternalMessage("AI","m_max_steering=" + Ogre::StringConverter::toString(m_max_steering)) ;
-        InternalMessage("AI","real_steering=" + Ogre::StringConverter::toString(real_steering)) ;
-
-        InternalMessage("AI","previous Y=" + Kernel::toString(float(m_previous_Y))) ;
-        InternalMessage("AI","previous X=" + Kernel::toString(float(m_previous_X))) ;
-        InternalMessage("AI","previous thottle=" + Kernel::toString(float(m_delta_throttle))) ;
-        
-        if (m_previous_X != 0 && real_steering.x != 0)
-          m_max_steering.x = fabs(real_steering.x/float(m_previous_X)) ;
-        
-        if (m_previous_Y != 0 && real_steering.y != 0)
-          m_max_steering.y = fabs(real_steering.y/float(m_previous_Y)) ;
-        
-        if (m_delta_throttle != 0 && real_steering.z != 0)
-          m_max_steering.z = fabs(real_steering.z/float(m_delta_throttle)) ;
-
-        InternalMessage("AI","m_max_steering=" + Ogre::StringConverter::toString(m_max_steering)) ;
-        
-        m_previous_X = -m_steering.x/m_max_steering.x ;
-        m_previous_Y = m_steering.y/m_max_steering.y ;
-        m_delta_throttle = m_steering.z/m_max_steering.z ;
+        m_previous_X = int(commands.x) ;
+        m_previous_Y = int(commands.y) ;
+        m_delta_throttle = int(commands.z) ;
         m_previous_speed = m_vehicle->getSpeed() ;
         m_previous_orientation = m_vehicle->getOrientation() ;
+
+        if(m_target)
+        {
+          InternalMessage("Agent","target position=" + Ogre::StringConverter::toString(m_target->getPosition())) ;
+        }
+
+        InternalMessage("Agent","agent position=" + Ogre::StringConverter::toString(m_vehicle->getPosition())) ;
         
-        InternalMessage("AI","applyied Y=" + Kernel::toString(float(m_previous_Y))) ;
-        InternalMessage("AI","applyied X=" + Kernel::toString(float(m_previous_X))) ;
-        InternalMessage("AI","applyied thottle=" + Kernel::toString(float(m_delta_throttle))) ;
+        InternalMessage("Agent","applyied X=" + Kernel::toString(float(m_previous_X))) ;
+        InternalMessage("Agent","applyied Y=" + Kernel::toString(float(m_previous_Y))) ;
+        InternalMessage("Agent","applyied thottle=" + Kernel::toString(float(m_delta_throttle))) ;
         
-        getObject()->call("set_axis_Y",m_previous_Y) ;
-        getObject()->call("set_axis_X",m_previous_X) ;
-        getObject()->call("Change Throttle",m_delta_throttle) ;
+        getObject()->call("set_axis_X",int(m_previous_X)) ;
+        getObject()->call("set_axis_Y",int(m_previous_Y)) ;
+        getObject()->call("Change Throttle",int(m_delta_throttle)) ;
       }
 
       Kernel::Object* Agent::getTargetingSystem() const

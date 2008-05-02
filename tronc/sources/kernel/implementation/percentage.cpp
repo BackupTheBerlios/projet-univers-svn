@@ -36,6 +36,9 @@ namespace ProjetUnivers {
     Percentage& Percentage::operator=(const int& value)
     {
       m_value = (value<0?-0.01:+0.01)*std::min(int(fabs(value)),100) ;
+      if (!finite(m_value))
+        m_value = 0 ;
+      return *this ;
     }
     
     Percentage::Percentage(const float& value)
@@ -45,6 +48,9 @@ namespace ProjetUnivers {
     Percentage& Percentage::operator=(const float& value)
     {
       m_value = (value<0?-1:+1)*std::min(fabs(value),1.0) ;
+      if (!finite(m_value))
+        m_value = 0 ;
+      return *this ;
     }
 
     Percentage::operator int() const

@@ -64,9 +64,9 @@ namespace ProjetUnivers {
       {
         m_y = max ;
       }
-      if (m_y < -max)
+      if (m_y < 0)
       {
-        m_y = -max ;
+        m_y = 0 ;
       }
       Ogre::Quaternion orientation(Ogre::Degree(0.9*m_y),Ogre::Vector3::UNIT_X) ;
       m_orientation = Model::Orientation(orientation) ;

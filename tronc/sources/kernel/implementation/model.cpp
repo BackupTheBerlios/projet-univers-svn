@@ -90,7 +90,7 @@ namespace ProjetUnivers {
     Object* Model::createObject(const std::string& name,
                                 Object* parent)
     {
-      CHECK(parent,ExceptionKernel("Model::createObject no parent")) ;
+      CHECK(parent,"Model::createObject no parent") ;
       
       if (m_objects_dictionnary.find(name) == m_objects_dictionnary.end())
       {
@@ -130,7 +130,7 @@ namespace ProjetUnivers {
     /// Destroy a given Object.
     void Model::destroyObject(Object* object)
     {
-      CHECK(object,ExceptionKernel("Model::destroyObject no object")) ;
+      CHECK(object,"Model::destroyObject no object") ;
       
       object->_close() ;
 
@@ -155,8 +155,8 @@ namespace ProjetUnivers {
     void Model::changeParent(Object* object, 
                              Object* new_parent)
     {
-      CHECK(object,ExceptionKernel("Model::changeParent no object")) ;
-      CHECK(new_parent,ExceptionKernel("Model::changeParent no new parent")) ;
+      CHECK(object,"Model::changeParent no object") ;
+      CHECK(new_parent,"Model::changeParent no new parent") ;
       
       Object* old_parent = object->getParent() ;
       
@@ -180,8 +180,8 @@ namespace ProjetUnivers {
     void Model::addTrait(Object* object, 
                          Trait* new_trait)
     {
-      CHECK(object,ExceptionKernel("Model::destroyTrait no object")) ;
-      CHECK(new_trait,ExceptionKernel("Model::destroyTrait no new trait")) ;
+      CHECK(object,"Model::destroyTrait no object") ;
+      CHECK(new_trait,"Model::destroyTrait no new trait") ;
       
       object->_add(new_trait) ;
       
@@ -191,8 +191,8 @@ namespace ProjetUnivers {
     void Model::destroyTrait(Object* object, 
                             Trait* trait)
     {
-      CHECK(object,ExceptionKernel("Model::destroyTrait no object")) ;
-      CHECK(trait,ExceptionKernel("Model::destroyTrait no trait")) ;
+      CHECK(object,"Model::destroyTrait no object") ;
+      CHECK(trait,"Model::destroyTrait no trait") ;
 
       object->_remove(trait) ;
     }

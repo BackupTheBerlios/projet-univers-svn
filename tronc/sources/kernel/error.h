@@ -22,7 +22,7 @@
 #define PU_KERNEL_ERROR_H_
 
 #include <cassert>
-
+#include <kernel/log.h>
 /*!
   @name Error handling
   
@@ -34,15 +34,15 @@
 /// Raise an error/exception if @c condition is false.
 /*!
   @param condition a boolean expression 
-  @param exception an exception 
+  @param message a string 
 */
 #ifdef _DEBUG
   
-  #define CHECK(condition, exception) assert((condition)) ;
+  #define CHECK(condition,message) assert((condition)) ;
 
 #else
 
-  #define CHECK(condition, exception) { if (!(condition)) throw exception ; }
+  #define CHECK(condition,message) { if (!(condition)) { ErrorMessage(message) ; throw message ; } }
 
 #endif
 

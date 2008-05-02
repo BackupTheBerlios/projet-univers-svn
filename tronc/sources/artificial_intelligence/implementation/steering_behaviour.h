@@ -72,16 +72,22 @@ namespace ProjetUnivers {
                                              const Vehicle& target,
                                              const Ogre::Vector3& local_space_target_offset) ;
 
+          /// Steering for offset pursuit. target point is at distance from 
+          /*
+            The targetted point is a point placed at @c distance of @c target.
+          */
+          static Ogre::Vector3 offsetPursuit(const Vehicle& agent,
+                                             const Vehicle& target,
+                                             const float&   distance) ;
+          
           /// Calculate steering for wandering behaviour.
           static Ogre::Vector3 wander(const Vehicle& agent) ;
           
           /// Calculate steering for separating @c agent from @c neighbours.
-          /*!
-            @todo make it work ...
-          */
           static Ogre::Vector3 separate(const Vehicle& agent, 
                                         const std::set<Vehicle*>& neighbours,
                                         const float simulation_time) ;
+
           
         // @}
         

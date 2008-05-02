@@ -123,15 +123,12 @@ namespace ProjetUnivers {
             PhysicalObject* object = laser->getObject()->getParent<PhysicalObject>() ;
             if (!object)
               return ;
-            PhysicalWorld* world = object ? object->getObject()->getAncestor<PhysicalWorld>() : NULL ; 
-            if (!world)
-              return ;
             Oriented* oriented = laser->getObject()->getParent<Oriented>() ;
-            Orientation orientation_of_laser = oriented->getOrientation(world->getObject()) ;
+            Orientation orientation_of_laser = oriented->getOrientation(object->getObject()) ;
 
             const Position& position_of_the_beam = 
               laser->getOutPosition()*orientation_of_laser + 
-              getRelativePosition(laser->getObject(),world->getObject()) ;
+              getRelativePosition(laser->getObject(),object->getObject()) ;
 
             Orientation orientation_of_the_beam =
               orientation_of_laser*laser->getOutOrientation() ;
@@ -145,15 +142,19 @@ namespace ProjetUnivers {
             Ogre::Vector3 A = position - out_of_laser ;
             Ogre::Vector3 u = (forward_of_laser-out_of_laser).normalisedCopy() ;
             Ogre::Vector3 nearest_point = out_of_laser + (A.dotProduct(u)) * u ;
-            
+
+            InternalMessage("Model","A=" + Ogre::StringConverter::toString(A)) ;
+            InternalMessage("Model","u*10=" + Ogre::StringConverter::toString(u*10)) ;
             InternalMessage("Model","out_of_laser=" + Ogre::StringConverter::toString(out_of_laser)) ;
             InternalMessage("Model","forward_of_laser=" + Ogre::StringConverter::toString(forward_of_laser)) ;
             InternalMessage("Model","nearest_point=" + Ogre::StringConverter::toString(nearest_point)) ;
             InternalMessage("Model","orientation_of_the_beam=" + Ogre::StringConverter::toString(orientation_of_the_beam.getQuaternion())) ;
+            InternalMessage("Model","position=" + Ogre::StringConverter::toString(position)) ;
             
             if (nearest_point.dotProduct(u) >= 0)
             {
               float target_size = getObject()->getTrait<Solid>()->getRadius().Meter() ;
+              InternalMessage("Model","target_size=" + Kernel::toString(target_size)) ;
               if (target_size <= (position-nearest_point).length())
               {
                 shootable = false ;

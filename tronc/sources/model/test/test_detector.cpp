@@ -303,6 +303,68 @@ namespace ProjetUnivers {
         InternalMessage("Model","Model::TestDetector::testDetectorDestruction leaving") ;
       }
 
+      void TestDetector::testRelativePosition()
+      {
+        InternalMessage("Model","Model::TestDetector::testRelativePosition entering") ;
+        /*!
+          We create a ship with a detector and a second object to detect. 
+        */        
+        Model::init() ;
+
+        Kernel::Object* system = createObject("system") ;
+
+        Kernel::Object* ship = createObject("ship",system) ;
+        addTrait(ship,new Positionned()) ;
+        addTrait(ship,new Oriented()) ;
+        addTrait(ship,new Mobile()) ;
+        addTrait(ship,new Solid(Mesh("razor.mesh"))) ;
+        addTrait(ship,new Massive(Mass::Kilogram(1000))) ;
+        addTrait(ship,new Computer()) ;
+        addTrait(ship,new Detector(ship)) ;
+
+        Kernel::Object* ship2 = createObject("detected",system) ;
+        addTrait(ship2,new Positionned(Position::Meter(0,0,500))) ;
+        addTrait(ship2,new Massive(Mass::Kilogram(1000))) ;
+        addTrait(ship2,new Oriented()) ;
+        addTrait(ship2,new Mobile()) ;
+        addTrait(ship2,new Solid(Mesh("razor.mesh"))) ;
+
+        CPPUNIT_ASSERT(ship->getTrait<Computer>()->getMemoryModel()->getRoots().size() == 0) ;
+
+        Model::update(Duration::Second(0.1)) ;
+        
+        // The second ship has been detected.
+        CPPUNIT_ASSERT(ship->getTrait<Computer>()->getMemoryModel()->getRoots().size() == 1) ;
+        std::set<Kernel::Object*>::const_iterator data_pointer 
+          = ship->getTrait<Computer>()->getMemoryModel()->getRoots().begin() ; 
+        
+        CPPUNIT_ASSERT((*data_pointer)->getTrait<Positionned>()) ;
+        Positionned* positionned = (*data_pointer)->getTrait<Positionned>() ;
+        CPPUNIT_ASSERT(positionned->getPosition().Meter() == Ogre::Vector3(0,0,500)) ;
+
+        ship->getTrait<Positionned>()->setPosition(Position::Meter(1000,1000,1000)) ;
+        ship2->getTrait<Positionned>()->setPosition(Position::Meter(1000,1500,1000)) ;
+
+        Model::update(Duration::Second(0.1)) ;
+        CPPUNIT_ASSERT(positionned->getPosition().Meter().positionEquals(Ogre::Vector3(0,500,0),1e-4)) ;
+
+        // change ship orientation
+        ship->getTrait<Oriented>()->setOrientation(Orientation(Ogre::Quaternion(sqrt(0.5),0,0,sqrt(0.5)))) ;
+
+        Model::update(Duration::Second(0.1)) ;
+        
+        CPPUNIT_ASSERT(ship->getTrait<Computer>()->getMemoryModel()->getRoots().size() > 0) ;
+        data_pointer = ship->getTrait<Computer>()->getMemoryModel()->getRoots().begin() ;
+        CPPUNIT_ASSERT((*data_pointer)->getTrait<Positionned>()) ;
+        positionned = (*data_pointer)->getTrait<Positionned>() ;
+        
+        CPPUNIT_ASSERT(positionned->getPosition().Meter().positionEquals(Ogre::Vector3(500,0,0),1e-4)) ;
+        
+        Model::close() ;
+
+        InternalMessage("Model","Model::TestDetector::testRelativePosition leaving") ;
+      }
+      
       void TestDetector::setUp() 
       {
       }

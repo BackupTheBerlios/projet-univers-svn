@@ -20,6 +20,7 @@
  ***************************************************************************/
 #include <kernel/object.h>
 
+#include <model/oriented.h>
 #include <model/positionned.h>
 
 
@@ -70,20 +71,23 @@ namespace ProjetUnivers {
       
       if (object == ancestor)
       {
-        return getPositionAncestor(object) ;
+        return getPositionRelativeToAncestor(object) ;
       }
       
       Positionned* positionned = object->getParent<Positionned>() ;
       
       if (ancestor && positionned)
       {
-        return getPositionAncestor(ancestor) 
-               - positionned->getPositionAncestor(ancestor) ; 
+        
+        Orientation orientation = getRelativeOrientation(object,ancestor) ;
+        
+        return (getPositionRelativeToAncestor(ancestor) 
+               - positionned->getPositionRelativeToAncestor(ancestor))*orientation.inverse() ; 
       }
       return Position() ;
     }
     
-    Position Positionned::getPositionAncestor(const Kernel::Object* i_ancestor) const 
+    Position Positionned::getPositionRelativeToAncestor(const Kernel::Object* i_ancestor) const 
     {
       if (! getObject()->getParent() || i_ancestor == getObject())
       {
@@ -104,7 +108,9 @@ namespace ProjetUnivers {
         
         if (ancestor)
         {
-          return m_position + ancestor->getPosition(i_ancestor) ;          
+          Orientation orientation = getRelativeOrientation(ancestor->getObject(),i_ancestor) ;
+          
+          return m_position*orientation + ancestor->getPositionRelativeToAncestor(i_ancestor) ;          
         }
         else
         {

@@ -23,6 +23,7 @@
 
 #include <kernel/reader.h>
 #include <model/energy.h>
+#include <model/speed.h>
 
 namespace ProjetUnivers {
   namespace Model {
@@ -47,8 +48,8 @@ namespace ProjetUnivers {
       /// copy Ccnstructor.
       Mass(const Mass&) ;
       
-      /// contruct from energy.
-      Mass(const Energy&) ;
+      /// Mass of a moving object, energy equals cinetic energy.
+      Mass(const Energy&,const Speed&) ;
 
       /// Build in kilograms.
       static Mass Kilogram(const float&) ;

@@ -29,6 +29,10 @@
 namespace ProjetUnivers {
   namespace Model {
 
+    
+    /// Calculate the orientation of o1 relative to o2.
+    Orientation getRelativeOrientation(const Kernel::Object* o1,const Kernel::Object* o2) ;
+    
     /// For objects that have an orientation in space.
     /*!
       The orientation of the object is relative to its first oriented 
@@ -69,11 +73,11 @@ namespace ProjetUnivers {
       /// Access to orientation relative to its parent.
       virtual const Orientation& getOrientation() const ;
 
-      /// Access to orientation relative to @c i_ancestor.
+      /// Access to orientation relative to @c object.
       /*!
-        Skipps any non positionned intermediate object.
+        Skips any non positionned intermediate object.
       */
-      Orientation getOrientation(Kernel::Object* i_ancestor) const ;
+      Orientation getOrientation(const Kernel::Object* object) const ;
 
     // @}
     /*!
@@ -82,7 +86,7 @@ namespace ProjetUnivers {
     // @{
 
       /// Change the current orientation.
-      void setOrientation(const Orientation& i_orientation) ;
+      void setOrientation(const Orientation& orientation) ;
 
       /// Change the current orientation.
       /*!
@@ -102,6 +106,13 @@ namespace ProjetUnivers {
     
     protected:
 
+      /// Access to orientation relative to an ancestor.
+      /*!
+        Skips any non oriented intermediate object.
+        @pre @c ancestor is an ancestor of this
+      */
+      Orientation getOrientationRelativeToAncestor(const Kernel::Object* ancestor) const ;
+      
       mutable Orientation m_orientation ;
 
     };

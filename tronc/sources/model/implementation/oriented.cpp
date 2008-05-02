@@ -63,25 +63,45 @@ namespace ProjetUnivers {
       return m_orientation ;
     }
 
-    Orientation Oriented::getOrientation(Kernel::Object* i_ancestor) const
+    Orientation Oriented::getOrientation(const Kernel::Object* object) const
     {
-      if (! getObject()->getParent() || i_ancestor == getObject())
+      const Kernel::Object* ancestor = getObject()->getCommonAncestor(object) ;
+      
+      if (object == ancestor)
+      {
+        return getOrientationRelativeToAncestor(object) ;
+      }
+      
+      Oriented* oriented = object->getParent<Oriented>() ;
+      
+      if (ancestor && oriented)
+      {
+        return oriented->getOrientationRelativeToAncestor(ancestor).inverse() *
+               getOrientationRelativeToAncestor(ancestor) ; 
+      }
+      return Orientation() ;
+    }
+
+    Orientation Oriented::getOrientationRelativeToAncestor(
+        const Kernel::Object* ancestor) const
+    {
+      if (! getObject()->getParent() || ancestor == getObject())
       {
         return Orientation() ;
       }
       
-      if (i_ancestor == getObject()->getParent())
+      if (ancestor == getObject()->getParent())
       {
         return m_orientation ;
       }
       else
       {
-        Oriented* ancestor = getObject()->getParent()
-                             ->getParentUpTo<Oriented>(i_ancestor) ;
+        Oriented* parent = getObject()->getParent()
+                           ->getParentUpTo<Oriented>(ancestor) ;
         
-        if (ancestor)
+        if (parent)
         {
-          return ancestor->getOrientation(i_ancestor)*m_orientation ;          
+          return parent->getOrientation(ancestor)*m_orientation ;          
         }
         else
         {
@@ -89,37 +109,50 @@ namespace ProjetUnivers {
         }
       }
     }
-
-    void Oriented::setOrientation(const Orientation& i_orientation)
+    
+    void Oriented::setOrientation(const Orientation& orientation)
     {
-      m_orientation = i_orientation ;
+      m_orientation = orientation ;
       notify() ;
     }
 
     void Oriented::setOrientation(
-        const Orientation& i_orientation,
-        Kernel::Object*    i_reference)
+        const Orientation& orientation,
+        Kernel::Object*    reference)
     {
-      if (! getObject()->getParent() || i_reference == getObject())
+      if (! getObject()->getParent() || reference == getObject())
       {
         return ;
       }
-      if (i_reference == getObject()->getParent())
+      if (reference == getObject()->getParent())
       {
-        m_orientation = i_orientation ;
+        m_orientation = orientation ;
         notify() ;
       }
       else
       {
         Oriented* ancestor = getObject()->getParent()
-                             ->getParentUpTo<Oriented>(i_reference) ;
+                             ->getParentUpTo<Oriented>(reference) ;
         
         if (ancestor)
         {
-          m_orientation = ancestor->getOrientation(i_reference).inverse()*i_orientation ;
+          m_orientation = ancestor->getOrientation(reference).inverse()*orientation ;
           notify() ;
         }
       }
     }
+
+    Orientation getRelativeOrientation(const Kernel::Object* o1,const Kernel::Object* o2)
+    {
+      Oriented* oriented = o1->getParent<Oriented>() ; 
+      if (! oriented)
+      {
+        return Orientation() ;
+      }
+      
+      Orientation orientation = oriented->getOrientation(o2) ;
+      return orientation ;
+    }
+    
   }
 }

@@ -23,6 +23,7 @@
 
 #include <model/model.h>
 #include <model/positionned.h>
+#include <model/oriented.h>
 
 #include <model/test/test_positionned.h>
 
@@ -370,6 +371,107 @@ namespace ProjetUnivers {
         model->addTrait(object1,new Positionned(Position::Meter(1,0,0))) ;
         
         CPPUNIT_ASSERT(getRelativePosition(object1,root) == Position::Meter(1,0,0)) ;
+      }
+      
+      void TestPositionned::relativePositionWithRotation()
+      {
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestPositionned::relativePositionWithRotation")) ;
+        
+        Kernel::Object* root = model->createObject("root") ;
+        model->addTrait(root,new Positionned()) ;
+        
+        Kernel::Object* object1 = model->createObject(root) ;
+        model->addTrait(object1,new Positionned(Position::Meter(0,0,0))) ;
+        
+        Kernel::Object* object2 = model->createObject(object1) ;
+        model->addTrait(object2,new Positionned(Position::Meter(0,1,0))) ;
+        
+        Kernel::Object* object3 = model->createObject(root) ;
+        model->addTrait(object3,new Positionned()) ;
+        // rotation of 90° anti clockwize against Z axis
+        model->addTrait(object3,new Oriented(Orientation(Ogre::Quaternion(sqrt(0.5),0,0,sqrt(0.5))))) ;
+        
+        CPPUNIT_ASSERT(getRelativePosition(object2,object3).Meter().positionEquals(Ogre::Vector3(1,0,0),1e-4)) ;
+
+        // re-orient the root must not change anything
+        model->addTrait(root,new Oriented(Orientation(Ogre::Quaternion(sqrt(0.5),0,0,sqrt(0.5))))) ;
+        CPPUNIT_ASSERT(getRelativePosition(object2,object3).Meter().positionEquals(Ogre::Vector3(1,0,0),1e-4)) ;
+        
+        // adding a void object should not change anything
+        Kernel::Object* object4 = model->createObject(object2) ;
+        CPPUNIT_ASSERT(getRelativePosition(object4,object3).Meter().positionEquals(Ogre::Vector3(1,0,0),1e-4)) ;
+
+        Kernel::Object* object5 = model->createObject(object3) ;
+        CPPUNIT_ASSERT(getRelativePosition(object4,object5).Meter().positionEquals(Ogre::Vector3(1,0,0),1e-4)) ;
+        
+        // changing position of the root should not change anything
+        root->getTrait<Positionned>()->setPosition(Position::Meter(100,100,100)) ;
+        CPPUNIT_ASSERT(getRelativePosition(object4,object5).Meter().positionEquals(Ogre::Vector3(1,0,0),1e-4)) ;
+      }
+
+      void TestPositionned::relativePositionWithRotations()
+      {
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestPositionned::relativePositionWithRotations")) ;
+        
+        Kernel::Object* root = model->createObject("root") ;
+        model->addTrait(root,new Positionned()) ;
+        
+        Kernel::Object* object1 = model->createObject(root) ;
+        model->addTrait(object1,new Positionned(Position::Meter(100,0,0))) ;
+        
+        Kernel::Object* object2 = model->createObject(object1) ;
+        model->addTrait(object2,new Positionned(Position::Meter(0,1,0))) ;
+        
+        Kernel::Object* object3 = model->createObject(root) ;
+        model->addTrait(object3,new Positionned(Position::Meter(100,0,0))) ;
+        // rotation of 90° anti clockwize against Z axis
+        model->addTrait(object3,new Oriented(Orientation(Ogre::Quaternion(sqrt(0.5),0,0,sqrt(0.5))))) ;
+        
+        CPPUNIT_ASSERT(getRelativePosition(object2,object3).Meter().positionEquals(Ogre::Vector3(1,0,0),1e-4)) ;
+      }
+      
+      void TestPositionned::relativePositionToAncestor()
+      {
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestPositionned::relativePositionToAncestor")) ;
+        
+        Kernel::Object* root = model->createObject("root") ;
+        model->addTrait(root,new Positionned()) ;
+        
+        Kernel::Object* object1 = model->createObject(root) ;
+        model->addTrait(object1,new Positionned(Position::Meter(100,0,0))) ;
+        // rotation of 90° anti clockwize against Z axis
+        model->addTrait(object1,new Oriented(Orientation(Ogre::Quaternion(sqrt(0.5),0,0,sqrt(0.5))))) ;
+        
+        Kernel::Object* object2 = model->createObject(object1) ;
+        model->addTrait(object2,new Positionned(Position::Meter(0,1,0))) ;
+
+        CPPUNIT_ASSERT(getRelativePosition(object2,root).Meter().positionEquals(Ogre::Vector3(99,0,0),1e-4)) ;
+      }
+      
+      void TestPositionned::relativePositionToOrientedCousin()
+      {
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestPositionned::relativePositionToOrientedCousin")) ;
+        
+        Kernel::Object* root = model->createObject("root") ;
+        model->addTrait(root,new Positionned()) ;
+        
+        Kernel::Object* object1 = model->createObject(root) ;
+        model->addTrait(object1,new Positionned(Position::Meter(100,0,0))) ;
+        // rotation of 90° anti clockwize against Z axis
+        model->addTrait(object1,new Oriented(Orientation(Ogre::Quaternion(sqrt(0.5),0,0,sqrt(0.5))))) ;
+        
+        Kernel::Object* object2 = model->createObject(object1) ;
+        model->addTrait(object2,new Positionned(Position::Meter(0,1,0))) ;
+
+        Kernel::Object* object3 = model->createObject(root) ;
+        model->addTrait(object3,new Positionned(Position::Meter(0,100,0))) ;
+        // rotation of 90° clockwize against Z axis
+        model->addTrait(object3,new Oriented(Orientation(Ogre::Quaternion(Ogre::Degree(-90),Ogre::Vector3::UNIT_Z)))) ;
+        
+        Kernel::Object* object4 = model->createObject(object3) ;
+        model->addTrait(object4,new Positionned(Position::Meter(1,0,0))) ;
+        
+        CPPUNIT_ASSERT(getRelativePosition(object2,object4).Meter().positionEquals(Ogre::Vector3(99,99,0),1e-4)) ;
       }
       
       void TestPositionned::setUp() 

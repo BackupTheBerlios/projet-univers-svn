@@ -498,10 +498,31 @@
   * Input:
     - made keyboard, joytick optional
     - added a hack to print command list when pressing 'l'
+
+2008-05-02 rogma (version 0.3)
+  
+  * Kernel :
+    - error.h : changed error reporting, added a message in error.log
+     
+  * ArtificialIntelligence : 
+    - corrected mapping from steering to ship commands (Agent)
+    - removed speed reduction in SteeringBehaviour::separate
+    - added SteeringBehaviour::offsetPursuit(distance) : keep the agent at a 
+      minimum distance of the target
+  
+  * Model :
+    - Positionned : corrected bug on getRelativePosition
+    - Oriented : added getRelativeOrientation
+    - Laser : added a parameter, the energy of the produced laser beam
+    - Laser : added a shooting cadence, a duration parameter that indicates the 
+      minimum time between two shots
+    - Laser : corrected laser beam mass calculation to get the correct damage 
      
 @todo :
   
   * Model : 
+
+    - add Explosion trait
 
     - Event traits like Collision, Shot should be implemented through 
       WithLifetime with a life time of zero
@@ -514,9 +535,9 @@
 
     - Lasers on a ship should all point to the same direction, which is the 
       direction of the ship ... coherence test
-    
-    - Lasers whould have a shooting cadence (add timers)
 
+    - add configurable laser colour (depending of laser beam type)
+    
     - Detector : handle of additional data (hit points, ...)
       They can both be obtained by the detector. Maybe we should use traits 
       instead of class attributes for increasing extendability (by adding speed 
@@ -526,8 +547,6 @@
     - be able to get bouding box (?) and perform ray 
       casting inside Model. Code could rely on Ogre but we would be an 
       encapsulation.
-    
-    - add configurable laser colour (depending of laser beam type)
     
     - a Player trait ?
     
@@ -542,7 +561,11 @@
       PhysicalObject should not depend on mobile ?  
 
   * IA : 
-    - Basic IA, need preliminary architecture design
+    - Bug : seg fault on closing module
+    - add collisionAvoidance
+
+  * Display :
+    - seg fault when having an Oriented object that is not Positionned 
     
   * Input :
     
@@ -575,7 +598,8 @@
 
     - move deduced trait to sound::implementation level (i.e. one up) ??
 
-  * Kernel : 
+  * Kernel :
+    - better errors on object structure :  
     - add an onDeduced event on deduced traits : it would allow one to perform 
       custom code, for example to calculate deduced attribute in those traits. 
       e.g., Solid <=> Sized, and Sized.size = Solid.Mesh.radius
@@ -585,5 +609,7 @@
     
   * all :
     - make use of Quantities library, @see http://sourceforge.net/projects/quantity ??
+    - correct the coordinate system; camera must be inversed and Stiock/Throttle 
+      must use correct orientation 
 
   

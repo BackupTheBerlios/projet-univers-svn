@@ -31,6 +31,7 @@ namespace ProjetUnivers {
       
     /// Trait for objects that can be damaged.
     /*!
+      When the hit points gets to zero the object is destroyed.
     */
     class Destroyable : public Kernel::Trait
     {

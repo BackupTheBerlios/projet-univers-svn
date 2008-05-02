@@ -156,9 +156,9 @@ namespace ProjetUnivers {
 
     void Trait::_create_views()
     {
-      CHECK(m_object,ExceptionKernel("Trait::_create_views no object")) ;
+      CHECK(m_object,"Trait::_create_views no object") ;
       CHECK(m_object->getModel(),
-            ExceptionKernel("Trait::_create_views no object's model")) ;
+            "Trait::_create_views no object's model") ;
       
       /// we create corresponding views for all viewpoints
       for(std::set<ViewPoint*>::iterator viewpoint = m_object->getModel()->m_viewpoints.begin() ;
@@ -276,9 +276,9 @@ namespace ProjetUnivers {
       
     void Trait::_create_controlers()
     {
-      CHECK(m_object,ExceptionKernel("Trait::_create_controlers no object")) ;
+      CHECK(m_object,"Trait::_create_controlers no object") ;
       CHECK(m_object->getModel(),
-            ExceptionKernel("Trait::_create_controlers no object's model")) ;
+            "Trait::_create_controlers no object's model") ;
       
       /// we create corresponding controler for all controler sets
       for(std::set<ControlerSet*>::iterator controler_set 
@@ -320,7 +320,7 @@ namespace ProjetUnivers {
     
     void Trait::_init()
     {
-      CHECK(m_object,ExceptionKernel("Trait::_init no object")) ;
+      CHECK(m_object,"Trait::_init no object") ;
       
       /// we init all the views not yet initialised
       for(std::multimap<ViewPoint*,BaseTraitView*>::iterator view = m_views.begin() ;

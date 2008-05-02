@@ -42,12 +42,12 @@ namespace ProjetUnivers {
         try 
         {
           Object* element = NULL ;
-          CHECK(element,ExceptionKernel("failed")) ;
+          CHECK(element,"failed") ;
           
           CPPUNIT_ASSERT(false) ;
         }
         
-        catch (ExceptionKernel&)
+        catch (const char*)
         {
           // ok
           CPPUNIT_ASSERT(true) ;

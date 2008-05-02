@@ -35,7 +35,7 @@ namespace ProjetUnivers {
     /*!
       A position is relative to the Positionned parent (if exists).
       
-      Position are held in a (right/left?) hand coordinate:
+      Position are held in a right handed coordinate system :
       - x axe : positive to rigth
       - y axe : positive to up 
       - z axe : negative to front 

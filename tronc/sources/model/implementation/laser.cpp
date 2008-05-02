@@ -42,12 +42,25 @@ namespace ProjetUnivers {
 
     RegisterTrait(Laser) ;
       
-    Laser::Laser(const Position& i_out_position,
-                 const Orientation& i_out_orientation)
-    : m_out_position(i_out_position),
-      m_out_orientation(i_out_orientation)
+    Laser::Laser(const Position&    out_position,
+                 const Orientation& out_orientation,
+                 const Energy&      beam_energy)
+    : m_out_position(out_position),
+      m_out_orientation(out_orientation),
+      m_laser_beam_energy(beam_energy)
     {}
 
+    void Laser::setShotTimeDelay(const Duration& duration)
+    {
+      m_time_between_shots = duration ;
+    }
+    
+    void Laser::removeTimeToNextShot(const Duration& duration)
+    {
+      m_time_to_fire = m_time_to_fire - duration ;
+    }
+    
+    
     void Laser::setOrientation(const Orientation& orientation)
     {
       m_out_orientation = orientation ;
@@ -56,7 +69,7 @@ namespace ProjetUnivers {
     
     Kernel::Trait* Laser::read(Kernel::Reader* reader)
     {
-      Laser* result = new Laser(Position(),Orientation()) ;
+      Laser* result = new Laser(Position(),Orientation(),Energy()) ;
       
       while (!reader->isEndNode() && reader->processNode())
       {
@@ -70,6 +83,16 @@ namespace ProjetUnivers {
         {
           result->m_out_orientation = Orientation::read(reader) ;
         }
+        else if (reader->isTraitNode() && 
+                 reader->getTraitName() == "Energy")
+        {
+          result->m_laser_beam_energy = Energy::read(reader) ;
+        }
+        else if (reader->isTraitNode() && 
+                 reader->getTraitName() == "Duration")
+        {
+          result->m_time_between_shots = Duration::read(reader) ;
+        }
       }
       reader->processNode() ;
 
@@ -79,6 +102,11 @@ namespace ProjetUnivers {
     void Laser::fire()
     {
       InternalMessage("Model","entering fire") ;
+      
+      // handle firing rate
+      if (m_time_to_fire.Second() > 0)
+        return ;
+      
       Positionned* positionned = getObject()->getParent<Positionned>() ;
       Oriented* oriented = getObject()->getParent<Oriented>() ;
       PhysicalObject* object = getObject()->getParent<PhysicalObject>() ;
@@ -96,8 +124,6 @@ namespace ProjetUnivers {
         Position position_of_the_beam = 
           positionned->getPosition(world->getObject()) + m_out_position*orientation_of_laser ;
         
-        // maybe we should add a little delta ??
-        // --> no the position of the laser out should integrate that factor 
         addTrait(beam,new Positionned(position_of_the_beam)) ;
         
         Orientation orientation_of_the_beam =
@@ -111,7 +137,7 @@ namespace ProjetUnivers {
         // maybe we should add the object speed ??
          
         addTrait(beam,new Mobile(speed)) ;
-        addTrait(beam,new Massive(Mass(Energy::Joule(10)))) ;
+        addTrait(beam,new Massive(Mass(m_laser_beam_energy,speed))) ;
         
         /*!
           Here we have a limitation : 
@@ -127,7 +153,9 @@ namespace ProjetUnivers {
         Kernel::Object* shot = createObject(world->getObject()) ;
         addTrait(shot,new Positionned(position_of_the_beam)) ;
         addTrait(shot,new Shot()) ;
-        
+
+        // re-init timer
+        m_time_to_fire = m_time_between_shots ;
         // done
         
       }

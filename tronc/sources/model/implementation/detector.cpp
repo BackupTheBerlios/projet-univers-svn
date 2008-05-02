@@ -18,6 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <OgreStringConverter.h>
 #include <model/implementation/detector_view_point.h>
 #include <model/implementation/detector_object_view.h>
 
@@ -107,6 +108,7 @@ namespace ProjetUnivers {
       
       // range check 
       Position position = getRelativePosition(object,getObject()) ;
+      InternalMessage("Model","Model::Detector::canDetect relative position=" + Ogre::StringConverter::toString(position.Meter()) ) ;
       bool in_range = position.calculateDistance(Position()) <=  getRange() ; 
 
       InternalMessage("Model","Model::Detector::canDetect range test") ;

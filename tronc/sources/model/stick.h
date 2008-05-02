@@ -29,6 +29,9 @@ namespace ProjetUnivers {
 
     /// For objects that are a stick.
     /*!
+      rigth is positive X axis
+      up is positive y axis
+      z axis is for roll  
     */
     class Stick : public Oriented
     {

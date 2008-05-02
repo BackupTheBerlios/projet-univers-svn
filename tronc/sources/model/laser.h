@@ -27,6 +27,7 @@
 #include <model/position.h>
 #include <model/orientation.h>
 #include <model/duration.h>
+#include <model/energy.h>
 
 
 namespace ProjetUnivers {
@@ -41,9 +42,16 @@ namespace ProjetUnivers {
     public:
       
       /// Constructor.
-      Laser(const Position& i_out_position,
-            const Orientation& i_out_orientation) ;
+      Laser(const Position&    out_position,
+            const Orientation& out_orientation,
+            const Energy&      beam_energy) ;
 
+      /// Set the time between shots.
+      void setShotTimeDelay(const Duration&) ;
+      
+      /// Remove some time to the next shot.
+      void removeTimeToNextShot(const Duration&) ;
+      
       /// Change laser orientation.
       void setOrientation(const Orientation&) ;
       
@@ -54,6 +62,7 @@ namespace ProjetUnivers {
           <Laser>
             <Position .../>
             <Orientation .../>
+            <Energy .../>
           </Laser>
         @endcode
       */     
@@ -81,6 +90,16 @@ namespace ProjetUnivers {
       
       /// the orientation of the output relative to the laser
       Orientation m_out_orientation ;
+      
+      /// The energy of the produced laser beam.
+      Energy      m_laser_beam_energy ;
+
+      /// Time between shots.
+      Duration    m_time_between_shots ;
+      
+      
+      /// Time remaining to be able to fire.
+      Duration    m_time_to_fire ;
     };
   }
 }

@@ -62,7 +62,7 @@ namespace ProjetUnivers {
         addTrait(ship,new Oriented()) ;
         addTrait(ship,new Mobile()) ;
         addTrait(ship,new Massive(Mass::Kilogram(1000))) ;
-        addTrait(ship,new Laser(Position(),Orientation())) ;
+        addTrait(ship,new Laser(Position(),Orientation(),Energy::Joule(10))) ;
         CPPUNIT_ASSERT(ship->getTrait<PhysicalObject>()) ;
         CPPUNIT_ASSERT(ship->getTrait<PhysicalWorld>()) ;
 

@@ -20,6 +20,7 @@
  ***************************************************************************/
 #include <iostream>
 
+#include <kernel/object_reference.h>
 #include <kernel/log.h>
 #include <kernel/command_delegator.h>
 #include <kernel/parameters.h>
@@ -49,6 +50,8 @@
 #include <model/with_objectives.h>
 #include <model/physical_world.h>
 #include <model/transponder.h>
+#include <model/destroyable.h>
+#include <model/stellar_system.h>
 
 #include <physic/physic.h>
 
@@ -84,7 +87,9 @@ namespace ProjetUnivers {
         Model::addTrait(ship,new Model::Mobile()) ;
         Model::addTrait(ship,new Model::Solid(Model::Mesh("razor.mesh"))) ;
         Model::addTrait(ship,new Model::Computer()) ;
-        Model::addTrait(ship,new Model::Laser(Model::Position(),Model::Orientation())) ;
+        Model::addTrait(ship,new Model::Laser(Model::Position(),
+                                              Model::Orientation(),
+                                              Model::Energy::Joule(10))) ;
         Model::addTrait(ship,new Model::Detector(ship)) ;
         Model::addTrait(ship,new Model::TargetingSystem()) ;
         Model::TargetingSystem::connect(ship,ship) ;
@@ -197,7 +202,9 @@ namespace ProjetUnivers {
         Model::addTrait(ship,new Model::Mobile()) ;
         Model::addTrait(ship,new Model::Solid(Model::Mesh("razor.mesh"))) ;
         Model::addTrait(ship,new Model::Computer()) ;
-        Model::addTrait(ship,new Model::Laser(Model::Position(),Model::Orientation())) ;
+        Model::addTrait(ship,new Model::Laser(Model::Position(),
+                                              Model::Orientation(),
+                                              Model::Energy::Joule(10))) ;
         Model::addTrait(ship,new Model::Detector(ship)) ;
         Model::addTrait(ship,new Model::Transponder(team1)) ;
         Model::addTrait(ship,new Model::TargetingSystem()) ;
@@ -315,6 +322,8 @@ namespace ProjetUnivers {
         Kernel::Object* team2 = Model::createObject() ;
         
         Kernel::Object* system = Model::createObject("system") ;
+        Model::addTrait(system,new Model::StellarSystem()) ;
+        Model::addTrait(system,new Model::Positionned()) ;
 
         Kernel::Object* ship = Model::createObject("ship",system) ;
         Model::addTrait(ship,new Model::Positionned()) ;
@@ -323,22 +332,37 @@ namespace ProjetUnivers {
         Model::addTrait(ship,new Model::Mobile()) ;
         Model::addTrait(ship,new Model::Solid(Model::Mesh("razor.mesh"))) ;
         Model::addTrait(ship,new Model::Computer()) ;
-        Model::addTrait(ship,new Model::Laser(Model::Position(),Model::Orientation())) ;
-        Model::addTrait(ship,new Model::Detector(ship)) ;
+        Model::addTrait(ship,new Model::Laser(Model::Position::Meter(19.2,0,57),
+                                              Model::Orientation(),
+                                              Model::Energy::Joule(10))) ;
+        
+        ship->getTrait<Model::Laser>()->setShotTimeDelay(Model::Duration::Second(1)) ;
+        Model::addTrait(ship,new Model::Detector(ship,Model::Distance(Model::Distance::_Meter,5000))) ;
         Model::addTrait(ship,new Model::Transponder(team1)) ;
         Model::addTrait(ship,new Model::TargetingSystem()) ;
         Model::TargetingSystem::connect(ship,ship) ;
+        
+        Model::addTrait(ship,new Model::ShootingHelper()) ;
+        Model::ShootingHelper::connect(ship,ship,ship) ;
+
         Model::addTrait(ship,new Model::Dragger(Kernel::Parameters::getValue<float>("Model","DraggerCoeeficient"))) ;
+
         Kernel::Object* st1 = Model::createObject("st1",ship) ;
         Model::addTrait(st1,new Model::Stabilizer(0,Kernel::Parameters::getValue<float>("Model","StabilizerForce"),0)) ;
+        Model::addTrait(st1,new Model::Component()) ;
+
         Kernel::Object* st2 = Model::createObject("st2",ship) ;
         Model::addTrait(st2,new Model::Stabilizer(Kernel::Parameters::getValue<float>("Model","StabilizerForce"),0,0)) ;
+        Model::addTrait(st2,new Model::Component()) ;
+        
         Kernel::Object* st3 = Model::createObject("st3",ship) ;
         Model::addTrait(st3,new Model::Stabilizer(0,0,Kernel::Parameters::getValue<float>("Model","StabilizerForce"))) ;
+        Model::addTrait(st3,new Model::Component()) ;
 
         Kernel::Object* stick = Model::createObject("stick",ship) ;
         Model::addTrait(stick,new Model::Positionned()) ;
         Model::addTrait(stick,new Model::Stick()) ;
+        Model::addTrait(stick,new Model::Component()) ;
         
         Model::addTrait(ship,new Model::GuidanceSystem(Kernel::Parameters::getValue<float>("Model","GuidanceForce"))) ;
         Model::addTrait(ship,new Model::GuidanceControler()) ;
@@ -349,12 +373,15 @@ namespace ProjetUnivers {
         /// engine + engine control...
         Kernel::Object* throttle = Model::createObject("throttle",ship) ;
         Model::addTrait(throttle,new Model::Throttle()) ;
+        Model::addTrait(throttle,new Model::Component()) ;
         
         Kernel::Object* engine = Model::createObject("engine",ship) ;
         Model::addTrait(engine,new Model::Engine(Model::Force::Newton(0,0,Kernel::Parameters::getValue<float>("Model","EngineMaxForce")))) ;
+        Model::addTrait(engine,new Model::Component()) ;
 
         Kernel::Object* engine_control = Model::createObject("engine_control",ship) ;
         Model::addTrait(engine_control,new Model::EngineControler()) ;
+        Model::addTrait(engine_control,new Model::Component()) ;
 
         Model::connectThrottleControler(throttle,engine_control) ;
         Model::connectControlerEngine(engine_control,engine) ;                   
@@ -366,21 +393,32 @@ namespace ProjetUnivers {
         agent->getTrait<Kernel::CommandDelegator>()->addDelegate(ship) ;
         agent->getTrait<Model::WithObjectives>()->addObjective(Model::Objective::attackAllEnemies()) ;
         
-//        Kernel::Object* ship2 = Model::createObject(system) ;
-//        Model::addTrait(ship2,new Model::Positionned(Model::Position::Meter(0,0,500))) ;
-//        Model::addTrait(ship2,new Model::Massive(Model::Mass::Kilogram(1000))) ;
-//        Model::addTrait(ship2,new Model::Oriented()) ;
-//        Model::addTrait(ship2,new Model::Mobile(Model::Speed::MeterPerSecond(0,10,0))) ;
-//        Model::addTrait(ship2,new Model::Solid(Model::Mesh("razor.mesh"))) ;
-//        Model::addTrait(ship2,new Model::Transponder(team1)) ;
-
-        Kernel::Object* ship3 = Model::createObject(system) ;
-        Model::addTrait(ship3,new Model::Positionned(Model::Position::Meter(500,0,500))) ;
-        Model::addTrait(ship3,new Model::Massive(Model::Mass::Kilogram(1000))) ;
-        Model::addTrait(ship3,new Model::Oriented()) ;
-        Model::addTrait(ship3,new Model::Mobile()) ;
-        Model::addTrait(ship3,new Model::Solid(Model::Mesh("razor.mesh"))) ;
-        Model::addTrait(ship3,new Model::Transponder(team2)) ;
+        
+        // the attacked enemy ship
+        Kernel::Object* enemy_ship = Model::createObject(system) ;
+        Model::addTrait(enemy_ship,new Model::Positionned(Model::Position::Meter(500,0,-1500))) ;
+        Model::addTrait(enemy_ship,new Model::Massive(Model::Mass::Kilogram(1000))) ;
+        Model::addTrait(enemy_ship,new Model::Oriented()) ;
+        Model::addTrait(enemy_ship,new Model::Mobile()) ;
+        Model::addTrait(enemy_ship,new Model::Solid(Model::Mesh("razor.mesh"))) ;
+        Model::addTrait(enemy_ship,new Model::Transponder(team2)) ;
+        Model::addTrait(enemy_ship,new Model::Destroyable(Model::Energy::Joule(10))) ;
+        Model::addTrait(enemy_ship,new Model::Dragger(Kernel::Parameters::getValue<float>("Model","DraggerCoeeficient"))) ;
+        {
+          Kernel::Object* st1 = Model::createObject(enemy_ship) ;
+          Model::addTrait(st1,new Model::Stabilizer(0,Kernel::Parameters::getValue<float>("Model","StabilizerForce"),0)) ;
+          Model::addTrait(st1,new Model::Component()) ;
+  
+          Kernel::Object* st2 = Model::createObject(enemy_ship) ;
+          Model::addTrait(st2,new Model::Stabilizer(Kernel::Parameters::getValue<float>("Model","StabilizerForce"),0,0)) ;
+          Model::addTrait(st2,new Model::Component()) ;
+          
+          Kernel::Object* st3 = Model::createObject(enemy_ship) ;
+          Model::addTrait(st3,new Model::Stabilizer(0,0,Kernel::Parameters::getValue<float>("Model","StabilizerForce"))) ;
+          Model::addTrait(st3,new Model::Component()) ;
+        }
+        
+        Kernel::ObjectReference enemy(enemy_ship) ;
         
         Model::PhysicalWorld* physical_world = agent->getAncestor<Model::PhysicalWorld>() ;
         CPPUNIT_ASSERT(physical_world) ;
@@ -394,12 +432,10 @@ namespace ProjetUnivers {
         Model::Duration time = Model::Duration::Second(0.1) ;
         for(int i = 0 ; i < 200 ; ++i)
         {
-          ArtificialIntelligence::update(time) ;
           Model::update(time) ;
           Physic::update(time) ;
+          ArtificialIntelligence::update(time) ;
         }
-        
-//        std::cout << ship->getTrait<Model::Positionned>()->getPosition().Meter() << std::endl ; 
         
         Implementation::AISystem* ai_system = Implementation::getAISystem() ;
         CPPUNIT_ASSERT(ai_system) ;
@@ -410,6 +446,9 @@ namespace ProjetUnivers {
         Implementation::Agent* agent_controler = autonomous_agent->getControler<Implementation::Agent>(ai_system) ;
         CPPUNIT_ASSERT(agent_controler) ;
 
+        // enemy is destroyed
+        CPPUNIT_ASSERT(!enemy) ;
+        
         Physic::close() ;
         InternalMessage("AI","AI::TestModelControler::attackAllEnemies leaving") ;
       }

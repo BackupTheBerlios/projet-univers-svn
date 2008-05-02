@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2008 Mathieu ROGER                                 *
+ *   Copyright (C) 2008 Mathieu ROGER                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,81 +18,64 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_DURATION_H_
-#define PU_MODEL_DURATION_H_
+#ifndef PU_MODEL_TEST_ORIENTATION_H_
+#define PU_MODEL_TEST_ORIENTATION_H_
 
-#include <kernel/reader.h>
+#include <cppunit/extensions/HelperMacros.h>
 
 namespace ProjetUnivers {
   namespace Model {
+    namespace Test {
+
+            
+      /// Test for Model::Orientation
+      class TestOrientation : public CppUnit::TestFixture {
+      protected:
       
-    /// A time duration.
-    /*!  
-    */
-    class Duration 
-    {
-    public:
-    
-    /*! 
-      @name Constructors
-    */
-    // @{   
-    
-
-      /// Zero duration.
-      Duration() ;
-      
-      /// Build a duration in seconds.
-      static Duration Second(float i_seconds) ;
-      
-      /// Copy constructor.
-      Duration(const Duration&) ;
-    
-      /// Addition
-      Duration operator +(const Duration&) const ;
-
-      /// Substraction
-      Duration operator -(const Duration&) const ;
-
-      /// Assignment.
-      Duration& operator=(const Duration&) ;
-
-      /// Read duration.
+        
       /*!
-        stored as 
-        @code
-          <Duration value=".." unit="Second"/>
-        @endcode
-      */          
-      static Duration read(Kernel::Reader* reader) ;
+        @name Test methods
+      */
+      // @{
+        
+        /// Test that we are in a rigth handed anticlockwise system.
+        void rigthHandedAntiClockWise() ;
+        
+        /// Test that applyance of orientation is made in the correct order.  
+        void composeOrientation() ;
+        
+      // @}
+      /*!
+        @name Test registration
+      */
+      // @{      
       
-    // @}
-    /*! 
-      @name Convertions
-    */
-    // @{
-
-      /// Duration in seconds.
-      float Second() const ; 
-    
-    // @}
+        CPPUNIT_TEST_SUITE(TestOrientation) ;
       
-    private:
-    
-      /// Les différentes unités
-      typedef enum {
-        _Second
-      } Unit ;
+        CPPUNIT_TEST(rigthHandedAntiClockWise) ;
+        CPPUNIT_TEST(composeOrientation) ;
+
+        CPPUNIT_TEST_SUITE_END() ;
       
-      /// Private constructor.
-      Duration(Unit i_unit,float i_value) ;
+      // @}      
+                
+     public:
 
-      float m_value ;
-      Unit  m_unit ;    
-  
-    };
+      /*!
+        @name Mandatory methods
+      */
+      // @{
+      
+        void setUp() ;
+        void tearDown() ;
+      
+      // @}      
+      
+      
+      };
 
+    }
   }
 }
 
-#endif
+#endif /*PU_MODEL_TEST_ORIENTATION_H_*/

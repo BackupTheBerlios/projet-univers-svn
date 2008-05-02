@@ -60,7 +60,7 @@ namespace ProjetUnivers {
         addTrait(ship,new Oriented()) ;
         addTrait(ship,new Mobile()) ;
         addTrait(ship,new Massive(Mass::Kilogram(1000))) ;
-        addTrait(ship,new Laser(Position(),Orientation())) ;
+        addTrait(ship,new Laser(Position(),Orientation(),Energy::Joule(10))) ;
         CPPUNIT_ASSERT(ship->getTrait<PhysicalObject>()) ;
         CPPUNIT_ASSERT(ship->getTrait<PhysicalWorld>()) ;
 
@@ -77,6 +77,43 @@ namespace ProjetUnivers {
         Model::close() ;
       }
 
+      void TestLaser::beamEnergy()
+      {
+        InternalMessage("Model","Model::TestLaser::beamEnergy entering") ;
+        // we construct a complete system
+        Model::init() ;
+
+        // should be a PhysicalWorld
+        Kernel::Object* system = createObject("system") ;
+        CPPUNIT_ASSERT(system->getTrait<PhysicalWorld>()) ;
+
+        Kernel::Object* ship = createObject("ship",system) ;
+        addTrait(ship,new Positionned()) ;
+        addTrait(ship,new Oriented()) ;
+        addTrait(ship,new Mobile()) ;
+        addTrait(ship,new Massive(Mass::Kilogram(1000))) ;
+        addTrait(ship,new Laser(Position(),Orientation(),Energy::Joule(10))) ;
+        CPPUNIT_ASSERT(ship->getTrait<PhysicalObject>()) ;
+        CPPUNIT_ASSERT(ship->getTrait<PhysicalWorld>()) ;
+
+        CPPUNIT_ASSERT(system->getChildren().size()==1) ;
+
+        InternalMessage("Model","built ship") ;
+
+        ship->call("fire") ;
+
+        InternalMessage("Model","fire") ;
+        CPPUNIT_ASSERT(system->getDescendants<LaserBeam>().size()==1) ;
+        CPPUNIT_ASSERT(system->getDescendants<Shot>().size()==1) ;
+
+        std::set<LaserBeam*> beams = system->getDescendants<LaserBeam>() ;
+        LaserBeam* beam = *(beams.begin()) ;
+        
+        CPPUNIT_ASSERT(beam->getEnergy().Joule()==10) ;
+        
+        Model::close() ;
+      }
+      
       void TestLaser::setUp()
       {
         Kernel::Parameters::load("demonstration.config") ;

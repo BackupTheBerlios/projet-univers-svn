@@ -89,6 +89,7 @@ namespace ProjetUnivers {
           // handle laser/destroyable collision
           if (laser && destroyable)
           {
+            InternalMessage("Model","Collision::simulate damaging " + Kernel::toString(laser->getEnergy().Joule())) ;
             destroyable->damage(laser->getEnergy()) ;
           }          
           

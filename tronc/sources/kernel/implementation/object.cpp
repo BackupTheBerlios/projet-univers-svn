@@ -158,7 +158,7 @@ namespace ProjetUnivers {
 
     void Object::_add(Trait* i_trait)
     {
-      CHECK(i_trait,ExceptionKernel("Kernel::_add(Trait*) no trait")) ;
+      CHECK(i_trait,"Kernel::_add(Trait*) no trait") ;
       InternalMessage("Kernel","added trait " + getObjectTypeIdentifier(i_trait).toString()
                                + " to objectid=" + toString(getIdentifier())) ;
 
@@ -166,7 +166,7 @@ namespace ProjetUnivers {
 
       /// erreur si l'objet a déjà une facette de ce type là
       CHECK(traits.find(trait_name)==traits.end(), 
-            ExceptionKernel("trait already exists")) ;
+            "trait already exists") ;
 
 //      InternalMessage("Kernel","Registering :") ;
 //      InternalMessage("Kernel",trait_name.toString()) ;
@@ -193,7 +193,7 @@ namespace ProjetUnivers {
     Object* Object::_add(Object* i_child)
     {
       CHECK(i_child,
-            ExceptionKernel("Object::add(Object*) : _object is NULL")) ;
+            "Object::add(Object*) : _object is NULL") ;
 
       /// on met à jour le lien contenu/contenant
       i_child->m_parent = this ;
@@ -247,7 +247,7 @@ namespace ProjetUnivers {
     
     void Object::_remove(Trait* i_trait)
     {
-      CHECK(i_trait,ExceptionKernel("Kernel::_remove(Trait*) no trait")) ;
+      CHECK(i_trait,"Kernel::_remove(Trait*) no trait") ;
       TypeIdentifier trait_name(getObjectTypeIdentifier(i_trait)) ;
 
       i_trait->_close() ;

@@ -106,8 +106,7 @@ namespace ProjetUnivers {
     {
       
       // le cas division par zéro.
-      CHECK(_operande.m_value != 0, 
-                       Exception("division par zero")) ;
+      CHECK(_operande.m_value != 0, "divide by zero") ;
       
       // le cas normal
       if (this->m_unit == _operande.m_unit)

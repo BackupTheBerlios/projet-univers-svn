@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2008 Mathieu ROGER                                 *
+ *   Copyright (C) 2008 Mathieu ROGER                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,81 +18,33 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_DURATION_H_
-#define PU_MODEL_DURATION_H_
-
-#include <kernel/reader.h>
+#include <model/implementation/logic/laser.h>
 
 namespace ProjetUnivers {
   namespace Model {
+    namespace Implementation {
+      namespace Logic {
+
+
+        RegisterControler(Logic::Laser, 
+                          Model::Laser, 
+                          LogicSystem) ;
+
+        Laser::Laser(Model::Laser* object,
+                     LogicSystem*  system)
+        : Kernel::Controler<Model::Laser,
+                            LogicSystem>(object,system)
+        {
+          InternalMessage("Model","Logic::Laser controler built") ;
+        }
       
-    /// A time duration.
-    /*!  
-    */
-    class Duration 
-    {
-    public:
-    
-    /*! 
-      @name Constructors
-    */
-    // @{   
-    
-
-      /// Zero duration.
-      Duration() ;
+        void Laser::simulate(const float& seconds)
+        {
+          getTrait()->removeTimeToNextShot(Duration::Second(seconds)) ;
+        }
       
-      /// Build a duration in seconds.
-      static Duration Second(float i_seconds) ;
-      
-      /// Copy constructor.
-      Duration(const Duration&) ;
-    
-      /// Addition
-      Duration operator +(const Duration&) const ;
-
-      /// Substraction
-      Duration operator -(const Duration&) const ;
-
-      /// Assignment.
-      Duration& operator=(const Duration&) ;
-
-      /// Read duration.
-      /*!
-        stored as 
-        @code
-          <Duration value=".." unit="Second"/>
-        @endcode
-      */          
-      static Duration read(Kernel::Reader* reader) ;
-      
-    // @}
-    /*! 
-      @name Convertions
-    */
-    // @{
-
-      /// Duration in seconds.
-      float Second() const ; 
-    
-    // @}
-      
-    private:
-    
-      /// Les différentes unités
-      typedef enum {
-        _Second
-      } Unit ;
-      
-      /// Private constructor.
-      Duration(Unit i_unit,float i_value) ;
-
-      float m_value ;
-      Unit  m_unit ;    
-  
-    };
-
+      }
+    }
   }
 }
 
-#endif

@@ -99,6 +99,29 @@ namespace ProjetUnivers {
                             Kernel::Object* agent,
                             const float& seconds) ;
 
+        /// Calculate the steering commands.
+        Ogre::Vector3 calculateSteeringCommands(const float& seconds_since_last_frame) ;
+
+        /// Calculate the steering commands.
+        /*!
+          First method : hand written adaptative : not good
+          @deprecated
+        */
+        Ogre::Vector3 calculateSteeringCommands1(const float& seconds_since_last_frame) ;
+
+        Ogre::Vector3 calculateSteeringCommands2(const float& seconds_since_last_frame) ;
+        
+        /// Calculate maximum steering "forces". 
+        /*! 
+          Determine how much we have turn, advanced since last frame and 
+          deduce max turning rate. 
+          Assume that yaw and pitch turning rates is quite constant (which is 
+          the case due to physic representation)
+           
+          
+        */  
+        void calibrateSteering(const float& seconds_since_last_frame) ;
+        
         /// Steering to apply this turn.
         Ogre::Vector3 m_steering ;
         
@@ -108,6 +131,7 @@ namespace ProjetUnivers {
         */
         Ogre::Vector3 m_previous_speed ;
         
+        /// Agent orientation at previous frame.
         Ogre::Quaternion m_previous_orientation ;
         
         /// Commands send previous frame
@@ -120,6 +144,12 @@ namespace ProjetUnivers {
         /// Deduced maximum steering. 
         Ogre::Vector3 m_max_steering ;
         
+        /// Maximum turning rate in radian per seconds per unit of turning command 
+        Ogre::Degree m_max_steering_X ;
+        Ogre::Degree m_max_steering_Y ;
+        
+        /// Maximum acceleration in meter per suare seconds per unit of throttle
+        float m_max_steering_speed ;
       };
       
     }

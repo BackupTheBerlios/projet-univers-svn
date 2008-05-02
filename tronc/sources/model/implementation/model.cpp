@@ -203,30 +203,77 @@ namespace ProjetUnivers {
         {
           InternalMessage("Model","building ship...") ;
           Kernel::Object* ship = model->createObject("Vaisseau",system) ;
-          model->addTrait(ship,new Positionned(Position::Meter(200,
-                                                               50,
+          model->addTrait(ship,new Positionned(Position::Meter(0,
+                                                               200,
                                                                -500))) ;
           model->addTrait(ship,new Oriented()) ;
-          model->addTrait(ship,new Solid(Mesh("razor.mesh"))) ;
-          model->addTrait(ship,new Mobile()) ;
           model->addTrait(ship,new Massive(Mass::Kilogram(1000))) ;
+          model->addTrait(ship,new Mobile()) ;
+          model->addTrait(ship,new Solid(Mesh("razor.mesh"))) ;
+          model->addTrait(ship,new Computer()) ;
+          model->addTrait(ship,new Detector(ship,Distance(Distance::_Meter,5000))) ;
+          model->addTrait(ship,new Transponder(team1)) ;
+          model->addTrait(ship,new TargetingSystem()) ;
+          model->addTrait(ship,new GuidanceSystem(Kernel::Parameters::getValue<float>("Model","GuidanceForce"))) ;
+          model->addTrait(ship,new GuidanceControler()) ;
+          model->addTrait(ship,new ShootingHelper()) ;
+
+          Kernel::Object* laser = model->createObject(ship) ;
+          model->addTrait(laser,new Laser(Position::Meter(19.2,0,57),
+                                          Orientation(),
+                                          Energy::Joule(10))) ;
+          model->addTrait(laser, new Component()) ;
+          laser->getTrait<Laser>()->setShotTimeDelay(Duration::Second(1)) ;
+          ShootingHelper::connect(ship,ship,laser) ;
+          TargetingSystem::connect(ship,ship) ;
+          
           model->addTrait(ship,new Dragger(Kernel::Parameters::getValue<float>("Model","DraggerCoeeficient"))) ;
-
-          Kernel::Object* st1 = model->createObject("st01",ship) ;
+          Kernel::Object* st1 = model->createObject("ship1#st1",ship) ;
           model->addTrait(st1,new Stabilizer(0,Kernel::Parameters::getValue<float>("Model","StabilizerForce"),0)) ;
-
-          Kernel::Object* st2 = model->createObject("st02",ship) ;
+          model->addTrait(st1,new Component()) ;
+          Kernel::Object* st2 = model->createObject("ship1#st2",ship) ;
           model->addTrait(st2,new Stabilizer(Kernel::Parameters::getValue<float>("Model","StabilizerForce"),0,0)) ;
-
-          Kernel::Object* st3 = model->createObject("st03",ship) ;
+          model->addTrait(st2,new Component()) ;
+          Kernel::Object* st3 = model->createObject("ship1#st3",ship) ;
           model->addTrait(st3,new Stabilizer(0,0,Kernel::Parameters::getValue<float>("Model","StabilizerForce"))) ;
+          model->addTrait(st3,new Component()) ;
+
+          Kernel::Object* stick = model->createObject("ship1#stick",system) ;
+          model->addTrait(stick,new Positionned(Position::Meter(0,
+                                                                0,
+                                                                -50))) ;
+          model->addTrait(stick,new Stick()) ;
+          model->addTrait(stick,new Solid(Mesh("manche_a_balais.mesh"))) ;
+          model->addTrait(stick,new Component()) ;
           
-          model->addTrait(ship, new Transponder(team1)) ;
+          // stick,ship
+          connectStickControler(stick,ship) ;
+          connectControlerGuidanceSystem(ship,ship) ;
           
-//          model->addTrait(ship,new WithObjectives()) ;
-//          ship->getTrait<WithObjectives>()->addObjective(Objective::patrol(system)) ;
-//          model->addTrait(ship,new AutonomousCharacter()) ;
+          /// engine + engine control...
+          Kernel::Object* throttle = model->createObject("ship1#throttle",ship) ;
+          model->addTrait(throttle,new Throttle()) ;
+          model->addTrait(throttle,new Positionned()) ;
+          model->addTrait(throttle,new Component()) ;
           
+          Kernel::Object* engine = model->createObject(ship) ;
+          model->addTrait(engine,new Engine(Force::Newton(0,0,Kernel::Parameters::getValue<float>("Model","EngineMaxForce")))) ;
+          model->addTrait(engine,new Component()) ;
+          
+          Kernel::Object* engine_control = model->createObject(ship) ;
+          model->addTrait(engine_control,new EngineControler()) ;
+          model->addTrait(engine_control,new Component()) ;
+
+          connectThrottleControler(throttle,engine_control) ;
+          connectControlerEngine(engine_control,engine) ;                   
+
+          Kernel::Object* agent = model->createObject(ship) ;
+          model->addTrait(agent,new AutonomousCharacter()) ;
+          model->addTrait(agent,new WithObjectives()) ;
+          model->addTrait(agent,new Kernel::CommandDelegator()) ;
+          agent->getTrait<Kernel::CommandDelegator>()->addDelegate(ship) ;
+          agent->getTrait<Kernel::CommandDelegator>()->addDelegate(stick) ;
+          agent->getTrait<Model::WithObjectives>()->addObjective(Objective::attackAllEnemies()) ;
           
           InternalMessage("Model","building ship done") ;
         }
@@ -257,9 +304,9 @@ namespace ProjetUnivers {
         {
           InternalMessage("Model","building ship...") ;
           Kernel::Object* ship = model->createObject("Vaisseau#3",system) ;
-          model->addTrait(ship,new Positionned(Position::Meter(0,
-                                                               300,
-                                                               -500))) ;
+          model->addTrait(ship,new Positionned(Position::Meter(200,
+                                                               50,
+                                                               -1000))) ;
           model->addTrait(ship,new Oriented()) ;
           
           model->addTrait(ship,new Solid(Mesh("razor.mesh"))) ;
@@ -282,7 +329,6 @@ namespace ProjetUnivers {
                                                                 0,
                                                                 -50))) ;
           model->addTrait(stick,new Stick()) ;
-          model->addTrait(stick,new Solid(Mesh("manche_a_balais.mesh"))) ;
           
           model->addTrait(ship,new GuidanceSystem(Kernel::Parameters::getValue<float>("Model","GuidanceForce"))) ;
           model->addTrait(ship,new GuidanceControler()) ;
@@ -305,7 +351,8 @@ namespace ProjetUnivers {
           
           Kernel::Object* laser = model->createObject("laser",ship) ;
           model->addTrait(laser,new Laser(Position::Meter(19.2,0,57),
-                                         Orientation())) ;
+                                          Orientation(),
+                                          Energy::Joule(10))) ;
           model->addTrait(laser, new Component()) ;
           
           model->addTrait(ship, new Transponder(team2)) ;
@@ -336,7 +383,7 @@ namespace ProjetUnivers {
           TargetDisplayer::connect(target_display,target_selector) ;
 
           Kernel::Object* laser_observer = model->createObject(observer) ;
-          model->addTrait(laser_observer,new Laser(Position(),Orientation())) ;
+          model->addTrait(laser_observer,new Laser(Position(),Orientation(),Energy::Joule(10))) ;
 
           Kernel::Object* shooting_helper = model->createObject("shooting_helper",observer) ;
           model->addTrait(shooting_helper,new ShootingHelper()) ;
@@ -346,11 +393,11 @@ namespace ProjetUnivers {
           model->addTrait(observer,new Oriented()) ;
           /// Il a la faculté d'observer
           model->addTrait(observer,new Observer()) ;
-          model->addTrait(observer,new Kernel::CommandDelegator()) ;
-          observer->getTrait<Kernel::CommandDelegator>()->addDelegate(stick) ;
-          observer->getTrait<Kernel::CommandDelegator>()->addDelegate(throttle) ;
-          observer->getTrait<Kernel::CommandDelegator>()->addDelegate(laser) ;
-          observer->getTrait<Kernel::CommandDelegator>()->addDelegate(target_selector) ;
+//          model->addTrait(observer,new Kernel::CommandDelegator()) ;
+//          observer->getTrait<Kernel::CommandDelegator>()->addDelegate(stick) ;
+//          observer->getTrait<Kernel::CommandDelegator>()->addDelegate(throttle) ;
+//          observer->getTrait<Kernel::CommandDelegator>()->addDelegate(laser) ;
+//          observer->getTrait<Kernel::CommandDelegator>()->addDelegate(target_selector) ;
           
           model->addTrait(observer, new Transponder(team1)) ;
           

@@ -120,7 +120,7 @@ namespace ProjetUnivers {
       /*!
         Skips any non positionned intermediate object.
       */
-      Position getPositionAncestor(const Kernel::Object* ancestor) const ;
+      Position getPositionRelativeToAncestor(const Kernel::Object* ancestor) const ;
 
       /// Position relative to the parent object.
       Position    m_position ;  

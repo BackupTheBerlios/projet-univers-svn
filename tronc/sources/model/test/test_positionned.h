@@ -62,6 +62,18 @@ namespace ProjetUnivers {
         /// Test getRelativePosition().
         void testGetRelativePosition() ;
         
+        /// Test getRelativePosition() with a rotation of object2.
+        void relativePositionWithRotation() ;
+
+        /// Test getRelativePosition() with a rotations.
+        void relativePositionWithRotations() ;
+        
+        /// Test getRelativePosition() with an ancestor.
+        void relativePositionToAncestor() ;
+        
+        /// Test getRelativePosition() from a cousin.
+        void relativePositionToOrientedCousin() ;
+        
       // @}
       /*!
         @name Test registration
@@ -78,6 +90,10 @@ namespace ProjetUnivers {
         CPPUNIT_TEST(testSetPosition2) ;
         CPPUNIT_TEST(testSetPosition3) ;
         CPPUNIT_TEST(testGetRelativePosition) ;
+        CPPUNIT_TEST(relativePositionWithRotation) ;
+        CPPUNIT_TEST(relativePositionWithRotations) ;
+        CPPUNIT_TEST(relativePositionToAncestor) ;
+        CPPUNIT_TEST(relativePositionToOrientedCousin) ;
       
         CPPUNIT_TEST_SUITE_END() ;
       
