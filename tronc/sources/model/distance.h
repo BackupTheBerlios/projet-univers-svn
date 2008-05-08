@@ -131,6 +131,8 @@ namespace ProjetUnivers {
       
       /// Unit comparison; test purpose.
       friend bool operator<=(Distance::Unit, Distance::Unit) ;
+      friend Distance operator*(const Distance&,const float&) ;
+      friend Distance operator*(const float&,const Distance&) ;
 
                             
       friend class ::ProjetUnivers::Model::Test::TestDistance ;
@@ -138,6 +140,8 @@ namespace ProjetUnivers {
     };
 
     bool operator<=(Distance::Unit,Distance::Unit) ;
+    Distance operator*(const Distance&,const float&) ;
+    Distance operator*(const float&,const Distance&) ;
 
 
   }

@@ -9,7 +9,8 @@ AM_CXXFLAGS=$(PU_CXXFLAGS)
 LDADD=ode/libphysicode.la
 
 libphysic_la_SOURCES = \
-$(SOURCES)/physic/implementation/physic.cpp
+$(SOURCES)/physic/implementation/physic.cpp \
+$(SOURCES)/physic/implementation/laser_beam.cpp
 
 libphysic_la_LDFLAGS = -no-undefined
 libphysic_la_LDFLAGS += \

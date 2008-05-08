@@ -32,6 +32,7 @@
 
 #include <model/laser.h>
 #include <model/exception.h>
+#include <model/destroyable.h>
 #include <model/observer.h>
 #include <model/massive.h>
 #include <model/component.h>
@@ -81,9 +82,9 @@ namespace ProjetUnivers {
     std::auto_ptr<Kernel::Model> model(new Kernel::Model("real world")) ;    
     
     /// for ogre mesh loading     
-    std::auto_ptr<LogManager> log_manager ;
-    std::auto_ptr<DefaultHardwareBufferManager> hardware_buffer_manager ;
-    std::auto_ptr<Root> root ;
+    LogManager*                   log_manager ;
+    DefaultHardwareBufferManager* hardware_buffer_manager ;
+    Root*                         root ;
 
   // @}
     
@@ -153,7 +154,7 @@ namespace ProjetUnivers {
     void close()
     {
       InternalMessage("Model","Deleting objects") ;
-      model.reset() ;      
+      model.reset() ;    
       Implementation::Logic::close() ;
       InternalMessage("Model","Module Model terminated") ;
       
@@ -355,7 +356,8 @@ namespace ProjetUnivers {
                                           Energy::Joule(10))) ;
           model->addTrait(laser, new Component()) ;
           
-          model->addTrait(ship, new Transponder(team2)) ;
+          model->addTrait(ship,new Transponder(team2)) ;
+          model->addTrait(ship,new Destroyable(Energy::Joule(10))) ;
           
           
           InternalMessage("Model","building ship done") ;
@@ -388,7 +390,6 @@ namespace ProjetUnivers {
           Kernel::Object* shooting_helper = model->createObject("shooting_helper",observer) ;
           model->addTrait(shooting_helper,new ShootingHelper()) ;
           ShootingHelper::connect(shooting_helper,computer,laser_observer) ;
-          
           
           model->addTrait(observer,new Oriented()) ;
           /// Il a la faculté d'observer
@@ -441,10 +442,10 @@ namespace ProjetUnivers {
       InternalMessage("Model","Model::initRessources entering") ;
       if (! MeshManager::getSingletonPtr())
       {
-        log_manager.reset(new LogManager()) ;
+        log_manager = new LogManager() ;
         log_manager->createLog("Ogre.log", false, false); 
-        root.reset(new Root()) ;
-        hardware_buffer_manager.reset(new DefaultHardwareBufferManager()) ;
+        root = new Root() ;
+        hardware_buffer_manager = new DefaultHardwareBufferManager() ;
                 
         ConfigFile file ;
         file.load("ressources.cfg") ;

@@ -18,6 +18,10 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <model/model.h>
+#include <model/explosion.h>
+#include <model/solid.h>
+#include <model/with_lifetime.h>
 #include <model/implementation/logic/destroyable.h>
 
 namespace ProjetUnivers {
@@ -33,17 +37,32 @@ namespace ProjetUnivers {
         Destroyable::Destroyable(Model::Destroyable* i_object,
                                  LogicSystem*      i_system)
         : Kernel::Controler<Model::Destroyable,
-                            LogicSystem>(i_object,i_system)
+                            LogicSystem>(i_object,i_system),
+          m_marked_to_destroy(false)
         {
           InternalMessage("Model","Logic::Destroyable controler built") ;
         }
       
         void Destroyable::simulate(const float& i_seconds)
         {
-          if (getTrait()->getLife() <= 0)
+          if (getTrait()->getLife() <= 0 && !m_marked_to_destroy)
           {
             InternalMessage("Model","Logic::Destroyable destroying object") ;
-            getControlerSet()->addObjectToDestroy(getObject()) ;
+            
+            // create explosion
+            Solid* solid = getObject()->getTrait<Solid>() ;
+            Distance explosion_radius ;
+            
+            if (solid)
+              explosion_radius = 4*solid->getRadius() ;
+            
+            Duration explosion_duration(Duration::Second(1)) ;
+            addTrait(getObject(),new Explosion(explosion_radius,explosion_duration)) ;
+            
+            // add a life time trait
+            addTrait(getObject(),new WithLifetime(explosion_duration)) ;
+            
+            m_marked_to_destroy = true ;
           }
         }
       

@@ -18,18 +18,61 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <artificial_intelligence/implementation/behaviour.h>
+#ifndef PU_DISPLAY_IMPLEMENTATION_OGRE_EXPLOSION_H_
+#define PU_DISPLAY_IMPLEMENTATION_OGRE_EXPLOSION_H_
+
+#include <Ogre.h>
+#include <kernel/trait_view.h>
+#include <display/implementation/explosion.h>
+#include <display/implementation/ogre/real_world_view_point.h>
+
 
 namespace ProjetUnivers {
-  namespace ArtificialIntelligence {
+  namespace Display {
     namespace Implementation {
-    
-      Behaviour::~Behaviour()
-      {}
+      namespace Ogre {
 
-      Behaviour::Behaviour()
-      {}  
+        /// Display explosion.
+        /*!
+        */
+        class Explosion : public Kernel::TraitView<Implementation::Explosion,
+                                                   RealWorldViewPoint>
+        {
+        public:
         
-    }    
+        /*!
+          @name Construct
+        */
+        // @{
+
+          /// Constructor.
+          Explosion(Implementation::Explosion* object,
+                    RealWorldViewPoint*        viewpoint) ;
+
+        protected:
+        //@}
+        /*!
+          @name Updates
+        */
+        // @{
+        
+          /// create a Ogre::Entity.
+          void onInit() ;
+          
+          /// Destroy the Ogre::Entity.
+          void onClose() ;
+        
+        // @}
+
+        private:
+          
+          /// 3D ogre mesh.
+          ::Ogre::Entity*    m_mesh ;
+          ::Ogre::SceneNode* m_node ;
+      
+        };
+      }
+    }
   }
 }
+#endif

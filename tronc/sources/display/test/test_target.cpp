@@ -74,7 +74,7 @@ namespace ProjetUnivers {
         memory->addTrait(data,new Model::Selected()) ;
 
         CPPUNIT_ASSERT(data->getTrait<Implementation::Target>()) ;
-        
+        Model::close() ;
         InternalMessage("Display","Display::TestTarget::testConstruct leaving") ;
       }
 

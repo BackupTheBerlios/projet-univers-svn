@@ -21,7 +21,7 @@
 #include <ode/ode.h>
 
 #include <kernel/log.h>
-
+#include <model/laser_beam.h>
 #include <physic/implementation/ode/ode.h>
 #include <physic/implementation/ode/laser_beam.h>
 
@@ -31,12 +31,12 @@ namespace ProjetUnivers {
       namespace Ode {
 
         RegisterControler(LaserBeam, 
-                          Model::LaserBeam, 
+                          Implementation::LaserBeam, 
                           PhysicSystem) ;
 
-        LaserBeam::LaserBeam(Model::LaserBeam* i_object,
-                             PhysicSystem* i_physic)
-        : Kernel::Controler<Model::LaserBeam,PhysicSystem>(i_object,i_physic)
+        LaserBeam::LaserBeam(Implementation::LaserBeam* object,
+                             PhysicSystem*              physic)
+        : Kernel::Controler<Implementation::LaserBeam,PhysicSystem>(object,physic)
         {
           InternalMessage("Physic","Physic::Implementation::Ode::LaserBeam built") ;
         }

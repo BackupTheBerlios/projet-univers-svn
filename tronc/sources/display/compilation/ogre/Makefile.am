@@ -6,6 +6,7 @@ AM_CXXFLAGS=$(PU_CXXFLAGS)
 
 libdisplayogre_la_SOURCES = \
 $(SOURCES)/display/implementation/ogre/destroyable.cpp \
+$(SOURCES)/display/implementation/ogre/explosion.cpp \
 $(SOURCES)/display/implementation/ogre/observer.cpp \
 $(SOURCES)/display/implementation/ogre/ogre.cpp \
 $(SOURCES)/display/implementation/ogre/oriented.cpp \

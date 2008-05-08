@@ -18,34 +18,20 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_IMPLEMENTATION_BEHAVIOUR_H_
-#define PU_IMPLEMENTATION_BEHAVIOUR_H_
+#ifndef PU_PHYSIC_IMPLEMENTATION_LASER_BEAM_H_
+#define PU_PHYSIC_IMPLEMENTATION_LASER_BEAM_H_
 
-#include <kernel/object.h>
+#include <kernel/deduced_trait.h> 
 
 namespace ProjetUnivers {
-  namespace ArtificialIntelligence {
+  namespace Physic {
     namespace Implementation {
-    
-      /// Abstract class for all behaviours.
-      class Behaviour
-      {
-      public:
-        
-        /// Apply the behaviour for the given object.
-        virtual void apply(Kernel::Object*) = 0 ;
-        
-        /// Abstract classes have virtual destructors.
-        virtual ~Behaviour() ;
 
-      protected:
-        
-        /// Abstract classes have protected constructors.
-        Behaviour() ;
-        
-      };
-    }    
+      class LaserBeam : public Kernel::DeducedTrait
+      {};
+    }
   }
 }
 
-#endif //PU_IMPLEMENTATION_BEHAVIOUR_H_
+
+#endif /*PU_PHYSIC_IMPLEMENTATION_LASER_BEAM_H_*/

@@ -18,6 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <algorithm>
 #include <OgreStringConverter.h>
 #include <kernel/log.h>
 #include <kernel/string.h>
@@ -26,7 +27,6 @@
 #include <model/with_objectives.h>
 #include <model/targeting_system.h>
 #include <model/shootable.h>
-#include <artificial_intelligence/implementation/behaviour.h>
 #include <artificial_intelligence/implementation/steering_behaviour.h>
 #include <artificial_intelligence/implementation/agent_vehicle.h>
 #include <artificial_intelligence/implementation/agent_view_point.h>
@@ -284,6 +284,8 @@ namespace ProjetUnivers {
           
         if (m_max_steering_Y.valueRadians() == 0)
           m_max_steering_Y = Ogre::Degree(1) ;
+        
+        m_vehicle->setTurningRate(std::max(m_max_steering_X,m_max_steering_Y)) ;
         
         // 
         float delta_speed = m_previous_speed.length()-m_vehicle->getSpeed().length() ;

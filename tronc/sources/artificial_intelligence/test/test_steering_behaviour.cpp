@@ -292,6 +292,56 @@ namespace ProjetUnivers {
         InternalMessage("AI","Leaving TestSteeringBehaviour::evadeNearTarget" ) ;
       }
       
+      void TestSteeringBehaviour::obstacleAvoidance()
+      {
+        InternalMessage("AI","Entering TestSteeringBehaviour::obstacleAvoidance" ) ;
+        Implementation::Vehicle obstacle1 ;
+        obstacle1.setPosition(Ogre::Vector3(50,0,0)) ;
+        obstacle1.setSize(10) ;
+        
+        // A vehicle to seek (in fact the zero position)
+        Implementation::Vehicle target ;
+        
+        // an agent
+        Implementation::Vehicle agent ;
+        agent.setPosition(Ogre::Vector3(100,0,0)) ;
+        agent.setMaxSpeed(10) ;
+        agent.setSize(10) ;
+        agent.setTurningRate(Ogre::Degree(10)) ;
+        
+        std::set<Implementation::Vehicle*> obstacles ;
+        obstacles.insert(&obstacle1) ;
+        int number_of_collisions = 0 ;
+        
+        // A "simulation" loop : calculate steering and apply it 
+        for(int i = 1 ; i <= 100 ; ++i)
+        {
+          // simulate obstacles
+          for(std::set<Implementation::Vehicle*>::iterator obstacle = obstacles.begin() ;
+              obstacle != obstacles.end() ;
+              ++obstacle)
+          {
+            // check that no collision occurs
+           if ((agent.getPosition()-(*obstacle)->getPosition()).length() <
+               (agent.getRadius()+(*obstacle)->getRadius()))
+             ++number_of_collisions ;
+          }
+          
+          Ogre::Vector3 steering = Implementation::SteeringBehaviour::seek(agent,target) ; 
+          Ogre::Vector3 avoidance = Implementation::SteeringBehaviour::obstacleAvoidance(agent,obstacles) ;
+          
+          if (avoidance.length()>0)
+            agent.simulate(avoidance) ;
+          else
+            agent.simulate(steering) ;
+        }
+        
+//        std::cout << number_of_collisions ;
+        CPPUNIT_ASSERT(number_of_collisions == 0) ;
+        
+        InternalMessage("AI","Leaving TestSteeringBehaviour::obstacleAvoidance" ) ;
+      }
+      
       void TestSteeringBehaviour::setUp() 
       {
       }

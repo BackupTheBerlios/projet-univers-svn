@@ -18,6 +18,9 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <OgreStringConverter.h>
+#include <kernel/log.h>
+#include <kernel/string.h>
 #include <artificial_intelligence/implementation/vehicle.h>
 
 namespace ProjetUnivers {
@@ -29,7 +32,8 @@ namespace ProjetUnivers {
         m_speed(0,0,0),
         m_orientation(),
         m_max_speed(0),
-        m_radius(0)
+        m_radius(0),
+        m_turning_rate(Ogre::Degree(30))
       {}
       
       Vehicle::Vehicle(
@@ -42,7 +46,8 @@ namespace ProjetUnivers {
         m_speed(speed),
         m_orientation(orientation),
         m_max_speed(max_speed),
-        m_radius(radius)
+        m_radius(radius),
+        m_turning_rate(Ogre::Degree(30))
       {}
 
       void Vehicle::setPosition(const Ogre::Vector3& position)
@@ -68,6 +73,11 @@ namespace ProjetUnivers {
       void Vehicle::setMaxSpeed(const float& max_speed)
       {
         m_max_speed = max_speed ;
+      }
+      
+      void Vehicle::setTurningRate(const Ogre::Degree& turning_rate)
+      {
+        m_turning_rate = turning_rate ;
       }
       
       const Ogre::Vector3& Vehicle::getPosition() const
@@ -131,7 +141,86 @@ namespace ProjetUnivers {
       /// Simualtion time step
       static const float timestep = 0.1 ; 
       
-      void Vehicle::simulate(const Ogre::Vector3& force)
+      void Vehicle::simulate(const Ogre::Vector3& force,const int mode)
+      {
+        switch(mode)
+        {
+        case 0:
+          simulateClassic(force) ;
+          break ;
+        case 1:
+          simulateNew(force) ;
+          break ;
+        }
+      }
+      
+      void Vehicle::simulateNew(const Ogre::Vector3& force)
+      {
+        InternalMessage("TestDisplay","force=" + Ogre::StringConverter::toString(force)) ;
+        Ogre::Vector3 local = force ;
+        normalizeForce(local) ;
+        local = m_orientation.Inverse()*local ;
+        InternalMessage("TestDisplay","front=" + Ogre::StringConverter::toString(getForward())) ;
+        
+        Ogre::Degree side_turn = m_turning_rate*local.x/max_force ;
+        
+        if (local.x == 0 && local.z < 0)
+        {
+          side_turn = m_turning_rate ;
+        }
+        
+        side_turn *= timestep ;
+        Ogre::Quaternion side(side_turn,Ogre::Vector3::UNIT_Y) ;
+
+        InternalMessage("TestDisplay","side_turn=" + Kernel::toString(side_turn.valueDegrees())) ;
+
+        Ogre::Degree up_turn = m_turning_rate*local.y/max_force ;
+        
+        if (local.y == 0 && local.z < 0)
+        {
+          up_turn = m_turning_rate ;
+        }
+        
+        up_turn *= timestep ;
+        Ogre::Quaternion up(up_turn,Ogre::Vector3::UNIT_X) ;
+
+        InternalMessage("TestDisplay","up_turn=" + Kernel::toString(up_turn.valueDegrees())) ;
+        
+        float speed_value = getSpeed().length() + local.z ;
+        
+        InternalMessage("TestDisplay","speed_value=" + Kernel::toString(speed_value)) ;
+        if (speed_value < 0)
+          speed_value = m_max_speed/3 ;
+        if (speed_value > m_max_speed)
+          speed_value = m_max_speed ;
+        
+        Ogre::Vector3 speed = getForward() ;
+        InternalMessage("TestDisplay","result speed=" + Ogre::StringConverter::toString(speed)) ;
+        speed = side*speed ;
+        speed = up*speed ;
+        Ogre::Vector3 front = speed ;
+        InternalMessage("TestDisplay","result speed=" + Ogre::StringConverter::toString(speed)) ;
+        speed = speed_value*speed ;
+        InternalMessage("TestDisplay","result speed=" + Ogre::StringConverter::toString(speed)) ;
+        normalizeSpeed(speed) ;
+        InternalMessage("TestDisplay","result speed=" + Ogre::StringConverter::toString(speed)) ;
+        
+        // apply changes to vehicle
+        setPosition(getPosition()+timestep*speed) ;
+        setSpeed(speed) ;
+
+        // change direction
+        {
+          if (front.length() == 0)
+            front = getForward() ;
+          front.normalise() ;
+          Ogre::Vector3 rigth = Ogre::Vector3::UNIT_Y.crossProduct(front) ;
+          rigth.normalise() ;
+          setOrientation(Ogre::Quaternion(rigth,Ogre::Vector3::UNIT_Y,front)) ;
+        }
+      }
+
+      void Vehicle::simulateClassic(const Ogre::Vector3& force)
       {
         Ogre::Vector3 local = force ;
         normalizeForce(local) ;
@@ -155,6 +244,7 @@ namespace ProjetUnivers {
         }
       }
       
+      
       float Vehicle::getMaxSpeed() const
       {
         return m_max_speed ;
@@ -163,6 +253,11 @@ namespace ProjetUnivers {
       float Vehicle::getRadius() const
       {
         return m_radius ;
+      }
+      
+      const Ogre::Radian& Vehicle::getTurningRate() const
+      {
+        return m_turning_rate ;
       }
       
     }

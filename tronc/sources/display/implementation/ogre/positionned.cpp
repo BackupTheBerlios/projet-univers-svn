@@ -94,7 +94,7 @@ namespace ProjetUnivers {
           {
             Positionned* parent_node(positionned_ancestor->getView<Positionned>(getViewPoint())) ;
       
-            m_node = static_cast<SceneNode*>(parent_node->m_node->createChild()) ;
+            m_node = static_cast<SceneNode*>(parent_node->getNode()->createChild()) ;
 
             InternalMessage("Display",
               "creating scene node " + m_node->getName() + 

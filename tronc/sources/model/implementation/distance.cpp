@@ -223,5 +223,19 @@ namespace ProjetUnivers {
       return convert(m_value,m_unit,_Meter) <= convert(d.m_value,d.m_unit,_Meter) ;
     }
     
+    Distance operator*(const Distance& distance,const float& numeric)
+    {
+      Distance result(distance) ;
+      result.m_value *= numeric ;
+      return result ;
+    }
+
+    Distance operator*(const float& numeric,const Distance& distance)
+    {
+      Distance result(distance) ;
+      result.m_value *= numeric ;
+      return result ;
+    }
+    
   }
 }

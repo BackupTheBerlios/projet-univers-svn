@@ -30,7 +30,9 @@ namespace ProjetUnivers {
       /// Something that has a position, orientaiton and moves.
       /*!
         When doing calculus all position orientations must be in the same space.
-        Vehicule objects are generally calculated from Model objects. 
+        Vehicule objects are generally calculated from Model objects.
+        
+        All units are in a coherent system, for example meter and seconds. 
       */
       class Vehicle
       {
@@ -63,9 +65,14 @@ namespace ProjetUnivers {
         
         /// Change maximum speed.
         void setMaxSpeed(const float& max_speed) ;
-        
-        void simulate(const Ogre::Vector3& force) ;
 
+        /// Change the maximum turning rate.
+        void setTurningRate(const Ogre::Degree&) ;
+        
+        /// Basic physic simulation, used for internal tests only. 
+        void simulate(const Ogre::Vector3& force,const int mode = 0) ;
+
+        /// @c speed is normalised not to exceed max speed.
         void normalizeSpeed(Ogre::Vector3& speed) const ;
         
       // @}
@@ -101,9 +108,19 @@ namespace ProjetUnivers {
         /// Access to Vehicle size.
         float getRadius() const ;
         
+        /// Access to the turning rate.
+        const Ogre::Radian& getTurningRate() const ;
+        
       // @}
         
       private:
+        
+        /// Basic physic simulation, used for internal tests only. 
+        void simulateClassic(const Ogre::Vector3& force) ;
+
+        /// Basic physic simulation, used for internal tests only. 
+        void simulateNew(const Ogre::Vector3& force) ;
+
         
         Ogre::Vector3 m_position ;
 
@@ -111,9 +128,14 @@ namespace ProjetUnivers {
         
         Ogre::Quaternion m_orientation ;
         
+        /// Maximum speed of the vehicle.
         float m_max_speed ;
         
+        /// Radius of the vehicle.
         float m_radius ;
+        
+        /// Maximum directional steering, for example in degree per seconds. 
+        Ogre::Radian m_turning_rate ;
         
       };
     }

@@ -24,7 +24,7 @@
 #include <ode/ode.h>
 
 #include <kernel/controler.h>
-#include <model/laser_beam.h>
+#include <physic/implementation/laser_beam.h>
 #include <physic/implementation/ode/collideable.h>
 #include <physic/implementation/ode/physic_system.h>
 
@@ -36,14 +36,14 @@ namespace ProjetUnivers {
         /// ODE laser beam view
         /*!
         */
-        class LaserBeam : public Kernel::Controler<Model::LaserBeam,
+        class LaserBeam : public Kernel::Controler<Implementation::LaserBeam,
                                                    PhysicSystem>,
                           public Collideable
         {
         public:
 
           /// constructor.
-          LaserBeam(Model::LaserBeam*,PhysicSystem*) ;
+          LaserBeam(Implementation::LaserBeam*,PhysicSystem*) ;
 
           /// Check whether @c this is collideable with another Collideable.
           virtual bool isCollideableWith(const Collideable*) const ;

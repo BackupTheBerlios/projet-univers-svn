@@ -517,12 +517,29 @@
     - Laser : added a shooting cadence, a duration parameter that indicates the 
       minimum time between two shots
     - Laser : corrected laser beam mass calculation to get the correct damage 
-     
+
+2008-05-08 rogma
+
+  * Display : 
+    - resources loading is done at the beginning : all resources are loaded
+    - added basic explosion : the selected texture is the one in material 
+      PU/explosion/explosion.
+      
+  * Model : 
+    - added Explosion trait which contains duration and radius
+    - modified ogre root handling for internal testing that caused seg fault on 
+      test display
+  * AI :
+    - refactored code : removed behaviour and changed SteeringBehaviour to a 
+      namespace
+    - added SteeringBehaviour::obstacleAvoidance to avoid collisions
+    - added turning rate to vehicle
+
 @todo :
   
+  * ArtificialIntelligence : 
+     
   * Model : 
-
-    - add Explosion trait
 
     - Event traits like Collision, Shot should be implemented through 
       WithLifetime with a life time of zero
@@ -561,16 +578,13 @@
       PhysicalObject should not depend on mobile ?  
 
   * IA : 
-    - Bug : seg fault on closing module
     - add collisionAvoidance
 
   * Display :
     - seg fault when having an Oriented object that is not Positionned 
     
   * Input :
-    
-    - do not crash whithout keyboard/joystick/mouse
-    - be able to map any axis on any thing
+    - be able to map any axis on anything
     - be able to map keys to actions 
   
   * Action :
@@ -578,18 +592,16 @@
       transfered elsewhere maybe ...
     
 	* physic : 
-
     - bug : Physic::init() then Physic::build() works but not the inverse
-    
     - try to keep all units in an acceptable "range", it means that we whould 
       be able to convert model units in an arbitrary "ranging system".
-
     - migrate Model::PhysicalObject and Model::PhysicalWorld to Physic (for 
       better separation of concerns) --> not so sure ?
-
     - separate simulations : maybe objects can be simulated one by one in its 
       own world !! should not have any complication for movement except for 
-      collision response. This could facilitate unit range to keep around one. 
+      collision response. This could facilitate unit range to keep around one.
+    - add deduced trait for solid controler : allow adding of solid trait before 
+      physical object 
 
   * Sound : 
     - reconsider the implementation with the limitation 
@@ -599,7 +611,7 @@
     - move deduced trait to sound::implementation level (i.e. one up) ??
 
   * Kernel :
-    - better errors on object structure :  
+    - better errors on object structure
     - add an onDeduced event on deduced traits : it would allow one to perform 
       custom code, for example to calculate deduced attribute in those traits. 
       e.g., Solid <=> Sized, and Sized.size = Solid.Mesh.radius

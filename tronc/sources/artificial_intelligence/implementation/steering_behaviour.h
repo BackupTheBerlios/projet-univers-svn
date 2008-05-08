@@ -23,7 +23,6 @@
 
 #include <set>
 #include <OgreVector3.h>
-#include <artificial_intelligence/implementation/behaviour.h>
 
 namespace ProjetUnivers {
   namespace ArtificialIntelligence {
@@ -31,14 +30,10 @@ namespace ProjetUnivers {
     
       class Vehicle ;
       
-      /// Abstract class for all steering behaviours.
-      class SteeringBehaviour : public Behaviour
+      /// Steering behaviours.
+      namespace SteeringBehaviour
       {
-      public:
         
-        /// Apply the behaviour.
-        virtual void apply(Kernel::Object*) ;
-
         /*!
           @name Utility functions for steering behaviour
           
@@ -47,20 +42,20 @@ namespace ProjetUnivers {
         // @{
           
           /// Calculate steering for seeking target.
-          static Ogre::Vector3 seek(const Vehicle& agent,const Vehicle& target) ;
+          Ogre::Vector3 seek(const Vehicle& agent,const Vehicle& target) ;
 
           /// Calculate steering for pursuing target.
           /*!
             @warning when pursuing a target, the agent will ram into it if 
             possible
           */
-          static Ogre::Vector3 pursuit(const Vehicle& agent,const Vehicle& target) ;
+          Ogre::Vector3 pursuit(const Vehicle& agent,const Vehicle& target) ;
           
           /// Calculate steering for fleeing target.
-          static Ogre::Vector3 flee(const Vehicle& agent,const Vehicle& target) ;
+          Ogre::Vector3 flee(const Vehicle& agent,const Vehicle& target) ;
           
           /// Calculate steering for evading target.
-          static Ogre::Vector3 evade(const Vehicle& agent,const Vehicle& target) ;
+          Ogre::Vector3 evade(const Vehicle& agent,const Vehicle& target) ;
           
           /// Calculate steering for offset pursuing target.
           /*
@@ -68,41 +63,32 @@ namespace ProjetUnivers {
             Usefull for "docking", moving to a particular point of a sized target, 
             heading for "behind" a target...  
           */
-          static Ogre::Vector3 offsetPursuit(const Vehicle& agent,
-                                             const Vehicle& target,
-                                             const Ogre::Vector3& local_space_target_offset) ;
+          Ogre::Vector3 offsetPursuit(const Vehicle& agent,
+                                      const Vehicle& target,
+                                      const Ogre::Vector3& local_space_target_offset) ;
 
           /// Steering for offset pursuit. target point is at distance from 
           /*
             The targetted point is a point placed at @c distance of @c target.
           */
-          static Ogre::Vector3 offsetPursuit(const Vehicle& agent,
-                                             const Vehicle& target,
-                                             const float&   distance) ;
+          Ogre::Vector3 offsetPursuit(const Vehicle& agent,
+                                      const Vehicle& target,
+                                      const float&   distance) ;
           
           /// Calculate steering for wandering behaviour.
-          static Ogre::Vector3 wander(const Vehicle& agent) ;
+          Ogre::Vector3 wander(const Vehicle& agent) ;
           
           /// Calculate steering for separating @c agent from @c neighbours.
-          static Ogre::Vector3 separate(const Vehicle& agent, 
-                                        const std::set<Vehicle*>& neighbours,
-                                        const float simulation_time) ;
+          Ogre::Vector3 separate(const Vehicle& agent, 
+                                 const std::set<Vehicle*>& neighbours,
+                                 const float simulation_time) ;
 
+          /// Calculate steering for avoiding collision from @c obstacles.
+          Ogre::Vector3 obstacleAvoidance(const Vehicle&            agent, 
+                                          const std::set<Vehicle*>& obstacles) ;
           
         // @}
-        
-        /// Abstract classes have virtual destructors.
-        virtual ~SteeringBehaviour() ;
-
-      protected:
-        
-        /// Abstract classes have protected constructors.
-        SteeringBehaviour() ;
-        
-        // Wander behavior
-        static float WanderSide ;
-        static float WanderUp ;
-      };
+      }
     }    
   }
 }

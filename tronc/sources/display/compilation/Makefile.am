@@ -3,6 +3,7 @@
 SUBDIRS = ogre
 
 lib_LTLIBRARIES = libdisplay.la 
+noinst_PROGRAMS = test_ogre 
 
 LDADD=ogre/libdisplay.la
 
@@ -12,6 +13,7 @@ AM_CXXFLAGS=$(PU_CXXFLAGS)
 
 libdisplay_la_SOURCES = \
 $(SOURCES)/display/implementation/display.cpp \
+$(SOURCES)/display/implementation/explosion.cpp \
 $(SOURCES)/display/implementation/target.cpp \
 $(SOURCES)/display/implementation/ideal_target.cpp \
 $(SOURCES)/display/implementation/identified_target.cpp 
@@ -50,3 +52,10 @@ $(libXML_LIBS) \
 $(CEGUI_LIBS) \
 $(CEGUI_OGRE_LIBS) \
 -lCEGUIFalagardWRBase
+
+test_ogre_SOURCES = \
+../test/test_ogre.cpp
+
+test_ogre_LDADD = \
+$(OIS_LIBS) \
+$(OGRE_LIBS) 

@@ -21,6 +21,7 @@ libmodel_la_SOURCES = \
 ../implementation/engine.cpp \
 ../implementation/engine_controler.cpp \
 ../implementation/exception.cpp \
+../implementation/explosion.cpp \
 ../implementation/force.cpp \
 ../implementation/force_generator.cpp \
 ../implementation/mass.cpp \

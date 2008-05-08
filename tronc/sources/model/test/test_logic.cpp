@@ -123,7 +123,7 @@ namespace ProjetUnivers {
         destroyable->damage(Model::Energy::Joule(1.5)) ;
         
         // simulate Logic : object  should not exist anymore
-        Model::update(Duration::Second(1)) ;
+        Model::update(Duration::Second(2.5)) ;
         
         CPPUNIT_ASSERT(system->getChildren().size()==0) ;
         

@@ -18,8 +18,8 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_AI_TEST_STEERING_BEHAVIOUR_H_
-#define PU_AI_TEST_STEERING_BEHAVIOUR_H_
+#ifndef PU_AI_TEST_VEHICLE_H_
+#define PU_AI_TEST_VEHICLE_H_
 
 #include <cppunit/extensions/HelperMacros.h>
 
@@ -27,8 +27,8 @@ namespace ProjetUnivers {
   namespace ArtificialIntelligence {
     namespace Test {
 
-      /// Test of SteeringBehaviour.
-      class TestSteeringBehaviour : public CppUnit::TestFixture {
+      /// Test of Vehicle class.
+      class TestVehicle : public CppUnit::TestFixture {
       public:
         
         /// Apply a force to vehicle for simulation.
@@ -41,58 +41,26 @@ namespace ProjetUnivers {
       */
       // @{
         
-        /// Test the seek behaviour.
-        void testSeek() ;
+        /// Simulate with an front steering.
+        void testSimulateFront() ;
 
-        /// Test the pursuit behaviour.
-        void testPursuitLinear() ;
+        /// Simulate with an back steering.
+        void testSimulateBack() ;
 
-        /// Test the pursuit behaviour.
-        void testPursuitPlannar() ;
-        
-        /// Test the pursuit behaviour.
-        void testPursuitTargetBehind() ;
+        /// Simulate with an side steering.
+        void testSimulateSide() ;
 
-        /// Test the offsetPursuit behaviour.
-        void testOffsetPursuitTargetBehind() ;
-        
-        /// Test the offsetPursuit behaviour.
-        void testOffsetPursuitTargetSide() ;
-
-        /// Pursuit of a wandering target.
-        void pursuitWanderingTarget() ;
-
-        /// Test the evade behaviour when target is near.
-        /*!
-          check that even iff pursuing object is near, the evading speed is 
-          maximal.
-        */
-        void evadeNearTarget() ;
-        
-        /// Test the obstacleAvoidance behaviour.
-        void obstacleAvoidance() ;
-        
-        /*!
-          @todo add a test for a complex behaviour combining pursuit and avoiding
-        */
-        
       // @}
       /*! 
         @name Tests registration
       */
       // @{      
     
-        CPPUNIT_TEST_SUITE(TestSteeringBehaviour) ;
+        CPPUNIT_TEST_SUITE(TestVehicle) ;
       
-        CPPUNIT_TEST(testSeek) ;
-        CPPUNIT_TEST(testPursuitLinear) ;
-        CPPUNIT_TEST(testPursuitPlannar) ;
-        CPPUNIT_TEST(testPursuitTargetBehind) ;
-        CPPUNIT_TEST(testOffsetPursuitTargetBehind) ;
-        CPPUNIT_TEST(testOffsetPursuitTargetSide) ;
-        CPPUNIT_TEST(pursuitWanderingTarget) ;
-        CPPUNIT_TEST(evadeNearTarget) ;
-        CPPUNIT_TEST(obstacleAvoidance) ;
+        CPPUNIT_TEST(testSimulateFront) ;
+        CPPUNIT_TEST(testSimulateBack) ;
+        CPPUNIT_TEST(testSimulateSide) ;
       
         CPPUNIT_TEST_SUITE_END() ;
 
@@ -122,4 +90,4 @@ namespace ProjetUnivers {
 }
 
 
-#endif /*PU_AI_TEST_STEERING_BEHAVIOUR_H_*/
+#endif /*PU_AI_TEST_VEHICLE_H_*/

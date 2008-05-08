@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2008 Mathieu ROGER                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,40 +18,24 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_IMPLEMENTATION_LOGIC_DESTROYABLE_H_
-#define PU_MODEL_IMPLEMENTATION_LOGIC_DESTROYABLE_H_
-
-#include <kernel/controler.h>
-#include <model/destroyable.h>
-#include <model/implementation/logic/logic_system.h>
+#include <model/explosion.h>
 
 namespace ProjetUnivers {
   namespace Model {
-    namespace Implementation {
-      namespace Logic {
+    
+    Explosion::Explosion(const Distance& maximum_radius,const Duration& duration)
+    : m_maximum_radius(maximum_radius),m_duration(duration)
+    {}
 
-        /// Manage deletion of destroyable objects.
-        class Destroyable : public Kernel::Controler<Model::Destroyable,
-                                                     LogicSystem>
-        {
-        public:
-          
-          /// Construct.
-          Destroyable(Model::Destroyable* i_object,
-                      LogicSystem*      i_system) ;
-        
-          /// Destroy object if life is zero.
-          void simulate(const float& i_seconds) ;
-        
-        private:
-        
-          /// used to destroy only once an object.
-          bool m_marked_to_destroy ;
-        };
-      }
+    const Duration& Explosion::getDuration() const
+    {
+      return m_duration ;
     }
+
+    const Distance& Explosion::getRadius() const 
+    {
+      return m_maximum_radius ;
+    }
+    
   }
 }
-
-
-#endif

@@ -14,7 +14,6 @@ $(SOURCES)/artificial_intelligence/implementation/agent_view_point.cpp \
 $(SOURCES)/artificial_intelligence/implementation/agent.cpp \
 $(SOURCES)/artificial_intelligence/implementation/ai_system.cpp \
 $(SOURCES)/artificial_intelligence/implementation/autonomous_agent.cpp \
-$(SOURCES)/artificial_intelligence/implementation/behaviour.cpp \
 $(SOURCES)/artificial_intelligence/implementation/detected_vehicle.cpp \
 $(SOURCES)/artificial_intelligence/implementation/selected_target.cpp \
 $(SOURCES)/artificial_intelligence/implementation/selected_vehicle.cpp \
@@ -43,7 +42,8 @@ check_PROGRAMS = $(TESTS)
 test_ai_SOURCES = \
 ../test/test_artificial_intelligence.cpp \
 ../test/test_model_controler.cpp \
-../test/test_steering_behaviour.cpp
+../test/test_steering_behaviour.cpp \
+../test/test_vehicle.cpp
 
 test_ai_CXXFLAGS = $(CPPUNIT_CFLAGS) $(PU_CXXFLAGS)
 test_ai_LDFLAGS = $(CPPUNIT_LIBS)

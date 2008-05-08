@@ -122,7 +122,6 @@ namespace ProjetUnivers {
                 ResourceGroupManager::getSingleton().addResourceLocation(
                     nomArchitecture, nomType, nomSection);
             }
-            
           }
         }
         
@@ -167,6 +166,8 @@ namespace ProjetUnivers {
           CEGUI::Logger::getSingleton().setLoggingLevel(CEGUI::Informative) ;
           
           ResourceGroupManager::getSingleton().initialiseAllResourceGroups() ;
+          // load all ressources :
+          ResourceGroupManager::getSingleton().loadResourceGroup("General") ;
           
           // cegui 
           CEGUI::Imageset::setDefaultResourceGroup("imagesets");
@@ -225,7 +226,8 @@ namespace ProjetUnivers {
           /// cf. http://www.ogre3d.org/phpBB2/viewtopic.php?t=2733
           ::Ogre::WindowEventUtilities::messagePump();
           root->_fireFrameStarted();
-          window->update() ;
+          //window->update() ;
+          root->_updateAllRenderTargets() ;
           root->_fireFrameEnded();
         }
         
