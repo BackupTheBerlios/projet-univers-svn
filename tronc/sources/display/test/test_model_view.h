@@ -18,32 +18,76 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_IDEAL_TARGET_H_
-#define PU_MODEL_IDEAL_TARGET_H_
+#ifndef PU_DISPLAY_TEST_MODEL_VIEW_H_
+#define PU_DISPLAY_TEST_MODEL_VIEW_H_
 
-#include <model/computer_data.h>
+#include <cppunit/extensions/HelperMacros.h>
 
 namespace ProjetUnivers {
-  namespace Model {
-    
-    /// For objects that represent where to shoot.
-    /*!
-      For a targeted element, a computer object is built that represent where 
-      to shoot. If the ship is aimed at this positionned object then shooting 
-      will touch the targeted object provided it does not change direction and 
-      speed. 
-    */
-    class IdealTarget : public ComputerData
-    {
-    public:
+  namespace Display {
+    namespace Test {
+            
+      /// Global testing of this viewpoint.
+      class TestModelView : public CppUnit::TestFixture {
+      protected:
+      
+        
+      /*! 
+        @name Tests
+      */ 
+      // @{
+        
+        /// Basic test, mainly to check against seg fault.
+        void testConstruct() ;
 
-      /// Constructor.
-      IdealTarget() ;
+        /// Build a viewpoint and then destroy the observer.
+        /*!
+          created a seg fault
+        */
+        void destroyObserver() ;
+        
+        /// Select a target and display it
+        void selectedTarget() ;
+        
+        
+      // @}
+        /*! 
+          @name Tests registration
+        */ 
+        // @{
     
-    };
-    
-    
+        CPPUNIT_TEST_SUITE(TestModelView) ;
+      
+//        CPPUNIT_TEST(testConstruct) ;
+//        CPPUNIT_TEST(destroyObserver) ;
+        CPPUNIT_TEST(selectedTarget) ;
+      
+        CPPUNIT_TEST_SUITE_END() ;
+
+      public:
+  
+      // @}
+        /*! 
+          @name Mandatory methods
+        */ 
+        // @{
+
+      
+        /// Initialisation du test
+        void setUp() ;
+      
+        /// Desinitialisation du test
+        void tearDown() ;
+      
+      // @}      
+                
+       
+      
+      };
+
+    }
   }
 }
 
-#endif /*PU_MODEL_IDEAL_TARGET_H_*/
+
+#endif

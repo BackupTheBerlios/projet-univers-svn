@@ -31,6 +31,7 @@ namespace ProjetUnivers {
     namespace Test
     {
       class TestTarget ;
+      class TestModelView ;
     }
   }
 }
@@ -41,6 +42,7 @@ namespace ProjetUnivers {
       namespace Ogre {
         namespace HeadUpDisplay {
 
+          /// Display a selection around the detected target
           class Target : public Kernel::TraitView<Implementation::Target,
                                                   TargetDisplayerViewPoint>
           {
@@ -77,27 +79,32 @@ namespace ProjetUnivers {
           // @}
           private:
             
-            /// Calculate the clockwize angle to up from @c (x,y) coordinates.  
+            /// Calculate the clockwize angle to up from @c (x,y) coordinates.
+            /*!
+              param[in,out] x,y screen coordinates
+              param[in] z eye z position 
+            */
             static ::Ogre::Degree calculateRotation(float x,float y) ;
             
             /// True iff the target is selected            
             bool isSelected() const ;
 
             /// 3D ogre element.
-            ::Ogre::OverlayContainer* m_reticule_container ;
-            ::Ogre::OverlayElement*   m_reticule ;
+            ::Ogre::OverlayContainer* m_target_container ;
+            ::Ogre::OverlayElement*   m_target ;
 
             ::Ogre::OverlayContainer* m_arrow_container ;
             ::Ogre::OverlayElement*   m_arrow ;
             
-            /// true iff reticule is shown
-            bool m_reticule_is_shown ;
+            /// true iff target is shown
+            bool m_target_is_shown ;
 
             /// true iff arrow is shown
             bool m_arrow_is_shown ;
             
             /// for tests
             friend class ProjetUnivers::Display::Test::TestTarget ;
+            friend class ProjetUnivers::Display::Test::TestModelView ;
             
           };
         }

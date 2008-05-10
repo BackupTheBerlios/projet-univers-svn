@@ -23,6 +23,7 @@
 #include <kernel/object.h>
 #include <kernel/object_reference.h>
 #include <kernel/trait.h>
+#include <kernel/deduced_trait.h>
 #include <kernel/trait_view.h>
 #include <kernel/view_point.h>
 #include <kernel/trait_reference.h>
@@ -116,6 +117,17 @@ namespace ProjetUnivers {
           
         };
   
+        class DeducedTrait1 : public Kernel::DeducedTrait
+        {}; 
+        
+        
+        /// A deduced trait.
+        DeclareDeducedTrait(DeducedTrait1,
+                            And(HasTrait(Head),
+                                HasTrait(Person),
+                                HasTrait(Dummy))) ;
+        
+        
       }
       
       void TestModel::testGetDescendants()
@@ -306,6 +318,21 @@ namespace ProjetUnivers {
       {
         Head* head = new Head() ;
         head->change(10) ;
+      }
+      
+      void TestModel::destroyObjectWithDeducedTraits()
+      {
+        /// create a model
+        std::auto_ptr<Model> model(new Model("TestModel::destroyObjectWithDeducedTraits")) ;
+
+        Object* object1 = model->createObject() ;
+        Object* object2 = model->createObject(object1) ;
+        
+        model->addTrait(object1,new Person()) ;
+        model->addTrait(object1,new Head()) ;
+        model->addTrait(object1,new Dummy()) ;
+        
+        model->destroyObject(object1) ;
       }
       
       void TestModel::setUp()

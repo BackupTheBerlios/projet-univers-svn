@@ -71,6 +71,9 @@ namespace ProjetUnivers {
         /// Check that a notify on a trait whithout object is correct.
         void notifyOnNotAssignedTrait() ;
         
+        /// Check that destroying an object with deduced traits works.
+        void destroyObjectWithDeducedTraits() ;
+        
         // *********************
         /// @name Registerration
         // *********************
@@ -89,6 +92,7 @@ namespace ProjetUnivers {
         CPPUNIT_TEST(testTraitReferenceToDestroyedObject) ;
         CPPUNIT_TEST(testSetOfObjectReferences) ;
         CPPUNIT_TEST(notifyOnNotAssignedTrait) ;
+        CPPUNIT_TEST(destroyObjectWithDeducedTraits) ;
 
         CPPUNIT_TEST_SUITE_END() ;
 

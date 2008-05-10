@@ -69,11 +69,11 @@ namespace ProjetUnivers {
 
   // @}
     
-    bool init() 
+    bool init(bool choose_display) 
     {
       if (! initialised)
       {
-        bool result = Implementation::Ogre::init() ; 
+        bool result = Implementation::Ogre::init(choose_display) ; 
         
         initialised = true ;
         
@@ -96,10 +96,12 @@ namespace ProjetUnivers {
       if (active)
       {
         active->close() ;
+        active = NULL ;
       }
       
       local.clear() ;
       Implementation::Ogre::close() ;
+      initialised = false ;
     }
 
     size_t getWindowHandle()

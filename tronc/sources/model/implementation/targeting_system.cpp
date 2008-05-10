@@ -280,5 +280,10 @@ namespace ProjetUnivers {
       return m_computer->getTrait<Computer>()->getMemoryModel() ;
     
     }
+
+    Kernel::Object* TargetingSystem::getComputer() const
+    {
+      return m_computer ;
+    }
   }
 }

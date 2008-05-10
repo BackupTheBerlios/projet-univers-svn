@@ -18,12 +18,16 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <Ogre.h>
 #include <kernel/string.h>
 #include <kernel/log.h>
+#include <kernel/parameters.h>
+
 #include <model/detection_data.h>
 #include <model/positionned.h>
+
 #include <display/implementation/display_internal.h>
+#include <display/implementation/ogre/ogre.h>
+#include <display/implementation/ogre/utility.h>
 #include <display/implementation/ogre/solid.h>
 #include <display/implementation/ogre/positionned.h>
 #include <display/implementation/ogre/observer.h>
@@ -44,8 +48,32 @@ namespace ProjetUnivers {
                                          RealWorldViewPoint* i_viewpoint)
         : Kernel::TraitView<Model::TargetDisplayer,
                             RealWorldViewPoint>(i_object,i_viewpoint),
+          m_reticule_container(NULL),
+          m_reticule(NULL),
           m_implementation(NULL)
         {}
+
+        namespace 
+        {
+          std::string reticule_material ;
+        }
+        
+        std::string getReticuleMaterial()
+        {
+          if (reticule_material == "")
+          {
+            try
+            {
+              reticule_material = Kernel::Parameters::getValue<std::string>("Display","ReticuleMaterial") ;
+            }
+            catch(...)
+            {
+              InternalMessage("Display","getReticuleMaterial : error") ;
+              reticule_material = "PU/material/reticule" ;
+            }
+          }
+          return reticule_material ;
+        }
 
         void TargetDisplayer::onInit()
         {
@@ -53,6 +81,33 @@ namespace ProjetUnivers {
                 new HeadUpDisplay::TargetDisplayerViewPoint(getObject(),
                                                             getViewPoint())) ;
           m_implementation->init() ;
+
+          getOverlay()->setZOrder(500) ;
+          m_reticule_container = static_cast< ::Ogre::OverlayContainer* >(
+            ::Ogre::OverlayManager::getSingleton().createOverlayElement(
+                  "Panel", Utility::getUniqueName())) ;
+          getOverlay()->add2D(m_reticule_container) ;
+          
+          m_reticule_container->setPosition(0,0) ;
+          m_reticule_container->setWidth(1) ;
+          m_reticule_container->setHeight(1) ;
+
+          m_reticule = 
+            ::Ogre::OverlayManager::getSingleton().createOverlayElement(
+                  "Panel", Utility::getUniqueName()) ;
+          m_reticule->setMaterialName(getReticuleMaterial()) ; 
+          
+          m_reticule->setHorizontalAlignment(::Ogre::GHA_CENTER) ;
+          m_reticule->setVerticalAlignment(::Ogre::GVA_CENTER) ;
+          m_reticule_container->_addChild(m_reticule) ;
+
+          const float size = 0.05 ;
+          
+          m_reticule->setLeft(-size/2) ;
+          m_reticule->setTop(-size/2) ;
+          m_reticule->setDimensions(size,size) ;
+          
+          getOverlay()->show() ;
         }
         
         void TargetDisplayer::onClose()
@@ -61,6 +116,15 @@ namespace ProjetUnivers {
           {
             removeViewPoint(m_implementation) ;
           }
+          if (m_reticule_container)
+          {
+            getOverlay()->remove2D(m_reticule_container) ;
+            ::Ogre::OverlayManager::getSingleton().destroyOverlayElement(m_reticule) ;
+            ::Ogre::OverlayManager::getSingleton().destroyOverlayElement(m_reticule_container) ;
+            m_reticule_container = NULL ;
+            m_reticule = NULL ;
+          }
+          
         }
 
       }

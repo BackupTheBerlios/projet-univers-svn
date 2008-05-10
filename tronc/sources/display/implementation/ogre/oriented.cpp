@@ -91,6 +91,7 @@ namespace ProjetUnivers {
         void Oriented::onUpdate()
         {
           m_node->setOrientation(getTrait()->getOrientation().getQuaternion()) ;
+          m_node->_update(true,false) ;
 
           InternalMessage("Display",
             "modification of scene node " + m_node->getName() + 

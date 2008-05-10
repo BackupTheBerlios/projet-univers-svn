@@ -37,7 +37,7 @@ namespace ProjetUnivers {
   namespace Display {
     
     /// Module initialisation.
-    bool init() ;
+    bool init(bool choose_display = true) ;
     
     /// Module closing.
     void close() ;

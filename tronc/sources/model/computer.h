@@ -26,6 +26,7 @@
 #include <kernel/trait.h>
 #include <kernel/model.h>
 #include <kernel/reader.h>
+#include <model/position.h>
 
 namespace ProjetUnivers {
   namespace Model {
@@ -55,7 +56,11 @@ namespace ProjetUnivers {
       
       /// Access to memory.
       Kernel::Model* getMemoryModel() const ;
-            
+
+      /// Gives the position of a detection data relative to another object.
+      Position getDataPosition(Kernel::Object* data,
+                               Kernel::Object* relative_to) const ;
+      
     private:
       
       /// The set of objects in memory.

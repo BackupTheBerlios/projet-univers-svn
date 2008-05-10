@@ -21,11 +21,14 @@
 #ifndef PU_DISPLAY_IMPLEMENTATION_OGRE_HUD_TARGET_DISPLAYER_H_
 #define PU_DISPLAY_IMPLEMENTATION_OGRE_HUD_TARGET_DISPLAYER_H_
 
+#include <Ogre.h>
+
 #include <kernel/trait_view.h>
+
 #include <model/target_displayer.h>
+
 #include <display/implementation/ogre/real_world_view_point.h>
 #include <display/implementation/ogre/head_up_display/target_displayer_viewpoint.h>
-
 
 namespace ProjetUnivers {
   namespace Display {
@@ -119,6 +122,11 @@ namespace ProjetUnivers {
         // @}
         private:
           
+          /// Display a cross at the center of the screen
+          ::Ogre::OverlayContainer* m_reticule_container ;
+          ::Ogre::OverlayElement*   m_reticule ;
+          
+          /// Viewpoint displaying targets
           Kernel::ViewPoint* m_implementation ;
         };
       }

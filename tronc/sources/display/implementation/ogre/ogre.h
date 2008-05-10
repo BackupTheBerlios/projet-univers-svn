@@ -35,7 +35,7 @@ namespace ProjetUnivers {
       namespace Ogre {  
   
         /// Ogre initialisation.
-        bool init() ;
+        bool init(bool choose_display = true) ;
         
         /// Close Ogre.
         void close() ;

@@ -20,7 +20,8 @@
  ***************************************************************************/
 #include <kernel/trait_view.h>
 #include <kernel/parameters.h>
-#include <model/positionned.h>
+#include <model/targeting_system.h>
+#include <model/computer.h>
 #include <display/implementation/ogre/ogre.h>
 #include <display/implementation/ogre/utility.h>
 #include <display/implementation/ogre/positionned.h>
@@ -40,7 +41,7 @@ namespace ProjetUnivers {
               Implementation::IdealTarget* object,
               TargetDisplayerViewPoint* viewpoint)
           : Kernel::TraitView<Implementation::IdealTarget,TargetDisplayerViewPoint>(object,viewpoint),
-            m_reticule_is_shown(false)
+            m_target_is_shown(false)
           {}
 
           namespace 
@@ -66,18 +67,18 @@ namespace ProjetUnivers {
             return target_size ;
           }
           
-          std::string getTargetMaterial()
+          std::string getIdealTargetMaterial()
           {
             if (target_material == "")
             {
               try
               {
-                target_material = Kernel::Parameters::getValue<std::string>("Display","TargetMaterial") ;
+                target_material = Kernel::Parameters::getValue<std::string>("Display","IdealTargetMaterial") ;
               }
               catch(...)
               {
-                InternalMessage("Display","getTargetMaterial : error") ;
-                target_material = "PU/material/target" ;
+                InternalMessage("Display","getIdealTargetMaterial : error") ;
+                target_material = "PU/material/ideal_target" ;
               }
             }
             return target_material ;
@@ -85,7 +86,7 @@ namespace ProjetUnivers {
 
           void IdealTarget::setColour(const ::Ogre::ColourValue& colour)
           {
-            Utility::setColour(m_reticule,colour) ;
+            Utility::setColour(m_target,colour) ;
           }
           
           void IdealTarget::onInit()
@@ -93,34 +94,35 @@ namespace ProjetUnivers {
             InternalMessage("Display","Entering IdealTarget::onInit") ;
             
             getOverlay()->setZOrder(500) ;
-            m_reticule_container = static_cast< ::Ogre::OverlayContainer* >(
+            m_target_container = static_cast< ::Ogre::OverlayContainer* >(
               ::Ogre::OverlayManager::getSingleton().createOverlayElement(
                     "Panel", Utility::getUniqueName())) ;
-            getOverlay()->add2D(m_reticule_container) ;
+            getOverlay()->add2D(m_target_container) ;
             
-            m_reticule_container->setPosition(0,0) ;
-            m_reticule_container->setWidth(1) ;
-            m_reticule_container->setHeight(1) ;
+            m_target_container->setPosition(0,0) ;
+            m_target_container->setWidth(1) ;
+            m_target_container->setHeight(1) ;
 
-            m_reticule = 
+            m_target = 
               ::Ogre::OverlayManager::getSingleton().createOverlayElement(
                     "Panel", Utility::getUniqueName()) ;
 
             // clone material because we will modify it 
-            ::Ogre::MaterialPtr material = ::Ogre::MaterialManager::getSingleton().getByName(getTargetMaterial()); 
+            ::Ogre::MaterialPtr material = ::Ogre::MaterialManager::getSingleton().getByName(getIdealTargetMaterial()); 
             material = material->clone(Utility::getUniqueName()) ;
-            m_reticule->setMaterialName(material->getName()) ; 
+            m_target->setMaterialName(material->getName()) ; 
 
-            m_reticule->setHorizontalAlignment(::Ogre::GHA_CENTER) ;
-            m_reticule->setVerticalAlignment(::Ogre::GVA_CENTER) ;
+            m_target->setHorizontalAlignment(::Ogre::GHA_CENTER) ;
+            m_target->setVerticalAlignment(::Ogre::GVA_CENTER) ;
             
             const float size = getTargetSize() ;
             
-            m_reticule->setLeft(-size/2) ;
-            m_reticule->setTop(-size/2) ;
-            m_reticule->setDimensions(size,size) ;
+            m_target->setLeft(-size/2) ;
+            m_target->setTop(-size/2) ;
+            m_target->setDimensions(size,size) ;
             
-            m_reticule_container->_addChild(m_reticule) ;
+            m_target_container->_addChild(m_target) ;
+            m_target_container->hide() ;
             
             getOverlay()->show() ;
             onUpdate() ;
@@ -130,26 +132,27 @@ namespace ProjetUnivers {
           
           void IdealTarget::onClose()
           {
-            if (m_reticule_container)
+            if (m_target_container)
             {
-              getOverlay()->remove2D(m_reticule_container) ;
-              ::Ogre::OverlayManager::getSingleton().destroyOverlayElement(m_reticule) ;
-              ::Ogre::OverlayManager::getSingleton().destroyOverlayElement(m_reticule_container) ;
+              getOverlay()->remove2D(m_target_container) ;
+              ::Ogre::OverlayManager::getSingleton().destroyOverlayElement(m_target) ;
+              ::Ogre::OverlayManager::getSingleton().destroyOverlayElement(m_target_container) ;
             }
           }
           
           void IdealTarget::onUpdate()
           {
-            InternalMessage("Display","IdealTarget::onUpdate calculating reticule position") ;
+            InternalMessage("Display","IdealTarget::onUpdate calculating target position") ;
 
             ::Ogre::Camera* camera = getViewPoint()->getCamera() ;
 
-            // update reticule position
+            Model::Computer* computer 
+              = getViewPoint()->getTargetingSystem()->getTrait<Model::TargetingSystem>()
+                ->getComputer()->getTrait<Model::Computer>() ;
+            
+            // update target position
             Model::Position pos 
-              = getObject()->getTrait<Model::Positionned>()
-                                           ->getPosition() +
-                Model::getRelativePosition(getViewPoint()->getTargetingSystem(),
-                                           getViewPoint()->getObserver()) ;
+              = computer->getDataPosition(getObject(),getViewPoint()->getWorldRoot()) ;
             
             ::Ogre::Vector3 position = convert(pos) ;
 
@@ -201,29 +204,29 @@ namespace ProjetUnivers {
                   but actual screen values are between [-0.5,0.5]
                   do not know why we need to invert y
                 */
-                m_reticule_container->setPosition(screen_position.x/2,-screen_position.y/2) ;
+                m_target_container->setPosition(screen_position.x/2,-screen_position.y/2) ;
                 
-                if (!m_reticule_is_shown)
+                if (!m_target_is_shown)
                 {
-                  m_reticule_container->show() ;
-                  m_reticule_is_shown = true ;
+                  m_target_container->show() ;
+                  m_target_is_shown = true ;
                 }
               }
               else
               {
-                if (m_reticule_is_shown)
+                if (m_target_is_shown)
                 {
-                  m_reticule_container->hide() ;
-                  m_reticule_is_shown = false ;
+                  m_target_container->hide() ;
+                  m_target_is_shown = false ;
                 }
               }
             }
             else
             {
-              if (m_reticule_is_shown)
+              if (m_target_is_shown)
               {
-                m_reticule_container->hide() ;
-                m_reticule_is_shown = false ;
+                m_target_container->hide() ;
+                m_target_is_shown = false ;
               }
             }
             InternalMessage("Display","IdealTarget::onUpdate leaving") ;

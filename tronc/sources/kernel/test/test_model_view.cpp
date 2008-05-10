@@ -27,6 +27,7 @@ using namespace std ;
 #include <kernel/model.h>
 #include <kernel/object.h>
 #include <kernel/trait.h>
+#include <kernel/deduced_trait.h>
 #include <kernel/trait_view.h>
 #include <kernel/view_point.h>
 #include <kernel/test/test_model_view.h>
@@ -121,6 +122,12 @@ namespace ProjetUnivers {
           
         };
   
+        class DeducedTrait1 : public Kernel::DeducedTrait
+        {}; 
+        DeclareDeducedTrait(DeducedTrait1,
+                            And(HasTrait(Head),
+                                HasTrait(Person),
+                                HasTrait(Dummy))) ;
 
         class TestViewPoint : public ViewPoint
         {
@@ -141,7 +148,18 @@ namespace ProjetUnivers {
           }
 
         };
-       
+
+        class ViewDeducedTrait1 : public TraitView<DeducedTrait1,TestViewPoint>
+        {
+        public:
+
+          ViewDeducedTrait1(DeducedTrait1* trait,TestViewPoint* i_viewpoint)
+          : TraitView<DeducedTrait1,TestViewPoint>(trait,i_viewpoint)
+          {}
+          
+        };
+      
+      
         class ViewHead : public TraitView<Head,TestViewPoint>
         {
         public:
@@ -1368,6 +1386,24 @@ namespace ProjetUnivers {
         CPPUNIT_ASSERT(personview->init_number == 1) ;
         
         InternalMessage("Kernel","Kernel::Test::changeModelOnInitialisedViewPoint leaving") ;
+      }
+
+      void TestModelView::destroyObjectWithDeducedTraits()
+      {
+        /// create a model
+        std::auto_ptr<Model> model(new Model("TestModelView::destroyObjectWithDeducedTraits")) ;
+        std::auto_ptr<TestViewPoint> viewpoint(new TestViewPoint(model.get())) ;
+        /// init the viewpoint
+        viewpoint->init() ;
+
+        Object* object1 = model->createObject() ;
+        Object* object2 = model->createObject(object1) ;
+        
+        model->addTrait(object1,new Person()) ;
+        model->addTrait(object1,new Head()) ;
+        model->addTrait(object1,new Dummy()) ;
+        
+        model->destroyObject(object1) ;
       }
       
       void TestModelView::setUp()

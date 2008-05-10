@@ -63,12 +63,15 @@ namespace ProjetUnivers {
     /// Load and init external ressources.
     void initRessources() ;
     
+    /// Unload and close external ressources.
+    void closeRessources() ;
+    
     /// Update the model.
     void update(const Duration&) ;        
 
   //@}
   /*!
-    @name Modification Interface
+    @name Generic Modification Interface
     
   */
   // @{
@@ -107,6 +110,20 @@ namespace ProjetUnivers {
     void destroyTrait(Kernel::Object* i_object, 
                       Kernel::Trait* i_trait) ;
 
+  //@}
+  /*!
+    @name Specialised Modification Interface
+    
+  */
+  // @{
+    
+    /// Create a ship under @c parent.
+    Kernel::Object* createShip(Kernel::Object* parent) ;
+    
+    /// Create a autonomous agent controling @c ship and inside it.
+    Kernel::Object* createAI(Kernel::Object* ship) ;
+    
+    
   // @}
   /*!
     @name Semantic relationships 

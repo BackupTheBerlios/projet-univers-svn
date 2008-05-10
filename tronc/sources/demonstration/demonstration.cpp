@@ -18,6 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <iostream>
 #include <kernel/log.h>
 #include <kernel/object.h>
 #include <kernel/timer.h>
@@ -31,6 +32,20 @@
 #include <artificial_intelligence/artificial_intelligence.h>
 
 using namespace ProjetUnivers ;
+
+std::string getModelName()
+{
+  try 
+  {
+    return Kernel::Parameters::getValue<std::string>("Demonstration","loadedModel") ;
+  }
+  catch(...)
+  {
+    std::cout << "failed to load parameter loadedModel" << std::endl ;
+    
+    return "TestDemonstration" ;
+  }
+}
 
 /*
   Demonstration program
@@ -51,8 +66,10 @@ int main() {
   
   InformationMessage("Demonstration","Modules initialisés") ;
 
-//  Model::load("TestMenu") ;
-  Model::load("TestDemonstration") ;
+  std::string model_name(getModelName()) ;
+  std::cout << "loading " << model_name << std::endl ;
+  
+  Model::load(model_name) ;
 
   InformationMessage("Demonstration","Model loaded") ;
   

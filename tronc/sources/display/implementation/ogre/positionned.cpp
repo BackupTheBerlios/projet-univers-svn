@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007 Mathieu ROGER                                      *
+ *   Copyright (C) 2007-2008 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -121,7 +121,6 @@ namespace ProjetUnivers {
 
         }
 
-        /// Termine la vue.
         void Positionned::onClose()
         {
           InternalMessage("Display","Display::Positionned::onClose Entering") ;
@@ -137,16 +136,13 @@ namespace ProjetUnivers {
           InternalMessage("Display","Display::Positionned::onClose Leaving") ;
         }
         
-        /// La position à changé
-        /*!
-        @par Etat actuel
-          terminé
-        */
         void Positionned::onUpdate()
         {
           /// on le replace par rapport à son parent
           m_node->setPosition(convert(getTrait()->getPosition())) ;
 
+          m_node->_update(true,false) ;
+          
           InternalMessage("Display",
             "modification of scene node " + m_node->getName() + 
             " with position " + 

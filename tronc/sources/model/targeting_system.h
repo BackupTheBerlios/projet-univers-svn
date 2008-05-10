@@ -49,6 +49,9 @@ namespace ProjetUnivers {
 
       /// Access to computer model.
       Kernel::Model* getComputerModel() const ;
+
+      /// Access to computer.
+      Kernel::Object* getComputer() const ;
       
     // @}  
     /*!

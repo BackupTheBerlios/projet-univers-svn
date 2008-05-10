@@ -342,7 +342,7 @@ namespace ProjetUnivers {
     
     void Trait::_close()
     {
-      InternalMessage("Kernel","Trait::_close entering") ;
+      InternalMessage("Kernel","Entering Trait::_close "+getObjectTypeIdentifier(this).className()) ;
       InternalMessage("Kernel","Trait::_close closing " + toString(m_views.size()) + " views") ;
       
       for(std::multimap<ViewPoint*,BaseTraitView*>::iterator view = m_views.begin() ;

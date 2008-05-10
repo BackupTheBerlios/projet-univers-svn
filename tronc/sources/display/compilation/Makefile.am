@@ -36,6 +36,7 @@ check_PROGRAMS = $(TESTS)
 # finally a global test
 test_display_SOURCES = \
 ../test/test_display.cpp \
+../test/test_model_view.cpp \
 ../test/test_target.cpp
 
 test_display_CXXFLAGS = $(CPPUNIT_CFLAGS) $(PU_CXXFLAGS)

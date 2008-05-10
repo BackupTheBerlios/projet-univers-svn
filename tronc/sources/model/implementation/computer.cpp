@@ -18,6 +18,10 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+
+#include <model/positionned.h>
+#include <model/oriented.h>
+
 #include <model/computer.h>
 
 namespace ProjetUnivers {
@@ -43,5 +47,15 @@ namespace ProjetUnivers {
     {
       return m_memory.get() ;
     }
+  
+    Position Computer::getDataPosition(Kernel::Object* data,
+                                       Kernel::Object* relative_to) const
+    {
+      return data->getTrait<Positionned>()->getPosition()*
+             getRelativeOrientation(getObject(),relative_to) +
+             getRelativePosition(getObject(),relative_to) ;
+    }
+  
+  
   }
 }

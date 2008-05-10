@@ -535,6 +535,27 @@
     - added SteeringBehaviour::obstacleAvoidance to avoid collisions
     - added turning rate to vehicle
 
+2008-05-10 rogma
+      
+  * Model : 
+    - added createShip that create a basic ship with all required components
+    - corrected DetectionData position : it should be relative to the computer 
+      holding the data  
+  * Physic :
+    - removed an obsolete test relying on load("demonstration")
+  * Display :
+    - added automatic tests : construct a model and a display view point; 
+      usefull to detect some segmentation faults on display 
+    - corrected several segmentation faults; includung one when destroying 
+      current observer
+    - removed ogre logging to std::cout
+    - all Solid parents of an Observer invisible
+    - corrected bug on target reticule and ideal target reticule : we have to 
+      calculate the global position of the targeted element
+    - "corrected" bug with on Target arrow displaying, but it may still exist 
+      some issues
+    - added reticule/cursor display on TargetDisplayer
+
 @todo :
   
   * ArtificialIntelligence : 
@@ -545,8 +566,8 @@
       WithLifetime with a life time of zero
          
     - ShootingHelper may connect several lasers (calculus is made on 
-      average speed) and can harmonize lasers (re-orient them to touch a position 
-      in the ship axe and at target distance)
+      average speed) and can harmonize lasers (re-orient them to touch a 
+      position in the ship axe and at target distance)
 
     - Laser whould not be able to be too much synchronized (max angle)
 
@@ -565,7 +586,7 @@
       casting inside Model. Code could rely on Ogre but we would be an 
       encapsulation.
     
-    - a Player trait ?
+    - a Player trait ? For now the Observer trait plays this role
     
     - Menu handling
     
@@ -577,11 +598,9 @@
     - PhysicalWorld <=> Whole ??
       PhysicalObject should not depend on mobile ?  
 
-  * IA : 
-    - add collisionAvoidance
-
   * Display :
     - seg fault when having an Oriented object that is not Positionned 
+    - all Solid parent of an Observer invisible : but only in the case it is the current observer
     
   * Input :
     - be able to map any axis on anything
@@ -591,7 +610,7 @@
     - get rid of it ?? the only applied action for now is "quit", it could be 
       transfered elsewhere maybe ...
     
-	* physic : 
+  * Physic : 
     - bug : Physic::init() then Physic::build() works but not the inverse
     - try to keep all units in an acceptable "range", it means that we whould 
       be able to convert model units in an arbitrary "ranging system".
@@ -600,14 +619,12 @@
     - separate simulations : maybe objects can be simulated one by one in its 
       own world !! should not have any complication for movement except for 
       collision response. This could facilitate unit range to keep around one.
-    - add deduced trait for solid controler : allow adding of solid trait before 
-      physical object 
+    - add deduced trait for solid controler : allow adding of solid trait 
+      before physical object 
 
   * Sound : 
     - reconsider the implementation with the limitation 
-
     - perform platform dependent compilation for special sound effects
-
     - move deduced trait to sound::implementation level (i.e. one up) ??
 
   * Kernel :
@@ -619,9 +636,13 @@
       in the deduced trait with a mutable attribute. 
       --> obsolete kept for documentation purpose
     
+    - add deduced reference trait : for example first parent with trait X; and 
+      notification on the "deduced reference trait" 
+     
   * all :
-    - make use of Quantities library, @see http://sourceforge.net/projects/quantity ??
-    - correct the coordinate system; camera must be inversed and Stiock/Throttle 
+    - make use of Quantities library, 
+      @see http://sourceforge.net/projects/quantity ??
+    - correct the coordinate system; camera must be inversed and Stick/Throttle 
       must use correct orientation 
 
   

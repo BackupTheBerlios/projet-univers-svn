@@ -23,7 +23,7 @@
 
 #include <Ogre.h>
 
-#include <kernel/object.h>
+#include <kernel/object_reference.h>
 #include <kernel/view_point.h>
 
 
@@ -108,11 +108,11 @@ namespace ProjetUnivers {
         // @{
 
           /// Manage 3D scene objects          
-          ::Ogre::SceneManager* m_manager ;
+          ::Ogre::SceneManager*   m_manager ;
 
-          Kernel::Object*       m_observer ;
+          Kernel::ObjectReference m_observer ;
           
-          Kernel::Object*       m_root ;
+          Kernel::ObjectReference m_root ;
           
         // @}
           

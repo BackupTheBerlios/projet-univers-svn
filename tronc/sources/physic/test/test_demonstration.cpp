@@ -72,51 +72,6 @@ namespace ProjetUnivers {
       }
 
 
-      void TestDemonstration::testBuild()
-      {
-        InternalMessage("Physic","Physic::Test::TestDemonstration::testBuild Entering") ;
-        Model::init() ;
-        Model::load("TestDemonstration") ;
-        InternalMessage("Physic","Model loaded") ;
-        Physic::init() ;
-        Object* observer(Model::getObject("Observer")) ;
-        
-        /// build a physical viewpoint        
-        Kernel::ControlerSet* physics = Physic::build(observer) ;
-        physics->init() ;
-        
-        InternalMessage("Physic","Physic module initalised") ;
-                
-        /// check view constructions
-        Model::PhysicalWorld* world(observer->getParent<Model::PhysicalWorld>()) ;
-        CPPUNIT_ASSERT(world) ;
-
-        InternalMessage("Physic","got Model::PhysicalWorld") ;
-        /// check for the world
-        CPPUNIT_ASSERT(world->getControler<Implementation::Ode::PhysicalWorld>(physics)) ;
-        CPPUNIT_ASSERT(
-          world->getControler<Implementation::Ode::PhysicalWorld>(physics)->getWorld()->id()) ;
-
-        Model::PhysicalObject* ship(Model::getObject("Vaisseau")->getTrait<Model::PhysicalObject>()) ;
-        CPPUNIT_ASSERT(ship) ;
-        CPPUNIT_ASSERT(ship->getControler<Implementation::Ode::PhysicalObject>(physics)) ;
-        CPPUNIT_ASSERT(
-          ship->getControler<Implementation::Ode::PhysicalObject>(physics)->getBody()->id()) ;
-        
-        dMass mass ;
-        ship->getControler<Implementation::Ode::PhysicalObject>(physics)
-            ->getBody()->getMass(&mass) ;
-        
-        CPPUNIT_ASSERT(mass.mass) ;
-        
-        physics->close() ;
-        
-        Physic::close() ;
-        Model::close() ;
-
-        InternalMessage("Physic","Physic::Test::TestDemonstration::testBuild Leaving") ;
-      }
-
       void TestDemonstration::testSimulateNoMove()
       {
         InternalMessage("Physic","Physic::Test::testSimulate::testSimulateNoMove entering") ;

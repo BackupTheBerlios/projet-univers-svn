@@ -46,6 +46,7 @@ namespace ProjetUnivers {
             Ogre handle memory, so no need to destroy.
         */
       
+        ::Ogre::LogManager* log_manager = NULL ;
         ::Ogre::Root* root = NULL ;
         ::Ogre::RenderWindow* window = NULL ;
         // gui
@@ -125,9 +126,8 @@ namespace ProjetUnivers {
           }
         }
         
-        bool displayPiloteChoice()
+        bool renderDisplayChoice()
         {
-          // affiche l'écran de configuration et demande si on continue
           if(root->showConfigDialog())
           {
             return true ;
@@ -138,27 +138,34 @@ namespace ProjetUnivers {
           }
         }
         
-        bool init() {
-
-      
-          // build an ogre application
-          // *******************************
-          root = new Root() ;
+        bool init(bool choose_display) 
+        {
+          log_manager = new LogManager() ;
+          log_manager->createLog("Ogre.log", false, false); 
           
-          // On charge le fichier de configuration des ressources
-          // ****************************************************
+          // build an ogre application
+          root = new Root() ;
+
+          // load resources
           loadRessources() ;
 
-
-          // On laisse l'utilisateur choisir le pilote d'affichage
-          bool go_on = displayPiloteChoice() ;
-          if (! go_on)
+          // user choose display 
+          if (choose_display)
           {
-            root = NULL ;
-            return false ;
+            bool go_on = renderDisplayChoice() ;
+            if (! go_on)
+            {
+              root = NULL ;
+              return false ;
+            }
+          }
+          else
+          {
+            // default display
+            root->restoreConfig() ;
           }
 
-          // on se crée une window par défaut
+          // create window
           window = root->initialise(true) ;
           
           CEGUIRenderer = new CEGUI::OgreCEGUIRenderer(window) ;
@@ -180,15 +187,9 @@ namespace ProjetUnivers {
           // useless if scheme contains a font reference.
           CEGUI::Font* font = CEGUI::FontManager::getSingleton().createFont("bluehighway-12.font") ;
           
-//          CEGUI::SchemeManager::getSingleton()
-//            .loadScheme((CEGUI::utf8*)"TaharezLook.scheme") ;
-//          CEGUISystem->setDefaultFont(font);                          
-//          font = CEGUI::FontManager::getSingleton()
-//            .createFont("Commonwealth-10.font") ;
-
           InternalMessage("Display","Ogre launched") ;
           
-          // voila
+          // done
           return true ;
         }
 
@@ -207,12 +208,25 @@ namespace ProjetUnivers {
             CEGUIRenderer = 0;
           }
 
+          /// @see http://www.ogre3d.org/phpBB2/viewtopic.php?t=35372
+          if (window)
+          {
+            ::Ogre::WindowEventUtilities::_removeRenderWindow(window) ;
+          }
+          
           if (root)
           {
             delete root ;
             root = NULL ;  
           }
 
+          if (log_manager)
+          {
+            delete log_manager ;
+            log_manager = NULL ;
+          }
+            
+          
           InternalMessage("Display","...Ogre stopped") ;
           
         }
@@ -224,9 +238,8 @@ namespace ProjetUnivers {
         void update()
         {
           /// cf. http://www.ogre3d.org/phpBB2/viewtopic.php?t=2733
-          ::Ogre::WindowEventUtilities::messagePump();
+          ::Ogre::WindowEventUtilities::messagePump() ;
           root->_fireFrameStarted();
-          //window->update() ;
           root->_updateAllRenderTargets() ;
           root->_fireFrameEnded();
         }

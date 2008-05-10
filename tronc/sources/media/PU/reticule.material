@@ -1,4 +1,5 @@
-material PU/material/reticule
+// target
+material PU/material/target
 {
   technique
   {
@@ -10,14 +11,15 @@ material PU/material/reticule
 
       texture_unit
       {
-        texture mire.png
+        texture target.png
         // merge the texture with red : kept for documentation
 //        colour_op_ex modulate src_current src_manual 1 0 0
       }
     }
   }
 }
-  
+
+// indicate where is the target out of screen
 material PU/material/arrow
 {
   technique
@@ -36,7 +38,8 @@ material PU/material/arrow
   }
 }
 
-material PU/material/target
+// indicate where to shoot
+material PU/material/ideal_target
 {
   technique
   {
@@ -48,9 +51,27 @@ material PU/material/target
 
       texture_unit
       {
-        texture target.png
+        texture ideal_target.png
       }
     }
   }
 }
-  
+
+// shooting cursor/reticule
+material PU/material/reticule
+{
+  technique
+  {
+    pass
+    {
+      lighting off
+      scene_blend alpha_blend
+      depth_check off
+
+      texture_unit
+      {
+        texture reticule.png
+      }
+    }
+  }
+}

@@ -35,6 +35,8 @@ namespace ProjetUnivers {
         
         /// Observer view.
         /*!
+          Ogre inverse the camera Z axis 
+          @see http://www.ogre3d.org/phpBB2/viewtopic.php?t=26839
         */
         class Observer : public Kernel::TraitView<Model::Observer,
                                                   RealWorldViewPoint>
@@ -77,7 +79,10 @@ namespace ProjetUnivers {
         // @}
         private:
 
-          ::Ogre::Camera* m_camera ;
+          ::Ogre::Camera*    m_camera ;
+          
+          /// local node to have the camera correctly oriented
+          ::Ogre::SceneNode* m_node ;
 
         };
       }

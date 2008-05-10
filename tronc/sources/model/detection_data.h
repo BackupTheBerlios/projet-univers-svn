@@ -22,7 +22,7 @@
 #define PU_MODEL_DETECTION_DATA_H_
 
 #include <kernel/object_reference.h>
-#include <kernel/trait.h>
+#include <model/computer_data.h>
 
 namespace ProjetUnivers {
   namespace Model {
@@ -30,9 +30,9 @@ namespace ProjetUnivers {
     /// Represents detection information on objects.
     /*!
       Detection data are generally also Positionned, in that case, the position 
-      is in the local space of the Detector. 
+      is in the local space of the Computer holding the data. 
     */
-    class DetectionData : public Kernel::Trait
+    class DetectionData : public ComputerData
     {
     public:
 

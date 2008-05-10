@@ -130,6 +130,7 @@ namespace ProjetUnivers {
     /// Destroy a given Object.
     void Model::destroyObject(Object* object)
     {
+      InternalMessage("Kernel","Entering Model::destroyObject") ;
       CHECK(object,"Model::destroyObject no object") ;
       
       object->_close() ;
@@ -148,7 +149,7 @@ namespace ProjetUnivers {
         /// a sub object
         object->getParent()->_remove(object) ;
       }
-      
+      InternalMessage("Kernel","Leaving Model::destroyObject") ;
     }
 
     /// Changes parent of a given Object.

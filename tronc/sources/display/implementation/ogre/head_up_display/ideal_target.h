@@ -32,6 +32,7 @@ namespace ProjetUnivers {
       namespace Ogre {
         namespace HeadUpDisplay {
 
+          // Display a circle where to shoot at the current selected target
           class IdealTarget : public Kernel::TraitView<Implementation::IdealTarget,
                                                        TargetDisplayerViewPoint>
           {
@@ -68,11 +69,11 @@ namespace ProjetUnivers {
           private:
 
             /// 3D ogre element.
-            ::Ogre::OverlayContainer* m_reticule_container ;
-            ::Ogre::OverlayElement*   m_reticule ;
+            ::Ogre::OverlayContainer* m_target_container ;
+            ::Ogre::OverlayElement*   m_target ;
             
-            /// true iff reticule is shown
-            bool m_reticule_is_shown ;
+            /// true iff target is shown
+            bool m_target_is_shown ;
 
           };
         }

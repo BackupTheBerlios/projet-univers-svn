@@ -20,9 +20,13 @@
  ***************************************************************************/
 #include <kernel/trait_view.h>
 #include <kernel/parameters.h>
+
 #include <model/selected.h>
-#include <model/positionned.h>
+#include <model/targeting_system.h>
+#include <model/computer.h>
 #include <model/solid.h>
+#include <model/positionned.h>
+
 #include <display/implementation/ogre/ogre.h>
 #include <display/implementation/ogre/utility.h>
 #include <display/implementation/ogre/positionned.h>
@@ -42,7 +46,7 @@ namespace ProjetUnivers {
               Implementation::Target* object,
               TargetDisplayerViewPoint* viewpoint)
           : Kernel::TraitView<Implementation::Target,TargetDisplayerViewPoint>(object,viewpoint),
-            m_reticule_is_shown(false),
+            m_target_is_shown(false),
             m_arrow_is_shown(false)
           {}
 
@@ -50,7 +54,7 @@ namespace ProjetUnivers {
           {
             float arrow_size = 0 ;
             std::string arrow_material ;
-            std::string reticule_material ;
+            std::string target_material ;
           }
           
           float getArrowSize()
@@ -70,21 +74,21 @@ namespace ProjetUnivers {
             return arrow_size ;
           }
           
-          std::string getReticuleMaterial()
+          std::string getTargetMaterial()
           {
-            if (reticule_material == "")
+            if (target_material == "")
             {
               try
               {
-                reticule_material = Kernel::Parameters::getValue<std::string>("Display","ReticuleMaterial") ;
+                target_material = Kernel::Parameters::getValue<std::string>("Display","TargetMaterial") ;
               }
               catch(...)
               {
-                InternalMessage("Display","getReticuleMaterial : error") ;
-                reticule_material = "PU/material/reticule" ;
+                InternalMessage("Display","getTargetMaterial : error") ;
+                target_material = "PU/material/target" ;
               }
             }
-            return reticule_material ;
+            return target_material ;
           }
 
           std::string getArrowMaterial()
@@ -109,16 +113,16 @@ namespace ProjetUnivers {
             InternalMessage("Display","Entering Target::onInit") ;
             
             getOverlay()->setZOrder(500) ;
-            m_reticule_container = static_cast< ::Ogre::OverlayContainer* >(
+            m_target_container = static_cast< ::Ogre::OverlayContainer* >(
               ::Ogre::OverlayManager::getSingleton().createOverlayElement(
                     "Panel", Utility::getUniqueName())) ;
-            getOverlay()->add2D(m_reticule_container) ;
+            getOverlay()->add2D(m_target_container) ;
             
-            m_reticule_container->setPosition(0,0) ;
-            m_reticule_container->setWidth(1) ;
-            m_reticule_container->setHeight(1) ;
+            m_target_container->setPosition(0,0) ;
+            m_target_container->setWidth(1) ;
+            m_target_container->setHeight(1) ;
 
-            m_reticule = 
+            m_target = 
               ::Ogre::OverlayManager::getSingleton().createOverlayElement(
                     "Panel", Utility::getUniqueName()) ;
 
@@ -126,13 +130,14 @@ namespace ProjetUnivers {
             /*!
               @todo maybe we can share materials for targets (friend, neutral, foe) 
             */
-            ::Ogre::MaterialPtr material = ::Ogre::MaterialManager::getSingleton().getByName(getReticuleMaterial()); 
+            ::Ogre::MaterialPtr material = ::Ogre::MaterialManager::getSingleton().getByName(getTargetMaterial()); 
             material = material->clone(Utility::getUniqueName()) ;
-            m_reticule->setMaterialName(material->getName()) ; 
+            m_target->setMaterialName(material->getName()) ; 
             
-            m_reticule->setHorizontalAlignment(::Ogre::GHA_CENTER) ;
-            m_reticule->setVerticalAlignment(::Ogre::GVA_CENTER) ;
-            m_reticule_container->_addChild(m_reticule) ;
+            m_target->setHorizontalAlignment(::Ogre::GHA_CENTER) ;
+            m_target->setVerticalAlignment(::Ogre::GVA_CENTER) ;
+            m_target_container->_addChild(m_target) ;
+            m_target_container->hide() ;
 
             m_arrow_container = static_cast< ::Ogre::OverlayContainer* >(
               ::Ogre::OverlayManager::getSingleton().createOverlayElement(
@@ -175,13 +180,13 @@ namespace ProjetUnivers {
           
           void Target::onClose()
           {
-            if (m_reticule_container)
+            if (m_target_container)
             {
-              getOverlay()->remove2D(m_reticule_container) ;
-              ::Ogre::OverlayManager::getSingleton().destroyOverlayElement(m_reticule) ;
-              ::Ogre::OverlayManager::getSingleton().destroyOverlayElement(m_reticule_container) ;
-              m_reticule_container = NULL ;
-              m_reticule = NULL ;
+              getOverlay()->remove2D(m_target_container) ;
+              ::Ogre::OverlayManager::getSingleton().destroyOverlayElement(m_target) ;
+              ::Ogre::OverlayManager::getSingleton().destroyOverlayElement(m_target_container) ;
+              m_target_container = NULL ;
+              m_target = NULL ;
             }
             if (m_arrow_container)
             {
@@ -197,11 +202,11 @@ namespace ProjetUnivers {
           {
             if (! isSelected()) 
             {
-              if (m_reticule_is_shown)
+              if (m_target_is_shown)
               {
                 // hide the overlay
-                m_reticule_container->hide() ;
-                m_reticule_is_shown = false ;
+                m_target_container->hide() ;
+                m_target_is_shown = false ;
               }
 
               if (m_arrow_is_shown)
@@ -213,20 +218,28 @@ namespace ProjetUnivers {
               return ;
             }
             
-            InternalMessage("Display","Target::onUpdate calculating reticule position") ;
+            InternalMessage("Display","Target::onUpdate calculating target position") ;
 
             ::Ogre::Camera* camera = getViewPoint()->getCamera() ;
-
-            // update reticule position
+            
+            Model::Computer* computer 
+              = getViewPoint()->getTargetingSystem()->getTrait<Model::TargetingSystem>()
+                ->getComputer()->getTrait<Model::Computer>() ;
+            
+            // update target position
+            /*!
+              Detector position is relative to computer
+              we have to make it a global position
+            */
             Model::Position pos 
-              = getObject()->getTrait<Model::Positionned>()
-                                           ->getPosition() +
-                Model::getRelativePosition(getViewPoint()->getTargetingSystem(),
-                                           getViewPoint()->getObserver()) ;
+              = computer->getDataPosition(getObject(),getViewPoint()->getWorldRoot()) ;
             
             ::Ogre::Vector3 position = convert(pos) ;
 
-            InternalMessage("Display","Target::onUpdate object position="
+            InternalMessage("Display","Target::onUpdate object relative position="+
+                                      ::Ogre::StringConverter::toString(convert(getObject()->getTrait<Model::Positionned>()->getPosition()))) ;
+            
+            InternalMessage("Display","Target::onUpdate object absolute position="
                             + Kernel::toString(position.x)
                             +","
                             + Kernel::toString(position.y)
@@ -244,146 +257,70 @@ namespace ProjetUnivers {
                             + Kernel::toString(eye_position.z)
                             ) ;
 
-            if (eye_position.z < 0)
-            {
-              InternalMessage("Display","TargetView::updateHUD object is visible") ;
-              
-              ::Ogre::Vector3 screen_position = camera->getProjectionMatrix()*eye_position ;
-              
-              InternalMessage(
-                "Display","TargetView::updateHUD setting position to x="
-                + Kernel::toString(screen_position.x)
-                + " y=" 
-                + Kernel::toString(screen_position.y)
-                + " z=" 
-                + Kernel::toString(screen_position.z)
-                ) ;
-
-              // calculate projected size
-              ::Ogre::Real radius = convert(getObject()->getTrait<Model::Solid>()
-                                                       ->getRadius()) ; 
-
-              InternalMessage(
-                "Display","Target::updateHUD radius="
-                + Kernel::toString(radius)
-                ) ;
-              
-              ::Ogre::Vector3 spheresize(radius,radius,eye_position.z) ;
-              spheresize = camera->getProjectionMatrix() * spheresize ;
-
-              InternalMessage(
-                "Display","Target::updateHUD dimension x="
-                + Kernel::toString(spheresize.x)
-                + " y=" 
-                + Kernel::toString(spheresize.y)
+            
+            ::Ogre::Vector3 screen_position = camera->getProjectionMatrix()*eye_position ;
+            
+            InternalMessage(
+              "Display","TargetView::updateHUD setting position to x="
+              + Kernel::toString(screen_position.x)
+              + " y=" 
+              + Kernel::toString(screen_position.y)
+              + " z=" 
+              + Kernel::toString(screen_position.z)
               ) ;
 
-              /*!
-                it seems that x,y can get out of [-1,1]
-                it means that it is out of the screen
-                we can print it when 
-                x,y in -1/1 + sceen size/2  
-                
-                otherwize we are in the case where we should print an arrow
-                and we have the position...
-                
-                @see http://www.ogre3d.org/phpBB2/viewtopic.php?t=10131&highlight=rotate+overlay
-                
-              */
-              if (fabs(screen_position.x) <= 1+spheresize.x/2 &&
-                  fabs(screen_position.y) <= 1+spheresize.y/2)
-              {
-                /* 
-                  screen_position is in [-1,1]
-                  but actual screen values are between [-0.5,0.5] with 0 at center
-                  we need to invert y because y is down oriented on the screen 
-                  instead of up oriented in the 3d 
-                */
-                m_reticule_container->setPosition(screen_position.x/2,-screen_position.y/2) ;
-                
-                m_reticule->setLeft(-spheresize.x/2) ;
-                m_reticule->setTop(-spheresize.y/2) ;
-                m_reticule->setDimensions(spheresize.x,spheresize.y) ;
-                
-                if (!m_reticule_is_shown)
-                {
-                  m_reticule_container->show() ;
-                  m_reticule_is_shown = true ;
-                }
-                if (m_arrow_is_shown)
-                {
-                  // hide the overlay
-                  m_arrow_container->hide() ;
-                  m_arrow_is_shown = false ;
-                }
-              }
-              else
-              {
-                
-                ::Ogre::Degree angle = calculateRotation(screen_position.x,screen_position.y) ;
+            // calculate projected size
+            ::Ogre::Real radius = convert(getObject()->getTrait<Model::Solid>()
+                                                     ->getRadius()) ; 
 
-                InternalMessage(
-                  "Display","TargetView::updateHUD setting angle is "
-                  + Kernel::toString(angle.valueDegrees())
-                  ) ;
-                
-                const float max_position = 1 - getArrowSize() ;
-                /// out of screen display an arrow
-                if (fabs(screen_position.x) > fabs(screen_position.y))
-                {
-                  screen_position.y /= fabs(screen_position.x) ;
-                  if (fabs(screen_position.y) > max_position)
-                  {
-                    screen_position.y = screen_position.y<0?-max_position:max_position ;
-                  }
-                  screen_position.x = screen_position.x<0?-max_position:max_position ;
-                }
-                else
-                {
-                  screen_position.x /= fabs(screen_position.y) ;
-                  if (fabs(screen_position.x) > max_position)
-                  {
-                    screen_position.x = screen_position.x<0?-max_position:max_position ;
-                  }
-                  screen_position.y = screen_position.y<0?-max_position:max_position ;
-                }
+            InternalMessage(
+              "Display","Target::updateHUD radius="
+              + Kernel::toString(radius)
+              ) ;
+            
+            ::Ogre::Vector3 spheresize(radius,radius,eye_position.z) ;
+            spheresize = camera->getProjectionMatrix() * spheresize ;
 
-                InternalMessage(
-                  "Display","TargetView::updateHUD setting arrow at x="
-                  + Kernel::toString(screen_position.x)
-                  + " y=" 
-                  + Kernel::toString(screen_position.y)
-                  ) ;
-                
-                m_arrow_container->setPosition(screen_position.x/2,-screen_position.y/2) ;
+            InternalMessage(
+              "Display","Target::updateHUD dimension x="
+              + Kernel::toString(spheresize.x)
+              + " y=" 
+              + Kernel::toString(spheresize.y)
+            ) ;
 
-                ::Ogre::MaterialPtr material = m_arrow->getMaterial();
-                ::Ogre::Technique* technique = material->getTechnique(0);
-                ::Ogre::Pass* pass = technique->getPass(0);
-                ::Ogre::TextureUnitState* texture = pass->getTextureUnitState(0);
-                
-                // invert rotation because setTextureRotate is anti clockwize
-                texture->setTextureRotate(-angle);                 
-
-                if (m_reticule_is_shown)
-                {
-                  m_reticule_container->hide() ;
-                  m_reticule_is_shown = false ;
-                }
-                if (!m_arrow_is_shown)
-                {
-                  // hide the overlay
-                  m_arrow_container->show() ;
-                  m_arrow_is_shown = true ;
-                }
-              }
-            }
-            else
+            /*!
+              it seems that x,y can get out of [-1,1]
+              it means that it is out of the screen
+              we can print it when 
+              x,y in -1/1 + sceen size/2  
+              
+              otherwize we are in the case where we should print an arrow
+              and we have the position...
+              
+              @see http://www.ogre3d.org/phpBB2/viewtopic.php?t=10131&highlight=rotate+overlay
+              
+            */
+            if (eye_position.z < 0 &&
+                fabs(screen_position.x) <= 1+spheresize.x/2 &&
+                fabs(screen_position.y) <= 1+spheresize.y/2)
             {
-              if (m_reticule_is_shown)
+              InternalMessage("Display","TargetView::updateHUD object is visible") ;
+              /* 
+                screen_position is in [-1,1]
+                but actual screen values are between [-0.5,0.5] with 0 at center
+                we need to invert y because y is down oriented on the screen 
+                instead of up oriented in the 3d 
+              */
+              m_target_container->setPosition(screen_position.x/2,-screen_position.y/2) ;
+              
+              m_target->setLeft(-spheresize.x/2) ;
+              m_target->setTop(-spheresize.y/2) ;
+              m_target->setDimensions(spheresize.x,spheresize.y) ;
+              
+              if (!m_target_is_shown)
               {
-                m_reticule_container->hide() ;
-                m_reticule_is_shown = false ;
+                m_target_container->show() ;
+                m_target_is_shown = true ;
               }
               if (m_arrow_is_shown)
               {
@@ -392,12 +329,77 @@ namespace ProjetUnivers {
                 m_arrow_is_shown = false ;
               }
             }
+            else
+            {
+
+              // magic...
+              if (eye_position.z > 0)
+                screen_position.x = -screen_position.x ;
+              
+              ::Ogre::Degree angle = calculateRotation(screen_position.x,
+                                                       screen_position.y) ;
+
+              InternalMessage(
+                "Display","TargetView::updateHUD setting angle is "
+                + Kernel::toString(angle.valueDegrees())
+                ) ;
+              
+              const float max_position = 1 - getArrowSize() ;
+              /// out of screen display an arrow
+              if (fabs(screen_position.x) > fabs(screen_position.y))
+              {
+                screen_position.y /= fabs(screen_position.x) ;
+                if (fabs(screen_position.y) > max_position)
+                {
+                  screen_position.y = (screen_position.y<0)?-max_position:max_position ;
+                }
+                screen_position.x = (screen_position.x<0)?-max_position:max_position ;
+              }
+              else
+              {
+                screen_position.x /= fabs(screen_position.y) ;
+                if (fabs(screen_position.x) > max_position)
+                {
+                  screen_position.x = (screen_position.x<0)?-max_position:max_position ;
+                }
+                screen_position.y = (screen_position.y<0)?-max_position:max_position ;
+              }
+
+              InternalMessage(
+                "Display","TargetView::updateHUD setting arrow at x="
+                + Kernel::toString(screen_position.x)
+                + " y=" 
+                + Kernel::toString(screen_position.y)
+                ) ;
+              
+              m_arrow_container->setPosition(screen_position.x/2,-screen_position.y/2) ;
+
+              ::Ogre::MaterialPtr material = m_arrow->getMaterial();
+              ::Ogre::Technique* technique = material->getTechnique(0);
+              ::Ogre::Pass* pass = technique->getPass(0);
+              ::Ogre::TextureUnitState* texture = pass->getTextureUnitState(0);
+              
+              // invert rotation because setTextureRotate is anti clockwize
+              texture->setTextureRotate(-angle);                 
+
+              if (m_target_is_shown)
+              {
+                m_target_container->hide() ;
+                m_target_is_shown = false ;
+              }
+              if (!m_arrow_is_shown)
+              {
+                // hide the overlay
+                m_arrow_container->show() ;
+                m_arrow_is_shown = true ;
+              }
+            }
           }
           
           void Target::setTargetColour(const ::Ogre::ColourValue& colour)
           {
             Utility::setColour(m_arrow,colour) ;
-            Utility::setColour(m_reticule,colour) ;
+            Utility::setColour(m_target,colour) ;
           }
           
           bool Target::isSelected() const
@@ -419,7 +421,7 @@ namespace ProjetUnivers {
             }
             else
             {
-              result = x>0?90:270 ;
+              result = (x>0)?90:270 ;
             }
             return result ;
           }

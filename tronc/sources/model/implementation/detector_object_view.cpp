@@ -24,7 +24,6 @@
 #include <model/positionned.h>
 #include <model/solid.h>
 #include <model/mobile.h>
-#include <model/computer_data.h>
 #include <model/detection_data.h>
 #include <model/transponder.h>
 #include <model/implementation/detector_object_view.h>
@@ -83,14 +82,10 @@ namespace ProjetUnivers {
                                                  new Positionned()) ;
             computer->getMemoryModel()->addTrait(m_detection_information,
                                                  new Solid(solid->getMesh())) ;
-            // useless ??
-            computer->getMemoryModel()->addTrait(m_detection_information,
-                                                 new ComputerData()) ;
-              
           }
           // update object position
           Position position = getRelativePosition(getObject(),
-                                                  detector->getObject()) ;
+                                                  computer->getObject()) ;
           
           m_detection_information->getTrait<Positionned>()->setPosition(position) ;
           

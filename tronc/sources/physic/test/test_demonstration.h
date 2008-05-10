@@ -44,9 +44,6 @@ namespace ProjetUnivers {
       */
       // @{
         
-        /// Test a build plus init.
-        void testBuild() ;
-
         /// Simulation with nothing moving.
         void testSimulateNoMove() ;
 
@@ -95,7 +92,6 @@ namespace ProjetUnivers {
     
         CPPUNIT_TEST_SUITE(TestDemonstration) ;
       
-        CPPUNIT_TEST(testBuild) ;
         CPPUNIT_TEST(testSimulateNoMove) ;
         CPPUNIT_TEST(testSimulateMoving) ;
         CPPUNIT_TEST(testRotationTorque) ;

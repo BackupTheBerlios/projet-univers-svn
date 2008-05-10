@@ -354,32 +354,23 @@ namespace ProjetUnivers {
 
     void Object::_close(ViewPoint* i_viewpoint)
     {
-//      InternalMessage("Kernel","Object::_close(ViewPoint*) entering " + name) ;
-      if (i_viewpoint->isVisible(this))
+      InternalMessage("Kernel","Object::_close(ViewPoint*) closing childs") ;
+
+      for(std::set<Object*>::iterator child = children.begin() ;
+          child != children.end() ;
+          ++child)
+      {
+        (*child)->_close(i_viewpoint) ;
+      }
+
+      for(std::map<TypeIdentifier, Trait*>::iterator trait = traits.begin() ;
+          trait != traits.end() ;
+          ++trait)
       {
         
-        InternalMessage("Kernel","Object::_close(ViewPoint*) closing childs") ;
-
-        for(std::set<Object*>::iterator child = children.begin() ;
-            child != children.end() ;
-            ++child)
-        {
-          (*child)->_close(i_viewpoint) ;
-        }
-
-//        InternalMessage("Kernel","Object::_close(ViewPoint*) closing traits") ;
-        
-        for(std::map<TypeIdentifier, Trait*>::iterator trait = traits.begin() ;
-            trait != traits.end() ;
-            ++trait)
-        {
-//          InternalMessage("Kernel","trait*=" + toString((int)trait->second)) ;
-          
-          trait->second->_close(i_viewpoint) ;
-        }
-
+        trait->second->_close(i_viewpoint) ;
       }
-//      InternalMessage("Kernel","Object::_close(ViewPoint*) leaving " + name) ;
+
     }
 
     void Object::_close(ControlerSet* i_controler_set)

@@ -48,6 +48,10 @@ namespace ProjetUnivers {
         
         bool RealWorldViewPoint::isVisible(Kernel::Object* object) const
         {
+          
+          if (! m_observer || !object)
+            return true ;
+          
           // objects must reside in the same Kernel::Model
           return object->getModel() == m_observer->getModel() ; 
           
