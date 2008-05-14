@@ -30,7 +30,22 @@ namespace ProjetUnivers {
   namespace Physic {
     namespace Implementation {
       namespace Ode {
+
+        bool Collideable::canCollide(const dGeomID& g1,const dGeomID& g2)
+        {
+          unsigned long collision1 = dGeomGetCollideBits(g1) ;
+          unsigned long collision2 = dGeomGetCollideBits(g2) ;
           
+          if (collision1 == ApproximatedSolid && collision2 == ApproximatedSolid)
+            return true ;
+          if ((collision1 == Solid && collision2 == Laser) ||
+              (collision2 == Solid && collision1 == Laser))
+            return true ;
+          
+          return false ;
+        }
+        
+        
         void Collideable::onInitCollideable()
         {
           InternalMessage("Physic","Physic::Implementation::Ode::Collideable::onInitCollideable entering "
@@ -56,18 +71,21 @@ namespace ProjetUnivers {
               InternalMessage("Physic","Physic::Implementation::Ode::Collideable::onInit creating geometry") ;
               dSpaceID space_id = body->getCollisionSpace()->id() ; 
               createGeometry(space_id) ;
-              if (m_geometry_id)
+              InternalMessage("Physic","Physic::Implementation::Ode::Collideable::onInit trace#1") ;
+              
+              if (m_geometry1)
               {
-                InternalMessage("Physic","Physic::Implementation::Ode::Collideable::onInit trace#1") ;
-                
-                dGeomSetBody(m_geometry_id,body->getBody()->id()) ;
-                                
-                // user data of the geom is the controler.
-                dGeomSetData(m_geometry_id,this) ;
-
-                InternalMessage("Physic","Physic::Implementation::Ode::Collideable::onInit trace#1") ;
-
+                dGeomSetBody(m_geometry1,body->getBody()->id()) ;
+                dGeomSetData(m_geometry1,this) ;
               }
+
+              if (m_geometry2)
+              {
+                dGeomSetBody(m_geometry2,body->getBody()->id()) ;
+                dGeomSetData(m_geometry2,this) ;
+              }
+              
+              InternalMessage("Physic","Physic::Implementation::Ode::Collideable::onInit trace#1") ;
             }
           }
           InternalMessage("Physic","Collideable::onInit leaving") ;
@@ -77,10 +95,15 @@ namespace ProjetUnivers {
         {
           InternalMessage("Physic","Physic::Ode::Collideable::onCloseCollideable entering") ;
 
-          if (m_geometry_id)
+          if (m_geometry1)
           {
-            dGeomDestroy(m_geometry_id) ;
-            m_geometry_id = 0 ;
+            dGeomDestroy(m_geometry1) ;
+            m_geometry1 = 0 ;
+          }
+          if (m_geometry2)
+          {
+            dGeomDestroy(m_geometry2) ;
+            m_geometry2 = 0 ;
           }
           if (m_geometry_placeable)
           {
@@ -95,7 +118,8 @@ namespace ProjetUnivers {
         {}
 
         Collideable::Collideable()
-        : m_geometry_id(0),
+        : m_geometry1(0),
+          m_geometry2(0),
           m_geometry_placeable(0)
         {}
 

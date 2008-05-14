@@ -20,52 +20,69 @@
  ***************************************************************************/
 #include <kernel/trait.h>
 #include <kernel/object.h>
+#include <model/team.h>
 #include <model/transponder.h>
 
 namespace ProjetUnivers {
   namespace Model {
-      
-    Transponder::Transponder(Kernel::Object* code)
-    : m_code(code)
-    {}
-
-    void Transponder::setCode(Kernel::Object* code)
+    
+    namespace
     {
-      m_code = code ;
-      notify() ;
+      int number = 0 ;
     }
     
-    Kernel::Object* Transponder::getCode() const
+    Transponder::Transponder(Kernel::Object* team)
+    : m_code(++number)
     {
-      return m_code ;
+      if (team && team->getTrait<Team>())
+      {  
+        m_team_name = team->getTrait<Team>()->getName() + "-" ;
+      }
+      
     }
 
-    bool Transponder::areFoe(Kernel::Object* code1,Kernel::Object* code2)
+    Transponder::Transponder(const Transponder& transponder)
+    : m_team_name(transponder.m_team_name),
+      m_code(transponder.m_code)
+    {}
+    
+    void Transponder::setCode(const Transponder* transponder)
     {
-      if (!code1 || !code2)
+      m_team_name = transponder->m_team_name ;
+      m_code = transponder->m_code ;
+    }
+    
+    std::string Transponder::getCode() const
+    {
+      return m_team_name + "-" + Kernel::toString(m_code) ;
+    }
+
+    bool Transponder::areFoe(Kernel::Object* object1,Kernel::Object* object2)
+    {
+      if (!object1 || !object2)
         return false ;
       
-      Transponder* identification1 = code1->getParent<Transponder>() ;
-      Transponder* identification2 = code2->getParent<Transponder>() ;
+      Transponder* identification1 = object1->getParent<Transponder>() ;
+      Transponder* identification2 = object2->getParent<Transponder>() ;
       
       if (!identification1 || !identification2)
         return false ;
       
-      return identification1->getCode() != identification2->getCode() ;  
+      return identification1->m_team_name != identification2->m_team_name ;  
     }
 
-    bool Transponder::areFriend(Kernel::Object* code1,Kernel::Object* code2)
+    bool Transponder::areFriend(Kernel::Object* object1,Kernel::Object* object2)
     {
-      if (!code1 || !code2)
+      if (!object1 || !object2)
         return false ;
       
-      Transponder* identification1 = code1->getParent<Transponder>() ;
-      Transponder* identification2 = code2->getParent<Transponder>() ;
+      Transponder* identification1 = object1->getParent<Transponder>() ;
+      Transponder* identification2 = object2->getParent<Transponder>() ;
       
       if (!identification1 || !identification2)
         return false ;
       
-      return identification1->getCode() == identification2->getCode() ;  
+      return identification1->m_team_name == identification2->m_team_name ;  
     }
     
   }

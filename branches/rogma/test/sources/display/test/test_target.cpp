@@ -70,7 +70,7 @@ namespace ProjetUnivers {
         Kernel::Object* data = memory->createObject("detection") ;
         memory->addTrait(data,new Model::Positionned()) ;
         memory->addTrait(data,new Model::Solid(Model::Mesh("razor.mesh"))) ;
-        memory->addTrait(data,new Model::DetectionData()) ;
+        memory->addTrait(data,new Model::DetectionData(ship)) ;
         memory->addTrait(data,new Model::Selected()) ;
 
         CPPUNIT_ASSERT(data->getTrait<Implementation::Target>()) ;

@@ -53,6 +53,9 @@ namespace ProjetUnivers {
         /// Test an object moving in orthogonal direction of the shot.
         void testMovingLateral() ;
 
+        /// Test an object moving in orthogonal direction of the shot.
+        void testMovingLateralWithRotation() ;
+        
         /// Test a Computer destruction.
         void destroyComputer() ;
         
@@ -94,6 +97,7 @@ namespace ProjetUnivers {
         CPPUNIT_TEST(testMovingFront) ;
         CPPUNIT_TEST(testMovingUnshootable) ;
         CPPUNIT_TEST(testMovingLateral) ;
+        CPPUNIT_TEST(testMovingLateralWithRotation) ;
         CPPUNIT_TEST(destroyComputer) ;
         CPPUNIT_TEST(destroyLaser) ;
         CPPUNIT_TEST(deconnectComputer) ;

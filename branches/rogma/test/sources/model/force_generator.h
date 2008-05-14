@@ -33,6 +33,8 @@ namespace ProjetUnivers {
     /*!
       For example : engine...
       
+      Applyed force are relative to the physical world parent.
+      
       It applies a force on its own position.      
     */
     class ForceGenerator : public Kernel::Trait 

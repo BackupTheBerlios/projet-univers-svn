@@ -63,6 +63,7 @@
 #include <model/with_objectives.h>
 #include <model/autonomous_character.h>
 #include <model/implementation/logic/logic.h>
+#include <model/team.h>
 
 #include <model/model.h>
 
@@ -197,7 +198,9 @@ namespace ProjetUnivers {
 
         // 2 teams
         Kernel::Object* team1 = model->createObject() ;
+        model->addTrait(team1,new Team("team1")) ;
         Kernel::Object* team2 = model->createObject() ;
+        model->addTrait(team2,new Team("team2")) ;
         
         
         /// 3. Ajout d'un vaisseau
@@ -378,23 +381,47 @@ namespace ProjetUnivers {
 
         // 2 teams
         Kernel::Object* team1 = model->createObject() ;
+        model->addTrait(team1,new Team("team1")) ;
         Kernel::Object* team2 = model->createObject() ;
+        model->addTrait(team2,new Team("team2")) ;
 
         {
           Kernel::Object* ship = createShip(system) ;
           model->addTrait(ship,new Transponder(team1)) ;
-          ship->getTrait<Positionned>()->setPosition(Position::Meter(0,0,-2000)) ;
+          ship->getTrait<Positionned>()->setPosition(Position::Meter(0,0,0)) ;
           Kernel::Object* agent = createAI(ship) ;
           agent->getTrait<WithObjectives>()->addObjective(Objective::attackAllEnemies()) ;
         }
-        
+//        {
+//          Kernel::Object* ship = createShip(system) ;
+//          model->addTrait(ship,new Transponder(team1)) ;
+//          ship->getTrait<Positionned>()->setPosition(Position::Meter(0,500,0)) ;
+//          Kernel::Object* agent = createAI(ship) ;
+//          agent->getTrait<WithObjectives>()->addObjective(Objective::attackAllEnemies()) ;
+//        }
+
         {
           Kernel::Object* ship = createShip(system) ;
           model->addTrait(ship,new Transponder(team2)) ;
+          ship->getTrait<Positionned>()->setPosition(Position::Meter(0,0,1100)) ;
+          Kernel::Object* agent = createAI(ship) ;
+          agent->getTrait<WithObjectives>()->addObjective(Objective::attackAllEnemies()) ;
+        }
+//        {
+//          Kernel::Object* ship = createShip(system) ;
+//          model->addTrait(ship,new Transponder(team2)) ;
+//          ship->getTrait<Positionned>()->setPosition(Position::Meter(0,0,3000)) ;
+//          Kernel::Object* agent = createAI(ship) ;
+//          agent->getTrait<WithObjectives>()->addObjective(Objective::attackAllEnemies()) ;
+//        }
+        
+        {
+          Kernel::Object* ship = createShip(system) ;
+          model->addTrait(ship,new Transponder(team1)) ;
           model->addTrait(ship,new TargetDisplayer()) ;
           TargetDisplayer::connect(ship,ship) ;
-          ship->getTrait<Positionned>()->setPosition(Position::Meter(0,0,0)) ;
-          ship->getTrait<Oriented>()->setOrientation(Orientation(Ogre::Quaternion(Ogre::Degree(180),Ogre::Vector3::UNIT_Y))) ;
+          ship->getTrait<Positionned>()->setPosition(Position::Meter(0,-500,0)) ;
+//          ship->getTrait<Oriented>()->setOrientation(Orientation(Ogre::Quaternion(Ogre::Degree(180),Ogre::Vector3::UNIT_Y))) ;
           
           Kernel::Object* player = model->createObject("Observer",ship) ;
           model->addTrait(player,new Positionned()) ;
@@ -507,7 +534,7 @@ namespace ProjetUnivers {
       Kernel::Object* ship = model->createObject(parent) ;
       model->addTrait(ship,new Positionned()) ;
       model->addTrait(ship,new Oriented()) ;
-      model->addTrait(ship,new Massive(Mass::Kilogram(1000))) ;
+      model->addTrait(ship,new Massive(Mass::Kilogram(Kernel::Parameters::getValue<float>("Model","ShipMass")))) ;
       model->addTrait(ship,new Mobile()) ;
       model->addTrait(ship,new Solid(Mesh("razor.mesh"))) ;
       model->addTrait(ship,new Computer()) ;

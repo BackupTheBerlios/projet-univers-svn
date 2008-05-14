@@ -18,80 +18,19 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_DISPLAY_TEST_MODEL_VIEW_H_
-#define PU_DISPLAY_TEST_MODEL_VIEW_H_
+#ifndef PU_DISPLAY_IMPLEMENTATION_TARGET_WITH_SELECTION_H_
+#define PU_DISPLAY_IMPLEMENTATION_TARGET_WITH_SELECTION_H_
 
-#include <cppunit/extensions/HelperMacros.h>
+#include <kernel/deduced_trait.h>
 
 namespace ProjetUnivers {
   namespace Display {
-    namespace Test {
-            
-      /// Global testing of this viewpoint.
-      class TestModelView : public CppUnit::TestFixture {
-      protected:
-      
-        
-      /*! 
-        @name Tests
-      */ 
-      // @{
-        
-        /// Basic test, mainly to check against seg fault.
-        void testConstruct() ;
-
-        /// Build a viewpoint and then destroy the observer.
-        /*!
-          created a seg fault
-        */
-        void destroyObserver() ;
-        
-        /// Select a target and display it
-        void selectedTarget() ;
-        
-        /// Display an ideal target
-        void displayIdealTarget() ;
-        
-        
-      // @}
-        /*! 
-          @name Tests registration
-        */ 
-        // @{
-    
-        CPPUNIT_TEST_SUITE(TestModelView) ;
-      
-//        CPPUNIT_TEST(testConstruct) ;
-//        CPPUNIT_TEST(destroyObserver) ;
-        CPPUNIT_TEST(selectedTarget) ;
-        CPPUNIT_TEST(displayIdealTarget) ;
-      
-        CPPUNIT_TEST_SUITE_END() ;
-
-      public:
-  
-      // @}
-        /*! 
-          @name Mandatory methods
-        */ 
-        // @{
-
-      
-        /// Initialisation du test
-        void setUp() ;
-      
-        /// Desinitialisation du test
-        void tearDown() ;
-      
-      // @}      
-                
-       
-      
-      };
-
+    namespace Implementation {
+          
+      /// A target with a target selection
+      class TargetWithSelection : public Kernel::DeducedTrait
+      {};
     }
   }
 }
-
-
-#endif
+#endif /*PU_DISPLAY_IMPLEMENTATION_TARGET_WITH_SELECTION_H_*/

@@ -21,7 +21,6 @@
 #ifndef PU_MODEL_DETECTION_DATA_H_
 #define PU_MODEL_DETECTION_DATA_H_
 
-#include <kernel/object_reference.h>
 #include <model/computer_data.h>
 
 namespace ProjetUnivers {
@@ -37,7 +36,7 @@ namespace ProjetUnivers {
     public:
 
       /// Constructs.
-      DetectionData() ;
+      DetectionData(Kernel::Object* computer) ;
     };
   }
 }

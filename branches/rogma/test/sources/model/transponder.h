@@ -21,13 +21,13 @@
 #ifndef PU_MODEL_TRANSPONDER_H
 #define PU_MODEL_TRANSPONDER_H
 
-#include <kernel/object_reference.h>
+#include <string>
 #include <kernel/trait.h>
 
 namespace ProjetUnivers {
   namespace Model {
       
-    /// System that identify object's team by a code.
+    /// System that identify object and its team by a code.
     class Transponder : public Kernel::Trait
     {
     public:
@@ -35,22 +35,26 @@ namespace ProjetUnivers {
       /// Constructs.
       Transponder(Kernel::Object* team) ;
 
-      /// Change transponder code.
-      void setCode(Kernel::Object*) ;
+      /// Copy constructor.
+      Transponder(const Transponder&) ;
+
+      /// Copy.
+      void setCode(const Transponder*) ;
       
       /// Access to the transponder code.
-      Kernel::Object* getCode() const ;
+      std::string getCode() const ;
 
-      /// True iff the two given codes indicate friends.
-      static bool areFriend(Kernel::Object* code1,Kernel::Object* code2) ;
+      /// True iff the two given objects are friends.
+      static bool areFriend(Kernel::Object*,Kernel::Object*) ;
       
-      /// True iff the two given codes indicate foes.
-      static bool areFoe(Kernel::Object* code1,Kernel::Object* code2) ;
+      /// True iff the two given objects are foes.
+      static bool areFoe(Kernel::Object*,Kernel::Object*) ;
       
     private:
       
-      /// The code.
-      Kernel::ObjectReference m_code ;
+      /// Team name.
+      std::string m_team_name ;
+      int         m_code ; 
     };
   }
 }

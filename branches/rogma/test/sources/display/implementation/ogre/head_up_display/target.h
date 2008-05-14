@@ -60,6 +60,12 @@ namespace ProjetUnivers {
             /// Set the target colour.
             void setTargetColour(const ::Ogre::ColourValue&) ;
  
+            /// Set the identification of the target.
+            void setIdentification(const std::string&) ;
+
+            /// Set the identification of the target's target.
+            void setTargetIdentification(const std::string&) ;
+            
           // @}
           protected:
           /*!
@@ -95,6 +101,14 @@ namespace ProjetUnivers {
 
             ::Ogre::OverlayContainer* m_arrow_container ;
             ::Ogre::OverlayElement*   m_arrow ;
+
+            /// contains the text of the target's identification.
+            ::Ogre::OverlayContainer* m_identification_container ;
+            ::Ogre::OverlayElement*   m_identification ;
+            
+            /// contains the text of the target's target.
+            ::Ogre::OverlayContainer* m_target_text_container ;
+            ::Ogre::OverlayElement*   m_target_text ;
             
             /// true iff target is shown
             bool m_target_is_shown ;

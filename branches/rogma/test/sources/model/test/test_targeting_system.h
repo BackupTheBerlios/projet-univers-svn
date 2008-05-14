@@ -55,6 +55,9 @@ namespace ProjetUnivers {
         /// Test the nearest enemy selection.
         void selectNearestEnemy() ;
         
+        /// Test the nearest enemy selection.
+        void selectNearestEnemyAfterDestruction() ;
+        
         /*!
           @todo 
             test of selection whithout data
@@ -75,6 +78,7 @@ namespace ProjetUnivers {
         CPPUNIT_TEST(destroyDetector) ;
         CPPUNIT_TEST(selectNearestTarget) ;
         CPPUNIT_TEST(selectNearestEnemy) ;
+        CPPUNIT_TEST(selectNearestEnemyAfterDestruction) ;
 
         CPPUNIT_TEST_SUITE_END() ;
 

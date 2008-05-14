@@ -24,6 +24,7 @@
 #include <kernel/log.h>
 #include <kernel/command_delegator.h>
 #include <kernel/parameters.h>
+#include <kernel/timer.h>
 
 #include <model/model.h>
 #include <model/computer.h>
@@ -52,6 +53,8 @@
 #include <model/transponder.h>
 #include <model/destroyable.h>
 #include <model/stellar_system.h>
+#include <model/collision.h>
+#include <model/team.h>
 
 #include <physic/physic.h>
 
@@ -178,6 +181,24 @@ namespace ProjetUnivers {
                          ((*vehicle)->getSpeed() == Ogre::Vector3(0,10,0))) ;
         }
         
+        ship->getTrait<Model::Positionned>()->setPosition(Model::Position::Meter(1000,0,500)) ;
+        ship->getTrait<Model::Oriented>()->setOrientation(Model::Orientation(::Ogre::Quaternion(::Ogre::Degree(180),::Ogre::Vector3::UNIT_Y))) ;
+        Model::update(Model::Duration::Second(0.1)) ;
+
+        for(std::set<Implementation::Vehicle*>::const_iterator vehicle = vehicles.begin() ; 
+            vehicle != vehicles.end() ;
+            ++vehicle)
+        {
+          CPPUNIT_ASSERT(((*vehicle)->getPosition() == Ogre::Vector3(-500,0,500)) ||
+                         ((*vehicle)->getPosition() == Ogre::Vector3(500,0,500))) ;
+          
+          CPPUNIT_ASSERT(((*vehicle)->getSpeed() == Ogre::Vector3(0,-10,0)) ||
+                         ((*vehicle)->getSpeed() == Ogre::Vector3(0,10,0))) ;
+        }
+        
+        ArtificialIntelligence::close() ;
+        Model::close() ;
+        
         CPPUNIT_ASSERT(agent_controler->getVehicle()) ;
 
         InternalMessage("AI","AI::TestModelControler::build leaving") ;
@@ -191,7 +212,9 @@ namespace ProjetUnivers {
         Model::init() ;
 
         Kernel::Object* team1 = Model::createObject() ;
+        Model::addTrait(team1,new Model::Team("team1")) ;
         Kernel::Object* team2 = Model::createObject() ;
+        Model::addTrait(team2,new Model::Team("team2")) ;
         
         Kernel::Object* system = Model::createObject("system") ;
 
@@ -319,7 +342,9 @@ namespace ProjetUnivers {
         Physic::init() ;
 
         Kernel::Object* team1 = Model::createObject() ;
+        Model::addTrait(team1,new Model::Team("team1")) ;
         Kernel::Object* team2 = Model::createObject() ;
+        Model::addTrait(team2,new Model::Team("team2")) ;
         
         Kernel::Object* system = Model::createObject("system") ;
         Model::addTrait(system,new Model::StellarSystem()) ;
@@ -328,7 +353,7 @@ namespace ProjetUnivers {
         Kernel::Object* ship = Model::createObject("ship",system) ;
         Model::addTrait(ship,new Model::Positionned()) ;
         Model::addTrait(ship,new Model::Oriented()) ;
-        Model::addTrait(ship,new Model::Massive(Model::Mass::Kilogram(1000))) ;
+        Model::addTrait(ship,new Model::Massive(Model::Mass::Kilogram(1))) ;
         Model::addTrait(ship,new Model::Mobile()) ;
         Model::addTrait(ship,new Model::Solid(Model::Mesh("razor.mesh"))) ;
         Model::addTrait(ship,new Model::Computer()) ;
@@ -451,6 +476,177 @@ namespace ProjetUnivers {
         
         Physic::close() ;
         InternalMessage("AI","AI::TestModelControler::attackAllEnemies leaving") ;
+      }
+      
+      void TestModelControler::twoShips()
+      {
+        InternalMessage("AI","AI::TestModelControler::twoShips entering") ;
+
+        // 1. build a model
+        Model::init() ;
+        Physic::init() ;
+
+        Kernel::Object* team1 = Model::createObject() ;
+        Model::addTrait(team1,new Model::Team("team1")) ;
+        Kernel::Object* team2 = Model::createObject() ;
+        Model::addTrait(team2,new Model::Team("team2")) ;
+        
+        Kernel::Object* system = Model::createObject("system") ;
+        Model::addTrait(system,new Model::StellarSystem()) ;
+        Model::addTrait(system,new Model::Positionned()) ;
+
+        Kernel::ObjectReference ship1 ;
+        {
+          Kernel::Object* ship = Model::createShip(system) ;
+          ship->getTrait<Model::Positionned>()->setPosition(Model::Position::Meter(0,0,0)) ;
+          Model::addTrait(ship,new Model::Transponder(team1)) ;
+          Kernel::Object* agent = Model::createAI(ship) ;
+          agent->getTrait<Model::WithObjectives>()->addObjective(Model::Objective::attackAllEnemies()) ;
+          ship1 = ship ;
+        }          
+          
+        Kernel::ObjectReference ship2 ;
+        {
+          Kernel::Object* ship = Model::createShip(system) ;
+          ship->getTrait<Model::Positionned>()->setPosition(Model::Position::Meter(0,0,-1100)) ;
+          Model::addTrait(ship,new Model::Transponder(team2)) ;
+          Kernel::Object* agent = Model::createAI(ship) ;
+          agent->getTrait<Model::WithObjectives>()->addObjective(Model::Objective::attackAllEnemies()) ;
+          ship2 = ship ;
+        }          
+
+        // 2. build a AI on it
+        ArtificialIntelligence::build(system) ;
+        ArtificialIntelligence::init() ;
+        
+        Physic::build(system) ;
+        
+        Model::Duration time = Model::Duration::Second(0.1) ;
+        for(int i = 0 ; i < 300 ; ++i)
+        {
+          Model::update(time) ;
+          Physic::update(time) ;
+          ArtificialIntelligence::update(time) ;
+        }
+        
+        std::set<Kernel::Object*> ships = system->getChildren() ;
+
+        // only one has been destroyed @warning depends a lot on initial distances
+        CPPUNIT_ASSERT(!ship1 || !ship2) ;
+        CPPUNIT_ASSERT(ships.size() == 1) ;
+        
+        ArtificialIntelligence::close() ;
+        Physic::close() ;
+        Model::close() ;
+
+        InternalMessage("AI","AI::TestModelControler::twoShips leaving") ;
+      }
+      
+      void TestModelControler::groupAttack()
+      {
+        InternalMessage("AI","AI::TestModelControler::groupAttack entering") ;
+
+        // 1. build a model
+        Model::init() ;
+        Physic::init() ;
+
+        Kernel::Object* team1 = Model::createObject() ;
+        Model::addTrait(team1,new Model::Team("team1")) ;
+        Kernel::Object* team2 = Model::createObject() ;
+        Model::addTrait(team2,new Model::Team("team2")) ;
+        
+        Kernel::Object* system = Model::createObject("system") ;
+        Model::addTrait(system,new Model::StellarSystem()) ;
+        Model::addTrait(system,new Model::Positionned()) ;
+
+        Kernel::ObjectReference ship1 ;
+        {
+          Kernel::Object* ship = Model::createShip(system) ;
+          ship->getTrait<Model::Positionned>()->setPosition(Model::Position::Meter(0,0,0)) ;
+          Model::addTrait(ship,new Model::Transponder(team1)) ;
+          Kernel::Object* agent = Model::createAI(ship) ;
+          agent->getTrait<Model::WithObjectives>()->addObjective(Model::Objective::attackAllEnemies()) ;
+          ship1 = ship ;
+        }          
+
+        Kernel::ObjectReference ship2 ;
+        {
+          Kernel::Object* ship = Model::createShip(system) ;
+          ship->getTrait<Model::Positionned>()->setPosition(Model::Position::Meter(0,500,0)) ;
+          Model::addTrait(ship,new Model::Transponder(team1)) ;
+          Kernel::Object* agent = Model::createAI(ship) ;
+          agent->getTrait<Model::WithObjectives>()->addObjective(Model::Objective::attackAllEnemies()) ;
+          ship2 = ship ;
+        }          
+          
+        Kernel::ObjectReference ship3 ;
+        {
+          Kernel::Object* ship = Model::createShip(system) ;
+          ship->getTrait<Model::Positionned>()->setPosition(Model::Position::Meter(0,0,1100)) ;
+          // enought to make it die
+          ship->getTrait<Model::Destroyable>()->damage(Model::Energy::Joule(50)) ;
+          Model::addTrait(ship,new Model::Transponder(team2)) ;
+          Kernel::Object* agent = Model::createAI(ship) ;
+          agent->getTrait<Model::WithObjectives>()->addObjective(Model::Objective::attackAllEnemies()) ;
+          ship3 = ship ;
+        }
+
+        Kernel::ObjectReference ship4 ;
+        {
+          Kernel::Object* ship = Model::createShip(system) ;
+          ship->getTrait<Model::Positionned>()->setPosition(Model::Position::Meter(0,0,3000)) ;
+          Model::addTrait(ship,new Model::Transponder(team2)) ;
+          Kernel::Object* agent = Model::createAI(ship) ;
+          agent->getTrait<Model::WithObjectives>()->addObjective(Model::Objective::attackAllEnemies()) ;
+          ship4 = ship ;
+        }          
+        
+        // team2 is 2 against one -> it should win and destroy ship4
+        
+        // 2. build a AI on it
+        ArtificialIntelligence::build(system) ;
+        ArtificialIntelligence::init() ;
+        
+        Physic::build(system) ;
+
+        Model::Duration time = Model::Duration::Second(0.1) ;
+        for(int i = 0 ; i < 400 ; ++i)
+        {
+          Model::update(time) ;
+          Physic::update(time) ;
+          ArtificialIntelligence::update(time) ;
+        }
+
+//        if (ship1)
+//        {
+//          std::cout << "ship1 life=" << ship1->getTrait<Model::Destroyable>()->getLife() << std::endl ;
+//        }
+//        if (ship2)
+//        {
+//          std::cout << "ship2 life=" << ship2->getTrait<Model::Destroyable>()->getLife() << std::endl ;
+//        }
+//        if (ship3)
+//        {
+//          std::cout << "ship3 life=" << ship3->getTrait<Model::Destroyable>()->getLife() << std::endl ;
+//        }
+//        if (ship4)
+//        {
+//          std::cout << "ship4 life=" << ship4->getTrait<Model::Destroyable>()->getLife() << std::endl ;
+//        }
+        
+        std::set<Kernel::Object*> ships = system->getChildren() ;
+        std::cout << ships.size() ;
+  
+        CPPUNIT_ASSERT(!ship3) ;
+        CPPUNIT_ASSERT(!ship4) ;
+        
+        CPPUNIT_ASSERT(ships.size() == 2) ;
+        
+        ArtificialIntelligence::close() ;
+        Physic::close() ;
+        Model::close() ;
+
+        InternalMessage("AI","AI::TestModelControler::groupAttack leaving") ;
       }
       
       void TestModelControler::setUp()

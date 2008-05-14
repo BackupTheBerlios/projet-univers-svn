@@ -1,7 +1,11 @@
 # Makefile for ArtificialIntelligence
 
 lib_LTLIBRARIES = libai.la 
-noinst_PROGRAMS = test_behaviour_display
+
+# if we have clan lib we can compile an additional program
+if HAVE_CLANLIB
+  noinst_PROGRAMS = test_behaviour_display
+endif
 
 SOURCES = $(top_srcdir)/sources
 INCLUDES = -I$(SOURCES)
@@ -58,7 +62,7 @@ $(libXML_LIBS)  \
 $(OGRE_LIBS)
 
 test_behaviour_display_SOURCES = ../test/test_behaviour_display.cpp
-test_behaviour_display_CXXFLAGS = $(PU_CXXFLAGS)
+test_behaviour_display_CXXFLAGS = $(PU_CXXFLAGS) $(CLAN_CXXFLAGS)
 test_behaviour_display_LDFLAGS = $(CLAN_LIBS) -lclanDisplay -lclanTTF
 test_behaviour_display_LDADD = \
 libai.la \

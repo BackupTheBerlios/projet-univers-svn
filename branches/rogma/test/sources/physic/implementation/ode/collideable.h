@@ -34,6 +34,18 @@ namespace ProjetUnivers {
         {
         public:
           
+          enum
+          {
+            /// The geom is a solid
+            Solid = 0,
+            /// The geom an approximated solid
+            ApproximatedSolid = 1,
+            /// The geom is a laser
+            Laser = 2
+          };
+          
+          
+          
           /// Construction.
           void onInitCollideable() ;
 
@@ -49,6 +61,9 @@ namespace ProjetUnivers {
           */
           virtual bool isCollideableWith(const Collideable*) const = 0 ;
           
+          /// Tell if two geoms can collide.
+          static bool canCollide(const dGeomID&,const dGeomID&) ;
+          
           /// Abstract class means virtual destructor.
           virtual ~Collideable() ;
 
@@ -59,9 +74,13 @@ namespace ProjetUnivers {
 
           /// Create the associated geom.
           virtual void createGeometry(const dSpaceID& i_space) = 0 ;
-                  
+
+          /// Internal creation of an appximated geometry.
+          virtual void createApproximatedGeometry(const dSpaceID& space) = 0 ;
+          
           /// ODE Collision object
-          dGeomID  m_geometry_id ;
+          dGeomID  m_geometry1 ;
+          dGeomID  m_geometry2 ;
 
           /// To place m_geometry relatively to parent body.
           dGeomID  m_geometry_placeable ;

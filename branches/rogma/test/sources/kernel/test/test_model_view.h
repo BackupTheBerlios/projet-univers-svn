@@ -143,6 +143,9 @@ namespace ProjetUnivers {
         /// Check that destroying an object with deduced traits works.
         void destroyObjectWithDeducedTraits() ;
         
+        /// Destroy a viewpoint.
+        void detroyViewPoint() ;
+        
       // @}
 
 
@@ -174,6 +177,7 @@ namespace ProjetUnivers {
         CPPUNIT_TEST(changeModelOnInitialisedViewPoint) ;
         CPPUNIT_TEST(changeModelOnViewPoint) ;
         CPPUNIT_TEST(destroyObjectWithDeducedTraits) ;
+        CPPUNIT_TEST(detroyViewPoint) ;
 
         CPPUNIT_TEST_SUITE_END() ;
 

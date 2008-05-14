@@ -134,6 +134,10 @@ namespace ProjetUnivers {
 //          std::cout << "soupscon de collision" << std::endl ;
           InternalMessage("Physic","PhysicalWorld::onGeometryCollision entering") ;
           
+          if (! Collideable::canCollide(i_geometry1,i_geometry2))
+            return ;
+            
+          
           // i_world is in fact a world.
           PhysicalWorld* world = static_cast<PhysicalWorld*>(i_world) ;
           
@@ -161,8 +165,7 @@ namespace ProjetUnivers {
                           + (collideable1->isCollideableWith(collideable2) ? " collideable" : "not collideable")
                           ) ;
 
-          if (object1 && object2 
-              && collideable1->isCollideableWith(collideable2))
+          if (object1 && object2)
           {
             // object positions 
             Ogre::Vector3 object1_position ;
@@ -206,7 +209,7 @@ namespace ProjetUnivers {
              
               // create contact joint
               dContact contact ;
-              contact.surface.mode = dContactSoftCFM|dContactSoftERP ;
+              contact.surface.mode = dContactSoftCFM|dContactSoftERP|dContactBounce ;
               contact.surface.mu = Kernel::Parameters::getValue<float>("Physic","ContactMu") ;
               contact.surface.mu2 = 0 ;
               contact.surface.bounce = Kernel::Parameters::getValue<float>("Physic","ContactBounce") ;

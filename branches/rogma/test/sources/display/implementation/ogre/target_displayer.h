@@ -127,7 +127,7 @@ namespace ProjetUnivers {
           ::Ogre::OverlayElement*   m_reticule ;
           
           /// Viewpoint displaying targets
-          Kernel::ViewPoint* m_implementation ;
+          std::auto_ptr<Kernel::ViewPoint> m_implementation ;
         };
       }
     }

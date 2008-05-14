@@ -314,10 +314,8 @@ namespace ProjetUnivers {
         Ogre::Vector3 final_position(positionned->getPosition().Meter()) ;
 
         // check that object has correctly moved
-        CPPUNIT_ASSERT( initial_position[0]+1 == final_position[0] && 
-                        initial_position[1] == final_position[1] &&
-                        initial_position[2] == final_position[2]) ;
-
+        CPPUNIT_ASSERT(final_position.positionEquals(initial_position+Ogre::Vector3::UNIT_X,delta)) ;
+            
         Physic::close() ;
         Model::close() ;
 
@@ -373,10 +371,7 @@ namespace ProjetUnivers {
         Ogre::Quaternion final_orientation(oriented->getOrientation().getQuaternion()) ;
 
         // check that object has rotated a whole turn
-        CPPUNIT_ASSERT( equal(-1,final_orientation.w) &&
-                        equal(0,final_orientation.x) && 
-                        equal(0,final_orientation.y) &&
-                        equal(0,final_orientation.z)) ;
+        CPPUNIT_ASSERT(final_orientation.equals(Ogre::Quaternion(),Ogre::Degree(5))) ;
 
         Physic::close() ;
         Model::close() ;
@@ -432,11 +427,8 @@ namespace ProjetUnivers {
         /// check new orientation
         Ogre::Quaternion final_orientation(oriented->getOrientation().getQuaternion()) ;
         
-        // check that object has rotated a whole turn
-        CPPUNIT_ASSERT( equal(0,final_orientation.w) &&
-                        equal(0,final_orientation.x) && 
-                        equal(1,final_orientation.y) &&
-                        equal(0,final_orientation.z)) ;
+        // check that object has rotated half a turn
+        CPPUNIT_ASSERT(final_orientation.equals(Ogre::Quaternion(Ogre::Degree(180),Ogre::Vector3::UNIT_Y),Ogre::Degree(5))) ;
 
         Physic::close() ;
         Model::close() ;
@@ -461,7 +453,7 @@ namespace ProjetUnivers {
         model->addTrait(ship,new Model::Oriented()) ;
         model->addTrait(ship,new Model::Mobile()) ;
         model->addTrait(ship,new Model::Solid(Model::Mesh("toto"))) ;
-        model->addTrait(ship,new Model::Massive(Model::Mass::Kilogram(1000))) ;
+        model->addTrait(ship,new Model::Massive(Model::Mass::Kilogram(1))) ;
 
         CPPUNIT_ASSERT(ship->getTrait<Model::PhysicalObject>()) ;
         CPPUNIT_ASSERT(ship->getTrait<Model::Solid>()) ;
@@ -601,7 +593,7 @@ namespace ProjetUnivers {
         model->addTrait(ship,new Model::Oriented()) ;
         model->addTrait(ship,new Model::Mobile()) ;
         model->addTrait(ship,new Model::Solid(Model::Mesh("toto"))) ;
-        model->addTrait(ship,new Model::Massive(Model::Mass::Kilogram(1000))) ;
+        model->addTrait(ship,new Model::Massive(Model::Mass::Kilogram(1))) ;
 
         CPPUNIT_ASSERT(ship->getTrait<Model::PhysicalObject>()) ;
         CPPUNIT_ASSERT(ship->getTrait<Model::Solid>()) ;
@@ -734,7 +726,6 @@ namespace ProjetUnivers {
 
       void TestDemonstration::setUp() 
       {
-        Kernel::Parameters::load("demonstration.config") ;
       }
       
       void TestDemonstration::tearDown() 

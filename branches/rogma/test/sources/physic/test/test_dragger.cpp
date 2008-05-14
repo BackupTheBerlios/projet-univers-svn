@@ -75,7 +75,7 @@ namespace ProjetUnivers {
         model->addTrait(ship,new Model::Oriented()) ;
         model->addTrait(ship,new Model::Mobile()) ;
         model->addTrait(ship,new Model::Solid(Model::Mesh("toto"))) ;
-        model->addTrait(ship,new Model::Massive(Model::Mass::Kilogram(1000))) ;
+        model->addTrait(ship,new Model::Massive(Model::Mass::Kilogram(1))) ;
 
         CPPUNIT_ASSERT(ship->getTrait<Model::PhysicalObject>()) ;
         CPPUNIT_ASSERT(ship->getTrait<Model::Solid>()) ;
@@ -91,7 +91,7 @@ namespace ProjetUnivers {
         
         CPPUNIT_ASSERT(ship->getModel()) ;
         
-        /// build a physical viewpoint        
+        /// build a physical viewpoint        1
         Physic::init() ;
         Kernel::ControlerSet* physics = Physic::build(ship) ;
 

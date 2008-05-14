@@ -47,7 +47,15 @@ namespace ProjetUnivers {
               TargetDisplayerViewPoint* viewpoint)
           : Kernel::TraitView<Implementation::Target,TargetDisplayerViewPoint>(object,viewpoint),
             m_target_is_shown(false),
-            m_arrow_is_shown(false)
+            m_arrow_is_shown(false),
+            m_target_container(NULL),
+            m_target(NULL),
+            m_arrow_container(NULL),
+            m_arrow(NULL),
+            m_identification_container(NULL),
+            m_identification(NULL),
+            m_target_text_container(NULL),
+            m_target_text(NULL)
           {}
 
           namespace 
@@ -167,6 +175,57 @@ namespace ProjetUnivers {
             m_arrow->setTop(-getArrowSize()/2) ;
             
             m_arrow_container->hide() ;
+
+            // text displaying identification
+            m_identification_container = static_cast< ::Ogre::OverlayContainer* >(
+              ::Ogre::OverlayManager::getSingleton().createOverlayElement(
+                    "Panel", Utility::getUniqueName())) ;
+            getOverlay()->add2D(m_identification_container) ;
+            
+            m_identification_container->setPosition(0,0) ;
+            m_identification_container->setWidth(1) ;
+            m_identification_container->setHeight(1) ;
+
+            m_identification = 
+              ::Ogre::OverlayManager::getSingleton().createOverlayElement(
+                    "TextArea", Utility::getUniqueName()) ;
+            
+            m_identification->setHorizontalAlignment(::Ogre::GHA_CENTER) ;
+            m_identification->setVerticalAlignment(::Ogre::GVA_CENTER) ;
+            m_identification->setMetricsMode(::Ogre::GMM_PIXELS) ;
+            m_identification->setParameter("font_name", "BlueHighway");
+            m_identification->setParameter("char_height", "16");
+            m_identification->setParameter("horz_align", "center");
+            m_identification->setColour(::Ogre::ColourValue(1.0, 1.0, 1.0));            
+            m_identification_container->_addChild(m_identification) ;
+            m_identification_container->hide() ;
+            m_identification->setCaption("unidentified") ;
+            
+            // text displaying identification
+            m_target_text_container = static_cast< ::Ogre::OverlayContainer* >(
+              ::Ogre::OverlayManager::getSingleton().createOverlayElement(
+                    "Panel", Utility::getUniqueName())) ;
+            getOverlay()->add2D(m_target_text_container) ;
+            
+            m_target_text_container->setPosition(0,0) ;
+            m_target_text_container->setWidth(1) ;
+            m_target_text_container->setHeight(1) ;
+
+            m_target_text = 
+              ::Ogre::OverlayManager::getSingleton().createOverlayElement(
+                    "TextArea", Utility::getUniqueName()) ;
+            
+            m_target_text->setHorizontalAlignment(::Ogre::GHA_CENTER) ;
+            m_target_text->setVerticalAlignment(::Ogre::GVA_CENTER) ;
+            m_target_text->setMetricsMode(::Ogre::GMM_PIXELS) ;
+            m_target_text->setParameter("font_name", "BlueHighway");
+            m_target_text->setParameter("char_height", "16");
+            m_target_text->setParameter("horz_align", "center");
+            m_target_text->setColour(::Ogre::ColourValue(1.0, 1.0, 1.0));            
+            m_target_text_container->_addChild(m_target_text) ;
+            m_target_text_container->hide() ;
+            m_target_text->setCaption("target :") ;
+            
             
             getOverlay()->show() ;
             
@@ -196,6 +255,14 @@ namespace ProjetUnivers {
               m_arrow_container = NULL ;
               m_arrow = NULL ;
             }
+            if (m_identification_container)
+            {
+              getOverlay()->remove2D(m_identification_container) ;
+              ::Ogre::OverlayManager::getSingleton().destroyOverlayElement(m_identification) ;
+              ::Ogre::OverlayManager::getSingleton().destroyOverlayElement(m_identification_container) ;
+              m_identification_container = NULL ;
+              m_identification = NULL ;
+            }
           }
           
           void Target::onUpdate()
@@ -206,6 +273,8 @@ namespace ProjetUnivers {
               {
                 // hide the overlay
                 m_target_container->hide() ;
+                m_identification_container->hide() ;
+                m_target_text_container->hide() ;
                 m_target_is_shown = false ;
               }
 
@@ -317,9 +386,21 @@ namespace ProjetUnivers {
               m_target->setTop(-spheresize.y/2) ;
               m_target->setDimensions(spheresize.x,spheresize.y) ;
               
+              m_identification_container->setPosition(screen_position.x/2,-screen_position.y/2-spheresize.y/2) ;
+              m_identification->setLeft(-spheresize.x/2) ;
+              m_identification->setTop(-spheresize.y/2) ;
+              m_identification->setDimensions(spheresize.x,0.1) ;
+
+              m_target_text_container->setPosition(screen_position.x/2,-screen_position.y/2+spheresize.y/2) ;
+              m_target_text->setLeft(-spheresize.x/2) ;
+              m_target_text->setTop(-spheresize.y/2) ;
+              m_target_text->setDimensions(spheresize.x,0.1) ;
+              
               if (!m_target_is_shown)
               {
                 m_target_container->show() ;
+                m_identification_container->show() ;
+                m_target_text_container->show() ;
                 m_target_is_shown = true ;
               }
               if (m_arrow_is_shown)
@@ -385,6 +466,8 @@ namespace ProjetUnivers {
               if (m_target_is_shown)
               {
                 m_target_container->hide() ;
+                m_identification_container->hide() ;
+                m_target_text_container->hide() ;
                 m_target_is_shown = false ;
               }
               if (!m_arrow_is_shown)
@@ -400,6 +483,18 @@ namespace ProjetUnivers {
           {
             Utility::setColour(m_arrow,colour) ;
             Utility::setColour(m_target,colour) ;
+            Utility::setColour(m_identification,colour) ;
+            Utility::setColour(m_target_text,colour) ;
+          }
+          
+          void Target::setTargetIdentification(const std::string& identification)
+          {
+            m_target_text->setCaption("target : " + identification) ;
+          }
+          
+          void Target::setIdentification(const std::string& identification)
+          {
+            m_identification->setCaption(identification) ;
           }
           
           bool Target::isSelected() const

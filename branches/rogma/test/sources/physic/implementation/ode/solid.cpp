@@ -106,10 +106,18 @@ namespace ProjetUnivers {
                                         m_vertices,3*sizeof(dReal),(int)vertices.size(),
                                         m_indices,(int)indices.size(),3*sizeof(int)) ;
                                   
-            m_geometry_id = dCreateTriMesh(i_space,m_data,0,0,0);
-            dGeomSetData(m_geometry_id,m_data) ;
+            m_geometry1 = dCreateTriMesh(i_space,m_data,0,0,0);
+            dGeomSetData(m_geometry1,m_data) ;
+            dGeomSetCollideBits(m_geometry1,(unsigned long)Collideable::Solid) ;
+            createApproximatedGeometry(i_space) ;
             InternalMessage("Physic","Physic::Implementation::Ode::Solid::createGeometry trace#5") ;
           }
+        }
+        
+        void Solid::createApproximatedGeometry(const dSpaceID& space)
+        {
+          m_geometry2 = dCreateSphere(space,getTrait()->getRadius().Meter()) ;
+          dGeomSetCollideBits(m_geometry2,(unsigned long)Collideable::ApproximatedSolid) ;
         }
         
         const Kernel::BaseControler* Solid::getControler() const

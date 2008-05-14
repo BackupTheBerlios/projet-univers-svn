@@ -38,7 +38,7 @@ namespace ProjetUnivers {
     public:
 
       /// Constructor.
-      IdealTarget() ;
+      IdealTarget(Kernel::Object* computer) ;
     
     };
     

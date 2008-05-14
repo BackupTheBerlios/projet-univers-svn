@@ -21,6 +21,7 @@
 #include <kernel/log.h>
 #include <kernel/string.h>
 #include <kernel/algorithm.h>
+
 #include <model/position.h>
 #include <model/positionned.h>
 #include <model/oriented.h>
@@ -31,6 +32,7 @@
 #include <model/ideal_target.h>
 #include <model/physical_world.h>
 #include <model/physical_object.h>
+
 #include <model/implementation/logic/target.h>
 
 namespace ProjetUnivers {
@@ -75,8 +77,15 @@ namespace ProjetUnivers {
             InternalMessage("Model","leaving Logic::Target::onUpdate") ;
             return ;
           }
+          
+          // relative to computer
           Ogre::Vector3 position = getObject()->getTrait<Positionned>()->getPosition().Meter() ;
+          
+          // relative to ship's physical world
           Ogre::Vector3 speed = getObject()->getTrait<Mobile>()->getSpeed().MeterPerSecond() ;
+          Kernel::Object* world = laser_object->getParent<PhysicalObject>()->getPhysicalWorld() ;
+          // now it is relative to laser object
+          speed = getRelativeOrientation(laser_object,world).getQuaternion().Inverse()*speed ;
           
           std::pair<bool,float> reachable_time = 
             Kernel::Algorithm::calculateInterceptionTime(position,speed,laser_speed) ;
@@ -101,7 +110,7 @@ namespace ProjetUnivers {
           {
             m_ideal_target = model->createObject(getObject()) ;
             model->addTrait(m_ideal_target,new Positionned()) ;
-            model->addTrait(m_ideal_target,new IdealTarget()) ;
+            model->addTrait(m_ideal_target,new IdealTarget(getObject()->getTrait<ComputerData>()->getComputer())) ;
           }
           // update ideal target
           Positionned* positionned = m_ideal_target->getTrait<Positionned>() ;

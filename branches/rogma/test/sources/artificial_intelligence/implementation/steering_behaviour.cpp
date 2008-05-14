@@ -182,7 +182,8 @@ namespace ProjetUnivers {
           if (! reachable_time.first)
           {
             InternalMessage("AI","offsetPursuit unreachable") ; 
-            return Ogre::Vector3::ZERO ;
+            agent.normalizeSpeed(offset) ;
+            return offset-agent.getSpeed() ;
           }
           else
           {
@@ -394,6 +395,10 @@ namespace ProjetUnivers {
           return result ;
         }
         
+        Ogre::Vector3 idle(const Vehicle& agent)
+        {
+          return -agent.getSpeed() ;
+        }
       }
     }    
   }

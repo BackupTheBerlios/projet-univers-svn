@@ -58,6 +58,12 @@ namespace ProjetUnivers {
         InternalMessage("AI","building Agent") ;
         m_view_point.reset(new AgentViewPoint(this)) ;
         m_view_point->init() ;
+        
+        /* 
+          @todo change : the seg fault comes from here
+          AgentViewPoint has computer as model but added object has 
+          real world as model...
+        */
         getObject()->getModel()->addManualView(new AgentVehicle(
             Model::getControledShip(getObject())->getTrait<Model::PhysicalObject>(),
             m_view_point.get())) ;
@@ -138,6 +144,7 @@ namespace ProjetUnivers {
           // if no enemy selected select one
           if (!target)
           {
+            InternalMessage("Agent","selecting new enemy") ;
             getTargetingSystem()->getTrait<Model::TargetingSystem>()->selectNearestEnemy() ;
           }
 
@@ -145,6 +152,10 @@ namespace ProjetUnivers {
           if (m_target)
           {
             m_steering += SteeringBehaviour::offsetPursuit(*m_vehicle,*m_target,m_target->getRadius()*2) ;
+          }
+          else
+          {
+            m_steering += SteeringBehaviour::idle(*m_vehicle) ;
           }
           
           // if in range shoot
@@ -295,7 +306,7 @@ namespace ProjetUnivers {
           m_max_steering_speed = fabs((delta_speed/float(m_delta_throttle))/seconds_since_last_frame) ;
         }
         
-        if (m_max_steering_speed == 0)
+        if (m_max_steering_speed == 0 || !finite(m_max_steering_speed))
           m_max_steering_speed = 1 ;
         
         InternalMessage("Agent","calibration m_max_steering_X=" + Kernel::toString(m_max_steering_X.valueDegrees())) ;

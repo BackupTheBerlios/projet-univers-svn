@@ -26,7 +26,12 @@
 
 namespace ProjetUnivers {
   namespace Model {
-      
+    
+    namespace Implementation
+    {
+      class DetectorObjectView ;
+    }
+    
     /// System that handle targets.
     class TargetingSystem : public Kernel::Trait
     {
@@ -80,6 +85,8 @@ namespace ProjetUnivers {
       
       /// The computer that is ancestor of detection data.
       Kernel::ObjectReference m_computer ;
+      
+      friend class Implementation::DetectorObjectView ;
     };
   }
 }

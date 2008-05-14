@@ -87,6 +87,9 @@ namespace ProjetUnivers {
           Ogre::Vector3 obstacleAvoidance(const Vehicle&            agent, 
                                           const std::set<Vehicle*>& obstacles) ;
           
+          /// Steering for not moving.
+          Ogre::Vector3 idle(const Vehicle& agent) ;
+          
         // @}
       }
     }    
