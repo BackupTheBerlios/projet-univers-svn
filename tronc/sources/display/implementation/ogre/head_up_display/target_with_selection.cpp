@@ -21,11 +21,10 @@
 #include <kernel/trait_view.h>
 #include <kernel/parameters.h>
 #include <model/transponder.h>
-#include <model/computer.h>
+#include <model/targeting_system.h>
 #include <display/implementation/ogre/ogre.h>
-#include <display/implementation/ogre/head_up_display/ideal_target.h>
 #include <display/implementation/ogre/head_up_display/target.h>
-#include <display/implementation/ogre/head_up_display/identified_target.h>
+#include <display/implementation/ogre/head_up_display/target_with_selection.h>
 
 namespace ProjetUnivers {
   namespace Display {
@@ -33,80 +32,57 @@ namespace ProjetUnivers {
       namespace Ogre {
         namespace HeadUpDisplay {
 
-          RegisterView(IdentifiedTarget, 
-                       Implementation::IdentifiedTarget, 
+          RegisterView(TargetWithSelection, 
+                       Implementation::TargetWithSelection, 
                        TargetDisplayerViewPoint) ;
           
-          IdentifiedTarget::IdentifiedTarget(
-              Implementation::IdentifiedTarget* object,
+          TargetWithSelection::TargetWithSelection(
+              Implementation::TargetWithSelection* object,
               TargetDisplayerViewPoint* viewpoint)
-          : Kernel::TraitView<Implementation::IdentifiedTarget,TargetDisplayerViewPoint>(object,viewpoint),
+          : Kernel::TraitView<Implementation::TargetWithSelection,TargetDisplayerViewPoint>(object,viewpoint),
             m_target(NULL)
           {}
           
-          void IdentifiedTarget::onInit()
+          void TargetWithSelection::onInit()
           {
-            InternalMessage("Display","Entering IdentifiedTarget::onInit") ;
+            InternalMessage("Display","Entering TargetWithSelection::onInit") ;
             m_target = getObject()->getTrait<Implementation::Target>()->getView<Target>(getViewPoint()) ;
             m_target->_init() ;
             onUpdate() ;
-            InternalMessage("Display","Leaving IdentifiedTarget::onInit") ;
+            InternalMessage("Display","Leaving TargetWithSelection::onInit") ;
           }
           
-          void IdentifiedTarget::onClose()
+          void TargetWithSelection::onClose()
           {
-            InternalMessage("Display","Entering IdentifiedTarget::onClose") ;
+            InternalMessage("Display","Entering TargetWithSelection::onClose") ;
             Implementation::Target* target = getObject()->getTrait<Implementation::Target>() ;
             if (target)
             {
               m_target = target->getView<Target>(getViewPoint()) ;
               if (m_target)
               {
-                m_target->setTargetColour(::Ogre::ColourValue::White) ;
+                m_target->setTargetIdentification("") ;
               }
             }
-            InternalMessage("Display","Leaving IdentifiedTarget::onClose") ;
+            InternalMessage("Display","Leaving TargetWithSelection::onClose") ;
           }
           
-          void IdentifiedTarget::onUpdate()
+          void TargetWithSelection::onUpdate()
           {
-            InternalMessage("Display","Entering IdentifiedTarget::onUpdate") ;
-            // calculate colour
-            ::Ogre::ColourValue colour ;
-            if (Model::Transponder::areFriend(getObject(),getViewPoint()->getTargetingSystem()))
-            {
-              InternalMessage("Display","IdentifiedTarget::onUpdate friend") ;
-              colour = ::Ogre::ColourValue::Green ;
-            }
-            else if (Model::Transponder::areFoe(getObject(),getViewPoint()->getTargetingSystem()))
-            {
-              InternalMessage("Display","IdentifiedTarget::onUpdate enemy") ;
-              colour = ::Ogre::ColourValue::Red ;
-            }
-            else
-            {
-              InternalMessage("Display","IdentifiedTarget::onUpdate un-identified") ;
-              colour = ::Ogre::ColourValue::White ;
-            }
+            InternalMessage("Display","Entering TargetWithSelection::onUpdate") ;
             
-            m_target->setTargetColour(colour) ;
-
-            std::set<Implementation::IdealTarget*> ideal_targets = 
-                m_target->getObject()->getDescendants<Implementation::IdealTarget>() ;
-            for(std::set<Implementation::IdealTarget*>::iterator ideal_target = ideal_targets.begin() ;
-                ideal_target != ideal_targets.end() ;
-                ++ideal_target)
-            {
-              (*ideal_target)->getView<IdealTarget>(getViewPoint())->setColour(colour) ;
-            }
+            // display transponder code of the selected target
+            Model::TargetingSystem* system = getObject()->getTrait<Model::TargetingSystem>() ;
             
-            // display transponder code
-            Model::Transponder* transponder = getObject()->getTrait<Model::Transponder>() ;
+            if (!system || !system->getTarget())
+              return ;
+            
+            Model::Transponder* transponder = system->getTarget()->getTrait<Model::Transponder>() ;
             if (transponder)
             {
-              m_target->setIdentification(transponder->getCode()) ;
+              m_target->setTargetIdentification(transponder->getCode()) ;
             }
-            InternalMessage("Display","Leaving IdentifiedTarget::onUpdate") ;
+            InternalMessage("Display","Leaving TargetWithSelection::onUpdate") ;
           }
           
         }

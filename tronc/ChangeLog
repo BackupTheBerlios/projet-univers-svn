@@ -556,9 +556,37 @@
       some issues
     - added reticule/cursor display on TargetDisplayer
 
+2008-05-15 rogma
+
+  * ArtificialIntelligence :
+    - corrected a seg fault when closing module then closing Model (test added
+      in TestModelControler::build)
+    - made dependency clanlib optional (test_behaviour_display will not be 
+      built if clanlib is not present)  
+   - corrected a bug on DetectedVehicle : the position updating where wrong 
+      due to detection position being relative to computer 
+  * Model
+    - bug on Logic::Target, detected speed is relative to parent physical world
+      (test added)
+    - bug in some load tests : they relied on sequence in a set...
+    - added detection of targeted object
+    - added Team trait to represent teams
+    - modified Transponder trait, using Team trait and returning an 
+      identification code 
+    - added reference to Computer in ComputerData
+  * Display :
+    - removed circular dependency between display and displayogre
+    - added target identification + target targeting
+  * Physic : 
+    - changed to constant timestep, modified tests 
+    - modified collision system : mesh are approximated by their bouding sphere 
+      for solid collision but keep their form for solid/laser collision
+  
 @todo :
   
   * ArtificialIntelligence : 
+     - bug : when the first target is destroyed, the second one is not attacked
+     - bug : with two ships only : they are nor attacking each other
      
   * Model : 
 
@@ -620,12 +648,15 @@
       own world !! should not have any complication for movement except for 
       collision response. This could facilitate unit range to keep around one.
     - add deduced trait for solid controler : allow adding of solid trait 
-      before physical object 
-
+      before physical object
+    - be more precise than bounding sphere for collision : use bounding box for 
+      example 
+    
   * Sound : 
     - reconsider the implementation with the limitation 
     - perform platform dependent compilation for special sound effects
     - move deduced trait to sound::implementation level (i.e. one up) ??
+    - make efx optionnal
 
   * Kernel :
     - better errors on object structure

@@ -22,6 +22,8 @@
 #define PU_MODEL_COMPUTER_DATA_H_
 
 #include <kernel/trait.h>
+#include <kernel/object_reference.h>
+#include <kernel/object.h>
 
 namespace ProjetUnivers {
   namespace Model {
@@ -35,8 +37,15 @@ namespace ProjetUnivers {
     public:
       
       /// Constructs.
-      ComputerData() ;
+      ComputerData(Kernel::Object* computer) ;
+    
+      //: Access to computer
+      Kernel::Object* getComputer() const ;
       
+    private:
+      
+      /// The computer holding the data
+      Kernel::ObjectReference m_computer ;
     };
 
   }

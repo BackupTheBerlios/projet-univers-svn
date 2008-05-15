@@ -94,6 +94,11 @@ namespace ProjetUnivers {
       update(Model::Duration::Second(1)) ;
     }
 
+    
+    const float timestep = 0.02 ;
+    float elapsed = 0 ;
+    
+    
     void update(const Model::Duration& i_duration)    
     {
       float seconds = i_duration.Second() ;
@@ -101,10 +106,14 @@ namespace ProjetUnivers {
 //                << " m_system.get()=" << m_system.get()
 //                << " seconds=" << seconds
 //                << std::endl ;
-      if (initialised && m_system.get() && seconds != 0)
+      elapsed += seconds ;
+      if (initialised && m_system.get())
       {
-//        std::cout << "Physic::update" << std::endl ;
-        m_system->simulate(seconds) ;
+        while (elapsed > timestep)
+        {
+          m_system->simulate(timestep) ;
+          elapsed -= timestep ;
+        }
       }
     }
 

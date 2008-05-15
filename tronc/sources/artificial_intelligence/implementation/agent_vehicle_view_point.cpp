@@ -18,80 +18,26 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_DISPLAY_TEST_MODEL_VIEW_H_
-#define PU_DISPLAY_TEST_MODEL_VIEW_H_
-
-#include <cppunit/extensions/HelperMacros.h>
+#include <kernel/log.h>
+#include <model/model.h>
+#include <artificial_intelligence/implementation/agent.h>
+#include <artificial_intelligence/implementation/agent_vehicle_view_point.h>
 
 namespace ProjetUnivers {
-  namespace Display {
-    namespace Test {
-            
-      /// Global testing of this viewpoint.
-      class TestModelView : public CppUnit::TestFixture {
-      protected:
+  namespace ArtificialIntelligence {
+    namespace Implementation {
       
-        
-      /*! 
-        @name Tests
-      */ 
-      // @{
-        
-        /// Basic test, mainly to check against seg fault.
-        void testConstruct() ;
+      AgentVehicleViewPoint::AgentVehicleViewPoint(Agent* agent)
+      : Kernel::ViewPoint(agent?agent->getObject()->getModel():NULL),
+        m_agent(agent)
+      {}
 
-        /// Build a viewpoint and then destroy the observer.
-        /*!
-          created a seg fault
-        */
-        void destroyObserver() ;
-        
-        /// Select a target and display it
-        void selectedTarget() ;
-        
-        /// Display an ideal target
-        void displayIdealTarget() ;
-        
-        
-      // @}
-        /*! 
-          @name Tests registration
-        */ 
-        // @{
-    
-        CPPUNIT_TEST_SUITE(TestModelView) ;
+      void AgentVehicleViewPoint::setVehicle(Vehicle* vehicle)
+      {
+          m_agent->setVehicle(vehicle) ;
+      }
       
-//        CPPUNIT_TEST(testConstruct) ;
-//        CPPUNIT_TEST(destroyObserver) ;
-        CPPUNIT_TEST(selectedTarget) ;
-        CPPUNIT_TEST(displayIdealTarget) ;
       
-        CPPUNIT_TEST_SUITE_END() ;
-
-      public:
-  
-      // @}
-        /*! 
-          @name Mandatory methods
-        */ 
-        // @{
-
-      
-        /// Initialisation du test
-        void setUp() ;
-      
-        /// Desinitialisation du test
-        void tearDown() ;
-      
-      // @}      
-                
-       
-      
-      };
-
     }
   }
 }
-
-
-#endif

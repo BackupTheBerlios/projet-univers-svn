@@ -18,80 +18,49 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_DISPLAY_TEST_MODEL_VIEW_H_
-#define PU_DISPLAY_TEST_MODEL_VIEW_H_
+#ifndef PU_MODEL_TEAM_H_
+#define PU_MODEL_TEAM_H_
 
-#include <cppunit/extensions/HelperMacros.h>
+#include <string>
+
+#include <kernel/trait.h>
+#include <kernel/reader.h>
 
 namespace ProjetUnivers {
-  namespace Display {
-    namespace Test {
-            
-      /// Global testing of this viewpoint.
-      class TestModelView : public CppUnit::TestFixture {
-      protected:
-      
-        
-      /*! 
-        @name Tests
-      */ 
-      // @{
-        
-        /// Basic test, mainly to check against seg fault.
-        void testConstruct() ;
+  namespace Model {
 
-        /// Build a viewpoint and then destroy the observer.
-        /*!
-          created a seg fault
-        */
-        void destroyObserver() ;
-        
-        /// Select a target and display it
-        void selectedTarget() ;
-        
-        /// Display an ideal target
-        void displayIdealTarget() ;
-        
-        
-      // @}
-        /*! 
-          @name Tests registration
-        */ 
-        // @{
-    
-        CPPUNIT_TEST_SUITE(TestModelView) ;
-      
-//        CPPUNIT_TEST(testConstruct) ;
-//        CPPUNIT_TEST(destroyObserver) ;
-        CPPUNIT_TEST(selectedTarget) ;
-        CPPUNIT_TEST(displayIdealTarget) ;
-      
-        CPPUNIT_TEST_SUITE_END() ;
+    /// Represents a team.
+    /*!
+    */
+    class Team : public Kernel::Trait
+    {
+    public:
 
-      public:
-  
-      // @}
-        /*! 
-          @name Mandatory methods
-        */ 
-        // @{
+      /// Constructs with a name.
+      Team(const std::string& name) ;
+      
+      /// Constructs.
+      Team() ;
 
+      /// Read a Team trait.
+      /*!
+        stored as 
+        @code
+          <Team [name="name"]\>
+        @endcode
+      */     
+      static Kernel::Trait* read(Kernel::Reader* reader) ;
       
-        /// Initialisation du test
-        void setUp() ;
+      const std::string& getName() const ;
       
-        /// Desinitialisation du test
-        void tearDown() ;
-      
-      // @}      
-                
-       
-      
-      };
+    private:
 
-    }
+      /// Team name.
+      std::string m_name ;
+      
+    };
+
   }
 }
 
-
-#endif
+#endif /*PU_MODEL_TEAM_H_*/

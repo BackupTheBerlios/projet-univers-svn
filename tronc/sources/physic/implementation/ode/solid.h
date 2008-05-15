@@ -78,8 +78,11 @@ namespace ProjetUnivers {
           virtual const Kernel::BaseControler* getControler() const ;
         
           /// Internal creation of a trimesh geometry.
-          virtual void createGeometry(const dSpaceID& i_space) ;
+          virtual void createGeometry(const dSpaceID& space) ;
         
+          /// Internal creation of an appximated geometry.
+          virtual void createApproximatedGeometry(const dSpaceID& space) ;
+          
         private:
           
           

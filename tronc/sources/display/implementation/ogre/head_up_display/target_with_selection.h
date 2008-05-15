@@ -18,80 +18,61 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_DISPLAY_TEST_MODEL_VIEW_H_
-#define PU_DISPLAY_TEST_MODEL_VIEW_H_
+#ifndef PU_DISPLAY_IMPLEMENTATION_OGRE_HUD_TARGET_WITH_SELECTION_H_
+#define PU_DISPLAY_IMPLEMENTATION_OGRE_HUD_TARGET_WITH_SELECTION_H_
 
-#include <cppunit/extensions/HelperMacros.h>
+#include <Ogre.h>
+#include <kernel/trait_view.h>
+#include <display/implementation/target_with_selection.h>
+#include <display/implementation/ogre/head_up_display/target_displayer_viewpoint.h>
 
 namespace ProjetUnivers {
   namespace Display {
-    namespace Test {
-            
-      /// Global testing of this viewpoint.
-      class TestModelView : public CppUnit::TestFixture {
-      protected:
-      
-        
-      /*! 
-        @name Tests
-      */ 
-      // @{
-        
-        /// Basic test, mainly to check against seg fault.
-        void testConstruct() ;
+    namespace Implementation {
+      namespace Ogre {
+        namespace HeadUpDisplay {
 
-        /// Build a viewpoint and then destroy the observer.
-        /*!
-          created a seg fault
-        */
-        void destroyObserver() ;
-        
-        /// Select a target and display it
-        void selectedTarget() ;
-        
-        /// Display an ideal target
-        void displayIdealTarget() ;
-        
-        
-      // @}
-        /*! 
-          @name Tests registration
-        */ 
-        // @{
-    
-        CPPUNIT_TEST_SUITE(TestModelView) ;
-      
-//        CPPUNIT_TEST(testConstruct) ;
-//        CPPUNIT_TEST(destroyObserver) ;
-        CPPUNIT_TEST(selectedTarget) ;
-        CPPUNIT_TEST(displayIdealTarget) ;
-      
-        CPPUNIT_TEST_SUITE_END() ;
-
-      public:
+          class Target ;
+          
+          class TargetWithSelection : 
+            public Kernel::TraitView<Implementation::TargetWithSelection,
+                                     TargetDisplayerViewPoint>
+          {
+          public:
+          
+          /*! 
+            @name Construct
+          */ 
+          // @{
   
-      // @}
-        /*! 
-          @name Mandatory methods
-        */ 
-        // @{
+            /// Constructor.
+            TargetWithSelection(Implementation::TargetWithSelection* object,
+                                TargetDisplayerViewPoint*            viewpoint) ;
+          // @}
+        protected:
+          /*!
+            @name Updates
+          */
+          // @{
+          
+            /// Set target of the associated Target.
+            void onInit() ;
+            
+            /// Remove target of the associated Target.
+            void onClose() ;
+          
+            /// Set target of the associated Target.
+            void onUpdate() ;
+  
+          // @}
+          private:
 
-      
-        /// Initialisation du test
-        void setUp() ;
-      
-        /// Desinitialisation du test
-        void tearDown() ;
-      
-      // @}      
-                
-       
-      
-      };
-
+            /// The target view to update.
+            Target* m_target ;
+          };
+        }
+      }
     }
   }
 }
-
-
-#endif
+#endif /*PU_DISPLAY_IMPLEMENTATION_OGRE_HUD_TARGET_WITH_SELECTION_H_*/

@@ -23,7 +23,8 @@
 namespace ProjetUnivers {
   namespace Model {
     
-    IdealTarget::IdealTarget()
+    IdealTarget::IdealTarget(Kernel::Object* computer)
+    : ComputerData(computer)
     {}
     
   }

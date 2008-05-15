@@ -16,7 +16,9 @@ $(SOURCES)/display/implementation/display.cpp \
 $(SOURCES)/display/implementation/explosion.cpp \
 $(SOURCES)/display/implementation/target.cpp \
 $(SOURCES)/display/implementation/ideal_target.cpp \
-$(SOURCES)/display/implementation/identified_target.cpp 
+$(SOURCES)/display/implementation/identified_target.cpp \
+$(SOURCES)/display/implementation/target_with_selection.cpp 
+
 
 libdisplay_la_LDFLAGS = -no-undefined
 libdisplay_la_LDFLAGS += \

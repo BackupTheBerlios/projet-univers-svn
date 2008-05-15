@@ -59,17 +59,20 @@ namespace ProjetUnivers {
 
       void AgentViewPoint::addVehicle(Vehicle* vehicle)
       {
-        m_agent->addVehicle(vehicle) ;
+        if (m_agent)
+          m_agent->addVehicle(vehicle) ;
       }
       
       void AgentViewPoint::removeVehicle(Vehicle* vehicle) 
       {
-        m_agent->removeVehicle(vehicle) ;
+        if (m_agent)
+          m_agent->removeVehicle(vehicle) ;
       }
       
       void AgentViewPoint::setTarget(Vehicle* vehicle)
       {
-        m_agent->setTarget(vehicle) ;
+        if (m_agent)
+          m_agent->setTarget(vehicle) ;
       }
       
       Kernel::Object* AgentViewPoint::getAgent() const
@@ -86,7 +89,8 @@ namespace ProjetUnivers {
 
       void AgentViewPoint::setVehicle(Vehicle* vehicle)
       {
-        m_agent->setVehicle(vehicle) ;
+        if (m_agent)
+          m_agent->setVehicle(vehicle) ;
       }
       
       

@@ -24,7 +24,8 @@
 namespace ProjetUnivers {
   namespace Model {
     
-    DetectionData::DetectionData()
+    DetectionData::DetectionData(Kernel::Object* computer)
+    : ComputerData(computer)
     {}
   }
 }

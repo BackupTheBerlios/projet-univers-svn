@@ -35,7 +35,7 @@ $(SOURCES)/kernel/implementation/xml_reader.cpp
 
 
 libkernel_la_LDFLAGS = -no-undefined
-libkernel_la_LDFLAGS += $(librlog_LIBS)
+libkernel_la_LDFLAGS += $(librlog_LIBS) $(libXML_LIBS)
 
 # tests
 

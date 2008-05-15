@@ -143,10 +143,23 @@ namespace ProjetUnivers {
 
         std::set<Kernel::Object*> roots(model->getRoots()) ;
         CPPUNIT_ASSERT(roots.size() == 2) ;
-        Kernel::Object* root = *roots.begin() ;
-        CPPUNIT_ASSERT(root->getTrait<Detector>()) ;
-        CPPUNIT_ASSERT(root->getTrait<Detector>()->getRange().Meter() == 5) ;
-        CPPUNIT_ASSERT(root->getTrait<Detector>()->getComputer()) ;
+
+        bool exist_detector = false ;
+        
+        for (std::set<Kernel::Object*>::iterator current = roots.begin() ;
+             current != roots.end() ;
+             ++current)
+        {
+          Kernel::Object* object = *current ;
+          if (object->getTrait<Detector>())
+          {
+            exist_detector = true ;
+            CPPUNIT_ASSERT(object->getTrait<Detector>()->getRange().Meter() == 5) ;
+            CPPUNIT_ASSERT(object->getTrait<Detector>()->getComputer()) ;
+          }
+        }
+
+        CPPUNIT_ASSERT(exist_detector) ;
       }
 
       void TestLoad::testLoadDragger()
@@ -194,15 +207,28 @@ namespace ProjetUnivers {
 
         std::set<Kernel::Object*> roots(model->getRoots()) ;
         CPPUNIT_ASSERT(roots.size() == 3) ;
-        std::set<Kernel::Object*>::iterator current = roots.begin() ; 
-        Kernel::Object* engine = *current ;
-        ++current ;
-        CPPUNIT_ASSERT(engine->getTrait<Engine>()) ;
-        Kernel::Object* engine_controler = *current ;
-        ++current ;
-        CPPUNIT_ASSERT(engine_controler->getTrait<EngineControler>()) ;
-        Kernel::Object* throttle = *current ;
-        CPPUNIT_ASSERT(throttle->getTrait<Throttle>()) ;
+        
+        bool exist_engine = false ;
+        bool exist_engine_controler = false ;
+        bool exist_throttle = false ;
+        
+        for (std::set<Kernel::Object*>::iterator current = roots.begin() ;
+             current != roots.end() ;
+             ++current)
+        {
+          Kernel::Object* object = *current ;
+          
+          if (object->getTrait<Engine>())
+            exist_engine = true ;
+          if (object->getTrait<EngineControler>())
+            exist_engine_controler = true ;
+          if (object->getTrait<Throttle>())
+            exist_throttle = true ;
+        }
+          
+        CPPUNIT_ASSERT(exist_engine) ;
+        CPPUNIT_ASSERT(exist_engine_controler) ;
+        CPPUNIT_ASSERT(exist_throttle) ;
       }
       
       void TestLoad::testLoadForceGenerator()

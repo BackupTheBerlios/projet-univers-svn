@@ -77,7 +77,7 @@ namespace ProjetUnivers {
 
         void TargetDisplayer::onInit()
         {
-          m_implementation = addViewPoint(
+          m_implementation.reset(
                 new HeadUpDisplay::TargetDisplayerViewPoint(getObject(),
                                                             getViewPoint())) ;
           m_implementation->init() ;
@@ -112,9 +112,9 @@ namespace ProjetUnivers {
         
         void TargetDisplayer::onClose()
         {
-          if (m_implementation)
+          if (m_implementation.get())
           {
-            removeViewPoint(m_implementation) ;
+            m_implementation.reset() ;
           }
           if (m_reticule_container)
           {

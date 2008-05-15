@@ -1405,6 +1405,60 @@ namespace ProjetUnivers {
         
         model->destroyObject(object1) ;
       }
+
+      namespace 
+      {
+        class TraitDestroyViewPoint : public Trait
+        {};
+
+        class ViewPointDestroyViewPoint : public ViewPoint
+        {
+        public:
+          ViewPointDestroyViewPoint(Model* model)
+          : ViewPoint(model)
+          {}
+          
+          void setValue(int i)
+          {
+            m_value = i ;
+          }
+          
+        private:
+          
+          int m_value ;
+        };
+        
+        class ViewDestroyViewPoint : public TraitView<TraitDestroyViewPoint,ViewPointDestroyViewPoint>
+        {
+        public:
+
+          ViewDestroyViewPoint(TraitDestroyViewPoint* i_trait,ViewPointDestroyViewPoint* i_viewpoint)
+          : TraitView<TraitDestroyViewPoint,ViewPointDestroyViewPoint>(i_trait,i_viewpoint)
+          {}
+          
+          /// Called just before the view is destroyed.
+          void onClose()
+          {
+            getViewPoint()->setValue(1) ;
+          }
+      
+        };
+
+        RegisterView(ViewDestroyViewPoint,TraitDestroyViewPoint,ViewPointDestroyViewPoint) ;
+        
+      }
+      
+      void TestModelView::detroyViewPoint()
+      {
+        /// create a model
+        std::auto_ptr<Model> model(new Model("TestModelView::destroyObjectWithDeducedTraits")) ;
+        {
+          std::auto_ptr<ViewPointDestroyViewPoint> viewpoint(new ViewPointDestroyViewPoint(model.get())) ;
+          
+          Object* object = model->createObject() ;
+          model->addTrait(object,new TraitDestroyViewPoint()) ;
+        }
+      }
       
       void TestModelView::setUp()
       {

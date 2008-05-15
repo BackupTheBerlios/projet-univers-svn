@@ -199,19 +199,20 @@ namespace ProjetUnivers {
           if(CEGUISystem)
           {
             delete CEGUISystem;
-            CEGUISystem = 0;
+            CEGUISystem = NULL ;
           }
           
           if(CEGUIRenderer)
           {
             delete CEGUIRenderer;
-            CEGUIRenderer = 0;
+            CEGUIRenderer = NULL ;
           }
 
           /// @see http://www.ogre3d.org/phpBB2/viewtopic.php?t=35372
           if (window)
           {
             ::Ogre::WindowEventUtilities::_removeRenderWindow(window) ;
+            window = NULL ;
           }
           
           if (root)
@@ -226,6 +227,7 @@ namespace ProjetUnivers {
             log_manager = NULL ;
           }
             
+          m_overlay= NULL ;
           
           InternalMessage("Display","...Ogre stopped") ;
           

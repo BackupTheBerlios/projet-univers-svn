@@ -26,6 +26,7 @@
 #include <model/mobile.h>
 #include <model/detection_data.h>
 #include <model/transponder.h>
+#include <model/targeting_system.h>
 #include <model/implementation/detector_object_view.h>
 
 namespace ProjetUnivers {
@@ -77,7 +78,7 @@ namespace ProjetUnivers {
             // create object 
             m_detection_information = computer->getMemoryModel()->createObject() ;
             computer->getMemoryModel()->addTrait(m_detection_information,
-                                                 new DetectionData()) ;
+                                                 new DetectionData(detector->getComputer())) ;
             computer->getMemoryModel()->addTrait(m_detection_information,
                                                  new Positionned()) ;
             computer->getMemoryModel()->addTrait(m_detection_information,
@@ -118,12 +119,12 @@ namespace ProjetUnivers {
             {
               // gained identification
               addTrait(m_detection_information,
-                       new Transponder(identified->getCode())) ;
+                       new Transponder(*identified)) ;
             }
             else if (identifedData->getCode() != identified->getCode())
             {
               // changed identification
-              identifedData->setCode(identified->getCode()) ;
+              identifedData->setCode(identified) ;
             }
           }
           else if (identifedData)
@@ -132,7 +133,40 @@ namespace ProjetUnivers {
             destroyTrait(m_detection_information,identifedData) ;
           }
 
+          // update Targetting
+          std::set<TargetingSystem*> systems = getObject()->getChildren<TargetingSystem>() ;
+          TargetingSystem* system_data = 
+              m_detection_information->getTrait<TargetingSystem>() ;
+          
+          if (systems.size() == 1)
+          {
+            TargetingSystem* system = *(systems.begin()) ;
+            
+            if (! system_data)
+            {
+              // gained identification
+              addTrait(m_detection_information,
+                       new TargetingSystem()) ;
+              
+              m_detection_information->getTrait<TargetingSystem>()->m_target =
+                system->getTarget() ;
+              m_detection_information->getTrait<TargetingSystem>()->notify() ;
+            }
+            else if (system_data->getTarget() != system->getTarget())
+            {
+              // changed selection
+              system_data->m_target = system->getTarget() ;
+              system_data->notify() ;
+            }
+          }
+          else if (system_data)
+          {
+            // lost targeting system
+            destroyTrait(m_detection_information,system_data) ;
+          }
+          
         }
+        
         
         InternalMessage("Model","Model::DetectorObjectView::check leaving") ;
       }

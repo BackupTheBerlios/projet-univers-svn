@@ -151,12 +151,13 @@ namespace ProjetUnivers {
           CHECK(massive,"PhysicalObject::updateMassive no Massive trait") ;
           Model::Mass mass = massive->getMass() ;
           
-//          dMass ode_mass ;
-//          m_body->getMass(&ode_mass) ;
+          dMass ode_mass ;
+          m_body->getMass(&ode_mass) ;
+          ode_mass.adjust(mass.Kilogram()) ;
 //          
 //          std::cout << "mass = " << ode_mass.mass << std::endl ;
           
-          //m_body->setMass(mass.Kilogram())
+          m_body->setMass(&ode_mass) ;
           
         }
         

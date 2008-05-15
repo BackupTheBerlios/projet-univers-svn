@@ -40,9 +40,24 @@ namespace ProjetUnivers {
       }
 
       bool Joystick::buttonPressed(
-        const OIS::JoyStickEvent&,
-        int)
+        const OIS::JoyStickEvent& event,
+        int                       button)
       {
+        if (Kernel::Parameters::getValue<bool>("Input","PrintButtons"))
+        {
+          std::cout << "button pressed =" << button << std::endl ;
+        }
+        if (m_controled_object)
+        {
+          switch (button)
+          {
+          case 0:
+            m_controled_object->call("fire") ;
+            break ;
+          default:
+            break ;
+          }
+        }
         return true ;
       }
       

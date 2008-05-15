@@ -25,6 +25,8 @@
 #include <model/solid.h>
 #include <model/mobile.h>
 #include <model/physical_world.h>
+#include <model/computer.h>
+#include <model/detection_data.h>
 #include <artificial_intelligence/implementation/detected_vehicle.h>
 
 namespace ProjetUnivers {
@@ -83,12 +85,15 @@ namespace ProjetUnivers {
       {
         Kernel::Object* agent =  getViewPoint()->getAgent() ;
         Kernel::Object* ship = Model::getControledShip(agent) ;
+        
+        Model::Computer* computer = getObject()->getTrait<Model::DetectionData>()
+                                    ->getComputer()->getTrait<Model::Computer>() ;
+        
         Kernel::Object* physical_world = ship->getAncestor<Model::PhysicalWorld>()
                                          ->getObject() ;
-        
-        const Model::Position& position = 
-            getObject()->getTrait<Model::Positionned>()->getPosition() +   
-            ship->getParent<Model::Positionned>()->getPosition(physical_world) ;
+
+        Model::Position position 
+          = computer->getDataPosition(getObject(),physical_world) ;
         
         return position.Meter() ;
       }

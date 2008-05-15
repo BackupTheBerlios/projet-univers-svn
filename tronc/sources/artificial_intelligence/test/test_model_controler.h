@@ -60,6 +60,16 @@ namespace ProjetUnivers {
         */
         void attackAllEnemies() ;
         
+        /// Two agents attacking each other.
+        void twoShips() ;
+        
+        /// Two teams attacking each other
+        /*!
+          Foirst team must win because they are twice 2 against 1
+        */
+        void groupAttack() ;
+        
+        
       // @}
 
 
@@ -69,6 +79,8 @@ namespace ProjetUnivers {
         CPPUNIT_TEST(simulate) ;
         CPPUNIT_TEST(buildWithoutElements) ;
         CPPUNIT_TEST(attackAllEnemies) ;
+        CPPUNIT_TEST(twoShips) ;
+        CPPUNIT_TEST(groupAttack) ;
         
         CPPUNIT_TEST_SUITE_END() ;
 

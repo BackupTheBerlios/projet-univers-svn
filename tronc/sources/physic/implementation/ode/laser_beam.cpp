@@ -69,7 +69,13 @@ namespace ProjetUnivers {
           /*!
             @todo dealt with hardcoded values
           */
-          m_geometry_id = dCreateBox(i_space,1,1,14) ;
+          m_geometry1 = dCreateBox(i_space,1,1,14) ;
+          dGeomSetCollideBits(m_geometry1,(unsigned long)Collideable::Laser) ;
+        }
+        
+        void LaserBeam::createApproximatedGeometry(const dSpaceID& space)
+        {
+          createGeometry(space) ;
         }
         
         const Kernel::BaseControler* LaserBeam::getControler() const

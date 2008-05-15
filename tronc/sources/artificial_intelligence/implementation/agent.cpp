@@ -29,6 +29,7 @@
 #include <model/shootable.h>
 #include <artificial_intelligence/implementation/steering_behaviour.h>
 #include <artificial_intelligence/implementation/agent_vehicle.h>
+#include <artificial_intelligence/implementation/agent_vehicle_view_point.h>
 #include <artificial_intelligence/implementation/agent_view_point.h>
 #include <artificial_intelligence/implementation/agent.h>
 
@@ -58,9 +59,12 @@ namespace ProjetUnivers {
         InternalMessage("AI","building Agent") ;
         m_view_point.reset(new AgentViewPoint(this)) ;
         m_view_point->init() ;
+        m_vehicle_view_point.reset(new AgentVehicleViewPoint(this)) ;
+        m_vehicle_view_point->init() ;
+        
         getObject()->getModel()->addManualView(new AgentVehicle(
             Model::getControledShip(getObject())->getTrait<Model::PhysicalObject>(),
-            m_view_point.get())) ;
+            m_vehicle_view_point.get())) ;
         
         InternalMessage("AI","built Agent") ;
       }
@@ -68,6 +72,7 @@ namespace ProjetUnivers {
       void Agent::onClose()
       {
         m_view_point.reset(NULL) ;
+        m_vehicle_view_point.reset(NULL) ;
       }
 
       void Agent::onUpdate()
@@ -138,6 +143,7 @@ namespace ProjetUnivers {
           // if no enemy selected select one
           if (!target)
           {
+            InternalMessage("Agent","selecting new enemy") ;
             getTargetingSystem()->getTrait<Model::TargetingSystem>()->selectNearestEnemy() ;
           }
 
@@ -145,6 +151,10 @@ namespace ProjetUnivers {
           if (m_target)
           {
             m_steering += SteeringBehaviour::offsetPursuit(*m_vehicle,*m_target,m_target->getRadius()*2) ;
+          }
+          else
+          {
+            m_steering += SteeringBehaviour::idle(*m_vehicle) ;
           }
           
           // if in range shoot
@@ -295,7 +305,7 @@ namespace ProjetUnivers {
           m_max_steering_speed = fabs((delta_speed/float(m_delta_throttle))/seconds_since_last_frame) ;
         }
         
-        if (m_max_steering_speed == 0)
+        if (m_max_steering_speed == 0 || !finite(m_max_steering_speed))
           m_max_steering_speed = 1 ;
         
         InternalMessage("Agent","calibration m_max_steering_X=" + Kernel::toString(m_max_steering_X.valueDegrees())) ;

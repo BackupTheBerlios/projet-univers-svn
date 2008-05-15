@@ -35,6 +35,7 @@ namespace ProjetUnivers {
 
       class Behaviour ;
       class AgentViewPoint ;
+      class AgentVehicleViewPoint ;
       
       /// An autonomous agent controler
       class Agent : public Kernel::Controler<AutonomousAgent,AISystem>
@@ -89,8 +90,12 @@ namespace ProjetUnivers {
         /// Current target.
         Vehicle* m_target ;
         
+        /// A view point for detection data
         std::auto_ptr<AgentViewPoint> m_view_point ;
 
+        /// A view point for its vehicle
+        std::auto_ptr<AgentVehicleViewPoint> m_vehicle_view_point ;
+        
         /// Execute the given objective.
         /*!
           Either send direct command to object or caclulate m_steering. 

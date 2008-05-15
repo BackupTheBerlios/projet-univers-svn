@@ -24,7 +24,7 @@
 #include <OgreVector3.h>
 #include <kernel/trait_view.h>
 #include <model/physical_object.h>
-#include <artificial_intelligence/implementation/agent_view_point.h>
+#include <artificial_intelligence/implementation/agent_vehicle_view_point.h>
 
 namespace ProjetUnivers {
   namespace ArtificialIntelligence {
@@ -37,12 +37,13 @@ namespace ProjetUnivers {
       /*!
         A manual view.
       */
-      class AgentVehicle : public Kernel::TraitView<Model::PhysicalObject,AgentViewPoint>
+      class AgentVehicle : public Kernel::TraitView<Model::PhysicalObject,
+                                                    AgentVehicleViewPoint>
       {
       public:
       
         /// Constructor.
-        AgentVehicle(Model::PhysicalObject*,AgentViewPoint*) ;
+        AgentVehicle(Model::PhysicalObject*,AgentVehicleViewPoint*) ;
         
         /// Build the associated vehicle
         virtual void onInit() ;

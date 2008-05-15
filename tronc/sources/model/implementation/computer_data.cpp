@@ -24,9 +24,14 @@ namespace ProjetUnivers {
   namespace Model {
     
 
-    ComputerData::ComputerData()
-    : Trait()
+    ComputerData::ComputerData(Kernel::Object* computer)
+    : Trait(),
+      m_computer(computer)
     {}
 
+    Kernel::Object* ComputerData::getComputer() const 
+    {
+      return m_computer ;
+    }
   }
 }

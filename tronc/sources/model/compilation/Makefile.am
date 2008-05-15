@@ -72,6 +72,7 @@ libmodel_la_SOURCES = \
 ../implementation/with_objectives.cpp \
 ../implementation/shootable.cpp \
 ../implementation/sized.cpp \
+../implementation/team.cpp \
 ../implementation/logic/logic.cpp \
 ../implementation/logic/with_lifetime.cpp \
 ../implementation/logic/logic_system.cpp \

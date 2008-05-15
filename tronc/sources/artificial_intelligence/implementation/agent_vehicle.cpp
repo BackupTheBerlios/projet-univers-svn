@@ -31,8 +31,8 @@ namespace ProjetUnivers {
   namespace ArtificialIntelligence {
     namespace Implementation {
 
-      AgentVehicle::AgentVehicle(Model::PhysicalObject* object,AgentViewPoint* viewpoint)
-      : Kernel::TraitView<Model::PhysicalObject,AgentViewPoint>(object,viewpoint)
+      AgentVehicle::AgentVehicle(Model::PhysicalObject* object,AgentVehicleViewPoint* viewpoint)
+      : Kernel::TraitView<Model::PhysicalObject,AgentVehicleViewPoint>(object,viewpoint)
       {}
       
       void AgentVehicle::onInit()
