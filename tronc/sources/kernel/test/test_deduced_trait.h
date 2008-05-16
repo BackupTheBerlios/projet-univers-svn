@@ -70,6 +70,12 @@ namespace ProjetUnivers {
         */
         void notifyOnNotAssignedTrait() ;
         
+        /// Test getLatestUpdatedTrait with a view updating a trait of the object.
+        /*!
+          Test a bug found on getLatestUpdatedTrait.
+        */
+        void testGetLatestUpdatedTrait() ;
+        
       // @}
 
 
@@ -82,6 +88,7 @@ namespace ProjetUnivers {
         CPPUNIT_TEST(testCompositeWithDeduced) ;
         CPPUNIT_TEST(testDeducedTraitViews) ;
         CPPUNIT_TEST(notifyOnNotAssignedTrait) ;
+        CPPUNIT_TEST(testGetLatestUpdatedTrait) ;
 
         CPPUNIT_TEST_SUITE_END() ;
 

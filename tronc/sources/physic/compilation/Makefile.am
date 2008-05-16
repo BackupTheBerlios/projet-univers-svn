@@ -36,10 +36,10 @@ test_physic_SOURCES = \
 test_physic_CXXFLAGS = $(CPPUNIT_CFLAGS) $(PU_CXXFLAGS)
 test_physic_LDFLAGS = $(CPPUNIT_LIBS)
 test_physic_LDADD = \
+../../kernel/compilation/libkernel.la \
+../../model/compilation/libmodel.la \
 libphysic.la \
 ode/libphysicode.la \
-../../model/compilation/libmodel.la \
-../../kernel/compilation/libkernel.la \
 $(OIS_LIBS) \
 $(librlog_LIBS) \
 $(OGRE_LIBS) \

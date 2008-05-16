@@ -38,22 +38,13 @@
 namespace ProjetUnivers {
   namespace Kernel {
 
-    /// static storage
-    std::multimap<
-        TypeIdentifier,
-        std::pair<TypeIdentifier,Trait::ViewBuilder> > Trait::m_view_builders ;
- 
-    std::map<std::pair<TypeIdentifier,TypeIdentifier>,
-             TypeIdentifier>                         Trait::m_trait_of_view ;
+    Trait::StaticStorage* Trait::StaticStorage::get()
+    {
+      static StaticStorage instance ;
+      return &instance ;
+    }
 
-    std::multimap<
-      TypeIdentifier,
-      std::pair<TypeIdentifier,Trait::ControlerBuilder> > Trait::m_controler_builders ;
-      
-    std::map<std::pair<TypeIdentifier,TypeIdentifier>,
-             TypeIdentifier>                 Trait::m_trait_of_controler ;
-
-    TypeIdentifier Trait::m_latest_updated_trait ;
+    std::stack<TypeIdentifier> Trait::m_latest_updated_trait ;
 
     Object* Trait::getObject() const
     {
@@ -183,14 +174,15 @@ namespace ProjetUnivers {
         /// search for builders on that viewpoint
         std::multimap<TypeIdentifier,
                       std::pair<TypeIdentifier,ViewBuilder> >::const_iterator
-          finder = m_view_builders.lower_bound(viewpointType) ;
+          finder = StaticStorage::get()->m_view_builders.lower_bound(viewpointType) ;
         
         
-        if (finder != m_view_builders.end() && finder->first == viewpointType)
+        if (finder != StaticStorage::get()->m_view_builders.end() && 
+            finder->first == viewpointType)
         {
           std::multimap<TypeIdentifier,
                         std::pair<TypeIdentifier,ViewBuilder> >::const_iterator
-            last = m_view_builders.upper_bound(viewpointType) ;
+            last = StaticStorage::get()->m_view_builders.upper_bound(viewpointType) ;
           
           /// apply builder for each trait this belongs
           while(finder != last)
@@ -237,14 +229,17 @@ namespace ProjetUnivers {
         /// search for builders on that controler set
         std::multimap<TypeIdentifier,
                       std::pair<TypeIdentifier,ControlerBuilder> >::const_iterator
-          finder = m_controler_builders.lower_bound(controlersetType) ;
+          finder = StaticStorage::get()
+                   ->m_controler_builders.lower_bound(controlersetType) ;
         
         
-        if (finder != m_controler_builders.end() && finder->first == controlersetType)
+        if (finder != StaticStorage::get()->m_controler_builders.end() && 
+            finder->first == controlersetType)
         {
           std::multimap<TypeIdentifier,
                         std::pair<TypeIdentifier,ControlerBuilder> >::const_iterator
-            last = m_controler_builders.upper_bound(controlersetType) ;
+            last = StaticStorage::get()
+                   ->m_controler_builders.upper_bound(controlersetType) ;
           
           /// apply builder for each trait this belongs
           while(finder != last)
@@ -432,7 +427,7 @@ namespace ProjetUnivers {
                                 const TypeIdentifier& _viewpoint,
                                 ViewBuilder _builder)
     {
-      m_view_builders.insert(
+      StaticStorage::get()->m_view_builders.insert(
         std::pair<TypeIdentifier,std::pair<TypeIdentifier,ViewBuilder> >
           (_viewpoint, 
            std::pair<TypeIdentifier,ViewBuilder>(
@@ -445,10 +440,13 @@ namespace ProjetUnivers {
     {
       std::map<std::pair<TypeIdentifier,TypeIdentifier>,
                TypeIdentifier>::const_iterator        
-         trait = m_trait_of_view.find(std::make_pair<TypeIdentifier,TypeIdentifier>(
-                                                     i_view,i_viewpoint)) ;
+         trait = StaticStorage::get()
+                 ->m_trait_of_view.find(std::make_pair<TypeIdentifier,
+                                                       TypeIdentifier>(
+                                                                 i_view,
+                                                                 i_viewpoint)) ;
       
-      if (trait != m_trait_of_view.end())
+      if (trait != StaticStorage::get()->m_trait_of_view.end())
       {
         return trait->second ;
       }
@@ -460,7 +458,7 @@ namespace ProjetUnivers {
                                 const TypeIdentifier& i_viewpoint,
                                 const TypeIdentifier& i_trait)
     {
-      m_trait_of_view.insert(
+      StaticStorage::get()->m_trait_of_view.insert(
       std::pair<std::pair<TypeIdentifier,TypeIdentifier>,TypeIdentifier>
       (std::pair<TypeIdentifier,TypeIdentifier>(i_view,i_viewpoint),i_trait)) ;
       
@@ -470,7 +468,7 @@ namespace ProjetUnivers {
                                   const TypeIdentifier& i_controler_set_class,
                                   ControlerBuilder      i_builder)
     {
-      m_controler_builders.insert(
+      StaticStorage::get()->m_controler_builders.insert(
         std::pair<TypeIdentifier,std::pair<TypeIdentifier,ControlerBuilder> >
           (i_controler_set_class, 
            std::pair<TypeIdentifier,ControlerBuilder>(
@@ -481,17 +479,17 @@ namespace ProjetUnivers {
                                          const TypeIdentifier& i_controler_set_class,
                                          const TypeIdentifier& i_trait_class)
     {
-      m_trait_of_controler.insert(
+      StaticStorage::get()->m_trait_of_controler.insert(
       std::pair<std::pair<TypeIdentifier,TypeIdentifier>,TypeIdentifier>
       (std::pair<TypeIdentifier,TypeIdentifier>(i_controler_class,i_controler_set_class),i_trait_class)) ;
     }
  
     void Trait::notify()
     {
-      m_latest_updated_trait = getObjectTypeIdentifier(this) ;
+      m_latest_updated_trait.push(getObjectTypeIdentifier(this)) ;
       _updated() ;
       TraitFormula::updateTrait(getObject(),getObjectTypeIdentifier(this)) ;
-      m_latest_updated_trait = VoidTypeIdentifier ;
+      m_latest_updated_trait.pop() ;
     }
 
     void Trait::apply(
@@ -512,9 +510,10 @@ namespace ProjetUnivers {
     {
       std::map<std::pair<TypeIdentifier,TypeIdentifier>,
                TypeIdentifier>::const_iterator trait_identifier =  
-        m_trait_of_view.find(std::pair<TypeIdentifier,TypeIdentifier>(
+        StaticStorage::get()
+        ->m_trait_of_view.find(std::pair<TypeIdentifier,TypeIdentifier>(
                    i_view_type, i_viewpoint_type)) ;
-      if (trait_identifier != m_trait_of_view.end())
+      if (trait_identifier != StaticStorage::get()->m_trait_of_view.end())
       {
         return trait_identifier->second ;
       }
@@ -529,9 +528,9 @@ namespace ProjetUnivers {
       std::map<TypeIdentifier,
                std::map<std::string,
                         boost::function1<void,Trait*> > >::const_iterator 
-        group = m_void_commands.find(i_trait_type) ;
+        group = StaticStorage::get()->m_void_commands.find(i_trait_type) ;
       
-      if (group != m_void_commands.end())
+      if (group != StaticStorage::get()->m_void_commands.end())
       {
         std::map<std::string,boost::function1<void,Trait*> >::const_iterator 
           command = group->second.find(i_command) ;
@@ -558,9 +557,9 @@ namespace ProjetUnivers {
       std::map<TypeIdentifier,
                std::map<std::string,
                         boost::function2<void,Trait*,int> > >::const_iterator
-        group = m_int_commands.find(i_trait_type) ;
+        group = StaticStorage::get()->m_int_commands.find(i_trait_type) ;
       
-      if (group != m_int_commands.end())
+      if (group != StaticStorage::get()->m_int_commands.end())
       {
         std::map<std::string,boost::function2<void,Trait*,int> >::const_iterator 
           command = group->second.find(i_command) ;
@@ -588,9 +587,9 @@ namespace ProjetUnivers {
         std::map<TypeIdentifier,
                  std::map<std::string,
                           boost::function1<void,Trait*> > >::const_iterator 
-          group = m_void_commands.find(trait_type) ;
+          group = StaticStorage::get()->m_void_commands.find(trait_type) ;
         
-        if (group != m_void_commands.end())
+        if (group != StaticStorage::get()->m_void_commands.end())
         {
           for(std::map<std::string,boost::function1<void,Trait*> >::const_iterator
                 command = group->second.begin() ;
@@ -605,9 +604,9 @@ namespace ProjetUnivers {
         std::map<TypeIdentifier,
                  std::map<std::string,
                           boost::function2<void,Trait*,int> > >::const_iterator
-          group = m_int_commands.find(trait_type) ;
+          group = StaticStorage::get()->m_int_commands.find(trait_type) ;
         
-        if (group != m_int_commands.end())
+        if (group != StaticStorage::get()->m_int_commands.end())
         {
           
           for(std::map<std::string,boost::function2<void,Trait*,int> >::const_iterator
@@ -629,9 +628,9 @@ namespace ProjetUnivers {
       std::map<TypeIdentifier,
                std::map<std::string,
                         boost::function1<boost::any,Trait*> > >::const_iterator
-        group = m_functions.find(trait_type) ;
+        group = StaticStorage::get()->m_functions.find(trait_type) ;
       
-      if (group != m_functions.end())
+      if (group != StaticStorage::get()->m_functions.end())
       {
         std::map<std::string,boost::function1<boost::any,Trait*> >::const_iterator 
           command = group->second.find(function) ;
@@ -650,22 +649,6 @@ namespace ProjetUnivers {
       }
     }
 
-    std::map<TypeIdentifier,
-             std::map<std::string,
-                      boost::function1<void,Trait*> > > 
-      Trait::m_void_commands ;
-  
-    std::map<TypeIdentifier,
-             std::map<std::string,
-                      boost::function2<void,Trait*,int> > > 
-      Trait::m_int_commands ;
-
-    std::map<TypeIdentifier,
-             std::map<std::string,
-                      boost::function1<boost::any,Trait*> > > 
-      Trait::m_functions ;
-
-
     void Trait::_registerReference(BaseTraitReference* reference)
     {
       m_references.insert(reference) ;
@@ -676,11 +659,9 @@ namespace ProjetUnivers {
       m_references.erase(reference) ;
     }
 
-    std::map<std::string,Trait::ReaderFunction> Trait::m_readers ;
-
     void Trait::_registerReader(const std::string& name,ReaderFunction reader)
     {
-      m_readers[name] = reader ;
+      StaticStorage::get()->m_readers[name] = reader ;
     }
     
     Trait* Trait::read(Reader* reader)
@@ -688,9 +669,9 @@ namespace ProjetUnivers {
       if (reader && reader->isBeginNode() && reader->isTraitNode())
       {
         std::map<std::string,Trait::ReaderFunction>::const_iterator 
-          finder = m_readers.find(reader->getTraitName()) ;
+          finder = StaticStorage::get()->m_readers.find(reader->getTraitName()) ;
         
-        if (finder != m_readers.end())
+        if (finder != StaticStorage::get()->m_readers.end())
         {
           return finder->second(reader) ;
         }

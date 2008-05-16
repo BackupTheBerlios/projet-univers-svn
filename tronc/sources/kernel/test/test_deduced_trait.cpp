@@ -407,6 +407,245 @@ namespace ProjetUnivers {
         Trait1* trait = new Trait1() ;
         trait->change(10) ;
       }
+
+      namespace
+      {
+        
+        class Trait11 : public Trait
+        {
+        public:
+        
+          Trait11()
+          : Trait(), 
+            value(0)
+          {}
+        
+          void change(const int& i_new_value) 
+          {
+            value = i_new_value ;
+            notify() ;
+          }  
+          
+          int getValue() const
+          {
+            return value ;
+          }
+          
+        private:
+        
+          int value ;
+           
+        };
+
+        class Trait12 : public Trait
+        {
+        public:
+        
+          Trait12()
+          : Trait(), 
+            value(0)
+          {}
+        
+          void change(const int& i_new_value) 
+          {
+            value = i_new_value ;
+            notify() ;
+          }  
+          
+          int getValue() const
+          {
+            return value ;
+          }
+          
+        private:
+        
+          int value ;
+           
+        };
+        
+        class Trait13 : public Trait
+        {
+        public:
+        
+          Trait13()
+          : Trait(), 
+            value(0)
+          {}
+        
+          void change(const int& i_new_value) 
+          {
+            value = i_new_value ;
+            notify() ;
+          }  
+          
+          int getValue() const
+          {
+            return value ;
+          }
+          
+        private:
+        
+          int value ;
+           
+        };
+        
+        class Trait14 : public Trait
+        {
+        public:
+        
+          Trait14()
+          : Trait(), 
+            value(0)
+          {}
+        
+          void change(const int& i_new_value) 
+          {
+            value = i_new_value ;
+            notify() ;
+          }  
+          
+          int getValue() const
+          {
+            return value ;
+          }
+          
+        private:
+        
+          int value ;
+           
+        };
+
+        class Trait15 : public Trait
+        {
+        public:
+        
+          Trait15()
+          : Trait(), 
+            value(0)
+          {}
+        
+          void change(const int& i_new_value) 
+          {
+            value = i_new_value ;
+            notify() ;
+          }  
+          
+          int getValue() const
+          {
+            return value ;
+          }
+          
+        private:
+        
+          int value ;
+           
+        };
+        
+        class DeducedTrait11 : public Kernel::DeducedTrait
+        {};
+        DeclareDeducedTrait(DeducedTrait11,
+                            And(HasTrait(Trait11),
+                                HasTrait(Trait12),
+                                HasTrait(Trait13))) ;
+
+        class DeducedTrait12 : public Kernel::DeducedTrait
+        {}; 
+
+        /// A deduced trait.
+        DeclareDeducedTrait(DeducedTrait12,
+                            And(HasTrait(Trait11),
+                                HasTrait(Trait12))) ;
+        
+        class ViewPoint11 : public ViewPoint
+        {
+        public:
+          
+          ViewPoint11(Model* model)
+          : ViewPoint(model)
+          {}
+          
+        };
+        
+        class View11 : public TraitView<DeducedTrait11,ViewPoint11>
+        {
+        public:
+          View11(DeducedTrait11* i_trait, ViewPoint11* i_viewpoint)
+          : TraitView<DeducedTrait11,ViewPoint11>(i_trait,i_viewpoint)
+          {}
+          
+          TypeIdentifier m_latest_updated_trait ;
+          
+        protected:
+          
+          virtual void onUpdate()
+          {
+            m_latest_updated_trait = getTrait()->getLatestUpdatedTrait() ;
+            Trait15* trait = getObject()->getTrait<Trait15>() ;
+            if (trait)
+              trait->change(2) ;
+            else
+              std::cout << "ho no !!" ;
+          }
+        };
+        
+        RegisterView(View11,DeducedTrait11,ViewPoint11) ;
+        
+        class View12 : public TraitView<DeducedTrait12,ViewPoint11>
+        {
+        public:
+          
+          View12(DeducedTrait12* i_trait, ViewPoint11* i_viewpoint)
+          : TraitView<DeducedTrait12,ViewPoint11>(i_trait,i_viewpoint)
+          {}
+
+          TypeIdentifier m_latest_updated_trait ;
+          
+        protected:
+          
+          virtual void onUpdate()
+          {
+            m_latest_updated_trait = getTrait()->getLatestUpdatedTrait() ;
+            Trait14* trait = getObject()->getTrait<Trait14>() ;
+            if (trait)
+              trait->change(2) ;
+            else
+              std::cout << "ho no !!" ;
+          }
+        };
+        
+        RegisterView(View12,DeducedTrait12,ViewPoint11) ;
+          
+      }
+      
+      /*
+        a little complicated : 
+        
+        we update first trait --> trigger onUpdate on two distinct views
+        each view update modify another trait
+        
+        but in each onUpdate view, the latest updatedTrait should be the inital
+        one
+        
+      */
+      void TestDeducedTrait::testGetLatestUpdatedTrait()
+      {
+        std::auto_ptr<Model> model(new Model("TestDeducedTrait::testGetLatestUpdatedTrait")) ;
+        
+        Object* object = model->createObject() ;
+        model->addTrait(object,new Trait11()) ;
+        model->addTrait(object,new Trait12()) ;
+        model->addTrait(object,new Trait13()) ;
+        model->addTrait(object,new Trait14()) ;
+        model->addTrait(object,new Trait15()) ;
+        
+        std::auto_ptr<ViewPoint11> viewpoint(new ViewPoint11(model.get())) ;
+        viewpoint->init() ;
+        
+        object->getTrait<Trait11>()->change(2) ;
+        CPPUNIT_ASSERT(object->getTrait<DeducedTrait11>()->getView<View11>(viewpoint.get())->m_latest_updated_trait == getClassTypeIdentifier(Trait11)) ;
+        CPPUNIT_ASSERT(object->getTrait<DeducedTrait12>()->getView<View12>(viewpoint.get())->m_latest_updated_trait == getClassTypeIdentifier(Trait11)) ;
+        
+      }
       
       void TestDeducedTrait::setUp()
       {

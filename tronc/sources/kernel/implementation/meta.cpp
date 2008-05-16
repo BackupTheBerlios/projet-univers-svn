@@ -23,9 +23,12 @@
 namespace ProjetUnivers {
   namespace Kernel {
 
-    std::map<TypeIdentifier,boost::function1<bool,Trait*> > 
-      TypeIdentifier::m_instance_tests ;
-
+    TypeIdentifier::StaticStorage* TypeIdentifier::StaticStorage::get()
+    {
+      static StaticStorage result ;
+      return &result ;
+    }
+    
     TypeIdentifier::TypeIdentifier()
     : m_representation(typeid(void).name())
     {}
@@ -43,7 +46,10 @@ namespace ProjetUnivers {
       boost::function1<bool,Trait*> i_object_test)
     : m_representation(i_name.name())
     {
-      m_instance_tests.insert(std::pair<TypeIdentifier,boost::function1<bool,Trait*> >(TypeIdentifier(i_name),i_object_test)) ;
+      StaticStorage::get()->m_instance_tests.insert(
+          std::pair<TypeIdentifier,
+                    boost::function1<bool,Trait*> >(TypeIdentifier(i_name),
+                                                    i_object_test)) ;
     }
     
     std::string TypeIdentifier::toString() const
@@ -59,9 +65,10 @@ namespace ProjetUnivers {
     bool TypeIdentifier::isInstance(Trait* i_object) const 
     {
       std::map<TypeIdentifier,boost::function1<bool,Trait*> >::iterator finder 
-      = m_instance_tests.find(*this) ;
+        = StaticStorage::get()->m_instance_tests.find(*this) ;
       
-      if (finder != m_instance_tests.end() && ! finder->second.empty())
+      if (finder != StaticStorage::get()->m_instance_tests.end() && 
+          ! finder->second.empty())
       {
         return finder->second(i_object) ;
       }

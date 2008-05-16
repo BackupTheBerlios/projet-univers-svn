@@ -147,17 +147,45 @@ namespace ProjetUnivers {
       /// Formula identifier.      
       int        m_identifier ;
       
-      /// next identifier to assign.
-      static int m_next_identifier ;    
-
       /// Distance to elementary formula. 
       int        m_depth ;
-      
-      /// Formulas sorted by depth. 
-      static std::map<int,std::set<Formula*> > m_stratification ;
-      
-      /// maximum formula depth.
-      static int m_maximum_depth ;
+
+      class StaticStorage
+      {
+      public:
+        
+        /// Access to singleton.
+        static StaticStorage* get() ;
+
+        /// next identifier to assign.
+        int m_next_identifier ;    
+
+        /// Formulas sorted by depth. 
+        std::map<int,std::set<Formula*> > m_stratification ;
+
+        /// maximum formula depth.
+        int m_maximum_depth ;
+
+        /// All formulaes.
+        std::set<Formula*> m_formulae ;
+        
+      private:
+        
+        StaticStorage()
+        : m_next_identifier(0),
+          m_maximum_depth(0)
+        {}
+        
+        ~StaticStorage()
+        {
+          for(std::set<Formula*>::iterator formula = m_formulae.begin() ;
+              formula != m_formulae.end() ;
+              ++formula)
+          {
+            delete *formula ;
+          }
+        }
+      };
       
     // @}
       
@@ -203,16 +231,32 @@ namespace ProjetUnivers {
         
       /// A trait is an atomic formula
       TraitFormula(const TypeIdentifier& trait_name) ;
+    
+      TypeIdentifier m_trait ;
+
       
-      /// Find the trait formula associaited with @c trait_name.
+      /// Find the trait formula associated with @c trait_name.
       /*!
-        Return NULL if not found.
+        @return NULL if not found.
       */
       static TraitFormula* get(const TypeIdentifier& trait_name) ;
-    
-      static std::map<TypeIdentifier,TraitFormula*> m_traits_formulae ;
       
-      TypeIdentifier m_trait ;
+      class StaticStorage
+      {
+      public:
+        
+        /// Access to singleton.
+        static StaticStorage* get() ;
+      
+        std::map<TypeIdentifier,TraitFormula*> m_traits_formulae ;
+        
+      private:
+        
+        StaticStorage()
+        {}
+      };      
+
+
     };
     
     /// Conjunction of its child formulae.

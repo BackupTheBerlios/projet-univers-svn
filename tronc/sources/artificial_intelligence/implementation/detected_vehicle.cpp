@@ -65,6 +65,7 @@ namespace ProjetUnivers {
         // last updated elementary trait will tell us what to update
         const Kernel::TypeIdentifier& latest = getTrait()->getLatestUpdatedTrait() ;
         
+        InternalMessage("AI","DetectedVehicle::onUpdate " + latest.toString()) ;
         if (latest == getClassTypeIdentifier(Model::Positionned))
         {
           m_vehicle->setPosition(getPosition()) ;
@@ -92,6 +93,8 @@ namespace ProjetUnivers {
         Kernel::Object* physical_world = ship->getAncestor<Model::PhysicalWorld>()
                                          ->getObject() ;
 
+        InternalMessage("AI",Ogre::StringConverter::toString(getObject()->getTrait<Model::Positionned>()->getPosition().Meter())) ;
+        
         Model::Position position 
           = computer->getDataPosition(getObject(),physical_world) ;
         

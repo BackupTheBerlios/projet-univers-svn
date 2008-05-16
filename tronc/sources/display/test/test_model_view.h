@@ -61,8 +61,8 @@ namespace ProjetUnivers {
     
         CPPUNIT_TEST_SUITE(TestModelView) ;
       
-//        CPPUNIT_TEST(testConstruct) ;
-//        CPPUNIT_TEST(destroyObserver) ;
+        CPPUNIT_TEST(testConstruct) ;
+        CPPUNIT_TEST(destroyObserver) ;
         CPPUNIT_TEST(selectedTarget) ;
         CPPUNIT_TEST(displayIdealTarget) ;
       

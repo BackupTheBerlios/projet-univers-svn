@@ -392,13 +392,13 @@ namespace ProjetUnivers {
           Kernel::Object* agent = createAI(ship) ;
           agent->getTrait<WithObjectives>()->addObjective(Objective::attackAllEnemies()) ;
         }
-//        {
-//          Kernel::Object* ship = createShip(system) ;
-//          model->addTrait(ship,new Transponder(team1)) ;
-//          ship->getTrait<Positionned>()->setPosition(Position::Meter(0,500,0)) ;
-//          Kernel::Object* agent = createAI(ship) ;
-//          agent->getTrait<WithObjectives>()->addObjective(Objective::attackAllEnemies()) ;
-//        }
+        {
+          Kernel::Object* ship = createShip(system) ;
+          model->addTrait(ship,new Transponder(team1)) ;
+          ship->getTrait<Positionned>()->setPosition(Position::Meter(0,500,0)) ;
+          Kernel::Object* agent = createAI(ship) ;
+          agent->getTrait<WithObjectives>()->addObjective(Objective::attackAllEnemies()) ;
+        }
 
         {
           Kernel::Object* ship = createShip(system) ;
@@ -407,13 +407,13 @@ namespace ProjetUnivers {
           Kernel::Object* agent = createAI(ship) ;
           agent->getTrait<WithObjectives>()->addObjective(Objective::attackAllEnemies()) ;
         }
-//        {
-//          Kernel::Object* ship = createShip(system) ;
-//          model->addTrait(ship,new Transponder(team2)) ;
-//          ship->getTrait<Positionned>()->setPosition(Position::Meter(0,0,3000)) ;
-//          Kernel::Object* agent = createAI(ship) ;
-//          agent->getTrait<WithObjectives>()->addObjective(Objective::attackAllEnemies()) ;
-//        }
+        {
+          Kernel::Object* ship = createShip(system) ;
+          model->addTrait(ship,new Transponder(team2)) ;
+          ship->getTrait<Positionned>()->setPosition(Position::Meter(0,0,3000)) ;
+          Kernel::Object* agent = createAI(ship) ;
+          agent->getTrait<WithObjectives>()->addObjective(Objective::attackAllEnemies()) ;
+        }
         
         {
           Kernel::Object* ship = createShip(system) ;

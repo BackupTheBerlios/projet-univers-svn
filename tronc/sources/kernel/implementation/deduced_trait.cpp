@@ -25,39 +25,24 @@
 namespace ProjetUnivers {
   namespace Kernel {
 
-    namespace
-    { 
-      struct Formulae
-      {
-        std::set<Formula*> m_formulae ;
-        
-        ~Formulae()
-        {
-          for(std::set<Formula*>::iterator formula = m_formulae.begin() ;
-              formula != m_formulae.end() ;
-              ++formula)
-          {
-            delete *formula ;
-          }
-        }
-        
-      };
-    }
     
-    /// Formulae storage.
-    Formulae formulae ;
+    Formula::StaticStorage* Formula::StaticStorage::get()
+    {
+      static StaticStorage instance ;
+      return &instance ;
+    }
 
-    std::map<Formula*,DeducedTraitBuilder> DeducedTrait::m_builders ;
+    DeducedTrait::StaticStorage* DeducedTrait::StaticStorage::get()
+    {
+      static StaticStorage instance ;
+      return &instance ;
+    }
 
-    std::map<Formula*,TypeIdentifier> DeducedTrait::m_destructors ;
-
-    int Formula::m_next_identifier = 0 ;
-
-    int Formula::m_maximum_depth = 0 ;
-
-    std::map<int,std::set<Formula*> > Formula::m_stratification ;
-
-    std::map<TypeIdentifier,TraitFormula*> TraitFormula::m_traits_formulae ;
+    TraitFormula::StaticStorage* TraitFormula::StaticStorage::get()
+    {
+      static StaticStorage instance ;
+      return &instance ;
+    }
 
   /*!
     @name Access
@@ -76,15 +61,15 @@ namespace ProjetUnivers {
     
     unsigned int Formula::getNumberOfFormulae()
     {
-      return m_next_identifier ;
+      return StaticStorage::get()->m_next_identifier ;
     }
 
     TraitFormula* TraitFormula::get(const TypeIdentifier& trait_name)
     {
 //      InternalMessage("Kernel","TraitFormula::get getting " + trait_name.toString()) ;
       std::map<TypeIdentifier,TraitFormula*>::iterator trait ;
-      trait = m_traits_formulae.find(trait_name) ;
-      if (trait != m_traits_formulae.end())
+      trait = StaticStorage::get()->m_traits_formulae.find(trait_name) ;
+      if (trait != StaticStorage::get()->m_traits_formulae.end())
       {
 //        InternalMessage("Kernel","TraitFormula::get got " + trait_name.toString()) ;
         return trait->second ;
@@ -109,8 +94,8 @@ namespace ProjetUnivers {
     : m_identifier(-1),
       m_depth(0)
     {
-      formulae.m_formulae.insert(this) ;
-      m_stratification[m_depth].insert(this) ;
+      StaticStorage::get()->m_formulae.insert(this) ;
+      StaticStorage::get()->m_stratification[m_depth].insert(this) ;
     }
 
     Formula::~Formula()
@@ -141,9 +126,9 @@ namespace ProjetUnivers {
       
       if (getDepth() < formula->getDepth() + 1)
       {
-        m_stratification[getDepth()].erase(this) ;
+        StaticStorage::get()->m_stratification[getDepth()].erase(this) ;
         setDepth(formula->getDepth() + 1) ;
-        m_stratification[getDepth()].insert(this) ;
+        StaticStorage::get()->m_stratification[getDepth()].insert(this) ;
       }
     }
 
@@ -154,16 +139,16 @@ namespace ProjetUnivers {
 
     void Formula::generateIdentifier()
     {
-      m_identifier = m_next_identifier ;
-      ++m_next_identifier ;
+      m_identifier = StaticStorage::get()->m_next_identifier ;
+      ++StaticStorage::get()->m_next_identifier ;
     }
 
     void Formula::setDepth(int i_depth)
     {
       m_depth = i_depth ;
-      if (i_depth > m_maximum_depth)
+      if (i_depth > StaticStorage::get()->m_maximum_depth)
       {
-        m_maximum_depth = i_depth ;
+        StaticStorage::get()->m_maximum_depth = i_depth ;
       }
     }
 
@@ -213,7 +198,7 @@ namespace ProjetUnivers {
       if (! result)
       {
         result = new TraitFormula(trait_name) ;
-        m_traits_formulae[trait_name] = result ;
+        StaticStorage::get()->m_traits_formulae[trait_name] = result ;
       }
       
       return result ;
@@ -241,8 +226,8 @@ namespace ProjetUnivers {
         DeducedTraitBuilder i_builder,
         const TypeIdentifier&  trait_name)
     {
-      m_builders[formula] = i_builder ;
-      m_destructors.insert(std::pair<Formula*,TypeIdentifier>(formula,trait_name)) ;
+      StaticStorage::get()->m_builders[formula] = i_builder ;
+      StaticStorage::get()->m_destructors.insert(std::pair<Formula*,TypeIdentifier>(formula,trait_name)) ;
     }
 
     DeducedTrait::DeducedTrait()
@@ -252,8 +237,9 @@ namespace ProjetUnivers {
     {
       std::string result ;
       
-      for(std::map<Formula*,TypeIdentifier>::const_iterator declaration = m_destructors.begin() ;
-          declaration != m_destructors.end() ;
+      for(std::map<Formula*,TypeIdentifier>::const_iterator 
+            declaration = StaticStorage::get()->m_destructors.begin() ;
+          declaration != StaticStorage::get()->m_destructors.end() ;
           ++declaration)
       {
         result += "DeclareDeducedTrait(" + declaration->second.toString() + ","
@@ -277,12 +263,13 @@ namespace ProjetUnivers {
     void Formula::evaluateInitial(Object* object)
     {
       
-      for(int depth = 0 ; depth <= m_maximum_depth ; ++depth)
+      for(int depth = 0 ; depth <= StaticStorage::get()->m_maximum_depth ; ++depth)
       {
 //        InternalMessage("Kernel","Formula::init dealing with depth=" + toString((float)depth)) ;
         
-        for(std::set<Formula*>::const_iterator formula = m_stratification[depth].begin() ;
-            formula != m_stratification[depth].end() ;
+        for(std::set<Formula*>::const_iterator 
+              formula = StaticStorage::get()->m_stratification[depth].begin() ;
+            formula != StaticStorage::get()->m_stratification[depth].end() ;
             ++formula)
         {
           
@@ -297,8 +284,9 @@ namespace ProjetUnivers {
       Formula::evaluateInitial(object) ;
       
       /// if we have new conclusions -> we set them
-      for(std::map<Formula*,DeducedTraitBuilder>::const_iterator builder = m_builders.begin() ;
-          builder != m_builders.end() ;
+      for(std::map<Formula*,DeducedTraitBuilder>::const_iterator 
+            builder = StaticStorage::get()->m_builders.begin() ;
+          builder != StaticStorage::get()->m_builders.end() ;
           ++builder)
       {
         if (object->getValidity(builder->first))
@@ -436,8 +424,8 @@ namespace ProjetUnivers {
       if (i_validity)
       {
         std::map<Formula*,DeducedTraitBuilder>::const_iterator builder ;
-        builder = m_builders.find(formula) ;
-        if (builder != m_builders.end())
+        builder = StaticStorage::get()->m_builders.find(formula) ;
+        if (builder != StaticStorage::get()->m_builders.end())
         {
 
           DeducedTrait* new_trait = (builder->second)() ;
@@ -447,8 +435,8 @@ namespace ProjetUnivers {
       else
       {
         std::map<Formula*,TypeIdentifier>::const_iterator destructor ;
-        destructor = m_destructors.find(formula) ;
-        if (destructor != m_destructors.end())
+        destructor = StaticStorage::get()->m_destructors.find(formula) ;
+        if (destructor != StaticStorage::get()->m_destructors.end())
         {
           object->_remove(destructor->second) ;
         }
@@ -652,8 +640,8 @@ namespace ProjetUnivers {
 //      InternalMessage("Kernel","DeducedTrait::update Entering") ;
 
       std::map<Formula*,TypeIdentifier>::const_iterator destructor ;
-      destructor = m_destructors.find(formula) ;
-      if (destructor != m_destructors.end())
+      destructor = StaticStorage::get()->m_destructors.find(formula) ;
+      if (destructor != StaticStorage::get()->m_destructors.end())
       {
         object->_get(destructor->second)->notify() ;
       }      
@@ -662,7 +650,7 @@ namespace ProjetUnivers {
 
     const TypeIdentifier& DeducedTrait::getLatestUpdatedTrait() const
     {
-      return Trait::m_latest_updated_trait ;
+      return Trait::m_latest_updated_trait.top() ;
     }
 
     void FormulaOr::onChildUpdated(Object* object)

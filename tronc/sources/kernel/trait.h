@@ -22,6 +22,7 @@
 #define PU_KERNEL_TRAIT_H_
 
 #include <map>
+#include <stack>
 #include <boost/function.hpp>
 #include <boost/any.hpp>
 
@@ -107,7 +108,7 @@ namespace ProjetUnivers {
       virtual void notify() ;
 
       /// The latest updated trait type.
-      static TypeIdentifier m_latest_updated_trait ;
+      static std::stack<TypeIdentifier> m_latest_updated_trait ;
       
     private:
     
@@ -186,15 +187,6 @@ namespace ProjetUnivers {
       typedef 
       boost::function2<BaseTraitView*, Trait*, ViewPoint*> ViewBuilder ;
 
-      /// ViewPoint -> Trait X ViewBuilder (in term of classes names)
-      static std::multimap<
-        TypeIdentifier,
-        std::pair<TypeIdentifier,ViewBuilder> >            m_view_builders ;
-      
-      /// View X ViewPoint -> Trait (in term of classes names)
-      static std::map<
-        std::pair<TypeIdentifier,TypeIdentifier>,
-        TypeIdentifier>                                    m_trait_of_view ;
       
       /// Register @c _builder as the builder for @c _trait in @c _viewpoint
       /*!
@@ -228,15 +220,6 @@ namespace ProjetUnivers {
       boost::function2<BaseControler*, Trait*, ControlerSet*> 
         ControlerBuilder ;
 
-      /// ControlerSet -> Trait X ControlerBuilder (in term of classes names)
-      static std::multimap<
-        TypeIdentifier,
-        std::pair<TypeIdentifier,ControlerBuilder> > m_controler_builders ;
-      
-      /// Controler X ControlerSet -> Trait (in term of classes names)
-      static std::map<
-        std::pair<TypeIdentifier,TypeIdentifier>,
-        TypeIdentifier>                        m_trait_of_controler ;
       
       /// Register @c i_builder as the builder for @c i_trait_class in 
       /// @c i_controler_set_class
@@ -287,30 +270,6 @@ namespace ProjetUnivers {
       /// Access to all commands understood be the trait.
       virtual std::set<std::string> getCommands() const ;
     
-      /// Commands that the trait understand.
-      /*!
-        These are void commands, mainly triggered by buttons and keys.
-      */
-      static 
-      std::map<TypeIdentifier,
-               std::map<std::string,
-                        boost::function1<void,Trait*> > > m_void_commands ;
-    
-      /// Commands that the trait understand.
-      /*!
-        These are commands taking an int parameter, mainly obtained by 
-        mouse and joystick axes.
-      */
-      static 
-      std::map<TypeIdentifier,
-               std::map<std::string,
-                        boost::function2<void,Trait*,int> > > m_int_commands ;
-      
-      /// Custom parameter less functions.
-      static 
-      std::map<TypeIdentifier,
-               std::map<std::string,
-                        boost::function1<boost::any,Trait*> > > m_functions ;
 
     private:
         
@@ -335,7 +294,70 @@ namespace ProjetUnivers {
       /// Register a reader function.
       static void _registerReader(const std::string& name,ReaderFunction reader) ;
       
-      static std::map<std::string,ReaderFunction> m_readers ;
+      /// Static storage
+      /*!
+        Because static variable dynamic initialisation occurs in an undefined 
+        order, we use this hook. By calling : 
+        <code>
+          StaticStorage::get()->variable...
+        </code>
+        we are assured that map are dynamically initialised on demand.
+      */
+      class StaticStorage
+      {
+      public:
+        
+        /// Access to singleton.
+        static StaticStorage* get() ; 
+        
+        /// ViewPoint -> Trait X ViewBuilder (in term of classes names)
+        std::multimap<TypeIdentifier,
+                      std::pair<TypeIdentifier,
+                                ViewBuilder> >            m_view_builders ;
+        
+        /// View X ViewPoint -> Trait (in term of classes names)
+        std::map<std::pair<TypeIdentifier,TypeIdentifier>,
+                 TypeIdentifier>                           m_trait_of_view ;
+
+        /// ControlerSet -> Trait X ControlerBuilder (in term of classes names)
+        std::multimap<TypeIdentifier,
+                      std::pair<TypeIdentifier,
+                                Trait::ControlerBuilder> > m_controler_builders ;
+          
+        /// Controler X ControlerSet -> Trait (in term of classes names)
+        std::map<std::pair<TypeIdentifier,TypeIdentifier>,
+                 TypeIdentifier>                          m_trait_of_controler ;
+        /// Commands that the trait understand.
+        /*!
+          These are void commands, mainly triggered by buttons and keys.
+        */
+        std::map<TypeIdentifier,
+                 std::map<std::string,
+                          boost::function1<void,Trait*> > > m_void_commands ;
+      
+        /// Commands that the trait understand.
+        /*!
+          These are commands taking an int parameter, mainly obtained by 
+          mouse and joystick axes.
+        */
+        std::map<TypeIdentifier,
+                 std::map<std::string,
+                          boost::function2<void,Trait*,int> > > m_int_commands ;
+        
+        /// Custom parameter less functions.
+        std::map<TypeIdentifier,
+                 std::map<std::string,
+                          boost::function1<boost::any,Trait*> > > m_functions ;
+
+        /// xml tag name -> reader functions
+        std::map<std::string,ReaderFunction> m_readers ;
+        
+      private:
+        
+        StaticStorage()
+        {}
+        
+      };
       
       friend class Object ;
       friend class BaseTraitView ;

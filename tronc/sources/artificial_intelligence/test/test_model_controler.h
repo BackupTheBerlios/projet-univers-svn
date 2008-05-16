@@ -69,6 +69,8 @@ namespace ProjetUnivers {
         */
         void groupAttack() ;
         
+        /// Test the updating of the positions.
+        void testPositionUpdate() ;
         
       // @}
 
@@ -81,6 +83,7 @@ namespace ProjetUnivers {
         CPPUNIT_TEST(attackAllEnemies) ;
         CPPUNIT_TEST(twoShips) ;
         CPPUNIT_TEST(groupAttack) ;
+        CPPUNIT_TEST(testPositionUpdate) ;
         
         CPPUNIT_TEST_SUITE_END() ;
 

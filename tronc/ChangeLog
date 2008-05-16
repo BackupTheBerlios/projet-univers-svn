@@ -581,12 +581,27 @@
     - changed to constant timestep, modified tests 
     - modified collision system : mesh are approximated by their bouding sphere 
       for solid collision but keep their form for solid/laser collision
+
+2008-05-16 rogma
   
+  * Kernel : 
+    - corrected a bug on DeducedTrait::getLatestUpdatedTrait (test added)
+    - corrected an enormous bug on all static registration (view registration,
+      controler, deduced traits...) : the previous implementation was assuming 
+      a given initialisation order for static class variables; which is not the 
+      case in C++. The solution resides in a singleton constructed as a static 
+      local variable of the singleton::get method, @see cppunit implementation.   
+  * ArtificialIntelligence : 
+     - corrected bug : when the first target is destroyed, the second one is 
+       not attacked
+     - corrected bug : with two ships only : they are nor attacking each other
+     - corrected bug : incorrect vehicle position update due to bug on 
+       DeducedTrait::getLatestUpdatedTrait
+
 @todo :
+
   
   * ArtificialIntelligence : 
-     - bug : when the first target is destroyed, the second one is not attacked
-     - bug : with two ships only : they are nor attacking each other
      
   * Model : 
 

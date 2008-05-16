@@ -203,7 +203,9 @@ namespace ProjetUnivers {
       const std::string&                       i_command_name,
       boost::function1<void,SpecializedTrait*> i_operation)
     {
-      m_void_commands[getClassTypeIdentifier(SpecializedTrait)][i_command_name] 
+      StaticStorage::get()
+      ->m_void_commands[getClassTypeIdentifier(SpecializedTrait)]
+                       [i_command_name] 
         = boost::bind(i_operation, boost::bind(&convert<SpecializedTrait>, _1)) ;
     }
   
@@ -212,7 +214,8 @@ namespace ProjetUnivers {
       const std::string&                           i_command_name,
       boost::function2<void,SpecializedTrait*,int> i_axis_update)
     {
-      m_int_commands[getClassTypeIdentifier(SpecializedTrait)][i_command_name]
+      StaticStorage::get()
+      ->m_int_commands[getClassTypeIdentifier(SpecializedTrait)][i_command_name]
         = boost::bind(i_axis_update, boost::bind(&convert<SpecializedTrait>, _1),_2) ;
     }
 
@@ -220,7 +223,8 @@ namespace ProjetUnivers {
           const std::string&                             function_name,
           boost::function1<boost::any,SpecializedTrait*> function)
     {
-      m_functions[getClassTypeIdentifier(SpecializedTrait)][function_name]
+      StaticStorage::get()
+      ->m_functions[getClassTypeIdentifier(SpecializedTrait)][function_name]
         = boost::bind(function, boost::bind(&convert<SpecializedTrait>, _1)) ;
     }
 

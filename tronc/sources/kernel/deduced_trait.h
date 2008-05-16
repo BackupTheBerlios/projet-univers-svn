@@ -142,11 +142,24 @@ namespace ProjetUnivers {
       static void update(Formula* formula,
                          Object*  object) ;
 
-      /// map formula to deduced trait builders for construction.
-      static std::map<Formula*,DeducedTraitBuilder> m_builders ;
+      class StaticStorage
+      {
+      public:
+        
+        /// Access to singleton.
+        static StaticStorage* get() ;
 
-      /// map formula to deduced trait names for destruction.
-      static std::map<Formula*,TypeIdentifier> m_destructors ;
+        /// map formula to deduced trait builders for construction.
+        std::map<Formula*,DeducedTraitBuilder> m_builders ;
+
+        /// map formula to deduced trait names for destruction.
+        std::map<Formula*,TypeIdentifier> m_destructors ;
+      
+      private:
+        
+        StaticStorage()
+        {}
+      };
       
       friend class Formula ;
       

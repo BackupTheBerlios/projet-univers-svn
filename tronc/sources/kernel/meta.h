@@ -76,14 +76,25 @@ namespace ProjetUnivers {
 
     private:
       
+      /// For isInstance implementation.
+      class StaticStorage
+      {
+      public:
+        
+        std::map<TypeIdentifier,boost::function1<bool,Trait*> > m_instance_tests ;
+        
+        static StaticStorage* get() ;
+        
+      private:
+        
+        StaticStorage()
+        {}
+        
+      };
 
       /// Internal representation.
       std::string m_representation ;
       
-      /// For isInstance implementation.
-      static std::map<TypeIdentifier,boost::function1<bool,Trait*> > 
-        m_instance_tests ;
-
     };
     
     /// Element that represent no type.
