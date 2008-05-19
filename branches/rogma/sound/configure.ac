@@ -54,11 +54,11 @@ AC_SUBST(openal_LIBS)
 AC_SUBST(openal_CFLAGS)
 
 # OpenAL efx extension : windows only 
-AC_CHECK_HEADER([AL/efx.h],efx_header=efx.h,efx_header=efx_none.h)
+AC_CHECK_HEADER([AL/efx.h],efx=efx,efx=efx_none)
 # the header used for efx, either
 # sound/implementation/openal/efx/efx.h
 # sound/implementation/openal/efx/efx_none.h
-AC_SUBST(EFX_HEADER,$efx_header)
+AC_SUBST(efx_name,$efx)
 
 PKG_CHECK_MODULES(freealut, [freealut >= 1.1])
 AC_SUBST(freealut_LIBS)

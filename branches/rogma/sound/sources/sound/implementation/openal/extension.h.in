@@ -21,6 +21,6 @@
 #ifndef PU_SOUND_IMPLEMENTATION_OPENAL_EXTENSION_H_IN_
 #define PU_SOUND_IMPLEMENTATION_OPENAL_EXTENSION_H_IN_
 
-#include <sound/implementation/openal/efx/@EFX_HEADER@>
+#include <sound/implementation/openal/efx/@efx_name@.h>
 
 #endif /*PU_SOUND_IMPLEMENTATION_OPENAL_EXTENSION_H_IN_*/

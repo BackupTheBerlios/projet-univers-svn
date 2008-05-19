@@ -25,5 +25,4 @@ $(CEGUI_LIBS) \
 $(CEGUI_OGRE_LIBS) \
 -lCEGUIFalagardWRBase
 
-TESTS = demonstration
-check_PROGRAMS = $(TESTS)
+
