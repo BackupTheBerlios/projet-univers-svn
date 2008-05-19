@@ -34,7 +34,7 @@
 #include <model/position.h>
 #include <model/oriented.h>
 #include <model/orientation.h>
-#include <model/ear.h>
+#include <model/hearing.h>
 #include <model/mobile.h>
 #include <model/engine.h>
 #include <model/force.h>
@@ -70,16 +70,14 @@ namespace ProjetUnivers {
         Model::addTrait(system, new Model::Oriented()) ;
 
         Kernel::Object* listener = Model::createObject(system) ;
-        Model::addTrait(listener,new Model::Ear()) ;
-        Model::Positionned* listenerPos = new Model::Positionned(Model::Position::Meter(0,0,0));
-        Model::addTrait(listener,listenerPos) ;
+        Model::addTrait(listener,new Model::Hearing()) ;
+        Model::addTrait(listener,new Model::Positionned()) ;
         Model::addTrait(listener,new Model::Oriented(Model::Orientation(Ogre::Quaternion(1.0, 0.0, 10.0, 0.0)))) ;
         Model::addTrait(listener,new Model::Mobile());
         
         Kernel::Object* engine = Model::createObject(system) ;
         Model::addTrait(engine,new Model::Engine(Model::Force::Newton(10,10,10))) ;
-        Model::Positionned* enginePos = new Model::Positionned(Model::Position::Meter(0,0,0));
-        Model::addTrait(engine,enginePos);
+        Model::addTrait(engine,new Model::Positionned()) ;
         Model::addTrait(engine,new Model::Oriented(Model::Orientation(Ogre::Quaternion(1.0, 0.0, -10.0, 0.0)))) ;
         Model::addTrait(engine,new Model::Mobile());
         
@@ -100,16 +98,16 @@ namespace ProjetUnivers {
         
         Kernel::Object* env = Model::createObject(system) ;
         Model::SoundEnvironnement* soundEnv = new Model::SoundEnvironnement() ;
-        soundEnv->setDensity(0.5) ;
-        soundEnv->setDiffusion(1.0) ;
-        soundEnv->setGain(0.5) ;
-        soundEnv->setGainHF(1.0) ;
-        soundEnv->setDecayTime(2.0) ;
-        soundEnv->setDecayHFRatio(1.1) ;
-        soundEnv->setReflexionsGain(1.0) ;
-        soundEnv->setReflexionsDelay(2.0) ;
-        soundEnv->setLateReverbGain(1.0) ;
-        soundEnv->setLateReverbDelay(2.5) ;
+//        soundEnv->setDensity(0.5) ;
+//        soundEnv->setDiffusion(1.0) ;
+//        soundEnv->setGain(0.5) ;
+//        soundEnv->setGainHF(1.0) ;
+//        soundEnv->setDecayTime(2.0) ;
+//        soundEnv->setDecayHFRatio(1.1) ;
+//        soundEnv->setReflexionsGain(1.0) ;
+//        soundEnv->setReflexionsDelay(2.0) ;
+//        soundEnv->setLateReverbGain(1.0) ;
+//        soundEnv->setLateReverbDelay(2.5) ;
         Model::addTrait(env, soundEnv) ;
         Model::changeParent(engine,env) ;
         

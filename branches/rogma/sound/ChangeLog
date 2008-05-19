@@ -598,6 +598,15 @@
      - corrected bug : incorrect vehicle position update due to bug on 
        DeducedTrait::getLatestUpdatedTrait
 
+2008-05-19 rogma
+  * All : 
+    - modifications for windows compiling
+  * Sound : 
+    - separated tests into several test suites
+    - Manager : choose of reader is made on extension
+    - added efx mocking for linux compiling : under linux does nothing, but 
+      efx is activated on windows. Two tests are not launched.
+	
 @todo :
 
   
@@ -669,9 +678,7 @@
     
   * Sound : 
     - reconsider the implementation with the limitation 
-    - perform platform dependent compilation for special sound effects
     - move deduced trait to sound::implementation level (i.e. one up) ??
-    - make efx optionnal
 
   * Kernel :
     - better errors on object structure

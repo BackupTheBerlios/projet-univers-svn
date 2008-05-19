@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007 Morgan GRIGNARD                                    *
+ *   Copyright (C) 2008 Morgan GRIGNARD Mathieu ROGER                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,44 +18,43 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_SOUND_IMPLEMENTATION_OPENAL_OPENAL_H_
-#define PU_SOUND_IMPLEMENTATION_OPENAL_OPENAL_H_
-
-#include <AL/al.h>
-#include <AL/alc.h>
-
-#include <sound/implementation/openal/manager.h>
+#include <kernel/log.h>
+#include <sound/implementation/openal/efx/efx_none.h>
 
 namespace ProjetUnivers {
   namespace Sound {
     namespace Implementation {
-      
-      /// Sound implementation throught OpenAL.
-      /*!                  
-      */
       namespace OpenAL {
-        
-        /// Initialisation of OpenAL specific.
-        void init() ;
-        
-        /// Termination of OpenAL specific.
-        void close() ;
-        
-        /// Update OpenAL
-        void update() ;
-        
-        /// Create the manager
-        Kernel::ViewPoint* build(Kernel::Object* listener, Kernel::Object* reference) ;
-        
-        /// Humanly readable OpenAL error code. 
-        std::string getErrorString(const ALenum&) ;
-        
-        Kernel::ViewPoint* getViewPoint();
-        Manager* getManager();
-        
+        namespace EFX
+        {
+          
+          ALint* getParameters()
+          {
+            return NULL ;
+          }
+          
+          void init(ALCdevice* device)
+          {}
+          
+          void close()
+          {}
+          
+          void createEffect(ALuint* effect,ALuint* auxEffectSlot)
+          {}
+          
+          void destroyEffect(ALuint* effect,ALuint* auxEffectSlot)
+          {}
+          
+          void changeEffect(ALuint effect,
+                            ALuint auxEffectSlot,
+                            Model::SoundEnvironnement* env)
+          {}
+
+          void applyEffectToSource(ALuint source,ALuint auxEffectSlot) 
+          {}
+          
+        }
       }
     }
   }
 }
-
-#endif /*PU_SOUND_IMPLEMENTATION_OPENAL_OPENAL_H*/

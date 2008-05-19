@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2007 Morgan GRIGNARD                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -47,7 +47,7 @@ namespace ProjetUnivers {
       // *******************************
       // @{      
       
-        CPPUNIT_TEST_SUITE(TestOpenAL) ;
+        CPPUNIT_TEST_SUITE(TestOpenALLib) ;
       
         CPPUNIT_TEST(basicTest) ;
       

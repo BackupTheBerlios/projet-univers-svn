@@ -29,7 +29,7 @@
 #include <model/positionned.h>
 #include <model/position.h>
 #include <model/oriented.h>
-#include <model/ear.h>
+#include <model/hearing.h>
 #include <model/mobile.h>
 #include <model/engine.h>
 #include <model/force.h>
@@ -62,7 +62,7 @@ namespace ProjetUnivers {
         Model::addTrait(system, new Model::Oriented()) ;
 
         Kernel::Object* listener = Model::createObject(system) ;
-        Model::addTrait(listener,new Model::Ear()) ;
+        Model::addTrait(listener,new Model::Hearing()) ;
         Model::Positionned* listenerPos = new Model::Positionned();
         Model::addTrait(listener,listenerPos) ;
         Model::addTrait(listener,new Model::Oriented()) ;

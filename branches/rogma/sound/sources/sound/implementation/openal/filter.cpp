@@ -25,11 +25,9 @@ namespace ProjetUnivers {
     namespace Implementation {
       namespace OpenAL {
 
-        Filter::Filter(const float& p_gain, const float& p_gainHF)
-        {
-          m_gain = p_gain ;
-          m_gainHF = p_gainHF ;
-        }
+        Filter::Filter(const float& gain, const float& gainHF)
+        : m_gain(gain), m_gainHF(gainHF)
+        {}
         
         Filter operator+(const Filter& p_f1, const Filter& p_f2)
         {

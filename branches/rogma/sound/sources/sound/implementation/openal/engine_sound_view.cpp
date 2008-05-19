@@ -33,10 +33,10 @@ namespace ProjetUnivers {
                      OpenAL::RealWorldViewPoint) ;
              
         EngineSoundView::EngineSoundView(
-          OpenAL::EngineSound* i_observer,
-          OpenAL::RealWorldViewPoint*     i_viewpoint) 
-        : Kernel::TraitView<OpenAL::EngineSound,OpenAL::RealWorldViewPoint>(i_observer,i_viewpoint),
-        SoundEmitter()
+          OpenAL::EngineSound*        observer,
+          OpenAL::RealWorldViewPoint* viewpoint) 
+        : Kernel::TraitView<OpenAL::EngineSound,OpenAL::RealWorldViewPoint>(observer,viewpoint),
+          SoundEmitter()
         {
           InternalMessage("Sound","Building OpenAL::EngineSound") ;
         }

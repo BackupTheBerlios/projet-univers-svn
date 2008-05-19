@@ -25,7 +25,7 @@
 #include <kernel/string.h>
 
 #include <model/model.h>
-#include <model/ear.h>
+#include <model/hearing.h>
 #include <model/positionned.h>
 #include <model/oriented.h>
 #include <model/mobile.h>
@@ -61,7 +61,7 @@ namespace ProjetUnivers {
         Model::addTrait(system, new Model::Oriented()) ;
 
         Kernel::Object* listener = Model::createObject(system) ;
-        Model::addTrait(listener,new Model::Ear()) ;
+        Model::addTrait(listener,new Model::Hearing()) ;
         Model::addTrait(listener,new Model::Positionned()) ;
         Model::addTrait(listener,new Model::Oriented()) ;
         Model::addTrait(listener,new Model::Mobile());

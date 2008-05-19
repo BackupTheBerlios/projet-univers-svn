@@ -21,6 +21,7 @@
 #include <kernel/string.h>
 #include <kernel/log.h>
 
+#include <sound/implementation/openal/extension.h>
 #include <sound/implementation/openal/openal.h>
 #include <sound/implementation/openal/sound_environnement_view.h>
 
@@ -51,9 +52,7 @@ namespace ProjetUnivers {
         void SoundEnvironnementView::onInit()
         {
           InformationMessage("Sound","OpenAL::SoundEnvironnementView::init enter") ;
-          alGenAuxiliaryEffectSlots(1, &m_auxEffectSlot) ;
-          InformationMessage("Sound","OpenAL::SoundEmitter::gen slot: " + getErrorString(alGetError())) ; 
-          alGenEffects(1, &m_effect) ;
+          EFX::createEffect(&m_effect,&m_auxEffectSlot) ;
           update();
           InformationMessage("Sound","OpenAL::SoundEnvironnementView::init leaving with status: " + getErrorString(alGetError())) ;
           InformationMessage("Sound","OpenAL::SoundEnvironnementView::init leaving") ;
@@ -62,28 +61,15 @@ namespace ProjetUnivers {
 
         void SoundEnvironnementView::onClose()
         {
-          alDeleteEffects(1, &m_effect) ;
-          alDeleteAuxiliaryEffectSlots(1, &m_auxEffectSlot) ;
+          EFX::destroyEffect(&m_effect,&m_auxEffectSlot) ;
         }
                       
         void SoundEnvironnementView::onUpdate()
         {
+          InformationMessage("Sound","OpenAL::SoundEnvironnementView::update enter") ;
           Model::SoundEnvironnement* env = getTrait()->getObject()->getTrait<Model::SoundEnvironnement>() ;
-          alEffecti(m_effect, AL_EFFECT_TYPE, AL_EFFECT_REVERB) ;
-          alEffectf(m_effect, AL_REVERB_DENSITY, env->getDensity()) ;
-          alEffectf(m_effect, AL_REVERB_DIFFUSION, env->getDiffusion()) ;
-          alEffectf(m_effect, AL_REVERB_GAIN, env->getGain()) ;
-          alEffectf(m_effect, AL_REVERB_GAINHF, env->getGainHF()) ;
-          alEffectf(m_effect, AL_REVERB_DECAY_TIME, env->getDecayTime()) ;
-          alEffectf(m_effect, AL_REVERB_DECAY_HFRATIO, env->getDecayHFRatio()) ;
-          alEffectf(m_effect, AL_REVERB_REFLECTIONS_GAIN, env->getReflexionsGain()) ;
-          alEffectf(m_effect, AL_REVERB_REFLECTIONS_DELAY, env->getReflexionsDelay()) ;
-          alEffectf(m_effect, AL_REVERB_LATE_REVERB_GAIN, env->getLateReverbGain()) ;
-          alEffectf(m_effect, AL_REVERB_LATE_REVERB_DELAY, env->getLateReverbDelay()) ;
-          alEffectf(m_effect, AL_REVERB_ROOM_ROLLOFF_FACTOR, env->getRoomRollofFactor()) ;
-          alEffectf(m_effect, AL_REVERB_AIR_ABSORPTION_GAINHF, env->getAirAbsorptionGainHF()) ;
-          alEffectf(m_effect, AL_REVERB_DECAY_HFLIMIT, env->getDecayHFLimit()) ;
-          alAuxiliaryEffectSloti(m_auxEffectSlot, AL_EFFECTSLOT_EFFECT, m_effect) ;
+          EFX::changeEffect(m_effect,m_auxEffectSlot,env) ;
+          InformationMessage("Sound","OpenAL::SoundEnvironnementView::update leave") ;
         }
               
         

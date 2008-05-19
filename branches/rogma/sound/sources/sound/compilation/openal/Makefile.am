@@ -28,16 +28,19 @@ $(SOURCES)/sound/implementation/openal/collision.cpp \
 $(SOURCES)/sound/implementation/openal/engine_sound.cpp \
 $(SOURCES)/sound/implementation/openal/engine_sound_view.cpp \
 $(SOURCES)/sound/implementation/openal/sound_environnement_view.cpp \
-$(SOURCES)/sound/implementation/openal/filter.cpp 
+$(SOURCES)/sound/implementation/openal/filter.cpp \
+$(SOURCES)/sound/implementation/openal/efx/efx.cpp 
+
 
 
 libsoundcode_la_LDFLAGS = -no-undefined
 libsoundcode_la_LDFLAGS += \
 $(SOURCES)/kernel/compilation/libkernel.la \
 $(SOURCES)/model/compilation/libmodel.la \
-$(openal_LIBS) \
 $(librlog_LIBS) \
 $(OGRE_LIBS) \
+$(libXML_LIBS) \
+$(openal_LIBS) \
 $(ogg_LIBS) \
 $(libsndfile_LIBS) \
 $(vorbis_LIBS) \

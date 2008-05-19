@@ -44,6 +44,7 @@ namespace ProjetUnivers {
           {
             //TODO paufiner erreur sur location ou format non reconnu
             ErrorMessage("[OpenAL::WavReader] Can't read the file: " + m_fileName);
+            return ;
           }
           //Get file information
           m_sampleRate = fileInfos.samplerate;
@@ -54,6 +55,7 @@ namespace ProjetUnivers {
             case 2 : m_format = AL_FORMAT_STEREO16; break;
             default :
               ErrorMessage("[OpenAL::WavReader] Audio Format audio not supported (more than 2 channel)");
+              return ;
           }
           
           int pos = 0 ;
@@ -70,6 +72,7 @@ namespace ProjetUnivers {
           if (alGetError() != AL_NO_ERROR)
           {
             ErrorMessage("[OpenAL::WavReader] Impossible to queue the buffers");
+            return ;
           }
           
           InternalMessage("Sound","leave wavreader Init") ;   

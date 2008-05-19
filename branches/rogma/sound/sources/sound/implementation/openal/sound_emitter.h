@@ -103,7 +103,11 @@ namespace ProjetUnivers {
           /// Get the object's speed relative to the world or listener
           Model::Speed getSpeed() const;
           
-          /// Get the gain, must be between 1 and 0 , 1 indicate the sound is not attenuated
+          /// Get the gain. 
+          /*!
+            @return value between 1 and 0 
+                    1 indicates the sound is not attenuated
+          */
           virtual float getGain() const;
           
           /// Get the gain after the outerCone limit, must be between 1 and 0 , 1 indicate the sound is not attenuated
@@ -112,7 +116,10 @@ namespace ProjetUnivers {
           /// Change the frequency, add 100% or reduce by 50% is equivalent to an octave variation
           virtual float getPitch() const;
           
-          //TODO: voir l'utilisation de Min gain et Max gain avec un système de priorités selon les sons
+          /*! 
+            @todo: voir l'utilisation de Min gain et Max gain avec un système 
+            de priorités selon les sons
+          */
           
           /// Get the cone's inner angle
           virtual float getInnerAngle() const;

@@ -55,19 +55,24 @@ namespace ProjetUnivers {
         
         Reader* Manager::createReader(const ALuint& p_source,const std::string& p_fileName, const bool& p_isEvent, const int& m_posInFile, const int& m_posInBuffer)
         {
-          //TODO remplacer par une test mime ou au moins extension du fichier et non un choix arbitraite event= wav
-          Reader* res ;
+          Reader* res = NULL ;
           //Query a buffer a little bigger to evite the case 
           //where openal thread try to use the buffer when we load it
-          if(!p_isEvent)
+          if (p_fileName.find(".wav") != std::string::npos)
           {
           	
             res = new WavReader(p_source, p_fileName, p_isEvent, m_updateTime*1.10) ;
           }
-          else
+          else if (p_fileName.find(".ogg") != std::string::npos)
           {
             res = new OggReader(p_source, p_fileName, p_isEvent, m_updateTime*1.10) ;
           }
+          else
+          {
+            ErrorMessage("[OpenAl::Manager] unsupported file type") ;
+            return NULL ;
+          }
+          
           res->onInit(m_posInFile, m_posInBuffer) ;
           m_readers.push_back(res) ;
           return res;

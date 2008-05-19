@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2007-2008 Morgan GRIGNARD Mathieu ROGER                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -28,8 +28,8 @@ namespace ProjetUnivers {
     namespace Test {
 
             
-      /// Test de Sound::TestConePropertie
-      class TestConePropertie : public CppUnit::TestFixture {
+      /// Test de Sound::TestConeProperty
+      class TestConeProperty : public CppUnit::TestFixture {
       protected:
       
         
@@ -47,7 +47,7 @@ namespace ProjetUnivers {
       // *******************************
       // @{      
       
-        CPPUNIT_TEST_SUITE(TestConePropertie) ;
+        CPPUNIT_TEST_SUITE(TestConeProperty) ;
       
         CPPUNIT_TEST(basicTest) ;
       

@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007 Morgan GRIGNARD                                    *
+ *   Copyright (C) 2007 Morgan GRIGNARD Mathieu ROGER                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -27,6 +27,7 @@
 
 #include <sound/sound.h>
 #include <sound/implementation/openal/openal.h>
+#include <sound/implementation/openal/extension.h>
 #include <sound/implementation/openal/sound_environnement_view.h>
 #include <sound/implementation/openal/sound_emitter.h>
 
@@ -40,7 +41,8 @@ namespace ProjetUnivers {
       namespace OpenAL {
 
         SoundEmitter::SoundEmitter()
-        : m_source(0), m_auxEffectSlot(0), m_reader(0), m_posInFile(0), m_posInBuffer(0)
+        : m_source(0), m_auxEffectSlot(0), 
+          m_reader(0), m_posInFile(0), m_posInBuffer(0)
         {}
               
         void SoundEmitter::initSound()
@@ -77,7 +79,7 @@ namespace ProjetUnivers {
           }
           else
           {         
-            //TODO voir à l'usage si certains paramètres ne sont jamais changés et transférer vers init()
+            /// @todo voir à l'usage si certains paramètres ne sont jamais changés et transférer vers init()
             alSourcef(m_source, AL_GAIN, getGain()) ;
             alSourcef(m_source, AL_CONE_OUTER_GAIN, getOuterGain()) ;   
             alSourcef(m_source, AL_PITCH, getPitch()) ; 
@@ -125,7 +127,7 @@ namespace ProjetUnivers {
                 if(auxEffectSlot != m_auxEffectSlot)
                 {
                   m_auxEffectSlot = auxEffectSlot ;
-              	  alSource3i(m_source, AL_AUXILIARY_SEND_FILTER, m_auxEffectSlot, 0, 0) ;
+                  EFX::applyEffectToSource(m_source,m_auxEffectSlot) ;
               	  InformationMessage("Sound","update add reverb") ;	
                 }
               }
@@ -163,8 +165,8 @@ namespace ProjetUnivers {
                 if(auxEffectSlot != m_auxEffectSlot)
                 {
                   m_auxEffectSlot = auxEffectSlot ;
-              	  //TODO see filter parameter for occlusion , exclusion case
-              	  alSource3i(m_source, AL_AUXILIARY_SEND_FILTER, m_auxEffectSlot, 0, 0) ;
+              	  // @todo see filter parameter for occlusion , exclusion case
+                  EFX::applyEffectToSource(m_source,m_auxEffectSlot) ;
               	  InformationMessage("Sound","update add reverb") ;	
                 }
                 else
