@@ -42,7 +42,7 @@ namespace ProjetUnivers {
                     
         std::string Collision::getSoundFileName() const
         {
-          return "sound.wav";
+          return "pu_choc.ogg";
         }
           
         bool Collision::isEvent() const

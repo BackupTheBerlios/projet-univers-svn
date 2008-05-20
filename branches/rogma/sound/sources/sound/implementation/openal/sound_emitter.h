@@ -88,7 +88,7 @@ namespace ProjetUnivers {
           /// Indicate if the sound is an event
           virtual bool isEvent() const = 0 ;
           
-          /// Indicate if the source is active now considering damages or other elements
+          /// Is the source active now considering damages or other elements.
           virtual bool isActive() const;
           
           ///Acces to the object with the trait
@@ -110,10 +110,17 @@ namespace ProjetUnivers {
           */
           virtual float getGain() const;
           
-          /// Get the gain after the outerCone limit, must be between 1 and 0 , 1 indicate the sound is not attenuated
+          /// Get the gain after the outerCone limit.
+          /*!
+            @return value between 1 and 0 
+                    1 indicates the sound is not attenuated
+          */
           virtual float getOuterGain() const;
           
-          /// Change the frequency, add 100% or reduce by 50% is equivalent to an octave variation
+          /// Change the frequency. 
+          /*!
+             add 100% or reduce by 50% is equivalent to an octave variation
+          */
           virtual float getPitch() const;
           
           /*! 
@@ -152,7 +159,10 @@ namespace ProjetUnivers {
           /// Update the buffers in the stream
           Reader* m_reader ;
           
-          /// Position before closing reader, usefull in the changeParent case to restart at the same point
+          /// Position before closing reader.
+          /*!
+            usefull in the changeParent case to restart at the same point
+          */
           int m_posInFile ;
           int m_posInBuffer ;
         };

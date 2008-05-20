@@ -39,28 +39,28 @@ namespace ProjetUnivers {
           float r_gainHF ;
           if(p_f2.m_gain != 0)
           {
-          	r_gain = p_f1.m_gain / p_f2.m_gain ;
+            r_gain = p_f1.m_gain / p_f2.m_gain ;
           }
           else
           {
-          	r_gain = 0 ;
+            r_gain = 0 ;
           }
           if(p_f2.m_gainHF != 0)
           {
-          	r_gainHF = p_f1.m_gainHF / p_f2.m_gainHF ;
+            r_gainHF = p_f1.m_gainHF / p_f2.m_gainHF ;
           }
           else
           {
-          	r_gainHF = 0 ;
+            r_gainHF = 0 ;
           }
-          return Filter(r_gain , r_gainHF);	
+          return Filter(r_gain , r_gainHF);  
         } 
 
-		float Filter::getGain() const
-		{
-		  return m_gain ;	
-		}
-		
+    float Filter::getGain() const
+    {
+      return m_gain ;  
+    }
+    
         void Filter::setGain(const float& p_gain)
         {
           m_gain = p_gain ;
@@ -68,7 +68,7 @@ namespace ProjetUnivers {
         
         float Filter::getGainHF() const
         {
-          return m_gainHF ;	
+          return m_gainHF ;  
         }
         
         void Filter::setGainHF(const float& p_gainHF)

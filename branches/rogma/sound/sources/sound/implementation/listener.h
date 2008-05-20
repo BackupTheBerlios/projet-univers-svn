@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007 Morgan GRIGNARD, Mathieu ROGER                     *
+ *   Copyright (C) 2007 Morgan GRIGNARD                                    *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,54 +18,21 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_HEARING_H_
-#define PU_MODEL_HEARING_H_
+#ifndef PU_SOUND_IMPLEMENTATION_LISTENER_H_
+#define PU_SOUND_IMPLEMENTATION_LISTENER_H_
 
-#include <kernel/trait.h>
-#include <kernel/reader.h>
+#include <kernel/object.h>
+#include <kernel/deduced_trait.h>
 
 namespace ProjetUnivers {
-  namespace Model {
-    
-    /// For object that can hear.
-    /*!
-      @todo Restoring hearing with time
-      @todo Deafening effect after explosion for example
-    */
-    class Hearing : public Kernel::Trait
-    {
-    public:
+  namespace Sound {
+    namespace Implementation {
 
-      /// Constructor.
-      Hearing() ;
-
-      /// Read a Hearing trait.
-      /*!
-        stored as 
-        @code
-          <Hearing hearing_percentage=".."/>
-        @endcode
-      */     
-      static Kernel::Trait* read(Kernel::Reader* reader) ;
-      
-      /// Access to hearing.
-      int getHearing() const ;
-      
-      /// Modify hearing.
-      void setHearing(int newHearing);
-      
-    private:
-      
-      /// The percentage of hearing 
-      /*!
-        value in [0,100]
-      */
-      int m_hearing_percentage ;
-      
-    };
-    
-    
-  }
+      /// For objects that can listen the sound environnement
+      class Listener : public Kernel::DeducedTrait
+      {};
+    }
+  } 
 }
 
-#endif /*PU_MODEL_HEARING_H_*/
+#endif /*PU_SOUND_IMPLEMENTATION_LISTENER_H_*/

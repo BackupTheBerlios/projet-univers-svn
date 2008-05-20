@@ -58,7 +58,7 @@ libmodel_la_SOURCES = \
 ../implementation/detectable.cpp \
 ../implementation/detector_object_view.cpp \
 ../implementation/menu.cpp \
-../implementation/hearing.cpp \
+../implementation/listener.cpp \
 ../implementation/selected.cpp \
 ../implementation/shooting_helper.cpp \
 ../implementation/sound_environnement.cpp \

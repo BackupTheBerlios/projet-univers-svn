@@ -71,10 +71,10 @@ namespace ProjetUnivers {
           }
 
           int pos = 0 ;
-		  if(posInFile > 0)
-		  {
-		  	pos = posInFile - m_samplesByBuffer + posInBuffer + 1 ;
-		  }
+      if(posInFile > 0)
+      {
+        pos = posInFile - m_samplesByBuffer + posInBuffer + 1 ;
+      }
           ov_pcm_seek(m_stream, pos);
           
           //Load the buffers and link with the source

@@ -9,6 +9,8 @@ AM_CXXFLAGS=$(PU_CXXFLAGS)
 LDADD=ode/libsoundcode.la
 
 libsound_la_SOURCES = \
+$(SOURCES)/sound/implementation/engine.cpp \
+$(SOURCES)/sound/implementation/listener.cpp \
 $(SOURCES)/sound/implementation/sound.cpp
 
 libsound_la_LDFLAGS = -no-undefined

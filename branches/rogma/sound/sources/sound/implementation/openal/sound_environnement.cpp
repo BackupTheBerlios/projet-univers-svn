@@ -18,79 +18,62 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <kernel/string.h>
 #include <kernel/log.h>
 
+#include <sound/implementation/openal/extension.h>
 #include <sound/implementation/openal/openal.h>
-#include <sound/implementation/openal/engine_sound_view.h>
+#include <sound/implementation/openal/sound_environnement.h>
+
 
 namespace ProjetUnivers {
   namespace Sound {
     namespace Implementation {
       namespace OpenAL {
 
-        RegisterView(OpenAL::EngineSoundView, 
-                     OpenAL::EngineSound, 
+        RegisterView(OpenAL::SoundEnvironnement, 
+                     Model::SoundEnvironnement, 
                      OpenAL::RealWorldViewPoint) ;
-             
-        EngineSoundView::EngineSoundView(
-          OpenAL::EngineSound*        observer,
-          OpenAL::RealWorldViewPoint* viewpoint) 
-        : Kernel::TraitView<OpenAL::EngineSound,OpenAL::RealWorldViewPoint>(observer,viewpoint),
-          SoundEmitter()
+                     
+        SoundEnvironnement::SoundEnvironnement(
+          Model::SoundEnvironnement* object,
+          RealWorldViewPoint*        viewpoint)
+        : Kernel::TraitView<Model::SoundEnvironnement,
+                            RealWorldViewPoint>(object,viewpoint),
+          m_auxEffectSlot(0), m_effect(0)
         {
-          InternalMessage("Sound","Building OpenAL::EngineSound") ;
-        }
-                    
-        std::string EngineSoundView::getSoundFileName() const
-        {
-          return "hit.wav";
-        }
-          
-        bool EngineSoundView::isEvent() const
-        {
-          return false;
+          InformationMessage("Sound","Building OpenAL::SoundEnvironnement") ;
         }
         
-        Kernel::Object* EngineSoundView::getObject() const
+        ALuint SoundEnvironnement::getAuxEffectSlot()
         {
-          getTrait()->getObject() ;
+          return m_auxEffectSlot ;  
         }
         
-        float EngineSoundView::getOuterGain() const
+        void SoundEnvironnement::onInit()
         {
-        	return 0.25;	
+          InformationMessage("Sound","OpenAL::SoundEnvironnement::init enter") ;
+          EFX::createEffect(&m_effect,&m_auxEffectSlot) ;
+          update();
+          InformationMessage("Sound","OpenAL::SoundEnvironnement::init leaving with status: " + getErrorString(alGetError())) ;
+          InformationMessage("Sound","OpenAL::SoundEnvironnement::init leaving") ;
         }
+
+
+        void SoundEnvironnement::onClose()
+        {
+          EFX::destroyEffect(&m_effect,&m_auxEffectSlot) ;
+        }
+                      
+        void SoundEnvironnement::onUpdate()
+        {
+          InformationMessage("Sound","OpenAL::SoundEnvironnement::update enter") ;
+          Model::SoundEnvironnement* env = getTrait()->getObject()->getTrait<Model::SoundEnvironnement>() ;
+          EFX::changeEffect(m_effect,m_auxEffectSlot,env) ;
+          InformationMessage("Sound","OpenAL::SoundEnvironnement::update leave") ;
+        }
+              
         
-        float EngineSoundView::getOuterAngle() const
-        {
-          return 170;
-        }
-        
-        float EngineSoundView::getInnerAngle() const
-        {
-          return 45;
-        }
-                  
-        void EngineSoundView::onInit()
-        {
-          this->initSound();
-        }
-                    
-        void EngineSoundView::onClose()
-        {
-          this->deleteSound();
-        }
-                    
-        void EngineSoundView::onUpdate()
-        {
-          this->updateSource();
-        }
-        
-        void EngineSoundView::onChangeParent(Kernel::Object* i_old_parent)
-        {
-          InformationMessage("Sound","call onChangeParent") ;
-          this->changeParentSource() ;
-        }
       
       }
     }

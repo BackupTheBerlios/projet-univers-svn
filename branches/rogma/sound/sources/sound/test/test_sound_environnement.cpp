@@ -34,7 +34,7 @@
 #include <model/position.h>
 #include <model/oriented.h>
 #include <model/orientation.h>
-#include <model/hearing.h>
+#include <model/listener.h>
 #include <model/mobile.h>
 #include <model/engine.h>
 #include <model/force.h>
@@ -70,7 +70,7 @@ namespace ProjetUnivers {
         Model::addTrait(system, new Model::Oriented()) ;
 
         Kernel::Object* listener = Model::createObject(system) ;
-        Model::addTrait(listener,new Model::Hearing()) ;
+        Model::addTrait(listener,new Model::Listener()) ;
         Model::addTrait(listener,new Model::Positionned()) ;
         Model::addTrait(listener,new Model::Oriented(Model::Orientation(Ogre::Quaternion(1.0, 0.0, 10.0, 0.0)))) ;
         Model::addTrait(listener,new Model::Mobile());

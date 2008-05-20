@@ -68,12 +68,12 @@ namespace ProjetUnivers {
         
         bool Reader::isFinish() const
         {
-        	return m_finish ;	
+          return m_finish ;  
         }
         
         void Reader::setFinish(bool isFinish)
         {
-          m_finish = isFinish ;	
+          m_finish = isFinish ;  
         }
         
       }

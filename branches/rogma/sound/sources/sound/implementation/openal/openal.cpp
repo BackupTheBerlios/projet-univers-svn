@@ -78,7 +78,7 @@ namespace ProjetUnivers {
           }
           catch (Kernel::ExceptionKernel e)
           {
-          	deviceType = "Generic Software" ;
+            deviceType = "Generic Software" ;
           }
           device = alcOpenDevice(deviceType.c_str());
           if (!device)
@@ -114,7 +114,7 @@ namespace ProjetUnivers {
           }
           catch (Kernel::ExceptionKernel e)
           {
-          	attenuationModel = "INVERSE_DISTANCE_CLAMPED" ;
+            attenuationModel = "INVERSE_DISTANCE_CLAMPED" ;
           }
           std::map<std::string, ALenum> stringToEnum;
           stringToEnum["NONE"] = AL_NONE;
@@ -148,7 +148,7 @@ namespace ProjetUnivers {
           // Fermeture du device
           if(!alcCloseDevice(device))
           {
-          	InformationMessage("Sound","Sound::OpenAL::close can't close device, some device or buffer remain") ;
+            InformationMessage("Sound","Sound::OpenAL::close can't close device, some device or buffer remain") ;
           }
           initialised = false ;
           InternalMessage("Sound","Sound::OpenAL::close leaving") ;
@@ -161,10 +161,10 @@ namespace ProjetUnivers {
         
         Kernel::ViewPoint* build(Kernel::Object* listener, Kernel::Object* reference)
         {
-        	manager = new Manager(listener, reference) ;
-        	sound_system = new Implementation::OpenAL::RealWorldViewPoint(listener) ;
-        	sound_system->init() ;
-        	return sound_system ;
+          manager = new Manager(listener, reference) ;
+          sound_system = new Implementation::OpenAL::RealWorldViewPoint(listener) ;
+          sound_system->init() ;
+          return sound_system ;
         }
         
         std::string getErrorString(const ALenum& error)
@@ -188,7 +188,7 @@ namespace ProjetUnivers {
         
         Kernel::ViewPoint* getViewPoint()
         {
-          return sound_system ;	
+          return sound_system ;  
         }
         
         Manager* getManager()

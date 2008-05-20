@@ -598,15 +598,23 @@
      - corrected bug : incorrect vehicle position update due to bug on 
        DeducedTrait::getLatestUpdatedTrait
 
-2008-05-19 rogma
+2008-05-xx rogma
+
   * All : 
     - modifications for windows compiling
   * Sound : 
     - separated tests into several test suites
     - Manager : choose of reader is made on extension
     - added efx mocking for linux compiling : under linux does nothing, but 
-      efx is activated on windows. Two tests are not launched.
-	
+      efx is activated on windows. Two tests are not launched because they 
+      would require two much refactoring.
+	  - used Ogre resource manager to retreive sound files : they should be now 
+	    put in Media subfolders and registered through ressources.cfg
+    - moved deduced trait to sound::implementation level, renamed views
+	  - added audio ressources in Media
+	* Model :
+	  - renamed Hearing into Listener
+	  
 @todo :
 
   
@@ -678,8 +686,10 @@
     
   * Sound : 
     - reconsider the implementation with the limitation 
-    - move deduced trait to sound::implementation level (i.e. one up) ??
-
+    - change Engine gain accoarding to engine "power" and current applied 
+      throttle
+    - add Shot sound
+    
   * Kernel :
     - better errors on object structure
     - add an onDeduced event on deduced traits : it would allow one to perform 

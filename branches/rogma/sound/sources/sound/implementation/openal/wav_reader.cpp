@@ -59,10 +59,10 @@ namespace ProjetUnivers {
           }
           
           int pos = 0 ;
-		  if(posInFile > 0)
-		  {
-		  	pos = posInFile - m_samplesByBuffer + posInBuffer + 1;
-		  }
+      if(posInFile > 0)
+      {
+        pos = posInFile - m_samplesByBuffer + posInBuffer + 1;
+      }
           sf_seek(m_file, pos, SEEK_SET);
           
           //Load the buffers and link with the source
@@ -90,7 +90,7 @@ namespace ProjetUnivers {
           ALsizei totalRead  = 0;
           while (totalRead < m_samplesByBuffer)
           {
-          	ALsizei read = sf_read_short(m_file, &samples[totalRead], m_samplesByBuffer - totalRead);
+            ALsizei read = sf_read_short(m_file, &samples[totalRead], m_samplesByBuffer - totalRead);
             if (read > 0)
             {
               totalRead += read;

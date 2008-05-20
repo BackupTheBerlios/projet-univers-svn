@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Morgan GRIGNARD                                 *
+ *   Copyright (C) 2007 Morgan GRIGNARD                                    *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,26 +18,65 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <kernel/deduced_trait.h>
-#include <model/hearing.h>
-#include <model/mobile.h>
-#include <model/oriented.h>
-#include <model/positionned.h>
+#include <kernel/log.h>
 
+#include <sound/implementation/openal/openal.h>
 #include <sound/implementation/openal/listener.h>
 
 namespace ProjetUnivers {
   namespace Sound {
     namespace Implementation {
       namespace OpenAL {
+        
+        RegisterView(OpenAL::Listener, 
+                     Implementation::Listener, 
+                     OpenAL::RealWorldViewPoint) ;
+        
+        Listener::Listener(
+          Implementation::Listener*   object,
+          OpenAL::RealWorldViewPoint* viewpoint) 
+        : Kernel::TraitView<Implementation::Listener,
+                            OpenAL::RealWorldViewPoint>(object,viewpoint),
+        SoundListener()
+        {
+          InternalMessage("Sound","Building OpenAL::Listener") ;
+        }
+        
+        float Listener::getGain() const
+        {
+          return 1.0f;
+        }
+        
+        Kernel::Object* Listener::getObject() const
+        {
+          getTrait()->getObject() ;
+        }
+        
+        void Listener::onInit()
+        {
+          InternalMessage("Sound","OpenAL::Listener::onInit Entering") ;
 
-        DeclareDeducedTrait(Listener,
-                            And(HasTrait(Model::Mobile),
-                                HasTrait(Model::Positionned),
-                                HasTrait(Model::Oriented),
-                                HasTrait(Model::Hearing))) ;
+          this->updateListener();
+                      
+          InternalMessage("Sound","OpenAL::Listener::onInit Leaving") ;
+        }
+          
+        void Listener::onClose()
+        {
+          InternalMessage("Sound","OpenAL::Listener::onClose Entering") ;
 
+          //Just one listener by context in openal , it's destroy with openal context
+          
+          InternalMessage("Sound","OpenAL::Listener::onClose Leaving") ;
+        }
+        
+        void Listener::onUpdate()
+        {
+          this->updateListener();
+        }
+        
       }
     }
-  } 
+  }
 }
+

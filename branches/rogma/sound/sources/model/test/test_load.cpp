@@ -32,7 +32,7 @@
 #include <model/engine_controler.h>
 #include <model/throttle.h>
 #include <model/force_generator.h>
-#include <model/hearing.h>
+#include <model/listener.h>
 #include <model/guidance_controler.h>
 #include <model/guidance_system.h>
 #include <model/laser.h>
@@ -304,24 +304,24 @@ namespace ProjetUnivers {
         CPPUNIT_ASSERT(guidance_controler->getTrait<GuidanceControler>()) ;
       }
       
-      void TestLoad::testLoadHearing()
+      void TestLoad::testLoadListener()
       {
         std::string content(
           "<?xml version=\"1.0\"?>\n"
             "<model>\n"
               "<object id=\"1\">\n"
-                "<Hearing hearing_percentage=\"10\"/>\n"
+                "<Listener hearing_percentage=\"10\"/>\n"
               "</object>\n"
             "</model>\n") ;
         std::auto_ptr<Kernel::XMLReader> reader(Kernel::XMLReader::getStringReader(content)) ;
-        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadHearing")) ;          
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadListener")) ;          
         reader->read(model.get()) ;
 
         std::set<Kernel::Object*> roots(model->getRoots()) ;
         CPPUNIT_ASSERT(roots.size() == 1) ;
         Kernel::Object* root = *roots.begin() ;
-        CPPUNIT_ASSERT(root->getTrait<Hearing>()) ;
-        CPPUNIT_ASSERT(root->getTrait<Hearing>()->getHearing()==10) ;
+        CPPUNIT_ASSERT(root->getTrait<Listener>()) ;
+        CPPUNIT_ASSERT(root->getTrait<Listener>()->getHearing()==10) ;
       }
 
       void TestLoad::testLoadLaser()

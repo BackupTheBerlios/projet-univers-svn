@@ -13,13 +13,11 @@ $(SOURCES)/sound/implementation/openal/wav_reader.cpp \
 $(SOURCES)/sound/implementation/openal/ogg_reader.cpp \
 $(SOURCES)/sound/implementation/openal/sound_listener.cpp \
 $(SOURCES)/sound/implementation/openal/listener.cpp \
-$(SOURCES)/sound/implementation/openal/listener_view.cpp \
 $(SOURCES)/sound/implementation/openal/sound_emitter.cpp \
 $(SOURCES)/sound/implementation/openal/background_sound.cpp \
 $(SOURCES)/sound/implementation/openal/collision.cpp \
-$(SOURCES)/sound/implementation/openal/engine_sound.cpp \
-$(SOURCES)/sound/implementation/openal/engine_sound_view.cpp \
-$(SOURCES)/sound/implementation/openal/sound_environnement_view.cpp \
+$(SOURCES)/sound/implementation/openal/engine.cpp \
+$(SOURCES)/sound/implementation/openal/sound_environnement.cpp \
 $(SOURCES)/sound/implementation/openal/filter.cpp \
 $(SOURCES)/sound/implementation/openal/efx/@efx_name@.cpp 
 

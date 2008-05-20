@@ -30,8 +30,6 @@ namespace ProjetUnivers {
       namespace OpenAL {
 
         /// Streaming reader for wav files.
-        /*!
-        */
         class WavReader : public Reader
         {
         
@@ -42,7 +40,8 @@ namespace ProjetUnivers {
         // @{
           
           /// Constructor in use
-          WavReader(const ALuint& p_source, const std::string& p_fileName, const bool& p_isEvent, const float& p_updateTime) ;
+          WavReader(const ALuint& p_source, const std::string& p_fileName, 
+                    const bool& p_isEvent, const float& p_updateTime) ;
         // @}
           
           

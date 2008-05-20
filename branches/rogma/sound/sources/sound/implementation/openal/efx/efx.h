@@ -37,34 +37,34 @@ namespace ProjetUnivers {
     namespace Implementation {
       namespace OpenAL {
 
-      	/// Special sound effects through efx
+        /// Special sound effects through efx
         namespace EFX
-      	{
+        {
           
           /// Get extension parameters
           ALint* getParameters() ;
           
           /// Init extension.
-      	  void init(ALCdevice* device) ;
-      	  
-      	  /// close the module.
-      	  void close() ;
-      	  
-      	  /// Create an effect slot.
-      	  void createEffect(ALuint* effect,ALuint* auxEffectSlot) ;
-      	  
+          void init(ALCdevice* device) ;
+          
+          /// close the module.
+          void close() ;
+          
           /// Create an effect slot.
-      	  void destroyEffect(ALuint* effect,ALuint* auxEffectSlot) ;
-      	  
-      	  /// Set effect slot parameters according to model.
-      	  void changeEffect(ALuint effect,
-      	                    ALuint auxEffectSlot,
-      	                    Model::SoundEnvironnement* env) ;
-      	  
-      	  /// Apply an effect to a source.
-      	  void applyEffectToSource(ALuint source,ALuint auxEffectSlot) ;
+          void createEffect(ALuint* effect,ALuint* auxEffectSlot) ;
+          
+          /// Create an effect slot.
+          void destroyEffect(ALuint* effect,ALuint* auxEffectSlot) ;
+          
+          /// Set effect slot parameters according to model.
+          void changeEffect(ALuint effect,
+                            ALuint auxEffectSlot,
+                            Model::SoundEnvironnement* env) ;
+          
+          /// Apply an effect to a source.
+          void applyEffectToSource(ALuint source,ALuint auxEffectSlot) ;
 
-      	}
+        }
       }
     }
   }

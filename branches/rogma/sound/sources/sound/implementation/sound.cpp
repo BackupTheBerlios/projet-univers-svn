@@ -18,10 +18,13 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <Ogre.h>
+
 #include <kernel/log.h>
 
 #include <sound/implementation/openal/openal.h>
 
+#include <sound/implementation/sound_internal.h>
 #include <sound/sound.h>
 
 namespace ProjetUnivers {
@@ -33,7 +36,48 @@ namespace ProjetUnivers {
   // @{
 
     bool initialised = false ;
+
+    /// for ogre audio loading     
+    Ogre::LogManager*       log_manager ;
+    Ogre::Root*             root ;
+    
   // @}
+
+    void initRessources()
+    {
+      /// if sufficient ressources have not been initialised...
+      InternalMessage("Sound","Sound::initRessources entering") ;
+      if (! Ogre::MeshManager::getSingletonPtr())
+      {
+        log_manager = new Ogre::LogManager() ;
+        log_manager->createLog("Ogre.log", false, false); 
+        root = new Ogre::Root() ;
+        
+        Ogre::ConfigFile file ;
+        file.load("ressources.cfg") ;
+
+        // On parcours ses sections
+        Ogre::ConfigFile::SectionIterator section = file.getSectionIterator();
+
+        Ogre::String nomSection, nomType, nomArchitecture ;
+        while (section.hasMoreElements())
+        {
+          nomSection = section.peekNextKey();
+          Ogre::ConfigFile::SettingsMultiMap* settings = section.getNext();
+          
+          Ogre::ConfigFile::SettingsMultiMap::iterator i;
+          for (i = settings->begin(); i != settings->end(); ++i)
+          {
+              nomType = i->first;
+              nomArchitecture = i->second;
+              Ogre::ResourceGroupManager::getSingleton().addResourceLocation(
+                  nomArchitecture, nomType, nomSection);
+          }
+        }
+      }
+
+      InternalMessage("Sound","Sound::initRessources leaving") ;
+    }
     
     void init() 
     {
@@ -68,6 +112,7 @@ namespace ProjetUnivers {
       return Implementation::OpenAL::build(listener, reference) ;      
     }
 
+    
   }
 }
 
