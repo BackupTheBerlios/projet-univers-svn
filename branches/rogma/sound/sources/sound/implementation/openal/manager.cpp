@@ -77,7 +77,11 @@ namespace ProjetUnivers {
           m_readers.clear() ;
         }
         
-        Reader* Manager::createReader(const ALuint& p_source,const std::string& p_fileName, const bool& p_isEvent, const int& m_posInFile, const int& m_posInBuffer)
+        Reader* Manager::createReader(const ALuint& p_source,
+                                      const std::string& p_fileName, 
+                                      const bool& p_isEvent, 
+                                      const int& m_posInFile, 
+                                      const int& m_posInBuffer)
         {
           Reader* result = NULL ;
           //Query a buffer a little bigger to evite the case 

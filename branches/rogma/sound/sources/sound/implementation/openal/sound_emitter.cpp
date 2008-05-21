@@ -52,7 +52,10 @@ namespace ProjetUnivers {
           {
             InformationMessage("Sound","SoundEmitter::init real") ;
             alGenSources(1,&m_source) ;
-            m_reader = getManager()->createReader(m_source, getSoundFileName().c_str(), isEvent(), m_posInFile, m_posInBuffer) ;
+            m_reader = getManager()->createReader(m_source, 
+                                                  getSoundFileName().c_str(), 
+                                                  isEvent(), m_posInFile, 
+                                                  m_posInBuffer) ;
             alSourcei(m_source, AL_SOURCE_RELATIVE, AL_FALSE) ;
             updateSource();   
           } 
