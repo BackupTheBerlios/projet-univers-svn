@@ -34,15 +34,16 @@ namespace ProjetUnivers {
         Collision::Collision(
           Model::Collision* i_observer,
           RealWorldViewPoint*     i_viewpoint) 
-        : Kernel::TraitView<Model::Collision,RealWorldViewPoint>(i_observer,i_viewpoint),
-        SoundEmitter()
+        : Kernel::TraitView<Model::Collision,
+                            RealWorldViewPoint>(i_observer,i_viewpoint),
+          SoundEmitter()
         {
           InternalMessage("Sound","Building OpenAL::Collision") ;
         }
                     
         std::string Collision::getSoundFileName() const
         {
-          return "sound.wav";
+          return "pu_choc.ogg";
         }
           
         bool Collision::isEvent() const

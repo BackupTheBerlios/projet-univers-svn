@@ -33,6 +33,7 @@ namespace ProjetUnivers {
   // @{
 
     bool initialised = false ;
+    
   // @}
     
     void init() 
@@ -68,6 +69,7 @@ namespace ProjetUnivers {
       return Implementation::OpenAL::build(listener, reference) ;      
     }
 
+    
   }
 }
 

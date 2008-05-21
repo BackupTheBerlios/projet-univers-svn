@@ -44,6 +44,7 @@ namespace ProjetUnivers {
           if (!m_file)
           {
               ErrorMessage("[OpenAL::OggReader] Can't read the file: " + m_fileName);
+              return ;
           }
 
           // Create Ogg Stream on the file
@@ -52,6 +53,7 @@ namespace ProjetUnivers {
           if (error < 0)
           {
               ErrorMessage("[OpenAL::OggReader] Can't read the samples");
+              return ;
           }
 
           // Récupération des informations du son
@@ -65,13 +67,14 @@ namespace ProjetUnivers {
             case 2 : m_format = AL_FORMAT_STEREO16; break;
             default :
               ErrorMessage("[OpenAL::OggReader] Audio Format audio not supported (more than 2 channel)");
+              return ;
           }
 
           int pos = 0 ;
-		  if(posInFile > 0)
-		  {
-		  	pos = posInFile - m_samplesByBuffer + posInBuffer + 1 ;
-		  }
+      if(posInFile > 0)
+      {
+        pos = posInFile - m_samplesByBuffer + posInBuffer + 1 ;
+      }
           ov_pcm_seek(m_stream, pos);
           
           //Load the buffers and link with the source
@@ -81,6 +84,7 @@ namespace ProjetUnivers {
           if (alGetError() != AL_NO_ERROR)
           {
             InformationMessage("Sound","[OpenAL::OggReader] Impossible to queue the buffers");
+            return ;
           }
           
           InternalMessage("Sound","leave oggreader Init") ;  
@@ -90,7 +94,6 @@ namespace ProjetUnivers {
         {
           ov_clear(m_stream);
           delete m_stream;
-          fclose(m_file);
         }
           
         void OggReader::loadBuffer(ALuint buffer)

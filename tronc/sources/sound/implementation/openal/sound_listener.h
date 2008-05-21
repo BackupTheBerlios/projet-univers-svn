@@ -34,7 +34,7 @@ namespace ProjetUnivers {
         /// Common part of object's views that hear sound.
         /*!
           An objects that can hear a sound must have an observer which extends 
-          this trait. For example : the player...
+          this class. For example : the player...
         */
         class SoundListener
         {
@@ -43,12 +43,15 @@ namespace ProjetUnivers {
         /*!
           @name Access methods
           
-          These can be redefined by sub classes. They globally describe the listener. 
+          These can be redefined by sub classes. They globally describe the 
+          listener. 
         */
         // @{
           
           /// Get the master gain between 0 and 1.0
-          /// TODO vérifier les limites
+          /*! 
+            @todo check the limits
+          */
           virtual float getGain() const ;
           
            ///Acces to the object with the trait

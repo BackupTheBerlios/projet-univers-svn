@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007 Morgan GRIGNARD                                    *
+ *   Copyright (C) 2008 Morgan GRIGNARD Mathieu ROGER                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,64 +18,55 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <kernel/log.h>
+#ifndef PU_SOUND_IMPLEMENTATION_OPENAL_EFX_EFX_NONE_H_
+#define PU_SOUND_IMPLEMENTATION_OPENAL_EFX_EFX_NONE_H_
 
-#include <sound/implementation/openal/openal.h>
-#include <sound/implementation/openal/listener_view.h>
+#include <AL/al.h>
+#include <AL/alc.h>
 
 namespace ProjetUnivers {
+
+  namespace Model {
+    class SoundEnvironnement ;
+  }
+  
   namespace Sound {
     namespace Implementation {
       namespace OpenAL {
-        
-        RegisterView(OpenAL::ListenerView, 
-                     OpenAL::Listener, 
-                     OpenAL::RealWorldViewPoint) ;
-        
-        ListenerView::ListenerView(
-          OpenAL::Listener* i_observer,
-          OpenAL::RealWorldViewPoint*     i_viewpoint) 
-        : Kernel::TraitView<OpenAL::Listener,OpenAL::RealWorldViewPoint>(i_observer,i_viewpoint),
-        SoundListener()
-        {
-          InternalMessage("Sound","Building OpenAL::Listener") ;
-        }
-        
-        float ListenerView::getGain() const
-        {
-          return 1.0f;
-        }
-        
-        Kernel::Object* ListenerView::getObject() const
-        {
-          getTrait()->getObject() ;
-        }
-        
-        void ListenerView::onInit()
-        {
-          InternalMessage("Sound","OpenAL::Listener::onInit Entering") ;
 
-          this->updateListener();
-                      
-          InternalMessage("Sound","OpenAL::Listener::onInit Leaving") ;
-        }
-          
-        void ListenerView::onClose()
+        /// Special sound effects through efx
+        /*! 
+          This implementation does nothing; on purpose.
+        */
+        namespace EFX
         {
-          InternalMessage("Sound","OpenAL::Listener::onClose Entering") ;
-
-          //Just one listener by context in openal , it's destroy with openal context
+          /// Get extension parameters
+          ALint* getParameters() ;
           
-          InternalMessage("Sound","OpenAL::Listener::onClose Leaving") ;
+          /// Init extension.
+          void init(ALCdevice* device) ;
+          
+          /// close the module.
+          void close() ;
+          
+          /// Create an effect slot.
+          void createEffect(ALuint* effect,ALuint* auxEffectSlot) ;
+          
+          /// Create an effect slot.
+          void destroyEffect(ALuint* effect,ALuint* auxEffectSlot) ;
+          
+          /// Set effect slot parameters according to model.
+          void changeEffect(ALuint effect,
+                            ALuint auxEffectSlot,
+                            Model::SoundEnvironnement* env) ;
+          
+          /// Apply an effect to a source.
+          void applyEffectToSource(ALuint source,ALuint auxEffectSlot) ;
+          
         }
-        
-        void ListenerView::onUpdate()
-        {
-          this->updateListener();
-        }
-        
       }
     }
   }
 }
 
+#endif /*PU_SOUND_IMPLEMENTATION_OPENAL_EFX_EFX_NONE_H_*/

@@ -29,7 +29,7 @@
 #include <model/positionned.h>
 #include <model/position.h>
 #include <model/oriented.h>
-#include <model/ear.h>
+#include <model/listener.h>
 #include <model/mobile.h>
 #include <model/engine.h>
 #include <model/force.h>
@@ -62,7 +62,7 @@ namespace ProjetUnivers {
         Model::addTrait(system, new Model::Oriented()) ;
 
         Kernel::Object* listener = Model::createObject(system) ;
-        Model::addTrait(listener,new Model::Ear()) ;
+        Model::addTrait(listener,new Model::Listener()) ;
         Model::Positionned* listenerPos = new Model::Positionned();
         Model::addTrait(listener,listenerPos) ;
         Model::addTrait(listener,new Model::Oriented()) ;
@@ -85,7 +85,7 @@ namespace ProjetUnivers {
         /// moving on Z axis
         while (timer.getSecond() <= 10)
         {
-       	  enginePos->setPosition(enginePos->getPosition()+ Model::Position::Meter(0,0,0.005));
+           enginePos->setPosition(enginePos->getPosition()+ Model::Position::Meter(0,0,0.005));
           float seconds = timer.getSecond() ;
           Model::Duration elapsed(Model::Duration::Second(seconds)) ;
           Model::update(elapsed) ;
@@ -97,7 +97,7 @@ namespace ProjetUnivers {
         enginePos->setPosition(Model::Position::Meter(-50,0,0));
         while (timer.getSecond() <= 10)
         {
-       	  enginePos->setPosition(enginePos->getPosition()+ Model::Position::Meter(0.005,0,0));
+           enginePos->setPosition(enginePos->getPosition()+ Model::Position::Meter(0.005,0,0));
           float seconds = timer.getSecond() ;
           Model::Duration elapsed(Model::Duration::Second(seconds)) ;
           Model::update(elapsed) ;
@@ -109,7 +109,7 @@ namespace ProjetUnivers {
         enginePos->setPosition(Model::Position::Meter(0,-50,0));
         while (timer.getSecond() <= 10)
         {
-       	  enginePos->setPosition(enginePos->getPosition()+ Model::Position::Meter(0,0.005,0));
+           enginePos->setPosition(enginePos->getPosition()+ Model::Position::Meter(0,0.005,0));
           float seconds = timer.getSecond() ;
           Model::Duration elapsed(Model::Duration::Second(seconds)) ;
           Model::update(elapsed) ;
@@ -121,8 +121,8 @@ namespace ProjetUnivers {
         enginePos->setPosition(Model::Position::Meter(0,0,-100));
         while (timer.getSecond() <= 10)
         {
-       	  listenerPos->setPosition(listenerPos->getPosition()+ Model::Position::Meter(0,0,-0.005));
-       	  enginePos->setPosition(enginePos->getPosition()+ Model::Position::Meter(0,0,0.005));
+           listenerPos->setPosition(listenerPos->getPosition()+ Model::Position::Meter(0,0,-0.005));
+           enginePos->setPosition(enginePos->getPosition()+ Model::Position::Meter(0,0,0.005));
           float seconds = timer.getSecond() ;
           Model::Duration elapsed(Model::Duration::Second(seconds)) ;
           Model::update(elapsed) ;

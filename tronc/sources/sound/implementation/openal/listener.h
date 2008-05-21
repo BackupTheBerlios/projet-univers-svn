@@ -18,25 +18,79 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_SOUND_IMPLEMENTATION_OPENAL_LISTENER_H_
-#define PU_SOUND_IMPLEMENTATION_OPENAL_LISTENER_H_
+#ifndef PU_SOUND_IMPLEMENTATION_OPENAL_LISTENER_VIEW_H_
+#define PU_SOUND_IMPLEMENTATION_OPENAL_LISTENER_VIEW_H_
 
-#include <kernel/object.h>
-#include <kernel/deduced_trait.h>
+#include <kernel/trait_view.h>
+
+#include <sound/implementation/openal/sound_listener.h>
+#include <sound/implementation/openal/real_world_view_point.h>
+#include <sound/implementation/listener.h>
 
 namespace ProjetUnivers {
   namespace Sound {
     namespace Implementation {
       namespace OpenAL {
-
-        /// For objects that can listen the sound environnement
-        class Listener : public Kernel::DeducedTrait
-        {
         
+        
+        /// Sound Observer view.
+        class Listener : public Kernel::TraitView<Implementation::Listener,
+                                                  RealWorldViewPoint>, 
+                         public SoundListener
+        {
+        public:
+        
+        /*!
+          @name Construction 
+        */
+        // @{
+
+
+          /// Constructor.
+          Listener(Implementation::Listener*,RealWorldViewPoint*) ;
+
+
+        // @}
+        
+        protected:
+        
+         /*!
+          @name Access methods
+          
+          Redefinition of some properties of the listener.
+          
+        */
+        // @{
+          
+          /// @Implements
+          virtual float getGain() const ;
+          
+          ///Acces to the object with the trait
+          Kernel::Object* getObject() const ;
+          
+        // @}
+          
+
+        /*!
+          @name Updates.
+        */
+        // @{
+        
+          /// TODO
+          void onInit() ;
+          
+          /// TODO
+          void onClose() ;
+          
+          /// TODO
+          void onUpdate() ;
+
+        // @}
         };
       }
     }
-  } 
+  }
 }
 
-#endif /*PU_SOUND_IMPLEMENTATION_OPENAL_LISTENER_H_*/
+
+#endif /*PU_SOUND_IMPLEMENTATION_OPENAL_LISTENER_VIEW_H_*/

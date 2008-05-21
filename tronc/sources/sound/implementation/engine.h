@@ -18,8 +18,8 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_SOUND_IMPLEMENTATION_OPENAL_ENGINE_SOUND_H_
-#define PU_SOUND_IMPLEMENTATION_OPENAL_ENGINE_SOUND_H_
+#ifndef PU_SOUND_IMPLEMENTATION_ENGINE_H_
+#define PU_SOUND_IMPLEMENTATION_ENGINE_H_
 
 #include <kernel/object.h>
 #include <kernel/deduced_trait.h>
@@ -27,16 +27,13 @@
 namespace ProjetUnivers {
   namespace Sound {
     namespace Implementation {
-      namespace OpenAL {
 
-        /// For sound part of engine
-        class EngineSound : public Kernel::DeducedTrait
-       {
-       
-       };
-      }
+      /// For sound part of engine
+      class Engine : public Kernel::DeducedTrait
+      {};
+      
     }
   } 
 }
 
-#endif /*PU_SOUND_IMPLEMENTATION_OPENAL_ENGINE_SOUND_H_*/
+#endif /*PU_SOUND_IMPLEMENTATION_ENGINE_SOUND_H_*/

@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007 Morgan GRIGNARD                                    *
+ *   Copyright (C) 2008 Morgan GRIGNARD Mathieu ROGER                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,81 +18,57 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_SOUND_IMPLEMENTATION_OPENAL_LISTENER_VIEW_H_
-#define PU_SOUND_IMPLEMENTATION_OPENAL_LISTENER_VIEW_H_
+#ifndef PU_SOUND_IMPLEMENTATION_OPENAL_EFX_EFX_H_
+#define PU_SOUND_IMPLEMENTATION_OPENAL_EFX_EFX_H_
 
-#include <kernel/trait_view.h>
-
-#include <sound/implementation/openal/sound_listener.h>
-#include <sound/implementation/openal/real_world_view_point.h>
-#include <sound/implementation/openal/listener.h>
+#include <AL/al.h>
+#include <AL/alc.h>
+#include <AL/efx.h>
+#include <AL/efx-creative.h>
+#include <AL/EFX-Util.h>
 
 namespace ProjetUnivers {
+
+  namespace Model {
+    class SoundEnvironnement ;
+  }
+  
   namespace Sound {
     namespace Implementation {
       namespace OpenAL {
-        
-        
-        /// Sound Observer view.
-        /*!
-        */
-        class ListenerView : public Kernel::TraitView<Listener,
-                                                      RealWorldViewPoint>, 
-                             public SoundListener
+
+        /// Special sound effects through efx
+        namespace EFX
         {
-        public:
-        
-        /*!
-          @name Construction 
-        */
-        // @{
+          
+          /// Get extension parameters
+          ALint* getParameters() ;
+          
+          /// Init extension.
+          void init(ALCdevice* device) ;
+          
+          /// close the module.
+          void close() ;
+          
+          /// Create an effect slot.
+          void createEffect(ALuint* effect,ALuint* auxEffectSlot) ;
+          
+          /// Create an effect slot.
+          void destroyEffect(ALuint* effect,ALuint* auxEffectSlot) ;
+          
+          /// Set effect slot parameters according to model.
+          void changeEffect(ALuint effect,
+                            ALuint auxEffectSlot,
+                            Model::SoundEnvironnement* env) ;
+          
+          /// Apply an effect to a source.
+          void applyEffectToSource(ALuint source,ALuint auxEffectSlot) ;
 
-
-          /// Constructor.
-          ListenerView(Listener*,RealWorldViewPoint*) ;
-
-
-        // @}
-        
-        protected:
-        
-         /*!
-          @name Access methods
-          
-          Redefinition of some properties of the listener.
-          
-        */
-        // @{
-          
-          /// @Implements
-          virtual float getGain() const ;
-          
-          ///Acces to the object with the trait
-          Kernel::Object* getObject() const ;
-          
-        // @}
-          
-
-        /*!
-          @name Updates.
-        */
-        // @{
-        
-          /// TODO
-          void onInit() ;
-          
-          /// TODO
-          void onClose() ;
-          
-          /// TODO
-          void onUpdate() ;
-
-        // @}
-        };
+        }
       }
     }
   }
 }
 
 
-#endif /*PU_SOUND_IMPLEMENTATION_OPENAL_LISTENER_VIEW_H_*/
+#endif /*PU_SOUND_IMPLEMENTATION_OPENAL_EFX_EFX_H_*/

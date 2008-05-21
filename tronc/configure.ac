@@ -51,9 +51,18 @@ AC_SUBST(ODE_LIBS, "-lode")
 # check OpenAL
 PKG_CHECK_MODULES(openal, [openal >= 0.0.8])
 AC_SUBST(openal_LIBS)
+AC_SUBST(openal_CFLAGS)
 
-# AC_CHECK_HEADER([AL/efx.h],have_efx=yes,have_efx=no)
-# AM_CONDITIONAL(HAVE_EFX, test "x$have_efx" = "xyes")
+# OpenAL efx extension : windows only 
+AC_CHECK_HEADER([AL/efx.h],efx=efx,efx=efx_none)
+# the header used for efx, either
+# sound/implementation/openal/efx/efx.h
+# sound/implementation/openal/efx/efx_none.h
+AC_SUBST(efx_name,$efx)
+
+PKG_CHECK_MODULES(freealut, [freealut >= 1.1])
+AC_SUBST(freealut_LIBS)
+
 
 # check Ogg
 PKG_CHECK_MODULES(ogg, [ogg >= 1.1.3])
@@ -137,6 +146,7 @@ AC_CONFIG_FILES([Makefile \
                  sources/sound/Makefile \
                  sources/sound/compilation/Makefile \
                  sources/sound/compilation/openal/Makefile \
+                 sources/sound/implementation/openal/extension.h \
                  sources/artificial_intelligence/Makefile \
                  sources/artificial_intelligence/compilation/Makefile \
                  ])

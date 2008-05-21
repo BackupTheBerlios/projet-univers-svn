@@ -38,9 +38,12 @@ namespace ProjetUnivers {
       
           /// Add two filters
           friend Filter operator+(const Filter& p_f1, const Filter& p_f1) ;
+          
           /// Sub the second to the first filter
-          // No meaning? When we sub a 0.0 gain we can't know the gain before...
-          // @TODO see if usefull
+          /*! 
+            No meaning? When we sub a 0.0 gain we can't know the gain before...
+            @todo see if usefull
+          */
           friend Filter operator-(const Filter& p_f1, const Filter& p_f1) ;
           
         /*!

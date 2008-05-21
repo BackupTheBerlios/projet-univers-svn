@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007 Morgan GRIGNARD                                    *
+ *   Copyright (C) 2007-2008 Morgan GRIGNARD Mathieu ROGER                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,23 +18,23 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_SOUND_IMPLEMENTATION_OPENAL_ENGINE_SOUND_VIEW_H_
-#define PU_SOUND_IMPLEMENTATION_OPENAL_ENGINE_SOUND_VIEW_H_
+#ifndef PU_SOUND_IMPLEMENTATION_OPENAL_ENGINE_H_
+#define PU_SOUND_IMPLEMENTATION_OPENAL_ENGINE_H_
 
 #include <kernel/trait_view.h>
 
+#include <sound/implementation/engine.h>
 #include <sound/implementation/openal/sound_emitter.h>
 #include <sound/implementation/openal/real_world_view_point.h>
-#include <sound/implementation/openal/engine_sound.h>
 
 namespace ProjetUnivers {
   namespace Sound {
     namespace Implementation {
       namespace OpenAL {
-
     
-        /// Sound background observer
-        class EngineSoundView : public Kernel::TraitView<EngineSound,RealWorldViewPoint>,
+        /// Sound produced by an engine
+        class Engine : public Kernel::TraitView<Implementation::Engine,
+                                                RealWorldViewPoint>,
                        public SoundEmitter
         {
         public:
@@ -45,7 +45,7 @@ namespace ProjetUnivers {
         // @{
 
           /// Constructor.
-          EngineSoundView(EngineSound*,RealWorldViewPoint*) ;
+          Engine(Implementation::Engine*,RealWorldViewPoint*) ;
 
         // @}
         
@@ -96,4 +96,4 @@ namespace ProjetUnivers {
   }
 }
 
-#endif /*PU_SOUND_IMPLEMENTATION_OPENAL_ENGINE_SOUND_VIEW_H_*/
+#endif /*PU_SOUND_IMPLEMENTATION_OPENAL_ENGINE_H_*/

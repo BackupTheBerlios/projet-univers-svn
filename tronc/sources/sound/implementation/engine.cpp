@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2007-2008 Morgan GRIGNARD Mathieu ROGER                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,55 +18,25 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <kernel/log.h>
+#include <kernel/deduced_trait.h>
+#include <model/engine.h>
+#include <model/mobile.h>
+#include <model/oriented.h>
+#include <model/positionned.h>
 
-#include <model/hearing.h>
+#include <sound/implementation/engine.h>
 
 namespace ProjetUnivers {
-  namespace Model {
-    
-    RegisterTrait(Hearing) ;
+  namespace Sound {
+    namespace Implementation {
 
-    Hearing::Hearing()
-    : Kernel::Trait(),
-      m_hearing_percentage(100)
-    {}
+      // Temporary formula, trait with the same behavior than engine will be add after
+      DeclareDeducedTrait(Engine,
+                          And(HasTrait(Model::Mobile),
+                              HasTrait(Model::Positionned),
+                              HasTrait(Model::Oriented),
+                              HasTrait(Model::Engine))) ;
 
-    Kernel::Trait* Hearing::read(Kernel::Reader* reader)
-    {
-      Hearing* result = new Hearing() ;
-      
-      std::map<std::string,std::string>::const_iterator finder ; 
-
-      finder = reader->getAttributes().find("hearing_percentage") ;
-      if (finder != reader->getAttributes().end())
-      {
-        result->m_hearing_percentage = atoi(finder->second.c_str()) ;
-        if (result->m_hearing_percentage > 100)
-        {
-          result->m_hearing_percentage = 100 ;
-          ErrorMessage("Model::Hearing::read warning : read hearing percentage > 100") ;
-        }
-      }
-      
-      // move out of node
-      while (!reader->isEndNode() && reader->processNode())
-      {}
-      
-      reader->processNode() ;
-
-      return result ;
     }
-
-    int Hearing::getHearing() const
-    {
-      return m_hearing_percentage;
-    }
-    
-    void Hearing::setHearing(int newHearing)
-    {
-    	m_hearing_percentage = newHearing;
-    }
-    
-  }
+  } 
 }

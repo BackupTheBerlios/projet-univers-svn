@@ -18,16 +18,15 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <map>
+
 #include <kernel/log.h>
 #include <kernel/string.h>
 #include <kernel/parameters.h>
 
+#include <sound/implementation/openal/extension.h>
 #include <sound/implementation/openal/openal.h>
 #include <sound/implementation/openal/real_world_view_point.h>
-
-#include <AL/efx.h>
-
-#include <map>
 
 namespace ProjetUnivers {
   namespace Sound {
@@ -40,49 +39,32 @@ namespace ProjetUnivers {
       // @{
         bool initialised = false ;
         ALCdevice* device ;
-        ALCcontext* context ;
+        
         Manager* manager;
         RealWorldViewPoint*  sound_system ;
+        
+        namespace 
+        {
+          // Allowto have only one context at a time
+          struct Context
+          {
+            ALCcontext* context ;
+          
+            Context()
+            : context(NULL)
+            {}
+            
+            ~Context()
+            {
+              if (context)
+                alcDestroyContext(context) ;
+            }
+          };
+        
+          Context context ; 
+        }
       // @}
         
-        // Effect objects
-        LPALGENEFFECTS alGenEffects = NULL;
-        LPALDELETEEFFECTS alDeleteEffects = NULL;
-        LPALISEFFECT alIsEffect = NULL;
-        LPALEFFECTI alEffecti = NULL;
-        LPALEFFECTIV alEffectiv = NULL;
-        LPALEFFECTF alEffectf = NULL;
-        LPALEFFECTFV alEffectfv = NULL;
-        LPALGETEFFECTI alGetEffecti = NULL;
-        LPALGETEFFECTIV alGetEffectiv = NULL;
-        LPALGETEFFECTF alGetEffectf = NULL;
-        LPALGETEFFECTFV alGetEffectfv = NULL;
-
-        //Filter objects
-        LPALGENFILTERS alGenFilters = NULL;
-        LPALDELETEFILTERS alDeleteFilters = NULL;
-        LPALISFILTER alIsFilter = NULL;
-        LPALFILTERI alFilteri = NULL;
-        LPALFILTERIV alFilteriv = NULL;
-        LPALFILTERF alFilterf = NULL;
-        LPALFILTERFV alFilterfv = NULL;
-        LPALGETFILTERI alGetFilteri = NULL;
-        LPALGETFILTERIV alGetFilteriv = NULL;
-        LPALGETFILTERF alGetFilterf = NULL;
-        LPALGETFILTERFV alGetFilterfv = NULL;
-
-        // Auxiliary slot object
-        LPALGENAUXILIARYEFFECTSLOTS alGenAuxiliaryEffectSlots = NULL;
-        LPALDELETEAUXILIARYEFFECTSLOTS alDeleteAuxiliaryEffectSlots = NULL;
-        LPALISAUXILIARYEFFECTSLOT alIsAuxiliaryEffectSlot = NULL;
-        LPALAUXILIARYEFFECTSLOTI alAuxiliaryEffectSloti = NULL;
-        LPALAUXILIARYEFFECTSLOTIV alAuxiliaryEffectSlotiv = NULL;
-        LPALAUXILIARYEFFECTSLOTF alAuxiliaryEffectSlotf = NULL;
-        LPALAUXILIARYEFFECTSLOTFV alAuxiliaryEffectSlotfv = NULL;
-        LPALGETAUXILIARYEFFECTSLOTI alGetAuxiliaryEffectSloti = NULL;
-        LPALGETAUXILIARYEFFECTSLOTIV alGetAuxiliaryEffectSlotiv = NULL;
-        LPALGETAUXILIARYEFFECTSLOTF alGetAuxiliaryEffectSlotf = NULL;
-        LPALGETAUXILIARYEFFECTSLOTFV alGetAuxiliaryEffectSlotfv = NULL;
         
         void init() 
         {
@@ -94,120 +76,45 @@ namespace ProjetUnivers {
           {
             deviceType = Kernel::Parameters::getValue<std::string>("Sound","SoundDevice") ;
           }
-          catch(Kernel::ExceptionKernel e)
+          catch (Kernel::ExceptionKernel e)
           {
-          	deviceType = "Generic Software" ;
+            deviceType = "Generic Software" ;
           }
           device = alcOpenDevice(deviceType.c_str());
-          if(device == NULL)
+          if (!device)
           {
             initialised = false ;
             ErrorMessage("[OpenAL] No sound device found") ;
             return ;
           }
           
-          //Search for effect extension
-          if (alcIsExtensionPresent(device, "ALC_EXT_EFX") == AL_FALSE)
-          {
-          	initialised = false ;
-            ErrorMessage("[OpenAL] No effect extension found") ;
-            return ;
-          }
+          /// access to special extensions...
+          ALint* extension = EFX::getParameters() ; 
           
-          //Context creation with a request of 4 auxiliary slot for effect
-          //but it  isn't possible without a sound card, just 1 will be create
-          ALint attributs[4] = { 0 };
-          attributs[0] = ALC_MAX_AUXILIARY_SENDS;
-          attributs[1] = 4;
+          // create only one context
+          if (!context.context)
+            context.context = alcCreateContext(device,extension) ;
           
-          context = alcCreateContext(device, attributs);
-          if(context == NULL)
+          if (!context.context)
           {
             initialised = false ;
             ErrorMessage("[OpenAL] Can't create context") ;
             return ;
           }
 
-          alcMakeContextCurrent(context);
-          
-          //See if the EFX version follow the requirement
-          ALint minVersion;
-          ALint maxVersion;
-          alcGetIntegerv(device, ALC_EFX_MINOR_VERSION, 1, &minVersion);
-          alcGetIntegerv(device, ALC_EFX_MAJOR_VERSION, 1, &maxVersion);
-          if(false)//TODO test EFX requirement when we will have some
-          {
-          	initialised = false ;
-            InformationMessage("Sound","[OpenAL] Context don't support the required EFX version") ;
-            return ;
-          } 
-                
-          //Get functions pointer, must be done after making context current
-          alGenEffects = (LPALGENEFFECTS)alGetProcAddress("alGenEffects");
-          alDeleteEffects = (LPALDELETEEFFECTS )alGetProcAddress("alDeleteEffects");
-          alIsEffect = (LPALISEFFECT )alGetProcAddress("alIsEffect");
-          alEffecti = (LPALEFFECTI)alGetProcAddress("alEffecti");
-          alEffectiv = (LPALEFFECTIV)alGetProcAddress("alEffectiv");
-          alEffectf = (LPALEFFECTF)alGetProcAddress("alEffectf");
-          alEffectfv = (LPALEFFECTFV)alGetProcAddress("alEffectfv");
-          alGetEffecti = (LPALGETEFFECTI)alGetProcAddress("alGetEffecti");
-          alGetEffectiv = (LPALGETEFFECTIV)alGetProcAddress("alGetEffectiv");
-          alGetEffectf = (LPALGETEFFECTF)alGetProcAddress("alGetEffectf");
-          alGetEffectfv = (LPALGETEFFECTFV)alGetProcAddress("alGetEffectfv");
-          alGenFilters = (LPALGENFILTERS)alGetProcAddress("alGenFilters");
-          alDeleteFilters = (LPALDELETEFILTERS)alGetProcAddress("alDeleteFilters");
-          alIsFilter = (LPALISFILTER)alGetProcAddress("alIsFilter");
-          alFilteri = (LPALFILTERI)alGetProcAddress("alFilteri");
-          alFilteriv = (LPALFILTERIV)alGetProcAddress("alFilteriv");
-          alFilterf = (LPALFILTERF)alGetProcAddress("alFilterf");
-          alFilterfv = (LPALFILTERFV)alGetProcAddress("alFilterfv");
-          alGetFilteri = (LPALGETFILTERI )alGetProcAddress("alGetFilteri");
-          alGetFilteriv = (LPALGETFILTERIV )alGetProcAddress("alGetFilteriv");
-          alGetFilterf = (LPALGETFILTERF )alGetProcAddress("alGetFilterf");
-          alGetFilterfv = (LPALGETFILTERFV )alGetProcAddress("alGetFilterfv");
-          alGenAuxiliaryEffectSlots = (LPALGENAUXILIARYEFFECTSLOTS)alGetProcAddress("alGenAuxiliaryEffectSlots");
-          alDeleteAuxiliaryEffectSlots = (LPALDELETEAUXILIARYEFFECTSLOTS)alGetProcAddress("alDeleteAuxiliaryEffectSlots");
-          alIsAuxiliaryEffectSlot = (LPALISAUXILIARYEFFECTSLOT)alGetProcAddress("alIsAuxiliaryEffectSlot");
-          alAuxiliaryEffectSloti = (LPALAUXILIARYEFFECTSLOTI)alGetProcAddress("alAuxiliaryEffectSloti");
-          alAuxiliaryEffectSlotiv = (LPALAUXILIARYEFFECTSLOTIV)alGetProcAddress("alAuxiliaryEffectSlotiv");
-          alAuxiliaryEffectSlotf = (LPALAUXILIARYEFFECTSLOTF)alGetProcAddress("alAuxiliaryEffectSlotf");
-          alAuxiliaryEffectSlotfv = (LPALAUXILIARYEFFECTSLOTFV)alGetProcAddress("alAuxiliaryEffectSlotfv");
-          alGetAuxiliaryEffectSloti = (LPALGETAUXILIARYEFFECTSLOTI)alGetProcAddress("alGetAuxiliaryEffectSloti");
-          alGetAuxiliaryEffectSlotiv = (LPALGETAUXILIARYEFFECTSLOTIV)alGetProcAddress("alGetAuxiliaryEffectSlotiv");
-          alGetAuxiliaryEffectSlotf = (LPALGETAUXILIARYEFFECTSLOTF)alGetProcAddress("alGetAuxiliaryEffectSlotf");
-          alGetAuxiliaryEffectSlotfv = (LPALGETAUXILIARYEFFECTSLOTFV)alGetProcAddress("alGetAuxiliaryEffectSlotfv");
+          alcMakeContextCurrent(context.context);
 
-		  if (!(alGenEffects &&	alDeleteEffects && alIsEffect && alEffecti && alEffectiv &&	alEffectf &&
-			alEffectfv && alGetEffecti && alGetEffectiv && alGetEffectf && alGetEffectfv &&	alGenFilters &&
-			alDeleteFilters && alIsFilter && alFilteri && alFilteriv &&	alFilterf && alFilterfv &&
-			alGetFilteri &&	alGetFilteriv && alGetFilterf && alGetFilterfv && alGenAuxiliaryEffectSlots &&
-			alDeleteAuxiliaryEffectSlots &&	alIsAuxiliaryEffectSlot && alAuxiliaryEffectSloti &&
-			alAuxiliaryEffectSlotiv && alAuxiliaryEffectSlotf && alAuxiliaryEffectSlotfv &&
-			alGetAuxiliaryEffectSloti && alGetAuxiliaryEffectSlotiv && alGetAuxiliaryEffectSlotf &&
-			alGetAuxiliaryEffectSlotfv))
-		  {
-		  	InformationMessage("Sound","[OpenAL] Device doesn't support all EFX functions") ;		  	
-		  }
+          EFX::init(device) ;
           
-          //Get the real number of auxiliary slot available
-          ALint auxSlotNumber;
-          alcGetIntegerv(device, ALC_MAX_AUXILIARY_SENDS, 1, &auxSlotNumber);
-          if(auxSlotNumber < 1)
-          {
-          	initialised = false ;
-            InformationMessage("Sound","[OpenAL] Context hasn't enough effect slot") ;
-            return ;
-          }
-
           //Configure attenuation model
           std::string attenuationModel;
           try
           {
             attenuationModel = Kernel::Parameters::getValue<std::string>("Sound","AttenuationModel") ;
           }
-          catch(Kernel::ExceptionKernel e)
+          catch (Kernel::ExceptionKernel e)
           {
-          	attenuationModel = "INVERSE_DISTANCE_CLAMPED" ;
+            attenuationModel = "INVERSE_DISTANCE_CLAMPED" ;
           }
           std::map<std::string, ALenum> stringToEnum;
           stringToEnum["NONE"] = AL_NONE;
@@ -219,7 +126,6 @@ namespace ProjetUnivers {
           stringToEnum["EXPONENT_DISTANCE_CLAMPED"] = AL_EXPONENT_DISTANCE_CLAMPED;
 
           alDistanceModel(stringToEnum[attenuationModel]) ;
-          
           
           //Verification of initialisation without error  
           initialised = true ;
@@ -237,13 +143,12 @@ namespace ProjetUnivers {
           // Désactivation du contexte
           alcMakeContextCurrent(NULL) ;
   
-          // Destruction du contexte
-          alcDestroyContext(context) ;
-  
+          EFX::close() ;
+          
           // Fermeture du device
           if(!alcCloseDevice(device))
           {
-          	InformationMessage("Sound","Sound::OpenAL::close can't close device, some device or buffer remain") ;
+            InformationMessage("Sound","Sound::OpenAL::close can't close device, some device or buffer remain") ;
           }
           initialised = false ;
           InternalMessage("Sound","Sound::OpenAL::close leaving") ;
@@ -256,10 +161,10 @@ namespace ProjetUnivers {
         
         Kernel::ViewPoint* build(Kernel::Object* listener, Kernel::Object* reference)
         {
-        	manager = new Manager(listener, reference) ;
-        	sound_system = new Implementation::OpenAL::RealWorldViewPoint(listener) ;
-        	sound_system->init() ;
-        	return sound_system ;
+          manager = new Manager(listener, reference) ;
+          sound_system = new Implementation::OpenAL::RealWorldViewPoint(listener) ;
+          sound_system->init() ;
+          return sound_system ;
         }
         
         std::string getErrorString(const ALenum& error)
@@ -283,7 +188,7 @@ namespace ProjetUnivers {
         
         Kernel::ViewPoint* getViewPoint()
         {
-          return sound_system ;	
+          return sound_system ;  
         }
         
         Manager* getManager()

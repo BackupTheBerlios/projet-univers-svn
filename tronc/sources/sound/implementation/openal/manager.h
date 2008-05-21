@@ -34,9 +34,8 @@ namespace ProjetUnivers {
   namespace Sound {
     namespace Implementation {
       namespace OpenAL {
-        /// Reader manager, update the buffers and create/delete the reader during their life
-        /*!
-        */
+        
+        /// Update the buffers and create/delete the reader during their life.
         class Manager
         {
         
@@ -54,12 +53,18 @@ namespace ProjetUnivers {
           
           
           /// Create a reader which match the soundFile type
-          Reader* createReader(const ALuint& p_source, const std::string& p_fileName,const bool& p_isEvent, const int& m_posInFile, const int& m_posInBuffer) ;
+          Reader* createReader(const ALuint& p_source, 
+                               const std::string& p_fileName,
+                               const bool& p_isEvent, const int& m_posInFile, 
+                               const int& m_posInBuffer) ;
           
           /// Give a pointer to the listener
           Kernel::Object* getListener() ;
           
-          /// Give a pointer to the reference object of the world/soundWorld if it isn't the same
+          /// Give a pointer to the reference object of the world/soundWorld.
+          /*!
+            if it isn't the same
+          */
           Kernel::Object* getReference() ;
           
           /// Close the files of finish sounds, delete the  buffers

@@ -25,7 +25,7 @@
 #include <kernel/string.h>
 
 #include <model/model.h>
-#include <model/ear.h>
+#include <model/listener.h>
 #include <model/positionned.h>
 #include <model/oriented.h>
 #include <model/mobile.h>
@@ -61,13 +61,13 @@ namespace ProjetUnivers {
         Model::addTrait(system, new Model::Oriented()) ;
 
         Kernel::Object* listener = Model::createObject(system) ;
-        Model::addTrait(listener,new Model::Ear()) ;
+        Model::addTrait(listener,new Model::Listener()) ;
         Model::addTrait(listener,new Model::Positionned()) ;
         Model::addTrait(listener,new Model::Oriented()) ;
         Model::addTrait(listener,new Model::Mobile());
 
         Kernel::Object* emmiter = Model::createObject(system) ;
-        Model::addTrait(emmiter,new Model::BackgroundSound("sound.ogg")) ;
+        Model::addTrait(emmiter,new Model::BackgroundSound("pu_comm_essai_1.ogg")) ;
         Model::addTrait(emmiter,new Model::Positionned()) ;
         Model::addTrait(emmiter,new Model::Oriented()) ;
         

@@ -48,7 +48,7 @@ namespace ProjetUnivers {
         void testLoadForceGenerator() ;
         void testLoadGuidanceControler() ;
         void testLoadGuidanceSystem() ;
-        void testLoadHearing() ;
+        void testLoadListener() ;
         void testLoadLaser() ;
         void testLoadMassive() ;
         void testLoadMenu() ;
@@ -77,6 +77,9 @@ namespace ProjetUnivers {
         CPPUNIT_TEST(testLoadDragger) ;
         CPPUNIT_TEST(testLoadEngine) ;
         CPPUNIT_TEST(testLoadForceGenerator) ;
+        CPPUNIT_TEST(testLoadGuidanceControler) ;
+        CPPUNIT_TEST(testLoadGuidanceSystem) ;
+        CPPUNIT_TEST(testLoadListener) ;
         CPPUNIT_TEST(testLoadLaser) ;
         CPPUNIT_TEST(testLoadMassive) ;
         CPPUNIT_TEST(testLoadMenu) ;

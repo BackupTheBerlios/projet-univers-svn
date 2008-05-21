@@ -54,7 +54,7 @@ namespace ProjetUnivers {
           }
           else
           {
-          	//default value
+            //default value
             return Model::Position();
           }
         }
@@ -68,7 +68,7 @@ namespace ProjetUnivers {
           }
           else
           {
-          	//default value
+            //default value
             return Model::Orientation();
           }
         }
@@ -82,7 +82,7 @@ namespace ProjetUnivers {
           }
           else
           {
-          	//default value
+            //default value
             return Model::Speed();
           }
         }

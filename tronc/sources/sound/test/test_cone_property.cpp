@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2007-2008 Morgan GRIGNARD Mathieu ROGER                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -34,26 +34,26 @@
 #include <model/position.h>
 #include <model/oriented.h>
 #include <model/orientation.h>
-#include <model/ear.h>
+#include <model/listener.h>
 #include <model/mobile.h>
 #include <model/engine.h>
 #include <model/force.h>
 
 #include <sound/sound.h>
-#include <sound/test/test_cone_propertie.h>
+#include <sound/test/test_cone_property.h>
 
 #include <cmath>
 #include <iostream>
 #define PI 3.14
 
 CPPUNIT_TEST_SUITE_REGISTRATION(
-  ProjetUnivers::Sound::Test::TestConePropertie) ;
+  ProjetUnivers::Sound::Test::TestConeProperty) ;
 
 namespace ProjetUnivers {
   namespace Sound {
     namespace Test {
 
-      void TestConePropertie::basicTest()
+      void TestConeProperty::basicTest()
       {
         /*!
           - build a engine
@@ -70,7 +70,7 @@ namespace ProjetUnivers {
         Model::addTrait(system, new Model::Oriented()) ;
 
         Kernel::Object* listener = Model::createObject(system) ;
-        Model::addTrait(listener,new Model::Ear()) ;
+        Model::addTrait(listener,new Model::Listener()) ;
         Model::Positionned* listenerPos = new Model::Positionned(Model::Position::Meter(0,0,0));
         Model::addTrait(listener,listenerPos) ;
         Model::addTrait(listener,new Model::Oriented(Model::Orientation(Ogre::Quaternion(1.0, 0.0, 10.0, 0.0)))) ;
@@ -113,11 +113,11 @@ namespace ProjetUnivers {
         
       }
 
-      void TestConePropertie::setUp() 
+      void TestConeProperty::setUp() 
       {
       }
       
-      void TestConePropertie::tearDown() 
+      void TestConeProperty::tearDown() 
       {
       }
       

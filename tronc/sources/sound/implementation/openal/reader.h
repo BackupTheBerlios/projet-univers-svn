@@ -43,7 +43,7 @@ namespace ProjetUnivers {
           /// Open the file, create and load the 2 buffers to link to the source
           virtual void onInit(const int& posInFile, const int& posInBuffer) = 0 ;
           
-          ///Look for empty buffer which are already heard and load them with content
+          /// Look for empty buffer which are already heard and load them.
           void update() ;
           
           /// Close the file, delete the  buffers
@@ -72,14 +72,19 @@ namespace ProjetUnivers {
                  const float& p_updateTime) ;
         // @}
         
-          ///Indicate the sound life end and that the manager can delete this reader
+          /// If true the manager can delete this reader
           bool m_finish ; 
+          
           /// OpenAL source
           ALuint m_source ;
+          
           /// OpenAL buffers 
           ALuint m_buffers[2] ;
+          
           /// SoundFile name
-          //TODO voir le format qu'on donne en paramètre, plutot travailler sur une copie
+          /*!
+            @todo see parameter format. We should work on a copy. 
+          */
           std::string m_fileName ;
           
           /// Indicate if the sound is an event and don't must loop
@@ -90,12 +95,15 @@ namespace ProjetUnivers {
           
           ///Sound format
           ALenum m_format ;
+          
           ///Sound rate
           ALsizei m_sampleRate ;
+          
           ///Sample which must be read for a buffer 
           ALsizei m_samplesByBuffer ; 
         
         private:
+          
           /// Read the sound file to load the buffer with content
           virtual void loadBuffer(ALuint buffer) = 0 ;
           

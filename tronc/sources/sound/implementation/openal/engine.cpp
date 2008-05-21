@@ -21,72 +21,73 @@
 #include <kernel/log.h>
 
 #include <sound/implementation/openal/openal.h>
-#include <sound/implementation/openal/engine_sound_view.h>
+#include <sound/implementation/openal/engine.h>
 
 namespace ProjetUnivers {
   namespace Sound {
     namespace Implementation {
       namespace OpenAL {
 
-        RegisterView(OpenAL::EngineSoundView, 
-                     OpenAL::EngineSound, 
+        RegisterView(OpenAL::Engine, 
+                     Implementation::Engine, 
                      OpenAL::RealWorldViewPoint) ;
              
-        EngineSoundView::EngineSoundView(
-          OpenAL::EngineSound* i_observer,
-          OpenAL::RealWorldViewPoint*     i_viewpoint) 
-        : Kernel::TraitView<OpenAL::EngineSound,OpenAL::RealWorldViewPoint>(i_observer,i_viewpoint),
-        SoundEmitter()
+        Engine::Engine(
+          Implementation::Engine*      object,
+          OpenAL::RealWorldViewPoint*  viewpoint) 
+        : Kernel::TraitView<Implementation::Engine,
+                            OpenAL::RealWorldViewPoint>(object,viewpoint),
+          SoundEmitter()
         {
           InternalMessage("Sound","Building OpenAL::EngineSound") ;
         }
                     
-        std::string EngineSoundView::getSoundFileName() const
+        std::string Engine::getSoundFileName() const
         {
-          return "hit.wav";
+          return "pu_moteur_2.ogg" ;
         }
           
-        bool EngineSoundView::isEvent() const
+        bool Engine::isEvent() const
         {
           return false;
         }
         
-        Kernel::Object* EngineSoundView::getObject() const
+        Kernel::Object* Engine::getObject() const
         {
           getTrait()->getObject() ;
         }
         
-        float EngineSoundView::getOuterGain() const
+        float Engine::getOuterGain() const
         {
-        	return 0.25;	
+          return 0.25;  
         }
         
-        float EngineSoundView::getOuterAngle() const
+        float Engine::getOuterAngle() const
         {
           return 170;
         }
         
-        float EngineSoundView::getInnerAngle() const
+        float Engine::getInnerAngle() const
         {
           return 45;
         }
                   
-        void EngineSoundView::onInit()
+        void Engine::onInit()
         {
           this->initSound();
         }
                     
-        void EngineSoundView::onClose()
+        void Engine::onClose()
         {
           this->deleteSound();
         }
                     
-        void EngineSoundView::onUpdate()
+        void Engine::onUpdate()
         {
           this->updateSource();
         }
         
-        void EngineSoundView::onChangeParent(Kernel::Object* i_old_parent)
+        void Engine::onChangeParent(Kernel::Object* i_old_parent)
         {
           InformationMessage("Sound","call onChangeParent") ;
           this->changeParentSource() ;

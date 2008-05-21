@@ -29,6 +29,7 @@ namespace ProjetUnivers {
   namespace Sound {
     namespace Test {
       using namespace Implementation::OpenAL;
+      
       void TestFilter::basicTest()
       {
         /*!

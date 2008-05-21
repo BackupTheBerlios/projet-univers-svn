@@ -29,5 +29,9 @@ libdisplayogre_la_LDFLAGS += \
 $(SOURCES)/kernel/compilation/libkernel.la \
 $(SOURCES)/model/compilation/libmodel.la \
 $(OGRE_LIBS) \
-$(librlog_LIBS)
+$(librlog_LIBS) \
+$(CEGUI_LIBS) \
+$(CEGUI_OGRE_LIBS) \
+-lCEGUIFalagardWRBase
+
 

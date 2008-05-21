@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007 Morgan GRIGNARD                                    *
+ *   Copyright (C) 2007 Morgan GRIGNARD Mathieu ROGER                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -27,7 +27,8 @@
 
 #include <sound/sound.h>
 #include <sound/implementation/openal/openal.h>
-#include <sound/implementation/openal/sound_environnement_view.h>
+#include <sound/implementation/openal/extension.h>
+#include <sound/implementation/openal/sound_environnement.h>
 #include <sound/implementation/openal/sound_emitter.h>
 
 
@@ -40,7 +41,8 @@ namespace ProjetUnivers {
       namespace OpenAL {
 
         SoundEmitter::SoundEmitter()
-        : m_source(0), m_auxEffectSlot(0), m_reader(0), m_posInFile(0), m_posInBuffer(0)
+        : m_source(0), m_auxEffectSlot(0), 
+          m_reader(0), m_posInFile(0), m_posInBuffer(0)
         {}
               
         void SoundEmitter::initSound()
@@ -48,9 +50,12 @@ namespace ProjetUnivers {
           InformationMessage("Sound","SoundEmitter::initSound entering") ;
           if(!m_source)
           {
-          	InformationMessage("Sound","SoundEmitter::init real") ;
+            InformationMessage("Sound","SoundEmitter::init real") ;
             alGenSources(1,&m_source) ;
-            m_reader = getManager()->createReader(m_source, getSoundFileName().c_str(), isEvent(), m_posInFile, m_posInBuffer) ;
+            m_reader = getManager()->createReader(m_source, 
+                                                  getSoundFileName().c_str(), 
+                                                  isEvent(), m_posInFile, 
+                                                  m_posInBuffer) ;
             alSourcei(m_source, AL_SOURCE_RELATIVE, AL_FALSE) ;
             updateSource();   
           } 
@@ -77,7 +82,7 @@ namespace ProjetUnivers {
           }
           else
           {         
-            //TODO voir à l'usage si certains paramètres ne sont jamais changés et transférer vers init()
+            /// @todo voir à l'usage si certains paramètres ne sont jamais changés et transférer vers init()
             alSourcef(m_source, AL_GAIN, getGain()) ;
             alSourcef(m_source, AL_CONE_OUTER_GAIN, getOuterGain()) ;   
             alSourcef(m_source, AL_PITCH, getPitch()) ; 
@@ -117,7 +122,7 @@ namespace ProjetUnivers {
             Model::SoundEnvironnement* env  = getObject()->getParent<Model::SoundEnvironnement>() ;
             if(env)
             {
-              SoundEnvironnementView* envView  = env->getView<SoundEnvironnementView>(getViewPoint()) ;
+              SoundEnvironnement* envView  = env->getView<SoundEnvironnement>(getViewPoint()) ;
               if(envView)
               {
                 ALuint auxEffectSlot = envView->getAuxEffectSlot() ; 
@@ -125,18 +130,18 @@ namespace ProjetUnivers {
                 if(auxEffectSlot != m_auxEffectSlot)
                 {
                   m_auxEffectSlot = auxEffectSlot ;
-              	  alSource3i(m_source, AL_AUXILIARY_SEND_FILTER, m_auxEffectSlot, 0, 0) ;
-              	  InformationMessage("Sound","update add reverb") ;	
+                  EFX::applyEffectToSource(m_source,m_auxEffectSlot) ;
+                  InformationMessage("Sound","update add reverb") ;  
                 }
               }
               else
               {
-                InformationMessage("Sound","no envView") ;	
+                InformationMessage("Sound","no envView") ;  
               }
             }
             else
             {
-              InformationMessage("Sound","no env") ;	
+              InformationMessage("Sound","no env") ;  
             }
             
           }
@@ -151,11 +156,11 @@ namespace ProjetUnivers {
         {
           
           InformationMessage("Sound","SoundEmitter::changeParent : enter") ;
-          	
+            
           Model::SoundEnvironnement* env  = getObject()->getParent<Model::SoundEnvironnement>() ;
             if(env)
             {
-              SoundEnvironnementView* envView  = env->getView<SoundEnvironnementView>(getViewPoint()) ;
+              SoundEnvironnement* envView  = env->getView<SoundEnvironnement>(getViewPoint()) ;
               if(envView)
               {
                 ALuint auxEffectSlot = envView->getAuxEffectSlot() ; 
@@ -163,23 +168,23 @@ namespace ProjetUnivers {
                 if(auxEffectSlot != m_auxEffectSlot)
                 {
                   m_auxEffectSlot = auxEffectSlot ;
-              	  //TODO see filter parameter for occlusion , exclusion case
-              	  alSource3i(m_source, AL_AUXILIARY_SEND_FILTER, m_auxEffectSlot, 0, 0) ;
-              	  InformationMessage("Sound","update add reverb") ;	
+                  // @todo see filter parameter for occlusion , exclusion case
+                  EFX::applyEffectToSource(m_source,m_auxEffectSlot) ;
+                  InformationMessage("Sound","update add reverb") ;  
                 }
                 else
                 {
-                  InformationMessage("Sound","same reverb") ;	
+                  InformationMessage("Sound","same reverb") ;  
                 }
               }
               else
               {
-                InformationMessage("Sound","no envView") ;	
+                InformationMessage("Sound","no envView") ;  
               }
             }
             else
             {
-              InformationMessage("Sound","no env") ;	
+              InformationMessage("Sound","no env") ;  
             }
             
           InformationMessage("Sound","SoundEmitter::changeParent : leaving") ;
@@ -217,7 +222,7 @@ namespace ProjetUnivers {
           }
           else
           {
-          	//default value
+            //default value
             return Model::Position();
           }
         }
@@ -231,7 +236,7 @@ namespace ProjetUnivers {
           }
           else
           {
-          	//default value
+            //default value
             return Model::Orientation();
           }
         }
@@ -245,7 +250,7 @@ namespace ProjetUnivers {
           }
           else
           {
-          	//default value
+            //default value
             return Model::Speed();
           }
         }
@@ -257,17 +262,17 @@ namespace ProjetUnivers {
         
         float SoundEmitter::getGain() const
         {
-        	return 1.0;	
+          return 1.0;  
         }
           
         float SoundEmitter::getOuterGain() const
         {
-        	return 1.0;	
+          return 1.0;  
         }
           
         float SoundEmitter::getPitch() const
         {
-        	return 1.0;	
+          return 1.0;  
         }
         
         float SoundEmitter::getOuterAngle() const
@@ -292,7 +297,7 @@ namespace ProjetUnivers {
         
         float SoundEmitter::getRolloffFactor() const
         {
-          return 1.0;	
+          return 1.0;  
         }
       
       }

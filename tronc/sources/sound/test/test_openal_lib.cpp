@@ -36,7 +36,7 @@ namespace ProjetUnivers {
 
       void TestOpenALLib::basicTest()
       {
-      	/*!
+        /*!
           - init openal directly to see if the lib work
         */
         
@@ -77,7 +77,7 @@ namespace ProjetUnivers {
         
         ALuint source ;
         alGenSources(1,&source) ;
-        ALuint buffer = alutCreateBufferFromFile("sound.wav");
+        ALuint buffer = alutCreateBufferFromFile("demo_ailier1_mort.wav");
         if(buffer == AL_NONE)
         {
           ErrorMessage("[OpenAL] Can't generate a buffer" 

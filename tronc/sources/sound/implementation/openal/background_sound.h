@@ -35,7 +35,8 @@ namespace ProjetUnivers {
 
     
         /// Sound background observer
-        class BackgroundSound : public Kernel::TraitView<Model::BackgroundSound,RealWorldViewPoint>,
+        class BackgroundSound : public Kernel::TraitView<Model::BackgroundSound,
+                                                         RealWorldViewPoint>,
                                 public SoundEmitter
         {
         public:

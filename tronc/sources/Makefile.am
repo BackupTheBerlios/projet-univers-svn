@@ -1,10 +1,11 @@
 SUBDIRS = \
 kernel \
 model \
-display \
 action \
-physic \
-input \
 artificial_intelligence \
+physic \
+display \
+sound \
+input \
 demonstration 
 	

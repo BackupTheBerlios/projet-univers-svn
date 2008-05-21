@@ -44,6 +44,7 @@ namespace ProjetUnivers {
           {
             //TODO paufiner erreur sur location ou format non reconnu
             ErrorMessage("[OpenAL::WavReader] Can't read the file: " + m_fileName);
+            return ;
           }
           //Get file information
           m_sampleRate = fileInfos.samplerate;
@@ -54,13 +55,14 @@ namespace ProjetUnivers {
             case 2 : m_format = AL_FORMAT_STEREO16; break;
             default :
               ErrorMessage("[OpenAL::WavReader] Audio Format audio not supported (more than 2 channel)");
+              return ;
           }
           
           int pos = 0 ;
-		  if(posInFile > 0)
-		  {
-		  	pos = posInFile - m_samplesByBuffer + posInBuffer + 1;
-		  }
+      if(posInFile > 0)
+      {
+        pos = posInFile - m_samplesByBuffer + posInBuffer + 1;
+      }
           sf_seek(m_file, pos, SEEK_SET);
           
           //Load the buffers and link with the source
@@ -70,6 +72,7 @@ namespace ProjetUnivers {
           if (alGetError() != AL_NO_ERROR)
           {
             ErrorMessage("[OpenAL::WavReader] Impossible to queue the buffers");
+            return ;
           }
           
           InternalMessage("Sound","leave wavreader Init") ;   
@@ -87,7 +90,7 @@ namespace ProjetUnivers {
           ALsizei totalRead  = 0;
           while (totalRead < m_samplesByBuffer)
           {
-          	ALsizei read = sf_read_short(m_file, &samples[totalRead], m_samplesByBuffer - totalRead);
+            ALsizei read = sf_read_short(m_file, &samples[totalRead], m_samplesByBuffer - totalRead);
             if (read > 0)
             {
               totalRead += read;

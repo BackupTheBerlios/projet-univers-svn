@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Morgan GRIGNARD                                 *
+ *   Copyright (C) 2007 Morgan GRIGNARD                                    *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,27 +18,62 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <kernel/deduced_trait.h>
-#include <model/engine.h>
-#include <model/mobile.h>
-#include <model/oriented.h>
-#include <model/positionned.h>
+#ifndef PU_SOUND_IMPLEMENTATION_OPENAL_SOUND_ENVIRONNEMENT_H_
+#define PU_SOUND_IMPLEMENTATION_OPENAL_SOUND_ENVIRONNEMENT_H_
 
-#include <sound/implementation/openal/engine_sound.h>
+#include <kernel/trait_view.h>
+
+#include <model/sound_environnement.h>
+
+#include <sound/implementation/openal/real_world_view_point.h>
 
 namespace ProjetUnivers {
   namespace Sound {
     namespace Implementation {
       namespace OpenAL {
+    
+        /// View on a soundEnvironnement, create the corresponding reverb effect
+        class SoundEnvironnement : 
+                        public Kernel::TraitView<Model::SoundEnvironnement,
+                                                 RealWorldViewPoint>
+        {
+        public:
 
-	      // Temporary formula, trait with the same behavior than engine will be add after
-        DeclareDeducedTrait(EngineSound,
-                            And(HasTrait(Model::Mobile),
-                                HasTrait(Model::Positionned),
-                                HasTrait(Model::Oriented),
-                                HasTrait(Model::Engine))) ;
+    
+         /// Constructor
+          SoundEnvironnement(Model::SoundEnvironnement*,RealWorldViewPoint*) ;
 
+        
+          /// Accessor to the effect slot
+          ALuint getAuxEffectSlot() ;
+      
+        protected:
+        
+        /*!
+          @name Updates.
+        */
+        // @{
+                  
+          void onInit() ;
+                      
+          void onClose() ;
+                      
+          void onUpdate() ;
+
+        // @}      
+      
+        private:
+    
+          /// Container of an effect
+          ALuint m_auxEffectSlot ;
+          /// Effect
+          ALuint m_effect ;
+       
+        };
+    
       }
     }
-  } 
+  }
 }
+
+#endif /*PU_SOUND_IMPLEMENTATION_OPENAL_SOUND_ENVIRONNEMENT_H_*/

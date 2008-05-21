@@ -18,10 +18,12 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <OgreResourceGroupManager.h>
 
 #include <kernel/log.h>
 #include <kernel/parameters.h>
  
+#include <model/model.h>
 #include <sound/implementation/openal/manager.h>
 #include <sound/implementation/openal/wav_reader.h>
 #include <sound/implementation/openal/ogg_reader.h>
@@ -30,6 +32,28 @@ namespace ProjetUnivers {
   namespace Sound {
     namespace Implementation {
       namespace OpenAL {
+        
+        std::string findFilePath(const std::string& filename)
+        {
+          // on demand init
+          Model::initRessources() ;
+          
+          std::string foundPath = filename;
+          Ogre::ResourceGroupManager* groupManager = Ogre::ResourceGroupManager::getSingletonPtr() ;
+          Ogre::String group = groupManager->findGroupContainingResource(filename) ;
+          Ogre::FileInfoListPtr fileInfos = groupManager->findResourceFileInfo(group,foundPath);
+          Ogre::FileInfoList::iterator it = fileInfos->begin();
+          if(it != fileInfos->end())
+          {
+            foundPath = it->archive->getName() + "/" + foundPath;
+            foundPath;
+          }
+          else
+            foundPath = "";
+
+          return foundPath;
+        }
+        
         Manager::Manager(Kernel::Object* listener, Kernel::Object* reference)
         : m_listener(listener), m_reference(reference)
         {
@@ -39,7 +63,7 @@ namespace ProjetUnivers {
           }
           catch(Kernel::ExceptionKernel e)
           {
-          	m_updateTime = 1;
+            m_updateTime = 1;
           }
         }
         
@@ -47,35 +71,43 @@ namespace ProjetUnivers {
         {
           for (std::vector<Reader*>::iterator iter = m_readers.begin() ; iter != m_readers.end(); iter++) 
           {
-          	(*iter)->onClose() ;
+            (*iter)->onClose() ;
             delete *iter ;
           }
           m_readers.clear() ;
         }
         
-        Reader* Manager::createReader(const ALuint& p_source,const std::string& p_fileName, const bool& p_isEvent, const int& m_posInFile, const int& m_posInBuffer)
+        Reader* Manager::createReader(const ALuint& p_source,
+                                      const std::string& p_fileName, 
+                                      const bool& p_isEvent, 
+                                      const int& m_posInFile, 
+                                      const int& m_posInBuffer)
         {
-          //TODO remplacer par une test mime ou au moins extension du fichier et non un choix arbitraite event= wav
-          Reader* res ;
+          Reader* result = NULL ;
           //Query a buffer a little bigger to evite the case 
           //where openal thread try to use the buffer when we load it
-          if(!p_isEvent)
+          if (p_fileName.find(".wav") != std::string::npos)
           {
-          	
-            res = new WavReader(p_source, p_fileName, p_isEvent, m_updateTime*1.10) ;
+            result = new WavReader(p_source, findFilePath(p_fileName), p_isEvent, m_updateTime*1.10) ;
+          }
+          else if (p_fileName.find(".ogg") != std::string::npos)
+          {
+            result = new OggReader(p_source, findFilePath(p_fileName), p_isEvent, m_updateTime*1.10) ;
           }
           else
           {
-            res = new OggReader(p_source, p_fileName, p_isEvent, m_updateTime*1.10) ;
+            ErrorMessage("[OpenAl::Manager] unsupported file type") ;
+            return NULL ;
           }
-          res->onInit(m_posInFile, m_posInBuffer) ;
-          m_readers.push_back(res) ;
-          return res;
+          
+          result->onInit(m_posInFile, m_posInBuffer) ;
+          m_readers.push_back(result) ;
+          return result ;
         }
         
         Kernel::Object* Manager::getListener()
         {
-          return m_listener;	
+          return m_listener;  
         }
           
         Kernel::Object* Manager::getReference()
