@@ -23,7 +23,7 @@
 #include <kernel/log.h>
 #include <kernel/parameters.h>
  
-#include <sound/implementation/sound_internal.h>
+#include <model/model.h>
 #include <sound/implementation/openal/manager.h>
 #include <sound/implementation/openal/wav_reader.h>
 #include <sound/implementation/openal/ogg_reader.h>
@@ -36,7 +36,7 @@ namespace ProjetUnivers {
         std::string findFilePath(const std::string& filename)
         {
           // on demand init
-          initRessources() ;
+          Model::initRessources() ;
           
           std::string foundPath = filename;
           Ogre::ResourceGroupManager* groupManager = Ogre::ResourceGroupManager::getSingletonPtr() ;

@@ -284,9 +284,9 @@ namespace ProjetUnivers {
                 "<GuidanceSystem force=\"10\">\n"
                   "<ObjectReference id=\"2\" name=\"controler\"/>\n"
                 "</GuidanceSystem>\n"
-              "</object>\n"
-              "<object id=\"2\">\n"
-                "<GuidanceControler/>\n"
+                "<object id=\"2\">\n"
+                  "<GuidanceControler/>\n"
+                "</object>\n"
               "</object>\n"
             "</model>\n") ;
         std::auto_ptr<Kernel::XMLReader> reader(Kernel::XMLReader::getStringReader(content)) ;
@@ -294,14 +294,10 @@ namespace ProjetUnivers {
         reader->read(model.get()) ;
 
         std::set<Kernel::Object*> roots(model->getRoots()) ;
-        CPPUNIT_ASSERT(roots.size() == 2) ;
+        CPPUNIT_ASSERT(roots.size() == 1) ;
         std::set<Kernel::Object*>::iterator current = roots.begin() ; 
         Kernel::Object* guidance_system = *current ;
-        ++current ;
         CPPUNIT_ASSERT(guidance_system->getTrait<GuidanceSystem>()) ;
-        Kernel::Object* guidance_controler = *current ;
-        ++current ;
-        CPPUNIT_ASSERT(guidance_controler->getTrait<GuidanceControler>()) ;
       }
       
       void TestLoad::testLoadListener()
