@@ -1,1 +1,0 @@
-Ce repertoire contient la description des outils internes, fabriqués par nous même et déstinés à la gestion du projet.
