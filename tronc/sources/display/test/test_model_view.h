@@ -52,6 +52,8 @@ namespace ProjetUnivers {
         /// Display an ideal target
         void displayIdealTarget() ;
         
+        /// Test the space dust effect.
+        void spaceDust() ;
         
       // @}
         /*! 
@@ -65,6 +67,7 @@ namespace ProjetUnivers {
         CPPUNIT_TEST(destroyObserver) ;
         CPPUNIT_TEST(selectedTarget) ;
         CPPUNIT_TEST(displayIdealTarget) ;
+        CPPUNIT_TEST(spaceDust) ;
       
         CPPUNIT_TEST_SUITE_END() ;
 

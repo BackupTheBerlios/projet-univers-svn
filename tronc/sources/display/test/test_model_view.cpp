@@ -31,12 +31,14 @@
 #include <model/oriented.h>
 #include <model/observer.h>
 #include <model/universe.h>
+#include <model/mobile.h>
 #include <model/target_displayer.h>
 #include <model/targeting_system.h>
 #include <model/computer.h>
 #include <model/ideal_target.h>
 
 #include <display/display.h>
+#include <display/implementation/space_dust.h>
 #include <display/test/test_model_view.h>
 
 
@@ -283,6 +285,56 @@ namespace ProjetUnivers {
         
         InternalMessage("Display","Display::TestModelView::displayIdealTarget leaving") ;
         
+      }
+      
+      void TestModelView::spaceDust()
+      {
+        InternalMessage("Display","Display::TestModelView::spaceDust entering") ;
+        
+        Model::init() ;
+        Display::init(false) ;
+        
+        Kernel::Object* universe = Model::createObject() ;
+        Model::addTrait(universe,new Model::Universe()) ;
+        Model::addTrait(universe,new Model::Positionned()) ;
+
+        Kernel::Object* system = Model::createObject(universe) ;
+        Model::addTrait(system,new Model::StellarSystem()) ;
+        Model::addTrait(system,new Model::Positionned()) ;
+        
+        Kernel::Object* ship = Model::createShip(system) ;
+        ship->getTrait<Model::Positionned>()->setPosition(Model::Position::Meter(0,0,-500)) ;
+        
+        Kernel::Object* observer = Model::createObject(ship) ;
+        Model::addTrait(observer,new Model::Observer()) ;
+        Model::addTrait(observer,new Model::Positionned()) ;
+        Model::addTrait(observer,new Model::Oriented(::Ogre::Quaternion(::Ogre::Degree(180),::Ogre::Vector3::UNIT_Y))) ;
+
+        CPPUNIT_ASSERT(observer->getParent<Model::Mobile>()) ;
+        CPPUNIT_ASSERT(observer->getTrait<Implementation::SpaceDust>()) ;
+        
+        Display::buildRealWorldViewPoint(observer) ;
+        
+        Kernel::Timer timer ;
+        Kernel::Timer global_timer ;
+        
+        while (global_timer.getSecond() < 3)
+        {
+          float seconds = timer.getSecond() ;
+          Model::Duration elapsed(Model::Duration::Second(seconds)) ;
+
+          if (seconds != 0)
+          {
+            timer.reset() ;
+          }
+          Model::update(elapsed) ;
+          Display::update() ;
+        }        
+        
+        Display::close() ;
+        Model::close() ;
+        
+        InternalMessage("Display","Display::TestModelView::spaceDust leaving") ;
       }
       
       void TestModelView::setUp() 

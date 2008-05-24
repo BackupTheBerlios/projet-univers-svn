@@ -35,6 +35,7 @@ namespace ProjetUnivers {
   namespace Kernel {
     
     class Formula ;
+    class HasParentFormula ;
     
     /// Function type that build a deduced trait.
     typedef boost::function0<DeducedTrait*> DeducedTraitBuilder ;
@@ -82,6 +83,14 @@ namespace ProjetUnivers {
     #define HasTrait(trait) \
       Kernel::TemplateHasTrait<trait>
 
+    /// Elementary formula true iff object has parent trait @c trait
+    /*!
+      @remark if object has @c trait then formula is true, @see 
+      object::getParent(). 
+    */
+    #define HasParent(trait) \
+      Kernel::TemplateHasParent<trait>
+    
     /// Abstract class for traits that are deduced.
     /*!
       Each object :
@@ -162,6 +171,7 @@ namespace ProjetUnivers {
       };
       
       friend class Formula ;
+      friend class HasParentFormula ;
       
     }; 
 

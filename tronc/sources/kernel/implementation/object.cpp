@@ -147,17 +147,22 @@ namespace ProjetUnivers {
 
     Object::Object(Model* i_model,const std::string& i_name)
     : name(i_name),
+      m_deleting(false),
       m_identifier(next_identifier++),
       m_parent(NULL),
       m_model(i_model),
       m_validities(Formula::getNumberOfFormulae()),
       m_number_of_true_child_formulae(Formula::getNumberOfFormulae())
-    {
-      DeducedTrait::evaluateInitial(this) ;
-    }
+    {}
 
     void Object::_add(Trait* i_trait)
     {
+      if (m_deleting)
+      {
+        delete i_trait ;
+        return ;
+      }
+      
       CHECK(i_trait,"Kernel::_add(Trait*) no trait") ;
       InternalMessage("Kernel","added trait " + getObjectTypeIdentifier(i_trait).toString()
                                + " to objectid=" + toString(getIdentifier())) ;
@@ -184,7 +189,8 @@ namespace ProjetUnivers {
       i_trait->_init() ;
 
       TraitFormula::addTrait(this,trait_name) ;
-
+      HasParentFormula::addTrait(this,trait_name) ;
+      
 //      InternalMessage("Kernel","traits number = ") ;
 //      InternalMessage("Kernel",toString(traits.size()).c_str()) ;
 //      InternalMessage("Kernel","Kernel::Object::add(facette)#3") ;
@@ -212,7 +218,6 @@ namespace ProjetUnivers {
       return i_child ;
     }
 
-
     void Object::_remove(Object* i_child)
     {
       delete _release(i_child) ;
@@ -230,10 +235,14 @@ namespace ProjetUnivers {
       this->children.erase(i_child) ;
       return i_child ;
     }
-    
 
     void Object::_remove(const TypeIdentifier& i_trait_name)
     {
+      if (m_deleting)
+      {
+        return ;
+      }
+
       InternalMessage("Kernel","removed trait " + i_trait_name.toString()
                                + " to objectid=" + toString(getIdentifier())) ;
 
@@ -247,11 +256,17 @@ namespace ProjetUnivers {
     
     void Object::_remove(Trait* i_trait)
     {
+      if (m_deleting)
+      {
+        return ;
+      }
+      
       CHECK(i_trait,"Kernel::_remove(Trait*) no trait") ;
       TypeIdentifier trait_name(getObjectTypeIdentifier(i_trait)) ;
 
       i_trait->_close() ;
       TraitFormula::removeTrait(this,trait_name) ;
+      HasParentFormula::removeTrait(this,trait_name) ;
       
       this->traits.erase(trait_name) ;
       delete i_trait ;
@@ -260,7 +275,8 @@ namespace ProjetUnivers {
     Object::~Object()
     {
       //_close() ;
-      
+      m_deleting = true ;
+      InternalMessage("Kernel","Destroying object" + toString(m_identifier)) ;
       for(std::map<TypeIdentifier, Trait*>::iterator trait = traits.begin() ;
           trait != traits.end() ;
           ++trait)
@@ -274,6 +290,7 @@ namespace ProjetUnivers {
       {
         delete *child ;
       }
+      InternalMessage("Kernel","Destroyed object" + toString(m_identifier)) ;
     }
 
     void Object::_init()
@@ -459,6 +476,7 @@ namespace ProjetUnivers {
       {
         trait->second->_changed_parent(i_old_parent) ;
       }
+      HasParentFormula::changeParent(this,i_old_parent) ;
     }
     
     Trait* Object::_get(const TypeIdentifier& i_trait_name) const
@@ -628,7 +646,7 @@ namespace ProjetUnivers {
       return result ;
     }
     
-    std::set<Object*> Object::getChildren() const
+    const std::set<Object*>& Object::getChildren() const
     {
       return children ;
     }
@@ -661,5 +679,29 @@ namespace ProjetUnivers {
       }
     }
 
+    Trait* Object::getTrait(const TypeIdentifier& name) const
+    {
+      std::map<TypeIdentifier,Trait*>::const_iterator 
+        result = traits.find(name) ;
+      if (result != traits.end())
+      {
+        return result->second ;
+      }
+      return NULL ;
+    }
+    
+    unsigned int Object::getNumberOfParent(const TypeIdentifier& name) const
+    {
+      unsigned int result = 0 ;
+      
+      Object* iterator(const_cast<Object*>(this)) ;
+      while(iterator)
+      {
+        if (iterator->getTrait(name))
+          ++result ;
+        iterator = iterator->getParent() ;
+      }
+      return result ;
+    }
   }
 }

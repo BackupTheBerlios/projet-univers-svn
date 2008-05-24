@@ -51,6 +51,7 @@ namespace ProjetUnivers {
     class FormulaNot ;
     class Reader ;
     class CommandDelegator ;
+    class HasParentFormula ;
     
     /// A model object.
     /*!
@@ -169,7 +170,7 @@ namespace ProjetUnivers {
       std::set<std::string> getCommands() const ;
       
       /// Access to all children.
-      std::set<Object*> getChildren() const ;
+      const std::set<Object*>& getChildren() const ;
       
     //@}
     /*!
@@ -284,15 +285,26 @@ namespace ProjetUnivers {
     */    
     //@{
     
+      
+      /// Access to the validity of a formula for @c this
       bool getValidity(const Formula* i_formula) const ;
       
+      /// Change the validity of a formula for @c this
       void setValidity(const Formula* i_formula,bool i_validity) ;
 
+      /// Access to the number of true child formulae for @c this
       unsigned short getNumberOfTrueChildFormulae(const Formula* i_formula) const ;
       
+      /// Change the number of true child formulae for @c this
       void setNumberOfTrueChildFormulae(const Formula* i_formula,
                                         unsigned short i_number) ;
-                                        
+
+      /// Access to a trait by name.
+      Trait* getTrait(const TypeIdentifier&) const ;
+
+      /// Access to number of parents with trait @c name.
+      unsigned int getNumberOfParent(const TypeIdentifier& name) const ;
+      
     // @}
       
       /// Returns the path from root to this.
@@ -304,7 +316,11 @@ namespace ProjetUnivers {
     */    
     // @{
     
+      /// Object name @deprecated
       std::string                      name ;
+      
+      /// Is the current object is deleting
+      bool                             m_deleting ;
       
       /// Unique identifier.
       int                              m_identifier ;
@@ -340,6 +356,7 @@ namespace ProjetUnivers {
       friend class FormulaOr ;
       friend class FormulaNot ;
       friend class TraitFormula ;
+      friend class HasParentFormula ;
       friend class DeducedTrait ;
       friend class CommandDelegator ;
     };

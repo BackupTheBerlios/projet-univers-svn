@@ -233,7 +233,6 @@ namespace ProjetUnivers {
       TraitFormula(const TypeIdentifier& trait_name) ;
     
       TypeIdentifier m_trait ;
-
       
       /// Find the trait formula associated with @c trait_name.
       /*!
@@ -360,12 +359,18 @@ namespace ProjetUnivers {
     };
 
     /// True iff child formula is true on an ancestor.
-    class FormulaHasAncestor : public Formula
+    class HasAncestorFormula : public Formula
     {
     public:
     
+      /// Special constructor.
+      /*!
+        Two calls with the same parameter returns the same formula. 
+      */
+      static HasAncestorFormula* build(const TypeIdentifier& trait_name) ;
+      
       /// Constructs.
-      FormulaHasAncestor() ;
+      HasAncestorFormula() ;
 
       /// Add a child formula.
       virtual void addChild(Formula* formula) ;
@@ -381,6 +386,82 @@ namespace ProjetUnivers {
       virtual void onAddChildTrue(Object*  object) ;
       virtual void onAddChildFalse(Object* object) ;
       virtual void onChildUpdated(Object*  object) ;
+    };
+
+    /// True iff child formula is true on a parent or @c this.
+    class HasParentFormula : public Formula
+    {
+    public:
+    
+      /// Special constructor.
+      /*!
+        Two calls with the same parameter returns the same formula. 
+      */
+      static HasParentFormula* build(const TypeIdentifier& trait_name) ;
+
+      // Notify that @c object has gained @c trait_name.
+      static void addTrait(Object* object,const TypeIdentifier& trait_name) ;
+      
+      // Notify that @c object has lost @c trait_name.
+      static void removeTrait(Object* object,const TypeIdentifier& trait_name) ;
+      
+      // Notify that @c trait_name has been updated for @c object.
+      static void updateTrait(Object* object,const TypeIdentifier& trait_name) ;
+
+      /// Notify that @c object has changed parent.
+      static void changeParent(Object* object,Object* old_parent) ;
+      
+      /// Print the formula.
+      virtual std::string internalPrint() const ;
+
+    protected:
+
+      /// Initial value.
+      virtual void eval(Object* object) ;
+      
+      virtual void onAddChildTrue(Object* object) ;
+      virtual void onAddChildFalse(Object* object) ;
+      virtual void onChildUpdated(Object* object) ;
+
+      /// Declare that the trait has been added to parent's object 
+      void addParent(Object* object) ;
+
+      /// Declare that the trait has been removed to parent's object 
+      void removedParent(Object* object) ;
+
+      /// Parent trait has been updated.
+      void updateParentTrait(Object* object) ;
+
+      /// Notify that @c object has changed parent.
+      void onChangedParent(Object* object,Object* old_parent) ;
+      
+    private:
+
+      /// Constructor 
+      HasParentFormula(const TypeIdentifier& trait_name) ;
+    
+      TypeIdentifier m_trait ;
+      
+      /// Find the parent trait formula associated with @c trait_name.
+      /*!
+        @return NULL if not found.
+      */
+      static HasParentFormula* get(const TypeIdentifier& trait_name) ;
+      
+      class StaticStorage
+      {
+      public:
+        
+        /// Access to singleton.
+        static StaticStorage* get() ;
+      
+        std::map<TypeIdentifier,HasParentFormula*> m_parent_traits_formulae ;
+        
+      private:
+        
+        StaticStorage()
+        {}
+      };      
     };
 
     
@@ -412,6 +493,17 @@ namespace ProjetUnivers {
       static Formula* build()
       {
         return TraitFormula::build(getClassTypeIdentifier(T)) ;
+      }
+    };
+
+    /// Elementary formula static declaration.
+    template <class T> class TemplateHasParent
+    {
+    public:
+      
+      static Formula* build()
+      {
+        return HasParentFormula::build(getClassTypeIdentifier(T)) ;
       }
     };
     

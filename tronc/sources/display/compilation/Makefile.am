@@ -17,6 +17,7 @@ $(SOURCES)/display/implementation/explosion.cpp \
 $(SOURCES)/display/implementation/target.cpp \
 $(SOURCES)/display/implementation/ideal_target.cpp \
 $(SOURCES)/display/implementation/identified_target.cpp \
+$(SOURCES)/display/implementation/space_dust.cpp \
 $(SOURCES)/display/implementation/target_with_selection.cpp 
 
 

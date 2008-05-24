@@ -22,6 +22,7 @@
 #include <kernel/error.h>
 #include <kernel/exception_kernel.h>
 
+#include <kernel/deduced_trait.h>
 #include <kernel/object.h>
 #include <kernel/object_reference.h>
 #include <kernel/base_trait_view.h>
@@ -81,6 +82,7 @@ namespace ProjetUnivers {
         m_objects.insert(result) ;
         m_objects_dictionnary[name] = result ;
         m_objects_by_identifier[result->getIdentifier()] = result ;
+        DeducedTrait::evaluateInitial(result) ;
         return result ;
       }
       return NULL ;
@@ -98,7 +100,7 @@ namespace ProjetUnivers {
         parent->_add(result) ;
         m_objects_dictionnary[name] = result ;
         m_objects_by_identifier[result->getIdentifier()] = result ;
-        
+        DeducedTrait::evaluateInitial(result) ;
         return result ;
       }
       

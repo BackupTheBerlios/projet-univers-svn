@@ -131,10 +131,14 @@ protected:
 
         mSceneMgr->getRootSceneNode()->attachObject(ent);
 
-        ent = mSceneMgr->createEntity("head", "explosion.mesh");
+//        ent = mSceneMgr->createEntity("head", "explosion.mesh");
         // Attach to child of root node, better for culling (otherwise bounds are the combination of the 2)
         SceneNode* node = mSceneMgr->getRootSceneNode()->createChildSceneNode() ;
-        node->attachObject(ent);
+//        node->attachObject(ent);
+        
+        ParticleSystem* particle = mSceneMgr->createParticleSystem("particle","Examples/PurpleFountain") ;
+        node->attachObject(particle) ;
+        
 //        node->pitch(Degree(90)) ;
     }
     // Create new frame listener

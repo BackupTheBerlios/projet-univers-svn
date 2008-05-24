@@ -29,8 +29,14 @@ $(vorbisfile_LIBS)
 
 # made of several tests because 
 # @see https://bugs.launchpad.net/ubuntu/+source/openal/+bug/187997
-TESTS = test_background_sound test_cone_property test_moving_object \
-test_openal_lib test_sound_environnement test_filter
+TESTS = \
+test_sound_event \
+test_background_sound \
+test_cone_property \
+test_moving_object \
+test_openal_lib \
+test_sound_environnement \
+test_filter
 
 check_PROGRAMS = $(TESTS)
 
@@ -90,3 +96,10 @@ test_filter_SOURCES = \
 test_filter_CXXFLAGS = $(CPPUNIT_CFLAGS) $(PU_CXXFLAGS)
 test_filter_LDFLAGS = $(CPPUNIT_LIBS)
 test_filter_LDADD = $(LDADD_OPTIONS)
+
+test_sound_event_SOURCES = \
+../test/test_sound.cpp \
+../test/test_sound_event.cpp
+test_sound_event_CXXFLAGS = $(CPPUNIT_CFLAGS) $(PU_CXXFLAGS)
+test_sound_event_LDFLAGS = $(CPPUNIT_LIBS)
+test_sound_event_LDADD = $(LDADD_OPTIONS)

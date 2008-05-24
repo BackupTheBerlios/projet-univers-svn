@@ -614,7 +614,22 @@
 	  - added audio ressources in Media
 	* Model :
 	  - renamed Hearing into Listener
-	  
+
+2008-05-24 rogma
+
+  * Sound :
+    - added sound event basic test
+  * Kernel : 
+    - added deduced trait on parentship : HasParent(T) is true iff object has 
+      trait T or if a parent has trait T. It is updated whenever getParent<T> 
+      returns a different object or getParent<T> is the same but this T has 
+      been updated.  
+    	For example HasParent(Positionned) should be used instead of 
+    	HasTrait(Positionned) allowing to skip Positionned trait for sub 
+    	objects...
+  * Display :
+    - added space dust effect on Observer to show speed to user
+
 @todo :
 
   
@@ -656,11 +671,17 @@
       changing node position can then move object hierarchy
     
     - PhysicalWorld <=> Whole ??
-      PhysicalObject should not depend on mobile ?  
+      PhysicalObject should not depend on mobile ?
+    
+    - remove position from collision trait, use Positionned instead  
 
   * Display :
     - seg fault when having an Oriented object that is not Positionned 
-    - all Solid parent of an Observer invisible : but only in the case it is the current observer
+    - all Solid parent of an Observer invisible : but only in the case it is 
+      the current observer
+    - when initing ogre, close any already openned ogre objects in other 
+      modules
+    - replace display::init(bool) with an enum
     
   * Input :
     - be able to map any axis on anything
@@ -691,7 +712,9 @@
     - add Shot sound
     
   * Kernel :
-    - better errors on object structure
+  
+    - add better errors on object structure
+    
     - add an onDeduced event on deduced traits : it would allow one to perform 
       custom code, for example to calculate deduced attribute in those traits. 
       e.g., Solid <=> Sized, and Sized.size = Solid.Mesh.radius
@@ -699,13 +722,10 @@
       in the deduced trait with a mutable attribute. 
       --> obsolete kept for documentation purpose
     
-    - add deduced reference trait : for example first parent with trait X; and 
-      notification on the "deduced reference trait" 
-     
   * all :
     - make use of Quantities library, 
       @see http://sourceforge.net/projects/quantity ??
-    - correct the coordinate system; camera must be inversed and Stick/Throttle 
-      must use correct orientation 
+    - correct the coordinate system; Stick/Throttle must use correct 
+      orientation 
 
   

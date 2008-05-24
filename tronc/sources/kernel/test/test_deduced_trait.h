@@ -76,6 +76,39 @@ namespace ProjetUnivers {
         */
         void testGetLatestUpdatedTrait() ;
         
+        /// Add a parent and check that HasParent has changed.
+        void addParentTrait() ;
+        
+        // Add an intermediate parent and check that view has been updated.
+        void addSubParentTrait() ;
+        
+        /// Remove a parent and check that HasParent has changed.
+        void addRemoveParentTrait() ;
+        
+        /// Update an ancetsor trait and check that view has not been updated.
+        void updateAncestorTrait() ;
+        
+        /// Update a parent trait and check that view has been updated.
+        void updateParentTrait() ;
+        
+        /// Remove a element and check that grand children are updated.
+        void removeSubAncestorTrait() ;
+
+        /// Add a parent and check that HasParent has changed.
+        void addParentTraitOnCompositeFormula() ;
+        
+        /// Add a child thas is true at beginning for HasParent.
+        void addTrueChild() ;
+        
+        /// Change the parent of an object HasParent becomes true.
+        void changeParentHasParentBecomeTrue() ;
+        
+        /// Change the parent of an object HasParent becomes false.
+        void changeParentHasParentBecomeFalse() ;
+        
+        /// Change the parent with HasParent still true updates the view.
+        void changeParentHasParentUpdated() ;
+        
       // @}
 
 
@@ -90,6 +123,18 @@ namespace ProjetUnivers {
         CPPUNIT_TEST(notifyOnNotAssignedTrait) ;
         CPPUNIT_TEST(testGetLatestUpdatedTrait) ;
 
+        CPPUNIT_TEST(addParentTrait) ;
+        CPPUNIT_TEST(addSubParentTrait) ;
+        CPPUNIT_TEST(addRemoveParentTrait) ;
+        CPPUNIT_TEST(updateAncestorTrait) ;
+        CPPUNIT_TEST(updateParentTrait) ;
+        CPPUNIT_TEST(removeSubAncestorTrait) ;
+        CPPUNIT_TEST(addParentTraitOnCompositeFormula) ;
+        CPPUNIT_TEST(addTrueChild) ;
+        CPPUNIT_TEST(changeParentHasParentBecomeTrue) ;
+        CPPUNIT_TEST(changeParentHasParentBecomeFalse) ;
+        CPPUNIT_TEST(changeParentHasParentUpdated) ;
+        
         CPPUNIT_TEST_SUITE_END() ;
 
       

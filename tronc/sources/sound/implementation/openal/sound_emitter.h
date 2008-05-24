@@ -85,7 +85,11 @@ namespace ProjetUnivers {
           /// Get the sound's filename
           virtual std::string getSoundFileName() const = 0 ;
           
-          /// Indicate if the sound is an event
+          /// Indicate if the sound is an event.
+          /*!
+            An event triggers a sound that continues event when event is 
+            destroyed. For example Collision sound, Shot sound...
+          */
           virtual bool isEvent() const = 0 ;
           
           /// Is the source active now considering damages or other elements.

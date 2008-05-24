@@ -646,6 +646,372 @@ namespace ProjetUnivers {
         CPPUNIT_ASSERT(object->getTrait<DeducedTrait12>()->getView<View12>(viewpoint.get())->m_latest_updated_trait == getClassTypeIdentifier(Trait11)) ;
         
       }
+
+      namespace
+      {
+        
+        class Parent : public Trait
+        {
+        public:
+          
+          void modify()
+          {
+            notify() ;
+          }
+        };
+        
+        class HasParentTrait1 : public DeducedTrait
+        {};
+        
+        DeclareDeducedTrait(HasParentTrait1,
+                            HasParent(Parent)) ; 
+        
+        class ParentAndTrait1 : public DeducedTrait
+        {};
+
+        DeclareDeducedTrait(ParentAndTrait1,
+                            And(HasParent(Parent),HasTrait(Trait1))) ; 
+        
+        class ViewHasParentTrait1 : public TraitView<HasParentTrait1,TestViewPoint>
+        {
+        public:
+          
+          ViewHasParentTrait1(HasParentTrait1* o,TestViewPoint* v)
+          : TraitView<HasParentTrait1,TestViewPoint>(o,v),
+            m_update_number(0)
+          {}
+          
+          int getUpdateNumber() const
+          {
+            return m_update_number ;
+          }
+          
+        protected:
+          
+          void onUpdate()
+          {
+            ++m_update_number ;
+          }
+          
+          int m_update_number ;
+        };
+        
+        RegisterView(ViewHasParentTrait1,HasParentTrait1,TestViewPoint) ;
+        
+      }
+      
+      void TestDeducedTrait::addParentTrait()
+      {
+        InternalMessage("Kernel","TestDeducedTrait::addParentTrait entering") ;
+        std::auto_ptr<Model> model(new Model("TestDeducedTrait::addParentTrait")) ;
+        
+        Object* object = model->createObject() ;
+        Object* child = model->createObject(object) ;
+        
+        CPPUNIT_ASSERT(! child->getTrait<HasParentTrait1>()) ;
+        CPPUNIT_ASSERT(! object->getTrait<HasParentTrait1>()) ;
+        
+        model->addTrait(object,new Parent()) ;
+        
+        CPPUNIT_ASSERT(object->getTrait<HasParentTrait1>()) ;
+        CPPUNIT_ASSERT(child->getTrait<HasParentTrait1>()) ;
+      }
+      
+      void TestDeducedTrait::addSubParentTrait()
+      {
+        InternalMessage("Kernel","TestDeducedTrait::addSubParentTrait entering") ;
+        std::auto_ptr<Model> model(new Model("TestDeducedTrait::addSubParentTrait")) ;
+        std::auto_ptr<TestViewPoint> viewpoint(new TestViewPoint(model.get())) ;
+        viewpoint->init() ;
+        
+        Object* object = model->createObject() ;
+        Object* child = model->createObject(object) ;
+        
+        CPPUNIT_ASSERT(! child->getTrait<HasParentTrait1>()) ;
+        CPPUNIT_ASSERT(! object->getTrait<HasParentTrait1>()) ;
+        
+        model->addTrait(object,new Parent()) ;
+        
+        CPPUNIT_ASSERT(object->getTrait<HasParentTrait1>()) ;
+        CPPUNIT_ASSERT(child->getTrait<HasParentTrait1>()) ;
+        
+        CPPUNIT_ASSERT(child->getTrait<HasParentTrait1>()
+                            ->getView<ViewHasParentTrait1>(viewpoint.get())) ;
+        CPPUNIT_ASSERT(child->getTrait<HasParentTrait1>()
+                            ->getView<ViewHasParentTrait1>(viewpoint.get())
+                            ->getUpdateNumber() == 0) ;
+        
+        model->addTrait(child,new Parent()) ;
+        
+        CPPUNIT_ASSERT(object->getTrait<HasParentTrait1>()) ;
+        CPPUNIT_ASSERT(child->getTrait<HasParentTrait1>()) ;
+        
+        // view has been updated because Parent parent has changed
+        CPPUNIT_ASSERT(child->getTrait<HasParentTrait1>()
+                            ->getView<ViewHasParentTrait1>(viewpoint.get())
+                            ->getUpdateNumber() == 1) ;
+      }
+      
+      void TestDeducedTrait::addRemoveParentTrait()
+      {
+        InternalMessage("Kernel","TestDeducedTrait::addRemoveParentTrait entering") ;
+        std::auto_ptr<Model> model(new Model("TestDeducedTrait::addRemoveParentTrait")) ;
+        
+        Object* object = model->createObject() ;
+        Object* child = model->createObject(object) ;
+        
+        CPPUNIT_ASSERT(! child->getTrait<HasParentTrait1>()) ;
+        CPPUNIT_ASSERT(! object->getTrait<HasParentTrait1>()) ;
+        
+        model->addTrait(object,new Parent()) ;
+        
+        CPPUNIT_ASSERT(object->getTrait<HasParentTrait1>()) ;
+        CPPUNIT_ASSERT(child->getTrait<HasParentTrait1>()) ;
+        
+        model->destroyTrait(object,object->getTrait<Parent>()) ;
+        
+        CPPUNIT_ASSERT(! child->getTrait<HasParentTrait1>()) ;
+        CPPUNIT_ASSERT(! object->getTrait<HasParentTrait1>()) ;
+      }
+      
+      void TestDeducedTrait::updateAncestorTrait()
+      {
+        InternalMessage("Kernel","TestDeducedTrait::updateAncestorTrait entering") ;
+        std::auto_ptr<Model> model(new Model("TestDeducedTrait::updateAncestorTrait")) ;
+        std::auto_ptr<TestViewPoint> viewpoint(new TestViewPoint(model.get())) ;
+        viewpoint->init() ;
+        
+        Object* object = model->createObject() ;
+        Object* child = model->createObject(object) ;
+        Object* grand_child = model->createObject(child) ;
+        
+        CPPUNIT_ASSERT(! object->getTrait<HasParentTrait1>()) ;
+        CPPUNIT_ASSERT(! child->getTrait<HasParentTrait1>()) ;
+        CPPUNIT_ASSERT(! grand_child->getTrait<HasParentTrait1>()) ;
+        
+        model->addTrait(object,new Parent()) ;
+        
+        CPPUNIT_ASSERT(object->getTrait<HasParentTrait1>()) ;
+        CPPUNIT_ASSERT(child->getTrait<HasParentTrait1>()) ;
+        CPPUNIT_ASSERT(grand_child->getTrait<HasParentTrait1>()) ;
+        
+        CPPUNIT_ASSERT(grand_child->getTrait<HasParentTrait1>()
+                                  ->getView<ViewHasParentTrait1>(viewpoint.get())) ;
+        CPPUNIT_ASSERT(grand_child->getTrait<HasParentTrait1>()
+                                  ->getView<ViewHasParentTrait1>(viewpoint.get())
+                                  ->getUpdateNumber() == 0) ;
+
+        CPPUNIT_ASSERT(child->getTrait<HasParentTrait1>()
+                            ->getView<ViewHasParentTrait1>(viewpoint.get())
+                            ->getUpdateNumber() == 0) ;
+        
+        model->addTrait(child,new Parent()) ;
+        
+        CPPUNIT_ASSERT(object->getTrait<HasParentTrait1>()) ;
+        CPPUNIT_ASSERT(child->getTrait<HasParentTrait1>()) ;
+        
+        // view has been updated because Parent parent has changed
+        CPPUNIT_ASSERT(child->getTrait<HasParentTrait1>()
+                            ->getView<ViewHasParentTrait1>(viewpoint.get())
+                            ->getUpdateNumber() == 1) ;
+        
+        // view has been updated because Parent parent has changed
+        CPPUNIT_ASSERT(grand_child->getTrait<HasParentTrait1>()
+                                  ->getView<ViewHasParentTrait1>(viewpoint.get())
+                                  ->getUpdateNumber() == 1) ;
+        
+        object->getTrait<Parent>()->modify() ;
+        
+        // view has not been updated because its too up
+        CPPUNIT_ASSERT(grand_child->getTrait<HasParentTrait1>()
+                                  ->getView<ViewHasParentTrait1>(viewpoint.get())
+                                  ->getUpdateNumber() == 1) ;
+
+        // view has not been updated because its too up
+        CPPUNIT_ASSERT(child->getTrait<HasParentTrait1>()
+                            ->getView<ViewHasParentTrait1>(viewpoint.get())
+                            ->getUpdateNumber() == 1) ;
+        
+        child->getTrait<Parent>()->modify() ;
+
+        // view has been updated because parent has
+        CPPUNIT_ASSERT(child->getTrait<HasParentTrait1>()
+                            ->getView<ViewHasParentTrait1>(viewpoint.get())
+                            ->getUpdateNumber() == 2) ;
+        
+        // view has been updated because parent has
+        CPPUNIT_ASSERT(grand_child->getTrait<HasParentTrait1>()
+                                  ->getView<ViewHasParentTrait1>(viewpoint.get())
+                                  ->getUpdateNumber() == 2) ;
+
+        
+      }
+      
+      void TestDeducedTrait::updateParentTrait()
+      {
+        InternalMessage("Kernel","TestDeducedTrait::updateAncestorTrait entering") ;
+        std::auto_ptr<Model> model(new Model("TestDeducedTrait::updateAncestorTrait")) ;
+        std::auto_ptr<TestViewPoint> viewpoint(new TestViewPoint(model.get())) ;
+        viewpoint->init() ;
+        
+        Object* object = model->createObject() ;
+        Object* child = model->createObject(object) ;
+        
+        CPPUNIT_ASSERT(! object->getTrait<HasParentTrait1>()) ;
+        CPPUNIT_ASSERT(! child->getTrait<HasParentTrait1>()) ;
+        
+        model->addTrait(object,new Parent()) ;
+        
+        CPPUNIT_ASSERT(object->getTrait<HasParentTrait1>()) ;
+        CPPUNIT_ASSERT(child->getTrait<HasParentTrait1>()) ;
+
+        CPPUNIT_ASSERT(child->getTrait<HasParentTrait1>()
+                            ->getView<ViewHasParentTrait1>(viewpoint.get())
+                            ->getUpdateNumber() == 0) ;
+
+        object->getTrait<Parent>()->modify() ;
+
+        // view has been updated
+        CPPUNIT_ASSERT(object->getTrait<HasParentTrait1>()
+                             ->getView<ViewHasParentTrait1>(viewpoint.get())
+                             ->getUpdateNumber() == 1) ;
+        
+        // view has been updated
+        CPPUNIT_ASSERT(child->getTrait<HasParentTrait1>()
+                            ->getView<ViewHasParentTrait1>(viewpoint.get())
+                            ->getUpdateNumber() == 1) ;
+        
+      }
+      
+      void TestDeducedTrait::removeSubAncestorTrait()
+      {
+        InternalMessage("Kernel","TestDeducedTrait::addSubParentTrait entering") ;
+        std::auto_ptr<Model> model(new Model("TestDeducedTrait::addSubParentTrait")) ;
+        std::auto_ptr<TestViewPoint> viewpoint(new TestViewPoint(model.get())) ;
+        viewpoint->init() ;
+        
+        Object* object = model->createObject() ;
+        Object* child = model->createObject(object) ;
+        Object* grand_child = model->createObject(child) ;
+        
+        CPPUNIT_ASSERT(! child->getTrait<HasParentTrait1>()) ;
+        CPPUNIT_ASSERT(! object->getTrait<HasParentTrait1>()) ;
+        
+        model->addTrait(object,new Parent()) ;
+        model->addTrait(child,new Parent()) ;
+        
+        CPPUNIT_ASSERT(grand_child->getTrait<HasParentTrait1>()
+                                  ->getView<ViewHasParentTrait1>(viewpoint.get())
+                                  ->getUpdateNumber() == 1) ;
+        
+        model->destroyTrait(child,child->getTrait<Parent>()) ;
+        
+        CPPUNIT_ASSERT(grand_child->getTrait<HasParentTrait1>()
+                                  ->getView<ViewHasParentTrait1>(viewpoint.get())
+                                  ->getUpdateNumber() == 2) ;
+        
+      }
+      
+      void TestDeducedTrait::addParentTraitOnCompositeFormula()
+      {
+        InternalMessage("Kernel","TestDeducedTrait::addParentTrait entering") ;
+        std::auto_ptr<Model> model(new Model("TestDeducedTrait::addParentTrait")) ;
+        
+        Object* object = model->createObject() ;
+        Object* child = model->createObject(object) ;
+        
+        CPPUNIT_ASSERT(! child->getTrait<ParentAndTrait1>()) ;
+        CPPUNIT_ASSERT(! object->getTrait<ParentAndTrait1>()) ;
+        
+        model->addTrait(object,new Parent()) ;
+
+        CPPUNIT_ASSERT(! child->getTrait<ParentAndTrait1>()) ;
+        CPPUNIT_ASSERT(! object->getTrait<ParentAndTrait1>()) ;
+
+        model->addTrait(child,new Trait1()) ;
+        
+        CPPUNIT_ASSERT(! object->getTrait<ParentAndTrait1>()) ;
+        CPPUNIT_ASSERT(child->getTrait<ParentAndTrait1>()) ;
+        
+      }
+      
+      void TestDeducedTrait::addTrueChild()
+      {
+        InternalMessage("Kernel","TestDeducedTrait::addTrueChild entering") ;
+        std::auto_ptr<Model> model(new Model("TestDeducedTrait::addTrueChild")) ;
+        
+        Object* object = model->createObject() ;
+        CPPUNIT_ASSERT(! object->getTrait<HasParentTrait1>()) ;
+        model->addTrait(object,new Parent()) ;
+
+        // create a child after...
+        Object* child = model->createObject(object) ;
+        CPPUNIT_ASSERT(object->getTrait<HasParentTrait1>()) ;
+        CPPUNIT_ASSERT(child->getTrait<HasParentTrait1>()) ;
+      }
+      
+      void TestDeducedTrait::changeParentHasParentBecomeTrue()
+      {
+        InternalMessage("Kernel","TestDeducedTrait::changeParentHasParentBecomeTrue entering") ;
+        std::auto_ptr<Model> model(new Model("TestDeducedTrait::changeParentHasParentBecomeTrue")) ;
+        
+        Object* object = model->createObject() ;
+        Object* child = model->createObject(object) ;
+
+        Object* object2 = model->createObject() ;
+        model->addTrait(object2,new Parent()) ;
+
+        CPPUNIT_ASSERT(! child->getTrait<HasParentTrait1>()) ;
+        CPPUNIT_ASSERT(! object->getTrait<HasParentTrait1>()) ;
+
+        model->changeParent(child,object2) ;
+        
+        CPPUNIT_ASSERT(child->getTrait<HasParentTrait1>()) ;
+      }
+      
+      void TestDeducedTrait::changeParentHasParentBecomeFalse()
+      {
+        InternalMessage("Kernel","TestDeducedTrait::changeParentHasParentBecomeFalse entering") ;
+        std::auto_ptr<Model> model(new Model("TestDeducedTrait::changeParentHasParentBecomeFalse")) ;
+        
+        Object* object = model->createObject() ;
+        Object* child = model->createObject(object) ;
+
+        Object* object2 = model->createObject() ;
+        model->addTrait(object,new Parent()) ;
+
+        CPPUNIT_ASSERT(child->getTrait<HasParentTrait1>()) ;
+
+        model->changeParent(child,object2) ;
+        
+        CPPUNIT_ASSERT(! child->getTrait<HasParentTrait1>()) ;
+      }
+      
+      void TestDeducedTrait::changeParentHasParentUpdated()
+      {
+        InternalMessage("Kernel","TestDeducedTrait::changeParentHasParentUpdated entering") ;
+        std::auto_ptr<Model> model(new Model("TestDeducedTrait::changeParentHasParentUpdated")) ;
+        std::auto_ptr<TestViewPoint> viewpoint(new TestViewPoint(model.get())) ;
+        viewpoint->init() ;
+        
+        Object* object = model->createObject() ;
+        Object* child = model->createObject(object) ;
+
+        Object* object2 = model->createObject() ;
+        model->addTrait(object2,new Parent()) ;
+        model->addTrait(object,new Parent()) ;
+
+        CPPUNIT_ASSERT(child->getTrait<HasParentTrait1>()) ;
+
+        model->changeParent(child,object2) ;
+        
+        CPPUNIT_ASSERT(child->getTrait<HasParentTrait1>()) ;
+
+        // view has been updated
+        CPPUNIT_ASSERT(child->getTrait<HasParentTrait1>()
+                            ->getView<ViewHasParentTrait1>(viewpoint.get())
+                            ->getUpdateNumber() == 1) ;
+      }
       
       void TestDeducedTrait::setUp()
       {
