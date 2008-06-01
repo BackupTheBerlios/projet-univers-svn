@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2008 Mathieu ROGER                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,9 +18,8 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_KERNEL_TEST_TEST_PARAMETERS_H_
-#define PU_KERNEL_TEST_TEST_PARAMETERS_H_
-
+#ifndef PU_KERNEL_TEST_VIEWPOINT_REGISTRATION_H_
+#define PU_KERNEL_TEST_VIEWPOINT_REGISTRATION_H_
 
 #include <cppunit/extensions/HelperMacros.h>
 
@@ -29,10 +28,10 @@ namespace ProjetUnivers {
     namespace Test {
 
 
-      ///  Test for Parameters.
-      class TestParameters : public CppUnit::TestFixture {
+      ///  Test for ViewPoint registration.
+      class TestViewPointRegistration : public CppUnit::TestFixture {
       public:
-
+        
         /// Tests setup
         void setUp() ;
 
@@ -44,30 +43,20 @@ namespace ProjetUnivers {
       /// @name Tests methods
       // @{  
 
-        /// A simple test.
-        void basicTest() ;
+        /// Register a viewpoint and check for automatic creation.
+        void automaticCreation() ;
+      
+      //@}
         
-        /// A real test.
-        void testDemonstration() ;
-        
-        /// Test activated log retreival.
-        void testGetActivatedLogs() ;
-        
-      // @}
+        CPPUNIT_TEST_SUITE(TestViewPointRegistration) ;
 
-
-        CPPUNIT_TEST_SUITE(TestParameters) ;
-
-        CPPUNIT_TEST(basicTest) ;
-        CPPUNIT_TEST(testDemonstration) ;
-        CPPUNIT_TEST(testGetActivatedLogs) ;
+        CPPUNIT_TEST(automaticCreation) ;
 
         CPPUNIT_TEST_SUITE_END() ;
-
-      
+        
       };
     }
   }
 }
 
-#endif /*PU_KERNEL_TEST_TEST_PARAMETERS_H_*/
+#endif /*PU_KERNEL_TEST_VIEWPOINT_REGISTRATION_H_*/

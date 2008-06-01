@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2008 Mathieu ROGER                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,25 +18,24 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_KERNEL_TEST_TEST_PARAMETERS_H_
-#define PU_KERNEL_TEST_TEST_PARAMETERS_H_
-
+#ifndef PU_GAME_TEST_GAME_STATE_H_
+#define PU_GAME_TEST_GAME_STATE_H_
 
 #include <cppunit/extensions/HelperMacros.h>
 
 namespace ProjetUnivers {
-  namespace Kernel {
+  namespace Game {
     namespace Test {
 
 
-      ///  Test for Parameters.
-      class TestParameters : public CppUnit::TestFixture {
+      ///  Tests for GameState.
+      class TestGameState : public CppUnit::TestFixture {
       public:
 
-        /// Tests setup
+        /// Test suite init.
         void setUp() ;
 
-        /// Tests close.
+        /// Test suite close.
         void tearDown() ;
 
       protected:
@@ -44,23 +43,19 @@ namespace ProjetUnivers {
       /// @name Tests methods
       // @{  
 
-        /// A simple test.
+        /// Build a game state an run it.
         void basicTest() ;
-        
-        /// A real test.
-        void testDemonstration() ;
-        
-        /// Test activated log retreival.
-        void testGetActivatedLogs() ;
+       
+        /// A two state game : splash screen wecome and spash screen goodby.
+        void twoStateGame() ;
         
       // @}
 
 
-        CPPUNIT_TEST_SUITE(TestParameters) ;
+        CPPUNIT_TEST_SUITE(TestGameState) ;
 
         CPPUNIT_TEST(basicTest) ;
-        CPPUNIT_TEST(testDemonstration) ;
-        CPPUNIT_TEST(testGetActivatedLogs) ;
+        CPPUNIT_TEST(twoStateGame) ;
 
         CPPUNIT_TEST_SUITE_END() ;
 
@@ -70,4 +65,4 @@ namespace ProjetUnivers {
   }
 }
 
-#endif /*PU_KERNEL_TEST_TEST_PARAMETERS_H_*/
+#endif /*PU_GAME_TEST_GAME_STATE_H_*/

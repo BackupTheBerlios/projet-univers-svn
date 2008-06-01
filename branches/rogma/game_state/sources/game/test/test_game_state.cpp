@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2008 Mathieu ROGER                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,56 +18,44 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_KERNEL_TEST_TEST_PARAMETERS_H_
-#define PU_KERNEL_TEST_TEST_PARAMETERS_H_
+#include <iostream>
 
+#include <game/game.h>
+#include <game/game_state.h>
+#include <game/test/test_game_state.h>
 
-#include <cppunit/extensions/HelperMacros.h>
+CPPUNIT_TEST_SUITE_REGISTRATION(
+    ProjetUnivers::Game::Test::TestGameState) ;
 
 namespace ProjetUnivers {
-  namespace Kernel {
+  namespace Game {
     namespace Test {
 
+      void TestGameState::basicTest()
+      {
+        GameState state("level") ;
+        state.load("TestDemonstration") ;
+        state.activate() ;
+        state.update(0.1) ;
+      }
 
-      ///  Test for Parameters.
-      class TestParameters : public CppUnit::TestFixture {
-      public:
-
-        /// Tests setup
-        void setUp() ;
-
-        /// Tests close.
-        void tearDown() ;
-
-      protected:
-
-      /// @name Tests methods
-      // @{  
-
-        /// A simple test.
-        void basicTest() ;
+      void TestGameState::twoStateGame()
+      {
+        Game game ;
         
-        /// A real test.
-        void testDemonstration() ;
+        game.addState(new GameState("welcome")) ;
+        game.addState(new GameState("goodbye")) ;
         
-        /// Test activated log retreival.
-        void testGetActivatedLogs() ;
         
-      // @}
+      }
+      
+      void TestGameState::setUp()
+      {}
 
-
-        CPPUNIT_TEST_SUITE(TestParameters) ;
-
-        CPPUNIT_TEST(basicTest) ;
-        CPPUNIT_TEST(testDemonstration) ;
-        CPPUNIT_TEST(testGetActivatedLogs) ;
-
-        CPPUNIT_TEST_SUITE_END() ;
+      void TestGameState::tearDown()
+      {}
 
       
-      };
     }
   }
 }
-
-#endif /*PU_KERNEL_TEST_TEST_PARAMETERS_H_*/

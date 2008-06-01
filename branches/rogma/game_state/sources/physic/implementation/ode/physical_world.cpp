@@ -259,7 +259,7 @@ namespace ProjetUnivers {
               average_contact_point = average_contact_point / real_number_of_contact_points ;
           
               // create a collision object
-              Kernel::Object* collision_object = Model::createObject(world->getObject()) ;
+              Kernel::Object* collision_object = world->getObject()->createObject() ;
               
               Model::Collision* collision_trait = 
                 new Model::Collision(collideable1->getControler()->getObject(),

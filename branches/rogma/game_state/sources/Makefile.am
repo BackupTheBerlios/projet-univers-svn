@@ -7,5 +7,6 @@ physic \
 display \
 sound \
 input \
+game \
 demonstration 
 	

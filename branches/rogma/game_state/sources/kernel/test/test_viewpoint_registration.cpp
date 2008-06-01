@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2008 Mathieu ROGER                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,56 +18,51 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_KERNEL_TEST_TEST_PARAMETERS_H_
-#define PU_KERNEL_TEST_TEST_PARAMETERS_H_
+#include <iostream>
 
+#include <kernel/view_point.h>
 
-#include <cppunit/extensions/HelperMacros.h>
+#include <kernel/test/test_viewpoint_registration.h>
+
+CPPUNIT_TEST_SUITE_REGISTRATION(
+    ProjetUnivers::Kernel::Test::TestViewPointRegistration) ;
 
 namespace ProjetUnivers {
   namespace Kernel {
     namespace Test {
-
-
-      ///  Test for Parameters.
-      class TestParameters : public CppUnit::TestFixture {
-      public:
-
-        /// Tests setup
-        void setUp() ;
-
-        /// Tests close.
-        void tearDown() ;
-
-      protected:
-
-      /// @name Tests methods
-      // @{  
-
-        /// A simple test.
-        void basicTest() ;
+      
+      namespace
+      {
+        class TestViewPoint : public ViewPoint
+        {
+        public:
+          
+          TestViewPoint(Model* model)
+          : ViewPoint(model)
+          {}
+        };
         
-        /// A real test.
-        void testDemonstration() ;
+        RegisterViewPoint(TestViewPoint) ;
         
-        /// Test activated log retreival.
-        void testGetActivatedLogs() ;
+      }
+      
+      void TestViewPointRegistration::automaticCreation()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
         
-      // @}
+        ViewPoint::buildRegistered(model.get()) ;
+        
+        CPPUNIT_ASSERT(model->getViewPoints().size() == 1) ;
+        
+      }
+      
+      void TestViewPointRegistration::setUp()
+      {}
 
-
-        CPPUNIT_TEST_SUITE(TestParameters) ;
-
-        CPPUNIT_TEST(basicTest) ;
-        CPPUNIT_TEST(testDemonstration) ;
-        CPPUNIT_TEST(testGetActivatedLogs) ;
-
-        CPPUNIT_TEST_SUITE_END() ;
+      void TestViewPointRegistration::tearDown()
+      {}
 
       
-      };
     }
   }
 }
-
-#endif /*PU_KERNEL_TEST_TEST_PARAMETERS_H_*/

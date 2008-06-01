@@ -71,9 +71,6 @@ namespace ProjetUnivers {
           /// Terminate view point
           virtual void onClose() ;
           
-          /// Change l'observer.
-          virtual void onChangeObserver(Kernel::Object* _observer) ;
-
           /// This viewpoint is displayed. 
           virtual void activate() ;
 

@@ -161,11 +161,12 @@ namespace ProjetUnivers {
       
     }
 
-    /*!
-      @par Status 
-        hard coded
-    */
     void load(const std::string& name)
+    {
+      load(name,model.get()) ;
+    }
+    
+    void load(const std::string& name,Kernel::Model* model)
     {
      
       if (name == "TestDemonstration")
@@ -434,7 +435,7 @@ namespace ProjetUnivers {
       else
       {
         std::auto_ptr<Kernel::XMLReader> reader(Kernel::XMLReader::getFileReader(name)) ;
-        reader->read(model.get()) ;
+        reader->read(model) ;
       }            
     }
 

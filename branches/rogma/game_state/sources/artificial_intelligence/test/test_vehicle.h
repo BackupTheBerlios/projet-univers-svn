@@ -73,10 +73,10 @@ namespace ProjetUnivers {
       // @{
 
       
-        /// Initialisation du test
+        /// Tests setup
         void setUp() ;
       
-        /// Desinitialisation du test
+        /// DesTests setup
         void tearDown() ;
       
       // @}      

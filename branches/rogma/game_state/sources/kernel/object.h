@@ -70,12 +70,22 @@ namespace ProjetUnivers {
     */
     //@{
 
-      /// Constructor.
-      Object(Model* i_model,const std::string& i_name = "") ;
-
-      /// Destructs the objects and the traits.
-      ~Object() ;
-    
+      /// Creates a child Object.
+      Object* createObject() ; 
+  
+      /// Destroy this object.
+      void destroyObject() ;
+  
+      /// Changes parent of this object.
+      void changeParent(Object* new_parent) ;
+      
+      /// Adds a new trait to object.
+      void addTrait(Trait* trait) ;
+  
+      /// Destroy an object's trait.
+      void destroyTrait(Trait* trait) ;
+      
+      
     //@}
     /*!
       @name Access methods
@@ -201,6 +211,12 @@ namespace ProjetUnivers {
 
     private:
 
+      /// Constructor.
+      Object(Model* i_model,const std::string& i_name = "") ;
+
+      /// Destructs the objects and the traits.
+      ~Object() ;
+      
     /*!
       @name Internal construction
       

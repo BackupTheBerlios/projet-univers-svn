@@ -136,6 +136,8 @@ AC_CONFIG_FILES([Makefile \
                  sources/display/compilation/ogre/Makefile \
                  sources/demonstration/Makefile \
                  sources/demonstration/compilation/Makefile \
+                 sources/game/Makefile \
+                 sources/game/compilation/Makefile \
                  sources/input/Makefile \
                  sources/input/compilation/Makefile \
                  sources/action/Makefile \

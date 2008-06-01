@@ -43,7 +43,41 @@ namespace ProjetUnivers {
     {
       int next_identifier = 1 ;
     }
- 
+
+    Object* Object::createObject()
+    {
+      if (getModel())
+        return getModel()->createObject(this) ;
+      else
+        return NULL ;
+    }
+
+    void Object::destroyObject()
+    {
+      if (getModel())
+        getModel()->destroyObject(this) ;
+    }
+
+    void Object::changeParent(Object* new_parent)
+    {
+      if (getModel())
+        getModel()->changeParent(this,new_parent) ;
+    }
+    
+    void Object::addTrait(Trait* trait)
+    {
+      if (getModel())
+        getModel()->addTrait(this,trait) ;
+      else
+        delete trait ;
+    }
+
+    void Object::destroyTrait(Trait* trait)
+    {
+      if (getModel())
+        getModel()->destroyTrait(this,trait) ;
+    }
+    
     std::string Object::getName() const
     {
       return name ;

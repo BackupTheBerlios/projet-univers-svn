@@ -630,6 +630,18 @@
   * Display :
     - added space dust effect on Observer to show speed to user
 
+2008-06-xx rogma
+
+  * Kernel :
+    - added RegisterViewPoint (and RegisterControlerSet) : the idea is to declare 
+      "global" viewpoints and controler sets such as Display, Sound, Physic, ...
+      that are automaticaly built on any "global" model.
+    - added Object interface for adding sub-objects, traits ... no need to go 
+      through Model anymore
+  * Game
+    - initial creation
+    - GameState represents splash screen, menu, and game 
+
 @todo :
 
   

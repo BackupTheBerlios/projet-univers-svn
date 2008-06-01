@@ -116,7 +116,7 @@ namespace ProjetUnivers {
       {
         InternalMessage("Model","firing") ;
         // create a laserbeam object
-        Kernel::Object* beam = createObject(world->getObject()) ;
+        Kernel::Object* beam = world->getObject()->createObject() ;
         
         // should apply local rotation to have correct position decal..
         Orientation orientation_of_laser = oriented->getOrientation(world->getObject()) ;
@@ -150,7 +150,7 @@ namespace ProjetUnivers {
         addTrait(beam,new WithLifetime(getLaserBeamLifeDuration())) ;
         
         // shot
-        Kernel::Object* shot = createObject(world->getObject()) ;
+        Kernel::Object* shot = world->getObject()->createObject() ;
         addTrait(shot,new Positionned(position_of_the_beam)) ;
         addTrait(shot,new Shot()) ;
 

@@ -350,6 +350,17 @@ namespace ProjetUnivers {
       view->getTrait()->addView(view->m_viewpoint,view) ;
       view->_init() ;
     }
+
+    const std::set<ViewPoint*>& Model::getViewPoints() const
+    {
+      return m_viewpoints ;
+    }
+
+    const std::set<ControlerSet*>& Model::getControlerSets() const
+    {
+      return m_controler_sets ;
+    }
+  
   }
 }
 

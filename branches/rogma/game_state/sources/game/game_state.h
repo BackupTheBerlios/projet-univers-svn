@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2008 Mathieu ROGER                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,56 +18,53 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_KERNEL_TEST_TEST_PARAMETERS_H_
-#define PU_KERNEL_TEST_TEST_PARAMETERS_H_
+#ifndef PU_GAME_GAME_STATE_H_
+#define PU_GAME_GAME_STATE_H_
 
-
-#include <cppunit/extensions/HelperMacros.h>
+#include <memory>
+#include <string>
+#include <kernel/model.h>
 
 namespace ProjetUnivers {
-  namespace Kernel {
-    namespace Test {
-
-
-      ///  Test for Parameters.
-      class TestParameters : public CppUnit::TestFixture {
-      public:
-
-        /// Tests setup
-        void setUp() ;
-
-        /// Tests close.
-        void tearDown() ;
-
-      protected:
-
-      /// @name Tests methods
-      // @{  
-
-        /// A simple test.
-        void basicTest() ;
-        
-        /// A real test.
-        void testDemonstration() ;
-        
-        /// Test activated log retreival.
-        void testGetActivatedLogs() ;
-        
-      // @}
-
-
-        CPPUNIT_TEST_SUITE(TestParameters) ;
-
-        CPPUNIT_TEST(basicTest) ;
-        CPPUNIT_TEST(testDemonstration) ;
-        CPPUNIT_TEST(testGetActivatedLogs) ;
-
-        CPPUNIT_TEST_SUITE_END() ;
-
+  namespace Game {
+    
+    /// Represents a game state.
+    /*!
+      @see http://gamedevgeek.com/tutorials/managing-game-states-in-c/
+    */
+    class GameState
+    {
+    public:
       
-      };
-    }
+      /// Constructs
+      GameState(const std::string& name) ;
+    
+      /// Load a scene in the associated model.
+      void load(const std::string& scene_name) ;
+      
+      /// Make the state active.
+      void activate() ;
+      
+      /// Make the state in-active.
+      void desactivate() ;
+      
+      /// True if the state is active.
+      bool isActive() const ;
+
+      /// Update the state during @c seconds.
+      void update(const float& seconds) ;
+      
+    private:  
+    
+      std::string m_name ;
+      
+      bool m_is_active ;
+      
+      /// Store the state.
+      std::auto_ptr<Kernel::Model> m_model ;
+    };
+    
   }
 }
 
-#endif /*PU_KERNEL_TEST_TEST_PARAMETERS_H_*/
+#endif /*PU_GAME_GAME_STATE_H_*/

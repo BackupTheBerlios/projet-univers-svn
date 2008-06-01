@@ -30,6 +30,11 @@
 namespace ProjetUnivers {
   namespace Kernel {
 
+    ViewPoint::StaticStorage* ViewPoint::StaticStorage::get()
+    {
+      static StaticStorage temp ;
+      return &temp ;
+    }
 
     ViewPoint::~ViewPoint()
     {
@@ -42,7 +47,12 @@ namespace ProjetUnivers {
     : m_initialised(false),
       m_model_attached(model),
       m_model(model)
-    {}
+    {
+      if (m_model)
+      {
+        m_model->_register(this) ;
+      }      
+    }
 
     void ViewPoint::init()
     {
@@ -135,6 +145,26 @@ namespace ProjetUnivers {
     {
       return true ;
     }
+
+    void ViewPoint::update(const float& seconds)
+    {}
+  
+    void ViewPoint::registerBuilder(ViewPoint::ViewPointBuilder builder)
+    {
+      StaticStorage::get()->m_viewpoint_builders.push_back(builder) ;
+    }
+    
+    void ViewPoint::buildRegistered(Model* model)
+    {
+      for(std::list<ViewPointBuilder>::const_iterator 
+            builder = StaticStorage::get()->m_viewpoint_builders.begin() ;
+          builder != StaticStorage::get()->m_viewpoint_builders.end() ;
+          ++builder)
+      {
+        (*builder)(model) ;
+      }
+    }
+    
   }
 }
 

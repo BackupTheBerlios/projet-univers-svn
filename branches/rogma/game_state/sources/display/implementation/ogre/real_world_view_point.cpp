@@ -100,11 +100,6 @@ namespace ProjetUnivers {
           InternalMessage("Display","RealWorldViewPoint::onClose Leaving") ;
         }
 
-        void RealWorldViewPoint::onChangeObserver(Kernel::Object* _observer)
-        {
-          /// @ todo
-        }
-          
         ::Ogre::SceneManager* RealWorldViewPoint::getManager() const
         {
           return m_manager ;

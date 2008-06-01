@@ -98,6 +98,12 @@ namespace ProjetUnivers {
       /// Destroy all objects, views and controlers. 
       ~Model() ;
     
+      /// Access to viewpoints.
+      const std::set<ViewPoint*>& getViewPoints() const ;
+
+      /// Access to controler sets.
+      const std::set<ControlerSet*>& getControlerSets() const ;
+      
     private:
 
       std::string                 m_name ;

@@ -58,8 +58,11 @@ namespace ProjetUnivers {
     void close() ;
 
     /// Load a model from disk.
-    void load(const std::string& _name) ;
+    void load(const std::string& name) ;
 
+    /// Load a model from disk.
+    void load(const std::string& name,Kernel::Model* model) ;
+    
     /// Load and init external ressources.
     void initRessources() ;
     
@@ -77,38 +80,38 @@ namespace ProjetUnivers {
   // @{
 
     /// Get an object.
-    Kernel::Object* getObject(const std::string& i_name) ;
+    Kernel::Object* getObject(const std::string& name) ;
       
     /// Creates a new Kernel::Object with name.
-    Kernel::Object* createObject(const std::string& i_name) ; 
+    Kernel::Object* createObject(const std::string& name) ; 
 
     /// Creates a new Kernel::Object.
     Kernel::Object* createObject() ; 
 
     /// Creates a new Kernel::Object with name and given parent.
-    Kernel::Object* createObject(const std::string& i_name, 
-                                 Kernel::Object* i_parent) ; 
+    Kernel::Object* createObject(const std::string& name, 
+                                 Kernel::Object*    parent) ; 
 
     /// Creates a new Kernel::Object with given parent.
-    Kernel::Object* createObject(Kernel::Object* i_parent) ; 
+    Kernel::Object* createObject(Kernel::Object* parent) ; 
 
     /// Destroy an Kernel::Object of given name.
-    void destroyObject(const std::string& i_name) ;
+    void destroyObject(const std::string& name) ;
 
     /// Destroy a given Kernel::Object.
-    void destroyObject(Kernel::Object* i_object) ;
+    void destroyObject(Kernel::Object* object) ;
 
     /// Changes parent of a given Kernel::Object.
-    void changeParent(Kernel::Object* i_object, 
-                      Kernel::Object* i_new_parent) ;
+    void changeParent(Kernel::Object* object, 
+                      Kernel::Object* new_parent) ;
 
     /// Adds a new trait to an Kernel::Object.
-    void addTrait(Kernel::Object* i_object, 
-                  Kernel::Trait* i_new_trait) ;
+    void addTrait(Kernel::Object* object, 
+                  Kernel::Trait*  new_trait) ;
 
     /// Destroy an Kernel::Object's trait.
-    void destroyTrait(Kernel::Object* i_object, 
-                      Kernel::Trait* i_trait) ;
+    void destroyTrait(Kernel::Object* object, 
+                      Kernel::Trait*  trait) ;
 
   //@}
   /*!
@@ -149,7 +152,7 @@ namespace ProjetUnivers {
       - both are Positionned and 
       - @c i_contener is an ancestor of @c i_content 
     */
-    bool isInside(Kernel::Object* i_content,Kernel::Object* i_contener) ;
+    bool isInside(Kernel::Object* content,Kernel::Object* contener) ;
 
 
     /// True iff @c i_part is a part of @c i_whole.
@@ -164,7 +167,7 @@ namespace ProjetUnivers {
       - @c i_part is Component
       - @c i_whole is the parent of @c i_part 
     */
-    bool isPartOf(Kernel::Object* i_part,Kernel::Object* i_whole) ;
+    bool isPartOf(Kernel::Object* part,Kernel::Object* whole) ;
 
     /// True iff @c i_object is a whole.
     /*!
@@ -178,7 +181,7 @@ namespace ProjetUnivers {
         is more likely to be a property that resists model evolutions.   
       
     */
-    bool isAWhole(Kernel::Object* i_object) ;
+    bool isAWhole(Kernel::Object* object) ;
 
     /// Return the ship controled by @c agent.
     /*!
@@ -193,7 +196,6 @@ namespace ProjetUnivers {
   //@}
   
   }
-  
 }
 
 #endif
