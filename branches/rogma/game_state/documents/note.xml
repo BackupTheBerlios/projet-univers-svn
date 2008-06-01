@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN"
+"http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd">
+<article>
+  <title>Quelque notes sur la navigation, l'hyperpropultion et les Systèmes
+  des vaisseaux.</title>
+
+  <articleinfo>
+    <date>31 août 2004</date>
+
+    <author>
+      <firstname>Vincent</firstname>
+
+      <othername>Flory</othername>
+
+      <surname>Dack</surname>
+    </author>
+
+    <legalnotice>
+      <para>Ce document est sous licence <ulink
+      url="http://www.gnu.org/copyleft/fdl.html">GNU Free Documentation
+      License</ulink></para>
+    </legalnotice>
+  </articleinfo>
+
+  <section>
+    <title>Introduction.</title>
+
+    <para>Dans ces notes, j'ai mis au point les différents fonctionnement de
+    la navigation intersidérale, j'ai débuté une desciption des systèmes
+    d'hyper-propulsion et commencé aussi la répartition de l'énergie entre les
+    différents systèmes du vaisseau.</para>
+  </section>
+
+  <section>
+    <title>La Répartition de l'énergie entre les systèmes.</title>
+
+    <para>La répartition est faite selon l'importance et la quantité d'énergie
+    nécessaire pour faire fonctionner l'appareil. Donc voila les différents
+    systèmes que j'ai pu avoir à l'idée.</para>
+
+    <formalpara>
+      <title>Les moteurs</title>
+
+      <para>Ils constituent une partie vitale pour un vaisseau dans l'espace.
+      Ils servent à avancer. Ils consomment 40% de l'énergie produite par les
+      générateur, énergie répartie entre tous les moteurs.</para>
+    </formalpara>
+
+    <formalpara>
+      <title>Les boucliers</title>
+
+      <para>Ils sont aussi une partie intégrante dans un vaisseau puisqu'ils
+      augmentent la capacité de défense d'un vaisseau. Ils consomment 20% de
+      l'énergie produite par les générateurs. Ensuite ces 20% sont reparti
+      encore en deux autre partie. 10% vont a au bouclier avant et 10% autre
+      vont au boucliers arrière.</para>
+    </formalpara>
+
+    <formalpara>
+      <title>L'armement</title>
+
+      <para>Il s'agit aussi d'une partie importante du vaisseau puisqu'il sert
+      à se défendre et à attaquer. Il consomm 20% de l'énergie produite par
+      les générateurs. Ensuite ces 20% sont repartis entre les armes à lasers
+      et les lances-missiles. Les lasers en consomment 15% et les
+      lances-missiles en consomment 5%.</para>
+    </formalpara>
+
+    <formalpara>
+      <title>Les communications</title>
+
+      <para>Les communications constituent une partie secondaire d'un
+      vaisseau, ils n'utilisent que peu d'énergie. Les communications
+      n'utilisent que 10% de l'énergie produite par le générateur.</para>
+    </formalpara>
+
+    <formalpara>
+      <title>Les sondeurs (<foreignphrase>scanners</foreignphrase>) et
+      autre</title>
+
+      <para>Dans cette partie on trouve tout ce qui se rapporte au scanner et
+      radar. Il n'utilise que très peu d'énergie. Il n'utilise que 10% de
+      l'énergie produite par le générateur.</para>
+    </formalpara>
+  </section>
+
+  <section>
+    <title>Les différents Type de Générateur.</title>
+
+    <para>Il existe plusieurs générateurs pour se déplacer dans espace. Trois
+    types sont les plus courants, après viennent se greffer des sous-types.
+    Ces trois types de générateurs sont les suivants:</para>
+
+    <formalpara>
+      <title>Les Générateurs pour L'hyperespace</title>
+
+      <para>Ils équipent la plupart des vaisseaux. Il permettent, par un
+      procédé assez complexe, d'accélérer le vaisseau à la vitesse de la
+      lumière et bien plus vite pour se déplacer à travers les systèmes de la
+      galaxie. Ils sont indépendants des moteurs conventionnels.</para>
+    </formalpara>
+
+    <formalpara>
+      <title>Les Générateur pour les Trous Noirs</title>
+
+      <para>Ils équipent les Gros Vaisseaux du type corvette et autres. Il
+      permettent de traverser les bulles protecteurs généré par les Trous
+      Noirs. Il servent aussi a ce déplacer dans les Trous Noirs.
+      Contrairement au Générateur d'Hyperespace ils ne sont pas indépendants
+      des autres Générateurs.</para>
+    </formalpara>
+
+    <formalpara>
+      <title>Les Générateur d'espace Conventionnel</title>
+
+      <para>Ils servent a se déplacer dans l'espace. Ils sont alimentés par
+      une fusion de matière. Pour les Chasseurs, la fusion d'un gaz alimente
+      les moteur en énergie. Pour les gros vaisseaux de type corvette et
+      autre, la fusion dans un gros réacteur de matière ferreux doit être
+      nécessaire au déplacement.</para>
+    </formalpara>
+  </section>
+
+  <section>
+    <title>Les types de Navigation.</title>
+
+    <para>Il existe dans la galaxie deux types différents de déplacements a
+    travers les galaxie ou encore a Grande Vitesse. L'un sert a se déplacer
+    d'une galaxie a une autre et l'autre sert a se déplacer d'un système
+    planétaires a un autre.</para>
+
+    <formalpara>
+      <title>Système par les Trous Noirs</title>
+
+      <para>Ce système permet de voyager de galaxies en galaxies. Comme son
+      nom l'indique, le vaisseau passe a travers un trou noir et navigue comme
+      en espace conventionnel sauf qu'il se déplace à une vitesse élevée, ce
+      qui permet d'aller d'une galaxie a une autre en quelques heures. Pour
+      pouvoir utiliser les Trous Noirs il faut avoir un certain type de
+      Générateur puisque le Trou noirs par lui même développe une bulle
+      répulsive pour éviter que certain débris ou objet passe dans ces
+      "autoroute des étoiles". Il existe plusieurs Trous Noirs par Galaxie.
+      Certain sont encore inexploré et on ne sait pas ou il mène.</para>
+    </formalpara>
+
+    <formalpara>
+      <title>Système D'hyper-propulsion</title>
+
+      <para>Ce Système est le plus conventionnel de tous puisqu'il utilise la
+      vitesse. Un Générateur est utilisé pour accéléré à la vitesse de la
+      lumière et même plus. Ainsi vous pouvez traverser un Système ou une
+      partie d'une galaxie sans utiliser les Trous Noirs. En contre-partie, il
+      faut jouer avec la Gravité car sinon vous risquez de percuter un astre
+      ou encore ne pas pouvoir passer ne Hyper-espace. Pour pouvoir passer en
+      Hyper-espace ou pour en sortir, il faut avoir 3 points que l'on entre
+      dans la console de navigation.</para>
+    </formalpara>
+  </section>
+
+  <section>
+    <title>La Navigation.</title>
+
+    <para>Le Système de Navigation est simple. Il faut juste trois points. Une
+    longitude, une latitude et une élévation soit X,Y et Z. Reportez à un
+    repère orthonormé pour le travail dans l'espace pour bien comprendre le
+    principe.</para>
+  </section>
+</article>
