@@ -35,12 +35,13 @@ namespace ProjetUnivers {
       namespace Ogre {
         
         RegisterView(Ogre::Observer, 
-                     Model::Observer, 
+                     Implementation::Observer, 
                      Ogre::RealWorldViewPoint) ;
         
-        Observer::Observer(Model::Observer*    observer,
-                           RealWorldViewPoint* viewpoint) 
-        : Kernel::TraitView<Model::Observer,RealWorldViewPoint>(observer,viewpoint), 
+        Observer::Observer(Implementation::Observer* observer,
+                           RealWorldViewPoint*       viewpoint) 
+        : Kernel::TraitView<Implementation::Observer,
+                            RealWorldViewPoint>(observer,viewpoint), 
           m_camera(NULL),
           m_node(NULL)
         {
@@ -80,6 +81,8 @@ namespace ProjetUnivers {
             solid_parent = solid_parent->getObject()->getAncestor<Model::Solid>() ;
           }
           
+          getViewPoint()->setObserver(getObject()) ;
+          
           InternalMessage("Display","Display::Observer::onInit Leaving") ;
         }
           
@@ -87,6 +90,7 @@ namespace ProjetUnivers {
         {
           InternalMessage("Display","Display::Observer::onClose Entering") ;
           this->getViewPoint()->getManager()->destroyCamera(m_camera) ;
+          getViewPoint()->setObserver(NULL) ;
           InternalMessage("Display","Display::Observer::onClose Leaving") ;
         }
         

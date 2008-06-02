@@ -633,17 +633,31 @@
 2008-06-xx rogma
 
   * Kernel :
-    - added RegisterViewPoint (and RegisterControlerSet) : the idea is to declare 
+    - added RegisterViewPoint and RegisterControlerSet : the idea is to declare 
       "global" viewpoints and controler sets such as Display, Sound, Physic, ...
-      that are automaticaly built on any "global" model.
+      that are automaticaly built on any "global" model provided it has been 
+      declared and viewpoint is built with a model parameter
     - added Object interface for adding sub-objects, traits ... no need to go 
       through Model anymore
   * Game
     - initial creation
     - GameState represents splash screen, menu, and game 
-
+  * Model :
+    - added Player trait 
+    - removed testDemonstration because it is quite obsolete
+  * Display :
+    - modified construction of display viewpoint, Observer is obtained by 
+      searching Player + Observer trait
+  * Physic :
+    - modified construction of controler set, no observer needed.
+    
 @todo :
 
+  * All : 
+    - remove building of viewpoints, use automatic building instead
+    - use Game state for demo
+    - add Game controler and trait for handling team respawn ...
+    
   
   * ArtificialIntelligence : 
      

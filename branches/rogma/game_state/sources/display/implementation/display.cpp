@@ -160,15 +160,12 @@ namespace ProjetUnivers {
         
         /// if not initialised init it.
         active->init() ;
-        
-        active->activate() ;
-        
       }      
     }
 
     Kernel::ViewPoint* buildRealWorldViewPoint(Kernel::Object* i_observer)
     {
-      Implementation::Ogre::RealWorldViewPoint* temp = new Implementation::Ogre::RealWorldViewPoint(i_observer) ;
+      Implementation::Ogre::RealWorldViewPoint* temp = new Implementation::Ogre::RealWorldViewPoint(i_observer->getModel()) ;
       addViewPoint(temp) ;
       activateViewPoint(temp) ;
       return temp ;

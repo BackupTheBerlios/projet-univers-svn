@@ -35,6 +35,7 @@ libmodel_la_SOURCES = \
 ../implementation/oriented.cpp \
 ../implementation/physical_object.cpp \
 ../implementation/physical_world.cpp \
+../implementation/player.cpp \
 ../implementation/position.cpp \
 ../implementation/positionned.cpp \
 ../implementation/solid.cpp \
@@ -118,8 +119,7 @@ test_model_SOURCES = \
 ../test/test_detector.cpp \
 ../test/test_load.cpp \
 ../test/test_targeting_system.cpp \
-../test/test_shooting_helper.cpp \
-../test/test_demonstration.cpp 
+../test/test_shooting_helper.cpp 
 
 
 test_model_CXXFLAGS = $(CPPUNIT_CFLAGS) $(PU_CXXFLAGS)

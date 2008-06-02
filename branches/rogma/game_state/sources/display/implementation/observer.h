@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007-2008 Mathieu ROGER                                 *
+ *   Copyright (C) 2008 Mathieu ROGER                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,69 +18,19 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_DISPLAY_IMPLEMENTATION_OGRE_OBSERVATEUR_H_
-#define PU_DISPLAY_IMPLEMENTATION_OGRE_OBSERVATEUR_H_
+#ifndef PU_DISPLAY_IMPLEMENTATION_OBSERVER_H_
+#define PU_DISPLAY_IMPLEMENTATION_OBSERVER_H_
 
-#include <Ogre.h>
-
-#include <kernel/trait_view.h>
-#include <display/implementation/observer.h>
-#include <display/implementation/ogre/real_world_view_point.h>
+#include <kernel/deduced_trait.h>
 
 namespace ProjetUnivers {
   namespace Display {
     namespace Implementation {
-      namespace Ogre {
-        
-        
-        /// Observer view.
-        /*!
-          Ogre inverses the camera Z axis 
-          @see http://www.ogre3d.org/phpBB2/viewtopic.php?t=26839
-        */
-        class Observer : public Kernel::TraitView<Implementation::Observer,
-                                                  RealWorldViewPoint>
-        {
-        public:
-        
-        /*!
-          @name Construction 
-        */
-        // @{
-
-
-          /// Constructor.
-          Observer(Implementation::Observer*,RealWorldViewPoint*) ;
-
-          ::Ogre::Camera* getCamera() const ;
-
-        // @}
-        protected:
-
-        /*!
-          @name Updates.
-        */
-        // @{
-        
-          /// Build a camera.
-          void onInit() ;
           
-          /// Destroy the camera.
-          void onClose() ;
-
-        // @}
-        private:
-
-          /// Camera
-          ::Ogre::Camera*    m_camera ;
-          
-          /// Local node to have the camera correctly oriented
-          ::Ogre::SceneNode* m_node ;
-        };
-      }
+      /// The main observer.
+      class Observer : public Kernel::DeducedTrait
+      {};
     }
   }
 }
-
-
-#endif
+#endif /*PU_DISPLAY_IMPLEMENTATION_OBSERVER_H_*/

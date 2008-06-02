@@ -38,7 +38,6 @@ namespace ProjetUnivers {
         /// Update the buffers and create/delete the reader during their life.
         class Manager
         {
-        
         public:
         /*!
           @name Construction 

@@ -32,6 +32,7 @@
 #include <model/observer.h>
 #include <model/universe.h>
 #include <model/mobile.h>
+#include <model/player.h>
 #include <model/target_displayer.h>
 #include <model/targeting_system.h>
 #include <model/computer.h>
@@ -71,6 +72,7 @@ namespace ProjetUnivers {
         
         Kernel::Object* observer = Model::createObject(system) ;
         Model::addTrait(observer,new Model::Observer()) ;
+        Model::addTrait(observer,new Model::Player()) ;
         Model::addTrait(observer,new Model::Positionned()) ;
         Model::addTrait(observer,new Model::Oriented(::Ogre::Quaternion(::Ogre::Degree(180),::Ogre::Vector3::UNIT_Y))) ;
         
@@ -118,6 +120,7 @@ namespace ProjetUnivers {
         
         Kernel::Object* observer = Model::createObject(system) ;
         Model::addTrait(observer,new Model::Observer()) ;
+        Model::addTrait(observer,new Model::Player()) ;
         Model::addTrait(observer,new Model::Positionned()) ;
         Model::addTrait(observer,new Model::Oriented(::Ogre::Quaternion(::Ogre::Degree(180),::Ogre::Vector3::UNIT_Y))) ;
         
@@ -179,6 +182,7 @@ namespace ProjetUnivers {
         
         Kernel::Object* observer = Model::createObject(ship) ;
         Model::addTrait(observer,new Model::Observer()) ;
+        Model::addTrait(observer,new Model::Player()) ;
         Model::addTrait(observer,new Model::Positionned()) ;
         Model::addTrait(observer,new Model::Oriented()) ;
         Model::addTrait(observer,new Kernel::CommandDelegator()) ;
@@ -248,6 +252,7 @@ namespace ProjetUnivers {
         
         Kernel::Object* observer = Model::createObject(system) ;
         Model::addTrait(observer,new Model::Observer()) ;
+        Model::addTrait(observer,new Model::Player()) ;
         Model::addTrait(observer,new Model::Positionned(Model::Position::Meter(0,0,200))) ;
         Model::addTrait(observer,new Model::Oriented(::Ogre::Quaternion(::Ogre::Degree(180),::Ogre::Vector3::UNIT_Y))) ;
         
@@ -304,9 +309,11 @@ namespace ProjetUnivers {
         
         Kernel::Object* ship = Model::createShip(system) ;
         ship->getTrait<Model::Positionned>()->setPosition(Model::Position::Meter(0,0,-500)) ;
+        ship->getTrait<Model::Mobile>()->setSpeed(Model::Speed::MeterPerSecond(0,0,10)) ;
         
         Kernel::Object* observer = Model::createObject(ship) ;
         Model::addTrait(observer,new Model::Observer()) ;
+        Model::addTrait(observer,new Model::Player()) ;
         Model::addTrait(observer,new Model::Positionned()) ;
         Model::addTrait(observer,new Model::Oriented(::Ogre::Quaternion(::Ogre::Degree(180),::Ogre::Vector3::UNIT_Y))) ;
 

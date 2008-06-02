@@ -35,7 +35,7 @@ namespace ProjetUnivers {
     {
       // should build every viewpoints and controler sets
       Kernel::ViewPoint::buildRegistered(m_model.get()) ;
-      //Kernel::ControlerSet::buildRegistered(m_model.get()) ;
+      Kernel::ControlerSet::buildRegistered(m_model.get()) ;
     }
   
     void GameState::activate()

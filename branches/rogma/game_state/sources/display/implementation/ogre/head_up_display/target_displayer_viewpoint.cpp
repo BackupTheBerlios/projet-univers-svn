@@ -22,7 +22,7 @@
 #include <kernel/log.h>
 #include <kernel/string.h>
 #include <model/target_displayer.h>
-#include <model/observer.h>
+#include <display/implementation/observer.h>
 #include <display/implementation/ogre/observer.h>
 #include <display/implementation/ogre/head_up_display/target_displayer_viewpoint.h>
 
@@ -65,8 +65,17 @@ namespace ProjetUnivers {
 
           ::Ogre::Camera* TargetDisplayerViewPoint::getCamera() const
           {
-            return m_real_world->getObserver()->getTrait<Model::Observer>()
-                               ->getView<Observer>(m_real_world)->getCamera() ;
+            Kernel::Object* observer = m_real_world->getObserver() ;
+            if (! observer)
+              return NULL ;
+            
+            Observer* temp = observer->getTrait<Implementation::Observer>()
+                                     ->getView<Observer>(m_real_world) ;
+            
+            if (!temp)
+              return NULL ;
+            
+            return temp->getCamera() ;
           }
             
           Kernel::Object* TargetDisplayerViewPoint::getWorldRoot() const

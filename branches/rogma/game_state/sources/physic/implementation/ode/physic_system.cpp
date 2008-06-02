@@ -33,8 +33,8 @@ namespace ProjetUnivers {
     namespace Implementation {
       namespace Ode {
         
-        PhysicSystem::PhysicSystem(Kernel::Object* i_observer)
-        : Kernel::ControlerSet(i_observer ? i_observer->getModel() : NULL)
+        PhysicSystem::PhysicSystem(Kernel::Model* model)
+        : Kernel::ControlerSet(model)
         {}
         
         void PhysicSystem::simulate(const float& i_seconds)

@@ -27,6 +27,13 @@
 namespace ProjetUnivers {
   namespace Kernel {
   
+    ControlerSet::StaticStorage* ControlerSet::StaticStorage::get()
+    {
+      static StaticStorage temp ;
+      return &temp ;
+    }
+
+    
     void ControlerSet::simulate(const float& i_seconds)
     {
       boost::function2<void,
@@ -131,5 +138,22 @@ namespace ProjetUnivers {
       }
       InternalMessage("Kernel","ViewPoint::setModel Entering") ;
     }
+
+    void ControlerSet::registerBuilder(ControlerSet::ControlerSetBuilder builder)
+    {
+      StaticStorage::get()->m_controler_set_builders.push_back(builder) ;
+    }
+    
+    void ControlerSet::buildRegistered(Model* model)
+    {
+      for(std::list<ControlerSetBuilder>::const_iterator 
+            builder = StaticStorage::get()->m_controler_set_builders.begin() ;
+          builder != StaticStorage::get()->m_controler_set_builders.end() ;
+          ++builder)
+      {
+        (*builder)(model) ;
+      }
+    }
+    
   }
 }

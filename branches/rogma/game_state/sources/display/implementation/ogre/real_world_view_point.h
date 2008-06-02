@@ -56,11 +56,7 @@ namespace ProjetUnivers {
           
           
           /// Constructor.
-          /*!
-            @param[in] _observer 
-              object that sees (e.g., a character, a camera,...)
-          */
-          RealWorldViewPoint(Kernel::Object* _observer) ;
+          RealWorldViewPoint(Kernel::Model* model) ;
           
           /// Set the root in term of position.
           void setRootObject(Kernel::Object*) ;
@@ -70,13 +66,9 @@ namespace ProjetUnivers {
           
           /// Terminate view point
           virtual void onClose() ;
-          
-          /// This viewpoint is displayed. 
-          virtual void activate() ;
 
-          /// This viewpoint is not displayed. 
-          virtual void desactivate() ;
-
+          /// Change the observer
+          void setObserver(Kernel::Object* observer) ;
           
         // @}
         /*

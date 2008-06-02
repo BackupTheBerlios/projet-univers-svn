@@ -64,6 +64,7 @@
 #include <model/autonomous_character.h>
 #include <model/implementation/logic/logic.h>
 #include <model/team.h>
+#include <model/player.h>
 
 #include <model/model.h>
 
@@ -307,7 +308,7 @@ namespace ProjetUnivers {
           Kernel::Object* ship = createShip(system) ;
           ship->getTrait<Oriented>()->setOrientation(Orientation(Ogre::Quaternion(Ogre::Degree(180),Ogre::Vector3::UNIT_Y))) ;
                     
-          Kernel::Object* observer = model->createObject("Observer",ship) ;
+          Kernel::Object* observer = model->createObject(ship) ;
           model->addTrait(observer,new Positionned()) ;
 //          model->addTrait(observer,new Oriented(Orientation(Ogre::Quaternion(Ogre::Degree(180),Ogre::Vector3::UNIT_Y)))) ;
           model->addTrait(observer,new Oriented()) ;
@@ -335,6 +336,8 @@ namespace ProjetUnivers {
           
           /// Il a la faculté d'observer
           model->addTrait(observer,new Observer()) ;
+          model->addTrait(observer,new Player()) ;
+          
 //          model->addTrait(observer,new Kernel::CommandDelegator()) ;
 //          observer->getTrait<Kernel::CommandDelegator>()->addDelegate(stick) ;
 //          observer->getTrait<Kernel::CommandDelegator>()->addDelegate(throttle) ;
@@ -365,10 +368,11 @@ namespace ProjetUnivers {
 
         /// 4. Ajout d'un observateur
         InternalMessage("Model","building observer...") ;
-        Kernel::Object* observer = model->createObject("Observer",universe) ;
+        Kernel::Object* observer = model->createObject(universe) ;
         model->addTrait(observer,new Positionned()) ;
         model->addTrait(observer,new Oriented()) ;
         model->addTrait(observer,new Observer()) ;
+        model->addTrait(observer,new Player()) ;
       }
       else if (name == "TestPilot")
       {
@@ -424,9 +428,10 @@ namespace ProjetUnivers {
           ship->getTrait<Positionned>()->setPosition(Position::Meter(0,-500,0)) ;
 //          ship->getTrait<Oriented>()->setOrientation(Orientation(Ogre::Quaternion(Ogre::Degree(180),Ogre::Vector3::UNIT_Y))) ;
           
-          Kernel::Object* player = model->createObject("Observer",ship) ;
+          Kernel::Object* player = model->createObject(ship) ;
           model->addTrait(player,new Positionned()) ;
           model->addTrait(player,new Oriented()) ;
+          model->addTrait(player,new Player()) ;
           model->addTrait(player,new Observer()) ;
           model->addTrait(player,new Kernel::CommandDelegator()) ;
           player->getTrait<Kernel::CommandDelegator>()->addDelegate(ship) ;

@@ -36,10 +36,10 @@ namespace ProjetUnivers {
       namespace Ogre {
 
 
-        RealWorldViewPoint::RealWorldViewPoint(Kernel::Object* i_observer)
-        : Kernel::ViewPoint(i_observer ? i_observer->getModel() : NULL),
+        RealWorldViewPoint::RealWorldViewPoint(Kernel::Model* model)
+        : Kernel::ViewPoint(model),
           m_manager(NULL),
-          m_observer(i_observer),
+          m_observer(NULL),
           m_root(NULL)
         {
           InternalMessage("Display","Entering Ogre::RealWorldViewPoint::RealWorldViewPoint(const Kernel::Association<Model::Object>&)") ;
@@ -105,21 +105,6 @@ namespace ProjetUnivers {
           return m_manager ;
         }
 
-        void RealWorldViewPoint::activate() 
-        {
-          InternalMessage("Display","Ogre::RealWorldViewPoint::activate Entering") ;
-          Observer* observer_view = m_observer->getView<Observer>(this) ;
-          CHECK(observer_view,"RealWorldViewPoint::activate no obeserve view") ;
-          CHECK(observer_view->getCamera(),"RealWorldViewPoint::activate no camera") ;
-          getWindow()->addViewport(observer_view->getCamera()) ;
-          InternalMessage("Display","Ogre::RealWorldViewPoint::activate Leaving") ;
-        }
-
-        void RealWorldViewPoint::desactivate()
-        {
-          
-        }
-
         void RealWorldViewPoint::setRootObject(Kernel::Object* root)
         {
           m_root = root ;
@@ -129,6 +114,19 @@ namespace ProjetUnivers {
         {
           return m_root ;
         }
+      
+        void RealWorldViewPoint::setObserver(Kernel::Object* observer)
+        {
+          m_observer = observer ;
+          if (m_observer)
+          {
+            Observer* observer_view = m_observer->getView<Observer>(this) ;
+            CHECK(observer_view,"RealWorldViewPoint::activate no obeserve view") ;
+            CHECK(observer_view->getCamera(),"RealWorldViewPoint::activate no camera") ;
+            getWindow()->addViewport(observer_view->getCamera()) ;
+          }
+        }
+        
       }
     }
   }

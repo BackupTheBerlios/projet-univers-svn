@@ -21,6 +21,7 @@
 #ifndef PU_KERNEL_CONTROLER_SET_H_
 #define PU_KERNEL_CONTROLER_SET_H_
 
+#include <list>
 #include <boost/function.hpp>
 
 namespace ProjetUnivers {
@@ -29,6 +30,7 @@ namespace ProjetUnivers {
     class Model ;
     class Object ;
     class BaseControler ;
+    class ControlerSetRegistration ;
     
     /// A set of coherent controlers.
     class ControlerSet
@@ -56,6 +58,12 @@ namespace ProjetUnivers {
       /// Abstract class means virtual destructor.
       virtual ~ControlerSet() ;
 
+      /// Build all the registered viewpoints on @c model.
+      /*!
+        ViewPoints can be registered through RegisterViewPoint macro.
+      */
+      static void buildRegistered(Model* model) ;
+
     protected:
       
       /// Should @c i_object should have controlers for that controler set.
@@ -81,12 +89,59 @@ namespace ProjetUnivers {
       
       Model* m_model ;
       bool   m_initialised ;
+
+      /// Function that build a controler set.
+      typedef boost::function1<ControlerSet*, Model*> ControlerSetBuilder ;
+
+      /// Static storage
+      /*!
+        Because static variable dynamic initialisation occurs in an undefined 
+        order, we use this hook. By calling : 
+        <code>
+          StaticStorage::get()->variable...
+        </code>
+        we are assured that map are dynamically initialised on demand.
+      */
+      class StaticStorage
+      {
+      public:
+        
+        /// Access to singleton.
+        static StaticStorage* get() ; 
+      
+        std::list<ControlerSetBuilder> m_controler_set_builders ;
+
+      private:
+        
+        StaticStorage()
+        {}
+        
+      };
+      
+      /// Register a controler set builder.
+      static void registerBuilder(ControlerSetBuilder) ;
+      
       
       friend class Object ;
       friend class Model ;
-      
+      friend class ControlerSetRegistration ;
     };
+
+    /// Register a controler set
+    #define RegisterControlerSet(ClassControlerSet) \
+      namespace PU_MAKE_UNIQUE_NAME(RegisterControlerSet) {              \
+        static ProjetUnivers::Kernel::ControlerSet*                      \
+              build(ProjetUnivers::Kernel::Model* model)                 \
+        {                                                                \
+          return new ClassControlerSet(model) ;                          \
+        }                                                                \
+        static                                                           \
+          ProjetUnivers::Kernel::ControlerSetRegistration temp(&build) ; \
+      }
+    
   }
 }
+
+#include <kernel/implementation/controler_set.cxx>
 
 #endif /*PU_KERNEL_CONTROLER_SET_H_*/

@@ -81,10 +81,10 @@ namespace ProjetUnivers {
       InternalMessage("Physic","Physic::close leaving") ;
     }
 
-    Kernel::ControlerSet* build(Kernel::Object* i_observer)
+    Kernel::ControlerSet* build(Kernel::Object* observer)
     {
       m_system.reset( 
-        new Implementation::Ode::PhysicSystem(i_observer)) ;
+        new Implementation::Ode::PhysicSystem(observer->getModel())) ;
       m_system->init() ;
       return m_system.get() ;
     }

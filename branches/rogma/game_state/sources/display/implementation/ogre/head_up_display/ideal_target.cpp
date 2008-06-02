@@ -146,6 +146,9 @@ namespace ProjetUnivers {
 
             ::Ogre::Camera* camera = getViewPoint()->getCamera() ;
 
+            if (!camera)
+              return ;
+            
             Model::Computer* computer 
               = getViewPoint()->getTargetingSystem()->getTrait<Model::TargetingSystem>()
                 ->getComputer()->getTrait<Model::Computer>() ;
