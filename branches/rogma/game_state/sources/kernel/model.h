@@ -95,6 +95,18 @@ namespace ProjetUnivers {
       */
       void addManualView(BaseTraitView*) ;
       
+      /// Build all registered viewpoints and controler sets.
+      void init() ;
+      
+      /// Update the model during @c seconds
+      void update(const float& seconds) ;
+      
+      /// Add a viewpoint.
+      ViewPoint* addViewPoint(ViewPoint*) ;
+      
+      /// Add a controler set.
+      ControlerSet* addControlerSet(ControlerSet*) ;
+      
       /// Destroy all objects, views and controlers. 
       ~Model() ;
     
@@ -104,17 +116,23 @@ namespace ProjetUnivers {
       /// Access to controler sets.
       const std::set<ControlerSet*>& getControlerSets() const ;
       
+      /// return a controler set of type @c T.
+      template <class T> T* getControlerSet() const ;
+      
     private:
 
-      std::string                 m_name ;
+      std::string                   m_name ;
     
       /// root objects @composite
-      std::set<Object*> m_objects ;
+      std::set<Object*>             m_objects ;
       
       /// 
       std::map<std::string,Object*> m_objects_dictionnary ;
       std::map<int,Object*>         m_objects_by_identifier ;
 
+      /// true during destruction.
+      bool                          m_destroying ;
+      
       /// Register a view point.
       void _register(ViewPoint* viewpoint) ;
 
@@ -168,6 +186,8 @@ namespace ProjetUnivers {
     
   }
 }
+
+#include <kernel/implementation/model.cxx>
 
 #endif
 

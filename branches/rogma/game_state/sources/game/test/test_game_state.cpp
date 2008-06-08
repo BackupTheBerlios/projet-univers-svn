@@ -42,11 +42,8 @@ namespace ProjetUnivers {
       void TestGameState::twoStateGame()
       {
         Game game ;
-        
         game.addState(new GameState("welcome")) ;
         game.addState(new GameState("goodbye")) ;
-        
-        
       }
       
       void TestGameState::setUp()

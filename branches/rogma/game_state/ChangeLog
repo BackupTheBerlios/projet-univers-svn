@@ -639,17 +639,34 @@
       declared and viewpoint is built with a model parameter
     - added Object interface for adding sub-objects, traits ... no need to go 
       through Model anymore
+    - viewpoints and controlers are destroyed when associated model is
   * Game
     - initial creation
     - GameState represents splash screen, menu, and game 
   * Model :
     - added Player trait 
     - removed testDemonstration because it is quite obsolete
+    - adapted tests to new system, removed all call to Model::init(), 
+      Model::update(), Model:close()
   * Display :
     - modified construction of display viewpoint, Observer is obtained by 
       searching Player + Observer trait
+    - adapted tests to new system, removed all calls to init(), update(), 
+      close() of modules
   * Physic :
     - modified construction of controler set, no observer needed.
+    - corrected a bug on PhysicalObject : initial value of m_being_updated was 
+      random
+    - adapted tests to new system, removed all calls to init(), update(), 
+      close() of modules
+    - added initOde, closOde in PhysicSystem init/close
+    - added deduced view on Solid and PhysicalObjetc to correct a bug : 
+      when adding Solid trait before PhysicalObject was deduced, solid where 
+      attached to "nothing"
+  * ArtificialIntelligence :
+    - modified construction of controler set, no observer needed.
+    - adapted tests to new system, removed all calls to init(), update(), 
+      close() of modules
     
 @todo :
 
@@ -657,7 +674,8 @@
     - remove building of viewpoints, use automatic building instead
     - use Game state for demo
     - add Game controler and trait for handling team respawn ...
-    
+  * Kernel :
+    - viewpoints and controler sets are part of their model
   
   * ArtificialIntelligence : 
      

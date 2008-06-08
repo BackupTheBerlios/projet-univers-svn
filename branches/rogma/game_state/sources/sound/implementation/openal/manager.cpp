@@ -54,8 +54,7 @@ namespace ProjetUnivers {
           return foundPath;
         }
         
-        Manager::Manager(Kernel::Object* listener, Kernel::Object* reference)
-        : m_listener(listener), m_reference(reference)
+        Manager::Manager()
         {
           try
           {
@@ -104,23 +103,14 @@ namespace ProjetUnivers {
           m_readers.push_back(result) ;
           return result ;
         }
-        
-        Kernel::Object* Manager::getListener()
-        {
-          return m_listener;  
-        }
           
-        Kernel::Object* Manager::getReference()
-        {
-          return m_reference;
-        }
-        
         void Manager::update()
         {
           if(m_timer.getSecond() > m_updateTime)
           {
             m_timer.reset() ;
-            for (std::vector<Reader*>::iterator iter = m_readers.begin() ; iter != m_readers.end(); ) 
+            for (std::vector<Reader*>::iterator iter = m_readers.begin() ; 
+                 iter != m_readers.end(); ) 
             {
               if((*iter)->isFinish())
               {

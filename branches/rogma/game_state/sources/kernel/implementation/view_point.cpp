@@ -39,7 +39,7 @@ namespace ProjetUnivers {
     ViewPoint::~ViewPoint()
     {
       InternalMessage("Kernel","ViewPoint::~ViewPoint destroying") ;
-      close() ;
+      this->close() ;
       InternalMessage("Kernel","ViewPoint::~ViewPoint destroyed") ;
     }
 
@@ -89,7 +89,10 @@ namespace ProjetUnivers {
         onClose() ;
 
         InternalMessage("Kernel","ViewPoint::close #2") ;
+      }
 
+      if (m_model)
+      {
         m_model->_unregister(this) ;
         m_model = NULL ;
         m_model_attached = false ;

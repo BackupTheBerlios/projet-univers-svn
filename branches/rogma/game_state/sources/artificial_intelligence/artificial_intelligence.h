@@ -33,17 +33,6 @@ namespace ProjetUnivers {
   */ 
   namespace ArtificialIntelligence {
     
-    /// Module initialisation.
-    bool init() ;
-    
-    /// Module closing.
-    void close() ;
-  
-    /// Creates the standard representation for the world 
-    void build(Kernel::Object* i_observer) ; 
-    
-    /// Update.
-    void update(const Model::Duration&) ;
     
   }
 }

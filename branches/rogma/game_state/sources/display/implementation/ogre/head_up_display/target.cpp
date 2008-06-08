@@ -120,7 +120,6 @@ namespace ProjetUnivers {
           {
             InternalMessage("Display","Entering Target::onInit") ;
             
-            getOverlay()->setZOrder(500) ;
             m_target_container = static_cast< ::Ogre::OverlayContainer* >(
               ::Ogre::OverlayManager::getSingleton().createOverlayElement(
                     "Panel", Utility::getUniqueName())) ;

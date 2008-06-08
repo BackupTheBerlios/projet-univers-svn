@@ -40,13 +40,17 @@ namespace ProjetUnivers {
         // @{
           
           /// Constructor.
-          /*!
-            @param[in] observer 
-              object that sees (e.g., a character, a camera,...)
-          */
-          RealWorldViewPoint(Kernel::Object* observer) ;
+          RealWorldViewPoint(Kernel::Model* model) ;
           
         // @}
+        protected:
+        
+          virtual void onInit() ;
+          
+          virtual void onClose() ;
+          
+          virtual void update(const float&) ;
+        
         };
       }
     }

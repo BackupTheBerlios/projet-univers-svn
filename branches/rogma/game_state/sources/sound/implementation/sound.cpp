@@ -62,13 +62,6 @@ namespace ProjetUnivers {
       Implementation::OpenAL::update() ;
     }
 
-    Kernel::ViewPoint* build(Kernel::Object* listener, Kernel::Object* reference)
-    {
-      InternalMessage("Sound","Sound::build entering") ;
-      InternalMessage("Sound","Sound::build leaving") ; 
-      return Implementation::OpenAL::build(listener, reference) ;      
-    }
-
     
   }
 }

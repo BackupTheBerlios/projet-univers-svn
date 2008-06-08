@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007 Morgan GRIGNARD                                    *
+ *   Copyright (C) 2007-2008 Morgan GRIGNARD Mathieu ROGER                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -45,26 +45,17 @@ namespace ProjetUnivers {
         // @{
         
           /// Constructor 
-          Manager(Kernel::Object* listener, Kernel::Object* reference) ;
+          Manager() ;
+
+          ~Manager() ;
+
         // @}
         
-          ~Manager() ;
-          
-          
           /// Create a reader which match the soundFile type
           Reader* createReader(const ALuint& p_source, 
                                const std::string& p_fileName,
                                const bool& p_isEvent, const int& m_posInFile, 
                                const int& m_posInBuffer) ;
-          
-          /// Give a pointer to the listener
-          Kernel::Object* getListener() ;
-          
-          /// Give a pointer to the reference object of the world/soundWorld.
-          /*!
-            if it isn't the same
-          */
-          Kernel::Object* getReference() ;
           
           /// Close the files of finish sounds, delete the  buffers
           void update() ;
@@ -74,8 +65,6 @@ namespace ProjetUnivers {
           std::vector<Reader*> m_readers ;
           Kernel::Timer m_timer ;
           float m_updateTime ;
-          Kernel::Object* m_listener ;
-          Kernel::Object* m_reference ;
              
         };
       }

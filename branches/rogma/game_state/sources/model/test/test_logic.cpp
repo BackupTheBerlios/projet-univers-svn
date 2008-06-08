@@ -19,6 +19,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include <kernel/object.h>
+#include <kernel/model.h>
 #include <kernel/parameters.h>
 
 #include <model/model.h>
@@ -51,27 +52,25 @@ namespace ProjetUnivers {
       {
         InternalMessage("Model","Model::TestLogic::testLaserBeamDisappearing entering") ;
         // we construct a complete system
-        Model::init() ;
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLogic::testLaserBeamDisappearing")) ;
+        model->init() ;
         
         // should be a PhysicalWorld
-        Kernel::Object* system = createObject("system") ;
+        Kernel::Object* system = model->createObject() ;
         CPPUNIT_ASSERT(system->getTrait<PhysicalWorld>()) ;
 
-        Kernel::Object* ship = createObject("ship",system) ;
-        addTrait(ship,new Positionned()) ;
-        addTrait(ship,new Oriented()) ;
-        addTrait(ship,new Mobile()) ;
-        addTrait(ship,new Massive(Mass::Kilogram(1000))) ;
-        addTrait(ship,new Laser(Position(),Orientation(),Energy::Joule(10))) ;
+        Kernel::Object* ship = system->createObject() ;
+        ship->addTrait(new Positionned()) ;
+        ship->addTrait(new Oriented()) ;
+        ship->addTrait(new Mobile()) ;
+        ship->addTrait(new Massive(Mass::Kilogram(1000))) ;
+        ship->addTrait(new Laser(Position(),Orientation(),Energy::Joule(10))) ;
         CPPUNIT_ASSERT(ship->getTrait<PhysicalObject>()) ;
         CPPUNIT_ASSERT(ship->getTrait<PhysicalWorld>()) ;
 
         CPPUNIT_ASSERT(system->getChildren().size()==1) ;
 
         InternalMessage("Model","Model::TestLogic::testLaserBeamDisappearing built ship") ;
-
-//        CPPUNIT_ASSERT(Implementation::Logic::build(system)) ;
-//        Implementation::Logic::init() ;
 
         ship->call("fire") ;
 
@@ -81,33 +80,30 @@ namespace ProjetUnivers {
         CPPUNIT_ASSERT(system->getDescendants<LaserBeam>().size()==1) ;
         
         // simulate Logic during at least 1 seconds : laser beam should still exist
-        Model::update(Duration::Second(1)) ;
+        model->update(1) ;
         
         CPPUNIT_ASSERT(system->getDescendants<LaserBeam>().size()==1) ;
         
         // simulate Logic during 5 seconds : laser beam should not exist anymore
-        Model::update(Duration::Second(5)) ;
+        model->update(5) ;
         
         CPPUNIT_ASSERT(system->getDescendants<LaserBeam>().size()==0) ;
-        
-        // ok
-        Model::close() ;
-        
       }
 
       void TestLogic::testDestroyable()
       {
         InternalMessage("Model","Model::TestLogic::testDestroyable entering") ;
         // we construct a complete system
-        Model::init() ;
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLogic::testDestroyable")) ;
+        model->init() ;
         
         // should be a PhysicalWorld
-        Kernel::Object* system = createObject("system") ;
+        Kernel::Object* system = model->createObject() ;
         CPPUNIT_ASSERT(system->getTrait<PhysicalWorld>()) ;
 
-        Kernel::Object* ship = createObject("ship",system) ;
+        Kernel::Object* ship = system->createObject() ;
         Destroyable* destroyable = new Destroyable(Model::Energy::Joule(1)) ; 
-        addTrait(ship,destroyable) ;
+        ship->addTrait(destroyable) ;
 
         CPPUNIT_ASSERT(system->getChildren().size()==1) ;
 
@@ -115,7 +111,7 @@ namespace ProjetUnivers {
         destroyable->damage(Model::Energy::Joule(0.5)) ;
         
         // simulate Logic : object should still exist
-        Model::update(Duration::Second(1)) ;
+        model->update(1) ;
         
         CPPUNIT_ASSERT(system->getChildren().size()==1) ;
         
@@ -123,70 +119,59 @@ namespace ProjetUnivers {
         destroyable->damage(Model::Energy::Joule(1.5)) ;
         
         // simulate Logic : object  should not exist anymore
-        Model::update(Duration::Second(2.5)) ;
+        model->update(2.5) ;
         
         CPPUNIT_ASSERT(system->getChildren().size()==0) ;
-        
-        // ok
-        Model::close() ;
-        
       }
 
       void TestLogic::testLaserBeamDestroyableCollision()
       {
         InternalMessage("Model","Model::TestLogic::testLaserBeamDestroyableCollision entering") ;
         // we construct a complete system
-        Model::init() ;
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLogic::testLaserBeamDestroyableCollision")) ;
+        model->init() ;
         
-        Kernel::Object* system = createObject("system") ;
+        Kernel::Object* system = model->createObject() ;
         CPPUNIT_ASSERT(system->getTrait<PhysicalWorld>()) ;
 
-        Kernel::Object* ship = createObject("ship",system) ;
+        Kernel::Object* ship = system->createObject() ;
         Destroyable* destroyable = new Destroyable(Model::Energy::Joule(1)) ; 
-        addTrait(ship,destroyable) ;
+        ship->addTrait(destroyable) ;
 
-        Kernel::Object* beam = createObject("beam",system) ;
-        addTrait(beam,new LaserBeam()) ;
-        addTrait(beam,new Mobile(Speed::MeterPerSecond(1,0,0))) ;
-        addTrait(beam,new Massive(Mass::Kilogram(1))) ;
+        Kernel::Object* beam = system->createObject() ;
+        beam->addTrait(new LaserBeam()) ;
+        beam->addTrait(new Mobile(Speed::MeterPerSecond(1,0,0))) ;
+        beam->addTrait(new Massive(Mass::Kilogram(1))) ;
         
         // a collision        
-        Kernel::Object* collision = createObject("collision",system) ;
-        addTrait(collision,new Collision(beam,ship,Position())) ;
+        Kernel::Object* collision = system->createObject() ;
+        collision->addTrait(new Collision(beam,ship,Position())) ;
         
         // simulate Logic : destroyable should be at 50%
-        Model::update(Duration::Second(1)) ;
+        model->update(1) ;
 
         CPPUNIT_ASSERT(ship->getTrait<Destroyable>()->getLife() == 0.5) ;
-        
-        // ok
-        Model::close() ;
-        
       }
 
       void TestLogic::testShotDisappearing()
       {
         InternalMessage("Model","Model::TestLogic::testShotDisappearing entering") ;
         // we construct a complete system
-        Model::init() ;
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLogic::testLaserBeamDestroyableCollision")) ;
+        model->init() ;
         
-        // should be a PhysicalWorld
-        Kernel::Object* system = createObject("system") ;
+        Kernel::Object* system = model->createObject() ;
 
-        Kernel::Object* shot = createObject("shot",system) ;
-        addTrait(shot,new Shot()) ;
+        Kernel::Object* shot = system->createObject() ;
+        shot->addTrait(new Shot()) ;
 
         CPPUNIT_ASSERT(system->getChildren().size()==1) ;
 
         InternalMessage("Model","Model::TestLogic::testShotDisappearing built ship") ;
 
-        Model::update(Duration::Second(1)) ;
+        model->update(1) ;
         
         CPPUNIT_ASSERT(system->getChildren().size()==0) ;
-        
-        // ok
-        Model::close() ;
-        
       }
 
       void TestLogic::setUp()

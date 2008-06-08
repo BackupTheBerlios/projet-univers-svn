@@ -18,49 +18,22 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <artificial_intelligence/implementation/ai_system.h>
-#include <artificial_intelligence/artificial_intelligence.h>
-
 namespace ProjetUnivers {
-  namespace ArtificialIntelligence {
-
-    std::auto_ptr<Implementation::AISystem> m_viewPoint ;
-    
-    bool init()
-    {
-      if(m_viewPoint.get())
-      {
-        m_viewPoint->init() ;
-      }
-    }
-    
-    void close()
-    {
-      if(m_viewPoint.get())
-      {
-        m_viewPoint->close() ;
-      }
-    }
+  namespace Kernel {
   
-    void build(Kernel::Object* observer)
+    template <class T> T* Model::getControlerSet() const
     {
-      m_viewPoint.reset(new Implementation::AISystem(observer->getModel())) ;
-    }
-    
-    void update(const Model::Duration& duration)
-    {
-      if (m_viewPoint.get())
+      for(std::set<ControlerSet*>::const_iterator 
+            controlerset = m_controler_sets.begin() ;
+          controlerset != m_controler_sets.end() ;
+          ++controlerset)
       {
-        m_viewPoint->simulate(duration.Second()) ;
+        T* temp = dynamic_cast<T*>(*controlerset) ;
+        if (temp)
+          return temp ;
       }
-    }
-    
-    namespace Implementation {
       
-      AISystem* getAISystem()
-      {
-        return m_viewPoint.get() ;
-      }
+      return NULL ;
     }
     
   }

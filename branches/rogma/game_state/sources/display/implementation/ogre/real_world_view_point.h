@@ -48,7 +48,6 @@ namespace ProjetUnivers {
         class RealWorldViewPoint : public Kernel::ViewPoint 
         {
         public:
-        
         /*!
           @name Construction 
         */
@@ -61,14 +60,17 @@ namespace ProjetUnivers {
           /// Set the root in term of position.
           void setRootObject(Kernel::Object*) ;
           
-          /// Initialize view point
-          virtual void onInit() ;
-          
-          /// Terminate view point
-          virtual void onClose() ;
-
           /// Change the observer
           void setObserver(Kernel::Object* observer) ;
+
+        // @}
+        /*
+          @name Update 
+        */
+        // @{
+          
+          /// Update the viewpoint.
+          virtual void update(const float& seconds) ;
           
         // @}
         /*
@@ -86,7 +88,15 @@ namespace ProjetUnivers {
           Kernel::Object* getRootObject() const ;
           
         // @}
-        
+          
+        protected:
+          
+          /// Initialize view point
+          virtual void onInit() ;
+          
+          /// Terminate view point
+          virtual void onClose() ;
+          
         private:
         
           /// True iff object must be seen.

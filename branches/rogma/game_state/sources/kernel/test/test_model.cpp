@@ -187,6 +187,8 @@ namespace ProjetUnivers {
         
         model->destroyObject(object) ;
         
+        CPPUNIT_ASSERT(!reference) ;
+        
         {
           Object* object = reference ;
           CPPUNIT_ASSERT(!object) ;

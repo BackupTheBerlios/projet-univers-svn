@@ -486,7 +486,7 @@ namespace ProjetUnivers {
         InternalMessage("Kernel","Kernel::Test::TestModelControler::testBuildOnEmptyModel entering") ;
 
         std::auto_ptr<Model> model(new Model()) ;
-        std::auto_ptr<TestControlerSet> controler(new TestControlerSet(model.get())) ;
+        ControlerSet* controler(model->addControlerSet(new TestControlerSet(model.get()))) ;
         /// init the controler
         controler->init() ;
       
@@ -500,14 +500,14 @@ namespace ProjetUnivers {
         Trait* persontrait = person->getTrait<Person>() ;
         CPPUNIT_ASSERT(persontrait) ;
         ControlerPerson* personcontroler 
-          = persontrait->getControler<ControlerPerson>(controler.get()) ;
+          = persontrait->getControler<ControlerPerson>(controler) ;
         CPPUNIT_ASSERT(personcontroler) ;
         CPPUNIT_ASSERT(personcontroler->init_number == 1) ;
 
         Trait* headtrait = head->getTrait<Head>() ;
         CPPUNIT_ASSERT(headtrait) ;
         ControlerHead* headcontroler 
-          = headtrait->getControler<ControlerHead>(controler.get()) ;
+          = headtrait->getControler<ControlerHead>(controler) ;
         CPPUNIT_ASSERT(headcontroler) ;
         CPPUNIT_ASSERT(headcontroler->init_number == 1) ;
         
@@ -529,7 +529,7 @@ namespace ProjetUnivers {
         model->addTrait(head,new Head()) ;
         
         /// create a controler set
-        std::auto_ptr<TestControlerSet> controler(new TestControlerSet(model.get())) ;
+        ControlerSet* controler(model->addControlerSet(new TestControlerSet(model.get()))) ;
         
         /// init the controler set
         controler->init() ;
@@ -538,13 +538,13 @@ namespace ProjetUnivers {
         Trait* persontrait = person->getTrait<Person>() ;
         CPPUNIT_ASSERT(persontrait) ;
         ControlerPerson* personcontroler 
-          = persontrait->getControler<ControlerPerson>(controler.get()) ;
+          = persontrait->getControler<ControlerPerson>(controler) ;
         CPPUNIT_ASSERT(personcontroler) ;
         CPPUNIT_ASSERT(personcontroler->init_number == 1) ;
 
         Trait* headtrait = head->getTrait<Head>() ;
         ControlerHead* headcontroler 
-          = headtrait->getControler<ControlerHead>(controler.get()) ;
+          = headtrait->getControler<ControlerHead>(controler) ;
         CPPUNIT_ASSERT(headcontroler) ;
         CPPUNIT_ASSERT(headcontroler->init_number == 1) ;
         InternalMessage("Kernel","Kernel::Test::TestModelControler::testBuildOnNonEmptyModel leaving") ;
@@ -563,7 +563,7 @@ namespace ProjetUnivers {
         model->addTrait(head,new Head()) ;
         
         /// create a controler set
-        std::auto_ptr<TestControlerSet> controler(new TestControlerSet(model.get())) ;
+        ControlerSet* controler(model->addControlerSet(new TestControlerSet(model.get()))) ;
         
         /// init the controler set
         controler->init() ;
@@ -587,7 +587,7 @@ namespace ProjetUnivers {
         model->addTrait(head,new Head()) ;
         
         /// create a controler set
-        std::auto_ptr<TestControlerSet> controler(new TestControlerSet(model.get())) ;
+        ControlerSet* controler(model->addControlerSet(new TestControlerSet(model.get()))) ;
         
         /// init the controler set
         controler->init() ;
@@ -611,7 +611,7 @@ namespace ProjetUnivers {
         model->addTrait(head,new Head()) ;
         
         /// create a controler set
-        std::auto_ptr<TestControlerSet> controler(new TestControlerSet(model.get())) ;
+        ControlerSet* controler(model->addControlerSet(new TestControlerSet(model.get()))) ;
         
         /// init the controler set
         controler->init() ;
@@ -638,7 +638,7 @@ namespace ProjetUnivers {
         model->addTrait(head,new Dummy()) ;
 
         /// create a controler
-        std::auto_ptr<TestControlerSet> controler(new TestControlerSet(model.get())) ;
+        ControlerSet* controler(model->addControlerSet(new TestControlerSet(model.get()))) ;
         
         /// init the controlers
         controler->init() ;
@@ -647,13 +647,13 @@ namespace ProjetUnivers {
           Trait* persontrait = person->getTrait<Person>() ;
           CPPUNIT_ASSERT(persontrait) ;
           ControlerPerson* personcontroler 
-            = persontrait->getControler<ControlerPerson>(controler.get()) ;
+            = persontrait->getControler<ControlerPerson>(controler) ;
           CPPUNIT_ASSERT(personcontroler) ;
           CPPUNIT_ASSERT(personcontroler->init_number == 1) ;
   
           Trait* headtrait = head->getTrait<Head>() ;
           CPPUNIT_ASSERT(headtrait) ;
-          ControlerHead* headcontroler = headtrait->getControler<ControlerHead>(controler.get()) ;
+          ControlerHead* headcontroler = headtrait->getControler<ControlerHead>(controler) ;
           CPPUNIT_ASSERT(headcontroler) ;
           CPPUNIT_ASSERT(headcontroler->init_number == 1) ;
         }
@@ -663,13 +663,13 @@ namespace ProjetUnivers {
           /// check the controlers are closed
           Trait* persontrait = person->getTrait<Person>() ;
           CPPUNIT_ASSERT(persontrait) ;
-          ControlerPerson* personcontroler = persontrait->getControler<ControlerPerson>(controler.get()) ;
+          ControlerPerson* personcontroler = persontrait->getControler<ControlerPerson>(controler) ;
           CPPUNIT_ASSERT(personcontroler) ;
           CPPUNIT_ASSERT(personcontroler->init_number == 0) ;
   
           Trait* headtrait = head->getTrait<Head>() ;
           CPPUNIT_ASSERT(headtrait) ;
-          ControlerHead* headcontroler = headtrait->getControler<ControlerHead>(controler.get()) ;
+          ControlerHead* headcontroler = headtrait->getControler<ControlerHead>(controler) ;
           CPPUNIT_ASSERT(headcontroler) ;
           CPPUNIT_ASSERT(headcontroler->init_number == 0) ;
         }        
@@ -685,7 +685,7 @@ namespace ProjetUnivers {
         Object* person = model->createObject("person") ;
         model->addTrait(person,new Person()) ;
         /// create a controler set
-        std::auto_ptr<TestControlerSet> controler(new TestControlerSet(model.get())) ;
+        ControlerSet* controler(model->addControlerSet(new TestControlerSet(model.get()))) ;
         
         /// init the controler set
         controler->init() ;
@@ -720,7 +720,7 @@ namespace ProjetUnivers {
         }
 
         /// create a controler set
-        std::auto_ptr<TestControlerSet> controler(new TestControlerSet(model.get())) ;
+        ControlerSet* controler(model->addControlerSet(new TestControlerSet(model.get()))) ;
         
         /// init the controler set
         controler->init() ;
@@ -747,12 +747,12 @@ namespace ProjetUnivers {
         model->addTrait(head,new Head()) ;
         
         /// create a controler set
-        std::auto_ptr<TestControlerSet> controler1(new TestControlerSet(model.get())) ;
+        ControlerSet* controler1(model->addControlerSet(new TestControlerSet(model.get()))) ;
         /// init the viewpoint
         controler1->init() ;
 
         /// create a controler set 
-        std::auto_ptr<TestControlerSet2> controler2(new TestControlerSet2(model.get())) ;
+        ControlerSet* controler2(model->addControlerSet(new TestControlerSet2(model.get()))) ;
         /// init the controler set
         controler2->init() ;
 
@@ -760,12 +760,12 @@ namespace ProjetUnivers {
           /// check the controlers are initialised
           Trait* persontrait = person->getTrait<Person>() ;
           CPPUNIT_ASSERT(persontrait) ;
-          ControlerPerson* personconrtoler = persontrait->getControler<ControlerPerson>(controler1.get()) ;
+          ControlerPerson* personconrtoler = persontrait->getControler<ControlerPerson>(controler1) ;
           CPPUNIT_ASSERT(personconrtoler) ;
           CPPUNIT_ASSERT(personconrtoler->init_number == 1) ;
   
           Trait* headtrait = head->getTrait<Head>() ;
-          ControlerHead* headcontroler = headtrait->getControler<ControlerHead>(controler1.get()) ;
+          ControlerHead* headcontroler = headtrait->getControler<ControlerHead>(controler1) ;
           CPPUNIT_ASSERT(headcontroler) ;
           CPPUNIT_ASSERT(headcontroler->init_number == 1) ;
         }
@@ -776,7 +776,7 @@ namespace ProjetUnivers {
           CPPUNIT_ASSERT(persontrait) ;
   
           Trait* headtrait = head->getTrait<Head>() ;
-          ControlerHead2* headcontroler = headtrait->getControler<ControlerHead2>(controler2.get()) ;
+          ControlerHead2* headcontroler = headtrait->getControler<ControlerHead2>(controler2) ;
           CPPUNIT_ASSERT(headcontroler) ;
           CPPUNIT_ASSERT(headcontroler->init_number == 1) ;
         }
@@ -795,12 +795,12 @@ namespace ProjetUnivers {
         model->addTrait(head,new Head()) ;
         
         /// create a controler set
-        std::auto_ptr<TestControlerSet> controler1(new TestControlerSet(model.get())) ;
+        ControlerSet* controler1(model->addControlerSet(new TestControlerSet(model.get()))) ;
         /// init the controler set
         controler1->init() ;
 
         /// create a controler set
-        std::auto_ptr<TestControlerSet> controler2(new TestControlerSet(model.get())) ;
+        ControlerSet* controler2(model->addControlerSet(new TestControlerSet(model.get()))) ;
         /// init the controler set
         controler2->init() ;
 
@@ -808,12 +808,12 @@ namespace ProjetUnivers {
           /// check the controlers are initialised
           Trait* persontrait = person->getTrait<Person>() ;
           CPPUNIT_ASSERT(persontrait) ;
-          ControlerPerson* personcontroler = persontrait->getControler<ControlerPerson>(controler1.get()) ;
+          ControlerPerson* personcontroler = persontrait->getControler<ControlerPerson>(controler1) ;
           CPPUNIT_ASSERT(personcontroler) ;
           CPPUNIT_ASSERT(personcontroler->init_number == 1) ;
   
           Trait* headtrait = head->getTrait<Head>() ;
-          ControlerHead* headcontroler = headtrait->getControler<ControlerHead>(controler1.get()) ;
+          ControlerHead* headcontroler = headtrait->getControler<ControlerHead>(controler1) ;
           CPPUNIT_ASSERT(headcontroler) ;
           CPPUNIT_ASSERT(headcontroler->init_number == 1) ;
         }
@@ -822,12 +822,12 @@ namespace ProjetUnivers {
           /// check the controlers are initialised
           Trait* persontrait = person->getTrait<Person>() ;
           CPPUNIT_ASSERT(persontrait) ;
-          ControlerPerson* personcontroler = persontrait->getControler<ControlerPerson>(controler2.get()) ;
+          ControlerPerson* personcontroler = persontrait->getControler<ControlerPerson>(controler2) ;
           CPPUNIT_ASSERT(personcontroler) ;
           CPPUNIT_ASSERT(personcontroler->init_number == 1) ;
   
           Trait* headtrait = head->getTrait<Head>() ;
-          ControlerHead* headcontroler= headtrait->getControler<ControlerHead>(controler2.get()) ;
+          ControlerHead* headcontroler= headtrait->getControler<ControlerHead>(controler2) ;
           CPPUNIT_ASSERT(headcontroler) ;
           CPPUNIT_ASSERT(headcontroler->init_number == 1) ;
         }
@@ -846,7 +846,7 @@ namespace ProjetUnivers {
         model->addTrait(object,new Derived2()) ;
         
         /// create a controler set
-        std::auto_ptr<TestControlerSet> controler(new TestControlerSet(model.get())) ;
+        ControlerSet* controler(model->addControlerSet(new TestControlerSet(model.get()))) ;
         
         /// init the controler set
         controler->init() ;
@@ -860,7 +860,7 @@ namespace ProjetUnivers {
       {
         InternalMessage("Kernel","Kernel::Test::initControlerSetWithNullModel entering") ;
         std::auto_ptr<Model> model ;
-        std::auto_ptr<TestControlerSet> controler_set(new TestControlerSet(model.get())) ;
+        ControlerSet* controler_set(model->addControlerSet(new TestControlerSet(model.get()))) ;
         /// init the controler set
         controler_set->init() ;
         InternalMessage("Kernel","Kernel::Test::initControlerSetWithNullModel leaving") ;
@@ -870,7 +870,7 @@ namespace ProjetUnivers {
       {
         InternalMessage("Kernel","Kernel::Test::setModelOnInitialisedControlerSetWithNullModel entering") ;
         std::auto_ptr<Model> model ;
-        std::auto_ptr<TestControlerSet> controler_set(new TestControlerSet(model.get())) ;
+        ControlerSet* controler_set(model->addControlerSet(new TestControlerSet(model.get()))) ;
         /// init the controler set
         controler_set->init() ;
         
@@ -885,13 +885,13 @@ namespace ProjetUnivers {
         /// check the controlers are initialised
         Trait* persontrait = person->getTrait<Person>() ;
         CPPUNIT_ASSERT(persontrait) ;
-        ControlerPerson* personcontroler = persontrait->getControler<ControlerPerson>(controler_set.get()) ;
+        ControlerPerson* personcontroler = persontrait->getControler<ControlerPerson>(controler_set) ;
         CPPUNIT_ASSERT(personcontroler) ;
         CPPUNIT_ASSERT(personcontroler->init_number == 1) ;
 
         Trait* headtrait = head->getTrait<Head>() ;
         CPPUNIT_ASSERT(headtrait) ;
-        ControlerHead* headcontroler = headtrait->getControler<ControlerHead>(controler_set.get()) ;
+        ControlerHead* headcontroler = headtrait->getControler<ControlerHead>(controler_set) ;
         CPPUNIT_ASSERT(headcontroler) ;
         CPPUNIT_ASSERT(headcontroler->init_number == 1) ;
         
@@ -902,7 +902,7 @@ namespace ProjetUnivers {
       {
         InternalMessage("Kernel","Kernel::Test::changeModelOnInitialisedControlerSet entering") ;
         std::auto_ptr<Model> model(new Model()) ;
-        std::auto_ptr<TestControlerSet> controler_set(new TestControlerSet(model.get())) ;
+        ControlerSet* controler_set(model->addControlerSet(new TestControlerSet(model.get()))) ;
         /// init the viewpoint
         controler_set->init() ;
         
@@ -912,7 +912,7 @@ namespace ProjetUnivers {
         /// check the views are initialised
         Trait* persontrait = person->getTrait<Person>() ;
         CPPUNIT_ASSERT(persontrait) ;
-        ControlerPerson* personcontroler = persontrait->getControler<ControlerPerson>(controler_set.get()) ;
+        ControlerPerson* personcontroler = persontrait->getControler<ControlerPerson>(controler_set) ;
         CPPUNIT_ASSERT(personcontroler) ;
         CPPUNIT_ASSERT(personcontroler->init_number == 1) ;
 
@@ -923,7 +923,7 @@ namespace ProjetUnivers {
         InternalMessage("Kernel","Kernel::Test::changeModelOnInitialisedControlerSet#2") ;
 
         /// check the views where closed
-        personcontroler = persontrait->getControler<ControlerPerson>(controler_set.get()) ;
+        personcontroler = persontrait->getControler<ControlerPerson>(controler_set) ;
         CPPUNIT_ASSERT(personcontroler) ;                
         CPPUNIT_ASSERT(personcontroler->init_number == 0) ;        
         InternalMessage("Kernel","Kernel::Test::changeModelOnInitialisedControlerSet leaving") ;

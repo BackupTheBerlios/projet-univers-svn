@@ -35,6 +35,7 @@ namespace ProjetUnivers {
     namespace Implementation {
       namespace Ogre {
 
+        RegisterViewPoint(RealWorldViewPoint) ;
 
         RealWorldViewPoint::RealWorldViewPoint(Kernel::Model* model)
         : Kernel::ViewPoint(model),
@@ -74,6 +75,9 @@ namespace ProjetUnivers {
         void RealWorldViewPoint::onInit()
         {
           InternalMessage("Display","RealWorldViewPoint::onInit Entering") ;
+          
+          Implementation::Ogre::init(false) ;
+          
           CHECK(getRoot(),"RealWorldViewPoint::onInit no root") ;
 
           m_manager = getRoot()->createSceneManager(::Ogre::ST_GENERIC) ;
@@ -97,6 +101,11 @@ namespace ProjetUnivers {
           {
             m_manager->clearScene() ;
           }
+
+          getWindow()->removeViewport(0) ;
+          
+          Implementation::Ogre::close() ;
+          
           InternalMessage("Display","RealWorldViewPoint::onClose Leaving") ;
         }
 
@@ -125,6 +134,11 @@ namespace ProjetUnivers {
             CHECK(observer_view->getCamera(),"RealWorldViewPoint::activate no camera") ;
             getWindow()->addViewport(observer_view->getCamera()) ;
           }
+        }
+        
+        void RealWorldViewPoint::update(const float& seconds)
+        {
+          Implementation::Ogre::update() ;
         }
         
       }

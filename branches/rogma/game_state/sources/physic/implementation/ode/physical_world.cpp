@@ -25,7 +25,6 @@
 #include <kernel/log.h>
 #include <kernel/parameters.h>
 
-#include <model/model.h>
 #include <model/collision.h>
 
 #include <physic/implementation/ode/solid.h>
@@ -267,7 +266,7 @@ namespace ProjetUnivers {
                                      Model::Position::Meter(average_contact_point.x,
                                                             average_contact_point.y,
                                                             average_contact_point.z)) ;
-              Model::addTrait(collision_object,collision_trait) ;
+              collision_object->addTrait(collision_trait) ;
             }
           
           }          

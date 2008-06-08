@@ -41,6 +41,7 @@ namespace ProjetUnivers {
         if (system)
         {
           system->m_targeting_system = targeting_system ;
+          system->notify() ;
         }
       }
     }

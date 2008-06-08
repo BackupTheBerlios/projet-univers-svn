@@ -44,9 +44,16 @@ namespace ProjetUnivers {
 
         protected:
           
+          /// Initialise ODE.
+          virtual void onInit() ;
+
+          /// Close ODE.
+          virtual void onClose() ;
+          
           /// True iff object is taken into account.
           virtual bool isVisible(Kernel::Object* i_object) const ;  
-          
+
+          float m_elapsed ;
         };
       }
     }

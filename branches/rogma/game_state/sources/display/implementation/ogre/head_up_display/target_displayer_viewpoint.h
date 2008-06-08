@@ -54,8 +54,11 @@ namespace ProjetUnivers {
               @param[in] real_world the real world viewpoint containing the 
                 displaying object
             */
-            TargetDisplayerViewPoint(Kernel::Object* target_display,
+            TargetDisplayerViewPoint(Kernel::Object*     target_display,
                                      RealWorldViewPoint* real_world) ;
+            
+            /// Maybe the model should be changed.
+            virtual void update(const float&) ;
             
           // @}
           /*

@@ -52,30 +52,30 @@ namespace ProjetUnivers {
         /// we construct a complete system
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestThrottle::basicTest")) ;
         
-        Kernel::Object* ship = model->createObject("ship") ;
+        Kernel::Object* ship = model->createObject() ;
         
-        Kernel::Object* stick = model->createObject("stick",ship) ;
-        model->addTrait(stick,new Stick()) ;
+        Kernel::Object* stick = ship->createObject() ;
+        stick->addTrait(new Stick()) ;
         
         
         {
           /// variables redefines to have direct access to interesting traits
-          Stick* stick = model->getObject("stick")->getTrait<Stick>() ;
-          CPPUNIT_ASSERT(stick) ;
+          Stick* stick_trait = stick->getTrait<Stick>() ;
+          CPPUNIT_ASSERT(stick_trait) ;
 
           /// set stick orientation at full thrust... 
-          CPPUNIT_ASSERT(stick->getOrientation().getQuaternion().getPitch().valueDegrees()==0) ;
+          CPPUNIT_ASSERT(stick_trait->getOrientation().getQuaternion().getPitch().valueDegrees()==0) ;
 
-          stick->modifyX(100) ;
-          CPPUNIT_ASSERT(equal(stick->getOrientation().getQuaternion().getYaw().valueDegrees(),-45)) ;
+          stick_trait->modifyX(100) ;
+          CPPUNIT_ASSERT(equal(stick_trait->getOrientation().getQuaternion().getYaw().valueDegrees(),-45)) ;
 
-          stick->modifyX(-100) ;
-          stick->modifyY(100) ;
-          CPPUNIT_ASSERT(equal(stick->getOrientation().getQuaternion().getPitch().valueDegrees(),-45)) ;
+          stick_trait->modifyX(-100) ;
+          stick_trait->modifyY(100) ;
+          CPPUNIT_ASSERT(equal(stick_trait->getOrientation().getQuaternion().getPitch().valueDegrees(),-45)) ;
 
-          stick->modifyY(-100) ;
-          stick->modifyZ(100) ;
-          CPPUNIT_ASSERT(equal(stick->getOrientation().getQuaternion().getRoll().valueDegrees(),45)) ;
+          stick_trait->modifyY(-100) ;
+          stick_trait->modifyZ(100) ;
+          CPPUNIT_ASSERT(equal(stick_trait->getOrientation().getQuaternion().getRoll().valueDegrees(),45)) ;
           
         }
       }

@@ -47,6 +47,7 @@ namespace ProjetUnivers {
         : Kernel::Controler<Model::PhysicalObject,
                             PhysicSystem>(i_object,i_physic),
           m_body(NULL),
+          m_is_being_updated(false),
           m_collision_space(NULL)
         {}
         

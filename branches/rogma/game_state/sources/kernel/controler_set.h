@@ -23,6 +23,7 @@
 
 #include <list>
 #include <boost/function.hpp>
+#include <kernel/helper_macros.h>
 
 namespace ProjetUnivers {
   namespace Kernel {
@@ -58,14 +59,28 @@ namespace ProjetUnivers {
       /// Abstract class means virtual destructor.
       virtual ~ControlerSet() ;
 
-      /// Build all the registered viewpoints on @c model.
-      /*!
-        ViewPoints can be registered through RegisterViewPoint macro.
-      */
-      static void buildRegistered(Model* model) ;
-
     protected:
       
+      /// Build all the registered controler sets on @c model.
+      /*!
+        ControlerSets can be registered through RegisterControlerSet macro.
+      */
+      static void buildRegistered(Model* model) ;
+      
+      /// called during initialisation before controlers initialisation.
+      /*!
+        Default implementation does nothing. Specific viewpoint should 
+        probably redefine this.
+      */
+      virtual void onInit() ;
+
+      /// called during closing after controlers closing.
+      /*!
+        Default implementation does nothing. Specific controler set should 
+        probably redefine this.
+      */
+      virtual void onClose() ;
+
       /// Should @c i_object should have controlers for that controler set.
       /*!
         Should be redefined for specialised viewpoints. Default implementation 

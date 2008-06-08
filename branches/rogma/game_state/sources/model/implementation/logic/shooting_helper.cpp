@@ -33,13 +33,14 @@ namespace ProjetUnivers {
         ShootingHelper::ShootingHelper(
             Model::ShootingHelper* object,
             LogicSystem* system)
-        : Kernel::Controler<Model::ShootingHelper,LogicSystem>(object,system)
+        : Kernel::Controler<Model::ShootingHelper,LogicSystem>(object,system),
+          m_implementation(NULL)
         {}
             
         void ShootingHelper::onInit()
         {
           InternalMessage("Model","Entering ShootingHelper::onInit") ;
-          m_implementation.reset(new ShootingHelperViewPoint(getObject())) ;
+          m_implementation= new ShootingHelperViewPoint(getObject()) ;
           m_implementation->init() ;
           InternalMessage("Model","Leaving ShootingHelper::onInit") ;
         }
@@ -47,10 +48,10 @@ namespace ProjetUnivers {
         void ShootingHelper::onClose() 
         {
           InternalMessage("Model","ShootingHelper::onClose") ;
-          if (m_implementation.get())
+          if (m_implementation)
           {
             m_implementation->close() ;
-            m_implementation.reset(NULL) ;
+            m_implementation = NULL ;
           }
         }
           

@@ -57,10 +57,10 @@ namespace ProjetUnivers {
               explosion_radius = 4*solid->getRadius() ;
             
             Duration explosion_duration(Duration::Second(1)) ;
-            addTrait(getObject(),new Explosion(explosion_radius,explosion_duration)) ;
+            getObject()->addTrait(new Explosion(explosion_radius,explosion_duration)) ;
             
             // add a life time trait
-            addTrait(getObject(),new WithLifetime(explosion_duration)) ;
+            getObject()->addTrait(new WithLifetime(explosion_duration)) ;
             
             m_marked_to_destroy = true ;
           }

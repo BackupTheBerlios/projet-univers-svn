@@ -55,84 +55,75 @@ namespace ProjetUnivers {
         */
 
         // we construct a complete system
-        Model::init() ;
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestMovingObject::basicTest")) ;
+        model->init() ;
         
-        Kernel::Object* system = Model::createObject("system") ;
-        Model::addTrait(system, new Model::Positionned()) ;
-        Model::addTrait(system, new Model::Oriented()) ;
+        Kernel::Object* system = model->createObject() ;
+        system->addTrait(new Model::Positionned()) ;
+        system->addTrait(new Model::Oriented()) ;
 
-        Kernel::Object* listener = Model::createObject(system) ;
-        Model::addTrait(listener,new Model::Listener()) ;
+        Kernel::Object* listener = system->createObject() ;
+        listener->addTrait(new Model::Listener()) ;
         Model::Positionned* listenerPos = new Model::Positionned();
-        Model::addTrait(listener,listenerPos) ;
-        Model::addTrait(listener,new Model::Oriented()) ;
-        Model::addTrait(listener,new Model::Mobile());
+        listener->addTrait(listenerPos) ;
+        listener->addTrait(new Model::Oriented()) ;
+        listener->addTrait(new Model::Mobile());
 
-        Kernel::Object* engine = Model::createObject(system) ;
-        Model::addTrait(engine,new Model::Engine(Model::Force::Newton(10,10,10))) ;
+        Kernel::Object* engine = system->createObject() ;
+        engine->addTrait(new Model::Engine(Model::Force::Newton(10,10,10))) ;
         Model::Positionned* enginePos = new Model::Positionned(Model::Position::Meter(0,0,-50));
-        Model::addTrait(engine,enginePos);
-        Model::addTrait(engine,new Model::Oriented()) ;
-        Model::addTrait(engine,new Model::Mobile());
-        
-        /// build a sound viewpoint        
-        Sound::init() ;
-        Sound::build(listener, system) ;
+        engine->addTrait(enginePos);
+        engine->addTrait(new Model::Oriented()) ;
+        engine->addTrait(new Model::Mobile());
         
         
+        Kernel::Timer global_timer ;
         Kernel::Timer timer ;
 
         /// moving on Z axis
-        while (timer.getSecond() <= 10)
+        while (global_timer.getSecond() <= 10)
         {
-           enginePos->setPosition(enginePos->getPosition()+ Model::Position::Meter(0,0,0.005));
+          enginePos->setPosition(enginePos->getPosition()+ Model::Position::Meter(0,0,0.005));
           float seconds = timer.getSecond() ;
-          Model::Duration elapsed(Model::Duration::Second(seconds)) ;
-          Model::update(elapsed) ;
-          Sound::update() ;
+          timer.reset() ;
+          model->update(seconds) ;
         }
         
         /// moving on X axis
-        timer.reset();
+        global_timer.reset();
         enginePos->setPosition(Model::Position::Meter(-50,0,0));
-        while (timer.getSecond() <= 10)
+        while (global_timer.getSecond() <= 10)
         {
-           enginePos->setPosition(enginePos->getPosition()+ Model::Position::Meter(0.005,0,0));
+          enginePos->setPosition(enginePos->getPosition()+ Model::Position::Meter(0.005,0,0));
           float seconds = timer.getSecond() ;
-          Model::Duration elapsed(Model::Duration::Second(seconds)) ;
-          Model::update(elapsed) ;
-          Sound::update() ;
+          timer.reset() ;
+          model->update(seconds) ;
         }
         
         /// moving on Y axis
-        timer.reset();
+        global_timer.reset();
         enginePos->setPosition(Model::Position::Meter(0,-50,0));
-        while (timer.getSecond() <= 10)
+        while (global_timer.getSecond() <= 10)
         {
-           enginePos->setPosition(enginePos->getPosition()+ Model::Position::Meter(0,0.005,0));
+          enginePos->setPosition(enginePos->getPosition()+ Model::Position::Meter(0,0.005,0));
           float seconds = timer.getSecond() ;
-          Model::Duration elapsed(Model::Duration::Second(seconds)) ;
-          Model::update(elapsed) ;
-          Sound::update() ;
+          timer.reset() ;
+          model->update(seconds) ;
         }
         
         /// moving on X axis listener and source
-        timer.reset();
+        global_timer.reset();
         enginePos->setPosition(Model::Position::Meter(0,0,-100));
-        while (timer.getSecond() <= 10)
+        while (global_timer.getSecond() <= 10)
         {
-           listenerPos->setPosition(listenerPos->getPosition()+ Model::Position::Meter(0,0,-0.005));
-           enginePos->setPosition(enginePos->getPosition()+ Model::Position::Meter(0,0,0.005));
+          listenerPos->setPosition(listenerPos->getPosition()+ Model::Position::Meter(0,0,-0.005));
+          enginePos->setPosition(enginePos->getPosition()+ Model::Position::Meter(0,0,0.005));
           float seconds = timer.getSecond() ;
-          Model::Duration elapsed(Model::Duration::Second(seconds)) ;
-          Model::update(elapsed) ;
-          Sound::update() ;
+          timer.reset() ;
+          model->update(seconds) ;
         }
         
-        Sound::close();
-        Model::close();
         InternalMessage("Sound","after sound close") ;
-        
       }
 
       void TestMovingObject::setUp() 

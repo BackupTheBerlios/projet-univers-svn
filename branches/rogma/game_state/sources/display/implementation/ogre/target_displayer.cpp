@@ -25,7 +25,6 @@
 #include <model/detection_data.h>
 #include <model/positionned.h>
 
-#include <display/implementation/display_internal.h>
 #include <display/implementation/ogre/ogre.h>
 #include <display/implementation/ogre/utility.h>
 #include <display/implementation/ogre/solid.h>
@@ -82,7 +81,6 @@ namespace ProjetUnivers {
                                                             getViewPoint())) ;
           m_implementation->init() ;
 
-          getOverlay()->setZOrder(500) ;
           m_reticule_container = static_cast< ::Ogre::OverlayContainer* >(
             ::Ogre::OverlayManager::getSingleton().createOverlayElement(
                   "Panel", Utility::getUniqueName())) ;
@@ -127,6 +125,14 @@ namespace ProjetUnivers {
           
         }
 
+        void TargetDisplayer::onUpdate()
+        {
+          if (m_implementation.get())
+          {
+            m_implementation->update(0) ;
+          }
+        }
+        
       }
     }
   }

@@ -53,26 +53,26 @@ namespace ProjetUnivers {
         /// we construct a complete system
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestThrottle::basicTest")) ;
 
-        Kernel::Object* ship = model->createObject("ship") ;
+        Kernel::Object* ship = model->createObject() ;
         
-        Kernel::Object* throttle = model->createObject("throttle",ship) ;
-        model->addTrait(throttle,new Throttle()) ;
+        Kernel::Object* throttle = ship->createObject() ;
+        throttle->addTrait(new Throttle()) ;
         
         {
           /// variables redefines to have direct access to interesting traits
           
-          Throttle* throttle = model->getObject("throttle")->getTrait<Throttle>() ;
-          CPPUNIT_ASSERT(throttle) ;
+          Throttle* throttle_trait = throttle->getTrait<Throttle>() ;
+          CPPUNIT_ASSERT(throttle_trait) ;
           
 
           /// set throttle orientation at full thrust... 
-          CPPUNIT_ASSERT(throttle->getOrientation().getQuaternion().getPitch().valueDegrees()==0) ;
-          throttle->modify(50) ;
-          CPPUNIT_ASSERT(equal(throttle->getOrientation().getQuaternion().getPitch().valueDegrees(),45)) ;
-          throttle->modify(50) ;
-          CPPUNIT_ASSERT(equal(throttle->getOrientation().getQuaternion().getPitch().valueDegrees(),90)) ;
-          throttle->modify(-50) ;
-          CPPUNIT_ASSERT(equal(throttle->getOrientation().getQuaternion().getPitch().valueDegrees(),45)) ;
+          CPPUNIT_ASSERT(throttle_trait->getOrientation().getQuaternion().getPitch().valueDegrees()==0) ;
+          throttle_trait->modify(50) ;
+          CPPUNIT_ASSERT(equal(throttle_trait->getOrientation().getQuaternion().getPitch().valueDegrees(),45)) ;
+          throttle_trait->modify(50) ;
+          CPPUNIT_ASSERT(equal(throttle_trait->getOrientation().getQuaternion().getPitch().valueDegrees(),90)) ;
+          throttle_trait->modify(-50) ;
+          CPPUNIT_ASSERT(equal(throttle_trait->getOrientation().getQuaternion().getPitch().valueDegrees(),45)) ;
           
         }
       }

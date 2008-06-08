@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2008 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -203,7 +203,7 @@ namespace ProjetUnivers {
     Model::~Model()
     {
       InternalMessage("Kernel","Kernel::Model::~Model entering") ;
-      
+      m_destroying = true ;
       for(std::set<ObjectReference*>::iterator reference = m_references.begin() ;
           reference != m_references.end() ;
           ++reference)
@@ -217,9 +217,8 @@ namespace ProjetUnivers {
           viewpoint != m_viewpoints.end() ;
           ++viewpoint)
       {
-        _close(*viewpoint) ;
-        /// notify viewpoint it has no longer a model
-        (*viewpoint)->m_model = NULL ;
+        (*viewpoint)->close() ;
+        delete *viewpoint ;
       }
       
       /// 1. close all controler sets
@@ -228,11 +227,9 @@ namespace ProjetUnivers {
           controler_set != m_controler_sets.end() ;
           ++controler_set)
       {
-        _close(*controler_set) ;
-        /// notify controler_set it has no longer a model
-        (*controler_set)->m_model = NULL ;
+        (*controler_set)->close() ;
+        delete (*controler_set) ;
       }
-      
       
       /// 2. destroy m_objects 
       InternalMessage("Kernel","Kernel::Model::~Model destroying objects") ;
@@ -247,7 +244,8 @@ namespace ProjetUnivers {
     }
     
     Model::Model(const std::string& name)
-    : m_name(name)
+    : m_name(name),
+      m_destroying(false)
     {}
 
     void Model::_register(ViewPoint* viewpoint)
@@ -267,6 +265,8 @@ namespace ProjetUnivers {
 
     void Model::_unregister(ViewPoint* viewpoint)
     {
+      if (m_destroying)
+        return ;
       m_viewpoints.erase(viewpoint) ;
 
       InternalMessage("Kernel",
@@ -287,6 +287,9 @@ namespace ProjetUnivers {
 
     void Model::_unregister(ControlerSet* controler_set)
     {
+      if (m_destroying)
+        return ;
+      
       m_controler_sets.erase(controler_set) ;
     }
     
@@ -361,6 +364,59 @@ namespace ProjetUnivers {
       return m_controler_sets ;
     }
   
+    ViewPoint* Model::addViewPoint(ViewPoint* viewpoint)
+    {
+      // nothing to do, viewpoints are already registered
+      return viewpoint ;
+    }
+    
+    ControlerSet* Model::addControlerSet(ControlerSet* controlerset)
+    {
+      // nothing to do, controler sets are already registered
+      return controlerset ;
+    }
+    
+    void Model::init()
+    {
+      ViewPoint::buildRegistered(this) ;
+      ControlerSet::buildRegistered(this) ;
+      const std::set<Kernel::ControlerSet*>& controlersets = getControlerSets() ;
+      for(std::set<Kernel::ControlerSet*>::const_iterator controlerset = controlersets.begin() ;
+          controlerset != controlersets.end() ;
+          ++controlerset)
+      {
+        (*controlerset)->init() ;
+      }
+
+      const std::set<Kernel::ViewPoint*>& viewpoints = getViewPoints() ;
+      for(std::set<Kernel::ViewPoint*>::const_iterator viewpoint = viewpoints.begin() ;
+          viewpoint != viewpoints.end() ;
+          ++viewpoint)
+      {
+        (*viewpoint)->init() ;
+      }
+    }
+
+    void Model::update(const float& seconds)
+    {
+      // first update controler sets then viewpoints
+      const std::set<Kernel::ControlerSet*>& controlersets = getControlerSets() ;
+      for(std::set<Kernel::ControlerSet*>::const_iterator controlerset = controlersets.begin() ;
+          controlerset != controlersets.end() ;
+          ++controlerset)
+      {
+        (*controlerset)->simulate(seconds) ;
+      }
+
+      const std::set<Kernel::ViewPoint*>& viewpoints = getViewPoints() ;
+      for(std::set<Kernel::ViewPoint*>::const_iterator viewpoint = viewpoints.begin() ;
+          viewpoint != viewpoints.end() ;
+          ++viewpoint)
+      {
+        (*viewpoint)->update(seconds) ;
+      }
+    }
+    
   }
 }
 

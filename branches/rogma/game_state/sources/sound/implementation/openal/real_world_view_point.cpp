@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007 Morgan GRIGNARD                                    *
+ *   Copyright (C) 2007-2008 Morgan GRIGNARD Mathieu ROGER                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -19,6 +19,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#include <sound/implementation/openal/openal.h>
 #include <sound/implementation/openal/real_world_view_point.h>
 
 namespace ProjetUnivers {
@@ -26,13 +27,30 @@ namespace ProjetUnivers {
     namespace Implementation {
       namespace OpenAL {
 
-        RealWorldViewPoint::RealWorldViewPoint(Kernel::Object* observer)
-        : Kernel::ViewPoint(observer ? observer->getModel() : NULL)
+        RegisterViewPoint(RealWorldViewPoint) ;
+        
+        RealWorldViewPoint::RealWorldViewPoint(Kernel::Model* model)
+        : Kernel::ViewPoint(model)
         {
            InternalMessage("Sound","Entering OpenAL::RealWorldViewPoint::RealWorldViewPoint(const Kernel::Association<Model::Object>&)") ;
            InternalMessage("Sound","Leaving OpenAL::RealWorldViewPoint::RealWorldViewPoint(const Kernel::Association<Model::Object>&)") ;
         }
-          
+        
+        void RealWorldViewPoint::onInit()
+        {
+          Implementation::OpenAL::init() ;    
+        }
+        
+        void RealWorldViewPoint::onClose()
+        {
+          Implementation::OpenAL::close() ;
+        }
+        
+        void RealWorldViewPoint::update(const float&)
+        {
+          Implementation::OpenAL::update() ;
+        }
+        
       }
     }
   }

@@ -24,7 +24,7 @@
 #include <ode/ode.h>
 
 #include <kernel/controler.h>
-#include <model/solid.h>
+#include <physic/implementation/solid_physical_object.h>
 #include <physic/implementation/ode/collideable.h>
 #include <physic/implementation/ode/physic_system.h>
 
@@ -48,14 +48,14 @@ namespace ProjetUnivers {
           @remark 
             if we have a Solid that have no PhysiscalObject parent then ...
         */
-        class Solid : public Kernel::Controler<Model::Solid,
+        class Solid : public Kernel::Controler<Implementation::SolidPhysicalObject,
                                                PhysicSystem>,
                       public Collideable
         {
         public:
 
           /// constructor.
-          Solid(Model::Solid*,PhysicSystem*) ;
+          Solid(Implementation::SolidPhysicalObject*,PhysicSystem*) ;
 
           /// Check whether @c this is collideable with another Collideable.
           virtual bool isCollideableWith(const Collideable*) const ;

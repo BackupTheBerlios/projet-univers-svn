@@ -40,7 +40,7 @@ namespace ProjetUnivers {
         bool initialised = false ;
         ALCdevice* device ;
         
-        Manager* manager;
+        std::auto_ptr<Manager> manager;
         RealWorldViewPoint*  sound_system ;
         
         namespace 
@@ -69,7 +69,9 @@ namespace ProjetUnivers {
         void init() 
         {
           InternalMessage("Sound","Sound::OpenAL::init entering") ;
-          
+
+          manager.reset(new Manager()) ;
+         
           //Open a device
           std::string deviceType;
           try
@@ -129,7 +131,7 @@ namespace ProjetUnivers {
           
           //Verification of initialisation without error  
           initialised = true ;
-          
+
           InternalMessage("Sound","Sound::OpenAL::init leaving with status: " + getErrorString(alGetError())) ;
       }
     
@@ -138,7 +140,7 @@ namespace ProjetUnivers {
           InternalMessage("Sound","Sound::OpenAL::close entering") ;
           
           delete sound_system ;
-          delete manager;
+          manager.reset(NULL) ;
 
           // Désactivation du contexte
           alcMakeContextCurrent(NULL) ;
@@ -157,14 +159,6 @@ namespace ProjetUnivers {
         void update()
         {
           manager->update() ;
-        }
-        
-        Kernel::ViewPoint* build(Kernel::Object* listener, Kernel::Object* reference)
-        {
-          manager = new Manager(listener, reference) ;
-          sound_system = new Implementation::OpenAL::RealWorldViewPoint(listener) ;
-          sound_system->init() ;
-          return sound_system ;
         }
         
         std::string getErrorString(const ALenum& error)
@@ -193,7 +187,7 @@ namespace ProjetUnivers {
         
         Manager* getManager()
         {
-          return manager ;
+          return manager.get() ;
         }
         
       }

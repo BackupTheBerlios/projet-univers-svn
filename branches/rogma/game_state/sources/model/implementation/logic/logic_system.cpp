@@ -30,6 +30,9 @@ namespace ProjetUnivers {
   namespace Model {
     namespace Implementation {
       namespace Logic {
+
+        RegisterControlerSet(LogicSystem) ;
+        
         LogicSystem::LogicSystem(Kernel::Model* model)
         : Kernel::ControlerSet(model)
         {}
@@ -48,7 +51,7 @@ namespace ProjetUnivers {
               object != m_objects_to_destroy.end() ;
               ++object)
           {
-            Model::destroyObject(*object) ;
+            (*object)->getModel()->destroyObject(*object) ;
           }
           
           m_objects_to_destroy.clear() ;

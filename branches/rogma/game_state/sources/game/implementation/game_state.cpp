@@ -32,32 +32,11 @@ namespace ProjetUnivers {
     : m_name(name),
       m_is_active(false),
       m_model(new Kernel::Model(name))
-    {
-      // should build every viewpoints and controler sets
-      Kernel::ViewPoint::buildRegistered(m_model.get()) ;
-      Kernel::ControlerSet::buildRegistered(m_model.get()) ;
-    }
+    {}
   
     void GameState::activate()
     {
-      if (!m_is_active)
-      {
-        const std::set<Kernel::ViewPoint*>& viewpoints = m_model->getViewPoints() ;
-        for(std::set<Kernel::ViewPoint*>::const_iterator viewpoint = viewpoints.begin() ;
-            viewpoint != viewpoints.end() ;
-            ++viewpoint)
-        {
-          (*viewpoint)->init() ;
-        }
-
-        const std::set<Kernel::ControlerSet*>& controlersets = m_model->getControlerSets() ;
-        for(std::set<Kernel::ControlerSet*>::const_iterator controlerset = controlersets.begin() ;
-            controlerset != controlersets.end() ;
-            ++controlerset)
-        {
-          (*controlerset)->init() ;
-        }
-      }
+      m_model->init() ;
     }
     
     void GameState::desactivate()
@@ -96,23 +75,7 @@ namespace ProjetUnivers {
     {
       if (m_is_active)
       {
-        // first update controler sets then viewpoints
-        const std::set<Kernel::ControlerSet*>& controlersets = m_model->getControlerSets() ;
-        for(std::set<Kernel::ControlerSet*>::const_iterator controlerset = controlersets.begin() ;
-            controlerset != controlersets.end() ;
-            ++controlerset)
-        {
-          (*controlerset)->simulate(seconds) ;
-        }
-
-        const std::set<Kernel::ViewPoint*>& viewpoints = m_model->getViewPoints() ;
-        for(std::set<Kernel::ViewPoint*>::const_iterator viewpoint = viewpoints.begin() ;
-            viewpoint != viewpoints.end() ;
-            ++viewpoint)
-        {
-          (*viewpoint)->update(seconds) ;
-        }
-
+        m_model->update(seconds) ;
       }
     }
     

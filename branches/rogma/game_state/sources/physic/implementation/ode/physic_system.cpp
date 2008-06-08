@@ -25,7 +25,7 @@
 #include <kernel/object.h>
 #include <kernel/base_controler.h>
 
-#include <model/model.h>
+#include <physic/implementation/ode/ode.h>
 #include <physic/implementation/ode/physic_system.h>
 
 namespace ProjetUnivers {
@@ -33,28 +33,45 @@ namespace ProjetUnivers {
     namespace Implementation {
       namespace Ode {
         
-        PhysicSystem::PhysicSystem(Kernel::Model* model)
-        : Kernel::ControlerSet(model)
-        {}
+        RegisterControlerSet(PhysicSystem) ;
         
-        void PhysicSystem::simulate(const float& i_seconds)
+        PhysicSystem::PhysicSystem(Kernel::Model* model)
+        : Kernel::ControlerSet(model),
+          m_elapsed(0)
+        {}
+
+        const float timestep = 0.02 ;
+        
+        void PhysicSystem::simulate(const float& seconds)
         {
-          
           InternalMessage("Physic","Ode::PhysicSystem::simulate preparation") ;
+          
+          m_elapsed += seconds ;
 
-          /// 1. apply all force/torque on objects
-          applyTopDown(&Kernel::BaseControler::prepare) ;
-          
-          /// 2. simulate all world top down and update model
-          boost::function2<void,
-                           Kernel::BaseControler*,
-                           float> f 
-                              = &Kernel::BaseControler::simulate ;
+          while (m_elapsed > timestep)
+          {
+            /// 1. apply all force/torque on objects
+            applyTopDown(&Kernel::BaseControler::prepare) ;
+            
+            /// 2. simulate all world top down and update model
+            boost::function2<void,
+                             Kernel::BaseControler*,
+                             float> f 
+                                = &Kernel::BaseControler::simulate ;
 
-          InternalMessage("Physic","Ode::PhysicSystem::simulate simulation") ;
-          
-          applyTopDown(std::bind2nd(f,i_seconds)) ;
-          
+            applyTopDown(std::bind2nd(f,timestep)) ;
+            m_elapsed -= timestep ;
+          }
+        }
+        
+        void PhysicSystem::onInit()
+        {
+          Implementation::Ode::init() ;
+        }
+
+        void PhysicSystem::onClose()
+        {
+          Implementation::Ode::close() ;
         }
         
         /*!

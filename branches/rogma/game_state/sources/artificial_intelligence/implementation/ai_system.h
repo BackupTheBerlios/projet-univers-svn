@@ -33,7 +33,7 @@ namespace ProjetUnivers {
       {
       public:
         
-        /// Build the view point.
+        /// Build the controler set.
         AISystem(Kernel::Model* model) ;
         
         /// Simulate the system during @c seconds seconds.

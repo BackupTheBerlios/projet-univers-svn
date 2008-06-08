@@ -76,6 +76,8 @@ namespace ProjetUnivers {
           m_model->_register(this) ;
         }
         
+        onInit() ;
+        
         m_initialised = true ;
         
         /// must init all the objects according to current viewpoint
@@ -92,6 +94,7 @@ namespace ProjetUnivers {
       {
         /// must init all the objects according to current controler set
         m_model->_close(this) ;
+        onClose() ;
         m_model->_unregister(this) ;
         m_initialised = false ;
       }
@@ -107,7 +110,12 @@ namespace ProjetUnivers {
     ControlerSet::ControlerSet(Model* model)
     : m_model(model),
       m_initialised(false)
-    {}
+    {
+      if (m_model)
+      {
+        m_model->_register(this) ;
+      }      
+    }
     
     bool ControlerSet::isVisible(Object* i_object) const
     {
@@ -119,6 +127,14 @@ namespace ProjetUnivers {
       return m_initialised ;
     }      
 
+    void ControlerSet::onInit()
+    {
+    }
+
+    void ControlerSet::onClose()
+    {
+    }
+    
     void ControlerSet::setModel(Model* model)
     {
       InternalMessage("Kernel","ViewPoint::setModel Entering") ;

@@ -24,6 +24,7 @@
 #include <list>
 #include <boost/function.hpp>
 
+#include <kernel/helper_macros.h>
 #include <kernel/meta.h>
 #include <kernel/object.h>
 #include <kernel/model.h>
@@ -75,14 +76,14 @@ namespace ProjetUnivers {
       /// Update the viewpoint.
       virtual void update(const float& seconds) ;
       
+    protected:
+
       /// Build all the registered viewpoints on @c model.
       /*!
         ViewPoints can be registered through RegisterViewPoint macro.
       */
       static void buildRegistered(Model* model) ;
       
-    protected:
-
       /// called during initialisation before views initialisation.
       /*!
         Default implementation does nothing. Specific viewpoint should 

@@ -56,27 +56,25 @@ namespace ProjetUnivers {
       {
         InternalMessage("Display","Display::TestModelView::testConstruct entering") ;
         
-        Model::init() ;
-        Display::init(false) ;
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestModelView::testConstruct")) ;
+        model->init() ;
 
-        Kernel::Object* universe = Model::createObject() ;
-        Model::addTrait(universe,new Model::Universe()) ;
-        Model::addTrait(universe,new Model::Positionned()) ;
+        Kernel::Object* universe = model->createObject() ;
+        universe->addTrait(new Model::Universe()) ;
+        universe->addTrait(new Model::Positionned()) ;
 
-        Kernel::Object* system = Model::createObject(universe) ;
-        Model::addTrait(system,new Model::StellarSystem()) ;
-        Model::addTrait(system,new Model::Positionned()) ;
+        Kernel::Object* system = universe->createObject() ;
+        system->addTrait(new Model::StellarSystem()) ;
+        system->addTrait(new Model::Positionned()) ;
         
         Kernel::Object* ship = Model::createShip(system) ;
         ship->getTrait<Model::Positionned>()->setPosition(Model::Position::Meter(0,0,-500)) ;
         
-        Kernel::Object* observer = Model::createObject(system) ;
-        Model::addTrait(observer,new Model::Observer()) ;
-        Model::addTrait(observer,new Model::Player()) ;
-        Model::addTrait(observer,new Model::Positionned()) ;
-        Model::addTrait(observer,new Model::Oriented(::Ogre::Quaternion(::Ogre::Degree(180),::Ogre::Vector3::UNIT_Y))) ;
-        
-        Display::buildRealWorldViewPoint(observer) ;
+        Kernel::Object* observer = system->createObject() ;
+        observer->addTrait(new Model::Observer()) ;
+        observer->addTrait(new Model::Player()) ;
+        observer->addTrait(new Model::Positionned()) ;
+        observer->addTrait(new Model::Oriented(::Ogre::Quaternion(::Ogre::Degree(180),::Ogre::Vector3::UNIT_Y))) ;
         
         Kernel::Timer timer ;
         Kernel::Timer global_timer ;
@@ -84,18 +82,12 @@ namespace ProjetUnivers {
         while (global_timer.getSecond() < 3)
         {
           float seconds = timer.getSecond() ;
-          Model::Duration elapsed(Model::Duration::Second(seconds)) ;
-
           if (seconds != 0)
           {
             timer.reset() ;
           }
-          Model::update(elapsed) ;
-          Display::update() ;
+          model->update(seconds) ;
         }        
-        
-        Display::close() ;
-        Model::close() ;
         
         InternalMessage("Display","Display::TestModelView::testConstruct leaving") ;
       }
@@ -104,27 +96,25 @@ namespace ProjetUnivers {
       {
         InternalMessage("Display","Display::TestModelView::destroyObserver entering") ;
         
-        Model::init() ;
-        Display::init(false) ;
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestModelView::destroyObserver")) ;
+        model->init() ;
 
-        Kernel::Object* universe = Model::createObject() ;
-        Model::addTrait(universe,new Model::Universe()) ;
-        Model::addTrait(universe,new Model::Positionned()) ;
+        Kernel::Object* universe = model->createObject() ;
+        universe->addTrait(new Model::Universe()) ;
+        universe->addTrait(new Model::Positionned()) ;
 
-        Kernel::Object* system = Model::createObject(universe) ;
-        Model::addTrait(system,new Model::StellarSystem()) ;
-        Model::addTrait(system,new Model::Positionned()) ;
+        Kernel::Object* system = universe->createObject() ;
+        system->addTrait(new Model::StellarSystem()) ;
+        system->addTrait(new Model::Positionned()) ;
         
         Kernel::Object* ship = Model::createShip(system) ;
         ship->getTrait<Model::Positionned>()->setPosition(Model::Position::Meter(0,0,-500)) ;
         
-        Kernel::Object* observer = Model::createObject(system) ;
-        Model::addTrait(observer,new Model::Observer()) ;
-        Model::addTrait(observer,new Model::Player()) ;
-        Model::addTrait(observer,new Model::Positionned()) ;
-        Model::addTrait(observer,new Model::Oriented(::Ogre::Quaternion(::Ogre::Degree(180),::Ogre::Vector3::UNIT_Y))) ;
-        
-        Display::buildRealWorldViewPoint(observer) ;
+        Kernel::Object* observer = system->createObject() ;
+        observer->addTrait(new Model::Observer()) ;
+        observer->addTrait(new Model::Player()) ;
+        observer->addTrait(new Model::Positionned()) ;
+        observer->addTrait(new Model::Oriented(::Ogre::Quaternion(::Ogre::Degree(180),::Ogre::Vector3::UNIT_Y))) ;
         
         Kernel::Timer timer ;
         Kernel::Timer global_timer ;
@@ -134,24 +124,17 @@ namespace ProjetUnivers {
         while (global_timer.getSecond() < 3)
         {
           float seconds = timer.getSecond() ;
-          Model::Duration elapsed(Model::Duration::Second(seconds)) ;
-
           if (!destroyed && global_timer.getSecond() > 1.5)
           {
-            Model::destroyObject(observer) ;
+            model->destroyObject(observer) ;
             destroyed = true ;
           }
-          
           if (seconds != 0)
           {
             timer.reset() ;
           }
-          Model::update(elapsed) ;
-          Display::update() ;
+          model->update(seconds) ;
         }        
-        
-        Display::close() ;
-        Model::close() ;
         
         InternalMessage("Display","Display::TestModelView::destroyObserver leaving") ;
       }
@@ -160,16 +143,16 @@ namespace ProjetUnivers {
       {
         InternalMessage("Display","Display::TestModelView::selectedTarget entering") ;
         
-        Model::init() ;
-        Display::init(false) ;
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestModelView::selectedTarget")) ;
+        model->init() ;
 
-        Kernel::Object* universe = Model::createObject() ;
-        Model::addTrait(universe,new Model::Universe()) ;
-        Model::addTrait(universe,new Model::Positionned()) ;
+        Kernel::Object* universe = model->createObject() ;
+        universe->addTrait(new Model::Universe()) ;
+        universe->addTrait(new Model::Positionned()) ;
 
-        Kernel::Object* system = Model::createObject(universe) ;
-        Model::addTrait(system,new Model::StellarSystem()) ;
-        Model::addTrait(system,new Model::Positionned()) ;
+        Kernel::Object* system = universe->createObject() ;
+        system->addTrait(new Model::StellarSystem()) ;
+        system->addTrait(new Model::Positionned()) ;
         {
           Kernel::Object* ship = Model::createShip(system) ;
           ship->getTrait<Model::Positionned>()->setPosition(Model::Position::Meter(0,0,-500)) ;
@@ -177,27 +160,22 @@ namespace ProjetUnivers {
         
         Kernel::Object* ship = Model::createShip(system) ;
 
-        Model::addTrait(ship,new Model::TargetDisplayer()) ;
+        ship->addTrait(new Model::TargetDisplayer()) ;
         Model::TargetDisplayer::connect(ship,ship) ;
         
-        Kernel::Object* observer = Model::createObject(ship) ;
-        Model::addTrait(observer,new Model::Observer()) ;
-        Model::addTrait(observer,new Model::Player()) ;
-        Model::addTrait(observer,new Model::Positionned()) ;
-        Model::addTrait(observer,new Model::Oriented()) ;
-        Model::addTrait(observer,new Kernel::CommandDelegator()) ;
+        Kernel::Object* observer = ship->createObject() ;
+        observer->addTrait(new Model::Observer()) ;
+        observer->addTrait(new Model::Player()) ;
+        observer->addTrait(new Model::Positionned()) ;
+        observer->addTrait(new Model::Oriented()) ;
+        observer->addTrait(new Kernel::CommandDelegator()) ;
         observer->getTrait<Kernel::CommandDelegator>()->addDelegate(ship) ;
 
         ship->getTrait<Model::Oriented>()
         ->setOrientation(ship->getTrait<Model::Oriented>()->getOrientation()*
                          Model::Orientation(::Ogre::Quaternion(::Ogre::Degree(180),::Ogre::Vector3::UNIT_Y))) ;
-//        ship->getTrait<Model::Oriented>()
-//        ->setOrientation(ship->getTrait<Model::Oriented>()->getOrientation()*
-//                         Model::Orientation(::Ogre::Quaternion(::Ogre::Degree(45),::Ogre::Vector3::UNIT_X))) ;
 
-        Display::buildRealWorldViewPoint(observer) ;
-
-        Model::update(Model::Duration::Second(0.1)) ;
+        model->update(0.1) ;
         observer->call("Select Next Target") ;
         
         Kernel::Timer timer ;
@@ -205,12 +183,9 @@ namespace ProjetUnivers {
         
         Kernel::Timer rotation_timer ;
         
-        
         while (global_timer.getSecond() < 10)
         {
           float seconds = timer.getSecond() ;
-          Model::Duration elapsed(Model::Duration::Second(seconds)) ;
-
           if (rotation_timer.getSecond() > 1)
           {
             ship->getTrait<Model::Oriented>()
@@ -223,14 +198,9 @@ namespace ProjetUnivers {
           if (seconds != 0)
           {
             timer.reset() ;
-            Model::update(elapsed) ;
-            Display::update() ;
           }
-          
+          model->update(seconds) ;
         }        
-        
-        Display::close() ;
-        Model::close() ;
         
         InternalMessage("Display","Display::TestModelView::selectedTarget leaving") ;
       }
@@ -239,36 +209,34 @@ namespace ProjetUnivers {
       {
         InternalMessage("Display","Display::TestModelView::displayIdealTarget entering") ;
         
-        Model::init() ;
-        Display::init(false) ;
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestModelView::displayIdealTarget")) ;
+        model->init() ;
 
-        Kernel::Object* universe = Model::createObject() ;
-        Model::addTrait(universe,new Model::Universe()) ;
-        Model::addTrait(universe,new Model::Positionned()) ;
+        Kernel::Object* universe = model->createObject() ;
+        universe->addTrait(new Model::Universe()) ;
+        universe->addTrait(new Model::Positionned()) ;
 
-        Kernel::Object* system = Model::createObject(universe) ;
-        Model::addTrait(system,new Model::StellarSystem()) ;
-        Model::addTrait(system,new Model::Positionned()) ;
+        Kernel::Object* system = universe->createObject() ;
+        system->addTrait(new Model::StellarSystem()) ;
+        system->addTrait(new Model::Positionned()) ;
         
-        Kernel::Object* observer = Model::createObject(system) ;
-        Model::addTrait(observer,new Model::Observer()) ;
-        Model::addTrait(observer,new Model::Player()) ;
-        Model::addTrait(observer,new Model::Positionned(Model::Position::Meter(0,0,200))) ;
-        Model::addTrait(observer,new Model::Oriented(::Ogre::Quaternion(::Ogre::Degree(180),::Ogre::Vector3::UNIT_Y))) ;
+        Kernel::Object* observer = system->createObject() ;
+        observer->addTrait(new Model::Observer()) ;
+        observer->addTrait(new Model::Player()) ;
+        observer->addTrait(new Model::Positionned(Model::Position::Meter(0,0,200))) ;
+        observer->addTrait(new Model::Oriented(::Ogre::Quaternion(::Ogre::Degree(180),::Ogre::Vector3::UNIT_Y))) ;
         
-        Kernel::Object* computer = Model::createObject(observer) ;
-        Model::addTrait(computer,new Model::Computer()) ;
-        Model::addTrait(computer,new Model::TargetDisplayer()) ;
-        Model::addTrait(computer,new Model::TargetingSystem()) ;
-        Model::TargetDisplayer::connect(computer,computer) ;
+        Kernel::Object* computer = observer->createObject() ;
+        computer->addTrait(new Model::Computer()) ;
+        computer->addTrait(new Model::TargetDisplayer()) ;
+        computer->addTrait(new Model::TargetingSystem()) ;
         Model::TargetingSystem::connect(computer,computer) ;
+        Model::TargetDisplayer::connect(computer,computer) ;
         
-        Kernel::Model* model = computer->getTrait<Model::Computer>()->getMemoryModel() ;
-        Kernel::Object* target = model->createObject() ;
-        model->addTrait(target,new Model::Positionned(Model::Position::Meter(50,-100,200))) ;
-        model->addTrait(target,new Model::IdealTarget(computer)) ;
-        
-        Display::buildRealWorldViewPoint(observer) ;
+        Kernel::Model* computer_model = computer->getTrait<Model::Computer>()->getMemoryModel() ;
+        Kernel::Object* target = computer_model->createObject() ;
+        target->addTrait(new Model::Positionned(Model::Position::Meter(50,-100,200))) ;
+        target->addTrait(new Model::IdealTarget(computer)) ;
         
         Kernel::Timer timer ;
         Kernel::Timer global_timer ;
@@ -276,51 +244,43 @@ namespace ProjetUnivers {
         while (global_timer.getSecond() < 3)
         {
           float seconds = timer.getSecond() ;
-          Model::Duration elapsed(Model::Duration::Second(seconds)) ;
           if (seconds != 0)
           {
             timer.reset() ;
-            Model::update(elapsed) ;
-            Display::update() ;
           }
+          model->update(seconds) ;
         }        
         
-        Display::close() ;
-        Model::close() ;
-        
         InternalMessage("Display","Display::TestModelView::displayIdealTarget leaving") ;
-        
       }
       
       void TestModelView::spaceDust()
       {
         InternalMessage("Display","Display::TestModelView::spaceDust entering") ;
         
-        Model::init() ;
-        Display::init(false) ;
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestModelView::spaceDust")) ;
+        model->init() ;
         
-        Kernel::Object* universe = Model::createObject() ;
-        Model::addTrait(universe,new Model::Universe()) ;
-        Model::addTrait(universe,new Model::Positionned()) ;
+        Kernel::Object* universe = model->createObject() ;
+        universe->addTrait(new Model::Universe()) ;
+        universe->addTrait(new Model::Positionned()) ;
 
-        Kernel::Object* system = Model::createObject(universe) ;
-        Model::addTrait(system,new Model::StellarSystem()) ;
-        Model::addTrait(system,new Model::Positionned()) ;
+        Kernel::Object* system = universe->createObject() ;
+        system->addTrait(new Model::StellarSystem()) ;
+        system->addTrait(new Model::Positionned()) ;
         
         Kernel::Object* ship = Model::createShip(system) ;
         ship->getTrait<Model::Positionned>()->setPosition(Model::Position::Meter(0,0,-500)) ;
         ship->getTrait<Model::Mobile>()->setSpeed(Model::Speed::MeterPerSecond(0,0,10)) ;
         
-        Kernel::Object* observer = Model::createObject(ship) ;
-        Model::addTrait(observer,new Model::Observer()) ;
-        Model::addTrait(observer,new Model::Player()) ;
-        Model::addTrait(observer,new Model::Positionned()) ;
-        Model::addTrait(observer,new Model::Oriented(::Ogre::Quaternion(::Ogre::Degree(180),::Ogre::Vector3::UNIT_Y))) ;
+        Kernel::Object* observer = ship->createObject() ;
+        observer->addTrait(new Model::Observer()) ;
+        observer->addTrait(new Model::Player()) ;
+        observer->addTrait(new Model::Positionned()) ;
+        observer->addTrait(new Model::Oriented(::Ogre::Quaternion(::Ogre::Degree(180),::Ogre::Vector3::UNIT_Y))) ;
 
         CPPUNIT_ASSERT(observer->getParent<Model::Mobile>()) ;
         CPPUNIT_ASSERT(observer->getTrait<Implementation::SpaceDust>()) ;
-        
-        Display::buildRealWorldViewPoint(observer) ;
         
         Kernel::Timer timer ;
         Kernel::Timer global_timer ;
@@ -328,18 +288,12 @@ namespace ProjetUnivers {
         while (global_timer.getSecond() < 3)
         {
           float seconds = timer.getSecond() ;
-          Model::Duration elapsed(Model::Duration::Second(seconds)) ;
-
           if (seconds != 0)
           {
             timer.reset() ;
           }
-          Model::update(elapsed) ;
-          Display::update() ;
+          model->update(seconds) ;
         }        
-        
-        Display::close() ;
-        Model::close() ;
         
         InternalMessage("Display","Display::TestModelView::spaceDust leaving") ;
       }

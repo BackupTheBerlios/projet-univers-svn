@@ -112,12 +112,14 @@ namespace ProjetUnivers {
         */
         // @{
         
-          /// create a Ogre::Entity.
-          void onInit() ;
+          /// create a viewpoint.
+          virtual void onInit() ;
           
-          /// Destroy the Ogre::Entity.
-          void onClose() ;
+          /// Destroy the viewpoint.
+          virtual void onClose() ;
         
+          /// Update the viewpoint model
+          virtual void onUpdate() ;
 
         // @}
         private:

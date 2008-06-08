@@ -36,17 +36,6 @@ namespace ProjetUnivers {
   */ 
   namespace Display {
     
-    /// Module initialisation.
-    bool init(bool choose_display = true) ;
-    
-    /// Module closing.
-    void close() ;
-  
-    /// Creates the standard representation for the world 
-    Kernel::ViewPoint* buildRealWorldViewPoint(Kernel::Object* i_observer) ; 
-    
-    /// Update display
-    void update() ;
     
   }
   

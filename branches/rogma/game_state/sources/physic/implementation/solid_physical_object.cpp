@@ -18,50 +18,18 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <artificial_intelligence/implementation/ai_system.h>
-#include <artificial_intelligence/artificial_intelligence.h>
+#include <model/solid.h>
+#include <model/physical_object.h>
+#include <physic/implementation/solid_physical_object.h>
 
 namespace ProjetUnivers {
-  namespace ArtificialIntelligence {
-
-    std::auto_ptr<Implementation::AISystem> m_viewPoint ;
-    
-    bool init()
-    {
-      if(m_viewPoint.get())
-      {
-        m_viewPoint->init() ;
-      }
-    }
-    
-    void close()
-    {
-      if(m_viewPoint.get())
-      {
-        m_viewPoint->close() ;
-      }
-    }
-  
-    void build(Kernel::Object* observer)
-    {
-      m_viewPoint.reset(new Implementation::AISystem(observer->getModel())) ;
-    }
-    
-    void update(const Model::Duration& duration)
-    {
-      if (m_viewPoint.get())
-      {
-        m_viewPoint->simulate(duration.Second()) ;
-      }
-    }
-    
+  namespace Physic {
     namespace Implementation {
+
+      DeclareDeducedTrait(SolidPhysicalObject,
+                          And(HasTrait(Model::PhysicalObject),
+                              HasTrait(Model::Solid))) ;
       
-      AISystem* getAISystem()
-      {
-        return m_viewPoint.get() ;
-      }
     }
-    
   }
 }

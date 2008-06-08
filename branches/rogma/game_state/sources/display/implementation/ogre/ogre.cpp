@@ -26,6 +26,8 @@
 
 #include <kernel/log.h>
 
+#include <model/model.h>
+
 #include <display/implementation/ogre/ogre.h>
 
 
@@ -33,9 +35,6 @@ using namespace ::Ogre ;
 using namespace std ;
 
 namespace ProjetUnivers {
-
-  using namespace Kernel ;
-  
   namespace Display {
     namespace Implementation {
       namespace Ogre {  
@@ -49,6 +48,9 @@ namespace ProjetUnivers {
         ::Ogre::LogManager* log_manager = NULL ;
         ::Ogre::Root* root = NULL ;
         ::Ogre::RenderWindow* window = NULL ;
+        
+        bool initialised = false ;
+        
         // gui
         ::CEGUI::OgreCEGUIRenderer* CEGUIRenderer = NULL;
         ::CEGUI::System* CEGUISystem = NULL ;
@@ -76,6 +78,7 @@ namespace ProjetUnivers {
           {
             InternalMessage("Display","creating overlay") ;
             m_overlay = ::Ogre::OverlayManager::getSingleton().create("hud") ;
+            m_overlay->setZOrder(500) ;
           }
           
           return m_overlay ;
@@ -140,6 +143,11 @@ namespace ProjetUnivers {
         
         bool init(bool choose_display) 
         {
+          if (initialised)
+            return true ;
+          
+          Model::closeRessources() ;
+          
           log_manager = new LogManager() ;
           log_manager->createLog("Ogre.log", false, false); 
           
@@ -189,6 +197,7 @@ namespace ProjetUnivers {
           
           InternalMessage("Display","Ogre launched") ;
           
+          initialised = true ;
           // done
           return true ;
         }
@@ -228,6 +237,8 @@ namespace ProjetUnivers {
           }
             
           m_overlay= NULL ;
+          
+          initialised = false ;
           
           InternalMessage("Display","...Ogre stopped") ;
           

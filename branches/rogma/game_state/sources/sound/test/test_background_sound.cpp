@@ -54,55 +54,48 @@ namespace ProjetUnivers {
         */
 
         // we construct a complete system
-        Model::init() ;
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestBackgroundSound::basicTest")) ;
+        model->init() ;
         
-        Kernel::Object* system = Model::createObject("system") ;
-        Model::addTrait(system, new Model::Positionned()) ;
-        Model::addTrait(system, new Model::Oriented()) ;
+        Kernel::Object* system = model->createObject() ;
+        system->addTrait(new Model::Positionned()) ;
+        system->addTrait(new Model::Oriented()) ;
 
-        Kernel::Object* listener = Model::createObject(system) ;
-        Model::addTrait(listener,new Model::Listener()) ;
-        Model::addTrait(listener,new Model::Positionned()) ;
-        Model::addTrait(listener,new Model::Oriented()) ;
-        Model::addTrait(listener,new Model::Mobile());
+        Kernel::Object* listener = system->createObject() ;
+        listener->addTrait(new Model::Listener()) ;
+        listener->addTrait(new Model::Positionned()) ;
+        listener->addTrait(new Model::Oriented()) ;
+        listener->addTrait(new Model::Mobile());
 
-        Kernel::Object* emmiter = Model::createObject(system) ;
-        Model::addTrait(emmiter,new Model::BackgroundSound("pu_comm_essai_1.ogg")) ;
-        Model::addTrait(emmiter,new Model::Positionned()) ;
-        Model::addTrait(emmiter,new Model::Oriented()) ;
+        Kernel::Object* emmiter = system->createObject() ;
+        emmiter->addTrait(new Model::BackgroundSound("pu_comm_essai_1.ogg")) ;
+        emmiter->addTrait(new Model::Positionned()) ;
+        emmiter->addTrait(new Model::Oriented()) ;
         
         
-        Kernel::Object* elm1 = Model::createObject(system) ;
-        Kernel::Object* elm2 = Model::createObject(system) ;
-        Kernel::Object* collision = Model::createObject(system) ;
+        Kernel::Object* elm1 = system->createObject() ;
+        Kernel::Object* elm2 = system->createObject() ;
+        Kernel::Object* collision = system->createObject() ;
         const Model::Position& posRef = Model::Position();
-        Model::addTrait(collision,new Model::Collision(elm1, elm2, posRef)) ;
+        collision->addTrait(new Model::Collision(elm1, elm2, posRef)) ;
         InternalMessage("Sound","fin definition world") ;
-        /// build a sound viewpoint        
-        Sound::init() ;
-        InternalMessage("Sound","after sound init") ;
-        Sound::build(listener, system) ;
-        InternalMessage("Sound","after sound build") ;
         
-        Model::destroyObject(collision) ;
+        model->destroyObject(collision) ;
         
         InternalMessage("Sound","after destroy colision") ;
         
+        Kernel::Timer global_timer ;
         Kernel::Timer timer ;
         int i = 0 ;
-        while(timer.getSecond() <= 10.0)
+        while(global_timer.getSecond() <= 10.0)
         {
           ++i ;
-          Sound::update() ;
+          float seconds = timer.getSecond() ;
+          timer.reset() ;
+          model->update(seconds) ;
         }          
+        
         InternalMessage("Sound","i=" + Kernel::toString(i)) ;
-        
-       
-        Sound::close();
-        Model::close();
-        
-        InternalMessage("Sound","after all close") ;
-        
       }
 
       void TestBackgroundSound::setUp() 

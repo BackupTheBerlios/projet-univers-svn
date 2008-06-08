@@ -21,6 +21,7 @@
 #include <iostream>
 
 #include <kernel/view_point.h>
+#include <kernel/controler_set.h>
 
 #include <kernel/test/test_viewpoint_registration.h>
 
@@ -39,21 +40,46 @@ namespace ProjetUnivers {
           
           TestViewPoint(Model* model)
           : ViewPoint(model)
-          {}
+          {
+            ++number_of_instances ;
+          }
+          
+          static int number_of_instances ;
         };
         
+        int TestViewPoint::number_of_instances = 0 ;
+        
         RegisterViewPoint(TestViewPoint) ;
+
+        class TestControlerSet : public ControlerSet
+        {
+        public:
+          
+          TestControlerSet(Model* model)
+          : ControlerSet(model)
+          {
+            ++number_of_instances ;
+          }
+          
+          static int number_of_instances ;
+        };
+        
+        int TestControlerSet::number_of_instances = 0 ;
+        
+        RegisterControlerSet(TestControlerSet) ;
         
       }
       
       void TestViewPointRegistration::automaticCreation()
       {
         std::auto_ptr<Model> model(new Model()) ;
-        
-        ViewPoint::buildRegistered(model.get()) ;
+        model->init() ;
         
         CPPUNIT_ASSERT(model->getViewPoints().size() == 1) ;
+        CPPUNIT_ASSERT(TestViewPoint::number_of_instances == 1) ;
         
+        CPPUNIT_ASSERT(model->getControlerSets().size() == 1) ;
+        CPPUNIT_ASSERT(TestControlerSet::number_of_instances == 1) ;
       }
       
       void TestViewPointRegistration::setUp()

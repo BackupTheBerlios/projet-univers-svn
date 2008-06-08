@@ -65,17 +65,18 @@ namespace ProjetUnivers {
         InternalMessage("Physic","Physic::Test::TestDragger::basicTest Entering") ;
         /// we construct a complete system
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestDragger::basicTest")) ;
+        model->init() ;
         
         /// should be a PhysicalWorld
         Kernel::Object* system = model->createObject("system") ;
         CPPUNIT_ASSERT(system->getTrait<Model::PhysicalWorld>()) ;
 
-        Kernel::Object* ship = model->createObject("ship",system) ;
-        model->addTrait(ship,new Model::Positionned()) ;
-        model->addTrait(ship,new Model::Oriented()) ;
-        model->addTrait(ship,new Model::Mobile()) ;
-        model->addTrait(ship,new Model::Solid(Model::Mesh("toto"))) ;
-        model->addTrait(ship,new Model::Massive(Model::Mass::Kilogram(1))) ;
+        Kernel::Object* ship = system->createObject() ;
+        ship->addTrait(new Model::Positionned()) ;
+        ship->addTrait(new Model::Oriented()) ;
+        ship->addTrait(new Model::Mobile()) ;
+        ship->addTrait(new Model::Solid(Model::Mesh("toto"))) ;
+        ship->addTrait(new Model::Massive(Model::Mass::Kilogram(1))) ;
 
         CPPUNIT_ASSERT(ship->getTrait<Model::PhysicalObject>()) ;
         CPPUNIT_ASSERT(ship->getTrait<Model::Solid>()) ;
@@ -91,15 +92,11 @@ namespace ProjetUnivers {
         
         CPPUNIT_ASSERT(ship->getModel()) ;
         
-        /// build a physical viewpoint        1
-        Physic::init() ;
-        Kernel::ControlerSet* physics = Physic::build(ship) ;
-
         /// simulation during enought time seconds ...
         const int steps_number = 100 ; 
         for(int i = 1 ; i <= steps_number ; ++i)
         {
-          Physic::update(Model::Duration::Second(0.1)) ;
+          model->update(0.1) ;
         }
         
         Ogre::Vector3 final_speed(mobile->getSpeed().MeterPerSecond()) ;
@@ -111,10 +108,7 @@ namespace ProjetUnivers {
                        equal(final_speed.z,0)) ;
         
 
-        Physic::close() ;
-
         InternalMessage("Physic","Physic::Test::TestDragger::basicTest leaving") ;
-        
       }
 
       void TestDragger::setUp() 

@@ -146,6 +146,9 @@ namespace ProjetUnivers {
         /// Destroy a viewpoint.
         void detroyViewPoint() ;
         
+        /// Destroying a model must call onClose on viewpoint.
+        void destroyModelAndCloseViewPoint() ;
+        
       // @}
 
 
@@ -178,6 +181,7 @@ namespace ProjetUnivers {
         CPPUNIT_TEST(changeModelOnViewPoint) ;
         CPPUNIT_TEST(destroyObjectWithDeducedTraits) ;
         CPPUNIT_TEST(detroyViewPoint) ;
+        CPPUNIT_TEST(destroyModelAndCloseViewPoint) ;
 
         CPPUNIT_TEST_SUITE_END() ;
 
