@@ -36,6 +36,7 @@ namespace ProjetUnivers {
     class ControlerSet ;
     class ObjectReference ;
     class BaseTraitView ;
+    class Reader ;
     
     /// A set of Objects.
     class Model
@@ -45,38 +46,53 @@ namespace ProjetUnivers {
       /// Builds a new model.
       Model(const std::string& name = "") ;
 
-      /// Get an object.
-      /*!
-        @deprecated object does not need to be accessed by name, rather access 
-        them by properties
-      */
-      Object* getObject(const std::string& name) ;
+      /// Destroy all objects, views and controlers. 
+      ~Model() ;
 
+      
+      /// Creates a new Object.
+      Object* createObject() ; 
+  
+      /// Destroy a given Object.
+      void destroyObject(Object* object) ;
+  
+      /// Manually add a view.
+      /*!
+        The view already contains a reference to its viewpoint and trait.
+      */
+      void addManualView(BaseTraitView*) ;
+      
+      /// Build all registered viewpoints and controler sets.
+      void init() ;
+
+      /// Closes all registered viewpoints and controler sets.
+      void close() ;
+      
+      /// Update the model during @c seconds
+      void update(const float& seconds) ;
+      
+      /// Add a viewpoint.
+      ViewPoint* addViewPoint(ViewPoint*) ;
+      
+      /// Add a controler set.
+      ControlerSet* addControlerSet(ControlerSet*) ;
+      
       /// Get an object by identifier.
       Object* getObject(const int& identifier) const ;
       
       /// Access to root objects.
       const std::set<Object*>& getRoots() const ;
+      /// return a controler set of type @c T.
+      template <class T> T* getControlerSet() const ;
       
-      /// Creates a new Object with name.
-      Object* createObject(const std::string& name) ; 
-  
-      /// Creates a new Object with name and given parent.
-      Object* createObject(const std::string& name, 
-                           Object* parent) ; 
-
-      /// Creates a new Object.
-      Object* createObject() ; 
-  
+      /// return a viewpoint of type @c T.
+      template <class T> T* getViewPoint() const ;
+      
+    private:
+      
       /// Creates a new Object with given parent.
       Object* createObject(Object* parent) ; 
-  
-      /// Destroy an Object of given name.
-      void destroyObject(const std::string& name) ;
-  
-      /// Destroy a given Object.
-      void destroyObject(Object* object) ;
-  
+
       /// Changes parent of a given Object.
       void changeParent(Object* object, 
                         Object* new_parent) ;
@@ -88,46 +104,18 @@ namespace ProjetUnivers {
       /// Destroy an Object's trait.
       void destroyTrait(Object* object, 
                         Trait* trait) ;
-      
-      /// Manually add a view.
-      /*!
-        The view already contains a reference to its viewpoint and trait.
-      */
-      void addManualView(BaseTraitView*) ;
-      
-      /// Build all registered viewpoints and controler sets.
-      void init() ;
-      
-      /// Update the model during @c seconds
-      void update(const float& seconds) ;
-      
-      /// Add a viewpoint.
-      ViewPoint* addViewPoint(ViewPoint*) ;
-      
-      /// Add a controler set.
-      ControlerSet* addControlerSet(ControlerSet*) ;
-      
-      /// Destroy all objects, views and controlers. 
-      ~Model() ;
-    
+
       /// Access to viewpoints.
       const std::set<ViewPoint*>& getViewPoints() const ;
 
       /// Access to controler sets.
       const std::set<ControlerSet*>& getControlerSets() const ;
       
-      /// return a controler set of type @c T.
-      template <class T> T* getControlerSet() const ;
-      
-    private:
-
       std::string                   m_name ;
     
       /// root objects @composite
       std::set<Object*>             m_objects ;
       
-      /// 
-      std::map<std::string,Object*> m_objects_dictionnary ;
       std::map<int,Object*>         m_objects_by_identifier ;
 
       /// true during destruction.
@@ -176,6 +164,7 @@ namespace ProjetUnivers {
       friend class Trait ;
       friend class Object ;
       friend class ControlerSet ;
+      friend class Reader ;
       
       template <class _View>
       friend void forAll(ViewPoint*                    viewpoint,

@@ -223,7 +223,7 @@ namespace ProjetUnivers {
         /// we construct a complete system
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestPositionned::testSetPosition1")) ;
         Kernel::Object* root = model->createObject() ;
-        model->addTrait(root,new Positionned(Position::Meter(0,0,0))) ;
+        root->addTrait(new Positionned(Position::Meter(0,0,0))) ;
         
         Kernel::Object* object1 = root->createObject() ;
         object1->addTrait(new Positionned(Position::Meter(1,0,0))) ;
@@ -383,7 +383,7 @@ namespace ProjetUnivers {
         Kernel::Object* object1 = root->createObject() ;
         object1->addTrait(new Positionned(Position::Meter(0,0,0))) ;
         
-        Kernel::Object* object2 = model->createObject(object1) ;
+        Kernel::Object* object2 = object1->createObject() ;
         object2->addTrait(new Positionned(Position::Meter(0,1,0))) ;
         
         Kernel::Object* object3 = root->createObject() ;

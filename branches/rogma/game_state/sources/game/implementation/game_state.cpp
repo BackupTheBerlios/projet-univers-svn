@@ -23,6 +23,7 @@
 
 #include <model/model.h>
 
+#include <game/game.h>
 #include <game/game_state.h>
 
 namespace ProjetUnivers {
@@ -31,39 +32,49 @@ namespace ProjetUnivers {
     GameState::GameState(const std::string& name)
     : m_name(name),
       m_is_active(false),
+      m_next_state(NULL),
+      m_game(NULL),
       m_model(new Kernel::Model(name))
     {}
   
+    void GameState::setNextState(GameState* state)
+    {
+      m_next_state ;
+    }
+    
+    void GameState::setGame(Game* game)
+    {
+      m_game = game ;
+    }
+    
     void GameState::activate()
     {
-      m_model->init() ;
+      if (!m_is_active)
+      {
+        m_model->init() ;
+        m_is_active = true ;
+        
+        if (m_game)
+          m_game->addActiveState(this) ;
+      }
     }
     
     void GameState::desactivate()
     {
       if (m_is_active)
       {
-        const std::set<Kernel::ViewPoint*>& viewpoints = m_model->getViewPoints() ;
-        for(std::set<Kernel::ViewPoint*>::const_iterator viewpoint = viewpoints.begin() ;
-            viewpoint != viewpoints.end() ;
-            ++viewpoint)
+        m_model->close() ;
+        m_is_active = false ;
+        
+        if (m_game)
+          m_game->removeActiveState(this) ;
+        
+        if (m_next_state)
         {
-          (*viewpoint)->close() ;
+          m_next_state->activate() ;
         }
-
-        const std::set<Kernel::ControlerSet*>& controlersets = m_model->getControlerSets() ;
-        for(std::set<Kernel::ControlerSet*>::const_iterator controlerset = controlersets.begin() ;
-            controlerset != controlersets.end() ;
-            ++controlerset)
-        {
-          (*controlerset)->close() ;
-        }
+        
       }
-    }
-    
-    bool GameState::isActive() const
-    {
-      return m_is_active ;
     }
     
     void GameState::load(const std::string& scene_name)
@@ -77,6 +88,11 @@ namespace ProjetUnivers {
       {
         m_model->update(seconds) ;
       }
+    }
+    
+    Kernel::Model* GameState::getModel() const
+    {
+      return m_model.get() ;
     }
     
   }

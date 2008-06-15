@@ -491,10 +491,10 @@ namespace ProjetUnivers {
         controler->init() ;
       
         //// fill the model
-        Object* person = model->createObject("person") ;
-        model->addTrait(person,new Person()) ;
-        Object* head = model->createObject("head",person) ;
-        model->addTrait(head,new Head()) ;
+        Object* person = model->createObject() ;
+        person->addTrait(new Person()) ;
+        Object* head = person->createObject() ;
+        head->addTrait(new Head()) ;
 
         /// check the controlers are initialised
         Trait* persontrait = person->getTrait<Person>() ;
@@ -523,10 +523,10 @@ namespace ProjetUnivers {
         std::auto_ptr<Model> model(new Model()) ;
 
         //// fill the model
-        Object* person = model->createObject("person") ;
-        model->addTrait(person,new Person()) ;
-        Object* head = model->createObject("head",person) ;
-        model->addTrait(head,new Head()) ;
+        Object* person = model->createObject() ;
+        person->addTrait(new Person()) ;
+        Object* head = person->createObject() ;
+        head->addTrait(new Head()) ;
         
         /// create a controler set
         ControlerSet* controler(model->addControlerSet(new TestControlerSet(model.get()))) ;
@@ -557,10 +557,10 @@ namespace ProjetUnivers {
         std::auto_ptr<Model> model(new Model()) ;
 
         //// fill the model
-        Object* person = model->createObject("person") ;
-        model->addTrait(person,new Person()) ;
-        Object* head = model->createObject("head",person) ;
-        model->addTrait(head,new Head()) ;
+        Object* person = model->createObject() ;
+        person->addTrait(new Person()) ;
+        Object* head = person->createObject() ;
+        head->addTrait(new Head()) ;
         
         /// create a controler set
         ControlerSet* controler(model->addControlerSet(new TestControlerSet(model.get()))) ;
@@ -581,10 +581,10 @@ namespace ProjetUnivers {
         std::auto_ptr<Model> model(new Model()) ;
 
         //// fill the model
-        Object* person = model->createObject("person") ;
-        model->addTrait(person,new Person()) ;
-        Object* head = model->createObject("head",person) ;
-        model->addTrait(head,new Head()) ;
+        Object* person = model->createObject() ;
+        person->addTrait(new Person()) ;
+        Object* head = person->createObject() ;
+        head->addTrait(new Head()) ;
         
         /// create a controler set
         ControlerSet* controler(model->addControlerSet(new TestControlerSet(model.get()))) ;
@@ -605,10 +605,10 @@ namespace ProjetUnivers {
         std::auto_ptr<Model> model(new Model()) ;
 
         //// fill the model
-        Object* person = model->createObject("person") ;
-        model->addTrait(person,new Person()) ;
-        Object* head = model->createObject("head",person) ;
-        model->addTrait(head,new Head()) ;
+        Object* person = model->createObject() ;
+        person->addTrait(new Person()) ;
+        Object* head = person->createObject() ;
+        head->addTrait(new Head()) ;
         
         /// create a controler set
         ControlerSet* controler(model->addControlerSet(new TestControlerSet(model.get()))) ;
@@ -619,7 +619,7 @@ namespace ProjetUnivers {
         Trait* persontrait = person->getTrait<Person>() ;
         CPPUNIT_ASSERT(persontrait) ;
         
-        model->destroyTrait(person,persontrait) ;
+        person->destroyTrait(persontrait) ;
         CPPUNIT_ASSERT(ControlerPerson::number_of_instance == 0) ;
         CPPUNIT_ASSERT(ControlerHead::number_of_instance == 1) ;
         InternalMessage("Kernel","Kernel::Test::TestModelControler::testDestroyTrait leaving") ;
@@ -631,11 +631,11 @@ namespace ProjetUnivers {
         std::auto_ptr<Model> model(new Model()) ;
 
         //// fill the model
-        Object* person = model->createObject("person") ;
-        model->addTrait(person,new Person()) ;
-        Object* head = model->createObject("head",person) ;
-        model->addTrait(head,new Head()) ;
-        model->addTrait(head,new Dummy()) ;
+        Object* person = model->createObject() ;
+        person->addTrait(new Person()) ;
+        Object* head = person->createObject() ;
+        head->addTrait(new Head()) ;
+        head->addTrait(new Dummy()) ;
 
         /// create a controler
         ControlerSet* controler(model->addControlerSet(new TestControlerSet(model.get()))) ;
@@ -682,8 +682,8 @@ namespace ProjetUnivers {
         std::auto_ptr<Model> model(new Model()) ;
 
         //// fill the model
-        Object* person = model->createObject("person") ;
-        model->addTrait(person,new Person()) ;
+        Object* person = model->createObject() ;
+        person->addTrait(new Person()) ;
         /// create a controler set
         ControlerSet* controler(model->addControlerSet(new TestControlerSet(model.get()))) ;
         
@@ -702,21 +702,21 @@ namespace ProjetUnivers {
         std::auto_ptr<Model> model(new Model()) ;
 
         //// fill the model
-        Object* person = model->createObject("person") ;
-        model->addTrait(person,new Person()) ;
-        Object* head = model->createObject("head",person) ;
-        model->addTrait(head,new Head()) ;
+        Object* person = model->createObject() ;
+        person->addTrait(new Person()) ;
+        Object* head = person->createObject() ;
+        head->addTrait(new Head()) ;
         
         {
-          Object* person2 = model->createObject("person2") ;
-          model->addTrait(person2,new Person()) ;
-          Object* head2 = model->createObject("head2",person) ;
-          model->addTrait(head2,new Head()) ;
+          Object* person2 = model->createObject() ;
+          person2->addTrait(new Person()) ;
+          Object* head2 = person->createObject() ;
+          head2->addTrait(new Head()) ;
         }
 
         {
-          Object* person2 = model->createObject("person3") ;
-          model->addTrait(person2,new Person()) ;
+          Object* person2 = model->createObject() ;
+          person2->addTrait(new Person()) ;
         }
 
         /// create a controler set
@@ -741,10 +741,10 @@ namespace ProjetUnivers {
         std::auto_ptr<Model> model(new Model()) ;
 
         //// fill the model
-        Object* person = model->createObject("person") ;
-        model->addTrait(person,new Person()) ;
-        Object* head = model->createObject("head",person) ;
-        model->addTrait(head,new Head()) ;
+        Object* person = model->createObject() ;
+        person->addTrait(new Person()) ;
+        Object* head = person->createObject() ;
+        head->addTrait(new Head()) ;
         
         /// create a controler set
         ControlerSet* controler1(model->addControlerSet(new TestControlerSet(model.get()))) ;
@@ -789,10 +789,10 @@ namespace ProjetUnivers {
         std::auto_ptr<Model> model(new Model()) ;
 
         //// fill the model
-        Object* person = model->createObject("person") ;
-        model->addTrait(person,new Person()) ;
-        Object* head = model->createObject("head",person) ;
-        model->addTrait(head,new Head()) ;
+        Object* person = model->createObject() ;
+        person->addTrait(new Person()) ;
+        Object* head = person->createObject() ;
+        head->addTrait(new Head()) ;
         
         /// create a controler set
         ControlerSet* controler1(model->addControlerSet(new TestControlerSet(model.get()))) ;
@@ -841,9 +841,9 @@ namespace ProjetUnivers {
         std::auto_ptr<Model> model(new Model()) ;
 
         //// fill the model
-        Object* object = model->createObject("o1") ;
-        model->addTrait(object,new Derived1()) ;
-        model->addTrait(object,new Derived2()) ;
+        Object* object = model->createObject() ;
+        object->addTrait(new Derived1()) ;
+        object->addTrait(new Derived2()) ;
         
         /// create a controler set
         ControlerSet* controler(model->addControlerSet(new TestControlerSet(model.get()))) ;
@@ -877,10 +877,10 @@ namespace ProjetUnivers {
         model.reset(new Model()) ;
         controler_set->setModel(model.get()) ;
         
-        Object* person = model->createObject("person") ;
-        model->addTrait(person,new Person()) ;
-        Object* head = model->createObject("head",person) ;
-        model->addTrait(head,new Head()) ;
+        Object* person = model->createObject() ;
+        person->addTrait(new Person()) ;
+        Object* head = person->createObject() ;
+        head->addTrait(new Head()) ;
 
         /// check the controlers are initialised
         Trait* persontrait = person->getTrait<Person>() ;
@@ -906,8 +906,8 @@ namespace ProjetUnivers {
         /// init the viewpoint
         controler_set->init() ;
         
-        Object* person = model->createObject("person") ;
-        model->addTrait(person,new Person()) ;
+        Object* person = model->createObject() ;
+        person->addTrait(new Person()) ;
 
         /// check the views are initialised
         Trait* persontrait = person->getTrait<Person>() ;

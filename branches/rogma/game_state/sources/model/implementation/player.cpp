@@ -23,5 +23,23 @@
 namespace ProjetUnivers {
   namespace Model {
   
+    Player::Player()
+    {}
+
+    void Player::connect(Kernel::Object* player,Kernel::Object* configuration)
+    {
+      Player* player_trait = player->getTrait<Player>() ;
+      if (player_trait)
+      {
+        player_trait->m_configuration = configuration ;
+        player_trait->notify() ;
+      }
+    }
+    
+    Kernel::Object* Player::getConfiguration() const
+    {
+      return m_configuration ;
+    }
+    
   }
 }

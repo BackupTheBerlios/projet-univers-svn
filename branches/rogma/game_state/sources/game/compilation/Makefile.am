@@ -1,12 +1,18 @@
 lib_LTLIBRARIES = libgame.la
 
+AUTOMAKE_OPTIONS=subdir-objects
+
 SOURCES = $(top_srcdir)/sources
 INCLUDES = -I$(SOURCES)
 AM_CXXFLAGS=$(PU_CXXFLAGS)
 
 libgame_la_SOURCES = \
-$(SOURCES)/game/implementation/game.cpp \
-$(SOURCES)/game/implementation/game_state.cpp 
+../implementation/game.cpp \
+../implementation/game_state.cpp \
+../implementation/game_with_lifetime.cpp \
+../implementation/controler/game_controler_set.cpp \
+../implementation/controler/game_state.cpp
+
 
 libgame_la_LDFLAGS = -no-undefined
 libgame_la_LDFLAGS += \
@@ -34,8 +40,8 @@ TESTS = test_game
 check_PROGRAMS = $(TESTS)
 
 test_game_SOURCES = \
-$(SOURCES)/game/test/test_game.cpp \
-$(SOURCES)/game/test/test_game_state.cpp 
+../test/test_game.cpp \
+../test/test_game_state.cpp 
 
 test_game_CXXFLAGS = $(PU_CXXFLAGS) 
 test_game_LDADD = \

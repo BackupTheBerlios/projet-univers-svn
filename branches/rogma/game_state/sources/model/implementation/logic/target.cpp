@@ -108,7 +108,7 @@ namespace ProjetUnivers {
           // if no ideal target create
           if (! m_ideal_target)
           {
-            m_ideal_target = model->createObject(getObject()) ;
+            m_ideal_target = getObject()->createObject() ;
             m_ideal_target->addTrait(new Positionned()) ;
             m_ideal_target->addTrait(new IdealTarget(getObject()->getTrait<ComputerData>()->getComputer())) ;
           }

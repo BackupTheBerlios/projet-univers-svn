@@ -68,7 +68,7 @@ namespace ProjetUnivers {
         model->init() ;
         
         /// should be a PhysicalWorld
-        Kernel::Object* system = model->createObject("system") ;
+        Kernel::Object* system = model->createObject() ;
         CPPUNIT_ASSERT(system->getTrait<Model::PhysicalWorld>()) ;
 
         Kernel::Object* ship = system->createObject() ;
@@ -82,8 +82,8 @@ namespace ProjetUnivers {
         CPPUNIT_ASSERT(ship->getTrait<Model::Solid>()) ;
         CPPUNIT_ASSERT(ship->getTrait<Model::PhysicalWorld>()) ;
         
-        Kernel::Object* dragger = model->createObject("dragger",ship) ;
-        model->addTrait(dragger,new Model::Dragger(1)) ;
+        Kernel::Object* dragger = ship->createObject() ;
+        dragger->addTrait(new Model::Dragger(1)) ;
         
         Model::Mobile* mobile = ship->getTrait<Model::Mobile>() ;
         CPPUNIT_ASSERT(mobile) ;

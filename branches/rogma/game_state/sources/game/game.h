@@ -39,15 +39,30 @@ namespace ProjetUnivers {
       void run() ;
       
       /// Add a new game state.
-      void addState(GameState*) ;
+      GameState* addState(GameState*) ;
       
       /// Destroy all states.
       ~Game() ;
       
     private:
+
+      /// Make a state inactive.
+      void removeActiveState(GameState*) ;
+     
+      /// Make a state active.
+      void addActiveState(GameState*) ;
       
       /// Component game states.
       std::set<GameState*> m_states ;
+      
+      /// Active states.
+      std::set<GameState*> m_active_states ;
+      
+      /// Temporary data : stores addition/removal of states during a run.
+      std::set<GameState*> m_active_states_addition ;
+      std::set<GameState*> m_active_states_removal ;
+      
+      friend class GameState ;
     };
       
     

@@ -48,18 +48,6 @@ namespace ProjetUnivers {
       return "PU::Kernel::Name" + toString(next_number++) ;
     }
 
-    Object* Model::getObject(const std::string& name)
-    {
-      if (m_objects_dictionnary.find(name)!= m_objects_dictionnary.end())
-      {
-        return m_objects_dictionnary[name] ;
-      }
-      else
-      {
-        return NULL ;
-      }
-    }
-
     Object* Model::getObject(const int& identifier) const
     {
       std::map<int,Object*>::const_iterator finder 
@@ -74,59 +62,23 @@ namespace ProjetUnivers {
       }
     }
 
-    Object* Model::createObject(const std::string& name) 
-    {
-      if (m_objects_dictionnary.find(name) == m_objects_dictionnary.end())
-      {
-        Object* result = new Object(this,name) ;
-        m_objects.insert(result) ;
-        m_objects_dictionnary[name] = result ;
-        m_objects_by_identifier[result->getIdentifier()] = result ;
-        DeducedTrait::evaluateInitial(result) ;
-        return result ;
-      }
-      return NULL ;
-    }
-      
-    /// Creates a new Object with name.
-    Object* Model::createObject(const std::string& name,
-                                Object* parent)
-    {
-      CHECK(parent,"Model::createObject no parent") ;
-      
-      if (m_objects_dictionnary.find(name) == m_objects_dictionnary.end())
-      {
-        Object* result = new Object(this,name) ;
-        parent->_add(result) ;
-        m_objects_dictionnary[name] = result ;
-        m_objects_by_identifier[result->getIdentifier()] = result ;
-        DeducedTrait::evaluateInitial(result) ;
-        return result ;
-      }
-      
-      return NULL ;
-      
-    }
-
     Object* Model::createObject() 
     {
-      return createObject(getUniqueName()) ;
+      Object* result = new Object(this) ;
+      m_objects.insert(result) ;
+      m_objects_by_identifier[result->getIdentifier()] = result ;
+      DeducedTrait::evaluateInitial(result) ;
+      return result ;
     }
       
     /// Creates a new Object with name.
     Object* Model::createObject(Object* parent)
     {
-      return createObject(getUniqueName(),parent) ;
-    }
-
-    /// Destroy an Object of given name.
-    void Model::destroyObject(const std::string& name)
-    {
-      Object* object = getObject(name) ;
-      if (object)
-      {
-        destroyObject(object) ;
-      }
+      Object* result = new Object(this) ;
+      parent->_add(result) ;
+      m_objects_by_identifier[result->getIdentifier()] = result ;
+      DeducedTrait::evaluateInitial(result) ;
+      return result ;
     }
 
     /// Destroy a given Object.
@@ -137,7 +89,6 @@ namespace ProjetUnivers {
       
       object->_close() ;
 
-      m_objects_dictionnary.erase(object->getName()) ;
       m_objects_by_identifier.erase(object->getIdentifier()) ;
       
       if (object->getParent() == NULL)
@@ -210,6 +161,16 @@ namespace ProjetUnivers {
       {
         (*reference)->_setModel(NULL) ;
       }
+
+      /// 1. close all controler sets
+      InternalMessage("Kernel","Kernel::Model::~Model closing controler sets") ;
+      for(std::set<ControlerSet*>::iterator controler_set = m_controler_sets.begin() ;
+          controler_set != m_controler_sets.end() ;
+          ++controler_set)
+      {
+        (*controler_set)->close() ;
+        delete (*controler_set) ;
+      }
       
       /// 1. close all view points
       InternalMessage("Kernel","Kernel::Model::~Model closing viewpoints") ;
@@ -219,16 +180,6 @@ namespace ProjetUnivers {
       {
         (*viewpoint)->close() ;
         delete *viewpoint ;
-      }
-      
-      /// 1. close all controler sets
-      InternalMessage("Kernel","Kernel::Model::~Model closing controler sets") ;
-      for(std::set<ControlerSet*>::iterator controler_set = m_controler_sets.begin() ;
-          controler_set != m_controler_sets.end() ;
-          ++controler_set)
-      {
-        (*controler_set)->close() ;
-        delete (*controler_set) ;
       }
       
       /// 2. destroy m_objects 
@@ -379,6 +330,14 @@ namespace ProjetUnivers {
     void Model::init()
     {
       ViewPoint::buildRegistered(this) ;
+      const std::set<Kernel::ViewPoint*>& viewpoints = getViewPoints() ;
+      for(std::set<Kernel::ViewPoint*>::const_iterator viewpoint = viewpoints.begin() ;
+          viewpoint != viewpoints.end() ;
+          ++viewpoint)
+      {
+        (*viewpoint)->init() ;
+      }
+
       ControlerSet::buildRegistered(this) ;
       const std::set<Kernel::ControlerSet*>& controlersets = getControlerSets() ;
       for(std::set<Kernel::ControlerSet*>::const_iterator controlerset = controlersets.begin() ;
@@ -387,16 +346,30 @@ namespace ProjetUnivers {
       {
         (*controlerset)->init() ;
       }
+    }
+
+    void Model::close()
+    {
+      ViewPoint::buildRegistered(this) ;
+      ControlerSet::buildRegistered(this) ;
+      const std::set<Kernel::ControlerSet*>& controlersets = getControlerSets() ;
+      for(std::set<Kernel::ControlerSet*>::const_iterator controlerset = controlersets.begin() ;
+          controlerset != controlersets.end() ;
+          ++controlerset)
+      {
+        (*controlerset)->close() ;
+      }
 
       const std::set<Kernel::ViewPoint*>& viewpoints = getViewPoints() ;
       for(std::set<Kernel::ViewPoint*>::const_iterator viewpoint = viewpoints.begin() ;
           viewpoint != viewpoints.end() ;
           ++viewpoint)
       {
-        (*viewpoint)->init() ;
+        (*viewpoint)->close() ;
       }
     }
 
+    
     void Model::update(const float& seconds)
     {
       // first update controler sets then viewpoints

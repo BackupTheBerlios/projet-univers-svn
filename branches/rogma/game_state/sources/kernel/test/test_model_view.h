@@ -76,9 +76,6 @@ namespace ProjetUnivers {
         /// Tests creating, destroying then recreating an object.
         void testCreateTwice() ;
 
-        /// Tests destroying an unexisting object.
-        void testDestroyUnexisting() ;
-
         /// Tests closing viewpoint.
         void testCloseViewPoint() ;
 
@@ -163,7 +160,6 @@ namespace ProjetUnivers {
         CPPUNIT_TEST(testUpdate) ;
         CPPUNIT_TEST(testViewAccess) ;
         CPPUNIT_TEST(testCreateTwice) ;
-        CPPUNIT_TEST(testDestroyUnexisting) ;
         CPPUNIT_TEST(testCloseViewPoint) ;
         CPPUNIT_TEST(testNotPresentTrait) ;
         CPPUNIT_TEST(testDestroyModel) ;

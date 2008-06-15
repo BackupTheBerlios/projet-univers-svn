@@ -75,10 +75,10 @@ namespace ProjetUnivers {
         std::auto_ptr<Model> model(new Model()) ;
         model->init() ;
         
-        CPPUNIT_ASSERT(model->getViewPoints().size() == 1) ;
+        CPPUNIT_ASSERT(model->getViewPoint<TestViewPoint>()) ;
         CPPUNIT_ASSERT(TestViewPoint::number_of_instances == 1) ;
         
-        CPPUNIT_ASSERT(model->getControlerSets().size() == 1) ;
+        CPPUNIT_ASSERT(model->getControlerSet<TestControlerSet>()) ;
         CPPUNIT_ASSERT(TestControlerSet::number_of_instances == 1) ;
       }
       

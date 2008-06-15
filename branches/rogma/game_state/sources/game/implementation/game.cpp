@@ -39,20 +39,33 @@ namespace ProjetUnivers {
         {
           timer.reset() ;
           exist_active_state = false ;
-          for(std::set<GameState*>::const_iterator state = m_states.begin() ;
-              state != m_states.end() ;
+          
+          m_active_states_addition.clear() ;
+          m_active_states_removal.clear() ;
+          
+          for(std::set<GameState*>::const_iterator state = m_active_states.begin() ;
+              state != m_active_states.end() ;
               ++state)
           {
             (*state)->update(seconds) ;
-            exist_active_state |= (*state)->isActive() ;
+            exist_active_state = true  ;
           }
+          
+          m_active_states.erase(m_active_states_removal.begin(),
+                                m_active_states_removal.end()) ;
+          
+          m_active_states.insert(m_active_states_addition.begin(),
+                                 m_active_states_addition.end()) ; 
+                    
         }
       }
     }
     
-    void Game::addState(GameState* state)
+    GameState* Game::addState(GameState* state)
     {
       m_states.insert(state) ;
+      state->setGame(this) ;
+      return state ;
     }
     
     Game::~Game()
@@ -63,6 +76,16 @@ namespace ProjetUnivers {
       {
         delete *state ;
       }
+    }
+
+    void Game::removeActiveState(GameState* state)
+    {
+      m_active_states_addition.insert(state) ;
+    }
+   
+    void Game::addActiveState(GameState* state)
+    {
+      m_active_states_removal.insert(state) ;
     }
     
   }

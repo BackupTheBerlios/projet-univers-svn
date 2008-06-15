@@ -30,86 +30,22 @@ namespace ProjetUnivers {
   namespace Input {
     namespace Implementation {
 
-      namespace
+      bool Joystick::buttonPressed(const OIS::JoyStickEvent& event,int button)
       {
-        /// local data
-        const int max = 100 ;
-        const int maximum_X = max ;
-        const int maximum_Y = max ;
-        const float pi = 3.1415926535 ;
-      }
-
-      bool Joystick::buttonPressed(
-        const OIS::JoyStickEvent& event,
-        int                       button)
-      {
-        if (Kernel::Parameters::getValue<bool>("Input","PrintButtons"))
-        {
-          std::cout << "button pressed =" << button << std::endl ;
-        }
-        if (m_controled_object)
-        {
-          switch (button)
-          {
-          case 0:
-            m_controled_object->call("fire") ;
-            break ;
-          default:
-            break ;
-          }
-        }
+        m_events.insert(Model::PlayerConfiguration::InputEvent::joystickButton(button)) ;
         return true ;
       }
       
-      bool Joystick::buttonReleased(const OIS::JoyStickEvent&,int)
+      bool Joystick::buttonReleased(const OIS::JoyStickEvent& event,int button)
       {
+        m_events.erase(Model::PlayerConfiguration::InputEvent::joystickButton(button)) ;
         return true ;
       }
       
-      /*!
-      @todo 
-        configuration depends of joystick
-        I do not know how we can determine mapping between axix numbers
-        and X/Y/Z ?
-        
-        
-      */ 
-      bool Joystick::axisMoved(const OIS::JoyStickEvent& event,int i_axis)
+      bool Joystick::axisMoved(const OIS::JoyStickEvent& event,int axis)
       {
-        if (m_controled_object)
-        {
-
-          if (Kernel::Parameters::getValue<bool>("Input","PrintAxes"))
-          {
-            std::cout << "axis number " << i_axis << "=" << event.state.mAxes[i_axis].abs
-                      << std::endl ;          
-          }
-
-          if (i_axis == Kernel::Parameters::getValue<float>("Input","XAxis"))
-          {
-            X = 100 * event.state.mAxes[i_axis].abs / OIS::JoyStick::MAX_AXIS ;
-            InternalMessage("Input","set_axis_X") ;
-            m_controled_object->call("set_axis_X",X) ;
-          } 
-          else if (i_axis == Kernel::Parameters::getValue<float>("Input","YAxis"))
-          {
-            Y = - 100 * event.state.mAxes[i_axis].abs / OIS::JoyStick::MAX_AXIS ;
-            InternalMessage("Input","set_axis_Y") ;
-            m_controled_object->call("set_axis_Y",Y) ;
-          }
-          else if (i_axis == Kernel::Parameters::getValue<float>("Input","ZAxis"))
-          {
-            Z = - 100 * event.state.mAxes[i_axis].abs / OIS::JoyStick::MAX_AXIS ; 
-            InternalMessage("Input","set_axis_Z") ;
-            m_controled_object->call("set_axis_Z",Z) ;
-          }
-          else if (i_axis == Kernel::Parameters::getValue<float>("Input","ThrottelAxis"))
-          {
-            m_throttle = 50 + 50 * -event.state.mAxes[i_axis].abs / OIS::JoyStick::MAX_AXIS ;
-            m_controled_object->call("set_throttle",m_throttle) ;
-          }
-
-        }
+        m_axes[Model::PlayerConfiguration::InputAxis::joystickAxis(axis)] = 
+          float(event.state.mAxes[axis].abs) / OIS::JoyStick::MAX_AXIS ;
         return true ;
       }
       
@@ -123,29 +59,9 @@ namespace ProjetUnivers {
         return true ;
       }
 
-      Joystick::Joystick(::OIS::JoyStick* i_joystick,const float& i_sensibility)
-      : m_time_delay(0.0),
-        m_controled_object(NULL),
-        m_sensibility(i_sensibility),
-        X(0),
-        Y(0),
-        Z(0),
-        m_throttle(0),
-        m_joystick(i_joystick)
+      Joystick::Joystick(const float& sensibility)
+      : m_sensibility(sensibility)
       {}
-      
-      Joystick::~Joystick()
-      {}
-      
-      void Joystick::setTimeDelay(const float& i_seconds)
-      {
-        m_time_delay = i_seconds ;
-      }
-      
-      void Joystick::setControledObject(Kernel::Object* i_object)
-      {
-        m_controled_object = i_object ;
-      }
     }
   }
 }

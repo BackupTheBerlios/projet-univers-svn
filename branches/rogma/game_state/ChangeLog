@@ -632,6 +632,8 @@
 
 2008-06-xx rogma
 
+  * All :
+    - added 'make doxygen-doc' for doxygen documentation generation 
   * Kernel :
     - added RegisterViewPoint and RegisterControlerSet : the idea is to declare 
       "global" viewpoints and controler sets such as Display, Sound, Physic, ...
@@ -640,14 +642,24 @@
     - added Object interface for adding sub-objects, traits ... no need to go 
       through Model anymore
     - viewpoints and controlers are destroyed when associated model is
+    - removing of old dated interface
+    - viewpoints are initialised first and destroyed last (a quite bad hack for 
+      intialising Display before Input)
+    - Bug correction : valgrind reported memory errors on tests (deduce traits)
+      initial evaluation of formulae accessed to Trait validity whereas Trait 
+      validity is not stored into the validity vector of object
   * Game
     - initial creation
     - GameState represents splash screen, menu, and game 
+    - added basic controler for quitting game state, transition to other state
   * Model :
     - added Player trait 
     - removed testDemonstration because it is quite obsolete
     - adapted tests to new system, removed all call to Model::init(), 
       Model::update(), Model:close()
+    - added PlayerConfiguration trait to store input/command mapping
+    - added CustomMission to represent configurable melee
+    - added GameState to be able to quit
   * Display :
     - modified construction of display viewpoint, Observer is obtained by 
       searching Player + Observer trait
@@ -667,20 +679,19 @@
     - modified construction of controler set, no observer needed.
     - adapted tests to new system, removed all calls to init(), update(), 
       close() of modules
+  * Input :
+    - changed input to a controler set
+    - made a controler on Player using PlayerConfiguration to get 'key'/command 
+      mapping
+    - added basic tests
     
 @todo :
 
   * All : 
-    - remove building of viewpoints, use automatic building instead
     - use Game state for demo
     - add Game controler and trait for handling team respawn ...
-  * Kernel :
-    - viewpoints and controler sets are part of their model
-  
-  * ArtificialIntelligence : 
      
   * Model : 
-
     - Event traits like Collision, Shot should be implemented through 
       WithLifetime with a life time of zero
          
@@ -756,7 +767,7 @@
     - add Shot sound
     
   * Kernel :
-  
+    
     - add better errors on object structure
     
     - add an onDeduced event on deduced traits : it would allow one to perform 

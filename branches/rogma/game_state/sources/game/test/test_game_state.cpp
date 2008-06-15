@@ -20,6 +20,9 @@
  ***************************************************************************/
 #include <iostream>
 
+#include <model/game_state.h>
+#include <model/with_lifetime.h>
+
 #include <game/game.h>
 #include <game/game_state.h>
 #include <game/test/test_game_state.h>
@@ -41,9 +44,33 @@ namespace ProjetUnivers {
 
       void TestGameState::twoStateGame()
       {
+        /*
+          A game with two states : 
+          a welcome during 2 seconds
+          a goodbye during 2 seconds
+        */
         Game game ;
-        game.addState(new GameState("welcome")) ;
-        game.addState(new GameState("goodbye")) ;
+        GameState* welcome = game.addState(new GameState("welcome")) ;
+        Kernel::Model* welcome_model = welcome->getModel() ;
+
+        {
+          Kernel::Object* element = welcome_model->createObject() ;
+          element->addTrait(new Model::GameState()) ;
+          element->addTrait(new Model::WithLifetime(Model::Duration::Second(2))) ;
+        }
+        
+        GameState* goodbye = game.addState(new GameState("goodbye")) ;
+        Kernel::Model* goodbye_model = goodbye->getModel() ;
+
+        {
+          Kernel::Object* element = goodbye_model->createObject() ;
+          element->addTrait(new Model::GameState()) ;
+          element->addTrait(new Model::WithLifetime(Model::Duration::Second(2))) ;
+        }
+        
+        welcome->setNextState(goodbye) ;
+        welcome->activate() ;
+        game.run() ;
       }
       
       void TestGameState::setUp()

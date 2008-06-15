@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007 Mathieu ROGER                                      *
+ *   Copyright (C) 2007-2008 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -23,61 +23,43 @@
 
 #include <OIS/OISMouse.h>
 #include <model/oriented.h>
+#include <input/implementation/input_object.h>
 
 namespace ProjetUnivers {
   namespace Input {
     namespace Implementation {
 
       /// Handle mouse.
-      /*!
-        Mouse can be attached 
-        - to a Model::Oriented it will then control its orientation, usefull 
-          for both stick control by mouse or third person view (like 
-          controling an observer orientation)
-             
-        - on a cursor, for 
-      */
-      class Mouse : public OIS::MouseListener
+      class Mouse : public OIS::MouseListener, public InputObject
       {
       public:
       
         /// Constructor.
         Mouse(const float& i_sensibility = 0.1) ;  
         
-        void setTimeDelay(const float& i_seconds) ;
-        
-        void setControledObject(Model::Oriented*) ;
-        
       /*!
         @name Interface implementation
       */
       // @{
       
-        virtual bool mouseMoved(const OIS::MouseEvent &arg) ;
-        virtual bool mousePressed(const OIS::MouseEvent &arg, 
-                                  OIS::MouseButtonID id) ;
-        virtual bool mouseReleased(const OIS::MouseEvent &arg,
-                                   OIS::MouseButtonID id) ;
+        virtual bool mouseMoved(const OIS::MouseEvent&) ;
+        virtual bool mousePressed(const OIS::MouseEvent&,OIS::MouseButtonID) ;
+        virtual bool mouseReleased(const OIS::MouseEvent&,OIS::MouseButtonID) ;
 
       // @}
         
-        /// Destructor.
-        virtual ~Mouse() ;
       private:
-        
-        /// Time (in seconds) since last frame.
-        float m_time_delay ;
-        
-        /// This mouse control the orientation of an object.
-        Model::Oriented* m_controled_object ;
+
+        /// Numbering for mouse axes.
+        enum MouseAxis
+        {
+          X = 0,
+          Y = 1,
+          Z = 2 
+        };
         
         /// Mouse sensibility.
         float m_sensibility ;
-        
-        /// X/Y coordinates within [-100,100].
-        int X ;
-        int Y ;        
-        
         
       };
     }

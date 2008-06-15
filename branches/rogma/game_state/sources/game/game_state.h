@@ -28,6 +28,8 @@
 namespace ProjetUnivers {
   namespace Game {
     
+    class Game ;
+    
     /// Represents a game state.
     /*!
       @see http://gamedevgeek.com/tutorials/managing-game-states-in-c/
@@ -39,29 +41,42 @@ namespace ProjetUnivers {
       /// Constructs
       GameState(const std::string& name) ;
     
+      /// Set the GameState activated after desactivation.
+      void setNextState(GameState*) ;
+      
       /// Load a scene in the associated model.
       void load(const std::string& scene_name) ;
       
       /// Make the state active.
       void activate() ;
       
-      /// Make the state in-active.
+      /// Make the state inactive.
       void desactivate() ;
       
-      /// True if the state is active.
-      bool isActive() const ;
-
+      /// Access to model.
+      Kernel::Model* getModel() const ;
+      
       /// Update the state during @c seconds.
       void update(const float& seconds) ;
       
     private:  
     
+      void setGame(Game* game) ;
+      
       std::string m_name ;
       
+      /// True iff active
       bool m_is_active ;
+      
+      /// State activated after this close.
+      GameState* m_next_state ;
+      
+      Game* m_game ;
       
       /// Store the state.
       std::auto_ptr<Kernel::Model> m_model ;
+      
+      friend class Game ;
     };
     
   }

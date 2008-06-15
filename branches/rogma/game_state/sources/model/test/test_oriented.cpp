@@ -36,7 +36,7 @@ namespace ProjetUnivers {
       {
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestOriented::testGetOrientation1")) ;
         Kernel::Object* root = model->createObject() ;
-        model->addTrait(root,new Oriented(Ogre::Quaternion(1,0,0,0))) ;
+        root->addTrait(new Oriented(Ogre::Quaternion(1,0,0,0))) ;
         
         Kernel::Object* object1 = root->createObject() ;
         object1->addTrait(new Oriented(Ogre::Quaternion(0,1,0,0))) ;

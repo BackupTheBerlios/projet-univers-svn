@@ -91,9 +91,6 @@ namespace ProjetUnivers {
       @name Access methods
     */
     //@{
-    
-      /// Get object's name.
-      std::string getName() const ;
 
       /// Get object's identifier.
       int getIdentifier() const ;
@@ -212,7 +209,7 @@ namespace ProjetUnivers {
     private:
 
       /// Constructor.
-      Object(Model* i_model,const std::string& i_name = "") ;
+      Object(Model* i_model) ;
 
       /// Destructs the objects and the traits.
       ~Object() ;
@@ -332,9 +329,6 @@ namespace ProjetUnivers {
     */    
     // @{
     
-      /// Object name @deprecated
-      std::string                      name ;
-      
       /// Is the current object is deleting
       bool                             m_deleting ;
       

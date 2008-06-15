@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007 Mathieu ROGER                                      *
+ *   Copyright (C) 2007-2008 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -23,39 +23,25 @@
 
 #include <OIS/OISKeyboard.h>
 #include <kernel/object.h>
+#include <input/implementation/input_object.h>
 
 namespace ProjetUnivers {
   namespace Input {
-
     namespace Implementation {
 
       /// Keyboard event handler.
-      /*!
-  
-      */
-      class Keyboard : public OIS::KeyListener
+      class Keyboard : public OIS::KeyListener, public InputObject
       {
       public:
       
         /// Contructor.
         Keyboard() ;  
-        
-        /// Change the model object that receive the commands.         
-        void setControledObject(Kernel::Object*) ;
 
         /// Called when a key is pressed.
         virtual bool keyPressed(const OIS::KeyEvent &e) ;    
   
         /// Called when a key is released.
         virtual bool keyReleased(const OIS::KeyEvent &e) ;
-
-        /// Destruct.
-        virtual ~Keyboard() ;
-      
-      private:
-
-        Kernel::Object* m_controled_object ;
-
       };
     }
   }

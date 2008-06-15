@@ -29,23 +29,7 @@ namespace ProjetUnivers {
   /*!
   */
   namespace Input {
-   
-    /// Intitialize.
-    void init() ;
-   
-    /// Terminate.
-    void close() ;
     
-    /// Build an input system relative to @c i_object.
-    void build(Kernel::Object* i_object) ;
-    
-    
-    /// Capture input and update. 
-    /*!
-      @param[in] i_seconds time in seconds since last frame. 
-    */
-    void update(const float& i_seconds) ;
-   
     
   }
 }

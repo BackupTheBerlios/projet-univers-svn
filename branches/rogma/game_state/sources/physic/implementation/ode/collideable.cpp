@@ -19,6 +19,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include <kernel/log.h>
+#include <kernel/string.h>
 
 #include <physic/implementation/ode/physical_world.h>
 #include <physic/implementation/ode/physical_object.h>
@@ -49,7 +50,7 @@ namespace ProjetUnivers {
         void Collideable::onInitCollideable()
         {
           InternalMessage("Physic","Physic::Implementation::Ode::Collideable::onInitCollideable entering "
-                          + getControler()->getObject()->getName()) ;
+                          + Kernel::toString(getControler()->getObject()->getIdentifier())) ;
           
           /*
             We need the parent physical object and parent physical world 

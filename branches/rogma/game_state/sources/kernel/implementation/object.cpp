@@ -78,11 +78,6 @@ namespace ProjetUnivers {
         getModel()->destroyTrait(this,trait) ;
     }
     
-    std::string Object::getName() const
-    {
-      return name ;
-    }
-
     int Object::getIdentifier() const
     {
       return m_identifier ;
@@ -141,6 +136,11 @@ namespace ProjetUnivers {
       CHECK(Formula::getNumberOfFormulae() <= m_validities.size(),
             "Object::getValidity not enought place") ;
 
+      if (i_formula->getIdentifier() < 0)
+      {
+        InternalMessage("Kernel","getting validity of a trait formula") ;
+      }
+      
       return m_validities[i_formula->getIdentifier()] ; 
     }
     
@@ -149,6 +149,12 @@ namespace ProjetUnivers {
       CHECK(Formula::getNumberOfFormulae() <= m_validities.size(),
             "Object::setValidity not enought place") ;
 
+      if (i_formula->getIdentifier() >= m_validities.size())
+      {
+        // error
+        std::cout << "error" << std::endl << i_formula->print() ;
+      }
+      
       m_validities[i_formula->getIdentifier()] = i_validity ;
     }
 
@@ -179,15 +185,16 @@ namespace ProjetUnivers {
   // @{
   
 
-    Object::Object(Model* i_model,const std::string& i_name)
-    : name(i_name),
-      m_deleting(false),
+    Object::Object(Model* i_model)
+    : m_deleting(false),
       m_identifier(next_identifier++),
       m_parent(NULL),
       m_model(i_model),
       m_validities(Formula::getNumberOfFormulae()),
       m_number_of_true_child_formulae(Formula::getNumberOfFormulae())
-    {}
+    {
+      InternalMessage("Kernel","Formula::getNumberOfFormulae()=" + toString(Formula::getNumberOfFormulae())) ;
+    }
 
     void Object::_add(Trait* i_trait)
     {
@@ -205,7 +212,7 @@ namespace ProjetUnivers {
 
       /// erreur si l'objet a déjà une facette de ce type là
       CHECK(traits.find(trait_name)==traits.end(), 
-            "trait already exists") ;
+            "trait " + trait_name.toString() + " already exists") ;
 
 //      InternalMessage("Kernel","Registering :") ;
 //      InternalMessage("Kernel",trait_name.toString()) ;

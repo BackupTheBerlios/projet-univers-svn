@@ -29,12 +29,28 @@ namespace ProjetUnivers {
             
       /// Test of Detector.
       class TestTarget : public CppUnit::TestFixture {
+      public:
+  
+      // @}
+      /*! 
+        @name Mandatory methods
+      */
+      // @{
+
+      
+        /// Test init
+        void setUp() ;
+      
+        /// Test close
+        void tearDown() ;
+      
       protected:
       
         
-      // ****************************
-      /// @name Tests 
-      // ****************************
+      // @}      
+      /*! 
+        @name Tests
+      */ 
       // @{
         
         /// Basic test.
@@ -44,9 +60,9 @@ namespace ProjetUnivers {
         void testCalculateRotation() ;
         
       // @}
-      // *******************************
-      /// @name Test registration
-      // *******************************
+      /*!
+        @name Test registration
+      */
       // @{      
     
         CPPUNIT_TEST_SUITE(TestTarget) ;
@@ -55,26 +71,7 @@ namespace ProjetUnivers {
         CPPUNIT_TEST(testCalculateRotation) ;
       
         CPPUNIT_TEST_SUITE_END() ;
-
-      public:
-  
-      // @}
-      // *******************************
-      /// @name Mandatory methods
-      // *******************************
-      // @{
-
-      
-        /// Initialisation du test
-        void setUp() ;
-      
-        /// Desinitialisation du test
-        void tearDown() ;
-      
       // @}      
-                
-       
-      
       };
 
     }

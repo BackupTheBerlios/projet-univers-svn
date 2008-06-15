@@ -21,6 +21,7 @@
 #include <ode/ode.h>
 
 #include <kernel/log.h>
+#include <kernel/string.h>
 #include <kernel/trait_view.h>
 
 #include <model/physical_world.h>
@@ -54,10 +55,10 @@ namespace ProjetUnivers {
           {
             Ogre::Vector3 torque(getTrait()->NewtonMeter()) ;
             InternalMessage("Physic","Physic::TorqueGenerator::prepare " +
-                            getObject()->getName() + " torque = " +  
-                                          Kernel::toString(torque.x) + "," + 
-                                          Kernel::toString(torque.y) + "," +
-                                          Kernel::toString(torque.z)) ;
+                                      Kernel::toString(getObject()->getIdentifier()) + " torque = " +  
+                                      Kernel::toString(torque.x) + "," + 
+                                      Kernel::toString(torque.y) + "," +
+                                      Kernel::toString(torque.z)) ;
              
             m_object->getBody()->addTorque(torque.x,
                                            torque.y,
@@ -90,9 +91,6 @@ namespace ProjetUnivers {
 
           if (physical_object)
           {
-//            InformationMessage("Physic",getObject()->getName() +  " has physical object : " 
-//                               + physical_object->getObject()->getName()) ; 
-            
             return physical_object->getControler<PhysicalObject>(getControlerSet()) ;
           }           
           return NULL ;

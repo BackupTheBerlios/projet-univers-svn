@@ -21,6 +21,8 @@
 #ifndef PU_MODEL_PLAYER_H_
 #define PU_MODEL_PLAYER_H_
 
+#include <kernel/object.h>
+#include <kernel/object_reference.h>
 #include <kernel/trait.h>
 
 namespace ProjetUnivers {
@@ -28,7 +30,24 @@ namespace ProjetUnivers {
   
     /// Indicate that the object is the player.
     class Player : public Kernel::Trait
-    {};
+    {
+    public:
+      
+      /// Construction.
+      Player() ;
+      
+      /// Relate a player to its configuration.
+      static void connect(Kernel::Object* player,Kernel::Object* configuration) ;
+      
+      /// Access to configuration.
+      Kernel::Object* getConfiguration() const ;
+    
+    private:
+      
+      /// Player configuration.
+      Kernel::ObjectReference m_configuration ;
+      
+    };
         
   }
 }

@@ -35,6 +35,21 @@ namespace ProjetUnivers {
       
       return NULL ;
     }
+
+    template <class T> T* Model::getViewPoint() const
+    {
+      for(std::set<ViewPoint*>::const_iterator 
+            viewpoint = m_viewpoints.begin() ;
+          viewpoint != m_viewpoints.end() ;
+          ++viewpoint)
+      {
+        T* temp = dynamic_cast<T*>(*viewpoint) ;
+        if (temp)
+          return temp ;
+      }
+      
+      return NULL ;
+    }
     
   }
 }

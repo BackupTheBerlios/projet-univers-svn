@@ -152,11 +152,11 @@ namespace ProjetUnivers {
         std::auto_ptr<Model> model(new Model()) ;
                                     
         //// fill the model
-        Object* object = model->createObject("object") ;
+        Object* object = model->createObject() ;
         
         {
           Trait1* trait = new Trait1() ;
-          model->addTrait(object,trait) ;
+          object->addTrait(trait) ;
           
           CPPUNIT_ASSERT(object->call("axis1",10)) ;
           CPPUNIT_ASSERT(trait->getValue()==10) ;
@@ -168,7 +168,7 @@ namespace ProjetUnivers {
         
         {
           Trait2* trait = new Trait2() ;
-          model->addTrait(object,trait) ;
+          object->addTrait(trait) ;
           
           CPPUNIT_ASSERT(! trait->isPushed()) ;
           CPPUNIT_ASSERT(object->call("push")) ;
@@ -192,15 +192,15 @@ namespace ProjetUnivers {
         std::auto_ptr<Model> model(new Model()) ;
                                     
         //// fill the model
-        Object* object = model->createObject("object") ;
+        Object* object = model->createObject() ;
         Trait1* trait1 = new Trait1() ;
-        model->addTrait(object,trait1) ;
+        object->addTrait(trait1) ;
         Trait2* trait2 = new Trait2() ;
-        model->addTrait(object,trait2) ;
+        object->addTrait(trait2) ;
         
-        Object* object2 = model->createObject("object2") ;
+        Object* object2 = model->createObject() ;
         CommandDelegator* delegator = new CommandDelegator() ;
-        model->addTrait(object2,delegator) ;
+        object2->addTrait(delegator) ;
         
         delegator->addDelegate(object) ;
         
@@ -229,15 +229,15 @@ namespace ProjetUnivers {
         //// fill the model
         Object* object1 = model->createObject() ;
         Trait1* trait1 = new Trait1() ;
-        model->addTrait(object1,trait1) ;
+        object1->addTrait(trait1) ;
         
         Object* object3 = model->createObject() ;
         Trait2* trait2 = new Trait2() ;
-        model->addTrait(object3,trait2) ;
+        object3->addTrait(trait2) ;
         
-        Object* object = model->createObject("object") ;
+        Object* object = model->createObject() ;
         CommandDelegator* delegator = new CommandDelegator() ;
-        model->addTrait(object,delegator) ;
+        object->addTrait(delegator) ;
         
         delegator->addDelegate(object1) ;
         delegator->addDelegate(object3) ;
@@ -265,16 +265,16 @@ namespace ProjetUnivers {
         std::auto_ptr<Model> model(new Model()) ;
                                     
         //// fill the model
-        Object* object = model->createObject("object") ;
+        Object* object = model->createObject() ;
         Trait1* trait1 = new Trait1() ;
-        model->addTrait(object,trait1) ;
+        object->addTrait(trait1) ;
         CPPUNIT_ASSERT(object->callFunction<int>("function1") == 0);        
         
         object->getTrait<Trait1>()->change(10) ;
         CPPUNIT_ASSERT(object->callFunction<int>("function1") == 10);        
         
-        model->addTrait(object,new Trait2()) ;
-        model->destroyTrait(object,trait1) ;
+        object->addTrait(new Trait2()) ;
+        object->destroyTrait(trait1) ;
         
         object->getTrait<Trait2>()->change(50) ;
         CPPUNIT_ASSERT(object->callFunction<int>("function1") == 50);        
@@ -293,7 +293,7 @@ namespace ProjetUnivers {
         std::auto_ptr<Model> model(new Model()) ;
 
         //// fill the model
-        Object* object = model->createObject("object") ;
+        Object* object = model->createObject() ;
         
         /// test unexisting function
         try
@@ -339,13 +339,13 @@ namespace ProjetUnivers {
         std::auto_ptr<Model> model(new Model()) ;
 
         // fill the model
-        Object* object = model->createObject("object") ;
+        Object* object = model->createObject() ;
         Trait1* trait1 = new Trait1() ;
-        model->addTrait(object,trait1) ;
+        object->addTrait(trait1) ;
 
-        Object* object2 = model->createObject(object) ;
-        model->addTrait(object2,new Trait2()) ;
-        model->addTrait(object2,new Trait3()) ;
+        Object* object2 = object->createObject() ;
+        object2->addTrait(new Trait2()) ;
+        object2->addTrait(new Trait3()) ;
         
         CPPUNIT_ASSERT(! object->call("unexisting function")) ;
         InternalMessage(
@@ -363,13 +363,13 @@ namespace ProjetUnivers {
           std::auto_ptr<Model> model(new Model()) ;
   
           // fill the model
-          Object* object = model->createObject("object") ;
+          Object* object = model->createObject() ;
           Trait1* trait1 = new Trait1() ;
-          model->addTrait(object,trait1) ;
+          object->addTrait(trait1) ;
   
-          Object* object2 = model->createObject(object) ;
-          model->addTrait(object2,new CommandDelegator()) ;
-          model->addTrait(object2,new Trait3()) ;
+          Object* object2 = object->createObject() ;
+          object2->addTrait(new CommandDelegator()) ;
+          object2->addTrait(new Trait3()) ;
           object2->getTrait<CommandDelegator>()->addDelegate(object) ;
           
           CPPUNIT_ASSERT(! object->call("unexisting function")) ;

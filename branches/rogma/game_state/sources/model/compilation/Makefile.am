@@ -36,6 +36,7 @@ libmodel_la_SOURCES = \
 ../implementation/physical_object.cpp \
 ../implementation/physical_world.cpp \
 ../implementation/player.cpp \
+../implementation/player_configuration.cpp \
 ../implementation/position.cpp \
 ../implementation/positionned.cpp \
 ../implementation/solid.cpp \
@@ -74,6 +75,8 @@ libmodel_la_SOURCES = \
 ../implementation/shootable.cpp \
 ../implementation/sized.cpp \
 ../implementation/team.cpp \
+../implementation/custom_mission.cpp \
+../implementation/game_state.cpp \
 ../implementation/logic/logic.cpp \
 ../implementation/logic/with_lifetime.cpp \
 ../implementation/logic/logic_system.cpp \
