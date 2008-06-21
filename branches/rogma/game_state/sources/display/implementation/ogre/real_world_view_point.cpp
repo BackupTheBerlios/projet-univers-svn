@@ -104,8 +104,6 @@ namespace ProjetUnivers {
 
           getWindow()->removeViewport(0) ;
           
-          Implementation::Ogre::close() ;
-          
           InternalMessage("Display","RealWorldViewPoint::onClose Leaving") ;
         }
 

@@ -658,13 +658,16 @@
     - adapted tests to new system, removed all call to Model::init(), 
       Model::update(), Model:close()
     - added PlayerConfiguration trait to store input/command mapping
-    - added CustomMission to represent configurable melee
+    - added CustomMission to represent configurable melee (still beta)
     - added GameState to be able to quit
   * Display :
     - modified construction of display viewpoint, Observer is obtained by 
       searching Player + Observer trait
     - adapted tests to new system, removed all calls to init(), update(), 
       close() of modules
+    - modified Ogre intialisation : Ogre is initialised on the first display 
+      viewpoint initialisation, and closed either at demand or at the end of 
+      the program.  
   * Physic :
     - modified construction of controler set, no observer needed.
     - corrected a bug on PhysicalObject : initial value of m_being_updated was 
@@ -683,10 +686,24 @@
     - changed input to a controler set
     - made a controler on Player using PlayerConfiguration to get 'key'/command 
       mapping
+    - added GameState controler : always quit on escape key
     - added basic tests
     
 @todo :
 
+  * make a splash screen
+  * find a way to preload ressources as needed (some ressources may appear 
+    during game like explosions, lasers) some ressources are known like 
+    ships...
+  * add a pause game state (does not close the system but does not update, but 
+    how to collect inputs in that case ???)
+  * make a loading bar : create a ressource loading queue (inspire from 
+    Ogre::ResourceBackgroundQueue that is not by default on ogre package)  
+  * quit works only if contructed model satisfy a complex structure : bug prone
+  * Game : always build a GameState root object, remove getModel and return 
+    this root object
+   
+  
   * All : 
     - use Game state for demo
     - add Game controler and trait for handling team respawn ...
@@ -740,7 +757,6 @@
     
   * Input :
     - be able to map any axis on anything
-    - be able to map keys to actions 
   
   * Action :
     - get rid of it ?? the only applied action for now is "quit", it could be 

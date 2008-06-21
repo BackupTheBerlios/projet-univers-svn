@@ -204,7 +204,7 @@ namespace ProjetUnivers {
       m_viewpoints.insert(viewpoint) ;
 
       InternalMessage("Kernel",
-        (std::string("Model::_register") + typeid(*viewpoint).name()).c_str()) ;
+          (std::string("Model::_register") + typeid(*viewpoint).name()).c_str()) ;
 
       for(std::set<Object*>::iterator object = m_objects.begin() ;
           object != m_objects.end() ;
@@ -350,9 +350,7 @@ namespace ProjetUnivers {
 
     void Model::close()
     {
-      ViewPoint::buildRegistered(this) ;
-      ControlerSet::buildRegistered(this) ;
-      const std::set<Kernel::ControlerSet*>& controlersets = getControlerSets() ;
+      std::set<Kernel::ControlerSet*> controlersets = getControlerSets() ;
       for(std::set<Kernel::ControlerSet*>::const_iterator controlerset = controlersets.begin() ;
           controlerset != controlersets.end() ;
           ++controlerset)
@@ -360,7 +358,8 @@ namespace ProjetUnivers {
         (*controlerset)->close() ;
       }
 
-      const std::set<Kernel::ViewPoint*>& viewpoints = getViewPoints() ;
+      std::set<Kernel::ViewPoint*> viewpoints = getViewPoints() ;
+      InternalMessage("Kernel","Model::close has " + toString(viewpoints.size()) + " viewpoints") ;
       for(std::set<Kernel::ViewPoint*>::const_iterator viewpoint = viewpoints.begin() ;
           viewpoint != viewpoints.end() ;
           ++viewpoint)
@@ -368,7 +367,6 @@ namespace ProjetUnivers {
         (*viewpoint)->close() ;
       }
     }
-
     
     void Model::update(const float& seconds)
     {

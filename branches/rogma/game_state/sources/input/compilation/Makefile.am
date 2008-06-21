@@ -7,6 +7,7 @@ INCLUDES = -I$(SOURCES)
 AM_CXXFLAGS=$(PU_CXXFLAGS)
 
 libinput_la_SOURCES = \
+$(SOURCES)/input/implementation/game_state.cpp \
 $(SOURCES)/input/implementation/input.cpp \
 $(SOURCES)/input/implementation/input_controler_set.cpp \
 $(SOURCES)/input/implementation/input_object.cpp \
@@ -32,6 +33,7 @@ check_PROGRAMS = $(TESTS)
 
 test_input_SOURCES = \
 ../test/test_input.cpp \
+../test/test_input_system.cpp \
 ../test/test_player_configuration.cpp
 
 test_input_CXXFLAGS = $(PU_CXXFLAGS) $(CPPUNIT_CFLAGS)

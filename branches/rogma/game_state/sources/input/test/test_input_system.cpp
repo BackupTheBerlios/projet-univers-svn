@@ -18,39 +18,45 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <kernel/log.h>
-#include <game/implementation/controler/game_state.h>
+#include <OIS/OIS.h>
+#include <display/implementation/ogre/ogre.h>
+#include <input/implementation/input_internal.h>
+#include <input/test/test_input_system.h>
+
+
+CPPUNIT_TEST_SUITE_REGISTRATION(ProjetUnivers::
+                                Input::
+                                Test::
+                                TestInputSystem) ;
 
 namespace ProjetUnivers {
-  namespace Game {
-    namespace Implementation {
-      namespace Controler {
+  namespace Input {
+    namespace Test {
       
-        RegisterControler(GameState,
-                          Model::GameState,
-                          GameControlerSet) ;
-        
-        GameState::GameState(Model::GameState* state,GameControlerSet* system)
-        : Kernel::Controler<Model::GameState,GameControlerSet>(state,system)
-        {}
       
-        void GameState::onClose()
-        {
-          getControlerSet()->quit() ;
-        }
+      void TestInputSystem::severalInitClose()
+      {
+        InternalMessage("Input","Input::TestInputSystem::severalInitClose entering") ;
+
+        Display::Implementation::Ogre::init(false) ;
+        Input::init() ;
+        Input::close() ;
+        Input::init() ;
+        Input::close() ;
+        Display::Implementation::Ogre::close() ;
         
-        void GameState::onUpdate() 
-        {
-          InternalMessage("Game","GameState::onUpdate updating") ;
-          if (getTrait()->isQuit())
-          {
-            InternalMessage("Game","GameState::onUpdate quiting") ;
-            getControlerSet()->quit() ;
-          }
-          InternalMessage("Game","GameState::onUpdate updated") ;
-        }
-        
+        InternalMessage("Input","Input::TestInputSystem::severalInitClose leaving") ;
       }
+
+      void TestInputSystem::setUp() 
+      {
+      }
+      
+      void TestInputSystem::tearDown() 
+      {
+      }
+
     }
   }
 }
+

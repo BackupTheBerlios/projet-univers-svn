@@ -53,6 +53,9 @@ namespace ProjetUnivers {
       /// Make the state inactive.
       void desactivate() ;
       
+      /// Init the model.
+      void init() ;
+      
       /// Access to model.
       Kernel::Model* getModel() const ;
       

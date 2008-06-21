@@ -46,7 +46,7 @@ namespace ProjetUnivers {
   {
 
     /// Load a model from disk.
-    void load(const std::string& name,Kernel::Model* model) ;
+    void load(const std::string& name,Kernel::Object* parent) ;
     
     /// Load and init external ressources.
     void initRessources() ;

@@ -47,12 +47,7 @@ namespace ProjetUnivers {
     : m_initialised(false),
       m_model_attached(model),
       m_model(model)
-    {
-      if (m_model)
-      {
-        m_model->_register(this) ;
-      }      
-    }
+    {}
 
     void ViewPoint::init()
     {
@@ -78,7 +73,8 @@ namespace ProjetUnivers {
 
     void ViewPoint::close()
     {
-      InternalMessage("Kernel","ViewPoint::close Entering") ;
+      InternalMessage("Kernel",std::string("ViewPoint::close Entering ") + 
+                               typeid(*this).name()) ;
       if (m_initialised && m_model)
       {
         /// must close all the objects according to current viewpoint
@@ -164,7 +160,8 @@ namespace ProjetUnivers {
           builder != StaticStorage::get()->m_viewpoint_builders.end() ;
           ++builder)
       {
-        (*builder)(model) ;
+        ViewPoint* viewpoint = (*builder)(model) ;
+        model->_register(viewpoint) ;
       }
     }
     

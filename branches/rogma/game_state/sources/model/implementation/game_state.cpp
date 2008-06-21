@@ -23,6 +23,8 @@
 namespace ProjetUnivers {
   namespace Model {
     
+    RegisterCommand("quit",GameState,quit) ;
+    
     GameState::GameState()
     : m_quit(false)
     {}

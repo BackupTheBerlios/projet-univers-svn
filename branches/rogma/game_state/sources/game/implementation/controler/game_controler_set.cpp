@@ -25,6 +25,8 @@ namespace ProjetUnivers {
     namespace Implementation {
       namespace Controler {
         
+        RegisterControlerSet(GameControlerSet) ;
+        
         GameControlerSet::GameControlerSet(Kernel::Model* model)
         : Kernel::ControlerSet(model),
           m_game_state(NULL)

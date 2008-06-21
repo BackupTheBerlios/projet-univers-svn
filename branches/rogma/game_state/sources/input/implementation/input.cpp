@@ -97,6 +97,7 @@ namespace ProjetUnivers {
    
     void init()
     {
+      InternalMessage("Input","initialising ois") ;
       
       if (ois.get())
       {
@@ -150,12 +151,18 @@ namespace ProjetUnivers {
     
     void close()
     {
-      ois.reset(NULL) ;
+      InternalMessage("Input","closing ois") ;
+      ois.reset() ;
     }
-        
+
     void update()
     {
       /// capture all system objects
+      if (!ois.get())
+      {
+        ErrorMessage("Input::update no ois system") ;
+        return ;
+      }
       if (ois->keyboard)
         ois->keyboard->capture() ;
       if (ois->joystick)
@@ -212,7 +219,10 @@ namespace ProjetUnivers {
       {
         std::string command = configuration->getCommand(*event) ;
         if (!command.empty())
+        {
+          InternalMessage("Input","applying " + command) ;
           object->call(command) ;
+        }
       }
 
       for(std::set<Model::PlayerConfiguration::InputEvent>::const_iterator 

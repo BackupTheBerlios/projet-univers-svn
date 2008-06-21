@@ -65,6 +65,8 @@
 #include <model/implementation/logic/logic.h>
 #include <model/team.h>
 #include <model/player.h>
+#include <model/player_configuration.h>
+#include <model/game_state.h>
 
 #include <model/model.h>
 
@@ -87,14 +89,14 @@ namespace ProjetUnivers {
 
   // @}
     
-    void load(const std::string& name,Kernel::Model* model)
+    void load(const std::string& name,Kernel::Object* parent)
     {
      
       if (name == "TestDemonstration")
       {
         /// 1. Construction d'un univers
         InternalMessage("Model","building Universe...") ;
-        Kernel::Object* universe = model->createObject() ;
+        Kernel::Object* universe = parent->createObject() ;
         
         /// ses facettes
         universe->addTrait(new Universe()) ;
@@ -257,7 +259,7 @@ namespace ProjetUnivers {
       }
       else if (name == "TestMenu")
       {
-        Kernel::Object* universe = model->createObject() ;
+        Kernel::Object* universe = parent->createObject() ;
         
         /// ses facettes
         universe->addTrait(new Menu("ProjetUnivers.layout")) ;
@@ -279,6 +281,12 @@ namespace ProjetUnivers {
       }
       else if (name == "TestPilot")
       {
+        Kernel::Object* gamestate = parent->createObject() ;
+        // input player config...
+        gamestate->addTrait(new PlayerConfiguration()) ;
+        gamestate->getTrait<PlayerConfiguration>()
+                 ->addMapping(PlayerConfiguration::InputEvent::key(OIS::KC_F),"fire") ;
+        
         Kernel::Object* universe = model->createObject() ;
         universe->addTrait(new Universe()) ;
         universe->addTrait(new Positionned()) ;
@@ -329,7 +337,6 @@ namespace ProjetUnivers {
           ship->addTrait(new TargetDisplayer()) ;
           TargetDisplayer::connect(ship,ship) ;
           ship->getTrait<Positionned>()->setPosition(Position::Meter(0,-500,0)) ;
-//          ship->getTrait<Oriented>()->setOrientation(Orientation(Ogre::Quaternion(Ogre::Degree(180),Ogre::Vector3::UNIT_Y))) ;
           
           Kernel::Object* player = ship->createObject() ;
           player->addTrait(new Positionned()) ;
@@ -338,6 +345,7 @@ namespace ProjetUnivers {
           player->addTrait(new Observer()) ;
           player->addTrait(new Kernel::CommandDelegator()) ;
           player->getTrait<Kernel::CommandDelegator>()->addDelegate(ship) ;
+          Player::connect(player,gamestate) ;
         }
       }
       else

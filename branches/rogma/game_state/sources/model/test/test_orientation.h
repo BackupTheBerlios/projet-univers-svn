@@ -44,6 +44,9 @@ namespace ProjetUnivers {
         /// Test that applyance of orientation is made in the correct order.  
         void composeOrientation() ;
         
+        /// Forward is negative local z axis.
+        void localZAxis() ;
+        
       // @}
       /*!
         @name Test registration
@@ -54,6 +57,7 @@ namespace ProjetUnivers {
       
         CPPUNIT_TEST(rigthHandedAntiClockWise) ;
         CPPUNIT_TEST(composeOrientation) ;
+        CPPUNIT_TEST(localZAxis) ;
 
         CPPUNIT_TEST_SUITE_END() ;
       

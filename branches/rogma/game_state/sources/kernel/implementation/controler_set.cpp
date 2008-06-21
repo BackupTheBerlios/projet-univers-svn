@@ -110,12 +110,7 @@ namespace ProjetUnivers {
     ControlerSet::ControlerSet(Model* model)
     : m_model(model),
       m_initialised(false)
-    {
-      if (m_model)
-      {
-        m_model->_register(this) ;
-      }      
-    }
+    {}
     
     bool ControlerSet::isVisible(Object* i_object) const
     {
@@ -167,7 +162,8 @@ namespace ProjetUnivers {
           builder != StaticStorage::get()->m_controler_set_builders.end() ;
           ++builder)
       {
-        (*builder)(model) ;
+        ControlerSet* controlerset = (*builder)(model) ;
+        model->_register(controlerset) ;
       }
     }
     

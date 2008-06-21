@@ -19,38 +19,37 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include <kernel/log.h>
-#include <game/implementation/controler/game_state.h>
+#include <model/player_configuration.h>
+#include <input/implementation/keyboard.h>
+#include <input/implementation/input_internal.h>
+#include <input/implementation/game_state.h>
 
 namespace ProjetUnivers {
-  namespace Game {
+  namespace Input {
     namespace Implementation {
-      namespace Controler {
       
-        RegisterControler(GameState,
-                          Model::GameState,
-                          GameControlerSet) ;
+      RegisterControler(GameState,Model::GameState,InputControlerSet) ;
+
+      GameState::GameState(Model::GameState* player,InputControlerSet* input)
+      : Kernel::Controler<Model::GameState,InputControlerSet>(player,input)
+      {}
         
-        GameState::GameState(Model::GameState* state,GameControlerSet* system)
-        : Kernel::Controler<Model::GameState,GameControlerSet>(state,system)
-        {}
-      
-        void GameState::onClose()
+      void GameState::simulate(const float& seconds)
+      {
+        InternalMessage("Input","GameState::simulate entering") ;
+        // intended hard coded behaviour : escape produces quit
+        
+        const std::set<Model::PlayerConfiguration::InputEvent>& events = 
+          getKeyboard()->getEvents() ;
+        if (events.find(Model::PlayerConfiguration::InputEvent::key(OIS::KC_ESCAPE)) !=
+            events.end())
         {
-          getControlerSet()->quit() ;
+          getObject()->call("quit") ;
         }
         
-        void GameState::onUpdate() 
-        {
-          InternalMessage("Game","GameState::onUpdate updating") ;
-          if (getTrait()->isQuit())
-          {
-            InternalMessage("Game","GameState::onUpdate quiting") ;
-            getControlerSet()->quit() ;
-          }
-          InternalMessage("Game","GameState::onUpdate updated") ;
-        }
-        
+        InternalMessage("Input","GameState::simulate leaving") ;
       }
+      
     }
   }
 }

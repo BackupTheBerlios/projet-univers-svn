@@ -24,6 +24,7 @@
 #include <model/model.h>
 
 #include <game/game.h>
+#include <game/implementation/controler/game_controler_set.h>
 #include <game/game_state.h>
 
 namespace ProjetUnivers {
@@ -39,7 +40,7 @@ namespace ProjetUnivers {
   
     void GameState::setNextState(GameState* state)
     {
-      m_next_state ;
+      m_next_state = state ;
     }
     
     void GameState::setGame(Game* game)
@@ -51,7 +52,6 @@ namespace ProjetUnivers {
     {
       if (!m_is_active)
       {
-        m_model->init() ;
         m_is_active = true ;
         
         if (m_game)
@@ -59,22 +59,30 @@ namespace ProjetUnivers {
       }
     }
     
+    void GameState::init()
+    {
+      m_model->init() ;
+      m_model->getControlerSet<Implementation::Controler::GameControlerSet>()
+             ->setGameState(this) ;
+    }
+    
     void GameState::desactivate()
     {
+      InternalMessage("Game","GameState::desactivate entering") ;
       if (m_is_active)
       {
-        m_model->close() ;
-        m_is_active = false ;
-        
         if (m_game)
           m_game->removeActiveState(this) ;
         
+        InternalMessage("Game","GameState::desactivate removed from game") ;
         if (m_next_state)
         {
+          InternalMessage("Game","GameState::desactivate activivating next state") ;
           m_next_state->activate() ;
         }
         
       }
+      InternalMessage("Game","GameState::desactivate leaving") ;
     }
     
     void GameState::load(const std::string& scene_name)

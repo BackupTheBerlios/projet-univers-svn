@@ -49,13 +49,16 @@ namespace ProjetUnivers {
         /// A two state game : splash screen wecome and spash screen goodby.
         void twoStateGame() ;
         
+        void demonstration() ;
+        
       // @}
 
 
         CPPUNIT_TEST_SUITE(TestGameState) ;
 
-        CPPUNIT_TEST(basicTest) ;
+//        CPPUNIT_TEST(basicTest) ;
         CPPUNIT_TEST(twoStateGame) ;
+//        CPPUNIT_TEST(demonstration) ;
 
         CPPUNIT_TEST_SUITE_END() ;
 

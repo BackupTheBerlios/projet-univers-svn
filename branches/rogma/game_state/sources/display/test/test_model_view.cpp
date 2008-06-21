@@ -300,7 +300,6 @@ namespace ProjetUnivers {
       
       void TestModelView::setUp() 
       {
-        Model::closeRessources() ;
       }
       
       void TestModelView::tearDown() 

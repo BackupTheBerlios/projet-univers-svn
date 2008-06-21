@@ -18,39 +18,60 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <kernel/log.h>
-#include <game/implementation/controler/game_state.h>
+#ifndef PU_INPUT_TEST_INPUT_SYSTEM_H_
+#define PU_INPUT_TEST_INPUT_SYSTEM_H_
+
+#include <cppunit/extensions/HelperMacros.h>
 
 namespace ProjetUnivers {
-  namespace Game {
-    namespace Implementation {
-      namespace Controler {
+  namespace Input {
+    namespace Test {
+            
+      /// Gobal testing of input system.
+      class TestInputSystem : public CppUnit::TestFixture 
+      {
+      public:
+  
+      // @}
+      /*! 
+        @name Mandatory methods
+      */
+      // @{
       
-        RegisterControler(GameState,
-                          Model::GameState,
-                          GameControlerSet) ;
-        
-        GameState::GameState(Model::GameState* state,GameControlerSet* system)
-        : Kernel::Controler<Model::GameState,GameControlerSet>(state,system)
-        {}
+        /// Test init
+        void setUp() ;
       
-        void GameState::onClose()
-        {
-          getControlerSet()->quit() ;
-        }
+        /// Test close
+        void tearDown() ;
+      
+      protected:
+      
         
-        void GameState::onUpdate() 
-        {
-          InternalMessage("Game","GameState::onUpdate updating") ;
-          if (getTrait()->isQuit())
-          {
-            InternalMessage("Game","GameState::onUpdate quiting") ;
-            getControlerSet()->quit() ;
-          }
-          InternalMessage("Game","GameState::onUpdate updated") ;
-        }
+      // @}      
+      /*! 
+        @name Tests
+      */ 
+      // @{
         
-      }
+        /// Init and close the system several times.
+        void severalInitClose() ;
+
+      // @}
+      /*!
+        @name Test registration
+      */
+      // @{      
+    
+        CPPUNIT_TEST_SUITE(TestInputSystem) ;
+      
+        CPPUNIT_TEST(severalInitClose) ;
+      
+        CPPUNIT_TEST_SUITE_END() ;
+      // @}      
+      };
+
     }
   }
 }
+
+#endif /*PU_INPUT_TEST_INPUT_SYSTEM_H_*/

@@ -18,39 +18,31 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <kernel/log.h>
-#include <game/implementation/controler/game_state.h>
+#ifndef PU_INPUT_IMPLEMENTATION_GAME_STATE_H_
+#define PU_INPUT_IMPLEMENTATION_GAME_STATE_H_
+
+#include <kernel/controler.h>
+#include <model/game_state.h>
+#include <input/implementation/input_controler_set.h>
 
 namespace ProjetUnivers {
-  namespace Game {
+  namespace Input {
     namespace Implementation {
-      namespace Controler {
       
-        RegisterControler(GameState,
-                          Model::GameState,
-                          GameControlerSet) ;
+      /// GameState input control.
+      class GameState : public Kernel::Controler<Model::GameState,InputControlerSet>
+      {
+      public:
         
-        GameState::GameState(Model::GameState* state,GameControlerSet* system)
-        : Kernel::Controler<Model::GameState,GameControlerSet>(state,system)
-        {}
+        /// Constructor.
+        GameState(Model::GameState*,InputControlerSet*) ;
+        
+        /// Check quit. 
+        virtual void simulate(const float& seconds) ;
+      };
       
-        void GameState::onClose()
-        {
-          getControlerSet()->quit() ;
-        }
-        
-        void GameState::onUpdate() 
-        {
-          InternalMessage("Game","GameState::onUpdate updating") ;
-          if (getTrait()->isQuit())
-          {
-            InternalMessage("Game","GameState::onUpdate quiting") ;
-            getControlerSet()->quit() ;
-          }
-          InternalMessage("Game","GameState::onUpdate updated") ;
-        }
-        
-      }
     }
   }
 }
+
+#endif /*PU_INPUT_IMPLEMENTATION_GAME_STATE_H_*/

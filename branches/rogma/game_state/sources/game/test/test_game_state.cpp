@@ -20,6 +20,9 @@
  ***************************************************************************/
 #include <iostream>
 
+#include <kernel/view_point.h>
+#include <kernel/trait_view.h>
+
 #include <model/game_state.h>
 #include <model/with_lifetime.h>
 
@@ -34,6 +37,49 @@ namespace ProjetUnivers {
   namespace Game {
     namespace Test {
 
+      namespace
+      {
+        /// A viewpoint for testing
+        class TestGameStateViewPoint : public Kernel::ViewPoint
+        {
+        public:
+          
+          TestGameStateViewPoint(Kernel::Model* model)
+          : Kernel::ViewPoint(model)
+          {}
+          
+          static std::list<Kernel::Model*> m_activated_states ;
+          
+        protected:
+          
+          virtual void onInit()
+          {
+            m_activated_states.push_back(getModel()) ;
+          }
+
+          virtual void onClose()
+          {
+            
+          }
+        };
+        
+        std::list<Kernel::Model*> TestGameStateViewPoint::m_activated_states ;
+        
+        RegisterViewPoint(TestGameStateViewPoint) ;
+        
+//        class TestGameState : public Kernel::TraitView<Model::GameState,TestGameStateViewPoint>
+//        {
+//        public:
+//          
+//          TestGameState(Model::GameState* game,TestGameStateViewPoint* viewpoint)
+//          : Kernel::TraitView<Model::GameState,TestGameStateViewPoint>(game,viewpoint)
+//          {}
+//          
+//          virtual void onInit()
+//          
+//        };
+      }
+      
       void TestGameState::basicTest()
       {
         GameState state("level") ;
@@ -70,6 +116,16 @@ namespace ProjetUnivers {
         
         welcome->setNextState(goodbye) ;
         welcome->activate() ;
+        game.run() ;
+        CPPUNIT_ASSERT(TestGameStateViewPoint::m_activated_states.size()==2) ;
+      }
+      
+      void TestGameState::demonstration()
+      {
+        Game game ;
+        GameState* state = game.addState(new GameState("TestPilot")) ;
+        state->load("TestPilot") ;
+        state->activate() ;
         game.run() ;
       }
       

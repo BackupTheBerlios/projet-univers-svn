@@ -18,6 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <kernel/log.h>
 #include <kernel/timer.h>
 #include <game/game_state.h>
 #include <game/game.h>
@@ -25,18 +26,33 @@
 namespace ProjetUnivers {
   namespace Game {
 
+    Game::Game()
+    : m_running(false)
+    {}
+    
     void Game::run()
     {
+      m_running = true ;
       bool exist_active_state = true ;
 
-      Kernel::Timer timer ;
+      InternalMessage("Game","Game::run iniotialisation of starting states") ;
+      for(std::set<GameState*>::const_iterator state = m_active_states.begin() ;
+          state != m_active_states.end() ;
+          ++state)
+      {
+        (*state)->init() ;
+      }
       
+      
+      Kernel::Timer timer ;
       // main loop
+      InternalMessage("Game","Game::run starting main loop") ;
       while (exist_active_state)
       {
         float seconds = timer.getSecond() ;
         if (seconds > 0)
         {
+          InternalMessage("Game","Game::run loop") ;
           timer.reset() ;
           exist_active_state = false ;
           
@@ -47,18 +63,33 @@ namespace ProjetUnivers {
               state != m_active_states.end() ;
               ++state)
           {
+            InternalMessage("Game","Game::run updating active state") ;
+            
             (*state)->update(seconds) ;
             exist_active_state = true  ;
           }
-          
-          m_active_states.erase(m_active_states_removal.begin(),
-                                m_active_states_removal.end()) ;
-          
-          m_active_states.insert(m_active_states_addition.begin(),
-                                 m_active_states_addition.end()) ; 
+          for(std::set<GameState*>::const_iterator state = m_active_states_removal.begin() ;
+              state != m_active_states_removal.end() ;
+              ++state)
+          {
+            InternalMessage("Game","Game::run closing an active state") ;
+            (*state)->getModel()->close() ;
+            m_active_states.erase(*state) ;
+          }
+          for(std::set<GameState*>::const_iterator state = m_active_states_addition.begin() ;
+              state != m_active_states_addition.end() ;
+              ++state)
+          {
+            InternalMessage("Game","Game::run adding an active state") ;
+            (*state)->init() ;
+            m_active_states.insert(*state) ;
+          }
                     
+          InternalMessage("Game","Game::run end loop") ;
         }
       }
+      InternalMessage("Game","Game::run ending") ;
+      m_running = false ;
     }
     
     GameState* Game::addState(GameState* state)
@@ -80,12 +111,15 @@ namespace ProjetUnivers {
 
     void Game::removeActiveState(GameState* state)
     {
-      m_active_states_addition.insert(state) ;
+      m_active_states_removal.insert(state) ;
     }
    
     void Game::addActiveState(GameState* state)
     {
-      m_active_states_removal.insert(state) ;
+      if (! m_running)
+        m_active_states.insert(state) ;
+      else
+        m_active_states_addition.insert(state) ;
     }
     
   }

@@ -35,6 +35,8 @@ namespace ProjetUnivers {
     {
     public:
       
+      Game() ;
+      
       /// Run the game.
       void run() ;
       
@@ -51,6 +53,8 @@ namespace ProjetUnivers {
      
       /// Make a state active.
       void addActiveState(GameState*) ;
+      
+      bool m_running ;
       
       /// Component game states.
       std::set<GameState*> m_states ;
