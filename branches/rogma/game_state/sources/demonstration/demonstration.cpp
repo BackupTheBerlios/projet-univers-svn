@@ -20,16 +20,17 @@
  ***************************************************************************/
 #include <iostream>
 #include <kernel/log.h>
-#include <kernel/object.h>
-#include <kernel/timer.h>
 #include <kernel/parameters.h>
-#include <model/model.h>
+
 #include <model/duration.h>
-#include <display/display.h>
-#include <action/action.h>
-#include <input/input.h>
-#include <physic/physic.h>
-#include <artificial_intelligence/artificial_intelligence.h>
+#include <model/image.h>
+#include <model/observer.h>
+#include <model/player.h>
+#include <model/positionned.h>
+#include <model/with_lifetime.h>
+
+#include <game/game.h>
+#include <game/game_state.h>
 
 using namespace ProjetUnivers ;
 
@@ -59,69 +60,34 @@ int main() {
   Kernel::Log::init() ;
 
   InformationMessage("Demonstration","Demarrage de projet univers") ;
-  Model::init() ;
-  Physic::init() ;
-  Display::init() ;
-  Action::init() ;
+  Game::Game game ;
+  Game::GameState* welcome = game.addState(new Game::GameState("welcome")) ;
+  Kernel::Object* welcome_model = welcome->getRoot() ;
+  welcome_model->addTrait(new Model::WithLifetime(Model::Duration::Second(2))) ;
+  welcome_model->addTrait(new Model::Image("intro.png")) ;
+  
+  Kernel::Object* observer = welcome_model->createObject() ;
+  observer->addTrait(new Model::Observer()) ;
+  observer->addTrait(new Model::Player()) ;
+  observer->addTrait(new Model::Positionned()) ;
   
   InformationMessage("Demonstration","Modules initialisés") ;
 
   std::string model_name(getModelName()) ;
   std::cout << "loading " << model_name << std::endl ;
   
-  Model::load(model_name) ;
+  Game::GameState* gamestate = game.addState(new Game::GameState("game")) ;
+  gamestate->load(getModelName()) ;
 
-  InformationMessage("Demonstration","Model loaded") ;
-  
-  Kernel::Object* observer(Model::getObject("Observer")) ;
-  
-  Display::buildRealWorldViewPoint(observer) ;
-
-  Physic::build(observer) ;
-
-  Input::build(observer) ;
-  Input::init() ;
-
-  ArtificialIntelligence::build(observer) ;
-  ArtificialIntelligence::init() ;
-
-  InternalMessage("Demonstration","Activating Viewpoint") ;
-
-  InformationMessage("Demonstration","Demarrage de la boucle principale") ;
-
-  Kernel::Timer timer ;
-
-  /// main loop
-  while (! Action::finished())
-  {
-    float seconds = timer.getSecond() ;
-    Model::Duration elapsed(Model::Duration::Second(seconds)) ;
-    Input::update(seconds) ;
-    
-    /// ...accuracy problem...
-    if (seconds != 0)
-    {
-      timer.reset() ;
-    }
-    Model::update(elapsed) ;
-    Physic::update(elapsed) ;
-    Action::update() ;
-    ArtificialIntelligence::update(elapsed) ;
-    Display::update() ;
-  }
+  welcome->setNextState(gamestate) ;
+  welcome->activate() ;
+  game.run() ;
 
   InformationMessage("Demonstration","Sortie de la boucle principale") ;
     
   /// sortie
-  ArtificialIntelligence::close() ;
-  Input::close() ;
-  Action::close() ;
-  Display::close() ;
-  Physic::close() ;
-  Model::close() ;
   InformationMessage("Demonstration","Modules desinitialisés") ;
   Kernel::Log::close() ;
   
   return 0 ;
-  
 }

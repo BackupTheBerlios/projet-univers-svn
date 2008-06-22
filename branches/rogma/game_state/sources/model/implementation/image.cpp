@@ -18,77 +18,19 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_GAME_GAME_STATE_H_
-#define PU_GAME_GAME_STATE_H_
-
-#include <memory>
-#include <string>
-#include <kernel/model.h>
+#include <model/image.h>
 
 namespace ProjetUnivers {
-  namespace Game {
+  namespace Model {
     
-    class Game ;
+    Image::Image(const std::string& name)
+    : m_name(name)
+    {}
     
-    /// Represents a game state.
-    /*!
-      @see http://gamedevgeek.com/tutorials/managing-game-states-in-c/
-    */
-    class GameState
+    const std::string& Image::getName() const
     {
-    public:
-      
-      /// Constructs
-      GameState(const std::string& name) ;
-    
-      /// Set the GameState activated after desactivation.
-      void setNextState(GameState*) ;
-      
-      /// Load a scene in the associated model.
-      void load(const std::string& scene_name) ;
-      
-      /// Make the state active.
-      void activate() ;
-      
-      /// Make the state inactive.
-      void desactivate() ;
-      
-      /// Init the model.
-      void init() ;
-      
-      /// Close the model.
-      void close() ;
-      
-      /// Access to root object that is a game state.
-      Kernel::Object* getRoot() const ;
-      
-      /// Update the state during @c seconds.
-      void update(const float& seconds) ;
-      
-    private:  
-    
-      void setGame(Game* game) ;
-      
-      std::string m_name ;
-      
-      /// True iff active
-      bool m_is_active ;
-      
-      /// State activated after this close.
-      GameState* m_next_state ;
-      
-      Game* m_game ;
-      
-      /// Store the state.
-      std::auto_ptr<Kernel::Model> m_model ;
-      
-      /// Object with game state.
-      Kernel::Object* m_root ;
-      
-      friend class Game ;
-    };
+      return m_name ;
+    }
     
   }
 }
-
-#endif /*PU_GAME_GAME_STATE_H_*/

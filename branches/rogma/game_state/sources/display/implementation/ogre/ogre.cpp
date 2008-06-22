@@ -224,6 +224,11 @@ namespace ProjetUnivers {
           return m_system->CEGUIRenderer ;
         }
         
+        ::CEGUI::System* getCEGUISystem()
+        {
+          return m_system->CEGUISystem ;
+        }
+        
         ::Ogre::Overlay* getOverlay()
         {
           // on demand create

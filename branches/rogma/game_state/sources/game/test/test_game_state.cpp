@@ -67,17 +67,6 @@ namespace ProjetUnivers {
         
         RegisterViewPoint(TestGameStateViewPoint) ;
         
-//        class TestGameState : public Kernel::TraitView<Model::GameState,TestGameStateViewPoint>
-//        {
-//        public:
-//          
-//          TestGameState(Model::GameState* game,TestGameStateViewPoint* viewpoint)
-//          : Kernel::TraitView<Model::GameState,TestGameStateViewPoint>(game,viewpoint)
-//          {}
-//          
-//          virtual void onInit()
-//          
-//        };
       }
       
       void TestGameState::basicTest()
@@ -85,11 +74,15 @@ namespace ProjetUnivers {
         GameState state("level") ;
         state.load("TestDemonstration") ;
         state.activate() ;
+        state.init() ;
         state.update(0.1) ;
       }
 
       void TestGameState::twoStateGame()
       {
+        
+        TestGameStateViewPoint::m_activated_states.clear() ;
+        
         /*
           A game with two states : 
           a welcome during 2 seconds
@@ -97,22 +90,12 @@ namespace ProjetUnivers {
         */
         Game game ;
         GameState* welcome = game.addState(new GameState("welcome")) ;
-        Kernel::Model* welcome_model = welcome->getModel() ;
-
-        {
-          Kernel::Object* element = welcome_model->createObject() ;
-          element->addTrait(new Model::GameState()) ;
-          element->addTrait(new Model::WithLifetime(Model::Duration::Second(2))) ;
-        }
+        Kernel::Object* welcome_model = welcome->getRoot() ;
+        welcome_model->addTrait(new Model::WithLifetime(Model::Duration::Second(2))) ;
         
         GameState* goodbye = game.addState(new GameState("goodbye")) ;
-        Kernel::Model* goodbye_model = goodbye->getModel() ;
-
-        {
-          Kernel::Object* element = goodbye_model->createObject() ;
-          element->addTrait(new Model::GameState()) ;
-          element->addTrait(new Model::WithLifetime(Model::Duration::Second(2))) ;
-        }
+        Kernel::Object* goodbye_model = goodbye->getRoot() ;
+        goodbye_model->addTrait(new Model::WithLifetime(Model::Duration::Second(2))) ;
         
         welcome->setNextState(goodbye) ;
         welcome->activate() ;

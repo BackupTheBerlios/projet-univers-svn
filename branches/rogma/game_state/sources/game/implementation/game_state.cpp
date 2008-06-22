@@ -21,6 +21,7 @@
 #include <kernel/view_point.h>
 #include <kernel/controler_set.h>
 
+#include <model/game_state.h>
 #include <model/model.h>
 
 #include <game/game.h>
@@ -35,8 +36,12 @@ namespace ProjetUnivers {
       m_is_active(false),
       m_next_state(NULL),
       m_game(NULL),
-      m_model(new Kernel::Model(name))
-    {}
+      m_model(new Kernel::Model(name)),
+      m_root(NULL)
+    {
+      m_root = m_model->createObject() ;
+      m_root->addTrait(new Model::GameState()) ;
+    }
   
     void GameState::setNextState(GameState* state)
     {
@@ -65,7 +70,12 @@ namespace ProjetUnivers {
       m_model->getControlerSet<Implementation::Controler::GameControlerSet>()
              ->setGameState(this) ;
     }
-    
+
+    void GameState::close()
+    {
+      m_model->close() ;
+    }
+
     void GameState::desactivate()
     {
       InternalMessage("Game","GameState::desactivate entering") ;
@@ -87,7 +97,7 @@ namespace ProjetUnivers {
     
     void GameState::load(const std::string& scene_name)
     {
-      Model::load(scene_name,m_model.get()) ;
+      Model::load(scene_name,m_root) ;
     }
     
     void GameState::update(const float& seconds)
@@ -98,9 +108,9 @@ namespace ProjetUnivers {
       }
     }
     
-    Kernel::Model* GameState::getModel() const
+    Kernel::Object* GameState::getRoot() const
     {
-      return m_model.get() ;
+      return m_root ;
     }
     
   }

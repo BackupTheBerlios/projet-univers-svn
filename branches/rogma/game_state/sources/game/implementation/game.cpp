@@ -73,7 +73,7 @@ namespace ProjetUnivers {
               ++state)
           {
             InternalMessage("Game","Game::run closing an active state") ;
-            (*state)->getModel()->close() ;
+            (*state)->close() ;
             m_active_states.erase(*state) ;
           }
           for(std::set<GameState*>::const_iterator state = m_active_states_addition.begin() ;

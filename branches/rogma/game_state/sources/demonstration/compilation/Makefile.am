@@ -17,6 +17,7 @@ $(SOURCES)/action/compilation/libaction.la \
 $(SOURCES)/physic/compilation/libphysic.la \
 $(SOURCES)/physic/compilation/ode/libphysicode.la \
 $(SOURCES)/artificial_intelligence/compilation/libai.la \
+$(SOURCES)/game/compilation/libgame.la \
 $(OIS_LIBS) \
 $(librlog_LIBS) \
 $(OGRE_LIBS) \

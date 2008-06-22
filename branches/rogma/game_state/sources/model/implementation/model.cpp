@@ -121,9 +121,9 @@ namespace ProjetUnivers {
         InternalMessage("Model","building planet done") ;
 
         // 2 teams
-        Kernel::Object* team1 = model->createObject() ;
+        Kernel::Object* team1 = parent->createObject() ;
         team1->addTrait(new Team("team1")) ;
-        Kernel::Object* team2 = model->createObject() ;
+        Kernel::Object* team2 = parent->createObject() ;
         team2->addTrait(new Team("team2")) ;
         
         
@@ -287,7 +287,7 @@ namespace ProjetUnivers {
         gamestate->getTrait<PlayerConfiguration>()
                  ->addMapping(PlayerConfiguration::InputEvent::key(OIS::KC_F),"fire") ;
         
-        Kernel::Object* universe = model->createObject() ;
+        Kernel::Object* universe = parent->createObject() ;
         universe->addTrait(new Universe()) ;
         universe->addTrait(new Positionned()) ;
 
@@ -296,9 +296,9 @@ namespace ProjetUnivers {
         system->addTrait(new Positionned()) ;
 
         // 2 teams
-        Kernel::Object* team1 = model->createObject() ;
+        Kernel::Object* team1 = parent->createObject() ;
         team1->addTrait(new Team("team1")) ;
-        Kernel::Object* team2 = model->createObject() ;
+        Kernel::Object* team2 = parent->createObject() ;
         team2->addTrait(new Team("team2")) ;
 
         {
@@ -348,11 +348,13 @@ namespace ProjetUnivers {
           Player::connect(player,gamestate) ;
         }
       }
-      else
-      {
-        std::auto_ptr<Kernel::XMLReader> reader(Kernel::XMLReader::getFileReader(name)) ;
-        reader->read(model) ;
-      }            
+      /// @todo
+      
+//      else
+//      {
+//        std::auto_ptr<Kernel::XMLReader> reader(Kernel::XMLReader::getFileReader(name)) ;
+//        reader->read(model) ;
+//      }            
     }
 
     void initRessources()

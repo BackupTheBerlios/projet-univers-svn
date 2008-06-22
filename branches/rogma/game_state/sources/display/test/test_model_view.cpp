@@ -37,6 +37,7 @@
 #include <model/targeting_system.h>
 #include <model/computer.h>
 #include <model/ideal_target.h>
+#include <model/image.h>
 
 #include <display/display.h>
 #include <display/implementation/space_dust.h>
@@ -296,6 +297,39 @@ namespace ProjetUnivers {
         }        
         
         InternalMessage("Display","Display::TestModelView::spaceDust leaving") ;
+      }
+      
+      void TestModelView::displayImage()
+      {
+        InternalMessage("Display","Display::TestModelView::displayImage entering") ;
+        
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestModelView::displayImage")) ;
+        model->init() ;
+        
+        Kernel::Object* universe = model->createObject() ;
+        universe->addTrait(new Model::Image("intro.png")) ;
+        
+        Kernel::Object* observer = model->createObject() ;
+        observer->addTrait(new Model::Observer()) ;
+        observer->addTrait(new Model::Player()) ;
+        observer->addTrait(new Model::Positionned()) ;
+        
+        
+        Kernel::Timer timer ;
+        Kernel::Timer global_timer ;
+        
+        while (global_timer.getSecond() < 3)
+        {
+          float seconds = timer.getSecond() ;
+          if (seconds != 0)
+          {
+            timer.reset() ;
+          }
+          model->update(seconds) ;
+        }        
+        
+        InternalMessage("Display","Display::TestModelView::displayImage leaving") ;
+        
       }
       
       void TestModelView::setUp() 

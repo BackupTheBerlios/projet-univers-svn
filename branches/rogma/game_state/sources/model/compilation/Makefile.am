@@ -24,6 +24,7 @@ libmodel_la_SOURCES = \
 ../implementation/explosion.cpp \
 ../implementation/force.cpp \
 ../implementation/force_generator.cpp \
+../implementation/image.cpp \
 ../implementation/mass.cpp \
 ../implementation/massive.cpp \
 ../implementation/mobile.cpp \
