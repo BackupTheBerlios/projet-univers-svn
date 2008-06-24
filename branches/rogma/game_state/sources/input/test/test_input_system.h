@@ -27,7 +27,7 @@ namespace ProjetUnivers {
   namespace Input {
     namespace Test {
             
-      /// Gobal testing of input system.
+      /// Global testing of input system.
       class TestInputSystem : public CppUnit::TestFixture 
       {
       public:

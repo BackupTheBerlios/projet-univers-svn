@@ -18,45 +18,72 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <kernel/base_controler.h>
-#include <input/implementation/keyboard.h>
-#include <input/implementation/mouse.h>
+#include <OIS/OIS.h>
+
+#include <kernel/model.h>
+#include <kernel/timer.h>
+
+#include <model/menu.h>
+#include <model/positionned.h>
+#include <model/oriented.h>
+#include <model/observer.h>
+#include <model/player.h>
+
+#include <display/implementation/ogre/ogre.h>
+
 #include <input/implementation/input_internal.h>
-#include <input/implementation/input_controler_set.h>
+#include <input/test/test_menu.h>
+
+
+CPPUNIT_TEST_SUITE_REGISTRATION(ProjetUnivers::
+                                Input::
+                                Test::
+                                TestMenu) ;
 
 namespace ProjetUnivers {
   namespace Input {
-    namespace Implementation {
+    namespace Test {
       
-      RegisterControlerSet(InputControlerSet) ;
       
-      InputControlerSet::InputControlerSet(Kernel::Model* model)
-      : Kernel::ControlerSet(model)
-      {}
-      
-      void InputControlerSet::simulate(const float& seconds)
+      void TestMenu::mouseCursor()
       {
-        Input::update() ;
-        boost::function2<void,Kernel::BaseControler*,float> 
-          f = &Kernel::BaseControler::simulate ;
+        InternalMessage("Input","Input::TestMenu::mouseCursor entering") ;
+
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestMenu::mouseCursor")) ;
+        model->init() ;
         
-        applyTopDown(std::bind2nd(f,seconds)) ;
+        Kernel::Object* menu = model->createObject() ;
+        menu->addTrait(new Model::Menu("ProjetUnivers.layout")) ;
+        Kernel::Object* observer = model->createObject() ;
+        observer->addTrait(new Model::Observer()) ;
+        observer->addTrait(new Model::Player()) ;
+        observer->addTrait(new Model::Positionned()) ;
         
-        getMouse()->clear() ;
-        getKeyboard()->clear() ;
+        Kernel::Timer timer ;
+        Kernel::Timer global_timer ;
         
-      }
-      
-      void InputControlerSet::onInit()
-      {
-        Input::init() ;
+        while (global_timer.getSecond() < 10)
+        {
+          float seconds = timer.getSecond() ;
+          if (seconds != 0)
+          {
+            timer.reset() ;
+          }
+          model->update(seconds) ;
+        }        
+        
+        InternalMessage("Input","Input::TestMenu::mouseCursor leaving") ;
       }
 
-      void InputControlerSet::onClose()
+      void TestMenu::setUp() 
       {
-        Input::close() ;
       }
       
+      void TestMenu::tearDown() 
+      {
+      }
+
     }
   }
 }
+

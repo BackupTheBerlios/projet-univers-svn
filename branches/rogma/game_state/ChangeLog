@@ -690,23 +690,21 @@
       mapping
     - added GameState controler : always quit on escape key
     - added basic tests
+    - added Menu input injection (keyboard and mouse)
+  * Demonstration :
+    - modified to use Game module
     
 @todo :
 
-  * find a way to preload ressources as needed (some ressources may appear 
-    during game like explosions, lasers) some ressources are known like 
-    ships...
-  * add a pause game state (does not close the system but does not update, but 
-    how to collect inputs in that case ???)
-  * make a loading bar : create a ressource loading queue (inspire from 
-    Ogre::ResourceBackgroundQueue that is not by default on ogre package)  
-  * quit works only if contructed model satisfy a complex structure : bug prone
-  * considered in a lot of places that Z axis is forward... whereas Ogre 
-    consider negative Z as forward ??? 
   
   * All : 
-    - use Game state for demo
     - add Game controler and trait for handling team respawn ...
+    - considered in a lot of places that Z axis is forward... whereas Ogre 
+      consider negative Z as forward ??? 
+    
+  * Game :  
+    - add a pause game state (does not close the system but does not update, but 
+      how to collect inputs in that case ???)
      
   * Model : 
     - Event traits like Collision, Shot should be implemented through 
@@ -754,6 +752,11 @@
     - when initing ogre, close any already openned ogre objects in other 
       modules
     - replace display::init(bool) with an enum
+    - find a way to preload ressources as needed (some ressources may appear 
+      during game like explosions, lasers) some ressources are known like 
+      ships...
+    - make a loading bar : create a ressource loading queue (inspire from 
+      Ogre::ResourceBackgroundQueue that is not by default on ogre package)  
     
   * Input :
     - be able to map any axis on anything

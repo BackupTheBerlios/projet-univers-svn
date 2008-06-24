@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007-2008 Mathieu ROGER                                 *
+ *   Copyright (C) 2008 Mathieu ROGER                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,46 +18,41 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_INPUT_IMPLEMENTATION_KEYBOARD_H_
-#define PU_INPUT_IMPLEMENTATION_KEYBOARD_H_
+#ifndef PU_INPUT_IMPLEMENTATION_MENU_H_
+#define PU_INPUT_IMPLEMENTATION_MENU_H_
 
-#include <OIS/OISKeyboard.h>
-#include <kernel/object.h>
-#include <input/implementation/input_object.h>
+#include <kernel/controler.h>
+
+#include <model/menu.h>
+
+#include <input/implementation/input_controler_set.h>
 
 namespace ProjetUnivers {
   namespace Input {
     namespace Implementation {
-
-      /// Keyboard event handler.
-      class Keyboard : public OIS::KeyListener, public InputObject
+      
+      /// Menu input control.
+      class Menu : public Kernel::Controler<Model::Menu,InputControlerSet>
       {
       public:
-      
-        /// Contructor.
-        Keyboard() ;  
-
-        /// Called when a key is pressed.
-        virtual bool keyPressed(const OIS::KeyEvent &e) ;    
-  
-        /// Called when a key is released.
-        virtual bool keyReleased(const OIS::KeyEvent &e) ;
-      
-        const std::set<OIS::KeyCode>& getKeyPressed() const ;
-        const std::set<OIS::KeyCode>& getKeyReleased() const ;
         
-        void clear() ;
+        /// Constructor.
+        Menu(Model::Menu*,InputControlerSet*) ;
         
+        /// Send commands to player. 
+        virtual void simulate(const float& seconds) ;
+      
       private:
         
-        std::set<OIS::KeyCode> m_key_pressed ;
-        std::set<OIS::KeyCode> m_key_released ;
+        Kernel::Percentage m_mouse_x ;
+        Kernel::Percentage m_mouse_y ;
+        Kernel::Percentage m_mouse_z ;
         
       };
+      
     }
   }
 }
 
 
-
-#endif /*PU_INPUT_IMPLEMENTATION_KEYBOARD_H_*/
+#endif /*PU_INPUT_IMPLEMENTATION_MENU_H_*/

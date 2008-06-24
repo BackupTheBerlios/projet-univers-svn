@@ -40,7 +40,7 @@ namespace ProjetUnivers {
                                OIS::MouseButtonID button)
       {
         m_events.insert(Model::PlayerConfiguration::InputEvent::mouseButton(button)) ;
-        
+        m_button_pressed.insert(button) ;
         return true ;
       }
       
@@ -48,9 +48,26 @@ namespace ProjetUnivers {
                                 OIS::MouseButtonID button)
       {
         m_events.erase(Model::PlayerConfiguration::InputEvent::mouseButton(button)) ;
+        m_button_released.insert(button) ;
         return true ;
       }
 
+      const std::set<OIS::MouseButtonID>& Mouse::getButtonPressed() const
+      {
+        return m_button_pressed ;
+      }
+      
+      const std::set<OIS::MouseButtonID>& Mouse::getButtonReleased() const
+      {
+        return m_button_released ;
+      }
+      
+      void Mouse::clear()
+      {
+        m_button_pressed.clear() ;
+        m_button_released.clear() ;
+      }
+      
       Mouse::Mouse(const float& i_sensibility)
       : m_sensibility(i_sensibility)
       {

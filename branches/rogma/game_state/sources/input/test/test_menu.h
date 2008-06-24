@@ -1,6 +1,7 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Equipe Projet Univers                           *
- *   rogma.boami@free.fr                                                   *
+ *   This file is part of ProjetUnivers                                    *
+ *   see http://www.punivers.net                                           *
+ *   Copyright (C) 2008 Mathieu ROGER                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,66 +18,60 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#ifndef PU_INPUT_TEST_MENU_H_
+#define PU_INPUT_TEST_MENU_H_
 
-#ifndef PU_ACTION_ACTION_H_
-#define PU_ACTION_ACTION_H_
-
-#include <string.h>
-
+#include <cppunit/extensions/HelperMacros.h>
 
 namespace ProjetUnivers {
- 
-  /// Actions on Model.
-  namespace Action 
-  {
+  namespace Input {
+    namespace Test {
+            
+      /// Test of menu inputs.
+      class TestMenu : public CppUnit::TestFixture 
+      {
+      public:
+  
+      // @}
+      /*! 
+        @name Mandatory methods
+      */
+      // @{
+      
+        /// Test init
+        void setUp() ;
+      
+        /// Test close
+        void tearDown() ;
+      
+      protected:
+      
+        
+      // @}      
+      /*! 
+        @name Tests
+      */ 
+      // @{
+        
+        /// Mouse test.
+        void mouseCursor() ;
 
-  /*!
-    @name Init/close.
-  */
-  //@{        
+      // @}
+      /*!
+        @name Test registration
+      */
+      // @{      
     
-    /// Module initialisation.
-    void init() ;
+        CPPUNIT_TEST_SUITE(TestMenu) ;
+      
+        CPPUNIT_TEST(mouseCursor) ;
+      
+        CPPUNIT_TEST_SUITE_END() ;
+      // @}      
+      };
 
-    /// Module closing.
-    void close() ;
-
-  //@}
-  /*!
-    @name actions management.
-  
-  */
-  //@{
-  
-    /// Execute pending actions.
-    /*!
-      @post
-        there is no more actions to process.
-    */
-    void update() ;
-
-
-    ///   Add an action
-    /*!
-      Les actions sont désignées par un identificateur @c _nomAction.
-      @todo 
-        il faut ajouter un timestamp à l'action (pour savoir à quel moment 
-        on l'a déclenché)
-    */
-    void add(const std::string& _name) ;
-
-    /// True iff finished.
-    /*!
-      @todo treat termination in an other way.
-    */
-    bool finished() ;
-
-  //@}
-  
+    }
   }
-
-  
 }
 
-#endif
-
+#endif /*PU_INPUT_TEST_MENU_H_*/

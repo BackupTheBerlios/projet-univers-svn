@@ -18,8 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <CEGUI/CEGUISystem.h>
-#include <CEGUI/CEGUIWindowManager.h>
+#include <CEGUI.h>
 
 #include <display/implementation/ogre/menu.h>
 
@@ -42,6 +41,9 @@ namespace ProjetUnivers {
         void Menu::onInit()
         {
           InternalMessage("Display","Building Ogre::Menu::onInit entering") ;
+          CEGUI::SchemeManager::getSingleton().loadScheme((CEGUI::utf8*)"TaharezLook.scheme");
+          CEGUI::MouseCursor::getSingleton().setImage("TaharezLook", "MouseArrow");        
+          CEGUI::MouseCursor::getSingleton().show() ;
           
           m_window = CEGUI::WindowManager::getSingleton().loadWindowLayout(
             getTrait()->getFileName()) ;
@@ -49,6 +51,7 @@ namespace ProjetUnivers {
           InternalMessage("Display","Building Ogre::Menu::onInit #1") ;
 
           CEGUI::System::getSingleton().setGUISheet(m_window) ;
+          m_window->setMouseCursor("TaharezLook", "MouseArrow");        
           InternalMessage("Display","Building Ogre::Menu::onInit leaving") ;
         }
         

@@ -34,6 +34,14 @@ namespace ProjetUnivers {
       {
       public:
       
+        /// Numbering for mouse axes.
+        enum MouseAxis
+        {
+          X = 0,
+          Y = 1,
+          Z = 2 
+        };
+        
         /// Constructor.
         Mouse(const float& i_sensibility = 0.1) ;  
         
@@ -48,18 +56,19 @@ namespace ProjetUnivers {
 
       // @}
         
+        const std::set<OIS::MouseButtonID>& getButtonPressed() const ;
+        const std::set<OIS::MouseButtonID>& getButtonReleased() const ;
+        
+        void clear() ;
+        
       private:
 
-        /// Numbering for mouse axes.
-        enum MouseAxis
-        {
-          X = 0,
-          Y = 1,
-          Z = 2 
-        };
         
         /// Mouse sensibility.
         float m_sensibility ;
+        
+        std::set<OIS::MouseButtonID> m_button_pressed ;
+        std::set<OIS::MouseButtonID> m_button_released ;
         
       };
     }

@@ -50,6 +50,9 @@ namespace ProjetUnivers {
         void twoStateGame() ;
 
         /// Run a demonstration.
+        /*!
+          Not really a test, user should press escape key to exit
+        */
         void demonstration() ;
         
       // @}

@@ -140,8 +140,6 @@ AC_CONFIG_FILES([Makefile \
                  sources/game/compilation/Makefile \
                  sources/input/Makefile \
                  sources/input/compilation/Makefile \
-                 sources/action/Makefile \
-                 sources/action/compilation/Makefile \
                  sources/physic/Makefile \
                  sources/physic/compilation/Makefile \
                  sources/physic/compilation/ode/Makefile \

@@ -21,7 +21,6 @@
 #include <iostream>
 #include <kernel/string.h>
 #include <kernel/log.h>
-#include <action/action.h>
 #include <display/display_input.h>
 #include <input/implementation/keyboard.h>
 
@@ -35,15 +34,33 @@ namespace ProjetUnivers {
       bool Keyboard::keyPressed(const OIS::KeyEvent &e)    
       {
         m_events.insert(Model::PlayerConfiguration::InputEvent::key(e.key)) ;
+        m_key_pressed.insert(e.key) ;
         return true ;
       }
       
       bool Keyboard::keyReleased(const OIS::KeyEvent &e)
       {
         m_events.erase(Model::PlayerConfiguration::InputEvent::key(e.key)) ;
+        m_key_released.insert(e.key) ; 
         return true ;
       }
 
+      const std::set<OIS::KeyCode>& Keyboard::getKeyPressed() const
+      {
+        return m_key_pressed ;
+      }
+      
+      const std::set<OIS::KeyCode>& Keyboard::getKeyReleased() const
+      {
+        return m_key_released ;
+      }
+      
+      void Keyboard::clear()
+      {
+        m_key_pressed.clear() ;
+        m_key_released.clear() ;
+      }
+      
 
     }
   }

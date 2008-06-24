@@ -117,18 +117,6 @@ namespace ProjetUnivers {
           {
             InternalMessage("Display","stopping Ogre..") ;
 
-            if(CEGUISystem)
-            {
-              delete CEGUISystem;
-              CEGUISystem = NULL ;
-            }
-            
-            if(CEGUIRenderer)
-            {
-              delete CEGUIRenderer;
-              CEGUIRenderer = NULL ;
-            }
-
 
             /// @see http://www.ogre3d.org/phpBB2/viewtopic.php?t=35372
             if (window)
