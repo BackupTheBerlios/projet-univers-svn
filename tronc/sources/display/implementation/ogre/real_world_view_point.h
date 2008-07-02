@@ -48,7 +48,6 @@ namespace ProjetUnivers {
         class RealWorldViewPoint : public Kernel::ViewPoint 
         {
         public:
-        
         /*!
           @name Construction 
         */
@@ -56,30 +55,22 @@ namespace ProjetUnivers {
           
           
           /// Constructor.
-          /*!
-            @param[in] _observer 
-              object that sees (e.g., a character, a camera,...)
-          */
-          RealWorldViewPoint(Kernel::Object* _observer) ;
+          RealWorldViewPoint(Kernel::Model* model) ;
           
           /// Set the root in term of position.
           void setRootObject(Kernel::Object*) ;
           
-          /// Initialize view point
-          virtual void onInit() ;
+          /// Change the observer
+          void setObserver(Kernel::Object* observer) ;
+
+        // @}
+        /*
+          @name Update 
+        */
+        // @{
           
-          /// Terminate view point
-          virtual void onClose() ;
-          
-          /// Change l'observer.
-          virtual void onChangeObserver(Kernel::Object* _observer) ;
-
-          /// This viewpoint is displayed. 
-          virtual void activate() ;
-
-          /// This viewpoint is not displayed. 
-          virtual void desactivate() ;
-
+          /// Update the viewpoint.
+          virtual void update(const float& seconds) ;
           
         // @}
         /*
@@ -97,7 +88,15 @@ namespace ProjetUnivers {
           Kernel::Object* getRootObject() const ;
           
         // @}
-        
+          
+        protected:
+          
+          /// Initialize view point
+          virtual void onInit() ;
+          
+          /// Terminate view point
+          virtual void onClose() ;
+          
         private:
         
           /// True iff object must be seen.

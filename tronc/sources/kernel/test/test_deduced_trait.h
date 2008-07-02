@@ -35,10 +35,10 @@ namespace ProjetUnivers {
       class TestDeducedTrait : public CppUnit::TestFixture {
       public:
 
-        /// Initialisation du test
+        /// Tests setup
         void setUp() ;
 
-        /// Desinitialisation du test
+        /// Tests close.
         void tearDown() ;
 
       protected:
@@ -109,6 +109,9 @@ namespace ProjetUnivers {
         /// Change the parent with HasParent still true updates the view.
         void changeParentHasParentUpdated() ;
         
+        /// Bug test : a deduced trait on a deduced trait does not work.
+        void deducedTraitOnDeducedTrait() ;
+        
       // @}
 
 
@@ -134,6 +137,7 @@ namespace ProjetUnivers {
         CPPUNIT_TEST(changeParentHasParentBecomeTrue) ;
         CPPUNIT_TEST(changeParentHasParentBecomeFalse) ;
         CPPUNIT_TEST(changeParentHasParentUpdated) ;
+        CPPUNIT_TEST(deducedTraitOnDeducedTrait) ;
         
         CPPUNIT_TEST_SUITE_END() ;
 

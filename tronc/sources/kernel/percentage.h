@@ -44,6 +44,12 @@ namespace ProjetUnivers {
       /// Construct from a float.
       Percentage& operator=(const float&) ;
 
+      /// Addition.
+      Percentage& operator+=(const Percentage&) ;
+
+      /// Addition.
+      Percentage operator+(const Percentage&) ;
+      
       /// Conversion to int value in [-100,100].
       operator int() const ;
 

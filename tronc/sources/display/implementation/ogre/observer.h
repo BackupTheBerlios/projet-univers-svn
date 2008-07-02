@@ -24,7 +24,7 @@
 #include <Ogre.h>
 
 #include <kernel/trait_view.h>
-#include <model/observer.h>
+#include <display/implementation/observer.h>
 #include <display/implementation/ogre/real_world_view_point.h>
 
 namespace ProjetUnivers {
@@ -38,7 +38,7 @@ namespace ProjetUnivers {
           Ogre inverses the camera Z axis 
           @see http://www.ogre3d.org/phpBB2/viewtopic.php?t=26839
         */
-        class Observer : public Kernel::TraitView<Model::Observer,
+        class Observer : public Kernel::TraitView<Implementation::Observer,
                                                   RealWorldViewPoint>
         {
         public:
@@ -50,7 +50,7 @@ namespace ProjetUnivers {
 
 
           /// Constructor.
-          Observer(Model::Observer*,RealWorldViewPoint*) ;
+          Observer(Implementation::Observer*,RealWorldViewPoint*) ;
 
           ::Ogre::Camera* getCamera() const ;
 

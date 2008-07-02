@@ -55,6 +55,10 @@ namespace ProjetUnivers {
         /// Test the space dust effect.
         void spaceDust() ;
         
+        /// Display a test image.
+        void displayImage() ;
+        
+        
       // @}
         /*! 
           @name Tests registration
@@ -68,6 +72,7 @@ namespace ProjetUnivers {
         CPPUNIT_TEST(selectedTarget) ;
         CPPUNIT_TEST(displayIdealTarget) ;
         CPPUNIT_TEST(spaceDust) ;
+        CPPUNIT_TEST(displayImage) ;
       
         CPPUNIT_TEST_SUITE_END() ;
 

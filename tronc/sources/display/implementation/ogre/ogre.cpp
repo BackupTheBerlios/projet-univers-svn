@@ -26,6 +26,8 @@
 
 #include <kernel/log.h>
 
+#include <model/model.h>
+
 #include <display/implementation/ogre/ogre.h>
 
 
@@ -33,52 +35,199 @@ using namespace ::Ogre ;
 using namespace std ;
 
 namespace ProjetUnivers {
-
-  using namespace Kernel ;
-  
   namespace Display {
     namespace Implementation {
       namespace Ogre {  
 
-        /*!
-          Ogre data
-          @remark
-            Ogre handle memory, so no need to destroy.
-        */
-      
-        ::Ogre::LogManager* log_manager = NULL ;
-        ::Ogre::Root* root = NULL ;
-        ::Ogre::RenderWindow* window = NULL ;
-        // gui
-        ::CEGUI::OgreCEGUIRenderer* CEGUIRenderer = NULL;
-        ::CEGUI::System* CEGUISystem = NULL ;
-        ::Ogre::Overlay* m_overlay = NULL ;
+        void loadRessources() ;
+        bool renderDisplayChoice() ;
+        
+        /// Handle data.
+        class OgreSystem
+        {
+        public:
+          
+          OgreSystem(bool choose_display)
+          : window(NULL),
+            root(),
+            log_manager(),
+            initialised(false),
+            CEGUIRenderer(NULL),
+            CEGUISystem(NULL),
+            m_overlay(NULL)
+          {
+            /// model may have created a root and log manager
+            Model::closeRessources() ;
+            
+            log_manager = new LogManager() ;
+            log_manager->createLog("Ogre.log", false, false); 
+            
+            // build an ogre application
+            root = new Root() ;
 
+            // load resources
+            loadRessources() ;
+
+            // user choose display 
+            if (choose_display)
+            {
+              bool go_on = renderDisplayChoice() ;
+              if (! go_on)
+              {
+                delete root ;
+                root = NULL ;
+                initialised = false ;
+                return ;
+              }
+            }
+            else
+            {
+              // default display
+              root->restoreConfig() ;
+            }
+
+            // create window
+            window = root->initialise(true) ;
+            
+            CEGUIRenderer = new CEGUI::OgreCEGUIRenderer(window) ;
+            CEGUISystem = new CEGUI::System(CEGUIRenderer) ;
+            CEGUI::Logger::getSingleton().setLoggingLevel(CEGUI::Informative) ;
+            
+            ResourceGroupManager::getSingleton().initialiseAllResourceGroups() ;
+            // load all ressources :
+            ResourceGroupManager::getSingleton().loadResourceGroup("General") ;
+            
+            // cegui 
+            CEGUI::Imageset::setDefaultResourceGroup("imagesets");
+            CEGUI::Font::setDefaultResourceGroup("fonts");
+            CEGUI::Scheme::setDefaultResourceGroup("schemes");
+            CEGUI::WidgetLookManager::setDefaultResourceGroup("looknfeels");
+            CEGUI::WindowManager::setDefaultResourceGroup("layouts");
+            CEGUI::SchemeManager::getSingleton().loadScheme("ProjetUnivers.scheme") ;
+            
+            // useless if scheme contains a font reference.
+            CEGUI::Font* font = CEGUI::FontManager::getSingleton().createFont("bluehighway-12.font") ;
+            
+            InternalMessage("Display","Ogre launched") ;
+            
+            initialised = true ;
+          }
+          
+          ~OgreSystem()
+          {
+            InternalMessage("Display","stopping Ogre..") ;
+
+
+            /// @see http://www.ogre3d.org/phpBB2/viewtopic.php?t=35372
+            if (window)
+            {
+              ::Ogre::WindowEventUtilities::_removeRenderWindow(window) ;
+              window = NULL ;
+            }
+            
+            
+            if (log_manager)
+            {
+              delete log_manager ;
+              log_manager = NULL ;
+            }
+            
+            m_overlay= NULL ;
+            
+            initialised = false ;
+            
+            InternalMessage("Display","...Ogre stopped") ;
+          }
+          
+          void close()
+          {
+            InternalMessage("Display","stopping Ogre..") ;
+
+            if(CEGUISystem)
+            {
+              delete CEGUISystem;
+              CEGUISystem = NULL ;
+            }
+            
+            if(CEGUIRenderer)
+            {
+              delete CEGUIRenderer;
+              CEGUIRenderer = NULL ;
+            }
+
+
+            /// @see http://www.ogre3d.org/phpBB2/viewtopic.php?t=35372
+            if (window)
+            {
+              ::Ogre::WindowEventUtilities::_removeRenderWindow(window) ;
+              window = NULL ;
+            }
+            
+            if (root)
+            {
+              delete root ;
+              root = NULL ;
+            }
+            
+            if (log_manager)
+            {
+              delete log_manager ;
+              log_manager = NULL ;
+            }
+            
+            m_overlay= NULL ;
+            
+            initialised = false ;
+            
+            InternalMessage("Display","...Ogre stopped") ;
+          }
+          
+          ::Ogre::RenderWindow* window ;
+        
+          ::Ogre::Root* root ;
+          ::Ogre::LogManager* log_manager ;
+          bool initialised ;
+        
+          // gui
+          ::CEGUI::OgreCEGUIRenderer* CEGUIRenderer ;
+          ::CEGUI::System* CEGUISystem ;
+          ::Ogre::Overlay* m_overlay ;
+        };
+        
+        /// store data
+        std::auto_ptr<OgreSystem> m_system ;
+        
         ::Ogre::Root* getRoot()
         {
-          return root ;
+          return m_system->root ;
         }
         
         ::Ogre::RenderWindow* getWindow()
         {
-          return window ;
+          return m_system->window ;
         }
 
         ::CEGUI::OgreCEGUIRenderer* getCEGUIRenderer()
         {
-          return CEGUIRenderer ;
+          return m_system->CEGUIRenderer ;
+        }
+        
+        ::CEGUI::System* getCEGUISystem()
+        {
+          return m_system->CEGUISystem ;
         }
         
         ::Ogre::Overlay* getOverlay()
         {
           // on demand create
-          if (!m_overlay)
+          if (!m_system->m_overlay)
           {
             InternalMessage("Display","creating overlay") ;
-            m_overlay = ::Ogre::OverlayManager::getSingleton().create("hud") ;
+            m_system->m_overlay = ::Ogre::OverlayManager::getSingleton().create("hud") ;
+            m_system->m_overlay->setZOrder(500) ;
           }
           
-          return m_overlay ;
+          return m_system->m_overlay ;
         }
         
         size_t getWindowHandle()
@@ -86,7 +235,7 @@ namespace ProjetUnivers {
           size_t windowHnd = 0;
 
           // Get window handle
-          window->getCustomAttribute("WINDOW", &windowHnd) ;
+          m_system->window->getCustomAttribute("WINDOW", &windowHnd) ;
           
           return windowHnd ;
         }
@@ -97,7 +246,7 @@ namespace ProjetUnivers {
                            int& left,
                            int& top )
         {
-          window->getMetrics( width, height, depth, left, top ) ;
+          m_system->window->getMetrics( width, height, depth, left, top ) ;
         }
         
         void loadRessources() 
@@ -128,7 +277,7 @@ namespace ProjetUnivers {
         
         bool renderDisplayChoice()
         {
-          if(root->showConfigDialog())
+          if (m_system->root->showConfigDialog())
           {
             return true ;
           }
@@ -140,97 +289,17 @@ namespace ProjetUnivers {
         
         bool init(bool choose_display) 
         {
-          log_manager = new LogManager() ;
-          log_manager->createLog("Ogre.log", false, false); 
+          if(! m_system.get())
+            
+            m_system.reset(new OgreSystem(choose_display)) ;
           
-          // build an ogre application
-          root = new Root() ;
-
-          // load resources
-          loadRessources() ;
-
-          // user choose display 
-          if (choose_display)
-          {
-            bool go_on = renderDisplayChoice() ;
-            if (! go_on)
-            {
-              root = NULL ;
-              return false ;
-            }
-          }
-          else
-          {
-            // default display
-            root->restoreConfig() ;
-          }
-
-          // create window
-          window = root->initialise(true) ;
-          
-          CEGUIRenderer = new CEGUI::OgreCEGUIRenderer(window) ;
-          CEGUISystem = new CEGUI::System(CEGUIRenderer) ;
-          CEGUI::Logger::getSingleton().setLoggingLevel(CEGUI::Informative) ;
-          
-          ResourceGroupManager::getSingleton().initialiseAllResourceGroups() ;
-          // load all ressources :
-          ResourceGroupManager::getSingleton().loadResourceGroup("General") ;
-          
-          // cegui 
-          CEGUI::Imageset::setDefaultResourceGroup("imagesets");
-          CEGUI::Font::setDefaultResourceGroup("fonts");
-          CEGUI::Scheme::setDefaultResourceGroup("schemes");
-          CEGUI::WidgetLookManager::setDefaultResourceGroup("looknfeels");
-          CEGUI::WindowManager::setDefaultResourceGroup("layouts");
-          CEGUI::SchemeManager::getSingleton().loadScheme("ProjetUnivers.scheme") ;
-          
-          // useless if scheme contains a font reference.
-          CEGUI::Font* font = CEGUI::FontManager::getSingleton().createFont("bluehighway-12.font") ;
-          
-          InternalMessage("Display","Ogre launched") ;
-          
-          // done
-          return true ;
+          return m_system->initialised ;
         }
 
         void close() 
         {
-          InternalMessage("Display","stopping Ogre..") ;
-          if(CEGUISystem)
-          {
-            delete CEGUISystem;
-            CEGUISystem = NULL ;
-          }
-          
-          if(CEGUIRenderer)
-          {
-            delete CEGUIRenderer;
-            CEGUIRenderer = NULL ;
-          }
-
-          /// @see http://www.ogre3d.org/phpBB2/viewtopic.php?t=35372
-          if (window)
-          {
-            ::Ogre::WindowEventUtilities::_removeRenderWindow(window) ;
-            window = NULL ;
-          }
-          
-          if (root)
-          {
-            delete root ;
-            root = NULL ;  
-          }
-
-          if (log_manager)
-          {
-            delete log_manager ;
-            log_manager = NULL ;
-          }
-            
-          m_overlay= NULL ;
-          
-          InternalMessage("Display","...Ogre stopped") ;
-          
+          m_system->close() ;
+          m_system.reset() ;
         }
 
         /// update display
@@ -241,16 +310,16 @@ namespace ProjetUnivers {
         {
           /// cf. http://www.ogre3d.org/phpBB2/viewtopic.php?t=2733
           ::Ogre::WindowEventUtilities::messagePump() ;
-          root->_fireFrameStarted();
-          root->_updateAllRenderTargets() ;
-          root->_fireFrameEnded();
+          m_system->root->_fireFrameStarted();
+          m_system->root->_updateAllRenderTargets() ;
+          m_system->root->_fireFrameEnded();
         }
         
         void injectKey(const unsigned int& key_code)
         {
-          if (CEGUISystem)
+          if (m_system->CEGUISystem)
           {
-            CEGUISystem->injectKeyDown(key_code) ;
+            m_system->CEGUISystem->injectKeyDown(key_code) ;
           }
         }
       }

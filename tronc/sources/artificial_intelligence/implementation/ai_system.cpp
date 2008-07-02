@@ -20,12 +20,16 @@
  ***************************************************************************/
 #include <kernel/base_controler.h>
 #include <kernel/log.h>
+#include <kernel/controler_set.h>
+
 #include <artificial_intelligence/implementation/ai_system.h>
 
 namespace ProjetUnivers {
   namespace ArtificialIntelligence {
     namespace Implementation {
 
+      RegisterControlerSet(AISystem) ;
+      
       AISystem::AISystem(Kernel::Model* model)
       : Kernel::ControlerSet(model)
       {}

@@ -21,6 +21,7 @@
 #include <ode/ode.h>
 
 #include <kernel/log.h>
+#include <kernel/string.h>
 
 #include <model/massive.h>
 #include <model/mobile.h>
@@ -47,6 +48,7 @@ namespace ProjetUnivers {
         : Kernel::Controler<Model::PhysicalObject,
                             PhysicSystem>(i_object,i_physic),
           m_body(NULL),
+          m_is_being_updated(false),
           m_collision_space(NULL)
         {}
         
@@ -62,7 +64,7 @@ namespace ProjetUnivers {
 
         void PhysicalObject::onInit()
         {
-          InternalMessage("Physic","PhysicalObject::onInit entering " + getObject()->getName()) ;
+          InternalMessage("Physic","PhysicalObject::onInit entering " + Kernel::toString(getObject()->getIdentifier())) ;
           
           PhysicalWorld* world = getPhysicalWorld(this) ; 
           if (world)
@@ -80,22 +82,26 @@ namespace ProjetUnivers {
           }
           else
           {
-            InternalMessage("Physic","PhysicalObject::onInit could not build ode object " + getObject()->getName()) ;
+            InternalMessage("Physic","PhysicalObject::onInit could not build ode object " + 
+                                     Kernel::toString(getObject()->getIdentifier())) ;
           }
-          InternalMessage("Physic","PhysicalObject::onInit leaving " + getObject()->getName()) ;
+          InternalMessage("Physic","PhysicalObject::onInit leaving " + 
+                                    Kernel::toString(getObject()->getIdentifier())) ;
 
         }
 
         void PhysicalObject::onClose()
         {
-          InternalMessage("Physic","Ode::PhysicalObject::onClose entering " + getObject()->getName()) ;
+          InternalMessage("Physic","Ode::PhysicalObject::onClose entering " + 
+                                    Kernel::toString(getObject()->getIdentifier())) ;
 
           if (m_body)
           {
             delete m_body ;
             m_body = NULL ;
           }
-          InternalMessage("Physic","Ode::PhysicalObject::onClose leaving " + getObject()->getName()) ;
+          InternalMessage("Physic","Ode::PhysicalObject::onClose leaving " + 
+                                   Kernel::toString(getObject()->getIdentifier())) ;
         }
 
         void PhysicalObject::onChangeParent(Kernel::Object* i_old_parent)
@@ -109,7 +115,8 @@ namespace ProjetUnivers {
 
         void PhysicalObject::onUpdate()
         {
-          InternalMessage("Physic","Physic::PhysicalObject::onUpdate Entering " +getObject()->getName()) ; 
+          InternalMessage("Physic","Physic::PhysicalObject::onUpdate Entering " +
+                                   Kernel::toString(getObject()->getIdentifier())) ; 
           if (! m_is_being_updated && m_body)
           {
             /*!
@@ -120,7 +127,8 @@ namespace ProjetUnivers {
             updateMobile() ;
             updateMassive() ;
           }
-          InternalMessage("Physic","Physic::PhysicalObject::onUpdate Leaving " +getObject()->getName()) ; 
+          InternalMessage("Physic","Physic::PhysicalObject::onUpdate Leaving " +
+                                   Kernel::toString(getObject()->getIdentifier())) ; 
         }
 
         void PhysicalObject::updateMobile()
@@ -201,10 +209,14 @@ namespace ProjetUnivers {
 
         void PhysicalObject::simulate(const float&)
         {
-          InternalMessage("Physic","Ode::PhysicalObject::simulate " + getObject()->getName() + " entering") ;
+          InternalMessage("Physic","Ode::PhysicalObject::simulate " + 
+                                   Kernel::toString(getObject()->getIdentifier()) + 
+                                   " entering") ;
           updateModelPositionned() ;
           updateModelMobile() ;
-          InternalMessage("Physic","Ode::PhysicalObject::simulate " + getObject()->getName() + " leaving") ;
+          InternalMessage("Physic","Ode::PhysicalObject::simulate " + 
+                                   Kernel::toString(getObject()->getIdentifier()) + 
+                                   " leaving") ;
         }
 
         void PhysicalObject::updateModelPositionned()
@@ -232,7 +244,7 @@ namespace ProjetUnivers {
             const dReal* ode_position = m_body->getPosition() ;
 
             InternalMessage("Physic","Ode::PhysicalObject::updateModelPositionned "
-                            + getObject()->getName() + " position="
+                            + Kernel::toString(getObject()->getIdentifier()) + " position="
                             + Kernel::toString(ode_position[0]) + "," 
                             + Kernel::toString(ode_position[1]) + "," 
                             + Kernel::toString(ode_position[2])) ; 
@@ -250,7 +262,7 @@ namespace ProjetUnivers {
               const dReal* ode_orientation = m_body->getQuaternion() ;
     
               InternalMessage("Physic","Ode::PhysicalObject::updateModelPositionned "
-                              + getObject()->getName() + " orientation="
+                              + Kernel::toString(getObject()->getIdentifier()) + " orientation="
                               + Kernel::toString(ode_orientation[0]) + "," 
                               + Kernel::toString(ode_orientation[1]) + "," 
                               + Kernel::toString(ode_orientation[2]) + "," 

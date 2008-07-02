@@ -20,6 +20,7 @@
  ***************************************************************************/
 #include <algorithm>
 #include <OgreStringConverter.h>
+#include <kernel/command_delegator.h>
 #include <kernel/log.h>
 #include <kernel/string.h>
 #include <model/model.h>
@@ -43,6 +44,9 @@ namespace ProjetUnivers {
       : Kernel::Controler<AutonomousAgent,AISystem>(agent,system),
         m_vehicle(NULL),
         m_target(NULL),
+        m_view_point(NULL),
+        m_vehicle_view_point(NULL),
+        m_added_view(false),
         m_steering(0,0,0),
         m_previous_speed(0,0,0),
         m_previous_X(0),
@@ -57,22 +61,27 @@ namespace ProjetUnivers {
       void Agent::onInit()
       {
         InternalMessage("AI","building Agent") ;
-        m_view_point.reset(new AgentViewPoint(this)) ;
+        m_view_point = new AgentViewPoint(this) ;
         m_view_point->init() ;
-        m_vehicle_view_point.reset(new AgentVehicleViewPoint(this)) ;
+        m_vehicle_view_point = new AgentVehicleViewPoint(this) ;
         m_vehicle_view_point->init() ;
         
-        getObject()->getModel()->addManualView(new AgentVehicle(
-            Model::getControledShip(getObject())->getTrait<Model::PhysicalObject>(),
-            m_vehicle_view_point.get())) ;
+        Kernel::Object* ship = Model::getControledShip(getObject()) ;
+        if (ship)
+        {
+          getObject()->getModel()->addManualView(new AgentVehicle(
+              ship->getTrait<Model::PhysicalObject>(),
+              m_vehicle_view_point)) ;
+          m_added_view = true ;
+        }
         
         InternalMessage("AI","built Agent") ;
       }
         
       void Agent::onClose()
       {
-        m_view_point.reset(NULL) ;
-        m_vehicle_view_point.reset(NULL) ;
+        m_view_point= NULL ;
+        m_vehicle_view_point = NULL ;
       }
 
       void Agent::onUpdate()
@@ -84,10 +93,19 @@ namespace ProjetUnivers {
         {
           // objectives have changed, we must recalculate the behaviours ?
         }
-        else
+        else if (latest == getClassTypeIdentifier(Kernel::CommandDelegator))
         {
-          m_view_point->update() ;
+          Kernel::Object* ship = Model::getControledShip(getObject()) ;
+          if (ship && ! m_added_view)
+          {
+            getObject()->getModel()->addManualView(new AgentVehicle(
+                ship->getTrait<Model::PhysicalObject>(),
+                m_vehicle_view_point)) ;
+            m_added_view = true ;
+          }
+          
         }
+        m_view_point->update() ;
       }
 
       void Agent::setTarget(Vehicle* vehicle)
@@ -359,8 +377,8 @@ namespace ProjetUnivers {
         InternalMessage("Agent","applyied Y=" + Kernel::toString(float(m_previous_Y))) ;
         InternalMessage("Agent","applyied thottle=" + Kernel::toString(float(m_delta_throttle))) ;
         
-        getObject()->call("set_axis_X",int(m_previous_X)) ;
-        getObject()->call("set_axis_Y",int(m_previous_Y)) ;
+        getObject()->call("Yaw",int(m_previous_X)) ;
+        getObject()->call("Pitch",int(m_previous_Y)) ;
         getObject()->call("Change Throttle",int(m_delta_throttle)) ;
       }
 

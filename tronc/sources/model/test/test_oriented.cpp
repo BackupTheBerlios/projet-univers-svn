@@ -35,17 +35,17 @@ namespace ProjetUnivers {
       void TestOriented::testGetOrientation1()
       {
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestOriented::testGetOrientation1")) ;
-        Kernel::Object* root = model->createObject("root") ;
-        model->addTrait(root,new Oriented(Ogre::Quaternion(1,0,0,0))) ;
+        Kernel::Object* root = model->createObject() ;
+        root->addTrait(new Oriented(Ogre::Quaternion(1,0,0,0))) ;
         
-        Kernel::Object* object1 = model->createObject("object1",root) ;
-        model->addTrait(object1,new Oriented(Ogre::Quaternion(0,1,0,0))) ;
+        Kernel::Object* object1 = root->createObject() ;
+        object1->addTrait(new Oriented(Ogre::Quaternion(0,1,0,0))) ;
         
-        Kernel::Object* object2 = model->createObject("object2",object1) ;
-        model->addTrait(object2,new Oriented(Ogre::Quaternion(0,0,1,0))) ;
+        Kernel::Object* object2 = object1->createObject() ;
+        object2->addTrait(new Oriented(Ogre::Quaternion(0,0,1,0))) ;
 
-        Kernel::Object* object3 = model->createObject("object3",object2) ;
-        model->addTrait(object3,new Oriented(Ogre::Quaternion(0,0,0,1))) ;
+        Kernel::Object* object3 = object2->createObject() ;
+        object3->addTrait(new Oriented(Ogre::Quaternion(0,0,0,1))) ;
         
         /// object2 relative to root
         Ogre::Quaternion orientation2 = object2->getTrait<Oriented>()
@@ -71,16 +71,16 @@ namespace ProjetUnivers {
       void TestOriented::testGetOrientation2()
       {
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestOriented::testGetOrientation2")) ;
-        Kernel::Object* root = model->createObject("root") ;
+        Kernel::Object* root = model->createObject() ;
         
-        Kernel::Object* object1 = model->createObject("object1",root) ;
-        model->addTrait(object1,new Oriented(Ogre::Quaternion(0,1,0,0))) ;
+        Kernel::Object* object1 = root->createObject() ;
+        object1->addTrait(new Oriented(Ogre::Quaternion(0,1,0,0))) ;
         
-        Kernel::Object* object2 = model->createObject("object2",object1) ;
-        model->addTrait(object2,new Oriented(Ogre::Quaternion(0,0,1,0))) ;
+        Kernel::Object* object2 = object1->createObject() ;
+        object2->addTrait(new Oriented(Ogre::Quaternion(0,0,1,0))) ;
 
-        Kernel::Object* object3 = model->createObject("object3",object2) ;
-        model->addTrait(object3,new Oriented(Ogre::Quaternion(0,0,0,1))) ;
+        Kernel::Object* object3 = object2->createObject() ;
+        object3->addTrait(new Oriented(Ogre::Quaternion(0,0,0,1))) ;
         
         /// object2 relative to root
         Ogre::Quaternion orientation2 = object2->getTrait<Oriented>()
@@ -106,18 +106,18 @@ namespace ProjetUnivers {
       void TestOriented::testGetOrientation3()
       {
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestOriented::testGetOrientation3")) ;
-        Kernel::Object* root = model->createObject("root") ;
+        Kernel::Object* root = model->createObject() ;
         
-        Kernel::Object* object1 = model->createObject("object1",root) ;
-        model->addTrait(object1,new Oriented(Ogre::Quaternion(0,1,0,0))) ;
+        Kernel::Object* object1 = root->createObject() ;
+        object1->addTrait(new Oriented(Ogre::Quaternion(0,1,0,0))) ;
 
-        Kernel::Object* intermediate = model->createObject("intermediate",object1) ;
+        Kernel::Object* intermediate = object1->createObject() ;
         
-        Kernel::Object* object2 = model->createObject("object2",intermediate) ;
-        model->addTrait(object2,new Oriented(Ogre::Quaternion(0,0,1,0))) ;
+        Kernel::Object* object2 = intermediate->createObject() ;
+        object2->addTrait(new Oriented(Ogre::Quaternion(0,0,1,0))) ;
 
-        Kernel::Object* object3 = model->createObject("object3",object2) ;
-        model->addTrait(object3,new Oriented(Ogre::Quaternion(0,0,0,1))) ;
+        Kernel::Object* object3 = object2->createObject() ;
+        object3->addTrait(new Oriented(Ogre::Quaternion(0,0,0,1))) ;
         
         /// object2 relative to root
         Ogre::Quaternion orientation2 = object2->getTrait<Oriented>()
@@ -143,17 +143,17 @@ namespace ProjetUnivers {
       void TestOriented::testSetOrientation1()
       {
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestOriented::testSetOrientation1")) ;
-        Kernel::Object* root = model->createObject("root") ;
-        model->addTrait(root,new Oriented(Ogre::Quaternion(1,0,0,0))) ;
+        Kernel::Object* root = model->createObject() ;
+        root->addTrait(new Oriented(Ogre::Quaternion(1,0,0,0))) ;
         
-        Kernel::Object* object1 = model->createObject("object1",root) ;
-        model->addTrait(object1,new Oriented(Ogre::Quaternion(0,1,0,0))) ;
+        Kernel::Object* object1 = root->createObject() ;
+        object1->addTrait(new Oriented(Ogre::Quaternion(0,1,0,0))) ;
         
-        Kernel::Object* object2 = model->createObject("object2",object1) ;
-        model->addTrait(object2,new Oriented(Ogre::Quaternion(0,0,1,0))) ;
+        Kernel::Object* object2 = object1->createObject() ;
+        object2->addTrait(new Oriented(Ogre::Quaternion(0,0,1,0))) ;
 
-        Kernel::Object* object3 = model->createObject("object3",object2) ;
-        model->addTrait(object3,new Oriented(Ogre::Quaternion(0,0,0,1))) ;
+        Kernel::Object* object3 = object2->createObject() ;
+        object3->addTrait(new Oriented(Ogre::Quaternion(0,0,0,1))) ;
 
         object3->getTrait<Oriented>()
                ->setOrientation(Ogre::Quaternion(0,0,1,0),root) ;
@@ -174,16 +174,16 @@ namespace ProjetUnivers {
       void TestOriented::testSetOrientation2()
       {
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestOriented::testSetOrientation2")) ;
-        Kernel::Object* root = model->createObject("root") ;
+        Kernel::Object* root = model->createObject() ;
         
-        Kernel::Object* object1 = model->createObject("object1",root) ;
-        model->addTrait(object1,new Oriented(Ogre::Quaternion(0,1,0,0))) ;
+        Kernel::Object* object1 = root->createObject() ;
+        object1->addTrait(new Oriented(Ogre::Quaternion(0,1,0,0))) ;
         
-        Kernel::Object* object2 = model->createObject("object2",object1) ;
-        model->addTrait(object2,new Oriented(Ogre::Quaternion(0,0,1,0))) ;
+        Kernel::Object* object2 = object1->createObject() ;
+        object2->addTrait(new Oriented(Ogre::Quaternion(0,0,1,0))) ;
 
-        Kernel::Object* object3 = model->createObject("object3",object2) ;
-        model->addTrait(object3,new Oriented(Ogre::Quaternion(0,0,0,1))) ;
+        Kernel::Object* object3 = object2->createObject() ;
+        object3->addTrait(new Oriented(Ogre::Quaternion(0,0,0,1))) ;
 
         object3->getTrait<Oriented>()
                ->setOrientation(Ogre::Quaternion(0,0,1,0),root) ;
@@ -204,18 +204,18 @@ namespace ProjetUnivers {
       void TestOriented::testSetOrientation3()
       {
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestOriented::testGetOrientation3")) ;
-        Kernel::Object* root = model->createObject("root") ;
+        Kernel::Object* root = model->createObject() ;
         
-        Kernel::Object* object1 = model->createObject("object1",root) ;
-        model->addTrait(object1,new Oriented(Ogre::Quaternion(0,1,0,0))) ;
+        Kernel::Object* object1 = root->createObject() ;
+        object1->addTrait(new Oriented(Ogre::Quaternion(0,1,0,0))) ;
 
-        Kernel::Object* intermediate = model->createObject("intermediate",object1) ;
+        Kernel::Object* intermediate = object1->createObject() ;
         
-        Kernel::Object* object2 = model->createObject("object2",intermediate) ;
-        model->addTrait(object2,new Oriented(Ogre::Quaternion(0,0,1,0))) ;
+        Kernel::Object* object2 = intermediate->createObject() ;
+        object2->addTrait(new Oriented(Ogre::Quaternion(0,0,1,0))) ;
 
-        Kernel::Object* object3 = model->createObject("object3",object2) ;
-        model->addTrait(object3,new Oriented(Ogre::Quaternion(0,0,0,1))) ;
+        Kernel::Object* object3 = object2->createObject() ;
+        object3->addTrait(new Oriented(Ogre::Quaternion(0,0,0,1))) ;
 
         object3->getTrait<Oriented>()
                ->setOrientation(Ogre::Quaternion(0,0,1,0),root) ;

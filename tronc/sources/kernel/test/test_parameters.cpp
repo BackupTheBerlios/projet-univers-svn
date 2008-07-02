@@ -33,9 +33,10 @@ namespace ProjetUnivers {
       {
         Parameters::load("parameter.ini") ;
       
-        CPPUNIT_ASSERT(Parameters::getValue<std::string>("test","value1") == "toto") ;
-        CPPUNIT_ASSERT(Parameters::getValue<float>("test","value2") == 1) ;
+        CPPUNIT_ASSERT(Parameters::getValue<std::string>("test","value1")=="toto") ;
+        CPPUNIT_ASSERT(Parameters::getValue<float>("test","value2")==1) ;
         CPPUNIT_ASSERT(!Parameters::getValue<bool>("test","value3")) ;
+        CPPUNIT_ASSERT(Parameters::getValue<float>("test","value4")==-2) ;
         
         CPPUNIT_ASSERT(Parameters::getValue<float>("physic","number_of_contact_points") == 10) ;
       }

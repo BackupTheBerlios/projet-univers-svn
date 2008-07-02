@@ -51,7 +51,7 @@ namespace ProjetUnivers {
       virtual void addChild(Formula* formula) ;
       
       /// True iff the formula is valid.
-      bool isValid(Object* object) const ;      
+      virtual bool isValid(Object* object) const ;      
       
       /// Acces to formula identifier.
       int getIdentifier() const ;
@@ -218,6 +218,9 @@ namespace ProjetUnivers {
       /// Print the formula.
       virtual std::string internalPrint() const ;
 
+      /// True iff the formula is valid.
+      virtual bool isValid(Object* object) const ;      
+      
     protected:
 
       /// Initial value.

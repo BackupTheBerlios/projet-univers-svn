@@ -57,10 +57,10 @@ namespace ProjetUnivers {
 
       public:
 
-        /// Initialisation du test
+        /// Tests setup
         void setUp() ;
 
-        /// Desinitialisation du test
+        /// Tests close.
         void tearDown() ;
 
 

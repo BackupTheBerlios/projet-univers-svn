@@ -70,20 +70,27 @@ namespace ProjetUnivers {
     */
     //@{
 
-      /// Constructor.
-      Object(Model* i_model,const std::string& i_name = "") ;
-
-      /// Destructs the objects and the traits.
-      ~Object() ;
-    
+      /// Creates a child Object.
+      Object* createObject() ; 
+  
+      /// Destroy this object.
+      void destroyObject() ;
+  
+      /// Changes parent of this object.
+      void changeParent(Object* new_parent) ;
+      
+      /// Adds a new trait to object.
+      void addTrait(Trait* trait) ;
+  
+      /// Destroy an object's trait.
+      void destroyTrait(Trait* trait) ;
+      
+      
     //@}
     /*!
       @name Access methods
     */
     //@{
-    
-      /// Get object's name.
-      std::string getName() const ;
 
       /// Get object's identifier.
       int getIdentifier() const ;
@@ -201,6 +208,12 @@ namespace ProjetUnivers {
 
     private:
 
+      /// Constructor.
+      Object(Model* i_model) ;
+
+      /// Destructs the objects and the traits.
+      ~Object() ;
+      
     /*!
       @name Internal construction
       
@@ -316,9 +329,6 @@ namespace ProjetUnivers {
     */    
     // @{
     
-      /// Object name @deprecated
-      std::string                      name ;
-      
       /// Is the current object is deleting
       bool                             m_deleting ;
       

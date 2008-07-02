@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2008 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -21,8 +21,10 @@
 #ifndef PU_KERNEL_VIEW_POINT_H_
 #define PU_KERNEL_VIEW_POINT_H_
 
+#include <list>
 #include <boost/function.hpp>
 
+#include <kernel/helper_macros.h>
 #include <kernel/meta.h>
 #include <kernel/object.h>
 #include <kernel/model.h>
@@ -32,6 +34,7 @@ namespace ProjetUnivers {
     
     class Trait ;
     class BaseTraitView ;
+    class ViewPointRegistration ;
     
     /// Coherent set of views.
     /*!
@@ -70,8 +73,17 @@ namespace ProjetUnivers {
       /// Destructor, destroys all the views.
       virtual ~ViewPoint() ;
       
+      /// Update the viewpoint.
+      virtual void update(const float& seconds) ;
+      
     protected:
 
+      /// Build all the registered viewpoints on @c model.
+      /*!
+        ViewPoints can be registered through RegisterViewPoint macro.
+      */
+      static void buildRegistered(Model* model) ;
+      
       /// called during initialisation before views initialisation.
       /*!
         Default implementation does nothing. Specific viewpoint should 
@@ -112,6 +124,37 @@ namespace ProjetUnivers {
       bool   m_model_attached ;
       Model* m_model ;
 
+      /// Function that build a viewpoint.
+      typedef boost::function1<ViewPoint*, Model*> ViewPointBuilder ;
+
+      /// Static storage
+      /*!
+        Because static variable dynamic initialisation occurs in an undefined 
+        order, we use this hook. By calling : 
+        <code>
+          StaticStorage::get()->variable...
+        </code>
+        we are assured that map are dynamically initialised on demand.
+      */
+      class StaticStorage
+      {
+      public:
+        
+        /// Access to singleton.
+        static StaticStorage* get() ; 
+      
+        std::list<ViewPointBuilder> m_viewpoint_builders ;
+
+      private:
+        
+        StaticStorage()
+        {}
+        
+      };
+      
+      /// Register a viewpoint builder.
+      static void registerBuilder(ViewPointBuilder) ;
+      
       friend class Model ;
       friend class BaseTraitView ;
       friend class Object ;
@@ -120,9 +163,23 @@ namespace ProjetUnivers {
       void forAll(ViewPoint*                    i_viewpoint,
                   boost::function1<void,_View*> i_operation) ;
 
+      friend class ViewPointRegistration ;
     };
 
-
+    
+    /// Register a viewpoint
+    #define RegisterViewPoint(ClassViewPoint) \
+      namespace PU_MAKE_UNIQUE_NAME(RegisterViewPoint) {                 \
+        static ProjetUnivers::Kernel::ViewPoint*                         \
+              build(ProjetUnivers::Kernel::Model* model)                 \
+        {                                                                \
+          return new ClassViewPoint(model) ;                             \
+        }                                                                \
+        static                                                           \
+          ProjetUnivers::Kernel::ViewPointRegistration temp(&build) ;    \
+      }
+    
+    
     /// Top down execution of @c i_operation on all @ _View of @c i_viewpoint.
     /*!
       i_operation is a _View -> void function
@@ -150,6 +207,7 @@ namespace ProjetUnivers {
   }
 }
 
+#include <kernel/implementation/view_point.cxx>
 
 #endif
 

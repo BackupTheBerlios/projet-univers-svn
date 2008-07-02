@@ -233,21 +233,21 @@ namespace ProjetUnivers {
         std::auto_ptr<Model> model(new Model()) ;
                                     
         //// fill the model
-        Object* object = model->createObject("object") ;
+        Object* object = model->createObject() ;
 
-        model->addTrait(object,new Trait1()) ;
+        object->addTrait(new Trait1()) ;
         /// Check that object has no DeducedTrait1
         CPPUNIT_ASSERT(! object->getTrait<DeducedTrait1>()) ;
 
-        model->addTrait(object,new Trait2()) ;
+        object->addTrait(new Trait2()) ;
         /// Check that object has no DeducedTrait1
         CPPUNIT_ASSERT(! object->getTrait<DeducedTrait1>()) ;
 
-        model->addTrait(object,new Trait3()) ;
+        object->addTrait(new Trait3()) ;
         /// Check that object has automatically gained DeducedTrait1
         CPPUNIT_ASSERT(object->getTrait<DeducedTrait1>()) ;
         
-        model->destroyTrait(object,object->getTrait<Trait2>()) ;
+        object->destroyTrait(object->getTrait<Trait2>()) ;
         /// Check that object has lost DeducedTrait1
         CPPUNIT_ASSERT(! object->getTrait<DeducedTrait1>()) ;
         
@@ -261,29 +261,29 @@ namespace ProjetUnivers {
         std::auto_ptr<Model> model(new Model()) ;
                                     
         //// fill the model
-        Object* object = model->createObject("object") ;
+        Object* object = model->createObject() ;
 
         /// Check that object has no DeducedTrait2
         CPPUNIT_ASSERT(! object->getTrait<DeducedTrait2>()) ;
 
-        model->addTrait(object,new Trait1()) ;
+        object->addTrait(new Trait1()) ;
         /// Check that object has automatically gained DeducedTrait2
         CPPUNIT_ASSERT(object->getTrait<DeducedTrait2>()) ;
 
 
-        model->addTrait(object,new Trait2()) ;
+        object->addTrait(new Trait2()) ;
         /// Check that object still has DeducedTrait2
         CPPUNIT_ASSERT(object->getTrait<DeducedTrait2>()) ;
 
-        model->destroyTrait(object,object->getTrait<Trait2>()) ;
+        object->destroyTrait(object->getTrait<Trait2>()) ;
         /// Check that object still has DeducedTrait2
         CPPUNIT_ASSERT(object->getTrait<DeducedTrait2>()) ;
 
-        model->destroyTrait(object,object->getTrait<Trait1>()) ;
+        object->destroyTrait(object->getTrait<Trait1>()) ;
         /// Check that object has lost DeducedTrait2
         CPPUNIT_ASSERT(! object->getTrait<DeducedTrait2>()) ;
 
-        model->addTrait(object,new Trait3()) ;
+        object->addTrait(new Trait3()) ;
         /// Check that situation has not changed
         CPPUNIT_ASSERT(! object->getTrait<DeducedTrait2>()) ;
         
@@ -298,12 +298,12 @@ namespace ProjetUnivers {
         std::auto_ptr<Model> model(new Model()) ;
 
         //// fill the model
-        Object* object = model->createObject("object") ;
+        Object* object = model->createObject() ;
 
         /// Check that object has DeducedTrait3
         CPPUNIT_ASSERT(object->getTrait<DeducedTrait3>()) ;
 
-        model->addTrait(object,new Trait1()) ;
+        object->addTrait(new Trait1()) ;
         /// Check that object has automatically lost DeducedTrait3
         CPPUNIT_ASSERT(! object->getTrait<DeducedTrait3>()) ;
         
@@ -318,17 +318,17 @@ namespace ProjetUnivers {
         std::auto_ptr<Model> model(new Model()) ;
 
         //// fill the model
-        Object* object = model->createObject("object") ;
+        Object* object = model->createObject() ;
 
         /// Check that object has DeducedTrait4
         CPPUNIT_ASSERT(object->getTrait<DeducedTrait4>()) ;
         
-        model->addTrait(object,new Trait1()) ;
-        model->addTrait(object,new Trait3()) ;
+        object->addTrait(new Trait1()) ;
+        object->addTrait(new Trait3()) ;
         /// Check that object has automatically lost DeducedTrait4
         CPPUNIT_ASSERT(! object->getTrait<DeducedTrait4>()) ;
 
-        model->addTrait(object,new Trait2()) ;
+        object->addTrait(new Trait2()) ;
         /// Check that object has DeducedTrait4
         CPPUNIT_ASSERT(object->getTrait<DeducedTrait4>()) ;
         
@@ -344,23 +344,23 @@ namespace ProjetUnivers {
 
 
         //// fill the model
-        Object* object = model->createObject("object") ;
+        Object* object = model->createObject() ;
 
         /// Check that object has DeducedTrait5 but not DeducedTrait6
         CPPUNIT_ASSERT(object->getTrait<DeducedTrait5>()) ;
         CPPUNIT_ASSERT(!object->getTrait<DeducedTrait6>()) ;
 
-        model->addTrait(object,new Trait3()) ;
+        object->addTrait(new Trait3()) ;
         /// Check that object has DeducedTrait5 but not DeducedTrait6
         CPPUNIT_ASSERT(object->getTrait<DeducedTrait5>()) ;
         CPPUNIT_ASSERT(!object->getTrait<DeducedTrait6>()) ;
 
-        model->addTrait(object,new Trait2()) ;
+        object->addTrait(new Trait2()) ;
         /// Check that object has DeducedTrait5 and DeducedTrait6
         CPPUNIT_ASSERT(object->getTrait<DeducedTrait5>()) ;
         CPPUNIT_ASSERT(object->getTrait<DeducedTrait6>()) ;
 
-        model->addTrait(object,new Trait1()) ;
+        object->addTrait(new Trait1()) ;
         /// Check that object has lost both DeducedTrait5 and DeducedTrait6
         CPPUNIT_ASSERT(!object->getTrait<DeducedTrait5>()) ;
         CPPUNIT_ASSERT(!object->getTrait<DeducedTrait6>()) ;
@@ -380,10 +380,10 @@ namespace ProjetUnivers {
         viewpoint->init() ;
                                             
         //// fill the model
-        Object* object = model->createObject("object") ;
+        Object* object = model->createObject() ;
 
-        model->addTrait(object,new Trait1()) ;
-        model->addTrait(object,new Trait2()) ;
+        object->addTrait(new Trait1()) ;
+        object->addTrait(new Trait2()) ;
 
         CPPUNIT_ASSERT(object->getView<View7>(viewpoint.get())) ;
         CPPUNIT_ASSERT(object->getView<View7>(viewpoint.get())->m_update_number == 0) ;
@@ -632,11 +632,11 @@ namespace ProjetUnivers {
         std::auto_ptr<Model> model(new Model("TestDeducedTrait::testGetLatestUpdatedTrait")) ;
         
         Object* object = model->createObject() ;
-        model->addTrait(object,new Trait11()) ;
-        model->addTrait(object,new Trait12()) ;
-        model->addTrait(object,new Trait13()) ;
-        model->addTrait(object,new Trait14()) ;
-        model->addTrait(object,new Trait15()) ;
+        object->addTrait(new Trait11()) ;
+        object->addTrait(new Trait12()) ;
+        object->addTrait(new Trait13()) ;
+        object->addTrait(new Trait14()) ;
+        object->addTrait(new Trait15()) ;
         
         std::auto_ptr<ViewPoint11> viewpoint(new ViewPoint11(model.get())) ;
         viewpoint->init() ;
@@ -706,12 +706,12 @@ namespace ProjetUnivers {
         std::auto_ptr<Model> model(new Model("TestDeducedTrait::addParentTrait")) ;
         
         Object* object = model->createObject() ;
-        Object* child = model->createObject(object) ;
+        Object* child = object->createObject() ;
         
         CPPUNIT_ASSERT(! child->getTrait<HasParentTrait1>()) ;
         CPPUNIT_ASSERT(! object->getTrait<HasParentTrait1>()) ;
         
-        model->addTrait(object,new Parent()) ;
+        object->addTrait(new Parent()) ;
         
         CPPUNIT_ASSERT(object->getTrait<HasParentTrait1>()) ;
         CPPUNIT_ASSERT(child->getTrait<HasParentTrait1>()) ;
@@ -725,12 +725,12 @@ namespace ProjetUnivers {
         viewpoint->init() ;
         
         Object* object = model->createObject() ;
-        Object* child = model->createObject(object) ;
+        Object* child = object->createObject() ;
         
         CPPUNIT_ASSERT(! child->getTrait<HasParentTrait1>()) ;
         CPPUNIT_ASSERT(! object->getTrait<HasParentTrait1>()) ;
         
-        model->addTrait(object,new Parent()) ;
+        object->addTrait(new Parent()) ;
         
         CPPUNIT_ASSERT(object->getTrait<HasParentTrait1>()) ;
         CPPUNIT_ASSERT(child->getTrait<HasParentTrait1>()) ;
@@ -741,7 +741,7 @@ namespace ProjetUnivers {
                             ->getView<ViewHasParentTrait1>(viewpoint.get())
                             ->getUpdateNumber() == 0) ;
         
-        model->addTrait(child,new Parent()) ;
+        child->addTrait(new Parent()) ;
         
         CPPUNIT_ASSERT(object->getTrait<HasParentTrait1>()) ;
         CPPUNIT_ASSERT(child->getTrait<HasParentTrait1>()) ;
@@ -758,17 +758,17 @@ namespace ProjetUnivers {
         std::auto_ptr<Model> model(new Model("TestDeducedTrait::addRemoveParentTrait")) ;
         
         Object* object = model->createObject() ;
-        Object* child = model->createObject(object) ;
+        Object* child = object->createObject() ;
         
         CPPUNIT_ASSERT(! child->getTrait<HasParentTrait1>()) ;
         CPPUNIT_ASSERT(! object->getTrait<HasParentTrait1>()) ;
         
-        model->addTrait(object,new Parent()) ;
+        object->addTrait(new Parent()) ;
         
         CPPUNIT_ASSERT(object->getTrait<HasParentTrait1>()) ;
         CPPUNIT_ASSERT(child->getTrait<HasParentTrait1>()) ;
         
-        model->destroyTrait(object,object->getTrait<Parent>()) ;
+        object->destroyTrait(object->getTrait<Parent>()) ;
         
         CPPUNIT_ASSERT(! child->getTrait<HasParentTrait1>()) ;
         CPPUNIT_ASSERT(! object->getTrait<HasParentTrait1>()) ;
@@ -782,14 +782,14 @@ namespace ProjetUnivers {
         viewpoint->init() ;
         
         Object* object = model->createObject() ;
-        Object* child = model->createObject(object) ;
-        Object* grand_child = model->createObject(child) ;
+        Object* child = object->createObject() ;
+        Object* grand_child = child->createObject() ;
         
         CPPUNIT_ASSERT(! object->getTrait<HasParentTrait1>()) ;
         CPPUNIT_ASSERT(! child->getTrait<HasParentTrait1>()) ;
         CPPUNIT_ASSERT(! grand_child->getTrait<HasParentTrait1>()) ;
         
-        model->addTrait(object,new Parent()) ;
+        object->addTrait(new Parent()) ;
         
         CPPUNIT_ASSERT(object->getTrait<HasParentTrait1>()) ;
         CPPUNIT_ASSERT(child->getTrait<HasParentTrait1>()) ;
@@ -805,7 +805,7 @@ namespace ProjetUnivers {
                             ->getView<ViewHasParentTrait1>(viewpoint.get())
                             ->getUpdateNumber() == 0) ;
         
-        model->addTrait(child,new Parent()) ;
+        child->addTrait(new Parent()) ;
         
         CPPUNIT_ASSERT(object->getTrait<HasParentTrait1>()) ;
         CPPUNIT_ASSERT(child->getTrait<HasParentTrait1>()) ;
@@ -855,12 +855,12 @@ namespace ProjetUnivers {
         viewpoint->init() ;
         
         Object* object = model->createObject() ;
-        Object* child = model->createObject(object) ;
+        Object* child = object->createObject() ;
         
         CPPUNIT_ASSERT(! object->getTrait<HasParentTrait1>()) ;
         CPPUNIT_ASSERT(! child->getTrait<HasParentTrait1>()) ;
         
-        model->addTrait(object,new Parent()) ;
+        object->addTrait(new Parent()) ;
         
         CPPUNIT_ASSERT(object->getTrait<HasParentTrait1>()) ;
         CPPUNIT_ASSERT(child->getTrait<HasParentTrait1>()) ;
@@ -891,20 +891,20 @@ namespace ProjetUnivers {
         viewpoint->init() ;
         
         Object* object = model->createObject() ;
-        Object* child = model->createObject(object) ;
-        Object* grand_child = model->createObject(child) ;
+        Object* child = object->createObject() ;
+        Object* grand_child = child->createObject() ;
         
         CPPUNIT_ASSERT(! child->getTrait<HasParentTrait1>()) ;
         CPPUNIT_ASSERT(! object->getTrait<HasParentTrait1>()) ;
         
-        model->addTrait(object,new Parent()) ;
-        model->addTrait(child,new Parent()) ;
+        object->addTrait(new Parent()) ;
+        child->addTrait(new Parent()) ;
         
         CPPUNIT_ASSERT(grand_child->getTrait<HasParentTrait1>()
                                   ->getView<ViewHasParentTrait1>(viewpoint.get())
                                   ->getUpdateNumber() == 1) ;
         
-        model->destroyTrait(child,child->getTrait<Parent>()) ;
+        child->destroyTrait(child->getTrait<Parent>()) ;
         
         CPPUNIT_ASSERT(grand_child->getTrait<HasParentTrait1>()
                                   ->getView<ViewHasParentTrait1>(viewpoint.get())
@@ -918,17 +918,17 @@ namespace ProjetUnivers {
         std::auto_ptr<Model> model(new Model("TestDeducedTrait::addParentTrait")) ;
         
         Object* object = model->createObject() ;
-        Object* child = model->createObject(object) ;
+        Object* child = object->createObject() ;
         
         CPPUNIT_ASSERT(! child->getTrait<ParentAndTrait1>()) ;
         CPPUNIT_ASSERT(! object->getTrait<ParentAndTrait1>()) ;
         
-        model->addTrait(object,new Parent()) ;
+        object->addTrait(new Parent()) ;
 
         CPPUNIT_ASSERT(! child->getTrait<ParentAndTrait1>()) ;
         CPPUNIT_ASSERT(! object->getTrait<ParentAndTrait1>()) ;
 
-        model->addTrait(child,new Trait1()) ;
+        child->addTrait(new Trait1()) ;
         
         CPPUNIT_ASSERT(! object->getTrait<ParentAndTrait1>()) ;
         CPPUNIT_ASSERT(child->getTrait<ParentAndTrait1>()) ;
@@ -942,10 +942,10 @@ namespace ProjetUnivers {
         
         Object* object = model->createObject() ;
         CPPUNIT_ASSERT(! object->getTrait<HasParentTrait1>()) ;
-        model->addTrait(object,new Parent()) ;
+        object->addTrait(new Parent()) ;
 
         // create a child after...
-        Object* child = model->createObject(object) ;
+        Object* child = object->createObject() ;
         CPPUNIT_ASSERT(object->getTrait<HasParentTrait1>()) ;
         CPPUNIT_ASSERT(child->getTrait<HasParentTrait1>()) ;
       }
@@ -956,15 +956,15 @@ namespace ProjetUnivers {
         std::auto_ptr<Model> model(new Model("TestDeducedTrait::changeParentHasParentBecomeTrue")) ;
         
         Object* object = model->createObject() ;
-        Object* child = model->createObject(object) ;
+        Object* child = object->createObject() ;
 
         Object* object2 = model->createObject() ;
-        model->addTrait(object2,new Parent()) ;
+        object2->addTrait(new Parent()) ;
 
         CPPUNIT_ASSERT(! child->getTrait<HasParentTrait1>()) ;
         CPPUNIT_ASSERT(! object->getTrait<HasParentTrait1>()) ;
 
-        model->changeParent(child,object2) ;
+        child->changeParent(object2) ;
         
         CPPUNIT_ASSERT(child->getTrait<HasParentTrait1>()) ;
       }
@@ -975,14 +975,14 @@ namespace ProjetUnivers {
         std::auto_ptr<Model> model(new Model("TestDeducedTrait::changeParentHasParentBecomeFalse")) ;
         
         Object* object = model->createObject() ;
-        Object* child = model->createObject(object) ;
+        Object* child = object->createObject() ;
 
         Object* object2 = model->createObject() ;
-        model->addTrait(object,new Parent()) ;
+        object->addTrait(new Parent()) ;
 
         CPPUNIT_ASSERT(child->getTrait<HasParentTrait1>()) ;
 
-        model->changeParent(child,object2) ;
+        child->changeParent(object2) ;
         
         CPPUNIT_ASSERT(! child->getTrait<HasParentTrait1>()) ;
       }
@@ -995,15 +995,15 @@ namespace ProjetUnivers {
         viewpoint->init() ;
         
         Object* object = model->createObject() ;
-        Object* child = model->createObject(object) ;
+        Object* child = object->createObject() ;
 
         Object* object2 = model->createObject() ;
-        model->addTrait(object2,new Parent()) ;
-        model->addTrait(object,new Parent()) ;
+        object2->addTrait(new Parent()) ;
+        object->addTrait(new Parent()) ;
 
         CPPUNIT_ASSERT(child->getTrait<HasParentTrait1>()) ;
 
-        model->changeParent(child,object2) ;
+        child->changeParent(object2) ;
         
         CPPUNIT_ASSERT(child->getTrait<HasParentTrait1>()) ;
 
@@ -1011,6 +1011,33 @@ namespace ProjetUnivers {
         CPPUNIT_ASSERT(child->getTrait<HasParentTrait1>()
                             ->getView<ViewHasParentTrait1>(viewpoint.get())
                             ->getUpdateNumber() == 1) ;
+      }
+      
+      namespace 
+      {
+        class NegativeDeducedTrait : public DeducedTrait
+        {};
+        
+        DeclareDeducedTrait(NegativeDeducedTrait,Not(HasTrait(Trait1))) ;
+        
+        class DeducedTraitOnDeducedTrait : public DeducedTrait
+        {};
+
+        DeclareDeducedTrait(DeducedTraitOnDeducedTrait,HasTrait(NegativeDeducedTrait)) ;
+        
+      }
+      
+      void TestDeducedTrait::deducedTraitOnDeducedTrait()
+      {
+        InternalMessage("Kernel","Kernel::Test::TestDeducedTrait::deducedTraitOnDeducedTrait entering") ;
+        /// create a model
+        std::auto_ptr<Model> model(new Model()) ;
+
+        //// fill the model
+        Object* object = model->createObject() ;
+        
+        CPPUNIT_ASSERT(object->getTrait<NegativeDeducedTrait>()) ;
+        CPPUNIT_ASSERT(object->getTrait<DeducedTraitOnDeducedTrait>()) ;
       }
       
       void TestDeducedTrait::setUp()

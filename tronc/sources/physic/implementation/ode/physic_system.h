@@ -22,7 +22,7 @@
 #define PU_PHYSIC_IMPLEMENTATION_REAL_WORLD_VIEW_POINT_H_
 
 #include <kernel/controler_set.h>
-
+#include <kernel/model.h>
 
 namespace ProjetUnivers {
   namespace Physic {
@@ -37,16 +37,23 @@ namespace ProjetUnivers {
         public:
         
           /// Contructs.
-          PhysicSystem(Kernel::Object* i_observer) ;
+          PhysicSystem(Kernel::Model* model) ;
           
           /// Simulate the system during @c i_seconds seconds.
           virtual void simulate(const float& i_seconds) ;
 
         protected:
           
+          /// Initialise ODE.
+          virtual void onInit() ;
+
+          /// Close ODE.
+          virtual void onClose() ;
+          
           /// True iff object is taken into account.
           virtual bool isVisible(Kernel::Object* i_object) const ;  
-          
+
+          float m_elapsed ;
         };
       }
     }

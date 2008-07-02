@@ -62,31 +62,26 @@ namespace ProjetUnivers {
             to heard the variation with the angle.
           
         */
-      
-        Model::init() ;
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestConeProperty::basicTest")) ;
+        model->init() ;
         
-        Kernel::Object* system = Model::createObject("system") ;
-        Model::addTrait(system, new Model::Positionned()) ;
-        Model::addTrait(system, new Model::Oriented()) ;
+        Kernel::Object* system = model->createObject() ;
+        system->addTrait(new Model::Positionned()) ;
+        system->addTrait(new Model::Oriented()) ;
 
-        Kernel::Object* listener = Model::createObject(system) ;
-        Model::addTrait(listener,new Model::Listener()) ;
+        Kernel::Object* listener = system->createObject() ;
+        listener->addTrait(new Model::Listener()) ;
         Model::Positionned* listenerPos = new Model::Positionned(Model::Position::Meter(0,0,0));
-        Model::addTrait(listener,listenerPos) ;
-        Model::addTrait(listener,new Model::Oriented(Model::Orientation(Ogre::Quaternion(1.0, 0.0, 10.0, 0.0)))) ;
-        Model::addTrait(listener,new Model::Mobile());
+        listener->addTrait(listenerPos) ;
+        listener->addTrait(new Model::Oriented(Model::Orientation(Ogre::Quaternion(1.0, 0.0, 10.0, 0.0)))) ;
+        listener->addTrait(new Model::Mobile());
 
-        Kernel::Object* engine = Model::createObject(system) ;
-        Model::addTrait(engine,new Model::Engine(Model::Force::Newton(10,10,10))) ;
+        Kernel::Object* engine = system->createObject() ;
+        engine->addTrait(new Model::Engine(Model::Force::Newton(10,10,10))) ;
         Model::Positionned* enginePos = new Model::Positionned(Model::Position::Meter(0,0,0));
-        Model::addTrait(engine,enginePos);
-        Model::addTrait(engine,new Model::Oriented(Model::Orientation(Ogre::Quaternion(1.0, 0.0, -10.0, 0.0)))) ;
-        Model::addTrait(engine,new Model::Mobile());
-        
-        /// build a sound viewpoint        
-        Sound::init() ;
-        Sound::build(listener, system) ;
-        
+        engine->addTrait(enginePos);
+        engine->addTrait(new Model::Oriented(Model::Orientation(Ogre::Quaternion(1.0, 0.0, -10.0, 0.0)))) ;
+        engine->addTrait(new Model::Mobile());
         
         Kernel::Timer timer ;
 
@@ -103,14 +98,9 @@ namespace ProjetUnivers {
           }
           listenerPos->setPosition(Model::Position::Meter(0.0,5*std::cos(angle*2*PI),5*std::sin(angle*2*PI)));
           float seconds = timer.getSecond() ;
-          Model::Duration elapsed(Model::Duration::Second(seconds)) ;
-          Model::update(elapsed) ;
-          Sound::update() ;
+          timer.reset() ;
+          model->update(seconds) ;
         }      
-        
-        Sound::close();
-        Model::close();
-        
       }
 
       void TestConeProperty::setUp() 

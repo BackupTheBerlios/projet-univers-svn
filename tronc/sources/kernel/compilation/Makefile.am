@@ -55,8 +55,8 @@ $(SOURCES)/kernel/test/test_command.cpp \
 $(SOURCES)/kernel/test/test_parameters.cpp \
 $(SOURCES)/kernel/test/test_percentage.cpp \
 $(SOURCES)/kernel/test/test_xml_reader.cpp \
+$(SOURCES)/kernel/test/test_viewpoint_registration.cpp \
 $(SOURCES)/kernel/test/test_model.cpp 
-
 
 
 # checks that "test_inherits.cpp" does not compile

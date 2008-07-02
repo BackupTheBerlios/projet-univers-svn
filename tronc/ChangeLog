@@ -11,7 +11,7 @@
 
 2006-10-27 rogma 
   
-  * configure.ac : incrémentation de la version 
+  * configure.ac : incrementation de la version 
 
   * modele 
       - objet.h, modele.h : ajout de Enlever(Objet)
@@ -21,14 +21,14 @@
   * base
       - point_de_vue.h : ajout de Enlever(BaseVue)
       - vue.cxx : correction d'une segmentation fault 
-                        (ajout de test de validité de observe dans ~Vue)
+                        (ajout de test de validite de observe dans ~Vue)
   * action
-      - action.cpp : ajout du traitement d'une nouvelle action détruisant 
+      - action.cpp : ajout du traitement d'une nouvelle action detruisant 
         un objet
   * affichage :
       - point_de_vue.h : 
-         ajout d'une spécialisation de Detruire(BaseVue)
-         correction de include/déclarations en avant
+         ajout d'une specialisation de Detruire(BaseVue)
+         correction de include/declarations en avant
       - objet.h/cpp : correction du type de retours de Ajouter(Facette*)
                                ajout de Enlever pour Objet et Facette
 
@@ -630,13 +630,83 @@
   * Display :
     - added space dust effect on Observer to show speed to user
 
+2008-07-03 rogma
+
+  * All :
+    - added 'make doxygen-doc' for doxygen documentation generation 
+  * Kernel :
+    - added RegisterViewPoint and RegisterControlerSet : the idea is to declare 
+      "global" viewpoints and controler sets such as Display, Sound, Physic, ...
+      that are automaticaly built on any "global" model provided it has been 
+      declared and viewpoint is built with a model parameter
+    - added Object interface for adding sub-objects, traits ... no need to go 
+      through Model anymore
+    - viewpoints and controlers are destroyed when associated model is
+    - removing of old dated interface
+    - viewpoints are initialised first and destroyed last (a quite bad hack for 
+      intialising Display before Input)
+    - Bug correction : valgrind reported memory errors on tests (deduce traits)
+      initial evaluation of formulae accessed to Trait validity whereas Trait 
+      validity is not stored into the validity vector of object
+  * Game
+    - initial creation
+    - GameState represents splash screen, menu, and game 
+    - added basic controler for quitting game state, transition to other state
+  * Model :
+    - added Player trait 
+    - removed testDemonstration because it is quite obsolete
+    - adapted tests to new system, removed all call to Model::init(), 
+      Model::update(), Model:close()
+    - added PlayerConfiguration trait to store input/command mapping
+    - added CustomMission to represent configurable melee (still beta)
+    - added GameState to be able to quit
+    - added Image to make spash screens
+  * Display :
+    - modified construction of display viewpoint, Observer is obtained by 
+      searching Player + Observer trait
+    - adapted tests to new system, removed all calls to init(), update(), 
+      close() of modules
+    - modified Ogre intialisation : Ogre is initialised on the first display 
+      viewpoint initialisation, and closed either at demand or at the end of 
+      the program.  
+    - added Image display
+  * Physic :
+    - modified construction of controler set, no observer needed.
+    - corrected a bug on PhysicalObject : initial value of m_being_updated was 
+      random
+    - adapted tests to new system, removed all calls to init(), update(), 
+      close() of modules
+    - added initOde, closOde in PhysicSystem init/close
+    - added deduced view on Solid and PhysicalObjetc to correct a bug : 
+      when adding Solid trait before PhysicalObject was deduced, solid where 
+      attached to "nothing"
+  * ArtificialIntelligence :
+    - modified construction of controler set, no observer needed.
+    - adapted tests to new system, removed all calls to init(), update(), 
+      close() of modules
+  * Input :
+    - changed input to a controler set
+    - made a controler on Player using PlayerConfiguration to get 'key'/command 
+      mapping
+    - added GameState controler : always quit on escape key
+    - added basic tests
+    - added Menu input injection (keyboard and mouse)
+  * Demonstration :
+    - modified to use Game module
+    
 @todo :
 
   
-  * ArtificialIntelligence : 
+  * All : 
+    - add Game controler and trait for handling team respawn ...
+    - considered in a lot of places that Z axis is forward... whereas Ogre 
+      consider negative Z as forward ??? 
+    
+  * Game :  
+    - add a pause game state (does not close the system but does not update, but 
+      how to collect inputs in that case ???)
      
   * Model : 
-
     - Event traits like Collision, Shot should be implemented through 
       WithLifetime with a life time of zero
          
@@ -682,10 +752,14 @@
     - when initing ogre, close any already openned ogre objects in other 
       modules
     - replace display::init(bool) with an enum
+    - find a way to preload ressources as needed (some ressources may appear 
+      during game like explosions, lasers) some ressources are known like 
+      ships...
+    - make a loading bar : create a ressource loading queue (inspire from 
+      Ogre::ResourceBackgroundQueue that is not by default on ogre package)  
     
   * Input :
     - be able to map any axis on anything
-    - be able to map keys to actions 
   
   * Action :
     - get rid of it ?? the only applied action for now is "quit", it could be 
@@ -712,7 +786,8 @@
     - add Shot sound
     
   * Kernel :
-  
+    
+    - refactoring : viewpoint and controler set have a lot in common...
     - add better errors on object structure
     
     - add an onDeduced event on deduced traits : it would allow one to perform 

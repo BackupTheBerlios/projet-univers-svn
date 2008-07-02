@@ -35,10 +35,10 @@ namespace ProjetUnivers {
       class TestModelView : public CppUnit::TestFixture {
       public:
 
-        /// Initialisation du test
+        /// Tests setup
         void setUp() ;
 
-        /// Desinitialisation du test
+        /// Tests close.
         void tearDown() ;
 
       protected:
@@ -75,9 +75,6 @@ namespace ProjetUnivers {
 
         /// Tests creating, destroying then recreating an object.
         void testCreateTwice() ;
-
-        /// Tests destroying an unexisting object.
-        void testDestroyUnexisting() ;
 
         /// Tests closing viewpoint.
         void testCloseViewPoint() ;
@@ -146,6 +143,9 @@ namespace ProjetUnivers {
         /// Destroy a viewpoint.
         void detroyViewPoint() ;
         
+        /// Destroying a model must call onClose on viewpoint.
+        void destroyModelAndCloseViewPoint() ;
+        
       // @}
 
 
@@ -160,7 +160,6 @@ namespace ProjetUnivers {
         CPPUNIT_TEST(testUpdate) ;
         CPPUNIT_TEST(testViewAccess) ;
         CPPUNIT_TEST(testCreateTwice) ;
-        CPPUNIT_TEST(testDestroyUnexisting) ;
         CPPUNIT_TEST(testCloseViewPoint) ;
         CPPUNIT_TEST(testNotPresentTrait) ;
         CPPUNIT_TEST(testDestroyModel) ;
@@ -178,6 +177,7 @@ namespace ProjetUnivers {
         CPPUNIT_TEST(changeModelOnViewPoint) ;
         CPPUNIT_TEST(destroyObjectWithDeducedTraits) ;
         CPPUNIT_TEST(detroyViewPoint) ;
+        CPPUNIT_TEST(destroyModelAndCloseViewPoint) ;
 
         CPPUNIT_TEST_SUITE_END() ;
 

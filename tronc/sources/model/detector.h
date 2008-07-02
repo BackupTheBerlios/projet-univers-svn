@@ -86,13 +86,13 @@ namespace ProjetUnivers {
     private:
       
       /// Implementation.
-      std::auto_ptr<Implementation::DetectorViewPoint> m_implementation ;
+      Implementation::DetectorViewPoint* m_implementation ;
       
       /// detecting range.
-      Distance                                         m_range ;
+      Distance                           m_range ;
       
       /// The computer in which we store detection data.
-      Kernel::ObjectReference                          m_computer ;
+      Kernel::ObjectReference            m_computer ;
       
     };
 

@@ -82,19 +82,21 @@ namespace ProjetUnivers {
       private:
         
         /// Agent's vehicle
-        Vehicle* m_vehicle ;
+        Vehicle*               m_vehicle ;
         
         /// Other vehicles
-        std::set<Vehicle*> m_other_vehicles ;
+        std::set<Vehicle*>     m_other_vehicles ;
         
         /// Current target.
-        Vehicle* m_target ;
+        Vehicle*               m_target ;
         
         /// A view point for detection data
-        std::auto_ptr<AgentViewPoint> m_view_point ;
+        AgentViewPoint*        m_view_point ;
 
         /// A view point for its vehicle
-        std::auto_ptr<AgentVehicleViewPoint> m_vehicle_view_point ;
+        AgentVehicleViewPoint* m_vehicle_view_point ;
+        
+        bool m_added_view ;
         
         /// Execute the given objective.
         /*!
@@ -128,16 +130,16 @@ namespace ProjetUnivers {
         void calibrateSteering(const float& seconds_since_last_frame) ;
         
         /// Steering to apply this turn.
-        Ogre::Vector3 m_steering ;
+        Ogre::Vector3      m_steering ;
         
         /// Agent speed at previous frame.
         /*!
           For steering calibration purpose
         */
-        Ogre::Vector3 m_previous_speed ;
+        Ogre::Vector3      m_previous_speed ;
         
         /// Agent orientation at previous frame.
-        Ogre::Quaternion m_previous_orientation ;
+        Ogre::Quaternion   m_previous_orientation ;
         
         /// Commands send previous frame
         Kernel::Percentage m_previous_X ;
@@ -147,14 +149,14 @@ namespace ProjetUnivers {
         Kernel::Percentage m_delta_throttle ;
         
         /// Deduced maximum steering. 
-        Ogre::Vector3 m_max_steering ;
+        Ogre::Vector3      m_max_steering ;
         
         /// Maximum turning rate in radian per seconds per unit of turning command 
-        Ogre::Degree m_max_steering_X ;
-        Ogre::Degree m_max_steering_Y ;
+        Ogre::Degree       m_max_steering_X ;
+        Ogre::Degree       m_max_steering_Y ;
         
         /// Maximum acceleration in meter per suare seconds per unit of throttle
-        float m_max_steering_speed ;
+        float              m_max_steering_speed ;
       };
       
     }

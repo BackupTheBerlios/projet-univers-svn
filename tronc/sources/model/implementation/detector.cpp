@@ -78,15 +78,15 @@ namespace ProjetUnivers {
       InternalMessage("Model","Model::Detector::detect entering") ;
       // perform detection pass on implementation
       Kernel::forAll<Implementation::DetectorObjectView>(
-        m_implementation.get(),&Implementation::DetectorObjectView::check) ;
+        m_implementation,&Implementation::DetectorObjectView::check) ;
       InternalMessage("Model","Model::Detector::detect leaving") ;
     }
     
     void Detector::init()
     {
-      if (! m_implementation.get())
+      if (! m_implementation)
       {
-        m_implementation.reset(new Implementation::DetectorViewPoint(this)) ;
+        m_implementation = new Implementation::DetectorViewPoint(this) ;
         m_implementation->init() ;
       }
     }

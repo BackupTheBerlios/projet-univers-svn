@@ -315,6 +315,9 @@ namespace ProjetUnivers {
         {
           
           (*formula)->eval(object) ;
+          if ((*formula)->isValid(object))
+            DeducedTrait::notify(*formula,true,object) ;
+          
         }
       }
     }
@@ -324,20 +327,20 @@ namespace ProjetUnivers {
       InternalMessage("Kernel","DeducedTrait::evaluateInitial on object " + toString(object->getIdentifier())) ;
       /// calculate all formulas.
       Formula::evaluateInitial(object) ;
-      /// if we have new conclusions -> we set them
-      for(std::map<Formula*,DeducedTraitBuilder>::const_iterator 
-            builder = StaticStorage::get()->m_builders.begin() ;
-          builder != StaticStorage::get()->m_builders.end() ;
-          ++builder)
-      {
-        if (object->getValidity(builder->first))
-        {
-          InternalMessage("Kernel","Formula " + builder->first->print() 
-                                   + " is true for objectid= " 
-                                   + toString(object->getIdentifier())) ;
-          object->_add((builder->second)()) ;
-        }
-      }
+//      /// if we have new conclusions -> we set them
+//      for(std::map<Formula*,DeducedTraitBuilder>::const_iterator 
+//            builder = StaticStorage::get()->m_builders.begin() ;
+//          builder != StaticStorage::get()->m_builders.end() ;
+//          ++builder)
+//      {
+//        if (builder->first->isValid(object))
+//        {
+//          InternalMessage("Kernel","Formula " + builder->first->print() 
+//                                   + " is true for objectid= " 
+//                                   + toString(object->getIdentifier())) ;
+//          object->_add((builder->second)()) ;
+//        }
+//      }
     }
 
     void FormulaAnd::eval(Object* object)
@@ -350,9 +353,10 @@ namespace ProjetUnivers {
           child != m_children.end() ;
           ++child)
       {
-        validity &= object->getValidity(*child) ;
+        bool child_validity = (*child)->isValid(object) ;
+        validity &= child_validity ;
         
-        if (object->getValidity(*child))
+        if (child_validity)
         {
           ++true_child_number ;
         }
@@ -377,9 +381,11 @@ namespace ProjetUnivers {
           child != m_children.end() ;
           ++child)
       {
-        validity |= object->getValidity(*child) ;
+        bool child_validity = (*child)->isValid(object) ;
+        
+        validity |= child_validity ;
 
-        if (object->getValidity(*child))
+        if (child_validity)
         {
           ++true_child_number ;
         }
@@ -404,7 +410,7 @@ namespace ProjetUnivers {
       
       std::set<Formula*>::const_iterator child = m_children.begin() ;
 
-      if (object->getValidity(*child))
+      if ((*child)->isValid(object))
       {
         validity = false ; 
         true_child_number = 1 ;
@@ -414,8 +420,8 @@ namespace ProjetUnivers {
         validity = true ;
       }
       object->setNumberOfTrueChildFormulae(this,true_child_number) ;
-      
       object->setValidity(this,validity) ;
+      
 //      InternalMessage("Kernel","FormulaNot::eval Leaving id=" 
 //                           + toString((float)m_identifier)
 //                           + " with initial value=" 
@@ -424,9 +430,14 @@ namespace ProjetUnivers {
 
     void TraitFormula::eval(Object* object)
     {
-      object->setValidity(this,false) ;
+      // nothing to do : its false...
     }
 
+    bool TraitFormula::isValid(Object* object) const
+    {
+      return object->getTrait(m_trait) ;
+    }
+    
     void HasParentFormula::eval(Object* object)
     {
       InternalMessage("Kernel","HasParentFormula::eval") ;

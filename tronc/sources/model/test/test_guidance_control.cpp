@@ -60,24 +60,24 @@ namespace ProjetUnivers {
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestGuidanceControl::basicTest")) ;
         
         /// should be a PhysicalWorld
-        Kernel::Object* system = model->createObject("system") ;
+        Kernel::Object* system = model->createObject() ;
         CPPUNIT_ASSERT(system->getTrait<PhysicalWorld>()) ;
 
-        Kernel::Object* ship = model->createObject("ship",system) ;
-        model->addTrait(ship,new Positionned()) ;
-        model->addTrait(ship,new Oriented()) ;
-        model->addTrait(ship,new Mobile()) ;
-        model->addTrait(ship,new Massive(Mass::Kilogram(1000))) ;
+        Kernel::Object* ship = system->createObject() ;
+        ship->addTrait(new Positionned()) ;
+        ship->addTrait(new Oriented()) ;
+        ship->addTrait(new Mobile()) ;
+        ship->addTrait(new Massive(Mass::Kilogram(1000))) ;
         CPPUNIT_ASSERT(ship->getTrait<PhysicalObject>()) ;
         
-        Kernel::Object* stick = model->createObject("stick",ship) ;
-        model->addTrait(stick,new Oriented()) ;
+        Kernel::Object* stick = ship->createObject() ;
+        stick->addTrait(new Oriented()) ;
         
-        Kernel::Object* guidance_system = model->createObject("guidance_system",ship) ;
-        model->addTrait(guidance_system,new GuidanceSystem(1)) ;
+        Kernel::Object* guidance_system = ship->createObject() ;
+        guidance_system->addTrait(new GuidanceSystem(1)) ;
 
-        Kernel::Object* guidance_control = model->createObject("guidance_control",ship) ;
-        model->addTrait(guidance_control,new GuidanceControler()) ;
+        Kernel::Object* guidance_control = ship->createObject() ;
+        guidance_control->addTrait(new GuidanceControler()) ;
 
         connectStickControler(stick,guidance_control) ;
         connectControlerGuidanceSystem(guidance_control,guidance_system) ;
@@ -86,35 +86,35 @@ namespace ProjetUnivers {
         {
           /// variables redefines to have direct access to interesting traits
           
-          GuidanceSystem* guidance_system = model->getObject("guidance_system")->getTrait<GuidanceSystem>() ;
-          CPPUNIT_ASSERT(guidance_system) ;
-          GuidanceControler* guidance_control = model->getObject("guidance_control")->getTrait<GuidanceControler>() ;
-          CPPUNIT_ASSERT(guidance_control) ;
-          Oriented* stick = model->getObject("stick")->getTrait<Oriented>() ;
-          CPPUNIT_ASSERT(stick) ;
+          GuidanceSystem* guidance_system_trait = guidance_system->getTrait<GuidanceSystem>() ;
+          CPPUNIT_ASSERT(guidance_system_trait) ;
+          GuidanceControler* guidance_control_trait = guidance_control->getTrait<GuidanceControler>() ;
+          CPPUNIT_ASSERT(guidance_control_trait) ;
+          Oriented* stick_trait = stick->getTrait<Oriented>() ;
+          CPPUNIT_ASSERT(stick_trait) ;
           
           /// basic init check          
-          CPPUNIT_ASSERT(guidance_system->NewtonMeter() == Ogre::Vector3(0,0,0)) ;
+          CPPUNIT_ASSERT(guidance_system_trait->NewtonMeter() == Ogre::Vector3(0,0,0)) ;
 
           /// set stick orientation at full thrust... 
           Ogre::Quaternion orientation(0,1,0,0) ;
-          stick->setOrientation(orientation) ;
+          stick_trait->setOrientation(orientation) ;
 
-//          std::cout << guidance_system->NewtonMeter() ;
+//          std::cout << guidance_system_trait->NewtonMeter() ;
 
-          CPPUNIT_ASSERT(equal(guidance_system->NewtonMeter().x,-pi) &&
-                         equal(guidance_system->NewtonMeter().y,pi) &&
-                         equal(guidance_system->NewtonMeter().z,0)) ;
+          CPPUNIT_ASSERT(equal(guidance_system_trait->NewtonMeter().x,-pi) &&
+                         equal(guidance_system_trait->NewtonMeter().y,pi) &&
+                         equal(guidance_system_trait->NewtonMeter().z,0)) ;
 
           /// reorient ship...
           ship->getTrait<Oriented>()->setOrientation(
             Ogre::Quaternion(sqrt(0.5),0,sqrt(0.5),0)) ;
           
-//          std::cout << guidance_system->NewtonMeter() ;
+//          std::cout << guidance_system_trait->NewtonMeter() ;
           
-          CPPUNIT_ASSERT(equal(guidance_system->NewtonMeter().x,0) &&
-                         equal(guidance_system->NewtonMeter().y,pi) &&
-                         equal(guidance_system->NewtonMeter().z,pi)) ;
+          CPPUNIT_ASSERT(equal(guidance_system_trait->NewtonMeter().x,0) &&
+                         equal(guidance_system_trait->NewtonMeter().y,pi) &&
+                         equal(guidance_system_trait->NewtonMeter().z,pi)) ;
         }
       }
       

@@ -58,12 +58,12 @@ namespace ProjetUnivers {
             Ogre::Vector3 force = getTrait()->getAppliedForce().Newton() ;
 
             InternalMessage("Physic","Physic::ForceGenerator::prepare " +
-                            getObject()->getName() 
+                            Kernel::toString(getObject()->getIdentifier()) 
                             + " force = " +  
                             Kernel::toString(force.x) + "," + 
                             Kernel::toString(force.y) + "," +
                             Kernel::toString(force.z)
-                            + " applied on object " + m_object->getObject()->getName()) ;
+                            + " applied on object " + Kernel::toString(m_object->getObject()->getIdentifier())) ;
              
             m_object->getBody()->addForce((dReal)(force.x),
                                           (dReal)(force.y),
@@ -96,9 +96,6 @@ namespace ProjetUnivers {
 
           if (physical_object)
           {
-//            InformationMessage("Physic",getObject()->getName() +  " has physical object : " 
-//                               + physical_object->getObject()->getName()) ; 
-            
             return physical_object->getControler<PhysicalObject>(getControlerSet()) ;
           }           
           return NULL ;

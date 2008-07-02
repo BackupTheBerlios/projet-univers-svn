@@ -48,6 +48,7 @@
 #include <model/collision.h>
 
 #include <physic/physic.h>
+#include <physic/implementation/ode/physic_system.h>
 
 #include <physic/test/test_shooting_helper.h>
 
@@ -79,35 +80,36 @@ namespace ProjetUnivers {
           
           we select a target and check the property of the ideal target 
         */
-        Model::init() ;
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestShootingHelper::basicTest")) ;
+        model->init() ;
 
-        Kernel::Object* system = Model::createObject("system") ;
+        Kernel::Object* system = model->createObject() ;
         CPPUNIT_ASSERT(system->getTrait<Model::PhysicalWorld>()) ;
 
-        Kernel::Object* ship = Model::createObject("ship",system) ;
-        Model::addTrait(ship,new Model::Positionned()) ;
-        Model::addTrait(ship,new Model::Oriented()) ;
-        Model::addTrait(ship,new Model::Massive(Model::Mass::Kilogram(1000))) ;
-        Model::addTrait(ship,new Model::Mobile()) ;
-        Model::addTrait(ship,new Model::Computer()) ;
-        Model::addTrait(ship,new Model::Laser(Model::Position::Meter(19.2,0,35),
+        Kernel::Object* ship = system->createObject() ;
+        ship->addTrait(new Model::Positionned()) ;
+        ship->addTrait(new Model::Oriented()) ;
+        ship->addTrait(new Model::Massive(Model::Mass::Kilogram(1000))) ;
+        ship->addTrait(new Model::Mobile()) ;
+        ship->addTrait(new Model::Computer()) ;
+        ship->addTrait(new Model::Laser(Model::Position::Meter(19.2,0,35),
                                               Model::Orientation(),
                                               Model::Energy::Joule(10))) ;
-        Model::addTrait(ship,new Model::Detector(ship)) ;
-        Model::addTrait(ship,new Model::TargetingSystem()) ;
+        ship->addTrait(new Model::Detector(ship)) ;
+        ship->addTrait(new Model::TargetingSystem()) ;
         Model::TargetingSystem::connect(ship,ship) ;
-        Model::addTrait(ship,new Model::ShootingHelper()) ;
+        ship->addTrait(new Model::ShootingHelper()) ;
         Model::ShootingHelper::connect(ship,ship,ship) ;
         
-        Kernel::Object* ship2 = Model::createObject("ship2",system) ;
-        Model::addTrait(ship2,new Model::Positionned(Model::Position::Meter(0,0,300))) ;
-        Model::addTrait(ship2,new Model::Massive(Model::Mass::Kilogram(1000))) ;
-        Model::addTrait(ship2,new Model::Oriented()) ;
-        Model::addTrait(ship2,new Model::Mobile(Model::Speed::MeterPerSecond(0,10,0))) ;
-        Model::addTrait(ship2,new Model::Solid(Model::Mesh("razor.mesh"))) ;
+        Kernel::Object* ship2 = system->createObject() ;
+        ship2->addTrait(new Model::Positionned(Model::Position::Meter(0,0,300))) ;
+        ship2->addTrait(new Model::Massive(Model::Mass::Kilogram(1000))) ;
+        ship2->addTrait(new Model::Oriented()) ;
+        ship2->addTrait(new Model::Mobile(Model::Speed::MeterPerSecond(0,10,0))) ;
+        ship2->addTrait(new Model::Solid(Model::Mesh("razor.mesh"))) ;
         
         // for detection
-        Model::update(Model::Duration::Second(0.1)) ;
+        model->update(0.01) ;
 
         CPPUNIT_ASSERT(ship->getTrait<Model::Computer>()->getMemoryModel()->getRoots().size() == 1) ;
         
@@ -126,10 +128,6 @@ namespace ProjetUnivers {
         Model::Positionned* positionned = child->getTrait<Model::Positionned>() ;
         CPPUNIT_ASSERT(positionned) ;
         
-        /// build a physical viewpoint        
-        Physic::init() ;
-        Kernel::ControlerSet* physics = Physic::build(ship) ;
-
         // calculate orientation of laser from positionned and laser out position
         // we should also use laser relative position to the ship if existed
         ::Ogre::Quaternion quaternion(
@@ -139,12 +137,15 @@ namespace ProjetUnivers {
         ship->getTrait<Model::Laser>()->setOrientation(Model::Orientation(quaternion)) ;
         
         ship->getTrait<Model::Laser>()->fire() ;
+
+        Kernel::ControlerSet* physics = model->getControlerSet<Implementation::Ode::PhysicSystem>() ;
+        CPPUNIT_ASSERT(physics) ;
         
         /// simulation during enought time seconds ...
         const int steps_number = 200 ; 
         for(int i = 1 ; i <= steps_number ; ++i)
         {
-          Physic::update(Model::Duration::Second(0.1)) ;
+          physics->simulate(0.1) ;
         }
         
         /// check that collision has occured
@@ -158,8 +159,6 @@ namespace ProjetUnivers {
                        collision->getObject2()->getTrait<Model::LaserBeam>()) ;
         CPPUNIT_ASSERT(collision->getObject1() == ship2 || collision->getObject2() == ship2) ;
         
-        Physic::close() ;
-
         InternalMessage("Physic","Physic::Test::TestShootingHelper::basicTest leaving") ;
         
       }

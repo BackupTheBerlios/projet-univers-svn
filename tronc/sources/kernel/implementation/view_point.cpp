@@ -30,11 +30,16 @@
 namespace ProjetUnivers {
   namespace Kernel {
 
+    ViewPoint::StaticStorage* ViewPoint::StaticStorage::get()
+    {
+      static StaticStorage temp ;
+      return &temp ;
+    }
 
     ViewPoint::~ViewPoint()
     {
       InternalMessage("Kernel","ViewPoint::~ViewPoint destroying") ;
-      close() ;
+      this->close() ;
       InternalMessage("Kernel","ViewPoint::~ViewPoint destroyed") ;
     }
 
@@ -68,7 +73,8 @@ namespace ProjetUnivers {
 
     void ViewPoint::close()
     {
-      InternalMessage("Kernel","ViewPoint::close Entering") ;
+      InternalMessage("Kernel",std::string("ViewPoint::close Entering ") + 
+                               typeid(*this).name()) ;
       if (m_initialised && m_model)
       {
         /// must close all the objects according to current viewpoint
@@ -79,7 +85,10 @@ namespace ProjetUnivers {
         onClose() ;
 
         InternalMessage("Kernel","ViewPoint::close #2") ;
+      }
 
+      if (m_model)
+      {
         m_model->_unregister(this) ;
         m_model = NULL ;
         m_model_attached = false ;
@@ -135,6 +144,27 @@ namespace ProjetUnivers {
     {
       return true ;
     }
+
+    void ViewPoint::update(const float& seconds)
+    {}
+  
+    void ViewPoint::registerBuilder(ViewPoint::ViewPointBuilder builder)
+    {
+      StaticStorage::get()->m_viewpoint_builders.push_back(builder) ;
+    }
+    
+    void ViewPoint::buildRegistered(Model* model)
+    {
+      for(std::list<ViewPointBuilder>::const_iterator 
+            builder = StaticStorage::get()->m_viewpoint_builders.begin() ;
+          builder != StaticStorage::get()->m_viewpoint_builders.end() ;
+          ++builder)
+      {
+        ViewPoint* viewpoint = (*builder)(model) ;
+        model->_register(viewpoint) ;
+      }
+    }
+    
   }
 }
 

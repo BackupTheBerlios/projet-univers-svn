@@ -22,7 +22,7 @@
 #include <kernel/log.h>
 #include <kernel/string.h>
 #include <model/target_displayer.h>
-#include <model/observer.h>
+#include <display/implementation/observer.h>
 #include <display/implementation/ogre/observer.h>
 #include <display/implementation/ogre/head_up_display/target_displayer_viewpoint.h>
 
@@ -40,16 +40,22 @@ namespace ProjetUnivers {
             m_real_world(real_world)
           {
              InternalMessage("Display","Entering TargetDisplayerViewPoint::TargetDisplayerViewPoint") ;
-             if (target_display)
-             {
-               Model::TargetDisplayer* t = target_display->getTrait<Model::TargetDisplayer>() ;
-               if (t)
-               {
-                 InternalMessage("Display","setting model to" + Kernel::toString((int)t->getComputerModel())) ;
-                 setModel(t->getComputerModel()) ;
-               }
-             }
+             update(0) ;
              InternalMessage("Display","Leaving TargetDisplayerViewPoint::TargetDisplayerViewPoint") ;
+          }
+
+          void TargetDisplayerViewPoint::update(const float&)
+          {
+            if (m_target_displayer)
+            {
+              Model::TargetDisplayer* target_displayer = m_target_displayer->getTrait<Model::TargetDisplayer>() ;
+              if (target_displayer)
+              {
+                InternalMessage("Display","setting model to" + 
+                                Kernel::toString((int)target_displayer->getComputerModel())) ;
+                setModel(target_displayer->getComputerModel()) ;
+              }
+            }
           }
           
           Kernel::Object* TargetDisplayerViewPoint::getTargetingSystem() const
@@ -65,8 +71,17 @@ namespace ProjetUnivers {
 
           ::Ogre::Camera* TargetDisplayerViewPoint::getCamera() const
           {
-            return m_real_world->getObserver()->getTrait<Model::Observer>()
-                               ->getView<Observer>(m_real_world)->getCamera() ;
+            Kernel::Object* observer = m_real_world->getObserver() ;
+            if (! observer)
+              return NULL ;
+            
+            Observer* temp = observer->getTrait<Implementation::Observer>()
+                                     ->getView<Observer>(m_real_world) ;
+            
+            if (!temp)
+              return NULL ;
+            
+            return temp->getCamera() ;
           }
             
           Kernel::Object* TargetDisplayerViewPoint::getWorldRoot() const

@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007 Mathieu ROGER                                      *
+ *   Copyright (C) 2008 Mathieu ROGER                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,30 +18,20 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_DISPLAY_IMPLEMENTATION_DISPLAY_INTERNAL_H_
-#define PU_DISPLAY_IMPLEMENTATION_DISPLAY_INTERNAL_H_
+#ifndef PU_GAME_IMPLEMENTATION_GAME_WITH_LIFETIME_H_
+#define PU_GAME_IMPLEMENTATION_GAME_WITH_LIFETIME_H_
 
-#include <kernel/view_point.h>
+#include <kernel/deduced_trait.h>
 
 namespace ProjetUnivers {
-  namespace Display {
+  namespace Game {
+    namespace Implementation {
       
-  /*!
-    @name Internal interface for internal viewpoints.
-  
-    Registered viewpoints are updated every frame. 
-  */
-  // @{
-    
-    /// Add a viewpoint.
-    Kernel::ViewPoint* addViewPoint(Kernel::ViewPoint* viewpoint) ;
-
-    /// Remove a viewpoint.
-    void removeViewPoint(Kernel::ViewPoint* viewpoint) ;
-    
-  // @}
+      /// For game objects that have a lifetime.
+      class GameWithLifetime : public Kernel::DeducedTrait
+      {};
+    }
   }
 }
 
-
-#endif /*PU_DISPLAY_IMPLEMENTATION_DISPLAY_INTERNAL_H_*/
+#endif /*PU_GAME_IMPLEMENTATION_GAME_WITH_LIFETIME_H_*/

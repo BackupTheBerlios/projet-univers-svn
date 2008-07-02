@@ -63,6 +63,9 @@ namespace ProjetUnivers {
         ::Ogre::RenderWindow* getWindow() ;
         
         /// Access to GUI system.
+        ::CEGUI::System* getCEGUISystem() ;
+        
+        /// Access to GUI renderer.
         ::CEGUI::OgreCEGUIRenderer* getCEGUIRenderer() ;        
         
         /// Access to overlay, created on demand.

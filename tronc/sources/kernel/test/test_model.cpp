@@ -136,22 +136,22 @@ namespace ProjetUnivers {
         std::auto_ptr<Model> model(new Model("TestModel::testGetDescendants")) ;
 
         //// fill the model
-        Object* person = model->createObject("person") ;
-        model->addTrait(person,new Person()) ;
+        Object* person = model->createObject() ;
+        person->addTrait(new Person()) ;
         
         // create several heads
         {
-          Object* head = model->createObject(person) ;
-          model->addTrait(head,new Head()) ;
+          Object* head = person->createObject() ;
+          head->addTrait(new Head()) ;
           
-          head = model->createObject(head) ;
-          model->addTrait(head,new Head()) ;
+          head = head->createObject() ;
+          head->addTrait(new Head()) ;
           
         }
         
         {
-          Object* head = model->createObject(person) ;
-          model->addTrait(head,new Head()) ;
+          Object* head = person->createObject() ;
+          head->addTrait(new Head()) ;
         }        
 
         std::set<Head*> heads = person->getDescendants<Head>() ;
@@ -166,13 +166,13 @@ namespace ProjetUnivers {
         std::auto_ptr<Model> model(new Model("TestModel::testObjectReference")) ;
 
         //// fill the model
-        Object* object = model->createObject("referenced object") ;
+        Object* object = model->createObject() ;
         
         ObjectReference reference(object) ;
         
         {
           Object* object = reference ;
-          CPPUNIT_ASSERT(object->getName() == "referenced object") ;
+          CPPUNIT_ASSERT(object) ;
         }
       }
         
@@ -186,6 +186,8 @@ namespace ProjetUnivers {
         ObjectReference reference(object) ;
         
         model->destroyObject(object) ;
+        
+        CPPUNIT_ASSERT(!reference) ;
         
         {
           Object* object = reference ;
@@ -218,8 +220,8 @@ namespace ProjetUnivers {
         std::auto_ptr<Model> model(new Model("TestModel::testTraitReference")) ;
 
         //// fill the model
-        Object* object = model->createObject("referenced object") ;
-        model->addTrait(object,new Person()) ;
+        Object* object = model->createObject() ;
+        object->addTrait(new Person()) ;
         
         TraitReference<Person> reference(object) ;
         
@@ -235,11 +237,11 @@ namespace ProjetUnivers {
         std::auto_ptr<Model> model(new Model("TestModel::testTraitReferenceToRemovedTrait")) ;
 
         //// fill the model
-        Object* object = model->createObject("referenced object") ;
-        model->addTrait(object,new Person()) ;
+        Object* object = model->createObject() ;
+        object->addTrait(new Person()) ;
         
         TraitReference<Person> reference(object) ;
-        model->destroyTrait(object,reference) ;
+        object->destroyTrait(reference) ;
         
         {
           Person* person = reference ;
@@ -253,8 +255,8 @@ namespace ProjetUnivers {
         std::auto_ptr<Model> model(new Model("TestModel::testTraitReferenceToDestroyedObject")) ;
 
         //// fill the model
-        Object* object = model->createObject("referenced object") ;
-        model->addTrait(object,new Person()) ;
+        Object* object = model->createObject() ;
+        object->addTrait(new Person()) ;
         
         TraitReference<Person> reference(object) ;
         model->destroyObject(object) ;
@@ -271,7 +273,7 @@ namespace ProjetUnivers {
         std::auto_ptr<Model> model(new Model("TestModel::conversionTestObjectReference")) ;
         
         {
-          Object* object = model->createObject("referenced object") ;
+          Object* object = model->createObject() ;
           ObjectReference reference(object) ;
           CPPUNIT_ASSERT(reference) ;
         }
@@ -326,11 +328,11 @@ namespace ProjetUnivers {
         std::auto_ptr<Model> model(new Model("TestModel::destroyObjectWithDeducedTraits")) ;
 
         Object* object1 = model->createObject() ;
-        Object* object2 = model->createObject(object1) ;
+        Object* object2 = object1->createObject() ;
         
-        model->addTrait(object1,new Person()) ;
-        model->addTrait(object1,new Head()) ;
-        model->addTrait(object1,new Dummy()) ;
+        object1->addTrait(new Person()) ;
+        object1->addTrait(new Head()) ;
+        object1->addTrait(new Dummy()) ;
         
         model->destroyObject(object1) ;
       }

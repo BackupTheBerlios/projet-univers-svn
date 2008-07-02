@@ -26,6 +26,7 @@
 #include <model/positionned.h>
 #include <model/physical_world.h>
 #include <model/physical_object.h>
+#include <model/solid.h>
 
 #include <physic/implementation/ode/mass_property.h>
 
@@ -39,12 +40,13 @@ namespace ProjetUnivers {
       namespace Ode {
 
         RegisterControler(Solid, 
-                          Model::Solid, 
+                          Implementation::SolidPhysicalObject, 
                           PhysicSystem) ;
 
-        Solid::Solid(Model::Solid* i_object,
-                     PhysicSystem* i_physic)
-        : Kernel::Controler<Model::Solid,PhysicSystem>(i_object,i_physic)
+        Solid::Solid(Implementation::SolidPhysicalObject* object,
+                     PhysicSystem*                        physic)
+        : Kernel::Controler<Implementation::SolidPhysicalObject,
+                            PhysicSystem>(object,physic)
         {}
 
         /*
@@ -76,7 +78,9 @@ namespace ProjetUnivers {
           Ogre::Vector3                 scale(1,1,1) ;        
           
           InternalMessage("Physic","Physic::Implementation::Ode::Solid::createGeometry trace#0") ;
-          getTrait()->getMesh().getMeshInformation(vertices,indices,scale) ;
+          getObject()
+            ->getTrait<Model::Solid>()
+            ->getMesh().getMeshInformation(vertices,indices,scale) ;
 
           if (vertices.size()>0 && indices.size() > 0)
           {
@@ -116,7 +120,8 @@ namespace ProjetUnivers {
         
         void Solid::createApproximatedGeometry(const dSpaceID& space)
         {
-          m_geometry2 = dCreateSphere(space,getTrait()->getRadius().Meter()) ;
+          m_geometry2 = dCreateSphere(space,getObject()->getTrait<Model::Solid>()
+                                                       ->getRadius().Meter()) ;
           dGeomSetCollideBits(m_geometry2,(unsigned long)Collideable::ApproximatedSolid) ;
         }
         

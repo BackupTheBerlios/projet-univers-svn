@@ -240,7 +240,7 @@ namespace ProjetUnivers {
       if (! selected)
       {
         InternalMessage("Model","TargetingSystem::selectTarget#0") ;
-        object->getModel()->addTrait(object,new Selected()) ;
+        object->addTrait(new Selected()) ;
         InternalMessage("Model","TargetingSystem::selectTarget#1") ;
         selected = object->getTrait<Selected>() ;
         InternalMessage("Model","TargetingSystem::selectTarget#2") ;
@@ -266,7 +266,7 @@ namespace ProjetUnivers {
         selected->unSelect(getObject()) ;
         if (! selected->isSelected())
         {
-          Model::destroyTrait(selected->getObject(),selected) ;
+          selected->getObject()->destroyTrait(selected) ;
         }
       }
       m_target = NULL ;

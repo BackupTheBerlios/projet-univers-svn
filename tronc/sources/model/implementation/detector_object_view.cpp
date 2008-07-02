@@ -77,12 +77,9 @@ namespace ProjetUnivers {
             
             // create object 
             m_detection_information = computer->getMemoryModel()->createObject() ;
-            computer->getMemoryModel()->addTrait(m_detection_information,
-                                                 new DetectionData(detector->getComputer())) ;
-            computer->getMemoryModel()->addTrait(m_detection_information,
-                                                 new Positionned()) ;
-            computer->getMemoryModel()->addTrait(m_detection_information,
-                                                 new Solid(solid->getMesh())) ;
+            m_detection_information->addTrait(new DetectionData(detector->getComputer())) ;
+            m_detection_information->addTrait(new Positionned()) ;
+            m_detection_information->addTrait(new Solid(solid->getMesh())) ;
           }
           // update object position
           Position position = getRelativePosition(getObject(),
@@ -99,8 +96,7 @@ namespace ProjetUnivers {
             if (! data)
             {
               data = new Mobile() ;
-              computer->getMemoryModel()->addTrait(m_detection_information,
-                                                   data) ;
+              m_detection_information->addTrait(data) ;
             }
             data->setSpeed(mobileTrait->getSpeed()) ;
             data->setAngularSpeed(mobileTrait->getAngularSpeed()) ;
@@ -118,8 +114,7 @@ namespace ProjetUnivers {
             if (! identifedData)
             {
               // gained identification
-              addTrait(m_detection_information,
-                       new Transponder(*identified)) ;
+              m_detection_information->addTrait(new Transponder(*identified)) ;
             }
             else if (identifedData->getCode() != identified->getCode())
             {
@@ -130,7 +125,7 @@ namespace ProjetUnivers {
           else if (identifedData)
           {
             // lost identification
-            destroyTrait(m_detection_information,identifedData) ;
+            m_detection_information->destroyTrait(identifedData) ;
           }
 
           // update Targetting
@@ -145,8 +140,7 @@ namespace ProjetUnivers {
             if (! system_data)
             {
               // gained identification
-              addTrait(m_detection_information,
-                       new TargetingSystem()) ;
+              m_detection_information->addTrait(new TargetingSystem()) ;
               
               m_detection_information->getTrait<TargetingSystem>()->m_target =
                 system->getTarget() ;
@@ -162,7 +156,7 @@ namespace ProjetUnivers {
           else if (system_data)
           {
             // lost targeting system
-            destroyTrait(m_detection_information,system_data) ;
+            m_detection_information->destroyTrait(system_data) ;
           }
           
         }

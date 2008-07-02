@@ -551,26 +551,26 @@ namespace ProjetUnivers {
         InternalMessage("Kernel","Kernel::Test::testBuildOnEmptyModel entering") ;
         {
           std::auto_ptr<Model> model(new Model()) ;
-          std::auto_ptr<TestViewPoint> viewpoint(new TestViewPoint(model.get())) ;
+          ViewPoint* viewpoint(model->addViewPoint(new TestViewPoint(model.get()))) ;
           /// init the viewpoint
           viewpoint->init() ;
         
           //// fill the model
-          Object* person = model->createObject("person") ;
-          model->addTrait(person,new Person()) ;
-          Object* head = model->createObject("head",person) ;
-          model->addTrait(head,new Head()) ;
+          Object* person = model->createObject() ;
+          person->addTrait(new Person()) ;
+          Object* head = person->createObject() ;
+          head->addTrait(new Head()) ;
   
           /// check the views are initialised
           Trait* persontrait = person->getTrait<Person>() ;
           CPPUNIT_ASSERT(persontrait) ;
-          ViewPerson* personview = persontrait->getView<ViewPerson>(viewpoint.get()) ;
+          ViewPerson* personview = persontrait->getView<ViewPerson>(viewpoint) ;
           CPPUNIT_ASSERT(personview) ;
           CPPUNIT_ASSERT(personview->init_number == 1) ;
   
           Trait* headtrait = head->getTrait<Head>() ;
           CPPUNIT_ASSERT(headtrait) ;
-          ViewHead* headview = headtrait->getView<ViewHead>(viewpoint.get()) ;
+          ViewHead* headview = headtrait->getView<ViewHead>(viewpoint) ;
           CPPUNIT_ASSERT(headview) ;
           CPPUNIT_ASSERT(headview->init_number == 1) ;
           
@@ -586,13 +586,13 @@ namespace ProjetUnivers {
         std::auto_ptr<Model> model(new Model()) ;
 
         //// fill the model
-        Object* person = model->createObject("person") ;
-        model->addTrait(person,new Person()) ;
-        Object* head = model->createObject("head",person) ;
-        model->addTrait(head,new Head()) ;
+        Object* person = model->createObject() ;
+        person->addTrait(new Person()) ;
+        Object* head = person->createObject() ;
+        head->addTrait(new Head()) ;
         
         /// create a view
-        std::auto_ptr<TestViewPoint> viewpoint(new TestViewPoint(model.get())) ;
+        ViewPoint* viewpoint(model->addViewPoint(new TestViewPoint(model.get()))) ;
         
         /// init the viewpoint
         viewpoint->init() ;
@@ -600,11 +600,11 @@ namespace ProjetUnivers {
         /// check the views are initialised
         Trait* persontrait = person->getTrait<Person>() ;
         CPPUNIT_ASSERT(persontrait) ;
-        ViewPerson* personview = persontrait->getView<ViewPerson>(viewpoint.get()) ;
+        ViewPerson* personview = persontrait->getView<ViewPerson>(viewpoint) ;
         CPPUNIT_ASSERT(personview) ;
         CPPUNIT_ASSERT(personview->init_number == 1) ;
 
-        ViewHead* headview = head->getView<ViewHead>(viewpoint.get()) ;
+        ViewHead* headview = head->getView<ViewHead>(viewpoint) ;
         CPPUNIT_ASSERT(headview) ;
         CPPUNIT_ASSERT(headview->init_number == 1) ;
         InternalMessage("Kernel","Kernel::Test::testBuildOnNonEmptyModel leaving") ;
@@ -617,13 +617,13 @@ namespace ProjetUnivers {
         std::auto_ptr<Model> model(new Model()) ;
 
         //// fill the model
-        Object* person = model->createObject("person") ;
-        model->addTrait(person,new Person()) ;
-        Object* head = model->createObject("head",person) ;
-        model->addTrait(head,new Head()) ;
+        Object* person = model->createObject() ;
+        person->addTrait(new Person()) ;
+        Object* head = person->createObject() ;
+        head->addTrait(new Head()) ;
         
         /// create a view
-        std::auto_ptr<TestViewPoint> viewpoint(new TestViewPoint(model.get())) ;
+        ViewPoint* viewpoint(model->addViewPoint(new TestViewPoint(model.get()))) ;
         
         /// init the viewpoint
         viewpoint->init() ;
@@ -641,13 +641,13 @@ namespace ProjetUnivers {
         std::auto_ptr<Model> model(new Model()) ;
 
         //// fill the model
-        Object* person = model->createObject("person") ;
-        model->addTrait(person,new Person()) ;
-        Object* head = model->createObject("head",person) ;
-        model->addTrait(head,new Head()) ;
+        Object* person = model->createObject() ;
+        person->addTrait(new Person()) ;
+        Object* head = person->createObject() ;
+        head->addTrait(new Head()) ;
         
         /// create a view
-        std::auto_ptr<TestViewPoint> viewpoint(new TestViewPoint(model.get())) ;
+        ViewPoint* viewpoint(model->addViewPoint(new TestViewPoint(model.get()))) ;
         
         /// init the viewpoint
         viewpoint->init() ;
@@ -665,13 +665,13 @@ namespace ProjetUnivers {
         std::auto_ptr<Model> model(new Model()) ;
 
         //// fill the model
-        Object* person = model->createObject("person") ;
-        model->addTrait(person,new Person()) ;
-        Object* head = model->createObject("head",person) ;
-        model->addTrait(head,new Head()) ;
+        Object* person = model->createObject() ;
+        person->addTrait(new Person()) ;
+        Object* head = person->createObject() ;
+        head->addTrait(new Head()) ;
         
         /// create a view
-        std::auto_ptr<TestViewPoint> viewpoint(new TestViewPoint(model.get())) ;
+        ViewPoint* viewpoint(model->addViewPoint(new TestViewPoint(model.get()))) ;
         
         /// init the viewpoint
         viewpoint->init() ;
@@ -679,7 +679,7 @@ namespace ProjetUnivers {
         Trait* persontrait = person->getTrait<Person>() ;
         CPPUNIT_ASSERT(persontrait) ;
         
-        model->destroyTrait(person,persontrait) ;
+        person->destroyTrait(persontrait) ;
         CPPUNIT_ASSERT(ViewPerson::number_of_instance == 0) ;
         CPPUNIT_ASSERT(ViewHead::number_of_instance == 1) ;
         InternalMessage("Kernel","Kernel::Test::testDestroyTrait leaving") ;
@@ -692,18 +692,18 @@ namespace ProjetUnivers {
         std::auto_ptr<Model> model(new Model()) ;
 
         //// fill the model
-        Object* person = model->createObject("person") ;
-        model->addTrait(person,new Person()) ;
-        Object* head = model->createObject("head",person) ;
-        model->addTrait(head,new Head()) ;
+        Object* person = model->createObject() ;
+        person->addTrait(new Person()) ;
+        Object* head = person->createObject() ;
+        head->addTrait(new Head()) ;
         
-        Object* person2 = model->createObject("person2") ;
-        model->addTrait(person2,new Person()) ;
-        Object* head2 = model->createObject("head2",person) ;
-        model->addTrait(head2,new Head()) ;
+        Object* person2 = model->createObject() ;
+        person2->addTrait(new Person()) ;
+        Object* head2 = person->createObject() ;
+        head2->addTrait(new Head()) ;
         
         /// create a view
-        std::auto_ptr<TestViewPoint> viewpoint(new TestViewPoint(model.get())) ;
+        ViewPoint* viewpoint(model->addViewPoint(new TestViewPoint(model.get()))) ;
         
         /// init the viewpoint
         viewpoint->init() ;
@@ -712,14 +712,14 @@ namespace ProjetUnivers {
 
         Head* headtrait = head->getTrait<Head>() ;
         CPPUNIT_ASSERT(headtrait) ;
-        ViewHead* headview = headtrait->getView<ViewHead>(viewpoint.get()) ;
+        ViewHead* headview = headtrait->getView<ViewHead>(viewpoint) ;
         CPPUNIT_ASSERT(headview) ;
         
         InternalMessage("Kernel","Kernel::Test::testchangeParent #1") ;
 
         Head* headtrait2 = head2->getTrait<Head>() ;
         CPPUNIT_ASSERT(headtrait2) ;
-        ViewHead* headview2 = headtrait2->getView<ViewHead>(viewpoint.get()) ;
+        ViewHead* headview2 = headtrait2->getView<ViewHead>(viewpoint) ;
         CPPUNIT_ASSERT(headview2) ;
 
         InternalMessage("Kernel","Kernel::Test::testchangeParent #2") ;
@@ -738,8 +738,8 @@ namespace ProjetUnivers {
         InternalMessage("Kernel","Kernel::Test::testchangeParent swapping heads ...") ;
         
         /// swap heads
-        model->changeParent(head,person2) ;
-        model->changeParent(head2,person) ;
+        head->changeParent(person2) ;
+        head2->changeParent(person) ;
         
         CPPUNIT_ASSERT(headview2->getTrait()->getObject()->getParent() == person) ;
         InternalMessage("Kernel","Kernel::Test::testchangeParent leaving") ;
@@ -752,20 +752,20 @@ namespace ProjetUnivers {
         std::auto_ptr<Model> model(new Model()) ;
 
         //// fill the model
-        Object* person = model->createObject("person") ;
-        model->addTrait(person,new Person()) ;
-        Object* head = model->createObject("head",person) ;
-        model->addTrait(head,new Head()) ;
+        Object* person = model->createObject() ;
+        person->addTrait(new Person()) ;
+        Object* head = person->createObject() ;
+        head->addTrait(new Head()) ;
         
         /// create a view
-        std::auto_ptr<TestViewPoint> viewpoint(new TestViewPoint(model.get())) ;
+        ViewPoint* viewpoint(model->addViewPoint(new TestViewPoint(model.get()))) ;
         
         /// init the viewpoint
         viewpoint->init() ;
         
         Person* persontrait = person->getTrait<Person>() ;
         CPPUNIT_ASSERT(persontrait) ;
-        ViewPerson* personview = persontrait->getView<ViewPerson>(viewpoint.get()) ;
+        ViewPerson* personview = persontrait->getView<ViewPerson>(viewpoint) ;
         CPPUNIT_ASSERT(personview) ;
 
         CPPUNIT_ASSERT(personview->getValue()==0) ;
@@ -784,16 +784,16 @@ namespace ProjetUnivers {
         std::auto_ptr<Model> model(new Model()) ;
 
         //// fill the model
-        Object* person = model->createObject("person") ;
-        model->addTrait(person,new Person()) ;
-        model->addTrait(person,new Head()) ;
+        Object* person = model->createObject() ;
+        person->addTrait(new Person()) ;
+        person->addTrait(new Head()) ;
 
         /// create a view
-        std::auto_ptr<TestViewPoint> viewpoint(new TestViewPoint(model.get())) ;
+        ViewPoint* viewpoint(model->addViewPoint(new TestViewPoint(model.get()))) ;
         
         /// init the viewpoint
         viewpoint->init() ;
-        ViewPerson* personview = person->getView<ViewPerson>(viewpoint.get()) ;
+        ViewPerson* personview = person->getView<ViewPerson>(viewpoint) ;
         CPPUNIT_ASSERT(personview) ;
         ViewHead*   headview   = personview->getView<ViewHead>() ;
         CPPUNIT_ASSERT(headview) ;
@@ -808,37 +808,29 @@ namespace ProjetUnivers {
         std::auto_ptr<Model> model(new Model()) ;
 
         /// first create  
-        Object* person = model->createObject("person") ;
+        Object* person = model->createObject() ;
         model->destroyObject(person) ;
         
         /// recreate
-        person = model->createObject("person") ;
+        person = model->createObject() ;
         CPPUNIT_ASSERT(person) ;
         InternalMessage("Kernel","Kernel::Test::testCreateTwice leaving") ;
       }
 
-      void TestModelView::testDestroyUnexisting()
-      {
-        /// create a model
-        std::auto_ptr<Model> model(new Model()) ;
-        model->destroyObject("person") ;
-        
-      }
-      
       void TestModelView::testCloseViewPoint()
       {
         /// create a model
         std::auto_ptr<Model> model(new Model()) ;
 
         //// fill the model
-        Object* person = model->createObject("person") ;
-        model->addTrait(person,new Person()) ;
-        Object* head = model->createObject("head",person) ;
-        model->addTrait(head,new Head()) ;
-        model->addTrait(head,new Dummy()) ;
+        Object* person = model->createObject() ;
+        person->addTrait(new Person()) ;
+        Object* head = person->createObject() ;
+        head->addTrait(new Head()) ;
+        head->addTrait(new Dummy()) ;
 
         /// create a view
-        std::auto_ptr<TestViewPoint> viewpoint(new TestViewPoint(model.get())) ;
+        ViewPoint* viewpoint(model->addViewPoint(new TestViewPoint(model.get()))) ;
         
         /// init the viewpoint
         viewpoint->init() ;
@@ -846,13 +838,13 @@ namespace ProjetUnivers {
           /// check the views are initialised
           Trait* persontrait = person->getTrait<Person>() ;
           CPPUNIT_ASSERT(persontrait) ;
-          ViewPerson* personview = persontrait->getView<ViewPerson>(viewpoint.get()) ;
+          ViewPerson* personview = persontrait->getView<ViewPerson>(viewpoint) ;
           CPPUNIT_ASSERT(personview) ;
           CPPUNIT_ASSERT(personview->init_number == 1) ;
   
           Trait* headtrait = head->getTrait<Head>() ;
           CPPUNIT_ASSERT(headtrait) ;
-          ViewHead* headview = headtrait->getView<ViewHead>(viewpoint.get()) ;
+          ViewHead* headview = headtrait->getView<ViewHead>(viewpoint) ;
           CPPUNIT_ASSERT(headview) ;
           CPPUNIT_ASSERT(headview->init_number == 1) ;
         }
@@ -862,13 +854,13 @@ namespace ProjetUnivers {
           /// check the views are closed
           Trait* persontrait = person->getTrait<Person>() ;
           CPPUNIT_ASSERT(persontrait) ;
-          ViewPerson* personview = persontrait->getView<ViewPerson>(viewpoint.get()) ;
+          ViewPerson* personview = persontrait->getView<ViewPerson>(viewpoint) ;
           CPPUNIT_ASSERT(personview) ;
           CPPUNIT_ASSERT(personview->init_number == 0) ;
   
           Trait* headtrait = head->getTrait<Head>() ;
           CPPUNIT_ASSERT(headtrait) ;
-          ViewHead* headview = headtrait->getView<ViewHead>(viewpoint.get()) ;
+          ViewHead* headview = headtrait->getView<ViewHead>(viewpoint) ;
           CPPUNIT_ASSERT(headview) ;
           CPPUNIT_ASSERT(headview->init_number == 0) ;
         }        
@@ -881,10 +873,10 @@ namespace ProjetUnivers {
         std::auto_ptr<Model> model(new Model()) ;
 
         //// fill the model
-        Object* person = model->createObject("person") ;
-        model->addTrait(person,new Person()) ;
+        Object* person = model->createObject() ;
+        person->addTrait(new Person()) ;
         /// create a view
-        std::auto_ptr<TestViewPoint> viewpoint(new TestViewPoint(model.get())) ;
+        ViewPoint* viewpoint(model->addViewPoint(new TestViewPoint(model.get()))) ;
         
         /// init the viewpoint
         viewpoint->init() ;
@@ -900,10 +892,10 @@ namespace ProjetUnivers {
         std::auto_ptr<Model> model(new Model()) ;
 
         //// fill the model
-        Object* person = model->createObject("person") ;
-        model->addTrait(person,new Person()) ;
+        Object* person = model->createObject() ;
+        person->addTrait(new Person()) ;
         /// create a view
-        std::auto_ptr<TestViewPoint> viewpoint(new TestViewPoint(model.get())) ;
+        ViewPoint* viewpoint(model->addViewPoint(new TestViewPoint(model.get()))) ;
         
         /// init the viewpoint
         viewpoint->init() ;
@@ -920,35 +912,35 @@ namespace ProjetUnivers {
         std::auto_ptr<Model> model(new Model()) ;
 
         //// fill the model
-        Object* person = model->createObject("person") ;
-        model->addTrait(person,new Person()) ;
-        Object* head = model->createObject("head",person) ;
-        model->addTrait(head,new Head()) ;
+        Object* person = model->createObject() ;
+        person->addTrait(new Person()) ;
+        Object* head = person->createObject() ;
+        head->addTrait(new Head()) ;
         
         {
-          Object* person2 = model->createObject("person2") ;
-          model->addTrait(person2,new Person()) ;
-          Object* head2 = model->createObject("head2",person) ;
-          model->addTrait(head2,new Head()) ;
+          Object* person2 = model->createObject() ;
+          person2->addTrait(new Person()) ;
+          Object* head2 = person->createObject() ;
+          head2->addTrait(new Head()) ;
         }
 
         {
-          Object* person2 = model->createObject("person3") ;
-          model->addTrait(person2,new Person()) ;
+          Object* person2 = model->createObject() ;
+          person2->addTrait(new Person()) ;
         }
 
         /// create a view
-        std::auto_ptr<TestViewPoint> viewpoint(new TestViewPoint(model.get())) ;
+        ViewPoint* viewpoint(model->addViewPoint(new TestViewPoint(model.get()))) ;
         
         /// init the viewpoint
         viewpoint->init() ;
 
         ViewHead::number_of_operation = 0 ;
-        forAll<ViewHead>(viewpoint.get(),&ViewHead::operation) ;
+        forAll<ViewHead>(viewpoint,&ViewHead::operation) ;
         CPPUNIT_ASSERT(ViewHead::number_of_operation == 2) ;
 
         ViewPerson::number_of_operation = 0 ;
-        forAll<ViewPerson>(viewpoint.get(),&ViewPerson::operation) ;
+        forAll<ViewPerson>(viewpoint,&ViewPerson::operation) ;
         CPPUNIT_ASSERT(ViewPerson::number_of_operation == 3) ;
 
       }      
@@ -959,18 +951,18 @@ namespace ProjetUnivers {
         std::auto_ptr<Model> model(new Model()) ;
 
         //// fill the model
-        Object* person = model->createObject("person") ;
-        model->addTrait(person,new Person()) ;
-        Object* head = model->createObject("head",person) ;
-        model->addTrait(head,new Head()) ;
+        Object* person = model->createObject() ;
+        person->addTrait(new Person()) ;
+        Object* head = person->createObject() ;
+        head->addTrait(new Head()) ;
         
         /// create a viewpoint
-        std::auto_ptr<TestViewPoint> viewpoint1(new TestViewPoint(model.get())) ;
+        ViewPoint* viewpoint1(model->addViewPoint(new TestViewPoint(model.get()))) ;
         /// init the viewpoint
         viewpoint1->init() ;
 
         /// create a viewpoint
-        std::auto_ptr<TestViewPoint2> viewpoint2(new TestViewPoint2(model.get())) ;
+        ViewPoint* viewpoint2(model->addViewPoint(new TestViewPoint2(model.get()))) ;
         /// init the viewpoint
         viewpoint2->init() ;
 
@@ -978,11 +970,11 @@ namespace ProjetUnivers {
           /// check the views are initialised
           Trait* persontrait = person->getTrait<Person>() ;
           CPPUNIT_ASSERT(persontrait) ;
-          ViewPerson* personview = persontrait->getView<ViewPerson>(viewpoint1.get()) ;
+          ViewPerson* personview = persontrait->getView<ViewPerson>(viewpoint1) ;
           CPPUNIT_ASSERT(personview) ;
           CPPUNIT_ASSERT(personview->init_number == 1) ;
   
-          ViewHead* headview = head->getView<ViewHead>(viewpoint1.get()) ;
+          ViewHead* headview = head->getView<ViewHead>(viewpoint1) ;
           CPPUNIT_ASSERT(headview) ;
           CPPUNIT_ASSERT(headview->init_number == 1) ;
         }
@@ -992,7 +984,7 @@ namespace ProjetUnivers {
           Trait* persontrait = person->getTrait<Person>() ;
           CPPUNIT_ASSERT(persontrait) ;
   
-          ViewHead2* headview = head->getView<ViewHead2>(viewpoint2.get()) ;
+          ViewHead2* headview = head->getView<ViewHead2>(viewpoint2) ;
           CPPUNIT_ASSERT(headview) ;
           CPPUNIT_ASSERT(headview->init_number == 1) ;
         }
@@ -1005,18 +997,18 @@ namespace ProjetUnivers {
         std::auto_ptr<Model> model(new Model()) ;
 
         //// fill the model
-        Object* person = model->createObject("person") ;
-        model->addTrait(person,new Person()) ;
-        Object* head = model->createObject("head",person) ;
-        model->addTrait(head,new Head()) ;
+        Object* person = model->createObject() ;
+        person->addTrait(new Person()) ;
+        Object* head = person->createObject() ;
+        head->addTrait(new Head()) ;
         
         /// create a viewpoint
-        std::auto_ptr<TestViewPoint> viewpoint1(new TestViewPoint(model.get())) ;
+        ViewPoint* viewpoint1(model->addViewPoint(new TestViewPoint(model.get()))) ;
         /// init the viewpoint
         viewpoint1->init() ;
 
         /// create a viewpoint
-        std::auto_ptr<TestViewPoint> viewpoint2(new TestViewPoint(model.get())) ;
+        ViewPoint* viewpoint2(model->addViewPoint(new TestViewPoint(model.get()))) ;
         /// init the viewpoint
         viewpoint2->init() ;
 
@@ -1024,11 +1016,11 @@ namespace ProjetUnivers {
           /// check the views are initialised
           Trait* persontrait = person->getTrait<Person>() ;
           CPPUNIT_ASSERT(persontrait) ;
-          ViewPerson* personview = persontrait->getView<ViewPerson>(viewpoint1.get()) ;
+          ViewPerson* personview = persontrait->getView<ViewPerson>(viewpoint1) ;
           CPPUNIT_ASSERT(personview) ;
           CPPUNIT_ASSERT(personview->init_number == 1) ;
   
-          ViewHead* headview = head->getView<ViewHead>(viewpoint1.get()) ;
+          ViewHead* headview = head->getView<ViewHead>(viewpoint1) ;
           CPPUNIT_ASSERT(headview) ;
           CPPUNIT_ASSERT(headview->init_number == 1) ;
         }
@@ -1037,11 +1029,11 @@ namespace ProjetUnivers {
           /// check the views are initialised
           Trait* persontrait = person->getTrait<Person>() ;
           CPPUNIT_ASSERT(persontrait) ;
-          ViewPerson* personview = persontrait->getView<ViewPerson>(viewpoint2.get()) ;
+          ViewPerson* personview = persontrait->getView<ViewPerson>(viewpoint2) ;
           CPPUNIT_ASSERT(personview) ;
           CPPUNIT_ASSERT(personview->init_number == 1) ;
   
-          ViewHead* headview = head->getView<ViewHead>(viewpoint2.get()) ;
+          ViewHead* headview = head->getView<ViewHead>(viewpoint2) ;
           CPPUNIT_ASSERT(headview) ;
           CPPUNIT_ASSERT(headview->init_number == 1) ;
         }
@@ -1055,17 +1047,17 @@ namespace ProjetUnivers {
         std::auto_ptr<Model> model(new Model()) ;
 
         //// fill the model
-        Object* o1 = model->createObject("o1") ;
-        model->addTrait(o1,new T2()) ;
-        model->addTrait(o1,new T3()) ;
+        Object* o1 = model->createObject() ;
+        o1->addTrait(new T2()) ;
+        o1->addTrait(new T3()) ;
 
         /// create a view
-        std::auto_ptr<TestViewPoint> viewpoint(new TestViewPoint(model.get())) ;
+        ViewPoint* viewpoint(model->addViewPoint(new TestViewPoint(model.get()))) ;
         
         /// init the viewpoint
         viewpoint->init() ;
         InternalMessage("Kernel","Kernel::Test::testTraitInheritance viewpoint initialised") ;
-        V1* v1 = o1->getView<V1>(viewpoint.get()) ;
+        V1* v1 = o1->getView<V1>(viewpoint) ;
         InternalMessage("Kernel","Kernel::Test::testTraitInheritance looked up view") ;
         CPPUNIT_ASSERT(v1) ;
         InternalMessage("Kernel","Kernel::Test::testTraitInheritance leaving") ;
@@ -1080,8 +1072,8 @@ namespace ProjetUnivers {
         std::auto_ptr<Model> model(new Model()) ;
 
         //// fill the model
-        Object* o1 = model->createObject("o1") ;
-        model->addTrait(o1,new TvFinal()) ;
+        Object* o1 = model->createObject() ;
+        o1->addTrait(new TvFinal()) ;
 
         /// create a view
         std::auto_ptr<TestViewPoint> viewpoint(new TestViewPoint(model.get())) ;
@@ -1182,13 +1174,13 @@ namespace ProjetUnivers {
         
         View1::metaInit() ;
         
-        Object* parent1 = model->createObject("parent1") ;
-        Object* parent2 = model->createObject("parent2") ;
-        Object* child = model->createObject("child",parent1) ;
-        model->addTrait(child,new Trait1()) ;
+        Object* parent1 = model->createObject() ;
+        Object* parent2 = model->createObject() ;
+        Object* child = parent1->createObject() ;
+        child->addTrait(new Trait1()) ;
 
         /// create a view
-        std::auto_ptr<TestViewPoint> viewpoint(new TestViewPoint(model.get())) ;
+        ViewPoint* viewpoint(model->addViewPoint(new TestViewPoint(model.get()))) ;
         
         /// init the viewpoint
         viewpoint->init() ;
@@ -1198,7 +1190,7 @@ namespace ProjetUnivers {
         CPPUNIT_ASSERT(View1::total_number_of_init == 1) ;
         CPPUNIT_ASSERT(View1::total_number_of_close == 0) ;
         
-        model->changeParent(child,parent2) ;
+        child->changeParent(parent2) ;
         
         CPPUNIT_ASSERT(View1::total_number_of_instance == 1) ;
         CPPUNIT_ASSERT(View1::total_number_of_close == 0) ;
@@ -1212,22 +1204,22 @@ namespace ProjetUnivers {
         std::auto_ptr<Model> model(new Model()) ;
 
         // fill the model
-        Object* person = model->createObject("person") ;
-        model->addTrait(person,new Person()) ;
+        Object* person = model->createObject() ;
+        person->addTrait(new Person()) ;
         
         // create a viewpoint
-        std::auto_ptr<ManualViewPoint> viewpoint(new ManualViewPoint(model.get())) ;
+        ViewPoint* viewpoint(model->addViewPoint(new ManualViewPoint(model.get()))) ;
         
         // manual add of a view
         model->addManualView(new ManualView(person->getTrait<Person>(),
-                                            viewpoint.get())) ;
+                                            (ManualViewPoint*)viewpoint)) ;
         
         /// init the viewpoint
         viewpoint->init() ;
         
         Person* persontrait = person->getTrait<Person>() ;
         CPPUNIT_ASSERT(persontrait) ;
-        ManualView* personview = persontrait->getView<ManualView>(viewpoint.get()) ;
+        ManualView* personview = persontrait->getView<ManualView>(viewpoint) ;
         CPPUNIT_ASSERT(personview) ;
         
         // test update
@@ -1237,7 +1229,7 @@ namespace ProjetUnivers {
         
         // test delete
         CPPUNIT_ASSERT(ManualView::number_of_instance==1) ;
-        model->destroyTrait(person,persontrait) ;
+        person->destroyTrait(persontrait) ;
         CPPUNIT_ASSERT(ManualView::number_of_instance==0) ;
         
         InternalMessage("Kernel","Kernel::Test::testManualView leaving") ;
@@ -1249,23 +1241,23 @@ namespace ProjetUnivers {
         std::auto_ptr<Model> model(new Model()) ;
 
         // fill the model
-        Object* person = model->createObject("person") ;
-        model->addTrait(person,new Person()) ;
+        Object* person = model->createObject() ;
+        person->addTrait(new Person()) ;
         
         // create a viewpoint
-        std::auto_ptr<ManualViewPoint> viewpoint(new ManualViewPoint(model.get())) ;
+        ViewPoint* viewpoint(model->addViewPoint(new ManualViewPoint(model.get()))) ;
 
         /// init the viewpoint
         viewpoint->init() ;
         
         // manual add of a view
         model->addManualView(new ManualView(person->getTrait<Person>(),
-                                            viewpoint.get())) ;
+                                            (ManualViewPoint*)viewpoint)) ;
         
         
         Person* persontrait = person->getTrait<Person>() ;
         CPPUNIT_ASSERT(persontrait) ;
-        ManualView* personview = persontrait->getView<ManualView>(viewpoint.get()) ;
+        ManualView* personview = persontrait->getView<ManualView>(viewpoint) ;
         CPPUNIT_ASSERT(personview) ;
         
         // test update
@@ -1275,7 +1267,7 @@ namespace ProjetUnivers {
         
         // test delete
         CPPUNIT_ASSERT(ManualView::number_of_instance==1) ;
-        model->destroyTrait(person,persontrait) ;
+        person->destroyTrait(persontrait) ;
         CPPUNIT_ASSERT(ManualView::number_of_instance==0) ;
         
         InternalMessage("Kernel","Kernel::Test::testManualViewOnInitViewPoint leaving") ;
@@ -1285,7 +1277,7 @@ namespace ProjetUnivers {
       {
         InternalMessage("Kernel","Kernel::Test::initViewPointWithNullModel entering") ;
         std::auto_ptr<Model> model ;
-        std::auto_ptr<TestViewPoint> viewpoint(new TestViewPoint(model.get())) ;
+        ViewPoint* viewpoint(model->addViewPoint(new TestViewPoint(model.get()))) ;
         /// init the viewpoint
         viewpoint->init() ;
         InternalMessage("Kernel","Kernel::Test::initViewPointWithNullModel leaving") ;
@@ -1295,28 +1287,28 @@ namespace ProjetUnivers {
       {
         InternalMessage("Kernel","Kernel::Test::setModelOnInitialisedViewPointWithNullModel entering") ;
         std::auto_ptr<Model> model ;
-        std::auto_ptr<TestViewPoint> viewpoint(new TestViewPoint(model.get())) ;
+        ViewPoint* viewpoint(model->addViewPoint(new TestViewPoint(model.get()))) ;
         /// init the viewpoint
         viewpoint->init() ;
         
         model.reset(new Model()) ;
         viewpoint->setModel(model.get()) ;
         
-        Object* person = model->createObject("person") ;
-        model->addTrait(person,new Person()) ;
-        Object* head = model->createObject("head",person) ;
-        model->addTrait(head,new Head()) ;
+        Object* person = model->createObject() ;
+        person->addTrait(new Person()) ;
+        Object* head = person->createObject() ;
+        head->addTrait(new Head()) ;
 
         /// check the views are initialised
         Trait* persontrait = person->getTrait<Person>() ;
         CPPUNIT_ASSERT(persontrait) ;
-        ViewPerson* personview = persontrait->getView<ViewPerson>(viewpoint.get()) ;
+        ViewPerson* personview = persontrait->getView<ViewPerson>(viewpoint) ;
         CPPUNIT_ASSERT(personview) ;
         CPPUNIT_ASSERT(personview->init_number == 1) ;
 
         Trait* headtrait = head->getTrait<Head>() ;
         CPPUNIT_ASSERT(headtrait) ;
-        ViewHead* headview = headtrait->getView<ViewHead>(viewpoint.get()) ;
+        ViewHead* headview = headtrait->getView<ViewHead>(viewpoint) ;
         CPPUNIT_ASSERT(headview) ;
         CPPUNIT_ASSERT(headview->init_number == 1) ;
         
@@ -1327,17 +1319,17 @@ namespace ProjetUnivers {
       {
         InternalMessage("Kernel","Kernel::Test::changeModelOnInitialisedViewPoint entering") ;
         std::auto_ptr<Model> model(new Model()) ;
-        std::auto_ptr<TestViewPoint> viewpoint(new TestViewPoint(model.get())) ;
+        ViewPoint* viewpoint(model->addViewPoint(new TestViewPoint(model.get()))) ;
         /// init the viewpoint
         viewpoint->init() ;
         
-        Object* person = model->createObject("person") ;
-        model->addTrait(person,new Person()) ;
+        Object* person = model->createObject() ;
+        person->addTrait(new Person()) ;
 
         /// check the views are initialised
         Trait* persontrait = person->getTrait<Person>() ;
         CPPUNIT_ASSERT(persontrait) ;
-        ViewPerson* personview = persontrait->getView<ViewPerson>(viewpoint.get()) ;
+        ViewPerson* personview = persontrait->getView<ViewPerson>(viewpoint) ;
         CPPUNIT_ASSERT(personview) ;
         CPPUNIT_ASSERT(personview->init_number == 1) ;
 
@@ -1348,7 +1340,7 @@ namespace ProjetUnivers {
         InternalMessage("Kernel","Kernel::Test::changeModelOnInitialisedViewPoint#2") ;
 
         /// check the views where closed
-        personview = persontrait->getView<ViewPerson>(viewpoint.get()) ;
+        personview = persontrait->getView<ViewPerson>(viewpoint) ;
         CPPUNIT_ASSERT(personview) ;                
         CPPUNIT_ASSERT(personview->init_number == 0) ;        
         InternalMessage("Kernel","Kernel::Test::changeModelOnInitialisedViewPoint leaving") ;
@@ -1358,17 +1350,17 @@ namespace ProjetUnivers {
       {
         InternalMessage("Kernel","Kernel::Test::changeModelOnInitialisedViewPoint entering") ;
         std::auto_ptr<Model> model(new Model()) ;
-        std::auto_ptr<TestViewPoint> viewpoint(new TestViewPoint(model.get())) ;
+        ViewPoint* viewpoint(model->addViewPoint(new TestViewPoint(model.get()))) ;
         /// init the viewpoint
         viewpoint->init() ;
         
-        Object* person = model->createObject("person") ;
-        model->addTrait(person,new Person()) ;
+        Object* person = model->createObject() ;
+        person->addTrait(new Person()) ;
 
         /// check the views are initialised
         Trait* persontrait = person->getTrait<Person>() ;
         CPPUNIT_ASSERT(persontrait) ;
-        ViewPerson* personview = persontrait->getView<ViewPerson>(viewpoint.get()) ;
+        ViewPerson* personview = persontrait->getView<ViewPerson>(viewpoint) ;
         CPPUNIT_ASSERT(personview) ;
         CPPUNIT_ASSERT(personview->init_number == 1) ;
 
@@ -1376,12 +1368,12 @@ namespace ProjetUnivers {
         std::auto_ptr<Model> model2(new Model()) ;
         viewpoint->setModel(model2.get()) ;
 
-        person = model2->createObject("person") ;
-        model2->addTrait(person,new Person()) ;
+        person = model2->createObject() ;
+        person->addTrait(new Person()) ;
         
         persontrait = person->getTrait<Person>() ;
         CPPUNIT_ASSERT(persontrait) ;
-        personview = persontrait->getView<ViewPerson>(viewpoint.get()) ;
+        personview = persontrait->getView<ViewPerson>(viewpoint) ;
         CPPUNIT_ASSERT(personview) ;
         CPPUNIT_ASSERT(personview->init_number == 1) ;
         
@@ -1392,16 +1384,16 @@ namespace ProjetUnivers {
       {
         /// create a model
         std::auto_ptr<Model> model(new Model("TestModelView::destroyObjectWithDeducedTraits")) ;
-        std::auto_ptr<TestViewPoint> viewpoint(new TestViewPoint(model.get())) ;
+        ViewPoint* viewpoint(model->addViewPoint(new TestViewPoint(model.get()))) ;
         /// init the viewpoint
         viewpoint->init() ;
 
         Object* object1 = model->createObject() ;
-        Object* object2 = model->createObject(object1) ;
+        Object* object2 = object1->createObject() ;
         
-        model->addTrait(object1,new Person()) ;
-        model->addTrait(object1,new Head()) ;
-        model->addTrait(object1,new Dummy()) ;
+        object1->addTrait(new Person()) ;
+        object1->addTrait(new Head()) ;
+        object1->addTrait(new Dummy()) ;
         
         model->destroyObject(object1) ;
       }
@@ -1414,6 +1406,7 @@ namespace ProjetUnivers {
         class ViewPointDestroyViewPoint : public ViewPoint
         {
         public:
+          
           ViewPointDestroyViewPoint(Model* model)
           : ViewPoint(model)
           {}
@@ -1423,10 +1416,20 @@ namespace ProjetUnivers {
             m_value = i ;
           }
           
+          void onClose()
+          {
+            ++m_number_of_on_close ;
+          }
+
+          static int m_number_of_on_close ;
+          
         private:
           
           int m_value ;
+          
         };
+        
+        int ViewPointDestroyViewPoint::m_number_of_on_close = 0 ;
         
         class ViewDestroyViewPoint : public TraitView<TraitDestroyViewPoint,ViewPointDestroyViewPoint>
         {
@@ -1451,13 +1454,29 @@ namespace ProjetUnivers {
       void TestModelView::detroyViewPoint()
       {
         /// create a model
-        std::auto_ptr<Model> model(new Model("TestModelView::destroyObjectWithDeducedTraits")) ;
+        std::auto_ptr<Model> model(new Model("TestModelView::detroyViewPoint")) ;
+        Object* object = model->createObject() ;
+        object->addTrait(new TraitDestroyViewPoint()) ;
         {
-          std::auto_ptr<ViewPointDestroyViewPoint> viewpoint(new ViewPointDestroyViewPoint(model.get())) ;
-          
-          Object* object = model->createObject() ;
-          model->addTrait(object,new TraitDestroyViewPoint()) ;
+          ViewPointDestroyViewPoint* viewpoint(new ViewPointDestroyViewPoint(model.get())) ;
+          delete viewpoint ;
         }
+      }
+      
+      void TestModelView::destroyModelAndCloseViewPoint()
+      {
+
+        const int old_value = ViewPointDestroyViewPoint::m_number_of_on_close ;
+        
+        std::auto_ptr<Model> model(new Model("TestModelView::destroyModelAndCloseViewPoint")) ;
+        ViewPointDestroyViewPoint* viewpoint(new ViewPointDestroyViewPoint(model.get())) ;
+        viewpoint->init() ;
+        
+        model.reset(NULL) ;
+        
+        // viewpoint whould have been closed
+        CPPUNIT_ASSERT(ViewPointDestroyViewPoint::m_number_of_on_close == old_value+1) ;
+        
       }
       
       void TestModelView::setUp()

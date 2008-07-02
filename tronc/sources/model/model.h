@@ -44,71 +44,15 @@ namespace ProjetUnivers {
   */ 
   namespace Model 
   {
-    
-  
-  /*!
-    @name Init/Close.
-  */
-  //@{        
-    
-    /// Starts the module.
-    void init() ;
-
-    /// Closes le module.
-    void close() ;
 
     /// Load a model from disk.
-    void load(const std::string& _name) ;
-
+    void load(const std::string& name,Kernel::Object* parent) ;
+    
     /// Load and init external ressources.
     void initRessources() ;
     
     /// Unload and close external ressources.
     void closeRessources() ;
-    
-    /// Update the model.
-    void update(const Duration&) ;        
-
-  //@}
-  /*!
-    @name Generic Modification Interface
-    
-  */
-  // @{
-
-    /// Get an object.
-    Kernel::Object* getObject(const std::string& i_name) ;
-      
-    /// Creates a new Kernel::Object with name.
-    Kernel::Object* createObject(const std::string& i_name) ; 
-
-    /// Creates a new Kernel::Object.
-    Kernel::Object* createObject() ; 
-
-    /// Creates a new Kernel::Object with name and given parent.
-    Kernel::Object* createObject(const std::string& i_name, 
-                                 Kernel::Object* i_parent) ; 
-
-    /// Creates a new Kernel::Object with given parent.
-    Kernel::Object* createObject(Kernel::Object* i_parent) ; 
-
-    /// Destroy an Kernel::Object of given name.
-    void destroyObject(const std::string& i_name) ;
-
-    /// Destroy a given Kernel::Object.
-    void destroyObject(Kernel::Object* i_object) ;
-
-    /// Changes parent of a given Kernel::Object.
-    void changeParent(Kernel::Object* i_object, 
-                      Kernel::Object* i_new_parent) ;
-
-    /// Adds a new trait to an Kernel::Object.
-    void addTrait(Kernel::Object* i_object, 
-                  Kernel::Trait* i_new_trait) ;
-
-    /// Destroy an Kernel::Object's trait.
-    void destroyTrait(Kernel::Object* i_object, 
-                      Kernel::Trait* i_trait) ;
 
   //@}
   /*!
@@ -123,63 +67,9 @@ namespace ProjetUnivers {
     /// Create a autonomous agent controling @c ship and inside it.
     Kernel::Object* createAI(Kernel::Object* ship) ;
     
+    /// Create a default player configuration.
+    Kernel::Object* createDefaultPlayerConfiguration(Kernel::Object* parent) ;
     
-  // @}
-  /*!
-    @name Semantic relationships 
-  
-    Parentship has several meanings according to object structure. For 
-    example isInside relationship is used for object relative placement. 
-    isPartOf can be used for physics and collision.  
-    
-    Definition of these relationship is mainly for internal documentation  
-    purpose; as a kind of model describing.
-
-    @todo 
-      Add :
-      - isOn : a person is on a planet, a worm is inside a planet
-      - isMember : a person is a member of a party
-      Implement these methods.
-  */
-  // @{
-
-    /// True iff @c i_content is inside @c i_contener.
-    /*!
-      @c i_content is inside @c i_contener iff 
-      - both are Positionned and 
-      - @c i_contener is an ancestor of @c i_content 
-    */
-    bool isInside(Kernel::Object* i_content,Kernel::Object* i_contener) ;
-
-
-    /// True iff @c i_part is a part of @c i_whole.
-    /*!
-      @c i_part is a part of @c i_whole iff 
-      - @c i_part is a direct part of @c i_whole or 
-      - @c i_part is a part of x and x is a direct part of @c i_whole
-
-      @c i_part is a direct part of @c i_whole iff 
-      - both are Positionned and 
-      - @c i_whole is Composite
-      - @c i_part is Component
-      - @c i_whole is the parent of @c i_part 
-    */
-    bool isPartOf(Kernel::Object* i_part,Kernel::Object* i_whole) ;
-
-    /// True iff @c i_object is a whole.
-    /*!
-      @c i_object is a whole iff :
-      - @c i_object is not component
-      
-      @remark 
-        If an object is an elementary whole (i.e. an object whitout component) 
-        it still remains a whole when subdividing it into compenents. It is 
-        a very good idea that view points relies on being a whole, because it 
-        is more likely to be a property that resists model evolutions.   
-      
-    */
-    bool isAWhole(Kernel::Object* i_object) ;
-
     /// Return the ship controled by @c agent.
     /*!
       @return NULL if not exist
@@ -189,11 +79,9 @@ namespace ProjetUnivers {
     /// Return the ship of an object
     Kernel::Object* getShip(Kernel::Object* object) ;
     
-    
   //@}
   
   }
-  
 }
 
 #endif

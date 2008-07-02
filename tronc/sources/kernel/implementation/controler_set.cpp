@@ -27,6 +27,13 @@
 namespace ProjetUnivers {
   namespace Kernel {
   
+    ControlerSet::StaticStorage* ControlerSet::StaticStorage::get()
+    {
+      static StaticStorage temp ;
+      return &temp ;
+    }
+
+    
     void ControlerSet::simulate(const float& i_seconds)
     {
       boost::function2<void,
@@ -69,6 +76,8 @@ namespace ProjetUnivers {
           m_model->_register(this) ;
         }
         
+        onInit() ;
+        
         m_initialised = true ;
         
         /// must init all the objects according to current viewpoint
@@ -85,6 +94,7 @@ namespace ProjetUnivers {
       {
         /// must init all the objects according to current controler set
         m_model->_close(this) ;
+        onClose() ;
         m_model->_unregister(this) ;
         m_initialised = false ;
       }
@@ -112,6 +122,14 @@ namespace ProjetUnivers {
       return m_initialised ;
     }      
 
+    void ControlerSet::onInit()
+    {
+    }
+
+    void ControlerSet::onClose()
+    {
+    }
+    
     void ControlerSet::setModel(Model* model)
     {
       InternalMessage("Kernel","ViewPoint::setModel Entering") ;
@@ -131,5 +149,23 @@ namespace ProjetUnivers {
       }
       InternalMessage("Kernel","ViewPoint::setModel Entering") ;
     }
+
+    void ControlerSet::registerBuilder(ControlerSet::ControlerSetBuilder builder)
+    {
+      StaticStorage::get()->m_controler_set_builders.push_back(builder) ;
+    }
+    
+    void ControlerSet::buildRegistered(Model* model)
+    {
+      for(std::list<ControlerSetBuilder>::const_iterator 
+            builder = StaticStorage::get()->m_controler_set_builders.begin() ;
+          builder != StaticStorage::get()->m_controler_set_builders.end() ;
+          ++builder)
+      {
+        ControlerSet* controlerset = (*builder)(model) ;
+        model->_register(controlerset) ;
+      }
+    }
+    
   }
 }

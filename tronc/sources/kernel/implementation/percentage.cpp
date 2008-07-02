@@ -53,6 +53,23 @@ namespace ProjetUnivers {
       return *this ;
     }
 
+    Percentage& Percentage::operator+=(const Percentage& value)
+    {
+      m_value += value.m_value ;
+      
+      m_value = (m_value<0?-1:+1)*std::min(fabs(m_value),1.0) ;
+      if (!finite(m_value))
+        m_value = 0 ;
+      return *this ;
+    }
+
+    Percentage Percentage::operator+(const Percentage& value)
+    {
+      Percentage result(*this) ; 
+      return (result+=value) ; 
+    }
+
+    
     Percentage::operator int() const
     {
       return int(m_value*100) ;

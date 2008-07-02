@@ -22,15 +22,6 @@
 #define PU_PHYSIC_PHYSIC_H_
 
 namespace ProjetUnivers {
-  namespace Kernel
-  {
-    class Object ;
-    class ControlerSet ;
-  }
-  namespace Model
-  {
-    class Duration ;
-  }
   
   /// Physic module.
   /*!
@@ -38,23 +29,6 @@ namespace ProjetUnivers {
   */
   namespace Physic {
 
-    /// Initialise module.
-    void init() ; 
-    
-    /// Terminate module.
-    void close() ;
-
-    /// Creates the standard representation for the world 
-    Kernel::ControlerSet* build(Kernel::Object* i_observer) ; 
-    
-    /// simulate physics.
-    /*!
-      @deprecated
-    */
-    void update() ;
-
-    /// simulate physics on a certain duration.
-    void update(const Model::Duration& i_duration) ;
 
   }
 }

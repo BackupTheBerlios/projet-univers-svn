@@ -63,40 +63,37 @@ namespace ProjetUnivers {
           - change a parent and listen the sound continue with just a little artefact between the close and init
         */
       
-        Model::init() ;
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestSoundEnvironnement::basicTest")) ;
+        model->init() ;
         
-        Kernel::Object* system = Model::createObject("system") ;
-        Model::addTrait(system, new Model::Positionned()) ;
-        Model::addTrait(system, new Model::Oriented()) ;
+        Kernel::Object* system = model->createObject() ;
+        system->addTrait(new Model::Positionned()) ;
+        system->addTrait(new Model::Oriented()) ;
 
-        Kernel::Object* listener = Model::createObject(system) ;
-        Model::addTrait(listener,new Model::Listener()) ;
-        Model::addTrait(listener,new Model::Positionned()) ;
-        Model::addTrait(listener,new Model::Oriented(Model::Orientation(Ogre::Quaternion(1.0, 0.0, 10.0, 0.0)))) ;
-        Model::addTrait(listener,new Model::Mobile());
+        Kernel::Object* listener = system->createObject() ;
+        listener->addTrait(new Model::Listener()) ;
+        listener->addTrait(new Model::Positionned()) ;
+        listener->addTrait(new Model::Oriented(Model::Orientation(Ogre::Quaternion(1.0, 0.0, 10.0, 0.0)))) ;
+        listener->addTrait(new Model::Mobile());
         
-        Kernel::Object* engine = Model::createObject(system) ;
-        Model::addTrait(engine,new Model::Engine(Model::Force::Newton(10,10,10))) ;
-        Model::addTrait(engine,new Model::Positionned()) ;
-        Model::addTrait(engine,new Model::Oriented(Model::Orientation(Ogre::Quaternion(1.0, 0.0, -10.0, 0.0)))) ;
-        Model::addTrait(engine,new Model::Mobile());
-        
-        /// build a sound viewpoint        
-        Sound::init() ;
-        Sound::build(listener, system) ;
+        Kernel::Object* engine = system->createObject() ;
+        engine->addTrait(new Model::Engine(Model::Force::Newton(10,10,10))) ;
+        engine->addTrait(new Model::Positionned()) ;
+        engine->addTrait(new Model::Oriented(Model::Orientation(Ogre::Quaternion(1.0, 0.0, -10.0, 0.0)))) ;
+        engine->addTrait(new Model::Mobile());
         
         
         Kernel::Timer timer ;
+        Kernel::Timer global_timer ;
         
-        while (timer.getSecond() <= 3)
+        while (global_timer.getSecond() <= 3)
         {
           float seconds = timer.getSecond() ;
-          Model::Duration elapsed(Model::Duration::Second(seconds)) ;
-          Model::update(elapsed) ;
-          Sound::update() ;
+          timer.reset() ;
+          model->update(seconds) ;
         }
         
-        Kernel::Object* env = Model::createObject(system) ;
+        Kernel::Object* env = system->createObject() ;
         Model::SoundEnvironnement* soundEnv = new Model::SoundEnvironnement() ;
 //        soundEnv->setDensity(0.5) ;
 //        soundEnv->setDiffusion(1.0) ;
@@ -108,20 +105,15 @@ namespace ProjetUnivers {
 //        soundEnv->setReflexionsDelay(2.0) ;
 //        soundEnv->setLateReverbGain(1.0) ;
 //        soundEnv->setLateReverbDelay(2.5) ;
-        Model::addTrait(env, soundEnv) ;
-        Model::changeParent(engine,env) ;
+        env->addTrait(soundEnv) ;
+        engine->changeParent(env) ;
         
-        while (timer.getSecond() <= 6)
+        while (global_timer.getSecond() <= 6)
         {
           float seconds = timer.getSecond() ;
-          Model::Duration elapsed(Model::Duration::Second(seconds)) ;
-          Model::update(elapsed) ;
-          Sound::update() ;
+          timer.reset() ;
+          model->update(seconds) ;
         } 
-
-        Sound::close();
-        Model::close();
-        
       }
 
       void TestSoundEnvironnement::setUp() 

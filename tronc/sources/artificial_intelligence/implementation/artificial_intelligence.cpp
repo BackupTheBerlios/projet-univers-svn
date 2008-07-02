@@ -42,14 +42,14 @@ namespace ProjetUnivers {
       }
     }
   
-    void build(Kernel::Object* i_observer)
+    void build(Kernel::Object* observer)
     {
-      m_viewPoint.reset(new Implementation::AISystem(i_observer->getModel())) ;
+      m_viewPoint.reset(new Implementation::AISystem(observer->getModel())) ;
     }
     
     void update(const Model::Duration& duration)
     {
-      if(m_viewPoint.get())
+      if (m_viewPoint.get())
       {
         m_viewPoint->simulate(duration.Second()) ;
       }

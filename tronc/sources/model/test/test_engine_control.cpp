@@ -57,25 +57,25 @@ namespace ProjetUnivers {
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestEngineControl::basicTest")) ;
         
         /// should be a PhysicalWorld
-        Kernel::Object* system = model->createObject("system") ;
+        Kernel::Object* system = model->createObject() ;
         CPPUNIT_ASSERT(system->getTrait<PhysicalWorld>()) ;
 
-        Kernel::Object* ship = model->createObject("ship",system) ;
-        model->addTrait(ship,new Positionned()) ;
-        model->addTrait(ship,new Oriented()) ;
-        model->addTrait(ship,new Mobile()) ;
-        model->addTrait(ship,new Massive(Mass::Kilogram(1000))) ;
+        Kernel::Object* ship = system->createObject() ;
+        ship->addTrait(new Positionned()) ;
+        ship->addTrait(new Oriented()) ;
+        ship->addTrait(new Mobile()) ;
+        ship->addTrait(new Massive(Mass::Kilogram(1000))) ;
         CPPUNIT_ASSERT(ship->getTrait<PhysicalObject>()) ;
         CPPUNIT_ASSERT(ship->getTrait<PhysicalWorld>()) ;
         
-        Kernel::Object* throttle = model->createObject("throttle",ship) ;
-        model->addTrait(throttle,new Throttle()) ;
+        Kernel::Object* throttle = ship->createObject() ;
+        throttle->addTrait(new Throttle()) ;
         
-        Kernel::Object* engine = model->createObject("engine",ship) ;
-        model->addTrait(engine,new Engine(Force::Newton(0,0,10))) ;
+        Kernel::Object* engine = ship->createObject() ;
+        engine->addTrait(new Engine(Force::Newton(0,0,10))) ;
 
-        Kernel::Object* engine_control = model->createObject("engine_control",ship) ;
-        model->addTrait(engine_control,new EngineControler()) ;
+        Kernel::Object* engine_control = ship->createObject() ;
+        engine_control->addTrait(new EngineControler()) ;
 
         connectControlerEngine(engine_control,engine) ;
         connectThrottleControler(throttle,engine_control) ;
@@ -83,20 +83,18 @@ namespace ProjetUnivers {
         {
           /// variables redefines to have direct access to interesting traits
           
-          ForceGenerator* engine = model->getObject("engine")->getTrait<ForceGenerator>() ;
-          CPPUNIT_ASSERT(engine) ;
-          EngineControler* engine_control = model->getObject("engine_control")->getTrait<EngineControler>() ;
-          CPPUNIT_ASSERT(engine_control) ;
-          Throttle* throttle = model->getObject("throttle")->getTrait<Throttle>() ;
+          ForceGenerator* engine_trait = engine->getTrait<ForceGenerator>() ;
+          CPPUNIT_ASSERT(engine_trait) ;
+          Throttle* throttle_trait = throttle->getTrait<Throttle>() ;
           CPPUNIT_ASSERT(throttle) ;
           
           /// basic init check          
-          CPPUNIT_ASSERT(engine->getAppliedForce().Newton() == Ogre::Vector3(0,0,0)) ;
+          CPPUNIT_ASSERT(engine_trait->getAppliedForce().Newton() == Ogre::Vector3(0,0,0)) ;
 
           /// set throttle orientation at full thrust... 
-          throttle->set(100) ;
+          throttle_trait->set(100) ;
 
-          Ogre::Vector3 force(engine->getAppliedForce().Newton()) ;
+          Ogre::Vector3 force(engine_trait->getAppliedForce().Newton()) ;
           CPPUNIT_ASSERT(equal(force.z,10) &&
                          equal(force.x,0) &&
                          equal(force.y,0)) ;
@@ -105,18 +103,18 @@ namespace ProjetUnivers {
           ship->getTrait<Oriented>()->setOrientation(
             Ogre::Quaternion(sqrt(0.5),0,sqrt(0.5),0)) ;
           
-//          std::cout << engine->getAppliedForce().Newton() ;
+//          std::cout << engine_trait->getAppliedForce().Newton() ;
           
-          CPPUNIT_ASSERT(equal(engine->getAppliedForce().Newton().x,10) && 
-                         equal(engine->getAppliedForce().Newton().y,0) &&
-                         equal(engine->getAppliedForce().Newton().z,0)) ;
+          CPPUNIT_ASSERT(equal(engine_trait->getAppliedForce().Newton().x,10) && 
+                         equal(engine_trait->getAppliedForce().Newton().y,0) &&
+                         equal(engine_trait->getAppliedForce().Newton().z,0)) ;
 
           // change throttle...
-          throttle->setOrientation(Ogre::Quaternion(Ogre::Degree(45),Ogre::Vector3::UNIT_X)) ;
+          throttle_trait->setOrientation(Ogre::Quaternion(Ogre::Degree(45),Ogre::Vector3::UNIT_X)) ;
           
-          CPPUNIT_ASSERT(equal(engine->getAppliedForce().Newton().x,5) && 
-                         equal(engine->getAppliedForce().Newton().y,0) &&
-                         equal(engine->getAppliedForce().Newton().z,0)) ;
+          CPPUNIT_ASSERT(equal(engine_trait->getAppliedForce().Newton().x,5) && 
+                         equal(engine_trait->getAppliedForce().Newton().y,0) &&
+                         equal(engine_trait->getAppliedForce().Newton().z,0)) ;
           
         }
       }

@@ -218,7 +218,7 @@ namespace ProjetUnivers {
           Model::Positionned* positionned = getObject()->getTrait<Model::Positionned>();
           if(positionned)
           {
-            return positionned->getPosition(getManager()->getReference());
+            return positionned->getPosition(getObject()->getRoot());
           }
           else
           {
@@ -232,7 +232,7 @@ namespace ProjetUnivers {
           Model::Oriented* oriented = getObject()->getTrait<Model::Oriented>();
           if(oriented)
           {
-            return oriented->getOrientation(getManager()->getReference());
+            return oriented->getOrientation(getObject()->getRoot());
           }
           else
           {

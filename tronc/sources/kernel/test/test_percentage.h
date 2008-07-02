@@ -31,10 +31,10 @@ namespace ProjetUnivers {
       class TestPercentage : public CppUnit::TestFixture {
       public:
 
-        /// Initialisation du test
+        /// Tests setup
         void setUp() ;
 
-        /// Desinitialisation du test
+        /// Tests close.
         void tearDown() ;
 
       protected:

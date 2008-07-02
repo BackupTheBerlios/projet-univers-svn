@@ -114,7 +114,7 @@ namespace ProjetUnivers {
         // @}
         private:
 
-          std::auto_ptr<ShootingHelperViewPoint> m_implementation ;
+          ShootingHelperViewPoint* m_implementation ;
         };
       }
     }

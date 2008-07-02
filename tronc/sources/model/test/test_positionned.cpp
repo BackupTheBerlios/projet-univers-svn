@@ -37,17 +37,17 @@ namespace ProjetUnivers {
       {
         /// we construct a complete system
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestPositionned::testGetPosition1")) ;
-        Kernel::Object* root = model->createObject("root") ;
-        model->addTrait(root,new Positionned(Position::Meter(0,0,0))) ;
+        Kernel::Object* root = model->createObject() ;
+        root->addTrait(new Positionned(Position::Meter(0,0,0))) ;
         
-        Kernel::Object* object1 = model->createObject("object1",root) ;
-        model->addTrait(object1,new Positionned(Position::Meter(1,0,0))) ;
+        Kernel::Object* object1 = root->createObject() ;
+        object1->addTrait(new Positionned(Position::Meter(1,0,0))) ;
         
-        Kernel::Object* object2 = model->createObject("object2",object1) ;
-        model->addTrait(object2,new Positionned(Position::Meter(0,1,0))) ;
+        Kernel::Object* object2 = object1->createObject() ;
+        object2->addTrait(new Positionned(Position::Meter(0,1,0))) ;
 
-        Kernel::Object* object3 = model->createObject("object3",object2) ;
-        model->addTrait(object3,new Positionned(Position::Meter(0,0,1))) ;
+        Kernel::Object* object3 = object2->createObject() ;
+        object3->addTrait(new Positionned(Position::Meter(0,0,1))) ;
 
         /// object2 relative to root
         Ogre::Vector3 vector2 = object2->getTrait<Positionned>()
@@ -85,16 +85,16 @@ namespace ProjetUnivers {
       {
         /// we construct a complete system
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestPositionned::testGetPosition2")) ;
-        Kernel::Object* root = model->createObject("root") ;
+        Kernel::Object* root = model->createObject() ;
         
-        Kernel::Object* object1 = model->createObject("object1",root) ;
-        model->addTrait(object1,new Positionned(Position::Meter(1,0,0))) ;
+        Kernel::Object* object1 = root->createObject() ;
+        object1->addTrait(new Positionned(Position::Meter(1,0,0))) ;
         
-        Kernel::Object* object2 = model->createObject("object2",object1) ;
-        model->addTrait(object2,new Positionned(Position::Meter(0,1,0))) ;
+        Kernel::Object* object2 = object1->createObject() ;
+        object2->addTrait(new Positionned(Position::Meter(0,1,0))) ;
 
-        Kernel::Object* object3 = model->createObject("object3",object2) ;
-        model->addTrait(object3,new Positionned(Position::Meter(0,0,1))) ;
+        Kernel::Object* object3 = object2->createObject() ;
+        object3->addTrait(new Positionned(Position::Meter(0,0,1))) ;
 
 
         /// object2 relative to root
@@ -129,18 +129,18 @@ namespace ProjetUnivers {
       void TestPositionned::testGetPosition3()
       {
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestPositionned::testGetPosition3")) ;
-        Kernel::Object* root = model->createObject("root") ;
+        Kernel::Object* root = model->createObject() ;
         
-        Kernel::Object* object1 = model->createObject("object1",root) ;
-        model->addTrait(object1,new Positionned(Position::Meter(1,0,0))) ;
+        Kernel::Object* object1 = root->createObject() ;
+        object1->addTrait(new Positionned(Position::Meter(1,0,0))) ;
 
-        Kernel::Object* intermediate = model->createObject("intermediate",object1) ;
+        Kernel::Object* intermediate = object1->createObject() ;
         
-        Kernel::Object* object2 = model->createObject("object2",intermediate) ;
-        model->addTrait(object2,new Positionned(Position::Meter(0,1,0))) ;
+        Kernel::Object* object2 = intermediate->createObject() ;
+        object2->addTrait(new Positionned(Position::Meter(0,1,0))) ;
 
-        Kernel::Object* object3 = model->createObject("object3",object2) ;
-        model->addTrait(object3,new Positionned(Position::Meter(0,0,1))) ;
+        Kernel::Object* object3 = object2->createObject() ;
+        object3->addTrait(new Positionned(Position::Meter(0,0,1))) ;
 
         /// object2 relative to root
         Ogre::Vector3 vector2 = object2->getTrait<Positionned>()
@@ -177,16 +177,16 @@ namespace ProjetUnivers {
       {
         /// we construct a complete system
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestPositionned::testGetPosition4")) ;
-        Kernel::Object* root = model->createObject("root") ;
+        Kernel::Object* root = model->createObject() ;
         
-        Kernel::Object* object1 = model->createObject("object1",root) ;
-        model->addTrait(object1,new Positionned(Position::Meter(1,0,0))) ;
+        Kernel::Object* object1 = root->createObject() ;
+        object1->addTrait(new Positionned(Position::Meter(1,0,0))) ;
         
-        Kernel::Object* object2 = model->createObject("object2",object1) ;
-        model->addTrait(object2,new Positionned(Position::Meter(0,1,0))) ;
+        Kernel::Object* object2 = object1->createObject() ;
+        object2->addTrait(new Positionned(Position::Meter(0,1,0))) ;
 
-        Kernel::Object* object3 = model->createObject("object3",root) ;
-        model->addTrait(object3,new Positionned(Position::Meter(0,0,1))) ;
+        Kernel::Object* object3 = root->createObject() ;
+        object3->addTrait(new Positionned(Position::Meter(0,0,1))) ;
 
 
         /// object2 relative to root
@@ -222,17 +222,17 @@ namespace ProjetUnivers {
       {
         /// we construct a complete system
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestPositionned::testSetPosition1")) ;
-        Kernel::Object* root = model->createObject("root") ;
-        model->addTrait(root,new Positionned(Position::Meter(0,0,0))) ;
+        Kernel::Object* root = model->createObject() ;
+        root->addTrait(new Positionned(Position::Meter(0,0,0))) ;
         
-        Kernel::Object* object1 = model->createObject("object1",root) ;
-        model->addTrait(object1,new Positionned(Position::Meter(1,0,0))) ;
+        Kernel::Object* object1 = root->createObject() ;
+        object1->addTrait(new Positionned(Position::Meter(1,0,0))) ;
         
-        Kernel::Object* object2 = model->createObject("object2",object1) ;
-        model->addTrait(object2,new Positionned(Position::Meter(0,1,0))) ;
+        Kernel::Object* object2 = object1->createObject() ;
+        object2->addTrait(new Positionned(Position::Meter(0,1,0))) ;
 
-        Kernel::Object* object3 = model->createObject("object3",object2) ;
-        model->addTrait(object3,new Positionned(Position::Meter(0,0,1))) ;
+        Kernel::Object* object3 = object2->createObject() ;
+        object3->addTrait(new Positionned(Position::Meter(0,0,1))) ;
 
         object3->getTrait<Positionned>()
                ->setPosition(Position::Meter(2,2,2),root) ;
@@ -270,16 +270,16 @@ namespace ProjetUnivers {
       {
         /// we construct a complete system
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestPositionned::testSetPosition2")) ;
-        Kernel::Object* root = model->createObject("root") ;
+        Kernel::Object* root = model->createObject() ;
         
-        Kernel::Object* object1 = model->createObject("object1",root) ;
-        model->addTrait(object1,new Positionned(Position::Meter(1,0,0))) ;
+        Kernel::Object* object1 = root->createObject() ;
+        object1->addTrait(new Positionned(Position::Meter(1,0,0))) ;
         
-        Kernel::Object* object2 = model->createObject("object2",object1) ;
-        model->addTrait(object2,new Positionned(Position::Meter(0,1,0))) ;
+        Kernel::Object* object2 = object1->createObject() ;
+        object2->addTrait(new Positionned(Position::Meter(0,1,0))) ;
 
-        Kernel::Object* object3 = model->createObject("object3",object2) ;
-        model->addTrait(object3,new Positionned(Position::Meter(0,0,1))) ;
+        Kernel::Object* object3 = object2->createObject() ;
+        object3->addTrait(new Positionned(Position::Meter(0,0,1))) ;
 
         object3->getTrait<Positionned>()
                ->setPosition(Position::Meter(2,2,2),root) ;
@@ -316,18 +316,18 @@ namespace ProjetUnivers {
       void TestPositionned::testSetPosition3()
       {
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestPositionned::testSetPosition3")) ;
-        Kernel::Object* root = model->createObject("root") ;
+        Kernel::Object* root = model->createObject() ;
         
-        Kernel::Object* object1 = model->createObject("object1",root) ;
-        model->addTrait(object1,new Positionned(Position::Meter(1,0,0))) ;
+        Kernel::Object* object1 = root->createObject() ;
+        object1->addTrait(new Positionned(Position::Meter(1,0,0))) ;
 
-        Kernel::Object* intermediate = model->createObject("intermediate",object1) ;
+        Kernel::Object* intermediate = object1->createObject() ;
         
-        Kernel::Object* object2 = model->createObject("object2",intermediate) ;
-        model->addTrait(object2,new Positionned(Position::Meter(0,1,0))) ;
+        Kernel::Object* object2 = intermediate->createObject() ;
+        object2->addTrait(new Positionned(Position::Meter(0,1,0))) ;
 
-        Kernel::Object* object3 = model->createObject("object3",object2) ;
-        model->addTrait(object3,new Positionned(Position::Meter(0,0,1))) ;
+        Kernel::Object* object3 = object2->createObject() ;
+        object3->addTrait(new Positionned(Position::Meter(0,0,1))) ;
 
         object3->getTrait<Positionned>()
                ->setPosition(Position::Meter(2,2,2),root) ;
@@ -364,11 +364,11 @@ namespace ProjetUnivers {
       void TestPositionned::testGetRelativePosition()
       {
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestPositionned::testGetRelativePosition")) ;
-        Kernel::Object* root = model->createObject("root") ;
-        model->addTrait(root,new Positionned()) ;
+        Kernel::Object* root = model->createObject() ;
+        root->addTrait(new Positionned()) ;
         
-        Kernel::Object* object1 = model->createObject("object1",root) ;
-        model->addTrait(object1,new Positionned(Position::Meter(1,0,0))) ;
+        Kernel::Object* object1 = root->createObject() ;
+        object1->addTrait(new Positionned(Position::Meter(1,0,0))) ;
         
         CPPUNIT_ASSERT(getRelativePosition(object1,root) == Position::Meter(1,0,0)) ;
       }
@@ -377,31 +377,31 @@ namespace ProjetUnivers {
       {
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestPositionned::relativePositionWithRotation")) ;
         
-        Kernel::Object* root = model->createObject("root") ;
-        model->addTrait(root,new Positionned()) ;
+        Kernel::Object* root = model->createObject() ;
+        root->addTrait(new Positionned()) ;
         
-        Kernel::Object* object1 = model->createObject(root) ;
-        model->addTrait(object1,new Positionned(Position::Meter(0,0,0))) ;
+        Kernel::Object* object1 = root->createObject() ;
+        object1->addTrait(new Positionned(Position::Meter(0,0,0))) ;
         
-        Kernel::Object* object2 = model->createObject(object1) ;
-        model->addTrait(object2,new Positionned(Position::Meter(0,1,0))) ;
+        Kernel::Object* object2 = object1->createObject() ;
+        object2->addTrait(new Positionned(Position::Meter(0,1,0))) ;
         
-        Kernel::Object* object3 = model->createObject(root) ;
-        model->addTrait(object3,new Positionned()) ;
+        Kernel::Object* object3 = root->createObject() ;
+        object3->addTrait(new Positionned()) ;
         // rotation of 90° anti clockwize against Z axis
-        model->addTrait(object3,new Oriented(Orientation(Ogre::Quaternion(sqrt(0.5),0,0,sqrt(0.5))))) ;
+        object3->addTrait(new Oriented(Orientation(Ogre::Quaternion(sqrt(0.5),0,0,sqrt(0.5))))) ;
         
         CPPUNIT_ASSERT(getRelativePosition(object2,object3).Meter().positionEquals(Ogre::Vector3(1,0,0),1e-4)) ;
 
         // re-orient the root must not change anything
-        model->addTrait(root,new Oriented(Orientation(Ogre::Quaternion(sqrt(0.5),0,0,sqrt(0.5))))) ;
+        root->addTrait(new Oriented(Orientation(Ogre::Quaternion(sqrt(0.5),0,0,sqrt(0.5))))) ;
         CPPUNIT_ASSERT(getRelativePosition(object2,object3).Meter().positionEquals(Ogre::Vector3(1,0,0),1e-4)) ;
         
         // adding a void object should not change anything
-        Kernel::Object* object4 = model->createObject(object2) ;
+        Kernel::Object* object4 = object2->createObject() ;
         CPPUNIT_ASSERT(getRelativePosition(object4,object3).Meter().positionEquals(Ogre::Vector3(1,0,0),1e-4)) ;
 
-        Kernel::Object* object5 = model->createObject(object3) ;
+        Kernel::Object* object5 = object3->createObject() ;
         CPPUNIT_ASSERT(getRelativePosition(object4,object5).Meter().positionEquals(Ogre::Vector3(1,0,0),1e-4)) ;
         
         // changing position of the root should not change anything
@@ -413,19 +413,19 @@ namespace ProjetUnivers {
       {
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestPositionned::relativePositionWithRotations")) ;
         
-        Kernel::Object* root = model->createObject("root") ;
-        model->addTrait(root,new Positionned()) ;
+        Kernel::Object* root = model->createObject() ;
+        root->addTrait(new Positionned()) ;
         
-        Kernel::Object* object1 = model->createObject(root) ;
-        model->addTrait(object1,new Positionned(Position::Meter(100,0,0))) ;
+        Kernel::Object* object1 = root->createObject() ;
+        object1->addTrait(new Positionned(Position::Meter(100,0,0))) ;
         
-        Kernel::Object* object2 = model->createObject(object1) ;
-        model->addTrait(object2,new Positionned(Position::Meter(0,1,0))) ;
+        Kernel::Object* object2 = object1->createObject() ;
+        object2->addTrait(new Positionned(Position::Meter(0,1,0))) ;
         
-        Kernel::Object* object3 = model->createObject(root) ;
-        model->addTrait(object3,new Positionned(Position::Meter(100,0,0))) ;
+        Kernel::Object* object3 = root->createObject() ;
+        object3->addTrait(new Positionned(Position::Meter(100,0,0))) ;
         // rotation of 90° anti clockwize against Z axis
-        model->addTrait(object3,new Oriented(Orientation(Ogre::Quaternion(sqrt(0.5),0,0,sqrt(0.5))))) ;
+        object3->addTrait(new Oriented(Orientation(Ogre::Quaternion(sqrt(0.5),0,0,sqrt(0.5))))) ;
         
         CPPUNIT_ASSERT(getRelativePosition(object2,object3).Meter().positionEquals(Ogre::Vector3(1,0,0),1e-4)) ;
       }
@@ -434,16 +434,16 @@ namespace ProjetUnivers {
       {
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestPositionned::relativePositionToAncestor")) ;
         
-        Kernel::Object* root = model->createObject("root") ;
-        model->addTrait(root,new Positionned()) ;
+        Kernel::Object* root = model->createObject() ;
+        root->addTrait(new Positionned()) ;
         
-        Kernel::Object* object1 = model->createObject(root) ;
-        model->addTrait(object1,new Positionned(Position::Meter(100,0,0))) ;
+        Kernel::Object* object1 = root->createObject() ;
+        object1->addTrait(new Positionned(Position::Meter(100,0,0))) ;
         // rotation of 90° anti clockwize against Z axis
-        model->addTrait(object1,new Oriented(Orientation(Ogre::Quaternion(sqrt(0.5),0,0,sqrt(0.5))))) ;
+        object1->addTrait(new Oriented(Orientation(Ogre::Quaternion(sqrt(0.5),0,0,sqrt(0.5))))) ;
         
-        Kernel::Object* object2 = model->createObject(object1) ;
-        model->addTrait(object2,new Positionned(Position::Meter(0,1,0))) ;
+        Kernel::Object* object2 = object1->createObject() ;
+        object2->addTrait(new Positionned(Position::Meter(0,1,0))) ;
 
         CPPUNIT_ASSERT(getRelativePosition(object2,root).Meter().positionEquals(Ogre::Vector3(99,0,0),1e-4)) ;
       }
@@ -452,24 +452,24 @@ namespace ProjetUnivers {
       {
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestPositionned::relativePositionToOrientedCousin")) ;
         
-        Kernel::Object* root = model->createObject("root") ;
-        model->addTrait(root,new Positionned()) ;
+        Kernel::Object* root = model->createObject() ;
+        root->addTrait(new Positionned()) ;
         
-        Kernel::Object* object1 = model->createObject(root) ;
-        model->addTrait(object1,new Positionned(Position::Meter(100,0,0))) ;
+        Kernel::Object* object1 = root->createObject() ;
+        object1->addTrait(new Positionned(Position::Meter(100,0,0))) ;
         // rotation of 90° anti clockwize against Z axis
-        model->addTrait(object1,new Oriented(Orientation(Ogre::Quaternion(sqrt(0.5),0,0,sqrt(0.5))))) ;
+        object1->addTrait(new Oriented(Orientation(Ogre::Quaternion(sqrt(0.5),0,0,sqrt(0.5))))) ;
         
-        Kernel::Object* object2 = model->createObject(object1) ;
-        model->addTrait(object2,new Positionned(Position::Meter(0,1,0))) ;
+        Kernel::Object* object2 = object1->createObject() ;
+        object2->addTrait(new Positionned(Position::Meter(0,1,0))) ;
 
-        Kernel::Object* object3 = model->createObject(root) ;
-        model->addTrait(object3,new Positionned(Position::Meter(0,100,0))) ;
+        Kernel::Object* object3 = root->createObject() ;
+        object3->addTrait(new Positionned(Position::Meter(0,100,0))) ;
         // rotation of 90° clockwize against Z axis
-        model->addTrait(object3,new Oriented(Orientation(Ogre::Quaternion(Ogre::Degree(-90),Ogre::Vector3::UNIT_Z)))) ;
+        object3->addTrait(new Oriented(Orientation(Ogre::Quaternion(Ogre::Degree(-90),Ogre::Vector3::UNIT_Z)))) ;
         
-        Kernel::Object* object4 = model->createObject(object3) ;
-        model->addTrait(object4,new Positionned(Position::Meter(1,0,0))) ;
+        Kernel::Object* object4 = object3->createObject() ;
+        object4->addTrait(new Positionned(Position::Meter(1,0,0))) ;
         
         CPPUNIT_ASSERT(getRelativePosition(object2,object4).Meter().positionEquals(Ogre::Vector3(99,99,0),1e-4)) ;
       }

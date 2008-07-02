@@ -25,7 +25,6 @@
 #include <kernel/log.h>
 #include <kernel/parameters.h>
 
-#include <model/model.h>
 #include <model/collision.h>
 
 #include <physic/implementation/ode/solid.h>
@@ -80,7 +79,8 @@ namespace ProjetUnivers {
 
         void PhysicalWorld::onClose()
         {
-          InternalMessage("Physic","Physic::PhysicalWorld::onClose entering " + getObject()->getName()) ;
+          InternalMessage("Physic","Physic::PhysicalWorld::onClose entering " + 
+                                   Kernel::toString(getObject()->getIdentifier())) ;
 
           if (m_world)
           {
@@ -92,7 +92,8 @@ namespace ProjetUnivers {
             delete m_collision_space ;
           }
           
-          InternalMessage("Physic","Physic::PhysicalWorld::onClose leaving " + getObject()->getName()) ;
+          InternalMessage("Physic","Physic::PhysicalWorld::onClose leaving " + 
+                                   Kernel::toString(getObject()->getIdentifier())) ;
         }
 
         void PhysicalWorld::onChangeParent(Kernel::Object* i_old_parent)
@@ -159,9 +160,9 @@ namespace ProjetUnivers {
                            : NULL ;
 
           InternalMessage("Physic","PhysicalWorld::onGeometryCollision "
-                          + (object1 ? object1->getObject()->getName() : "no object1")
+                          + (object1 ? Kernel::toString(object1->getObject()->getIdentifier()) : "no object1")
                           + " " 
-                          + (object2 ? object2->getObject()->getName() : "no object2")
+                          + (object2 ? Kernel::toString(object2->getObject()->getIdentifier()) : "no object2")
                           + (collideable1->isCollideableWith(collideable2) ? " collideable" : "not collideable")
                           ) ;
 
@@ -259,7 +260,7 @@ namespace ProjetUnivers {
               average_contact_point = average_contact_point / real_number_of_contact_points ;
           
               // create a collision object
-              Kernel::Object* collision_object = Model::createObject(world->getObject()) ;
+              Kernel::Object* collision_object = world->getObject()->createObject() ;
               
               Model::Collision* collision_trait = 
                 new Model::Collision(collideable1->getControler()->getObject(),
@@ -267,7 +268,7 @@ namespace ProjetUnivers {
                                      Model::Position::Meter(average_contact_point.x,
                                                             average_contact_point.y,
                                                             average_contact_point.z)) ;
-              Model::addTrait(collision_object,collision_trait) ;
+              collision_object->addTrait(collision_trait) ;
             }
           
           }          
@@ -275,7 +276,9 @@ namespace ProjetUnivers {
         
         void PhysicalWorld::simulate(const float& i_seconds)
         {
-          InternalMessage("Physic","Physic::PhysicalWorld::simulate " + getObject()->getName() + " Entering") ;
+          InternalMessage("Physic","Physic::PhysicalWorld::simulate " + 
+                                   Kernel::toString(getObject()->getIdentifier()) + 
+                                   " Entering") ;
 //          InformationMessage("Physic","PhysicalWorld::simulate " + Kernel::toString((float)i_seconds)) ;
           
           CHECK(m_collision_space,"no collision space") ;
@@ -289,7 +292,9 @@ namespace ProjetUnivers {
             dSpaceCollide(m_collision_space->id(),this,PhysicalWorld::onSpaceCollision) ;
           }
                   
-          InternalMessage("Physic","Physic::PhysicalWorld::simulate " + getObject()->getName() + " trace#1") ;
+          InternalMessage("Physic","Physic::PhysicalWorld::simulate " + 
+                                   Kernel::toString(getObject()->getIdentifier()) + 
+                                   " trace#1") ;
           
           // physical part
           if (m_world)
@@ -299,7 +304,9 @@ namespace ProjetUnivers {
 
           dJointGroupEmpty(m_contact_group) ;
 
-          InternalMessage("Physic","PhysicalWorld::simulate " + getObject()->getName() + " Leaving") ;
+          InternalMessage("Physic","PhysicalWorld::simulate " + 
+                                   Kernel::toString(getObject()->getIdentifier()) + 
+                                   " Leaving") ;
         }
         
       }

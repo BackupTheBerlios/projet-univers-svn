@@ -28,100 +28,54 @@ namespace ProjetUnivers {
   namespace Input {
     namespace Implementation {
 
-      namespace
+      bool Mouse::mouseMoved(const OIS::MouseEvent& event)
       {
-        /// local data
-        
-        
-      }
-      const int max = 100 ;
-      const int maximum_X = max ;
-      const int maximum_Y = max ;
-
-      bool Mouse::mouseMoved(const OIS::MouseEvent &arg)
-      {
-        /// test code...
-
-        if (m_controled_object)
-        {
-        
-          X += arg.state.X.rel ;
-          if (X > maximum_X)
-          {
-            X = maximum_X ;
-          }
-          if (X < -maximum_X)
-          {
-            X = -maximum_X ;
-          }
-          
-          Y += arg.state.Y.rel ;
-          if (Y > maximum_Y)
-          {
-            Y = maximum_Y ;
-          }
-          if (Y < -maximum_Y)
-          {
-            Y = -maximum_Y ;
-          }
-          std::cout << "X=" << X << ",Y=" << Y
-                    << ",deltaX=" << arg.state.X.rel
-                    << ",deltaY=" << arg.state.Y.rel
-                    << std::endl ;          
-          /// lookat method...
-          Ogre::Vector3 view(-X,Y,max/2.0) ;
-          view.normalise() ;
-          Ogre::Vector3 rigth = view.crossProduct(Ogre::Vector3::NEGATIVE_UNIT_Y) ;
-          rigth.normalise() ;
-          Ogre::Vector3 up = view.crossProduct(rigth) ;
-          up.normalise() ;
-          
-          m_controled_object->setOrientation(
-             Model::Orientation(Ogre::Quaternion(rigth,up,view))) ;
-          
-          /// local zAxis of orientation is "good", it is the orientation see from behind
-          std::cout 
-            << m_controled_object->getOrientation().getQuaternion().zAxis() 
-            << std::endl ;
-          
-        }
-        
-        return true ;
-        
-      }
-      
-      bool Mouse::mousePressed(const OIS::MouseEvent &arg, 
-                               OIS::MouseButtonID id)
-      {
+        m_axes[Model::PlayerConfiguration::InputAxis::mouseAxis(X)] += event.state.X.rel ;
+        m_axes[Model::PlayerConfiguration::InputAxis::mouseAxis(Y)] += event.state.Y.rel ;
+        m_axes[Model::PlayerConfiguration::InputAxis::mouseAxis(Z)] += event.state.Z.rel ;
         return true ;
       }
       
-      bool Mouse::mouseReleased(const OIS::MouseEvent &arg,
-                                OIS::MouseButtonID id)
+      bool Mouse::mousePressed(const OIS::MouseEvent&, 
+                               OIS::MouseButtonID button)
       {
+        m_events.insert(Model::PlayerConfiguration::InputEvent::mouseButton(button)) ;
+        m_button_pressed.insert(button) ;
+        return true ;
+      }
+      
+      bool Mouse::mouseReleased(const OIS::MouseEvent&,
+                                OIS::MouseButtonID button)
+      {
+        m_events.erase(Model::PlayerConfiguration::InputEvent::mouseButton(button)) ;
+        m_button_released.insert(button) ;
         return true ;
       }
 
+      const std::set<OIS::MouseButtonID>& Mouse::getButtonPressed() const
+      {
+        return m_button_pressed ;
+      }
+      
+      const std::set<OIS::MouseButtonID>& Mouse::getButtonReleased() const
+      {
+        return m_button_released ;
+      }
+      
+      void Mouse::clear()
+      {
+        m_button_pressed.clear() ;
+        m_button_released.clear() ;
+      }
+      
       Mouse::Mouse(const float& i_sensibility)
-      : m_time_delay(0.0),
-        m_controled_object(NULL),
-        m_sensibility(i_sensibility),
-        X(0),
-        Y(0)
-      {}
-      
-      Mouse::~Mouse()
-      {}
-      
-      void Mouse::setTimeDelay(const float& i_seconds)
+      : m_sensibility(i_sensibility)
       {
-        m_time_delay = i_seconds ;
+        m_axes[Model::PlayerConfiguration::InputAxis::mouseAxis(X)] = 0 ;
+        m_axes[Model::PlayerConfiguration::InputAxis::mouseAxis(Y)] = 0 ;
+        m_axes[Model::PlayerConfiguration::InputAxis::mouseAxis(Z)] = 0 ;
       }
       
-      void Mouse::setControledObject(Model::Oriented* i_object)
-      {
-        m_controled_object = i_object ;
-      }
     }
   }
 }

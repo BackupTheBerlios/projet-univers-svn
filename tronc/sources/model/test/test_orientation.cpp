@@ -53,6 +53,12 @@ namespace ProjetUnivers {
         CPPUNIT_ASSERT(orientation.getQuaternion().xAxis().positionEquals(Ogre::Vector3(0,0,-1),1e-4)) ;
       }
       
+      void TestOrientation::localZAxis()
+      {
+        Orientation orientation ;
+        CPPUNIT_ASSERT(orientation.getQuaternion().zAxis().positionEquals(Ogre::Vector3::UNIT_Z,1e-4)) ;
+      }
+      
       void TestOrientation::setUp() 
       {
       }

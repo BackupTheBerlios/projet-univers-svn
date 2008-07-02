@@ -116,7 +116,7 @@ namespace ProjetUnivers {
       {
         InternalMessage("Model","firing") ;
         // create a laserbeam object
-        Kernel::Object* beam = createObject(world->getObject()) ;
+        Kernel::Object* beam = world->getObject()->createObject() ;
         
         // should apply local rotation to have correct position decal..
         Orientation orientation_of_laser = oriented->getOrientation(world->getObject()) ;
@@ -124,20 +124,20 @@ namespace ProjetUnivers {
         Position position_of_the_beam = 
           positionned->getPosition(world->getObject()) + m_out_position*orientation_of_laser ;
         
-        addTrait(beam,new Positionned(position_of_the_beam)) ;
+        beam->addTrait(new Positionned(position_of_the_beam)) ;
         
         Orientation orientation_of_the_beam =
           orientation_of_laser*m_out_orientation ;
           
-        addTrait(beam,new Oriented(orientation_of_the_beam)) ;
+        beam->addTrait(new Oriented(orientation_of_the_beam)) ;
 
         // orientation gives speed vector
         // basic_speed(full Z oriented) * orientation
         Speed speed = Speed::MeterPerSecond(0,0,getLaserSpeedMeterPerSecond())*orientation_of_the_beam ;
         // maybe we should add the object speed ??
          
-        addTrait(beam,new Mobile(speed)) ;
-        addTrait(beam,new Massive(Mass(m_laser_beam_energy,speed))) ;
+        beam->addTrait(new Mobile(speed)) ;
+        beam->addTrait(new Massive(Mass(m_laser_beam_energy,speed))) ;
         
         /*!
           Here we have a limitation : 
@@ -146,13 +146,13 @@ namespace ProjetUnivers {
           
           @todo use a deduced trait in physics on PhysicalObject and LaserBeam
         */
-        addTrait(beam,new LaserBeam()) ;
-        addTrait(beam,new WithLifetime(getLaserBeamLifeDuration())) ;
+        beam->addTrait(new LaserBeam()) ;
+        beam->addTrait(new WithLifetime(getLaserBeamLifeDuration())) ;
         
         // shot
-        Kernel::Object* shot = createObject(world->getObject()) ;
-        addTrait(shot,new Positionned(position_of_the_beam)) ;
-        addTrait(shot,new Shot()) ;
+        Kernel::Object* shot = world->getObject()->createObject() ;
+        shot->addTrait(new Positionned(position_of_the_beam)) ;
+        shot->addTrait(new Shot()) ;
 
         // re-init timer
         m_time_to_fire = m_time_between_shots ;

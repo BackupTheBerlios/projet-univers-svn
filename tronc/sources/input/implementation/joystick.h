@@ -23,34 +23,19 @@
 
 #include <OIS/OISJoyStick.h>
 #include <kernel/object.h>
+#include <input/implementation/input_object.h>
 
 namespace ProjetUnivers {
   namespace Input {
     namespace Implementation {
 
       /// Handle joystick.
-      /*!
-        Joystick can be attached 
-        - to a Model::Oriented it will then control its orientation, usefull 
-          for stick control
-        
-        @par Status
-        
-        Still very preliminary. It works with my joystick but would 
-        probably do not work with other.  
-        
-      */
-      class Joystick : public OIS::JoyStickListener
+      class Joystick : public OIS::JoyStickListener, public InputObject
       {
       public:
       
         /// Constructor.
-        Joystick(::OIS::JoyStick* i_joystick,const float& i_sensibility = 0.1) ;  
-        
-        void setTimeDelay(const float& i_seconds) ;
-        
-        /// Change the model object that receive the commands.         
-        void setControledObject(Kernel::Object*) ;
+        Joystick(const float& sensibility = 0.1) ;  
         
       /*!
         @name Interface implementation
@@ -58,6 +43,7 @@ namespace ProjetUnivers {
       // @{
       
         virtual bool buttonPressed(const OIS::JoyStickEvent&,int) ;
+        
         virtual bool buttonReleased(const OIS::JoyStickEvent&,int) ;
         
         virtual bool axisMoved(const OIS::JoyStickEvent&,int) ;
@@ -66,30 +52,12 @@ namespace ProjetUnivers {
         
         virtual bool povMoved(const OIS::JoyStickEvent&,int) ;
 
-
       // @}
-        
-        /// Destructor.
-        virtual ~Joystick() ;
-        
       private:
-        
-        /// Time (in seconds) since last frame.
-        float m_time_delay ;
-        
-        /// This joystick control the orientation of an object.
-        Kernel::Object* m_controled_object ;
         
         /// sensibility.
         float m_sensibility ;
-        
-        /// X/Y coordinates within [-100,100].
-        int X ;
-        int Y ;        
-        int Z ;
-        int m_throttle ;
-        
-        ::OIS::JoyStick* m_joystick ;
+
       };
     }
   }

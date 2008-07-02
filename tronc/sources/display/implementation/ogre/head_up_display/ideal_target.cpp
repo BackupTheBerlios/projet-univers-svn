@@ -93,7 +93,6 @@ namespace ProjetUnivers {
           {
             InternalMessage("Display","Entering IdealTarget::onInit") ;
             
-            getOverlay()->setZOrder(500) ;
             m_target_container = static_cast< ::Ogre::OverlayContainer* >(
               ::Ogre::OverlayManager::getSingleton().createOverlayElement(
                     "Panel", Utility::getUniqueName())) ;
@@ -146,6 +145,9 @@ namespace ProjetUnivers {
 
             ::Ogre::Camera* camera = getViewPoint()->getCamera() ;
 
+            if (!camera)
+              return ;
+            
             Model::Computer* computer 
               = getViewPoint()->getTargetingSystem()->getTrait<Model::TargetingSystem>()
                 ->getComputer()->getTrait<Model::Computer>() ;

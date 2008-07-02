@@ -62,19 +62,18 @@ namespace ProjetUnivers {
         
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestTarget::testConstruct")) ;
 
-        Kernel::Object* ship = model->createObject("ship") ;
-        model->addTrait(ship,new Model::Computer()) ;
+        Kernel::Object* ship = model->createObject() ;
+        ship->addTrait(new Model::Computer()) ;
        
         Kernel::Model* memory = ship->getTrait<Model::Computer>()->getMemoryModel() ;
         
-        Kernel::Object* data = memory->createObject("detection") ;
-        memory->addTrait(data,new Model::Positionned()) ;
-        memory->addTrait(data,new Model::Solid(Model::Mesh("razor.mesh"))) ;
-        memory->addTrait(data,new Model::DetectionData(ship)) ;
-        memory->addTrait(data,new Model::Selected()) ;
+        Kernel::Object* data = memory->createObject() ;
+        data->addTrait(new Model::Positionned()) ;
+        data->addTrait(new Model::Solid(Model::Mesh("razor.mesh"))) ;
+        data->addTrait(new Model::DetectionData(ship)) ;
+        data->addTrait(new Model::Selected()) ;
 
         CPPUNIT_ASSERT(data->getTrait<Implementation::Target>()) ;
-        Model::close() ;
         InternalMessage("Display","Display::TestTarget::testConstruct leaving") ;
       }
 

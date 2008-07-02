@@ -108,9 +108,9 @@ namespace ProjetUnivers {
           // if no ideal target create
           if (! m_ideal_target)
           {
-            m_ideal_target = model->createObject(getObject()) ;
-            model->addTrait(m_ideal_target,new Positionned()) ;
-            model->addTrait(m_ideal_target,new IdealTarget(getObject()->getTrait<ComputerData>()->getComputer())) ;
+            m_ideal_target = getObject()->createObject() ;
+            m_ideal_target->addTrait(new Positionned()) ;
+            m_ideal_target->addTrait(new IdealTarget(getObject()->getTrait<ComputerData>()->getComputer())) ;
           }
           // update ideal target
           Positionned* positionned = m_ideal_target->getTrait<Positionned>() ;
@@ -178,11 +178,11 @@ namespace ProjetUnivers {
             Shootable* shootable_trait = getObject()->getTrait<Shootable>() ;
             if (shootable_trait && !shootable)
             {
-              model->destroyTrait(getObject(),shootable_trait) ;
+              getObject()->destroyTrait(shootable_trait) ;
             }
             else if (!shootable_trait && shootable)
             {
-              model->addTrait(getObject(),new Shootable()) ;
+              getObject()->addTrait(new Shootable()) ;
             }
             
           }

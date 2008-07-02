@@ -59,41 +59,35 @@ namespace ProjetUnivers {
           - check that the sound is still playing
         */
       
-        Model::init() ;
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestSoundEnvironnement::basicTest")) ;
+        model->init() ;
         
-        Kernel::Object* system = Model::createObject("system") ;
-        Model::addTrait(system, new Model::Positionned()) ;
-        Model::addTrait(system, new Model::Oriented()) ;
+        Kernel::Object* system = model->createObject() ;
+        system->addTrait(new Model::Positionned()) ;
+        system->addTrait(new Model::Oriented()) ;
 
-        Kernel::Object* listener = Model::createObject(system) ;
-        Model::addTrait(listener,new Model::Listener()) ;
-        Model::addTrait(listener,new Model::Positionned()) ;
-        Model::addTrait(listener,new Model::Oriented()) ;
-        Model::addTrait(listener,new Model::Mobile());
+        Kernel::Object* listener = system->createObject() ;
+        listener->addTrait(new Model::Listener()) ;
+        listener->addTrait(new Model::Positionned()) ;
+        listener->addTrait(new Model::Oriented()) ;
+        listener->addTrait(new Model::Mobile());
         
-        Kernel::Object* collision = Model::createObject(system) ;
-        Model::addTrait(collision,new Model::Collision(system,
-                                                       listener,
-                                                       Model::Position::Meter(10,10,10))) ;
-        
-        /// build a sound viewpoint        
-        Sound::init() ;
-        Sound::build(listener, system) ;
+        Kernel::Object* collision = system->createObject() ;
+        collision->addTrait(new Model::Collision(system,
+                                                 listener,
+                                                 Model::Position::Meter(10,10,10))) ;
         
         
         Kernel::Timer timer ;
+        Kernel::Timer global_timer ;
         
-        while (timer.getSecond() <= 3)
+        while (global_timer.getSecond() <= 3)
         {
           float seconds = timer.getSecond() ;
-          Model::Duration elapsed(Model::Duration::Second(seconds)) ;
-          Model::update(elapsed) ;
-          Sound::update() ;
+          timer.reset() ;
+          model->update(seconds) ;
         }
 
-        Sound::close();
-        Model::close();
-        
       }
 
       void TestSoundEvent::setUp() 
