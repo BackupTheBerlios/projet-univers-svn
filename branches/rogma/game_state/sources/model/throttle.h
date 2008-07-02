@@ -29,7 +29,7 @@ namespace ProjetUnivers {
 
     /// For objects that are a throttle.
     /*!
-      Throttle have exactly one axis. Value ranges in [0,100].  
+      Throttle have exactly one axis. Value ranges in [-100,100].  
       usage : 
         getOrientation().getPitch()
       @invariant getOrientation().getPitch() in [0,90°].
@@ -48,14 +48,17 @@ namespace ProjetUnivers {
       static Kernel::Trait* read(Kernel::Reader* reader) ;
 
       /// Modify the pitch.
-      void modify(const int& i_delta) ;
+      void modify(const int& delta) ;
 
-      /// Set the pitch.
-      void set(const int& i_delta) ;
+      /// Set the throttle.
+      /*!
+        Passed value is in [-100,100].
+      */
+      void set(const int& throttle) ;
     
     private:
 
-      /// Current value in [0,100].
+      /// Current value in [-100,100].
       int m_y ;
     };
   }

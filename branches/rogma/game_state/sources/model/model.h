@@ -67,6 +67,9 @@ namespace ProjetUnivers {
     /// Create a autonomous agent controling @c ship and inside it.
     Kernel::Object* createAI(Kernel::Object* ship) ;
     
+    /// Create a default player configuration.
+    Kernel::Object* createDefaultPlayerConfiguration(Kernel::Object* parent) ;
+    
     /// Return the ship controled by @c agent.
     /*!
       @return NULL if not exist

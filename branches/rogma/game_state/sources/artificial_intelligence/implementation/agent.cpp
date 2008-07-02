@@ -377,8 +377,8 @@ namespace ProjetUnivers {
         InternalMessage("Agent","applyied Y=" + Kernel::toString(float(m_previous_Y))) ;
         InternalMessage("Agent","applyied thottle=" + Kernel::toString(float(m_delta_throttle))) ;
         
-        getObject()->call("set_axis_X",int(m_previous_X)) ;
-        getObject()->call("set_axis_Y",int(m_previous_Y)) ;
+        getObject()->call("Yaw",int(m_previous_X)) ;
+        getObject()->call("Pitch",int(m_previous_Y)) ;
         getObject()->call("Change Throttle",int(m_delta_throttle)) ;
       }
 

@@ -61,6 +61,7 @@ int main() {
 
   InformationMessage("Demonstration","Demarrage de projet univers") ;
   Game::Game game ;
+
   Game::GameState* welcome = game.addState(new Game::GameState("welcome")) ;
   Kernel::Object* welcome_model = welcome->getRoot() ;
   welcome_model->addTrait(new Model::WithLifetime(Model::Duration::Second(2))) ;

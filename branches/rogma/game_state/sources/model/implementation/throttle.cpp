@@ -33,7 +33,7 @@ namespace ProjetUnivers {
 
     Throttle::Throttle()
     : Oriented(),
-      m_y(0)
+      m_y(-100)
     {}
 
     Kernel::Trait* Throttle::read(Kernel::Reader* reader)
@@ -60,22 +60,12 @@ namespace ProjetUnivers {
     void Throttle::modify(const int& i_delta)
     {
       m_y += i_delta ;
-      if (m_y > max)
-      {
-        m_y = max ;
-      }
-      if (m_y < 0)
-      {
-        m_y = 0 ;
-      }
-      Ogre::Quaternion orientation(Ogre::Degree(0.9*m_y),Ogre::Vector3::UNIT_X) ;
-      m_orientation = Model::Orientation(orientation) ;
-      notify() ;
+      set(m_y) ;
     }
 
-    void Throttle::set(const int& i_y)
+    void Throttle::set(const int& throttle)
     {
-      m_y = i_y ;
+      m_y = throttle ;
       if (m_y > max)
       {
         m_y = max ;
@@ -84,12 +74,13 @@ namespace ProjetUnivers {
       {
         m_y = -max ;
       }
-      Ogre::Quaternion orientation(Ogre::Degree(0.9*m_y),Ogre::Vector3::UNIT_X) ;
+      Ogre::Quaternion orientation(Ogre::Degree(0.9*(m_y/2+50)),Ogre::Vector3::UNIT_X) ;
       m_orientation = Model::Orientation(orientation) ;
       notify() ;
     }
 
-    RegisterAxis("set_throttle",Throttle,set) ;
+    RegisterAxis("Throttle",Throttle,set) ;
+    /// @todo should be private
     RegisterAxis("Change Throttle",Throttle,modify) ;
   }
 }

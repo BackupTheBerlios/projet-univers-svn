@@ -63,15 +63,13 @@ namespace ProjetUnivers {
           
           Throttle* throttle_trait = throttle->getTrait<Throttle>() ;
           CPPUNIT_ASSERT(throttle_trait) ;
-          
 
-          /// set throttle orientation at full thrust... 
           CPPUNIT_ASSERT(throttle_trait->getOrientation().getQuaternion().getPitch().valueDegrees()==0) ;
-          throttle_trait->modify(50) ;
+          throttle_trait->modify(100) ;
           CPPUNIT_ASSERT(equal(throttle_trait->getOrientation().getQuaternion().getPitch().valueDegrees(),45)) ;
-          throttle_trait->modify(50) ;
+          throttle_trait->modify(100) ;
           CPPUNIT_ASSERT(equal(throttle_trait->getOrientation().getQuaternion().getPitch().valueDegrees(),90)) ;
-          throttle_trait->modify(-50) ;
+          throttle_trait->modify(-100) ;
           CPPUNIT_ASSERT(equal(throttle_trait->getOrientation().getQuaternion().getPitch().valueDegrees(),45)) ;
           
         }

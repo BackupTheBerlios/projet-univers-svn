@@ -73,9 +73,15 @@ namespace ProjetUnivers {
       {
       public:
 
+        /// Negative value indicates axis inversion.
         static InputAxis joystickAxis(int axis) ; 
+
+        /// Negative value indicates axis inversion.
         static InputAxis mouseAxis(int axis) ;
 
+        /// Return an inverted axis.
+        InputAxis operator-() const ;
+        
         /// For sets.
         bool operator < (const InputAxis&) const ;
 

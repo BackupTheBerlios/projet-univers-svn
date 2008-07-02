@@ -212,9 +212,11 @@ namespace ProjetUnivers {
     
     void apply(Model::PlayerConfiguration* configuration,Kernel::Object* object)
     {
+      std::set<Model::PlayerConfiguration::InputEvent> events(getEvents()) ;
+      
       for(std::set<Model::PlayerConfiguration::InputEvent>::const_iterator 
-            event = keyboard_listener->getEvents().begin() ;
-          event != keyboard_listener->getEvents().end() ;
+            event = events.begin() ;
+          event != events.end() ;
           ++event)
       {
         std::string command = configuration->getCommand(*event) ;
@@ -224,25 +226,34 @@ namespace ProjetUnivers {
           object->call(command) ;
         }
       }
-
-      for(std::set<Model::PlayerConfiguration::InputEvent>::const_iterator 
-            event = mouse_listener->getEvents().begin() ;
-          event != mouse_listener->getEvents().end() ;
-          ++event)
+      
+      std::map<Model::PlayerConfiguration::InputAxis,Kernel::Percentage> axes(getAxes()) ;
+      
+      for(std::map<Model::PlayerConfiguration::InputAxis,Kernel::Percentage>::const_iterator 
+            axis = axes.begin() ;
+          axis != axes.end() ;
+          ++axis)
       {
-        std::string command = configuration->getCommand(*event) ;
+        std::string command = configuration->getAxis(axis->first) ;
         if (!command.empty())
-          object->call(command) ;
+        {
+          InternalMessage("Input","applying " + command) ;
+          object->call(command,int(axis->second)) ;
+        }
+        else
+        {
+          // try with inverted axis
+          command = configuration->getAxis(-axis->first) ;
+          if (!command.empty())
+          {
+            InternalMessage("Input","applying " + command) ;
+            object->call(command,-int(axis->second)) ;
+          }
+        }
+        
+        
       }
-      for(std::set<Model::PlayerConfiguration::InputEvent>::const_iterator 
-            event = joystick_listener->getEvents().begin() ;
-          event != joystick_listener->getEvents().end() ;
-          ++event)
-      {
-        std::string command = configuration->getCommand(*event) ;
-        if (!command.empty())
-          object->call(command) ;
-      }
+      
     }
     
   }

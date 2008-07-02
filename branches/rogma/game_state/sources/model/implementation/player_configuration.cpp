@@ -79,6 +79,14 @@ namespace ProjetUnivers {
       return type < axis.type || (type == axis.type && this->axis < axis.axis) ;
     }
     
+    PlayerConfiguration::InputAxis PlayerConfiguration::InputAxis::operator-() const
+    {
+      InputAxis result ;
+      result.type = type ;
+      result.axis = -axis ;
+      return result ;
+    }
+    
     PlayerConfiguration::PlayerConfiguration()
     {}
       

@@ -281,11 +281,9 @@ namespace ProjetUnivers {
       }
       else if (name == "TestPilot")
       {
-        Kernel::Object* gamestate = parent->createObject() ;
-        // input player config...
-        gamestate->addTrait(new PlayerConfiguration()) ;
-        gamestate->getTrait<PlayerConfiguration>()
-                 ->addMapping(PlayerConfiguration::InputEvent::key(OIS::KC_F),"fire") ;
+        
+        Kernel::Object* player_configuration = 
+          createDefaultPlayerConfiguration(parent) ;
         
         Kernel::Object* universe = parent->createObject() ;
         universe->addTrait(new Universe()) ;
@@ -345,7 +343,7 @@ namespace ProjetUnivers {
           player->addTrait(new Observer()) ;
           player->addTrait(new Kernel::CommandDelegator()) ;
           player->getTrait<Kernel::CommandDelegator>()->addDelegate(ship) ;
-          Player::connect(player,gamestate) ;
+          Player::connect(player,player_configuration) ;
         }
       }
       /// @todo
@@ -524,6 +522,41 @@ namespace ProjetUnivers {
       agent->getTrait<Kernel::CommandDelegator>()->addDelegate(ship) ;
 
       return agent ;
+    }
+    
+    Kernel::Object* createDefaultPlayerConfiguration(Kernel::Object* parent)
+    {
+      Kernel::Object* configuration = parent->createObject() ;
+      // input player config...
+      configuration->addTrait(new PlayerConfiguration()) ;
+      configuration->getTrait<PlayerConfiguration>()
+                   ->addMapping(PlayerConfiguration::InputEvent::key(OIS::KC_F),"fire") ;
+      configuration->getTrait<PlayerConfiguration>()
+                   ->addMapping(PlayerConfiguration::InputEvent::key(OIS::KC_S),"Select Next Target") ;
+      configuration->getTrait<PlayerConfiguration>()
+                   ->addMapping(PlayerConfiguration::InputEvent::key(OIS::KC_P),"Select Previous Target") ;
+      configuration->getTrait<PlayerConfiguration>()
+                   ->addMapping(PlayerConfiguration::InputEvent::key(OIS::KC_N),"Select Nearest Enemy") ;
+      
+      // axis
+      configuration->getTrait<PlayerConfiguration>()
+                   ->addMapping(PlayerConfiguration::InputAxis::joystickAxis(
+                       int(Kernel::Parameters::getValue<float>("Input","ThrottelAxis"))),
+                       "Throttle") ;
+      configuration->getTrait<PlayerConfiguration>()
+                   ->addMapping(PlayerConfiguration::InputAxis::joystickAxis(
+                       int(Kernel::Parameters::getValue<float>("Input","XAxis"))),
+                       "Yaw") ;
+      configuration->getTrait<PlayerConfiguration>()
+                   ->addMapping(PlayerConfiguration::InputAxis::joystickAxis(
+                       int(Kernel::Parameters::getValue<float>("Input","YAxis"))),
+                       "Pitch") ;
+      configuration->getTrait<PlayerConfiguration>()
+                   ->addMapping(PlayerConfiguration::InputAxis::joystickAxis(
+                       int(Kernel::Parameters::getValue<float>("Input","ZAxis"))),
+                       "Roll") ;
+      
+      return configuration ;
     }
     
   }
