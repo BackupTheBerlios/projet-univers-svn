@@ -82,13 +82,10 @@ namespace ProjetUnivers {
     {
       Energy result(*this) ;
       
-      // le cas facile
       if (this->m_unit == _operande.m_unit)
       {
         result.m_value -= _operande.m_value ;  
       }
-      // il faut choisir une unité de conversion
-      // ici : on prend lle Joule
       else
       {
         
@@ -104,11 +101,8 @@ namespace ProjetUnivers {
 
     float Energy::operator /(const Energy& _operande) const
     {
-      
-      // le cas division par zéro.
       CHECK(_operande.m_value != 0, "divide by zero") ;
       
-      // le cas normal
       if (this->m_unit == _operande.m_unit)
       {
         return this->m_value / _operande.m_value ;

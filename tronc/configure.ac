@@ -14,7 +14,6 @@ AM_PROG_LIBTOOL
 #########################
 
 
-# Vérifie la présence d'un compilateur C++
 AC_LANG([C++])
 AC_PROG_CXX
 AC_PROG_CC

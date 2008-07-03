@@ -35,19 +35,19 @@ namespace ProjetUnivers {
       protected:
 
   
-        // ************
-        /// @name Tests
-        // ************
-
+      /*! 
+        @name Tests
+      */ 
+      // @{
   
         /// Test check macro.
         void TestExpression();
 
-
-        // ********************
-        /// @name Test register
-        // ********************
-
+      // @}
+      /*!
+        @name Test registration
+      */
+      // @{      
 
         CPPUNIT_TEST_SUITE(TestError) ;
 
@@ -55,6 +55,7 @@ namespace ProjetUnivers {
 
         CPPUNIT_TEST_SUITE_END() ;
 
+      // @}
       public:
 
         /// Tests setup
@@ -62,9 +63,6 @@ namespace ProjetUnivers {
 
         /// Tests close.
         void tearDown() ;
-
-
-
       };
 
     }

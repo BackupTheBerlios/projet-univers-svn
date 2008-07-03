@@ -26,29 +26,28 @@
 namespace ProjetUnivers {
   namespace Kernel {
     
-    ///  Classe de base des exceptions utilisées dans le Projet Univers.
+    /// Base class for exceptions.
     class Exception {
     public:
     
-      /// Constructeur de copie.
+      /// Copy constructor.
       Exception(const Exception& x) ;
     
-      /// Classe abstraite donc destructeur virtuel.
+      /// Abstract classes nedd virtual destructor.
       virtual ~Exception() ;
     
-      /// Message d'erreur correspondant à l'exception.
+      /// Error message.
       std::string Message() const ;
     
     
     protected:
     
-      /// Message associé à l'exception.
+      /// Message.
       std::string		message ;
     
-      /// numéro de l'erreur.
+      /// Error number.
       unsigned int		numeroErreur ;
     
-      /// Classe virtuelle, donc constructeur protected.
       Exception(const std::string& _message,const unsigned int& numero) ;
     
     };

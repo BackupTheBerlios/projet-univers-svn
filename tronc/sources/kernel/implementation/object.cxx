@@ -53,7 +53,6 @@ namespace ProjetUnivers {
 
 //      InternalMessage("Kernel","Object::getTrait()") ;
 
-      /// T doit être une sous classe de Trait
       Kernel::Inherits<T,Trait>() ;
 
 //      InternalMessage("Kernel","Asking trait " + getClassTypeIdentifier(T).toString()) ;

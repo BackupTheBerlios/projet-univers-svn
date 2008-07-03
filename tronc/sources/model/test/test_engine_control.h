@@ -36,19 +36,18 @@ namespace ProjetUnivers {
       class TestEngineControl : public CppUnit::TestFixture {
       protected:
       
-        
-      // ****************************
-      /// @name Tests 
-      // ****************************
+      /*! 
+        @name Tests methods
+      */
       // @{
         
         /// Basic test.
         void basicTest() ;
            
       // @}
-      // *******************************
-      /// @name Test registration
-      // *******************************
+      /*! 
+        @name Tests registration
+      */
       // @{      
     
         CPPUNIT_TEST_SUITE(TestEngineControl) ;
@@ -60,9 +59,9 @@ namespace ProjetUnivers {
       public:
   
       // @}
-      // *******************************
-      /// @name Mandatory methods
-      // *******************************
+      /*! 
+        @name Mandatory methods
+      */
       // @{
 
       

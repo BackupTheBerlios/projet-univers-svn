@@ -32,9 +32,9 @@ namespace ProjetUnivers {
       protected:
       
         
-      // ****************************
-      /// @name Tests 
-      // ****************************
+      /*!
+        @name Test methods
+      */
       // @{
         
         /// Basic test.
@@ -65,9 +65,9 @@ namespace ProjetUnivers {
         */
         
       // @}
-      // *******************************
-      /// @name Test registration
-      // *******************************
+      /*!
+        @name Test registration
+      */
       // @{      
     
         CPPUNIT_TEST_SUITE(TestTargetingSystem) ;
@@ -85,9 +85,9 @@ namespace ProjetUnivers {
       public:
   
       // @}
-      // *******************************
-      /// @name Mandatory methods
-      // *******************************
+      /*!
+        @name Mandatory methods
+      */
       // @{
 
       

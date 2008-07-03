@@ -27,7 +27,6 @@ namespace ProjetUnivers {
   namespace Model {
 
 
-    /// opérateur d'ordre sur les unité de distances
     bool operator<=(Distance::Unit _u1, 
                     Distance::Unit _u2)
     {

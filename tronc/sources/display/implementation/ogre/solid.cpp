@@ -34,11 +34,8 @@ namespace ProjetUnivers {
     namespace Implementation {
       namespace Ogre {
 
-        /// This view will be automatically maintained.
         RegisterView(Ogre::Solid,Model::Solid,Ogre::RealWorldViewPoint) ;
 
-
-        /// Constructeur.
         Solid::Solid(Model::Solid* i_object,
                      RealWorldViewPoint* i_viewpoint)
         : Kernel::TraitView<Model::Solid,RealWorldViewPoint>(i_object,i_viewpoint), 
@@ -46,13 +43,6 @@ namespace ProjetUnivers {
         {}
 
 
-      //@}
-      /*!
-        @name Mise à jour
-      */
-      // @{
-      
-        /// Crée une entité.
         void Solid::onInit()
         {
           InternalMessage("Display","Entering Solid::onInit") ;
@@ -76,11 +66,10 @@ namespace ProjetUnivers {
           InternalMessage("Display","Leaving Solid::onInit") ;
         }
         
-        /// Détruit l'entité.
         void Solid::onClose()
         {
           InternalMessage("Display","Display::Solid::onClose Entering") ;
-          /// Positionne doit avoir été terminé
+          /// Positionne must have been closed
           /*!
             @why ???
               try without...
@@ -97,19 +86,12 @@ namespace ProjetUnivers {
           InternalMessage("Display","Display::Solid::onClose Leaving") ;
         }
       
-        /// 
-        /*!
-        @par Etat
-          stub vide
-        */
         void Solid::onUpdate()
         {
           
         }
 
 
-      // @}
-        
         ::Ogre::Entity* Solid::getEntity() const
         {
           return m_mesh ;

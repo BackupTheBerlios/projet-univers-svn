@@ -56,7 +56,7 @@ namespace ProjetUnivers {
               return ;
           }
 
-          // Récupération des informations du son
+          // Get sound information
           vorbis_info* Infos = ov_info(m_stream, -1);
 
           m_sampleRate = Infos->rate;

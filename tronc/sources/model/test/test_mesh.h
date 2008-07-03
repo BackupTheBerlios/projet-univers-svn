@@ -36,10 +36,9 @@ namespace ProjetUnivers {
       class TestMesh : public CppUnit::TestFixture {
       protected:
       
-        
-      // ****************************
-      /// @name Tests 
-      // ****************************
+      /*! 
+        @name Tests 
+      */
       // @{
         
         /// Tests mesh triangle loading.
@@ -49,9 +48,9 @@ namespace ProjetUnivers {
         void testUnexistingMesh() ;
            
       // @}
-      // *******************************
-      /// @name Test registration
-      // *******************************
+      /*! 
+        @name Tests registration
+      */
       // @{      
     
         CPPUNIT_TEST_SUITE(TestMesh) ;
@@ -64,9 +63,9 @@ namespace ProjetUnivers {
       public:
   
       // @}
-      // *******************************
-      /// @name Mandatory methods
-      // *******************************
+      /*! 
+        @name Mandatory methods
+      */
       // @{
 
       

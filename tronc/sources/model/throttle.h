@@ -32,7 +32,7 @@ namespace ProjetUnivers {
       Throttle have exactly one axis. Value ranges in [-100,100].  
       usage : 
         getOrientation().getPitch()
-      @invariant getOrientation().getPitch() in [0,90°].
+      @invariant getOrientation().getPitch() in [0,90Â°].
     */
     class Throttle : public Oriented
     {

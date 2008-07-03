@@ -36,10 +36,9 @@ namespace ProjetUnivers {
       class TestLogic : public CppUnit::TestFixture {
       protected:
       
-        
-      // ****************************
-      /// @name Tests 
-      // ****************************
+      /*! 
+        @name Tests 
+      */
       // @{
         
         /// Tests that laser beams disappear after some time.
@@ -55,9 +54,9 @@ namespace ProjetUnivers {
         void testShotDisappearing() ;
         
       // @}
-      // *******************************
-      /// @name Test registration
-      // *******************************
+      /*! 
+        @name Tests registration
+      */
       // @{      
     
         CPPUNIT_TEST_SUITE(TestLogic) ;
@@ -72,9 +71,9 @@ namespace ProjetUnivers {
       public:
   
       // @}
-      // *******************************
-      /// @name Mandatory methods
-      // *******************************
+      /*! 
+        @name Mandatory methods
+      */
       // @{
 
       

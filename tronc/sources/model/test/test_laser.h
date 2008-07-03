@@ -33,11 +33,10 @@ namespace ProjetUnivers {
       */
       class TestLaser : public CppUnit::TestFixture {
       protected:
-      
         
-      // ****************************
-      /// @name Tests 
-      // ****************************
+      /*! 
+        @name Tests methods
+      */
       // @{
         
         /// Tests fire method.
@@ -47,9 +46,9 @@ namespace ProjetUnivers {
         void beamEnergy() ;
         
       // @}
-      // *******************************
-      /// @name Test registration
-      // *******************************
+      /*! 
+        @name Tests registration
+      */
       // @{      
     
         CPPUNIT_TEST_SUITE(TestLaser) ;
@@ -62,9 +61,9 @@ namespace ProjetUnivers {
       public:
   
       // @}
-      // *******************************
-      /// @name Mandatory methods
-      // *******************************
+      /*! 
+        @name Mandatory methods
+      */
       // @{
 
       

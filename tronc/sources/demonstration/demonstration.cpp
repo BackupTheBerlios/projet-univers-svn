@@ -59,7 +59,7 @@ int main() {
   Kernel::Parameters::load("demonstration.config") ;
   Kernel::Log::init() ;
 
-  InformationMessage("Demonstration","Demarrage de projet univers") ;
+  InformationMessage("Demonstration","Starting of projet univers") ;
   Game::Game game ;
 
   Game::GameState* welcome = game.addState(new Game::GameState("welcome")) ;
@@ -72,7 +72,7 @@ int main() {
   observer->addTrait(new Model::Player()) ;
   observer->addTrait(new Model::Positionned()) ;
   
-  InformationMessage("Demonstration","Modules initialisés") ;
+  InformationMessage("Demonstration","Modules inited") ;
 
   std::string model_name(getModelName()) ;
   std::cout << "loading " << model_name << std::endl ;
@@ -84,10 +84,8 @@ int main() {
   welcome->activate() ;
   game.run() ;
 
-  InformationMessage("Demonstration","Sortie de la boucle principale") ;
-    
-  /// sortie
-  InformationMessage("Demonstration","Modules desinitialisés") ;
+  /// out
+  InformationMessage("Demonstration","Modules closed") ;
   Kernel::Log::close() ;
   
   return 0 ;

@@ -58,10 +58,10 @@ namespace ProjetUnivers {
           
           /*!
           @todo
-            _modele est un parent de l'observateur
+            _modele is a parent of observer
             ou 
-            _modele est proche de l'observateur (son rapport taille/distance 
-            est supérieur à une constante)
+            _modele is near from observer (ratio size/distance is less that a 
+            given value) 
           */
           
           
@@ -96,7 +96,7 @@ namespace ProjetUnivers {
         void RealWorldViewPoint::onClose()
         {
           InternalMessage("Display","RealWorldViewPoint::onClose Entering") ;
-          /// Supprimme tous les éléments de la scène
+          /// remove scene elements
           if (m_manager)
           {
             m_manager->clearScene() ;

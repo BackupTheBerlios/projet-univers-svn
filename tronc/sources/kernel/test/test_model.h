@@ -29,14 +29,15 @@ namespace ProjetUnivers {
     namespace Test {
 
 
-      ///  Test of model/object/trait methods.
+      /// Test of model/object/trait methods.
       class TestModel : public CppUnit::TestFixture {
       protected:
 
   
-        // *************
-        /// @name Tests 
-        // *************
+      /*! 
+        @name Tests methods
+      */
+      // @{  
 
         /// Test for Object::getDescendants.
         void testGetDescendants() ;
@@ -74,9 +75,7 @@ namespace ProjetUnivers {
         /// Check that destroying an object with deduced traits works.
         void destroyObjectWithDeducedTraits() ;
         
-        // *********************
-        /// @name Registerration
-        // *********************
+      // @}
 
 
         CPPUNIT_TEST_SUITE(TestModel) ;

@@ -36,19 +36,18 @@ namespace ProjetUnivers {
       class TestThrottle : public CppUnit::TestFixture {
       protected:
       
-        
-      // ****************************
-      /// @name Tests 
-      // ****************************
+      /*!
+        @name Test methods
+      */
       // @{
         
         /// Basic test.
         void basicTest() ;
            
       // @}
-      // *******************************
-      /// @name Test registration
-      // *******************************
+      /*!
+        @name Test registration
+      */
       // @{      
     
         CPPUNIT_TEST_SUITE(TestThrottle) ;
@@ -60,9 +59,9 @@ namespace ProjetUnivers {
       public:
   
       // @}
-      // *******************************
-      /// @name Mandatory methods
-      // *******************************
+      /*!
+        @name Mandatory methods
+      */
       // @{
 
       

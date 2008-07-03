@@ -128,8 +128,7 @@ namespace ProjetUnivers {
           virtual float getPitch() const;
           
           /*! 
-            @todo: voir l'utilisation de Min gain et Max gain avec un système 
-            de priorités selon les sons
+            @todo: study min/max gain usage with a priority system on sounds
           */
           
           /// Get the cone's inner angle

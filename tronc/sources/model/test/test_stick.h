@@ -37,18 +37,18 @@ namespace ProjetUnivers {
       protected:
       
         
-      // ****************************
-      /// @name Tests 
-      // ****************************
+      /*!
+        @name Test methods
+      */
       // @{
         
         /// Basic test.
         void basicTest() ;
            
       // @}
-      // *******************************
-      /// @name Test registration
-      // *******************************
+      /*!
+        @name Test registration
+      */
       // @{      
     
         CPPUNIT_TEST_SUITE(TestStick) ;
@@ -60,9 +60,9 @@ namespace ProjetUnivers {
       public:
   
       // @}
-      // *******************************
-      /// @name Mandatory methods
-      // *******************************
+      /*!
+        @name Mandatory methods
+      */
       // @{
 
       

@@ -5,7 +5,6 @@ INCLUDES = -I$(SOURCES)
 AM_CXXFLAGS=$(PU_CXXFLAGS)
 
 libdisplayogre_la_SOURCES = \
-$(SOURCES)/display/implementation/ogre/destroyable.cpp \
 $(SOURCES)/display/implementation/ogre/explosion.cpp \
 $(SOURCES)/display/implementation/ogre/image.cpp \
 $(SOURCES)/display/implementation/ogre/observer.cpp \

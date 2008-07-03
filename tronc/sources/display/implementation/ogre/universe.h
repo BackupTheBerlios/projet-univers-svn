@@ -34,15 +34,9 @@ namespace ProjetUnivers {
     namespace Implementation {
       namespace Ogre {
 
-        /// La partie affichage du monde 3d.
+        /// Display the Universe.
         /*!
-        @par Etat actuel
-          Affiche un ciel étoilé.
-
-        @par Etats futurs
-          Peut être que c'est juste un fond noir et que les étoiles sont dûes 
-          aux autres corps (galaxies et autres)... mais cela suposerait d'avoir 
-          un gros univers.
+          Display a star field.
         */
         class Universe : public Kernel::TraitView<Model::Universe,
                                                   RealWorldViewPoint>
@@ -50,11 +44,11 @@ namespace ProjetUnivers {
         public:
         
         /*!
-          @name Construction 
+          @name Construct 
         */
         // @{
           
-          /// Constructeur.
+          /// Constructor.
           Universe(Model::Universe* i_universe,
                    RealWorldViewPoint* i_viewpoint) ;
 
@@ -67,19 +61,16 @@ namespace ProjetUnivers {
         */  
         // @{
         
-          /// Initialise la vue.
+          /// Create the star field.
           virtual void onInit() ;
 
-          /// Termine la vue.
+          /// remove the star field.
           virtual void onClose() ;
         
-          /// Le modèle a changé, on réactualise la vue.
-          virtual void onUpdate() ;
-            
         // @}
         private:
           
-          /// Le ciel étoilé n'a pas besoin d'être stocké.
+          /// We only need to store ambient ligth.
           ::Ogre::Light* light ;
           
         };

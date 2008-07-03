@@ -33,7 +33,7 @@ namespace ProjetUnivers {
       namespace Ogre {
         
         
-        /// Observer view.
+        /// Menu display.
         /*!
         */
         class Menu : public Kernel::TraitView<Model::Menu,

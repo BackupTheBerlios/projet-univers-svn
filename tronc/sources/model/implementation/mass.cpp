@@ -36,7 +36,7 @@ namespace ProjetUnivers {
     : m_value(_m.m_value), m_unit(_m.m_unit)
     {}
 
-    /// Here we use E=1/2m.v²
+    /// Here we use E=1/2m.vÂ²
     Mass::Mass(const Energy& energy,const Speed& speed)
     : m_value(2*energy.Joule()/(speed.MeterPerSecond().length()*speed.MeterPerSecond().length())), 
       m_unit(_Kilogram)

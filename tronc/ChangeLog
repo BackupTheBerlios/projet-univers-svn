@@ -693,7 +693,14 @@
     - added Menu input injection (keyboard and mouse)
   * Demonstration :
     - modified to use Game module
-    
+
+2008-07-03 rogma
+  
+  * All : 
+    - removed non iso characters and some french in the comments
+    - changed some typo in comments
+    - removed some obsolete files
+      
 @todo :
 
   

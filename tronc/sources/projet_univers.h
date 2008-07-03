@@ -33,33 +33,39 @@
 */
 
 
-/// ProjetUnivers est un jeu de combat spatial multi-joueur.
+/// ProjetUnivers is a spatial combat game.
 /*!
-  Voir : 
-  
+  @see : 
   - http://www.punivers.net/
   - https://developer.berlios.de/projects/projet-univers
   
-  Les différents modules sont les suivants :
+  Modules are :
   
-  - Base\n
-    Des types C++ et des templates utilisés dans toute l'application.\n
-    Le cadre général de l'application et notament le patron MVC.
-    
-  - Affichage\n
-    L'affichage 3D et 2D.
+  - ArtificialIntelligence\n
+    IA module.
+
+  - Display\n
+    3D and 2D display.
+
+  - Game\n
+    Module that handle game states.
   
-  - Modele\n
-    Le modèle statique de donnée de l'univers.
+  - Input\n
+    Input (keyboard,mouse,joystick) module.
+  
+  - Kernel\n
+    Framework module.
     
-  - Controle\n
-    Les controleurs.
-    
-  - Action\n
-    Le modèle de données dynamique de l'univers, contient les différentes 
-    actions qui peuvent être réalisées.
-    
-  @dotfile architecture.dot "Architecture Globale"
+  - Model\n
+    Data model.
+  
+  - Physic\n
+    Physic simulation module.
+
+  - Sound\n
+    Sound module.
+
+  @dotfile architecture.dot "Global Architectur"
   
 */ 
 namespace ProjetUnivers

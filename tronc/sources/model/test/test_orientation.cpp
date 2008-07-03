@@ -32,7 +32,7 @@ namespace ProjetUnivers {
       void TestOrientation::rigthHandedAntiClockWise()
       {
         /*
-          turing of 90° around up is anticlockwise
+          turing of 90Â° around up is anticlockwise
         */
         Orientation orientation(Ogre::Quaternion(Ogre::Degree(90),Ogre::Vector3::UNIT_Y)) ;
 

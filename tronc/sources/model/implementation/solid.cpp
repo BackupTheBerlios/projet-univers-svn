@@ -57,7 +57,6 @@ namespace ProjetUnivers {
       return result ;
     }
 
-    /// Accès au modèle 3d.
     Mesh Solid::getMesh() const
     {
       return m_mesh ;

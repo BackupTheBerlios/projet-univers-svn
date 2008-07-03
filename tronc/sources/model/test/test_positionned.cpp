@@ -388,7 +388,7 @@ namespace ProjetUnivers {
         
         Kernel::Object* object3 = root->createObject() ;
         object3->addTrait(new Positionned()) ;
-        // rotation of 90° anti clockwize against Z axis
+        // rotation of 90Â° anti clockwize against Z axis
         object3->addTrait(new Oriented(Orientation(Ogre::Quaternion(sqrt(0.5),0,0,sqrt(0.5))))) ;
         
         CPPUNIT_ASSERT(getRelativePosition(object2,object3).Meter().positionEquals(Ogre::Vector3(1,0,0),1e-4)) ;
@@ -424,7 +424,7 @@ namespace ProjetUnivers {
         
         Kernel::Object* object3 = root->createObject() ;
         object3->addTrait(new Positionned(Position::Meter(100,0,0))) ;
-        // rotation of 90° anti clockwize against Z axis
+        // rotation of 90Â° anti clockwize against Z axis
         object3->addTrait(new Oriented(Orientation(Ogre::Quaternion(sqrt(0.5),0,0,sqrt(0.5))))) ;
         
         CPPUNIT_ASSERT(getRelativePosition(object2,object3).Meter().positionEquals(Ogre::Vector3(1,0,0),1e-4)) ;
@@ -439,7 +439,7 @@ namespace ProjetUnivers {
         
         Kernel::Object* object1 = root->createObject() ;
         object1->addTrait(new Positionned(Position::Meter(100,0,0))) ;
-        // rotation of 90° anti clockwize against Z axis
+        // rotation of 90Â° anti clockwize against Z axis
         object1->addTrait(new Oriented(Orientation(Ogre::Quaternion(sqrt(0.5),0,0,sqrt(0.5))))) ;
         
         Kernel::Object* object2 = object1->createObject() ;
@@ -457,7 +457,7 @@ namespace ProjetUnivers {
         
         Kernel::Object* object1 = root->createObject() ;
         object1->addTrait(new Positionned(Position::Meter(100,0,0))) ;
-        // rotation of 90° anti clockwize against Z axis
+        // rotation of 90Â° anti clockwize against Z axis
         object1->addTrait(new Oriented(Orientation(Ogre::Quaternion(sqrt(0.5),0,0,sqrt(0.5))))) ;
         
         Kernel::Object* object2 = object1->createObject() ;
@@ -465,7 +465,7 @@ namespace ProjetUnivers {
 
         Kernel::Object* object3 = root->createObject() ;
         object3->addTrait(new Positionned(Position::Meter(0,100,0))) ;
-        // rotation of 90° clockwize against Z axis
+        // rotation of 90Â° clockwize against Z axis
         object3->addTrait(new Oriented(Orientation(Ogre::Quaternion(Ogre::Degree(-90),Ogre::Vector3::UNIT_Z)))) ;
         
         Kernel::Object* object4 = object3->createObject() ;

@@ -33,20 +33,14 @@ namespace ProjetUnivers {
   
   
     
-    ///  Classe des exceptions utilisées dans le module Kernel.
+    /// Kernel exception base class.
     class ExceptionKernel : public Exception {
     public:
 
-      /// Constructeur.
+      /// Constructor.
       ExceptionKernel(const std::string& _message) ;
 
-      /// Constructeur de copie.
-      
-      /*! 
-        \remark
-          le constructeur de copie est obligatoire
-          pour les exceptions.
-      */
+      /// Copy.
       ExceptionKernel(const ExceptionKernel& x) ;
     
     };

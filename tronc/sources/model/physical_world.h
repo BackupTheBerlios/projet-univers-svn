@@ -33,7 +33,7 @@ namespace ProjetUnivers {
     /*!
       @see http://en.wikipedia.org/wiki/Inertial_frame_of_reference
       
-      It is a "référentiel galiléen" where physic laws are valid. 
+      It is a "referentiel galileen" where physic laws are valid. 
       Any Mobile object has a speed relative to its PhysicalWorld parent.
       @see Model::Mobile.
       

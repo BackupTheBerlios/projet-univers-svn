@@ -90,10 +90,10 @@ namespace ProjetUnivers {
     
     private:
 
-      /// Les différentes unités de mesure
+      /// Units.
       typedef enum 
       {
-        /// L'unité m.s-1
+        /// m.s-1
         _MeterPerSecond, 
         
       } Unit ;

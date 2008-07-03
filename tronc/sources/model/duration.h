@@ -79,7 +79,7 @@ namespace ProjetUnivers {
       
     private:
     
-      /// Les différentes unités
+      /// Units
       typedef enum {
         _Second
       } Unit ;

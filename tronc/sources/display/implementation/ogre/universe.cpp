@@ -31,7 +31,6 @@ namespace ProjetUnivers {
     namespace Implementation {
       namespace Ogre {
 
-        /// Indique que la cette vue s'applique au modèle dans ce point de vue
         RegisterView(Ogre::Universe,Model::Universe, Ogre::RealWorldViewPoint) ;
 
 
@@ -43,7 +42,6 @@ namespace ProjetUnivers {
           InternalMessage("Display","Built Ogre::Universe") ;
         }
         
-        /// Initialise la vue.
         void Universe::onInit()
         {
           InternalMessage("Display","Display::Universe::onInit Entering") ;
@@ -56,14 +54,13 @@ namespace ProjetUnivers {
           light = this->getViewPoint()->getManager()
                       ->createLight("MainLight");
                 
-          /// lumière
+          /// light
           this->getViewPoint()->getManager()
                 ->setAmbientLight(::Ogre::ColourValue(0.5, 0.5, 0.5));
 
           InternalMessage("Display","Display::Universe::onInit Leaving") ;
         }
 
-        /// Termine la vue.
         void Universe::onClose()
         {
           InternalMessage("Display","Display::Universe::onClose Entering") ;
@@ -75,13 +72,6 @@ namespace ProjetUnivers {
                ->destroyLight(light) ;
 
           InternalMessage("Display","Display::Universe::onClose Leaving") ;
-        }
-
-        void Universe::onUpdate()
-        {
-          /*!
-            Rien n'a faire
-          */
         }
 
       }

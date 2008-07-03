@@ -31,23 +31,23 @@ namespace ProjetUnivers {
     namespace Test {
 
             
-      /// Test de Model::Distance
+      /// Test of Model::Distance
       class TestDistance : public CppUnit::TestFixture {
       protected:
       
         
-      // ****************************
-      /// @name Tests proprement dits
-      // ****************************
+      /*! 
+        @name Tests methods
+      */
       // @{
         
-        /// Teste l'ordre sur les unités.
+        /// Unit comparison.
         void testComparisonUnit() ;
            
       // @}
-      // *******************************
-      /// @name Registerment des tests
-      // *******************************
+      /*! 
+        @name Tests registration
+      */
       // @{      
       
         CPPUNIT_TEST_SUITE(TestDistance) ;
@@ -60,16 +60,13 @@ namespace ProjetUnivers {
                 
      public:
 
-      // *******************************
-      /// @name Méthodes obligatoires
-      // *******************************
-      // @{
-
-      
-        /// Initialisation du test
+     /*! 
+       @name Mandatory methods
+     */
+     // @{
+       
         void setUp() ;
       
-        /// Desinitialisation du test
         void tearDown() ;
       
       // @}      

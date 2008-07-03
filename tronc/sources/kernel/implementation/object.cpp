@@ -210,7 +210,6 @@ namespace ProjetUnivers {
 
       TypeIdentifier trait_name(getObjectTypeIdentifier(i_trait)) ;
 
-      /// erreur si l'objet a déjà une facette de ce type là
       CHECK(traits.find(trait_name)==traits.end(), 
             "trait " + trait_name.toString() + " already exists") ;
 
@@ -242,7 +241,6 @@ namespace ProjetUnivers {
       CHECK(i_child,
             "Object::add(Object*) : _object is NULL") ;
 
-      /// on met à jour le lien contenu/contenant
       i_child->m_parent = this ;
       children.insert(i_child) ;
 

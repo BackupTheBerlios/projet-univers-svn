@@ -82,7 +82,7 @@ namespace ProjetUnivers {
           }
           else
           {         
-            /// @todo voir à l'usage si certains paramètres ne sont jamais changés et transférer vers init()
+            /// @todo voir If parameters are never changed move to init
             alSourcef(m_source, AL_GAIN, getGain()) ;
             alSourcef(m_source, AL_CONE_OUTER_GAIN, getOuterGain()) ;   
             alSourcef(m_source, AL_PITCH, getPitch()) ; 

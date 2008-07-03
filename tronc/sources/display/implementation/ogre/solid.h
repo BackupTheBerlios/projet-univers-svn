@@ -39,9 +39,9 @@ namespace ProjetUnivers {
         {
         public:
         
-        // **********************
-        /// @name Construct
-        // **********************
+        /*!
+          @name Construction 
+        */
         // @{
 
           /// Constructeur.

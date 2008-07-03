@@ -37,7 +37,7 @@ namespace ProjetUnivers {
       
       /// Get the beam energy.
       /*!
-        E = 1/2.mass.speed²
+        E = 1/2.mass.speedÂ²
       */
       Energy getEnergy() const ;
       

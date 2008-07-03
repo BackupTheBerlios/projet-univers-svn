@@ -35,20 +35,19 @@ namespace ProjetUnivers {
       */
       class TestGuidanceControl : public CppUnit::TestFixture {
       protected:
-      
         
-      // ****************************
-      /// @name Tests 
-      // ****************************
+      /*! 
+        @name Tests methods
+      */
       // @{
         
         /// Basic test.
         void basicTest() ;
            
       // @}
-      // *******************************
-      /// @name Test registration
-      // *******************************
+      /*! 
+        @name Tests registration
+      */
       // @{      
     
         CPPUNIT_TEST_SUITE(TestGuidanceControl) ;
@@ -60,9 +59,9 @@ namespace ProjetUnivers {
       public:
   
       // @}
-      // *******************************
-      /// @name Mandatory methods
-      // *******************************
+      /*! 
+        @name Mandatory methods
+      */
       // @{
 
       

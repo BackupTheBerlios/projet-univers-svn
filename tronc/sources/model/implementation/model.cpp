@@ -102,12 +102,7 @@ namespace ProjetUnivers {
         universe->addTrait(new Universe()) ;
         universe->addTrait(new Positionned()) ;
         
-        InternalMessage("Model","construction de Univers terminée") ;
 
-        /// 1.4 Une galaxie
-        
-        /// 1.5 Un système stellaire
-        InternalMessage("Model","building stellar system...") ;
         Kernel::Object* system = universe->createObject() ;
         system->addTrait(new StellarSystem()) ;
         system->addTrait(new Positionned()) ;

@@ -142,12 +142,12 @@ namespace ProjetUnivers {
           delete sound_system ;
           manager.reset(NULL) ;
 
-          // Désactivation du contexte
+          // Desactivate context
           alcMakeContextCurrent(NULL) ;
   
           EFX::close() ;
           
-          // Fermeture du device
+          // Device closing
           if(!alcCloseDevice(device))
           {
             InformationMessage("Sound","Sound::OpenAL::close can't close device, some device or buffer remain") ;

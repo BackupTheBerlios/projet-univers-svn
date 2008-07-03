@@ -32,9 +32,9 @@ namespace ProjetUnivers {
       protected:
       
         
-      // ****************************
-      /// @name Tests 
-      // ****************************
+      /*! 
+        @name Tests methods
+      */
       // @{
         
         /// Basic test.
@@ -59,9 +59,9 @@ namespace ProjetUnivers {
         void testRelativePosition() ;
         
       // @}
-      // *******************************
-      /// @name Test registration
-      // *******************************
+      /*! 
+        @name Test registration
+      */
       // @{      
     
         CPPUNIT_TEST_SUITE(TestDetector) ;
@@ -79,9 +79,9 @@ namespace ProjetUnivers {
       public:
   
       // @}
-      // *******************************
-      /// @name Mandatory methods
-      // *******************************
+      /*! 
+        @name Mandatory methods
+      */
       // @{
 
       

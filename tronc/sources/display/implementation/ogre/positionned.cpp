@@ -138,7 +138,7 @@ namespace ProjetUnivers {
         
         void Positionned::onUpdate()
         {
-          /// on le replace par rapport à son parent
+          /// reposition object relativelly to its parent
           m_node->setPosition(convert(getTrait()->getPosition())) ;
 
           m_node->_update(true,false) ;
