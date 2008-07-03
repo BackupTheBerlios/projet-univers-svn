@@ -76,8 +76,9 @@ namespace ProjetUnivers {
         Kernel::Object* elm1 = system->createObject() ;
         Kernel::Object* elm2 = system->createObject() ;
         Kernel::Object* collision = system->createObject() ;
-        const Model::Position& posRef = Model::Position();
-        collision->addTrait(new Model::Collision(elm1, elm2, posRef)) ;
+        collision->addTrait(new Model::Collision(elm1, elm2)) ;
+        collision->addTrait(new Model::Positionned()) ;
+        
         InternalMessage("Sound","fin definition world") ;
         
         model->destroyObject(collision) ;

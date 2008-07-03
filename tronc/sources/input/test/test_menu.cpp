@@ -53,7 +53,7 @@ namespace ProjetUnivers {
         model->init() ;
         
         Kernel::Object* menu = model->createObject() ;
-        menu->addTrait(new Model::Menu("ProjetUnivers.layout")) ;
+        menu->addTrait(new Model::Menu("Demo7Windows.layout")) ;
         Kernel::Object* observer = model->createObject() ;
         observer->addTrait(new Model::Observer()) ;
         observer->addTrait(new Model::Player()) ;
@@ -62,7 +62,7 @@ namespace ProjetUnivers {
         Kernel::Timer timer ;
         Kernel::Timer global_timer ;
         
-        while (global_timer.getSecond() < 10)
+        while (global_timer.getSecond() < 20)
         {
           float seconds = timer.getSecond() ;
           if (seconds != 0)

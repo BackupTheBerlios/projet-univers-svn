@@ -24,8 +24,6 @@
 #include <kernel/trait.h>
 #include <kernel/object_reference.h>
 
-#include <model/position.h>
-
 namespace ProjetUnivers {
   namespace Model {
     
@@ -37,10 +35,9 @@ namespace ProjetUnivers {
     {
     public:
 
-      /// Constructs with the two colliding objects and the collision position.
+      /// Constructs with the two colliding objects.
       Collision(Kernel::Object*,
-                Kernel::Object*,
-                const Model::Position&) ;
+                Kernel::Object*) ;
       
       /// Access to collisionning objects.
       Kernel::Object* getObject1() const ;
@@ -51,10 +48,6 @@ namespace ProjetUnivers {
       /// Objects involved in the collision.
       Kernel::ObjectReference m_object1 ;
       Kernel::ObjectReference m_object2 ;
-      
-      /// Average position of the collision. 
-      Model::Position m_position ;
-
     };
     
     

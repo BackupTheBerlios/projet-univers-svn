@@ -45,6 +45,7 @@ namespace ProjetUnivers {
               return CEGUI::LeftButton;
           }
       }      
+ 
       Menu::Menu(Model::Menu* menu,InputControlerSet* system)
       : Kernel::Controler<Model::Menu,InputControlerSet>(menu,system)
       {}
@@ -52,12 +53,21 @@ namespace ProjetUnivers {
       void Menu::simulate(const float& seconds)
       {
         // inject events to cegui...
-        for(std::set<Model::PlayerConfiguration::InputEvent>::const_iterator 
-              event = getKeyboard()->getEvents().begin() ;
-            event != getKeyboard()->getEvents().end() ;
+        for(std::list<OIS::KeyEvent>::const_iterator 
+              event = getKeyboard()->getKeyPressed().begin() ;
+            event != getKeyboard()->getKeyPressed().end() ;
             ++event)
         {
-          
+          CEGUI::System::getSingleton().injectKeyDown(event->key) ;
+          CEGUI::System::getSingleton().injectChar(event->text) ;
+        }
+
+        for(std::list<OIS::KeyEvent>::const_iterator 
+              event = getKeyboard()->getKeyReleased().begin() ;
+            event != getKeyboard()->getKeyReleased().end() ;
+            ++event)
+        {
+          CEGUI::System::getSingleton().injectKeyUp(event->key) ;
         }
         
         for(std::set<OIS::MouseButtonID>::const_iterator 

@@ -53,7 +53,7 @@ namespace ProjetUnivers {
       */ 
       // @{
         
-        /// Mouse test.
+        /// 20 seonds of menu testing.
         void mouseCursor() ;
 
       // @}

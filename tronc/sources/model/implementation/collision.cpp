@@ -26,12 +26,10 @@ namespace ProjetUnivers {
   namespace Model {
     
       Collision::Collision(Kernel::Object* object1,
-                           Kernel::Object* object2,
-                           const Model::Position& position)
+                           Kernel::Object* object2)
       : Kernel::Trait(),
         m_object1(object1),
-        m_object2(object2),
-        m_position(position)
+        m_object2(object2)
       {}
 
       Kernel::Object* Collision::getObject1() const

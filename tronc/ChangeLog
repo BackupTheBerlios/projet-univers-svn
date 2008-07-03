@@ -700,7 +700,14 @@
     - removed non iso characters and some french in the comments
     - changed some typo in comments
     - removed some obsolete files
-      
+
+2008-07-03 rogma
+
+  * Model :
+    - removed position from Collision, now use a Positionned trait instead
+  * Input :
+    - corrected bugs in menu inputs
+    
 @todo :
 
   

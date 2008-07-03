@@ -26,6 +26,7 @@
 #include <kernel/parameters.h>
 
 #include <model/collision.h>
+#include <model/positionned.h>
 
 #include <physic/implementation/ode/solid.h>
 #include <physic/implementation/ode/physical_object.h>
@@ -261,14 +262,14 @@ namespace ProjetUnivers {
           
               // create a collision object
               Kernel::Object* collision_object = world->getObject()->createObject() ;
-              
-              Model::Collision* collision_trait = 
-                new Model::Collision(collideable1->getControler()->getObject(),
-                                     collideable2->getControler()->getObject(),
-                                     Model::Position::Meter(average_contact_point.x,
-                                                            average_contact_point.y,
-                                                            average_contact_point.z)) ;
-              collision_object->addTrait(collision_trait) ;
+              collision_object->addTrait(new Model::Collision(
+                                     collideable1->getControler()->getObject(),
+                                     collideable2->getControler()->getObject())) ;
+              collision_object->addTrait(new Model::Positionned(
+                                           Model::Position::Meter(
+                                               average_contact_point.x,
+                                               average_contact_point.y,
+                                               average_contact_point.z))) ;
             }
           
           }          

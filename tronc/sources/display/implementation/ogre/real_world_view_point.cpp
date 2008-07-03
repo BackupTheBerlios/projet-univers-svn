@@ -136,7 +136,7 @@ namespace ProjetUnivers {
         
         void RealWorldViewPoint::update(const float& seconds)
         {
-          Implementation::Ogre::update() ;
+          Implementation::Ogre::update(seconds) ;
         }
         
       }

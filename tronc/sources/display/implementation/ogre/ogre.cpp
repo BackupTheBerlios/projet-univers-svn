@@ -306,13 +306,15 @@ namespace ProjetUnivers {
         /*!
           this procedure avoid "normal" loop for Ogre.
         */
-        void update()
+        void update(const float& seconds)
         {
           /// cf. http://www.ogre3d.org/phpBB2/viewtopic.php?t=2733
           ::Ogre::WindowEventUtilities::messagePump() ;
           m_system->root->_fireFrameStarted();
           m_system->root->_updateAllRenderTargets() ;
           m_system->root->_fireFrameEnded();
+          
+          CEGUI::System::getSingleton().injectTimePulse(seconds) ;
         }
         
         void injectKey(const unsigned int& key_code)

@@ -145,7 +145,8 @@ namespace ProjetUnivers {
         
         // a collision        
         Kernel::Object* collision = system->createObject() ;
-        collision->addTrait(new Collision(beam,ship,Position())) ;
+        collision->addTrait(new Collision(beam,ship)) ;
+        collision->addTrait(new Positionned()) ;
         
         // simulate Logic : destroyable should be at 50%
         model->update(1) ;

@@ -42,6 +42,7 @@ namespace ProjetUnivers {
         {
           InternalMessage("Display","Building Ogre::Menu::onInit entering") ;
           CEGUI::SchemeManager::getSingleton().loadScheme((CEGUI::utf8*)"TaharezLook.scheme");
+          CEGUI::System::getSingleton().setDefaultMouseCursor("TaharezLook", "MouseArrow") ;
           CEGUI::MouseCursor::getSingleton().setImage("TaharezLook", "MouseArrow");        
           CEGUI::MouseCursor::getSingleton().show() ;
           

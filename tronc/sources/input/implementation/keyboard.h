@@ -21,6 +21,7 @@
 #ifndef PU_INPUT_IMPLEMENTATION_KEYBOARD_H_
 #define PU_INPUT_IMPLEMENTATION_KEYBOARD_H_
 
+#include <list>
 #include <OIS/OISKeyboard.h>
 #include <kernel/object.h>
 #include <input/implementation/input_object.h>
@@ -43,15 +44,15 @@ namespace ProjetUnivers {
         /// Called when a key is released.
         virtual bool keyReleased(const OIS::KeyEvent &e) ;
       
-        const std::set<OIS::KeyCode>& getKeyPressed() const ;
-        const std::set<OIS::KeyCode>& getKeyReleased() const ;
+        const std::list<OIS::KeyEvent>& getKeyPressed() const ;
+        const std::list<OIS::KeyEvent>& getKeyReleased() const ;
         
         void clear() ;
         
       private:
         
-        std::set<OIS::KeyCode> m_key_pressed ;
-        std::set<OIS::KeyCode> m_key_released ;
+        std::list<OIS::KeyEvent> m_key_pressed ;
+        std::list<OIS::KeyEvent> m_key_released ;
         
       };
     }

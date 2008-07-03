@@ -34,23 +34,23 @@ namespace ProjetUnivers {
       bool Keyboard::keyPressed(const OIS::KeyEvent &e)    
       {
         m_events.insert(Model::PlayerConfiguration::InputEvent::key(e.key)) ;
-        m_key_pressed.insert(e.key) ;
+        m_key_pressed.push_back(e) ;
         return true ;
       }
       
       bool Keyboard::keyReleased(const OIS::KeyEvent &e)
       {
         m_events.erase(Model::PlayerConfiguration::InputEvent::key(e.key)) ;
-        m_key_released.insert(e.key) ; 
+        m_key_released.push_back(e) ; 
         return true ;
       }
 
-      const std::set<OIS::KeyCode>& Keyboard::getKeyPressed() const
+      const std::list<OIS::KeyEvent>& Keyboard::getKeyPressed() const
       {
         return m_key_pressed ;
       }
       
-      const std::set<OIS::KeyCode>& Keyboard::getKeyReleased() const
+      const std::list<OIS::KeyEvent>& Keyboard::getKeyReleased() const
       {
         return m_key_released ;
       }

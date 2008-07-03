@@ -74,8 +74,8 @@ namespace ProjetUnivers {
         
         Kernel::Object* collision = system->createObject() ;
         collision->addTrait(new Model::Collision(system,
-                                                 listener,
-                                                 Model::Position::Meter(10,10,10))) ;
+                                                 listener)) ;
+        collision->addTrait(new Model::Positionned(Model::Position::Meter(10,10,10))) ;
         
         
         Kernel::Timer timer ;

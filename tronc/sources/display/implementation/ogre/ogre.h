@@ -54,7 +54,7 @@ namespace ProjetUnivers {
                            int& top );
         
         /// Update display.
-        void update() ;
+        void update(const float& seconds) ;
         
         /// Ogre system root node.      
         ::Ogre::Root* getRoot() ;
