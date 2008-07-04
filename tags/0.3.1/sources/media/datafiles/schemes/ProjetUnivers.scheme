@@ -1,0 +1,10 @@
+<?xml version="1.0" ?>
+<GUIScheme Name="ProjetUnivers">
+	<Imageset Name="ProjetUnivers" Filename="ProjetUnivers.imageset" />
+	<LookNFeel Filename="ProjetUnivers.looknfeel" />
+	<WindowRendererSet Filename="CEGUIFalagardWRBase" />
+	<FalagardMapping WindowType="ProjetUnivers/Button" TargetType="CEGUI/PushButton" Renderer="Falagard/Button" LookNFeel="ProjetUnivers/Button" />
+	<FalagardMapping WindowType="ProjetUnivers/Titlebar" TargetType="CEGUI/Titlebar" Renderer="Falagard/Titlebar" LookNFeel="ProjetUnivers/Titlebar" />
+	<FalagardMapping WindowType="ProjetUnivers/FrameWindow"  TargetType="CEGUI/FrameWindow" Renderer="Falagard/FrameWindow"  LookNFeel="ProjetUnivers/FrameWindow" />
+	<FalagardMapping WindowType="ProjetUnivers/StaticImage" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="ProjetUnivers/StaticImage" />
+</GUIScheme>

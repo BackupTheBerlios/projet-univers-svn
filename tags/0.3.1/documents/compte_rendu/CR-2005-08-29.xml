@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+"http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd">
+<article>
+  <title>Compte rendu de la réunion du 29 août 2005</title>
+
+  <orderedlist>
+    <listitem>
+      <para>Membres présents :</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>Faro</para>
+        </listitem>
+
+        <listitem>
+          <para>Minos</para>
+        </listitem>
+
+        <listitem>
+          <para>Neostralie</para>
+        </listitem>
+
+        <listitem>
+          <para>Rogma</para>
+        </listitem>
+      </itemizedlist>
+    </listitem>
+
+    <listitem>
+      <para>Ordre du jour :</para>
+
+      <orderedlist>
+        <listitem>
+          <para>Objectifs de projet univers</para>
+        </listitem>
+
+        <listitem>
+          <para>Organisation du projet</para>
+        </listitem>
+
+        <listitem>
+          <para>Système amis/ennemis</para>
+        </listitem>
+      </orderedlist>
+    </listitem>
+  </orderedlist>
+
+  <section>
+    <title>Objectifs de Projet Univers</title>
+
+    <para>Inquiétude de certains face au manque d'avancée du projet et
+    notament de la démo alors que parallèlement, du travail est fait sur des
+    "détails". L'inquiétude se résume ainsi : alors que la base (la démo)
+    n'est pas faite, des détails peut être pas très utiles pour l'instant sont
+    décrits.</para>
+
+    <para>En fait, il semble que ce soient les programmeurs qui aient poussé à
+    analyser certaines questions de manière précise (exemple : la définition
+    de ce qu'est un poste)</para>
+  </section>
+
+  <section>
+    <title>Organisation</title>
+
+    <para>Augmenter la visibilité et la communication sur le travail en
+    s'efforçant d'utiliser systématiquement le système de
+    <emphasis>tâches</emphasis> de notre hébergeur Berlios.</para>
+
+    <para>L'intérêt étant que l'enregistrement d'une tâche permet de mémoriser
+    cette tache, de laisser une trace et éventuellement de la faire reprendre
+    par quelqu'un d'autre.</para>
+
+    <para>Il a été décidé de rédiger un document sur la façon dont le travail
+    est organisé, avec notament le cycle : demande de fonctionnalité, débat
+    sur la focntionnalité, et création de tâches pour cette fonctionnalité
+    etc...</para>
+  </section>
+
+  <section>
+    <title>Système amis/ennemis</title>
+
+    <para>Aucun consensus n'a été trouvé sur ce point après 1 heure de
+    débat.</para>
+
+    <para>Conformément à l'inquiétude exprimée au point 1, deux attitudes se
+    sont affrontés : </para>
+
+    <itemizedlist>
+      <listitem>
+        <para>les tenants d'une solution simple et rapide à mettre en
+        oeuvre</para>
+
+        <para>Ils reprochent à leurs opposants que c'ets trop compliqué à
+        utiliser, et que cela peut alourdir la jouabilité.</para>
+      </listitem>
+
+      <listitem>
+        <para>les tenants d'une solution complexe permettant plus de
+        possibilités</para>
+
+        <para>Ils reprochent à leurs opposants que "qui peut le plus peut le
+        moins".</para>
+      </listitem>
+    </itemizedlist>
+
+    <para>Que ce soit pour l'une ou pour l'autre des solutions, certaines
+    caractéristiques sont néanmoins communes. Tout se passe comme si chaque
+    appareil emmetait un paquet d'informations permettant son identification.
+    Une de ces informations identifie l'appareil de manièer unique, une autre
+    son type (le modèle du vaisseau) et une autre quelque chose de l'ordre de
+    son "camp". </para>
+  </section>
+</article>
