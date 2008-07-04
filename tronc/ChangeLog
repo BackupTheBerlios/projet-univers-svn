@@ -707,7 +707,12 @@
     - removed position from Collision, now use a Positionned trait instead
   * Input :
     - corrected bugs in menu inputs
-    
+
+2008-07-05 rogma (version 0.3.1)
+  
+  * All : 
+    - tagging version 0.3.1
+
 @todo :
 
   
@@ -760,7 +765,8 @@
     - remove position from collision trait, use Positionned instead  
 
   * Display :
-    - seg fault when having an Oriented object that is not Positionned 
+    - seg fault when having an Oriented object that is not Positionned, use 
+      a deduction like : Oriented and HasParent(Positionned) 
     - all Solid parent of an Observer invisible : but only in the case it is 
       the current observer
     - when initing ogre, close any already openned ogre objects in other 
@@ -774,6 +780,7 @@
     
   * Input :
     - be able to map any axis on anything
+    - send wheel mouse to CEGUI
   
   * Action :
     - get rid of it ?? the only applied action for now is "quit", it could be 
