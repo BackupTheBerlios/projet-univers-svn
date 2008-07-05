@@ -29,7 +29,9 @@ namespace ProjetUnivers {
   */
   namespace Physic {
 
-
+    /// Start the module.
+    void start() ;
+    
   }
 }
 

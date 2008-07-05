@@ -30,6 +30,8 @@ namespace ProjetUnivers {
   */
   namespace Input {
     
+    /// Start the module.
+    void start() ;
     
   }
 }

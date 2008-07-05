@@ -36,6 +36,11 @@
 namespace ProjetUnivers {
   namespace Input {
 
+    void start()
+    {
+      
+    }
+
     namespace {
       
       /// Destroy local objects

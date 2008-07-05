@@ -27,42 +27,10 @@
 namespace ProjetUnivers {
   namespace Sound {
 
-  /*!
-    @name Attributes
-  */
-  // @{
-
-    bool initialised = false ;
-    
-  // @}
-    
-    void init() 
+    void start()
     {
-      InternalMessage("Sound","Sound::init entering") ;
-      if (! initialised)
-      {
-        initialised = true ;
-        Implementation::OpenAL::init() ;    
-      }
-      InternalMessage("Sound","Sound::init leaving") ;
-    }
-    
-    void close()
-    {
-      InternalMessage("Sound","Sound::close entering") ;
-
-      Implementation::OpenAL::close() ;
-      initialised = false ;
       
-      InternalMessage("Sound","Sound::close leaving") ;
     }
-
-    void update()
-    {
-      Implementation::OpenAL::update() ;
-    }
-
-    
   }
 }
 

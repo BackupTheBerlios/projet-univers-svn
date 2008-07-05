@@ -24,6 +24,11 @@
 namespace ProjetUnivers {
   namespace ArtificialIntelligence {
 
+    void start()
+    {
+      
+    }
+    
     std::auto_ptr<Implementation::AISystem> m_viewPoint ;
     
     bool init()

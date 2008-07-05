@@ -28,9 +28,15 @@
 #include <model/player.h>
 #include <model/positionned.h>
 #include <model/with_lifetime.h>
+#include <model/model.h>
 
 #include <game/game.h>
 #include <game/game_state.h>
+
+#include <physic/physic.h>
+#include <artificial_intelligence/artificial_intelligence.h>
+#include <sound/sound.h>
+#include <input/input.h>
 
 using namespace ProjetUnivers ;
 
@@ -58,7 +64,12 @@ int main() {
   /// init
   Kernel::Parameters::load("demonstration.config") ;
   Kernel::Log::init() ;
-
+  Physic::start() ;
+  Input::start() ;
+  Sound::start() ;
+  ArtificialIntelligence::start() ;
+  Model::start() ;
+  
   InformationMessage("Demonstration","Starting of projet univers") ;
   Game::Game game ;
 

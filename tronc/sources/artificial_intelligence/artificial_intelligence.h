@@ -33,6 +33,8 @@ namespace ProjetUnivers {
   */ 
   namespace ArtificialIntelligence {
     
+    /// Start the module.
+    void start() ;
     
   }
 }

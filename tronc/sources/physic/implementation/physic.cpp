@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007 Morgan GRIGNARD                                    *
+ *   Copyright (C) 2007 Mathieu ROGER                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,25 +18,15 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_SOUND_H_
-#define PU_SOUND_H_
-
-#include <kernel/view_point.h>
-#include <kernel/object.h>
+#include <physic/physic.h>
 
 namespace ProjetUnivers {
-  
- 
-  /// Sound view of Model.
-  /*!
-    It's a sound view of the world  
-  */ 
-  namespace Sound {
+  namespace Physic {
+
+    void start()
+    {
+      
+    }
     
-    /// Start the module.
-    void start() ;
   }
 }
-
-
-#endif 

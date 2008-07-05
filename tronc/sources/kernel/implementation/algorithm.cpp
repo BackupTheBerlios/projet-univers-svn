@@ -70,7 +70,7 @@ namespace ProjetUnivers {
           float divisor = pow(target_speed.z,2)+pow(target_speed.y,2)+pow(target_speed.x,2)-pow(interceptor_speed,2) ;
           
           
-          if (delta > 0 && divisor != 0)
+          if (delta > 0 && fabs(divisor)>1e-10 != 0)
           {
             float b = -target_position.z*target_speed.z-target_position.y*target_speed.y-target_position.x*target_speed.x ;
             time = (sqrt(delta)+b)/divisor ;

@@ -8,6 +8,7 @@ AM_CXXFLAGS=$(PU_CXXFLAGS)
 
 libphysic_la_SOURCES = \
 ../implementation/laser_beam.cpp \
+../implementation/physic.cpp \
 ../implementation/solid_physical_object.cpp \
 ../implementation/ode/mass_property.cpp \
 ../implementation/ode/ode.cpp \

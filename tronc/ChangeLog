@@ -723,6 +723,12 @@
 
   * Sound :
     - made OpenAl initialised only once.
+
+2008-07-05 rogma
+  
+  * All :
+    - corrected bug on windows : libraries need entry point in order to have 
+      static initialistation called 
      
 @todo :
 

@@ -89,6 +89,11 @@ namespace ProjetUnivers {
 
   // @}
     
+    void start() 
+    {
+      
+    }
+    
     void load(const std::string& name,Kernel::Object* parent)
     {
      

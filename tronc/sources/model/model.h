@@ -45,6 +45,9 @@ namespace ProjetUnivers {
   namespace Model 
   {
 
+    /// Start the module.
+    void start() ;
+
     /// Load a model from disk.
     void load(const std::string& name,Kernel::Object* parent) ;
     
