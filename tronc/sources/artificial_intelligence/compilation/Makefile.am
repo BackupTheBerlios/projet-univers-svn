@@ -57,7 +57,6 @@ libai.la \
 $(SOURCES)/kernel/compilation/libkernel.la \
 $(SOURCES)/model/compilation/libmodel.la \
 $(SOURCES)/physic/compilation/libphysic.la \
-$(SOURCES)/physic/compilation/ode/libphysicode.la \
 $(librlog_LIBS) \
 $(libXML_LIBS)  \
 $(OGRE_LIBS)

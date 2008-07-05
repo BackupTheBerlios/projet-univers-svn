@@ -21,7 +21,6 @@ libinput_la_LDFLAGS = -no-undefined
 libinput_la_LDFLAGS += \
 $(SOURCES)/kernel/compilation/libkernel.la \
 $(SOURCES)/display/compilation/libdisplay.la \
-$(SOURCES)/display/compilation/ogre/libdisplayogre.la \
 $(SOURCES)/model/compilation/libmodel.la \
 $(OIS_LIBS) \
 $(OGRE_LIBS) \
@@ -42,7 +41,6 @@ test_input_LDFLAGS = $(CPPUNIT_LIBS)
 test_input_LDADD = \
 $(SOURCES)/kernel/compilation/libkernel.la \
 $(SOURCES)/display/compilation/libdisplay.la \
-$(SOURCES)/display/compilation/ogre/libdisplayogre.la \
 $(SOURCES)/input/compilation/libinput.la \
 $(SOURCES)/model/compilation/libmodel.la \
 $(OIS_LIBS)

@@ -1,25 +1,33 @@
-SUBDIRS = ode
-
 lib_LTLIBRARIES = libphysic.la
+
+AUTOMAKE_OPTIONS=subdir-objects
 
 SOURCES = $(top_srcdir)/sources
 INCLUDES = -I$(SOURCES)
 AM_CXXFLAGS=$(PU_CXXFLAGS)
 
-LDADD=ode/libphysicode.la
-
 libphysic_la_SOURCES = \
-$(SOURCES)/physic/implementation/laser_beam.cpp \
-$(SOURCES)/physic/implementation/solid_physical_object.cpp
+../implementation/laser_beam.cpp \
+../implementation/solid_physical_object.cpp \
+../implementation/ode/mass_property.cpp \
+../implementation/ode/ode.cpp \
+../implementation/ode/physic_system.cpp \
+../implementation/ode/physical_object.cpp \
+../implementation/ode/physical_world.cpp \
+../implementation/ode/solid.cpp \
+../implementation/ode/torque_generator.cpp \
+../implementation/ode/force_generator.cpp \
+../implementation/ode/collideable.cpp \
+../implementation/ode/laser_beam.cpp 
 
 
 libphysic_la_LDFLAGS = -no-undefined
 libphysic_la_LDFLAGS += \
 $(SOURCES)/kernel/compilation/libkernel.la \
 $(SOURCES)/model/compilation/libmodel.la \
-$(SOURCES)/physic/compilation/ode/libphysicode.la \
 $(ODE_LIBS) \
-$(librlog_LIBS)
+$(librlog_LIBS) \
+$(OGRE_LIBS)
 
 TESTS = test_physic
 
@@ -40,7 +48,6 @@ test_physic_LDADD = \
 ../../kernel/compilation/libkernel.la \
 ../../model/compilation/libmodel.la \
 libphysic.la \
-ode/libphysicode.la \
 $(OIS_LIBS) \
 $(librlog_LIBS) \
 $(OGRE_LIBS) \

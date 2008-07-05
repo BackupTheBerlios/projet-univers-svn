@@ -132,7 +132,6 @@ AC_CONFIG_FILES([Makefile \
                  sources/model/compilation/Makefile \
                  sources/display/Makefile \
                  sources/display/compilation/Makefile \
-                 sources/display/compilation/ogre/Makefile \
                  sources/demonstration/Makefile \
                  sources/demonstration/compilation/Makefile \
                  sources/game/Makefile \
@@ -141,10 +140,8 @@ AC_CONFIG_FILES([Makefile \
                  sources/input/compilation/Makefile \
                  sources/physic/Makefile \
                  sources/physic/compilation/Makefile \
-                 sources/physic/compilation/ode/Makefile \
                  sources/sound/Makefile \
                  sources/sound/compilation/Makefile \
-                 sources/sound/compilation/openal/Makefile \
                  sources/sound/implementation/openal/extension.h \
                  sources/artificial_intelligence/Makefile \
                  sources/artificial_intelligence/compilation/Makefile \

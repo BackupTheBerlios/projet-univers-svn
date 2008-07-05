@@ -1,34 +1,51 @@
-# Makefile pour Affichage
-
-SUBDIRS = ogre
+AUTOMAKE_OPTIONS=subdir-objects
 
 lib_LTLIBRARIES = libdisplay.la 
 noinst_PROGRAMS = test_ogre 
-
-LDADD=ogre/libdisplay.la
 
 SOURCES = $(top_srcdir)/sources
 INCLUDES = -I$(SOURCES)
 AM_CXXFLAGS=$(PU_CXXFLAGS)
 
 libdisplay_la_SOURCES = \
-$(SOURCES)/display/implementation/display.cpp \
-$(SOURCES)/display/implementation/explosion.cpp \
-$(SOURCES)/display/implementation/target.cpp \
-$(SOURCES)/display/implementation/ideal_target.cpp \
-$(SOURCES)/display/implementation/identified_target.cpp \
-$(SOURCES)/display/implementation/observer.cpp \
-$(SOURCES)/display/implementation/space_dust.cpp \
-$(SOURCES)/display/implementation/target_with_selection.cpp 
+../implementation/display.cpp \
+../implementation/explosion.cpp \
+../implementation/target.cpp \
+../implementation/ideal_target.cpp \
+../implementation/identified_target.cpp \
+../implementation/observer.cpp \
+../implementation/space_dust.cpp \
+../implementation/target_with_selection.cpp \
+../implementation/ogre/explosion.cpp \
+../implementation/ogre/image.cpp \
+../implementation/ogre/observer.cpp \
+../implementation/ogre/ogre.cpp \
+../implementation/ogre/oriented.cpp \
+../implementation/ogre/positionned.cpp \
+../implementation/ogre/real_world_view_point.cpp \
+../implementation/ogre/solid.cpp \
+../implementation/ogre/universe.cpp \
+../implementation/ogre/utility.cpp \
+../implementation/ogre/laser_beam.cpp \
+../implementation/ogre/menu.cpp \
+../implementation/ogre/space_dust.cpp \
+../implementation/ogre/target_displayer.cpp \
+../implementation/ogre/head_up_display/target.cpp \
+../implementation/ogre/head_up_display/ideal_target.cpp \
+../implementation/ogre/head_up_display/identified_target.cpp \
+../implementation/ogre/head_up_display/target_with_selection.cpp \
+../implementation/ogre/head_up_display/target_displayer_viewpoint.cpp
 
 
 libdisplay_la_LDFLAGS = -no-undefined
 libdisplay_la_LDFLAGS += \
 $(SOURCES)/kernel/compilation/libkernel.la \
 $(SOURCES)/model/compilation/libmodel.la \
-$(SOURCES)/display/compilation/ogre/libdisplayogre.la \
 $(OGRE_LIBS) \
-$(librlog_LIBS)
+$(librlog_LIBS) \
+$(CEGUI_LIBS) \
+$(CEGUI_OGRE_LIBS) \
+-lCEGUIFalagardWRBase
 
 TESTS = test_display
 
@@ -47,7 +64,6 @@ test_display_CXXFLAGS = $(CPPUNIT_CFLAGS) $(PU_CXXFLAGS)
 test_display_LDFLAGS = $(CPPUNIT_LIBS)
 test_display_LDADD = \
 libdisplay.la \
-ogre/libdisplayogre.la \
 $(SOURCES)/kernel/compilation/libkernel.la \
 $(SOURCES)/model/compilation/libmodel.la \
 $(OIS_LIBS) \

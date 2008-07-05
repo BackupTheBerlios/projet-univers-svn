@@ -37,32 +37,119 @@ namespace ProjetUnivers {
         @name Attributes
        */
       // @{
+        
         bool initialised = false ;
-        ALCdevice* device ;
         
         std::auto_ptr<Manager> manager;
         RealWorldViewPoint*  sound_system ;
         
         namespace 
         {
-          // Allowto have only one context at a time
-          struct Context
-          {
-            ALCcontext* context ;
           
-            Context()
-            : context(NULL)
-            {}
+          /// Allow a one time initialisation.
+          /*!
+            several initialisation tends to cause problem with 
+            alcMakeContextCurrent
+          */
+          struct SoundSystem
+          {
             
-            ~Context()
+            ALCdevice* device ;
+            
+            ALCcontext* context ;
+            
+            SoundSystem()
             {
+              if (!manager.get())
+                manager.reset(new Manager()) ;
+
+              //Open a device
+              std::string deviceType;
+              try
+              {
+                deviceType = Kernel::Parameters::getValue<std::string>("Sound","SoundDevice") ;
+              }
+              catch (Kernel::ExceptionKernel e)
+              {
+                deviceType = "Generic Software" ;
+              }
+              device = alcOpenDevice(deviceType.c_str());
+              if (!device)
+              {
+                initialised = false ;
+                ErrorMessage("[OpenAL] No sound device found") ;
+                return ;
+              }
+              
+              /// access to special extensions...
+              ALint* extension = EFX::getParameters() ; 
+              
+              // create only one context
+              context = alcCreateContext(device,extension) ;
+              
+              if (!context)
+              {
+                initialised = false ;
+                ErrorMessage("[OpenAL] Can't create context") ;
+                return ;
+              }
+
+              alcMakeContextCurrent(context);
+
+              EFX::init(device) ;
+              
+              //Configure attenuation model
+              std::string attenuationModel;
+              try
+              {
+                attenuationModel = Kernel::Parameters::getValue<std::string>("Sound","AttenuationModel") ;
+              }
+              catch (Kernel::ExceptionKernel e)
+              {
+                attenuationModel = "INVERSE_DISTANCE_CLAMPED" ;
+              }
+              std::map<std::string, ALenum> stringToEnum;
+              stringToEnum["NONE"] = AL_NONE;
+              stringToEnum["INVERSE_DISTANCE"] = AL_INVERSE_DISTANCE;
+              stringToEnum["INVERSE_DISTANCE_CLAMPED"] = AL_INVERSE_DISTANCE_CLAMPED;
+              stringToEnum["LINEAR_DISTANCE"] = AL_LINEAR_DISTANCE;
+              stringToEnum["LINEAR_DISTANCE_CLAMPED"] = AL_LINEAR_DISTANCE_CLAMPED;
+              stringToEnum["EXPONENT_DISTANCE"] = AL_EXPONENT_DISTANCE;
+              stringToEnum["EXPONENT_DISTANCE_CLAMPED"] = AL_EXPONENT_DISTANCE_CLAMPED;
+
+              alDistanceModel(stringToEnum[attenuationModel]) ;
+              
+              //Verification of initialisation without error  
+              initialised = true ;
+            }
+            
+            ~SoundSystem()
+            {
+              delete sound_system ;
+              manager.reset(NULL) ;
+
+              // Desactivate context
+              alcMakeContextCurrent(NULL) ;
+      
+              EFX::close() ;
+              
+              // Device closing
+              if(!alcCloseDevice(device))
+              {
+                InformationMessage("Sound","Sound::OpenAL::close can't close device, some device or buffer remain") ;
+              }
+
               if (context)
                 alcDestroyContext(context) ;
+              initialised = false ;
             }
+            
           };
         
-          Context context ; 
         }
+        
+        std::auto_ptr<SoundSystem> system ;
+        
       // @}
         
         
@@ -70,67 +157,8 @@ namespace ProjetUnivers {
         {
           InternalMessage("Sound","Sound::OpenAL::init entering") ;
 
-          manager.reset(new Manager()) ;
-         
-          //Open a device
-          std::string deviceType;
-          try
-          {
-            deviceType = Kernel::Parameters::getValue<std::string>("Sound","SoundDevice") ;
-          }
-          catch (Kernel::ExceptionKernel e)
-          {
-            deviceType = "Generic Software" ;
-          }
-          device = alcOpenDevice(deviceType.c_str());
-          if (!device)
-          {
-            initialised = false ;
-            ErrorMessage("[OpenAL] No sound device found") ;
-            return ;
-          }
-          
-          /// access to special extensions...
-          ALint* extension = EFX::getParameters() ; 
-          
-          // create only one context
-          if (!context.context)
-            context.context = alcCreateContext(device,extension) ;
-          
-          if (!context.context)
-          {
-            initialised = false ;
-            ErrorMessage("[OpenAL] Can't create context") ;
-            return ;
-          }
-
-          alcMakeContextCurrent(context.context);
-
-          EFX::init(device) ;
-          
-          //Configure attenuation model
-          std::string attenuationModel;
-          try
-          {
-            attenuationModel = Kernel::Parameters::getValue<std::string>("Sound","AttenuationModel") ;
-          }
-          catch (Kernel::ExceptionKernel e)
-          {
-            attenuationModel = "INVERSE_DISTANCE_CLAMPED" ;
-          }
-          std::map<std::string, ALenum> stringToEnum;
-          stringToEnum["NONE"] = AL_NONE;
-          stringToEnum["INVERSE_DISTANCE"] = AL_INVERSE_DISTANCE;
-          stringToEnum["INVERSE_DISTANCE_CLAMPED"] = AL_INVERSE_DISTANCE_CLAMPED;
-          stringToEnum["LINEAR_DISTANCE"] = AL_LINEAR_DISTANCE;
-          stringToEnum["LINEAR_DISTANCE_CLAMPED"] = AL_LINEAR_DISTANCE_CLAMPED;
-          stringToEnum["EXPONENT_DISTANCE"] = AL_EXPONENT_DISTANCE;
-          stringToEnum["EXPONENT_DISTANCE_CLAMPED"] = AL_EXPONENT_DISTANCE_CLAMPED;
-
-          alDistanceModel(stringToEnum[attenuationModel]) ;
-          
-          //Verification of initialisation without error  
-          initialised = true ;
+          if (!system.get())
+            system.reset(new SoundSystem()) ;
 
           InternalMessage("Sound","Sound::OpenAL::init leaving with status: " + getErrorString(alGetError())) ;
       }
@@ -138,21 +166,7 @@ namespace ProjetUnivers {
         void close()
         {
           InternalMessage("Sound","Sound::OpenAL::close entering") ;
-          
-          delete sound_system ;
-          manager.reset(NULL) ;
-
-          // Desactivate context
-          alcMakeContextCurrent(NULL) ;
-  
-          EFX::close() ;
-          
-          // Device closing
-          if(!alcCloseDevice(device))
-          {
-            InformationMessage("Sound","Sound::OpenAL::close can't close device, some device or buffer remain") ;
-          }
-          initialised = false ;
+          // nothing to do : closing is done at the end of the program
           InternalMessage("Sound","Sound::OpenAL::close leaving") ;
         }
     

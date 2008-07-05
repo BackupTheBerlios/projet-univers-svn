@@ -713,6 +713,17 @@
   * All : 
     - tagging version 0.3.1
 
+2008-07-05 rogma
+  
+  * All :
+    - corrected bug on windows : a DLL without an entry point has no way to 
+      initialize static variables except for very simple types such as 
+      integers. Caused some deduced traits not to be registered. Solution 
+      reside in having only one dynamic library for each module. 
+
+  * Sound :
+    - made OpenAl initialised only once.
+     
 @todo :
 
   

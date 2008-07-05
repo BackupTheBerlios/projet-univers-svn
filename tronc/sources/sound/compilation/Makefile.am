@@ -1,23 +1,35 @@
-SUBDIRS = openal
-
 lib_LTLIBRARIES = libsound.la
+
+AUTOMAKE_OPTIONS=subdir-objects
 
 SOURCES = $(top_srcdir)/sources
 INCLUDES = -I$(SOURCES)
 AM_CXXFLAGS=$(PU_CXXFLAGS)
 
-LDADD=ode/libsoundcode.la
-
 libsound_la_SOURCES = \
-$(SOURCES)/sound/implementation/engine.cpp \
-$(SOURCES)/sound/implementation/listener.cpp \
-$(SOURCES)/sound/implementation/sound.cpp
+../implementation/engine.cpp \
+../implementation/listener.cpp \
+../implementation/sound.cpp \
+../implementation/openal/openal.cpp \
+../implementation/openal/real_world_view_point.cpp \
+../implementation/openal/manager.cpp \
+../implementation/openal/reader.cpp \
+../implementation/openal/wav_reader.cpp \
+../implementation/openal/ogg_reader.cpp \
+../implementation/openal/sound_listener.cpp \
+../implementation/openal/listener.cpp \
+../implementation/openal/sound_emitter.cpp \
+../implementation/openal/background_sound.cpp \
+../implementation/openal/collision.cpp \
+../implementation/openal/engine.cpp \
+../implementation/openal/sound_environnement.cpp \
+../implementation/openal/filter.cpp \
+../implementation/openal/efx/@efx_name@.cpp 
 
 libsound_la_LDFLAGS = -no-undefined
 libsound_la_LDFLAGS += \
 $(SOURCES)/kernel/compilation/libkernel.la \
 $(SOURCES)/model/compilation/libmodel.la \
-$(SOURCES)/sound/compilation/openal/libsoundcode.la \
 $(OGRE_LIBS) \
 $(librlog_LIBS) \
 $(libXML_LIBS) \
@@ -42,7 +54,6 @@ check_PROGRAMS = $(TESTS)
 
 LDADD_OPTIONS = \
 libsound.la \
-openal/libsoundcode.la \
 ../../model/compilation/libmodel.la \
 ../../kernel/compilation/libkernel.la \
 $(OGRE_LIBS) \

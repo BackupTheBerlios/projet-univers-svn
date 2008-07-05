@@ -19,10 +19,8 @@ libgame_la_LDFLAGS += \
 $(SOURCES)/kernel/compilation/libkernel.la \
 $(SOURCES)/model/compilation/libmodel.la \
 $(SOURCES)/display/compilation/libdisplay.la \
-$(SOURCES)/display/compilation/ogre/libdisplayogre.la \
 $(SOURCES)/input/compilation/libinput.la \
 $(SOURCES)/physic/compilation/libphysic.la \
-$(SOURCES)/physic/compilation/ode/libphysicode.la \
 $(SOURCES)/artificial_intelligence/compilation/libai.la \
 $(OIS_LIBS) \
 $(librlog_LIBS) \
@@ -47,10 +45,8 @@ test_game_LDADD = \
 $(SOURCES)/kernel/compilation/libkernel.la \
 $(SOURCES)/model/compilation/libmodel.la \
 $(SOURCES)/display/compilation/libdisplay.la \
-$(SOURCES)/display/compilation/ogre/libdisplayogre.la \
 $(SOURCES)/input/compilation/libinput.la \
 $(SOURCES)/physic/compilation/libphysic.la \
-$(SOURCES)/physic/compilation/ode/libphysicode.la \
 $(SOURCES)/artificial_intelligence/compilation/libai.la \
 $(SOURCES)/game/compilation/libgame.la \
 $(CPPUNIT_LIBS) \
