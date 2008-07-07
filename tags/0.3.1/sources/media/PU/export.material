@@ -1,0 +1,38 @@
+material Material.001/SOLID/
+{
+  receive_shadows off
+  technique
+  {
+    pass
+    {
+      ambient 0.000000 0.000000 0.000000
+      diffuse 0.800000 0.799920 0.799920
+      specular 0.500000 0.500000 0.500000 50.000000
+      emissive 0.000000 0.000000 0.000000
+			texture_unit
+			{
+				texture textureasteroid.jpg
+			}
+    }
+  }
+}
+
+material Material/SOLID/
+{
+  receive_shadows on
+  technique
+  {
+    pass
+    {
+      ambient 0.000000 0.000000 0.000000
+      diffuse 0.800000 0.800000 0.800000
+      specular 0.500000 0.500000 0.500000 50.000000
+      emissive 0.000000 0.000000 0.000000
+			texture_unit
+			{
+				texture fleche_4.bmp
+			}
+     }
+  }
+}
+

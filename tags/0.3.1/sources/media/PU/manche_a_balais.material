@@ -1,0 +1,57 @@
+material PU/manche_a_balais/gris
+{
+  receive_shadows on
+  technique
+  {
+    pass
+    {
+      ambient 0.000000 0.000000 0.000000
+      diffuse 0.756191 0.756191 0.756191
+      specular 0.500000 0.500000 0.500000 50.000000
+      emissive 0.000000 0.000000 0.000000
+      texture_unit
+      {
+        texture texturegris.jpg
+      }
+    }
+  }
+}
+
+material  PU/manche_a_balais/noir
+{
+  receive_shadows on
+  technique
+  {
+    pass
+    {
+      ambient 0.000000 0.000000 0.000000
+      diffuse 0.756191 0.756191 0.756191
+      specular 0.500000 0.500000 0.500000 50.000000
+      emissive 0.000000 0.000000 0.000000
+      texture_unit
+      {
+        texture texturenoir.jpg
+      }
+    }
+  }
+}
+
+material PU/manche_a_balais/noir_bt
+{
+  receive_shadows on
+  technique
+  {
+    pass
+    {
+      ambient 0.000000 0.000000 0.000000
+      diffuse 0.756191 0.756191 0.756191
+      specular 0.500000 0.500000 0.500000 50.000000
+      emissive 0.000000 0.000000 0.000000
+      texture_unit
+      {
+        texture texturenoir_bt.jpg
+      }
+    }
+  }
+}
+

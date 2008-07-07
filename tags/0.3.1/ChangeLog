@@ -1,0 +1,860 @@
+2006-07-14 rogma 
+
+  * entrees, action, affichage : 
+
+        general interface and testing implementation
+
+
+2006-10-22 rogma 
+
+  * livraison version 0.1.0
+
+2006-10-27 rogma 
+  
+  * configure.ac : incrementation de la version 
+
+  * modele 
+      - objet.h, modele.h : ajout de Enlever(Objet)
+  * entrees
+      - clavier.cpp (keyPressed) : ajout de la touche 'D' provoquant une 
+        action
+  * base
+      - point_de_vue.h : ajout de Enlever(BaseVue)
+      - vue.cxx : correction d'une segmentation fault 
+                        (ajout de test de validite de observe dans ~Vue)
+  * action
+      - action.cpp : ajout du traitement d'une nouvelle action detruisant 
+        un objet
+  * affichage :
+      - point_de_vue.h : 
+         ajout d'une specialisation de Detruire(BaseVue)
+         correction de include/declarations en avant
+      - objet.h/cpp : correction du type de retours de Ajouter(Facette*)
+                               ajout de Enlever pour Objet et Facette
+
+2007-02-17 rogma 
+
+  * affichage/point_de_vue.h : ajout de changer_observateur
+
+2007-02-22 rogma 
+
+  * change language to english
+
+2007-03-10 rogma 
+  
+  * kernel : now contains model view framework
+  * model : simplified uses kernel model
+  * display : simplified uses kernel view and viewpoint
+
+2007-03-25 rogma 
+  
+  * kernel : bug corrections : 
+    - getTrait made an empty trait (test added)
+    - detroying a model with initialised viewpoint made an error (test added)
+  * model : added functionnalities
+    - Positionned now can compute position/orientation relatively to 
+      an other object (test added)
+    - changes on Position, Orientation
+    - PhysicalObject, PhysicalWorld, Massive, AngularSpeed, Component, 
+      Composite added
+  * physic : creation of the physic module
+
+2007-03-27 rogma 
+
+  Work on physic :
+  * model : 
+    - Positionned : added set position/orientation relative to any object
+  * physic : added modification of Position according to physic simulation
+  * kernel :
+    - added forAll<View> that allows to call a method on each View element of 
+      a viewpoint
+
+  Work on windows port :
+  * kernel :
+    - inherits.h removed some annoying warning about unused variables
+  * makefiles/autoconf : modifications for libtool
+  * display
+    - display.cpp corrected a possible bug
+  * added preliminary codeblocks projects for modules
+
+2007-04-20 rogma 
+
+  Work on deduction :
+  * kernel :
+    - added deduced_trait.h/cpp : handling of deduced trait, formulas And, Or, 
+      Not, HasTrait + tests
+  * model : 
+    - used deduction for physical object, whole and physical world
+  * physic
+    - validated deduction usage throught small changes
+
+  Demo :
+  * kernel :
+    added timer
+  * demonstration
+    usage of physic module  
+
+  Diverse :
+  * kernel : renaming of member data, added preliminary timer class
+  * all : removed some warnings  
+
+2007-04-22 rogma 
+
+  Diverse :
+  * kernel : added meta.h/cpp for centralization of class identification
+  * all modified makefiles
+
+2007-06-05 rogma 
+
+  Architecture :
+  * kernel : added controler.h/.cpp, a Model-modifying "procedure".
+  * model : added a stabilizer+torque generator for element that resist rotation
+  * physic : applied controler pattern+tested generator
+  
+  Demonstration :
+  * usage of stabilizer to slowly stop rotation of one of the ships
+   
+2007-06-10 rogma 
+   
+   Diverse : 
+   * all : some french comments turned into english
+   * added codeblocks project for windows compilation
+   * remove a bug in kernel
+   * small changes in log
+
+2007-06-18 rogma 
+  
+  * input : added mouse.h/cpp and mouse control of an oriented object
+  * model : separation of positionned into positionned and orientated, and 
+    impact on other modules
+  * model : preliminary work on ship control : dragger, shipcontrol traits
+  * display : added 3D line display for tests
+
+2007-06-30 rogma 
+
+  * input : added joystick.h/cpp and control of an oriented object
+  * model : small modifications to demonstration model
+  * model/stabilizer : correction of a big bug (test added in physic/test); 
+    stabilizer would inc  rease rotation speed iff angular velocity is opposed 
+    to stabilizer axis !!
+  * model/ship_control : quite working
+  * model/engine_control : working. Tests added.
+  * model : semantic modification for Positionned and Oriented, they are now 
+    relative to first Positionned/Oriented ancestor. Tests added.
+  * kernel : splitted object.h in two files, added getParentUpTo
+
+2007-07-06 rogma 
+
+  * model : added stick/throttle plus tests
+  * kernel : 
+    - changed behaviour of object : only one trait of type T can be added
+    - getTrait<X> will now return trait of type Y when Y is subclass of X
+    - added preliminary Command system
+  * input : usage of command system in joystick
+  
+2007-07-08 rogma 
+
+  * kernel : 
+    - added getAncestor<T> for getting first real ancestor having trait T
+    - added static regis  tration for commands
+  * physic : test of dragger
+  * demo : added full piloting of one ship
+
+2007-07-19 rogma 
+
+  * model : 
+    - added Ogre's Mesh on demand loading for test purpose
+    - added Mesh::getMeshInformation that provide triangles of the mesh 
+      for collision
+  * physic : major update 'collisions'
+    - added mesh collision support
+    - added ODE tests (usefull for testing ODE behaviour when developping)
+    - remove TestDemonstration::testModelPositionUpdate because it is a "copy"
+      of testSimulateMovingInitialSpeed
+    - removed Model::load in all TestDemonstration tests 
+
+2007-08-04 rogma 
+  
+  * input : joystick bug correction (throttle would be set to middle when 
+    changing direction)
+    migration to OIS 1.0 and 1.1
+  * display migration to ogre 1.4.3
+  * kernel : 
+  	- added Object::getchildren()
+  	- added Parameters that reads .ini like files
+  * model : added Laser and LaserBeam + test
+  * all : 
+    - updated codeblock config for windows compiling
+  
+2007-08-09 rogma 
+  
+  * all : 
+    - modified compilation for mingw (windows) compatibility
+  * display : remove circular dependecy between display and display/ogre
+  * model : removed a bug from test_laser
+
+2007-08-19 rogma 
+  
+  * all : 
+    - modified compilation for mingw (windows) compatibility
+  * model/physic : added parameter reading
+
+2007-08-19 rogma 
+  
+  * input : added parameter reading for joystick
+
+
+2007-08-26 rogma 
+  
+  * all : clarification of the copyright
+  * kernel 
+    - ControlerSet : clarified virtuality
+    - Controler : added a specialised access to controler set 
+    - Object : added an access to descendant (test added)
+  * model : added Logic sub-module for model dynamic behaviour
+    - Logic::LaserBeam controls the laser beam destruction after 
+      a certain amount of time (test added)
+  * physic/ode : 
+    - removed unused onInit onClose on PhysicSystem
+    - added a dCloseODE call
+
+2007-09-11 Rogma, Minos
+  
+  * model : 
+    - changed compilation, now have a implementation/logic sub directory 
+      and still one lib model
+    - added trait representing collision
+    - model/logic : added collision controler, laser beam collision against 
+      destroyable perform damage (test added)
+    - added logic/destroyable controler (test added)
+    - added Shot trait representing weapon firing (test added)
+  * physic/ode : 
+    - produced collision objects 
+    - refactor solid and laser beam inherit collideable (laser beam does not 
+      need to be solid anymore) (added laserbeam/solid colision test)
+    - prevent laserbeam/laserbeam collision (added negative laserbeam/laserbeam 
+      collision test)
+  * display :
+    - added laser beam view
+  * kernel : modified RegisterView and RegisterControl to allow vitrual 
+    inheritance between trait classes. (test added)
+  * sound  :
+    - small compiling corrections
+    - added basic test for background sound
+
+2007-09-29 rogma 
+
+  * sound : makefile change for windows compilation
+    
+2007-10-13 Minos
+  
+  * sound  :
+    - add manager and reader for streaming
+    - deduction of trait information for position, orientation and speed
+    - for the compilation now, Ogg, Vorbis, Vorbisfile and libsndfile are needed
+    
+  * todos :
+    -  sound : 
+      - just keep relative model to a global reference
+      - tests configuration in movement
+    
+2007-10-21 Minos
+
+  * model :
+    - add ear to represent the hearing of player
+    - add listener, deduced trait for the sound (ear, positionned, ...)
+    - add engine_sound, deduced trait for the sound (ear, positionned, ...)
+  * sound :
+    - add listener to replace observer, observe Model::listener
+    - add engine_sound, observe Model::engine_sound
+    - sound_emitter now implements default behavior
+    - some fix on sound_emitter and sound_listener in properties setting.
+    - openal now is configure in software mode, hardware (nvidia integrated shipset in my case)
+      don't work for moving alone listener, and later for some effect
+  * test :
+    - add moving_object, source move on three axis
+    - add cone_propertie, a listener turn around an engine and heard the variation with the angle
+  * todos :
+    - sound :
+      - global effect on the mixed sound in function of Model::ear state
+      - device selection between software/hardware
+
+2007-10-29 Minos
+
+  * model :
+    - move sound deduced trait to sound module
+  * sound :
+    - rename viewer and refactor to not have conflit with deduced trait now in sound module
+  * note : 
+    - Log can cause bug, the kernel begin to be too verbose ~20mo/sec in the 
+      test_cone_propertie.
+      Exemple: the sound buffer becomes empty and the sound stop, because i 
+      can't write on the hard disk the log's flow when an application use 
+      another sector of the hard disk.
+  
+2007-10-30 Minos
+
+  * kernel :
+    - Parameters.cxx: add exception when the parameter name in getValue() doesn't exist
+  * sound :
+    - SoundListener: refactor, implements a default behavior like SoundEmitter
+    - OpenAL: 
+      > add initialisation in software or hardware mode according to the configuration file
+      > add parameter for attenuation model choice
+      > add EFX extension launch, version test
+      > add EFX functions pointer initialisation
+    - Manager: 
+      >add updateTime according to the configuration file to manage the time between update and buffers' size
+      >fix bug in streaming, know we assure no famine with an update rate a little more important than buffer size
+    - WavReader:
+      >fix bug to follow the same algorithm than OggReader and ensure a buffer of the good size for looping sound
+    - Test:
+      >TestOpenALInit: add new basic test to know the platform possibilities
+      >TestEffect: add basic test to see how effect work
+      
+2007-11-3 Minos
+
+  * model :
+    - SoundEnvironnement : add , just for save, it will change taking into consideration the hardware limitation
+  * sound :
+    - SoundEnvironnementView : add , just for save, it will change taking into consideration the hardware limitation
+    - Filter : add
+    - Sound::close : fix bug when closing Sound before Model, the sound viewpoint wasn't destroy before openal 
+    - SoundEmitter, Reader : fix bug when changeParent() on a source, the close() init() serie destroyed the reader but didn't reinitialize
+                     fix the position where restart, artefact remain
+    - Test:
+      >TestFilter: add test of add-sub action on filter
+      >TestEffect: refactor with CPPUNIT ASSERT in place of log, add some test to know the hardware limitation
+      
+2007-11-11 rogma 
+
+  * kernel :
+    - added ancestor queries on objects.
+    - correction of bug : changing parent caused close, init and change parent 
+      event instead of change parent (test added)
+    -changed check macro name
+    
+2007-11-14 rogma 
+
+  * kernel :
+    - added ObjectReference and TraitReference to ease managing of object 
+      referencing other in case of destruction.
+  * model :
+    - added Detector for object detecting other objects.
+    - added Computer for object that store ComputerData
+    - added basic menu data 
+  * display :
+    - added basic Menu view
+
+2007-11-15 rogma 
+
+  * kernel :
+    - TraitReference enhancement
+  * model :
+    - usage of TraitReference and ObjectReference in every traits
+
+2007-12-18 rogma 
+
+  * kernel :
+    - xml reading
+    - simplification of Traitreference : takes an object instead of a trait
+  * model :
+    - changed Ear into Hearing : generalisation
+    - changed EngineControl into EngineControler
+    - added xml read methods + tests
+
+2007-12-19 rogma 
+
+  * kernel :
+    - changed logging system : logs are activated module based in the 
+      parameter file.
+    - changed : log messages are tagged by module name
+  * All :
+    - changed log messages accoardingly
+
+2007-12-22 rogma 
+
+  * kernel :
+    - added DeducedTrait::getLatestUpdatedTrait to access latest non-deduced 
+      trait updated 
+
+2007-12-29 rogma 
+
+  * kernel :
+    - added function declaration and call on traits, similar behaviour as 
+      commands, see Object::callFunction<T> and 
+      RegisterFunction(name,trait,function).
+
+2007-12-30 rogma 
+
+  * kernel + all :
+    - renamed TraitView/Controler getModel into getTrait for clarity.
+
+2008-01-23 rogma
+
+  * Model :
+    - changed detection data handling, DetectionData is nowa special trait that 
+      hold the "real" detected object
+    - added TargetDisplayer, TargetingSystem for displaying targets and selecting
+      targets in the set of detected targets
+  * Display 
+    - added TargetDisplayer for real target displaying
+  * Media
+    - added media pack
+
+2008-02-03 rogma
+  * Kernel :
+    - added manual view handling
+  * Model :
+    - corrected TargetingSystem::selectNextTarget,selectPreviousTarget
+
+2008-02-11 rogma
+  * Model :
+    - added Selected trait to indicate that a DetectionData is selected by a 
+      TargetingSystem
+    - added Solid::getBoundingSphereRadius to obtain the size of a solid
+  * Display :
+    - added a hud viewpoitn that handle selection display
+  * Kernel :
+    - log cleaning : fewer, clearer messages   
+
+2008-02-26 rogma
+  * All :
+    - doxygen comment cleanup (removed warnings) 
+  * Model :
+    - DetectionData are added Mobile trait iff exists
+    - ShootingHelper : build a false target to shoot at using speed of current 
+      selected target (basic test added)
+  * Kernel :
+    - corrected some bugs/limitations : 
+      - crash when building a ViewPoint with NULL model (tested)
+      - no view init on new objects when changing the model of a initialised 
+        viewpoint plus some crash on it (tested)
+
+2008-03-01 rogma
+  * Model :
+    - ShootingHelper system : bug corrections, wrong equation, divide by 
+      zero (tested)
+    - ShootingHelper system test added
+    - TargetSelector system test added 
+  * Display :
+    - Target displaying : added arrow placement when target is out of screen and 
+    	rotate arrow to point to target
+
+2008-03-01 rogma
+
+	* Physic : 
+		- ShootingHelper system : added a test where we shoot at direction idicated 
+		  by the system and check that we hit the targeted target
+    
+  * Display :
+    - Target displaying : added tests for arrow rotation calculus and corrected 
+      some bugs
+    - ShootingHelper system : display a circle where to shoot at 
+
+2008-03-02 rogma
+
+	* Kernel : 
+    - small correction on DeclareDeducedTrait : making temporary variable and 
+      function static to avoid compile errors.
+  * Model : added IFF basic system (Transponder class)
+  * Display : added target colour change accoarding to IFF
+  * Physic : corrected bug (?) in TestShootingHelper, removed the solid part 
+    of shooting ship to avoid inpredictable collsions between firing ship and 
+    laser beam
+
+2008-03-02 rogma
+  
+  * Tools : suppressed compiler (unused)
+
+2008-04-24 rogma
+  
+  * ArtificialIntelligence : creation
+    - added steering behaviours taken from OpenSteer + tests
+    - added controler for autonomous agents
+
+  * Model :
+    - added trait for autonomous agents
+    - added WithObjectives, applyable to any system (player or IA)
+    - added Objective value class, representing a basic objective
+    - added selectNearestTarget (tested)
+    - added selectNearestEnemy (tested)
+    - added WithLifeTime that generalize object disappearing after a certain 
+      amount of time (here LaserBeam)
+    - added Sized for object that have a size 
+    - added Shootable trait for a selected target that can be shot
+    
+  * Kernel : 
+    - factorisation of interception time calculus (taken from 
+      Model::Implementation::Logic::Target)
+    - added usage of object references in command delegator  
+    - corrected a bug on manual view : manual view added on an initialised 
+      viewpoint were not initialised.
+    - corrected a bug with CommandDelegator : infinite loop in case of cycle.
+    - corrected a bug on ObjectReference when using it in a set.
+    - corrected a bug : updating a trait not in an object when the trait was 
+      involved in a formula caused a segementation fault
+      
+  * Input:
+    - made keyboard, joytick optional
+    - added a hack to print command list when pressing 'l'
+
+2008-05-02 rogma (version 0.3)
+  
+  * Kernel :
+    - error.h : changed error reporting, added a message in error.log
+     
+  * ArtificialIntelligence : 
+    - corrected mapping from steering to ship commands (Agent)
+    - removed speed reduction in SteeringBehaviour::separate
+    - added SteeringBehaviour::offsetPursuit(distance) : keep the agent at a 
+      minimum distance of the target
+  
+  * Model :
+    - Positionned : corrected bug on getRelativePosition
+    - Oriented : added getRelativeOrientation
+    - Laser : added a parameter, the energy of the produced laser beam
+    - Laser : added a shooting cadence, a duration parameter that indicates the 
+      minimum time between two shots
+    - Laser : corrected laser beam mass calculation to get the correct damage 
+
+2008-05-08 rogma
+
+  * Display : 
+    - resources loading is done at the beginning : all resources are loaded
+    - added basic explosion : the selected texture is the one in material 
+      PU/explosion/explosion.
+      
+  * Model : 
+    - added Explosion trait which contains duration and radius
+    - modified ogre root handling for internal testing that caused seg fault on 
+      test display
+  * AI :
+    - refactored code : removed behaviour and changed SteeringBehaviour to a 
+      namespace
+    - added SteeringBehaviour::obstacleAvoidance to avoid collisions
+    - added turning rate to vehicle
+
+2008-05-10 rogma
+      
+  * Model : 
+    - added createShip that create a basic ship with all required components
+    - corrected DetectionData position : it should be relative to the computer 
+      holding the data  
+  * Physic :
+    - removed an obsolete test relying on load("demonstration")
+  * Display :
+    - added automatic tests : construct a model and a display view point; 
+      usefull to detect some segmentation faults on display 
+    - corrected several segmentation faults; includung one when destroying 
+      current observer
+    - removed ogre logging to std::cout
+    - all Solid parents of an Observer invisible
+    - corrected bug on target reticule and ideal target reticule : we have to 
+      calculate the global position of the targeted element
+    - "corrected" bug with on Target arrow displaying, but it may still exist 
+      some issues
+    - added reticule/cursor display on TargetDisplayer
+
+2008-05-15 rogma
+
+  * ArtificialIntelligence :
+    - corrected a seg fault when closing module then closing Model (test added
+      in TestModelControler::build)
+    - made dependency clanlib optional (test_behaviour_display will not be 
+      built if clanlib is not present)  
+   - corrected a bug on DetectedVehicle : the position updating where wrong 
+      due to detection position being relative to computer 
+  * Model
+    - bug on Logic::Target, detected speed is relative to parent physical world
+      (test added)
+    - bug in some load tests : they relied on sequence in a set...
+    - added detection of targeted object
+    - added Team trait to represent teams
+    - modified Transponder trait, using Team trait and returning an 
+      identification code 
+    - added reference to Computer in ComputerData
+  * Display :
+    - removed circular dependency between display and displayogre
+    - added target identification + target targeting
+  * Physic : 
+    - changed to constant timestep, modified tests 
+    - modified collision system : mesh are approximated by their bouding sphere 
+      for solid collision but keep their form for solid/laser collision
+
+2008-05-16 rogma
+  
+  * Kernel : 
+    - corrected a bug on DeducedTrait::getLatestUpdatedTrait (test added)
+    - corrected an enormous bug on all static registration (view registration,
+      controler, deduced traits...) : the previous implementation was assuming 
+      a given initialisation order for static class variables; which is not the 
+      case in C++. The solution resides in a singleton constructed as a static 
+      local variable of the singleton::get method, @see cppunit implementation.   
+  * ArtificialIntelligence : 
+     - corrected bug : when the first target is destroyed, the second one is 
+       not attacked
+     - corrected bug : with two ships only : they are nor attacking each other
+     - corrected bug : incorrect vehicle position update due to bug on 
+       DeducedTrait::getLatestUpdatedTrait
+
+2008-05-21 rogma
+
+  * All : 
+    - modifications for windows compiling
+  * Sound : 
+    - separated tests into several test suites
+    - Manager : choose of reader is made on extension
+    - added efx mocking for linux compiling : under linux does nothing, but 
+      efx is activated on windows. Two tests are not launched because they 
+      would require two much refactoring.
+	  - used Ogre resource manager to retreive sound files : they should be now 
+	    put in Media subfolders and registered through ressources.cfg
+    - moved deduced trait to sound::implementation level, renamed views
+	  - added audio ressources in Media
+	* Model :
+	  - renamed Hearing into Listener
+
+2008-05-24 rogma
+
+  * Sound :
+    - added sound event basic test
+  * Kernel : 
+    - added deduced trait on parentship : HasParent(T) is true iff object has 
+      trait T or if a parent has trait T. It is updated whenever getParent<T> 
+      returns a different object or getParent<T> is the same but this T has 
+      been updated.  
+    	For example HasParent(Positionned) should be used instead of 
+    	HasTrait(Positionned) allowing to skip Positionned trait for sub 
+    	objects...
+  * Display :
+    - added space dust effect on Observer to show speed to user
+
+2008-07-03 rogma
+
+  * All :
+    - added 'make doxygen-doc' for doxygen documentation generation 
+  * Kernel :
+    - added RegisterViewPoint and RegisterControlerSet : the idea is to declare 
+      "global" viewpoints and controler sets such as Display, Sound, Physic, ...
+      that are automaticaly built on any "global" model provided it has been 
+      declared and viewpoint is built with a model parameter
+    - added Object interface for adding sub-objects, traits ... no need to go 
+      through Model anymore
+    - viewpoints and controlers are destroyed when associated model is
+    - removing of old dated interface
+    - viewpoints are initialised first and destroyed last (a quite bad hack for 
+      intialising Display before Input)
+    - Bug correction : valgrind reported memory errors on tests (deduce traits)
+      initial evaluation of formulae accessed to Trait validity whereas Trait 
+      validity is not stored into the validity vector of object
+  * Game
+    - initial creation
+    - GameState represents splash screen, menu, and game 
+    - added basic controler for quitting game state, transition to other state
+  * Model :
+    - added Player trait 
+    - removed testDemonstration because it is quite obsolete
+    - adapted tests to new system, removed all call to Model::init(), 
+      Model::update(), Model:close()
+    - added PlayerConfiguration trait to store input/command mapping
+    - added CustomMission to represent configurable melee (still beta)
+    - added GameState to be able to quit
+    - added Image to make spash screens
+  * Display :
+    - modified construction of display viewpoint, Observer is obtained by 
+      searching Player + Observer trait
+    - adapted tests to new system, removed all calls to init(), update(), 
+      close() of modules
+    - modified Ogre intialisation : Ogre is initialised on the first display 
+      viewpoint initialisation, and closed either at demand or at the end of 
+      the program.  
+    - added Image display
+  * Physic :
+    - modified construction of controler set, no observer needed.
+    - corrected a bug on PhysicalObject : initial value of m_being_updated was 
+      random
+    - adapted tests to new system, removed all calls to init(), update(), 
+      close() of modules
+    - added initOde, closOde in PhysicSystem init/close
+    - added deduced view on Solid and PhysicalObjetc to correct a bug : 
+      when adding Solid trait before PhysicalObject was deduced, solid where 
+      attached to "nothing"
+  * ArtificialIntelligence :
+    - modified construction of controler set, no observer needed.
+    - adapted tests to new system, removed all calls to init(), update(), 
+      close() of modules
+  * Input :
+    - changed input to a controler set
+    - made a controler on Player using PlayerConfiguration to get 'key'/command 
+      mapping
+    - added GameState controler : always quit on escape key
+    - added basic tests
+    - added Menu input injection (keyboard and mouse)
+  * Demonstration :
+    - modified to use Game module
+
+2008-07-03 rogma
+  
+  * All : 
+    - removed non iso characters and some french in the comments
+    - changed some typo in comments
+    - removed some obsolete files
+
+2008-07-03 rogma
+
+  * Model :
+    - removed position from Collision, now use a Positionned trait instead
+  * Input :
+    - corrected bugs in menu inputs
+
+2008-07-05 rogma
+  
+  * All :
+    - corrected bug on windows : a DLL without an entry point has no way to 
+      initialize static variables except for very simple types such as 
+      integers. Caused some deduced traits not to be registered. Solution 
+      reside in having only one dynamic library for each module. 
+
+  * Sound :
+    - made OpenAl initialised only once.
+
+2008-07-05 rogma
+  
+  * All :
+    - corrected bug on windows : libraries need entry point in order to have 
+      static initialisation called 
+
+2008-07-08 rogma
+  
+  * All :
+    - added terminate entry point to all viewpoints/controler sets 
+    - added entry point calls in all tests
+    - added automatic generation of Ogre plugins.cfg by discovering plugin path
+  * sound
+    - changed tests : all in one executable
+    - terminate destroy all OpenAL system
+  * Input :
+	- corrected failure whith no joystick
+
+2008-07-08 rogma (version 0.3.1)
+  
+  * All : 
+    - tagging version 0.3.1
+
+    
+@todo :
+
+  
+  * All : 
+    - add Game controler and trait for handling team respawn ...
+    - considered in a lot of places that Z axis is forward... whereas Ogre 
+      consider negative Z as forward ??? 
+    
+  * Game :  
+    - add a pause game state (does not close the system but does not update, but 
+      how to collect inputs in that case ???)
+     
+  * Model : 
+    - Event traits like Collision, Shot should be implemented through 
+      WithLifetime with a life time of zero
+         
+    - ShootingHelper may connect several lasers (calculus is made on 
+      average speed) and can harmonize lasers (re-orient them to touch a 
+      position in the ship axe and at target distance)
+
+    - Laser whould not be able to be too much synchronized (max angle)
+
+    - Lasers on a ship should all point to the same direction, which is the 
+      direction of the ship ... coherence test
+
+    - add configurable laser colour (depending of laser beam type)
+    
+    - Detector : handle of additional data (hit points, ...)
+      They can both be obtained by the detector. Maybe we should use traits 
+      instead of class attributes for increasing extendability (by adding speed 
+      ...). Detectors could then be caractrized by their detection abilities :
+      SpeedDetector&MassDetector... but it is not clear now
+
+    - be able to get bouding box (?) and perform ray 
+      casting inside Model. Code could rely on Ogre but we would be an 
+      encapsulation.
+    
+    - a Player trait ? For now the Observer trait plays this role
+    
+    - Menu handling
+    
+    - should define isInside like 
+      IsInside <=> parent(Positionned ^ Sized) ^ Positionned
+      i.e., being decendent means that we are inside 
+      changing node position can then move object hierarchy
+    
+    - PhysicalWorld <=> Whole ??
+      PhysicalObject should not depend on mobile ?
+    
+    - remove position from collision trait, use Positionned instead  
+
+  * Display :
+    - seg fault when having an Oriented object that is not Positionned, use 
+      a deduction like : Oriented and HasParent(Positionned) 
+    - all Solid parent of an Observer invisible : but only in the case it is 
+      the current observer
+    - when initing ogre, close any already openned ogre objects in other 
+      modules
+    - replace display::init(bool) with an enum
+    - find a way to preload ressources as needed (some ressources may appear 
+      during game like explosions, lasers) some ressources are known like 
+      ships...
+    - make a loading bar : create a ressource loading queue (inspire from 
+      Ogre::ResourceBackgroundQueue that is not by default on ogre package)  
+    
+  * Input :
+    - be able to map any axis on anything
+    - send wheel mouse to CEGUI
+  
+  * Action :
+    - get rid of it ?? the only applied action for now is "quit", it could be 
+      transfered elsewhere maybe ...
+    
+  * Physic : 
+    - bug : Physic::init() then Physic::build() works but not the inverse
+    - try to keep all units in an acceptable "range", it means that we whould 
+      be able to convert model units in an arbitrary "ranging system".
+    - migrate Model::PhysicalObject and Model::PhysicalWorld to Physic (for 
+      better separation of concerns) --> not so sure ?
+    - separate simulations : maybe objects can be simulated one by one in its 
+      own world !! should not have any complication for movement except for 
+      collision response. This could facilitate unit range to keep around one.
+    - add deduced trait for solid controler : allow adding of solid trait 
+      before physical object
+    - be more precise than bounding sphere for collision : use bounding box for 
+      example 
+    
+  * Sound : 
+    - reconsider the implementation with the limitation 
+	- check that Positionned is correctly used, I suspect that position update 
+	  is not done when a ship moves while containing the listener
+	- engine sound does not weem to work ?
+    - change Engine gain accoarding to engine "power" and current applied 
+      throttle
+    - add Shot sound
+    
+  * Kernel :
+    
+    - refactoring : viewpoint and controler set have a lot in common...
+    - add better errors on object structure
+    
+    - add an onDeduced event on deduced traits : it would allow one to perform 
+      custom code, for example to calculate deduced attribute in those traits. 
+      e.g., Solid <=> Sized, and Sized.size = Solid.Mesh.radius
+      Not mandatory because it can be calculate "on demand" in a getSize method 
+      in the deduced trait with a mutable attribute. 
+      --> obsolete kept for documentation purpose
+    
+  * all :
+    - make use of Quantities library, 
+      @see http://sourceforge.net/projects/quantity ??
+    - correct the coordinate system; Stick/Throttle must use correct 
+      orientation 
+
+  
