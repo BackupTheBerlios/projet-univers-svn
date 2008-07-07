@@ -708,11 +708,6 @@
   * Input :
     - corrected bugs in menu inputs
 
-2008-07-05 rogma (version 0.3.1)
-  
-  * All : 
-    - tagging version 0.3.1
-
 2008-07-05 rogma
   
   * All :
@@ -741,6 +736,12 @@
     - terminate destroy all OpenAL system
   * Input :
 	- corrected failure whith no joystick
+
+2008-07-08 rogma (version 0.3.1)
+  
+  * All : 
+    - tagging version 0.3.1
+
     
 @todo :
 
