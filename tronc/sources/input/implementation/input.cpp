@@ -41,6 +41,11 @@ namespace ProjetUnivers {
       
     }
 
+    void terminate()
+    {
+      
+    }
+    
     namespace {
       
       /// Destroy local objects
@@ -194,24 +199,30 @@ namespace ProjetUnivers {
     std::set<Model::PlayerConfiguration::InputEvent> getEvents()
     {
       std::set<Model::PlayerConfiguration::InputEvent> result ;
-      result.insert(keyboard_listener->getEvents().begin(),
-                    keyboard_listener->getEvents().end()) ;
-      result.insert(mouse_listener->getEvents().begin(),
-                    mouse_listener->getEvents().end()) ;
-      result.insert(joystick_listener->getEvents().begin(),
-                    joystick_listener->getEvents().end()) ;
+      if (keyboard_listener.get())     
+        result.insert(keyboard_listener->getEvents().begin(),
+                      keyboard_listener->getEvents().end()) ;
+      if (mouse_listener.get())     
+        result.insert(mouse_listener->getEvents().begin(),
+                      mouse_listener->getEvents().end()) ;
+      if (joystick_listener.get())     
+        result.insert(joystick_listener->getEvents().begin(),
+                      joystick_listener->getEvents().end()) ;
       return result ;
     }
     
     std::map<Model::PlayerConfiguration::InputAxis,Kernel::Percentage> getAxes()
     {
       std::map<Model::PlayerConfiguration::InputAxis,Kernel::Percentage> result ;
-      result.insert(keyboard_listener->getAxes().begin(),
-                    keyboard_listener->getAxes().end()) ;
-      result.insert(mouse_listener->getAxes().begin(),
-                    mouse_listener->getAxes().end()) ;
-      result.insert(joystick_listener->getAxes().begin(),
-                    joystick_listener->getAxes().end()) ;
+      if (keyboard_listener.get())     
+        result.insert(keyboard_listener->getAxes().begin(),
+                      keyboard_listener->getAxes().end()) ;
+      if (mouse_listener.get())     
+        result.insert(mouse_listener->getAxes().begin(),
+                      mouse_listener->getAxes().end()) ;
+      if (joystick_listener.get())     
+        result.insert(joystick_listener->getAxes().begin(),
+                      joystick_listener->getAxes().end()) ;
       return result ;
     }
     

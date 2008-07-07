@@ -25,11 +25,22 @@
 #include <kernel/parameters.h>
 #include <kernel/log.h>
 
+#include <display/display.h>
+#include <physic/physic.h>
+#include <artificial_intelligence/artificial_intelligence.h>
+#include <input/input.h>
+#include <model/model.h>
+
 int 
 main( int argc, char* argv[] )
 {
   ProjetUnivers::Kernel::Parameters::load("test.config") ;
   ProjetUnivers::Kernel::Log::init() ;
+  ProjetUnivers::Model::start() ;
+  ProjetUnivers::Physic::start() ;
+  ProjetUnivers::Display::start() ;
+  ProjetUnivers::Input::start() ;
+  ProjetUnivers::ArtificialIntelligence::start() ;
   
   // if command line contains "-selftest" then this is the post build check
   // => the output must be in the compiler error format.

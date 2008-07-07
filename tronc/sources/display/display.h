@@ -36,6 +36,11 @@ namespace ProjetUnivers {
   */ 
   namespace Display {
     
+    /// Init the module.
+    void start() ;
+    
+    /// Terminate the module.
+    void terminate() ;
     
   }
   

@@ -58,7 +58,7 @@ namespace ProjetUnivers {
         
         void Collision::onInit()
         {
-          this->initSound();
+          this->initSound(getViewPoint());
         }
                     
         void Collision::onClose()
@@ -68,7 +68,7 @@ namespace ProjetUnivers {
                     
         void Collision::onUpdate()
         {
-          this->updateSource();
+          this->updateSource(getViewPoint());
         } 
       
       }

@@ -18,6 +18,9 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <OgreStringConverter.h>
+#include <kernel/log.h>
+#include <kernel/string.h>
 #include <kernel/algorithm.h>
 
 namespace ProjetUnivers {
@@ -51,6 +54,8 @@ namespace ProjetUnivers {
           const float& interceptor_speed)
       {
         
+		InternalMessage("Kernel","calculateInterceptionTime(" + Ogre::StringConverter::toString(target_position) + 
+		                         "," + Ogre::StringConverter::toString(target_speed) + "," + toString(interceptor_speed)) ;
         // result ;
         float time = 0 ;
         
@@ -66,11 +71,12 @@ namespace ProjetUnivers {
                   +pow(interceptor_speed,2)*pow(target_position.z,2)
                   +pow(interceptor_speed,2)*pow(target_position.y,2)
                   +pow(interceptor_speed,2)*pow(target_position.x,2) ;
+
+		  InternalMessage("Kernel","target_speed.squaredLength()=" + toString(target_speed.squaredLength())) ; 
           
-          float divisor = pow(target_speed.z,2)+pow(target_speed.y,2)+pow(target_speed.x,2)-pow(interceptor_speed,2) ;
+          float divisor = target_speed.squaredLength()-pow(interceptor_speed,2) ;
           
-          
-          if (delta > 0 && fabs(divisor)>1e-10 != 0)
+          if (delta > 0 && fabs(divisor) > 1e-10)
           {
             float b = -target_position.z*target_speed.z-target_position.y*target_speed.y-target_position.x*target_speed.x ;
             time = (sqrt(delta)+b)/divisor ;

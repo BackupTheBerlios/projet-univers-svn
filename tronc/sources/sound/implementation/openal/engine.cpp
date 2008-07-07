@@ -74,7 +74,7 @@ namespace ProjetUnivers {
                   
         void Engine::onInit()
         {
-          this->initSound();
+          this->initSound(getViewPoint());
         }
                     
         void Engine::onClose()
@@ -84,13 +84,13 @@ namespace ProjetUnivers {
                     
         void Engine::onUpdate()
         {
-          this->updateSource();
+          this->updateSource(getViewPoint());
         }
         
         void Engine::onChangeParent(Kernel::Object* i_old_parent)
         {
           InformationMessage("Sound","call onChangeParent") ;
-          this->changeParentSource() ;
+          this->changeParentSource(getViewPoint()) ;
         }
       
       }

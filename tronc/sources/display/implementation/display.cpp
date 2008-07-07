@@ -47,5 +47,14 @@ namespace ProjetUnivers {
     {
       Implementation::Ogre::injectKey(key_code) ;
     }
+	
+    void start()
+    {
+    }
+
+    void terminate()
+    {
+    }
+    
   }
 }

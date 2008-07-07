@@ -32,6 +32,9 @@ namespace ProjetUnivers {
     
     /// Start the module.
     void start() ;
+
+    /// Terminate the module.
+    void terminate() ;
     
   }
 }

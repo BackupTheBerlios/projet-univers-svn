@@ -26,10 +26,14 @@
 
 namespace ProjetUnivers {
   namespace Sound {
-
+    
     void start()
     {
-      
+    }
+    
+    void terminate()
+    {
+      Implementation::OpenAL::close() ;
     }
   }
 }

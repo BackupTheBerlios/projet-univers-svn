@@ -19,6 +19,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include <map>
+#include <iostream>
 
 #include <kernel/log.h>
 #include <kernel/string.h>
@@ -41,7 +42,6 @@ namespace ProjetUnivers {
         bool initialised = false ;
         
         std::auto_ptr<Manager> manager;
-        RealWorldViewPoint*  sound_system ;
         
         namespace 
         {
@@ -125,7 +125,6 @@ namespace ProjetUnivers {
             
             ~SoundSystem()
             {
-              delete sound_system ;
               manager.reset(NULL) ;
 
               // Desactivate context
@@ -166,7 +165,7 @@ namespace ProjetUnivers {
         void close()
         {
           InternalMessage("Sound","Sound::OpenAL::close entering") ;
-          // nothing to do : closing is done at the end of the program
+          system.reset(NULL) ;
           InternalMessage("Sound","Sound::OpenAL::close leaving") ;
         }
     
@@ -193,12 +192,7 @@ namespace ProjetUnivers {
             return "Unable to allocate memory" ;
           }
         }
-        
-        Kernel::ViewPoint* getViewPoint()
-        {
-          return sound_system ;  
-        }
-        
+
         Manager* getManager()
         {
           return manager.get() ;

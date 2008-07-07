@@ -59,7 +59,6 @@
 #include <physic/physic.h>
 
 #include <artificial_intelligence/artificial_intelligence.h>
-#include <artificial_intelligence/implementation/artificial_intelligence_internal.h>
 #include <artificial_intelligence/implementation/agent.h>
 #include <artificial_intelligence/implementation/autonomous_agent.h>
 #include <artificial_intelligence/test/test_model_controler.h>

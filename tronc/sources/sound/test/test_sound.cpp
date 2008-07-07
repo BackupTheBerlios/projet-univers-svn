@@ -25,11 +25,14 @@
 #include <kernel/log.h>
 #include <kernel/parameters.h>
 
+#include <sound/sound.h>
+
 int 
 main( int argc, char* argv[] )
 {
   ProjetUnivers::Kernel::Parameters::load("sound.config") ;
   ProjetUnivers::Kernel::Log::init() ;
+  ProjetUnivers::Sound::start() ;
   
   // if command line contains "-selftest" then this is the post build check
   // => the output must be in the compiler error format.
@@ -52,6 +55,8 @@ main( int argc, char* argv[] )
   // Run the test.
   bool wasSucessful = runner.run( "" );
 
+  ProjetUnivers::Sound::terminate() ;
+  
   ProjetUnivers::Kernel::Log::close() ;
 
 

@@ -93,6 +93,10 @@ PKG_CHECK_MODULES(libXML, [libxml-2.0 >= 2.0])
 AC_SUBST(libXML_LIBS)
 AC_SUBST(libXML_CFLAGS)
 
+# Global c++ variable :
+PU_CXXFLAGS="$OGRE_CFLAGS $OIS_CFLAGS $librlog_CFLAGS $CEGUI_OGRE_CFLAGS $libXML_CFLAGS"
+AC_SUBST(PU_CXXFLAGS)
+
 # check clanlib
 AC_PATH_PROG(CLANLIB_CONFIG, clanlib-config, no)
 if test "x$CLANLIB_CONFIG" = xno; then
@@ -105,9 +109,18 @@ else
 fi
 AM_CONDITIONAL(HAVE_CLANLIB, test "x$CLANLIB_CONFIG" != "xno")
 
-# Global c++ variable :
-PU_CXXFLAGS="$OGRE_CFLAGS $OIS_CFLAGS $librlog_CFLAGS $CEGUI_OGRE_CFLAGS $libXML_CFLAGS"
-AC_SUBST(PU_CXXFLAGS)
+# ogre plugin configuration generates plugin.cfg
+if test "x$build_os" = xmingw32; then
+  # windows mingw
+  ogre_path=`find / -name "RenderSystem_GL.dll" | sed -e 's/RenderSystem_GL.dll//'`
+  AC_SUBST(OGRE_PLUGIN_FOLDER,`./winpath.sh $ogre_path`)
+  AC_SUBST(OGRE_PLUGIN_EXTENSION,"dll")
+else
+  # default linux
+  AC_SUBST(OGRE_PLUGIN_FOLDER,`find /usr -name "RenderSystem_GL.so" | sed -e 's/RenderSystem_GL.so//'`)
+  AC_SUBST(OGRE_PLUGIN_EXTENSION,"so")
+fi
+
 
 ##################
 # Config used libs
@@ -132,12 +145,16 @@ AC_CONFIG_FILES([Makefile \
                  sources/model/compilation/Makefile \
                  sources/display/Makefile \
                  sources/display/compilation/Makefile \
+                 sources/display/compilation/plugins.cfg \
                  sources/demonstration/Makefile \
                  sources/demonstration/compilation/Makefile \
+                 sources/demonstration/compilation/plugins.cfg \
                  sources/game/Makefile \
                  sources/game/compilation/Makefile \
+                 sources/game/compilation/plugins.cfg \
                  sources/input/Makefile \
                  sources/input/compilation/Makefile \
+                 sources/input/compilation/plugins.cfg \
                  sources/physic/Makefile \
                  sources/physic/compilation/Makefile \
                  sources/sound/Makefile \

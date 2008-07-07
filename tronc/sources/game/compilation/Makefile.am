@@ -40,7 +40,7 @@ test_game_SOURCES = \
 ../test/test_game.cpp \
 ../test/test_game_state.cpp 
 
-test_game_CXXFLAGS = $(PU_CXXFLAGS) 
+test_game_CXXFLAGS = $(CPPUNIT_CFLAGS) $(PU_CXXFLAGS) 
 test_game_LDADD = \
 $(SOURCES)/kernel/compilation/libkernel.la \
 $(SOURCES)/model/compilation/libmodel.la \

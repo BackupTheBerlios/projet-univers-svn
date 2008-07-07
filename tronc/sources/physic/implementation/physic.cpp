@@ -27,6 +27,11 @@ namespace ProjetUnivers {
     {
       
     }
+
+    void terminate()
+    {
+      
+    }
     
   }
 }

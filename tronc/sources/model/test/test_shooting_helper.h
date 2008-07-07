@@ -93,19 +93,19 @@ namespace ProjetUnivers {
       
         CPPUNIT_TEST_SUITE(TestShootingHelper) ;
 
-        CPPUNIT_TEST(basicTest) ;
-        CPPUNIT_TEST(testMovingFront) ;
+//        CPPUNIT_TEST(basicTest) ;
+//        CPPUNIT_TEST(testMovingFront) ;
         CPPUNIT_TEST(testMovingUnshootable) ;
-        CPPUNIT_TEST(testMovingLateral) ;
-        CPPUNIT_TEST(testMovingLateralWithRotation) ;
-        CPPUNIT_TEST(destroyComputer) ;
-        CPPUNIT_TEST(destroyLaser) ;
-        CPPUNIT_TEST(deconnectComputer) ;
-        CPPUNIT_TEST(testShootable) ;
-        CPPUNIT_TEST(testShootableWithRotation) ;
-        CPPUNIT_TEST(testNotShootableBehind) ;
-        CPPUNIT_TEST(testNotShootableOnTheSide) ;
-        CPPUNIT_TEST(testShootableOnTheSide) ;
+        // CPPUNIT_TEST(testMovingLateral) ;
+        // CPPUNIT_TEST(testMovingLateralWithRotation) ;
+        // CPPUNIT_TEST(destroyComputer) ;
+        // CPPUNIT_TEST(destroyLaser) ;
+        // CPPUNIT_TEST(deconnectComputer) ;
+        // CPPUNIT_TEST(testShootable) ;
+        // CPPUNIT_TEST(testShootableWithRotation) ;
+        // CPPUNIT_TEST(testNotShootableBehind) ;
+        // CPPUNIT_TEST(testNotShootableOnTheSide) ;
+        // CPPUNIT_TEST(testShootableOnTheSide) ;
 
         CPPUNIT_TEST_SUITE_END() ;
       

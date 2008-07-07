@@ -728,8 +728,20 @@
   
   * All :
     - corrected bug on windows : libraries need entry point in order to have 
-      static initialistation called 
-     
+      static initialisation called 
+
+2008-07-08 rogma
+  
+  * All :
+    - added terminate entry point to all viewpoints/controler sets 
+    - added entry point calls in all tests
+    - added automatic generation of Ogre plugins.cfg by discovering plugin path
+  * sound
+    - changed tests : all in one executable
+    - terminate destroy all OpenAL system
+  * Input :
+	- corrected failure whith no joystick
+    
 @todo :
 
   
@@ -819,6 +831,9 @@
     
   * Sound : 
     - reconsider the implementation with the limitation 
+	- check that Positionned is correctly used, I suspect that position update 
+	  is not done when a ship moves while containing the listener
+	- engine sound does not weem to work ?
     - change Engine gain accoarding to engine "power" and current applied 
       throttle
     - add Shot sound

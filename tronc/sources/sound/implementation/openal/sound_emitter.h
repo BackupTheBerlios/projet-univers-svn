@@ -23,6 +23,7 @@
 
 #include <AL/al.h>
 
+#include <kernel/view_point.h>
 #include <model/position.h>
 #include <model/orientation.h>
 #include <model/speed.h>
@@ -53,16 +54,16 @@ namespace ProjetUnivers {
         // @{
 
           /// Initialise an openAL source for the sound
-          void initSound() ;
+          void initSound(Kernel::ViewPoint*) ;
           
           /// Launch the source
-          void startSound() ;
+          void startSound(Kernel::ViewPoint*) ;
           
           /// Update the source informations
-          void updateSource() ;
+          void updateSource(Kernel::ViewPoint*) ;
           
           /// Update the source environnement
-          void changeParentSource() ;
+          void changeParentSource(Kernel::ViewPoint*) ;
           
           /// Stop the source
           void stopSound() ;

@@ -57,7 +57,7 @@ namespace ProjetUnivers {
                   
         void BackgroundSound::onInit()
         {
-          this->initSound();
+          this->initSound(getViewPoint());
         }
                     
         void BackgroundSound::onClose()
@@ -67,7 +67,7 @@ namespace ProjetUnivers {
                     
         void BackgroundSound::onUpdate()
         {
-          this->updateSource();
+          this->updateSource(getViewPoint());
         } 
       
       }

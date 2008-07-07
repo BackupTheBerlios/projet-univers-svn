@@ -87,9 +87,15 @@ namespace ProjetUnivers {
           // now it is relative to laser object
           speed = getRelativeOrientation(laser_object,world).getQuaternion().Inverse()*speed ;
           
+          InternalMessage("Model","calculateInterceptionTime(" + Ogre::StringConverter::toString(position) 
+		                          + "," + Ogre::StringConverter::toString(speed) + "," + Kernel::toString(laser_speed) +")") ;
+
           std::pair<bool,float> reachable_time = 
             Kernel::Algorithm::calculateInterceptionTime(position,speed,laser_speed) ;
           
+          InternalMessage("Model",std::string("calculated interception time=") + (reachable_time.first?"true ":"false") 
+                                  + "," + Kernel::toString(reachable_time.second)) ;
+		  
 
           if (! reachable_time.first)
           {

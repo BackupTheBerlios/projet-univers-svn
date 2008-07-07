@@ -9,3 +9,6 @@ input \
 game \
 demonstration 
 	
+install-data-local:
+	cp -r media $(datadir)/media
+	

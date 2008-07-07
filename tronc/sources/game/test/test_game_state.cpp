@@ -25,6 +25,7 @@
 
 #include <model/game_state.h>
 #include <model/with_lifetime.h>
+#include <model/model.h>
 
 #include <game/game.h>
 #include <game/game_state.h>
@@ -113,7 +114,8 @@ namespace ProjetUnivers {
       }
       
       void TestGameState::setUp()
-      {}
+      {
+      }
 
       void TestGameState::tearDown()
       {}

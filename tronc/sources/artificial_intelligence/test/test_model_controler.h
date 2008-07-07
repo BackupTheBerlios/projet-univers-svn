@@ -78,12 +78,12 @@ namespace ProjetUnivers {
         CPPUNIT_TEST_SUITE(TestModelControler) ;
 
         CPPUNIT_TEST(build) ;
-        CPPUNIT_TEST(simulate) ;
         CPPUNIT_TEST(buildWithoutElements) ;
         CPPUNIT_TEST(attackAllEnemies) ;
         CPPUNIT_TEST(twoShips) ;
         CPPUNIT_TEST(groupAttack) ;
         CPPUNIT_TEST(testPositionUpdate) ;
+        CPPUNIT_TEST(simulate) ;
         
         CPPUNIT_TEST_SUITE_END() ;
 

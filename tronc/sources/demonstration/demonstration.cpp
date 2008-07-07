@@ -33,10 +33,12 @@
 #include <game/game.h>
 #include <game/game_state.h>
 
+#include <display/display.h>
 #include <physic/physic.h>
 #include <artificial_intelligence/artificial_intelligence.h>
 #include <sound/sound.h>
 #include <input/input.h>
+
 
 using namespace ProjetUnivers ;
 
@@ -65,10 +67,12 @@ int main() {
   Kernel::Parameters::load("demonstration.config") ;
   Kernel::Log::init() ;
   Physic::start() ;
+  Display::start() ;
   Input::start() ;
   Sound::start() ;
   ArtificialIntelligence::start() ;
   Model::start() ;
+  
   
   InformationMessage("Demonstration","Starting of projet univers") ;
   Game::Game game ;
@@ -95,6 +99,12 @@ int main() {
   welcome->activate() ;
   game.run() ;
 
+  ArtificialIntelligence::terminate() ;
+  Sound::terminate() ;
+  Input::terminate() ;
+  Display::terminate() ;
+  Physic::terminate() ;
+  
   /// out
   InformationMessage("Demonstration","Modules closed") ;
   Kernel::Log::close() ;

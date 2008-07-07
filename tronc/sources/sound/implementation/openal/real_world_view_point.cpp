@@ -43,7 +43,6 @@ namespace ProjetUnivers {
         
         void RealWorldViewPoint::onClose()
         {
-          Implementation::OpenAL::close() ;
         }
         
         void RealWorldViewPoint::update(const float&)

@@ -56,7 +56,8 @@ int main( int argc, char* argv[] )
     Input::update() ;
     if (timer.getSecond() > 0.2)
     {
-      displayAxes(Input::getJoystick()->getAxes()) ;
+      if (Input::getJoystick())
+        displayAxes(Input::getJoystick()->getAxes()) ;
       timer.reset() ;
     }
   }

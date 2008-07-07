@@ -45,7 +45,7 @@ namespace ProjetUnivers {
           m_reader(0), m_posInFile(0), m_posInBuffer(0)
         {}
               
-        void SoundEmitter::initSound()
+        void SoundEmitter::initSound(Kernel::ViewPoint* viewpoint)
         {
           InformationMessage("Sound","SoundEmitter::initSound entering") ;
           if(!m_source)
@@ -57,21 +57,21 @@ namespace ProjetUnivers {
                                                   isEvent(), m_posInFile, 
                                                   m_posInBuffer) ;
             alSourcei(m_source, AL_SOURCE_RELATIVE, AL_FALSE) ;
-            updateSource();   
+            updateSource(viewpoint);   
           } 
           InformationMessage("Sound","SoundEmitter::initSound leaving") ; 
         }
         
-        void SoundEmitter::startSound()
+        void SoundEmitter::startSound(Kernel::ViewPoint* viewpoint)
         {
           if(!m_source)
           {
-            initSound() ;
+            initSound(viewpoint) ;
           }
           alSourcePlay(m_source);
         }
         
-        void SoundEmitter::updateSource()
+        void SoundEmitter::updateSource(Kernel::ViewPoint* viewpoint)
         {
           ALint state;
           alGetSourcei(m_source, AL_SOURCE_STATE, &state);
@@ -122,7 +122,7 @@ namespace ProjetUnivers {
             Model::SoundEnvironnement* env  = getObject()->getParent<Model::SoundEnvironnement>() ;
             if(env)
             {
-              SoundEnvironnement* envView  = env->getView<SoundEnvironnement>(getViewPoint()) ;
+              SoundEnvironnement* envView  = env->getView<SoundEnvironnement>(viewpoint) ;
               if(envView)
               {
                 ALuint auxEffectSlot = envView->getAuxEffectSlot() ; 
@@ -148,11 +148,11 @@ namespace ProjetUnivers {
           
           if(isActive() && (state == AL_STOPPED || state == AL_INITIAL)) 
           {
-            startSound();
+            startSound(viewpoint);
           }
         }
         
-        void SoundEmitter::changeParentSource()
+        void SoundEmitter::changeParentSource(Kernel::ViewPoint* viewpoint)
         {
           
           InformationMessage("Sound","SoundEmitter::changeParent : enter") ;
@@ -160,7 +160,7 @@ namespace ProjetUnivers {
           Model::SoundEnvironnement* env  = getObject()->getParent<Model::SoundEnvironnement>() ;
             if(env)
             {
-              SoundEnvironnement* envView  = env->getView<SoundEnvironnement>(getViewPoint()) ;
+              SoundEnvironnement* envView  = env->getView<SoundEnvironnement>(viewpoint) ;
               if(envView)
               {
                 ALuint auxEffectSlot = envView->getAuxEffectSlot() ; 

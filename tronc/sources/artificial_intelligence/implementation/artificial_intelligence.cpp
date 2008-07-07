@@ -28,44 +28,10 @@ namespace ProjetUnivers {
     {
       
     }
-    
-    std::auto_ptr<Implementation::AISystem> m_viewPoint ;
-    
-    bool init()
+
+    void terminate()
     {
-      if(m_viewPoint.get())
-      {
-        m_viewPoint->init() ;
-      }
-    }
-    
-    void close()
-    {
-      if(m_viewPoint.get())
-      {
-        m_viewPoint->close() ;
-      }
-    }
-  
-    void build(Kernel::Object* observer)
-    {
-      m_viewPoint.reset(new Implementation::AISystem(observer->getModel())) ;
-    }
-    
-    void update(const Model::Duration& duration)
-    {
-      if (m_viewPoint.get())
-      {
-        m_viewPoint->simulate(duration.Second()) ;
-      }
-    }
-    
-    namespace Implementation {
       
-      AISystem* getAISystem()
-      {
-        return m_viewPoint.get() ;
-      }
     }
     
   }

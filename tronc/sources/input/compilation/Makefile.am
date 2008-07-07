@@ -24,7 +24,10 @@ $(SOURCES)/display/compilation/libdisplay.la \
 $(SOURCES)/model/compilation/libmodel.la \
 $(OIS_LIBS) \
 $(OGRE_LIBS) \
-$(librlog_LIBS)
+$(librlog_LIBS) \
+$(CEGUI_LIBS) \
+$(CEGUI_OGRE_LIBS) \
+-lCEGUIFalagardWRBase
 
 TESTS = test_input 
 
@@ -43,4 +46,5 @@ $(SOURCES)/kernel/compilation/libkernel.la \
 $(SOURCES)/display/compilation/libdisplay.la \
 $(SOURCES)/input/compilation/libinput.la \
 $(SOURCES)/model/compilation/libmodel.la \
-$(OIS_LIBS)
+$(OIS_LIBS) 
+
