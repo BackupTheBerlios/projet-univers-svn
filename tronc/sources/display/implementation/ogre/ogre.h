@@ -23,6 +23,7 @@
 
 #include <Ogre.h>
 #include <OgreCEGUIRenderer.h>
+#include <display/display.h>
 
 namespace ProjetUnivers {
   namespace Display {
@@ -35,7 +36,7 @@ namespace ProjetUnivers {
       namespace Ogre {  
   
         /// Ogre initialisation.
-        bool init(bool choose_display = true) ;
+        bool init(DisplayStartingMode mode = DefaultRenderer) ;
         
         /// Close Ogre.
         void close() ;

@@ -38,7 +38,7 @@ namespace ProjetUnivers {
       {
         InternalMessage("Input","Input::TestInputSystem::severalInitClose entering") ;
 
-        Display::Implementation::Ogre::init(false) ;
+        Display::Implementation::Ogre::init() ;
         Input::init() ;
         Input::close() ;
         Input::init() ;

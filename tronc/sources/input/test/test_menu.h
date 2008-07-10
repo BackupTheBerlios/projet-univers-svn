@@ -64,7 +64,7 @@ namespace ProjetUnivers {
     
         CPPUNIT_TEST_SUITE(TestMenu) ;
       
-        CPPUNIT_TEST(mouseCursor) ;
+//        CPPUNIT_TEST(mouseCursor) ;
       
         CPPUNIT_TEST_SUITE_END() ;
       // @}      

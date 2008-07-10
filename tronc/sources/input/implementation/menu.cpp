@@ -31,6 +31,13 @@ namespace ProjetUnivers {
       
       RegisterControler(Menu,Model::Menu,InputControlerSet) ;
 
+      /// Specialized command interpretor for CEGUI 
+      class CommandInterpretor : CEGUI::ScriptModule
+      {
+      public:
+        
+      };
+      
       CEGUI::MouseButton convertOgreButtonToCegui(OIS::MouseButtonID buttonID)
       {
           switch (buttonID)

@@ -20,6 +20,7 @@
  ***************************************************************************/
 #include <kernel/log.h>
 #include <kernel/string.h>
+#include <kernel/parameters.h>
 
 #include <input/implementation/mouse.h>
 
@@ -30,9 +31,9 @@ namespace ProjetUnivers {
 
       bool Mouse::mouseMoved(const OIS::MouseEvent& event)
       {
-        m_axes[Model::PlayerConfiguration::InputAxis::mouseAxis(X)] += event.state.X.rel ;
-        m_axes[Model::PlayerConfiguration::InputAxis::mouseAxis(Y)] += event.state.Y.rel ;
-        m_axes[Model::PlayerConfiguration::InputAxis::mouseAxis(Z)] += event.state.Z.rel ;
+        m_axes[Model::PlayerConfiguration::InputAxis::mouseAxis(X)] += int(event.state.X.rel*m_sensibility) ;
+        m_axes[Model::PlayerConfiguration::InputAxis::mouseAxis(Y)] += int(event.state.Y.rel*m_sensibility) ;
+        m_axes[Model::PlayerConfiguration::InputAxis::mouseAxis(Z)] += int(event.state.Z.rel*m_sensibility) ;
         return true ;
       }
       
@@ -68,9 +69,19 @@ namespace ProjetUnivers {
         m_button_released.clear() ;
       }
       
-      Mouse::Mouse(const float& i_sensibility)
-      : m_sensibility(i_sensibility)
+      Mouse::Mouse()
+      : m_sensibility(1)
       {
+        try 
+        {
+          float sensibility = Kernel::Parameters::getValue<float>("Input","MouseSensibility");
+          m_sensibility = sensibility ;
+        }
+        catch(...)
+        {
+          
+        }
+        
         m_axes[Model::PlayerConfiguration::InputAxis::mouseAxis(X)] = 0 ;
         m_axes[Model::PlayerConfiguration::InputAxis::mouseAxis(Y)] = 0 ;
         m_axes[Model::PlayerConfiguration::InputAxis::mouseAxis(Z)] = 0 ;

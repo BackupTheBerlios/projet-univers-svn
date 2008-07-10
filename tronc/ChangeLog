@@ -742,6 +742,12 @@
   * All : 
     - tagging version 0.3.1
 
+2008-07-10 rogma
+
+  * Display : 
+    - added rendering display choice for demo
+  * Input :
+    - added mouse sensibility configured in ini file
     
 @todo :
 
@@ -750,7 +756,9 @@
     - add Game controler and trait for handling team respawn ...
     - considered in a lot of places that Z axis is forward... whereas Ogre 
       consider negative Z as forward ??? 
-    
+    - make install does not work on win32 : libtool refuses to link with Ogre 
+      (wheread it works in normal make !!)
+       
   * Game :  
     - add a pause game state (does not close the system but does not update, but 
       how to collect inputs in that case ???)
@@ -782,7 +790,8 @@
     
     - a Player trait ? For now the Observer trait plays this role
     
-    - Menu handling
+    - Menu handling : link the menu to operations. It seems that it should be 
+      commands.
     
     - should define isInside like 
       IsInside <=> parent(Positionned ^ Sized) ^ Positionned
@@ -807,10 +816,15 @@
       ships...
     - make a loading bar : create a ressource loading queue (inspire from 
       Ogre::ResourceBackgroundQueue that is not by default on ogre package)  
+    - splash screen needs an observer : find a way to avoid this (for example 
+      create a scene manager + a camera + a viewport)
+    
     
   * Input :
     - be able to map any axis on anything
     - send wheel mouse to CEGUI
+    - add a key sensibility
+    - add a key repetition in CEGUI for text insertion
   
   * Action :
     - get rid of it ?? the only applied action for now is "quit", it could be 
@@ -843,6 +857,7 @@
     
     - refactoring : viewpoint and controler set have a lot in common...
     - add better errors on object structure
+    - maybe call axis should take a Percentage
     
     - add an onDeduced event on deduced traits : it would allow one to perform 
       custom code, for example to calculate deduced attribute in those traits. 

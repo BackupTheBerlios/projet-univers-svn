@@ -43,7 +43,7 @@ namespace ProjetUnivers {
         };
         
         /// Constructor.
-        Mouse(const float& i_sensibility = 0.1) ;  
+        Mouse() ;  
         
       /*!
         @name Interface implementation

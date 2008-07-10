@@ -76,7 +76,7 @@ namespace ProjetUnivers {
         {
           InternalMessage("Display","RealWorldViewPoint::onInit Entering") ;
           
-          Implementation::Ogre::init(false) ;
+          Implementation::Ogre::init() ;
           
           CHECK(getRoot(),"RealWorldViewPoint::onInit no root") ;
 

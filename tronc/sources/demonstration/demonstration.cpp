@@ -67,7 +67,7 @@ int main() {
   Kernel::Parameters::load("demonstration.config") ;
   Kernel::Log::init() ;
   Physic::start() ;
-  Display::start() ;
+  Display::start(Display::ChooseRenderer) ;
   Input::start() ;
   Sound::start() ;
   ArtificialIntelligence::start() ;

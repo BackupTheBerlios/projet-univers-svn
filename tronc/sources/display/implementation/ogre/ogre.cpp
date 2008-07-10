@@ -47,7 +47,7 @@ namespace ProjetUnivers {
         {
         public:
           
-          OgreSystem(bool choose_display)
+          OgreSystem(DisplayStartingMode mode)
           : window(NULL),
             root(),
             log_manager(),
@@ -69,7 +69,7 @@ namespace ProjetUnivers {
             loadRessources() ;
 
             // user choose display 
-            if (choose_display)
+            if (mode == ChooseRenderer)
             {
               bool go_on = renderDisplayChoice() ;
               if (! go_on)
@@ -182,6 +182,18 @@ namespace ProjetUnivers {
             InternalMessage("Display","...Ogre stopped") ;
           }
           
+          bool renderDisplayChoice()
+          {
+            if (root->showConfigDialog())
+            {
+              return true ;
+            }
+            else
+            {
+              return false ;
+            }
+          }
+          
           ::Ogre::RenderWindow* window ;
         
           ::Ogre::Root* root ;
@@ -275,23 +287,11 @@ namespace ProjetUnivers {
           }
         }
         
-        bool renderDisplayChoice()
-        {
-          if (m_system->root->showConfigDialog())
-          {
-            return true ;
-          }
-          else
-          {
-            return false ;
-          }
-        }
-        
-        bool init(bool choose_display) 
+        bool init(DisplayStartingMode mode) 
         {
           if(! m_system.get())
             
-            m_system.reset(new OgreSystem(choose_display)) ;
+            m_system.reset(new OgreSystem(mode)) ;
           
           return m_system->initialised ;
         }

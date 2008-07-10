@@ -36,8 +36,10 @@ namespace ProjetUnivers {
   */ 
   namespace Display {
     
+    typedef enum {ChooseRenderer,DefaultRenderer} DisplayStartingMode;
+    
     /// Init the module.
-    void start() ;
+    void start(DisplayStartingMode mode = DefaultRenderer) ;
     
     /// Terminate the module.
     void terminate() ;

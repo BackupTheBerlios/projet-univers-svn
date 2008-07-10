@@ -48,8 +48,9 @@ namespace ProjetUnivers {
       Implementation::Ogre::injectKey(key_code) ;
     }
 	
-    void start()
+    void start(DisplayStartingMode mode)
     {
+      Implementation::Ogre::init(mode) ;
     }
 
     void terminate()
