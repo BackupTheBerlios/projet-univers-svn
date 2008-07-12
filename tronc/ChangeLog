@@ -748,6 +748,15 @@
     - added rendering display choice for demo
   * Input :
     - added mouse sensibility configured in ini file
+
+2008-07-12 rogma
+
+  * Input :
+    - corrected a bug : at very low speed, mouse did not move
+  * Display :  
+    - added basic menu command interpretor : get gui event and print them to 
+      std::cout
+    - CEGUI menu is linked to it's corresponding Model::Menu
     
 @todo :
 
@@ -810,7 +819,6 @@
       the current observer
     - when initing ogre, close any already openned ogre objects in other 
       modules
-    - replace display::init(bool) with an enum
     - find a way to preload ressources as needed (some ressources may appear 
       during game like explosions, lasers) some ressources are known like 
       ships...
@@ -826,10 +834,6 @@
     - add a key sensibility
     - add a key repetition in CEGUI for text insertion
   
-  * Action :
-    - get rid of it ?? the only applied action for now is "quit", it could be 
-      transfered elsewhere maybe ...
-    
   * Physic : 
     - bug : Physic::init() then Physic::build() works but not the inverse
     - try to keep all units in an acceptable "range", it means that we whould 
@@ -846,9 +850,9 @@
     
   * Sound : 
     - reconsider the implementation with the limitation 
-	- check that Positionned is correctly used, I suspect that position update 
+    - check that Positionned is correctly used, I suspect that position update 
 	  is not done when a ship moves while containing the listener
-	- engine sound does not weem to work ?
+    - engine sound does not weem to work ?
     - change Engine gain accoarding to engine "power" and current applied 
       throttle
     - add Shot sound

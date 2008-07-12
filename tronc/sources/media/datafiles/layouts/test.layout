@@ -1,23 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <GUILayout >
-    <Window Type="DefaultWindow" Name="Root" >
+    <Window Type="DefaultWindow" Name="Menu" >
         <Property Name="InheritsAlpha" Value="False" />
         <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
         <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
-        <Window Type="DefaultWindow" Name="Root/" >
+        <Window Type="DefaultWindow" Name="Menu/MainWindow" >
             <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
             <Property Name="UnifiedAreaRect" Value="{{0.3,0},{0.191051,0},{0.687969,0},{0.952075,0}}" />
-            <Window Type="TaharezLook/Button" Name="Root//" >
+            <Window Type="TaharezLook/Button" Name="Menu/Play" >
                 <Property Name="Text" Value="Play" />
                 <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
                 <Property Name="UnifiedAreaRect" Value="{{0.16383,0},{0.044354,0},{0.762767,0},{0.140969,0}}" />
+                <Event Name="Clicked" Function="play"/>
             </Window>
-            <Window Type="TaharezLook/Button" Name="Root//1" >
+            <Window Type="TaharezLook/Button" Name="Menu/Quit" >
                 <Property Name="Font" Value="Commonwealth-10" />
                 <Property Name="Text" Value="Quit" />
                 <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
                 <Property Name="UnifiedAreaRect" Value="{{0.162621,0},{0.167639,0},{0.761558,0},{0.264254,0}}" />
+                <Event Name="Clicked" Function="quit"/>
             </Window>
         </Window>
     </Window>

@@ -49,6 +49,9 @@ namespace ProjetUnivers {
           m_window = CEGUI::WindowManager::getSingleton().loadWindowLayout(
             getTrait()->getFileName()) ;
           
+          // set the binding to the current trait
+          m_window->setUserData(getTrait()) ;
+          
           InternalMessage("Display","Building Ogre::Menu::onInit #1") ;
 
           CEGUI::System::getSingleton().setGUISheet(m_window) ;

@@ -43,7 +43,7 @@ namespace ProjetUnivers {
       }
       else
       {
-        ErrorMessage("Model::Distance::read required attribute : file") ;
+        ErrorMessage("Model::Menu::read required attribute : file") ;
       }
       
       // move out of node

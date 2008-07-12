@@ -6,6 +6,7 @@
     ***************************************************
     -->
     <WidgetLook name="TaharezLook/Button">
+        <PropertyDefinition name="Custom" initialValue="" redrawOnWrite="false" />
         <PropertyDefinition name="NormalTextColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
         <PropertyDefinition name="HoverTextColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
         <PropertyDefinition name="PushedTextColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
@@ -1238,6 +1239,7 @@
     ***************************************************
     -->
     <WidgetLook name="TaharezLook/Slider">
+        <Property name="Custom" value="" />
         <Property name="VerticalSlider" value="True" />
         <Property name="MouseButtonDownAutoRepeat" value="True" />
         <Property name="WantsMultiClickEvents" value="False" />

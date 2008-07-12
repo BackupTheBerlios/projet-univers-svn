@@ -27,6 +27,7 @@
 #include <kernel/log.h>
 
 #include <model/model.h>
+#include <model/menu.h>
 
 #include <display/implementation/ogre/ogre.h>
 
@@ -41,6 +42,112 @@ namespace ProjetUnivers {
 
         void loadRessources() ;
         bool renderDisplayChoice() ;
+
+        
+        const CEGUI::Window* getRoot(const CEGUI::Window* window)
+        {
+          const CEGUI::Window* parent = window->getParent() ;
+          if (parent)
+            return getRoot(parent) ;
+          else
+            return window ;
+        }
+        
+        /// Callback for a event command 
+        class CommandInterpretor
+        {
+        public:
+
+          CommandInterpretor(const std::string& name)
+          : m_name(name)
+          {}
+          
+          bool operator()(const CEGUI::EventArgs& args) const
+          {
+            std::cout << m_name ;
+            
+            const CEGUI::WindowEventArgs* argument = dynamic_cast<const CEGUI::WindowEventArgs*>(&args) ;
+            
+            if (argument)
+            {
+              std::cout << " " << argument->window->getName()
+                        << " type=" << argument->window->getType()
+                        << " Custom=" << argument->window->getProperty("Custom") ;
+              
+              Model::Menu* menu = (Model::Menu*)(getRoot(argument->window)->getUserData()) ;
+              
+              if (menu)
+                std::cout << " object id=" << menu->getObject()->getIdentifier() ;
+              
+              
+//              for(CEGUI::PropertySet::Iterator property = argument->window->CEGUI::PropertySet::getIterator() ;
+//                  ! property.isAtEnd() ; ++property)
+//              {
+//                std::cout << property.getCurrentKey() << "=" << property.getCurrentValue() << "," ;
+//              }
+                  
+            }
+            
+            std::cout << std::endl ;
+            
+            return true ;
+          }
+          
+          std::string m_name ;
+          
+        };
+        
+        
+        /// Specialized scripting module for CEGUI 
+        class ScriptingModule : public CEGUI::ScriptModule
+        {
+        public:
+          
+          
+          virtual void executeScriptFile(const CEGUI::String &filename, const CEGUI::String &resourceGroup="")
+          {
+            
+          }
+          
+          virtual int executeScriptGlobal(const CEGUI::String& function_name)
+          {
+            return 0 ;
+          }
+          
+          virtual CEGUI::Event::Connection subscribeEvent(
+              CEGUI::EventSet*     target, 
+              const CEGUI::String& name, 
+              const CEGUI::String& subscriber_name)
+          {
+            CommandInterpretor command(subscriber_name.c_str()) ;
+            return target->subscribeEvent(name,CEGUI::Event::Subscriber(command)) ;
+          }
+          
+          virtual CEGUI::Event::Connection subscribeEvent(
+              CEGUI::EventSet*     target,
+              const CEGUI::String& name,
+              CEGUI::Event::Group  group,
+              const CEGUI::String& subscriber_name)
+          {
+            CommandInterpretor command(subscriber_name.c_str()) ;
+            return target->subscribeEvent(name,group,CEGUI::Event::Subscriber(command)) ;
+          }
+          
+          virtual void executeString(const CEGUI::String &str)
+          {
+            
+          }
+          
+          /// execute a script
+          virtual bool executeScriptedEventHandler(
+              const CEGUI::String& handler_name,
+              const CEGUI::EventArgs &e)
+          {
+            return true ;
+          }
+        };
+
+        
         
         /// Handle data.
         class OgreSystem
@@ -88,9 +195,13 @@ namespace ProjetUnivers {
 
             // create window
             window = root->initialise(true) ;
+
+            command_interpretor.reset(new ScriptingModule()) ;
             
             CEGUIRenderer = new CEGUI::OgreCEGUIRenderer(window) ;
+//            CEGUISystem = new CEGUI::System(CEGUIRenderer,0,0,command_interpretor.get()) ;
             CEGUISystem = new CEGUI::System(CEGUIRenderer) ;
+            CEGUISystem->setScriptingModule(command_interpretor.get()) ;
             CEGUI::Logger::getSingleton().setLoggingLevel(CEGUI::Informative) ;
             
             ResourceGroupManager::getSingleton().initialiseAllResourceGroups() ;
@@ -204,6 +315,8 @@ namespace ProjetUnivers {
           ::CEGUI::OgreCEGUIRenderer* CEGUIRenderer ;
           ::CEGUI::System* CEGUISystem ;
           ::Ogre::Overlay* m_overlay ;
+          
+          std::auto_ptr<ScriptingModule> command_interpretor ;
         };
         
         /// store data

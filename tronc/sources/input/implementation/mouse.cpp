@@ -31,9 +31,9 @@ namespace ProjetUnivers {
 
       bool Mouse::mouseMoved(const OIS::MouseEvent& event)
       {
-        m_axes[Model::PlayerConfiguration::InputAxis::mouseAxis(X)] += int(event.state.X.rel*m_sensibility) ;
-        m_axes[Model::PlayerConfiguration::InputAxis::mouseAxis(Y)] += int(event.state.Y.rel*m_sensibility) ;
-        m_axes[Model::PlayerConfiguration::InputAxis::mouseAxis(Z)] += int(event.state.Z.rel*m_sensibility) ;
+        m_axes[Model::PlayerConfiguration::InputAxis::mouseAxis(X)] += event.state.X.rel*m_sensibility ;
+        m_axes[Model::PlayerConfiguration::InputAxis::mouseAxis(Y)] += event.state.Y.rel*m_sensibility ;
+        m_axes[Model::PlayerConfiguration::InputAxis::mouseAxis(Z)] += event.state.Z.rel*m_sensibility ;
         return true ;
       }
       
@@ -81,6 +81,8 @@ namespace ProjetUnivers {
         {
           
         }
+        
+        m_sensibility /= 100 ;
         
         m_axes[Model::PlayerConfiguration::InputAxis::mouseAxis(X)] = 0 ;
         m_axes[Model::PlayerConfiguration::InputAxis::mouseAxis(Y)] = 0 ;

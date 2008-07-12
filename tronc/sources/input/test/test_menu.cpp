@@ -53,7 +53,7 @@ namespace ProjetUnivers {
         model->init() ;
         
         Kernel::Object* menu = model->createObject() ;
-        menu->addTrait(new Model::Menu("Demo7Windows.layout")) ;
+        menu->addTrait(new Model::Menu("test.layout")) ;
         Kernel::Object* observer = model->createObject() ;
         observer->addTrait(new Model::Observer()) ;
         observer->addTrait(new Model::Player()) ;
