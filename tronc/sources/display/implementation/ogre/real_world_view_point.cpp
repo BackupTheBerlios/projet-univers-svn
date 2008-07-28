@@ -87,8 +87,6 @@ namespace ProjetUnivers {
             ErrorMessage("initialisation of ogre failed") ;
             throw "initialisation of ogre failed" ;
           }
-          
-          getCEGUIRenderer()->setTargetSceneManager(m_manager) ;
   
           InternalMessage("Display","RealWorldViewPoint::onInit Leaving") ;
         }

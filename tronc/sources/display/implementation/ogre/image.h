@@ -22,7 +22,7 @@
 #define PU_DISPLAY_IMPLEMENTATION_OGRE_IMAGE_H_
 
 #include <kernel/trait_view.h>
-#include <model/image.h>
+#include <display/implementation/image.h>
 #include <display/implementation/ogre/ogre.h>
 #include <display/implementation/ogre/real_world_view_point.h>
 
@@ -33,7 +33,7 @@ namespace ProjetUnivers {
       namespace Ogre {
 
         /// Display an image.
-        class Image : public Kernel::TraitView<Model::Image,
+        class Image : public Kernel::TraitView<Implementation::Image,
                                                RealWorldViewPoint>
         {
         public:
@@ -44,8 +44,8 @@ namespace ProjetUnivers {
         // @{
 
           /// Constructor.
-          Image(Model::Image*       object,
-                RealWorldViewPoint* viewpoint) ;
+          Image(Implementation::Image* object,
+                RealWorldViewPoint*    viewpoint) ;
 
         protected:
         //@}
@@ -54,10 +54,10 @@ namespace ProjetUnivers {
         */
         // @{
         
-          /// create a CEGUI image.
+          /// create an image.
           void onInit() ;
           
-          /// Destroy a CEGUI image.
+          /// Destroy an image.
           void onClose() ;
         
         // @}

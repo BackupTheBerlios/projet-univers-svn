@@ -25,9 +25,10 @@
 #include <model/player.h>
 #include <model/player_configuration.h>
 #include <input/implementation/input_internal.h>
-#include <input/implementation/keyboard.h>
+#include <input/implementation/ois/keyboard.h>
+#include <input/implementation/ois/ois.h>
 #include <input/test/test_player_configuration.h>
-
+#include <input/input_gui.h>
 
 CPPUNIT_TEST_SUITE_REGISTRATION(ProjetUnivers::
                                 Input::
@@ -70,7 +71,7 @@ namespace ProjetUnivers {
         Kernel::Object* configuration = model->createObject() ;
         configuration->addTrait(new Model::PlayerConfiguration()) ;
         configuration->getTrait<Model::PlayerConfiguration>()->addMapping(
-            Model::PlayerConfiguration::InputEvent::key(OIS::KC_RETURN),"command") ;
+            Model::PlayerConfiguration::InputEvent::key(::OIS::KC_RETURN),"command") ;
 
         Kernel::Object* player = model->createObject() ;
         player->addTrait(new Model::Player()) ;
@@ -78,7 +79,7 @@ namespace ProjetUnivers {
         Model::Player::connect(player,configuration) ;
 
         // inject correct key
-        Input::getKeyboard()->keyPressed(OIS::KeyEvent(NULL,OIS::KC_RETURN,0)) ;
+        Implementation::OIS::getKeyboard()->keyPressed(::OIS::KeyEvent(NULL,OIS::KC_RETURN,0)) ;
         model->update(0.1) ;
 
         CPPUNIT_ASSERT(player->getTrait<T1>()->m_f_called) ;
@@ -86,6 +87,22 @@ namespace ProjetUnivers {
         InternalMessage("Input","Input::TestPlayerConfiguration::testCommandMapping leaving") ;
       }
 
+      void TestPlayerConfiguration::printInputEvent()
+      {
+        InternalMessage("Input","Input::TestPlayerConfiguration::printInputEvent entering") ;
+
+        Input::init() ;
+        CPPUNIT_ASSERT(getOISKeyboard()) ;
+
+        Model::PlayerConfiguration::InputEvent event = 
+          Model::PlayerConfiguration::InputEvent::key(OIS::KC_RETURN) ;
+        CPPUNIT_ASSERT(event.toString(getOISKeyboard())=="Return") ;
+        
+        Input::close() ;
+        
+        InternalMessage("Input","Input::TestPlayerConfiguration::printInputEvent leaving") ;
+      }
+      
       void TestPlayerConfiguration::setUp() 
       {
       }

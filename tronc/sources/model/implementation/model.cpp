@@ -32,6 +32,7 @@
 
 #include <model/laser.h>
 #include <model/exception.h>
+#include <model/end_of_simulation.h>
 #include <model/destroyable.h>
 #include <model/observer.h>
 #include <model/massive.h>
@@ -66,7 +67,7 @@
 #include <model/team.h>
 #include <model/player.h>
 #include <model/player_configuration.h>
-#include <model/game_state.h>
+#include <model/with_transitions.h>
 
 #include <model/model.h>
 
@@ -94,14 +95,14 @@ namespace ProjetUnivers {
       
     }
     
-    void load(const std::string& name,Kernel::Object* parent)
+    void load(const std::string& name,Kernel::Model* model)
     {
      
       if (name == "TestDemonstration")
       {
         /// 1. Construction d'un univers
         InternalMessage("Model","building Universe...") ;
-        Kernel::Object* universe = parent->createObject() ;
+        Kernel::Object* universe = model->createObject() ;
         
         /// ses facettes
         universe->addTrait(new Universe()) ;
@@ -121,9 +122,9 @@ namespace ProjetUnivers {
         InternalMessage("Model","building planet done") ;
 
         // 2 teams
-        Kernel::Object* team1 = parent->createObject() ;
+        Kernel::Object* team1 = model->createObject() ;
         team1->addTrait(new Team("team1")) ;
-        Kernel::Object* team2 = parent->createObject() ;
+        Kernel::Object* team2 = model->createObject() ;
         team2->addTrait(new Team("team2")) ;
         
         
@@ -259,13 +260,18 @@ namespace ProjetUnivers {
       }
       else if (name == "TestMenu")
       {
-        Kernel::Object* universe = parent->createObject() ;
+        Kernel::Object* quit = model->createObject() ;
+        quit->addTrait(new EndOfSimulation()) ;
+        
+        Kernel::Object* universe = model->createObject() ;
         
         /// ses facettes
         universe->addTrait(new Menu("ProjetUnivers.layout")) ;
         universe->addTrait(new Universe()) ;
         universe->addTrait(new Positionned()) ;
-
+        universe->addTrait(new WithTransitions()) ;
+        universe->getTrait<WithTransitions>()->addTransition("quit",quit) ;
+        
         Kernel::Object* ship = universe->createObject() ;
         ship->addTrait(new Positionned(Position::Meter(0,0,-500))) ;
         ship->addTrait(new Oriented()) ;
@@ -278,14 +284,19 @@ namespace ProjetUnivers {
         observer->addTrait(new Oriented()) ;
         observer->addTrait(new Observer()) ;
         observer->addTrait(new Player()) ;
+        
+        
       }
       else if (name == "TestPilot")
       {
-        
+        Kernel::Object* configuration = model->createObject() ;
         Kernel::Object* player_configuration = 
-          createDefaultPlayerConfiguration(parent) ;
+          createDefaultPlayerConfiguration(configuration) ;
+
+        Kernel::Object* quit = model->createObject() ;
+        quit->addTrait(new EndOfSimulation()) ;
         
-        Kernel::Object* universe = parent->createObject() ;
+        Kernel::Object* universe = model->createObject() ;
         universe->addTrait(new Universe()) ;
         universe->addTrait(new Positionned()) ;
 
@@ -294,9 +305,9 @@ namespace ProjetUnivers {
         system->addTrait(new Positionned()) ;
 
         // 2 teams
-        Kernel::Object* team1 = parent->createObject() ;
+        Kernel::Object* team1 = model->createObject() ;
         team1->addTrait(new Team("team1")) ;
-        Kernel::Object* team2 = parent->createObject() ;
+        Kernel::Object* team2 = model->createObject() ;
         team2->addTrait(new Team("team2")) ;
 
         {
@@ -344,15 +355,15 @@ namespace ProjetUnivers {
           player->addTrait(new Kernel::CommandDelegator()) ;
           player->getTrait<Kernel::CommandDelegator>()->addDelegate(ship) ;
           Player::connect(player,player_configuration) ;
+          player->addTrait(new WithTransitions()) ;
+          player->getTrait<WithTransitions>()->addTransition("quit",quit) ;
         }
       }
-      /// @todo
-      
-//      else
-//      {
-//        std::auto_ptr<Kernel::XMLReader> reader(Kernel::XMLReader::getFileReader(name)) ;
-//        reader->read(model) ;
-//      }            
+      else
+      {
+        std::auto_ptr<Kernel::XMLReader> reader(Kernel::XMLReader::getFileReader(name)) ;
+        reader->read(model) ;
+      }            
     }
 
     void initRessources()
@@ -531,6 +542,8 @@ namespace ProjetUnivers {
       configuration->addTrait(new PlayerConfiguration()) ;
       configuration->getTrait<PlayerConfiguration>()
                    ->addMapping(PlayerConfiguration::InputEvent::key(OIS::KC_F),"fire") ;
+      configuration->getTrait<PlayerConfiguration>()
+                   ->addMapping(PlayerConfiguration::InputEvent::key(OIS::KC_ESCAPE),"quit") ;
       configuration->getTrait<PlayerConfiguration>()
                    ->addMapping(PlayerConfiguration::InputEvent::key(OIS::KC_S),"Select Next Target") ;
       configuration->getTrait<PlayerConfiguration>()

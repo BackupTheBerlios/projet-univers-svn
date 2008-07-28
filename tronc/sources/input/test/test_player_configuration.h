@@ -54,6 +54,9 @@ namespace ProjetUnivers {
         
         /// Basic test of a command.
         void testCommandMapping() ;
+        
+        /// Test the toString method of InputEvent.
+        void printInputEvent() ;
 
       // @}
       /*!
@@ -64,6 +67,7 @@ namespace ProjetUnivers {
         CPPUNIT_TEST_SUITE(TestPlayerConfiguration) ;
       
         CPPUNIT_TEST(testCommandMapping) ;
+        CPPUNIT_TEST(printInputEvent) ;
       
         CPPUNIT_TEST_SUITE_END() ;
       // @}      

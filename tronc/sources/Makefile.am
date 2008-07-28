@@ -4,9 +4,9 @@ model \
 physic \
 artificial_intelligence \
 display \
-sound \
 input \
-game \
+gui \
+sound \
 demonstration 
 	
 install-data-local:

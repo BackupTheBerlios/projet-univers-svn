@@ -690,5 +690,52 @@ namespace ProjetUnivers {
       }
       return NULL ; 
     }
+    
+    std::set<std::string> Trait::getRegisteredCommands()
+    {
+      std::set<std::string> result ;
+      
+      for(std::map<TypeIdentifier,
+                   std::map<std::string,
+                            boost::function1<void,Trait*> > >::const_iterator 
+                              type_commands = StaticStorage::get()->m_void_commands.begin() ;
+          type_commands != StaticStorage::get()->m_void_commands.end() ;
+          ++type_commands)
+      {
+        for(std::map<std::string,
+                     boost::function1<void,Trait*> >::const_iterator command = type_commands->second.begin() ;
+            command != type_commands->second.end() ;
+            ++command)
+        {
+          result.insert(command->first) ;
+        }
+      }
+      
+      return result ;
+    }
+    
+    std::set<std::string> Trait::getRegisteredAxes()
+    {
+      std::set<std::string> result ;
+      
+      for(std::map<TypeIdentifier,
+                   std::map<std::string,
+                            boost::function2<void,Trait*,int> > >::const_iterator 
+                              type_commands = StaticStorage::get()->m_int_commands.begin() ;
+          type_commands != StaticStorage::get()->m_int_commands.end() ;
+          ++type_commands)
+      {
+        for(std::map<std::string,
+                     boost::function2<void,Trait*,int> >::const_iterator command = type_commands->second.begin() ;
+            command != type_commands->second.end() ;
+            ++command)
+        {
+          result.insert(command->first) ;
+        }
+      }
+      
+      return result ;
+    }
+    
   }
 }

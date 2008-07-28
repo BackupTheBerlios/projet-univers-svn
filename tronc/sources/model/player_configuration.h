@@ -22,8 +22,7 @@
 #define PU_MODEL_PLAYER_CONFIGURATION_H_
 
 #include <map>
-
-#include <OIS/OIS.h>
+#include <OISKeyboard.h>
 #include <kernel/trait.h>
 
 namespace ProjetUnivers {
@@ -46,23 +45,31 @@ namespace ProjetUnivers {
         static InputEvent mouseButton(int button) ;
         static InputEvent key(int key) ;
         
+        /// 'null' value.
+        InputEvent() ;
+        
         /// For sets.
         bool operator < (const InputEvent&) const ;
       
+        bool operator==(const InputEvent&) const ;
+        
+        /// Prints the event.
+        std::string toString(OIS::Keyboard* keyboard) const ;
+        
       private:
         
         enum Type
         {
           joystick,
           mouse,
-          keyboard
+          keyboard,
+          
+          /// for 'null' value
+          none
         };
-
-        InputEvent() ;
         
         int type ; 
         int key_or_bouton ;
-        
       };
       
       /// Abstraction of an input axis
@@ -79,20 +86,31 @@ namespace ProjetUnivers {
         /// Negative value indicates axis inversion.
         static InputAxis mouseAxis(int axis) ;
 
+        /// 'null' value.
+        InputAxis() ;
+        
         /// Return an inverted axis.
         InputAxis operator-() const ;
         
         /// For sets.
         bool operator < (const InputAxis&) const ;
 
+        bool operator==(const InputAxis&) const ;
+        
+        /// Prints the axis.
+        std::string toString(OIS::Keyboard* keyboard) const ;
+        
+        /// True if the axis is inversed.
+        bool isInversed() const ;
+
       private:
 
-        InputAxis() ;
-        
         enum Type
         {
           joystick,
-          mouse
+          mouse,
+          /// for 'null' value
+          none
         };
         
         int type ; 
@@ -104,6 +122,29 @@ namespace ProjetUnivers {
       
       void addMapping(const InputEvent&,const std::string&) ;
       void addMapping(const InputAxis&,const std::string&) ;
+      
+    /*!
+      @name Recording
+    */
+    // @{
+    
+      /// Set the configuration in recording mode.
+      void setEventRecordingMode() ;
+      
+      bool isEventRecordingMode() const ;
+      
+      /// Record the event.
+      void recordEvent(const InputEvent& event) ;
+      
+      bool isEventRecorded() const ;
+      
+      /// Access to the latest recorded event.
+      const InputEvent& getRecordedEvent() const ;
+      
+      /// Stop the sequence of recording.
+      void stopRecording() ;
+      
+    // @}
       
       /// Returns the command associated with event.
       /*!
@@ -117,14 +158,30 @@ namespace ProjetUnivers {
       */
       std::string getAxis(const InputAxis&) const ;
       
+      /// Return the event associated with a command.
+      const InputEvent& getInputEvent(const std::string& command) const ;
+      
+      /// Return the input axis associated with an axis.
+      const InputAxis& getInputAxis(const std::string& axis) const ;
       
     private:
       
       /// Commands
-      std::map<InputEvent,std::string> m_commands ;
+      std::map<InputEvent,std::string> m_input_event_to_commands ;
+      /// Commands
+      std::map<std::string,InputEvent> m_command_to_input_events ;
       
       /// Axes
-      std::map<InputAxis,std::string> m_axes ;
+      std::map<InputAxis,std::string> m_input_axis_to_axes ;
+      /// Axes
+      std::map<std::string,InputAxis> m_axis_to_input_axes ;
+      
+      bool m_event_recording_mode ;
+      
+      bool m_event_recorded ;
+      
+      InputEvent m_recorded_event ;
+      
     };
         
   }

@@ -96,6 +96,13 @@ namespace ProjetUnivers {
       /// Manual removing of the viewpoint's views .
       void removeView(ViewPoint*) ;
       
+      /// Access to all registered commands.
+      static std::set<std::string> getRegisteredCommands() ;
+      
+      /// Access to all registered axes.
+      static std::set<std::string> getRegisteredAxes() ;
+      
+      
     protected: 
     
       /// Abstract class means protected constructor.

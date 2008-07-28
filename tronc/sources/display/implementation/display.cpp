@@ -24,10 +24,15 @@
 
 #include <display/display.h>
 #include <display/display_input.h>
+#include <display/display_gui.h>
 
 namespace ProjetUnivers {
   namespace Display {
 
+    ::Ogre::RenderWindow* getWindow()
+    {
+      return Implementation::Ogre::getWindow() ;
+    }
 
     size_t getWindowHandle()
     {
@@ -43,11 +48,6 @@ namespace ProjetUnivers {
       Implementation::Ogre::getWindowSize(width,height,depth,left,top) ;
     }
 
-    void injectKey(const unsigned int& key_code)
-    {
-      Implementation::Ogre::injectKey(key_code) ;
-    }
-	
     void start(DisplayStartingMode mode)
     {
       Implementation::Ogre::init(mode) ;

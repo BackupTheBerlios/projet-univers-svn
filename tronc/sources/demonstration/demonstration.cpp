@@ -20,24 +20,17 @@
  ***************************************************************************/
 #include <iostream>
 #include <kernel/log.h>
+#include <kernel/model.h>
 #include <kernel/parameters.h>
+#include <kernel/timer.h>
 
-#include <model/duration.h>
-#include <model/image.h>
-#include <model/observer.h>
-#include <model/player.h>
-#include <model/positionned.h>
-#include <model/with_lifetime.h>
-#include <model/model.h>
-
-#include <game/game.h>
-#include <game/game_state.h>
-
-#include <display/display.h>
-#include <physic/physic.h>
 #include <artificial_intelligence/artificial_intelligence.h>
-#include <sound/sound.h>
+#include <display/display.h>
 #include <input/input.h>
+#include <gui/gui.h>
+#include <model/model.h>
+#include <physic/physic.h>
+#include <sound/sound.h>
 
 
 using namespace ProjetUnivers ;
@@ -66,41 +59,40 @@ int main() {
   /// init
   Kernel::Parameters::load("demonstration.config") ;
   Kernel::Log::init() ;
+
+  Model::start() ;
   Physic::start() ;
-  Display::start(Display::ChooseRenderer) ;
-  Input::start() ;
   Sound::start() ;
   ArtificialIntelligence::start() ;
-  Model::start() ;
+  Display::start(Display::ChooseRenderer) ;
+  Input::start() ;
+  GUI::start() ;
   
   
   InformationMessage("Demonstration","Starting of projet univers") ;
-  Game::Game game ;
-
-  Game::GameState* welcome = game.addState(new Game::GameState("welcome")) ;
-  Kernel::Object* welcome_model = welcome->getRoot() ;
-  welcome_model->addTrait(new Model::WithLifetime(Model::Duration::Second(2))) ;
-  welcome_model->addTrait(new Model::Image("intro.png")) ;
   
-  Kernel::Object* observer = welcome_model->createObject() ;
-  observer->addTrait(new Model::Observer()) ;
-  observer->addTrait(new Model::Player()) ;
-  observer->addTrait(new Model::Positionned()) ;
+  std::auto_ptr<Kernel::Model> model(new Kernel::Model()) ;
+  model->init() ;
+  Model::load(getModelName(),model.get()) ;
+
   
-  InformationMessage("Demonstration","Modules inited") ;
-
-  std::string model_name(getModelName()) ;
-  std::cout << "loading " << model_name << std::endl ;
+  Kernel::Timer timer ;
   
-  Game::GameState* gamestate = game.addState(new Game::GameState("game")) ;
-  gamestate->load(getModelName()) ;
+  while (! model->getRoots().empty())
+  {
+    float seconds = timer.getSecond() ;
+    if (seconds > 0)
+    {
+      timer.reset() ;
+      model->update(seconds) ;
+    }
+  }
 
-  welcome->setNextState(gamestate) ;
-  welcome->activate() ;
-  game.run() ;
-
+  model->close() ;
+  
   ArtificialIntelligence::terminate() ;
   Sound::terminate() ;
+  GUI::terminate() ;
   Input::terminate() ;
   Display::terminate() ;
   Physic::terminate() ;

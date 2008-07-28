@@ -30,6 +30,7 @@
 #include <model/stellar_system.h>
 #include <model/oriented.h>
 #include <model/observer.h>
+#include <model/displayed.h>
 #include <model/universe.h>
 #include <model/mobile.h>
 #include <model/player.h>
@@ -308,6 +309,7 @@ namespace ProjetUnivers {
         
         Kernel::Object* universe = model->createObject() ;
         universe->addTrait(new Model::Image("intro.png")) ;
+        universe->addTrait(new Model::Displayed()) ;
         
         Kernel::Object* observer = model->createObject() ;
         observer->addTrait(new Model::Observer()) ;

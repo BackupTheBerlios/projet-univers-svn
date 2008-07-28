@@ -757,7 +757,34 @@
     - added basic menu command interpretor : get gui event and print them to 
       std::cout
     - CEGUI menu is linked to it's corresponding Model::Menu
+
+2008-07-28 rogma
+
+  * Display :  
+    - removed all CEGUI related stuff : moved to GUI module
+  * GUI :
+    - creation
+    - added it's own SceneManager and camera
+    - added PlayerConfiguration GUI : record command/key mapping 
+    - usage of Displayed trait for activating special controler on elements
+  * Kernel :
+    - added access to all registered commands and axes
+  * Input : 
+    - added PlayerConfiguration input handling
+    - factorisation of menu input handling in InputMenu
+    - moved all ois specific to ois sub-module
+    - usage of Displayed trait for activating special controler on elements
+  * Model : 
+    - added traits Played and Dislayed for menu/missions
+    - added trait GameConfiguration for general options
+    - removed GameState and added WithTransitions that handle transitions 
+      between objects
+    - added EndOfSimulation that will destroy all objects of the model and 
+      ending the main loop 
+  * Game :
+    - suppresion of the module
     
+
 @todo :
 
   
@@ -768,13 +795,11 @@
     - make install does not work on win32 : libtool refuses to link with Ogre 
       (wheread it works in normal make !!)
        
-  * Game :  
-    - add a pause game state (does not close the system but does not update, but 
-      how to collect inputs in that case ???)
-     
   * Model : 
     - Event traits like Collision, Shot should be implemented through 
-      WithLifetime with a life time of zero
+      a common interface : Model::Event base class...
+      Maybe better to have a Kernel::Event because Controler or Veiw cannot 
+      have an update method (it has no meaning)   
          
     - ShootingHelper may connect several lasers (calculus is made on 
       average speed) and can harmonize lasers (re-orient them to touch a 
@@ -825,7 +850,7 @@
     - make a loading bar : create a ressource loading queue (inspire from 
       Ogre::ResourceBackgroundQueue that is not by default on ogre package)  
     - splash screen needs an observer : find a way to avoid this (for example 
-      create a scene manager + a camera + a viewport)
+      create a scene manager + a camera + a viewport for images)
     
     
   * Input :
@@ -856,6 +881,8 @@
     - change Engine gain accoarding to engine "power" and current applied 
       throttle
     - add Shot sound
+    - every event sound is the same : make a general view on event and get the 
+      sound name by a function 
     
   * Kernel :
     

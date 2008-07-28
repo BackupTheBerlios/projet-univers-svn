@@ -26,13 +26,13 @@
 
 namespace ProjetUnivers {
   namespace Input {
-   
-    namespace Implementation
-    {
-      class Keyboard ;
-      class Mouse ;
-      class Joystick ;
+    
+    namespace Implementation {
+
+      class InputObject ;
+      
     }
+      
     
     /// Intitialize.
     void init() ;
@@ -43,13 +43,13 @@ namespace ProjetUnivers {
     /// Capture input and update. 
     void update() ;
     
-    Implementation::Keyboard* getKeyboard() ;
-    Implementation::Mouse* getMouse() ;
-    Implementation::Joystick* getJoystick() ;
-
     /// Apply a configuration to an object.
     void apply(Model::PlayerConfiguration*,Kernel::Object*) ;
     
+    /// Register a new InputObject that will produce input event and axes.
+    void registerObject(Implementation::InputObject*) ;
+    
+    void unregisterObject(Implementation::InputObject* object) ;
   }
 }
 

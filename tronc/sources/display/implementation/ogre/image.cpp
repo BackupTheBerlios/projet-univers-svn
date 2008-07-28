@@ -19,6 +19,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include <kernel/log.h>
+#include <model/image.h>
 #include <display/implementation/ogre/ogre.h>
 #include <display/implementation/ogre/utility.h>
 #include <display/implementation/ogre/image.h>
@@ -29,11 +30,11 @@ namespace ProjetUnivers {
     namespace Implementation {
       namespace Ogre {
 
-        RegisterView(Image,Model::Image,RealWorldViewPoint) ;
+        RegisterView(Image,Implementation::Image,RealWorldViewPoint) ;
         
-        Image::Image(Model::Image*       object,
-                     RealWorldViewPoint* viewpoint)
-        : Kernel::TraitView<Model::Image,RealWorldViewPoint>(object,viewpoint),
+        Image::Image(Implementation::Image* object,
+                     RealWorldViewPoint*    viewpoint)
+        : Kernel::TraitView<Implementation::Image,RealWorldViewPoint>(object,viewpoint),
           m_image_container(NULL),
           m_image(NULL)
         {}
@@ -56,7 +57,7 @@ namespace ProjetUnivers {
 
           std::string texture_name(Utility::getUniqueName()) ;
           ::Ogre::Image image ;
-          image.load(getTrait()->getName(),"General") ;
+          image.load(getObject()->getTrait<Model::Image>()->getName(),"General") ;
           
           ::Ogre::TexturePtr texture = 
             ::Ogre::TextureManager::getSingleton().loadImage(

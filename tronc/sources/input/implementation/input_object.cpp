@@ -18,6 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <input/implementation/input_internal.h>
 #include <input/implementation/input_object.h>
 
 namespace ProjetUnivers {
@@ -25,10 +26,14 @@ namespace ProjetUnivers {
     namespace Implementation {
 
       InputObject::InputObject()
-      {}
+      {
+        registerObject(this) ;
+      }
       
       InputObject::~InputObject()
-      {}
+      {
+        unregisterObject(this) ;
+      }
       
       const std::set<Model::PlayerConfiguration::InputEvent>& InputObject::getEvents() const
       {

@@ -52,7 +52,7 @@ namespace ProjetUnivers {
         */
         void Oriented::onInit()
         {
-          InternalMessage("Display","Entering Positionned::init") ;
+          InternalMessage("Display","Entering Oriented::init") ;
           
           Model::Positionned* model_positionned 
             = getObject()->getTrait<Model::Positionned>() ;
@@ -83,21 +83,24 @@ namespace ProjetUnivers {
                 ::Ogre::StringConverter::toString(m_node->getOrientation())) ;
             }
           }
-          InternalMessage("Display","Leaving Positionned::init") ;
+          InternalMessage("Display","Leaving Oriented::init") ;
 
         }
 
         
         void Oriented::onUpdate()
         {
-          m_node->setOrientation(getTrait()->getOrientation().getQuaternion()) ;
-          m_node->_update(true,false) ;
-
-          InternalMessage("Display",
-            "modification of scene node " + m_node->getName() + 
-            " with orientation " + 
-            ::Ogre::StringConverter::toString(m_node->getOrientation())
-            ) ;
+          if (m_node)
+          {
+            m_node->setOrientation(getTrait()->getOrientation().getQuaternion()) ;
+            m_node->_update(true,false) ;
+  
+            InternalMessage("Display",
+              "modification of scene node " + m_node->getName() + 
+              " with orientation " + 
+              ::Ogre::StringConverter::toString(m_node->getOrientation())
+              ) ;
+          }
         }
 
       }      

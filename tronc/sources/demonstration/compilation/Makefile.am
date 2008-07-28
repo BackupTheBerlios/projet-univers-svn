@@ -17,7 +17,7 @@ demonstration_LDADD = \
 ../../input/compilation/libinput.la \
 ../../physic/compilation/libphysic.la \
 ../../artificial_intelligence/compilation/libai.la \
-../../game/compilation/libgame.la \
+../../gui/compilation/libgui.la \
 ../../sound/compilation/libsound.la \
 $(OIS_LIBS) \
 $(librlog_LIBS) \

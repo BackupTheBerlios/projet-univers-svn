@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <GUILayout >
-    <Window Type="DefaultWindow" Name="Root" >
+    <Window Type="DefaultWindow" Name="MainMenu" >
         <Property Name="InheritsAlpha" Value="False" />
         <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
         <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
-        <Window Type="ProjetUnivers/FrameWindow" Name="Root/" >
+        <Window Type="ProjetUnivers/FrameWindow" Name="MainMenu/Window" >
             <Property Name="Font" Value="BlueHighway-12" />
             <Property Name="Text" Value="Projet Univers - Démo V0.1" />
             <Property Name="TitlebarFont" Value="BlueHighway-10" />
@@ -16,18 +16,18 @@
             <Property Name="NSSizingCursorImage" Value="" />
             <Property Name="NESWSizingCursorImage" Value="" />
             <Property Name="NWSESizingCursorImage" Value="" />
-            <Window Type="ProjetUnivers/Button" Name="Root//" >
+            <Window Type="ProjetUnivers/Button" Name="MainMenu/Window/Play" >
                 <Property Name="Text" Value="Play" />
                 <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
                 <Property Name="UnifiedAreaRect" Value="{{0.18,0},{0.2,0},{0.82,0},{0.35,0}}" />
             </Window>
-            <Window Type="ProjetUnivers/Button" Name="Root//1" >
+            <Window Type="ProjetUnivers/Button" Name="MainMenu/Window/Credits" >
                 <Property Name="Font" Value="BlueHighway-10" />
                 <Property Name="Text" Value="Credits" />
                 <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
                 <Property Name="UnifiedAreaRect" Value="{{0.18,0},{0.4,0},{0.82,0},{0.55,0}}" />
             </Window>
-            <Window Type="ProjetUnivers/Button" Name="Root//2" >
+            <Window Type="ProjetUnivers/Button" Name="MainMenu/Window/Quit" >
                 <Property Name="Font" Value="BlueHighway-10" />
                 <Property Name="Text" Value="Quit" />
                 <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />

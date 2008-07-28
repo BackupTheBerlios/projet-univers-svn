@@ -18,12 +18,18 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <math.h>
+#include <OISKeyboard.h>
+#include <kernel/log.h>
+#include <kernel/string.h>
 #include <model/player_configuration.h>
 
 namespace ProjetUnivers {
   namespace Model {
   
     PlayerConfiguration::InputEvent::InputEvent()
+    : type(InputEvent::none),
+      key_or_bouton(0)
     {}
     
     PlayerConfiguration::InputEvent PlayerConfiguration::InputEvent::joystickButton(int button)
@@ -55,7 +61,36 @@ namespace ProjetUnivers {
       return type < event.type || (type == event.type && key_or_bouton < event.key_or_bouton) ;
     }
 
+    bool PlayerConfiguration::InputEvent::operator==(const PlayerConfiguration::InputEvent& event) const
+    {
+      return type == event.type && key_or_bouton == event.key_or_bouton ;
+    }
+    
+    std::string PlayerConfiguration::InputEvent::toString(OIS::Keyboard* ois_keyboard) const
+    {
+      InternalMessage("Model","PlayerConfiguration::InputEvent::toString") ;
+      
+      std::string result ;
+      switch(type)
+      {
+      case joystick:
+        InternalMessage("Model","PlayerConfiguration::InputEvent::toString joystick") ;
+        return "Joystick Button " + Kernel::toString(key_or_bouton) ;
+      case mouse:
+        InternalMessage("Model","PlayerConfiguration::InputEvent::toString mouse") ;
+        return "Mouse Button " + Kernel::toString(key_or_bouton) ;
+      case keyboard:
+        InternalMessage("Model","PlayerConfiguration::InputEvent::toString keyboard") ;
+        return ois_keyboard->getAsString(OIS::KeyCode(key_or_bouton)) ;
+      default:
+        InternalMessage("Model","PlayerConfiguration::InputEvent::toString none") ;
+        return "" ;
+      }
+    }
+    
     PlayerConfiguration::InputAxis::InputAxis()
+    : type(InputAxis::none),
+      axis(0)
     {}
     
     PlayerConfiguration::InputAxis PlayerConfiguration::InputAxis::joystickAxis(int axis)
@@ -78,6 +113,30 @@ namespace ProjetUnivers {
     {
       return type < axis.type || (type == axis.type && this->axis < axis.axis) ;
     }
+
+    bool PlayerConfiguration::InputAxis::operator==(const PlayerConfiguration::InputAxis& axis) const
+    {
+      return type == axis.type && this->axis == axis.axis ;
+    }
+
+    std::string PlayerConfiguration::InputAxis::toString(OIS::Keyboard* keyboard) const
+    {
+      std::string result ;
+      switch(type)
+      {
+      case joystick:
+        return "Joystick Axis " + Kernel::toString(fabs(axis)) ;
+      case mouse:
+        return "Mouse Axis " + Kernel::toString(fabs(axis)) ;
+      default:
+        return "" ;
+      }
+    }
+
+    bool PlayerConfiguration::InputAxis::isInversed() const
+    {
+      return axis < 0 ;
+    }
     
     PlayerConfiguration::InputAxis PlayerConfiguration::InputAxis::operator-() const
     {
@@ -88,25 +147,31 @@ namespace ProjetUnivers {
     }
     
     PlayerConfiguration::PlayerConfiguration()
+    : m_event_recording_mode(false),
+      m_event_recorded(false)
     {}
       
     void PlayerConfiguration::addMapping(const InputEvent&  event,
                                          const std::string& command)
     {
-      m_commands[event] = command ;
+      m_input_event_to_commands[event] = command ;
+      m_command_to_input_events[command] = event ;
+      notify() ;
     }
     
     void PlayerConfiguration::addMapping(const InputAxis&   axis,
                                          const std::string& axis_command)
     {
-      m_axes[axis] = axis_command ;
+      m_input_axis_to_axes[axis] = axis_command ;
+      m_axis_to_input_axes[axis_command] = axis ;
+      notify() ;
     }
     
     std::string PlayerConfiguration::getCommand(const InputEvent& event) const
     {
-      std::map<InputEvent,std::string>::const_iterator finder = m_commands.find(event) ;
+      std::map<InputEvent,std::string>::const_iterator finder = m_input_event_to_commands.find(event) ;
       
-      if (finder != m_commands.end())
+      if (finder != m_input_event_to_commands.end())
         return finder->second ;
       else
         return "" ;
@@ -114,13 +179,73 @@ namespace ProjetUnivers {
 
     std::string PlayerConfiguration::getAxis(const InputAxis& axis) const
     {
-      std::map<InputAxis,std::string>::const_iterator finder = m_axes.find(axis) ;
+      std::map<InputAxis,std::string>::const_iterator finder = m_input_axis_to_axes.find(axis) ;
       
-      if (finder != m_axes.end())
+      if (finder != m_input_axis_to_axes.end())
         return finder->second ;
       else
         return "" ;
     }
-        
+
+    const PlayerConfiguration::InputEvent& InputEventNone = PlayerConfiguration::InputEvent() ;
+    
+    const PlayerConfiguration::InputEvent& PlayerConfiguration::getInputEvent(const std::string& command) const
+    {
+      InternalMessage("Model","PlayerConfiguration::getInputEvent " + command + " on " + Kernel::toString(m_command_to_input_events.size())) ;
+      std::map<std::string,InputEvent>::const_iterator finder = m_command_to_input_events.find(command) ;
+      
+      if (finder != m_command_to_input_events.end())
+        return finder->second ;
+      else
+        return InputEventNone ;
+    }
+    
+    const PlayerConfiguration::InputAxis& InputAxisNone = PlayerConfiguration::InputAxis() ;
+    
+    const PlayerConfiguration::InputAxis& PlayerConfiguration::getInputAxis(const std::string& axis) const
+    {
+      std::map<std::string,InputAxis>::const_iterator finder = m_axis_to_input_axes.find(axis) ;
+      
+      if (finder != m_axis_to_input_axes.end())
+        return finder->second ;
+      else
+        return InputAxisNone ;
+    }
+
+    void PlayerConfiguration::setEventRecordingMode()
+    {
+      m_event_recording_mode = true ;
+      notify() ;
+    }
+    
+    void PlayerConfiguration::recordEvent(const PlayerConfiguration::InputEvent& event)
+    {
+      m_event_recorded = true ;
+      m_event_recording_mode = false ;
+      m_recorded_event = event ;
+      notify() ;
+    }
+
+    bool PlayerConfiguration::isEventRecordingMode() const
+    {
+      return m_event_recording_mode ;
+    }
+    
+    bool PlayerConfiguration::isEventRecorded() const
+    {
+      return m_event_recorded ;
+    }
+    
+    const PlayerConfiguration::InputEvent& PlayerConfiguration::getRecordedEvent() const
+    {
+      return m_recorded_event ;
+    }
+    
+    void PlayerConfiguration::stopRecording()
+    {
+      m_event_recorded = false ;
+      m_event_recording_mode = false ;
+    }
+    
   }
 }

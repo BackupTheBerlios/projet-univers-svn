@@ -18,211 +18,68 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <sstream>
-#include <OIS/OISMouse.h>
-#include <OIS/OISKeyboard.h>
-#include <OIS/OISJoyStick.h>
-#include <OIS/OISInputManager.h>
-
-#include <kernel/log.h>
-#include <kernel/string.h>
-#include <display/display_input.h>
-#include <input/implementation/keyboard.h>
-#include <input/implementation/mouse.h>
-#include <input/implementation/joystick.h>
+#include <kernel/object.h>
+#include <model/player_configuration.h>
+#include <input/implementation/ois/ois.h>
+#include <input/implementation/input_object.h>
 #include <input/implementation/input_internal.h>
+#include <input/input_gui.h>
 #include <input/input.h>
 
 namespace ProjetUnivers {
   namespace Input {
 
+    namespace {
+      
+      /// Objects that handle events and axes
+      std::set<Implementation::InputObject*> m_objects ;
+      
+    }
+    
+    void registerObject(Implementation::InputObject* object)
+    {
+      m_objects.insert(object) ;
+    }
+    
+    void unregisterObject(Implementation::InputObject* object)
+    {
+      m_objects.erase(object) ;
+    }
+    
     void start()
     {
-      
+      Implementation::OIS::start() ;
     }
 
     void terminate()
     {
-      
-    }
-    
-    namespace {
-      
-      /// Destroy local objects
-      class OISSystem
-      {  
-      public:
-        /// Input manager.
-        OIS::InputManager* manager ;
-   
-        /// Keyboard
-        OIS::Keyboard* keyboard ;
-        
-        /// Mouse
-        OIS::Mouse* mouse ;
-        
-        OIS::JoyStick* joystick ;
-        
-        
-        OISSystem()
-        : manager(NULL), 
-          keyboard(NULL),
-          mouse(NULL),
-          joystick(NULL)
-        {}
-        
-        ~OISSystem()
-        {
-          if (manager)
-          {
-            if (keyboard) 
-            {
-              manager->destroyInputObject(keyboard) ;
-              keyboard = NULL ;
-            }
-            if (mouse)
-            {
-              manager->destroyInputObject(mouse) ;
-              mouse = NULL ;
-            }
-            if (joystick)
-            {
-              manager->destroyInputObject(joystick) ;
-              joystick = NULL ;
-            }
-            OIS::InputManager::destroyInputSystem(manager) ;
-          }
-        }  
-          
-      };
-    
-      /// OIS element
-      std::auto_ptr<OISSystem> ois ;
-     
-      std::auto_ptr<Implementation::Keyboard> keyboard_listener ;
-      std::auto_ptr<Implementation::Mouse> mouse_listener ;
-      std::auto_ptr<Implementation::Joystick> joystick_listener ;
+      Implementation::OIS::terminate() ;
     }
 
-   
-    void init()
-    {
-      InternalMessage("Input","initialising ois") ;
-      
-      if (ois.get())
-      {
-        return ;
-      }
-      
-      ois.reset(new OISSystem()) ;
-      
-      OIS::ParamList parameters ;    
-      size_t window_hanlde = 0;
-      std::ostringstream window_hanlde_name ;
-
-      window_hanlde = Display::getWindowHandle() ;
-
-      InternalMessage("Input","Input::init window_handle=" + Kernel::toString(window_hanlde)) ;
-      window_hanlde_name << (unsigned int) window_hanlde;
-      parameters.insert(std::make_pair(
-                          std::string("WINDOW"), 
-                          window_hanlde_name.str())) ;
-
-      ois->manager = OIS::InputManager::createInputSystem(parameters) ;
-
-      // create keyboard
-      ois->keyboard = static_cast<OIS::Keyboard*>(
-                  ois->manager->createInputObject(OIS::OISKeyboard,true)) ;
-      keyboard_listener.reset(new Implementation::Keyboard()) ;
-      ois->keyboard->setEventCallback(keyboard_listener.get()) ;
-      
-      // create joystick
-#if OIS_VERSION==0x010000      
-      if (ois->manager->numJoysticks() > 0)
-#else
-      if (ois->manager->getNumberOfDevices(OIS::OISJoyStick) > 0)
-#endif
-      {
-        ois->joystick = static_cast<OIS::JoyStick*>(
-                    ois->manager->createInputObject(OIS::OISJoyStick,true)) ;
-        joystick_listener.reset(new Implementation::Joystick()) ;      
-        ois->joystick->setEventCallback(joystick_listener.get()) ;
-      }
-      else
-      {
-        InternalMessage("Input","no joystick found") ;
-      }
-      // create mouse
-      ois->mouse = static_cast<OIS::Mouse*>(ois->manager->createInputObject(OIS::OISMouse,true)) ;
-      mouse_listener.reset(new Implementation::Mouse()) ;      
-      ois->mouse->setEventCallback(mouse_listener.get()) ;
-      
-    }       
-    
-    void close()
-    {
-      InternalMessage("Input","closing ois") ;
-      ois.reset() ;
-    }
-
-    void update()
-    {
-      /// capture all system objects
-      if (!ois.get())
-      {
-        ErrorMessage("Input::update no ois system") ;
-        return ;
-      }
-      if (ois->keyboard)
-        ois->keyboard->capture() ;
-      if (ois->joystick)
-        ois->joystick->capture() ;
-      if (ois->mouse)
-        ois->mouse->capture() ;
-    }
-    
-    Implementation::Keyboard* getKeyboard()
-    {
-      return keyboard_listener.get() ;
-    }
-    
-    Implementation::Mouse* getMouse()
-    {
-      return mouse_listener.get() ;
-    }
-    
-    Implementation::Joystick* getJoystick()
-    {
-      return joystick_listener.get() ;
-    }
-    
     std::set<Model::PlayerConfiguration::InputEvent> getEvents()
     {
       std::set<Model::PlayerConfiguration::InputEvent> result ;
-      if (keyboard_listener.get())     
-        result.insert(keyboard_listener->getEvents().begin(),
-                      keyboard_listener->getEvents().end()) ;
-      if (mouse_listener.get())     
-        result.insert(mouse_listener->getEvents().begin(),
-                      mouse_listener->getEvents().end()) ;
-      if (joystick_listener.get())     
-        result.insert(joystick_listener->getEvents().begin(),
-                      joystick_listener->getEvents().end()) ;
+      for(std::set<Implementation::InputObject*>::const_iterator object = m_objects.begin() ;
+          object != m_objects.end() ;
+          ++object)
+      {
+        const std::set<Model::PlayerConfiguration::InputEvent>& temp = (*object)->getEvents() ;
+        result.insert(temp.begin(),temp.end()) ;
+      }
       return result ;
     }
     
     std::map<Model::PlayerConfiguration::InputAxis,Kernel::Percentage> getAxes()
     {
       std::map<Model::PlayerConfiguration::InputAxis,Kernel::Percentage> result ;
-      if (keyboard_listener.get())     
-        result.insert(keyboard_listener->getAxes().begin(),
-                      keyboard_listener->getAxes().end()) ;
-      if (mouse_listener.get())     
-        result.insert(mouse_listener->getAxes().begin(),
-                      mouse_listener->getAxes().end()) ;
-      if (joystick_listener.get())     
-        result.insert(joystick_listener->getAxes().begin(),
-                      joystick_listener->getAxes().end()) ;
+      for(std::set<Implementation::InputObject*>::const_iterator object = m_objects.begin() ;
+          object != m_objects.end() ;
+          ++object)
+      {
+        const std::map<Model::PlayerConfiguration::InputAxis,Kernel::Percentage>& temp = (*object)->getAxes() ;
+        result.insert(temp.begin(),temp.end()) ;
+      }
+
       return result ;
     }
     
@@ -270,6 +127,26 @@ namespace ProjetUnivers {
         
       }
       
+    }
+    
+    ::OIS::Keyboard* getOISKeyboard()
+    {
+      return Implementation::OIS::getOISKeyboard() ;
+    }
+    
+    void init()
+    {
+      Implementation::OIS::init() ;
+    }
+   
+    void close()
+    {
+      Implementation::OIS::close() ;
+    }
+
+    void update()
+    {
+      Implementation::OIS::update() ;
     }
     
   }

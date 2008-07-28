@@ -10,11 +10,12 @@ AM_CXXFLAGS=$(PU_CXXFLAGS)
 libdisplay_la_SOURCES = \
 ../implementation/display.cpp \
 ../implementation/explosion.cpp \
-../implementation/target.cpp \
 ../implementation/ideal_target.cpp \
 ../implementation/identified_target.cpp \
+../implementation/image.cpp \
 ../implementation/observer.cpp \
 ../implementation/space_dust.cpp \
+../implementation/target.cpp \
 ../implementation/target_with_selection.cpp \
 ../implementation/ogre/explosion.cpp \
 ../implementation/ogre/image.cpp \
@@ -27,7 +28,6 @@ libdisplay_la_SOURCES = \
 ../implementation/ogre/universe.cpp \
 ../implementation/ogre/utility.cpp \
 ../implementation/ogre/laser_beam.cpp \
-../implementation/ogre/menu.cpp \
 ../implementation/ogre/space_dust.cpp \
 ../implementation/ogre/target_displayer.cpp \
 ../implementation/ogre/head_up_display/target.cpp \

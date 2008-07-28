@@ -22,7 +22,6 @@
 #define PU_DISPLAY_IMPLEMENTATION_OGRE_OGRE_H_
 
 #include <Ogre.h>
-#include <OgreCEGUIRenderer.h>
 #include <display/display.h>
 
 namespace ProjetUnivers {
@@ -63,18 +62,9 @@ namespace ProjetUnivers {
         /// Window
         ::Ogre::RenderWindow* getWindow() ;
         
-        /// Access to GUI system.
-        ::CEGUI::System* getCEGUISystem() ;
-        
-        /// Access to GUI renderer.
-        ::CEGUI::OgreCEGUIRenderer* getCEGUIRenderer() ;        
-        
         /// Access to overlay, created on demand.
         ::Ogre::Overlay* getOverlay() ;
         
-        /// Send a key event to GUI.
-        void injectKey(const unsigned int& key_code) ;
-
       }
     }
   }

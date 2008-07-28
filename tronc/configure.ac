@@ -149,9 +149,6 @@ AC_CONFIG_FILES([Makefile \
                  sources/demonstration/Makefile \
                  sources/demonstration/compilation/Makefile \
                  sources/demonstration/compilation/plugins.cfg \
-                 sources/game/Makefile \
-                 sources/game/compilation/Makefile \
-                 sources/game/compilation/plugins.cfg \
                  sources/input/Makefile \
                  sources/input/compilation/Makefile \
                  sources/input/compilation/plugins.cfg \
@@ -162,6 +159,9 @@ AC_CONFIG_FILES([Makefile \
                  sources/sound/implementation/openal/extension.h \
                  sources/artificial_intelligence/Makefile \
                  sources/artificial_intelligence/compilation/Makefile \
+                 sources/gui/Makefile \
+                 sources/gui/compilation/Makefile \
+                 sources/gui/compilation/plugins.cfg \
                  ])
 
 AC_OUTPUT

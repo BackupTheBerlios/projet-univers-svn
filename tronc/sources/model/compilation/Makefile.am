@@ -17,6 +17,8 @@ libmodel_la_SOURCES = \
 ../implementation/component.cpp \
 ../implementation/computer.cpp \
 ../implementation/computer_data.cpp \
+../implementation/displayed.cpp \
+../implementation/end_of_simulation.cpp \
 ../implementation/energy.cpp \
 ../implementation/engine.cpp \
 ../implementation/engine_controler.cpp \
@@ -36,6 +38,7 @@ libmodel_la_SOURCES = \
 ../implementation/oriented.cpp \
 ../implementation/physical_object.cpp \
 ../implementation/physical_world.cpp \
+../implementation/played.cpp \
 ../implementation/player.cpp \
 ../implementation/player_configuration.cpp \
 ../implementation/position.cpp \
@@ -77,22 +80,26 @@ libmodel_la_SOURCES = \
 ../implementation/sized.cpp \
 ../implementation/team.cpp \
 ../implementation/custom_mission.cpp \
-../implementation/game_state.cpp \
+../implementation/with_transitions.cpp \
+../implementation/logic/activated_end_of_simulation.cpp \
 ../implementation/logic/logic.cpp \
 ../implementation/logic/with_lifetime.cpp \
 ../implementation/logic/logic_system.cpp \
 ../implementation/logic/collision.cpp \
 ../implementation/logic/destroyable.cpp \
 ../implementation/logic/detector.cpp \
+../implementation/logic/end_of_simulation.cpp \
 ../implementation/logic/target.cpp \
 ../implementation/logic/laser.cpp \
 ../implementation/logic/shooting_helper_viewpoint.cpp \
 ../implementation/logic/shooting_helper.cpp \
-../implementation/logic/shot.cpp 
+../implementation/logic/shot.cpp \
+../implementation/logic/with_transitions.cpp 
 
 libmodel_la_LDFLAGS = -no-undefined
 libmodel_la_LDFLAGS += \
 $(SOURCES)/kernel/compilation/libkernel.la \
+$(OIS_LIBS) \
 $(OGRE_LIBS) \
 $(librlog_LIBS)
 
@@ -120,6 +127,7 @@ test_model_SOURCES = \
 ../test/test_mesh.cpp \
 ../test/test_laser.cpp \
 ../test/test_logic.cpp \
+../test/test_player_configuration.cpp \
 ../test/test_detector.cpp \
 ../test/test_load.cpp \
 ../test/test_targeting_system.cpp \
