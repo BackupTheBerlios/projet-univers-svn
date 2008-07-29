@@ -735,7 +735,7 @@
     - changed tests : all in one executable
     - terminate destroy all OpenAL system
   * Input :
-	- corrected failure whith no joystick
+    - corrected failure whith no joystick
 
 2008-07-08 rogma (version 0.3.1)
   
@@ -784,7 +784,14 @@
   * Game :
     - suppresion of the module
     
-
+2008-07-29 rogma
+  
+  * Display :
+    - added a background viewport that is cleared, allowing several viewports 
+      one over the other
+    - it solve the issue with images that would be displayed only if there 
+      exists an observer 
+    
 @todo :
 
   
@@ -822,11 +829,6 @@
       casting inside Model. Code could rely on Ogre but we would be an 
       encapsulation.
     
-    - a Player trait ? For now the Observer trait plays this role
-    
-    - Menu handling : link the menu to operations. It seems that it should be 
-      commands.
-    
     - should define isInside like 
       IsInside <=> parent(Positionned ^ Sized) ^ Positionned
       i.e., being decendent means that we are inside 
@@ -834,8 +836,6 @@
     
     - PhysicalWorld <=> Whole ??
       PhysicalObject should not depend on mobile ?
-    
-    - remove position from collision trait, use Positionned instead  
 
   * Display :
     - seg fault when having an Oriented object that is not Positionned, use 
@@ -849,8 +849,6 @@
       ships...
     - make a loading bar : create a ressource loading queue (inspire from 
       Ogre::ResourceBackgroundQueue that is not by default on ogre package)  
-    - splash screen needs an observer : find a way to avoid this (for example 
-      create a scene manager + a camera + a viewport for images)
     
     
   * Input :

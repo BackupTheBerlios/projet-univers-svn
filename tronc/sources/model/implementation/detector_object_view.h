@@ -31,7 +31,7 @@ namespace ProjetUnivers {
   namespace Model {
     namespace Implementation {
       
-      /// Implementation of object detection.
+      /// An object that is potentially detected by a detector.
       class DetectorObjectView : public Kernel::TraitView<Detectable,
                                                           DetectorViewPoint>
       {

@@ -30,6 +30,14 @@ namespace ProjetUnivers {
     namespace Implementation {
       
       /// Implementation of detection.
+      /*!
+        @todo 
+          We could share the same viewpoint for all detectors of the scene. 
+          Each potential detected object would be tested against each detector 
+          objects.
+          This development should be preceed by a specific test with two 
+          detectors. 
+      */
       class DetectorViewPoint : public Kernel::ViewPoint
       {
       public:

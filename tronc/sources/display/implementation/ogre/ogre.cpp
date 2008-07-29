@@ -91,6 +91,10 @@ namespace ProjetUnivers {
             // load all ressources :
             ResourceGroupManager::getSingleton().loadResourceGroup("General") ;
             
+            m_background_manager = ::Ogre::Root::getSingleton().createSceneManager(::Ogre::ST_GENERIC) ;
+            m_background_camera = m_background_manager->createCamera("background") ;
+            ::Ogre::Viewport* viewport = window->addViewport(m_background_camera,-100) ;
+
             InternalMessage("Display","Ogre launched") ;
             
             initialised = true ;
@@ -168,6 +172,15 @@ namespace ProjetUnivers {
         
           ::Ogre::Root* root ;
           ::Ogre::LogManager* log_manager ;
+          
+          /// make a background viewport
+          /*!
+            We have several viewports with different z-order, this one is behind 
+            and will be cleared
+          */
+          ::Ogre::SceneManager* m_background_manager ;
+          ::Ogre::Camera* m_background_camera ;
+          
           bool initialised ;
         
           // gui

@@ -311,12 +311,6 @@ namespace ProjetUnivers {
         universe->addTrait(new Model::Image("intro.png")) ;
         universe->addTrait(new Model::Displayed()) ;
         
-        Kernel::Object* observer = model->createObject() ;
-        observer->addTrait(new Model::Observer()) ;
-        observer->addTrait(new Model::Player()) ;
-        observer->addTrait(new Model::Positionned()) ;
-        
-        
         Kernel::Timer timer ;
         Kernel::Timer global_timer ;
         

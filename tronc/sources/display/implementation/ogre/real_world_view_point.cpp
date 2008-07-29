@@ -128,7 +128,8 @@ namespace ProjetUnivers {
             Observer* observer_view = m_observer->getView<Observer>(this) ;
             CHECK(observer_view,"RealWorldViewPoint::activate no obeserve view") ;
             CHECK(observer_view->getCamera(),"RealWorldViewPoint::activate no camera") ;
-            getWindow()->addViewport(observer_view->getCamera()) ;
+            ::Ogre::Viewport* viewport = getWindow()->addViewport(observer_view->getCamera()) ;
+            viewport->setClearEveryFrame(false) ;
           }
         }
         
