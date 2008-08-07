@@ -54,7 +54,7 @@ namespace ProjetUnivers {
           getObject()->destroyTrait(displayed) ;
         }
         
-        if (finder->second)
+        if (finder->second && !finder->second->getTrait<Displayed>())
         {
           InternalMessage("Model","WithTransitions::trigger added Displayed on object " + 
                           Kernel::toString(finder->second->getIdentifier())) ;

@@ -35,8 +35,7 @@ namespace ProjetUnivers {
         : Kernel::Controler<ActivatedEndOfSimulation,
                             LogicSystem>(object,system)
         {}
-      
-        
+       
         void EndOfSimulation::onInit()
         {
           const std::set<Kernel::Object*>& roots = getTrait()->getObject()

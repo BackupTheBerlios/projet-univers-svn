@@ -811,6 +811,14 @@
       viewport on demand on it (during creation for observer, remove the vieport 
       and recerate a new one...) 
       @see http://www.ogre3d.org/phpBB2/viewtopic.php?p=189032#189032
+
+2008-08-08 rogma
+    
+  * Model :
+    - Logic::LogicSystem : corrected a bug, when destroying objects, new objects
+      to be destroy where added causing a bug
+    - WithTransitions is more versatile : it only adds Displayed iff not already
+      present  
   
 @todo :
   

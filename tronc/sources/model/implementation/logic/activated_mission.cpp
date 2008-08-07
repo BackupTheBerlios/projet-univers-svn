@@ -37,7 +37,6 @@ namespace ProjetUnivers {
         : Kernel::Controler<Implementation::ActivatedMission,
                             LogicSystem>(mission,system)
         {}
-      
         
         void ActivatedMission::onInit()
         {
