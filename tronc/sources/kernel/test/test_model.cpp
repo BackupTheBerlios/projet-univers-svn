@@ -337,6 +337,18 @@ namespace ProjetUnivers {
         model->destroyObject(object1) ;
       }
       
+      void TestModel::addTraitTwice()
+      {
+        /// create a model
+        std::auto_ptr<Model> model(new Model("TestModel::addTraitTwice")) ;
+
+        Object* object = model->createObject() ;
+        object->addTrait(new Person()) ;
+        object->destroyTrait(object->getTrait<Person>()) ;
+        object->addTrait(new Person()) ;
+        
+      }
+      
       void TestModel::setUp()
       {
       }

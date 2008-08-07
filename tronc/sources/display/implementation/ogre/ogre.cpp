@@ -91,9 +91,9 @@ namespace ProjetUnivers {
             // load all ressources :
             ResourceGroupManager::getSingleton().loadResourceGroup("General") ;
             
-            m_background_manager = ::Ogre::Root::getSingleton().createSceneManager(::Ogre::ST_GENERIC) ;
-            m_background_camera = m_background_manager->createCamera("background") ;
-            ::Ogre::Viewport* viewport = window->addViewport(m_background_camera,-100) ;
+            m_manager = ::Ogre::Root::getSingleton().createSceneManager(::Ogre::ST_GENERIC) ;
+            m_camera = NULL ;
+            m_camera_number = 0 ;
 
             InternalMessage("Display","Ogre launched") ;
             
@@ -173,13 +173,14 @@ namespace ProjetUnivers {
           ::Ogre::Root* root ;
           ::Ogre::LogManager* log_manager ;
           
-          /// make a background viewport
+          /// make a background/foreground viewport
           /*!
             We have several viewports with different z-order, this one is behind 
             and will be cleared
           */
-          ::Ogre::SceneManager* m_background_manager ;
-          ::Ogre::Camera* m_background_camera ;
+          ::Ogre::SceneManager* m_manager ;
+          ::Ogre::Camera*       m_camera ;
+          int m_camera_number ;
           
           bool initialised ;
         
@@ -285,6 +286,37 @@ namespace ProjetUnivers {
           m_system->root->_updateAllRenderTargets() ;
           m_system->root->_fireFrameEnded();
         }
+
+        ::Ogre::SceneManager* getManager()
+        {
+          return m_system->m_manager ;
+        }
+        
+        void createCamera()
+        {
+          if (m_system->m_camera_number == 0 && ! m_system->m_camera)
+          {
+            m_system->m_camera = m_system->m_manager->createCamera("background") ;
+            ::Ogre::Viewport* viewport = getWindow()->addViewport(m_system->m_camera,-100) ;
+          }
+        }
+        
+        void addCamera(::Ogre::Camera*)
+        {
+          ++m_system->m_camera_number ;
+          if (m_system->m_camera)
+          {
+            getWindow()->removeViewport(-100) ;
+            m_system->m_manager->destroyCamera(m_system->m_camera) ;
+            m_system->m_camera = NULL ;
+          }
+        }
+        
+        void removeCamera(::Ogre::Camera*)
+        {
+          --m_system->m_camera_number ;
+        }
+        
         
       }
     }

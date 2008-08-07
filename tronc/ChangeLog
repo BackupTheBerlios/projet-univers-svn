@@ -791,21 +791,48 @@
       one over the other
     - it solve the issue with images that would be displayed only if there 
       exists an observer 
-    
-@todo :
 
+2008-08-07 rogma
+    
+    - bug correction : when ode was not installed, configure succeeded whereas 
+      it should not
+  * GUI :
+    - corrected a segmentation fault on CommandInterpretor
+    - added a system to show mouse cursor when needed
+  * Model :
+    - made a basic sequence of menus
+    - added a Mission trait that perform sub-loading of the scene 
+  * Kernel :
+    - corrected a bug on applyTopDown/applyBottomUp on controlers : during 
+      simulation the set of traits of the currently browsed object may vary
+  * Display :
+    - bug on explosions : having multiple scene managers and changing a texture 
+      causes a bug : create only one scene manager on demand, and create a 
+      viewport on demand on it (during creation for observer, remove the vieport 
+      and recerate a new one...) 
+      @see http://www.ogre3d.org/phpBB2/viewtopic.php?p=189032#189032
+  
+@todo :
   
   * All : 
     - add Game controler and trait for handling team respawn ...
+      a Transponder^Ship controler that count the number of alive ships, same 
+      for teams and handle respawn
+      Custom mission controler dealt with victory/ending conditions and leads 
+      to game over state
+      Avoid blocking game when player is dead. 
     - considered in a lot of places that Z axis is forward... whereas Ogre 
       consider negative Z as forward ??? 
     - make install does not work on win32 : libtool refuses to link with Ogre 
       (wheread it works in normal make !!)
-       
+    - some changes due to gcc 4.3 (not urgent)
+    - a lot of kernel tests fails on gcc 4.3 (not urgent)
+    - migrate sound module to use openal-soft ? (not urgent) 
+     
   * Model : 
     - Event traits like Collision, Shot should be implemented through 
       a common interface : Model::Event base class...
-      Maybe better to have a Kernel::Event because Controler or Veiw cannot 
+      Maybe better to have a Kernel::Event because Controler or View cannot 
       have an update method (it has no meaning)   
          
     - ShootingHelper may connect several lasers (calculus is made on 
@@ -836,7 +863,15 @@
     
     - PhysicalWorld <=> Whole ??
       PhysicalObject should not depend on mobile ?
+    
+    - add another type of transition : open a new "state" while not closing the
+      old one
+    - add a transition that allows to close any oppened state while oppening 
+      another ? 
 
+  * GUI : 
+    - add key shortcuts for clicable buttons  
+   
   * Display :
     - seg fault when having an Oriented object that is not Positionned, use 
       a deduction like : Oriented and HasParent(Positionned) 
@@ -854,11 +889,12 @@
   * Input :
     - be able to map any axis on anything
     - send wheel mouse to CEGUI
-    - add a key sensibility
+    - add a key sensibility, here the key is sent several times per seconds
     - add a key repetition in CEGUI for text insertion
+    - add Maj+Control in key handling : treat them as modifiers ?
+    - handle axes in gui input mapping
   
   * Physic : 
-    - bug : Physic::init() then Physic::build() works but not the inverse
     - try to keep all units in an acceptable "range", it means that we whould 
       be able to convert model units in an arbitrary "ranging system".
     - migrate Model::PhysicalObject and Model::PhysicalWorld to Physic (for 
@@ -874,26 +910,28 @@
   * Sound : 
     - reconsider the implementation with the limitation 
     - check that Positionned is correctly used, I suspect that position update 
-	  is not done when a ship moves while containing the listener
+      is not done when a ship moves while containing the listener
     - engine sound does not weem to work ?
     - change Engine gain accoarding to engine "power" and current applied 
       throttle
     - add Shot sound
     - every event sound is the same : make a general view on event and get the 
       sound name by a function 
+    - segmentation fault when sound is already used by another process
     
   * Kernel :
     
     - refactoring : viewpoint and controler set have a lot in common...
     - add better errors on object structure
     - maybe call axis should take a Percentage
-    
-    - add an onDeduced event on deduced traits : it would allow one to perform 
-      custom code, for example to calculate deduced attribute in those traits. 
-      e.g., Solid <=> Sized, and Sized.size = Solid.Mesh.radius
-      Not mandatory because it can be calculate "on demand" in a getSize method 
-      in the deduced trait with a mutable attribute. 
-      --> obsolete kept for documentation purpose
+    - be able to copy an object, use read and add a write to Traits.
+    - controlers may change structure during simulate call : this is done 
+      during a browse all objects and could cause seg fault... maybe we should 
+      synchronize structural object modifications to happen at the end of a 
+      applyTopDown/applyBottomUp by recording all strutural calls and playing 
+      them at the end ?? 
+      @see Model::Implementation::Logic::LogicSystem::m_objects_to_destroy that 
+      already perform that kind of recording stuff...
     
   * all :
     - make use of Quantities library, 

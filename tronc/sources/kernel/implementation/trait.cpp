@@ -494,14 +494,14 @@ namespace ProjetUnivers {
     }
 
     void Trait::apply(
-      ControlerSet*                         i_controler_set,
-      boost::function1<void,BaseControler*> i_operation)
+      ControlerSet*                         controler_set,
+      boost::function1<void,BaseControler*> operation)
     {
       std::multimap<ControlerSet*,BaseControler*>::iterator 
-        finder = m_controlers.find(i_controler_set) ;
+        finder = m_controlers.find(controler_set) ;
       if (finder != m_controlers.end())
       {
-        i_operation(finder->second) ;
+        operation(finder->second) ;
       }
       
     }

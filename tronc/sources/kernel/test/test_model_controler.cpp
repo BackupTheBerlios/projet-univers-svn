@@ -476,9 +476,6 @@ namespace ProjetUnivers {
         int ControlerHead2::number_of_operation = 0 ;
 
         RegisterControler(ControlerHead2,Head,TestControlerSet2) ;
-        
-        
-        
       }
 
       void TestModelControler::testBuildOnEmptyModel()
@@ -927,6 +924,107 @@ namespace ProjetUnivers {
         CPPUNIT_ASSERT(personcontroler) ;                
         CPPUNIT_ASSERT(personcontroler->init_number == 0) ;        
         InternalMessage("Kernel","Kernel::Test::changeModelOnInitialisedControlerSet leaving") ;
+      }
+
+      namespace
+      {
+        class Trait1 : public Trait
+        {};
+        class Trait2 : public Trait
+        {};
+        class Trait3 : public Trait
+        {};
+        class Trait4 : public Trait
+        {};
+        
+        class DestroyControlerSet : public ControlerSet
+        {
+        public:
+          
+          DestroyControlerSet(Model* model)
+          : ControlerSet(model)
+          {}
+        };
+        
+        class ControlerTrait1 : public Controler<Trait1,DestroyControlerSet>
+        {
+        public:
+          ControlerTrait1(Trait1* trait,DestroyControlerSet* controler_set)
+          : Controler<Trait1,DestroyControlerSet>(trait,controler_set)
+          {}
+          
+          virtual void simulate(const float&)
+          {
+            Trait2* trait2 = getObject()->getTrait<Trait2>() ;
+            if (trait2)
+            {
+              getObject()->destroyTrait(trait2) ;
+            }
+          }
+        };
+        RegisterControler(ControlerTrait1,Trait1,DestroyControlerSet) ;
+
+        class ControlerTrait2 : public Controler<Trait2,DestroyControlerSet>
+        {
+        public:
+          ControlerTrait2(Trait2* trait,DestroyControlerSet* controler_set)
+          : Controler<Trait2,DestroyControlerSet>(trait,controler_set)
+          {}
+          
+          virtual void simulate(const float&)
+          {
+            Trait1* trait1 = getObject()->getTrait<Trait1>() ;
+            if (trait1)
+            {
+              getObject()->destroyTrait(trait1) ;
+            }
+            Trait3* trait3 = getObject()->getTrait<Trait3>() ;
+            if (trait3)
+            {
+              getObject()->destroyTrait(trait3) ;
+            }
+          }
+        };
+        RegisterControler(ControlerTrait2,Trait2,DestroyControlerSet) ;
+        
+        class ControlerTrait3 : public Controler<Trait3,DestroyControlerSet>
+        {
+        public:
+          ControlerTrait3(Trait3* trait,DestroyControlerSet* controler_set)
+          : Controler<Trait3,DestroyControlerSet>(trait,controler_set)
+          {}
+          
+          virtual void simulate(const float&)
+          {
+            Trait1* trait1 = getObject()->getTrait<Trait1>() ;
+            if (trait1)
+            {
+              getObject()->destroyTrait(trait1) ;
+            }
+            Trait2* trait2 = getObject()->getTrait<Trait2>() ;
+            if (trait2)
+            {
+              getObject()->destroyTrait(trait2) ;
+            }
+          }
+        };
+        RegisterControler(ControlerTrait3,Trait3,DestroyControlerSet) ;
+        
+      }
+      
+      void TestModelControler::simulateDestroyTrait()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+        ControlerSet* controler(model->addControlerSet(new DestroyControlerSet(model.get()))) ;
+        controler->init() ;
+      
+        //// fill the model
+        Object* person = model->createObject() ;
+        person->addTrait(new Trait2()) ;
+        person->addTrait(new Trait1()) ;
+        person->addTrait(new Trait3()) ;
+        
+        controler->simulate(0) ;
       }
       
       void TestModelControler::setUp()

@@ -80,7 +80,7 @@ namespace ProjetUnivers {
           
           CHECK(getRoot(),"RealWorldViewPoint::onInit no root") ;
 
-          m_manager = getRoot()->createSceneManager(::Ogre::ST_GENERIC) ;
+          m_manager = Ogre::getManager() ;
 
           if (! m_manager)
           {
@@ -122,6 +122,11 @@ namespace ProjetUnivers {
       
         void RealWorldViewPoint::setObserver(Kernel::Object* observer)
         {
+          if (m_observer)
+          {
+            getWindow()->removeViewport(0) ;
+          }
+          
           m_observer = observer ;
           if (m_observer)
           {
@@ -129,7 +134,6 @@ namespace ProjetUnivers {
             CHECK(observer_view,"RealWorldViewPoint::activate no obeserve view") ;
             CHECK(observer_view->getCamera(),"RealWorldViewPoint::activate no camera") ;
             ::Ogre::Viewport* viewport = getWindow()->addViewport(observer_view->getCamera()) ;
-            viewport->setClearEveryFrame(false) ;
           }
         }
         

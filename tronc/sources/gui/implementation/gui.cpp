@@ -34,8 +34,16 @@ namespace ProjetUnivers {
     {
       Implementation::CEGUI::terminate() ;
     }
-    
 
-        
+    void addActiveGUI()
+    {
+      Implementation::CEGUI::addActiveGUI() ;
+    }
+
+    void removeActiveGUI()
+    {
+      Implementation::CEGUI::removeActiveGUI() ;
+    }
+    
   }
 }

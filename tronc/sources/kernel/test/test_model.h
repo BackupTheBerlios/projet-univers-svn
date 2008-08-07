@@ -75,6 +75,9 @@ namespace ProjetUnivers {
         /// Check that destroying an object with deduced traits works.
         void destroyObjectWithDeducedTraits() ;
         
+        /// Add, then remove and finally add the same trait.
+        void addTraitTwice() ;
+        
       // @}
 
 
@@ -92,6 +95,7 @@ namespace ProjetUnivers {
         CPPUNIT_TEST(testSetOfObjectReferences) ;
         CPPUNIT_TEST(notifyOnNotAssignedTrait) ;
         CPPUNIT_TEST(destroyObjectWithDeducedTraits) ;
+        CPPUNIT_TEST(addTraitTwice) ;
 
         CPPUNIT_TEST_SUITE_END() ;
 

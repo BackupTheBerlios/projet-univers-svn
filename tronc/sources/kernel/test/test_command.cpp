@@ -62,6 +62,7 @@ namespace ProjetUnivers {
             return value ;
           }
           
+          
         private:
         
           int value ;
@@ -70,7 +71,7 @@ namespace ProjetUnivers {
         
         /// command registration
         RegisterAxis("axis1",Trait1,change) ;
-
+          
         RegisterFunction("function1",Trait1,getValue) ;
 
         class Trait2 : public Trait
@@ -378,6 +379,37 @@ namespace ProjetUnivers {
         InternalMessage(
           "Kernel",
           "Kernel::Test::TestCommand::callOnRecursiveStructure leaving") ;
+      }
+      
+      void TestCommand::callOnGranChild()
+      {
+        InternalMessage(
+          "Kernel",
+          "Kernel::Test::TestCommand::callOnGranChild entering") ;
+        {
+          // create a model
+          std::auto_ptr<Model> model(new Model()) ;
+  
+          // fill the model
+          Object* object = model->createObject() ;
+          Trait1* trait1 = new Trait1() ;
+          object->addTrait(trait1) ;
+  
+          Object* object2 = object->createObject() ;
+          object2->addTrait(new Trait2()) ;
+
+          Object* object3 = object2->createObject() ;
+          object3->addTrait(new CommandDelegator()) ;
+          object3->getTrait<CommandDelegator>()->addDelegate(object) ;
+          object3->getTrait<CommandDelegator>()->addDelegate(object2) ;
+          
+          CPPUNIT_ASSERT(object3->call("push")) ;
+          CPPUNIT_ASSERT(object2->getTrait<Trait2>()->isPushed()) ;
+        }
+        
+        InternalMessage(
+          "Kernel",
+          "Kernel::Test::TestCommand::callOnGranChild leaving") ;
       }
       
       void TestCommand::setUp()

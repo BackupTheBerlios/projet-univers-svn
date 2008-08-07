@@ -33,6 +33,12 @@ namespace ProjetUnivers {
         
         /// Terminate the module.
         void terminate() ;
+
+        /// Tells the system a new active GUI is present.
+        void addActiveGUI() ;
+        
+        /// Tells the system an active GUI has became inactive.
+        void removeActiveGUI() ;
       }
     }    
   }

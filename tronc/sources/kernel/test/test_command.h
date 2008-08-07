@@ -64,6 +64,12 @@ namespace ProjetUnivers {
         /// Command call on a recursive structure.
         void callOnRecursiveStructure() ;
         
+        /// A "double" recuserive structure.
+        /*!
+          An object has delegates to two of its ancestors.
+        */
+        void callOnGranChild() ;
+        
       // @}
 
 
@@ -75,6 +81,7 @@ namespace ProjetUnivers {
         CPPUNIT_TEST(testFunctionCall) ;
         CPPUNIT_TEST(callUnexistingCommand) ;
         CPPUNIT_TEST(callOnRecursiveStructure) ;
+        CPPUNIT_TEST(callOnGranChild) ;
 
         CPPUNIT_TEST_SUITE_END() ;
 

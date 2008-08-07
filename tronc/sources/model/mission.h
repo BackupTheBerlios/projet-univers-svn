@@ -18,21 +18,38 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_IMPLEMENTATION_LOGIC_ACTIVATED_END_OF_SIMULATION_H_
-#define PU_MODEL_IMPLEMENTATION_LOGIC_ACTIVATED_END_OF_SIMULATION_H_
+#ifndef PU_MODEL_MISSION_H_
+#define PU_MODEL_MISSION_H_
 
-#include <kernel/deduced_trait.h>
+#include <kernel/object_reference.h>
+#include <kernel/trait.h>
 
 namespace ProjetUnivers {
   namespace Model {
-    namespace Implementation {
-      namespace Logic {
-          
-        /// We enter the end of the simulation.
-        class ActivatedEndOfSimulation : public Kernel::DeducedTrait
-        {};
-      }
-    }
+  
+    /// Represents a basic loadable mission.
+    class Mission : public Kernel::Trait
+    {
+    public:
+      
+      /// Constructor.
+      Mission(const std::string& name,
+              Kernel::Object* player_configuration,
+              Kernel::Object* main_menu) ;
+
+      /// Load the misison.
+      void load() ;
+      
+    private:
+      
+      /// Name
+      std::string m_name ;
+      
+      Kernel::ObjectReference m_player_configuration ;
+      Kernel::ObjectReference m_main_menu ;
+      
+    };
   }
 }
-#endif /*PU_MODEL_IMPLEMENTATION_LOGIC_ACTIVATED_END_OF_SIMULATION_H_*/
+
+#endif /*PU_MODEL_MISSION_H_*/

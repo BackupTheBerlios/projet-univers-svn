@@ -46,6 +46,8 @@ namespace ProjetUnivers {
           {
             command_interpretor.reset(new ScriptingModule()) ;
 
+            m_number_of_active_guis= 0 ;
+            
             CEGUIRenderer = new ::CEGUI::OgreCEGUIRenderer(Display::getWindow()) ;
             
             CEGUISystem = new ::CEGUI::System(CEGUIRenderer) ;
@@ -85,6 +87,9 @@ namespace ProjetUnivers {
           ::CEGUI::OgreCEGUIRenderer* CEGUIRenderer ;
           ::Ogre::Camera* camera ;
           std::auto_ptr<ScriptingModule> command_interpretor ;
+          
+          /// current number of active guis. 
+          unsigned int m_number_of_active_guis ;
         };
           
         std::auto_ptr<GUISystem> system ;
@@ -104,6 +109,26 @@ namespace ProjetUnivers {
         void terminate()
         {
           
+        }
+        
+        void addActiveGUI()
+        {
+          if (system->m_number_of_active_guis == 0)
+          {
+            ::CEGUI::MouseCursor::getSingleton().show() ;
+          }
+          
+          ++system->m_number_of_active_guis ;
+        }
+
+        void removeActiveGUI()
+        {
+          --system->m_number_of_active_guis ;
+
+          if (system->m_number_of_active_guis == 0)
+          {
+            ::CEGUI::MouseCursor::getSingleton().hide() ;
+          }
         }
         
       }

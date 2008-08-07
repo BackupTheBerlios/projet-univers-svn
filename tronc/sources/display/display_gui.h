@@ -37,6 +37,8 @@ namespace ProjetUnivers {
     /// Window
     ::Ogre::RenderWindow* getWindow() ;
     
+    /// Create a default camera and viewport iff needed.
+    void createCamera() ;
     
   // @}
 

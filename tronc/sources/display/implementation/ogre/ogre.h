@@ -65,6 +65,21 @@ namespace ProjetUnivers {
         /// Access to overlay, created on demand.
         ::Ogre::Overlay* getOverlay() ;
         
+        /// Get a scene manager.
+        /*!
+          Due to bug http://www.ogre3d.org/phpBB2/viewtopic.php?p=189032#189032 
+          having animated textures and several scene managers causes a crash. 
+          We handle only one scene manager and create it on demand. 
+        */
+        ::Ogre::SceneManager* getManager() ;
+        
+        /// Create a default camera and viewport iff needed.
+        void createCamera() ;
+        
+        /// Add/remove cameras.
+        void addCamera(::Ogre::Camera*) ;
+        void removeCamera(::Ogre::Camera*) ;
+        
       }
     }
   }

@@ -211,7 +211,7 @@ namespace ProjetUnivers {
       TypeIdentifier trait_name(getObjectTypeIdentifier(i_trait)) ;
 
       CHECK(traits.find(trait_name)==traits.end(), 
-            "trait " + trait_name.toString() + " already exists") ;
+            "trait " + trait_name.toString() + " already exists on object " + toString(getIdentifier())) ;
 
 //      InternalMessage("Kernel","Registering :") ;
 //      InternalMessage("Kernel",trait_name.toString()) ;
@@ -547,11 +547,24 @@ namespace ProjetUnivers {
       ControlerSet*                         i_controler_set,
       boost::function1<void,BaseControler*> i_operation)
     {
+      // the set of trait may vary during apply so we store it once for all 
+      std::set<TypeIdentifier> saved_traits ;
+
       for(std::map<TypeIdentifier, Trait*>::iterator trait = traits.begin() ;
           trait != traits.end() ;
           ++trait)
       {
-        trait->second->apply(i_controler_set,i_operation) ;
+        saved_traits.insert(trait->first) ;
+      }
+
+      for(std::set<TypeIdentifier>::const_iterator trait = saved_traits.begin() ;
+          trait != saved_traits.end() ;
+          ++trait)
+      {
+        // if object still has the trait apply
+        Trait* local_trait = getTrait(*trait) ;
+        if (local_trait)
+          local_trait->apply(i_controler_set,i_operation) ;
       }
       
       for(std::set<Object*>::iterator child = children.begin() ;
@@ -577,7 +590,8 @@ namespace ProjetUnivers {
           trait != traits.end() ;
           ++trait)
       {
-        trait->second->apply(i_controler_set,i_operation) ;
+        if (trait->second)
+          trait->second->apply(i_controler_set,i_operation) ;
       }
     }
 

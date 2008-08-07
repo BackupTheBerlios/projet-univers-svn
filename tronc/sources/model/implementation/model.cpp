@@ -68,7 +68,12 @@
 #include <model/player.h>
 #include <model/player_configuration.h>
 #include <model/with_transitions.h>
+#include <model/image.h>
+#include <model/displayed.h>
+#include <model/with_lifetime.h>
+#include <model/mission.h>
 
+#include <model/implementation/model_internal.h>
 #include <model/model.h>
 
 
@@ -94,277 +99,7 @@ namespace ProjetUnivers {
     {
       
     }
-    
-    void load(const std::string& name,Kernel::Model* model)
-    {
-     
-      if (name == "TestDemonstration")
-      {
-        /// 1. Construction d'un univers
-        InternalMessage("Model","building Universe...") ;
-        Kernel::Object* universe = model->createObject() ;
-        
-        /// ses facettes
-        universe->addTrait(new Universe()) ;
-        universe->addTrait(new Positionned()) ;
-        
 
-        Kernel::Object* system = universe->createObject() ;
-        system->addTrait(new StellarSystem()) ;
-        system->addTrait(new Positionned()) ;
-        InternalMessage("Model","building stellar system done") ;
-        
-        
-        /// 2. Ajout d'objects planetes
-        InternalMessage("Model","building planet...") ;
-        Kernel::Object* planet1 = system->createObject() ;
-        planet1->addTrait(new Positionned()) ;
-        InternalMessage("Model","building planet done") ;
-
-        // 2 teams
-        Kernel::Object* team1 = model->createObject() ;
-        team1->addTrait(new Team("team1")) ;
-        Kernel::Object* team2 = model->createObject() ;
-        team2->addTrait(new Team("team2")) ;
-        
-        
-        /// 3. Ajout d'un vaisseau
-        {
-          InternalMessage("Model","building ship...") ;
-                    
-          Kernel::Object* ship = createShip(system) ;
-          ship->addTrait(new Transponder(team1)) ;
-          ship->getTrait<Positionned>()->setPosition(Position::Meter(0,200,-500)) ;
-          Kernel::Object* agent = createAI(ship) ;
-          agent->getTrait<WithObjectives>()->addObjective(Objective::attackAllEnemies()) ;
-          
-          InternalMessage("Model","building ship done") ;
-        }
-        {
-          InternalMessage("Model","building ship...") ;
-          Kernel::Object* ship = system->createObject() ;
-          ship->addTrait(new Positionned(Position::Meter(-200,
-                                                         50,
-                                                         -500))) ;
-          ship->addTrait(new Oriented()) ;
-          ship->addTrait(new Solid(Mesh("razor.mesh"))) ;
-          ship->addTrait(new Mobile()) ;
-          ship->addTrait(new Massive(Mass::Kilogram(1000))) ;
-          ship->addTrait(new Dragger(Kernel::Parameters::getValue<float>("Model","DraggerCoeeficient"))) ;
-
-          Kernel::Object* st1 = ship->createObject() ;
-          st1->addTrait(new Stabilizer(0,Kernel::Parameters::getValue<float>("Model","StabilizerForce"),0)) ;
-
-          Kernel::Object* st2 = ship->createObject() ;
-          st2->addTrait(new Stabilizer(Kernel::Parameters::getValue<float>("Model","StabilizerForce"),0,0)) ;
-
-          Kernel::Object* st3 = ship->createObject() ;
-          st3->addTrait(new Stabilizer(0,0,Kernel::Parameters::getValue<float>("Model","StabilizerForce"))) ;
-
-          InternalMessage("Model","building ship done") ;
-        }
-
-        {
-          InternalMessage("Model","building ship...") ;
-          Kernel::Object* ship = system->createObject() ;
-          ship->addTrait(new Positionned(Position::Meter(200,50,-1000))) ;
-          ship->addTrait(new Oriented()) ;
-          
-          ship->addTrait(new Solid(Mesh("razor.mesh"))) ;
-          ship->addTrait(new Mobile()) ;
-          ship->addTrait(new Massive(Mass::Kilogram(1000))) ;
-          ship->addTrait(new Dragger(Kernel::Parameters::getValue<float>("Model","DraggerCoeeficient"))) ;
-
-          Kernel::Object* st1 = ship->createObject() ;
-          st1->addTrait(new Stabilizer(0,Kernel::Parameters::getValue<float>("Model","StabilizerForce"),0)) ;
-
-          Kernel::Object* st2 = ship->createObject() ;
-          st2->addTrait(new Stabilizer(Kernel::Parameters::getValue<float>("Model","StabilizerForce"),0,0)) ;
-
-          Kernel::Object* st3 = ship->createObject() ;
-          st3->addTrait(new Stabilizer(0,0,Kernel::Parameters::getValue<float>("Model","StabilizerForce"))) ;
-
-
-          Kernel::Object* stick = system->createObject() ;
-          stick->addTrait(new Positionned(Position::Meter(0,0,-50))) ;
-          stick->addTrait(new Stick()) ;
-          
-          ship->addTrait(new GuidanceSystem(Kernel::Parameters::getValue<float>("Model","GuidanceForce"))) ;
-          ship->addTrait(new GuidanceControler()) ;
-          // stick,ship
-          connectStickControler(stick,ship) ;
-          connectControlerGuidanceSystem(ship,ship) ;
-          
-          /// engine + engine control...
-          Kernel::Object* throttle = ship->createObject() ;
-          throttle->addTrait(new Throttle()) ;
-          
-          Kernel::Object* engine = ship->createObject() ;
-          engine->addTrait(new Engine(Force::Newton(0,0,Kernel::Parameters::getValue<float>("Model","EngineMaxForce")))) ;
-  
-          Kernel::Object* engine_control = ship->createObject() ;
-          engine_control->addTrait(new EngineControler()) ;
-
-          connectThrottleControler(throttle,engine_control) ;
-          connectControlerEngine(engine_control,engine) ;                   
-          
-          Kernel::Object* laser = ship->createObject() ;
-          laser->addTrait(new Laser(Position::Meter(19.2,0,57),
-                                    Orientation(),
-                                    Energy::Joule(10))) ;
-          laser->addTrait(new Component()) ;
-          
-          ship->addTrait(new Transponder(team2)) ;
-          ship->addTrait(new Destroyable(Energy::Joule(10))) ;
-          
-          
-          InternalMessage("Model","building ship done") ;
-        }
-        {
-          /// 4. Ajout d'un observateur
-          InternalMessage("Model","building observer...") ;
-          
-          Kernel::Object* ship = createShip(system) ;
-          ship->getTrait<Oriented>()->setOrientation(Orientation(Ogre::Quaternion(Ogre::Degree(180),Ogre::Vector3::UNIT_Y))) ;
-                    
-          Kernel::Object* observer = ship->createObject() ;
-          observer->addTrait(new Positionned()) ;
-          observer->addTrait(new Oriented()) ;
-          // targeting system
-          Kernel::Object* computer = observer->createObject() ;
-          computer->addTrait(new Computer()) ;
-          
-          Kernel::Object* detector = observer->createObject() ;
-          detector->addTrait(new Detector(computer,Distance(Distance::_Meter,8000))) ;
-          
-          Kernel::Object* target_selector = observer->createObject() ;
-          target_selector->addTrait(new TargetingSystem()) ;
-          TargetingSystem::connect(target_selector,computer) ;
-          
-          Kernel::Object* target_display = observer->createObject() ;
-          target_display->addTrait(new TargetDisplayer()) ;
-          TargetDisplayer::connect(target_display,target_selector) ;
-
-          Kernel::Object* laser_observer = observer->createObject() ;
-          laser_observer->addTrait(new Laser(Position(),Orientation(),Energy::Joule(10))) ;
-
-          Kernel::Object* shooting_helper = observer->createObject() ;
-          shooting_helper->addTrait(new ShootingHelper()) ;
-          ShootingHelper::connect(shooting_helper,computer,laser_observer) ;
-          
-          observer->addTrait(new Observer()) ;
-          observer->addTrait(new Player()) ;
-          observer->addTrait(new Transponder(team1)) ;
-        }
-        InternalMessage("Model","building observer done") ;
-      }
-      else if (name == "TestMenu")
-      {
-        Kernel::Object* quit = model->createObject() ;
-        quit->addTrait(new EndOfSimulation()) ;
-        
-        Kernel::Object* universe = model->createObject() ;
-        
-        /// ses facettes
-        universe->addTrait(new Menu("ProjetUnivers.layout")) ;
-        universe->addTrait(new Universe()) ;
-        universe->addTrait(new Positionned()) ;
-        universe->addTrait(new WithTransitions()) ;
-        universe->getTrait<WithTransitions>()->addTransition("quit",quit) ;
-        
-        Kernel::Object* ship = universe->createObject() ;
-        ship->addTrait(new Positionned(Position::Meter(0,0,-500))) ;
-        ship->addTrait(new Oriented()) ;
-        ship->addTrait(new Solid(Mesh("razor.mesh"))) ;
-
-        /// 4. Ajout d'un observateur
-        InternalMessage("Model","building observer...") ;
-        Kernel::Object* observer = universe->createObject() ;
-        observer->addTrait(new Positionned()) ;
-        observer->addTrait(new Oriented()) ;
-        observer->addTrait(new Observer()) ;
-        observer->addTrait(new Player()) ;
-        
-        
-      }
-      else if (name == "TestPilot")
-      {
-        Kernel::Object* configuration = model->createObject() ;
-        Kernel::Object* player_configuration = 
-          createDefaultPlayerConfiguration(configuration) ;
-
-        Kernel::Object* quit = model->createObject() ;
-        quit->addTrait(new EndOfSimulation()) ;
-        
-        Kernel::Object* universe = model->createObject() ;
-        universe->addTrait(new Universe()) ;
-        universe->addTrait(new Positionned()) ;
-
-        Kernel::Object* system = universe->createObject() ;
-        system->addTrait(new StellarSystem()) ;
-        system->addTrait(new Positionned()) ;
-
-        // 2 teams
-        Kernel::Object* team1 = model->createObject() ;
-        team1->addTrait(new Team("team1")) ;
-        Kernel::Object* team2 = model->createObject() ;
-        team2->addTrait(new Team("team2")) ;
-
-        {
-          Kernel::Object* ship = createShip(system) ;
-          ship->addTrait(new Transponder(team1)) ;
-          ship->getTrait<Positionned>()->setPosition(Position::Meter(0,0,0)) ;
-          Kernel::Object* agent = createAI(ship) ;
-          agent->getTrait<WithObjectives>()->addObjective(Objective::attackAllEnemies()) ;
-        }
-        {
-          Kernel::Object* ship = createShip(system) ;
-          ship->addTrait(new Transponder(team1)) ;
-          ship->getTrait<Positionned>()->setPosition(Position::Meter(0,500,0)) ;
-          Kernel::Object* agent = createAI(ship) ;
-          agent->getTrait<WithObjectives>()->addObjective(Objective::attackAllEnemies()) ;
-        }
-
-        {
-          Kernel::Object* ship = createShip(system) ;
-          ship->addTrait(new Transponder(team2)) ;
-          ship->getTrait<Positionned>()->setPosition(Position::Meter(0,0,1100)) ;
-          Kernel::Object* agent = createAI(ship) ;
-          agent->getTrait<WithObjectives>()->addObjective(Objective::attackAllEnemies()) ;
-        }
-        {
-          Kernel::Object* ship = createShip(system) ;
-          ship->addTrait(new Transponder(team2)) ;
-          ship->getTrait<Positionned>()->setPosition(Position::Meter(0,0,3000)) ;
-          Kernel::Object* agent = createAI(ship) ;
-          agent->getTrait<WithObjectives>()->addObjective(Objective::attackAllEnemies()) ;
-        }
-        
-        {
-          Kernel::Object* ship = createShip(system) ;
-          ship->addTrait(new Transponder(team1)) ;
-          ship->addTrait(new TargetDisplayer()) ;
-          TargetDisplayer::connect(ship,ship) ;
-          ship->getTrait<Positionned>()->setPosition(Position::Meter(0,-500,0)) ;
-          
-          Kernel::Object* player = ship->createObject() ;
-          player->addTrait(new Positionned()) ;
-          player->addTrait(new Oriented()) ;
-          player->addTrait(new Player()) ;
-          player->addTrait(new Observer()) ;
-          player->addTrait(new Kernel::CommandDelegator()) ;
-          player->getTrait<Kernel::CommandDelegator>()->addDelegate(ship) ;
-          Player::connect(player,player_configuration) ;
-          player->addTrait(new WithTransitions()) ;
-          player->getTrait<WithTransitions>()->addTransition("quit",quit) ;
-        }
-      }
-      else
-      {
-        std::auto_ptr<Kernel::XMLReader> reader(Kernel::XMLReader::getFileReader(name)) ;
-        reader->read(model) ;
-      }            
-    }
 
     void initRessources()
     {
@@ -423,6 +158,127 @@ namespace ProjetUnivers {
         delete hardware_buffer_manager ;
         hardware_buffer_manager = NULL ;
       }
+    }
+    
+    void loadMission(const std::string& name,
+                     Kernel::Object* mission,
+                     Kernel::Object* player_configuration, 
+                     Kernel::Object* main_menu)
+    {
+      if (name=="basic_mission")
+      {
+        
+        Kernel::Object* universe = mission->createObject() ;
+        universe->addTrait(new Universe()) ;
+        universe->addTrait(new Positionned()) ;
+        
+        Kernel::Object* system = universe->createObject() ;
+        system->addTrait(new StellarSystem()) ;
+        system->addTrait(new Positionned()) ;
+  
+        // 2 teams
+        Kernel::Object* team1 = mission->createObject() ;
+        team1->addTrait(new Team("team1")) ;
+        Kernel::Object* team2 = mission->createObject() ;
+        team2->addTrait(new Team("team2")) ;
+  
+        {
+          Kernel::Object* ship = createShip(system) ;
+          ship->addTrait(new Transponder(team1)) ;
+          ship->getTrait<Positionned>()->setPosition(Position::Meter(0,0,0)) ;
+          Kernel::Object* agent = createAI(ship) ;
+          agent->getTrait<WithObjectives>()->addObjective(Objective::attackAllEnemies()) ;
+        }
+        {
+          Kernel::Object* ship = createShip(system) ;
+          ship->addTrait(new Transponder(team1)) ;
+          ship->getTrait<Positionned>()->setPosition(Position::Meter(0,500,0)) ;
+          Kernel::Object* agent = createAI(ship) ;
+          agent->getTrait<WithObjectives>()->addObjective(Objective::attackAllEnemies()) ;
+        }
+  
+        {
+          Kernel::Object* ship = createShip(system) ;
+          ship->addTrait(new Transponder(team2)) ;
+          ship->getTrait<Positionned>()->setPosition(Position::Meter(0,0,1100)) ;
+          Kernel::Object* agent = createAI(ship) ;
+          agent->getTrait<WithObjectives>()->addObjective(Objective::attackAllEnemies()) ;
+        }
+        {
+          Kernel::Object* ship = createShip(system) ;
+          ship->addTrait(new Transponder(team2)) ;
+          ship->getTrait<Positionned>()->setPosition(Position::Meter(0,0,3000)) ;
+          Kernel::Object* agent = createAI(ship) ;
+          agent->getTrait<WithObjectives>()->addObjective(Objective::attackAllEnemies()) ;
+        }
+        
+        {
+          Kernel::Object* ship = createShip(system) ;
+          ship->addTrait(new Transponder(team1)) ;
+          ship->addTrait(new TargetDisplayer()) ;
+          TargetDisplayer::connect(ship,ship) ;
+          ship->getTrait<Positionned>()->setPosition(Position::Meter(0,-500,0)) ;
+          
+          Kernel::Object* player = ship->createObject() ;
+          player->addTrait(new Positionned()) ;
+          player->addTrait(new Oriented()) ;
+          player->addTrait(new Player()) ;
+          player->addTrait(new Observer()) ;
+          player->addTrait(new Kernel::CommandDelegator()) ;
+          player->getTrait<Kernel::CommandDelegator>()->addDelegate(ship) ;
+          Player::connect(player,player_configuration) ;
+          player->addTrait(new WithTransitions()) ;
+          player->getTrait<WithTransitions>()->addTransition("Menu",main_menu) ;
+          
+        }
+      }
+      else
+      {
+      }
+    }
+    
+    void load(const std::string& name,Kernel::Model* model)
+    {
+      if (name == "TestPilot")
+      {
+        Kernel::Object* configuration = model->createObject() ;
+        Kernel::Object* player_configuration = 
+          createDefaultPlayerConfiguration(configuration) ;
+        
+        Kernel::Object* welcome = model->createObject() ;
+        welcome->addTrait(new Image("intro.png")) ;
+        welcome->addTrait(new Displayed()) ;
+        welcome->addTrait(new WithTransitions()) ;
+        welcome->addTrait(new WithLifetime(Duration::Second(1))) ;
+        
+        Kernel::Object* quit = model->createObject() ;
+        quit->addTrait(new EndOfSimulation()) ;
+        
+        Kernel::Object* main_menu = model->createObject() ;
+        main_menu->addTrait(new Menu("ProjetUnivers.layout")) ;
+        main_menu->addTrait(new WithTransitions()) ;
+
+        Kernel::Object* main_menu_in_game = model->createObject() ;
+        main_menu_in_game->addTrait(new Menu("confirm.layout")) ;
+        main_menu_in_game->addTrait(new WithTransitions()) ;
+        
+        Kernel::Object* mission = model->createObject() ;
+        mission->addTrait(new WithTransitions()) ;
+        mission->addTrait(new Mission("basic_mission",player_configuration,main_menu_in_game)) ;
+        
+        welcome->getTrait<WithTransitions>()->setNext(main_menu) ;
+        main_menu->getTrait<WithTransitions>()->setNext(quit) ;
+        main_menu->getTrait<WithTransitions>()->addTransition("quit",quit) ;
+        main_menu->getTrait<WithTransitions>()->addTransition("play",mission) ;
+        mission->getTrait<WithTransitions>()->addTransition("quit",main_menu) ;
+        main_menu_in_game->getTrait<WithTransitions>()->addTransition("quit",quit) ;
+        main_menu_in_game->getTrait<WithTransitions>()->addTransition("cancelQuit",mission) ;
+      }
+      else
+      {
+        std::auto_ptr<Kernel::XMLReader> reader(Kernel::XMLReader::getFileReader(name)) ;
+        reader->read(model) ;
+      }            
     }
     
     Kernel::Object* getControledShip(Kernel::Object* agent)
@@ -543,7 +399,7 @@ namespace ProjetUnivers {
       configuration->getTrait<PlayerConfiguration>()
                    ->addMapping(PlayerConfiguration::InputEvent::key(OIS::KC_F),"fire") ;
       configuration->getTrait<PlayerConfiguration>()
-                   ->addMapping(PlayerConfiguration::InputEvent::key(OIS::KC_ESCAPE),"quit") ;
+                   ->addMapping(PlayerConfiguration::InputEvent::key(OIS::KC_ESCAPE),"Menu") ;
       configuration->getTrait<PlayerConfiguration>()
                    ->addMapping(PlayerConfiguration::InputEvent::key(OIS::KC_S),"Select Next Target") ;
       configuration->getTrait<PlayerConfiguration>()

@@ -18,22 +18,24 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_IMPLEMENTATION_TARGET_H_
-#define PU_MODEL_IMPLEMENTATION_TARGET_H_
-
-#include <kernel/deduced_trait.h>
+#include <model/implementation/model_internal.h>
+#include <model/mission.h>
 
 namespace ProjetUnivers {
   namespace Model {
-    namespace Implementation {
-          
-      /// A target for ShootingHelper
-      /*!
-        Target <=> DetectionData & Solid & Positionned & Selected & Mobile
-      */ 
-      class Target : public Kernel::DeducedTrait
-      {};
+  
+    Mission::Mission(const std::string& name,
+                     Kernel::Object* player_configuration,
+                     Kernel::Object* main_menu)
+    : m_name(name),
+      m_player_configuration(player_configuration),
+      m_main_menu(main_menu)
+    {}
+    
+    void Mission::load()
+    {
+      Model::loadMission(m_name,getObject(),m_player_configuration,m_main_menu) ;
     }
+    
   }
 }
-#endif /*PU_MODEL_IMPLEMENTATION_TARGET_H_*/

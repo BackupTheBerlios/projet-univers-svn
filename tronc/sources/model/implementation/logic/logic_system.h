@@ -21,6 +21,7 @@
 #ifndef PU_MODEL_IMPLEMENTATION_LOGIC_LOGIC_SYSTEM_H_
 #define PU_MODEL_IMPLEMENTATION_LOGIC_LOGIC_SYSTEM_H_
 
+#include <kernel/object_reference.h>
 #include <kernel/controler_set.h>
 #include <kernel/model.h>
 
@@ -49,7 +50,7 @@ namespace ProjetUnivers {
         private:
           
           /// Objects to destroy.
-          std::set<Kernel::Object*> m_objects_to_destroy ;
+          std::set<Kernel::ObjectReference> m_objects_to_destroy ;
         };
       }
     }

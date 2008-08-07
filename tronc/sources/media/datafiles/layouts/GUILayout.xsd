@@ -15,7 +15,6 @@
 			<xsd:element name="LayoutImport" type="LayoutImportType"  minOccurs="0" maxOccurs="unbounded" />
 			<xsd:element name="Property" type="PropertyType"  minOccurs="0" maxOccurs="unbounded" />
 			<xsd:element name="Event" type="EventType"  minOccurs="0" maxOccurs="unbounded" />
-			<xsd:element name="PUCustom" type="PUCustomType"  minOccurs="0" maxOccurs="unbounded" />
 			<xsd:choice minOccurs="0" maxOccurs="unbounded">
 				<xsd:element name="Window" type="WindowType" />
 				<xsd:element name="AutoWindow" type="AutoWindowType" />
@@ -59,11 +58,6 @@
 		<xsd:attribute name="Name" type="xsd:string" use="required"/>
 		<xsd:attribute name="Function" type="xsd:string" use="required"/>
 	</xsd:complexType>
-	
-	<xsd:complexType name="PUCustomType">
-		<xsd:attribute name="Name" type="xsd:string" use="required"/>
-	</xsd:complexType>
-	
 
 </xsd:schema>
 

@@ -22,7 +22,7 @@
 #define PU_MODEL_IMPLEMENTATION_LOGIC_END_OF_SIMULATION_H_
 
 #include <kernel/controler.h>
-#include <model/implementation/logic/activated_end_of_simulation.h>
+#include <model/implementation/activated_end_of_simulation.h>
 #include <model/implementation/logic/logic_system.h>
 
 namespace ProjetUnivers {

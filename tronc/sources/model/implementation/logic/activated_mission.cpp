@@ -19,66 +19,46 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include <kernel/log.h>
-#include <kernel/object.h>
-#include <kernel/string.h>
-#include <model/displayed.h>
-#include <model/with_transitions.h>
+#include <model/mission.h>
+#include <model/implementation/logic/activated_mission.h>
 
 namespace ProjetUnivers {
   namespace Model {
-    
-    WithTransitions::WithTransitions()
-    {}
+    namespace Implementation {
+      namespace Logic {
 
-    void WithTransitions::addTransition(const std::string& name,Kernel::Object* object)
-    {
-      m_transitions[name] = object ; 
-    }
-   
-    void WithTransitions::setNext(Kernel::Object* object)
-    {
-      m_transitions[""] = object ;
-    }
-    
-    void WithTransitions::trigger(const std::string& name)
-    {
-      InternalMessage("Model","WithTransitions::triggering " + name) ;
-      std::map<std::string,Kernel::ObjectReference>::const_iterator 
-        finder = m_transitions.find(name) ;
+
+        RegisterControler(ActivatedMission, 
+                          Implementation::ActivatedMission, 
+                          LogicSystem) ;
+
+        ActivatedMission::ActivatedMission(Implementation::ActivatedMission* mission,
+                                           LogicSystem*                      system)
+        : Kernel::Controler<Implementation::ActivatedMission,
+                            LogicSystem>(mission,system)
+        {}
       
-      if (finder != m_transitions.end())
-      {
-        Displayed* displayed = getObject()->getTrait<Displayed>() ;
-        if (displayed)
-        {
-          getObject()->destroyTrait(displayed) ;
-        }
         
-        if (finder->second)
+        void ActivatedMission::onInit()
         {
-          InternalMessage("Model","WithTransitions::trigger added Displayed on object " + 
-                          Kernel::toString(finder->second->getIdentifier())) ;
-          finder->second->addTrait(new Displayed()) ;
+          getObject()->getTrait<Mission>()->load() ;
         }
-      }
-      InternalMessage("Model","WithTransitions::triggered " + name) ;
-    }
 
-    bool WithTransitions::call(const Kernel::TypeIdentifier& trait_type,
-                               const std::string&            command)
-    {
-      std::map<std::string,Kernel::ObjectReference>::const_iterator 
-        finder = m_transitions.find(command) ;
-      
-      if (finder != m_transitions.end())
-      {
-        trigger(command) ;
-        return true ;
+        void ActivatedMission::onClose()
+        {
+          InternalMessage("Model","Destroying mission content") ;
+          const std::set<Kernel::Object*>& children = getTrait()->getObject()
+                                                      ->getChildren() ;
+          for(std::set<Kernel::Object*>::const_iterator child = children.begin() ; 
+              child != children.end() ;
+              ++child)
+          {
+            getControlerSet()->addObjectToDestroy(*child) ;
+          }
+        }
+
       }
-      
-      return false ;
     }
-    
   }
 }
 

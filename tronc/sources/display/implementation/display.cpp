@@ -34,6 +34,11 @@ namespace ProjetUnivers {
       return Implementation::Ogre::getWindow() ;
     }
 
+    void createCamera()
+    {
+      Implementation::Ogre::createCamera() ;
+    }
+    
     size_t getWindowHandle()
     {
       return Implementation::Ogre::getWindowHandle() ;

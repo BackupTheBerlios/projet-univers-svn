@@ -23,6 +23,7 @@
 #include <model/observer.h>
 #include <model/solid.h>
 
+#include <display/implementation/ogre/ogre.h>
 #include <display/implementation/ogre/utility.h>
 #include <display/implementation/ogre/real_world_view_point.h>
 #include <display/implementation/ogre/solid.h>
@@ -60,7 +61,9 @@ namespace ProjetUnivers {
           ::Ogre::SceneManager* manager = this->getViewPoint()->getManager() ;
           
           m_camera = manager->createCamera(Utility::getUniqueName()) ;
-            
+          
+          Ogre::addCamera(m_camera) ;
+          
           m_node = static_cast< ::Ogre::SceneNode* >(positionned->getNode()->createChild()) ;
           m_node->attachObject(m_camera) ;
           
@@ -88,6 +91,8 @@ namespace ProjetUnivers {
           
         void Observer::onClose()
         {
+          Ogre::removeCamera(m_camera) ;
+          
           InternalMessage("Display","Display::Observer::onClose Entering") ;
           this->getViewPoint()->getManager()->destroyCamera(m_camera) ;
           getViewPoint()->setObserver(NULL) ;

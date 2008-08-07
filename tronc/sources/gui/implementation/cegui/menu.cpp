@@ -22,6 +22,7 @@
 
 #include <kernel/object.h>
 #include <model/menu.h>
+#include <gui/implementation/gui_internal.h>
 #include <gui/implementation/cegui/menu.h>
 
 namespace ProjetUnivers {
@@ -54,18 +55,19 @@ namespace ProjetUnivers {
   
           ::CEGUI::System::getSingleton().setGUISheet(m_window) ;
           m_window->setMouseCursor("TaharezLook", "MouseArrow");
-          ::CEGUI::MouseCursor::getSingleton().show() ;
+          
+          GUI::addActiveGUI() ;          
           
           InternalMessage("Display","Building CEGUI::Menu::onInit leaving") ;
         }
         
         void Menu::onClose()
         {
+          GUI::removeActiveGUI() ;          
           if (m_window)
           {
              ::CEGUI::WindowManager::getSingleton().destroyWindow(m_window) ;
              m_window = NULL ;
-             ::CEGUI::MouseCursor::getSingleton().hide() ;
           }
         }
       }        

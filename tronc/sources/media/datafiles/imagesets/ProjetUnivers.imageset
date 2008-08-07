@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Imageset Name="ProjetUnivers" Imagefile="ProjetUnivers.tga" NativeHorzRes="800" NativeVertRes="600" >
-<Image Name="ButtonDroiteHighlight" XPos="384" YPos="118" Width="8" Height="50" />
-<Image Name="ButtonDroiteNormal" XPos="384" YPos="16" Width="8" Height="50" />
-<Image Name="ButtonDroitePushed" XPos="384" YPos="67" Width="8" Height="50" />
-<Image Name="ButtonGaucheHighlight" XPos="204" YPos="118" Width="8" Height="50" />
-<Image Name="ButtonGaucheNormal" XPos="204" YPos="16" Width="8" Height="50" />
-<Image Name="ButtonGauchePushed" XPos="204" YPos="67" Width="8" Height="50" />
-<Image Name="ButtonMilieuHighlight" XPos="236" YPos="118" Width="8" Height="50" />
-<Image Name="ButtonMilieuNormal" XPos="236" YPos="16" Width="8" Height="50" />
-<Image Name="ButtonMilieuPushed" XPos="236" YPos="67" Width="8" Height="50" />
-<Image Name="Image" XPos="0" YPos="0" Width="1573" Height="1316" />
-<Image Name="Root" XPos="0" YPos="0" Width="800" Height="600" />
-<Image Name="WindowBasCentre" XPos="35" YPos="155" Width="2" Height="71" />
-<Image Name="WindowBasDroite" XPos="71" YPos="155" Width="127" Height="71" />
-<Image Name="WindowBasGauche" XPos="26" YPos="155" Width="6" Height="71" />
-<Image Name="WindowHautCentre" XPos="34" YPos="15" Width="3" Height="23" />
-<Image Name="WindowHautDroite" XPos="71" YPos="15" Width="127" Height="23" />
-<Image Name="WindowHautGauche" XPos="26" YPos="15" Width="7" Height="23" />
-<Image Name="WindowMilieuCentre" XPos="45" YPos="43" Width="8" Height="9" />
-<Image Name="WindowMilieuDroite" XPos="71" YPos="76" Width="127" Height="8" />
-<Image Name="WindowMilieuGauche" XPos="26" YPos="42" Width="7" Height="9" />
-</Imageset>
 
+<Imageset Name="ProjetUnivers" Imagefile="ProjetUnivers.tga" NativeHorzRes="800" NativeVertRes="600" >
+    <Image Name="ScrollBas" XPos="71" YPos="376" Width="34" Height="37" />
+    <Image Name="ScrollHaut" XPos="71" YPos="316" Width="34" Height="37" />
+    <Image Name="Scrollligne" XPos="71" YPos="355" Width="34" Height="10" />
+    <Image Name="WindowBasCentre" XPos="34" YPos="195" Width="6" Height="73" />
+    <Image Name="WindowBasDroite" XPos="71" YPos="195" Width="127" Height="73" />
+    <Image Name="WindowBasGauche" XPos="12" YPos="195" Width="4" Height="73" />
+    <Image Name="WindowHautCentre" XPos="33" YPos="8" Width="3" Height="23" />
+    <Image Name="WindowHautDroite" XPos="71" YPos="8" Width="127" Height="23" />
+    <Image Name="WindowHautGauche" XPos="12" YPos="8" Width="7" Height="23" />
+    <Image Name="ButtonDroiteNormal" XPos="429" YPos="21" Width="26" Height="70" />
+    <Image Name="ButtonDroitePushed" XPos="429" YPos="93" Width="26" Height="68" />
+    <Image Name="ButtonGaucheNormal" XPos="233" YPos="21" Width="26" Height="70" />
+    <Image Name="ButtonGauchePushed" XPos="233" YPos="93" Width="26" Height="68" />
+    <Image Name="ButtonMilieuNormal" XPos="300" YPos="21" Width="26" Height="70" />
+    <Image Name="ButtonMilieuPushed" XPos="300" YPos="93" Width="26" Height="68" />
+    <Image Name="WindowMilieuCentre" XPos="39" YPos="74" Width="6" Height="8" />
+    <Image Name="WindowMilieuDroite" XPos="71" YPos="74" Width="127" Height="18" />
+    <Image Name="WindowMilieuGauche" XPos="12" YPos="74" Width="7" Height="8" />
+    <Image Name="ButtonDroiteHighlight" XPos="429" YPos="167" Width="26" Height="73" />
+    <Image Name="ButtonGaucheHighlight" XPos="233" YPos="167" Width="26" Height="73" />
+    <Image Name="ButtonMilieuHighlight" XPos="300" YPos="167" Width="26" Height="73" />
+</Imageset>

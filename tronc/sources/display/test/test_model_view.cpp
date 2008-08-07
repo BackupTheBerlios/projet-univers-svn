@@ -39,6 +39,7 @@
 #include <model/computer.h>
 #include <model/ideal_target.h>
 #include <model/image.h>
+#include <model/destroyable.h>
 
 #include <display/display.h>
 #include <display/implementation/space_dust.h>
@@ -326,6 +327,104 @@ namespace ProjetUnivers {
         
         InternalMessage("Display","Display::TestModelView::displayImage leaving") ;
         
+      }
+      
+      void TestModelView::displayExplosion()
+      {
+        InternalMessage("Display","Display::TestModelView::spaceDust entering") ;
+        
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestModelView::displayExplosion")) ;
+        model->init() ;
+        Kernel::Object* universe = model->createObject() ;
+        universe->addTrait(new Model::Universe()) ;
+        universe->addTrait(new Model::Positionned()) ;
+
+        Kernel::Object* system = universe->createObject() ;
+        system->addTrait(new Model::StellarSystem()) ;
+        system->addTrait(new Model::Positionned()) ;
+        
+        Kernel::Object* ship = Model::createShip(system) ;
+        ship->getTrait<Model::Positionned>()->setPosition(Model::Position::Meter(0,0,-500)) ;
+        ship->getTrait<Model::Destroyable>()->damage(Model::Energy::Joule(50)) ;
+        
+        Kernel::Object* observer = system->createObject() ;
+        observer->addTrait(new Model::Observer()) ;
+        observer->addTrait(new Model::Player()) ;
+        observer->addTrait(new Model::Positionned()) ;
+        observer->addTrait(new Model::Oriented(::Ogre::Quaternion(::Ogre::Degree(180),::Ogre::Vector3::UNIT_Y))) ;
+        
+        Kernel::Timer timer ;
+        Kernel::Timer global_timer ;
+        
+        while (global_timer.getSecond() < 3)
+        {
+          float seconds = timer.getSecond() ;
+          if (seconds != 0)
+          {
+            timer.reset() ;
+          }
+          model->update(seconds) ;
+        }        
+        
+        InternalMessage("Display","Display::TestModelView::spaceDust leaving") ;
+      }
+      
+      void TestModelView::recreateObserver()
+      {
+        InternalMessage("Display","Display::TestModelView::recreateObserver entering") ;
+        
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestModelView::recreateObserver")) ;
+        model->init() ;
+
+        Kernel::Object* universe = model->createObject() ;
+        universe->addTrait(new Model::Universe()) ;
+        universe->addTrait(new Model::Positionned()) ;
+
+        Kernel::Object* system = universe->createObject() ;
+        system->addTrait(new Model::StellarSystem()) ;
+        system->addTrait(new Model::Positionned()) ;
+        
+        Kernel::Object* ship = Model::createShip(system) ;
+        ship->getTrait<Model::Positionned>()->setPosition(Model::Position::Meter(0,0,-500)) ;
+        
+        Kernel::Object* observer = system->createObject() ;
+        observer->addTrait(new Model::Observer()) ;
+        observer->addTrait(new Model::Player()) ;
+        observer->addTrait(new Model::Positionned()) ;
+        observer->addTrait(new Model::Oriented(::Ogre::Quaternion(::Ogre::Degree(180),::Ogre::Vector3::UNIT_Y))) ;
+        
+        Kernel::Timer timer ;
+        Kernel::Timer global_timer ;
+        
+        bool destroyed = false ;
+        bool recreated = false ;
+        
+        while (global_timer.getSecond() < 3)
+        {
+          float seconds = timer.getSecond() ;
+          if (!destroyed && global_timer.getSecond() > 1.5)
+          {
+            model->destroyObject(observer) ;
+            destroyed = true ;
+          }
+          if (destroyed && !recreated && global_timer.getSecond() > 2)
+          {
+            observer = system->createObject() ;
+            observer->addTrait(new Model::Observer()) ;
+            observer->addTrait(new Model::Player()) ;
+            observer->addTrait(new Model::Positionned()) ;
+            observer->addTrait(new Model::Oriented(::Ogre::Quaternion(::Ogre::Degree(180),::Ogre::Vector3::UNIT_Y))) ;
+            recreated = true ;
+          }
+          
+          if (seconds != 0)
+          {
+            timer.reset() ;
+          }
+          model->update(seconds) ;
+        }        
+        
+        InternalMessage("Display","Display::TestModelView::recreateObserver leaving") ;
       }
       
       void TestModelView::setUp() 

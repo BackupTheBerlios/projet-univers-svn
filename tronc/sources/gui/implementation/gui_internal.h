@@ -18,22 +18,19 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_IMPLEMENTATION_TARGET_H_
-#define PU_MODEL_IMPLEMENTATION_TARGET_H_
-
-#include <kernel/deduced_trait.h>
+#ifndef PU_GUI_GUI_INTERNAL_H_
+#define PU_GUI_GUI_INTERNAL_H_
 
 namespace ProjetUnivers {
-  namespace Model {
-    namespace Implementation {
-          
-      /// A target for ShootingHelper
-      /*!
-        Target <=> DetectionData & Solid & Positionned & Selected & Mobile
-      */ 
-      class Target : public Kernel::DeducedTrait
-      {};
-    }
+  namespace GUI {
+    
+    /// Tells the system a new active GUI is present.
+    void addActiveGUI() ;
+    
+    /// Tells the system an active GUI has became inactive.
+    void removeActiveGUI() ;
+    
   }
 }
-#endif /*PU_MODEL_IMPLEMENTATION_TARGET_H_*/
+
+#endif //PU_GUI_GUI_INTERNAL_H_

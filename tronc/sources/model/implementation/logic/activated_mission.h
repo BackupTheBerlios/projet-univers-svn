@@ -18,20 +18,42 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <model/displayed.h>
-#include <model/end_of_simulation.h>
-#include <model/implementation/logic/activated_end_of_simulation.h>
+#ifndef PU_MODEL_IMPLEMENTATION_LOGIC_ACTIVATED_MISSION_H_
+#define PU_MODEL_IMPLEMENTATION_LOGIC_ACTIVATED_MISSION_H_
+
+#include <kernel/controler.h>
+#include <model/implementation/activated_mission.h>
+#include <model/implementation/logic/logic_system.h>
 
 namespace ProjetUnivers {
   namespace Model {
     namespace Implementation {
       namespace Logic {
 
-        DeclareDeducedTrait(ActivatedEndOfSimulation,
-                            And(HasTrait(Model::EndOfSimulation),
-                                HasTrait(Model::Displayed))) ;
+        /// Load the mission.
+        class ActivatedMission : public Kernel::Controler<Implementation::ActivatedMission,
+                                                          LogicSystem>
+        {
+        public:
+          
+          /// Construct.
+          ActivatedMission(Implementation::ActivatedMission* mission,
+                           LogicSystem*                      system) ;
         
+        
+        protected:
+          
+          /// Load the mission.
+          virtual void onInit() ;
+
+          /// Destroy the mission.
+          virtual void onClose() ;
+          
+        };
       }
     }
   }
 }
+
+
+#endif /*PU_MODEL_IMPLEMENTATION_LOGIC_ACTIVATED_MISSION_H_*/

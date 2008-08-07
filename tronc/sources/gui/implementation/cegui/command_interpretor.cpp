@@ -44,25 +44,18 @@ namespace ProjetUnivers {
         
         bool CommandInterpretor::operator()(const ::CEGUI::EventArgs& args) const
         {
-          std::cout << m_command_name ;
-          
           const ::CEGUI::WindowEventArgs* argument = dynamic_cast<const ::CEGUI::WindowEventArgs*>(&args) ;
           
-          if (argument)
+          if (argument && argument->window)
           {
-            std::cout << " " << argument->window->getName()
-                      << " type=" << argument->window->getType()
-                      << " Custom=" << argument->window->getProperty("Custom") ;
-            
             Model::Menu* menu = (Model::Menu*)(getRoot(argument->window)->getUserData()) ;
             
             if (menu)
-              std::cout << " object id=" << menu->getObject()->getIdentifier() ;
+            {
+              menu->getObject()->call(m_command_name) ;
+            }
                 
           }
-          
-          std::cout << std::endl ;
-          
           return true ;
         }
       }

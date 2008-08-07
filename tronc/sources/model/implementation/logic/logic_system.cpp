@@ -47,11 +47,15 @@ namespace ProjetUnivers {
           
           applyBottomUp(std::bind2nd(f,i_seconds)) ;
           
-          for(std::set<Kernel::Object*>::iterator object = m_objects_to_destroy.begin() ;
+          for(std::set<Kernel::ObjectReference>::iterator object = m_objects_to_destroy.begin() ;
               object != m_objects_to_destroy.end() ;
               ++object)
           {
-            (*object)->getModel()->destroyObject(*object) ;
+            if (*object)
+            {
+              InternalMessage("Model","Model::LogicSystem::simulate destroying object") ;
+              (*object)->getModel()->destroyObject(*object) ;
+            }
           }
           
           m_objects_to_destroy.clear() ;

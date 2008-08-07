@@ -44,8 +44,12 @@ AC_SUBST(librlog_CFLAGS)
 AC_SUBST(librlog_LIBS)
 
 # Check/config ODE
-AC_CHECK_HEADERS([ode/ode.h])
-AC_SUBST(ODE_LIBS, "-lode")
+AC_CHECK_HEADER([ode/ode.h],[haveode=yes],[haveode=no])
+if test "x$haveode" = xno; then
+	AC_MSG_ERROR("Error : you need libode-dev")
+else
+	AC_SUBST(ODE_LIBS, "-lode")
+fi
 
 # check OpenAL
 PKG_CHECK_MODULES(openal, [openal >= 0.0.8])

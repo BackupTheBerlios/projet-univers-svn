@@ -66,8 +66,8 @@ namespace ProjetUnivers {
     
         CPPUNIT_TEST_SUITE(TestMenu) ;
       
-        CPPUNIT_TEST(basicTest) ;
-//        CPPUNIT_TEST(playerConfiguration) ;
+//        CPPUNIT_TEST(basicTest) ;
+        CPPUNIT_TEST(playerConfiguration) ;
       
         CPPUNIT_TEST_SUITE_END() ;
       // @}      

@@ -84,6 +84,9 @@ namespace ProjetUnivers {
           m_image_container->show() ;
           m_image->show() ;
           
+          // create a camera and a viewport if needed.
+          Ogre::createCamera() ;
+          
           InternalMessage("Display","Leaving Image::onInit") ;
         }
           

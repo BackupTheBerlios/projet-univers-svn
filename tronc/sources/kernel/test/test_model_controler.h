@@ -103,6 +103,9 @@ namespace ProjetUnivers {
         */
         void changeModelOnInitialisedControlerSet() ;
 
+        /// Simulation destroy a trait of the current object.
+        void simulateDestroyTrait() ;
+        
       // @}
 
 
@@ -121,6 +124,7 @@ namespace ProjetUnivers {
         CPPUNIT_TEST(initControlerSetWithNullModel) ;
         CPPUNIT_TEST(setModelOnInitialisedControlerSetWithNullModel) ;
         CPPUNIT_TEST(changeModelOnInitialisedControlerSet) ;
+        CPPUNIT_TEST(simulateDestroyTrait) ;
         
         CPPUNIT_TEST_SUITE_END() ;
 

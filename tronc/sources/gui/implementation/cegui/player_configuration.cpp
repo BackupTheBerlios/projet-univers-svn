@@ -25,6 +25,7 @@
 #include <kernel/controler.h>
 #include <kernel/object.h>
 #include <model/player_configuration.h>
+#include <gui/implementation/gui_internal.h>
 #include <gui/implementation/cegui/gui_controler_set.h>
 #include <gui/implementation/cegui/player_configuration.h>
 
@@ -80,6 +81,8 @@ namespace ProjetUnivers {
             std::cout << exception.getMessage() << std::cout ;
             throw ;
           }
+
+          GUI::addActiveGUI() ;          
         }
           
         void PlayerConfiguration::onUpdate()
@@ -102,6 +105,7 @@ namespace ProjetUnivers {
           
         void PlayerConfiguration::onClose()
         {
+          GUI::removeActiveGUI() ;          
           if (m_window)
           {
              ::CEGUI::WindowManager::getSingleton().destroyWindow(m_window) ;

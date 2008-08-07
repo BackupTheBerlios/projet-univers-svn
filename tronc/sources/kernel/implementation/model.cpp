@@ -370,13 +370,16 @@ namespace ProjetUnivers {
     
     void Model::update(const float& seconds)
     {
+      InternalMessage("MainLoop","Model::updating") ;      
       // first update controler sets then viewpoints
       const std::set<Kernel::ControlerSet*>& controlersets = getControlerSets() ;
       for(std::set<Kernel::ControlerSet*>::const_iterator controlerset = controlersets.begin() ;
           controlerset != controlersets.end() ;
           ++controlerset)
       {
+        InternalMessage("MainLoop","Model::update simulating " + getObjectTypeIdentifier(*controlerset).toString()) ;      
         (*controlerset)->simulate(seconds) ;
+        InternalMessage("MainLoop","Model::update simulated " + getObjectTypeIdentifier(*controlerset).toString()) ;      
       }
 
       const std::set<Kernel::ViewPoint*>& viewpoints = getViewPoints() ;
@@ -384,8 +387,11 @@ namespace ProjetUnivers {
           viewpoint != viewpoints.end() ;
           ++viewpoint)
       {
+        InternalMessage("MainLoop","Model::update updating " + getObjectTypeIdentifier(*viewpoint).toString()) ;      
         (*viewpoint)->update(seconds) ;
+        InternalMessage("MainLoop","Model::update updated " + getObjectTypeIdentifier(*viewpoint).toString()) ;      
       }
+      InternalMessage("MainLoop","Model::updated") ;      
     }
     
   }

@@ -1,37 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <GUILayout >
-    <Window Type="DefaultWindow" Name="MainMenu" >
+    <Window Type="DefaultWindow" Name="Root" >
         <Property Name="InheritsAlpha" Value="False" />
         <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
         <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
-        <Window Type="ProjetUnivers/FrameWindow" Name="MainMenu/Window" >
+        <Window Type="ProjetUnivers/FrameWindow" Name="Root/" >
             <Property Name="Font" Value="BlueHighway-12" />
             <Property Name="Text" Value="Projet Univers - Démo V0.1" />
-            <Property Name="TitlebarFont" Value="BlueHighway-10" />
+            <Property Name="TitlebarFont" Value="BlueHighway-12" />
             <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
             <Property Name="TitlebarEnabled" Value="True" />
-            <Property Name="UnifiedAreaRect" Value="{{0.330357,0},{0.156149,0},{0.552381,0},{0.484196,0}}" />
+            <Property Name="UnifiedAreaRect" Value="{{0.332292,0},{0.244606,0},{0.68088,0},{0.730986,0}}" />
             <Property Name="EWSizingCursorImage" Value="" />
             <Property Name="NSSizingCursorImage" Value="" />
             <Property Name="NESWSizingCursorImage" Value="" />
             <Property Name="NWSESizingCursorImage" Value="" />
-            <Window Type="ProjetUnivers/Button" Name="MainMenu/Window/Play" >
-                <Property Name="Text" Value="Play" />
+            <Window Type="ProjetUnivers/Button" Name="Root//" >
+                <Property Name="Text" Value="Jouer" />
                 <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
                 <Property Name="UnifiedAreaRect" Value="{{0.18,0},{0.2,0},{0.82,0},{0.35,0}}" />
+                <Event Name="Clicked" Function="play"/>
             </Window>
-            <Window Type="ProjetUnivers/Button" Name="MainMenu/Window/Credits" >
+            <Window Type="ProjetUnivers/Button" Name="Root//1" >
                 <Property Name="Font" Value="BlueHighway-10" />
                 <Property Name="Text" Value="Credits" />
                 <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
-                <Property Name="UnifiedAreaRect" Value="{{0.18,0},{0.4,0},{0.82,0},{0.55,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.18,0},{0.541402,0},{0.82,0},{0.691401,0}}" />
             </Window>
-            <Window Type="ProjetUnivers/Button" Name="MainMenu/Window/Quit" >
+            <Window Type="ProjetUnivers/Button" Name="Root//2" >
                 <Property Name="Font" Value="BlueHighway-10" />
-                <Property Name="Text" Value="Quit" />
+                <Property Name="Text" Value="Quitter" />
                 <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
-                <Property Name="UnifiedAreaRect" Value="{{0.18,0},{0.6,0},{0.82,0},{0.75,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.18,0},{0.731536,0},{0.82,0},{0.881536,0}}" />
+                <Event Name="Clicked" Function="quit"/>
+            </Window>
+            <Window Type="ProjetUnivers/Button" Name="Root//3" >
+                <Property Name="Text" Value="Configuration" />
+                <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.18,0},{0.367709,0},{0.82,0},{0.517709,0}}" />
             </Window>
         </Window>
     </Window>
