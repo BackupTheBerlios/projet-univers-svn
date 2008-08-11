@@ -819,6 +819,12 @@
       to be destroy where added causing a bug
     - WithTransitions is more versatile : it only adds Displayed iff not already
       present  
+
+2008-08-12 rogma
+  
+  * modifications for windows compiling : 
+    - gui/makefile : added input lib
+    - input/makefile : added sub dir option
   
 @todo :
   
@@ -900,7 +906,7 @@
     - add a key sensibility, here the key is sent several times per seconds
     - add a key repetition in CEGUI for text insertion
     - add Maj+Control in key handling : treat them as modifiers ?
-    - handle axes in gui input mapping
+    - handle axes in gui input mapping, allow mouse for piloting
   
   * Physic : 
     - try to keep all units in an acceptable "range", it means that we whould 
@@ -926,6 +932,8 @@
     - every event sound is the same : make a general view on event and get the 
       sound name by a function 
     - segmentation fault when sound is already used by another process
+    - infinite loop when no sound device is found...
+    - sound not working on windows ??
     
   * Kernel :
     

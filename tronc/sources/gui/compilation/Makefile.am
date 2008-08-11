@@ -23,6 +23,7 @@ libgui_la_LDFLAGS += \
 $(SOURCES)/kernel/compilation/libkernel.la \
 $(SOURCES)/model/compilation/libmodel.la \
 $(SOURCES)/display/compilation/libdisplay.la \
+$(SOURCES)/input/compilation/libinput.la \
 $(OGRE_LIBS) \
 $(librlog_LIBS) \
 $(CEGUI_LIBS) \

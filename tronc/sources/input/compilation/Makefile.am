@@ -1,6 +1,6 @@
-#Makefile pour entrees
-
 lib_LTLIBRARIES = libinput.la 
+
+AUTOMAKE_OPTIONS=subdir-objects
 
 SOURCES = $(top_srcdir)/sources
 INCLUDES = -I$(SOURCES)
