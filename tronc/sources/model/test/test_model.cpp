@@ -21,6 +21,7 @@
 #include <cppunit/extensions/TestFactoryRegistry.h>
 #include <cppunit/ui/text/TestRunner.h>
 #include <cppunit/CompilerOutputter.h>
+#include <cppunit/XmlOutputter.h>
 
 #include <kernel/parameters.h>
 #include <kernel/log.h>
@@ -41,12 +42,22 @@ main( int argc, char* argv[] )
   
   runner.addTest( registry.makeTest() );
 
+  // Define the file that will store the XML output.
+  std::ofstream outputFile("../../../tests-results/tests_model.xml");
+
   if ( selfTest )
   { // Change the default outputter to a compiler error format outputter
     // The test runner owns the new outputter.
     runner.setOutputter( CppUnit::CompilerOutputter::defaultOutputter( 
                                                         &runner.result(),
                                                         std::cerr ) );
+  }
+  else
+  {
+    // Specify XML output and inform the test runner of this format.
+    CppUnit::XmlOutputter* outputter =
+      new CppUnit::XmlOutputter(&runner.result(), outputFile);
+    runner.setOutputter(outputter);
   }
 
   // Run the test.

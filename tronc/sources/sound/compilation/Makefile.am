@@ -40,8 +40,6 @@ $(libsndfile_LIBS) \
 $(vorbis_LIBS) \
 $(vorbisfile_LIBS)
 
-# made of several tests because 
-# @see https://bugs.launchpad.net/ubuntu/+source/openal/+bug/187997
 TESTS = test_sound 
 
 check_PROGRAMS = $(TESTS)

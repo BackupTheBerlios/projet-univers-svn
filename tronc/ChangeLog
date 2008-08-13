@@ -825,7 +825,14 @@
   * modifications for windows compiling : 
     - gui/makefile : added input lib
     - input/makefile : added sub dir option
+
+2008-08-13 rogma
   
+  * Sound : 
+    - added test.wav for openal_lib_test
+  * All : 
+    - added xml tests output 
+    
 @todo :
   
   * All : 
@@ -933,7 +940,6 @@
       sound name by a function 
     - segmentation fault when sound is already used by another process
     - infinite loop when no sound device is found...
-    - sound not working on windows ??
     
   * Kernel :
     

@@ -18,9 +18,11 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <iostream>
 #include <cppunit/extensions/TestFactoryRegistry.h>
 #include <cppunit/ui/text/TestRunner.h>
 #include <cppunit/CompilerOutputter.h>
+#include <cppunit/XmlOutputter.h>
 
 #include <kernel/parameters.h>
 #include <kernel/log.h>
@@ -38,15 +40,24 @@ main( int argc, char* argv[] )
 
   CppUnit::TextUi::TestRunner runner;
   CppUnit::TestFactoryRegistry &registry = CppUnit::TestFactoryRegistry::getRegistry();
+  runner.addTest(registry.makeTest());
   
-  runner.addTest( registry.makeTest() );
-
+  // Define the file that will store the XML output.
+  std::ofstream outputFile("../../../tests-results/tests_kernel.xml");
+  
   if ( selfTest )
   { // Change the default outputter to a compiler error format outputter
     // The test runner owns the new outputter.
     runner.setOutputter( CppUnit::CompilerOutputter::defaultOutputter( 
                                                         &runner.result(),
                                                         std::cerr ) );
+  }
+  else
+  {
+    // Specify XML output and inform the test runner of this format.
+    CppUnit::XmlOutputter* outputter =
+      new CppUnit::XmlOutputter(&runner.result(), outputFile);
+    runner.setOutputter(outputter);
   }
 
   // Run the test.

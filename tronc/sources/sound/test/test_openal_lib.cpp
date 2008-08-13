@@ -46,6 +46,7 @@ namespace ProjetUnivers {
         if(device == NULL)
         {
           ErrorMessage("[OpenAL] No sound device found");
+          CPPUNIT_ASSERT(false) ;
           return ;
         }
 
@@ -53,6 +54,7 @@ namespace ProjetUnivers {
         if(context == NULL)
         {
           ErrorMessage("[OpenAL] Can't create contexte");
+          CPPUNIT_ASSERT(false) ;
           return ;
         }
 
@@ -62,6 +64,7 @@ namespace ProjetUnivers {
         if((error = alGetError()) != AL_NO_ERROR)
         {
           ErrorMessage("[OpenAL] init error:" + error);
+          CPPUNIT_ASSERT(false) ;
           return ;
         }
         
@@ -71,17 +74,19 @@ namespace ProjetUnivers {
         if (alut_error ==AL_FALSE)
         {
           ErrorMessage("[ALUT] init error:" + std::string(alutGetErrorString(alutGetError())));
+          CPPUNIT_ASSERT(false) ;
           return ;
          
         }
         
         ALuint source ;
         alGenSources(1,&source) ;
-        ALuint buffer = alutCreateBufferFromFile("demo_ailier1_mort.wav");
+        ALuint buffer = alutCreateBufferFromFile("test.wav");
         if(buffer == AL_NONE)
         {
           ErrorMessage("[OpenAL] Can't generate a buffer" 
                        + std::string(alutGetErrorString(alutGetError())));
+          CPPUNIT_ASSERT(false) ;
           return ;
         }
         
@@ -95,7 +100,6 @@ namespace ProjetUnivers {
         {
           ++i ;
         }          
-        std::cout << i << std::endl  ;
         
       }
 
