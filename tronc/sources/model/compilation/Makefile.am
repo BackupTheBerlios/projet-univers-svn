@@ -8,6 +8,7 @@ AM_CXXFLAGS = $(PU_CXXFLAGS)
 
 libmodel_la_SOURCES = \
 ../implementation/acceleration.cpp \
+../implementation/active.cpp \
 ../implementation/activated_end_of_simulation.cpp \
 ../implementation/activated_mission.cpp \
 ../implementation/angular_speed.cpp \
@@ -28,6 +29,7 @@ libmodel_la_SOURCES = \
 ../implementation/distance.cpp \
 ../implementation/dragger.cpp \
 ../implementation/duration.cpp \
+../implementation/edited.cpp \
 ../implementation/end_of_simulation.cpp \
 ../implementation/energy.cpp \
 ../implementation/engine.cpp \
@@ -70,6 +72,7 @@ libmodel_la_SOURCES = \
 ../implementation/sized.cpp \
 ../implementation/sound_environnement.cpp \
 ../implementation/stabilizer.cpp \
+../implementation/state.cpp \
 ../implementation/stellar_system.cpp \
 ../implementation/stick.cpp \
 ../implementation/target.cpp \
@@ -82,7 +85,6 @@ libmodel_la_SOURCES = \
 ../implementation/universe.cpp \
 ../implementation/with_lifetime.cpp \
 ../implementation/with_objectives.cpp \
-../implementation/with_transitions.cpp \
 ../implementation/whole.cpp \
 ../implementation/logic/activated_mission.cpp \
 ../implementation/logic/collision.cpp \
@@ -95,9 +97,9 @@ libmodel_la_SOURCES = \
 ../implementation/logic/shooting_helper_viewpoint.cpp \
 ../implementation/logic/shooting_helper.cpp \
 ../implementation/logic/shot.cpp \
+../implementation/logic/state.cpp \
 ../implementation/logic/target.cpp \
-../implementation/logic/with_lifetime.cpp \
-../implementation/logic/with_transitions.cpp 
+../implementation/logic/with_lifetime.cpp 
 
 libmodel_la_LDFLAGS = -no-undefined
 libmodel_la_LDFLAGS += \
@@ -117,24 +119,25 @@ check_PROGRAMS = $(TESTS)
 # then game logic test
 # finally a global test
 test_model_SOURCES = \
+../test/test_detector.cpp \
 ../test/test_distance.cpp \
+../test/test_engine_control.cpp \
+../test/test_guidance_control.cpp \
+../test/test_laser.cpp \
+../test/test_load.cpp \
+../test/test_logic.cpp \
+../test/test_mesh.cpp \
 ../test/test_model.cpp \
 ../test/test_oriented.cpp \
 ../test/test_orientation.cpp \
-../test/test_positionned.cpp \
-../test/test_speed.cpp \
-../test/test_engine_control.cpp \
-../test/test_guidance_control.cpp \
-../test/test_throttle.cpp \
-../test/test_stick.cpp \
-../test/test_mesh.cpp \
-../test/test_laser.cpp \
-../test/test_logic.cpp \
 ../test/test_player_configuration.cpp \
-../test/test_detector.cpp \
-../test/test_load.cpp \
+../test/test_positionned.cpp \
+../test/test_shooting_helper.cpp \
+../test/test_speed.cpp \
+../test/test_state.cpp \
+../test/test_stick.cpp \
 ../test/test_targeting_system.cpp \
-../test/test_shooting_helper.cpp 
+../test/test_throttle.cpp 
 
 
 test_model_CXXFLAGS = $(CPPUNIT_CFLAGS) $(PU_CXXFLAGS)

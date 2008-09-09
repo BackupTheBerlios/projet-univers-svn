@@ -33,7 +33,7 @@
 #include <kernel/string.h>
 #include <kernel/log.h>
 #include <kernel/inherits.h>
-
+#include <kernel/object_reference.h>
 #include <kernel/trait.h>
 
 
@@ -85,6 +85,8 @@ namespace ProjetUnivers {
       /// Destroy an object's trait.
       void destroyTrait(Trait* trait) ;
       
+      /// Set the object name (optionnal).
+      void setName(const std::string& name) ;
       
     //@}
     /*!
@@ -92,6 +94,9 @@ namespace ProjetUnivers {
     */
     //@{
 
+      /// Access to an object by name.
+      static Object* get(const std::string& name) ;
+      
       /// Get object's identifier.
       int getIdentifier() const ;
 
@@ -356,6 +361,9 @@ namespace ProjetUnivers {
         cycle.
       */
       static std::set<const Kernel::Object*> m_already_called_objects ;
+      
+      /// Objects with a name.
+      static std::map<std::string,ObjectReference> m_named_objects ;
       
     // @}
 

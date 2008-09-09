@@ -29,7 +29,7 @@ namespace ProjetUnivers {
           
       /// A mission that is started
       /*!
-        ActivatedMission <=> Mission & Displayed
+        ActivatedMission <=> Mission & Played
       */ 
       class ActivatedMission : public Kernel::DeducedTrait
       {};

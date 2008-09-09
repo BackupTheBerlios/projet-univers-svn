@@ -18,37 +18,13 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_IMPLEMENTATION_LOGIC_WITH_TRANSITIONS_H_
-#define PU_MODEL_IMPLEMENTATION_LOGIC_WITH_TRANSITIONS_H_
-
-#include <kernel/controler.h>
-#include <model/with_transitions.h>
-#include <model/implementation/logic/logic_system.h>
+#include <model/edited.h>
 
 namespace ProjetUnivers {
   namespace Model {
-    namespace Implementation {
-      namespace Logic {
-        
-        /// Move to next object.
-        class WithTransitions : public Kernel::Controler<Model::WithTransitions,
-                                                         LogicSystem>
-        {
-        public:
-          
-          /// Construct.
-          WithTransitions(Model::WithTransitions* object,
-                          LogicSystem*           system) ;
-        
-        protected:
-          
-          /// Trigger a transition. 
-          virtual void onClose() ;
-        };
-      }
-    }
+    
+    Edited::Edited()
+    {}
+    
   }
 }
-
-
-#endif

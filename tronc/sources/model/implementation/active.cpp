@@ -18,50 +18,13 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_WITH_TRANSITIONS_H_
-#define PU_MODEL_WITH_TRANSITIONS_H_
-
-#include <map>
-#include <string>
-#include <kernel/object_reference.h>
-#include <kernel/trait.h>
+#include <model/active.h>
 
 namespace ProjetUnivers {
   namespace Model {
     
-    /// Represents a game state.
-    /*!
-      A game state has transitions to other states.
-    */
-    class WithTransitions : public Kernel::Trait 
-    {
-    public:
-
-      /// Construction.
-      WithTransitions() ;
-    
-      /// Add a transition. 
-      void addTransition(const std::string& name,Kernel::Object*) ;
-      
-      /// The special transition on trait removal.
-      void setNext(Kernel::Object*) ;
-      
-      /// Triggers a transition.
-      void trigger(const std::string& name) ;
-
-    protected:
-
-      /// Trigger a transition whose name is @command.
-      virtual bool call(const Kernel::TypeIdentifier& trait_type,
-                        const std::string&            command) ;
-      
-    private:
-
-      /// Named transitions to objects
-      std::map<std::string,Kernel::ObjectReference> m_transitions ;
-    };
+    Active::Active()
+    {}
     
   }
 }
-
-#endif /*PU_MODEL_WITH_TRANSITIONS_H_*/

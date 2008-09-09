@@ -18,31 +18,27 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_DISPLAYED_H_
-#define PU_MODEL_DISPLAYED_H_
+#ifndef PU_MODEL_ACTIVE_H_
+#define PU_MODEL_ACTIVE_H_
 
-#include <model/active.h>
+#include <kernel/trait.h>
 
 namespace ProjetUnivers {
   namespace Model {
   
-    /// Indicate that the object is currently displayed as a GUI.
+    /// Indicate that the object is an activated state.
     /*!
-      Attached to a 
-      - Mission object : brings the editor GUI
-      - Image object : display it
-      - Menu object : activate it
+      @see game states
     */
-    class Displayed : public Active
+    class Active : public Kernel::Trait
     {
     public:
       
       /// Construction.
-      Displayed() ;
-      
+      Active() ;
     };
         
   }
 }
 
-#endif /*PU_MODEL_DISPLAYED_H_*/
+#endif /*PU_MODEL_ACTIVE_H_*/

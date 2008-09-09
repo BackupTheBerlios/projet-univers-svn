@@ -349,14 +349,64 @@ namespace ProjetUnivers {
         
       }
       
-      void TestModel::setUp()
+      void TestModel::getByName()
       {
+        /// create a model
+        std::auto_ptr<Model> model(new Model("TestModel::getByName")) ;
+
+        Object* object1 = model->createObject() ;
+        object1->setName("object1") ; 
+        Object* object2 = model->createObject() ;
+        object2->setName("object2") ; 
+        Object* object3 = model->createObject() ;
+        object3->setName("object3") ; 
+       
+        CPPUNIT_ASSERT(Object::get("toto") == NULL) ;
+        CPPUNIT_ASSERT(Object::get("object1") == object1) ;
+        CPPUNIT_ASSERT(Object::get("object2") == object2) ;
+        CPPUNIT_ASSERT(Object::get("object3") == object3) ;
+      }
+    
+      void TestModel::destroyObjects()
+      {
+        /// create a model
+        std::auto_ptr<Model> model(new Model("TestModel::destroyObjects")) ;
+
+        Object* object1 = model->createObject() ;
+        Object* object2 = object1->createObject() ;
+        Object* object3 = object2->createObject() ;
+        
+        std::set<ObjectReference> objects_to_destroy ;
+        objects_to_destroy.insert(object2) ;
+        objects_to_destroy.insert(object3) ;
+        
+        object1->destroyObject() ;
+        
+        for (std::set<ObjectReference>::const_iterator object = objects_to_destroy.begin() ;
+             object != objects_to_destroy.end() ;
+             ++object)
+        {
+          if (*object)
+          {
+            InternalMessage("Kernel","destroying object " + toString((*object)->getIdentifier())) ;
+            (*object)->destroyObject() ;
+          }
+        }
+        
       }
       
-      void TestModel::tearDown()
+      void TestModel::getDestroyedChild()
       {
-      }
+        /// create a model
+        std::auto_ptr<Model> model(new Model("TestModel::getDestroyedObject")) ;
 
+        Object* object1 = model->createObject() ;
+        Object* object2 = object1->createObject() ;
+        int identifier = object2->getIdentifier() ;
+        model->destroyObject(object1) ;
+        CPPUNIT_ASSERT(!model->getObject(identifier)) ;
+      }
+    
     }
   }
 }

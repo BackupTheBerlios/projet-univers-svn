@@ -18,31 +18,30 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_DISPLAYED_H_
-#define PU_MODEL_DISPLAYED_H_
+#ifndef PU_MODEL_EDITED_H_
+#define PU_MODEL_EDITED_H_
 
 #include <model/active.h>
 
 namespace ProjetUnivers {
   namespace Model {
   
-    /// Indicate that the object is currently displayed as a GUI.
+    /// Indicate that the object is currently edited.
     /*!
       Attached to a 
       - Mission object : brings the editor GUI
-      - Image object : display it
-      - Menu object : activate it
+      - PlayerConfiguration : brings the configuration GUI
     */
-    class Displayed : public Active
+    class Edited : public Active
     {
     public:
       
       /// Construction.
-      Displayed() ;
+      Edited() ;
       
     };
         
   }
 }
 
-#endif /*PU_MODEL_DISPLAYED_H_*/
+#endif /*PU_MODEL_EDITED_H_*/

@@ -27,6 +27,7 @@
 #include <model/oriented.h>
 #include <model/observer.h>
 #include <model/displayed.h>
+#include <model/edited.h>
 #include <model/player.h>
 #include <model/player_configuration.h>
 #include <model/positionned.h>
@@ -85,7 +86,7 @@ namespace ProjetUnivers {
         
         Kernel::Object* option = model->createObject() ;
         Kernel::Object* configuration = Model::createDefaultPlayerConfiguration(option) ;
-        configuration->addTrait(new Model::Displayed()) ;
+        configuration->addTrait(new Model::Edited()) ;
 
 //        std::set<std::string> commands(Kernel::Trait::getRegisteredCommands()) ;
 //        

@@ -18,7 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <model/displayed.h>
+#include <model/active.h>
 #include <model/end_of_simulation.h>
 #include <model/implementation/activated_end_of_simulation.h>
 
@@ -28,7 +28,7 @@ namespace ProjetUnivers {
 
       DeclareDeducedTrait(ActivatedEndOfSimulation,
                           And(HasTrait(Model::EndOfSimulation),
-                              HasTrait(Model::Displayed))) ;
+                              HasTrait(Model::Active))) ;
         
     }
   }

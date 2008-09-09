@@ -20,32 +20,31 @@
  ***************************************************************************/
 #include <kernel/log.h>
 #include <model/model.h>
-#include <model/implementation/logic/with_transitions.h>
+#include <model/implementation/logic/state.h>
 
 namespace ProjetUnivers {
   namespace Model {
     namespace Implementation {
       namespace Logic {
           
-        RegisterControler(WithTransitions, 
-                          Model::WithTransitions, 
+        RegisterControler(State, 
+                          Model::State, 
                           LogicSystem) ;
         
-        WithTransitions::WithTransitions(Model::WithTransitions* object,
-                                         LogicSystem*            system)
-        : Kernel::Controler<Model::WithTransitions,
-                            LogicSystem>(object,system)
+        State::State(Model::State* object,
+                     LogicSystem*  system)
+        : Kernel::Controler<Model::State,LogicSystem>(object,system)
         {
-          InternalMessage("Model","Logic::WithTransitions controler built") ;
+          InternalMessage("Model","Logic::State controler built") ;
         }
         
-        void WithTransitions::onClose()
+        void State::onClose()
         {
-          InternalMessage("Model","Logic::WithTransitions::onClose entering") ;
+          InternalMessage("Model","Logic::State::onClose entering") ;
           
-          getTrait()->trigger("") ;
+          getObject()->call(getTrait()->getCommandOnQuit()) ;
   
-          InternalMessage("Model","Logic::WithTransitions::onClose leaving") ;
+          InternalMessage("Model","Logic::State::onClose leaving") ;
           
         }
       }      

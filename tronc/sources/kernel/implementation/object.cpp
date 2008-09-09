@@ -39,6 +39,7 @@ namespace ProjetUnivers {
 
     std::set<const Kernel::Object*> Object::m_already_called_objects ;
     
+    std::map<std::string,Kernel::ObjectReference> Object::m_named_objects ;
     namespace 
     {
       int next_identifier = 1 ;
@@ -76,6 +77,24 @@ namespace ProjetUnivers {
     {
       if (getModel())
         getModel()->destroyTrait(this,trait) ;
+    }
+    
+    void Object::setName(const std::string& name)
+    {
+      m_named_objects[name] = this ;
+    }
+    
+    Object* Object::get(const std::string& name)
+    {
+      std::map<std::string,ObjectReference>::const_iterator finder =
+        m_named_objects.find(name) ;
+      
+      if (finder != m_named_objects.end())
+      {
+        return finder->second ;
+      }
+      
+      return NULL ;
     }
     
     int Object::getIdentifier() const
@@ -329,6 +348,10 @@ namespace ProjetUnivers {
       {
         delete *child ;
       }
+      
+      if (m_model)
+        m_model->_removeObjectIdentifier(m_identifier) ;
+      
       InternalMessage("Kernel","Destroyed object" + toString(m_identifier)) ;
     }
 

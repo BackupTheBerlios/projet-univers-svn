@@ -116,6 +116,13 @@ namespace ProjetUnivers {
       /// root objects @composite
       std::set<Object*>             m_objects ;
       
+      /// Remove the mapping between an identifier and an object.
+      /*!
+        Used during object destruction.
+      */
+      void _removeObjectIdentifier(const int& identifier) ;
+      
+      /// Identify objects.
       std::map<int,Object*>         m_objects_by_identifier ;
 
       /// true during destruction.

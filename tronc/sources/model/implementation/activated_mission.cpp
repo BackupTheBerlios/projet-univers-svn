@@ -18,7 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <model/displayed.h>
+#include <model/played.h>
 #include <model/mission.h>
 #include <model/implementation/activated_mission.h>
 
@@ -28,7 +28,7 @@ namespace ProjetUnivers {
           
       DeclareDeducedTrait(
           ActivatedMission,
-          And(HasTrait(Displayed),
+          And(HasTrait(Played),
               HasTrait(Mission))) ;
     }
   }

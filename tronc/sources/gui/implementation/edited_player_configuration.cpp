@@ -19,7 +19,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include <model/player_configuration.h>
-#include <model/displayed.h>
+#include <model/edited.h>
 #include <gui/implementation/edited_player_configuration.h>
 
 namespace ProjetUnivers {
@@ -28,7 +28,7 @@ namespace ProjetUnivers {
 
       DeclareDeducedTrait(EditedPlayerConfiguration,
                           And(HasTrait(Model::PlayerConfiguration),
-                              HasTrait(Model::Displayed))) ;
+                              HasTrait(Model::Edited))) ;
     }
   }
 }

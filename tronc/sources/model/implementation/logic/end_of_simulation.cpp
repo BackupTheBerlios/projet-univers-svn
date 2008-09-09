@@ -18,6 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <kernel/log.h>
 #include <model/implementation/logic/end_of_simulation.h>
 
 namespace ProjetUnivers {
@@ -38,6 +39,8 @@ namespace ProjetUnivers {
        
         void EndOfSimulation::onInit()
         {
+          InternalMessage("Model","EndOfSimulation::onInit entering") ;
+          
           const std::set<Kernel::Object*>& roots = getTrait()->getObject()
                                                    ->getModel()->getRoots() ;
           for(std::set<Kernel::Object*>::const_iterator root = roots.begin() ; 
@@ -45,6 +48,8 @@ namespace ProjetUnivers {
               ++root)
             
             getControlerSet()->addObjectToDestroy(*root) ;
+
+          InternalMessage("Model","EndOfSimulation::onInit leaving") ;
         }
       }
     }

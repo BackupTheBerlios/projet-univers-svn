@@ -832,9 +832,27 @@
     - added test.wav for openal_lib_test
   * All : 
     - added xml tests output 
-    
+
+2008-09-10 rogma
+  
+  * Model :
+    - renamed WithTransitions to State : it handles game states and commands 
+      are sent to change, push and pop states (test added)
+    - added Active, Played and Edited that represents several State activations
+  * All :
+    - made changes to handle this new State managment
+    - change to configure for generating tarball
+  * Kernel :
+    - corrected a bug on ObjectReference 
+    	@see TestModel::getDestroyedChild and TestModel::destroyObjects 
+  * Demonstration :
+    - go back to menu when Player is destroyed 
+     
 @todo :
   
+    - go back to menu when Player is destroyed is stil not correct : the game 
+      viewport is not removed
+       
   * All : 
     - add Game controler and trait for handling team respawn ...
       a Transponder^Ship controler that count the number of alive ships, same 
@@ -885,10 +903,8 @@
     - PhysicalWorld <=> Whole ??
       PhysicalObject should not depend on mobile ?
     
-    - add another type of transition : open a new "state" while not closing the
-      old one
-    - add a transition that allows to close any oppened state while oppening 
-      another ? 
+    - WhithTransitions : implements system from : 
+      http://guff.tigris.org/docs/SBGames06-en.pdf 
 
   * GUI : 
     - add key shortcuts for clicable buttons  

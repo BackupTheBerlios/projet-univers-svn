@@ -88,8 +88,6 @@ namespace ProjetUnivers {
       CHECK(object,"Model::destroyObject no object") ;
       
       object->_close() ;
-
-      m_objects_by_identifier.erase(object->getIdentifier()) ;
       
       if (object->getParent() == NULL)
       {
@@ -105,6 +103,11 @@ namespace ProjetUnivers {
       InternalMessage("Kernel","Leaving Model::destroyObject") ;
     }
 
+    void Model::_removeObjectIdentifier(const int& identifier)
+    {
+      m_objects_by_identifier.erase(identifier) ;
+    }
+    
     /// Changes parent of a given Object.
     void Model::changeParent(Object* object, 
                              Object* new_parent)

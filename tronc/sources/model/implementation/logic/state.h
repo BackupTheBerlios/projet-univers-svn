@@ -18,31 +18,37 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_DISPLAYED_H_
-#define PU_MODEL_DISPLAYED_H_
+#ifndef PU_MODEL_IMPLEMENTATION_LOGIC_WITH_TRANSITIONS_H_
+#define PU_MODEL_IMPLEMENTATION_LOGIC_WITH_TRANSITIONS_H_
 
-#include <model/active.h>
+#include <kernel/controler.h>
+#include <model/state.h>
+#include <model/implementation/logic/logic_system.h>
 
 namespace ProjetUnivers {
   namespace Model {
-  
-    /// Indicate that the object is currently displayed as a GUI.
-    /*!
-      Attached to a 
-      - Mission object : brings the editor GUI
-      - Image object : display it
-      - Menu object : activate it
-    */
-    class Displayed : public Active
-    {
-    public:
-      
-      /// Construction.
-      Displayed() ;
-      
-    };
+    namespace Implementation {
+      namespace Logic {
         
+        /// Move to next object.
+        class State : public Kernel::Controler<Model::State,
+                                               LogicSystem>
+        {
+        public:
+          
+          /// Construct.
+          State(Model::State* object,
+                LogicSystem*  system) ;
+        
+        protected:
+          
+          /// Trigger a transition. 
+          virtual void onClose() ;
+        };
+      }
+    }
   }
 }
 
-#endif /*PU_MODEL_DISPLAYED_H_*/
+
+#endif

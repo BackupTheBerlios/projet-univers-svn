@@ -78,6 +78,15 @@ namespace ProjetUnivers {
         /// Add, then remove and finally add the same trait.
         void addTraitTwice() ;
         
+        /// Access to an object by name.
+        void getByName() ;
+        
+        /// Destroy a set of objects, some parents before their children.
+        void destroyObjects() ;
+        
+        /// Access to a destroyed child object by identifier.
+        void getDestroyedChild() ;
+        
       // @}
 
 
@@ -96,14 +105,11 @@ namespace ProjetUnivers {
         CPPUNIT_TEST(notifyOnNotAssignedTrait) ;
         CPPUNIT_TEST(destroyObjectWithDeducedTraits) ;
         CPPUNIT_TEST(addTraitTwice) ;
+        CPPUNIT_TEST(getByName) ;
+        CPPUNIT_TEST(destroyObjects) ;
+        CPPUNIT_TEST(getDestroyedChild) ;
 
         CPPUNIT_TEST_SUITE_END() ;
-
-      public:
-
-        void setUp() ;
-
-        void tearDown() ;
 
       };
 

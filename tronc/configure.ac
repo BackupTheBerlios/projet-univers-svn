@@ -3,7 +3,7 @@ AC_PREREQ(2.50)
 # Version
 AC_INIT([ProjetUnivers], 0.3.1)
 AC_CONFIG_SRCDIR([sources/demonstration/demonstration.cpp])
-AM_INIT_AUTOMAKE([ProjetUnivers], 0.3.1, NO-DEFINE)
+AM_INIT_AUTOMAKE([1.9 tar-pax])
 
 AC_LIBTOOL_WIN32_DLL 
 AC_PROG_LIBTOOL

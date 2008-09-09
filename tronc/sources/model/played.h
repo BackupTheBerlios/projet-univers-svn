@@ -21,7 +21,7 @@
 #ifndef PU_MODEL_PLAYED_H_
 #define PU_MODEL_PLAYED_H_
 
-#include <kernel/trait.h>
+#include <model/active.h>
 
 namespace ProjetUnivers {
   namespace Model {
@@ -30,7 +30,7 @@ namespace ProjetUnivers {
     /*!
       For a Mission.
     */
-    class Played : public Kernel::Trait
+    class Played : public Active
     {
     public:
       
