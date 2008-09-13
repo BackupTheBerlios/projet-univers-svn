@@ -77,6 +77,9 @@ namespace ProjetUnivers {
           /// List of mapping command/key
           ::CEGUI::MultiColumnList* m_list ;
           
+          /// to quit this menu
+          ::CEGUI::PushButton* m_ok ;
+          
           /// Current edited command.
           std::string m_command ;
           

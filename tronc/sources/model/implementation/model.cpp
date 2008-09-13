@@ -245,10 +245,6 @@ namespace ProjetUnivers {
         Kernel::Object* root = model->createObject() ;
         root->addTrait(new State()) ;
         
-        Kernel::Object* configuration = model->createObject() ;
-        Kernel::Object* player_configuration = 
-          createDefaultPlayerConfiguration(configuration) ;
-        
         Kernel::Object* welcome = root->createObject() ;
         welcome->addTrait(new Image("intro.png")) ;
         welcome->addTrait(new Displayed()) ;
@@ -265,24 +261,26 @@ namespace ProjetUnivers {
         main_menu->setName("main_menu") ;
         main_menu->addTrait(new Menu("ProjetUnivers.layout")) ;
         main_menu->addTrait(new State()) ;
+        main_menu->getTrait<State>()->addCommandAlias("quit","change(quit,Active)") ;
+        main_menu->getTrait<State>()->addCommandAlias("play","change(mission,Played)") ;
+        main_menu->getTrait<State>()->addCommandAlias("configure","push(player_configuration,Edited)") ;
 
+        Kernel::Object* player_configuration = createDefaultPlayerConfiguration(main_menu) ;
+        player_configuration->setName("player_configuration") ;
+        player_configuration->addTrait(new State()) ;
+        
         Kernel::Object* main_menu_in_game = root->createObject() ;
         main_menu_in_game->setName("main_menu_in_game") ;
         main_menu_in_game->addTrait(new Menu("confirm.layout")) ;
         main_menu_in_game->addTrait(new State()) ;
+        main_menu_in_game->getTrait<State>()->addCommandAlias("quit","change(quit,Active)") ;
+        main_menu_in_game->getTrait<State>()->addCommandAlias("cancelQuit","pop()") ;
         
         Kernel::Object* mission = root->createObject() ;
         mission->setName("mission") ;
         mission->addTrait(new State()) ;
         mission->addTrait(new Mission("basic_mission",player_configuration,main_menu_in_game)) ;
-        
-        welcome->getTrait<State>()->setCommandOnQuit("change(main_menu,Displayed)") ;
-//        main_menu->getTrait<State>()->setCommandOnQuit("change(quit,Active)") ;
-        main_menu->getTrait<State>()->addCommandAlias("quit","change(quit,Active)") ;
-        main_menu->getTrait<State>()->addCommandAlias("play","change(mission,Played)") ;
         mission->getTrait<State>()->addCommandAlias("quit","change(main_menu,Displayed)") ;
-        main_menu_in_game->getTrait<State>()->addCommandAlias("quit","change(quit,Active)") ;
-        main_menu_in_game->getTrait<State>()->addCommandAlias("cancelQuit","pop()") ;
       }
       else
       {

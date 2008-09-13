@@ -113,16 +113,22 @@ else
 fi
 AM_CONDITIONAL(HAVE_CLANLIB, test "x$CLANLIB_CONFIG" != "xno")
 
-# ogre plugin configuration generates plugin.cfg
+# ogre plugin configuration 
+# generates plugin.cfg and ogre.cfg for tests
+# we define variables depending on platform
 if test "x$build_os" = xmingw32; then
   # windows mingw
   ogre_path=`find / -name "RenderSystem_GL.dll" | sed -e 's/RenderSystem_GL.dll//'`
   AC_SUBST(OGRE_PLUGIN_FOLDER,`./winpath.sh $ogre_path`)
   AC_SUBST(OGRE_PLUGIN_EXTENSION,"dll")
+  AC_SUBST(OGRE_PLUGIN_RENDER_SYSTEM,"RenderSystem_Direct3D9")
+  AC_SUBST(OGRE_USED_RENDER_SYSTEM,"Direct3D9 Rendering Subsystem")
 else
   # default linux
   AC_SUBST(OGRE_PLUGIN_FOLDER,`find /usr -name "RenderSystem_GL.so" | sed -e 's/RenderSystem_GL.so//'`)
   AC_SUBST(OGRE_PLUGIN_EXTENSION,"so")
+  AC_SUBST(OGRE_PLUGIN_RENDER_SYSTEM,"RenderSystem_GL")
+  AC_SUBST(OGRE_USED_RENDER_SYSTEM,"OpenGL Rendering Subsystem")
 fi
 
 
@@ -150,12 +156,15 @@ AC_CONFIG_FILES([Makefile \
                  sources/display/Makefile \
                  sources/display/compilation/Makefile \
                  sources/display/compilation/plugins.cfg \
+                 sources/display/compilation/ogre.cfg \
                  sources/demonstration/Makefile \
                  sources/demonstration/compilation/Makefile \
                  sources/demonstration/compilation/plugins.cfg \
+                 sources/demonstration/compilation/ogre.cfg \
                  sources/input/Makefile \
                  sources/input/compilation/Makefile \
                  sources/input/compilation/plugins.cfg \
+                 sources/input/compilation/ogre.cfg \
                  sources/physic/Makefile \
                  sources/physic/compilation/Makefile \
                  sources/sound/Makefile \
@@ -166,6 +175,7 @@ AC_CONFIG_FILES([Makefile \
                  sources/gui/Makefile \
                  sources/gui/compilation/Makefile \
                  sources/gui/compilation/plugins.cfg \
+                 sources/gui/compilation/ogre.cfg \
                  ])
 
 AC_OUTPUT

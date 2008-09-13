@@ -17,7 +17,7 @@
                 <Property Name="Font" Value="Commonwealth-10" />
                 <Property Name="Text" Value="Quit" />
                 <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
-                <Property Name="UnifiedAreaRect" Value="{{0.162621,0},{0.167639,0},{0.761558,0},{0.264254,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0,+10},{0,+10},{1,-10},{1,-10}}" />
             </Window>
         </Window>
     </Window>

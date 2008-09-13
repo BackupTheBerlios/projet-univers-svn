@@ -45,6 +45,8 @@ namespace ProjetUnivers {
         : Kernel::Controler<EditedPlayerConfiguration,
                             GUIControlerSet>(configuration,gui),
           m_window(NULL),
+          m_list(NULL),
+          m_ok(NULL),
           m_remaining_seconds(0)
         {}
         
@@ -71,9 +73,18 @@ namespace ProjetUnivers {
             m_list->addColumn("Binding",1,::CEGUI::UDim(0.5f, 0)) ;
             m_list->setSelectionMode(::CEGUI::MultiColumnList::RowSingle) ;
             
+            m_ok = 
+              static_cast< ::CEGUI::PushButton*>(::CEGUI::WindowManager::getSingletonPtr()
+                            ->createWindow("TaharezLook/Button","ok")) ;
+            
+            m_ok->setProperty("Text","ok") ;
+            m_ok->setProperty("UnifiedAreaRect","{{0.5,-20},{0.8,-10},{0.5,20},{0.8,10}}") ;
+            m_window->addChildWindow(m_ok) ;
+            
             reDraw() ;
             m_list->subscribeEvent(::CEGUI::MultiColumnList::EventSelectionChanged,
                                    ::CEGUI::Event::Subscriber(&PlayerConfiguration::onSelect,this)) ;
+            
             ::CEGUI::System::getSingleton().setGUISheet(m_window) ;
           }
           catch(::CEGUI::Exception& exception)

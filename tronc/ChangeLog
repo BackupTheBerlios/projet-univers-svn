@@ -847,6 +847,14 @@
     	@see TestModel::getDestroyedChild and TestModel::destroyObjects 
   * Demonstration :
     - go back to menu when Player is destroyed 
+
+2008-09-13 rogma
+  
+  * All : 
+    - adding better wross platform configuration for Ogre : choosing correct 
+      default plugin on windows/linux and correct default ogre.cfg
+  * Demonstration :
+    - added basic command configuration (still in progress) 
      
 @todo :
   

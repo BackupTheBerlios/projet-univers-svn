@@ -39,6 +39,7 @@
                 <Property Name="Text" Value="Configuration" />
                 <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
                 <Property Name="UnifiedAreaRect" Value="{{0.18,0},{0.367709,0},{0.82,0},{0.517709,0}}" />
+                <Event Name="Clicked" Function="configure"/>
             </Window>
         </Window>
     </Window>
