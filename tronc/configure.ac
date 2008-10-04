@@ -118,8 +118,10 @@ AM_CONDITIONAL(HAVE_CLANLIB, test "x$CLANLIB_CONFIG" != "xno")
 # we define variables depending on platform
 if test "x$build_os" = xmingw32; then
   # windows+mingw
+  # caculate path for ogre plugins 
   ogre_path=`find / -name "RenderSystem_GL.dll" | sed -e 's/RenderSystem_GL.dll//'`
-  AC_SUBST(OGRE_PLUGIN_FOLDER,`./winpath.sh $ogre_path`)
+  # we must transform the cygwin path to a windows path with escaped backslash
+  AC_SUBST(OGRE_PLUGIN_FOLDER,`./winpath.sh $ogre_path 1`)
   AC_SUBST(OGRE_PLUGIN_EXTENSION,"dll")
   AC_SUBST(OGRE_PLUGIN_RENDER_SYSTEM,"RenderSystem_Direct3D9")
   AC_SUBST(OGRE_USED_RENDER_SYSTEM,"Direct3D9 Rendering Subsystem")
