@@ -1,0 +1,31 @@
+# Resource locations to be added to the 'boostrap' path
+# This also contains the minimum you need to use the Ogre example framework
+[Bootstrap]
+Zip=@MEDIA_FOLDER@/packs/OgreCore.zip
+
+# Resource locations to be added to the default path
+[General]
+# Projet Univers resources
+Zip=@MEDIA_FOLDER@/PU/ciel.zip
+Zip=@MEDIA_FOLDER@/PU/explosions.zip
+Zip=@MEDIA_FOLDER@/PU/explosion_2.zip
+FileSystem=@MEDIA_FOLDER@/PU/base
+FileSystem=@MEDIA_FOLDER@/PU/base/space_dust
+FileSystem=@MEDIA_FOLDER@/PU
+FileSystem=@MEDIA_FOLDER@//PU/sounds
+FileSystem=@MEDIA_FOLDER@/datafiles/configs/
+
+[fonts]
+FileSystem=@MEDIA_FOLDER@/datafiles/fonts/
+
+[layouts]
+FileSystem=@MEDIA_FOLDER@/datafiles/layouts/
+
+[schemes]
+FileSystem=@MEDIA_FOLDER@/datafiles/schemes/
+
+[imagesets]
+FileSystem=@MEDIA_FOLDER@/datafiles/imagesets/
+
+[looknfeels]
+FileSystem=@MEDIA_FOLDER@/datafiles/looknfeel/

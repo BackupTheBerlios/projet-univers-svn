@@ -1,3 +1,4 @@
+# recursion
 SUBDIRS = \
 kernel \
 model \
@@ -8,7 +9,12 @@ input \
 gui \
 sound \
 demonstration 
-	
+
+# headers installation
+nobase_include_HEADERS = plateform.h projet_univers.h	
+
+# media installation 
 install-data-local:
-	cp -r media $(datadir)/media
+	mkdir -p $(pkgdatadir)
+	find media ! -regex ".*/\.svn/.*" -type f -exec cp --parents {} $(pkgdatadir) \;
 	

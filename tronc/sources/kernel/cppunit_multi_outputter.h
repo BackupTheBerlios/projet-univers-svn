@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007 Mathieu ROGER                                      *
+ *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,47 +18,35 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <cppunit/extensions/TestFactoryRegistry.h>
-#include <cppunit/ui/text/TestRunner.h>
-#include <cppunit/CompilerOutputter.h>
-#include <cppunit/XmlOutputter.h>
-#include <kernel/cppunit_multi_outputter.h>
+#ifndef CPPUNIT_MULTI_OUTPUTTER_H_
+#define CPPUNIT_MULTI_OUTPUTTER_H_
 
-#include <kernel/parameters.h>
-#include <kernel/log.h>
+#include <set>
+#include <cppunit/Outputter.h>
 
-int 
-main( int argc, char* argv[] )
+CPPUNIT_NS_BEGIN
+
+/// Broadcast output to multiple Outputter.
+class CPPUNIT_API MultiOutputter : public CPPUNIT_NS::Outputter
 {
-  ProjetUnivers::Kernel::Parameters::load("physic.config") ;
-  ProjetUnivers::Kernel::Log::init() ;
+public:
   
-  // if command line contains "-selftest" then this is the post build check
-  // => the output must be in the compiler error format.
-  bool selfTest = (argc > 1)  &&  
-                  (std::string("-selftest") == argv[1]);
+  /// Build
+  MultiOutputter() ;
 
-  CppUnit::TextUi::TestRunner runner;
-  CppUnit::TestFactoryRegistry &registry = CppUnit::TestFactoryRegistry::getRegistry();
+  /// Add an outputter to broadcast to.
+  void add(Outputter*) ;
   
-  runner.addTest( registry.makeTest() );
+  /// Destructor.
+  virtual ~MultiOutputter() ;
 
-  // Define the file that will store the XML output.
-  std::ofstream outputFile("../../../tests-results/tests_physic.xml");
+  virtual void write() ;
 
-  CppUnit::MultiOutputter* outputter = new CppUnit::MultiOutputter() ;
-  outputter->add(new CppUnit::CompilerOutputter(&runner.result(),std::cerr)) ;
-  outputter->add(new CppUnit::XmlOutputter(&runner.result(), outputFile)) ;
-  runner.setOutputter(outputter);
+protected:
+  
+  std::set<Outputter*> m_outputters ;
+};
 
-  // Run the test.
-  bool wasSucessful = runner.run( "" );
+CPPUNIT_NS_END
 
-  ProjetUnivers::Kernel::Log::close() ;
-
-
-  // Return error code 1 if the one of test failed.
-  return wasSucessful ? 0 : 1;
-}
-
-
+#endif /*CPPUNIT_MULTI_OUTPUTTER_H_*/

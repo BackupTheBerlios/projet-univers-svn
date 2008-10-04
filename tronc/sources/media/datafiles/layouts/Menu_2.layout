@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<GUILayout >
+    <Window Type="DefaultWindow" Name="Root" >
+        <Property Name="InheritsAlpha" Value="False" />
+        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+        <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
+        <Window Type="ProjetUnivers/FrameWindow" Name="Root/" >
+            <Property Name="Font" Value="BlueHighway-12" />
+            <Property Name="TitlebarFont" Value="BlueHighway-12" />
+            <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+            <Property Name="TitlebarEnabled" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
+            <Property Name="EWSizingCursorImage" Value="" />
+            <Property Name="NSSizingCursorImage" Value="" />
+            <Property Name="NESWSizingCursorImage" Value="" />
+            <Property Name="NWSESizingCursorImage" Value="" />
+            <Window Type="ProjetUnivers/Button" Name="Root//" >
+                <Property Name="Font" Value="Commonwealth-10" />
+                <Property Name="Text" Value="Jouer" />
+                <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.0133334,0},{0.119094,0},{0.163571,0},{0.2,0}}" />
+            </Window>
+            <Window Type="ProjetUnivers/Button" Name="Root//1" >
+                <Property Name="Font" Value="Commonwealth-10" />
+                <Property Name="Text" Value="Configurer" />
+                <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.013928,0},{0.197142,0},{0.162976,0},{0.277346,0}}" />
+            </Window>
+            <Window Type="ProjetUnivers/Button" Name="Root//3" >
+                <Property Name="Font" Value="Commonwealth-10" />
+                <Property Name="Text" Value="Credit" />
+                <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.0145236,0},{0.273409,0},{0.163453,0},{0.35329,0}}" />
+            </Window>
+            <Window Type="ProjetUnivers/Button" Name="Root//4" >
+                <Property Name="Font" Value="Commonwealth-10" />
+                <Property Name="Text" Value="Quitter" />
+                <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.0151189,0},{0.347141,0},{0.164643,0},{0.425944,0}}" />
+            </Window>
+            <Window Type="ProjetUnivers/Menu" Name="Root/Menu" >
+                <Property Name="TitlebarFont" Value="Commonwealth-10" />
+                <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                <Property Name="TitlebarEnabled" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0.39244,0},{0.25525,0},{0.726965,0},{0.782488,0}}" />
+                <Property Name="EWSizingCursorImage" Value="" />
+                <Property Name="NSSizingCursorImage" Value="" />
+                <Property Name="NESWSizingCursorImage" Value="" />
+                <Property Name="NWSESizingCursorImage" Value="" />
+                <Window Type="ProjetUnivers/StaticText" Name="Root/Menu/ST1" >
+                    <Property Name="Font" Value="Commonwealth-10" />
+                    <Property Name="Text" Value="Choix des touches" />
+                    <Property Name="FrameEnabled" Value="False" />
+                    <Property Name="HorzFormatting" Value="HorzCentred" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{1.90292e-006,0},{0.0662404,0},{0.904805,0},{0.152557,0}}" />
+                    <Property Name="BackgroundEnabled" Value="False" />
+                    <Property Name="HorizontalAlignment" Value="Centre" />
+                </Window>
+                <Window Type="ProjetUnivers/MultiColumnList" Name="Root/Menu/MultiColumnList" >
+                    <Property Name="Font" Value="BlueHighway-10" />
+                    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.149644,0},{0.211253,0},{0.861032,0},{0.851098,0}}" />
+                    <Property Name="ColumnHeader" Value="text:Actions width:{0.5,0} id:0" />
+                    <Property Name="ColumnHeader" Value="text:Touches width:{0.5,0} id:1" />
+                </Window>
+            </Window>
+        </Window>
+    </Window>
+</GUILayout>

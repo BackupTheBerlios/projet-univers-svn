@@ -19,6 +19,7 @@ $(SOURCES)/kernel/implementation/meta.cpp \
 $(SOURCES)/kernel/implementation/model.cpp \
 $(SOURCES)/kernel/implementation/object.cpp \
 $(SOURCES)/kernel/implementation/object_reference.cpp \
+$(SOURCES)/kernel/implementation/cppunit_multi_outputter.cpp \
 $(SOURCES)/kernel/implementation/string.cpp \
 $(SOURCES)/kernel/implementation/timer.cpp \
 $(SOURCES)/kernel/implementation/trait.cpp \

@@ -22,6 +22,7 @@
 #include <cppunit/ui/text/TestRunner.h>
 #include <cppunit/CompilerOutputter.h>
 #include <cppunit/XmlOutputter.h>
+#include <kernel/cppunit_multi_outputter.h>
 
 #include <kernel/parameters.h>
 #include <kernel/log.h>
@@ -34,7 +35,7 @@
 int 
 main( int argc, char* argv[] )
 {
-  ProjetUnivers::Kernel::Parameters::load("test.config") ;
+  ProjetUnivers::Kernel::Parameters::load("gui.config") ;
   ProjetUnivers::Kernel::Log::init() ;
   ProjetUnivers::Model::start() ;
   ProjetUnivers::Display::start() ;
@@ -54,20 +55,10 @@ main( int argc, char* argv[] )
   // Define the file that will store the XML output.
   std::ofstream outputFile("../../../tests-results/tests_gui.xml");
 
-  if ( selfTest )
-  { // Change the default outputter to a compiler error format outputter
-    // The test runner owns the new outputter.
-    runner.setOutputter( CppUnit::CompilerOutputter::defaultOutputter( 
-                                                        &runner.result(),
-                                                        std::cerr ) );
-  }
-  else
-  {
-    // Specify XML output and inform the test runner of this format.
-    CppUnit::XmlOutputter* outputter =
-      new CppUnit::XmlOutputter(&runner.result(), outputFile);
-    runner.setOutputter(outputter);
-  }
+  CppUnit::MultiOutputter* outputter = new CppUnit::MultiOutputter() ;
+  outputter->add(new CppUnit::CompilerOutputter(&runner.result(),std::cerr)) ;
+  outputter->add(new CppUnit::XmlOutputter(&runner.result(), outputFile)) ;
+  runner.setOutputter(outputter);
 
   // Run the test.
   bool wasSucessful = runner.run( "" );

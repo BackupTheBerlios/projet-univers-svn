@@ -40,6 +40,12 @@ $(libsndfile_LIBS) \
 $(vorbis_LIBS) \
 $(vorbisfile_LIBS)
 
+all-local:ressources.cfg
+
+# generates a correct ressources.cfg from main template
+ressources.cfg:../../ressources.cfg.in
+	cat ../../ressources.cfg.in | sed 's,@MEDIA_FOLDER\@,../../media,' > ressources.cfg
+
 TESTS = test_sound 
 
 check_PROGRAMS = $(TESTS)

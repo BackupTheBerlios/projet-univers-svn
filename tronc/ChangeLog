@@ -851,11 +851,23 @@
 2008-09-13 rogma
   
   * All : 
-    - adding better wross platform configuration for Ogre : choosing correct 
+    - added better wross platform configuration for Ogre : choosing correct 
       default plugin on windows/linux and correct default ogre.cfg
   * Demonstration :
     - added basic command configuration (still in progress) 
-     
+
+2008-10-04 rogma
+
+   * All : 
+     - added preliminary make install support
+     - removed specific plugins.cfg.in : all are generated from a single one
+     - same for ressources.cfg
+     - added a multi-outputter that produces both xml and compiler output : 
+       @see 
+       http://sourceforge.net/tracker/index.php?func=detail&aid=1812139&group_id=11795&atid=361795
+   * Media :
+     - added preliminary new menu from Faro
+      
 @todo :
   
     - go back to menu when Player is destroyed is stil not correct : the game 
@@ -868,13 +880,16 @@
       Custom mission controler dealt with victory/ending conditions and leads 
       to game over state
       Avoid blocking game when player is dead. 
+    
     - considered in a lot of places that Z axis is forward... whereas Ogre 
       consider negative Z as forward ??? 
     - make install does not work on win32 : libtool refuses to link with Ogre 
       (wheread it works in normal make !!)
+      
     - some changes due to gcc 4.3 (not urgent)
     - a lot of kernel tests fails on gcc 4.3 (not urgent)
-    - migrate sound module to use openal-soft ? (not urgent) 
+    - migrate sound module to use openal-soft ? (not urgent)
+    - set the output directory for xml test results in parameter ? 
      
   * Model : 
     - Event traits like Collision, Shot should be implemented through 

@@ -58,13 +58,13 @@ namespace ProjetUnivers {
         model->init() ;
         
         Kernel::Object* menu = model->createObject() ;
-        menu->addTrait(new Model::Menu("test.layout")) ;
+        menu->addTrait(new Model::Menu("Menu_2.layout")) ;
         menu->addTrait(new Model::Displayed()) ;
         
         Kernel::Timer timer ;
         Kernel::Timer global_timer ;
         
-        while (global_timer.getSecond() < 5)
+        while (global_timer.getSecond() < 10)
         {
           float seconds = timer.getSecond() ;
           if (seconds != 0)

@@ -31,8 +31,8 @@ namespace ProjetUnivers {
 
       void TestParameters::basicTest()
       {
-        Parameters::load("parameter.ini") ;
-      
+        Parameters::load("parameter.config") ;
+        
         CPPUNIT_ASSERT(Parameters::getValue<std::string>("test","value1")=="toto") ;
         CPPUNIT_ASSERT(Parameters::getValue<float>("test","value2")==1) ;
         CPPUNIT_ASSERT(!Parameters::getValue<bool>("test","value3")) ;
@@ -43,7 +43,7 @@ namespace ProjetUnivers {
 
       void TestParameters::testDemonstration()
       {
-        Parameters::load("demonstration.config") ;
+        Parameters::load("kernel_demonstration.config") ;
         
         CPPUNIT_ASSERT(Parameters::getValue<float>("Model","DraggerCoeeficient") == (float)0.01) ;
         CPPUNIT_ASSERT(Parameters::getValue<float>("Input","ThrottelAxis") == 6) ;
@@ -54,7 +54,7 @@ namespace ProjetUnivers {
       void TestParameters::testGetActivatedLogs()
       {
         Parameters::reset() ;
-        Parameters::load("log.ini") ;
+        Parameters::load("log.config") ;
         std::set<std::string> logs = Parameters::getActivatedLogs() ;
         
         CPPUNIT_ASSERT(logs.size() == 1) ;

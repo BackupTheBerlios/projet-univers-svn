@@ -110,6 +110,12 @@ $(librlog_LIBS)
 
 libmodel_la_DEPENDENCIES = ../../kernel/compilation/libkernel.la
 
+all-local:ressources.cfg
+
+# generates a correct ressources.cfg from main template
+ressources.cfg:../../ressources.cfg.in
+	cat ../../ressources.cfg.in | sed 's,@MEDIA_FOLDER\@,../../media,' > ressources.cfg
+
 TESTS = test_model
 
 check_PROGRAMS = $(TESTS)

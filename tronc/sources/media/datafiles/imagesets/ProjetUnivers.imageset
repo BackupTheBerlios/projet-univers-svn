@@ -1,25 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<Imageset Name="ProjetUnivers" Imagefile="ProjetUnivers.tga" NativeHorzRes="800" NativeVertRes="600" >
-    <Image Name="ScrollBas" XPos="71" YPos="376" Width="34" Height="37" />
-    <Image Name="ScrollHaut" XPos="71" YPos="316" Width="34" Height="37" />
-    <Image Name="Scrollligne" XPos="71" YPos="355" Width="34" Height="10" />
-    <Image Name="WindowBasCentre" XPos="34" YPos="195" Width="6" Height="73" />
-    <Image Name="WindowBasDroite" XPos="71" YPos="195" Width="127" Height="73" />
-    <Image Name="WindowBasGauche" XPos="12" YPos="195" Width="4" Height="73" />
-    <Image Name="WindowHautCentre" XPos="33" YPos="8" Width="3" Height="23" />
-    <Image Name="WindowHautDroite" XPos="71" YPos="8" Width="127" Height="23" />
-    <Image Name="WindowHautGauche" XPos="12" YPos="8" Width="7" Height="23" />
-    <Image Name="ButtonDroiteNormal" XPos="429" YPos="21" Width="26" Height="70" />
-    <Image Name="ButtonDroitePushed" XPos="429" YPos="93" Width="26" Height="68" />
-    <Image Name="ButtonGaucheNormal" XPos="233" YPos="21" Width="26" Height="70" />
-    <Image Name="ButtonGauchePushed" XPos="233" YPos="93" Width="26" Height="68" />
-    <Image Name="ButtonMilieuNormal" XPos="300" YPos="21" Width="26" Height="70" />
-    <Image Name="ButtonMilieuPushed" XPos="300" YPos="93" Width="26" Height="68" />
-    <Image Name="WindowMilieuCentre" XPos="39" YPos="74" Width="6" Height="8" />
-    <Image Name="WindowMilieuDroite" XPos="71" YPos="74" Width="127" Height="18" />
-    <Image Name="WindowMilieuGauche" XPos="12" YPos="74" Width="7" Height="8" />
-    <Image Name="ButtonDroiteHighlight" XPos="429" YPos="167" Width="26" Height="73" />
-    <Image Name="ButtonGaucheHighlight" XPos="233" YPos="167" Width="26" Height="73" />
-    <Image Name="ButtonMilieuHighlight" XPos="300" YPos="167" Width="26" Height="73" />
+<Imageset Name="ProjetUnivers" Imagefile="ProjetUnivers.tga" NativeHorzRes="1280" NativeVertRes="1024" >
+    <Image Name="Window" XPos="805" YPos="0" Width="1290" Height="948" />
+    <Image Name="MultiList" XPos="419" YPos="670" Width="18" Height="18" />
+    <Image Name="Menu_Titre" XPos="45" YPos="744" Width="679" Height="47" />
+    <Image Name="Buttonhover" XPos="22" YPos="658" Width="220" Height="78" />
+    <Image Name="Menu_Droite" XPos="722" YPos="19" Width="39" Height="543" />
+    <Image Name="Menu_Gauche" XPos="24" YPos="19" Width="49" Height="543" />
+    <Image Name="Buttonnormal" XPos="22" YPos="576" Width="220" Height="78" />
+    <Image Name="Scroll_Curseur" XPos="490" YPos="822" Width="18" Height="17" />
+    <Image Name="Menu_Background" XPos="612" YPos="19" Width="26" Height="543" />
+    <Image Name="ScrollV_Background" XPos="456" YPos="823" Width="21" Height="15" />
+    <Image Name="ScrollV_Bas_Hoover" XPos="426" YPos="850" Width="21" Height="17" />
+    <Image Name="ScrollV_Bas_Normal" XPos="456" YPos="850" Width="21" Height="17" />
+    <Image Name="ScrollV_Haut_Hoover" XPos="426" YPos="793" Width="21" Height="17" />
+    <Image Name="ScrollV_Haut_Normal" XPos="456" YPos="793" Width="21" Height="17" />
+    <Image Name="ScrollH_Background" XPos="359" YPos="824" Width="13" Height="22" />
+    <Image Name="ScrollH_Droite_Hoover" XPos="388" YPos="854" Width="17" Height="22" />
+    <Image Name="ScrollH_Droite_Normal" XPos="388" YPos="824" Width="17" Height="22" />
+    <Image Name="ScrollH_Gauche_Hoover" XPos="331" YPos="854" Width="17" Height="22" />
+    <Image Name="ScrollH_Gauche_Normal" XPos="331" YPos="824" Width="17" Height="22" />
 </Imageset>
