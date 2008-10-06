@@ -44,7 +44,7 @@ main( int argc, char* argv[] )
   runner.addTest( registry.makeTest() );
 
   // Define the file that will store the XML output.
-  std::ofstream outputFile("../../../tests-results/tests_input.xml");
+  std::ofstream outputFile("tests_input.xml");
 
   CppUnit::MultiOutputter* outputter = new CppUnit::MultiOutputter() ;
   outputter->add(new CppUnit::CompilerOutputter(&runner.result(),std::cerr)) ;
