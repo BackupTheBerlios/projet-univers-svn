@@ -867,6 +867,13 @@
        http://sourceforge.net/tracker/index.php?func=detail&aid=1812139&group_id=11795&atid=361795
    * Media :
      - added preliminary new menu from Faro
+
+2008-10-07 rogma
+
+   * All : 
+     - changed cppunit-to-junit.xsl : better transformation
+     - make all now create source/ressources.cfg and sources/plugins.cfg : those 
+       are meant to be installed 
       
 @todo :
   
