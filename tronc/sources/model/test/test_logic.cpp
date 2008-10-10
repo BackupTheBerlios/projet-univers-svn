@@ -177,7 +177,7 @@ namespace ProjetUnivers {
 
       void TestLogic::setUp()
       {
-        Kernel::Parameters::load("demonstration.config") ;
+        Kernel::Parameters::load("model_demonstration.config") ;
        }
 
       void TestLogic::tearDown()

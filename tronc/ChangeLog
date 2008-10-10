@@ -874,6 +874,12 @@
      - changed cppunit-to-junit.xsl : better transformation
      - make all now create source/ressources.cfg and sources/plugins.cfg : those 
        are meant to be installed 
+
+2008-10-10 rogma
+
+   * All : 
+      - added a script to generate a release directory name
+      - removed unused tests-results folder and bootwtrap-win
       
 @todo :
   

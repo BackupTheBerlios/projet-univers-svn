@@ -1,0 +1,2 @@
+# sh script that generates a tagged directory name
+echo @PACKAGE_NAME@-@PACKAGE_VERSION@

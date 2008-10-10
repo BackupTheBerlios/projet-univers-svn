@@ -115,7 +115,7 @@ namespace ProjetUnivers {
       
       void TestLaser::setUp()
       {
-        Kernel::Parameters::load("demonstration.config") ;
+        Kernel::Parameters::load("model_demonstration.config") ;
        }
 
       void TestLaser::tearDown()

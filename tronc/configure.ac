@@ -158,6 +158,7 @@ AC_TYPE_SIZE_T
 
 # Makefiles
 AC_CONFIG_FILES([Makefile \
+                 print-version \
                  sources/Makefile \
                  sources/kernel/Makefile \
                  sources/kernel/compilation/Makefile \
