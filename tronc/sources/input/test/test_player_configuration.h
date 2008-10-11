@@ -28,23 +28,9 @@ namespace ProjetUnivers {
     namespace Test {
             
       /// Test of player configuration.
-      class TestPlayerConfiguration : public CppUnit::TestFixture {
-      public:
-  
-      // @}
-      /*! 
-        @name Mandatory methods
-      */
-      // @{
-      
-        /// Test init
-        void setUp() ;
-      
-        /// Test close
-        void tearDown() ;
-      
+      class TestPlayerConfiguration : public CppUnit::TestFixture 
+      {
       protected:
-      
         
       // @}      
       /*! 
@@ -54,9 +40,6 @@ namespace ProjetUnivers {
         
         /// Basic test of a command.
         void testCommandMapping() ;
-        
-        /// Test the toString method of InputEvent.
-        void printInputEvent() ;
 
       // @}
       /*!
@@ -67,7 +50,6 @@ namespace ProjetUnivers {
         CPPUNIT_TEST_SUITE(TestPlayerConfiguration) ;
       
         CPPUNIT_TEST(testCommandMapping) ;
-        CPPUNIT_TEST(printInputEvent) ;
       
         CPPUNIT_TEST_SUITE_END() ;
       // @}      

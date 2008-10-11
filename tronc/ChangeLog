@@ -880,6 +880,11 @@
    * All : 
       - added a script to generate a release directory name
       - removed unused tests-results folder and bootwtrap-win
+
+2008-10-11 rogma
+
+   * Input :
+     - removed a test because it is too "platform specific". 
       
 @todo :
   

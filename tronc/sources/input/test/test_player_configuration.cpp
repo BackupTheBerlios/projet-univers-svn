@@ -86,31 +86,7 @@ namespace ProjetUnivers {
         
         InternalMessage("Input","Input::TestPlayerConfiguration::testCommandMapping leaving") ;
       }
-
-      void TestPlayerConfiguration::printInputEvent()
-      {
-        InternalMessage("Input","Input::TestPlayerConfiguration::printInputEvent entering") ;
-
-        Input::init() ;
-        CPPUNIT_ASSERT(getOISKeyboard()) ;
-
-        Model::PlayerConfiguration::InputEvent event = 
-          Model::PlayerConfiguration::InputEvent::key(OIS::KC_RETURN) ;
-        CPPUNIT_ASSERT(event.toString(getOISKeyboard())=="Return") ;
-        
-        Input::close() ;
-        
-        InternalMessage("Input","Input::TestPlayerConfiguration::printInputEvent leaving") ;
-      }
       
-      void TestPlayerConfiguration::setUp() 
-      {
-      }
-      
-      void TestPlayerConfiguration::tearDown() 
-      {
-      }
-
     }
   }
 }

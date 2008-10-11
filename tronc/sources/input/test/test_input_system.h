@@ -30,22 +30,7 @@ namespace ProjetUnivers {
       /// Global testing of input system.
       class TestInputSystem : public CppUnit::TestFixture 
       {
-      public:
-  
-      // @}
-      /*! 
-        @name Mandatory methods
-      */
-      // @{
-      
-        /// Test init
-        void setUp() ;
-      
-        /// Test close
-        void tearDown() ;
-      
       protected:
-      
         
       // @}      
       /*! 

@@ -48,14 +48,6 @@ namespace ProjetUnivers {
         InternalMessage("Input","Input::TestInputSystem::severalInitClose leaving") ;
       }
 
-      void TestInputSystem::setUp() 
-      {
-      }
-      
-      void TestInputSystem::tearDown() 
-      {
-      }
-
     }
   }
 }
