@@ -44,6 +44,9 @@ namespace ProjetUnivers {
       static void load(const std::string& file_path) ;
 
       /// Access to a value of type T.
+      /*!
+        @throw Kernel::ExceptionKernel if not found
+      */
       template <typename T>
       static T getValue(const std::string& section,
                         const std::string& name) ;

@@ -26,6 +26,7 @@
 #include <kernel/object.h>
 #include <model/player_configuration.h>
 #include <gui/implementation/gui_internal.h>
+#include <gui/implementation/cegui/cegui.h>
 #include <gui/implementation/cegui/gui_controler_set.h>
 #include <gui/implementation/cegui/player_configuration.h>
 
@@ -55,31 +56,36 @@ namespace ProjetUnivers {
           try 
           {
             
-            m_window = ::CEGUI::WindowManager::getSingletonPtr()
-                        ->createWindow("DefaultWindow","PlayerConfiguration") ;
+            m_window = ::CEGUI::WindowManager::getSingleton().loadWindowLayout(
+                "configure_keys.layout") ;
+            
+//            m_window = ::CEGUI::WindowManager::getSingletonPtr()
+//                        ->createWindow("DefaultWindow","PlayerConfiguration") ;
             
             // set the binding to the current trait
             m_window->setUserData(getObject()->getTrait<Model::PlayerConfiguration>()) ;
-    
-            m_list = 
-                static_cast< ::CEGUI::MultiColumnList*>(::CEGUI::WindowManager::getSingletonPtr()
-                              ->createWindow("TaharezLook/MultiColumnList","Mapping")) ;
-            
-            m_window->addChildWindow(m_list) ;
-            
-            m_list->setProperty("UnifiedAreaRect","{{0.183835,0},{0.271357,0},{0.816779,0},{0.551507,0}}") ;
-            
-            m_list->addColumn("Action",0,::CEGUI::UDim(0.5f, 0)) ;
-            m_list->addColumn("Binding",1,::CEGUI::UDim(0.5f, 0)) ;
-            m_list->setSelectionMode(::CEGUI::MultiColumnList::RowSingle) ;
-            
-            m_ok = 
-              static_cast< ::CEGUI::PushButton*>(::CEGUI::WindowManager::getSingletonPtr()
-                            ->createWindow("TaharezLook/Button","ok")) ;
-            
-            m_ok->setProperty("Text","ok") ;
-            m_ok->setProperty("UnifiedAreaRect","{{0.5,-20},{0.8,-10},{0.5,20},{0.8,10}}") ;
-            m_window->addChildWindow(m_ok) ;
+
+            m_list = static_cast< ::CEGUI::MultiColumnList*>(getDescendant(m_window,"Root/Menu/MultiColumnList")) ;
+
+//            m_list = 
+//                static_cast< ::CEGUI::MultiColumnList*>(::CEGUI::WindowManager::getSingletonPtr()
+//                              ->createWindow("TaharezLook/MultiColumnList","Mapping")) ;
+//            
+//            m_window->addChildWindow(m_list) ;
+//            
+//            m_list->setProperty("UnifiedAreaRect","{{0.183835,0},{0.271357,0},{0.816779,0},{0.551507,0}}") ;
+//            
+//            m_list->addColumn("Action",0,::CEGUI::UDim(0.5f, 0)) ;
+//            m_list->addColumn("Binding",1,::CEGUI::UDim(0.5f, 0)) ;
+//            m_list->setSelectionMode(::CEGUI::MultiColumnList::RowSingle) ;
+//            
+//            m_ok = 
+//              static_cast< ::CEGUI::PushButton*>(::CEGUI::WindowManager::getSingletonPtr()
+//                            ->createWindow("TaharezLook/Button","ok")) ;
+//            
+//            m_ok->setProperty("Text","ok") ;
+//            m_ok->setProperty("UnifiedAreaRect","{{0.5,-20},{0.8,-10},{0.5,20},{0.8,10}}") ;
+//            m_window->addChildWindow(m_ok) ;
             
             reDraw() ;
             m_list->subscribeEvent(::CEGUI::MultiColumnList::EventSelectionChanged,

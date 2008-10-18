@@ -1,41 +1,3 @@
-2006-07-14 rogma 
-
-  * entrees, action, affichage : 
-
-        general interface and testing implementation
-
-
-2006-10-22 rogma 
-
-  * livraison version 0.1.0
-
-2006-10-27 rogma 
-  
-  * configure.ac : incrementation de la version 
-
-  * modele 
-      - objet.h, modele.h : ajout de Enlever(Objet)
-  * entrees
-      - clavier.cpp (keyPressed) : ajout de la touche 'D' provoquant une 
-        action
-  * base
-      - point_de_vue.h : ajout de Enlever(BaseVue)
-      - vue.cxx : correction d'une segmentation fault 
-                        (ajout de test de validite de observe dans ~Vue)
-  * action
-      - action.cpp : ajout du traitement d'une nouvelle action detruisant 
-        un objet
-  * affichage :
-      - point_de_vue.h : 
-         ajout d'une specialisation de Detruire(BaseVue)
-         correction de include/declarations en avant
-      - objet.h/cpp : correction du type de retours de Ajouter(Facette*)
-                               ajout de Enlever pour Objet et Facette
-
-2007-02-17 rogma 
-
-  * affichage/point_de_vue.h : ajout de changer_observateur
-
 2007-02-22 rogma 
 
   * change language to english
@@ -885,6 +847,18 @@
 
    * Input :
      - removed a test because it is too "platform specific". 
+
+2008-10-18 rogma
+
+   * Model :
+     - corrected a bug on State (thanks to Faro), that were dangering the demo.
+       pushing a state under a state with no active stae caused seg fault in 
+       some cases
+     - pluged new menus for main menu and confirm
+   * GUI :
+     - pluged new menu for player key configuration
+     - modified tests gui.config file contains duration of test and name of the 
+       loaded menu  
       
 @todo :
   
@@ -906,8 +880,6 @@
       
     - some changes due to gcc 4.3 (not urgent)
     - a lot of kernel tests fails on gcc 4.3 (not urgent)
-    - migrate sound module to use openal-soft ? (not urgent)
-    - set the output directory for xml test results in parameter ? 
      
   * Model : 
     - Event traits like Collision, Shot should be implemented through 
@@ -948,7 +920,9 @@
       http://guff.tigris.org/docs/SBGames06-en.pdf 
 
   * GUI : 
-    - add key shortcuts for clicable buttons  
+    - add key shortcuts for clicable buttons
+    - add config for mouse and joystick (correspondign to axes)
+    
    
   * Display :
     - seg fault when having an Oriented object that is not Positionned, use 
@@ -986,17 +960,18 @@
       example 
     
   * Sound : 
-    - reconsider the implementation with the limitation 
     - check that Positionned is correctly used, I suspect that position update 
       is not done when a ship moves while containing the listener
-    - engine sound does not weem to work ?
-    - change Engine gain accoarding to engine "power" and current applied 
+    - Bug : engine sound does not weem to work ?
+    - Fonctionnal : change Engine gain accoarding to engine "power" and current applied 
       throttle
-    - add Shot sound
-    - every event sound is the same : make a general view on event and get the 
+    - Fonctionnal : add Shot sound
+    - Bug : segmentation fault when sound is already used by another process
+    - Bug : infinite loop when no sound device is found...
+    - Refactoring : every event sound is the same : make a general view on event and get the 
       sound name by a function 
-    - segmentation fault when sound is already used by another process
-    - infinite loop when no sound device is found...
+    - reconsider the implementation with the limitation 
+    - migrate sound module to use openal-soft ? (not urgent)
     
   * Kernel :
     

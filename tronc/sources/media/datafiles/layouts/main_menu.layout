@@ -19,12 +19,14 @@
                 <Property Name="Text" Value="Jouer" />
                 <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
                 <Property Name="UnifiedAreaRect" Value="{{0.0133334,0},{0.119094,0},{0.163571,0},{0.2,0}}" />
+                <Event Name="Clicked" Function="play"/>
             </Window>
             <Window Type="ProjetUnivers/Button" Name="Root//1" >
                 <Property Name="Font" Value="Commonwealth-10" />
                 <Property Name="Text" Value="Configurer" />
                 <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
                 <Property Name="UnifiedAreaRect" Value="{{0.013928,0},{0.197142,0},{0.162976,0},{0.277346,0}}" />
+                <Event Name="Clicked" Function="configure"/>
             </Window>
             <Window Type="ProjetUnivers/Button" Name="Root//3" >
                 <Property Name="Font" Value="Commonwealth-10" />
@@ -37,6 +39,7 @@
                 <Property Name="Text" Value="Quitter" />
                 <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
                 <Property Name="UnifiedAreaRect" Value="{{0.0151189,0},{0.347141,0},{0.164643,0},{0.425944,0}}" />
+                <Event Name="Clicked" Function="quit"/>
             </Window>
         </Window>
     </Window>

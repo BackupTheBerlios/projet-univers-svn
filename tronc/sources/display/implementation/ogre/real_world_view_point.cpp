@@ -100,6 +100,8 @@ namespace ProjetUnivers {
             m_manager->clearScene() ;
           }
 
+          InternalMessage("Display","FPS = " + Kernel::toString(getWindow()->getAverageFPS())) ;
+          
           getWindow()->removeViewport(0) ;
           
           InternalMessage("Display","RealWorldViewPoint::onClose Leaving") ;

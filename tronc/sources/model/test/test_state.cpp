@@ -39,7 +39,7 @@ namespace ProjetUnivers {
       {
         InternalMessage("Model","Model::TestState::basicChangeState entering") ;
         
-        Kernel::Model* model(new Kernel::Model()) ;
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model()) ;
         
         Kernel::Object* root = model->createObject() ;
         root->addTrait(new State()) ;
@@ -64,7 +64,7 @@ namespace ProjetUnivers {
       void TestState::basicPushState()
       {
         InternalMessage("Model","Model::TestState::basicPushState entering") ;
-        Kernel::Model* model(new Kernel::Model()) ;
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model()) ;
         
         Kernel::Object* root = model->createObject() ;
         root->addTrait(new State()) ;
@@ -87,7 +87,7 @@ namespace ProjetUnivers {
       void TestState::basicPopState()
       {
         InternalMessage("Model","Model::TestState::basicPopState entering") ;
-        Kernel::Model* model(new Kernel::Model()) ;
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model()) ;
         
         Kernel::Object* root = model->createObject() ;
         root->addTrait(new State()) ;
@@ -111,7 +111,7 @@ namespace ProjetUnivers {
       {
         InternalMessage("Model","Model::TestState::basicChangeState entering") ;
         
-        Kernel::Model* model(new Kernel::Model()) ;
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model()) ;
         
         Kernel::Object* root = model->createObject() ;
         root->addTrait(new State()) ;
@@ -142,7 +142,7 @@ namespace ProjetUnivers {
       {
         InternalMessage("Model","Model::TestState::basicChangeState entering") ;
         
-        Kernel::Model* model(new Kernel::Model()) ;
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model()) ;
         
         Kernel::Object* root = model->createObject() ;
         root->addTrait(new State()) ;
@@ -170,7 +170,7 @@ namespace ProjetUnivers {
       {
         InternalMessage("Model","Model::TestState::basicChangeState entering") ;
         
-        Kernel::Model* model(new Kernel::Model()) ;
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model()) ;
         
         Kernel::Object* root = model->createObject() ;
         root->addTrait(new State()) ;
@@ -233,7 +233,7 @@ namespace ProjetUnivers {
       {
         InternalMessage("Model","Model::TestState::changeTransitionDeclaration entering") ;
         
-        Kernel::Model* model(new Kernel::Model()) ;
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model()) ;
         
         Kernel::Object* root = model->createObject() ;
         root->addTrait(new State()) ;
@@ -259,7 +259,7 @@ namespace ProjetUnivers {
       {
         InternalMessage("Model","Model::TestState::pushTransitionDeclaration entering") ;
         
-        Kernel::Model* model(new Kernel::Model()) ;
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model()) ;
         
         Kernel::Object* root = model->createObject() ;
         root->addTrait(new State()) ;
@@ -283,7 +283,7 @@ namespace ProjetUnivers {
       void TestState::popTransitionDeclaration()
       {
         InternalMessage("Model","Model::TestState::popTransitionDeclaration entering") ;
-        Kernel::Model* model(new Kernel::Model()) ;
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model()) ;
         
         Kernel::Object* root = model->createObject() ;
         root->addTrait(new State()) ;
@@ -307,7 +307,7 @@ namespace ProjetUnivers {
       void TestState::pushStateTwice()
       {
         InternalMessage("Model","Model::TestState::basicPushState entering") ;
-        Kernel::Model* model(new Kernel::Model()) ;
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model()) ;
         
         Kernel::Object* root = model->createObject() ;
         root->addTrait(new State()) ;
@@ -326,6 +326,25 @@ namespace ProjetUnivers {
         
         CPPUNIT_ASSERT(state1->getTrait<Active>()) ;
         CPPUNIT_ASSERT(state2->getTrait<Active>()) ;
+      }
+
+      void TestState::pushOnEmptyState()
+      {
+        InternalMessage("Model","Model::TestState::basicPushState entering") ;
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model()) ;
+        
+        Kernel::Object* root = model->createObject() ;
+        root->addTrait(new State()) ;
+        
+        Kernel::Object* state1 = root->createObject() ;
+        state1->addTrait(new State()) ;
+        
+        Kernel::Object* state2 = root->createObject() ;
+        state2->addTrait(new State()) ;
+
+        // tested method
+        root->getTrait<State>()->pushState(state1,new Active()) ;
+        CPPUNIT_ASSERT(state1->getTrait<Active>()) ;
       }
       
     }

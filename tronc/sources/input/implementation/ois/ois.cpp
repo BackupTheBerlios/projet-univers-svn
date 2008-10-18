@@ -163,6 +163,8 @@ namespace ProjetUnivers {
                         ois->manager->createInputObject(::OIS::OISJoyStick,true)) ;
             ois->joystick_listener = new Joystick() ;      
             ois->joystick->setEventCallback(ois->joystick_listener) ;
+            
+            InternalMessage("Input","initialised joystick " + ois->joystick->vendor()) ;
           }
           else
           {

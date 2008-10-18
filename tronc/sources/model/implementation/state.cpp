@@ -159,7 +159,7 @@ namespace ProjetUnivers {
       {
         
         // do not push twice a state (second is ignored) 
-        if (m_activated_children.back() != state)
+        if (m_activated_children.empty() || m_activated_children.back() != state)
         {
           m_activated_children.push_back(state) ;
           enter(state,local_active.release()) ;

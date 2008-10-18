@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<GUILayout >
+    <Window Type="DefaultWindow" Name="Root" >
+        <Property Name="InheritsAlpha" Value="False" />
+        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+        <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
+        <Window Type="ProjetUnivers/Menu" Name="Root/Menu" >
+            <Property Name="TitlebarFont" Value="Commonwealth-10" />
+            <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+            <Property Name="TitlebarEnabled" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0.39244,0},{0.25525,0},{0.726965,0},{0.782488,0}}" />
+            <Property Name="EWSizingCursorImage" Value="" />
+            <Property Name="NSSizingCursorImage" Value="" />
+            <Property Name="NESWSizingCursorImage" Value="" />
+            <Property Name="NWSESizingCursorImage" Value="" />
+            <Window Type="ProjetUnivers/StaticText" Name="Root/Menu/ST1" >
+                <Property Name="Font" Value="Commonwealth-10" />
+                <Property Name="Text" Value="Choix des touches" />
+                <Property Name="FrameEnabled" Value="False" />
+                <Property Name="HorzFormatting" Value="HorzCentred" />
+                <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{1.90292e-006,0},{0.0662404,0},{0.904805,0},{0.152557,0}}" />
+                <Property Name="BackgroundEnabled" Value="False" />
+                <Property Name="HorizontalAlignment" Value="Centre" />
+            </Window>
+            <Window Type="ProjetUnivers/MultiColumnList" Name="Root/Menu/MultiColumnList" >
+                <Property Name="Font" Value="BlueHighway-10" />
+                <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.149644,0},{0.211253,0},{0.861032,0},{0.851098,0}}" />
+                <Property Name="ColumnHeader" Value="text:Actions width:{0.5,0} id:0" />
+                <Property Name="ColumnHeader" Value="text:Touches width:{0.5,0} id:1" />
+            </Window>
+        </Window>
+    </Window>
+</GUILayout>

@@ -113,6 +113,9 @@ namespace ProjetUnivers {
 
         /// Validate that push twice the same state does not crash.
         void pushStateTwice() ;
+
+        /// Validate that push on a state that have no active substate works.
+        void pushOnEmptyState() ;
         
       // @}
       /*!
@@ -132,6 +135,7 @@ namespace ProjetUnivers {
         CPPUNIT_TEST(pushTransitionDeclaration) ;
         CPPUNIT_TEST(popTransitionDeclaration) ;
         CPPUNIT_TEST(pushStateTwice) ;
+        CPPUNIT_TEST(pushOnEmptyState) ;
       
         CPPUNIT_TEST_SUITE_END() ;
 

@@ -21,6 +21,13 @@
 #ifndef PU_GUI_IMPLEMENTATION_CEGUI_CEGUI_H_
 #define PU_GUI_IMPLEMENTATION_CEGUI_CEGUI_H_
 
+#include <string>
+
+namespace CEGUI
+{
+  class Window ;
+}
+
 namespace ProjetUnivers {
   namespace GUI {
     namespace Implementation {
@@ -39,6 +46,16 @@ namespace ProjetUnivers {
         
         /// Tells the system an active GUI has became inactive.
         void removeActiveGUI() ;
+
+        /// Access to the root window of @c window
+        ::CEGUI::Window* getRoot(::CEGUI::Window* window) ;
+        
+        /// Access to descendant of @c window with @c name
+        /*!
+          @return NULL if not found
+        */
+        ::CEGUI::Window* getDescendant(::CEGUI::Window* window,const std::string& name) ;
+      
       }
     }    
   }

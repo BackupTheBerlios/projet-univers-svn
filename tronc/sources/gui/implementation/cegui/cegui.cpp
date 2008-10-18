@@ -94,7 +94,6 @@ namespace ProjetUnivers {
           
         std::auto_ptr<GUISystem> system ;
         
-        
         void start()
         {
           Display::start() ;
@@ -129,6 +128,37 @@ namespace ProjetUnivers {
           {
             ::CEGUI::MouseCursor::getSingleton().hide() ;
           }
+        }
+
+        ::CEGUI::Window* getRoot(::CEGUI::Window* window)
+        {
+          ::CEGUI::Window* parent = window->getParent() ;
+          if (parent)
+            return getRoot(parent) ;
+          else
+            return window ;
+        }
+        
+        ::CEGUI::Window* getDescendant(::CEGUI::Window* window,const std::string& name)
+        {
+          if (window->getName() == name)
+          {
+            return window ;
+          }
+          else
+          {
+            for(int child_index = 0 ; child_index < window->getChildCount() ; ++child_index)
+            {
+              ::CEGUI::Window* child = window->getChildAtIdx(child_index) ;
+              ::CEGUI::Window* result = getDescendant(child,name) ;
+              if (result)
+              {
+                return result ;
+              }
+            }
+          }
+          
+          return NULL ;
         }
         
       }

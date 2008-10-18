@@ -21,22 +21,13 @@
 #include <iostream>
 #include <kernel/object.h>
 #include <model/menu.h>
+#include <gui/implementation/cegui/cegui.h>
 #include <gui/implementation/cegui/command_interpretor.h>
 
 namespace ProjetUnivers {
   namespace GUI {
     namespace Implementation {
       namespace CEGUI {
-
-        /// Access to the root window of @c window
-        const ::CEGUI::Window* getRoot(const ::CEGUI::Window* window)
-        {
-          const ::CEGUI::Window* parent = window->getParent() ;
-          if (parent)
-            return getRoot(parent) ;
-          else
-            return window ;
-        }
   
         CommandInterpretor::CommandInterpretor(const std::string& command_name)
         : m_command_name(command_name)

@@ -56,6 +56,7 @@ namespace ProjetUnivers {
         /// 20 seconds of menu testing.
         void basicTest() ;
 
+        /// n seconds of player configuration menu testing
         void playerConfiguration() ;
         
       // @}
@@ -67,7 +68,7 @@ namespace ProjetUnivers {
         CPPUNIT_TEST_SUITE(TestMenu) ;
       
         CPPUNIT_TEST(basicTest) ;
-//        CPPUNIT_TEST(playerConfiguration) ;
+        CPPUNIT_TEST(playerConfiguration) ;
       
         CPPUNIT_TEST_SUITE_END() ;
       // @}      
