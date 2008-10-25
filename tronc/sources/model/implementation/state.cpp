@@ -186,7 +186,7 @@ namespace ProjetUnivers {
       
       if (m_activated_children.size() == 0)
       {
-        ErrorMessage("State::popState") ;
+        ErrorMessage("State::popState : no sub state to pop") ;
         return ;
       }
       
@@ -194,7 +194,7 @@ namespace ProjetUnivers {
       
       if (!child)
       {
-        ErrorMessage("State::changeState") ;
+        ErrorMessage("State::changeState : activated child to pop is not a state") ;
         return ;
       }
       child->exitSubStates() ;

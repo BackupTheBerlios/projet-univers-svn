@@ -64,6 +64,8 @@ namespace ProjetUnivers {
         /// Build a viewpoint and then destroy the observer and finally recreate it.
         void recreateObserver() ;
         
+        /// Access to mesh size.
+        void getMeshSize() ;
         
       // @}
         /*! 
@@ -81,28 +83,11 @@ namespace ProjetUnivers {
         CPPUNIT_TEST(displayImage) ;
         CPPUNIT_TEST(displayExplosion) ;
         CPPUNIT_TEST(recreateObserver) ;
+        CPPUNIT_TEST(getMeshSize) ;
       
         CPPUNIT_TEST_SUITE_END() ;
 
-      public:
-  
       // @}
-        /*! 
-          @name Mandatory methods
-        */ 
-        // @{
-
-      
-        /// Initialisation du test
-        void setUp() ;
-      
-        /// Desinitialisation du test
-        void tearDown() ;
-      
-      // @}      
-                
-       
-      
       };
 
     }

@@ -59,9 +59,12 @@ CPPUNIT_TEST_SUITE_REGISTRATION(ProjetUnivers::Physic::Test::TestDemonstration) 
 
 using namespace ProjetUnivers::Kernel ;
 
-namespace ProjetUnivers {
-  namespace Physic {
-    namespace Test {
+namespace ProjetUnivers 
+{
+  namespace Physic 
+  {
+    namespace Test 
+    {
       
       /// Acceptable variable for comparison 
       const float delta = 1e-4 ;
@@ -621,14 +624,6 @@ namespace ProjetUnivers {
 //        std::cout <<"final_position=" << final_position << std::endl ;
 
         InternalMessage("Physic","Physic::Test::testSimulate::testEngine leaving") ;
-      }
-
-      void TestDemonstration::setUp() 
-      {
-      }
-      
-      void TestDemonstration::tearDown() 
-      {
       }
 
     }

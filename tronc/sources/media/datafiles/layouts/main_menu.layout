@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <GUILayout >
-    <Window Type="DefaultWindow" Name="Root" >
+    <Window Type="DefaultWindow" Name="MainMenu" >
         <Property Name="InheritsAlpha" Value="False" />
         <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
         <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
-        <Window Type="ProjetUnivers/FrameWindow" Name="Root/" >
+        <Window Type="ProjetUnivers/FrameWindow" Name="MainMenu/Root/" >
             <Property Name="Font" Value="BlueHighway-12" />
             <Property Name="TitlebarFont" Value="BlueHighway-12" />
             <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
@@ -15,7 +15,7 @@
             <Property Name="NSSizingCursorImage" Value="" />
             <Property Name="NESWSizingCursorImage" Value="" />
             <Property Name="NWSESizingCursorImage" Value="" />
-            <Window Type="ProjetUnivers/Button" Name="Root//" >
+            <Window Type="ProjetUnivers/Button" Name="MainMenu/Root/Root//" >
                 <Property Name="Text" Value="Jouer" />
                 <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
                 <Property Name="UnifiedAreaRect" Value="{{0.0133334,0},{0.119094,0},{0.163571,0},{0.2,0}}" />

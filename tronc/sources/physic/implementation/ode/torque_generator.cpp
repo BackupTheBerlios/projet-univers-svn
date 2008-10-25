@@ -51,7 +51,7 @@ namespace ProjetUnivers {
         void TorqueGenerator::prepare()
         {
           /// set a torque on it's body
-          if (m_object)
+          if (m_object && m_object->getBody())
           {
             Ogre::Vector3 torque(getTrait()->NewtonMeter()) ;
             InternalMessage("Physic","Physic::TorqueGenerator::prepare " +

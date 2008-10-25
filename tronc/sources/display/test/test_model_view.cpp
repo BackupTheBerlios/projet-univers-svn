@@ -40,6 +40,7 @@
 #include <model/ideal_target.h>
 #include <model/image.h>
 #include <model/destroyable.h>
+#include <model/solid.h>
 
 #include <display/display.h>
 #include <display/implementation/space_dust.h>
@@ -426,15 +427,25 @@ namespace ProjetUnivers {
         
         InternalMessage("Display","Display::TestModelView::recreateObserver leaving") ;
       }
-      
-      void TestModelView::setUp() 
-      {
-      }
-      
-      void TestModelView::tearDown() 
-      {
-      }
 
+      void TestModelView::getMeshSize()
+      {
+        InternalMessage("Display","Display::TestModelView::getMeshSize entering") ;
+
+        /// init
+        Kernel::Parameters::load("demonstration.config") ;
+        Kernel::Log::init() ;
+
+        Model::start() ;
+        Display::start(Display::DefaultRenderer) ;
+        
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestModelView::getMeshSize")) ;
+
+        Kernel::Object* object = model->createObject() ;
+        object->addTrait(new Model::Solid(Model::Mesh("razor.mesh"))) ;
+        CPPUNIT_ASSERT(object->getTrait<Model::Solid>()->getRadius().Meter() > 0) ;
+      }
+      
     }
   }
 }

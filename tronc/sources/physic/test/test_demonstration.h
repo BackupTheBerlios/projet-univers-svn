@@ -21,21 +21,18 @@
 #ifndef PU_PHYSIC_TEST_DEMONSTRATION_H_
 #define PU_PHYSIC_TEST_DEMONSTRATION_H_
 
-
 #include <cppunit/extensions/HelperMacros.h>
 
-
-namespace ProjetUnivers {
-  namespace Physic {
-    namespace Test {
-
-
+namespace ProjetUnivers 
+{
+  namespace Physic 
+  {
+    namespace Test 
+    {
             
       /// Physic tests on demonstration model.
-      /*!
-
-      */
-      class TestDemonstration : public CppUnit::TestFixture {
+      class TestDemonstration : public CppUnit::TestFixture 
+      {
       protected:
       
         
@@ -105,23 +102,7 @@ namespace ProjetUnivers {
       
         CPPUNIT_TEST_SUITE_END() ;
 
-      public:
-  
       // @}
-      /*!
-        @name Mandatory methods
-      */
-      // @{
-
-      
-        void setUp() ;
-      
-        void tearDown() ;
-      
-      // @}      
-                
-       
-      
       };
 
     }

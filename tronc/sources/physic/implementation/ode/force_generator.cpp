@@ -53,7 +53,7 @@ namespace ProjetUnivers {
         void ForceGenerator::prepare()
         {
           /// set a force on it's body
-          if (m_object)
+          if (m_object && m_object->getBody())
           {
             Ogre::Vector3 force = getTrait()->getAppliedForce().Newton() ;
 

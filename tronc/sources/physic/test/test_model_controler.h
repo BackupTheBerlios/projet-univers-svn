@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2008 Mathieu ROGER                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,77 +18,50 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_MESH_H_
-#define PU_MODEL_MESH_H_
+#ifndef PU_PHYSIC_TEST_MODEl_CONTROLER_H_
+#define PU_PHYSIC_TEST_MODEl_CONTROLER_H_
 
-#include <Ogre.h>
-#include <string>
-#include <kernel/reader.h>
+#include <cppunit/extensions/HelperMacros.h>
 
-namespace ProjetUnivers {
-  namespace Model {
-    
-    
-    /// A 3d mesh.
-    /*!
-      
-    */
-    class Mesh
+namespace ProjetUnivers 
+{
+  namespace Physic 
+  {
+    namespace Test 
     {
-    public:
-    
-    /*!
-      @name Construct
-    */
-    // @{
-    
-      /// Construct.
-      Mesh(const std::string& _name) ;
-      
-      /// Copy.
-      Mesh(const Mesh&) ;
-      
-      /// Assignement.
-      Mesh& operator=(const Mesh&) ;
-      
-      /// Read a Mesh.
+            
+      /// Check that physics behave correctly on degenerated models.
+      class TestModelControler: public CppUnit::TestFixture 
+      {
+      protected:
       /*!
-        stored as 
-        @code
-          <Mesh ogre_ressource=".."/>
-        @endcode
-      */          
-      static Mesh read(Kernel::Reader* reader) ;
+        @name Test methods
+      */
+      // @{
+        
+        /// Only one physical object whithout any parent.
+        void oneObjectWithTorqueGenerator() ;
 
-    // @}
-    /*!
-      @name Access
-    */
-    // @{
+        void oneObjectWithForceGenerator() ;
+        
+      // @}
+      /*!
+        @name Test registration
+      */
+      // @{      
     
-      /// Access to name.
-      std::string getName() const ;
-
-      /// Access to vertex and triangles
-      void getMeshInformation(
-        std::vector< ::Ogre::Vector3>& o_vertices,
-        std::vector<unsigned long>&    o_indices,
-        const ::Ogre::Vector3&         i_scale) const ;
+        CPPUNIT_TEST_SUITE(TestModelControler) ;
       
-      /// The radius of an englobing sphere.
-      float getBoundingSphereRadius() const ;
-            
-    // @}
+        CPPUNIT_TEST(oneObjectWithTorqueGenerator) ;
+        CPPUNIT_TEST(oneObjectWithForceGenerator) ;
+      
+        CPPUNIT_TEST_SUITE_END() ;
 
-    
-    private:
-    
-      /// Mesh name.
-      std::string m_name ;
-            
-    };
-    
+      // @}
+      };
+
+    }
   }
 }
 
-#endif 
+#endif

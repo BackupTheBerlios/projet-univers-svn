@@ -153,46 +153,58 @@ namespace ProjetUnivers {
       {
         switch(objective.getKind())
         {
-        case Model::Objective::AttackAllEnemies:
-        { 
-          Kernel::Object* target 
-            = getTargetingSystem()->getTrait<Model::TargetingSystem>()->getTarget() ;
-
-          // if no enemy selected select one
-          if (!target)
-          {
-            InternalMessage("Agent","selecting new enemy") ;
-            getTargetingSystem()->getTrait<Model::TargetingSystem>()->selectNearestEnemy() ;
+          case Model::Objective::AttackAllEnemies:
+          { 
+            Kernel::Object* target 
+              = getTargetingSystem()->getTrait<Model::TargetingSystem>()->getTarget() ;
+  
+            // if no enemy selected select one
+            if (!target)
+            {
+              InternalMessage("Agent","selecting new enemy") ;
+              getTargetingSystem()->getTrait<Model::TargetingSystem>()->selectNearestEnemy() ;
+            }
+  
+            // if enemy selected pursuit it
+            if (m_target)
+            {
+              m_steering += SteeringBehaviour::offsetPursuit(*m_vehicle,*m_target,m_target->getRadius()*2) ;
+            }
+            else
+            {
+              m_steering += SteeringBehaviour::idle(*m_vehicle) ;
+            }
+            
+            // if in range shoot
+            if (target && target->getTrait<Model::Shootable>())
+            {
+              InternalMessage("Agent","fire") ;
+              getObject()->call("fire") ;
+            }
+            break ;
           }
-
-          // if enemy selected pursuit it
-          if (m_target)
+          case Model::Objective::Wait:
           {
-            m_steering += SteeringBehaviour::offsetPursuit(*m_vehicle,*m_target,m_target->getRadius()*2) ;
+            m_steering = SteeringBehaviour::idle(*m_vehicle) ;
+            break ;
           }
-          else
+          case Model::Objective::Patrol:
           {
-            m_steering += SteeringBehaviour::idle(*m_vehicle) ;
+            // apply wander behaviour + @todo containment 
+            m_steering = SteeringBehaviour::wander(*m_vehicle) ;
+            break ;
           }
-          
-          // if in range shoot
-          if (target && target->getTrait<Model::Shootable>())
+          case Model::Objective::GoTo:
           {
-            InternalMessage("Agent","fire") ;
-            getObject()->call("fire") ;
+            Kernel::ObjectReference destination = objective.getDestination() ;
+            
+            /*
+              we need to build a vehicle from the destination : its the relative 
+              position of destination from the PhysicalWorld parent of agent 
+            */
+  //          m_steering = SteeringBehaviour::seek(*m_vehicle,) ;
+            
           }
-          break ;
-        }
-        case Model::Objective::Wait:
-        {
-          break ;
-        }
-        case Model::Objective::Patrol:
-        {
-          // apply wander behaviour + containment
-          m_steering = SteeringBehaviour::wander(*m_vehicle) ;
-          break ;
-        }
         }
       }
 

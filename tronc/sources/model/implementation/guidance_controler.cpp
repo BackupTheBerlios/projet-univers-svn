@@ -70,11 +70,6 @@ namespace ProjetUnivers {
       }
       reader->processNode() ;
       
-      if (!result->m_stick)
-      {
-        ErrorMessage("Model::GuidanceControler::read required stick reference") ;
-      }
-
       return result ;
     }
 

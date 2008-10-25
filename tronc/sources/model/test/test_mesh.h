@@ -46,7 +46,10 @@ namespace ProjetUnivers {
 
         /// Tests loading a unexisting mesh.
         void testUnexistingMesh() ;
-           
+        
+        /// Test the size calculus for a solid
+        void testSolidSize() ;
+        
       // @}
       /*! 
         @name Tests registration
@@ -57,28 +60,11 @@ namespace ProjetUnivers {
       
         CPPUNIT_TEST(testGetInformation) ;
         CPPUNIT_TEST(testUnexistingMesh) ;
+        CPPUNIT_TEST(testSolidSize) ;
       
         CPPUNIT_TEST_SUITE_END() ;
 
-      public:
-  
       // @}
-      /*! 
-        @name Mandatory methods
-      */
-      // @{
-
-      
-        /// Initialisation du test
-        void setUp() ;
-      
-        /// Desinitialisation du test
-        void tearDown() ;
-      
-      // @}      
-                
-       
-      
       };
 
     }

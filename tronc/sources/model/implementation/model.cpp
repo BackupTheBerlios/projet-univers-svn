@@ -94,12 +94,32 @@ namespace ProjetUnivers {
     Root*                         root = NULL ;
 
   // @}
+
+    std::string findFilePath(const std::string& filename)
+    {
+      // on demand init
+      Model::initRessources() ;
+      
+      std::string foundPath = filename;
+      Ogre::ResourceGroupManager* groupManager = Ogre::ResourceGroupManager::getSingletonPtr() ;
+      Ogre::String group = groupManager->findGroupContainingResource(filename) ;
+      Ogre::FileInfoListPtr fileInfos = groupManager->findResourceFileInfo(group,foundPath);
+      Ogre::FileInfoList::iterator it = fileInfos->begin();
+      if(it != fileInfos->end())
+      {
+        foundPath = it->archive->getName() + "/" + foundPath;
+        foundPath;
+      }
+      else
+        foundPath = "";
+
+      return foundPath;
+    }
     
     void start() 
     {
       
     }
-
 
     void initRessources()
     {
@@ -241,7 +261,6 @@ namespace ProjetUnivers {
     {
       if (name == "TestPilot")
       {
-        
         Kernel::Object* root = model->createObject() ;
         root->addTrait(new State()) ;
         
@@ -284,7 +303,7 @@ namespace ProjetUnivers {
       }
       else
       {
-        std::auto_ptr<Kernel::XMLReader> reader(Kernel::XMLReader::getFileReader(name)) ;
+        std::auto_ptr<Kernel::XMLReader> reader(Kernel::XMLReader::getFileReader(findFilePath(name))) ;
         reader->read(model) ;
       }            
     }

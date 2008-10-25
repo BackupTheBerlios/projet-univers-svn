@@ -55,6 +55,13 @@ namespace ProjetUnivers {
       return Objective(AttackAllEnemies) ;
     }
     
+    Objective Objective::goTo(Kernel::Object* position)
+    {
+      Objective result(GoTo) ;
+      result.m_parameters.insert(position) ;
+      return result ;
+    }
+    
     bool Objective::operator==(const Objective& objective) const
     {
       return m_objective_kind == objective.m_objective_kind && 
@@ -72,9 +79,21 @@ namespace ProjetUnivers {
     
     Kernel::ObjectReference Objective::getPatrolZone() const 
     {
-      return *(m_parameters.begin()) ;
+      if (m_parameters.size()>0)
+      {
+        return *(m_parameters.begin()) ;
+      }
+      else
+      {
+        return NULL ;
+      }
     }
   
+    Kernel::ObjectReference Objective::getDestination() const
+    {
+      return getPatrolZone() ;
+    }
+    
     bool Objective::operator<(const Objective& objective) const
     {
       return m_objective_kind < objective.m_objective_kind ||  

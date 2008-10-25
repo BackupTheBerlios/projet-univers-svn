@@ -48,6 +48,7 @@ namespace ProjetUnivers {
         // debug
         debug = fopen(debugFileName.c_str(), "w") ;
         debugLog.reset(new rlog::StdioNode(fileno(debug))) ;
+        debugLog->subscribeTo( rlog::GetGlobalChannel( "error" ));
 
         std::set<std::string> logs(Parameters::getActivatedLogs()) ;
         

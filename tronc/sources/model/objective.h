@@ -37,7 +37,8 @@ namespace ProjetUnivers {
       {
         Wait = 0,
         Patrol,
-        AttackAllEnemies
+        AttackAllEnemies,
+        GoTo
       } Kind ;
       
     /*!
@@ -68,6 +69,13 @@ namespace ProjetUnivers {
       /// Attack all enemies. 
       static Objective attackAllEnemies() ;
       
+      /// Go to @c position. 
+      /*!
+        @param position must be a Positionned object.
+        
+        This objective means : try to move to the same position of the object.
+      */
+      static Objective goTo(Kernel::Object* position) ;
       
     // @}
       
@@ -82,6 +90,9 @@ namespace ProjetUnivers {
       
       /// Access to patrol zone in case the objective is patrol.
       Kernel::ObjectReference getPatrolZone() const ;
+
+      /// Access to the destination position.
+      Kernel::ObjectReference getDestination() const ;
       
     private:
 

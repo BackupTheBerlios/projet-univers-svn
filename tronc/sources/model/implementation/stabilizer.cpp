@@ -27,6 +27,7 @@
 #include <model/mobile.h>
 #include <model/oriented.h>
 #include <model/physical_object.h>
+#include <model/physical_world.h>
 
 #include <model/stabilizer.h>
 
@@ -93,8 +94,9 @@ namespace ProjetUnivers {
     {
       PhysicalObject* physical_object = getObject()->getParent<PhysicalObject>() ;
       Oriented* oriented = physical_object->getObject()->getTrait<Oriented>() ;
-
-      if (physical_object && oriented)
+      Kernel::Object* physical_world = physical_object->getPhysicalWorld() ;
+      
+      if (physical_world && physical_object && oriented)
       {
         
         Mobile* mobile = physical_object->getObject()->getTrait<Mobile>() ;
@@ -109,7 +111,7 @@ namespace ProjetUnivers {
         
         
         Ogre::Quaternion object_orientation = 
-          oriented->getOrientation(physical_object->getPhysicalWorld()).getQuaternion() ;
+          oriented->getOrientation(physical_world).getQuaternion() ;
         
         
         InternalMessage("Model","Model::Stabilizer::NewtonMeter object orientation="

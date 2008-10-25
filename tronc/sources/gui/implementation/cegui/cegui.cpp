@@ -139,7 +139,7 @@ namespace ProjetUnivers {
             return window ;
         }
         
-        ::CEGUI::Window* getDescendant(::CEGUI::Window* window,const std::string& name)
+        ::CEGUI::Window* getNamedDescendant(::CEGUI::Window* window,const std::string& name)
         {
           if (window->getName() == name)
           {
@@ -150,7 +150,29 @@ namespace ProjetUnivers {
             for(int child_index = 0 ; child_index < window->getChildCount() ; ++child_index)
             {
               ::CEGUI::Window* child = window->getChildAtIdx(child_index) ;
-              ::CEGUI::Window* result = getDescendant(child,name) ;
+              ::CEGUI::Window* result = getNamedDescendant(child,name) ;
+              if (result)
+              {
+                return result ;
+              }
+            }
+          }
+          
+          return NULL ;
+        }
+
+        ::CEGUI::Window* getTypedDescendant(::CEGUI::Window* window,const std::string& type)
+        {
+          if (window->getType() == type)
+          {
+            return window ;
+          }
+          else
+          {
+            for(int child_index = 0 ; child_index < window->getChildCount() ; ++child_index)
+            {
+              ::CEGUI::Window* child = window->getChildAtIdx(child_index) ;
+              ::CEGUI::Window* result = getTypedDescendant(child,type) ;
               if (result)
               {
                 return result ;

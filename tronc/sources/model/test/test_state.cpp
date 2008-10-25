@@ -96,6 +96,7 @@ namespace ProjetUnivers {
         state1->addTrait(new State()) ;
         
         Kernel::Object* state2 = root->createObject() ;
+        state2->addTrait(new State()) ;
 
         root->getTrait<State>()->changeState(state1,new Active()) ;
         state1->getTrait<State>()->pushState(state2,new Active()) ;

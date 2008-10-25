@@ -41,12 +41,13 @@ TESTS = test_physic
 check_PROGRAMS = $(TESTS)
 
 test_physic_SOURCES = \
-../test/test_physic.cpp \
+../test/test_collision.cpp \
 ../test/test_demonstration.cpp \
 ../test/test_dragger.cpp \
-../test/test_collision.cpp \
-../test/test_shooting_helper.cpp \
-../test/test_ode.cpp 
+../test/test_model_controler.cpp \
+../test/test_ode.cpp \
+../test/test_physic.cpp \
+../test/test_shooting_helper.cpp
 
 
 test_physic_CXXFLAGS = $(CPPUNIT_CFLAGS) $(PU_CXXFLAGS)

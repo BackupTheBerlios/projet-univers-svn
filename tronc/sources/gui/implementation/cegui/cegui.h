@@ -54,8 +54,14 @@ namespace ProjetUnivers {
         /*!
           @return NULL if not found
         */
-        ::CEGUI::Window* getDescendant(::CEGUI::Window* window,const std::string& name) ;
-      
+        ::CEGUI::Window* getNamedDescendant(::CEGUI::Window* window,const std::string& name) ;
+
+        /// Access to descendant of @c window with @c type
+        /*!
+          @return NULL if not found
+        */
+        ::CEGUI::Window* getTypedDescendant(::CEGUI::Window* window,const std::string& type) ;
+        
       }
     }    
   }

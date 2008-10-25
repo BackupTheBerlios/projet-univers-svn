@@ -32,14 +32,15 @@ namespace ProjetUnivers {
 
     Kernel::Trait* Solid::read(Kernel::Reader* reader)
     {
-      Solid* result = new Solid(Mesh("")) ;
+      Solid* result = NULL ;
+      Mesh mesh("") ;
       
       while (!reader->isEndNode() && reader->processNode())
       {
         if (reader->isTraitNode() && 
             reader->getTraitName() == "Mesh")
         {
-          result->m_mesh = Mesh::read(reader) ;
+          mesh = Mesh::read(reader) ;
         }
         else 
         {
@@ -47,9 +48,13 @@ namespace ProjetUnivers {
         }
       }
       
-      if (result->getMesh().getName() == "")
+      if (mesh.getName() == "")
       {
         ErrorMessage("Model::Solid::read must provide a mesh") ;
+      }
+      else
+      {
+        result = new Solid(mesh) ;
       }
       
       reader->processNode() ;

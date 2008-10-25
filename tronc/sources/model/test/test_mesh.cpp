@@ -20,9 +20,12 @@
  ***************************************************************************/
 #include <algorithm>
 #include <kernel/log.h>
+#include <kernel/object.h>
+#include <kernel/model.h>
 
 #include <model/model.h>
 #include <model/mesh.h>
+#include <model/solid.h>
 #include <model/test/test_mesh.h>
 
 
@@ -44,7 +47,10 @@ namespace ProjetUnivers {
         std::vector< ::Ogre::Vector3> vertices ;
         std::vector<unsigned long>    indices ;
         Ogre::Vector3                 scale(1,1,1) ;        
-
+        
+//        std::cout << test_mesh.getBoundingSphereRadius() << std::endl ;
+        CPPUNIT_ASSERT(test_mesh.getBoundingSphereRadius()>0) ;
+        
         test_mesh.getMeshInformation(vertices,indices,scale) ;
         
         CPPUNIT_ASSERT(! vertices.empty()) ;
@@ -136,13 +142,16 @@ namespace ProjetUnivers {
         InternalMessage("Model","Model::TestMesh::testUnexistingMesh leaving") ;
         
       }
-      
-      void TestMesh::setUp() 
+
+      void TestMesh::testSolidSize()
       {
-      }
-      
-      void TestMesh::tearDown() 
-      {
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestMesh::testSolidSize")) ;
+        
+        Kernel::Object* object = model->createObject() ;
+        object->addTrait(new Solid(Mesh("razor.mesh"))) ;
+        
+        CPPUNIT_ASSERT(object->getTrait<Solid>()) ;
+        CPPUNIT_ASSERT(object->getTrait<Solid>()->getRadius().Meter() > 0) ;
       }
       
     }

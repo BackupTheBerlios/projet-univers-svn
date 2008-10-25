@@ -71,7 +71,6 @@ namespace ProjetUnivers {
       return result ;
     }
       
-    /// Creates a new Object with name.
     Object* Model::createObject(Object* parent)
     {
       Object* result = new Object(this) ;
@@ -81,7 +80,6 @@ namespace ProjetUnivers {
       return result ;
     }
 
-    /// Destroy a given Object.
     void Model::destroyObject(Object* object)
     {
       InternalMessage("Kernel","Entering Model::destroyObject") ;
@@ -108,7 +106,6 @@ namespace ProjetUnivers {
       m_objects_by_identifier.erase(identifier) ;
     }
     
-    /// Changes parent of a given Object.
     void Model::changeParent(Object* object, 
                              Object* new_parent)
     {
@@ -133,7 +130,6 @@ namespace ProjetUnivers {
 
     }
 
-    /// Adds a new trait to an Object.
     void Model::addTrait(Object* object, 
                          Trait* new_trait)
     {
@@ -144,7 +140,6 @@ namespace ProjetUnivers {
       
     }
 
-    /// Destroy an Object's trait.
     void Model::destroyTrait(Object* object, 
                             Trait* trait)
     {

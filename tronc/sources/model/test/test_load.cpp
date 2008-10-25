@@ -168,7 +168,7 @@ namespace ProjetUnivers {
           "<?xml version=\"1.0\"?>\n"
             "<model>\n"
               "<object id=\"1\">\n"
-                "<Dragger dragg_factor=\"10\"/>\n"
+                "<Dragger drag_factor=\"10\"/>\n"
               "</object>\n"
             "</model>\n") ;
         std::auto_ptr<Kernel::XMLReader> reader(Kernel::XMLReader::getStringReader(content)) ;
@@ -261,7 +261,12 @@ namespace ProjetUnivers {
           "<?xml version=\"1.0\"?>\n"
             "<model>\n"
               "<object id=\"1\">\n"
-                "<GuidanceControler/>\n"
+                "<GuidanceControler>\n"
+                  "<ObjectReference id=\"2\" name=\"stick\"/>\n"
+                "</GuidanceControler>\n"
+                "<object id=\"2\">\n"
+                  "<Stick/>\n"
+                "</object>\n"
               "</object>\n"
             "</model>\n") ;
         std::auto_ptr<Kernel::XMLReader> reader(Kernel::XMLReader::getStringReader(content)) ;
@@ -285,7 +290,12 @@ namespace ProjetUnivers {
                   "<ObjectReference id=\"2\" name=\"controler\"/>\n"
                 "</GuidanceSystem>\n"
                 "<object id=\"2\">\n"
-                  "<GuidanceControler/>\n"
+                  "<GuidanceControler>\n"
+                    "<ObjectReference id=\"3\" name=\"stick\"/>\n"
+                  "</GuidanceControler>\n"
+                "</object>\n"
+                "<object id=\"3\">\n"
+                  "<Stick/>\n"
                 "</object>\n"
               "</object>\n"
             "</model>\n") ;
@@ -327,7 +337,7 @@ namespace ProjetUnivers {
             "<model>\n"
               "<object id=\"1\">\n"
                 "<Laser>\n"
-                  "<Position x=\"0\" y=\"0\" z=\"0\"/>\n"
+                  "<Position x=\"0\" y=\"0\" z=\"0\" unit=\"Meter\"/>\n"
                   "<Orientation angle_degree=\"45\" axis_x=\"0\" axis_y=\"0\" axis_z=\"0\"/>\n"
                 "</Laser>\n"
               "</object>\n"
@@ -451,7 +461,7 @@ namespace ProjetUnivers {
             "<model>\n"
               "<object id=\"1\">\n"
                 "<Positionned>\n"
-                  "<Position x=\"0\" y=\"0\" z=\"0\"/>\n"
+                  "<Position x=\"0\" y=\"0\" z=\"0\" unit=\"Meter\"/>\n"
                 "</Positionned>\n"
               "</object>\n"
             "</model>\n") ;
@@ -472,7 +482,7 @@ namespace ProjetUnivers {
             "<model>\n"
               "<object id=\"1\">\n"
                 "<Solid>\n"
-                  "<Mesh ogre_ressource=\"toto\"/>\n"
+                  "<Mesh ogre_ressource=\"razor.mesh\"/>\n"
                 "</Solid>\n"
               "</object>\n"
             "</model>\n") ;
@@ -484,6 +494,7 @@ namespace ProjetUnivers {
         CPPUNIT_ASSERT(roots.size() == 1) ;
         Kernel::Object* root = *roots.begin() ;
         CPPUNIT_ASSERT(root->getTrait<Solid>()) ;
+        CPPUNIT_ASSERT(root->getTrait<Solid>()->getRadius().Meter()>0) ;
       }
       
       void TestLoad::testLoadStabilizer()

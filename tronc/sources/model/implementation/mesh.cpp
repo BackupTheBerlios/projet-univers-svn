@@ -27,16 +27,23 @@
 namespace ProjetUnivers {
   namespace Model {
     
-    /// Constructeur.
     Mesh::Mesh(const std::string& _name)
     : m_name(_name)
     {}
       
-    /// Constructeur de copie.
     Mesh::Mesh(const Mesh& _model)
     : m_name(_model.m_name)
     {}
 
+    Mesh& Mesh::operator=(const Mesh& mesh)
+    {
+      if (this != &mesh)
+      {
+        m_name = mesh.m_name ;
+      }
+      return *this ;
+    }
+    
     Mesh Mesh::read(Kernel::Reader* reader)
     {
       Mesh result("") ;

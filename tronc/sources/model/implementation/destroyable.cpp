@@ -56,6 +56,8 @@ namespace ProjetUnivers {
     Kernel::Trait* Destroyable::read(Kernel::Reader* reader)
     {
       Destroyable* result = new Destroyable(Energy()) ;
+      bool read_max_hit_point = false ;
+      bool read_current_hit_point = false ;
       
       while (!reader->isEndNode() && reader->processNode())
       {
@@ -65,10 +67,12 @@ namespace ProjetUnivers {
           if (reader->getName() == "max_hit_points")
           {
             result->m_max_hit_points = Energy::read(reader) ;
+            read_max_hit_point = true ;
           }
           else if (reader->getName() == "current_hit_points")
           {
             result->m_remaining_hit_points = Energy::read(reader) ;
+            read_current_hit_point = true ;
           }
         }
         else
@@ -78,6 +82,15 @@ namespace ProjetUnivers {
       }
       reader->processNode() ;
 
+      if (!read_max_hit_point)
+      {
+        ErrorMessage("Model::Destroyable::read must specify an Energy sub node with name max_hit_points") ;
+      }
+      if(! read_current_hit_point)
+      {
+        result->m_remaining_hit_points = result->m_max_hit_points ;
+      }
+      
       return result ;
     }
 

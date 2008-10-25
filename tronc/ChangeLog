@@ -852,14 +852,34 @@
 
    * Model :
      - corrected a bug on State (thanks to Faro), that were dangering the demo.
-       pushing a state under a state with no active stae caused seg fault in 
+       pushing a state under a state with no active state caused seg fault in 
        some cases
      - pluged new menus for main menu and confirm
    * GUI :
      - pluged new menu for player key configuration
      - modified tests gui.config file contains duration of test and name of the 
        loaded menu  
-      
+
+2008-10-19 rogma
+
+   * GUI :
+     - corrected a limitation on player configuration
+   * Media :
+     - renamed gui elements to avoid name collision
+
+2008-10-25 rogma
+
+   * Model : 
+     - corrected a bug on Stabilizer
+     - corrected bugs on reading
+   * Physic :
+     - corrected a bug on TorqueGenerator in degenerated cases
+     - corrected a bug on ForceGenerator in degenerated cases
+   * ArtificialIntelligence :
+     - started goto objective (not complete)     
+   * All :
+     - added a ship file and the basis for a ship testing executable
+     
 @todo :
   
     - go back to menu when Player is destroyed is stil not correct : the game 
@@ -986,6 +1006,7 @@
       them at the end ?? 
       @see Model::Implementation::Logic::LogicSystem::m_objects_to_destroy that 
       already perform that kind of recording stuff...
+      This is also important for object loading...
     
   * all :
     - make use of Quantities library, 

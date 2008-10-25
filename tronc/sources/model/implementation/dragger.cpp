@@ -49,8 +49,7 @@ namespace ProjetUnivers {
       }
       else
       {
-        ErrorMessage("Model::Distance::read required attribute : drag_factor") ;
-        
+        ErrorMessage("Model::Dragger::read required attribute : drag_factor") ;
       }
       
       // move out of node

@@ -65,11 +65,6 @@ namespace ProjetUnivers {
       }
       reader->processNode() ;
       
-      if (!result->m_computer)
-      {
-        ErrorMessage("Model::Detector::read required computer sub node") ;
-      }
-
       return result ;
     }
 
