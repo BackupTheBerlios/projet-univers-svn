@@ -49,6 +49,13 @@ namespace ProjetUnivers {
       static StaticStorage instance ;
       return &instance ;
     }
+  
+    HasChildFormula::StaticStorage* HasChildFormula::StaticStorage::get()
+    {
+      static StaticStorage instance ;
+      return &instance ;
+    }
+    
     
   /*!
     @name Access
@@ -105,6 +112,20 @@ namespace ProjetUnivers {
       return NULL ;      
     }
     
+    HasChildFormula* HasChildFormula::get(const TypeIdentifier& trait_name)
+    {
+//      InternalMessage("Kernel","HasChildFormula::get getting " + trait_name.toString()) ;
+      std::map<TypeIdentifier,HasChildFormula*>::iterator trait ;
+      trait = StaticStorage::get()->m_child_traits_formulae.find(trait_name) ;
+      if (trait != StaticStorage::get()->m_child_traits_formulae.end())
+      {
+//        InternalMessage("Kernel","HasChildFormula::get got " + trait_name.toString()) ;
+        return trait->second ;
+      }
+
+//      InternalMessage("Kernel","HasChildFormula::get did not got " + trait_name.toString()) ;
+      return NULL ;      
+    }
     
   // @}
   /*!
@@ -262,6 +283,33 @@ namespace ProjetUnivers {
     std::string HasParentFormula::internalPrint() const
     {
       return "HasParent(" + m_trait.toString() + ")" ;
+    }
+
+    HasChildFormula* HasChildFormula::build(const TypeIdentifier& trait_name)
+    {
+      InternalMessage("Kernel","HasChildFormula::build entering") ;
+      HasChildFormula* result = get(trait_name) ;
+      if (! result)
+      {
+        result = new HasChildFormula(trait_name) ;
+        StaticStorage::get()->m_child_traits_formulae[trait_name] = result ;
+      }
+      
+      InternalMessage("Kernel","HasChildFormula::build leaving") ;
+      return result ;
+    }
+    
+    HasChildFormula::HasChildFormula(const TypeIdentifier& trait_name)
+    : Formula(),
+      m_trait(trait_name)
+    {
+      generateIdentifier() ;
+      CHECK((m_depth==0),"HasChildFormula::HasChildFormula invalid depth") ;
+    }
+
+    std::string HasChildFormula::internalPrint() const
+    {
+      return "HasChild(" + m_trait.toString() + ")" ;
     }
     
     DeducedTrait::~DeducedTrait()
@@ -447,6 +495,16 @@ namespace ProjetUnivers {
       
       InternalMessage("Kernel","HasParentFormula::eval " + toString(number_of_parents)) ;
     }
+
+    void HasChildFormula::eval(Object* object)
+    {
+      InternalMessage("Kernel","HasChildFormula::eval") ;
+      unsigned int number_of_children = object->getNumberOfChildren(m_trait) ;
+      object->setNumberOfTrueChildFormulae(this,number_of_children) ;
+      object->setValidity(this,number_of_children > 0) ;
+      
+      InternalMessage("Kernel","HasChildFormula::eval " + toString(number_of_children)) ;
+    }
     
   // @}
   /*!
@@ -565,13 +623,31 @@ namespace ProjetUnivers {
     
     void HasParentFormula::onChangedParent(Object* object,Object* old_parent)
     {
+      /* 
+        @c object has changed parent : its number of parents with m_trait may 
+        change
+      */  
+      
       bool old_validity = isValid(object) ;
+      bool has_trait = object->getTrait(m_trait) != NULL ;
+      unsigned int number_of_parents = 0 ;
 
-      unsigned int number_of_parents = object->getNumberOfParent(m_trait) ;
+      if (has_trait)
+      {
+        ++number_of_parents ;
+      }
+      
+      Object* new_parent = object->getParent() ;
+      if (new_parent)
+      {
+        number_of_parents += new_parent->getNumberOfTrueChildFormulae(this) ;
+      }
+      
       object->setNumberOfTrueChildFormulae(this,number_of_parents) ;
-
+      
       bool new_validity = number_of_parents != 0 ;
-      if (old_validity && new_validity)
+      
+      if (old_validity && new_validity && ! has_trait)
       {
         // update because parent with trait has changed 
         DeducedTrait::update(this,object) ;
@@ -584,6 +660,196 @@ namespace ProjetUnivers {
       {
         becomeTrue(object) ;
       }
+
+      // iterate on children
+      for(std::set<Object*>::const_iterator child = object->getChildren().begin() ; 
+          child != object->getChildren().end() ;
+          ++child)
+      {
+        onChangedParent(*child,old_parent) ;
+      }
+     
+    }
+
+    void HasChildFormula::addTrait(Object* object,const TypeIdentifier& trait_name)
+    {
+      CHECK(object,"HasChildFormula::addTrait no object")
+      
+      InternalMessage("Kernel","HasChildFormula::addTrait(" + trait_name.toString() + ")") ;
+      HasChildFormula* trait_formula = get(trait_name) ;
+      if (trait_formula)
+      {
+        trait_formula->addedChild(object) ;
+      }
+    }
+
+    void HasChildFormula::removeTrait(Object* object,const TypeIdentifier& trait_name)
+    {
+      InternalMessage("Kernel","HasChildFormula::removeTrait(" + trait_name.toString() + ")") ;
+      HasChildFormula* trait_formula = get(trait_name) ;
+      if (trait_formula)
+      {
+        // handle current object
+        trait_formula->removedChild(object) ;
+      }
+    }
+
+    void HasChildFormula::addedChild(Object* object)
+    {
+      /*
+        Here we use the number of true child formulae on objects to code the 
+        number of parents with trait @c trait_name
+        
+        Direct child just add been added
+      */
+      // formula is true for current object
+      if (isValid(object))
+      {
+        // update because parent with trait has changed 
+        DeducedTrait::update(this,object) ;
+      }
+      else
+      {
+        becomeTrue(object) ;
+      }
+
+      unsigned short true_child = object->getNumberOfTrueChildFormulae(this) ;
+      object->setNumberOfTrueChildFormulae(this,true_child+1) ;
+        
+      Object* parent = object->getParent() ;
+      if (parent)
+      {
+        addedChild(parent) ;
+      }
+    }
+    
+    void HasChildFormula::removedChild(Object* object)
+    {
+      /*
+        Here we use the number of true child formulae on objects to code the 
+        number of parents with trait @c trait_name
+        
+        Direct parent with trait has changed
+        
+      */
+      unsigned short true_child = object->getNumberOfTrueChildFormulae(this) ;
+      object->setNumberOfTrueChildFormulae(this,true_child-1) ;
+        
+      if (true_child == 1)
+      {
+        becomeFalse(object) ;
+      }
+      else
+      {
+        // still true but child has changed
+        DeducedTrait::update(this,object) ;
+      }
+      
+      Object* parent = object->getParent() ;
+      if (parent)
+      {
+        removedChild(parent) ;
+      }
+      
+    }
+
+    void HasChildFormula::addedChildren(Object* object, unsigned short number_of_children)
+    {
+      /*
+        Here we use the number of true child formulae on objects to code the 
+        number of children with trait @c trait_name
+        
+        Direct child just add been added
+      */
+      // formula is true for current object
+      if (isValid(object))
+      {
+        // update because parent with trait has changed 
+        DeducedTrait::update(this,object) ;
+      }
+      else
+      {
+        becomeTrue(object) ;
+      }
+
+      unsigned short true_child = object->getNumberOfTrueChildFormulae(this) ;
+      object->setNumberOfTrueChildFormulae(this,true_child+number_of_children) ;
+        
+      Object* parent = object->getParent() ;
+      if (parent)
+      {
+        addedChildren(parent,number_of_children) ;
+      }
+    }
+    
+    void HasChildFormula::removedChildren(Object* object, unsigned short number_of_children)
+    {
+      /*
+        Here we use the number of true child formulae on objects to code the 
+        number of children with trait @c trait_name
+        
+        Direct parent with trait has changed
+        
+      */
+      unsigned short true_child = object->getNumberOfTrueChildFormulae(this) ;
+
+      CHECK(true_child>=number_of_children,"incorrect removed child") ;
+
+      object->setNumberOfTrueChildFormulae(this,true_child-number_of_children) ;
+        
+      if (true_child == number_of_children)
+      {
+        becomeFalse(object) ;
+      }
+      else
+      {
+        // still true but child has changed
+        DeducedTrait::update(this,object) ;
+      }
+      
+      Object* parent = object->getParent() ;
+      if (parent)
+      {
+        removedChildren(parent,number_of_children) ;
+      }
+      
+    }
+    
+    
+    void HasChildFormula::changeParent(Object* object,Object* old_parent)
+    {
+      for(std::map<TypeIdentifier,HasChildFormula*>::const_iterator 
+          formula = StaticStorage::get()->m_child_traits_formulae.begin() ;
+          formula != StaticStorage::get()->m_child_traits_formulae.end() ;
+          ++formula)
+      {
+        formula->second->onChangedParent(object,old_parent) ;
+      }
+    }
+    
+    void HasChildFormula::onChangedParent(Object* object,Object* old_parent)
+    {
+      /* 
+        @c object has changed parent : 
+        @c old_parent may have changed number of children with m_trait
+        also has new parent
+        
+        @c object cannot have changed status because its children have not moved   
+      */  
+      
+
+      unsigned int number_of_children = object->getNumberOfChildren(m_trait) ;
+      
+      if (old_parent && number_of_children > 0)
+      {
+        removedChildren(old_parent,number_of_children) ;
+      }
+      Object* parent = object->getParent() ;
+      if (parent && number_of_children > 0)
+      {
+        addedChildren(parent,number_of_children) ;
+      }
+      
     }
     
     void DeducedTrait::notify(Formula* formula,
@@ -757,6 +1023,17 @@ namespace ProjetUnivers {
     {
       ErrorMessage("HasParentFormula::onAddChildFalse") ;
     }
+
+    void HasChildFormula::onAddChildTrue(Object* object) 
+    {
+      ErrorMessage("HasChildFormula::onAddChildTrue") ;
+    }
+    
+    void HasChildFormula::onAddChildFalse(Object* object) 
+    {
+      ErrorMessage("HasParentFormula::onAddChildFalse") ;
+    }
+    
     
     void TraitFormula::onChildUpdated(Object* object)
     {
@@ -765,9 +1042,14 @@ namespace ProjetUnivers {
 
     void HasParentFormula::onChildUpdated(Object* object)
     {
-      //// error
+      // error
     }
 
+    void HasChildFormula::onChildUpdated(Object* object)
+    {
+      // error
+    }
+    
     void FormulaNot::onAddChildTrue(Object* object)
     {
       if (isValid(object))
@@ -835,6 +1117,40 @@ namespace ProjetUnivers {
             ++child)
         {
           updateParentTrait(*child) ;
+        }
+      }
+    }
+
+    void HasChildFormula::updateTrait(Object* object,const TypeIdentifier& trait_name)
+    {
+      if (!object)
+        return ;
+      
+      HasChildFormula* trait = get(trait_name) ;
+      if (trait)
+      {
+        trait->update(object) ;
+        
+        Object* parent = object->getParent() ;
+        if (parent)
+        {
+          trait->updateChildTrait(parent) ;
+        }
+        
+      }
+    }
+
+    void HasChildFormula::updateChildTrait(Object* object)
+    {
+      // if object has not the trait...
+      if (object->traits.find(m_trait) == object->traits.end())
+      {
+        update(object) ;
+        
+        Object* parent = object->getParent() ;
+        if (parent)
+        {
+          updateChildTrait(parent) ;
         }
       }
     }

@@ -752,10 +752,10 @@ namespace ProjetUnivers {
                             ->getUpdateNumber() == 1) ;
       }
       
-      void TestDeducedTrait::addRemoveParentTrait()
+      void TestDeducedTrait::removeParentTrait()
       {
-        InternalMessage("Kernel","TestDeducedTrait::addRemoveParentTrait entering") ;
-        std::auto_ptr<Model> model(new Model("TestDeducedTrait::addRemoveParentTrait")) ;
+        InternalMessage("Kernel","TestDeducedTrait::removeParentTrait entering") ;
+        std::auto_ptr<Model> model(new Model("TestDeducedTrait::removeParentTrait")) ;
         
         Object* object = model->createObject() ;
         Object* child = object->createObject() ;
@@ -969,6 +969,28 @@ namespace ProjetUnivers {
         CPPUNIT_ASSERT(child->getTrait<HasParentTrait1>()) ;
       }
       
+      void TestDeducedTrait::changeAncestorHasParentBecomeTrue()
+      {
+        InternalMessage("Kernel","TestDeducedTrait::changeAncestorHasParentBecomeTrue entering") ;
+        std::auto_ptr<Model> model(new Model("TestDeducedTrait::changeAncestorHasParentBecomeTrue")) ;
+        
+        Object* object = model->createObject() ;
+        Object* child = object->createObject() ;
+        Object* grand_child = child->createObject() ;
+
+        Object* object2 = model->createObject() ;
+        object2->addTrait(new Parent()) ;
+
+        CPPUNIT_ASSERT(! child->getTrait<HasParentTrait1>()) ;
+        CPPUNIT_ASSERT(! object->getTrait<HasParentTrait1>()) ;
+
+        child->changeParent(object2) ;
+        
+        CPPUNIT_ASSERT(child->getTrait<HasParentTrait1>()) ;
+        CPPUNIT_ASSERT(grand_child->getTrait<HasParentTrait1>()) ;
+        
+      }
+      
       void TestDeducedTrait::changeParentHasParentBecomeFalse()
       {
         InternalMessage("Kernel","TestDeducedTrait::changeParentHasParentBecomeFalse entering") ;
@@ -1039,15 +1061,118 @@ namespace ProjetUnivers {
         CPPUNIT_ASSERT(object->getTrait<NegativeDeducedTrait>()) ;
         CPPUNIT_ASSERT(object->getTrait<DeducedTraitOnDeducedTrait>()) ;
       }
+
       
-      void TestDeducedTrait::setUp()
+      namespace
       {
+        class Child : public Trait
+        {
+        public:
+          
+          void modify()
+          {
+            notify() ;
+          }
+        };
+        
+        class HasChildTrait1 : public DeducedTrait
+        {};
+        
+        DeclareDeducedTrait(HasChildTrait1,HasChild(Child)) ; 
+        
+        class ChildAndTrait1 : public DeducedTrait
+        {};
+
+        DeclareDeducedTrait(ChildAndTrait1,And(HasChild(Child),HasTrait(Trait1))) ; 
+        
+        class ViewHasChildTrait1 : public TraitView<HasChildTrait1,TestViewPoint>
+        {
+        public:
+          
+          ViewHasChildTrait1(HasChildTrait1* o,TestViewPoint* v)
+          : TraitView<HasChildTrait1,TestViewPoint>(o,v),
+            m_update_number(0)
+          {}
+          
+          int getUpdateNumber() const
+          {
+            return m_update_number ;
+          }
+          
+        protected:
+          
+          void onUpdate()
+          {
+            ++m_update_number ;
+          }
+          
+          int m_update_number ;
+        };
+        
+        RegisterView(ViewHasChildTrait1,HasChildTrait1,TestViewPoint) ;
+      }
+      
+      void TestDeducedTrait::addChildTrait()
+      {
+        InternalMessage("Kernel","TestDeducedTrait::addChildTrait entering") ;
+        std::auto_ptr<Model> model(new Model("TestDeducedTrait::addChildTrait")) ;
+        
+        Object* object = model->createObject() ;
+        Object* child = object->createObject() ;
+        
+        CPPUNIT_ASSERT(! child->getTrait<HasChildTrait1>()) ;
+        CPPUNIT_ASSERT(! object->getTrait<HasChildTrait1>()) ;
+        
+        child->addTrait(new Child()) ;
+        
+        CPPUNIT_ASSERT(child->getTrait<HasChildTrait1>()) ;
+        CPPUNIT_ASSERT(object->getTrait<HasChildTrait1>()) ;
       }
 
-      void TestDeducedTrait::tearDown()
+      void TestDeducedTrait::removeChildTrait()
       {
+        InternalMessage("Kernel","TestDeducedTrait::removeChildTrait entering") ;
+        std::auto_ptr<Model> model(new Model("TestDeducedTrait::removeChildTrait")) ;
+        
+        Object* object = model->createObject() ;
+        Object* child = object->createObject() ;
+        
+        CPPUNIT_ASSERT(! child->getTrait<HasChildTrait1>()) ;
+        CPPUNIT_ASSERT(! object->getTrait<HasChildTrait1>()) ;
+        
+        child->addTrait(new Child()) ;
+        
+        CPPUNIT_ASSERT(object->getTrait<HasChildTrait1>()) ;
+        CPPUNIT_ASSERT(child->getTrait<HasChildTrait1>()) ;
+        
+        child->destroyTrait(child->getTrait<Child>()) ;
+        
+        CPPUNIT_ASSERT(! child->getTrait<HasChildTrait1>()) ;
+        CPPUNIT_ASSERT(! object->getTrait<HasChildTrait1>()) ;
       }
+      
+      void TestDeducedTrait::changeParentHasChildBecomeTrue()
+      {
+        InternalMessage("Kernel","TestDeducedTrait::changeParentHasChildBecomeTrue entering") ;
+        std::auto_ptr<Model> model(new Model("TestDeducedTrait::changeParentHasChildBecomeTrue")) ;
+        
+        Object* object = model->createObject() ;
+        Object* child = object->createObject() ;
+        child->addTrait(new Child()) ;
 
+        Object* object2 = model->createObject() ;
+
+        CPPUNIT_ASSERT(object->getTrait<HasChildTrait1>()) ;
+        CPPUNIT_ASSERT(! object2->getTrait<HasChildTrait1>()) ;
+
+        child->changeParent(object2) ;
+        
+        CPPUNIT_ASSERT(object2->getTrait<HasChildTrait1>()) ;
+        CPPUNIT_ASSERT(! object->getTrait<HasChildTrait1>()) ;
+        
+      }
+      
+      
     }
   }
 }

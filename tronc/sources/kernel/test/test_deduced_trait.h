@@ -30,17 +30,8 @@ namespace ProjetUnivers {
 
 
       ///  Test for deduced traits.
-      /*!
-      */
-      class TestDeducedTrait : public CppUnit::TestFixture {
-      public:
-
-        /// Tests setup
-        void setUp() ;
-
-        /// Tests close.
-        void tearDown() ;
-
+      class TestDeducedTrait : public CppUnit::TestFixture 
+      {
       protected:
 
       /// @name Tests methods
@@ -83,7 +74,7 @@ namespace ProjetUnivers {
         void addSubParentTrait() ;
         
         /// Remove a parent and check that HasParent has changed.
-        void addRemoveParentTrait() ;
+        void removeParentTrait() ;
         
         /// Update an ancetsor trait and check that view has not been updated.
         void updateAncestorTrait() ;
@@ -102,6 +93,9 @@ namespace ProjetUnivers {
         
         /// Change the parent of an object HasParent becomes true.
         void changeParentHasParentBecomeTrue() ;
+
+        /// Change the ancestor of an object HasParent becomes true.
+        void changeAncestorHasParentBecomeTrue() ;
         
         /// Change the parent of an object HasParent becomes false.
         void changeParentHasParentBecomeFalse() ;
@@ -111,6 +105,18 @@ namespace ProjetUnivers {
         
         /// Bug test : a deduced trait on a deduced trait does not work.
         void deducedTraitOnDeducedTrait() ;
+        
+        /// Add a child and check that HasChild has changed.
+        void addChildTrait() ;
+        
+        /// Remove a child and check that HasChild has changed.
+        void removeChildTrait() ;
+        
+        /// Change the parent of an object, HasChild becomes true.
+        /*!
+          HasChild become true for the new parent and false for the old one.
+        */
+        void changeParentHasChildBecomeTrue() ;
         
       // @}
 
@@ -128,16 +134,22 @@ namespace ProjetUnivers {
 
         CPPUNIT_TEST(addParentTrait) ;
         CPPUNIT_TEST(addSubParentTrait) ;
-        CPPUNIT_TEST(addRemoveParentTrait) ;
+        CPPUNIT_TEST(removeParentTrait) ;
         CPPUNIT_TEST(updateAncestorTrait) ;
         CPPUNIT_TEST(updateParentTrait) ;
         CPPUNIT_TEST(removeSubAncestorTrait) ;
         CPPUNIT_TEST(addParentTraitOnCompositeFormula) ;
         CPPUNIT_TEST(addTrueChild) ;
         CPPUNIT_TEST(changeParentHasParentBecomeTrue) ;
+        CPPUNIT_TEST(changeAncestorHasParentBecomeTrue) ;
+        
         CPPUNIT_TEST(changeParentHasParentBecomeFalse) ;
         CPPUNIT_TEST(changeParentHasParentUpdated) ;
         CPPUNIT_TEST(deducedTraitOnDeducedTrait) ;
+
+        CPPUNIT_TEST(addChildTrait) ;
+        CPPUNIT_TEST(removeChildTrait) ;
+        CPPUNIT_TEST(changeParentHasChildBecomeTrue) ;
         
         CPPUNIT_TEST_SUITE_END() ;
 

@@ -91,6 +91,14 @@ namespace ProjetUnivers {
     #define HasParent(trait) \
       Kernel::TemplateHasParent<trait>
     
+    /// Elementary formula true iff object has child trait @c trait
+    /*!
+      @remark if object has @c trait then formula is true, @see 
+      object::getChildren(). 
+    */
+    #define HasChild(trait) \
+      Kernel::TemplateHasChild<trait>
+    
     /// Abstract class for traits that are deduced.
     /*!
       Each object :
@@ -172,6 +180,7 @@ namespace ProjetUnivers {
       
       friend class Formula ;
       friend class HasParentFormula ;
+      friend class HasChildFormula ;
       
     }; 
 

@@ -338,6 +338,9 @@ namespace ProjetUnivers {
     };
 
     /// True iff child formula is true on a descendant.
+    /*!
+      Not implemented : it is equivalent to HasChild(F)^~F
+    */
     class FormulaHasDescendant : public Formula
     {
     public:
@@ -362,6 +365,9 @@ namespace ProjetUnivers {
     };
 
     /// True iff child formula is true on an ancestor.
+    /*!
+      Not implemented : it is equivalent to HasParent(F)^~F
+    */
     class HasAncestorFormula : public Formula
     {
     public:
@@ -426,10 +432,10 @@ namespace ProjetUnivers {
       virtual void onAddChildFalse(Object* object) ;
       virtual void onChildUpdated(Object* object) ;
 
-      /// Declare that the trait has been added to parent's object 
+      /// Declare that the trait has been added to an @c object's parent.
       void addParent(Object* object) ;
 
-      /// Declare that the trait has been removed to parent's object 
+      /// Declare that the trait has been removed to an @c object's parent.
       void removedParent(Object* object) ;
 
       /// Parent trait has been updated.
@@ -467,6 +473,87 @@ namespace ProjetUnivers {
       };      
     };
 
+    /// True iff child formula is true on a child or @c this.
+    class HasChildFormula : public Formula
+    {
+    public:
+    
+      /// Special constructor.
+      /*!
+        Two calls with the same parameter returns the same formula. 
+      */
+      static HasChildFormula* build(const TypeIdentifier& trait_name) ;
+
+      // Notify that @c object has gained @c trait_name.
+      static void addTrait(Object* object,const TypeIdentifier& trait_name) ;
+      
+      // Notify that @c object has lost @c trait_name.
+      static void removeTrait(Object* object,const TypeIdentifier& trait_name) ;
+      
+      // Notify that @c trait_name has been updated for @c object.
+      static void updateTrait(Object* object,const TypeIdentifier& trait_name) ;
+
+      /// Notify that @c object has changed parent.
+      static void changeParent(Object* object,Object* old_parent) ;
+      
+      /// Print the formula.
+      virtual std::string internalPrint() const ;
+
+    protected:
+
+      /// Initial value.
+      virtual void eval(Object* object) ;
+      
+      virtual void onAddChildTrue(Object* object) ;
+      virtual void onAddChildFalse(Object* object) ;
+      virtual void onChildUpdated(Object* object) ;
+
+      /// Declare that the trait has been added to an @c object's child.
+      void addedChild(Object* object) ;
+
+      /// Declare that the trait has been removed to an @c object's child.
+      void removedChild(Object* object) ;
+
+      /// Declare that the trait has been added to number of @c object's children.
+      void addedChildren(Object* object,unsigned short number_of_children) ;
+
+      /// Declare that the trait has been removed to number @c object's children.
+      void removedChildren(Object* object,unsigned short number_of_children) ;
+      
+      /// Child trait has been updated.
+      void updateChildTrait(Object* object) ;
+
+      /// Notify that @c object has changed parent.
+      void onChangedParent(Object* object,Object* old_parent) ;
+      
+    private:
+
+      /// Constructor 
+      HasChildFormula(const TypeIdentifier& trait_name) ;
+    
+      TypeIdentifier m_trait ;
+      
+      /// Find the parent trait formula associated with @c trait_name.
+      /*!
+        @return NULL if not found.
+      */
+      static HasChildFormula* get(const TypeIdentifier& trait_name) ;
+      
+      class StaticStorage
+      {
+      public:
+        
+        /// Access to singleton.
+        static StaticStorage* get() ;
+      
+        std::map<TypeIdentifier,HasChildFormula*> m_child_traits_formulae ;
+        
+      private:
+        
+        StaticStorage()
+        {}
+      };      
+    };
     
   // @}
   /*!
@@ -509,6 +596,18 @@ namespace ProjetUnivers {
         return HasParentFormula::build(getClassTypeIdentifier(T)) ;
       }
     };
+    
+    /// Elementary formula static declaration.
+    template <class T> class TemplateHasChild
+    {
+    public:
+      
+      static Formula* build()
+      {
+        return HasChildFormula::build(getClassTypeIdentifier(T)) ;
+      }
+    };
+    
     
     /// The default value for templates TemplateAnd TemplateOr
     class EmptyFormula

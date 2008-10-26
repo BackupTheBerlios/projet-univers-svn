@@ -249,6 +249,7 @@ namespace ProjetUnivers {
 
       TraitFormula::addTrait(this,trait_name) ;
       HasParentFormula::addTrait(this,trait_name) ;
+      HasChildFormula::addTrait(this,trait_name) ;
       
 //      InternalMessage("Kernel","traits number = ") ;
 //      InternalMessage("Kernel",toString(traits.size()).c_str()) ;
@@ -325,6 +326,7 @@ namespace ProjetUnivers {
       i_trait->_close() ;
       TraitFormula::removeTrait(this,trait_name) ;
       HasParentFormula::removeTrait(this,trait_name) ;
+      HasChildFormula::removeTrait(this,trait_name) ;
       
       this->traits.erase(trait_name) ;
       delete i_trait ;
@@ -539,6 +541,8 @@ namespace ProjetUnivers {
         trait->second->_changed_parent(i_old_parent) ;
       }
       HasParentFormula::changeParent(this,i_old_parent) ;
+      HasChildFormula::changeParent(this,i_old_parent) ;
+      
     }
     
     Trait* Object::_get(const TypeIdentifier& i_trait_name) const
@@ -779,5 +783,25 @@ namespace ProjetUnivers {
       }
       return result ;
     }
+  
+    unsigned int Object::getNumberOfChildren(const TypeIdentifier& name) const
+    {
+      unsigned int result = 0 ;
+      
+      // recurse
+      for(std::set<Object*>::const_iterator child = children.begin() ;  
+          child != children.end() ;
+          ++child)
+      {
+        result += (*child)->getNumberOfChildren(name) ;
+      }
+
+      // local
+      if (getTrait(name))
+        ++result ;
+      
+      return result ;
+    }
+    
   }
 }

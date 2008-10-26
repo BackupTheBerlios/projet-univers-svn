@@ -879,6 +879,12 @@
      - started goto objective (not complete)     
    * All :
      - added a ship file and the basis for a ship testing executable
+
+2008-10-26 rogma
+
+   * Kernel : 
+     - corrected a bug on HasParent
+     - added HasChild deduced trait formula (remain updates to test)
      
 @todo :
   
