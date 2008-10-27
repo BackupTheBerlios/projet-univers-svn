@@ -63,7 +63,11 @@ namespace ProjetUnivers {
           InternalMessage("Display","Display::SpaceDust::onInit Entering") ;
 
           ::Ogre::SceneManager* manager = this->getViewPoint()->getManager() ;
-          Positionned* positionned(getView<Positionned>()) ;
+          Positionned* positionned(getObject()->getParent<Implementation::Positionned>()
+                                   ->getView<Positionned>(getViewPoint())) ;
+          
+          InternalMessage("Display","creating space dust scene node with parent " + 
+                                    positionned->getNode()->getName()) ;
           
           // add the space dust effect
           m_space_dusts = manager->createParticleSystem(Utility::getUniqueName(),

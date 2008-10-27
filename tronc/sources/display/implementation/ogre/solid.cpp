@@ -34,11 +34,11 @@ namespace ProjetUnivers {
     namespace Implementation {
       namespace Ogre {
 
-        RegisterView(Ogre::Solid,Model::Solid,Ogre::RealWorldViewPoint) ;
+        RegisterView(Ogre::Solid,DisplayedSolid,Ogre::RealWorldViewPoint) ;
 
-        Solid::Solid(Model::Solid* i_object,
-                     RealWorldViewPoint* i_viewpoint)
-        : Kernel::TraitView<Model::Solid,RealWorldViewPoint>(i_object,i_viewpoint), 
+        Solid::Solid(DisplayedSolid*     object,
+                     RealWorldViewPoint* viewpoint)
+        : Kernel::TraitView<DisplayedSolid,RealWorldViewPoint>(object,viewpoint), 
           m_mesh(NULL)
         {}
 
@@ -47,13 +47,14 @@ namespace ProjetUnivers {
         {
           InternalMessage("Display","Entering Solid::onInit") ;
 
-          Positionned* positionned(getView<Positionned>()) ;
+          Positionned* positionned(getObject()->getParent<Implementation::Positionned>()
+                                   ->getView<Positionned>(getViewPoint())) ;
           positionned->_init() ;
           
           // build 3D object
           m_mesh = this->getViewPoint()->getManager()
                    ->createEntity(Utility::getUniqueName(),
-                                 getTrait()->getMesh().getName()) ;
+                                 getObject()->getTrait<Model::Solid>()->getMesh().getName()) ;
           
           // put it on the node
           positionned->getNode()->attachObject(m_mesh) ;
@@ -69,16 +70,6 @@ namespace ProjetUnivers {
         void Solid::onClose()
         {
           InternalMessage("Display","Display::Solid::onClose Entering") ;
-          /// Positionne must have been closed
-          /*!
-            @why ???
-              try without...
-          */
-          Positionned* positionned(getView<Positionned>()) ;
-          if (positionned)
-          {
-            positionned->_close() ;
-          }  
           
           this->getViewPoint()->getManager()
                ->destroyEntity(m_mesh) ;
@@ -86,11 +77,6 @@ namespace ProjetUnivers {
           InternalMessage("Display","Display::Solid::onClose Leaving") ;
         }
       
-        void Solid::onUpdate()
-        {
-          
-        }
-
 
         ::Ogre::Entity* Solid::getEntity() const
         {

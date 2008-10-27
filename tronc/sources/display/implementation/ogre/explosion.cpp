@@ -26,10 +26,14 @@
 #include <display/implementation/ogre/explosion.h>
 
 
-namespace ProjetUnivers {
-  namespace Display {
-    namespace Implementation {
-      namespace Ogre {
+namespace ProjetUnivers 
+{
+  namespace Display 
+  {
+    namespace Implementation 
+    {
+      namespace Ogre 
+      {
 
         RegisterView(Ogre::Explosion,
                      Implementation::Explosion,
@@ -49,8 +53,8 @@ namespace ProjetUnivers {
 
           Model::Positionned* positionned = getObject()->getTrait<Model::Positionned>() ;
           
-          Model::Positionned* positionned_ancestor 
-            = getObject()->getAncestor<Model::Positionned>() ;
+          Implementation::Positionned* positionned_ancestor 
+            = getObject()->getAncestor<Implementation::Positionned>() ;
 
           if (positionned_ancestor)
           {
@@ -75,7 +79,7 @@ namespace ProjetUnivers {
           
           // change orientation
           ::Ogre::Vector3 point(getViewPoint()->getObserver()
-                                              ->getTrait<Model::Positionned>()
+                                              ->getTrait<Implementation::Positionned>()
                                               ->getView<Positionned>(getViewPoint())
                                               ->getNode()->getWorldPosition()) ;
           m_node->lookAt(point,::Ogre::Node::TS_WORLD,::Ogre::Vector3::UNIT_Z) ;

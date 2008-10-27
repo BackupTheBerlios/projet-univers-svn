@@ -446,6 +446,40 @@ namespace ProjetUnivers {
         CPPUNIT_ASSERT(object->getTrait<Model::Solid>()->getRadius().Meter() > 0) ;
       }
       
+      void TestModelView::changeParent()
+      {
+        InternalMessage("Display","Display::TestModelView::changeParent entering") ;
+        
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestModelView::changeParent")) ;
+        model->init() ;
+
+        Kernel::Object* universe = model->createObject() ;
+        universe->addTrait(new Model::Universe()) ;
+        universe->addTrait(new Model::Positionned()) ;
+
+        Kernel::Object* system = universe->createObject() ;
+        system->addTrait(new Model::StellarSystem()) ;
+        system->addTrait(new Model::Positionned()) ;
+        
+        Kernel::Object* database = model->createObject() ;
+        
+        Kernel::Object* ship = Model::createShip(database) ;
+        ship->getTrait<Model::Positionned>()->setPosition(Model::Position::Meter(0,0,-500)) ;
+        
+        ship->changeParent(system) ;
+        
+        Kernel::Object* observer = system->createObject() ;
+        observer->addTrait(new Model::Observer()) ;
+        observer->addTrait(new Model::Player()) ;
+        observer->addTrait(new Model::Positionned()) ;
+        observer->addTrait(new Model::Oriented(::Ogre::Quaternion(::Ogre::Degree(180),::Ogre::Vector3::UNIT_Y))) ;
+        
+        model->update(1) ;
+        
+        InternalMessage("Display","Display::TestModelView::changeParent leaving") ;
+      }
+      
+      
     }
   }
 }

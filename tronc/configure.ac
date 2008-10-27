@@ -5,6 +5,9 @@ AC_INIT([ProjetUnivers], 0.3.1)
 AC_CONFIG_SRCDIR([sources/demonstration/demonstration.cpp])
 AM_INIT_AUTOMAKE([1.9 tar-pax])
 
+# svn revision
+AC_SUBST(SVN_REVISION, `svnversion|tr -d '\n'`)
+
 AC_LIBTOOL_WIN32_DLL 
 AC_PROG_LIBTOOL
 AM_PROG_LIBTOOL
@@ -159,6 +162,9 @@ AC_TYPE_SIZE_T
 # Makefiles
 AC_CONFIG_FILES([Makefile \
                  print-version \
+                 Doxyfile \
+                 readme \
+								 sources/projet_univers.h \
                  sources/Makefile \
                  sources/kernel/Makefile \
                  sources/kernel/compilation/Makefile \

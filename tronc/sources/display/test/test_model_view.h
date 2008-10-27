@@ -67,6 +67,9 @@ namespace ProjetUnivers {
         /// Access to mesh size.
         void getMeshSize() ;
         
+        /// Create a displayable object then change parent
+        void changeParent() ;
+        
       // @}
         /*! 
           @name Tests registration
@@ -84,6 +87,7 @@ namespace ProjetUnivers {
         CPPUNIT_TEST(displayExplosion) ;
         CPPUNIT_TEST(recreateObserver) ;
         CPPUNIT_TEST(getMeshSize) ;
+        CPPUNIT_TEST(changeParent) ;
       
         CPPUNIT_TEST_SUITE_END() ;
 

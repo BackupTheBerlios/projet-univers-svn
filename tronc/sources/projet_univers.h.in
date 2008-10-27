@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2008 Mathieu ROGER                                      *
+ *   Copyright (C) 2004-2008 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,59 +18,67 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_DISPLAY_IMPLEMENTATION_OGRE_EXPLOSION_H_
-#define PU_DISPLAY_IMPLEMENTATION_OGRE_EXPLOSION_H_
-
-#include <Ogre.h>
-#include <kernel/trait_view.h>
-#include <display/implementation/explosion.h>
-#include <display/implementation/ogre/real_world_view_point.h>
 
 
-namespace ProjetUnivers {
-  namespace Display {
-    namespace Implementation {
-      namespace Ogre {
+#ifndef PROJET_UNIVERS_H_
+#define PROJET_UNIVERS_H_
 
-        /// Display explosion.
-        class Explosion : public Kernel::TraitView<Implementation::Explosion,
-                                                   RealWorldViewPoint>
-        {
-        public:
-        
-        /*!
-          @name Construct
-        */
-        // @{
+#include <string>
 
-          /// Constructor.
-          Explosion(Implementation::Explosion* object,
-                    RealWorldViewPoint*        viewpoint) ;
+/*!
+  @mainpage
+  
+  @section Developpement
+  
+  ProjetUnivers
+  
+*/
 
-        protected:
-        //@}
-        /*!
-          @name Updates
-        */
-        // @{
-        
-          /// create a Ogre::Entity.
-          void onInit() ;
-          
-          /// Destroy the Ogre::Entity.
-          void onClose() ;
-        
-        // @}
 
-        private:
-          
-          /// 3D ogre mesh.
-          ::Ogre::Entity*    m_mesh ;
-          ::Ogre::SceneNode* m_node ;
-      
-        };
-      }
-    }
-  }
+/// ProjetUnivers is a spatial combat game.
+/*!
+  @see : 
+  - http://www.punivers.net/
+  - https://developer.berlios.de/projects/projet-univers
+  
+  Modules are :
+  
+  - ArtificialIntelligence\n
+    IA module.
+
+  - Display\n
+    3D and 2D display.
+
+  - Game\n
+    Module that handle game states.
+  
+  - Input\n
+    Input (keyboard,mouse,joystick) module.
+  
+  - Kernel\n
+    Framework module.
+    
+  - Model\n
+    Data model.
+  
+  - Physic\n
+    Physic simulation module.
+
+  - Sound\n
+    Sound module.
+
+  @dotfile architecture.dot "Global Architectur"
+  
+*/ 
+namespace ProjetUnivers
+{
+  /// Package version
+  const std::string Version = "@PACKAGE_VERSION@" ;
+
+  /// Package revision number
+  const std::string RevisionNumber = "@SVN_REVISION@" ;
+  
 }
-#endif
+
+
+#endif //_PROJET_UNIVERS_H_

@@ -666,12 +666,6 @@ namespace ProjetUnivers {
         DeclareDeducedTrait(HasParentTrait1,
                             HasParent(Parent)) ; 
         
-        class ParentAndTrait1 : public DeducedTrait
-        {};
-
-        DeclareDeducedTrait(ParentAndTrait1,
-                            And(HasParent(Parent),HasTrait(Trait1))) ; 
-        
         class ViewHasParentTrait1 : public TraitView<HasParentTrait1,TestViewPoint>
         {
         public:
@@ -697,6 +691,38 @@ namespace ProjetUnivers {
         };
         
         RegisterView(ViewHasParentTrait1,HasParentTrait1,TestViewPoint) ;
+
+        class ParentAndTrait1 : public DeducedTrait
+        {};
+
+        DeclareDeducedTrait(ParentAndTrait1,
+                            And(HasParent(Parent),HasTrait(Trait1))) ; 
+        
+        class ViewHasParentAndTrait1 : public TraitView<ParentAndTrait1,TestViewPoint>
+        {
+        public:
+          
+          ViewHasParentAndTrait1(ParentAndTrait1* o,TestViewPoint* v)
+          : TraitView<ParentAndTrait1,TestViewPoint>(o,v),
+            m_update_number(0)
+          {}
+          
+          int getUpdateNumber() const
+          {
+            return m_update_number ;
+          }
+          
+        protected:
+          
+          void onUpdate()
+          {
+            ++m_update_number ;
+          }
+          
+          int m_update_number ;
+        };
+        
+        RegisterView(ViewHasParentAndTrait1,ParentAndTrait1,TestViewPoint) ;
         
       }
       
@@ -932,6 +958,37 @@ namespace ProjetUnivers {
         
         CPPUNIT_ASSERT(! object->getTrait<ParentAndTrait1>()) ;
         CPPUNIT_ASSERT(child->getTrait<ParentAndTrait1>()) ;
+        
+      }
+      
+      void TestDeducedTrait::addSubParentTraitOnCompositeFormula()
+      {
+        InternalMessage("Kernel","TestDeducedTrait::addSubParentTraitOnCompositeFormula entering") ;
+        std::auto_ptr<Model> model(new Model("TestDeducedTrait::addSubParentTraitOnCompositeFormula")) ;
+        std::auto_ptr<TestViewPoint> viewpoint(new TestViewPoint(model.get())) ;
+        viewpoint->init() ;
+        
+        Object* object = model->createObject() ;
+        Object* child = object->createObject() ;
+        
+        CPPUNIT_ASSERT(! child->getTrait<ParentAndTrait1>()) ;
+        CPPUNIT_ASSERT(! object->getTrait<ParentAndTrait1>()) ;
+        
+        object->addTrait(new Parent()) ;
+        child->addTrait(new Trait1()) ;
+        
+        CPPUNIT_ASSERT(child->getTrait<ParentAndTrait1>()
+                            ->getView<ViewHasParentAndTrait1>(viewpoint.get())) ;
+        CPPUNIT_ASSERT(child->getTrait<ParentAndTrait1>()
+                            ->getView<ViewHasParentAndTrait1>(viewpoint.get())
+                            ->getUpdateNumber() == 0) ;
+
+        child->addTrait(new Parent()) ;
+        
+        // the HasParent has changed for child : view should have been updated
+        CPPUNIT_ASSERT(child->getTrait<ParentAndTrait1>()
+                            ->getView<ViewHasParentAndTrait1>(viewpoint.get())
+                            ->getUpdateNumber() == 1) ;
         
       }
       

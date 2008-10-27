@@ -54,7 +54,8 @@ namespace ProjetUnivers {
           InternalMessage("Display","Display::Observer::onInit Entering") ;
 
           // positionned view must be initialised first
-          Positionned* positionned(getView<Positionned>()) ;
+          Positionned* positionned(getObject()->getParent<Implementation::Positionned>()
+                                   ->getView<Positionned>(getViewPoint())) ;
           CHECK(positionned,"error") ;
           positionned->_init() ;
 
@@ -64,9 +65,13 @@ namespace ProjetUnivers {
           
           Ogre::addCamera(m_camera) ;
           
+          InternalMessage("Display","creating camera scene node with parent " + 
+                                    positionned->getNode()->getName()) ;
+          
           m_node = static_cast< ::Ogre::SceneNode* >(positionned->getNode()->createChild()) ;
           m_node->attachObject(m_camera) ;
           
+          // @todo we whould remove that @see changelog
           m_node->yaw(::Ogre::Degree(180)) ;
           
           // @todo configurate in files
@@ -74,15 +79,6 @@ namespace ProjetUnivers {
           
           // near clip distance is 1 cm
           m_camera->setNearClipDistance(0.01/conversion_factor) ;
-
-          // hide all solid parents
-          Model::Solid* solid_parent = getObject()->getParent<Model::Solid>() ;
-
-          while (solid_parent)
-          {
-            solid_parent->getView<Solid>(getViewPoint())->getEntity()->setVisible(false) ;
-            solid_parent = solid_parent->getObject()->getAncestor<Model::Solid>() ;
-          }
           
           getViewPoint()->setObserver(getObject()) ;
           
@@ -97,6 +93,22 @@ namespace ProjetUnivers {
           this->getViewPoint()->getManager()->destroyCamera(m_camera) ;
           getViewPoint()->setObserver(NULL) ;
           InternalMessage("Display","Display::Observer::onClose Leaving") ;
+        }
+        
+        void Observer::onUpdate()
+        {
+          InternalMessage("Display","Display::Observer::onUpdate Entering") ;
+          Positionned* positionned(getObject()->getParent<Implementation::Positionned>()
+                                   ->getView<Positionned>(getViewPoint())) ;
+
+          m_node->getParent()->removeChild(m_node) ;
+          
+          positionned->getNode()->addChild(m_node) ;
+
+          InternalMessage("Display","moving camera scene node to parent " + 
+                                    positionned->getNode()->getName()) ;
+          
+          InternalMessage("Display","Display::Observer::onUpdate Leaving") ;
         }
         
         ::Ogre::Camera* Observer::getCamera() const

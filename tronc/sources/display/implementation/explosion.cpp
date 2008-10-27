@@ -18,19 +18,22 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <model/positionned.h>
 #include <model/explosion.h>
 #include <model/solid.h>
+#include <display/implementation/positionned.h>
 #include <display/implementation/explosion.h>
 
-namespace ProjetUnivers {
-  namespace Display {
-    namespace Implementation {
+namespace ProjetUnivers 
+{
+  namespace Display 
+  {
+    namespace Implementation 
+    {
           
       DeclareDeducedTrait(
           Explosion,
           And(HasTrait(Model::Explosion),
-              HasTrait(Model::Positionned),
+              HasTrait(Implementation::Positionned),
               HasTrait(Model::Solid))) ;
     }
   }

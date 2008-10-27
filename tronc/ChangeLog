@@ -885,6 +885,20 @@
    * Kernel : 
      - corrected a bug on HasParent
      - added HasChild deduced trait formula (remain updates to test)
+
+2008-10-27 rogma
+
+   * Kernel : 
+     - corrected a bug on HasParent updating when used in composite formula
+   
+   * Display :
+     - allowed to create an object then change parent (test added)
+     - use only one root scene node, every top level nodes are child of that one
+     - create scene nodes only for descendant of Universe
+     - dealt with not shown solid using HasChild, @see DisplayedSolid
+   * All : 
+     - added subversion revision number to readme, doxygen and defined variables 
+       for logging
      
 @todo :
   
@@ -1013,7 +1027,10 @@
       @see Model::Implementation::Logic::LogicSystem::m_objects_to_destroy that 
       already perform that kind of recording stuff...
       This is also important for object loading...
-    
+    - it is sometimes very hard to debug the framework, some behaviour depends 
+      on deduction order. More generally, trait addition order may have a direct 
+      impact on behaviour
+      
   * all :
     - make use of Quantities library, 
       @see http://sourceforge.net/projects/quantity ??

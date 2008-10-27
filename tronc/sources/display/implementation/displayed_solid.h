@@ -1,6 +1,7 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Equipe Projet Univers                           *
- *   rogma.boami@free.fr                                                   *
+ *   This file is part of ProjetUnivers                                    *
+ *   see http://www.punivers.net                                           *
+ *   Copyright (C) 2008 Mathieu ROGER                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,59 +18,18 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#ifndef PU_DISPLAY_IMPLEMENTATION_DISPLAYED_SOLID_H_
+#define PU_DISPLAY_IMPLEMENTATION_DISPLAYED_SOLID_H_
+#include <kernel/deduced_trait.h>
 
-
-#ifndef _PROJET_UNIVERS_H_
-#define _PROJET_UNIVERS_H_
-
-
-/*!
-  @mainpage
-  
-  @section Developpement
-  
-  ProjetUnivers
-  
-*/
-
-
-/// ProjetUnivers is a spatial combat game.
-/*!
-  @see : 
-  - http://www.punivers.net/
-  - https://developer.berlios.de/projects/projet-univers
-  
-  Modules are :
-  
-  - ArtificialIntelligence\n
-    IA module.
-
-  - Display\n
-    3D and 2D display.
-
-  - Game\n
-    Module that handle game states.
-  
-  - Input\n
-    Input (keyboard,mouse,joystick) module.
-  
-  - Kernel\n
-    Framework module.
-    
-  - Model\n
-    Data model.
-  
-  - Physic\n
-    Physic simulation module.
-
-  - Sound\n
-    Sound module.
-
-  @dotfile architecture.dot "Global Architectur"
-  
-*/ 
-namespace ProjetUnivers
-{}
-
-
-#endif //_PROJET_UNIVERS_H_
+namespace ProjetUnivers {
+  namespace Display {
+    namespace Implementation {
+          
+      /// A displayable solid.
+      class DisplayedSolid : public Kernel::DeducedTrait
+      {};
+    }
+  }
+}
+#endif /*PU_DISPLAY_IMPLEMENTATION_DISPLAYED_SOLID_H_*/

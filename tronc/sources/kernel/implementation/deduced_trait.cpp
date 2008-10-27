@@ -568,7 +568,7 @@ namespace ProjetUnivers {
       // formula is true for current object
       if (isValid(object))
         // update because parent with trait has changed 
-        DeducedTrait::update(this,object) ;
+        update(object) ;
       else
         becomeTrue(object) ;
 
@@ -599,7 +599,7 @@ namespace ProjetUnivers {
         becomeFalse(object) ;
       else
         // still true but parent has changed
-        DeducedTrait::update(this,object) ;
+        update(object) ;
       
       for(std::set<Object*>::const_iterator child = object->getChildren().begin() ; 
           child != object->getChildren().end() ;
@@ -706,7 +706,7 @@ namespace ProjetUnivers {
       if (isValid(object))
       {
         // update because parent with trait has changed 
-        DeducedTrait::update(this,object) ;
+        update(object) ;
       }
       else
       {
@@ -742,7 +742,7 @@ namespace ProjetUnivers {
       else
       {
         // still true but child has changed
-        DeducedTrait::update(this,object) ;
+        update(object) ;
       }
       
       Object* parent = object->getParent() ;
@@ -814,7 +814,6 @@ namespace ProjetUnivers {
       }
       
     }
-    
     
     void HasChildFormula::changeParent(Object* object,Object* old_parent)
     {
@@ -1033,7 +1032,6 @@ namespace ProjetUnivers {
     {
       ErrorMessage("HasParentFormula::onAddChildFalse") ;
     }
-    
     
     void TraitFormula::onChildUpdated(Object* object)
     {

@@ -20,6 +20,9 @@
  ***************************************************************************/
 #include <kernel/log.h>
 
+#include <model/oriented.h>
+#include <model/positionned.h>
+#include <display/implementation/positionned.h>
 #include <display/implementation/ogre/real_world_view_point.h>
 #include <display/implementation/ogre/positionned.h>
 #include <display/implementation/ogre/oriented.h>
@@ -32,14 +35,14 @@ namespace ProjetUnivers {
       namespace Ogre {
 
         RegisterView(Ogre::Oriented,
-                     Model::Oriented, 
+                     Implementation::Oriented, 
                      Ogre::RealWorldViewPoint) ;
       
       
       
-        Oriented::Oriented(Model::Oriented* i_object,
-                           RealWorldViewPoint* i_viewpoint)
-        : Kernel::TraitView<Model::Oriented,RealWorldViewPoint>(i_object,i_viewpoint), 
+        Oriented::Oriented(Implementation::Oriented* object,
+                           RealWorldViewPoint*       viewpoint)
+        : Kernel::TraitView<Implementation::Oriented,RealWorldViewPoint>(object,viewpoint), 
           m_node(NULL)
         {
           InternalMessage("Display","Entering Ogre::Positionned::Positionned") ;
@@ -52,10 +55,10 @@ namespace ProjetUnivers {
         */
         void Oriented::onInit()
         {
-          InternalMessage("Display","Entering Oriented::init") ;
+          InternalMessage("Display","Entering Oriented::onInit") ;
           
-          Model::Positionned* model_positionned 
-            = getObject()->getTrait<Model::Positionned>() ;
+          Implementation::Positionned* model_positionned 
+            = getObject()->getTrait<Implementation::Positionned>() ;
           
           if (model_positionned)
           {
@@ -75,7 +78,7 @@ namespace ProjetUnivers {
                 " with orientation " + 
                 ::Ogre::StringConverter::toString(m_node->getOrientation())) ;
   
-              m_node->setOrientation(getTrait()->getOrientation().getQuaternion()) ;
+              m_node->setOrientation(getObject()->getTrait<Model::Oriented>()->getOrientation().getQuaternion()) ;
   
               InternalMessage("Display",
                 "modification of scene node " + m_node->getName() + 
@@ -83,7 +86,7 @@ namespace ProjetUnivers {
                 ::Ogre::StringConverter::toString(m_node->getOrientation())) ;
             }
           }
-          InternalMessage("Display","Leaving Oriented::init") ;
+          InternalMessage("Display","Leaving Oriented::onInit") ;
 
         }
 
@@ -92,7 +95,7 @@ namespace ProjetUnivers {
         {
           if (m_node)
           {
-            m_node->setOrientation(getTrait()->getOrientation().getQuaternion()) ;
+            m_node->setOrientation(getObject()->getTrait<Model::Oriented>()->getOrientation().getQuaternion()) ;
             m_node->_update(true,false) ;
   
             InternalMessage("Display",

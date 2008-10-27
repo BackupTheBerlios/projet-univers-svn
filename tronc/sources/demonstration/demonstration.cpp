@@ -19,6 +19,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include <iostream>
+#include <projet_univers.h>
 #include <kernel/log.h>
 #include <kernel/model.h>
 #include <kernel/parameters.h>
@@ -69,7 +70,9 @@ int main() {
   GUI::start() ;
   
   
-  InformationMessage("Demonstration","Starting of projet univers") ;
+  InformationMessage("Demonstration","Starting of projet univers" + 
+                                     Version + 
+                                     " revision " + RevisionNumber) ;
   
   std::auto_ptr<Kernel::Model> model(new Kernel::Model()) ;
   model->init() ;

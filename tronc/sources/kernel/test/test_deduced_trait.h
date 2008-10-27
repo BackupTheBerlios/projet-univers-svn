@@ -88,6 +88,9 @@ namespace ProjetUnivers {
         /// Add a parent and check that HasParent has changed.
         void addParentTraitOnCompositeFormula() ;
         
+        // Add an intermediate parent and check that view has been updated.
+        void addSubParentTraitOnCompositeFormula() ;
+        
         /// Add a child thas is true at beginning for HasParent.
         void addTrueChild() ;
         
@@ -139,6 +142,7 @@ namespace ProjetUnivers {
         CPPUNIT_TEST(updateParentTrait) ;
         CPPUNIT_TEST(removeSubAncestorTrait) ;
         CPPUNIT_TEST(addParentTraitOnCompositeFormula) ;
+        CPPUNIT_TEST(addSubParentTraitOnCompositeFormula) ;
         CPPUNIT_TEST(addTrueChild) ;
         CPPUNIT_TEST(changeParentHasParentBecomeTrue) ;
         CPPUNIT_TEST(changeAncestorHasParentBecomeTrue) ;

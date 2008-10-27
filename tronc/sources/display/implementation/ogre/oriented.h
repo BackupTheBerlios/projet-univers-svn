@@ -24,7 +24,7 @@
 #include <Ogre.h>
 
 #include <kernel/trait_view.h>
-#include <model/oriented.h>
+#include <display/implementation/oriented.h>
 #include <display/implementation/ogre/real_world_view_point.h>
 
 
@@ -34,14 +34,14 @@ namespace ProjetUnivers {
       namespace Ogre {
 
         /// View on element that are oriented in space.
-        class Oriented : public Kernel::TraitView<Model::Oriented,
+        class Oriented : public Kernel::TraitView<Implementation::Oriented,
                                                   RealWorldViewPoint>
         {
         public:
 
           /// Construct.
-          Oriented(Model::Oriented* _object,
-                   RealWorldViewPoint* i_viewpoint) ;
+          Oriented(Implementation::Oriented* object,
+                   RealWorldViewPoint*       viewpoint) ;
 
         protected:
         

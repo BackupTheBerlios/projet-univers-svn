@@ -59,10 +59,13 @@ namespace ProjetUnivers {
         // @{
         
           /// Build a camera.
-          void onInit() ;
+          virtual void onInit() ;
           
           /// Destroy the camera.
-          void onClose() ;
+          virtual void onClose() ;
+          
+          /// Positionned parent has changed
+          virtual void onUpdate() ;
 
         // @}
         private:

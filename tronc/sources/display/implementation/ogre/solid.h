@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007 Mathieu ROGER                                      *
+ *   Copyright (C) 2007-2008 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -22,7 +22,7 @@
 #define PU_DISPLAY_IMPLEMENTATION_OGRE_SOLID_H_
 
 #include <kernel/trait_view.h>
-#include <model/solid.h>
+#include <display/implementation/displayed_solid.h>
 #include <display/implementation/ogre/real_world_view_point.h>
 
 
@@ -32,9 +32,7 @@ namespace ProjetUnivers {
       namespace Ogre {
 
         /// Display 3D objects.
-        /*!
-        */
-        class Solid : public Kernel::TraitView<Model::Solid,
+        class Solid : public Kernel::TraitView<DisplayedSolid,
                                                RealWorldViewPoint>
         {
         public:
@@ -45,8 +43,8 @@ namespace ProjetUnivers {
         // @{
 
           /// Constructeur.
-          Solid(Model::Solid* i_object,
-                RealWorldViewPoint* i_viewpoint) ;
+          Solid(DisplayedSolid*     object,
+                RealWorldViewPoint* viewpoint) ;
 
           
           ::Ogre::Entity* getEntity() const ;
@@ -65,13 +63,6 @@ namespace ProjetUnivers {
           /// Destroy the Ogre::Entity.
           void onClose() ;
         
-          /// 
-          /*!
-          @par state
-            stub vide
-          */
-          void onUpdate() ;
-
         // @}
         private:
           

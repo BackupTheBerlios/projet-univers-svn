@@ -9,11 +9,14 @@ AM_CXXFLAGS=$(PU_CXXFLAGS)
 
 libdisplay_la_SOURCES = \
 ../implementation/display.cpp \
+../implementation/displayed_solid.cpp \
 ../implementation/explosion.cpp \
 ../implementation/ideal_target.cpp \
 ../implementation/identified_target.cpp \
 ../implementation/image.cpp \
 ../implementation/observer.cpp \
+../implementation/oriented.cpp \
+../implementation/positionned.cpp \
 ../implementation/space_dust.cpp \
 ../implementation/target.cpp \
 ../implementation/target_with_selection.cpp \

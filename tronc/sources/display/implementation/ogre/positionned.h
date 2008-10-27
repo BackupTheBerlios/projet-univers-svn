@@ -24,8 +24,8 @@
 #include <Ogre.h>
 
 #include <kernel/trait_view.h>
-#include <model/positionned.h>
 #include <model/distance.h>
+#include <display/implementation/positionned.h>
 #include <display/implementation/ogre/real_world_view_point.h>
 
 
@@ -41,14 +41,14 @@ namespace ProjetUnivers {
         ::Ogre::Real convert(const Model::Distance& distance) ;
         
         /// View on object that have a position in space.
-        class Positionned : public Kernel::TraitView<Model::Positionned,
+        class Positionned : public Kernel::TraitView<Implementation::Positionned,
                                                      RealWorldViewPoint>
         {
         public:
 
           /// Construct.
-          Positionned(Model::Positionned* _object,
-                      RealWorldViewPoint* i_viewpoint) ;
+          Positionned(Implementation::Positionned* object,
+                      RealWorldViewPoint*          viewpoint) ;
 
           /// get scene node.
           /*!

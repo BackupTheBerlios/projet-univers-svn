@@ -20,6 +20,7 @@
  ***************************************************************************/
 #include <kernel/log.h>
 
+#include <model/positionned.h>
 #include <display/implementation/ogre/real_world_view_point.h>
 #include <display/implementation/ogre/positionned.h>
 
@@ -31,7 +32,7 @@ namespace ProjetUnivers {
       namespace Ogre {
 
         RegisterView(Ogre::Positionned,
-                     Model::Positionned, 
+                     Implementation::Positionned, 
                      Ogre::RealWorldViewPoint) ;
       
         /// Convert position to Ogre position
@@ -70,9 +71,9 @@ namespace ProjetUnivers {
         
         }
         
-        Positionned::Positionned(Model::Positionned* i_object,
-                                 RealWorldViewPoint* i_viewpoint)
-        : Kernel::TraitView<Model::Positionned,RealWorldViewPoint>(i_object,i_viewpoint), 
+        Positionned::Positionned(Implementation::Positionned* object,
+                                 RealWorldViewPoint*          viewpoint)
+        : Kernel::TraitView<Implementation::Positionned,RealWorldViewPoint>(object,viewpoint), 
           m_node(NULL)
         {
           InternalMessage("Display","Entering Ogre::Positionned::Positionned") ;
@@ -87,12 +88,15 @@ namespace ProjetUnivers {
         {
           InternalMessage("Display","Entering Positionned::init") ;
           
-          Model::Positionned* positionned_ancestor 
-            = getObject()->getAncestor<Model::Positionned>() ;
+          Implementation::Positionned* positionned_ancestor 
+            = getObject()->getAncestor<Implementation::Positionned>() ;
 
           if (positionned_ancestor)
           {
             Positionned* parent_node(positionned_ancestor->getView<Positionned>(getViewPoint())) ;
+
+            InternalMessage("Display",
+              "creating scene node with parent " + parent_node->getNode()->getName()) ;
       
             m_node = static_cast<SceneNode*>(parent_node->getNode()->createChild()) ;
 
@@ -102,7 +106,7 @@ namespace ProjetUnivers {
               " with position " + 
               ::Ogre::StringConverter::toString(m_node->getPosition())) ;
 
-            m_node->setPosition(convert(getTrait()->getPosition())) ;
+            m_node->setPosition(convert(getObject()->getTrait<Model::Positionned>()->getPosition())) ;
 
             InternalMessage("Display",
               "modification of scene node " + m_node->getName() + 
@@ -113,7 +117,7 @@ namespace ProjetUnivers {
           {
             InternalMessage("Display","root node") ;
             
-            m_node = this->getViewPoint()->getManager()->getRootSceneNode() ;
+            m_node = static_cast<SceneNode*>(this->getViewPoint()->getManager()->getRootSceneNode()->createChild()) ;
             getViewPoint()->setRootObject(getObject()) ;
           }
 
@@ -128,7 +132,7 @@ namespace ProjetUnivers {
           /*!
             Ogre seams to refuse destroying root node !
           */
-          if (getObject()->getAncestor<Model::Positionned>())
+          if (getObject()->getAncestor<Implementation::Positionned>())
           {
             this->getViewPoint()->getManager()
                 ->destroySceneNode(this->m_node->getName()) ;
@@ -139,7 +143,7 @@ namespace ProjetUnivers {
         void Positionned::onUpdate()
         {
           /// reposition object relativelly to its parent
-          m_node->setPosition(convert(getTrait()->getPosition())) ;
+          m_node->setPosition(convert(getObject()->getTrait<Model::Positionned>()->getPosition())) ;
 
           m_node->_update(true,false) ;
           
@@ -149,24 +153,32 @@ namespace ProjetUnivers {
             ::Ogre::StringConverter::toString(m_node->getPosition())) ;
         }
 
-        void Positionned::onChangeParent(Kernel::Object* i_old_parent)
+        void Positionned::onChangeParent(Kernel::Object* old_parent)
         {
-          if (i_old_parent)
+          InternalMessage("Display","Display::Positionned::onChangeParent Entering") ;
+          if (old_parent)
           {
-            Positionned* parent = i_old_parent->getView<Positionned>(getViewPoint()) ;
-            parent->getNode()->removeChild(m_node) ;
+            Positionned* parent = old_parent->getView<Positionned>(getViewPoint()) ;
+            if (parent && parent->getNode())
+            {
+              parent->getNode()->removeChild(m_node) ;
+            }
           }
 
           if (getObject()->getParent())
           {
             Positionned* parent = getObject()->getParent()->getView<Positionned>(getViewPoint()) ;
-            parent->getNode()->addChild(m_node) ;
+            if (parent && parent->getNode())
+            {
+              parent->getNode()->addChild(m_node) ;
+            }
           }
           else
           {
             /// error cannot create another root scene node
             ErrorMessage("cannot create another root node") ;
           }
+          InternalMessage("Display","Display::Positionned::onChangeParent Leaving") ;
         }
         
         ::Ogre::SceneNode* Positionned::getNode()
