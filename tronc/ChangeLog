@@ -800,6 +800,7 @@
   * Model :
     - renamed WithTransitions to State : it handles game states and commands 
       are sent to change, push and pop states (test added)
+      @see http://guff.tigris.org/docs/SBGames06-en.pdf
     - added Active, Played and Edited that represents several State activations
   * All :
     - made changes to handle this new State managment
@@ -899,6 +900,13 @@
    * All : 
      - added subversion revision number to readme, doxygen and defined variables 
        for logging
+
+
+2008-11-08 rogma
+
+   * Model : 
+     - corrected a bug on State::call that would not leave other traits absorb 
+       commands (test added) 
      
 @todo :
   
@@ -943,6 +951,9 @@
       instead of class attributes for increasing extendability (by adding speed 
       ...). Detectors could then be caractrized by their detection abilities :
       SpeedDetector&MassDetector... but it is not clear now
+    
+    - Detector : make use of absolute positions instead of relative ones, we 
+      can recreate the whole universe  
 
     - be able to get bouding box (?) and perform ray 
       casting inside Model. Code could rely on Ogre but we would be an 
@@ -950,19 +961,16 @@
     
     - should define isInside like 
       IsInside <=> parent(Positionned ^ Sized) ^ Positionned
-      i.e., being decendent means that we are inside 
+      i.e., being descendant means that we are inside 
       changing node position can then move object hierarchy
     
     - PhysicalWorld <=> Whole ??
       PhysicalObject should not depend on mobile ?
-    
-    - WhithTransitions : implements system from : 
-      http://guff.tigris.org/docs/SBGames06-en.pdf 
 
   * GUI : 
     - add key shortcuts for clicable buttons
     - add config for mouse and joystick (correspondign to axes)
-    
+    - custom mission menu 
    
   * Display :
     - seg fault when having an Oriented object that is not Positionned, use 
@@ -977,14 +985,14 @@
     - make a loading bar : create a ressource loading queue (inspire from 
       Ogre::ResourceBackgroundQueue that is not by default on ogre package)  
     
-    
   * Input :
     - be able to map any axis on anything
     - send wheel mouse to CEGUI
     - add a key sensibility, here the key is sent several times per seconds
     - add a key repetition in CEGUI for text insertion
     - add Maj+Control in key handling : treat them as modifiers ?
-    - handle axes in gui input mapping, allow mouse for piloting
+    - handle axes in gui input mapping, allow mouse for piloting (maybe an 
+      option first in ini) 
   
   * Physic : 
     - try to keep all units in an acceptable "range", it means that we whould 
@@ -1036,5 +1044,8 @@
       @see http://sourceforge.net/projects/quantity ??
     - correct the coordinate system; Stick/Throttle must use correct 
       orientation 
-
+      
+  * Continuous integration :
+    - use cccc
+    - 
   

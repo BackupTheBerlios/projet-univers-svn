@@ -82,6 +82,8 @@ namespace ProjetUnivers {
         return call(trait_type,finder->second) ;
       }
       
+      InternalMessage("Model","State::call command is not an alias") ;
+
       // parse the command
       std::string::size_type position_of_parenthesis = command.find('(') ;
       
@@ -136,10 +138,11 @@ namespace ProjetUnivers {
             ErrorMessage("State::call invalid command " + command) ;
           }
         }
-        
-        // not executed
-        return false ; 
       }
+      // not executed
+      InternalMessage("Model","State::call command name not executed") ;
+      return false ; 
+      
     }
     
     void State::pushState(Kernel::Object* state,Active* active)

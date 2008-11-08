@@ -117,6 +117,9 @@ namespace ProjetUnivers {
         /// Validate that push on a state that have no active substate works.
         void pushOnEmptyState() ;
         
+        /// Calling a command not understood by the state continue to other traits.
+        void callUnexistingCommand() ;
+        
       // @}
       /*!
         @name Test registration
@@ -136,6 +139,7 @@ namespace ProjetUnivers {
         CPPUNIT_TEST(popTransitionDeclaration) ;
         CPPUNIT_TEST(pushStateTwice) ;
         CPPUNIT_TEST(pushOnEmptyState) ;
+        CPPUNIT_TEST(callUnexistingCommand) ;
       
         CPPUNIT_TEST_SUITE_END() ;
 

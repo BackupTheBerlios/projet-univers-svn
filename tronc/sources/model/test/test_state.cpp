@@ -348,6 +348,43 @@ namespace ProjetUnivers {
         CPPUNIT_ASSERT(state1->getTrait<Active>()) ;
       }
       
+      namespace 
+      {
+        class Dummy : public Kernel::Trait
+        {
+        public:
+          
+          Dummy()
+          : m_executed(false)
+          {}
+          
+          void execute()
+          {
+            m_executed = true ;
+          }
+          
+          bool m_executed ;
+        };
+        
+        RegisterCommand("execute",Dummy,execute) ;
+      }
+      
+      void TestState::callUnexistingCommand()
+      {
+        InternalMessage("Model","Model::TestState::callUnexistingCommand entering") ;
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model()) ;
+        
+        Kernel::Object* root = model->createObject() ;
+        root->addTrait(new State()) ;
+
+        Kernel::Object* child = root->createObject() ;
+        child->addTrait(new Dummy()) ;
+        
+        root->call("execute") ;
+        
+        CPPUNIT_ASSERT(child->getTrait<Dummy>()->m_executed) ;
+        
+      }
     }
   }
 }
