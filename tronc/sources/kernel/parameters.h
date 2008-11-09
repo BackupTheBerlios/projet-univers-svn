@@ -50,6 +50,15 @@ namespace ProjetUnivers {
       template <typename T>
       static T getValue(const std::string& section,
                         const std::string& name) ;
+
+      /// Access to a value of type T.
+      /*!
+        @returns default_value if not found
+      */
+      template <typename T>
+      static T getValue(const std::string& section,
+                        const std::string& name,
+                        T default_value) ;
       
       /// Access to the modules where log is activated.
       /*!

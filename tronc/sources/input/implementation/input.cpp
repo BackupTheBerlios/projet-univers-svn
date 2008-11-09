@@ -18,7 +18,9 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <cmath>
 #include <kernel/object.h>
+#include <kernel/parameters.h>
 #include <model/player_configuration.h>
 #include <input/implementation/ois/ois.h>
 #include <input/implementation/input_object.h>
@@ -26,14 +28,20 @@
 #include <input/input_gui.h>
 #include <input/input.h>
 
-namespace ProjetUnivers {
-  namespace Input {
+namespace ProjetUnivers 
+{
+  namespace Input 
+  {
 
-    namespace {
-      
+    namespace 
+    {
       /// Objects that handle events and axes
       std::set<Implementation::InputObject*> m_objects ;
-      
+    }
+    
+    int getDeadZone()
+    {
+      return int(Kernel::Parameters::getValue<float>("Input","DeadZone",0)) ;
     }
     
     void registerObject(Implementation::InputObject* object)
@@ -107,11 +115,18 @@ namespace ProjetUnivers {
           axis != axes.end() ;
           ++axis)
       {
+        
+        int value = int(axis->second) ;
+        if (fabs(value) <= getDeadZone())
+        {
+          value = 0 ;
+        }
+        
         std::string command = configuration->getAxis(axis->first) ;
         if (!command.empty())
         {
-          InternalMessage("Input","applying " + command) ;
-          object->call(command,int(axis->second)) ;
+          InternalMessage("Input","applying axis " + command + " " + Kernel::toString(value)) ;
+          object->call(command,value) ;
         }
         else
         {
@@ -119,8 +134,8 @@ namespace ProjetUnivers {
           command = configuration->getAxis(-axis->first) ;
           if (!command.empty())
           {
-            InternalMessage("Input","applying " + command) ;
-            object->call(command,-int(axis->second)) ;
+            InternalMessage("Input","applying axis " + command + " " + Kernel::toString(-value)) ;
+            object->call(command,-value) ;
           }
         }
         
@@ -147,6 +162,16 @@ namespace ProjetUnivers {
     void update()
     {
       Implementation::OIS::update() ;
+    }
+    
+    void initAxes()
+    {
+      for(std::set<Implementation::InputObject*>::iterator object = m_objects.begin() ;
+          object != m_objects.end() ;
+          ++object)
+      {
+        (*object)->initAxes() ;
+      }
     }
     
   }

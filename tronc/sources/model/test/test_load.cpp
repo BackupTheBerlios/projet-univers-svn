@@ -38,6 +38,7 @@
 #include <model/laser.h>
 #include <model/menu.h>
 #include <model/observer.h>
+#include <model/player_configuration.h>
 #include <model/positionned.h>
 #include <model/oriented.h>
 #include <model/mobile.h>
@@ -55,11 +56,12 @@ CPPUNIT_TEST_SUITE_REGISTRATION(ProjetUnivers::
                                 Test::
                                 TestLoad) ;
 
-
-namespace ProjetUnivers {
-  namespace Model {
-    namespace Test {
-
+namespace ProjetUnivers 
+{
+  namespace Model 
+  {
+    namespace Test 
+    {
 
       void TestLoad::testLoadComponent()
       {
@@ -573,14 +575,49 @@ namespace ProjetUnivers {
         CPPUNIT_ASSERT(root->getTrait<Universe>()) ;
       }
 
-      void TestLoad::setUp()
+      void TestLoad::testLoadPlayerConfiguration()
       {
-      }
+        std::string content(
+          "<?xml version=\"1.0\"?>\n"
+            "<model>\n"
+              "<object id=\"1\">\n"
+                "<PlayerConfiguration>\n"
+                  "<Mapping command=\"1\">\n"
+                    "<Key number=\"1\"/>\n"
+                  "</Mapping>\n"
+                  "<Mapping command=\"2\">\n"
+                    "<MouseButton number=\"1\"/>\n"
+                  "</Mapping>\n"
+                  "<Mapping command=\"3\">\n"
+                    "<JoystickButton number=\"1\"/>\n"
+                  "</Mapping>\n"
+                  "<Mapping command=\"4\">\n"
+                    "<JoystickAxis number=\"1\"/>\n"
+                  "</Mapping>\n"
+                  "<Mapping command=\"5\">\n"
+                    "<MouseAxis number=\"1\"/>\n"
+                  "</Mapping>\n"
+                "</PlayerConfiguration>\n"
+              "</object>\n"
+            "</model>\n") ;
+        
+        std::auto_ptr<Kernel::XMLReader> reader(Kernel::XMLReader::getStringReader(content)) ;
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadPlayerConfiguration")) ;          
+        reader->read(model.get()) ;
 
-      void TestLoad::tearDown()
-      {
-      }
+        std::set<Kernel::Object*> roots(model->getRoots()) ;
+        CPPUNIT_ASSERT(roots.size() == 1) ;
+        Kernel::Object* root = *roots.begin() ;
+        PlayerConfiguration* configuration = root->getTrait<PlayerConfiguration>() ; 
+        CPPUNIT_ASSERT(configuration) ;
 
+        CPPUNIT_ASSERT(configuration->getInputEvent("1")==PlayerConfiguration::InputEvent::key(1)) ;
+        CPPUNIT_ASSERT(configuration->getInputEvent("2")==PlayerConfiguration::InputEvent::mouseButton(1)) ;
+        CPPUNIT_ASSERT(configuration->getInputEvent("3")==PlayerConfiguration::InputEvent::joystickButton(1)) ;
+        CPPUNIT_ASSERT(configuration->getInputAxis("4")==PlayerConfiguration::InputAxis::joystickAxis(1)) ;
+        CPPUNIT_ASSERT(configuration->getInputAxis("5")==PlayerConfiguration::InputAxis::mouseAxis(1)) ;
+        
+      }
 
     }
   }

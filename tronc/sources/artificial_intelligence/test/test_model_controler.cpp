@@ -351,18 +351,18 @@ namespace ProjetUnivers {
         ship->addTrait(new Model::ShootingHelper()) ;
         Model::ShootingHelper::connect(ship,ship,ship) ;
 
-        ship->addTrait(new Model::Dragger(Kernel::Parameters::getValue<float>("Model","DraggerCoeeficient"))) ;
+        ship->addTrait(new Model::Dragger(Kernel::Parameters::getValue<float>("Model","DraggerCoeeficient",0.01))) ;
 
         Kernel::Object* st1 = ship->createObject() ;
-        st1->addTrait(new Model::Stabilizer(0,Kernel::Parameters::getValue<float>("Model","StabilizerForce"),0)) ;
+        st1->addTrait(new Model::Stabilizer(0,Kernel::Parameters::getValue<float>("Model","StabilizerForce",10),0)) ;
         st1->addTrait(new Model::Component()) ;
 
         Kernel::Object* st2 = ship->createObject() ;
-        st2->addTrait(new Model::Stabilizer(Kernel::Parameters::getValue<float>("Model","StabilizerForce"),0,0)) ;
+        st2->addTrait(new Model::Stabilizer(Kernel::Parameters::getValue<float>("Model","StabilizerForce",10),0,0)) ;
         st2->addTrait(new Model::Component()) ;
         
         Kernel::Object* st3 = ship->createObject() ;
-        st3->addTrait(new Model::Stabilizer(0,0,Kernel::Parameters::getValue<float>("Model","StabilizerForce"))) ;
+        st3->addTrait(new Model::Stabilizer(0,0,Kernel::Parameters::getValue<float>("Model","StabilizerForce",10))) ;
         st3->addTrait(new Model::Component()) ;
 
         Kernel::Object* stick = ship->createObject() ;
@@ -370,7 +370,7 @@ namespace ProjetUnivers {
         stick->addTrait(new Model::Stick()) ;
         stick->addTrait(new Model::Component()) ;
         
-        ship->addTrait(new Model::GuidanceSystem(Kernel::Parameters::getValue<float>("Model","GuidanceForce"))) ;
+        ship->addTrait(new Model::GuidanceSystem(Kernel::Parameters::getValue<float>("Model","GuidanceForce",5))) ;
         ship->addTrait(new Model::GuidanceControler()) ;
         // stick,ship
         Model::connectStickControler(stick,ship) ;
@@ -382,7 +382,7 @@ namespace ProjetUnivers {
         throttle->addTrait(new Model::Component()) ;
         
         Kernel::Object* engine = ship->createObject() ;
-        engine->addTrait(new Model::Engine(Model::Force::Newton(0,0,Kernel::Parameters::getValue<float>("Model","EngineMaxForce")))) ;
+        engine->addTrait(new Model::Engine(Model::Force::Newton(0,0,Kernel::Parameters::getValue<float>("Model","EngineMaxForce",500)))) ;
         engine->addTrait(new Model::Component()) ;
 
         Kernel::Object* engine_control = ship->createObject() ;
@@ -409,18 +409,18 @@ namespace ProjetUnivers {
         enemy_ship->addTrait(new Model::Solid(Model::Mesh("razor.mesh"))) ;
         enemy_ship->addTrait(new Model::Transponder(team2)) ;
         enemy_ship->addTrait(new Model::Destroyable(Model::Energy::Joule(10))) ;
-        enemy_ship->addTrait(new Model::Dragger(Kernel::Parameters::getValue<float>("Model","DraggerCoeeficient"))) ;
+        enemy_ship->addTrait(new Model::Dragger(Kernel::Parameters::getValue<float>("Model","DraggerCoeeficient",0.01))) ;
         {
           Kernel::Object* st1 = enemy_ship->createObject() ;
-          st1->addTrait(new Model::Stabilizer(0,Kernel::Parameters::getValue<float>("Model","StabilizerForce"),0)) ;
+          st1->addTrait(new Model::Stabilizer(0,Kernel::Parameters::getValue<float>("Model","StabilizerForce",10),0)) ;
           st1->addTrait(new Model::Component()) ;
   
           Kernel::Object* st2 = enemy_ship->createObject() ;
-          st2->addTrait(new Model::Stabilizer(Kernel::Parameters::getValue<float>("Model","StabilizerForce"),0,0)) ;
+          st2->addTrait(new Model::Stabilizer(Kernel::Parameters::getValue<float>("Model","StabilizerForce",10),0,0)) ;
           st2->addTrait(new Model::Component()) ;
           
           Kernel::Object* st3 = enemy_ship->createObject() ;
-          st3->addTrait(new Model::Stabilizer(0,0,Kernel::Parameters::getValue<float>("Model","StabilizerForce"))) ;
+          st3->addTrait(new Model::Stabilizer(0,0,Kernel::Parameters::getValue<float>("Model","StabilizerForce",10))) ;
           st3->addTrait(new Model::Component()) ;
         }
         

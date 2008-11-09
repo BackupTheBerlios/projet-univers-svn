@@ -21,6 +21,7 @@
 #include <OIS/OIS.h>
 #include <display/implementation/ogre/ogre.h>
 #include <input/implementation/input_internal.h>
+#include <input/input_gui.h>
 #include <input/test/test_input_system.h>
 
 
@@ -29,10 +30,12 @@ CPPUNIT_TEST_SUITE_REGISTRATION(ProjetUnivers::
                                 Test::
                                 TestInputSystem) ;
 
-namespace ProjetUnivers {
-  namespace Input {
-    namespace Test {
-      
+namespace ProjetUnivers 
+{
+  namespace Input 
+  {
+    namespace Test 
+    {
       
       void TestInputSystem::severalInitClose()
       {
@@ -48,6 +51,23 @@ namespace ProjetUnivers {
         InternalMessage("Input","Input::TestInputSystem::severalInitClose leaving") ;
       }
 
+      void TestInputSystem::keys()
+      {
+        InternalMessage("Input","Input::TestInputSystem::keys entering") ;
+
+        Display::Implementation::Ogre::init() ;
+        Input::init() ;
+        
+        Model::PlayerConfiguration::InputEvent event = 
+          Model::PlayerConfiguration::InputEvent::key(OIS::KC_RETURN) ;
+        std::cout << event.toString(getOISKeyboard()) << std::endl ;
+        
+        Input::close() ;
+        Display::Implementation::Ogre::close() ;
+        
+        InternalMessage("Input","Input::TestInputSystem::severalInitClose leaving") ;
+      }
+      
     }
   }
 }

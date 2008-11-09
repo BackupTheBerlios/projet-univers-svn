@@ -59,6 +59,7 @@ namespace ProjetUnivers {
           const std::set< ::OIS::MouseButtonID>& getButtonPressed() const ;
           const std::set< ::OIS::MouseButtonID>& getButtonReleased() const ;
           
+          /// Clear the button pressed/released.
           void clear() ;
           
         private:

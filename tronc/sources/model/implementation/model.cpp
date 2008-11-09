@@ -347,13 +347,13 @@ namespace ProjetUnivers {
       Kernel::Object* ship = parent->createObject() ;
       ship->addTrait(new Positionned()) ;
       ship->addTrait(new Oriented()) ;
-      ship->addTrait(new Massive(Mass::Kilogram(Kernel::Parameters::getValue<float>("Model","ShipMass")))) ;
+      ship->addTrait(new Massive(Mass::Kilogram(Kernel::Parameters::getValue<float>("Model","ShipMass",1)))) ;
       ship->addTrait(new Mobile()) ;
       ship->addTrait(new Solid(Mesh("razor.mesh"))) ;
       ship->addTrait(new Computer()) ;
       ship->addTrait(new Detector(ship,Distance(Distance::_Meter,8000))) ;
       ship->addTrait(new TargetingSystem()) ;
-      ship->addTrait(new GuidanceSystem(Kernel::Parameters::getValue<float>("Model","GuidanceForce"))) ;
+      ship->addTrait(new GuidanceSystem(Kernel::Parameters::getValue<float>("Model","GuidanceForce",3))) ;
       ship->addTrait(new GuidanceControler()) ;
       ship->addTrait(new ShootingHelper()) ;
       ship->addTrait(new Destroyable(Energy::Joule(10))) ;
@@ -367,15 +367,15 @@ namespace ProjetUnivers {
       ShootingHelper::connect(ship,ship,laser) ;
       TargetingSystem::connect(ship,ship) ;
       
-      ship->addTrait(new Dragger(Kernel::Parameters::getValue<float>("Model","DraggerCoeeficient"))) ;
+      ship->addTrait(new Dragger(Kernel::Parameters::getValue<float>("Model","DraggerCoeeficient",0.005))) ;
       Kernel::Object* st1 = ship->createObject() ;
-      st1->addTrait(new Stabilizer(0,Kernel::Parameters::getValue<float>("Model","StabilizerForce"),0)) ;
+      st1->addTrait(new Stabilizer(0,Kernel::Parameters::getValue<float>("Model","StabilizerForce",5),0)) ;
       st1->addTrait(new Component()) ;
       Kernel::Object* st2 = ship->createObject() ;
-      st2->addTrait(new Stabilizer(Kernel::Parameters::getValue<float>("Model","StabilizerForce"),0,0)) ;
+      st2->addTrait(new Stabilizer(Kernel::Parameters::getValue<float>("Model","StabilizerForce",5),0,0)) ;
       st2->addTrait(new Component()) ;
       Kernel::Object* st3 = ship->createObject() ;
-      st3->addTrait(new Stabilizer(0,0,Kernel::Parameters::getValue<float>("Model","StabilizerForce"))) ;
+      st3->addTrait(new Stabilizer(0,0,Kernel::Parameters::getValue<float>("Model","StabilizerForce",5))) ;
       st3->addTrait(new Component()) ;
 
       Kernel::Object* stick = ship->createObject() ;
@@ -394,7 +394,7 @@ namespace ProjetUnivers {
       throttle->addTrait(new Component()) ;
       
       Kernel::Object* engine = ship->createObject() ;
-      engine->addTrait(new Engine(Force::Newton(0,0,Kernel::Parameters::getValue<float>("Model","EngineMaxForce")))) ;
+      engine->addTrait(new Engine(Force::Newton(0,0,Kernel::Parameters::getValue<float>("Model","EngineMaxForce",650)))) ;
       engine->addTrait(new Component()) ;
       
       Kernel::Object* engine_control = ship->createObject() ;
@@ -436,17 +436,27 @@ namespace ProjetUnivers {
       
       // axis
       configuration->getTrait<PlayerConfiguration>()
-                   ->addMapping(PlayerConfiguration::InputAxis::joystickAxis(
-                       int(Kernel::Parameters::getValue<float>("Input","ThrottelAxis"))),
+                   ->addMapping(PlayerConfiguration::InputAxis::mouseAxis(2),
                        "Throttle") ;
       configuration->getTrait<PlayerConfiguration>()
-                   ->addMapping(PlayerConfiguration::InputAxis::joystickAxis(
-                       int(Kernel::Parameters::getValue<float>("Input","XAxis"))),
+                   ->addMapping(PlayerConfiguration::InputAxis::mouseAxis(0),
                        "Yaw") ;
-      configuration->getTrait<PlayerConfiguration>()
-                   ->addMapping(PlayerConfiguration::InputAxis::joystickAxis(
-                       int(Kernel::Parameters::getValue<float>("Input","YAxis"))),
-                       "Pitch") ;
+     configuration->getTrait<PlayerConfiguration>()
+                  ->addMapping(PlayerConfiguration::InputAxis::mouseAxis(-1),
+                      "Pitch") ;
+      
+//      configuration->getTrait<PlayerConfiguration>()
+//                   ->addMapping(PlayerConfiguration::InputAxis::joystickAxis(
+//                       int(Kernel::Parameters::getValue<float>("Input","ThrottelAxis"))),
+//                       "Throttle") ;
+//      configuration->getTrait<PlayerConfiguration>()
+//                   ->addMapping(PlayerConfiguration::InputAxis::joystickAxis(
+//                       int(Kernel::Parameters::getValue<float>("Input","XAxis"))),
+//                       "Yaw") ;
+//      configuration->getTrait<PlayerConfiguration>()
+//                   ->addMapping(PlayerConfiguration::InputAxis::joystickAxis(
+//                       int(Kernel::Parameters::getValue<float>("Input","YAxis"))),
+//                       "Pitch") ;
       configuration->getTrait<PlayerConfiguration>()
                    ->addMapping(PlayerConfiguration::InputAxis::joystickAxis(
                        int(Kernel::Parameters::getValue<float>("Input","ZAxis"))),

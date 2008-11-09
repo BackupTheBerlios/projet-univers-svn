@@ -69,15 +69,7 @@ namespace ProjetUnivers {
           {
             if (arrow_size == 0 )
             {            
-              try
-              {
-                arrow_size = Kernel::Parameters::getValue<float>("Display","ArrowSize") ;
-              }
-              catch(...)
-              {
-                InternalMessage("Display","getArrowSize : error") ;
-                arrow_size = 0.05 ;
-              }
+              arrow_size = Kernel::Parameters::getValue<float>("Display","ArrowSize",0.05) ;
             }
             return arrow_size ;
           }
@@ -86,15 +78,7 @@ namespace ProjetUnivers {
           {
             if (target_material == "")
             {
-              try
-              {
-                target_material = Kernel::Parameters::getValue<std::string>("Display","TargetMaterial") ;
-              }
-              catch(...)
-              {
-                InternalMessage("Display","getTargetMaterial : error") ;
-                target_material = "PU/material/target" ;
-              }
+              target_material = Kernel::Parameters::getValue<std::string>("Display","TargetMaterial","PU/material/target") ;
             }
             return target_material ;
           }

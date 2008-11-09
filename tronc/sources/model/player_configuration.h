@@ -24,6 +24,7 @@
 #include <map>
 #include <OISKeyboard.h>
 #include <kernel/trait.h>
+#include <kernel/reader.h>
 
 namespace ProjetUnivers {
   namespace Model {
@@ -120,8 +121,28 @@ namespace ProjetUnivers {
       /// Construction.
       PlayerConfiguration() ;
       
+      /// Add a mapping between an event and a command.
       void addMapping(const InputEvent&,const std::string&) ;
+      
+      /// Add a mapping between an axis and a command.
       void addMapping(const InputAxis&,const std::string&) ;
+      
+      /// Read an PlayerConfiguration trait.
+      /*!
+        stored as 
+        @code
+          <PlayerConfiguration>
+            (<Mapping command="...">
+              (<Key number=""/> | 
+               <JoystickAxis number=""/> |
+               <MouseAxis number=""/> |
+               <JoystickButton number=""/> |
+               <MouseButton number=""/>)
+            </Mapping>)*
+          </PlayerConfiguration>
+        @endcode
+      */     
+      static Kernel::Trait* read(Kernel::Reader* reader) ;
       
     /*!
       @name Recording
@@ -131,11 +152,13 @@ namespace ProjetUnivers {
       /// Set the configuration in recording mode.
       void setEventRecordingMode() ;
       
+      /// True iff we are in event recording mode.
       bool isEventRecordingMode() const ;
       
       /// Record the event.
       void recordEvent(const InputEvent& event) ;
       
+      /// True if an event has been recorder through recordEvent call. 
       bool isEventRecorded() const ;
       
       /// Access to the latest recorded event.
@@ -176,10 +199,13 @@ namespace ProjetUnivers {
       /// Axes
       std::map<std::string,InputAxis> m_axis_to_input_axes ;
       
+      /// True iff we are in recording mode.
       bool m_event_recording_mode ;
       
+      /// True iff we have recorded an event.
       bool m_event_recorded ;
       
+      /// Recorded event.
       InputEvent m_recorded_event ;
       
     };

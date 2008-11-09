@@ -42,6 +42,9 @@ namespace ProjetUnivers {
           
           /// Send commands to player. 
           virtual void simulate(const float& seconds) ;
+          
+          /// Initialise axes.
+          virtual void onInit() ;
         };
       
       }      

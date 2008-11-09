@@ -149,6 +149,7 @@ namespace ProjetUnivers {
           // create keyboard
           ois->keyboard = static_cast< ::OIS::Keyboard*>(
                       ois->manager->createInputObject(::OIS::OISKeyboard,true)) ;
+          ois->keyboard->setTextTranslation(::OIS::Keyboard::Off) ;
           ois->keyboard_listener = new Keyboard() ;
           ois->keyboard->setEventCallback(ois->keyboard_listener) ;
           

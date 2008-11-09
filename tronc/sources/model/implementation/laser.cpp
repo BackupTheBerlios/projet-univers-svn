@@ -166,7 +166,7 @@ namespace ProjetUnivers {
     
     float Laser::getLaserSpeedMeterPerSecond() const
     {
-      return Kernel::Parameters::getValue<float>("Model","LaserBeamSpeed") ;
+      return Kernel::Parameters::getValue<float>("Model","LaserBeamSpeed",600) ;
     }
 
     const Position& Laser::getOutPosition() const

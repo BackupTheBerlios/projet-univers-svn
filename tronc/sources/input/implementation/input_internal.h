@@ -49,7 +49,14 @@ namespace ProjetUnivers {
     /// Register a new InputObject that will produce input event and axes.
     void registerObject(Implementation::InputObject*) ;
     
+    /// Remove an InputObject.
     void unregisterObject(Implementation::InputObject* object) ;
+    
+    /// Set to zero the axes of all registered InputObjects. 
+    void initAxes() ;
+    
+    
+    
   }
 }
 

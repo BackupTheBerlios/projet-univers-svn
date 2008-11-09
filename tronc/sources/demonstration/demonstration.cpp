@@ -38,16 +38,7 @@ using namespace ProjetUnivers ;
 
 std::string getModelName()
 {
-  try 
-  {
-    return Kernel::Parameters::getValue<std::string>("Demonstration","loadedModel") ;
-  }
-  catch(...)
-  {
-    std::cout << "failed to load parameter loadedModel" << std::endl ;
-    
-    return "TestDemonstration" ;
-  }
+  return Kernel::Parameters::getValue<std::string>("Demonstration","loadedModel","TestDemonstration") ;
 }
 
 /*

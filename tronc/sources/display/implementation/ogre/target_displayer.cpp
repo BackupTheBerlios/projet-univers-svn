@@ -61,15 +61,7 @@ namespace ProjetUnivers {
         {
           if (reticule_material == "")
           {
-            try
-            {
-              reticule_material = Kernel::Parameters::getValue<std::string>("Display","ReticuleMaterial") ;
-            }
-            catch(...)
-            {
-              InternalMessage("Display","getReticuleMaterial : error") ;
-              reticule_material = "PU/material/reticule" ;
-            }
+            reticule_material = Kernel::Parameters::getValue<std::string>("Display","ReticuleMaterial","PU/material/reticule") ;
           }
           return reticule_material ;
         }

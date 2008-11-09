@@ -60,14 +60,7 @@ namespace ProjetUnivers {
 
         std::string menu_name ;
         
-        try 
-        {
-          menu_name = Kernel::Parameters::getValue<std::string>("GUI","Test.BasicTest.Name") ; 
-        }
-        catch(...)
-        {
-          menu_name = "main_menu.layout" ;
-        }
+        menu_name = Kernel::Parameters::getValue<std::string>("GUI","Test.BasicTest.Name","main_menu.layout") ; 
         
         Kernel::Object* menu = model->createObject() ;
         menu->addTrait(new Model::Menu(menu_name)) ;
@@ -78,14 +71,7 @@ namespace ProjetUnivers {
         
         float test_duration = 0 ;
         
-        try 
-        {
-          test_duration = Kernel::Parameters::getValue<float>("GUI","Test.BasicTest.Duration") ; 
-        }
-        catch(...)
-        {
-          test_duration = 5 ;
-        }
+        test_duration = Kernel::Parameters::getValue<float>("GUI","Test.BasicTest.Duration",5) ; 
         
         while (global_timer.getSecond() < test_duration)
         {

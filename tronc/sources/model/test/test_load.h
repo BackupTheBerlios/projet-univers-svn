@@ -23,16 +23,16 @@
 
 #include <cppunit/extensions/HelperMacros.h>
 
-namespace ProjetUnivers {
-  namespace Model {
-    namespace Test {
-
-
+namespace ProjetUnivers 
+{
+  namespace Model 
+  {
+    namespace Test 
+    {
             
       /// Test of Model::load.
       class TestLoad : public CppUnit::TestFixture {
       protected:
-      
         
       /*! 
         @name Tests 
@@ -55,6 +55,7 @@ namespace ProjetUnivers {
         void testLoadMobile() ;
         void testLoadObserver() ;
         void testLoadOriented() ;
+        void testLoadPlayerConfiguration() ;
         void testLoadPositionned() ;
         void testLoadSolid() ;
         void testLoadStabilizer() ;
@@ -86,6 +87,7 @@ namespace ProjetUnivers {
         CPPUNIT_TEST(testLoadMobile) ;
         CPPUNIT_TEST(testLoadObserver) ;
         CPPUNIT_TEST(testLoadOriented) ;
+        CPPUNIT_TEST(testLoadPlayerConfiguration) ;
         CPPUNIT_TEST(testLoadPositionned) ;
         CPPUNIT_TEST(testLoadSolid) ;
         CPPUNIT_TEST(testLoadStabilizer) ;
@@ -95,25 +97,7 @@ namespace ProjetUnivers {
       
         CPPUNIT_TEST_SUITE_END() ;
 
-      public:
-  
       // @}
-      /*! 
-        @name Mandatory methods
-      */
-      // @{
-
-      
-        /// Initialisation du test
-        void setUp() ;
-      
-        /// Desinitialisation du test
-        void tearDown() ;
-      
-      // @}      
-                
-       
-      
       };
 
     }

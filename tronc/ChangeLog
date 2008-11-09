@@ -907,6 +907,21 @@
    * Model : 
      - corrected a bug on State::call that would not leave other traits absorb 
        commands (test added) 
+
+2008-11-09 rogma
+
+   * Input : 
+     - set to zero axes when entering Player state to facilitate ship control by
+       mouse
+     - added a dead zone for mouse/joystick : a parameter called DeadZone with 
+       value percentage, e.g. 10 means 10% around center is dead zone
+     
+   * Kernel :
+     - Parameters : added a getValue<T> function with default value to avoid 
+       repetitive try/catch system used throughout the code
+   
+   * Model :
+     - added PlayerConfiguration::read for xml reading
      
 @todo :
   
@@ -986,13 +1001,14 @@
       Ogre::ResourceBackgroundQueue that is not by default on ogre package)  
     
   * Input :
+    - add a key sensibility, here the key is sent several times per seconds
     - be able to map any axis on anything
     - send wheel mouse to CEGUI
-    - add a key sensibility, here the key is sent several times per seconds
     - add a key repetition in CEGUI for text insertion
     - add Maj+Control in key handling : treat them as modifiers ?
     - handle axes in gui input mapping, allow mouse for piloting (maybe an 
       option first in ini) 
+    - add ini option for mouse/joystick control
   
   * Physic : 
     - try to keep all units in an acceptable "range", it means that we whould 

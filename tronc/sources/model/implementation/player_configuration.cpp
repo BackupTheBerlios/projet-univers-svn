@@ -18,6 +18,8 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <map>
+#include <iostream>
 #include <math.h>
 #include <OISKeyboard.h>
 #include <kernel/log.h>
@@ -27,6 +29,8 @@
 namespace ProjetUnivers {
   namespace Model {
   
+    RegisterTrait(PlayerConfiguration) ;
+    
     PlayerConfiguration::InputEvent::InputEvent()
     : type(InputEvent::none),
       key_or_bouton(0)
@@ -245,6 +249,96 @@ namespace ProjetUnivers {
     {
       m_event_recorded = false ;
       m_event_recording_mode = false ;
+    }
+    
+    Kernel::Trait* PlayerConfiguration::read(Kernel::Reader* reader)
+    {
+      PlayerConfiguration* result = new PlayerConfiguration() ;
+      
+      while (! (reader->isEndNode() && reader->getTraitName() == "PlayerConfiguration") && reader->processNode())
+      {
+        if (reader->isTraitNode() && 
+            reader->getTraitName() == "Mapping")
+        {
+          std::string command_name ;
+          std::map<std::string,std::string>::const_iterator finder ; 
+          finder = reader->getAttributes().find("command") ;
+          if (finder != reader->getAttributes().end())
+          {
+            command_name = finder->second ;
+          }
+          
+          while (reader->processNode() && !reader->isTraitNode()) 
+          {}
+          
+          bool is_event = false ;
+          bool is_axis = false ;
+          InputEvent event ;
+          InputAxis axis ;
+          
+//          std::cout << "reading mapping " << command_name << std::endl ; 
+//          std::cout << "next is " << reader->getTraitName() << std::endl ;
+          
+          if (reader->getTraitName() == "Key")
+          {
+            is_event = true ;
+            finder = reader->getAttributes().find("number") ;
+            if (finder != reader->getAttributes().end())
+            {
+              event = InputEvent::key(atoi(finder->second.c_str())) ;
+            }
+          }
+          else if (reader->getTraitName() == "JoystickButton")
+          {
+            is_event = true ;
+            finder = reader->getAttributes().find("number") ;
+            if (finder != reader->getAttributes().end())
+            {
+              event = InputEvent::joystickButton(atoi(finder->second.c_str())) ;
+            }
+          }
+          else if (reader->getTraitName() == "MouseButton")
+          {
+            is_event = true ;
+            finder = reader->getAttributes().find("number") ;
+            if (finder != reader->getAttributes().end())
+            {
+              event = InputEvent::mouseButton(atoi(finder->second.c_str())) ;
+            }
+          }
+          else if (reader->getTraitName() == "JoystickAxis")
+          {
+            is_axis = true ;
+            finder = reader->getAttributes().find("number") ;
+            if (finder != reader->getAttributes().end())
+            {
+              axis = InputAxis::joystickAxis(atoi(finder->second.c_str())) ;
+            }
+          }
+          else if (reader->getTraitName() == "MouseAxis")
+          {
+            is_axis = true ;
+            finder = reader->getAttributes().find("number") ;
+            if (finder != reader->getAttributes().end())
+            {
+              axis = InputAxis::mouseAxis(atoi(finder->second.c_str())) ;
+            }
+          }
+          
+          if (is_event)
+          {
+            result->addMapping(event,command_name) ;
+          }
+          else if (is_axis)
+          {
+            result->addMapping(axis,command_name) ;
+          }
+          reader->processNode() ;
+        }
+      }
+      reader->processNode() ;
+
+      return result ;
     }
     
   }

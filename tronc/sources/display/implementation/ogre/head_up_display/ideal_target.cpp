@@ -54,15 +54,7 @@ namespace ProjetUnivers {
           {
             if (target_size == 0 )
             {            
-              try
-              {
-                target_size = Kernel::Parameters::getValue<float>("Display","TargetSize") ;
-              }
-              catch(...)
-              {
-                InternalMessage("Display","getTargetSize : error") ;
-                target_size = 0.05 ;
-              }
+              target_size = Kernel::Parameters::getValue<float>("Display","TargetSize",0.05) ;
             }
             return target_size ;
           }
@@ -71,15 +63,7 @@ namespace ProjetUnivers {
           {
             if (target_material == "")
             {
-              try
-              {
-                target_material = Kernel::Parameters::getValue<std::string>("Display","IdealTargetMaterial") ;
-              }
-              catch(...)
-              {
-                InternalMessage("Display","getIdealTargetMaterial : error") ;
-                target_material = "PU/material/ideal_target" ;
-              }
+              target_material = Kernel::Parameters::getValue<std::string>("Display","IdealTargetMaterial","PU/material/ideal_target") ;
             }
             return target_material ;
           }

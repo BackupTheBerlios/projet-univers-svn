@@ -36,7 +36,21 @@ namespace ProjetUnivers {
       return m_instance->internalGetValue<T>(section,name) ;
 
     }
-    
+
+    template <typename T>
+    T Parameters::getValue(const std::string& section,
+                           const std::string& name,
+                           T default_value) 
+    {
+      try 
+      {
+        return getValue<T>(section,name) ;
+      }
+      catch(...)
+      {
+        return default_value ;
+      }
+    }
     
     template <typename T>
     T Parameters::internalGetValue(const std::string& section,

@@ -73,15 +73,7 @@ namespace ProjetUnivers {
         Mouse::Mouse()
         : m_sensibility(1)
         {
-          try 
-          {
-            float sensibility = Kernel::Parameters::getValue<float>("Input","MouseSensibility");
-            m_sensibility = sensibility ;
-          }
-          catch(...)
-          {
-            
-          }
+          m_sensibility = Kernel::Parameters::getValue<float>("Input","MouseSensibility",1);
           
           m_sensibility /= 100 ;
           

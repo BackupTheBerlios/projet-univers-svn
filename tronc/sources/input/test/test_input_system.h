@@ -41,6 +41,8 @@ namespace ProjetUnivers {
         /// Init and close the system several times.
         void severalInitClose() ;
 
+        void keys() ;
+        
       // @}
       /*!
         @name Test registration
@@ -50,6 +52,7 @@ namespace ProjetUnivers {
         CPPUNIT_TEST_SUITE(TestInputSystem) ;
       
         CPPUNIT_TEST(severalInitClose) ;
+        CPPUNIT_TEST(keys) ;
       
         CPPUNIT_TEST_SUITE_END() ;
       // @}      

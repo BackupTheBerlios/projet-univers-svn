@@ -45,6 +45,17 @@ namespace ProjetUnivers {
       {
         return m_axes ;
       }
+      
+      void InputObject::initAxes()
+      {
+        for(std::map<Model::PlayerConfiguration::InputAxis,Kernel::Percentage>::iterator axis = m_axes.begin() ;
+            axis != m_axes.end() ;
+            ++axis)
+        {
+          axis->second = 0 ;
+        }
+      }
+      
     }
   }
 }

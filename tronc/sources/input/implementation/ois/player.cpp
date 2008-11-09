@@ -33,7 +33,12 @@ namespace ProjetUnivers {
         Player::Player(Model::Player* player,InputControlerSet* input)
         : Kernel::Controler<Model::Player,InputControlerSet>(player,input)
         {}
-          
+        
+        void Player::onInit()
+        {
+          initAxes() ;
+        }
+        
         void Player::simulate(const float& seconds)
         {
           InternalMessage("Input","Player::simulate entering") ;

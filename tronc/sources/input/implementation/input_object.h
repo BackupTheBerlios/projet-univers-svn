@@ -45,6 +45,9 @@ namespace ProjetUnivers {
         /// Base classes have virtual destructor.
         virtual ~InputObject() ;
         
+        /// Initialise axes.
+        void initAxes() ;
+        
       protected:
         
         InputObject() ;

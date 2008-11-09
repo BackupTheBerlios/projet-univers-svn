@@ -33,6 +33,10 @@ namespace ProjetUnivers {
 
         bool Joystick::buttonPressed(const ::OIS::JoyStickEvent& event,int button)
         {
+          if (Kernel::Parameters::getValue<float>("Input","PrintButtons",false))
+          {
+            std::cout << "button number " << button << std::endl ;          
+          }
           m_events.insert(Model::PlayerConfiguration::InputEvent::joystickButton(button)) ;
           return true ;
         }
@@ -45,6 +49,12 @@ namespace ProjetUnivers {
         
         bool Joystick::axisMoved(const ::OIS::JoyStickEvent& event,int axis)
         {
+          if (Kernel::Parameters::getValue<float>("Input","PrintAxes",false))
+          {
+            std::cout << "axis number " << axis << "=" << event.state.mAxes[axis].abs
+                      << std::endl ;          
+          }
+          
           m_axes[Model::PlayerConfiguration::InputAxis::joystickAxis(axis)] = 
             float(event.state.mAxes[axis].abs) / ::OIS::JoyStick::MAX_AXIS ;
           return true ;
