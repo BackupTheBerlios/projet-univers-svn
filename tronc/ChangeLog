@@ -922,7 +922,13 @@
    
    * Model :
      - added PlayerConfiguration::read for xml reading
-     
+
+2008-11-12 rogma
+
+  * Media :
+    - work on ProjetUnivers cegui looknfeel : added checkbox, radio button
+    - modified imageset to be more precise on borders
+  
 @todo :
   
     - go back to menu when Player is destroyed is stil not correct : the game 
@@ -981,7 +987,8 @@
     
     - PhysicalWorld <=> Whole ??
       PhysicalObject should not depend on mobile ?
-
+    - if we have several lasers : only one will shoot !
+    
   * GUI : 
     - add key shortcuts for clicable buttons
     - add config for mouse and joystick (correspondign to axes)
