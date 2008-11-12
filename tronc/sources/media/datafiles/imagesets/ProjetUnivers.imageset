@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <Imageset Name="ProjetUnivers" Imagefile="ProjetUnivers.tga" NativeHorzRes="1280" NativeVertRes="1024" >
-    <Image Name="Window" XPos="805" YPos="0" Width="1290" Height="948" />
+    <Image Name="Menu_Droite"     XPos="722" YPos="34" Width="39" Height="516" />
+    <Image Name="Menu_Gauche"     XPos="29"  YPos="34" Width="39" Height="516" />
+    <Image Name="Menu_Background" XPos="612" YPos="34" Width="26" Height="516" />
+    <Image Name="Buttonnormal" XPos="29" YPos="582" Width="203" Height="65" />
+    <Image Name="Buttonhover"  XPos="29" YPos="663" Width="203" Height="65" />
+    <Image Name="Window" XPos="806" YPos="0" Width="1293" Height="959" />
     <Image Name="MultiList" XPos="419" YPos="670" Width="18" Height="18" />
-    <Image Name="Menu_Titre" XPos="45" YPos="744" Width="679" Height="47" />
-    <Image Name="Buttonhover" XPos="22" YPos="658" Width="220" Height="78" />
-    <Image Name="Menu_Droite" XPos="722" YPos="19" Width="39" Height="543" />
-    <Image Name="Menu_Gauche" XPos="24" YPos="19" Width="49" Height="543" />
-    <Image Name="Buttonnormal" XPos="22" YPos="576" Width="220" Height="78" />
+    <Image Name="Menu_Titre" XPos="47" YPos="749" Width="677" Height="40" />
+		<Image Name="RadioButtonNormal" XPos="360" YPos="794" Width="16" Height="17" />
+		<Image Name="RadioButtonHover"  XPos="360" YPos="794" Width="16" Height="17" />
+		<Image Name="RadioButtonMark"   XPos="379" YPos="794" Width="16" Height="17" />
     <Image Name="Scroll_Curseur" XPos="490" YPos="822" Width="18" Height="17" />
-    <Image Name="Menu_Background" XPos="612" YPos="19" Width="26" Height="543" />
     <Image Name="ScrollV_Background" XPos="456" YPos="823" Width="21" Height="15" />
     <Image Name="ScrollV_Bas_Hoover" XPos="426" YPos="850" Width="21" Height="17" />
     <Image Name="ScrollV_Bas_Normal" XPos="456" YPos="850" Width="21" Height="17" />

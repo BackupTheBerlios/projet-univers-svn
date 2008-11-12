@@ -18,4 +18,6 @@
 	<FalagardMapping WindowType="ProjetUnivers/MultiColumnList"   TargetType="CEGUI/MultiColumnList"   Renderer="Falagard/MultiColumnList"   LookNFeel="ProjetUnivers/MultiColumnList" />
 	<FalagardMapping WindowType="ProjetUnivers/ListHeader"        TargetType="CEGUI/ListHeader"        Renderer="Falagard/ListHeader"        LookNFeel="ProjetUnivers/ListHeader" />
 	<FalagardMapping WindowType="ProjetUnivers/ListHeaderSegment" TargetType="CEGUI/ListHeaderSegment" Renderer="Falagard/ListHeaderSegment" LookNFeel="ProjetUnivers/ListHeaderSegment" />
+	<FalagardMapping WindowType="ProjetUnivers/Checkbox"    TargetType="CEGUI/Checkbox"    Renderer="Falagard/ToggleButton" LookNFeel="ProjetUnivers/Checkbox" />
+	<FalagardMapping WindowType="ProjetUnivers/RadioButton" TargetType="CEGUI/RadioButton" Renderer="Falagard/ToggleButton" LookNFeel="ProjetUnivers/RadioButton" />
 </GUIScheme>
