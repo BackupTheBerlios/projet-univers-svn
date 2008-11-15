@@ -41,7 +41,14 @@ namespace ProjetUnivers {
         /// Init and close the system several times.
         void severalInitClose() ;
 
-        void keys() ;
+        /// Test the auto repeat feature
+        void testKeyboardAutoRepeat() ;
+
+        /// Test the auto repeat feature
+        void testMouseAutoRepeat() ;
+
+        /// Test the auto repeat feature
+        void testJoystickAutoRepeat() ;
         
       // @}
       /*!
@@ -52,7 +59,9 @@ namespace ProjetUnivers {
         CPPUNIT_TEST_SUITE(TestInputSystem) ;
       
         CPPUNIT_TEST(severalInitClose) ;
-        CPPUNIT_TEST(keys) ;
+        CPPUNIT_TEST(testKeyboardAutoRepeat) ;
+        CPPUNIT_TEST(testMouseAutoRepeat) ;
+        CPPUNIT_TEST(testJoystickAutoRepeat) ;
       
         CPPUNIT_TEST_SUITE_END() ;
       // @}      

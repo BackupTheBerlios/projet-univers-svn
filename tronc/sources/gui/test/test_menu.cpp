@@ -19,6 +19,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include <iostream>
+#include <CEGUIExceptions.h>
 #include <kernel/model.h>
 #include <kernel/timer.h>
 #include <kernel/parameters.h>
@@ -55,34 +56,43 @@ namespace ProjetUnivers {
       {
         InternalMessage("GUI","GUI::TestMenu::basicTest entering") ;
 
-        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestMenu::basicTest")) ;
-        model->init() ;
-
-        std::string menu_name ;
-        
-        menu_name = Kernel::Parameters::getValue<std::string>("GUI","Test.BasicTest.Name","main_menu.layout") ; 
-        
-        Kernel::Object* menu = model->createObject() ;
-        menu->addTrait(new Model::Menu(menu_name)) ;
-        menu->addTrait(new Model::Displayed()) ;
-        
-        Kernel::Timer timer ;
-        Kernel::Timer global_timer ;
-        
-        float test_duration = 0 ;
-        
-        test_duration = Kernel::Parameters::getValue<float>("GUI","Test.BasicTest.Duration",5) ; 
-        
-        while (global_timer.getSecond() < test_duration)
+        try 
         {
-          float seconds = timer.getSecond() ;
-          if (seconds != 0)
+          std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestMenu::basicTest")) ;
+          model->init() ;
+  
+          std::string menu_name ;
+          
+          menu_name = Kernel::Parameters::getValue<std::string>("GUI","Test.BasicTest.Name","main_menu.layout") ; 
+          
+          std::cout << "loading " << menu_name << std::endl ;
+          
+          Kernel::Object* menu = model->createObject() ;
+          menu->addTrait(new Model::Menu(menu_name)) ;
+          menu->addTrait(new Model::Displayed()) ;
+          
+          Kernel::Timer timer ;
+          Kernel::Timer global_timer ;
+          
+          float test_duration = 0 ;
+          
+          test_duration = Kernel::Parameters::getValue<float>("GUI","Test.BasicTest.Duration",5) ; 
+          
+          while (global_timer.getSecond() < test_duration)
           {
-            timer.reset() ;
-          }
-          model->update(seconds) ;
-        }        
-        
+            float seconds = timer.getSecond() ;
+            if (seconds != 0)
+            {
+              timer.reset() ;
+            }
+            model->update(seconds) ;
+          }        
+        }
+        catch( ::CEGUI::Exception& exception)
+        {
+          std::cout << exception.getMessage() << std::endl ;
+          throw ;
+        }
         InternalMessage("GUI","GUI::TestMenu::mouseCursor leaving") ;
       }
 
@@ -96,17 +106,6 @@ namespace ProjetUnivers {
         Kernel::Object* option = model->createObject() ;
         Kernel::Object* configuration = Model::createDefaultPlayerConfiguration(option) ;
         configuration->addTrait(new Model::Edited()) ;
-
-//        std::set<std::string> commands(Kernel::Trait::getRegisteredCommands()) ;
-//        
-//        for(std::set<std::string>::const_iterator command = commands.begin() ;
-//            command != commands.end() ;
-//            ++command)
-//        {
-//          std::cout << *command << "=" 
-//                    << configuration->getTrait<Model::PlayerConfiguration>()->getInputEvent(*command).toString(Input::getOISKeyboard())
-//                    << std::endl ;
-//        }
         
         Kernel::Timer timer ;
         Kernel::Timer global_timer ;

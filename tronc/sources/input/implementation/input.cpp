@@ -159,8 +159,14 @@ namespace ProjetUnivers
       Implementation::OIS::close() ;
     }
 
-    void update()
+    void update(const float& seconds)
     {
+      for(std::set<Implementation::InputObject*>::const_iterator object = m_objects.begin() ;
+          object != m_objects.end() ;
+          ++object)
+      {
+        (*object)->update(seconds) ;
+      }      
       Implementation::OIS::update() ;
     }
     
@@ -171,6 +177,16 @@ namespace ProjetUnivers
           ++object)
       {
         (*object)->initAxes() ;
+      }
+    }
+    
+    void clear()
+    {
+      for(std::set<Implementation::InputObject*>::iterator object = m_objects.begin() ;
+          object != m_objects.end() ;
+          ++object)
+      {
+        (*object)->clear() ;
       }
     }
     

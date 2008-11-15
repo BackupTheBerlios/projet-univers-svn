@@ -30,7 +30,7 @@ namespace ProjetUnivers {
     namespace Implementation {
       namespace OIS {
 
-        CEGUI::MouseButton convertOgreButtonToCegui(::OIS::MouseButtonID buttonID)
+        CEGUI::MouseButton convertOgreButtonToCegui(const int& buttonID)
         {
             switch (buttonID)
             {
@@ -53,34 +53,34 @@ namespace ProjetUnivers {
             return ;
           
           // inject events to cegui...
-          for(std::list< ::OIS::KeyEvent>::const_iterator 
-                event = getKeyboard()->getKeyPressed().begin() ;
-              event != getKeyboard()->getKeyPressed().end() ;
+          for(std::list<int>::const_iterator 
+                event = getKeyboard()->getKeyButtonPressed().begin() ;
+              event != getKeyboard()->getKeyButtonPressed().end() ;
               ++event)
           {
-            system->injectKeyDown(event->key) ;
-            system->injectChar(event->text) ;
+            system->injectKeyDown(*event) ;
+            system->injectChar(getKeyboard()->getText((::OIS::KeyCode)*event)) ;
           }
   
-          for(std::list< ::OIS::KeyEvent>::const_iterator 
-                event = getKeyboard()->getKeyReleased().begin() ;
-              event != getKeyboard()->getKeyReleased().end() ;
+          for(std::list<int>::const_iterator 
+                event = getKeyboard()->getKeyButtonReleased().begin() ;
+              event != getKeyboard()->getKeyButtonReleased().end() ;
               ++event)
           {
-            system->injectKeyUp(event->key) ;
+            system->injectKeyUp(*event) ;
           }
           
-          for(std::set< ::OIS::MouseButtonID>::const_iterator 
-                event = getMouse()->getButtonPressed().begin() ;
-              event != getMouse()->getButtonPressed().end() ;
+          for(std::list<int>::const_iterator 
+                event = getMouse()->getKeyButtonPressed().begin() ;
+              event != getMouse()->getKeyButtonPressed().end() ;
               ++event)
           {
             system->injectMouseButtonDown(convertOgreButtonToCegui(*event)) ;
           }
   
-          for(std::set< ::OIS::MouseButtonID>::const_iterator 
-                event = getMouse()->getButtonReleased().begin() ;
-              event != getMouse()->getButtonReleased().end() ;
+          for(std::list<int>::const_iterator 
+                event = getMouse()->getKeyButtonReleased().begin() ;
+              event != getMouse()->getKeyButtonReleased().end() ;
               ++event)
           {
             system->injectMouseButtonUp(convertOgreButtonToCegui(*event)) ;

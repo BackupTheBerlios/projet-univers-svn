@@ -18,6 +18,8 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <kernel/parameters.h>
+#include <input/implementation/ois/input_controler_set.h>
 #include <input/implementation/input_internal.h>
 #include <input/implementation/input_object.h>
 
@@ -53,6 +55,77 @@ namespace ProjetUnivers {
             ++axis)
         {
           axis->second = 0 ;
+        }
+      }
+      
+      void InputObject::addInterpretedKeyButtonPressed(
+          const int& code,const Model::PlayerConfiguration::InputEvent& event)
+      {
+        m_interpreted_key_button_pressed.push_back(code) ;
+        m_interpreted_key_button_released.remove(code) ;
+        
+        m_time_remaining_to_next_press[code] = Kernel::Parameters::getValue<float>("Input","AutoRepeatDelay",OIS::default_autorepeat_delay) ;
+        m_events.insert(event) ;
+      }
+      
+      void InputObject::addInterpretedKeyButtonReleased(
+          const int& code,const Model::PlayerConfiguration::InputEvent& event)
+      {
+        m_interpreted_key_button_pressed.remove(code) ;
+        m_interpreted_key_button_released.push_back(code) ;
+        
+        m_events.erase(event) ;
+      }
+      
+      const std::list<int>& InputObject::getKeyButtonPressed() const
+      {
+        return m_interpreted_key_button_pressed ;
+      }
+
+      const std::list<int>& InputObject::getKeyButtonReleased() const
+      {
+        return m_interpreted_key_button_released ;
+      }
+      
+      void InputObject::clear()
+      {
+        m_interpreted_key_button_pressed.clear() ;
+        m_interpreted_key_button_released.clear() ;
+        m_events.clear() ;
+      }
+      
+      void InputObject::addRealKeyButtonPressed(const int& code)
+      {
+        m_key_button_pressed.push_back(code) ;
+        m_key_button_released.remove(code) ;
+        addInterpretedKeyButtonPressed(code,buildEvent(code)) ;
+      }
+      
+      void InputObject::addRealKeyButtonReleased(const int& code)
+      {
+        m_key_button_pressed.remove(code) ;
+        m_key_button_released.push_back(code) ;
+        addInterpretedKeyButtonReleased(code,buildEvent(code)) ;
+      }
+
+      void InputObject::update(const float& time)
+      {
+        for(std::map<int,float>::iterator 
+                 remain = m_time_remaining_to_next_press.begin() ;
+            remain != m_time_remaining_to_next_press.end() ;
+            ++remain)
+        {
+          remain->second = std::max(float(0),remain->second-time) ;
+          
+          // auto_repeat handling
+          if (remain->second == 0 && 
+              std::find(m_key_button_pressed.begin(),
+                        m_key_button_pressed.end(),
+                        remain->first) != 
+              m_key_button_pressed.end())
+          {
+            addInterpretedKeyButtonPressed(remain->first,buildEvent(remain->first)) ;
+          }
         }
       }
       

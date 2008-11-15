@@ -38,15 +38,13 @@ namespace ProjetUnivers {
         
         void InputControlerSet::simulate(const float& seconds)
         {
-          Input::update() ;
+          Input::update(seconds) ;
           boost::function2<void,Kernel::BaseControler*,float> 
             f = &Kernel::BaseControler::simulate ;
           
           applyTopDown(std::bind2nd(f,seconds)) ;
           
-          getMouse()->clear() ;
-          getKeyboard()->clear() ;
-          
+          Input::clear() ;
         }
         
         void InputControlerSet::onInit()

@@ -18,6 +18,8 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <algorithm>
+#include <iostream>
 #include <kernel/log.h>
 #include <kernel/string.h>
 #include <kernel/parameters.h>
@@ -29,7 +31,7 @@ namespace ProjetUnivers {
   namespace Input {
     namespace Implementation {
       namespace OIS {
-  
+        
         bool Mouse::mouseMoved(const ::OIS::MouseEvent& event)
         {
           m_axes[Model::PlayerConfiguration::InputAxis::mouseAxis(X)] += event.state.X.rel*m_sensibility ;
@@ -41,35 +43,17 @@ namespace ProjetUnivers {
         bool Mouse::mousePressed(const ::OIS::MouseEvent&, 
                                  ::OIS::MouseButtonID button)
         {
-          m_events.insert(Model::PlayerConfiguration::InputEvent::mouseButton(button)) ;
-          m_button_pressed.insert(button) ;
+          addRealKeyButtonPressed(button) ;
           return true ;
         }
         
         bool Mouse::mouseReleased(const ::OIS::MouseEvent&,
                                   ::OIS::MouseButtonID button)
         {
-          m_events.erase(Model::PlayerConfiguration::InputEvent::mouseButton(button)) ;
-          m_button_released.insert(button) ;
+          addRealKeyButtonReleased(button) ;
           return true ;
         }
   
-        const std::set< ::OIS::MouseButtonID>& Mouse::getButtonPressed() const
-        {
-          return m_button_pressed ;
-        }
-        
-        const std::set< ::OIS::MouseButtonID>& Mouse::getButtonReleased() const
-        {
-          return m_button_released ;
-        }
-        
-        void Mouse::clear()
-        {
-          m_button_pressed.clear() ;
-          m_button_released.clear() ;
-        }
-        
         Mouse::Mouse()
         : m_sensibility(1)
         {
@@ -81,7 +65,12 @@ namespace ProjetUnivers {
           m_axes[Model::PlayerConfiguration::InputAxis::mouseAxis(Y)] = 0 ;
           m_axes[Model::PlayerConfiguration::InputAxis::mouseAxis(Z)] = 0 ;
         }
-
+        
+        Model::PlayerConfiguration::InputEvent Mouse::buildEvent(const int& code) const
+        {
+          return Model::PlayerConfiguration::InputEvent::mouseButton(code) ;
+        }
+        
       }
     }
   }

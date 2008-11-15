@@ -21,7 +21,10 @@
 #ifndef PU_INPUT_INPUT_INTERNAL_H_
 #define PU_INPUT_INPUT_INTERNAL_H_
 
+#include <set>
+#include <map>
 #include <kernel/object.h>
+#include <kernel/percentage.h>
 #include <model/player_configuration.h>
 
 namespace ProjetUnivers {
@@ -41,7 +44,7 @@ namespace ProjetUnivers {
     void close() ;
     
     /// Capture input and update. 
-    void update() ;
+    void update(const float& seconds) ;
     
     /// Apply a configuration to an object.
     void apply(Model::PlayerConfiguration*,Kernel::Object*) ;
@@ -55,6 +58,14 @@ namespace ProjetUnivers {
     /// Set to zero the axes of all registered InputObjects. 
     void initAxes() ;
     
+    /// Clear all the events.
+    void clear() ;
+    
+    /// Access to current events.
+    std::set<Model::PlayerConfiguration::InputEvent> getEvents() ;
+    
+    /// Access to current axes.
+    std::map<Model::PlayerConfiguration::InputAxis,Kernel::Percentage> getAxes() ;
     
     
   }

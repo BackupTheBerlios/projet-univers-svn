@@ -46,7 +46,7 @@ namespace ProjetUnivers {
           Mouse() ;  
           
         /*!
-          @name Interface implementation
+          @name OIS Interface implementation
         */
         // @{
         
@@ -55,22 +55,13 @@ namespace ProjetUnivers {
           virtual bool mouseReleased(const ::OIS::MouseEvent&,::OIS::MouseButtonID) ;
   
         // @}
-          
-          const std::set< ::OIS::MouseButtonID>& getButtonPressed() const ;
-          const std::set< ::OIS::MouseButtonID>& getButtonReleased() const ;
-          
-          /// Clear the button pressed/released.
-          void clear() ;
+          /// Build an event from a code 
+          virtual Model::PlayerConfiguration::InputEvent buildEvent(const int&) const ;
           
         private:
   
-          
           /// Mouse sensibility.
           float m_sensibility ;
-          
-          std::set< ::OIS::MouseButtonID> m_button_pressed ;
-          std::set< ::OIS::MouseButtonID> m_button_released ;
-          
         };
         
       }

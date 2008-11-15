@@ -22,6 +22,7 @@
 #define PU_INPUT_IMPLEMENTATION_OIS_KEYBOARD_H_
 
 #include <list>
+#include <map>
 #include <OIS/OISKeyboard.h>
 #include <kernel/object.h>
 #include <input/implementation/input_object.h>
@@ -40,20 +41,21 @@ namespace ProjetUnivers {
           Keyboard() ;  
   
           /// Called when a key is pressed.
-          virtual bool keyPressed(const ::OIS::KeyEvent &e) ;    
+          virtual bool keyPressed(const ::OIS::KeyEvent&) ;    
     
           /// Called when a key is released.
-          virtual bool keyReleased(const ::OIS::KeyEvent &e) ;
+          virtual bool keyReleased(const ::OIS::KeyEvent&) ;
         
-          const std::list< ::OIS::KeyEvent>& getKeyPressed() const ;
-          const std::list< ::OIS::KeyEvent>& getKeyReleased() const ;
+          /// Access to text from code.
+          unsigned int getText(const ::OIS::KeyCode&) const ;
           
-          void clear() ;
+          /// Build an event from a code 
+          virtual Model::PlayerConfiguration::InputEvent buildEvent(const int&) const ;
           
         private:
-          
-          std::list< ::OIS::KeyEvent> m_key_pressed ;
-          std::list< ::OIS::KeyEvent> m_key_released ;
+
+          /// keycode to text
+          std::map< ::OIS::KeyCode,unsigned int> m_keycode_to_text ;
           
         };
       }

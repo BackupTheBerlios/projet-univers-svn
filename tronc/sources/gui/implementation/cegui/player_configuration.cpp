@@ -102,6 +102,7 @@ namespace ProjetUnivers {
             /// we have finished the recording 
             getObject()->getTrait<Model::PlayerConfiguration>()->stopRecording() ;
             getObject()->getTrait<Model::PlayerConfiguration>()->addMapping(getObject()->getTrait<Model::PlayerConfiguration>()->getRecordedEvent(),m_command) ;
+            return ;
           }
           
           /// normal mode

@@ -54,6 +54,10 @@ namespace ProjetUnivers {
           virtual bool povMoved(const ::OIS::JoyStickEvent&,int) ;
   
         // @}
+
+          /// Build an event from a code 
+          virtual Model::PlayerConfiguration::InputEvent buildEvent(const int&) const ;
+          
         private:
           
           /// sensibility.

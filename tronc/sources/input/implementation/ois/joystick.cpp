@@ -37,13 +37,13 @@ namespace ProjetUnivers {
           {
             std::cout << "button number " << button << std::endl ;          
           }
-          m_events.insert(Model::PlayerConfiguration::InputEvent::joystickButton(button)) ;
+          addRealKeyButtonPressed(button) ;
           return true ;
         }
         
         bool Joystick::buttonReleased(const ::OIS::JoyStickEvent& event,int button)
         {
-          m_events.erase(Model::PlayerConfiguration::InputEvent::joystickButton(button)) ;
+          addRealKeyButtonReleased(button) ;
           return true ;
         }
         
@@ -65,14 +65,23 @@ namespace ProjetUnivers {
           return true ;
         }
         
-        bool Joystick::povMoved(const ::OIS::JoyStickEvent&,int)
+        bool Joystick::povMoved(const ::OIS::JoyStickEvent& event,int number)
         {
+//          std::cout << "pov number " << number << "" 
+//                    <<  event.state.mPOV[number].direction << std::endl ;
+          
           return true ;
         }
   
         Joystick::Joystick(const float& sensibility)
         : m_sensibility(sensibility)
         {}
+
+        Model::PlayerConfiguration::InputEvent Joystick::buildEvent(const int& code) const
+        {
+          return Model::PlayerConfiguration::InputEvent::joystickButton(code) ;
+        }
+        
       }
     }
   }

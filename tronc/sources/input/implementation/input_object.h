@@ -23,6 +23,7 @@
 
 #include <set>
 #include <map>
+#include <list>
 #include <kernel/percentage.h>
 #include <model/player_configuration.h>
 
@@ -35,29 +36,65 @@ namespace ProjetUnivers {
       {
       public:
         
-        /// Access to current key events.
+        /// Access to the latest key/button events.
         const std::set<Model::PlayerConfiguration::InputEvent>& getEvents() const ;
         
         /// Access to current key axes.
         const std::map<Model::PlayerConfiguration::InputAxis,
                        Kernel::Percentage>& getAxes() const ;
 
+        /// Access to key/button pressed 
+        const std::list<int>& getKeyButtonPressed() const ;
+
+        /// Access to key/button released 
+        const std::list<int>& getKeyButtonReleased() const ;
+        
         /// Base classes have virtual destructor.
         virtual ~InputObject() ;
         
         /// Initialise axes.
         void initAxes() ;
         
+        /// Update the time.
+        virtual void update(const float& time) ;
+        
+        /// Build an event from a code 
+        virtual Model::PlayerConfiguration::InputEvent buildEvent(const int&) const = 0 ;
+        
+        /// Clear the button pressed/released.
+        virtual void clear() ;
+        
       protected:
         
         InputObject() ;
         
-        /// Current pressed buttons.
+        /// Current pressed keys/buttons.
         std::set<Model::PlayerConfiguration::InputEvent> m_events ;
         
         /// Current axis values.
         std::map<Model::PlayerConfiguration::InputAxis,Kernel::Percentage> m_axes ;
         
+        // User event triggering
+        void addInterpretedKeyButtonPressed(const int&,const Model::PlayerConfiguration::InputEvent&) ;
+        void addInterpretedKeyButtonReleased(const int&,const Model::PlayerConfiguration::InputEvent&) ;
+        
+        /// button/key pressed/released (with auto repeat)
+        std::list<int> m_interpreted_key_button_pressed ;
+        std::list<int> m_interpreted_key_button_released ;
+        
+        // User event triggering
+        void addRealKeyButtonPressed(const int&) ;
+        void addRealKeyButtonReleased(const int&) ;
+        
+        /// real button/key pressed/released
+        std::list<int> m_key_button_pressed ;
+        std::list<int> m_key_button_released ;
+        
+        /// Time remaining to next press for each button/key
+        /*!
+          For auto repeat.
+        */
+        std::map<int,float> m_time_remaining_to_next_press ;
         
       };
     }

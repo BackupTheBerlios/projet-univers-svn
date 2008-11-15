@@ -28,6 +28,9 @@ namespace ProjetUnivers {
     namespace Implementation {
       namespace OIS {
     
+        /// Default value for autorepeat
+        const float default_autorepeat_delay = 0.5 ;
+        
         /// Send input events to model
         class InputControlerSet : public Kernel::ControlerSet
         {

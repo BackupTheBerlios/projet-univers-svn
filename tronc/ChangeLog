@@ -928,7 +928,14 @@
   * Media :
     - work on ProjetUnivers cegui looknfeel : added checkbox, radio button
     - modified imageset to be more precise on borders
+
+2008-11-15 rogma
   
+  * Input :
+    - added an key/button auto repeat so that the key, mouse button and joystick 
+      buttons are sent several times when kept pressed (test added)
+    - reseted events when entering recording mode for player configuration
+    
 @todo :
   
     - go back to menu when Player is destroyed is stil not correct : the game 
@@ -1008,10 +1015,8 @@
       Ogre::ResourceBackgroundQueue that is not by default on ogre package)  
     
   * Input :
-    - add a key sensibility, here the key is sent several times per seconds
     - be able to map any axis on anything
     - send wheel mouse to CEGUI
-    - add a key repetition in CEGUI for text insertion
     - add Maj+Control in key handling : treat them as modifiers ?
     - handle axes in gui input mapping, allow mouse for piloting (maybe an 
       option first in ini) 

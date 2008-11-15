@@ -19,6 +19,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include <model/player_configuration.h>
+#include <input/implementation/input_internal.h>
 #include <input/implementation/ois/keyboard.h>
 #include <input/implementation/ois/ois.h>
 #include <input/implementation/ois/player_configuration.h>
@@ -34,18 +35,20 @@ namespace ProjetUnivers {
    
         PlayerConfiguration::PlayerConfiguration(EditedPlayerConfiguration* menu,
                                                  InputControlerSet* system)
-        : Kernel::Controler<EditedPlayerConfiguration,InputControlerSet>(menu,system)
+        : Kernel::Controler<EditedPlayerConfiguration,InputControlerSet>(menu,system),
+          m_recording_mode(false)
         {}
         
         void PlayerConfiguration::simulate(const float& seconds)
         {
           if (getObject()->getTrait<Model::PlayerConfiguration>()->isEventRecordingMode())
           {
-            const std::list< ::OIS::KeyEvent>& keyboard_event = getKeyboard()->getKeyPressed() ;
-            if (keyboard_event.size() > 0)
+            const std::set<Model::PlayerConfiguration::InputEvent>& events = getEvents() ;
+            if (events.size() > 0)
+            {
               getObject()->getTrait<Model::PlayerConfiguration>()
-              ->recordEvent(Model::PlayerConfiguration::InputEvent::key(keyboard_event.begin()->key)) ;
-            
+                         ->recordEvent(*events.begin()) ;
+            }
           }
           else
           {
@@ -53,6 +56,21 @@ namespace ProjetUnivers {
           }
         }
 
+        void PlayerConfiguration::update()
+        {
+          if (getObject()->getTrait<Model::PlayerConfiguration>()->isEventRecordingMode() &&
+              !m_recording_mode)
+          {
+            m_recording_mode = true ;
+            Input::clear() ;
+          }
+          else if (!getObject()->getTrait<Model::PlayerConfiguration>()->isEventRecordingMode() &&
+                   m_recording_mode)
+          {
+            m_recording_mode = false ;
+          }
+        }
+        
       }
     }
   }

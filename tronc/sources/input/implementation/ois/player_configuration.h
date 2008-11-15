@@ -46,6 +46,12 @@ namespace ProjetUnivers {
           /// Send commands to specific menu. 
           virtual void simulate(const float& seconds) ;
         
+          /// When entering recording mode : clear the events
+          virtual void update() ;
+          
+        private:
+          
+          bool m_recording_mode ;
         };
 
       }
