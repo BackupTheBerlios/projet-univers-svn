@@ -123,7 +123,7 @@ namespace ProjetUnivers
         
         while (global_timer.getSecond() < simulation_time)
         {
-          if (timer.getSecond() > 0)
+          if (timer.getSecond() > 0.1)
           {
             model->update(timer.getSecond()) ;
             timer.reset() ;
@@ -202,7 +202,7 @@ namespace ProjetUnivers
         
         while (global_timer.getSecond() < simulation_time)
         {
-          if (timer.getSecond() > 0)
+          if (timer.getSecond() > 0.1)
           {
             model->update(timer.getSecond()) ;
             timer.reset() ;
@@ -281,7 +281,7 @@ namespace ProjetUnivers
         
         while (global_timer.getSecond() < simulation_time)
         {
-          if (timer.getSecond() > 0)
+          if (timer.getSecond() > 0.1)
           {
             model->update(timer.getSecond()) ;
             timer.reset() ;
