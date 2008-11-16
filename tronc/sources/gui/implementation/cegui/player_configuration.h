@@ -85,6 +85,9 @@ namespace ProjetUnivers {
           
           /// Time remaining before we cancel edition.
           float m_remaining_seconds ;
+          
+          /// to avoid re-entrance
+          bool m_is_recording ;
         };
       }      
     }

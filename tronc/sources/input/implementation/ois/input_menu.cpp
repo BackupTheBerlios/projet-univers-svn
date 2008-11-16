@@ -18,6 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <iostream>
 #include <CEGUI.h>
 #include <display/display_input.h>
 #include <input/implementation/ois/keyboard.h>
@@ -51,66 +52,75 @@ namespace ProjetUnivers {
           
           if (!system)
             return ;
-          
-          // inject events to cegui...
-          for(std::list<int>::const_iterator 
-                event = getKeyboard()->getKeyButtonPressed().begin() ;
-              event != getKeyboard()->getKeyButtonPressed().end() ;
-              ++event)
+
+          if (getKeyboard())
           {
-            system->injectKeyDown(*event) ;
-            system->injectChar(getKeyboard()->getText((::OIS::KeyCode)*event)) ;
+            std::list<int> buttons = getKeyboard()->getKeyButtonPressed() ;
+            
+            // inject events to cegui...
+            for(std::list<int>::const_iterator event = buttons.begin() ;
+                event != buttons.end() ;
+                ++event)
+            {
+              system->injectKeyDown(*event) ;
+              system->injectChar(getKeyboard()->getText((::OIS::KeyCode)*event)) ;
+            }
+    
+            buttons = getKeyboard()->getKeyButtonReleased() ;
+            
+            for(std::list<int>::const_iterator event = buttons.begin() ;
+                event != buttons.end() ;
+                ++event)
+            {
+              system->injectKeyUp(*event) ;
+            }
           }
-  
-          for(std::list<int>::const_iterator 
-                event = getKeyboard()->getKeyButtonReleased().begin() ;
-              event != getKeyboard()->getKeyButtonReleased().end() ;
-              ++event)
+          if (getMouse())
           {
-            system->injectKeyUp(*event) ;
+            
+            std::list<int> buttons = getMouse()->getKeyButtonPressed() ;
+            for(std::list<int>::const_iterator event = buttons.begin() ;
+                event != buttons.end() ;
+                ++event)
+            {
+              system->injectMouseButtonDown(convertOgreButtonToCegui(*event)) ;
+            }
+    
+            buttons = getMouse()->getKeyButtonReleased() ;
+            
+            for(std::list<int>::const_iterator event = buttons.begin() ;
+                event != buttons.end() ;
+                ++event)
+            {
+              system->injectMouseButtonUp(convertOgreButtonToCegui(*event)) ;
+            }
+            
+            Kernel::Percentage mouse_x ;
+            Kernel::Percentage mouse_y ;
+            
+            std::map<Model::PlayerConfiguration::InputAxis,
+                     Kernel::Percentage>::const_iterator finder ;
+    
+            finder = getMouse()->getAxes().find(Model::PlayerConfiguration::InputAxis::mouseAxis(Mouse::X)) ;
+            
+            if (finder != getMouse()->getAxes().end())
+              mouse_x = finder->second ;
+    
+            finder = getMouse()->getAxes().find(Model::PlayerConfiguration::InputAxis::mouseAxis(Mouse::Y)) ;
+            
+            if (finder != getMouse()->getAxes().end())
+              mouse_y = finder->second ;
+            
+            unsigned int width ;
+            unsigned int height ;
+            unsigned int depth ;
+            int left ;        
+            int top ;
+            
+            Display::getWindowSize(width,height,depth,left,top) ;
+            CEGUI::Point position(width*(float(mouse_x)+0.5),height*(float(mouse_y)+0.5)) ;
+            CEGUI::MouseCursor::getSingleton().setPosition(position) ;
           }
-          
-          for(std::list<int>::const_iterator 
-                event = getMouse()->getKeyButtonPressed().begin() ;
-              event != getMouse()->getKeyButtonPressed().end() ;
-              ++event)
-          {
-            system->injectMouseButtonDown(convertOgreButtonToCegui(*event)) ;
-          }
-  
-          for(std::list<int>::const_iterator 
-                event = getMouse()->getKeyButtonReleased().begin() ;
-              event != getMouse()->getKeyButtonReleased().end() ;
-              ++event)
-          {
-            system->injectMouseButtonUp(convertOgreButtonToCegui(*event)) ;
-          }
-          
-          Kernel::Percentage mouse_x ;
-          Kernel::Percentage mouse_y ;
-          
-          std::map<Model::PlayerConfiguration::InputAxis,
-                   Kernel::Percentage>::const_iterator finder ;
-  
-          finder = getMouse()->getAxes().find(Model::PlayerConfiguration::InputAxis::mouseAxis(Mouse::X)) ;
-          
-          if (finder != getMouse()->getAxes().end())
-            mouse_x = finder->second ;
-  
-          finder = getMouse()->getAxes().find(Model::PlayerConfiguration::InputAxis::mouseAxis(Mouse::Y)) ;
-          
-          if (finder != getMouse()->getAxes().end())
-            mouse_y = finder->second ;
-          
-          unsigned int width ;
-          unsigned int height ;
-          unsigned int depth ;
-          int left ;        
-          int top ;
-          
-          Display::getWindowSize(width,height,depth,left,top) ;
-          CEGUI::Point position(width*(float(mouse_x)+0.5),height*(float(mouse_y)+0.5)) ;
-          CEGUI::MouseCursor::getSingleton().setPosition(position) ;
         }
       }      
     }

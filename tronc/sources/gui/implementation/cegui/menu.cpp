@@ -52,18 +52,18 @@ namespace ProjetUnivers {
           m_window->setUserData(getObject()->getTrait<Model::Menu>()) ;
           
           InternalMessage("Display","Building CEGUI::Menu::onInit #1") ;
-  
-          ::CEGUI::System::getSingleton().setGUISheet(m_window) ;
+
+          /// @todo change to own mouse cursor
           m_window->setMouseCursor("TaharezLook", "MouseArrow");
           
-          GUI::addActiveGUI() ;          
+          GUI::addActiveGUI(m_window) ;          
           
           InternalMessage("Display","Building CEGUI::Menu::onInit leaving") ;
         }
         
         void Menu::onClose()
         {
-          GUI::removeActiveGUI() ;          
+          GUI::removeActiveGUI(m_window) ;          
           if (m_window)
           {
              ::CEGUI::WindowManager::getSingleton().destroyWindow(m_window) ;

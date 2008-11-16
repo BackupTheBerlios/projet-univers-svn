@@ -19,31 +19,54 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include <iostream>
+#include <kernel/log.h>
 #include <kernel/object.h>
 #include <model/menu.h>
 #include <gui/implementation/cegui/cegui.h>
 #include <gui/implementation/cegui/command_interpretor.h>
 
-namespace ProjetUnivers {
-  namespace GUI {
-    namespace Implementation {
-      namespace CEGUI {
+namespace ProjetUnivers 
+{
+  namespace GUI 
+  {
+    namespace Implementation 
+    {
+      namespace CEGUI 
+      {
   
         CommandInterpretor::CommandInterpretor(const std::string& command_name)
         : m_command_name(command_name)
         {}
         
+        Model::Menu* CommandInterpretor::getMenu(::CEGUI::Window* window)
+        {
+          
+          Model::Menu* menu = static_cast<Model::Menu*>(window->getUserData()) ;
+          if (menu)
+            return menu ; 
+          
+          if (window->getParent())
+            return getMenu(window->getParent()) ;
+          
+          return NULL ;
+          
+        }
+        
         bool CommandInterpretor::operator()(const ::CEGUI::EventArgs& args) const
         {
           const ::CEGUI::WindowEventArgs* argument = dynamic_cast<const ::CEGUI::WindowEventArgs*>(&args) ;
-          
           if (argument && argument->window)
           {
-            Model::Menu* menu = (Model::Menu*)(getRoot(argument->window)->getUserData()) ;
+            Model::Menu* menu = getMenu(argument->window) ;
             
             if (menu)
             {
+              InternalMessage("GUI","calling command " + m_command_name) ;
               menu->getObject()->call(m_command_name) ;
+            }
+            else
+            {
+              ErrorMessage("CommandInterpretor::operator() : no associated menu") ;
             }
                 
           }

@@ -435,28 +435,28 @@ namespace ProjetUnivers {
                    ->addMapping(PlayerConfiguration::InputEvent::key(OIS::KC_N),"Select Nearest Enemy") ;
       
       // axis
-      configuration->getTrait<PlayerConfiguration>()
-                   ->addMapping(PlayerConfiguration::InputAxis::mouseAxis(2),
-                       "Throttle") ;
-      configuration->getTrait<PlayerConfiguration>()
-                   ->addMapping(PlayerConfiguration::InputAxis::mouseAxis(0),
-                       "Yaw") ;
-     configuration->getTrait<PlayerConfiguration>()
-                  ->addMapping(PlayerConfiguration::InputAxis::mouseAxis(-1),
-                      "Pitch") ;
-      
 //      configuration->getTrait<PlayerConfiguration>()
-//                   ->addMapping(PlayerConfiguration::InputAxis::joystickAxis(
-//                       int(Kernel::Parameters::getValue<float>("Input","ThrottelAxis"))),
+//                   ->addMapping(PlayerConfiguration::InputAxis::mouseAxis(2),
 //                       "Throttle") ;
 //      configuration->getTrait<PlayerConfiguration>()
-//                   ->addMapping(PlayerConfiguration::InputAxis::joystickAxis(
-//                       int(Kernel::Parameters::getValue<float>("Input","XAxis"))),
+//                   ->addMapping(PlayerConfiguration::InputAxis::mouseAxis(0),
 //                       "Yaw") ;
-//      configuration->getTrait<PlayerConfiguration>()
-//                   ->addMapping(PlayerConfiguration::InputAxis::joystickAxis(
-//                       int(Kernel::Parameters::getValue<float>("Input","YAxis"))),
-//                       "Pitch") ;
+//     configuration->getTrait<PlayerConfiguration>()
+//                  ->addMapping(PlayerConfiguration::InputAxis::mouseAxis(-1),
+//                      "Pitch") ;
+      
+      configuration->getTrait<PlayerConfiguration>()
+                   ->addMapping(PlayerConfiguration::InputAxis::joystickAxis(
+                       int(Kernel::Parameters::getValue<float>("Input","ThrottelAxis"))),
+                       "Throttle") ;
+      configuration->getTrait<PlayerConfiguration>()
+                   ->addMapping(PlayerConfiguration::InputAxis::joystickAxis(
+                       int(Kernel::Parameters::getValue<float>("Input","XAxis"))),
+                       "Yaw") ;
+      configuration->getTrait<PlayerConfiguration>()
+                   ->addMapping(PlayerConfiguration::InputAxis::joystickAxis(
+                       int(Kernel::Parameters::getValue<float>("Input","YAxis"))),
+                       "Pitch") ;
       configuration->getTrait<PlayerConfiguration>()
                    ->addMapping(PlayerConfiguration::InputAxis::joystickAxis(
                        int(Kernel::Parameters::getValue<float>("Input","ZAxis"))),

@@ -42,10 +42,10 @@ namespace ProjetUnivers {
         void terminate() ;
 
         /// Tells the system a new active GUI is present.
-        void addActiveGUI() ;
+        void addActiveGUI(::CEGUI::Window* window) ;
         
         /// Tells the system an active GUI has became inactive.
-        void removeActiveGUI() ;
+        void removeActiveGUI(::CEGUI::Window* window) ;
 
         /// Access to the root window of @c window
         ::CEGUI::Window* getRoot(::CEGUI::Window* window) ;

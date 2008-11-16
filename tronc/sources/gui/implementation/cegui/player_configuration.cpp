@@ -21,10 +21,11 @@
 #include <iostream>
 #include <CEGUI.h>
 
-#include <input/input_gui.h>
+#include <kernel/log.h>
 #include <kernel/controler.h>
 #include <kernel/object.h>
 #include <model/player_configuration.h>
+#include <input/input_gui.h>
 #include <gui/implementation/gui_internal.h>
 #include <gui/implementation/cegui/cegui.h>
 #include <gui/implementation/cegui/gui_controler_set.h>
@@ -48,7 +49,8 @@ namespace ProjetUnivers {
           m_window(NULL),
           m_list(NULL),
           m_ok(NULL),
-          m_remaining_seconds(0)
+          m_remaining_seconds(0),
+          m_is_recording(false)
         {}
         
         void PlayerConfiguration::onInit()
@@ -72,7 +74,6 @@ namespace ProjetUnivers {
             m_list->subscribeEvent(::CEGUI::MultiColumnList::EventSelectionChanged,
                                    ::CEGUI::Event::Subscriber(&PlayerConfiguration::onSelect,this)) ;
             
-            ::CEGUI::System::getSingleton().setGUISheet(m_window) ;
           }
           catch(::CEGUI::Exception& exception)
           {
@@ -87,21 +88,24 @@ namespace ProjetUnivers {
             throw ;
           }
 
-          GUI::addActiveGUI() ;          
+          GUI::addActiveGUI(m_window) ;          
         }
           
         void PlayerConfiguration::onUpdate()
         {
-          if (getObject()->getTrait<Model::PlayerConfiguration>()->isEventRecordingMode())
+          if (m_is_recording || getObject()->getTrait<Model::PlayerConfiguration>()->isEventRecordingMode())
           
             /// nothing to do
             return ;
           
           if (getObject()->getTrait<Model::PlayerConfiguration>()->isEventRecorded())
           {
+            m_is_recording = true ;
             /// we have finished the recording 
             getObject()->getTrait<Model::PlayerConfiguration>()->stopRecording() ;
             getObject()->getTrait<Model::PlayerConfiguration>()->addMapping(getObject()->getTrait<Model::PlayerConfiguration>()->getRecordedEvent(),m_command) ;
+            m_is_recording = false ;
+            reDraw() ;
             return ;
           }
           
@@ -111,7 +115,7 @@ namespace ProjetUnivers {
           
         void PlayerConfiguration::onClose()
         {
-          GUI::removeActiveGUI() ;          
+          GUI::removeActiveGUI(m_window) ;          
           if (m_window)
           {
              ::CEGUI::WindowManager::getSingleton().destroyWindow(m_window) ;
@@ -154,7 +158,8 @@ namespace ProjetUnivers {
           {
             m_command = selected_item->getText().c_str() ;
             
-            /// we go to recording mo for 2 secondsde
+            /// we go to recording mode for 2 seconds
+            InternalMessage("PlayerConfiguration","setting recording mode") ;
             getObject()->getTrait<Model::PlayerConfiguration>()->setEventRecordingMode() ;
             m_remaining_seconds = 2 ;
           }

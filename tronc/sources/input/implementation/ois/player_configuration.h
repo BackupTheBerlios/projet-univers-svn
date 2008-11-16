@@ -47,7 +47,7 @@ namespace ProjetUnivers {
           virtual void simulate(const float& seconds) ;
         
           /// When entering recording mode : clear the events
-          virtual void update() ;
+          virtual void onUpdate() ;
           
         private:
           

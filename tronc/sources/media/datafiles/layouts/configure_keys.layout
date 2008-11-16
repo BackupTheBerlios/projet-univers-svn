@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <GUILayout >
-    <Window Type="DefaultWindow" Name="Root" >
-        <Property Name="InheritsAlpha" Value="False" />
+    <Window Type="DefaultWindow" Name="ConfigureKeys" >
         <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
-        <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
-        <Window Type="ProjetUnivers/Menu" Name="Root/Menu" >
+        <Property Name="UnifiedAreaRect" Value="{{0.1794,0},{0.1220,0},{0.9497,0},{0.9343,0}}" />
+        <Window Type="ProjetUnivers/Menu" Name="ConfigureKeys/Menu" >
             <Property Name="TitlebarFont" Value="Commonwealth-10" />
             <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
             <Property Name="TitlebarEnabled" Value="True" />
@@ -14,9 +13,9 @@
             <Property Name="NSSizingCursorImage" Value="" />
             <Property Name="NESWSizingCursorImage" Value="" />
             <Property Name="NWSESizingCursorImage" Value="" />
-            <Window Type="ProjetUnivers/StaticText" Name="Root/Menu/Title" >
+            <Window Type="ProjetUnivers/StaticText" Name="ConfigureKeys/Menu/Title" >
                 <Property Name="Font" Value="Commonwealth-10" />
-                <Property Name="Text" Value="Choix des touches" />
+                <Property Name="Text" Value="Choose action mapping" />
                 <Property Name="FrameEnabled" Value="False" />
                 <Property Name="HorzFormatting" Value="HorzCentred" />
                 <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
@@ -24,12 +23,18 @@
                 <Property Name="BackgroundEnabled" Value="False" />
                 <Property Name="HorizontalAlignment" Value="Centre" />
             </Window>
-            <Window Type="ProjetUnivers/MultiColumnList" Name="Root/Menu/Actions" >
+            <Window Type="ProjetUnivers/MultiColumnList" Name="ConfigureKeys/Menu/Actions" >
                 <Property Name="Font" Value="BlueHighway-10" />
                 <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
-                <Property Name="UnifiedAreaRect" Value="{{0,35},{0.17,0},{1,-35},{1,-20}}" />
-                <Property Name="ColumnHeader" Value="text:Actions width:{0.5,0} id:0" />
-                <Property Name="ColumnHeader" Value="text:Touches width:{0.5,0} id:1" />
+                <Property Name="UnifiedAreaRect" Value="{{0,35},{0.17,0},{1,-35},{1,-40}}" />
+                <Property Name="ColumnHeader" Value="text:Action width:{0.5,0} id:0" />
+                <Property Name="ColumnHeader" Value="text:Key/Button width:{0.5,0} id:1" />
+            </Window>
+            <Window Type="ProjetUnivers/Button" Name="ConfigureKeys/Menu/Done" >
+                <Property Name="Text" Value="Done" />
+                <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0,35},{1,-40},{1,-35},{1,-20}}" />
+                <Event Name="Clicked" Function="pop()"/>
             </Window>
         </Window>
     </Window>

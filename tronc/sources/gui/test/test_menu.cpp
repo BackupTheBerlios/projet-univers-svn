@@ -34,6 +34,8 @@
 #include <model/player_configuration.h>
 #include <model/positionned.h>
 #include <model/displayed.h>
+#include <model/state.h>
+#include <model/active.h>
 
 #include <display/implementation/ogre/ogre.h>
 
@@ -47,9 +49,12 @@ CPPUNIT_TEST_SUITE_REGISTRATION(ProjetUnivers::
                                 Test::
                                 TestMenu) ;
 
-namespace ProjetUnivers {
-  namespace GUI {
-    namespace Test {
+namespace ProjetUnivers 
+{
+  namespace GUI 
+  {
+    namespace Test 
+    {
       
       
       void TestMenu::basicTest()
@@ -133,15 +138,58 @@ namespace ProjetUnivers {
         
         InternalMessage("GUI","GUI::TestMenu::playerConfiguration leaving") ;
       }
-      
-      void TestMenu::setUp() 
-      {
-      }
-      
-      void TestMenu::tearDown() 
-      {
-      }
 
+      void TestMenu::testFullMenu()
+      {
+        InternalMessage("GUI","GUI::TestMenu::testFullMenu entering") ;
+
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestMenu::testFullMenu")) ;
+        model->init() ;
+
+        Kernel::Object* root = model->createObject() ;
+        root->addTrait(new Model::State()) ;
+        root->addTrait(new Model::Active()) ;
+        
+        Kernel::Object* main_menu = root->createObject() ;
+        main_menu->setName("main_menu") ;
+        main_menu->addTrait(new Model::Menu("main_menu.layout")) ;
+        main_menu->addTrait(new Model::State()) ;
+        main_menu->getTrait<Model::State>()->addCommandAlias("configure","push(player_configuration,Edited)") ;
+
+        Kernel::Object* player_configuration = Model::createDefaultPlayerConfiguration(main_menu) ;
+        player_configuration->setName("player_configuration") ;
+        player_configuration->addTrait(new Model::State()) ;
+
+        root->getTrait<Model::State>()->changeState(main_menu,new Model::Displayed()) ;
+//        main_menu->getTrait<Model::State>()->pushState(player_configuration,new Model::Edited()) ;
+        
+        Kernel::Timer timer ;
+        Kernel::Timer global_timer ;
+        
+        float test_duration = 0 ;
+        
+        try 
+        {
+          test_duration = Kernel::Parameters::getValue<float>("GUI","Test.PlayerConfiguration.Duration") ; 
+        }
+        catch(...)
+        {
+          test_duration = 5 ;
+        }
+        
+        while (global_timer.getSecond() < test_duration)
+        {
+          float seconds = timer.getSecond() ;
+          if (seconds != 0)
+          {
+            timer.reset() ;
+          }
+          model->update(seconds) ;
+        }        
+        
+        InternalMessage("GUI","GUI::TestMenu::testFullMenu leaving") ;
+        
+      }
     }
   }
 }

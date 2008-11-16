@@ -80,13 +80,24 @@ namespace ProjetUnivers {
             // useless if scheme contains a font reference.
             ::CEGUI::Font* font = ::CEGUI::FontManager::getSingleton().createFont("bluehighway-12.font") ;
             
+            // create a default window
+            m_window = ::CEGUI::WindowManager::getSingleton().createWindow("DefaultWindow","System") ;
           }
             
-          ::Ogre::SceneManager* manager ;
           ::CEGUI::System* CEGUISystem ;
           ::CEGUI::OgreCEGUIRenderer* CEGUIRenderer ;
+
+          /// Special scene manager for gui 
+          ::Ogre::SceneManager* manager ;
+          
+          /// Special camera for gui
           ::Ogre::Camera* camera ;
+          
+          /// interpretes commands
           std::auto_ptr<ScriptingModule> command_interpretor ;
+          
+          /// Main window
+          ::CEGUI::Window* m_window ;
           
           /// current number of active guis. 
           unsigned int m_number_of_active_guis ;
@@ -101,8 +112,6 @@ namespace ProjetUnivers {
           
           if (! system.get())
             system.reset(new GUISystem()) ;
-          
-          
         }
         
         void terminate()
@@ -110,20 +119,22 @@ namespace ProjetUnivers {
           
         }
         
-        void addActiveGUI()
+        void addActiveGUI(::CEGUI::Window* window)
         {
+          system->m_window->addChildWindow(window) ;
           if (system->m_number_of_active_guis == 0)
           {
             ::CEGUI::MouseCursor::getSingleton().show() ;
+            ::CEGUI::System::getSingleton().setGUISheet(system->m_window) ;
           }
-          
           ++system->m_number_of_active_guis ;
         }
 
-        void removeActiveGUI()
+        void removeActiveGUI(::CEGUI::Window* window)
         {
           --system->m_number_of_active_guis ;
-
+          system->m_window->removeChildWindow(window) ;
+          
           if (system->m_number_of_active_guis == 0)
           {
             ::CEGUI::MouseCursor::getSingleton().hide() ;

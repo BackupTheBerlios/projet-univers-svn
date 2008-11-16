@@ -21,14 +21,16 @@
 #ifndef PU_GUI_GUI_INTERNAL_H_
 #define PU_GUI_GUI_INTERNAL_H_
 
+#include <CEGUIWindow.h>
+
 namespace ProjetUnivers {
   namespace GUI {
     
     /// Tells the system a new active GUI is present.
-    void addActiveGUI() ;
+    void addActiveGUI(::CEGUI::Window* window) ;
     
     /// Tells the system an active GUI has became inactive.
-    void removeActiveGUI() ;
+    void removeActiveGUI(::CEGUI::Window* window) ;
     
   }
 }

@@ -19,6 +19,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include <gui/implementation/cegui/cegui.h>
+#include <gui/implementation/gui_internal.h>
 #include <gui/gui.h>
 
 namespace ProjetUnivers {
@@ -35,14 +36,14 @@ namespace ProjetUnivers {
       Implementation::CEGUI::terminate() ;
     }
 
-    void addActiveGUI()
+    void addActiveGUI(::CEGUI::Window* window)
     {
-      Implementation::CEGUI::addActiveGUI() ;
+      Implementation::CEGUI::addActiveGUI(window) ;
     }
 
-    void removeActiveGUI()
+    void removeActiveGUI(::CEGUI::Window* window)
     {
-      Implementation::CEGUI::removeActiveGUI() ;
+      Implementation::CEGUI::removeActiveGUI(window) ;
     }
     
   }

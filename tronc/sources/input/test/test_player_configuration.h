@@ -49,7 +49,7 @@ namespace ProjetUnivers {
     
         CPPUNIT_TEST_SUITE(TestPlayerConfiguration) ;
       
-        CPPUNIT_TEST(testCommandMapping) ;
+//        CPPUNIT_TEST(testCommandMapping) ;
       
         CPPUNIT_TEST_SUITE_END() ;
       // @}      

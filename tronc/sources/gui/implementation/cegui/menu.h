@@ -58,6 +58,7 @@ namespace ProjetUnivers {
           
         private:
   
+          /// The menu window
           ::CEGUI::Window* m_window ;
         };
       }      

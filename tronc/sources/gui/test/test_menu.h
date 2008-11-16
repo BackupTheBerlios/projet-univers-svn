@@ -23,31 +23,17 @@
 
 #include <cppunit/extensions/HelperMacros.h>
 
-namespace ProjetUnivers {
-  namespace GUI {
-    namespace Test {
+namespace ProjetUnivers 
+{
+  namespace GUI 
+  {
+    namespace Test 
+    {
             
       /// Test of menu inputs.
       class TestMenu : public CppUnit::TestFixture 
       {
-      public:
-  
-      // @}
-      /*! 
-        @name Mandatory methods
-      */
-      // @{
-      
-        /// Test init
-        void setUp() ;
-      
-        /// Test close
-        void tearDown() ;
-      
       protected:
-      
-        
-      // @}      
       /*! 
         @name Tests
       */ 
@@ -59,6 +45,9 @@ namespace ProjetUnivers {
         /// n seconds of player configuration menu testing
         void playerConfiguration() ;
         
+        /// test a complete menu with sub menus. 
+        void testFullMenu() ;
+        
       // @}
       /*!
         @name Test registration
@@ -67,9 +56,10 @@ namespace ProjetUnivers {
     
         CPPUNIT_TEST_SUITE(TestMenu) ;
       
-        CPPUNIT_TEST(basicTest) ;
-        CPPUNIT_TEST(playerConfiguration) ;
-      
+//        CPPUNIT_TEST(basicTest) ;
+//        CPPUNIT_TEST(playerConfiguration) ;
+        CPPUNIT_TEST(testFullMenu) ;
+        
         CPPUNIT_TEST_SUITE_END() ;
       // @}      
       };

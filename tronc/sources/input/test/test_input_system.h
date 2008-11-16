@@ -58,10 +58,10 @@ namespace ProjetUnivers {
     
         CPPUNIT_TEST_SUITE(TestInputSystem) ;
       
-        CPPUNIT_TEST(severalInitClose) ;
-        CPPUNIT_TEST(testKeyboardAutoRepeat) ;
-        CPPUNIT_TEST(testMouseAutoRepeat) ;
-        CPPUNIT_TEST(testJoystickAutoRepeat) ;
+//        CPPUNIT_TEST(severalInitClose) ;
+//        CPPUNIT_TEST(testKeyboardAutoRepeat) ;
+//        CPPUNIT_TEST(testMouseAutoRepeat) ;
+//        CPPUNIT_TEST(testJoystickAutoRepeat) ;
       
         CPPUNIT_TEST_SUITE_END() ;
       // @}      

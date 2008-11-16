@@ -940,6 +940,14 @@
   
   * Input :
     - adapted tests for windows 
+
+2008-11-16 rogma
+  
+  * GUI :
+    - corrected a bug on player configuration edition (re-entrance in onUpdate)
+    - added possibility to display several windows at a time
+    - added a button qui quit key configuration
+    - changed display text to english
     
 @todo :
   
@@ -1026,6 +1034,7 @@
     - handle axes in gui input mapping, allow mouse for piloting (maybe an 
       option first in ini) 
     - add ini option for mouse/joystick control
+    - handle pov buttons as buttons ?
   
   * Physic : 
     - try to keep all units in an acceptable "range", it means that we whould 

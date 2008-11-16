@@ -18,13 +18,18 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <iostream>
 #include <gui/implementation/cegui/command_interpretor.h>
 #include <gui/implementation/cegui/scripting_module.h>
 
-namespace ProjetUnivers {
-  namespace GUI {
-    namespace Implementation {
-      namespace CEGUI {
+namespace ProjetUnivers 
+{
+  namespace GUI 
+  {
+    namespace Implementation 
+    {
+      namespace CEGUI 
+      {
         
         void ScriptingModule::executeScriptFile(
             const ::CEGUI::String& filename,

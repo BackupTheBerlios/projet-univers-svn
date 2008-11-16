@@ -249,6 +249,7 @@ namespace ProjetUnivers {
     {
       m_event_recorded = false ;
       m_event_recording_mode = false ;
+      notify() ;
     }
     
     Kernel::Trait* PlayerConfiguration::read(Kernel::Reader* reader)

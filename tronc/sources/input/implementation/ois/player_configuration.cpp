@@ -18,6 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <kernel/log.h>
 #include <model/player_configuration.h>
 #include <input/implementation/input_internal.h>
 #include <input/implementation/ois/keyboard.h>
@@ -46,6 +47,7 @@ namespace ProjetUnivers {
             const std::set<Model::PlayerConfiguration::InputEvent>& events = getEvents() ;
             if (events.size() > 0)
             {
+              InternalMessage("PlayerConfiguration","recorded event") ;
               getObject()->getTrait<Model::PlayerConfiguration>()
                          ->recordEvent(*events.begin()) ;
             }
@@ -56,12 +58,14 @@ namespace ProjetUnivers {
           }
         }
 
-        void PlayerConfiguration::update()
+        void PlayerConfiguration::onUpdate()
         {
+          InternalMessage("PlayerConfiguration","Entering PlayerConfiguration::onUpdate") ;
           if (getObject()->getTrait<Model::PlayerConfiguration>()->isEventRecordingMode() &&
               !m_recording_mode)
           {
             m_recording_mode = true ;
+            InternalMessage("PlayerConfiguration","clearing events") ;
             Input::clear() ;
           }
           else if (!getObject()->getTrait<Model::PlayerConfiguration>()->isEventRecordingMode() &&
@@ -69,6 +73,7 @@ namespace ProjetUnivers {
           {
             m_recording_mode = false ;
           }
+          InternalMessage("PlayerConfiguration","Leaving PlayerConfiguration::onUpdate") ;
         }
         
       }

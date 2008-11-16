@@ -118,7 +118,6 @@ namespace ProjetUnivers {
          
         }
 
-       
         void init()
         {
           InternalMessage("Input","initialising ois") ;
@@ -164,7 +163,9 @@ namespace ProjetUnivers {
             ois->joystick_listener = new Joystick() ;      
             ois->joystick->setEventCallback(ois->joystick_listener) ;
             
-            InternalMessage("Input","initialised joystick " + ois->joystick->vendor()) ;
+            InternalMessage("Input","initialised joystick id " + 
+                                    Kernel::toString(ois->joystick->getID()) + 
+                                    " vendor " + ois->joystick->vendor()) ;
           }
           else
           {

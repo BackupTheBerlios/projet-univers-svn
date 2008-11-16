@@ -23,10 +23,18 @@
 
 #include <CEGUI.h>
 
-namespace ProjetUnivers {
-  namespace GUI {
-    namespace Implementation {
-      namespace CEGUI {
+namespace ProjetUnivers 
+{
+  namespace Model
+  {
+    class Menu ;
+  }
+  namespace GUI 
+  {
+    namespace Implementation 
+    {
+      namespace CEGUI 
+      {
       
         /// Callback for a event command 
         class CommandInterpretor
@@ -40,6 +48,9 @@ namespace ProjetUnivers {
           bool operator()(const ::CEGUI::EventArgs& args) const ;
   
         private:
+          
+          /// Access to associated menu.
+          static Model::Menu* getMenu(::CEGUI::Window* window) ;
           
           /// Command name.
           std::string m_command_name ;
