@@ -26,5 +26,5 @@ int main()
   std::cout << "OIS.X=" << 0 << std::endl ;
   std::cout << "OIS.Y=" << 1 << std::endl ;
   std::cout << "OIS.RZ=" << 2 << std::endl ;
-  std::cout << "OIS.Slider=" << 27 << std::endl ;
+  std::cout << "OIS.Slider=" << 3 << std::endl ;
 }
