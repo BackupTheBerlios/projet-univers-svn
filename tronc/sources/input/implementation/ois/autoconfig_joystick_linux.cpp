@@ -18,57 +18,13 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_INPUT_TEST_INPUT_SYSTEM_H_
-#define PU_INPUT_TEST_INPUT_SYSTEM_H_
+#include <iostream>
 
-#include <cppunit/extensions/HelperMacros.h>
-
-namespace ProjetUnivers {
-  namespace Input {
-    namespace Test {
-            
-      /// Global testing of input system.
-      class TestInputSystem : public CppUnit::TestFixture 
-      {
-      protected:
-        
-      // @}      
-      /*! 
-        @name Tests
-      */ 
-      // @{
-        
-        /// Init and close the system several times.
-        void severalInitClose() ;
-
-        /// Test the auto repeat feature
-        void testKeyboardAutoRepeat() ;
-
-        /// Test the auto repeat feature
-        void testMouseAutoRepeat() ;
-
-        /// Test the auto repeat feature
-        void testJoystickAutoRepeat() ;
-        
-      // @}
-      /*!
-        @name Test registration
-      */
-      // @{      
-    
-        CPPUNIT_TEST_SUITE(TestInputSystem) ;
-      
-        CPPUNIT_TEST(severalInitClose) ;
-        CPPUNIT_TEST(testKeyboardAutoRepeat) ;
-        CPPUNIT_TEST(testMouseAutoRepeat) ;
-        CPPUNIT_TEST(testJoystickAutoRepeat) ;
-      
-        CPPUNIT_TEST_SUITE_END() ;
-      // @}      
-      };
-
-    }
-  }
+int main()
+{
+  std::cout << "[Joystick]" << std::endl ;
+  std::cout << "OIS.X=" << 0 << std::endl ;
+  std::cout << "OIS.Y=" << 1 << std::endl ;
+  std::cout << "OIS.RZ=" << 2 << std::endl ;
+  std::cout << "OIS.Slider=" << 27 << std::endl ;
 }
-
-#endif /*PU_INPUT_TEST_INPUT_SYSTEM_H_*/

@@ -19,6 +19,9 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include <iostream>
+#include <stdlib.h>
+#include <plateform.h>
+#include <boost/filesystem.hpp>
 #include <kernel/log.h>
 #include <kernel/string.h>
 #include <kernel/parameters.h>
@@ -73,9 +76,31 @@ namespace ProjetUnivers {
           return true ;
         }
   
+        unsigned int Joystick::getOISAxisNumber(const Axis& axis) const
+        {
+          return m_axes_to_ois.find(axis)->second ;
+        }
+        
         Joystick::Joystick(const float& sensibility)
         : m_sensibility(sensibility)
-        {}
+        {
+          // launch automatic configuration, should work because a joystick 
+          // was found by OIS...
+#if PU_PLATEFORM == PU_PLATEFORM_WIN32
+          std::string command("autoconfig_joystick.exe") ;
+#elif PU_PLATEFORM == PU_PLATEFORM_LINUX
+          std::string command("./autoconfig_joystick") ;
+#endif
+          command += " > joystick_configuration.ini" ;
+          system(command.c_str()) ;
+          
+          // load the config
+          Kernel::Parameters::load("joystick_configuration.ini") ;
+          m_axes_to_ois[X] = (unsigned int)Kernel::Parameters::getValue<float>("Joystick","OIS.X",0) ;
+          m_axes_to_ois[Y] = (unsigned int)Kernel::Parameters::getValue<float>("Joystick","OIS.Y",1) ;
+          m_axes_to_ois[Rudder] = (unsigned int)Kernel::Parameters::getValue<float>("Joystick","OIS.RZ",2) ;
+          m_axes_to_ois[Throttle] = (unsigned int)Kernel::Parameters::getValue<float>("Joystick","OIS.Slider",3) ;
+        }
 
         Model::PlayerConfiguration::InputEvent Joystick::buildEvent(const int& code) const
         {

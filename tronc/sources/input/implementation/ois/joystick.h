@@ -21,6 +21,7 @@
 #ifndef PU_INPUT_IMPLEMENTATION_OIS_JOYSTICK_H_
 #define PU_INPUT_IMPLEMENTATION_OIS_JOYSTICK_H_
 
+#include <map>
 #include <OIS/OISJoyStick.h>
 #include <kernel/object.h>
 #include <input/implementation/input_object.h>
@@ -37,6 +38,22 @@ namespace ProjetUnivers {
         
           /// Constructor.
           Joystick(const float& sensibility = 0.1) ;  
+          
+          /// Symbolic axes.
+          enum Axis
+          {
+            /// Horizontal
+            X,
+            /// Vertical
+            Y,
+            /// Rudder
+            Rudder,
+            /// Throttle
+            Throttle
+          };
+          
+          /// Return the OIS axis number corresponding to symbolic axis.
+          unsigned int getOISAxisNumber(const Axis&) const ; 
           
         /*!
           @name Interface implementation
@@ -62,7 +79,10 @@ namespace ProjetUnivers {
           
           /// sensibility.
           float m_sensibility ;
-  
+          
+          /// Map symblic axes to OIS axes. 
+          std::map<Axis,unsigned int> m_axes_to_ois ;
+
         };
       }
     }

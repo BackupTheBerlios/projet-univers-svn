@@ -948,6 +948,13 @@
     - added possibility to display several windows at a time
     - added a button qui quit key configuration
     - changed display text to english
+
+2008-11-18 rogma
+  
+  * Input :
+    - automatic detection of joystick axes for windows/linux, we build a small 
+      executable that determine mapping from symbolic axes to OIS axes and load 
+      its result
     
 @todo :
   

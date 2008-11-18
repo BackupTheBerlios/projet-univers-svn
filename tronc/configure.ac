@@ -132,8 +132,11 @@ if test "x$build_os" = xmingw32; then
   AC_SUBST(INSTALL_OGRE_PLUGIN_FOLDER,".")
   # on Windows platform, media folder is inside the release
   AC_SUBST(MEDIA_FOLDER,"media")
+  # on windows we use direct input 8 for joystick autoconfig
+  PKG_CHECK_MODULES(dinput8, [dinput8 >= 1])
 elif test "x$build_os" = xlinux-gnu; then
   # linux
+  # path for ogre plugins 
   AC_SUBST(OGRE_PLUGIN_FOLDER,`pkg-config --variable=plugindir OGRE`)
   AC_SUBST(OGRE_PLUGIN_EXTENSION,"so")
   AC_SUBST(OGRE_PLUGIN_RENDER_SYSTEM,"RenderSystem_GL")
@@ -142,7 +145,13 @@ elif test "x$build_os" = xlinux-gnu; then
   AC_SUBST(INSTALL_OGRE_PLUGIN_FOLDER,`pkg-config --variable=plugindir OGRE`)
   # on Linux platform, media folder is inside the /usr/share... like folder
   AC_SUBST(MEDIA_FOLDER,'${pkgdatadir}')
+  # on linux joystick autoconfig is self evident
+  dinput8_LIBS=''
 fi
+AC_SUBST(dinput8_LIBS)
+
+AM_CONDITIONAL(WINDOWS_COMPILATION,test "x$build_os" = xmingw32)
+AM_CONDITIONAL(LINUX_COMPILATION,test "x$build_os" = xlinux-gnu)
 
 
 ##################

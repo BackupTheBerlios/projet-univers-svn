@@ -1,4 +1,5 @@
 lib_LTLIBRARIES = libinput.la 
+bin_PROGRAMS = autoconfig_joystick 
 
 AUTOMAKE_OPTIONS=subdir-objects
 
@@ -33,6 +34,18 @@ $(CEGUI_LIBS) \
 $(CEGUI_OGRE_LIBS) \
 -lCEGUIFalagardWRBase
 
+if WINDOWS_COMPILATION
+autoconfig_joystick_SOURCES=../implementation/ois/autoconfig_joystick_windows.cpp
+endif
+
+if LINUX_COMPILATION
+autoconfig_joystick_SOURCES=../implementation/ois/autoconfig_joystick_linux.cpp
+endif 
+
+autoconfig_joystick_LDFLAGS = -no-undefined
+autoconfig_joystick_LDFLAGS += $(dinput8_LIBS)
+
+# 
 all-local:ressources.cfg plugins.cfg
 
 # generates a correct ressources.cfg from main template

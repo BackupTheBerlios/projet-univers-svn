@@ -105,6 +105,11 @@ namespace ProjetUnivers {
           
         }
       }
+      else
+      {
+        // file does not exists
+        ErrorMessage("Kernel::Parameters : file " + file_path + "does not exists") ;
+      }
       
     }
     
