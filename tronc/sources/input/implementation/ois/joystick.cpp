@@ -21,7 +21,6 @@
 #include <iostream>
 #include <stdlib.h>
 #include <plateform.h>
-#include <boost/filesystem.hpp>
 #include <kernel/log.h>
 #include <kernel/string.h>
 #include <kernel/parameters.h>
