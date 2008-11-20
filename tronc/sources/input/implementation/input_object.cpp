@@ -23,9 +23,12 @@
 #include <input/implementation/input_internal.h>
 #include <input/implementation/input_object.h>
 
-namespace ProjetUnivers {
-  namespace Input {
-    namespace Implementation {
+namespace ProjetUnivers 
+{
+  namespace Input 
+  {
+    namespace Implementation 
+    {
 
       InputObject::InputObject()
       {
@@ -127,6 +130,11 @@ namespace ProjetUnivers {
             addInterpretedKeyButtonPressed(remain->first,buildEvent(remain->first)) ;
           }
         }
+      }
+      
+      void InputObject::indicatePresence(Model::PlayerConfiguration*) const
+      {
+        // default is nop
       }
       
     }

@@ -23,31 +23,36 @@
 #include <input/implementation/input_internal.h>
 #include <input/implementation/ois/keyboard.h>
 #include <input/implementation/ois/ois.h>
-#include <input/implementation/ois/player_configuration.h>
+#include <input/implementation/ois/edited_player_configuration.h>
 
-namespace ProjetUnivers {
-  namespace Input {
-    namespace Implementation {
-      namespace OIS {
+namespace ProjetUnivers 
+{
+  namespace Input 
+  {
+    namespace Implementation 
+    {
+      namespace OIS 
+      {
       
-        RegisterControler(PlayerConfiguration,
-                          EditedPlayerConfiguration,
+        RegisterControler(EditedPlayerConfiguration,
+                          Implementation::EditedPlayerConfiguration,
                           InputControlerSet) ;
    
-        PlayerConfiguration::PlayerConfiguration(EditedPlayerConfiguration* menu,
-                                                 InputControlerSet* system)
-        : Kernel::Controler<EditedPlayerConfiguration,InputControlerSet>(menu,system),
+        EditedPlayerConfiguration::EditedPlayerConfiguration(
+                Implementation::EditedPlayerConfiguration* menu,
+                InputControlerSet* system)
+        : Kernel::Controler<Implementation::EditedPlayerConfiguration,InputControlerSet>(menu,system),
           m_recording_mode(false)
         {}
         
-        void PlayerConfiguration::simulate(const float& seconds)
+        void EditedPlayerConfiguration::simulate(const float& seconds)
         {
           if (getObject()->getTrait<Model::PlayerConfiguration>()->isEventRecordingMode())
           {
             const std::set<Model::PlayerConfiguration::InputEvent>& events = getEvents() ;
             if (events.size() > 0)
             {
-              InternalMessage("PlayerConfiguration","recorded event") ;
+              InternalMessage("EditedPlayerConfiguration","recorded event") ;
               getObject()->getTrait<Model::PlayerConfiguration>()
                          ->recordEvent(*events.begin()) ;
             }
@@ -58,14 +63,14 @@ namespace ProjetUnivers {
           }
         }
 
-        void PlayerConfiguration::onUpdate()
+        void EditedPlayerConfiguration::onUpdate()
         {
-          InternalMessage("PlayerConfiguration","Entering PlayerConfiguration::onUpdate") ;
+          InternalMessage("EditedPlayerConfiguration","Entering PlayerConfiguration::onUpdate") ;
           if (getObject()->getTrait<Model::PlayerConfiguration>()->isEventRecordingMode() &&
               !m_recording_mode)
           {
             m_recording_mode = true ;
-            InternalMessage("PlayerConfiguration","clearing events") ;
+            InternalMessage("EditedPlayerConfiguration","clearing events") ;
             Input::clear() ;
           }
           else if (!getObject()->getTrait<Model::PlayerConfiguration>()->isEventRecordingMode() &&
@@ -73,7 +78,7 @@ namespace ProjetUnivers {
           {
             m_recording_mode = false ;
           }
-          InternalMessage("PlayerConfiguration","Leaving PlayerConfiguration::onUpdate") ;
+          InternalMessage("EditedPlayerConfiguration","Leaving PlayerConfiguration::onUpdate") ;
         }
         
       }

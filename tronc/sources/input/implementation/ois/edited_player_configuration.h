@@ -28,24 +28,28 @@
 #include <input/implementation/ois/input_controler_set.h>
 #include <input/implementation/ois/input_menu.h>
 
-namespace ProjetUnivers {
-  namespace Input {
-    namespace Implementation {
-      namespace OIS {
+namespace ProjetUnivers 
+{
+  namespace Input 
+  {
+    namespace Implementation 
+    {
+      namespace OIS 
+      {
       
         /// PlayerConfiguration input control.
-        class PlayerConfiguration : 
-          public Kernel::Controler<EditedPlayerConfiguration,InputControlerSet>,
+        class EditedPlayerConfiguration : 
+          public Kernel::Controler<Implementation::EditedPlayerConfiguration,InputControlerSet>,
           public InputMenu
         {
         public:
           
           /// Constructor.
-          PlayerConfiguration(EditedPlayerConfiguration*,InputControlerSet*) ;
+          EditedPlayerConfiguration(Implementation::EditedPlayerConfiguration*,InputControlerSet*) ;
           
           /// Send commands to specific menu. 
           virtual void simulate(const float& seconds) ;
-        
+
           /// When entering recording mode : clear the events
           virtual void onUpdate() ;
           

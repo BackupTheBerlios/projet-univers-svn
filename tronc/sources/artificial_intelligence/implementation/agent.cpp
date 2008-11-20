@@ -210,53 +210,6 @@ namespace ProjetUnivers {
 
       Ogre::Vector3 Agent::calculateSteeringCommands(const float& seconds_since_last_frame)
       {
-        return calculateSteeringCommands2(seconds_since_last_frame) ;
-      }
-      
-      Ogre::Vector3 Agent::calculateSteeringCommands1(const float& seconds_since_last_frame)
-      {
-        // get the steering behaviour and apply commands
-        InternalMessage("Agent","m_steering=" + Ogre::StringConverter::toString(m_steering)) ;
-
-        // Steering calibration
-        m_steering = m_previous_orientation.Inverse()*m_steering ;
-        
-        // previous steering in m.s-2
-        Ogre::Vector3 real_steering = m_vehicle->getSpeed()-m_previous_speed ; 
-        InternalMessage("Agent","position=" + Ogre::StringConverter::toString(m_vehicle->getPosition())) ;
-        InternalMessage("Agent","orientation=" + Ogre::StringConverter::toString(m_vehicle->getOrientation())) ;
-        InternalMessage("Agent","speed=" + Ogre::StringConverter::toString(m_vehicle->getSpeed())) ;
-        InternalMessage("Agent","previous speed=" + Ogre::StringConverter::toString(m_previous_speed)) ;
-        
-        real_steering = m_previous_orientation.Inverse()*real_steering ;
-        
-        InternalMessage("Agent","m_max_steering=" + Ogre::StringConverter::toString(m_max_steering)) ;
-        InternalMessage("Agent","real_steering=" + Ogre::StringConverter::toString(real_steering)) ;
-
-        InternalMessage("Agent","previous Y=" + Kernel::toString(float(m_previous_Y))) ;
-        InternalMessage("Agent","previous X=" + Kernel::toString(float(m_previous_X))) ;
-        InternalMessage("Agent","previous thottle=" + Kernel::toString(float(m_delta_throttle))) ;
-        
-        if (m_previous_X != 0 && real_steering.x != 0)
-          m_max_steering.x = fabs(real_steering.x/float(m_previous_X)) ;
-        
-        if (m_previous_Y != 0 && real_steering.y != 0)
-          m_max_steering.y = fabs(real_steering.y/float(m_previous_Y)) ;
-        
-        if (m_delta_throttle != 0 && real_steering.z != 0)
-          m_max_steering.z = fabs(real_steering.z/float(m_delta_throttle)) ;
-
-        InternalMessage("Agent","m_max_steering=" + Ogre::StringConverter::toString(m_max_steering)) ;
-        
-        Kernel::Percentage X = -m_steering.x/m_max_steering.x ;
-        Kernel::Percentage Y = m_steering.y/m_max_steering.y ;
-        Kernel::Percentage throttle = m_steering.z/m_max_steering.z ; 
-        
-        return Ogre::Vector3(int(X),int(Y),int(throttle)) ;
-      }
-      
-      Ogre::Vector3 Agent::calculateSteeringCommands2(const float& seconds_since_last_frame)
-      {
         InternalMessage("Agent","m_steering=" + Ogre::StringConverter::toString(m_steering)) ;
         InternalMessage("Agent","seconds_since_last_frame=" + Kernel::toString(seconds_since_last_frame)) ;
         
@@ -293,6 +246,7 @@ namespace ProjetUnivers {
         Kernel::Percentage throttle = 
           delta_speed / (m_max_steering_speed*seconds_since_last_frame) ;
         
+        /// @todo : inverse Y and throttle
         return Ogre::Vector3(-int(X),int(Y),int(throttle)) ;
       }
 
@@ -360,15 +314,6 @@ namespace ProjetUnivers {
         {
           applyObjective(*objective,getObject(),seconds) ;
         }
-        
-        // calculate avoidance
-//        Ogre::Vector3 separate_steering = SteeringBehaviour::separate(*m_vehicle,m_other_vehicles,seconds) ;
-//        
-//        if (separate_steering != Ogre::Vector3::ZERO)
-//        {
-//          m_steering = separate_steering ;
-//          InternalMessage("AI","separating") ;
-//        }
 
         Ogre::Vector3 commands = calculateSteeringCommands(seconds) ;
         

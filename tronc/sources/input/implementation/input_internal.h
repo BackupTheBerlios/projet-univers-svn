@@ -27,15 +27,14 @@
 #include <kernel/percentage.h>
 #include <model/player_configuration.h>
 
-namespace ProjetUnivers {
-  namespace Input {
-    
-    namespace Implementation {
-
+namespace ProjetUnivers 
+{
+  namespace Input 
+  {
+    namespace Implementation 
+    {
       class InputObject ;
-      
     }
-      
     
     /// Intitialize.
     void init() ;
@@ -67,6 +66,8 @@ namespace ProjetUnivers {
     /// Access to current axes.
     std::map<Model::PlayerConfiguration::InputAxis,Kernel::Percentage> getAxes() ;
     
+    /// All input objects indicate their presence.
+    void indicatePresence(Model::PlayerConfiguration*) ;
     
   }
 }

@@ -26,8 +26,10 @@
 #include <kernel/trait.h>
 #include <kernel/reader.h>
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers 
+{
+  namespace Model 
+  {
   
     /// Contains the player configuration. 
     class PlayerConfiguration : public Kernel::Trait
@@ -121,6 +123,9 @@ namespace ProjetUnivers {
       /// Construction.
       PlayerConfiguration() ;
       
+      /// Tells the configuration that we have a joystick.
+      void hasJoystick() ;
+      
       /// Add a mapping between an event and a command.
       void addMapping(const InputEvent&,const std::string&) ;
       
@@ -208,6 +213,8 @@ namespace ProjetUnivers {
       /// Recorded event.
       InputEvent m_recorded_event ;
       
+      // True iff we have a joystick.
+      bool m_has_joystick ;
     };
         
   }

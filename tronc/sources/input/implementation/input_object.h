@@ -27,9 +27,12 @@
 #include <kernel/percentage.h>
 #include <model/player_configuration.h>
 
-namespace ProjetUnivers {
-  namespace Input {
-    namespace Implementation {
+namespace ProjetUnivers 
+{
+  namespace Input 
+  {
+    namespace Implementation 
+    {
 
       /// Abstraction of an input system.
       class InputObject
@@ -60,6 +63,9 @@ namespace ProjetUnivers {
         
         /// Build an event from a code 
         virtual Model::PlayerConfiguration::InputEvent buildEvent(const int&) const = 0 ;
+        
+        /// Indicate the presence of a peripheral to the player configuration.
+        virtual void indicatePresence(Model::PlayerConfiguration*) const ;
         
         /// Clear the button pressed/released.
         virtual void clear() ;

@@ -189,6 +189,16 @@ namespace ProjetUnivers
         (*object)->clear() ;
       }
     }
+
+    void indicatePresence(Model::PlayerConfiguration* configuration)
+    {
+      for(std::set<Implementation::InputObject*>::iterator object = m_objects.begin() ;
+          object != m_objects.end() ;
+          ++object)
+      {
+        (*object)->indicatePresence(configuration) ;
+      }
+    }
     
   }
 }

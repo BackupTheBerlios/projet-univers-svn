@@ -21,10 +21,14 @@
 #ifndef PU_INPUT_IMPLEMENTATION_OIS_OIS_H_
 #define PU_INPUT_IMPLEMENTATION_OIS_OIS_H_
 
-namespace ProjetUnivers {
-  namespace Input {
-    namespace Implementation {
-      namespace OIS {
+namespace ProjetUnivers 
+{
+  namespace Input 
+  {
+    namespace Implementation 
+    {
+      namespace OIS 
+      {
       
         class Keyboard ;
         class Joystick ;
@@ -47,12 +51,16 @@ namespace ProjetUnivers {
         
         /// Access to keyboard.
         ::OIS::Keyboard* getOISKeyboard() ;
-        
+
+        /// Access to keyboard.
         Keyboard* getKeyboard() ;
+
+        /// Access to mouse.
         Mouse* getMouse() ;
+
+        /// Access to joystick.
         Joystick* getJoystick() ;
 
-        
       }
     }
   }

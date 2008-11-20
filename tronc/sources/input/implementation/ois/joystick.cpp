@@ -28,10 +28,14 @@
 #include <input/implementation/ois/joystick.h>
 
 
-namespace ProjetUnivers {
-  namespace Input {
-    namespace Implementation {
-      namespace OIS {
+namespace ProjetUnivers 
+{
+  namespace Input 
+  {
+    namespace Implementation 
+    {
+      namespace OIS 
+      {
 
         bool Joystick::buttonPressed(const ::OIS::JoyStickEvent& event,int button)
         {
@@ -104,6 +108,11 @@ namespace ProjetUnivers {
         Model::PlayerConfiguration::InputEvent Joystick::buildEvent(const int& code) const
         {
           return Model::PlayerConfiguration::InputEvent::joystickButton(code) ;
+        }
+        
+        void Joystick::indicatePresence(Model::PlayerConfiguration* configuration) const
+        {
+          configuration->hasJoystick() ;
         }
         
       }

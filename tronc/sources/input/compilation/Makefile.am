@@ -12,6 +12,7 @@ libinput_la_SOURCES = \
 ../implementation/input.cpp \
 ../implementation/input_object.cpp \
 ../implementation/edited_player_configuration.cpp \
+../implementation/ois/edited_player_configuration.cpp \
 ../implementation/ois/input_controler_set.cpp \
 ../implementation/ois/input_menu.cpp \
 ../implementation/ois/joystick.cpp \
@@ -19,8 +20,7 @@ libinput_la_SOURCES = \
 ../implementation/ois/menu.cpp \
 ../implementation/ois/mouse.cpp \
 ../implementation/ois/ois.cpp \
-../implementation/ois/player.cpp \
-../implementation/ois/player_configuration.cpp
+../implementation/ois/player.cpp
 
 libinput_la_LDFLAGS = -no-undefined
 libinput_la_LDFLAGS += \

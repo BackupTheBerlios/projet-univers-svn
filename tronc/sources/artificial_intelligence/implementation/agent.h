@@ -108,15 +108,6 @@ namespace ProjetUnivers {
 
         /// Calculate the steering commands.
         Ogre::Vector3 calculateSteeringCommands(const float& seconds_since_last_frame) ;
-
-        /// Calculate the steering commands.
-        /*!
-          First method : hand written adaptative : not good
-          @deprecated
-        */
-        Ogre::Vector3 calculateSteeringCommands1(const float& seconds_since_last_frame) ;
-
-        Ogre::Vector3 calculateSteeringCommands2(const float& seconds_since_last_frame) ;
         
         /// Calculate maximum steering "forces". 
         /*! 
@@ -124,8 +115,6 @@ namespace ProjetUnivers {
           deduce max turning rate. 
           Assume that yaw and pitch turning rates is quite constant (which is 
           the case due to physic representation)
-           
-          
         */  
         void calibrateSteering(const float& seconds_since_last_frame) ;
         

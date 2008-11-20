@@ -26,8 +26,10 @@
 #include <kernel/string.h>
 #include <model/player_configuration.h>
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers 
+{
+  namespace Model 
+  {
   
     RegisterTrait(PlayerConfiguration) ;
     
@@ -152,9 +154,15 @@ namespace ProjetUnivers {
     
     PlayerConfiguration::PlayerConfiguration()
     : m_event_recording_mode(false),
-      m_event_recorded(false)
+      m_event_recorded(false),
+      m_has_joystick(false)
     {}
-      
+    
+    void PlayerConfiguration::hasJoystick()
+    {
+      m_has_joystick = true ;
+    }
+    
     void PlayerConfiguration::addMapping(const InputEvent&  event,
                                          const std::string& command)
     {

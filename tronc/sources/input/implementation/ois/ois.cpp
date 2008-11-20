@@ -34,10 +34,14 @@
 #include <input/implementation/input_internal.h>
 #include <input/implementation/ois/ois.h>
 
-namespace ProjetUnivers {
-  namespace Input {
-    namespace Implementation {
-      namespace OIS {
+namespace ProjetUnivers 
+{
+  namespace Input 
+  {
+    namespace Implementation 
+    {
+      namespace OIS 
+      {
       
         namespace {
           
@@ -229,6 +233,7 @@ namespace ProjetUnivers {
         {
           
         }
+      
       }
     }
   }

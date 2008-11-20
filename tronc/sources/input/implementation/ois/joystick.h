@@ -26,10 +26,14 @@
 #include <kernel/object.h>
 #include <input/implementation/input_object.h>
 
-namespace ProjetUnivers {
-  namespace Input {
-    namespace Implementation {
-      namespace OIS {
+namespace ProjetUnivers 
+{
+  namespace Input 
+  {
+    namespace Implementation 
+    {
+      namespace OIS 
+      {
 
         /// Handle joystick.
         class Joystick : public ::OIS::JoyStickListener, public InputObject
@@ -74,6 +78,9 @@ namespace ProjetUnivers {
 
           /// Build an event from a code 
           virtual Model::PlayerConfiguration::InputEvent buildEvent(const int&) const ;
+          
+          /// Indicate the presence of a peripheral to the player configuration.
+          virtual void indicatePresence(Model::PlayerConfiguration*) const ;
           
         private:
           
