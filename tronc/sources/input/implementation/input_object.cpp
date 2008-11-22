@@ -89,16 +89,31 @@ namespace ProjetUnivers
       {
         return m_interpreted_key_button_released ;
       }
+
+      const std::list<int>& InputObject::getRealKeyButtonPressed() const
+      {
+        return m_gui_key_button_pressed ;
+      }
+
+      const std::list<int>& InputObject::getRealKeyButtonReleased() const
+      {
+        return m_gui_key_button_released ;
+      }
       
       void InputObject::clear()
       {
         m_interpreted_key_button_pressed.clear() ;
         m_interpreted_key_button_released.clear() ;
         m_events.clear() ;
+        m_gui_key_button_pressed.clear() ;
+        m_gui_key_button_released.clear() ;
+        
       }
       
       void InputObject::addRealKeyButtonPressed(const int& code)
       {
+        m_gui_key_button_pressed.push_back(code) ;
+        m_gui_key_button_released.remove(code) ;
         m_key_button_pressed.push_back(code) ;
         m_key_button_released.remove(code) ;
         addInterpretedKeyButtonPressed(code,buildEvent(code)) ;
@@ -106,6 +121,8 @@ namespace ProjetUnivers
       
       void InputObject::addRealKeyButtonReleased(const int& code)
       {
+        m_gui_key_button_pressed.remove(code) ;
+        m_gui_key_button_released.push_back(code) ;
         m_key_button_pressed.remove(code) ;
         m_key_button_released.push_back(code) ;
         addInterpretedKeyButtonReleased(code,buildEvent(code)) ;

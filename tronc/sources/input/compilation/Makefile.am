@@ -20,7 +20,8 @@ libinput_la_SOURCES = \
 ../implementation/ois/menu.cpp \
 ../implementation/ois/mouse.cpp \
 ../implementation/ois/ois.cpp \
-../implementation/ois/player.cpp
+../implementation/ois/player.cpp \
+../implementation/ois/player_configuration.cpp
 
 libinput_la_LDFLAGS = -no-undefined
 libinput_la_LDFLAGS += \

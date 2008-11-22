@@ -23,4 +23,13 @@
     <Image Name="ScrollH_Droite_Normal" XPos="388" YPos="824" Width="17" Height="22" />
     <Image Name="ScrollH_Gauche_Hoover" XPos="331" YPos="854" Width="17" Height="22" />
     <Image Name="ScrollH_Gauche_Normal" XPos="331" YPos="824" Width="17" Height="22" />
+		<Image Name="TabContentPaneUpperLeft" XPos="30" YPos="34" Width="35" Height="84" />
+		<Image Name="TabContentPaneUpper" XPos="65" YPos="34" Width="35" Height="84" />
+		<Image Name="TabContentPaneUpperRight" XPos="726" YPos="34" Width="31" Height="84" />
+		<Image Name="TabContentPaneLeft" XPos="30" YPos="118" Width="35" Height="30" />
+		<Image Name="TabContentPaneMiddle" XPos="65" YPos="118" Width="35" Height="30" />
+		<Image Name="TabContentPaneRight" XPos="726" YPos="118" Width="31" Height="30" />
+		<Image Name="TabContentPaneLowerLeft" XPos="30" YPos="518" Width="35" Height="31" />
+		<Image Name="TabContentPaneLower" XPos="65" YPos="518" Width="35" Height="31" />
+		<Image Name="TabContentPaneLowerRight" XPos="726" YPos="518" Width="31" Height="31" />
 </Imageset>

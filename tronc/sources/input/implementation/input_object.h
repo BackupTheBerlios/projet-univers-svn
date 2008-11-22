@@ -51,6 +51,12 @@ namespace ProjetUnivers
 
         /// Access to key/button released 
         const std::list<int>& getKeyButtonReleased() const ;
+
+        /// Access to real key/button pressed 
+        const std::list<int>& getRealKeyButtonPressed() const ;
+
+        /// Access to real key/button released 
+        const std::list<int>& getRealKeyButtonReleased() const ;
         
         /// Base classes have virtual destructor.
         virtual ~InputObject() ;
@@ -95,6 +101,11 @@ namespace ProjetUnivers
         /// real button/key pressed/released
         std::list<int> m_key_button_pressed ;
         std::list<int> m_key_button_released ;
+
+        /// Button for GUI
+        std::list<int> m_gui_key_button_pressed ;
+        std::list<int> m_gui_key_button_released ;
+
         
         /// Time remaining to next press for each button/key
         /*!

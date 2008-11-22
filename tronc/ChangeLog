@@ -955,6 +955,11 @@
     - automatic detection of joystick axes for windows/linux, we build a small 
       executable that determine mapping from symbolic axes to OIS axes and load 
       its result
+
+2008-11-22 rogma
+  
+  * Input :
+    - sending raw input to gui
     
 @todo :
   

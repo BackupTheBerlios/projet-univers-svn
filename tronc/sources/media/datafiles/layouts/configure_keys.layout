@@ -26,14 +26,14 @@
             <Window Type="ProjetUnivers/MultiColumnList" Name="ConfigureKeys/Menu/Actions" >
                 <Property Name="Font" Value="BlueHighway-10" />
                 <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
-                <Property Name="UnifiedAreaRect" Value="{{0,35},{0.17,0},{1,-35},{1,-40}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0,35},{0.17,0},{1,-35},{0.93,-20}}" />
                 <Property Name="ColumnHeader" Value="text:Action width:{0.5,0} id:0" />
                 <Property Name="ColumnHeader" Value="text:Key/Button width:{0.5,0} id:1" />
             </Window>
             <Window Type="ProjetUnivers/Button" Name="ConfigureKeys/Menu/Done" >
                 <Property Name="Text" Value="Done" />
                 <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
-                <Property Name="UnifiedAreaRect" Value="{{0,35},{1,-40},{1,-35},{1,-20}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0,35},{0.94,-20},{1,-35},{0.94,0}}" />
                 <Event Name="Clicked" Function="pop()"/>
             </Window>
         </Window>

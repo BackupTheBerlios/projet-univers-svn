@@ -18,15 +18,12 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_INPUT_IMPLEMENTATION_OIS_EDITED_PLAYER_CONFIGURATION_H_
-#define PU_INPUT_IMPLEMENTATION_OIS_EDITED_PLAYER_CONFIGURATION_H_
-
-#include <kernel/controler.h>
-
-#include <input/implementation/edited_player_configuration.h>
-
-#include <input/implementation/ois/input_controler_set.h>
-#include <input/implementation/ois/input_menu.h>
+#include <kernel/log.h>
+#include <model/player_configuration.h>
+#include <input/implementation/input_internal.h>
+#include <input/implementation/ois/keyboard.h>
+#include <input/implementation/ois/ois.h>
+#include <input/implementation/ois/player_configuration.h>
 
 namespace ProjetUnivers 
 {
@@ -37,31 +34,22 @@ namespace ProjetUnivers
       namespace OIS 
       {
       
-        /// PlayerConfiguration input control.
-        class EditedPlayerConfiguration : 
-          public Kernel::Controler<Implementation::EditedPlayerConfiguration,InputControlerSet>,
-          public InputMenu
+        RegisterControler(PlayerConfiguration,
+                          Model::PlayerConfiguration,
+                          InputControlerSet) ;
+   
+        PlayerConfiguration::PlayerConfiguration(
+                Model::PlayerConfiguration* configuration,
+                InputControlerSet*          system)
+        : Kernel::Controler<Model::PlayerConfiguration,InputControlerSet>(configuration,system)
+        {}
+
+        void PlayerConfiguration::onInit()
         {
-        public:
-          
-          /// Constructor.
-          EditedPlayerConfiguration(Implementation::EditedPlayerConfiguration*,InputControlerSet*) ;
-          
-          /// Send commands to specific menu. 
-          virtual void simulate(const float& seconds) ;
-
-          /// When entering recording mode : clear the events
-          virtual void onUpdate() ;
-          
-        private:
-          
-          bool m_recording_mode ;
-        };
-
+          indicatePresence(getTrait()) ;
+        }
+        
       }
     }
   }
 }
-
-
-#endif /*PU_INPUT_IMPLEMENTATION_OIS_EDITED_PLAYER_CONFIGURATION_H_*/

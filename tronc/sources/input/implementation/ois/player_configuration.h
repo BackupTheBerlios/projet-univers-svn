@@ -18,12 +18,12 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_INPUT_IMPLEMENTATION_OIS_EDITED_PLAYER_CONFIGURATION_H_
-#define PU_INPUT_IMPLEMENTATION_OIS_EDITED_PLAYER_CONFIGURATION_H_
+#ifndef PU_INPUT_IMPLEMENTATION_OIS_PLAYER_CONFIGURATION_H_
+#define PU_INPUT_IMPLEMENTATION_OIS_PLAYER_CONFIGURATION_H_
 
 #include <kernel/controler.h>
 
-#include <input/implementation/edited_player_configuration.h>
+#include <model/player_configuration.h>
 
 #include <input/implementation/ois/input_controler_set.h>
 #include <input/implementation/ois/input_menu.h>
@@ -37,25 +37,19 @@ namespace ProjetUnivers
       namespace OIS 
       {
       
-        /// PlayerConfiguration input control.
-        class EditedPlayerConfiguration : 
-          public Kernel::Controler<Implementation::EditedPlayerConfiguration,InputControlerSet>,
+        /// Register existing input objects to model.
+        class PlayerConfiguration : 
+          public Kernel::Controler<Model::PlayerConfiguration,InputControlerSet>,
           public InputMenu
         {
         public:
           
           /// Constructor.
-          EditedPlayerConfiguration(Implementation::EditedPlayerConfiguration*,InputControlerSet*) ;
+          PlayerConfiguration(Model::PlayerConfiguration*,InputControlerSet*) ;
           
-          /// Send commands to specific menu. 
-          virtual void simulate(const float& seconds) ;
+          /// Register all input objects.
+          virtual void onInit() ;
 
-          /// When entering recording mode : clear the events
-          virtual void onUpdate() ;
-          
-        private:
-          
-          bool m_recording_mode ;
         };
 
       }
@@ -64,4 +58,4 @@ namespace ProjetUnivers
 }
 
 
-#endif /*PU_INPUT_IMPLEMENTATION_OIS_EDITED_PLAYER_CONFIGURATION_H_*/
+#endif /*PU_INPUT_IMPLEMENTATION_OIS_PLAYER_CONFIGURATION_H_*/

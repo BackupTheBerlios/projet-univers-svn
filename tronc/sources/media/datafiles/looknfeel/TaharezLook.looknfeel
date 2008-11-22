@@ -1351,8 +1351,12 @@
     <WidgetLook name="TaharezLook/HorizontalScrollbar">
         <NamedArea name="ThumbTrackArea">
             <Area>
-                <Dim type="LeftEdge" ><ImageDim imageset="TaharezLook" image="MiniHorzScrollLeftNormal" dimension="Width" /></Dim>
-                <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="LeftEdge" >
+                	<ImageDim imageset="TaharezLook" image="MiniHorzScrollLeftNormal" dimension="Width" />
+               	</Dim>
+                <Dim type="TopEdge" >
+                	<AbsoluteDim value="0" />
+                </Dim>
                 <Dim type="RightEdge" >
                     <UnifiedDim scale="1.0" type="RightEdge">
                         <DimOperator op="Subtract">

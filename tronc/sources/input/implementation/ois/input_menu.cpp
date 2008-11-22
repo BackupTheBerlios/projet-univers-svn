@@ -48,6 +48,7 @@ namespace ProjetUnivers {
         
         void InputMenu::simulateInputMenu(const float& seconds)
         {
+          /// @todo : abstract system 
           CEGUI::System* system = CEGUI::System::getSingletonPtr() ;
           
           if (!system)
@@ -78,20 +79,22 @@ namespace ProjetUnivers {
           if (getMouse())
           {
             
-            std::list<int> buttons = getMouse()->getKeyButtonPressed() ;
+            std::list<int> buttons = getMouse()->getRealKeyButtonPressed() ;
             for(std::list<int>::const_iterator event = buttons.begin() ;
                 event != buttons.end() ;
                 ++event)
             {
+//              std::cout << "injecting mouse down" << std::endl ;
               system->injectMouseButtonDown(convertOgreButtonToCegui(*event)) ;
             }
     
-            buttons = getMouse()->getKeyButtonReleased() ;
+            buttons = getMouse()->getRealKeyButtonReleased() ;
             
             for(std::list<int>::const_iterator event = buttons.begin() ;
                 event != buttons.end() ;
                 ++event)
             {
+//              std::cout << "injecting mouse up" << std::endl ;
               system->injectMouseButtonUp(convertOgreButtonToCegui(*event)) ;
             }
             
