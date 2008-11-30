@@ -169,6 +169,10 @@ namespace ProjetUnivers {
         
         void PlayerConfiguration::simulate(const float& seconds)
         {
+          // no recording means nothing to stop
+          if (! m_is_recording)
+            return ;
+          
           m_remaining_seconds -= seconds ;
           if (m_remaining_seconds<0)
             getObject()->getTrait<Model::PlayerConfiguration>()->stopRecording() ;

@@ -21,6 +21,8 @@
 #include <iostream>
 #include <CEGUI.h>
 #include <display/display_input.h>
+#include <input/input_listener.h>
+#include <input/implementation/input_internal.h>
 #include <input/implementation/ois/keyboard.h>
 #include <input/implementation/ois/mouse.h>
 #include <input/implementation/ois/ois.h>
@@ -48,8 +50,7 @@ namespace ProjetUnivers {
         
         void InputMenu::simulateInputMenu(const float& seconds)
         {
-          /// @todo : abstract system 
-          CEGUI::System* system = CEGUI::System::getSingletonPtr() ;
+          InputListener* system = getGUIInputListener() ;
           
           if (!system)
             return ;
@@ -58,12 +59,12 @@ namespace ProjetUnivers {
           {
             std::list<int> buttons = getKeyboard()->getKeyButtonPressed() ;
             
-            // inject events to cegui...
+            // inject events to gui
             for(std::list<int>::const_iterator event = buttons.begin() ;
                 event != buttons.end() ;
                 ++event)
             {
-              system->injectKeyDown(*event) ;
+              system->injectKeyPressed(*event) ;
               system->injectChar(getKeyboard()->getText((::OIS::KeyCode)*event)) ;
             }
     
@@ -73,7 +74,7 @@ namespace ProjetUnivers {
                 event != buttons.end() ;
                 ++event)
             {
-              system->injectKeyUp(*event) ;
+              system->injectKeyReleased(*event) ;
             }
           }
           if (getMouse())
@@ -85,7 +86,7 @@ namespace ProjetUnivers {
                 ++event)
             {
 //              std::cout << "injecting mouse down" << std::endl ;
-              system->injectMouseButtonDown(convertOgreButtonToCegui(*event)) ;
+              system->injectMousePressed(convertOgreButtonToCegui(*event)) ;
             }
     
             buttons = getMouse()->getRealKeyButtonReleased() ;
@@ -95,7 +96,7 @@ namespace ProjetUnivers {
                 ++event)
             {
 //              std::cout << "injecting mouse up" << std::endl ;
-              system->injectMouseButtonUp(convertOgreButtonToCegui(*event)) ;
+              system->injectMouseReleased(convertOgreButtonToCegui(*event)) ;
             }
             
             Kernel::Percentage mouse_x ;
@@ -104,16 +105,16 @@ namespace ProjetUnivers {
             std::map<Model::PlayerConfiguration::InputAxis,
                      Kernel::Percentage>::const_iterator finder ;
     
-            finder = getMouse()->getAxes().find(Model::PlayerConfiguration::InputAxis::mouseAxis(Mouse::X)) ;
+            finder = getMouse()->getAxes().find(Model::PlayerConfiguration::InputAxis::mouseAxis(Model::PlayerConfiguration::InputAxis::MouseX)) ;
             
             if (finder != getMouse()->getAxes().end())
               mouse_x = finder->second ;
     
-            finder = getMouse()->getAxes().find(Model::PlayerConfiguration::InputAxis::mouseAxis(Mouse::Y)) ;
+            finder = getMouse()->getAxes().find(Model::PlayerConfiguration::InputAxis::mouseAxis(Model::PlayerConfiguration::InputAxis::MouseY)) ;
             
             if (finder != getMouse()->getAxes().end())
               mouse_y = finder->second ;
-            
+
             unsigned int width ;
             unsigned int height ;
             unsigned int depth ;
@@ -121,8 +122,9 @@ namespace ProjetUnivers {
             int top ;
             
             Display::getWindowSize(width,height,depth,left,top) ;
-            CEGUI::Point position(width*(float(mouse_x)+0.5),height*(float(mouse_y)+0.5)) ;
-            CEGUI::MouseCursor::getSingleton().setPosition(position) ;
+            system->injectMousePosition(int(width*(float(mouse_x)+0.5)),
+                                        int(height*(float(mouse_y)+0.5)),
+                                        0) ;
           }
         }
       }      

@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<MyGUI type="Layout">
+    <Widget type="Widget" skin="Panel" position="320 128 192 224" layer="Back">
+        <Widget type="Button" skin="ButtonSmall" position_real="0.197917 0.28125 0.598958 0.174107">
+            <Property key="Widget_Caption" value="Yes"/>
+        </Widget>
+        <Widget type="Button" skin="ButtonSmall" position_real="0.197917 0.571429 0.598958 0.174107">
+            <Property key="Widget_Caption" value="No"/>
+        </Widget>
+        <Widget type="StaticText" skin="StaticText" position_real="0.197917 0.0714286 0.598958 0.107143">
+            <Property key="Widget_Caption" value="Are you sure?"/>
+            <Property key="Widget_AlignText" value="ALIGN_CENTER"/>
+        </Widget>
+    </Widget>
+</MyGUI>

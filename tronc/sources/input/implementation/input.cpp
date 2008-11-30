@@ -25,6 +25,7 @@
 #include <input/implementation/ois/ois.h>
 #include <input/implementation/input_object.h>
 #include <input/implementation/input_internal.h>
+#include <input/input_listener.h>
 #include <input/input_gui.h>
 #include <input/input.h>
 
@@ -200,6 +201,20 @@ namespace ProjetUnivers
       }
     }
     
+    namespace
+    {
+      InputListener* m_listener = NULL ;
+    }
+    
+    void setGUIInputListener(InputListener* listener)
+    {
+      m_listener = listener ;
+    }
+    
+    InputListener* getGUIInputListener() 
+    {
+      return m_listener ;
+    }
   }
 }
 

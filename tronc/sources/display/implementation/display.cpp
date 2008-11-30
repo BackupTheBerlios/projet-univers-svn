@@ -60,6 +60,7 @@ namespace ProjetUnivers {
 
     void terminate()
     {
+      Implementation::Ogre::close() ;
     }
     
   }

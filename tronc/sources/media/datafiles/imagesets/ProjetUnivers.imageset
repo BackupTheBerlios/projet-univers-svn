@@ -1,17 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<Imageset Name="ProjetUnivers" Imagefile="ProjetUnivers.tga" NativeHorzRes="1280" NativeVertRes="1024" >
+<Imageset Name="ProjetUnivers" Imagefile="ProjetUnivers.png" NativeHorzRes="1280" NativeVertRes="1024" >
+    <!-- For the ProjetUnivers/Menu look  -->
     <Image Name="Menu_Droite"     XPos="722" YPos="34" Width="39" Height="516" />
     <Image Name="Menu_Gauche"     XPos="29"  YPos="34" Width="39" Height="516" />
     <Image Name="Menu_Background" XPos="612" YPos="34" Width="26" Height="516" />
+
+    <!-- For the ProjetUnivers/Button look  -->
     <Image Name="Buttonnormal" XPos="29" YPos="582" Width="203" Height="65" />
     <Image Name="Buttonhover"  XPos="29" YPos="663" Width="203" Height="65" />
+		
+		<!-- Main menu global image  -->
     <Image Name="Window" XPos="806" YPos="0" Width="1293" Height="959" />
+
     <Image Name="MultiList" XPos="419" YPos="670" Width="18" Height="18" />
     <Image Name="Menu_Titre" XPos="47" YPos="749" Width="677" Height="40" />
+
 		<Image Name="RadioButtonNormal" XPos="360" YPos="794" Width="16" Height="17" />
 		<Image Name="RadioButtonHover"  XPos="360" YPos="794" Width="16" Height="17" />
 		<Image Name="RadioButtonMark"   XPos="379" YPos="794" Width="16" Height="17" />
+
     <Image Name="Scroll_Curseur" XPos="490" YPos="822" Width="18" Height="17" />
     <Image Name="ScrollV_Background" XPos="456" YPos="823" Width="21" Height="15" />
     <Image Name="ScrollV_Bas_Hoover" XPos="426" YPos="850" Width="21" Height="17" />
@@ -23,6 +31,8 @@
     <Image Name="ScrollH_Droite_Normal" XPos="388" YPos="824" Width="17" Height="22" />
     <Image Name="ScrollH_Gauche_Hoover" XPos="331" YPos="854" Width="17" Height="22" />
     <Image Name="ScrollH_Gauche_Normal" XPos="331" YPos="824" Width="17" Height="22" />
+
+		<!-- For the ProjetUnivers/TabContent -->
 		<Image Name="TabContentPaneUpperLeft" XPos="30" YPos="34" Width="35" Height="84" />
 		<Image Name="TabContentPaneUpper" XPos="65" YPos="34" Width="35" Height="84" />
 		<Image Name="TabContentPaneUpperRight" XPos="726" YPos="34" Width="31" Height="84" />
@@ -32,4 +42,17 @@
 		<Image Name="TabContentPaneLowerLeft" XPos="30" YPos="518" Width="35" Height="31" />
 		<Image Name="TabContentPaneLower" XPos="65" YPos="518" Width="35" Height="31" />
 		<Image Name="TabContentPaneLowerRight" XPos="726" YPos="518" Width="31" Height="31" />
+
+		<!-- a Button to select the active Tab in ProjetUnivers/TabButton -->
+		<Image Name="TabButton" XPos="259" YPos="582" Width="124" Height="55" />
+		<!-- The background for all TabButtons : not displayed -->
+		<Image Name="TabHorizontalFiller" XPos="282" YPos="755" Width="20" Height="1" />
+		
+		<!-- A basic window taken from MyGUI -->
+		<Image Name="BasicWindow_Left" XPos="417" YPos="587" Width="1" Height="34"/>
+		<Image Name="BasicWindow_Top" XPos="417" YPos="587" Width="34" Height="1"/>
+		<Image Name="BasicWindow_Right" XPos="417" YPos="587" Width="1" Height="34"/>
+		<Image Name="BasicWindow_Bottom" XPos="417" YPos="587" Width="34" Height="1"/>
+		<Image Name="BasicWindow_Midle" XPos="418" YPos="588" Width="34" Height="34"/>
+
 </Imageset>

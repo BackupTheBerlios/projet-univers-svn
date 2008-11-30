@@ -31,6 +31,8 @@ namespace ProjetUnivers
 {
   namespace Input 
   {
+    class InputListener ;
+    
     namespace Implementation 
     {
       class InputObject ;
@@ -68,6 +70,9 @@ namespace ProjetUnivers
     
     /// All input objects indicate their presence.
     void indicatePresence(Model::PlayerConfiguration*) ;
+    
+    /// Access to GUI input listener.
+    InputListener* getGUIInputListener() ;
     
   }
 }

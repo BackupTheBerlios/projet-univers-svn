@@ -960,7 +960,26 @@
   
   * Input :
     - sending raw input to gui
-    
+
+2008-11-30 rogma
+  
+  * Model :
+    - transfered symbolic axes to InputConfiguration
+  * Display :
+    - corrected a bug on close
+  * Input :
+    - removed dependency to CEGUI by abstracting the injection through 
+      Input::InputListener
+  * GUI : 
+    - added MyGUI implementation, but desactivated because it does not provide 
+      enought fonctionnalities and its API is unstable --> reverting back to 
+      CEGUI   
+    - added configuration for joystick and mouse
+  * Media :
+    - added preliminary tabbed window
+    - added a basic window taken from MyGUI
+    - moved gui imageset to png
+ 
 @todo :
   
     - go back to menu when Player is destroyed is stil not correct : the game 

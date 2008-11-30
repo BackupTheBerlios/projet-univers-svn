@@ -592,10 +592,10 @@ namespace ProjetUnivers
                     "<JoystickButton number=\"1\"/>\n"
                   "</Mapping>\n"
                   "<Mapping command=\"4\">\n"
-                    "<JoystickAxis number=\"1\"/>\n"
+                    "<JoystickX/>\n"
                   "</Mapping>\n"
                   "<Mapping command=\"5\">\n"
-                    "<MouseAxis number=\"1\"/>\n"
+                    "<MouseY/>\n"
                   "</Mapping>\n"
                 "</PlayerConfiguration>\n"
               "</object>\n"
@@ -614,8 +614,8 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(configuration->getInputEvent("1")==PlayerConfiguration::InputEvent::key(1)) ;
         CPPUNIT_ASSERT(configuration->getInputEvent("2")==PlayerConfiguration::InputEvent::mouseButton(1)) ;
         CPPUNIT_ASSERT(configuration->getInputEvent("3")==PlayerConfiguration::InputEvent::joystickButton(1)) ;
-        CPPUNIT_ASSERT(configuration->getInputAxis("4")==PlayerConfiguration::InputAxis::joystickAxis(1)) ;
-        CPPUNIT_ASSERT(configuration->getInputAxis("5")==PlayerConfiguration::InputAxis::mouseAxis(1)) ;
+        CPPUNIT_ASSERT(configuration->getInputAxis("4")==PlayerConfiguration::InputAxis::joystickAxis(PlayerConfiguration::InputAxis::JoystickX)) ;
+        CPPUNIT_ASSERT(configuration->getInputAxis("5")==PlayerConfiguration::InputAxis::mouseAxis(PlayerConfiguration::InputAxis::MouseY)) ;
         
       }
 

@@ -19,11 +19,13 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include <CEGUI.h>
+#include <iostream>
 
 #include <kernel/object.h>
 #include <model/menu.h>
 #include <gui/implementation/gui_internal.h>
 #include <gui/implementation/cegui/menu.h>
+#include <gui/implementation/cegui/cegui.h>
 
 namespace ProjetUnivers {
   namespace GUI {
@@ -38,12 +40,12 @@ namespace ProjetUnivers {
         : Kernel::Controler<ActiveMenu,GUIControlerSet>(object,viewpoint), 
           m_window(NULL)
         {
-          InternalMessage("Display","Building CEGUI::Menu::Menu") ;
+          InternalMessage("GUI","Building CEGUI::Menu::Menu") ;
         }
   
         void Menu::onInit()
         {
-          InternalMessage("Display","Building CEGUI::Menu::onInit entering") ;
+          InternalMessage("GUI","Building CEGUI::Menu::onInit entering") ;
           
           m_window = ::CEGUI::WindowManager::getSingleton().loadWindowLayout(
               getObject()->getTrait<Model::Menu>()->getFileName()) ;
@@ -51,14 +53,16 @@ namespace ProjetUnivers {
           // set the binding to the current trait
           m_window->setUserData(getObject()->getTrait<Model::Menu>()) ;
           
-          InternalMessage("Display","Building CEGUI::Menu::onInit #1") ;
+          InternalMessage("GUI","Building CEGUI::Menu::onInit #1") ;
 
+          InternalMessage("GUI",printStructure(m_window,0)) ;
+          
           /// @todo change to own mouse cursor
           m_window->setMouseCursor("TaharezLook", "MouseArrow");
           
           GUI::addActiveGUI(m_window) ;          
           
-          InternalMessage("Display","Building CEGUI::Menu::onInit leaving") ;
+          InternalMessage("GUI","Building CEGUI::Menu::onInit leaving") ;
         }
         
         void Menu::onClose()

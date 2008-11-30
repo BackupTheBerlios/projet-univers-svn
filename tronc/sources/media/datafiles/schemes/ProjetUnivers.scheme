@@ -22,8 +22,16 @@
 	<FalagardMapping WindowType="ProjetUnivers/ListHeaderSegment" TargetType="CEGUI/ListHeaderSegment" Renderer="Falagard/ListHeaderSegment" LookNFeel="ProjetUnivers/ListHeaderSegment" />
 	<FalagardMapping WindowType="ProjetUnivers/Checkbox"    TargetType="CEGUI/Checkbox"    Renderer="Falagard/ToggleButton" LookNFeel="ProjetUnivers/Checkbox" />
 	<FalagardMapping WindowType="ProjetUnivers/RadioButton" TargetType="CEGUI/RadioButton" Renderer="Falagard/ToggleButton" LookNFeel="ProjetUnivers/RadioButton" />
+	
+	<!-- A Scrollable panel -->
 	<FalagardMapping WindowType="ProjetUnivers/ScrollablePane" TargetType="CEGUI/ScrollablePane" Renderer="Falagard/ScrollablePane" LookNFeel="ProjetUnivers/ScrollablePane" />
-	<FalagardMapping WindowType="ProjetUnivers/TabControl" TargetType="CEGUI/TabControl" Renderer="Falagard/TabControl" LookNFeel="ProjetUnivers/TabControl" />
-	<FalagardMapping WindowType="ProjetUnivers/TabButtonPane"    TargetType="DefaultWindow"    Renderer="Falagard/Default"    LookNFeel="ProjetUnivers/TabButtonPane" />
+	
+  <!-- A tabbed window -->
+	<FalagardMapping WindowType="ProjetUnivers/TabbedWindow" TargetType="CEGUI/TabControl" Renderer="Falagard/TabControl" LookNFeel="ProjetUnivers/TabbedWindow" />
+	<FalagardMapping WindowType="ProjetUnivers/TabButton"    TargetType="CEGUI/TabButton"    Renderer="Falagard/TabButton"    LookNFeel="ProjetUnivers/TabButton" />
 	<FalagardMapping WindowType="ProjetUnivers/TabContentPane"    TargetType="DefaultWindow"    Renderer="Falagard/Default"    LookNFeel="ProjetUnivers/TabContentPane" />
+	<FalagardMapping WindowType="ProjetUnivers/TabButtonPane"    TargetType="DefaultWindow"    Renderer="Falagard/Default"    LookNFeel="ProjetUnivers/TabButtonPane" />
+  
+  <!-- A basic window -->
+	<FalagardMapping WindowType="ProjetUnivers/BasicWindow"    TargetType="DefaultWindow"    Renderer="Falagard/Default"    LookNFeel="ProjetUnivers/BasicWindow" />
 </GUIScheme>

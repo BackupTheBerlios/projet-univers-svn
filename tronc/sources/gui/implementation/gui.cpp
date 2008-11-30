@@ -22,8 +22,10 @@
 #include <gui/implementation/gui_internal.h>
 #include <gui/gui.h>
 
-namespace ProjetUnivers {
-  namespace GUI {
+namespace ProjetUnivers 
+{
+  namespace GUI 
+  {
 
     
     void start()

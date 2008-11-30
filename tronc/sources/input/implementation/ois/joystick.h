@@ -43,22 +43,6 @@ namespace ProjetUnivers
           /// Constructor.
           Joystick(const float& sensibility = 0.1) ;  
           
-          /// Symbolic axes.
-          enum Axis
-          {
-            /// Horizontal
-            X,
-            /// Vertical
-            Y,
-            /// Rudder
-            Rudder,
-            /// Throttle
-            Throttle
-          };
-          
-          /// Return the OIS axis number corresponding to symbolic axis.
-          unsigned int getOISAxisNumber(const Axis&) const ; 
-          
         /*!
           @name Interface implementation
         */
@@ -87,9 +71,9 @@ namespace ProjetUnivers
           /// sensibility.
           float m_sensibility ;
           
-          /// Map symblic axes to OIS axes. 
-          std::map<Axis,unsigned int> m_axes_to_ois ;
-
+          /// Map OIS axes to symbolic axes. 
+          std::map<unsigned int,Model::PlayerConfiguration::InputAxis::Axis> m_ois_to_axes ;
+          
         };
       }
     }

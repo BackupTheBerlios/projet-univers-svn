@@ -23,10 +23,11 @@
 
 #include <kernel/object.h>
 
-namespace ProjetUnivers {
-
+namespace ProjetUnivers 
+{
   /// Input management
-  namespace Input {
+  namespace Input 
+  {
     
     /// Start the module.
     void start() ;

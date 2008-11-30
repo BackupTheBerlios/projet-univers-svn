@@ -63,8 +63,10 @@ main( int argc, char* argv[] )
   // Run the test.
   bool wasSucessful = runner.run( "" );
 
+  ProjetUnivers::Input::terminate() ;
+  ProjetUnivers::GUI::terminate() ;
+  ProjetUnivers::Display::terminate() ;
   ProjetUnivers::Kernel::Log::close() ;
-
 
   // Return error code 1 if the one of test failed.
   return wasSucessful ? 0 : 1;

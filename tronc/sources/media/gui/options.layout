@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<MyGUI type="Layout">
+    <Widget type="Widget" skin="Panel" position_real="0.20 0.12 0.7 0.7" layer="Back">
+        <Widget type="Tab" skin="Tab" position_real="0 0 1 0.9">
+            <Widget type="Sheet" skin="Default" position_real="0 0 1 1" align="ALIGN_STRETCH" name="Controls">
+                <Property key="Widget_Caption" value="Controls" />
+            </Widget>
+            <Widget type="Sheet" skin="Default" position_real="0 0 1 1" align="ALIGN_STRETCH">
+                <Property key="Widget_Caption" value="Display"/>
+            </Widget>
+            <Widget type="Sheet" skin="Default" position_real="0 0 1 1" align="ALIGN_STRETCH">
+                <Property key="Widget_Caption" value="General"/>
+            </Widget>
+        </Widget>
+		    <Widget type="Button" skin="ButtonSmall" position_real="0.20 0.9 0.60 0.1" align="ALIGN_LEFT ALIGN_TOP">
+		        <Property key="Widget_Caption" value="OK" />
+		        <UserString key="Clicked" value="pop()" />
+		    </Widget>
+    </Widget>
+</MyGUI>

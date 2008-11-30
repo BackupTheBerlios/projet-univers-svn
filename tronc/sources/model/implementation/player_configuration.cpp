@@ -144,6 +144,11 @@ namespace ProjetUnivers
       return axis < 0 ;
     }
     
+    int PlayerConfiguration::InputAxis::getAxis() const
+    {
+      return axis ;
+    }
+    
     PlayerConfiguration::InputAxis PlayerConfiguration::InputAxis::operator-() const
     {
       InputAxis result ;
@@ -166,6 +171,7 @@ namespace ProjetUnivers
     void PlayerConfiguration::addMapping(const InputEvent&  event,
                                          const std::string& command)
     {
+      InternalMessage("PlayerConfiguration","PlayerConfiguration::addMapping") ;
       m_input_event_to_commands[event] = command ;
       m_command_to_input_events[command] = event ;
       notify() ;
@@ -174,6 +180,7 @@ namespace ProjetUnivers
     void PlayerConfiguration::addMapping(const InputAxis&   axis,
                                          const std::string& axis_command)
     {
+      InternalMessage("PlayerConfiguration","PlayerConfiguration::addMapping") ;
       m_input_axis_to_axes[axis] = axis_command ;
       m_axis_to_input_axes[axis_command] = axis ;
       notify() ;
@@ -226,12 +233,14 @@ namespace ProjetUnivers
 
     void PlayerConfiguration::setEventRecordingMode()
     {
+      InternalMessage("PlayerConfiguration","PlayerConfiguration::setEventRecordingMode") ;
       m_event_recording_mode = true ;
       notify() ;
     }
     
     void PlayerConfiguration::recordEvent(const PlayerConfiguration::InputEvent& event)
     {
+      InternalMessage("PlayerConfiguration","PlayerConfiguration::recordEvent") ;
       m_event_recorded = true ;
       m_event_recording_mode = false ;
       m_recorded_event = event ;
@@ -255,9 +264,34 @@ namespace ProjetUnivers
     
     void PlayerConfiguration::stopRecording()
     {
+      InternalMessage("PlayerConfiguration","PlayerConfiguration::stopRecording") ;
       m_event_recorded = false ;
       m_event_recording_mode = false ;
       notify() ;
+    }
+    
+    std::string PlayerConfiguration::InputAxis::toString(const Axis& axis)
+    {
+      switch(axis)
+      {
+      case JoystickX:
+        return "Joystick X" ;
+      case JoystickY:
+        return "Joystick Y" ;
+      case JoystickRudder:
+        return "Joystick Rudder" ;
+      case JoystickThrottle:
+        return "Joystick Throttle" ;
+      case MouseX:
+        return "Mouse X" ;
+      case MouseY:
+        return "Mouse Y" ;
+      case MouseWheel :
+        return "Mouse Wheel" ;
+      default:
+        return "" ;
+      
+      }
     }
     
     Kernel::Trait* PlayerConfiguration::read(Kernel::Reader* reader)
@@ -315,23 +349,40 @@ namespace ProjetUnivers
               event = InputEvent::mouseButton(atoi(finder->second.c_str())) ;
             }
           }
-          else if (reader->getTraitName() == "JoystickAxis")
+          else if (reader->getTraitName() == "JoystickX")
           {
             is_axis = true ;
-            finder = reader->getAttributes().find("number") ;
-            if (finder != reader->getAttributes().end())
-            {
-              axis = InputAxis::joystickAxis(atoi(finder->second.c_str())) ;
-            }
+            axis = InputAxis::joystickAxis(InputAxis::JoystickX) ;
           }
-          else if (reader->getTraitName() == "MouseAxis")
+          else if (reader->getTraitName() == "JoystickY")
           {
             is_axis = true ;
-            finder = reader->getAttributes().find("number") ;
-            if (finder != reader->getAttributes().end())
-            {
-              axis = InputAxis::mouseAxis(atoi(finder->second.c_str())) ;
-            }
+            axis = InputAxis::joystickAxis(InputAxis::JoystickY) ;
+          }
+          else if (reader->getTraitName() == "JoystickRudder")
+          {
+            is_axis = true ;
+            axis = InputAxis::joystickAxis(InputAxis::JoystickRudder) ;
+          }
+          else if (reader->getTraitName() == "JoystickThrottle")
+          {
+            is_axis = true ;
+            axis = InputAxis::joystickAxis(InputAxis::JoystickThrottle) ;
+          }
+          else if (reader->getTraitName() == "MouseX")
+          {
+            is_axis = true ;
+            axis = InputAxis::mouseAxis(InputAxis::MouseX) ;
+          }
+          else if (reader->getTraitName() == "MouseY")
+          {
+            is_axis = true ;
+            axis = InputAxis::mouseAxis(InputAxis::MouseY) ;
+          }
+          else if (reader->getTraitName() == "MouseWheel")
+          {
+            is_axis = true ;
+            axis = InputAxis::mouseAxis(InputAxis::MouseWheel) ;
           }
           
           if (is_event)

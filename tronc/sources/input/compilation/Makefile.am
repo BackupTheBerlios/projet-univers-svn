@@ -10,6 +10,7 @@ AM_CXXFLAGS=$(PU_CXXFLAGS)
 libinput_la_SOURCES = \
 ../implementation/active_menu.cpp \
 ../implementation/input.cpp \
+../implementation/input_listener.cpp \
 ../implementation/input_object.cpp \
 ../implementation/edited_player_configuration.cpp \
 ../implementation/ois/edited_player_configuration.cpp \

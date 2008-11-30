@@ -30,6 +30,8 @@
 #include <display/display.h>
 #include <display/display_gui.h>
 #include <input/input.h>
+#include <input/input_gui.h>
+#include <input/input_listener.h>
 
 #include <gui/implementation/cegui/cegui.h>
 
@@ -38,7 +40,7 @@ namespace ProjetUnivers {
     namespace Implementation {
       namespace CEGUI { 
         
-        class GUISystem
+        class GUISystem : public Input::InputListener
         {
         public:
           
@@ -82,12 +84,15 @@ namespace ProjetUnivers {
             
             // create a default window
             m_window = ::CEGUI::WindowManager::getSingleton().createWindow("DefaultWindow","System") ;
+
+            // register to input
+            Input::setGUIInputListener(this) ;
           }
             
           ::CEGUI::System* CEGUISystem ;
           ::CEGUI::OgreCEGUIRenderer* CEGUIRenderer ;
 
-          /// Special scene manager for gui 
+          /// Special scene manager for gui injectMouseButtonDown
           ::Ogre::SceneManager* manager ;
           
           /// Special camera for gui
@@ -101,6 +106,37 @@ namespace ProjetUnivers {
           
           /// current number of active guis. 
           unsigned int m_number_of_active_guis ;
+          
+          virtual void injectKeyPressed(int key_code)
+          {
+            CEGUISystem->injectKeyDown(key_code) ;
+          }
+          
+          virtual void injectKeyReleased(int key_code)
+          {
+            CEGUISystem->injectKeyUp(key_code) ;
+          }
+          
+          virtual void injectChar(unsigned int key_char)
+          {
+            CEGUISystem->injectChar(key_char) ;
+          }
+          
+          virtual void injectMousePosition(int x,int y, int z)
+          {
+            ::CEGUI::Point position(x,y) ;
+            ::CEGUI::MouseCursor::getSingleton().setPosition(position) ;
+          }
+
+          virtual void injectMousePressed(int button)
+          {
+            CEGUISystem->injectMouseButtonDown(::CEGUI::MouseButton(button)) ;
+          }
+
+          virtual void injectMouseReleased(int button) 
+          {
+            CEGUISystem->injectMouseButtonUp(::CEGUI::MouseButton(button)) ;
+          }
         };
           
         std::auto_ptr<GUISystem> system ;
@@ -192,6 +228,50 @@ namespace ProjetUnivers {
           }
           
           return NULL ;
+        }
+        
+        std::string toString(const ::CEGUI::UDim& dimension)
+        {
+          return "{" + Kernel::toString(dimension.d_scale) + "," + Kernel::toString(dimension.d_offset) + "}" ;
+        }
+
+        std::string toString(const ::CEGUI::UVector2& vector)
+        {
+          return toString(vector.d_x) + "," + toString(vector.d_y) ; 
+        }        
+        
+        std::string printStructure(::CEGUI::Window* window,const int& indent)
+        {
+          if (window)
+          {
+            std::string printed_indent(indent,' ') ;
+            std::string result(printed_indent) ;
+            
+            std::string name = window->getName().c_str() ;
+            std::string type = window->getType().c_str() ;
+            
+            
+            result = result + name + " : " + type + " at " + toString(window->getPosition()) + "," + toString(window->getSize()) + "\n" ;
+            
+//            for(::CEGUI::PropertySet::Iterator property = window->PropertySet::getIterator() ;
+//                ! property.isAtEnd() ;
+//                ++property)
+//            {
+//              ::CEGUI::String property_name =(*property)->getName() ;
+//              result = result + printed_indent + property_name.c_str() + "="+ window->getProperty(property_name).c_str() + "\n"; 
+//            }
+            
+            for(int child_index = 0 ; child_index < window->getChildCount() ; ++child_index)
+            {
+              ::CEGUI::Window* child = window->getChildAtIdx(child_index) ;
+              result += printStructure(child,indent+2) ;
+            }
+            return result ;
+          }
+          else
+          {
+            return "" ;
+          }
         }
         
       }

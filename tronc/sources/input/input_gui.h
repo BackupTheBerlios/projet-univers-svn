@@ -23,9 +23,13 @@
 
 #include <OISKeyboard.h>
 
-namespace ProjetUnivers {
-  namespace Input {
+namespace ProjetUnivers 
+{
+  namespace Input 
+  {
 
+    class InputListener ;
+    
   /*!
     @name Input interface for GUI
   */
@@ -33,7 +37,10 @@ namespace ProjetUnivers {
     
     /// Access to OIS keyboard.
     ::OIS::Keyboard* getOISKeyboard() ;
-  
+
+    /// Register the GUI input listener.
+    void setGUIInputListener(InputListener*) ;
+    
   // @}
     
   }

@@ -61,7 +61,7 @@ namespace ProjetUnivers
                       << std::endl ;          
           }
           
-          m_axes[Model::PlayerConfiguration::InputAxis::joystickAxis(axis)] = 
+          m_axes[Model::PlayerConfiguration::InputAxis::joystickAxis(m_ois_to_axes[axis])] = 
             float(event.state.mAxes[axis].abs) / ::OIS::JoyStick::MAX_AXIS ;
           return true ;
         }
@@ -77,11 +77,6 @@ namespace ProjetUnivers
 //                    <<  event.state.mPOV[number].direction << std::endl ;
           
           return true ;
-        }
-  
-        unsigned int Joystick::getOISAxisNumber(const Axis& axis) const
-        {
-          return m_axes_to_ois.find(axis)->second ;
         }
         
         Joystick::Joystick(const float& sensibility)
@@ -99,10 +94,10 @@ namespace ProjetUnivers
           
           // load the config
           Kernel::Parameters::load("joystick_configuration.ini") ;
-          m_axes_to_ois[X] = (unsigned int)Kernel::Parameters::getValue<float>("Joystick","OIS.X",0) ;
-          m_axes_to_ois[Y] = (unsigned int)Kernel::Parameters::getValue<float>("Joystick","OIS.Y",1) ;
-          m_axes_to_ois[Rudder] = (unsigned int)Kernel::Parameters::getValue<float>("Joystick","OIS.RZ",2) ;
-          m_axes_to_ois[Throttle] = (unsigned int)Kernel::Parameters::getValue<float>("Joystick","OIS.Slider",3) ;
+          m_ois_to_axes[(unsigned int)Kernel::Parameters::getValue<float>("Joystick","OIS.X",0)] = Model::PlayerConfiguration::InputAxis::JoystickX ;
+          m_ois_to_axes[(unsigned int)Kernel::Parameters::getValue<float>("Joystick","OIS.Y",1)] = Model::PlayerConfiguration::InputAxis::JoystickY ;
+          m_ois_to_axes[(unsigned int)Kernel::Parameters::getValue<float>("Joystick","OIS.RZ",2)] = Model::PlayerConfiguration::InputAxis::JoystickRudder ;
+          m_ois_to_axes[(unsigned int)Kernel::Parameters::getValue<float>("Joystick","OIS.Slider",3)] = Model::PlayerConfiguration::InputAxis::JoystickThrottle ; 
         }
 
         Model::PlayerConfiguration::InputEvent Joystick::buildEvent(const int& code) const

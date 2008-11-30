@@ -50,6 +50,9 @@ namespace ProjetUnivers {
         /// Access to the root window of @c window
         ::CEGUI::Window* getRoot(::CEGUI::Window* window) ;
         
+        //: Print hierarchy name and type of a window.
+        std::string printStructure(::CEGUI::Window* window,const int& indent) ; 
+        
         /// Access to descendant of @c window with @c name
         /*!
           @return NULL if not found

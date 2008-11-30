@@ -21,6 +21,7 @@
 #include <iostream>
 #include <CEGUI.h>
 #include <CEGUIExceptions.h>
+
 #include <kernel/model.h>
 #include <kernel/timer.h>
 #include <kernel/parameters.h>
@@ -70,8 +71,6 @@ namespace ProjetUnivers
           std::string menu_name ;
           
           menu_name = Kernel::Parameters::getValue<std::string>("GUI","Test.BasicTest.Name","main_menu.layout") ; 
-          
-          std::cout << "loading " << menu_name << std::endl ;
           
           Kernel::Object* menu = model->createObject() ;
           menu->addTrait(new Model::Menu(menu_name)) ;

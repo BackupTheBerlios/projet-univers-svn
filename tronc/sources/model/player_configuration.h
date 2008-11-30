@@ -83,9 +83,31 @@ namespace ProjetUnivers
       {
       public:
 
+        /// Symbolic axes.
+        enum Axis
+        {
+          /// Horizontal
+          JoystickX = 0,
+          /// Vertical
+          JoystickY,
+          /// Rudder 
+          JoystickRudder,
+          /// Throttle
+          JoystickThrottle,
+          /// Horizontal
+          MouseX,
+          /// Vertical
+          MouseY,
+          /// Wheel
+          MouseWheel
+        };
+        
+        /// Print an axis
+        static std::string toString(const Axis&) ;
+        
         /// Negative value indicates axis inversion.
         static InputAxis joystickAxis(int axis) ; 
-
+        
         /// Negative value indicates axis inversion.
         static InputAxis mouseAxis(int axis) ;
 
@@ -106,6 +128,9 @@ namespace ProjetUnivers
         /// True if the axis is inversed.
         bool isInversed() const ;
 
+        /// Access to the symbolic axis.
+        int getAxis() const ;
+        
       private:
 
         enum Type

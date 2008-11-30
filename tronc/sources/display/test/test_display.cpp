@@ -22,10 +22,12 @@
 #include <cppunit/ui/text/TestRunner.h>
 #include <cppunit/CompilerOutputter.h>
 #include <cppunit/XmlOutputter.h>
-#include <kernel/cppunit_multi_outputter.h>
 
+#include <kernel/cppunit_multi_outputter.h>
 #include <kernel/parameters.h>
 #include <kernel/log.h>
+
+#include <display/display.h>
 
 int 
 main( int argc, char* argv[] )
@@ -54,6 +56,7 @@ main( int argc, char* argv[] )
   // Run the test.
   bool wasSucessful = runner.run( "" );
 
+  ProjetUnivers::Display::terminate() ;
   ProjetUnivers::Kernel::Log::close() ;
 
 

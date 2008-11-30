@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007-2008 Mathieu ROGER                                 *
+ *   Copyright (C) 2008 Mathieu ROGER                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,49 +18,49 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_INPUT_IMPLEMENTATION_OIS_MOUSE_H_
-#define PU_INPUT_IMPLEMENTATION_OIS_MOUSE_H_
+#ifndef PU_INPUT_INPUT_LISTENER_H_
+#define PU_INPUT_INPUT_LISTENER_H_
 
-#include <OIS/OISMouse.h>
-#include <input/implementation/input_object.h>
+namespace ProjetUnivers 
+{
+  namespace Input 
+  {
+    
+    /// Interface for objects that receive input.
+    /*!
+      Mainly used to register a GUI system.
+    */
+    class InputListener
+    {
+    public:
+      
+      /// Inject KeyPressed event.
+      virtual void injectKeyPressed(int key_code) = 0 ;
+      
+      /// Inject KeyReleased event.
+      virtual void injectKeyReleased(int key_code) = 0 ;
+      
+      /// Inject the char corresponding to key pressed
+      virtual void injectChar(unsigned int key_char) = 0 ;
+      
+      /// Inject mouse position.
+      virtual void injectMousePosition(int x,int y, int z) = 0 ;
 
-namespace ProjetUnivers {
-  namespace Input {
-    namespace Implementation {
-      namespace OIS {
+      /// Inject MousePressed event.
+      virtual void injectMousePressed(int button) = 0 ;
 
-        /// Handle mouse.
-        class Mouse : public ::OIS::MouseListener, public InputObject
-        {
-        public:
-        
-          /// Constructor.
-          Mouse() ;  
-          
-        /*!
-          @name OIS Interface implementation
-        */
-        // @{
-        
-          virtual bool mouseMoved(const ::OIS::MouseEvent&) ;
-          virtual bool mousePressed(const ::OIS::MouseEvent&,::OIS::MouseButtonID) ;
-          virtual bool mouseReleased(const ::OIS::MouseEvent&,::OIS::MouseButtonID) ;
-  
-        // @}
-          /// Build an event from a code 
-          virtual Model::PlayerConfiguration::InputEvent buildEvent(const int&) const ;
-          
-        private:
-  
-          /// Mouse sensibility.
-          float m_sensibility ;
-        };
-        
-      }
-    }
+      /// Inject MouseReleased event.
+      virtual void injectMouseReleased(int button) = 0 ;
+      
+      /// Abstract class.
+      virtual ~InputListener() ;
+      
+    protected:
+      
+      /// Abstract class.
+      InputListener() ;
+    };
   }
 }
 
-
-
-#endif /*PU_INPUT_IMPLEMENTATION_MOUSE_H_*/
+#endif /*PU_INPUT_INPUT_LISTENER_H_*/
