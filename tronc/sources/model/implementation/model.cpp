@@ -95,6 +95,7 @@ namespace ProjetUnivers {
 
   // @}
 
+    /// Search a filename in the ressources
     std::string findFilePath(const std::string& filename)
     {
       // on demand init
@@ -292,7 +293,7 @@ namespace ProjetUnivers {
         main_menu_in_game->setName("main_menu_in_game") ;
         main_menu_in_game->addTrait(new Menu("confirm.layout")) ;
         main_menu_in_game->addTrait(new State()) ;
-        main_menu_in_game->getTrait<State>()->addCommandAlias("quit","change(quit,Active)") ;
+        main_menu_in_game->getTrait<State>()->addCommandAlias("quit","change(main_menu,Displayed)") ;
         main_menu_in_game->getTrait<State>()->addCommandAlias("cancelQuit","pop()") ;
         
         Kernel::Object* mission = root->createObject() ;
@@ -420,49 +421,9 @@ namespace ProjetUnivers {
     
     Kernel::Object* createDefaultPlayerConfiguration(Kernel::Object* parent)
     {
-      Kernel::Object* configuration = parent->createObject() ;
-      // input player config...
-      configuration->addTrait(new PlayerConfiguration()) ;
-      configuration->getTrait<PlayerConfiguration>()
-                   ->addMapping(PlayerConfiguration::InputEvent::key(OIS::KC_F),"fire") ;
-      configuration->getTrait<PlayerConfiguration>()
-                   ->addMapping(PlayerConfiguration::InputEvent::key(OIS::KC_ESCAPE),"Menu") ;
-      configuration->getTrait<PlayerConfiguration>()
-                   ->addMapping(PlayerConfiguration::InputEvent::key(OIS::KC_S),"Select Next Target") ;
-      configuration->getTrait<PlayerConfiguration>()
-                   ->addMapping(PlayerConfiguration::InputEvent::key(OIS::KC_P),"Select Previous Target") ;
-      configuration->getTrait<PlayerConfiguration>()
-                   ->addMapping(PlayerConfiguration::InputEvent::key(OIS::KC_N),"Select Nearest Enemy") ;
-      
-      // axis
-//      configuration->getTrait<PlayerConfiguration>()
-//                   ->addMapping(PlayerConfiguration::InputAxis::mouseAxis(2),
-//                       "Throttle") ;
-//      configuration->getTrait<PlayerConfiguration>()
-//                   ->addMapping(PlayerConfiguration::InputAxis::mouseAxis(0),
-//                       "Yaw") ;
-//     configuration->getTrait<PlayerConfiguration>()
-//                  ->addMapping(PlayerConfiguration::InputAxis::mouseAxis(-1),
-//                      "Pitch") ;
-      
-      configuration->getTrait<PlayerConfiguration>()
-                   ->addMapping(PlayerConfiguration::InputAxis::joystickAxis(
-                       int(Kernel::Parameters::getValue<float>("Input","ThrottelAxis"))),
-                       "Throttle") ;
-      configuration->getTrait<PlayerConfiguration>()
-                   ->addMapping(PlayerConfiguration::InputAxis::joystickAxis(
-                       int(Kernel::Parameters::getValue<float>("Input","XAxis"))),
-                       "Yaw") ;
-      configuration->getTrait<PlayerConfiguration>()
-                   ->addMapping(PlayerConfiguration::InputAxis::joystickAxis(
-                       int(Kernel::Parameters::getValue<float>("Input","YAxis"))),
-                       "Pitch") ;
-      configuration->getTrait<PlayerConfiguration>()
-                   ->addMapping(PlayerConfiguration::InputAxis::joystickAxis(
-                       int(Kernel::Parameters::getValue<float>("Input","ZAxis"))),
-                       "Roll") ;
-      
-      return configuration ;
+      // read from config file
+      std::auto_ptr<Kernel::XMLReader> reader(Kernel::XMLReader::getFileReader(findFilePath("player_configuration.xml"))) ;
+      return reader->read(parent) ;
     }
     
   }

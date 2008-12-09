@@ -79,8 +79,8 @@ namespace ProjetUnivers {
       notify() ;
     }
 
-    RegisterAxis("Throttle",Throttle,set) ;
-    /// @todo should be private
-    RegisterAxis("Change Throttle",Throttle,modify) ;
+    RegisterAxis("Throttle","Piloting",Throttle,set) ;
+
+    RegisterAxis("Change Throttle",Kernel::InternalGroup,Throttle,modify) ;
   }
 }

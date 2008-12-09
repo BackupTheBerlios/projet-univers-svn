@@ -63,19 +63,31 @@ namespace ProjetUnivers {
           
         // @}
           
+          /// Draw the list
+          void initialDraw() ;
+          
           /// redraw the list
           void reDraw() ;
           
-          /// Handle select event to change mapping.
+          /// When whanging a event value.
           bool onSelect(const ::CEGUI::EventArgs& args) ;
+
+          /// When decreasing an axis.
+          bool onDecrease(const ::CEGUI::EventArgs& args) ;
+
+          /// When increasing an axis.
+          bool onIncrease(const ::CEGUI::EventArgs& args) ;
           
         private:
   
           /// Main window
           ::CEGUI::Window* m_window ;
           
-          /// List of mapping command/key
-          ::CEGUI::MultiColumnList* m_list ;
+          /// Control sheet
+          ::CEGUI::Window* m_controls ;
+          
+          /// Display commands
+          std::map<std::string,::CEGUI::Window*> m_commands ;
           
           /// to quit this menu
           ::CEGUI::PushButton* m_ok ;

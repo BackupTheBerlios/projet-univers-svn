@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2008 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -24,8 +24,10 @@
 #include <kernel/object.h>
 #include <kernel/trait.h>
 
-namespace ProjetUnivers {
-  namespace Kernel {
+namespace ProjetUnivers 
+{
+  namespace Kernel 
+  {
   
     class ViewPoint ;
     
@@ -45,7 +47,7 @@ namespace ProjetUnivers {
       
       /// Access to a view of the same object.
       template <class _View> _View* getView() const ;
-      
+
       /// Access to object.
       Object* getObject() const ;
     
@@ -95,6 +97,7 @@ namespace ProjetUnivers {
     {
       return getObject()->getView<_View>(m_viewpoint) ;
     }
+    
   }
 }
 

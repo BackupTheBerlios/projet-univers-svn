@@ -23,9 +23,12 @@
 
 #include <cppunit/extensions/HelperMacros.h>
 
-namespace ProjetUnivers {
-  namespace Model {
-    namespace Test {
+namespace ProjetUnivers 
+{
+  namespace Model 
+  {
+    namespace Test 
+    {
             
       /// Test of PlayerConfiguration.
       class TestPlayerConfiguration : public CppUnit::TestFixture {
@@ -38,7 +41,23 @@ namespace ProjetUnivers {
         
         void testGetInputEvent() ;
 
-        void demoTest() ;
+        /// Normal decrease axis 
+        void decreaseAxis() ;
+
+        /// Limit case 
+        void decreaseFirstAxis() ;
+        
+        /// Normal increase axis 
+        void increaseAxis() ;
+
+        /// Limit case 
+        void increaseLastAxis() ;
+        
+        void invertedAxisPrint() ;
+        
+        void normalAxisPrint() ;
+        
+        void changeAxisMapping() ;
         
       // @}
       /*! 
@@ -49,7 +68,13 @@ namespace ProjetUnivers {
         CPPUNIT_TEST_SUITE(TestPlayerConfiguration) ;
       
         CPPUNIT_TEST(testGetInputEvent) ;
-        CPPUNIT_TEST(demoTest) ;
+        CPPUNIT_TEST(decreaseAxis) ;
+        CPPUNIT_TEST(decreaseFirstAxis) ;
+        CPPUNIT_TEST(increaseAxis) ;
+        CPPUNIT_TEST(increaseLastAxis) ;
+        CPPUNIT_TEST(invertedAxisPrint) ;
+        CPPUNIT_TEST(normalAxisPrint) ;
+        CPPUNIT_TEST(changeAxisMapping) ;
       
         CPPUNIT_TEST_SUITE_END() ;
 

@@ -34,9 +34,9 @@ namespace ProjetUnivers {
         
         bool Mouse::mouseMoved(const ::OIS::MouseEvent& event)
         {
-          m_axes[Model::PlayerConfiguration::InputAxis::mouseAxis(Model::PlayerConfiguration::InputAxis::MouseX)] += event.state.X.rel*m_sensibility ;
-          m_axes[Model::PlayerConfiguration::InputAxis::mouseAxis(Model::PlayerConfiguration::InputAxis::MouseY)] += event.state.Y.rel*m_sensibility ;
-          m_axes[Model::PlayerConfiguration::InputAxis::mouseAxis(Model::PlayerConfiguration::InputAxis::MouseWheel)] += event.state.Z.rel*m_sensibility ;
+          m_axes[Model::PlayerConfiguration::InputAxis(Model::PlayerConfiguration::InputAxis::MouseX)] += event.state.X.rel*m_sensibility ;
+          m_axes[Model::PlayerConfiguration::InputAxis(Model::PlayerConfiguration::InputAxis::MouseY)] += event.state.Y.rel*m_sensibility ;
+          m_axes[Model::PlayerConfiguration::InputAxis(Model::PlayerConfiguration::InputAxis::MouseWheel)] += event.state.Z.rel*m_sensibility ;
           return true ;
         }
         
@@ -61,14 +61,19 @@ namespace ProjetUnivers {
           
           m_sensibility /= 100 ;
           
-          m_axes[Model::PlayerConfiguration::InputAxis::mouseAxis(Model::PlayerConfiguration::InputAxis::MouseX)] = 0 ;
-          m_axes[Model::PlayerConfiguration::InputAxis::mouseAxis(Model::PlayerConfiguration::InputAxis::MouseY)] = 0 ;
-          m_axes[Model::PlayerConfiguration::InputAxis::mouseAxis(Model::PlayerConfiguration::InputAxis::MouseWheel)] = 0 ;
+          m_axes[Model::PlayerConfiguration::InputAxis(Model::PlayerConfiguration::InputAxis::MouseX)] = 0 ;
+          m_axes[Model::PlayerConfiguration::InputAxis(Model::PlayerConfiguration::InputAxis::MouseY)] = 0 ;
+          m_axes[Model::PlayerConfiguration::InputAxis(Model::PlayerConfiguration::InputAxis::MouseWheel)] = 0 ;
         }
         
         Model::PlayerConfiguration::InputEvent Mouse::buildEvent(const int& code) const
         {
           return Model::PlayerConfiguration::InputEvent::mouseButton(code) ;
+        }
+        
+        void Mouse::indicatePresence(Model::PlayerConfiguration* configuration) const
+        {
+          configuration->declareMouse() ;
         }
         
       }

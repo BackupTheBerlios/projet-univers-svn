@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2008 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -20,8 +20,10 @@
  ***************************************************************************/
 #include <kernel/inherits.h>
 
-namespace ProjetUnivers {
-  namespace Kernel {
+namespace ProjetUnivers 
+{
+  namespace Kernel 
+  {
     class Model ;
 
     template <class _Trait,class _ViewPoint> 
@@ -42,6 +44,12 @@ namespace ProjetUnivers {
       return result ;
     }
 
+    template <class _Trait,class _ViewPoint>
+    template <class T> T* TraitView<_Trait,_ViewPoint>::getTrait() const
+    {
+      return getObject()->getTrait<T>() ;
+    }
+    
     template <class _Trait,class _ViewPoint>
     _ViewPoint* TraitView<_Trait,_ViewPoint>::getViewPoint() const
     {

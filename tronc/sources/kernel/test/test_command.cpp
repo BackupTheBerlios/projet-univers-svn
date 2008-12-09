@@ -35,9 +35,12 @@
 CPPUNIT_TEST_SUITE_REGISTRATION(
     ProjetUnivers::Kernel::Test::TestCommand) ;
 
-namespace ProjetUnivers {
-  namespace Kernel {
-    namespace Test {
+namespace ProjetUnivers 
+{
+  namespace Kernel 
+  {
+    namespace Test 
+    {
 
       /// local classes
       namespace
@@ -70,7 +73,7 @@ namespace ProjetUnivers {
         };
         
         /// command registration
-        RegisterAxis("axis1",Trait1,change) ;
+        RegisterAxis("axis1","group1",Trait1,change) ;
           
         RegisterFunction("function1",Trait1,getValue) ;
 
@@ -113,7 +116,7 @@ namespace ProjetUnivers {
         
         /// registration
         RegisterCommand("push",Trait2,push) ;
-        RegisterAxis("axis2",Trait2,change) ;
+        RegisterAxis("axis2","group2",Trait2,change) ;
 
         RegisterFunction("function1",Trait2,getValue) ;
         
@@ -412,13 +415,55 @@ namespace ProjetUnivers {
           "Kernel::Test::TestCommand::callOnGranChild leaving") ;
       }
       
-      void TestCommand::setUp()
+      namespace
       {
+        class Trait4 : public Trait
+        {
+        public:
+        
+          Trait4()
+          : Trait(), 
+            value(0)
+          {}
+        
+          void change(const int& i_new_value) 
+          {
+            value = i_new_value ;
+            notify() ;
+          }  
+          
+          int getValue() const
+          {
+            return value ;
+          }
+          
+          
+        private:
+        
+          int value ;
+           
+        };
+        
+        RegisterAxis("axis3",InternalGroup,Trait4,change) ;
+      }
+      
+      void TestCommand::getAxesGroups()
+      {
+        std::set<std::string> groups = Trait::getRegisteredAxesGroups() ;
+        std::set<std::string> result ;
+        result.insert("group1") ;
+        result.insert("group2") ;
+        
+        CPPUNIT_ASSERT(groups == result) ;
       }
 
-      void TestCommand::tearDown()
+      void TestCommand::getAxes()
       {
+        std::set<std::string> groups = Trait::getRegisteredAxes("group1") ;
+        CPPUNIT_ASSERT(groups.size()==1) ;
+        CPPUNIT_ASSERT((*groups.begin())=="axis1") ;
       }
+      
     }
   }
 }

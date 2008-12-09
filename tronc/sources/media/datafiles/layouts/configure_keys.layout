@@ -1,41 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <GUILayout >
-    <Window Type="DefaultWindow" Name="ConfigureKeys" >
-        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
-        <Property Name="UnifiedAreaRect" Value="{{0.1794,0},{0.1220,0},{0.9497,0},{0.9343,0}}" />
-        <Window Type="ProjetUnivers/Menu" Name="ConfigureKeys/Menu" >
-            <Property Name="TitlebarFont" Value="Commonwealth-10" />
-            <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
-            <Property Name="TitlebarEnabled" Value="True" />
-            <Property Name="UnifiedAreaRect" Value="{{0.2,0},{0.25,0},{0.8,0},{0.8,0}}" />
-            <Property Name="EWSizingCursorImage" Value="" />
-            <Property Name="NSSizingCursorImage" Value="" />
-            <Property Name="NESWSizingCursorImage" Value="" />
-            <Property Name="NWSESizingCursorImage" Value="" />
-            <Window Type="ProjetUnivers/StaticText" Name="ConfigureKeys/Menu/Title" >
-                <Property Name="Font" Value="Commonwealth-10" />
-                <Property Name="Text" Value="Choose action mapping" />
-                <Property Name="FrameEnabled" Value="False" />
-                <Property Name="HorzFormatting" Value="HorzCentred" />
-                <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
-                <Property Name="UnifiedAreaRect" Value="{{1.90292e-006,0},{0.0662404,0},{0.904805,0},{0.152557,0}}" />
-                <Property Name="BackgroundEnabled" Value="False" />
-                <Property Name="HorizontalAlignment" Value="Centre" />
-            </Window>
-            <Window Type="ProjetUnivers/MultiColumnList" Name="ConfigureKeys/Menu/Actions" >
-                <Property Name="Font" Value="BlueHighway-10" />
-                <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
-                <Property Name="UnifiedAreaRect" Value="{{0,35},{0.17,0},{1,-35},{0.93,-20}}" />
-                <Property Name="ColumnHeader" Value="text:Action width:{0.5,0} id:0" />
-                <Property Name="ColumnHeader" Value="text:Key/Button width:{0.5,0} id:1" />
-            </Window>
-            <Window Type="ProjetUnivers/Button" Name="ConfigureKeys/Menu/Done" >
-                <Property Name="Text" Value="Done" />
-                <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
-                <Property Name="UnifiedAreaRect" Value="{{0,35},{0.94,-20},{1,-35},{0.94,0}}" />
-                <Event Name="Clicked" Function="pop()"/>
-            </Window>
-        </Window>
+  <Window Type="ProjetUnivers/Menu" Name="Controls">
+    <Property Name="TitlebarFont" Value="Commonwealth-10" />
+    <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+    <Property Name="TitlebarEnabled" Value="True" />
+    <Property Name="UnifiedAreaRect"
+      Value="{{0.1794,0},{0.1220,0},{0.9497,0},{0.9343,0}}" />
+    <Property Name="EWSizingCursorImage" Value="" />
+    <Property Name="NSSizingCursorImage" Value="" />
+    <Property Name="NESWSizingCursorImage" Value="" />
+    <Property Name="NWSESizingCursorImage" Value="" />
+    <!-- Will contains the buttons -->
+    <AutoWindow NameSuffix="_content"></AutoWindow>
+    <Window Type="ProjetUnivers/StaticText"
+      Name="ConfigureKeys/Menu/Title">
+      <Property Name="Font" Value="Commonwealth-10" />
+      <Property Name="Text" Value="Choose action mapping" />
+      <Property Name="FrameEnabled" Value="False" />
+      <Property Name="HorzFormatting" Value="HorzCentred" />
+      <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+      <Property Name="UnifiedAreaRect" Value="{{1.90292e-006,0},{0.0662404,0},{0.904805,0},{0.152557,0}}" />
+      <Property Name="BackgroundEnabled" Value="False" />
+      <Property Name="HorizontalAlignment" Value="Centre" />
     </Window>
+    <Window Type="ProjetUnivers/Button"
+      Name="ConfigureKeys/Menu/Done">
+      <Property Name="Text" Value="Done" />
+      <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+      <Property Name="UnifiedAreaRect" Value="{{0,35},{0.94,-20},{1,-35},{0.94,0}}" />
+      <Event Name="Clicked" Function="pop()" />
+    </Window>
+  </Window>
 </GUILayout>

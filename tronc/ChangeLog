@@ -979,6 +979,24 @@
     - added preliminary tabbed window
     - added a basic window taken from MyGUI
     - moved gui imageset to png
+
+2008-12-09 rogma
+  
+  * Kernel :
+    - added axes groups and a special internal group
+    - added a load object from file
+
+  * Model :
+    - loaded player configuration from a file
+    - changes in PlayerConfiguration for GUI
+    
+  * Media :
+    - added a auto sub window to ProjetUnivers/Menu that represents the inside 
+      content of the window. Use <AutoWindow nameSuffix="_content"> as parent 
+      to be inside.
+  
+  * GUI :
+    - player configuration window
  
 @todo :
   

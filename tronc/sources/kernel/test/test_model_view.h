@@ -24,23 +24,17 @@
 
 #include <cppunit/extensions/HelperMacros.h>
 
-namespace ProjetUnivers {
-  namespace Kernel {
-    namespace Test {
+namespace ProjetUnivers 
+{
+  namespace Kernel 
+  {
+    namespace Test 
+    {
 
 
       ///  Test for Model/View.
-      /*!
-      */
-      class TestModelView : public CppUnit::TestFixture {
-      public:
-
-        /// Tests setup
-        void setUp() ;
-
-        /// Tests close.
-        void tearDown() ;
-
+      class TestModelView : public CppUnit::TestFixture 
+      {
       protected:
 
       /// @name Tests methods
@@ -146,6 +140,9 @@ namespace ProjetUnivers {
         /// Destroying a model must call onClose on viewpoint.
         void destroyModelAndCloseViewPoint() ;
         
+        /// Access a trait of object.
+        void accessOtherTrait() ;
+        
       // @}
 
 
@@ -178,6 +175,7 @@ namespace ProjetUnivers {
         CPPUNIT_TEST(destroyObjectWithDeducedTraits) ;
         CPPUNIT_TEST(detroyViewPoint) ;
         CPPUNIT_TEST(destroyModelAndCloseViewPoint) ;
+        CPPUNIT_TEST(accessOtherTrait) ;
 
         CPPUNIT_TEST_SUITE_END() ;
 

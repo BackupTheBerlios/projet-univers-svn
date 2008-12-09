@@ -21,7 +21,6 @@
 #include <iostream>
 #include <kernel/log.h>
 #include <kernel/object.h>
-#include <model/menu.h>
 #include <gui/implementation/cegui/cegui.h>
 #include <gui/implementation/cegui/command_interpretor.h>
 
@@ -38,10 +37,10 @@ namespace ProjetUnivers
         : m_command_name(command_name)
         {}
         
-        Model::Menu* CommandInterpretor::getMenu(::CEGUI::Window* window)
+        Kernel::Object* CommandInterpretor::getMenu(::CEGUI::Window* window)
         {
           
-          Model::Menu* menu = static_cast<Model::Menu*>(window->getUserData()) ;
+          Kernel::Object* menu = static_cast<Kernel::Object*>(window->getUserData()) ;
           if (menu)
             return menu ; 
           
@@ -57,12 +56,12 @@ namespace ProjetUnivers
           const ::CEGUI::WindowEventArgs* argument = dynamic_cast<const ::CEGUI::WindowEventArgs*>(&args) ;
           if (argument && argument->window)
           {
-            Model::Menu* menu = getMenu(argument->window) ;
+            Kernel::Object* menu = getMenu(argument->window) ;
             
             if (menu)
             {
               InternalMessage("GUI","calling command " + m_command_name) ;
-              menu->getObject()->call(m_command_name) ;
+              menu->call(m_command_name) ;
             }
             else
             {

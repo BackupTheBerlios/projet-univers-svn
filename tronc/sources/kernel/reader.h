@@ -41,6 +41,9 @@ namespace ProjetUnivers {
       /// Read and fill @c model with content.
       void read(Model* model) ;
       
+      /// Read a new object and put it under @c parent. 
+      Object* read(Object* parent) ;
+      
       /// Move to the next object child or trait node.
       /*!
         @pre we are in an object node.
@@ -91,6 +94,9 @@ namespace ProjetUnivers {
       std::string print() const ;
 
     private:
+      
+      /// Read a model.
+      Object* internalReadModel(Model* model,Object* parent) ;
       
       /// Read an object.
       /*!

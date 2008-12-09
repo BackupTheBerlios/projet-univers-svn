@@ -6,30 +6,18 @@
 		***************************************************
 	-->
 	<WidgetLook name="ProjetUnivers/Button">
-		<PropertyDefinition name="NormalTextColour"
-			initialValue="FFFFFFFF" redrawOnWrite="true" />
-		<PropertyDefinition name="HoverTextColour"
-			initialValue="FFFFFFFF" redrawOnWrite="true" />
-		<PropertyDefinition name="PushedTextColour"
-			initialValue="FFFFFFFF" redrawOnWrite="true" />
-		<PropertyDefinition name="DisabledTextColour"
-			initialValue="FF7F7F7F" redrawOnWrite="true" />
-		<PropertyDefinition name="VertLabelFormatting"
-			initialValue="CentreAligned" />
-		<PropertyDefinition name="HorzLabelFormatting"
-			initialValue="CentreAligned" />
-		<PropertyDefinition name="NormalImage" initialValue=""
-			redrawOnWrite="true" />
-		<PropertyDefinition name="HoverImage" initialValue=""
-			redrawOnWrite="true" />
-		<PropertyDefinition name="PushedImage" initialValue=""
-			redrawOnWrite="true" />
-		<PropertyDefinition name="DisabledImage" initialValue=""
-			redrawOnWrite="true" />
-		<PropertyDefinition name="VertImageFormatting"
-			initialValue="Stretched" redrawOnWrite="true" />
-		<PropertyDefinition name="HorzImageFormatting"
-			initialValue="Stretched" redrawOnWrite="true" />
+		<PropertyDefinition name="NormalTextColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
+		<PropertyDefinition name="HoverTextColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
+		<PropertyDefinition name="PushedTextColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
+		<PropertyDefinition name="DisabledTextColour" initialValue="FF7F7F7F" redrawOnWrite="true" />
+		<PropertyDefinition name="VertLabelFormatting" initialValue="CentreAligned" />
+		<PropertyDefinition name="HorzLabelFormatting" initialValue="CentreAligned" />
+		<PropertyDefinition name="NormalImage" initialValue="" redrawOnWrite="true" />
+		<PropertyDefinition name="HoverImage" initialValue="" redrawOnWrite="true" />
+		<PropertyDefinition name="PushedImage" initialValue="" redrawOnWrite="true" />
+		<PropertyDefinition name="DisabledImage" initialValue="" redrawOnWrite="true" />
+		<PropertyDefinition name="VertImageFormatting" initialValue="Stretched" redrawOnWrite="true" />
+		<PropertyDefinition name="HorzImageFormatting" initialValue="Stretched" redrawOnWrite="true" />
 		<ImagerySection name="label">
 			<TextComponent>
 				<Area>
@@ -105,8 +93,7 @@
 						<UnifiedDim scale="1" type="Height" />
 					</Dim>
 				</Area>
-				<Image type="Background" imageset="ProjetUnivers"
-					image="Buttonhover" />
+				<Image type="Background" imageset="ProjetUnivers" image="Buttonhover" />
 			</FrameComponent>
 			<ImageryComponent>
 				<Area>
@@ -528,19 +515,12 @@
 		***************************************************
 	-->
 	<WidgetLook name="ProjetUnivers/Menu">
-		<PropertyLinkDefinition name="CaptionColour"
-			widget="__auto_titlebar__" targetProperty="CaptionColour"
-			initialValue="FFFFFFFF" />
-		<PropertyLinkDefinition name="TitlebarFont"
-			widget="__auto_titlebar__" targetProperty="Font" />
-		<Property name="NSSizingCursorImage"
-			value="set:ProjetUnivers-Images image:MouseArrow" />
-		<Property name="EWSizingCursorImage"
-			value="set:ProjetUnivers-Images image:MouseArrow" />
-		<Property name="NWSESizingCursorImage"
-			value="set:ProjetUnivers-Images image:MouseArrow" />
-		<Property name="NESWSizingCursorImage"
-			value="set:ProjetUnivers-Images image:MouseArrow" />
+		<PropertyLinkDefinition name="CaptionColour" widget="__auto_titlebar__" targetProperty="CaptionColour" initialValue="FFFFFFFF" />
+		<PropertyLinkDefinition name="TitlebarFont" widget="__auto_titlebar__" targetProperty="Font" />
+		<Property name="NSSizingCursorImage" value="set:ProjetUnivers-Images image:MouseArrow" />
+		<Property name="EWSizingCursorImage" value="set:ProjetUnivers-Images image:MouseArrow" />
+		<Property name="NWSESizingCursorImage" value="set:ProjetUnivers-Images image:MouseArrow" />
+		<Property name="NESWSizingCursorImage" value="set:ProjetUnivers-Images image:MouseArrow" />
 		<Property name="RollUpEnabled" value="False" />
 		<NamedArea name="ClientWithTitleWithFrame">
 			<Area>
@@ -608,8 +588,7 @@
 				</Dim>
 			</Area>
 		</NamedArea>
-		<Child type="ProjetUnivers/Titlebar"
-			nameSuffix="__auto_titlebar__">
+		<Child type="ProjetUnivers/Titlebar" nameSuffix="__auto_titlebar__">
 			<Area>
 				<Dim type="LeftEdge">
 					<AbsoluteDim value="0" />
@@ -626,8 +605,7 @@
 			</Area>
 			<Property name="AlwaysOnTop" value="False" />
 		</Child>
-		<Child type="ProjetUnivers/Button"
-			nameSuffix="__auto_closebutton__">
+		<Child type="ProjetUnivers/Button" nameSuffix="__auto_closebutton__">
 			<Area>
 				<Dim type="LeftEdge">
 					<AbsoluteDim value="-7" />
@@ -645,7 +623,32 @@
 			<HorzAlignment type="RightAligned" />
 			<Property name="AlwaysOnTop" value="True" />
 		</Child>
-		<ImagerySection name="withtitle_frame">
+    <!-- A non displayed child that represent the part in which we can add sub-windows -->
+    <Child type="DefaultWindow" nameSuffix="_content">
+      <Area>
+        <Dim type="LeftEdge">
+          <UnifiedDim scale="0" offset="-3" type="LeftEdge">
+            <DimOperator op="Add">
+              <ImageDim imageset="ProjetUnivers" image="Menu_Droite" dimension="Width" />
+            </DimOperator>
+          </UnifiedDim>
+        </Dim>
+        <Dim type="TopEdge">
+          <UnifiedDim scale="0.17" type="TopEdge"/>
+        </Dim>
+        <Dim type="RightEdge">
+          <UnifiedDim scale="1" offset="6" type="RightEdge">
+            <DimOperator op="Subtract">
+              <ImageDim imageset="ProjetUnivers" image="Menu_Gauche" dimension="Width"/>
+            </DimOperator>
+          </UnifiedDim>
+        </Dim>
+        <Dim type="BottomEdge">
+          <UnifiedDim scale="0.94" offset="-20" type="BottomEdge" />
+        </Dim>
+      </Area>
+    </Child>
+    <ImagerySection name="withtitle_frame">
 			<FrameComponent>
 				<Area>
 					<Dim type="LeftEdge">
@@ -661,12 +664,9 @@
 						<UnifiedDim scale="1" type="BottomEdge" />
 					</Dim>
 				</Area>
-				<Image type="RightEdge" imageset="ProjetUnivers"
-					image="Menu_Droite" />
-				<Image type="LeftEdge" imageset="ProjetUnivers"
-					image="Menu_Gauche" />
-				<Image type="Background" imageset="ProjetUnivers"
-					image="Menu_Background" />
+				<Image type="RightEdge" imageset="ProjetUnivers" image="Menu_Droite" />
+				<Image type="LeftEdge" imageset="ProjetUnivers" image="Menu_Gauche" />
+ 				<Image type="Background" imageset="ProjetUnivers" image="Menu_Background" />
 			</FrameComponent>
 		</ImagerySection>
 		<ImagerySection name="notitle_frame">
@@ -685,12 +685,9 @@
 						<UnifiedDim scale="1" type="BottomEdge" />
 					</Dim>
 				</Area>
-				<Image type="RightEdge" imageset="ProjetUnivers"
-					image="Menu_Droite" />
-				<Image type="LeftEdge" imageset="ProjetUnivers"
-					image="Menu_Gauche" />
-				<Image type="Background" imageset="ProjetUnivers"
-					image="Menu_Background" />
+				<Image type="RightEdge" imageset="ProjetUnivers" image="Menu_Droite" />
+				<Image type="LeftEdge" imageset="ProjetUnivers" image="Menu_Gauche" />
+				<Image type="Background" imageset="ProjetUnivers" image="Menu_Background" />
 			</FrameComponent>
 		</ImagerySection>
 		<ImagerySection name="withtitle_noframe_client_area">
@@ -710,12 +707,9 @@
 						<UnifiedDim scale="1" type="BottomEdge" />
 					</Dim>
 				</Area>
-				<Image type="RightEdge" imageset="ProjetUnivers"
-					image="Menu_Droite" />
-				<Image type="LeftEdge" imageset="ProjetUnivers"
-					image="Menu_Gauche" />
-				<Image type="Background" imageset="ProjetUnivers"
-					image="Menu_Background" />
+				<Image type="RightEdge" imageset="ProjetUnivers" image="Menu_Droite" />
+				<Image type="LeftEdge" imageset="ProjetUnivers" image="Menu_Gauche" />
+				<Image type="Background" imageset="ProjetUnivers" image="Menu_Background" />
 			</FrameComponent>
 		</ImagerySection>
 		<ImagerySection name="notitle_noframe_client_area">
@@ -734,12 +728,9 @@
 						<UnifiedDim scale="1" type="BottomEdge" />
 					</Dim>
 				</Area>
-				<Image type="RightEdge" imageset="ProjetUnivers"
-					image="Menu_Droite" />
-				<Image type="LeftEdge" imageset="ProjetUnivers"
-					image="Menu_Gauche" />
-				<Image type="Background" imageset="ProjetUnivers"
-					image="Menu_Background" />
+				<Image type="RightEdge" imageset="ProjetUnivers" image="Menu_Droite" />
+				<Image type="LeftEdge" imageset="ProjetUnivers" image="Menu_Gauche" />
+				<Image type="Background" imageset="ProjetUnivers" image="Menu_Background" />
 			</FrameComponent>
 		</ImagerySection>
 		<StateImagery name="ActiveWithTitleWithFrame">
@@ -1737,9 +1728,7 @@
 		***************************************************
 	-->
 	<WidgetLook name="ProjetUnivers/StaticText">
-		<PropertyDefinition name="FrameColours"
-			initialValue="tl:FFFFFFFF tr:FFFFFFFF bl:FFFFFFFF br:FFFFFFFF"
-			redrawOnWrite="true" />
+		<PropertyDefinition name="FrameColours" initialValue="tl:FFFFFFFF tr:FFFFFFFF bl:FFFFFFFF br:FFFFFFFF" redrawOnWrite="true" />
 		<NamedArea name="WithFrameTextRenderArea">
 			<Area>
 				<Dim type="LeftEdge">
@@ -3415,11 +3404,332 @@
         <Image type="Background" imageset="ProjetUnivers" image="BasicWindow_Midle"/> 
       </FrameComponent>
     </ImagerySection>
+
     <StateImagery name="Enabled">
       <Layer>
         <Section section="normal" />
       </Layer>
     </StateImagery>
   </WidgetLook>
+
+  <!--
+    ***************************************************
+    ProjetUnivers/DecreaseButton
+        A button to decrease a value
+    ProjetUnivers/IncreaseButton
+        A button to decrease a value
+    
+    ***************************************************
+  -->
+  <WidgetLook name="ProjetUnivers/DecreaseButton">
+    <PropertyDefinition name="NormalTextColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
+    <PropertyDefinition name="HoverTextColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
+    <PropertyDefinition name="PushedTextColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
+    <PropertyDefinition name="DisabledTextColour" initialValue="FF7F7F7F" redrawOnWrite="true" />
+    <PropertyDefinition name="VertLabelFormatting" initialValue="CentreAligned" />
+    <PropertyDefinition name="HorzLabelFormatting" initialValue="CentreAligned" />
+    <PropertyDefinition name="NormalImage" initialValue="" redrawOnWrite="true" />
+    <PropertyDefinition name="HoverImage" initialValue="" redrawOnWrite="true" />
+    <PropertyDefinition name="PushedImage" initialValue="" redrawOnWrite="true" />
+    <PropertyDefinition name="DisabledImage" initialValue="" redrawOnWrite="true" />
+    <ImagerySection name="normal">
+      <FrameComponent>
+        <Area>
+          <Dim type="LeftEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="TopEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="Width">
+            <UnifiedDim scale="1" type="Width" />
+          </Dim>
+          <Dim type="Height">
+            <UnifiedDim scale="1" type="Height" />
+          </Dim>
+        </Area>
+        <Image type="Background" imageset="ProjetUnivers" image="DecreaseButton" />
+      </FrameComponent>
+      <ImageryComponent>
+        <Area>
+          <Dim type="LeftEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="TopEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="Width">
+            <UnifiedDim scale="1" type="Width" />
+          </Dim>
+          <Dim type="Height">
+            <UnifiedDim scale="1" type="Height" />
+          </Dim>
+        </Area>
+        <ImageProperty name="NormalImage" />
+      </ImageryComponent>
+    </ImagerySection>
+    <ImagerySection name="hover">
+      <FrameComponent>
+        <Area>
+          <Dim type="LeftEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="TopEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="Width">
+            <UnifiedDim scale="1" type="Width" />
+          </Dim>
+          <Dim type="Height">
+            <UnifiedDim scale="1" type="Height" />
+          </Dim>
+        </Area>
+        <Image type="Background" imageset="ProjetUnivers" image="Buttonhover" />
+      </FrameComponent>
+      <ImageryComponent>
+        <Area>
+          <Dim type="LeftEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="TopEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="Width">
+            <UnifiedDim scale="1" type="Width" />
+          </Dim>
+          <Dim type="Height">
+            <UnifiedDim scale="1" type="Height" />
+          </Dim>
+        </Area>
+        <ImageProperty name="HoverImage" />
+      </ImageryComponent>
+    </ImagerySection>
+    <ImagerySection name="pushed">
+      <FrameComponent>
+        <Area>
+          <Dim type="LeftEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="TopEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="Width">
+            <UnifiedDim scale="1" type="Width" />
+          </Dim>
+          <Dim type="Height">
+            <UnifiedDim scale="1" type="Height" />
+          </Dim>
+        </Area>
+        <Image type="Background" imageset="ProjetUnivers" image="Buttonhover" />
+      </FrameComponent>
+      <ImageryComponent>
+        <Area>
+          <Dim type="LeftEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="TopEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="Width">
+            <UnifiedDim scale="1" type="Width" />
+          </Dim>
+          <Dim type="Height">
+            <UnifiedDim scale="1" type="Height" />
+          </Dim>
+        </Area>
+        <ImageProperty name="PushedImage" />
+      </ImageryComponent>
+    </ImagerySection>
+    <StateImagery name="Normal">
+      <Layer>
+        <Section section="normal" />
+      </Layer>
+    </StateImagery>
+    <StateImagery name="Hover">
+      <Layer>
+        <Section section="hover" />
+      </Layer>
+    </StateImagery>
+    <StateImagery name="Pushed">
+      <Layer>
+        <Section section="pushed" />
+      </Layer>
+    </StateImagery>
+    <StateImagery name="PushedOff">
+      <Layer>
+        <Section section="hover" />
+      </Layer>
+    </StateImagery>
+    <StateImagery name="Disabled">
+      <Layer>
+        <Section section="normal">
+        </Section>
+      </Layer>
+    </StateImagery>
+    <StateImagery name="Enabled">
+      <Layer>
+        <Section section="normal">
+        </Section>
+      </Layer>
+    </StateImagery>
+  </WidgetLook>
+
+  <WidgetLook name="ProjetUnivers/IncreaseButton">
+    <PropertyDefinition name="NormalTextColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
+    <PropertyDefinition name="HoverTextColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
+    <PropertyDefinition name="PushedTextColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
+    <PropertyDefinition name="DisabledTextColour" initialValue="FF7F7F7F" redrawOnWrite="true" />
+    <PropertyDefinition name="VertLabelFormatting" initialValue="CentreAligned" />
+    <PropertyDefinition name="HorzLabelFormatting" initialValue="CentreAligned" />
+    <PropertyDefinition name="NormalImage" initialValue="" redrawOnWrite="true" />
+    <PropertyDefinition name="HoverImage" initialValue="" redrawOnWrite="true" />
+    <PropertyDefinition name="PushedImage" initialValue="" redrawOnWrite="true" />
+    <PropertyDefinition name="DisabledImage" initialValue="" redrawOnWrite="true" />
+    <ImagerySection name="normal">
+      <FrameComponent>
+        <Area>
+          <Dim type="LeftEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="TopEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="Width">
+            <UnifiedDim scale="1" type="Width" />
+          </Dim>
+          <Dim type="Height">
+            <UnifiedDim scale="1" type="Height" />
+          </Dim>
+        </Area>
+        <Image type="Background" imageset="ProjetUnivers" image="IncreaseButton" />
+      </FrameComponent>
+      <ImageryComponent>
+        <Area>
+          <Dim type="LeftEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="TopEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="Width">
+            <UnifiedDim scale="1" type="Width" />
+          </Dim>
+          <Dim type="Height">
+            <UnifiedDim scale="1" type="Height" />
+          </Dim>
+        </Area>
+        <ImageProperty name="NormalImage" />
+      </ImageryComponent>
+    </ImagerySection>
+    <ImagerySection name="hover">
+      <FrameComponent>
+        <Area>
+          <Dim type="LeftEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="TopEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="Width">
+            <UnifiedDim scale="1" type="Width" />
+          </Dim>
+          <Dim type="Height">
+            <UnifiedDim scale="1" type="Height" />
+          </Dim>
+        </Area>
+        <Image type="Background" imageset="ProjetUnivers" image="Buttonhover" />
+      </FrameComponent>
+      <ImageryComponent>
+        <Area>
+          <Dim type="LeftEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="TopEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="Width">
+            <UnifiedDim scale="1" type="Width" />
+          </Dim>
+          <Dim type="Height">
+            <UnifiedDim scale="1" type="Height" />
+          </Dim>
+        </Area>
+        <ImageProperty name="HoverImage" />
+        <VertFormatProperty name="VertImageFormatting" />
+        <HorzFormatProperty name="HorzImageFormatting" />
+      </ImageryComponent>
+    </ImagerySection>
+    <ImagerySection name="pushed">
+      <FrameComponent>
+        <Area>
+          <Dim type="LeftEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="TopEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="Width">
+            <UnifiedDim scale="1" type="Width" />
+          </Dim>
+          <Dim type="Height">
+            <UnifiedDim scale="1" type="Height" />
+          </Dim>
+        </Area>
+        <Image type="Background" imageset="ProjetUnivers" image="Buttonnormal" />
+      </FrameComponent>
+      <ImageryComponent>
+        <Area>
+          <Dim type="LeftEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="TopEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="Width">
+            <UnifiedDim scale="1" type="Width" />
+          </Dim>
+          <Dim type="Height">
+            <UnifiedDim scale="1" type="Height" />
+          </Dim>
+        </Area>
+        <ImageProperty name="PushedImage" />
+        <VertFormatProperty name="VertImageFormatting" />
+        <HorzFormatProperty name="HorzImageFormatting" />
+      </ImageryComponent>
+    </ImagerySection>
+    <StateImagery name="Normal">
+      <Layer>
+        <Section section="normal" />
+      </Layer>
+    </StateImagery>
+    <StateImagery name="Hover">
+      <Layer>
+        <Section section="hover" />
+      </Layer>
+    </StateImagery>
+    <StateImagery name="Pushed">
+      <Layer>
+        <Section section="pushed" />
+      </Layer>
+    </StateImagery>
+    <StateImagery name="PushedOff">
+      <Layer>
+        <Section section="hover" />
+      </Layer>
+    </StateImagery>
+    <StateImagery name="Disabled">
+      <Layer>
+        <Section section="normal">
+        </Section>
+      </Layer>
+    </StateImagery>
+    <StateImagery name="Enabled">
+      <Layer>
+        <Section section="normal">
+        </Section>
+      </Layer>
+    </StateImagery>
+  </WidgetLook>
+
 
 </Falagard>

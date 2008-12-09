@@ -149,9 +149,9 @@ namespace ProjetUnivers {
       notify() ;
     }
 
-    RegisterAxis("Yaw",Stick,setX) ;
-    RegisterAxis("Pitch",Stick,setY) ;
-    RegisterAxis("Roll",Stick,setZ) ;
+    RegisterAxis("Yaw","Piloting",Stick,setX) ;
+    RegisterAxis("Pitch","Piloting",Stick,setY) ;
+    RegisterAxis("Roll","Piloting",Stick,setZ) ;
   
     void Stick::updateOrientation() const
     {

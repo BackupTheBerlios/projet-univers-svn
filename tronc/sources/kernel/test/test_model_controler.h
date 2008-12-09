@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2008 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -24,21 +24,18 @@
 
 #include <cppunit/extensions/HelperMacros.h>
 
-namespace ProjetUnivers {
-  namespace Kernel {
-    namespace Test {
-
+namespace ProjetUnivers 
+{
+  namespace Kernel 
+  {
+    namespace Test 
+    {
 
       ///  Test for Model/Controler.
       /*!
       */
-      class TestModelControler : public CppUnit::TestFixture {
-      public:
-
-        void setUp() ;
-
-        void tearDown() ;
-
+      class TestModelControler : public CppUnit::TestFixture 
+      {
       protected:
 
       /*! 
@@ -106,6 +103,9 @@ namespace ProjetUnivers {
         /// Simulation destroy a trait of the current object.
         void simulateDestroyTrait() ;
         
+        /// Access a trait of object.
+        void accessOtherTrait() ;
+        
       // @}
 
 
@@ -125,6 +125,7 @@ namespace ProjetUnivers {
         CPPUNIT_TEST(setModelOnInitialisedControlerSetWithNullModel) ;
         CPPUNIT_TEST(changeModelOnInitialisedControlerSet) ;
         CPPUNIT_TEST(simulateDestroyTrait) ;
+        CPPUNIT_TEST(accessOtherTrait) ;
         
         CPPUNIT_TEST_SUITE_END() ;
 

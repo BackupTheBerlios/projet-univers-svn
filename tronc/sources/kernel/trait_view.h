@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2008 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -25,8 +25,10 @@
 #include <kernel/base_trait_view.h>
 
 
-namespace ProjetUnivers {
-  namespace Kernel {
+namespace ProjetUnivers 
+{
+  namespace Kernel 
+  {
     
     class ViewPoint ;
     
@@ -55,6 +57,9 @@ namespace ProjetUnivers {
       /// Access to object's trait viewed.     
       virtual _Trait* getTrait() const ;
 
+      /// Access to trait of type T if exists.
+      template <class T> T* getTrait() const ;
+      
       /// Access to specialised viewpoint.
       _ViewPoint* getViewPoint() const ;
 

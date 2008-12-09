@@ -61,7 +61,7 @@ namespace ProjetUnivers
                       << std::endl ;          
           }
           
-          m_axes[Model::PlayerConfiguration::InputAxis::joystickAxis(m_ois_to_axes[axis])] = 
+          m_axes[Model::PlayerConfiguration::InputAxis(m_ois_to_axes[axis])] = 
             float(event.state.mAxes[axis].abs) / ::OIS::JoyStick::MAX_AXIS ;
           return true ;
         }
@@ -107,7 +107,7 @@ namespace ProjetUnivers
         
         void Joystick::indicatePresence(Model::PlayerConfiguration* configuration) const
         {
-          configuration->hasJoystick() ;
+          configuration->declareJoystick() ;
         }
         
       }

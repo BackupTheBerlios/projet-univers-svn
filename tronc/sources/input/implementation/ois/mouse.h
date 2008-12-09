@@ -47,8 +47,12 @@ namespace ProjetUnivers {
           virtual bool mouseReleased(const ::OIS::MouseEvent&,::OIS::MouseButtonID) ;
   
         // @}
+          
           /// Build an event from a code 
           virtual Model::PlayerConfiguration::InputEvent buildEvent(const int&) const ;
+
+          /// Indicate the presence of a peripheral to the player configuration.
+          virtual void indicatePresence(Model::PlayerConfiguration*) const ;
           
         private:
   

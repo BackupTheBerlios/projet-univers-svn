@@ -23,21 +23,17 @@
 
 #include <cppunit/extensions/HelperMacros.h>
 
-namespace ProjetUnivers {
-  namespace Kernel {
-    namespace Test {
+namespace ProjetUnivers 
+{
+  namespace Kernel 
+  {
+    namespace Test 
+    {
 
 
       ///  Test for trait command and trait functions.
-      class TestCommand : public CppUnit::TestFixture {
-      public:
-
-        /// Tests setup.
-        void setUp() ;
-
-        /// Tests close.
-        void tearDown() ;
-
+      class TestCommand : public CppUnit::TestFixture 
+      {
       protected:
 
       /// @name Tests methods
@@ -70,6 +66,12 @@ namespace ProjetUnivers {
         */
         void callOnGranChild() ;
         
+        /// Check the access to axes groups
+        void getAxesGroups() ;
+
+        /// Check the access to axes.
+        void getAxes() ;
+        
       // @}
 
 
@@ -82,6 +84,8 @@ namespace ProjetUnivers {
         CPPUNIT_TEST(callUnexistingCommand) ;
         CPPUNIT_TEST(callOnRecursiveStructure) ;
         CPPUNIT_TEST(callOnGranChild) ;
+        CPPUNIT_TEST(getAxesGroups) ;
+        CPPUNIT_TEST(getAxes) ;
 
         CPPUNIT_TEST_SUITE_END() ;
 

@@ -27,6 +27,13 @@ namespace ProjetUnivers {
       _Trait* result = dynamic_cast<_Trait*>(m_trait) ;
       return result ;
     }
+
+    template<class _Trait,class _ControlerSet> 
+    template <class T> T* Controler<_Trait,_ControlerSet>::getTrait() const
+    {
+      return getObject()->getTrait<T>() ;
+    }
+    
     template<class _Trait,class _ControlerSet> 
     Controler<_Trait,_ControlerSet>::~Controler()
     {}

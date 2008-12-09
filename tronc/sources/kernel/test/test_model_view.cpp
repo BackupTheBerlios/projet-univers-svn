@@ -37,9 +37,12 @@ using namespace std ;
 CPPUNIT_TEST_SUITE_REGISTRATION(
     ProjetUnivers::Kernel::Test::TestModelView) ;
 
-namespace ProjetUnivers {
-  namespace Kernel {
-    namespace Test {
+namespace ProjetUnivers 
+{
+  namespace Kernel 
+  {
+    namespace Test 
+    {
 
       /// local classes
       namespace
@@ -1479,13 +1482,68 @@ namespace ProjetUnivers {
         
       }
       
-      void TestModelView::setUp()
+      namespace
       {
-      }
+        class AccessTrait1 : public Trait
+        {};
 
-      void TestModelView::tearDown()
-      {
+        class AccessTrait2 : public Trait
+        {};
+        
+        class AccesViewPoint : public ViewPoint
+        {
+        public:
+
+          AccesViewPoint(Model* model)
+          : ViewPoint(model)
+          {}
+          
+        };
+        
+        class AccessView1 : public TraitView<AccessTrait1,AccesViewPoint>
+        {
+        public:
+          
+          static bool m_accessed ;
+          
+          AccessView1(AccessTrait1* trait,AccesViewPoint* viewpoint)
+          : TraitView<AccessTrait1,AccesViewPoint>(trait,viewpoint)
+          {}
+          
+        protected:
+        
+          virtual void onInit()
+          {
+            AccessTrait2* t2 = getTrait<AccessTrait2>() ;
+            if (t2)
+            {
+              m_accessed = true ;
+            }
+          }
+          
+        };
+        
+        bool AccessView1::m_accessed = false ;
+        
+        RegisterView(AccessView1,AccessTrait1,AccesViewPoint) ;
+        
       }
+      
+      void TestModelView::accessOtherTrait()
+      {
+        AccessView1::m_accessed = false ;
+
+        std::auto_ptr<Model> model(new Model("TestModelView::accessOtherTrait")) ;
+        ViewPoint* viewpoint(new AccesViewPoint(model.get())) ;
+        viewpoint->init() ;
+        
+        Object* object1 = model->createObject() ;
+        object1->addTrait(new AccessTrait2()) ;
+        object1->addTrait(new AccessTrait1()) ;
+        
+        CPPUNIT_ASSERT(AccessView1::m_accessed == true) ;
+      }
+      
     }
   }
 }

@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2008 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -21,8 +21,10 @@
 #ifndef PU_KERNEL_BASE_CONTROLER_H_
 #define PU_KERNEL_BASE_CONTROLER_H_
 
-namespace ProjetUnivers {
-  namespace Kernel {
+namespace ProjetUnivers 
+{
+  namespace Kernel 
+  {
   
     class Trait ;
     class ControlerSet ;
@@ -50,7 +52,7 @@ namespace ProjetUnivers {
       
       /// Access to object.
       Object* getObject() const ;
-      
+
       /// Acces to controler set.
       ControlerSet* getControlerSet() const ;
       
@@ -88,4 +90,5 @@ namespace ProjetUnivers {
     
   }
 }
+
 #endif /*PU_KERNEL_BASE_CONTROLER_H_*/

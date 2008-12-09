@@ -93,79 +93,83 @@ namespace ProjetUnivers
         return "" ;
       }
     }
-    
+
     PlayerConfiguration::InputAxis::InputAxis()
-    : type(InputAxis::none),
-      axis(0)
+    :m_axis(Unassigned)
     {}
     
-    PlayerConfiguration::InputAxis PlayerConfiguration::InputAxis::joystickAxis(int axis)
-    {
-      InputAxis result ;
-      result.type = InputAxis::joystick ;
-      result.axis = axis ;
-      return result ;
-    }
+    PlayerConfiguration::InputAxis::InputAxis(int _axis)
+    :m_axis(_axis)
+    {}
     
-    PlayerConfiguration::InputAxis PlayerConfiguration::InputAxis::mouseAxis(int axis)
+    PlayerConfiguration::InputAxis::InputAxis& PlayerConfiguration::InputAxis::operator++()
     {
-      InputAxis result ;
-      result.type = InputAxis::mouse ;
-      result.axis = axis ;
-      return result ;
+      if (m_axis == PlayerConfiguration::InputAxis::MouseWheel)
+        m_axis = -PlayerConfiguration::InputAxis::MouseWheel ;
+      else
+        m_axis = (PlayerConfiguration::InputAxis::Axis)(m_axis + 1) ;
+      return *this ; 
+    }
+
+    PlayerConfiguration::InputAxis::InputAxis& PlayerConfiguration::InputAxis::operator--()
+    {
+      if (m_axis == -PlayerConfiguration::InputAxis::MouseWheel)
+        m_axis = PlayerConfiguration::InputAxis::MouseWheel ;
+      else
+        m_axis = (PlayerConfiguration::InputAxis::Axis)(m_axis - 1) ;
+      return *this ;
     }
     
     bool PlayerConfiguration::InputAxis::operator < (const PlayerConfiguration::InputAxis& axis) const
     {
-      return type < axis.type || (type == axis.type && this->axis < axis.axis) ;
+      return this->m_axis < axis.m_axis ;
     }
 
     bool PlayerConfiguration::InputAxis::operator==(const PlayerConfiguration::InputAxis& axis) const
     {
-      return type == axis.type && this->axis == axis.axis ;
-    }
-
-    std::string PlayerConfiguration::InputAxis::toString(OIS::Keyboard* keyboard) const
-    {
-      std::string result ;
-      switch(type)
-      {
-      case joystick:
-        return "Joystick Axis " + Kernel::toString(fabs(axis)) ;
-      case mouse:
-        return "Mouse Axis " + Kernel::toString(fabs(axis)) ;
-      default:
-        return "" ;
-      }
+      return this->m_axis == axis.m_axis ;
     }
 
     bool PlayerConfiguration::InputAxis::isInversed() const
     {
-      return axis < 0 ;
+      return m_axis < 0 ;
     }
     
     int PlayerConfiguration::InputAxis::getAxis() const
     {
-      return axis ;
+      return m_axis ;
     }
     
     PlayerConfiguration::InputAxis PlayerConfiguration::InputAxis::operator-() const
     {
-      InputAxis result ;
-      result.type = type ;
-      result.axis = -axis ;
-      return result ;
+      return InputAxis(m_axis) ;
     }
     
     PlayerConfiguration::PlayerConfiguration()
     : m_event_recording_mode(false),
       m_event_recorded(false),
-      m_has_joystick(false)
+      m_has_joystick(false),
+      m_has_mouse(false)
     {}
     
-    void PlayerConfiguration::hasJoystick()
+    void PlayerConfiguration::declareJoystick()
     {
       m_has_joystick = true ;
+    }
+
+    void PlayerConfiguration::declareMouse()
+    {
+      m_has_mouse = true ;
+    }
+
+    bool PlayerConfiguration::hasJoystick() const
+    {
+      return m_has_joystick ;
+    }
+
+    bool PlayerConfiguration::hasMouse() const
+    {
+      return m_has_mouse ;
     }
     
     void PlayerConfiguration::addMapping(const InputEvent&  event,
@@ -180,7 +184,7 @@ namespace ProjetUnivers
     void PlayerConfiguration::addMapping(const InputAxis&   axis,
                                          const std::string& axis_command)
     {
-      InternalMessage("PlayerConfiguration","PlayerConfiguration::addMapping") ;
+      InternalMessage("PlayerConfiguration","PlayerConfiguration::addMapping " + axis_command + "=" + axis.toString() ) ;
       m_input_axis_to_axes[axis] = axis_command ;
       m_axis_to_input_axes[axis_command] = axis ;
       notify() ;
@@ -219,10 +223,12 @@ namespace ProjetUnivers
         return InputEventNone ;
     }
     
-    const PlayerConfiguration::InputAxis& InputAxisNone = PlayerConfiguration::InputAxis() ;
+    const PlayerConfiguration::InputAxis& InputAxisNone = PlayerConfiguration::InputAxis(PlayerConfiguration::InputAxis::Unassigned) ;
     
     const PlayerConfiguration::InputAxis& PlayerConfiguration::getInputAxis(const std::string& axis) const
     {
+      InternalMessage("PlayerConfiguration","PlayerConfiguration::getInputAxis for " + axis + 
+                      " on " + Kernel::toString(m_axis_to_input_axes.size())) ;   
       std::map<std::string,InputAxis>::const_iterator finder = m_axis_to_input_axes.find(axis) ;
       
       if (finder != m_axis_to_input_axes.end())
@@ -270,24 +276,31 @@ namespace ProjetUnivers
       notify() ;
     }
     
-    std::string PlayerConfiguration::InputAxis::toString(const Axis& axis)
+    std::string PlayerConfiguration::InputAxis::toString() const
     {
+      std::string mode ;
+      if (m_axis < 0)
+      {
+        mode = "Inverted " ;
+      }
+      
+      int axis = (int)fabs(m_axis) ;
       switch(axis)
       {
       case JoystickX:
-        return "Joystick X" ;
+        return mode + "Joystick X" ;
       case JoystickY:
-        return "Joystick Y" ;
+        return mode + "Joystick Y" ;
       case JoystickRudder:
-        return "Joystick Rudder" ;
+        return mode + "Joystick Rudder" ;
       case JoystickThrottle:
-        return "Joystick Throttle" ;
+        return mode + "Joystick Throttle" ;
       case MouseX:
-        return "Mouse X" ;
+        return mode + "Mouse X" ;
       case MouseY:
-        return "Mouse Y" ;
+        return mode + "Mouse Y" ;
       case MouseWheel :
-        return "Mouse Wheel" ;
+        return mode + "Mouse Wheel" ;
       default:
         return "" ;
       
@@ -352,37 +365,37 @@ namespace ProjetUnivers
           else if (reader->getTraitName() == "JoystickX")
           {
             is_axis = true ;
-            axis = InputAxis::joystickAxis(InputAxis::JoystickX) ;
+            axis = InputAxis(InputAxis::JoystickX) ;
           }
           else if (reader->getTraitName() == "JoystickY")
           {
             is_axis = true ;
-            axis = InputAxis::joystickAxis(InputAxis::JoystickY) ;
+            axis = InputAxis(InputAxis::JoystickY) ;
           }
           else if (reader->getTraitName() == "JoystickRudder")
           {
             is_axis = true ;
-            axis = InputAxis::joystickAxis(InputAxis::JoystickRudder) ;
+            axis = InputAxis(InputAxis::JoystickRudder) ;
           }
           else if (reader->getTraitName() == "JoystickThrottle")
           {
             is_axis = true ;
-            axis = InputAxis::joystickAxis(InputAxis::JoystickThrottle) ;
+            axis = InputAxis(InputAxis::JoystickThrottle) ;
           }
           else if (reader->getTraitName() == "MouseX")
           {
             is_axis = true ;
-            axis = InputAxis::mouseAxis(InputAxis::MouseX) ;
+            axis = InputAxis(InputAxis::MouseX) ;
           }
           else if (reader->getTraitName() == "MouseY")
           {
             is_axis = true ;
-            axis = InputAxis::mouseAxis(InputAxis::MouseY) ;
+            axis = InputAxis(InputAxis::MouseY) ;
           }
           else if (reader->getTraitName() == "MouseWheel")
           {
             is_axis = true ;
-            axis = InputAxis::mouseAxis(InputAxis::MouseWheel) ;
+            axis = InputAxis(InputAxis::MouseWheel) ;
           }
           
           if (is_event)

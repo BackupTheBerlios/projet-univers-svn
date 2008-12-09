@@ -177,6 +177,11 @@ namespace ProjetUnivers {
           }
         }
 
+        ::CEGUI::Window* getRoot()
+        {
+          return system->m_window ;
+        }
+        
         ::CEGUI::Window* getRoot(::CEGUI::Window* window)
         {
           ::CEGUI::Window* parent = window->getParent() ;
@@ -220,6 +225,28 @@ namespace ProjetUnivers {
             {
               ::CEGUI::Window* child = window->getChildAtIdx(child_index) ;
               ::CEGUI::Window* result = getTypedDescendant(child,type) ;
+              if (result)
+              {
+                return result ;
+              }
+            }
+          }
+          
+          return NULL ;
+        }
+        
+        ::CEGUI::Window* getTypedDescendant(::CEGUI::Window* window,const std::string& type,const std::string& text)
+        {
+          if (window->getType() == type && window->getText() == text)
+          {
+            return window ;
+          }
+          else
+          {
+            for(int child_index = 0 ; child_index < window->getChildCount() ; ++child_index)
+            {
+              ::CEGUI::Window* child = window->getChildAtIdx(child_index) ;
+              ::CEGUI::Window* result = getTypedDescendant(child,type,text) ;
               if (result)
               {
                 return result ;

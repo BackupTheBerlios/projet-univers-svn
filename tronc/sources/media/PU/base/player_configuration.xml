@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<model>
+  <object id="1">
+    <PlayerConfiguration>
+      <Mapping command="fire">
+        <!-- 33 is 'F' -->
+        <JoystickButton number="1"/>
+      </Mapping>
+      <Mapping command="Menu">
+        <!-- 33 is 'escape' -->
+        <Key number="1"/>
+      </Mapping>
+      <Mapping command="Select Next Target">
+        <!-- 31 is 'S' -->
+        <Key number="31"/>
+      </Mapping>
+      <Mapping command="Select Nearest Target">
+        <!-- 25 is 'P' -->
+        <JoystickButton number="3"/>
+      </Mapping>
+      <Mapping command="Select Previous Target">
+        <!-- 25 is 'P' -->
+        <Key number="25"/>
+      </Mapping>
+      <Mapping command="Select Nearest Enemy">
+        <!-- 49 is 'N' -->
+        <Key number="49"/>
+      </Mapping>
+      <!-- Yaw is left/right -->
+      <Mapping command="Yaw">
+        <JoystickX/>
+      </Mapping>
+      <!-- Pitch is up/down -->
+      <Mapping command="Pitch">
+        <JoystickY/>
+      </Mapping>
+      <!-- Roll is ...? -->
+      <Mapping command="Roll">
+        <JoystickRudder/>
+      </Mapping>
+      <!-- Throttle is ...? -->
+      <Mapping command="Throttle">
+        <JoystickThrottle/>
+      </Mapping>
+    </PlayerConfiguration>
+  </object>
+</model>

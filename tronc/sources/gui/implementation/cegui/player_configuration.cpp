@@ -19,6 +19,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include <iostream>
+#include <math.h>
 #include <CEGUI.h>
 
 #include <kernel/log.h>
@@ -31,10 +32,14 @@
 #include <gui/implementation/cegui/gui_controler_set.h>
 #include <gui/implementation/cegui/player_configuration.h>
 
-namespace ProjetUnivers {
-  namespace GUI {
-    namespace Implementation {
-      namespace CEGUI {
+namespace ProjetUnivers 
+{
+  namespace GUI 
+  {
+    namespace Implementation 
+    {
+      namespace CEGUI 
+      {
 
         RegisterControler(PlayerConfiguration,
                           EditedPlayerConfiguration,
@@ -47,7 +52,7 @@ namespace ProjetUnivers {
         : Kernel::Controler<EditedPlayerConfiguration,
                             GUIControlerSet>(configuration,gui),
           m_window(NULL),
-          m_list(NULL),
+          m_controls(NULL),
           m_ok(NULL),
           m_remaining_seconds(0),
           m_is_recording(false)
@@ -55,25 +60,21 @@ namespace ProjetUnivers {
         
         void PlayerConfiguration::onInit()
         {
+          InternalMessage("PlayerConfiguration","CEGUI::PlayerConfiguration::onInit") ;
+          
           try 
           {
             m_window = ::CEGUI::WindowManager::getSingleton().loadWindowLayout(
                 "configure_keys.layout") ;
+
+            InternalMessage("GUI",printStructure(m_window,0)) ;
+            
+            m_controls = m_window->getChild("Controls_content") ;
             
             // set the binding to the current trait
-            m_window->setUserData(getObject()->getTrait<Model::PlayerConfiguration>()) ;
-
-            m_list = static_cast< ::CEGUI::MultiColumnList*>(getTypedDescendant(m_window,"ProjetUnivers/MultiColumnList")) ;
-
-            if (! m_list)
-            {
-              throw std::string("A Key configuration window must contain a subwindow of type ProjetUnivers/MultiColumnList") ;
-            }
+            m_window->setUserData(getObject()) ;
             
-            reDraw() ;
-            m_list->subscribeEvent(::CEGUI::MultiColumnList::EventSelectionChanged,
-                                   ::CEGUI::Event::Subscriber(&PlayerConfiguration::onSelect,this)) ;
-            
+            initialDraw() ;
           }
           catch(::CEGUI::Exception& exception)
           {
@@ -115,6 +116,7 @@ namespace ProjetUnivers {
           
         void PlayerConfiguration::onClose()
         {
+          InternalMessage("PlayerConfiguration","CEGUI::PlayerConfiguration::onClose") ;
           GUI::removeActiveGUI(m_window) ;          
           if (m_window)
           {
@@ -123,54 +125,209 @@ namespace ProjetUnivers {
           }
         }
         
-        void PlayerConfiguration::reDraw()
+        void PlayerConfiguration::initialDraw()
         {
-          // 1. clear the list ? won't work with a big list...
-          m_list->resetList() ;
+          if (! m_controls)
+            return ;
+          
+          int number = 0 ;
+          
+          // should depend on resolution in fact...
+          const int absolute_height = 30 ;
+          int number_of_element_by_column = 10 ;
+          float element_height = 1.0 / number_of_element_by_column ;
+
+          // these should depend on m_control size
+          const unsigned int font_size = 12 ;
+          const float name_length = 0.25 ;
+          
+          ::CEGUI::WindowManager& manager = ::CEGUI::WindowManager::getSingleton() ;
           
           std::set<std::string> commands(Kernel::Trait::getRegisteredCommands()) ;
-          
-          int item_identifier = 1 ;
-          int row = 0 ;
           for(std::set<std::string>::const_iterator command = commands.begin() ;
               command != commands.end() ;
-              ++command,++row)
+              ++command,++number)
           {
-            ::CEGUI::ListboxTextItem* item ;
-            m_list->addRow() ;
-            item = new ::CEGUI::ListboxTextItem(*command,item_identifier++) ;
-            item->setSelectionBrushImage("TaharezLook","MultiListSelectionBrush") ;
-            m_list->setItem(item,0,row) ;          
-  
-            Model::PlayerConfiguration::InputEvent event = getObject()->getTrait<Model::PlayerConfiguration>()->getInputEvent(*command) ;
-            item = new ::CEGUI::ListboxTextItem(event.toString(Input::getOISKeyboard()),item_identifier++) ;
+            /*
+              number_of_element_by_column elements by columns,
+              2 columns
+            */
+            int column = number/number_of_element_by_column ;
+            int row = number%number_of_element_by_column ;
             
-            item->setSelectionBrushImage("TaharezLook","MultiListSelectionBrush") ;
-            m_list->setItem(item,1,row) ;          
+            ::CEGUI::Window* name = manager.createWindow("ProjetUnivers/StaticText") ;
+            name->setText( *command) ;
+            name->setArea(::CEGUI::UDim(0.5*column,0),
+                          ::CEGUI::UDim(element_height*row,0),
+                          ::CEGUI::UDim(name_length,0),
+                          ::CEGUI::UDim(element_height,0)) ;
+            
+            m_controls->addChildWindow(name) ;
+            
+            Model::PlayerConfiguration::InputEvent event = 
+              getObject()->getTrait<Model::PlayerConfiguration>()
+                         ->getInputEvent(*command) ;
+
+            ::CEGUI::Window* box = manager.createWindow("ProjetUnivers/Button") ;
+            box->setArea(::CEGUI::UDim(0.5*column+name_length,0),
+                         ::CEGUI::UDim(element_height*row,0),
+                         ::CEGUI::UDim(0.5-name_length,0),
+                         ::CEGUI::UDim(element_height,0)) ;
+
+            box->setText(event.toString(Input::getOISKeyboard())) ;
+
+            m_controls->addChildWindow(box) ;
+            
+            m_commands[*command] = box ;
+            
+            // binding
+            box->subscribeEvent(::CEGUI::Window::EventMouseClick,
+                                ::CEGUI::Event::Subscriber(&PlayerConfiguration::onSelect,this)) ;
+            box->setUserData(name) ;
+          }
+          
+          const int button_width = 16 ;
+          
+          // binding for axes
+          std::set<std::string> axes(Kernel::Trait::getRegisteredAxes()) ;
+          for(std::set<std::string>::const_iterator axis = axes.begin() ;
+              axis != axes.end() ;
+              ++axis,++number)
+          {
+            /*
+              number_of_element_by_column elements by columns,
+              2 columns
+            */
+            int column = number/number_of_element_by_column ;
+            int row = number%number_of_element_by_column ;
+            
+            ::CEGUI::Window* name = manager.createWindow("ProjetUnivers/StaticText") ;
+            name->setText(*axis) ;
+            name->setArea(::CEGUI::UDim(0.5*column,0),
+                          ::CEGUI::UDim(element_height*row,0),
+                          ::CEGUI::UDim(name_length,0),
+                          ::CEGUI::UDim(element_height,0)) ;
+            m_controls->addChildWindow(name) ;
+            
+            ::CEGUI::Window* value = manager.createWindow("ProjetUnivers/StaticText") ;
+            value->setArea(::CEGUI::UDim(0.5*column+name_length,button_width),
+                           ::CEGUI::UDim(element_height*row,0),
+                           ::CEGUI::UDim(0.5-name_length,-2*button_width),
+                           ::CEGUI::UDim(element_height,0)) ;
+            value->setProperty("HorzFormatting","WordWrapLeftAligned") ;
+            
+            /// @todo : dealt with invert axes
+            Model::PlayerConfiguration::InputAxis inputaxis = 
+              getObject()->getTrait<Model::PlayerConfiguration>()
+                         ->getInputAxis(*axis) ;
+            value->setText(inputaxis.toString()) ;
+            m_controls->addChildWindow(value) ;
+            
+            // pointer from name to value in order to change display
+            name->setUserData(value) ;
+            
+            // decrease and increase
+            ::CEGUI::Window* decrease = manager.createWindow("ProjetUnivers/DecreaseButton") ;
+            decrease->setArea(::CEGUI::UDim(0.5*column+name_length,0),
+                              ::CEGUI::UDim(element_height*row,0),
+                              ::CEGUI::UDim(0,button_width),
+                              ::CEGUI::UDim(element_height,0)) ;
+            decrease->setUserData(name) ;
+            m_controls->addChildWindow(decrease) ;
+            decrease->subscribeEvent(::CEGUI::Window::EventMouseClick,
+                                     ::CEGUI::Event::Subscriber(&PlayerConfiguration::onDecrease,this)) ;
+
+            ::CEGUI::Window* increase = manager.createWindow("ProjetUnivers/IncreaseButton") ;
+            increase->setArea(::CEGUI::UDim(0.5*column+0.5,-button_width),
+                              ::CEGUI::UDim(element_height*row,0),
+                              ::CEGUI::UDim(0,button_width),
+                              ::CEGUI::UDim(element_height,0)) ;
+            increase->setUserData(name) ;
+            m_controls->addChildWindow(increase) ;
+            increase->subscribeEvent(::CEGUI::Window::EventMouseClick,
+                                     ::CEGUI::Event::Subscriber(&PlayerConfiguration::onIncrease,this)) ;
+            
+            /// @todo : on change record the new configuration
+          }
+
+        }
+        
+        void PlayerConfiguration::reDraw()
+        {
+          if (! m_controls)
+            return ;
+          
+          std::set<std::string> commands(Kernel::Trait::getRegisteredCommands()) ;
+          for(std::set<std::string>::const_iterator command = commands.begin() ;
+              command != commands.end() ;
+              ++command)
+          {
+            Model::PlayerConfiguration::InputEvent event = 
+              getObject()->getTrait<Model::PlayerConfiguration>()
+                         ->getInputEvent(*command) ;
+            
+            m_commands[*command]->setText(event.toString(Input::getOISKeyboard())) ;
           }
         }
         
         bool PlayerConfiguration::onSelect(const ::CEGUI::EventArgs& args)
         {
-          
-          ::CEGUI::ListboxItem* selected_item = m_list->getFirstSelectedItem() ;
-          if (selected_item)
+          const ::CEGUI::WindowEventArgs* argument = dynamic_cast<const ::CEGUI::WindowEventArgs*>(&args) ;
+          if (! getObject()->getTrait<Model::PlayerConfiguration>()->isEventRecordingMode() &&
+              argument && argument->window)
           {
-            m_command = selected_item->getText().c_str() ;
-            
-            /// we go to recording mode for 2 seconds
+            ::CEGUI::Window* name = (::CEGUI::Window*)argument->window->getUserData() ;
+            m_command = name->getText().c_str() ;
             InternalMessage("PlayerConfiguration","setting recording mode") ;
             getObject()->getTrait<Model::PlayerConfiguration>()->setEventRecordingMode() ;
             m_remaining_seconds = 2 ;
-          }
+          }          
           
           return true ;
+        }
+        
+        bool PlayerConfiguration::onDecrease(const ::CEGUI::EventArgs& args)
+        {
+          const ::CEGUI::WindowEventArgs* argument = dynamic_cast<const ::CEGUI::WindowEventArgs*>(&args) ;
+          if (argument && argument->window)
+          {
+            ::CEGUI::Window* name = (::CEGUI::Window*)argument->window->getUserData() ;
+            std::string axis_name(name->getText().c_str()) ; 
+
+            Model::PlayerConfiguration* configuration = getTrait<Model::PlayerConfiguration>() ;
+            Model::PlayerConfiguration::InputAxis axis = configuration->getInputAxis(axis_name) ;
+
+            --axis ;
+            configuration->addMapping(axis,axis_name) ;
+
+            ::CEGUI::Window* value = (::CEGUI::Window*)name->getUserData() ;
+            value->setText(axis.toString()) ;
+          }
+        }
+
+        bool PlayerConfiguration::onIncrease(const ::CEGUI::EventArgs& args)
+        {
+          const ::CEGUI::WindowEventArgs* argument = dynamic_cast<const ::CEGUI::WindowEventArgs*>(&args) ;
+          if (argument && argument->window)
+          {
+            ::CEGUI::Window* name = (::CEGUI::Window*)argument->window->getUserData() ;
+            std::string axis_name(name->getText().c_str()) ; 
+
+            Model::PlayerConfiguration* configuration = getTrait<Model::PlayerConfiguration>() ;
+            Model::PlayerConfiguration::InputAxis axis = configuration->getInputAxis(axis_name) ;
+
+            ++axis ;
+            configuration->addMapping(axis,axis_name) ;
+
+            ::CEGUI::Window* value = (::CEGUI::Window*)name->getUserData() ;
+            value->setText(axis.toString()) ;
+          }
         }
         
         void PlayerConfiguration::simulate(const float& seconds)
         {
           // no recording means nothing to stop
-          if (! m_is_recording)
+          if (! getObject()->getTrait<Model::PlayerConfiguration>()->isEventRecordingMode())
             return ;
           
           m_remaining_seconds -= seconds ;

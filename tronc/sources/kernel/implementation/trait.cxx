@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2008 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -20,8 +20,10 @@
  ***************************************************************************/
 #include <boost/bind.hpp>
 
-namespace ProjetUnivers {
-  namespace Kernel {
+namespace ProjetUnivers 
+{
+  namespace Kernel 
+  {
     
     /// For static registration of readers. 
     class TraitReaderRegistration
@@ -116,12 +118,14 @@ namespace ProjetUnivers {
     public:
       
       /// Constructor.
-      AxisRegistration(const std::string&                 i_axis_name,
-                       boost::function2<void,_Trait*,int> i_operation)
+      AxisRegistration(const std::string&                 axis_name,
+                       const std::string&                 axis_group_name,
+                       boost::function2<void,_Trait*,int> operation)
       {
         
-        Kernel::Trait::addAxis<_Trait>(i_axis_name,
-                                       i_operation) ;
+        Kernel::Trait::addAxis<_Trait>(axis_name,
+                                       axis_group_name,
+                                       operation) ;
       }
     };
     
@@ -211,12 +215,14 @@ namespace ProjetUnivers {
   
     template <class SpecializedTrait>
     void Trait::addAxis(
-      const std::string&                           i_command_name,
-      boost::function2<void,SpecializedTrait*,int> i_axis_update)
+      const std::string&                           axis_name,
+      const std::string&                           axis_group_name,
+      boost::function2<void,SpecializedTrait*,int> axis_update)
     {
       StaticStorage::get()
-      ->m_int_commands[getClassTypeIdentifier(SpecializedTrait)][i_command_name]
-        = boost::bind(i_axis_update, boost::bind(&convert<SpecializedTrait>, _1),_2) ;
+      ->m_int_commands[getClassTypeIdentifier(SpecializedTrait)][axis_name]
+        = boost::bind(axis_update, boost::bind(&convert<SpecializedTrait>, _1),_2) ;
+      StaticStorage::get()->m_axes_group_to_axes.insert(std::pair<std::string,std::string>(axis_group_name,axis_name)) ;
     }
 
     template <class SpecializedTrait> void Trait::addFunction(

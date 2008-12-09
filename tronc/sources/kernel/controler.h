@@ -42,6 +42,9 @@ namespace ProjetUnivers {
       /// Access to object's trait viewed.     
       _Trait* getTrait() const ;
       
+      /// Access to trait of type T if exists.
+      template <class T> T* getTrait() const ;
+      
       /// Abstract class means virtual destructor.
       virtual ~Controler() ;
 

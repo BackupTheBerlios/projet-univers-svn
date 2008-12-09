@@ -47,6 +47,9 @@ namespace ProjetUnivers {
         /// Tells the system an active GUI has became inactive.
         void removeActiveGUI(::CEGUI::Window* window) ;
 
+        /// Access to the current root window.
+        ::CEGUI::Window* getRoot() ;
+        
         /// Access to the root window of @c window
         ::CEGUI::Window* getRoot(::CEGUI::Window* window) ;
         
@@ -64,6 +67,12 @@ namespace ProjetUnivers {
           @return NULL if not found
         */
         ::CEGUI::Window* getTypedDescendant(::CEGUI::Window* window,const std::string& type) ;
+
+        /// Access to descendant of @c window with @c type and text @c text
+        /*!
+          @return NULL if not found
+        */
+        ::CEGUI::Window* getTypedDescendant(::CEGUI::Window* window,const std::string& type,const std::string& text) ;
         
       }
     }    

@@ -41,20 +41,67 @@ namespace ProjetUnivers {
         Model::PlayerConfiguration::InputEvent event = configuration->getTrait<Model::PlayerConfiguration>()->getInputEvent("command") ;
         CPPUNIT_ASSERT(event == Model::PlayerConfiguration::InputEvent::key(OIS::KC_RETURN)) ;
       }
-      
-      void TestPlayerConfiguration::demoTest()
+
+      void TestPlayerConfiguration::decreaseAxis()
       {
-        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestPlayerConfiguration::demoTest")) ;
-        
-        Kernel::Object* option = model->createObject() ;
-        Kernel::Object* configuration = Model::createDefaultPlayerConfiguration(option) ;
-        
-        CPPUNIT_ASSERT(configuration->getTrait<Model::PlayerConfiguration>()->getInputEvent("fire") == 
-                       Model::PlayerConfiguration::InputEvent::key(OIS::KC_F)) ;
-        CPPUNIT_ASSERT(!(configuration->getTrait<Model::PlayerConfiguration>()->getInputEvent("fire") == 
-                         Model::PlayerConfiguration::InputEvent::key(OIS::KC_RETURN))) ;
+        PlayerConfiguration::InputAxis axis(PlayerConfiguration::InputAxis::JoystickY) ;
+        --axis ;
+        CPPUNIT_ASSERT(axis == PlayerConfiguration::InputAxis(PlayerConfiguration::InputAxis::JoystickX)) ;
+        --axis ;
+        CPPUNIT_ASSERT(axis == PlayerConfiguration::InputAxis()) ;
       }
 
+      void TestPlayerConfiguration::decreaseFirstAxis() 
+      {
+        PlayerConfiguration::InputAxis axis ;
+        --axis ;
+        CPPUNIT_ASSERT(axis == PlayerConfiguration::InputAxis(-PlayerConfiguration::InputAxis::JoystickX)) ;
+      }
+
+      void TestPlayerConfiguration::increaseAxis()
+      {
+        PlayerConfiguration::InputAxis axis ;
+        ++axis ;
+        CPPUNIT_ASSERT(axis == PlayerConfiguration::InputAxis(PlayerConfiguration::InputAxis::JoystickX)) ;
+        ++axis ;
+        CPPUNIT_ASSERT(axis == PlayerConfiguration::InputAxis(PlayerConfiguration::InputAxis::JoystickY)) ;
+      }
+
+      void TestPlayerConfiguration::increaseLastAxis() 
+      {
+        PlayerConfiguration::InputAxis axis(PlayerConfiguration::InputAxis::MouseWheel) ;
+        ++axis ;
+        CPPUNIT_ASSERT(axis == PlayerConfiguration::InputAxis(-PlayerConfiguration::InputAxis::MouseWheel)) ;
+      }
+      
+      void TestPlayerConfiguration::invertedAxisPrint()
+      {
+        PlayerConfiguration::InputAxis axis(-PlayerConfiguration::InputAxis::MouseWheel) ;
+        CPPUNIT_ASSERT_EQUAL(std::string("Inverted Mouse Wheel"),axis.toString()) ;
+      }
+      
+      void TestPlayerConfiguration::normalAxisPrint()
+      {
+        PlayerConfiguration::InputAxis axis(PlayerConfiguration::InputAxis::JoystickThrottle) ;
+        CPPUNIT_ASSERT_EQUAL(std::string("Joystick Throttle"),axis.toString()) ;
+      }
+      
+      void TestPlayerConfiguration::changeAxisMapping()
+      {
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestPlayerConfiguration::changeAxisMapping")) ;
+        
+        Kernel::Object* configuration = model->createObject() ;
+        configuration->addTrait(new Model::PlayerConfiguration()) ;
+        Model::PlayerConfiguration* player_configuration = configuration->getTrait<Model::PlayerConfiguration>() ;
+        Model::PlayerConfiguration::InputAxis axis ;
+        player_configuration->addMapping(axis,"axis") ;
+        
+        --axis ;
+        player_configuration->addMapping(axis,"axis") ;
+
+        CPPUNIT_ASSERT(axis == player_configuration->getInputAxis("axis")) ;
+      }
+      
     }
   }
 }

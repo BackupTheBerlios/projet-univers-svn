@@ -25,9 +25,9 @@
 
 namespace ProjetUnivers 
 {
-  namespace Model
+  namespace Kernel
   {
-    class Menu ;
+    class Object ;
   }
   namespace GUI 
   {
@@ -50,7 +50,7 @@ namespace ProjetUnivers
         private:
           
           /// Access to associated menu.
-          static Model::Menu* getMenu(::CEGUI::Window* window) ;
+          static Kernel::Object* getMenu(::CEGUI::Window* window) ;
           
           /// Command name.
           std::string m_command_name ;

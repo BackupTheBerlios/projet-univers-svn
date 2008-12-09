@@ -105,12 +105,12 @@ namespace ProjetUnivers {
             std::map<Model::PlayerConfiguration::InputAxis,
                      Kernel::Percentage>::const_iterator finder ;
     
-            finder = getMouse()->getAxes().find(Model::PlayerConfiguration::InputAxis::mouseAxis(Model::PlayerConfiguration::InputAxis::MouseX)) ;
+            finder = getMouse()->getAxes().find(Model::PlayerConfiguration::InputAxis(Model::PlayerConfiguration::InputAxis::MouseX)) ;
             
             if (finder != getMouse()->getAxes().end())
               mouse_x = finder->second ;
     
-            finder = getMouse()->getAxes().find(Model::PlayerConfiguration::InputAxis::mouseAxis(Model::PlayerConfiguration::InputAxis::MouseY)) ;
+            finder = getMouse()->getAxes().find(Model::PlayerConfiguration::InputAxis(Model::PlayerConfiguration::InputAxis::MouseY)) ;
             
             if (finder != getMouse()->getAxes().end())
               mouse_y = finder->second ;

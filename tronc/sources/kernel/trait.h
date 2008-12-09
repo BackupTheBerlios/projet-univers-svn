@@ -82,8 +82,9 @@ namespace ProjetUnivers {
 
       /// Register an axis update for that trait.
       template <class SpecializedTrait> static void addAxis(
-          const std::string&                           i_command_name,
-          boost::function2<void,SpecializedTrait*,int> i_axis_update) ;
+          const std::string&                           axis_name,
+          const std::string&                           axis_group_name,
+          boost::function2<void,SpecializedTrait*,int> axis_update) ;
       
       /// Add a definition for that funciton on this trait.
       template <class SpecializedTrait> static void addFunction(
@@ -99,9 +100,17 @@ namespace ProjetUnivers {
       /// Access to all registered commands.
       static std::set<std::string> getRegisteredCommands() ;
       
-      /// Access to all registered axes.
-      static std::set<std::string> getRegisteredAxes() ;
+      /// Access to all registered *not internal* axes groups.
+      /*!
+        An axis may be registered as internal.
+      */
+      static std::set<std::string> getRegisteredAxesGroups() ;
       
+      /// Access to all registered axes of a group.
+      static std::set<std::string> getRegisteredAxes(const std::string&) ;
+      
+      /// Access to all registered *not internal* axes..
+      static std::set<std::string> getRegisteredAxes() ;
       
     protected: 
     
@@ -334,7 +343,8 @@ namespace ProjetUnivers {
         /// Controler X ControlerSet -> Trait (in term of classes names)
         std::map<std::pair<TypeIdentifier,TypeIdentifier>,
                  TypeIdentifier>                          m_trait_of_controler ;
-        /// Commands that the trait understand.
+        
+        /// Commands that traits understand.
         /*!
           These are void commands, mainly triggered by buttons and keys.
         */
@@ -342,7 +352,7 @@ namespace ProjetUnivers {
                  std::map<std::string,
                           boost::function1<void,Trait*> > > m_void_commands ;
       
-        /// Commands that the trait understand.
+        /// Axes that traits understand.
         /*!
           These are commands taking an int parameter, mainly obtained by 
           mouse and joystick axes.
@@ -350,6 +360,9 @@ namespace ProjetUnivers {
         std::map<TypeIdentifier,
                  std::map<std::string,
                           boost::function2<void,Trait*,int> > > m_int_commands ;
+        
+        /// Axes are grouped into groups. 
+        std::multimap<std::string,std::string> m_axes_group_to_axes ;
         
         /// Custom parameter less functions.
         std::map<TypeIdentifier,
@@ -464,27 +477,29 @@ namespace ProjetUnivers {
           temp(CommandName,&ClassTrait::MethodName) ;                        \
       }                                                                
 
-
-    /// Register @c ClassTrait::MethodName as an axis named @c CommandName .
+    /// Special axis group name for the internal use axes.
+    const std::string InternalGroup = "_internal_" ;
+    
+    /// Register @c ClassTrait::MethodName as an axis named @c AxisName .
     /*!
     @par Usage
       In the .cpp of a trait clas : 
       
-        RegisterCommand(CommandName,ClassTrait,MethodName) ;
+        RegisterAxis(AxisName,AxisGroupName,ClassTrait,MethodName) ;
         
     Example
     @code
-      RegisterCommand("fire",Model::Throttle,setThrottle) ;
+      RegisterCommand("fire","attack",Model::Throttle,setThrottle) ;
     @endcode
     
     @par How does it works
       Same principle than CPPUNIT_TEST_SUITE_REGISTRATION
     */
-    #define RegisterAxis(AxisName,ClassTrait,MethodName)               \
+    #define RegisterAxis(AxisName,AxisGroupName,ClassTrait,MethodName) \
       namespace PU_MAKE_UNIQUE_NAME(register_axis) {                   \
         static                                                         \
         ProjetUnivers::Kernel::AxisRegistration<ClassTrait>            \
-          temp(AxisName,&ClassTrait::MethodName) ;                     \
+          temp(AxisName,AxisGroupName,&ClassTrait::MethodName) ;       \
       }                                                                
 
     /// Register @c ClassTrait::MethodName as a function named @c FunctionName.

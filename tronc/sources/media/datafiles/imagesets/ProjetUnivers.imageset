@@ -55,4 +55,8 @@
 		<Image Name="BasicWindow_Bottom" XPos="417" YPos="587" Width="34" Height="1"/>
 		<Image Name="BasicWindow_Midle" XPos="418" YPos="588" Width="34" Height="34"/>
 
+    <!-- Increase and decrease buttons -->
+    <Image Name="DecreaseButton" XPos="331" YPos="824" Width="16" Height="21"/>
+    <Image Name="IncreaseButton" XPos="388" YPos="824" Width="16" Height="21"/>
+
 </Imageset>

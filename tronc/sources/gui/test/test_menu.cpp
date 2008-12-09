@@ -43,6 +43,7 @@
 
 #include <input/input_gui.h>
 #include <input/implementation/input_internal.h>
+#include <gui/implementation/cegui/cegui.h>
 #include <gui/test/test_menu.h>
 
 
@@ -138,7 +139,7 @@ namespace ProjetUnivers
         
         InternalMessage("GUI","GUI::TestMenu::playerConfiguration leaving") ;
       }
-
+      
       void TestMenu::testFullMenu()
       {
         InternalMessage("GUI","GUI::TestMenu::testFullMenu entering") ;
@@ -190,6 +191,7 @@ namespace ProjetUnivers
         InternalMessage("GUI","GUI::TestMenu::testFullMenu leaving") ;
         
       }
+      
     }
   }
 }

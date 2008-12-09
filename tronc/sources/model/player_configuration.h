@@ -86,8 +86,10 @@ namespace ProjetUnivers
         /// Symbolic axes.
         enum Axis
         {
+          /// When not assigned
+          Unassigned,
           /// Horizontal
-          JoystickX = 0,
+          JoystickX,
           /// Vertical
           JoystickY,
           /// Rudder 
@@ -102,17 +104,17 @@ namespace ProjetUnivers
           MouseWheel
         };
         
-        /// Print an axis
-        static std::string toString(const Axis&) ;
-        
         /// Negative value indicates axis inversion.
-        static InputAxis joystickAxis(int axis) ; 
+        InputAxis(int axis) ; 
         
-        /// Negative value indicates axis inversion.
-        static InputAxis mouseAxis(int axis) ;
-
         /// 'null' value.
         InputAxis() ;
+        
+        /// Go to the next
+        InputAxis& operator++() ;
+
+        /// Go to the previous
+        InputAxis& operator--() ;
         
         /// Return an inverted axis.
         InputAxis operator-() const ;
@@ -123,7 +125,7 @@ namespace ProjetUnivers
         bool operator==(const InputAxis&) const ;
         
         /// Prints the axis.
-        std::string toString(OIS::Keyboard* keyboard) const ;
+        std::string toString() const ;
         
         /// True if the axis is inversed.
         bool isInversed() const ;
@@ -133,23 +135,22 @@ namespace ProjetUnivers
         
       private:
 
-        enum Type
-        {
-          joystick,
-          mouse,
-          /// for 'null' value
-          none
-        };
-        
-        int type ; 
-        int axis ;
+        int m_axis ;
       };
+      
+      /*!
+        @name Construction
+      */
+      // @{
       
       /// Construction.
       PlayerConfiguration() ;
       
       /// Tells the configuration that we have a joystick.
-      void hasJoystick() ;
+      void declareJoystick() ;
+
+      /// Tells the configuration that we have a mouse.
+      void declareMouse() ;
       
       /// Add a mapping between an event and a command.
       void addMapping(const InputEvent&,const std::string&) ;
@@ -164,8 +165,13 @@ namespace ProjetUnivers
           <PlayerConfiguration>
             (<Mapping command="...">
               (<Key number=""/> | 
-               <JoystickAxis number=""/> |
-               <MouseAxis number=""/> |
+               <JoystickX/> |
+               <JoystickY/> |
+               <JoystickRudder/> |
+               <JoystickThrottle/> |
+               <MouseX/> |
+               <MouseY/> |
+               <MouseZ/> |
                <JoystickButton number=""/> |
                <MouseButton number=""/>)
             </Mapping>)*
@@ -174,6 +180,7 @@ namespace ProjetUnivers
       */     
       static Kernel::Trait* read(Kernel::Reader* reader) ;
       
+    // @}
     /*!
       @name Recording
     */
@@ -198,6 +205,16 @@ namespace ProjetUnivers
       void stopRecording() ;
       
     // @}
+    /*!
+      @name Access
+    */
+    // @{
+      
+      /// True if we have a joystick
+      bool hasJoystick() const ;
+
+      /// True if we have a mouse
+      bool hasMouse() const ;
       
       /// Returns the command associated with event.
       /*!
@@ -216,6 +233,22 @@ namespace ProjetUnivers
       
       /// Return the input axis associated with an axis.
       const InputAxis& getInputAxis(const std::string& axis) const ;
+
+    // @}
+    /*!
+      @name Content validation
+      
+      @todo
+    */
+    // @{
+      
+      /// Returns the commands that are incorrects
+      std::set<std::string> getViolatingCommands() const ;
+
+      /// Returns the commands that are incorrects
+      std::set<std::string> getViolatingAxes() const ;
+      
+    // @}
       
     private:
       
@@ -238,8 +271,11 @@ namespace ProjetUnivers
       /// Recorded event.
       InputEvent m_recorded_event ;
       
-      // True iff we have a joystick.
+      /// True iff we have a joystick.
       bool m_has_joystick ;
+      
+      /// True iff we have a mouse.
+      bool m_has_mouse ;
     };
         
   }

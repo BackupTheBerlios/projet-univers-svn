@@ -51,7 +51,7 @@ namespace ProjetUnivers {
               getObject()->getTrait<Model::Menu>()->getFileName()) ;
           
           // set the binding to the current trait
-          m_window->setUserData(getObject()->getTrait<Model::Menu>()) ;
+          m_window->setUserData(getObject()) ;
           
           InternalMessage("GUI","Building CEGUI::Menu::onInit #1") ;
 

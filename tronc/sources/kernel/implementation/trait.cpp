@@ -551,14 +551,14 @@ namespace ProjetUnivers {
       }
     }
 
-    bool Trait::call(const TypeIdentifier& i_trait_type,
+    bool Trait::call(const TypeIdentifier& trait_type,
                      const std::string&    i_command, 
-                     const int&            i_parameter)
+                     const int&            parameter)
     {
       std::map<TypeIdentifier,
                std::map<std::string,
                         boost::function2<void,Trait*,int> > >::const_iterator
-        group = StaticStorage::get()->m_int_commands.find(i_trait_type) ;
+        group = StaticStorage::get()->m_int_commands.find(trait_type) ;
       
       if (group != StaticStorage::get()->m_int_commands.end())
       {
@@ -566,7 +566,7 @@ namespace ProjetUnivers {
           command = group->second.find(i_command) ;
         if (command != group->second.end())
         {
-          command->second(this,i_parameter) ;
+          command->second(this,parameter) ;
           return true ;
         }
         else
@@ -714,23 +714,50 @@ namespace ProjetUnivers {
       return result ;
     }
     
+    std::set<std::string> Trait::getRegisteredAxesGroups()
+    {
+      std::set<std::string> result ;
+      
+      for(std::multimap<std::string,std::string>::const_iterator group = StaticStorage::get()->m_axes_group_to_axes.begin() ;
+          group != StaticStorage::get()->m_axes_group_to_axes.end() ;
+          ++group)
+      {
+        if (group->first != InternalGroup)
+        {
+          result.insert(group->first) ;
+        }
+      }
+      
+      return result ;
+    }
+    
+    std::set<std::string> Trait::getRegisteredAxes(const std::string& group_name)
+    {
+      std::set<std::string> result ;
+
+      for(std::multimap<std::string,std::string>::const_iterator 
+            group = StaticStorage::get()->m_axes_group_to_axes.lower_bound(group_name),
+            end = StaticStorage::get()->m_axes_group_to_axes.upper_bound(group_name) ;
+          group != end ;
+          ++group)
+      {
+        result.insert(group->second) ;
+      }      
+      
+      return result ;
+    }
+    
     std::set<std::string> Trait::getRegisteredAxes()
     {
       std::set<std::string> result ;
       
-      for(std::map<TypeIdentifier,
-                   std::map<std::string,
-                            boost::function2<void,Trait*,int> > >::const_iterator 
-                              type_commands = StaticStorage::get()->m_int_commands.begin() ;
-          type_commands != StaticStorage::get()->m_int_commands.end() ;
-          ++type_commands)
+      for(std::multimap<std::string,std::string>::const_iterator group = StaticStorage::get()->m_axes_group_to_axes.begin() ;
+          group != StaticStorage::get()->m_axes_group_to_axes.end() ;
+          ++group)
       {
-        for(std::map<std::string,
-                     boost::function2<void,Trait*,int> >::const_iterator command = type_commands->second.begin() ;
-            command != type_commands->second.end() ;
-            ++command)
+        if (group->first != InternalGroup)
         {
-          result.insert(command->first) ;
+          result.insert(group->second) ;
         }
       }
       

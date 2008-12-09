@@ -71,8 +71,8 @@ namespace ProjetUnivers {
 
       return result ;
     }
-
-    void Reader::read(Model* model)
+    
+    Object* Reader::internalReadModel(Model* model,Object* parent)
     {
       m_local_id_to_real_id.clear() ;
       m_references.clear() ;
@@ -80,18 +80,20 @@ namespace ProjetUnivers {
       if (! isModelNode())
       {
         std::cerr << "first node is not a model" << std::endl ; 
-        return ;
+        return NULL ;
       }
       
       int depth = getNodeDepth() ;
       
       std::set<Object*> roots ;
       
+      // reading
       while (moveToTraitOrChild(depth) && isObjectNode())
       {
-        roots.insert(readObject(model,NULL)) ;
+        roots.insert(readObject(model,parent)) ;
       }
       
+      // local reference resolution 
       try
       {      
         for(std::set<ObjectReference*>::const_iterator reference = m_references.begin() ;
@@ -123,10 +125,27 @@ namespace ProjetUnivers {
           model->destroyObject(*object) ;
         }
       }
- 
       
+      if (roots.size() > 0)
+      {
+        return *roots.begin() ;
+      }
+      else
+      {
+        return NULL ;
+      }
+    }
+    
+    void Reader::read(Model* model)
+    {
+      internalReadModel(model,NULL) ;
     }
 
+    Object* Reader::read(Object* parent)
+    {
+      return internalReadModel(parent->getModel(),parent) ;
+    }
+    
     bool Reader::moveToTraitOrChild(const int& depth)
     {
       while (!isTraitNode() && (!isObjectNode() && getNodeDepth() >= depth) 

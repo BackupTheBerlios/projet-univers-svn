@@ -1026,14 +1026,63 @@ namespace ProjetUnivers {
         
         controler->simulate(0) ;
       }
-      
-      void TestModelControler::setUp()
-      {
-      }
 
-      void TestModelControler::tearDown()
+      namespace
       {
+        
+        class AccessControlerSet : public ControlerSet
+        {
+        public:
+          
+          AccessControlerSet(Model* model)
+          : ControlerSet(model)
+          {}
+        };
+        
+        class AccessTrait1Controler : public Controler<Trait1,AccessControlerSet>
+        {
+        public:
+          
+          
+          static bool m_accessed ;
+          
+          AccessTrait1Controler(Trait1* trait,AccessControlerSet* controler_set)
+          : Controler<Trait1,AccessControlerSet>(trait,controler_set)
+          {}
+          
+          virtual void simulate(const float&)
+          {
+            Trait2* trait2 = getTrait<Trait2>() ;
+            if (trait2)
+            {
+              m_accessed= true ;
+            }
+          }
+        };
+        
+        bool AccessTrait1Controler::m_accessed = false ;
+        
+        RegisterControler(AccessTrait1Controler,Trait1,AccessControlerSet) ;
+
       }
+      
+      void TestModelControler::accessOtherTrait()
+      {
+        AccessTrait1Controler::m_accessed = false ;
+        std::auto_ptr<Model> model(new Model()) ;
+        ControlerSet* controler(model->addControlerSet(new AccessControlerSet(model.get()))) ;
+        controler->init() ;
+     
+        //// fill the model
+        Object* object = model->createObject() ;
+        object->addTrait(new Trait2()) ;
+        object->addTrait(new Trait1()) ;
+        
+        controler->simulate(0) ;
+
+        CPPUNIT_ASSERT(AccessTrait1Controler::m_accessed) ;
+      }
+      
     }
   }
 }

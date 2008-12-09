@@ -614,8 +614,8 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(configuration->getInputEvent("1")==PlayerConfiguration::InputEvent::key(1)) ;
         CPPUNIT_ASSERT(configuration->getInputEvent("2")==PlayerConfiguration::InputEvent::mouseButton(1)) ;
         CPPUNIT_ASSERT(configuration->getInputEvent("3")==PlayerConfiguration::InputEvent::joystickButton(1)) ;
-        CPPUNIT_ASSERT(configuration->getInputAxis("4")==PlayerConfiguration::InputAxis::joystickAxis(PlayerConfiguration::InputAxis::JoystickX)) ;
-        CPPUNIT_ASSERT(configuration->getInputAxis("5")==PlayerConfiguration::InputAxis::mouseAxis(PlayerConfiguration::InputAxis::MouseY)) ;
+        CPPUNIT_ASSERT(configuration->getInputAxis("4")==PlayerConfiguration::InputAxis(PlayerConfiguration::InputAxis::JoystickX)) ;
+        CPPUNIT_ASSERT(configuration->getInputAxis("5")==PlayerConfiguration::InputAxis(PlayerConfiguration::InputAxis::MouseY)) ;
         
       }
 
