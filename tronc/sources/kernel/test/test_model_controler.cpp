@@ -41,7 +41,7 @@ namespace ProjetUnivers {
     namespace Test {
 
       /// local classes
-      namespace
+      namespace ModelControler
       {
         
         /// Model
@@ -478,6 +478,8 @@ namespace ProjetUnivers {
         RegisterControler(ControlerHead2,Head,TestControlerSet2) ;
       }
 
+      using namespace ModelControler ;
+      
       void TestModelControler::testBuildOnEmptyModel()
       {
         InternalMessage("Kernel","Kernel::Test::TestModelControler::testBuildOnEmptyModel entering") ;
@@ -926,7 +928,7 @@ namespace ProjetUnivers {
         InternalMessage("Kernel","Kernel::Test::changeModelOnInitialisedControlerSet leaving") ;
       }
 
-      namespace
+      namespace ModelControler
       {
         class Trait1 : public Trait
         {};

@@ -997,7 +997,15 @@
   
   * GUI :
     - player configuration window
- 
+
+2008-12-10 rogma
+  
+  * All : 
+    - corrected compile errors on gcc 4.3
+    - corrected kernel tests on gcc 4.3
+    - still some compile errors on sound due to openAL (waiting to move to next 
+      api ?)
+        
 @todo :
   
     - go back to menu when Player is destroyed is stil not correct : the game 
@@ -1010,14 +1018,11 @@
       Custom mission controler dealt with victory/ending conditions and leads 
       to game over state
       Avoid blocking game when player is dead. 
-    
     - considered in a lot of places that Z axis is forward... whereas Ogre 
       consider negative Z as forward ??? 
     - make install does not work on win32 : libtool refuses to link with Ogre 
       (wheread it works in normal make !!)
-      
-    - some changes due to gcc 4.3 (not urgent)
-    - a lot of kernel tests fails on gcc 4.3 (not urgent)
+    - inspire from funguloid package for debian/ubuntu packaging
      
   * Model : 
     - Event traits like Collision, Shot should be implemented through 
@@ -1111,6 +1116,7 @@
       sound name by a function 
     - reconsider the implementation with the limitation 
     - migrate sound module to use openal-soft ? (not urgent)
+    - does not compile on gcc 4.3 because of openal (not urgent)
     
   * Kernel :
     

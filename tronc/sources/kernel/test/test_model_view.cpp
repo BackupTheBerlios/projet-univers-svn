@@ -45,7 +45,7 @@ namespace ProjetUnivers
     {
 
       /// local classes
-      namespace
+      namespace ModelView
       {
         
         class Head : public Trait
@@ -549,6 +549,8 @@ namespace ProjetUnivers
 
       }
 
+      using namespace ModelView ;
+      
       void TestModelView::testBuildOnEmptyModel()
       {
         InternalMessage("Kernel","Kernel::Test::testBuildOnEmptyModel entering") ;
@@ -1098,7 +1100,7 @@ namespace ProjetUnivers
         
       }
 
-      namespace 
+      namespace ModelView
       {
         class Trait1 : public Trait
         {};
