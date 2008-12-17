@@ -50,7 +50,7 @@ namespace ProjetUnivers {
             InternalMessage("Model","Logic::WithLifetime::simulate destroying object") ;
   
             // mark the object for destruction
-            getControlerSet()->addObjectToDestroy(getTrait()->getObject()) ;
+            getObject()->destroyObject() ;
           }
   
           InternalMessage("Model","Logic::WithLifetime::simulate leaving") ;

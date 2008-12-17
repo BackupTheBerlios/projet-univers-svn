@@ -1027,9 +1027,12 @@ namespace ProjetUnivers {
         person->addTrait(new Trait3()) ;
         
         controler->simulate(0) ;
+        
+        CPPUNIT_ASSERT(!person->getTrait<Trait1>()) ;
+        CPPUNIT_ASSERT(!person->getTrait<Trait2>()) ;
       }
 
-      namespace
+      namespace ModelControler
       {
         
         class AccessControlerSet : public ControlerSet
@@ -1083,6 +1086,77 @@ namespace ProjetUnivers {
         controler->simulate(0) ;
 
         CPPUNIT_ASSERT(AccessTrait1Controler::m_accessed) ;
+      }
+      
+      namespace ModelControler
+      {
+        class DestroyObject : public ControlerSet
+        {
+        public:
+          
+          DestroyObject(Model* model)
+          : ControlerSet(model)
+          {}
+        };
+        
+        class DestroyObjectTrait1 : public Controler<Trait1,DestroyObject>
+        {
+        public:
+          DestroyObjectTrait1(Trait1* trait,DestroyObject* controler_set)
+          : Controler<Trait1,DestroyObject>(trait,controler_set)
+          {}
+          
+          virtual void simulate(const float&)
+          {
+            getObject()->destroyObject() ;
+          }
+        };
+        
+        RegisterControler(DestroyObjectTrait1,Trait1,DestroyObject) ;
+        
+        class DestroyObjectTrait2 : public Controler<Trait2,DestroyObject>
+        {
+        public:
+          DestroyObjectTrait2(Trait2* trait,DestroyObject* controler_set)
+          : Controler<Trait2,DestroyObject>(trait,controler_set)
+          {}
+          
+          virtual void simulate(const float&)
+          {
+            getObject()->destroyObject() ;
+          }
+        };
+        
+        RegisterControler(DestroyObjectTrait2,Trait2,DestroyObject) ;
+      }
+      
+      void TestModelControler::destroyObject()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+        ControlerSet* controler(model->addControlerSet(new DestroyObject(model.get()))) ;
+        controler->init() ;
+      
+        ObjectReference person = model->createObject() ;
+        person->addTrait(new Trait1()) ;
+         
+        model->update(0) ;
+        
+        CPPUNIT_ASSERT(!person) ;
+      }
+      
+      void TestModelControler::destroyObjectTwice()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+        ControlerSet* controler(model->addControlerSet(new DestroyObject(model.get()))) ;
+        controler->init() ;
+      
+        ObjectReference person = model->createObject() ;
+        person->addTrait(new Trait1()) ;
+        person->addTrait(new Trait2()) ;
+         
+        model->update(0) ;
+        
+        CPPUNIT_ASSERT(!person) ;
       }
       
     }

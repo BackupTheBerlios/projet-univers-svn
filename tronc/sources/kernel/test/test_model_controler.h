@@ -106,6 +106,12 @@ namespace ProjetUnivers
         /// Access a trait of object.
         void accessOtherTrait() ;
         
+        /// Object destruction during simulation.
+        void destroyObject() ;
+
+        /// Object destruction during simulation.
+        void destroyObjectTwice() ;
+        
       // @}
 
 
@@ -126,6 +132,8 @@ namespace ProjetUnivers
         CPPUNIT_TEST(changeModelOnInitialisedControlerSet) ;
         CPPUNIT_TEST(simulateDestroyTrait) ;
         CPPUNIT_TEST(accessOtherTrait) ;
+        CPPUNIT_TEST(destroyObject) ;
+        CPPUNIT_TEST(destroyObjectTwice) ;
         
         CPPUNIT_TEST_SUITE_END() ;
 

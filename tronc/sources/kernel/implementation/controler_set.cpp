@@ -24,8 +24,10 @@
 
 #include <kernel/controler_set.h>
 
-namespace ProjetUnivers {
-  namespace Kernel {
+namespace ProjetUnivers 
+{
+  namespace Kernel 
+  {
   
     ControlerSet::StaticStorage* ControlerSet::StaticStorage::get()
     {
@@ -33,37 +35,41 @@ namespace ProjetUnivers {
       return &temp ;
     }
 
+    void ControlerSet::update(const float& seconds)
+    {
+      this->simulate(seconds) ;
+    }
     
-    void ControlerSet::simulate(const float& i_seconds)
+    void ControlerSet::simulate(const float& seconds)
     {
       boost::function2<void,
                        BaseControler*,
                        float> f 
                           = &BaseControler::simulate ;
       
-      applyTopDown(std::bind2nd(f,i_seconds)) ;
+      applyTopDown(std::bind2nd(f,seconds)) ;
       
     }
     
-    void ControlerSet::applyTopDown(boost::function1<void,BaseControler*> i_procedure)
+    void ControlerSet::applyTopDown(boost::function1<void,BaseControler*> procedure)
     {
       /// down to top recursive simulation on controlers.
       for(std::set<Object*>::const_iterator object = m_model->m_objects.begin() ;
           object != m_model->m_objects.end() ;
           ++object)
       {
-        (*object)->applyTopDown(this,i_procedure) ;
+        (*object)->applyTopDown(this,procedure) ;
       }
     }
 
-    void ControlerSet::applyBottomUp(boost::function1<void,BaseControler*> i_procedure)
+    void ControlerSet::applyBottomUp(boost::function1<void,BaseControler*> procedure)
     {
       /// down to top recursive simulation on controlers.
       for(std::set<Object*>::const_iterator object = m_model->m_objects.begin() ;
           object != m_model->m_objects.end() ;
           ++object)
       {
-        (*object)->applyBottomUp(this,i_procedure) ;
+        (*object)->applyBottomUp(this,procedure) ;
       }
     }
     
@@ -112,7 +118,7 @@ namespace ProjetUnivers {
       m_initialised(false)
     {}
     
-    bool ControlerSet::isVisible(Object* i_object) const
+    bool ControlerSet::isVisible(Object*) const
     {
       return true ;
     }

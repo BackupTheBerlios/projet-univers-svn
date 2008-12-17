@@ -41,16 +41,6 @@ namespace ProjetUnivers {
           /// Contructs.
           LogicSystem(Kernel::Model*) ;
           
-          /// simulate bottom up.
-          void simulate(const float& i_seconds) ;
-          
-          /// Add an object to be destroyed.
-          void addObjectToDestroy(Kernel::Object*) ;
-          
-        private:
-          
-          /// Objects to destroy.
-          std::set<Kernel::ObjectReference> m_objects_to_destroy ;
         };
       }
     }

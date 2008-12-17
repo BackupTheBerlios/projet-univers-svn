@@ -18,26 +18,57 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <model/custom_mission.h>
+#ifndef PU_GUI_TEST_CUSTOM_MISSION_H_
+#define PU_GUI_TEST_CUSTOM_MISSION_H_
 
-namespace ProjetUnivers {
-  namespace Model {
-  
-    CustomMission::CustomMission(const std::string& name,
-                                 Kernel::Object* player_configuration,
-                                 Kernel::Object* main_menu)
-    : Mission(name,player_configuration,main_menu)
-    {}
-      
-    Distance CustomMission::getStartingDistance() const
+#include <cppunit/extensions/HelperMacros.h>
+
+namespace ProjetUnivers 
+{
+  namespace GUI 
+  {
+    namespace Test 
     {
-      return m_starting_distance ;
-    }
-      
-    Duration CustomMission::getMissionTotalDuration() const
-    {
-      return m_mission_duration ;
-    }
+            
+      /// Test of CustomMission.
+      class TestCustomMission : public CppUnit::TestFixture 
+      {
+      protected:
+      /*! 
+        @name Tests
+      */ 
+      // @{
+        
+        void moveDownTeamWindows() ;
+        void moveUpTeamWindows() ;
+        void addTeamWindow() ;
+        void addTeam() ;
+        
+        void createFlyingGroup() ;
+        void destroyFlyingGroup() ;
+        
+      // @}
+      /*!
+        @name Test registration
+      */
+      // @{      
     
+        CPPUNIT_TEST_SUITE(TestCustomMission) ;
+      
+        CPPUNIT_TEST(moveDownTeamWindows) ;
+        CPPUNIT_TEST(moveUpTeamWindows) ;
+        CPPUNIT_TEST(addTeamWindow) ;
+        CPPUNIT_TEST(addTeam) ;
+        CPPUNIT_TEST(createFlyingGroup) ;
+        CPPUNIT_TEST(destroyFlyingGroup) ;
+        
+        CPPUNIT_TEST_SUITE_END() ;
+        
+      // @}      
+      };
+
+    }
   }
 }
+
+#endif /*PU_GUI_TEST_CUSTOM_MISSION_H_*/

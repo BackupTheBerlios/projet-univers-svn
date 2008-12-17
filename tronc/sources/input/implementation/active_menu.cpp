@@ -18,8 +18,10 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <model/menu.h>
 #include <model/displayed.h>
+#include <model/edited.h>
+#include <model/menu.h>
+#include <model/custom_mission.h>
 #include <input/implementation/active_menu.h>
 
 namespace ProjetUnivers {
@@ -27,8 +29,10 @@ namespace ProjetUnivers {
     namespace Implementation {
 
       DeclareDeducedTrait(ActiveMenu,
-                          And(HasTrait(Model::Menu),
-                              HasTrait(Model::Displayed))) ;
+                          Or(And(HasTrait(Model::Menu),
+                                 HasTrait(Model::Displayed)),
+                             And(HasTrait(Model::CustomMission),
+                                 HasTrait(Model::Edited)))) ;
     }
   }
 }

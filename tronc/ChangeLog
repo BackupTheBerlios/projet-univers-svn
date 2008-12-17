@@ -1005,6 +1005,24 @@
     - corrected kernel tests on gcc 4.3
     - still some compile errors on sound due to openAL (waiting to move to next 
       api ?)
+
+2008-12-17 rogma
+  
+  * Media :
+    - repared vertical scrollbar
+  * Kernel :
+    - better handling for modifications during simulation of controler sets, 
+      object can be destroyed, trait can be added or removed, parentship can 
+      be modified  
+  * Model :
+    - added FlyingGroup
+    - removed special handling of object destruction during Logic simulation, 
+      pulled up in framework
+  * GUI :
+    - repared mouse position injection allowing scroll and drag and drop
+    - started CustomMission edition
+  
+  
         
 @todo :
   
@@ -1065,8 +1083,8 @@
     
   * GUI : 
     - add key shortcuts for clicable buttons
-    - add config for mouse and joystick (correspondign to axes)
-    - custom mission menu 
+    - custom mission menu
+    - change all hover/pushed elements 
    
   * Display :
     - seg fault when having an Oriented object that is not Positionned, use 
@@ -1124,14 +1142,6 @@
     - add better errors on object structure
     - maybe call axis should take a Percentage
     - be able to copy an object, use read and add a write to Traits.
-    - controlers may change structure during simulate call : this is done 
-      during a browse all objects and could cause seg fault... maybe we should 
-      synchronize structural object modifications to happen at the end of a 
-      applyTopDown/applyBottomUp by recording all strutural calls and playing 
-      them at the end ?? 
-      @see Model::Implementation::Logic::LogicSystem::m_objects_to_destroy that 
-      already perform that kind of recording stuff...
-      This is also important for object loading...
     - it is sometimes very hard to debug the framework, some behaviour depends 
       on deduction order. More generally, trait addition order may have a direct 
       impact on behaviour

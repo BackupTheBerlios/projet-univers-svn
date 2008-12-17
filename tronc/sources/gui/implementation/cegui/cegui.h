@@ -26,14 +26,20 @@
 namespace CEGUI
 {
   class Window ;
+  class UDim ;
+  class UVector2 ;
 }
 
-namespace ProjetUnivers {
-  namespace GUI {
-    namespace Implementation {
+namespace ProjetUnivers 
+{
+  namespace GUI 
+  {
+    namespace Implementation 
+    {
 
       /// Implementation through CEGUI.
-      namespace CEGUI { 
+      namespace CEGUI 
+      { 
         
         /// Init the module.
         void start() ;
@@ -74,6 +80,8 @@ namespace ProjetUnivers {
         */
         ::CEGUI::Window* getTypedDescendant(::CEGUI::Window* window,const std::string& type,const std::string& text) ;
         
+        std::string toString(const ::CEGUI::UDim&) ;
+        std::string toString(const ::CEGUI::UVector2& vector) ;
       }
     }    
   }

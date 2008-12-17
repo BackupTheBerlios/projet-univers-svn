@@ -577,7 +577,7 @@ namespace ProjetUnivers {
       // the set of trait may vary during apply so we store it once for all 
       std::set<TypeIdentifier> saved_traits ;
 
-      for(std::map<TypeIdentifier, Trait*>::iterator trait = traits.begin() ;
+      for(std::map<TypeIdentifier,Trait*>::iterator trait = traits.begin() ;
           trait != traits.end() ;
           ++trait)
       {
@@ -594,8 +594,11 @@ namespace ProjetUnivers {
           local_trait->apply(i_controler_set,i_operation) ;
       }
       
-      for(std::set<Object*>::iterator child = children.begin() ;
-          child != children.end() ;
+      /// the set of child may vary...
+      std::set<Object*> saved_children(children) ;
+      
+      for(std::set<Object*>::iterator child = saved_children.begin() ;
+          child != saved_children.end() ;
           ++child)
       {
         (*child)->applyTopDown(i_controler_set,i_operation) ; ;
@@ -606,19 +609,34 @@ namespace ProjetUnivers {
       ControlerSet*                         i_controler_set,
       boost::function1<void,BaseControler*> i_operation)
     {
-      for(std::set<Object*>::iterator child = children.begin() ;
-          child != children.end() ;
+      
+      /// the set of child may vary...
+      std::set<Object*> saved_children(children) ;
+      
+      for(std::set<Object*>::iterator child = saved_children.begin() ;
+          child != saved_children.end() ;
           ++child)
       {
         (*child)->applyBottomUp(i_controler_set,i_operation) ; ;
       }
 
-      for(std::map<TypeIdentifier, Trait*>::iterator trait = traits.begin() ;
+      std::set<TypeIdentifier> saved_traits ;
+
+      for(std::map<TypeIdentifier,Trait*>::iterator trait = traits.begin() ;
           trait != traits.end() ;
           ++trait)
       {
-        if (trait->second)
-          trait->second->apply(i_controler_set,i_operation) ;
+        saved_traits.insert(trait->first) ;
+      }
+
+      for(std::set<TypeIdentifier>::const_iterator trait = saved_traits.begin() ;
+          trait != saved_traits.end() ;
+          ++trait)
+      {
+        // if object still has the trait apply
+        Trait* local_trait = getTrait(*trait) ;
+        if (local_trait)
+          local_trait->apply(i_controler_set,i_operation) ;
       }
     }
 

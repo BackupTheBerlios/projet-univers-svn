@@ -155,17 +155,41 @@ namespace ProjetUnivers {
       std::set<ViewPoint*>        m_viewpoints ;
       std::set<ControlerSet*>     m_controler_sets ;
 
+    // @}
     /*!
       @name Back reference handling
       
       Reference to object need to be "cleared" when model is destroyed. 
     */
-          
+    // @{
+      
       void _registerReference(ObjectReference*) ;
 
       void _unregisterReference(ObjectReference*) ;
       
       std::set<ObjectReference*>  m_references ;
+      
+    // @}
+    /*!
+      @name Handling of modifications during controlers update
+      
+      When a controler set is updated, the structure should not be modified 
+    */
+    // @{
+      
+      /// True iff we are in a simulation
+      bool m_is_simulating_controler_set ;
+
+      /// Objects to be destroyed.
+      std::list<ObjectReference> m_objects_to_destroy ;
+
+      void beginSimulation() ;
+      void endSimulation() ;
+      
+      /// Add an object to be destroyed.
+      void addObjectToDestroy(Object*) ;
+      
+    // @}
       
       friend class ViewPoint ;
       friend class Trait ;

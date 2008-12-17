@@ -85,6 +85,12 @@ namespace ProjetUnivers {
       InternalMessage("Kernel","Entering Model::destroyObject") ;
       CHECK(object,"Model::destroyObject no object") ;
       
+      if (m_is_simulating_controler_set)
+      {
+        addObjectToDestroy(object) ;
+        return ;
+      }
+      
       object->_close() ;
       
       if (object->getParent() == NULL)
@@ -194,7 +200,8 @@ namespace ProjetUnivers {
     
     Model::Model(const std::string& name)
     : m_name(name),
-      m_destroying(false)
+      m_destroying(false),
+      m_is_simulating_controler_set(false)
     {}
 
     void Model::_register(ViewPoint* viewpoint)
@@ -375,8 +382,10 @@ namespace ProjetUnivers {
           controlerset != controlersets.end() ;
           ++controlerset)
       {
-        InternalMessage("MainLoop","Model::update simulating " + getObjectTypeIdentifier(*controlerset).toString()) ;      
+        InternalMessage("MainLoop","Model::update simulating " + getObjectTypeIdentifier(*controlerset).toString()) ;
+        beginSimulation() ;
         (*controlerset)->simulate(seconds) ;
+        endSimulation() ;
         InternalMessage("MainLoop","Model::update simulated " + getObjectTypeIdentifier(*controlerset).toString()) ;      
       }
 
@@ -390,6 +399,28 @@ namespace ProjetUnivers {
         InternalMessage("MainLoop","Model::update updated " + getObjectTypeIdentifier(*viewpoint).toString()) ;      
       }
       InternalMessage("MainLoop","Model::updated") ;      
+    }
+    
+    void Model::beginSimulation()
+    {
+      m_is_simulating_controler_set = true ;
+    }
+    
+    void Model::endSimulation()
+    {
+      m_is_simulating_controler_set = false ;
+      for(std::list<ObjectReference>::const_iterator object = m_objects_to_destroy.begin() ;
+          object != m_objects_to_destroy.end() ;
+          ++object)
+      {
+        if (*object)
+          destroyObject(*object) ;
+      }
+    }
+    
+    void Model::addObjectToDestroy(Object* object)
+    {
+      m_objects_to_destroy.push_back(object) ;
     }
     
   }

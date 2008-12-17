@@ -29,17 +29,23 @@
 
 #include <display/display.h>
 #include <display/display_gui.h>
+#include <display/display_input.h>
 #include <input/input.h>
 #include <input/input_gui.h>
 #include <input/input_listener.h>
 
 #include <gui/implementation/cegui/cegui.h>
 
-namespace ProjetUnivers {
-  namespace GUI {
-    namespace Implementation {
-      namespace CEGUI { 
+namespace ProjetUnivers 
+{
+  namespace GUI 
+  {
+    namespace Implementation 
+    {
+      namespace CEGUI 
+      { 
         
+        /// Manage the GUI.
         class GUISystem : public Input::InputListener
         {
         public:
@@ -122,12 +128,44 @@ namespace ProjetUnivers {
             CEGUISystem->injectChar(key_char) ;
           }
           
-          virtual void injectMousePosition(int x,int y, int z)
+          /// initialise mouse position at the center of the screen
+          void initMousePosition()
           {
-            ::CEGUI::Point position(x,y) ;
+            unsigned int width ;
+            unsigned int height ;
+            unsigned int depth ;
+            int left ;        
+            int top ;
+            Display::getWindowSize(width,height,depth,left,top) ;
+            
+            m_mouse_position_x = width/2 ;
+            m_mouse_position_y = height/2 ;
+            m_mouse_position_z = 0 ;
+
+            ::CEGUI::Point position(m_mouse_position_x,m_mouse_position_y) ;
             ::CEGUI::MouseCursor::getSingleton().setPosition(position) ;
           }
+          
+          /// inject the new mouse position
+          virtual void injectMousePosition(int x,int y, int z)
+          {
+            int delta_x = x - m_mouse_position_x ;
+            int delta_y = y - m_mouse_position_y ;
 
+            m_mouse_position_x = x ;
+            m_mouse_position_y = y ;
+            m_mouse_position_z = z ;
+            
+            if (delta_x != 0 || delta_y != 0)
+              CEGUISystem->injectMouseMove(delta_x,delta_y) ;
+          }
+
+          /// previous mouse position
+          int m_mouse_position_x ;
+          int m_mouse_position_y ;
+          int m_mouse_position_z ;
+          
+          
           virtual void injectMousePressed(int button)
           {
             CEGUISystem->injectMouseButtonDown(::CEGUI::MouseButton(button)) ;
@@ -162,6 +200,7 @@ namespace ProjetUnivers {
           {
             ::CEGUI::MouseCursor::getSingleton().show() ;
             ::CEGUI::System::getSingleton().setGUISheet(system->m_window) ;
+            system->initMousePosition() ;
           }
           ++system->m_number_of_active_guis ;
         }

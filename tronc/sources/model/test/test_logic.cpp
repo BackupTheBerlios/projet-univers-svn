@@ -119,9 +119,10 @@ namespace ProjetUnivers {
         destroyable->damage(Model::Energy::Joule(1.5)) ;
         
         // simulate Logic : object  should not exist anymore
-        model->update(2.5) ;
+        model->update(1) ;
+        model->update(1.5) ;
         
-        CPPUNIT_ASSERT(system->getChildren().size()==0) ;
+        CPPUNIT_ASSERT_EQUAL((unsigned int )0,system->getChildren().size()) ;
       }
 
       void TestLogic::testLaserBeamDestroyableCollision()

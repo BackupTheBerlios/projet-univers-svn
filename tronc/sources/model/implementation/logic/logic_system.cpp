@@ -38,45 +38,6 @@ namespace ProjetUnivers {
         : Kernel::ControlerSet(model)
         {}
   
-        void LogicSystem::simulate(const float& i_seconds)
-        {
-          InternalMessage("Model","Model::LogicSystem::simulate entering") ;
-          boost::function2<void,
-                           Kernel::BaseControler*,
-                           float> f 
-                              = &Kernel::BaseControler::simulate ;
-          
-          applyBottomUp(std::bind2nd(f,i_seconds)) ;
-          
-          std::set<Kernel::ObjectReference> objects_to_destroy(m_objects_to_destroy) ;
-          m_objects_to_destroy.clear() ;
-
-          InternalMessage("Model","Model::LogicSystem::simulate destroying " +  
-                                  Kernel::toString(objects_to_destroy.size()) +
-                                  " objects") ;
-          
-          for(std::set<Kernel::ObjectReference>::iterator object = objects_to_destroy.begin() ;
-              object != objects_to_destroy.end() ;
-              ++object)
-          {
-            
-            if (bool(*object))
-            {
-              InternalMessage("Model","Model::LogicSystem::simulate destroying object " + 
-                                      Kernel::toString((*object)->getIdentifier())) ;
-              (*object)->getModel()->destroyObject(*object) ;
-            }
-          }
-          
-          InternalMessage("Model","Model::LogicSystem::simulate leaving") ;
-        }
-        
-        void LogicSystem::addObjectToDestroy(Kernel::Object* object)
-        {
-          InternalMessage("Model","Model::LogicSystem::addObjectToDestroy adding object " + 
-                                  Kernel::toString(object->getIdentifier()) + " to destroy") ;
-          m_objects_to_destroy.insert(object) ;
-        }
       }
     }
   }

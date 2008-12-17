@@ -42,6 +42,9 @@ namespace ProjetUnivers {
       /// Constructs.
       Team() ;
 
+      /// Add a flying group.
+      void addFlyingGroup(const std::string& name) ;
+      
       /// Read a Team trait.
       /*!
         stored as 

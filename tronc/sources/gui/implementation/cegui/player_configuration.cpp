@@ -216,7 +216,6 @@ namespace ProjetUnivers
                            ::CEGUI::UDim(element_height,0)) ;
             value->setProperty("HorzFormatting","WordWrapLeftAligned") ;
             
-            /// @todo : dealt with invert axes
             Model::PlayerConfiguration::InputAxis inputaxis = 
               getObject()->getTrait<Model::PlayerConfiguration>()
                          ->getInputAxis(*axis) ;
@@ -247,7 +246,6 @@ namespace ProjetUnivers
             increase->subscribeEvent(::CEGUI::Window::EventMouseClick,
                                      ::CEGUI::Event::Subscriber(&PlayerConfiguration::onIncrease,this)) ;
             
-            /// @todo : on change record the new configuration
           }
 
         }

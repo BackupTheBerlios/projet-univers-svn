@@ -36,6 +36,7 @@ libmodel_la_SOURCES = \
 ../implementation/engine_controler.cpp \
 ../implementation/exception.cpp \
 ../implementation/explosion.cpp \
+../implementation/flying_group.cpp \
 ../implementation/force.cpp \
 ../implementation/force_generator.cpp \
 ../implementation/guidance_system.cpp \

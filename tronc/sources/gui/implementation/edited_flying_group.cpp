@@ -18,26 +18,21 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <model/custom_mission.h>
+#include <model/flying_group.h>
+#include <model/edited.h>
+#include <gui/implementation/edited_team.h>
+#include <gui/implementation/edited_flying_group.h>
 
-namespace ProjetUnivers {
-  namespace Model {
-  
-    CustomMission::CustomMission(const std::string& name,
-                                 Kernel::Object* player_configuration,
-                                 Kernel::Object* main_menu)
-    : Mission(name,player_configuration,main_menu)
-    {}
-      
-    Distance CustomMission::getStartingDistance() const
+namespace ProjetUnivers 
+{
+  namespace GUI 
+  {
+    namespace Implementation 
     {
-      return m_starting_distance ;
+
+      DeclareDeducedTrait(EditedFlyingGroup,
+                          And(HasTrait(Model::FlyingGroup),
+                              HasParent(EditedTeam))) ;
     }
-      
-    Duration CustomMission::getMissionTotalDuration() const
-    {
-      return m_mission_duration ;
-    }
-    
   }
 }

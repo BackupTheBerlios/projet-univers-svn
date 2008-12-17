@@ -9,13 +9,19 @@ AM_CXXFLAGS=$(PU_CXXFLAGS)
 libgui_la_SOURCES = \
 ../implementation/gui.cpp \
 ../implementation/active_menu.cpp \
+../implementation/edited_custom_mission.cpp \
+../implementation/edited_flying_group.cpp \
 ../implementation/edited_player_configuration.cpp \
+../implementation/edited_team.cpp \
 ../implementation/cegui/cegui.cpp \
 ../implementation/cegui/command_interpretor.cpp \
+../implementation/cegui/custom_mission.cpp \
+../implementation/cegui/flying_group.cpp \
 ../implementation/cegui/gui_controler_set.cpp \
 ../implementation/cegui/menu.cpp \
 ../implementation/cegui/player_configuration.cpp \
-../implementation/cegui/scripting_module.cpp
+../implementation/cegui/scripting_module.cpp \
+../implementation/cegui/team.cpp
 
 
 libgui_la_LDFLAGS = -no-undefined
@@ -51,6 +57,7 @@ TESTS = test_gui
 check_PROGRAMS = $(TESTS)
 
 test_gui_SOURCES = \
+../test/test_custom_mission.cpp \
 ../test/test_gui.cpp \
 ../test/test_menu.cpp
 

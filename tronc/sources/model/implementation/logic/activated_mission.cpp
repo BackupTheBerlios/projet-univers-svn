@@ -52,7 +52,7 @@ namespace ProjetUnivers {
               child != children.end() ;
               ++child)
           {
-            getControlerSet()->addObjectToDestroy(*child) ;
+            (*child)->destroyObject() ;
           }
         }
 

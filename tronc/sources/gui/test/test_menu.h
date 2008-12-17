@@ -48,6 +48,9 @@ namespace ProjetUnivers
         /// test a complete menu with sub menus. 
         void testFullMenu() ;
         
+        /// Edition of a custom mission.
+        void customMission() ;
+        
       // @}
       /*!
         @name Test registration
@@ -59,6 +62,7 @@ namespace ProjetUnivers
         CPPUNIT_TEST(basicTest) ;
         CPPUNIT_TEST(playerConfiguration) ;
         CPPUNIT_TEST(testFullMenu) ;
+        CPPUNIT_TEST(customMission) ;
         
         CPPUNIT_TEST_SUITE_END() ;
       // @}      

@@ -21,11 +21,14 @@
 #include <kernel/log.h>
 #include <model/implementation/logic/end_of_simulation.h>
 
-namespace ProjetUnivers {
-  namespace Model {
-    namespace Implementation {
-      namespace Logic {
-
+namespace ProjetUnivers 
+{
+  namespace Model 
+  {
+    namespace Implementation 
+    {
+      namespace Logic 
+      {
 
         RegisterControler(EndOfSimulation, 
                           ActivatedEndOfSimulation, 
@@ -46,8 +49,9 @@ namespace ProjetUnivers {
           for(std::set<Kernel::Object*>::const_iterator root = roots.begin() ; 
               root != roots.end() ;
               ++root)
-            
-            getControlerSet()->addObjectToDestroy(*root) ;
+          {
+            (*root)->destroyObject() ;
+          }
 
           InternalMessage("Model","EndOfSimulation::onInit leaving") ;
         }

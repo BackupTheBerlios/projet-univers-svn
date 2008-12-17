@@ -38,11 +38,18 @@
 #include <model/displayed.h>
 #include <model/state.h>
 #include <model/active.h>
+#include <model/custom_mission.h>
+#include <model/team.h>
 
 #include <display/implementation/ogre/ogre.h>
 
 #include <input/input_gui.h>
 #include <input/implementation/input_internal.h>
+#include <gui/implementation/edited_custom_mission.h>
+#include <gui/implementation/edited_team.h>
+#include <gui/implementation/cegui/gui_controler_set.h>
+#include <gui/implementation/cegui/custom_mission.h>
+#include <gui/implementation/cegui/team.h>
 #include <gui/implementation/cegui/cegui.h>
 #include <gui/test/test_menu.h>
 
@@ -58,7 +65,6 @@ namespace ProjetUnivers
   {
     namespace Test 
     {
-      
       
       void TestMenu::basicTest()
       {
@@ -191,7 +197,54 @@ namespace ProjetUnivers
         InternalMessage("GUI","GUI::TestMenu::testFullMenu leaving") ;
         
       }
-      
+
+      void TestMenu::customMission()
+      {
+        InternalMessage("GUI","GUI::TestMenu::customMission entering") ;
+
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestMenu::customMission")) ;
+        model->init() ;
+        
+        Kernel::Object* mission = model->createObject() ;
+        mission->addTrait(new Model::CustomMission("test",NULL,NULL)) ;
+        mission->addTrait(new Model::Edited()) ;
+        
+        Kernel::Object* team1 = mission->createObject() ;
+        team1->addTrait(new Model::Team("team 1")) ;
+
+        Kernel::Object* team2 = mission->createObject() ;
+        team2->addTrait(new Model::Team("team 2")) ;
+
+        Kernel::Object* team3 = mission->createObject() ;
+        team3->addTrait(new Model::Team("team 3")) ;
+        
+        Kernel::Timer timer ;
+        Kernel::Timer global_timer ;
+        
+        float test_duration = 0 ;
+        
+        try 
+        {
+          test_duration = Kernel::Parameters::getValue<float>("GUI","Test.PlayerConfiguration.Duration") ; 
+        }
+        catch(...)
+        {
+          test_duration = 5 ;
+        }
+        
+        while (global_timer.getSecond() < test_duration)
+        {
+          float seconds = timer.getSecond() ;
+          if (seconds != 0)
+          {
+            timer.reset() ;
+          }
+          model->update(seconds) ;
+        }        
+        
+        InternalMessage("GUI","GUI::TestMenu::customMission leaving") ;
+      }
+
     }
   }
 }

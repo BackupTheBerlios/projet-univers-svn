@@ -21,13 +21,14 @@
 #ifndef PU_MODEL_CUSTOM_MISSION_H_
 #define PU_MODEL_CUSTOM_MISSION_H_
 
-#include <kernel/trait.h>
-
+#include <model/mission.h>
 #include <model/distance.h>
 #include <model/duration.h>
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers 
+{
+  namespace Model 
+  {
   
     /// Represents a basic configurable mission.
     /*!
@@ -37,18 +38,24 @@ namespace ProjetUnivers {
       ### Group
       ## Team
     */
-    class CustomMission : public Kernel::Trait
+    class CustomMission : public Mission
     {
     public:
       
       /// Constructor.
-      CustomMission() ;
-      
+      CustomMission(const std::string& name,
+                    Kernel::Object* player_configuration,
+                    Kernel::Object* main_menu) ;
+
+      /// Create a new Team.
+      void addTeam(const std::string& name) ;
+
       /// Access to minimal distance of respawn.
       Distance getStartingDistance() const ;
       
       /// Total mission duration.
       Duration getMissionTotalDuration() const ;
+      
       
     private:
       
@@ -58,8 +65,6 @@ namespace ProjetUnivers {
       /// Duration of the mission.
       Duration m_mission_duration ;
       
-      /// Name
-      std::string m_name ;
     };
   }
 }

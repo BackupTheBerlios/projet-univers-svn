@@ -18,26 +18,45 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <model/custom_mission.h>
+#ifndef PU_MODEL_FLYING_GROUP_H_
+#define PU_MODEL_FLYING_GROUP_H_
+
+#include <string>
+#include <kernel/trait.h>
 
 namespace ProjetUnivers {
   namespace Model {
-  
-    CustomMission::CustomMission(const std::string& name,
-                                 Kernel::Object* player_configuration,
-                                 Kernel::Object* main_menu)
-    : Mission(name,player_configuration,main_menu)
-    {}
-      
-    Distance CustomMission::getStartingDistance() const
+
+    /// Represents a FlyingGroup.
+    /*!
+    */
+    class FlyingGroup : public Kernel::Trait
     {
-      return m_starting_distance ;
-    }
+    public:
+
+      /// Constructs with a name.
+      FlyingGroup(const std::string& name) ;
+
+      /// Access to name.
+      const std::string& getName() const ;
       
-    Duration CustomMission::getMissionTotalDuration() const
-    {
-      return m_mission_duration ;
-    }
-    
+    private:
+
+      /// Group name.
+      std::string m_name ;
+      
+      /// True if it has the player in it.
+      bool m_has_player ;
+      
+      /// Number of ships in the group
+      unsigned int m_number_of_ships ;
+      
+      /// Ship model name.
+      std::string m_ship_name ;
+      
+    };
+
   }
 }
+
+#endif /*PU_MODEL_FLYING_GROUP_H_*/

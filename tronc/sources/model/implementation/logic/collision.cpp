@@ -65,15 +65,13 @@ namespace ProjetUnivers {
           if (laser1)
           {
             laser = laser1 ;
-            getControlerSet()->addObjectToDestroy(getTrait()->getObject1()) ;
-//            std::cout << "touche" << std::endl ;
+            getTrait()->getObject1()->destroyObject() ;
           }
 
           if (laser2)
           {
             laser = laser2 ;
-            getControlerSet()->addObjectToDestroy(getTrait()->getObject2()) ;
-//            std::cout << "touche" << std::endl ;
+            getTrait()->getObject2()->destroyObject() ;
           }
           
           if (destroyable1)
@@ -94,7 +92,7 @@ namespace ProjetUnivers {
           }          
           
           // mark the collision object for destruction
-          getControlerSet()->addObjectToDestroy(getTrait()->getObject()) ;
+          getObject()->destroyObject() ;
           
           InternalMessage("Model","Collision::simulate leaving") ;
         }

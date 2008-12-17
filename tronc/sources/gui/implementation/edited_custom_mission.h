@@ -18,26 +18,22 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <model/custom_mission.h>
+#ifndef PU_GUI_IMPLEMENTATION_EDITED_CUSTOM_MISSION_H_
+#define PU_GUI_IMPLEMENTATION_EDITED_CUSTOM_MISSION_H_
 
-namespace ProjetUnivers {
-  namespace Model {
-  
-    CustomMission::CustomMission(const std::string& name,
-                                 Kernel::Object* player_configuration,
-                                 Kernel::Object* main_menu)
-    : Mission(name,player_configuration,main_menu)
-    {}
-      
-    Distance CustomMission::getStartingDistance() const
+#include <kernel/deduced_trait.h>
+
+namespace ProjetUnivers 
+{
+  namespace GUI 
+  {
+    namespace Implementation 
     {
-      return m_starting_distance ;
+          
+      /// An edited custom mission.
+      class EditedCustomMission : public Kernel::DeducedTrait
+      {};
     }
-      
-    Duration CustomMission::getMissionTotalDuration() const
-    {
-      return m_mission_duration ;
-    }
-    
   }
 }
+#endif /*PU_GUI_IMPLEMENTATION_EDITED_CUSTOM_MISSION_H_*/

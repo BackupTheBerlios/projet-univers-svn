@@ -25,8 +25,10 @@
 #include <boost/function.hpp>
 #include <kernel/helper_macros.h>
 
-namespace ProjetUnivers {
-  namespace Kernel {
+namespace ProjetUnivers 
+{
+  namespace Kernel 
+  {
   
     class Model ;
     class Object ;
@@ -42,7 +44,7 @@ namespace ProjetUnivers {
       void init() ;
 
       /// Change the model.
-      void setModel(Model* i_model) ;
+      void setModel(Model* model) ;
       
       /// Close the controler set.
       void close() ;
@@ -51,7 +53,10 @@ namespace ProjetUnivers {
       /*!
         Can be overridden for specific purpose. 
       */
-      virtual void simulate(const float& i_seconds) ;
+      virtual void simulate(const float& seconds) ;
+
+      /// Perform the simulation.
+      void update(const float& seconds) ;
       
       /// True iff the controler set has been initialised
       bool isInitialised() const ; 
@@ -91,16 +96,16 @@ namespace ProjetUnivers {
           then 
             whatever child of object !isVisible(child)
       */
-      virtual bool isVisible(Object* i_object) const ;
+      virtual bool isVisible(Object* object) const ;
  
       /// Apply a procedure on all controlers.
-      void applyTopDown(boost::function1<void,BaseControler*> i_procedure) ;
+      void applyTopDown(boost::function1<void,BaseControler*> procedure) ;
  
       /// Apply a procedure on all controlers.
-      void applyBottomUp(boost::function1<void,BaseControler*> i_procedure) ;
+      void applyBottomUp(boost::function1<void,BaseControler*> procedure) ;
       
       /// Abstract class means protected constructor.
-      ControlerSet(Model* i_model) ;
+      ControlerSet(Model* model) ;
       
       Model* m_model ;
       bool   m_initialised ;

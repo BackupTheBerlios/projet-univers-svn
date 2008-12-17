@@ -1026,14 +1026,17 @@
 	<!--
 		***************************************************
 		ProjetUnivers/HorizontalScrollbar
+      ProjetUnivers/HorizontalScrollbarThumb
+    
+    untested
 		***************************************************
 	-->
 	<WidgetLook name="ProjetUnivers/HorizontalScrollbar">
+    <Property name="HorizontalScrollbar" value="True" />
 		<NamedArea name="ThumbTrackArea">
 			<Area>
 				<Dim type="LeftEdge">
-					<ImageDim imageset="ProjetUnivers"
-						image="ScrollH_Gauche_Normal" dimension="Width" />
+					<ImageDim imageset="ProjetUnivers" image="ScrollH_Gauche_Normal" dimension="Width" />
 				</Dim>
 				<Dim type="TopEdge">
 					<AbsoluteDim value="0" />
@@ -1041,43 +1044,36 @@
 				<Dim type="RightEdge">
 					<UnifiedDim scale="1.0" type="RightEdge">
 						<DimOperator op="Subtract">
-							<ImageDim imageset="ProjetUnivers"
-								image="ScrollH_Droite_Normal" dimension="Width" />
+							<ImageDim imageset="ProjetUnivers" image="ScrollH_Droite_Normal" dimension="Width" />
 						</DimOperator>
 					</UnifiedDim>
 				</Dim>
-				<Dim type="BottomEdge">
-					<UnifiedDim scale="1.0" type="BottomEdge" />
+				<Dim type="Height">
+          <UnifiedDim scale="1.0" type="Height"/>
 				</Dim>
 			</Area>
 		</NamedArea>
-		<Child type="ProjetUnivers/ImageButton"
-			nameSuffix="__auto_incbtn__">
+		<Child type="ProjetUnivers/ImageButton" nameSuffix="__auto_incbtn__">
 			<Area>
 				<Dim type="LeftEdge">
-					<AbsoluteDim value="0" />
+          <AbsoluteDim value="0" />
 				</Dim>
 				<Dim type="TopEdge">
 					<AbsoluteDim value="0" />
 				</Dim>
 				<Dim type="Width">
-					<ImageDim imageset="ProjetUnivers"
-						image="ScrollH_Gauche_Normal" dimension="Width" />
+  					<ImageDim imageset="ProjetUnivers" image="ScrollH_Droite_Normal" dimension="Width" />
 				</Dim>
 				<Dim type="Height">
 					<UnifiedDim scale="1" type="Height" />
 				</Dim>
 			</Area>
 			<HorzAlignment type="RightAligned" />
-			<Property name="NormalImage"
-				value="set:ProjetUnivers image:ScrollH_Gauche_Normal" />
-			<Property name="HoverImage"
-				value="set:ProjetUnivers image:ScrollH_Gauche_Hoover" />
-			<Property name="PushedImage"
-				value="set:ProjetUnivers image:ScrollH_Gauche_Normal" />
+      <Property name="NormalImage" value="set:ProjetUnivers image:ScrollH_Droite_Normal" />
+      <Property name="HoverImage" value="set:ProjetUnivers image:ScrollH_Droite_Hoover" />
+      <Property name="PushedImage" value="set:ProjetUnivers image:ScrollH_Droite_Normal" />
 		</Child>
-		<Child type="ProjetUnivers/ImageButton"
-			nameSuffix="__auto_decbtn__">
+		<Child type="ProjetUnivers/ImageButton" nameSuffix="__auto_decbtn__">
 			<Area>
 				<Dim type="LeftEdge">
 					<AbsoluteDim value="0" />
@@ -1086,22 +1082,18 @@
 					<AbsoluteDim value="0" />
 				</Dim>
 				<Dim type="Width">
-					<ImageDim imageset="ProjetUnivers"
-						image="ScrollH_Droite_Normal" dimension="Width" />
+ 					<ImageDim imageset="ProjetUnivers" image="ScrollH_Gauche_Normal" dimension="Width" />
 				</Dim>
 				<Dim type="Height">
 					<UnifiedDim scale="1" type="Height" />
 				</Dim>
 			</Area>
-			<Property name="NormalImage"
-				value="set:ProjetUnivers image:ScrollH_Droite_Normal" />
-			<Property name="HoverImage"
-				value="set:ProjetUnivers image:ScrollH_Droite_Hoover" />
-			<Property name="PushedImage"
-				value="set:ProjetUnivers image:ScrollH_Droite_Normal" />
+      <HorzAlignment type="LeftAligned" />
+      <Property name="NormalImage" value="set:ProjetUnivers image:ScrollH_Gauche_Normal" />
+      <Property name="HoverImage" value="set:ProjetUnivers image:ScrollH_Gauche_Hoover" />
+      <Property name="PushedImage" value="set:ProjetUnivers image:ScrollH_Gauche_Normal" />
 		</Child>
-		<Child type="ProjetUnivers/VerticalScrollbarThumb"
-			nameSuffix="__auto_thumb__">
+		<Child type="ProjetUnivers/HorizontalScrollbarThumb" nameSuffix="__auto_thumb__">
 			<Area>
 				<Dim type="LeftEdge">
 					<AbsoluteDim value="0" />
@@ -1116,23 +1108,21 @@
 					<UnifiedDim scale="0.1" type="Height" />
 				</Dim>
 			</Area>
-			<Property name="UnifiedMinSize" value="{{0,0},{0,25}}" />
+			<Property name="UnifiedMinSize" value="{{0,0},{25,0}}" />
 		</Child>
 		<ImagerySection name="main">
 			<ImageryComponent>
 				<Area>
 					<Dim type="LeftEdge">
-						<ImageDim imageset="ProjetUnivers"
-							image="ScrollH_Droite_Normal" dimension="Width" />
+						<ImageDim imageset="ProjetUnivers" image="ScrollH_Gauche_Normal" dimension="Width" />
 					</Dim>
 					<Dim type="TopEdge">
 						<AbsoluteDim value="0" />
 					</Dim>
 					<Dim type="RightEdge">
-						<UnifiedDim scale="1.0" type="RightEdge">
+						<UnifiedDim scale="1" type="RightEdge">
 							<DimOperator op="Subtract">
-								<ImageDim imageset="ProjetUnivers"
-									image="ScrollH_Gauche_Normal" dimension="Width" />
+								<ImageDim imageset="ProjetUnivers" image="ScrollH_Droite_Normal" dimension="Width" />
 							</DimOperator>
 						</UnifiedDim>
 					</Dim>
@@ -1140,8 +1130,7 @@
 						<UnifiedDim scale="1.0" type="BottomEdge" />
 					</Dim>
 				</Area>
-				<Image imageset="ProjetUnivers"
-					image="ScrollH_Background" />
+				<Image imageset="ProjetUnivers" image="ScrollH_Background" />
 				<VertFormat type="CentreAligned" />
 				<HorzFormat type="Stretched" />
 			</ImageryComponent>
@@ -1161,37 +1150,107 @@
 		</StateImagery>
 	</WidgetLook>
 
+  <WidgetLook name="ProjetUnivers/HorizontalScrollbarThumb">
+    <Property name="HorzFree" value="True" />
+    <ImagerySection name="normal">
+      <FrameComponent>
+        <Area>
+          <Dim type="LeftEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="TopEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="Width">
+            <UnifiedDim scale="1.0" type="Width" />
+          </Dim>
+          <Dim type="Height">
+            <UnifiedDim scale="1.0" type="Height" />
+          </Dim>
+        </Area>
+        <Image type="Background" imageset="ProjetUnivers" image="Scroll_Curseur" />
+      </FrameComponent>
+    </ImagerySection>
+    <ImagerySection name="hover">
+      <FrameComponent>
+        <Area>
+          <Dim type="LeftEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="TopEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="Width">
+            <UnifiedDim scale="1.0" type="Width" />
+          </Dim>
+          <Dim type="Height">
+            <UnifiedDim scale="1.0" type="Height" />
+          </Dim>
+        </Area>
+        <Image type="Background" imageset="ProjetUnivers" image="Scroll_Curseur" />
+      </FrameComponent>
+    </ImagerySection>
+    <StateImagery name="Normal">
+      <Layer>
+        <Section section="normal" />
+      </Layer>
+    </StateImagery>
+    <StateImagery name="Hover">
+      <Layer>
+        <Section section="hover" />
+      </Layer>
+    </StateImagery>
+    <StateImagery name="Pushed">
+      <Layer>
+        <Section section="normal" />
+      </Layer>
+    </StateImagery>
+    <StateImagery name="Disabled">
+      <Layer>
+        <Section section="normal">
+          <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F"
+            bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+        </Section>
+      </Layer>
+    </StateImagery>
+  </WidgetLook>
+
 	<!--
 		***************************************************
 		ProjetUnivers/VerticalScrollbar
+      ProjetUnivers/VerticalScrollbarThumb (cursor)
+    
+      working
 		***************************************************
 	-->
 	<WidgetLook name="ProjetUnivers/VerticalScrollbar">
 		<Property name="VerticalScrollbar" value="True" />
-		<NamedArea name="ThumbTrackArea">
+		<!-- area in which thumb (i.e. cursor) may be moved -->
+    <NamedArea name="ThumbTrackArea">
 			<Area>
-				<Dim type="LeftEdge">
-					<ImageDim imageset="ProjetUnivers"
-						image="ScrollH_Gauche_Normal" dimension="Width" />
-				</Dim>
+        <Dim type="LeftEdge">
+          <AbsoluteDim value="0" />
+        </Dim>
 				<Dim type="TopEdge">
-					<AbsoluteDim value="0" />
+          <ImageDim imageset="ProjetUnivers" image="ScrollV_Haut_Normal" dimension="Height" /> 
 				</Dim>
 				<Dim type="RightEdge">
 					<UnifiedDim scale="1.0" type="RightEdge">
 						<DimOperator op="Subtract">
-							<ImageDim imageset="ProjetUnivers"
-								image="ScrollH_Droite_Normal" dimension="Width" />
+							<ImageDim imageset="ProjetUnivers" image="ScrollV_Haut_Normal" dimension="Width" />
 						</DimOperator>
 					</UnifiedDim>
 				</Dim>
 				<Dim type="BottomEdge">
-					<UnifiedDim scale="1.0" type="BottomEdge" />
+          <UnifiedDim scale="1.0" type="BottomEdge">
+            <DimOperator op="Subtract">
+              <ImageDim imageset="ProjetUnivers" image="ScrollV_Bas_Normal" dimension="Height" />
+            </DimOperator>
+          </UnifiedDim>
 				</Dim>
 			</Area>
 		</NamedArea>
-		<Child type="ProjetUnivers/ImageButton"
-			nameSuffix="__auto_incbtn__">
+		<Child type="ProjetUnivers/ImageButton" nameSuffix="__auto_incbtn__">
 			<Area>
 				<Dim type="LeftEdge">
 					<AbsoluteDim value="0" />
@@ -1203,20 +1262,15 @@
 					<UnifiedDim scale="1" type="Width" />
 				</Dim>
 				<Dim type="Height">
-					<ImageDim imageset="ProjetUnivers"
-						image="ScrollV_Bas_Normal" dimension="Height" />
+					<ImageDim imageset="ProjetUnivers" image="ScrollV_Bas_Normal" dimension="Height" />
 				</Dim>
 			</Area>
 			<VertAlignment type="BottomAligned" />
-			<Property name="NormalImage"
-				value="set:ProjetUnivers image:ScrollV_Bas_Normal" />
-			<Property name="HoverImage"
-				value="set:ProjetUnivers image:ScrollV_Bas_Hoover" />
-			<Property name="PushedImage"
-				value="set:ProjetUnivers image:ScrollV_Bas_Normal" />
+			<Property name="NormalImage" value="set:ProjetUnivers image:ScrollV_Bas_Normal" />
+			<Property name="HoverImage" value="set:ProjetUnivers image:ScrollV_Bas_Hoover" />
+			<Property name="PushedImage" value="set:ProjetUnivers image:ScrollV_Bas_Normal" />
 		</Child>
-		<Child type="ProjetUnivers/ImageButton"
-			nameSuffix="__auto_decbtn__">
+		<Child type="ProjetUnivers/ImageButton" nameSuffix="__auto_decbtn__">
 			<Area>
 				<Dim type="LeftEdge">
 					<AbsoluteDim value="0" />
@@ -1228,19 +1282,14 @@
 					<UnifiedDim scale="1" type="Width" />
 				</Dim>
 				<Dim type="Height">
-					<ImageDim imageset="ProjetUnivers"
-						image="ScrollV_Haut_Normal" dimension="Height" />
+					<ImageDim imageset="ProjetUnivers" image="ScrollV_Haut_Normal" dimension="Height" />
 				</Dim>
 			</Area>
-			<Property name="NormalImage"
-				value="set:ProjetUnivers image:ScrollV_Haut_Normal" />
-			<Property name="HoverImage"
-				value="set:ProjetUnivers image:ScrollV_Haut_Hoover" />
-			<Property name="PushedImage"
-				value="set:ProjetUnivers image:ScrollV_Haut_Normal" />
+			<Property name="NormalImage" value="set:ProjetUnivers image:ScrollV_Haut_Normal" />
+			<Property name="HoverImage" value="set:ProjetUnivers image:ScrollV_Haut_Hoover" />
+			<Property name="PushedImage" value="set:ProjetUnivers image:ScrollV_Haut_Normal" />
 		</Child>
-		<Child type="ProjetUnivers/VerticalScrollbarThumb"
-			nameSuffix="__auto_thumb__">
+		<Child type="ProjetUnivers/VerticalScrollbarThumb" nameSuffix="__auto_thumb__">
 			<Area>
 				<Dim type="LeftEdge">
 					<AbsoluteDim value="0" />
@@ -1264,8 +1313,7 @@
 						<AbsoluteDim value="0" />
 					</Dim>
 					<Dim type="TopEdge">
-						<ImageDim imageset="ProjetUnivers"
-							image="ScrollV_Haut_Normal" dimension="Height" />
+						<ImageDim imageset="ProjetUnivers" image="ScrollV_Haut_Normal" dimension="Height" />
 					</Dim>
 					<Dim type="RightEdge">
 						<UnifiedDim scale="1.0" type="RightEdge" />
@@ -1273,14 +1321,12 @@
 					<Dim type="BottomEdge">
 						<UnifiedDim scale="1.0" type="BottomEdge">
 							<DimOperator op="Subtract">
-								<ImageDim imageset="ProjetUnivers"
-									image="ScrollV_Bas_Normal" dimension="Height" />
+								<ImageDim imageset="ProjetUnivers" image="ScrollV_Bas_Normal" dimension="Height" />
 							</DimOperator>
 						</UnifiedDim>
 					</Dim>
 				</Area>
-				<Image imageset="ProjetUnivers"
-					image="ScrollV_Background" />
+				<Image imageset="ProjetUnivers" image="ScrollV_Background" />
 				<VertFormat type="Stretched" />
 				<HorzFormat type="CentreAligned" />
 			</ImageryComponent>
@@ -1300,59 +1346,44 @@
 		</StateImagery>
 	</WidgetLook>
 
-	<!--
-		***************************************************
-		ProjetUnivers/VerticalScrollbarThumb
-		***************************************************
-	-->
 	<WidgetLook name="ProjetUnivers/VerticalScrollbarThumb">
 		<Property name="VertFree" value="True" />
 		<ImagerySection name="normal">
 			<FrameComponent>
-				<Area>
-					<Dim type="LeftEdge">
-						<AbsoluteDim value="0" />
-					</Dim>
-					<Dim type="TopEdge">
-						<AbsoluteDim value="0" />
-					</Dim>
-					<Dim type="Width">
-						<UnifiedDim scale="1.0" type="Width" />
-					</Dim>
-					<Dim type="Height">
-						<UnifiedDim scale="1.0" type="Height" />
-					</Dim>
-				</Area>
-				<Image type="TopEdge" imageset="ProjetUnivers"
-					image="ScrollV_Haut_Normal" />
-				<Image type="BottomEdge" imageset="ProjetUnivers"
-					image="ScrollV_Bas_Normal" />
-				<Image type="Background" imageset="ProjetUnivers"
-					image="ScrollV_Background" />
+        <Area>
+          <Dim type="LeftEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="TopEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="Width">
+            <UnifiedDim scale="1.0" type="Width" />
+          </Dim>
+          <Dim type="Height">
+            <UnifiedDim scale="1.0" type="Height" />
+          </Dim>
+        </Area>
+				<Image type="Background" imageset="ProjetUnivers" image="Scroll_Curseur" />
 			</FrameComponent>
 		</ImagerySection>
 		<ImagerySection name="hover">
 			<FrameComponent>
-				<Area>
-					<Dim type="LeftEdge">
-						<AbsoluteDim value="0" />
-					</Dim>
-					<Dim type="TopEdge">
-						<AbsoluteDim value="0" />
-					</Dim>
-					<Dim type="Width">
-						<UnifiedDim scale="1.0" type="Width" />
-					</Dim>
-					<Dim type="Height">
-						<UnifiedDim scale="1.0" type="Height" />
-					</Dim>
-				</Area>
-				<Image type="TopEdge" imageset="ProjetUnivers"
-					image="ScrollV_Haut_Hoover" />
-				<Image type="BottomEdge" imageset="ProjetUnivers"
-					image="ScrollV_Bas_Hoover" />
-				<Image type="Background" imageset="ProjetUnivers"
-					image="ScrollV_Background" />
+        <Area>
+          <Dim type="LeftEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="TopEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="Width">
+            <UnifiedDim scale="1.0" type="Width" />
+          </Dim>
+          <Dim type="Height">
+            <UnifiedDim scale="1.0" type="Height" />
+          </Dim>
+        </Area>
+				<Image type="Background" imageset="ProjetUnivers" image="Scroll_Curseur" />
 			</FrameComponent>
 		</ImagerySection>
 		<StateImagery name="Normal">
@@ -1380,86 +1411,6 @@
 		</StateImagery>
 	</WidgetLook>
 
-
-	<!--
-		***************************************************
-		ProjetUnivers/HorizontalScrollbarThumb
-		***************************************************
-	-->
-	<WidgetLook name="ProjetUnivers/HorizontalScrollbarThumb">
-		<Property name="HorzFree" value="True" />
-		<ImagerySection name="normal">
-			<FrameComponent>
-				<Area>
-					<Dim type="LeftEdge">
-						<AbsoluteDim value="0" />
-					</Dim>
-					<Dim type="TopEdge">
-						<AbsoluteDim value="0" />
-					</Dim>
-					<Dim type="Width">
-						<UnifiedDim scale="1.0" type="Width" />
-					</Dim>
-					<Dim type="Height">
-						<UnifiedDim scale="1.0" type="Height" />
-					</Dim>
-				</Area>
-				<Image type="LeftEdge" imageset="ProjetUnivers"
-					image="ScrollH_Gauche_Normal" />
-				<Image type="RightEdge" imageset="ProjetUnivers"
-					image="ScrollH_Droite_Normal" />
-				<Image type="Background" imageset="ProjetUnivers"
-					image="ScrollH_Background" />
-			</FrameComponent>
-		</ImagerySection>
-		<ImagerySection name="hover">
-			<FrameComponent>
-				<Area>
-					<Dim type="LeftEdge">
-						<AbsoluteDim value="0" />
-					</Dim>
-					<Dim type="TopEdge">
-						<AbsoluteDim value="0" />
-					</Dim>
-					<Dim type="Width">
-						<UnifiedDim scale="1.0" type="Width" />
-					</Dim>
-					<Dim type="Height">
-						<UnifiedDim scale="1.0" type="Height" />
-					</Dim>
-				</Area>
-				<Image type="LeftEdge" imageset="ProjetUnivers"
-					image="ScrollH_Gauche_Hoover" />
-				<Image type="RightEdge" imageset="ProjetUnivers"
-					image="ScrollH_Droite_Hoover" />
-				<Image type="Background" imageset="ProjetUnivers"
-					image="ScrollH_Background" />
-			</FrameComponent>
-		</ImagerySection>
-		<StateImagery name="Normal">
-			<Layer>
-				<Section section="normal" />
-			</Layer>
-		</StateImagery>
-		<StateImagery name="Hover">
-			<Layer>
-				<Section section="hover" />
-			</Layer>
-		</StateImagery>
-		<StateImagery name="Pushed">
-			<Layer>
-				<Section section="normal" />
-			</Layer>
-		</StateImagery>
-		<StateImagery name="Disabled">
-			<Layer>
-				<Section section="normal">
-					<Colours topLeft="FF7F7F7F" topRight="FF7F7F7F"
-						bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
-				</Section>
-			</Layer>
-		</StateImagery>
-	</WidgetLook>
 
 
 	<!--
@@ -1725,6 +1676,8 @@
 	<!--
 		***************************************************
 		ProjetUnivers/StaticText
+    
+    Working
 		***************************************************
 	-->
 	<WidgetLook name="ProjetUnivers/StaticText">
@@ -2004,6 +1957,8 @@
 	<!--
 		***************************************************
 		ProjetUnivers/MultiColumnList
+    
+    Working ?
 		***************************************************
 	-->
 	<WidgetLook name="ProjetUnivers/MultiColumnList">
@@ -2499,6 +2454,8 @@
 	<!--
 		***************************************************
 		ProjetUnivers/RadioButton
+    
+    Not working
 		***************************************************
 	-->
 	<WidgetLook name="ProjetUnivers/RadioButton">
@@ -2665,6 +2622,8 @@
 	<!--
 		***************************************************
 		ProjetUnivers/Checkbox
+    
+    Not working
 		***************************************************
 	-->
 	<WidgetLook name="ProjetUnivers/Checkbox">
@@ -2861,12 +2820,17 @@
 				<Dim type="TopEdge">
 					<AbsoluteDim value="0" />
 				</Dim>
-				<Dim type="RightEdge">
-					<AbsoluteDim value="0" />
-				</Dim>
-				<Dim type="BottomEdge">
-					<AbsoluteDim value="0" />
-				</Dim>
+        <Dim type="RightEdge">
+          <UnifiedDim scale="1" type="RightEdge">
+          </UnifiedDim>
+        </Dim>
+        <Dim type="BottomEdge">
+          <UnifiedDim scale="1.0" type="BottomEdge">
+            <DimOperator op="Subtract">
+              <WidgetDim widget="__auto_hscrollbar__" dimension="Height" />
+            </DimOperator>
+          </UnifiedDim>
+        </Dim>
 			</Area>
 		</NamedArea>
 		<NamedArea name="ViewableAreaVScroll">
@@ -2880,8 +2844,7 @@
 				<Dim type="RightEdge">
 					<UnifiedDim scale="1" type="RightEdge">
 						<DimOperator op="Subtract">
-							<WidgetDim widget="__auto_vscrollbar__"
-								dimension="Width" />
+							<WidgetDim widget="__auto_vscrollbar__" dimension="Width" />
 						</DimOperator>
 					</UnifiedDim>
 				</Dim>
@@ -2901,23 +2864,20 @@
 				<Dim type="RightEdge">
 					<UnifiedDim scale="1" type="RightEdge">
 						<DimOperator op="Subtract">
-							<WidgetDim widget="__auto_vscrollbar__"
-								dimension="Width" />
+							<WidgetDim widget="__auto_vscrollbar__" dimension="Width" />
 						</DimOperator>
 					</UnifiedDim>
 				</Dim>
 				<Dim type="BottomEdge">
 					<UnifiedDim scale="1" type="BottomEdge">
 						<DimOperator op="Subtract">
-							<WidgetDim widget="__auto_hscrollbar__"
-								dimension="Height" />
+							<WidgetDim widget="__auto_hscrollbar__" dimension="Height" />
 						</DimOperator>
 					</UnifiedDim>
 				</Dim>
 			</Area>
 		</NamedArea>
-		<Child type="ProjetUnivers/HorizontalScrollbar"
-			nameSuffix="__auto_hscrollbar__">
+		<Child type="ProjetUnivers/HorizontalScrollbar" nameSuffix="__auto_hscrollbar__">
 			<Area>
 				<Dim type="LeftEdge">
 					<AbsoluteDim value="0" />
@@ -2926,16 +2886,15 @@
 					<AbsoluteDim value="0" />
 				</Dim>
 				<Dim type="Width">
-					<AbsoluteDim value="0" />
+          <UnifiedDim scale="0" offset="0" type="Width" />
 				</Dim>
 				<Dim type="Height">
-					<AbsoluteDim value="0" />
+          <AbsoluteDim value="0" />
 				</Dim>
 			</Area>
 			<VertAlignment type="BottomAligned" />
 		</Child>
-		<Child type="ProjetUnivers/VerticalScrollbar"
-			nameSuffix="__auto_vscrollbar__">
+		<Child type="ProjetUnivers/VerticalScrollbar" nameSuffix="__auto_vscrollbar__">
 			<Area>
 				<Dim type="LeftEdge">
 					<AbsoluteDim value="0" />
