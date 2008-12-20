@@ -76,6 +76,12 @@ namespace ProjetUnivers
           /// Delete the current object.
           bool deleteTeam(const ::CEGUI::EventArgs& args) ;
           
+          /// Add a flying group
+          bool addGroup(const ::CEGUI::EventArgs& args) ;
+          
+          /// Change the name.
+          bool changedName(const ::CEGUI::EventArgs& args) ;
+          
         private:
   
           /// Main window

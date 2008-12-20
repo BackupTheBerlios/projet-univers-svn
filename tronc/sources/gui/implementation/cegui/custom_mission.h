@@ -86,15 +86,6 @@ namespace ProjetUnivers
           /// Button to add a team
           ::CEGUI::Window* m_add_team ;
           
-          /// Move a window
-          void moveWindow(::CEGUI::Window*,const ::CEGUI::UDim&) ;
-          
-          /// Move down all windows positionned below @c from down
-          void moveDownTeamWindows(::CEGUI::Window* from,const ::CEGUI::UDim&) ;
-
-          /// Move down all windows positionned below @c from up
-          void moveUpTeamWindows(::CEGUI::Window* from,const ::CEGUI::UDim&) ;
-          
           /// The ordered list of team windows.
           std::list< ::CEGUI::Window*> m_team_windows ;
           

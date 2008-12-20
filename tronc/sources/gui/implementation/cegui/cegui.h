@@ -22,6 +22,7 @@
 #define PU_GUI_IMPLEMENTATION_CEGUI_CEGUI_H_
 
 #include <string>
+#include <list>
 
 namespace CEGUI
 {
@@ -82,6 +83,19 @@ namespace ProjetUnivers
         
         std::string toString(const ::CEGUI::UDim&) ;
         std::string toString(const ::CEGUI::UVector2& vector) ;
+        
+        /// Move a window.
+        void moveWindow(::CEGUI::Window* window,const ::CEGUI::UDim& delta) ;
+        
+        /// Move down all windows positionned below @c from down
+        void moveDownWindows(const std::list< ::CEGUI::Window*>& windows,
+                             ::CEGUI::Window* from,const ::CEGUI::UDim&) ;
+
+        /// Move down all windows positionned below @c from up
+        void moveUpWindows(const std::list< ::CEGUI::Window*>& windows,
+                           ::CEGUI::Window* from,const ::CEGUI::UDim&) ;
+        
+        
       }
     }    
   }

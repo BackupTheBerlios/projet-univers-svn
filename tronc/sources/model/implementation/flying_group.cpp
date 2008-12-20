@@ -30,6 +30,12 @@ namespace ProjetUnivers
       m_number_of_ships(1)
     {}
 
+    void FlyingGroup::setName(const std::string& name)
+    {
+      m_name = name ;
+      notify() ;
+    }
+    
     const std::string& FlyingGroup::getName() const
     {
       return m_name ;

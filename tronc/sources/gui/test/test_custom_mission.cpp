@@ -98,7 +98,9 @@ namespace ProjetUnivers
         ::CEGUI::UVector2 position = team2_controler->m_window->getArea().getPosition() ;
         ::CEGUI::UVector2 delta(::CEGUI::UDim(0,0),::CEGUI::UDim(0.1,0)) ;
 
-        custom_mission->moveDownTeamWindows(team1_controler->m_window,::CEGUI::UDim(0.1,0)) ;
+        Implementation::CEGUI::moveDownWindows(custom_mission->m_team_windows,
+                                               team1_controler->m_window,
+                                               ::CEGUI::UDim(0.1,0)) ;
         
         ::CEGUI::UVector2 expected = position+delta ;
         
@@ -140,7 +142,9 @@ namespace ProjetUnivers
         ::CEGUI::UVector2 position = team2_controler->m_window->getArea().getPosition() ;
         ::CEGUI::UVector2 delta(::CEGUI::UDim(0,0),::CEGUI::UDim(0.1,0)) ;
 
-        custom_mission->moveUpTeamWindows(team1_controler->m_window,::CEGUI::UDim(0.1,0)) ;
+        Implementation::CEGUI::moveUpWindows(custom_mission->m_team_windows,
+                                             team1_controler->m_window,
+                                             ::CEGUI::UDim(0.1,0)) ;
         
         ::CEGUI::UVector2 expected = position-delta ;
         

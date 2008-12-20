@@ -69,6 +69,9 @@ namespace ProjetUnivers
           
           /// Delete the current object.
           bool deleteGroup(const ::CEGUI::EventArgs& args) ;
+
+          /// Change the name.
+          bool changedName(const ::CEGUI::EventArgs& args) ;
           
         private:
   

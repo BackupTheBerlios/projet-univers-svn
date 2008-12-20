@@ -25,8 +25,12 @@
 #include <kernel/log.h>
 #include <kernel/controler.h>
 #include <kernel/object.h>
+
 #include <model/custom_mission.h>
+#include <model/flying_group.h>
+
 #include <input/input_gui.h>
+
 #include <gui/implementation/gui_internal.h>
 #include <gui/implementation/cegui/cegui.h>
 #include <gui/implementation/cegui/flying_group.h>
@@ -63,11 +67,53 @@ namespace ProjetUnivers
           
           ::CEGUI::WindowManager& manager = ::CEGUI::WindowManager::getSingleton() ;
           
-          ::CEGUI::Window* button_delete = manager.createWindow("ProjetUnivers/Button") ;
-          button_delete->setArea(::CEGUI::UDim(0,0),
-                                 ::CEGUI::UDim(0.9,0),
-                                 ::CEGUI::UDim(0.3,0),
-                                 ::CEGUI::UDim(0.1,0)) ;
+          // title
+          ::CEGUI::Window* name = manager.createWindow("ProjetUnivers/Editbox") ;
+          name->setText(getTrait<Model::FlyingGroup>()->getName()) ;
+          name->setArea(::CEGUI::UDim(0,5),
+                        ::CEGUI::UDim(0,0),
+                        ::CEGUI::UDim(0.1,-5),
+                        ::CEGUI::UDim(1,0)) ;
+
+          name->subscribeEvent(::CEGUI::Window::EventTextChanged,
+                               ::CEGUI::Event::Subscriber(&FlyingGroup::changedName,this)) ;
+          
+          m_window->addChildWindow(name) ;
+          
+          ::CEGUI::Window* pilot = manager.createWindow("ProjetUnivers/StaticText") ;
+          pilot->setText("Pilot") ;
+          pilot->setArea(::CEGUI::UDim(0.1,0),
+                         ::CEGUI::UDim(0,0),
+                         ::CEGUI::UDim(0.1,0),
+                         ::CEGUI::UDim(1,0)) ;
+
+          m_window->addChildWindow(pilot) ;
+          
+          ::CEGUI::Window* ship = manager.createWindow("ProjetUnivers/StaticText") ;
+          ship->setText("Razor") ;
+          ship->setArea(::CEGUI::UDim(0.2,0),
+                        ::CEGUI::UDim(0,0),
+                        ::CEGUI::UDim(0.1,0),
+                        ::CEGUI::UDim(1,0)) ;
+
+          m_window->addChildWindow(ship) ;
+          
+          
+          ::CEGUI::Window* objective = manager.createWindow("ProjetUnivers/StaticText") ;
+          objective->setText("Attack") ;
+          objective->setArea(::CEGUI::UDim(0.3,0),
+                             ::CEGUI::UDim(0,0),
+                             ::CEGUI::UDim(0.1,0),
+                             ::CEGUI::UDim(1,0)) ;
+
+          m_window->addChildWindow(objective) ;
+          
+          // delete
+          ::CEGUI::Window* button_delete = manager.createWindow("ProjetUnivers/DeleteButton") ;
+          button_delete->setArea(::CEGUI::UDim(0.8,0),
+                                 ::CEGUI::UDim(0,0),
+                                 ::CEGUI::UDim(0.2,0),
+                                 ::CEGUI::UDim(1,0)) ;
           button_delete->setText("Delete FlyingGroup") ;
           button_delete->subscribeEvent(::CEGUI::Window::EventMouseClick,
                                         ::CEGUI::Event::Subscriber(&FlyingGroup::deleteGroup,this)) ;
@@ -89,6 +135,16 @@ namespace ProjetUnivers
         bool FlyingGroup::deleteGroup(const ::CEGUI::EventArgs& args)
         {
           getObject()->destroyObject() ;
+          return true ;
+        }
+        
+        bool FlyingGroup::changedName(const ::CEGUI::EventArgs& args)
+        {
+          const ::CEGUI::WindowEventArgs* argument = dynamic_cast<const ::CEGUI::WindowEventArgs*>(&args) ;
+          if (argument && argument->window)
+          {
+            getTrait<Model::FlyingGroup>()->setName(argument->window->getText().c_str()) ;
+          }
           return true ;
         }
         

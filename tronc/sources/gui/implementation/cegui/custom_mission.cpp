@@ -67,7 +67,7 @@ namespace ProjetUnivers
             m_window = ::CEGUI::WindowManager::getSingleton().loadWindowLayout("custom_mission.layout") ;
 
             m_teams = m_window->getChild("Mission/Teams") ;
-            m_add_team = getNamedDescendant(m_teams,"Mission/Teams/AddTeam") ;
+            m_add_team = getNamedDescendant(m_window,"Mission/AddTeam") ;
             
             // set the binding to the current trait
             m_window->setUserData(getObject()) ;
@@ -118,18 +118,7 @@ namespace ProjetUnivers
           
           m_teams->addChildWindow(result) ;
           
-          ::CEGUI::Window* title = manager.createWindow("ProjetUnivers/StaticText") ;
-          title->setText(team->getTrait<Model::Team>()->getName()) ;
-          title->setArea(::CEGUI::UDim(0,5),
-                         ::CEGUI::UDim(0,0),
-                         ::CEGUI::UDim(0.3,0),
-                         ::CEGUI::UDim(0.1,0)) ;
-
-          result->addChildWindow(title) ;
-          
           m_team_windows.push_back(result) ;
-          
-          moveWindow(m_add_team,::CEGUI::UDim(0.5,0)) ;
           
           return result ;
         }
@@ -138,38 +127,8 @@ namespace ProjetUnivers
         {
           /// move all the other team windows below
           m_team_windows.remove(team) ;
-          moveUpTeamWindows(team,::CEGUI::UDim(0.5,0)) ;
+          moveUpWindows(m_team_windows,team,::CEGUI::UDim(0.5,0)) ;
           m_teams->removeChildWindow(team) ;
-          moveWindow(m_add_team,::CEGUI::UDim(-0.5,0)) ;
-        }
-        
-        void CustomMission::moveWindow(::CEGUI::Window* window,const ::CEGUI::UDim& delta)
-        {
-          ::CEGUI::URect area(window->getArea()) ;
-          area.d_min.d_y += delta ;
-          area.d_max.d_y += delta ;
-          window->setArea(area) ;
-        }
-        
-        void CustomMission::moveDownTeamWindows(::CEGUI::Window* from,const ::CEGUI::UDim& delta)
-        {
-          float botom = (from->getYPosition() + from->getHeight()).asRelative(1) ;
-          for(std::list< ::CEGUI::Window*>::const_iterator window = m_team_windows.begin() ;
-              window != m_team_windows.end() ;
-              ++window)
-          {
-            if ((*window)->getYPosition().asRelative(1) >= botom)
-            {
-              moveWindow(*window,delta) ;
-            }
-          }
-        }
-
-        void CustomMission::moveUpTeamWindows(::CEGUI::Window* from,const ::CEGUI::UDim& delta)
-        {
-          ::CEGUI::UDim negative_delta(-delta.d_scale,-delta.d_offset) ;
-          
-          moveDownTeamWindows(from,negative_delta) ;
         }
         
         bool CustomMission::addTeam(const ::CEGUI::EventArgs& args)

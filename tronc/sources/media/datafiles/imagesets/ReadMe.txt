@@ -4,3 +4,4 @@ GPN-2000-001437.tga		- From GRIN (http://grin.hq.nasa.gov/)
 TaharezLook.tga			- Original Taharez imagery created by Lars "Taharez" Rinde.
 WindowsLook.tga			- Windows look imagery created by Paul "CrazyEddie" Turner.
 vanilla.tga				- Original "Vanilla GUI" imagery created by Shane Parker, used with permission.
+ProjetUnivers.png   - original work by Nicolas PetitDemange, plus icons from kde and mouse pointers from crystalcursors

@@ -36,6 +36,9 @@ namespace ProjetUnivers {
 
       /// Constructs with a name.
       FlyingGroup(const std::string& name) ;
+      
+      /// Change group's name.
+      void setName(const std::string& name) ;
 
       /// Access to name.
       const std::string& getName() const ;

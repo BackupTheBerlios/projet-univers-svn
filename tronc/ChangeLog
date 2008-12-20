@@ -1019,9 +1019,18 @@
     - removed special handling of object destruction during Logic simulation, 
       pulled up in framework
   * GUI :
+    - removed MyGUI implementation
     - repared mouse position injection allowing scroll and drag and drop
     - started CustomMission edition
   
+2008-12-20 rogma
+  
+  * Media :
+    - added delete and add buttons from kde
+    - added cursors from crystalcursor 
+  * GUI : 
+    - refactoring, FlyingGroup edition beginning
+    - change team/group name
   
         
 @todo :
@@ -1082,6 +1091,8 @@
     - if we have several lasers : only one will shoot !
     
   * GUI : 
+    - load/save input config
+    - add input config validation : cannot save or back till it is correct
     - add key shortcuts for clicable buttons
     - custom mission menu
     - change all hover/pushed elements 

@@ -11,13 +11,13 @@
       <Property Name="HorzFormatting" Value="Centered" />
     </Window>
     <!-- Teams content -->
+    <Window Type="ProjetUnivers/AddButton" Name="Mission/AddTeam">
+      <Property Name="Text" Value="Add Team"/>
+      <Property Name="UnifiedAreaRect" Value="{{0,0},{0.1,0},{0.2,0},{0.14,0}}" />
+    </Window>
     <Window Type="ProjetUnivers/ScrollablePane" Name="Mission/Teams">
       <Property Name="UnifiedAreaRect" Value="{{0,5},{0.2,0},{1,-5},{0.8,0}}" />
       <!-- Add Team Button -->
-      <Window Type="ProjetUnivers/Button" Name="Mission/Teams/AddTeam">
-        <Property Name="Text" Value="Add Team"/>
-        <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{0.2,0},{0.1,0}}" />
-      </Window>
     </Window>
     <!-- Global data -->
     <Window Type="ProjetUnivers/BasicWindow" Name="Mission/GlobalData">

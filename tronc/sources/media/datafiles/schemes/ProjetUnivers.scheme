@@ -37,4 +37,7 @@
   <!-- A decrease button -->
   <FalagardMapping WindowType="ProjetUnivers/DecreaseButton"    TargetType="DefaultWindow"    Renderer="Falagard/Default"    LookNFeel="ProjetUnivers/DecreaseButton" />
   <FalagardMapping WindowType="ProjetUnivers/IncreaseButton"    TargetType="DefaultWindow"    Renderer="Falagard/Default"    LookNFeel="ProjetUnivers/IncreaseButton" />
+  <!-- Add/delete button -->
+  <FalagardMapping WindowType="ProjetUnivers/AddButton"    TargetType="CEGUI/PushButton"    Renderer="Falagard/Button"    LookNFeel="ProjetUnivers/AddButton" />
+  <FalagardMapping WindowType="ProjetUnivers/DeleteButton"    TargetType="CEGUI/PushButton"    Renderer="Falagard/Button"    LookNFeel="ProjetUnivers/DeleteButton" />
 </GUIScheme>

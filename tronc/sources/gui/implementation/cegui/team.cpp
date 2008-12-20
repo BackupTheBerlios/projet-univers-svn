@@ -25,7 +25,7 @@
 #include <kernel/log.h>
 #include <kernel/controler.h>
 #include <kernel/object.h>
-#include <model/custom_mission.h>
+#include <model/team.h>
 #include <model/flying_group.h>
 #include <input/input_gui.h>
 #include <gui/implementation/gui_internal.h>
@@ -64,16 +64,40 @@ namespace ProjetUnivers
           
           ::CEGUI::WindowManager& manager = ::CEGUI::WindowManager::getSingleton() ;
           
-          ::CEGUI::Window* button_delete = manager.createWindow("ProjetUnivers/Button") ;
-          button_delete->setArea(::CEGUI::UDim(0,0),
-                                 ::CEGUI::UDim(0.9,0),
-                                 ::CEGUI::UDim(0.3,0),
+          ::CEGUI::Window* name = manager.createWindow("ProjetUnivers/Editbox") ;
+          name->setText(getTrait<Model::Team>()->getName()) ;
+          name->setArea(::CEGUI::UDim(0,5),
+                        ::CEGUI::UDim(0,0),
+                        ::CEGUI::UDim(0.3,0),
+                        ::CEGUI::UDim(0.1,0)) ;
+
+          name->subscribeEvent(::CEGUI::Window::EventTextChanged,
+                               ::CEGUI::Event::Subscriber(&Team::changedName,this)) ;
+          
+          m_window->addChildWindow(name) ;
+          
+          
+          ::CEGUI::Window* button_delete = manager.createWindow("ProjetUnivers/DeleteButton") ;
+          button_delete->setArea(::CEGUI::UDim(0.8,0),
+                                 ::CEGUI::UDim(0,0),
+                                 ::CEGUI::UDim(0.2,0),
                                  ::CEGUI::UDim(0.1,0)) ;
           button_delete->setText("Delete Team") ;
           button_delete->subscribeEvent(::CEGUI::Window::EventMouseClick,
                                         ::CEGUI::Event::Subscriber(&Team::deleteTeam,this)) ;
-          
+
           m_window->addChildWindow(button_delete) ;
+          
+          m_add_group = manager.createWindow("ProjetUnivers/AddButton") ;
+          m_add_group->setArea(::CEGUI::UDim(0.4,0),
+                               ::CEGUI::UDim(0,0),
+                               ::CEGUI::UDim(0.2,0),
+                               ::CEGUI::UDim(0.1,0)) ;
+          m_add_group->setText("Add Group") ;
+          m_add_group->subscribeEvent(::CEGUI::Window::EventMouseClick,
+                                      ::CEGUI::Event::Subscriber(&Team::addGroup,this)) ;
+          
+          m_window->addChildWindow(m_add_group) ;
         }
           
         void Team::onClose()
@@ -102,31 +126,38 @@ namespace ProjetUnivers
           const unsigned int number_of_groups = m_group_windows.size() ;
           
           result->setArea(::CEGUI::UDim(0,0),
-                          ::CEGUI::UDim(number_of_groups*0.5,0),
+                          ::CEGUI::UDim(number_of_groups*0.1+0.1,0),
                           ::CEGUI::UDim(1,-12),
-                          ::CEGUI::UDim(0.5,0)) ;
+                          ::CEGUI::UDim(0.1,0)) ;
           
           m_window->addChildWindow(result) ;
-          
-          ::CEGUI::Window* title = manager.createWindow("ProjetUnivers/StaticText") ;
-          title->setText(group->getTrait<Model::FlyingGroup>()->getName()) ;
-          title->setArea(::CEGUI::UDim(0,5),
-                         ::CEGUI::UDim(0,0),
-                         ::CEGUI::UDim(0.3,0),
-                         ::CEGUI::UDim(0.1,0)) ;
 
-          result->addChildWindow(title) ;
-          
           m_group_windows.push_back(result) ;
-          
-//          moveWindow(m_add_group,::CEGUI::UDim(0.5,0)) ;
           
           return result ;
         }
 
         void Team::removeGroupWindow(::CEGUI::Window* window)
         {
-          
+          m_group_windows.remove(window) ;
+          moveUpWindows(m_group_windows,window,::CEGUI::UDim(0.1,0)) ;
+          m_window->removeChildWindow(window) ;
+        }
+
+        bool Team::addGroup(const ::CEGUI::EventArgs& args)
+        {
+          Kernel::Object* group = getObject()->createObject() ;
+          group->addTrait(new Model::FlyingGroup("new group")) ;
+        }
+        
+        bool Team::changedName(const ::CEGUI::EventArgs& args)
+        {
+          const ::CEGUI::WindowEventArgs* argument = dynamic_cast<const ::CEGUI::WindowEventArgs*>(&args) ;
+          if (argument && argument->window)
+          {
+            getTrait<Model::Team>()->setName(argument->window->getText().c_str()) ;
+          }
+          return true ;
         }
         
       }

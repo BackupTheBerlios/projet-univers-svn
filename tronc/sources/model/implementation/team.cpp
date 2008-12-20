@@ -31,6 +31,12 @@ namespace ProjetUnivers {
     Team::Team()
     : m_name()
     {}
+
+    void Team::setName(const std::string& name)
+    {
+      m_name = name ;
+      notify() ;
+    }
     
     Kernel::Trait* Team::read(Kernel::Reader* reader)
     {

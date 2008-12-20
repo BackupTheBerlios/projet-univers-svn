@@ -80,9 +80,8 @@ namespace ProjetUnivers
             ::CEGUI::WindowManager::setDefaultResourceGroup("layouts");
             ::CEGUI::SchemeManager::getSingleton().loadScheme("ProjetUnivers.scheme") ;
 
-            ::CEGUI::SchemeManager::getSingleton().loadScheme((::CEGUI::utf8*)"TaharezLook.scheme");
-            ::CEGUI::System::getSingleton().setDefaultMouseCursor("TaharezLook", "MouseArrow") ;
-            ::CEGUI::MouseCursor::getSingleton().setImage("TaharezLook", "MouseArrow");        
+            ::CEGUI::System::getSingleton().setDefaultMouseCursor("ProjetUnivers", "PointerMouse") ;
+            ::CEGUI::MouseCursor::getSingleton().setImage("ProjetUnivers", "PointerMouse");        
             ::CEGUI::MouseCursor::getSingleton().hide() ;
             
             // useless if scheme contains a font reference.
@@ -339,6 +338,40 @@ namespace ProjetUnivers
             return "" ;
           }
         }
+        
+        void moveWindow(::CEGUI::Window* window,const ::CEGUI::UDim& delta)
+        {
+          ::CEGUI::URect area(window->getArea()) ;
+          area.d_min.d_y += delta ;
+          area.d_max.d_y += delta ;
+          window->setArea(area) ;
+        }
+
+        void moveDownWindows(const std::list< ::CEGUI::Window*>& windows,
+                                 ::CEGUI::Window* from,
+                                 const ::CEGUI::UDim& delta)
+        {
+          float botom = (from->getYPosition() + from->getHeight()).asRelative(1) ;
+          for(std::list< ::CEGUI::Window*>::const_iterator window = windows.begin() ;
+              window != windows.end() ;
+              ++window)
+          {
+            if ((*window)->getYPosition().asRelative(1) >= botom)
+            {
+              moveWindow(*window,delta) ;
+            }
+          }
+        }
+
+        void moveUpWindows(const std::list< ::CEGUI::Window*>& windows,
+                           ::CEGUI::Window* from,
+                           const ::CEGUI::UDim& delta)
+        {
+          ::CEGUI::UDim negative_delta(-delta.d_scale,-delta.d_offset) ;
+          
+          moveDownWindows(windows,from,negative_delta) ;
+        }
+        
         
       }
     }    

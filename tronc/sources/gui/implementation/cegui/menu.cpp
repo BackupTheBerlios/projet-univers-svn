@@ -57,9 +57,6 @@ namespace ProjetUnivers {
 
           InternalMessage("GUI",printStructure(m_window,0)) ;
           
-          /// @todo change to own mouse cursor
-          m_window->setMouseCursor("TaharezLook", "MouseArrow");
-          
           GUI::addActiveGUI(m_window) ;          
           
           InternalMessage("GUI","Building CEGUI::Menu::onInit leaving") ;

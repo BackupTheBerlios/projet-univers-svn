@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <Imageset Name="ProjetUnivers" Imagefile="ProjetUnivers.png" NativeHorzRes="1280" NativeVertRes="1024" >
+    
+    <!-- Mouse Cursors -->
+    <Image Name="PointerMouse" XPos="320" YPos="580" Width="12" Height="24"/>
+    <!-- Mouse cursor for text edit boxes -->
+    <Image Name="MouseTextBar" XPos="335" YPos="580" Width="12" Height="21"/>
+    
     <!-- For the ProjetUnivers/Menu look  -->
     <Image Name="Menu_Droite"     XPos="722" YPos="34" Width="39" Height="516" />
     <Image Name="Menu_Gauche"     XPos="29"  YPos="34" Width="39" Height="516" />
@@ -58,5 +64,9 @@
     <!-- Increase and decrease buttons -->
     <Image Name="DecreaseButton" XPos="331" YPos="824" Width="16" Height="21"/>
     <Image Name="IncreaseButton" XPos="388" YPos="824" Width="16" Height="21"/>
+
+    <!-- Add and Delete buttons taken from KDE -->
+    <Image Name="AddButton" XPos="300" YPos="600" Width="16" Height="16"/>
+    <Image Name="DeleteButton" XPos="300" YPos="580" Width="16" Height="16"/>
 
 </Imageset>
