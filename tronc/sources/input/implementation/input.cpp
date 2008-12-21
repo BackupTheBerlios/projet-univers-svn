@@ -111,6 +111,8 @@ namespace ProjetUnivers
       
       std::map<Model::PlayerConfiguration::InputAxis,Kernel::Percentage> axes(getAxes()) ;
       
+      InternalMessage("Input","searching axes mapping for " + Kernel::toString(axes.size()) + " number of input axes") ;
+      
       for(std::map<Model::PlayerConfiguration::InputAxis,Kernel::Percentage>::const_iterator 
             axis = axes.begin() ;
           axis != axes.end() ;
@@ -122,6 +124,8 @@ namespace ProjetUnivers
         {
           value = 0 ;
         }
+        
+        InternalMessage("Input","searching axis mapping for " + axis->first.toString()) ;
         
         std::string command = configuration->getAxis(axis->first) ;
         if (!command.empty())

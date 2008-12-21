@@ -238,7 +238,6 @@ namespace ProjetUnivers
     /*!
       @name Content validation
       
-      @todo
     */
     // @{
       
@@ -253,12 +252,8 @@ namespace ProjetUnivers
     private:
       
       /// Commands
-      std::map<InputEvent,std::string> m_input_event_to_commands ;
-      /// Commands
       std::map<std::string,InputEvent> m_command_to_input_events ;
       
-      /// Axes
-      std::map<InputAxis,std::string> m_input_axis_to_axes ;
       /// Axes
       std::map<std::string,InputAxis> m_axis_to_input_axes ;
       

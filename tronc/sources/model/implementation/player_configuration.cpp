@@ -142,7 +142,7 @@ namespace ProjetUnivers
     
     PlayerConfiguration::InputAxis PlayerConfiguration::InputAxis::operator-() const
     {
-      return InputAxis(m_axis) ;
+      return InputAxis(-m_axis) ;
     }
     
     PlayerConfiguration::PlayerConfiguration()
@@ -176,7 +176,6 @@ namespace ProjetUnivers
                                          const std::string& command)
     {
       InternalMessage("PlayerConfiguration","PlayerConfiguration::addMapping") ;
-      m_input_event_to_commands[event] = command ;
       m_command_to_input_events[command] = event ;
       notify() ;
     }
@@ -185,29 +184,32 @@ namespace ProjetUnivers
                                          const std::string& axis_command)
     {
       InternalMessage("PlayerConfiguration","PlayerConfiguration::addMapping " + axis_command + "=" + axis.toString() ) ;
-      m_input_axis_to_axes[axis] = axis_command ;
       m_axis_to_input_axes[axis_command] = axis ;
       notify() ;
     }
     
     std::string PlayerConfiguration::getCommand(const InputEvent& event) const
     {
-      std::map<InputEvent,std::string>::const_iterator finder = m_input_event_to_commands.find(event) ;
-      
-      if (finder != m_input_event_to_commands.end())
-        return finder->second ;
-      else
-        return "" ;
+      for(std::map<std::string,InputEvent>::const_iterator command = m_command_to_input_events.begin() ;
+          command != m_command_to_input_events.end() ;
+          ++command)
+      {
+        if (command->second == event)
+          return command->first ;
+      }
+      return "" ;
     }
 
     std::string PlayerConfiguration::getAxis(const InputAxis& axis) const
     {
-      std::map<InputAxis,std::string>::const_iterator finder = m_input_axis_to_axes.find(axis) ;
-      
-      if (finder != m_input_axis_to_axes.end())
-        return finder->second ;
-      else
-        return "" ;
+      for(std::map<std::string,InputAxis>::const_iterator command = m_axis_to_input_axes.begin() ;
+          command != m_axis_to_input_axes.end() ;
+          ++command)
+      {
+        if (command->second == axis)
+          return command->first ;
+      }
+      return "" ;
     }
 
     const PlayerConfiguration::InputEvent& InputEventNone = PlayerConfiguration::InputEvent() ;
@@ -237,6 +239,46 @@ namespace ProjetUnivers
         return InputAxisNone ;
     }
 
+    std::set<std::string> PlayerConfiguration::getViolatingCommands() const
+    {
+      std::set<std::string> result ;
+      
+      std::set<InputEvent> used_events ;
+      
+      for(std::map<std::string,InputEvent>::const_iterator command = m_command_to_input_events.begin() ;
+          command != m_command_to_input_events.end() ;
+          ++command)
+      {
+        if (used_events.find(command->second) != used_events.end())
+        {
+          result.insert(command->first) ;
+          result.insert(getCommand(command->second)) ;
+        }
+        used_events.insert(command->second) ;
+      }
+      return result ;
+    }
+
+    std::set<std::string> PlayerConfiguration::getViolatingAxes() const
+    {
+      std::set<std::string> result ;
+      
+      std::set<InputAxis> used_axes ;
+      
+      for(std::map<std::string,InputAxis>::const_iterator axis = m_axis_to_input_axes.begin() ;
+          axis != m_axis_to_input_axes.end() ;
+          ++axis)
+      {
+        if (used_axes.find(axis->second) != used_axes.end())
+        {
+          result.insert(axis->first) ;
+          result.insert(getAxis(axis->second)) ;
+        }
+        used_axes.insert(axis->second) ;
+      }
+      return result ;
+    }
+    
     void PlayerConfiguration::setEventRecordingMode()
     {
       InternalMessage("PlayerConfiguration","PlayerConfiguration::setEventRecordingMode") ;

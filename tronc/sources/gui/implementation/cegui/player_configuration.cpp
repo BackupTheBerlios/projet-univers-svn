@@ -123,6 +123,20 @@ namespace ProjetUnivers
              ::CEGUI::WindowManager::getSingleton().destroyWindow(m_window) ;
              m_window = NULL ;
           }
+          
+          InternalMessage("PlayerConfiguration","New configuration is :") ;
+          std::set<std::string> axes(Kernel::Trait::getRegisteredAxes()) ;
+          for(std::set<std::string>::const_iterator axis = axes.begin() ;
+              axis != axes.end() ;
+              ++axis)
+          {
+            InternalMessage("PlayerConfiguration","Axis " + *axis + "=" +
+                            getTrait<Model::PlayerConfiguration>()->getInputAxis(*axis).toString()) ;
+            InternalMessage("PlayerConfiguration","Input axis " + 
+                            getTrait<Model::PlayerConfiguration>()->getInputAxis(*axis).toString() +
+                            " is associated to " + getTrait<Model::PlayerConfiguration>()->getAxis(getTrait<Model::PlayerConfiguration>()->getInputAxis(*axis))) ;
+            
+          }
         }
         
         void PlayerConfiguration::initialDraw()

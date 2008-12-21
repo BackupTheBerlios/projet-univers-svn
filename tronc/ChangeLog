@@ -100,7 +100,8 @@
     stabilizer would inc  rease rotation speed iff angular velocity is opposed 
     to stabilizer axis !!
   * model/ship_control : quite working
-  * model/engine_control : working. Tests added.
+  * model/engine_control         CPPUNIT_ASSERT(player_configuration->getViolatingAxes() == std::set<std::string>()) ;
+  : working. Tests added.
   * model : semantic modification for Positionned and Oriented, they are now 
     relative to first Positionned/Oriented ancestor. Tests added.
   * kernel : splitted object.h in two files, added getParentUpTo
@@ -1032,9 +1033,17 @@
     - refactoring, FlyingGroup edition beginning
     - change team/group name
   
-        
+2008-12-21 rogma
+
+  * Model : 
+    - PlayerConfiguration edition bug : when cycling on values we pass on some 
+      already attributed : it changes the reverse mapping... correction done in 
+      Model
+
 @todo :
-  
+    
+    - during demo seg fault when destroyed by opponent...
+    
     - go back to menu when Player is destroyed is stil not correct : the game 
       viewport is not removed
        

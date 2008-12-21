@@ -102,6 +102,80 @@ namespace ProjetUnivers {
         CPPUNIT_ASSERT(axis == player_configuration->getInputAxis("axis")) ;
       }
       
+      void TestPlayerConfiguration::cycleThoughAxesMapping()
+      {
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestPlayerConfiguration::cycleThoughAxesMapping")) ;
+        
+        Kernel::Object* configuration = model->createObject() ;
+        Model::PlayerConfiguration* player_configuration = new Model::PlayerConfiguration() ;
+        configuration->addTrait(player_configuration) ;
+        
+        player_configuration->addMapping(Model::PlayerConfiguration::InputAxis::MouseX,"X") ;
+        player_configuration->addMapping(Model::PlayerConfiguration::InputAxis::MouseY,"Y") ;
+
+        // we cycle as in the version of gui...
+        player_configuration->addMapping(Model::PlayerConfiguration::InputAxis::MouseY,"X") ;
+        player_configuration->addMapping(Model::PlayerConfiguration::InputAxis::JoystickThrottle,"X") ;
+
+        CPPUNIT_ASSERT_EQUAL(std::string("Y"), 
+                             player_configuration->getAxis(Model::PlayerConfiguration::InputAxis::MouseY)) ;
+      }
+      
+      void TestPlayerConfiguration::axisViolation()
+      {
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestPlayerConfiguration::axisViolation")) ;
+        
+        Kernel::Object* configuration = model->createObject() ;
+        Model::PlayerConfiguration* player_configuration = new Model::PlayerConfiguration() ;
+        configuration->addTrait(player_configuration) ;
+
+        player_configuration->addMapping(Model::PlayerConfiguration::InputAxis::MouseX,"X") ;
+        player_configuration->addMapping(Model::PlayerConfiguration::InputAxis::MouseY,"Y") ;
+        
+        CPPUNIT_ASSERT(player_configuration->getViolatingAxes() == std::set<std::string>()) ;
+        CPPUNIT_ASSERT(player_configuration->getViolatingCommands() == std::set<std::string>()) ;
+        
+        player_configuration->addMapping(Model::PlayerConfiguration::InputAxis::MouseY,"X") ;
+
+        std::set<std::string> all_violation ;
+        all_violation.insert("X") ;
+        all_violation.insert("Y") ;
+        
+        CPPUNIT_ASSERT(player_configuration->getViolatingAxes() == all_violation) ;
+        CPPUNIT_ASSERT(player_configuration->getViolatingCommands() == std::set<std::string>()) ;
+      }
+      
+      void TestPlayerConfiguration::commandViolation()
+      {
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestPlayerConfiguration::commandViolation")) ;
+        
+        Kernel::Object* configuration = model->createObject() ;
+        Model::PlayerConfiguration* player_configuration = new Model::PlayerConfiguration() ;
+        configuration->addTrait(player_configuration) ;
+
+        player_configuration->addMapping(Model::PlayerConfiguration::InputEvent::joystickButton(1),"X") ;
+        player_configuration->addMapping(Model::PlayerConfiguration::InputEvent::mouseButton(2),"Y") ;
+        
+        CPPUNIT_ASSERT(player_configuration->getViolatingCommands() == std::set<std::string>()) ;
+        CPPUNIT_ASSERT(player_configuration->getViolatingAxes() == std::set<std::string>()) ;
+        
+        player_configuration->addMapping(Model::PlayerConfiguration::InputEvent::mouseButton(2),"X") ;
+
+        std::set<std::string> all_violation ;
+        all_violation.insert("X") ;
+        all_violation.insert("Y") ;
+        
+        CPPUNIT_ASSERT(player_configuration->getViolatingCommands() == all_violation) ;
+        CPPUNIT_ASSERT(player_configuration->getViolatingAxes() == std::set<std::string>()) ;
+      }
+      
+      void TestPlayerConfiguration::invertAxis()
+      {
+        Model::PlayerConfiguration::InputAxis axis(Model::PlayerConfiguration::InputAxis::MouseX) ;
+        
+        CPPUNIT_ASSERT(-axis == Model::PlayerConfiguration::InputAxis(-Model::PlayerConfiguration::InputAxis::MouseX)) ;
+      }
+      
     }
   }
 }

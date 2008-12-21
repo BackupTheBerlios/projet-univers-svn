@@ -59,6 +59,13 @@ namespace ProjetUnivers
         
         void changeAxisMapping() ;
         
+        void cycleThoughAxesMapping() ;
+        
+        void axisViolation() ;
+        void commandViolation() ;
+        
+        void invertAxis() ;
+        
       // @}
       /*! 
         @name Tests registration
@@ -75,24 +82,14 @@ namespace ProjetUnivers
         CPPUNIT_TEST(invertedAxisPrint) ;
         CPPUNIT_TEST(normalAxisPrint) ;
         CPPUNIT_TEST(changeAxisMapping) ;
+        CPPUNIT_TEST(cycleThoughAxesMapping) ;
+        CPPUNIT_TEST(axisViolation) ;
+        CPPUNIT_TEST(commandViolation) ;
+        CPPUNIT_TEST(invertAxis) ;
       
         CPPUNIT_TEST_SUITE_END() ;
 
-      public:
-  
       // @}
-      /*! 
-        @name Mandatory methods
-      */
-      // @{
-      
-        /// Initialisation du test
-//        void setUp() ;
-//      
-//        /// Desinitialisation du test
-//        void tearDown() ;
-      
-      // @}      
       
       };
 
