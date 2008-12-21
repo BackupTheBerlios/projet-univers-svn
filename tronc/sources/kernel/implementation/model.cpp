@@ -90,6 +90,8 @@ namespace ProjetUnivers {
         addObjectToDestroy(object) ;
         return ;
       }
+
+      m_is_simulating_controler_set = true ;
       
       object->_close() ;
       
@@ -104,6 +106,9 @@ namespace ProjetUnivers {
         /// a sub object
         object->getParent()->_remove(object) ;
       }
+      
+      m_is_simulating_controler_set = false ;
+      
       InternalMessage("Kernel","Leaving Model::destroyObject") ;
     }
 

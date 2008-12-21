@@ -45,7 +45,7 @@ namespace ProjetUnivers {
 
         void ActivatedMission::onClose()
         {
-          InternalMessage("Model","Destroying mission content") ;
+          InternalMessage("Mission","Destroying mission content") ;
           const std::set<Kernel::Object*>& children = getTrait()->getObject()
                                                       ->getChildren() ;
           for(std::set<Kernel::Object*>::const_iterator child = children.begin() ; 

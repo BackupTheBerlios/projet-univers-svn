@@ -134,6 +134,7 @@ test_model_SOURCES = \
 ../test/test_load.cpp \
 ../test/test_logic.cpp \
 ../test/test_mesh.cpp \
+../test/test_mission.cpp \
 ../test/test_model.cpp \
 ../test/test_oriented.cpp \
 ../test/test_orientation.cpp \

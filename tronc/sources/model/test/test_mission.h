@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2008 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,45 +18,42 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <kernel/log.h>
-#include <model/model.h>
-#include <model/implementation/logic/with_lifetime.h>
+#ifndef PU_MODEL_TEST_MISSION_H_
+#define PU_MODEL_TEST_MISSION_H_
 
-namespace ProjetUnivers {
-  namespace Model {
-    namespace Implementation {
-      namespace Logic {
-          
-        RegisterControler(WithLifetime, 
-                          Model::WithLifetime, 
-                          LogicSystem) ;
+#include <cppunit/extensions/HelperMacros.h>
+
+namespace ProjetUnivers 
+{
+  namespace Model 
+  {
+    namespace Test 
+    {
+            
+      /// Test of mission.
+      class TestMission : public CppUnit::TestFixture 
+      {
+      public:
         
-        WithLifetime::WithLifetime(Model::WithLifetime* i_object,
-                                   LogicSystem*      i_system)
-        : Kernel::Controler<Model::WithLifetime,
-                            LogicSystem>(i_object,i_system)
-        {
-          InternalMessage("WithLifetime","Logic::WithLifetime controler built") ;
-        }
+        void closeMission() ;
         
-        void WithLifetime::simulate(const float& i_seconds)
-        {
-          InternalMessage("WithLifetime","Logic::WithLifetime::simulate entering") ;
-          
-          getTrait()->removeLifeTime(Duration::Second(i_seconds)) ;
-          
-          if (getTrait()->getLifeTimeInSeconds() < 0)
-          {
-            InternalMessage("WithLifetime","Logic::WithLifetime::simulate destroying object") ;
-  
-            // mark the object for destruction
-            getObject()->destroyObject() ;
-          }
-  
-          InternalMessage("WithLifetime","Logic::WithLifetime::simulate leaving") ;
-          
-        }
-      }      
+      protected:
+        // @}
+        /*!
+          @name Test registration
+        */
+        // @{      
+      
+          CPPUNIT_TEST_SUITE(TestMission) ;
+        
+          CPPUNIT_TEST(closeMission) ;
+        
+          CPPUNIT_TEST_SUITE_END() ;
+
+      };
+
     }
   }
 }
+
+  #endif /*PU_MODEL_TEST_MISSION_H_*/

@@ -278,7 +278,10 @@ namespace ProjetUnivers {
           active != m_activated_children.end() ;
           ++active)
       {
-        exit(*active) ;
+        if (*active)
+        {
+          exit(*active) ;
+        }
       }
       
       m_activated_children.clear() ;

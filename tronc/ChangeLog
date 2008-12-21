@@ -1040,9 +1040,15 @@
       already attributed : it changes the reverse mapping... correction done in 
       Model
 
+2008-12-21 rogma
+
+  * Kernel :
+    - during demo seg fault when destroyed by opponent...
+      seems due to changing on model/kernel and object destruction.
+      Corrected the destroying system
+
 @todo :
     
-    - during demo seg fault when destroyed by opponent...
     
     - go back to menu when Player is destroyed is stil not correct : the game 
       viewport is not removed
