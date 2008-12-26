@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2008 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -22,13 +22,19 @@
 #define PU_MODEL_GUIDANCE_CONTROLER_H_
 
 #include <kernel/trait.h>
-#include <kernel/trait_reference.h>
+#include <kernel/object_reference.h>
 #include <kernel/reader.h>
 
 #include <model/oriented.h>
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers 
+{
+  namespace Model 
+  {
+    namespace Test
+    {
+      class TestLoad ;
+    }
     
     class GuidanceSystem ;
 
@@ -71,10 +77,12 @@ namespace ProjetUnivers {
       /*!
         it is a normalised orientation of a stick.
       */ 
-      Kernel::TraitReference<Oriented>       m_stick ;
+      Kernel::ObjectReference  m_stick ;
       
       friend void connectStickControler(Kernel::Object* stick,
                                         Kernel::Object* controler) ;
+      
+      friend class ProjetUnivers::Model::Test::TestLoad ;
     };
     
     

@@ -18,6 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <kernel/object.h>
 #include <model/guidance_controler.h>
 #include <model/guidance_system.h>
 
@@ -36,7 +37,6 @@ namespace ProjetUnivers {
       }
     }
 
-    /// Connect an guidance controler to a guidance system. 
     void connectControlerGuidanceSystem(Kernel::Object* controler,
                                         Kernel::Object* system)
     {
@@ -80,7 +80,13 @@ namespace ProjetUnivers {
         more complex behaviour including malfunctions could return a 
         any orientation, e.g. a random one
       */  
-      return m_stick->getOrientation() ;
+      if (m_stick && m_stick->getTrait<Oriented>())
+      {
+        return m_stick->getTrait<Oriented>()->getOrientation() ;
+      }
+      
+      ErrorMessage("GuidanceControler::getStickOrientation no stick") ;
+      return Orientation() ;
     }
     
   }

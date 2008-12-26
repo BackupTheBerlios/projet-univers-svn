@@ -474,15 +474,6 @@ namespace ProjetUnivers {
         CPPUNIT_ASSERT(getRelativePosition(object2,object4).Meter().positionEquals(Ogre::Vector3(99,99,0),1e-4)) ;
       }
       
-      void TestPositionned::setUp() 
-      {
-      }
-      
-      void TestPositionned::tearDown() 
-      {
-      }
-      
-
     }
   }
 }

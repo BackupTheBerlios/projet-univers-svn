@@ -209,11 +209,12 @@ namespace ProjetUnivers
           }
         }
 
-        CPPUNIT_ASSERT(MouseListener::m_count == 
-                       simulation_time/
-                       Kernel::Parameters::getValue<float>("Input",
-                                                           "AutoRepeatDelay",
-                                                           Implementation::OIS::default_autorepeat_delay)) ;
+        CPPUNIT_ASSERT_EQUAL((unsigned int)(simulation_time/
+                             Kernel::Parameters::getValue<float>(
+                                 "Input",
+                                 "AutoRepeatDelay",
+                                 Implementation::OIS::default_autorepeat_delay)),
+                             MouseListener::m_count) ;
         
         InternalMessage("Input","Input::TestInputSystem::testMouseAutoRepeat leaving") ;
         
@@ -288,11 +289,12 @@ namespace ProjetUnivers
           }
         }
 
-        CPPUNIT_ASSERT(JoystickListener::m_count == 
-                       simulation_time/
-                       Kernel::Parameters::getValue<float>("Input",
-                                                           "AutoRepeatDelay",
-                                                           Implementation::OIS::default_autorepeat_delay)) ;
+        CPPUNIT_ASSERT_EQUAL((unsigned int)(simulation_time/
+                             Kernel::Parameters::getValue<float>(
+                                 "Input",                        
+                                 "AutoRepeatDelay",
+                                 Implementation::OIS::default_autorepeat_delay)),
+                             JoystickListener::m_count) ;
         
         InternalMessage("Input","Input::TestInputSystem::testJoystickAutoRepeat leaving") ;
       }

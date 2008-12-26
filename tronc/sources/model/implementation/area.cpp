@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2008 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,69 +18,57 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_ENGINE_H_
-#define PU_MODEL_ENGINE_H_
-
-#include <kernel/object_reference.h>
-#include <kernel/reader.h>
-
-#include <model/force_generator.h>
-#include <model/force.h>
+#include <model/area.h>
 
 namespace ProjetUnivers 
 {
   namespace Model 
   {
-  
-    namespace Test
+
+    Area::Area()
+    {}
+    
+    Area::Area(const std::set<Position>& positions)
     {
-      class TestLoad ;
+      bool first = true ;
+      
+      for(std::set<Position>::const_iterator position = positions.begin() ;
+          position != positions.end() ;
+          ++position)
+      {
+        if (first)
+        {
+          m_box.setExtents(position->Meter(),position->Meter()) ;
+          first = false ;
+        }
+        else
+        {
+          m_box.merge(position->Meter()) ;
+        }
+      }
     }
     
-    class EngineControler ;
-    
-    /// Ship/Other objects engine.
-    class Engine : public ForceGenerator
+    bool Area::contains(const Position& position) const
     {
-    public:
-
-      /// Constructor.
-      Engine(const Force& i_force) ;
-
-      /// Read an Engine trait.
-      /*!
-        stored as 
-        @code
-          <Engine>
-            [<ObjectReference ... [name="controler"]/>]
-            <Force ... />
-          </Engine>
-        @endcode
-      */     
-      static Kernel::Trait* read(Kernel::Reader* reader) ;
-      
-      /// Get the force.
-      virtual Force getAppliedForce() const ;
-      
-    private:
-      
-      /// Maximal "force". 
-      /*!
-        Orientation is relative to parent physical object.
-        Thus normally a ship force is : (0,0,100) or something.
-      */
-      Force m_full_thrust ;
-      
-      /// Controler of this engine
-      Kernel::ObjectReference m_controler ;
-      
-      friend void connectControlerEngine(Kernel::Object*,Kernel::Object*) ;
-      
-      friend class ProjetUnivers::Model::Test::TestLoad ;
-    };
+      return m_box.contains(position.Meter()) ;
+    }
     
+    Position Area::getCenter() const
+    {
+      if (m_box.isNull())
+        return Position() ;
+      
+      Ogre::Vector3 center(m_box.getCenter()) ;
+      return Position::Meter(center.x,center.y,center.z) ;
+    }
+    
+    Distance Area::getRadius() const
+    {
+      if (m_box.isNull())
+        return Distance() ;
+      
+      return Distance(Distance::_Meter,m_box.getHalfSize().length()) ;
+    }
     
   }
 }
-
-#endif /*PU_MODEL_ENGINE_H_*/

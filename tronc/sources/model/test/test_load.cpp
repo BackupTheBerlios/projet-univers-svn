@@ -46,6 +46,7 @@
 #include <model/solid.h>
 #include <model/stabilizer.h>
 #include <model/stick.h>
+#include <model/targeting_system.h>
 #include <model/torque_generator.h>
 #include <model/universe.h>
 
@@ -196,7 +197,7 @@ namespace ProjetUnivers
               "</object>\n"
               "<object id=\"2\">\n"
                 "<EngineControler>\n"
-                  "<ObjectReference id=\"32\" name=\"throttle\"/>\n"
+                  "<ObjectReference id=\"3\" name=\"throttle\"/>\n"
                 "</EngineControler>\n"
               "</object>\n"
               "<object id=\"3\">\n"
@@ -208,7 +209,7 @@ namespace ProjetUnivers
         reader->read(model.get()) ;
 
         std::set<Kernel::Object*> roots(model->getRoots()) ;
-        CPPUNIT_ASSERT(roots.size() == 3) ;
+        CPPUNIT_ASSERT_EQUAL((unsigned int)3,roots.size()) ;
         
         bool exist_engine = false ;
         bool exist_engine_controler = false ;
@@ -221,9 +222,16 @@ namespace ProjetUnivers
           Kernel::Object* object = *current ;
           
           if (object->getTrait<Engine>())
+          {
             exist_engine = true ;
+            CPPUNIT_ASSERT(object->getTrait<Engine>()->m_controler) ;
+          }
+          
           if (object->getTrait<EngineControler>())
+          {
             exist_engine_controler = true ;
+            CPPUNIT_ASSERT(object->getTrait<EngineControler>()->m_throttle) ;
+          }
           if (object->getTrait<Throttle>())
             exist_throttle = true ;
         }
@@ -306,10 +314,17 @@ namespace ProjetUnivers
         reader->read(model.get()) ;
 
         std::set<Kernel::Object*> roots(model->getRoots()) ;
-        CPPUNIT_ASSERT(roots.size() == 1) ;
+        CPPUNIT_ASSERT_EQUAL((unsigned int)1,roots.size()) ;
         std::set<Kernel::Object*>::iterator current = roots.begin() ; 
         Kernel::Object* guidance_system = *current ;
         CPPUNIT_ASSERT(guidance_system->getTrait<GuidanceSystem>()) ;
+        
+        CPPUNIT_ASSERT(guidance_system->getTrait<GuidanceSystem>()->m_control) ;
+        
+        std::set<GuidanceControler*> guidance_controlers = guidance_system->getDescendants<GuidanceControler>() ;
+        CPPUNIT_ASSERT_EQUAL((unsigned int)1,guidance_controlers.size()) ;
+        GuidanceControler* guidance_controler = *guidance_controlers.begin() ;
+        CPPUNIT_ASSERT(guidance_controler->m_stick) ;
       }
       
       void TestLoad::testLoadListener()
@@ -619,6 +634,27 @@ namespace ProjetUnivers
         
       }
 
+      void TestLoad::testTargetingSystem()
+      {
+        std::string content(
+          "<?xml version=\"1.0\"?>\n"
+            "<model>\n"
+              "<object id=\"1\">\n"
+                "<TargetingSystem>\n"
+                  "<ObjectReference id=\"1\"/>\n"
+                "</TargetingSystem>\n"
+              "</object>\n"
+            "</model>\n") ;
+        std::auto_ptr<Kernel::XMLReader> reader(Kernel::XMLReader::getStringReader(content)) ;
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadUniverse")) ;          
+        reader->read(model.get()) ;
+
+        std::set<Kernel::Object*> roots(model->getRoots()) ;
+        CPPUNIT_ASSERT(roots.size() == 1) ;
+        Kernel::Object* root = *roots.begin() ;
+        CPPUNIT_ASSERT(root->getTrait<TargetingSystem>()) ;
+      }
+      
     }
   }
 }

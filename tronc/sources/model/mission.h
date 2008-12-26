@@ -23,6 +23,7 @@
 
 #include <kernel/object_reference.h>
 #include <kernel/trait.h>
+#include <model/distance.h>
 
 namespace ProjetUnivers {
   namespace Model {
@@ -37,16 +38,35 @@ namespace ProjetUnivers {
               Kernel::Object* player_configuration,
               Kernel::Object* main_menu) ;
 
-      /// Load the misison.
-      void load() ;
+      /// Set the starting distance.
+      void setStartingDistance(const Distance&) ;
       
-    private:
+      /// Load the misison.
+      virtual void load() ;
+      
+      /// Access to minimal distance of respawn.
+      Distance getStartingDistance() const ;
+      
+      /// Access to system where we play.
+      Kernel::Object* getSystem() const ;
+
+      /// Access to the player configuration.
+      Kernel::Object* getPlayerConfiguration() const ;
+      
+      
+    protected:
       
       /// Name
       std::string m_name ;
       
       Kernel::ObjectReference m_player_configuration ;
       Kernel::ObjectReference m_main_menu ;
+
+      /// The system in which we play
+      Kernel::ObjectReference m_system ;
+
+      /// Minimum distance when respawning a group.
+      Distance m_starting_distance ;
       
     };
   }

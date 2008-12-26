@@ -92,6 +92,23 @@ namespace ProjetUnivers {
       return NULL ;      
     }
     
+    std::set<TraitFormula*> TraitFormula::find(Trait* i_trait)
+    {
+      std::set<TraitFormula*> result ;
+      
+      for(std::map<TypeIdentifier,TraitFormula*>::const_iterator trait = StaticStorage::get()->m_traits_formulae.begin() ;
+          trait != StaticStorage::get()->m_traits_formulae.end() ;
+          ++trait)
+      {
+        if (trait->first.isInstance(i_trait))
+        {
+          result.insert(trait->second) ;
+        }
+      }
+
+      return result ;      
+    }
+    
     int Formula::getDepth() const
     {
       return m_depth ;
@@ -112,6 +129,23 @@ namespace ProjetUnivers {
       return NULL ;      
     }
     
+    std::set<HasParentFormula*> HasParentFormula::find(Trait* i_trait)
+    {
+      std::set<HasParentFormula*> result ;
+      
+      for(std::map<TypeIdentifier,HasParentFormula*>::const_iterator trait = StaticStorage::get()->m_parent_traits_formulae.begin() ;
+          trait != StaticStorage::get()->m_parent_traits_formulae.end() ;
+          ++trait)
+      {
+        if (trait->first.isInstance(i_trait))
+        {
+          result.insert(trait->second) ;
+        }
+      }
+
+      return result ;      
+    }
+    
     HasChildFormula* HasChildFormula::get(const TypeIdentifier& trait_name)
     {
 //      InternalMessage("Kernel","HasChildFormula::get getting " + trait_name.toString()) ;
@@ -125,6 +159,23 @@ namespace ProjetUnivers {
 
 //      InternalMessage("Kernel","HasChildFormula::get did not got " + trait_name.toString()) ;
       return NULL ;      
+    }
+    
+    std::set<HasChildFormula*> HasChildFormula::find(Trait* i_trait)
+    {
+      std::set<HasChildFormula*> result ;
+      
+      for(std::map<TypeIdentifier,HasChildFormula*>::const_iterator trait = StaticStorage::get()->m_child_traits_formulae.begin() ;
+          trait != StaticStorage::get()->m_child_traits_formulae.end() ;
+          ++trait)
+      {
+        if (trait->first.isInstance(i_trait))
+        {
+          result.insert(trait->second) ;
+        }
+      }
+
+      return result ;      
     }
     
   // @}
@@ -513,47 +564,51 @@ namespace ProjetUnivers {
   // @{
 
 
-    void TraitFormula::addTrait(Object* object,const TypeIdentifier& trait_name)
+    void TraitFormula::addTrait(Object* object,Trait* trait)
     {
       CHECK(object,"TraitFormula::addTrait no object")
-
-      InternalMessage("Kernel","TraitFormula::addTrait(" + trait_name.toString() + ")") ;
-      TraitFormula* trait_formula = get(trait_name) ;
-      if (trait_formula)
+      std::set<TraitFormula*> formulaes = find(trait) ;
+      for(std::set<TraitFormula*>::const_iterator formula = formulaes.begin() ;
+          formula != formulaes.end() ;
+          ++formula)
       {
-        trait_formula->becomeTrue(object) ;
+        (*formula)->becomeTrue(object) ;
       }
     }
 
-    void TraitFormula::removeTrait(Object* object,const TypeIdentifier& trait_name)
+    void TraitFormula::removeTrait(Object* object,Trait* trait)
     {
-      TraitFormula* trait_formula = get(trait_name) ;
-      if (trait_formula)
+      
+      std::set<TraitFormula*> formulaes = find(trait) ;
+      for(std::set<TraitFormula*>::const_iterator formula = formulaes.begin() ;
+          formula != formulaes.end() ;
+          ++formula)
       {
-        trait_formula->becomeFalse(object) ;
+        (*formula)->becomeFalse(object) ;
       }
     }
 
-    void HasParentFormula::addTrait(Object* object,const TypeIdentifier& trait_name)
+    void HasParentFormula::addTrait(Object* object,Trait* trait)
     {
       CHECK(object,"HasParentFormula::addTrait no object")
-      
-      InternalMessage("Kernel","HasParentFormula::addTrait(" + trait_name.toString() + ")") ;
-      HasParentFormula* trait_formula = get(trait_name) ;
-      if (trait_formula)
+
+      std::set<HasParentFormula*> formulaes = find(trait) ;
+      for(std::set<HasParentFormula*>::const_iterator formula = formulaes.begin() ;
+          formula != formulaes.end() ;
+          ++formula)
       {
-        trait_formula->addParent(object) ;
+        (*formula)->addParent(object) ;
       }
     }
 
-    void HasParentFormula::removeTrait(Object* object,const TypeIdentifier& trait_name)
+    void HasParentFormula::removeTrait(Object* object,Trait* trait)
     {
-      InternalMessage("Kernel","HasParentFormula::removeTrait(" + trait_name.toString() + ")") ;
-      HasParentFormula* trait_formula = get(trait_name) ;
-      if (trait_formula)
+      std::set<HasParentFormula*> formulaes = find(trait) ;
+      for(std::set<HasParentFormula*>::const_iterator formula = formulaes.begin() ;
+          formula != formulaes.end() ;
+          ++formula)
       {
-        // handle current object
-        trait_formula->removedParent(object) ;
+        (*formula)->removedParent(object) ;
       }
     }
 
@@ -671,26 +726,28 @@ namespace ProjetUnivers {
      
     }
 
-    void HasChildFormula::addTrait(Object* object,const TypeIdentifier& trait_name)
+    void HasChildFormula::addTrait(Object* object,Trait* trait)
     {
       CHECK(object,"HasChildFormula::addTrait no object")
       
-      InternalMessage("Kernel","HasChildFormula::addTrait(" + trait_name.toString() + ")") ;
-      HasChildFormula* trait_formula = get(trait_name) ;
-      if (trait_formula)
+      std::set<HasChildFormula*> formulaes = find(trait) ;
+      for(std::set<HasChildFormula*>::const_iterator formula = formulaes.begin() ;
+          formula != formulaes.end() ;
+          ++formula)
       {
-        trait_formula->addedChild(object) ;
+        (*formula)->addedChild(object) ;
       }
     }
 
-    void HasChildFormula::removeTrait(Object* object,const TypeIdentifier& trait_name)
+    void HasChildFormula::removeTrait(Object* object,Trait* trait)
     {
-      InternalMessage("Kernel","HasChildFormula::removeTrait(" + trait_name.toString() + ")") ;
-      HasChildFormula* trait_formula = get(trait_name) ;
-      if (trait_formula)
+      
+      std::set<HasChildFormula*> formulaes = find(trait) ;
+      for(std::set<HasChildFormula*>::const_iterator formula = formulaes.begin() ;
+          formula != formulaes.end() ;
+          ++formula)
       {
-        // handle current object
-        trait_formula->removedChild(object) ;
+        (*formula)->removedChild(object) ;
       }
     }
 
@@ -1071,33 +1128,37 @@ namespace ProjetUnivers {
   */
   // @{
   
-    void TraitFormula::updateTrait(Object* object,const TypeIdentifier& trait_name)
+    void TraitFormula::updateTrait(Object* object,Trait* trait)
     {
       if (!object)
         return ;
       
-      TraitFormula* trait = get(trait_name) ;
-      if (trait)
+      std::set<TraitFormula*> formulaes = find(trait) ;
+      for(std::set<TraitFormula*>::const_iterator formula = formulaes.begin() ;
+          formula != formulaes.end() ;
+          ++formula)
       {
-        trait->update(object) ;
+        (*formula)->update(object) ;
       }
     }
 
-    void HasParentFormula::updateTrait(Object* object,const TypeIdentifier& trait_name)
+    void HasParentFormula::updateTrait(Object* object,Trait* trait)
     {
       if (!object)
         return ;
       
-      HasParentFormula* trait = get(trait_name) ;
-      if (trait)
+      std::set<HasParentFormula*> formulaes = find(trait) ;
+      for(std::set<HasParentFormula*>::const_iterator formula = formulaes.begin() ;
+          formula != formulaes.end() ;
+          ++formula)
       {
-        trait->update(object) ;
+        (*formula)->update(object) ;
         
         for(std::set<Object*>::const_iterator child = object->getChildren().begin() ; 
             child != object->getChildren().end() ;
             ++child)
         {
-          trait->updateParentTrait(*child) ;
+          (*formula)->updateParentTrait(*child) ;
         }
         
       }
@@ -1119,20 +1180,22 @@ namespace ProjetUnivers {
       }
     }
 
-    void HasChildFormula::updateTrait(Object* object,const TypeIdentifier& trait_name)
+    void HasChildFormula::updateTrait(Object* object,Trait* trait)
     {
       if (!object)
         return ;
       
-      HasChildFormula* trait = get(trait_name) ;
-      if (trait)
+      std::set<HasChildFormula*> formulaes = find(trait) ;
+      for(std::set<HasChildFormula*>::const_iterator formula = formulaes.begin() ;
+          formula != formulaes.end() ;
+          ++formula)
       {
-        trait->update(object) ;
-        
+        (*formula)->update(object) ;
+
         Object* parent = object->getParent() ;
         if (parent)
         {
-          trait->updateChildTrait(parent) ;
+          (*formula)->updateChildTrait(parent) ;
         }
         
       }
@@ -1208,10 +1271,30 @@ namespace ProjetUnivers {
     void DeducedTrait::notify()
     {
       _updated() ;
-      TraitFormula::updateTrait(getObject(),getObjectTypeIdentifier(this)) ;
+      TraitFormula::updateTrait(getObject(),this) ;
     }
 
+    void DeducedTrait::addTrait(Object* object,Trait* trait)
+    {
+      TraitFormula::addTrait(object,trait) ;
+      HasParentFormula::addTrait(object,trait) ;
+      HasChildFormula::addTrait(object,trait) ;
+    }
 
+    void DeducedTrait::updateTrait(Object* object,Trait* trait)
+    {
+      TraitFormula::updateTrait(object,trait) ;
+      HasParentFormula::updateTrait(object,trait) ;
+      HasChildFormula::updateTrait(object,trait) ;
+    }
+
+    void DeducedTrait::removeTrait(Object* object,Trait* trait)
+    {
+      TraitFormula::removeTrait(object,trait) ;
+      HasParentFormula::removeTrait(object,trait) ;
+      HasChildFormula::removeTrait(object,trait) ;
+    }
+    
   // @}
 
   }

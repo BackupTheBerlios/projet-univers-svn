@@ -62,6 +62,7 @@ namespace ProjetUnivers
         void testLoadStick() ;
         void testLoadTorqueGenerator() ;
         void testLoadUniverse() ;
+        void testTargetingSystem() ;
 
       // @}
       /*! 
@@ -94,6 +95,7 @@ namespace ProjetUnivers
         CPPUNIT_TEST(testLoadStick) ;
         CPPUNIT_TEST(testLoadTorqueGenerator) ;
         CPPUNIT_TEST(testLoadUniverse) ;
+        CPPUNIT_TEST(testTargetingSystem) ;
       
         CPPUNIT_TEST_SUITE_END() ;
 

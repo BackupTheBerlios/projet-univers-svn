@@ -27,7 +27,11 @@ namespace ProjetUnivers
     FlyingGroup::FlyingGroup(const std::string& name)
     : m_name(name),
       m_has_player(false),
-      m_number_of_ships(1)
+      m_initial_number_of_ships(1),
+      m_number_of_ships(0),
+      m_ship_name("razor"),
+      m_objective(Objective::attackAllEnemies()),
+      m_number_of_spawn(1)
     {}
 
     void FlyingGroup::setName(const std::string& name)
@@ -39,6 +43,72 @@ namespace ProjetUnivers
     const std::string& FlyingGroup::getName() const
     {
       return m_name ;
+    }
+   
+    void FlyingGroup::setShipName(const std::string& name)
+    {
+      m_ship_name = name ;
+    }
+    
+    void FlyingGroup::setInitialNumberOfShips(const unsigned int& number)
+    {
+      m_initial_number_of_ships = number ;
+    }
+    
+    void FlyingGroup::setHasPlayer(const bool& has_player)
+    {
+      m_has_player = has_player ;
+    }
+    
+    void FlyingGroup::removeShip()
+    {
+      if (m_number_of_ships > 0)
+      {
+        --m_number_of_ships ;
+        notify() ;
+      }
+    }
+    
+    void FlyingGroup::addShip()
+    {
+      ++m_number_of_ships ;
+      notify() ;
+    }
+    
+    void FlyingGroup::setNumberOfSpawn(const unsigned int& number)
+    {
+      m_number_of_spawn = number ;
+      notify() ;
+    }
+    
+    const std::string& FlyingGroup::getShipName() const
+    {
+      return m_ship_name ;
+    }
+    
+    const unsigned int& FlyingGroup::getInitialNumberOfShips() const
+    {
+      return m_initial_number_of_ships ;
+    }
+    
+    const bool& FlyingGroup::hasPlayer() const
+    {
+      return m_has_player ;
+    }
+    
+    const Objective& FlyingGroup::getObjective() const
+    {
+      return m_objective ;
+    }
+    
+    const unsigned int& FlyingGroup::getNumberOfShips() const
+    {
+      return m_number_of_ships ;
+    }
+    
+    const unsigned int& FlyingGroup::getNumberOfSpawn() const
+    {
+      return m_number_of_spawn ;
     }
     
   }

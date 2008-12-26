@@ -53,6 +53,7 @@ namespace ProjetUnivers {
     class CommandDelegator ;
     class HasParentFormula ;
     class HasChildFormula ;
+    class Reader ;
     
     /// A model object.
     /*!
@@ -369,6 +370,12 @@ namespace ProjetUnivers {
       /// Objects with a name.
       static std::map<std::string,ObjectReference> m_named_objects ;
       
+      static void startReading() ;
+      static void stopReading() ;
+      
+      /// True when we are in a Reader::read call.
+      static bool m_is_reading ;
+      
     // @}
 
       friend class Trait ;    
@@ -382,6 +389,7 @@ namespace ProjetUnivers {
       friend class HasChildFormula ;
       friend class DeducedTrait ;
       friend class CommandDelegator ;
+      friend class Reader ;
     };
   }
 }      

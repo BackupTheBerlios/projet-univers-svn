@@ -36,6 +36,17 @@ namespace ProjetUnivers
       public:
         
         void closeMission() ;
+        void loadMission() ;
+
+        void initCustomMission() ;
+        void initCustomMissionWithPlayer() ;
+        void initCustomMissionShipsHaveTeam() ;
+        
+        void initCustomMissionShipSpawnAtDistance() ;
+        void initCustomMissionShipSpawn() ;
+        
+        void respawn() ;
+        void endOfRespawn() ;
         
       protected:
         // @}
@@ -47,7 +58,15 @@ namespace ProjetUnivers
           CPPUNIT_TEST_SUITE(TestMission) ;
         
           CPPUNIT_TEST(closeMission) ;
-        
+          CPPUNIT_TEST(loadMission) ;
+          CPPUNIT_TEST(initCustomMission) ;
+          CPPUNIT_TEST(initCustomMissionWithPlayer) ;
+          CPPUNIT_TEST(initCustomMissionShipsHaveTeam) ;
+          CPPUNIT_TEST(initCustomMissionShipSpawnAtDistance) ;
+          CPPUNIT_TEST(initCustomMissionShipSpawn) ;
+          CPPUNIT_TEST(respawn) ;
+          CPPUNIT_TEST(endOfRespawn) ;
+          
           CPPUNIT_TEST_SUITE_END() ;
 
       };

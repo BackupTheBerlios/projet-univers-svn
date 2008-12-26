@@ -95,6 +95,9 @@ namespace ProjetUnivers {
       /// Comparison.
       bool operator==(const Position&) const ;
       
+      /// Comparison.
+      bool operator<(const Position&) const ;
+      
     // @}
       
       /// Print operator.

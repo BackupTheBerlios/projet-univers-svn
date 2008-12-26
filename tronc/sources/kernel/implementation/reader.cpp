@@ -76,7 +76,8 @@ namespace ProjetUnivers {
     {
       m_local_id_to_real_id.clear() ;
       m_references.clear() ;
-            
+      Object::startReading() ;
+      
       if (! isModelNode())
       {
         std::cerr << "first node is not a model" << std::endl ; 
@@ -125,6 +126,15 @@ namespace ProjetUnivers {
           model->destroyObject(*object) ;
         }
       }
+      
+      Object::stopReading() ;
+      // now we can init the objects
+      for(std::set<Object*>::const_iterator object = roots.begin() ;
+          object != roots.end() ;
+          ++object)
+      {
+        (*object)->_init() ;
+      } 
       
       if (roots.size() > 0)
       {

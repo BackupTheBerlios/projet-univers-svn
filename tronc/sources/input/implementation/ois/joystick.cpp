@@ -39,7 +39,7 @@ namespace ProjetUnivers
 
         bool Joystick::buttonPressed(const ::OIS::JoyStickEvent& event,int button)
         {
-          if (Kernel::Parameters::getValue<float>("Input","PrintButtons",false))
+          if (Kernel::Parameters::getValue<bool>("Input","PrintButtons",false))
           {
             std::cout << "button number " << button << std::endl ;          
           }
@@ -55,7 +55,7 @@ namespace ProjetUnivers
         
         bool Joystick::axisMoved(const ::OIS::JoyStickEvent& event,int axis)
         {
-          if (Kernel::Parameters::getValue<float>("Input","PrintAxes",false))
+          if (Kernel::Parameters::getValue<bool>("Input","PrintAxes",false))
           {
             std::cout << "axis number " << axis << "=" << event.state.mAxes[axis].abs
                       << std::endl ;          

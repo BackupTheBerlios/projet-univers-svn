@@ -37,11 +37,16 @@ namespace ProjetUnivers {
     {
       if (target_displayer)
       {
-        TargetDisplayer* system = target_displayer->getTrait<TargetDisplayer>() ;
-        if (system)
+        TargetDisplayer* displayer = target_displayer->getTrait<TargetDisplayer>() ;
+        TargetingSystem* system = targeting_system->getTrait<TargetingSystem>() ;
+        if (displayer && system)
         {
-          system->m_targeting_system = targeting_system ;
-          system->notify() ;
+          displayer->m_targeting_system = targeting_system ;
+          displayer->notify() ;
+        }
+        else
+        {
+          ErrorMessage("TargetDisplayer::connect") ;
         }
       }
     }

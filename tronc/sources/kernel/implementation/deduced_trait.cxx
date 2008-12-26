@@ -206,14 +206,14 @@ namespace ProjetUnivers {
       */
       static TraitFormula* build(const TypeIdentifier& trait_name) ;
     
-      // Notify that @c object has gained @c trait_name.
-      static void addTrait(Object* object,const TypeIdentifier& trait_name) ;
+      // Notify that @c object has gained @c trait.
+      static void addTrait(Object* object,Trait* trait) ;
       
-      // Notify that @c object has lost @c trait_name.
-      static void removeTrait(Object* object,const TypeIdentifier& trait_name) ;
+      // Notify that @c object has lost @c trait.
+      static void removeTrait(Object* object,Trait* trait) ;
       
-      // Notify that @c trait_name has been updated for @c object.
-      static void updateTrait(Object* object,const TypeIdentifier& trait_name) ;
+      // Notify that @c trait has been updated for @c object.
+      static void updateTrait(Object* object,Trait* trait) ;
 
       /// Print the formula.
       virtual std::string internalPrint() const ;
@@ -242,6 +242,9 @@ namespace ProjetUnivers {
         @return NULL if not found.
       */
       static TraitFormula* get(const TypeIdentifier& trait_name) ;
+      
+      /// Find the formulae impacted by trait
+      static std::set<TraitFormula*> find(Trait* i_trait) ;
       
       class StaticStorage
       {
@@ -408,14 +411,14 @@ namespace ProjetUnivers {
       */
       static HasParentFormula* build(const TypeIdentifier& trait_name) ;
 
-      // Notify that @c object has gained @c trait_name.
-      static void addTrait(Object* object,const TypeIdentifier& trait_name) ;
+      // Notify that @c object has gained @c trait.
+      static void addTrait(Object* object,Trait* trait) ;
       
-      // Notify that @c object has lost @c trait_name.
-      static void removeTrait(Object* object,const TypeIdentifier& trait_name) ;
+      // Notify that @c object has lost @c trai.
+      static void removeTrait(Object* object,Trait* trait) ;
       
-      // Notify that @c trait_name has been updated for @c object.
-      static void updateTrait(Object* object,const TypeIdentifier& trait_name) ;
+      // Notify that @c trait has been updated for @c object.
+      static void updateTrait(Object* object,Trait* trait) ;
 
       /// Notify that @c object has changed parent.
       static void changeParent(Object* object,Object* old_parent) ;
@@ -457,6 +460,9 @@ namespace ProjetUnivers {
       */
       static HasParentFormula* get(const TypeIdentifier& trait_name) ;
       
+      /// Find the formulae impacted by trait
+      static std::set<HasParentFormula*> find(Trait* i_trait) ;
+      
       class StaticStorage
       {
       public:
@@ -484,14 +490,14 @@ namespace ProjetUnivers {
       */
       static HasChildFormula* build(const TypeIdentifier& trait_name) ;
 
-      // Notify that @c object has gained @c trait_name.
-      static void addTrait(Object* object,const TypeIdentifier& trait_name) ;
+      // Notify that @c object has gained @c trait.
+      static void addTrait(Object* object,Trait* trait) ;
       
-      // Notify that @c object has lost @c trait_name.
-      static void removeTrait(Object* object,const TypeIdentifier& trait_name) ;
+      // Notify that @c object has lost @c trait.
+      static void removeTrait(Object* object,Trait* trait) ;
       
-      // Notify that @c trait_name has been updated for @c object.
-      static void updateTrait(Object* object,const TypeIdentifier& trait_name) ;
+      // Notify that @c trait has been updated for @c object.
+      static void updateTrait(Object* object,Trait* trait) ;
 
       /// Notify that @c object has changed parent.
       static void changeParent(Object* object,Object* old_parent) ;
@@ -538,6 +544,9 @@ namespace ProjetUnivers {
         @return NULL if not found.
       */
       static HasChildFormula* get(const TypeIdentifier& trait_name) ;
+      
+      /// Find the formulae impacted by trait
+      static std::set<HasChildFormula*> find(Trait* i_trait) ;
       
       class StaticStorage
       {

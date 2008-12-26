@@ -23,16 +23,17 @@
 
 #include <cppunit/extensions/HelperMacros.h>
 
-namespace ProjetUnivers {
-  namespace Model {
-    namespace Test {
-
+namespace ProjetUnivers 
+{
+  namespace Model 
+  {
+    namespace Test 
+    {
             
       /// Test for Model::Positionned
-      class TestPositionned : public CppUnit::TestFixture {
+      class TestPositionned : public CppUnit::TestFixture 
+      {
       protected:
-      
-        
       /*!
         @name Test methods
       */
@@ -99,20 +100,6 @@ namespace ProjetUnivers {
       
       // @}      
                 
-     public:
-
-      /*!
-        @name Mandatory methods
-      */
-      // @{
-
-      
-        void setUp() ;
-        void tearDown() ;
-      
-      // @}      
-      
-      
       };
 
     }

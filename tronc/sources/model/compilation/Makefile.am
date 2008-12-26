@@ -10,8 +10,10 @@ libmodel_la_SOURCES = \
 ../implementation/acceleration.cpp \
 ../implementation/active.cpp \
 ../implementation/activated_end_of_simulation.cpp \
+../implementation/activated_flying_group.cpp \
 ../implementation/activated_mission.cpp \
 ../implementation/angular_speed.cpp \
+../implementation/area.cpp \
 ../implementation/autonomous_character.cpp \
 ../implementation/background_sound.cpp \
 ../implementation/collision.cpp \
@@ -84,6 +86,7 @@ libmodel_la_SOURCES = \
 ../implementation/torque_generator.cpp \
 ../implementation/transponder.cpp \
 ../implementation/universe.cpp \
+../implementation/with_flying_group.cpp \
 ../implementation/with_lifetime.cpp \
 ../implementation/with_objectives.cpp \
 ../implementation/whole.cpp \
@@ -92,6 +95,7 @@ libmodel_la_SOURCES = \
 ../implementation/logic/destroyable.cpp \
 ../implementation/logic/detector.cpp \
 ../implementation/logic/end_of_simulation.cpp \
+../implementation/logic/flying_group.cpp \
 ../implementation/logic/laser.cpp \
 ../implementation/logic/logic.cpp \
 ../implementation/logic/logic_system.cpp \
@@ -100,6 +104,7 @@ libmodel_la_SOURCES = \
 ../implementation/logic/shot.cpp \
 ../implementation/logic/state.cpp \
 ../implementation/logic/target.cpp \
+../implementation/logic/with_flying_group.cpp \
 ../implementation/logic/with_lifetime.cpp 
 
 libmodel_la_LDFLAGS = -no-undefined
@@ -126,6 +131,7 @@ check_PROGRAMS = $(TESTS)
 # then game logic test
 # finally a global test
 test_model_SOURCES = \
+../test/test_area.cpp \
 ../test/test_detector.cpp \
 ../test/test_distance.cpp \
 ../test/test_engine_control.cpp \
@@ -139,6 +145,7 @@ test_model_SOURCES = \
 ../test/test_oriented.cpp \
 ../test/test_orientation.cpp \
 ../test/test_player_configuration.cpp \
+../test/test_position.cpp \
 ../test/test_positionned.cpp \
 ../test/test_shooting_helper.cpp \
 ../test/test_speed.cpp \

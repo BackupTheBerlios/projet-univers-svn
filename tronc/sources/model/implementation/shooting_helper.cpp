@@ -21,9 +21,13 @@
 #include <kernel/object.h>
 #include <model/shooting_helper.h>
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers 
+{
+  namespace Model 
+  {
 
+    RegisterTrait(ShootingHelper) ;
+    
     ShootingHelper::ShootingHelper()
     {}
 
@@ -42,6 +46,41 @@ namespace ProjetUnivers {
       }
     }
 
+    Kernel::Trait* ShootingHelper::read(Kernel::Reader* reader)
+    {
+      ShootingHelper* result = new ShootingHelper() ;
+      
+      while (!reader->isEndNode() && reader->processNode())
+      {
+        if (reader->isTraitNode() && 
+            reader->getTraitName() == "ObjectReference")
+        {
+          std::map<std::string,std::string>::const_iterator finder ; 
+
+          finder = reader->getAttributes().find("name") ;
+          if (finder != reader->getAttributes().end())
+          {
+            if (finder->second == "computer")
+            {
+              result->m_computer = Kernel::ObjectReference::read(reader) ;
+            }
+            else if (finder->second == "laser")
+            {
+              result->m_laser = Kernel::ObjectReference::read(reader) ;
+            }
+          }
+        }
+        else 
+        {
+          Trait::read(reader) ;
+        }
+      }
+      
+      reader->processNode() ;
+      
+      return result ;
+    }
+    
     Kernel::Object* ShootingHelper::getComputer() const
     {
       return m_computer ;

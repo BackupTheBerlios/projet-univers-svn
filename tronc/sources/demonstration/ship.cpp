@@ -19,10 +19,12 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include <iostream>
+#include <projet_univers.h>
 #include <kernel/log.h>
 #include <kernel/model.h>
 #include <kernel/parameters.h>
 #include <kernel/timer.h>
+#include <kernel/command_delegator.h>
 
 #include <artificial_intelligence/artificial_intelligence.h>
 #include <display/display.h>
@@ -41,12 +43,13 @@
 #include <model/state.h>
 #include <model/active.h>
 #include <model/solid.h>
+#include <model/universe.h>
 
 using namespace ProjetUnivers ;
 
 std::string getModelName()
 {
-  return "razor.ship" ;
+  return "razor" ;
 }
 
 /*
@@ -68,12 +71,25 @@ int main() {
   Input::start() ;
   GUI::start() ;
   
-  InformationMessage("Demonstration","Starting of projet univers") ;
+  InformationMessage("Demonstration","Starting of projet univers" + 
+                                     Version + 
+                                     " revision " + RevisionNumber) ;
 
   std::auto_ptr<Kernel::Model> model(new Kernel::Model()) ;
+  model->init() ;
 
-  Model::load(getModelName(),model.get()) ;
-  Kernel::Object* ship = *(model->getRoots().begin()) ;
+  Kernel::Object* root = model->createObject() ;
+  root->addTrait(new Model::State()) ;
+  root->addTrait(new Model::Active()) ;
+  root->addTrait(new Model::Positionned()) ;
+  root->addTrait(new Model::Oriented()) ;
+  root->addTrait(new Model::Universe()) ;
+
+  Kernel::Object* player_configuration = Model::createDefaultPlayerConfiguration(root) ;
+  player_configuration->getTrait<Model::PlayerConfiguration>()
+                      ->addMapping(Model::PlayerConfiguration::InputEvent::key(OIS::KC_RETURN),"quit") ;
+  
+  Kernel::Object* ship = Model::loadShip(getModelName(),root) ;
 
   // determine a distance that correspond to ship size
   Model::Distance distance(Model::Distance::_Meter,1000) ;
@@ -82,17 +98,6 @@ int main() {
   {
     distance = solid_ship->getRadius()*2 ;
   }
-
-  Kernel::Object* player_configuration = model->createObject() ;
-  player_configuration->addTrait(new Model::PlayerConfiguration()) ;
-  player_configuration->getTrait<Model::PlayerConfiguration>()
-                      ->addMapping(Model::PlayerConfiguration::InputEvent::key(OIS::KC_ESCAPE),"quit") ;
-
-  Kernel::Object* root = model->createObject() ;
-  root->addTrait(new Model::State()) ;
-  root->addTrait(new Model::Active()) ;
-  root->addTrait(new Model::Positionned()) ;
-  root->addTrait(new Model::Oriented()) ;
   
   Kernel::Object* observer = root->createObject() ;
   observer->addTrait(new Model::Observer()) ;
@@ -100,8 +105,11 @@ int main() {
   observer->addTrait(new Model::Positionned(Model::Position::Meter(0,0,-distance.Meter()))) ;
   observer->addTrait(new Model::Oriented()) ;
   observer->addTrait(new Model::State()) ;
+  observer->addTrait(new Kernel::CommandDelegator()) ;
+  
   observer->getTrait<Model::State>()->addCommandAlias("quit","change(quit,Active)") ;
-
+  observer->getTrait<Kernel::CommandDelegator>()->addDelegate(ship) ;
+  
   root->getTrait<Model::State>()->pushState(observer,new Model::Active()) ;
   
   Model::Player::connect(observer,player_configuration) ;
@@ -111,10 +119,7 @@ int main() {
   quit->addTrait(new Model::EndOfSimulation()) ;
   quit->addTrait(new Model::State()) ;
 
-  ship->changeParent(root) ;
   
-  model->init() ;
-
   Kernel::Timer timer ;
   
   while (! model->getRoots().empty())

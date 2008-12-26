@@ -36,11 +36,13 @@ namespace ProjetUnivers {
                                            LogicSystem*                      system)
         : Kernel::Controler<Implementation::ActivatedMission,
                             LogicSystem>(mission,system)
-        {}
+        {
+          InternalMessage("Mission","ActivatedMission::ActivatedMission") ;
+        }
         
         void ActivatedMission::onInit()
         {
-          getObject()->getTrait<Mission>()->load() ;
+          getTrait<Mission>()->load() ;
         }
 
         void ActivatedMission::onClose()

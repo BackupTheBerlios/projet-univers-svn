@@ -106,9 +106,18 @@ namespace ProjetUnivers {
       /// Print operator.
       friend std::ostream& operator<<(std::ostream&,const Unit&) ;
     
+      /// Print operator.
+      friend std::ostream& operator<<(std::ostream&,const Distance&) ;
+      
       /// Comparison.
       bool operator <=(const Distance&) const ;
-    
+      
+      /// Comparison.
+      bool operator >=(const Distance&) const ;
+
+      /// Comparison.
+      bool operator ==(const Distance&) const ;
+      
     // @}
       
     private:

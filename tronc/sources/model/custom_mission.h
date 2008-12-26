@@ -22,7 +22,6 @@
 #define PU_MODEL_CUSTOM_MISSION_H_
 
 #include <model/mission.h>
-#include <model/distance.h>
 #include <model/duration.h>
 
 namespace ProjetUnivers 
@@ -47,20 +46,14 @@ namespace ProjetUnivers
                     Kernel::Object* player_configuration,
                     Kernel::Object* main_menu) ;
 
-      /// Create a new Team.
-      void addTeam(const std::string& name) ;
-
-      /// Access to minimal distance of respawn.
-      Distance getStartingDistance() const ;
+      /// Load the mission. 
+      virtual void load() ;
       
       /// Total mission duration.
       Duration getMissionTotalDuration() const ;
-      
+
       
     private:
-      
-      /// Minimum distance when respawning a group.
-      Distance m_starting_distance ;
       
       /// Duration of the mission.
       Duration m_mission_duration ;

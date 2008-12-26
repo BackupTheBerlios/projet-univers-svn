@@ -30,9 +30,13 @@
 #include <model/computer_data.h>
 #include <model/targeting_system.h>
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers 
+{
+  namespace Model 
+  {
 
+    RegisterTrait(TargetingSystem) ;
+    
     RegisterCommand("Select Next Target",TargetingSystem,selectNextTarget) ;
     RegisterCommand("Select Previous Target",TargetingSystem,selectPreviousTarget) ;
     RegisterCommand("Select Nearest Target",TargetingSystem,selectNearestTarget) ;
@@ -53,6 +57,28 @@ namespace ProjetUnivers {
           system->m_computer = computer ;
         }
       }
+    }
+    
+    Kernel::Trait* TargetingSystem::read(Kernel::Reader* reader)
+    {
+      TargetingSystem* result = new TargetingSystem() ;
+      
+      while (!reader->isEndNode() && reader->processNode())
+      {
+        if (reader->isTraitNode() && 
+            reader->getTraitName() == "ObjectReference")
+        {
+          result->m_computer = Kernel::ObjectReference::read(reader) ;
+        }
+        else 
+        {
+          Trait::read(reader) ;
+        }
+      }
+      
+      reader->processNode() ;
+      
+      return result ;
     }
     
     void TargetingSystem::selectNextTarget()
@@ -274,11 +300,15 @@ namespace ProjetUnivers {
 
     Kernel::Model* TargetingSystem::getComputerModel() const
     {
-      if(!m_computer)
-        return NULL ;
+      Computer* computer ;
       
-      return m_computer->getTrait<Computer>()->getMemoryModel() ;
-    
+      if(!m_computer || !(computer = m_computer->getTrait<Computer>()))
+      {
+        ErrorMessage("TargetingSystem::getComputerModel : no computer") ;
+        return NULL ;
+      }
+      
+      return computer->getMemoryModel() ;
     }
 
     Kernel::Object* TargetingSystem::getComputer() const

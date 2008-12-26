@@ -204,14 +204,14 @@ namespace ProjetUnivers {
         team2->addTrait(new Team("team2")) ;
   
         {
-          Kernel::Object* ship = createShip(system) ;
+          Kernel::Object* ship = loadShip("razor",system) ;
           ship->addTrait(new Transponder(team1)) ;
           ship->getTrait<Positionned>()->setPosition(Position::Meter(0,0,0)) ;
           Kernel::Object* agent = createAI(ship) ;
           agent->getTrait<WithObjectives>()->addObjective(Objective::attackAllEnemies()) ;
         }
         {
-          Kernel::Object* ship = createShip(system) ;
+          Kernel::Object* ship = loadShip("razor",system) ;
           ship->addTrait(new Transponder(team1)) ;
           ship->getTrait<Positionned>()->setPosition(Position::Meter(0,500,0)) ;
           Kernel::Object* agent = createAI(ship) ;
@@ -219,14 +219,14 @@ namespace ProjetUnivers {
         }
   
         {
-          Kernel::Object* ship = createShip(system) ;
+          Kernel::Object* ship = loadShip("razor",system) ;
           ship->addTrait(new Transponder(team2)) ;
           ship->getTrait<Positionned>()->setPosition(Position::Meter(0,0,1100)) ;
           Kernel::Object* agent = createAI(ship) ;
           agent->getTrait<WithObjectives>()->addObjective(Objective::attackAllEnemies()) ;
         }
         {
-          Kernel::Object* ship = createShip(system) ;
+          Kernel::Object* ship = loadShip("razor",system) ;
           ship->addTrait(new Transponder(team2)) ;
           ship->getTrait<Positionned>()->setPosition(Position::Meter(0,0,3000)) ;
           Kernel::Object* agent = createAI(ship) ;
@@ -234,7 +234,7 @@ namespace ProjetUnivers {
         }
         
         {
-          Kernel::Object* ship = createShip(system) ;
+          Kernel::Object* ship = loadShip("razor",system) ;
           ship->addTrait(new Transponder(team1)) ;
           ship->addTrait(new TargetDisplayer()) ;
           TargetDisplayer::connect(ship,ship) ;
@@ -406,6 +406,20 @@ namespace ProjetUnivers {
       connectControlerEngine(engine_control,engine) ;                   
       
       return ship ;
+    }
+
+    Kernel::Object* loadShip(const std::string& name,Kernel::Object* parent)
+    {
+      std::string file_path(findFilePath(name+".ship")) ;
+      
+      if (!file_path.empty())
+      {
+        std::auto_ptr<Kernel::XMLReader> reader(Kernel::XMLReader::getFileReader(file_path)) ;
+        return reader->read(parent) ;
+      }
+
+      ErrorMessage("Cannot locate " + name + ".ship") ;
+      return NULL ;
     }
     
     Kernel::Object* createAI(Kernel::Object* ship)

@@ -32,9 +32,29 @@ namespace ProjetUnivers {
       m_main_menu(main_menu)
     {}
     
+    void Mission::setStartingDistance(const Distance& distance)
+    {
+      m_starting_distance = distance ;
+    }
+    
     void Mission::load()
     {
       Model::loadMission(m_name,getObject(),m_player_configuration,m_main_menu) ;
+    }
+    
+    Kernel::Object* Mission::getSystem() const
+    {
+      return m_system ;
+    }
+    
+    Kernel::Object* Mission::getPlayerConfiguration() const
+    {
+      return m_player_configuration ;
+    }
+
+    Distance Mission::getStartingDistance() const
+    {
+      return m_starting_distance ;
     }
     
   }

@@ -19,6 +19,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include <OgreVector3.h>
+#include <OgreMath.h>
 #include <kernel/log.h>
 #include <model/orientation.h>
 
@@ -37,6 +38,18 @@ namespace ProjetUnivers {
     : m_orientation(_orientation)
     {}
 
+    Orientation Orientation::random()
+    {
+      Ogre::Quaternion quaternion(Ogre::Math::UnitRandom(),
+                                  Ogre::Math::UnitRandom(),
+                                  Ogre::Math::UnitRandom(),
+                                  Ogre::Math::UnitRandom()) ;
+      
+      quaternion.normalise() ;
+      
+      return Orientation(quaternion) ;
+    }
+    
     Orientation Orientation::read(Kernel::Reader* reader)
     {
       std::map<std::string,std::string>::const_iterator finder ; 

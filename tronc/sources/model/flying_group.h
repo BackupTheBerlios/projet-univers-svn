@@ -24,8 +24,12 @@
 #include <string>
 #include <kernel/trait.h>
 
-namespace ProjetUnivers {
-  namespace Model {
+#include <model/objective.h>
+
+namespace ProjetUnivers 
+{
+  namespace Model 
+  {
 
     /// Represents a FlyingGroup.
     /*!
@@ -40,8 +44,43 @@ namespace ProjetUnivers {
       /// Change group's name.
       void setName(const std::string& name) ;
 
+      /// Change ship's name
+      void setShipName(const std::string& name) ;
+      
+      /// Change the number of ships.
+      void setInitialNumberOfShips(const unsigned int&) ;
+      
+      /// Change the fact it has player or not
+      void setHasPlayer(const bool&) ;
+      
+      /// Set the number of creations.
+      void setNumberOfSpawn(const unsigned int&) ;
+      
+      /// A ship was removed.
+      void removeShip() ;
+
+      /// A ship was added.
+      void addShip() ;
+      
       /// Access to name.
       const std::string& getName() const ;
+
+      /// Access to ship's name.
+      const std::string& getShipName() const ;
+      
+      /// Access to maximum number of ships.
+      const unsigned int& getInitialNumberOfShips() const ;
+
+      /// Access to actual number of ships.
+      const unsigned int& getNumberOfShips() const ;
+
+      /// Access to number of lives.
+      const unsigned int& getNumberOfSpawn() const ;
+      
+      /// True iff it has player in it.
+      const bool& hasPlayer() const ;
+      
+      const Objective& getObjective() const ;
       
     private:
 
@@ -51,11 +90,20 @@ namespace ProjetUnivers {
       /// True if it has the player in it.
       bool m_has_player ;
       
-      /// Number of ships in the group
+      /// Initial number of ships in the group
+      unsigned int m_initial_number_of_ships ;
+
+      /// Actual number of ships in the group
       unsigned int m_number_of_ships ;
       
       /// Ship model name.
       std::string m_ship_name ;
+      
+      /// Objective of the group
+      Objective m_objective ;
+      
+      /// Number of times the group is created (at least one)
+      unsigned int m_number_of_spawn ;
       
     };
 

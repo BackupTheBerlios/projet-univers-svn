@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2008 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,12 +18,15 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <kernel/object.h>
 #include <model/physical_object.h>
 #include <model/guidance_system.h>
 #include <model/guidance_controler.h>
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers 
+{
+  namespace Model 
+  {
 
     RegisterTrait(GuidanceSystem) ;
     
@@ -63,7 +66,7 @@ namespace ProjetUnivers {
  
     Ogre::Vector3 GuidanceSystem::NewtonMeter() const
     {
-      if (m_control)
+      if (m_control && m_control->getTrait<GuidanceControler>())
       {
         PhysicalObject* physical_object = getObject()->getParent<PhysicalObject>() ;
         if (physical_object)
@@ -86,7 +89,7 @@ namespace ProjetUnivers {
               find an optimal one.... 
           */
           const Ogre::Quaternion& quaternion 
-            = m_control->getStickOrientation().getQuaternion() ;
+            = m_control->getTrait<GuidanceControler>()->getStickOrientation().getQuaternion() ;
           
   //        std::cout << "pitch=" << quaternion.getPitch().valueRadians()
   //                  << ",Yaw=" << quaternion.getYaw().valueRadians()
@@ -109,6 +112,8 @@ namespace ProjetUnivers {
         }
       }
 
+      ErrorMessage("GuidanceSystem::NewtonMeter no controler") ;
+      
       // Default return value
       return Ogre::Vector3(0,0,0) ;
     }

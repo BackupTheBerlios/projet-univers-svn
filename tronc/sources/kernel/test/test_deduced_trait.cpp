@@ -122,6 +122,8 @@ namespace ProjetUnivers {
            
         };
         
+        class SubTrait : public Trait1
+        {};
         
         class DeducedTrait1 : public Kernel::DeducedTrait
         {}; 
@@ -254,6 +256,34 @@ namespace ProjetUnivers {
         InternalMessage("Kernel","Kernel::Test::TestDeducedTrait::testAnd leaving") ;
       }
 
+      void TestDeducedTrait::testAndOnSubTrait()
+      {
+        InternalMessage("Kernel","Kernel::Test::TestDeducedTrait::testAndOnSubTrait entering") ;
+        /// create a model
+        std::auto_ptr<Model> model(new Model()) ;
+                                    
+        //// fill the model
+        Object* object = model->createObject() ;
+
+        object->addTrait(new SubTrait()) ;
+        /// Check that object has no DeducedTrait1
+        CPPUNIT_ASSERT(! object->getTrait<DeducedTrait1>()) ;
+
+        object->addTrait(new Trait2()) ;
+        /// Check that object has no DeducedTrait1
+        CPPUNIT_ASSERT(! object->getTrait<DeducedTrait1>()) ;
+
+        object->addTrait(new Trait3()) ;
+        /// Check that object has automatically gained DeducedTrait1
+        CPPUNIT_ASSERT(object->getTrait<DeducedTrait1>()) ;
+        
+        object->destroyTrait(object->getTrait<Trait2>()) ;
+        /// Check that object has lost DeducedTrait1
+        CPPUNIT_ASSERT(! object->getTrait<DeducedTrait1>()) ;
+        
+        InternalMessage("Kernel","Kernel::Test::TestDeducedTrait::testAnd leaving") ;
+      }
+      
       void TestDeducedTrait::testOr()
       {
         InternalMessage("Kernel","Kernel::Test::TestDeducedTrait::testOr entering") ;

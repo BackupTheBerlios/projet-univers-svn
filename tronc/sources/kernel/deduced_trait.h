@@ -127,6 +127,15 @@ namespace ProjetUnivers {
                                 DeducedTraitBuilder   builder,
                                 const TypeIdentifier& trait_name) ;
       
+
+      static void addTrait(Object* object,Trait* trait) ;
+      
+      /// Object trait has been updated
+      static void updateTrait(Object* object,Trait* trait) ;
+      
+      static void removeTrait(Object* object,Trait* trait) ;
+      
+      
       /// Calculate initial value.
       /*!
         @todo calculate the object vector once for all...

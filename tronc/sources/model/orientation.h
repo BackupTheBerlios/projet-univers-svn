@@ -51,6 +51,9 @@ namespace ProjetUnivers {
       /// Construct from a quaternion.
       Orientation(const Ogre::Quaternion& _orientation) ; 
 
+      /// COnstruct a random orientation.
+      static Orientation random() ;
+      
       /// Read an Orientation.
       /*!
         stored as 

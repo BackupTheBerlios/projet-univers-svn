@@ -167,9 +167,21 @@ namespace ProjetUnivers {
 
     bool Position::operator==(const Position& position) const
     {
-      return m_value == position.m_value && m_unit == position.m_unit ; 
+      Ogre::Vector3 this_meter(Meter()) ;
+      Ogre::Vector3 position_meter(position.Meter()) ;
+      return this_meter == position_meter ; 
     }
 
+    bool Position::operator<(const Position& position) const
+    {
+      Ogre::Vector3 this_meter(Meter()) ;
+      Ogre::Vector3 position_meter(position.Meter()) ;
+      
+      return (this_meter.x < position_meter.x) || 
+             (this_meter.x == position_meter.x && this_meter.y < position_meter.y) ||
+             (this_meter.x == position_meter.x && this_meter.y == position_meter.y && this_meter.y < position_meter.y) ;
+    }
+    
     Position Position::read(Kernel::Reader* reader)
     {
       Position result(Distance::_Meter,0,0,0) ;

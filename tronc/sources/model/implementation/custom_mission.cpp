@@ -18,6 +18,10 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <kernel/object.h>
+#include <model/positionned.h>
+#include <model/stellar_system.h>
+#include <model/universe.h>
 #include <model/custom_mission.h>
 
 namespace ProjetUnivers {
@@ -29,14 +33,21 @@ namespace ProjetUnivers {
     : Mission(name,player_configuration,main_menu)
     {}
       
-    Distance CustomMission::getStartingDistance() const
-    {
-      return m_starting_distance ;
-    }
-      
     Duration CustomMission::getMissionTotalDuration() const
     {
       return m_mission_duration ;
+    }
+
+    void CustomMission::load()
+    {
+      // setup the system 
+      Kernel::Object* universe = getObject()->createObject() ;
+      universe->addTrait(new Universe()) ;
+      universe->addTrait(new Positionned()) ;
+      
+      m_system = universe->createObject() ;
+      m_system->addTrait(new StellarSystem()) ;
+      m_system->addTrait(new Positionned()) ;
     }
     
   }

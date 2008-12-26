@@ -63,16 +63,14 @@ namespace ProjetUnivers {
     : m_value(_distance.m_value), m_unit(_distance.m_unit)
     {}
     
-    Distance Distance::operator +(const Distance& _distance) const
+    Distance Distance::operator +(const Distance& distance) const
     {
-      /// @todo
-      CHECK(false,"note yet implemented") ;
+      return Distance(_Meter,convert(m_value,m_unit,_Meter)+convert(distance.m_value,distance.m_unit,_Meter)) ;
     }
 
-    Distance Distance::operator -(const Distance& _distance) const
+    Distance Distance::operator -(const Distance& distance) const
     {
-      /// @todo
-      CHECK(false,"note yet implemented") ;
+      return Distance(_Meter,convert(m_value,m_unit,_Meter)-convert(distance.m_value,distance.m_unit,_Meter)) ;
     }
 
     Distance Distance::read(Kernel::Reader* reader)
@@ -218,9 +216,25 @@ namespace ProjetUnivers {
       }
     }
 
+    std::ostream& operator<<(std::ostream& out,const Distance& distance)
+    {
+      out << "Distance(" << distance.m_unit << "," << distance.m_value << ")" ;
+      return out ;
+    }
+    
     bool Distance::operator <=(const Distance& d) const
     {
       return convert(m_value,m_unit,_Meter) <= convert(d.m_value,d.m_unit,_Meter) ;
+    }
+
+    bool Distance::operator >=(const Distance& d) const
+    {
+      return convert(m_value,m_unit,_Meter) >= convert(d.m_value,d.m_unit,_Meter) ;
+    }
+
+    bool Distance::operator ==(const Distance& d) const
+    {
+      return convert(m_value,m_unit,_Meter) == convert(d.m_value,d.m_unit,_Meter) ;
     }
     
     Distance operator*(const Distance& distance,const float& numeric)

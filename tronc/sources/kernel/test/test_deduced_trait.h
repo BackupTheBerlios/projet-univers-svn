@@ -40,6 +40,8 @@ namespace ProjetUnivers {
         /// Tests an And formula.
         void testAnd() ;
 
+        void testAndOnSubTrait() ;
+        
         /// Tests an Or formula.
         void testOr() ;
 
@@ -127,6 +129,7 @@ namespace ProjetUnivers {
         CPPUNIT_TEST_SUITE(TestDeducedTrait) ;
 
         CPPUNIT_TEST(testAnd) ;
+        CPPUNIT_TEST(testAndOnSubTrait) ;
         CPPUNIT_TEST(testOr) ;
         CPPUNIT_TEST(testNot) ;
         CPPUNIT_TEST(testComposite) ;

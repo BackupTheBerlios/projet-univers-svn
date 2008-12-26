@@ -23,9 +23,12 @@
 
 #include <kernel/object_reference.h>
 #include <kernel/trait.h>
+#include <kernel/reader.h>
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers 
+{
+  namespace Model 
+  {
       
     /// Calculate where one should fire.
     class ShootingHelper : public Kernel::Trait
@@ -45,6 +48,18 @@ namespace ProjetUnivers {
                           Kernel::Object* computer,
                           Kernel::Object* laser) ;
 
+      /// Read a ShootingHelper trait.
+      /*!
+        stored as 
+        @code
+          <ShootingHelper>
+            [<ObjectReference ... name="computer"/>]
+            [<ObjectReference ... name="laser"/>]
+          </ShootingHelper>
+        @endcode
+      */     
+      static Kernel::Trait* read(Kernel::Reader* reader) ;
+      
     // @}  
       
       /// Access to Computer.

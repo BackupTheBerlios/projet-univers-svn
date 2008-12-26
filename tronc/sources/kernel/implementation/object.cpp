@@ -40,6 +40,9 @@ namespace ProjetUnivers {
     std::set<const Kernel::Object*> Object::m_already_called_objects ;
     
     std::map<std::string,Kernel::ObjectReference> Object::m_named_objects ;
+    
+    bool Object::m_is_reading = false ;
+    
     namespace 
     {
       int next_identifier = 1 ;
@@ -245,29 +248,27 @@ namespace ProjetUnivers {
 
       i_trait->_create_views() ;
       i_trait->_create_controlers() ;
-      i_trait->_init() ;
 
-      TraitFormula::addTrait(this,trait_name) ;
-      HasParentFormula::addTrait(this,trait_name) ;
-      HasChildFormula::addTrait(this,trait_name) ;
-      
-//      InternalMessage("Kernel","traits number = ") ;
-//      InternalMessage("Kernel",toString(traits.size()).c_str()) ;
-//      InternalMessage("Kernel","Kernel::Object::add(facette)#3") ;
+      if (!m_is_reading)
+      {
+        i_trait->_init() ;
+      }
+
+      DeducedTrait::addTrait(this,i_trait) ;
     }
 
-    Object* Object::_add(Object* i_child)
+    Object* Object::_add(Object* child)
     {
-      CHECK(i_child,
+      CHECK(child,
             "Object::add(Object*) : _object is NULL") ;
 
-      i_child->m_parent = this ;
-      children.insert(i_child) ;
+      child->m_parent = this ;
+      children.insert(child) ;
 
-      /// useless
-      i_child->_init() ;
+      /// useless ?
+      child->_init() ;
 
-      return i_child ;
+      return child ;
     }
 
     Object* Object::_attach(Object* i_child)
@@ -307,7 +308,7 @@ namespace ProjetUnivers {
 
       Trait* trait = traits[i_trait_name] ;
       trait->_close() ;
-      TraitFormula::removeTrait(this,i_trait_name) ;
+      TraitFormula::removeTrait(this,trait) ;
       
       this->traits.erase(i_trait_name) ;
       delete trait ;
@@ -324,9 +325,7 @@ namespace ProjetUnivers {
       TypeIdentifier trait_name(getObjectTypeIdentifier(i_trait)) ;
 
       i_trait->_close() ;
-      TraitFormula::removeTrait(this,trait_name) ;
-      HasParentFormula::removeTrait(this,trait_name) ;
-      HasChildFormula::removeTrait(this,trait_name) ;
+      DeducedTrait::removeTrait(this,i_trait) ;
       
       this->traits.erase(trait_name) ;
       delete i_trait ;
@@ -820,6 +819,17 @@ namespace ProjetUnivers {
       
       return result ;
     }
+    
+    void Object::startReading()
+    {
+      m_is_reading = true ;
+    }
+    
+    void Object::stopReading()
+    {
+      m_is_reading = false ;
+    }
+    
     
   }
 }

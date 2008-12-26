@@ -65,9 +65,9 @@ namespace ProjetUnivers {
     {
       int percentage = 0 ;
 
-      if (m_controler)
+      if (m_controler && m_controler->getTrait<EngineControler>())
       {
-        percentage = m_controler->getPowerPercentage() ;
+        percentage = m_controler->getTrait<EngineControler>()->getPowerPercentage() ;
       }
       else
       {

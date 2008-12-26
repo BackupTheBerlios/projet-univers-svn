@@ -22,15 +22,22 @@
 #define PU_MODEL_ENGINE_CONTROLER_H_
 
 #include <kernel/trait.h>
-#include <kernel/trait_reference.h>
+#include <kernel/object_reference.h>
 #include <kernel/reader.h>
 
 #include <model/engine.h>
 #include <model/oriented.h>
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers 
+{
+  namespace Model 
+  {
 
+    namespace Test
+    {
+      class TestLoad ;
+    }
+    
     /// Connect a throttle to a engine controler. 
     void connectThrottleControler(Kernel::Object* throttle,
                                   Kernel::Object* controler) ;
@@ -67,9 +74,11 @@ namespace ProjetUnivers {
       /*!
         An oriented object whose only interesting value is the Pitch ?
       */
-      Kernel::TraitReference<Oriented> m_throttle ;
+      Kernel::ObjectReference m_throttle ;
 
       friend void connectThrottleControler(Kernel::Object*,Kernel::Object*) ;
+
+      friend class ProjetUnivers::Model::Test::TestLoad ;
     };
     
     

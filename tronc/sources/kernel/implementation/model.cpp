@@ -34,8 +34,10 @@
 #include <typeinfo>
 
 
-namespace ProjetUnivers {
-  namespace Kernel {
+namespace ProjetUnivers 
+{
+  namespace Kernel 
+  {
     
     namespace
     {
@@ -425,7 +427,8 @@ namespace ProjetUnivers {
     
     void Model::addObjectToDestroy(Object* object)
     {
-      m_objects_to_destroy.push_back(object) ;
+      if (! m_destroying)
+        m_objects_to_destroy.push_back(object) ;
     }
     
   }

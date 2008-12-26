@@ -23,9 +23,12 @@
 
 #include <kernel/deduced_trait.h>
 
-namespace ProjetUnivers {
-  namespace Model {
-    namespace Implementation {
+namespace ProjetUnivers 
+{
+  namespace Model 
+  {
+    namespace Implementation 
+    {
           
       /// A target for ShootingHelper
       /*!

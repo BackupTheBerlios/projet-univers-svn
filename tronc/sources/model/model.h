@@ -67,6 +67,12 @@ namespace ProjetUnivers {
     /// Create a ship under @c parent.
     Kernel::Object* createShip(Kernel::Object* parent) ;
     
+    /// Load a ship file by name.
+    /*!
+      Ship files are ending by ".ship".
+    */
+    Kernel::Object* loadShip(const std::string&,Kernel::Object* parent) ;
+    
     /// Create a autonomous agent controling @c ship and inside it.
     Kernel::Object* createAI(Kernel::Object* ship) ;
     

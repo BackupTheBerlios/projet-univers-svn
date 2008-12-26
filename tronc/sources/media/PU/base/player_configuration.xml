@@ -4,7 +4,7 @@
     <PlayerConfiguration>
       <Mapping command="fire">
         <!-- 33 is 'F' -->
-        <JoystickButton number="1"/>
+        <MouseButton number="0"/>
       </Mapping>
       <Mapping command="Menu">
         <!-- 33 is 'escape' -->
@@ -28,11 +28,11 @@
       </Mapping>
       <!-- Yaw is left/right -->
       <Mapping command="Yaw">
-        <JoystickX/>
+        <MouseX/>
       </Mapping>
       <!-- Pitch is up/down -->
       <Mapping command="Pitch">
-        <JoystickY/>
+        <MouseY/>
       </Mapping>
       <!-- Roll is ...? -->
       <Mapping command="Roll">
@@ -40,7 +40,7 @@
       </Mapping>
       <!-- Throttle is ...? -->
       <Mapping command="Throttle">
-        <JoystickThrottle/>
+        <MouseWheel/>
       </Mapping>
     </PlayerConfiguration>
   </object>

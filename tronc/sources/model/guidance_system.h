@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2008 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -21,15 +21,20 @@
 #ifndef PU_MODEL_GUIDANCE_SYSTEM_H_
 #define PU_MODEL_GUIDANCE_SYSTEM_H_
 
-#include <kernel/trait_reference.h>
+#include <kernel/object_reference.h>
 #include <kernel/reader.h>
 
 #include <model/torque_generator.h>
 
-namespace ProjetUnivers {
-  namespace Model {
-    
-    class GuidanceControler ;
+namespace ProjetUnivers 
+{
+  namespace Model 
+  {
+
+    namespace Test
+    {
+      class TestLoad ;
+    }
     
     /// Change direction of a ship.
     /*!
@@ -63,7 +68,7 @@ namespace ProjetUnivers {
     private:
       
       /// Computer that control this system
-      Kernel::TraitReference<GuidanceControler> m_control ;
+      Kernel::ObjectReference m_control ;
       
       /// "force" of the control
       float m_force ;
@@ -71,6 +76,7 @@ namespace ProjetUnivers {
       friend void connectControlerGuidanceSystem(Kernel::Object* controler,
                                                  Kernel::Object* system) ;
       
+      friend class ProjetUnivers::Model::Test::TestLoad ;
     };
     
     

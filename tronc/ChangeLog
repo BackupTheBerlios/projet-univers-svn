@@ -1047,9 +1047,33 @@
       seems due to changing on model/kernel and object destruction.
       Corrected the destroying system
 
+2008-12-27 rogma 
+
+  * All :
+    - changing version to 0.3.2 (but wait for the QA to tag)
+    
+  * Kernel :
+    - bug : loading a ship does not work when object and traits are initialised 
+      during the loading : moved init at the end of loading  
+    - correction on a bug on deduced trait (when using a parent trait in a 
+      formula and adding a sub trait) 
+  
+  * Model :
+    - added ShootingHelper::read
+    - handled custom mission, flying group respawn
+
+  * Ship :
+    - added a basic ship control to test a .ship file
+    
 @todo :
     
-    
+    - bug : adding a mapping on an already assigned key does not worK ?
+    - lack the ability to invert axes in the player configuration file read
+    - lack the ability to save player configuration (should be saved by default
+      on change)
+    - add a mouse cross for mouse piloting
+    - add a speed indicator 
+    - add a damage indicator
     - go back to menu when Player is destroyed is stil not correct : the game 
       viewport is not removed
        
@@ -1059,7 +1083,7 @@
       for teams and handle respawn
       Custom mission controler dealt with victory/ending conditions and leads 
       to game over state
-      Avoid blocking game when player is dead. 
+      Avoid quitting game when player is dead. 
     - considered in a lot of places that Z axis is forward... whereas Ogre 
       consider negative Z as forward ??? 
     - make install does not work on win32 : libtool refuses to link with Ogre 
@@ -1177,6 +1201,7 @@
       @see http://sourceforge.net/projects/quantity ??
     - correct the coordinate system; Stick/Throttle must use correct 
       orientation 
+    - use gccxml to deduce meta structure
       
   * Continuous integration :
     - use cccc

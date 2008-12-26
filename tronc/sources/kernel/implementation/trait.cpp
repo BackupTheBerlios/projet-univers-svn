@@ -488,8 +488,7 @@ namespace ProjetUnivers {
     {
       m_latest_updated_trait.push(getObjectTypeIdentifier(this)) ;
       _updated() ;
-      TraitFormula::updateTrait(getObject(),getObjectTypeIdentifier(this)) ;
-      HasParentFormula::updateTrait(getObject(),getObjectTypeIdentifier(this)) ;
+      DeducedTrait::updateTrait(getObject(),this) ;
       m_latest_updated_trait.pop() ;
     }
 

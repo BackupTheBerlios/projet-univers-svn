@@ -18,6 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <kernel/object.h>
 #include <model/engine.h>
 #include <model/engine_controler.h>
 
@@ -77,10 +78,10 @@ namespace ProjetUnivers {
       int percentage = 0 ;
 
       /// get throttle pitch
-      if (m_throttle)
+      if (m_throttle && m_throttle->getTrait<Oriented>())
       {
         float pitch 
-          = m_throttle->getOrientation().getQuaternion().getPitch().valueDegrees() ;
+          = m_throttle->getTrait<Oriented>()->getOrientation().getQuaternion().getPitch().valueDegrees() ;
         
         percentage = (int)(pitch/0.9) ;
       }

@@ -6,11 +6,14 @@
 		<Positionned/>
 		<Oriented/>
 		<Mobile/>
-		<Computer/>
+		
+    <Computer/>
+    
 		<TargetingSystem>
 			<ObjectReference name="computer" id="1"/>
 		</TargetingSystem>
-		<ShootingHelper>
+		
+    <ShootingHelper>
 			<ObjectReference name="computer" id="1"/>
 			<ObjectReference name="laser" id="2"/>
 		</ShootingHelper>		
@@ -77,20 +80,11 @@
 
 		<!-- The ship's throttle stick -->
 		<object id="7">
-			<Trottle/>
+			<Throttle/>
 			<Positionned/>		
 			<Component/>
 		</object>
 	
-		<!-- The ship's engine -->
-		<object id="8">
-			<Engine>
-				<Force x="0" y="0" z="650"/>
-				<ObjectReference id="9" name="controler"/>
-			</Engine>
-			<Component/>
-		</object>
-		
 		<!-- The ship's engine controler -->
 		<object id="9">
 			<EngineControler>
@@ -99,5 +93,14 @@
 			<Component/>
 		</object>
 
+    <!-- The ship's engine -->
+    <object id="8">
+      <Engine>
+        <Force x="0" y="0" z="650" unit="Newton"/>
+        <ObjectReference id="9" name="controler"/>
+      </Engine>
+      <Component/>
+    </object>
+    
 	</object>
 </model>

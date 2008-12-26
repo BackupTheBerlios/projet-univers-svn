@@ -23,9 +23,12 @@
 
 #include <kernel/object_reference.h>
 #include <kernel/trait.h>
+#include <kernel/reader.h>
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers 
+{
+  namespace Model 
+  {
     
     namespace Implementation
     {
@@ -49,6 +52,17 @@ namespace ProjetUnivers {
       static void connect(Kernel::Object* targeting_system,
                           Kernel::Object* computer) ;
 
+      /// Read a TargetingSystem trait.
+      /*!
+        stored as 
+        @code
+          <TargetingSystem>
+            [<ObjectReference ... [name="computer"]/>]
+          </TargetingSystem>
+        @endcode
+      */     
+      static Kernel::Trait* read(Kernel::Reader* reader) ;
+      
       /// Access to selected target.
       Kernel::Object* getTarget() const ;
 
