@@ -1064,6 +1064,11 @@
 
   * Ship :
     - added a basic ship control to test a .ship file
+
+2008-12-27 rogma 
+
+  * Kernel :
+    - corrected a bug on windows 
     
 @todo :
     
@@ -1205,5 +1210,5 @@
       
   * Continuous integration :
     - use cccc
-    - 
+    - profile with oprofile
   

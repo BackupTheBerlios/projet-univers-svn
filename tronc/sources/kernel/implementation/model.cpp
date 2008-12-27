@@ -87,6 +87,9 @@ namespace ProjetUnivers
       InternalMessage("Kernel","Entering Model::destroyObject") ;
       CHECK(object,"Model::destroyObject no object") ;
       
+      if (m_destroying)
+        return ;
+      
       if (m_is_simulating_controler_set)
       {
         addObjectToDestroy(object) ;

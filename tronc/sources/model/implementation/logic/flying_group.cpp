@@ -31,6 +31,7 @@
 #include <model/player.h>
 #include <model/positionned.h>
 #include <model/sized.h>
+#include <model/state.h>
 #include <model/team.h>
 #include <model/transponder.h>
 #include <model/with_objectives.h>
@@ -104,13 +105,10 @@ namespace ProjetUnivers
             ship->addTrait(new WithFlyingGroup(getTrait<Model::FlyingGroup>())) ;
             ship->addTrait(new Transponder(team->getObject())) ;
 
-            // get ship size
+            // position the ship
             if (i == 1 && ship->getTrait<Sized>())
               radius = 1.5*ship->getTrait<Sized>()->getRadius() ;
-            
-            // calculate local delta
             Distance local = ((i-1)/2)*2*radius+radius ;
-            
             Position delta ;
             if (i%2 == 1)
             {
@@ -122,8 +120,11 @@ namespace ProjetUnivers
             }
             
             if (ship->getTrait<Positionned>())
+            {
               ship->getTrait<Positionned>()->setPosition(starting_position+delta) ;
+            }
             
+            // create the pilot
             Kernel::Object* pilot = ship->createObject() ;
             
             if (i == 1)
@@ -134,6 +135,8 @@ namespace ProjetUnivers
               pilot->addTrait(new Observer()) ;
               
               Player::connect(pilot,mission->getPlayerConfiguration()) ;
+              pilot->addTrait(new State()) ;
+              
             }
             else
             {
