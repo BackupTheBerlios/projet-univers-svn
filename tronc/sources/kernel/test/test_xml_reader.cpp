@@ -236,7 +236,7 @@ namespace ProjetUnivers {
         Object* first ;
         Object* second ;
         
-        CPPUNIT_ASSERT((*iterator)->getTrait<Universe>()||(*iterator)->getTrait<Truc>())
+        CPPUNIT_ASSERT((*iterator)->getTrait<Universe>()||(*iterator)->getTrait<Truc>()) ;
         
         if ((*iterator)->getTrait<Universe>())
         {
