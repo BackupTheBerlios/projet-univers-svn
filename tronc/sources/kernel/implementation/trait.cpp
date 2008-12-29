@@ -340,6 +340,22 @@ namespace ProjetUnivers {
       InternalMessage("Kernel","Entering Trait::_close "+getObjectTypeIdentifier(this).className()) ;
       InternalMessage("Kernel","Trait::_close closing " + toString(m_views.size()) + " views") ;
       
+
+      // first : close dependent traits...
+      std::set<TypeIdentifier> dependent_traits(DeducedTrait::getDependentTraits(this)) ;
+      InternalMessage("Kernel","Trait::_close closing dependent traits : " + toString(dependent_traits.size()) + " traits") ;
+      
+      for(std::set<TypeIdentifier>::const_iterator trait = dependent_traits.begin() ;
+          trait != dependent_traits.end() ;
+          ++trait)
+      {
+        Trait* object_trait = getObject()->getTrait(*trait) ;
+        if (object_trait)
+          object_trait->_close() ;
+      }
+          
+      InternalMessage("Kernel","Trait::_close closed dependent traits") ;
+          
       for(std::multimap<ViewPoint*,BaseTraitView*>::iterator view = m_views.begin() ;
           view != m_views.end() ;
           ++view)

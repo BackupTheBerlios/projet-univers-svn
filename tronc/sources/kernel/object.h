@@ -360,6 +360,8 @@ namespace ProjetUnivers {
       /// Number of true chid formulae indexed by formulae.       
       std::vector<unsigned short>      m_number_of_true_child_formulae ;
 
+      std::string                      m_name ;
+      
       /// Record the objects on which we have already try calling a function
       /*!
         Avoid infinite loops when the structure of CommandDelegator contains a 

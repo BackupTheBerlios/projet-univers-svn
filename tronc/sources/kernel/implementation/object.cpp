@@ -85,6 +85,7 @@ namespace ProjetUnivers {
     void Object::setName(const std::string& name)
     {
       m_named_objects[name] = this ;
+      m_name = name ;
     }
     
     Object* Object::get(const std::string& name)
@@ -220,12 +221,6 @@ namespace ProjetUnivers {
 
     void Object::_add(Trait* i_trait)
     {
-      if (m_deleting)
-      {
-        delete i_trait ;
-        return ;
-      }
-      
       CHECK(i_trait,"Kernel::_add(Trait*) no trait") ;
       InternalMessage("Kernel","added trait " + getObjectTypeIdentifier(i_trait).toString()
                                + " to objectid=" + toString(getIdentifier())) ;
@@ -298,11 +293,6 @@ namespace ProjetUnivers {
 
     void Object::_remove(const TypeIdentifier& i_trait_name)
     {
-      if (m_deleting)
-      {
-        return ;
-      }
-
       InternalMessage("Kernel","removed trait " + i_trait_name.toString()
                                + " to objectid=" + toString(getIdentifier())) ;
 
@@ -316,11 +306,6 @@ namespace ProjetUnivers {
     
     void Object::_remove(Trait* i_trait)
     {
-      if (m_deleting)
-      {
-        return ;
-      }
-      
       CHECK(i_trait,"Kernel::_remove(Trait*) no trait") ;
       TypeIdentifier trait_name(getObjectTypeIdentifier(i_trait)) ;
 
@@ -333,7 +318,6 @@ namespace ProjetUnivers {
 
     Object::~Object()
     {
-      //_close() ;
       m_deleting = true ;
       InternalMessage("Kernel","Destroying object" + toString(m_identifier)) ;
       for(std::map<TypeIdentifier, Trait*>::iterator trait = traits.begin() ;
@@ -358,6 +342,9 @@ namespace ProjetUnivers {
 
     void Object::_init()
     {
+      if (m_deleting)
+        return ;
+      
       for(std::map<TypeIdentifier, Trait*>::iterator trait = traits.begin() ;
           trait != traits.end() ;
           ++trait)
@@ -375,6 +362,9 @@ namespace ProjetUnivers {
     
     void Object::_init(ViewPoint* i_viewpoint)
     {
+      if (m_deleting)
+        return ;
+      
       if (i_viewpoint->isVisible(this))
       {
         for(std::map<TypeIdentifier, Trait*>::iterator trait = traits.begin() ;
@@ -395,6 +385,9 @@ namespace ProjetUnivers {
 
     void Object::_init(ControlerSet* i_controler_set)
     {
+      if (m_deleting)
+        return ;
+      
       if (i_controler_set->isVisible(this))
       {
         for(std::map<TypeIdentifier, Trait*>::iterator trait = traits.begin() ;
@@ -415,7 +408,7 @@ namespace ProjetUnivers {
     
     void Object::_close() 
     {
-      
+      m_deleting = true ;
       for(std::set<Object*>::iterator child = children.begin() ;
           child != children.end() ;
           ++child)

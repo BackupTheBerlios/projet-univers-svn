@@ -30,7 +30,7 @@ namespace ProjetUnivers {
       Complex formula have identifier, while elementary formula (for now 
       TraitFormula) have no need to have an internal identifier.
       
-      Globbally speaking : validity value for each formula are stored in the 
+      Globally speaking : validity value for each formula are stored in the 
       objects (because we expect to have a variable number of objects with a 
       constant number of formula). Elementary changes are propagated in a 
       network, possibly changing the evaluation of complex formulas. 
@@ -64,6 +64,9 @@ namespace ProjetUnivers {
       
       /// Print the formula.
       std::string print() const ;
+      
+      /// Gives the traits directly depending on formula.
+      std::set<TypeIdentifier> getDependentTraits() const ;
       
     protected:
       
@@ -221,6 +224,9 @@ namespace ProjetUnivers {
       /// True iff the formula is valid.
       virtual bool isValid(Object* object) const ;      
       
+      /// Gives the traits directly depending on @c trait.
+      static std::set<TypeIdentifier> getDependentTraits(Trait* trait) ;
+      
     protected:
 
       /// Initial value.
@@ -245,7 +251,7 @@ namespace ProjetUnivers {
       
       /// Find the formulae impacted by trait
       static std::set<TraitFormula*> find(Trait* i_trait) ;
-      
+
       class StaticStorage
       {
       public:
@@ -426,6 +432,9 @@ namespace ProjetUnivers {
       /// Print the formula.
       virtual std::string internalPrint() const ;
 
+      /// Gives the traits directly depending on @c trait.
+      static std::set<TypeIdentifier> getDependentTraits(Trait* trait) ;
+      
     protected:
 
       /// Initial value.
@@ -505,6 +514,10 @@ namespace ProjetUnivers {
       /// Print the formula.
       virtual std::string internalPrint() const ;
 
+      /// Gives the traits directly depending on @c trait.
+      static std::set<TypeIdentifier> getDependentTraits(Trait* trait) ;
+      
+      
     protected:
 
       /// Initial value.

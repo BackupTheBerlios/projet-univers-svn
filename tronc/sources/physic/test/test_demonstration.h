@@ -81,6 +81,8 @@ namespace ProjetUnivers
         /// test engine propulsion.
         void testEngine() ;
 
+        void testMission() ;
+        
       // @}
       /*!
         @name Test registration
@@ -99,6 +101,7 @@ namespace ProjetUnivers
         CPPUNIT_TEST(testNegativeStabilizer) ;
         CPPUNIT_TEST(testStabilizer2) ;
         CPPUNIT_TEST(testEngine) ;
+        CPPUNIT_TEST(testMission) ;
       
         CPPUNIT_TEST_SUITE_END() ;
 

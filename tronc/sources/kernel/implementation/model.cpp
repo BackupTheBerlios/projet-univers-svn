@@ -76,7 +76,15 @@ namespace ProjetUnivers
     Object* Model::createObject(Object* parent)
     {
       Object* result = new Object(this) ;
-      parent->_add(result) ;
+      if (parent->m_deleting)
+      {
+        result->m_deleting = true ;
+        addObjectToDestroy(result) ;
+      }
+      else
+      {
+        parent->_add(result) ;
+      }
       m_objects_by_identifier[result->getIdentifier()] = result ;
       DeducedTrait::evaluateInitial(result) ;
       return result ;
@@ -86,6 +94,8 @@ namespace ProjetUnivers
     {
       InternalMessage("Kernel","Entering Model::destroyObject") ;
       CHECK(object,"Model::destroyObject no object") ;
+      
+      object->m_deleting = true ;
       
       if (m_destroying)
         return ;

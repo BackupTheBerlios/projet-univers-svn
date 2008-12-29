@@ -20,6 +20,7 @@
  ***************************************************************************/
 #include <kernel/log.h>
 #include <model/mission.h>
+#include <model/universe.h>
 #include <model/implementation/logic/activated_mission.h>
 
 namespace ProjetUnivers {
@@ -48,13 +49,12 @@ namespace ProjetUnivers {
         void ActivatedMission::onClose()
         {
           InternalMessage("Mission","Destroying mission content") ;
-          const std::set<Kernel::Object*>& children = getTrait()->getObject()
-                                                      ->getChildren() ;
-          for(std::set<Kernel::Object*>::const_iterator child = children.begin() ; 
-              child != children.end() ;
+          std::set<Universe*> universes = getObject()->getChildren<Universe>() ;
+          for(std::set<Universe*>::const_iterator child = universes.begin() ; 
+              child != universes.end() ;
               ++child)
           {
-            (*child)->destroyObject() ;
+            (*child)->getObject()->destroyObject() ;
           }
         }
 

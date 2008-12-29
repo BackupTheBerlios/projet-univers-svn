@@ -93,8 +93,7 @@ namespace ProjetUnivers {
       };
 
       /// Internal representation.
-      std::string m_representation ;
-      
+      const std::type_info* m_type ;
     };
     
     /// Element that represent no type.

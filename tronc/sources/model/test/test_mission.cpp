@@ -167,6 +167,54 @@ namespace ProjetUnivers
                              system->getChildren<AutonomousCharacter>().size()) ;
 
       }
+
+      void TestMission::initCustomMissionWithOnePlayer()
+      {
+        InternalMessage("Mission","Model::TestMission::initCustomMissionWithOnePlayer entering") ;
+        
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model()) ;
+        model->init() ;
+        
+        Kernel::Object* mission = model->createObject() ;
+        mission->addTrait(new CustomMission("",NULL,NULL)) ;
+
+        {
+          Kernel::Object* team = mission->createObject() ;
+          team->addTrait(new Team("")) ;
+          
+          Kernel::Object* flying_group = team->createObject() ;
+          flying_group->addTrait(new FlyingGroup("")) ;
+          
+          flying_group->getTrait<FlyingGroup>()->setShipName("razor") ;
+          flying_group->getTrait<FlyingGroup>()->setInitialNumberOfShips(3) ;
+          flying_group->getTrait<FlyingGroup>()->setHasPlayer(true) ;
+        }
+
+        {
+          Kernel::Object* team = mission->createObject() ;
+          team->addTrait(new Team("")) ;
+          
+          Kernel::Object* flying_group = team->createObject() ;
+          flying_group->addTrait(new FlyingGroup("")) ;
+          
+          flying_group->getTrait<FlyingGroup>()->setShipName("razor") ;
+          flying_group->getTrait<FlyingGroup>()->setInitialNumberOfShips(3) ;
+          flying_group->getTrait<FlyingGroup>()->setHasPlayer(false) ;
+        }
+        
+        CPPUNIT_ASSERT(!mission->getTrait<Mission>()->getSystem()) ;
+        
+        mission->addTrait(new Played()) ;
+        
+        Kernel::Object* system = mission->getTrait<Mission>()->getSystem() ; 
+        CPPUNIT_ASSERT(system) ;
+        
+        CPPUNIT_ASSERT_EQUAL((unsigned int)1,
+                             system->getChildren<Player>().size()) ;
+        CPPUNIT_ASSERT_EQUAL((unsigned int)5,
+                             system->getChildren<AutonomousCharacter>().size()) ;
+
+      }
       
       void TestMission::initCustomMissionShipsHaveTeam()
       {

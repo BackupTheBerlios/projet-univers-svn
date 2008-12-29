@@ -72,6 +72,8 @@
 #include <model/displayed.h>
 #include <model/with_lifetime.h>
 #include <model/mission.h>
+#include <model/custom_mission.h>
+#include <model/flying_group.h>
 
 #include <model/implementation/model_internal.h>
 #include <model/model.h>
@@ -299,8 +301,29 @@ namespace ProjetUnivers {
         Kernel::Object* mission = root->createObject() ;
         mission->setName("mission") ;
         mission->addTrait(new State()) ;
-        mission->addTrait(new Mission("basic_mission",player_configuration,main_menu_in_game)) ;
-        mission->getTrait<State>()->addCommandAlias("quit","change(main_menu,Displayed)") ;
+        
+        CustomMission* custom = new CustomMission("basic_mission",player_configuration,main_menu_in_game) ; 
+        custom->setStartingDistance(Distance(Distance::_Meter,4000)) ;
+        mission->addTrait(custom) ;
+
+        Kernel::Object* team1 = mission->createObject() ;
+        team1->addTrait(new Team("ally")) ;
+        
+        Kernel::Object* fg1 = team1->createObject() ;
+        fg1->addTrait(new FlyingGroup("ally")) ;
+        fg1->getTrait<FlyingGroup>()->setInitialNumberOfShips(2) ;
+        fg1->getTrait<FlyingGroup>()->setHasPlayer(true) ;
+        fg1->getTrait<FlyingGroup>()->setShipName("razor") ;
+        
+        Kernel::Object* team2 = mission->createObject() ;
+        team2->addTrait(new Team("enemy")) ;
+        
+        Kernel::Object* fg2 = team2->createObject() ;
+        fg2->addTrait(new FlyingGroup("enemy")) ;
+        fg2->getTrait<FlyingGroup>()->setInitialNumberOfShips(3) ;
+        fg2->getTrait<FlyingGroup>()->setNumberOfSpawn(2) ;
+        fg2->getTrait<FlyingGroup>()->setShipName("razor") ;
+        fg2->getTrait<FlyingGroup>()->setHasPlayer(false) ;
       }
       else
       {

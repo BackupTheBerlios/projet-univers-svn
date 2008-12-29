@@ -40,6 +40,7 @@ namespace ProjetUnivers
 
         void initCustomMission() ;
         void initCustomMissionWithPlayer() ;
+        void initCustomMissionWithOnePlayer() ;
         void initCustomMissionShipsHaveTeam() ;
         
         void initCustomMissionShipSpawnAtDistance() ;
@@ -61,6 +62,7 @@ namespace ProjetUnivers
           CPPUNIT_TEST(loadMission) ;
           CPPUNIT_TEST(initCustomMission) ;
           CPPUNIT_TEST(initCustomMissionWithPlayer) ;
+          CPPUNIT_TEST(initCustomMissionWithOnePlayer) ;
           CPPUNIT_TEST(initCustomMissionShipsHaveTeam) ;
           CPPUNIT_TEST(initCustomMissionShipSpawnAtDistance) ;
           CPPUNIT_TEST(initCustomMissionShipSpawn) ;

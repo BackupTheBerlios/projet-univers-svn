@@ -1,6 +1,6 @@
 2007-02-22 rogma 
 
-  * change language to english
+  * change language to English
 
 2007-03-10 rogma 
   
@@ -12,8 +12,8 @@
   
   * kernel : bug corrections : 
     - getTrait made an empty trait (test added)
-    - detroying a model with initialised viewpoint made an error (test added)
-  * model : added functionnalities
+    - destroying a model with initialised viewpoint made an error (test added)
+  * model : added functionalities
     - Positionned now can compute position/orientation relatively to 
       an other object (test added)
     - changes on Position, Orientation
@@ -25,7 +25,7 @@
 
   Work on physic :
   * model : 
-    - Positionned : added set position/orientation relative to any object
+    - Positioned : added set position/orientation relative to any object
   * physic : added modification of Position according to physic simulation
   * kernel :
     - added forAll<View> that allows to call a method on each View element of 
@@ -48,7 +48,7 @@
   * model : 
     - used deduction for physical object, whole and physical world
   * physic
-    - validated deduction usage throught small changes
+    - validated deduction usage through small changes
 
   Demo :
   * kernel :
@@ -63,7 +63,7 @@
 2007-04-22 rogma 
 
   Diverse :
-  * kernel : added meta.h/cpp for centralization of class identification
+  * kernel : added meta.h/cpp for centralisation of class identification
   * all modified makefiles
 
 2007-06-05 rogma 
@@ -79,7 +79,7 @@
 2007-06-10 rogma 
    
    Diverse : 
-   * all : some french comments turned into english
+   * all : some French comments turned into English
    * added codeblocks project for windows compilation
    * remove a bug in kernel
    * small changes in log
@@ -87,7 +87,7 @@
 2007-06-18 rogma 
   
   * input : added mouse.h/cpp and mouse control of an oriented object
-  * model : separation of positionned into positionned and orientated, and 
+  * model : separation of positionned into positionned and oriented, and 
     impact on other modules
   * model : preliminary work on ship control : dragger, shipcontrol traits
   * display : added 3D line display for tests
@@ -97,14 +97,14 @@
   * input : added joystick.h/cpp and control of an oriented object
   * model : small modifications to demonstration model
   * model/stabilizer : correction of a big bug (test added in physic/test); 
-    stabilizer would inc  rease rotation speed iff angular velocity is opposed 
+    stabilizer would increase rotation speed iff angular velocity is opposed 
     to stabilizer axis !!
   * model/ship_control : quite working
   * model/engine_control         CPPUNIT_ASSERT(player_configuration->getViolatingAxes() == std::set<std::string>()) ;
   : working. Tests added.
   * model : semantic modification for Positionned and Oriented, they are now 
     relative to first Positionned/Oriented ancestor. Tests added.
-  * kernel : splitted object.h in two files, added getParentUpTo
+  * kernel : split object.h in two files, added getParentUpTo
 
 2007-07-06 rogma 
 
@@ -119,7 +119,7 @@
 
   * kernel : 
     - added getAncestor<T> for getting first real ancestor having trait T
-    - added static regis  tration for commands
+    - added static registration for commands
   * physic : test of dragger
   * demo : added full piloting of one ship
 
@@ -131,7 +131,7 @@
       for collision
   * physic : major update 'collisions'
     - added mesh collision support
-    - added ODE tests (usefull for testing ODE behaviour when developping)
+    - added ODE tests (useful for testing ODE behaviour when developing)
     - remove TestDemonstration::testModelPositionUpdate because it is a "copy"
       of testSimulateMovingInitialSpeed
     - removed Model::load in all TestDemonstration tests 
@@ -153,7 +153,7 @@
   
   * all : 
     - modified compilation for mingw (windows) compatibility
-  * display : remove circular dependecy between display and display/ogre
+  * display : remove circular dependency between display and display/ogre
   * model : removed a bug from test_laser
 
 2007-08-19 rogma 
@@ -199,7 +199,7 @@
       collision test)
   * display :
     - added laser beam view
-  * kernel : modified RegisterView and RegisterControl to allow vitrual 
+  * kernel : modified RegisterView and RegisterControl to allow virtual 
     inheritance between trait classes. (test added)
   * sound  :
     - small compiling corrections
@@ -230,7 +230,7 @@
   * sound :
     - add listener to replace observer, observe Model::listener
     - add engine_sound, observe Model::engine_sound
-    - sound_emitter now implements default behavior
+    - sound_emitter now implements default behaviour
     - some fix on sound_emitter and sound_listener in properties setting.
     - openal now is configure in software mode, hardware (nvidia integrated shipset in my case)
       don't work for moving alone listener, and later for some effect
@@ -247,11 +247,11 @@
   * model :
     - move sound deduced trait to sound module
   * sound :
-    - rename viewer and refactor to not have conflit with deduced trait now in sound module
+    - rename viewer and refactor to not have conflict with deduced trait now in sound module
   * note : 
     - Log can cause bug, the kernel begin to be too verbose ~20mo/sec in the 
       test_cone_propertie.
-      Exemple: the sound buffer becomes empty and the sound stop, because i 
+      Example: the sound buffer becomes empty and the sound stop, because i 
       can't write on the hard disk the log's flow when an application use 
       another sector of the hard disk.
   
@@ -260,7 +260,7 @@
   * kernel :
     - Parameters.cxx: add exception when the parameter name in getValue() doesn't exist
   * sound :
-    - SoundListener: refactor, implements a default behavior like SoundEmitter
+    - SoundListener: refactor, implements a default behaviour like SoundEmitter
     - OpenAL: 
       > add initialisation in software or hardware mode according to the configuration file
       > add parameter for attenuation model choice
@@ -1069,6 +1069,15 @@
 
   * Kernel :
     - corrected a bug on windows 
+
+2008-12-29 rogma 
+
+  * Model :
+    - corrected a bug on custom mission : each flying group had its player
+  * Kernel :
+    - optimisation for TypeIdentifier
+    - corrected a bug on sequence : destroying and object whose destruction 
+      create other objects under those destroyed. 
     
 @todo :
     

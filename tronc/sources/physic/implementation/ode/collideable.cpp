@@ -96,22 +96,27 @@ namespace ProjetUnivers {
         {
           InternalMessage("Physic","Physic::Ode::Collideable::onCloseCollideable entering") ;
 
-          if (m_geometry1)
-          {
-            dGeomDestroy(m_geometry1) ;
-            m_geometry1 = 0 ;
-          }
-          if (m_geometry2)
-          {
-            dGeomDestroy(m_geometry2) ;
-            m_geometry2 = 0 ;
-          }
-          if (m_geometry_placeable)
-          {
-            dGeomDestroy(m_geometry_placeable) ;
-            m_geometry_placeable = 0 ;
-          }
+          PhysicalObject* body = getPhysicalObject(getControler()) ;
 
+          if (body)
+          {
+            if (m_geometry1)
+            {
+              dGeomDestroy(m_geometry1) ;
+              m_geometry1 = 0 ;
+            }
+            if (m_geometry2)
+            {
+              dGeomDestroy(m_geometry2) ;
+              m_geometry2 = 0 ;
+            }
+            if (m_geometry_placeable)
+            {
+              dGeomDestroy(m_geometry_placeable) ;
+              m_geometry_placeable = 0 ;
+            }
+          }
+          
           InternalMessage("Physic","Physic::Ode::Collideable::onCloseCollideable leaving") ;
         }
 

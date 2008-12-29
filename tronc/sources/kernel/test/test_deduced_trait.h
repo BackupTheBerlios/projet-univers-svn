@@ -123,6 +123,8 @@ namespace ProjetUnivers {
         */
         void changeParentHasChildBecomeTrue() ;
         
+        void getDependentTraits() ;
+        
       // @}
 
 
@@ -157,6 +159,7 @@ namespace ProjetUnivers {
         CPPUNIT_TEST(addChildTrait) ;
         CPPUNIT_TEST(removeChildTrait) ;
         CPPUNIT_TEST(changeParentHasChildBecomeTrue) ;
+        CPPUNIT_TEST(getDependentTraits) ;
         
         CPPUNIT_TEST_SUITE_END() ;
 

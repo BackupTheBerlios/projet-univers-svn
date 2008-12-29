@@ -24,6 +24,7 @@
 #include <model/area.h>
 #include <model/autonomous_character.h>
 #include <model/custom_mission.h>
+#include <model/destroyable.h>
 #include <model/flying_group.h>
 #include <model/mission.h>
 #include <model/observer.h>
@@ -32,6 +33,7 @@
 #include <model/positionned.h>
 #include <model/sized.h>
 #include <model/state.h>
+#include <model/target_displayer.h>
 #include <model/team.h>
 #include <model/transponder.h>
 #include <model/with_objectives.h>
@@ -88,6 +90,7 @@ namespace ProjetUnivers
         
         void FlyingGroup::onInit()
         {
+          InternalMessage("Mission","FlyingGroup::onInit") ;
           Position starting_position(getStartingPosition()) ;
           Distance radius ;
           
@@ -104,7 +107,9 @@ namespace ProjetUnivers
             Kernel::Object* ship = Model::loadShip(group->getShipName(),system) ;
             ship->addTrait(new WithFlyingGroup(getTrait<Model::FlyingGroup>())) ;
             ship->addTrait(new Transponder(team->getObject())) ;
-
+            
+            ship->setName("ship #" + Kernel::toString(i) + " " + team->getName() + " "  + group->getName()) ;
+            
             // position the ship
             if (i == 1 && ship->getTrait<Sized>())
               radius = 1.5*ship->getTrait<Sized>()->getRadius() ;
@@ -127,8 +132,11 @@ namespace ProjetUnivers
             // create the pilot
             Kernel::Object* pilot = ship->createObject() ;
             
-            if (i == 1)
+            if (i == 1 && group->hasPlayer())
             {
+              ship->addTrait(new TargetDisplayer()) ;
+              TargetDisplayer::connect(ship,ship) ;
+              
               pilot->addTrait(new Positionned()) ;
               pilot->addTrait(new Oriented()) ;
               pilot->addTrait(new Player()) ;
@@ -136,6 +144,8 @@ namespace ProjetUnivers
               
               Player::connect(pilot,mission->getPlayerConfiguration()) ;
               pilot->addTrait(new State()) ;
+              pilot->getTrait<State>()->addCommandAlias("Menu","push(main_menu_in_game,Displayed)") ;
+              pilot->getTrait<State>()->setCommandOnQuit("change(main_menu,Displayed)") ;
               
             }
             else
@@ -152,6 +162,7 @@ namespace ProjetUnivers
           }
           
           ++m_number_of_spawn ;
+          InternalMessage("Mission","FlyingGroup::onInit") ;
         }
 
         void FlyingGroup::onUpdate()

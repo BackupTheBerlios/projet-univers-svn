@@ -150,6 +150,9 @@ namespace ProjetUnivers {
 
       /// Print all the registered deducedtrait.
       static std::string printDeclarations() ;
+
+      /// Gives the traits directly depending on @c trait.
+      static std::set<TypeIdentifier> getDependentTraits(Trait* trait) ;
       
     protected: 
     
@@ -167,7 +170,7 @@ namespace ProjetUnivers {
       /// Notify that @c formula is updated on @c object
       static void update(Formula* formula,
                          Object*  object) ;
-
+      
       class StaticStorage
       {
       public:

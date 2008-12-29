@@ -378,6 +378,80 @@ namespace ProjetUnivers {
     DeducedTrait::DeducedTrait()
     {}
 
+    std::set<TypeIdentifier> Formula::getDependentTraits() const
+    {
+      std::set<TypeIdentifier> result ;
+      
+      std::map<Formula*,TypeIdentifier>::const_iterator finder = 
+        DeducedTrait::StaticStorage::get()->m_destructors.find((Formula*)this) ;
+      
+      if (finder != DeducedTrait::StaticStorage::get()->m_destructors.end())
+        
+        result.insert(finder->second) ;
+      
+      for(std::set<Formula*>::const_iterator parent = m_parents.begin() ;
+          parent != m_parents.end() ;
+          ++parent)
+      {
+        std::set<TypeIdentifier> temp((*parent)->getDependentTraits()) ;
+        result.insert(temp.begin(),temp.end()) ;
+      }
+      
+      return result ;
+    }
+    
+    std::set<TypeIdentifier> DeducedTrait::getDependentTraits(Trait* trait)
+    {
+      std::set<TypeIdentifier> result(TraitFormula::getDependentTraits(trait)) ;
+      std::set<TypeIdentifier> temp1(HasParentFormula::getDependentTraits(trait)) ;
+      std::set<TypeIdentifier> temp2(HasChildFormula::getDependentTraits(trait)) ;
+      result.insert(temp1.begin(),temp1.end()) ;
+      result.insert(temp2.begin(),temp2.end()) ;
+      return result ;
+    }
+
+    std::set<TypeIdentifier> TraitFormula::getDependentTraits(Trait* trait)
+    {
+      std::set<TypeIdentifier> result ;
+      std::set<TraitFormula*> formulae(find(trait)) ;
+      for(std::set<TraitFormula*>::const_iterator formula = formulae.begin() ;
+          formula != formulae.end() ;
+          ++formula)
+      {
+        std::set<TypeIdentifier> temp(((Formula*)*formula)->getDependentTraits()) ;
+        result.insert(temp.begin(),temp.end()) ;
+      }
+      return result ;
+    }
+
+    std::set<TypeIdentifier> HasParentFormula::getDependentTraits(Trait* trait)
+    {
+      std::set<TypeIdentifier> result ;
+      std::set<HasParentFormula*> formulae(find(trait)) ;
+      for(std::set<HasParentFormula*>::const_iterator formula = formulae.begin() ;
+          formula != formulae.end() ;
+          ++formula)
+      {
+        std::set<TypeIdentifier> temp(((Formula*)*formula)->getDependentTraits()) ;
+        result.insert(temp.begin(),temp.end()) ;
+      }
+      return result ;
+    }
+    
+    std::set<TypeIdentifier> HasChildFormula::getDependentTraits(Trait* trait)
+    {
+      std::set<TypeIdentifier> result ;
+      std::set<HasChildFormula*> formulae(find(trait)) ;
+      for(std::set<HasChildFormula*>::const_iterator formula = formulae.begin() ;
+          formula != formulae.end() ;
+          ++formula)
+      {
+        std::set<TypeIdentifier> temp(((Formula*)*formula)->getDependentTraits()) ;
+        result.insert(temp.begin(),temp.end()) ;
+      }
+      return result ;
+    }
+    
     std::string DeducedTrait::printDeclarations()
     {
       std::string result ;

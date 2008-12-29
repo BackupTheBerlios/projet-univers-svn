@@ -34,7 +34,7 @@
 
 		<Detector>
 			<ObjectReference id="1" name="computer"/>
-			<Distance value="8000" unit="Meter" name="range"/>
+			<Distance value="10000" unit="Meter" name="range"/>
 		</Detector>
 
 		<Massive>

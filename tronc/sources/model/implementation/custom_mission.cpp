@@ -44,10 +44,12 @@ namespace ProjetUnivers {
       Kernel::Object* universe = getObject()->createObject() ;
       universe->addTrait(new Universe()) ;
       universe->addTrait(new Positionned()) ;
-      
+      universe->setName("universe") ;
+
       m_system = universe->createObject() ;
       m_system->addTrait(new StellarSystem()) ;
       m_system->addTrait(new Positionned()) ;
+      m_system->setName("system") ;
     }
     
   }
