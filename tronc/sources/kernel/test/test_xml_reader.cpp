@@ -231,15 +231,26 @@ namespace ProjetUnivers {
         
         std::set<Object*> roots(model->getRoots()) ;
         CPPUNIT_ASSERT(roots.size()==2) ;
-        Object* first = *roots.begin() ;
-        CPPUNIT_ASSERT(first) ;        
-        CPPUNIT_ASSERT(first->getTrait<Universe>()) ;        
-        std::set<Object*> children = first->getChildren() ;
-        CPPUNIT_ASSERT(children.size()==2) ;
+        
         std::set<Object*>::const_iterator iterator = roots.begin() ;
-        ++iterator ;
-        Object* second = *iterator ;
-        CPPUNIT_ASSERT(second) ;
+        Object* first ;
+        Object* second ;
+        
+        CPPUNIT_ASSERT((*iterator)->getTrait<Universe>()||(*iterator)->getTrait<Truc>())
+        
+        if ((*iterator)->getTrait<Universe>())
+        {
+          first = *iterator ;
+          ++iterator ;
+          second = *iterator ;
+        }
+        else
+        {
+          second = *iterator ;
+          ++iterator ;
+          first = *iterator ;
+        }
+        
         CPPUNIT_ASSERT(second->getTrait<Truc>()) ;
         CPPUNIT_ASSERT(second->getTrait<Truc>()->getReference()) ;
         CPPUNIT_ASSERT(second->getTrait<Truc>()->getReference() == first) ;
