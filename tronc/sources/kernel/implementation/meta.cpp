@@ -30,36 +30,36 @@ namespace ProjetUnivers {
     }
     
     TypeIdentifier::TypeIdentifier()
-    : m_type(&typeid(void))
+    : m_representation(typeid(void).name())
     {}
 
     TypeIdentifier::TypeIdentifier(const std::type_info& i_name)
-    : m_type(&i_name)
+    : m_representation(i_name.name())
     {}
 
     TypeIdentifier::TypeIdentifier(const TypeIdentifier& i_type_identifier)
-    : m_type(i_type_identifier.m_type)
+    : m_representation(i_type_identifier.m_representation)
     {}
 
     TypeIdentifier::TypeIdentifier(
       const std::type_info& i_name,
       boost::function1<bool,Trait*> i_object_test)
-    : m_type(&i_name)
+    : m_representation(i_name.name())
     {
       StaticStorage::get()->m_instance_tests.insert(
           std::pair<TypeIdentifier,
-                    boost::function1<bool,Trait*> >(*this,
+                    boost::function1<bool,Trait*> >(TypeIdentifier(i_name),
                                                     i_object_test)) ;
     }
     
     std::string TypeIdentifier::toString() const
     {
-      return m_type->name() ;
+      return m_representation ;
     }
     
     bool TypeIdentifier::operator <(const TypeIdentifier& i_type_identifier) const
     {
-      return m_type < (i_type_identifier.m_type) ;
+      return m_representation < (i_type_identifier.m_representation) ;
     }
 
     bool TypeIdentifier::isInstance(Trait* i_object) const 
@@ -80,12 +80,12 @@ namespace ProjetUnivers {
     
     bool TypeIdentifier::operator==(const TypeIdentifier& i_type_identifier) const
     {
-      return m_type == i_type_identifier.m_type ;
+      return m_representation == i_type_identifier.m_representation ;
     }
 
     bool TypeIdentifier::operator!=(const TypeIdentifier& i_type_identifier) const
     {
-      return m_type != i_type_identifier.m_type ;
+      return m_representation != i_type_identifier.m_representation ;
     }
 
     std::pair<int,int> getNumber(const std::string& name, const std::string::size_type& position)
@@ -119,7 +119,7 @@ namespace ProjetUnivers {
     std::string TypeIdentifier::className() const
     {
       std::string::size_type position = 0 ;
-      std::string name(m_type->name()) ;
+      std::string name(m_representation) ;
     
       if (name[position] == 'N')
       {
@@ -149,7 +149,7 @@ namespace ProjetUnivers {
     {
       if (this != &type_identifier)
       {
-        m_type = type_identifier.m_type ;
+        m_representation = type_identifier.m_representation ;
       }
       return *this ;
     }

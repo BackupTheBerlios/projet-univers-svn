@@ -130,11 +130,12 @@ namespace ProjetUnivers
           }
         }
         
-        CPPUNIT_ASSERT(KeyboardListener::m_count == 
-                       simulation_time/
-                       Kernel::Parameters::getValue<float>("Input",
-                                                           "AutoRepeatDelay",
-                                                           Implementation::OIS::default_autorepeat_delay)) ;
+        CPPUNIT_ASSERT_EQUAL((unsigned int)(simulation_time/
+                             Kernel::Parameters::getValue<float>(
+                                 "Input",
+                                 "AutoRepeatDelay",
+                                 Implementation::OIS::default_autorepeat_delay)),
+                             KeyboardListener::m_count) ;
         
         InternalMessage("Input","Input::TestInputSystem::testKeyboardAutoRepeat leaving") ;
         
