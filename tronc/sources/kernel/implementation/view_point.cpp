@@ -27,8 +27,10 @@
 #include <kernel/view_point.h>
 
 
-namespace ProjetUnivers {
-  namespace Kernel {
+namespace ProjetUnivers 
+{
+  namespace Kernel 
+  {
 
     ViewPoint::StaticStorage* ViewPoint::StaticStorage::get()
     {
@@ -38,9 +40,7 @@ namespace ProjetUnivers {
 
     ViewPoint::~ViewPoint()
     {
-      InternalMessage("Kernel","ViewPoint::~ViewPoint destroying") ;
       this->close() ;
-      InternalMessage("Kernel","ViewPoint::~ViewPoint destroyed") ;
     }
 
     ViewPoint::ViewPoint(Model* model)
@@ -73,18 +73,14 @@ namespace ProjetUnivers {
 
     void ViewPoint::close()
     {
-      InternalMessage("Kernel",std::string("ViewPoint::close Entering ") + 
-                               typeid(*this).name()) ;
       if (m_initialised && m_model)
       {
         /// must close all the objects according to current viewpoint
         m_model->_close(this) ;
 
-        InternalMessage("Kernel","ViewPoint::close #1") ;
         /// call local close for viewpoint
         onClose() ;
 
-        InternalMessage("Kernel","ViewPoint::close #2") ;
       }
 
       if (m_model)
@@ -94,12 +90,10 @@ namespace ProjetUnivers {
         m_model_attached = false ;
         m_initialised = false ;
       }
-      InternalMessage("Kernel","ViewPoint::close Leaving") ;
     }
     
     void ViewPoint::setModel(Model* model)
     {
-      InternalMessage("Kernel","ViewPoint::setModel Entering") ;
       if (m_initialised && m_model)
       {
         /// must close all the objects according to current viewpoint
@@ -115,7 +109,6 @@ namespace ProjetUnivers {
         m_model->_init(this) ;
         m_model_attached = true ;
       }
-      InternalMessage("Kernel","ViewPoint::setModel Entering") ;
     }
     
     Model* ViewPoint::getModel() const

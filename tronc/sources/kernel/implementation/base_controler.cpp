@@ -23,8 +23,10 @@
 
 #include <kernel/controler.h>
 
-namespace ProjetUnivers {
-  namespace Kernel {
+namespace ProjetUnivers 
+{
+  namespace Kernel 
+  {
 
     Object* BaseControler::getObject() const
     {

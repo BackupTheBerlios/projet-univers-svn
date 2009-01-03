@@ -25,9 +25,12 @@
 CPPUNIT_TEST_SUITE_REGISTRATION(
     ProjetUnivers::Kernel::Test::TestParameters) ;
 
-namespace ProjetUnivers {
-  namespace Kernel {
-    namespace Test {
+namespace ProjetUnivers 
+{
+  namespace Kernel 
+  {
+    namespace Test 
+    {
 
       void TestParameters::basicTest()
       {
@@ -61,14 +64,6 @@ namespace ProjetUnivers {
         CPPUNIT_ASSERT(*logs.begin() == "module2") ;
       }
       
-      void TestParameters::setUp()
-      {
-      }
-
-      void TestParameters::tearDown()
-      {
-      }
-
     }
   }
 }

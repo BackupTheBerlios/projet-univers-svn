@@ -23,21 +23,16 @@
 
 #include <cppunit/extensions/HelperMacros.h>
 
-namespace ProjetUnivers {
-  namespace Kernel {
-    namespace Test {
-
+namespace ProjetUnivers 
+{
+  namespace Kernel 
+  {
+    namespace Test 
+    {
 
       ///  Test for ViewPoint registration.
-      class TestViewPointRegistration : public CppUnit::TestFixture {
-      public:
-        
-        /// Tests setup
-        void setUp() ;
-
-        /// Tests close.
-        void tearDown() ;
-
+      class TestViewPointRegistration : public CppUnit::TestFixture 
+      {
       protected:
 
       /// @name Tests methods

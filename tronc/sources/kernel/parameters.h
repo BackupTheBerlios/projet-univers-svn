@@ -27,8 +27,10 @@
 #include <memory>
 #include <boost/variant.hpp>
 
-namespace ProjetUnivers {
-  namespace Kernel {
+namespace ProjetUnivers 
+{
+  namespace Kernel 
+  {
 
     /// Handle parameters loaded from a configuration file.  
     class Parameters 

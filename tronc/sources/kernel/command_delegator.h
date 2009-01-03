@@ -24,8 +24,10 @@
 #include <kernel/trait.h>
 #include <kernel/object_reference.h>
 
-namespace ProjetUnivers {
-  namespace Kernel {
+namespace ProjetUnivers 
+{
+  namespace Kernel 
+  {
    
     /// A predefined trait that delegates command to other objects 
     /*!

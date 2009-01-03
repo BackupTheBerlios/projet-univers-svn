@@ -23,8 +23,10 @@
 
 #include <boost/timer.hpp>
 
-namespace ProjetUnivers {
-  namespace Kernel {
+namespace ProjetUnivers 
+{
+  namespace Kernel 
+  {
 
     /// Something that measure time.
     class Timer

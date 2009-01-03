@@ -20,8 +20,10 @@
  ***************************************************************************/
 #include <kernel/meta.h>
 
-namespace ProjetUnivers {
-  namespace Kernel {
+namespace ProjetUnivers 
+{
+  namespace Kernel 
+  {
 
     TypeIdentifier::StaticStorage* TypeIdentifier::StaticStorage::get()
     {
@@ -30,11 +32,11 @@ namespace ProjetUnivers {
     }
     
     TypeIdentifier::TypeIdentifier()
-    : m_representation(typeid(void).name())
+    : m_representation(&typeid(void))
     {}
 
     TypeIdentifier::TypeIdentifier(const std::type_info& i_name)
-    : m_representation(i_name.name())
+    : m_representation(&i_name)
     {}
 
     TypeIdentifier::TypeIdentifier(const TypeIdentifier& i_type_identifier)
@@ -44,27 +46,28 @@ namespace ProjetUnivers {
     TypeIdentifier::TypeIdentifier(
       const std::type_info& i_name,
       boost::function1<bool,Trait*> i_object_test)
-    : m_representation(i_name.name())
+    : m_representation(&i_name)
     {
         
-      if (StaticStorage::get()->m_instance_tests.find(TypeIdentifier(i_name)) == 
+      TypeIdentifier id(i_name) ;
+      
+      if (StaticStorage::get()->m_instance_tests.find(id) == 
           StaticStorage::get()->m_instance_tests.end())
       {
         StaticStorage::get()->m_instance_tests.insert( 
-            std::pair<TypeIdentifier,
-                      boost::function1<bool,Trait*> >(TypeIdentifier(i_name),
-                                                      i_object_test)) ;
+            std::make_pair<TypeIdentifier,
+                      boost::function1<bool,Trait*> >(id,i_object_test)) ;
       }
     }
     
     std::string TypeIdentifier::toString() const
     {
-      return m_representation ;
+      return m_representation->name() ;
     }
     
     bool TypeIdentifier::operator <(const TypeIdentifier& i_type_identifier) const
     {
-      return m_representation < (i_type_identifier.m_representation) ;
+      return m_representation->before(*i_type_identifier.m_representation) ;
     }
 
     bool TypeIdentifier::isInstance(Trait* i_object) const 
@@ -85,12 +88,12 @@ namespace ProjetUnivers {
     
     bool TypeIdentifier::operator==(const TypeIdentifier& i_type_identifier) const
     {
-      return m_representation == i_type_identifier.m_representation ;
+      return *m_representation == *i_type_identifier.m_representation ;
     }
 
     bool TypeIdentifier::operator!=(const TypeIdentifier& i_type_identifier) const
     {
-      return m_representation != i_type_identifier.m_representation ;
+      return *m_representation != *i_type_identifier.m_representation ;
     }
 
     std::pair<int,int> getNumber(const std::string& name, const std::string::size_type& position)
@@ -124,7 +127,7 @@ namespace ProjetUnivers {
     std::string TypeIdentifier::className() const
     {
       std::string::size_type position = 0 ;
-      std::string name(m_representation) ;
+      std::string name(m_representation->name()) ;
     
       if (name[position] == 'N')
       {

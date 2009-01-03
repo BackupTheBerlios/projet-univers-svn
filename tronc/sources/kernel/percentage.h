@@ -21,8 +21,10 @@
 #ifndef PU_KERNEL_PERCENTAGE_H_
 #define PU_KERNEL_PERCENTAGE_H_
 
-namespace ProjetUnivers {
-  namespace Kernel {
+namespace ProjetUnivers 
+{
+  namespace Kernel 
+  {
 
     /// Class representing a percentage positive or negative.
     class Percentage

@@ -25,13 +25,16 @@
 #include <cppunit/extensions/HelperMacros.h>
 #include <kernel/error.h>
 
-namespace ProjetUnivers {
-  namespace Kernel {
-    namespace Test {
-
+namespace ProjetUnivers 
+{
+  namespace Kernel 
+  {
+    namespace Test 
+    {
 
       /// Test .
-      class TestError : public CppUnit::TestFixture {
+      class TestError : public CppUnit::TestFixture 
+      {
       protected:
 
   
@@ -56,13 +59,6 @@ namespace ProjetUnivers {
         CPPUNIT_TEST_SUITE_END() ;
 
       // @}
-      public:
-
-        /// Tests setup
-        void setUp() ;
-
-        /// Tests close.
-        void tearDown() ;
       };
 
     }

@@ -23,8 +23,10 @@
 
 #include <string>
 #include <sstream>
-namespace ProjetUnivers {
-  namespace Kernel {
+namespace ProjetUnivers 
+{
+  namespace Kernel 
+  {
     
     /// Convert numeric to string.
     std::string toString(const float& _i) ;

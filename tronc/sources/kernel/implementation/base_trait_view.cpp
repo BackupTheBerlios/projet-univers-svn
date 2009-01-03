@@ -23,8 +23,10 @@
 #include <kernel/trait.h>
 #include <kernel/base_trait_view.h>
 
-namespace ProjetUnivers {
-  namespace Kernel {
+namespace ProjetUnivers 
+{
+  namespace Kernel 
+  {
 
     void BaseTraitView::_init()
     {

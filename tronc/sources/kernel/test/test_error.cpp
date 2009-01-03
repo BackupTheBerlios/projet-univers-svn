@@ -26,9 +26,12 @@
 CPPUNIT_TEST_SUITE_REGISTRATION(
   ProjetUnivers::Kernel::Test::TestError) ;
 
-namespace ProjetUnivers {
-  namespace Kernel {
-    namespace Test {
+namespace ProjetUnivers 
+{
+  namespace Kernel 
+  {
+    namespace Test 
+    {
 
       namespace
       {
@@ -52,14 +55,6 @@ namespace ProjetUnivers {
           // ok
           CPPUNIT_ASSERT(true) ;
         }
-      }
-
-      void TestError::setUp()
-      {        
-      }
-
-      void TestError::tearDown()
-      {
       }
 
     }

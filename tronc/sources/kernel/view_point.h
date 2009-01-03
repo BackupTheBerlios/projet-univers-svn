@@ -29,8 +29,10 @@
 #include <kernel/object.h>
 #include <kernel/model.h>
 
-namespace ProjetUnivers {
-  namespace Kernel {
+namespace ProjetUnivers 
+{
+  namespace Kernel 
+  {
     
     class Trait ;
     class BaseTraitView ;

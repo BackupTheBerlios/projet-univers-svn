@@ -21,8 +21,10 @@
 #include <kernel/exception_kernel.h>
 #include <kernel/log.h>
 
-namespace ProjetUnivers {
-  namespace Kernel {
+namespace ProjetUnivers 
+{
+  namespace Kernel 
+  {
 
     template <typename T>
     T Parameters::getValue(const std::string& section,

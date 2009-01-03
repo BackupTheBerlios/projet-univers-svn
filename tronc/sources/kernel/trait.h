@@ -31,8 +31,10 @@
 #include <kernel/log.h>
 #include <kernel/string.h>
 
-namespace ProjetUnivers {
-  namespace Kernel {
+namespace ProjetUnivers 
+{
+  namespace Kernel 
+  {
   
     class Object ;
     class BaseTraitView ;

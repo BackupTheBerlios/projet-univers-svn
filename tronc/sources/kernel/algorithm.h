@@ -24,11 +24,14 @@
 #include <set>
 #include <OgreVector3.h>
 
-namespace ProjetUnivers {
-  namespace Kernel {
+namespace ProjetUnivers 
+{
+  namespace Kernel 
+  {
     
     /// Utility algorithms
-    namespace Algorithm {
+    namespace Algorithm 
+    {
 
       /// Get the next @c s element after @c object
       /*!

@@ -22,8 +22,10 @@
 #include <libxml/xmlreader.h>
 #include <kernel/xml_reader.h>
 
-namespace ProjetUnivers {
-  namespace Kernel {
+namespace ProjetUnivers 
+{
+  namespace Kernel 
+  {
 
     namespace libxml {
       namespace NodeType {

@@ -37,8 +37,10 @@
 #include <kernel/trait.h>
 
 
-namespace ProjetUnivers {
-  namespace Kernel {
+namespace ProjetUnivers 
+{
+  namespace Kernel 
+  {
 
     class Trait ;
     class Model ;

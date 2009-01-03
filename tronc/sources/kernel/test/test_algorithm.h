@@ -23,20 +23,16 @@
 
 #include <cppunit/extensions/HelperMacros.h>
 
-namespace ProjetUnivers {
-  namespace Kernel {
-    namespace Test {
+namespace ProjetUnivers 
+{
+  namespace Kernel 
+  {
+    namespace Test 
+    {
 
       ///  Test for Algorithm functions.
-      class TestAlgorithm : public CppUnit::TestFixture {
-      public:
-
-        /// Tests setup.
-        void setUp() ;
-
-        /// Tests close.
-        void tearDown() ;
-
+      class TestAlgorithm : public CppUnit::TestFixture 
+      {
       protected:
 
       /// @name Tests methods

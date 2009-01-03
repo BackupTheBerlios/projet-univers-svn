@@ -20,9 +20,10 @@
  ***************************************************************************/
 #include <kernel/exception.h>
 
-namespace ProjetUnivers {
-  namespace Kernel {    
-    
+namespace ProjetUnivers 
+{
+  namespace Kernel 
+  {    
     
     Exception::Exception
         (const std::string& _message,
@@ -37,7 +38,6 @@ namespace ProjetUnivers {
     Exception::Exception(const Exception& x)
       : message(x.message),numeroErreur(x.numeroErreur)
     {}
-    
     
     std::string Exception::Message() const {
     

@@ -24,21 +24,16 @@
 
 #include <cppunit/extensions/HelperMacros.h>
 
-namespace ProjetUnivers {
-  namespace Kernel {
-    namespace Test {
-
+namespace ProjetUnivers 
+{
+  namespace Kernel 
+  {
+    namespace Test 
+    {
 
       ///  Test for Parameters.
-      class TestParameters : public CppUnit::TestFixture {
-      public:
-
-        /// Tests setup
-        void setUp() ;
-
-        /// Tests close.
-        void tearDown() ;
-
+      class TestParameters : public CppUnit::TestFixture 
+      {
       protected:
 
       /// @name Tests methods

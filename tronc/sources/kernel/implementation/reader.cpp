@@ -27,8 +27,10 @@
 
 #include <kernel/reader.h>
 
-namespace ProjetUnivers {
-  namespace Kernel {
+namespace ProjetUnivers 
+{
+  namespace Kernel 
+  {
 
     Object* Reader::readObject(Model* model,Object* parent)
     {

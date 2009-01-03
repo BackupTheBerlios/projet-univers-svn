@@ -22,8 +22,10 @@
 #include <cmath>
 #include <kernel/percentage.h>
 
-namespace ProjetUnivers {
-  namespace Kernel {
+namespace ProjetUnivers 
+{
+  namespace Kernel 
+  {
 
     Percentage::Percentage()
     : m_value(0)

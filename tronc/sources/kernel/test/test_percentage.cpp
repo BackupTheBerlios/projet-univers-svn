@@ -27,10 +27,12 @@
 CPPUNIT_TEST_SUITE_REGISTRATION(
     ProjetUnivers::Kernel::Test::TestPercentage) ;
 
-namespace ProjetUnivers {
-  namespace Kernel {
-    namespace Test {
-
+namespace ProjetUnivers 
+{
+  namespace Kernel 
+  {
+    namespace Test 
+    {
       
       void TestPercentage::build()
       {
@@ -69,13 +71,6 @@ namespace ProjetUnivers {
         }
       }
       
-      void TestPercentage::setUp()
-      {
-      }
-
-      void TestPercentage::tearDown()
-      {
-      }
     }
   }
 }

@@ -35,8 +35,10 @@
 #include <kernel/reader.h>
 #include <kernel/trait.h>
 
-namespace ProjetUnivers {
-  namespace Kernel {
+namespace ProjetUnivers 
+{
+  namespace Kernel 
+  {
 
     Trait::StaticStorage* Trait::StaticStorage::get()
     {
@@ -61,8 +63,6 @@ namespace ProjetUnivers {
       {
         (*reference)->_reset() ;
       }
-      
-      InternalMessage("Kernel","Trait::~Trait destroying " + toString(m_views.size()) + " views") ;
       m_destroying = true ;
       
       
@@ -70,12 +70,9 @@ namespace ProjetUnivers {
           view != m_views.end() ;
           ++view)
       {
-        InternalMessage("Kernel","Trait::~Trait destroying a view") ;
         CHECK(view->second,"Trait::~Trait no view") ;
         delete view->second ;
       }
-
-      InternalMessage("Kernel","Trait::~Trait destroying controlers") ;
 
       for(std::multimap<ControlerSet*,BaseControler*>::iterator controler = m_controlers.begin() ;
           controler != m_controlers.end() ;
@@ -162,9 +159,6 @@ namespace ProjetUnivers {
     
     void Trait::_create_views(ViewPoint* i_viewpoint)
     {
-      InternalMessage("Kernel",
-        "Trait::_create_views " + getObjectTypeIdentifier(i_viewpoint).toString() + " entering") ;
-      
       /// nothing to do if we already have views associated with that viewpoint
       if (m_views.find(i_viewpoint) == m_views.end())
       {
@@ -193,33 +187,15 @@ namespace ProjetUnivers {
               BaseTraitView* view = finder->second.second(this,i_viewpoint) ;
               m_views.insert(std::pair<ViewPoint*,BaseTraitView*>(
                               i_viewpoint,view)) ;
-
-              InternalMessage("Kernel",
-                "added trait view for viewpoint : " + viewpointType.toString()
-                + " trait : " + getObjectTypeIdentifier(this).toString()
-                + " view : " + getObjectTypeIdentifier(view).toString()) ;  
-
             }
             ++finder ;
           }
         }
       }
-      else
-      {
-          InternalMessage("Kernel",
-            (std::string("already has view for viewpoint ") + 
-             toString((int)i_viewpoint)).c_str()) ;  
-      }
-      InternalMessage("Kernel",
-        "Trait::_create_views " + getObjectTypeIdentifier(i_viewpoint).toString() + " leaving") ;
     }
 
     void Trait::_create_controlers(ControlerSet* i_controler_set)
     {
-      InternalMessage("Kernel",
-        (std::string("Trait::_create_controlers ") + 
-         getObjectTypeIdentifier(i_controler_set).toString())) ;
-
       /// nothing to do if we already have controlers associated with that controler set
       if (m_controlers.find(i_controler_set) == m_controlers.end())
       {
@@ -250,22 +226,10 @@ namespace ProjetUnivers {
               BaseControler* controler = finder->second.second(this,i_controler_set) ;
               m_controlers.insert(std::pair<ControlerSet*,BaseControler*>(
                                      i_controler_set,controler)) ;
-
-              InternalMessage("Kernel",
-                "added trait controler for controler set : " + controlersetType.toString()
-                + " trait : " + getObjectTypeIdentifier(this).toString()
-                + " controelr : " + getObjectTypeIdentifier(controler).toString()) ;  
-
             }
             ++finder ;
           }
         }
-      }
-      else
-      {
-          InternalMessage("Kernel",
-            (std::string("already has controler for controelr set ") + 
-             toString((int)i_controler_set)).c_str()) ;  
       }
     }
       

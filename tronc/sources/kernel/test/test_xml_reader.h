@@ -23,23 +23,16 @@
 
 #include <cppunit/extensions/HelperMacros.h>
 
-namespace ProjetUnivers {
-  namespace Kernel {
-    namespace Test {
-
+namespace ProjetUnivers 
+{
+  namespace Kernel 
+  {
+    namespace Test 
+    {
 
       ///  Test for XMLReader.
-      /*!
-      */
-      class TestXMLReader : public CppUnit::TestFixture {
-      public:
-
-        /// Test initialisation.
-        void setUp() ;
-
-        /// Test closing.
-        void tearDown() ;
-
+      class TestXMLReader : public CppUnit::TestFixture 
+      {
       protected:
 
       /*!

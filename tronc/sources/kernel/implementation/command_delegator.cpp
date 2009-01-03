@@ -21,8 +21,10 @@
 #include <kernel/object.h>
 #include <kernel/command_delegator.h>
 
-namespace ProjetUnivers {
-  namespace Kernel {
+namespace ProjetUnivers 
+{
+  namespace Kernel 
+  {
 
     CommandDelegator::CommandDelegator()
     : Trait(),

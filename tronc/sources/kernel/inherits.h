@@ -21,9 +21,10 @@
 #ifndef PU_KERNEL_INHERITS_H_
 #define PU_KERNEL_INHERITS_H_
 
-
-namespace ProjetUnivers {
-  namespace Kernel {
+namespace ProjetUnivers 
+{
+  namespace Kernel 
+  {
 
     /// Statically checks that @c Child inherits from @c Parent
     /*!

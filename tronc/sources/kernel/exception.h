@@ -23,8 +23,10 @@
 
 #include <string>
 
-namespace ProjetUnivers {
-  namespace Kernel {
+namespace ProjetUnivers 
+{
+  namespace Kernel 
+  {
     
     /// Base class for exceptions.
     class Exception {

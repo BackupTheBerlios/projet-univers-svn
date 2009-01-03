@@ -18,15 +18,14 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-namespace ProjetUnivers {
-  namespace Kernel {
+namespace ProjetUnivers 
+{
+  namespace Kernel 
+  {
  
     template <class _View> _View* Object::getView(ViewPoint* i_viewpoint)
     {
       CHECK(i_viewpoint,"Object::getView error") ;
-//      InternalMessage("Kernel",
-//        "Object::getView for " + getObjectTypeIdentifier(i_viewpoint).toString()) ;
-      
       TypeIdentifier trait_type = 
         Trait::getTraitTypeOfView(
                     getClassTypeIdentifier(_View), 
@@ -34,8 +33,6 @@ namespace ProjetUnivers {
       
       if (trait_type != VoidTypeIdentifier)
       {
-//        InternalMessage("Kernel","Object::getView found trait name " + trait_type.toString()) ;
-        
         Trait* trait = _get(trait_type) ;
         
         if (trait)
@@ -44,31 +41,22 @@ namespace ProjetUnivers {
         }
       }
       
-//      InternalMessage("Kernel","Object::getView return NULL") ;
       return NULL ;
     }
 
     template <class T> T* Object::getTrait() const
     {
-
-//      InternalMessage("Kernel","Object::getTrait()") ;
-
       Kernel::Inherits<T,Trait>() ;
-
-//      InternalMessage("Kernel","Asking trait " + getClassTypeIdentifier(T).toString()) ;
       
       Trait* trait = _get(getClassTypeIdentifier(T)) ;
       
       /// if trait exist convert :
       if (trait)
       {
-//        InternalMessage("Kernel","Trait found") ;
-        
         return static_cast<T*>(trait) ;
       }
       else
       {
-//        InternalMessage("Kernel","Trait not found") ;
         return NULL ;
       }
     }
@@ -134,8 +122,6 @@ namespace ProjetUnivers {
 
     template <class T> T* Object::getRoot() const
     {
-//      InternalMessage("Kernel","Object::getRoot()") ;
-
       // T must be a subclass of Trait
       Kernel::Inherits<T,Trait>() ;
       
@@ -144,12 +130,6 @@ namespace ProjetUnivers {
       
       while(highest_trait_found && iterator)
       {
-//        InternalMessage("Kernel",
-//          (std::string("highest_trait_found=") 
-//           + toString((int)highest_trait_found)
-//           + std::string(" iterator=")
-//           + toString((int)iterator)).c_str()) ;
-
         highest_trait_found = highest_trait_found ;
         
         iterator = iterator->getParent() ;

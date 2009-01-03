@@ -33,9 +33,12 @@
 CPPUNIT_TEST_SUITE_REGISTRATION(
   ProjetUnivers::Kernel::Test::TestModel) ;
 
-namespace ProjetUnivers {
-  namespace Kernel {
-    namespace Test {
+namespace ProjetUnivers 
+{
+  namespace Kernel 
+  {
+    namespace Test 
+    {
 
 
       /// local classes

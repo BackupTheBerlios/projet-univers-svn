@@ -28,9 +28,12 @@
 CPPUNIT_TEST_SUITE_REGISTRATION(
     ProjetUnivers::Kernel::Test::TestViewPointRegistration) ;
 
-namespace ProjetUnivers {
-  namespace Kernel {
-    namespace Test {
+namespace ProjetUnivers 
+{
+  namespace Kernel 
+  {
+    namespace Test 
+    {
       
       namespace
       {
@@ -81,13 +84,6 @@ namespace ProjetUnivers {
         CPPUNIT_ASSERT(model->getControlerSet<TestControlerSet>()) ;
         CPPUNIT_ASSERT(TestControlerSet::number_of_instances == 1) ;
       }
-      
-      void TestViewPointRegistration::setUp()
-      {}
-
-      void TestViewPointRegistration::tearDown()
-      {}
-
       
     }
   }

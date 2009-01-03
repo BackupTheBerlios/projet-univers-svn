@@ -34,8 +34,10 @@
 #include <kernel/object.h>
 
 
-namespace ProjetUnivers {
-  namespace Kernel {
+namespace ProjetUnivers 
+{
+  namespace Kernel 
+  {
 
     std::set<const Kernel::Object*> Object::m_already_called_objects ;
     
@@ -161,7 +163,6 @@ namespace ProjetUnivers {
 
       if (i_formula->getIdentifier() < 0)
       {
-        InternalMessage("Kernel","getting validity of a trait formula") ;
       }
       
       return m_validities[i_formula->getIdentifier()] ; 
@@ -216,24 +217,15 @@ namespace ProjetUnivers {
       m_validities(Formula::getNumberOfFormulae()),
       m_number_of_true_child_formulae(Formula::getNumberOfFormulae())
     {
-      InternalMessage("Kernel","Formula::getNumberOfFormulae()=" + toString(Formula::getNumberOfFormulae())) ;
     }
 
     void Object::_add(Trait* i_trait)
     {
       CHECK(i_trait,"Kernel::_add(Trait*) no trait") ;
-      InternalMessage("Kernel","added trait " + getObjectTypeIdentifier(i_trait).toString()
-                               + " to objectid=" + toString(getIdentifier())) ;
-
       TypeIdentifier trait_name(getObjectTypeIdentifier(i_trait)) ;
 
       CHECK(traits.find(trait_name)==traits.end(), 
             "trait " + trait_name.toString() + " already exists on object " + toString(getIdentifier())) ;
-
-//      InternalMessage("Kernel","Registering :") ;
-//      InternalMessage("Kernel",trait_name.toString()) ;
-//      InternalMessage("Kernel","with value :") ;
-//      InternalMessage("Kernel",toString((int)i_trait).c_str()) ;
 
       i_trait->m_object = this ;
 
@@ -293,9 +285,6 @@ namespace ProjetUnivers {
 
     void Object::_remove(const TypeIdentifier& i_trait_name)
     {
-//      InternalMessage("Kernel","removed trait " + i_trait_name.toString()
-//                               + " to objectid=" + toString(getIdentifier())) ;
-
       Trait* trait = traits[i_trait_name] ;
       trait->_close() ;
       TraitFormula::removeTrait(this,trait) ;
@@ -319,7 +308,6 @@ namespace ProjetUnivers {
     Object::~Object()
     {
       m_deleting = true ;
-      InternalMessage("Kernel","Destroying object" + toString(m_identifier)) ;
       for(std::map<TypeIdentifier, Trait*>::iterator trait = traits.begin() ;
           trait != traits.end() ;
           ++trait)
@@ -336,8 +324,6 @@ namespace ProjetUnivers {
       
       if (m_model)
         m_model->_removeObjectIdentifier(m_identifier) ;
-      
-      InternalMessage("Kernel","Destroyed object" + toString(m_identifier)) ;
     }
 
     void Object::_init()
@@ -427,8 +413,6 @@ namespace ProjetUnivers {
 
     void Object::_close(ViewPoint* i_viewpoint)
     {
-      InternalMessage("Kernel","Object::_close(ViewPoint*) closing childs") ;
-
       for(std::set<Object*>::iterator child = children.begin() ;
           child != children.end() ;
           ++child)
@@ -448,12 +432,8 @@ namespace ProjetUnivers {
 
     void Object::_close(ControlerSet* i_controler_set)
     {
-//      InternalMessage("Kernel","Object::_close entering " + name) ;
       if (i_controler_set->isVisible(this))
       {
-        
-//        InternalMessage("Kernel","Object::_close closing childs") ;
-
         for(std::set<Object*>::iterator child = children.begin() ;
             child != children.end() ;
             ++child)
@@ -461,26 +441,18 @@ namespace ProjetUnivers {
           (*child)->_close(i_controler_set) ;
         }
 
-//        InternalMessage("Kernel","Object::_close closing traits") ;
-        
         for(std::map<TypeIdentifier, Trait*>::iterator trait = traits.begin() ;
             trait != traits.end() ;
             ++trait)
         {
-//          InternalMessage("Kernel","traits=" + toString((int)trait->second)) ;
-          
           trait->second->_close(i_controler_set) ;
         }
 
       }
-//      InternalMessage("Kernel","Object::_close leaving " + name) ;
     }
 
     void Object::_create_views(ViewPoint* i_viewpoint)
     {
-//      InternalMessage("Kernel",
-//        (std::string("Object::_create_views ") + typeid(*i_viewpoint).name()).c_str()) ;
-
       if (i_viewpoint->isVisible(this))
       {
       
@@ -502,9 +474,6 @@ namespace ProjetUnivers {
 
     void Object::_create_controlers(ControlerSet* i_controler_set)
     {
-//      InternalMessage("Kernel",
-//        (std::string("Object::_create_controlers ") + typeid(*i_controler_set).name()).c_str()) ;
-
       if (i_controler_set->isVisible(this))
       {
 
@@ -539,11 +508,9 @@ namespace ProjetUnivers {
     
     Trait* Object::_get(const TypeIdentifier& i_trait_name) const
     {
-//      InternalMessage("Kernel","Object::_get searching " + i_trait_name.toString()) ;
       std::map<TypeIdentifier, Trait*>::const_iterator trait = traits.find(i_trait_name) ;
       if (trait != traits.end()) 
       {
-//        InternalMessage("Kernel","Object::_get found") ;
         return trait->second ;
       }
       
@@ -557,8 +524,6 @@ namespace ProjetUnivers {
         }
       }
       
-//      InternalMessage("Kernel","Object::_get not found") ;
-
       return NULL ;
     }    
 
@@ -634,7 +599,6 @@ namespace ProjetUnivers {
 
     bool Object::call(const std::string& i_command) 
     {
-      InternalMessage("Kernel","entering Object::call") ;
       // clear the previous called objects
       m_already_called_objects.clear() ;
 

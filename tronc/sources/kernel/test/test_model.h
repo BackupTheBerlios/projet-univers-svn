@@ -24,13 +24,16 @@
 #include <cppunit/extensions/HelperMacros.h>
 #include <kernel/error.h>
 
-namespace ProjetUnivers {
-  namespace Kernel {
-    namespace Test {
-
+namespace ProjetUnivers 
+{
+  namespace Kernel 
+  {
+    namespace Test 
+    {
 
       /// Test of model/object/trait methods.
-      class TestModel : public CppUnit::TestFixture {
+      class TestModel : public CppUnit::TestFixture 
+      {
       protected:
 
   

@@ -30,9 +30,12 @@
 CPPUNIT_TEST_SUITE_REGISTRATION(
     ProjetUnivers::Kernel::Test::TestXMLReader) ;
 
-namespace ProjetUnivers {
-  namespace Kernel {
-    namespace Test {
+namespace ProjetUnivers 
+{
+  namespace Kernel 
+  {
+    namespace Test 
+    {
 
       // local classes 
       namespace 
@@ -264,14 +267,6 @@ namespace ProjetUnivers {
         
       }
 
-      void TestXMLReader::setUp()
-      {
-      }
-
-      void TestXMLReader::tearDown()
-      {
-      }
-      
     }
   }
 }

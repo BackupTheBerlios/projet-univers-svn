@@ -20,8 +20,10 @@
  ***************************************************************************/
 #include <kernel/string.h>
 
-namespace ProjetUnivers {
-  namespace Kernel {
+namespace ProjetUnivers 
+{
+  namespace Kernel 
+  {
     
     std::string toString(const float& _i) 
     {

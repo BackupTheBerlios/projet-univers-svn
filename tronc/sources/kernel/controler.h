@@ -23,8 +23,10 @@
 
 #include <kernel/base_controler.h>
 
-namespace ProjetUnivers {
-  namespace Kernel {
+namespace ProjetUnivers 
+{
+  namespace Kernel 
+  {
    
     /// Abstract class for object that perform modifications. 
     /*!

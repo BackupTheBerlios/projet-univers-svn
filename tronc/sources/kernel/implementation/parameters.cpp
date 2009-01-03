@@ -21,8 +21,10 @@
 #include <fstream>
 #include <kernel/parameters.h>
 
-namespace ProjetUnivers {
-  namespace Kernel {
+namespace ProjetUnivers 
+{
+  namespace Kernel 
+  {
 
     std::auto_ptr<Parameters> Parameters::m_instance(NULL) ;
 

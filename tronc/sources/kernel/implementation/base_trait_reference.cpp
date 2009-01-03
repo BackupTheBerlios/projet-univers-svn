@@ -20,8 +20,10 @@
  ***************************************************************************/
 #include <kernel/base_trait_reference.h>
 
-namespace ProjetUnivers {
-  namespace Kernel {
+namespace ProjetUnivers 
+{
+  namespace Kernel 
+  {
 
     BaseTraitReference::BaseTraitReference()
     {}

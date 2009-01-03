@@ -28,8 +28,10 @@
 
 #include <kernel/object.h>
 
-namespace ProjetUnivers {
-  namespace Kernel {
+namespace ProjetUnivers 
+{
+  namespace Kernel 
+  {
     
     class ViewPoint ;
     class Trait ;

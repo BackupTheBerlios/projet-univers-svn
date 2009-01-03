@@ -31,7 +31,6 @@ namespace ProjetUnivers
     namespace Test 
     {
 
-
       ///  Test for Model/View.
       class TestModelView : public CppUnit::TestFixture 
       {

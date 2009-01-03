@@ -27,8 +27,10 @@
 
 #include <boost/function.hpp>
 
-namespace ProjetUnivers {
-  namespace Kernel {
+namespace ProjetUnivers 
+{
+  namespace Kernel 
+  {
 
     class Trait ;
     
@@ -93,7 +95,7 @@ namespace ProjetUnivers {
       };
 
       /// Internal representation.
-      std::string m_representation ;
+      const std::type_info* m_representation ;
       
     };
     

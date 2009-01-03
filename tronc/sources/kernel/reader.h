@@ -26,8 +26,10 @@
 #include <set>
 
 
-namespace ProjetUnivers {
-  namespace Kernel {
+namespace ProjetUnivers 
+{
+  namespace Kernel 
+  {
     
     class Object ;
     class Model ;

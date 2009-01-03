@@ -20,8 +20,10 @@
  ***************************************************************************/
 #include <kernel/timer.h>
 
-namespace ProjetUnivers {
-  namespace Kernel {
+namespace ProjetUnivers 
+{
+  namespace Kernel 
+  {
 
     Timer::Timer()
     : m_timer()

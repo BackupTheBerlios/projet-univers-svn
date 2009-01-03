@@ -21,8 +21,10 @@
 #ifndef PU_KERNEL_BASE_TRAIT_REFERENCE_H_
 #define PU_KERNEL_BASE_TRAIT_REFERENCE_H_
 
-namespace ProjetUnivers {
-  namespace Kernel {
+namespace ProjetUnivers 
+{
+  namespace Kernel 
+  {
     
     class Trait ;
     

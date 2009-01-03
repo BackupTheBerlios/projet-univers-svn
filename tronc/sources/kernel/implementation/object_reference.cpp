@@ -23,8 +23,10 @@
 #include <kernel/reader.h>
 #include <kernel/object_reference.h>
 
-namespace ProjetUnivers {
-  namespace Kernel {
+namespace ProjetUnivers 
+{
+  namespace Kernel 
+  {
     
     ObjectReference::ObjectReference(Object* object)
     : m_model(object?object->getModel():NULL),

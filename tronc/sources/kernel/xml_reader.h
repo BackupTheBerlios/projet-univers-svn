@@ -28,8 +28,10 @@
 
 #include <kernel/reader.h>
 
-namespace ProjetUnivers {
-  namespace Kernel {
+namespace ProjetUnivers 
+{
+  namespace Kernel 
+  {
 
     /// Read an xml file containing a model.
     class XMLReader : public Reader

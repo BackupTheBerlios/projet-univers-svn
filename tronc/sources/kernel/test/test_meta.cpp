@@ -28,9 +28,12 @@
 CPPUNIT_TEST_SUITE_REGISTRATION(
     ProjetUnivers::Kernel::Test::TestMeta) ;
 
-namespace ProjetUnivers {
-  namespace Kernel {
-    namespace Test {
+namespace ProjetUnivers 
+{
+  namespace Kernel 
+  {
+    namespace Test 
+    {
 
       /// local classes
       namespace
@@ -71,14 +74,18 @@ namespace ProjetUnivers {
         CPPUNIT_ASSERT(getClassTypeIdentifier(IHaveALongName).className() =="IHaveALongName") ;
       }
 
-      void TestMeta::setUp()
+      void TestMeta::compare()
       {
+        // non reflexive
+        CPPUNIT_ASSERT(!(getClassTypeIdentifier(A) < getClassTypeIdentifier(A))) ;
+        
+        // anti symetric
+        CPPUNIT_ASSERT(getClassTypeIdentifier(A) < getClassTypeIdentifier(B) ||
+                       getClassTypeIdentifier(B) < getClassTypeIdentifier(A)) ;
+        CPPUNIT_ASSERT(!(getClassTypeIdentifier(A) < getClassTypeIdentifier(B) &&
+                       getClassTypeIdentifier(B) < getClassTypeIdentifier(A))) ;
       }
-
-      void TestMeta::tearDown()
-      {
-      }
-
+      
     }
   }
 }

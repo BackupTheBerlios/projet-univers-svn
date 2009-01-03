@@ -20,16 +20,16 @@
  ***************************************************************************/
 #include <kernel/exception_kernel.h>
 
-namespace ProjetUnivers {
-  namespace Kernel {    
-    
+namespace ProjetUnivers 
+{
+  namespace Kernel 
+  {    
     
     ExceptionKernel::ExceptionKernel
         (const std::string& _message)
         
       : Exception(_message,1)
     {} 
-    
    
     ExceptionKernel::ExceptionKernel(const ExceptionKernel& x)
       : Exception(x.message,x.numeroErreur)

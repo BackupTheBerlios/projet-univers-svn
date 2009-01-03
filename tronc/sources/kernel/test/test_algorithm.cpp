@@ -27,9 +27,12 @@
 CPPUNIT_TEST_SUITE_REGISTRATION(
     ProjetUnivers::Kernel::Test::TestAlgorithm) ;
 
-namespace ProjetUnivers {
-  namespace Kernel {
-    namespace Test {
+namespace ProjetUnivers 
+{
+  namespace Kernel 
+  {
+    namespace Test 
+    {
 
       
       void TestAlgorithm::testFindAfterBeforeOnSmallSet()
@@ -113,14 +116,6 @@ namespace ProjetUnivers {
         CPPUNIT_ASSERT(!reachable_time.first) ;
 	  }
 	  
-
-      void TestAlgorithm::setUp()
-      {
-      }
-
-      void TestAlgorithm::tearDown()
-      {
-      }
     }
   }
 }

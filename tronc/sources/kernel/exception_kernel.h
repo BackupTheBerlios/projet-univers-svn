@@ -27,11 +27,10 @@
 #include <kernel/exception.h>
 
 
-namespace ProjetUnivers {
-  
-  namespace Kernel {
-  
-  
+namespace ProjetUnivers 
+{
+  namespace Kernel 
+  {
     
     /// Kernel exception base class.
     class ExceptionKernel : public Exception {

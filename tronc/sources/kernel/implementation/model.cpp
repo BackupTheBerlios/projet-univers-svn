@@ -92,7 +92,6 @@ namespace ProjetUnivers
 
     void Model::destroyObject(Object* object)
     {
-      InternalMessage("Kernel","Entering Model::destroyObject") ;
       CHECK(object,"Model::destroyObject no object") ;
       
       object->m_deleting = true ;
@@ -123,8 +122,6 @@ namespace ProjetUnivers
       }
       
       m_is_simulating_controler_set = false ;
-      
-      InternalMessage("Kernel","Leaving Model::destroyObject") ;
     }
 
     void Model::_removeObjectIdentifier(const int& identifier)
@@ -177,7 +174,6 @@ namespace ProjetUnivers
     
     Model::~Model()
     {
-      InternalMessage("Kernel","Kernel::Model::~Model entering") ;
       m_destroying = true ;
       for(std::set<ObjectReference*>::iterator reference = m_references.begin() ;
           reference != m_references.end() ;
@@ -187,7 +183,6 @@ namespace ProjetUnivers
       }
 
       /// 1. close all controler sets
-      InternalMessage("Kernel","Kernel::Model::~Model closing controler sets") ;
       for(std::set<ControlerSet*>::iterator controler_set = m_controler_sets.begin() ;
           controler_set != m_controler_sets.end() ;
           ++controler_set)
@@ -197,7 +192,6 @@ namespace ProjetUnivers
       }
       
       /// 1. close all view points
-      InternalMessage("Kernel","Kernel::Model::~Model closing viewpoints") ;
       for(std::set<ViewPoint*>::iterator viewpoint = m_viewpoints.begin() ;
           viewpoint != m_viewpoints.end() ;
           ++viewpoint)
@@ -207,15 +201,12 @@ namespace ProjetUnivers
       }
       
       /// 2. destroy m_objects 
-      InternalMessage("Kernel","Kernel::Model::~Model destroying objects") ;
       for(std::set<Object*>::iterator object = m_objects.begin() ;
           object != m_objects.end() ;
           ++object)
       {
         delete *object ;
       }
-      
-      InternalMessage("Kernel","Kernel::Model::~Model Leaving") ;
     }
     
     Model::Model(const std::string& name)
@@ -227,9 +218,6 @@ namespace ProjetUnivers
     void Model::_register(ViewPoint* viewpoint)
     {
       m_viewpoints.insert(viewpoint) ;
-
-      InternalMessage("Kernel",
-          (std::string("Model::_register") + typeid(*viewpoint).name()).c_str()) ;
 
       for(std::set<Object*>::iterator object = m_objects.begin() ;
           object != m_objects.end() ;
@@ -244,9 +232,6 @@ namespace ProjetUnivers
       if (m_destroying)
         return ;
       m_viewpoints.erase(viewpoint) ;
-
-      InternalMessage("Kernel",
-        (std::string("Model::_unregister") + typeid(*viewpoint).name()).c_str()) ;
     }
 
     void Model::_register(ControlerSet* controler_set)
@@ -387,7 +372,6 @@ namespace ProjetUnivers
       }
 
       std::set<Kernel::ViewPoint*> viewpoints = getViewPoints() ;
-      InternalMessage("Kernel","Model::close has " + toString(viewpoints.size()) + " viewpoints") ;
       for(std::set<Kernel::ViewPoint*>::const_iterator viewpoint = viewpoints.begin() ;
           viewpoint != viewpoints.end() ;
           ++viewpoint)
@@ -398,18 +382,15 @@ namespace ProjetUnivers
     
     void Model::update(const float& seconds)
     {
-      InternalMessage("MainLoop","Model::updating") ;      
       // first update controler sets then viewpoints
       const std::set<Kernel::ControlerSet*>& controlersets = getControlerSets() ;
       for(std::set<Kernel::ControlerSet*>::const_iterator controlerset = controlersets.begin() ;
           controlerset != controlersets.end() ;
           ++controlerset)
       {
-        InternalMessage("MainLoop","Model::update simulating " + getObjectTypeIdentifier(*controlerset).toString()) ;
         beginSimulation() ;
         (*controlerset)->simulate(seconds) ;
         endSimulation() ;
-        InternalMessage("MainLoop","Model::update simulated " + getObjectTypeIdentifier(*controlerset).toString()) ;      
       }
 
       const std::set<Kernel::ViewPoint*>& viewpoints = getViewPoints() ;
@@ -417,11 +398,8 @@ namespace ProjetUnivers
           viewpoint != viewpoints.end() ;
           ++viewpoint)
       {
-        InternalMessage("MainLoop","Model::update updating " + getObjectTypeIdentifier(*viewpoint).toString()) ;      
         (*viewpoint)->update(seconds) ;
-        InternalMessage("MainLoop","Model::update updated " + getObjectTypeIdentifier(*viewpoint).toString()) ;      
       }
-      InternalMessage("MainLoop","Model::updated") ;      
     }
     
     void Model::beginSimulation()

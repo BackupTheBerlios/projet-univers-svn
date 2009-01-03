@@ -21,7 +21,8 @@
 #ifndef PU_KERNEL_KERNEL_H_
 #define PU_KERNEL_KERNEL_H_
 
-namespace ProjetUnivers {
+namespace ProjetUnivers 
+{
   
   /// Technical framework
   /*!

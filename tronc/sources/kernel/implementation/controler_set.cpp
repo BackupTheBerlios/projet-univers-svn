@@ -108,9 +108,7 @@ namespace ProjetUnivers
     
     ControlerSet::~ControlerSet()
     {
-      InternalMessage("Kernel","ControlerSet::~ControlerSet destroying") ;
       close() ;
-      InternalMessage("Kernel","ControlerSet::~ControlerSet destroyed") ;
     }
       
     ControlerSet::ControlerSet(Model* model)
@@ -138,7 +136,6 @@ namespace ProjetUnivers
     
     void ControlerSet::setModel(Model* model)
     {
-      InternalMessage("Kernel","ViewPoint::setModel Entering") ;
       if (m_initialised && m_model)
       {
         /// must close all the objects according to current viewpoint
@@ -153,7 +150,6 @@ namespace ProjetUnivers
         m_model->_register(this) ;
         m_model->_init(this) ;
       }
-      InternalMessage("Kernel","ViewPoint::setModel Entering") ;
     }
 
     void ControlerSet::registerBuilder(ControlerSet::ControlerSetBuilder builder)

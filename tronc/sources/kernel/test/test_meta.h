@@ -23,19 +23,16 @@
 
 #include <cppunit/extensions/HelperMacros.h>
 
-namespace ProjetUnivers {
-  namespace Kernel {
-    namespace Test {
-
+namespace ProjetUnivers 
+{
+  namespace Kernel 
+  {
+    namespace Test 
+    {
 
       ///  Test for TypeIdentifier.
-      class TestMeta : public CppUnit::TestFixture {
-      public:
-
-        void setUp() ;
-
-        void tearDown() ;
-
+      class TestMeta : public CppUnit::TestFixture 
+      {
       protected:
 
       /*! 
@@ -48,6 +45,9 @@ namespace ProjetUnivers {
         
         /// Test the className method.
         void testClassName() ;
+        
+        /// Check comparison
+        void compare() ;
 
       // @}
 
@@ -56,6 +56,7 @@ namespace ProjetUnivers {
 
         CPPUNIT_TEST(testIsInstance) ;
         CPPUNIT_TEST(testClassName) ;
+        CPPUNIT_TEST(compare) ;
 
         CPPUNIT_TEST_SUITE_END() ;
 

@@ -1094,6 +1094,11 @@
   
   * ArtificialIntelligence :
     - modified a too buggy test 
+
+2009-01-03 rogma 
+  
+  * Kernel :
+    - speed improvement on kernel 
     
 @todo :
     - add test for adding objects during a structure destroying  

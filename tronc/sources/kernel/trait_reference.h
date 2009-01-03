@@ -23,8 +23,10 @@
 
 #include <kernel/object_reference.h>
 
-namespace ProjetUnivers {
-  namespace Kernel {
+namespace ProjetUnivers 
+{
+  namespace Kernel 
+  {
 
     class Model ;
     

@@ -23,9 +23,12 @@
 #include <kernel/parameters.h>
 #include <kernel/log.h>
 
-namespace ProjetUnivers {
-  namespace Kernel {
-    namespace Log {
+namespace ProjetUnivers 
+{
+  namespace Kernel 
+  {
+    namespace Log 
+    {
       
       const std::string errorFileName("error.log") ;
       std::auto_ptr<rlog::StdioNode> errorLog ;
