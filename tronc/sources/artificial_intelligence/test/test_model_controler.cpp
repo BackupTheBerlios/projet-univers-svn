@@ -529,6 +529,7 @@ namespace ProjetUnivers
           Kernel::Object* ship = Model::createShip(system) ;
           ship->getTrait<Model::Positionned>()->setPosition(Model::Position::Meter(0,0,0)) ;
           ship->addTrait(new Model::Transponder(team1)) ;
+          ship->destroyTrait(ship->getTrait<Model::Destroyable>()) ;
           Kernel::Object* agent = Model::createAI(ship) ;
           agent->getTrait<Model::WithObjectives>()->addObjective(Model::Objective::attackAllEnemies()) ;
           ship1 = ship ;
@@ -539,6 +540,7 @@ namespace ProjetUnivers
           Kernel::Object* ship = Model::createShip(system) ;
           ship->getTrait<Model::Positionned>()->setPosition(Model::Position::Meter(0,500,0)) ;
           ship->addTrait(new Model::Transponder(team1)) ;
+          ship->destroyTrait(ship->getTrait<Model::Destroyable>()) ;
           Kernel::Object* agent = Model::createAI(ship) ;
           agent->getTrait<Model::WithObjectives>()->addObjective(Model::Objective::attackAllEnemies()) ;
           ship2 = ship ;
@@ -548,8 +550,6 @@ namespace ProjetUnivers
         {
           Kernel::Object* ship = Model::createShip(system) ;
           ship->getTrait<Model::Positionned>()->setPosition(Model::Position::Meter(0,0,1100)) ;
-          // enought to make it die
-          ship->getTrait<Model::Destroyable>()->damage(Model::Energy::Joule(50)) ;
           ship->addTrait(new Model::Transponder(team2)) ;
           Kernel::Object* agent = Model::createAI(ship) ;
           agent->getTrait<Model::WithObjectives>()->addObjective(Model::Objective::attackAllEnemies()) ;
@@ -566,26 +566,19 @@ namespace ProjetUnivers
           ship4 = ship ;
         }          
         
-        // team2 is 2 against one -> it should win and destroy ship4
+        // team1 is not destroyable -> it should win and destroy ship3/ship4
         
         for(int i = 0 ; i < 400 ; ++i)
         {
           model->update(0.1) ;
         }
         
-        /*  
-          @warning following depends a lot on initial distances
-          
-          team1 is grouped and team2 is dispersed, so team1 attack both ships 
-          one after the other
-          
-        */  
         // team2 has been destroyed
         CPPUNIT_ASSERT(!ship3) ;
         CPPUNIT_ASSERT(!ship4) ;
         
-        // team1 has at least one survivor
-//        CPPUNIT_ASSERT(ship1 || ship2) ;
+        // team1 has survived
+        CPPUNIT_ASSERT(ship1 && ship2) ;
         InternalMessage("AI","AI::TestModelControler::groupAttack leaving") ;
       }
       

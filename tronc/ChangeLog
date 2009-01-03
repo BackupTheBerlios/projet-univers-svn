@@ -1089,6 +1089,11 @@
   * Kernel :
     - correction of a bug on addManualView : it should not be initialised if 
       structure is destroying. 
+
+2009-01-03 rogma 
+  
+  * ArtificialIntelligence :
+    - modified a too buggy test 
     
 @todo :
     - add test for adding objects during a structure destroying  
