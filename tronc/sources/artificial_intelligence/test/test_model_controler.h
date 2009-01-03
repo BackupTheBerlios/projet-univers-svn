@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2008 Mathieu ROGER                                      *
+ *   Copyright (C) 2008-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -24,19 +24,16 @@
 
 #include <cppunit/extensions/HelperMacros.h>
 
-namespace ProjetUnivers {
-  namespace ArtificialIntelligence {
-    namespace Test {
+namespace ProjetUnivers 
+{
+  namespace ArtificialIntelligence 
+  {
+    namespace Test 
+    {
 
 
       ///  Test for AI building.
       class TestModelControler : public CppUnit::TestFixture {
-      public:
-
-        void setUp() ;
-
-        void tearDown() ;
-
       protected:
 
       /*! 
@@ -71,6 +68,8 @@ namespace ProjetUnivers {
         
         /// Test the updating of the positions.
         void testPositionUpdate() ;
+        
+        void testMission() ;
         
       // @}
 

@@ -327,7 +327,10 @@ namespace ProjetUnivers
     void Model::addManualView(BaseTraitView* view)
     {
       view->getTrait()->addView(view->m_viewpoint,view) ;
-      view->_init() ;
+      if (!view->getObject()->m_deleting)
+      {
+        view->_init() ;
+      }
     }
 
     const std::set<ViewPoint*>& Model::getViewPoints() const

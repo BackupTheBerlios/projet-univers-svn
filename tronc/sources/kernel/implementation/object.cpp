@@ -293,8 +293,8 @@ namespace ProjetUnivers {
 
     void Object::_remove(const TypeIdentifier& i_trait_name)
     {
-      InternalMessage("Kernel","removed trait " + i_trait_name.toString()
-                               + " to objectid=" + toString(getIdentifier())) ;
+//      InternalMessage("Kernel","removed trait " + i_trait_name.toString()
+//                               + " to objectid=" + toString(getIdentifier())) ;
 
       Trait* trait = traits[i_trait_name] ;
       trait->_close() ;

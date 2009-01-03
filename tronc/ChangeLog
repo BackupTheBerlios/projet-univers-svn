@@ -1083,8 +1083,15 @@
   
   * Kernel :
     -reverted optimisation of TypeIdentifier : does not work on mingw windows
-     
+
+2009-01-03 rogma 
+  
+  * Kernel :
+    - correction of a bug on addManualView : it should not be initialised if 
+      structure is destroying. 
+    
 @todo :
+    - add test for adding objects during a structure destroying  
     
     - bug : adding a mapping on an already assigned key does not worK ?
     - lack the ability to invert axes in the player configuration file read
@@ -1097,19 +1104,24 @@
       viewport is not removed
        
   * All : 
-    - add Game controler and trait for handling team respawn ...
-      a Transponder^Ship controler that count the number of alive ships, same 
-      for teams and handle respawn
-      Custom mission controler dealt with victory/ending conditions and leads 
+    - Custom mission controler dealt with victory/ending conditions and leads 
       to game over state
-      Avoid quitting game when player is dead. 
+    
+    - Avoid quitting game when player is dead. respawn in a remaining AI.
+     
     - considered in a lot of places that Z axis is forward... whereas Ogre 
       consider negative Z as forward ??? 
+
+  * Packaging
     - make install does not work on win32 : libtool refuses to link with Ogre 
       (wheread it works in normal make !!)
+
     - inspire from funguloid package for debian/ubuntu packaging
      
   * Model : 
+    - if we have several lasers : only one will shoot !
+      either propagate commands every where or find another solution 
+
     - Event traits like Collision, Shot should be implemented through 
       a common interface : Model::Event base class...
       Maybe better to have a Kernel::Event because Controler or View cannot 
@@ -1133,7 +1145,8 @@
       SpeedDetector&MassDetector... but it is not clear now
     
     - Detector : make use of absolute positions instead of relative ones, we 
-      can recreate the whole universe  
+      can recreate the whole universe  : allow to add absolute coordinates not 
+      relating to any object 
 
     - be able to get bouding box (?) and perform ray 
       casting inside Model. Code could rely on Ogre but we would be an 
@@ -1146,7 +1159,7 @@
     
     - PhysicalWorld <=> Whole ??
       PhysicalObject should not depend on mobile ?
-    - if we have several lasers : only one will shoot !
+    
     
   * GUI : 
     - load/save input config

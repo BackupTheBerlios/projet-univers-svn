@@ -100,7 +100,7 @@ namespace ProjetUnivers {
             m_manager->clearScene() ;
           }
 
-          InternalMessage("Display","FPS = " + Kernel::toString(getWindow()->getAverageFPS())) ;
+          InternalMessage("FPS","FPS = " + Kernel::toString(getWindow()->getAverageFPS())) ;
           
           getWindow()->removeViewport(0) ;
           

@@ -337,13 +337,8 @@ namespace ProjetUnivers {
     
     void Trait::_close()
     {
-      InternalMessage("Kernel","Entering Trait::_close "+getObjectTypeIdentifier(this).className()) ;
-      InternalMessage("Kernel","Trait::_close closing " + toString(m_views.size()) + " views") ;
-      
-
       // first : close dependent traits...
       std::set<TypeIdentifier> dependent_traits(DeducedTrait::getDependentTraits(this)) ;
-      InternalMessage("Kernel","Trait::_close closing dependent traits : " + toString(dependent_traits.size()) + " traits") ;
       
       for(std::set<TypeIdentifier>::const_iterator trait = dependent_traits.begin() ;
           trait != dependent_traits.end() ;
@@ -354,8 +349,6 @@ namespace ProjetUnivers {
           object_trait->_close() ;
       }
           
-      InternalMessage("Kernel","Trait::_close closed dependent traits") ;
-          
       for(std::multimap<ViewPoint*,BaseTraitView*>::iterator view = m_views.begin() ;
           view != m_views.end() ;
           ++view)
@@ -363,16 +356,12 @@ namespace ProjetUnivers {
         view->second->_close() ;
       }
 
-      InternalMessage("Kernel","Trait::_close closing " + toString(m_controlers.size()) + " controlers") ;
-
       for(std::multimap<ControlerSet*,BaseControler*>::iterator controler = m_controlers.begin() ;
           controler != m_controlers.end() ;
           ++controler)
       {
         controler->second->_close() ;
       }
-      
-      InternalMessage("Kernel","Trait::_close leaving") ;
     }
 
     void Trait::_close(ViewPoint* i_viewpoint)

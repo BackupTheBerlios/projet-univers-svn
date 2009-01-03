@@ -303,7 +303,7 @@ namespace ProjetUnivers {
         mission->addTrait(new State()) ;
         
         CustomMission* custom = new CustomMission("basic_mission",player_configuration,main_menu_in_game) ; 
-        custom->setStartingDistance(Distance(Distance::_Meter,4000)) ;
+        custom->setStartingDistance(Distance(Distance::_Meter,5000)) ;
         mission->addTrait(custom) ;
 
         Kernel::Object* team1 = mission->createObject() ;
@@ -311,7 +311,7 @@ namespace ProjetUnivers {
         
         Kernel::Object* fg1 = team1->createObject() ;
         fg1->addTrait(new FlyingGroup("ally")) ;
-        fg1->getTrait<FlyingGroup>()->setInitialNumberOfShips(2) ;
+        fg1->getTrait<FlyingGroup>()->setInitialNumberOfShips(4) ;
         fg1->getTrait<FlyingGroup>()->setHasPlayer(true) ;
         fg1->getTrait<FlyingGroup>()->setShipName("razor") ;
         
@@ -320,7 +320,7 @@ namespace ProjetUnivers {
         
         Kernel::Object* fg2 = team2->createObject() ;
         fg2->addTrait(new FlyingGroup("enemy")) ;
-        fg2->getTrait<FlyingGroup>()->setInitialNumberOfShips(3) ;
+        fg2->getTrait<FlyingGroup>()->setInitialNumberOfShips(8) ;
         fg2->getTrait<FlyingGroup>()->setNumberOfSpawn(2) ;
         fg2->getTrait<FlyingGroup>()->setShipName("razor") ;
         fg2->getTrait<FlyingGroup>()->setHasPlayer(false) ;

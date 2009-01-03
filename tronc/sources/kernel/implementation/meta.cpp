@@ -46,10 +46,15 @@ namespace ProjetUnivers {
       boost::function1<bool,Trait*> i_object_test)
     : m_representation(i_name.name())
     {
-      StaticStorage::get()->m_instance_tests.insert(
-          std::pair<TypeIdentifier,
-                    boost::function1<bool,Trait*> >(TypeIdentifier(i_name),
-                                                    i_object_test)) ;
+        
+      if (StaticStorage::get()->m_instance_tests.find(TypeIdentifier(i_name)) == 
+          StaticStorage::get()->m_instance_tests.end())
+      {
+        StaticStorage::get()->m_instance_tests.insert( 
+            std::pair<TypeIdentifier,
+                      boost::function1<bool,Trait*> >(TypeIdentifier(i_name),
+                                                      i_object_test)) ;
+      }
     }
     
     std::string TypeIdentifier::toString() const

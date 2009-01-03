@@ -55,6 +55,11 @@
 #include <model/stellar_system.h>
 #include <model/collision.h>
 #include <model/team.h>
+#include <model/custom_mission.h>
+#include <model/flying_group.h>
+#include <model/mission.h>
+#include <model/played.h>
+#include <model/state.h>
 
 #include <physic/physic.h>
 
@@ -68,9 +73,12 @@
 CPPUNIT_TEST_SUITE_REGISTRATION(
     ProjetUnivers::ArtificialIntelligence::Test::TestModelControler) ;
 
-namespace ProjetUnivers {
-  namespace ArtificialIntelligence {
-    namespace Test {
+namespace ProjetUnivers 
+{
+  namespace ArtificialIntelligence 
+  {
+    namespace Test 
+    {
 
       
       void TestModelControler::build()
@@ -652,13 +660,58 @@ namespace ProjetUnivers {
         
       }
       
-      void TestModelControler::setUp()
+      void TestModelControler::testMission()
       {
-      }
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model()) ;
+        model->init() ;
 
-      void TestModelControler::tearDown()
-      {
+        Kernel::Object* root = model->createObject() ;
+        root->addTrait(new Model::State()) ;
+        
+        Kernel::Object* main_menu = root->createObject() ;
+        main_menu->setName("main_menu") ;
+        main_menu->addTrait(new Model::State()) ;
+        
+        Kernel::Object* mission = root->createObject() ;
+        mission->addTrait(new Model::CustomMission("",NULL,NULL)) ;
+        mission->getTrait<Model::CustomMission>()->setStartingDistance(Model::Distance(Model::Distance::_Meter,4000)) ;
+        mission->addTrait(new Model::State()) ;
+        
+        {
+          Kernel::Object* team = mission->createObject() ;
+          team->addTrait(new Model::Team("")) ;
+          
+          Kernel::Object* flying_group = team->createObject() ;
+          flying_group->addTrait(new Model::FlyingGroup("")) ;
+          
+          flying_group->getTrait<Model::FlyingGroup>()->setShipName("razor") ;
+          flying_group->getTrait<Model::FlyingGroup>()->setInitialNumberOfShips(2) ;
+          flying_group->getTrait<Model::FlyingGroup>()->setHasPlayer(true) ;
+        }
+
+        {
+          Kernel::Object* team = mission->createObject() ;
+          team->addTrait(new Model::Team("")) ;
+          
+          Kernel::Object* flying_group = team->createObject() ;
+          flying_group->addTrait(new Model::FlyingGroup("")) ;
+          
+          flying_group->getTrait<Model::FlyingGroup>()->setShipName("razor") ;
+          flying_group->getTrait<Model::FlyingGroup>()->setInitialNumberOfShips(3) ;
+          flying_group->getTrait<Model::FlyingGroup>()->setHasPlayer(false) ;
+          flying_group->getTrait<Model::FlyingGroup>()->setNumberOfSpawn(2) ;
+
+        }
+        
+        CPPUNIT_ASSERT(!mission->getTrait<Model::Mission>()->getSystem()) ;
+        root->getTrait<Model::State>()->changeState(mission,new Model::Played()) ;
+        
+        model->update(0.1) ;
+        mission->destroyTrait(mission->getTrait<Model::Played>()) ;
+        model->update(0.1) ;
+        
       }
+      
     }
   }
 }
