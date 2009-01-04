@@ -1099,6 +1099,11 @@
   
   * Kernel :
     - speed improvement on kernel 
+
+2009-01-04 rogma 
+  
+  * Kernel :
+    - added performance tests (no hudson integration yet)
     
 @todo :
     - add test for adding objects during a structure destroying  

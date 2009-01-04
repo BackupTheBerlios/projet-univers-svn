@@ -30,6 +30,9 @@ $(SOURCES)/kernel/implementation/command_delegator.cpp \
 $(SOURCES)/kernel/implementation/parameters.cpp \
 $(SOURCES)/kernel/implementation/percentage.cpp \
 $(SOURCES)/kernel/implementation/reader.cpp \
+$(SOURCES)/kernel/implementation/timer_test_listener.cpp \
+$(SOURCES)/kernel/implementation/timer_test_result.cpp \
+$(SOURCES)/kernel/implementation/timer_xml_outputter_hook.cpp \
 $(SOURCES)/kernel/implementation/xml_reader.cpp
 
 
@@ -39,7 +42,7 @@ libkernel_la_LDFLAGS += $(librlog_LIBS) $(libXML_LIBS) $(OGRE_LIBS)
 
 # tests
 
-TESTS = test_kernel
+TESTS = test_kernel test_performance_kernel
 
 check_PROGRAMS = $(TESTS)
 
@@ -58,7 +61,6 @@ $(SOURCES)/kernel/test/test_xml_reader.cpp \
 $(SOURCES)/kernel/test/test_viewpoint_registration.cpp \
 $(SOURCES)/kernel/test/test_model.cpp 
 
-
 # checks that "test_inherits.cpp" does not compile
 # its is a neagtive test for inherits : class does not inhertits and should 
 # produce compile error.
@@ -73,6 +75,15 @@ test_kernel_CXXFLAGS = $(PU_CXXFLAGS)
 test_kernel_LDFLAGS = $(CPPUNIT_LIBS) 
 test_kernel_LDADD = libkernel.la $(librlog_LIBS) $(libXML_LIBS)
 
+test_performance_kernel_SOURCES = \
+$(SOURCES)/kernel/test/performance/model.cpp \
+$(SOURCES)/kernel/test/performance/test_meta.cpp \
+$(SOURCES)/kernel/test/performance/test_performance_model.cpp \
+$(SOURCES)/kernel/test/performance/test_performance_kernel.cpp
+
+test_performance_kernel_CXXFLAGS = $(PU_CXXFLAGS) 
+test_performance_kernel_LDFLAGS = $(CPPUNIT_LIBS) 
+test_performance_kernel_LDADD = libkernel.la $(librlog_LIBS) $(libXML_LIBS)
 
 
 
