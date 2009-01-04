@@ -22,13 +22,9 @@
 #include <cppunit/extensions/TestFactoryRegistry.h>
 #include <cppunit/ui/text/TestRunner.h>
 #include <cppunit/CompilerOutputter.h>
-#include <cppunit/TestResult.h>
-#include <cppunit/XmlOutputter.h>
+#include <kernel/xml_outputter.h>
 
 #include <kernel/cppunit_multi_outputter.h>
-#include <kernel/timer_test_listener.h>
-#include <kernel/timer_test_result.h>
-#include <kernel/timer_xml_outputter_hook.h>
 
 #include <kernel/parameters.h>
 #include <kernel/log.h>
@@ -53,16 +49,8 @@ main( int argc, char* argv[] )
   
   CppUnit::MultiOutputter* outputter = new CppUnit::MultiOutputter() ;
   outputter->add(new CppUnit::CompilerOutputter(&runner.result(),std::cerr)) ;
-  CppUnit::XmlOutputter xml(&runner.result(),outputFile) ;
-  outputter->add(&xml) ;
+  outputter->add(new ProjetUnivers::Kernel::XmlOutputter(&runner,outputFile)) ;
   runner.setOutputter(outputter);
-  
-  CppUnit::TimerTestResult result ;
-  CppUnit::TimerTestListener timer(&result) ;
-  CppUnit::TimerXmlOutputterHook hook(&result) ;
-  xml.addHook(&hook) ;
-  
-  runner.eventManager().addListener(&timer) ;
   
   // Run the test.
   bool wasSucessful = runner.run( "" );

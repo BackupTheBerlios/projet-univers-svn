@@ -263,6 +263,9 @@ namespace ProjetUnivers
       
         std::map<TypeIdentifier,TraitFormula*> m_traits_formulae ;
         
+        /// Caching for find.
+        std::map<TypeIdentifier,std::set<TraitFormula*> > m_impacted_formulae ;
+        
       private:
         
         StaticStorage()
@@ -483,6 +486,9 @@ namespace ProjetUnivers
       
         std::map<TypeIdentifier,HasParentFormula*> m_parent_traits_formulae ;
         
+        /// Caching for find.
+        std::map<TypeIdentifier,std::set<HasParentFormula*> > m_impacted_formulae ;
+        
       private:
         
         StaticStorage()
@@ -571,6 +577,9 @@ namespace ProjetUnivers
         static StaticStorage* get() ;
       
         std::map<TypeIdentifier,HasChildFormula*> m_child_traits_formulae ;
+        
+        /// Caching for find.
+        std::map<TypeIdentifier,std::set<HasChildFormula*> > m_impacted_formulae ;
         
       private:
         

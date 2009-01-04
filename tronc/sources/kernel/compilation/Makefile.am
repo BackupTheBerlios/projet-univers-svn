@@ -33,6 +33,7 @@ $(SOURCES)/kernel/implementation/reader.cpp \
 $(SOURCES)/kernel/implementation/timer_test_listener.cpp \
 $(SOURCES)/kernel/implementation/timer_test_result.cpp \
 $(SOURCES)/kernel/implementation/timer_xml_outputter_hook.cpp \
+$(SOURCES)/kernel/implementation/xml_outputter.cpp \
 $(SOURCES)/kernel/implementation/xml_reader.cpp
 
 

@@ -1104,6 +1104,11 @@
   
   * Kernel :
     - added performance tests (no hudson integration yet)
+
+2009-01-04 rogma 
+  
+  * Kernel :
+    - better cppunit xml output format that is easylly transformed into junit 
     
 @todo :
     - add test for adding objects during a structure destroying  

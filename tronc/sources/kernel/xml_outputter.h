@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2009 Mathieu ROGER                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,47 +18,32 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <cppunit/extensions/TestFactoryRegistry.h>
-#include <cppunit/ui/text/TestRunner.h>
-#include <cppunit/CompilerOutputter.h>
-#include <kernel/xml_outputter.h>
-#include <kernel/cppunit_multi_outputter.h>
+#pragma once
 
-#include <kernel/parameters.h>
-#include <kernel/log.h>
+#include <cppunit/ui/text/TextTestRunner.h>
+#include <cppunit/XmlOutputter.h>
+#include <kernel/timer_test_listener.h>
+#include <kernel/timer_test_result.h>
+#include <kernel/timer_xml_outputter_hook.h>
 
-int 
-main( int argc, char* argv[] )
+namespace ProjetUnivers 
 {
-  ProjetUnivers::Kernel::Parameters::load("model.config") ;
-  ProjetUnivers::Kernel::Log::init() ;
-  
-  // if command line contains "-selftest" then this is the post build check
-  // => the output must be in the compiler error format.
-  bool selfTest = (argc > 1)  &&  
-                  (std::string("-selftest") == argv[1]);
-
-  CppUnit::TextUi::TestRunner runner;
-  CppUnit::TestFactoryRegistry &registry = CppUnit::TestFactoryRegistry::getRegistry();
-  
-  runner.addTest( registry.makeTest() );
-
-  // Define the file that will store the XML output.
-  std::ofstream outputFile("tests_model.xml");
-
-  CppUnit::MultiOutputter* outputter = new CppUnit::MultiOutputter() ;
-  outputter->add(new CppUnit::CompilerOutputter(&runner.result(),std::cerr)) ;
-  outputter->add(new ProjetUnivers::Kernel::XmlOutputter(&runner,outputFile)) ;
-  runner.setOutputter(outputter);
-
-  // Run the test.
-  bool wasSucessful = runner.run( "" );
-
-  ProjetUnivers::Kernel::Log::close() ;
-
-
-  // Return error code 1 if the one of test failed.
-  return wasSucessful ? 0 : 1;
+  namespace Kernel 
+  {
+    /// Output like junit.
+    class XmlOutputter : public CppUnit::XmlOutputter
+    {
+    public:
+      
+      XmlOutputter(CppUnit::TextTestRunner* runner,std::ostream& stream) ;
+      
+      ~XmlOutputter() ;
+      
+    private:
+      
+      CppUnit::TimerTestResult* m_results ;
+      CppUnit::TimerXmlOutputterHook* m_hook ;
+      CppUnit::TimerTestListener* m_listener ;
+    };
+  }
 }
-
-

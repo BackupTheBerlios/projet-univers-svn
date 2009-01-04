@@ -41,7 +41,7 @@ float TimerTestResult::getResult(Test* test) const
     return result->second ;
   }
   
-  return -1 ;
+  return 0 ;
 }
 
 CPPUNIT_NS_END

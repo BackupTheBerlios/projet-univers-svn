@@ -12,15 +12,15 @@
 			<xsl:attribute name="tests">
 				<xsl:value-of select="TestRun/Statistics/Tests"/>
 			</xsl:attribute>
-			<xsl:attribute name="name">from cppunit</xsl:attribute>
+			<xsl:attribute name="name"></xsl:attribute>
 			<xsl:apply-templates/>
 		</testsuite>
 	</xsl:template>
 	<xsl:template match="/TestRun/SuccessfulTests/Test">
 		<testcase>
-			<xsl:attribute name="classname" ><xsl:value-of select="substring-before(Name, '::')"/></xsl:attribute>
-			<xsl:attribute name="name"><xsl:value-of select="substring-after(Name, '::')"/></xsl:attribute>
-      <xsl:attribute name="time"><xsl:value-of select="@duration"/></xsl:attribute>
+			<xsl:attribute name="classname" ><xsl:value-of select="@classname"/></xsl:attribute>
+			<xsl:attribute name="name"><xsl:value-of select="@name"/></xsl:attribute>
+      <xsl:attribute name="time"><xsl:value-of select="@time"/></xsl:attribute>
 		</testcase>
 	</xsl:template>
 	<xsl:template match="/TestRun/FailedTests/FailedTest">

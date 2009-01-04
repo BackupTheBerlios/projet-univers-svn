@@ -186,6 +186,9 @@ namespace ProjetUnivers
         /// map formula to deduced trait names for destruction.
         std::map<Formula*,TypeIdentifier> m_destructors ;
       
+        /// Caching for getDependentTraits
+        std::map<TypeIdentifier,std::set<TypeIdentifier> > m_dependent_traits ;
+        
       private:
         
         StaticStorage()

@@ -21,7 +21,7 @@
 #include <cppunit/extensions/TestFactoryRegistry.h>
 #include <cppunit/ui/text/TestRunner.h>
 #include <cppunit/CompilerOutputter.h>
-#include <cppunit/XmlOutputter.h>
+#include <kernel/xml_outputter.h>
 #include <kernel/cppunit_multi_outputter.h>
 
 #include <kernel/parameters.h>
@@ -48,7 +48,7 @@ main( int argc, char* argv[] )
 
   CppUnit::MultiOutputter* outputter = new CppUnit::MultiOutputter() ;
   outputter->add(new CppUnit::CompilerOutputter(&runner.result(),std::cerr)) ;
-  outputter->add(new CppUnit::XmlOutputter(&runner.result(), outputFile)) ;
+  outputter->add(new ProjetUnivers::Kernel::XmlOutputter(&runner,outputFile)) ;
   runner.setOutputter(outputter);
 
   // Run the test.
