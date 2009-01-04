@@ -36,9 +36,8 @@ $(SOURCES)/kernel/implementation/timer_xml_outputter_hook.cpp \
 $(SOURCES)/kernel/implementation/xml_reader.cpp
 
 
-
 libkernel_la_LDFLAGS = -no-undefined
-libkernel_la_LDFLAGS += $(librlog_LIBS) $(libXML_LIBS) $(OGRE_LIBS)
+libkernel_la_LDFLAGS += $(librlog_LIBS) $(libXML_LIBS) $(OGRE_LIBS) $(CPPUNIT_LIBS)
 
 # tests
 
