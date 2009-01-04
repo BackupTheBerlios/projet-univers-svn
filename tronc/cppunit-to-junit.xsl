@@ -20,6 +20,7 @@
 		<testcase>
 			<xsl:attribute name="classname" ><xsl:value-of select="substring-before(Name, '::')"/></xsl:attribute>
 			<xsl:attribute name="name"><xsl:value-of select="substring-after(Name, '::')"/></xsl:attribute>
+      <xsl:attribute name="time"><xsl:value-of select="@duration"/></xsl:attribute>
 		</testcase>
 	</xsl:template>
 	<xsl:template match="/TestRun/FailedTests/FailedTest">
