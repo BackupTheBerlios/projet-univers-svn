@@ -1275,6 +1275,45 @@ namespace ProjetUnivers
         
       }
       
+      namespace
+      {
+        class Edited : public Trait
+        {};
+        class Mission : public Trait
+        {};
+        class FlyingGroup : public Trait
+        {};
+        class EditedMission : public DeducedTrait
+        {};
+        class EditedFlyingGroup : public DeducedTrait
+        {};
+        
+        DeclareDeducedTrait(EditedMission,And(HasTrait(Mission),HasTrait(Edited))) ;
+        DeclareDeducedTrait(EditedFlyingGroup,And(HasTrait(FlyingGroup),HasParent(EditedMission))) ;
+      }
+      
+      void TestDeducedTrait::removeParentDeducedTrait()
+      {
+        InternalMessage("Kernel","TestDeducedTrait::removeParentDeducedTrait entering") ;
+        std::auto_ptr<Model> model(new Model("TestDeducedTrait::removeParentDeducedTrait")) ;
+        
+        Object* mission = model->createObject() ;
+        mission->addTrait(new Mission()) ;
+        Object* team = mission->createObject() ;
+        Object* flyinggroup = team->createObject() ;
+        flyinggroup->addTrait(new FlyingGroup()) ;
+        
+        CPPUNIT_ASSERT(!flyinggroup->getTrait<EditedFlyingGroup>()) ;
+        
+        mission->addTrait(new Edited()) ;
+        
+        CPPUNIT_ASSERT(flyinggroup->getTrait<EditedFlyingGroup>()) ;
+        
+        mission->destroyTrait(mission->getTrait<Edited>()) ;
+
+        CPPUNIT_ASSERT(!mission->getTrait<EditedMission>()) ;
+        CPPUNIT_ASSERT(!flyinggroup->getTrait<EditedFlyingGroup>()) ;
+      }
       
     }
   }

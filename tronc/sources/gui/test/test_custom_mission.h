@@ -47,6 +47,23 @@ namespace ProjetUnivers
         void createFlyingGroup() ;
         void destroyFlyingGroup() ;
         
+        void close() ;
+        void changeTeamName() ;
+        void changeFlyingGroupName() ;
+        
+        void setInitialNumberOfShips() ;
+        void increaseInitialNumberOfShips() ;
+        void decreaseInitialNumberOfShips() ;
+        void decreaseInitialNumberOfShipsEqualOne() ;
+
+        void setNumberOfSpawn() ;
+        void increaseNumberOfSpawn() ;
+        void decreaseNumberOfSpawn() ;
+        void decreaseNumberOfSpawnEqualOne() ;
+        
+        void hasPlayer() ;
+        void hasNotPlayer() ;
+        
       // @}
       /*!
         @name Test registration
@@ -61,6 +78,19 @@ namespace ProjetUnivers
         CPPUNIT_TEST(addTeam) ;
         CPPUNIT_TEST(createFlyingGroup) ;
         CPPUNIT_TEST(destroyFlyingGroup) ;
+        CPPUNIT_TEST(close) ;
+        CPPUNIT_TEST(changeTeamName) ;
+        CPPUNIT_TEST(changeFlyingGroupName) ;
+        CPPUNIT_TEST(setInitialNumberOfShips) ;
+        CPPUNIT_TEST(increaseInitialNumberOfShips) ;
+        CPPUNIT_TEST(decreaseInitialNumberOfShips) ;
+        CPPUNIT_TEST(decreaseInitialNumberOfShipsEqualOne) ;
+        CPPUNIT_TEST(setNumberOfSpawn) ;
+        CPPUNIT_TEST(increaseNumberOfSpawn) ;
+        CPPUNIT_TEST(decreaseNumberOfSpawn) ;
+        CPPUNIT_TEST(decreaseNumberOfSpawnEqualOne) ;
+        CPPUNIT_TEST(hasPlayer) ;
+        CPPUNIT_TEST(hasNotPlayer) ;
         
         CPPUNIT_TEST_SUITE_END() ;
         

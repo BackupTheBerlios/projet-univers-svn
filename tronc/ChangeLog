@@ -1109,6 +1109,14 @@
   
   * Kernel :
     - better cppunit xml output format that is easylly transformed into junit 
+
+2009-01-06 rogma 
+  
+  * Kernel :
+    - corrected a bug on deduced trait propagation, now closing of dependend 
+      traits are better done 
+  * GUI :
+    - custom mission edition : number of ships and spawn
     
 @todo :
     - add test for adding objects during a structure destroying  
@@ -1224,6 +1232,7 @@
       example 
     
   * Sound : 
+    - Optim : manage ressources, load only one time each file
     - check that Positionned is correctly used, I suspect that position update 
       is not done when a ship moves while containing the listener
     - Bug : engine sound does not weem to work ?

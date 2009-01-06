@@ -48,16 +48,19 @@ namespace ProjetUnivers
     void FlyingGroup::setShipName(const std::string& name)
     {
       m_ship_name = name ;
+      notify() ;
     }
     
     void FlyingGroup::setInitialNumberOfShips(const unsigned int& number)
     {
       m_initial_number_of_ships = number ;
+      notify() ;
     }
     
     void FlyingGroup::setHasPlayer(const bool& has_player)
     {
       m_has_player = has_player ;
+      notify() ;
     }
     
     void FlyingGroup::removeShip()

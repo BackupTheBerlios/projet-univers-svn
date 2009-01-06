@@ -80,7 +80,7 @@ namespace ProjetUnivers
         /// Remove a parent and check that HasParent has changed.
         void removeParentTrait() ;
         
-        /// Update an ancetsor trait and check that view has not been updated.
+        /// Update an ancestor trait and check that view has not been updated.
         void updateAncestorTrait() ;
         
         /// Update a parent trait and check that view has been updated.
@@ -127,6 +127,8 @@ namespace ProjetUnivers
         
         void getDependentTraits() ;
         
+        void removeParentDeducedTrait() ;
+        
       // @}
 
 
@@ -162,6 +164,7 @@ namespace ProjetUnivers
         CPPUNIT_TEST(removeChildTrait) ;
         CPPUNIT_TEST(changeParentHasChildBecomeTrue) ;
         CPPUNIT_TEST(getDependentTraits) ;
+        CPPUNIT_TEST(removeParentDeducedTrait) ;
         
         CPPUNIT_TEST_SUITE_END() ;
 

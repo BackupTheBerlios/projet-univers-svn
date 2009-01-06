@@ -64,6 +64,8 @@ namespace ProjetUnivers
           /// Destroy the window.
           virtual void onClose() ;
           
+          /// Update the values.
+          virtual void onUpdate() ;
           
         // @}
           
@@ -73,12 +75,30 @@ namespace ProjetUnivers
           /// Change the name.
           bool changedName(const ::CEGUI::EventArgs& args) ;
           
+          bool decreaseNumberOfShips(const ::CEGUI::EventArgs& args) ;
+          bool increaseNumberOfShips(const ::CEGUI::EventArgs& args) ;
+          bool decreaseNumberOfSpawn(const ::CEGUI::EventArgs& args) ;
+          bool increaseNumberOfSpawn(const ::CEGUI::EventArgs& args) ;
+          
+          
         private:
   
           /// Main window
           ::CEGUI::Window* m_window ;
 
+          /// Parent team
           Team* m_team ;
+          
+          ::CEGUI::Window* m_name ;
+          ::CEGUI::Window* m_ship ;
+          ::CEGUI::Window* m_number_of_ships ;
+          ::CEGUI::Window* m_number_of_spawn ;
+          ::CEGUI::Window* m_pilot ;
+          
+          /// True if we are during update.
+          bool m_updating ; 
+          
+          Model::FlyingGroup* m_group ;
           
           friend class ::ProjetUnivers::GUI::Test::TestCustomMission ;
           

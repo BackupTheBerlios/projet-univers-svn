@@ -284,7 +284,7 @@ namespace ProjetUnivers {
         main_menu->addTrait(new Menu("main_menu.layout")) ;
         main_menu->addTrait(new State()) ;
         main_menu->getTrait<State>()->addCommandAlias("quit","change(quit,Active)") ;
-        main_menu->getTrait<State>()->addCommandAlias("play","change(mission,Played)") ;
+        main_menu->getTrait<State>()->addCommandAlias("play","change(mission,Edited)") ;
         main_menu->getTrait<State>()->addCommandAlias("configure","push(player_configuration,Edited)") ;
 
         Kernel::Object* player_configuration = createDefaultPlayerConfiguration(main_menu) ;

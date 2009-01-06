@@ -105,9 +105,7 @@ namespace ProjetUnivers
         
         ::CEGUI::Window* CustomMission::addTeamWindow(Kernel::Object* team)
         {
-          ::CEGUI::WindowManager& manager = ::CEGUI::WindowManager::getSingleton() ;
-          
-          ::CEGUI::Window* result = manager.createWindow("ProjetUnivers/BasicWindow") ;
+          ::CEGUI::Window* result = createWindow(m_teams,"ProjetUnivers/BasicWindow","team") ;
           
           const unsigned int number_of_teams = m_team_windows.size() ;
           
@@ -115,8 +113,6 @@ namespace ProjetUnivers
                           ::CEGUI::UDim(number_of_teams*0.5,0),
                           ::CEGUI::UDim(1,-12),
                           ::CEGUI::UDim(0.5,0)) ;
-          
-          m_teams->addChildWindow(result) ;
           
           m_team_windows.push_back(result) ;
           

@@ -63,23 +63,36 @@ namespace ProjetUnivers
         //: Print hierarchy name and type of a window.
         std::string printStructure(::CEGUI::Window* window,const int& indent) ; 
         
+        /// Create a @c type child window of @c parent named @c local_name  
+        ::CEGUI::Window* createWindow(::CEGUI::Window* parent,
+                                      const std::string& type,
+                                      const std::string& local_name = "") ; 
+        
+        /// Return the first descendant with @c local_name 
+        ::CEGUI::Window* getChild(::CEGUI::Window* window,
+                                  const std::string& local_name) ;
+        
         /// Access to descendant of @c window with @c name
         /*!
           @return NULL if not found
         */
-        ::CEGUI::Window* getNamedDescendant(::CEGUI::Window* window,const std::string& name) ;
+        ::CEGUI::Window* getNamedDescendant(::CEGUI::Window* window,
+                                            const std::string& name) ;
 
         /// Access to descendant of @c window with @c type
         /*!
           @return NULL if not found
         */
-        ::CEGUI::Window* getTypedDescendant(::CEGUI::Window* window,const std::string& type) ;
+        ::CEGUI::Window* getTypedDescendant(::CEGUI::Window* window,
+                                            const std::string& type) ;
 
         /// Access to descendant of @c window with @c type and text @c text
         /*!
           @return NULL if not found
         */
-        ::CEGUI::Window* getTypedDescendant(::CEGUI::Window* window,const std::string& type,const std::string& text) ;
+        ::CEGUI::Window* getTypedDescendant(::CEGUI::Window* window,
+                                            const std::string& type,
+                                            const std::string& text) ;
         
         std::string toString(const ::CEGUI::UDim&) ;
         std::string toString(const ::CEGUI::UVector2& vector) ;

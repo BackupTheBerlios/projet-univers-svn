@@ -64,7 +64,7 @@ namespace ProjetUnivers
           
           ::CEGUI::WindowManager& manager = ::CEGUI::WindowManager::getSingleton() ;
           
-          ::CEGUI::Window* name = manager.createWindow("ProjetUnivers/Editbox") ;
+          ::CEGUI::Window* name = createWindow(m_window,"ProjetUnivers/Editbox","name") ;
           name->setText(getTrait<Model::Team>()->getName()) ;
           name->setArea(::CEGUI::UDim(0,5),
                         ::CEGUI::UDim(0,0),
@@ -74,10 +74,8 @@ namespace ProjetUnivers
           name->subscribeEvent(::CEGUI::Window::EventTextChanged,
                                ::CEGUI::Event::Subscriber(&Team::changedName,this)) ;
           
-          m_window->addChildWindow(name) ;
           
-          
-          ::CEGUI::Window* button_delete = manager.createWindow("ProjetUnivers/DeleteButton") ;
+          ::CEGUI::Window* button_delete = createWindow(m_window,"ProjetUnivers/DeleteButton","delete") ;
           button_delete->setArea(::CEGUI::UDim(0.8,0),
                                  ::CEGUI::UDim(0,0),
                                  ::CEGUI::UDim(0.2,0),
@@ -86,9 +84,7 @@ namespace ProjetUnivers
           button_delete->subscribeEvent(::CEGUI::Window::EventMouseClick,
                                         ::CEGUI::Event::Subscriber(&Team::deleteTeam,this)) ;
 
-          m_window->addChildWindow(button_delete) ;
-          
-          m_add_group = manager.createWindow("ProjetUnivers/AddButton") ;
+          m_add_group = createWindow(m_window,"ProjetUnivers/AddButton","add") ;
           m_add_group->setArea(::CEGUI::UDim(0.4,0),
                                ::CEGUI::UDim(0,0),
                                ::CEGUI::UDim(0.2,0),
@@ -96,8 +92,6 @@ namespace ProjetUnivers
           m_add_group->setText("Add Group") ;
           m_add_group->subscribeEvent(::CEGUI::Window::EventMouseClick,
                                       ::CEGUI::Event::Subscriber(&Team::addGroup,this)) ;
-          
-          m_window->addChildWindow(m_add_group) ;
         }
           
         void Team::onClose()

@@ -286,8 +286,14 @@ namespace ProjetUnivers
     void Object::_remove(const TypeIdentifier& i_trait_name)
     {
       Trait* trait = traits[i_trait_name] ;
+      
+      /* 
+      should be before closing because closing local views/controlers 
+      because views/controlers on deduced trait including the curent trait 
+      would depend on local views.
+      */
+      DeducedTrait::removeTrait(this,trait) ;
       trait->_close() ;
-      TraitFormula::removeTrait(this,trait) ;
       
       this->traits.erase(i_trait_name) ;
       delete trait ;
@@ -297,9 +303,10 @@ namespace ProjetUnivers
     {
       CHECK(i_trait,"Kernel::_remove(Trait*) no trait") ;
       TypeIdentifier trait_name(getObjectTypeIdentifier(i_trait)) ;
-
-      i_trait->_close() ;
+      
+      // same reason as above
       DeducedTrait::removeTrait(this,i_trait) ;
+      i_trait->_close() ;
       
       this->traits.erase(trait_name) ;
       delete i_trait ;

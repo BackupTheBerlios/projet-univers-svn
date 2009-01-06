@@ -58,12 +58,6 @@ namespace ProjetUnivers
       
     protected:
 
-      /// update the controler for a change_parent. 
-      void _changed_parent(Object* i_old_parent) ;
-      
-      /// update the controler.
-      void _updated() ;
-
       /// Called after the controler is created.
       virtual void onInit() = 0 ;
       
@@ -76,6 +70,12 @@ namespace ProjetUnivers
       /// Called when the model trait has changed.
       virtual void onUpdate() = 0 ;
 
+      /// update the controler for a change_parent. 
+      void _changed_parent(Object* i_old_parent) ;
+      
+      /// update the controler.
+      void _updated() ;
+      
       /// abstract class means protected constructor.
       BaseControler(Trait* i_trait,ControlerSet* i_controler_set) ;
       

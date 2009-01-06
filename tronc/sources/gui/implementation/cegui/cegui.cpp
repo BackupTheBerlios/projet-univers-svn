@@ -229,7 +229,8 @@ namespace ProjetUnivers
             return window ;
         }
         
-        ::CEGUI::Window* getNamedDescendant(::CEGUI::Window* window,const std::string& name)
+        ::CEGUI::Window* getNamedDescendant(::CEGUI::Window* window,
+                                            const std::string& name)
         {
           if (window->getName() == name)
           {
@@ -251,7 +252,8 @@ namespace ProjetUnivers
           return NULL ;
         }
 
-        ::CEGUI::Window* getTypedDescendant(::CEGUI::Window* window,const std::string& type)
+        ::CEGUI::Window* getTypedDescendant(::CEGUI::Window* window,
+                                            const std::string& type)
         {
           if (window->getType() == type)
           {
@@ -273,7 +275,9 @@ namespace ProjetUnivers
           return NULL ;
         }
         
-        ::CEGUI::Window* getTypedDescendant(::CEGUI::Window* window,const std::string& type,const std::string& text)
+        ::CEGUI::Window* getTypedDescendant(::CEGUI::Window* window,
+                                            const std::string& type,
+                                            const std::string& text)
         {
           if (window->getType() == type && window->getText() == text)
           {
@@ -372,6 +376,42 @@ namespace ProjetUnivers
           moveDownWindows(windows,from,negative_delta) ;
         }
         
+        ::CEGUI::Window* createWindow(::CEGUI::Window* parent,
+                                      const std::string& type,
+                                      const std::string& local_name)
+        {
+          ::CEGUI::WindowManager& manager = ::CEGUI::WindowManager::getSingleton() ;
+          ::CEGUI::Window* result = manager.createWindow(type) ;
+          result->addProperty(new ::CEGUI::PropertyDefinition("local_name","",false,false)) ;
+          
+          result->setProperty("local_name",local_name) ;
+          parent->addChildWindow(result) ;
+          return result ;
+        }
+
+        ::CEGUI::Window* getChild(::CEGUI::Window* window,
+                                  const std::string& local_name)
+        {
+          if (window->isPropertyPresent("local_name") && 
+              window->getProperty("local_name") == local_name) 
+          {
+            return window ;
+          }
+          else
+          {
+            for(int child_index = 0 ; child_index < window->getChildCount() ; ++child_index)
+            {
+              ::CEGUI::Window* child = window->getChildAtIdx(child_index) ;
+              ::CEGUI::Window* result = getChild(child,local_name) ;
+              if (result)
+              {
+                return result ;
+              }
+            }
+          }
+          
+          return NULL ;
+        }
         
       }
     }    
