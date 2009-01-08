@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2008 Mathieu ROGER                                      *
+ *   Copyright (C) 2009 Mathieu ROGER                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,13 +18,11 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_IMPLEMENTATION_LOGIC_FLYING_GROUP_H_
-#define PU_MODEL_IMPLEMENTATION_LOGIC_FLYING_GROUP_H_
+#pragma once
 
 #include <kernel/controler.h>
-#include <model/position.h>
-#include <model/implementation/activated_flying_group.h>
 #include <model/implementation/logic/logic_system.h>
+#include <model/implementation/player_in_activated_flying_group.h>
 
 namespace ProjetUnivers 
 {
@@ -34,38 +32,17 @@ namespace ProjetUnivers
     {
       namespace Logic 
       {
-
-        /// Handle respawn of the flying group.
-        class FlyingGroup : public Kernel::Controler<Implementation::ActivatedFlyingGroup,
-                                                     LogicSystem>
+        /// Respawn a player.
+        class Player : public Kernel::Controler<PlayerInActivatedFlyingGroup,
+                                                LogicSystem>
         {
         public:
           
-          /// Construct.
-          FlyingGroup(Implementation::ActivatedFlyingGroup*,LogicSystem*) ;
-        
-          /// Respawn the player in an AI.
-          void respawnPlayer() ;
+          Player(PlayerInActivatedFlyingGroup*,LogicSystem*) ;
           
-        protected:
-          
-          /// Populate the group.
-          virtual void onInit() ;
-
-          /// Handle respawn.
-          virtual void onUpdate() ;
-          
-          /// Calculate the spawning position.
-          Position getStartingPosition() const ;
-          
-        private:
-          
-          unsigned int m_number_of_spawn ;
+          virtual void onClose() ; 
         };
       }
     }
   }
 }
-
-
-#endif /*PU_MODEL_IMPLEMENTATION_LOGIC_FLYING_GROUP_H_*/

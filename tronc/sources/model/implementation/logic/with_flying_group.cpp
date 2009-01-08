@@ -43,7 +43,7 @@ namespace ProjetUnivers
         {
           Kernel::Object* group = getTrait()->getFlyingGroup() ;
           if (group)
-            group->getTrait<Model::FlyingGroup>()->removeShip() ;
+            group->getTrait<Model::FlyingGroup>()->removeShip(getObject()) ;
         }
         
       }        

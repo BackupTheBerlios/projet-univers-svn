@@ -25,10 +25,14 @@
 #include <kernel/controler_set.h>
 #include <kernel/model.h>
 
-namespace ProjetUnivers {
-  namespace Model {
-    namespace Implementation {
-      namespace Logic {
+namespace ProjetUnivers 
+{
+  namespace Model 
+  {
+    namespace Implementation 
+    {
+      namespace Logic 
+      {
         
         /// Set of controlers for internal behaviour of Model.
         /*!

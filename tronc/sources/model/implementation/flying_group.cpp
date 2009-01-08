@@ -18,6 +18,8 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <kernel/object.h>
+#include <model/autonomous_character.h>
 #include <model/flying_group.h>
 
 namespace ProjetUnivers 
@@ -28,7 +30,6 @@ namespace ProjetUnivers
     : m_name(name),
       m_has_player(false),
       m_initial_number_of_ships(1),
-      m_number_of_ships(0),
       m_ship_name("razor"),
       m_objective(Objective::attackAllEnemies()),
       m_number_of_spawn(1)
@@ -63,18 +64,15 @@ namespace ProjetUnivers
       notify() ;
     }
     
-    void FlyingGroup::removeShip()
+    void FlyingGroup::removeShip(Kernel::Object* ship)
     {
-      if (m_number_of_ships > 0)
-      {
-        --m_number_of_ships ;
-        notify() ;
-      }
+      m_ships.erase(ship) ;
+      notify() ;
     }
     
-    void FlyingGroup::addShip()
+    void FlyingGroup::addShip(Kernel::Object* ship)
     {
-      ++m_number_of_ships ;
+      m_ships.insert(ship) ;
       notify() ;
     }
     
@@ -104,14 +102,28 @@ namespace ProjetUnivers
       return m_objective ;
     }
     
-    const unsigned int& FlyingGroup::getNumberOfShips() const
+    unsigned int FlyingGroup::getNumberOfShips() const
     {
-      return m_number_of_ships ;
+      return m_ships.size() ;
     }
     
     const unsigned int& FlyingGroup::getNumberOfSpawn() const
     {
       return m_number_of_spawn ;
+    }
+    
+    Kernel::Object* FlyingGroup::getAIShip() const
+    {
+      for(std::set<Kernel::ObjectReference>::const_iterator ship = m_ships.begin() ;
+          ship != m_ships.end() ;
+          ++ship)
+      {
+        if (!(*ship)->getChildren<AutonomousCharacter>().empty())
+          
+          return *ship ;
+      }
+      
+      return NULL ;
     }
     
   }

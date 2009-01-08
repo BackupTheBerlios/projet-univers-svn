@@ -88,6 +88,22 @@ namespace ProjetUnivers
           return Position(enemy_area.getCenter()+delta) ;
         }
         
+        void createPilot(Kernel::Object* ship,Kernel::Object* pilot,Mission* mission)
+        {
+          ship->addTrait(new TargetDisplayer()) ;
+          TargetDisplayer::connect(ship,ship) ;
+          
+          pilot->addTrait(new Positionned()) ;
+          pilot->addTrait(new Oriented()) ;
+          pilot->addTrait(new Player()) ;
+          pilot->addTrait(new Observer()) ;
+          
+          Player::connect(pilot,mission->getPlayerConfiguration()) ;
+          pilot->addTrait(new State()) ;
+          pilot->getTrait<State>()->addCommandAlias("Menu","push(main_menu_in_game,Displayed)") ;
+          pilot->getTrait<State>()->setCommandOnQuit("change(main_menu,Displayed)") ;
+        }
+        
         void FlyingGroup::onInit()
         {
           InternalMessage("Mission","FlyingGroup::onInit") ;
@@ -134,19 +150,7 @@ namespace ProjetUnivers
             
             if (i == 1 && group->hasPlayer())
             {
-              ship->addTrait(new TargetDisplayer()) ;
-              TargetDisplayer::connect(ship,ship) ;
-              
-              pilot->addTrait(new Positionned()) ;
-              pilot->addTrait(new Oriented()) ;
-              pilot->addTrait(new Player()) ;
-              pilot->addTrait(new Observer()) ;
-              
-              Player::connect(pilot,mission->getPlayerConfiguration()) ;
-              pilot->addTrait(new State()) ;
-              pilot->getTrait<State>()->addCommandAlias("Menu","push(main_menu_in_game,Displayed)") ;
-              pilot->getTrait<State>()->setCommandOnQuit("change(main_menu,Displayed)") ;
-              
+              createPilot(ship,pilot,mission) ;
             }
             else
             {
@@ -158,7 +162,7 @@ namespace ProjetUnivers
             pilot->addTrait(new Kernel::CommandDelegator()) ;
             pilot->getTrait<Kernel::CommandDelegator>()->addDelegate(ship) ;
             
-            group->addShip() ;
+            group->addShip(ship) ;
           }
           
           ++m_number_of_spawn ;
@@ -174,6 +178,23 @@ namespace ProjetUnivers
           }
         }
 
+        void FlyingGroup::respawnPlayer()
+        {
+          Model::FlyingGroup* group = getTrait<Model::FlyingGroup>() ;
+          Mission* mission = getObject()->getParent<Mission>() ;
+          
+          Kernel::Object* ship = group->getAIShip() ;
+          if (ship)
+          {
+            std::set<AutonomousCharacter*> ais = ship->getChildren<AutonomousCharacter>() ;
+  
+            Kernel::Object* pilot = (*ais.begin())->getObject() ;
+            pilot->destroyTrait(pilot->getTrait<AutonomousCharacter>()) ;
+            createPilot(ship,pilot,mission) ;
+          }
+        }
+        
+        
       }
     }
   }

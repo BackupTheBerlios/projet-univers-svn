@@ -57,10 +57,10 @@ namespace ProjetUnivers
       void setNumberOfSpawn(const unsigned int&) ;
       
       /// A ship was removed.
-      void removeShip() ;
+      void removeShip(Kernel::Object*) ;
 
       /// A ship was added.
-      void addShip() ;
+      void addShip(Kernel::Object*) ;
       
       /// Access to name.
       const std::string& getName() const ;
@@ -72,7 +72,7 @@ namespace ProjetUnivers
       const unsigned int& getInitialNumberOfShips() const ;
 
       /// Access to actual number of ships.
-      const unsigned int& getNumberOfShips() const ;
+      unsigned int getNumberOfShips() const ;
 
       /// Access to number of lives.
       const unsigned int& getNumberOfSpawn() const ;
@@ -81,6 +81,9 @@ namespace ProjetUnivers
       const bool& hasPlayer() const ;
       
       const Objective& getObjective() const ;
+      
+      /// Get a AI piloted ship.
+      Kernel::Object* getAIShip() const ;
       
     private:
 
@@ -93,9 +96,6 @@ namespace ProjetUnivers
       /// Initial number of ships in the group
       unsigned int m_initial_number_of_ships ;
 
-      /// Actual number of ships in the group
-      unsigned int m_number_of_ships ;
-      
       /// Ship model name.
       std::string m_ship_name ;
       
@@ -104,6 +104,9 @@ namespace ProjetUnivers
       
       /// Number of times the group is created (at least one)
       unsigned int m_number_of_spawn ;
+
+      /// Actual ships in the group
+      std::set<Kernel::ObjectReference> m_ships ; 
       
     };
 

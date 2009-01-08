@@ -1117,10 +1117,29 @@
       traits are better done 
   * GUI :
     - custom mission edition : number of ships and spawn
-    
+
+2009-01-08 rogma 
+
+  * Model : 
+    - mission : respawn player in an AI
+      
 @todo :
-    - add test for adding objects during a structure destroying  
+
+  * GUI : 
+    - validation of the mission.
+    - drag and drop from Active Players to Pilot 
+    - save/load
     
+  * Demo :
+    - integration of mission (be able to replay the mission...) 
+
+    - try a camera outside the ship (external view)
+  * Model : 
+    - Mission : destruction sequence during player's ship explosion 
+      (Player & Parent(Explosion)) --> change current camera to a fixed one 
+
+          
+    - add test for adding objects during a structure destroying  
     - bug : adding a mapping on an already assigned key does not worK ?
     - lack the ability to invert axes in the player configuration file read
     - lack the ability to save player configuration (should be saved by default

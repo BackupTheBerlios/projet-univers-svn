@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2008 Mathieu ROGER                                      *
+ *   Copyright (C) 2009 Mathieu ROGER                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,13 +18,9 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_IMPLEMENTATION_LOGIC_FLYING_GROUP_H_
-#define PU_MODEL_IMPLEMENTATION_LOGIC_FLYING_GROUP_H_
-
-#include <kernel/controler.h>
-#include <model/position.h>
-#include <model/implementation/activated_flying_group.h>
-#include <model/implementation/logic/logic_system.h>
+#include <model/implementation/with_flying_group.h>
+#include <model/implementation/logic/flying_group.h>
+#include <model/implementation/logic/player.h>
 
 namespace ProjetUnivers 
 {
@@ -34,38 +30,31 @@ namespace ProjetUnivers
     {
       namespace Logic 
       {
-
-        /// Handle respawn of the flying group.
-        class FlyingGroup : public Kernel::Controler<Implementation::ActivatedFlyingGroup,
-                                                     LogicSystem>
-        {
-        public:
-          
-          /// Construct.
-          FlyingGroup(Implementation::ActivatedFlyingGroup*,LogicSystem*) ;
         
-          /// Respawn the player in an AI.
-          void respawnPlayer() ;
-          
-        protected:
-          
-          /// Populate the group.
-          virtual void onInit() ;
-
-          /// Handle respawn.
-          virtual void onUpdate() ;
-          
-          /// Calculate the spawning position.
-          Position getStartingPosition() const ;
-          
-        private:
-          
-          unsigned int m_number_of_spawn ;
-        };
+        RegisterControler(Player,PlayerInActivatedFlyingGroup,LogicSystem) ;
+        
+        Player::Player(PlayerInActivatedFlyingGroup* player,LogicSystem* system)
+        : Kernel::Controler<PlayerInActivatedFlyingGroup,LogicSystem>(player,system)
+        {}
+        
+        void Player::onClose()
+        {
+          Kernel::Object* group = getObject()
+                                  ->getParent<Implementation::WithFlyingGroup>()
+                                  ->getFlyingGroup() ;
+          if (group)
+          {
+            Implementation::ActivatedFlyingGroup* activated_flying_group = 
+              group->getTrait<Implementation::ActivatedFlyingGroup>() ;
+            if (activated_flying_group)
+            {
+              activated_flying_group->getControler<Logic::FlyingGroup>(getControlerSet())
+                                    ->respawnPlayer() ;
+            }
+          }
+        }
+        
       }
     }
   }
 }
-
-
-#endif /*PU_MODEL_IMPLEMENTATION_LOGIC_FLYING_GROUP_H_*/

@@ -27,10 +27,14 @@
 #include <model/model.h>
 #include <model/implementation/logic/logic_system.h>
 
-namespace ProjetUnivers {
-  namespace Model {
-    namespace Implementation {
-      namespace Logic {
+namespace ProjetUnivers 
+{
+  namespace Model 
+  {
+    namespace Implementation 
+    {
+      namespace Logic 
+      {
 
         RegisterControlerSet(LogicSystem) ;
         

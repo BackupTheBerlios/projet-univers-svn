@@ -64,6 +64,7 @@ libmodel_la_SOURCES = \
 ../implementation/played.cpp \
 ../implementation/player.cpp \
 ../implementation/player_configuration.cpp \
+../implementation/player_in_activated_flying_group.cpp \
 ../implementation/position.cpp \
 ../implementation/positionned.cpp \
 ../implementation/selected.cpp \
@@ -99,6 +100,7 @@ libmodel_la_SOURCES = \
 ../implementation/logic/laser.cpp \
 ../implementation/logic/logic.cpp \
 ../implementation/logic/logic_system.cpp \
+../implementation/logic/player.cpp \
 ../implementation/logic/shooting_helper_viewpoint.cpp \
 ../implementation/logic/shooting_helper.cpp \
 ../implementation/logic/shot.cpp \

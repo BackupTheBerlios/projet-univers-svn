@@ -37,7 +37,8 @@ namespace ProjetUnivers
         
         void closeMission() ;
         void loadMission() ;
-
+        void stopPlayingMission() ;
+        
         void initCustomMission() ;
         void initCustomMissionWithPlayer() ;
         void initCustomMissionWithOnePlayer() ;
@@ -48,6 +49,9 @@ namespace ProjetUnivers
         
         void respawn() ;
         void endOfRespawn() ;
+        
+        void respawnPlayer() ;
+        void doNotRespawnPlayerIfLast() ;
         
       protected:
         // @}
@@ -60,6 +64,7 @@ namespace ProjetUnivers
         
           CPPUNIT_TEST(closeMission) ;
           CPPUNIT_TEST(loadMission) ;
+          CPPUNIT_TEST(stopPlayingMission) ;
           CPPUNIT_TEST(initCustomMission) ;
           CPPUNIT_TEST(initCustomMissionWithPlayer) ;
           CPPUNIT_TEST(initCustomMissionWithOnePlayer) ;
@@ -68,6 +73,8 @@ namespace ProjetUnivers
           CPPUNIT_TEST(initCustomMissionShipSpawn) ;
           CPPUNIT_TEST(respawn) ;
           CPPUNIT_TEST(endOfRespawn) ;
+          CPPUNIT_TEST(respawnPlayer) ;
+          CPPUNIT_TEST(doNotRespawnPlayerIfLast) ;
           
           CPPUNIT_TEST_SUITE_END() ;
 
