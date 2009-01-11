@@ -38,9 +38,12 @@ CPPUNIT_TEST_SUITE_REGISTRATION(ProjetUnivers::
                                 Test::
                                 TestTarget) ;
 
-namespace ProjetUnivers {
-  namespace Display {
-    namespace Test {
+namespace ProjetUnivers 
+{
+  namespace Display 
+  {
+    namespace Test 
+    {
 
       namespace
       {
@@ -93,13 +96,6 @@ namespace ProjetUnivers {
 
       }
       
-      void TestTarget::setUp() 
-      {
-      }
-      
-      void TestTarget::tearDown() 
-      {
-      }
 
     }
   }

@@ -488,8 +488,8 @@ namespace ProjetUnivers
         
         CPPUNIT_ASSERT_EQUAL((unsigned int)2,ships.size()) ;
         
-        Kernel::Object* player_ship ;
-        Kernel::Object* ai_ship ;
+        Kernel::ObjectReference player_ship ;
+        Kernel::ObjectReference ai_ship ;
         
         for(std::set<Implementation::WithFlyingGroup*>::const_iterator ship = ships.begin() ;
             ship != ships.end() ;
@@ -506,61 +506,6 @@ namespace ProjetUnivers
         
         CPPUNIT_ASSERT(!ai_ship->getChildren<Player>().empty()) ;
         CPPUNIT_ASSERT(ai_ship->getChildren<AutonomousCharacter>().empty()) ;
-      }
-
-      void TestMission::doNotRespawnPlayerIfLast()
-      {
-        InternalMessage("Mission","Model::TestMission::respawnPlayer entering") ;
-        
-        std::auto_ptr<Kernel::Model> model(new Kernel::Model()) ;
-        model->init() ;
-        
-        Kernel::Object* mission = model->createObject() ;
-        mission->addTrait(new CustomMission("",NULL,NULL)) ;
-        
-        Kernel::Object* team = mission->createObject() ;
-        team->addTrait(new Team("")) ;
-        
-        Kernel::Object* flying_group = team->createObject() ;
-        flying_group->addTrait(new FlyingGroup("")) ;
-        
-        flying_group->getTrait<FlyingGroup>()->setShipName("razor") ;
-        flying_group->getTrait<FlyingGroup>()->setInitialNumberOfShips(2) ;
-        flying_group->getTrait<FlyingGroup>()->setHasPlayer(true) ;
-
-        CPPUNIT_ASSERT(!mission->getTrait<Mission>()->getSystem()) ;
-        
-        mission->addTrait(new Played()) ;
-        
-        Kernel::Object* system = mission->getTrait<Mission>()->getSystem() ; 
-        CPPUNIT_ASSERT(system) ;
-        
-        std::set<Implementation::WithFlyingGroup*> ships = 
-          system->getChildren<Implementation::WithFlyingGroup>() ;
-        
-        CPPUNIT_ASSERT_EQUAL((unsigned int)2,ships.size()) ;
-        
-        Kernel::Object* player_ship ;
-        Kernel::Object* ai_ship ;
-        
-        for(std::set<Implementation::WithFlyingGroup*>::const_iterator ship = ships.begin() ;
-            ship != ships.end() ;
-            ++ship)
-        {
-          if (!(*ship)->getObject()->getChildren<Player>().empty())
-            player_ship = (*ship)->getObject() ;
-          else
-            ai_ship = (*ship)->getObject() ;
-        }
-        
-        ai_ship->destroyObject() ;
-        model->update(0.1) ;
-        // destroy player ship -> last standing
-        player_ship->destroyObject() ;
-        model->update(0.1) ;
-        
-        CPPUNIT_ASSERT(mission->getTrait<Mission>()->getSystem()->getChildren<Player>().empty()) ;
-        CPPUNIT_ASSERT(mission->getTrait<Mission>()->getSystem()->getChildren<AutonomousCharacter>().empty()) ;
       }
       
       void TestMission::stopPlayingMission()
@@ -604,6 +549,76 @@ namespace ProjetUnivers
         model->update(0.1) ;
         mission->destroyTrait(mission->getTrait<Model::Played>()) ;
         model->update(0.1) ;
+      }
+
+      void TestMission::endOfMission()
+      {
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model()) ;
+        model->init() ;
+        
+        Kernel::Object* root = model->createObject() ; 
+        root->addTrait(new Model::State()) ;
+        root->addTrait(new Model::Active()) ;
+
+        Kernel::Object* menu = root->createObject() ;
+        menu->addTrait(new Model::State()) ;
+        menu->setName("main_menu") ;
+        
+        Kernel::Object* mission = root->createObject() ;
+        mission->addTrait(new Model::CustomMission("",NULL,NULL)) ;
+        mission->getTrait<Model::CustomMission>()->setStartingDistance(Model::Distance(Model::Distance::_Meter,4000)) ;
+        mission->addTrait(new Model::State()) ;
+        
+        Kernel::Object* team1 = mission->createObject() ;
+        team1->addTrait(new Model::Team("")) ;
+        
+        Kernel::Object* flying_group1 = team1->createObject() ;
+        flying_group1->addTrait(new Model::FlyingGroup("")) ;
+        
+        flying_group1->getTrait<Model::FlyingGroup>()->setShipName("razor") ;
+        flying_group1->getTrait<Model::FlyingGroup>()->setInitialNumberOfShips(1) ;
+        flying_group1->getTrait<Model::FlyingGroup>()->setHasPlayer(true) ;
+        flying_group1->getTrait<Model::FlyingGroup>()->setNumberOfSpawn(2) ;
+
+        Kernel::Object* team2 = mission->createObject() ;
+        team2->addTrait(new Model::Team("")) ;
+        
+        Kernel::Object* flying_group2 = team2->createObject() ;
+        flying_group2->addTrait(new Model::FlyingGroup("")) ;
+        
+        flying_group2->getTrait<Model::FlyingGroup>()->setShipName("razor") ;
+        flying_group2->getTrait<Model::FlyingGroup>()->setInitialNumberOfShips(1) ;
+        flying_group2->getTrait<Model::FlyingGroup>()->setHasPlayer(false) ;
+        flying_group2->getTrait<Model::FlyingGroup>()->setNumberOfSpawn(2) ;
+
+        root->getTrait<Model::State>()->changeState(mission,new Model::Played()) ;
+        model->update(0.1) ;
+        CPPUNIT_ASSERT(mission->getTrait<Model::Played>()) ;
+        
+        std::set<Kernel::ObjectReference> ships1 = flying_group1->getTrait<Model::FlyingGroup>()->getShips() ;
+        for(std::set<Kernel::ObjectReference>::iterator ship = ships1.begin() ;
+            ship != ships1.end() ;
+            ++ship)
+        {
+          if (*ship)
+            (*ship)->destroyObject() ;
+        }
+        model->update(0.1) ;
+        
+        // we stil have life
+        CPPUNIT_ASSERT(mission->getTrait<Model::Played>()) ;
+        
+        ships1 = flying_group1->getTrait<Model::FlyingGroup>()->getShips() ;
+        for(std::set<Kernel::ObjectReference>::iterator ship = ships1.begin() ;
+            ship != ships1.end() ;
+            ++ship)
+        {
+          (*ship)->destroyObject() ;
+        }
+        model->update(0.1) ;
+        
+        // no more life --> mission is over
+        CPPUNIT_ASSERT(!mission->getTrait<Model::Played>()) ;
       }
       
     }

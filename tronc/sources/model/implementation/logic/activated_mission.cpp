@@ -19,7 +19,9 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include <kernel/log.h>
+#include <model/flying_group.h>
 #include <model/mission.h>
+#include <model/played.h>
 #include <model/universe.h>
 #include <model/implementation/logic/activated_mission.h>
 
@@ -58,6 +60,14 @@ namespace ProjetUnivers {
           }
         }
 
+        void ActivatedMission::indicateGroupHasNoMoreSpawn(Kernel::Object* group)
+        {
+          if (group->getTrait<FlyingGroup>()->hasPlayer())
+          {
+            getObject()->destroyTrait(getTrait<Played>()) ;
+          }
+        }
+        
       }
     }
   }

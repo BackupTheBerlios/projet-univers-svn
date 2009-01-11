@@ -288,6 +288,14 @@ namespace ProjetUnivers
       /// Access to all commands understood be the trait.
       virtual std::set<std::string> getCommands() const ;
     
+      /// Add a lock the trait, it will be removed when unlocked  
+      void lock() ;
+      
+      /// Remove a lock on the trait
+      void unlock() ;
+      
+      /// Has it locks ?
+      bool isLocked() const ;
 
     private:
         
@@ -306,6 +314,17 @@ namespace ProjetUnivers
       template <class Trait> friend class TraitReference ;  
       
     // @}
+      
+      /// Number of active locks
+      int m_locks ;
+      
+      /// Mark trait for destruction when unlocked
+      void markAsToBeDestroyed(const TypeIdentifier& trait_name) ;
+      bool m_marked_for_destruction ;
+      TypeIdentifier m_trait_name ;
+      
+      /// True during notify().
+      bool m_is_updating ;
       
       typedef boost::function1<Trait*, Reader*> ReaderFunction ;  
       

@@ -1122,18 +1122,37 @@
 
   * Model : 
     - mission : respawn player in an AI
+
+2009-01-11 rogma 
+  
+  * Kernel :
+    - still better sequence checking, when performing propagation inside trait 
+      loops, traits, objects are locked they are only destroyed when unlocked
+    - added preliminary Operation,Transaction,Interpertor for event better 
+      operation handling
       
+  * Display :
+    - added the possibility to change observer : current observer is any object 
+      with traits Observer^Active 
+  
 @todo :
+
+  * seg fault on AI when quitting the mission
+
+  * Model :
+    - mission quit is performed on conditions : player cannot be respawned 
+      anymore, or all enemies cannot be respawned
 
   * GUI : 
     - validation of the mission.
-    - drag and drop from Active Players to Pilot 
-    - save/load
+    - drag and drop from Active Players to Pilot and conversely
+    - save/load missions
     
   * Demo :
     - integration of mission (be able to replay the mission...) 
 
     - try a camera outside the ship (external view)
+    
   * Model : 
     - Mission : destruction sequence during player's ship explosion 
       (Player & Parent(Explosion)) --> change current camera to a fixed one 

@@ -82,8 +82,10 @@ namespace ProjetUnivers
       
       const Objective& getObjective() const ;
       
-      /// Get a AI piloted ship.
+      /// Get an AI piloted ship.
       Kernel::Object* getAIShip() const ;
+      
+      std::set<Kernel::ObjectReference> getShips() const ;
       
     private:
 

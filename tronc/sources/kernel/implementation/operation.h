@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2008 Mathieu ROGER                                      *
+ *   Copyright (C) 2009 Mathieu ROGER                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,73 +18,49 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <iostream>
+#pragma once
 
-#include <kernel/view_point.h>
-#include <kernel/controler_set.h>
-
-#include <kernel/test/test_viewpoint_registration.h>
-
-CPPUNIT_TEST_SUITE_REGISTRATION(
-    ProjetUnivers::Kernel::Test::TestViewPointRegistration) ;
+#include <kernel/object_reference.h>
+#include <kernel/trait.h>
 
 namespace ProjetUnivers 
 {
   namespace Kernel 
   {
-    namespace Test 
+    namespace Implementation
     {
-      
-      namespace
+      /// Model operation.
+      class Operation
       {
-        class TestViewPoint : public ViewPoint
-        {
-        public:
-          
-          TestViewPoint(Model* model)
-          : ViewPoint(model)
-          {
-            ++number_of_instances ;
-          }
-          
-          static int number_of_instances ;
-        };
+      public:
         
-        int TestViewPoint::number_of_instances = 0 ;
+        static Operation addTrait(Trait*) ;
+        static Operation destroyTrait(Trait*) ;
+        static Operation destroyObject(Object*) ;
         
-        RegisterViewPoint(TestViewPoint) ;
+        Operation(const Operation&) ;
+        
+        /// Really execute the operation
+        void execute() ;
 
-        class TestControlerSet : public ControlerSet
+      private:
+        
+        Operation() ;
+        
+        enum Type
         {
-        public:
-          
-          TestControlerSet(Model* model)
-          : ControlerSet(model)
-          {
-            ++number_of_instances ;
-          }
-          
-          static int number_of_instances ;
+          DestroyObject,
+          DestroyTrait,
+          AddTrait,
+          None
         };
         
-        int TestControlerSet::number_of_instances = 0 ;
-        
-        RegisterControlerSet(TestControlerSet) ;
-        
-      }
-      
-      void TestViewPointRegistration::automaticCreation()
-      {
-        std::auto_ptr<Model> model(new Model()) ;
-        model->init() ;
-        
-        CPPUNIT_ASSERT(model->getViewPoint<TestViewPoint>()) ;
-        CPPUNIT_ASSERT_EQUAL(1,TestViewPoint::number_of_instances) ;
-        
-        CPPUNIT_ASSERT(model->getControlerSet<TestControlerSet>()) ;
-        CPPUNIT_ASSERT_EQUAL(1,TestControlerSet::number_of_instances ) ;
-      }
-      
+        Type            m_type ;
+        ObjectReference m_object ;
+        TypeIdentifier  m_trait_identifier ;
+        Trait*          m_trait ;
+        Model*          m_model ;
+      };
     }
   }
 }

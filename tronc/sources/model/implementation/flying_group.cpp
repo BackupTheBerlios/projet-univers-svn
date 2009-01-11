@@ -126,5 +126,10 @@ namespace ProjetUnivers
       return NULL ;
     }
     
+    std::set<Kernel::ObjectReference> FlyingGroup::getShips() const
+    {
+      return m_ships ;
+    }
+    
   }
 }

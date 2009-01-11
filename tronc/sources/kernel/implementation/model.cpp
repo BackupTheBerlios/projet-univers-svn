@@ -99,15 +99,15 @@ namespace ProjetUnivers
       if (m_destroying)
         return ;
       
-      if (m_is_simulating_controler_set)
+      object->_close() ;
+      
+      if (m_is_simulating_controler_set || object->isLocked())
       {
         addObjectToDestroy(object) ;
         return ;
       }
 
       m_is_simulating_controler_set = true ;
-      
-      object->_close() ;
       
       if (object->getParent() == NULL)
       {

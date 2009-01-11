@@ -41,6 +41,8 @@ namespace ProjetUnivers {
               Implementation::IdealTarget* object,
               TargetDisplayerViewPoint* viewpoint)
           : Kernel::TraitView<Implementation::IdealTarget,TargetDisplayerViewPoint>(object,viewpoint),
+            m_target_container(NULL),
+            m_target(NULL),
             m_target_is_shown(false)
           {}
 

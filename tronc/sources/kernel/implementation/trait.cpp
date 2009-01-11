@@ -55,6 +55,11 @@ namespace ProjetUnivers
 
     Trait::~Trait()
     {
+      if (m_locks>0)
+      {
+        ErrorMessage("destroying trait with locks") ;
+      }
+      
       _close() ;
       
       for(std::set<BaseTraitReference*>::iterator reference = m_references.begin() ;
@@ -81,13 +86,20 @@ namespace ProjetUnivers
         delete controler->second ;
       }
 
+      if (m_marked_for_destruction)
+      {
+        getObject()->_detach(m_trait_name) ;
+      }
     }
   
     Trait::Trait()
     : m_object(NULL),
       m_destroying(false),
       m_views(),
-      m_controlers()
+      m_controlers(),
+      m_locks(0),
+      m_marked_for_destruction(false),
+      m_is_updating(false)
     {}
 
     void Trait::addView(ViewPoint* viewpoint,BaseTraitView* view)
@@ -324,7 +336,7 @@ namespace ProjetUnivers
           controler != m_controlers.end() ;
           ++controler)
       {
-        controler->second->_close() ;
+        if (controler->second) controler->second->_close() ;
       }
     }
 
@@ -387,9 +399,9 @@ namespace ProjetUnivers
           controler != m_controlers.end() ;
           ++controler)
       {
-        controler->second->_updated() ;
+        if (controler->second)
+          controler->second->_updated() ;
       }
-
     }
 
     void Trait::registerBuilder(const TypeIdentifier& _trait,
@@ -455,10 +467,30 @@ namespace ProjetUnivers
  
     void Trait::notify()
     {
+      lock() ;
+      bool remove_update = true ;
+      if (m_is_updating == true)
+      {
+        // it seems a bad idea to have kind of cycle on the same trait
+        ErrorMessage("Updating a trait that is already during an update :"
+                     " it is probalby a bad idea, the behaviour could " 
+                     "depend on order") ;
+        remove_update = false ;
+      }
+      else
+      {
+        m_is_updating = true ;
+      }
+      
       m_latest_updated_trait.push(getObjectTypeIdentifier(this)) ;
       _updated() ;
       DeducedTrait::updateTrait(getObject(),this) ;
       m_latest_updated_trait.pop() ;
+      if (remove_update)
+      {
+        m_is_updating = false ;
+      }
+      unlock() ;
     }
 
     void Trait::apply(
@@ -730,6 +762,41 @@ namespace ProjetUnivers
       }
       
       return result ;
+    }
+   
+    void Trait::lock()
+    {
+      ++m_locks ;
+      if (getObject())
+        getObject()->addLock() ;
+    }
+    
+    void Trait::unlock() 
+    {
+      if (m_locks==0)
+      {
+        ErrorMessage("should not remove locks") ;
+        return ;
+      }
+      
+      --m_locks ;
+      if (getObject())
+        getObject()->removeLock() ;
+      if (m_locks == 0 && m_marked_for_destruction)
+      {
+        delete this ;
+      }
+    }
+    
+    bool Trait::isLocked() const
+    {
+      return m_locks>0 ;
+    }
+    
+    void Trait::markAsToBeDestroyed(const TypeIdentifier& trait_name)
+    {
+      m_marked_for_destruction = true ;
+      m_trait_name = trait_name ;
     }
     
   }

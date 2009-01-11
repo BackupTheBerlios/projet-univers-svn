@@ -32,6 +32,10 @@ namespace ProjetUnivers
 {
   namespace Kernel 
   {
+    namespace Implementation
+    {
+      class Operation ;
+    }
     
     class ViewPoint ;
     class Trait ;
@@ -204,6 +208,7 @@ namespace ProjetUnivers
                          boost::function1<void,_View*> operation) ;
 
       friend class ObjectReference ;
+      friend class ::ProjetUnivers::Kernel::Implementation::Operation ;
     };
     
   }

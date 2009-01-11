@@ -16,7 +16,7 @@
       </Mapping>
       <Mapping command="Select Nearest Target">
         <!-- 25 is 'P' -->
-        <JoystickButton number="3"/>
+        <JoystickButton number="1"/>
       </Mapping>
       <Mapping command="Select Previous Target">
         <!-- 25 is 'P' -->
@@ -24,7 +24,7 @@
       </Mapping>
       <Mapping command="Select Nearest Enemy">
         <!-- 49 is 'N' -->
-        <Key number="49"/>
+        <JoystickButton number="3"/>
       </Mapping>
       <!-- Yaw is left/right -->
       <Mapping command="Yaw">

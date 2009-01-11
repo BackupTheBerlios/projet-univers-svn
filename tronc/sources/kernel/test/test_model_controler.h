@@ -32,8 +32,6 @@ namespace ProjetUnivers
     {
 
       ///  Test for Model/Controler.
-      /*!
-      */
       class TestModelControler : public CppUnit::TestFixture 
       {
       protected:
@@ -112,6 +110,8 @@ namespace ProjetUnivers
         /// Object destruction during simulation.
         void destroyObjectTwice() ;
         
+        void onUpdateIsConcurrentOnDelete() ;
+        
       // @}
 
 
@@ -134,6 +134,7 @@ namespace ProjetUnivers
         CPPUNIT_TEST(accessOtherTrait) ;
         CPPUNIT_TEST(destroyObject) ;
         CPPUNIT_TEST(destroyObjectTwice) ;
+//        CPPUNIT_TEST(onUpdateIsConcurrentOnDelete) ;
         
         CPPUNIT_TEST_SUITE_END() ;
 

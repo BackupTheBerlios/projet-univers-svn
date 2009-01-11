@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2008 Mathieu ROGER                                      *
+ *   Copyright (C) 2009 Mathieu ROGER                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,22 +18,49 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <model/observer.h>
-#include <display/implementation/positionned.h>
-#include <model/active.h>
-#include <display/implementation/observer.h>
+#pragma once
 
 namespace ProjetUnivers 
 {
-  namespace Display 
+  namespace Kernel 
   {
-    namespace Implementation 
+    class Model ;
+    
+    namespace Implementation
     {
+      class Transaction ;
+      
+      /// Model comand interpretor.
+      /*!
+        Executes commands on model and handle sequencement of operations.
+      */
+      class Interpretor
+      {
+      public:
+        
+        Interpretor(Model*) ;
 
-      DeclareDeducedTrait(Observer,
-                          And(HasTrait(Model::Observer),
-                              HasParent(Implementation::Positionned),
-                              HasParent(Model::Active))) ;
+        void startTransaction() ;
+        void endTransaction() ;
+        void startConcurrentBlock() ;
+        void endConcurrentBlock() ;
+        
+        void destroyObject(Object*) ;
+        void addTrait(Object*,Trait*) ;
+        void destroyTrait(Object*,Trait*) ;
+        
+        Object* getParent(Object*) const ;
+        
+        Trait* getTrait(Object*,const TypeIdentifier&) const ;
+        
+        
+        
+      private:
+        
+        Model*          m_model ;
+        
+        std::list<Transaction*> m_transactions ;
+      };
     }
   }
 }

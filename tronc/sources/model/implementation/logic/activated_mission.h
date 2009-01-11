@@ -22,13 +22,18 @@
 #define PU_MODEL_IMPLEMENTATION_LOGIC_ACTIVATED_MISSION_H_
 
 #include <kernel/controler.h>
+#include <model/duration.h>
 #include <model/implementation/activated_mission.h>
 #include <model/implementation/logic/logic_system.h>
 
-namespace ProjetUnivers {
-  namespace Model {
-    namespace Implementation {
-      namespace Logic {
+namespace ProjetUnivers 
+{
+  namespace Model 
+  {
+    namespace Implementation 
+    {
+      namespace Logic 
+      {
 
         /// Load the mission.
         class ActivatedMission : public Kernel::Controler<Implementation::ActivatedMission,
@@ -39,7 +44,8 @@ namespace ProjetUnivers {
           /// Construct.
           ActivatedMission(Implementation::ActivatedMission* mission,
                            LogicSystem*                      system) ;
-        
+
+          void indicateGroupHasNoMoreSpawn(Kernel::Object*) ;
         
         protected:
           
@@ -48,6 +54,10 @@ namespace ProjetUnivers {
 
           /// Destroy the mission.
           virtual void onClose() ;
+
+        private:
+          
+          Duration m_remaining_time ;
           
         };
       }

@@ -14,11 +14,13 @@ $(SOURCES)/kernel/implementation/controler_set.cpp \
 $(SOURCES)/kernel/implementation/exception.cpp \
 $(SOURCES)/kernel/implementation/exception_kernel.cpp \
 $(SOURCES)/kernel/implementation/deduced_trait.cpp \
+$(SOURCES)/kernel/implementation/interpretor.cpp \
 $(SOURCES)/kernel/implementation/log.cpp \
 $(SOURCES)/kernel/implementation/meta.cpp \
 $(SOURCES)/kernel/implementation/model.cpp \
 $(SOURCES)/kernel/implementation/object.cpp \
 $(SOURCES)/kernel/implementation/object_reference.cpp \
+$(SOURCES)/kernel/implementation/operation.cpp \
 $(SOURCES)/kernel/implementation/cppunit_multi_outputter.cpp \
 $(SOURCES)/kernel/implementation/string.cpp \
 $(SOURCES)/kernel/implementation/timer.cpp \
@@ -33,6 +35,7 @@ $(SOURCES)/kernel/implementation/reader.cpp \
 $(SOURCES)/kernel/implementation/timer_test_listener.cpp \
 $(SOURCES)/kernel/implementation/timer_test_result.cpp \
 $(SOURCES)/kernel/implementation/timer_xml_outputter_hook.cpp \
+$(SOURCES)/kernel/implementation/transaction.cpp \
 $(SOURCES)/kernel/implementation/xml_outputter.cpp \
 $(SOURCES)/kernel/implementation/xml_reader.cpp
 
@@ -42,7 +45,7 @@ libkernel_la_LDFLAGS += $(librlog_LIBS) $(libXML_LIBS) $(OGRE_LIBS) $(CPPUNIT_LI
 
 # tests
 
-TESTS = test_kernel test_performance_kernel
+TESTS = test_kernel test_kernel_automatic_registration test_performance_kernel
 
 check_PROGRAMS = $(TESTS)
 
@@ -58,7 +61,6 @@ $(SOURCES)/kernel/test/test_command.cpp \
 $(SOURCES)/kernel/test/test_parameters.cpp \
 $(SOURCES)/kernel/test/test_percentage.cpp \
 $(SOURCES)/kernel/test/test_xml_reader.cpp \
-$(SOURCES)/kernel/test/test_viewpoint_registration.cpp \
 $(SOURCES)/kernel/test/test_model.cpp 
 
 # checks that "test_inherits.cpp" does not compile
@@ -74,6 +76,14 @@ test_inherits.o : $(SOURCES)/kernel/test/test_inherits.cpp
 test_kernel_CXXFLAGS = $(PU_CXXFLAGS) 
 test_kernel_LDFLAGS = $(CPPUNIT_LIBS) 
 test_kernel_LDADD = libkernel.la $(librlog_LIBS) $(libXML_LIBS)
+
+test_kernel_automatic_registration_SOURCES = \
+$(SOURCES)/kernel/test/test_viewpoint_registration.cpp \
+$(SOURCES)/kernel/test/test_kernel_automatic_registration.cpp
+
+test_kernel_automatic_registration_CXXFLAGS = $(PU_CXXFLAGS) 
+test_kernel_automatic_registration_LDFLAGS = $(CPPUNIT_LIBS) 
+test_kernel_automatic_registration_LDADD = libkernel.la $(librlog_LIBS) $(libXML_LIBS)
 
 test_performance_kernel_SOURCES = \
 $(SOURCES)/kernel/test/performance/model.cpp \

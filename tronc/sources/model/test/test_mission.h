@@ -51,7 +51,8 @@ namespace ProjetUnivers
         void endOfRespawn() ;
         
         void respawnPlayer() ;
-        void doNotRespawnPlayerIfLast() ;
+        
+        void endOfMission() ;
         
       protected:
         // @}
@@ -74,7 +75,7 @@ namespace ProjetUnivers
           CPPUNIT_TEST(respawn) ;
           CPPUNIT_TEST(endOfRespawn) ;
           CPPUNIT_TEST(respawnPlayer) ;
-          CPPUNIT_TEST(doNotRespawnPlayerIfLast) ;
+          CPPUNIT_TEST(endOfMission) ;
           
           CPPUNIT_TEST_SUITE_END() ;
 

@@ -41,7 +41,11 @@ namespace ProjetUnivers
 {
   namespace Kernel 
   {
-
+    namespace Implementation
+    {
+      class Operation ;
+    }
+    
     class Trait ;
     class Model ;
     class ViewPoint ;
@@ -254,6 +258,9 @@ namespace ProjetUnivers
       /// Remove a trait by trait name.
       void _remove(const TypeIdentifier& i_trait_name) ;
 
+      /// Detach a trait.
+      Object* _detach(const TypeIdentifier& trait_name) ;
+      
       /// Retreive the trait named @c i_trait_name.
       Trait* _get(const TypeIdentifier& i_trait_name) const ;
 
@@ -362,7 +369,16 @@ namespace ProjetUnivers
       /// Number of true chid formulae indexed by formulae.       
       std::vector<unsigned short>      m_number_of_true_child_formulae ;
 
+      /// Object name
       std::string                      m_name ;
+      
+      void lockTraits() ;
+      void unlockTraits() ;
+      
+      void addLock() ;
+      void removeLock() ;
+      bool isLocked() const ;
+      int m_locks ;
       
       /// Record the objects on which we have already try calling a function
       /*!
@@ -394,6 +410,7 @@ namespace ProjetUnivers
       friend class DeducedTrait ;
       friend class CommandDelegator ;
       friend class Reader ;
+      friend class ::ProjetUnivers::Kernel::Implementation::Operation ;
     };
   }
 }      

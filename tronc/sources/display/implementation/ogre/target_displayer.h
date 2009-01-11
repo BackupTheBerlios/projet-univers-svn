@@ -30,10 +30,19 @@
 #include <display/implementation/ogre/real_world_view_point.h>
 #include <display/implementation/ogre/head_up_display/target_displayer_viewpoint.h>
 
-namespace ProjetUnivers {
-  namespace Display {
-    namespace Implementation {
-      namespace Ogre {
+namespace ProjetUnivers 
+{
+  namespace Display 
+  {
+    namespace Test
+    {
+      class TestModelView ;
+    }
+    
+    namespace Implementation 
+    {
+      namespace Ogre 
+      {
 
         /// Display targets.
         /*!
@@ -130,6 +139,8 @@ namespace ProjetUnivers {
           
           /// Viewpoint displaying targets
           std::auto_ptr<Kernel::ViewPoint> m_implementation ;
+          
+          friend class ::ProjetUnivers::Display::Test::TestModelView ;
         };
       }
     }

@@ -80,6 +80,8 @@ namespace ProjetUnivers {
         
       void Agent::onClose()
       {
+//        m_view_point->close() ;
+//        m_vehicle_view_point->close() ;
         m_view_point= NULL ;
         m_vehicle_view_point = NULL ;
       }

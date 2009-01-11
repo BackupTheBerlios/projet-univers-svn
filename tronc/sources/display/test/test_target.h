@@ -23,31 +23,17 @@
 
 #include <cppunit/extensions/HelperMacros.h>
 
-namespace ProjetUnivers {
-  namespace Display {
-    namespace Test {
+namespace ProjetUnivers 
+{
+  namespace Display 
+  {
+    namespace Test 
+    {
             
       /// Test of Detector.
-      class TestTarget : public CppUnit::TestFixture {
-      public:
-  
-      // @}
-      /*! 
-        @name Mandatory methods
-      */
-      // @{
-
-      
-        /// Test init
-        void setUp() ;
-      
-        /// Test close
-        void tearDown() ;
-      
+      class TestTarget : public CppUnit::TestFixture 
+      {
       protected:
-      
-        
-      // @}      
       /*! 
         @name Tests
       */ 

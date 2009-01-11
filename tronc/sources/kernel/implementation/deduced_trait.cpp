@@ -1304,8 +1304,10 @@ namespace ProjetUnivers
 
     void DeducedTrait::notify()
     {
+      lock() ;
       _updated() ;
       TraitFormula::updateTrait(getObject(),this) ;
+      unlock() ;
     }
 
     void DeducedTrait::addTrait(Object* object,Trait* trait)

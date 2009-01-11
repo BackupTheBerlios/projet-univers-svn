@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2008 Mathieu ROGER                                      *
+ *   Copyright (C) 2009 Mathieu ROGER                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,71 +18,51 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <iostream>
-
-#include <kernel/view_point.h>
-#include <kernel/controler_set.h>
-
-#include <kernel/test/test_viewpoint_registration.h>
-
-CPPUNIT_TEST_SUITE_REGISTRATION(
-    ProjetUnivers::Kernel::Test::TestViewPointRegistration) ;
+#include <kernel/model.h>
+#include <kernel/object.h>
+#include <kernel/implementation/operation.h>
+#include <kernel/implementation/transaction.h>
+#include <kernel/implementation/interpretor.h>
 
 namespace ProjetUnivers 
 {
   namespace Kernel 
   {
-    namespace Test 
+    namespace Implementation
     {
+      Interpretor::Interpretor(Model* model)
+      : m_model(model)
+      {}
       
-      namespace
+      void Interpretor::startTransaction() 
       {
-        class TestViewPoint : public ViewPoint
-        {
-        public:
-          
-          TestViewPoint(Model* model)
-          : ViewPoint(model)
-          {
-            ++number_of_instances ;
-          }
-          
-          static int number_of_instances ;
-        };
-        
-        int TestViewPoint::number_of_instances = 0 ;
-        
-        RegisterViewPoint(TestViewPoint) ;
-
-        class TestControlerSet : public ControlerSet
-        {
-        public:
-          
-          TestControlerSet(Model* model)
-          : ControlerSet(model)
-          {
-            ++number_of_instances ;
-          }
-          
-          static int number_of_instances ;
-        };
-        
-        int TestControlerSet::number_of_instances = 0 ;
-        
-        RegisterControlerSet(TestControlerSet) ;
         
       }
       
-      void TestViewPointRegistration::automaticCreation()
+      void Interpretor::endTransaction() 
       {
-        std::auto_ptr<Model> model(new Model()) ;
-        model->init() ;
         
-        CPPUNIT_ASSERT(model->getViewPoint<TestViewPoint>()) ;
-        CPPUNIT_ASSERT_EQUAL(1,TestViewPoint::number_of_instances) ;
+      }
+      void Interpretor::startConcurrentBlock() 
+      {
         
-        CPPUNIT_ASSERT(model->getControlerSet<TestControlerSet>()) ;
-        CPPUNIT_ASSERT_EQUAL(1,TestControlerSet::number_of_instances ) ;
+      }
+      void Interpretor::endConcurrentBlock() 
+      {
+        
+      }
+      
+      void Interpretor::destroyObject(Object*) 
+      {
+        
+      }
+      void Interpretor::addTrait(Object*,Trait*) 
+      {
+        
+      }
+      void Interpretor::destroyTrait(Object*,Trait*) 
+      {
+        
       }
       
     }

@@ -32,11 +32,16 @@
 #include <display/implementation/ogre/positionned.h>
 #include <display/implementation/ogre/head_up_display/target.h>
 
-namespace ProjetUnivers {
-  namespace Display {
-    namespace Implementation {
-      namespace Ogre {
-        namespace HeadUpDisplay {
+namespace ProjetUnivers 
+{
+  namespace Display 
+  {
+    namespace Implementation 
+    {
+      namespace Ogre 
+      {
+        namespace HeadUpDisplay 
+        {
 
           RegisterView(Target, 
                        Implementation::Target, 

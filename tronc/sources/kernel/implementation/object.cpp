@@ -215,7 +215,8 @@ namespace ProjetUnivers
       m_parent(NULL),
       m_model(i_model),
       m_validities(Formula::getNumberOfFormulae()),
-      m_number_of_true_child_formulae(Formula::getNumberOfFormulae())
+      m_number_of_true_child_formulae(Formula::getNumberOfFormulae()),
+      m_locks(0)
     {
     }
 
@@ -295,23 +296,30 @@ namespace ProjetUnivers
       DeducedTrait::removeTrait(this,trait) ;
       trait->_close() ;
       
-      this->traits.erase(i_trait_name) ;
-      delete trait ;
+      
+      if (trait->isLocked())
+      {
+        trait->markAsToBeDestroyed(i_trait_name) ;
+      }
+      else
+      {
+        this->traits.erase(i_trait_name) ;
+        delete trait ;
+      }
     }
     
     void Object::_remove(Trait* i_trait)
     {
       CHECK(i_trait,"Kernel::_remove(Trait*) no trait") ;
       TypeIdentifier trait_name(getObjectTypeIdentifier(i_trait)) ;
-      
-      // same reason as above
-      DeducedTrait::removeTrait(this,i_trait) ;
-      i_trait->_close() ;
-      
-      this->traits.erase(trait_name) ;
-      delete i_trait ;
+      _remove(trait_name) ;
     }
 
+    Object* Object::_detach(const TypeIdentifier& trait_name)
+    {
+      this->traits.erase(trait_name) ;
+    }
+    
     Object::~Object()
     {
       m_deleting = true ;
@@ -409,12 +417,14 @@ namespace ProjetUnivers
         (*child)->_close() ;
       }
 
+      lockTraits() ;
       for(std::map<TypeIdentifier, Trait*>::iterator trait = traits.begin() ;
           trait != traits.end() ;
           ++trait)
       {
         trait->second->_close() ;
       }
+      unlockTraits() ;
       
     }
 
@@ -538,6 +548,7 @@ namespace ProjetUnivers
       ControlerSet*                         i_controler_set,
       boost::function1<void,BaseControler*> i_operation)
     {
+      lockTraits() ;
       // the set of trait may vary during apply so we store it once for all 
       std::set<TypeIdentifier> saved_traits ;
 
@@ -557,6 +568,7 @@ namespace ProjetUnivers
         if (local_trait)
           local_trait->apply(i_controler_set,i_operation) ;
       }
+      unlockTraits() ;
       
       /// the set of child may vary...
       std::set<Object*> saved_children(children) ;
@@ -794,6 +806,60 @@ namespace ProjetUnivers
       m_is_reading = false ;
     }
     
+    void Object::lockTraits()
+    {
+      for(std::map<TypeIdentifier,Trait*>::iterator trait = traits.begin() ;
+          trait != traits.end() ;
+          ++trait)
+      {
+        trait->second->lock() ;
+      }
+    }
     
+    void Object::unlockTraits()
+    {
+      std::set<TypeIdentifier> saved_traits ;
+      for(std::map<TypeIdentifier,Trait*>::iterator trait = traits.begin() ;
+          trait != traits.end() ;
+          ++trait)
+      {
+        saved_traits.insert(trait->first) ;
+      }
+
+      for(std::set<TypeIdentifier>::const_iterator trait = saved_traits.begin() ;
+          trait != saved_traits.end() ;
+          ++trait)
+      {
+        // if object still has the trait apply
+        Trait* local_trait = getTrait(*trait) ;
+        if (local_trait)
+          local_trait->unlock() ;
+      }
+    }
+
+    void Object::addLock()
+    {
+      ++m_locks ;
+      if (getParent())
+        getParent()->addLock() ;
+    }
+    
+    void Object::removeLock()
+    {
+      if (m_locks==0)
+      {
+        ErrorMessage("should not remove locks") ;
+        return ;
+      }
+          
+      --m_locks ;
+      if (getParent())
+        getParent()->removeLock() ;
+    }
+    
+    bool Object::isLocked() const
+    {
+      return m_locks>0 ;
+    }
   }
 }

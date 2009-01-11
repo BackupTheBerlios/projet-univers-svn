@@ -18,7 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <model/observer.h>
+#include <display/implementation/observer.h>
 #include <display/implementation/positionned.h>
 #include <model/mobile.h>
 #include <display/implementation/space_dust.h>
@@ -31,7 +31,7 @@ namespace ProjetUnivers
     {
 
       DeclareDeducedTrait(SpaceDust,
-                          And(HasTrait(Model::Observer),
+                          And(HasTrait(Implementation::Observer),
                               HasTrait(Implementation::Positionned),
                               HasParent(Model::Mobile))) ;
     }

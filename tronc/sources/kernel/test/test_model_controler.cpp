@@ -23,6 +23,7 @@ using namespace std ;
 
 #include <kernel/log.h>
 
+#include <kernel/deduced_trait.h>
 #include <kernel/exception.h>
 #include <kernel/model.h>
 #include <kernel/object.h>
@@ -1160,6 +1161,124 @@ namespace ProjetUnivers
         model->update(0) ;
         
         CPPUNIT_ASSERT(!person) ;
+      }
+      
+      namespace ConcurrentDeleteTrait
+      {
+        class T1 : public Trait
+        {
+        public:
+          void touch()
+          {
+            notify() ;
+          }
+        };
+        class T2 : public Trait
+        {};
+        class T3 : public Trait
+        {};
+        class T12 : public DeducedTrait
+        {};
+        DeclareDeducedTrait(T12,And(HasTrait(T1),HasTrait(T2))) ;
+        class T13 : public DeducedTrait
+        {};
+        DeclareDeducedTrait(T13,And(HasTrait(T1),HasTrait(T3))) ;
+        
+        class C1 : public ControlerSet
+        {
+        public:
+          C1(Model* model)
+          : ControlerSet(model)
+          {}
+        };
+
+        class C2 : public ControlerSet
+        {
+        public:
+          C2(Model* model)
+          : ControlerSet(model)
+          {}
+        };
+        
+        class C11 : public Controler<T1,C1>
+        {
+        public:
+          
+          C11(T1* t1,C1* c1)
+          : Controler<T1,C1>(t1,c1)
+          {}
+          
+          void onUpdate()
+          {
+            std::cout << "C11" ; 
+            CPPUNIT_ASSERT(getTrait<T3>()) ;
+            CPPUNIT_ASSERT(getTrait<T2>()) ;
+            CPPUNIT_ASSERT(getTrait<T12>()) ;
+            CPPUNIT_ASSERT(getTrait<T13>()) ;
+
+            T2* t2 = getTrait<T2>() ;
+            if (t2)
+            {
+              getObject()->destroyTrait(t2) ;
+            }
+            
+            CPPUNIT_ASSERT(getTrait<T3>()) ;
+            CPPUNIT_ASSERT(!getTrait<T2>()) ;
+            CPPUNIT_ASSERT(!getTrait<T12>()) ;
+            CPPUNIT_ASSERT(getTrait<T13>()) ;
+          }
+        };
+        RegisterControler(C11,T1,C1) ;
+        
+        class C12 : public Controler<T1,C2>
+        {
+        public:
+          
+          C12(T1* t1,C2* c)
+          : Controler<T1,C2>(t1,c)
+          {}
+          
+          void onUpdate()
+          {
+            std::cout << "C12" ; 
+            CPPUNIT_ASSERT(getTrait<T3>()) ;
+            CPPUNIT_ASSERT(getTrait<T2>()) ;
+            CPPUNIT_ASSERT(getTrait<T12>()) ;
+            CPPUNIT_ASSERT(getTrait<T13>()) ;
+            
+            T3* t3 = getTrait<T3>() ;
+            if (t3)
+            {
+              getObject()->destroyTrait(t3) ;
+            }
+            
+            CPPUNIT_ASSERT(!getTrait<T3>()) ;
+            CPPUNIT_ASSERT(getTrait<T2>()) ;
+            CPPUNIT_ASSERT(getTrait<T12>()) ;
+            CPPUNIT_ASSERT(!getTrait<T13>()) ;
+          }
+        };
+        RegisterControler(C12,T1,C2) ;
+
+      }
+      
+      void TestModelControler::onUpdateIsConcurrentOnDelete()
+      {
+        using namespace ConcurrentDeleteTrait ;
+        std::auto_ptr<Model> model(new Model()) ;
+        ControlerSet* c1 = model->addControlerSet(new C1(model.get())) ;
+        ControlerSet* c2 = model->addControlerSet(new C2(model.get())) ;
+        c1->init() ;
+        c2->init() ;
+      
+        ObjectReference object = model->createObject() ;
+        object->addTrait(new T1()) ;
+        object->addTrait(new T2()) ;
+        object->addTrait(new T3()) ;
+
+        object->getTrait<T1>()->touch() ;
+        CPPUNIT_ASSERT(!object->getTrait<T2>()) ;
+        CPPUNIT_ASSERT(!object->getTrait<T3>()) ;
       }
       
     }

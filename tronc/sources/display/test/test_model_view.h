@@ -23,15 +23,17 @@
 
 #include <cppunit/extensions/HelperMacros.h>
 
-namespace ProjetUnivers {
-  namespace Display {
-    namespace Test {
+namespace ProjetUnivers 
+{
+  namespace Display 
+  {
+    namespace Test 
+    {
             
       /// Global testing of this viewpoint.
-      class TestModelView : public CppUnit::TestFixture {
+      class TestModelView : public CppUnit::TestFixture 
+      {
       protected:
-      
-        
       /*! 
         @name Tests
       */ 
@@ -70,6 +72,10 @@ namespace ProjetUnivers {
         /// Create a displayable object then change parent
         void changeParent() ;
         
+        void changeObserver() ;
+        
+        void changeTargetDisplayer() ;
+        
       // @}
         /*! 
           @name Tests registration
@@ -88,6 +94,8 @@ namespace ProjetUnivers {
         CPPUNIT_TEST(recreateObserver) ;
         CPPUNIT_TEST(getMeshSize) ;
         CPPUNIT_TEST(changeParent) ;
+        CPPUNIT_TEST(changeObserver) ;
+        CPPUNIT_TEST(changeTargetDisplayer) ;
       
         CPPUNIT_TEST_SUITE_END() ;
 
