@@ -301,6 +301,7 @@ namespace ProjetUnivers {
         Kernel::Object* mission = root->createObject() ;
         mission->setName("mission") ;
         mission->addTrait(new State()) ;
+        mission->getTrait<Model::State>()->addCommandAlias("quit","change(main_menu,Displayed)") ;
         
         CustomMission* custom = new CustomMission("basic_mission",player_configuration,main_menu_in_game) ; 
         custom->setStartingDistance(Distance(Distance::_Meter,5000)) ;

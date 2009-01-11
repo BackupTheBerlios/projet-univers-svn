@@ -73,7 +73,7 @@ namespace ProjetUnivers {
     bool State::call(const Kernel::TypeIdentifier& trait_type,
                      const std::string&            command)
     {
-      InternalMessage("Model","State::call entering command=" + command) ;
+      InternalMessage("State","State::call entering command=" + command) ;
       
       // check for aliases
       std::map<std::string,std::string>::const_iterator finder = m_aliases.find(command) ;
@@ -82,7 +82,7 @@ namespace ProjetUnivers {
         return call(trait_type,finder->second) ;
       }
       
-      InternalMessage("Model","State::call command is not an alias") ;
+      InternalMessage("State","State::call command is not an alias") ;
 
       // parse the command
       std::string::size_type position_of_parenthesis = command.find('(') ;
@@ -91,7 +91,7 @@ namespace ProjetUnivers {
       {
         std::string command_name = command.substr(0,position_of_parenthesis) ;
 
-        InternalMessage("Model","State::call command name=" + command_name) ;
+        InternalMessage("State","State::call command name=" + command_name) ;
         
         if (command_name == "pop")
         {
@@ -115,8 +115,8 @@ namespace ProjetUnivers {
             std::string trait_name = command.substr(position_of_comma+1,
                                                     command.length()-position_of_comma-2) ;
 
-            InternalMessage("Model","State::call object name=" + object_name) ;
-            InternalMessage("Model","State::call trait name=" + trait_name) ;
+            InternalMessage("State","State::call object name=" + object_name) ;
+            InternalMessage("State","State::call trait name=" + trait_name) ;
             
             std::auto_ptr<Active> active(getTrait(trait_name)) ;
             Kernel::Object* object = Kernel::Object::get(object_name) ;
@@ -140,7 +140,7 @@ namespace ProjetUnivers {
         }
       }
       // not executed
-      InternalMessage("Model","State::call command name not executed") ;
+      InternalMessage("State","State::call command name not executed") ;
       return false ; 
       
     }
@@ -220,7 +220,7 @@ namespace ProjetUnivers {
         return ;
       }
 
-      InternalMessage("Model","Model::State::changeState from " + 
+      InternalMessage("State","Model::State::changeState from " + 
                               Kernel::toString(getObject()->getIdentifier()) + 
                               " to " + Kernel::toString(state->getIdentifier())) ;
       
@@ -228,16 +228,16 @@ namespace ProjetUnivers {
 
       if (parent == this)
       {
-        InternalMessage("Model","Model::State::changeState#1") ; 
+        InternalMessage("State","Model::State::changeState#1") ; 
         parent->exitSubStates() ;
-        InternalMessage("Model","Model::State::changeState#1.1") ; 
+        InternalMessage("State","Model::State::changeState#1.1") ; 
         m_activated_children.push_back(state) ;
         enter(state,active) ;
-        InternalMessage("Model","Model::State::changeState#1.2") ; 
+        InternalMessage("State","Model::State::changeState#1.2") ; 
       } 
       else
       {
-        InternalMessage("Model","Model::State::changeState#2") ; 
+        InternalMessage("State","Model::State::changeState#2") ; 
         State* parent = getObject()->getAncestor<State>() ;
         if (parent)
         {

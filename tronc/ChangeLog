@@ -1134,15 +1134,22 @@
   * Display :
     - added the possibility to change observer : current observer is any object 
       with traits Observer^Active 
+
+2009-01-11 rogma 
   
-@todo :
-
-  * seg fault on AI when quitting the mission
-
+  * Kernel :
+    - removed bugs an small work on future sequence system
+  * AI :
+    - removed seg fault when destroying ship
   * Model :
     - mission quit is performed on conditions : player cannot be respawned 
       anymore, or all enemies cannot be respawned
+  
+@todo :
 
+  * Kernel : 
+    - the error message on udpate during update could be better : 
+      the updated trait names, the object names... (ideally the stack)
   * GUI : 
     - validation of the mission.
     - drag and drop from Active Players to Pilot and conversely
@@ -1156,7 +1163,6 @@
   * Model : 
     - Mission : destruction sequence during player's ship explosion 
       (Player & Parent(Explosion)) --> change current camera to a fixed one 
-
           
     - add test for adding objects during a structure destroying  
     - bug : adding a mapping on an already assigned key does not worK ?

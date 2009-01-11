@@ -343,7 +343,7 @@ namespace ProjetUnivers
 
     void Object::_init()
     {
-      if (m_deleting)
+      if (!mayInit())
         return ;
       
       for(std::map<TypeIdentifier, Trait*>::iterator trait = traits.begin() ;
@@ -363,7 +363,7 @@ namespace ProjetUnivers
     
     void Object::_init(ViewPoint* i_viewpoint)
     {
-      if (m_deleting)
+      if (!mayInit())
         return ;
       
       if (i_viewpoint->isVisible(this))
@@ -386,7 +386,7 @@ namespace ProjetUnivers
 
     void Object::_init(ControlerSet* i_controler_set)
     {
-      if (m_deleting)
+      if (!mayInit())
         return ;
       
       if (i_controler_set->isVisible(this))
@@ -417,15 +417,14 @@ namespace ProjetUnivers
         (*child)->_close() ;
       }
 
-      lockTraits() ;
+      std::set<Trait*> locked_traits(lockTraits()) ;
       for(std::map<TypeIdentifier, Trait*>::iterator trait = traits.begin() ;
           trait != traits.end() ;
           ++trait)
       {
         trait->second->_close() ;
       }
-      unlockTraits() ;
-      
+      unlockTraits(locked_traits) ;
     }
 
     void Object::_close(ViewPoint* i_viewpoint)
@@ -548,7 +547,7 @@ namespace ProjetUnivers
       ControlerSet*                         i_controler_set,
       boost::function1<void,BaseControler*> i_operation)
     {
-      lockTraits() ;
+      std::set<Trait*> locked_traits(lockTraits()) ;
       // the set of trait may vary during apply so we store it once for all 
       std::set<TypeIdentifier> saved_traits ;
 
@@ -568,7 +567,6 @@ namespace ProjetUnivers
         if (local_trait)
           local_trait->apply(i_controler_set,i_operation) ;
       }
-      unlockTraits() ;
       
       /// the set of child may vary...
       std::set<Object*> saved_children(children) ;
@@ -579,13 +577,14 @@ namespace ProjetUnivers
       {
         (*child)->applyTopDown(i_controler_set,i_operation) ; ;
       }
+      unlockTraits(locked_traits) ;
     }
 
     void Object::applyBottomUp(
       ControlerSet*                         i_controler_set,
       boost::function1<void,BaseControler*> i_operation)
     {
-      
+      std::set<Trait*> locked_traits(lockTraits()) ;
       /// the set of child may vary...
       std::set<Object*> saved_children(children) ;
       
@@ -614,6 +613,7 @@ namespace ProjetUnivers
         if (local_trait)
           local_trait->apply(i_controler_set,i_operation) ;
       }
+      unlockTraits(locked_traits) ;
     }
 
     bool Object::call(const std::string& i_command) 
@@ -806,34 +806,27 @@ namespace ProjetUnivers
       m_is_reading = false ;
     }
     
-    void Object::lockTraits()
+    std::set<Trait*> Object::lockTraits()
     {
+      std::set<Trait*> result ;
       for(std::map<TypeIdentifier,Trait*>::iterator trait = traits.begin() ;
           trait != traits.end() ;
           ++trait)
       {
         trait->second->lock() ;
+        result.insert(trait->second) ;
       }
+      return result ;
     }
     
-    void Object::unlockTraits()
+    void Object::unlockTraits(const std::set<Trait*>& traits)
     {
-      std::set<TypeIdentifier> saved_traits ;
-      for(std::map<TypeIdentifier,Trait*>::iterator trait = traits.begin() ;
+      
+      for(std::set<Trait*>::const_iterator trait = traits.begin() ;
           trait != traits.end() ;
           ++trait)
       {
-        saved_traits.insert(trait->first) ;
-      }
-
-      for(std::set<TypeIdentifier>::const_iterator trait = saved_traits.begin() ;
-          trait != saved_traits.end() ;
-          ++trait)
-      {
-        // if object still has the trait apply
-        Trait* local_trait = getTrait(*trait) ;
-        if (local_trait)
-          local_trait->unlock() ;
+        (*trait)->unlock() ;
       }
     }
 
@@ -861,5 +854,12 @@ namespace ProjetUnivers
     {
       return m_locks>0 ;
     }
+    
+    bool Object::mayInit() const
+    {
+      return !m_deleting ;
+    }
+    
+    
   }
 }

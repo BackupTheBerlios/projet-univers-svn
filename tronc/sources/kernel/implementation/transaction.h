@@ -20,8 +20,6 @@
  ***************************************************************************/
 #pragma once
 
-#include <kernel/implementation/operation.h>
-
 namespace ProjetUnivers 
 {
   namespace Kernel 
@@ -30,6 +28,8 @@ namespace ProjetUnivers
     
     namespace Implementation
     {
+      class ConcurrentBlock ;
+      
       /// Model transaction.
       /*!
         It is a set of operations on a model. The operations are performed in 
@@ -44,14 +44,20 @@ namespace ProjetUnivers
         void startConcurrentBlock() ;
         void endConcurrentBlock() ;
         
+        void addOperation(Operation*) ;
+        
+        Trait* getTrait(Object*,const TypeIdentifier&) const ;
+        std::set<Object*> getChildren(Object*) const ;
+        
         /// Perform operations
+        void execute() ;
+        
         ~Transaction() ;
         
       private:
         
-        Model*          m_model ;
-        
-        std::list<Operation*> m_operations ;
+        Model*                     m_model ;
+        std::list<ConcurrentBlock*> m_blocks ;
       };
     }
   }

@@ -44,6 +44,9 @@ namespace ProjetUnivers
     namespace Implementation
     {
       class Operation ;
+      class Interpretor ;
+      class Transaction ;
+      class ConcurrentBlock ;
     }
     
     class Trait ;
@@ -269,6 +272,9 @@ namespace ProjetUnivers
       
       /// update the views.
       void _updated() ;
+
+      /// True iff we can init views, controlers.
+      bool mayInit() const ;
       
       /// init after construction.
       void _init() ;
@@ -372,8 +378,8 @@ namespace ProjetUnivers
       /// Object name
       std::string                      m_name ;
       
-      void lockTraits() ;
-      void unlockTraits() ;
+      std::set<Trait*> lockTraits() ;
+      void unlockTraits(const std::set<Trait*>&) ;
       
       void addLock() ;
       void removeLock() ;
@@ -411,6 +417,9 @@ namespace ProjetUnivers
       friend class CommandDelegator ;
       friend class Reader ;
       friend class ::ProjetUnivers::Kernel::Implementation::Operation ;
+      friend class ::ProjetUnivers::Kernel::Implementation::Transaction ;
+      friend class ::ProjetUnivers::Kernel::Implementation::Interpretor ;
+      friend class ::ProjetUnivers::Kernel::Implementation::ConcurrentBlock ;
     };
   }
 }      

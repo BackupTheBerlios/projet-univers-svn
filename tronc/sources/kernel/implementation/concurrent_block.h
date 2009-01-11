@@ -20,50 +20,35 @@
  ***************************************************************************/
 #pragma once
 
-#include <kernel/object_reference.h>
-#include <kernel/trait.h>
-
 namespace ProjetUnivers 
 {
   namespace Kernel 
   {
+    class Model ;
+    
     namespace Implementation
     {
-      class ConcurrentBlock ;
+      class Operation ;
       
-      /// Model operation.
-      class Operation
+      /// A set of operations on a model.
+      class ConcurrentBlock
       {
       public:
         
-        static Operation* addTrait(Object*,Trait*) ;
-        static Operation* destroyTrait(Trait*) ;
-        static Operation* destroyObject(Object*) ;
-        
-        Operation(const Operation&) ;
-        
-        /// Really execute the operation
-        void execute() ;
+        ConcurrentBlock(Model*) ;
 
+        void addOperation(Operation*) ;
+        
+        Trait* getTrait(Object*,const TypeIdentifier&) const ;
+        std::set<Object*> getChildren(Object*) const ;
+        
+        /// Perform operations
+        void execute() ;
+        
       private:
         
-        Operation() ;
-        
-        enum Type
-        {
-          DestroyObject,
-          DestroyTrait,
-          AddTrait,
-          None
-        };
-        
-        Type            m_type ;
-        ObjectReference m_object ;
-        TypeIdentifier  m_trait_identifier ;
-        Trait*          m_trait ;
-        Model*          m_model ;
-        
-        friend class ConcurrentBlock ;
+        Model*                m_model ;
+        std::list<Operation*> m_operations ;
       };
     }
   }

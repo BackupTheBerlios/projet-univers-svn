@@ -19,52 +19,44 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #pragma once
-
-#include <kernel/object_reference.h>
-#include <kernel/trait.h>
+#include <cppunit/extensions/HelperMacros.h>
 
 namespace ProjetUnivers 
 {
   namespace Kernel 
   {
-    namespace Implementation
+    namespace Test 
     {
-      class ConcurrentBlock ;
-      
-      /// Model operation.
-      class Operation
-      {
-      public:
-        
-        static Operation* addTrait(Object*,Trait*) ;
-        static Operation* destroyTrait(Trait*) ;
-        static Operation* destroyObject(Object*) ;
-        
-        Operation(const Operation&) ;
-        
-        /// Really execute the operation
-        void execute() ;
 
-      private:
-        
-        Operation() ;
-        
-        enum Type
-        {
-          DestroyObject,
-          DestroyTrait,
-          AddTrait,
-          None
-        };
-        
-        Type            m_type ;
-        ObjectReference m_object ;
-        TypeIdentifier  m_trait_identifier ;
-        Trait*          m_trait ;
-        Model*          m_model ;
-        
-        friend class ConcurrentBlock ;
+      class TestInterpretor : public CppUnit::TestFixture 
+      {
+      protected:
+      /*! 
+        @name Tests
+      */ 
+      // @{
+  
+        void addTrait() ;
+        void destroyTrait() ;
+        void destroyObject() ;
+
+      // @}
+      /*!
+        @name Test registration
+      */
+      // @{      
+
+        CPPUNIT_TEST_SUITE(TestInterpretor) ;
+
+        CPPUNIT_TEST(addTrait) ;
+        CPPUNIT_TEST(destroyTrait) ;
+        CPPUNIT_TEST(destroyObject) ;
+
+        CPPUNIT_TEST_SUITE_END() ;
+
+      // @}
       };
+
     }
   }
 }

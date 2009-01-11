@@ -9,6 +9,7 @@ $(SOURCES)/kernel/implementation/algorithm.cpp \
 $(SOURCES)/kernel/implementation/base_controler.cpp \
 $(SOURCES)/kernel/implementation/base_trait_reference.cpp \
 $(SOURCES)/kernel/implementation/base_trait_view.cpp \
+$(SOURCES)/kernel/implementation/concurrent_block.cpp \
 $(SOURCES)/kernel/implementation/controler.cpp \
 $(SOURCES)/kernel/implementation/controler_set.cpp \
 $(SOURCES)/kernel/implementation/exception.cpp \

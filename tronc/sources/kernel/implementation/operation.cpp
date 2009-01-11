@@ -45,36 +45,36 @@ namespace ProjetUnivers
         m_model(NULL)
       {}
       
-      Operation Operation::addTrait(Trait* trait)
+      Operation* Operation::addTrait(Object* object,Trait* trait)
       {
-        Operation result ;
-        result.m_type = AddTrait ;
-        result.m_object = trait->getObject() ;
-        result.m_model = result.m_object?trait->getObject()->getModel():NULL ;
-        result.m_trait = trait ;
-        result.m_trait_identifier = getObjectTypeIdentifier(trait) ;
+        Operation* result(new Operation()) ;
+        result->m_type = AddTrait ;
+        result->m_object = object ;
+        result->m_model = result->m_object?result->m_object->getModel():NULL ;
+        result->m_trait = trait ;
+        result->m_trait_identifier = getObjectTypeIdentifier(trait) ;
         
         return result ;
       }
       
-      Operation Operation::destroyTrait(Trait* trait)
+      Operation* Operation::destroyTrait(Trait* trait)
       {
-        Operation result ;
-        result.m_type = DestroyTrait ;
-        result.m_object = trait->getObject() ;
-        result.m_model = result.m_object?trait->getObject()->getModel():NULL ;
-        result.m_trait_identifier = getObjectTypeIdentifier(trait) ;
-        result.m_trait = trait ;
+        Operation* result(new Operation()) ;
+        result->m_type = DestroyTrait ;
+        result->m_object = trait->getObject() ;
+        result->m_model = result->m_object?result->m_object->getModel():NULL ;
+        result->m_trait_identifier = getObjectTypeIdentifier(trait) ;
+        result->m_trait = trait ;
         
         return result ;
       }
       
-      Operation Operation::destroyObject(Object* object) 
+      Operation* Operation::destroyObject(Object* object) 
       {
-        Operation result ;
-        result.m_type = DestroyObject ;
-        result.m_object = object ;
-        result.m_model = object->getModel() ;
+        Operation* result(new Operation()) ;
+        result->m_type = DestroyObject ;
+        result->m_object = object ;
+        result->m_model = object->getModel() ;
         
         return result ;
       }

@@ -64,7 +64,7 @@ namespace ProjetUnivers {
         {
           if (group->getTrait<FlyingGroup>()->hasPlayer())
           {
-            getObject()->destroyTrait(getTrait<Played>()) ;
+            getObject()->call("quit") ;
           }
         }
         

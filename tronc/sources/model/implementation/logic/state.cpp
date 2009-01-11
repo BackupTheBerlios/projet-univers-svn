@@ -40,11 +40,11 @@ namespace ProjetUnivers {
         
         void State::onClose()
         {
-          InternalMessage("Model","Logic::State::onClose entering") ;
+          InternalMessage("State","Logic::State::onClose entering") ;
           
           getObject()->call(getTrait()->getCommandOnQuit()) ;
   
-          InternalMessage("Model","Logic::State::onClose leaving") ;
+          InternalMessage("State","Logic::State::onClose leaving") ;
           
         }
       }      

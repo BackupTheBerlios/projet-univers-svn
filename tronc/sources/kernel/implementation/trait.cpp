@@ -263,6 +263,9 @@ namespace ProjetUnivers
     
     void Trait::_init(ViewPoint* i_viewpoint)
     {
+      if (!getObject()->mayInit())
+        return ;
+      
       std::multimap<ViewPoint*,BaseTraitView*>::iterator 
         view = m_views.lower_bound(i_viewpoint) ;
       std::multimap<ViewPoint*,BaseTraitView*>::iterator 
@@ -277,6 +280,9 @@ namespace ProjetUnivers
 
     void Trait::_init(ControlerSet* i_controler_set)
     {
+      if (!getObject()->mayInit())
+        return ;
+      
       std::multimap<ControlerSet*,BaseControler*>::iterator 
         controler = m_controlers.lower_bound(i_controler_set) ;
       std::multimap<ControlerSet*,BaseControler*>::iterator 
@@ -291,6 +297,9 @@ namespace ProjetUnivers
     
     void Trait::_init()
     {
+      if (!getObject()->mayInit())
+        return ;
+      
       CHECK(m_object,"Trait::_init no object") ;
       
       /// we init all the views not yet initialised

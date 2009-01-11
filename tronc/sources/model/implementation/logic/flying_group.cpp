@@ -198,7 +198,6 @@ namespace ProjetUnivers
           Kernel::Object* ship = group->getAIShip() ;
           if (ship)
           {
-            std::cout << "respawn player" << std::endl ;
             std::set<AutonomousCharacter*> ais = ship->getChildren<AutonomousCharacter>() ;
             
             Kernel::Object* pilot = (*ais.begin())->getObject() ;

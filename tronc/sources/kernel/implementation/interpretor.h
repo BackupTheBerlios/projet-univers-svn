@@ -50,15 +50,12 @@ namespace ProjetUnivers
         void destroyTrait(Object*,Trait*) ;
         
         Object* getParent(Object*) const ;
-        
         Trait* getTrait(Object*,const TypeIdentifier&) const ;
-        
-        
+        std::set<Object*> getChildren(Object*) const ;
         
       private:
         
-        Model*          m_model ;
-        
+        Model*                  m_model ;
         std::list<Transaction*> m_transactions ;
       };
     }

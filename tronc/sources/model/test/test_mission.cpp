@@ -568,6 +568,7 @@ namespace ProjetUnivers
         mission->addTrait(new Model::CustomMission("",NULL,NULL)) ;
         mission->getTrait<Model::CustomMission>()->setStartingDistance(Model::Distance(Model::Distance::_Meter,4000)) ;
         mission->addTrait(new Model::State()) ;
+        mission->getTrait<Model::State>()->addCommandAlias("quit","change(main_menu,Active)") ;
         
         Kernel::Object* team1 = mission->createObject() ;
         team1->addTrait(new Model::Team("")) ;

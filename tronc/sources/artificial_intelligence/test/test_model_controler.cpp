@@ -533,7 +533,7 @@ namespace ProjetUnivers
           Kernel::Object* agent = Model::createAI(ship) ;
           agent->getTrait<Model::WithObjectives>()->addObjective(Model::Objective::attackAllEnemies()) ;
           ship1 = ship ;
-        }          
+        }
 
         Kernel::ObjectReference ship2 ;
         {
@@ -544,7 +544,7 @@ namespace ProjetUnivers
           Kernel::Object* agent = Model::createAI(ship) ;
           agent->getTrait<Model::WithObjectives>()->addObjective(Model::Objective::attackAllEnemies()) ;
           ship2 = ship ;
-        }          
+        }
           
         Kernel::ObjectReference ship3 ;
         {
@@ -564,7 +564,7 @@ namespace ProjetUnivers
           Kernel::Object* agent = Model::createAI(ship) ;
           agent->getTrait<Model::WithObjectives>()->addObjective(Model::Objective::attackAllEnemies()) ;
           ship4 = ship ;
-        }          
+        }
         
         // team1 is not destroyable -> it should win and destroy ship3/ship4
         

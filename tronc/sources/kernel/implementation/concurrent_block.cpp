@@ -22,7 +22,6 @@
 #include <kernel/object.h>
 #include <kernel/implementation/operation.h>
 #include <kernel/implementation/concurrent_block.h>
-#include <kernel/implementation/transaction.h>
 
 namespace ProjetUnivers 
 {
@@ -30,75 +29,71 @@ namespace ProjetUnivers
   {
     namespace Implementation
     {
-      Transaction::Transaction(Model* model)
+      ConcurrentBlock::ConcurrentBlock(Model* model)
       : m_model(model)
       {}
-
-      void Transaction::startConcurrentBlock()
+      
+      void ConcurrentBlock::addOperation(Operation* operation)
       {
-        m_blocks.push_back(new ConcurrentBlock(m_model)) ;
+        m_operations.push_back(operation) ;
       }
       
-      void Transaction::addOperation(Operation* operation)
+      void ConcurrentBlock::execute()
       {
-        if (!m_blocks.empty())
+        for(std::list<Operation*>::const_iterator operation = m_operations.begin() ;
+            operation != m_operations.end() ;
+            ++operation)
         {
-          m_blocks.back()->addOperation(operation) ;
-        }
-        else
-        {
-          ErrorMessage("No concurrent block") ;
-          throw std::exception() ;
+          (*operation)->execute() ;
         }
       }
       
-      void Transaction::endConcurrentBlock()
-      {
-        if (m_blocks.empty())
-        {
-          ErrorMessage("Closing an openned concurrent block") ;
-          throw std::exception() ;
-        }
-      }
       
-      void Transaction::execute()
+      Trait* ConcurrentBlock::getTrait(Object* object,const TypeIdentifier& trait) const
       {
-        for(std::list<ConcurrentBlock*>::const_iterator block = m_blocks.begin() ;
-            block != m_blocks.end() ;
-            ++block)
+        for(std::list<Operation*>::const_reverse_iterator operation = m_operations.rbegin() ;
+            operation != m_operations.rend() ;
+            ++operation)
         {
-          (*block)->execute() ;
+          Operation* local = *operation ;
+          
+          if (local->m_type == Operation::DestroyTrait && 
+              object == local->m_object && 
+              trait == local->m_trait_identifier)
+          {
+            return NULL ;
+          }
+          else if (local->m_type == Operation::AddTrait && 
+                   object == local->m_object && 
+                   trait == local->m_trait_identifier)
+          {
+            return local->m_trait ;
+          }
         }
-      }
-      
-      Transaction::~Transaction()
-      {
         
+        return object->getTrait(trait) ;
       }
       
-      Trait* Transaction::getTrait(Object* object,const TypeIdentifier& trait) const
+      std::set<Object*> ConcurrentBlock::getChildren(Object* object) const
       {
-        if (! m_blocks.empty())
+        std::set<Object*> result(object->getChildren()) ;
+        
+        for(std::list<Operation*>::const_reverse_iterator operation = m_operations.rbegin() ;
+            operation != m_operations.rend() ;
+            ++operation)
         {
-          return m_blocks.back()->getTrait(object,trait) ;
+          Operation* local = *operation ;
+          
+          if (local->m_type == Operation::DestroyObject && 
+              object == local->m_object->getParent())
+          {
+            result.erase(local->m_object) ;
+          }
         }
-        else
-        {
-          return object->getTrait(trait) ;
-        }
+        
+        return result ;
       }
-
-      std::set<Object*> Transaction::getChildren(Object* object) const
-      {
-        if (! m_blocks.empty())
-        {
-          return m_blocks.back()->getChildren(object) ;
-        }
-        else
-        {
-          return object->getChildren() ;
-        }
-      }
+      
       
     }
   }
