@@ -38,6 +38,9 @@ namespace ProjetUnivers {
         
           /// Contructs.
           PhysicSystem(Kernel::Model* model) ;
+
+          /// Change the default timestep.
+          void setTimeStep(const float&) ;
           
           /// Simulate the system during @c i_seconds seconds.
           virtual void simulate(const float& i_seconds) ;
@@ -54,6 +57,9 @@ namespace ProjetUnivers {
           virtual bool isVisible(Kernel::Object* i_object) const ;  
 
           float m_elapsed ;
+          
+          /// time step of the physic simulation
+          float m_timestep ;
         };
       }
     }

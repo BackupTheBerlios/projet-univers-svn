@@ -59,6 +59,7 @@ $(SOURCES)/kernel/test/test_model_controler.cpp \
 $(SOURCES)/kernel/test/test_model_view.cpp \
 $(SOURCES)/kernel/test/test_deduced_trait.cpp \
 $(SOURCES)/kernel/test/test_command.cpp \
+$(SOURCES)/kernel/test/test_interpretor.cpp \
 $(SOURCES)/kernel/test/test_parameters.cpp \
 $(SOURCES)/kernel/test/test_percentage.cpp \
 $(SOURCES)/kernel/test/test_xml_reader.cpp \

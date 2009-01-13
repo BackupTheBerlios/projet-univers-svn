@@ -272,8 +272,9 @@ namespace ProjetUnivers
 
         InternalMessage("Physic","Physic::Test::testSimulate::testSimulateMovingInitialSpeed initialised physics") ;
 
-        Kernel::ControlerSet* physics = model->getControlerSet<Implementation::Ode::PhysicSystem>() ;
+        Implementation::Ode::PhysicSystem* physics = model->getControlerSet<Implementation::Ode::PhysicSystem>() ;
         CPPUNIT_ASSERT(physics) ;
+        physics->setTimeStep(0.02) ;
         
         Model::PhysicalObject* object(ship->getTrait<Model::PhysicalObject>()) ;
         CPPUNIT_ASSERT(object) ;
@@ -303,6 +304,10 @@ namespace ProjetUnivers
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestDemonstration::testSimulateMovingInitialRotation")) ;
         model->init() ;
 
+        Implementation::Ode::PhysicSystem* physics = model->getControlerSet<Implementation::Ode::PhysicSystem>() ;
+        CPPUNIT_ASSERT(physics) ;
+        physics->setTimeStep(0.02) ;
+        
         /// should be a PhysicalWorld
         Kernel::Object* system = model->createObject() ;
         CPPUNIT_ASSERT(system->getTrait<Model::PhysicalWorld>()) ;

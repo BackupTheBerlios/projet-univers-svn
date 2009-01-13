@@ -37,10 +37,14 @@ namespace ProjetUnivers {
         
         PhysicSystem::PhysicSystem(Kernel::Model* model)
         : Kernel::ControlerSet(model),
-          m_elapsed(0)
+          m_elapsed(0),
+          m_timestep(0.1)
         {}
 
-        const float timestep = 0.02 ;
+        void PhysicSystem::setTimeStep(const float& timestep)
+        {
+          m_timestep = timestep ;
+        }
         
         void PhysicSystem::simulate(const float& seconds)
         {
@@ -48,7 +52,7 @@ namespace ProjetUnivers {
           
           m_elapsed += seconds ;
 
-          while (m_elapsed > timestep)
+          while (m_elapsed > m_timestep)
           {
             /// 1. apply all force/torque on objects
             applyTopDown(&Kernel::BaseControler::prepare) ;
@@ -59,8 +63,8 @@ namespace ProjetUnivers {
                              float> f 
                                 = &Kernel::BaseControler::simulate ;
 
-            applyTopDown(std::bind2nd(f,timestep)) ;
-            m_elapsed -= timestep ;
+            applyTopDown(std::bind2nd(f,m_timestep)) ;
+            m_elapsed -= m_timestep ;
           }
         }
         

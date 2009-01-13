@@ -22,19 +22,21 @@
 			<ObjectReference name="stick" id="6"/>
 		</GuidanceControler>
 		
-		<GuidanceSystem force="3">
+    <!-- The more the force, the quicker the ship will turn -->
+		<GuidanceSystem force="8">
 			<ObjectReference name="controler" id="1"/>
 		</GuidanceSystem>
 		
 		<Dragger drag_factor="0.005"/>
 		
 		<Destroyable>
+      <!-- The energy necessary to destroy the ship -->
 			<Energy value="10" unit="Joule" name="max_hit_points"/>
 		</Destroyable>
 
 		<Detector>
 			<ObjectReference id="1" name="computer"/>
-			<Distance value="10000" unit="Meter" name="range"/>
+			<Distance value="1" unit="LightYear" name="range"/>
 		</Detector>
 
 		<Massive>
@@ -50,24 +52,29 @@
 			<Laser>
 				<Position x="19.2" y="0" z="57" unit="Meter"/>
 				<Orientation/>
+        <!-- the energy of the laser beam -->
 				<Energy value="10" unit="Joule"/>
+        <!--  Duration between two shots -->
 				<Duration value="1" unit="Second" name="shot_delay"/>
 			</Laser>
 			<Component/>
 		</object>
 
 		<object id="3">
-			<Stabilizer axis_x="5" axis_y="0" axis_z="0"/>		
+      <!-- stabilize against x axis (turning rigth/left) the more, the quicker the ship will stop turning  --> 
+			<Stabilizer axis_x="10" axis_y="0" axis_z="0"/>		
 			<Component/>
 		</object>
 
 		<object id="4">
-			<Stabilizer axis_x="0" axis_y="5" axis_z="0"/>		
+      <!-- stabilize against y (turning up/down) axis the more, the quicker the ship will stop turning  --> 
+			<Stabilizer axis_x="0" axis_y="10" axis_z="0"/>		
 			<Component/>
 		</object>
 
 		<object id="5">
-			<Stabilizer axis_x="0" axis_y="0" axis_z="5"/>		
+      <!-- stabilize against z (rolling ship) axis the more, the quicker the ship will stop turning  --> 
+			<Stabilizer axis_x="0" axis_y="0" axis_z="10"/>		
 			<Component/>
 		</object>
 
@@ -96,6 +103,7 @@
     <!-- The ship's engine -->
     <object id="8">
       <Engine>
+        <!--  The force of the engine, the more the speeder, warning keep x,y to zero -->
         <Force x="0" y="0" z="650" unit="Newton"/>
         <ObjectReference id="9" name="controler"/>
       </Engine>

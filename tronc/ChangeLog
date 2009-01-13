@@ -1134,7 +1134,7 @@
   * Display :
     - added the possibility to change observer : current observer is any object 
       with traits Observer^Active 
-
+     
 2009-01-11 rogma 
   
   * Kernel :
@@ -1144,43 +1144,67 @@
   * Model :
     - mission quit is performed on conditions : player cannot be respawned 
       anymore, or all enemies cannot be respawned
+
+2009-01-13 rogma 
+
+  * Demo :
+    - removed sound  
   
+  * Physic :
+    - augmented time step -> greatly improve performances of demo
+  
+  * Media :
+    - razor ship is turning quicker and has a long range detector
+    
 @todo :
 
-  * Kernel : 
-    - the error message on udpate during update could be better : 
-      the updated trait names, the object names... (ideally the stack)
-  * GUI : 
-    - validation of the mission.
-    - drag and drop from Active Players to Pilot and conversely
-    - save/load missions
-    
-  * Demo :
-    - integration of mission (be able to replay the mission...) 
+  * Model : 
+    - lack the ability to invert axes in the player configuration file read
+    - lack the ability to save player configuration (should be saved by default
+      on change)
 
+  * GUI : 
+    - add input config validation : cannot save or back till it is correct
+
+  * Sound : 
+    - Optim : manage ressources, load only one time each file
+
+  * Display :
+    - go back to menu when Player is destroyed is stil not correct : the game 
+      viewport is not removed
+      
+  * Demo :
     - try a camera outside the ship (external view)
+    - score menu at the end of the mission
+  
+  * Display :
+    - display score on hud
     
   * Model : 
     - Mission : destruction sequence during player's ship explosion 
       (Player & Parent(Explosion)) --> change current camera to a fixed one 
-          
-    - add test for adding objects during a structure destroying  
+
+  * Kernel : 
+    - the error message on udpate during update could be better : 
+      the updated trait names, the object names... (ideally the stack)
+  
+  * GUI : 
+    - validation of the mission.
+    - drag and drop from Active Players to Pilot and conversely
+    - save/load missions
+
+  * Model : 
     - bug : adding a mapping on an already assigned key does not worK ?
-    - lack the ability to invert axes in the player configuration file read
-    - lack the ability to save player configuration (should be saved by default
-      on change)
     - add a mouse cross for mouse piloting
     - add a speed indicator 
+    - add a distance on target
+    - add a name indicator
     - add a damage indicator
-    - go back to menu when Player is destroyed is stil not correct : the game 
-      viewport is not removed
        
   * All : 
     - Custom mission controler dealt with victory/ending conditions and leads 
       to game over state
     
-    - Avoid quitting game when player is dead. respawn in a remaining AI.
-     
     - considered in a lot of places that Z axis is forward... whereas Ogre 
       consider negative Z as forward ??? 
 
@@ -1191,6 +1215,8 @@
     - inspire from funguloid package for debian/ubuntu packaging
      
   * Model : 
+    - add test for adding objects during a structure destroying ?  
+
     - if we have several lasers : only one will shoot !
       either propagate commands every where or find another solution 
 
@@ -1234,8 +1260,6 @@
     
     
   * GUI : 
-    - load/save input config
-    - add input config validation : cannot save or back till it is correct
     - add key shortcuts for clicable buttons
     - custom mission menu
     - change all hover/pushed elements 
@@ -1243,8 +1267,6 @@
   * Display :
     - seg fault when having an Oriented object that is not Positionned, use 
       a deduction like : Oriented and HasParent(Positionned) 
-    - all Solid parent of an Observer invisible : but only in the case it is 
-      the current observer
     - when initing ogre, close any already openned ogre objects in other 
       modules
     - find a way to preload ressources as needed (some ressources may appear 
@@ -1257,9 +1279,6 @@
     - be able to map any axis on anything
     - send wheel mouse to CEGUI
     - add Maj+Control in key handling : treat them as modifiers ?
-    - handle axes in gui input mapping, allow mouse for piloting (maybe an 
-      option first in ini) 
-    - add ini option for mouse/joystick control
     - handle pov buttons as buttons ?
   
   * Physic : 
@@ -1270,13 +1289,10 @@
     - separate simulations : maybe objects can be simulated one by one in its 
       own world !! should not have any complication for movement except for 
       collision response. This could facilitate unit range to keep around one.
-    - add deduced trait for solid controler : allow adding of solid trait 
-      before physical object
     - be more precise than bounding sphere for collision : use bounding box for 
       example 
     
   * Sound : 
-    - Optim : manage ressources, load only one time each file
     - check that Positionned is correctly used, I suspect that position update 
       is not done when a ship moves while containing the listener
     - Bug : engine sound does not weem to work ?
@@ -1306,7 +1322,11 @@
       @see http://sourceforge.net/projects/quantity ??
     - correct the coordinate system; Stick/Throttle must use correct 
       orientation 
-    - use gccxml to deduce meta structure
+    - deduce meta structure
+      # use gccxml
+      # use a modified doxygen
+      # instead of generating code, genetate an xml structure for attributes, 
+        getter and setters ?  (it would be ridiculous : better forget c++ then)
       
   * Continuous integration :
     - use cccc

@@ -18,7 +18,6 @@ demonstration_LDADD = \
 ../../physic/compilation/libphysic.la \
 ../../artificial_intelligence/compilation/libai.la \
 ../../gui/compilation/libgui.la \
-../../sound/compilation/libsound.la \
 $(CPPUNIT_LIBS) \
 $(OIS_LIBS) \
 $(librlog_LIBS) \
