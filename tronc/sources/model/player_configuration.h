@@ -25,6 +25,7 @@
 #include <OISKeyboard.h>
 #include <kernel/trait.h>
 #include <kernel/reader.h>
+#include <kernel/writer.h>
 
 namespace ProjetUnivers 
 {
@@ -73,6 +74,7 @@ namespace ProjetUnivers
         
         int type ; 
         int key_or_bouton ;
+        friend class PlayerConfiguration ;
       };
       
       /// Abstraction of an input axis
@@ -136,6 +138,7 @@ namespace ProjetUnivers
       private:
 
         int m_axis ;
+        friend class PlayerConfiguration ;
       };
       
       /*!
@@ -179,6 +182,8 @@ namespace ProjetUnivers
         @endcode
       */     
       static Kernel::Trait* read(Kernel::Reader* reader) ;
+      
+      virtual void write(Kernel::Writer*) ;
       
     // @}
     /*!

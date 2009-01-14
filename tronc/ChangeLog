@@ -1155,27 +1155,31 @@
   
   * Media :
     - razor ship is turning quicker and has a long range detector
+
+2009-01-14 rogma 
+  
+  * Kernel : 
+    - added basic trait/model/object write on file
+  
+  * Model : 
+    - inverted axes in the player configuration file read
+    - save player configuration on done
+    - corrected default player configuration    
+
+  * Display :
+    - corrected bug when returning to menu
     
 @todo :
-
-  * Model : 
-    - lack the ability to invert axes in the player configuration file read
-    - lack the ability to save player configuration (should be saved by default
-      on change)
 
   * GUI : 
     - add input config validation : cannot save or back till it is correct
 
   * Sound : 
     - Optim : manage ressources, load only one time each file
-
-  * Display :
-    - go back to menu when Player is destroyed is stil not correct : the game 
-      viewport is not removed
       
   * Demo :
-    - try a camera outside the ship (external view)
     - score menu at the end of the mission
+    - history of who killed who
   
   * Display :
     - display score on hud
@@ -1183,7 +1187,11 @@
   * Model : 
     - Mission : destruction sequence during player's ship explosion 
       (Player & Parent(Explosion)) --> change current camera to a fixed one 
-
+  
+  * AI :
+    - AI tend to "flee on the side" once the target has gone in a perpendicular 
+      direction, its targeting go the same and the phenomenon amplifies
+      
   * Kernel : 
     - the error message on udpate during update could be better : 
       the updated trait names, the object names... (ideally the stack)

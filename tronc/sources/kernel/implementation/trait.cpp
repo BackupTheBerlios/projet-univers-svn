@@ -808,5 +808,8 @@ namespace ProjetUnivers
       m_trait_name = trait_name ;
     }
     
+    void Trait::write(Writer*)
+    {}
+    
   }
 }

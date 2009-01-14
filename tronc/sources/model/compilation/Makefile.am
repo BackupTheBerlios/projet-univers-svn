@@ -149,6 +149,7 @@ test_model_SOURCES = \
 ../test/test_player_configuration.cpp \
 ../test/test_position.cpp \
 ../test/test_positionned.cpp \
+../test/test_save.cpp \
 ../test/test_shooting_helper.cpp \
 ../test/test_speed.cpp \
 ../test/test_state.cpp \

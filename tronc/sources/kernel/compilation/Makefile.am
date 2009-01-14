@@ -38,7 +38,9 @@ $(SOURCES)/kernel/implementation/timer_test_result.cpp \
 $(SOURCES)/kernel/implementation/timer_xml_outputter_hook.cpp \
 $(SOURCES)/kernel/implementation/transaction.cpp \
 $(SOURCES)/kernel/implementation/xml_outputter.cpp \
-$(SOURCES)/kernel/implementation/xml_reader.cpp
+$(SOURCES)/kernel/implementation/xml_reader.cpp \
+$(SOURCES)/kernel/implementation/xml_writer.cpp \
+$(SOURCES)/kernel/implementation/writer.cpp
 
 
 libkernel_la_LDFLAGS = -no-undefined
@@ -63,6 +65,7 @@ $(SOURCES)/kernel/test/test_interpretor.cpp \
 $(SOURCES)/kernel/test/test_parameters.cpp \
 $(SOURCES)/kernel/test/test_percentage.cpp \
 $(SOURCES)/kernel/test/test_xml_reader.cpp \
+$(SOURCES)/kernel/test/test_xml_writer.cpp \
 $(SOURCES)/kernel/test/test_model.cpp 
 
 # checks that "test_inherits.cpp" does not compile

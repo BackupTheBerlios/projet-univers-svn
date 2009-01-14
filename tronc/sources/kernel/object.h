@@ -63,6 +63,7 @@ namespace ProjetUnivers
     class HasParentFormula ;
     class HasChildFormula ;
     class Reader ;
+    class Writer ;
     
     /// A model object.
     /*!
@@ -416,6 +417,7 @@ namespace ProjetUnivers
       friend class DeducedTrait ;
       friend class CommandDelegator ;
       friend class Reader ;
+      friend class Writer ;
       friend class ::ProjetUnivers::Kernel::Implementation::Operation ;
       friend class ::ProjetUnivers::Kernel::Implementation::Transaction ;
       friend class ::ProjetUnivers::Kernel::Implementation::Interpretor ;

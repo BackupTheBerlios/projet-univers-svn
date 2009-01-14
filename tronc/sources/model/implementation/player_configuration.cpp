@@ -439,7 +439,42 @@ namespace ProjetUnivers
             is_axis = true ;
             axis = InputAxis(InputAxis::MouseWheel) ;
           }
-          
+          else if (reader->getTraitName() == "InvertedJoystickX")
+          {
+            is_axis = true ;
+            axis = -InputAxis(InputAxis::JoystickX) ;
+          }
+          else if (reader->getTraitName() == "InvertedJoystickY")
+          {
+            is_axis = true ;
+            axis = -InputAxis(InputAxis::JoystickY) ;
+          }
+          else if (reader->getTraitName() == "InvertedJoystickRudder")
+          {
+            is_axis = true ;
+            axis = -InputAxis(InputAxis::JoystickRudder) ;
+          }
+          else if (reader->getTraitName() == "InvertedJoystickThrottle")
+          {
+            is_axis = true ;
+            axis = -InputAxis(InputAxis::JoystickThrottle) ;
+          }
+          else if (reader->getTraitName() == "InvertedMouseX")
+          {
+            is_axis = true ;
+            axis = -InputAxis(InputAxis::MouseX) ;
+          }
+          else if (reader->getTraitName() == "InvertedMouseY")
+          {
+            is_axis = true ;
+            axis = -InputAxis(InputAxis::MouseY) ;
+          }
+          else if (reader->getTraitName() == "InvertedMouseWheel")
+          {
+            is_axis = true ;
+            axis = -InputAxis(InputAxis::MouseWheel) ;
+          }
+           
           if (is_event)
           {
             result->addMapping(event,command_name) ;
@@ -455,6 +490,85 @@ namespace ProjetUnivers
 
       return result ;
     }
+    
+    void PlayerConfiguration::write(Kernel::Writer* writer)
+    {
+      writer->startTrait("PlayerConfiguration") ;
+      for(std::map<std::string,InputEvent>::const_iterator command = m_command_to_input_events.begin() ;
+          command != m_command_to_input_events.end() ;
+          ++command)
+      {
+        writer->startTrait("Mapping") ;
+        writer->addAttribute("command",command->first) ;
+        switch(command->second.type)
+        {
+        case InputEvent::keyboard:
+          writer->startTrait("Key") ;
+          writer->addAttribute("number",Kernel::toString(command->second.key_or_bouton)) ;
+          writer->endTrait() ;
+          break ;
+        case InputEvent::mouse:
+          writer->startTrait("MouseButton") ;
+          writer->addAttribute("number",Kernel::toString(command->second.key_or_bouton)) ;
+          writer->endTrait() ;
+          break ;
+        case InputEvent::joystick:
+          writer->startTrait("JoystickButton") ;
+          writer->addAttribute("number",Kernel::toString(command->second.key_or_bouton)) ;
+          writer->endTrait() ;
+          break ;
+        }
+        writer->endTrait() ;
+      }
+      for(std::map<std::string,InputAxis>::const_iterator command = m_axis_to_input_axes.begin() ;
+          command != m_axis_to_input_axes.end() ;
+          ++command)
+      {
+        writer->startTrait("Mapping") ;
+        writer->addAttribute("command",command->first) ;
+        std::string value ;
+        if (command->second.m_axis < 0)
+        {
+          value = "Inverted" ;
+        }
+        
+        int axis = (int)fabs(command->second.m_axis) ;
+        switch(axis)
+        {
+        case InputAxis::JoystickX:
+          value += "JoystickX" ;
+          break ;
+        case InputAxis::JoystickY:
+          value += "JoystickY" ;
+          break ;
+        case InputAxis::JoystickRudder:
+          value += "JoystickRudder" ;
+          break ;
+        case InputAxis::JoystickThrottle:
+          value += "JoystickThrottle" ;
+          break ;
+        case InputAxis::MouseX:
+          value += "MouseX" ;
+          break ;
+        case InputAxis::MouseY:
+          value += "MouseY" ;
+          break ;
+        case InputAxis::MouseWheel :
+          value += "MouseWheel" ;
+          break ;
+        default:
+          value += "Unassigned" ;
+          break ;
+        }
+        writer->startTrait(value) ;
+        writer->endTrait() ;
+        
+        writer->endTrait() ;
+      }      
+      
+      writer->endTrait() ;
+    }
+    
     
   }
 }

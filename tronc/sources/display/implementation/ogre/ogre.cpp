@@ -92,8 +92,9 @@ namespace ProjetUnivers {
             ResourceGroupManager::getSingleton().loadResourceGroup("General") ;
             
             m_manager = ::Ogre::Root::getSingleton().createSceneManager(::Ogre::ST_GENERIC) ;
-            m_camera = NULL ;
-            m_camera_number = 0 ;
+            m_camera = m_manager->createCamera("background") ;
+            m_user_camera_number = 0 ;
+            ::Ogre::Viewport* viewport = window->addViewport(m_camera,-100) ;
 
             InternalMessage("Display","Ogre launched") ;
             
@@ -180,11 +181,11 @@ namespace ProjetUnivers {
           */
           ::Ogre::SceneManager* m_manager ;
           ::Ogre::Camera*       m_camera ;
-          int m_camera_number ;
+          int m_user_camera_number ;
           
           bool initialised ;
         
-          // gui
+          // in game hud
           ::Ogre::Overlay* m_overlay ;
         };
         
@@ -294,7 +295,7 @@ namespace ProjetUnivers {
         
         void createCamera()
         {
-          if (m_system->m_camera_number == 0 && ! m_system->m_camera)
+          if (m_system->m_user_camera_number == 0 && ! m_system->m_camera)
           {
             m_system->m_camera = m_system->m_manager->createCamera("background") ;
             ::Ogre::Viewport* viewport = getWindow()->addViewport(m_system->m_camera,-100) ;
@@ -303,7 +304,7 @@ namespace ProjetUnivers {
         
         void addCamera(::Ogre::Camera*)
         {
-          ++m_system->m_camera_number ;
+          ++m_system->m_user_camera_number ;
           if (m_system->m_camera)
           {
             getWindow()->removeViewport(-100) ;
@@ -314,7 +315,12 @@ namespace ProjetUnivers {
         
         void removeCamera(::Ogre::Camera*)
         {
-          --m_system->m_camera_number ;
+          --m_system->m_user_camera_number ;
+          if (m_system->m_user_camera_number == 0)
+          {
+            m_system->m_camera = m_system->m_manager->createCamera("background") ;
+            ::Ogre::Viewport* viewport = m_system->window->addViewport(m_system->m_camera,-100) ;
+          }
         }
         
         

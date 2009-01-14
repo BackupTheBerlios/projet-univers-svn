@@ -25,6 +25,7 @@
 #include <kernel/log.h>
 #include <kernel/controler.h>
 #include <kernel/object.h>
+#include <model/model.h>
 #include <model/player_configuration.h>
 #include <input/input_gui.h>
 #include <gui/implementation/gui_internal.h>
@@ -137,6 +138,10 @@ namespace ProjetUnivers
                             " is associated to " + getTrait<Model::PlayerConfiguration>()->getAxis(getTrait<Model::PlayerConfiguration>()->getInputAxis(*axis))) ;
             
           }
+          
+          // save configuration...
+          Model::savePlayerConfiguration(getObject()) ;
+          
         }
         
         void PlayerConfiguration::initialDraw()

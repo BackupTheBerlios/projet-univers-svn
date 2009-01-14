@@ -612,6 +612,9 @@ namespace ProjetUnivers
                   "<Mapping command=\"5\">\n"
                     "<MouseY/>\n"
                   "</Mapping>\n"
+                  "<Mapping command=\"6\">\n"
+                    "<InvertedMouseWheel/>\n"
+                  "</Mapping>\n"
                 "</PlayerConfiguration>\n"
               "</object>\n"
             "</model>\n") ;
@@ -631,6 +634,7 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(configuration->getInputEvent("3")==PlayerConfiguration::InputEvent::joystickButton(1)) ;
         CPPUNIT_ASSERT(configuration->getInputAxis("4")==PlayerConfiguration::InputAxis(PlayerConfiguration::InputAxis::JoystickX)) ;
         CPPUNIT_ASSERT(configuration->getInputAxis("5")==PlayerConfiguration::InputAxis(PlayerConfiguration::InputAxis::MouseY)) ;
+        CPPUNIT_ASSERT(configuration->getInputAxis("6")==-PlayerConfiguration::InputAxis(PlayerConfiguration::InputAxis::MouseWheel)) ;
         
       }
 

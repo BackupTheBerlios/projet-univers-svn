@@ -44,6 +44,7 @@ namespace ProjetUnivers
     class BaseControler ;
     class BaseTraitReference ;
     class Reader ;
+    class Writer ;
     
     /// Abstract class for object traits.
     class Trait
@@ -113,6 +114,9 @@ namespace ProjetUnivers
       
       /// Access to all registered *not internal* axes..
       static std::set<std::string> getRegisteredAxes() ;
+      
+      /// Write trait
+      virtual void write(Writer*) ;
       
     protected: 
     

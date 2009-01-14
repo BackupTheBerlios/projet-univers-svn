@@ -21,6 +21,8 @@
 #ifndef PU_KERNEL_OBJECT_REFERENCE_H_
 #define PU_KERNEL_OBJECT_REFERENCE_H_
 
+#include <string>
+
 namespace ProjetUnivers 
 {
   namespace Kernel 
@@ -29,6 +31,7 @@ namespace ProjetUnivers
     class Object ;
     class Model ;
     class Reader ;
+    class Writer ;
     
     /// Used to reference an object.
     /*!
@@ -89,6 +92,8 @@ namespace ProjetUnivers
       
       /// Is not NULL.
       operator bool() const ;
+      
+      void write(Writer* writer,const std::string& name = "") ;
       
     private:
       

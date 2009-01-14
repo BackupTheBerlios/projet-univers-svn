@@ -21,6 +21,7 @@
 #include <kernel/object.h>
 #include <kernel/model.h>
 #include <kernel/reader.h>
+#include <kernel/writer.h>
 #include <kernel/object_reference.h>
 
 namespace ProjetUnivers 
@@ -191,6 +192,16 @@ namespace ProjetUnivers
     void ObjectReference::_setModel(Model* model)
     {
       m_model = model ;
+    }
+    
+    void ObjectReference::write(Writer* writer,const std::string& name)
+    {
+      writer->startTrait("ObjectReference") ;
+      writer->addAttribute("id",toString(m_object_identifier)) ;
+      if (name != "")
+        writer->addAttribute("name",name) ;
+        
+      writer->endTrait() ;
     }
     
   }

@@ -29,6 +29,7 @@
 #include <kernel/command_delegator.h>
 #include <kernel/parameters.h>
 #include <kernel/xml_reader.h>
+#include <kernel/xml_writer.h>
 
 #include <model/laser.h>
 #include <model/exception.h>
@@ -463,6 +464,14 @@ namespace ProjetUnivers {
       std::auto_ptr<Kernel::XMLReader> reader(Kernel::XMLReader::getFileReader(findFilePath("player_configuration.xml"))) ;
       return reader->read(parent) ;
     }
+    
+    void savePlayerConfiguration(Kernel::Object* configuration)
+    {
+      // read from config file
+      std::auto_ptr<Kernel::XMLWriter> writer(Kernel::XMLWriter::getFileWriter(findFilePath("player_configuration.xml"))) ;
+      writer->writeSingleObject(configuration) ;
+    }
+    
     
   }
 }

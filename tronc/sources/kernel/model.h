@@ -197,6 +197,8 @@ namespace ProjetUnivers
       
     // @}
       
+      int m_next_identifier ;
+      
       friend class ViewPoint ;
       friend class Trait ;
       friend class Object ;

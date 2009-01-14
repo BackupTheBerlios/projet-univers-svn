@@ -212,7 +212,8 @@ namespace ProjetUnivers
     Model::Model(const std::string& name)
     : m_name(name),
       m_destroying(false),
-      m_is_simulating_controler_set(false)
+      m_is_simulating_controler_set(false),
+      m_next_identifier(0)
     {}
 
     void Model::_register(ViewPoint* viewpoint)

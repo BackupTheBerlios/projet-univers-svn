@@ -78,6 +78,8 @@ namespace ProjetUnivers {
     
     /// Create a default player configuration.
     Kernel::Object* createDefaultPlayerConfiguration(Kernel::Object* parent) ;
+
+    void savePlayerConfiguration(Kernel::Object* configuration) ;
     
     /// Return the ship controled by @c agent.
     /*!

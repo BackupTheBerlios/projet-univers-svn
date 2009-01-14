@@ -44,11 +44,6 @@ namespace ProjetUnivers
     std::map<std::string,Kernel::ObjectReference> Object::m_named_objects ;
     
     bool Object::m_is_reading = false ;
-    
-    namespace 
-    {
-      int next_identifier = 1 ;
-    }
 
     Object* Object::createObject()
     {
@@ -209,11 +204,11 @@ namespace ProjetUnivers
   // @{
   
 
-    Object::Object(Model* i_model)
+    Object::Object(Model* model)
     : m_deleting(false),
-      m_identifier(next_identifier++),
+      m_identifier(model->m_next_identifier++),
       m_parent(NULL),
-      m_model(i_model),
+      m_model(model),
       m_validities(Formula::getNumberOfFormulae()),
       m_number_of_true_child_formulae(Formula::getNumberOfFormulae()),
       m_locks(0)
