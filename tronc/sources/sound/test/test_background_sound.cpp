@@ -35,28 +35,34 @@
 #include <sound/sound.h>
 #include <sound/test/test_background_sound.h>
 
-CPPUNIT_TEST_SUITE_REGISTRATION(
-  ProjetUnivers::Sound::Test::TestBackgroundSound) ;
+    CPPUNIT_TEST_SUITE_REGISTRATION(
+        ProjetUnivers::Sound::Test::TestBackgroundSound);
 
-namespace ProjetUnivers {
-  namespace Sound {
-    namespace Test {
+namespace ProjetUnivers
+{
+  namespace Sound
+  {
+    namespace Test
+    {
 
       void TestBackgroundSound::basicTest()
       {
+        std::cerr << "TestBackgroundSound::basicTest" << std::endl ;
+        std::cerr.flush() ;
+        
         /*!
-          - build a background sound object wih a ogg
-          - build an event colision with a wav (default sound.wav in OpenAL::colision.cpp code) 
-          - build a listener
-          - destroy the event  before the end of the sound
-          - update the module for streaming during 10secondes
-          -destroy all and clean sound module
-        */
+         - build a background sound object wih a ogg
+         - build an event colision  
+         - build a listener
+         - destroy the event  before the end of the sound
+         - update the module for streaming during 10secondes
+         -destroy all and clean sound module
+         */
 
         // we construct a complete system
-        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestBackgroundSound::basicTest")) ;
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestBackgroundSound::basicTest"));
         model->init() ;
-        
+
         Kernel::Object* system = model->createObject() ;
         system->addTrait(new Model::Positionned()) ;
         system->addTrait(new Model::Oriented()) ;
@@ -71,42 +77,70 @@ namespace ProjetUnivers {
         emmiter->addTrait(new Model::BackgroundSound("pu_comm_essai_1.ogg")) ;
         emmiter->addTrait(new Model::Positionned()) ;
         emmiter->addTrait(new Model::Oriented()) ;
-        
-        
+
         Kernel::Object* elm1 = system->createObject() ;
         Kernel::Object* elm2 = system->createObject() ;
         Kernel::Object* collision = system->createObject() ;
         collision->addTrait(new Model::Collision(elm1, elm2)) ;
         collision->addTrait(new Model::Positionned()) ;
-        
-        InternalMessage("Sound","fin definition world") ;
-        
+
+        InternalMessage("Sound", "fin definition world") ;
+
         model->destroyObject(collision) ;
-        
-        InternalMessage("Sound","after destroy colision") ;
-        
-        Kernel::Timer global_timer ;
-        Kernel::Timer timer ;
-        int i = 0 ;
-        while(global_timer.getSecond() <= 10.0)
+
+        InternalMessage("Sound", "after destroy colision") ;
+
+        Kernel::Timer global_timer;
+        Kernel::Timer timer;
+        int i = 0;
+        while (global_timer.getSecond() <= 10.0)
         {
-          ++i ;
+          ++i;
           float seconds = timer.getSecond() ;
           timer.reset() ;
           model->update(seconds) ;
-        }          
-        
-        InternalMessage("Sound","i=" + Kernel::toString(i)) ;
+        }
+
+        InternalMessage("Sound", "i=" + Kernel::toString(i)) ;
       }
 
-      void TestBackgroundSound::setUp() 
+      void TestBackgroundSound::wavSound()
       {
+        std::cerr << "TestBackgroundSound::wavSound" << std::endl ;
+        std::cerr.flush() ;
+        
+        // we construct a complete system
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestBackgroundSound::basicTest"));
+        model->init() ;
+
+        Kernel::Object* system = model->createObject() ;
+        system->addTrait(new Model::Positionned()) ;
+        system->addTrait(new Model::Oriented()) ;
+
+        Kernel::Object* listener = system->createObject() ;
+        listener->addTrait(new Model::Listener()) ;
+        listener->addTrait(new Model::Positionned()) ;
+        listener->addTrait(new Model::Oriented()) ;
+        listener->addTrait(new Model::Mobile());
+
+        Kernel::Object* emmiter = system->createObject() ;
+        emmiter->addTrait(new Model::BackgroundSound("test.wav")) ;
+        emmiter->addTrait(new Model::Positionned()) ;
+        emmiter->addTrait(new Model::Oriented()) ;
+
+        Kernel::Timer global_timer;
+        Kernel::Timer timer;
+        int i = 0;
+        while (global_timer.getSecond() <= 5.0)
+        {
+          ++i;
+          float seconds = timer.getSecond() ;
+          timer.reset() ;
+          model->update(seconds) ;
+        }
+
       }
-      
-      void TestBackgroundSound::tearDown() 
-      {
-      }
-      
+
 
     }
   }

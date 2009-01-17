@@ -18,8 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_SOUND_IMPLEMENTATION_COLISION_H_
-#define PU_SOUND_IMPLEMENTATION_COLISION_H_
+#pragma once
 
 #include <kernel/trait_view.h>
 
@@ -28,10 +27,14 @@
 #include <sound/implementation/openal/sound_emitter.h>
 #include <sound/implementation/openal/real_world_view_point.h>
 
-namespace ProjetUnivers {
-  namespace Sound {
-    namespace Implementation {
-      namespace OpenAL {
+namespace ProjetUnivers
+{
+  namespace Sound
+  {
+    namespace Implementation
+    {
+      namespace OpenAL
+      {
 
     
         /// Sound background observer
@@ -91,5 +94,3 @@ namespace ProjetUnivers {
     }
   }
 }
-
-#endif /*PU_SOUND_IMPLEMENTATION_BACKGROUND_SOUND_H_*/

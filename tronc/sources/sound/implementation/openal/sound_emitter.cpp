@@ -28,195 +28,198 @@
 #include <sound/sound.h>
 #include <sound/implementation/openal/openal.h>
 #include <sound/implementation/openal/extension.h>
+#include <sound/implementation/openal/reader.h>
 #include <sound/implementation/openal/sound_environnement.h>
 #include <sound/implementation/openal/sound_emitter.h>
-
 
 #include <OgreVector3.h>
 #include <OgreQuaternion.h>
 
-namespace ProjetUnivers {
-  namespace Sound {
-    namespace Implementation {
-      namespace OpenAL {
+namespace ProjetUnivers
+{
+  namespace Sound
+  {
+    namespace Implementation
+    {
+      namespace OpenAL
+      {
 
-        SoundEmitter::SoundEmitter()
-        : m_source(0), m_auxEffectSlot(0), 
-          m_reader(0), m_posInFile(0), m_posInBuffer(0)
-        {}
-              
+        SoundEmitter::SoundEmitter() :
+          m_source(0), m_auxEffectSlot(0), m_reader(0), m_posInFile(0),
+              m_posInBuffer(0)
+        {
+        }
+
         void SoundEmitter::initSound(Kernel::ViewPoint* viewpoint)
         {
-          InformationMessage("Sound","SoundEmitter::initSound entering") ;
-          if(!m_source)
+          InformationMessage("Sound", "SoundEmitter::initSound entering") ;
+          if (!m_source)
           {
-            InformationMessage("Sound","SoundEmitter::init real") ;
+            InformationMessage("Sound", "SoundEmitter::init real") ;
             alGenSources(1,&m_source) ;
-            m_reader = getManager()->createReader(m_source, 
-                                                  getSoundFileName().c_str(), 
-                                                  isEvent(), m_posInFile, 
+            m_reader = getManager()->createReader(m_source,
+                                                  getSoundFileName().c_str(),
+                                                  isEvent(),
+                                                  m_posInFile,
                                                   m_posInBuffer) ;
-            alSourcei(m_source, AL_SOURCE_RELATIVE, AL_FALSE) ;
-            updateSource(viewpoint);   
-          } 
-          InformationMessage("Sound","SoundEmitter::initSound leaving") ; 
+            
+            alSourcei(m_source,AL_SOURCE_RELATIVE,AL_FALSE) ;
+            updateSource(viewpoint) ;
+          }
+          InformationMessage("Sound", "SoundEmitter::initSound leaving") ;
         }
-        
+
         void SoundEmitter::startSound(Kernel::ViewPoint* viewpoint)
         {
-          if(!m_source)
+          if (!m_source)
           {
             initSound(viewpoint) ;
           }
           alSourcePlay(m_source);
         }
-        
+
         void SoundEmitter::updateSource(Kernel::ViewPoint* viewpoint)
         {
           ALint state;
-          alGetSourcei(m_source, AL_SOURCE_STATE, &state);
-          
-          if(!isActive() && state == AL_PLAYING) 
+          alGetSourcei(m_source,AL_SOURCE_STATE,&state) ;
+
+          if (!isActive() && state == AL_PLAYING)
           {
             stopSound();
           }
           else
-          {         
-            /// @todo voir If parameters are never changed move to init
+          {
+            /// @todo If parameters are never changed move them to init
             alSourcef(m_source, AL_GAIN, getGain()) ;
-            alSourcef(m_source, AL_CONE_OUTER_GAIN, getOuterGain()) ;   
-            alSourcef(m_source, AL_PITCH, getPitch()) ; 
+            alSourcef(m_source, AL_CONE_OUTER_GAIN, getOuterGain()) ;
+            alSourcef(m_source, AL_PITCH, getPitch()) ;
             alSourcef(m_source, AL_CONE_OUTER_ANGLE, getOuterAngle());
             alSourcef(m_source, AL_CONE_INNER_ANGLE, getInnerAngle());
             alSourcef(m_source, AL_REFERENCE_DISTANCE, getRefDistance());
             alSourcef(m_source, AL_MAX_DISTANCE, getMaxDistance());
             alSourcef(m_source, AL_ROLLOFF_FACTOR, getRolloffFactor());
-                            
+
             Ogre::Vector3 position = getPosition().Meter() ;
-            alSource3f(m_source,
-                       AL_POSITION, 
-                       (float)position.x, 
-                       (float)position.y, 
-                       (float)position.z);
-                   
+            alSource3f(m_source,AL_POSITION,(float)position.x,(float)position.y,(float)position.z) ;
+
             Ogre::Quaternion orientation = getOrientation().getQuaternion();
 
-            ALfloat openal_orientation[6] ;
-            openal_orientation[0] = orientation.zAxis().x ;
-            openal_orientation[1] = orientation.zAxis().y ;
-            openal_orientation[2] = orientation.zAxis().z ;
-            openal_orientation[3] = orientation.yAxis().x ;
-            openal_orientation[4] = orientation.yAxis().y ;
-            openal_orientation[5] = orientation.yAxis().z ;
-          
-            alSourcefv(m_source, 
-                       AL_DIRECTION, 
-                       openal_orientation) ;
-                      
+            ALfloat openal_orientation[6];
+            openal_orientation[0] = orientation.zAxis().x;
+            openal_orientation[1] = orientation.zAxis().y;
+            openal_orientation[2] = orientation.zAxis().z;
+            openal_orientation[3] = orientation.yAxis().x;
+            openal_orientation[4] = orientation.yAxis().y;
+            openal_orientation[5] = orientation.yAxis().z;
+
+            /// Does the sound need to be directional ? 
+            alSourcefv(m_source,AL_DIRECTION,openal_orientation) ;
+
             Ogre::Vector3 speed = getSpeed().MeterPerSecond();
-            alSource3f(m_source, AL_VELOCITY, (float)speed.x, (float)speed.y, (float)speed.z) ;
-            
-            
-            //update Environnement Effect
-            
-            Model::SoundEnvironnement* env  = getObject()->getParent<Model::SoundEnvironnement>() ;
-            if(env)
+            alSource3f(m_source,AL_VELOCITY,(float)speed.x,(float)speed.y,(float)speed.z) ;
+
+            // update Environnement Effect
+
+            Model::SoundEnvironnement* env = getObject()->getParent<Model::SoundEnvironnement>() ;
+            if (env)
             {
-              SoundEnvironnement* envView  = env->getView<SoundEnvironnement>(viewpoint) ;
-              if(envView)
+              SoundEnvironnement* envView =
+                  env->getView<SoundEnvironnement>(viewpoint) ;
+              if (envView)
               {
-                ALuint auxEffectSlot = envView->getAuxEffectSlot() ; 
+                ALuint auxEffectSlot = envView->getAuxEffectSlot() ;
                 //SoundEnvironnement has changed
-                if(auxEffectSlot != m_auxEffectSlot)
+                if (auxEffectSlot != m_auxEffectSlot)
                 {
-                  m_auxEffectSlot = auxEffectSlot ;
-                  EFX::applyEffectToSource(m_source,m_auxEffectSlot) ;
-                  InformationMessage("Sound","update add reverb") ;  
+                  m_auxEffectSlot = auxEffectSlot;
+                  EFX::applyEffectToSource(m_source, m_auxEffectSlot) ;
+                  InformationMessage("Sound", "update add reverb") ;
                 }
               }
               else
               {
-                InformationMessage("Sound","no envView") ;  
+                InformationMessage("Sound", "no envView") ;
               }
             }
             else
             {
-              InformationMessage("Sound","no env") ;  
+              InformationMessage("Sound", "no env") ;
             }
-            
+
           }
-          
-          if(isActive() && (state == AL_STOPPED || state == AL_INITIAL)) 
+
+          if (isActive() && (state == AL_STOPPED || state == AL_INITIAL))
           {
             startSound(viewpoint);
           }
         }
-        
+
         void SoundEmitter::changeParentSource(Kernel::ViewPoint* viewpoint)
         {
-          
-          InformationMessage("Sound","SoundEmitter::changeParent : enter") ;
-            
-          Model::SoundEnvironnement* env  = getObject()->getParent<Model::SoundEnvironnement>() ;
-            if(env)
+
+          InformationMessage("Sound", "SoundEmitter::changeParent : enter") ;
+
+          Model::SoundEnvironnement* env = getObject()->getParent<Model::SoundEnvironnement>() ;
+          if (env)
+          {
+            SoundEnvironnement* envView =
+                env->getView<SoundEnvironnement>(viewpoint) ;
+            if (envView)
             {
-              SoundEnvironnement* envView  = env->getView<SoundEnvironnement>(viewpoint) ;
-              if(envView)
+              ALuint auxEffectSlot = envView->getAuxEffectSlot() ;
+              //SoundEnvironnement has changed
+              if (auxEffectSlot != m_auxEffectSlot)
               {
-                ALuint auxEffectSlot = envView->getAuxEffectSlot() ; 
-                //SoundEnvironnement has changed
-                if(auxEffectSlot != m_auxEffectSlot)
-                {
-                  m_auxEffectSlot = auxEffectSlot ;
-                  // @todo see filter parameter for occlusion , exclusion case
-                  EFX::applyEffectToSource(m_source,m_auxEffectSlot) ;
-                  InformationMessage("Sound","update add reverb") ;  
-                }
-                else
-                {
-                  InformationMessage("Sound","same reverb") ;  
-                }
+                m_auxEffectSlot = auxEffectSlot;
+                // @todo see filter parameter for occlusion , exclusion case
+                EFX::applyEffectToSource(m_source, m_auxEffectSlot) ;
+                InformationMessage("Sound", "update add reverb") ;
               }
               else
               {
-                InformationMessage("Sound","no envView") ;  
+                InformationMessage("Sound", "same reverb") ;
               }
             }
             else
             {
-              InformationMessage("Sound","no env") ;  
+              InformationMessage("Sound", "no envView") ;
             }
-            
-          InformationMessage("Sound","SoundEmitter::changeParent : leaving") ;
+          }
+          else
+          {
+            InformationMessage("Sound", "no env") ;
+          }
+
+          InformationMessage("Sound", "SoundEmitter::changeParent : leaving") ;
         }
-        
+
         void SoundEmitter::stopSound()
         {
-          if(m_source)
+          if (m_source)
           {
             alSourceStop(m_source);
           }
         }
-            
+
         void SoundEmitter::deleteSound()
         {
-          InformationMessage("Sound","SoundEmitter::deleteSound : enter") ;
-          if(!isEvent())
+          InformationMessage("Sound", "SoundEmitter::deleteSound : enter") ;
+          if (!isEvent())
           {
-              alGetSourcei(m_source, AL_SAMPLE_OFFSET, &m_posInBuffer) ;
-              stopSound();
-              m_posInFile = m_reader->getPos() ;
-              m_reader->setFinish(true) ; 
+            alGetSourcei(m_source, AL_SAMPLE_OFFSET, &m_posInBuffer) ;
+            stopSound();
+//            m_posInFile = m_reader->getPos() ;
+//            m_reader->setFinish(true) ;
           }
-          m_auxEffectSlot = 0 ;
-          m_source = 0 ;
-          InformationMessage("Sound","SoundEmitter::deleteSound : leaving") ;
+          m_auxEffectSlot = 0;
+          m_source = 0;
+          InformationMessage("Sound", "SoundEmitter::deleteSound : leaving") ;
         }
-        
+
         Model::Position SoundEmitter::getPosition() const
         {
-          Model::Positionned* positionned = getObject()->getTrait<Model::Positionned>();
-          if(positionned)
+          Model::Positionned* positionned = getObject()->getParent<Model::Positionned>();
+          if (positionned)
           {
             return positionned->getPosition(getObject()->getRoot());
           }
@@ -226,11 +229,11 @@ namespace ProjetUnivers {
             return Model::Position();
           }
         }
-              
+
         Model::Orientation SoundEmitter::getOrientation() const
         {
-          Model::Oriented* oriented = getObject()->getTrait<Model::Oriented>();
-          if(oriented)
+          Model::Oriented* oriented = getObject()->getParent<Model::Oriented>();
+          if (oriented)
           {
             return oriented->getOrientation(getObject()->getRoot());
           }
@@ -240,11 +243,11 @@ namespace ProjetUnivers {
             return Model::Orientation();
           }
         }
-              
+
         Model::Speed SoundEmitter::getSpeed() const
         {
-          Model::Mobile* mobile = getObject()->getTrait<Model::Mobile>();
-          if(mobile)
+          Model::Mobile* mobile = getObject()->getParent<Model::Mobile>();
+          if (mobile)
           {
             return mobile->getSpeed();
           }
@@ -254,52 +257,52 @@ namespace ProjetUnivers {
             return Model::Speed();
           }
         }
-        
+
         bool SoundEmitter::isActive() const
         {
           return true;
         }
-        
+
         float SoundEmitter::getGain() const
         {
-          return 1.0;  
+          return 1.0;
         }
-          
+
         float SoundEmitter::getOuterGain() const
         {
-          return 1.0;  
+          return 1.0;
         }
-          
+
         float SoundEmitter::getPitch() const
         {
-          return 1.0;  
+          return 1.0;
         }
-        
+
         float SoundEmitter::getOuterAngle() const
         {
-          return 360 ;
+          return 360;
         }
-        
+
         float SoundEmitter::getInnerAngle() const
         {
           return 360;
         }
-       
+
         float SoundEmitter::getRefDistance() const
         {
           return 5.0;
         }
-        
+
         float SoundEmitter::getMaxDistance() const
         {
           return 500.0;
         }
-        
+
         float SoundEmitter::getRolloffFactor() const
         {
-          return 1.0;  
+          return 1.0;
         }
-      
+
       }
     }
   }

@@ -22,28 +22,37 @@
 
 #include <kernel/log.h>
 #include <kernel/parameters.h>
- 
-#include <model/model.h>
-#include <sound/implementation/openal/manager.h>
-#include <sound/implementation/openal/wav_reader.h>
-#include <sound/implementation/openal/ogg_reader.h>
 
-namespace ProjetUnivers {
-  namespace Sound {
-    namespace Implementation {
-      namespace OpenAL {
-        
+#include <model/model.h>
+#include <sound/implementation/openal/reader.h>
+#include <sound/implementation/openal/ogg_file_stream.h>
+#include <sound/implementation/openal/ogg_cached_stream.h>
+#include <sound/implementation/openal/wav_file_stream.h>
+#include <sound/implementation/openal/manager.h>
+
+namespace ProjetUnivers
+{
+  namespace Sound
+  {
+    namespace Implementation
+    {
+      namespace OpenAL
+      {
+
         std::string findFilePath(const std::string& filename)
         {
           // on demand init
           Model::initRessources() ;
-          
+
           std::string foundPath = filename;
-          Ogre::ResourceGroupManager* groupManager = Ogre::ResourceGroupManager::getSingletonPtr() ;
-          Ogre::String group = groupManager->findGroupContainingResource(filename) ;
-          Ogre::FileInfoListPtr fileInfos = groupManager->findResourceFileInfo(group,foundPath);
+          Ogre::ResourceGroupManager* groupManager =
+              Ogre::ResourceGroupManager::getSingletonPtr() ;
+          Ogre::String group =
+              groupManager->findGroupContainingResource(filename) ;
+          Ogre::FileInfoListPtr fileInfos = groupManager->findResourceFileInfo(
+              group, foundPath);
           Ogre::FileInfoList::iterator it = fileInfos->begin();
-          if(it != fileInfos->end())
+          if (it != fileInfos->end())
           {
             foundPath = it->archive->getName() + "/" + foundPath;
             foundPath;
@@ -53,12 +62,12 @@ namespace ProjetUnivers {
 
           return foundPath;
         }
-        
+
         Manager::Manager()
         {
           try
           {
-            m_updateTime = Kernel::Parameters::getValue<float>("Sound","UpdateTime") ;
+            m_updateTime = Kernel::Parameters::getValue<float>("Sound","UpdateTime");
           }
           catch(Kernel::ExceptionKernel e)
           {
@@ -66,53 +75,90 @@ namespace ProjetUnivers {
           }
         }
         
+        void Manager::cacheRessource(const std::string& file_name)
+        {
+          std::string file_path(findFilePath(file_name)) ;
+          
+          std::map<std::string,Stream*>::const_iterator stream = m_cached_streams.find(file_path) ;
+          if (stream == m_cached_streams.end())
+          {
+            m_cached_streams[file_path] = new OggCachedStream(file_path) ;
+          }
+        }
+
         Manager::~Manager()
         {
-          for (std::vector<Reader*>::iterator iter = m_readers.begin() ; iter != m_readers.end(); iter++) 
+          for(std::vector<Reader*>::iterator iter = m_readers.begin() ; 
+              iter != m_readers.end(); iter++)
           {
             (*iter)->onClose() ;
-            delete *iter ;
+            delete *iter;
           }
           m_readers.clear() ;
-        }
-        
-        Reader* Manager::createReader(const ALuint& p_source,
-                                      const std::string& p_fileName, 
-                                      const bool& p_isEvent, 
-                                      const int& m_posInFile, 
-                                      const int& m_posInBuffer)
-        {
-          Reader* result = NULL ;
-          //Query a buffer a little bigger to evite the case 
-          //where openal thread try to use the buffer when we load it
-          if (p_fileName.find(".wav") != std::string::npos)
+          
+          for(std::map<std::string,Stream*>::iterator stream = m_cached_streams.begin() ; 
+              stream != m_cached_streams.end(); stream++)
           {
-            result = new WavReader(p_source, findFilePath(p_fileName), p_isEvent, m_updateTime*1.10) ;
+            delete stream->second ;
           }
-          else if (p_fileName.find(".ogg") != std::string::npos)
+          m_cached_streams.clear() ;
+          for(std::set<Stream*>::iterator stream = m_streams.begin() ; 
+              stream != m_streams.end(); stream++)
           {
-            result = new OggReader(p_source, findFilePath(p_fileName), p_isEvent, m_updateTime*1.10) ;
+            delete *stream ;
+          }
+          m_streams.clear() ;
+        }
+
+        Stream* Manager::getStream(const std::string& file_name)
+        {
+          /// search for cached streams
+          std::string file_path(findFilePath(file_name)) ;
+          
+          std::map<std::string,Stream*>::const_iterator stream = m_cached_streams.find(file_path) ;
+          if (stream != m_cached_streams.end())
+          {
+            return stream->second ;
+          }
+          
+          Stream* result = NULL ;
+          
+          if (file_name.find(".ogg") != std::string::npos)
+          {
+            result = new OggFileStream(file_path) ;
+            m_streams.insert(result) ;
+          }
+          else if (file_name.find(".wav") != std::string::npos)
+          {
+            result = new WavFileStream(file_path) ;
+            m_streams.insert(result) ;
           }
           else
           {
             ErrorMessage("[OpenAl::Manager] unsupported file type") ;
-            return NULL ;
           }
-          
-          result->onInit(m_posInFile, m_posInBuffer) ;
-          m_readers.push_back(result) ;
           return result ;
         }
-          
+        
+        Reader* Manager::createReader(const ALuint& p_source,
+            const std::string& p_fileName, const bool& p_isEvent,
+            const int& m_posInFile, const int& m_posInBuffer)
+        {
+          Reader* result = new Reader(p_source,getStream(p_fileName),p_isEvent) ;
+          result->onInit(m_posInFile, m_posInBuffer) ;
+          m_readers.push_back(result) ;
+          return result;
+        }
+
         void Manager::update()
         {
-          if(m_timer.getSecond() > m_updateTime)
+          if (m_timer.getSecond() > m_updateTime)
           {
             m_timer.reset() ;
-            for (std::vector<Reader*>::iterator iter = m_readers.begin() ; 
-                 iter != m_readers.end(); ) 
+            for (std::vector<Reader*>::iterator iter = m_readers.begin() ; iter
+                != m_readers.end();)
             {
-              if((*iter)->isFinish())
+              if ((*iter)->isFinished())
               {
                 (*iter)->onClose() ;
                 delete *iter;
@@ -120,13 +166,13 @@ namespace ProjetUnivers {
               }
               else
               {
-                InformationMessage("Sound","enter manager update") ;     
+                InformationMessage("Sound", "enter manager update") ;
                 (*iter)->update() ;
                 ++iter;
-                InformationMessage("Sound","leave manager update") ;     
+                InformationMessage("Sound", "leave manager update") ;
               }
             }
-          }          
+          }
         }
       }
     }

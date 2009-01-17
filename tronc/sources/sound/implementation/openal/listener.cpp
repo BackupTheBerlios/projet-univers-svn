@@ -65,7 +65,7 @@ namespace ProjetUnivers {
         {
           InternalMessage("Sound","OpenAL::Listener::onClose Entering") ;
 
-          //Just one listener by context in openal , it's destroy with openal context
+          // Just one listener by context in openal , it's destroy with openal context
           
           InternalMessage("Sound","OpenAL::Listener::onClose Leaving") ;
         }

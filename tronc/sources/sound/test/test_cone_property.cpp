@@ -46,25 +46,29 @@
 #include <iostream>
 #define PI 3.14
 
-CPPUNIT_TEST_SUITE_REGISTRATION(
-  ProjetUnivers::Sound::Test::TestConeProperty) ;
+CPPUNIT_TEST_SUITE_REGISTRATION(ProjetUnivers::Sound::Test::TestConeProperty);
 
-namespace ProjetUnivers {
-  namespace Sound {
-    namespace Test {
+namespace ProjetUnivers
+{
+  namespace Sound
+  {
+    namespace Test
+    {
 
       void TestConeProperty::basicTest()
       {
+        std::cerr << "TestConeProperty::basicTest" << std::endl ;
+        std::cerr.flush() ;
         /*!
-          - build a engine
-          - build a listener
-          - move the listener in a circle around the engine
-            to heard the variation with the angle.
-          
-        */
-        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestConeProperty::basicTest")) ;
+         - build a engine
+         - build a listener
+         - move the listener in a circle around the engine
+         to heard the variation with the angle.
+         
+         */
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestConeProperty::basicTest"));
         model->init() ;
-        
+
         Kernel::Object* system = model->createObject() ;
         system->addTrait(new Model::Positionned()) ;
         system->addTrait(new Model::Oriented()) ;
@@ -82,8 +86,8 @@ namespace ProjetUnivers {
         engine->addTrait(enginePos);
         engine->addTrait(new Model::Oriented(Model::Orientation(Ogre::Quaternion(1.0, 0.0, -10.0, 0.0)))) ;
         engine->addTrait(new Model::Mobile());
-        
-        Kernel::Timer timer ;
+
+        Kernel::Timer timer;
 
         float angle = 0;
         int tour = 0;
@@ -96,21 +100,13 @@ namespace ProjetUnivers {
             angle = 0;
             tour++;
           }
-          listenerPos->setPosition(Model::Position::Meter(0.0,5*std::cos(angle*2*PI),5*std::sin(angle*2*PI)));
+          listenerPos->setPosition(Model::Position::Meter(0.0, 5*std::cos(angle
+              *2*PI), 5*std::sin(angle*2*PI)));
           float seconds = timer.getSecond() ;
           timer.reset() ;
           model->update(seconds) ;
-        }      
+        }
       }
-
-      void TestConeProperty::setUp() 
-      {
-      }
-      
-      void TestConeProperty::tearDown() 
-      {
-      }
-      
 
     }
   }

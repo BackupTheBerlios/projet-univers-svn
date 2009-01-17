@@ -18,21 +18,21 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_SOUND_IMPLEMENTATION_OPENAL_OPENAL_H_
-#define PU_SOUND_IMPLEMENTATION_OPENAL_OPENAL_H_
+#pragma once
 
 #include <AL/al.h>
 #include <AL/alc.h>
 
 #include <sound/implementation/openal/manager.h>
 
-namespace ProjetUnivers {
-  namespace Sound {
-    namespace Implementation {
+namespace ProjetUnivers
+{
+  namespace Sound
+  {
+    namespace Implementation
+    {
       
       /// Sound implementation throught OpenAL.
-      /*!                  
-      */
       namespace OpenAL {
         
         /// Initialisation of OpenAL specific.
@@ -54,4 +54,3 @@ namespace ProjetUnivers {
   }
 }
 
-#endif /*PU_SOUND_IMPLEMENTATION_OPENAL_OPENAL_H*/

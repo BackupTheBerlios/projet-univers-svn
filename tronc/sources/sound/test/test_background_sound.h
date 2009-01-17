@@ -23,60 +23,46 @@
 
 #include <cppunit/extensions/HelperMacros.h>
 
-namespace ProjetUnivers {
-  namespace Sound {
-    namespace Test {
+namespace ProjetUnivers
+{
+  namespace Sound
+  {
+    namespace Test
+    {
 
-            
       /// Test of a basic static soundEmitter
-      class TestBackgroundSound : public CppUnit::TestFixture {
+      class TestBackgroundSound : public CppUnit::TestFixture
+      {
       protected:
-      
-        
-      // ************
-      /// @name Tests
-      // ************
-      // @{
-        
+
+        // ************
+        /// @name Tests
+        // ************
+        // @{
+
         /// 
         void basicTest() ;
-           
-      // @}
-      // *******************************
-      /// @name Register
-      // *******************************
-      // @{      
-      
+        void wavSound() ;
+
+        // @}
+        // *******************************
+        /// @name Register
+        // *******************************
+        // @{      
+
         CPPUNIT_TEST_SUITE(TestBackgroundSound) ;
-      
+
         CPPUNIT_TEST(basicTest) ;
-      
+        CPPUNIT_TEST(wavSound) ;
+
         CPPUNIT_TEST_SUITE_END() ;
-      
-      // @}      
-                
-     public:
 
-      // ************
-      /// @name Setup
-      // ************
-      // @{
+        // @}      
 
-      
-        /// Initit
-        void setUp() ;
-      
-        /// Close
-        void tearDown() ;
-      
-      // @}      
-      
-      
       };
 
     }
   }
 }
-
 
 #endif

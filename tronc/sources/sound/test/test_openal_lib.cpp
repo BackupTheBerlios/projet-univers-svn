@@ -27,90 +27,89 @@
 #include <kernel/timer.h>
 #include <sound/test/test_openal_lib.h>
 
-CPPUNIT_TEST_SUITE_REGISTRATION(
-  ProjetUnivers::Sound::Test::TestOpenALLib) ;
+CPPUNIT_TEST_SUITE_REGISTRATION(ProjetUnivers::Sound::Test::TestOpenALLib);
 
-namespace ProjetUnivers {
-  namespace Sound {
-    namespace Test {
+namespace ProjetUnivers
+{
+  namespace Sound
+  {
+    namespace Test
+    {
 
       void TestOpenALLib::basicTest()
       {
+        std::cerr << "TestOpenALLib::basicTest" << std::endl;
+        std::cerr.flush() ;
         /*!
-          - init openal directly to see if the lib work
-        */
-        
-        ALCdevice* device ;
-        ALCcontext* context ;
+         - init openal directly to see if the lib work
+         */
+
+        ALCdevice* device;
+        ALCcontext* context;
         device = alcOpenDevice(NULL);
-        if(device == NULL)
+        if (device == NULL)
         {
           ErrorMessage("[OpenAL] No sound device found");
           CPPUNIT_ASSERT(false) ;
-          return ;
+          return;
         }
 
         context = alcCreateContext(device, NULL);
-        if(context == NULL)
+        if (context == NULL)
         {
           ErrorMessage("[OpenAL] Can't create contexte");
           CPPUNIT_ASSERT(false) ;
-          return ;
+          return;
         }
 
         alcMakeContextCurrent(context);
-        ALenum error ;
-        
-        if((error = alGetError()) != AL_NO_ERROR)
+        ALenum error;
+
+        if ((error = alGetError()) != AL_NO_ERROR)
         {
           ErrorMessage("[OpenAL] init error:" + error);
           CPPUNIT_ASSERT(false) ;
-          return ;
+          return;
         }
-        
-        InformationMessage("Sound","Al status " + Kernel::toString(alGetError())) ;
-        
-        ALboolean alut_error = alutInitWithoutContext(NULL,NULL) ;
+
+        InformationMessage("Sound", "Al status "
+            + Kernel::toString(alGetError())) ;
+
+        ALboolean alut_error = alutInitWithoutContext(NULL, NULL) ;
         if (alut_error ==AL_FALSE)
         {
-          ErrorMessage("[ALUT] init error:" + std::string(alutGetErrorString(alutGetError())));
+          ErrorMessage("[ALUT] init error:"
+              + std::string(alutGetErrorString(alutGetError())));
           CPPUNIT_ASSERT(false) ;
-          return ;
-         
+          return;
+
         }
-        
-        ALuint source ;
-        alGenSources(1,&source) ;
+
+        ALuint source;
+        alGenSources(1, &source) ;
         ALuint buffer = alutCreateBufferFromFile("test.wav");
-        if(buffer == AL_NONE)
+        if (buffer == AL_NONE)
         {
-          ErrorMessage("[OpenAL] Can't generate a buffer" 
-                       + std::string(alutGetErrorString(alutGetError())));
+          ErrorMessage("[OpenAL] Can't generate a buffer"
+              + std::string(alutGetErrorString(alutGetError())));
           CPPUNIT_ASSERT(false) ;
-          return ;
+          return;
         }
-        
+
         alSourcei(source, AL_BUFFER, buffer);
-        
+
         alSourcePlay(source) ;
 
-        Kernel::Timer timer ;
-        int i = 0 ;
-        while(timer.getSecond() <= 2.0)
+        Kernel::Timer timer;
+        int i = 0;
+        while (timer.getSecond() <= 2.0)
         {
-          ++i ;
-        }          
+          ++i;
+        }
+        
+        alDeleteSources(1,&source) ;
         
       }
-
-      void TestOpenALLib::setUp() 
-      {
-      }
-      
-      void TestOpenALLib::tearDown() 
-      {
-      }
-      
 
     }
   }

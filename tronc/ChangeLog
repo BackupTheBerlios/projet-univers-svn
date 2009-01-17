@@ -1168,6 +1168,12 @@
 
   * Display :
     - corrected bug when returning to menu
+
+2009-01-17 rogma 
+
+  * Sound :
+    - refactoring, added cached sound resources   
+    
     
 @todo :
 

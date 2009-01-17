@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007-2008 Morgan GRIGNARD Mathieu ROGER                 *
+ *   Copyright (C) 2007-2009 Morgan GRIGNARD Mathieu ROGER                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,59 +18,68 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_SOUND_IMPLEMENTATION_OPENAL_MANAGER_H_
-#define PU_SOUND_IMPLEMENTATION_OPENAL_MANAGER_H_
+#pragma once
 
-
+#include <map>
+#include <string>
+#include <vector>
+#include <AL/al.h>
 #include <kernel/timer.h>
 #include <kernel/object.h>
 
-#include <sound/implementation/openal/reader.h>
+namespace ProjetUnivers
+{
+  namespace Sound
+  {
+    namespace Implementation
+    {
+      namespace OpenAL
+      {
 
-#include <vector>
-#include <string>
-
-namespace ProjetUnivers {
-  namespace Sound {
-    namespace Implementation {
-      namespace OpenAL {
+        class Reader ;
+        class Stream ;
         
         /// Update the buffers and create/delete the reader during their life.
         class Manager
         {
         public:
         /*!
-          @name Construction 
-        */
+         @name Construction 
+         */
         // @{
-        
-          /// Constructor 
-          Manager() ;
 
-          ~Manager() ;
+          /// Constructor 
+          Manager();
+
+          /// Add a ressource to the cache
+          void cacheRessource(const std::string&) ;
+          
+          ~Manager();
 
         // @}
-        
+
           /// Create a reader which match the soundFile type
-          Reader* createReader(const ALuint& p_source, 
-                               const std::string& p_fileName,
-                               const bool& p_isEvent, const int& m_posInFile, 
-                               const int& m_posInBuffer) ;
-          
+          Reader* createReader(
+              const ALuint& p_source,
+              const std::string& p_fileName, const bool& p_isEvent,
+              const int& m_posInFile, const int& m_posInBuffer);
+
           /// Close the files of finish sounds, delete the  buffers
-          void update() ;
-            
+          void update();
+
         private:
+
+          Stream* getStream(const std::string&) ;
           
-          std::vector<Reader*> m_readers ;
-          Kernel::Timer m_timer ;
-          float m_updateTime ;
-             
+          std::vector<Reader*> m_readers;
+          Kernel::Timer m_timer;
+          float m_updateTime;
+
+          std::map<std::string,Stream*> m_cached_streams ;
+          std::set<Stream*> m_streams ;
+          
         };
       }
     }
   }
 }
-
-
-#endif /*PU_SOUND_IMPLEMENTATION_OPENAL_MANAGER_H_*/

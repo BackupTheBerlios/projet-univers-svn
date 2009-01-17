@@ -22,10 +22,14 @@
 
 #include <sound/implementation/openal/collision.h>
 
-namespace ProjetUnivers {
-  namespace Sound {
-    namespace Implementation {
-      namespace OpenAL {
+namespace ProjetUnivers
+{
+  namespace Sound
+  {
+    namespace Implementation
+    {
+      namespace OpenAL
+      {
 
         RegisterView(OpenAL::Collision, 
                      Model::Collision, 

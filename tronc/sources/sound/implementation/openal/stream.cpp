@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2007-2009 Morgan GRIGNARD Mathieu ROGER                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,43 +18,32 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <sound/implementation/openal/filter.h>
+#include <vector>
+#include <iostream>
 
-#include <sound/test/test_filter.h>
+#include <kernel/log.h>
 
-CPPUNIT_TEST_SUITE_REGISTRATION(ProjetUnivers::Sound::Test::TestFilter);
+#include <sound/implementation/openal/openal.h>
+#include <sound/implementation/openal/stream.h>
 
 namespace ProjetUnivers
 {
   namespace Sound
   {
-    namespace Test
+    namespace Implementation
     {
-      using namespace Implementation::OpenAL;
-
-      void TestFilter::basicTest()
+      namespace OpenAL
       {
-        std::cerr << "TestFilter::basicTest" << std::endl ;
-        std::cerr.flush() ;
-        /*!
-         - create a source and try reverb and filter on it
-         */
 
-        Filter a = Filter(0.5, 0.25);
-        Filter b = Filter(0.5, 0.75);
-        Filter c = Filter(0.0, 1.0);
-        Filter d = Filter(1.0, 0.0);
-
-        Filter plus1 = a + b;
-        CPPUNIT_ASSERT(plus1.getGain() == 0.25 && plus1.getGainHF() == 0.1875);
-        Filter moins2 = a - c;
-        CPPUNIT_ASSERT(moins2.getGain() == 0.0 && moins2.getGainHF() == 0.25);
-        Filter moins3 = a - d;
-        CPPUNIT_ASSERT(moins3.getGain() == 0.5 && moins3.getGainHF() == 0.0);
+        Stream::Stream(const std::string& file_name)
+        : m_file_name(file_name), 
+          m_update_time(1.10)
+        {}
+        
+        Stream::~Stream()
+        {}
 
       }
-
     }
   }
 }
-

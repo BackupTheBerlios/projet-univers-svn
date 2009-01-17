@@ -18,8 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_SOUND_IMPLEMENTATION_SOUND_EMITTER_H_
-#define PU_SOUND_IMPLEMENTATION_SOUND_EMITTER_H_
+#pragma once
 
 #include <AL/al.h>
 
@@ -29,20 +28,22 @@
 #include <model/speed.h>
 
 #include <sound/implementation/openal/openal.h>
-#include <sound/implementation/openal/reader.h>
 
-namespace ProjetUnivers {
-  namespace Sound {
-    namespace Implementation {
-      namespace OpenAL {
-
+namespace ProjetUnivers 
+{
+  namespace Sound 
+  {
+    namespace Implementation 
+    {
+      namespace OpenAL 
+      {
+        class Reader ;
     
         /// Common part of object's views that emit sound.
         /*! 
           Object's views that can emit a sound must extends this class.
           
           For example : engine...
-          
         */
         class SoundEmitter 
         {
@@ -166,6 +167,7 @@ namespace ProjetUnivers {
           /// Position before closing reader.
           /*!
             usefull in the changeParent case to restart at the same point
+            --> I do not see why ???
           */
           int m_posInFile ;
           int m_posInBuffer ;
@@ -175,5 +177,3 @@ namespace ProjetUnivers {
     }
   }
 }
-
-#endif /*PU_SOUND_IMPLEMENTATION_SOUND_EMITTER_H_*/

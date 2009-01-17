@@ -54,24 +54,6 @@ namespace ProjetUnivers {
         CPPUNIT_TEST_SUITE_END() ;
       
       // @}      
-                
-     public:
-
-      // ************
-      /// @name Setup
-      // ************
-      // @{
-
-      
-        /// Initit
-        void setUp() ;
-      
-        /// Close
-        void tearDown() ;
-      
-      // @}      
-      
-      
       };
 
     }

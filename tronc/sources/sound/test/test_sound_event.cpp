@@ -41,27 +41,35 @@
 #include <model/collision.h>
 
 #include <sound/sound.h>
+#include <sound/implementation/openal/openal.h>
 #include <sound/test/test_sound_event.h>
 
 #include <iostream>
 
-CPPUNIT_TEST_SUITE_REGISTRATION(
-  ProjetUnivers::Sound::Test::TestSoundEvent) ;
+CPPUNIT_TEST_SUITE_REGISTRATION(ProjetUnivers::Sound::Test::TestSoundEvent);
 
-namespace ProjetUnivers {
-  namespace Sound {
-    namespace Test {
+namespace ProjetUnivers
+{
+  namespace Sound
+  {
+    namespace Test
+    {
 
       void TestSoundEvent::basicTest()
       {
+        std::cerr << "TestSoundEvent::basicTest" << std::endl;
+        std::cerr.flush() ;
+
+        Implementation::OpenAL::getManager()->cacheRessource("pu_choc.ogg") ;
+
         /*!
-          - build an event object plays ound and destroy it
-          - check that the sound is still playing
-        */
-      
-        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestSoundEnvironnement::basicTest")) ;
+         - build an event object plays ound and destroy it
+         - check that the sound is still playing
+         */
+
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestSoundEnvironnement::basicTest"));
         model->init() ;
-        
+
         Kernel::Object* system = model->createObject() ;
         system->addTrait(new Model::Positionned()) ;
         system->addTrait(new Model::Oriented()) ;
@@ -71,16 +79,15 @@ namespace ProjetUnivers {
         listener->addTrait(new Model::Positionned()) ;
         listener->addTrait(new Model::Oriented()) ;
         listener->addTrait(new Model::Mobile());
-        
+
         Kernel::Object* collision = system->createObject() ;
         collision->addTrait(new Model::Collision(system,
-                                                 listener)) ;
+            listener)) ;
         collision->addTrait(new Model::Positionned(Model::Position::Meter(10,10,10))) ;
-        
-        
-        Kernel::Timer timer ;
-        Kernel::Timer global_timer ;
-        
+
+        Kernel::Timer timer;
+        Kernel::Timer global_timer;
+
         while (global_timer.getSecond() <= 3)
         {
           float seconds = timer.getSecond() ;
@@ -89,15 +96,6 @@ namespace ProjetUnivers {
         }
 
       }
-
-      void TestSoundEvent::setUp() 
-      {
-      }
-      
-      void TestSoundEvent::tearDown() 
-      {
-      }
-      
 
     }
   }

@@ -18,16 +18,19 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_SOUND_IMPLEMENTATION_OPENAL_REAL_WORLD_VIEW_POINT_H_
-#define PU_SOUND_IMPLEMENTATION_OPENAL_REAL_WORLD_VIEW_POINT_H_
+#pragma once
 
 #include <kernel/object.h>
 #include <kernel/view_point.h>
 
-namespace ProjetUnivers {
-  namespace Sound {
-    namespace Implementation {
-      namespace OpenAL {
+namespace ProjetUnivers
+{
+  namespace Sound
+  {
+    namespace Implementation
+    {
+      namespace OpenAL
+      {
 
         /// Standard sound viewpoint.
         class RealWorldViewPoint : public Kernel::ViewPoint 
@@ -56,6 +59,3 @@ namespace ProjetUnivers {
     }
   }
 }
-
-
-#endif /* PU_SOUND_IMPLEMENTATION_OPENAL_REAL_WORLD_VIEW_POINT_H_*/

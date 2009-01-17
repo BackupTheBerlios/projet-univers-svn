@@ -26,44 +26,51 @@
 #include <AL/alc.h>
 #include <AL/efx.h>
 
-CPPUNIT_TEST_SUITE_REGISTRATION(
-  ProjetUnivers::Sound::Test::TestOpenALInit) ;
+CPPUNIT_TEST_SUITE_REGISTRATION(ProjetUnivers::Sound::Test::TestOpenALInit);
 
-namespace ProjetUnivers {
-  namespace Sound {
-    namespace Test {
+namespace ProjetUnivers
+{
+  namespace Sound
+  {
+    namespace Test
+    {
 
       void TestOpenALInit::basicTest()
       {
+        std::cerr << "TestOpenALInit::basicTest" << std::endl;
+        std::cerr.flush() ;
         /*!
-          - just init sound module and show the platform possibilities
-        */
- 
+         - just init sound module and show the platform possibilities
+         */
+
         Sound::init() ;
-        
+
         ALCdevice* device;
         ALCcontext* contexte;
         ALint auxSlotNumber;
         ALint minVersion;
         ALint maxVersion;
-        
+
         contexte = alcGetCurrentContext();
         device = alcGetContextsDevice(contexte);
         alcGetIntegerv(device, ALC_MAX_AUXILIARY_SENDS, 1, &auxSlotNumber);
         alcGetIntegerv(device, ALC_EFX_MINOR_VERSION, 1, &minVersion);
-        alcGetIntegerv(device, ALC_EFX_MAJOR_VERSION, 1, &maxVersion);   
-        printf("Your system can support :\n -%d aux. effect slot\n -an EFX version between %d and %d\n",auxSlotNumber, minVersion, maxVersion);
+        alcGetIntegerv(device, ALC_EFX_MAJOR_VERSION, 1, &maxVersion);
+        printf(
+            "Your system can support :\n -%d aux. effect slot\n -an EFX version between %d and %d\n",
+            auxSlotNumber, minVersion, maxVersion);
         printf("Effect supported:\n");
-        
+
         ALuint effect;
         Implementation::OpenAL::alGenEffects(1, &effect);
-        if(alGetError() != AL_NO_ERROR)
+        if (alGetError() != AL_NO_ERROR)
         {
-            printf("Can't build effect\n");
-            return;
+          printf("Can't build effect\n");
+          return;
         }
-        
-        Implementation::OpenAL::alEffecti(effect, AL_EFFECT_TYPE, AL_EFFECT_EAXREVERB);
+
+        Implementation::OpenAL::alEffecti(effect, AL_EFFECT_TYPE,
+            AL_EFFECT_EAXREVERB);
         if (alGetError() != AL_NO_ERROR)
         {
           printf("EAXReverb: no\n");
@@ -72,8 +79,9 @@ namespace ProjetUnivers {
         {
           printf("EAXReverb: yes\n");
         }
-        
-        Implementation::OpenAL::alEffecti(effect, AL_EFFECT_TYPE, AL_EFFECT_REVERB);
+
+        Implementation::OpenAL::alEffecti(effect, AL_EFFECT_TYPE,
+            AL_EFFECT_REVERB);
         if (alGetError() != AL_NO_ERROR)
         {
           printf("Reverb: no\n");
@@ -82,8 +90,9 @@ namespace ProjetUnivers {
         {
           printf("Reverb: yes\n");
         }
-        
-        Implementation::OpenAL::alEffecti(effect, AL_EFFECT_TYPE, AL_EFFECT_CHORUS);
+
+        Implementation::OpenAL::alEffecti(effect, AL_EFFECT_TYPE,
+            AL_EFFECT_CHORUS);
         if (alGetError() != AL_NO_ERROR)
         {
           printf("Chorus: no\n");
@@ -92,7 +101,8 @@ namespace ProjetUnivers {
         {
           printf("Chorus: yes\n");
         }
-        Implementation::OpenAL::alEffecti(effect, AL_EFFECT_TYPE, AL_EFFECT_DISTORTION);
+        Implementation::OpenAL::alEffecti(effect, AL_EFFECT_TYPE,
+            AL_EFFECT_DISTORTION);
         if (alGetError() != AL_NO_ERROR)
         {
           printf("Distortion: no\n");
@@ -101,7 +111,8 @@ namespace ProjetUnivers {
         {
           printf("Distortion: yes\n");
         }
-        Implementation::OpenAL::alEffecti(effect, AL_EFFECT_TYPE, AL_EFFECT_ECHO);
+        Implementation::OpenAL::alEffecti(effect, AL_EFFECT_TYPE,
+            AL_EFFECT_ECHO);
         if (alGetError() != AL_NO_ERROR)
         {
           printf("Echo: no\n");
@@ -110,7 +121,8 @@ namespace ProjetUnivers {
         {
           printf("Echo: yes\n");
         }
-        Implementation::OpenAL::alEffecti(effect, AL_EFFECT_TYPE, AL_EFFECT_FLANGER);
+        Implementation::OpenAL::alEffecti(effect, AL_EFFECT_TYPE,
+            AL_EFFECT_FLANGER);
         if (alGetError() != AL_NO_ERROR)
         {
           printf("Flanger: no\n");
@@ -119,7 +131,8 @@ namespace ProjetUnivers {
         {
           printf("Flanger: yes\n");
         }
-        Implementation::OpenAL::alEffecti(effect, AL_EFFECT_TYPE, AL_EFFECT_FREQUENCY_SHIFTER);
+        Implementation::OpenAL::alEffecti(effect, AL_EFFECT_TYPE,
+            AL_EFFECT_FREQUENCY_SHIFTER);
         if (alGetError() != AL_NO_ERROR)
         {
           printf("Frequency shifter: no\n");
@@ -128,7 +141,8 @@ namespace ProjetUnivers {
         {
           printf("Frequency shifter: yes\n");
         }
-        Implementation::OpenAL::alEffecti(effect, AL_EFFECT_TYPE, AL_EFFECT_VOCAL_MORPHER);
+        Implementation::OpenAL::alEffecti(effect, AL_EFFECT_TYPE,
+            AL_EFFECT_VOCAL_MORPHER);
         if (alGetError() != AL_NO_ERROR)
         {
           printf("Vocal Morpher: no\n");
@@ -137,7 +151,8 @@ namespace ProjetUnivers {
         {
           printf("Vocal Morpher: yes\n");
         }
-        Implementation::OpenAL::alEffecti(effect, AL_EFFECT_TYPE, AL_EFFECT_PITCH_SHIFTER);
+        Implementation::OpenAL::alEffecti(effect, AL_EFFECT_TYPE,
+            AL_EFFECT_PITCH_SHIFTER);
         if (alGetError() != AL_NO_ERROR)
         {
           printf("Pitch shifter: no\n");
@@ -146,7 +161,8 @@ namespace ProjetUnivers {
         {
           printf("Pitch shifter: yes\n");
         }
-        Implementation::OpenAL::alEffecti(effect, AL_EFFECT_TYPE, AL_EFFECT_RING_MODULATOR);
+        Implementation::OpenAL::alEffecti(effect, AL_EFFECT_TYPE,
+            AL_EFFECT_RING_MODULATOR);
         if (alGetError() != AL_NO_ERROR)
         {
           printf("Ring modulator: no\n");
@@ -155,7 +171,8 @@ namespace ProjetUnivers {
         {
           printf("Ring modulator: yes\n");
         }
-        Implementation::OpenAL::alEffecti(effect, AL_EFFECT_TYPE, AL_EFFECT_AUTOWAH);
+        Implementation::OpenAL::alEffecti(effect, AL_EFFECT_TYPE,
+            AL_EFFECT_AUTOWAH);
         if (alGetError() != AL_NO_ERROR)
         {
           printf("Autowah: no\n");
@@ -164,7 +181,8 @@ namespace ProjetUnivers {
         {
           printf("Autowah: yes\n");
         }
-        Implementation::OpenAL::alEffecti(effect, AL_EFFECT_TYPE, AL_EFFECT_COMPRESSOR);
+        Implementation::OpenAL::alEffecti(effect, AL_EFFECT_TYPE,
+            AL_EFFECT_COMPRESSOR);
         if (alGetError() != AL_NO_ERROR)
         {
           printf("Comprossor: no\n");
@@ -173,7 +191,8 @@ namespace ProjetUnivers {
         {
           printf("Comprossor: yes\n");
         }
-        Implementation::OpenAL::alEffecti(effect, AL_EFFECT_TYPE, AL_EFFECT_EQUALIZER);
+        Implementation::OpenAL::alEffecti(effect, AL_EFFECT_TYPE,
+            AL_EFFECT_EQUALIZER);
         if (alGetError() != AL_NO_ERROR)
         {
           printf("Equalizer: no\n");
@@ -182,16 +201,16 @@ namespace ProjetUnivers {
         {
           printf("Equalizer: yes\n");
         }
-        
-        
+
         printf("Filter supported:\n");
         ALuint filter;
         Implementation::OpenAL::alGenFilters(1, &filter);
-        if(alGetError() != AL_NO_ERROR)
+        if (alGetError() != AL_NO_ERROR)
         {
-            printf("can't build a filter") ;
+          printf("can't build a filter") ;
         }
-        Implementation::OpenAL::alFilteri(filter,AL_FILTER_TYPE,AL_FILTER_LOWPASS);
+        Implementation::OpenAL::alFilteri(filter, AL_FILTER_TYPE,
+            AL_FILTER_LOWPASS);
         if (alGetError() != AL_NO_ERROR)
         {
           printf("Lowpass: no\n");
@@ -200,7 +219,8 @@ namespace ProjetUnivers {
         {
           printf("Lowpass: yes\n");
         }
-        Implementation::OpenAL::alFilteri(filter,AL_FILTER_TYPE,AL_FILTER_HIGHPASS);
+        Implementation::OpenAL::alFilteri(filter, AL_FILTER_TYPE,
+            AL_FILTER_HIGHPASS);
         if (alGetError() != AL_NO_ERROR)
         {
           printf("Highpass: no\n");
@@ -209,7 +229,8 @@ namespace ProjetUnivers {
         {
           printf("Highpass: yes\n");
         }
-        Implementation::OpenAL::alFilteri(filter,AL_FILTER_TYPE,AL_FILTER_BANDPASS);
+        Implementation::OpenAL::alFilteri(filter, AL_FILTER_TYPE,
+            AL_FILTER_BANDPASS);
         if (alGetError() != AL_NO_ERROR)
         {
           printf("Bandpass: no\n");
@@ -218,19 +239,18 @@ namespace ProjetUnivers {
         {
           printf("Bandpass: yes\n");
         }
-        
+
         Sound::close();
-        
+
       }
 
-      void TestOpenALInit::setUp() 
+      void TestOpenALInit::setUp()
       {
       }
-      
-      void TestOpenALInit::tearDown() 
+
+      void TestOpenALInit::tearDown()
       {
       }
-      
 
     }
   }

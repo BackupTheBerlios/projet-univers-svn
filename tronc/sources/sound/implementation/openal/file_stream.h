@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2007-2009 Morgan GRIGNARD Mathieu Roger                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,43 +18,48 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <sound/implementation/openal/filter.h>
+#pragma once
 
-#include <sound/test/test_filter.h>
+#include <string>
+#include <AL/al.h>
+#include <string>
+#include <sound/implementation/openal/stream.h>
 
-CPPUNIT_TEST_SUITE_REGISTRATION(ProjetUnivers::Sound::Test::TestFilter);
-
-namespace ProjetUnivers
+namespace ProjetUnivers 
 {
-  namespace Sound
+  namespace Sound 
   {
-    namespace Test
+    namespace Implementation 
     {
-      using namespace Implementation::OpenAL;
-
-      void TestFilter::basicTest()
+      namespace OpenAL 
       {
-        std::cerr << "TestFilter::basicTest" << std::endl ;
-        std::cerr.flush() ;
+        
+        /// File stream
+        class FileStream : public Stream
+        {
+        public:
+          
+          virtual bool update(const ALuint& source,const bool& is_event) ;
+          
+        protected:
         /*!
-         - create a source and try reverb and filter on it
+         @name Construction 
          */
+        // @{
 
-        Filter a = Filter(0.5, 0.25);
-        Filter b = Filter(0.5, 0.75);
-        Filter c = Filter(0.0, 1.0);
-        Filter d = Filter(1.0, 0.0);
+          /// Constructor.
+          FileStream(const std::string& file_name);
+          
+        // @}
 
-        Filter plus1 = a + b;
-        CPPUNIT_ASSERT(plus1.getGain() == 0.25 && plus1.getGainHF() == 0.1875);
-        Filter moins2 = a - c;
-        CPPUNIT_ASSERT(moins2.getGain() == 0.0 && moins2.getGainHF() == 0.25);
-        Filter moins3 = a - d;
-        CPPUNIT_ASSERT(moins3.getGain() == 0.5 && moins3.getGainHF() == 0.0);
-
+        private:
+          
+          /// Read the sound file to load the buffer with content
+          virtual bool loadBuffer(ALuint buffer,const bool& is_event) = 0 ;
+          
+        };
+          
       }
-
     }
   }
 }
-

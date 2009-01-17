@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007 Morgan GRIGNARD                                    *
+ *   Copyright (C) 2007-2009 Morgan GRIGNARD Mathieu ROGER                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,100 +18,48 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_SOUND_IMPLEMENTATION_OPENAL_READER_H_
-#define PU_SOUND_IMPLEMENTATION_OPENAL_READER_H_
-
+#pragma once
 #include <AL/al.h>
-
 #include <string>
 
-namespace ProjetUnivers {
-  namespace Sound {
-    namespace Implementation {
-      namespace OpenAL {
+namespace ProjetUnivers
+{
+  namespace Sound
+  {
+    namespace Implementation
+    {
+      namespace OpenAL
+      {
 
-        /// Interface  of a soundfile reader use for streaming
-        /*!
-        */
+        class Stream ;
+        
+        /// Read a sound stream
         class Reader
         {
-        
         public:
-        
-          virtual ~Reader() ; 
+          
+          Reader(const ALuint& source,Stream*,const bool& is_event) ;
           
           /// Open the file, create and load the 2 buffers to link to the source
-          virtual void onInit(const int& posInFile, const int& posInBuffer) = 0 ;
+          virtual void onInit(const int& position_in_file,const int& position_in_buffer) ;
           
           /// Look for empty buffer which are already heard and load them.
-          void update() ;
+          virtual void update() ;
           
-          /// Close the file, delete the  buffers
-          virtual void onClose() = 0 ;
+          /// Stop reading.
+          virtual void onClose() ;
+
+          bool isFinished() const ;
           
-          /// Indicate if the reader is finish and can be destroy
-          bool isFinish() const ;
-          /// Change the finish state
-          void setFinish(bool isFinish) ;
-          
-          /// Indicate the position in the file in samples
-          virtual int getPos() const = 0 ;
-          
-          
-        protected:
-        
-        /*!
-          @name Construction 
-        */
-        // @{
-          
-          /// Constructor in use
-          Reader(const ALuint& p_source, 
-                 const std::string& p_fileName, 
-                 const bool& p_isEvent, 
-                 const float& p_updateTime) ;
-        // @}
-        
-          /// If true the manager can delete this reader
-          bool m_finish ; 
-          
-          /// OpenAL source
-          ALuint m_source ;
-          
-          /// OpenAL buffers 
-          ALuint m_buffers[2] ;
-          
-          /// SoundFile name
-          /*!
-            @todo see parameter format. We should work on a copy. 
-          */
-          std::string m_fileName ;
-          
-          /// Indicate if the sound is an event and don't must loop
-          bool m_isEvent ;
-          
-          /// Indicate the buffer size in seconde
-          float m_updateTime;
-          
-          ///Sound format
-          ALenum m_format ;
-          
-          ///Sound rate
-          ALsizei m_sampleRate ;
-          
-          ///Sample which must be read for a buffer 
-          ALsizei m_samplesByBuffer ; 
-        
         private:
           
-          /// Read the sound file to load the buffer with content
-          virtual void loadBuffer(ALuint buffer) = 0 ;
+          ALuint  m_source ;
+          Stream* m_stream ;
+          bool    m_is_event ;
+          bool    m_is_finished ;
           
         };
       }
     }
   }
 }
-
-
-#endif /*PU_SOUND_IMPLEMENTATION_OPENAL_READER_H_*/

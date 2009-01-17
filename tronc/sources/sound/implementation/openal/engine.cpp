@@ -23,10 +23,14 @@
 #include <sound/implementation/openal/openal.h>
 #include <sound/implementation/openal/engine.h>
 
-namespace ProjetUnivers {
-  namespace Sound {
-    namespace Implementation {
-      namespace OpenAL {
+namespace ProjetUnivers
+{
+  namespace Sound
+  {
+    namespace Implementation
+    {
+      namespace OpenAL
+      {
 
         RegisterView(OpenAL::Engine, 
                      Implementation::Engine, 

@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007 Morgan GRIGNARD                                    *
+ *   Copyright (C) 2007-2009 Morgan GRIGNARD Mathieu ROGER                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,62 +18,50 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <vector>
+#include <iostream>
 
 #include <kernel/log.h>
 
-
 #include <sound/implementation/openal/openal.h>
+#include <sound/implementation/openal/stream.h>
 #include <sound/implementation/openal/reader.h>
 
-namespace ProjetUnivers {
-  namespace Sound {
-    namespace Implementation {
-      namespace OpenAL {
+namespace ProjetUnivers
+{
+  namespace Sound
+  {
+    namespace Implementation
+    {
+      namespace OpenAL
+      {
 
-        Reader::Reader(const ALuint& p_source, const std::string& p_fileName, const bool& p_isEvent, const float& p_updateTime) 
-        : m_source(p_source), m_fileName(p_fileName), m_isEvent(p_isEvent), m_updateTime(p_updateTime), m_finish(false),
-          m_format(0), m_sampleRate(0), m_samplesByBuffer(0)  
+        Reader::Reader(const ALuint& source,Stream* stream,const bool& is_event)
+        : m_source(source),
+          m_stream(stream),
+          m_is_event(is_event),
+          m_is_finished(false)
+        {}
+
+        void Reader::onInit(const int& position_in_file,const int& position_in_buffer)
         {
-          InternalMessage("Sound","Enter constructor, Al status:" + getErrorString(alGetError())) ;
-          alGenBuffers(2, m_buffers);
-          InternalMessage("Sound","Leave constructor, Al status:" + getErrorString(alGetError())) ;
+          m_stream->init(m_source,position_in_file,position_in_buffer,m_is_event) ;
         }
-        
-        Reader::~Reader()
-        {
-          InformationMessage("Sound","[Reader] Enter destructor") ;
-          alSourceStop(m_source) ;
-          alDeleteBuffers(2, m_buffers) ;
-          alDeleteSources(1,&m_source) ;
-          InformationMessage("Sound","[Reader] Leave destructor") ;
-        }
-          
+
         void Reader::update()
         {
-          InformationMessage("Sound","Enter update reader") ;   
-          // Get the empty buffers
-          ALint NbProcessed ;
-          alGetSourcei(m_source, AL_BUFFERS_PROCESSED, &NbProcessed) ; 
-          // Load this buffers with content
-          for (ALint i = 0; i < NbProcessed && !m_finish; ++i)
-          {
-            InformationMessage("Sound","call load") ; 
-            ALuint buffer;
-            alSourceUnqueueBuffers(m_source, 1, &buffer) ;
-            loadBuffer(buffer);
-            alSourceQueueBuffers(m_source, 1, &buffer) ;
-          }
-          InformationMessage("Sound","leave update reader") ;   
+          m_is_finished = !m_stream->update(m_source,m_is_event) ;
         }
         
-        bool Reader::isFinish() const
+        void Reader::onClose()
         {
-          return m_finish ;  
+          m_stream->close(m_source) ;
+          alDeleteSources(1,&m_source) ;
         }
-        
-        void Reader::setFinish(bool isFinish)
+
+        bool Reader::isFinished() const
         {
-          m_finish = isFinish ;  
+          return m_is_finished ;
         }
         
       }

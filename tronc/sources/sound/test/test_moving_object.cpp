@@ -46,6 +46,8 @@ namespace ProjetUnivers {
 
       void TestMovingObject::basicTest()
       {
+        std::cerr << "TestMovingObject::basicTest" << std::endl ;
+        std::cerr.flush() ;
         /*!
           - build a engine
           - build a listener
