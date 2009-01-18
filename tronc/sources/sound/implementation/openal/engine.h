@@ -77,6 +77,13 @@ namespace ProjetUnivers
           
           float getInnerAngle() const ;
         
+          /// Get the gain. 
+          /*!
+            @return value between 1 and 0 
+                    1 indicates the sound is not attenuated
+          */
+          virtual float getGain() const ;
+          
         // @}
         
         /*!

@@ -106,8 +106,10 @@ namespace ProjetUnivers
         {
           ++i;
         }
-        
         alDeleteSources(1,&source) ;
+
+        alcDestroyContext(context) ;
+        alcCloseDevice(device) ;
         
       }
 

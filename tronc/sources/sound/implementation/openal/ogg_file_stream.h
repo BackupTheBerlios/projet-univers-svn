@@ -46,6 +46,8 @@ namespace ProjetUnivers
           /// Constructor.
           OggFileStream(const std::string& file_name) ;
           
+          virtual ~OggFileStream() ;
+          
         // @}
 
           /// Open the stream

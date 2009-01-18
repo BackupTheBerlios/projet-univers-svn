@@ -38,6 +38,7 @@
 #include <model/team.h>
 #include <model/transponder.h>
 #include <model/with_objectives.h>
+#include <model/listener.h>
 
 #include <model/model.h>
 #include <model/implementation/with_flying_group.h>
@@ -97,6 +98,7 @@ namespace ProjetUnivers
           pilot->addTrait(new Oriented()) ;
           pilot->addTrait(new Player()) ;
           pilot->addTrait(new Observer()) ;
+          pilot->addTrait(new Listener()) ;
           pilot->addTrait(new Active()) ;
           
           ship->addTrait(new TargetDisplayer()) ;

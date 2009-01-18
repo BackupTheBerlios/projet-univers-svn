@@ -23,55 +23,43 @@
 
 #include <cppunit/extensions/HelperMacros.h>
 
-namespace ProjetUnivers {
-  namespace Sound {
-    namespace Test {
+namespace ProjetUnivers
+{
+  namespace Sound
+  {
+    namespace Test
+    {
 
-            
       /// Test of spatialisation effect with movement
-      class TestMovingObject : public CppUnit::TestFixture {
+      class TestMovingObject : public CppUnit::TestFixture
+      {
       protected:
-      
-        
-      // ************
-      /// @name Tests
-      // ************
+      /*!
+      @name Tests
+      */
       // @{
         
-        /// 
         void basicTest() ;
+        void moveParentSource() ;
+        void moveParentAndSourceHasPosition() ;
+        void moveParentAndListenerHasPosition() ;
            
       // @}
-      // *******************************
-      /// @name Register
-      // *******************************
+      /*!
+      @name Register
+      */
       // @{      
       
         CPPUNIT_TEST_SUITE(TestMovingObject) ;
       
         CPPUNIT_TEST(basicTest) ;
+        CPPUNIT_TEST(moveParentSource) ;
+        CPPUNIT_TEST(moveParentAndSourceHasPosition) ;
+        CPPUNIT_TEST(moveParentAndListenerHasPosition) ;
       
         CPPUNIT_TEST_SUITE_END() ;
       
       // @}      
-                
-     public:
-
-      // ************
-      /// @name Setup
-      // ************
-      // @{
-
-      
-        /// Initit
-        void setUp() ;
-      
-        /// Close
-        void tearDown() ;
-      
-      // @}      
-      
-      
       };
 
     }

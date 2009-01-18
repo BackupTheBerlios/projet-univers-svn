@@ -55,7 +55,7 @@ else
 fi
 
 # check OpenAL
-PKG_CHECK_MODULES(openal, [openal >= 0.0.8])
+PKG_CHECK_MODULES(openal, [openal >= 1.1])
 AC_SUBST(openal_LIBS)
 AC_SUBST(openal_CFLAGS)
 

@@ -129,7 +129,6 @@ namespace ProjetUnivers
         
         void OggCachedStream::close(const ALuint& source)
         {
-          alSourceStop(source) ;
         }
         
         bool OggCachedStream::update(const ALuint& source,const bool& is_event)

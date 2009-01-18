@@ -390,7 +390,7 @@ namespace ProjetUnivers
           ++controlerset)
       {
         beginSimulation() ;
-        (*controlerset)->simulate(seconds) ;
+        (*controlerset)->update(seconds) ;
         endSimulation() ;
       }
 
@@ -424,6 +424,37 @@ namespace ProjetUnivers
     {
       if (! m_destroying)
         m_objects_to_destroy.push_back(object) ;
+    }
+    
+    void Model::resetStatistics()
+    {
+      for(std::set<Kernel::ControlerSet*>::const_iterator controlerset = getControlerSets().begin() ;
+          controlerset != getControlerSets().end() ;
+          ++controlerset)
+      {
+        (*controlerset)->resetStatistics() ;
+      }
+    }
+    
+    void Model::printStatistics() const
+    {
+      for(std::set<Kernel::ControlerSet*>::const_iterator controlerset = getControlerSets().begin() ;
+          controlerset != getControlerSets().end() ;
+          ++controlerset)
+      {
+        InternalMessage("Statistics",getObjectTypeIdentifier(*controlerset).toString() + 
+                                    "=" + toString((*controlerset)->getStatistics())) ;
+      }
+    }
+    
+    void Model::setTimeStep(const float& seconds)
+    {
+      for(std::set<Kernel::ControlerSet*>::const_iterator controlerset = getControlerSets().begin() ;
+          controlerset != getControlerSets().end() ;
+          ++controlerset)
+      {
+        (*controlerset)->setTimeStep(seconds) ;
+      }
     }
     
   }

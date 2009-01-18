@@ -18,15 +18,17 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_INPUT_IMPLEMENTATION_OIS_INPUT_CONTROLER_SET_H_
-#define PU_INPUT_IMPLEMENTATION_OIS_INPUT_CONTROLER_SET_H_
-
+#pragma once
 #include <kernel/controler_set.h>
 
-namespace ProjetUnivers {
-  namespace Input {
-    namespace Implementation {
-      namespace OIS {
+namespace ProjetUnivers
+{
+  namespace Input
+  {
+    namespace Implementation
+    {
+      namespace OIS
+      {
     
         /// Default value for autorepeat
         const float default_autorepeat_delay = 0.5 ;
@@ -54,5 +56,3 @@ namespace ProjetUnivers {
     }
   }
 }
-
-#endif /*PU_INPUT_IMPLEMENTATION_OIS_INPUT_CONTROLER_SET_H_*/

@@ -22,19 +22,20 @@
 #include <model/engine.h>
 #include <model/mobile.h>
 #include <model/oriented.h>
-#include <model/positionned.h>
 
+#include <sound/implementation/recursively_positionned.h>
 #include <sound/implementation/engine.h>
 
-namespace ProjetUnivers {
-  namespace Sound {
-    namespace Implementation {
+namespace ProjetUnivers
+{
+  namespace Sound
+  {
+    namespace Implementation
+    {
 
-      // Temporary formula, trait with the same behavior than engine will be add after
       DeclareDeducedTrait(Engine,
-                          And(HasTrait(Model::Mobile),
-                              HasTrait(Model::Positionned),
-                              HasTrait(Model::Oriented),
+                          And(HasParent(Model::Mobile),
+                              HasTrait(RecursivelyPositionned),
                               HasTrait(Model::Engine))) ;
 
     }

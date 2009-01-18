@@ -39,8 +39,10 @@ namespace ProjetUnivers {
       // @{
         
         /// 
-        void basicTest() ;
-           
+        void collision() ;
+        void closeCollision() ;
+        void farCollision() ;
+
       // @}
       // *******************************
       /// @name Register
@@ -49,7 +51,8 @@ namespace ProjetUnivers {
       
         CPPUNIT_TEST_SUITE(TestSoundEvent) ;
       
-        CPPUNIT_TEST(basicTest) ;
+        CPPUNIT_TEST(collision) ;
+        CPPUNIT_TEST(farCollision) ;
       
         CPPUNIT_TEST_SUITE_END() ;
       

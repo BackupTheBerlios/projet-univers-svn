@@ -37,14 +37,14 @@ namespace ProjetUnivers {
           Filter(const float& p_gain, const float& p_gainHF) ;
       
           /// Add two filters
-          friend Filter operator+(const Filter& p_f1, const Filter& p_f1) ;
+          friend Filter operator+(const Filter&,const Filter&) ;
           
           /// Sub the second to the first filter
           /*! 
             No meaning? When we sub a 0.0 gain we can't know the gain before...
             @todo see if usefull
           */
-          friend Filter operator-(const Filter& p_f1, const Filter& p_f1) ;
+          friend Filter operator-(const Filter&,const Filter&) ;
           
         /*!
           @name Access methods

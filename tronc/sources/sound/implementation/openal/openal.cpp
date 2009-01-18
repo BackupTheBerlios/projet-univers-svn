@@ -29,10 +29,14 @@
 #include <sound/implementation/openal/openal.h>
 #include <sound/implementation/openal/real_world_view_point.h>
 
-namespace ProjetUnivers {
-  namespace Sound {
-    namespace Implementation {
-      namespace OpenAL {
+namespace ProjetUnivers
+{
+  namespace Sound
+  {
+    namespace Implementation
+    {
+      namespace OpenAL
+      {
         
       /*!
         @name Attributes
@@ -73,7 +77,7 @@ namespace ProjetUnivers {
               {
                 deviceType = "Generic Software" ;
               }
-              device = alcOpenDevice(deviceType.c_str());
+              device = alcOpenDevice(NULL);
               if (!device)
               {
                 initialised = false ;
@@ -121,6 +125,9 @@ namespace ProjetUnivers {
               
               //Verification of initialisation without error  
               initialised = true ;
+              
+              manager->cacheRessource("pu_choc.ogg") ;
+              manager->cacheRessource("pu_moteur_2.ogg") ;
             }
             
             ~SoundSystem()

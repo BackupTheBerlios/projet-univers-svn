@@ -22,16 +22,22 @@
 #include <gui/implementation/cegui/cegui.h>
 #include <gui/implementation/cegui/gui_controler_set.h>
 
-namespace ProjetUnivers {
-  namespace GUI {
-    namespace Implementation {
-      namespace CEGUI {
+namespace ProjetUnivers
+{
+  namespace GUI
+  {
+    namespace Implementation
+    {
+      namespace CEGUI
+      {
     
         RegisterControlerSet(GUIControlerSet) ;
         
         GUIControlerSet::GUIControlerSet(Kernel::Model* model)
         : Kernel::ControlerSet(model)
-        {}
+        {
+          setTimeStep(0.02) ;
+        }
         
         void GUIControlerSet::onInit()
         {

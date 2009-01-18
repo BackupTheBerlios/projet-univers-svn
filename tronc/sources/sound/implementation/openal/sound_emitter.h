@@ -33,6 +33,11 @@ namespace ProjetUnivers
 {
   namespace Sound 
   {
+    namespace Test
+    {
+      class TestMovingObject ;
+    }
+    
     namespace Implementation 
     {
       namespace OpenAL 
@@ -171,6 +176,8 @@ namespace ProjetUnivers
           */
           int m_posInFile ;
           int m_posInBuffer ;
+          
+          friend class ::ProjetUnivers::Sound::Test::TestMovingObject ; 
         };
       
       }

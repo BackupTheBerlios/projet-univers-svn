@@ -142,6 +142,9 @@ namespace ProjetUnivers
         /// Access a trait of object.
         void accessOtherTrait() ;
         
+        void updateAncestor() ;
+        void updateRecursiveAncestor() ;
+        
       // @}
 
 
@@ -175,6 +178,8 @@ namespace ProjetUnivers
         CPPUNIT_TEST(detroyViewPoint) ;
         CPPUNIT_TEST(destroyModelAndCloseViewPoint) ;
         CPPUNIT_TEST(accessOtherTrait) ;
+        CPPUNIT_TEST(updateAncestor) ;
+        CPPUNIT_TEST(updateRecursiveAncestor) ;
 
         CPPUNIT_TEST_SUITE_END() ;
 

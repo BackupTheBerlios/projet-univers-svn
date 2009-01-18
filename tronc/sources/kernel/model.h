@@ -54,7 +54,6 @@ namespace ProjetUnivers
 
       /// Destroy all objects, views and controlers. 
       ~Model() ;
-
       
       /// Creates a new Object.
       Object* createObject() ; 
@@ -77,6 +76,9 @@ namespace ProjetUnivers
       /// Update the model during @c seconds
       void update(const float& seconds) ;
       
+      /// Globally set the time step of simulation.
+      void setTimeStep(const float& seconds) ;
+      
       /// Add a viewpoint.
       ViewPoint* addViewPoint(ViewPoint*) ;
       
@@ -93,6 +95,12 @@ namespace ProjetUnivers
       
       /// return a viewpoint of type @c T.
       template <class T> T* getViewPoint() const ;
+      
+      /// Reset the recorded performance statistics.
+      void resetStatistics() ;
+      
+      /// Prints statistics to log.
+      void printStatistics() const ;
       
     private:
       

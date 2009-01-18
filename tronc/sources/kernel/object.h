@@ -61,6 +61,7 @@ namespace ProjetUnivers
     class Reader ;
     class CommandDelegator ;
     class HasParentFormula ;
+    class HasAncestorFormula ;
     class HasChildFormula ;
     class Reader ;
     class Writer ;
@@ -341,6 +342,9 @@ namespace ProjetUnivers
       /// Access to number of parents with trait @c name.
       unsigned int getNumberOfParent(const TypeIdentifier& name) const ;
 
+      /// Access to number of ancestors with trait @c name.
+      unsigned int getNumberOfAncestor(const TypeIdentifier& name) const ;
+      
       /// Access to number of children with trait @c name.
       unsigned int getNumberOfChildren(const TypeIdentifier& name) const ;
       
@@ -413,6 +417,7 @@ namespace ProjetUnivers
       friend class FormulaNot ;
       friend class TraitFormula ;
       friend class HasParentFormula ;
+      friend class HasAncestorFormula ;
       friend class HasChildFormula ;
       friend class DeducedTrait ;
       friend class CommandDelegator ;

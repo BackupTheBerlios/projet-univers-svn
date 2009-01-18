@@ -98,12 +98,21 @@ namespace ProjetUnivers
           InternalMessage("Sound", "leave oggreader Init") ;
         }
 
-        void OggFileStream::close(const ALuint& source)
+        OggFileStream::~OggFileStream()
         {
           ov_clear(m_stream) ;
           delete m_stream ;
-          alSourceStop(source) ;
           alDeleteBuffers(2,m_buffers) ;
+          ALenum error = alGetError() ; 
+          if (error != AL_NO_ERROR)
+          {
+            ErrorMessage("[OpenAL::OggReader] " + getErrorString(error)) ;
+            return ;
+          }
+        }
+        
+        void OggFileStream::close(const ALuint& source)
+        {
         }
         
         bool OggFileStream::loadBuffer(ALuint buffer,const bool& is_event)

@@ -35,8 +35,17 @@ namespace ProjetUnivers
     {
       startModel() ;
       
+      std::set<ObjectReference> objects ;
+      
       for(std::set<Object*>::const_iterator object = model->getRoots().begin() ;
           object != model->getRoots().end() ;
+          ++object)
+      {
+        objects.insert(*object) ;
+      }
+      
+      for(std::set<ObjectReference>::const_iterator object = objects.begin() ;
+          object != objects.end() ;
           ++object)
       {
         write(*object) ;
@@ -62,11 +71,20 @@ namespace ProjetUnivers
         trait->second->write(this) ;
       }
 
+      std::set<ObjectReference> objects ;
+      
       for(std::set<Object*>::const_iterator child = object->getChildren().begin() ;
           child != object->getChildren().end() ;
           ++child)
       {
-        write(*child) ;
+        objects.insert(*child) ;
+      }
+      
+      for(std::set<ObjectReference>::const_iterator object = objects.begin() ;
+          object != objects.end() ;
+          ++object)
+      {
+        write(*object) ;
       }
       
       endObject() ;

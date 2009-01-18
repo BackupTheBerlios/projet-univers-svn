@@ -61,7 +61,7 @@ namespace ProjetUnivers {
       return result ;
     }
     
-    Force Engine::getAppliedForce() const
+    float Engine::getPowerPercentage() const
     {
       int percentage = 0 ;
 
@@ -69,10 +69,14 @@ namespace ProjetUnivers {
       {
         percentage = m_controler->getTrait<EngineControler>()->getPowerPercentage() ;
       }
-      else
-      {
-        ErrorMessage("Engine::getAppliedForce no controler") ;
-      }
+
+      return ((float)percentage)*0.01 ;
+    }
+    
+    Force Engine::getAppliedForce() const
+    {
+      
+      float percentage = getPowerPercentage() ;
       
       // orient the force according to orientation of the parent physical world
       PhysicalObject* physical_object = getObject()->getParent<PhysicalObject>() ;
@@ -87,7 +91,7 @@ namespace ProjetUnivers {
           const Orientation& orientation 
             = oriented->getOrientation(physical_world->getObject()) ;
           
-          return m_full_thrust*orientation*(((float)percentage)*0.01) ;
+          return m_full_thrust*orientation*percentage ;
         }
       }      
       // no physical world --> useless to push...

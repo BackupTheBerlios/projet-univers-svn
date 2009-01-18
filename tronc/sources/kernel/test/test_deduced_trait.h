@@ -129,6 +129,10 @@ namespace ProjetUnivers
         
         void removeParentDeducedTrait() ;
         
+        void hasAncestor() ;
+        void hasAncestorRemoveAncestor() ;
+        void hasAncestorChangeParent() ;
+        
       // @}
 
 
@@ -165,6 +169,10 @@ namespace ProjetUnivers
         CPPUNIT_TEST(changeParentHasChildBecomeTrue) ;
         CPPUNIT_TEST(getDependentTraits) ;
         CPPUNIT_TEST(removeParentDeducedTrait) ;
+        
+        CPPUNIT_TEST(hasAncestor) ;
+        CPPUNIT_TEST(hasAncestorRemoveAncestor) ;
+        CPPUNIT_TEST(hasAncestorChangeParent) ;
         
         CPPUNIT_TEST_SUITE_END() ;
 

@@ -276,8 +276,6 @@ namespace ProjetUnivers
     };
     
     /// Conjunction of its child formulae.
-    /*
-    */
     class FormulaAnd : public Formula
     {
     public:
@@ -300,8 +298,6 @@ namespace ProjetUnivers
     };
 
     /// Disjunction of its child formulae.
-    /*
-    */
     class FormulaOr : public Formula
     {
     public:
@@ -379,9 +375,6 @@ namespace ProjetUnivers
     };
 
     /// True iff child formula is true on an ancestor.
-    /*!
-      Not implemented : it is equivalent to HasParent(F)^~F
-    */
     class HasAncestorFormula : public Formula
     {
     public:
@@ -392,23 +385,78 @@ namespace ProjetUnivers
       */
       static HasAncestorFormula* build(const TypeIdentifier& trait_name) ;
       
-      /// Constructs.
-      HasAncestorFormula() ;
+      // Notify that @c object has gained @c trait.
+      static void addTrait(Object* object,Trait* trait) ;
+      
+      // Notify that @c object has lost @c trai.
+      static void removeTrait(Object* object,Trait* trait) ;
+      
+      // Notify that @c trait has been updated for @c object.
+      static void updateTrait(Object* object,Trait* trait) ;
 
-      /// Add a child formula.
-      virtual void addChild(Formula* formula) ;
-
+      /// Notify that @c object has changed parent.
+      static void changeParent(Object* object,Object* old_parent) ;
+      
       /// Print the formula.
       virtual std::string internalPrint() const ;
+
+      /// Gives the traits directly depending on @c trait.
+      static std::set<TypeIdentifier> getDependentTraits(Trait* trait) ;
       
-    private:  
+    protected:
 
       /// Initial value.
       virtual void eval(Object* object) ;
-
-      virtual void onAddChildTrue(Object*  object) ;
+      
+      virtual void onAddChildTrue(Object* object) ;
       virtual void onAddChildFalse(Object* object) ;
-      virtual void onChildUpdated(Object*  object) ;
+      virtual void onChildUpdated(Object* object) ;
+
+      /// Declare that the trait has been added to an @c object's parent.
+      void addedAncestor(Object* object) ;
+
+      /// Declare that the trait has been removed to an @c object's parent.
+      void removedAncestor(Object* object) ;
+
+      /// Parent trait has been updated.
+      void updateAncestorTrait(Object* object) ;
+
+      /// Notify that @c object has changed parent.
+      void onChangedParent(Object* object,Object* old_parent) ;
+      
+    private:
+
+      /// Constructor 
+      HasAncestorFormula(const TypeIdentifier& trait_name) ;
+    
+      TypeIdentifier m_trait ;
+      
+      /// Find the parent trait formula associated with @c trait_name.
+      /*!
+        @return NULL if not found.
+      */
+      static HasAncestorFormula* get(const TypeIdentifier& trait_name) ;
+      
+      /// Find the formulae impacted by trait
+      static std::set<HasAncestorFormula*> find(Trait* i_trait) ;
+      
+      class StaticStorage
+      {
+      public:
+        
+        /// Access to singleton.
+        static StaticStorage* get() ;
+      
+        std::map<TypeIdentifier,HasAncestorFormula*> m_ancestor_traits_formulae ;
+        
+        /// Caching for find.
+        std::map<TypeIdentifier,std::set<HasAncestorFormula*> > m_impacted_formulae ;
+        
+      private:
+        
+        StaticStorage()
+        {}
+      };      
     };
 
     /// True iff child formula is true on a parent or @c this.
@@ -627,6 +675,17 @@ namespace ProjetUnivers
       static Formula* build()
       {
         return HasParentFormula::build(getClassTypeIdentifier(T)) ;
+      }
+    };
+
+    /// Elementary formula static declaration.
+    template <class T> class TemplateHasAncestor
+    {
+    public:
+      
+      static Formula* build()
+      {
+        return HasAncestorFormula::build(getClassTypeIdentifier(T)) ;
       }
     };
     

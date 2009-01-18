@@ -55,19 +55,17 @@ namespace ProjetUnivers
     namespace Test
     {
 
-      void TestSoundEvent::basicTest()
+      void TestSoundEvent::collision()
       {
-        std::cerr << "TestSoundEvent::basicTest" << std::endl;
+        std::cerr << "TestSoundEvent::collision" << std::endl;
         std::cerr.flush() ;
-
-        Implementation::OpenAL::getManager()->cacheRessource("pu_choc.ogg") ;
 
         /*!
          - build an event object plays ound and destroy it
          - check that the sound is still playing
          */
 
-        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestSoundEnvironnement::basicTest"));
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestSoundEvent::collision"));
         model->init() ;
 
         Kernel::Object* system = model->createObject() ;
@@ -88,7 +86,7 @@ namespace ProjetUnivers
         Kernel::Timer timer;
         Kernel::Timer global_timer;
 
-        while (global_timer.getSecond() <= 3)
+        while (global_timer.getSecond() <= 1)
         {
           float seconds = timer.getSecond() ;
           timer.reset() ;
@@ -97,6 +95,45 @@ namespace ProjetUnivers
 
       }
 
+      void TestSoundEvent::farCollision()
+      {
+        std::cerr << "TestSoundEvent::farCollision" << std::endl;
+        std::cerr.flush() ;
+
+        /*!
+         - build an event object plays ound and destroy it
+         - check that the sound is still playing
+         */
+
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestSoundEvent::farCollision"));
+        model->init() ;
+
+        Kernel::Object* system = model->createObject() ;
+        system->addTrait(new Model::Positionned()) ;
+        system->addTrait(new Model::Oriented()) ;
+
+        Kernel::Object* listener = system->createObject() ;
+        listener->addTrait(new Model::Listener()) ;
+        listener->addTrait(new Model::Positionned()) ;
+        listener->addTrait(new Model::Oriented()) ;
+        listener->addTrait(new Model::Mobile());
+
+        Kernel::Object* collision = system->createObject() ;
+        collision->addTrait(new Model::Collision(system,listener)) ;
+        collision->addTrait(new Model::Positionned(Model::Position::Meter(0,0,100))) ;
+
+        Kernel::Timer timer;
+        Kernel::Timer global_timer;
+
+        while (global_timer.getSecond() <= 1)
+        {
+          float seconds = timer.getSecond() ;
+          timer.reset() ;
+          model->update(seconds) ;
+        }
+
+      }
+      
     }
   }
 }

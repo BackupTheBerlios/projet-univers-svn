@@ -55,8 +55,19 @@ namespace ProjetUnivers
         
         void Reader::onClose()
         {
+          alSourceStop(m_source) ;
+          ALenum error = alGetError() ; 
+          if (error != AL_NO_ERROR)
+          {
+            ErrorMessage("[OpenAL::OggReader] " + getErrorString(error)) ;
+          }
           m_stream->close(m_source) ;
           alDeleteSources(1,&m_source) ;
+          error = alGetError() ; 
+          if (error != AL_NO_ERROR)
+          {
+            ErrorMessage("[OpenAL::OggReader] " + getErrorString(error)) ;
+          }
         }
 
         bool Reader::isFinished() const

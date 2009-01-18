@@ -1314,6 +1314,76 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(!mission->getTrait<EditedMission>()) ;
         CPPUNIT_ASSERT(!flyinggroup->getTrait<EditedFlyingGroup>()) ;
       }
+
+      namespace
+      {
+        class Pos : public Trait
+        {};
+        class AncestorPos : public DeducedTrait
+        {};
+        DeclareDeducedTrait(AncestorPos,HasAncestor(Pos)) ;
+      }
+      
+      void TestDeducedTrait::hasAncestor()
+      {
+        InternalMessage("Kernel","TestDeducedTrait::hasAncestor entering") ;
+        std::auto_ptr<Model> model(new Model("TestDeducedTrait::hasAncestor")) ;
+        
+        Object* parent = model->createObject() ;
+        Object* child = parent->createObject() ;
+        
+        CPPUNIT_ASSERT(!parent->getTrait<AncestorPos>()) ;
+        CPPUNIT_ASSERT(!child->getTrait<AncestorPos>()) ;
+        
+        child->addTrait(new Pos()) ;
+        CPPUNIT_ASSERT(!parent->getTrait<AncestorPos>()) ;
+        CPPUNIT_ASSERT(!child->getTrait<AncestorPos>()) ;
+
+        parent->addTrait(new Pos()) ;
+        CPPUNIT_ASSERT(!parent->getTrait<AncestorPos>()) ;
+        CPPUNIT_ASSERT(child->getTrait<AncestorPos>()) ;
+      }
+
+      void TestDeducedTrait::hasAncestorRemoveAncestor()
+      {
+        InternalMessage("Kernel","TestDeducedTrait::hasAncestorRemoveAncestor entering") ;
+        std::auto_ptr<Model> model(new Model("TestDeducedTrait::hasAncestorRemoveAncestor")) ;
+        
+        Object* parent = model->createObject() ;
+        Object* child = parent->createObject() ;
+        
+        CPPUNIT_ASSERT(!parent->getTrait<AncestorPos>()) ;
+        CPPUNIT_ASSERT(!child->getTrait<AncestorPos>()) ;
+        
+        parent->addTrait(new Pos()) ;
+        CPPUNIT_ASSERT(!parent->getTrait<AncestorPos>()) ;
+        CPPUNIT_ASSERT(child->getTrait<AncestorPos>()) ;
+        
+        parent->destroyTrait(parent->getTrait<Pos>()) ;
+        CPPUNIT_ASSERT(!parent->getTrait<AncestorPos>()) ;
+        CPPUNIT_ASSERT(!child->getTrait<AncestorPos>()) ;
+      }
+      
+      void TestDeducedTrait::hasAncestorChangeParent()
+      {
+        InternalMessage("Kernel","TestDeducedTrait::hasAncestorRemoveAncestor entering") ;
+        std::auto_ptr<Model> model(new Model("TestDeducedTrait::hasAncestorRemoveAncestor")) ;
+        
+        Object* parent1 = model->createObject() ;
+        Object* parent2 = model->createObject() ;
+        Object* child = parent1->createObject() ;
+        
+        CPPUNIT_ASSERT(!parent1->getTrait<AncestorPos>()) ;
+        CPPUNIT_ASSERT(!child->getTrait<AncestorPos>()) ;
+        
+        parent2->addTrait(new Pos()) ;
+        CPPUNIT_ASSERT(!parent1->getTrait<AncestorPos>()) ;
+        CPPUNIT_ASSERT(!child->getTrait<AncestorPos>()) ;
+        
+        child->changeParent(parent2) ;
+        
+        CPPUNIT_ASSERT(child->getTrait<AncestorPos>()) ;
+      }
       
     }
   }

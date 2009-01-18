@@ -45,6 +45,8 @@ namespace ProjetUnivers
           /// Constructor in use
           WavFileStream(const std::string&) ;
           
+          virtual ~WavFileStream() ;
+          
         // @}
           
           /// Open the stream
@@ -65,7 +67,7 @@ namespace ProjetUnivers
           SNDFILE* m_file;
           
           /// Flip buffers 
-          ALuint          m_buffers[2] ;
+          ALuint   m_buffers[2] ;
           
         };
       }

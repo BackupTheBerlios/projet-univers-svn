@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2008 Mathieu ROGER                                      *
+ *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -20,34 +20,42 @@
  ***************************************************************************/
 #pragma once
 
-#include <kernel/controler_set.h>
+#include <cppunit/extensions/HelperMacros.h>
 
 namespace ProjetUnivers
 {
-  namespace GUI
+  namespace Sound
   {
-    namespace Implementation
+    namespace Test
     {
-      namespace CEGUI
+
+      /// Test of a complete system
+      class TestDemonstration : public CppUnit::TestFixture
       {
-      
-        /// Controler set for all GUIs.
-        class GUIControlerSet : public Kernel::ControlerSet
-        {
-        public:
-          
-          /// Construction.
-          GUIControlerSet(Kernel::Model*) ;
-        
-          /// Init the module on demand.
-          virtual void onInit() ;
-  
-          /// Simulate all controlers.
-          virtual void simulate(const float& seconds) ;
-          
-        };
-      }      
+      protected:
+      /*!
+      @name Tests
+      */
+      // @{
+
+        void oneShip() ;
+
+      // @}
+      /*!
+      @name Register
+      */
+      // @{      
+
+        CPPUNIT_TEST_SUITE(TestDemonstration) ;
+
+        CPPUNIT_TEST(oneShip) ;
+
+        CPPUNIT_TEST_SUITE_END() ;
+
+      // @}      
+
+      };
+
     }
   }
 }
-

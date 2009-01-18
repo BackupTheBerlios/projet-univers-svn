@@ -20,6 +20,7 @@
  ***************************************************************************/
 #include <kernel/log.h>
 
+#include <model/engine.h>
 #include <sound/implementation/openal/openal.h>
 #include <sound/implementation/openal/engine.h>
 
@@ -75,7 +76,12 @@ namespace ProjetUnivers
         {
           return 45;
         }
-                  
+
+        float Engine::getGain() const
+        {
+          return getTrait<Model::Engine>()->getPowerPercentage() ;
+        }
+        
         void Engine::onInit()
         {
           this->initSound(getViewPoint());

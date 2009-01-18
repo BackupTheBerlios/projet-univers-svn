@@ -119,14 +119,6 @@ namespace ProjetUnivers {
         }
       }
       
-      void TestEngineControl::setUp() 
-      {
-      }
-      
-      void TestEngineControl::tearDown() 
-      {
-      }
-      
     }
   }
 }

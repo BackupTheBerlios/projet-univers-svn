@@ -32,10 +32,14 @@
 #include <OgreVector3.h>
 #include <OgreQuaternion.h>
 
-namespace ProjetUnivers {
-  namespace Sound {
-    namespace Implementation {
-      namespace OpenAL {
+namespace ProjetUnivers
+{
+  namespace Sound
+  {
+    namespace Implementation
+    {
+      namespace OpenAL
+      {
 
         SoundListener::SoundListener()
         {}
@@ -46,36 +50,18 @@ namespace ProjetUnivers {
         }
                              
         Model::Position SoundListener::getPosition() const
-        {  
-          Model::Positionned* positionned = getObject()->getTrait<Model::Positionned>();
-          if(positionned)
-          {
-            return positionned->getPosition(getObject()->getRoot());
-          }
-          else
-          {
-            //default value
-            return Model::Position();
-          }
+        { 
+          return Model::getRelativePosition(getObject(),getObject()->getRoot()) ;
         }
                                  
         Model::Orientation SoundListener::getOrientation() const
         {
-          Model::Oriented* oriented = getObject()->getTrait<Model::Oriented>();
-          if(oriented)
-          {
-            return oriented->getOrientation(getObject()->getRoot());
-          }
-          else
-          {
-            //default value
-            return Model::Orientation();
-          }
+          return Model::getRelativeOrientation(getObject(),getObject()->getRoot()) ;
         }
                                  
         Model::Speed SoundListener::getSpeed() const
         {
-          Model::Mobile* mobile = getObject()->getTrait<Model::Mobile>();
+          Model::Mobile* mobile = getObject()->getParent<Model::Mobile>();
           if(mobile)
           {
             return mobile->getSpeed();

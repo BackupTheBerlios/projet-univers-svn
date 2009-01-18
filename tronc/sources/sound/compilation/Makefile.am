@@ -7,8 +7,10 @@ INCLUDES = -I$(SOURCES)
 AM_CXXFLAGS = $(PU_CXXFLAGS)
 
 libsound_la_SOURCES = \
+../implementation/collision.cpp \
 ../implementation/engine.cpp \
 ../implementation/listener.cpp \
+../implementation/recursively_positionned.cpp \
 ../implementation/sound.cpp \
 ../implementation/openal/background_sound.cpp \
 ../implementation/openal/collision.cpp \
@@ -71,6 +73,7 @@ test_sound_SOURCES = \
 ../test/test_sound.cpp \
 ../test/test_background_sound.cpp \
 ../test/test_cone_property.cpp \
+../test/test_demonstration.cpp \
 ../test/test_openal_lib.cpp \
 ../test/test_moving_object.cpp \
 ../test/test_sound_environnement.cpp \

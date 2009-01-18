@@ -89,6 +89,8 @@ namespace ProjetUnivers
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestModelControler::build")) ;
         model->init() ;
 
+        model->setTimeStep(0) ;
+        
         Kernel::Object* system = model->createObject() ;
 
         Kernel::Object* ship = system->createObject() ;
@@ -329,6 +331,7 @@ namespace ProjetUnivers
         // 1. build a model
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestModelControler::attackAllEnemies")) ;
         model->init() ;
+        model->setTimeStep(0.1) ;
 
         Kernel::Object* team1 = model->createObject() ;
         team1->addTrait(new Model::Team("team1")) ;
@@ -587,6 +590,7 @@ namespace ProjetUnivers
         // 1. build a model
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestModelControler::testPositionUpdate")) ;
         model->init() ;
+        model->setTimeStep(0) ;
 
         Kernel::Object* team1 = model->createObject() ;
         team1->addTrait(new Model::Team("team1")) ;

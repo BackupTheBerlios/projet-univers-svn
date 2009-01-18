@@ -62,6 +62,9 @@ namespace ProjetUnivers
       /// Get the force.
       virtual Force getAppliedForce() const ;
       
+      /// The percentage of power of the engine
+      float getPowerPercentage() const ;
+      
     private:
       
       /// Maximal "force". 

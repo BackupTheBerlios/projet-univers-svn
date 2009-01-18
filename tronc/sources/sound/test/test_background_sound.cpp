@@ -35,8 +35,7 @@
 #include <sound/sound.h>
 #include <sound/test/test_background_sound.h>
 
-    CPPUNIT_TEST_SUITE_REGISTRATION(
-        ProjetUnivers::Sound::Test::TestBackgroundSound);
+CPPUNIT_TEST_SUITE_REGISTRATION(ProjetUnivers::Sound::Test::TestBackgroundSound);
 
 namespace ProjetUnivers
 {
@@ -108,6 +107,7 @@ namespace ProjetUnivers
       {
         std::cerr << "TestBackgroundSound::wavSound" << std::endl ;
         std::cerr.flush() ;
+        InternalMessage("Sound","Enter TestBackgroundSound::wavSound") ;
         
         // we construct a complete system
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestBackgroundSound::basicTest"));
@@ -131,13 +131,14 @@ namespace ProjetUnivers
         Kernel::Timer global_timer;
         Kernel::Timer timer;
         int i = 0;
-        while (global_timer.getSecond() <= 5.0)
+        while (global_timer.getSecond() <= 2.0)
         {
           ++i;
           float seconds = timer.getSecond() ;
           timer.reset() ;
           model->update(seconds) ;
         }
+        InternalMessage("Sound","Leave TestBackgroundSound::wavSound") ;
 
       }
 

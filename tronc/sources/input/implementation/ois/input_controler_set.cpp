@@ -25,16 +25,22 @@
 #include <input/implementation/ois/ois.h>
 #include <input/implementation/ois/input_controler_set.h>
 
-namespace ProjetUnivers {
-  namespace Input {
-    namespace Implementation {
-      namespace OIS {
+namespace ProjetUnivers
+{
+  namespace Input
+  {
+    namespace Implementation
+    {
+      namespace OIS
+      {
       
         RegisterControlerSet(InputControlerSet) ;
         
         InputControlerSet::InputControlerSet(Kernel::Model* model)
         : Kernel::ControlerSet(model)
-        {}
+        {
+          setTimeStep(0.02) ;
+        }
         
         void InputControlerSet::simulate(const float& seconds)
         {

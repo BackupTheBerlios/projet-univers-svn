@@ -54,7 +54,7 @@ int main() {
 
   Model::start() ;
   Physic::start() ;
-//  Sound::start() ;
+  Sound::start() ;
   ArtificialIntelligence::start() ;
   Display::start(Display::ChooseRenderer) ;
   Input::start() ;
@@ -85,7 +85,7 @@ int main() {
   model->close() ;
   
   ArtificialIntelligence::terminate() ;
-//  Sound::terminate() ;
+  Sound::terminate() ;
   GUI::terminate() ;
   Input::terminate() ;
   Display::terminate() ;

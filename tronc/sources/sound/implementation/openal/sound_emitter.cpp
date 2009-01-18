@@ -18,6 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <OgreStringConverter.h>
 #include <kernel/string.h>
 #include <kernel/log.h>
 
@@ -58,7 +59,7 @@ namespace ProjetUnivers
             InformationMessage("Sound", "SoundEmitter::init real") ;
             alGenSources(1,&m_source) ;
             m_reader = getManager()->createReader(m_source,
-                                                  getSoundFileName().c_str(),
+                                                  getSoundFileName(),
                                                   isEvent(),
                                                   m_posInFile,
                                                   m_posInBuffer) ;
@@ -91,31 +92,22 @@ namespace ProjetUnivers
           {
             /// @todo If parameters are never changed move them to init
             alSourcef(m_source, AL_GAIN, getGain()) ;
-            alSourcef(m_source, AL_CONE_OUTER_GAIN, getOuterGain()) ;
-            alSourcef(m_source, AL_PITCH, getPitch()) ;
-            alSourcef(m_source, AL_CONE_OUTER_ANGLE, getOuterAngle());
-            alSourcef(m_source, AL_CONE_INNER_ANGLE, getInnerAngle());
+//            alSourcef(m_source, AL_CONE_OUTER_GAIN, getOuterGain()) ;
+//            alSourcef(m_source, AL_PITCH, getPitch()) ;
+//            alSourcef(m_source, AL_CONE_OUTER_ANGLE, getOuterAngle());
+//            alSourcef(m_source, AL_CONE_INNER_ANGLE, getInnerAngle());
             alSourcef(m_source, AL_REFERENCE_DISTANCE, getRefDistance());
             alSourcef(m_source, AL_MAX_DISTANCE, getMaxDistance());
             alSourcef(m_source, AL_ROLLOFF_FACTOR, getRolloffFactor());
 
             Ogre::Vector3 position = getPosition().Meter() ;
+            
+            InternalMessage("Sound","SoundEmitter::updateSource position=" + ::Ogre::StringConverter::toString(position)) ;
+            
             alSource3f(m_source,AL_POSITION,(float)position.x,(float)position.y,(float)position.z) ;
 
-            Ogre::Quaternion orientation = getOrientation().getQuaternion();
-
-            ALfloat openal_orientation[6];
-            openal_orientation[0] = orientation.zAxis().x;
-            openal_orientation[1] = orientation.zAxis().y;
-            openal_orientation[2] = orientation.zAxis().z;
-            openal_orientation[3] = orientation.yAxis().x;
-            openal_orientation[4] = orientation.yAxis().y;
-            openal_orientation[5] = orientation.yAxis().z;
-
-            /// Does the sound need to be directional ? 
-            alSourcefv(m_source,AL_DIRECTION,openal_orientation) ;
-
             Ogre::Vector3 speed = getSpeed().MeterPerSecond();
+            InternalMessage("Sound","SoundEmitter::updateSource speed=" + ::Ogre::StringConverter::toString(position)) ;
             alSource3f(m_source,AL_VELOCITY,(float)speed.x,(float)speed.y,(float)speed.z) ;
 
             // update Environnement Effect
@@ -208,8 +200,6 @@ namespace ProjetUnivers
           {
             alGetSourcei(m_source, AL_SAMPLE_OFFSET, &m_posInBuffer) ;
             stopSound();
-//            m_posInFile = m_reader->getPos() ;
-//            m_reader->setFinish(true) ;
           }
           m_auxEffectSlot = 0;
           m_source = 0;
@@ -218,30 +208,12 @@ namespace ProjetUnivers
 
         Model::Position SoundEmitter::getPosition() const
         {
-          Model::Positionned* positionned = getObject()->getParent<Model::Positionned>();
-          if (positionned)
-          {
-            return positionned->getPosition(getObject()->getRoot());
-          }
-          else
-          {
-            //default value
-            return Model::Position();
-          }
+          return Model::getRelativePosition(getObject(),getObject()->getRoot()) ;
         }
 
         Model::Orientation SoundEmitter::getOrientation() const
         {
-          Model::Oriented* oriented = getObject()->getParent<Model::Oriented>();
-          if (oriented)
-          {
-            return oriented->getOrientation(getObject()->getRoot());
-          }
-          else
-          {
-            //default value
-            return Model::Orientation();
-          }
+          return Model::getRelativeOrientation(getObject(),getObject()->getRoot()) ;
         }
 
         Model::Speed SoundEmitter::getSpeed() const

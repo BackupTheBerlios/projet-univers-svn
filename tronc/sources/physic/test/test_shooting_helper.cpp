@@ -109,7 +109,7 @@ namespace ProjetUnivers {
         ship2->addTrait(new Model::Solid(Model::Mesh("razor.mesh"))) ;
         
         // for detection
-        model->update(0.01) ;
+        model->update(1) ;
 
         CPPUNIT_ASSERT(ship->getTrait<Model::Computer>()->getMemoryModel()->getRoots().size() == 1) ;
         

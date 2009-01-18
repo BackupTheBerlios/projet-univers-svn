@@ -21,6 +21,7 @@
 #include <kernel/model.h>
 #include <kernel/base_controler.h>
 #include <kernel/object.h>
+#include <kernel/timer.h>
 
 #include <kernel/controler_set.h>
 
@@ -35,20 +36,56 @@ namespace ProjetUnivers
       return &temp ;
     }
 
+    void ControlerSet::setTimeStep(const float& timestep)
+    {
+      m_timestep = timestep ;
+    }
+    
     void ControlerSet::update(const float& seconds)
     {
-      this->simulate(seconds) ;
+      Kernel::Timer timer ;
+      
+      if (m_timestep==0)
+      {
+        this->simulate(seconds) ;
+      }
+      else
+      {
+        m_elapsed += seconds ;
+  
+        while (m_elapsed >= m_timestep)
+        {
+          this->simulate(m_timestep) ;
+          m_elapsed -= m_timestep ;
+        }
+      }
+      
+      float elapsed = timer.getSecond() ;
+      if (seconds != 0)
+      {
+        ++m_number_of_updates ;
+        m_consumed_time_per_update += elapsed/seconds ;
+      }
     }
     
     void ControlerSet::simulate(const float& seconds)
     {
+      
       boost::function2<void,
                        BaseControler*,
                        float> f 
                           = &BaseControler::simulate ;
       
       applyTopDown(std::bind2nd(f,seconds)) ;
-      
+    }
+    
+    float ControlerSet::getStatistics() const
+    {
+      if (m_number_of_updates>0)
+      {
+        return m_consumed_time_per_update/m_number_of_updates ;
+      }
+      return 0 ;
     }
     
     void ControlerSet::applyTopDown(boost::function1<void,BaseControler*> procedure)
@@ -113,8 +150,18 @@ namespace ProjetUnivers
       
     ControlerSet::ControlerSet(Model* model)
     : m_model(model),
-      m_initialised(false)
+      m_initialised(false),
+      m_consumed_time_per_update(0),
+      m_number_of_updates(0),
+      m_elapsed(0),
+      m_timestep(0.1)
     {}
+    
+    void ControlerSet::resetStatistics()
+    {
+      m_consumed_time_per_update = 0 ;
+      m_number_of_updates = 0 ;
+    }
     
     bool ControlerSet::isVisible(Object*) const
     {

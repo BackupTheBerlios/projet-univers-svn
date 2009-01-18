@@ -1174,18 +1174,44 @@
   * Sound :
     - refactoring, added cached sound resources   
     
+2009-01-18 rogma 
+
+  * Kernel :
+    - added HasAncestor formula on Trait, usefull for recursive structure
+    - added a basic performance measure to determine in which controler we 
+      spend time
+    - pull up of timestep on controlers : default controler time step is 0.1 
+      but input has less time step  
     
+  * Sound :
+    - corrected a bug on collision sound not attenuated by distance   
+    - on linux use openal-soft
+    - corrected a bug on engine sound
+    - collision/engine sound are cached
+    - corrected a limitation on source/listener movement : position update 
+      was not done when a ship moves while containing the listener or source 
+      due to limitation in formulae on traits
+    - change Engine gain accoarding to engine "power" and current applied 
+      throttle
+     
+  * Model :
+    - added listener trait on pilot
+  
+  * Media :
+    - razor : laser on nose, more shoots, more life 
+   
 @todo :
 
+  * Sound :
+    - Fonctionnal : add Shot sound
+  
   * GUI : 
     - add input config validation : cannot save or back till it is correct
 
-  * Sound : 
-    - Optim : manage ressources, load only one time each file
-      
   * Demo :
     - score menu at the end of the mission
-    - history of who killed who
+    - history of who killed who (need to add the transponder on the LaserBeam 
+      object)
   
   * Display :
     - display score on hud
@@ -1197,7 +1223,7 @@
   * AI :
     - AI tend to "flee on the side" once the target has gone in a perpendicular 
       direction, its targeting go the same and the phenomenon amplifies
-      
+    - users repport that AI tend to get back on back ??  
   * Kernel : 
     - the error message on udpate during update could be better : 
       the updated trait names, the object names... (ideally the stack)
@@ -1307,19 +1333,11 @@
       example 
     
   * Sound : 
-    - check that Positionned is correctly used, I suspect that position update 
-      is not done when a ship moves while containing the listener
-    - Bug : engine sound does not weem to work ?
-    - Fonctionnal : change Engine gain accoarding to engine "power" and current applied 
-      throttle
-    - Fonctionnal : add Shot sound
     - Bug : segmentation fault when sound is already used by another process
     - Bug : infinite loop when no sound device is found...
     - Refactoring : every event sound is the same : make a general view on event and get the 
       sound name by a function 
     - reconsider the implementation with the limitation 
-    - migrate sound module to use openal-soft ? (not urgent)
-    - does not compile on gcc 4.3 because of openal (not urgent)
     
   * Kernel :
     

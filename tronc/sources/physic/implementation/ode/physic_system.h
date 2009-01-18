@@ -18,20 +18,21 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_PHYSIC_IMPLEMENTATION_REAL_WORLD_VIEW_POINT_H_
-#define PU_PHYSIC_IMPLEMENTATION_REAL_WORLD_VIEW_POINT_H_
+#pragma once
 
 #include <kernel/controler_set.h>
 #include <kernel/model.h>
 
-namespace ProjetUnivers {
-  namespace Physic {
-    namespace Implementation {
-      namespace Ode {
+namespace ProjetUnivers
+{
+  namespace Physic
+  {
+    namespace Implementation
+    {
+      namespace Ode
+      {
 
         /// Physic implementation 
-        /*!
-        */
         class PhysicSystem : public Kernel::ControlerSet
         {
         public:
@@ -39,9 +40,6 @@ namespace ProjetUnivers {
           /// Contructs.
           PhysicSystem(Kernel::Model* model) ;
 
-          /// Change the default timestep.
-          void setTimeStep(const float&) ;
-          
           /// Simulate the system during @c i_seconds seconds.
           virtual void simulate(const float& i_seconds) ;
 
@@ -56,14 +54,8 @@ namespace ProjetUnivers {
           /// True iff object is taken into account.
           virtual bool isVisible(Kernel::Object* i_object) const ;  
 
-          float m_elapsed ;
-          
-          /// time step of the physic simulation
-          float m_timestep ;
         };
       }
     }
   }
 }
-
-#endif /*PU_PHYSIC_IMPLEMENTATION_REAL_WORLD_VIEW_POINT_H_*/

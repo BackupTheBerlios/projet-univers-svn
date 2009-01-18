@@ -28,44 +28,35 @@
 #include <physic/implementation/ode/ode.h>
 #include <physic/implementation/ode/physic_system.h>
 
-namespace ProjetUnivers {
-  namespace Physic {
-    namespace Implementation {
-      namespace Ode {
+namespace ProjetUnivers
+{
+  namespace Physic
+  {
+    namespace Implementation
+    {
+      namespace Ode
+      {
         
         RegisterControlerSet(PhysicSystem) ;
         
         PhysicSystem::PhysicSystem(Kernel::Model* model)
-        : Kernel::ControlerSet(model),
-          m_elapsed(0),
-          m_timestep(0.1)
+        : Kernel::ControlerSet(model)
         {}
 
-        void PhysicSystem::setTimeStep(const float& timestep)
-        {
-          m_timestep = timestep ;
-        }
-        
         void PhysicSystem::simulate(const float& seconds)
         {
           InternalMessage("Physic","Ode::PhysicSystem::simulate preparation") ;
           
-          m_elapsed += seconds ;
+          /// 1. apply all force/torque on objects
+          applyTopDown(&Kernel::BaseControler::prepare) ;
+          
+          /// 2. simulate all world top down and update model
+          boost::function2<void,
+                           Kernel::BaseControler*,
+                           float> f 
+                              = &Kernel::BaseControler::simulate ;
 
-          while (m_elapsed > m_timestep)
-          {
-            /// 1. apply all force/torque on objects
-            applyTopDown(&Kernel::BaseControler::prepare) ;
-            
-            /// 2. simulate all world top down and update model
-            boost::function2<void,
-                             Kernel::BaseControler*,
-                             float> f 
-                                = &Kernel::BaseControler::simulate ;
-
-            applyTopDown(std::bind2nd(f,m_timestep)) ;
-            m_elapsed -= m_timestep ;
-          }
+          applyTopDown(std::bind2nd(f,m_timestep)) ;
         }
         
         void PhysicSystem::onInit()

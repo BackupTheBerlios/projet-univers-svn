@@ -35,6 +35,7 @@
 #include <model/collision.h>
 #include <model/shot.h>
 
+#include <model/implementation/logic/logic_system.h>
 #include <model/test/test_logic.h>
 
 CPPUNIT_TEST_SUITE_REGISTRATION(ProjetUnivers::
@@ -131,6 +132,9 @@ namespace ProjetUnivers {
         // we construct a complete system
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLogic::testLaserBeamDestroyableCollision")) ;
         model->init() ;
+        Kernel::ControlerSet* logic = model->getControlerSet<Implementation::Logic::LogicSystem>() ;
+        float timestep = 1 ;
+        logic->setTimeStep(1) ;
         
         Kernel::Object* system = model->createObject() ;
         CPPUNIT_ASSERT(system->getTrait<PhysicalWorld>()) ;
@@ -152,7 +156,7 @@ namespace ProjetUnivers {
         // simulate Logic : destroyable should be at 50%
         model->update(1) ;
 
-        CPPUNIT_ASSERT(ship->getTrait<Destroyable>()->getLife() == 0.5) ;
+        CPPUNIT_ASSERT_DOUBLES_EQUAL(0.5,ship->getTrait<Destroyable>()->getLife(),0.1) ;
       }
 
       void TestLogic::testShotDisappearing()

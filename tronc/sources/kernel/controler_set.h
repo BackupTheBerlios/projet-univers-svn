@@ -40,6 +40,9 @@ namespace ProjetUnivers
     {
     public:
 
+      /// Set the simulation time step in seconds. 
+      void setTimeStep(const float& timestep) ;
+      
       /// Initialise the controler set.
       void init() ;
 
@@ -64,6 +67,10 @@ namespace ProjetUnivers
       /// Abstract class means virtual destructor.
       virtual ~ControlerSet() ;
 
+      /// Statistics managment.
+      float getStatistics() const ;
+      void resetStatistics() ;
+      
     protected:
       
       /// Build all the registered controler sets on @c model.
@@ -110,6 +117,16 @@ namespace ProjetUnivers
       Model* m_model ;
       bool   m_initialised ;
 
+      /// elapsed time since last simulation
+      float m_elapsed ;
+
+      /// Simulation time step.
+      float m_timestep ;
+      
+      /// Performance statistics
+      float m_consumed_time_per_update ;
+      unsigned m_number_of_updates ;
+      
       /// Function that build a controler set.
       typedef boost::function1<ControlerSet*, Model*> ControlerSetBuilder ;
 

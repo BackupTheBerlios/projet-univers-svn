@@ -30,9 +30,6 @@ namespace ProjetUnivers {
 
             
       /// Test of EngineControl.
-      /*!
-
-      */
       class TestEngineControl : public CppUnit::TestFixture {
       protected:
       
@@ -56,25 +53,7 @@ namespace ProjetUnivers {
       
         CPPUNIT_TEST_SUITE_END() ;
 
-      public:
-  
       // @}
-      /*! 
-        @name Mandatory methods
-      */
-      // @{
-
-      
-        /// Initialisation du test
-        void setUp() ;
-      
-        /// Desinitialisation du test
-        void tearDown() ;
-      
-      // @}      
-                
-       
-      
       };
 
     }

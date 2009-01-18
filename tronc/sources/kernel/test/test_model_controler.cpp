@@ -1143,7 +1143,7 @@ namespace ProjetUnivers
         ObjectReference person = model->createObject() ;
         person->addTrait(new Trait1()) ;
          
-        model->update(0) ;
+        model->update(1) ;
         
         CPPUNIT_ASSERT(!person) ;
       }
@@ -1158,7 +1158,7 @@ namespace ProjetUnivers
         person->addTrait(new Trait1()) ;
         person->addTrait(new Trait2()) ;
          
-        model->update(0) ;
+        model->update(1) ;
         
         CPPUNIT_ASSERT(!person) ;
       }

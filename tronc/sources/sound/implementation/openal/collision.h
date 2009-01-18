@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007 Morgan GRIGNARD                                    *
+ *   Copyright (C) 2007-2009 Morgan GRIGNARD Mathieu ROGER                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -22,7 +22,7 @@
 
 #include <kernel/trait_view.h>
 
-#include <model/collision.h>
+#include <sound/implementation/collision.h>
 
 #include <sound/implementation/openal/sound_emitter.h>
 #include <sound/implementation/openal/real_world_view_point.h>
@@ -38,7 +38,8 @@ namespace ProjetUnivers
 
     
         /// Sound background observer
-        class Collision : public Kernel::TraitView<Model::Collision, RealWorldViewPoint>,
+        class Collision : public Kernel::TraitView<Implementation::Collision,
+                                                   RealWorldViewPoint>,
                           public SoundEmitter
         {
         public:
@@ -49,7 +50,7 @@ namespace ProjetUnivers
         // @{
 
           /// Constructor.
-          Collision(Model::Collision*,RealWorldViewPoint*) ;
+          Collision(Implementation::Collision*,RealWorldViewPoint*) ;
           
         // @{
           

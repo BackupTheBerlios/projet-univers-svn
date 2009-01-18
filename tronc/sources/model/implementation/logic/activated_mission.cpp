@@ -46,6 +46,7 @@ namespace ProjetUnivers {
         void ActivatedMission::onInit()
         {
           getTrait<Mission>()->load() ;
+          getObject()->getModel()->resetStatistics() ;
         }
 
         void ActivatedMission::onClose()
@@ -58,6 +59,7 @@ namespace ProjetUnivers {
           {
             (*child)->getObject()->destroyObject() ;
           }
+          getObject()->getModel()->printStatistics() ;
         }
 
         void ActivatedMission::indicateGroupHasNoMoreSpawn(Kernel::Object* group)

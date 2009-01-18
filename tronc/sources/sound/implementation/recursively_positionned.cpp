@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2008 Mathieu ROGER                                      *
+ *   Copyright (C) 2007-2009 Morgan GRIGNARD Mathieu ROGER                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,36 +18,22 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#pragma once
+#include <kernel/deduced_trait.h>
+#include <model/positionned.h>
 
-#include <kernel/controler_set.h>
+#include <sound/implementation/recursively_positionned.h>
 
 namespace ProjetUnivers
 {
-  namespace GUI
+  namespace Sound
   {
     namespace Implementation
     {
-      namespace CEGUI
-      {
-      
-        /// Controler set for all GUIs.
-        class GUIControlerSet : public Kernel::ControlerSet
-        {
-        public:
-          
-          /// Construction.
-          GUIControlerSet(Kernel::Model*) ;
-        
-          /// Init the module on demand.
-          virtual void onInit() ;
-  
-          /// Simulate all controlers.
-          virtual void simulate(const float& seconds) ;
-          
-        };
-      }      
-    }
-  }
-}
 
+      DeclareDeducedTrait(RecursivelyPositionned,
+                          Or(HasTrait(Model::Positionned),
+                             HasAncestor(RecursivelyPositionned))) ;
+
+    }
+  } 
+}

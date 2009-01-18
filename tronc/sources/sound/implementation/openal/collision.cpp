@@ -32,14 +32,13 @@ namespace ProjetUnivers
       {
 
         RegisterView(OpenAL::Collision, 
-                     Model::Collision, 
+                     Implementation::Collision, 
                      OpenAL::RealWorldViewPoint) ;
              
-        Collision::Collision(
-          Model::Collision* i_observer,
-          RealWorldViewPoint*     i_viewpoint) 
-        : Kernel::TraitView<Model::Collision,
-                            RealWorldViewPoint>(i_observer,i_viewpoint),
+        Collision::Collision(Implementation::Collision* collision,
+                             RealWorldViewPoint*        viewpoint) 
+        : Kernel::TraitView<Implementation::Collision,
+                            RealWorldViewPoint>(collision,viewpoint),
           SoundEmitter()
         {
           InternalMessage("Sound","Building OpenAL::Collision") ;

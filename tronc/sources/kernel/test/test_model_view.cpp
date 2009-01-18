@@ -1546,6 +1546,132 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(AccessView1::m_accessed == true) ;
       }
       
+      namespace
+      {
+        class Pos : public Trait
+        {
+        public:
+          
+          void touch()
+          {
+            notify() ;
+          }
+        };
+        class AncestorPos : public DeducedTrait
+        {};
+        DeclareDeducedTrait(AncestorPos,HasAncestor(Pos)) ;
+        class AncestorViewPoint : public ViewPoint
+        {
+        public:
+
+          AncestorViewPoint(Model* model)
+          : ViewPoint(model)
+          {}
+          
+        };
+
+        class ViewAncestor : public TraitView<AncestorPos,AncestorViewPoint>
+        {
+        public:
+          
+          static int m_updates ;
+          
+          ViewAncestor(AncestorPos* trait,AncestorViewPoint* viewpoint)
+          : TraitView<AncestorPos,AncestorViewPoint>(trait,viewpoint)
+          {}
+          
+        protected:
+        
+          virtual void onUpdate()
+          {
+            ++m_updates ;
+          }
+          
+        };
+        
+        int ViewAncestor::m_updates = 0 ;
+        
+        RegisterView(ViewAncestor,AncestorPos,AncestorViewPoint) ;
+          
+      }
+      
+      void TestModelView::updateAncestor()
+      {
+        std::auto_ptr<Model> model(new Model("TestModelView::updateAncestor")) ;
+        ViewPoint* viewpoint(new AncestorViewPoint(model.get())) ;
+        viewpoint->init() ;
+        
+        ViewAncestor::m_updates = 0 ;
+        
+        Object* root = model->createObject() ;
+        Object* child = root->createObject() ;
+        root->addTrait(new Pos()) ;
+        CPPUNIT_ASSERT(child->getTrait<AncestorPos>()) ;
+        CPPUNIT_ASSERT(child->getTrait<AncestorPos>()->getView<ViewAncestor>(viewpoint)) ;
+        
+        CPPUNIT_ASSERT_EQUAL(0,ViewAncestor::m_updates) ;
+        
+        root->getTrait<Pos>()->touch() ;
+        
+        CPPUNIT_ASSERT_EQUAL(1,ViewAncestor::m_updates) ;
+      }      
+ 
+      namespace 
+      {
+        class RecursivePos : public DeducedTrait
+        {};
+        DeclareDeducedTrait(RecursivePos,Or(HasAncestor(RecursivePos),HasTrait(Pos))) ;
+
+        class ViewRecursive : public TraitView<RecursivePos,AncestorViewPoint>
+        {
+        public:
+          
+          static int m_updates ;
+          
+          ViewRecursive(RecursivePos* trait,AncestorViewPoint* viewpoint)
+          : TraitView<RecursivePos,AncestorViewPoint>(trait,viewpoint)
+          {}
+          
+        protected:
+        
+          virtual void onUpdate()
+          {
+            ++m_updates ;
+          }
+          
+        };
+        
+        int ViewRecursive::m_updates = 0 ;
+        
+        RegisterView(ViewRecursive,RecursivePos,AncestorViewPoint) ;
+        
+      }
+      
+      void TestModelView::updateRecursiveAncestor()
+      {
+        std::auto_ptr<Model> model(new Model("TestModelView::updateRecursiveAncestor")) ;
+        ViewPoint* viewpoint(new AncestorViewPoint(model.get())) ;
+        viewpoint->init() ;
+        
+        ViewRecursive::m_updates = 0 ;
+        
+        Object* root = model->createObject() ;
+        Object* child = root->createObject() ;
+        root->addTrait(new Pos()) ;
+        CPPUNIT_ASSERT(root->getTrait<RecursivePos>()) ;
+        CPPUNIT_ASSERT(child->getTrait<RecursivePos>()) ;
+
+        CPPUNIT_ASSERT(child->getTrait<RecursivePos>()->getView<ViewRecursive>(viewpoint)) ;
+        
+        CPPUNIT_ASSERT_EQUAL(0,ViewRecursive::m_updates) ;
+        
+        root->getTrait<Pos>()->touch() ;
+        
+        CPPUNIT_ASSERT_EQUAL(2,ViewRecursive::m_updates) ;
+        
+      }
+      
+      
     }
   }
 }

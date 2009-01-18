@@ -513,6 +513,7 @@ namespace ProjetUnivers
         trait->second->_changed_parent(i_old_parent) ;
       }
       HasParentFormula::changeParent(this,i_old_parent) ;
+      HasAncestorFormula::changeParent(this,i_old_parent) ;
       HasChildFormula::changeParent(this,i_old_parent) ;
       
     }
@@ -763,6 +764,20 @@ namespace ProjetUnivers
       unsigned int result = 0 ;
       
       Object* iterator(const_cast<Object*>(this)) ;
+      while(iterator)
+      {
+        if (iterator->getTrait(name))
+          ++result ;
+        iterator = iterator->getParent() ;
+      }
+      return result ;
+    }
+
+    unsigned int Object::getNumberOfAncestor(const TypeIdentifier& name) const
+    {
+      unsigned int result = 0 ;
+      
+      Object* iterator(getParent()) ;
       while(iterator)
       {
         if (iterator->getTrait(name))

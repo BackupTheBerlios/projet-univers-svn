@@ -22,8 +22,8 @@
 #include <model/listener.h>
 #include <model/mobile.h>
 #include <model/oriented.h>
-#include <model/positionned.h>
 
+#include <sound/implementation/recursively_positionned.h>
 #include <sound/implementation/listener.h>
 
 namespace ProjetUnivers {
@@ -31,9 +31,8 @@ namespace ProjetUnivers {
     namespace Implementation {
 
       DeclareDeducedTrait(Listener,
-                          And(HasTrait(Model::Mobile),
-                              HasTrait(Model::Positionned),
-                              HasTrait(Model::Oriented),
+                          And(HasParent(Model::Mobile),
+                              HasTrait(RecursivelyPositionned),
                               HasTrait(Model::Listener))) ;
 
     }

@@ -31,7 +31,7 @@
 		
 		<Destroyable>
       <!-- The energy necessary to destroy the ship -->
-			<Energy value="10" unit="Joule" name="max_hit_points"/>
+			<Energy value="20" unit="Joule" name="max_hit_points"/>
 		</Destroyable>
 
 		<Detector>
@@ -50,12 +50,12 @@
 		<!-- The laser --> 
 		<object id="2">
 			<Laser>
-				<Position x="19.2" y="0" z="57" unit="Meter"/>
+				<Position x="0" y="0" z="80" unit="Meter"/>
 				<Orientation/>
         <!-- the energy of the laser beam -->
 				<Energy value="10" unit="Joule"/>
         <!--  Duration between two shots -->
-				<Duration value="1" unit="Second" name="shot_delay"/>
+				<Duration value="0.5" unit="Second" name="shot_delay"/>
 			</Laser>
 			<Component/>
 		</object>

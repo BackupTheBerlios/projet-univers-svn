@@ -56,7 +56,7 @@ namespace ProjetUnivers {
         {
           InternalMessage("Sound","OpenAL::Listener::onInit Entering") ;
 
-          this->updateListener();
+          this->updateListener() ;
                       
           InternalMessage("Sound","OpenAL::Listener::onInit Leaving") ;
         }
@@ -72,7 +72,7 @@ namespace ProjetUnivers {
         
         void Listener::onUpdate()
         {
-          this->updateListener();
+          this->updateListener() ;
         }
         
       }

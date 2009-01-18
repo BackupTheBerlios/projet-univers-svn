@@ -92,10 +92,14 @@ namespace ProjetUnivers
           
         }
 
+        WavFileStream::~WavFileStream()
+        {
+          sf_close(m_file);
+          alDeleteBuffers(2,m_buffers) ;
+        }
         
         void WavFileStream::close(const ALuint& source)
         {
-          sf_close(m_file);
         }
 
         bool WavFileStream::loadBuffer(ALuint buffer,const bool& is_event)
