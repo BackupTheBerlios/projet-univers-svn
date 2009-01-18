@@ -1199,7 +1199,12 @@
   
   * Media :
     - razor : laser on nose, more shoots, more life 
-   
+
+2009-01-18 rogma 
+  
+  * AI :
+    - tests : correction of a bug in tests on windows
+        
 @todo :
 
   * Sound :

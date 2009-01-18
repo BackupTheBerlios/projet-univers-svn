@@ -61,6 +61,7 @@
 #include <model/played.h>
 #include <model/state.h>
 
+#include <model/implementation/logic/logic_system.h>
 #include <physic/physic.h>
 
 #include <artificial_intelligence/artificial_intelligence.h>
@@ -88,8 +89,8 @@ namespace ProjetUnivers
         // 1. build a model
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestModelControler::build")) ;
         model->init() ;
-
-        model->setTimeStep(0) ;
+        Kernel::ControlerSet* logic = model->getControlerSet<Model::Implementation::Logic::LogicSystem>() ;
+        logic->setTimeStep(0) ;
         
         Kernel::Object* system = model->createObject() ;
 
@@ -590,7 +591,8 @@ namespace ProjetUnivers
         // 1. build a model
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestModelControler::testPositionUpdate")) ;
         model->init() ;
-        model->setTimeStep(0) ;
+        Kernel::ControlerSet* logic = model->getControlerSet<Model::Implementation::Logic::LogicSystem>() ;
+        logic->setTimeStep(0) ;
 
         Kernel::Object* team1 = model->createObject() ;
         team1->addTrait(new Model::Team("team1")) ;
