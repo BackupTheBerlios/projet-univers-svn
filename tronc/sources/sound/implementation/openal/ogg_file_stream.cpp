@@ -111,10 +111,6 @@ namespace ProjetUnivers
           }
         }
         
-        void OggFileStream::close(const ALuint& source)
-        {
-        }
-        
         bool OggFileStream::loadBuffer(ALuint buffer,const bool& is_event)
         {
           //get the samples
@@ -122,8 +118,8 @@ namespace ProjetUnivers
           ALsizei totalSize = m_samples_by_buffer * sizeof(ALshort) ;
           ALsizei totalRead = 0 ;
           char* samplesPtr = reinterpret_cast<char*>(&samples[0]) ;
-
-          while (totalRead < totalSize)
+          bool is_finished = false ; 
+          while (totalRead < totalSize && !is_finished)
           {
             ALsizei read = ov_read(m_stream,samplesPtr+totalRead,totalSize-totalRead,0,2,1,NULL) ;
             if (read > 0)
@@ -132,11 +128,11 @@ namespace ProjetUnivers
             }
             else
             {
-              //End of file
+              // end of file
               if (is_event)
               {
                 // mark  for event the reader ready for destruction
-                return true ;
+                is_finished = true ;
               }
               else
               {
@@ -154,7 +150,7 @@ namespace ProjetUnivers
             return true ;
           }
           
-          return false ;
+          return is_finished ;
         }
 
 

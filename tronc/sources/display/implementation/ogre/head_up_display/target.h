@@ -18,13 +18,12 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_DISPLAY_IMPLEMENTATION_OGRE_HUD_TARGET_VIEW_H_
-#define PU_DISPLAY_IMPLEMENTATION_OGRE_HUD_TARGET_VIEW_H_
+#pragma once
 
 #include <Ogre.h>
 #include <kernel/trait_view.h>
 #include <display/implementation/target.h>
-#include <display/implementation/ogre/head_up_display/target_displayer_viewpoint.h>
+#include <display/implementation/ogre/head_up_display/head_up_display_viewpoint.h>
 
 namespace ProjetUnivers {
   namespace Display {
@@ -36,15 +35,20 @@ namespace ProjetUnivers {
   }
 }
 
-namespace ProjetUnivers {
-  namespace Display {
-    namespace Implementation {
-      namespace Ogre {
-        namespace HeadUpDisplay {
+namespace ProjetUnivers
+{
+  namespace Display
+  {
+    namespace Implementation
+    {
+      namespace Ogre
+      {
+        namespace HUD
+        {
 
           /// Display a selection around the detected target
           class Target : public Kernel::TraitView<Implementation::Target,
-                                                  TargetDisplayerViewPoint>
+                                                  HeadUpDisplayViewPoint>
           {
           public:
           
@@ -54,8 +58,8 @@ namespace ProjetUnivers {
           // @{
   
             /// Constructor.
-            Target(Implementation::Target*  object,
-                   TargetDisplayerViewPoint* viewpoint) ;
+            Target(Implementation::Target* object,
+                   HeadUpDisplayViewPoint* viewpoint) ;
 
             /// Set the target colour.
             void setTargetColour(const ::Ogre::ColourValue&) ;
@@ -99,6 +103,7 @@ namespace ProjetUnivers {
             ::Ogre::OverlayContainer* m_target_container ;
             ::Ogre::OverlayElement*   m_target ;
 
+            /// The side arrow wused when target is out of screen
             ::Ogre::OverlayContainer* m_arrow_container ;
             ::Ogre::OverlayElement*   m_arrow ;
 
@@ -126,5 +131,3 @@ namespace ProjetUnivers {
     }
   }
 }
-
-#endif /*PU_DISPLAY_IMPLEMENTATION_OGRE_HUD_TARGET_VIEW_H_*/

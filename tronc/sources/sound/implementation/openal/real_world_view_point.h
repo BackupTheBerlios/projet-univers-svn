@@ -50,8 +50,6 @@ namespace ProjetUnivers
         
           virtual void onInit() ;
           
-          virtual void onClose() ;
-          
           virtual void update(const float&) ;
         
         };

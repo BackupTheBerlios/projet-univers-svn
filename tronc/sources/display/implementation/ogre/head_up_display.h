@@ -25,10 +25,10 @@
 
 #include <kernel/trait_view.h>
 
-#include <model/target_displayer.h>
+#include <model/head_up_display.h>
 
 #include <display/implementation/ogre/real_world_view_point.h>
-#include <display/implementation/ogre/head_up_display/target_displayer_viewpoint.h>
+#include <display/implementation/ogre/head_up_display/head_up_display_viewpoint.h>
 
 namespace ProjetUnivers 
 {
@@ -52,9 +52,9 @@ namespace ProjetUnivers
           compound=true;
           concentrate=true ;
           // model part
-          "Model::TargetDisplayer" [shape=box URL="\ref Model::TargetDisplayer"] ;
+          "Model::HeadUpDisplay" [shape=box URL="\ref Model::HeadUpDisplay"] ;
           object -> "Model::Computer" [arrowhead=diamond] ;
-          "Model::TargetDisplayer" -> "Model::Computer" [arrowhead=none] ;
+          "Model::HeadUpDisplay" -> "Model::Computer" [arrowhead=none] ;
           "Model::Positionned" -> object [arrowhead=diamond ltail=cluster_0] ;
         
           subgraph cluster_0
@@ -70,9 +70,9 @@ namespace ProjetUnivers
         
           // ogre part
       
-          "Ogre::TargetDisplayer" [shape=ellipse URL="\ref Ogre::TargetDisplayer"] ;
-          "Ogre::TargetDisplayer" -> "Model::TargetDisplayer" [arrowhead=none] ;
-          "HeadUpDisplay::TargetDisplayerViewPoint" -> "Ogre::TargetDisplayer" [arrowhead=diamond] ;
+          "Ogre::HeadUpDisplay" [shape=ellipse URL="\ref Ogre::HeadUpDisplay"] ;
+          "Ogre::HeadUpDisplay" -> "Model::HeadUpDisplay" [arrowhead=none] ;
+          "HeadUpDisplay::TargetDisplayerViewPoint" -> "Ogre::HeadUpDisplay" [arrowhead=diamond] ;
       
           "Model::Selected" -> "HeadUpDisplay::Target" [arrowhead=none ltail=cluster_0] ;
       
@@ -97,8 +97,8 @@ namespace ProjetUnivers
         }
         @enddot
         */
-        class TargetDisplayer : public Kernel::TraitView<Model::TargetDisplayer,
-                                                         RealWorldViewPoint>
+        class HeadUpDisplay : public Kernel::TraitView<Model::HeadUpDisplay,
+                                                       RealWorldViewPoint>
         {
         public:
         
@@ -108,8 +108,8 @@ namespace ProjetUnivers
         // @{
 
           /// Constructeur.
-          TargetDisplayer(Model::TargetDisplayer* i_object,
-                          RealWorldViewPoint* i_viewpoint) ;
+          HeadUpDisplay(Model::HeadUpDisplay* i_object,
+                        RealWorldViewPoint* i_viewpoint) ;
 
         //@}
           

@@ -39,7 +39,7 @@ namespace ProjetUnivers
         : Stream(file_name)
         {
           OggVorbis_File* m_stream ;
-
+          InternalMessage("Sound","loading " + file_name) ;
           // Create Ogg Stream on the file
           m_stream = new OggVorbis_File() ;
           int error = ov_fopen((char*)m_file_name.c_str(),m_stream) ;
@@ -79,15 +79,7 @@ namespace ProjetUnivers
             ALuint buffer ;
             alGenBuffers(1,&buffer) ;
             is_fully_read = loadBuffer(m_stream,buffer) ;
-            
-            if (!is_fully_read)
-            {
-              m_buffers.push_back(buffer) ;
-            }
-            else
-            {
-              alDeleteBuffers(1,&buffer) ;
-            }
+            m_buffers.push_back(buffer) ;
           }
           ov_clear(m_stream) ;
           delete m_stream ;
@@ -127,10 +119,6 @@ namespace ProjetUnivers
           }
         }
         
-        void OggCachedStream::close(const ALuint& source)
-        {
-        }
-        
         bool OggCachedStream::update(const ALuint& source,const bool& is_event)
         {
           InformationMessage("Sound", "Enter OggCachedStream::udpate") ;
@@ -146,9 +134,11 @@ namespace ProjetUnivers
           ALsizei totalSize = m_samples_by_buffer * sizeof(ALshort) ;
           ALsizei totalRead = 0 ;
           char* samplesPtr = reinterpret_cast<char*>(&samples[0]) ;
-
-          while (totalRead < totalSize)
+          bool finished = false ;
+          
+          while (totalRead < totalSize && !finished)
           {
+            InternalMessage("Sound","OggCachedStream::loadBuffer reading") ;
             ALsizei read = ov_read(m_stream,samplesPtr+totalRead,totalSize-totalRead,0,2,1,NULL) ;
             if (read > 0)
             {
@@ -156,9 +146,10 @@ namespace ProjetUnivers
             }
             else
             {
-              return true ;
+              finished = true ;
             }
           }
+          InternalMessage("Sound","OggCachedStream::loadBuffer copying one buffer") ;
 
           // load the buffer
           alBufferData(buffer,m_format,&samples[0],totalRead,m_sample_rate) ;
@@ -167,7 +158,7 @@ namespace ProjetUnivers
             ErrorMessage("[OpenAL::OggCachedStream] Impossible to load the buffer with the samples") ;
           }
           
-          return false ;
+          return finished ;
         }
 
 

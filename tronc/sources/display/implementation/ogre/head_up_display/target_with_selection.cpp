@@ -26,20 +26,25 @@
 #include <display/implementation/ogre/head_up_display/target.h>
 #include <display/implementation/ogre/head_up_display/target_with_selection.h>
 
-namespace ProjetUnivers {
-  namespace Display {
-    namespace Implementation {
-      namespace Ogre {
-        namespace HeadUpDisplay {
+namespace ProjetUnivers
+{
+  namespace Display
+  {
+    namespace Implementation
+    {
+      namespace Ogre
+      {
+        namespace HUD
+        {
 
           RegisterView(TargetWithSelection, 
                        Implementation::TargetWithSelection, 
-                       TargetDisplayerViewPoint) ;
+                       HeadUpDisplayViewPoint) ;
           
           TargetWithSelection::TargetWithSelection(
               Implementation::TargetWithSelection* object,
-              TargetDisplayerViewPoint* viewpoint)
-          : Kernel::TraitView<Implementation::TargetWithSelection,TargetDisplayerViewPoint>(object,viewpoint),
+              HeadUpDisplayViewPoint* viewpoint)
+          : Kernel::TraitView<Implementation::TargetWithSelection,HeadUpDisplayViewPoint>(object,viewpoint),
             m_target(NULL)
           {}
           

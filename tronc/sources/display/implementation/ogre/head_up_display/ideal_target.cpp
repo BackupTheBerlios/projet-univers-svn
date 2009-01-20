@@ -27,20 +27,25 @@
 #include <display/implementation/ogre/positionned.h>
 #include <display/implementation/ogre/head_up_display/ideal_target.h>
 
-namespace ProjetUnivers {
-  namespace Display {
-    namespace Implementation {
-      namespace Ogre {
-        namespace HeadUpDisplay {
+namespace ProjetUnivers
+{
+  namespace Display
+  {
+    namespace Implementation
+    {
+      namespace Ogre
+      {
+        namespace HUD
+        {
 
           RegisterView(IdealTarget, 
                        Implementation::IdealTarget, 
-                       TargetDisplayerViewPoint) ;
+                       HeadUpDisplayViewPoint) ;
           
           IdealTarget::IdealTarget(
               Implementation::IdealTarget* object,
-              TargetDisplayerViewPoint* viewpoint)
-          : Kernel::TraitView<Implementation::IdealTarget,TargetDisplayerViewPoint>(object,viewpoint),
+              HeadUpDisplayViewPoint* viewpoint)
+          : Kernel::TraitView<Implementation::IdealTarget,HeadUpDisplayViewPoint>(object,viewpoint),
             m_target_container(NULL),
             m_target(NULL),
             m_target_is_shown(false)

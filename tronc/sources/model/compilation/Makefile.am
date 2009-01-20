@@ -81,7 +81,7 @@ libmodel_la_SOURCES = \
 ../implementation/stick.cpp \
 ../implementation/target.cpp \
 ../implementation/targeting_system.cpp \
-../implementation/target_displayer.cpp \
+../implementation/head_up_display.cpp \
 ../implementation/team.cpp \
 ../implementation/throttle.cpp \
 ../implementation/torque_generator.cpp \

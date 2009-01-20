@@ -40,17 +40,17 @@ namespace ProjetUnivers
     {
       namespace Ogre 
       {
-        namespace HeadUpDisplay 
+        namespace HUD 
         {
 
           RegisterView(Target, 
                        Implementation::Target, 
-                       TargetDisplayerViewPoint) ;
+                       HeadUpDisplayViewPoint) ;
           
           Target::Target(
               Implementation::Target* object,
-              TargetDisplayerViewPoint* viewpoint)
-          : Kernel::TraitView<Implementation::Target,TargetDisplayerViewPoint>(object,viewpoint),
+              HeadUpDisplayViewPoint* viewpoint)
+          : Kernel::TraitView<Implementation::Target,HeadUpDisplayViewPoint>(object,viewpoint),
             m_target_is_shown(false),
             m_arrow_is_shown(false),
             m_target_container(NULL),

@@ -33,7 +33,8 @@ namespace ProjetUnivers
     {
       
       /// Sound implementation throught OpenAL.
-      namespace OpenAL {
+      namespace OpenAL 
+      {
         
         /// Initialisation of OpenAL specific.
         void init() ;
@@ -43,6 +44,8 @@ namespace ProjetUnivers
         
         /// Update OpenAL
         void update() ;
+      
+        void stopSourceAndUnQueueBuffers(const ALuint& source) ;
         
         /// Humanly readable OpenAL error code. 
         std::string getErrorString(const ALenum&) ;

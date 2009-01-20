@@ -46,9 +46,6 @@ namespace ProjetUnivers
           /// Return false if finished
           virtual bool update(const ALuint& source,const bool& is_event) = 0 ;
           
-          /// Close the stream.
-          virtual void close(const ALuint& source) = 0 ;
-          
           virtual ~Stream() ;
           
         protected:

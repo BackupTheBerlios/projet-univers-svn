@@ -40,8 +40,8 @@ namespace ProjetUnivers {
         
         /// 
         void collision() ;
-        void closeCollision() ;
         void farCollision() ;
+        void shot() ;
 
       // @}
       // *******************************
@@ -53,6 +53,7 @@ namespace ProjetUnivers {
       
         CPPUNIT_TEST(collision) ;
         CPPUNIT_TEST(farCollision) ;
+        CPPUNIT_TEST(shot) ;
       
         CPPUNIT_TEST_SUITE_END() ;
       

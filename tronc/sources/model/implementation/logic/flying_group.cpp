@@ -34,7 +34,7 @@
 #include <model/positionned.h>
 #include <model/sized.h>
 #include <model/state.h>
-#include <model/target_displayer.h>
+#include <model/head_up_display.h>
 #include <model/team.h>
 #include <model/transponder.h>
 #include <model/with_objectives.h>
@@ -101,8 +101,8 @@ namespace ProjetUnivers
           pilot->addTrait(new Listener()) ;
           pilot->addTrait(new Active()) ;
           
-          ship->addTrait(new TargetDisplayer()) ;
-          TargetDisplayer::connect(ship,ship) ;
+          ship->addTrait(new HeadUpDisplay()) ;
+          HeadUpDisplay::connect(ship,ship) ;
           
           Player::connect(pilot,mission->getPlayerConfiguration()) ;
           pilot->addTrait(new State()) ;

@@ -57,6 +57,7 @@ namespace ProjetUnivers
           Stream* m_stream ;
           bool    m_is_event ;
           bool    m_is_finished ;
+          bool    m_is_initialised ;
           
         };
       }

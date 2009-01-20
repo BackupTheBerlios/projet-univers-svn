@@ -20,52 +20,73 @@
  ***************************************************************************/
 #pragma once
 
-#include <sndfile.h>
-#include <sound/implementation/openal/file_stream.h>
+#include <kernel/trait_view.h>
 
-namespace ProjetUnivers
+#include <sound/implementation/shot.h>
+#include <sound/implementation/openal/sound_emitter.h>
+#include <sound/implementation/openal/real_world_view_point.h>
+
+namespace ProjetUnivers 
 {
-  namespace Sound
+  namespace Sound 
   {
-    namespace Implementation
+    namespace Implementation 
     {
-      namespace OpenAL
+      namespace OpenAL 
       {
-
-        /// Streaming reader for wav files.
-        class WavFileStream : public FileStream
+    
+        /// Sound produced by an engine
+        class Shot : public Kernel::TraitView<Implementation::Shot,
+                                              RealWorldViewPoint>,
+                       public SoundEmitter
         {
-        
         public:
+          
         /*!
-         @name Construction 
+          @name Construction 
         */
         // @{
+
+          /// Constructor.
+          Shot(Implementation::Shot*,RealWorldViewPoint*) ;
+
+        // @}
+        
+        protected:
+        
+        /*!
+          @name Access methods
           
-          /// Constructor in use
-          WavFileStream(const std::string&) ;
+          Redefinition of some properties of the sound to emit.
           
-          virtual ~WavFileStream() ;
+        */
+        // @{
+                    
+          /// Get the sound's filename
+          virtual std::string getSoundFileName() const ;
+          
+          /// Indicate if the sound is looping
+          virtual bool isEvent() const ;
+          
+          ///Acces to the object with the trait
+          virtual Kernel::Object* getObject() const ;
           
         // @}
+        
+        /*!
+          @name Updates.
+        */
+        // @{
+                  
+          void onInit() ;
+                      
+          void onClose() ;
+                      
+          void onUpdate() ;
           
-          /// Open the stream
-          virtual void init(const ALuint& source,
-                            const int& position_in_file,
-                            const int& position_in_buffer,
-                            const bool& is_event) ;
+          void onChangeParent(Kernel::Object* old_parent) ;
 
-        private:
-
-          /// Read the sound file to load the buffer with content
-          bool loadBuffer(ALuint buffer,const bool& is_event) ;
-          
-          /// File
-          SNDFILE* m_file;
-          
-          /// Flip buffers 
-          ALuint   m_buffers[2] ;
-          
+        // @}      
         };
       }
     }

@@ -18,10 +18,11 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#pragma once
+#include <kernel/log.h>
 
-#include <sndfile.h>
-#include <sound/implementation/openal/file_stream.h>
+#include <model/shot.h>
+#include <sound/implementation/openal/openal.h>
+#include <sound/implementation/openal/shot.h>
 
 namespace ProjetUnivers
 {
@@ -32,41 +33,55 @@ namespace ProjetUnivers
       namespace OpenAL
       {
 
-        /// Streaming reader for wav files.
-        class WavFileStream : public FileStream
+        RegisterView(OpenAL::Shot, 
+                     Implementation::Shot, 
+                     OpenAL::RealWorldViewPoint) ;
+             
+        Shot::Shot(
+          Implementation::Shot*        object,
+          OpenAL::RealWorldViewPoint*  viewpoint) 
+        : Kernel::TraitView<Implementation::Shot,
+                            OpenAL::RealWorldViewPoint>(object,viewpoint),
+          SoundEmitter()
         {
+          InternalMessage("Sound","Building OpenAL::Shot") ;
+        }
+                    
+        std::string Shot::getSoundFileName() const
+        {
+          return "laser.ogg" ;
+        }
+          
+        bool Shot::isEvent() const
+        {
+          return true;
+        }
         
-        public:
-        /*!
-         @name Construction 
-        */
-        // @{
-          
-          /// Constructor in use
-          WavFileStream(const std::string&) ;
-          
-          virtual ~WavFileStream() ;
-          
-        // @}
-          
-          /// Open the stream
-          virtual void init(const ALuint& source,
-                            const int& position_in_file,
-                            const int& position_in_buffer,
-                            const bool& is_event) ;
-
-        private:
-
-          /// Read the sound file to load the buffer with content
-          bool loadBuffer(ALuint buffer,const bool& is_event) ;
-          
-          /// File
-          SNDFILE* m_file;
-          
-          /// Flip buffers 
-          ALuint   m_buffers[2] ;
-          
-        };
+        Kernel::Object* Shot::getObject() const
+        {
+          getTrait()->getObject() ;
+        }
+        
+        void Shot::onInit()
+        {
+          this->initSound(getViewPoint());
+        }
+                    
+        void Shot::onClose()
+        {
+          this->deleteSound();
+        }
+                    
+        void Shot::onUpdate()
+        {
+          this->updateSource(getViewPoint());
+        }
+        
+        void Shot::onChangeParent(Kernel::Object* old_parent)
+        {
+          this->changeParentSource(getViewPoint()) ;
+        }
+      
       }
     }
   }

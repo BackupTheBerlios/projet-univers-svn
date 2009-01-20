@@ -11,6 +11,7 @@ libsound_la_SOURCES = \
 ../implementation/engine.cpp \
 ../implementation/listener.cpp \
 ../implementation/recursively_positionned.cpp \
+../implementation/shot.cpp \
 ../implementation/sound.cpp \
 ../implementation/openal/background_sound.cpp \
 ../implementation/openal/collision.cpp \
@@ -24,6 +25,7 @@ libsound_la_SOURCES = \
 ../implementation/openal/openal.cpp \
 ../implementation/openal/reader.cpp \
 ../implementation/openal/real_world_view_point.cpp \
+../implementation/openal/shot.cpp \
 ../implementation/openal/sound_emitter.cpp \
 ../implementation/openal/sound_environnement.cpp \
 ../implementation/openal/sound_listener.cpp \

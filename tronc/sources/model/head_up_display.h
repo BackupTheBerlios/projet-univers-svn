@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007-2009 Morgan GRIGNARD Mathieu ROGER                 *
+ *   Copyright (C) 2007 Mathieu ROGER                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -20,54 +20,36 @@
  ***************************************************************************/
 #pragma once
 
-#include <sndfile.h>
-#include <sound/implementation/openal/file_stream.h>
+#include <kernel/object_reference.h>
+#include <kernel/trait.h>
 
 namespace ProjetUnivers
 {
-  namespace Sound
+  namespace Model
   {
-    namespace Implementation
+      
+    /// System that display a hud.
+    class HeadUpDisplay : public Kernel::Trait
     {
-      namespace OpenAL
-      {
+    public:
 
-        /// Streaming reader for wav files.
-        class WavFileStream : public FileStream
-        {
-        
-        public:
-        /*!
-         @name Construction 
-        */
-        // @{
-          
-          /// Constructor in use
-          WavFileStream(const std::string&) ;
-          
-          virtual ~WavFileStream() ;
-          
-        // @}
-          
-          /// Open the stream
-          virtual void init(const ALuint& source,
-                            const int& position_in_file,
-                            const int& position_in_buffer,
-                            const bool& is_event) ;
-
-        private:
-
-          /// Read the sound file to load the buffer with content
-          bool loadBuffer(ALuint buffer,const bool& is_event) ;
-          
-          /// File
-          SNDFILE* m_file;
-          
-          /// Flip buffers 
-          ALuint   m_buffers[2] ;
-          
-        };
-      }
-    }
+      /// Constructs.
+      HeadUpDisplay() ;
+      
+      /// Connect a target displayer to a targeting system.
+      static void connect(Kernel::Object* target_displayer,
+                          Kernel::Object* targeting_system) ;
+      
+      /// Access to current target.
+      Kernel::Object* getTargetingSystem() const ;
+      
+      /// Access to computer model.
+      Kernel::Model* getComputerModel() const ;
+      
+    private:
+      
+      /// The system handling targets to display.
+      mutable Kernel::ObjectReference m_targeting_system ;
+    };
   }
 }

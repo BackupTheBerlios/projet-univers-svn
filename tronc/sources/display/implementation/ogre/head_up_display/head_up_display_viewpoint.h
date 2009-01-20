@@ -18,9 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_DISPLAY_IMPLEMENTATION_OGRE_TARGET_DISPLAYER_VIEWPOINT_H_
-#define PU_DISPLAY_IMPLEMENTATION_OGRE_TARGET_DISPLAYER_VIEWPOINT_H_
-
+#pragma once
 #include <Ogre.h>
 
 #include <kernel/object.h>
@@ -28,16 +26,21 @@
 #include <display/implementation/ogre/real_world_view_point.h>
 
 
-namespace ProjetUnivers {
-  namespace Display {
-    namespace Implementation {
-      namespace Ogre {
+namespace ProjetUnivers
+{
+  namespace Display
+  {
+    namespace Implementation
+    {
+      namespace Ogre
+      {
         
         /// Technical part for head up displays.
-        namespace HeadUpDisplay {
+        namespace HUD 
+        {
 
            /// Viewpoint managing target displaying.
-          class TargetDisplayerViewPoint : public Kernel::ViewPoint 
+          class HeadUpDisplayViewPoint : public Kernel::ViewPoint 
           {
           public:
           
@@ -54,8 +57,8 @@ namespace ProjetUnivers {
               @param[in] real_world the real world viewpoint containing the 
                 displaying object
             */
-            TargetDisplayerViewPoint(Kernel::Object*     target_display,
-                                     RealWorldViewPoint* real_world) ;
+            HeadUpDisplayViewPoint(Kernel::Object*     target_display,
+                                   RealWorldViewPoint* real_world) ;
             
             /// Maybe the model should be changed.
             virtual void update(const float&) ;
@@ -88,7 +91,7 @@ namespace ProjetUnivers {
           // @{
             
             /// 
-            Kernel::Object* m_target_displayer ;
+            Kernel::Object* m_head_up_display ;
             
             RealWorldViewPoint* m_real_world ;  
 
@@ -100,5 +103,3 @@ namespace ProjetUnivers {
     }
   }
 }
-
-#endif /*PU_DISPLAY_IMPLEMENTATION_OGRE_TARGET_DISPLAYER_VIEWPOINT_H_*/

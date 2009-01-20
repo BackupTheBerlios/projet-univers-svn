@@ -128,6 +128,8 @@ namespace ProjetUnivers
               
               manager->cacheRessource("pu_choc.ogg") ;
               manager->cacheRessource("pu_moteur_2.ogg") ;
+              manager->cacheRessource("laser.ogg") ;
+              manager->cacheRessource("pu_impact_coque.ogg") ;
             }
             
             ~SoundSystem()
@@ -179,6 +181,40 @@ namespace ProjetUnivers
         void update()
         {
           manager->update() ;
+        }
+        
+        void stopSourceAndUnQueueBuffers(const ALuint& source)
+        {
+          ALint state;
+          alGetSourcei(source,AL_SOURCE_STATE,&state) ;
+          if (state == AL_PLAYING)
+          {
+            alSourceStop(source) ;
+            ALenum error = alGetError() ; 
+            if (error != AL_NO_ERROR)
+            {
+              ErrorMessage("[OpenAL::OggReader] " + getErrorString(error)) ;
+            }
+          }
+          
+          ALint queue_size = 0 ;
+          alGetSourcei(source,AL_BUFFERS_QUEUED,&queue_size) ;
+          ALenum error = alGetError() ; 
+          if (error != AL_NO_ERROR)
+          {
+            ErrorMessage("[OpenAL::OggReader] " + getErrorString(error)) ;
+          }
+          else
+          {
+            ALuint* buffers = new ALuint[std::max(0,queue_size)];
+            alSourceUnqueueBuffers(source,queue_size,buffers) ;
+            error = alGetError() ; 
+            if (error != AL_NO_ERROR)
+            {
+              ErrorMessage("[OpenAL::OggReader] " + getErrorString(error)) ;
+            }
+            delete[] buffers ;
+          }
         }
         
         std::string getErrorString(const ALenum& error)

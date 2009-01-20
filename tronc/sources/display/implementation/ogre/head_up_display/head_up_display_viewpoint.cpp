@@ -21,34 +21,39 @@
 #include <Ogre.h>
 #include <kernel/log.h>
 #include <kernel/string.h>
-#include <model/target_displayer.h>
+#include <model/head_up_display.h>
 #include <display/implementation/observer.h>
 #include <display/implementation/ogre/observer.h>
-#include <display/implementation/ogre/head_up_display/target_displayer_viewpoint.h>
+#include <display/implementation/ogre/head_up_display/head_up_display_viewpoint.h>
 
-namespace ProjetUnivers {
-  namespace Display {
-    namespace Implementation {
-      namespace Ogre {
-        namespace HeadUpDisplay {
+namespace ProjetUnivers
+{
+  namespace Display
+  {
+    namespace Implementation
+    {
+      namespace Ogre
+      {
+        namespace HUD
+        {
             
-          TargetDisplayerViewPoint::TargetDisplayerViewPoint(
+          HeadUpDisplayViewPoint::HeadUpDisplayViewPoint(
               Kernel::Object* target_display,
               RealWorldViewPoint* real_world)
           : Kernel::ViewPoint(NULL),
-            m_target_displayer(target_display),
+            m_head_up_display(target_display),
             m_real_world(real_world)
           {
-             InternalMessage("Display","Entering TargetDisplayerViewPoint::TargetDisplayerViewPoint") ;
+             InternalMessage("Display","Entering HeadUpDisplayViewPoint::HeadUpDisplayViewPoint") ;
              update(0) ;
-             InternalMessage("Display","Leaving TargetDisplayerViewPoint::TargetDisplayerViewPoint") ;
+             InternalMessage("Display","Leaving HeadUpDisplayViewPoint::HeadUpDisplayViewPoint") ;
           }
 
-          void TargetDisplayerViewPoint::update(const float&)
+          void HeadUpDisplayViewPoint::update(const float&)
           {
-            if (m_target_displayer)
+            if (m_head_up_display)
             {
-              Model::TargetDisplayer* target_displayer = m_target_displayer->getTrait<Model::TargetDisplayer>() ;
+              Model::HeadUpDisplay* target_displayer = m_head_up_display->getTrait<Model::HeadUpDisplay>() ;
               if (target_displayer)
               {
                 InternalMessage("Display","setting model to" + 
@@ -58,18 +63,18 @@ namespace ProjetUnivers {
             }
           }
           
-          Kernel::Object* TargetDisplayerViewPoint::getTargetingSystem() const
+          Kernel::Object* HeadUpDisplayViewPoint::getTargetingSystem() const
           {
-            if (m_target_displayer)
+            if (m_head_up_display)
             {
-              return m_target_displayer->getTrait<Model::TargetDisplayer>()
-                                       ->getTargetingSystem() ;
+              return m_head_up_display->getTrait<Model::HeadUpDisplay>()
+                                      ->getTargetingSystem() ;
             }
             
             return NULL ;
           }
 
-          ::Ogre::Camera* TargetDisplayerViewPoint::getCamera() const
+          ::Ogre::Camera* HeadUpDisplayViewPoint::getCamera() const
           {
             Kernel::Object* observer = m_real_world->getObserver() ;
             if (! observer)
@@ -84,12 +89,12 @@ namespace ProjetUnivers {
             return temp->getCamera() ;
           }
             
-          Kernel::Object* TargetDisplayerViewPoint::getWorldRoot() const
+          Kernel::Object* HeadUpDisplayViewPoint::getWorldRoot() const
           {
             return m_real_world->getRootObject() ;
           }
 
-          Kernel::Object* TargetDisplayerViewPoint::getObserver() const
+          Kernel::Object* HeadUpDisplayViewPoint::getObserver() const
           {
             return m_real_world->getObserver() ;
           }

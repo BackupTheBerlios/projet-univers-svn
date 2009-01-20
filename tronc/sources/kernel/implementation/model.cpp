@@ -438,13 +438,17 @@ namespace ProjetUnivers
     
     void Model::printStatistics() const
     {
+      float total = 0 ;
       for(std::set<Kernel::ControlerSet*>::const_iterator controlerset = getControlerSets().begin() ;
           controlerset != getControlerSets().end() ;
           ++controlerset)
       {
+        total += (*controlerset)->getStatistics() ;
         InternalMessage("Statistics",getObjectTypeIdentifier(*controlerset).toString() + 
                                     "=" + toString((*controlerset)->getStatistics())) ;
       }
+      
+      InternalMessage("Statistics","total =" + toString(total)) ;
     }
     
     void Model::setTimeStep(const float& seconds)

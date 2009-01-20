@@ -18,6 +18,7 @@ libdisplay_la_SOURCES = \
 ../implementation/oriented.cpp \
 ../implementation/positionned.cpp \
 ../implementation/space_dust.cpp \
+../implementation/speed_indicator.cpp \
 ../implementation/target.cpp \
 ../implementation/target_with_selection.cpp \
 ../implementation/ogre/explosion.cpp \
@@ -27,17 +28,18 @@ libdisplay_la_SOURCES = \
 ../implementation/ogre/oriented.cpp \
 ../implementation/ogre/positionned.cpp \
 ../implementation/ogre/real_world_view_point.cpp \
+../implementation/ogre/speed_indicator.cpp \
 ../implementation/ogre/solid.cpp \
 ../implementation/ogre/universe.cpp \
 ../implementation/ogre/utility.cpp \
 ../implementation/ogre/laser_beam.cpp \
 ../implementation/ogre/space_dust.cpp \
-../implementation/ogre/target_displayer.cpp \
+../implementation/ogre/head_up_display.cpp \
 ../implementation/ogre/head_up_display/target.cpp \
 ../implementation/ogre/head_up_display/ideal_target.cpp \
 ../implementation/ogre/head_up_display/identified_target.cpp \
 ../implementation/ogre/head_up_display/target_with_selection.cpp \
-../implementation/ogre/head_up_display/target_displayer_viewpoint.cpp
+../implementation/ogre/head_up_display/head_up_display_viewpoint.cpp
 
 
 libdisplay_la_LDFLAGS = -no-undefined

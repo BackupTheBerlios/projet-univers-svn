@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007-2009 Morgan GRIGNARD Mathieu ROGER                 *
+ *   Copyright (C) 2009 Mathieu ROGER                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -20,51 +20,59 @@
  ***************************************************************************/
 #pragma once
 
-#include <sndfile.h>
-#include <sound/implementation/openal/file_stream.h>
+#include <Ogre.h>
+
+#include <kernel/trait_view.h>
+#include <display/implementation/speed_indicator.h>
+#include <display/implementation/ogre/real_world_view_point.h>
 
 namespace ProjetUnivers
 {
-  namespace Sound
+  namespace Display
   {
     namespace Implementation
     {
-      namespace OpenAL
+      namespace Ogre
       {
-
-        /// Streaming reader for wav files.
-        class WavFileStream : public FileStream
-        {
         
+        /// Indicate speed on HUD.
+        class SpeedIndicator : public Kernel::TraitView<Implementation::SpeedIndicator,
+                                                        RealWorldViewPoint>
+        {
         public:
+        
         /*!
-         @name Construction 
+          @name Construction 
         */
         // @{
-          
-          /// Constructor in use
-          WavFileStream(const std::string&) ;
-          
-          virtual ~WavFileStream() ;
-          
-        // @}
-          
-          /// Open the stream
-          virtual void init(const ALuint& source,
-                            const int& position_in_file,
-                            const int& position_in_buffer,
-                            const bool& is_event) ;
 
+
+          /// Constructor.
+          SpeedIndicator(Implementation::SpeedIndicator*,RealWorldViewPoint*) ;
+
+        // @}
+        protected:
+
+        /*!
+          @name Updates.
+        */
+        // @{
+        
+          /// Build a paticle emiter.
+          void onInit() ;
+          
+          /// Destroy the particule emiter.
+          void onClose() ;
+          
+          /// Update  
+          void onUpdate() ;
+
+        // @}
         private:
 
-          /// Read the sound file to load the buffer with content
-          bool loadBuffer(ALuint buffer,const bool& is_event) ;
-          
-          /// File
-          SNDFILE* m_file;
-          
-          /// Flip buffers 
-          ALuint   m_buffers[2] ;
+          /// 3D ogre element.
+          ::Ogre::OverlayContainer* m_speed_container ;
+          ::Ogre::OverlayElement*   m_speed ;
           
         };
       }

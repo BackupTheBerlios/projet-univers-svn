@@ -82,7 +82,7 @@ namespace ProjetUnivers
 
       void TestTarget::testCalculateRotation()
       {
-        using namespace Implementation::Ogre::HeadUpDisplay ;
+        using namespace Implementation::Ogre::HUD ;
 
         CPPUNIT_ASSERT(equal(Target::calculateRotation(0,1).valueDegrees(),0)) ;
         CPPUNIT_ASSERT(equal(Target::calculateRotation(1,1).valueDegrees(),45)) ;

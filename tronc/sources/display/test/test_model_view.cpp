@@ -34,7 +34,7 @@
 #include <model/universe.h>
 #include <model/mobile.h>
 #include <model/player.h>
-#include <model/target_displayer.h>
+#include <model/head_up_display.h>
 #include <model/targeting_system.h>
 #include <model/computer.h>
 #include <model/ideal_target.h>
@@ -49,7 +49,7 @@
 
 #include <display/display.h>
 #include <display/implementation/ogre/real_world_view_point.h>
-#include <display/implementation/ogre/target_displayer.h>
+#include <display/implementation/ogre/head_up_display.h>
 #include <display/implementation/space_dust.h>
 #include <display/test/test_model_view.h>
 
@@ -176,8 +176,8 @@ namespace ProjetUnivers
         
         Kernel::Object* ship = Model::createShip(system) ;
 
-        ship->addTrait(new Model::TargetDisplayer()) ;
-        Model::TargetDisplayer::connect(ship,ship) ;
+        ship->addTrait(new Model::HeadUpDisplay()) ;
+        Model::HeadUpDisplay::connect(ship,ship) ;
         
         Kernel::Object* observer = ship->createObject() ;
         observer->addTrait(new Model::Observer()) ;
@@ -246,10 +246,10 @@ namespace ProjetUnivers
         
         Kernel::Object* computer = observer->createObject() ;
         computer->addTrait(new Model::Computer()) ;
-        computer->addTrait(new Model::TargetDisplayer()) ;
+        computer->addTrait(new Model::HeadUpDisplay()) ;
         computer->addTrait(new Model::TargetingSystem()) ;
         Model::TargetingSystem::connect(computer,computer) ;
-        Model::TargetDisplayer::connect(computer,computer) ;
+        Model::HeadUpDisplay::connect(computer,computer) ;
         
         Kernel::Model* computer_model = computer->getTrait<Model::Computer>()->getMemoryModel() ;
         Kernel::Object* target = computer_model->createObject() ;
@@ -584,8 +584,8 @@ namespace ProjetUnivers
         ship1->addTrait(new Model::TargetingSystem()) ;
         ship1->addTrait(new Model::Computer()) ;
         Model::TargetingSystem::connect(ship1,ship1) ;
-        ship1->addTrait(new Model::TargetDisplayer()) ;
-        Model::TargetDisplayer::connect(ship1,ship1) ;
+        ship1->addTrait(new Model::HeadUpDisplay()) ;
+        Model::HeadUpDisplay::connect(ship1,ship1) ;
         
         Kernel::Object* observer = ship1->createObject() ;
         observer->addTrait(new Model::Observer()) ;
@@ -631,17 +631,17 @@ namespace ProjetUnivers
 
         // *destroy* previous observer + ship
         observer->destroyObject() ;
-        ship1->destroyTrait(ship1->getTrait<Model::TargetDisplayer>()) ;
+        ship1->destroyTrait(ship1->getTrait<Model::HeadUpDisplay>()) ;
 
         // switch observer + add a target displayer 
-        ship2->addTrait(new Model::TargetDisplayer()) ;
-        Implementation::Ogre::TargetDisplayer* new_displayer = 
-          ship2->getTrait<Model::TargetDisplayer>()
-               ->getView<Implementation::Ogre::TargetDisplayer>(viewpoint) ;
+        ship2->addTrait(new Model::HeadUpDisplay()) ;
+        Implementation::Ogre::HeadUpDisplay* new_displayer = 
+          ship2->getTrait<Model::HeadUpDisplay>()
+               ->getView<Implementation::Ogre::HeadUpDisplay>(viewpoint) ;
         
         CPPUNIT_ASSERT(!new_displayer->m_implementation->getModel()) ;
 
-        Model::TargetDisplayer::connect(ship2,ship2) ;
+        Model::HeadUpDisplay::connect(ship2,ship2) ;
 
         CPPUNIT_ASSERT(new_displayer->m_implementation.get()) ;
         CPPUNIT_ASSERT(new_displayer->m_implementation->getModel()) ;

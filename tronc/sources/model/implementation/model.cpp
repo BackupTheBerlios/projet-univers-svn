@@ -59,7 +59,7 @@
 #include <model/computer.h>
 #include <model/detector.h>
 #include <model/targeting_system.h>
-#include <model/target_displayer.h>
+#include <model/head_up_display.h>
 #include <model/shooting_helper.h>
 #include <model/transponder.h>
 #include <model/with_objectives.h>
@@ -239,8 +239,8 @@ namespace ProjetUnivers {
         {
           Kernel::Object* ship = loadShip("razor",system) ;
           ship->addTrait(new Transponder(team1)) ;
-          ship->addTrait(new TargetDisplayer()) ;
-          TargetDisplayer::connect(ship,ship) ;
+          ship->addTrait(new HeadUpDisplay()) ;
+          HeadUpDisplay::connect(ship,ship) ;
           ship->getTrait<Positionned>()->setPosition(Position::Meter(0,-500,0)) ;
           
           Kernel::Object* player = ship->createObject() ;

@@ -19,7 +19,8 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include <kernel/log.h>
-
+#include <model/collision.h>
+#include <model/laser_beam.h>
 #include <sound/implementation/openal/collision.h>
 
 namespace ProjetUnivers
@@ -46,7 +47,12 @@ namespace ProjetUnivers
                     
         std::string Collision::getSoundFileName() const
         {
-          return "pu_choc.ogg";
+          Model::Collision* collision = getTrait<Model::Collision>() ;
+          if (collision->getObject1()->getTrait<Model::LaserBeam>() ||
+              collision->getObject2()->getTrait<Model::LaserBeam>())
+            return "pu_impact_coque.ogg" ;
+          else
+            return "pu_choc.ogg";
         }
           
         bool Collision::isEvent() const

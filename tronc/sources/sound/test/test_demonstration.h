@@ -39,6 +39,7 @@ namespace ProjetUnivers
       // @{
 
         void oneShip() ;
+        void recreateListener() ;
 
       // @}
       /*!
@@ -49,6 +50,7 @@ namespace ProjetUnivers
         CPPUNIT_TEST_SUITE(TestDemonstration) ;
 
         CPPUNIT_TEST(oneShip) ;
+        CPPUNIT_TEST(recreateListener) ;
 
         CPPUNIT_TEST_SUITE_END() ;
 

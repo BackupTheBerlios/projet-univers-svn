@@ -189,7 +189,7 @@ namespace ProjetUnivers
         {
           if (m_source)
           {
-            alSourceStop(m_source);
+            stopSourceAndUnQueueBuffers(m_source) ;
           }
         }
 

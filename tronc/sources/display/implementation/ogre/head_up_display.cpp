@@ -31,22 +31,25 @@
 #include <display/implementation/ogre/positionned.h>
 #include <display/implementation/ogre/observer.h>
 #include <display/implementation/ogre/ogre.h>
-#include <display/implementation/ogre/target_displayer.h>
+#include <display/implementation/ogre/head_up_display.h>
 
-namespace ProjetUnivers {
-  namespace Display {
-    namespace Implementation {
-      namespace Ogre {
+namespace ProjetUnivers
+{
+  namespace Display
+  {
+    namespace Implementation
+    {
+      namespace Ogre
+      {
 
-        /// This view will be automatically maintained.
-        RegisterView(TargetDisplayer,
-                     Model::TargetDisplayer,
+        RegisterView(HeadUpDisplay,
+                     Model::HeadUpDisplay,
                      Ogre::RealWorldViewPoint) ;
 
-        TargetDisplayer::TargetDisplayer(Model::TargetDisplayer* i_object,
-                                         RealWorldViewPoint* i_viewpoint)
-        : Kernel::TraitView<Model::TargetDisplayer,
-                            RealWorldViewPoint>(i_object,i_viewpoint),
+        HeadUpDisplay::HeadUpDisplay(Model::HeadUpDisplay* object,
+                                     RealWorldViewPoint*   viewpoint)
+        : Kernel::TraitView<Model::HeadUpDisplay,
+                            RealWorldViewPoint>(object,viewpoint),
           m_reticule_container(NULL),
           m_reticule(NULL),
           m_implementation(NULL)
@@ -66,11 +69,11 @@ namespace ProjetUnivers {
           return reticule_material ;
         }
 
-        void TargetDisplayer::onInit()
+        void HeadUpDisplay::onInit()
         {
           m_implementation.reset(
-                new HeadUpDisplay::TargetDisplayerViewPoint(getObject(),
-                                                            getViewPoint())) ;
+                new HUD::HeadUpDisplayViewPoint(getObject(),
+                                                getViewPoint())) ;
           m_implementation->init() ;
 
           m_reticule_container = static_cast< ::Ogre::OverlayContainer* >(
@@ -100,7 +103,7 @@ namespace ProjetUnivers {
           getOverlay()->show() ;
         }
         
-        void TargetDisplayer::onClose()
+        void HeadUpDisplay::onClose()
         {
           if (m_implementation.get())
           {
@@ -117,7 +120,7 @@ namespace ProjetUnivers {
           
         }
 
-        void TargetDisplayer::onUpdate()
+        void HeadUpDisplay::onUpdate()
         {
           if (m_implementation.get())
           {

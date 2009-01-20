@@ -18,10 +18,10 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#pragma once
+#include <model/shot.h>
+#include <model/positionned.h>
 
-#include <sndfile.h>
-#include <sound/implementation/openal/file_stream.h>
+#include <sound/implementation/shot.h>
 
 namespace ProjetUnivers
 {
@@ -29,45 +29,11 @@ namespace ProjetUnivers
   {
     namespace Implementation
     {
-      namespace OpenAL
-      {
 
-        /// Streaming reader for wav files.
-        class WavFileStream : public FileStream
-        {
-        
-        public:
-        /*!
-         @name Construction 
-        */
-        // @{
-          
-          /// Constructor in use
-          WavFileStream(const std::string&) ;
-          
-          virtual ~WavFileStream() ;
-          
-        // @}
-          
-          /// Open the stream
-          virtual void init(const ALuint& source,
-                            const int& position_in_file,
-                            const int& position_in_buffer,
-                            const bool& is_event) ;
+      DeclareDeducedTrait(Shot,
+                          And(HasTrait(Model::Shot),
+                              HasTrait(Model::Positionned))) ;
 
-        private:
-
-          /// Read the sound file to load the buffer with content
-          bool loadBuffer(ALuint buffer,const bool& is_event) ;
-          
-          /// File
-          SNDFILE* m_file;
-          
-          /// Flip buffers 
-          ALuint   m_buffers[2] ;
-          
-        };
-      }
     }
-  }
+  } 
 }

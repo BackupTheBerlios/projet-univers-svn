@@ -124,8 +124,8 @@ namespace ProjetUnivers
       float m_timestep ;
       
       /// Performance statistics
-      float m_consumed_time_per_update ;
-      unsigned m_number_of_updates ;
+      float m_consumed_time ;
+      float m_simulation_time ;
       
       /// Function that build a controler set.
       typedef boost::function1<ControlerSet*, Model*> ControlerSetBuilder ;

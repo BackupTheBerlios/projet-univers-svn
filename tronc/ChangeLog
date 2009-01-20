@@ -1204,16 +1204,47 @@
   
   * AI :
     - tests : correction of a bug in tests on windows
-        
-@todo :
 
-  * Sound :
-    - Fonctionnal : add Shot sound
+2009-01-21 rogma 
   
+  * Sound :
+    - corrected a bug in reading short sounds
+    - added Shot sound
+    - differentiate between collision sound and hit sound
+    - better clean/stop code : no more errors in log
+  
+  * Display :
+    - added a basic speed indicator on screen 
+  
+  * All :
+    - renamed TargetDisplayer into HeadUpDisplay
+
+  * Demo : 
+    - estimated ship speed 360 m/S, laser beam speed is still low : 600 m/s
+      => will induce issues for collisions on a large time step (actually 0.1) 
+  
+  * Kernel :
+    - modification of performance measures
+       
+@todo :
+  
+  * Model :
+    - majority of performance issue is due to detector system... that is in n²
+      (in the best case) : do not know how to handle it...
+    
+  * Sound : 
+    - bug : sometimes no sound when replaying the mission but difficult to 
+      automatise
+     
+  * Demo : 
+    - reduce size of ship
+    - still perf problems ...
+    
   * GUI : 
     - add input config validation : cannot save or back till it is correct
 
   * Demo :
+    - add a mouse cross for mouse piloting
     - score menu at the end of the mission
     - history of who killed who (need to add the transponder on the LaserBeam 
       object)
@@ -1228,7 +1259,9 @@
   * AI :
     - AI tend to "flee on the side" once the target has gone in a perpendicular 
       direction, its targeting go the same and the phenomenon amplifies
-    - users repport that AI tend to get back on back ??  
+    - users repport that AI tend to get back on back (probably a worst case 
+      scenario in the algorithm)
+      
   * Kernel : 
     - the error message on udpate during update could be better : 
       the updated trait names, the object names... (ideally the stack)
@@ -1240,8 +1273,6 @@
 
   * Model : 
     - bug : adding a mapping on an already assigned key does not worK ?
-    - add a mouse cross for mouse piloting
-    - add a speed indicator 
     - add a distance on target
     - add a name indicator
     - add a damage indicator

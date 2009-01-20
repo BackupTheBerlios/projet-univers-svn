@@ -56,9 +56,6 @@ namespace ProjetUnivers
                             const int& position_in_buffer,
                             const bool& is_event) ;
 
-          /// Close the stream.
-          virtual void close(const ALuint& source) ;
-
         private:
 
           /// Read the sound file to load the buffer with content

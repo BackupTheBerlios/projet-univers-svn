@@ -61,11 +61,8 @@ namespace ProjetUnivers
       }
       
       float elapsed = timer.getSecond() ;
-      if (seconds != 0)
-      {
-        ++m_number_of_updates ;
-        m_consumed_time_per_update += elapsed/seconds ;
-      }
+      m_consumed_time += elapsed ;
+      m_simulation_time += seconds ;
     }
     
     void ControlerSet::simulate(const float& seconds)
@@ -81,11 +78,7 @@ namespace ProjetUnivers
     
     float ControlerSet::getStatistics() const
     {
-      if (m_number_of_updates>0)
-      {
-        return m_consumed_time_per_update/m_number_of_updates ;
-      }
-      return 0 ;
+      return 100*m_consumed_time/m_simulation_time ;
     }
     
     void ControlerSet::applyTopDown(boost::function1<void,BaseControler*> procedure)
@@ -151,16 +144,16 @@ namespace ProjetUnivers
     ControlerSet::ControlerSet(Model* model)
     : m_model(model),
       m_initialised(false),
-      m_consumed_time_per_update(0),
-      m_number_of_updates(0),
+      m_consumed_time(0),
+      m_simulation_time(0),
       m_elapsed(0),
       m_timestep(0.1)
     {}
     
     void ControlerSet::resetStatistics()
     {
-      m_consumed_time_per_update = 0 ;
-      m_number_of_updates = 0 ;
+      m_consumed_time = 0 ;
+      m_simulation_time = 0 ;
     }
     
     bool ControlerSet::isVisible(Object*) const

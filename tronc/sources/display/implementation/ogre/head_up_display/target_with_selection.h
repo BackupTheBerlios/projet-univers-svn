@@ -18,25 +18,29 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_DISPLAY_IMPLEMENTATION_OGRE_HUD_TARGET_WITH_SELECTION_H_
-#define PU_DISPLAY_IMPLEMENTATION_OGRE_HUD_TARGET_WITH_SELECTION_H_
+#pragma once
 
 #include <Ogre.h>
 #include <kernel/trait_view.h>
 #include <display/implementation/target_with_selection.h>
-#include <display/implementation/ogre/head_up_display/target_displayer_viewpoint.h>
+#include <display/implementation/ogre/head_up_display/head_up_display_viewpoint.h>
 
-namespace ProjetUnivers {
-  namespace Display {
-    namespace Implementation {
-      namespace Ogre {
-        namespace HeadUpDisplay {
+namespace ProjetUnivers
+{
+  namespace Display
+  {
+    namespace Implementation
+    {
+      namespace Ogre
+      {
+        namespace HUD
+        {
 
           class Target ;
           
           class TargetWithSelection : 
             public Kernel::TraitView<Implementation::TargetWithSelection,
-                                     TargetDisplayerViewPoint>
+                                     HeadUpDisplayViewPoint>
           {
           public:
           
@@ -47,7 +51,7 @@ namespace ProjetUnivers {
   
             /// Constructor.
             TargetWithSelection(Implementation::TargetWithSelection* object,
-                                TargetDisplayerViewPoint*            viewpoint) ;
+                                HeadUpDisplayViewPoint*              viewpoint) ;
           // @}
         protected:
           /*!
@@ -75,4 +79,3 @@ namespace ProjetUnivers {
     }
   }
 }
-#endif /*PU_DISPLAY_IMPLEMENTATION_OGRE_HUD_TARGET_WITH_SELECTION_H_*/

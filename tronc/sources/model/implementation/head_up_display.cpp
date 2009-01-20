@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007-2009 Morgan GRIGNARD Mathieu ROGER                 *
+ *   Copyright (C) 2007 Mathieu ROGER                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,56 +18,51 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#pragma once
+#include <kernel/object.h>
+#include <kernel/log.h>
 
-#include <sndfile.h>
-#include <sound/implementation/openal/file_stream.h>
+#include <model/targeting_system.h>
+#include <model/head_up_display.h>
 
 namespace ProjetUnivers
 {
-  namespace Sound
+  namespace Model
   {
-    namespace Implementation
+
+    HeadUpDisplay::HeadUpDisplay()
+    {}
+
+    void HeadUpDisplay::connect(
+                        Kernel::Object* target_displayer,
+                        Kernel::Object* targeting_system)
     {
-      namespace OpenAL
+      if (target_displayer)
       {
-
-        /// Streaming reader for wav files.
-        class WavFileStream : public FileStream
+        HeadUpDisplay* displayer = target_displayer->getTrait<HeadUpDisplay>() ;
+        TargetingSystem* system = targeting_system->getTrait<TargetingSystem>() ;
+        if (displayer && system)
         {
-        
-        public:
-        /*!
-         @name Construction 
-        */
-        // @{
-          
-          /// Constructor in use
-          WavFileStream(const std::string&) ;
-          
-          virtual ~WavFileStream() ;
-          
-        // @}
-          
-          /// Open the stream
-          virtual void init(const ALuint& source,
-                            const int& position_in_file,
-                            const int& position_in_buffer,
-                            const bool& is_event) ;
-
-        private:
-
-          /// Read the sound file to load the buffer with content
-          bool loadBuffer(ALuint buffer,const bool& is_event) ;
-          
-          /// File
-          SNDFILE* m_file;
-          
-          /// Flip buffers 
-          ALuint   m_buffers[2] ;
-          
-        };
+          displayer->m_targeting_system = targeting_system ;
+          displayer->notify() ;
+        }
+        else
+        {
+          ErrorMessage("HeadUpDisplay::connect") ;
+        }
       }
+    }
+
+    Kernel::Object* HeadUpDisplay::getTargetingSystem() const
+    {
+      return m_targeting_system ;
+    }      
+    
+    Kernel::Model* HeadUpDisplay::getComputerModel() const
+    {
+      if(! m_targeting_system)
+        return NULL ;
+      
+      return m_targeting_system->getTrait<TargetingSystem>()->getComputerModel() ;
     }
   }
 }

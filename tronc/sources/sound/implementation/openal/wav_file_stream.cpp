@@ -98,10 +98,6 @@ namespace ProjetUnivers
           alDeleteBuffers(2,m_buffers) ;
         }
         
-        void WavFileStream::close(const ALuint& source)
-        {
-        }
-
         bool WavFileStream::loadBuffer(ALuint buffer,const bool& is_event)
         {
           InternalMessage("Sound", "enter WavFileStream::loadBuffer") ;   

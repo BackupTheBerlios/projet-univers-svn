@@ -27,20 +27,25 @@
 #include <display/implementation/ogre/head_up_display/target.h>
 #include <display/implementation/ogre/head_up_display/identified_target.h>
 
-namespace ProjetUnivers {
-  namespace Display {
-    namespace Implementation {
-      namespace Ogre {
-        namespace HeadUpDisplay {
+namespace ProjetUnivers
+{
+  namespace Display
+  {
+    namespace Implementation
+    {
+      namespace Ogre
+      {
+        namespace HUD
+        {
 
           RegisterView(IdentifiedTarget, 
                        Implementation::IdentifiedTarget, 
-                       TargetDisplayerViewPoint) ;
+                       HeadUpDisplayViewPoint) ;
           
           IdentifiedTarget::IdentifiedTarget(
               Implementation::IdentifiedTarget* object,
-              TargetDisplayerViewPoint* viewpoint)
-          : Kernel::TraitView<Implementation::IdentifiedTarget,TargetDisplayerViewPoint>(object,viewpoint),
+              HeadUpDisplayViewPoint* viewpoint)
+          : Kernel::TraitView<Implementation::IdentifiedTarget,HeadUpDisplayViewPoint>(object,viewpoint),
             m_target(NULL)
           {}
           

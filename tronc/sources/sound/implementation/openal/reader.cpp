@@ -40,12 +40,14 @@ namespace ProjetUnivers
         : m_source(source),
           m_stream(stream),
           m_is_event(is_event),
-          m_is_finished(false)
+          m_is_finished(false),
+          m_is_initialised(false)
         {}
 
         void Reader::onInit(const int& position_in_file,const int& position_in_buffer)
         {
           m_stream->init(m_source,position_in_file,position_in_buffer,m_is_event) ;
+          m_is_initialised = true ;
         }
 
         void Reader::update()
@@ -55,19 +57,16 @@ namespace ProjetUnivers
         
         void Reader::onClose()
         {
-          alSourceStop(m_source) ;
+          if(! m_is_initialised)
+            return ;
+          stopSourceAndUnQueueBuffers(m_source) ;
+          alDeleteSources(1,&m_source) ;
           ALenum error = alGetError() ; 
           if (error != AL_NO_ERROR)
           {
             ErrorMessage("[OpenAL::OggReader] " + getErrorString(error)) ;
           }
-          m_stream->close(m_source) ;
-          alDeleteSources(1,&m_source) ;
-          error = alGetError() ; 
-          if (error != AL_NO_ERROR)
-          {
-            ErrorMessage("[OpenAL::OggReader] " + getErrorString(error)) ;
-          }
+          m_is_initialised = false ;
         }
 
         bool Reader::isFinished() const
