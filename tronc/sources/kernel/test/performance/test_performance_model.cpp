@@ -112,6 +112,33 @@ namespace ProjetUnivers
           }
         }
         
+        void TestPerformanceModel::createDestroyObject()
+        {
+          std::auto_ptr<Model> model(new Model()) ;
+          Kernel::Object* root = model->createObject() ;
+          const unsigned int number = 1000000 ;
+          
+          for(unsigned int i = 1 ; i <= number ; ++i)
+          {
+            Kernel::Object* temp = root->createObject() ;
+            temp->destroyObject() ;
+          }
+        }
+
+        void TestPerformanceModel::addRemoveTrait()
+        {
+          std::auto_ptr<Model> model(new Model()) ;
+          Kernel::Object* root = model->createObject() ;
+          const unsigned int number = 1000000 ;
+          
+          for(unsigned int i = 1 ; i <= number ; ++i)
+          {
+            A* a = new A() ;
+            root->addTrait(a) ;
+            root->destroyTrait(a) ;
+          }
+        }
+        
       }
     }
   }

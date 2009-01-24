@@ -1225,16 +1225,27 @@
   
   * Kernel :
     - modification of performance measures
-       
+
+2009-01-24 rogma
+ 
+  * Kernel : 
+    - optims (not so much)
+  * Demo :
+    - added a "mouse" cross for mouse piloting as a view on stick
+    - different mouse sensibility : in game and in menu (still not correct)
+    
 @todo :
+
   
-  * Model :
-    - majority of performance issue is due to detector system... that is in n²
-      (in the best case) : do not know how to handle it...
+  * Demo :
+    - majority of performance issue seems to be due to detector system... that 
+      is in n² (in the best case) : do not know how to handle it better
     
   * Sound : 
     - bug : sometimes no sound when replaying the mission but difficult to 
       automatise
+    
+    - distance culling ?
      
   * Demo : 
     - reduce size of ship
@@ -1244,7 +1255,6 @@
     - add input config validation : cannot save or back till it is correct
 
   * Demo :
-    - add a mouse cross for mouse piloting
     - score menu at the end of the mission
     - history of who killed who (need to add the transponder on the LaserBeam 
       object)

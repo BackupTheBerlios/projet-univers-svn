@@ -133,6 +133,9 @@ namespace ProjetUnivers
     // @{
       
       /// The formula has been modified.
+      /*!
+        @pre the formula is true for object
+      */
       void update(Object* object) ;
 
       virtual void onChildUpdated(Object* object) = 0 ;
@@ -252,7 +255,7 @@ namespace ProjetUnivers
       static TraitFormula* get(const TypeIdentifier& trait_name) ;
       
       /// Find the formulae impacted by trait
-      static std::set<TraitFormula*> find(Trait* i_trait) ;
+      static const std::set<TraitFormula*>& find(Trait* i_trait) ;
 
       class StaticStorage
       {
@@ -438,7 +441,7 @@ namespace ProjetUnivers
       static HasAncestorFormula* get(const TypeIdentifier& trait_name) ;
       
       /// Find the formulae impacted by trait
-      static std::set<HasAncestorFormula*> find(Trait* i_trait) ;
+      static const std::set<HasAncestorFormula*>& find(Trait* i_trait) ;
       
       class StaticStorage
       {
@@ -523,7 +526,7 @@ namespace ProjetUnivers
       static HasParentFormula* get(const TypeIdentifier& trait_name) ;
       
       /// Find the formulae impacted by trait
-      static std::set<HasParentFormula*> find(Trait* i_trait) ;
+      static const std::set<HasParentFormula*>& find(Trait* i_trait) ;
       
       class StaticStorage
       {
@@ -615,7 +618,7 @@ namespace ProjetUnivers
       static HasChildFormula* get(const TypeIdentifier& trait_name) ;
       
       /// Find the formulae impacted by trait
-      static std::set<HasChildFormula*> find(Trait* i_trait) ;
+      static const std::set<HasChildFormula*>& find(Trait* i_trait) ;
       
       class StaticStorage
       {

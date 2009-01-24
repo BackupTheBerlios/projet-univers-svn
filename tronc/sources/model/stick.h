@@ -18,14 +18,16 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_STICK_H_
-#define PU_MODEL_STICK_H_
+#pragma once
 
 #include <kernel/reader.h>
+#include <kernel/percentage.h>
 #include <model/oriented.h>
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
 
     /// For objects that are a stick.
     /*!
@@ -61,6 +63,9 @@ namespace ProjetUnivers {
       void setY(const int& i_y) ;
       void setZ(const int& i_z) ;
     
+      Kernel::Percentage getX() const ;
+      Kernel::Percentage getY() const ;
+      
     private:
       
       int m_x ;
@@ -75,5 +80,3 @@ namespace ProjetUnivers {
     };
   }
 }
-
-#endif /*PU_MODEL_STICK_H_*/

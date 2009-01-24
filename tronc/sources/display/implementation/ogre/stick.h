@@ -18,72 +18,63 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <iostream>
-#include <kernel/exception.h>
-#include <kernel/model.h>
-#include <kernel/object.h>
-#include <kernel/timer.h>
+#pragma once
 
-#include <kernel/test/performance/model.h>
-#include <kernel/test/performance/test_meta.h>
+#include <Ogre.h>
 
-CPPUNIT_TEST_SUITE_REGISTRATION(
-  ProjetUnivers::Kernel::Test::Performance::TestMeta) ;
+#include <kernel/trait_view.h>
+#include <model/stick.h>
+#include <display/implementation/displayed_stick.h>
+#include <display/implementation/ogre/real_world_view_point.h>
 
-namespace ProjetUnivers 
+namespace ProjetUnivers
 {
-  namespace Kernel 
+  namespace Display
   {
-    namespace Test 
+    namespace Implementation
     {
-      namespace Performance
+      namespace Ogre
       {
-        void TestMeta::comparison()
+        
+        /// Indicate stick position on HUD
+        class Stick : public Kernel::TraitView<Implementation::DisplayedStick,
+                                               RealWorldViewPoint>
         {
-          const unsigned int number = 1000000 ;
-          
-          TypeIdentifier a(getClassTypeIdentifier(A)) ;
-          TypeIdentifier b(getClassTypeIdentifier(B)) ;
-          
-          for(unsigned int i = 1 ; i <= number ; ++i)
-          {
-            b < a ;
-          }
-        }
+        public:
+        
+        /*!
+          @name Construction 
+        */
+        // @{
 
-        void TestMeta::getClassIdentifier()
-        {
-          const unsigned int number = 1000000 ;
+          /// Constructor.
+          Stick(Implementation::DisplayedStick*,RealWorldViewPoint*) ;
 
-          for(unsigned int i = 1 ; i <= number ; ++i)
-          {
-            TypeIdentifier a(getClassTypeIdentifier(A)) ;
-          }
-        }
-        
-        void TestMeta::getTypeId()
-        {
-          const unsigned int number = 1000000 ;
+        // @}
+        protected:
 
-          for(unsigned int i = 1 ; i <= number ; ++i)
-          {
-            typeid(A) ;
-          }
-        }
+        /*!
+          @name Updates.
+        */
+        // @{
         
-        void TestMeta::typeInfoBefore()
-        {
-          const unsigned int number = 1000000 ;
-          const std::type_info& a = typeid(A) ;
-          const std::type_info& b = typeid(B) ;
-          for(unsigned int i = 1 ; i <= number ; ++i)
-          {
-            b.before(a) ;
-          }
+          /// Build a paticle emiter.
+          void onInit() ;
           
-        }
-        
-        
+          /// Destroy the particule emiter.
+          void onClose() ;
+          
+          /// Update  
+          void onUpdate() ;
+
+        // @}
+        private:
+
+          /// 3D ogre element.
+          ::Ogre::OverlayContainer* m_cross_container ;
+          ::Ogre::OverlayElement*   m_cross ;
+          
+        };
       }
     }
   }

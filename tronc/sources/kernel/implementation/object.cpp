@@ -539,6 +539,17 @@ namespace ProjetUnivers
       return NULL ;
     }    
 
+    Trait* Object::_getDeducedTrait(const TypeIdentifier& i_trait_name) const
+    {
+      /// simpler : no inheritance is taken int account
+      std::map<TypeIdentifier, Trait*>::const_iterator trait = traits.find(i_trait_name) ;
+      if (trait != traits.end()) 
+      {
+        return trait->second ;
+      }
+      return NULL ;
+    }
+    
     void Object::applyTopDown(
       ControlerSet*                         i_controler_set,
       boost::function1<void,BaseControler*> i_operation)

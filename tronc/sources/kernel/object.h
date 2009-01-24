@@ -269,6 +269,9 @@ namespace ProjetUnivers
       /// Retreive the trait named @c i_trait_name.
       Trait* _get(const TypeIdentifier& i_trait_name) const ;
 
+      /// Retreive the trait named @c i_trait_name.
+      Trait* _getDeducedTrait(const TypeIdentifier& i_trait_name) const ;
+      
       /// update the views for a change_parent. 
       void _changed_parent(Object* i_old_parent) ;
       

@@ -96,7 +96,7 @@ namespace ProjetUnivers
       return NULL ;      
     }
     
-    std::set<TraitFormula*> TraitFormula::find(Trait* i_trait)
+    const std::set<TraitFormula*>& TraitFormula::find(Trait* i_trait)
     {
       TypeIdentifier type(getObjectTypeIdentifier(i_trait)) ;
       
@@ -119,9 +119,7 @@ namespace ProjetUnivers
         }
       }
       
-      StaticStorage::get()->m_impacted_formulae[type] = result ;
-      
-      return result ;      
+      return StaticStorage::get()->m_impacted_formulae[type] = result ;
     }
     
     int Formula::getDepth() const
@@ -141,7 +139,7 @@ namespace ProjetUnivers
       return NULL ;      
     }
     
-    std::set<HasParentFormula*> HasParentFormula::find(Trait* i_trait)
+    const std::set<HasParentFormula*>& HasParentFormula::find(Trait* i_trait)
     {
       TypeIdentifier type(getObjectTypeIdentifier(i_trait)) ;
       
@@ -163,9 +161,7 @@ namespace ProjetUnivers
           result.insert(trait->second) ;
         }
       }
-      StaticStorage::get()->m_impacted_formulae[type] = result ;
-      
-      return result ;      
+      return StaticStorage::get()->m_impacted_formulae[type] = result ;
     }
 
     HasAncestorFormula* HasAncestorFormula::get(const TypeIdentifier& trait_name)
@@ -180,7 +176,7 @@ namespace ProjetUnivers
       return NULL ;      
     }
     
-    std::set<HasAncestorFormula*> HasAncestorFormula::find(Trait* i_trait)
+    const std::set<HasAncestorFormula*>& HasAncestorFormula::find(Trait* i_trait)
     {
       TypeIdentifier type(getObjectTypeIdentifier(i_trait)) ;
       
@@ -202,9 +198,7 @@ namespace ProjetUnivers
           result.insert(trait->second) ;
         }
       }
-      StaticStorage::get()->m_impacted_formulae[type] = result ;
-      
-      return result ;      
+      return StaticStorage::get()->m_impacted_formulae[type] = result ;
     }
     
     HasChildFormula* HasChildFormula::get(const TypeIdentifier& trait_name)
@@ -219,7 +213,7 @@ namespace ProjetUnivers
       return NULL ;      
     }
     
-    std::set<HasChildFormula*> HasChildFormula::find(Trait* i_trait)
+    const std::set<HasChildFormula*>& HasChildFormula::find(Trait* i_trait)
     {
       TypeIdentifier type(getObjectTypeIdentifier(i_trait)) ;
       
@@ -242,9 +236,7 @@ namespace ProjetUnivers
         }
       }
       
-      StaticStorage::get()->m_impacted_formulae[type] = result ;
-
-      return result ;      
+      return StaticStorage::get()->m_impacted_formulae[type] = result ;
     }
     
   // @}
@@ -471,6 +463,7 @@ namespace ProjetUnivers
 
     std::set<TypeIdentifier> Formula::getDependentTraits() const
     {
+      
       std::set<TypeIdentifier> result ;
       
       std::map<Formula*,TypeIdentifier>::const_iterator finder = 
@@ -491,7 +484,7 @@ namespace ProjetUnivers
       return result ;
     }
     
-    std::set<TypeIdentifier> DeducedTrait::getDependentTraits(Trait* trait)
+    const std::set<TypeIdentifier>& DeducedTrait::getDependentTraits(Trait* trait)
     {
       TypeIdentifier type(getObjectTypeIdentifier(trait)) ;
       
@@ -508,14 +501,14 @@ namespace ProjetUnivers
       std::set<TypeIdentifier> temp2(HasChildFormula::getDependentTraits(trait)) ;
       result.insert(temp1.begin(),temp1.end()) ;
       result.insert(temp2.begin(),temp2.end()) ;
-      StaticStorage::get()->m_dependent_traits[type] = result ;
-      return result ;
+      return StaticStorage::get()->m_dependent_traits[type] = result ;
     }
 
     std::set<TypeIdentifier> TraitFormula::getDependentTraits(Trait* trait)
     {
+      
       std::set<TypeIdentifier> result ;
-      std::set<TraitFormula*> formulae(find(trait)) ;
+      const std::set<TraitFormula*>& formulae = find(trait) ;
       for(std::set<TraitFormula*>::const_iterator formula = formulae.begin() ;
           formula != formulae.end() ;
           ++formula)
@@ -529,7 +522,7 @@ namespace ProjetUnivers
     std::set<TypeIdentifier> HasParentFormula::getDependentTraits(Trait* trait)
     {
       std::set<TypeIdentifier> result ;
-      std::set<HasParentFormula*> formulae(find(trait)) ;
+      const std::set<HasParentFormula*>& formulae = find(trait) ;
       for(std::set<HasParentFormula*>::const_iterator formula = formulae.begin() ;
           formula != formulae.end() ;
           ++formula)
@@ -543,7 +536,7 @@ namespace ProjetUnivers
     std::set<TypeIdentifier> HasAncestorFormula::getDependentTraits(Trait* trait)
     {
       std::set<TypeIdentifier> result ;
-      std::set<HasAncestorFormula*> formulae(find(trait)) ;
+      const std::set<HasAncestorFormula*>& formulae = find(trait) ;
       for(std::set<HasAncestorFormula*>::const_iterator formula = formulae.begin() ;
           formula != formulae.end() ;
           ++formula)
@@ -557,7 +550,7 @@ namespace ProjetUnivers
     std::set<TypeIdentifier> HasChildFormula::getDependentTraits(Trait* trait)
     {
       std::set<TypeIdentifier> result ;
-      std::set<HasChildFormula*> formulae(find(trait)) ;
+      const std::set<HasChildFormula*> formulae = find(trait) ;
       for(std::set<HasChildFormula*>::const_iterator formula = formulae.begin() ;
           formula != formulae.end() ;
           ++formula)
@@ -592,7 +585,6 @@ namespace ProjetUnivers
     
     void Formula::evaluateInitial(Object* object)
     {
-      
       for(int depth = 0 ; depth <= StaticStorage::get()->m_maximum_depth ; ++depth)
       {
         for(std::set<Formula*>::const_iterator 
@@ -600,7 +592,6 @@ namespace ProjetUnivers
             formula != StaticStorage::get()->m_stratification[depth].end() ;
             ++formula)
         {
-          
           (*formula)->eval(object) ;
           if ((*formula)->isValid(object))
             DeducedTrait::notify(*formula,true,object) ;
@@ -1222,7 +1213,6 @@ namespace ProjetUnivers
         builder = StaticStorage::get()->m_builders.find(formula) ;
         if (builder != StaticStorage::get()->m_builders.end())
         {
-
           DeducedTrait* new_trait = (builder->second)() ;
           object->_add(new_trait) ;
         }
@@ -1550,6 +1540,7 @@ namespace ProjetUnivers
         DeducedTrait::update(this,object) ;
       }
       
+      /// 50% du temps sur un update
       for(std::set<Formula*>::const_iterator parent = m_parents.begin() ;
           parent != m_parents.end() ;
           ++parent)
@@ -1565,7 +1556,7 @@ namespace ProjetUnivers
       destructor = StaticStorage::get()->m_destructors.find(formula) ;
       if (destructor != StaticStorage::get()->m_destructors.end())
       {
-        object->_get(destructor->second)->notify() ;
+        object->_getDeducedTrait(destructor->second)->notify() ;
       }      
     }
 
@@ -1593,7 +1584,6 @@ namespace ProjetUnivers
     {
       lock() ;
       _updated() ;
-//      TraitFormula::updateTrait(getObject(),this) ;
       DeducedTrait::updateTrait(getObject(),this) ;
       unlock() ;
     }
@@ -1609,6 +1599,7 @@ namespace ProjetUnivers
     void DeducedTrait::updateTrait(Object* object,Trait* trait)
     {
       TraitFormula::updateTrait(object,trait) ;
+      /// 50% du temps sur un système sans formules de parentés !!
       HasParentFormula::updateTrait(object,trait) ;
       HasAncestorFormula::updateTrait(object,trait) ;
       HasChildFormula::updateTrait(object,trait) ;

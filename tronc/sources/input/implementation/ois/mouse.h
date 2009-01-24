@@ -37,6 +37,10 @@ namespace ProjetUnivers {
           /// Constructor.
           Mouse() ;  
           
+          /// Change sensibility.
+          void setInGameSensibility() ;
+          void setMenuSensibility() ;
+          
         /*!
           @name OIS Interface implementation
         */

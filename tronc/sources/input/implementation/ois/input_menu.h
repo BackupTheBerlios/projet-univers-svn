@@ -36,12 +36,16 @@ namespace ProjetUnivers {
           /// Send commands to menu. 
           void simulateInputMenu(const float& seconds) ;
         
+          void initInputMenu() ;
+          void closeInputMenu() ;
+          
         private:
           
           Kernel::Percentage m_mouse_x ;
           Kernel::Percentage m_mouse_y ;
           Kernel::Percentage m_mouse_z ;
           
+          static int m_number_of_active_menus ;
         };
       }      
     }

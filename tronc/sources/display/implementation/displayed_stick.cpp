@@ -18,73 +18,20 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <iostream>
-#include <kernel/exception.h>
-#include <kernel/model.h>
-#include <kernel/object.h>
-#include <kernel/timer.h>
+#include <model/stick.h>
+#include <model/head_up_display.h>
+#include <display/implementation/displayed_stick.h>
 
-#include <kernel/test/performance/model.h>
-#include <kernel/test/performance/test_meta.h>
-
-CPPUNIT_TEST_SUITE_REGISTRATION(
-  ProjetUnivers::Kernel::Test::Performance::TestMeta) ;
-
-namespace ProjetUnivers 
+namespace ProjetUnivers
 {
-  namespace Kernel 
+  namespace Display 
   {
-    namespace Test 
+    namespace Implementation 
     {
-      namespace Performance
-      {
-        void TestMeta::comparison()
-        {
-          const unsigned int number = 1000000 ;
-          
-          TypeIdentifier a(getClassTypeIdentifier(A)) ;
-          TypeIdentifier b(getClassTypeIdentifier(B)) ;
-          
-          for(unsigned int i = 1 ; i <= number ; ++i)
-          {
-            b < a ;
-          }
-        }
 
-        void TestMeta::getClassIdentifier()
-        {
-          const unsigned int number = 1000000 ;
-
-          for(unsigned int i = 1 ; i <= number ; ++i)
-          {
-            TypeIdentifier a(getClassTypeIdentifier(A)) ;
-          }
-        }
-        
-        void TestMeta::getTypeId()
-        {
-          const unsigned int number = 1000000 ;
-
-          for(unsigned int i = 1 ; i <= number ; ++i)
-          {
-            typeid(A) ;
-          }
-        }
-        
-        void TestMeta::typeInfoBefore()
-        {
-          const unsigned int number = 1000000 ;
-          const std::type_info& a = typeid(A) ;
-          const std::type_info& b = typeid(B) ;
-          for(unsigned int i = 1 ; i <= number ; ++i)
-          {
-            b.before(a) ;
-          }
-          
-        }
-        
-        
-      }
+      DeclareDeducedTrait(DisplayedStick,
+                          And(HasTrait(Model::Stick),
+                              HasParent(Model::HeadUpDisplay))) ;
     }
   }
 }

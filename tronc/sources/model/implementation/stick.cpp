@@ -149,6 +149,16 @@ namespace ProjetUnivers {
       notify() ;
     }
 
+    Kernel::Percentage Stick::getX() const
+    {
+      return m_x ;
+    }
+    
+    Kernel::Percentage Stick::getY() const
+    {
+      return m_y ;
+    }
+    
     RegisterAxis("Yaw","Piloting",Stick,setX) ;
     RegisterAxis("Pitch","Piloting",Stick,setY) ;
     RegisterAxis("Roll","Piloting",Stick,setZ) ;

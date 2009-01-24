@@ -39,8 +39,7 @@ namespace ProjetUnivers
       
         /// Register existing input objects to model.
         class PlayerConfiguration : 
-          public Kernel::Controler<Model::PlayerConfiguration,InputControlerSet>,
-          public InputMenu
+          public Kernel::Controler<Model::PlayerConfiguration,InputControlerSet>
         {
         public:
           

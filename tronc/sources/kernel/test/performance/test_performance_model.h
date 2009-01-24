@@ -50,6 +50,10 @@ namespace ProjetUnivers
           
           void updateFullObject() ;
           
+          void createDestroyObject() ;
+          
+          void addRemoveTrait() ;
+          
         // @}
   
   
@@ -59,6 +63,8 @@ namespace ProjetUnivers
           CPPUNIT_TEST(getExistingTrait) ;
           CPPUNIT_TEST(getUnexistingTraitOnFullObject) ;
           CPPUNIT_TEST(updateFullObject) ;
+          CPPUNIT_TEST(createDestroyObject) ;
+          CPPUNIT_TEST(addRemoveTrait) ;
   
           CPPUNIT_TEST_SUITE_END() ;
   

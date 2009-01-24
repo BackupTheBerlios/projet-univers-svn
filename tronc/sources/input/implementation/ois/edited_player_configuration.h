@@ -52,6 +52,9 @@ namespace ProjetUnivers
 
           /// When entering recording mode : clear the events
           virtual void onUpdate() ;
+
+          virtual void onInit() ;
+          virtual void onClose() ;
           
         private:
           

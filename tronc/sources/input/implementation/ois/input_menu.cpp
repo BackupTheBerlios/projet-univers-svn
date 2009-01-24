@@ -127,6 +127,26 @@ namespace ProjetUnivers {
                                         0) ;
           }
         }
+        
+        int InputMenu::m_number_of_active_menus = 0 ;
+        
+        void InputMenu::initInputMenu()
+        {
+          ++m_number_of_active_menus ;
+          getMouse()->setMenuSensibility() ;
+        }
+        
+        void InputMenu::closeInputMenu()
+        {
+          --m_number_of_active_menus ;
+          if (m_number_of_active_menus == 0)
+          {
+            getMouse()->setInGameSensibility() ;
+          }
+        }
+
+        
+        
       }      
     }
   }

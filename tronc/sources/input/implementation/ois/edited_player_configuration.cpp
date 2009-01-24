@@ -81,6 +81,17 @@ namespace ProjetUnivers
           InternalMessage("EditedPlayerConfiguration","Leaving PlayerConfiguration::onUpdate") ;
         }
         
+        void EditedPlayerConfiguration::onInit()
+        {
+          initInputMenu() ;
+        }
+        
+        void EditedPlayerConfiguration::onClose()
+        {
+          closeInputMenu() ;
+        }
+        
+        
       }
     }
   }

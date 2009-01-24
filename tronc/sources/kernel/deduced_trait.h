@@ -147,9 +147,6 @@ namespace ProjetUnivers
       
       
       /// Calculate initial value.
-      /*!
-        @todo calculate the object vector once for all...
-      */
       static void evaluateInitial(Object* object) ;
 
       /// Identify the latest updated trait.
@@ -162,7 +159,7 @@ namespace ProjetUnivers
       static std::string printDeclarations() ;
 
       /// Gives the traits directly depending on @c trait.
-      static std::set<TypeIdentifier> getDependentTraits(Trait* trait) ;
+      static const std::set<TypeIdentifier>& getDependentTraits(Trait* trait) ;
       
     protected: 
     

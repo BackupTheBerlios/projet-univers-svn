@@ -323,7 +323,7 @@ namespace ProjetUnivers
     void Trait::_close()
     {
       // first : close dependent traits...
-      std::set<TypeIdentifier> dependent_traits(DeducedTrait::getDependentTraits(this)) ;
+      const std::set<TypeIdentifier>& dependent_traits = DeducedTrait::getDependentTraits(this) ;
       
       for(std::set<TypeIdentifier>::const_iterator trait = dependent_traits.begin() ;
           trait != dependent_traits.end() ;

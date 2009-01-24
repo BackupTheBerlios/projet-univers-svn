@@ -49,6 +49,8 @@ namespace ProjetUnivers
           
           void getTypeId() ;
           
+          void typeInfoBefore() ;
+          
         // @}
   
   
@@ -57,6 +59,7 @@ namespace ProjetUnivers
           CPPUNIT_TEST(comparison) ;
           CPPUNIT_TEST(getClassIdentifier) ;
           CPPUNIT_TEST(getTypeId) ;
+          CPPUNIT_TEST(typeInfoBefore) ;
   
           CPPUNIT_TEST_SUITE_END() ;
   

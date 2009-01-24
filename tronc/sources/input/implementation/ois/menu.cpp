@@ -36,6 +36,16 @@ namespace ProjetUnivers {
           simulateInputMenu(seconds) ;
         }
 
+        void Menu::onInit()
+        {
+          initInputMenu() ;
+        }
+        
+        void Menu::onClose()
+        {
+          closeInputMenu() ;
+        }
+        
       }
     }
   }

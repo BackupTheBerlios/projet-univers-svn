@@ -57,13 +57,22 @@ namespace ProjetUnivers {
         Mouse::Mouse()
         : m_sensibility(1)
         {
-          m_sensibility = Kernel::Parameters::getValue<float>("Input","MouseSensibility",1);
-          
-          m_sensibility /= 100 ;
-          
+          setMenuSensibility() ;
           m_axes[Model::PlayerConfiguration::InputAxis(Model::PlayerConfiguration::InputAxis::MouseX)] = 0 ;
           m_axes[Model::PlayerConfiguration::InputAxis(Model::PlayerConfiguration::InputAxis::MouseY)] = 0 ;
           m_axes[Model::PlayerConfiguration::InputAxis(Model::PlayerConfiguration::InputAxis::MouseWheel)] = 0 ;
+        }
+        
+        void Mouse::setInGameSensibility()
+        {
+          m_sensibility = Kernel::Parameters::getValue<float>("Input","InGameMouseSensibility",0.3);
+          m_sensibility /= 100 ;
+        }
+        
+        void Mouse::setMenuSensibility()
+        {
+          m_sensibility = Kernel::Parameters::getValue<float>("Input","MouseSensibility",1);
+          m_sensibility /= 100 ;
         }
         
         Model::PlayerConfiguration::InputEvent Mouse::buildEvent(const int& code) const

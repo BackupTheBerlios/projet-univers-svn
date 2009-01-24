@@ -10,6 +10,7 @@ AM_CXXFLAGS=$(PU_CXXFLAGS)
 libdisplay_la_SOURCES = \
 ../implementation/display.cpp \
 ../implementation/displayed_solid.cpp \
+../implementation/displayed_stick.cpp \
 ../implementation/explosion.cpp \
 ../implementation/ideal_target.cpp \
 ../implementation/identified_target.cpp \
@@ -30,6 +31,7 @@ libdisplay_la_SOURCES = \
 ../implementation/ogre/real_world_view_point.cpp \
 ../implementation/ogre/speed_indicator.cpp \
 ../implementation/ogre/solid.cpp \
+../implementation/ogre/stick.cpp \
 ../implementation/ogre/universe.cpp \
 ../implementation/ogre/utility.cpp \
 ../implementation/ogre/laser_beam.cpp \

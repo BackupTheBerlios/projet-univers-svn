@@ -48,6 +48,7 @@ namespace ProjetUnivers
         {
           indicatePresence(getTrait()) ;
         }
+
         
       }
     }

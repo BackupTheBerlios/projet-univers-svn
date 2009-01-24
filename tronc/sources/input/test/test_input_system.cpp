@@ -100,6 +100,8 @@ namespace ProjetUnivers
 
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestPlayerConfiguration::testKeyboardAutoRepeat")) ;
         model->init() ;
+        Kernel::ControlerSet* controler_set = model->getControlerSet<Implementation::OIS::InputControlerSet>() ;
+        controler_set->setTimeStep(0.01) ;
 
         Kernel::Object* root = model->createObject() ;
         root->addTrait(new Keyboard()) ;
@@ -181,7 +183,9 @@ namespace ProjetUnivers
 
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestPlayerConfiguration::testMouseAutoRepeat")) ;
         model->init() ;
-
+        Kernel::ControlerSet* controler_set = model->getControlerSet<Implementation::OIS::InputControlerSet>() ;
+        controler_set->setTimeStep(0.01) ;
+        
         Kernel::Object* root = model->createObject() ;
         root->addTrait(new Mouse()) ;
 
