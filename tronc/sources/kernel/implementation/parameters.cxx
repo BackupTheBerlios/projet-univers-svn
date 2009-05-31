@@ -86,5 +86,19 @@ namespace ProjetUnivers
       
       return result ;
     }
+
+    template <typename T>
+    void Parameters::setValue(const std::string& section,
+                              const std::string& name,
+                              const T&           value)
+    {
+      if (! m_instance.get())
+      {
+        m_instance.reset(new Parameters()) ; 
+      }
+      
+      m_instance->m_parameters[section][name] = value ;
+    }
+    
   }
 }

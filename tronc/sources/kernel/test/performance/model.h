@@ -84,6 +84,12 @@ namespace ProjetUnivers
 
         class ABCD : public DeducedTrait
         {
+        public:
+          
+          void change()
+          {
+            notify() ;
+          }
         };
 
         class EFGH : public DeducedTrait
@@ -92,6 +98,12 @@ namespace ProjetUnivers
         
         class AEG : public DeducedTrait
         {
+        public:
+          
+          void change()
+          {
+            notify() ;
+          }
         };
         
         class BCD : public DeducedTrait

@@ -23,6 +23,7 @@ $(SOURCES)/kernel/implementation/object.cpp \
 $(SOURCES)/kernel/implementation/object_reference.cpp \
 $(SOURCES)/kernel/implementation/operation.cpp \
 $(SOURCES)/kernel/implementation/cppunit_multi_outputter.cpp \
+$(SOURCES)/kernel/implementation/statistics.cpp \
 $(SOURCES)/kernel/implementation/string.cpp \
 $(SOURCES)/kernel/implementation/timer.cpp \
 $(SOURCES)/kernel/implementation/trait.cpp \
@@ -64,6 +65,7 @@ $(SOURCES)/kernel/test/test_command.cpp \
 $(SOURCES)/kernel/test/test_interpretor.cpp \
 $(SOURCES)/kernel/test/test_parameters.cpp \
 $(SOURCES)/kernel/test/test_percentage.cpp \
+$(SOURCES)/kernel/test/test_trait.cpp \
 $(SOURCES)/kernel/test/test_xml_reader.cpp \
 $(SOURCES)/kernel/test/test_xml_writer.cpp \
 $(SOURCES)/kernel/test/test_model.cpp 

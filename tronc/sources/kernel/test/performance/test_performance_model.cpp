@@ -112,6 +112,27 @@ namespace ProjetUnivers
           }
         }
         
+        void TestPerformanceModel::updateDeducedTrait()
+        {
+          std::auto_ptr<Model> model(new Model()) ;
+          Kernel::Object* root = model->createObject() ;
+          root->addTrait(new A()) ;
+          root->addTrait(new C()) ;
+          root->addTrait(new D()) ;
+          root->addTrait(new E()) ;
+          root->addTrait(new F()) ;
+          root->addTrait(new G()) ;
+          root->addTrait(new H()) ;
+
+          AEG* aeg = root->getTrait<AEG>() ;
+          const unsigned int number = 1000000 ;
+          
+          for(unsigned int i = 1 ; i <= number ; ++i)
+          {
+            aeg->change() ;
+          }
+        }
+        
         void TestPerformanceModel::createDestroyObject()
         {
           std::auto_ptr<Model> model(new Model()) ;

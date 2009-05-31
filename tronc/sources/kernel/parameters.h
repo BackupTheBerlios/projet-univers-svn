@@ -70,6 +70,12 @@ namespace ProjetUnivers
       */
       static std::set<std::string> getActivatedLogs() ;
 
+      /// Set a parameter value.
+      template <typename T>
+      static void setValue(const std::string& section,
+                           const std::string& name,
+                           const T&           value) ;
+      
     private:
       
       /// Load the parameters

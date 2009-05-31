@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2008 Mathieu ROGER                                      *
+ *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -19,12 +19,12 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include <iostream>
+#include <tclap/CmdLine.h>
 #include <projet_univers.h>
 #include <kernel/log.h>
 #include <kernel/model.h>
 #include <kernel/parameters.h>
 #include <kernel/timer.h>
-#include <kernel/command_delegator.h>
 
 #include <artificial_intelligence/artificial_intelligence.h>
 #include <display/display.h>
@@ -34,115 +34,85 @@
 #include <physic/physic.h>
 #include <sound/sound.h>
 
-#include <model/oriented.h>
-#include <model/positionned.h>
-#include <model/observer.h>
-#include <model/player.h>
-#include <model/end_of_simulation.h>
-#include <model/player_configuration.h>
-#include <model/state.h>
-#include <model/active.h>
-#include <model/solid.h>
-#include <model/universe.h>
 
 using namespace ProjetUnivers ;
 
-std::string getModelName()
-{
-  return "razor" ;
-}
-
 /*
-  Load a ship and display it
+  Test program for performances
+
+  places n ships each one in a different team and simulate during a period
 
 */
-int main() 
+int main(int argc,char** argv)
 {
   /// init
   Kernel::Parameters::load("demonstration.config") ;
   Kernel::Log::init() ;
 
+  try
+  {
+    TCLAP::CmdLine cmd("Command description message",' ',"1") ;
+    TCLAP::ValueArg<int> number("n","number","number of ships",true,5,"integer") ;
+    cmd.add(number) ;
+
+    TCLAP::ValueArg<float> time("t","time","simulation time",false,3,"float") ;
+    cmd.add(time) ;
+
+    cmd.parse(argc,argv) ;
+    Kernel::Parameters::setValue<float>("Test","numberOfShips",number.getValue()) ;
+    Kernel::Parameters::setValue<float>("Test","simultationTime",time.getValue()) ;
+  }
+  catch(...)
+  {
+  }
+
+
   Model::start() ;
   Physic::start() ;
   Sound::start() ;
   ArtificialIntelligence::start() ;
-  Display::start(Display::ChooseRenderer) ;
+  Display::start() ;
   Input::start() ;
   GUI::start() ;
-  
-  InformationMessage("Demonstration","Starting of projet univers" + 
-                                     Version + 
-                                     " revision " + RevisionNumber) ;
 
   std::auto_ptr<Kernel::Model> model(new Kernel::Model()) ;
   model->init() ;
+  Model::load("test",model.get()) ;
 
-  Kernel::Object* root = model->createObject() ;
-  root->addTrait(new Model::State()) ;
-  root->addTrait(new Model::Active()) ;
-  root->addTrait(new Model::Positionned()) ;
-  root->addTrait(new Model::Oriented()) ;
-  root->addTrait(new Model::Universe()) ;
+  float simulation_time = Kernel::Parameters::getValue<float>("Test","simultationTime",3) ;
 
-  Kernel::Object* player_configuration = Model::createDefaultPlayerConfiguration(root) ;
-  player_configuration->getTrait<Model::PlayerConfiguration>()
-                      ->addMapping(Model::PlayerConfiguration::InputEvent::key(OIS::KC_RETURN),"quit") ;
-  
-  Kernel::Object* ship = Model::loadShip(getModelName(),root) ;
-
-  // determine a distance that correspond to ship size
-  Model::Distance distance(Model::Distance::_Meter,1000) ;
-  Model::Solid* solid_ship = ship->getTrait<Model::Solid>() ; 
-  if (solid_ship)
-  {
-    distance = solid_ship->getRadius()*2 ;
-  }
-  
-  Kernel::Object* observer = root->createObject() ;
-  observer->addTrait(new Model::Observer()) ;
-  observer->addTrait(new Model::Player()) ;
-  observer->addTrait(new Model::Positionned(Model::Position::Meter(0,0,-distance.Meter()))) ;
-  observer->addTrait(new Model::Oriented()) ;
-  observer->addTrait(new Model::State()) ;
-  observer->addTrait(new Kernel::CommandDelegator()) ;
-  
-  observer->getTrait<Model::State>()->addCommandAlias("quit","change(quit,Active)") ;
-  observer->getTrait<Kernel::CommandDelegator>()->addDelegate(ship) ;
-  
-  root->getTrait<Model::State>()->pushState(observer,new Model::Active()) ;
-  
-  Model::Player::connect(observer,player_configuration) ;
-  
-  Kernel::Object* quit = root->createObject() ;
-  quit->setName("quit") ;
-  quit->addTrait(new Model::EndOfSimulation()) ;
-  quit->addTrait(new Model::State()) ;
-
-  
   Kernel::Timer timer ;
-  
-  while (! model->getRoots().empty())
+  int n = 0 ;
+
+  Kernel::Timer global_timer ;
+
+  while (n <= simulation_time)
   {
     float seconds = timer.getSecond() ;
     if (seconds > 0)
     {
       timer.reset() ;
       model->update(seconds) ;
+      ++n ;
     }
   }
 
+  std::cout << global_timer.getSecond() << std::endl ;
+
   model->close() ;
-  
+
   ArtificialIntelligence::terminate() ;
   Sound::terminate() ;
   GUI::terminate() ;
   Input::terminate() ;
   Display::terminate() ;
   Physic::terminate() ;
-  
+
   /// out
   InformationMessage("Demonstration","Modules closed") ;
   Kernel::Log::close() ;
-  
+
   return 0 ;
 }
+
+

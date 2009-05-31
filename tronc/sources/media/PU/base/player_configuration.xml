@@ -12,7 +12,7 @@
     <JoystickButton number="1"/>
    </Mapping>
    <Mapping command="Select Next Target">
-    <Key number="31"/>
+    <Key number="22"/>
    </Mapping>
    <Mapping command="Select Previous Target">
     <Key number="25"/>

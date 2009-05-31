@@ -32,7 +32,7 @@
 int 
 main( int argc, char* argv[] )
 {
-  ProjetUnivers::Kernel::Parameters::load("kernel.config") ;
+  ProjetUnivers::Kernel::Parameters::load("kernel_performance.config") ;
   ProjetUnivers::Kernel::Log::init() ;
   
   // if command line contains "-selftest" then this is the post build check

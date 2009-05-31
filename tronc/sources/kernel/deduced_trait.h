@@ -204,6 +204,7 @@ namespace ProjetUnivers
       friend class HasParentFormula ;
       friend class HasAncestorFormula ;
       friend class HasChildFormula ;
+      friend class Trait ;
       
     }; 
 

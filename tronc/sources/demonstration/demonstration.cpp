@@ -45,9 +45,8 @@ std::string getModelName()
   Demonstration program
 
 */
-int main() {
-
-
+int main() 
+{
   /// init
   Kernel::Parameters::load("demonstration.config") ;
   Kernel::Log::init() ;

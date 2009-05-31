@@ -66,6 +66,7 @@ namespace ProjetUnivers
 
     Object* Model::createObject() 
     {
+      m_statistics.addObject() ;
       Object* result = new Object(this) ;
       m_objects.insert(result) ;
       m_objects_by_identifier[result->getIdentifier()] = result ;
@@ -75,6 +76,7 @@ namespace ProjetUnivers
       
     Object* Model::createObject(Object* parent)
     {
+      m_statistics.addObject() ;
       Object* result = new Object(this) ;
       if (parent->m_deleting)
       {
@@ -93,6 +95,7 @@ namespace ProjetUnivers
     void Model::destroyObject(Object* object)
     {
       CHECK(object,"Model::destroyObject no object") ;
+      m_statistics.removeObject() ;
       
       object->m_deleting = true ;
       
@@ -160,7 +163,11 @@ namespace ProjetUnivers
       CHECK(new_trait,"Model::destroyTrait no new trait") ;
       
       object->_add(new_trait) ;
-      
+      DeducedTrait* deduced = dynamic_cast<DeducedTrait*>(new_trait) ;
+      if (deduced)
+        m_statistics.addDeducedTrait() ;
+      else
+        m_statistics.addPrimitiveTrait() ;
     }
 
     void Model::destroyTrait(Object* object, 
@@ -169,6 +176,12 @@ namespace ProjetUnivers
       CHECK(object,"Model::destroyTrait no object") ;
       CHECK(trait,"Model::destroyTrait no trait") ;
 
+      DeducedTrait* deduced = dynamic_cast<DeducedTrait*>(trait) ;
+      if (deduced)
+        m_statistics.removeDeducedTrait() ;
+      else
+        m_statistics.removePrimitiveTrait() ;
+      
       object->_remove(trait) ;
     }
     
@@ -449,6 +462,10 @@ namespace ProjetUnivers
       }
       
       InternalMessage("Statistics","total =" + toString(total)) ;
+      
+      InternalMessage("Statistics","number of deduced traits per objects = " + toString(m_statistics.maximumNumberOfDeducedTraitsPerObject())) ;
+      InternalMessage("Statistics","number of primitive traits per objects = " + toString(m_statistics.maximumNumberOfPrimitiveTraitsPerObject())) ;
+      
     }
     
     void Model::setTimeStep(const float& seconds)

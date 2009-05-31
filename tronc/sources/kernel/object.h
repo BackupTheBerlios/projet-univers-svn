@@ -37,9 +37,9 @@
 #include <kernel/trait.h>
 
 
-namespace ProjetUnivers 
+namespace ProjetUnivers
 {
-  namespace Kernel 
+  namespace Kernel
   {
     namespace Implementation
     {
@@ -48,7 +48,7 @@ namespace ProjetUnivers
       class Transaction ;
       class ConcurrentBlock ;
     }
-    
+
     class Trait ;
     class Model ;
     class ViewPoint ;
@@ -65,16 +65,16 @@ namespace ProjetUnivers
     class HasChildFormula ;
     class Reader ;
     class Writer ;
-    
+
     /// A model object.
     /*!
-      An object has traits and eventually sub-objects. When an object is 
+      An object has traits and eventually sub-objects. When an object is
       destroyed, his traits and sub objects are also destroyed.
-      
-      Trait can be added. Only one trait having class T can be added on 
+
+      Trait can be added. Only one trait having class T can be added on
       the same object.
     */
-    class Object 
+    class Object
     {
     public:
 
@@ -84,23 +84,23 @@ namespace ProjetUnivers
     //@{
 
       /// Creates a child Object.
-      Object* createObject() ; 
-  
+      Object* createObject() ;
+
       /// Destroy this object.
       void destroyObject() ;
-  
+
       /// Changes parent of this object.
       void changeParent(Object* new_parent) ;
-      
+
       /// Adds a new trait to object.
       void addTrait(Trait* trait) ;
-  
+
       /// Destroy an object's trait.
       void destroyTrait(Trait* trait) ;
-      
+
       /// Set the object name (optionnal).
       void setName(const std::string& name) ;
-      
+
     //@}
     /*!
       @name Access methods
@@ -109,22 +109,22 @@ namespace ProjetUnivers
 
       /// Access to an object by name.
       static Object* get(const std::string& name) ;
-      
+
       /// Get object's identifier.
       int getIdentifier() const ;
 
       // Access to parent.
       Object* getParent() const ;
-      
+
       /// Get top most ancestor.
       const Object* getRoot() const ;
-      
+
       /// A common ancestor iff exists.
       const Object* getCommonAncestor(const Object*) const ;
-      
+
       /// True iff @c this is ancestor of @c object
       bool isAncestor(const Object* object) const ;
-      
+
       /// Acces to model.
       Model* getModel() const ;
 
@@ -133,13 +133,13 @@ namespace ProjetUnivers
 
       /// Access to trait's view of type _View if exists.
       /*!
-        @remark 
-          It may exist several @c _View on that object (mainly because 
+        @remark
+          It may exist several @c _View on that object (mainly because
           the view may be attached to a base trait whose several subtraits are
-          attached to this object) : in that case, it returns one of the view 
-          in an unspecified manner. 
-          Note that in that case one can obtain exactly the desired view through 
-          Trait::getView after choosing the correct trait.     
+          attached to this object) : in that case, it returns one of the view
+          in an unspecified manner.
+          Note that in that case one can obtain exactly the desired view through
+          Trait::getView after choosing the correct trait.
       */
       template <class _View> _View* getView(ViewPoint* i_viewpoint) ;
 
@@ -148,13 +148,13 @@ namespace ProjetUnivers
 
       /// First ancestor (including @c this) with trait T.
       template <class T> T* getParent() const ;
-      
+
       /// First ancestor (excluding @c this) with trait T.
       template <class T> T* getAncestor() const ;
-      
+
       /// First ancestor (including @c this) with trait T and not up to @c i_object.
       /*!
-        @returns NULL 
+        @returns NULL
           if no object has T trait between this and @c i_object
           or @c i_object is not ancestor of this.
       */
@@ -165,7 +165,7 @@ namespace ProjetUnivers
 
       /// Get all the descendant (including @c this) with trait T.
       template <class T> std::set<T*> getChildren() const ;
-      
+
       /// Call a void command.
       /*!
         Try first on object traits then on sub-objects...??
@@ -178,25 +178,25 @@ namespace ProjetUnivers
         @return true iff succedeed.
       */
       bool call(const std::string& i_command, const int&) ;
-      
+
       /// Call a function on object.
       /*!
-        @exception boost::bad_any_cast 
+        @exception boost::bad_any_cast
                    function exists but ReturnType cast is incorrect
-                   
-        @exception std::exception 
+
+        @exception std::exception
                    function does not exist
       */
       template <typename ReturnType>
-      ReturnType callFunction(const std::string& function_name) const 
+      ReturnType callFunction(const std::string& function_name) const
       throw (boost::bad_any_cast,std::exception) ;
-      
+
       /// Access to all commands understood be the object.
       std::set<std::string> getCommands() const ;
-      
+
       /// Access to all children.
       const std::set<Object*>& getChildren() const ;
-      
+
     //@}
     /*!
       @name Apply methods
@@ -231,20 +231,20 @@ namespace ProjetUnivers
 
       /// Destructs the objects and the traits.
       ~Object() ;
-      
+
     /*!
       @name Internal construction
-      
+
       @see Model for public construction methods.
-    */    
+    */
     //@{
-    
+
       /// Add a sub-object
       Object* _add(Object* i_child) ;
 
       /// Remove a sub-object.
       void _remove(Object* i_child) ;
-    
+
       /// Detach and close a sub-object.
       Object* _release(Object* i_child) ;
 
@@ -265,22 +265,22 @@ namespace ProjetUnivers
 
       /// Detach a trait.
       Object* _detach(const TypeIdentifier& trait_name) ;
-      
+
       /// Retreive the trait named @c i_trait_name.
       Trait* _get(const TypeIdentifier& i_trait_name) const ;
 
       /// Retreive the trait named @c i_trait_name.
       Trait* _getDeducedTrait(const TypeIdentifier& i_trait_name) const ;
-      
-      /// update the views for a change_parent. 
+
+      /// update the views for a change_parent.
       void _changed_parent(Object* i_old_parent) ;
-      
+
       /// update the views.
       void _updated() ;
 
       /// True iff we can init views, controlers.
       bool mayInit() const ;
-      
+
       /// init after construction.
       void _init() ;
 
@@ -316,103 +316,111 @@ namespace ProjetUnivers
         @return true iff succedeed.
       */
       bool _call(const std::string& i_command, const int&) ;
-      
+
       /// Internal access to all commands understood be the object.
       std::set<std::string> _getCommands() const ;
-      
+
     /*!
       @name Deduction access
-    */    
+    */
     //@{
-    
-      
+
+
       /// Access to the validity of a formula for @c this
       bool getValidity(const Formula* i_formula) const ;
-      
+
       /// Change the validity of a formula for @c this
       void setValidity(const Formula* i_formula,bool i_validity) ;
 
       /// Access to the number of true child formulae for @c this
       unsigned short getNumberOfTrueChildFormulae(const Formula* i_formula) const ;
-      
+
       /// Change the number of true child formulae for @c this
       void setNumberOfTrueChildFormulae(const Formula* i_formula,
                                         unsigned short i_number) ;
 
       /// Access to a trait by name.
       Trait* getTrait(const TypeIdentifier&) const ;
+      std::set<Trait*> getDirectChildren(const TypeIdentifier&) const ;
+      std::set<Trait*> getDirectDescendants(const TypeIdentifier&) const ;
+      Trait* getParent(const TypeIdentifier&) const ;
+      Trait* getAncestor(const TypeIdentifier&) const ;
 
       /// Access to number of parents with trait @c name.
       unsigned int getNumberOfParent(const TypeIdentifier& name) const ;
 
       /// Access to number of ancestors with trait @c name.
       unsigned int getNumberOfAncestor(const TypeIdentifier& name) const ;
-      
+
       /// Access to number of children with trait @c name.
       unsigned int getNumberOfChildren(const TypeIdentifier& name) const ;
-      
+
     // @}
-      
+
       /// Returns the path from root to this.
       std::list<Object*> getAncestorPath() const ;
-    
-    
+
+
     /*!
       @name attributes
-    */    
+    */
     // @{
-    
+
       /// Is the current object is deleting
       bool                             m_deleting ;
-      
+
       /// Unique identifier.
       int                              m_identifier ;
-      
+
+      /// internal access.
+      std::map<TypeIdentifier,Trait*>& _getTraits() ;
+      const std::map<TypeIdentifier,Trait*>& _getTraits() const ;
       /// @composite
-      std::map<TypeIdentifier, Trait*> traits ;
+      std::map<TypeIdentifier,Trait*>  traits ;
+
       Object*                          m_parent ;
       /// @composite
       std::set<Object*>                children ;
-      
+
       /// Model of the object.
       Model*                           m_model ;
-      
+
       /// Validities for each formula
       std::vector<bool>                m_validities ;
 
-      /// Number of true chid formulae indexed by formulae.       
+      /// Number of true chid formulae indexed by formulae.
       std::vector<unsigned short>      m_number_of_true_child_formulae ;
 
       /// Object name
       std::string                      m_name ;
-      
+
       std::set<Trait*> lockTraits() ;
       void unlockTraits(const std::set<Trait*>&) ;
-      
+
       void addLock() ;
       void removeLock() ;
       bool isLocked() const ;
       int m_locks ;
-      
+
       /// Record the objects on which we have already try calling a function
       /*!
-        Avoid infinite loops when the structure of CommandDelegator contains a 
+        Avoid infinite loops when the structure of CommandDelegator contains a
         cycle.
       */
       static std::set<const Kernel::Object*> m_already_called_objects ;
-      
+
       /// Objects with a name.
       static std::map<std::string,ObjectReference> m_named_objects ;
-      
+
       static void startReading() ;
       static void stopReading() ;
-      
+
       /// True when we are in a Reader::read call.
       static bool m_is_reading ;
-      
+
     // @}
 
-      friend class Trait ;    
+      friend class Trait ;
       friend class Model ;
       friend class Formula ;
       friend class FormulaAnd ;
@@ -432,7 +440,7 @@ namespace ProjetUnivers
       friend class ::ProjetUnivers::Kernel::Implementation::ConcurrentBlock ;
     };
   }
-}      
+}
 
 #include <kernel/implementation/object.cxx>
 

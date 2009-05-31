@@ -36,7 +36,15 @@ namespace ProjetUnivers {
   */ 
   namespace Display {
     
-    typedef enum {ChooseRenderer,DefaultRenderer} DisplayStartingMode;
+    /// Display start
+    typedef enum 
+    {
+      /// User will be prompt for used renderer 
+      ChooseRenderer,
+      /// The default platform renderer will be used
+      DefaultRenderer
+    } 
+    DisplayStartingMode;
     
     /// Init the module.
     void start(DisplayStartingMode mode = DefaultRenderer) ;

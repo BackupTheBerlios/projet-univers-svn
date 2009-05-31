@@ -42,16 +42,12 @@ namespace ProjetUnivers
         // @{  
   
           void getUnexistingTraitOnEmptyObject() ;
-          
           /// Test for Object::getTrait
           void getExistingTrait() ;
-
           void getUnexistingTraitOnFullObject() ;
-          
           void updateFullObject() ;
-          
+          void updateDeducedTrait() ;
           void createDestroyObject() ;
-          
           void addRemoveTrait() ;
           
         // @}
@@ -63,6 +59,7 @@ namespace ProjetUnivers
           CPPUNIT_TEST(getExistingTrait) ;
           CPPUNIT_TEST(getUnexistingTraitOnFullObject) ;
           CPPUNIT_TEST(updateFullObject) ;
+          CPPUNIT_TEST(updateDeducedTrait) ;
           CPPUNIT_TEST(createDestroyObject) ;
           CPPUNIT_TEST(addRemoveTrait) ;
   

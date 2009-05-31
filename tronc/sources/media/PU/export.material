@@ -36,3 +36,23 @@ material Material/SOLID/
   }
 }
 
+material siege/SOLID/zero_chasseurentier.jpg
+{
+  receive_shadows on
+  technique
+  {
+    pass
+    {
+      ambient 0.000000 0.000000 0.000000
+      diffuse 0.800000 0.800000 0.800000
+      specular 0.500000 0.500000 0.500000 50.000000
+      emissive 0.000000 0.000000 0.000000
+      texture_unit
+      {
+        texture zero_chasseurentier.jpg
+      }
+    }
+  }
+}
+
+

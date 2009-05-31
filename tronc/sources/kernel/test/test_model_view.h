@@ -24,20 +24,20 @@
 
 #include <cppunit/extensions/HelperMacros.h>
 
-namespace ProjetUnivers 
+namespace ProjetUnivers
 {
-  namespace Kernel 
+  namespace Kernel
   {
-    namespace Test 
+    namespace Test
     {
 
       ///  Test for Model/View.
-      class TestModelView : public CppUnit::TestFixture 
+      class TestModelView : public CppUnit::TestFixture
       {
       protected:
 
       /// @name Tests methods
-      // @{  
+      // @{
 
         /// Tests construction on empty model.
         void testBuildOnEmptyModel() ;
@@ -80,7 +80,7 @@ namespace ProjetUnivers
 
         /// Tests the top down apply.
         void testForAll() ;
-        
+
         /// Tests several viewpoints on the same model.
         void testMultiViewPoint() ;
 
@@ -98,16 +98,16 @@ namespace ProjetUnivers
 
         /// Test manual view construction on an initialised viewpoint.
         void testManualViewOnInitViewPoint() ;
-        
+
         /// Test a bug : crash on init viewpoint with NULL model.
         void initViewPointWithNullModel() ;
-        
+
         /// Test the correction of the preceeding bug.
         /*!
           # building a viewpoint with a NULL model
           # init the viewpoint
           # reset a non NULL model
-          # check that views have been initialised 
+          # check that views have been initialised
         */
         void setModelOnInitialisedViewPointWithNullModel() ;
 
@@ -116,7 +116,7 @@ namespace ProjetUnivers
           # building a viewpoint on a model
           # init the viewpoint
           # reset another model
-          # check that views have been closed 
+          # check that views have been closed
         */
         void changeModelOnInitialisedViewPoint() ;
 
@@ -126,25 +126,34 @@ namespace ProjetUnivers
           # init the viewpoint
           # reset another model
           # adde object
-          # check that views on new model's objects exist 
+          # check that views on new model's objects exist
         */
         void changeModelOnViewPoint() ;
-        
+
         /// Check that destroying an object with deduced traits works.
         void destroyObjectWithDeducedTraits() ;
-        
+
         /// Destroy a viewpoint.
         void detroyViewPoint() ;
-        
+
         /// Destroying a model must call onClose on viewpoint.
         void destroyModelAndCloseViewPoint() ;
-        
+
         /// Access a trait of object.
         void accessOtherTrait() ;
-        
+
+        /// Updating an ancestor trait update the descendent deduced trait
         void updateAncestor() ;
+        /// Same test as above in recursive case
         void updateRecursiveAncestor() ;
-        
+        /// Same test as above with two level childs
+        void updateRecursiveAncestorLevel2() ;
+
+        /// Updating a parent trait update the descendent deduced traits
+        void updateParentTrait() ;
+        /// Same test as above with two level childs
+        void updateRecursiveParentTrait() ;
+
       // @}
 
 
@@ -180,16 +189,19 @@ namespace ProjetUnivers
         CPPUNIT_TEST(accessOtherTrait) ;
         CPPUNIT_TEST(updateAncestor) ;
         CPPUNIT_TEST(updateRecursiveAncestor) ;
+        CPPUNIT_TEST(updateRecursiveAncestorLevel2) ;
+        CPPUNIT_TEST(updateParentTrait) ;
+        CPPUNIT_TEST(updateRecursiveParentTrait) ;
 
         CPPUNIT_TEST_SUITE_END() ;
 
-      
+
       };
     }
   }
 }
 
-#endif 
-    
+#endif
+
 
 

@@ -83,7 +83,7 @@
 using namespace Ogre ;
 
 namespace ProjetUnivers {
-  namespace Model 
+  namespace Model
   {
 
   /*!
@@ -91,7 +91,7 @@ namespace ProjetUnivers {
   */
   // @{
 
-    /// for ogre mesh loading     
+    /// for ogre mesh loading
     LogManager*                   log_manager = NULL ;
     DefaultHardwareBufferManager* hardware_buffer_manager = NULL ;
     Root*                         root = NULL ;
@@ -103,7 +103,7 @@ namespace ProjetUnivers {
     {
       // on demand init
       Model::initRessources() ;
-      
+
       std::string foundPath = filename;
       Ogre::ResourceGroupManager* groupManager = Ogre::ResourceGroupManager::getSingletonPtr() ;
       Ogre::String group = groupManager->findGroupContainingResource(filename) ;
@@ -119,10 +119,10 @@ namespace ProjetUnivers {
 
       return foundPath;
     }
-    
-    void start() 
+
+    void start()
     {
-      
+
     }
 
     void initRessources()
@@ -132,10 +132,10 @@ namespace ProjetUnivers {
       if (! MeshManager::getSingletonPtr())
       {
         log_manager = new LogManager() ;
-        log_manager->createLog("Ogre.log", false, false); 
+        log_manager->createLog("Ogre.log", false, false);
         root = new Root() ;
         hardware_buffer_manager = new DefaultHardwareBufferManager() ;
-                
+
         ConfigFile file ;
         file.load("ressources.cfg") ;
 
@@ -147,7 +147,7 @@ namespace ProjetUnivers {
         {
           nomSection = section.peekNextKey();
           ConfigFile::SettingsMultiMap* settings = section.getNext();
-          
+
           ConfigFile::SettingsMultiMap::iterator i;
           for (i = settings->begin(); i != settings->end(); ++i)
           {
@@ -156,9 +156,9 @@ namespace ProjetUnivers {
               ResourceGroupManager::getSingleton().addResourceLocation(
                   nomArchitecture, nomType, nomSection);
           }
-          
+
         }
-        
+
       }
 
       InternalMessage("Model","Model::initRessources leaving") ;
@@ -183,29 +183,29 @@ namespace ProjetUnivers {
         hardware_buffer_manager = NULL ;
       }
     }
-    
+
     void loadMission(const std::string& name,
                      Kernel::Object* mission,
-                     Kernel::Object* player_configuration, 
+                     Kernel::Object* player_configuration,
                      Kernel::Object* main_menu)
     {
       if (name=="basic_mission")
       {
-        
+
         Kernel::Object* universe = mission->createObject() ;
         universe->addTrait(new Universe()) ;
         universe->addTrait(new Positionned()) ;
-        
+
         Kernel::Object* system = universe->createObject() ;
         system->addTrait(new StellarSystem()) ;
         system->addTrait(new Positionned()) ;
-  
+
         // 2 teams
         Kernel::Object* team1 = mission->createObject() ;
         team1->addTrait(new Team("team1")) ;
         Kernel::Object* team2 = mission->createObject() ;
         team2->addTrait(new Team("team2")) ;
-  
+
         {
           Kernel::Object* ship = loadShip("razor",system) ;
           ship->addTrait(new Transponder(team1)) ;
@@ -220,7 +220,7 @@ namespace ProjetUnivers {
           Kernel::Object* agent = createAI(ship) ;
           agent->getTrait<WithObjectives>()->addObjective(Objective::attackAllEnemies()) ;
         }
-  
+
         {
           Kernel::Object* ship = loadShip("razor",system) ;
           ship->addTrait(new Transponder(team2)) ;
@@ -235,14 +235,14 @@ namespace ProjetUnivers {
           Kernel::Object* agent = createAI(ship) ;
           agent->getTrait<WithObjectives>()->addObjective(Objective::attackAllEnemies()) ;
         }
-        
+
         {
           Kernel::Object* ship = loadShip("razor",system) ;
           ship->addTrait(new Transponder(team1)) ;
           ship->addTrait(new HeadUpDisplay()) ;
           HeadUpDisplay::connect(ship,ship) ;
           ship->getTrait<Positionned>()->setPosition(Position::Meter(0,-500,0)) ;
-          
+
           Kernel::Object* player = ship->createObject() ;
           player->addTrait(new Positionned()) ;
           player->addTrait(new Oriented()) ;
@@ -260,26 +260,26 @@ namespace ProjetUnivers {
       {
       }
     }
-    
+
     void load(const std::string& name,Kernel::Model* model)
     {
       if (name == "TestPilot")
       {
         Kernel::Object* root = model->createObject() ;
         root->addTrait(new State()) ;
-        
+
         Kernel::Object* welcome = root->createObject() ;
         welcome->addTrait(new Image("intro.png")) ;
         welcome->addTrait(new Displayed()) ;
         welcome->addTrait(new State()) ;
         welcome->addTrait(new WithLifetime(Duration::Second(1))) ;
         welcome->getTrait<State>()->setCommandOnQuit("change(main_menu,Displayed)") ;
-        
+
         Kernel::Object* quit = root->createObject() ;
         quit->setName("quit") ;
         quit->addTrait(new EndOfSimulation()) ;
         quit->addTrait(new State()) ;
-        
+
         Kernel::Object* main_menu = root->createObject() ;
         main_menu->setName("main_menu") ;
         main_menu->addTrait(new Menu("main_menu.layout")) ;
@@ -291,35 +291,35 @@ namespace ProjetUnivers {
         Kernel::Object* player_configuration = createDefaultPlayerConfiguration(main_menu) ;
         player_configuration->setName("player_configuration") ;
         player_configuration->addTrait(new State()) ;
-        
+
         Kernel::Object* main_menu_in_game = root->createObject() ;
         main_menu_in_game->setName("main_menu_in_game") ;
         main_menu_in_game->addTrait(new Menu("confirm.layout")) ;
         main_menu_in_game->addTrait(new State()) ;
         main_menu_in_game->getTrait<State>()->addCommandAlias("quit","change(main_menu,Displayed)") ;
         main_menu_in_game->getTrait<State>()->addCommandAlias("cancelQuit","pop()") ;
-        
+
         Kernel::Object* mission = root->createObject() ;
         mission->setName("mission") ;
         mission->addTrait(new State()) ;
         mission->getTrait<Model::State>()->addCommandAlias("quit","change(main_menu,Displayed)") ;
-        
-        CustomMission* custom = new CustomMission("basic_mission",player_configuration,main_menu_in_game) ; 
+
+        CustomMission* custom = new CustomMission("basic_mission",player_configuration,main_menu_in_game) ;
         custom->setStartingDistance(Distance(Distance::_Meter,5000)) ;
         mission->addTrait(custom) ;
 
         Kernel::Object* team1 = mission->createObject() ;
         team1->addTrait(new Team("ally")) ;
-        
+
         Kernel::Object* fg1 = team1->createObject() ;
         fg1->addTrait(new FlyingGroup("ally")) ;
         fg1->getTrait<FlyingGroup>()->setInitialNumberOfShips(4) ;
         fg1->getTrait<FlyingGroup>()->setHasPlayer(true) ;
         fg1->getTrait<FlyingGroup>()->setShipName("razor") ;
-        
+
         Kernel::Object* team2 = mission->createObject() ;
         team2->addTrait(new Team("enemy")) ;
-        
+
         Kernel::Object* fg2 = team2->createObject() ;
         fg2->addTrait(new FlyingGroup("enemy")) ;
         fg2->getTrait<FlyingGroup>()->setInitialNumberOfShips(8) ;
@@ -327,13 +327,56 @@ namespace ProjetUnivers {
         fg2->getTrait<FlyingGroup>()->setShipName("razor") ;
         fg2->getTrait<FlyingGroup>()->setHasPlayer(false) ;
       }
+      else if (name == "test")
+      {
+        // create a scene with ships fighting
+        const int number_of_ships = (int)Kernel::Parameters::getValue<float>("Test","numberOfShips",5) ;
+
+        Kernel::Object* universe = model->createObject() ;
+        universe->addTrait(new Model::State()) ;
+        universe->addTrait(new Model::Active()) ;
+        universe->addTrait(new Universe()) ;
+        universe->addTrait(new Positionned()) ;
+        universe->addTrait(new Model::Oriented()) ;
+
+        Kernel::Object* system = universe->createObject() ;
+        system->addTrait(new StellarSystem()) ;
+        system->addTrait(new Positionned()) ;
+
+        for(int i = 1 ; i <= number_of_ships ; ++i)
+        {
+          Kernel::Object* team = universe->createObject() ;
+          team->addTrait(new Team("team"+Kernel::toString(i))) ;
+          Kernel::Object* ship = loadShip("razor",system) ;
+          ship->addTrait(new Transponder(team)) ;
+          Kernel::Object* agent = createAI(ship) ;
+          agent->getTrait<WithObjectives>()->addObjective(Objective::attackAllEnemies()) ;
+
+          // Move ship to other place
+          Positionned* positionned = ship->getTrait<Positionned>() ;
+
+          Ogre::Quaternion orientation(Ogre::Degree(360/number_of_ships)*(i-1),Ogre::Vector3::UNIT_Z) ;
+
+          Ogre::Vector3 position(orientation*Ogre::Vector3::UNIT_X*2000) ;
+
+          positionned->setPosition(Position::Meter(position.x,position.y,position.z)) ;
+        }
+
+        Kernel::Object* observer = system->createObject() ;
+        observer->addTrait(new Model::Observer()) ;
+        observer->addTrait(new Model::Player()) ;
+        observer->addTrait(new Model::Positionned(Model::Position::Meter(0,0,-2000))) ;
+        observer->addTrait(new Model::Oriented()) ;
+        observer->addTrait(new Model::State()) ;
+        observer->getTrait<Model::State>()->addCommandAlias("quit","change(quit,Active)") ;
+      }
       else
       {
         std::auto_ptr<Kernel::XMLReader> reader(Kernel::XMLReader::getFileReader(findFilePath(name))) ;
         reader->read(model) ;
-      }            
+      }
     }
-    
+
     Kernel::Object* getControledShip(Kernel::Object* agent)
     {
       Kernel::CommandDelegator* delegator = agent->getTrait<Kernel::CommandDelegator>() ;
@@ -344,7 +387,7 @@ namespace ProjetUnivers {
       /*
         we look up in delegates something that is a physical object...
       */
-      for(std::set<Kernel::ObjectReference>::const_iterator delegate = delegates.begin() ; 
+      for(std::set<Kernel::ObjectReference>::const_iterator delegate = delegates.begin() ;
           delegate != delegates.end() ;
           ++delegate)
       {
@@ -357,17 +400,17 @@ namespace ProjetUnivers {
       }
       return NULL ;
     }
-    
+
     Kernel::Object* getShip(Kernel::Object* object)
     {
       /// @todo find a proper way
       Model::PhysicalObject* result = object->getParent<PhysicalObject>() ;
       if (result)
         return result->getObject() ;
-      
+
       return NULL ;
     }
-    
+
     Kernel::Object* createShip(Kernel::Object* parent)
     {
       Kernel::Object* ship = parent->createObject() ;
@@ -392,7 +435,7 @@ namespace ProjetUnivers {
       laser->getTrait<Laser>()->setShotTimeDelay(Duration::Second(1)) ;
       ShootingHelper::connect(ship,ship,laser) ;
       TargetingSystem::connect(ship,ship) ;
-      
+
       ship->addTrait(new Dragger(Kernel::Parameters::getValue<float>("Model","DraggerCoeeficient",0.005))) ;
       Kernel::Object* st1 = ship->createObject() ;
       st1->addTrait(new Stabilizer(0,Kernel::Parameters::getValue<float>("Model","StabilizerForce",5),0)) ;
@@ -408,35 +451,35 @@ namespace ProjetUnivers {
       stick->addTrait(new Positionned()) ;
       stick->addTrait(new Stick()) ;
       stick->addTrait(new Component()) ;
-      
+
       // stick,ship
       connectStickControler(stick,ship) ;
       connectControlerGuidanceSystem(ship,ship) ;
-      
+
       /// engine + engine control...
       Kernel::Object* throttle = ship->createObject() ;
       throttle->addTrait(new Throttle()) ;
       throttle->addTrait(new Positionned()) ;
       throttle->addTrait(new Component()) ;
-      
+
       Kernel::Object* engine = ship->createObject() ;
       engine->addTrait(new Engine(Force::Newton(0,0,Kernel::Parameters::getValue<float>("Model","EngineMaxForce",650)))) ;
       engine->addTrait(new Component()) ;
-      
+
       Kernel::Object* engine_control = ship->createObject() ;
       engine_control->addTrait(new EngineControler()) ;
       engine_control->addTrait(new Component()) ;
 
       connectThrottleControler(throttle,engine_control) ;
-      connectControlerEngine(engine_control,engine) ;                   
-      
+      connectControlerEngine(engine_control,engine) ;
+
       return ship ;
     }
 
     Kernel::Object* loadShip(const std::string& name,Kernel::Object* parent)
     {
       std::string file_path(findFilePath(name+".ship")) ;
-      
+
       if (!file_path.empty())
       {
         std::auto_ptr<Kernel::XMLReader> reader(Kernel::XMLReader::getFileReader(file_path)) ;
@@ -446,7 +489,7 @@ namespace ProjetUnivers {
       ErrorMessage("Cannot locate " + name + ".ship") ;
       return NULL ;
     }
-    
+
     Kernel::Object* createAI(Kernel::Object* ship)
     {
       Kernel::Object* agent = ship->createObject() ;
@@ -457,22 +500,22 @@ namespace ProjetUnivers {
 
       return agent ;
     }
-    
+
     Kernel::Object* createDefaultPlayerConfiguration(Kernel::Object* parent)
     {
       // read from config file
       std::auto_ptr<Kernel::XMLReader> reader(Kernel::XMLReader::getFileReader(findFilePath("player_configuration.xml"))) ;
       return reader->read(parent) ;
     }
-    
+
     void savePlayerConfiguration(Kernel::Object* configuration)
     {
       // read from config file
       std::auto_ptr<Kernel::XMLWriter> writer(Kernel::XMLWriter::getFileWriter(findFilePath("player_configuration.xml"))) ;
       writer->writeSingleObject(configuration) ;
     }
-    
-    
+
+
   }
 }
 

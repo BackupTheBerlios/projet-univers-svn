@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2009 Mathieu ROGER                                      *
+ *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,7 +18,9 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <kernel/test/performance/model.h>
+#pragma once
+
+#include <cppunit/extensions/HelperMacros.h>
 
 namespace ProjetUnivers
 {
@@ -26,14 +28,35 @@ namespace ProjetUnivers
   {
     namespace Test
     {
-      namespace Performance
+
+      /// Test for Trait.
+      class TestTrait : public CppUnit::TestFixture
       {
-        DeclareDeducedTrait(AB,And(HasTrait(A),HasTrait(B))) ;
-        DeclareDeducedTrait(ABCD,And(HasTrait(A),HasTrait(B),HasTrait(C),HasTrait(D))) ;
-        DeclareDeducedTrait(EFGH,And(HasTrait(E),HasTrait(F),HasTrait(G),HasTrait(H))) ;
-        DeclareDeducedTrait(AEG,And(HasTrait(A),HasTrait(E),HasTrait(G))) ;
-        DeclareDeducedTrait(BCD,And(HasTrait(B),HasTrait(C),HasTrait(D))) ;
-      }
+      protected:
+      /// @name Tests methods
+      // @{
+
+        void depedentTrait() ;
+        void removeDeducedTrait() ;
+        void parentTrait() ;
+        void childTrait() ;
+        void orAddNewTrait() ;
+        void changeParent() ;
+
+     // @}
+
+        CPPUNIT_TEST_SUITE(TestTrait) ;
+
+        CPPUNIT_TEST(depedentTrait) ;
+        CPPUNIT_TEST(removeDeducedTrait) ;
+        CPPUNIT_TEST(parentTrait) ;
+        CPPUNIT_TEST(childTrait) ;
+        CPPUNIT_TEST(orAddNewTrait) ;
+        /// @todo
+        //CPPUNIT_TEST(changeParent) ;
+
+        CPPUNIT_TEST_SUITE_END() ;
+      };
     }
   }
 }

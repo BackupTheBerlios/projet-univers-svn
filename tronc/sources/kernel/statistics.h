@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2009 Mathieu ROGER                                      *
+ *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,22 +18,44 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <kernel/test/performance/model.h>
+#pragma once
 
-namespace ProjetUnivers
+namespace ProjetUnivers 
 {
-  namespace Kernel
+  namespace Kernel 
   {
-    namespace Test
+    /// Hold the statistics of a model.
+    class Statistics
     {
-      namespace Performance
-      {
-        DeclareDeducedTrait(AB,And(HasTrait(A),HasTrait(B))) ;
-        DeclareDeducedTrait(ABCD,And(HasTrait(A),HasTrait(B),HasTrait(C),HasTrait(D))) ;
-        DeclareDeducedTrait(EFGH,And(HasTrait(E),HasTrait(F),HasTrait(G),HasTrait(H))) ;
-        DeclareDeducedTrait(AEG,And(HasTrait(A),HasTrait(E),HasTrait(G))) ;
-        DeclareDeducedTrait(BCD,And(HasTrait(B),HasTrait(C),HasTrait(D))) ;
-      }
-    }
+    public:
+
+      Statistics() ;
+      
+      /// Access to stats
+      float maximumNumberOfPrimitiveTraitsPerObject() const ;
+      float maximumNumberOfDeducedTraitsPerObject() const ;
+      
+      void addObject() ;
+      void removeObject() ;
+
+      void addDeducedTrait() ;
+      void addPrimitiveTrait() ;
+      void removeDeducedTrait() ;
+      void removePrimitiveTrait() ;
+      
+    private:
+      
+      void updateStatistics() ;
+      
+      int m_number_of_objects ;
+      int m_number_of_primitive_traits ;
+      int m_number_of_deduced_traits ;
+      
+      float m_maximum_number_of_primitive_trais_per_object ;
+      float m_maximum_number_of_deduced_trais_per_object ;
+      
+      int m_number_of_object_creations ;
+      int m_number_of_object_destructions ;
+    };
   }
 }

@@ -99,7 +99,8 @@ namespace ProjetUnivers
       m_controlers(),
       m_locks(0),
       m_marked_for_destruction(false),
-      m_is_updating(false)
+      m_is_updating(false),
+      m_impacted_trait_formulae(NULL)
     {}
 
     void Trait::addView(ViewPoint* viewpoint,BaseTraitView* view)
@@ -810,6 +811,38 @@ namespace ProjetUnivers
     
     void Trait::write(Writer*)
     {}
+
+    const std::set<TraitFormula*>& Trait::getImpactedTraitFormulae()
+    {
+      if (!m_impacted_trait_formulae)
+        m_impacted_trait_formulae = &(TraitFormula::find(this)) ;
+      
+      return *m_impacted_trait_formulae ;
+    }
+
+    void Trait::addDependentTrait(DeducedTrait* trait)
+    {
+      m_direct_dependent_traits.insert(trait) ;
+    }
     
+    void Trait::removeDependentTrait(DeducedTrait* trait)
+    {
+      m_direct_dependent_traits.erase(trait) ;
+    }
+    
+    void Trait::updateDepedentTraits() const
+    {
+      for(std::set<DeducedTrait*>::const_iterator trait = m_direct_dependent_traits.begin() ;
+          trait != m_direct_dependent_traits.end() ;
+          ++trait)
+      {
+        (*trait)->notify() ;
+      }
+    }
+    
+    const std::set<DeducedTrait*>& Trait::getDependentTraits() const
+    {
+      return m_direct_dependent_traits ;
+    }
   }
 }
