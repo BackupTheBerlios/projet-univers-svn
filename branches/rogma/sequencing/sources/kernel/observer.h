@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2009 Mathieu ROGER                                      *
+ *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -20,36 +20,75 @@
  ***************************************************************************/
 #pragma once
 
-namespace ProjetUnivers 
+namespace ProjetUnivers
 {
-  namespace Kernel 
+  namespace Kernel
   {
-    class Model ;
-    
     namespace Implementation
     {
       class Operation ;
-      
-      /// A set of operations on a model.
-      class ConcurrentBlock
-      {
-      public:
-        
-        ConcurrentBlock(Model*) ;
-
-        void addOperation(Operation*) ;
-        
-        Trait* getTrait(Object*,const TypeIdentifier&) const ;
-        std::set<Object*> getChildren(Object*) const ;
-        
-        /// Perform operations
-        void execute() ;
-        
-      private:
-        
-        Model*                m_model ;
-        std::list<Operation*> m_operations ;
-      };
     }
+    class Object ;
+    class Trait ;
+    class Model ;
+
+    /// Something that observes a trait.
+    class Observer
+    {
+    public:
+
+      /// init the observer after construction.
+      void _init() ;
+
+      /// closes the observer before destruction.
+      void _close() ;
+
+      /// update the observer for a change_parent.
+      void _changed_parent(Object* old_parent) ;
+
+      /// update the observer.
+      void _updated() ;
+
+      /// Access to object.
+      Object* getObject() const ;
+
+      /// Access to trait
+      Trait* getTrait() const ;
+
+      virtual ~Observer() ;
+
+      /// True when onInit has been executed.
+      bool isInitialised() const ;
+
+    protected:
+
+      /// Called after the trait appears.
+      virtual void onInit() = 0 ;
+
+      /// Called just before the trait is destroyed.
+      virtual void onClose() = 0 ;
+
+      /// Called when parent changed.
+      virtual void onChangeParent(Object* old_parent) = 0 ;
+
+      /// Called when the model trait has changed.
+      virtual void onUpdate() = 0 ;
+
+      virtual void realInit() = 0 ;
+      void realClose() ;
+      void realUpdate() ;
+      void realChangeParent(Object* old_parent) ;
+
+      /// Constructs
+      Observer(Trait*) ;
+
+      bool       m_initialised ;
+      bool       m_really_initialised ;
+      Trait*     m_trait ;
+
+      friend class ::ProjetUnivers::Kernel::Implementation::Operation ;
+      friend class Model ;
+
+    };
   }
 }

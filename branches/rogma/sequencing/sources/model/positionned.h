@@ -18,15 +18,16 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_POSITIONNED_H_
-#define PU_MODEL_POSITIONNED_H_
+#pragma once
 
 #include <kernel/trait.h>
 #include <kernel/reader.h>
 #include <model/position.h>
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers 
+{
+  namespace Model 
+  {
 
     /// Calculate the position of o1 relative to o2.
     Position getRelativePosition(const Kernel::Object* o1,const Kernel::Object* o2) ;
@@ -128,5 +129,3 @@ namespace ProjetUnivers {
     };
   }
 }
-
-#endif 

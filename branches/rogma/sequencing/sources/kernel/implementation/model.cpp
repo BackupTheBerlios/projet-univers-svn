@@ -18,10 +18,13 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <iostream>
 #include <kernel/log.h>
 #include <kernel/error.h>
 #include <kernel/exception_kernel.h>
 
+#include <kernel/implementation/transaction.h>
+#include <kernel/implementation/operation.h>
 #include <kernel/deduced_trait.h>
 #include <kernel/object.h>
 #include <kernel/object_reference.h>
@@ -34,11 +37,11 @@
 #include <typeinfo>
 
 
-namespace ProjetUnivers 
+namespace ProjetUnivers
 {
-  namespace Kernel 
+  namespace Kernel
   {
-    
+
     namespace
     {
       int next_number = 0 ;
@@ -52,7 +55,7 @@ namespace ProjetUnivers
 
     Object* Model::getObject(const int& identifier) const
     {
-      std::map<int,Object*>::const_iterator finder 
+      std::map<int,Object*>::const_iterator finder
         = m_objects_by_identifier.find(identifier) ;
       if (finder != m_objects_by_identifier.end())
       {
@@ -64,18 +67,22 @@ namespace ProjetUnivers
       }
     }
 
-    Object* Model::createObject() 
+    Object* Model::createObject()
     {
+      Log::Block temp("Structure","createObject (root)") ;
       m_statistics.addObject() ;
       Object* result = new Object(this) ;
       m_objects.insert(result) ;
       m_objects_by_identifier[result->getIdentifier()] = result ;
+      startTransaction() ;
       DeducedTrait::evaluateInitial(result) ;
+      endTransaction() ;
       return result ;
     }
-      
+
     Object* Model::createObject(Object* parent)
     {
+      Log::Block temp("Structure","createObject(child)") ;
       m_statistics.addObject() ;
       Object* result = new Object(this) ;
       if (parent->m_deleting)
@@ -88,63 +95,46 @@ namespace ProjetUnivers
         parent->_add(result) ;
       }
       m_objects_by_identifier[result->getIdentifier()] = result ;
+      startTransaction() ;
       DeducedTrait::evaluateInitial(result) ;
+      endTransaction() ;
       return result ;
     }
 
     void Model::destroyObject(Object* object)
     {
-      CHECK(object,"Model::destroyObject no object") ;
+      Log::Block temp("Structure","destroyObject") ;
       m_statistics.removeObject() ;
-      
+
       object->m_deleting = true ;
-      
+
       if (m_destroying)
         return ;
-      
-      object->_close() ;
-      
-      if (m_is_simulating_controler_set || object->isLocked())
-      {
-        addObjectToDestroy(object) ;
-        return ;
-      }
 
-      m_is_simulating_controler_set = true ;
-      
-      if (object->getParent() == NULL)
-      {
-        /// a top object
-        m_objects.erase(object) ;
-        delete object ;  /// model is the contener of the root m_objects
-      } 
-      else
-      {
-        /// a sub object
-        object->getParent()->_remove(object) ;
-      }
-      
-      m_is_simulating_controler_set = false ;
+      startTransaction() ;
+
+      object->_close() ;
+      addObjectToDestroy(object) ;
+
+      endTransaction() ;
     }
 
     void Model::_removeObjectIdentifier(const int& identifier)
     {
       m_objects_by_identifier.erase(identifier) ;
     }
-    
-    void Model::changeParent(Object* object, 
+
+    void Model::changeParent(Object* object,
                              Object* new_parent)
     {
-      CHECK(object,"Model::changeParent no object") ;
-      CHECK(new_parent,"Model::changeParent no new parent") ;
-      
+      Log::Block temp("Structure","changeParent") ;
+
       Object* old_parent = object->getParent() ;
-      
+
       if (object->getParent() == NULL)
       {
         /// a top object
         m_objects.erase(object) ;
-
       }
       else
       {
@@ -156,38 +146,46 @@ namespace ProjetUnivers
 
     }
 
-    void Model::addTrait(Object* object, 
+    void Model::addTrait(Object* object,
                          Trait* new_trait)
     {
-      CHECK(object,"Model::destroyTrait no object") ;
-      CHECK(new_trait,"Model::destroyTrait no new trait") ;
-      
+      Log::Block temp("Structure","addTrait") ;
+
+      if (object->m_deleting)
+        return ;
+
+      bool deduced = ! new_trait->isPrimitive() ;
+
+      startTransaction() ;
       object->_add(new_trait) ;
-      DeducedTrait* deduced = dynamic_cast<DeducedTrait*>(new_trait) ;
+      endTransaction() ;
+
       if (deduced)
         m_statistics.addDeducedTrait() ;
       else
         m_statistics.addPrimitiveTrait() ;
     }
 
-    void Model::destroyTrait(Object* object, 
+    void Model::destroyTrait(Object* object,
                             Trait* trait)
     {
-      CHECK(object,"Model::destroyTrait no object") ;
-      CHECK(trait,"Model::destroyTrait no trait") ;
+      Log::Block temp("Structure","destroyTrait") ;
 
       DeducedTrait* deduced = dynamic_cast<DeducedTrait*>(trait) ;
       if (deduced)
         m_statistics.removeDeducedTrait() ;
       else
         m_statistics.removePrimitiveTrait() ;
-      
+
+      startTransaction() ;
       object->_remove(trait) ;
+      endTransaction() ;
     }
-    
+
     Model::~Model()
     {
       m_destroying = true ;
+
       for(std::set<ObjectReference*>::iterator reference = m_references.begin() ;
           reference != m_references.end() ;
           ++reference)
@@ -203,7 +201,7 @@ namespace ProjetUnivers
         (*controler_set)->close() ;
         delete (*controler_set) ;
       }
-      
+
       /// 1. close all view points
       for(std::set<ViewPoint*>::iterator viewpoint = m_viewpoints.begin() ;
           viewpoint != m_viewpoints.end() ;
@@ -212,8 +210,8 @@ namespace ProjetUnivers
         (*viewpoint)->close() ;
         delete *viewpoint ;
       }
-      
-      /// 2. destroy m_objects 
+
+      /// 2. destroy m_objects
       for(std::set<Object*>::iterator object = m_objects.begin() ;
           object != m_objects.end() ;
           ++object)
@@ -221,10 +219,9 @@ namespace ProjetUnivers
         delete *object ;
       }
     }
-    
+
     Model::Model(const std::string& name)
     : m_name(name),
-      m_destroying(false),
       m_is_simulating_controler_set(false),
       m_next_identifier(0)
     {}
@@ -238,7 +235,7 @@ namespace ProjetUnivers
           ++object)
       {
         (*object)->_create_views(viewpoint) ;
-      }      
+      }
     }
 
     void Model::_unregister(ViewPoint* viewpoint)
@@ -257,17 +254,17 @@ namespace ProjetUnivers
           ++object)
       {
         (*object)->_create_controlers(controler_set) ;
-      }      
+      }
     }
 
     void Model::_unregister(ControlerSet* controler_set)
     {
       if (m_destroying)
         return ;
-      
+
       m_controler_sets.erase(controler_set) ;
     }
-    
+
     void Model::_init(ViewPoint* viewpoint)
     {
       for(std::set<Object*>::iterator object = m_objects.begin() ;
@@ -275,9 +272,9 @@ namespace ProjetUnivers
           ++object)
       {
         (*object)->_init(viewpoint) ;
-      }      
+      }
     }
-  
+
     void Model::_close(ViewPoint* viewpoint)
     {
       for(std::set<Object*>::iterator object = m_objects.begin() ;
@@ -295,7 +292,7 @@ namespace ProjetUnivers
           ++object)
       {
         (*object)->_init(controler_set) ;
-      }      
+      }
     }
 
     void Model::_close(ControlerSet* controler_set)
@@ -305,14 +302,14 @@ namespace ProjetUnivers
           ++object)
       {
         (*object)->_close(controler_set) ;
-      }      
+      }
     }
 
     const std::set<Object*>& Model::getRoots() const
     {
       return m_objects ;
     }
-    
+
     void Model::_registerReference(ObjectReference* reference)
     {
       m_references.insert(reference) ;
@@ -326,7 +323,7 @@ namespace ProjetUnivers
     void Model::addManualView(BaseTraitView* view)
     {
       view->getTrait()->addView(view->m_viewpoint,view) ;
-      if (!view->getObject()->m_deleting)
+      if (!view->getObject()->m_deleting && view->m_viewpoint->isInitialised())
       {
         view->_init() ;
       }
@@ -341,19 +338,19 @@ namespace ProjetUnivers
     {
       return m_controler_sets ;
     }
-  
+
     ViewPoint* Model::addViewPoint(ViewPoint* viewpoint)
     {
       // nothing to do, viewpoints are already registered
       return viewpoint ;
     }
-    
+
     ControlerSet* Model::addControlerSet(ControlerSet* controlerset)
     {
       // nothing to do, controler sets are already registered
       return controlerset ;
     }
-    
+
     void Model::init()
     {
       ViewPoint::buildRegistered(this) ;
@@ -393,7 +390,7 @@ namespace ProjetUnivers
         (*viewpoint)->close() ;
       }
     }
-    
+
     void Model::update(const float& seconds)
     {
       // first update controler sets then viewpoints
@@ -415,30 +412,19 @@ namespace ProjetUnivers
         (*viewpoint)->update(seconds) ;
       }
     }
-    
+
     void Model::beginSimulation()
     {
       m_is_simulating_controler_set = true ;
+      startTransaction() ;
     }
-    
+
     void Model::endSimulation()
     {
       m_is_simulating_controler_set = false ;
-      for(std::list<ObjectReference>::const_iterator object = m_objects_to_destroy.begin() ;
-          object != m_objects_to_destroy.end() ;
-          ++object)
-      {
-        if (*object)
-          destroyObject(*object) ;
-      }
+      endTransaction() ;
     }
-    
-    void Model::addObjectToDestroy(Object* object)
-    {
-      if (! m_destroying)
-        m_objects_to_destroy.push_back(object) ;
-    }
-    
+
     void Model::resetStatistics()
     {
       for(std::set<Kernel::ControlerSet*>::const_iterator controlerset = getControlerSets().begin() ;
@@ -448,7 +434,7 @@ namespace ProjetUnivers
         (*controlerset)->resetStatistics() ;
       }
     }
-    
+
     void Model::printStatistics() const
     {
       float total = 0 ;
@@ -457,17 +443,17 @@ namespace ProjetUnivers
           ++controlerset)
       {
         total += (*controlerset)->getStatistics() ;
-        InternalMessage("Statistics",getObjectTypeIdentifier(*controlerset).toString() + 
-                                    "=" + toString((*controlerset)->getStatistics())) ;
+        InternalMessage("Statistics",getObjectTypeIdentifier(*controlerset).toString() +
+                                    "=" + Kernel::toString((*controlerset)->getStatistics())) ;
       }
-      
-      InternalMessage("Statistics","total =" + toString(total)) ;
-      
-      InternalMessage("Statistics","number of deduced traits per objects = " + toString(m_statistics.maximumNumberOfDeducedTraitsPerObject())) ;
-      InternalMessage("Statistics","number of primitive traits per objects = " + toString(m_statistics.maximumNumberOfPrimitiveTraitsPerObject())) ;
-      
+
+      InternalMessage("Statistics","total =" + Kernel::toString(total)) ;
+
+      InternalMessage("Statistics","number of deduced traits per objects = " + Kernel::toString(m_statistics.maximumNumberOfDeducedTraitsPerObject())) ;
+      InternalMessage("Statistics","number of primitive traits per objects = " + Kernel::toString(m_statistics.maximumNumberOfPrimitiveTraitsPerObject())) ;
+
     }
-    
+
     void Model::setTimeStep(const float& seconds)
     {
       for(std::set<Kernel::ControlerSet*>::const_iterator controlerset = getControlerSets().begin() ;
@@ -477,7 +463,27 @@ namespace ProjetUnivers
         (*controlerset)->setTimeStep(seconds) ;
       }
     }
-    
+
+    void Model::initObserver(Observer* observer)
+    {
+      addOperation(Implementation::Operation::init(observer)) ;
+    }
+
+    void Model::closeObserver(Observer* observer)
+    {
+      addOperation(Implementation::Operation::close(observer)) ;
+    }
+
+    void Model::updateObserver(Observer* observer)
+    {
+      addOperation(Implementation::Operation::update(observer)) ;
+    }
+
+    void Model::changeParentObserver(Observer*,Object*)
+    {
+
+    }
+
   }
 }
 

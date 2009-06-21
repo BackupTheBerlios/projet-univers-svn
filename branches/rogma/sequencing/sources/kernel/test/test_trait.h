@@ -29,11 +29,21 @@ namespace ProjetUnivers
     namespace Test
     {
 
-      /// Test for Trait.
+      /// Test for trait/deduced trait dependencies.
       class TestTrait : public CppUnit::TestFixture
       {
       protected:
-      /// @name Tests methods
+      /*!
+        @name Trait dependencies udpate tests
+
+        there are 3 operations : addTrait, destroyTrait and changeParent
+        there are 7 formula constructors (And,Or,HasTrait,HasParent,HasAncestor,
+        HasChild) with only 4 that are impacted by changeParent.
+
+        That makes a total of 2x7 (add/destroy trait on all formulae)
+                            + 4 (changeParent on "parentship" formulae)
+                            = 18 combinations just for the nominal tests
+      */
       // @{
 
         void depedentTrait() ;
@@ -41,7 +51,16 @@ namespace ProjetUnivers
         void parentTrait() ;
         void childTrait() ;
         void orAddNewTrait() ;
-        void changeParent() ;
+
+        void addTraitChangeHasParentDependencies() ;
+        void removeTraitChangeHasParentDependencies() ;
+        void removeTraitChangeHasParentDependenciesByBecommingFalse() ;
+        void changeParentChangeHasParentDependencies() ;
+        void addTraitOnEmptyStructure() ;
+
+        void hasParentFormulaDependencies() ;
+        void andHasParentAddTraitChangeHasParentDependencies() ;
+        void hasParentOnDeducedTrait() ;
 
      // @}
 
@@ -52,8 +71,14 @@ namespace ProjetUnivers
         CPPUNIT_TEST(parentTrait) ;
         CPPUNIT_TEST(childTrait) ;
         CPPUNIT_TEST(orAddNewTrait) ;
-        /// @todo
-        //CPPUNIT_TEST(changeParent) ;
+        CPPUNIT_TEST(addTraitChangeHasParentDependencies) ;
+        CPPUNIT_TEST(removeTraitChangeHasParentDependencies) ;
+        CPPUNIT_TEST(removeTraitChangeHasParentDependenciesByBecommingFalse) ;
+        CPPUNIT_TEST(changeParentChangeHasParentDependencies) ;
+        CPPUNIT_TEST(addTraitOnEmptyStructure) ;
+        CPPUNIT_TEST(hasParentFormulaDependencies) ;
+        CPPUNIT_TEST(andHasParentAddTraitChangeHasParentDependencies) ;
+        CPPUNIT_TEST(hasParentOnDeducedTrait) ;
 
         CPPUNIT_TEST_SUITE_END() ;
       };

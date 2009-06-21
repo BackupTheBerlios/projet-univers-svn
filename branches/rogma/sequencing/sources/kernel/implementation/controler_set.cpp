@@ -25,11 +25,11 @@
 
 #include <kernel/controler_set.h>
 
-namespace ProjetUnivers 
+namespace ProjetUnivers
 {
-  namespace Kernel 
+  namespace Kernel
   {
-  
+
     ControlerSet::StaticStorage* ControlerSet::StaticStorage::get()
     {
       static StaticStorage temp ;
@@ -40,11 +40,11 @@ namespace ProjetUnivers
     {
       m_timestep = timestep ;
     }
-    
+
     void ControlerSet::update(const float& seconds)
     {
       Kernel::Timer timer ;
-      
+
       if (m_timestep==0)
       {
         this->simulate(seconds) ;
@@ -52,48 +52,51 @@ namespace ProjetUnivers
       else
       {
         m_elapsed += seconds ;
-  
+
         while (m_elapsed >= m_timestep)
         {
           this->simulate(m_timestep) ;
           m_elapsed -= m_timestep ;
         }
       }
-      
+
       float elapsed = timer.getSecond() ;
       m_consumed_time += elapsed ;
       m_simulation_time += seconds ;
     }
-    
+
     void ControlerSet::simulate(const float& seconds)
     {
-      
+
       boost::function2<void,
                        BaseControler*,
-                       float> f 
+                       float> f
                           = &BaseControler::simulate ;
-      
+
       applyTopDown(std::bind2nd(f,seconds)) ;
     }
-    
+
     float ControlerSet::getStatistics() const
     {
       return 100*m_consumed_time/m_simulation_time ;
     }
-    
+
     void ControlerSet::applyTopDown(boost::function1<void,BaseControler*> procedure)
     {
-      /// down to top recursive simulation on controlers.
+      m_model->startTransaction() ;
+      /// top to down recursive simulation on controlers.
       for(std::set<Object*>::const_iterator object = m_model->m_objects.begin() ;
           object != m_model->m_objects.end() ;
           ++object)
       {
         (*object)->applyTopDown(this,procedure) ;
       }
+      m_model->endTransaction() ;
     }
 
     void ControlerSet::applyBottomUp(boost::function1<void,BaseControler*> procedure)
     {
+      m_model->startTransaction() ;
       /// down to top recursive simulation on controlers.
       for(std::set<Object*>::const_iterator object = m_model->m_objects.begin() ;
           object != m_model->m_objects.end() ;
@@ -101,8 +104,9 @@ namespace ProjetUnivers
       {
         (*object)->applyBottomUp(this,procedure) ;
       }
+      m_model->endTransaction() ;
     }
-    
+
     void ControlerSet::init()
     {
       if (! m_initialised)
@@ -111,11 +115,11 @@ namespace ProjetUnivers
         {
           m_model->_register(this) ;
         }
-        
+
         onInit() ;
-        
+
         m_initialised = true ;
-        
+
         /// must init all the objects according to current viewpoint
         if (m_model)
         {
@@ -135,12 +139,12 @@ namespace ProjetUnivers
         m_initialised = false ;
       }
     }
-    
+
     ControlerSet::~ControlerSet()
     {
       close() ;
     }
-      
+
     ControlerSet::ControlerSet(Model* model)
     : m_model(model),
       m_initialised(false),
@@ -149,13 +153,13 @@ namespace ProjetUnivers
       m_elapsed(0),
       m_timestep(0.1)
     {}
-    
+
     void ControlerSet::resetStatistics()
     {
       m_consumed_time = 0 ;
       m_simulation_time = 0 ;
     }
-    
+
     bool ControlerSet::isVisible(Object*) const
     {
       return true ;
@@ -164,7 +168,7 @@ namespace ProjetUnivers
     bool ControlerSet::isInitialised() const
     {
       return m_initialised ;
-    }      
+    }
 
     void ControlerSet::onInit()
     {
@@ -173,7 +177,7 @@ namespace ProjetUnivers
     void ControlerSet::onClose()
     {
     }
-    
+
     void ControlerSet::setModel(Model* model)
     {
       if (m_initialised && m_model)
@@ -182,9 +186,9 @@ namespace ProjetUnivers
         m_model->_close(this) ;
         m_model->_unregister(this) ;
       }
-      
+
       m_model = model ;
-      
+
       if (m_model)
       {
         m_model->_register(this) ;
@@ -196,10 +200,10 @@ namespace ProjetUnivers
     {
       StaticStorage::get()->m_controler_set_builders.push_back(builder) ;
     }
-    
+
     void ControlerSet::buildRegistered(Model* model)
     {
-      for(std::list<ControlerSetBuilder>::const_iterator 
+      for(std::list<ControlerSetBuilder>::const_iterator
             builder = StaticStorage::get()->m_controler_set_builders.begin() ;
           builder != StaticStorage::get()->m_controler_set_builders.end() ;
           ++builder)
@@ -208,6 +212,6 @@ namespace ProjetUnivers
         model->_register(controlerset) ;
       }
     }
-    
+
   }
 }

@@ -20,43 +20,71 @@
  ***************************************************************************/
 #pragma once
 
-namespace ProjetUnivers 
+#include <list>
+#include <set>
+#include <kernel/implementation/operation.h>
+
+namespace ProjetUnivers
 {
-  namespace Kernel 
+  namespace Kernel
   {
-    class Model ;
-    
+    class Trait ;
     namespace Implementation
     {
-      class Transaction ;
-      
-      /// Model comand interpretor.
+      /// Model command interpretor.
       /*!
-        Executes commands on model and handle sequencement of operations.
+        Memorise init/close/update on obsever to play them after.
       */
       class Interpretor
       {
       public:
-        
-        Interpretor(Model*) ;
+      /*!
+        @name Modification functions
+      */
+      // @{
 
+        /// All observers callbacks performed during a transation are delayed.
         void startTransaction() ;
+
+        /// Add an operation to be performed locally
+        void addOperation(const Implementation::Operation&) ;
+
+        /// Put the trait in a pool of trait to destroy.
+        void recordTraitToDestroy(Trait*) ;
+
+        /// Really executes the callbacks
         void endTransaction() ;
-        void startConcurrentBlock() ;
-        void endConcurrentBlock() ;
-        
-        void destroyObject(Object*) ;
-        void addTrait(Object*,Trait*) ;
-        void destroyTrait(Object*,Trait*) ;
-        
-        Object* getParent(Object*) const ;
-        Trait* getTrait(Object*,const TypeIdentifier&) const ;
-        std::set<Object*> getChildren(Object*) const ;
-        
+
+      // @}
+
+        virtual ~Interpretor() ;
+
+        /// Prints the operations remaining in @c module.
+        std::string toString(const char* module) const ;
+
+      protected:
+
+        Interpretor() ;
+
+        /// Add an object to be destroyed.
+        void addObjectToDestroy(Object*) ;
+
+        /// true during destruction.
+        bool m_destroying ;
+
       private:
-        
-        Model*                  m_model ;
-        std::list<Transaction*> m_transactions ;
+
+        int m_number_of_openned_transaction ;
+
+        /// True when we are finishing the oppened transactions
+        bool m_is_finishing ;
+        std::list<Implementation::Operation> m_operations ;
+        std::set<Trait*> m_traits_to_destroy ;
+        /// Objects to be destroyed.
+        std::list<ObjectReference> m_objects_to_destroy ;
+        bool m_destroying_traits ;
+
+        std::list<Implementation::Operation> m_performed_operations ;
       };
     }
   }

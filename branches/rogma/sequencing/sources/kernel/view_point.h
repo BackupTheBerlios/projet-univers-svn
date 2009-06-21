@@ -29,34 +29,34 @@
 #include <kernel/object.h>
 #include <kernel/model.h>
 
-namespace ProjetUnivers 
+namespace ProjetUnivers
 {
-  namespace Kernel 
+  namespace Kernel
   {
-    
+
     class Trait ;
     class BaseTraitView ;
     class ViewPointRegistration ;
-    
+
     /// Coherent set of views.
     /*!
-      A view point is a set of views. Generally speaking, all these views 
-      looks on model that are related to each other. These views must all 
-      be updated in order to have a coherent view point.       
-      
-      @par Examples 
+      A view point is a set of views. Generally speaking, all these views
+      looks on model that are related to each other. These views must all
+      be updated in order to have a coherent view point.
+
+      @par Examples
       - what a character looks
       - what a detector detects
-    
+
       @par Usage
       -# create a ViewPoint
       -# call init()
-        
+
     */
-    class ViewPoint 
+    class ViewPoint
     {
     public:
-    
+
       /// initialise the viewpoint.
       void init() ;
 
@@ -65,19 +65,19 @@ namespace ProjetUnivers
 
       /// terminate the viewpoint.
       void close() ;
-      
+
       /// Acces to model.
       Model* getModel() const ;
-      
+
       /// True iff the viewpoint has been initialised
       bool isInitialised() const ;
 
       /// Destructor, destroys all the views.
       virtual ~ViewPoint() ;
-      
+
       /// Update the viewpoint.
       virtual void update(const float& seconds) ;
-      
+
     protected:
 
       /// Build all the registered viewpoints on @c model.
@@ -85,43 +85,43 @@ namespace ProjetUnivers
         ViewPoints can be registered through RegisterViewPoint macro.
       */
       static void buildRegistered(Model* model) ;
-      
+
       /// called during initialisation before views initialisation.
       /*!
-        Default implementation does nothing. Specific viewpoint should 
+        Default implementation does nothing. Specific viewpoint should
         probably redefine this.
       */
       virtual void onInit() ;
 
       /// called during closing after views closing.
       /*!
-        Default implementation does nothing. Specific viewpoint should 
+        Default implementation does nothing. Specific viewpoint should
         probably redefine this.
       */
       virtual void onClose() ;
 
       /// called when changing viewpoint observer.
       /*!
-        Default implementation does nothing. Specific viewpoint should 
+        Default implementation does nothing. Specific viewpoint should
         probably redefine this.
       */
       virtual void onChangeObserver() ;
 
       /// Should i_object should have views in the viewpoint.
       /*!
-        Must be redefined for specialised viewpoints. Default implementation 
+        Must be redefined for specialised viewpoints. Default implementation
         returns true.
-        
+
         @invariant
-          if !isVisible(object) 
-          then 
+          if !isVisible(object)
+          then
             whatever child of object !isVisible(child)
       */
       virtual bool isVisible(Object* i_object) const ;
 
       /// Constructor.
       ViewPoint(Model* i_model) ;
-    
+
       bool   m_initialised ;
       bool   m_model_attached ;
       Model* m_model ;
@@ -131,8 +131,8 @@ namespace ProjetUnivers
 
       /// Static storage
       /*!
-        Because static variable dynamic initialisation occurs in an undefined 
-        order, we use this hook. By calling : 
+        Because static variable dynamic initialisation occurs in an undefined
+        order, we use this hook. By calling :
         <code>
           StaticStorage::get()->variable...
         </code>
@@ -141,22 +141,22 @@ namespace ProjetUnivers
       class StaticStorage
       {
       public:
-        
+
         /// Access to singleton.
-        static StaticStorage* get() ; 
-      
+        static StaticStorage* get() ;
+
         std::list<ViewPointBuilder> m_viewpoint_builders ;
 
       private:
-        
+
         StaticStorage()
         {}
-        
+
       };
-      
+
       /// Register a viewpoint builder.
       static void registerBuilder(ViewPointBuilder) ;
-      
+
       friend class Model ;
       friend class BaseTraitView ;
       friend class Object ;
@@ -168,7 +168,7 @@ namespace ProjetUnivers
       friend class ViewPointRegistration ;
     };
 
-    
+
     /// Register a viewpoint
     #define RegisterViewPoint(ClassViewPoint) \
       namespace PU_MAKE_UNIQUE_NAME(RegisterViewPoint) {                 \
@@ -180,21 +180,21 @@ namespace ProjetUnivers
         static                                                           \
           ProjetUnivers::Kernel::ViewPointRegistration temp(&build) ;    \
       }
-    
-    
+
+
     /// Top down execution of @c i_operation on all @ _View of @c i_viewpoint.
     /*!
       i_operation is a _View -> void function
-      _View is a trait view. 
-    */ 
+      _View is a trait view.
+    */
     template <class _View>
     void forAll(ViewPoint*                    i_viewpoint,
                 boost::function1<void,_View*> i_operation)
-    {                   
-      
+    {
+
       TypeIdentifier         view_name(getClassTypeIdentifier(_View)) ;
       const TypeIdentifier&  trait_name(
-                            Trait::getTraitName(
+                              Trait::getTraitName(
                               view_name,
                               getObjectTypeIdentifier(i_viewpoint))) ;
 
@@ -205,7 +205,7 @@ namespace ProjetUnivers
         (*object)->apply(trait_name,i_viewpoint,i_operation) ;
       }
     }
-    
+
   }
 }
 

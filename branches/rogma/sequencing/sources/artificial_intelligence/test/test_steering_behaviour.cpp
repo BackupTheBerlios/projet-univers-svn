@@ -33,7 +33,7 @@ namespace ProjetUnivers {
 
       namespace
       {
-        /// Acceptable variable for comparison 
+        /// Acceptable variable for comparison
         const float delta = 1e-4 ;
 
         bool equal(float i1,float i2)
@@ -41,7 +41,7 @@ namespace ProjetUnivers {
           return (fabs(i1 - i2) <= delta) ;
         }
       }
-      
+
       void TestSteeringBehaviour::testSeek()
       {
         // A vehicle to seek
@@ -49,20 +49,20 @@ namespace ProjetUnivers {
                                        Ogre::Quaternion(),
                                        Ogre::Vector3(0,0,0),
                                        5) ;
-        
+
         // A vehicle seeking
         Implementation::Vehicle seeker(Ogre::Vector3(10,0,0),
                                        Ogre::Quaternion(),
                                        Ogre::Vector3(0,0,0),
                                        10) ;
-        
-        // A "simulation" loop : calculate steering and apply it 
+
+        // A "simulation" loop : calculate steering and apply it
         for(int i = 1 ; i <= 1000 ; ++i)
         {
           Ogre::Vector3 steering = Implementation::SteeringBehaviour::seek(seeker,target) ;
           seeker.simulate(steering) ;
         }
-        
+
         // check that seeker position is almost zero
         /*
           @remark only valid because max_force >= max_speed so seek == arrival
@@ -71,7 +71,7 @@ namespace ProjetUnivers {
         CPPUNIT_ASSERT(equal(seeker.getPosition().y,0)) ;
         CPPUNIT_ASSERT(equal(seeker.getPosition().z,0)) ;
       }
-      
+
       void TestSteeringBehaviour::testPursuitLinear()
       {
         // A vehicle to seek (not too speedy to be able to catch it)
@@ -79,24 +79,24 @@ namespace ProjetUnivers {
                                        Ogre::Quaternion(),
                                        Ogre::Vector3(5,0,0),
                                        5) ;
-        
+
         // A vehicle seeking
         Implementation::Vehicle seeker(Ogre::Vector3(10,0,0),
                                        Ogre::Quaternion(),
                                        Ogre::Vector3(0,0,0),
                                        10) ;
-        
-        // A "simulation" loop : calculate steering and apply it 
+
+        // A "simulation" loop : calculate steering and apply it
         for(int i = 1 ; i <= 1000 ; ++i)
         {
           target.simulate(Ogre::Vector3::ZERO) ;
           Ogre::Vector3 steering = Implementation::SteeringBehaviour::pursuit(seeker,target) ;
           seeker.simulate(steering) ;
         }
-        
+
         // check that both objects nearly have same position
         Ogre::Vector3 offset = target.getPosition()  - seeker.getPosition() ;
-        
+
         CPPUNIT_ASSERT(offset.length() < seeker.getMaxSpeed()) ;
       }
 
@@ -107,25 +107,25 @@ namespace ProjetUnivers {
                                        Ogre::Quaternion(),
                                        Ogre::Vector3(5,0,0),
                                        5) ;
-        
+
         // A vehicle seeking
         Implementation::Vehicle seeker(Ogre::Vector3(10,50,0),
                                        Ogre::Quaternion(),
                                        Ogre::Vector3(-5,0,0),
                                        10) ;
-        
-        
-        // A "simulation" loop : calculate steering and apply it 
+
+
+        // A "simulation" loop : calculate steering and apply it
         for(int i = 1 ; i <= 1000 ; ++i)
         {
           target.simulate(Ogre::Vector3::ZERO) ;
           Ogre::Vector3 steering = Implementation::SteeringBehaviour::pursuit(seeker,target) ;
           seeker.simulate(steering) ;
         }
-        
+
         // check that both objects nearly have same position
         Ogre::Vector3 offset = target.getPosition()  - seeker.getPosition() ;
-        
+
         CPPUNIT_ASSERT(offset.length() < seeker.getMaxSpeed()) ;
       }
 
@@ -137,24 +137,24 @@ namespace ProjetUnivers {
                                        Ogre::Quaternion(),
                                        Ogre::Vector3(5,0,0),
                                        5) ;
-        
+
         // A vehicle seeking
         Implementation::Vehicle seeker(Ogre::Vector3(10,0,0),
                                        Ogre::Quaternion(),
                                        Ogre::Vector3(-5,0,0),
                                        10) ;
-        
-        // A "simulation" loop : calculate steering and apply it 
+
+        // A "simulation" loop : calculate steering and apply it
         for(int i = 1 ; i <= 1000 ; ++i)
         {
           target.simulate(Ogre::Vector3::ZERO) ;
           Ogre::Vector3 steering = Implementation::SteeringBehaviour::pursuit(seeker,target) ;
           seeker.simulate(steering) ;
         }
-        
+
         // check that both objects nearly have same position
         Ogre::Vector3 offset = target.getPosition()  - seeker.getPosition() ;
-        
+
         CPPUNIT_ASSERT(offset.length() < seeker.getMaxSpeed()) ;
 
         InternalMessage("AI","Leaving TestSteeringBehaviour::testPursuitTargetBehind" ) ;
@@ -168,27 +168,27 @@ namespace ProjetUnivers {
                                        Ogre::Quaternion(),
                                        Ogre::Vector3(5,0,0),
                                        5) ;
-        
+
         // A vehicle seeking
         Implementation::Vehicle seeker(Ogre::Vector3(10,0,0),
                                        Ogre::Quaternion(),
                                        Ogre::Vector3(-5,0,0),
                                        10) ;
-        
+
         Ogre::Vector3 local_offset(-10,0,0) ;
-        
-        // A "simulation" loop : calculate steering and apply it 
+
+        // A "simulation" loop : calculate steering and apply it
         for(int i = 1 ; i <= 1000 ; ++i)
         {
           target.simulate(Ogre::Vector3::ZERO) ;
-          Ogre::Vector3 steering 
+          Ogre::Vector3 steering
             = Implementation::SteeringBehaviour::offsetPursuit(seeker,target,local_offset) ;
           seeker.simulate(steering) ;
         }
-        
+
         // check that both objects nearly have same position
         Ogre::Vector3 offset = target.getPosition() + target.getOrientation()*local_offset - seeker.getPosition() ;
-        
+
         CPPUNIT_ASSERT(offset.length() < seeker.getMaxSpeed()) ;
 
         InternalMessage("AI","Leaving TestSteeringBehaviour::testOffsetPursuitTargetBehind" ) ;
@@ -202,20 +202,20 @@ namespace ProjetUnivers {
                                        Ogre::Quaternion(),
                                        Ogre::Vector3(5,0,0),
                                        5) ;
-        
+
         // A vehicle seeking
         Implementation::Vehicle seeker(Ogre::Vector3(10,0,0),
                                        Ogre::Quaternion(),
                                        Ogre::Vector3(-5,0,0),
                                        10) ;
-        
+
         Ogre::Vector3 local_offset(0,10,0) ;
-        
-        // A "simulation" loop : calculate steering and apply it 
+
+        // A "simulation" loop : calculate steering and apply it
         for(int i = 1 ; i <= 1000 ; ++i)
         {
           target.simulate(Ogre::Vector3::ZERO) ;
-          Ogre::Vector3 steering 
+          Ogre::Vector3 steering
             = Implementation::SteeringBehaviour::offsetPursuit(seeker,target,local_offset) ;
           seeker.simulate(steering) ;
         }
@@ -236,15 +236,15 @@ namespace ProjetUnivers {
                                        Ogre::Vector3(5,0,0),
                                        5,
                                        10) ;
-        
+
         // A vehicle seeking
         Implementation::Vehicle seeker(Ogre::Vector3(10,0,0),
                                        Ogre::Quaternion(),
                                        Ogre::Vector3(-5,0,0),
                                        10,
                                        10) ;
-        
-        // A "simulation" loop : calculate steering and apply it 
+
+        // A "simulation" loop : calculate steering and apply it
         for(int i = 1 ; i <= 1000 ; ++i)
         {
           Ogre::Vector3 target_steering = Implementation::SteeringBehaviour::wander(target) ;
@@ -252,7 +252,7 @@ namespace ProjetUnivers {
           Ogre::Vector3 steering = Implementation::SteeringBehaviour::pursuit(seeker,target) ;
           seeker.simulate(steering) ;
         }
-        
+
         // check that both objects nearly have same position
         CPPUNIT_ASSERT((target.getPosition() - seeker.getPosition()).length() < seeker.getMaxSpeed()) ;
 
@@ -267,14 +267,14 @@ namespace ProjetUnivers {
                                        Ogre::Quaternion(),
                                        Ogre::Vector3(5,0,0),
                                        8) ;
-        
+
         // A vehicle seeking
         Implementation::Vehicle seeker(Ogre::Vector3(10,0,0),
                                        Ogre::Quaternion(),
                                        Ogre::Vector3(-5,0,0),
                                        10) ;
-        
-        // A "simulation" loop : calculate steering and apply it 
+
+        // A "simulation" loop : calculate steering and apply it
         for(int i = 1 ; i <= 100 ; ++i)
         {
           Ogre::Vector3 target_steering = Implementation::SteeringBehaviour::evade(target,seeker) ;
@@ -282,38 +282,38 @@ namespace ProjetUnivers {
           Ogre::Vector3 steering = Implementation::SteeringBehaviour::pursuit(seeker,target) ;
           seeker.simulate(steering) ;
         }
-        
+
         // check that both objects nearly have same position
         Ogre::Vector3 offset = target.getPosition()  - seeker.getPosition() ;
-        
+
         CPPUNIT_ASSERT(equal(target.getSpeed().length(),target.getMaxSpeed())) ;
         CPPUNIT_ASSERT(offset.length() < seeker.getMaxSpeed()) ;
 
         InternalMessage("AI","Leaving TestSteeringBehaviour::evadeNearTarget" ) ;
       }
-      
+
       void TestSteeringBehaviour::obstacleAvoidance()
       {
         InternalMessage("AI","Entering TestSteeringBehaviour::obstacleAvoidance" ) ;
         Implementation::Vehicle obstacle1 ;
         obstacle1.setPosition(Ogre::Vector3(50,0,0)) ;
         obstacle1.setSize(10) ;
-        
+
         // A vehicle to seek (in fact the zero position)
         Implementation::Vehicle target ;
-        
+
         // an agent
         Implementation::Vehicle agent ;
         agent.setPosition(Ogre::Vector3(100,0,0)) ;
         agent.setMaxSpeed(10) ;
         agent.setSize(10) ;
         agent.setTurningRate(Ogre::Degree(10)) ;
-        
+
         std::set<Implementation::Vehicle*> obstacles ;
         obstacles.insert(&obstacle1) ;
         int number_of_collisions = 0 ;
-        
-        // A "simulation" loop : calculate steering and apply it 
+
+        // A "simulation" loop : calculate steering and apply it
         for(int i = 1 ; i <= 100 ; ++i)
         {
           // simulate obstacles
@@ -326,28 +326,20 @@ namespace ProjetUnivers {
                (agent.getRadius()+(*obstacle)->getRadius()))
              ++number_of_collisions ;
           }
-          
-          Ogre::Vector3 steering = Implementation::SteeringBehaviour::seek(agent,target) ; 
+
+          Ogre::Vector3 steering = Implementation::SteeringBehaviour::seek(agent,target) ;
           Ogre::Vector3 avoidance = Implementation::SteeringBehaviour::obstacleAvoidance(agent,obstacles) ;
-          
+
           if (avoidance.length()>0)
             agent.simulate(avoidance) ;
           else
             agent.simulate(steering) ;
         }
-        
+
 //        std::cout << number_of_collisions ;
         CPPUNIT_ASSERT(number_of_collisions == 0) ;
-        
+
         InternalMessage("AI","Leaving TestSteeringBehaviour::obstacleAvoidance" ) ;
-      }
-      
-      void TestSteeringBehaviour::setUp() 
-      {
-      }
-      
-      void TestSteeringBehaviour::tearDown() 
-      {
       }
 
     }

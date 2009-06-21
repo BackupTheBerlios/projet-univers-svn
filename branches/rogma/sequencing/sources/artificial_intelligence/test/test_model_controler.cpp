@@ -74,14 +74,14 @@
 CPPUNIT_TEST_SUITE_REGISTRATION(
     ProjetUnivers::ArtificialIntelligence::Test::TestModelControler) ;
 
-namespace ProjetUnivers 
+namespace ProjetUnivers
 {
-  namespace ArtificialIntelligence 
+  namespace ArtificialIntelligence
   {
-    namespace Test 
+    namespace Test
     {
 
-      
+
       void TestModelControler::build()
       {
         InternalMessage("AI","AI::TestModelControler::build entering") ;
@@ -91,7 +91,7 @@ namespace ProjetUnivers
         model->init() ;
         Kernel::ControlerSet* logic = model->getControlerSet<Model::Implementation::Logic::LogicSystem>() ;
         logic->setTimeStep(0) ;
-        
+
         Kernel::Object* system = model->createObject() ;
 
         Kernel::Object* ship = system->createObject() ;
@@ -107,13 +107,13 @@ namespace ProjetUnivers
         ship->addTrait(new Model::Detector(ship)) ;
         ship->addTrait(new Model::TargetingSystem()) ;
         Model::TargetingSystem::connect(ship,ship) ;
-        
+
         Kernel::Object* agent = ship->createObject() ;
         agent->addTrait(new Model::AutonomousCharacter()) ;
         agent->addTrait(new Model::WithObjectives()) ;
         agent->addTrait(new Kernel::CommandDelegator()) ;
         agent->getTrait<Kernel::CommandDelegator>()->addDelegate(ship) ;
-        
+
         Kernel::Object* ship2 = system->createObject() ;
         ship2->addTrait(new Model::Positionned(Model::Position::Meter(0,0,500))) ;
         ship2->addTrait(new Model::Massive(Model::Mass::Kilogram(1000))) ;
@@ -127,81 +127,81 @@ namespace ProjetUnivers
         ship3->addTrait(new Model::Oriented()) ;
         ship3->addTrait(new Model::Mobile()) ;
         ship3->addTrait(new Model::Solid(Model::Mesh("razor.mesh"))) ;
-        
-        model->update(0) ;
+
+        model->update(0.0) ;
 
         Model::PhysicalWorld* physical_world = agent->getAncestor<Model::PhysicalWorld>() ;
         CPPUNIT_ASSERT(physical_world) ;
-        
-        // 3. check that views/controlers are built 
-        /// get the physical viewpoint        
+
+        // 3. check that views/controlers are built
+        /// get the physical viewpoint
         Implementation::AISystem* ai_system = model->getControlerSet<Implementation::AISystem>() ;
         CPPUNIT_ASSERT(ai_system) ;
-        
+
         Implementation::AutonomousAgent* autonomous_agent = agent->getTrait<Implementation::AutonomousAgent>() ;
         CPPUNIT_ASSERT(autonomous_agent) ;
-        
+
         Implementation::Agent* agent_controler = autonomous_agent->getControler<Implementation::Agent>(ai_system) ;
         CPPUNIT_ASSERT(agent_controler) ;
-        
+
         CPPUNIT_ASSERT(Model::getControledShip(agent)) ;
         CPPUNIT_ASSERT(Model::getControledShip(agent) == ship) ;
-        
+
         std::set<Model::Computer*> computers = Model::getControledShip(agent)->getChildren<Model::Computer>() ;
         CPPUNIT_ASSERT(computers.size() == 1) ;
-        
+
         CPPUNIT_ASSERT(Model::getControledShip(agent)) ;
-        
+
         const std::set<Implementation::Vehicle*>& vehicles = agent_controler->getVehicles() ;
         CPPUNIT_ASSERT(vehicles.size()==2) ;
-        
+
         // check selected target
         CPPUNIT_ASSERT(! agent_controler->getTarget()) ;
         ship->getTrait<Model::TargetingSystem>()->selectNextTarget() ;
         CPPUNIT_ASSERT(agent_controler->getTarget()) ;
-        
+
         // check position and speed of vehicles
-        for(std::set<Implementation::Vehicle*>::const_iterator vehicle = vehicles.begin() ; 
+        for(std::set<Implementation::Vehicle*>::const_iterator vehicle = vehicles.begin() ;
             vehicle != vehicles.end() ;
             ++vehicle)
         {
           CPPUNIT_ASSERT(((*vehicle)->getPosition() == Ogre::Vector3(0,0,500)) ||
                          ((*vehicle)->getPosition() == Ogre::Vector3(500,0,500))) ;
-          
+
           CPPUNIT_ASSERT(((*vehicle)->getSpeed() == Ogre::Vector3(0,0,0)) ||
                          ((*vehicle)->getSpeed() == Ogre::Vector3(0,10,0))) ;
         }
-        
+
         ship2->getTrait<Model::Positionned>()->setPosition(Model::Position::Meter(-500,0,500)) ;
         ship3->getTrait<Model::Mobile>()->setSpeed(Model::Speed::MeterPerSecond(0,-10,0)) ;
         model->update(0) ;
-        
-        for(std::set<Implementation::Vehicle*>::const_iterator vehicle = vehicles.begin() ; 
+
+        for(std::set<Implementation::Vehicle*>::const_iterator vehicle = vehicles.begin() ;
             vehicle != vehicles.end() ;
             ++vehicle)
         {
           CPPUNIT_ASSERT(((*vehicle)->getPosition() == Ogre::Vector3(-500,0,500)) ||
                          ((*vehicle)->getPosition() == Ogre::Vector3(500,0,500))) ;
-          
+
           CPPUNIT_ASSERT(((*vehicle)->getSpeed() == Ogre::Vector3(0,-10,0)) ||
                          ((*vehicle)->getSpeed() == Ogre::Vector3(0,10,0))) ;
         }
-        
+
         ship->getTrait<Model::Positionned>()->setPosition(Model::Position::Meter(1000,0,500)) ;
         ship->getTrait<Model::Oriented>()->setOrientation(Model::Orientation(::Ogre::Quaternion(::Ogre::Degree(180),::Ogre::Vector3::UNIT_Y))) ;
-        model->update(0) ;
+        model->update(0.0) ;
 
-        for(std::set<Implementation::Vehicle*>::const_iterator vehicle = vehicles.begin() ; 
+        for(std::set<Implementation::Vehicle*>::const_iterator vehicle = vehicles.begin() ;
             vehicle != vehicles.end() ;
             ++vehicle)
         {
           CPPUNIT_ASSERT(((*vehicle)->getPosition() == Ogre::Vector3(-500,0,500)) ||
                          ((*vehicle)->getPosition() == Ogre::Vector3(500,0,500))) ;
-          
+
           CPPUNIT_ASSERT(((*vehicle)->getSpeed() == Ogre::Vector3(0,-10,0)) ||
                          ((*vehicle)->getSpeed() == Ogre::Vector3(0,10,0))) ;
         }
-        
+
         CPPUNIT_ASSERT(agent_controler->getVehicle()) ;
         InternalMessage("AI","AI::TestModelControler::build leaving") ;
       }
@@ -217,7 +217,7 @@ namespace ProjetUnivers
         team1->addTrait(new Model::Team("team1")) ;
         Kernel::Object* team2 = model->createObject() ;
         team2->addTrait(new Model::Team("team2")) ;
-        
+
         Kernel::Object* system = model->createObject() ;
 
         Kernel::Object* ship = system->createObject() ;
@@ -234,14 +234,14 @@ namespace ProjetUnivers
         ship->addTrait(new Model::Transponder(team1)) ;
         ship->addTrait(new Model::TargetingSystem()) ;
         Model::TargetingSystem::connect(ship,ship) ;
-        
+
         Kernel::Object* agent = ship->createObject() ;
         agent->addTrait(new Model::AutonomousCharacter()) ;
         agent->addTrait(new Model::WithObjectives()) ;
         agent->addTrait(new Kernel::CommandDelegator()) ;
         agent->getTrait<Kernel::CommandDelegator>()->addDelegate(ship) ;
         agent->getTrait<Model::WithObjectives>()->addObjective(Model::Objective::attackAllEnemies()) ;
-        
+
         Kernel::Object* ship2 = system->createObject() ;
         ship2->addTrait(new Model::Positionned(Model::Position::Meter(0,0,500))) ;
         ship2->addTrait(new Model::Massive(Model::Mass::Kilogram(1000))) ;
@@ -257,30 +257,30 @@ namespace ProjetUnivers
         ship3->addTrait(new Model::Mobile()) ;
         ship3->addTrait(new Model::Solid(Model::Mesh("razor.mesh"))) ;
         ship3->addTrait(new Model::Transponder(team2)) ;
-        
+
         model->update(0.1) ;
 
         Model::PhysicalWorld* physical_world = agent->getAncestor<Model::PhysicalWorld>() ;
         CPPUNIT_ASSERT(physical_world) ;
-        
+
         model->update(0.1) ;
 
         // target must be ship3
-        /// get the physical viewpoint        
+        /// get the physical viewpoint
         Implementation::AISystem* ai_system = model->getControlerSet<Implementation::AISystem>() ;
         CPPUNIT_ASSERT(ai_system) ;
-        
+
         Implementation::AutonomousAgent* autonomous_agent = agent->getTrait<Implementation::AutonomousAgent>() ;
         CPPUNIT_ASSERT(autonomous_agent) ;
-        
+
         Implementation::Agent* agent_controler = autonomous_agent->getControler<Implementation::Agent>(ai_system) ;
         CPPUNIT_ASSERT(agent_controler) ;
-        
+
         CPPUNIT_ASSERT(agent_controler->getTarget()) ;
-        
+
         InternalMessage("AI","AI::TestModelControler::simulate leaving") ;
       }
-      
+
       void TestModelControler::buildWithoutElements()
       {
         InternalMessage("AI","AI::TestModelControler::buildWithoutElements entering") ;
@@ -297,13 +297,13 @@ namespace ProjetUnivers
         ship->addTrait(new Model::Massive(Model::Mass::Kilogram(1000))) ;
         ship->addTrait(new Model::Mobile()) ;
         ship->addTrait(new Model::Solid(Model::Mesh("razor.mesh"))) ;
-        
+
         Kernel::Object* agent = ship->createObject() ;
         agent->addTrait(new Model::AutonomousCharacter()) ;
         agent->addTrait(new Model::WithObjectives()) ;
         agent->addTrait(new Kernel::CommandDelegator()) ;
         agent->getTrait<Kernel::CommandDelegator>()->addDelegate(ship) ;
-        
+
         Kernel::Object* ship2 = system->createObject() ;
         ship2->addTrait(new Model::Positionned(Model::Position::Meter(0,0,500))) ;
         ship2->addTrait(new Model::Massive(Model::Mass::Kilogram(1000))) ;
@@ -317,15 +317,15 @@ namespace ProjetUnivers
         ship3->addTrait(new Model::Oriented()) ;
         ship3->addTrait(new Model::Mobile()) ;
         ship3->addTrait(new Model::Solid(Model::Mesh("razor.mesh"))) ;
-        
+
         model->update(0.1) ;
 
         Model::PhysicalWorld* physical_world = agent->getAncestor<Model::PhysicalWorld>() ;
         CPPUNIT_ASSERT(physical_world) ;
-        
+
         InternalMessage("AI","AI::TestModelControler::buildWithoutElements leaving") ;
       }
-      
+
       void TestModelControler::attackAllEnemies()
       {
         InternalMessage("AI","AI::TestModelControler::attackAllEnemies entering") ;
@@ -338,7 +338,7 @@ namespace ProjetUnivers
         team1->addTrait(new Model::Team("team1")) ;
         Kernel::Object* team2 = model->createObject() ;
         team2->addTrait(new Model::Team("team2")) ;
-        
+
         Kernel::Object* system = model->createObject() ;
         system->addTrait(new Model::StellarSystem()) ;
         system->addTrait(new Model::Positionned()) ;
@@ -353,13 +353,13 @@ namespace ProjetUnivers
         ship->addTrait(new Model::Laser(Model::Position::Meter(19.2,0,57),
                                               Model::Orientation(),
                                               Model::Energy::Joule(10))) ;
-        
+
         ship->getTrait<Model::Laser>()->setShotTimeDelay(Model::Duration::Second(1)) ;
         ship->addTrait(new Model::Detector(ship,Model::Distance(Model::Distance::_Meter,5000))) ;
         ship->addTrait(new Model::Transponder(team1)) ;
         ship->addTrait(new Model::TargetingSystem()) ;
         Model::TargetingSystem::connect(ship,ship) ;
-        
+
         ship->addTrait(new Model::ShootingHelper()) ;
         Model::ShootingHelper::connect(ship,ship,ship) ;
 
@@ -372,7 +372,7 @@ namespace ProjetUnivers
         Kernel::Object* st2 = ship->createObject() ;
         st2->addTrait(new Model::Stabilizer(Kernel::Parameters::getValue<float>("Model","StabilizerForce",10),0,0)) ;
         st2->addTrait(new Model::Component()) ;
-        
+
         Kernel::Object* st3 = ship->createObject() ;
         st3->addTrait(new Model::Stabilizer(0,0,Kernel::Parameters::getValue<float>("Model","StabilizerForce",10))) ;
         st3->addTrait(new Model::Component()) ;
@@ -381,18 +381,18 @@ namespace ProjetUnivers
         stick->addTrait(new Model::Positionned()) ;
         stick->addTrait(new Model::Stick()) ;
         stick->addTrait(new Model::Component()) ;
-        
+
         ship->addTrait(new Model::GuidanceSystem(Kernel::Parameters::getValue<float>("Model","GuidanceForce",5))) ;
         ship->addTrait(new Model::GuidanceControler()) ;
         // stick,ship
         Model::connectStickControler(stick,ship) ;
         Model::connectControlerGuidanceSystem(ship,ship) ;
-        
+
         /// engine + engine control...
         Kernel::Object* throttle = ship->createObject() ;
         throttle->addTrait(new Model::Throttle()) ;
         throttle->addTrait(new Model::Component()) ;
-        
+
         Kernel::Object* engine = ship->createObject() ;
         engine->addTrait(new Model::Engine(Model::Force::Newton(0,0,Kernel::Parameters::getValue<float>("Model","EngineMaxForce",500)))) ;
         engine->addTrait(new Model::Component()) ;
@@ -402,16 +402,16 @@ namespace ProjetUnivers
         engine_control->addTrait(new Model::Component()) ;
 
         Model::connectThrottleControler(throttle,engine_control) ;
-        Model::connectControlerEngine(engine_control,engine) ;                   
-        
+        Model::connectControlerEngine(engine_control,engine) ;
+
         Kernel::Object* agent = ship->createObject() ;
         agent->addTrait(new Model::AutonomousCharacter()) ;
         agent->addTrait(new Model::WithObjectives()) ;
         agent->addTrait(new Kernel::CommandDelegator()) ;
         agent->getTrait<Kernel::CommandDelegator>()->addDelegate(ship) ;
         agent->getTrait<Model::WithObjectives>()->addObjective(Model::Objective::attackAllEnemies()) ;
-        
-        
+
+
         // the attacked enemy ship
         Kernel::Object* enemy_ship = system->createObject() ;
         enemy_ship->addTrait(new Model::Positionned(Model::Position::Meter(500,0,-1500))) ;
@@ -426,33 +426,33 @@ namespace ProjetUnivers
           Kernel::Object* st1 = enemy_ship->createObject() ;
           st1->addTrait(new Model::Stabilizer(0,Kernel::Parameters::getValue<float>("Model","StabilizerForce",10),0)) ;
           st1->addTrait(new Model::Component()) ;
-  
+
           Kernel::Object* st2 = enemy_ship->createObject() ;
           st2->addTrait(new Model::Stabilizer(Kernel::Parameters::getValue<float>("Model","StabilizerForce",10),0,0)) ;
           st2->addTrait(new Model::Component()) ;
-          
+
           Kernel::Object* st3 = enemy_ship->createObject() ;
           st3->addTrait(new Model::Stabilizer(0,0,Kernel::Parameters::getValue<float>("Model","StabilizerForce",10))) ;
           st3->addTrait(new Model::Component()) ;
         }
-        
+
         Kernel::ObjectReference enemy(enemy_ship) ;
-        
+
         Model::PhysicalWorld* physical_world = agent->getAncestor<Model::PhysicalWorld>() ;
         CPPUNIT_ASSERT(physical_world) ;
-        
+
         for(int i = 0 ; i < 200 ; ++i)
         {
           model->update(0.1) ;
         }
-        
-        /// get the physical viewpoint        
+
+        /// get the physical viewpoint
         Implementation::AISystem* ai_system = model->getControlerSet<Implementation::AISystem>() ;
         CPPUNIT_ASSERT(ai_system) ;
-        
+
         Implementation::AutonomousAgent* autonomous_agent = agent->getTrait<Implementation::AutonomousAgent>() ;
         CPPUNIT_ASSERT(autonomous_agent) ;
-        
+
         Implementation::Agent* agent_controler = autonomous_agent->getControler<Implementation::Agent>(ai_system) ;
         CPPUNIT_ASSERT(agent_controler) ;
 
@@ -460,7 +460,7 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(!enemy) ;
         InternalMessage("AI","AI::TestModelControler::attackAllEnemies leaving") ;
       }
-      
+
       void TestModelControler::twoShips()
       {
         InternalMessage("AI","AI::TestModelControler::twoShips entering") ;
@@ -473,7 +473,7 @@ namespace ProjetUnivers
         team1->addTrait(new Model::Team("team1")) ;
         Kernel::Object* team2 = model->createObject() ;
         team2->addTrait(new Model::Team("team2")) ;
-        
+
         Kernel::Object* system = model->createObject() ;
         system->addTrait(new Model::StellarSystem()) ;
         system->addTrait(new Model::Positionned()) ;
@@ -486,10 +486,10 @@ namespace ProjetUnivers
           Kernel::Object* agent = Model::createAI(ship) ;
           agent->getTrait<Model::WithObjectives>()->addObjective(Model::Objective::attackAllEnemies()) ;
           ship1 = ship ;
-        }          
-        
+        }
+
         CPPUNIT_ASSERT(ship1->getModel()==model.get()) ;
-        
+
         Kernel::ObjectReference ship2 ;
         {
           Kernel::Object* ship = Model::createShip(system) ;
@@ -498,19 +498,19 @@ namespace ProjetUnivers
           Kernel::Object* agent = Model::createAI(ship) ;
           agent->getTrait<Model::WithObjectives>()->addObjective(Model::Objective::attackAllEnemies()) ;
           ship2 = ship ;
-        }          
+        }
 
         for(int i = 0 ; i < 300 ; ++i)
         {
           model->update(0.1) ;
         }
-        
+
         // at least one ship has been destroyed (in fact both?)
         CPPUNIT_ASSERT(!ship1 || !ship2) ;
-        
+
         InternalMessage("AI","AI::TestModelControler::twoShips leaving") ;
       }
-      
+
       void TestModelControler::groupAttack()
       {
         InternalMessage("AI","AI::TestModelControler::groupAttack entering") ;
@@ -523,7 +523,7 @@ namespace ProjetUnivers
         team1->addTrait(new Model::Team("team1")) ;
         Kernel::Object* team2 = model->createObject() ;
         team2->addTrait(new Model::Team("team2")) ;
-        
+
         Kernel::Object* system = model->createObject() ;
         system->addTrait(new Model::StellarSystem()) ;
         system->addTrait(new Model::Positionned()) ;
@@ -549,7 +549,7 @@ namespace ProjetUnivers
           agent->getTrait<Model::WithObjectives>()->addObjective(Model::Objective::attackAllEnemies()) ;
           ship2 = ship ;
         }
-          
+
         Kernel::ObjectReference ship3 ;
         {
           Kernel::Object* ship = Model::createShip(system) ;
@@ -569,23 +569,23 @@ namespace ProjetUnivers
           agent->getTrait<Model::WithObjectives>()->addObjective(Model::Objective::attackAllEnemies()) ;
           ship4 = ship ;
         }
-        
+
         // team1 is not destroyable -> it should win and destroy ship3/ship4
-        
+
         for(int i = 0 ; i < 400 ; ++i)
         {
           model->update(0.1) ;
         }
-        
+
         // team2 has been destroyed
         CPPUNIT_ASSERT(!ship3) ;
 //        CPPUNIT_ASSERT(!ship4) ;
-        
+
         // team1 has survived
         CPPUNIT_ASSERT(ship1 && ship2) ;
         InternalMessage("AI","AI::TestModelControler::groupAttack leaving") ;
       }
-      
+
       void TestModelControler::testPositionUpdate()
       {
         // 1. build a model
@@ -598,7 +598,7 @@ namespace ProjetUnivers
         team1->addTrait(new Model::Team("team1")) ;
         Kernel::Object* team2 = model->createObject() ;
         team2->addTrait(new Model::Team("team2")) ;
-        
+
         Kernel::Object* system = model->createObject() ;
         system->addTrait(new Model::StellarSystem()) ;
         system->addTrait(new Model::Positionned()) ;
@@ -614,7 +614,7 @@ namespace ProjetUnivers
           ship1 = ship ;
           agent1 = agent ;
         }
-          
+
         Kernel::ObjectReference ship2 ;
         Kernel::ObjectReference agent2 ;
         {
@@ -628,37 +628,37 @@ namespace ProjetUnivers
         }
 
         model->update(0) ;
-        
-        // 3. check that views/controlers are built 
+
+        // 3. check that views/controlers are built
         Implementation::AISystem* ai_system = model->getControlerSet<Implementation::AISystem>() ;
         CPPUNIT_ASSERT(ai_system) ;
-        
+
         Implementation::AutonomousAgent* autonomous_agent1 = agent1->getTrait<Implementation::AutonomousAgent>() ;
         CPPUNIT_ASSERT(autonomous_agent1) ;
-        
+
         Implementation::Agent* agent_controler1 = autonomous_agent1->getControler<Implementation::Agent>(ai_system) ;
         CPPUNIT_ASSERT(agent_controler1) ;
-        
+
         CPPUNIT_ASSERT(Model::getControledShip(agent1)) ;
         CPPUNIT_ASSERT(Model::getControledShip(agent1) == ship1) ;
-        
+
         const std::set<Implementation::Vehicle*>& vehicles1 = agent_controler1->getVehicles() ;
         CPPUNIT_ASSERT(vehicles1.size()==1) ;
-        
+
         Implementation::Vehicle* agent1_other_vehicle = *(vehicles1.begin()) ;
-        
+
         CPPUNIT_ASSERT(agent1_other_vehicle->getPosition() == Ogre::Vector3(0,0,-1100)) ;
 
         ship2->getTrait<Model::Positionned>()->setPosition(Model::Position::Meter(-1000,200,150)) ;
         InternalMessage("AI","TestModelControler::testPositionUpdate") ;
 
         model->update(0) ;
-        
+
 //        std::cout << agent1_other_vehicle->getPosition() ;
         CPPUNIT_ASSERT(agent1_other_vehicle->getPosition() == Ogre::Vector3(-1000,200,150)) ;
-        
+
       }
-      
+
       void TestModelControler::testMission()
       {
         std::auto_ptr<Kernel::Model> model(new Kernel::Model()) ;
@@ -666,23 +666,23 @@ namespace ProjetUnivers
 
         Kernel::Object* root = model->createObject() ;
         root->addTrait(new Model::State()) ;
-        
+
         Kernel::Object* main_menu = root->createObject() ;
         main_menu->setName("main_menu") ;
         main_menu->addTrait(new Model::State()) ;
-        
+
         Kernel::Object* mission = root->createObject() ;
         mission->addTrait(new Model::CustomMission("",NULL,NULL)) ;
         mission->getTrait<Model::CustomMission>()->setStartingDistance(Model::Distance(Model::Distance::_Meter,4000)) ;
         mission->addTrait(new Model::State()) ;
-        
+
         {
           Kernel::Object* team = mission->createObject() ;
           team->addTrait(new Model::Team("")) ;
-          
+
           Kernel::Object* flying_group = team->createObject() ;
           flying_group->addTrait(new Model::FlyingGroup("")) ;
-          
+
           flying_group->getTrait<Model::FlyingGroup>()->setShipName("razor") ;
           flying_group->getTrait<Model::FlyingGroup>()->setInitialNumberOfShips(2) ;
           flying_group->getTrait<Model::FlyingGroup>()->setHasPlayer(true) ;
@@ -691,26 +691,26 @@ namespace ProjetUnivers
         {
           Kernel::Object* team = mission->createObject() ;
           team->addTrait(new Model::Team("")) ;
-          
+
           Kernel::Object* flying_group = team->createObject() ;
           flying_group->addTrait(new Model::FlyingGroup("")) ;
-          
+
           flying_group->getTrait<Model::FlyingGroup>()->setShipName("razor") ;
           flying_group->getTrait<Model::FlyingGroup>()->setInitialNumberOfShips(3) ;
           flying_group->getTrait<Model::FlyingGroup>()->setHasPlayer(false) ;
           flying_group->getTrait<Model::FlyingGroup>()->setNumberOfSpawn(2) ;
 
         }
-        
+
         CPPUNIT_ASSERT(!mission->getTrait<Model::Mission>()->getSystem()) ;
         root->getTrait<Model::State>()->changeState(mission,new Model::Played()) ;
-        
+
         model->update(0.1) ;
         mission->destroyTrait(mission->getTrait<Model::Played>()) ;
         model->update(0.1) ;
-        
+
       }
-      
+
     }
   }
 }

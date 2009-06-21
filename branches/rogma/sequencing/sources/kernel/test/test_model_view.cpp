@@ -1205,6 +1205,8 @@ namespace ProjetUnivers
 
       void TestModelView::testManualView()
       {
+        ManualView::number_of_instance = 0 ;
+
         // create a model
         std::auto_ptr<Model> model(new Model()) ;
 
@@ -1222,15 +1224,17 @@ namespace ProjetUnivers
         /// init the viewpoint
         viewpoint->init() ;
 
+        CPPUNIT_ASSERT(ManualView::number_of_instance==1) ;
+
         Person* persontrait = person->getTrait<Person>() ;
         CPPUNIT_ASSERT(persontrait) ;
         ManualView* personview = persontrait->getView<ManualView>(viewpoint) ;
         CPPUNIT_ASSERT(personview) ;
 
         // test update
-        CPPUNIT_ASSERT(personview->getValue()==0) ;
+        CPPUNIT_ASSERT_EQUAL(0,personview->getValue()) ;
         persontrait->changeValue(10) ;
-        CPPUNIT_ASSERT(personview->getValue()==10) ;
+        CPPUNIT_ASSERT_EQUAL(10,personview->getValue()) ;
 
         // test delete
         CPPUNIT_ASSERT(ManualView::number_of_instance==1) ;
@@ -1242,6 +1246,8 @@ namespace ProjetUnivers
 
       void TestModelView::testManualViewOnInitViewPoint()
       {
+        ManualView::number_of_instance = 0 ;
+
         // create a model
         std::auto_ptr<Model> model(new Model()) ;
 
@@ -1770,6 +1776,45 @@ namespace ProjetUnivers
 
         // only root should be updated
         CPPUNIT_ASSERT_EQUAL(1,ViewParentPos::m_updates) ;
+      }
+
+      namespace
+      {
+        class NotAnything : public DeducedTrait
+        {};
+
+        DeclareDeducedTrait(NotAnything,Not(HasTrait(Head))) ;
+
+        class ViewNotAnything : public TraitView<NotAnything,TestViewPoint>
+        {
+        public:
+          ViewNotAnything(NotAnything* model,TestViewPoint* viewpoint)
+          : TraitView<NotAnything,TestViewPoint>(model,viewpoint)
+          {}
+
+          void onInit()
+          {
+            ++number_of_init ;
+          }
+
+          static int number_of_init ;
+        };
+
+        int ViewNotAnything::number_of_init = 0 ;
+
+        RegisterView(ViewNotAnything,NotAnything,TestViewPoint) ;
+      }
+
+      void TestModelView::initNotTrait()
+      {
+        ViewNotAnything::number_of_init = 0 ;
+        std::auto_ptr<Model> model(new Model("TestModelView::updateParentTrait")) ;
+        ViewPoint* viewpoint(new TestViewPoint(model.get())) ;
+        viewpoint->init() ;
+
+        Object* root = model->createObject() ;
+
+        CPPUNIT_ASSERT_EQUAL(1,ViewNotAnything::number_of_init) ;
       }
 
     }

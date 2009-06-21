@@ -9,7 +9,6 @@ $(SOURCES)/kernel/implementation/algorithm.cpp \
 $(SOURCES)/kernel/implementation/base_controler.cpp \
 $(SOURCES)/kernel/implementation/base_trait_reference.cpp \
 $(SOURCES)/kernel/implementation/base_trait_view.cpp \
-$(SOURCES)/kernel/implementation/concurrent_block.cpp \
 $(SOURCES)/kernel/implementation/controler.cpp \
 $(SOURCES)/kernel/implementation/controler_set.cpp \
 $(SOURCES)/kernel/implementation/exception.cpp \
@@ -21,6 +20,7 @@ $(SOURCES)/kernel/implementation/meta.cpp \
 $(SOURCES)/kernel/implementation/model.cpp \
 $(SOURCES)/kernel/implementation/object.cpp \
 $(SOURCES)/kernel/implementation/object_reference.cpp \
+$(SOURCES)/kernel/implementation/observer.cpp \
 $(SOURCES)/kernel/implementation/operation.cpp \
 $(SOURCES)/kernel/implementation/cppunit_multi_outputter.cpp \
 $(SOURCES)/kernel/implementation/statistics.cpp \
@@ -29,6 +29,7 @@ $(SOURCES)/kernel/implementation/timer.cpp \
 $(SOURCES)/kernel/implementation/trait.cpp \
 $(SOURCES)/kernel/implementation/trait_reference.cpp \
 $(SOURCES)/kernel/implementation/trait_view.cpp \
+$(SOURCES)/kernel/implementation/transaction.cpp \
 $(SOURCES)/kernel/implementation/view_point.cpp \
 $(SOURCES)/kernel/implementation/command_delegator.cpp \
 $(SOURCES)/kernel/implementation/parameters.cpp \
@@ -37,7 +38,6 @@ $(SOURCES)/kernel/implementation/reader.cpp \
 $(SOURCES)/kernel/implementation/timer_test_listener.cpp \
 $(SOURCES)/kernel/implementation/timer_test_result.cpp \
 $(SOURCES)/kernel/implementation/timer_xml_outputter_hook.cpp \
-$(SOURCES)/kernel/implementation/transaction.cpp \
 $(SOURCES)/kernel/implementation/xml_outputter.cpp \
 $(SOURCES)/kernel/implementation/xml_reader.cpp \
 $(SOURCES)/kernel/implementation/xml_writer.cpp \
@@ -62,7 +62,6 @@ $(SOURCES)/kernel/test/test_model_controler.cpp \
 $(SOURCES)/kernel/test/test_model_view.cpp \
 $(SOURCES)/kernel/test/test_deduced_trait.cpp \
 $(SOURCES)/kernel/test/test_command.cpp \
-$(SOURCES)/kernel/test/test_interpretor.cpp \
 $(SOURCES)/kernel/test/test_parameters.cpp \
 $(SOURCES)/kernel/test/test_percentage.cpp \
 $(SOURCES)/kernel/test/test_trait.cpp \

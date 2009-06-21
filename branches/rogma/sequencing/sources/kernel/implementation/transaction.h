@@ -24,40 +24,33 @@ namespace ProjetUnivers
 {
   namespace Kernel 
   {
-    class Model ;
-    
     namespace Implementation
     {
-      class ConcurrentBlock ;
+      class Operation ;
       
       /// Model transaction.
       /*!
-        It is a set of operations on a model. The operations are performed in 
-        blocks that should "behave" concurrently.
+        It is a set of operations on a model. 
+        The operations are performed either locally to the transaction or 
+        grouped into sub transactions that should "behave" concurrently.
       */
       class Transaction
       {
       public:
         
-        Transaction(Model*) ;
+        Transaction() ;
 
-        void startConcurrentBlock() ;
-        void endConcurrentBlock() ;
-        
+        /// Add an operation to be performed locally
         void addOperation(Operation*) ;
         
-        Trait* getTrait(Object*,const TypeIdentifier&) const ;
-        std::set<Object*> getChildren(Object*) const ;
-        
         /// Perform operations
-        void execute() ;
+        virtual void execute() ;
         
         ~Transaction() ;
         
       private:
         
-        Model*                     m_model ;
-        std::list<ConcurrentBlock*> m_blocks ;
+        std::list<Operation*> m_operations ;
       };
     }
   }

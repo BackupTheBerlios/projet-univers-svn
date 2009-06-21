@@ -67,13 +67,27 @@ namespace ProjetUnivers
       /// Print the formula.
       std::string print() const ;
 
-      /// Gives the traits directly depending on formula.
-      std::set<TypeIdentifier> getDependentTraits() const ;
+      /// Gives the traits types directly depending on formula.
+      /*!
+        This trait types are those that use this formula for their calculation
+      */
+      std::set<TypeIdentifier> getDependentTraitTypes() const ;
 
       /// Access to the traits that trigger update for this formula.
+      /*!
+        These are all the traits instance whose presence makes the formula true.
+        
+        Calculated by browsing the formula down. 
+      */
       virtual std::set<Trait*> getUpdaterTraits(Object* object) const = 0 ;
 
-      /// Gives the traits directly depending on formula.
+      /// Gives the @c objects' traits directly depending on formula.
+      /*!
+        These are the traits instances that should be updated when the formula 
+        is updated. 
+
+        Calculated by browsing the formula up.
+      */
       std::set<Trait*> getDependentTraits(Object* object) const ;
 
     protected:
@@ -83,6 +97,9 @@ namespace ProjetUnivers
       virtual std::string internalPrint() const = 0 ;
 
       /// The distance to elementary formula
+      /*!
+        We need a lattice, the depth acts as a stratification.
+      */
       int getDepth() const ;
       void setDepth(int i_depth) ;
 
@@ -97,6 +114,7 @@ namespace ProjetUnivers
       /// Abstract class means protected construtor.
       Formula() ;
 
+      /// Generate a unique identifier
       void generateIdentifier() ;
 
     // @}
@@ -109,21 +127,27 @@ namespace ProjetUnivers
       virtual void eval(Object* object) = 0 ;
 
       /// Declare that a child formula has became true.
-      void addChildTrue(Object* object) ;
+      void addChildFormulaTrue(Object* object) ;
 
       /// Declare that a child formula has became false.
-      void addChildFalse(Object* object) ;
+      void addChildFormulaFalse(Object* object) ;
 
       /// Callback on child changing state.
-      virtual void onAddChildTrue(Object* object) = 0 ;
+      virtual void onAddChildFormulaTrue(Object* object) = 0 ;
 
       /// Callback on child changing state.
-      virtual void onAddChildFalse(Object* object) = 0 ;
+      virtual void onAddChildFormulaFalse(Object* object) = 0 ;
 
-      /// Tells the parents the formula changed state.
+      /// Tells the parents formula the formula changed state.
+      /*!
+        Used for continuous evaluation
+      */
       void notifyParentTrue(Object* object) ;
 
       /// Tells the parents the formula changed state.
+      /*!
+        Used for continuous evaluation
+      */
       void notifyParentFalse(Object* object) ;
 
       /// Make the formula become true.
@@ -138,13 +162,15 @@ namespace ProjetUnivers
     */
     // @{
 
-      /// The formula has been modified.
+      /// Notify propagation
       /*!
         @pre the formula is true for object
+        
       */
       void update(Object* object) ;
 
-      virtual void onChildUpdated(Object* object) = 0 ;
+      /// A child formula has been updated.
+      virtual void onChildFormulaUpdated(Object* object) = 0 ;
 
     // @}
     /*!
@@ -236,7 +262,7 @@ namespace ProjetUnivers
       virtual bool isValid(Object* object) const ;
 
       /// Gives the traits directly depending on @c trait.
-      static std::set<TypeIdentifier> getDependentTraits(Trait* trait) ;
+      static std::set<TypeIdentifier> getDependentTraitTypes(Trait* trait) ;
 
       /// Access to the traits that trigger update for this formula.
       virtual std::set<Trait*> getUpdaterTraits(Object* object) const ;
@@ -246,9 +272,9 @@ namespace ProjetUnivers
       /// Initial value.
       virtual void eval(Object* object) ;
 
-      virtual void onAddChildTrue(Object* object) ;
-      virtual void onAddChildFalse(Object* object) ;
-      virtual void onChildUpdated(Object* object) ;
+      virtual void onAddChildFormulaTrue(Object* object) ;
+      virtual void onAddChildFormulaFalse(Object* object) ;
+      virtual void onChildFormulaUpdated(Object* object) ;
 
     private:
 
@@ -306,9 +332,9 @@ namespace ProjetUnivers
       /// Initial value.
       virtual void eval(Object* object) ;
 
-      virtual void onAddChildTrue(Object* object) ;
-      virtual void onAddChildFalse(Object* object) ;
-      virtual void onChildUpdated(Object* object) ;
+      virtual void onAddChildFormulaTrue(Object* object) ;
+      virtual void onAddChildFormulaFalse(Object* object) ;
+      virtual void onChildFormulaUpdated(Object* object) ;
 
     };
 
@@ -331,9 +357,9 @@ namespace ProjetUnivers
       /// Initial value.
       virtual void eval(Object* object) ;
 
-      virtual void onAddChildTrue(Object* object) ;
-      virtual void onAddChildFalse(Object* object) ;
-      virtual void onChildUpdated(Object* object) ;
+      virtual void onAddChildFormulaTrue(Object* object) ;
+      virtual void onAddChildFormulaFalse(Object* object) ;
+      virtual void onChildFormulaUpdated(Object* object) ;
 
     };
 
@@ -362,9 +388,9 @@ namespace ProjetUnivers
       /// Initial value.
       virtual void eval(Object* object) ;
 
-      virtual void onAddChildTrue(Object*  object) ;
-      virtual void onAddChildFalse(Object* object) ;
-      virtual void onChildUpdated(Object*  object) ;
+      virtual void onAddChildFormulaTrue(Object*  object) ;
+      virtual void onAddChildFormulaFalse(Object* object) ;
+      virtual void onChildFormulaUpdated(Object*  object) ;
 
     };
 
@@ -393,9 +419,9 @@ namespace ProjetUnivers
       /// Initial value.
       virtual void eval(Object* object) ;
 
-      virtual void onAddChildTrue(Object*  object) ;
-      virtual void onAddChildFalse(Object* object) ;
-      virtual void onChildUpdated(Object*  object) ;
+      virtual void onAddChildFormulaTrue(Object*  object) ;
+      virtual void onAddChildFormulaFalse(Object* object) ;
+      virtual void onChildFormulaUpdated(Object*  object) ;
     };
 
     /// True iff child formula is true on an ancestor.
@@ -425,7 +451,7 @@ namespace ProjetUnivers
       virtual std::string internalPrint() const ;
 
       /// Gives the traits directly depending on @c trait.
-      static std::set<TypeIdentifier> getDependentTraits(Trait* trait) ;
+      static std::set<TypeIdentifier> getDependentTraitTypes(Trait* trait) ;
 
       /// Access to the traits that trigger update for this formula.
       virtual std::set<Trait*> getUpdaterTraits(Object* object) const ;
@@ -435,9 +461,9 @@ namespace ProjetUnivers
       /// Initial value.
       virtual void eval(Object* object) ;
 
-      virtual void onAddChildTrue(Object* object) ;
-      virtual void onAddChildFalse(Object* object) ;
-      virtual void onChildUpdated(Object* object) ;
+      virtual void onAddChildFormulaTrue(Object* object) ;
+      virtual void onAddChildFormulaFalse(Object* object) ;
+      virtual void onChildFormulaUpdated(Object* object) ;
 
       /// Declare that the trait has been added to an @c object's parent.
       void addedAncestor(Object* object) ;
@@ -513,19 +539,25 @@ namespace ProjetUnivers
       virtual std::string internalPrint() const ;
 
       /// Gives the traits directly depending on @c trait.
-      static std::set<TypeIdentifier> getDependentTraits(Trait* trait) ;
+      static std::set<TypeIdentifier> getDependentTraitTypes(Trait* trait) ;
 
       /// Access to the traits that trigger update for this formula.
       virtual std::set<Trait*> getUpdaterTraits(Object* object) const ;
 
+      /// Find the parent trait formula associated with @c trait_name.
+      /*!
+        @return NULL if not found.
+      */
+      static HasParentFormula* get(const TypeIdentifier& trait_name) ;
+      
     protected:
 
       /// Initial value.
       virtual void eval(Object* object) ;
 
-      virtual void onAddChildTrue(Object* object) ;
-      virtual void onAddChildFalse(Object* object) ;
-      virtual void onChildUpdated(Object* object) ;
+      virtual void onAddChildFormulaTrue(Object* object) ;
+      virtual void onAddChildFormulaFalse(Object* object) ;
+      virtual void onChildFormulaUpdated(Object* object) ;
 
       /// Declare that @c trait has been added to an @c object's parent.
       /*!
@@ -535,7 +567,7 @@ namespace ProjetUnivers
       void addParent(Object* object,Trait* trait) ;
 
       /// Declare that the trait has been removed to an @c object's parent.
-      void removedParent(Object* object) ;
+      void removedParent(Object* object,Trait* trait) ;
 
       /// Parent trait has been updated.
       void updateParentTrait(Object* object) ;
@@ -550,11 +582,6 @@ namespace ProjetUnivers
 
       TypeIdentifier m_trait ;
 
-      /// Find the parent trait formula associated with @c trait_name.
-      /*!
-        @return NULL if not found.
-      */
-      static HasParentFormula* get(const TypeIdentifier& trait_name) ;
 
       /// Find the formulae impacted by trait
       static const std::set<HasParentFormula*>& find(Trait* i_trait) ;
@@ -605,7 +632,7 @@ namespace ProjetUnivers
       virtual std::string internalPrint() const ;
 
       /// Gives the traits directly depending on @c trait.
-      static std::set<TypeIdentifier> getDependentTraits(Trait* trait) ;
+      static std::set<TypeIdentifier> getDependentTraitTypes(Trait* trait) ;
 
       /// Access to the traits that trigger update for this formula.
       virtual std::set<Trait*> getUpdaterTraits(Object* object) const ;
@@ -615,9 +642,9 @@ namespace ProjetUnivers
       /// Initial value.
       virtual void eval(Object* object) ;
 
-      virtual void onAddChildTrue(Object* object) ;
-      virtual void onAddChildFalse(Object* object) ;
-      virtual void onChildUpdated(Object* object) ;
+      virtual void onAddChildFormulaTrue(Object* object) ;
+      virtual void onAddChildFormulaFalse(Object* object) ;
+      virtual void onChildFormulaUpdated(Object* object) ;
 
       /// Declare that the trait has been added to an @c object's child.
       void addedChild(Object* object) ;

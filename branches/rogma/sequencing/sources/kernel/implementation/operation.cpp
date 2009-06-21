@@ -18,13 +18,15 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <kernel/string.h>
 #include <kernel/model.h>
 #include <kernel/object.h>
+#include <kernel/observer.h>
 #include <kernel/implementation/operation.h>
 
-namespace ProjetUnivers 
+namespace ProjetUnivers
 {
-  namespace Kernel 
+  namespace Kernel
   {
     namespace Implementation
     {
@@ -32,80 +34,68 @@ namespace ProjetUnivers
       Operation::Operation(const Operation& operation)
       : m_type(operation.m_type),
         m_object(operation.m_object),
-        m_trait_identifier(operation.m_trait_identifier),
-        m_trait(operation.m_trait),
-        m_model(operation.m_model)
+        m_observer(operation.m_observer),
+        m_debug_display(operation.m_debug_display)
       {}
-      
+
       Operation::Operation()
       : m_type(None),
         m_object(),
-        m_trait_identifier(),
-        m_trait(NULL),
-        m_model(NULL)
+        m_observer(NULL)
       {}
-      
-      Operation* Operation::addTrait(Object* object,Trait* trait)
+
+      Operation Operation::init(Observer* observer)
       {
-        Operation* result(new Operation()) ;
-        result->m_type = AddTrait ;
-        result->m_object = object ;
-        result->m_model = result->m_object?result->m_object->getModel():NULL ;
-        result->m_trait = trait ;
-        result->m_trait_identifier = getObjectTypeIdentifier(trait) ;
-        
+        Operation result ;
+        result.m_type = Init ;
+        result.m_object = observer->getObject() ;
+        result.m_observer = observer ;
+        result.m_debug_display = "Init(" + Kernel::toString(result.m_object->getIdentifier()) + "," + getObjectTypeIdentifier(result.m_observer).fullName() +")" ;
         return result ;
       }
-      
-      Operation* Operation::destroyTrait(Trait* trait)
+
+      Operation Operation::close(Observer* observer)
       {
-        Operation* result(new Operation()) ;
-        result->m_type = DestroyTrait ;
-        result->m_object = trait->getObject() ;
-        result->m_model = result->m_object?result->m_object->getModel():NULL ;
-        result->m_trait_identifier = getObjectTypeIdentifier(trait) ;
-        result->m_trait = trait ;
-        
+        Operation result ;
+        result.m_type = Close ;
+        result.m_object = observer->getObject() ;
+        result.m_observer = observer ;
+        result.m_debug_display = "Close(" + Kernel::toString(result.m_object->getIdentifier()) + "," + getObjectTypeIdentifier(result.m_observer).fullName() +")" ;
         return result ;
       }
-      
-      Operation* Operation::destroyObject(Object* object) 
+
+      Operation Operation::update(Observer* observer)
       {
-        Operation* result(new Operation()) ;
-        result->m_type = DestroyObject ;
-        result->m_object = object ;
-        result->m_model = object->getModel() ;
-        
+        Operation result ;
+        result.m_type = Update ;
+        result.m_object = observer->getObject() ;
+        result.m_observer = observer ;
+        result.m_debug_display = "Update(" + Kernel::toString(result.m_object->getIdentifier()) + "," + getObjectTypeIdentifier(result.m_observer).toString() +")" ;
         return result ;
       }
-      
-      
-      void Operation::execute() 
+
+      void Operation::execute() const
       {
         switch(m_type)
         {
-        case DestroyObject:
-          if (m_model && m_object)
-            m_model->destroyObject(m_object) ;
+        case Init:
+          m_observer->realInit() ;
           break ;
-        case DestroyTrait:
-          if (m_model && m_object && m_object->getTrait(m_trait_identifier))
-          {
-            m_model->destroyTrait(m_object,m_trait) ;
-          }
+        case Close:
+          m_observer->realClose() ;
           break ;
-        case AddTrait:
-          if (m_model && m_object && !m_object->getTrait(m_trait_identifier))
-          {
-            m_model->addTrait(m_object,m_trait) ;
-          }
-          
+        case Update:
+          m_observer->realUpdate() ;
           break ;
         case None:
           break ;
         }
       }
-      
+
+      std::string Operation::toString() const
+      {
+        return m_debug_display ;
+      }
 
     }
   }

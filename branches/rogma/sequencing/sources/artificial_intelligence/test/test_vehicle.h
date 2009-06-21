@@ -30,17 +30,17 @@ namespace ProjetUnivers {
       /// Test of Vehicle class.
       class TestVehicle : public CppUnit::TestFixture {
       public:
-        
+
         /// Apply a force to vehicle for simulation.
         static void simulate(Implementation::Vehicle& vehicle,
                              Ogre::Vector3& force) ;
 
       protected:
-      /*! 
-        @name Tests 
+      /*!
+        @name Tests
       */
       // @{
-        
+
         /// Simulate with an front steering.
         void testSimulateFront() ;
 
@@ -51,38 +51,18 @@ namespace ProjetUnivers {
         void testSimulateSide() ;
 
       // @}
-      /*! 
+      /*!
         @name Tests registration
       */
-      // @{      
-    
+      // @{
+
         CPPUNIT_TEST_SUITE(TestVehicle) ;
-      
+
         CPPUNIT_TEST(testSimulateFront) ;
         CPPUNIT_TEST(testSimulateBack) ;
         CPPUNIT_TEST(testSimulateSide) ;
-      
+
         CPPUNIT_TEST_SUITE_END() ;
-
-      public:
-        
-      // @}
-        /*! 
-          @name Mandatory methods
-        */
-      // @{
-
-      
-        /// Tests setup
-        void setUp() ;
-      
-        /// DesTests setup
-        void tearDown() ;
-      
-      // @}      
-                
-       
-      
       };
 
     }

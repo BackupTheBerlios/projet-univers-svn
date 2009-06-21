@@ -640,6 +640,8 @@ namespace ProjetUnivers
 
       void TestDemonstration::testMission()
       {
+        Kernel::Log::Block temp("Physic","TestDemonstration::testMission") ;
+        
         std::auto_ptr<Kernel::Model> model(new Kernel::Model()) ;
         model->init() ;
         

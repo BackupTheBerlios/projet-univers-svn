@@ -18,8 +18,12 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_KERNEL_TRAIT_H_
-#define PU_KERNEL_TRAIT_H_
+#pragma once
+
+/*!
+  @file trait.h
+
+*/
 
 #include <map>
 #include <stack>
@@ -39,6 +43,10 @@ namespace ProjetUnivers
     namespace Test
     {
       class TestTrait ;
+    }
+    namespace Implementation
+    {
+      class Operation ;
     }
 
     class Object ;
@@ -65,30 +73,31 @@ namespace ProjetUnivers
       Object* getObject() const ;
 
       /// Access to a specific view.
-      template<class View> View* getView(ViewPoint* i_viewpoint) ;
+      template<class View>
+      View* getView(ViewPoint* viewpoint) ;
 
       /// Access to a specific controler.
       template<class _Controler>
-      _Controler* getControler(ControlerSet* i_controler_set) ;
+      _Controler* getControler(ControlerSet* controler_set) ;
 
-      /// Access to the trait class's name associated with i_view, i_viewpoint.
-      static const TypeIdentifier& getTraitName(const TypeIdentifier& i_view,
-                                                const TypeIdentifier& i_viewpoint) ;
+      /// Access to the trait class's name associated with view, viewpoint.
+      static const TypeIdentifier& getTraitName(const TypeIdentifier& view,
+                                                const TypeIdentifier& viewpoint) ;
 
-      /// Apply @c i_operation on all controlers of @c i_controler_set.
+      /// Apply @c operation on all controlers of @c controler_set.
       /*!
         @deprecated
       */
-      void apply(ControlerSet*                         i_controler_set,
-                 boost::function1<void,BaseControler*> i_operation) ;
+      void apply(ControlerSet*                         controler_set,
+                 boost::function1<void,BaseControler*> operation) ;
 
       /// Abstract class means virtual destructor.
       virtual ~Trait() ;
 
       /// Register a command for that trait.
       template <class SpecializedTrait> static void addCommand(
-          const std::string&                       i_command_name,
-          boost::function1<void,SpecializedTrait*> i_operation) ;
+          const std::string&                       command_name,
+          boost::function1<void,SpecializedTrait*> operation) ;
 
       /// Register an axis update for that trait.
       template <class SpecializedTrait> static void addAxis(
@@ -125,6 +134,9 @@ namespace ProjetUnivers
       /// Write trait
       virtual void write(Writer*) ;
 
+      /// True if the trait is not deduced
+      virtual bool isPrimitive() const ;
+
     protected:
 
       /// Abstract class means protected constructor.
@@ -147,7 +159,7 @@ namespace ProjetUnivers
     // @{
 
       /// update the views for a change_parent.
-      void _changed_parent(Object* i_old_parent) ;
+      void _changed_parent(Object* old_parent) ;
 
       /// update the views.
       void _updated() ;
@@ -156,19 +168,19 @@ namespace ProjetUnivers
       void _init() ;
 
       /// init the views after construction.
-      void _init(ViewPoint* i_viewpoint) ;
+      void _init(ViewPoint* viewpoint) ;
 
       /// init the controlers after construction.
-      void _init(ControlerSet* i_controler_set) ;
+      void _init(ControlerSet* controler_set) ;
 
       /// closes before destruction.
       void _close() ;
 
       /// close the views.
-      void _close(ViewPoint* i_viewpoint) ;
+      void _close(ViewPoint* viewpoint) ;
 
       /// close the controlers before controler set closing.
-      void _close(ControlerSet* i_controler_set) ;
+      void _close(ControlerSet* controler_set) ;
 
     // @}
     /*!
@@ -180,26 +192,30 @@ namespace ProjetUnivers
       void _create_views() ;
 
       /// create views for a viewpoint.
-      void _create_views(ViewPoint* i_viewpoint) ;
+      void _create_views(ViewPoint* viewpoint) ;
 
       /// create the controlers for a controler set
-      void _create_controlers(ControlerSet* i_controler_set) ;
+      void _create_controlers(ControlerSet* controler_set) ;
 
       /// create the controlers.
       void _create_controlers() ;
 
       /// Remove a view, used in ~BaseTraitVue.
-      void _remove_view(ViewPoint* i_viewpoint,BaseTraitView* i_view) ;
+      void _remove_view(ViewPoint* viewpoint,BaseTraitView* view) ;
 
       /// Remove a controler, used in ~BaseControler.
-      void _remove_controler(ControlerSet* i_controler_set,BaseControler* i_controler) ;
+      void _remove_controler(ControlerSet* controler_set,BaseControler* controler) ;
 
       /// To avoid removing view while destroying object
       bool m_destroying ;
 
-      /// Get the trait's type identifier that is associated with @c i_view_type @c i_viewpoint_type.
-      static TypeIdentifier getTraitTypeOfView(const TypeIdentifier& i_view_type,
-                                               const TypeIdentifier& i_viewpoint_type) ;
+      /// Get the trait's type identifier that is associated with @c view_type @c viewpoint_type.
+      static TypeIdentifier getTraitTypeOfView(const TypeIdentifier& view_type,
+                                               const TypeIdentifier& viewpoint_type) ;
+
+      /// Get the trait's type identifier that is associated with @c controler_type @c controler_set_type.
+      static TypeIdentifier getTraitTypeOfControler(const TypeIdentifier& controler_type,
+                                                    const TypeIdentifier& controler_set_type) ;
 
     // @}
     /*!
@@ -226,10 +242,10 @@ namespace ProjetUnivers
                                   const TypeIdentifier& _viewpoint,
                                   ViewBuilder _builder) ;
 
-      /// Register @c i_trait as the trait for @c i_view and @c i_viewpoint.
-      static void registerMapping(const TypeIdentifier& i_view,
-                                  const TypeIdentifier& i_viewpoint,
-                                  const TypeIdentifier& i_trait) ;
+      /// Register @c trait as the trait for @c view and @c viewpoint.
+      static void registerMapping(const TypeIdentifier& view,
+                                  const TypeIdentifier& viewpoint,
+                                  const TypeIdentifier& trait) ;
 
       template <class _Trait,class _ViewPoint,class _View>
         friend class ViewRegistration ;
@@ -250,23 +266,23 @@ namespace ProjetUnivers
         ControlerBuilder ;
 
 
-      /// Register @c i_builder as the builder for @c i_trait_class in
-      /// @c i_controler_set_class
+      /// Register @c builder as the builder for @c trait_class in
+      /// @c controler_set_class
       /*!
         Whenever a trait is build, the corresponding trait controler will be
         automatically built in each controler set.
       */
       static void registerControler(
-            const TypeIdentifier& i_trait_class,
-            const TypeIdentifier& i_controler_set_class,
-            ControlerBuilder      i_builder) ;
+            const TypeIdentifier& trait_class,
+            const TypeIdentifier& controler_set_class,
+            ControlerBuilder      builder) ;
 
-      /// Register @c i_trait_class as the trait for @c i_controler_class
-      /// and @c i_controler_set_class.
+      /// Register @c trait_class as the trait for @c controler_class
+      /// and @c controler_set_class.
       static void registerControlerMapping(
-              const TypeIdentifier& i_controler_class,
-              const TypeIdentifier& i_controler_set_class,
-              const TypeIdentifier& i_trait_class) ;
+              const TypeIdentifier& controler_class,
+              const TypeIdentifier& controler_set_class,
+              const TypeIdentifier& trait_class) ;
 
 
       template <class _Trait,class _ControlerSet,class _Controler>
@@ -283,13 +299,13 @@ namespace ProjetUnivers
     protected:
 
       /// call a void command returns true iff succedeed.
-      virtual bool call(const TypeIdentifier& i_trait_type,
-                        const std::string&    i_command) ;
+      virtual bool call(const TypeIdentifier& trait_type,
+                        const std::string&    command) ;
 
       /// call an int command returns true iff succedeed.
-      virtual bool call(const TypeIdentifier& i_trait_type,
-                        const std::string&    i_command,
-                        const int&            i_parameter) ;
+      virtual bool call(const TypeIdentifier& trait_type,
+                        const std::string&    command,
+                        const int&            parameter) ;
 
       /// Function call return <true,result> if succeeded <false,..> otherwise.
       virtual std::pair<bool,boost::any> callFunction(
@@ -349,6 +365,12 @@ namespace ProjetUnivers
       /// Access to dependent traits.
       /*!
         Gives the traits to update if we update @c this (non recursive).
+
+        This value is stored and maintained during structure changes. So access
+        if fast at cost of structural changes.
+
+        In case of DeducedTrait, this value is equivalent to
+        getDependentTraits(@c this) on the formula defining the deduced trait.
       */
       const std::set<DeducedTrait*>& getDependentTraits() const ;
       /// Traits that directly depends on @c this
@@ -441,7 +463,11 @@ namespace ProjetUnivers
       friend class TraitReaderRegistration ;
       friend class TraitFormula ;
       friend class FormulaOr ;
+      friend class HasParentFormula ;
+      friend class HasAncestorFormula ;
+      friend class HasChildFormula ;
       friend class ::ProjetUnivers::Kernel::Test::TestTrait ;
+      friend class ::ProjetUnivers::Kernel::Implementation::Operation ;
     };
 
     /// Tells that @c TraitClass is a trait class.
@@ -591,5 +617,3 @@ namespace ProjetUnivers
 }
 
 #include <kernel/implementation/trait.cxx>
-
-#endif /*PU_KERNEL_TRAIT_VIEW_H_*/

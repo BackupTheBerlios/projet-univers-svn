@@ -45,8 +45,6 @@ namespace ProjetUnivers
     {
       class Operation ;
       class Interpretor ;
-      class Transaction ;
-      class ConcurrentBlock ;
     }
 
     class Trait ;
@@ -65,6 +63,7 @@ namespace ProjetUnivers
     class HasChildFormula ;
     class Reader ;
     class Writer ;
+    class BaseTraitView ;
 
     /// A model object.
     /*!
@@ -435,9 +434,8 @@ namespace ProjetUnivers
       friend class Reader ;
       friend class Writer ;
       friend class ::ProjetUnivers::Kernel::Implementation::Operation ;
-      friend class ::ProjetUnivers::Kernel::Implementation::Transaction ;
       friend class ::ProjetUnivers::Kernel::Implementation::Interpretor ;
-      friend class ::ProjetUnivers::Kernel::Implementation::ConcurrentBlock ;
+      friend class BaseTraitView ;
     };
   }
 }

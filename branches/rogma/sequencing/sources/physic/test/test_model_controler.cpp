@@ -59,21 +59,23 @@ CPPUNIT_TEST_SUITE_REGISTRATION(ProjetUnivers::Physic::Test::TestModelControler)
 
 using namespace ProjetUnivers::Kernel ;
 
-namespace ProjetUnivers 
+namespace ProjetUnivers
 {
-  namespace Physic 
+  namespace Physic
   {
-    namespace Test 
+    namespace Test
     {
 
       void TestModelControler::oneObjectWithTorqueGenerator()
       {
         InternalMessage("Physic","Physic::Test::TestModelControler::oneObjectWithTorqueGenerator Entering") ;
-        
+
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestModelControler::oneObjectWithTorqueGenerator")) ;
         model->init() ;
-        
-        Kernel::Object* ship = model->createObject() ;
+
+        Kernel::Object* world = model->createObject() ;
+
+        Kernel::Object* ship = world->createObject() ;
         ship->addTrait(new Model::Positionned()) ;
         ship->addTrait(new Model::Oriented()) ;
         ship->addTrait(new Model::Mobile()) ;
@@ -83,28 +85,30 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(ship->getTrait<Model::PhysicalObject>()) ;
         CPPUNIT_ASSERT(ship->getTrait<Model::Solid>()) ;
         CPPUNIT_ASSERT(ship->getTrait<Model::PhysicalWorld>()) ;
-        
+
         Model::Mobile* mobile = ship->getTrait<Model::Mobile>() ;
         CPPUNIT_ASSERT(mobile) ;
 
         Kernel::Object* st3 = ship->createObject() ;
         st3->addTrait(new Model::Stabilizer(0,3,0)) ;
         st3->addTrait(new Model::Component()) ;
-        
+
         model->update(0.01) ;
         model->update(0.01) ;
         model->update(0.01) ;
-        
+
       }
 
       void TestModelControler::oneObjectWithForceGenerator()
       {
         InternalMessage("Physic","Physic::Test::TestModelControler::oneObjectWithForceGenerator Entering") ;
-        
+
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestModelControler::oneObjectWithForceGenerator")) ;
         model->init() ;
-        
-        Kernel::Object* ship = model->createObject() ;
+
+        Kernel::Object* world = model->createObject() ;
+
+        Kernel::Object* ship = world->createObject() ;
         ship->addTrait(new Model::Positionned()) ;
         ship->addTrait(new Model::Oriented()) ;
         ship->addTrait(new Model::Mobile()) ;
@@ -114,20 +118,20 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(ship->getTrait<Model::PhysicalObject>()) ;
         CPPUNIT_ASSERT(ship->getTrait<Model::Solid>()) ;
         CPPUNIT_ASSERT(ship->getTrait<Model::PhysicalWorld>()) ;
-        
+
         Model::Mobile* mobile = ship->getTrait<Model::Mobile>() ;
         CPPUNIT_ASSERT(mobile) ;
 
         Kernel::Object* st3 = ship->createObject() ;
         st3->addTrait(new Model::Engine(Model::Force::Newton(0,0,10))) ;
         st3->addTrait(new Model::Component()) ;
-        
+
         model->update(0.01) ;
         model->update(0.01) ;
         model->update(0.01) ;
-        
+
       }
-      
+
     }
   }
 }

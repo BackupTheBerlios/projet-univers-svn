@@ -29,7 +29,7 @@ namespace ProjetUnivers {
       DeclareDeducedTrait(SolidPhysicalObject,
                           And(HasTrait(Model::PhysicalObject),
                               HasTrait(Model::Solid))) ;
-      
+
     }
   }
 }

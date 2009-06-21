@@ -28,64 +28,64 @@
 CPPUNIT_TEST_SUITE_REGISTRATION(
     ProjetUnivers::Kernel::Test::TestMeta) ;
 
-namespace ProjetUnivers 
+namespace ProjetUnivers
 {
-  namespace Kernel 
+  namespace Kernel
   {
-    namespace Test 
+    namespace Test
     {
 
       /// local classes
-      namespace
+      namespace Meta
       {
         class A : public Trait
         {};
-        
+
         class B : public A
         {};
 
         class C : public Trait
         {};
-        
+
         class IHaveALongName
         {};
-        
+
       }
-      
+
       void TestMeta::testIsInstance()
       {
-        A a ;
-        B b ;
-        C c ;
-        
-        CPPUNIT_ASSERT(getClassTypeIdentifier(A).isInstance(&a)) ;
-        CPPUNIT_ASSERT(getClassTypeIdentifier(B).isInstance(&b)) ;
-        CPPUNIT_ASSERT(getClassTypeIdentifier(C).isInstance(&c)) ;
-        CPPUNIT_ASSERT(getClassTypeIdentifier(A).isInstance(&b)) ;
-        
-        CPPUNIT_ASSERT(!(getClassTypeIdentifier(B).isInstance(&a))) ;
-        CPPUNIT_ASSERT(!(getClassTypeIdentifier(B).isInstance(&c))) ;
-        CPPUNIT_ASSERT(!(getClassTypeIdentifier(A).isInstance(&c))) ;
+        Meta::A a ;
+        Meta::B b ;
+        Meta::C c ;
+
+        CPPUNIT_ASSERT(getClassTypeIdentifier(Meta::A).isInstance(&a)) ;
+        CPPUNIT_ASSERT(getClassTypeIdentifier(Meta::B).isInstance(&b)) ;
+        CPPUNIT_ASSERT(getClassTypeIdentifier(Meta::C).isInstance(&c)) ;
+        CPPUNIT_ASSERT(getClassTypeIdentifier(Meta::A).isInstance(&b)) ;
+
+        CPPUNIT_ASSERT(!(getClassTypeIdentifier(Meta::B).isInstance(&a))) ;
+        CPPUNIT_ASSERT(!(getClassTypeIdentifier(Meta::B).isInstance(&c))) ;
+        CPPUNIT_ASSERT(!(getClassTypeIdentifier(Meta::A).isInstance(&c))) ;
       }
 
       void TestMeta::testClassName()
       {
-        CPPUNIT_ASSERT(getClassTypeIdentifier(A).className() == "A") ;
-        CPPUNIT_ASSERT(getClassTypeIdentifier(IHaveALongName).className() =="IHaveALongName") ;
+        CPPUNIT_ASSERT_EQUAL(std::string("Kernel::Test::Meta::A"),getClassTypeIdentifier(Meta::A).fullName()) ;
+        CPPUNIT_ASSERT_EQUAL(std::string("Kernel::Test::Meta::IHaveALongName"),getClassTypeIdentifier(Meta::IHaveALongName).fullName()) ;
       }
 
       void TestMeta::compare()
       {
         // non reflexive
-        CPPUNIT_ASSERT(!(getClassTypeIdentifier(A) < getClassTypeIdentifier(A))) ;
-        
+        CPPUNIT_ASSERT(!(getClassTypeIdentifier(Meta::A) < getClassTypeIdentifier(Meta::A))) ;
+
         // anti symetric
-        CPPUNIT_ASSERT(getClassTypeIdentifier(A) < getClassTypeIdentifier(B) ||
-                       getClassTypeIdentifier(B) < getClassTypeIdentifier(A)) ;
-        CPPUNIT_ASSERT(!(getClassTypeIdentifier(A) < getClassTypeIdentifier(B) &&
-                       getClassTypeIdentifier(B) < getClassTypeIdentifier(A))) ;
+        CPPUNIT_ASSERT(getClassTypeIdentifier(Meta::A) < getClassTypeIdentifier(Meta::B) ||
+                       getClassTypeIdentifier(Meta::B) < getClassTypeIdentifier(Meta::A)) ;
+        CPPUNIT_ASSERT(!(getClassTypeIdentifier(Meta::A) < getClassTypeIdentifier(Meta::B) &&
+                       getClassTypeIdentifier(Meta::B) < getClassTypeIdentifier(Meta::A))) ;
       }
-      
+
     }
   }
 }

@@ -24,6 +24,7 @@
 
 #include <kernel/log.h>
 #include <kernel/parameters.h>
+#include <kernel/exception.h>
 
 #include <model/collision.h>
 #include <model/positionned.h>
@@ -34,13 +35,17 @@
 #include <physic/implementation/ode/collideable.h>
 #include <physic/implementation/ode/physical_world.h>
 
-namespace ProjetUnivers {
-  namespace Physic {
-    namespace Implementation {
-      namespace Ode {
+namespace ProjetUnivers
+{
+  namespace Physic
+  {
+    namespace Implementation
+    {
+      namespace Ode
+      {
 
-        RegisterControler(PhysicalWorld, 
-                          Model::PhysicalWorld, 
+        RegisterControler(PhysicalWorld,
+                          Model::PhysicalWorld,
                           PhysicSystem) ;
 
 
@@ -54,7 +59,10 @@ namespace ProjetUnivers {
 
         void PhysicalWorld::onInit()
         {
-          InternalMessage("Physic","PhysicalWorld::onInit entering") ;
+          InternalMessage("Physic","Physic::PhysicalWorld::onInit entering " +
+                                   Kernel::toString(getObject()->getIdentifier())) ;
+
+          Kernel::Log::Block temp("Physic","PhysicalWorld::onInit") ;
           if (m_world)
           {
             delete m_world ;
@@ -65,22 +73,20 @@ namespace ProjetUnivers {
           dWorldSetERP(m_world->id(),Kernel::Parameters::getValue<float>("Physic","WorldERP")) ;
           dWorldSetContactSurfaceLayer(m_world->id(),Kernel::Parameters::getValue<float>("Physic","WorldContactSurfaceLayer")) ;
           dWorldSetContactMaxCorrectingVel(m_world->id(),Kernel::Parameters::getValue<float>("Physic","WorldContactMaxCorrectingVelocity")) ;
-           
+
           if (m_collision_space)
           {
             delete m_collision_space ;
           }
-          
+
           m_collision_space = new dSimpleSpace(0) ;
 
           m_contact_group = dJointGroupCreate(0) ;
-                    
-          InternalMessage("Physic","PhysicalWorld::onInit leaving") ;
         }
 
         void PhysicalWorld::onClose()
         {
-          InternalMessage("Physic","Physic::PhysicalWorld::onClose entering " + 
+          InternalMessage("Physic","Physic::PhysicalWorld::onClose entering " +
                                    Kernel::toString(getObject()->getIdentifier())) ;
 
           if (m_world)
@@ -92,8 +98,8 @@ namespace ProjetUnivers {
           {
             delete m_collision_space ;
           }
-          
-          InternalMessage("Physic","Physic::PhysicalWorld::onClose leaving " + 
+
+          InternalMessage("Physic","Physic::PhysicalWorld::onClose leaving " +
                                    Kernel::toString(getObject()->getIdentifier())) ;
         }
 
@@ -104,24 +110,22 @@ namespace ProjetUnivers {
         void PhysicalWorld::onUpdate()
         {
         }
-        
+
         dWorld* PhysicalWorld::getWorld() const
         {
           return m_world ;
         }
-        
+
         dSpace* PhysicalWorld::getCollisionSpace() const
         {
           return m_collision_space ;
         }
-        
+
         void PhysicalWorld::onSpaceCollision(void*   i_world,
                                              dGeomID i_space1,
                                              dGeomID i_space2)
         {
           // due to organisation i_space1 and i_space2 are spaces.
-//          std::cout << "collision between two spaces" << std::endl ;
-          
           dSpaceCollide2(i_space1,
                          i_space2,
                          i_world,
@@ -133,63 +137,61 @@ namespace ProjetUnivers {
                                                 dGeomID i_geometry2)
         {
           // due to organisation i_geometry1 and i_geometry2 are not spaces.
-//          std::cout << "soupscon de collision" << std::endl ;
           InternalMessage("Physic","PhysicalWorld::onGeometryCollision entering") ;
-          
+
           if (! Collideable::canCollide(i_geometry1,i_geometry2))
             return ;
-            
-          
+
           // i_world is in fact a world.
           PhysicalWorld* world = static_cast<PhysicalWorld*>(i_world) ;
-          
+
           if (!world)
           {
             return ;
           }
-          
+
           // retreive usefull objects
-          Collideable* collideable1 
-            = static_cast<Collideable*>(dGeomGetData(i_geometry1)) ;  
-          Collideable* collideable2 
-            = static_cast<Collideable*>(dGeomGetData(i_geometry2)) ;  
-          PhysicalObject* object1 
-            = collideable1 ? getPhysicalObject(collideable1->getControler()) 
+          Collideable* collideable1
+            = static_cast<Collideable*>(dGeomGetData(i_geometry1)) ;
+          Collideable* collideable2
+            = static_cast<Collideable*>(dGeomGetData(i_geometry2)) ;
+          PhysicalObject* object1
+            = collideable1 ? getPhysicalObject(collideable1->getControler())
                            : NULL ;
-          PhysicalObject* object2 
-            = collideable2 ? getPhysicalObject(collideable2->getControler()) 
+          PhysicalObject* object2
+            = collideable2 ? getPhysicalObject(collideable2->getControler())
                            : NULL ;
 
           InternalMessage("Physic","PhysicalWorld::onGeometryCollision "
                           + (object1 ? Kernel::toString(object1->getObject()->getIdentifier()) : "no object1")
-                          + " " 
+                          + " "
                           + (object2 ? Kernel::toString(object2->getObject()->getIdentifier()) : "no object2")
                           + (collideable1->isCollideableWith(collideable2) ? " collideable" : "not collideable")
                           ) ;
 
           if (object1 && object2)
           {
-            // object positions 
+            // object positions
             Ogre::Vector3 object1_position ;
             Ogre::Vector3 object2_position ;
 
-            const dReal* temp_position ; 
+            const dReal* temp_position ;
             temp_position = dBodyGetPosition(object1->getBody()->id()) ;
             object1_position.x = temp_position[0] ;
             object1_position.y = temp_position[1] ;
             object1_position.z = temp_position[2] ;
-            
+
             temp_position = dBodyGetPosition(object2->getBody()->id()) ;
             object2_position.x = temp_position[0] ;
             object2_position.y = temp_position[1] ;
             object2_position.z = temp_position[2] ;
-            
-            InternalMessage("Physic","PhysicalWorld::onGeometryCollision object positions " 
+
+            InternalMessage("Physic","PhysicalWorld::onGeometryCollision object positions "
                             + Ogre::StringConverter::toString(object1_position)
                             + ";"
                             + Ogre::StringConverter::toString(object2_position)) ;
-                            
-            
+
+
             // calculate contact points
             int number_of_contacts = dCollide(i_geometry1,
                                               i_geometry2,
@@ -200,15 +202,15 @@ namespace ProjetUnivers {
             InformationMessage("Physic","number of contact points = " + Kernel::toString(number_of_contacts)) ;
 
             Ogre::Vector3 result(0,0,0) ;
-            
+
             int real_number_of_contact_points = 0 ;
             Ogre::Vector3 average_contact_point(0,0,0) ;
-            
-            for (int contact_index = 0 ; 
-                 contact_index < number_of_contacts ; 
+
+            for (int contact_index = 0 ;
+                 contact_index < number_of_contacts ;
                  ++contact_index)
             {
-             
+
               // create contact joint
               dContact contact ;
               contact.surface.mode = dContactSoftCFM|dContactSoftERP|dContactBounce ;
@@ -232,34 +234,33 @@ namespace ProjetUnivers {
                                   contact_points[contact_index].pos[1],
                                   contact_points[contact_index].pos[2]) ;
               Ogre::Vector3 v1 = point - object1_position ;
-              
 
               Ogre::Vector3 normal(contact_points[contact_index].normal[0],
                                    contact_points[contact_index].normal[1],
                                    contact_points[contact_index].normal[2]) ;
-              
+
               float dot1 = v1.dotProduct(normal) ;
-              
+
               if (dot1 < 0)
               {
-                average_contact_point += point ; 
-                
-                dJointID joint_id = dJointCreateContact(world->m_world->id(), 
-                                                        world->m_contact_group, 
+                average_contact_point += point ;
+
+                dJointID joint_id = dJointCreateContact(world->m_world->id(),
+                                                        world->m_contact_group,
                                                         &contact) ;
-                
+
                 dJointAttach(joint_id,
                              object1->getBody()->id(),
                              object2->getBody()->id()) ;
-                
+
                 ++real_number_of_contact_points ;
               }
             }
-            
+
             if (real_number_of_contact_points != 0)
             {
               average_contact_point = average_contact_point / real_number_of_contact_points ;
-          
+
               // create a collision object
               Kernel::Object* collision_object = world->getObject()->createObject() ;
               collision_object->addTrait(new Model::Collision(
@@ -271,32 +272,34 @@ namespace ProjetUnivers {
                                                average_contact_point.y,
                                                average_contact_point.z))) ;
             }
-          
-          }          
+
+          }
         }
-        
+
         void PhysicalWorld::simulate(const float& i_seconds)
         {
-          InternalMessage("Physic","Physic::PhysicalWorld::simulate " + 
-                                   Kernel::toString(getObject()->getIdentifier()) + 
+          InternalMessage("Physic","Physic::PhysicalWorld::simulate " +
+                                   Kernel::toString(getObject()->getIdentifier()) +
                                    " Entering") ;
-//          InformationMessage("Physic","PhysicalWorld::simulate " + Kernel::toString((float)i_seconds)) ;
-          
-          CHECK(m_collision_space,"no collision space") ;
+
+          if (!m_collision_space)
+          {
+            ErrorMessage("Physic::PhysicalWorld no collision space") ;
+            throw Kernel::Exception("no collision space") ;
+          }
           /// simulate
-          /* 
+          /*
             collision detection
-            
           */
           if (Kernel::Parameters::getValue<bool>("Physic","ActivateCollision"))
           {
             dSpaceCollide(m_collision_space->id(),this,PhysicalWorld::onSpaceCollision) ;
           }
-                  
-          InternalMessage("Physic","Physic::PhysicalWorld::simulate " + 
-                                   Kernel::toString(getObject()->getIdentifier()) + 
+
+          InternalMessage("Physic","Physic::PhysicalWorld::simulate " +
+                                   Kernel::toString(getObject()->getIdentifier()) +
                                    " trace#1") ;
-          
+
           // physical part
           if (m_world)
           {
@@ -305,11 +308,11 @@ namespace ProjetUnivers {
 
           dJointGroupEmpty(m_contact_group) ;
 
-          InternalMessage("Physic","PhysicalWorld::simulate " + 
-                                   Kernel::toString(getObject()->getIdentifier()) + 
+          InternalMessage("Physic","PhysicalWorld::simulate " +
+                                   Kernel::toString(getObject()->getIdentifier()) +
                                    " Leaving") ;
         }
-        
+
       }
     }
   }

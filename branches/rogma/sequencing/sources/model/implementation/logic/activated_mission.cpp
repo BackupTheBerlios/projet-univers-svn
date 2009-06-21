@@ -31,8 +31,8 @@ namespace ProjetUnivers {
       namespace Logic {
 
 
-        RegisterControler(ActivatedMission, 
-                          Implementation::ActivatedMission, 
+        RegisterControler(ActivatedMission,
+                          Implementation::ActivatedMission,
                           LogicSystem) ;
 
         ActivatedMission::ActivatedMission(Implementation::ActivatedMission* mission,
@@ -42,7 +42,7 @@ namespace ProjetUnivers {
         {
           InternalMessage("Mission","ActivatedMission::ActivatedMission") ;
         }
-        
+
         void ActivatedMission::onInit()
         {
           getTrait<Mission>()->load() ;
@@ -53,7 +53,7 @@ namespace ProjetUnivers {
         {
           InternalMessage("Mission","Destroying mission content") ;
           std::set<Universe*> universes = getObject()->getChildren<Universe>() ;
-          for(std::set<Universe*>::const_iterator child = universes.begin() ; 
+          for(std::set<Universe*>::const_iterator child = universes.begin() ;
               child != universes.end() ;
               ++child)
           {
@@ -69,7 +69,7 @@ namespace ProjetUnivers {
             getObject()->call("quit") ;
           }
         }
-        
+
       }
     }
   }

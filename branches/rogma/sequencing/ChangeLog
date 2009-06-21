@@ -1233,13 +1233,81 @@
   * Demo :
     - added a "mouse" cross for mouse piloting as a view on stick
     - different mouse sensibility : in game and in menu (still not correct)
-    
-@todo :
 
-  
+2009-05-31 rogma
+
+  * Demo :
+    - added an autonomous test application that crate n ships and simulate 
+      during n seconds for profiling purpose
+  * All :
+    - added tclap as dependency
+
+2009-06-21 rogma
+
+  * Kernel :
+    - Log added Block class to create a local object that indent and tell enter/
+      leave
+    - added debugging print functions 
+    - work on trait update relations between traits and deduced traits
+    - block update/init/close of deduced traits during deduction by 
+      using transactions
+    - destroying an object is equivalent to destroying all its primitive traits
+    
+in commit
+--------
+
+
+in progress
+-----------
+   
+      
+todo
+----
+
+  * Kernel :
+    - repair getLatestUpdatedTrait() : memorisation of the event that caused 
+      the update (could be update trait, changeHasParent, changeHasAncestor, 
+      humm...)
+    - we should use onChangedParent() for formulaes on parent instead of 
+      onUpdate ?
+
+  * windows
+    - build and upload a tclap package
+
   * Demo :
     - majority of performance issue seems to be due to detector system... that 
-      is in n² (in the best case) : do not know how to handle it better
+      is in n² (in the best case)
+    - share simulation for all detectors
+    - Detector : make use of absolute positions instead of relative ones, we 
+      can recreate the whole universe  : allow to add absolute coordinates not 
+      relating to any object
+    - should use real object, and only build some data that reference normal 
+      object
+      --> updated when referenced object is (should probably add a relation and 
+      formula Related(...,RecursivelyPositionned)
+    
+  * Kernel:
+    - maintain the set of direct impact for traits updates (in progress)
+    - all members should be encapsulated, even for own class : allow to change 
+      storage (pool ...)  
+    
+  * all : 
+   - display the list of used formulaes (number and kind)
+   - count the create/destroy of objects of traits
+   - display the average size of objects (how many traits/views/deduced traits...)
+   - create an object pool per model, a pool on views too... 
+
+  * Model : 
+    - Mission : destruction sequence during player's ship explosion 
+      (Player & Parent(Explosion)) --> change current camera to a fixed one 
+  
+  * Demo :
+    - history of who killed who (need to add the transponder on the LaserBeam 
+      object)
+    - score menu at the end of the mission
+  
+  * Input :
+    - Bug : mouse go faster on right than left !!!
     
   * Sound : 
     - bug : sometimes no sound when replaying the mission but difficult to 
@@ -1249,23 +1317,16 @@
      
   * Demo : 
     - reduce size of ship
-    - still perf problems ...
     
   * GUI : 
     - add input config validation : cannot save or back till it is correct
 
-  * Demo :
-    - score menu at the end of the mission
-    - history of who killed who (need to add the transponder on the LaserBeam 
-      object)
+  * Model :
+    - add performance tests 
   
   * Display :
     - display score on hud
     
-  * Model : 
-    - Mission : destruction sequence during player's ship explosion 
-      (Player & Parent(Explosion)) --> change current camera to a fixed one 
-  
   * AI :
     - AI tend to "flee on the side" once the target has gone in a perpendicular 
       direction, its targeting go the same and the phenomenon amplifies
@@ -1295,10 +1356,9 @@
       consider negative Z as forward ??? 
 
   * Packaging
-    - make install does not work on win32 : libtool refuses to link with Ogre 
-      (wheread it works in normal make !!)
-
     - inspire from funguloid package for debian/ubuntu packaging
+    - Info : make install does not work on win32 : libtool refuses to link with Ogre 
+      (wheread it works in normal make !!)
      
   * Model : 
     - add test for adding objects during a structure destroying ?  
@@ -1328,10 +1388,6 @@
       ...). Detectors could then be caractrized by their detection abilities :
       SpeedDetector&MassDetector... but it is not clear now
     
-    - Detector : make use of absolute positions instead of relative ones, we 
-      can recreate the whole universe  : allow to add absolute coordinates not 
-      relating to any object 
-
     - be able to get bouding box (?) and perform ray 
       casting inside Model. Code could rely on Ogre but we would be an 
       encapsulation.
@@ -1386,7 +1442,6 @@
     - reconsider the implementation with the limitation 
     
   * Kernel :
-    
     - refactoring : viewpoint and controler set have a lot in common...
     - add better errors on object structure
     - maybe call axis should take a Percentage
@@ -1401,12 +1456,20 @@
     - correct the coordinate system; Stick/Throttle must use correct 
       orientation 
     - deduce meta structure
+      # use a metamodel 
       # use gccxml
       # use a modified doxygen
       # instead of generating code, genetate an xml structure for attributes, 
         getter and setters ?  (it would be ridiculous : better forget c++ then)
-      
+
+  * Network :
+    - udp for position update of physical objects
+    - tcp for structural opérations (creation destruction)
+    - test if position is sent only when moving
+    - mock network : receive position updates and in other side check that correct 
+      messages are sent
+  
   * Continuous integration :
     - use cccc
-    - profile with oprofile
+    - profile with valgrind (cachegrind)
   

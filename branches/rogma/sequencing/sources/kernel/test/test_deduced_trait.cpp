@@ -1265,13 +1265,13 @@ namespace ProjetUnivers
       void TestDeducedTrait::getDependentTraits()
       {
         std::auto_ptr<Trait1> t1(new Trait1()) ;
-        CPPUNIT_ASSERT_EQUAL((unsigned int)9,DeducedTrait::getDependentTraits(t1.get()).size()) ;
+        CPPUNIT_ASSERT_EQUAL((unsigned int)9,DeducedTrait::getDependentTraitTypes(t1.get()).size()) ;
 
         std::auto_ptr<Parent> parent(new Parent()) ;
-        CPPUNIT_ASSERT_EQUAL((unsigned int)2,DeducedTrait::getDependentTraits(parent.get()).size()) ;
+        CPPUNIT_ASSERT_EQUAL((unsigned int)2,DeducedTrait::getDependentTraitTypes(parent.get()).size()) ;
 
         std::auto_ptr<Child> child(new Child()) ;
-        CPPUNIT_ASSERT_EQUAL((unsigned int)2,DeducedTrait::getDependentTraits(child.get()).size()) ;
+        CPPUNIT_ASSERT_EQUAL((unsigned int)2,DeducedTrait::getDependentTraitTypes(child.get()).size()) ;
 
       }
 

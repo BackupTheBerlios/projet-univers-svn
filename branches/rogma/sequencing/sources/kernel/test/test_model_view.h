@@ -18,8 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_KERNEL_TEST_MODEL_VIEW_H_
-#define PU_KERNEL_TEST_MODEL_VIEW_H_
+#pragma once
 
 
 #include <cppunit/extensions/HelperMacros.h>
@@ -154,6 +153,8 @@ namespace ProjetUnivers
         /// Same test as above with two level childs
         void updateRecursiveParentTrait() ;
 
+        void initNotTrait() ;
+
       // @}
 
 
@@ -192,6 +193,7 @@ namespace ProjetUnivers
         CPPUNIT_TEST(updateRecursiveAncestorLevel2) ;
         CPPUNIT_TEST(updateParentTrait) ;
         CPPUNIT_TEST(updateRecursiveParentTrait) ;
+        CPPUNIT_TEST(initNotTrait) ;
 
         CPPUNIT_TEST_SUITE_END() ;
 
@@ -200,8 +202,6 @@ namespace ProjetUnivers
     }
   }
 }
-
-#endif
 
 
 

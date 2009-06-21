@@ -18,15 +18,16 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_MISSION_H_
-#define PU_MODEL_MISSION_H_
+#pragma once
 
 #include <kernel/object_reference.h>
 #include <kernel/trait.h>
 #include <model/distance.h>
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers 
+{
+  namespace Model 
+  {
   
     /// Represents a basic loadable mission.
     class Mission : public Kernel::Trait
@@ -71,5 +72,3 @@ namespace ProjetUnivers {
     };
   }
 }
-
-#endif /*PU_MODEL_MISSION_H_*/

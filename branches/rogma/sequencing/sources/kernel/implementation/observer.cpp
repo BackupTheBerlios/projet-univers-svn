@@ -18,10 +18,8 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#pragma once
-
-#include <kernel/object.h>
 #include <kernel/trait.h>
+#include <kernel/model.h>
 #include <kernel/observer.h>
 
 namespace ProjetUnivers
@@ -29,46 +27,92 @@ namespace ProjetUnivers
   namespace Kernel
   {
 
-    class ViewPoint ;
-
-    /// A view on a trait.
-    class BaseTraitView : public Observer
+    Object* Observer::getObject() const
     {
-    public:
+      return m_trait->getObject() ;
+    }
 
-      /// init the view after construction.
-      virtual void realInit() ;
+    Trait* Observer::getTrait() const
+    {
+      return m_trait ;
+    }
 
-      /// abstract class means virtual destructor.
-      virtual ~BaseTraitView() ;
+    Observer::~Observer()
+    {}
 
-      /// Access to the first parent view of the same viewpoint.
-      /*!
-        @return the first (up, by parentship) initialised view
-      */
-      template <class _View> _View* getView() const ;
+    Observer::Observer(Trait* trait)
+    : m_initialised(false),
+      m_really_initialised(false),
+      m_trait(trait)
+    {}
 
-      /// Access to the first ancestor view of the same viewpoint.
-      template <class _View> _View* getAncestorView() const ;
+    void Observer::_init()
+    {
+      if (!m_initialised)
+      {
+        getObject()->getModel()->initObserver(this) ;
+        m_initialised = true ;
+      }
+    }
 
-    protected:
+    void Observer::_close()
+    {
+      if (m_initialised)
+      {
+        getObject()->getModel()->closeObserver(this) ;
+        m_initialised = false ;
+      }
+    }
 
-      /// abstract class means protected constructor.
-      BaseTraitView(Trait* trait,ViewPoint* viewpoint) ;
+    void Observer::_updated()
+    {
+      if (m_initialised)
+      {
+        getObject()->getModel()->updateObserver(this) ;
+      }
+    }
 
-    /*!
-      @name data
-    */
-    //@{
+    void Observer::_changed_parent(Object* old_parent)
+    {
+      realChangeParent(old_parent) ;
+//      getObject()->getModel()->
+    }
 
-      ViewPoint* m_viewpoint ;
+    void Observer::realClose()
+    {
+      if (m_really_initialised)
+      {
+        onClose() ;
+        m_really_initialised = false ;
+      }
+    }
 
-    //@}
+    void Observer::realChangeParent(Object* old_parent)
+    {
+      if (m_really_initialised)
+      {
+        onChangeParent(old_parent) ;
+      }
+    }
 
-      friend class Trait ;
-      friend class Model ;
+    void Observer::realUpdate()
+    {
+      if (m_really_initialised)
+      {
+        onUpdate() ;
 
-    };
+        /*!
+          @todo
+            maybe we should introduce a little "consistency check" here
+            by calling a Model::checkConsistency(Object)?
+        */
+      }
+    }
+
+    bool Observer::isInitialised() const
+    {
+      return m_really_initialised ;
+    }
+
   }
 }
-#include <kernel/implementation/base_trait_view.cxx>

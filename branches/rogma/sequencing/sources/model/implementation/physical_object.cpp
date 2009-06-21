@@ -35,19 +35,16 @@ namespace ProjetUnivers {
                         And(HasTrait(Mobile),
                             HasTrait(Positionned),
                             HasTrait(Massive),
-                            HasTrait(Whole))) ;
+                            HasTrait(Whole),
+                            HasAncestor(PhysicalWorld))) ;
 
     Kernel::Object* PhysicalObject::getPhysicalWorld() const
     {
-      Kernel::Object* parent = getObject()->getParent() ;
-      if (parent)
+      Model::PhysicalWorld* world = getObject()->getAncestor<PhysicalWorld>() ;
+      if (world)
       {
-        Model::PhysicalWorld* 
-            world = parent->getParent<Model::PhysicalWorld>() ;
-        
         return world->getObject() ;
       }
-      
       return NULL ;
     }
 

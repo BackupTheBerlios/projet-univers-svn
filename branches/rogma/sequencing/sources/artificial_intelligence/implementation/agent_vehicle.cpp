@@ -34,7 +34,7 @@ namespace ProjetUnivers {
       AgentVehicle::AgentVehicle(Model::PhysicalObject* object,AgentVehicleViewPoint* viewpoint)
       : Kernel::TraitView<Model::PhysicalObject,AgentVehicleViewPoint>(object,viewpoint)
       {}
-      
+
       void AgentVehicle::onInit()
       {
         InternalMessage("AI","entering AgentVehicle::onInit") ;
@@ -48,50 +48,50 @@ namespace ProjetUnivers {
         getViewPoint()->setVehicle(m_vehicle.get()) ;
         InternalMessage("AI","leaving AgentVehicle::onInit") ;
       }
-      
+
       void AgentVehicle::onClose()
       {
         getViewPoint()->setVehicle(NULL) ;
         m_vehicle.reset(NULL) ;
       }
-      
+
       void AgentVehicle::onUpdate()
       {
         // last updated elementary trait will tell us what to update
-        const Kernel::TypeIdentifier& latest = getTrait()->getLatestUpdatedTrait() ;
-        
-        if (latest == getClassTypeIdentifier(Model::Positionned))
-        {
+//        const Kernel::TypeIdentifier& latest = getTrait()->getLatestUpdatedTrait() ;
+//
+//        if (latest == getClassTypeIdentifier(Model::Positionned))
+//        {
           m_vehicle->setPosition(getPosition()) ;
-        }
-        else if (latest == getClassTypeIdentifier(Model::Mobile))
-        {
+//        }
+//        else if (latest == getClassTypeIdentifier(Model::Mobile))
+//        {
           m_vehicle->setSpeed(getSpeed()) ;
           m_vehicle->setMaxSpeed(std::max(m_vehicle->getMaxSpeed(),m_vehicle->getSpeed().length())) ;
           m_vehicle->setOrientation(getOrientation()) ;
-        }
-        else if (latest == getClassTypeIdentifier(Model::Solid))
-        {
+//        }
+//        else if (latest == getClassTypeIdentifier(Model::Solid))
+//        {
           m_vehicle->setSize(getSize()) ;
-        }
+//        }
       }
 
       Ogre::Vector3 AgentVehicle::getPosition() const
       {
         Kernel::Object* physical_world = getObject()->getAncestor<Model::PhysicalWorld>()
                                          ->getObject() ;
-        
-        const Model::Position& position = 
+
+        const Model::Position& position =
             getObject()->getTrait<Model::Positionned>()->getPosition(physical_world) ;
-        
+
         return position.Meter() ;
       }
 
       Ogre::Vector3 AgentVehicle::getSpeed() const
       {
-        const Model::Speed& speed = 
+        const Model::Speed& speed =
             getObject()->getTrait<Model::Mobile>()->getSpeed() ;
-        
+
         return speed.MeterPerSecond() ;
       }
 
@@ -102,18 +102,18 @@ namespace ProjetUnivers {
           return solid->getRadius().Meter() ;
         return 0 ;
       }
-      
+
       Ogre::Quaternion AgentVehicle::getOrientation() const
       {
         Kernel::Object* physical_world = getObject()->getAncestor<Model::PhysicalWorld>()
                                          ->getObject() ;
-        
-        const Model::Orientation& orientation = 
+
+        const Model::Orientation& orientation =
             getObject()->getTrait<Model::Oriented>()->getOrientation(physical_world) ;
-        
+
         return orientation.getQuaternion() ;
       }
-      
+
     }
   }
 }

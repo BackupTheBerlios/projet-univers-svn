@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2008 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,77 +18,59 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_KERNEL_BASE_CONTROLER_H_
-#define PU_KERNEL_BASE_CONTROLER_H_
+#pragma once
 
-namespace ProjetUnivers 
+#include <kernel/observer.h>
+
+namespace ProjetUnivers
 {
-  namespace Kernel 
+  namespace Kernel
   {
-  
     class Trait ;
     class ControlerSet ;
     class Object ;
-    
+
     /// A controler on a trait.
-    class BaseControler
+    class BaseControler : public Observer
     {
     public:
-      
-      /// Any controler does a simulation. 
-      virtual void simulate(const float& i_seconds) ;
 
-      /// Some controlers prepare simulation. 
+      /// Any controler does a simulation.
+      virtual void simulate(const float& seconds) ;
+
+      /// Some controlers prepare simulation.
       virtual void prepare() ;
-      
-      /// init the controler after construction.
-      void _init() ;
 
-      /// closes the controler before destruction.
-      void _close() ;
+      /// init the controler after construction.
+      virtual void realInit() ;
 
       /// abstract class means virtual destructor.
       virtual ~BaseControler() ;
-      
-      /// Access to object.
-      Object* getObject() const ;
 
       /// Acces to controler set.
       ControlerSet* getControlerSet() const ;
-      
+
+      /// Access to the first parent controler of the same controler set.
+      /*!
+        @return the first (up, by parentship) initialised controler
+      */
+      template <class _Controler> _Controler* getControler() const ;
+
+      /// Access to the first ancestor controler of the same controler set.
+      template <class _Controler> _Controler* getAncestorControler() const ;
+
     protected:
 
-      /// Called after the controler is created.
-      virtual void onInit() = 0 ;
-      
-      /// Called just before the controler is destroyed.
-      virtual void onClose() = 0 ;
-
-      /// Called when parent changed.
-      virtual void onChangeParent(Object* i_old_parent) = 0 ;
-      
-      /// Called when the model trait has changed.
-      virtual void onUpdate() = 0 ;
-
-      /// update the controler for a change_parent. 
-      void _changed_parent(Object* i_old_parent) ;
-      
-      /// update the controler.
-      void _updated() ;
-      
       /// abstract class means protected constructor.
-      BaseControler(Trait* i_trait,ControlerSet* i_controler_set) ;
-      
+      BaseControler(Trait* trait,ControlerSet* controler_set) ;
 
-      bool          m_initialised ;
-      Trait*        m_trait ;
       ControlerSet* m_controler_set ;
 
       friend class Trait ;
 
     };
-    
+
   }
 }
+#include <kernel/implementation/base_controler.cxx>
 
-#endif /*PU_KERNEL_BASE_CONTROLER_H_*/

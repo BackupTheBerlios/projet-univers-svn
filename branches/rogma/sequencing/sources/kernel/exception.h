@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,43 +18,44 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_KERNEL_EXCEPTION_H_
-#define PU_KERNEL_EXCEPTION_H_
+#pragma once
 
 #include <string>
 
-namespace ProjetUnivers 
+namespace ProjetUnivers
 {
-  namespace Kernel 
+  namespace Kernel
   {
-    
+
     /// Base class for exceptions.
-    class Exception {
+    class Exception : public std::exception
+    {
     public:
-    
+
+      Exception(const std::string& message) ;
+
+      Exception(const std::string& message,const unsigned int& numero) ;
+
       /// Copy constructor.
       Exception(const Exception& x) ;
-    
+
       /// Abstract classes nedd virtual destructor.
-      virtual ~Exception() ;
-    
+      virtual ~Exception() throw() ;
+
       /// Error message.
       std::string Message() const ;
-    
-    
+      virtual const char* what() const throw() ;
+
     protected:
-    
+
       /// Message.
       std::string		message ;
-    
+
       /// Error number.
       unsigned int		numeroErreur ;
-    
-      Exception(const std::string& _message,const unsigned int& numero) ;
-    
+
+
     };
 
   }
 }
-
-#endif

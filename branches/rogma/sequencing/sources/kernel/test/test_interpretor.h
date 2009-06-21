@@ -21,21 +21,22 @@
 #pragma once
 #include <cppunit/extensions/HelperMacros.h>
 
-namespace ProjetUnivers 
+namespace ProjetUnivers
 {
-  namespace Kernel 
+  namespace Kernel
   {
-    namespace Test 
+    namespace Test
     {
 
-      class TestInterpretor : public CppUnit::TestFixture 
+      /// Tests for the Kernel::Implementation::Interpretor class
+      class TestInterpretor : public CppUnit::TestFixture
       {
       protected:
-      /*! 
+      /*!
         @name Tests
-      */ 
+      */
       // @{
-  
+
         void addTrait() ;
         void destroyTrait() ;
         void destroyObject() ;
@@ -44,7 +45,7 @@ namespace ProjetUnivers
       /*!
         @name Test registration
       */
-      // @{      
+      // @{
 
         CPPUNIT_TEST_SUITE(TestInterpretor) ;
 

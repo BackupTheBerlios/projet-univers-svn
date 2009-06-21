@@ -34,13 +34,13 @@ namespace ProjetUnivers {
     namespace Implementation {
 
       RegisterView(DetectedVehicle,Target,AgentViewPoint) ;
-      
+
       DetectedVehicle::DetectedVehicle(Target* data,AgentViewPoint* viewpoint)
       : Kernel::TraitView<Target,AgentViewPoint>(data,viewpoint),
         m_vehicle(NULL)
       {}
-      
-      void DetectedVehicle::onInit() 
+
+      void DetectedVehicle::onInit()
       {
         InternalMessage("AI","entering DetectedVehicle::onInit") ;
         Ogre::Vector3 speed = getSpeed() ;
@@ -53,59 +53,59 @@ namespace ProjetUnivers {
         getViewPoint()->addVehicle(m_vehicle.get()) ;
         InternalMessage("AI","leaving DetectedVehicle::onInit") ;
       }
-      
+
       void DetectedVehicle::onClose()
       {
         getViewPoint()->removeVehicle(m_vehicle.get()) ;
         m_vehicle.reset(NULL) ;
       }
-      
+
       void DetectedVehicle::onUpdate()
       {
-        // last updated elementary trait will tell us what to update
-        const Kernel::TypeIdentifier& latest = getTrait()->getLatestUpdatedTrait() ;
-        
-        InternalMessage("AI","DetectedVehicle::onUpdate " + latest.toString()) ;
-        if (latest == getClassTypeIdentifier(Model::Positionned))
-        {
+//        // last updated elementary trait will tell us what to update
+//        const Kernel::TypeIdentifier& latest = getTrait()->getLatestUpdatedTrait() ;
+//
+//        InternalMessage("AI","DetectedVehicle::onUpdate " + latest.toString()) ;
+//        if (latest == getClassTypeIdentifier(Model::Positionned))
+//        {
           m_vehicle->setPosition(getPosition()) ;
-        }
-        else if (latest == getClassTypeIdentifier(Model::Mobile))
-        {
+//        }
+//        else if (latest == getClassTypeIdentifier(Model::Mobile))
+//        {
           m_vehicle->setSpeed(getSpeed()) ;
           m_vehicle->setMaxSpeed(std::max(m_vehicle->getMaxSpeed(),m_vehicle->getSpeed().length())) ;
           m_vehicle->setOrientation(getOrientation()) ;
-        }
-        else if (latest == getClassTypeIdentifier(Model::Solid))
-        {
+//        }
+//        else if (latest == getClassTypeIdentifier(Model::Solid))
+//        {
           m_vehicle->setSize(getSize()) ;
-        }
+//        }
       }
-      
+
       Ogre::Vector3 DetectedVehicle::getPosition() const
       {
         Kernel::Object* agent =  getViewPoint()->getAgent() ;
         Kernel::Object* ship = Model::getControledShip(agent) ;
-        
+
         Model::Computer* computer = getObject()->getTrait<Model::DetectionData>()
                                     ->getComputer()->getTrait<Model::Computer>() ;
-        
+
         Kernel::Object* physical_world = ship->getAncestor<Model::PhysicalWorld>()
                                          ->getObject() ;
 
         InternalMessage("AI",Ogre::StringConverter::toString(getObject()->getTrait<Model::Positionned>()->getPosition().Meter())) ;
-        
-        Model::Position position 
+
+        Model::Position position
           = computer->getDataPosition(getObject(),physical_world) ;
-        
+
         return position.Meter() ;
       }
 
       Ogre::Vector3 DetectedVehicle::getSpeed() const
       {
-        const Model::Speed& speed = 
+        const Model::Speed& speed =
             getObject()->getTrait<Model::Mobile>()->getSpeed() ;
-        
+
         return speed.MeterPerSecond() ;
       }
 
@@ -113,7 +113,7 @@ namespace ProjetUnivers {
       {
         return getObject()->getTrait<Model::Solid>()->getRadius().Meter() ;
       }
-      
+
       Vehicle* DetectedVehicle::getVehicle() const
       {
         return m_vehicle.get() ;
@@ -129,10 +129,10 @@ namespace ProjetUnivers {
         forward.normalise() ;
         Ogre::Vector3 up = forward.crossProduct(side) ;
         up.normalise() ;
-        
+
         return Ogre::Quaternion(side,up,forward) ;
       }
-      
+
     }
   }
 }

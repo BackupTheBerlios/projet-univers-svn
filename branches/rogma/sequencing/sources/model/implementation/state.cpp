@@ -29,7 +29,7 @@
 
 namespace ProjetUnivers {
   namespace Model {
-    
+
     State::State()
     {}
 
@@ -43,12 +43,12 @@ namespace ProjetUnivers {
     {
       m_aliases[name] = command ;
     }
-    
-    std::string State::getCommandOnQuit() const 
+
+    std::string State::getCommandOnQuit() const
     {
       return m_command_on_quit ;
     }
-    
+
     Active* getTrait(const std::string& name)
     {
       if (name == "Displayed")
@@ -73,26 +73,26 @@ namespace ProjetUnivers {
     bool State::call(const Kernel::TypeIdentifier& trait_type,
                      const std::string&            command)
     {
-      InternalMessage("State","State::call entering command=" + command) ;
-      
+      Kernel::Log::Block temp("State","State::call command=" + command) ;
+
       // check for aliases
       std::map<std::string,std::string>::const_iterator finder = m_aliases.find(command) ;
       if (finder != m_aliases.end())
       {
         return call(trait_type,finder->second) ;
       }
-      
+
       InternalMessage("State","State::call command is not an alias") ;
 
       // parse the command
       std::string::size_type position_of_parenthesis = command.find('(') ;
-      
+
       if (position_of_parenthesis != std::string::npos)
       {
         std::string command_name = command.substr(0,position_of_parenthesis) ;
 
         InternalMessage("State","State::call command name=" + command_name) ;
-        
+
         if (command_name == "pop")
         {
           State* parent = getObject()->getAncestor<State>() ;
@@ -111,16 +111,16 @@ namespace ProjetUnivers {
           {
             std::string object_name = command.substr(position_of_parenthesis+1,
                                                      position_of_comma-position_of_parenthesis-1) ;
-            
+
             std::string trait_name = command.substr(position_of_comma+1,
                                                     command.length()-position_of_comma-2) ;
 
             InternalMessage("State","State::call object name=" + object_name) ;
             InternalMessage("State","State::call trait name=" + trait_name) ;
-            
+
             std::auto_ptr<Active> active(getTrait(trait_name)) ;
             Kernel::Object* object = Kernel::Object::get(object_name) ;
-            
+
             if (object && active.get())
             {
               if (command_name == "push")
@@ -134,40 +134,40 @@ namespace ProjetUnivers {
                 return true ;
               }
             }
-            
+
             ErrorMessage("State::call invalid command " + command) ;
           }
         }
       }
       // not executed
       InternalMessage("State","State::call command name not executed") ;
-      return false ; 
-      
+      return false ;
+
     }
-    
+
     void State::pushState(Kernel::Object* state,Active* active)
     {
-      
+
       std::auto_ptr<Active> local_active(active) ;
-      
-      if (!state) 
+
+      if (!state)
         return ;
-      
+
       State* parent = state->getAncestor<State>() ;
-      
+
       if (!parent)
         return ;
-      
+
       if (parent == this)
       {
-        
-        // do not push twice a state (second is ignored) 
+
+        // do not push twice a state (second is ignored)
         if (m_activated_children.empty() || m_activated_children.back() != state)
         {
           m_activated_children.push_back(state) ;
           enter(state,local_active.release()) ;
         }
-      } 
+      }
       else
       {
         State* parent = getObject()->getAncestor<State>() ;
@@ -181,20 +181,20 @@ namespace ProjetUnivers {
         }
 
       }
-      
+
     }
-    
+
     void State::popState()
     {
-      
+
       if (m_activated_children.size() == 0)
       {
         ErrorMessage("State::popState : no sub state to pop") ;
         return ;
       }
-      
+
       State* child = m_activated_children.back()->getTrait<State>() ;
-      
+
       if (!child)
       {
         ErrorMessage("State::changeState : activated child to pop is not a state") ;
@@ -204,7 +204,7 @@ namespace ProjetUnivers {
       exit(m_activated_children.back()) ;
       m_activated_children.pop_back() ;
     }
-    
+
     void State::changeState(Kernel::Object* state,Active* active)
     {
       if (!active)
@@ -212,7 +212,7 @@ namespace ProjetUnivers {
         ErrorMessage("State::changeState") ;
         return ;
       }
-      
+
       if (!state)
       {
         delete active ;
@@ -220,24 +220,24 @@ namespace ProjetUnivers {
         return ;
       }
 
-      InternalMessage("State","Model::State::changeState from " + 
-                              Kernel::toString(getObject()->getIdentifier()) + 
+      Kernel::Log::Block temp("State","Model::State::changeState from " +
+                              Kernel::toString(getObject()->getIdentifier()) +
                               " to " + Kernel::toString(state->getIdentifier())) ;
-      
+
       State* parent = state->getAncestor<State>() ;
 
       if (parent == this)
       {
-        InternalMessage("State","Model::State::changeState#1") ; 
+        InternalMessage("State","Model::State::changeState#1") ;
         parent->exitSubStates() ;
-        InternalMessage("State","Model::State::changeState#1.1") ; 
+        InternalMessage("State","Model::State::changeState#1.1") ;
         m_activated_children.push_back(state) ;
         enter(state,active) ;
-        InternalMessage("State","Model::State::changeState#1.2") ; 
-      } 
+        InternalMessage("State","Model::State::changeState#1.2") ;
+      }
       else
       {
-        InternalMessage("State","Model::State::changeState#2") ; 
+        InternalMessage("State","Model::State::changeState#2") ;
         State* parent = getObject()->getAncestor<State>() ;
         if (parent)
         {
@@ -248,18 +248,19 @@ namespace ProjetUnivers {
           ErrorMessage("Invalid transition") ;
         }
       }
+      InternalMessage("State","Model::State::changeState Leaving") ;
     }
-    
+
     void State::enter(Kernel::Object* state,Active* active)
     {
-      
+
       if(! state->getTrait<State>())
       {
-        
+
         delete active ;
         return ;
       }
-      
+
       state->addTrait(active) ;
     }
 
@@ -271,7 +272,7 @@ namespace ProjetUnivers {
         state->destroyTrait(active) ;
       }
     }
-    
+
     void State::exitSubStates()
     {
       for(std::list<Kernel::ObjectReference>::const_iterator active = m_activated_children.begin() ;
@@ -283,11 +284,11 @@ namespace ProjetUnivers {
           exit(*active) ;
         }
       }
-      
+
       m_activated_children.clear() ;
-      
+
       std::set<State*> sub_states = getObject()->getDescendants<State>() ;
-      
+
       for(std::set<State*>::const_iterator sub_state = sub_states.begin() ;
           sub_state != sub_states.end() ;
           ++sub_state)

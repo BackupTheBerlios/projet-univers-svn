@@ -24,11 +24,11 @@
 
 #include <cppunit/extensions/HelperMacros.h>
 
-namespace ProjetUnivers 
+namespace ProjetUnivers
 {
-  namespace ArtificialIntelligence 
+  namespace ArtificialIntelligence
   {
-    namespace Test 
+    namespace Test
     {
 
 
@@ -36,17 +36,17 @@ namespace ProjetUnivers
       class TestModelControler : public CppUnit::TestFixture {
       protected:
 
-      /*! 
+      /*!
         @name Tests methods
       */
-      // @{  
+      // @{
 
         /// Tests basic construction.
         void build() ;
 
         /// Tests basic simulation.
         void simulate() ;
-        
+
         /// Tests construction with lack of elements.
         void buildWithoutElements() ;
 
@@ -56,21 +56,21 @@ namespace ProjetUnivers
           A ship pursuit an ennemy.
         */
         void attackAllEnemies() ;
-        
+
         /// Two agents attacking each other.
         void twoShips() ;
-        
+
         /// Two teams attacking each other
         /*!
           Foirst team must win because they are twice 2 against 1
         */
         void groupAttack() ;
-        
+
         /// Test the updating of the positions.
         void testPositionUpdate() ;
-        
+
         void testMission() ;
-        
+
       // @}
 
 
@@ -83,16 +83,14 @@ namespace ProjetUnivers
         CPPUNIT_TEST(groupAttack) ;
         CPPUNIT_TEST(testPositionUpdate) ;
         CPPUNIT_TEST(simulate) ;
-        
-        CPPUNIT_TEST_SUITE_END() ;
 
-      
+        CPPUNIT_TEST_SUITE_END() ;
       };
     }
   }
 }
 
-#endif 
-    
+#endif
+
 
 

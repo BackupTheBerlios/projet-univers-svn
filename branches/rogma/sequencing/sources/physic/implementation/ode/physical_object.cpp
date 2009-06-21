@@ -64,7 +64,7 @@ namespace ProjetUnivers {
 
         void PhysicalObject::onInit()
         {
-          InternalMessage("Physic","PhysicalObject::onInit entering " + Kernel::toString(getObject()->getIdentifier())) ;
+          Kernel::Log::Block temp("Physic","PhysicalObject::onInit " + Kernel::toString(getObject()->getIdentifier())) ;
           
           PhysicalWorld* world = getPhysicalWorld(this) ; 
           if (world)
