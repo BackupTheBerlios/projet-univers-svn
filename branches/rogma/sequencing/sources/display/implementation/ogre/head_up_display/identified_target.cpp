@@ -38,41 +38,36 @@ namespace ProjetUnivers
         namespace HUD
         {
 
-          RegisterView(IdentifiedTarget, 
-                       Implementation::IdentifiedTarget, 
+          RegisterView(IdentifiedTarget,
+                       Implementation::IdentifiedTarget,
                        HeadUpDisplayViewPoint) ;
-          
+
           IdentifiedTarget::IdentifiedTarget(
               Implementation::IdentifiedTarget* object,
               HeadUpDisplayViewPoint* viewpoint)
           : Kernel::TraitView<Implementation::IdentifiedTarget,HeadUpDisplayViewPoint>(object,viewpoint),
             m_target(NULL)
           {}
-          
+
           void IdentifiedTarget::onInit()
           {
             InternalMessage("Display","Entering IdentifiedTarget::onInit") ;
-            m_target = getObject()->getTrait<Implementation::Target>()->getView<Target>(getViewPoint()) ;
-            m_target->_init() ;
+            m_target = getView<Target>() ;
             onUpdate() ;
             InternalMessage("Display","Leaving IdentifiedTarget::onInit") ;
           }
-          
+
           void IdentifiedTarget::onClose()
           {
             InternalMessage("Display","Entering IdentifiedTarget::onClose") ;
-            Implementation::Target* target = getObject()->getTrait<Implementation::Target>() ;
-            if (target)
+            m_target = getView<Target>() ;
+            if (m_target)
             {
-              m_target = target->getView<Target>(getViewPoint()) ;
-              if (m_target)
-              {
-                m_target->setTargetColour(::Ogre::ColourValue::White) ;
-              }
+              m_target->setTargetColour(::Ogre::ColourValue::White) ;
             }
             InternalMessage("Display","Leaving IdentifiedTarget::onClose") ;
           }
-          
+
           void IdentifiedTarget::onUpdate()
           {
             InternalMessage("Display","Entering IdentifiedTarget::onUpdate") ;
@@ -93,10 +88,10 @@ namespace ProjetUnivers
               InternalMessage("Display","IdentifiedTarget::onUpdate un-identified") ;
               colour = ::Ogre::ColourValue::White ;
             }
-            
+
             m_target->setTargetColour(colour) ;
 
-            std::set<Implementation::IdealTarget*> ideal_targets = 
+            std::set<Implementation::IdealTarget*> ideal_targets =
                 m_target->getObject()->getDescendants<Implementation::IdealTarget>() ;
             for(std::set<Implementation::IdealTarget*>::iterator ideal_target = ideal_targets.begin() ;
                 ideal_target != ideal_targets.end() ;
@@ -104,7 +99,7 @@ namespace ProjetUnivers
             {
               (*ideal_target)->getView<IdealTarget>(getViewPoint())->setColour(colour) ;
             }
-            
+
             // display transponder code
             Model::Transponder* transponder = getObject()->getTrait<Model::Transponder>() ;
             if (transponder)
@@ -113,7 +108,7 @@ namespace ProjetUnivers
             }
             InternalMessage("Display","Leaving IdentifiedTarget::onUpdate") ;
           }
-          
+
         }
       }
     }

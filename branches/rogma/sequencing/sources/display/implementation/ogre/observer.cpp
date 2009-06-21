@@ -34,88 +34,85 @@ namespace ProjetUnivers {
   namespace Display {
     namespace Implementation {
       namespace Ogre {
-        
-        RegisterView(Ogre::Observer, 
-                     Implementation::Observer, 
+
+        RegisterView(Ogre::Observer,
+                     Implementation::Observer,
                      Ogre::RealWorldViewPoint) ;
-        
+
         Observer::Observer(Implementation::Observer* observer,
-                           RealWorldViewPoint*       viewpoint) 
+                           RealWorldViewPoint*       viewpoint)
         : Kernel::TraitView<Implementation::Observer,
-                            RealWorldViewPoint>(observer,viewpoint), 
+                            RealWorldViewPoint>(observer,viewpoint),
           m_camera(NULL),
           m_node(NULL)
         {
           InternalMessage("Display","Building Ogre::Observer::Observer") ;
         }
-        
+
         void Observer::onInit()
         {
           InternalMessage("Display","Display::Observer::onInit Entering") ;
 
           // positionned view must be initialised first
-          Positionned* positionned(getObject()->getParent<Implementation::Positionned>()
-                                   ->getView<Positionned>(getViewPoint())) ;
+          Positionned* positionned(getView<Positionned>()) ;
           CHECK(positionned,"error") ;
-          positionned->_init() ;
 
           ::Ogre::SceneManager* manager = this->getViewPoint()->getManager() ;
-          
+
           m_camera = manager->createCamera(Utility::getUniqueName()) ;
-          
+
           Ogre::addCamera(m_camera) ;
-          
-          InternalMessage("Display","creating camera scene node with parent " + 
+
+          InternalMessage("Display","creating camera scene node with parent " +
                                     positionned->getNode()->getName()) ;
-          
+
           m_node = static_cast< ::Ogre::SceneNode* >(positionned->getNode()->createChild()) ;
           m_node->attachObject(m_camera) ;
-          
+
           // @todo we whould remove that @see changelog
           m_node->yaw(::Ogre::Degree(180)) ;
-          
+
           // @todo configurate in files
           m_camera->setFOVy(::Ogre::Degree(70)) ;
-          
+
           // near clip distance is 1 cm
           m_camera->setNearClipDistance(0.01/conversion_factor) ;
-          
+
           getViewPoint()->setObserver(getObject()) ;
-          
+
           InternalMessage("Display","Display::Observer::onInit Leaving") ;
         }
-          
+
         void Observer::onClose()
         {
           Ogre::removeCamera(m_camera) ;
-          
+
           InternalMessage("Display","Display::Observer::onClose Entering") ;
           this->getViewPoint()->getManager()->destroyCamera(m_camera) ;
           getViewPoint()->setObserver(NULL) ;
           InternalMessage("Display","Display::Observer::onClose Leaving") ;
         }
-        
+
         void Observer::onUpdate()
         {
           InternalMessage("Display","Display::Observer::onUpdate Entering") ;
-          Positionned* positionned(getObject()->getParent<Implementation::Positionned>()
-                                   ->getView<Positionned>(getViewPoint())) ;
+          Positionned* positionned(getView<Positionned>()) ;
 
+          // acts as a change parent like
           m_node->getParent()->removeChild(m_node) ;
-          
           positionned->getNode()->addChild(m_node) ;
 
-          InternalMessage("Display","moving camera scene node to parent " + 
+          InternalMessage("Display","moving camera scene node to parent " +
                                     positionned->getNode()->getName()) ;
-          
+
           InternalMessage("Display","Display::Observer::onUpdate Leaving") ;
         }
-        
+
         ::Ogre::Camera* Observer::getCamera() const
         {
           return m_camera ;
         }
-        
+
       }
     }
   }

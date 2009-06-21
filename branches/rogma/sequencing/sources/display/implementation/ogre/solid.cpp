@@ -38,7 +38,7 @@ namespace ProjetUnivers {
 
         Solid::Solid(DisplayedSolid*     object,
                      RealWorldViewPoint* viewpoint)
-        : Kernel::TraitView<DisplayedSolid,RealWorldViewPoint>(object,viewpoint), 
+        : Kernel::TraitView<DisplayedSolid,RealWorldViewPoint>(object,viewpoint),
           m_mesh(NULL)
         {}
 
@@ -47,36 +47,35 @@ namespace ProjetUnivers {
         {
           InternalMessage("Display","Entering Solid::onInit") ;
 
-          Positionned* positionned(getObject()->getParent<Implementation::Positionned>()
-                                   ->getView<Positionned>(getViewPoint())) ;
+          Positionned* positionned(getView<Positionned>()) ;
           positionned->_init() ;
-          
+
           // build 3D object
           m_mesh = this->getViewPoint()->getManager()
                    ->createEntity(Utility::getUniqueName(),
                                  getObject()->getTrait<Model::Solid>()->getMesh().getName()) ;
-          
+
           // put it on the node
           positionned->getNode()->attachObject(m_mesh) ;
-          
+
           // reset scale factor
           positionned->getNode()->setScale(::Ogre::Vector3(1.0/conversion_factor,
                                                            1.0/conversion_factor,
                                                            1.0/conversion_factor)) ;
-          
+
           InternalMessage("Display","Leaving Solid::onInit") ;
         }
-        
+
         void Solid::onClose()
         {
           InternalMessage("Display","Display::Solid::onClose Entering") ;
-          
+
           this->getViewPoint()->getManager()
                ->destroyEntity(m_mesh) ;
 
           InternalMessage("Display","Display::Solid::onClose Leaving") ;
         }
-      
+
 
         ::Ogre::Entity* Solid::getEntity() const
         {

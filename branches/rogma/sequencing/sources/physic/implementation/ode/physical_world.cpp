@@ -156,10 +156,10 @@ namespace ProjetUnivers
           Collideable* collideable2
             = static_cast<Collideable*>(dGeomGetData(i_geometry2)) ;
           PhysicalObject* object1
-            = collideable1 ? getPhysicalObject(collideable1->getControler())
+            = collideable1 ? collideable1->getControler()->getControler<PhysicalObject>()
                            : NULL ;
           PhysicalObject* object2
-            = collideable2 ? getPhysicalObject(collideable2->getControler())
+            = collideable2 ? collideable2->getControler()->getControler<PhysicalObject>()
                            : NULL ;
 
           InternalMessage("Physic","PhysicalWorld::onGeometryCollision "

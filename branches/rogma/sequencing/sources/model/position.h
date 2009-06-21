@@ -84,12 +84,8 @@ namespace ProjetUnivers {
       // Distance between 2 Position.
       Distance calculateDistance(const Position&) const ;
 
-      /// @deprecated
-      __attribute__ ((deprecated))
       Distance getXCoordinate() const ;
-      __attribute__ ((deprecated))
       Distance getYCoordinate() const ;
-      __attribute__ ((deprecated))
       Distance getZCoordinate() const ;
 
       /// Comparison.

@@ -35,13 +35,13 @@ namespace ProjetUnivers {
   namespace Physic {
     namespace Implementation {
       namespace Ode {
-        
+
         // control registration
-        RegisterControler(ForceGenerator, 
-                          Model::ForceGenerator, 
+        RegisterControler(ForceGenerator,
+                          Model::ForceGenerator,
                           PhysicSystem) ;
 
-      
+
         ForceGenerator::ForceGenerator(
             Model::ForceGenerator* i_object,
             PhysicSystem*          i_system)
@@ -49,7 +49,7 @@ namespace ProjetUnivers {
                             PhysicSystem>(i_object,i_system),
           m_object(NULL)
         {}
-        
+
         void ForceGenerator::prepare()
         {
           /// set a force on it's body
@@ -58,47 +58,40 @@ namespace ProjetUnivers {
             Ogre::Vector3 force = getTrait()->getAppliedForce().Newton() ;
 
             InternalMessage("Physic","Physic::ForceGenerator::prepare " +
-                            Kernel::toString(getObject()->getIdentifier()) 
-                            + " force = " +  
-                            Kernel::toString(force.x) + "," + 
+                            Kernel::toString(getObject()->getIdentifier())
+                            + " force = " +
+                            Kernel::toString(force.x) + "," +
                             Kernel::toString(force.y) + "," +
                             Kernel::toString(force.z)
                             + " applied on object " + Kernel::toString(m_object->getObject()->getIdentifier())) ;
-             
+
             m_object->getBody()->addForce((dReal)(force.x),
                                           (dReal)(force.y),
                                           (dReal)(force.z)) ;
           }
         }
-        
+
         void ForceGenerator::onInit()
         {
           m_object = determineObject() ;
         }
-        
+
         void ForceGenerator::onClose()
         {
         }
-  
+
         void ForceGenerator::onChangeParent(Kernel::Object* i_old_parent)
         {
           onClose() ;
         }
-        
+
         void ForceGenerator::onUpdate()
         {
         }
-        
+
         PhysicalObject* ForceGenerator::determineObject() const
         {
-          Model::PhysicalObject* physical_object = 
-              getObject()->getParent<Model::PhysicalObject>() ;
-
-          if (physical_object)
-          {
-            return physical_object->getControler<PhysicalObject>(getControlerSet()) ;
-          }           
-          return NULL ;
+          return getControler<PhysicalObject>() ;
         }
       }
     }

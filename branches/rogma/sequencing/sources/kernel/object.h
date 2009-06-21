@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2008 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,8 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_KERNEL_OBJECT_H_
-#define PU_KERNEL_OBJECT_H_
+#pragma once
 
 #include <list>
 #include <set>
@@ -64,6 +63,7 @@ namespace ProjetUnivers
     class Reader ;
     class Writer ;
     class BaseTraitView ;
+    class BaseControler ;
 
     /// A model object.
     /*!
@@ -436,10 +436,9 @@ namespace ProjetUnivers
       friend class ::ProjetUnivers::Kernel::Implementation::Operation ;
       friend class ::ProjetUnivers::Kernel::Implementation::Interpretor ;
       friend class BaseTraitView ;
+      friend class BaseControler ;
     };
   }
 }
 
 #include <kernel/implementation/object.cxx>
-
-#endif /*PU_KERNEL_OBJECT_H_*/

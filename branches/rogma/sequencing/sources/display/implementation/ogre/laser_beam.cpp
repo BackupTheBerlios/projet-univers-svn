@@ -39,56 +39,50 @@ namespace ProjetUnivers {
 
         LaserBeam::LaserBeam(Model::LaserBeam* i_object,
                              RealWorldViewPoint* i_viewpoint)
-        : Kernel::TraitView<Model::LaserBeam,RealWorldViewPoint>(i_object,i_viewpoint), 
+        : Kernel::TraitView<Model::LaserBeam,RealWorldViewPoint>(i_object,i_viewpoint),
           mesh(NULL)
         {}
-      
+
         void LaserBeam::onInit()
         {
           InternalMessage("Display","Entering Ogre::LaserBeam::onInit") ;
 
           Positionned* positionned(getView<Positionned>()) ;
-          positionned->_init() ;
-          
+
           // build 3D object
           mesh = this->getViewPoint()->getManager()
                   ->createEntity(Utility::getUniqueName(),
                                  "laser.mesh") ;
-          
+
           // put it on the node
           positionned->getNode()->attachObject(mesh) ;
-          
+
           // reset scale factor
           positionned->getNode()->setScale(::Ogre::Vector3(1.0/conversion_factor,
                                                            1.0/conversion_factor,
                                                            1.0/conversion_factor)) ;
-          
+
           InternalMessage("Display","Leaving Ogre::LaserBeam::onInit") ;
         }
-        
+
         void LaserBeam::onClose()
         {
           InternalMessage("Display","Display::LaserBeam::onClose Entering") ;
-          Positionned* positionned(getView<Positionned>()) ;
-          if (positionned)
-          {
-            positionned->_close() ;
-          }  
-          
+
           this->getViewPoint()->getManager()
                ->destroyEntity(mesh) ;
 
           InternalMessage("Display","Display::LaserBeam::onClose Leaving") ;
         }
-      
+
         void LaserBeam::onUpdate()
         {
-          
+
         }
 
 
       // @}
-    
+
       }
     }
   }

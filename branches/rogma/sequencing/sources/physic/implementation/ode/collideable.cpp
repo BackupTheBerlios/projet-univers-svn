@@ -36,44 +36,43 @@ namespace ProjetUnivers {
         {
           unsigned long collision1 = dGeomGetCollideBits(g1) ;
           unsigned long collision2 = dGeomGetCollideBits(g2) ;
-          
+
           if (collision1 == ApproximatedSolid && collision2 == ApproximatedSolid)
             return true ;
           if ((collision1 == Solid && collision2 == Laser) ||
               (collision2 == Solid && collision1 == Laser))
             return true ;
-          
+
           return false ;
         }
-        
-        
+
+
         void Collideable::onInitCollideable()
         {
           InternalMessage("Physic","Physic::Implementation::Ode::Collideable::onInitCollideable entering "
                           + Kernel::toString(getControler()->getObject()->getIdentifier())) ;
-          
+
           /*
-            We need the parent physical object and parent physical world 
+            We need the parent physical object and parent physical world
           */
-          PhysicalObject* body = getPhysicalObject(getControler()) ;
+          PhysicalObject* body = getControler()->getControler<PhysicalObject>() ;
 
           // precondition : physical object is initialised
-          
+
           if (body)
           {
-            
+
             InternalMessage("Physic","Physic::Implementation::Ode::Collideable::onInit init physical object") ;
-            body->_init() ;
-            PhysicalWorld* world = getPhysicalWorld(body) ;
-            
+            PhysicalWorld* world = body->getAncestorControler<PhysicalWorld>() ;
+
             if (world)
             {
 
               InternalMessage("Physic","Physic::Implementation::Ode::Collideable::onInit creating geometry") ;
-              dSpaceID space_id = body->getCollisionSpace()->id() ; 
+              dSpaceID space_id = body->getCollisionSpace()->id() ;
               createGeometry(space_id) ;
               InternalMessage("Physic","Physic::Implementation::Ode::Collideable::onInit trace#1") ;
-              
+
               if (m_geometry1)
               {
                 dGeomSetBody(m_geometry1,body->getBody()->id()) ;
@@ -85,18 +84,18 @@ namespace ProjetUnivers {
                 dGeomSetBody(m_geometry2,body->getBody()->id()) ;
                 dGeomSetData(m_geometry2,this) ;
               }
-              
+
               InternalMessage("Physic","Physic::Implementation::Ode::Collideable::onInit trace#1") ;
             }
           }
           InternalMessage("Physic","Collideable::onInit leaving") ;
         }
-        
+
         void Collideable::onCloseCollideable()
         {
           InternalMessage("Physic","Physic::Ode::Collideable::onCloseCollideable entering") ;
 
-          PhysicalObject* body = getPhysicalObject(getControler()) ;
+          PhysicalObject* body = getControler()->getControler<PhysicalObject>() ;
 
           if (body)
           {
@@ -116,7 +115,7 @@ namespace ProjetUnivers {
               m_geometry_placeable = 0 ;
             }
           }
-          
+
           InternalMessage("Physic","Physic::Ode::Collideable::onCloseCollideable leaving") ;
         }
 

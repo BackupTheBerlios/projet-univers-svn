@@ -35,20 +35,20 @@ namespace ProjetUnivers {
       namespace Ogre {
 
         RegisterView(Ogre::Oriented,
-                     Implementation::Oriented, 
+                     Implementation::Oriented,
                      Ogre::RealWorldViewPoint) ;
-      
-      
-      
+
+
+
         Oriented::Oriented(Implementation::Oriented* object,
                            RealWorldViewPoint*       viewpoint)
-        : Kernel::TraitView<Implementation::Oriented,RealWorldViewPoint>(object,viewpoint), 
+        : Kernel::TraitView<Implementation::Oriented,RealWorldViewPoint>(object,viewpoint),
           m_node(NULL)
         {
           InternalMessage("Display","Entering Ogre::Positionned::Positionned") ;
           InternalMessage("Display","Leaving Ogre::Positionned::Positionned") ;
         }
-      
+
         /*!
         @pre
           Parent Positionned View is init.
@@ -56,57 +56,43 @@ namespace ProjetUnivers {
         void Oriented::onInit()
         {
           InternalMessage("Display","Entering Oriented::onInit") ;
-          
-          Implementation::Positionned* model_positionned 
-            = getObject()->getTrait<Implementation::Positionned>() ;
-          
-          if (model_positionned)
+          Positionned* positionned(getView<Positionned>()) ;
+
+          if (positionned)
           {
-            Positionned* positionned(
-              model_positionned
-              ->getView<Positionned>(getViewPoint())) ;
-          
-            if (positionned)
-            {
-  
-              positionned->_init() ;
-              
-              m_node = positionned->getNode() ;
-  
-              InternalMessage("Display",
-                "intitalising scene node " + m_node->getName() + 
-                " with orientation " + 
-                ::Ogre::StringConverter::toString(m_node->getOrientation())) ;
-  
-              m_node->setOrientation(getObject()->getTrait<Model::Oriented>()->getOrientation().getQuaternion()) ;
-  
-              InternalMessage("Display",
-                "modification of scene node " + m_node->getName() + 
-                " with orientation " + 
-                ::Ogre::StringConverter::toString(m_node->getOrientation())) ;
-            }
+            m_node = positionned->getNode() ;
+
+            InternalMessage("Display",
+              "intitalising scene node " + m_node->getName() +
+              " with orientation " +
+              ::Ogre::StringConverter::toString(m_node->getOrientation())) ;
+
+            m_node->setOrientation(getObject()->getTrait<Model::Oriented>()->getOrientation().getQuaternion()) ;
+
+            InternalMessage("Display",
+              "modification of scene node " + m_node->getName() +
+              " with orientation " +
+              ::Ogre::StringConverter::toString(m_node->getOrientation())) ;
           }
           InternalMessage("Display","Leaving Oriented::onInit") ;
-
         }
 
-        
         void Oriented::onUpdate()
         {
           if (m_node)
           {
             m_node->setOrientation(getObject()->getTrait<Model::Oriented>()->getOrientation().getQuaternion()) ;
             m_node->_update(true,false) ;
-  
+
             InternalMessage("Display",
-              "modification of scene node " + m_node->getName() + 
-              " with orientation " + 
+              "modification of scene node " + m_node->getName() +
+              " with orientation " +
               ::Ogre::StringConverter::toString(m_node->getOrientation())
               ) ;
           }
         }
 
-      }      
+      }
     }
   }
 }

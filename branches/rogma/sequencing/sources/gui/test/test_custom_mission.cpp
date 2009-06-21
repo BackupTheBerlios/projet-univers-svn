@@ -51,10 +51,10 @@
 #include <gui/test/test_custom_mission.h>
 
 
-//CPPUNIT_TEST_SUITE_REGISTRATION(ProjetUnivers::
-//                                GUI::
-//                                Test::
-//                                TestCustomMission) ;
+CPPUNIT_TEST_SUITE_REGISTRATION(ProjetUnivers::
+                                GUI::
+                                Test::
+                                TestCustomMission) ;
 
 namespace ProjetUnivers
 {

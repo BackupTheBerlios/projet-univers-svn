@@ -1252,11 +1252,17 @@
     - block update/init/close of deduced traits during deduction by 
       using transactions
     - destroying an object is equivalent to destroying all its primitive traits
+
+2009-06-21 rogma
+
+  * Kernel :
+    - added a simplified access to views/controlers inside another view controler
+      and usage in viewpoints and controler sets 
     
 in commit
 --------
 
-
+    
 in progress
 -----------
    
@@ -1264,12 +1270,19 @@ in progress
 todo
 ----
 
+  * Display :
+    - a view Node <=> Oriented or Positionned 
+    - sub-node <=> Node and HasAncestor(Node)
+    
+  * Kernel :
+    - we should use onChangedParent() for formulae on parent instead of 
+      onUpdate, onChangeParent is exactly the event that indicates that the 
+      formula is still true but through another one
+
   * Kernel :
     - repair getLatestUpdatedTrait() : memorisation of the event that caused 
       the update (could be update trait, changeHasParent, changeHasAncestor, 
       humm...)
-    - we should use onChangedParent() for formulaes on parent instead of 
-      onUpdate ?
 
   * windows
     - build and upload a tclap package

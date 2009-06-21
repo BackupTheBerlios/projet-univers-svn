@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007 Mathieu ROGER                                      *
+ *   Copyright (C) 2007-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,8 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_PHYSIC_IMPLEMENTATION_ODE_ODE_H_
-#define PU_PHYSIC_IMPLEMENTATION_ODE_ODE_H_
+#pragma once
 
 #include <ode/ode.h>
 
@@ -32,30 +31,30 @@
 namespace ProjetUnivers {
   namespace Physic {
     namespace Implementation {
-      
+
       /// Physics implementation throught ODE.
       /*!
       @par Physic calculus Conjecture
-               
+
         Objects that are both :
         - Positionned, @c Whole
         are represented by dWorld
-        
+
         Objects that are both :
-        - Positionned, Massive, Whole, Mobile 
-        are represented by a dBody and submitted to forces, the dBody is 
-        inserted in the first ancestor's dWorld.  
-        
-        Objects that are both 
-        - Solid, Positionned 
-        are represented by dGeom that are attached to the dBody of their whole. 
-        
+        - Positionned, Massive, Whole, Mobile
+        are represented by a dBody and submitted to forces, the dBody is
+        inserted in the first ancestor's dWorld.
+
+        Objects that are both
+        - Solid, Positionned
+        are represented by dGeom that are attached to the dBody of their whole.
+
         @todo validate...
-        
+
       @par Examples
-        
-      @par 
-        A stellar system with a planet and a ship 
+
+      @par
+        A stellar system with a planet and a ship
         system Positionned  --> dWorld1
           |
           -- planet1 Positionned Massive Mobile Solid Whole --> dBody1(dWorld1), dWorld2
@@ -71,74 +70,60 @@ namespace ProjetUnivers {
           |   -- body Positionned Massive Component Solid --> dGeom4(dBody2)
           |   |
           |   -- person1 Positionned Massive Solid Character --> dBody3(dWorld3)
-        
+
         It works.
       @par
-        Another example 
-                    
+        Another example
+
       */
       namespace Ode {
-        
+
         class PhysicalObject ;
         class PhysicalWorld ;
-        
+
         /// Initialisation of ODE specific.
         void init() ;
-        
+
         /// Termination of ODE specific.
         void close() ;
-        
-        
+
+
       /*!
         @name ODE like functions
       */
       // @{
-              
+
         /// custom implentation for dMassSetTrimesh
         void meshToMass(const Model::Mesh& i_mesh,dMass* io_mass) ;
 
-        
+
       //@}
       /*!
         @name Print functions
       */
       // @{
-      
+
         std::string printReal(const dReal& i_real) ;
         std::string printVector3(const dVector3& i_vector) ;
         std::string printVector4(const dVector4& i_vector) ;
         std::string printMatrix3(const dMatrix3& i_matrix) ;
         std::string printMass(const dMass& i_mass) ;
-      
-      //@}
-      /*!
-        @name Classical queries.
-      */
-      // @{
-        
-        /// Get the physical object of the controler.
-        PhysicalObject* getPhysicalObject(const Kernel::BaseControler*) ;
-        
-        /// Get the physical world of the controler.
-        PhysicalWorld* getPhysicalWorld(const Kernel::BaseControler*) ;
 
       //@}
       /*!
         @name Contacts.
       */
       // @{
-        
+
         /// Array of contact points.
         extern dContactGeom* contact_points ;
-        
+
         /// Maximum size of contact_points.
         extern int maximum_contact_points ;
-        
+
       //@}
 
       }
     }
   }
 }
-
-#endif /*PU_PHYSIC_IMPLEMENTATION_ODE_ODE_H_*/

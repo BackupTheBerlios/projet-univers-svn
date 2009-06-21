@@ -37,51 +37,46 @@ namespace ProjetUnivers
         namespace HUD
         {
 
-          RegisterView(TargetWithSelection, 
-                       Implementation::TargetWithSelection, 
+          RegisterView(TargetWithSelection,
+                       Implementation::TargetWithSelection,
                        HeadUpDisplayViewPoint) ;
-          
+
           TargetWithSelection::TargetWithSelection(
               Implementation::TargetWithSelection* object,
               HeadUpDisplayViewPoint* viewpoint)
           : Kernel::TraitView<Implementation::TargetWithSelection,HeadUpDisplayViewPoint>(object,viewpoint),
             m_target(NULL)
           {}
-          
+
           void TargetWithSelection::onInit()
           {
             InternalMessage("Display","Entering TargetWithSelection::onInit") ;
-            m_target = getObject()->getTrait<Implementation::Target>()->getView<Target>(getViewPoint()) ;
-            m_target->_init() ;
+            m_target = getView<Target>() ;
             onUpdate() ;
             InternalMessage("Display","Leaving TargetWithSelection::onInit") ;
           }
-          
+
           void TargetWithSelection::onClose()
           {
             InternalMessage("Display","Entering TargetWithSelection::onClose") ;
-            Implementation::Target* target = getObject()->getTrait<Implementation::Target>() ;
-            if (target)
+            m_target = getView<Target>() ;
+            if (m_target)
             {
-              m_target = target->getView<Target>(getViewPoint()) ;
-              if (m_target)
-              {
-                m_target->setTargetIdentification("") ;
-              }
+              m_target->setTargetIdentification("") ;
             }
             InternalMessage("Display","Leaving TargetWithSelection::onClose") ;
           }
-          
+
           void TargetWithSelection::onUpdate()
           {
             InternalMessage("Display","Entering TargetWithSelection::onUpdate") ;
-            
+
             // display transponder code of the selected target
             Model::TargetingSystem* system = getObject()->getTrait<Model::TargetingSystem>() ;
-            
+
             if (!system || !system->getTarget())
               return ;
-            
+
             Model::Transponder* transponder = system->getTarget()->getTrait<Model::Transponder>() ;
             if (transponder)
             {
@@ -89,7 +84,7 @@ namespace ProjetUnivers
             }
             InternalMessage("Display","Leaving TargetWithSelection::onUpdate") ;
           }
-          
+
         }
       }
     }

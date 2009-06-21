@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007-2008 Mathieu ROGER                                 *
+ *   Copyright (C) 2007-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,8 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_DISPLAY_IMPLEMENTATION_OGRE_OBSERVATEUR_H_
-#define PU_DISPLAY_IMPLEMENTATION_OGRE_OBSERVATEUR_H_
+#pragma once
 
 #include <Ogre.h>
 
@@ -31,16 +30,16 @@ namespace ProjetUnivers {
   namespace Display {
     namespace Implementation {
       namespace Ogre {
-        
-        
+
+
         /// Observer view.
         class Observer : public Kernel::TraitView<Implementation::Observer,
                                                   RealWorldViewPoint>
         {
         public:
-        
+
         /*!
-          @name Construction 
+          @name Construction
         */
         // @{
 
@@ -57,13 +56,13 @@ namespace ProjetUnivers {
           @name Updates.
         */
         // @{
-        
+
           /// Build a camera.
           virtual void onInit() ;
-          
+
           /// Destroy the camera.
           virtual void onClose() ;
-          
+
           /// Positionned parent has changed
           virtual void onUpdate() ;
 
@@ -72,7 +71,7 @@ namespace ProjetUnivers {
 
           /// Camera
           ::Ogre::Camera*    m_camera ;
-          
+
           /// Local node to have the camera correctly oriented
           /*!
             because we have inverted front axis.
@@ -83,6 +82,3 @@ namespace ProjetUnivers {
     }
   }
 }
-
-
-#endif
