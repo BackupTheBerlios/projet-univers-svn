@@ -1,0 +1,955 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN"
+"http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd">
+<article>
+  <title>Outils</title>
+
+  <articleinfo>
+    <abstract>
+      <para>Ce document décrit les configurations des outils utilisés dans le
+      développement du Projet Univers.</para>
+    </abstract>
+
+    <orgname>Équipe du Projet Univers</orgname>
+
+    <author>
+      <personname>
+        <firstname>Mathieu</firstname>
+
+        <surname>Roger</surname>
+      </personname>
+
+      <email>rogmaboami@hotmail.com</email>
+    </author>
+
+    <revhistory>
+      <revision>
+        <revnumber>0.1</revnumber>
+
+        <date>10 août 2004</date>
+
+        <revdescription>
+          <para>Création initiale</para>
+        </revdescription>
+      </revision>
+
+      <revision>
+        <revnumber>0.2</revnumber>
+
+        <date>28 août 2004</date>
+
+        <revdescription>
+          <para>Ce document est une sorte de point d'entrée au projet, il
+          décrit les outils utilisés, ceci dépendant de l'endrois où les
+          membres du projet veulent intervenir.</para>
+        </revdescription>
+      </revision>
+
+      <revision>
+        <revnumber>0.3</revnumber>
+
+        <date>30 août 2004</date>
+
+        <revdescription>
+          <para>Changement des niveaux dans la partie 2, les menus indiquent
+          maintenant clairement l'utilisation windows et linux.</para>
+        </revdescription>
+      </revision>
+
+      <revision>
+        <revnumber>0.4</revnumber>
+
+        <date>30 mars 2005</date>
+
+        <revdescription>
+          <para>Ajout de nouveaux outils</para>
+        </revdescription>
+      </revision>
+
+      <revision>
+        <revnumber>0.5</revnumber>
+
+        <date>30 août 2005</date>
+
+        <revdescription>
+          <para>Ajout de 2 domaines.</para>
+
+          <para>Ajout de la description des outils de gestion de projet,
+          tâches, fonctionnalités.</para>
+        </revdescription>
+      </revision>
+    </revhistory>
+
+    <legalnotice>
+      <para>Ce document est sous licence <ulink
+      url="http://www.gnu.org/copyleft/fdl.html">GNU Free Documentation
+      License</ulink></para>
+    </legalnotice>
+  </articleinfo>
+
+  <section>
+    <title>Introduction</title>
+
+    <para>Ce document est destiné à être le point d'entrée au projet univers.
+    On y définit les outils à utiliser pour intervenir sur ce projet et les
+    règles à suivre.</para>
+
+    <para>Un certain nombre d'outils sont utilisés dans le cadre de ce projet.
+    Le premier de ces outils est le client subversion et il est obligatoire
+    pour tous les intervenants sur le projet, sa procédure d'utilisation est
+    expliquée dans la <link linkend="gestionnaire_de_fichier">section
+    suivante</link>.</para>
+
+    <para>Ensuite, tout dépend de ce sur quoi vous voulez intervenir dans le
+    projet. Il y a pour l'instant 3 domaines d'intervention, chacun peut se
+    cantonner dans un de ces domaines, mais il serait souhaitable d'intervenir
+    sur 2 voire 3 d'entre eux :</para>
+
+    <itemizedlist>
+      <listitem>
+        <para><link linkend="redaction">La rédaction de
+        documents</link></para>
+
+        <para>Rédaction du cahier des charges, de documents de conception, de
+        règles, de procédures, etc..</para>
+      </listitem>
+
+      <listitem>
+        <para><link linkend="modelisation">La modélisation 3D</link></para>
+      </listitem>
+
+      <listitem>
+        <para><link linkend="modelisation2D">La modélisation 2D</link></para>
+      </listitem>
+
+      <listitem>
+        <para><link linkend="programmation">La programmation</link></para>
+      </listitem>
+
+      <listitem>
+        <para><link linkend="gestion">La gestion de projet</link></para>
+
+        <para>Le travail collaboratif requiert des procédures de travail qui
+        doivent être continuellement adaptées et renforcées par des outils. Il
+        s'agit donc de mettre en place des procédures, d'évaluer des outils de
+        gestion et de vérification.</para>
+      </listitem>
+    </itemizedlist>
+  </section>
+
+  <section id="gestionnaire_de_fichier">
+    <title>Gestionnaire de fichiers</title>
+
+    <para>Tous les fichiers du projet sont stockés sur un serveur <ulink
+    url="http://subversion.tigris.org/">subversion</ulink>. Ceci permet de
+    garder toutes les versions d'un même fichier et ainsi de ne perdre aucune
+    donnée.</para>
+
+    <procedure>
+      <step>
+        <para>Le serveur étant hébergé par Berlios, il faut <ulink
+        url="https://developer.berlios.de/account/register.php"> ouvrir un
+        compte développeur chez berlios</ulink>.</para>
+
+        <para>Dans toute la suite on supposera que vous vous êtes inscrit sur
+        ce site avec <replaceable>nom</replaceable> comme nom d'utilisateur.
+        Votre compte est alors normalement rendu actif dans les 6 heures, donc
+        pas d'affolement si cela ne fonctionne pas tout de suite, par conte au
+        bout de quelques jours vous devriez contacter les administrateurs du
+        site berlios.</para>
+      </step>
+
+      <step>
+        <para>Ensuite, il faut contacter un des administrateurs du projet
+        univers pour qu'il vous ajoute au projet hébergé par berlios.</para>
+      </step>
+
+      <step>
+        <para>Reste alors à utiliser le client subversion, c'est qui est
+        expliqué dans la suite.</para>
+      </step>
+    </procedure>
+
+    <section>
+      <title>Subclipse : subversion sous eclipse</title>
+
+      <para>Nous allons décrire l'utilisation de subversion sous eclipse
+      (multi-plateforme)...</para>
+    </section>
+
+    <section>
+      <title>TortoiseSVN sous Windows</title>
+
+      <para>Nous allons décrire l'utilisation de subversion sous windows avec
+      <ulink url="http://tortoisesvn.tigris.org/"> TortoiseSVN</ulink>,qui
+      dispose d'une version française.</para>
+
+      <para>TortoiseSVN s'intégre directement dans l'explorateur windows, on
+      accède à ses fonctions par un clic droit de la souris sur le répertoire
+      ou les fichiers sur lesquels on veut lancer une action.</para>
+
+      <para>En ce qui concerne l'authentification, le logiciel vous demandera
+      votre mot de passe à chaque fois. <remark>Une prochaine version de ce
+      document expliquera comment faire pour ne pas le rentrer à chaque
+      fois</remark></para>
+
+      <procedure>
+        <title>Procédure normale d'utilisation de TortoiseSVN</title>
+
+        <step>
+          <para><link linkend="creation_repertoire_local">Création d'un
+          répertoire de travail local</link></para>
+
+          <para>C'est une sorte d'initialisation du processus</para>
+        </step>
+
+        <step id="etape2">
+          <para>Il faut très régulièrement se <link
+          linkend="mise_a_jour">mettre à jour des modifications faites</link>,
+          surtout avant de travailler en local : il serait dommage de modifier
+          un fichier qui n'est pas la dernière version.</para>
+        </step>
+
+        <step>
+          <para>Travailler sur son répertoire local de travail</para>
+
+          <substeps>
+            <step>
+              <para>Si vous avez ajouté des nouveaux fichiers que vous voulez
+              partager avec l'équipe, il faut se conformer à <link
+              linkend="ajout">Ajouts de fichiers</link></para>
+
+              <warning>
+                <para>Cette opération n'envoie rien au serveur, elle permet de
+                dire au logiciel qui tourne sur votre machine que lors de la
+                prochaine livraison il faudra envoyer ces nouveaux fichiers
+                vers le serveur.</para>
+              </warning>
+            </step>
+
+            <step>
+              <para>Lorsque vous voulez que votre travail soit envoyé au
+              serveur il faut faire <link linkend="livraison">Livraison vers
+              le serveur</link>.</para>
+            </step>
+
+            <step>
+              <para>Recommencer à l' <link linkend="etape2">étape
+              2</link>.</para>
+            </step>
+          </substeps>
+        </step>
+      </procedure>
+
+      <section id="creation_repertoire_local">
+        <title>Création d'un répertoire de travail local</title>
+
+        <caution>
+          <para>Cette opération n'est à faire qu'une seule fois.</para>
+        </caution>
+
+        <para>Il faut se créer un répertoire local qui contiendra des copies
+        locales des fichiers présents sur le serveur. C'est dans ce répertoire
+        que vous pourrez travailler.</para>
+
+        <para>Pour récupérer la première fois les fichiers se trouvant sur le
+        serveur :</para>
+
+        <procedure>
+          <step>
+            <para>Clic droit de la souris sur le répertoire local, choisir la
+            commande <command> Extraire</command> ou
+            <command>Checkout</command>, une nouvelle fenêtre apparaît
+            :</para>
+
+            <figure>
+              <title>Accès à la commande <command>Extraire</command></title>
+
+              <mediaobject>
+                <imageobject>
+                  <imagedata fileref="images/commande_extraire.jpg" />
+                </imageobject>
+              </mediaobject>
+            </figure>
+          </step>
+
+          <step>
+            <para>Dans le champ <prompt>URL of repository</prompt> mettre :
+            <userinput>
+            svn+ssh://<replaceable>nom</replaceable>@svn.berlios.de/svnroot/repos/projet-univers</userinput><caution>
+                <para><replaceable>nom</replaceable> est <emphasis
+                role="bold">votre</emphasis> nom d'utilisateur dans
+                Berlios.</para>
+              </caution></para>
+
+            <para><figure>
+                <title>Choix de l'<acronym>URL</acronym> du serveur</title>
+
+                <mediaobject>
+                  <imageobject>
+                    <imagedata fileref="images/choix_de_url.jpg" />
+                  </imageobject>
+                </mediaobject>
+              </figure></para>
+          </step>
+
+          <step>
+            <para>Cliquez sur OK</para>
+          </step>
+
+          <step>
+            <para>Donner votre mot de passe</para>
+          </step>
+
+          <step>
+            <para>Normalement, là ça télécharge. Attendez qu'il vous dise que
+            ce soit fini :</para>
+
+            <para><figure>
+                <title>Le téléchargement est fini</title>
+
+                <mediaobject>
+                  <imageobject>
+                    <imagedata fileref="images/checkout_finished.jpg" />
+                  </imageobject>
+                </mediaobject>
+              </figure></para>
+          </step>
+        </procedure>
+      </section>
+
+      <section id="mise_a_jour">
+        <title>Téléchargement de la dernière version à jour</title>
+
+        <para>Cette opération est pratiquement la même que la création d'un
+        répertoire de travail local, sauf qu'on n'a plus à indiquer
+        l'<acronym>URL</acronym> du serveur.</para>
+
+        <procedure>
+          <step>
+            <para>Clic droit de la souris sur le répertoire local, choisir la
+            commande <command>Mettre à jour</command> ou
+            <command>Update</command>.</para>
+
+            <para><figure>
+                <title>Commande <command>Mise à jour</command></title>
+
+                <mediaobject>
+                  <imageobject>
+                    <imagedata fileref="images/update.jpg" />
+                  </imageobject>
+                </mediaobject>
+              </figure></para>
+          </step>
+
+          <step>
+            <para>Donner votre mot de passe</para>
+          </step>
+
+          <step>
+            <para>Normalement, là ça télécharge. Attendez qu'il vous dise que
+            ce soit fini :</para>
+
+            <para><figure>
+                <title>Le téléchargement est fini</title>
+
+                <mediaobject>
+                  <imageobject>
+                    <imagedata fileref="images/checkout_finished.jpg" />
+                  </imageobject>
+                </mediaobject>
+              </figure></para>
+          </step>
+        </procedure>
+      </section>
+
+      <section id="livraison">
+        <title>Livraison vers le serveur</title>
+
+        <para>Vous avez ajouté ou modifiés des fichiers et vous voulez rendre
+        ces mises à jour disponibles sur le serveur :</para>
+
+        <procedure>
+          <step>
+            <para>Clic droit de la souris sur le répertoire local, choisir la
+            commande <command>Livrer</command> ou <command>Commit</command>,
+            une nouvelle fenêtre apparaît :</para>
+
+            <para><figure>
+                <title>Fenêtre de livraison</title>
+
+                <mediaobject>
+                  <imageobject>
+                    <imagedata fileref="images/livraison.jpg" />
+                  </imageobject>
+                </mediaobject>
+              </figure></para>
+          </step>
+
+          <step>
+            <para>Dans la partie du haut, décrivez brièvement la
+            livraison.</para>
+
+            <figure>
+              <title>Ajout d'un commentaire sur la livraison</title>
+
+              <mediaobject>
+                <imageobject>
+                  <imagedata fileref="images/log_livraison.jpg" />
+                </imageobject>
+              </mediaobject>
+            </figure>
+          </step>
+
+          <step>
+            <para>Le logiciel envoie les modifications au serveur, patientez
+            jusqu'à :</para>
+
+            <figure>
+              <title>La livraison est finie</title>
+
+              <mediaobject>
+                <imageobject>
+                  <imagedata fileref="images/livraison_finie.jpg" />
+                </imageobject>
+              </mediaobject>
+            </figure>
+          </step>
+        </procedure>
+      </section>
+
+      <section id="ajout">
+        <title>Ajouts de fichiers et de répertoires</title>
+
+        <para>Lorsque vous créez un nouveau fichier dans votre répertoire de
+        travail local, subversion ne peut deviner tout seul si ce fichier doit
+        être ou non livré sur le serveur à la prochaine livraison. Il faut
+        donc lui indiquer quels sont les fichiers ou répertoires qui doivent
+        être ajoutés sur le serveur :</para>
+
+        <procedure>
+          <step>
+            <para>Clic droit sur le répertoire ou fichier à ajouter, puis
+            choisir la commande <command>Ajouter</command> ou
+            <command>Add</command> :</para>
+
+            <para><figure>
+                <title>La commande <command> Ajouter</command></title>
+
+                <mediaobject>
+                  <imageobject>
+                    <imagedata fileref="images/ajouter.jpg" />
+                  </imageobject>
+                </mediaobject>
+              </figure></para>
+          </step>
+
+          <step>
+            <para>Les fichiers sont marqués comme ajoutés à votre répertoire
+            de travail local, ils ne sont pas encore envoyés au serveur, ce
+            sera fait à la prochaine livraison.</para>
+
+            <figure>
+              <title>Les fichiers sont ajoutés</title>
+
+              <mediaobject>
+                <imageobject>
+                  <imagedata fileref="images/fichier_ajoute.jpg" />
+                </imageobject>
+              </mediaobject>
+            </figure>
+          </step>
+        </procedure>
+      </section>
+
+      <section>
+        <title>Suppression</title>
+
+        <para>Idem que l'ajout, sauf que la commande est <command>
+        Effacer</command> ou <command>Delete</command>.</para>
+      </section>
+
+      <section>
+        <title>Renommage</title>
+
+        <para>Idem que l'ajout, sauf que la commande est <command>
+        Renommer</command> ou <command>Rename</command>.</para>
+      </section>
+    </section>
+
+    <section>
+      <title>Subversion sous linux</title>
+
+      <para>Installer le package subversion de votre distribution. La commande
+      magique est <command>svn</command>, largement documentée sur le <ulink
+      url="http://svnbook.red-bean.com/svnbook/ch09.html"> web</ulink>.</para>
+
+      <section>
+        <title>Création d'un répertoire de travail local</title>
+
+        <para>Il faut se créer un répertoire local qui contiendra des copies
+        locales des fichiers présents sur le serveur. C'est dans ce répertoire
+        que vous pourrez travailler.</para>
+
+        <para>Pour récupérer la première fois les fichiers se trouvant sur le
+        serveur :</para>
+
+        <procedure>
+          <step>
+            <para><command>svn checkout
+            svn+ssh://<replaceable>nom</replaceable>@svn.berlios.de/svnroot/repos/projet-univers</command></para>
+          </step>
+
+          <step>
+            <para>Donner votre mot de passe</para>
+          </step>
+
+          <step>
+            <para>Normalement, là ça télécharge et met le tout dans un
+            répertoire <filename>projet-univers</filename>, puis écrit :
+            <prompt>Checked out revision
+            <replaceable>n</replaceable>.</prompt></para>
+          </step>
+        </procedure>
+      </section>
+
+      <section>
+        <title>Téléchargement de la dernière version à jour</title>
+
+        <para>Cette opération est pratiquement la même que la création d'un
+        répertoire de travail local, sauf qu'on n'a plus à indiquer
+        l'<acronym>URL</acronym> du serveur.</para>
+
+        <procedure>
+          <step>
+            <para>Il faut être dans le répertoire de travail local et taper :
+            <command>svn update</command></para>
+          </step>
+
+          <step>
+            <para>Donner votre mot de passe</para>
+          </step>
+
+          <step>
+            <para>Normalement, là ça télécharge. Attendez qu'il vous dise que
+            ce soit fini : <prompt>At revision
+            <replaceable>n</replaceable>.</prompt></para>
+          </step>
+        </procedure>
+      </section>
+
+      <section>
+        <title>Livraison vers le serveur</title>
+
+        <para>Vous avez ajouté ou modifiés des fichiers et vous voulez rendre
+        ces mises à jour disponibles sur le serveur :</para>
+
+        <procedure>
+          <step>
+            <para>Il faut être dans le répertoire de travail local et taper :
+            <command>svn commit -m
+            '<replaceable>message</replaceable>'</command>, où
+            <replaceable>message</replaceable> est le message de log de la
+            livraison, si vous omettez le message il vous proposera de
+            l'éditer manuellement, cependant, ce n'est pas forcément
+            conseillé.</para>
+          </step>
+
+          <step>
+            <para>Le logiciel envoie les modifications au serveur, patientez
+            jusqu'à : <prompt>Commited revision
+            <replaceable>n</replaceable>.</prompt></para>
+          </step>
+        </procedure>
+      </section>
+
+      <section>
+        <title>Ajouts de fichiers ou de répertoires</title>
+
+        <para>Lorsque vous créez un nouveau fichier dans votre répertoire de
+        travail local, subversion ne peut deviner tout seul si ce fichier doit
+        être ou non livré sur le serveur à la prochaine livraison. Il faut
+        donc lui indiquer quels sont les fichiers ou répertoires qui doivent
+        être ajoutés sur le serveur :</para>
+
+        <procedure>
+          <step>
+            <para>Tapez : <command>svn add
+            <replaceable>emplacement_du_fichier_ou_du_repertoire</replaceable></command></para>
+          </step>
+        </procedure>
+      </section>
+
+      <section>
+        <title>Suppression</title>
+
+        <para>Idem que l'ajout, sauf que la commande est <command> svn delete
+        <replaceable>emplacement_du_fichier_ou_du_repertoire</replaceable></command>.</para>
+      </section>
+
+      <section>
+        <title>Renommage</title>
+
+        <para>Idem que l'ajout, sauf que la commande est <command> svn move
+        <replaceable>source</replaceable>
+        <replaceable>destination</replaceable></command> .</para>
+      </section>
+    </section>
+  </section>
+
+  <section>
+    <title id="gestion">Outils de gestion de projet</title>
+
+    <para>Outre le gestionnaire de fichiers qui permet de partager des
+    fichiers de toutes sortes, le développement de Projet Univers repose sur
+    d'autres outils :</para>
+
+    <itemizedlist>
+      <listitem>
+        <para><ulink
+        url="https://developer.berlios.de/feature/?group_id=2087">la gestion
+        des demandes de fonctionnalités</ulink></para>
+
+        <para>La gestion des demandes de fonctionnalités est normalement
+        préalable aux tâches.</para>
+
+        <para>Il s'agit de permettre aux clients de demander à ce que le
+        projet aille dans un sens particulier. Les demandes de fonctionnalités
+        sont discuttés débatues et évaluées et enfin une décision est prise de
+        la réaliser ou non, ce qui donne lieu ou non à la cration d'une ou
+        plusieurs tâches.</para>
+
+        <para>Les demandes de fonctionnalités et les tâches sont classées en
+        catégories :</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>Projet Univers</para>
+
+            <para>Le jeux proprement dit, ce qu'il permet, ce à quoi il
+            ressemble.</para>
+          </listitem>
+
+          <listitem>
+            <para>Histoire/Scenario</para>
+
+            <para>Le travail sur la création du monde, les campagnes et
+            autres.</para>
+          </listitem>
+
+          <listitem>
+            <para>Gestion de projet</para>
+
+            <para>Tout le travail sur la mise en place du travail
+            collaboratif, le choix des procédures de décision, les documents
+            comme celui que vous êtes en train de lire par exemple.</para>
+          </listitem>
+
+          <listitem>
+            <para>Site web</para>
+
+            <para>Le travail sur les sites web support au travail.</para>
+          </listitem>
+        </itemizedlist>
+      </listitem>
+
+      <listitem>
+        <para><ulink url="https://developer.berlios.de/pm/?group_id=2087">la
+        gestion des tâches</ulink></para>
+
+        <para>La gestion des tâches permet de garder une trace des activités
+        en cour ou réalisée. </para>
+
+        <para>L'idée est de commencer par créer une tâche avant de faire quoi
+        que ce soit, ce qui permet :</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>de vérifier que cette tâche n'a pas déjà été réalisée ou est
+            déjà en cour</para>
+          </listitem>
+
+          <listitem>
+            <para>de ne pas l'oublier</para>
+          </listitem>
+
+          <listitem>
+            <para>d'avoir une idée plus claire de qui s'occupe de quoi</para>
+          </listitem>
+
+          <listitem>
+            <para>de garder une trace des demande du genre "il faudrait que
+            ceci soit plus comme cela"</para>
+          </listitem>
+        </itemizedlist>
+      </listitem>
+
+      <listitem>
+        <para><ulink
+        url="https://developer.berlios.de/mail/?group_id=2087">les listes de
+        mels</ulink></para>
+
+        <para>elles permettent de d'écrire à tout un groupe sur un
+        thème</para>
+      </listitem>
+    </itemizedlist>
+  </section>
+
+  <section>
+    <title>Logithèque</title>
+
+    <important>
+      <para>Tous les logiciels utilisés doivent être gratuits ou sous licence
+      libre.</para>
+    </important>
+
+    <para>La liste qui suit est une liste indicative, chacun est libre
+    d'utiliser d'autres logiciels après accord des responsables du projet, ces
+    logiciels devant être préférablement libres, et au pire gratuits.</para>
+
+    <section id="modelisation">
+      <title>Modélisation 3D</title>
+
+      <para>Le logiciel utilisé pour la modélisation 3D est <ulink
+      url="http://www.blender3d.org/">blender</ulink>.</para>
+
+      <para>Les concepteurs de modèles 3D doivent se conformer à la <ulink
+      url="http://www.punivers.net/charte_graphique.php">charte
+      graphique</ulink>.</para>
+    </section>
+
+    <section id="modelisation2D">
+      <title>Manipulation d'images</title>
+
+      <para>Un logiciel utilisé pour la manipulation d'image et la fabrication
+      de textures est <ulink
+      url="http://www.gimp-fr.org/">gimp</ulink>.</para>
+
+      <para>Les textures et dessins doivent être soient crées de toutes pièces
+      et mises sous licence GPL, soit être déjà sous une licence libre
+      compatible avec la GPL.</para>
+    </section>
+
+    <section id="programmation">
+      <title>Éditeur et compilateur C++</title>
+
+      <para>Sous linux et windows vous pouvez utiliser <ulink
+      url="http://www.eclipse.org/">Eclipse</ulink> version 3.x qui est un IDE
+      doté de nombreuses extensions utiles :</para>
+
+      <itemizedlist>
+        <listitem>
+          <para><ulink url="http://www.eclipse.org/cdt/">CDT</ulink></para>
+
+          <para>une extension eclipse pour le langage C++</para>
+        </listitem>
+
+        <listitem>
+          <para><ulink
+          url="http://subclipse.tigris.org/">Subclipse</ulink></para>
+
+          <para>une extension eclipse pour subversion</para>
+        </listitem>
+
+        <listitem>
+          <para><ulink
+          url="http://vex.sourceforge.net/install.html">Vex</ulink></para>
+
+          <para>une extension eclipse pour DocBook</para>
+        </listitem>
+
+        <listitem>
+          <para><ulink url="http://home.gna.org/eclox/">Eclox</ulink></para>
+
+          <para>une extension eclipse pour Doxygen (extracteur de
+          documentation des sources)</para>
+        </listitem>
+      </itemizedlist>
+
+      <para>Sous windows vous pouvez utiliser <ulink
+      url="http://www.bloodshed.net/dev/devcpp.html"> DevC++</ulink>, sous
+      linux, <ulink url="http://www.kdevelop.org/"> kdevelop</ulink>, ou la
+      suite <ulink
+      url="http://autotoolset.sourceforge.net/tutorial.html">autotool de
+      GNU</ulink>.</para>
+
+      <para>Les programmeurs C++ doivent se conformer aux <ulink
+      url="http://www.punivers.net/regles_programmation.php"> règles de
+      programmation</ulink>.</para>
+    </section>
+
+    <section id="redaction">
+      <title>Écriture de documents</title>
+
+      <para>Les documents de travail concernant le projet sont rédigés en
+      français dans les formats suivants :</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>un article <ulink url="http://www.docbook.org/">
+          DocBook</ulink> qui a l'avantage d'être multiplate-forme, ses
+          fichier sont les <filename> *.xml</filename>.</para>
+        </listitem>
+
+        <listitem>
+          <para>un diagramme UML construit avec <ulink
+          url="http://argouml.tigris.org/">ArgoUML</ulink> qui a l'avantage
+          d'être multiplate-forme, ses fichiers sont les
+          <filename>*.zargo</filename>.</para>
+        </listitem>
+      </itemizedlist>
+
+      <para>Les documents doivent être placés sur le serveur de fichiers dans
+      le répertoire <filename>documents</filename>., puis dans le sous
+      répertoire correspondant à leur nature :</para>
+
+      <itemizedlist>
+        <listitem>
+          <para><filename>logiciels</filename></para>
+
+          <para>Ce sous répertoire contient tous les documents relatifs aux
+          divers logiciels que nous écrivons, il contient ensuite un sous
+          répertoire par logiciel ou bibliothèque, notamment
+          <filename>moteur</filename>.</para>
+        </listitem>
+
+        <listitem>
+          <para><filename>mondes</filename></para>
+
+          <para>Ce sous répertoire contient les descriptions des divers
+          "mondes imaginaires" qui sont décrits, il contient notamment le
+          répertoire <filename>monde_pu</filename> qui traite de la
+          description du monde imaginaire où il existe une galaxie peuplée
+          notamment des Malawishs, Ikawas et Archonites.</para>
+
+          <para>Chaque répertoire d'un monde particulier est ensuite organisé
+          comme suit :</para>
+
+          <itemizedlist>
+            <listitem>
+              <para><filename>univers</filename></para>
+
+              <para>Contient les descriptions du monde physique et
+              sociale</para>
+            </listitem>
+
+            <listitem>
+              <para><filename>histoire</filename></para>
+
+              <para>Contient les descriptions de l'histoire (au sens du passé)
+              de ce monde.</para>
+            </listitem>
+
+            <listitem>
+              <para><filename>campagnes</filename></para>
+
+              <para>Contient les descriptions des diverses campagnes de jeu se
+              déroulant dans ce monde.</para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+
+        <listitem>
+          <para><filename>outils</filename></para>
+
+          <para>Ce sous répertoire contient tous les documents relatifs aux
+          divers outils utilisés dans le projet. Il y a ensuite l'organisation
+          suivante :</para>
+
+          <itemizedlist>
+            <listitem>
+              <para><filename>internes</filename></para>
+
+              <para>Contient les descriptions des outils construit en interne
+              par l'équipe, outils destinés à la gestion de projet.</para>
+            </listitem>
+
+            <listitem>
+              <para><filename>regles_utilisation</filename></para>
+
+              <para>Contient les documents dictant les règles d'utilisations
+              des divers outils.</para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+      </itemizedlist>
+
+      <section>
+        <title>Rédaction de documents textes</title>
+
+        <para>Vous pouvez utiliser <ulink
+        url="http://www.xmlmind.com/xmleditor/"> XMLMindEditor</ulink>, qui
+        marche sur toutes les plate-formes munies d'un Java (c'est à dire pas
+        mal de plate-formes), il a l'avantage d'être WYSIWYG.</para>
+
+        <figure>
+          <title>XMLMindEditor (pour vous donner l'eau à la bouche)</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="images/xmlmind.png" />
+            </imageobject>
+          </mediaobject>
+        </figure>
+
+        <para>Vous pouvez aussi utiliser <ulink
+        url="http://vex.sourceforge.net/install.html"> Vex</ulink>, plugin
+        DocBook de eclipse.</para>
+
+        <section>
+          <title>Guides d'utilisation de DocBook</title>
+
+          <para>La rédaction de document DocBook suppose de connaître un petit
+          peu les différentes parties d'un tel document, par exemple para
+          désigne un paragraphe, link un lien et section une section de niveau
+          1. La définition officielle de toutes ces balises se trouve <ulink
+          url="http://www.docbook.org/tdg/en/html/docbook.html"> ici</ulink>.
+          D'autres pages expliquent l'utilisation de DocBook comme <ulink
+          url="http://www.gnu.org/software/dbmanual/dbmanual.fr.html"> le
+          manuel DocBook de la FSF</ulink> ou le <ulink
+          url="http://www.freebsd.org/doc/en_US.ISO8859-1/books/fdp-primer/sgml-markup-docbook.html">
+          guide de rédaction de FreeBSD</ulink>.</para>
+        </section>
+
+        <section>
+          <title>Les différents types de documents du projet</title>
+
+          <para>Projet Univers nécessite l'écriture de documents pour fixer
+          précisément :</para>
+
+          <itemizedlist>
+            <listitem>
+              <para>Les buts de ce projet, c'est l'objet du <ulink
+              url="http://www.punivers.net/cahier_des_charges.php"> cahier des
+              charges</ulink></para>
+            </listitem>
+
+            <listitem>
+              <para>Les techniques utilisées pour réaliser ces objectifs,
+              c'est l'objet :</para>
+
+              <itemizedlist>
+                <listitem>
+                  <para>des documents d'architectures</para>
+                </listitem>
+
+                <listitem>
+                  <para>des documents de règles de <ulink
+                  url="http://www.punivers.net/charte_graphique.php">
+                  modélisation 3D</ulink>, <ulink
+                  url="http://www.punivers.net/regles_programmation.php"> de
+                  programmation</ulink></para>
+                </listitem>
+
+                <listitem>
+                  <para>de tout autre document de conception, ou d'utilisation
+                  de projet univers</para>
+                </listitem>
+              </itemizedlist>
+            </listitem>
+          </itemizedlist>
+        </section>
+      </section>
+    </section>
+  </section>
+</article>

@@ -1,0 +1,66 @@
+/***************************************************************************
+ *   This file is part of ProjetUnivers                                    *
+ *   see http://www.punivers.net                                           *
+ *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program; if not, write to the                         *
+ *   Free Software Foundation, Inc.,                                       *
+ *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+ ***************************************************************************/
+#include <model/massive.h>
+
+namespace ProjetUnivers {
+  namespace Model {
+
+    RegisterTrait(Massive) ;
+
+    Massive::Massive(const Mass& i_mass)
+    : m_mass(i_mass)
+    {} 
+
+    Kernel::Trait* Massive::read(Kernel::Reader* reader)
+    {
+      Massive* result = new Massive(Mass()) ;
+      
+      while (!reader->isEndNode() && reader->processNode())
+      {
+        if (reader->isTraitNode() && 
+            reader->getTraitName() == "Mass")
+        {
+          result->m_mass = Mass::read(reader) ;
+        }
+        else 
+        {
+          Trait::read(reader) ;
+        }
+      }
+      reader->processNode() ;
+
+      return result ;
+    }
+    
+    Mass Massive::getMass() const 
+    {
+      return m_mass ;
+    }
+  
+    void Massive::changeMass(const Mass& i_mass)
+    {
+      m_mass = i_mass ;
+      notify() ;
+    } 
+    
+  }
+}
+

@@ -1,0 +1,114 @@
+<?xml version="1.0"?>
+<model>
+	<!-- an example ship named razor -->
+	
+	<object id="1">
+		<Positionned/>
+		<Oriented/>
+		<Mobile/>
+		
+    <Computer/>
+    
+		<TargetingSystem>
+			<ObjectReference name="computer" id="1"/>
+		</TargetingSystem>
+		
+    <ShootingHelper>
+			<ObjectReference name="computer" id="1"/>
+			<ObjectReference name="laser" id="2"/>
+		</ShootingHelper>		
+
+		<GuidanceControler>
+			<ObjectReference name="stick" id="6"/>
+		</GuidanceControler>
+		
+    <!-- The more the force, the quicker the ship will turn -->
+		<GuidanceSystem force="8">
+			<ObjectReference name="controler" id="1"/>
+		</GuidanceSystem>
+		
+		<Dragger drag_factor="0.005"/>
+		
+		<Destroyable>
+      <!-- The energy necessary to destroy the ship -->
+			<Energy value="20" unit="Joule" name="max_hit_points"/>
+		</Destroyable>
+
+		<Detector>
+			<ObjectReference id="1" name="computer"/>
+			<Distance value="1" unit="LightYear" name="range"/>
+		</Detector>
+
+		<Massive>
+			<Mass value="1" unit="Kilogram"/>
+		</Massive>
+		
+		<Solid>
+			<Mesh ogre_ressource="razor.mesh"/>
+		</Solid>
+	
+		<!-- The laser --> 
+		<object id="2">
+			<Laser>
+				<Position x="0" y="0" z="80" unit="Meter"/>
+				<Orientation/>
+        <!-- the energy of the laser beam -->
+				<Energy value="10" unit="Joule"/>
+        <!--  Duration between two shots -->
+				<Duration value="0.5" unit="Second" name="shot_delay"/>
+			</Laser>
+			<Component/>
+		</object>
+
+		<object id="3">
+      <!-- stabilize against x axis (turning rigth/left) the more, the quicker the ship will stop turning  --> 
+			<Stabilizer axis_x="10" axis_y="0" axis_z="0"/>		
+			<Component/>
+		</object>
+
+		<object id="4">
+      <!-- stabilize against y (turning up/down) axis the more, the quicker the ship will stop turning  --> 
+			<Stabilizer axis_x="0" axis_y="10" axis_z="0"/>		
+			<Component/>
+		</object>
+
+		<object id="5">
+      <!-- stabilize against z (rolling ship) axis the more, the quicker the ship will stop turning  --> 
+			<Stabilizer axis_x="0" axis_y="0" axis_z="10"/>		
+			<Component/>
+		</object>
+
+		<!-- The ship's stick  -->
+		<object id="6">
+			<Stick/>
+			<Positionned/>		
+			<Component/>
+		</object>
+
+		<!-- The ship's throttle stick -->
+		<object id="7">
+			<Throttle/>
+			<Positionned/>		
+			<Component/>
+		</object>
+	
+		<!-- The ship's engine controler -->
+		<object id="9">
+			<EngineControler>
+				<ObjectReference id="7" name="throttle"/>
+			</EngineControler>
+			<Component/>
+		</object>
+
+    <!-- The ship's engine -->
+    <object id="8">
+      <Engine>
+        <!--  The force of the engine, the more the speeder, warning keep x,y to zero -->
+        <Force x="0" y="0" z="650" unit="Newton"/>
+        <ObjectReference id="9" name="controler"/>
+      </Engine>
+      <Component/>
+    </object>
+    
+	</object>
+</model>

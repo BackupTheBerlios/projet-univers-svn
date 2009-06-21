@@ -1,0 +1,1122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?fileVersion 4.0.0?>
+
+<cproject>
+<storageModule moduleId="org.eclipse.cdt.core.settings">
+<cconfiguration id="converted.config.875291265">
+<storageModule moduleId="org.eclipse.cdt.core.pathentry">
+      <pathentry kind="con" path="org.eclipse.cdt.make.core.DISCOVERED_SCANNER_INFO"/>
+      <pathentry kind="src" path=""/>
+      <pathentry kind="out" path=""/>
+    </storageModule>
+<storageModule moduleId="cdt_indexer">
+      
+      
+
+      
+      <indexEnabled indexValue="false"/>
+      
+      
+
+      
+      <indexerProblemsEnabled indexProblemsValue="0"/>
+      
+      
+
+    
+    </storageModule>
+<storageModule moduleId="org.eclipse.cdt.core.resolver">
+      
+      
+
+      
+      <custom value="true"/>
+      
+      
+
+      
+      <associations>
+        
+        
+
+        
+        <entry pattern="*.C" type="org.eclipse.cdt.core.fileType.cxx_source"/>
+        
+        
+
+        
+        <entry pattern="*.H" type="org.eclipse.cdt.core.fileType.cxx_header"/>
+        
+        
+
+        
+        <entry pattern="*.S" type="org.eclipse.cdt.core.fileType.asm_source"/>
+        
+        
+
+        
+        <entry pattern="*.asm" type="org.eclipse.cdt.core.fileType.asm_source"/>
+        
+        
+
+        
+        <entry pattern="*.c" type="org.eclipse.cdt.core.fileType.c_source"/>
+        
+        
+
+        
+        <entry pattern="*.cc" type="org.eclipse.cdt.core.fileType.cxx_source"/>
+        
+        
+
+        
+        <entry pattern="*.cpp" type="org.eclipse.cdt.core.fileType.cxx_source"/>
+        
+        
+
+        
+        <entry pattern="*.cxx" type="org.eclipse.cdt.core.fileType.cxx_source"/>
+        
+        
+
+        
+        <entry pattern="*.h" type="org.eclipse.cdt.core.fileType.c_header"/>
+        
+        
+
+        
+        <entry pattern="*.hh" type="org.eclipse.cdt.core.fileType.cxx_header"/>
+        
+        
+
+        
+        <entry pattern="*.hpp" type="org.eclipse.cdt.core.fileType.cxx_header"/>
+        
+        
+
+        
+        <entry pattern="*.hxx" type="org.eclipse.cdt.core.fileType.cxx_header"/>
+        
+        
+
+        
+        <entry pattern="*.mc" type="org.eclipse.cdt.core.fileType.cxx_source"/>
+        
+        
+
+        
+        <entry pattern="*.s" type="org.eclipse.cdt.core.fileType.asm_source"/>
+        
+        
+
+        
+        <entry pattern="algorithm" type="org.eclipse.cdt.core.fileType.cxx_header"/>
+        
+        
+
+        
+        <entry pattern="bitset" type="org.eclipse.cdt.core.fileType.cxx_header"/>
+        
+        
+
+        
+        <entry pattern="cassert" type="org.eclipse.cdt.core.fileType.cxx_header"/>
+        
+        
+
+        
+        <entry pattern="cctype" type="org.eclipse.cdt.core.fileType.cxx_header"/>
+        
+        
+
+        
+        <entry pattern="cerrno" type="org.eclipse.cdt.core.fileType.cxx_header"/>
+        
+        
+
+        
+        <entry pattern="cfloat" type="org.eclipse.cdt.core.fileType.cxx_header"/>
+        
+        
+
+        
+        <entry pattern="ciso646" type="org.eclipse.cdt.core.fileType.cxx_header"/>
+        
+        
+
+        
+        <entry pattern="climits" type="org.eclipse.cdt.core.fileType.cxx_header"/>
+        
+        
+
+        
+        <entry pattern="clocale" type="org.eclipse.cdt.core.fileType.cxx_header"/>
+        
+        
+
+        
+        <entry pattern="cmath" type="org.eclipse.cdt.core.fileType.cxx_header"/>
+        
+        
+
+        
+        <entry pattern="complex" type="org.eclipse.cdt.core.fileType.cxx_header"/>
+        
+        
+
+        
+        <entry pattern="csetjmp" type="org.eclipse.cdt.core.fileType.cxx_header"/>
+        
+        
+
+        
+        <entry pattern="csignal" type="org.eclipse.cdt.core.fileType.cxx_header"/>
+        
+        
+
+        
+        <entry pattern="cstdarg" type="org.eclipse.cdt.core.fileType.cxx_header"/>
+        
+        
+
+        
+        <entry pattern="cstddef" type="org.eclipse.cdt.core.fileType.cxx_header"/>
+        
+        
+
+        
+        <entry pattern="cstdio" type="org.eclipse.cdt.core.fileType.cxx_header"/>
+        
+        
+
+        
+        <entry pattern="cstdlib" type="org.eclipse.cdt.core.fileType.cxx_header"/>
+        
+        
+
+        
+        <entry pattern="cstring" type="org.eclipse.cdt.core.fileType.cxx_header"/>
+        
+        
+
+        
+        <entry pattern="ctime" type="org.eclipse.cdt.core.fileType.cxx_header"/>
+        
+        
+
+        
+        <entry pattern="cwchar" type="org.eclipse.cdt.core.fileType.cxx_header"/>
+        
+        
+
+        
+        <entry pattern="cwctype" type="org.eclipse.cdt.core.fileType.cxx_header"/>
+        
+        
+
+        
+        <entry pattern="deque" type="org.eclipse.cdt.core.fileType.cxx_header"/>
+        
+        
+
+        
+        <entry pattern="exception" type="org.eclipse.cdt.core.fileType.cxx_header"/>
+        
+        
+
+        
+        <entry pattern="fstream" type="org.eclipse.cdt.core.fileType.cxx_header"/>
+        
+        
+
+        
+        <entry pattern="functional" type="org.eclipse.cdt.core.fileType.cxx_header"/>
+        
+        
+
+        
+        <entry pattern="hash_map" type="org.eclipse.cdt.core.fileType.cxx_header"/>
+        
+        
+
+        
+        <entry pattern="hash_set" type="org.eclipse.cdt.core.fileType.cxx_header"/>
+        
+        
+
+        
+        <entry pattern="iomanip" type="org.eclipse.cdt.core.fileType.cxx_header"/>
+        
+        
+
+        
+        <entry pattern="ios" type="org.eclipse.cdt.core.fileType.cxx_header"/>
+        
+        
+
+        
+        <entry pattern="iosfwd" type="org.eclipse.cdt.core.fileType.cxx_header"/>
+        
+        
+
+        
+        <entry pattern="iostream" type="org.eclipse.cdt.core.fileType.cxx_header"/>
+        
+        
+
+        
+        <entry pattern="istream" type="org.eclipse.cdt.core.fileType.cxx_header"/>
+        
+        
+
+        
+        <entry pattern="iterator" type="org.eclipse.cdt.core.fileType.cxx_header"/>
+        
+        
+
+        
+        <entry pattern="limits" type="org.eclipse.cdt.core.fileType.cxx_header"/>
+        
+        
+
+        
+        <entry pattern="list" type="org.eclipse.cdt.core.fileType.cxx_header"/>
+        
+        
+
+        
+        <entry pattern="locale" type="org.eclipse.cdt.core.fileType.cxx_header"/>
+        
+        
+
+        
+        <entry pattern="map" type="org.eclipse.cdt.core.fileType.cxx_header"/>
+        
+        
+
+        
+        <entry pattern="memory" type="org.eclipse.cdt.core.fileType.cxx_header"/>
+        
+        
+
+        
+        <entry pattern="new" type="org.eclipse.cdt.core.fileType.cxx_header"/>
+        
+        
+
+        
+        <entry pattern="numeric" type="org.eclipse.cdt.core.fileType.cxx_header"/>
+        
+        
+
+        
+        <entry pattern="ostream" type="org.eclipse.cdt.core.fileType.cxx_header"/>
+        
+        
+
+        
+        <entry pattern="queue" type="org.eclipse.cdt.core.fileType.cxx_header"/>
+        
+        
+
+        
+        <entry pattern="set" type="org.eclipse.cdt.core.fileType.cxx_header"/>
+        
+        
+
+        
+        <entry pattern="sstream" type="org.eclipse.cdt.core.fileType.cxx_header"/>
+        
+        
+
+        
+        <entry pattern="stack" type="org.eclipse.cdt.core.fileType.cxx_header"/>
+        
+        
+
+        
+        <entry pattern="stdexcept" type="org.eclipse.cdt.core.fileType.cxx_header"/>
+        
+        
+
+        
+        <entry pattern="streambuf" type="org.eclipse.cdt.core.fileType.cxx_header"/>
+        
+        
+
+        
+        <entry pattern="string" type="org.eclipse.cdt.core.fileType.cxx_header"/>
+        
+        
+
+        
+        <entry pattern="strstream" type="org.eclipse.cdt.core.fileType.cxx_header"/>
+        
+        
+
+        
+        <entry pattern="typeinfo" type="org.eclipse.cdt.core.fileType.cxx_header"/>
+        
+        
+
+        
+        <entry pattern="utility" type="org.eclipse.cdt.core.fileType.cxx_header"/>
+        
+        
+
+        
+        <entry pattern="valarray" type="org.eclipse.cdt.core.fileType.cxx_header"/>
+        
+        
+
+        
+        <entry pattern="vector" type="org.eclipse.cdt.core.fileType.cxx_header"/>
+        
+        
+
+      
+      </associations>
+      
+      
+
+    
+    </storageModule>
+<storageModule moduleId="cdt_resolver">
+      
+      
+
+      
+      <custom value="false"/>
+      
+      
+
+    
+    </storageModule>
+<storageModule moduleId="scannerConfiguration">
+      
+      
+
+      
+      <autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.make.core.GCCStandardMakePerProjectProfile"/>
+      
+      
+
+      
+      <profile id="org.eclipse.cdt.make.core.GCCStandardMakePerProjectProfile">
+        
+        
+
+        
+        <buildOutputProvider>
+          
+          
+
+          
+          <openAction enabled="true" filePath=""/>
+          
+          
+
+          
+          <parser enabled="true"/>
+          
+          
+
+        
+        </buildOutputProvider>
+        
+        
+
+        
+        <scannerInfoProvider id="specsFile">
+          
+          
+
+          
+          <runAction arguments="-E -P -v -dD ${plugin_state_location}/${specs_file}" command="gcc" useDefault="true"/>
+          
+          
+
+          
+          <parser enabled="true"/>
+          
+          
+
+        
+        </scannerInfoProvider>
+        
+        
+
+      
+      </profile>
+      
+      
+
+      
+      <profile id="org.eclipse.cdt.make.core.GCCStandardMakePerFileProfile">
+        
+        
+
+        
+        <buildOutputProvider>
+          
+          
+
+          
+          <openAction enabled="false" filePath=""/>
+          
+          
+
+          
+          <parser enabled="true"/>
+          
+          
+
+        
+        </buildOutputProvider>
+        
+        
+
+        
+        <scannerInfoProvider id="makefileGenerator">
+          
+          
+
+          
+          <runAction arguments="-f ${project_name}_scd.mk" command="make" useDefault="true"/>
+          
+          
+
+          
+          <parser enabled="false"/>
+          
+          
+
+        
+        </scannerInfoProvider>
+        
+        
+
+      
+      </profile>
+      
+      
+
+      
+      <profile id="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfile">
+        
+        
+
+        
+        <buildOutputProvider>
+          
+          
+
+          
+          <openAction enabled="false" filePath=""/>
+          
+          
+
+          
+          <parser enabled="true"/>
+          
+          
+
+        
+        </buildOutputProvider>
+        
+        
+
+        
+        <scannerInfoProvider id="specsFile">
+          
+          
+
+          
+          <runAction arguments="-E -P -v -dD ${plugin_state_location}/${specs_file}" command="gcc" useDefault="true"/>
+          
+          
+
+          
+          <parser enabled="false"/>
+          
+          
+
+        
+        </scannerInfoProvider>
+        
+        
+
+      
+      </profile>
+      
+      
+
+      
+      <profile id="org.eclipse.cdt.managedbuilder.core.GCCWinManagedMakePerProjectProfile">
+        
+        
+
+        
+        <buildOutputProvider>
+          
+          
+
+          
+          <openAction enabled="false" filePath=""/>
+          
+          
+
+          
+          <parser enabled="true"/>
+          
+          
+
+        
+        </buildOutputProvider>
+        
+        
+
+        
+        <scannerInfoProvider id="specsFile">
+          
+          
+
+          
+          <runAction arguments="-E -P -v -dD ${plugin_state_location}/${specs_file}" command="gcc" useDefault="true"/>
+          
+          
+
+          
+          <parser enabled="false"/>
+          
+          
+
+        
+        </scannerInfoProvider>
+        
+        
+
+      
+      </profile>
+      
+      
+
+    
+    </storageModule>
+<storageModule buildSystemId="org.eclipse.cdt.core.defaultConfigDataProvider" id="converted.config.875291265" moduleId="org.eclipse.cdt.core.settings" name="convertedConfig">
+<externalSettings/>
+<extensions>
+<extension id="org.eclipse.cdt.core.nullindexer" point="org.eclipse.cdt.core.CIndexer"/>
+<extension id="org.eclipse.cdt.core.ELF" point="org.eclipse.cdt.core.BinaryParser"/>
+</extensions>
+</storageModule>
+<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
+
+
+<storageModule moduleId="org.eclipse.cdt.core.language.mapping"/>
+
+
+
+
+
+
+
+
+
+
+
+<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets">
+<buildTargets>
+<target name="all" path="sources/test-acedb" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+<buildCommand>make</buildCommand>
+<buildArguments></buildArguments>
+<buildTarget>all</buildTarget>
+<stopOnError>false</stopOnError>
+<useDefaultCommand>true</useDefaultCommand>
+<runAllBuilders>true</runAllBuilders>
+</target>
+<target name="clean" path="sources/test-acedb" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+<buildCommand>make</buildCommand>
+<buildArguments></buildArguments>
+<buildTarget>clean</buildTarget>
+<stopOnError>false</stopOnError>
+<useDefaultCommand>true</useDefaultCommand>
+<runAllBuilders>true</runAllBuilders>
+</target>
+<target name="all" path="sources/base" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+<buildCommand>make</buildCommand>
+<buildArguments>-ws</buildArguments>
+<buildTarget>all</buildTarget>
+<stopOnError>true</stopOnError>
+<useDefaultCommand>false</useDefaultCommand>
+<runAllBuilders>true</runAllBuilders>
+</target>
+<target name="check" path="sources/base" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+<buildCommand>make</buildCommand>
+<buildArguments>-ws</buildArguments>
+<buildTarget>check</buildTarget>
+<stopOnError>true</stopOnError>
+<useDefaultCommand>false</useDefaultCommand>
+<runAllBuilders>true</runAllBuilders>
+</target>
+<target name="clean" path="sources/base" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+<buildCommand>make</buildCommand>
+<buildArguments></buildArguments>
+<buildTarget>clean</buildTarget>
+<stopOnError>false</stopOnError>
+<useDefaultCommand>true</useDefaultCommand>
+<runAllBuilders>true</runAllBuilders>
+</target>
+<target name="all" path="sources/compilation" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+<buildCommand>make</buildCommand>
+<buildArguments></buildArguments>
+<buildTarget>all</buildTarget>
+<stopOnError>false</stopOnError>
+<useDefaultCommand>true</useDefaultCommand>
+<runAllBuilders>true</runAllBuilders>
+</target>
+<target name="all" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+<buildCommand>make</buildCommand>
+<buildArguments></buildArguments>
+<buildTarget>all</buildTarget>
+<stopOnError>false</stopOnError>
+<useDefaultCommand>true</useDefaultCommand>
+<runAllBuilders>true</runAllBuilders>
+</target>
+<target name="doxygen" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+<buildCommand>make</buildCommand>
+<buildArguments></buildArguments>
+<buildTarget>doxygen-doc</buildTarget>
+<stopOnError>false</stopOnError>
+<useDefaultCommand>false</useDefaultCommand>
+<runAllBuilders>true</runAllBuilders>
+</target>
+<target name="clean" path="sources/base/compilation" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+<buildCommand>make</buildCommand>
+<buildArguments></buildArguments>
+<buildTarget>clean</buildTarget>
+<stopOnError>false</stopOnError>
+<useDefaultCommand>false</useDefaultCommand>
+<runAllBuilders>true</runAllBuilders>
+</target>
+<target name="all" path="sources/gui" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+<buildCommand>make</buildCommand>
+<buildArguments>-j 4</buildArguments>
+<buildTarget>all</buildTarget>
+<stopOnError>false</stopOnError>
+<useDefaultCommand>false</useDefaultCommand>
+<runAllBuilders>true</runAllBuilders>
+</target>
+<target name="check" path="sources/gui" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+<buildCommand>make</buildCommand>
+<buildArguments>-j 4</buildArguments>
+<buildTarget>check</buildTarget>
+<stopOnError>false</stopOnError>
+<useDefaultCommand>false</useDefaultCommand>
+<runAllBuilders>true</runAllBuilders>
+</target>
+<target name="clean" path="sources/gui" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+<buildCommand>make</buildCommand>
+<buildArguments></buildArguments>
+<buildTarget>clean</buildTarget>
+<stopOnError>false</stopOnError>
+<useDefaultCommand>false</useDefaultCommand>
+<runAllBuilders>true</runAllBuilders>
+</target>
+<target name="all" path="sources/kernel" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+<buildCommand>make</buildCommand>
+<buildArguments>-ws -Wall</buildArguments>
+<buildTarget>all</buildTarget>
+<stopOnError>false</stopOnError>
+<useDefaultCommand>false</useDefaultCommand>
+<runAllBuilders>true</runAllBuilders>
+</target>
+<target name="check" path="sources/kernel" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+<buildCommand>make</buildCommand>
+<buildArguments>-ws -Wall -j 4</buildArguments>
+<buildTarget>check</buildTarget>
+<stopOnError>false</stopOnError>
+<useDefaultCommand>false</useDefaultCommand>
+<runAllBuilders>true</runAllBuilders>
+</target>
+<target name="clean" path="sources/kernel" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+<buildCommand>make</buildCommand>
+<buildArguments></buildArguments>
+<buildTarget>clean</buildTarget>
+<stopOnError>false</stopOnError>
+<useDefaultCommand>false</useDefaultCommand>
+<runAllBuilders>true</runAllBuilders>
+</target>
+<target name="all" path="sources/game" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+<buildCommand>make</buildCommand>
+<buildArguments></buildArguments>
+<buildTarget>all</buildTarget>
+<stopOnError>false</stopOnError>
+<useDefaultCommand>false</useDefaultCommand>
+<runAllBuilders>true</runAllBuilders>
+</target>
+<target name="check" path="sources/game" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+<buildCommand>make</buildCommand>
+<buildArguments></buildArguments>
+<buildTarget>check</buildTarget>
+<stopOnError>false</stopOnError>
+<useDefaultCommand>false</useDefaultCommand>
+<runAllBuilders>true</runAllBuilders>
+</target>
+<target name="clean" path="sources/game" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+<buildCommand>make</buildCommand>
+<buildArguments></buildArguments>
+<buildTarget>clean</buildTarget>
+<stopOnError>false</stopOnError>
+<useDefaultCommand>false</useDefaultCommand>
+<runAllBuilders>true</runAllBuilders>
+</target>
+<target name="all" path="sources/sound" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+<buildCommand>make</buildCommand>
+<buildArguments></buildArguments>
+<buildTarget>all</buildTarget>
+<stopOnError>false</stopOnError>
+<useDefaultCommand>false</useDefaultCommand>
+<runAllBuilders>true</runAllBuilders>
+</target>
+<target name="clean" path="sources/sound" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+<buildCommand>make</buildCommand>
+<buildArguments></buildArguments>
+<buildTarget>clean</buildTarget>
+<stopOnError>false</stopOnError>
+<useDefaultCommand>false</useDefaultCommand>
+<runAllBuilders>true</runAllBuilders>
+</target>
+<target name="check" path="sources/sound" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+<buildCommand>make</buildCommand>
+<buildArguments></buildArguments>
+<buildTarget>check</buildTarget>
+<stopOnError>false</stopOnError>
+<useDefaultCommand>false</useDefaultCommand>
+<runAllBuilders>true</runAllBuilders>
+</target>
+<target name="all" path="sources/noyau" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+<buildCommand>make</buildCommand>
+<buildArguments></buildArguments>
+<buildTarget>all</buildTarget>
+<stopOnError>false</stopOnError>
+<useDefaultCommand>true</useDefaultCommand>
+<runAllBuilders>true</runAllBuilders>
+</target>
+<target name="clean" path="sources/noyau" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+<buildCommand>make</buildCommand>
+<buildArguments></buildArguments>
+<buildTarget>clean</buildTarget>
+<stopOnError>false</stopOnError>
+<useDefaultCommand>true</useDefaultCommand>
+<runAllBuilders>true</runAllBuilders>
+</target>
+<target name="all" path="sources/affichage" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+<buildCommand>make</buildCommand>
+<buildArguments>-ws</buildArguments>
+<buildTarget>all</buildTarget>
+<stopOnError>false</stopOnError>
+<useDefaultCommand>false</useDefaultCommand>
+<runAllBuilders>true</runAllBuilders>
+</target>
+<target name="clean" path="sources/affichage" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+<buildCommand>make</buildCommand>
+<buildArguments></buildArguments>
+<buildTarget>clean</buildTarget>
+<stopOnError>false</stopOnError>
+<useDefaultCommand>false</useDefaultCommand>
+<runAllBuilders>true</runAllBuilders>
+</target>
+<target name="check" path="sources/affichage" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+<buildCommand>make</buildCommand>
+<buildArguments>-ws</buildArguments>
+<buildTarget>check</buildTarget>
+<stopOnError>false</stopOnError>
+<useDefaultCommand>false</useDefaultCommand>
+<runAllBuilders>true</runAllBuilders>
+</target>
+<target name="all" path="sources/model" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+<buildCommand>make</buildCommand>
+<buildArguments>-ws</buildArguments>
+<buildTarget>all</buildTarget>
+<stopOnError>false</stopOnError>
+<useDefaultCommand>false</useDefaultCommand>
+<runAllBuilders>true</runAllBuilders>
+</target>
+<target name="check" path="sources/model" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+<buildCommand>make</buildCommand>
+<buildArguments>-ws -j 4</buildArguments>
+<buildTarget>check</buildTarget>
+<stopOnError>false</stopOnError>
+<useDefaultCommand>false</useDefaultCommand>
+<runAllBuilders>true</runAllBuilders>
+</target>
+<target name="all" path="sources/controle" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+<buildCommand>make</buildCommand>
+<buildArguments></buildArguments>
+<buildTarget>all</buildTarget>
+<stopOnError>false</stopOnError>
+<useDefaultCommand>true</useDefaultCommand>
+<runAllBuilders>true</runAllBuilders>
+</target>
+<target name="all" path="sources" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+<buildCommand>make</buildCommand>
+<buildArguments>-j 4</buildArguments>
+<buildTarget>all</buildTarget>
+<stopOnError>false</stopOnError>
+<useDefaultCommand>false</useDefaultCommand>
+<runAllBuilders>true</runAllBuilders>
+</target>
+<target name="check" path="sources" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+<buildCommand>make</buildCommand>
+<buildArguments>-j 4</buildArguments>
+<buildTarget>check</buildTarget>
+<stopOnError>false</stopOnError>
+<useDefaultCommand>false</useDefaultCommand>
+<runAllBuilders>false</runAllBuilders>
+</target>
+<target name="clean" path="sources" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+<buildCommand>make</buildCommand>
+<buildArguments></buildArguments>
+<buildTarget>clean</buildTarget>
+<stopOnError>false</stopOnError>
+<useDefaultCommand>false</useDefaultCommand>
+<runAllBuilders>true</runAllBuilders>
+</target>
+<target name="all" path="sources/outils/compilateur" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+<buildCommand>make</buildCommand>
+<buildArguments></buildArguments>
+<buildTarget>all</buildTarget>
+<stopOnError>false</stopOnError>
+<useDefaultCommand>true</useDefaultCommand>
+<runAllBuilders>true</runAllBuilders>
+</target>
+<target name="clean" path="sources/outils/compilateur" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+<buildCommand>make</buildCommand>
+<buildArguments></buildArguments>
+<buildTarget>clean</buildTarget>
+<stopOnError>false</stopOnError>
+<useDefaultCommand>true</useDefaultCommand>
+<runAllBuilders>true</runAllBuilders>
+</target>
+<target name="libcompilateur.a" path="sources/outils/compilateur" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+<buildCommand>make</buildCommand>
+<buildArguments></buildArguments>
+<buildTarget>libcompilateur.a</buildTarget>
+<stopOnError>false</stopOnError>
+<useDefaultCommand>true</useDefaultCommand>
+<runAllBuilders>true</runAllBuilders>
+</target>
+<target name="check" path="sources/outils/compilateur" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+<buildCommand>make</buildCommand>
+<buildArguments></buildArguments>
+<buildTarget>check</buildTarget>
+<stopOnError>false</stopOnError>
+<useDefaultCommand>true</useDefaultCommand>
+<runAllBuilders>true</runAllBuilders>
+</target>
+<target name="all" path="sources/meta" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+<buildCommand>make</buildCommand>
+<buildArguments></buildArguments>
+<buildTarget>all</buildTarget>
+<stopOnError>false</stopOnError>
+<useDefaultCommand>true</useDefaultCommand>
+<runAllBuilders>true</runAllBuilders>
+</target>
+<target name="check" path="sources/meta" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+<buildCommand>make</buildCommand>
+<buildArguments></buildArguments>
+<buildTarget>check</buildTarget>
+<stopOnError>false</stopOnError>
+<useDefaultCommand>true</useDefaultCommand>
+<runAllBuilders>true</runAllBuilders>
+</target>
+<target name="clean" path="sources/meta" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+<buildCommand>make</buildCommand>
+<buildArguments></buildArguments>
+<buildTarget>clean</buildTarget>
+<stopOnError>false</stopOnError>
+<useDefaultCommand>true</useDefaultCommand>
+<runAllBuilders>true</runAllBuilders>
+</target>
+<target name="all" path="sources/input" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+<buildCommand>make</buildCommand>
+<buildArguments>-ws -j 4</buildArguments>
+<buildTarget>all</buildTarget>
+<stopOnError>false</stopOnError>
+<useDefaultCommand>false</useDefaultCommand>
+<runAllBuilders>true</runAllBuilders>
+</target>
+<target name="clean" path="sources/input" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+<buildCommand>make</buildCommand>
+<buildArguments></buildArguments>
+<buildTarget>clean</buildTarget>
+<stopOnError>false</stopOnError>
+<useDefaultCommand>false</useDefaultCommand>
+<runAllBuilders>true</runAllBuilders>
+</target>
+<target name="check" path="sources/input" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+<buildCommand>make</buildCommand>
+<buildArguments></buildArguments>
+<buildTarget>check</buildTarget>
+<stopOnError>false</stopOnError>
+<useDefaultCommand>false</useDefaultCommand>
+<runAllBuilders>true</runAllBuilders>
+</target>
+<target name="all" path="sources/entrees" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+<buildCommand>make</buildCommand>
+<buildArguments>-ws</buildArguments>
+<buildTarget>all</buildTarget>
+<stopOnError>false</stopOnError>
+<useDefaultCommand>false</useDefaultCommand>
+<runAllBuilders>true</runAllBuilders>
+</target>
+<target name="clean" path="sources/entrees" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+<buildCommand>make</buildCommand>
+<buildArguments></buildArguments>
+<buildTarget>clean</buildTarget>
+<stopOnError>false</stopOnError>
+<useDefaultCommand>false</useDefaultCommand>
+<runAllBuilders>true</runAllBuilders>
+</target>
+<target name="all" path="sources/action" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+<buildCommand>make</buildCommand>
+<buildArguments>-ws</buildArguments>
+<buildTarget>all</buildTarget>
+<stopOnError>false</stopOnError>
+<useDefaultCommand>false</useDefaultCommand>
+<runAllBuilders>true</runAllBuilders>
+</target>
+<target name="clean" path="sources/action" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+<buildCommand>make</buildCommand>
+<buildArguments></buildArguments>
+<buildTarget>clean</buildTarget>
+<stopOnError>false</stopOnError>
+<useDefaultCommand>false</useDefaultCommand>
+<runAllBuilders>true</runAllBuilders>
+</target>
+<target name="all" path="sources/artificial_intelligence" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+<buildCommand>make</buildCommand>
+<buildArguments></buildArguments>
+<buildTarget>all</buildTarget>
+<stopOnError>false</stopOnError>
+<useDefaultCommand>false</useDefaultCommand>
+<runAllBuilders>true</runAllBuilders>
+</target>
+<target name="clean" path="sources/artificial_intelligence" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+<buildCommand>make</buildCommand>
+<buildArguments></buildArguments>
+<buildTarget>clean</buildTarget>
+<stopOnError>false</stopOnError>
+<useDefaultCommand>false</useDefaultCommand>
+<runAllBuilders>true</runAllBuilders>
+</target>
+<target name="check" path="sources/artificial_intelligence" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+<buildCommand>make</buildCommand>
+<buildArguments></buildArguments>
+<buildTarget>check</buildTarget>
+<stopOnError>false</stopOnError>
+<useDefaultCommand>false</useDefaultCommand>
+<runAllBuilders>true</runAllBuilders>
+</target>
+<target name="all" path="sources/physic" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+<buildCommand>make</buildCommand>
+<buildArguments>-ws</buildArguments>
+<buildTarget>all</buildTarget>
+<stopOnError>false</stopOnError>
+<useDefaultCommand>false</useDefaultCommand>
+<runAllBuilders>true</runAllBuilders>
+</target>
+<target name="check" path="sources/physic" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+<buildCommand>make</buildCommand>
+<buildArguments>-ws</buildArguments>
+<buildTarget>check</buildTarget>
+<stopOnError>false</stopOnError>
+<useDefaultCommand>false</useDefaultCommand>
+<runAllBuilders>true</runAllBuilders>
+</target>
+<target name="clean" path="sources/physic" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+<buildCommand>make</buildCommand>
+<buildArguments></buildArguments>
+<buildTarget>clean</buildTarget>
+<stopOnError>false</stopOnError>
+<useDefaultCommand>false</useDefaultCommand>
+<runAllBuilders>true</runAllBuilders>
+</target>
+<target name="all" path="sources/modele" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+<buildCommand>make</buildCommand>
+<buildArguments>-ws</buildArguments>
+<buildTarget>all</buildTarget>
+<stopOnError>true</stopOnError>
+<useDefaultCommand>false</useDefaultCommand>
+<runAllBuilders>true</runAllBuilders>
+</target>
+<target name="clean" path="sources/modele" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+<buildCommand>make</buildCommand>
+<buildArguments></buildArguments>
+<buildTarget>clean</buildTarget>
+<stopOnError>false</stopOnError>
+<useDefaultCommand>true</useDefaultCommand>
+<runAllBuilders>true</runAllBuilders>
+</target>
+<target name="check" path="sources/modele" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+<buildCommand>make</buildCommand>
+<buildArguments>-ws</buildArguments>
+<buildTarget>check</buildTarget>
+<stopOnError>true</stopOnError>
+<useDefaultCommand>false</useDefaultCommand>
+<runAllBuilders>true</runAllBuilders>
+</target>
+<target name="all" path="sources/display" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+<buildCommand>make</buildCommand>
+<buildArguments>-ws</buildArguments>
+<buildTarget>all</buildTarget>
+<stopOnError>false</stopOnError>
+<useDefaultCommand>false</useDefaultCommand>
+<runAllBuilders>true</runAllBuilders>
+</target>
+<target name="clean" path="sources/display" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+<buildCommand>make</buildCommand>
+<buildArguments></buildArguments>
+<buildTarget>clean</buildTarget>
+<stopOnError>false</stopOnError>
+<useDefaultCommand>false</useDefaultCommand>
+<runAllBuilders>true</runAllBuilders>
+</target>
+<target name="check" path="sources/display" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+<buildCommand>make</buildCommand>
+<buildArguments></buildArguments>
+<buildTarget>check</buildTarget>
+<stopOnError>false</stopOnError>
+<useDefaultCommand>false</useDefaultCommand>
+<runAllBuilders>true</runAllBuilders>
+</target>
+<target name="all" path="sources/demonstration" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+<buildCommand>make</buildCommand>
+<buildArguments></buildArguments>
+<buildTarget>all</buildTarget>
+<stopOnError>true</stopOnError>
+<useDefaultCommand>true</useDefaultCommand>
+<runAllBuilders>true</runAllBuilders>
+</target>
+<target name="clean" path="sources/demonstration" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+<buildCommand>make</buildCommand>
+<buildArguments></buildArguments>
+<buildTarget>clean</buildTarget>
+<stopOnError>false</stopOnError>
+<useDefaultCommand>false</useDefaultCommand>
+<runAllBuilders>true</runAllBuilders>
+</target>
+<target name="ogre_mouse" path="sources/demonstration" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+<buildCommand>make</buildCommand>
+<buildArguments></buildArguments>
+<buildTarget>ogre_mouse</buildTarget>
+<stopOnError>false</stopOnError>
+<useDefaultCommand>false</useDefaultCommand>
+<runAllBuilders>true</runAllBuilders>
+</target>
+</buildTargets>
+</storageModule>
+</cconfiguration>
+</storageModule>
+</cproject>
