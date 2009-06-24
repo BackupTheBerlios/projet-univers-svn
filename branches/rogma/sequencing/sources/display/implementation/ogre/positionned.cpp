@@ -21,15 +21,20 @@
 #include <kernel/log.h>
 
 #include <model/positionned.h>
+#include <model/oriented.h>
 #include <display/implementation/ogre/real_world_view_point.h>
 #include <display/implementation/ogre/positionned.h>
 
 using namespace ::Ogre ;
 
-namespace ProjetUnivers {
-  namespace Display {
-    namespace Implementation {
-      namespace Ogre {
+namespace ProjetUnivers
+{
+  namespace Display
+  {
+    namespace Implementation
+    {
+      namespace Ogre
+      {
 
         RegisterView(Ogre::Positionned,
                      Implementation::Positionned,
@@ -43,13 +48,14 @@ namespace ProjetUnivers {
           Model::Distance z(_position.getZCoordinate()) ;
 
           /*!
+            Ogre is right handed
             Ogre uses following conventions :
             +X = right
             -X = left
             +Y = up
             -Y = down
-            +Z = going into the screen
-            -Z = going away from the screen
+            -Z = going into the screen (forward)
+            +Z = going away from the screen (into you)
           */
 
 
@@ -60,9 +66,6 @@ namespace ProjetUnivers {
           return ::Ogre::Vector3(XMeters/conversion_factor,
                                  YMeters/conversion_factor,
                                  ZMeters/conversion_factor) ;
-
-
-
         }
 
         ::Ogre::Real convert(const Model::Distance& distance)
@@ -91,7 +94,6 @@ namespace ProjetUnivers {
           Positionned* parent_node(getAncestorView<Positionned>()) ;
           if (parent_node)
           {
-
             InternalMessage("Display",
               "creating scene node with parent " + parent_node->getNode()->getName()) ;
 
@@ -103,7 +105,8 @@ namespace ProjetUnivers {
               " with position " +
               ::Ogre::StringConverter::toString(m_node->getPosition())) ;
 
-            m_node->setPosition(convert(getObject()->getTrait<Model::Positionned>()->getPosition())) ;
+            setPosition() ;
+            setOrientation() ;
 
             InternalMessage("Display",
               "modification of scene node " + m_node->getName() +
@@ -139,15 +142,18 @@ namespace ProjetUnivers {
 
         void Positionned::onUpdate()
         {
-          /// reposition object relativelly to its parent
-          m_node->setPosition(convert(getObject()->getTrait<Model::Positionned>()->getPosition())) ;
+          // reposition object relativelly to its parent
+          setOrientation() ;
+          setPosition() ;
 
           m_node->_update(true,false) ;
 
           InternalMessage("Display",
             "modification of scene node " + m_node->getName() +
             " with position " +
-            ::Ogre::StringConverter::toString(m_node->getPosition())) ;
+            ::Ogre::StringConverter::toString(m_node->getPosition()) +
+            " and orientation " +
+            ::Ogre::StringConverter::toString(m_node->getOrientation())) ;
         }
 
         void Positionned::onChangeParent(Kernel::Object* old_parent)
@@ -187,6 +193,21 @@ namespace ProjetUnivers {
 
           return m_node ;
         }
+
+        void Positionned::setPosition()
+        {
+          Model::Positionned* positionned = getTrait<Model::Positionned>() ;
+          if (positionned)
+            m_node->setPosition(convert(positionned->getPosition())) ;
+        }
+
+        void Positionned::setOrientation()
+        {
+          Model::Oriented* oriented = getTrait<Model::Oriented>() ;
+          if (oriented)
+            m_node->setOrientation(oriented->getOrientation().getQuaternion()) ;
+        }
+
 
 
       }

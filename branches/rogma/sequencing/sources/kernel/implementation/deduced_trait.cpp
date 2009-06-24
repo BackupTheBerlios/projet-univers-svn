@@ -1441,6 +1441,8 @@ namespace ProjetUnivers
       }
       else
       {
+        update(object) ;
+
         std::set<Trait*> deduced_traits(getDependentTraits(object)) ;
         std::set<Trait*> new_updatertraits(getUpdaterTraits(object)) ;
 

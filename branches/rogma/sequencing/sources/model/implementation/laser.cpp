@@ -37,11 +37,11 @@
 
 namespace ProjetUnivers {
   namespace Model {
-    
+
     RegisterCommand("fire",Laser,fire) ;
 
     RegisterTrait(Laser) ;
-      
+
     Laser::Laser(const Position&    out_position,
                  const Orientation& out_orientation,
                  const Energy&      beam_energy)
@@ -54,41 +54,41 @@ namespace ProjetUnivers {
     {
       m_time_between_shots = duration ;
     }
-    
+
     void Laser::removeTimeToNextShot(const Duration& duration)
     {
       m_time_to_fire = m_time_to_fire - duration ;
     }
-    
-    
+
+
     void Laser::setOrientation(const Orientation& orientation)
     {
       m_out_orientation = orientation ;
       notify() ;
     }
-    
+
     Kernel::Trait* Laser::read(Kernel::Reader* reader)
     {
       Laser* result = new Laser(Position(),Orientation(),Energy()) ;
-      
+
       while (!reader->isEndNode() && reader->processNode())
       {
-        if (reader->isTraitNode() && 
+        if (reader->isTraitNode() &&
             reader->getTraitName() == "Position")
         {
           result->m_out_position = Position::read(reader) ;
         }
-        else if (reader->isTraitNode() && 
+        else if (reader->isTraitNode() &&
                  reader->getTraitName() == "Orientation")
         {
           result->m_out_orientation = Orientation::read(reader) ;
         }
-        else if (reader->isTraitNode() && 
+        else if (reader->isTraitNode() &&
                  reader->getTraitName() == "Energy")
         {
           result->m_laser_beam_energy = Energy::read(reader) ;
         }
-        else if (reader->isTraitNode() && 
+        else if (reader->isTraitNode() &&
                  reader->getTraitName() == "Duration")
         {
           result->m_time_between_shots = Duration::read(reader) ;
@@ -98,57 +98,57 @@ namespace ProjetUnivers {
 
       return result ;
     }
-    
+
     void Laser::fire()
     {
       InternalMessage("Model","entering fire") ;
-      
+
       // handle firing rate
       if (m_time_to_fire.Second() > 0)
         return ;
-      
+
       Positionned* positionned = getObject()->getParent<Positionned>() ;
       Oriented* oriented = getObject()->getParent<Oriented>() ;
       PhysicalObject* object = getObject()->getParent<PhysicalObject>() ;
-      PhysicalWorld* world = object ? object->getObject()->getAncestor<PhysicalWorld>() : NULL ; 
-      
+      PhysicalWorld* world = object ? object->getObject()->getAncestor<PhysicalWorld>() : NULL ;
+
       if (world && positionned && oriented)
       {
         InternalMessage("Model","firing") ;
         // create a laserbeam object
         Kernel::Object* beam = world->getObject()->createObject() ;
-        
+
         // should apply local rotation to have correct position decal..
         Orientation orientation_of_laser = oriented->getOrientation(world->getObject()) ;
 
-        Position position_of_the_beam = 
+        Position position_of_the_beam =
           positionned->getPosition(world->getObject()) + m_out_position*orientation_of_laser ;
-        
+
         beam->addTrait(new Positionned(position_of_the_beam)) ;
-        
+
         Orientation orientation_of_the_beam =
           orientation_of_laser*m_out_orientation ;
-          
+
         beam->addTrait(new Oriented(orientation_of_the_beam)) ;
 
         // orientation gives speed vector
         // basic_speed(full Z oriented) * orientation
-        Speed speed = Speed::MeterPerSecond(0,0,getLaserSpeedMeterPerSecond())*orientation_of_the_beam ;
+        Speed speed = Speed::MeterPerSecond(0,0,-getLaserSpeedMeterPerSecond())*orientation_of_the_beam ;
         // maybe we should add the object speed ??
-         
+
         beam->addTrait(new Mobile(speed)) ;
         beam->addTrait(new Massive(Mass(m_laser_beam_energy,speed))) ;
-        
+
         /*!
-          Here we have a limitation : 
-          laserbeam collision need to be applied on a physical object 
+          Here we have a limitation :
+          laserbeam collision need to be applied on a physical object
           thus the beam need to be a physical object before being a beam
-          
+
           @todo use a deduced trait in physics on PhysicalObject and LaserBeam
         */
         beam->addTrait(new LaserBeam()) ;
         beam->addTrait(new WithLifetime(getLaserBeamLifeDuration())) ;
-        
+
         // shot
         Kernel::Object* shot = world->getObject()->createObject() ;
         shot->addTrait(new Positionned(position_of_the_beam)) ;
@@ -157,13 +157,13 @@ namespace ProjetUnivers {
         // re-init timer
         m_time_to_fire = m_time_between_shots ;
         // done
-        
+
       }
       // else : not much sense thus do nothing
       InternalMessage("Model","leaving fire") ;
-      
+
     }
-    
+
     float Laser::getLaserSpeedMeterPerSecond() const
     {
       return Kernel::Parameters::getValue<float>("Model","LaserBeamSpeed",600) ;
@@ -178,12 +178,12 @@ namespace ProjetUnivers {
     {
       return m_out_orientation ;
     }
-    
+
     Duration Laser::getLaserBeamLifeDuration() const
     {
       /// @todo configurate
       return Duration::Second(2) ;
     }
-  
+
   }
 }

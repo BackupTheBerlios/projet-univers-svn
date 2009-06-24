@@ -1258,11 +1258,19 @@
   * Kernel :
     - added a simplified access to views/controlers inside another view controler
       and usage in viewpoints and controler sets 
+
+2009-06-24 rogma
+
+  * Display :
+    - a view Node <=> Oriented or Positionned 
+  * All :
+    - correct the coordinate system
+    - added current directory for tests media
     
 in commit
 --------
 
-    
+        
 in progress
 -----------
    
@@ -1270,10 +1278,6 @@ in progress
 todo
 ----
 
-  * Display :
-    - a view Node <=> Oriented or Positionned 
-    - sub-node <=> Node and HasAncestor(Node)
-    
   * Kernel :
     - we should use onChangedParent() for formulae on parent instead of 
       onUpdate, onChangeParent is exactly the event that indicates that the 
@@ -1420,8 +1424,6 @@ todo
     - change all hover/pushed elements 
    
   * Display :
-    - seg fault when having an Oriented object that is not Positionned, use 
-      a deduction like : Oriented and HasParent(Positionned) 
     - when initing ogre, close any already openned ogre objects in other 
       modules
     - find a way to preload ressources as needed (some ressources may appear 
@@ -1466,8 +1468,6 @@ todo
   * all :
     - make use of Quantities library, 
       @see http://sourceforge.net/projects/quantity ??
-    - correct the coordinate system; Stick/Throttle must use correct 
-      orientation 
     - deduce meta structure
       # use a metamodel 
       # use gccxml

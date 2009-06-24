@@ -37,7 +37,7 @@ namespace ProjetUnivers {
   namespace Physic {
 
     using namespace Implementation::Ode ;
-    
+
     namespace Test {
 
       const float pi = 3.1415926 ;
@@ -56,14 +56,14 @@ namespace ProjetUnivers {
       void TestODE::testTwoWorlds()
       {
 //        std::cout << std::endl ;
-        
-        std::auto_ptr<dWorld> world1(new dWorld()) ; 
+
+        std::auto_ptr<dWorld> world1(new dWorld()) ;
 
         std::auto_ptr<dBody> body1(new dBody(world1->id())) ;
         body1->setPosition(0,0,0) ;
-        body1->setLinearVel(10,0,0) ;      
+        body1->setLinearVel(10,0,0) ;
         body1->setAngularVel(0,2*pi,0) ;
-        
+
 //        std::cout << body1->isEnabled() << std::endl ;
 
         const int number_of_step = 100 ;
@@ -71,76 +71,76 @@ namespace ProjetUnivers {
         {
           world1->step(1.0/number_of_step) ;
           const dReal* final_orientation = body1->getQuaternion() ;
-//          std::cout << "body1 orientation=" << final_orientation[0] << "," 
+//          std::cout << "body1 orientation=" << final_orientation[0] << ","
 //                    << final_orientation[1] << ","
 //                    << final_orientation[2] << ","
 //                    << final_orientation[3] << std::endl ;
 
           const dReal* position = body1->getPosition() ;
-//          std::cout << "body1 position=" << position[0] << "," 
+//          std::cout << "body1 position=" << position[0] << ","
 //                    << position[1] << ","
 //                    << position[2] << std::endl ;
 
         }
-       
+
       }
 
       void TestODE::testTrimesh()
       {
         dInitODE();
-        
+
         std::auto_ptr<dWorld> world(new dWorld()) ;
         dBody* body = new dBody(world->id()) ;
-        
+
         Size[0] = 5.0f;
         Size[1] = 5.0f;
         Size[2] = 2.5f;
-        
+
         Vertices[0][0] = -Size[0];
         Vertices[0][1] = -Size[1];
         Vertices[0][2] = Size[2];
-        
+
         Vertices[1][0] = Size[0];
         Vertices[1][1] = -Size[1];
         Vertices[1][2] = Size[2];
-        
+
         Vertices[2][0] = Size[0];
         Vertices[2][1] = Size[1];
         Vertices[2][2] = Size[2];
-        
+
         Vertices[3][0] = -Size[0];
         Vertices[3][1] = Size[1];
         Vertices[3][2] = Size[2];
-        
+
         Vertices[4][0] = 0;
         Vertices[4][1] = 0;
         Vertices[4][2] = 0;
-        
+
         Indices[0] = 0;
         Indices[1] = 1;
         Indices[2] = 4;
-        
+
         Indices[3] = 1;
         Indices[4] = 2;
         Indices[5] = 4;
-        
+
         Indices[6] = 2;
         Indices[7] = 3;
         Indices[8] = 4;
-        
+
         Indices[9] = 3;
         Indices[10] = 0;
         Indices[11] = 4;
-        
+
         dTriMeshDataID Data = dGeomTriMeshDataCreate();
-        
-        dGeomTriMeshDataBuildSingle(Data, 
+
+        dGeomTriMeshDataBuildSingle(Data,
                                     &Vertices[0],3*sizeof(float),VertexCount,
                                     &Indices[0],IndexCount,3*sizeof(int));
-        
+
         TriMesh = dCreateTriMesh(0, Data, 0, 0, 0) ;
         dGeomSetData(TriMesh, Data) ;
-        
+
         dMass mass ;
         body->getMass(&mass) ;
 
@@ -166,11 +166,11 @@ namespace ProjetUnivers {
 //        dMatrix3 Rotation;
 //        dRFromAxisAndAngle(Rotation, 1, 0, 0, M_PI / 2);
 //        dGeomSetRotation(TriMesh, Rotation);
-     
+
         dReal* aabb = new dReal[6] ;
         dGeomGetAABB(TriMesh,aabb) ;
-        
-        
+
+
       }
 
       void onGeometryCollision(void*   i_world,
@@ -179,7 +179,7 @@ namespace ProjetUnivers {
       {
 
         dContactGeom contacts[10] ;
-        
+
         if (dCollide(i_geometry1,
                      i_geometry2,
                      10,
@@ -187,11 +187,11 @@ namespace ProjetUnivers {
                      sizeof(dContactGeom)) != 0)
         {
           std::cout << "contact" ;
-        }                     
+        }
         else
         {
           std::cout << "pas contact" ;
-        }                     
+        }
 
       }
 
@@ -3963,49 +3963,49 @@ namespace ProjetUnivers {
         indices[1403]=584;
 
         dSpaceID space = dSimpleSpaceCreate(0) ;
-        
+
         dTriMeshDataID Data = dGeomTriMeshDataCreate();
-        dGeomTriMeshDataBuildSingle(Data, 
+        dGeomTriMeshDataBuildSingle(Data,
                                     &vertex[0],3*sizeof(dReal),VertexCount,
                                     &indices[0],IndexCount,3*sizeof(int));
-        
+
         TriMesh = dCreateTriMesh(space,Data,0,0,0) ;
         dGeomSetData(TriMesh, Data) ;
 
         dGeomSetPosition(TriMesh,0,0,0) ;
-        
+
         dReal* aabb = new dReal[6] ;
         dGeomGetAABB(TriMesh,aabb) ;
-        
-        // we create a cube  
+
+        // we create a cube
         dGeomID cube = dCreateBox(space,1,1,14) ;
         dGeomSetPosition(cube,19.2,0,35+7) ;
 
         dContactGeom contacts[100] ;
         int number = dCollide(TriMesh,cube,100,contacts,sizeof(dContactGeom)) ;
-//        std::cout << "number of contact points " << number << std::endl ; 
+//        std::cout << "number of contact points " << number << std::endl ;
         if (number)
         {
-//          std::cout << "contact point " 
+//          std::cout << "contact point "
 //                    << contacts[0].pos[0]
-//                    << "," 
+//                    << ","
 //                    << contacts[0].pos[1]
-//                    << "," 
+//                    << ","
 //                    << contacts[0].pos[2]
 //                    << std::endl ;
         }
-        
+
         CPPUNIT_ASSERT_MESSAGE("ODE's bug : it should not detect collision",number==0) ;
         dSpaceDestroy(space) ;
         dCloseODE() ;
       }
-      
+
       void TestODE::testTrimeshCubeCollisionBasic()
       {
 
         dInitODE() ;
         dWorldID world = dWorldCreate() ;
-        
+
         int VertexCount = 24 ;
         int IndexCount = 36 ;
         dVector3 vertex[VertexCount] ;
@@ -4107,7 +4107,7 @@ namespace ProjetUnivers {
         vertex[23][1]=-1;
         vertex[23][2]=-1;
         vertex[23][3]=0;
-        
+
         indices[0]=0;
         indices[1]=1;
         indices[2]=2;
@@ -4151,18 +4151,18 @@ namespace ProjetUnivers {
 
         dGeomTriMeshDataBuildSimple(data, (dReal*)vertex, VertexCount, indices, IndexCount) ;
         TriMesh = dCreateTriMesh(space,data,0,0,0) ;
-        
+
         /*!
-          If we do not call GetAABB : no collision for that trimesh !! 
+          If we do not call GetAABB : no collision for that trimesh !!
         */
         dReal* aabb = new dReal[6] ;
         dGeomGetAABB(TriMesh,aabb) ;
-        
-        // we create a cube  
+
+        // we create a cube
         dGeomID cube = dCreateBox(space,1,1,1) ;
 
         dContactGeom contacts[100] ;
-        
+
         // too far for collision
         dGeomSetPosition(cube,2,0,0) ;
         CPPUNIT_ASSERT(dCollide(TriMesh,cube,100,contacts,sizeof(dContactGeom))==0) ;
@@ -4176,7 +4176,7 @@ namespace ProjetUnivers {
         dWorldDestroy (world);
         dCloseODE() ;
       }
-      
+
       void TestODE::testCubeCubeCollision()
       {
         dInitODE();
@@ -4188,44 +4188,44 @@ namespace ProjetUnivers {
 
         dGeomID cube2 = dCreateBox(space,10,10,10) ;
         dGeomSetPosition(cube2,0,20,0) ;
-        
+
         dContactGeom contacts[10] ;
         CPPUNIT_ASSERT(dCollide(cube1,cube2,10,contacts,sizeof(dContactGeom))==0) ;
-        
+
         dGeomSetPosition(cube2,0,9,0) ;
         CPPUNIT_ASSERT(dCollide(cube1,cube2,10,contacts,sizeof(dContactGeom))!=0) ;
-        
+
         dCloseODE() ;
       }
-      
+
       void TestODE::testTrimeshInertia()
       {
-        Model::Mesh mesh("razor.mesh") ;
-        
+        Model::Mesh mesh("test_ship.mesh") ;
+
         std::vector< ::Ogre::Vector3> vertices ;
         std::vector<unsigned long>    indices ;
-        Ogre::Vector3                 scale(1,1,1) ;        
+        Ogre::Vector3                 scale(1,1,1) ;
 
         mesh.getMeshInformation(vertices,indices,scale) ;
         float mass ;
         Ogre::Vector3 center ;
         Ogre::Matrix3 inertia ;
         ComputeMassProperties(vertices,indices,true,mass,center,inertia) ;
-      
-//        std::cout << "center = " << center 
-//                  << " inertia= " 
-//                  << inertia.GetColumn(0) << " "  
+
+//        std::cout << "center = " << center
+//                  << " inertia= "
+//                  << inertia.GetColumn(0) << " "
 //                  << inertia.GetColumn(1) << " "
-//                  << inertia.GetColumn(2) 
+//                  << inertia.GetColumn(2)
 //                  << std::endl ;
       }
 
-      void TestODE::setUp() 
+      void TestODE::setUp()
       {
         Kernel::Parameters::load("demonstration.config") ;
       }
-      
-      void TestODE::tearDown() 
+
+      void TestODE::tearDown()
       {
       }
 

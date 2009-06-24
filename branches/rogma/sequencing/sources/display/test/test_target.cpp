@@ -38,41 +38,41 @@ CPPUNIT_TEST_SUITE_REGISTRATION(ProjetUnivers::
                                 Test::
                                 TestTarget) ;
 
-namespace ProjetUnivers 
+namespace ProjetUnivers
 {
-  namespace Display 
+  namespace Display
   {
-    namespace Test 
+    namespace Test
     {
 
       namespace
       {
-        /// Acceptable variable for comparison 
+        /// Acceptable variable for comparison
         const float delta = 1e-4 ;
 
         bool equal(float i1,float i2)
         {
           return (fabs(i1 - i2) <= delta) ;
         }
-        
+
       }
-      
+
       void TestTarget::testConstruct()
       {
         InternalMessage("Display","Display::TestTarget::testConstruct entering") ;
-        
+
         InternalMessage("Display",Kernel::DeducedTrait::printDeclarations()) ;
-        
+
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestTarget::testConstruct")) ;
 
         Kernel::Object* ship = model->createObject() ;
         ship->addTrait(new Model::Computer()) ;
-       
+
         Kernel::Model* memory = ship->getTrait<Model::Computer>()->getMemoryModel() ;
-        
+
         Kernel::Object* data = memory->createObject() ;
         data->addTrait(new Model::Positionned()) ;
-        data->addTrait(new Model::Solid(Model::Mesh("razor.mesh"))) ;
+        data->addTrait(new Model::Solid(Model::Mesh("test_ship.mesh"))) ;
         data->addTrait(new Model::DetectionData(ship)) ;
         data->addTrait(new Model::Selected()) ;
 
@@ -95,7 +95,7 @@ namespace ProjetUnivers
                        equal(Target::calculateRotation(-1,1).valueDegrees(),-45)) ;
 
       }
-      
+
 
     }
   }

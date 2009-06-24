@@ -27,31 +27,31 @@
 
 namespace ProjetUnivers {
   namespace Model {
-    
+
     RegisterTrait(Engine) ;
 
-    Engine::Engine(const Force& i_force)
-    : m_full_thrust(i_force),
+    Engine::Engine(const Force& force)
+    : m_full_thrust(force),
       m_controler(NULL)
     {}
 
     Kernel::Trait* Engine::read(Kernel::Reader* reader)
     {
       Engine* result = new Engine(Force()) ;
-      
+
       while (!reader->isEndNode() && reader->processNode())
       {
-        if (reader->isTraitNode() && 
+        if (reader->isTraitNode() &&
             reader->getTraitName() == "ObjectReference")
         {
           result->m_controler = Kernel::ObjectReference::read(reader) ;
         }
-        else if (reader->isTraitNode() && 
+        else if (reader->isTraitNode() &&
                  reader->getTraitName() == "Force")
         {
           result->m_full_thrust = Force::read(reader) ;
         }
-        else 
+        else
         {
           Trait::read(reader) ;
         }
@@ -60,7 +60,7 @@ namespace ProjetUnivers {
 
       return result ;
     }
-    
+
     float Engine::getPowerPercentage() const
     {
       int percentage = 0 ;
@@ -72,12 +72,12 @@ namespace ProjetUnivers {
 
       return ((float)percentage)*0.01 ;
     }
-    
+
     Force Engine::getAppliedForce() const
     {
-      
+
       float percentage = getPowerPercentage() ;
-      
+
       // orient the force according to orientation of the parent physical world
       PhysicalObject* physical_object = getObject()->getParent<PhysicalObject>() ;
       if (physical_object)
@@ -86,14 +86,14 @@ namespace ProjetUnivers {
         if (physical_world)
         {
           Oriented* oriented = getObject()->getParent<Oriented>() ;
-  
+
           /// local orientation relative to world's one
-          const Orientation& orientation 
+          const Orientation& orientation
             = oriented->getOrientation(physical_world->getObject()) ;
-          
+
           return m_full_thrust*orientation*percentage ;
         }
-      }      
+      }
       // no physical world --> useless to push...
       InternalMessage("Model","Model::Engine::getAppliedForce no force") ;
       return Force() ;

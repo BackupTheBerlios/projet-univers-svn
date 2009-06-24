@@ -57,11 +57,11 @@ CPPUNIT_TEST_SUITE_REGISTRATION(ProjetUnivers::
                                 Test::
                                 TestLoad) ;
 
-namespace ProjetUnivers 
+namespace ProjetUnivers
 {
-  namespace Model 
+  namespace Model
   {
-    namespace Test 
+    namespace Test
     {
 
       void TestLoad::testLoadComponent()
@@ -74,7 +74,7 @@ namespace ProjetUnivers
               "</object>\n"
             "</model>\n") ;
         std::auto_ptr<Kernel::XMLReader> reader(Kernel::XMLReader::getStringReader(content)) ;
-        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadComponent")) ;          
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadComponent")) ;
         reader->read(model.get()) ;
 
         std::set<Kernel::Object*> roots(model->getRoots()) ;
@@ -82,7 +82,7 @@ namespace ProjetUnivers
         Kernel::Object* root = *roots.begin() ;
         CPPUNIT_ASSERT(root->getTrait<Component>()) ;
       }
-      
+
       void TestLoad::testLoadComputer()
       {
         std::string content(
@@ -93,7 +93,7 @@ namespace ProjetUnivers
               "</object>\n"
             "</model>\n") ;
         std::auto_ptr<Kernel::XMLReader> reader(Kernel::XMLReader::getStringReader(content)) ;
-        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadComputer")) ;          
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadComputer")) ;
         reader->read(model.get()) ;
 
         std::set<Kernel::Object*> roots(model->getRoots()) ;
@@ -101,7 +101,7 @@ namespace ProjetUnivers
         Kernel::Object* root = *roots.begin() ;
         CPPUNIT_ASSERT(root->getTrait<Computer>()) ;
       }
-      
+
       void TestLoad::testLoadDestroyable()
       {
         std::string content(
@@ -115,7 +115,7 @@ namespace ProjetUnivers
               "</object>\n"
             "</model>\n") ;
         std::auto_ptr<Kernel::XMLReader> reader(Kernel::XMLReader::getStringReader(content)) ;
-        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadDestroyable")) ;          
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadDestroyable")) ;
         reader->read(model.get()) ;
 
         std::set<Kernel::Object*> roots(model->getRoots()) ;
@@ -124,7 +124,7 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(root->getTrait<Destroyable>()) ;
         CPPUNIT_ASSERT(root->getTrait<Destroyable>()->getLife()==0.5) ;
       }
-      
+
       void TestLoad::testLoadDetector()
       {
         std::string content(
@@ -141,14 +141,14 @@ namespace ProjetUnivers
               "</object>\n"
             "</model>\n") ;
         std::auto_ptr<Kernel::XMLReader> reader(Kernel::XMLReader::getStringReader(content)) ;
-        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadDetector")) ;          
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadDetector")) ;
         reader->read(model.get()) ;
 
         std::set<Kernel::Object*> roots(model->getRoots()) ;
         CPPUNIT_ASSERT(roots.size() == 2) ;
 
         bool exist_detector = false ;
-        
+
         for (std::set<Kernel::Object*>::iterator current = roots.begin() ;
              current != roots.end() ;
              ++current)
@@ -175,7 +175,7 @@ namespace ProjetUnivers
               "</object>\n"
             "</model>\n") ;
         std::auto_ptr<Kernel::XMLReader> reader(Kernel::XMLReader::getStringReader(content)) ;
-        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadDragger")) ;          
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadDragger")) ;
         reader->read(model.get()) ;
 
         std::set<Kernel::Object*> roots(model->getRoots()) ;
@@ -183,7 +183,7 @@ namespace ProjetUnivers
         Kernel::Object* root = *roots.begin() ;
         CPPUNIT_ASSERT(root->getTrait<Dragger>()) ;
       }
-      
+
       void TestLoad::testLoadEngine()
       {
         std::string content(
@@ -205,28 +205,28 @@ namespace ProjetUnivers
               "</object>\n"
             "</model>\n") ;
         std::auto_ptr<Kernel::XMLReader> reader(Kernel::XMLReader::getStringReader(content)) ;
-        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadEngine")) ;          
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadEngine")) ;
         reader->read(model.get()) ;
 
         std::set<Kernel::Object*> roots(model->getRoots()) ;
         CPPUNIT_ASSERT_EQUAL((unsigned int)3,roots.size()) ;
-        
+
         bool exist_engine = false ;
         bool exist_engine_controler = false ;
         bool exist_throttle = false ;
-        
+
         for (std::set<Kernel::Object*>::iterator current = roots.begin() ;
              current != roots.end() ;
              ++current)
         {
           Kernel::Object* object = *current ;
-          
+
           if (object->getTrait<Engine>())
           {
             exist_engine = true ;
             CPPUNIT_ASSERT(object->getTrait<Engine>()->m_controler) ;
           }
-          
+
           if (object->getTrait<EngineControler>())
           {
             exist_engine_controler = true ;
@@ -235,12 +235,12 @@ namespace ProjetUnivers
           if (object->getTrait<Throttle>())
             exist_throttle = true ;
         }
-          
+
         CPPUNIT_ASSERT(exist_engine) ;
         CPPUNIT_ASSERT(exist_engine_controler) ;
         CPPUNIT_ASSERT(exist_throttle) ;
       }
-      
+
       void TestLoad::testLoadForceGenerator()
       {
         std::string content(
@@ -254,12 +254,12 @@ namespace ProjetUnivers
               "</object>\n"
             "</model>\n") ;
         std::auto_ptr<Kernel::XMLReader> reader(Kernel::XMLReader::getStringReader(content)) ;
-        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadForceGenerator")) ;          
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadForceGenerator")) ;
         reader->read(model.get()) ;
 
         std::set<Kernel::Object*> roots(model->getRoots()) ;
         CPPUNIT_ASSERT(roots.size() == 1) ;
-        std::set<Kernel::Object*>::iterator current = roots.begin() ; 
+        std::set<Kernel::Object*>::iterator current = roots.begin() ;
         Kernel::Object* engine = *current ;
         CPPUNIT_ASSERT(engine->getTrait<ForceGenerator>()) ;
         CPPUNIT_ASSERT(engine->getTrait<ForceGenerator>()->getAppliedForce().Newton() == Ogre::Vector3(1,0,0)) ;
@@ -280,16 +280,16 @@ namespace ProjetUnivers
               "</object>\n"
             "</model>\n") ;
         std::auto_ptr<Kernel::XMLReader> reader(Kernel::XMLReader::getStringReader(content)) ;
-        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadGuidanceControler")) ;          
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadGuidanceControler")) ;
         reader->read(model.get()) ;
 
         std::set<Kernel::Object*> roots(model->getRoots()) ;
         CPPUNIT_ASSERT(roots.size() == 1) ;
-        std::set<Kernel::Object*>::iterator current = roots.begin() ; 
+        std::set<Kernel::Object*>::iterator current = roots.begin() ;
         Kernel::Object* engine = *current ;
         CPPUNIT_ASSERT(engine->getTrait<GuidanceControler>()) ;
       }
-      
+
       void TestLoad::testLoadGuidanceSystem()
       {
         std::string content(
@@ -310,23 +310,23 @@ namespace ProjetUnivers
               "</object>\n"
             "</model>\n") ;
         std::auto_ptr<Kernel::XMLReader> reader(Kernel::XMLReader::getStringReader(content)) ;
-        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadGuidanceSystem")) ;          
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadGuidanceSystem")) ;
         reader->read(model.get()) ;
 
         std::set<Kernel::Object*> roots(model->getRoots()) ;
         CPPUNIT_ASSERT_EQUAL((unsigned int)1,roots.size()) ;
-        std::set<Kernel::Object*>::iterator current = roots.begin() ; 
+        std::set<Kernel::Object*>::iterator current = roots.begin() ;
         Kernel::Object* guidance_system = *current ;
         CPPUNIT_ASSERT(guidance_system->getTrait<GuidanceSystem>()) ;
-        
+
         CPPUNIT_ASSERT(guidance_system->getTrait<GuidanceSystem>()->m_control) ;
-        
+
         std::set<GuidanceControler*> guidance_controlers = guidance_system->getDescendants<GuidanceControler>() ;
         CPPUNIT_ASSERT_EQUAL((unsigned int)1,guidance_controlers.size()) ;
         GuidanceControler* guidance_controler = *guidance_controlers.begin() ;
         CPPUNIT_ASSERT(guidance_controler->m_stick) ;
       }
-      
+
       void TestLoad::testLoadListener()
       {
         std::string content(
@@ -337,7 +337,7 @@ namespace ProjetUnivers
               "</object>\n"
             "</model>\n") ;
         std::auto_ptr<Kernel::XMLReader> reader(Kernel::XMLReader::getStringReader(content)) ;
-        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadListener")) ;          
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadListener")) ;
         reader->read(model.get()) ;
 
         std::set<Kernel::Object*> roots(model->getRoots()) ;
@@ -360,7 +360,7 @@ namespace ProjetUnivers
               "</object>\n"
             "</model>\n") ;
         std::auto_ptr<Kernel::XMLReader> reader(Kernel::XMLReader::getStringReader(content)) ;
-        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadLaser")) ;          
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadLaser")) ;
         reader->read(model.get()) ;
 
         std::set<Kernel::Object*> roots(model->getRoots()) ;
@@ -368,7 +368,7 @@ namespace ProjetUnivers
         Kernel::Object* root = *roots.begin() ;
         CPPUNIT_ASSERT(root->getTrait<Laser>()) ;
       }
-      
+
       void TestLoad::testLoadMassive()
       {
         std::string content(
@@ -381,7 +381,7 @@ namespace ProjetUnivers
               "</object>\n"
             "</model>\n") ;
         std::auto_ptr<Kernel::XMLReader> reader(Kernel::XMLReader::getStringReader(content)) ;
-        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadMassive")) ;          
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadMassive")) ;
         reader->read(model.get()) ;
 
         std::set<Kernel::Object*> roots(model->getRoots()) ;
@@ -389,7 +389,7 @@ namespace ProjetUnivers
         Kernel::Object* root = *roots.begin() ;
         CPPUNIT_ASSERT(root->getTrait<Massive>()) ;
       }
-      
+
       void TestLoad::testLoadMenu()
       {
         std::string content(
@@ -400,7 +400,7 @@ namespace ProjetUnivers
               "</object>\n"
             "</model>\n") ;
         std::auto_ptr<Kernel::XMLReader> reader(Kernel::XMLReader::getStringReader(content)) ;
-        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadMenu")) ;          
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadMenu")) ;
         reader->read(model.get()) ;
 
         std::set<Kernel::Object*> roots(model->getRoots()) ;
@@ -408,7 +408,7 @@ namespace ProjetUnivers
         Kernel::Object* root = *roots.begin() ;
         CPPUNIT_ASSERT(root->getTrait<Menu>()) ;
       }
-      
+
       void TestLoad::testLoadMobile()
       {
         std::string content(
@@ -422,7 +422,7 @@ namespace ProjetUnivers
               "</object>\n"
             "</model>\n") ;
         std::auto_ptr<Kernel::XMLReader> reader(Kernel::XMLReader::getStringReader(content)) ;
-        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadMobile")) ;          
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadMobile")) ;
         reader->read(model.get()) ;
 
         std::set<Kernel::Object*> roots(model->getRoots()) ;
@@ -430,7 +430,7 @@ namespace ProjetUnivers
         Kernel::Object* root = *roots.begin() ;
         CPPUNIT_ASSERT(root->getTrait<Mobile>()) ;
       }
-      
+
       void TestLoad::testLoadObserver()
       {
         std::string content(
@@ -441,7 +441,7 @@ namespace ProjetUnivers
               "</object>\n"
             "</model>\n") ;
         std::auto_ptr<Kernel::XMLReader> reader(Kernel::XMLReader::getStringReader(content)) ;
-        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadObserver")) ;          
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadObserver")) ;
         reader->read(model.get()) ;
 
         std::set<Kernel::Object*> roots(model->getRoots()) ;
@@ -462,7 +462,7 @@ namespace ProjetUnivers
               "</object>\n"
             "</model>\n") ;
         std::auto_ptr<Kernel::XMLReader> reader(Kernel::XMLReader::getStringReader(content)) ;
-        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadOriented")) ;          
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadOriented")) ;
         reader->read(model.get()) ;
 
         std::set<Kernel::Object*> roots(model->getRoots()) ;
@@ -470,7 +470,7 @@ namespace ProjetUnivers
         Kernel::Object* root = *roots.begin() ;
         CPPUNIT_ASSERT(root->getTrait<Oriented>()) ;
       }
-      
+
       void TestLoad::testLoadPositionned()
       {
         std::string content(
@@ -483,7 +483,7 @@ namespace ProjetUnivers
               "</object>\n"
             "</model>\n") ;
         std::auto_ptr<Kernel::XMLReader> reader(Kernel::XMLReader::getStringReader(content)) ;
-        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadPositionned")) ;          
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadPositionned")) ;
         reader->read(model.get()) ;
 
         std::set<Kernel::Object*> roots(model->getRoots()) ;
@@ -491,7 +491,7 @@ namespace ProjetUnivers
         Kernel::Object* root = *roots.begin() ;
         CPPUNIT_ASSERT(root->getTrait<Positionned>()) ;
       }
-      
+
       void TestLoad::testLoadSolid()
       {
         std::string content(
@@ -499,12 +499,12 @@ namespace ProjetUnivers
             "<model>\n"
               "<object id=\"1\">\n"
                 "<Solid>\n"
-                  "<Mesh ogre_ressource=\"razor.mesh\"/>\n"
+                  "<Mesh ogre_ressource=\"test_ship.mesh\"/>\n"
                 "</Solid>\n"
               "</object>\n"
             "</model>\n") ;
         std::auto_ptr<Kernel::XMLReader> reader(Kernel::XMLReader::getStringReader(content)) ;
-        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadSolid")) ;          
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadSolid")) ;
         reader->read(model.get()) ;
 
         std::set<Kernel::Object*> roots(model->getRoots()) ;
@@ -513,7 +513,7 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(root->getTrait<Solid>()) ;
         CPPUNIT_ASSERT(root->getTrait<Solid>()->getRadius().Meter()>0) ;
       }
-      
+
       void TestLoad::testLoadStabilizer()
       {
         std::string content(
@@ -524,7 +524,7 @@ namespace ProjetUnivers
               "</object>\n"
             "</model>\n") ;
         std::auto_ptr<Kernel::XMLReader> reader(Kernel::XMLReader::getStringReader(content)) ;
-        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadStabilizer")) ;          
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadStabilizer")) ;
         reader->read(model.get()) ;
 
         std::set<Kernel::Object*> roots(model->getRoots()) ;
@@ -532,7 +532,7 @@ namespace ProjetUnivers
         Kernel::Object* root = *roots.begin() ;
         CPPUNIT_ASSERT(root->getTrait<Stabilizer>()) ;
       }
-      
+
       void TestLoad::testLoadStick()
       {
         std::string content(
@@ -543,7 +543,7 @@ namespace ProjetUnivers
               "</object>\n"
             "</model>\n") ;
         std::auto_ptr<Kernel::XMLReader> reader(Kernel::XMLReader::getStringReader(content)) ;
-        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadStick")) ;          
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadStick")) ;
         reader->read(model.get()) ;
 
         std::set<Kernel::Object*> roots(model->getRoots()) ;
@@ -551,7 +551,7 @@ namespace ProjetUnivers
         Kernel::Object* root = *roots.begin() ;
         CPPUNIT_ASSERT(root->getTrait<Stick>()) ;
       }
-      
+
       void TestLoad::testLoadTorqueGenerator()
       {
         std::string content(
@@ -562,7 +562,7 @@ namespace ProjetUnivers
               "</object>\n"
             "</model>\n") ;
         std::auto_ptr<Kernel::XMLReader> reader(Kernel::XMLReader::getStringReader(content)) ;
-        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadTorqueGenerator")) ;          
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadTorqueGenerator")) ;
         reader->read(model.get()) ;
 
         std::set<Kernel::Object*> roots(model->getRoots()) ;
@@ -570,7 +570,7 @@ namespace ProjetUnivers
         Kernel::Object* root = *roots.begin() ;
         CPPUNIT_ASSERT(root->getTrait<TorqueGenerator>()) ;
       }
-      
+
       void TestLoad::testLoadUniverse()
       {
         std::string content(
@@ -581,7 +581,7 @@ namespace ProjetUnivers
               "</object>\n"
             "</model>\n") ;
         std::auto_ptr<Kernel::XMLReader> reader(Kernel::XMLReader::getStringReader(content)) ;
-        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadUniverse")) ;          
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadUniverse")) ;
         reader->read(model.get()) ;
 
         std::set<Kernel::Object*> roots(model->getRoots()) ;
@@ -618,15 +618,15 @@ namespace ProjetUnivers
                 "</PlayerConfiguration>\n"
               "</object>\n"
             "</model>\n") ;
-        
+
         std::auto_ptr<Kernel::XMLReader> reader(Kernel::XMLReader::getStringReader(content)) ;
-        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadPlayerConfiguration")) ;          
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadPlayerConfiguration")) ;
         reader->read(model.get()) ;
 
         std::set<Kernel::Object*> roots(model->getRoots()) ;
         CPPUNIT_ASSERT(roots.size() == 1) ;
         Kernel::Object* root = *roots.begin() ;
-        PlayerConfiguration* configuration = root->getTrait<PlayerConfiguration>() ; 
+        PlayerConfiguration* configuration = root->getTrait<PlayerConfiguration>() ;
         CPPUNIT_ASSERT(configuration) ;
 
         CPPUNIT_ASSERT(configuration->getInputEvent("1")==PlayerConfiguration::InputEvent::key(1)) ;
@@ -635,7 +635,7 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(configuration->getInputAxis("4")==PlayerConfiguration::InputAxis(PlayerConfiguration::InputAxis::JoystickX)) ;
         CPPUNIT_ASSERT(configuration->getInputAxis("5")==PlayerConfiguration::InputAxis(PlayerConfiguration::InputAxis::MouseY)) ;
         CPPUNIT_ASSERT(configuration->getInputAxis("6")==-PlayerConfiguration::InputAxis(PlayerConfiguration::InputAxis::MouseWheel)) ;
-        
+
       }
 
       void TestLoad::testTargetingSystem()
@@ -650,7 +650,7 @@ namespace ProjetUnivers
               "</object>\n"
             "</model>\n") ;
         std::auto_ptr<Kernel::XMLReader> reader(Kernel::XMLReader::getStringReader(content)) ;
-        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadUniverse")) ;          
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadUniverse")) ;
         reader->read(model.get()) ;
 
         std::set<Kernel::Object*> roots(model->getRoots()) ;
@@ -658,7 +658,7 @@ namespace ProjetUnivers
         Kernel::Object* root = *roots.begin() ;
         CPPUNIT_ASSERT(root->getTrait<TargetingSystem>()) ;
       }
-      
+
     }
   }
 }

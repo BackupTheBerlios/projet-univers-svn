@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2008 Mathieu ROGER                                      *
+ *   Copyright (C) 2008-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -20,17 +20,18 @@
  ***************************************************************************/
 #include <model/universe.h>
 #include <model/positionned.h>
+#include <model/oriented.h>
 #include <display/implementation/positionned.h>
 
-namespace ProjetUnivers 
+namespace ProjetUnivers
 {
-  namespace Display 
+  namespace Display
   {
-    namespace Implementation 
+    namespace Implementation
     {
 
       DeclareDeducedTrait(Positionned,
-                          And(HasTrait(Model::Positionned),
+                          And(Or(HasTrait(Model::Positionned),HasTrait(Model::Oriented)),
                               HasParent(Model::Universe))) ;
     }
   }

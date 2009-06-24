@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007-2008 Mathieu ROGER                                 *
+ *   Copyright (C) 2007-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -30,10 +30,14 @@
 #include <display/implementation/ogre/positionned.h>
 #include <display/implementation/ogre/observer.h>
 
-namespace ProjetUnivers {
-  namespace Display {
-    namespace Implementation {
-      namespace Ogre {
+namespace ProjetUnivers
+{
+  namespace Display
+  {
+    namespace Implementation
+    {
+      namespace Ogre
+      {
 
         RegisterView(Ogre::Observer,
                      Implementation::Observer,
@@ -68,9 +72,6 @@ namespace ProjetUnivers {
 
           m_node = static_cast< ::Ogre::SceneNode* >(positionned->getNode()->createChild()) ;
           m_node->attachObject(m_camera) ;
-
-          // @todo we whould remove that @see changelog
-          m_node->yaw(::Ogre::Degree(180)) ;
 
           // @todo configurate in files
           m_camera->setFOVy(::Ogre::Degree(70)) ;

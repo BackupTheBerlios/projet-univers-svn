@@ -18,8 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_AI_TEST_VEHICLE_H_
-#define PU_AI_TEST_VEHICLE_H_
+#pragma once
 
 #include <cppunit/extensions/HelperMacros.h>
 
@@ -41,14 +40,17 @@ namespace ProjetUnivers {
       */
       // @{
 
-        /// Simulate with an front steering.
+        /// Simulate with a front steering.
         void testSimulateFront() ;
 
-        /// Simulate with an back steering.
+        /// Simulate with a back steering.
         void testSimulateBack() ;
 
-        /// Simulate with an side steering.
+        /// Simulate with a side steering.
         void testSimulateSide() ;
+
+        /// Simulate with an up steering.
+        void testSimulateUp() ;
 
       // @}
       /*!
@@ -61,6 +63,7 @@ namespace ProjetUnivers {
         CPPUNIT_TEST(testSimulateFront) ;
         CPPUNIT_TEST(testSimulateBack) ;
         CPPUNIT_TEST(testSimulateSide) ;
+        CPPUNIT_TEST(testSimulateUp) ;
 
         CPPUNIT_TEST_SUITE_END() ;
       };
@@ -69,5 +72,3 @@ namespace ProjetUnivers {
   }
 }
 
-
-#endif /*PU_AI_TEST_VEHICLE_H_*/

@@ -24,17 +24,16 @@
 #include <cppunit/extensions/HelperMacros.h>
 
 
-namespace ProjetUnivers {
-  namespace Physic {
-    namespace Test {
-
-
+namespace ProjetUnivers
+{
+  namespace Physic
+  {
+    namespace Test
+    {
 
       /// Physic tests on a Model::Dragger.
       class TestDragger : public CppUnit::TestFixture {
       protected:
-
-
       /*!
         @name Test methods
       */
@@ -52,7 +51,7 @@ namespace ProjetUnivers {
 
         CPPUNIT_TEST_SUITE(TestDragger) ;
 
-//        CPPUNIT_TEST(basicTest) ;
+        CPPUNIT_TEST(basicTest) ;
 
         CPPUNIT_TEST_SUITE_END() ;
 
@@ -60,19 +59,13 @@ namespace ProjetUnivers {
 
       // @}
       /*!
-        @name Mandatory methods
+        @name Init
       */
       // @{
 
-
         void setUp() ;
 
-        void tearDown() ;
-
       // @}
-
-
-
       };
 
     }

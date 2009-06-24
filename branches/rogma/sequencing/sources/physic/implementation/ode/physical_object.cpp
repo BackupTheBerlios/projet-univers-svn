@@ -171,7 +171,6 @@ namespace ProjetUnivers {
 
         void PhysicalObject::updatePositionned()
         {
-
           /// have to take the position relatively to the physical_world parent
           PhysicalWorld* world = getAncestorControler<PhysicalWorld>() ;
           if (world)
@@ -183,12 +182,10 @@ namespace ProjetUnivers {
                                 (dReal)position.y,
                                 (dReal)position.z) ;
 
-            Model::Oriented* oriented =
-              getObject()->getTrait<Model::Oriented>() ;
+            Model::Oriented* oriented = getObject()->getTrait<Model::Oriented>() ;
             if (oriented)
             {
-              Ogre::Quaternion orientation =
-                oriented->getOrientation(world->getObject()).getQuaternion() ;
+              Ogre::Quaternion orientation = oriented->getOrientation(world->getObject()).getQuaternion() ;
 
               dQuaternion ode_quaternion ;
               ode_quaternion[0] = (dReal)orientation.w ;
@@ -255,8 +252,7 @@ namespace ProjetUnivers {
                                        ode_position[2]),
                                      world->getObject()) ;
 
-            Model::Oriented* oriented =
-              getObject()->getTrait<Model::Oriented>() ;
+            Model::Oriented* oriented = getObject()->getTrait<Model::Oriented>() ;
             if (oriented)
             {
               const dReal* ode_orientation = m_body->getQuaternion() ;

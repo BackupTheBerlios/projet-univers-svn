@@ -50,14 +50,14 @@ namespace ProjetUnivers {
 
       namespace
       {
-        /// Acceptable variable for comparison 
+        /// Acceptable variable for comparison
         const float delta = 1e-4 ;
 
         bool equal(float i1,float i2)
         {
           return (fabs(i1 - i2) <= delta) ;
         }
-        
+
       }
 
       void TestDragger::basicTest()
@@ -66,7 +66,7 @@ namespace ProjetUnivers {
         /// we construct a complete system
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestDragger::basicTest")) ;
         model->init() ;
-        
+
         /// should be a PhysicalWorld
         Kernel::Object* system = model->createObject() ;
         CPPUNIT_ASSERT(system->getTrait<Model::PhysicalWorld>()) ;
@@ -81,44 +81,41 @@ namespace ProjetUnivers {
         CPPUNIT_ASSERT(ship->getTrait<Model::PhysicalObject>()) ;
         CPPUNIT_ASSERT(ship->getTrait<Model::Solid>()) ;
         CPPUNIT_ASSERT(ship->getTrait<Model::PhysicalWorld>()) ;
-        
+
         Kernel::Object* dragger = ship->createObject() ;
         dragger->addTrait(new Model::Dragger(1)) ;
-        
+
         Model::Mobile* mobile = ship->getTrait<Model::Mobile>() ;
         CPPUNIT_ASSERT(mobile) ;
-        
+
         mobile->setSpeed(Model::Speed::MeterPerSecond(1,0,0)) ;
-        
+
         CPPUNIT_ASSERT(ship->getModel()) ;
-        
+
         /// simulation during enought time seconds ...
-        const int steps_number = 100 ; 
+        const int steps_number = 100 ;
         for(int i = 1 ; i <= steps_number ; ++i)
         {
           model->update(0.1) ;
         }
-        
+
         Ogre::Vector3 final_speed(mobile->getSpeed().MeterPerSecond()) ;
-        
+
 //        std::cout << "final_speed=" << final_speed << std::endl ;
-        
+
         CPPUNIT_ASSERT(equal(final_speed.x,0) &&
                        equal(final_speed.y,0) &&
                        equal(final_speed.z,0)) ;
-        
+
 
         InternalMessage("Physic","Physic::Test::TestDragger::basicTest leaving") ;
       }
 
-      void TestDragger::setUp() 
+      void TestDragger::setUp()
       {
         Kernel::Parameters::load("demonstration.config") ;
       }
-      
-      void TestDragger::tearDown() 
-      {
-      }
+
 
     }
   }

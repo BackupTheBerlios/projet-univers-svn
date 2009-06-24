@@ -47,10 +47,11 @@ namespace ProjetUnivers {
         Implementation::Vehicle vehicle ;
         vehicle.setMaxSpeed(10) ;
 
-        vehicle.simulate(Ogre::Vector3::UNIT_Z,1) ;
+        // send an impulse toward front
+        vehicle.simulate(Ogre::Vector3::NEGATIVE_UNIT_Z,1) ;
 
-        CPPUNIT_ASSERT(vehicle.getForward()==Ogre::Vector3::UNIT_Z) ;
-        CPPUNIT_ASSERT(vehicle.getPosition().z > 0) ;
+        CPPUNIT_ASSERT_EQUAL(Ogre::Vector3::NEGATIVE_UNIT_Z,vehicle.getForward()) ;
+        CPPUNIT_ASSERT(vehicle.getPosition().z < 0) ;
         CPPUNIT_ASSERT(vehicle.getPosition().x == 0) ;
         CPPUNIT_ASSERT(vehicle.getPosition().y == 0) ;
       }
@@ -62,8 +63,8 @@ namespace ProjetUnivers {
         vehicle.setMaxSpeed(10) ;
         vehicle.setTurningRate(Ogre::Degree(45)) ;
 
-        vehicle.simulate(Ogre::Vector3::NEGATIVE_UNIT_Z) ;
-        CPPUNIT_ASSERT(vehicle.getForward().x > 0) ;
+        vehicle.simulate(Ogre::Vector3::UNIT_Z) ;
+        CPPUNIT_ASSERT(vehicle.getForward().x != 0) ;
         CPPUNIT_ASSERT(vehicle.getForward().y == 0) ;
 
       }
@@ -79,6 +80,19 @@ namespace ProjetUnivers {
 
         CPPUNIT_ASSERT(vehicle.getForward().x > 0) ;
         CPPUNIT_ASSERT(vehicle.getForward().y == 0) ;
+      }
+
+      void TestVehicle::testSimulateUp()
+      {
+        // A vehicle seeking
+        Implementation::Vehicle vehicle ;
+        vehicle.setMaxSpeed(10) ;
+        vehicle.setTurningRate(Ogre::Degree(45)) ;
+
+        vehicle.simulate(Ogre::Vector3::UNIT_Y,1) ;
+
+        CPPUNIT_ASSERT(vehicle.getForward().x == 0) ;
+        CPPUNIT_ASSERT(vehicle.getForward().y > 0) ;
       }
 
     }

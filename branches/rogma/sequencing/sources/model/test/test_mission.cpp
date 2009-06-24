@@ -121,7 +121,7 @@ namespace ProjetUnivers
         Kernel::Object* flying_group = team->createObject() ;
         flying_group->addTrait(new FlyingGroup("")) ;
 
-        flying_group->getTrait<FlyingGroup>()->setShipName("razor") ;
+        flying_group->getTrait<FlyingGroup>()->setShipName("test_ship") ;
         flying_group->getTrait<FlyingGroup>()->setInitialNumberOfShips(2) ;
 
         CPPUNIT_ASSERT(!mission->getTrait<Mission>()->getSystem()) ;
@@ -152,7 +152,7 @@ namespace ProjetUnivers
         Kernel::Object* flying_group = team->createObject() ;
         flying_group->addTrait(new FlyingGroup("")) ;
 
-        flying_group->getTrait<FlyingGroup>()->setShipName("razor") ;
+        flying_group->getTrait<FlyingGroup>()->setShipName("test_ship") ;
         flying_group->getTrait<FlyingGroup>()->setInitialNumberOfShips(3) ;
         flying_group->getTrait<FlyingGroup>()->setHasPlayer(true) ;
 
@@ -187,7 +187,7 @@ namespace ProjetUnivers
           Kernel::Object* flying_group = team->createObject() ;
           flying_group->addTrait(new FlyingGroup("")) ;
 
-          flying_group->getTrait<FlyingGroup>()->setShipName("razor") ;
+          flying_group->getTrait<FlyingGroup>()->setShipName("test_ship") ;
           flying_group->getTrait<FlyingGroup>()->setInitialNumberOfShips(3) ;
           flying_group->getTrait<FlyingGroup>()->setHasPlayer(true) ;
         }
@@ -199,7 +199,7 @@ namespace ProjetUnivers
           Kernel::Object* flying_group = team->createObject() ;
           flying_group->addTrait(new FlyingGroup("")) ;
 
-          flying_group->getTrait<FlyingGroup>()->setShipName("razor") ;
+          flying_group->getTrait<FlyingGroup>()->setShipName("test_ship") ;
           flying_group->getTrait<FlyingGroup>()->setInitialNumberOfShips(3) ;
           flying_group->getTrait<FlyingGroup>()->setHasPlayer(false) ;
         }
@@ -234,7 +234,7 @@ namespace ProjetUnivers
         Kernel::Object* flying_group = team->createObject() ;
         flying_group->addTrait(new FlyingGroup("")) ;
 
-        flying_group->getTrait<FlyingGroup>()->setShipName("razor") ;
+        flying_group->getTrait<FlyingGroup>()->setShipName("test_ship") ;
         flying_group->getTrait<FlyingGroup>()->setInitialNumberOfShips(3) ;
         flying_group->getTrait<FlyingGroup>()->setHasPlayer(true) ;
 
@@ -267,7 +267,7 @@ namespace ProjetUnivers
         Kernel::Object* flying_group = team->createObject() ;
         flying_group->addTrait(new FlyingGroup("")) ;
 
-        flying_group->getTrait<FlyingGroup>()->setShipName("razor") ;
+        flying_group->getTrait<FlyingGroup>()->setShipName("test_ship") ;
         flying_group->getTrait<FlyingGroup>()->setInitialNumberOfShips(1) ;
         flying_group->getTrait<FlyingGroup>()->setHasPlayer(true) ;
 
@@ -293,7 +293,7 @@ namespace ProjetUnivers
         team2->addTrait(new Team("2")) ;
 
         FlyingGroup* group = new FlyingGroup("") ;
-        group->setShipName("razor") ;
+        group->setShipName("test_ship") ;
         group->setInitialNumberOfShips(1) ;
         group->setHasPlayer(false) ;
 
@@ -337,7 +337,7 @@ namespace ProjetUnivers
         Kernel::Object* flying_group = team->createObject() ;
         flying_group->addTrait(new FlyingGroup("")) ;
 
-        flying_group->getTrait<FlyingGroup>()->setShipName("razor") ;
+        flying_group->getTrait<FlyingGroup>()->setShipName("test_ship") ;
         flying_group->getTrait<FlyingGroup>()->setInitialNumberOfShips(3) ;
         flying_group->getTrait<FlyingGroup>()->setHasPlayer(true) ;
 
@@ -383,7 +383,7 @@ namespace ProjetUnivers
         Kernel::Object* flying_group = team->createObject() ;
         flying_group->addTrait(new FlyingGroup("")) ;
 
-        flying_group->getTrait<FlyingGroup>()->setShipName("razor") ;
+        flying_group->getTrait<FlyingGroup>()->setShipName("test_ship") ;
         flying_group->getTrait<FlyingGroup>()->setInitialNumberOfShips(2) ;
         flying_group->getTrait<FlyingGroup>()->setNumberOfSpawn(2) ;
 
@@ -430,7 +430,7 @@ namespace ProjetUnivers
         Kernel::Object* flying_group = team->createObject() ;
         flying_group->addTrait(new FlyingGroup("")) ;
 
-        flying_group->getTrait<FlyingGroup>()->setShipName("razor") ;
+        flying_group->getTrait<FlyingGroup>()->setShipName("test_ship") ;
         flying_group->getTrait<FlyingGroup>()->setInitialNumberOfShips(2) ;
         flying_group->getTrait<FlyingGroup>()->setNumberOfSpawn(1) ; // only one spawn
 
@@ -474,7 +474,7 @@ namespace ProjetUnivers
         Kernel::Object* flying_group = team->createObject() ;
         flying_group->addTrait(new FlyingGroup("")) ;
 
-        flying_group->getTrait<FlyingGroup>()->setShipName("razor") ;
+        flying_group->getTrait<FlyingGroup>()->setShipName("test_ship") ;
         flying_group->getTrait<FlyingGroup>()->setInitialNumberOfShips(2) ;
         flying_group->getTrait<FlyingGroup>()->setHasPlayer(true) ;
 
@@ -527,7 +527,7 @@ namespace ProjetUnivers
           Kernel::Object* flying_group = team->createObject() ;
           flying_group->addTrait(new Model::FlyingGroup("")) ;
 
-          flying_group->getTrait<Model::FlyingGroup>()->setShipName("razor") ;
+          flying_group->getTrait<Model::FlyingGroup>()->setShipName("test_ship") ;
           flying_group->getTrait<Model::FlyingGroup>()->setInitialNumberOfShips(2) ;
           flying_group->getTrait<Model::FlyingGroup>()->setHasPlayer(true) ;
         }
@@ -539,7 +539,7 @@ namespace ProjetUnivers
           Kernel::Object* flying_group = team->createObject() ;
           flying_group->addTrait(new Model::FlyingGroup("")) ;
 
-          flying_group->getTrait<Model::FlyingGroup>()->setShipName("razor") ;
+          flying_group->getTrait<Model::FlyingGroup>()->setShipName("test_ship") ;
           flying_group->getTrait<Model::FlyingGroup>()->setInitialNumberOfShips(3) ;
           flying_group->getTrait<Model::FlyingGroup>()->setHasPlayer(false) ;
           flying_group->getTrait<Model::FlyingGroup>()->setNumberOfSpawn(2) ;
@@ -578,7 +578,7 @@ namespace ProjetUnivers
         Kernel::Object* flying_group1 = team1->createObject() ;
         flying_group1->addTrait(new Model::FlyingGroup("")) ;
 
-        flying_group1->getTrait<Model::FlyingGroup>()->setShipName("razor") ;
+        flying_group1->getTrait<Model::FlyingGroup>()->setShipName("test_ship") ;
         flying_group1->getTrait<Model::FlyingGroup>()->setInitialNumberOfShips(1) ;
         flying_group1->getTrait<Model::FlyingGroup>()->setHasPlayer(true) ;
         flying_group1->getTrait<Model::FlyingGroup>()->setNumberOfSpawn(2) ;
@@ -589,7 +589,7 @@ namespace ProjetUnivers
         Kernel::Object* flying_group2 = team2->createObject() ;
         flying_group2->addTrait(new Model::FlyingGroup("")) ;
 
-        flying_group2->getTrait<Model::FlyingGroup>()->setShipName("razor") ;
+        flying_group2->getTrait<Model::FlyingGroup>()->setShipName("test_ship") ;
         flying_group2->getTrait<Model::FlyingGroup>()->setInitialNumberOfShips(1) ;
         flying_group2->getTrait<Model::FlyingGroup>()->setHasPlayer(false) ;
         flying_group2->getTrait<Model::FlyingGroup>()->setNumberOfSpawn(2) ;

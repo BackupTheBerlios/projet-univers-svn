@@ -38,26 +38,29 @@ CPPUNIT_TEST_SUITE_REGISTRATION(ProjetUnivers::
                                 Test::
                                 TestDetector) ;
 
-namespace ProjetUnivers {
-  namespace Model {
-    namespace Test {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
+    namespace Test
+    {
 
       void TestDetector::detectOneObject()
       {
         InternalMessage("Model","Model::TestDetector::detectOneObject entering") ;
         /*!
-          We create a ship with a detector and a second object to detect. 
-        */        
+          We create a ship with a detector and a second object to detect.
+        */
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestDetector::detectOneObject")) ;
         model->init() ;
-        
+
         Kernel::Object* system = model->createObject() ;
-        
+
         Kernel::Object* ship = system->createObject() ;
         ship->addTrait(new Positionned()) ;
         ship->addTrait(new Oriented()) ;
         ship->addTrait(new Mobile()) ;
-        ship->addTrait(new Solid(Mesh("razor.mesh"))) ;
+        ship->addTrait(new Solid(Mesh("test_ship.mesh"))) ;
         ship->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship->addTrait(new Computer()) ;
         ship->addTrait(new Detector(ship)) ;
@@ -67,22 +70,22 @@ namespace ProjetUnivers {
         ship2->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship2->addTrait(new Oriented()) ;
         ship2->addTrait(new Mobile()) ;
-        ship2->addTrait(new Solid(Mesh("razor.mesh"))) ;
+        ship2->addTrait(new Solid(Mesh("test_ship.mesh"))) ;
 
         CPPUNIT_ASSERT(ship->getTrait<Computer>()->getMemoryModel()->getRoots().size() == 0) ;
 
         model->update(0.1) ;
-        
+
         // The second ship has been detected.
         CPPUNIT_ASSERT(ship->getTrait<Computer>()->getMemoryModel()->getRoots().size() == 1) ;
-        std::set<Kernel::Object*>::const_iterator data_pointer 
-          = ship->getTrait<Computer>()->getMemoryModel()->getRoots().begin() ; 
-        
+        std::set<Kernel::Object*>::const_iterator data_pointer
+          = ship->getTrait<Computer>()->getMemoryModel()->getRoots().begin() ;
+
         CPPUNIT_ASSERT((*data_pointer)->getTrait<Positionned>()) ;
         Position position = (*data_pointer)->getTrait<Positionned>()->getPosition() ;
         float distance = position.Meter().length() ;
         CPPUNIT_ASSERT(distance != 0) ;
-        
+
         InternalMessage("Model","Model::TestDetector::detectOneObject leaving") ;
       }
 
@@ -91,8 +94,8 @@ namespace ProjetUnivers {
         InternalMessage("Model","Model::TestDetector::detectDisappeareance entering") ;
 
         /*!
-          We create a ship with a detector and a second object to detect. 
-        */        
+          We create a ship with a detector and a second object to detect.
+        */
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestDetector::detectDisappeareance")) ;
         model->init() ;
 
@@ -102,33 +105,33 @@ namespace ProjetUnivers {
         ship->addTrait(new Positionned()) ;
         ship->addTrait(new Oriented()) ;
         ship->addTrait(new Mobile()) ;
-        ship->addTrait(new Solid(Mesh("razor.mesh"))) ;
+        ship->addTrait(new Solid(Mesh("test_ship.mesh"))) ;
         ship->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship->addTrait(new Computer()) ;
         ship->addTrait(new Detector(ship)) ;
 
-        
+
         Kernel::Object* ship2 = system->createObject() ;
         ship2->addTrait(new Positionned(Position::Meter(0,0,500))) ;
         ship2->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship2->addTrait(new Oriented()) ;
         ship2->addTrait(new Mobile()) ;
-        ship2->addTrait(new Solid(Mesh("razor.mesh"))) ;
+        ship2->addTrait(new Solid(Mesh("test_ship.mesh"))) ;
 
         CPPUNIT_ASSERT(ship->getTrait<Computer>()->getMemoryModel()->getRoots().size() == 0) ;
 
         model->update(0.1) ;
-        
+
         //the second chip has been detected.
         CPPUNIT_ASSERT(ship->getTrait<Computer>()->getMemoryModel()->getRoots().size() == 1) ;
-        
+
         model->destroyObject(ship2) ;
         model->update(0.1) ;
 
         CPPUNIT_ASSERT(ship->getTrait<Computer>()->getMemoryModel()->getRoots().size() == 0) ;
-        
+
         InternalMessage("Model","Model::TestDetector::detectDisappeareance leaving") ;
-        
+
       }
 
       void TestDetector::detectMovingObject()
@@ -136,8 +139,8 @@ namespace ProjetUnivers {
         InternalMessage("Model","Model::TestDetector::detectMovingObject entering") ;
 
         /*!
-          We create a ship with a detector and a second object to detect. 
-        */        
+          We create a ship with a detector and a second object to detect.
+        */
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestDetector::detectMovingObject")) ;
         model->init() ;
 
@@ -147,35 +150,35 @@ namespace ProjetUnivers {
         ship->addTrait(new Positionned()) ;
         ship->addTrait(new Oriented()) ;
         ship->addTrait(new Mobile()) ;
-        ship->addTrait(new Solid(Mesh("razor.mesh"))) ;
+        ship->addTrait(new Solid(Mesh("test_ship.mesh"))) ;
         ship->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship->addTrait(new Computer()) ;
         ship->addTrait(new Detector(ship)) ;
-        
+
         Kernel::Object* ship2 = system->createObject() ;
         ship2->addTrait(new Positionned(Position::Meter(0,0,500))) ;
         ship2->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship2->addTrait(new Oriented()) ;
         ship2->addTrait(new Mobile()) ;
-        ship2->addTrait(new Solid(Mesh("razor.mesh"))) ;
+        ship2->addTrait(new Solid(Mesh("test_ship.mesh"))) ;
 
         CPPUNIT_ASSERT(ship->getTrait<Computer>()->getMemoryModel()->getRoots().size() == 0) ;
-        
+
         model->update(0.1) ;
-        
+
         //the second chip has been detected.
         CPPUNIT_ASSERT(ship->getTrait<Computer>()->getMemoryModel()->getRoots().size() == 1) ;
-        Kernel::Object* detection 
+        Kernel::Object* detection
           = *(ship->getTrait<Computer>()->getMemoryModel()->getRoots().begin()) ;
         CPPUNIT_ASSERT(detection->getTrait<Positionned>()) ;
         CPPUNIT_ASSERT(detection->getTrait<Positionned>()->getPosition() == Position::Meter(0,0,500)) ;
-        
+
         ship2->getTrait<Positionned>()->setPosition(Position::Meter(0,100,0)) ;
         model->update(0.1) ;
-        
+
         CPPUNIT_ASSERT(detection->getTrait<Positionned>()) ;
         CPPUNIT_ASSERT(detection->getTrait<Positionned>()->getPosition() == Position::Meter(0,100,0)) ;
-        
+
         InternalMessage("Model","Model::TestDetector::detectMovingObject leaving") ;
       }
 
@@ -184,8 +187,8 @@ namespace ProjetUnivers {
         InternalMessage("Model","Model::TestDetector::detectObjectMovingOutOfRange entering") ;
 
         /*!
-          We create a ship with a detector and a second object to detect. 
-        */        
+          We create a ship with a detector and a second object to detect.
+        */
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestDetector::detectObjectMovingOutOfRange")) ;
         model->init() ;
 
@@ -195,36 +198,36 @@ namespace ProjetUnivers {
         ship->addTrait(new Positionned()) ;
         ship->addTrait(new Oriented()) ;
         ship->addTrait(new Mobile()) ;
-        ship->addTrait(new Solid(Mesh("razor.mesh"))) ;
+        ship->addTrait(new Solid(Mesh("test_ship.mesh"))) ;
         ship->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship->addTrait(new Computer()) ;
         ship->addTrait(new Detector(ship,Distance(Distance::_Meter,200))) ;
 
-        
+
         Kernel::Object* ship2 = system->createObject() ;
         ship2->addTrait(new Positionned(Position::Meter(0,0,100))) ;
         ship2->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship2->addTrait(new Oriented()) ;
         ship2->addTrait(new Mobile()) ;
-        ship2->addTrait(new Solid(Mesh("razor.mesh"))) ;
+        ship2->addTrait(new Solid(Mesh("test_ship.mesh"))) ;
 
         CPPUNIT_ASSERT(ship->getTrait<Computer>()->getMemoryModel()->getRoots().size() == 0) ;
-        
+
         model->update(0.1) ;
-        
+
         //the second chip has been detected.
         CPPUNIT_ASSERT(ship->getTrait<Computer>()->getMemoryModel()->getRoots().size() == 1) ;
-        Kernel::Object* detection 
+        Kernel::Object* detection
           = *(ship->getTrait<Computer>()->getMemoryModel()->getRoots().begin()) ;
         CPPUNIT_ASSERT(detection->getTrait<Positionned>()) ;
         CPPUNIT_ASSERT(detection->getTrait<Positionned>()->getPosition() == Position::Meter(0,0,100)) ;
-        
+
         ship2->getTrait<Positionned>()->setPosition(Position::Meter(0,500,0)) ;
         model->update(0.1) ;
-        
-        // there is no more object         
+
+        // there is no more object
         CPPUNIT_ASSERT(ship->getTrait<Computer>()->getMemoryModel()->getRoots().size() == 0) ;
-        
+
         InternalMessage("Model","Model::TestDetector::detectObjectMovingOutOfRange leaving") ;
       }
 
@@ -233,8 +236,8 @@ namespace ProjetUnivers {
         InternalMessage("Model","Model::TestDetector::testComputerDestruction entering") ;
 
         /*!
-          We create a ship with a detector and a second object to detect. 
-        */        
+          We create a ship with a detector and a second object to detect.
+        */
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestDetector::testComputerDestruction")) ;
         model->init() ;
 
@@ -244,18 +247,18 @@ namespace ProjetUnivers {
         ship->addTrait(new Positionned()) ;
         ship->addTrait(new Oriented()) ;
         ship->addTrait(new Mobile()) ;
-        ship->addTrait(new Solid(Mesh("razor.mesh"))) ;
+        ship->addTrait(new Solid(Mesh("test_ship.mesh"))) ;
         ship->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship->addTrait(new Computer()) ;
         ship->addTrait(new Detector(ship)) ;
 
-        
+
         Kernel::Object* ship2 = system->createObject() ;
         ship2->addTrait(new Positionned(Position::Meter(0,0,500))) ;
         ship2->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship2->addTrait(new Oriented()) ;
         ship2->addTrait(new Mobile()) ;
-        ship2->addTrait(new Solid(Mesh("razor.mesh"))) ;
+        ship2->addTrait(new Solid(Mesh("test_ship.mesh"))) ;
 
         CPPUNIT_ASSERT(ship->getTrait<Computer>()->getMemoryModel()->getRoots().size() == 0) ;
         model->update(0.1) ;
@@ -266,14 +269,14 @@ namespace ProjetUnivers {
 
         InternalMessage("Model","Model::TestDetector::testComputerDestruction leaving") ;
       }
-      
+
       void TestDetector::testDetectorDestruction()
       {
         InternalMessage("Model","Model::TestDetector::testDetectorDestruction entering") ;
 
         /*!
-          We create a ship with a detector and a second object to detect. 
-        */        
+          We create a ship with a detector and a second object to detect.
+        */
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestDetector::testDetectorDestruction")) ;
         model->init() ;
 
@@ -283,18 +286,18 @@ namespace ProjetUnivers {
         ship->addTrait(new Positionned()) ;
         ship->addTrait(new Oriented()) ;
         ship->addTrait(new Mobile()) ;
-        ship->addTrait(new Solid(Mesh("razor.mesh"))) ;
+        ship->addTrait(new Solid(Mesh("test_ship.mesh"))) ;
         ship->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship->addTrait(new Computer()) ;
         ship->addTrait(new Detector(ship)) ;
 
-        
+
         Kernel::Object* ship2 = system->createObject() ;
         ship2->addTrait(new Positionned(Position::Meter(0,0,500))) ;
         ship2->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship2->addTrait(new Oriented()) ;
         ship2->addTrait(new Mobile()) ;
-        ship2->addTrait(new Solid(Mesh("razor.mesh"))) ;
+        ship2->addTrait(new Solid(Mesh("test_ship.mesh"))) ;
 
         CPPUNIT_ASSERT(ship->getTrait<Computer>()->getMemoryModel()->getRoots().size() == 0) ;
         model->update(0.1) ;
@@ -310,8 +313,8 @@ namespace ProjetUnivers {
       {
         InternalMessage("Model","Model::TestDetector::testRelativePosition entering") ;
         /*!
-          We create a ship with a detector and a second object to detect. 
-        */        
+          We create a ship with a detector and a second object to detect.
+        */
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestDetector::testRelativePosition")) ;
         model->init() ;
 
@@ -321,28 +324,28 @@ namespace ProjetUnivers {
         ship->addTrait(new Positionned()) ;
         ship->addTrait(new Oriented()) ;
         ship->addTrait(new Mobile()) ;
-        ship->addTrait(new Solid(Mesh("razor.mesh"))) ;
+        ship->addTrait(new Solid(Mesh("test_ship.mesh"))) ;
         ship->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship->addTrait(new Computer()) ;
         ship->addTrait(new Detector(ship)) ;
 
-        
+
         Kernel::Object* ship2 = system->createObject() ;
         ship2->addTrait(new Positionned(Position::Meter(0,0,500))) ;
         ship2->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship2->addTrait(new Oriented()) ;
         ship2->addTrait(new Mobile()) ;
-        ship2->addTrait(new Solid(Mesh("razor.mesh"))) ;
+        ship2->addTrait(new Solid(Mesh("test_ship.mesh"))) ;
 
         CPPUNIT_ASSERT(ship->getTrait<Computer>()->getMemoryModel()->getRoots().size() == 0) ;
 
         model->update(0.1) ;
-        
+
         // The second ship has been detected.
         CPPUNIT_ASSERT(ship->getTrait<Computer>()->getMemoryModel()->getRoots().size() == 1) ;
-        std::set<Kernel::Object*>::const_iterator data_pointer 
-          = ship->getTrait<Computer>()->getMemoryModel()->getRoots().begin() ; 
-        
+        std::set<Kernel::Object*>::const_iterator data_pointer
+          = ship->getTrait<Computer>()->getMemoryModel()->getRoots().begin() ;
+
         CPPUNIT_ASSERT((*data_pointer)->getTrait<Positionned>()) ;
         Positionned* positionned = (*data_pointer)->getTrait<Positionned>() ;
         CPPUNIT_ASSERT(positionned->getPosition().Meter() == Ogre::Vector3(0,0,500)) ;
@@ -357,25 +360,25 @@ namespace ProjetUnivers {
         ship->getTrait<Oriented>()->setOrientation(Orientation(Ogre::Quaternion(sqrt(0.5),0,0,sqrt(0.5)))) ;
 
         model->update(0.1) ;
-        
+
         CPPUNIT_ASSERT(ship->getTrait<Computer>()->getMemoryModel()->getRoots().size() > 0) ;
         data_pointer = ship->getTrait<Computer>()->getMemoryModel()->getRoots().begin() ;
         CPPUNIT_ASSERT((*data_pointer)->getTrait<Positionned>()) ;
         positionned = (*data_pointer)->getTrait<Positionned>() ;
-        
+
         CPPUNIT_ASSERT(positionned->getPosition().Meter().positionEquals(Ogre::Vector3(500,0,0),1e-4)) ;
-        
+
         InternalMessage("Model","Model::TestDetector::testRelativePosition leaving") ;
       }
-      
-      void TestDetector::setUp() 
+
+      void TestDetector::setUp()
       {
       }
-      
-      void TestDetector::tearDown() 
+
+      void TestDetector::tearDown()
       {
       }
-      
+
 
     }
   }

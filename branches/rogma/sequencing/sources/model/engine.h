@@ -26,61 +26,61 @@
 #include <model/force_generator.h>
 #include <model/force.h>
 
-namespace ProjetUnivers 
+namespace ProjetUnivers
 {
-  namespace Model 
+  namespace Model
   {
-  
+
     namespace Test
     {
       class TestLoad ;
     }
-    
+
     class EngineControler ;
-    
+
     /// Ship/Other objects engine.
     class Engine : public ForceGenerator
     {
     public:
 
       /// Constructor.
-      Engine(const Force& i_force) ;
+      Engine(const Force& force) ;
 
       /// Read an Engine trait.
       /*!
-        stored as 
+        stored as
         @code
           <Engine>
             [<ObjectReference ... [name="controler"]/>]
             <Force ... />
           </Engine>
         @endcode
-      */     
+      */
       static Kernel::Trait* read(Kernel::Reader* reader) ;
-      
+
       /// Get the force.
       virtual Force getAppliedForce() const ;
-      
+
       /// The percentage of power of the engine
       float getPowerPercentage() const ;
-      
+
     private:
-      
-      /// Maximal "force". 
+
+      /// Maximal "force".
       /*!
         Orientation is relative to parent physical object.
-        Thus normally a ship force is : (0,0,100) or something.
+        Thus normally a ship force is : (0,0,-100) or something.
       */
       Force m_full_thrust ;
-      
+
       /// Controler of this engine
       Kernel::ObjectReference m_controler ;
-      
+
       friend void connectControlerEngine(Kernel::Object*,Kernel::Object*) ;
-      
+
       friend class ProjetUnivers::Model::Test::TestLoad ;
     };
-    
-    
+
+
   }
 }

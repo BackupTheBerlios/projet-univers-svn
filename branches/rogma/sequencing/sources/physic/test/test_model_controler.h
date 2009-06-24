@@ -23,38 +23,41 @@
 
 #include <cppunit/extensions/HelperMacros.h>
 
-namespace ProjetUnivers 
+namespace ProjetUnivers
 {
-  namespace Physic 
+  namespace Physic
   {
-    namespace Test 
+    namespace Test
     {
-            
+
       /// Check that physics behave correctly on degenerated models.
-      class TestModelControler: public CppUnit::TestFixture 
+      class TestModelControler: public CppUnit::TestFixture
       {
       protected:
       /*!
         @name Test methods
       */
       // @{
-        
+
         /// Only one physical object whithout any parent.
         void oneObjectWithTorqueGenerator() ;
 
         void oneObjectWithForceGenerator() ;
-        
+
+        void changeOrientation() ;
+
       // @}
       /*!
         @name Test registration
       */
-      // @{      
-    
+      // @{
+
         CPPUNIT_TEST_SUITE(TestModelControler) ;
-      
+
         CPPUNIT_TEST(oneObjectWithTorqueGenerator) ;
         CPPUNIT_TEST(oneObjectWithForceGenerator) ;
-      
+        CPPUNIT_TEST(changeOrientation) ;
+
         CPPUNIT_TEST_SUITE_END() ;
 
       // @}

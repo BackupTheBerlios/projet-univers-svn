@@ -129,8 +129,55 @@ namespace ProjetUnivers
         model->update(0.01) ;
         model->update(0.01) ;
         model->update(0.01) ;
+      }
+
+      void TestModelControler::changeOrientation()
+      {
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestModelControler::changeOrientation")) ;
+        model->init() ;
+
+        Kernel::Object* world = model->createObject() ;
+
+        Kernel::Object* ship = world->createObject() ;
+        ship->addTrait(new Model::Positionned()) ;
+        ship->addTrait(new Model::Oriented()) ;
+        ship->addTrait(new Model::Mobile()) ;
+        ship->addTrait(new Model::Massive(Model::Mass::Kilogram(1))) ;
+
+        Kernel::ControlerSet* physics = model->getControlerSet<Implementation::Ode::PhysicSystem>() ;
+        CPPUNIT_ASSERT(physics) ;
+
+        Implementation::Ode::PhysicalObject* body = ship->getTrait<Model::PhysicalObject>()->getControler<Implementation::Ode::PhysicalObject>(physics) ;
+        CPPUNIT_ASSERT(body) ;
+
+        {
+          const dReal* ode_orientation = body->getBody()->getQuaternion() ;
+
+          Ogre::Quaternion orientation(ode_orientation[0],
+                                       ode_orientation[1],
+                                       ode_orientation[2],
+                                       ode_orientation[3]) ;
+
+          CPPUNIT_ASSERT(orientation.equals(Ogre::Quaternion(),Ogre::Degree(5))) ;
+        }
+
+        Ogre::Quaternion new_orientation(Ogre::Degree(90),Ogre::Vector3::UNIT_Y) ;
+
+        ship->getTrait<Model::Oriented>()->setOrientation(new_orientation) ;
+
+        {
+          const dReal* ode_orientation = body->getBody()->getQuaternion() ;
+
+          Ogre::Quaternion orientation(ode_orientation[0],
+                                       ode_orientation[1],
+                                       ode_orientation[2],
+                                       ode_orientation[3]) ;
+
+          CPPUNIT_ASSERT(orientation.equals(new_orientation,Ogre::Degree(5))) ;
+        }
 
       }
+
 
     }
   }

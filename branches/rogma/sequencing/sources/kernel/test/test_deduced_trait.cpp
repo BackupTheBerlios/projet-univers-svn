@@ -1385,6 +1385,107 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(child->getTrait<AncestorPos>()) ;
       }
 
+      namespace OrView
+      {
+        class T1 : public Trait
+        {};
+        class T2 : public Trait
+        {};
+        class T12 : public DeducedTrait
+        {};
+
+        DeclareDeducedTrait(T12,Or(HasTrait(T1),HasTrait(T2))) ;
+
+        class Viewpoint1 : public ViewPoint
+        {
+        public:
+          Viewpoint1(Model* m)
+          : ViewPoint(m)
+          {}
+        };
+
+        class V12 : public TraitView<T12,Viewpoint1>
+        {
+        public:
+
+          V12(T12* t,Viewpoint1* v)
+          : TraitView<T12,Viewpoint1>(t,v)
+          {}
+
+          void onUpdate()
+          {
+            ++number_of_updates ;
+          }
+          static int number_of_updates ;
+        };
+
+        int V12::number_of_updates = 0 ;
+
+        RegisterView(V12,T12,Viewpoint1) ;
+
+        class T3 : public Trait
+        {};
+
+        class T123 : public DeducedTrait
+        {};
+
+        DeclareDeducedTrait(T123,And(Or(HasTrait(T1),HasTrait(T2)),HasTrait(T3))) ;
+
+        class V123 : public TraitView<T123,Viewpoint1>
+        {
+        public:
+
+          V123(T123* t,Viewpoint1* v)
+          : TraitView<T123,Viewpoint1>(t,v)
+          {}
+
+          void onUpdate()
+          {
+            ++number_of_updates ;
+          }
+          static int number_of_updates ;
+        };
+
+        int V123::number_of_updates = 0 ;
+
+        RegisterView(V123,T123,Viewpoint1) ;
+      }
+
+      void TestDeducedTrait::orStillTrueUpdatesObserver()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+        ViewPoint* viewpoint(new OrView::Viewpoint1(model.get())) ;
+        viewpoint->init() ;
+
+        Object* root = model->createObject() ;
+        root->addTrait(new OrView::T1()) ;
+
+        OrView::V12::number_of_updates = 0 ;
+
+        // tested method
+        root->addTrait(new OrView::T2()) ;
+
+        CPPUNIT_ASSERT_EQUAL(1,OrView::V12::number_of_updates) ;
+      }
+
+      void TestDeducedTrait::orStillTrueUpdatesObserverThroughAnd()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+        ViewPoint* viewpoint(new OrView::Viewpoint1(model.get())) ;
+        viewpoint->init() ;
+
+        Object* root = model->createObject() ;
+        root->addTrait(new OrView::T1()) ;
+        root->addTrait(new OrView::T3()) ;
+
+        OrView::V123::number_of_updates = 0 ;
+
+        // tested method
+        root->addTrait(new OrView::T2()) ;
+
+        CPPUNIT_ASSERT_EQUAL(1,OrView::V123::number_of_updates) ;
+      }
+
     }
   }
 }

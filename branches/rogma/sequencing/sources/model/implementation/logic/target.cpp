@@ -40,21 +40,21 @@ namespace ProjetUnivers {
     namespace Implementation {
       namespace Logic {
 
-        RegisterView(Target, 
-                     Implementation::Target, 
+        RegisterView(Target,
+                     Implementation::Target,
                      ShootingHelperViewPoint) ;
-        
+
         Target::Target(
             Implementation::Target* object,
             ShootingHelperViewPoint* viewpoint)
         : Kernel::TraitView<Implementation::Target,ShootingHelperViewPoint>(object,viewpoint)
         {}
-        
+
         void Target::onInit()
         {
           onUpdate() ;
         }
-        
+
         void Target::onClose()
         {
           if (m_ideal_target)
@@ -62,13 +62,13 @@ namespace ProjetUnivers {
             getObject()->getModel()->destroyObject(m_ideal_target) ;
           }
         }
-        
+
         void Target::onUpdate()
         {
           InternalMessage("Model","entering Logic::Target::onUpdate") ;
-          
+
           Kernel::Object* laser_object = getViewPoint()->getLaser() ;
-          Laser* laser = laser_object ? laser_object->getTrait<Laser>():NULL ; 
+          Laser* laser = laser_object ? laser_object->getTrait<Laser>():NULL ;
           float laser_speed = laser? laser->getLaserSpeedMeterPerSecond():0 ;
 
           if (laser_speed <= 0)
@@ -77,25 +77,25 @@ namespace ProjetUnivers {
             InternalMessage("Model","leaving Logic::Target::onUpdate") ;
             return ;
           }
-          
+
           // relative to computer
           Ogre::Vector3 position = getObject()->getTrait<Positionned>()->getPosition().Meter() ;
-          
+
           // relative to ship's physical world
           Ogre::Vector3 speed = getObject()->getTrait<Mobile>()->getSpeed().MeterPerSecond() ;
           Kernel::Object* world = laser_object->getParent<PhysicalObject>()->getPhysicalWorld() ;
           // now it is relative to laser object
           speed = getRelativeOrientation(laser_object,world).getQuaternion().Inverse()*speed ;
-          
-          InternalMessage("Model","calculateInterceptionTime(" + Ogre::StringConverter::toString(position) 
+
+          InternalMessage("Model","calculateInterceptionTime(" + Ogre::StringConverter::toString(position)
 		                          + "," + Ogre::StringConverter::toString(speed) + "," + Kernel::toString(laser_speed) +")") ;
 
-          std::pair<bool,float> reachable_time = 
+          std::pair<bool,float> reachable_time =
             Kernel::Algorithm::calculateInterceptionTime(position,speed,laser_speed) ;
-          
-          InternalMessage("Model",std::string("calculated interception time=") + (reachable_time.first?"true ":"false") 
+
+          InternalMessage("Model",std::string("calculated interception time=") + (reachable_time.first?"true ":"false")
                                   + "," + Kernel::toString(reachable_time.second)) ;
-		  
+
 
           if (! reachable_time.first)
           {
@@ -106,10 +106,10 @@ namespace ProjetUnivers {
           }
 
           const float time = reachable_time.second ;
-          
-          Ogre::Vector3 touch = position + speed*fabs(time) ; 
+
+          Ogre::Vector3 touch = position + speed*fabs(time) ;
           Position touch_position(Position::Meter(touch.x,touch.y,touch.z)) ;
-          
+
           Kernel::Model* model = getObject()->getModel() ;
           // if no ideal target create
           if (! m_ideal_target)
@@ -121,16 +121,16 @@ namespace ProjetUnivers {
           // update ideal target
           Positionned* positionned = m_ideal_target->getTrait<Positionned>() ;
           positionned->setPosition(touch_position) ;
-          
+
           // calculate shootable status
           InternalMessage("Model","calculating shootable status") ;
           bool shootable = true ;
-          
+
           // range
           float beam_duration_in_seconds = laser->getLaserBeamLifeDuration().Second() ;
           if (time > beam_duration_in_seconds)
             shootable = false ;
-          
+
           // direction
           if (shootable)
           {
@@ -141,19 +141,19 @@ namespace ProjetUnivers {
             Oriented* oriented = laser->getObject()->getParent<Oriented>() ;
             Orientation orientation_of_laser = oriented->getOrientation(object->getObject()) ;
 
-            const Position& position_of_the_beam = 
-              laser->getOutPosition()*orientation_of_laser + 
+            const Position& position_of_the_beam =
+              laser->getOutPosition()*orientation_of_laser +
               getRelativePosition(laser->getObject(),object->getObject()) ;
 
             Orientation orientation_of_the_beam =
               orientation_of_laser*laser->getOutOrientation() ;
-            
-            // the line of the beam 
+
+            // the line of the beam
             Ogre::Vector3 out_of_laser = position_of_the_beam.Meter() ;
-            Ogre::Vector3 forward_of_laser = 
-              out_of_laser + orientation_of_the_beam.getQuaternion().zAxis() ;
-            
-            // calculate nearest point of that line with target position 
+            Ogre::Vector3 forward_of_laser =
+              out_of_laser - orientation_of_the_beam.getQuaternion().zAxis() ;
+
+            // calculate nearest point of that line with target position
             Ogre::Vector3 A = position - out_of_laser ;
             Ogre::Vector3 u = (forward_of_laser-out_of_laser).normalisedCopy() ;
             Ogre::Vector3 nearest_point = out_of_laser + (A.dotProduct(u)) * u ;
@@ -165,7 +165,7 @@ namespace ProjetUnivers {
             InternalMessage("Model","nearest_point=" + Ogre::StringConverter::toString(nearest_point)) ;
             InternalMessage("Model","orientation_of_the_beam=" + Ogre::StringConverter::toString(orientation_of_the_beam.getQuaternion())) ;
             InternalMessage("Model","position=" + Ogre::StringConverter::toString(position)) ;
-            
+
             if (nearest_point.dotProduct(u) >= 0)
             {
               float target_size = getObject()->getTrait<Solid>()->getRadius().Meter() ;
@@ -179,7 +179,7 @@ namespace ProjetUnivers {
             {
               shootable = false ;
             }
-         
+
             InternalMessage("Model",shootable?"shootable=true":"shootable=false") ;
             Shootable* shootable_trait = getObject()->getTrait<Shootable>() ;
             if (shootable_trait && !shootable)
@@ -190,11 +190,11 @@ namespace ProjetUnivers {
             {
               getObject()->addTrait(new Shootable()) ;
             }
-            
+
           }
           InternalMessage("Model","leaving Logic::Target::onUpdate") ;
         }
-        
+
         void Target::removeIdealTarget()
         {
           // remove the helper object
@@ -203,7 +203,7 @@ namespace ProjetUnivers {
             getObject()->getModel()->destroyObject(m_ideal_target) ;
           }
         }
-        
+
       }
     }
   }

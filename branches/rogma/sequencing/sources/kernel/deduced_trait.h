@@ -43,6 +43,7 @@ namespace ProjetUnivers
     class Formula ;
     class HasParentFormula ;
     class HasAncestorFormula ;
+    class FormulaOr ;
 
     /// Function type that build a deduced trait.
     typedef boost::function0<DeducedTrait*> DeducedTraitBuilder ;
@@ -225,6 +226,7 @@ namespace ProjetUnivers
       friend class HasAncestorFormula ;
       friend class HasChildFormula ;
       friend class Trait ;
+      friend class FormulaOr ;
 
     };
 

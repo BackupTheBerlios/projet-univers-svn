@@ -23,38 +23,38 @@
 #include <model/guidance_system.h>
 #include <model/guidance_controler.h>
 
-namespace ProjetUnivers 
+namespace ProjetUnivers
 {
-  namespace Model 
+  namespace Model
   {
 
     RegisterTrait(GuidanceSystem) ;
-    
+
     GuidanceSystem::GuidanceSystem(const float& i_force)
     : m_control(),
       m_force(i_force)
     {}
- 
+
     Kernel::Trait* GuidanceSystem::read(Kernel::Reader* reader)
     {
       GuidanceSystem* result = new GuidanceSystem(0) ;
 
-      std::map<std::string,std::string>::const_iterator finder ; 
+      std::map<std::string,std::string>::const_iterator finder ;
 
       finder = reader->getAttributes().find("force") ;
       if (finder != reader->getAttributes().end())
       {
         result->m_force = atof(finder->second.c_str()) ;
       }
-      
+
       while (!reader->isEndNode() && reader->processNode())
       {
-        if (reader->isTraitNode() && 
+        if (reader->isTraitNode() &&
             reader->getTraitName() == "ObjectReference")
         {
           result->m_control = Kernel::ObjectReference::read(reader) ;
         }
-        else 
+        else
         {
           Trait::read(reader) ;
         }
@@ -63,7 +63,7 @@ namespace ProjetUnivers
 
       return result ;
     }
- 
+
     Ogre::Vector3 GuidanceSystem::NewtonMeter() const
     {
       if (m_control && m_control->getTrait<GuidanceControler>())
@@ -72,52 +72,52 @@ namespace ProjetUnivers
         if (physical_object)
         {
           Oriented* oriented = physical_object->getObject()->getTrait<Oriented>() ;
-          const Ogre::Quaternion& object_orientation 
+          const Ogre::Quaternion& object_orientation
             = oriented->getOrientation().getQuaternion() ;
           /*!
             Convert orientation to a torque....
-            
-            @todo : 
+
+            @todo :
             choose wiselly the correcpondance between pitch/Yaw/Roll and x/y/z
             and the +/-... seem done ?
-            
-            @todo 
+
+            @todo
               multiply result by a sensitivity factor
-            
-            @todo 
+
+            @todo
               this is a quite humanly understable calculus :
-              find an optimal one.... 
+              find an optimal one....
           */
-          const Ogre::Quaternion& quaternion 
+          const Ogre::Quaternion& quaternion
             = m_control->getTrait<GuidanceControler>()->getStickOrientation().getQuaternion() ;
-          
+
   //        std::cout << "pitch=" << quaternion.getPitch().valueRadians()
   //                  << ",Yaw=" << quaternion.getYaw().valueRadians()
-  //                  << ",Roll=" << quaternion.getRoll().valueRadians() 
+  //                  << ",Roll=" << quaternion.getRoll().valueRadians()
   //                  << std::endl ;
-                    
+
           Ogre::Vector3 torque(0,0,0) ;
-          
+
           /// up/down, relative to physical object parent
-          torque -= (object_orientation.xAxis())*quaternion.getPitch().valueRadians() ;
-          
+          torque += (object_orientation.xAxis())*quaternion.getPitch().valueRadians() ;
+
           /// left/rigth
-          torque += (object_orientation.yAxis())*quaternion.getYaw().valueRadians() ;        
-          
+          torque += (object_orientation.yAxis())*quaternion.getYaw().valueRadians() ;
+
           /// rotation
-          torque -= (object_orientation.zAxis())*quaternion.getRoll().valueRadians() ;
-  
-          return torque*m_force ;        
+          torque += (object_orientation.zAxis())*quaternion.getRoll().valueRadians() ;
+
+          return torque*m_force ;
 
         }
       }
 
       ErrorMessage("GuidanceSystem::NewtonMeter no controler") ;
-      
+
       // Default return value
       return Ogre::Vector3(0,0,0) ;
     }
-      
+
     void GuidanceSystem::setControler(Kernel::Object* controler)
     {
       m_control = controler ;

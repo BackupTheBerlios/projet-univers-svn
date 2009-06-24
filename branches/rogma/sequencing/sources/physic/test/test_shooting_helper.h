@@ -18,29 +18,26 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_PHYSIC_TEST_SHOOTING_HELPER_H_
-#define PU_PHYSIC_TEST_SHOOTING_HELPER_H_
+#pragma once
 
 #include <cppunit/extensions/HelperMacros.h>
 
+namespace ProjetUnivers
+{
+  namespace Physic
+  {
+    namespace Test
+    {
 
-namespace ProjetUnivers {
-  namespace Physic {
-    namespace Test {
-
-
-            
       /// Physic tests on a Model::ShootingHelper.
       class TestShootingHelper : public CppUnit::TestFixture {
       protected:
-      
-        
       /*!
         @name Test methods
       */
       // @{
 
-        /// A moving target : we shoot at the IdealTarget and hit it.        
+        /// A moving target : we shoot at the IdealTarget and hit it.
         void basicTest() ;
 
 
@@ -48,36 +45,30 @@ namespace ProjetUnivers {
       /*!
         @name Test registration
       */
-      // @{      
-    
+      // @{
+
         CPPUNIT_TEST_SUITE(TestShootingHelper) ;
-      
+
         CPPUNIT_TEST(basicTest) ;
-     
+
         CPPUNIT_TEST_SUITE_END() ;
 
       public:
-  
+
       // @}
       /*!
-        @name Mandatory methods
+        @name Init
       */
       // @{
 
-      
         void setUp() ;
-      
-        void tearDown() ;
-      
-      // @}      
-                
-       
-      
+
+      // @}
+
+
+
       };
 
     }
   }
 }
-
-
-#endif

@@ -248,7 +248,7 @@ namespace ProjetUnivers {
           delta_speed / (m_max_steering_speed*seconds_since_last_frame) ;
 
         /// @todo : inverse Y and throttle
-        return Ogre::Vector3(-int(X),int(Y),int(throttle)) ;
+        return Ogre::Vector3(int(X),int(Y),int(throttle)) ;
       }
 
       void Agent::calibrateSteering(const float& seconds_since_last_frame)

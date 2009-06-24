@@ -45,7 +45,7 @@ std::string getModelName()
   Demonstration program
 
 */
-int main() 
+int main()
 {
   /// init
   Kernel::Parameters::load("demonstration.config") ;
@@ -58,19 +58,19 @@ int main()
   Display::start(Display::ChooseRenderer) ;
   Input::start() ;
   GUI::start() ;
-  
-  
-  InformationMessage("Demonstration","Starting of projet univers" + 
-                                     Version + 
+
+
+  InformationMessage("Demonstration","Starting of projet univers" +
+                                     Version +
                                      " revision " + RevisionNumber) ;
-  
+
   std::auto_ptr<Kernel::Model> model(new Kernel::Model()) ;
   model->init() ;
   Model::load(getModelName(),model.get()) ;
 
-  
+
   Kernel::Timer timer ;
-  
+
   while (! model->getRoots().empty())
   {
     float seconds = timer.getSecond() ;
@@ -82,17 +82,17 @@ int main()
   }
 
   model->close() ;
-  
+
   ArtificialIntelligence::terminate() ;
   Sound::terminate() ;
   GUI::terminate() ;
   Input::terminate() ;
   Display::terminate() ;
   Physic::terminate() ;
-  
+
   /// out
   InformationMessage("Demonstration","Modules closed") ;
   Kernel::Log::close() ;
-  
+
   return 0 ;
 }

@@ -18,37 +18,80 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <kernel/deduced_trait.h>
-#include <model/mobile.h>
-#include <model/massive.h>
-#include <model/positionned.h>
-#include <model/oriented.h>
-#include <model/whole.h>
+#include <iostream>
+#include <projet_univers.h>
+#include <kernel/log.h>
+#include <kernel/model.h>
+#include <kernel/parameters.h>
+#include <kernel/timer.h>
 
-#include <model/physical_world.h>
+#include <artificial_intelligence/artificial_intelligence.h>
+#include <display/display.h>
+#include <input/input.h>
+#include <gui/gui.h>
+#include <model/model.h>
+#include <physic/physic.h>
+#include <sound/sound.h>
 
-#include <model/physical_object.h>
 
-namespace ProjetUnivers {
-  namespace Model {
+using namespace ProjetUnivers ;
 
-    DeclareDeducedTrait(PhysicalObject,
-                        And(HasTrait(Mobile),
-                            HasTrait(Positionned),
-                            HasTrait(Oriented),
-                            HasTrait(Massive),
-                            HasTrait(Whole),
-                            HasAncestor(PhysicalWorld))) ;
+std::string getModelName()
+{
+  return "TestPilot" ;
+}
 
-    Kernel::Object* PhysicalObject::getPhysicalWorld() const
+/*
+  Main game program
+*/
+int main()
+{
+  /// init
+  Kernel::Parameters::load("demonstration.config") ;
+  Kernel::Log::init() ;
+
+  Model::start() ;
+  Physic::start() ;
+  Sound::start() ;
+  ArtificialIntelligence::start() ;
+  Display::start(Display::ChooseRenderer) ;
+  Input::start() ;
+  GUI::start() ;
+
+
+  InformationMessage("Demonstration","Starting of projet univers" +
+                                     Version +
+                                     " revision " + RevisionNumber) ;
+
+  std::auto_ptr<Kernel::Model> model(new Kernel::Model()) ;
+  model->init() ;
+  Model::load(getModelName(),model.get()) ;
+
+
+  Kernel::Timer timer ;
+
+  while (! model->getRoots().empty())
+  {
+    float seconds = timer.getSecond() ;
+    if (seconds > 0)
     {
-      Model::PhysicalWorld* world = getObject()->getAncestor<PhysicalWorld>() ;
-      if (world)
-      {
-        return world->getObject() ;
-      }
-      return NULL ;
+      timer.reset() ;
+      model->update(seconds) ;
     }
-
   }
+
+  model->close() ;
+
+  ArtificialIntelligence::terminate() ;
+  Sound::terminate() ;
+  GUI::terminate() ;
+  Input::terminate() ;
+  Display::terminate() ;
+  Physic::terminate() ;
+
+  /// out
+  InformationMessage("Demonstration","Modules closed") ;
+  Kernel::Log::close() ;
+
+  return 0 ;
 }

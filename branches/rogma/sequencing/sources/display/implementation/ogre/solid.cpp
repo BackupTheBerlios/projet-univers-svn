@@ -48,7 +48,6 @@ namespace ProjetUnivers {
           InternalMessage("Display","Entering Solid::onInit") ;
 
           Positionned* positionned(getView<Positionned>()) ;
-          positionned->_init() ;
 
           // build 3D object
           m_mesh = this->getViewPoint()->getManager()

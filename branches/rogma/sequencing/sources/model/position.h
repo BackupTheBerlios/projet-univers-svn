@@ -18,8 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_POSITION_H_
-#define PU_MODEL_POSITION_H_
+#pragma once
 
 #include <OgreVector3.h>
 
@@ -28,8 +27,10 @@
 #include <model/distance.h>
 #include <model/orientation.h>
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
 
     /// A position in a three dimention world.
     /*!
@@ -38,14 +39,13 @@ namespace ProjetUnivers {
       Position are held in a right handed coordinate system :
       - x axe : positive to rigth
       - y axe : positive to up
-      - z axe : negative to front
-
+      - z axe : negative to forward
+      @see http://www.evl.uic.edu/ralph/508S98/coordinates.html
       @see Positionned
     */
     class Position
     {
     public:
-
     /*!
       @name Construction
     */
@@ -55,19 +55,19 @@ namespace ProjetUnivers {
       Position() ;
 
       /// Build position in meter.
-      static Position Meter(float i_x,
-                            float i_y,
-                            float i_z) ;
+      static Position Meter(const float& x,
+                            const float& y,
+                            const float& z) ;
 
 
       /// Copy constructor.
       Position(const Position&) ;
 
       /// Addition.
-      Position operator+(const Position& i_position) const ;
+      Position operator+(const Position& position) const ;
 
       /// Substraction.
-      Position operator-(const Position& i_position) const ;
+      Position operator-(const Position& position) const ;
 
       /// Change a relative position when reorienting.
       Position operator*(const Orientation& orientation) const ;
@@ -117,13 +117,12 @@ namespace ProjetUnivers {
       Distance::Unit  m_unit ;
 
       /// Internal constructor.
-      Position(Distance::Unit i_unit,
-               float          i_x,
-               float          i_y,
-               float          i_z) ;
+      Position(Distance::Unit unit,
+               const float&   x,
+               const float&   y,
+               const float&   z) ;
 
 
     };
   }
 }
-#endif

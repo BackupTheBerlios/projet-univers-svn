@@ -68,7 +68,7 @@ $(OGRE_LIBS)
 
 test_behaviour_display_SOURCES = ../test/test_behaviour_display.cpp
 test_behaviour_display_CXXFLAGS = $(PU_CXXFLAGS) $(CLAN_CXXFLAGS)
-test_behaviour_display_LDFLAGS = $(CLAN_LIBS) -lclanDisplay -lclanTTF
+test_behaviour_display_LDFLAGS = $(CLAN_LIBS) -lclanDisplay -lclanCore -lclanApp -lclanGL
 test_behaviour_display_LDADD = \
 libai.la \
 $(SOURCES)/kernel/compilation/libkernel.la \
