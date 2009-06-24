@@ -27,6 +27,7 @@
 
 #include <kernel/implementation/interpretor.h>
 #include <kernel/object.h>
+#include <kernel/relation.h>
 #include <kernel/statistics.h>
 
 namespace ProjetUnivers
@@ -36,6 +37,7 @@ namespace ProjetUnivers
     namespace Implementation
     {
       class Operation ;
+      template <class Relation> class GetLink ;
     }
 
     class Observer ;
@@ -206,7 +208,27 @@ namespace ProjetUnivers
       void changeParentObserver(Observer*,Object*) ;
 
     // @}
+    /*!
+      @name Relation handling
+    */
+    // @{
 
+      /// All the links
+      std::set<Relation> m_relations ;
+
+      void addRelation(const Relation&) ;
+      void removeRelation(const Relation&) ;
+
+      /// The objects related to an object though a particular relation type.
+      std::set<Object*> getRelations(const TypeIdentifier&,Object*) const ;
+
+      /// The objects related to an object though a particular relation type.
+      std::set<Object*> getInverseRelations(const TypeIdentifier&,Object*) const ;
+
+      /// Remove all relation involving the object.
+      void removeRelations(Object*) ;
+
+    // @}
       int m_next_identifier ;
 
       friend class ViewPoint ;
@@ -215,7 +237,11 @@ namespace ProjetUnivers
       friend class ControlerSet ;
       friend class Reader ;
       friend class Observer ;
+      friend class Relation ;
       friend class ::ProjetUnivers::Kernel::Implementation::Interpretor ;
+      template <class Relation> friend class Link ;
+      template <class Relation> friend class UnLink ;
+      template <class Relation> friend class ::ProjetUnivers::Kernel::Implementation::GetLink ;
 
       template <class _View>
       friend void forAll(ViewPoint*                    viewpoint,

@@ -772,13 +772,14 @@ namespace ProjetUnivers
         ship2->getTrait<Model::Mobile>()->setSpeed(Model::Speed()) ;
         ship1->getTrait<Model::Positionned>()->setPosition(Model::Position::Meter(0,1000,0)) ;
         ship1->getTrait<Model::Mobile>()->setSpeed(Model::Speed()) ;
-        model->update(0.1) ;
+        model->update(0.01) ;
 
-        agent_controler->applyObjective(Model::Objective::attackAllEnemies(),agent1,0.1) ;
+        agent_controler->applyObjective(Model::Objective::attackAllEnemies(),agent1,0.01) ;
 
         desired_speed = agent_controler->m_steering + agent_controler->m_vehicle->getSpeed() ;
         desired_speed.normalise() ;
 
+        std::cout << desired_speed ;
         CPPUNIT_ASSERT(desired_speed.positionEquals(Ogre::Vector3::NEGATIVE_UNIT_Y,0.1)) ;
         CPPUNIT_ASSERT(agent_controler->calculateSteeringCommands(0.1).y > 0) ;
       }

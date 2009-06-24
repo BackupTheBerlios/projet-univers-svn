@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -20,14 +20,46 @@
  ***************************************************************************/
 #pragma once
 
-#include <string>
-#include <sstream>
+#include <cppunit/extensions/HelperMacros.h>
+
 namespace ProjetUnivers
 {
   namespace Kernel
   {
+    namespace Test
+    {
 
-    /// Convert numeric to string.
-    std::string toString(const float& _i) ;
+      /// Tests for Relation class.
+      class TestRelation : public CppUnit::TestFixture
+      {
+      protected:
+      /// @name Tests methods
+      // @{
+
+        void add() ;
+        void severalLinked() ;
+        void remove() ;
+        void addTwiceGetOnlyOne() ;
+        void removeUnexistingIsCorrect() ;
+        void destroyingCalledObjectRemoveLink() ;
+        void getInverseRelation() ;
+        void addInverseRelation() ;
+
+      // @}
+
+        CPPUNIT_TEST_SUITE(TestRelation) ;
+
+        CPPUNIT_TEST(add) ;
+        CPPUNIT_TEST(remove) ;
+        CPPUNIT_TEST(severalLinked) ;
+        CPPUNIT_TEST(addTwiceGetOnlyOne) ;
+        CPPUNIT_TEST(removeUnexistingIsCorrect) ;
+        CPPUNIT_TEST(destroyingCalledObjectRemoveLink) ;
+        CPPUNIT_TEST(getInverseRelation) ;
+        CPPUNIT_TEST(addInverseRelation) ;
+
+        CPPUNIT_TEST_SUITE_END() ;
+      };
+    }
   }
 }

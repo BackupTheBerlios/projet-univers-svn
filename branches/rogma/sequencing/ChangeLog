@@ -1266,6 +1266,10 @@
   * All :
     - correct the coordinate system
     - added current directory for tests media
+
+2009-06-24 rogma
+  * Kernel :
+    - added relation between objects
     
 in commit
 --------
@@ -1277,6 +1281,7 @@ in progress
       
 todo
 ----
+    
 
   * Kernel :
     - we should use onChangedParent() for formulae on parent instead of 

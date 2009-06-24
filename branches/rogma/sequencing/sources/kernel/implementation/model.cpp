@@ -116,6 +116,8 @@ namespace ProjetUnivers
       object->_close() ;
       addObjectToDestroy(object) ;
 
+      removeRelations(object) ;
+
       endTransaction() ;
     }
 
@@ -481,7 +483,60 @@ namespace ProjetUnivers
 
     void Model::changeParentObserver(Observer*,Object*)
     {
+      /// @todo
+    }
 
+    void Model::addRelation(const Relation& relation)
+    {
+      m_relations.insert(relation) ;
+    }
+
+    void Model::removeRelation(const Relation& relation)
+    {
+      m_relations.erase(relation) ;
+    }
+
+    std::set<Object*> Model::getRelations(const TypeIdentifier& type,Object* object) const
+    {
+      std::set<Object*> result ;
+      /*
+        @todo we could use the < on relation by finding all the elements between Relation(type,object,-1) and Relation(type,object,+inf)
+      */
+      for(std::set<Relation>::const_iterator relation = m_relations.begin() ; relation != m_relations.end() ; ++relation)
+      {
+        if (relation->getType() == type && relation->getObject1() == object)
+          result.insert(relation->getObject2()) ;
+      }
+
+      return result ;
+    }
+
+    std::set<Object*> Model::getInverseRelations(const TypeIdentifier& type,Object* object) const
+    {
+      std::set<Object*> result ;
+      for(std::set<Relation>::const_iterator relation = m_relations.begin() ; relation != m_relations.end() ; ++relation)
+      {
+        if (relation->getType() == type && relation->getObject2() == object)
+          result.insert(relation->getObject1()) ;
+      }
+
+      return result ;
+    }
+
+    void Model::removeRelations(Object* object)
+    {
+      std::list<Relation> to_remove ;
+
+      for(std::set<Relation>::const_iterator relation = m_relations.begin() ; relation != m_relations.end() ; ++relation)
+      {
+        if (relation->getObject1() == object || relation->getObject2() == object)
+          to_remove.push_back(*relation) ;
+      }
+
+      for(std::list<Relation>::const_iterator relation = to_remove.begin() ; relation != to_remove.end() ; ++relation)
+      {
+        removeRelation(*relation) ;
+      }
     }
 
   }

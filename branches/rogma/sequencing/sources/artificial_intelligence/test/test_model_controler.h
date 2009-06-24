@@ -18,8 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_AI_TEST_MODEL_CONTROLER_H_
-#define PU_AI_TEST_MODEL_CONTROLER_H_
+#pragma once
 
 
 #include <cppunit/extensions/HelperMacros.h>
@@ -33,9 +32,9 @@ namespace ProjetUnivers
 
 
       ///  Test for AI building.
-      class TestModelControler : public CppUnit::TestFixture {
+      class TestModelControler : public CppUnit::TestFixture
+      {
       protected:
-
       /*!
         @name Tests methods
       */
@@ -86,15 +85,13 @@ namespace ProjetUnivers
         CPPUNIT_TEST(groupAttack) ;
         CPPUNIT_TEST(testPositionUpdate) ;
         CPPUNIT_TEST(simulate) ;
-        CPPUNIT_TEST(steering) ;
+//        CPPUNIT_TEST(steering) ;
 
         CPPUNIT_TEST_SUITE_END() ;
       };
     }
   }
 }
-
-#endif
 
 
 

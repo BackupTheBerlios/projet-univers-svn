@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,16 +18,52 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#pragma once
-
-#include <string>
-#include <sstream>
+#include <kernel/relation.h>
 namespace ProjetUnivers
 {
   namespace Kernel
   {
+    Relation::Relation(const TypeIdentifier& type,Object* object1,Object* object2)
+    : m_object1(object1),
+      m_object2(object2),
+      m_type(type)
+    {}
 
-    /// Convert numeric to string.
-    std::string toString(const float& _i) ;
+    Relation::~Relation()
+    {}
+
+    Relation::Relation(const Relation& relation)
+    : m_object1(relation.m_object1),
+      m_object2(relation.m_object2),
+      m_type(relation.m_type)
+    {}
+
+    bool Relation::operator ==(const Relation& relation) const
+    {
+      return m_object1 == relation.m_object1 && m_object2 == relation.m_object2 && m_type == relation.m_type ;
+    }
+
+    bool Relation::operator <(const Relation& relation) const
+    {
+      return m_type < relation.m_type ||
+             (m_type == relation.m_type && m_object1 < relation.m_object1) ||
+             (m_type == relation.m_type && m_object1 == relation.m_object1 && m_object2 < relation.m_object2) ;
+    }
+
+    const TypeIdentifier& Relation::getType() const
+    {
+      return m_type ;
+    }
+
+    Object* Relation::getObject1() const
+    {
+      return m_object1 ;
+    }
+
+    Object* Relation::getObject2() const
+    {
+      return m_object2 ;
+    }
+
   }
 }
