@@ -32,6 +32,7 @@
 
 #include <kernel/helper_macros.h>
 #include <kernel/meta.h>
+#include <kernel/relation.h>
 
 #include <kernel/trait.h>
 
@@ -115,6 +116,22 @@ namespace ProjetUnivers
     #define HasChild(trait) \
       Kernel::TemplateHasChild<trait>
 
+    /// True iff object is related to a @c formula object through @c relation.
+    /*!
+      This formula is true for object o iff :
+      exist x, relation(o,x) and formula(x)
+    */
+    #define IsRelated(relation,formula) \
+      Kernel::TemplateIsRelated<relation,formula>
+
+    /// True iff object is only related to @c formula objects through @c relation.
+    /*!
+      This formula is true for object o iff :
+      for all x, relation(o,x) => formula(x)
+    */
+    #define IsOnlyRelated(relation,formula) \
+      Kernel::TemplateIsOnlyRelated<relation,formula>
+
     /// Abstract class for traits that are deduced.
     /*!
       Each object :
@@ -158,6 +175,12 @@ namespace ProjetUnivers
 
       /// Called when @c object changed parent.
       static void changeParent(Object* object,Object* old_parent) ;
+
+      /// Called when @c relation has been added
+      static void addRelation(const Relation& relation) ;
+
+      /// Called when @c relation has been removed
+      static void removeRelation(const Relation& relation) ;
 
       /// Calculate initial value.
       static void evaluateInitial(Object* object) ;

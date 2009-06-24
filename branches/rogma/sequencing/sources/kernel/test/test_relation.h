@@ -45,6 +45,10 @@ namespace ProjetUnivers
         void getInverseRelation() ;
         void addInverseRelation() ;
 
+        void isRelatedFormulaChangeStateWhenModifyingRelatedObject() ;
+        void isRelatedFormulaChangeStateWhenChangingRelation() ;
+        void isRelatedFormulaComplexSample() ;
+
       // @}
 
         CPPUNIT_TEST_SUITE(TestRelation) ;
@@ -57,6 +61,9 @@ namespace ProjetUnivers
         CPPUNIT_TEST(destroyingCalledObjectRemoveLink) ;
         CPPUNIT_TEST(getInverseRelation) ;
         CPPUNIT_TEST(addInverseRelation) ;
+        CPPUNIT_TEST(isRelatedFormulaChangeStateWhenModifyingRelatedObject) ;
+        CPPUNIT_TEST(isRelatedFormulaChangeStateWhenChangingRelation) ;
+        CPPUNIT_TEST(isRelatedFormulaComplexSample) ;
 
         CPPUNIT_TEST_SUITE_END() ;
       };

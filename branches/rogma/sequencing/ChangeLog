@@ -1268,8 +1268,14 @@
     - added current directory for tests media
 
 2009-06-24 rogma
+
   * Kernel :
     - added relation between objects
+
+2009-06-25 rogma
+
+  * Kernel :
+    - deduction on relation between objects
     
 in commit
 --------

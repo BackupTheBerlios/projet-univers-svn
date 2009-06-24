@@ -20,6 +20,8 @@
  ***************************************************************************/
 #include <kernel/relation.h>
 #include <kernel/model.h>
+#include <kernel/deduced_trait.h>
+#include <kernel/log.h>
 
 #include <kernel/test/test_relation.h>
 
@@ -143,9 +145,78 @@ namespace ProjetUnivers
         std::set<Object*> related(Relation::getLinked<Selection>(o2)) ;
         CPPUNIT_ASSERT(related.find(o1) != related.end()) ;
         CPPUNIT_ASSERT(related.size() == 1) ;
-
       }
 
+      namespace
+      {
+        class T1 : public Trait
+        {};
+
+        class DT1 : public DeducedTrait
+        {};
+
+        DeclareDeducedTrait(DT1,
+                            IsRelated(Selection,HasTrait(T1))) ;
+      }
+
+      void TestRelation::isRelatedFormulaChangeStateWhenModifyingRelatedObject()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+        Object* o1 = model->createObject() ;
+        Object* o2 = model->createObject() ;
+
+        Link<Selection>(o1,o2) ;
+
+        o2->addTrait(new T1()) ;
+
+        CPPUNIT_ASSERT(o1->getTrait<DT1>()) ;
+
+        o2->destroyTrait(o2->getTrait<T1>()) ;
+
+        CPPUNIT_ASSERT(!o1->getTrait<DT1>()) ;
+      }
+
+      void TestRelation::isRelatedFormulaChangeStateWhenChangingRelation()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+        Object* o1 = model->createObject() ;
+        Object* o2 = model->createObject() ;
+        Object* o3 = model->createObject() ;
+        o3->addTrait(new T1()) ;
+        Link<Selection>(o1,o2) ;
+
+        CPPUNIT_ASSERT(!o1->getTrait<DT1>()) ;
+
+        Link<Selection>(o1,o3) ;
+
+        CPPUNIT_ASSERT(o1->getTrait<DT1>()) ;
+
+        UnLink<Selection>(o1,o3) ;
+
+        CPPUNIT_ASSERT(!o1->getTrait<DT1>()) ;
+      }
+
+      void TestRelation::isRelatedFormulaComplexSample()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+        Object* o1 = model->createObject() ;
+        Object* o2 = model->createObject() ;
+        Object* o3 = model->createObject() ;
+        o3->addTrait(new T1()) ;
+        Link<Selection>(o1,o2) ;
+
+        CPPUNIT_ASSERT(!o1->getTrait<DT1>()) ;
+
+        Link<Selection>(o1,o3) ;
+
+        CPPUNIT_ASSERT(o1->getTrait<DT1>()) ;
+
+        o2->addTrait(new T1()) ;
+        UnLink<Selection>(o1,o3) ;
+
+        // keep it
+        CPPUNIT_ASSERT(o1->getTrait<DT1>()) ;
+      }
 
     }
   }

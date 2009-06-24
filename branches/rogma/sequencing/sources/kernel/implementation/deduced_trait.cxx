@@ -76,15 +76,15 @@ namespace ProjetUnivers
       /// Access to the traits that trigger update for this formula.
       /*!
         These are all the traits instance whose presence makes the formula true.
-        
-        Calculated by browsing the formula down. 
+
+        Calculated by browsing the formula down.
       */
       virtual std::set<Trait*> getUpdaterTraits(Object* object) const = 0 ;
 
       /// Gives the @c objects' traits directly depending on formula.
       /*!
-        These are the traits instances that should be updated when the formula 
-        is updated. 
+        These are the traits instances that should be updated when the formula
+        is updated.
 
         Calculated by browsing the formula up.
       */
@@ -127,10 +127,10 @@ namespace ProjetUnivers
       virtual void eval(Object* object) = 0 ;
 
       /// Declare that a child formula has became true.
-      void addChildFormulaTrue(Object* object) ;
+      virtual void addChildFormulaTrue(Object* object) ;
 
       /// Declare that a child formula has became false.
-      void addChildFormulaFalse(Object* object) ;
+      virtual void addChildFormulaFalse(Object* object) ;
 
       /// Callback on child changing state.
       virtual void onAddChildFormulaTrue(Object* object) = 0 ;
@@ -165,7 +165,7 @@ namespace ProjetUnivers
       /// Notify propagation
       /*!
         @pre the formula is true for object
-        
+
       */
       void update(Object* object) ;
 
@@ -364,7 +364,7 @@ namespace ProjetUnivers
     };
 
     /// Negation of its child formula.
-    /*
+    /*!
       Should only have one child.
     */
     class FormulaNot : public Formula
@@ -435,13 +435,13 @@ namespace ProjetUnivers
       */
       static HasAncestorFormula* build(const TypeIdentifier& trait_name) ;
 
-      // Notify that @c object has gained @c trait.
+      /// Notify that @c object has gained @c trait.
       static void addTrait(Object* object,Trait* trait) ;
 
-      // Notify that @c object has lost @c trai.
+      /// Notify that @c object has lost @c trai.
       static void removeTrait(Object* object,Trait* trait) ;
 
-      // Notify that @c trait has been updated for @c object.
+      /// Notify that @c trait has been updated for @c object.
       static void updateTrait(Object* object,Trait* trait) ;
 
       /// Notify that @c object has changed parent.
@@ -523,13 +523,13 @@ namespace ProjetUnivers
       */
       static HasParentFormula* build(const TypeIdentifier& trait_name) ;
 
-      // Notify that @c object has gained @c trait.
+      /// Notify that @c object has gained @c trait.
       static void addTrait(Object* object,Trait* trait) ;
 
-      // Notify that @c object has lost @c trai.
+      /// Notify that @c object has lost @c trai.
       static void removeTrait(Object* object,Trait* trait) ;
 
-      // Notify that @c trait has been updated for @c object.
+      /// Notify that @c trait has been updated for @c object.
       static void updateTrait(Object* object,Trait* trait) ;
 
       /// Notify that @c object has changed parent.
@@ -549,7 +549,7 @@ namespace ProjetUnivers
         @return NULL if not found.
       */
       static HasParentFormula* get(const TypeIdentifier& trait_name) ;
-      
+
     protected:
 
       /// Initial value.
@@ -616,13 +616,13 @@ namespace ProjetUnivers
       */
       static HasChildFormula* build(const TypeIdentifier& trait_name) ;
 
-      // Notify that @c object has gained @c trait.
+      /// Notify that @c object has gained @c trait.
       static void addTrait(Object* object,Trait* trait) ;
 
-      // Notify that @c object has lost @c trait.
+      /// Notify that @c object has lost @c trait.
       static void removeTrait(Object* object,Trait* trait) ;
 
-      // Notify that @c trait has been updated for @c object.
+      /// Notify that @c trait has been updated for @c object.
       static void updateTrait(Object* object,Trait* trait) ;
 
       /// Notify that @c object has changed parent.
@@ -698,6 +698,99 @@ namespace ProjetUnivers
         {}
       };
     };
+
+    /// Common part for formula on relations
+    class RelationFormula : public Formula
+    {
+    public:
+
+      /// Called when a relation has been added.
+      static void onAddRelation(const Relation&) ;
+
+      /// Called when a relation has been removed.
+      static void onRemoveRelation(const Relation&) ;
+
+    protected:
+
+      RelationFormula(const TypeIdentifier& relation) ;
+
+      /// Access to the traits that trigger update for this formula.
+      virtual std::set<Trait*> getUpdaterTraits(Object* object) const ;
+
+      /// Declare that a child formula has became true.
+      virtual void addChildFormulaTrue(Object* object) ;
+
+      /// Declare that a child formula has became false.
+      virtual void addChildFormulaFalse(Object* object) ;
+
+      TypeIdentifier m_relation ;
+
+      class StaticStorage
+      {
+      public:
+
+        /// Access to singleton.
+        static StaticStorage* get() ;
+
+        /// All the formulaes sorted by relation type.
+        std::map<TypeIdentifier,std::set<RelationFormula*> > m_formulae ;
+
+      private:
+
+        StaticStorage()
+        {}
+      };
+
+    };
+
+    /// True iff child-formula is true on a related object.
+    class IsRelatedFormula : public RelationFormula
+    {
+    public:
+
+      /// Constructor
+      IsRelatedFormula(const TypeIdentifier& relation) ;
+
+      /// Print the formula.
+      virtual std::string internalPrint() const ;
+
+    protected:
+
+      /// Initial value.
+      virtual void eval(Object* object) ;
+
+      /// Continuous evaluation
+      virtual void onAddChildFormulaTrue(Object* object) ;
+      virtual void onAddChildFormulaFalse(Object* object) ;
+      virtual void onChildFormulaUpdated(Object* object) ;
+
+    private:
+
+    };
+
+    /// True iff child-formula is true on all related object.
+    class IsOnlyRelatedFormula : public RelationFormula
+    {
+    public:
+
+      /// Constructor
+      IsOnlyRelatedFormula(const TypeIdentifier& relation) ;
+
+      /// Print the formula.
+      virtual std::string internalPrint() const ;
+
+    protected:
+
+      /// Initial value.
+      virtual void eval(Object* object) ;
+
+      /// Continuous evaluation
+      virtual void onAddChildFormulaTrue(Object* object) ;
+      virtual void onAddChildFormulaFalse(Object* object) ;
+      virtual void onChildFormulaUpdated(Object* object) ;
+    };
+
+
 
   // @}
   /*!
@@ -958,5 +1051,34 @@ namespace ProjetUnivers
         return result ;
       }
     };
+
+    /// IsRelated static declaration
+    template <class _Relation,class _Formula>
+    class TemplateIsRelated
+    {
+    public:
+
+      static Formula* build()
+      {
+        Formula* result = new IsRelatedFormula(getClassTypeIdentifier(_Relation)) ;
+        result->addChild(_Formula::build()) ;
+        return result ;
+      }
+    };
+
+    /// IsOnlyRelated static declaration
+    template <class _Relation,class _Formula>
+    class TemplateIsOnlyRelated
+    {
+    public:
+
+      static Formula* build()
+      {
+        Formula* result = new IsOnlyRelatedFormula(getClassTypeIdentifier(_Relation)) ;
+        result->addChild(_Formula::build()) ;
+        return result ;
+      }
+    };
+
   }
 }

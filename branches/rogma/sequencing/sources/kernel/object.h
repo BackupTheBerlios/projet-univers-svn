@@ -64,6 +64,9 @@ namespace ProjetUnivers
     class Writer ;
     class BaseTraitView ;
     class BaseControler ;
+    class IsRelatedFormula ;
+    class IsOnlyRelatedFormula ;
+    class RelationFormula ;
 
     /// A model object.
     /*!
@@ -437,6 +440,9 @@ namespace ProjetUnivers
       friend class ::ProjetUnivers::Kernel::Implementation::Interpretor ;
       friend class BaseTraitView ;
       friend class BaseControler ;
+      friend class IsRelatedFormula ;
+      friend class IsOnlyRelatedFormula ;
+      friend class RelationFormula ;
     };
   }
 }

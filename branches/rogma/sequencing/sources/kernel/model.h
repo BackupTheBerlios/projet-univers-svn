@@ -47,6 +47,9 @@ namespace ProjetUnivers
     class ObjectReference ;
     class BaseTraitView ;
     class Reader ;
+    class RelationFormula ;
+    class IsRelatedFormula ;
+    class IsOnlyRelatedFormula ;
 
     /// A set of Objects.
     class Model : public Implementation::Interpretor
@@ -242,6 +245,9 @@ namespace ProjetUnivers
       template <class Relation> friend class Link ;
       template <class Relation> friend class UnLink ;
       template <class Relation> friend class ::ProjetUnivers::Kernel::Implementation::GetLink ;
+      friend class IsRelatedFormula ;
+      friend class IsOnlyRelatedFormula ;
+      friend class RelationFormula ;
 
       template <class _View>
       friend void forAll(ViewPoint*                    viewpoint,

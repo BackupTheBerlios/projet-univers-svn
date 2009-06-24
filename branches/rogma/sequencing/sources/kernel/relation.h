@@ -44,9 +44,12 @@ namespace ProjetUnivers
     {
     public:
 
-      /// Returns the linked objects of @c object through _Relation.
+      /// Returns the linked objects of @c object through @c _Relation.
       template <class _Relation>
       static std::set<Object*> getLinked(Object* object) ;
+
+      /// Returns the linked objects of @c object through @c relation.
+      static std::set<Object*> _getLinked(const TypeIdentifier& relation,Object* object) ;
 
       /// Acess to relation type.
       const TypeIdentifier& getType() const ;

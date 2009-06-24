@@ -188,6 +188,8 @@ namespace ProjetUnivers
     {
       m_destroying = true ;
 
+      m_relations.clear() ;
+
       for(std::set<ObjectReference*>::iterator reference = m_references.begin() ;
           reference != m_references.end() ;
           ++reference)
@@ -488,12 +490,18 @@ namespace ProjetUnivers
 
     void Model::addRelation(const Relation& relation)
     {
+      startTransaction() ;
       m_relations.insert(relation) ;
+      DeducedTrait::addRelation(relation) ;
+      endTransaction() ;
     }
 
     void Model::removeRelation(const Relation& relation)
     {
+      startTransaction() ;
       m_relations.erase(relation) ;
+      DeducedTrait::removeRelation(relation) ;
+      endTransaction() ;
     }
 
     std::set<Object*> Model::getRelations(const TypeIdentifier& type,Object* object) const

@@ -65,5 +65,11 @@ namespace ProjetUnivers
       return m_object2 ;
     }
 
+    std::set<Object*> Relation::_getLinked(const TypeIdentifier& relation,Object* object)
+    {
+      return object->getModel()->getRelations(relation,object) ;
+    }
+
+
   }
 }
