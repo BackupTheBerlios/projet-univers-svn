@@ -28,6 +28,8 @@ namespace ProjetUnivers
     {
       Relation relation(getClassTypeIdentifier(_Relation),object1,object2) ;
       object1->getModel()->addRelation(relation) ;
+      if (object1->getModel() != object2->getModel())
+        object2->getModel()->addRelation(relation) ;
     }
 
     template <class _Relation> class Link< Inverse<_Relation> >
@@ -37,6 +39,8 @@ namespace ProjetUnivers
       {
         Relation relation(getClassTypeIdentifier(_Relation),object2,object1) ;
         object1->getModel()->addRelation(relation) ;
+        if (object1->getModel() != object2->getModel())
+          object2->getModel()->addRelation(relation) ;
       }
     };
 
@@ -45,6 +49,8 @@ namespace ProjetUnivers
     {
       Relation relation(getClassTypeIdentifier(_Relation),object1,object2) ;
       object1->getModel()->removeRelation(relation) ;
+      if (object1->getModel() != object2->getModel())
+        object2->getModel()->removeRelation(relation) ;
     }
 
     template <class _Relation> class UnLink< Inverse<_Relation> >
@@ -54,6 +60,8 @@ namespace ProjetUnivers
       {
         Relation relation(getClassTypeIdentifier(_Relation),object2,object1) ;
         object1->getModel()->removeRelation(relation) ;
+        if (object1->getModel() != object2->getModel())
+          object2->getModel()->removeRelation(relation) ;
       }
     };
 
@@ -64,10 +72,20 @@ namespace ProjetUnivers
       {
       public:
 
+        /// Implementation of getLinked
         static std::set<Object*> get(Object* object)
         {
           return object->getModel()->getRelations(getClassTypeIdentifier(Relation),object) ;
         }
+
+        /// Implementation of areLinked
+        static bool areLinked(Object* object1,Object* object2)
+        {
+          std::set<Object*> linked(get(object1)) ;
+          return linked.find(object2) != linked.end() ;
+        }
+
+
       };
 
       /// Specialisation for inverse relation
@@ -75,10 +93,19 @@ namespace ProjetUnivers
       {
       public:
 
+        /// Implementation of getLinked
         static std::set<Object*> get(Object* object)
         {
           return object->getModel()->getInverseRelations(getClassTypeIdentifier(Relation),object) ;
         }
+
+        /// Implementation of areLinked
+        static bool areLinked(Object* object1,Object* object2)
+        {
+          std::set<Object*> linked(get(object1)) ;
+          return linked.find(object2) != linked.end() ;
+        }
+
       };
     }
 
@@ -86,6 +113,12 @@ namespace ProjetUnivers
     std::set<Object*> Relation::getLinked(Object* object)
     {
       return Implementation::GetLink<_Relation>::get(object) ;
+    }
+
+    template <class _Relation>
+    bool Relation::areLinked(Object* object1,Object* object2)
+    {
+      return Implementation::GetLink<_Relation>::areLinked(object1,object2) ;
     }
 
     template <class T> T* Model::getControlerSet() const

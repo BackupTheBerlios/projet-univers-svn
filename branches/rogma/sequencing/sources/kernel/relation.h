@@ -48,8 +48,9 @@ namespace ProjetUnivers
       template <class _Relation>
       static std::set<Object*> getLinked(Object* object) ;
 
-      /// Returns the linked objects of @c object through @c relation.
-      static std::set<Object*> _getLinked(const TypeIdentifier& relation,Object* object) ;
+      /// True iff @c object1 @c _Relation @c object2.
+      template <class _Relation>
+      static bool areLinked(Object* object1,Object* object2) ;
 
       /// Acess to relation type.
       const TypeIdentifier& getType() const ;
@@ -61,6 +62,9 @@ namespace ProjetUnivers
       virtual ~Relation() ;
       bool operator ==(const Relation&) const ;
       bool operator <(const Relation&) const ;
+
+      /// Returns the linked objects of @c object through @c relation.
+      static std::set<Object*> _getLinked(const TypeIdentifier& relation,Object* object) ;
 
     protected:
 

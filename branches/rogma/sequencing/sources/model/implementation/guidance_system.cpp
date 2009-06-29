@@ -78,7 +78,7 @@ namespace ProjetUnivers
             Convert orientation to a torque....
 
             @todo :
-            choose wiselly the correcpondance between pitch/Yaw/Roll and x/y/z
+            choose wisely the correspondence between pitch/Yaw/Roll and x/y/z
             and the +/-... seem done ?
 
             @todo

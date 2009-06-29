@@ -35,7 +35,7 @@ namespace ProjetUnivers {
           We could share the same viewpoint for all detectors of the scene. 
           Each potential detected object would be tested against each detector 
           objects.
-          This development should be preceed by a specific test with two 
+          This development should be preceded by a specific test with two
           detectors. 
       */
       class DetectorViewPoint : public Kernel::ViewPoint
@@ -49,7 +49,7 @@ namespace ProjetUnivers {
         Detector* getObserver() const ;
         
       /*!
-        @name Functionnal methods
+        @name Functional methods
       */
       // @{
 

@@ -18,37 +18,16 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <model/selection.h>
-#include <model/selected.h>
+#pragma once
+
+#include <kernel/relation.h>
 
 namespace ProjetUnivers
 {
   namespace Model
   {
-
-    Selected::Selected()
-    {}
-
-    bool Selected::isSelected(Kernel::Object* by) const
-    {
-      return Kernel::Relation::areLinked<Selection>(by,getObject()) ;
-    }
-
-    void Selected::select(Kernel::Object* by)
-    {
-      Kernel::Link<Selection>(by,getObject()) ;
-      notify() ;
-    }
-
-    void Selected::unSelect(Kernel::Object* by)
-    {
-      Kernel::UnLink<Selection>(by,getObject()) ;
-      notify() ;
-    }
-
-    bool Selected::isSelected() const
-    {
-      return Kernel::Relation::getLinked<Kernel::Inverse<Selection> >(getObject()).size() != 0 ;
-    }
+    /// Relate a selecting object to a selected object.
+    class Selection : public Kernel::Relation
+    {};
   }
 }

@@ -34,7 +34,7 @@ namespace ProjetUnivers
 
     /// For objects that have a position in space.
     /*!
-      The position of the object is relative to its first positionned 
+      The position of the object is relative to its first positioned
       ancestor parent or to nothing if it has none.
       
       @todo

@@ -12,7 +12,7 @@
   
   * kernel : bug corrections : 
     - getTrait made an empty trait (test added)
-    - destroying a model with initialised viewpoint made an error (test added)
+    - destroying a model with initialized viewpoint made an error (test added)
   * model : added functionalities
     - Positionned now can compute position/orientation relatively to 
       an other object (test added)
@@ -194,7 +194,7 @@
   * physic/ode : 
     - produced collision objects 
     - refactor solid and laser beam inherit collideable (laser beam does not 
-      need to be solid anymore) (added laserbeam/solid colision test)
+      need to be solid anymore) (added laserbeam/solid collision test)
     - prevent laserbeam/laserbeam collision (added negative laserbeam/laserbeam 
       collision test)
   * display :
@@ -1276,18 +1276,47 @@
 
   * Kernel :
     - deduction on relation between objects
+
+2009-06-29 rogma
+
+  * Model :
+    - basic usage of Selection relation
+  * All :
+    - checked spelling
+    - added cdt6 code profile
     
 in commit
 --------
 
-        
+    
 in progress
 -----------
    
       
 todo
 ----
-    
+  
+  * Kernel :
+    - maybe a relation is an object too ? 
+       # we gain views/controlers/traits on relation etc...
+       # we gain traits on relations (and deduced traits...)
+    - deduced relations 
+    - relation inheritance
+    - views/controlers on relation (onInit/onClose/onUpdate)  
+    - relation transitive close (?)
+    - relation reflexive closure (?)
+  
+  * Model : 
+  
+    - selected target is the relation :  
+      Selection and 
+      RelationFrom(RecursivellyPositioned) and RelationTo(RecursivellyPositioned)
+      --> once selector or selected is updated, the controler is called
+          the controler can determine iff it is still detectable :)
+          the ideal target is moved, shootable status is deduced (which is a 
+          relation between objects) 
+      --> Display view is updated so the position is changed
+  
 
   * Kernel :
     - we should use onChangedParent() for formulae on parent instead of 
