@@ -66,7 +66,7 @@ namespace ProjetUnivers
     class BaseControler ;
     class IsRelatedFormula ;
     class IsOnlyRelatedFormula ;
-    class RelationFormula ;
+    class WithRelationFormula ;
 
     /// A model object.
     /*!
@@ -442,7 +442,7 @@ namespace ProjetUnivers
       friend class BaseControler ;
       friend class IsRelatedFormula ;
       friend class IsOnlyRelatedFormula ;
-      friend class RelationFormula ;
+      friend class WithRelationFormula ;
     };
   }
 }

@@ -105,7 +105,7 @@ namespace ProjetUnivers
           const std::string&                           axis_group_name,
           boost::function2<void,SpecializedTrait*,int> axis_update) ;
 
-      /// Add a definition for that funciton on this trait.
+      /// Add a definition for that function on this trait.
       template <class SpecializedTrait> static void addFunction(
           const std::string&                             function_name,
           boost::function1<boost::any,SpecializedTrait*> function) ;
@@ -219,7 +219,7 @@ namespace ProjetUnivers
 
     // @}
     /*!
-      @name View managment
+      @name View management
     */
     // @{
 
@@ -229,13 +229,14 @@ namespace ProjetUnivers
       */
       std::multimap<ViewPoint*,BaseTraitView*>             m_views ;
 
+      /// Type for function that build views from a trait and viewpoint.
       typedef
       boost::function2<BaseTraitView*, Trait*, ViewPoint*> ViewBuilder ;
 
 
       /// Register @c _builder as the builder for @c _trait in @c _viewpoint
       /*!
-        Whenever a trait is build, the corresponding trait views will be
+        Whenever a trait is built, the corresponding trait views will be
         automatically built in each viewpoints.
       */
       static void registerBuilder(const TypeIdentifier& _trait,
@@ -257,7 +258,7 @@ namespace ProjetUnivers
     // @{
 
 
-      /// Controlers that apply on the trait, organised by controler sets.
+      /// Controlers that apply on the trait, organized by controler sets.
       std::multimap<ControlerSet*,BaseControler*> m_controlers ;
 
       // The type for Trait X ControlerSet -> BaseControler
@@ -290,7 +291,7 @@ namespace ProjetUnivers
 
     // @}
     /*!
-      @name Command managment
+      @name Command management
 
       Preliminary version.
     */
@@ -298,11 +299,11 @@ namespace ProjetUnivers
 
     protected:
 
-      /// call a void command returns true iff succedeed.
+      /// call a void command returns true iff succeeded.
       virtual bool call(const TypeIdentifier& trait_type,
                         const std::string&    command) ;
 
-      /// call an int command returns true iff succedeed.
+      /// call an int command returns true iff succeeded.
       virtual bool call(const TypeIdentifier& trait_type,
                         const std::string&    command,
                         const int&            parameter) ;
@@ -328,7 +329,7 @@ namespace ProjetUnivers
 
     // @}
     /*!
-      @name Reference managment
+      @name Reference management
     */
     // @{
 
@@ -351,7 +352,7 @@ namespace ProjetUnivers
       TypeIdentifier m_trait_name ;
 
     /*!
-      @name Depedency management
+      @name Dependency management
     */
     // @{
 
@@ -385,12 +386,12 @@ namespace ProjetUnivers
 
       /// Static storage
       /*!
-        Because static variable dynamic initialisation occurs in an undefined
+        Because static variable dynamic initialization occurs in an undefined
         order, we use this hook. By calling :
         <code>
           StaticStorage::get()->variable...
         </code>
-        we are assured that map are dynamically initialised on demand.
+        we are assured that map are dynamically initialized on demand.
       */
       class StaticStorage
       {
@@ -427,7 +428,7 @@ namespace ProjetUnivers
 
         /// Axes that traits understand.
         /*!
-          These are commands taking an int parameter, mainly obtained by
+          These are commands taking an integer parameter, mainly obtained by
           mouse and joystick axes.
         */
         std::map<TypeIdentifier,
@@ -478,13 +479,19 @@ namespace ProjetUnivers
           temp(#TraitClass,&TraitClass::read) ;                              \
       }
 
-    /// Tells that ClassView is the view for ClassTrait in ClassViewPoint.
+    /// @c ClassView is the view for @c ClassTrait in @c ClassViewPoint.
     /*!
     @par Usage
-      In the .cpp of a view class :
-        RegisterView(ClassView,ClassTrait,ClassViewPoint) ;
+    @c ClassView must inherit from
+    @code
+      Kernel::TraitView<ClassTrait,ClassViewPoint>
+    @endcode
+    In the .cpp of a view class :
+    @code
+      RegisterView(ClassView,ClassTrait,ClassViewPoint) ;
+    @endcode
 
-    Example
+    @par Example
     @code
       RegisterView(Display::Mobile,Model::Mobile,Ogre::ViewPoint) ;
     @endcode
@@ -508,14 +515,19 @@ namespace ProjetUnivers
             ClassTrait,ClassViewPoint,ClassView> temp(&build) ;              \
       }
 
-    /// Tells that ClassControler is the controler for ClassTrait in ClassControlerSet.
+    /// @c ClassControler is the controler for @c ClassTrait in @c ClassControlerSet.
     /*!
     @par Usage
-      In the .cpp of a controler class :
-
+    @c ClassControler must inherit from
+    @code
+      Kernel::Controler<ClassTrait,ClassControlerSet>
+    @endcode
+    In the .cpp of a controler class :
+    @code
         RegisterControler(ClassControler,ClassTrait,ClassControlerSet) ;
+    @endcode
 
-    Example
+    @par Example
     @code
       RegisterView(Logic::Stabilizer,Model::Stabilizer,Logic) ;
     @endcode

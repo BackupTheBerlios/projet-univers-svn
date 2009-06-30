@@ -18,77 +18,65 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#pragma once
+#include <kernel/relation.h>
+#include <kernel/relation_view.h>
+#include <kernel/model.h>
+#include <kernel/deduced_trait.h>
+#include <kernel/log.h>
+
+#include <kernel/test/test_relation_view.h>
+#include <kernel/view_point.h>
+
+CPPUNIT_TEST_SUITE_REGISTRATION(ProjetUnivers::Kernel::Test::TestRelationView) ;
 
 namespace ProjetUnivers
 {
   namespace Kernel
   {
-    namespace Implementation
+    namespace Test
     {
-      class Operation ;
+
+      namespace
+      {
+        class Selection : public Relation
+        {};
+
+        class RelationViewPoint : public ViewPoint
+        {
+        public:
+
+          RelationViewPoint(Model* model)
+          : ViewPoint(model)
+          {}
+        };
+
+        RegisterViewPoint(RelationViewPoint) ;
+
+        class SelectionView : public RelationView<RelationViewPoint>
+        {
+        public:
+
+          SelectionView(RelationViewPoint* viewpoint)
+          : RelationView<RelationViewPoint>(viewpoint)
+          {}
+        };
+
+        RegisterRelationView(SelectionView,Selection,RelationViewPoint) ;
+      }
+
+      void TestRelationView::test()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+        model->init() ;
+        Object* o1 = model->createObject() ;
+        Object* o2 = model->createObject() ;
+
+        Link<Selection>(o1,o2) ;
+        std::set<Object*> related(Relation::getLinked<Selection>(o1)) ;
+        CPPUNIT_ASSERT(related.find(o2) != related.end()) ;
+        CPPUNIT_ASSERT(related.size() == 1) ;
+      }
     }
-    class Object ;
-    class Trait ;
-    class Model ;
-
-    /// Something that observes a trait.
-    class Observer
-    {
-    public:
-
-      /// initialize the observer after construction.
-      void _init() ;
-
-      /// closes the observer before destruction.
-      void _close() ;
-
-      /// update the observer for a change_parent.
-      void _changed_parent(Object* old_parent) ;
-
-      /// update the observer.
-      void _updated() ;
-
-      /// Access to object.
-      Object* getObject() const ;
-
-      /// Access to trait
-      Trait* getTrait() const ;
-
-      virtual ~Observer() ;
-
-      /// True when onInit has been executed.
-      bool isInitialised() const ;
-
-    protected:
-
-      /// Called after the trait appears.
-      virtual void onInit() = 0 ;
-
-      /// Called just before the trait is destroyed.
-      virtual void onClose() = 0 ;
-
-      /// Called when parent changed.
-      virtual void onChangeParent(Object* old_parent) = 0 ;
-
-      /// Called when the model trait has changed.
-      virtual void onUpdate() = 0 ;
-
-      virtual void realInit() = 0 ;
-      void realClose() ;
-      void realUpdate() ;
-      void realChangeParent(Object* old_parent) ;
-
-      /// Constructs
-      Observer(Trait*) ;
-
-      bool       m_initialised ;
-      bool       m_really_initialised ;
-      Trait*     m_trait ;
-
-      friend class ::ProjetUnivers::Kernel::Implementation::Operation ;
-      friend class Model ;
-
-    };
   }
 }
+

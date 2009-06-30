@@ -40,16 +40,19 @@ namespace ProjetUnivers
       template <class Relation> class GetLink ;
     }
 
+    class ObjectPair ;
     class Observer ;
+    class RelationObserver ;
     class ViewPoint ;
     class Trait ;
     class ControlerSet ;
     class ObjectReference ;
     class BaseTraitView ;
     class Reader ;
-    class RelationFormula ;
+    class WithRelationFormula ;
     class IsRelatedFormula ;
     class IsOnlyRelatedFormula ;
+    class DeducedRelation ;
 
     /// A set of Objects.
     class Model : public Implementation::Interpretor
@@ -210,6 +213,10 @@ namespace ProjetUnivers
       void updateObserver(Observer*) ;
       void changeParentObserver(Observer*,Object*) ;
 
+      void initObserver(RelationObserver*) ;
+      void closeObserver(RelationObserver*) ;
+      void updateObserver(RelationObserver*) ;
+
     // @}
     /*!
       @name Relation handling
@@ -225,13 +232,39 @@ namespace ProjetUnivers
       /// The objects related to an object though a particular relation type.
       std::set<Object*> getRelations(const TypeIdentifier&,Object*) const ;
 
+      /// The objects related to an object though any relation type.
+      std::set<Object*> getRelations(Object*) const ;
+
       /// The objects related to an object though a particular relation type.
       std::set<Object*> getInverseRelations(const TypeIdentifier&,Object*) const ;
+
+      /// The objects related to an object though any relation type.
+      std::set<Object*> getInverseRelations(Object*) const ;
 
       /// Remove all relation involving the object.
       void removeRelations(Object*) ;
 
+      bool getValidity(const ObjectPair& relation,const Formula* formula) ;
+      void setValidity(const ObjectPair& relation,const Formula* formula,const bool&) ;
+
+      std::map<ObjectPair,std::vector<bool> > m_relation_validities ;
+
+      /// Access to the number of true child formulae for @c this
+      unsigned short getNumberOfTrueChildFormulae(const ObjectPair& relation,const Formula* formula) ;
+
+      /// Change the number of true child formulae for @c this
+      void setNumberOfTrueChildFormulae(const ObjectPair& relation,
+                                        const Formula* formula,
+                                        unsigned short number) ;
+
+      std::map<ObjectPair,std::vector<unsigned short> > m_number_of_true_child_formulae ;
+
+      /// Storage for relation views.
+
+
     // @}
+
+      /// The next identifier to assign
       int m_next_identifier ;
 
       friend class ViewPoint ;
@@ -240,14 +273,17 @@ namespace ProjetUnivers
       friend class ControlerSet ;
       friend class Reader ;
       friend class Observer ;
+      friend class RelationObserver ;
       friend class Relation ;
+      friend class ObjectPair ;
       friend class ::ProjetUnivers::Kernel::Implementation::Interpretor ;
       template <class Relation> friend class Link ;
       template <class Relation> friend class UnLink ;
       template <class Relation> friend class ::ProjetUnivers::Kernel::Implementation::GetLink ;
       friend class IsRelatedFormula ;
       friend class IsOnlyRelatedFormula ;
-      friend class RelationFormula ;
+      friend class WithRelationFormula ;
+      friend class DeducedRelation ;
 
       template <class _View>
       friend void forAll(ViewPoint*                    viewpoint,

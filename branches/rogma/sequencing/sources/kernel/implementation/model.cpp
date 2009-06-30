@@ -488,10 +488,27 @@ namespace ProjetUnivers
       /// @todo
     }
 
+    void Model::initObserver(RelationObserver* observer)
+    {
+      /// @todo
+    }
+
+    void Model::closeObserver(RelationObserver* observer)
+    {
+      /// @todo
+    }
+
+    void Model::updateObserver(RelationObserver* observer)
+    {
+      /// @todo
+    }
+
     void Model::addRelation(const Relation& relation)
     {
       startTransaction() ;
       m_relations.insert(relation) ;
+      m_relation_validities[relation].reserve(Formula::getNumberOfFormulae()) ;
+      m_number_of_true_child_formulae[relation].reserve(Formula::getNumberOfFormulae()) ;
       DeducedTrait::addRelation(relation) ;
       endTransaction() ;
     }
@@ -501,6 +518,8 @@ namespace ProjetUnivers
       startTransaction() ;
       m_relations.erase(relation) ;
       DeducedTrait::removeRelation(relation) ;
+      m_relation_validities.erase(relation) ;
+      m_number_of_true_child_formulae.erase(relation) ;
       endTransaction() ;
     }
 
@@ -512,8 +531,20 @@ namespace ProjetUnivers
       */
       for(std::set<Relation>::const_iterator relation = m_relations.begin() ; relation != m_relations.end() ; ++relation)
       {
-        if (relation->getType() == type && relation->getObject1() == object)
-          result.insert(relation->getObject2()) ;
+        if (relation->getType() == type && relation->getObjectFrom() == object)
+          result.insert(relation->getObjectTo()) ;
+      }
+
+      return result ;
+    }
+
+    std::set<Object*> Model::getRelations(Object* object) const
+    {
+      std::set<Object*> result ;
+      for(std::set<Relation>::const_iterator relation = m_relations.begin() ; relation != m_relations.end() ; ++relation)
+      {
+        if (relation->getObjectFrom() == object)
+          result.insert(relation->getObjectTo()) ;
       }
 
       return result ;
@@ -524,8 +555,20 @@ namespace ProjetUnivers
       std::set<Object*> result ;
       for(std::set<Relation>::const_iterator relation = m_relations.begin() ; relation != m_relations.end() ; ++relation)
       {
-        if (relation->getType() == type && relation->getObject2() == object)
-          result.insert(relation->getObject1()) ;
+        if (relation->getType() == type && relation->getObjectTo() == object)
+          result.insert(relation->getObjectFrom()) ;
+      }
+
+      return result ;
+    }
+
+    std::set<Object*> Model::getInverseRelations(Object* object) const
+    {
+      std::set<Object*> result ;
+      for(std::set<Relation>::const_iterator relation = m_relations.begin() ; relation != m_relations.end() ; ++relation)
+      {
+        if (relation->getObjectTo() == object)
+          result.insert(relation->getObjectFrom()) ;
       }
 
       return result ;
@@ -533,11 +576,12 @@ namespace ProjetUnivers
 
     void Model::removeRelations(Object* object)
     {
+      /// @todo : should push this command into the interpretor
       std::list<Relation> to_remove ;
 
       for(std::set<Relation>::const_iterator relation = m_relations.begin() ; relation != m_relations.end() ; ++relation)
       {
-        if (relation->getObject1() == object || relation->getObject2() == object)
+        if (relation->getObjectFrom() == object || relation->getObjectTo() == object)
           to_remove.push_back(*relation) ;
       }
 
@@ -545,6 +589,29 @@ namespace ProjetUnivers
       {
         removeRelation(*relation) ;
       }
+    }
+
+    bool Model::getValidity(const ObjectPair& relation,const Formula* formula)
+    {
+      return m_relation_validities[relation][formula->getIdentifier()] ;
+    }
+
+    void Model::setValidity(const ObjectPair& relation,const Formula* formula,const bool& validity)
+    {
+      m_relation_validities[relation][formula->getIdentifier()] = validity ;
+    }
+
+    unsigned short Model::getNumberOfTrueChildFormulae(const ObjectPair& relation,
+                                                       const Formula* formula)
+    {
+      return m_number_of_true_child_formulae[relation][formula->getIdentifier()] ;
+    }
+
+    void Model::setNumberOfTrueChildFormulae(const ObjectPair& relation,
+                                             const Formula* formula,
+                                             unsigned short number)
+    {
+      m_number_of_true_child_formulae[relation][formula->getIdentifier()] = number ;
     }
 
   }

@@ -24,9 +24,10 @@
 #include <string>
 #include <model/duration.h>
 
-namespace ProjetUnivers {
-  
-  namespace Kernel {
+namespace ProjetUnivers
+{
+  namespace Kernel
+  {
     class Object ;
     class Trait ;
     class Model ;

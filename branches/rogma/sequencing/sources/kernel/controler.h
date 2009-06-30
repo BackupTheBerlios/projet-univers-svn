@@ -49,7 +49,7 @@ namespace ProjetUnivers
       /// Abstract class means virtual destructor.
       virtual ~Controler() ;
 
-      /// Access to specialised controler set.
+      /// Access to specialized controler set.
       _ControlerSet* getControlerSet() const ;
 
     protected:

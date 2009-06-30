@@ -18,77 +18,91 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#pragma once
+#include <kernel/object.h>
+#include <kernel/relation_observer.h>
 
 namespace ProjetUnivers
 {
   namespace Kernel
   {
-    namespace Implementation
+
+    void RelationObserver::init()
     {
-      class Operation ;
+      if (!m_initialised)
+      {
+        getObjectFrom()->getModel()->initObserver(this) ;
+        m_initialised = true ;
+      }
     }
-    class Object ;
-    class Trait ;
-    class Model ;
 
-    /// Something that observes a trait.
-    class Observer
+    void RelationObserver::close()
     {
-    public:
+      if (m_initialised)
+      {
+        getObjectFrom()->getModel()->closeObserver(this) ;
+        m_initialised = false ;
+      }
+    }
 
-      /// initialize the observer after construction.
-      void _init() ;
+    void RelationObserver::update()
+    {
+      if (m_initialised)
+      {
+        getObjectFrom()->getModel()->updateObserver(this) ;
+      }
+    }
 
-      /// closes the observer before destruction.
-      void _close() ;
+    Object* RelationObserver::getObjectFrom() const
+    {
+      return m_relation.getObjectFrom() ;
+    }
 
-      /// update the observer for a change_parent.
-      void _changed_parent(Object* old_parent) ;
+    Object* RelationObserver::getObjectTo() const
+    {
+      return m_relation.getObjectTo() ;
+    }
 
-      /// update the observer.
-      void _updated() ;
+    RelationObserver::~RelationObserver()
+    {}
 
-      /// Access to object.
-      Object* getObject() const ;
+    RelationObserver::RelationObserver(const Relation& relation)
+    : m_initialised(false),
+      m_really_initialised(false),
+      m_relation(relation)
+    {}
 
-      /// Access to trait
-      Trait* getTrait() const ;
+    RelationObserver::RelationObserver()
+    : m_initialised(false),
+      m_really_initialised(false),
+      m_relation()
+    {}
 
-      virtual ~Observer() ;
+    void RelationObserver::_setRelation(const Relation& relation)
+    {
+      m_relation = relation ;
+    }
 
-      /// True when onInit has been executed.
-      bool isInitialised() const ;
+    bool RelationObserver::isInitialised() const
+    {
+      return m_really_initialised ;
+    }
 
-    protected:
+    void RelationObserver::realClose()
+    {
+      if (m_really_initialised)
+      {
+        onClose() ;
+        m_really_initialised = false ;
+      }
+    }
 
-      /// Called after the trait appears.
-      virtual void onInit() = 0 ;
+    void RelationObserver::realUpdate()
+    {
+      if (m_really_initialised)
+      {
+        onUpdate() ;
+      }
+    }
 
-      /// Called just before the trait is destroyed.
-      virtual void onClose() = 0 ;
-
-      /// Called when parent changed.
-      virtual void onChangeParent(Object* old_parent) = 0 ;
-
-      /// Called when the model trait has changed.
-      virtual void onUpdate() = 0 ;
-
-      virtual void realInit() = 0 ;
-      void realClose() ;
-      void realUpdate() ;
-      void realChangeParent(Object* old_parent) ;
-
-      /// Constructs
-      Observer(Trait*) ;
-
-      bool       m_initialised ;
-      bool       m_really_initialised ;
-      Trait*     m_trait ;
-
-      friend class ::ProjetUnivers::Kernel::Implementation::Operation ;
-      friend class Model ;
-
-    };
   }
 }

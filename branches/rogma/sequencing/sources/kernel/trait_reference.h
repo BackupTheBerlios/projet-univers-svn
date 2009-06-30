@@ -32,6 +32,7 @@ namespace ProjetUnivers
     
     /// Used to reference an object's trait.
     /*!
+      @deprecated
       Use this instead of pointer to trait, for it checks for object and trait 
       existence.
       

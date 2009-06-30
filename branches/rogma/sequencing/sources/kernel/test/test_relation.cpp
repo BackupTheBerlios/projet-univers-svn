@@ -218,6 +218,97 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(o1->getTrait<DT1>()) ;
       }
 
+      namespace
+      {
+        class T2 : public Trait
+        {};
+
+        class DeducedSelection : public DeducedRelation
+        {};
+
+        DeclareDeducedRelation(DeducedSelection,
+                               Selection,
+                               And(IsFrom(HasTrait(T1)),
+                                   IsTo(HasTrait(T2)))) ;
+      }
+
+      void TestRelation::relationDeducedByAddingALink()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+        Object* o1 = model->createObject() ;
+        Object* o2 = model->createObject() ;
+
+        o1->addTrait(new T1()) ;
+        o2->addTrait(new T2()) ;
+
+        CPPUNIT_ASSERT(Relation::getLinked<DeducedSelection>(o1).empty()) ;
+
+        Link<Selection>(o1,o2) ;
+
+        std::set<Object*> related(Relation::getLinked<DeducedSelection>(o1)) ;
+
+        CPPUNIT_ASSERT_EQUAL((unsigned int)1,related.size()) ;
+        CPPUNIT_ASSERT(related.find(o2) != related.end()) ;
+      }
+
+      void TestRelation::relationDeducedByModifyingALinkedObject()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+        Object* o1 = model->createObject() ;
+        Object* o2 = model->createObject() ;
+
+        Link<Selection>(o1,o2) ;
+        o1->addTrait(new T1()) ;
+
+        CPPUNIT_ASSERT(Relation::getLinked<DeducedSelection>(o1).empty()) ;
+
+        o2->addTrait(new T2()) ;
+
+        std::set<Object*> related(Relation::getLinked<DeducedSelection>(o1)) ;
+        CPPUNIT_ASSERT_EQUAL((unsigned int)1,related.size()) ;
+        CPPUNIT_ASSERT(related.find(o2) != related.end()) ;
+      }
+
+      void TestRelation::relationUnDeducedByModifyingALinkedObject()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+        Object* o1 = model->createObject() ;
+        Object* o2 = model->createObject() ;
+
+        Link<Selection>(o1,o2) ;
+        o1->addTrait(new T1()) ;
+        o2->addTrait(new T2()) ;
+
+        std::set<Object*> related(Relation::getLinked<DeducedSelection>(o1)) ;
+        CPPUNIT_ASSERT_EQUAL((unsigned int)1,related.size()) ;
+        CPPUNIT_ASSERT(related.find(o2) != related.end()) ;
+
+        o1->destroyTrait(o1->getTrait<T1>()) ;
+
+        CPPUNIT_ASSERT(Relation::getLinked<DeducedSelection>(o1).empty()) ;
+      }
+
+      void TestRelation::relationUnDeducedByRemovingALink()
+      {
+
+        std::auto_ptr<Model> model(new Model()) ;
+        Object* o1 = model->createObject() ;
+        Object* o2 = model->createObject() ;
+
+        Link<Selection>(o1,o2) ;
+        o1->addTrait(new T1()) ;
+        o2->addTrait(new T2()) ;
+
+        std::set<Object*> related(Relation::getLinked<DeducedSelection>(o1)) ;
+        CPPUNIT_ASSERT_EQUAL((unsigned int)1,related.size()) ;
+        CPPUNIT_ASSERT(related.find(o2) != related.end()) ;
+
+        UnLink<Selection>(o1,o2) ;
+
+        CPPUNIT_ASSERT(Relation::getLinked<DeducedSelection>(o1).empty()) ;
+      }
+
+
     }
   }
 }

@@ -29,16 +29,31 @@ namespace ProjetUnivers
   namespace Kernel
   {
     class Object ;
+    class Formula ;
     template <class Relation> class Link ;
     template <class Relation> class UnLink ;
+    class DeducedRelation ;
+    class RelationObserver ;
+    template <class _Relation,class _ViewPoint,class _View>
+    class RelationViewRegistration ;
+    class BaseRelationView ;
+    class ViewPoint ;
 
     /// A relation 'type' between objects.
     /*!
       The relation is destroyed when one of object is.
 
       Create a sub-class of Relation to define a new relation type.
-      Use Link<RelationType>(object1,object2) ; to link two objects
-      Use UnLink<RelationType>(object1,object2) ; to un-link two objects
+      * Use
+        @code
+          Link<RelationType>(object1,object2) ;
+        @endcode
+        to link two objects
+      * Use
+        @code
+          UnLink<RelationType>(object1,object2) ;
+        @endcode
+        to un-link two objects
     */
     class Relation
     {
@@ -52,11 +67,13 @@ namespace ProjetUnivers
       template <class _Relation>
       static bool areLinked(Object* object1,Object* object2) ;
 
-      /// Acess to relation type.
+      /// Access to relation type.
       const TypeIdentifier& getType() const ;
 
-      Object* getObject1() const ;
-      Object* getObject2() const ;
+      /// Access to the starting object of the link.
+      Object* getObjectFrom() const ;
+      /// Access to the ending object of the link.
+      Object* getObjectTo() const ;
 
       Relation(const Relation&) ;
       virtual ~Relation() ;
@@ -66,22 +83,93 @@ namespace ProjetUnivers
       /// Returns the linked objects of @c object through @c relation.
       static std::set<Object*> _getLinked(const TypeIdentifier& relation,Object* object) ;
 
+      /// Returns the linked objects from @c object through any relation.
+      static std::set<Object*> _getLinked(Object* object) ;
+
+      /// Returns the linked objects to @c object through any relation.
+      static std::set<Object*> _getInversedLinked(Object* object) ;
+
+      /// True iff @c object1 @c _Relation @c object2.
+      static bool _areLinked(const TypeIdentifier& relation,Object* object1,Object* object2) ;
+
     protected:
 
       Relation() ;
-
       Relation(const TypeIdentifier&,Object*,Object*) ;
 
-      ObjectReference m_object1 ;
-      ObjectReference m_object2 ;
+      /// Create a link.
+      static void createLink(const TypeIdentifier&,Object*,Object*) ;
+
+      /// Destroy a link.
+      static void destroyLink(const TypeIdentifier&,Object*,Object*) ;
+
+    private:
+
+      ObjectReference m_object_from ;
+      ObjectReference m_object_to ;
       TypeIdentifier  m_type ;
+
+    /*!
+      @name View Handling
+    */
+    //@{
+
+      /// Type for function that build views from a relation and viewpoint.
+      typedef
+      boost::function2<BaseRelationView*,const Relation&,ViewPoint*> ViewBuilder ;
+
+      /// create the views.
+      void createViews() ;
+
+      /// create views for a viewpoint.
+      void createViews(ViewPoint* viewpoint) ;
+
+      /// Register @c builder as the builder for @c relation in @c viewpoint
+      /*!
+        Whenever a relation is built, the corresponding trait views will be
+        automatically built in each viewpoints.
+      */
+      static void registerBuilder(const TypeIdentifier& relation,
+                                  const TypeIdentifier& viewpoint,
+                                  ViewBuilder           builder) ;
+
+
+    //@}
+
+      /// Static storage
+      /*!
+        Because static variable dynamic initialization occurs in an undefined
+        order, we use this hook. By calling :
+        <code>
+          StaticStorage::get()->variable...
+        </code>
+        we are assured that map are dynamically initialized on demand.
+      */
+      class StaticStorage
+      {
+      public:
+
+        /// Access to singleton.
+        static StaticStorage* get() ;
+
+        /// ViewPoint -> Relation X ViewBuilder (in term of classes names)
+        std::multimap<TypeIdentifier,
+                      std::pair<TypeIdentifier,
+                                ViewBuilder> >            m_view_builders ;
+      };
 
       template <class Relation> friend class Link ;
       template <class Relation> friend class UnLink ;
-
+      friend class DeducedRelation ;
+      friend class RelationObserver ;
+      template <class _Relation,class _ViewPoint,class _View>
+      friend class RelationViewRegistration ;
     };
 
     /// The act of linking two objects
+    /*!
+      @see Relation
+    */
     template <class Relation> class Link
     {
     public:
@@ -91,6 +179,9 @@ namespace ProjetUnivers
     };
 
     /// The act of un-linking two objects
+    /*!
+      @see Relation
+    */
     template <class Relation> class UnLink
     {
     public:
@@ -100,8 +191,53 @@ namespace ProjetUnivers
     };
 
     /// Inverse relation of @c _Relation
+    /*!
+      @par Usage
+
+      Everywhere we are expecting a relation one may use
+      Inverse<R>
+    */
     template <class _Relation> class Inverse : public Relation
     {};
+
+    /// @c ClassView is the view for @c ClassRelation in @c ClassViewPoint.
+    /*!
+    @par Usage
+    @c ClassView must inherit from
+    @code
+      Kernel::RelationView<ClassViewPoint>
+    @endcode
+    In the .cpp of a view class :
+    @code
+      RegisterRelationView(ClassView,ClassRelation,ClassViewPoint) ;
+    @endcode
+
+    @par Example
+    @code
+      RegisterRelationView( @todo ) ;
+    @endcode
+
+    @par How does it works
+      Same principle than CPPUNIT_TEST_SUITE_REGISTRATION
+    */
+    #define RegisterRelationView(ClassView,ClassRelation,ClassViewPoint)     \
+      namespace PU_MAKE_UNIQUE_NAME(register_view) {                         \
+        static                                                               \
+        ProjetUnivers::Kernel::BaseRelationView* build(                      \
+          const ProjetUnivers::Kernel::Relation& _model,                     \
+          ProjetUnivers::Kernel::ViewPoint* _viewpoint)                      \
+        {                                                                    \
+          ClassViewPoint* temp(static_cast<ClassViewPoint*>( _viewpoint)) ;  \
+          ClassView* result(new ClassView(temp)) ;                           \
+          result->_setRelation(_model) ;                                     \
+          return result ;                                                    \
+        }                                                                    \
+        static                                                               \
+        ProjetUnivers::Kernel::RelationViewRegistration<                     \
+          ClassRelation,ClassViewPoint,ClassView> temp(&build) ;             \
+      }
+
+
 
   }
 }

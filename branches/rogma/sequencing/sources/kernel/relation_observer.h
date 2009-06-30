@@ -20,71 +20,68 @@
  ***************************************************************************/
 #pragma once
 
+#include <kernel/relation.h>
+
 namespace ProjetUnivers
 {
   namespace Kernel
   {
+
     namespace Implementation
     {
       class Operation ;
     }
-    class Object ;
-    class Trait ;
     class Model ;
 
-    /// Something that observes a trait.
-    class Observer
+    /// Something that observe a relation.
+    class RelationObserver
     {
     public:
 
       /// initialize the observer after construction.
-      void _init() ;
+      void init() ;
 
       /// closes the observer before destruction.
-      void _close() ;
-
-      /// update the observer for a change_parent.
-      void _changed_parent(Object* old_parent) ;
+      void close() ;
 
       /// update the observer.
-      void _updated() ;
+      void update() ;
 
-      /// Access to object.
-      Object* getObject() const ;
+      /// Access to the starting object of the link.
+      Object* getObjectFrom() const ;
 
-      /// Access to trait
-      Trait* getTrait() const ;
+      /// Access to the ending object of the link.
+      Object* getObjectTo() const ;
 
-      virtual ~Observer() ;
+      virtual ~RelationObserver() ;
 
       /// True when onInit has been executed.
       bool isInitialised() const ;
 
+      void _setRelation(const Relation&) ;
+
     protected:
 
-      /// Called after the trait appears.
+      /// Called after the relation appears.
       virtual void onInit() = 0 ;
 
-      /// Called just before the trait is destroyed.
+      /// Called just before the relation is destroyed.
       virtual void onClose() = 0 ;
 
-      /// Called when parent changed.
-      virtual void onChangeParent(Object* old_parent) = 0 ;
-
-      /// Called when the model trait has changed.
+      /// Called when the relation has changed.
       virtual void onUpdate() = 0 ;
 
       virtual void realInit() = 0 ;
       void realClose() ;
       void realUpdate() ;
-      void realChangeParent(Object* old_parent) ;
 
       /// Constructs
-      Observer(Trait*) ;
+      RelationObserver(const Relation&) ;
+      RelationObserver() ;
 
       bool       m_initialised ;
       bool       m_really_initialised ;
-      Trait*     m_trait ;
+      Relation   m_relation ;
 
       friend class ::ProjetUnivers::Kernel::Implementation::Operation ;
       friend class Model ;

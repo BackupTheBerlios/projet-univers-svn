@@ -20,4 +20,23 @@
  ***************************************************************************/
 #include <kernel/model.h>
 
+namespace ProjetUnivers
+{
+  namespace Kernel
+  {
 
+    /// Register a view on relation.
+    template <class _Relation,class _ViewPoint,class _View>
+    class RelationViewRegistration
+    {
+    public:
+
+      RelationViewRegistration(Relation::ViewBuilder builder)
+      {
+
+      }
+
+    };
+
+  }
+}

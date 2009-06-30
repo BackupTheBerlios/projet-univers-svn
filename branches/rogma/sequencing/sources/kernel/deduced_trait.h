@@ -53,7 +53,7 @@ namespace ProjetUnivers
     /// Declare @c trait as a deduced trait defined by @c formula
     /*!
       @param trait the trait class being defined
-      @param formula any combination of And, Or, Not HasTrait, HasParent,
+      @param formula any combination of And, Or, Not, HasTrait, HasParent,
              HasAncestor, HasChild. see below.
     */
     #define DeclareDeducedTrait(trait,formula)  \
@@ -72,7 +72,27 @@ namespace ProjetUnivers
           getClassTypeIdentifier(trait)) ;      \
       }
 
-    /// Conjunction of formulaes
+    /// Declare @c relation as a deduced relation defined by @c relation_formula
+    /*!
+      @param relation the deduced relation class being defined
+      @param primitive_relation the deduced relation is included into another
+                                relation
+      @param relation_formula any combination of
+             And, Or, Not, IsFrom,
+             IsTo. see below.
+    */
+    #define DeclareDeducedRelation(relation,primitive_relation,relation_formula) \
+      namespace PU_MAKE_UNIQUE_NAME(local)                     \
+      {                                                        \
+        static                                                 \
+        Kernel::DeducedRelationDeclaration temp(               \
+          relation_formula::build(),                           \
+          getClassTypeIdentifier(relation),                    \
+          getClassTypeIdentifier(primitive_relation)) ;        \
+      }
+
+
+    /// Conjunction of formulae
     /*!
       Example :
         DeclareDeducedTrait(C,And(HasTrait(A),HasTrait(B))) ;
@@ -131,6 +151,14 @@ namespace ProjetUnivers
     */
     #define IsOnlyRelated(relation,formula) \
       Kernel::TemplateIsOnlyRelated<relation,formula>
+
+    /// True iff a relation goes from an object satisfying formula.
+    #define IsFrom(formula) \
+      Kernel::TemplateIsFrom<formula>
+
+    /// True iff a relation goes to an object satisfying formula.
+    #define IsTo(formula) \
+      Kernel::TemplateIsTo<formula>
 
     /// Abstract class for traits that are deduced.
     /*!
@@ -191,7 +219,7 @@ namespace ProjetUnivers
       /// Abstract class means virtual destructor.
       virtual ~DeducedTrait() ;
 
-      /// Print all the registered deducedtrait.
+      /// Print all the registered deduced traits.
       static std::string printDeclarations() ;
 
       /// Gives the traits directly depending on @c trait.
@@ -251,6 +279,57 @@ namespace ProjetUnivers
       friend class Trait ;
       friend class FormulaOr ;
 
+    };
+
+    /// Class for deduced relations
+    class DeducedRelation : public Relation
+    {
+    public:
+
+      /// Register that @c relation is associated with @c formula.
+      static void registerRelation(const TypeIdentifier& relation,
+                                   const TypeIdentifier& primitive_relation,
+                                   Formula*              formula) ;
+
+      /// Notify that @c formula has gained @c validity on @c relation
+      static void notify(Formula*          formula,
+                         bool              validity,
+                         const ObjectPair& relation) ;
+
+      static void onAddRelation(const Relation&) ;
+      static void onRemoveRelation(const Relation&) ;
+
+    private:
+
+      /// Type identifier associated with the formula
+      /*!
+        @returns VoidTypeIdentifier if the formula is not associated with a deduced relation
+      */
+      static TypeIdentifier get(Formula*) ;
+
+      /// Get the formulae that applies to @c primitive_relation.
+      static std::set<Formula*> getFormulae(const TypeIdentifier& primitive_relation) ;
+
+      class StaticStorage
+      {
+      public:
+
+        /// Access to singleton.
+        static StaticStorage* get() ;
+
+        /// map formula to deduced relation type name.
+        std::map<Formula*,TypeIdentifier> m_deduced_relations ;
+
+        /// Map primitive relation to formulae
+        std::multimap<TypeIdentifier,Formula*> m_primitive_relation_to_formulae ;
+
+      private:
+
+        StaticStorage()
+        {}
+      };
+
+      friend class Formula ;
     };
 
 

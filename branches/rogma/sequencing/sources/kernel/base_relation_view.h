@@ -20,73 +20,43 @@
  ***************************************************************************/
 #pragma once
 
+#include <kernel/object.h>
+#include <kernel/relation.h>
+#include <kernel/relation_observer.h>
+
 namespace ProjetUnivers
 {
   namespace Kernel
   {
-    namespace Implementation
-    {
-      class Operation ;
-    }
-    class Object ;
-    class Trait ;
-    class Model ;
 
-    /// Something that observes a trait.
-    class Observer
+    class ViewPoint ;
+
+    /// A view on a relation.
+    class BaseRelationView : public RelationObserver
     {
     public:
 
-      /// initialize the observer after construction.
-      void _init() ;
+      /// init the view after construction.
+      virtual void realInit() ;
 
-      /// closes the observer before destruction.
-      void _close() ;
-
-      /// update the observer for a change_parent.
-      void _changed_parent(Object* old_parent) ;
-
-      /// update the observer.
-      void _updated() ;
-
-      /// Access to object.
-      Object* getObject() const ;
-
-      /// Access to trait
-      Trait* getTrait() const ;
-
-      virtual ~Observer() ;
-
-      /// True when onInit has been executed.
-      bool isInitialised() const ;
+      /// abstract class means virtual destructor.
+      virtual ~BaseRelationView() ;
 
     protected:
 
-      /// Called after the trait appears.
-      virtual void onInit() = 0 ;
+      /// abstract class means protected constructor.
+      BaseRelationView(ViewPoint* viewpoint) ;
 
-      /// Called just before the trait is destroyed.
-      virtual void onClose() = 0 ;
+    /*!
+      @name data
+    */
+    //@{
 
-      /// Called when parent changed.
-      virtual void onChangeParent(Object* old_parent) = 0 ;
+      ViewPoint* m_viewpoint ;
 
-      /// Called when the model trait has changed.
-      virtual void onUpdate() = 0 ;
+    //@}
 
-      virtual void realInit() = 0 ;
-      void realClose() ;
-      void realUpdate() ;
-      void realChangeParent(Object* old_parent) ;
-
-      /// Constructs
-      Observer(Trait*) ;
-
-      bool       m_initialised ;
-      bool       m_really_initialised ;
-      Trait*     m_trait ;
-
-      friend class ::ProjetUnivers::Kernel::Implementation::Operation ;
+      friend class Relation ;
       friend class Model ;
 
     };

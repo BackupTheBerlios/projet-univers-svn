@@ -37,7 +37,7 @@ namespace ProjetUnivers
       constant number of formula). Elementary changes are propagated in a
       network, possibly changing the evaluation of complex formulas.
 
-      For example in a state where an object statisfy "A^B^C" :
+      For example in a state where an object satisfy "A^B^C" :
       removing C, will leave formula "A^B^C" with only 2 true children thus
       it is no longer valid and propagate it new false-ness to formulas using
       it.
@@ -55,11 +55,16 @@ namespace ProjetUnivers
       /// True iff the formula is valid.
       virtual bool isValid(Object* object) const ;
 
+      /// True iff the formula is valid.
+      virtual bool isValid(const ObjectPair& relation) const ;
+
       /// Acces to formula identifier.
       int getIdentifier() const ;
 
       /// Calculate initial state.
       static void evaluateInitial(Object* object) ;
+      /// Calculate initial state.
+      virtual void evaluateInitial(const ObjectPair& relation) ;
 
       /// Abstract class means virtual destructor.
       virtual ~Formula() ;
@@ -111,7 +116,7 @@ namespace ProjetUnivers
       /// Add a parent formula.
       void addParent(Formula* formula) ;
 
-      /// Abstract class means protected construtor.
+      /// Abstract class means protected constructor.
       Formula() ;
 
       /// Generate a unique identifier
@@ -125,6 +130,8 @@ namespace ProjetUnivers
 
       /// Initial value.
       virtual void eval(Object* object) = 0 ;
+      /// Initial value.
+      virtual void eval(const ObjectPair& relation) ;
 
       /// Declare that a child formula has became true.
       virtual void addChildFormulaTrue(Object* object) ;
@@ -137,6 +144,18 @@ namespace ProjetUnivers
 
       /// Callback on child changing state.
       virtual void onAddChildFormulaFalse(Object* object) = 0 ;
+
+      /// Declare that a child formula has became true.
+      virtual void addChildFormulaTrue(const ObjectPair& pair) ;
+
+      /// Declare that a child formula has became false.
+      virtual void addChildFormulaFalse(const ObjectPair& pair) ;
+
+      /// Callback on child changing state.
+      virtual void onAddChildFormulaTrue(const ObjectPair& pair) ;
+
+      /// Callback on child changing state.
+      virtual void onAddChildFormulaFalse(const ObjectPair& pair) ;
 
       /// Tells the parents formula the formula changed state.
       /*!
@@ -155,6 +174,24 @@ namespace ProjetUnivers
 
       /// Make the formula become false.
       void becomeFalse(Object* object) ;
+
+      /// Tells the parents formula the formula changed state.
+      /*!
+        Used for continuous evaluation
+      */
+      void notifyParentTrue(const ObjectPair& pair) ;
+
+      /// Tells the parents the formula changed state.
+      /*!
+        Used for continuous evaluation
+      */
+      void notifyParentFalse(const ObjectPair& pair) ;
+
+      /// Make the formula become true.
+      void becomeTrue(const ObjectPair& pair) ;
+
+      /// Make the formula become false.
+      void becomeFalse(const ObjectPair& pair) ;
 
     // @}
     /*!
@@ -233,6 +270,8 @@ namespace ProjetUnivers
       static unsigned int getNumberOfFormulae() ;
 
       friend class Object ;
+      friend class Model ;
+      friend class DeducedRelation ;
     };
 
     /// An atomic formula representing the fact "object has trait T".
@@ -331,10 +370,14 @@ namespace ProjetUnivers
 
       /// Initial value.
       virtual void eval(Object* object) ;
+      /// Initial value.
+      virtual void eval(const ObjectPair& relation) ;
 
       virtual void onAddChildFormulaTrue(Object* object) ;
       virtual void onAddChildFormulaFalse(Object* object) ;
       virtual void onChildFormulaUpdated(Object* object) ;
+      virtual void onAddChildFormulaTrue(const ObjectPair& pair) ;
+      virtual void onAddChildFormulaFalse(const ObjectPair& pair) ;
 
     };
 
@@ -356,10 +399,14 @@ namespace ProjetUnivers
 
       /// Initial value.
       virtual void eval(Object* object) ;
+      /// Initial value.
+      virtual void eval(const ObjectPair& relation) ;
 
       virtual void onAddChildFormulaTrue(Object* object) ;
       virtual void onAddChildFormulaFalse(Object* object) ;
       virtual void onChildFormulaUpdated(Object* object) ;
+      virtual void onAddChildFormulaTrue(const ObjectPair& pair) ;
+      virtual void onAddChildFormulaFalse(const ObjectPair& pair) ;
 
     };
 
@@ -387,10 +434,14 @@ namespace ProjetUnivers
 
       /// Initial value.
       virtual void eval(Object* object) ;
+      /// Initial value.
+      virtual void eval(const ObjectPair& relation) ;
 
       virtual void onAddChildFormulaTrue(Object*  object) ;
       virtual void onAddChildFormulaFalse(Object* object) ;
       virtual void onChildFormulaUpdated(Object*  object) ;
+      virtual void onAddChildFormulaTrue(const ObjectPair& pair) ;
+      virtual void onAddChildFormulaFalse(const ObjectPair& pair) ;
 
     };
 
@@ -699,8 +750,8 @@ namespace ProjetUnivers
       };
     };
 
-    /// Common part for formula on relations
-    class RelationFormula : public Formula
+    /// Common part for object formula involving relations
+    class WithRelationFormula : public Formula
     {
     public:
 
@@ -712,7 +763,7 @@ namespace ProjetUnivers
 
     protected:
 
-      RelationFormula(const TypeIdentifier& relation) ;
+      WithRelationFormula(const TypeIdentifier& relation) ;
 
       /// Access to the traits that trigger update for this formula.
       virtual std::set<Trait*> getUpdaterTraits(Object* object) const ;
@@ -732,8 +783,8 @@ namespace ProjetUnivers
         /// Access to singleton.
         static StaticStorage* get() ;
 
-        /// All the formulaes sorted by relation type.
-        std::map<TypeIdentifier,std::set<RelationFormula*> > m_formulae ;
+        /// All the formulae sorted by relation type.
+        std::map<TypeIdentifier,std::set<WithRelationFormula*> > m_formulae ;
 
       private:
 
@@ -744,7 +795,7 @@ namespace ProjetUnivers
     };
 
     /// True iff child-formula is true on a related object.
-    class IsRelatedFormula : public RelationFormula
+    class IsRelatedFormula : public WithRelationFormula
     {
     public:
 
@@ -769,7 +820,7 @@ namespace ProjetUnivers
     };
 
     /// True iff child-formula is true on all related object.
-    class IsOnlyRelatedFormula : public RelationFormula
+    class IsOnlyRelatedFormula : public WithRelationFormula
     {
     public:
 
@@ -791,6 +842,73 @@ namespace ProjetUnivers
     };
 
 
+    /// Common part for all formulae on relation
+    class FormulaOnRelation : public Formula
+    {
+    public:
+
+      /// Called when a relation has been added.
+      static void onAddRelation(const Relation&) ;
+
+      /// Called when a relation has been removed.
+      static void onRemoveRelation(const Relation&) ;
+
+    protected:
+
+      FormulaOnRelation() ;
+
+    };
+
+    /// True iff link goes from an object satisfying the child formula.
+    class IsFromFormula : public FormulaOnRelation
+    {
+    public:
+
+      IsFromFormula() ;
+
+      /// Initial value.
+      virtual void eval(Object* object) ;
+      /// Initial value.
+      virtual void eval(const ObjectPair& relation) ;
+      /// Calculate initial state.
+      virtual void evaluateInitial(const ObjectPair& relation) ;
+
+      /// Continuous evaluation
+      virtual void onAddChildFormulaTrue(Object* object) ;
+      virtual void onAddChildFormulaFalse(Object* object) ;
+      virtual void onChildFormulaUpdated(Object* object) ;
+
+      virtual std::set<Trait*> getUpdaterTraits(Object* object) const ;
+
+      /// Print the formula.
+      virtual std::string internalPrint() const ;
+    };
+
+    /// True iff link goes to an object satisfying the child formula.
+    class IsToFormula : public FormulaOnRelation
+    {
+    public:
+
+      IsToFormula() ;
+
+      /// Initial value.
+      virtual void eval(Object* object) ;
+      /// Initial value.
+      virtual void eval(const ObjectPair& relation) ;
+      /// Calculate initial state.
+      virtual void evaluateInitial(const ObjectPair& relation) ;
+
+      /// Continuous evaluation
+      virtual void onAddChildFormulaTrue(Object* object) ;
+      virtual void onAddChildFormulaFalse(Object* object) ;
+      virtual void onChildFormulaUpdated(Object* object) ;
+
+      virtual std::set<Trait*> getUpdaterTraits(Object* object) const ;
+
+      /// Print the formula.
+      virtual std::string internalPrint() const ;
+    };
+
 
   // @}
   /*!
@@ -809,6 +927,19 @@ namespace ProjetUnivers
                               const TypeIdentifier& trait_name)
       {
         DeducedTrait::registerTrait(formula,builder,trait_name) ;
+      }
+    };
+
+    /// A deduced relation declaration.
+    class DeducedRelationDeclaration
+    {
+    public:
+
+      DeducedRelationDeclaration(Formula*              formula,
+                                 const TypeIdentifier& relation,
+                                 const TypeIdentifier& primitive_relation)
+      {
+        DeducedRelation::registerRelation(relation,primitive_relation,formula) ;
       }
     };
 
@@ -1075,6 +1206,34 @@ namespace ProjetUnivers
       static Formula* build()
       {
         Formula* result = new IsOnlyRelatedFormula(getClassTypeIdentifier(_Relation)) ;
+        result->addChild(_Formula::build()) ;
+        return result ;
+      }
+    };
+
+    /// IsFrom static declaration.
+    template <class _Formula>
+    class TemplateIsFrom
+    {
+    public:
+
+      static Formula* build()
+      {
+        Formula* result = new IsFromFormula() ;
+        result->addChild(_Formula::build()) ;
+        return result ;
+      }
+    };
+
+    /// IsTo static declaration.
+    template <class _Formula>
+    class TemplateIsTo
+    {
+    public:
+
+      static Formula* build()
+      {
+        Formula* result = new IsToFormula() ;
         result->addChild(_Formula::build()) ;
         return result ;
       }

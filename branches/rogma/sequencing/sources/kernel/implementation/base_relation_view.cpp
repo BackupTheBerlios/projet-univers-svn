@@ -18,77 +18,39 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#pragma once
+#include <kernel/view_point.h>
+#include <kernel/base_relation_view.h>
 
 namespace ProjetUnivers
 {
   namespace Kernel
   {
-    namespace Implementation
+
+    void BaseRelationView::realInit()
     {
-      class Operation ;
+      if (m_viewpoint)
+      {
+        if (! m_really_initialised && m_viewpoint->isInitialised())
+        {
+          onInit() ;
+          m_really_initialised = true ;
+        }
+      }
     }
-    class Object ;
-    class Trait ;
-    class Model ;
 
-    /// Something that observes a trait.
-    class Observer
+    BaseRelationView::~BaseRelationView()
     {
-    public:
+      close() ;
+//      if (m_trait)
+//      {
+//        m_trait->_remove_view(m_viewpoint,this) ;
+//      }
+    }
 
-      /// initialize the observer after construction.
-      void _init() ;
-
-      /// closes the observer before destruction.
-      void _close() ;
-
-      /// update the observer for a change_parent.
-      void _changed_parent(Object* old_parent) ;
-
-      /// update the observer.
-      void _updated() ;
-
-      /// Access to object.
-      Object* getObject() const ;
-
-      /// Access to trait
-      Trait* getTrait() const ;
-
-      virtual ~Observer() ;
-
-      /// True when onInit has been executed.
-      bool isInitialised() const ;
-
-    protected:
-
-      /// Called after the trait appears.
-      virtual void onInit() = 0 ;
-
-      /// Called just before the trait is destroyed.
-      virtual void onClose() = 0 ;
-
-      /// Called when parent changed.
-      virtual void onChangeParent(Object* old_parent) = 0 ;
-
-      /// Called when the model trait has changed.
-      virtual void onUpdate() = 0 ;
-
-      virtual void realInit() = 0 ;
-      void realClose() ;
-      void realUpdate() ;
-      void realChangeParent(Object* old_parent) ;
-
-      /// Constructs
-      Observer(Trait*) ;
-
-      bool       m_initialised ;
-      bool       m_really_initialised ;
-      Trait*     m_trait ;
-
-      friend class ::ProjetUnivers::Kernel::Implementation::Operation ;
-      friend class Model ;
-
-    };
+    BaseRelationView::BaseRelationView(ViewPoint* viewpoint)
+    : RelationObserver(),
+      m_viewpoint(viewpoint)
+    {}
   }
 }
+

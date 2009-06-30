@@ -7,6 +7,7 @@ AM_CXXFLAGS=$(PU_CXXFLAGS)
 libkernel_la_SOURCES = \
 $(SOURCES)/kernel/implementation/algorithm.cpp \
 $(SOURCES)/kernel/implementation/base_controler.cpp \
+$(SOURCES)/kernel/implementation/base_relation_view.cpp \
 $(SOURCES)/kernel/implementation/base_trait_reference.cpp \
 $(SOURCES)/kernel/implementation/base_trait_view.cpp \
 $(SOURCES)/kernel/implementation/command_delegator.cpp \
@@ -28,6 +29,8 @@ $(SOURCES)/kernel/implementation/parameters.cpp \
 $(SOURCES)/kernel/implementation/percentage.cpp \
 $(SOURCES)/kernel/implementation/reader.cpp \
 $(SOURCES)/kernel/implementation/relation.cpp \
+$(SOURCES)/kernel/implementation/relation_observer.cpp \
+$(SOURCES)/kernel/implementation/relation_view.cpp \
 $(SOURCES)/kernel/implementation/statistics.cpp \
 $(SOURCES)/kernel/implementation/string.cpp \
 $(SOURCES)/kernel/implementation/timer.cpp \
@@ -66,6 +69,7 @@ $(SOURCES)/kernel/test/test_command.cpp \
 $(SOURCES)/kernel/test/test_parameters.cpp \
 $(SOURCES)/kernel/test/test_percentage.cpp \
 $(SOURCES)/kernel/test/test_relation.cpp \
+$(SOURCES)/kernel/test/test_relation_view.cpp \
 $(SOURCES)/kernel/test/test_trait.cpp \
 $(SOURCES)/kernel/test/test_xml_reader.cpp \
 $(SOURCES)/kernel/test/test_xml_writer.cpp \

@@ -23,13 +23,83 @@ namespace ProjetUnivers
   namespace Kernel
   {
 
+    /// A pair of objects (precursor for a relation).
+    class ObjectPair
+    {
+    public:
+
+      ObjectPair(Object* object1,Object* object2)
+      : m_object1(object1),
+        m_object2(object2)
+      {}
+
+      ObjectPair(const ObjectPair& pair)
+      : m_object1(pair.m_object1),
+        m_object2(pair.m_object2)
+      {}
+
+      ObjectPair(const Relation& relation)
+      : m_object1(relation.getObjectFrom()),
+        m_object2(relation.getObjectTo())
+      {}
+
+      bool operator ==(const ObjectPair& pair) const
+      {
+        return m_object1 == pair.m_object1 && m_object2 == pair.m_object2 ;
+      }
+
+      bool operator <(const ObjectPair& pair) const
+      {
+        return m_object1 < pair.m_object1 ||
+               (m_object1 == pair.m_object1 && m_object2 < pair.m_object2) ;
+      }
+
+      /// True iff @c formula is valid for thist link.
+      bool getValidity(const Formula* formula) const
+      {
+        // we choose object from's model as canonical storage
+        return m_object1->getModel()->getValidity(*this,formula) ;
+      }
+
+      /// Change the validity of @c formula for @c this
+      void setValidity(const Formula* formula,const bool& validity) const
+      {
+        m_object1->getModel()->setValidity(*this,formula,validity) ;
+      }
+
+      /// Access to the number of true child formulae for @c this
+      unsigned short getNumberOfTrueChildFormulae(const Formula* formula) const
+      {
+        return m_object1->getModel()->getNumberOfTrueChildFormulae(*this,formula) ;
+      }
+
+      /// Change the number of true child formulae for @c this
+      void setNumberOfTrueChildFormulae(const Formula* formula,unsigned short number) const
+      {
+        m_object1->getModel()->setNumberOfTrueChildFormulae(*this,formula,number) ;
+      }
+
+      Object* getObjectFrom() const
+      {
+        return m_object1;
+      }
+
+      Object* getObjectTo() const
+      {
+        return m_object2;
+      }
+
+
+      ObjectReference m_object1 ;
+      ObjectReference m_object2 ;
+
+
+    };
+
     template <class _Relation>
     Link<_Relation>::Link(Object* object1,Object* object2)
     {
-      Relation relation(getClassTypeIdentifier(_Relation),object1,object2) ;
-      object1->getModel()->addRelation(relation) ;
-      if (object1->getModel() != object2->getModel())
-        object2->getModel()->addRelation(relation) ;
+      Relation::createLink(getClassTypeIdentifier(_Relation),object1,object2) ;
     }
 
     template <class _Relation> class Link< Inverse<_Relation> >
@@ -37,20 +107,14 @@ namespace ProjetUnivers
     public:
       Link(Object* object1,Object* object2)
       {
-        Relation relation(getClassTypeIdentifier(_Relation),object2,object1) ;
-        object1->getModel()->addRelation(relation) ;
-        if (object1->getModel() != object2->getModel())
-          object2->getModel()->addRelation(relation) ;
+        Relation::createLink(getClassTypeIdentifier(_Relation),object2,object1) ;
       }
     };
 
     template <class _Relation>
     UnLink<_Relation>::UnLink(Object* object1,Object* object2)
     {
-      Relation relation(getClassTypeIdentifier(_Relation),object1,object2) ;
-      object1->getModel()->removeRelation(relation) ;
-      if (object1->getModel() != object2->getModel())
-        object2->getModel()->removeRelation(relation) ;
+      Relation::destroyLink(getClassTypeIdentifier(_Relation),object1,object2) ;
     }
 
     template <class _Relation> class UnLink< Inverse<_Relation> >
@@ -58,10 +122,7 @@ namespace ProjetUnivers
     public:
       UnLink(Object* object1,Object* object2)
       {
-        Relation relation(getClassTypeIdentifier(_Relation),object2,object1) ;
-        object1->getModel()->removeRelation(relation) ;
-        if (object1->getModel() != object2->getModel())
-          object2->getModel()->removeRelation(relation) ;
+        Relation::destroyLink(getClassTypeIdentifier(_Relation),object2,object1) ;
       }
     };
 
