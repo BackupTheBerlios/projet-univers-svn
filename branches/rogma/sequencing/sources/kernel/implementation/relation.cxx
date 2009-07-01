@@ -33,7 +33,24 @@ namespace ProjetUnivers
 
       RelationViewRegistration(Relation::ViewBuilder builder)
       {
-        Relation::registerBuilder(getClassTypeIdentifier(_Relation),getClassTypeIdentifier(_ViewPoint),builder) ;
+        Relation::registerViewBuilder(getClassTypeIdentifier(_Relation),
+                                      getClassTypeIdentifier(_ViewPoint),
+                                      builder) ;
+      }
+
+    };
+
+    /// Register a view on relation.
+    template <class _Relation,class _ControlerSet,class _Controler>
+    class RelationControlerRegistration
+    {
+    public:
+
+      RelationControlerRegistration(Relation::ControlerBuilder builder)
+      {
+        Relation::registerControlerBuilder(getClassTypeIdentifier(_Relation),
+                                           getClassTypeIdentifier(_ControlerSet),
+                                           builder) ;
       }
 
     };

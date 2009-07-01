@@ -77,7 +77,6 @@ namespace ProjetUnivers
     // @}
 
       /// Abstract class means protected constructor.
-      Controler(_Trait* i_trait,_ControlerSet* i_controler_set) ;
       Controler() ;
 
 

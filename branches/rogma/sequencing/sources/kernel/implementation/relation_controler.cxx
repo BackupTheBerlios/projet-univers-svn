@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2008 Mathieu ROGER                                      *
+ *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,26 +18,43 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <kernel/log.h>
-#include <model/model.h>
-#include <artificial_intelligence/implementation/agent.h>
-#include <artificial_intelligence/implementation/agent_vehicle_view_point.h>
+namespace ProjetUnivers
+{
+  namespace Kernel
+  {
+    class Model ;
 
-namespace ProjetUnivers {
-  namespace ArtificialIntelligence {
-    namespace Implementation {
-      
-      AgentVehicleViewPoint::AgentVehicleViewPoint(Agent* agent)
-      : Kernel::ViewPoint(agent?agent->getObject()->getModel():NULL),
-        m_agent(agent)
-      {}
+    template <class _ControlerSet>
+    RelationControler<_ControlerSet>::RelationControler()
+    {}
 
-      void AgentVehicleViewPoint::setVehicle(Vehicle* vehicle)
-      {
-          m_agent->setVehicle(vehicle) ;
-      }
-      
-      
+    template <class _ControlerSet>
+    RelationControler<_ControlerSet>::~RelationControler()
+    {}
+
+    template <class _ControlerSet>
+    _ControlerSet* RelationControler<_ControlerSet>::getControlerSet() const
+    {
+      return static_cast<_ControlerSet*>(m_controler_set) ;
     }
+    /// default implementation : empty
+
+    template <class _ControlerSet>
+    void RelationControler<_ControlerSet>::onInit()
+    {
+    }
+
+    template <class _ControlerSet>
+    void RelationControler<_ControlerSet>::onClose()
+    {
+    }
+
+    template <class _ControlerSet>
+    void RelationControler<_ControlerSet>::onUpdate()
+    {
+    }
+
   }
 }
+
+

@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2008 Mathieu ROGER                                      *
+ *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,22 +18,4 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <model/positionned.h>
-#include <model/solid.h>
-#include <model/detection_data.h>
-#include <model/mobile.h>
-#include <artificial_intelligence/implementation/target.h>
-
-namespace ProjetUnivers {
-  namespace ArtificialIntelligence {
-    namespace Implementation {
-          
-      DeclareDeducedTrait(
-          Target,
-          And(HasTrait(Model::DetectionData),
-              HasTrait(Model::Solid),
-              HasTrait(Model::Positionned),
-              HasTrait(Model::Mobile))) ;
-    }
-  }
-}
+#include <kernel/relation_controler.h>

@@ -62,7 +62,6 @@ namespace ProjetUnivers
     protected:
 
       /// abstract class means protected constructor.
-      BaseControler(Trait* trait,ControlerSet* controler_set) ;
       BaseControler() ;
 
 

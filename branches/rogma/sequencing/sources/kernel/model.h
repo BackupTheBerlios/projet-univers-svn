@@ -269,6 +269,15 @@ namespace ProjetUnivers
       /// Destroy the relation's views
       void destroyRelationView(const Relation&) ;
 
+      /// Storage for relation controlers.
+      std::map<Relation,std::set<BaseRelationControler*> > m_relation_controlers ;
+
+      /// Add a relation controler.
+      void addRelationControler(const Relation&,BaseRelationControler*,ControlerSet*) ;
+
+      /// Destroy the relation's controlers
+      void destroyRelationControler(const Relation&) ;
+
       /// Initialize the observers of the relation
       void init(const Relation&) ;
 

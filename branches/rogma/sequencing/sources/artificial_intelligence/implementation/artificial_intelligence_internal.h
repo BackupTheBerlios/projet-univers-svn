@@ -18,9 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_ARTIFICIAL_INTELLIGENCE_INTERNAL_H_
-#define PU_ARTIFICIAL_INTELLIGENCE_INTERNAL_H_
-
+#pragma once
 
 namespace ProjetUnivers {
   namespace ArtificialIntelligence {
@@ -34,5 +32,3 @@ namespace ProjetUnivers {
     }
   }
 }
-
-#endif //PU_ARTIFICIAL_INTELLIGENCE_INTERNAL_H_

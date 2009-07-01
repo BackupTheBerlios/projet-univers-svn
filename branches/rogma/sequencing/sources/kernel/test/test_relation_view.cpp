@@ -23,9 +23,11 @@
 #include <kernel/model.h>
 #include <kernel/deduced_trait.h>
 #include <kernel/log.h>
+#include <kernel/view_point.h>
+#include <kernel/controler_set.h>
+#include <kernel/relation_controler.h>
 
 #include <kernel/test/test_relation_view.h>
-#include <kernel/view_point.h>
 
 CPPUNIT_TEST_SUITE_REGISTRATION(ProjetUnivers::Kernel::Test::TestRelationView) ;
 
@@ -181,6 +183,71 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT_EQUAL(1,DeducedSelectionView::m_number_of_close) ;
       }
 
+      namespace
+      {
+
+        class RelationControlerSet : public ControlerSet
+        {
+        public:
+
+          RelationControlerSet(Model* model)
+          : ControlerSet(model)
+          {}
+        };
+
+        RegisterControlerSet(RelationControlerSet) ;
+
+        class SelectionControler : public RelationControler<RelationControlerSet>
+        {
+        public:
+
+          static int m_number_of_init ;
+          static int m_number_of_close ;
+
+          void onInit()
+          {
+            ++m_number_of_init ;
+          }
+
+          void onClose()
+          {
+            ++m_number_of_close ;
+          }
+        };
+
+        int SelectionControler::m_number_of_init = 0 ;
+        int SelectionControler::m_number_of_close = 0 ;
+
+        RegisterRelationControler(SelectionControler,Selection,RelationControlerSet) ;
+      }
+
+      void TestRelationView::initControler()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+        model->init() ;
+        Object* o1 = model->createObject() ;
+        Object* o2 = model->createObject() ;
+
+        SelectionControler::m_number_of_init = 0 ;
+
+        Link<Selection>(o1,o2) ;
+
+        CPPUNIT_ASSERT_EQUAL(1,SelectionControler::m_number_of_init) ;
+      }
+
+      void TestRelationView::closeControler()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+        model->init() ;
+        Object* o1 = model->createObject() ;
+        Object* o2 = model->createObject() ;
+
+        Link<Selection>(o1,o2) ;
+        SelectionControler::m_number_of_close = 0 ;
+
+        UnLink<Selection>(o1,o2) ;
+        CPPUNIT_ASSERT_EQUAL(1,SelectionControler::m_number_of_close) ;
+      }
 
     }
   }

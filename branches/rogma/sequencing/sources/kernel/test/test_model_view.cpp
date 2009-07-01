@@ -153,14 +153,7 @@ namespace ProjetUnivers
         };
 
         class ViewDeducedTrait1 : public TraitView<DeducedTrait1,TestViewPoint>
-        {
-        public:
-
-          ViewDeducedTrait1(DeducedTrait1* trait,TestViewPoint* i_viewpoint)
-          : TraitView<DeducedTrait1,TestViewPoint>(trait,i_viewpoint)
-          {}
-
-        };
+        {};
 
 
         class ViewHead : public TraitView<Head,TestViewPoint>

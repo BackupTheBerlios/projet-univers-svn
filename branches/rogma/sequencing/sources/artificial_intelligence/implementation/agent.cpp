@@ -29,10 +29,8 @@
 #include <model/targeting_system.h>
 #include <model/shootable.h>
 #include <artificial_intelligence/implementation/steering_behaviour.h>
-#include <artificial_intelligence/implementation/agent_vehicle.h>
-#include <artificial_intelligence/implementation/agent_vehicle_view_point.h>
-#include <artificial_intelligence/implementation/agent_view_point.h>
 #include <artificial_intelligence/implementation/agent.h>
+#include <artificial_intelligence/implementation/with_vehicle_controler.h>
 
 namespace ProjetUnivers
 {
@@ -47,11 +45,7 @@ namespace ProjetUnivers
       {
         InternalMessage("AI","building Agent") ;
 
-        m_vehicle = NULL ;
         m_target = NULL ;
-        m_view_point = NULL ;
-        m_vehicle_view_point = NULL ;
-        m_added_view = false ;
         m_steering = Ogre::Vector3(0,0,0) ;
         m_previous_speed = Ogre::Vector3(0,0,0) ;
         m_previous_X = 0 ;
@@ -62,70 +56,16 @@ namespace ProjetUnivers
         m_max_steering_Y = 1 ;
         m_max_steering_speed = 0 ;
 
-        m_view_point = new AgentViewPoint(this) ;
-        m_view_point->init() ;
-        m_vehicle_view_point = new AgentVehicleViewPoint(this) ;
-        m_vehicle_view_point->init() ;
-
-        Kernel::Object* ship = Model::getControledShip(getObject()) ;
-        if (ship)
-        {
-          getObject()->getModel()->addManualView(ship->getTrait<Model::PhysicalObject>(),
-                                                 new AgentVehicle(),
-                                                 m_vehicle_view_point) ;
-          m_added_view = true ;
-        }
-
         InternalMessage("AI","built Agent") ;
       }
 
       void Agent::onClose()
       {
-        m_vehicle_view_point->close() ;
-        m_view_point->close() ;
-        m_view_point= NULL ;
-        m_vehicle_view_point = NULL ;
-      }
-
-      void Agent::onUpdate()
-      {
-//        // last updated elementary trait will tell us what to update
-//        const Kernel::TypeIdentifier& latest = getTrait()->getLatestUpdatedTrait() ;
-//
-//        if (latest == getClassTypeIdentifier(Model::WithObjectives))
-//        {
-//          // objectives have changed, we must recalculate the behaviours ?
-//        }
-//        else if (latest == getClassTypeIdentifier(Kernel::CommandDelegator))
-//        {
-          Kernel::Object* ship = Model::getControledShip(getObject()) ;
-          if (ship && ! m_added_view)
-          {
-            getObject()->getModel()->addManualView(ship->getTrait<Model::PhysicalObject>(),
-                                                   new AgentVehicle(),
-                                                   m_vehicle_view_point) ;
-            m_added_view = true ;
-          }
-//        }
-        m_view_point->update() ;
       }
 
       void Agent::setTarget(Vehicle* vehicle)
       {
         m_target = vehicle ;
-      }
-
-      void Agent::addVehicle(Vehicle* vehicle)
-      {
-        m_other_vehicles.insert(vehicle) ;
-      }
-
-      void Agent::removeVehicle(Vehicle* vehicle)
-      {
-        m_other_vehicles.erase(vehicle) ;
-
-        if (m_target == vehicle)
-          m_target = NULL ;
       }
 
       const std::set<Vehicle*>& Agent::getVehicles() const
@@ -138,14 +78,19 @@ namespace ProjetUnivers
         return m_target ;
       }
 
-      void Agent::setVehicle(Vehicle* vehicle)
-      {
-        m_vehicle = vehicle ;
-      }
-
       Vehicle* Agent::getVehicle() const
       {
-        return m_vehicle ;
+        /*
+          lookup
+
+          @todo We should find the vehicle really piloted by the agent
+        */
+        WithVehicleControler* vehicle_controler = getAncestorControler<WithVehicleControler>() ;
+        if (vehicle_controler)
+        {
+          return vehicle_controler->getVehicle() ;
+        }
+        return NULL ;
       }
 
       void Agent::applyObjective(
@@ -170,11 +115,11 @@ namespace ProjetUnivers
             // if enemy selected pursuit it
             if (m_target)
             {
-              m_steering += SteeringBehaviour::offsetPursuit(*m_vehicle,*m_target,m_target->getRadius()*2) ;
+              m_steering += SteeringBehaviour::offsetPursuit(*getVehicle(),*m_target,m_target->getRadius()*2) ;
             }
             else
             {
-              m_steering += SteeringBehaviour::idle(*m_vehicle) ;
+              m_steering += SteeringBehaviour::idle(*getVehicle()) ;
             }
 
             // if in range shoot
@@ -187,13 +132,13 @@ namespace ProjetUnivers
           }
           case Model::Objective::Wait:
           {
-            m_steering = SteeringBehaviour::idle(*m_vehicle) ;
+            m_steering = SteeringBehaviour::idle(*getVehicle()) ;
             break ;
           }
           case Model::Objective::Patrol:
           {
             // apply wander behaviour + @todo containment
-            m_steering = SteeringBehaviour::wander(*m_vehicle) ;
+            m_steering = SteeringBehaviour::wander(*getVehicle()) ;
             break ;
           }
           case Model::Objective::GoTo:
@@ -204,7 +149,7 @@ namespace ProjetUnivers
               we need to build a vehicle from the destination : its the relative
               position of destination from the PhysicalWorld parent of agent
             */
-  //          m_steering = SteeringBehaviour::seek(*m_vehicle,) ;
+  //          m_steering = SteeringBehaviour::seek(*getVehicle(),) ;
 
           }
         }
@@ -220,7 +165,7 @@ namespace ProjetUnivers
 
         // angle between front and desired velocity
         Ogre::Vector3 aim_speed_local_space
-          = m_vehicle->getOrientation().Inverse()*(m_vehicle->getSpeed() + m_steering) ;
+          = getVehicle()->getOrientation().Inverse()*(getVehicle()->getSpeed() + m_steering) ;
 
         InternalMessage("Agent","aim_speed_local_space=" + Ogre::StringConverter::toString(aim_speed_local_space)) ;
 
@@ -243,21 +188,18 @@ namespace ProjetUnivers
               fabs((m_max_steering_Y*seconds_since_last_frame).valueDegrees())) ;
 
         // throttle part
-        float delta_speed = aim_speed_local_space.length()-m_vehicle->getSpeed().length() ;
+        float delta_speed = aim_speed_local_space.length()-getVehicle()->getSpeed().length() ;
 
         Kernel::Percentage throttle =
           delta_speed / (m_max_steering_speed*seconds_since_last_frame) ;
 
-        /// @todo : inverse Y and throttle
         return Ogre::Vector3(int(X),int(Y),int(throttle)) ;
       }
 
       void Agent::calibrateSteering(const float& seconds_since_last_frame)
       {
         // previous_orientation then delta == current_orientation
-//        Ogre::Quaternion delta = m_vehicle->getOrientation()*(m_previous_orientation.Inverse()) ;
-
-        Ogre::Quaternion delta = m_previous_orientation.zAxis().getRotationTo(m_vehicle->getOrientation().zAxis()) ;
+        Ogre::Quaternion delta = m_previous_orientation.zAxis().getRotationTo(getVehicle()->getOrientation().zAxis()) ;
         delta.normalise() ;
 
         InternalMessage("Agent","calibrateSteering::delta=" + Ogre::StringConverter::toString(delta)) ;
@@ -281,10 +223,10 @@ namespace ProjetUnivers
         if (m_max_steering_Y.valueRadians() == 0)
           m_max_steering_Y = Ogre::Degree(1) ;
 
-        m_vehicle->setTurningRate(std::max(m_max_steering_X,m_max_steering_Y)) ;
+        getVehicle()->setTurningRate(std::max(m_max_steering_X,m_max_steering_Y)) ;
 
         //
-        float delta_speed = m_previous_speed.length()-m_vehicle->getSpeed().length() ;
+        float delta_speed = m_previous_speed.length()-getVehicle()->getSpeed().length() ;
 
         if(int(m_delta_throttle) != 0)
         {
@@ -322,15 +264,15 @@ namespace ProjetUnivers
         m_previous_X = int(commands.x) ;
         m_previous_Y = int(commands.y) ;
         m_delta_throttle = int(commands.z) ;
-        m_previous_speed = m_vehicle->getSpeed() ;
-        m_previous_orientation = m_vehicle->getOrientation() ;
+        m_previous_speed = getVehicle()->getSpeed() ;
+        m_previous_orientation = getVehicle()->getOrientation() ;
 
         if(m_target)
         {
           InternalMessage("Agent","target position=" + Ogre::StringConverter::toString(m_target->getPosition())) ;
         }
 
-        InternalMessage("Agent","agent position=" + Ogre::StringConverter::toString(m_vehicle->getPosition())) ;
+        InternalMessage("Agent","agent position=" + Ogre::StringConverter::toString(getVehicle()->getPosition())) ;
 
         InternalMessage("Agent","applyied X=" + Kernel::toString(float(m_previous_X))) ;
         InternalMessage("Agent","applyied Y=" + Kernel::toString(float(m_previous_Y))) ;

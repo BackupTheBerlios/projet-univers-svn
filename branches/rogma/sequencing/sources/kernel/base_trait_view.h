@@ -54,7 +54,6 @@ namespace ProjetUnivers
     protected:
 
       /// abstract class means protected constructor.
-      BaseTraitView(Trait* trait,ViewPoint* viewpoint) ;
       BaseTraitView() ;
 
     /*!

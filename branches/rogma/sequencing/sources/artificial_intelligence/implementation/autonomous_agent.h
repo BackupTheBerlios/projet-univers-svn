@@ -18,14 +18,16 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_AI_IMPLEMENTATION_AUTONOMOUS_AGENT_H_
-#define PU_AI_IMPLEMENTATION_AUTONOMOUS_AGENT_H_
+#pragma once
 
 #include <kernel/deduced_trait.h>
 
-namespace ProjetUnivers {
-  namespace ArtificialIntelligence {
-    namespace Implementation {
+namespace ProjetUnivers
+{
+  namespace ArtificialIntelligence
+  {
+    namespace Implementation
+    {
 
       /// An autonomous agent, an IA.
       class AutonomousAgent : public Kernel::DeducedTrait
@@ -33,5 +35,3 @@ namespace ProjetUnivers {
     }
   }
 }
-
-#endif /*PU_AI_IMPLEMENTATION_AUTONOMOUS_AGENT_H_*/

@@ -34,6 +34,7 @@
 #include <kernel/view_point.h>
 #include <kernel/controler_set.h>
 #include <kernel/base_relation_view.h>
+#include <kernel/base_relation_controler.h>
 #include <kernel/model.h>
 
 namespace ProjetUnivers
@@ -511,6 +512,7 @@ namespace ProjetUnivers
       m_relation_validities[relation].reserve(Formula::getNumberOfFormulae()) ;
       m_number_of_true_child_formulae[relation].reserve(Formula::getNumberOfFormulae()) ;
       relation.createViews() ;
+      relation.createControlers() ;
       init(relation) ;
       DeducedTrait::addRelation(relation) ;
       endTransaction() ;
@@ -533,6 +535,7 @@ namespace ProjetUnivers
       m_relation_validities.erase(relation) ;
       m_number_of_true_child_formulae.erase(relation) ;
       destroyRelationView(relation) ;
+      destroyRelationControler(relation) ;
     }
 
     void Model::removeRelations(Object* object)
@@ -641,11 +644,33 @@ namespace ProjetUnivers
       m_relation_views.erase(relation) ;
     }
 
+    void Model::addRelationControler(const Relation& relation,
+                                     BaseRelationControler* controler,
+                                     ControlerSet* controler_set)
+    {
+      m_relation_controlers[relation].insert(controler) ;
+      controler->_setRelation(relation) ;
+      controler->_setControlerSet(controler_set) ;
+    }
+
+    void Model::destroyRelationControler(const Relation& relation)
+    {
+      for(std::set<BaseRelationControler*>::iterator controler = m_relation_controlers[relation].begin() ; controler != m_relation_controlers[relation].end() ; ++controler)
+      {
+        delete *controler ;
+      }
+      m_relation_controlers.erase(relation) ;
+    }
+
     void Model::init(const Relation& relation)
     {
       for(std::set<BaseRelationView*>::iterator view = m_relation_views[relation].begin() ; view != m_relation_views[relation].end() ; ++view)
       {
         (*view)->init() ;
+      }
+      for(std::set<BaseRelationControler*>::iterator controler = m_relation_controlers[relation].begin() ; controler != m_relation_controlers[relation].end() ; ++controler)
+      {
+        (*controler)->init() ;
       }
     }
 
@@ -655,6 +680,10 @@ namespace ProjetUnivers
       {
         (*view)->close() ;
       }
+      for(std::set<BaseRelationControler*>::iterator controler = m_relation_controlers[relation].begin() ; controler != m_relation_controlers[relation].end() ; ++controler)
+      {
+        (*controler)->close() ;
+      }
     }
 
     void Model::update(const Relation& relation)
@@ -662,6 +691,10 @@ namespace ProjetUnivers
       for(std::set<BaseRelationView*>::iterator view = m_relation_views[relation].begin() ; view != m_relation_views[relation].end() ; ++view)
       {
         (*view)->update() ;
+      }
+      for(std::set<BaseRelationControler*>::iterator controler = m_relation_controlers[relation].begin() ; controler != m_relation_controlers[relation].end() ; ++controler)
+      {
+        (*controler)->update() ;
       }
     }
   }

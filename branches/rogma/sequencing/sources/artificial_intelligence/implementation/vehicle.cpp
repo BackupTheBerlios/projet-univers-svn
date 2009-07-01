@@ -23,9 +23,12 @@
 #include <kernel/string.h>
 #include <artificial_intelligence/implementation/vehicle.h>
 
-namespace ProjetUnivers {
-  namespace ArtificialIntelligence {
-    namespace Implementation {
+namespace ProjetUnivers
+{
+  namespace ArtificialIntelligence
+  {
+    namespace Implementation
+    {
 
       Vehicle::Vehicle()
       : m_position(0,0,0),
@@ -138,7 +141,7 @@ namespace ProjetUnivers {
         }
       }
 
-      /// Simualtion time step
+      /// Simulation time step
       static const float timestep = 0.1 ;
 
       void Vehicle::simulate(const Ogre::Vector3& force,const int mode)

@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2008 Mathieu ROGER                                      *
+ *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,52 +18,40 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <kernel/log.h>
-#include <model/selected.h>
-#include <artificial_intelligence/implementation/detected_vehicle.h>
-#include <artificial_intelligence/implementation/selected_vehicle.h>
+#include <kernel/controler_set.h>
+#include <kernel/base_relation_controler.h>
 
 namespace ProjetUnivers
 {
-  namespace ArtificialIntelligence
+  namespace Kernel
   {
-    namespace Implementation
+
+    void BaseRelationControler::realInit()
     {
-
-      RegisterView(SelectedVehicle,SelectedTarget,AgentViewPoint) ;
-      
-      void SelectedVehicle::onInit() 
+      if (m_controler_set)
       {
-        InternalMessage("AI","entering SelectedVehicle::onInit") ;
-        onUpdate() ;
-        InternalMessage("AI","leaving SelectedVehicle::onInit") ;
-      }
-      
-      void SelectedVehicle::onClose()
-      {
-      }
-      
-      void SelectedVehicle::onUpdate()
-      {
-        InternalMessage("AI","entering SelectedVehicle::onUpdate") ;
-        if (isSelected())
+        if (! m_really_initialised && m_controler_set->isInitialised())
         {
-          DetectedVehicle* detected = getView<DetectedVehicle>() ;
-          if (detected)
-          {
-            InternalMessage("AI","SelectedVehicle::onUpdate#1") ;
-            getViewPoint()->setTarget(detected->getVehicle()) ;
-          }
+          onInit() ;
+          m_really_initialised = true ;
         }
-        InternalMessage("AI","leaving SelectedVehicle::onUpdate") ;
       }
-
-      bool SelectedVehicle::isSelected() const
-      {
-        return getObject()->getTrait<Model::Selected>()
-                          ->isSelected(getViewPoint()->getTargetingSystem()) ;
-      }          
-      
     }
+
+    BaseRelationControler::~BaseRelationControler()
+    {
+      close() ;
+    }
+
+    BaseRelationControler::BaseRelationControler()
+    : m_controler_set(NULL)
+    {}
+
+    void BaseRelationControler::_setControlerSet(ControlerSet* controler_set)
+    {
+      m_controler_set = controler_set ;
+    }
+
   }
 }
+

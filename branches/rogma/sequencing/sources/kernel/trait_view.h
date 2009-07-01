@@ -91,7 +91,6 @@ namespace ProjetUnivers
     // @}
       
       /// Abstract class means protected constructor.
-      TraitView(_Trait* i_model,_ViewPoint* i_viewpoint) ;
       TraitView() ;
       
     };

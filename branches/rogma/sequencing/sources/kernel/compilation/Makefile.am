@@ -7,6 +7,7 @@ AM_CXXFLAGS=$(PU_CXXFLAGS)
 libkernel_la_SOURCES = \
 $(SOURCES)/kernel/implementation/algorithm.cpp \
 $(SOURCES)/kernel/implementation/base_controler.cpp \
+$(SOURCES)/kernel/implementation/base_relation_controler.cpp \
 $(SOURCES)/kernel/implementation/base_relation_view.cpp \
 $(SOURCES)/kernel/implementation/base_trait_reference.cpp \
 $(SOURCES)/kernel/implementation/base_trait_view.cpp \
@@ -29,6 +30,7 @@ $(SOURCES)/kernel/implementation/parameters.cpp \
 $(SOURCES)/kernel/implementation/percentage.cpp \
 $(SOURCES)/kernel/implementation/reader.cpp \
 $(SOURCES)/kernel/implementation/relation.cpp \
+$(SOURCES)/kernel/implementation/relation_controler.cpp \
 $(SOURCES)/kernel/implementation/relation_observer.cpp \
 $(SOURCES)/kernel/implementation/relation_view.cpp \
 $(SOURCES)/kernel/implementation/statistics.cpp \

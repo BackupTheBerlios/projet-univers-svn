@@ -39,6 +39,8 @@ namespace ProjetUnivers
         void initView() ;
         void closeView() ;
         void viewOnDeducedRelation() ;
+        void initControler() ;
+        void closeControler() ;
 
       // @}
 
@@ -47,6 +49,8 @@ namespace ProjetUnivers
         CPPUNIT_TEST(initView) ;
         CPPUNIT_TEST(closeView) ;
         CPPUNIT_TEST(viewOnDeducedRelation) ;
+        CPPUNIT_TEST(initControler) ;
+        CPPUNIT_TEST(closeControler) ;
 
         CPPUNIT_TEST_SUITE_END() ;
       };

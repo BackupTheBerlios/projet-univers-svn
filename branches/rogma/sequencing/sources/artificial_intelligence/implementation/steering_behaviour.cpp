@@ -42,10 +42,14 @@
 #include <artificial_intelligence/implementation/vehicle.h>
 #include <artificial_intelligence/implementation/steering_behaviour.h>
 
-namespace ProjetUnivers {
-  namespace ArtificialIntelligence {
-    namespace Implementation {
-      namespace SteeringBehaviour {
+namespace ProjetUnivers
+{
+  namespace ArtificialIntelligence
+  {
+    namespace Implementation
+    {
+      namespace SteeringBehaviour
+      {
 
         float WanderSide = 0 ;
         float WanderUp = 0 ;

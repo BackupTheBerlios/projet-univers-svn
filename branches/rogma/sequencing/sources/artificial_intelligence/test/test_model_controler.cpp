@@ -81,130 +81,6 @@ namespace ProjetUnivers
     namespace Test
     {
 
-      void TestModelControler::build()
-      {
-        InternalMessage("AI","AI::TestModelControler::build entering") ;
-
-        // 1. build a model
-        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestModelControler::build")) ;
-        model->init() ;
-        Kernel::ControlerSet* logic = model->getControlerSet<Model::Implementation::Logic::LogicSystem>() ;
-        logic->setTimeStep(0) ;
-
-        Kernel::Object* system = model->createObject() ;
-
-        Kernel::Object* ship = system->createObject() ;
-        ship->addTrait(new Model::Positionned()) ;
-        ship->addTrait(new Model::Oriented()) ;
-        ship->addTrait(new Model::Massive(Model::Mass::Kilogram(1000))) ;
-        ship->addTrait(new Model::Mobile()) ;
-        ship->addTrait(new Model::Solid(Model::Mesh("test_ship.mesh"))) ;
-        ship->addTrait(new Model::Computer()) ;
-        ship->addTrait(new Model::Laser(Model::Position(),
-                                        Model::Orientation(),
-                                        Model::Energy::Joule(10))) ;
-        ship->addTrait(new Model::Detector(ship)) ;
-        ship->addTrait(new Model::TargetingSystem()) ;
-        Model::TargetingSystem::connect(ship,ship) ;
-
-        Kernel::Object* agent = ship->createObject() ;
-        agent->addTrait(new Model::AutonomousCharacter()) ;
-        agent->addTrait(new Model::WithObjectives()) ;
-        agent->addTrait(new Kernel::CommandDelegator()) ;
-        agent->getTrait<Kernel::CommandDelegator>()->addDelegate(ship) ;
-
-        Kernel::Object* ship2 = system->createObject() ;
-        ship2->addTrait(new Model::Positionned(Model::Position::Meter(0,0,500))) ;
-        ship2->addTrait(new Model::Massive(Model::Mass::Kilogram(1000))) ;
-        ship2->addTrait(new Model::Oriented()) ;
-        ship2->addTrait(new Model::Mobile(Model::Speed::MeterPerSecond(0,10,0))) ;
-        ship2->addTrait(new Model::Solid(Model::Mesh("test_ship.mesh"))) ;
-
-        Kernel::Object* ship3 = system->createObject() ;
-        ship3->addTrait(new Model::Positionned(Model::Position::Meter(500,0,500))) ;
-        ship3->addTrait(new Model::Massive(Model::Mass::Kilogram(1000))) ;
-        ship3->addTrait(new Model::Oriented()) ;
-        ship3->addTrait(new Model::Mobile()) ;
-        ship3->addTrait(new Model::Solid(Model::Mesh("test_ship.mesh"))) ;
-
-        model->update(0.0) ;
-
-        Model::PhysicalWorld* physical_world = agent->getAncestor<Model::PhysicalWorld>() ;
-        CPPUNIT_ASSERT(physical_world) ;
-
-        // 3. check that views/controlers are built
-        /// get the physical viewpoint
-        Implementation::AISystem* ai_system = model->getControlerSet<Implementation::AISystem>() ;
-        CPPUNIT_ASSERT(ai_system) ;
-
-        Implementation::AutonomousAgent* autonomous_agent = agent->getTrait<Implementation::AutonomousAgent>() ;
-        CPPUNIT_ASSERT(autonomous_agent) ;
-
-        Implementation::Agent* agent_controler = autonomous_agent->getControler<Implementation::Agent>(ai_system) ;
-        CPPUNIT_ASSERT(agent_controler) ;
-
-        CPPUNIT_ASSERT(Model::getControledShip(agent)) ;
-        CPPUNIT_ASSERT(Model::getControledShip(agent) == ship) ;
-
-        std::set<Model::Computer*> computers = Model::getControledShip(agent)->getChildren<Model::Computer>() ;
-        CPPUNIT_ASSERT(computers.size() == 1) ;
-
-        CPPUNIT_ASSERT(Model::getControledShip(agent)) ;
-
-        const std::set<Implementation::Vehicle*>& vehicles = agent_controler->getVehicles() ;
-        CPPUNIT_ASSERT(vehicles.size()==2) ;
-
-        // check selected target
-        CPPUNIT_ASSERT(! agent_controler->getTarget()) ;
-        ship->getTrait<Model::TargetingSystem>()->selectNextTarget() ;
-        CPPUNIT_ASSERT(agent_controler->getTarget()) ;
-
-        // check position and speed of vehicles
-        for(std::set<Implementation::Vehicle*>::const_iterator vehicle = vehicles.begin() ;
-            vehicle != vehicles.end() ;
-            ++vehicle)
-        {
-          CPPUNIT_ASSERT(((*vehicle)->getPosition() == Ogre::Vector3(0,0,500)) ||
-                         ((*vehicle)->getPosition() == Ogre::Vector3(500,0,500))) ;
-
-          CPPUNIT_ASSERT(((*vehicle)->getSpeed() == Ogre::Vector3(0,0,0)) ||
-                         ((*vehicle)->getSpeed() == Ogre::Vector3(0,10,0))) ;
-        }
-
-        ship2->getTrait<Model::Positionned>()->setPosition(Model::Position::Meter(-500,0,500)) ;
-        ship3->getTrait<Model::Mobile>()->setSpeed(Model::Speed::MeterPerSecond(0,-10,0)) ;
-        model->update(0) ;
-
-        for(std::set<Implementation::Vehicle*>::const_iterator vehicle = vehicles.begin() ;
-            vehicle != vehicles.end() ;
-            ++vehicle)
-        {
-          CPPUNIT_ASSERT(((*vehicle)->getPosition() == Ogre::Vector3(-500,0,500)) ||
-                         ((*vehicle)->getPosition() == Ogre::Vector3(500,0,500))) ;
-
-          CPPUNIT_ASSERT(((*vehicle)->getSpeed() == Ogre::Vector3(0,-10,0)) ||
-                         ((*vehicle)->getSpeed() == Ogre::Vector3(0,10,0))) ;
-        }
-
-        ship->getTrait<Model::Positionned>()->setPosition(Model::Position::Meter(1000,0,500)) ;
-        ship->getTrait<Model::Oriented>()->setOrientation(Model::Orientation(::Ogre::Quaternion(::Ogre::Degree(180),::Ogre::Vector3::UNIT_Y))) ;
-        model->update(0.0) ;
-
-        for(std::set<Implementation::Vehicle*>::const_iterator vehicle = vehicles.begin() ;
-            vehicle != vehicles.end() ;
-            ++vehicle)
-        {
-          CPPUNIT_ASSERT(((*vehicle)->getPosition() == Ogre::Vector3(-500,0,500)) ||
-                         ((*vehicle)->getPosition() == Ogre::Vector3(500,0,500))) ;
-
-          CPPUNIT_ASSERT(((*vehicle)->getSpeed() == Ogre::Vector3(0,-10,0)) ||
-                         ((*vehicle)->getSpeed() == Ogre::Vector3(0,10,0))) ;
-        }
-
-        CPPUNIT_ASSERT(agent_controler->getVehicle()) ;
-        InternalMessage("AI","AI::TestModelControler::build leaving") ;
-      }
-
       void TestModelControler::simulate()
       {
         InternalMessage("AI","AI::TestModelControler::simulate entering") ;
@@ -641,21 +517,6 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(Model::getControledShip(agent1)) ;
         CPPUNIT_ASSERT(Model::getControledShip(agent1) == ship1) ;
 
-        const std::set<Implementation::Vehicle*>& vehicles1 = agent_controler1->getVehicles() ;
-        CPPUNIT_ASSERT(vehicles1.size()==1) ;
-
-        Implementation::Vehicle* agent1_other_vehicle = *(vehicles1.begin()) ;
-
-        CPPUNIT_ASSERT(agent1_other_vehicle->getPosition() == Ogre::Vector3(0,0,-1100)) ;
-
-        ship2->getTrait<Model::Positionned>()->setPosition(Model::Position::Meter(-1000,200,150)) ;
-        InternalMessage("AI","TestModelControler::testPositionUpdate") ;
-
-        model->update(0) ;
-
-//        std::cout << agent1_other_vehicle->getPosition() ;
-        CPPUNIT_ASSERT(agent1_other_vehicle->getPosition() == Ogre::Vector3(-1000,200,150)) ;
-
       }
 
       void TestModelControler::testMission()
@@ -761,7 +622,7 @@ namespace ProjetUnivers
 
         agent_controler->applyObjective(Model::Objective::attackAllEnemies(),agent1,0.1) ;
 
-        Ogre::Vector3 desired_speed = agent_controler->m_steering + agent_controler->m_vehicle->getSpeed() ;
+        Ogre::Vector3 desired_speed = agent_controler->m_steering + agent_controler->getVehicle()->getSpeed() ;
         desired_speed.normalise() ;
         // need to go right
         CPPUNIT_ASSERT(desired_speed.positionEquals(Ogre::Vector3::UNIT_X,0.1)) ;
@@ -776,7 +637,7 @@ namespace ProjetUnivers
 
         agent_controler->applyObjective(Model::Objective::attackAllEnemies(),agent1,0.01) ;
 
-        desired_speed = agent_controler->m_steering + agent_controler->m_vehicle->getSpeed() ;
+        desired_speed = agent_controler->m_steering + agent_controler->getVehicle()->getSpeed() ;
         desired_speed.normalise() ;
 
         std::cout << desired_speed ;

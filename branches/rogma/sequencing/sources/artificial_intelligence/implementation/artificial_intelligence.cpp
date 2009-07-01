@@ -21,8 +21,10 @@
 #include <artificial_intelligence/implementation/ai_system.h>
 #include <artificial_intelligence/artificial_intelligence.h>
 
-namespace ProjetUnivers {
-  namespace ArtificialIntelligence {
+namespace ProjetUnivers
+{
+  namespace ArtificialIntelligence
+  {
 
     void start()
     {

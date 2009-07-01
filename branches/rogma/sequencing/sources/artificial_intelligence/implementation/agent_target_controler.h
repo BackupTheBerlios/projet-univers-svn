@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2008 Mathieu ROGER                                      *
+ *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,18 +18,39 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <model/selected.h>
-#include <artificial_intelligence/implementation/target.h>
-#include <artificial_intelligence/implementation/selected_target.h>
+#pragma once
 
-namespace ProjetUnivers {
-  namespace ArtificialIntelligence {
-    namespace Implementation {
-          
-      DeclareDeducedTrait(
-          SelectedTarget,
-          And(HasTrait(Target),
-              HasTrait(Model::Selected))) ;
+#include <kernel/relation_controler.h>
+#include <artificial_intelligence/implementation/ai_system.h>
+#include <artificial_intelligence/implementation/agent_target.h>
+#include <artificial_intelligence/implementation/agent.h>
+
+namespace ProjetUnivers
+{
+  namespace ArtificialIntelligence
+  {
+    namespace Implementation
+    {
+      /// Something we will associate with a vehicle.
+      class AgentTargetControler : public Kernel::RelationControler<AISystem>
+      {
+      protected:
+
+        /// Set the target for the agent
+        void onInit() ;
+
+        /// Remove the target for the agent.
+        void onClose() ;
+
+      private:
+
+        /// Access to the targeting agent
+        Agent* getAgent() const ;
+
+        /// Access to the target
+        Vehicle* getTarget() const ;
+      };
     }
   }
 }
+

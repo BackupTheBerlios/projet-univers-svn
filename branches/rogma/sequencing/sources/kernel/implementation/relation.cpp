@@ -18,8 +18,10 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <kernel/relation.h>
 #include <kernel/view_point.h>
+#include <kernel/controler_set.h>
+#include <kernel/relation.h>
+
 namespace ProjetUnivers
 {
   namespace Kernel
@@ -31,16 +33,30 @@ namespace ProjetUnivers
       return &instance ;
     }
 
-    Relation::ViewBuilder Relation::StaticStorage::getBuilder(ViewPoint* viewpoint,const Relation& relation)
+    Relation::ViewBuilder Relation::StaticStorage::getViewBuilder(ViewPoint* viewpoint,
+                                                                  const Relation& relation)
     {
       std::map<std::pair<TypeIdentifier,TypeIdentifier>,
-                       ViewBuilder>::iterator      finder ;
+               ViewBuilder>::iterator                     finder ;
 
       finder = m_view_builders.find(std::make_pair(getObjectTypeIdentifier(viewpoint),relation.getType())) ;
       if (finder != m_view_builders.end())
         return finder->second ;
 
       return ViewBuilder() ;
+    }
+
+    Relation::ControlerBuilder Relation::StaticStorage::getControlerBuilder(ControlerSet* controler_set,
+                                                                            const Relation& relation)
+    {
+      std::map<std::pair<TypeIdentifier,TypeIdentifier>,
+               ControlerBuilder>::iterator                finder ;
+
+      finder = m_controler_builders.find(std::make_pair(getObjectTypeIdentifier(controler_set),relation.getType())) ;
+      if (finder != m_controler_builders.end())
+        return finder->second ;
+
+      return ControlerBuilder() ;
     }
 
     Relation::Relation(const TypeIdentifier& type,Object* object1,Object* object2)
@@ -125,12 +141,14 @@ namespace ProjetUnivers
     void Relation::destroyLink(const TypeIdentifier& type,Object* object1,Object* object2)
     {
       Relation relation(type,object1,object2) ;
-      object1->getModel()->removeRelation(relation) ;
+      if (object1)
+      {
+        object1->getModel()->removeRelation(relation) ;
 
-      /// @todo : see if it is useful
-      if (object1->getModel() != object2->getModel())
-        object2->getModel()->removeRelation(relation) ;
-
+        /// @todo : see if it is useful
+        if (object1->getModel() != object2->getModel())
+          object2->getModel()->removeRelation(relation) ;
+      }
     }
 
     void Relation::createViews() const
@@ -146,18 +164,45 @@ namespace ProjetUnivers
 
     void Relation::createViews(ViewPoint* viewpoint) const
     {
-      ViewBuilder builder = StaticStorage::get()->getBuilder(viewpoint,*this) ;
+      ViewBuilder builder = StaticStorage::get()->getViewBuilder(viewpoint,*this) ;
 
       if (!builder.empty())
         getObjectFrom()->getModel()->addRelationView(*this,builder(*this,viewpoint),viewpoint) ;
 
     }
 
-    void Relation::registerBuilder(const TypeIdentifier& relation,
-                                   const TypeIdentifier& viewpoint,
-                                   ViewBuilder           builder)
+    void Relation::registerViewBuilder(const TypeIdentifier& relation,
+                                       const TypeIdentifier& viewpoint,
+                                       ViewBuilder           builder)
     {
       StaticStorage::get()->m_view_builders[std::make_pair(viewpoint,relation)] = builder ;
+    }
+
+    void Relation::createControlers() const
+    {
+      for(std::set<ControlerSet*>::iterator controler_set = getObjectFrom()->getModel()->m_controler_sets.begin() ;
+          controler_set != getObjectFrom()->getModel()->m_controler_sets.end() ;
+          ++controler_set)
+      {
+        createControlers(*controler_set) ;
+      }
+
+    }
+
+    void Relation::createControlers(ControlerSet* controler_set) const
+    {
+      ControlerBuilder builder = StaticStorage::get()->getControlerBuilder(controler_set,*this) ;
+
+      if (!builder.empty())
+        getObjectFrom()->getModel()->addRelationControler(*this,builder(),controler_set) ;
+
+    }
+
+    void Relation::registerControlerBuilder(const TypeIdentifier& relation,
+                                            const TypeIdentifier& controler_set,
+                                            ControlerBuilder      builder)
+    {
+      StaticStorage::get()->m_controler_builders[std::make_pair(controler_set,relation)] = builder ;
     }
 
     void Relation::notify()

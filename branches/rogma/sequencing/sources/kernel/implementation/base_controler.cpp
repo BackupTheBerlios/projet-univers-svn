@@ -37,11 +37,6 @@ namespace ProjetUnivers
       }
     }
 
-    BaseControler::BaseControler(Trait* trait,ControlerSet* controler_set)
-    : Observer(trait),
-      m_controler_set(controler_set)
-    {}
-
     BaseControler::BaseControler()
     : m_controler_set(NULL)
     {}

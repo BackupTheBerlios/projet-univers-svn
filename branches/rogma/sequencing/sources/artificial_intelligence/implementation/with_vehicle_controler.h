@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2008 Mathieu ROGER                                      *
+ *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -20,10 +20,11 @@
  ***************************************************************************/
 #pragma once
 
-#include <kernel/trait_view.h>
-#include <artificial_intelligence/implementation/selected_target.h>
+#include <memory>
+#include <kernel/controler.h>
+#include <artificial_intelligence/implementation/ai_system.h>
+#include <artificial_intelligence/implementation/with_vehicle.h>
 #include <artificial_intelligence/implementation/vehicle.h>
-#include <artificial_intelligence/implementation/agent_view_point.h>
 
 namespace ProjetUnivers
 {
@@ -31,25 +32,36 @@ namespace ProjetUnivers
   {
     namespace Implementation
     {
-
-      /// The selected vehicle.
-      class SelectedVehicle : public Kernel::TraitView<SelectedTarget,AgentViewPoint>
+      /// Something we will associate with a vehicle.
+      class WithVehicleControler : public Kernel::Controler<WithVehicle,
+                                                            AISystem>
       {
       public:
-        
-        /// Build the associated vehicle.
-        virtual void onInit() ;
-        
-        /// Destroy the associated vehicle.
-        virtual void onClose() ;
-        
-        /// Update the associated vehicle.
-        virtual void onUpdate() ;
-        
+
+        /// Access to vehicle.
+        Vehicle* getVehicle() const ;
+
+      protected:
+
+        /// Create a vehicle
+        void onInit() ;
+
+        /// Destroy the vehicle.
+        void onClose() ;
+
+        /// Update position etc...
+        void onUpdate() ;
+
       private:
 
-        /// True iff the target is selected            
-        bool isSelected() const ;
+        /// Simplified access functions.
+        Ogre::Vector3 getPosition() const ;
+        Ogre::Vector3 getSpeed() const ;
+        Ogre::Quaternion getOrientation() const ;
+        float getSize() const ;
+
+        std::auto_ptr<Vehicle> m_vehicle ;
+
       };
     }
   }

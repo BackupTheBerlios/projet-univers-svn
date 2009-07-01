@@ -12,19 +12,16 @@ INCLUDES = -I$(SOURCES)
 AM_CXXFLAGS = $(PU_CXXFLAGS)
 
 libai_la_SOURCES = \
-$(SOURCES)/artificial_intelligence/implementation/artificial_intelligence.cpp \
-$(SOURCES)/artificial_intelligence/implementation/agent_vehicle.cpp \
-$(SOURCES)/artificial_intelligence/implementation/agent_view_point.cpp \
-$(SOURCES)/artificial_intelligence/implementation/agent_vehicle_view_point.cpp \
+$(SOURCES)/artificial_intelligence/implementation/agent_target.cpp \
+$(SOURCES)/artificial_intelligence/implementation/agent_target_controler.cpp \
 $(SOURCES)/artificial_intelligence/implementation/agent.cpp \
 $(SOURCES)/artificial_intelligence/implementation/ai_system.cpp \
+$(SOURCES)/artificial_intelligence/implementation/artificial_intelligence.cpp \
 $(SOURCES)/artificial_intelligence/implementation/autonomous_agent.cpp \
-$(SOURCES)/artificial_intelligence/implementation/detected_vehicle.cpp \
-$(SOURCES)/artificial_intelligence/implementation/selected_target.cpp \
-$(SOURCES)/artificial_intelligence/implementation/selected_vehicle.cpp \
 $(SOURCES)/artificial_intelligence/implementation/steering_behaviour.cpp \
-$(SOURCES)/artificial_intelligence/implementation/target.cpp \
-$(SOURCES)/artificial_intelligence/implementation/vehicle.cpp
+$(SOURCES)/artificial_intelligence/implementation/vehicle.cpp \
+$(SOURCES)/artificial_intelligence/implementation/with_vehicle.cpp \
+$(SOURCES)/artificial_intelligence/implementation/with_vehicle_controler.cpp
 
 libai_la_LDFLAGS = -no-undefined
 libai_la_LDFLAGS += \

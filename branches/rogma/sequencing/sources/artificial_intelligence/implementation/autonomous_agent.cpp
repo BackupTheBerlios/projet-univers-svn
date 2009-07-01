@@ -23,9 +23,12 @@
 #include <model/with_objectives.h>
 #include <artificial_intelligence/implementation/autonomous_agent.h>
 
-namespace ProjetUnivers {
-  namespace ArtificialIntelligence {
-    namespace Implementation {
+namespace ProjetUnivers
+{
+  namespace ArtificialIntelligence
+  {
+    namespace Implementation
+    {
 
       DeclareDeducedTrait(AutonomousAgent,
                           And(HasTrait(Model::AutonomousCharacter),

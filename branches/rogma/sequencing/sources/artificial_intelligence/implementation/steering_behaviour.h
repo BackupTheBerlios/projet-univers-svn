@@ -18,24 +18,26 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_IMPLEMENTATION_STEERING_BEHAVIOUR_H_
-#define PU_IMPLEMENTATION_STEERING_BEHAVIOUR_H_
+#pragma once
 
 #include <set>
 #include <OgreVector3.h>
 
-namespace ProjetUnivers {
-  namespace ArtificialIntelligence {
-    namespace Implementation {
+namespace ProjetUnivers
+{
+  namespace ArtificialIntelligence
+  {
+    namespace Implementation
+    {
     
       class Vehicle ;
       
-      /// Steering behaviours.
+      /// Steering behaviors.
       namespace SteeringBehaviour
       {
         
         /*!
-          @name Utility functions for steering behaviour
+          @name Utility functions for steering behavior
           
           adapted from code by OpenSteer @see http://opensteer.sourceforge.net/
         */
@@ -59,8 +61,8 @@ namespace ProjetUnivers {
           
           /// Calculate steering for offset pursuing target.
           /*
-            The targetted point is a point placed at an offset in the target space.
-            Usefull for "docking", moving to a particular point of a sized target, 
+            The targeted point is a point placed at an offset in the target space.
+            Useful for "docking", moving to a particular point of a sized target,
             heading for "behind" a target...  
           */
           Ogre::Vector3 offsetPursuit(const Vehicle& agent,
@@ -69,16 +71,16 @@ namespace ProjetUnivers {
 
           /// Steering for offset pursuit. target point is at distance from 
           /*
-            The targetted point is a point placed at @c distance of @c target.
+            The targeted point is a point placed at @c distance of @c target.
           */
           Ogre::Vector3 offsetPursuit(const Vehicle& agent,
                                       const Vehicle& target,
                                       const float&   distance) ;
           
-          /// Calculate steering for wandering behaviour.
+          /// Calculate steering for wandering behavior.
           Ogre::Vector3 wander(const Vehicle& agent) ;
           
-          /// Calculate steering for separating @c agent from @c neighbours.
+          /// Calculate steering for separating @c agent from @c neighbors.
           Ogre::Vector3 separate(const Vehicle& agent, 
                                  const std::set<Vehicle*>& neighbours,
                                  const float simulation_time) ;
@@ -95,5 +97,3 @@ namespace ProjetUnivers {
     }    
   }
 }
-
-#endif //PU_IMPLEMENTATION_STEERING_BEHAVIOUR_H_

@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2008 Mathieu ROGER                                      *
+ *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -20,49 +20,49 @@
  ***************************************************************************/
 #pragma once
 
-#include <OgreVector3.h>
-#include <kernel/trait_view.h>
-#include <model/physical_object.h>
-#include <artificial_intelligence/implementation/agent_vehicle_view_point.h>
+#include <kernel/object.h>
+#include <kernel/relation.h>
+#include <kernel/relation_observer.h>
 
 namespace ProjetUnivers
 {
-  namespace ArtificialIntelligence
+  namespace Kernel
   {
-    namespace Implementation
+
+    class ControlerSet ;
+
+    /// A controler on a relation.
+    class BaseRelationControler : public RelationObserver
     {
+    public:
 
-      class Vehicle ;
-      class Agent ;
-      
-      /// The agent vehicle.
-      /*!
-        A manual view.
-      */
-      class AgentVehicle : public Kernel::TraitView<Model::PhysicalObject,
-                                                    AgentVehicleViewPoint>
-      {
-      public:
-      
-        /// Build the associated vehicle
-        virtual void onInit() ;
+      /// init the view after construction.
+      virtual void realInit() ;
 
-        /// Destroy the associated vehicle
-        virtual void onClose() ;
+      /// abstract class means virtual destructor.
+      virtual ~BaseRelationControler() ;
 
-        /// Update the associated vehicle
-        virtual void onUpdate() ;
-        
-      private:
+    protected:
 
-        Ogre::Vector3 getPosition() const ;
-        Ogre::Vector3 getSpeed() const ;
-        Ogre::Quaternion getOrientation() const ;
-        float getSize() const ;
-        
-        std::auto_ptr<Vehicle> m_vehicle ;
-      };
-      
-    }
+      /// abstract class means protected constructor.
+      BaseRelationControler() ;
+
+    /*!
+      @name data
+    */
+    //@{
+
+      ControlerSet* m_controler_set ;
+
+    //@}
+
+    private:
+
+      void _setControlerSet(ControlerSet* controler_set) ;
+
+      friend class Relation ;
+      friend class Model ;
+
+    };
   }
 }

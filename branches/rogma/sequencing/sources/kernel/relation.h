@@ -36,8 +36,12 @@ namespace ProjetUnivers
     class RelationObserver ;
     template <class _Relation,class _ViewPoint,class _View>
     class RelationViewRegistration ;
+    template <class _Relation,class _ViewPoint,class _View>
+    class RelationControlerRegistration ;
     class BaseRelationView ;
     class ViewPoint ;
+    class BaseRelationControler ;
+    class ControlerSet ;
 
     /// A relation 'type' between objects.
     /*!
@@ -132,13 +136,37 @@ namespace ProjetUnivers
 
       /// Register @c builder as the builder for @c relation in @c viewpoint
       /*!
-        Whenever a relation is built, the corresponding trait views will be
+        Whenever a relation is built, the corresponding relation views will be
         automatically built in each viewpoints.
       */
-      static void registerBuilder(const TypeIdentifier& relation,
-                                  const TypeIdentifier& viewpoint,
-                                  ViewBuilder           builder) ;
+      static void registerViewBuilder(const TypeIdentifier& relation,
+                                      const TypeIdentifier& viewpoint,
+                                      ViewBuilder           builder) ;
 
+    //@}
+    /*!
+      @name Controler Handling
+    */
+    //@{
+
+      /// Type for function that build views from a relation and viewpoint.
+      typedef
+      boost::function0<BaseRelationControler*> ControlerBuilder ;
+
+      /// create the controlers.
+      void createControlers() const ;
+
+      /// create views for a viewpoint.
+      void createControlers(ControlerSet* controler_set) const ;
+
+      /// Register @c builder as the builder for @c relation in @c controler_set
+      /*!
+        Whenever a relation is built, the corresponding relation controlers will
+        be automatically built in each controler set.
+      */
+      static void registerControlerBuilder(const TypeIdentifier& relation,
+                                           const TypeIdentifier& controler_set,
+                                           ControlerBuilder      builder) ;
 
     //@}
 
@@ -159,11 +187,18 @@ namespace ProjetUnivers
         static StaticStorage* get() ;
 
         /// Return the view builder.
-        ViewBuilder getBuilder(ViewPoint*,const Relation&) ;
+        ViewBuilder getViewBuilder(ViewPoint*,const Relation&) ;
 
         /// ViewPoint X Relation --> ViewBuilder (in term of classes names)
         std::map<std::pair<TypeIdentifier,TypeIdentifier>,
                  ViewBuilder>                              m_view_builders ;
+
+        /// Return the controler builder.
+        ControlerBuilder getControlerBuilder(ControlerSet*,const Relation&) ;
+
+        /// ViewPoint X Relation --> ViewBuilder (in term of classes names)
+        std::map<std::pair<TypeIdentifier,TypeIdentifier>,
+                 ControlerBuilder>                         m_controler_builders ;
       };
 
       template <class Relation> friend class Link ;
@@ -172,6 +207,8 @@ namespace ProjetUnivers
       friend class RelationObserver ;
       template <class _Relation,class _ViewPoint,class _View>
       friend class RelationViewRegistration ;
+      template <class _Relation,class _ViewPoint,class _View>
+      friend class RelationControlerRegistration ;
       friend class Model ;
     };
 
@@ -244,6 +281,37 @@ namespace ProjetUnivers
           ClassRelation,ClassViewPoint,ClassView> temp(&build) ;             \
       }
 
+    /// @c ClassControler is the controler for @c ClassRelation in @c ClassControlerSet.
+    /*!
+    @par Usage
+    @c ClassControler must be declared as
+    @code
+      class ClassControler : public Kernel::RelationControler<ClassControlerSet>
+    @endcode
+    In the .cpp of a view class :
+    @code
+      RegisterRelationControler(ClassControler,ClassRelation,ClassControlerSet) ;
+    @endcode
+
+    @par Example
+    @code
+      RegisterRelationView( @todo ) ;
+    @endcode
+
+    @par How does it works
+      Same principle than CPPUNIT_TEST_SUITE_REGISTRATION
+    */
+    #define RegisterRelationControler(ClassControler,ClassRelation,ClassControlerSet)\
+      namespace PU_MAKE_UNIQUE_NAME(register_controler) {                    \
+        static                                                               \
+        ProjetUnivers::Kernel::BaseRelationControler* build()                \
+        {                                                                    \
+          return new ClassControler() ;                                      \
+        }                                                                    \
+        static                                                               \
+        ProjetUnivers::Kernel::RelationControlerRegistration<                \
+          ClassRelation,ClassControlerSet,ClassControler> temp(&build) ;     \
+      }
 
 
   }

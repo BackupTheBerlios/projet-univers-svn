@@ -40,9 +40,6 @@ namespace ProjetUnivers
       */
       // @{
 
-        /// Tests basic construction.
-        void build() ;
-
         /// Tests basic simulation.
         void simulate() ;
 
@@ -78,7 +75,6 @@ namespace ProjetUnivers
 
         CPPUNIT_TEST_SUITE(TestModelControler) ;
 
-        CPPUNIT_TEST(build) ;
         CPPUNIT_TEST(buildWithoutElements) ;
         CPPUNIT_TEST(attackAllEnemies) ;
         CPPUNIT_TEST(twoShips) ;

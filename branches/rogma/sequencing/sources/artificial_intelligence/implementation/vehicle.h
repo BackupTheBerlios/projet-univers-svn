@@ -29,10 +29,10 @@ namespace ProjetUnivers
     namespace Implementation
     {
 
-      /// Something that has a position, orientaiton and moves.
+      /// Something that has a position, orientation and moves.
       /*!
         When doing calculus all position orientations must be in the same space.
-        Vehicule objects are generally calculated from Model objects.
+        Vehicle objects are generally calculated from Model objects.
 
         All units are in a coherent system, for example meter and seconds.
       */
@@ -74,7 +74,7 @@ namespace ProjetUnivers
         /// Basic physic simulation, used for internal tests only.
         void simulate(const Ogre::Vector3& force,const int mode = 0) ;
 
-        /// @c speed is normalised not to exceed max speed.
+        /// @c speed is normalized not to exceed max speed.
         void normalizeSpeed(Ogre::Vector3& speed) const ;
 
       // @}
@@ -83,7 +83,7 @@ namespace ProjetUnivers
       */
       // @{
 
-        /// Access to posiiton of vehicle.
+        /// Access to position of vehicle.
         const Ogre::Vector3& getPosition() const ;
 
         /// Access to speed of vehicle.
@@ -104,7 +104,7 @@ namespace ProjetUnivers
         /// Predict the future position of element
         Ogre::Vector3 predictFuturePosition(const float& time) const ;
 
-        /// Acces to maximal vehicle speed.
+        /// Access to maximal vehicle speed.
         float getMaxSpeed() const ;
 
         /// Access to Vehicle size.

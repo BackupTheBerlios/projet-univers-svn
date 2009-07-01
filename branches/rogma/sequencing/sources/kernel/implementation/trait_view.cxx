@@ -26,13 +26,6 @@ namespace ProjetUnivers
   {
     class Model ;
 
-    template <class _Trait,class _ViewPoint> 
-    TraitView<_Trait,_ViewPoint>::TraitView(_Trait* i_model,_ViewPoint* i_viewpoint)
-    : BaseTraitView(i_model,i_viewpoint)
-    {
-      Inherits<_Trait,ProjetUnivers::Kernel::Trait>() ;
-    }
-
     template <class _Trait,class _ViewPoint>
     TraitView<_Trait,_ViewPoint>::TraitView()
     {

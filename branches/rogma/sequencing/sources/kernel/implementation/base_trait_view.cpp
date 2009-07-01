@@ -52,11 +52,6 @@ namespace ProjetUnivers
       }
     }
 
-    BaseTraitView::BaseTraitView(Trait* trait,ViewPoint* viewpoint)
-    : Observer(trait),
-      m_viewpoint(viewpoint)
-    {}
-
     BaseTraitView::BaseTraitView()
     : m_viewpoint(NULL)
     {}

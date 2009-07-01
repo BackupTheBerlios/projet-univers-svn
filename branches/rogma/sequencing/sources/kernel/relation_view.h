@@ -38,10 +38,6 @@ namespace ProjetUnivers
       - onInit, called at creation
       - onClose, called before destruction
       - onUpdate, called when the relation has changed (according to the formula)
-
-    @pre
-      _Trait must be a subclass of ProjetUnivers::Kernel::Trait
-
     */
     template <class _ViewPoint> class RelationView : public BaseRelationView
     {

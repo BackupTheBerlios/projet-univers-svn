@@ -58,25 +58,31 @@ namespace ProjetUnivers
       bool getValidity(const Formula* formula) const
       {
         // we choose object from's model as canonical storage
-        return m_object1->getModel()->getValidity(*this,formula) ;
+        if (m_object1)
+          return m_object1->getModel()->getValidity(*this,formula) ;
+        return false ;
       }
 
       /// Change the validity of @c formula for @c this
       void setValidity(const Formula* formula,const bool& validity) const
       {
-        m_object1->getModel()->setValidity(*this,formula,validity) ;
+        if (m_object1)
+          m_object1->getModel()->setValidity(*this,formula,validity) ;
       }
 
       /// Access to the number of true child formulae for @c this
       unsigned short getNumberOfTrueChildFormulae(const Formula* formula) const
       {
-        return m_object1->getModel()->getNumberOfTrueChildFormulae(*this,formula) ;
+        if (m_object1)
+          return m_object1->getModel()->getNumberOfTrueChildFormulae(*this,formula) ;
+        return 0 ;
       }
 
       /// Change the number of true child formulae for @c this
       void setNumberOfTrueChildFormulae(const Formula* formula,unsigned short number) const
       {
-        m_object1->getModel()->setNumberOfTrueChildFormulae(*this,formula,number) ;
+        if (m_object1)
+          m_object1->getModel()->setNumberOfTrueChildFormulae(*this,formula,number) ;
       }
 
       Object* getObjectFrom() const

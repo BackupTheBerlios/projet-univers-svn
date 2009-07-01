@@ -41,8 +41,6 @@ namespace ProjetUnivers
     {
 
       class Behaviour ;
-      class AgentViewPoint ;
-      class AgentVehicleViewPoint ;
 
       /// An autonomous agent controler
       class Agent : public Kernel::Controler<AutonomousAgent,AISystem>
@@ -54,22 +52,11 @@ namespace ProjetUnivers
 
         virtual void onClose() ;
 
-        virtual void onUpdate() ;
-
         /// Simulate agent during a certain duration.
         virtual void simulate(const float& seconds) ;
 
-        /// Add a vehicle to the set of other vehicles.
-        void addVehicle(Vehicle*) ;
-
-        /// Remove a vehicle to the set of other vehicles.
-        void removeVehicle(Vehicle*) ;
-
         /// Change the current target.
         void setTarget(Vehicle* vehicle) ;
-
-        /// Set the agent vehicle.
-        void setVehicle(Vehicle*) ;
 
         /// Access to vehicles.
         const std::set<Vehicle*>& getVehicles() const ;
@@ -85,22 +72,11 @@ namespace ProjetUnivers
 
       private:
 
-        /// Agent's vehicle
-        Vehicle*               m_vehicle ;
-
         /// Other vehicles
         std::set<Vehicle*>     m_other_vehicles ;
 
         /// Current target.
         Vehicle*               m_target ;
-
-        /// A view point for detection data
-        AgentViewPoint*        m_view_point ;
-
-        /// A view point for its vehicle
-        AgentVehicleViewPoint* m_vehicle_view_point ;
-
-        bool m_added_view ;
 
         /// Execute the given objective.
         /*!

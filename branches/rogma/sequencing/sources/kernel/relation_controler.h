@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2008 Mathieu ROGER                                      *
+ *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,22 +18,64 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_AI_IMPLEMENTATION_TARGET_H_
-#define PU_AI_IMPLEMENTATION_TARGET_H_
+#pragma once
 
-#include <kernel/deduced_trait.h>
+#include <kernel/base_relation_controler.h>
 
-namespace ProjetUnivers {
-  namespace ArtificialIntelligence {
-    namespace Implementation {
-          
-      /// A target for building a vehicle.
-      /*!
-        Target <=> DetectionData & Solid & Positionned & Mobile
-      */ 
-      class Target : public Kernel::DeducedTrait
-      {};
-    }
+namespace ProjetUnivers
+{
+  namespace Kernel
+  {
+
+    class ControlerSet ;
+
+
+    /// A controler on a relation.
+    /*!
+    @par Usage
+
+      Inherit from this class and implement :
+      - onInit, called at creation
+      - onClose, called before destruction
+      - onUpdate, called when the relation has changed (according to the formula)
+
+    */
+    template <class _ControlerSet> class RelationControler : public BaseRelationControler
+    {
+    public:
+
+      /// Access to specialized viewpoint.
+      _ControlerSet* getControlerSet() const ;
+
+      /// Abstract class means virtual destructor.
+      virtual ~RelationControler() ;
+
+    protected:
+
+    /*!
+      @name To be redefined methods
+
+      Default implementation is a empty stub.
+      Each specific view should override some of these methods.
+    */
+    // @{
+
+      /// Called after the view is created on a initialized viewpoint.
+      virtual void onInit() ;
+
+      /// Called just before the view is destroyed.
+      virtual void onClose() ;
+
+      /// Called when the relation has changed.
+      virtual void onUpdate() ;
+
+    // @}
+
+      /// Abstract class means protected constructor.
+      RelationControler() ;
+
+    };
   }
 }
-#endif /*PU_AI_IMPLEMENTATION_TARGET_H_*/
+
+#include <kernel/implementation/relation_controler.cxx>

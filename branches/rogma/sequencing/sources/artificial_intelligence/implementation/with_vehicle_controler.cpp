@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2008 Mathieu ROGER                                      *
+ *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,14 +18,12 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <kernel/log.h>
-#include <model/positionned.h>
-#include <model/oriented.h>
-#include <model/solid.h>
-#include <model/mobile.h>
 #include <model/physical_world.h>
-#include <artificial_intelligence/implementation/vehicle.h>
-#include <artificial_intelligence/implementation/agent_vehicle.h>
+#include <model/solid.h>
+#include <model/speed.h>
+#include <model/mobile.h>
+#include <model/oriented.h>
+#include <artificial_intelligence/implementation/with_vehicle_controler.h>
 
 namespace ProjetUnivers
 {
@@ -34,10 +32,10 @@ namespace ProjetUnivers
     namespace Implementation
     {
 
+      RegisterControler(WithVehicleControler,WithVehicle,AISystem) ;
 
-      void AgentVehicle::onInit()
+      void WithVehicleControler::onInit()
       {
-        InternalMessage("AI","entering AgentVehicle::onInit") ;
         Ogre::Vector3 speed = getSpeed() ;
 
         m_vehicle.reset(new Vehicle(getPosition(),
@@ -45,38 +43,23 @@ namespace ProjetUnivers
                                     speed,
                                     speed.length(),
                                     getSize())) ;
-        getViewPoint()->setVehicle(m_vehicle.get()) ;
-        InternalMessage("AI","leaving AgentVehicle::onInit") ;
       }
 
-      void AgentVehicle::onClose()
+      void WithVehicleControler::onClose()
       {
-        getViewPoint()->setVehicle(NULL) ;
-        m_vehicle.reset(NULL) ;
+        m_vehicle.reset() ;
       }
 
-      void AgentVehicle::onUpdate()
+      void WithVehicleControler::onUpdate()
       {
-        // last updated elementary trait will tell us what to update
-//        const Kernel::TypeIdentifier& latest = getTrait()->getLatestUpdatedTrait() ;
-//
-//        if (latest == getClassTypeIdentifier(Model::Positionned))
-//        {
-          m_vehicle->setPosition(getPosition()) ;
-//        }
-//        else if (latest == getClassTypeIdentifier(Model::Mobile))
-//        {
-          m_vehicle->setSpeed(getSpeed()) ;
-          m_vehicle->setMaxSpeed(std::max(m_vehicle->getMaxSpeed(),m_vehicle->getSpeed().length())) ;
-          m_vehicle->setOrientation(getOrientation()) ;
-//        }
-//        else if (latest == getClassTypeIdentifier(Model::Solid))
-//        {
-          m_vehicle->setSize(getSize()) ;
-//        }
+        m_vehicle->setPosition(getPosition()) ;
+        m_vehicle->setSpeed(getSpeed()) ;
+        m_vehicle->setMaxSpeed(std::max(m_vehicle->getMaxSpeed(),m_vehicle->getSpeed().length())) ;
+        m_vehicle->setOrientation(getOrientation()) ;
+        m_vehicle->setSize(getSize()) ;
       }
 
-      Ogre::Vector3 AgentVehicle::getPosition() const
+      Ogre::Vector3 WithVehicleControler::getPosition() const
       {
         Kernel::Object* physical_world = getObject()->getAncestor<Model::PhysicalWorld>()
                                          ->getObject() ;
@@ -87,7 +70,7 @@ namespace ProjetUnivers
         return position.Meter() ;
       }
 
-      Ogre::Vector3 AgentVehicle::getSpeed() const
+      Ogre::Vector3 WithVehicleControler::getSpeed() const
       {
         const Model::Speed& speed =
             getObject()->getTrait<Model::Mobile>()->getSpeed() ;
@@ -95,7 +78,7 @@ namespace ProjetUnivers
         return speed.MeterPerSecond() ;
       }
 
-      float AgentVehicle::getSize() const
+      float WithVehicleControler::getSize() const
       {
         Model::Solid* solid = getObject()->getTrait<Model::Solid>() ;
         if (solid)
@@ -103,7 +86,7 @@ namespace ProjetUnivers
         return 0 ;
       }
 
-      Ogre::Quaternion AgentVehicle::getOrientation() const
+      Ogre::Quaternion WithVehicleControler::getOrientation() const
       {
         Kernel::Object* physical_world = getObject()->getAncestor<Model::PhysicalWorld>()
                                          ->getObject() ;
@@ -114,6 +97,14 @@ namespace ProjetUnivers
         return orientation.getQuaternion() ;
       }
 
+      Vehicle* WithVehicleControler::getVehicle() const
+      {
+        return m_vehicle.get() ;
+      }
+
+
     }
   }
 }
+
+
