@@ -18,35 +18,27 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_IMPLEMENTATION_LOGIC_TARGET_H_
-#define PU_MODEL_IMPLEMENTATION_LOGIC_TARGET_H_
+#pragma once
 
 #include <Ogre.h>
 #include <kernel/trait_view.h>
 #include <model/implementation/target.h>
 #include <model/implementation/logic/shooting_helper_viewpoint.h>
 
-namespace ProjetUnivers {
-  namespace Model {
-    namespace Implementation {
-      namespace Logic {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
+    namespace Implementation
+    {
+      namespace Logic
+      {
 
         /// Generates the associated ideal target with the selectioned target. 
         class Target : public Kernel::TraitView<Implementation::Target,
                                                 ShootingHelperViewPoint>
         {
-        public:
-        
-        /*! 
-          @name Construct
-        */ 
-        // @{
-
-          /// Constructor.
-          Target(Implementation::Target* object,
-              ShootingHelperViewPoint* viewpoint) ;
-        // @}
-      protected:
+        protected:
         /*!
           @name Updates
         */
@@ -77,5 +69,3 @@ namespace ProjetUnivers {
     }
   }
 }
-
-#endif /*PU_MODEL_IMPLEMENTATION_LOGIC_TARGET_H_*/

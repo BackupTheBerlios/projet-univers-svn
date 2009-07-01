@@ -27,22 +27,18 @@
 #include <model/laser_beam.h>
 #include <model/implementation/logic/collision.h>
 
-namespace ProjetUnivers {
-  namespace Model {
-    namespace Implementation {
-      namespace Logic {      
+namespace ProjetUnivers
+{
+  namespace Model
+  {
+    namespace Implementation
+    {
+      namespace Logic
+      {
         
         RegisterControler(Logic::Collision, 
                           Model::Collision, 
                           LogicSystem) ;
-        
-        Collision::Collision(Model::Collision* i_object,
-                             LogicSystem*      i_system)
-        : Kernel::Controler<Model::Collision,
-                            LogicSystem>(i_object,i_system)
-        {
-          InternalMessage("Model","Collision controler built") ;
-        }
         
         void Collision::simulate(const float& i_seconds)
         {

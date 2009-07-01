@@ -34,33 +34,34 @@
 #include <artificial_intelligence/implementation/agent_view_point.h>
 #include <artificial_intelligence/implementation/agent.h>
 
-namespace ProjetUnivers {
-  namespace ArtificialIntelligence {
-    namespace Implementation {
+namespace ProjetUnivers
+{
+  namespace ArtificialIntelligence
+  {
+    namespace Implementation
+    {
 
       RegisterControler(Agent,AutonomousAgent,AISystem) ;
-
-      Agent::Agent(AutonomousAgent* agent,AISystem* system)
-      : Kernel::Controler<AutonomousAgent,AISystem>(agent,system),
-        m_vehicle(NULL),
-        m_target(NULL),
-        m_view_point(NULL),
-        m_vehicle_view_point(NULL),
-        m_added_view(false),
-        m_steering(0,0,0),
-        m_previous_speed(0,0,0),
-        m_previous_X(0),
-        m_previous_Y(0),
-        m_delta_throttle(0),
-        m_max_steering(1,1,1),
-        m_max_steering_X(1),
-        m_max_steering_Y(1),
-        m_max_steering_speed(0)
-      {}
 
       void Agent::onInit()
       {
         InternalMessage("AI","building Agent") ;
+
+        m_vehicle = NULL ;
+        m_target = NULL ;
+        m_view_point = NULL ;
+        m_vehicle_view_point = NULL ;
+        m_added_view = false ;
+        m_steering = Ogre::Vector3(0,0,0) ;
+        m_previous_speed = Ogre::Vector3(0,0,0) ;
+        m_previous_X = 0 ;
+        m_previous_Y = 0 ;
+        m_delta_throttle = 0 ;
+        m_max_steering= Ogre::Vector3(1,1,1) ;
+        m_max_steering_X = 1 ;
+        m_max_steering_Y = 1 ;
+        m_max_steering_speed = 0 ;
+
         m_view_point = new AgentViewPoint(this) ;
         m_view_point->init() ;
         m_vehicle_view_point = new AgentVehicleViewPoint(this) ;
@@ -70,7 +71,7 @@ namespace ProjetUnivers {
         if (ship)
         {
           getObject()->getModel()->addManualView(ship->getTrait<Model::PhysicalObject>(),
-                                                 new AgentVehicle(ship->getTrait<Model::PhysicalObject>(),m_vehicle_view_point),
+                                                 new AgentVehicle(),
                                                  m_vehicle_view_point) ;
           m_added_view = true ;
         }
@@ -100,7 +101,9 @@ namespace ProjetUnivers {
           Kernel::Object* ship = Model::getControledShip(getObject()) ;
           if (ship && ! m_added_view)
           {
-            getObject()->getModel()->addManualView(ship->getTrait<Model::PhysicalObject>(),new AgentVehicle(ship->getTrait<Model::PhysicalObject>(),m_vehicle_view_point),m_vehicle_view_point) ;
+            getObject()->getModel()->addManualView(ship->getTrait<Model::PhysicalObject>(),
+                                                   new AgentVehicle(),
+                                                   m_vehicle_view_point) ;
             m_added_view = true ;
           }
 //        }

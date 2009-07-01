@@ -23,16 +23,16 @@
 #include <input/implementation/input_internal.h>
 #include <input/implementation/ois/player.h>
 
-namespace ProjetUnivers {
-  namespace Input {
-    namespace Implementation {
-      namespace OIS {
+namespace ProjetUnivers
+{
+  namespace Input
+  {
+    namespace Implementation
+    {
+      namespace OIS
+      {
         
         RegisterControler(Player,Model::Player,InputControlerSet) ;
-  
-        Player::Player(Model::Player* player,InputControlerSet* input)
-        : Kernel::Controler<Model::Player,InputControlerSet>(player,input)
-        {}
         
         void Player::onInit()
         {

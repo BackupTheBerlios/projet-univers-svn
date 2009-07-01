@@ -22,22 +22,18 @@
 #include <model/model.h>
 #include <model/implementation/logic/with_lifetime.h>
 
-namespace ProjetUnivers {
-  namespace Model {
-    namespace Implementation {
-      namespace Logic {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
+    namespace Implementation
+    {
+      namespace Logic
+      {
           
         RegisterControler(WithLifetime, 
                           Model::WithLifetime, 
                           LogicSystem) ;
-        
-        WithLifetime::WithLifetime(Model::WithLifetime* i_object,
-                                   LogicSystem*      i_system)
-        : Kernel::Controler<Model::WithLifetime,
-                            LogicSystem>(i_object,i_system)
-        {
-          InternalMessage("WithLifetime","Logic::WithLifetime controler built") ;
-        }
         
         void WithLifetime::simulate(const float& i_seconds)
         {

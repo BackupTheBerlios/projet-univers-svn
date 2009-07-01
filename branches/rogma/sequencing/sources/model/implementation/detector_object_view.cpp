@@ -29,17 +29,14 @@
 #include <model/targeting_system.h>
 #include <model/implementation/detector_object_view.h>
 
-namespace ProjetUnivers {
-  namespace Model {
-    namespace Implementation {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
+    namespace Implementation
+    {
       
       RegisterView(DetectorObjectView,Detectable,DetectorViewPoint) ;
-      
-      DetectorObjectView::DetectorObjectView(Detectable* object,
-                                             DetectorViewPoint* viewpoint)
-      : Kernel::TraitView<Detectable,DetectorViewPoint>(object,viewpoint),
-        m_detection_information(NULL)
-      {}
       
       void DetectorObjectView::onInit()
       {

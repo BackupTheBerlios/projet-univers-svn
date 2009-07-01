@@ -47,12 +47,6 @@ namespace ProjetUnivers
                           EditedTeam,
                           GUIControlerSet) ;
 
-        Team::Team(EditedTeam*      team,
-                   GUIControlerSet* gui)
-        : Kernel::Controler<EditedTeam,GUIControlerSet>(team,gui),
-          m_window(NULL)
-        {}
-
         void Team::onInit()
         {
           InternalMessage("CustomMission","CEGUI::Team::onInit") ;

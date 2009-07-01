@@ -43,16 +43,6 @@ namespace ProjetUnivers
                      Implementation::Observer,
                      Ogre::RealWorldViewPoint) ;
 
-        Observer::Observer(Implementation::Observer* observer,
-                           RealWorldViewPoint*       viewpoint)
-        : Kernel::TraitView<Implementation::Observer,
-                            RealWorldViewPoint>(observer,viewpoint),
-          m_camera(NULL),
-          m_node(NULL)
-        {
-          InternalMessage("Display","Building Ogre::Observer::Observer") ;
-        }
-
         void Observer::onInit()
         {
           InternalMessage("Display","Display::Observer::onInit Entering") ;

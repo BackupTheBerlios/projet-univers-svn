@@ -18,28 +18,25 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_IMPLEMENTATION_LOGIC_WITH_TRANSITIONS_H_
-#define PU_MODEL_IMPLEMENTATION_LOGIC_WITH_TRANSITIONS_H_
+#pragma once
 
 #include <kernel/controler.h>
 #include <model/state.h>
 #include <model/implementation/logic/logic_system.h>
 
-namespace ProjetUnivers {
-  namespace Model {
-    namespace Implementation {
-      namespace Logic {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
+    namespace Implementation
+    {
+      namespace Logic
+      {
         
         /// Move to next object.
         class State : public Kernel::Controler<Model::State,
                                                LogicSystem>
         {
-        public:
-          
-          /// Construct.
-          State(Model::State* object,
-                LogicSystem*  system) ;
-        
         protected:
           
           /// Trigger a transition. 
@@ -49,6 +46,3 @@ namespace ProjetUnivers {
     }
   }
 }
-
-
-#endif

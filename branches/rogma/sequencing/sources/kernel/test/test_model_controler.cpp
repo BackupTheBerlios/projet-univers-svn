@@ -204,11 +204,9 @@ namespace ProjetUnivers
         public:
 
 
-          ControlerHead(Head* i_head,TestControlerSet* i_controler_set)
-          : Controler<Head,TestControlerSet>(i_head,i_controler_set),
-            updated(false),
-            init_number(0),
-            value(i_head->getValue())
+          ControlerHead()
+          : updated(false),
+            init_number(0)
           {
             ++number_of_instance ;
           }
@@ -230,6 +228,7 @@ namespace ProjetUnivers
 
           void onInit()
           {
+            value = getTrait()->getValue() ;
             ++init_number ;
           }
 
@@ -269,11 +268,9 @@ namespace ProjetUnivers
         public:
 
 
-          ControlerPerson(Person* i_person,TestControlerSet* i_controler_set)
-          : Controler<Person,TestControlerSet>(i_person,i_controler_set),
-            updated(false),
-            init_number(0),
-            value(i_person->getValue())
+          ControlerPerson()
+          : updated(false),
+            init_number(0)
           {
             ++number_of_instance ;
           }
@@ -295,6 +292,7 @@ namespace ProjetUnivers
 
           void onInit()
           {
+            value = getTrait()->getValue() ;
             ++init_number ;
           }
 
@@ -336,11 +334,9 @@ namespace ProjetUnivers
         public:
 
 
-          ControlerBase(Base* i_object,TestControlerSet* i_controler_set)
-          : Controler<Base,TestControlerSet>(i_object,i_controler_set),
-            updated(false),
-            init_number(0),
-            value(i_object->getValue())
+          ControlerBase()
+          : updated(false),
+            init_number(0)
           {
             ++number_of_instance ;
           }
@@ -362,6 +358,7 @@ namespace ProjetUnivers
 
           void onInit()
           {
+            value = getTrait()->getValue() ;
             ++init_number ;
           }
 
@@ -422,11 +419,9 @@ namespace ProjetUnivers
         public:
 
 
-          ControlerHead2(Head* i_head,TestControlerSet2* i_controler_set)
-          : Controler<Head,TestControlerSet2>(i_head,i_controler_set),
-            updated(false),
-            init_number(0),
-            value(i_head->getValue())
+          ControlerHead2()
+          : updated(false),
+            init_number(0)
           {
             ++number_of_instance ;
           }
@@ -447,6 +442,7 @@ namespace ProjetUnivers
 
           void onInit()
           {
+            value = getTrait()->getValue() ;
             ++init_number ;
           }
 
@@ -955,9 +951,6 @@ namespace ProjetUnivers
         class ControlerTrait1 : public Controler<Trait1,DestroyControlerSet>
         {
         public:
-          ControlerTrait1(Trait1* trait,DestroyControlerSet* controler_set)
-          : Controler<Trait1,DestroyControlerSet>(trait,controler_set)
-          {}
 
           virtual void simulate(const float&)
           {
@@ -973,9 +966,6 @@ namespace ProjetUnivers
         class ControlerTrait2 : public Controler<Trait2,DestroyControlerSet>
         {
         public:
-          ControlerTrait2(Trait2* trait,DestroyControlerSet* controler_set)
-          : Controler<Trait2,DestroyControlerSet>(trait,controler_set)
-          {}
 
           virtual void simulate(const float&)
           {
@@ -996,9 +986,6 @@ namespace ProjetUnivers
         class ControlerTrait3 : public Controler<Trait3,DestroyControlerSet>
         {
         public:
-          ControlerTrait3(Trait3* trait,DestroyControlerSet* controler_set)
-          : Controler<Trait3,DestroyControlerSet>(trait,controler_set)
-          {}
 
           virtual void simulate(const float&)
           {
@@ -1052,12 +1039,7 @@ namespace ProjetUnivers
         {
         public:
 
-
           static bool m_accessed ;
-
-          AccessTrait1Controler(Trait1* trait,AccessControlerSet* controler_set)
-          : Controler<Trait1,AccessControlerSet>(trait,controler_set)
-          {}
 
           virtual void simulate(const float&)
           {
@@ -1106,9 +1088,6 @@ namespace ProjetUnivers
         class DestroyObjectTrait1 : public Controler<Trait1,DestroyObject>
         {
         public:
-          DestroyObjectTrait1(Trait1* trait,DestroyObject* controler_set)
-          : Controler<Trait1,DestroyObject>(trait,controler_set)
-          {}
 
           virtual void simulate(const float&)
           {
@@ -1121,9 +1100,6 @@ namespace ProjetUnivers
         class DestroyObjectTrait2 : public Controler<Trait2,DestroyObject>
         {
         public:
-          DestroyObjectTrait2(Trait2* trait,DestroyObject* controler_set)
-          : Controler<Trait2,DestroyObject>(trait,controler_set)
-          {}
 
           virtual void simulate(const float&)
           {
@@ -1204,10 +1180,6 @@ namespace ProjetUnivers
         {
         public:
 
-          C11(T1* t1,C1* c1)
-          : Controler<T1,C1>(t1,c1)
-          {}
-
           void onUpdate()
           {
             std::cout << "C11" ;
@@ -1233,10 +1205,6 @@ namespace ProjetUnivers
         class C12 : public Controler<T1,C2>
         {
         public:
-
-          C12(T1* t1,C2* c)
-          : Controler<T1,C2>(t1,c)
-          {}
 
           void onUpdate()
           {
@@ -1291,9 +1259,6 @@ namespace ProjetUnivers
         class ControlerNotAnything : public Controler<NotAnything,TestControlerSet>
         {
         public:
-          ControlerNotAnything(NotAnything* model,TestControlerSet* viewpoint)
-          : Controler<NotAnything,TestControlerSet>(model,viewpoint)
-          {}
 
           void onInit()
           {
@@ -1342,10 +1307,6 @@ namespace ProjetUnivers
         {
         public:
 
-          C11(T1* t1,C1* c1)
-          : Controler<T1,C1>(t1,c1)
-          {}
-
           void onInit()
           {
             initialised = true ;
@@ -1360,10 +1321,6 @@ namespace ProjetUnivers
         class C12 : public Controler<T12,C1>
         {
         public:
-
-          C12(T12* t1,C1* c)
-          : Controler<T12,C1>(t1,c)
-          {}
 
           void onInit()
           {

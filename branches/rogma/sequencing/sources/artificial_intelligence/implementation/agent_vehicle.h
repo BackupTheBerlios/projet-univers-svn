@@ -18,17 +18,19 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_AI_IMPLEMENTATION_AGENT_VEHICLE_H_
-#define PU_AI_IMPLEMENTATION_AGENT_VEHICLE_H_
+#pragma once
 
 #include <OgreVector3.h>
 #include <kernel/trait_view.h>
 #include <model/physical_object.h>
 #include <artificial_intelligence/implementation/agent_vehicle_view_point.h>
 
-namespace ProjetUnivers {
-  namespace ArtificialIntelligence {
-    namespace Implementation {
+namespace ProjetUnivers
+{
+  namespace ArtificialIntelligence
+  {
+    namespace Implementation
+    {
 
       class Vehicle ;
       class Agent ;
@@ -42,9 +44,6 @@ namespace ProjetUnivers {
       {
       public:
       
-        /// Constructor.
-        AgentVehicle(Model::PhysicalObject*,AgentVehicleViewPoint*) ;
-        
         /// Build the associated vehicle
         virtual void onInit() ;
 
@@ -67,5 +66,3 @@ namespace ProjetUnivers {
     }
   }
 }
-
-#endif /*PU_AI_IMPLEMENTATION_AGENT_VEHICLE_H_*/

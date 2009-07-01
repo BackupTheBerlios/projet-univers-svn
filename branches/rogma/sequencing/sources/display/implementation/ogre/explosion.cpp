@@ -40,13 +40,6 @@ namespace ProjetUnivers
                      Ogre::RealWorldViewPoint) ;
 
 
-        Explosion::Explosion(Implementation::Explosion* object,
-                             RealWorldViewPoint*        viewpoint)
-        : Kernel::TraitView<Implementation::Explosion,RealWorldViewPoint>(object,viewpoint),
-          m_mesh(NULL),
-          m_node(NULL)
-        {}
-
         void Explosion::onInit()
         {
           InternalMessage("Display","Entering Ogre::Explosion::onInit") ;

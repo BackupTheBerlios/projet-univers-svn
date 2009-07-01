@@ -20,17 +20,17 @@
  ***************************************************************************/
 #include <input/implementation/ois/menu.h>
 
-namespace ProjetUnivers {
-  namespace Input {
-    namespace Implementation {
-      namespace OIS {
+namespace ProjetUnivers
+{
+  namespace Input
+  {
+    namespace Implementation
+    {
+      namespace OIS
+      {
       
         RegisterControler(Menu,ActiveMenu,InputControlerSet) ;
    
-        Menu::Menu(ActiveMenu* menu,InputControlerSet* system)
-        : Kernel::Controler<ActiveMenu,InputControlerSet>(menu,system)
-        {}
-        
         void Menu::simulate(const float& seconds)
         {
           simulateInputMenu(seconds) ;

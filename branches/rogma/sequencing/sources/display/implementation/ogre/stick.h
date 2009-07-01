@@ -40,17 +40,6 @@ namespace ProjetUnivers
         class Stick : public Kernel::TraitView<Implementation::DisplayedStick,
                                                RealWorldViewPoint>
         {
-        public:
-        
-        /*!
-          @name Construction 
-        */
-        // @{
-
-          /// Constructor.
-          Stick(Implementation::DisplayedStick*,RealWorldViewPoint*) ;
-
-        // @}
         protected:
 
         /*!

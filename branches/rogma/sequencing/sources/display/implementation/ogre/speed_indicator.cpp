@@ -42,16 +42,6 @@ namespace ProjetUnivers
                      Implementation::SpeedIndicator, 
                      Ogre::RealWorldViewPoint) ;
         
-        SpeedIndicator::SpeedIndicator(Implementation::SpeedIndicator* indicator,
-                                       RealWorldViewPoint*             viewpoint) 
-        : Kernel::TraitView<Implementation::SpeedIndicator,
-                            RealWorldViewPoint>(indicator,viewpoint),
-          m_speed_container(NULL),
-          m_speed(NULL)
-        {
-          InternalMessage("Display","Building Ogre::SpeedIndicator::SpeedIndicator") ;
-        }
-        
         
         void SpeedIndicator::onInit()
         {

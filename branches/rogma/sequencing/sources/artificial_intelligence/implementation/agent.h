@@ -18,8 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_AI_IMPLEMENTATION_AGENT_H_
-#define PU_AI_IMPLEMENTATION_AGENT_H_
+#pragma once
 
 #include <kernel/controler.h>
 #include <kernel/percentage.h>
@@ -49,9 +48,6 @@ namespace ProjetUnivers
       class Agent : public Kernel::Controler<AutonomousAgent,AISystem>
       {
       public:
-
-        /// Constructor.
-        Agent(AutonomousAgent*,AISystem*) ;
 
         /// Build the associated vehicle and behaviors.
         virtual void onInit() ;
@@ -161,5 +157,3 @@ namespace ProjetUnivers
     }
   }
 }
-
-#endif /*PU_AI_IMPLEMENTATION_AGENT_H_*/

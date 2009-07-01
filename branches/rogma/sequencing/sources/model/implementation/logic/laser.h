@@ -18,27 +18,26 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_IMPLEMENTATION_LOGIC_LASER_H_
-#define PU_MODEL_IMPLEMENTATION_LOGIC_LASER_H_
+#pragma once
 
 #include <kernel/controler.h>
 #include <model/laser.h>
 #include <model/implementation/logic/logic_system.h>
 
-namespace ProjetUnivers {
-  namespace Model {
-    namespace Implementation {
-      namespace Logic {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
+    namespace Implementation
+    {
+      namespace Logic
+      {
 
         /// Manage firing rate.
         class Laser : public Kernel::Controler<Model::Laser,
                                                LogicSystem>
         {
         public:
-          
-          /// Construct.
-          Laser(Model::Laser* object,
-                LogicSystem*  system) ;
         
           /// Reduce time to next shot.
           void simulate(const float& seconds) ;
@@ -48,6 +47,3 @@ namespace ProjetUnivers {
     }
   }
 }
-
-
-#endif

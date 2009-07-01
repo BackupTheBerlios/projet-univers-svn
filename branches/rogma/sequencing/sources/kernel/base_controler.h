@@ -63,8 +63,14 @@ namespace ProjetUnivers
 
       /// abstract class means protected constructor.
       BaseControler(Trait* trait,ControlerSet* controler_set) ;
+      BaseControler() ;
+
 
       ControlerSet* m_controler_set ;
+
+    private:
+
+      void setControlerSet(ControlerSet* controler_set) ;
 
       friend class Trait ;
 

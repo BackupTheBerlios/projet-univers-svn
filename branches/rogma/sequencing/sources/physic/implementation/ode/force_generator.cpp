@@ -31,24 +31,20 @@
 #include <physic/implementation/ode/physical_world.h>
 #include <physic/implementation/ode/force_generator.h>
 
-namespace ProjetUnivers {
-  namespace Physic {
-    namespace Implementation {
-      namespace Ode {
+namespace ProjetUnivers
+{
+  namespace Physic
+  {
+    namespace Implementation
+    {
+      namespace Ode
+      {
 
         // control registration
         RegisterControler(ForceGenerator,
                           Model::ForceGenerator,
                           PhysicSystem) ;
 
-
-        ForceGenerator::ForceGenerator(
-            Model::ForceGenerator* i_object,
-            PhysicSystem*          i_system)
-        : Kernel::Controler<Model::ForceGenerator,
-                            PhysicSystem>(i_object,i_system),
-          m_object(NULL)
-        {}
 
         void ForceGenerator::prepare()
         {

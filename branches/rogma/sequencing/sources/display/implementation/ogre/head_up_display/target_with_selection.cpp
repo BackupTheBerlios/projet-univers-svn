@@ -41,13 +41,6 @@ namespace ProjetUnivers
                        Implementation::TargetWithSelection,
                        HeadUpDisplayViewPoint) ;
 
-          TargetWithSelection::TargetWithSelection(
-              Implementation::TargetWithSelection* object,
-              HeadUpDisplayViewPoint* viewpoint)
-          : Kernel::TraitView<Implementation::TargetWithSelection,HeadUpDisplayViewPoint>(object,viewpoint),
-            m_target(NULL)
-          {}
-
           void TargetWithSelection::onInit()
           {
             InternalMessage("Display","Entering TargetWithSelection::onInit") ;

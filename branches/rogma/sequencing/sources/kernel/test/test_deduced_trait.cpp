@@ -211,9 +211,8 @@ namespace ProjetUnivers
         {
         public:
 
-          View7(DeducedTrait7* i_trait, TestViewPoint* i_viewpoint)
-          : TraitView<DeducedTrait7,TestViewPoint>(i_trait,i_viewpoint),
-            m_update_number(0)
+          View7()
+          : m_update_number(0)
           {}
 
           int m_update_number ;
@@ -602,9 +601,6 @@ namespace ProjetUnivers
         class View11 : public TraitView<DeducedTrait11,ViewPoint11>
         {
         public:
-          View11(DeducedTrait11* i_trait, ViewPoint11* i_viewpoint)
-          : TraitView<DeducedTrait11,ViewPoint11>(i_trait,i_viewpoint)
-          {}
 
           TypeIdentifier m_latest_updated_trait ;
 
@@ -626,10 +622,6 @@ namespace ProjetUnivers
         class View12 : public TraitView<DeducedTrait12,ViewPoint11>
         {
         public:
-
-          View12(DeducedTrait12* i_trait, ViewPoint11* i_viewpoint)
-          : TraitView<DeducedTrait12,ViewPoint11>(i_trait,i_viewpoint)
-          {}
 
           TypeIdentifier m_latest_updated_trait ;
 
@@ -703,9 +695,8 @@ namespace ProjetUnivers
         {
         public:
 
-          ViewHasParentTrait1(HasParentTrait1* o,TestViewPoint* v)
-          : TraitView<HasParentTrait1,TestViewPoint>(o,v),
-            m_update_number(0)
+          ViewHasParentTrait1()
+          : m_update_number(0)
           {}
 
           int getUpdateNumber() const
@@ -735,9 +726,8 @@ namespace ProjetUnivers
         {
         public:
 
-          ViewHasParentAndTrait1(ParentAndTrait1* o,TestViewPoint* v)
-          : TraitView<ParentAndTrait1,TestViewPoint>(o,v),
-            m_update_number(0)
+          ViewHasParentAndTrait1()
+          : m_update_number(0)
           {}
 
           int getUpdateNumber() const
@@ -1179,9 +1169,8 @@ namespace ProjetUnivers
         {
         public:
 
-          ViewHasChildTrait1(HasChildTrait1* o,TestViewPoint* v)
-          : TraitView<HasChildTrait1,TestViewPoint>(o,v),
-            m_update_number(0)
+          ViewHasChildTrait1()
+          : m_update_number(0)
           {}
 
           int getUpdateNumber() const
@@ -1408,10 +1397,6 @@ namespace ProjetUnivers
         {
         public:
 
-          V12(T12* t,Viewpoint1* v)
-          : TraitView<T12,Viewpoint1>(t,v)
-          {}
-
           void onUpdate()
           {
             ++number_of_updates ;
@@ -1434,10 +1419,6 @@ namespace ProjetUnivers
         class V123 : public TraitView<T123,Viewpoint1>
         {
         public:
-
-          V123(T123* t,Viewpoint1* v)
-          : TraitView<T123,Viewpoint1>(t,v)
-          {}
 
           void onUpdate()
           {

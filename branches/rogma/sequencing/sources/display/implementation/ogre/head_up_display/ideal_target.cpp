@@ -42,15 +42,6 @@ namespace ProjetUnivers
                        Implementation::IdealTarget, 
                        HeadUpDisplayViewPoint) ;
           
-          IdealTarget::IdealTarget(
-              Implementation::IdealTarget* object,
-              HeadUpDisplayViewPoint* viewpoint)
-          : Kernel::TraitView<Implementation::IdealTarget,HeadUpDisplayViewPoint>(object,viewpoint),
-            m_target_container(NULL),
-            m_target(NULL),
-            m_target_is_shown(false)
-          {}
-
           namespace 
           {
             float target_size = 0 ;

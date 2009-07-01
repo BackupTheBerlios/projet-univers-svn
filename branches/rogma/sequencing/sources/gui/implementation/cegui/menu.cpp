@@ -27,21 +27,19 @@
 #include <gui/implementation/cegui/menu.h>
 #include <gui/implementation/cegui/cegui.h>
 
-namespace ProjetUnivers {
-  namespace GUI {
-    namespace Implementation {
-      namespace CEGUI {
+namespace ProjetUnivers
+{
+  namespace GUI
+  {
+    namespace Implementation
+    {
+      namespace CEGUI
+      {
 
         RegisterControler(Menu,
                           ActiveMenu,
                           GUIControlerSet) ;
 
-        Menu::Menu(ActiveMenu* object,GUIControlerSet* viewpoint)
-        : Kernel::Controler<ActiveMenu,GUIControlerSet>(object,viewpoint),
-          m_window(NULL)
-        {
-          InternalMessage("GUI","Building CEGUI::Menu::Menu") ;
-        }
 
         void Menu::onInit()
         {

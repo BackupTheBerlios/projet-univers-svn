@@ -38,16 +38,6 @@ namespace ProjetUnivers
                      Implementation::DisplayedStick, 
                      Ogre::RealWorldViewPoint) ;
         
-        Stick::Stick(Implementation::DisplayedStick* stick,
-                     RealWorldViewPoint*             viewpoint) 
-        : Kernel::TraitView<Implementation::DisplayedStick,
-                            RealWorldViewPoint>(stick,viewpoint),
-          m_cross_container(NULL),
-          m_cross(NULL)
-        {
-          InternalMessage("Display","Building Ogre::Stick::Stick") ;
-        }
-        
         
         void Stick::onInit()
         {

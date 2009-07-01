@@ -18,8 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_PHYSIC_IMPLEMENTATION_ODE_PHYSICAL_OBJECT_H_
-#define PU_PHYSIC_IMPLEMENTATION_ODE_PHYSICAL_OBJECT_H_
+#pragma once
 
 #include <ode/ode.h>
 
@@ -30,10 +29,14 @@
 
 #include <physic/implementation/ode/physic_system.h>
 
-namespace ProjetUnivers {
-  namespace Physic {
-    namespace Implementation {
-      namespace Ode {
+namespace ProjetUnivers
+{
+  namespace Physic
+  {
+    namespace Implementation
+    {
+      namespace Ode
+      {
       
         class Solid ;
         
@@ -45,9 +48,6 @@ namespace ProjetUnivers {
                                                         PhysicSystem>
         {
         public:
-
-          /// constructor.
-          PhysicalObject(Model::PhysicalObject*,PhysicSystem*) ;
           
           /// Access to ODE implementation.
           dBody* getBody() const ;
@@ -105,5 +105,3 @@ namespace ProjetUnivers {
     }
   }
 }
-
-#endif /*PU_PHYSIC_IMPLEMENTATION_ODE_PHYSICAL_OBJECT_H_*/

@@ -25,19 +25,16 @@
 #include <display/implementation/ogre/image.h>
 
 
-namespace ProjetUnivers {
-  namespace Display {
-    namespace Implementation {
-      namespace Ogre {
+namespace ProjetUnivers
+{
+  namespace Display
+  {
+    namespace Implementation
+    {
+      namespace Ogre
+      {
 
         RegisterView(Image,Implementation::Image,RealWorldViewPoint) ;
-        
-        Image::Image(Implementation::Image* object,
-                     RealWorldViewPoint*    viewpoint)
-        : Kernel::TraitView<Implementation::Image,RealWorldViewPoint>(object,viewpoint),
-          m_image_container(NULL),
-          m_image(NULL)
-        {}
 
         void Image::onInit()
         {

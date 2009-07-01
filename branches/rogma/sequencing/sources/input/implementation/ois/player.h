@@ -18,8 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_INPUT_IMPLEMENTATION_OIS_PLAYER_H_
-#define PU_INPUT_IMPLEMENTATION_OIS_PLAYER_H_
+#pragma once
 
 #include <kernel/controler.h>
 
@@ -27,18 +26,19 @@
 
 #include <input/implementation/ois/input_controler_set.h>
 
-namespace ProjetUnivers {
-  namespace Input {
-    namespace Implementation {
-      namespace OIS {
+namespace ProjetUnivers
+{
+  namespace Input
+  {
+    namespace Implementation
+    {
+      namespace OIS
+      {
       
         /// Player input control.
         class Player : public Kernel::Controler<Model::Player,InputControlerSet>
         {
         public:
-          
-          /// Constructor.
-          Player(Model::Player*,InputControlerSet*) ;
           
           /// Send commands to player. 
           virtual void simulate(const float& seconds) ;
@@ -51,5 +51,3 @@ namespace ProjetUnivers {
     }
   }
 }
-
-#endif /*PU_INPUT_IMPLEMENTATION_OIS_PLAYER_H_*/

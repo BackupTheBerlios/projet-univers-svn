@@ -24,25 +24,25 @@
 #include <model/with_lifetime.h>
 #include <model/implementation/logic/destroyable.h>
 
-namespace ProjetUnivers {
-  namespace Model {
-    namespace Implementation {
-      namespace Logic {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
+    namespace Implementation
+    {
+      namespace Logic
+      {
 
 
         RegisterControler(Logic::Destroyable, 
                           Model::Destroyable, 
                           LogicSystem) ;
 
-        Destroyable::Destroyable(Model::Destroyable* i_object,
-                                 LogicSystem*      i_system)
-        : Kernel::Controler<Model::Destroyable,
-                            LogicSystem>(i_object,i_system),
-          m_marked_to_destroy(false)
+        void Destroyable::onInit()
         {
-          InternalMessage("Model","Logic::Destroyable controler built") ;
+          m_marked_to_destroy = false ;
         }
-      
+
         void Destroyable::simulate(const float& i_seconds)
         {
           if (getTrait()->getLife() <= 0 && !m_marked_to_destroy)

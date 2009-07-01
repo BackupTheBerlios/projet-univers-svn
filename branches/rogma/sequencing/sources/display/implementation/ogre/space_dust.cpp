@@ -29,22 +29,19 @@
 #include <display/implementation/ogre/positionned.h>
 #include <display/implementation/ogre/space_dust.h>
 
-namespace ProjetUnivers {
-  namespace Display {
-    namespace Implementation {
-      namespace Ogre {
+namespace ProjetUnivers
+{
+  namespace Display
+  {
+    namespace Implementation
+    {
+      namespace Ogre
+      {
 
         RegisterView(Ogre::SpaceDust,
                      Implementation::SpaceDust,
                      Ogre::RealWorldViewPoint) ;
 
-        SpaceDust::SpaceDust(Implementation::SpaceDust* dust,RealWorldViewPoint* viewpoint)
-        : Kernel::TraitView<Implementation::SpaceDust,RealWorldViewPoint>(dust,viewpoint),
-          m_space_dust_node(NULL),
-          m_space_dusts(NULL)
-        {
-          InternalMessage("Display","Building Ogre::SpaceDust::SpaceDust") ;
-        }
 
         void SpaceDust::setEmmisionRate()
         {

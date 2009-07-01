@@ -18,8 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_DISPLAY_IMPLEMENTATION_OGRE_UNIVERSE_H_
-#define PU_DISPLAY_IMPLEMENTATION_OGRE_UNIVERSE_H_
+#pragma once
 
 #include <Ogre.h>
 
@@ -28,11 +27,14 @@
 #include <display/implementation/ogre/real_world_view_point.h>
 
 
-
-namespace ProjetUnivers {
-  namespace Display {
-    namespace Implementation {
-      namespace Ogre {
+namespace ProjetUnivers
+{
+  namespace Display
+  {
+    namespace Implementation
+    {
+      namespace Ogre
+      {
 
         /// Display the Universe.
         /*!
@@ -41,20 +43,7 @@ namespace ProjetUnivers {
         class Universe : public Kernel::TraitView<Model::Universe,
                                                   RealWorldViewPoint>
         {
-        public:
-        
-        /*!
-          @name Construct 
-        */
-        // @{
-          
-          /// Constructor.
-          Universe(Model::Universe* i_universe,
-                   RealWorldViewPoint* i_viewpoint) ;
-
         protected:
-        
-        // @}
         /*!
           @name Updates
                       
@@ -78,7 +67,4 @@ namespace ProjetUnivers {
     }
   }
 }
-
-
-#endif        
 

@@ -59,13 +59,6 @@ namespace ProjetUnivers
                           Implementation::ActivatedFlyingGroup,
                           LogicSystem) ;
 
-        FlyingGroup::FlyingGroup(Implementation::ActivatedFlyingGroup* group,
-                                 LogicSystem*                          system)
-        : Kernel::Controler<Implementation::ActivatedFlyingGroup,
-                            LogicSystem>(group,system),
-          m_number_of_spawn(0)
-        {}
-
         Position FlyingGroup::getStartingPosition() const
         {
           std::set<Position> enemy_positions ;
@@ -112,9 +105,8 @@ namespace ProjetUnivers
           pilot->getTrait<State>()->addCommandAlias("Menu","push(main_menu_in_game,Displayed)") ;
         }
 
-        void FlyingGroup::onInit()
+        void FlyingGroup::spawn()
         {
-          InternalMessage("Mission","FlyingGroup::onInit") ;
           Position starting_position(getStartingPosition()) ;
           Distance radius ;
 
@@ -174,6 +166,14 @@ namespace ProjetUnivers
           }
 
           ++m_number_of_spawn ;
+        }
+
+        void FlyingGroup::onInit()
+        {
+          InternalMessage("Mission","FlyingGroup::onInit") ;
+
+          m_number_of_spawn = 0 ;
+          spawn() ;
           InternalMessage("Mission","FlyingGroup::onInit") ;
         }
 
@@ -183,7 +183,7 @@ namespace ProjetUnivers
           {
             if (m_number_of_spawn < getTrait<Model::FlyingGroup>()->getNumberOfSpawn())
             {
-              onInit() ;
+              spawn() ;
             }
             else
             {

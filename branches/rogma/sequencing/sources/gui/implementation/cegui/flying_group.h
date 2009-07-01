@@ -18,8 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_GUI_IMPLEMENTATION_CEGUI_FLYING_GROUP_H_
-#define PU_GUI_IMPLEMENTATION_CEGUI_FLYING_GROUP_H_
+#pragma once
 
 #include <CEGUI/CEGUIWindow.h>
 
@@ -46,11 +45,6 @@ namespace ProjetUnivers
         class FlyingGroup : public Kernel::Controler<EditedFlyingGroup,
                                                      GUIControlerSet>
         {
-        public:
-  
-          /// Constructor.
-          FlyingGroup(EditedFlyingGroup*,GUIControlerSet*) ;
-  
         protected:
   
         /*!
@@ -107,5 +101,3 @@ namespace ProjetUnivers
     }
   }
 }
-
-#endif /*PU_GUI_IMPLEMENTATION_CEGUI_FLYING_GROUP_H_*/

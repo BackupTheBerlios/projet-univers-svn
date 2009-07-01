@@ -26,10 +26,14 @@
 #include <display/implementation/observer.h>
 #include <display/implementation/ogre/real_world_view_point.h>
 
-namespace ProjetUnivers {
-  namespace Display {
-    namespace Implementation {
-      namespace Ogre {
+namespace ProjetUnivers
+{
+  namespace Display
+  {
+    namespace Implementation
+    {
+      namespace Ogre
+      {
 
 
         /// Observer view.
@@ -38,18 +42,9 @@ namespace ProjetUnivers {
         {
         public:
 
-        /*!
-          @name Construction
-        */
-        // @{
-
-
-          /// Constructor.
-          Observer(Implementation::Observer*,RealWorldViewPoint*) ;
-
+          /// Access to camera
           ::Ogre::Camera* getCamera() const ;
 
-        // @}
         protected:
 
         /*!

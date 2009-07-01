@@ -18,8 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_PHYSIC_IMPLEMENTATION_ODE_TORQUE_GENERATOR_H_
-#define PU_PHYSIC_IMPLEMENTATION_ODE_TORQUE_GENERATOR_H_
+#pragma once
 
 #include <kernel/controler.h>
 #include <kernel/object.h>
@@ -28,10 +27,14 @@
 
 #include <physic/implementation/ode/physic_system.h>
 
-namespace ProjetUnivers {
-  namespace Physic {
-    namespace Implementation {
-      namespace Ode {
+namespace ProjetUnivers
+{
+  namespace Physic
+  {
+    namespace Implementation
+    {
+      namespace Ode
+      {
         
         class PhysicalObject ;
               
@@ -43,16 +46,13 @@ namespace ProjetUnivers {
                                                          PhysicSystem>
         {
         public:
-
-          /// constructor.
-          TorqueGenerator(Model::TorqueGenerator*,PhysicSystem*) ;
           
           /// simulation
           virtual void prepare() ;
           
         protected:
         
-          /// Called after the view is created on a initialised viewpoint.
+          /// Called after the view is created on a initialized viewpoint.
           virtual void onInit() ;
           
           /// Called just before the view is destroyed.
@@ -75,5 +75,3 @@ namespace ProjetUnivers {
     }
   }
 }
-
-#endif /*PU_PHYSIC_IMPLEMENTATION_ODE_TORQUE_GENERATOR_H_*/

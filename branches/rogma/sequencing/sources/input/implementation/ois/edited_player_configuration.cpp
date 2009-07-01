@@ -38,13 +38,6 @@ namespace ProjetUnivers
                           Implementation::EditedPlayerConfiguration,
                           InputControlerSet) ;
    
-        EditedPlayerConfiguration::EditedPlayerConfiguration(
-                Implementation::EditedPlayerConfiguration* menu,
-                InputControlerSet* system)
-        : Kernel::Controler<Implementation::EditedPlayerConfiguration,InputControlerSet>(menu,system),
-          m_recording_mode(false)
-        {}
-        
         void EditedPlayerConfiguration::simulate(const float& seconds)
         {
           if (getObject()->getTrait<Model::PlayerConfiguration>()->isEventRecordingMode())
@@ -83,6 +76,7 @@ namespace ProjetUnivers
         
         void EditedPlayerConfiguration::onInit()
         {
+          m_recording_mode = false ;
           initInputMenu() ;
         }
         

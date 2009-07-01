@@ -29,16 +29,14 @@
 #include <model/detection_data.h>
 #include <artificial_intelligence/implementation/detected_vehicle.h>
 
-namespace ProjetUnivers {
-  namespace ArtificialIntelligence {
-    namespace Implementation {
+namespace ProjetUnivers
+{
+  namespace ArtificialIntelligence
+  {
+    namespace Implementation
+    {
 
       RegisterView(DetectedVehicle,Target,AgentViewPoint) ;
-
-      DetectedVehicle::DetectedVehicle(Target* data,AgentViewPoint* viewpoint)
-      : Kernel::TraitView<Target,AgentViewPoint>(data,viewpoint),
-        m_vehicle(NULL)
-      {}
 
       void DetectedVehicle::onInit()
       {

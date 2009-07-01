@@ -33,10 +33,6 @@ namespace ProjetUnivers
         
         RegisterControler(Player,PlayerInActivatedFlyingGroup,LogicSystem) ;
         
-        Player::Player(PlayerInActivatedFlyingGroup* player,LogicSystem* system)
-        : Kernel::Controler<PlayerInActivatedFlyingGroup,LogicSystem>(player,system)
-        {}
-        
         void Player::onClose()
         {
           Kernel::Object* group = getObject()

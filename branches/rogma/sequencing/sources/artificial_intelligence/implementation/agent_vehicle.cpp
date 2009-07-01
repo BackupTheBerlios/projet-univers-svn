@@ -27,13 +27,13 @@
 #include <artificial_intelligence/implementation/vehicle.h>
 #include <artificial_intelligence/implementation/agent_vehicle.h>
 
-namespace ProjetUnivers {
-  namespace ArtificialIntelligence {
-    namespace Implementation {
+namespace ProjetUnivers
+{
+  namespace ArtificialIntelligence
+  {
+    namespace Implementation
+    {
 
-      AgentVehicle::AgentVehicle(Model::PhysicalObject* object,AgentVehicleViewPoint* viewpoint)
-      : Kernel::TraitView<Model::PhysicalObject,AgentVehicleViewPoint>(object,viewpoint)
-      {}
 
       void AgentVehicle::onInit()
       {

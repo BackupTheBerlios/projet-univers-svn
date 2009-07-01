@@ -235,6 +235,8 @@ namespace ProjetUnivers
             if (finder->second.first.isInstance(this))
             {
               BaseControler* controler = finder->second.second(this,i_controler_set) ;
+              controler->setObserved(this) ;
+              controler->setControlerSet(i_controler_set) ;
               m_controlers.insert(std::pair<ControlerSet*,BaseControler*>(
                                      i_controler_set,controler)) ;
             }

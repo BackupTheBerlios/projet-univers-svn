@@ -18,8 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_GUI_IMPLEMENTATION_CEGUI_MENU_H_
-#define PU_GUI_IMPLEMENTATION_CEGUI_MENU_H_
+#pragma once
 
 #include <CEGUI/CEGUIWindow.h>
 
@@ -27,20 +26,19 @@
 #include <gui/implementation/active_menu.h>
 #include <gui/implementation/cegui/gui_controler_set.h>
 
-namespace ProjetUnivers {
-  namespace GUI {
-    namespace Implementation {
-      namespace CEGUI {
+namespace ProjetUnivers
+{
+  namespace GUI
+  {
+    namespace Implementation
+    {
+      namespace CEGUI
+      {
         
         /// Menu display.
         class Menu : public Kernel::Controler<ActiveMenu,
                                               GUIControlerSet>
         {
-        public:
-  
-          /// Constructor.
-          Menu(ActiveMenu*,GUIControlerSet*) ;
-  
         protected:
   
         /*!
@@ -65,5 +63,3 @@ namespace ProjetUnivers {
     }
   }
 }
-
-#endif /*PU_GUI_IMPLEMENTATION_CEGUI_MENU_H_*/

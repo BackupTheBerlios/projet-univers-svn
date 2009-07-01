@@ -47,21 +47,6 @@ namespace ProjetUnivers
                        Implementation::Target, 
                        HeadUpDisplayViewPoint) ;
           
-          Target::Target(
-              Implementation::Target* object,
-              HeadUpDisplayViewPoint* viewpoint)
-          : Kernel::TraitView<Implementation::Target,HeadUpDisplayViewPoint>(object,viewpoint),
-            m_target_is_shown(false),
-            m_arrow_is_shown(false),
-            m_target_container(NULL),
-            m_target(NULL),
-            m_arrow_container(NULL),
-            m_arrow(NULL),
-            m_identification_container(NULL),
-            m_identification(NULL),
-            m_target_text_container(NULL),
-            m_target_text(NULL)
-          {}
 
           namespace 
           {

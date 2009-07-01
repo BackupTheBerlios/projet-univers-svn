@@ -27,21 +27,19 @@
 #include <display/implementation/ogre/laser_beam.h>
 
 
-namespace ProjetUnivers {
-  namespace Display {
-    namespace Implementation {
-      namespace Ogre {
+namespace ProjetUnivers
+{
+  namespace Display
+  {
+    namespace Implementation
+    {
+      namespace Ogre
+      {
 
         RegisterView(Ogre::LaserBeam,
                      Model::LaserBeam,
                      Ogre::RealWorldViewPoint) ;
 
-
-        LaserBeam::LaserBeam(Model::LaserBeam* i_object,
-                             RealWorldViewPoint* i_viewpoint)
-        : Kernel::TraitView<Model::LaserBeam,RealWorldViewPoint>(i_object,i_viewpoint),
-          mesh(NULL)
-        {}
 
         void LaserBeam::onInit()
         {

@@ -18,25 +18,24 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_AI_IMPLEMENTATION_SELECTED_VEHICLE_H_
-#define PU_AI_IMPLEMENTATION_SELECTED_VEHICLE_H_
+#pragma once
 
 #include <kernel/trait_view.h>
 #include <artificial_intelligence/implementation/selected_target.h>
 #include <artificial_intelligence/implementation/vehicle.h>
 #include <artificial_intelligence/implementation/agent_view_point.h>
 
-namespace ProjetUnivers {
-  namespace ArtificialIntelligence {
-    namespace Implementation {
+namespace ProjetUnivers
+{
+  namespace ArtificialIntelligence
+  {
+    namespace Implementation
+    {
 
       /// The selected vehicle.
       class SelectedVehicle : public Kernel::TraitView<SelectedTarget,AgentViewPoint>
       {
       public:
-        
-        /// Construction.
-        SelectedVehicle(SelectedTarget*,AgentViewPoint*) ;
         
         /// Build the associated vehicle.
         virtual void onInit() ;
@@ -55,4 +54,3 @@ namespace ProjetUnivers {
     }
   }
 }
-#endif /*PU_AI_IMPLEMENTATION_SELECTED_VEHICLE_H_*/

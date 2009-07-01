@@ -506,9 +506,7 @@ namespace ProjetUnivers
           ProjetUnivers::Kernel::Trait* _model,                              \
           ProjetUnivers::Kernel::ViewPoint* _viewpoint)                      \
         {                                                                    \
-          ClassTrait* temp(dynamic_cast<ClassTrait*>( _model)) ;             \
-          ClassViewPoint* temp2(static_cast<ClassViewPoint*>( _viewpoint)) ; \
-          return new ClassView(temp,temp2) ;                                 \
+          return new ClassView() ;                                           \
         }                                                                    \
         static                                                               \
         ProjetUnivers::Kernel::ViewRegistration<                             \
@@ -542,9 +540,7 @@ namespace ProjetUnivers
           ProjetUnivers::Kernel::Trait* _model,                              \
           ProjetUnivers::Kernel::ControlerSet* _set)                         \
         {                                                                    \
-          ClassTrait* temp(dynamic_cast<ClassTrait*>(_model)) ;              \
-          ClassControlerSet* temp2(static_cast<ClassControlerSet*>( _set)) ; \
-          return new ClassControler(temp,temp2) ;                            \
+          return new ClassControler() ;                                      \
         }                                                                    \
         static                                                               \
         ProjetUnivers::Kernel::ControlerRegistration<                        \

@@ -18,8 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_SOUND_IMPLEMENTATION_OPENAL_SOUND_ENVIRONNEMENT_H_
-#define PU_SOUND_IMPLEMENTATION_OPENAL_SOUND_ENVIRONNEMENT_H_
+#pragma once
 
 #include <kernel/trait_view.h>
 
@@ -27,10 +26,14 @@
 
 #include <sound/implementation/openal/real_world_view_point.h>
 
-namespace ProjetUnivers {
-  namespace Sound {
-    namespace Implementation {
-      namespace OpenAL {
+namespace ProjetUnivers
+{
+  namespace Sound
+  {
+    namespace Implementation
+    {
+      namespace OpenAL
+      {
     
         /// View on a soundEnvironnement, create the corresponding reverb effect
         class SoundEnvironnement : 
@@ -39,16 +42,10 @@ namespace ProjetUnivers {
         {
         public:
 
-    
-         /// Constructor
-          SoundEnvironnement(Model::SoundEnvironnement*,RealWorldViewPoint*) ;
-
-        
           /// Accessor to the effect slot
           ALuint getAuxEffectSlot() ;
       
         protected:
-        
         /*!
           @name Updates.
         */
@@ -75,5 +72,3 @@ namespace ProjetUnivers {
     }
   }
 }
-
-#endif /*PU_SOUND_IMPLEMENTATION_OPENAL_SOUND_ENVIRONNEMENT_H_*/

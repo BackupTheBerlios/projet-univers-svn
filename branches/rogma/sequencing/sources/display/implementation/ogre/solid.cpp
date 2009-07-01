@@ -29,18 +29,16 @@
 #include <display/implementation/ogre/solid.h>
 
 
-namespace ProjetUnivers {
-  namespace Display {
-    namespace Implementation {
-      namespace Ogre {
+namespace ProjetUnivers
+{
+  namespace Display
+  {
+    namespace Implementation
+    {
+      namespace Ogre
+      {
 
         RegisterView(Ogre::Solid,DisplayedSolid,Ogre::RealWorldViewPoint) ;
-
-        Solid::Solid(DisplayedSolid*     object,
-                     RealWorldViewPoint* viewpoint)
-        : Kernel::TraitView<DisplayedSolid,RealWorldViewPoint>(object,viewpoint),
-          m_mesh(NULL)
-        {}
 
 
         void Solid::onInit()

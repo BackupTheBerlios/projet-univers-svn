@@ -25,23 +25,20 @@
 #include <model/universe.h>
 #include <model/implementation/logic/activated_mission.h>
 
-namespace ProjetUnivers {
-  namespace Model {
-    namespace Implementation {
-      namespace Logic {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
+    namespace Implementation
+    {
+      namespace Logic
+      {
 
 
         RegisterControler(ActivatedMission,
                           Implementation::ActivatedMission,
                           LogicSystem) ;
 
-        ActivatedMission::ActivatedMission(Implementation::ActivatedMission* mission,
-                                           LogicSystem*                      system)
-        : Kernel::Controler<Implementation::ActivatedMission,
-                            LogicSystem>(mission,system)
-        {
-          InternalMessage("Mission","ActivatedMission::ActivatedMission") ;
-        }
 
         void ActivatedMission::onInit()
         {

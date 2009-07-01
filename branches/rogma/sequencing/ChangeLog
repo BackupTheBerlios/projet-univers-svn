@@ -1304,6 +1304,13 @@
 
   * Model : 
     - added pointer to real object in DetectionData
+
+2009-07-01 rogma
+
+  * Kernel :
+    - simplification of view/controler : we are not obliged to have a special 
+      constructor (see mecanism for relation view). Now we do not provide any 
+      constructor (it should have a default constructor).
     
 in commit
 --------
@@ -1312,14 +1319,11 @@ in commit
 in progress
 -----------
 
-  * Kernel :
-    - simplification of view/controler : we are not obliged to have a special 
-      constructor (see mecanism for relation view)
-       # first pass
-    
 todo
 ----
-  
+  * Kernel :
+    - controlers ... during simulation of a controler, the updates on its trait 
+      should not be triggered
 
   * AI : 
     - complete refactoring : 

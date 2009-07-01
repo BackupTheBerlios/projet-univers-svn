@@ -43,14 +43,6 @@ namespace ProjetUnivers {
                           PhysicSystem) ;
 
 
-        PhysicalObject::PhysicalObject(Model::PhysicalObject* i_object,
-                                       PhysicSystem*          i_physic)
-        : Kernel::Controler<Model::PhysicalObject,
-                            PhysicSystem>(i_object,i_physic),
-          m_body(NULL),
-          m_is_being_updated(false),
-          m_collision_space(NULL)
-        {}
 
         dBody* PhysicalObject::getBody() const
         {
@@ -65,6 +57,10 @@ namespace ProjetUnivers {
         void PhysicalObject::onInit()
         {
           Kernel::Log::Block temp("Physic","PhysicalObject::onInit " + Kernel::toString(getObject()->getIdentifier())) ;
+
+          m_is_being_updated = false ;
+          m_body = NULL ;
+          m_collision_space = NULL ;
 
           PhysicalWorld* world = getAncestorControler<PhysicalWorld>() ;
           if (world)

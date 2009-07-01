@@ -34,11 +34,6 @@ namespace ProjetUnivers
                           ActivatedEndOfSimulation, 
                           LogicSystem) ;
 
-        EndOfSimulation::EndOfSimulation(ActivatedEndOfSimulation* object,
-                                         LogicSystem*              system)
-        : Kernel::Controler<ActivatedEndOfSimulation,
-                            LogicSystem>(object,system)
-        {}
        
         void EndOfSimulation::onInit()
         {

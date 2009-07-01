@@ -35,20 +35,18 @@
 
 #include <model/implementation/logic/target.h>
 
-namespace ProjetUnivers {
-  namespace Model {
-    namespace Implementation {
-      namespace Logic {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
+    namespace Implementation
+    {
+      namespace Logic
+      {
 
         RegisterView(Target,
                      Implementation::Target,
                      ShootingHelperViewPoint) ;
-
-        Target::Target(
-            Implementation::Target* object,
-            ShootingHelperViewPoint* viewpoint)
-        : Kernel::TraitView<Implementation::Target,ShootingHelperViewPoint>(object,viewpoint)
-        {}
 
         void Target::onInit()
         {

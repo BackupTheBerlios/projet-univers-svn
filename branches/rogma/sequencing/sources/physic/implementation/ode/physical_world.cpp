@@ -49,35 +49,18 @@ namespace ProjetUnivers
                           PhysicSystem) ;
 
 
-        PhysicalWorld::PhysicalWorld(Model::PhysicalWorld* i_object,
-                                     PhysicSystem*         i_physic)
-        : Kernel::Controler<Model::PhysicalWorld,
-                            PhysicSystem>(i_object,i_physic),
-          m_world(NULL),
-          m_collision_space(NULL)
-        {}
-
         void PhysicalWorld::onInit()
         {
           InternalMessage("Physic","Physic::PhysicalWorld::onInit entering " +
                                    Kernel::toString(getObject()->getIdentifier())) ;
 
           Kernel::Log::Block temp("Physic","PhysicalWorld::onInit") ;
-          if (m_world)
-          {
-            delete m_world ;
-          }
           m_world = new dWorld() ;
 
           dWorldSetCFM(m_world->id(),Kernel::Parameters::getValue<float>("Physic","WorldCFM")) ;
           dWorldSetERP(m_world->id(),Kernel::Parameters::getValue<float>("Physic","WorldERP")) ;
           dWorldSetContactSurfaceLayer(m_world->id(),Kernel::Parameters::getValue<float>("Physic","WorldContactSurfaceLayer")) ;
           dWorldSetContactMaxCorrectingVel(m_world->id(),Kernel::Parameters::getValue<float>("Physic","WorldContactMaxCorrectingVelocity")) ;
-
-          if (m_collision_space)
-          {
-            delete m_collision_space ;
-          }
 
           m_collision_space = new dSimpleSpace(0) ;
 

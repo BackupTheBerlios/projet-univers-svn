@@ -18,8 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_DISPLAY_IMPLEMENTATION_OGRE_SPACE_DUST_H_
-#define PU_DISPLAY_IMPLEMENTATION_OGRE_SPACE_DUST_H_
+#pragma once
 
 #include <Ogre.h>
 
@@ -27,30 +26,21 @@
 #include <display/implementation/space_dust.h>
 #include <display/implementation/ogre/real_world_view_point.h>
 
-namespace ProjetUnivers {
-  namespace Display {
-    namespace Implementation {
-      namespace Ogre {
+namespace ProjetUnivers
+{
+  namespace Display
+  {
+    namespace Implementation
+    {
+      namespace Ogre
+      {
         
         
         /// Space dust to show speed.
         class SpaceDust : public Kernel::TraitView<Implementation::SpaceDust,
                                                    RealWorldViewPoint>
         {
-        public:
-        
-        /*!
-          @name Construction 
-        */
-        // @{
-
-
-          /// Constructor.
-          SpaceDust(Implementation::SpaceDust*,RealWorldViewPoint*) ;
-
-        // @}
         protected:
-
         /*!
           @name Updates.
         */
@@ -80,6 +70,3 @@ namespace ProjetUnivers {
     }
   }
 }
-
-
-#endif

@@ -18,8 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_DISPLAY_IMPLEMENTATION_OGRE_EXPLOSION_H_
-#define PU_DISPLAY_IMPLEMENTATION_OGRE_EXPLOSION_H_
+#pragma once
 
 #include <Ogre.h>
 #include <kernel/trait_view.h>
@@ -27,28 +26,20 @@
 #include <display/implementation/ogre/real_world_view_point.h>
 
 
-namespace ProjetUnivers {
-  namespace Display {
-    namespace Implementation {
-      namespace Ogre {
+namespace ProjetUnivers
+{
+  namespace Display
+  {
+    namespace Implementation
+    {
+      namespace Ogre
+      {
 
         /// Display explosion.
         class Explosion : public Kernel::TraitView<Implementation::Explosion,
                                                    RealWorldViewPoint>
         {
-        public:
-        
-        /*!
-          @name Construct
-        */
-        // @{
-
-          /// Constructor.
-          Explosion(Implementation::Explosion* object,
-                    RealWorldViewPoint*        viewpoint) ;
-
         protected:
-        //@}
         /*!
           @name Updates
         */
@@ -73,4 +64,3 @@ namespace ProjetUnivers {
     }
   }
 }
-#endif

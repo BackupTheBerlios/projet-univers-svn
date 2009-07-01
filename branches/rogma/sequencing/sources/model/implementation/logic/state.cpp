@@ -22,21 +22,18 @@
 #include <model/model.h>
 #include <model/implementation/logic/state.h>
 
-namespace ProjetUnivers {
-  namespace Model {
-    namespace Implementation {
-      namespace Logic {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
+    namespace Implementation
+    {
+      namespace Logic
+      {
           
         RegisterControler(State, 
                           Model::State, 
                           LogicSystem) ;
-        
-        State::State(Model::State* object,
-                     LogicSystem*  system)
-        : Kernel::Controler<Model::State,LogicSystem>(object,system)
-        {
-          InternalMessage("Model","Logic::State controler built") ;
-        }
         
         void State::onClose()
         {

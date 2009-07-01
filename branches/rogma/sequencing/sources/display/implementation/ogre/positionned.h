@@ -48,10 +48,6 @@ namespace ProjetUnivers
         {
         public:
 
-          /// Construct.
-          Positionned(Implementation::Positionned* object,
-                      RealWorldViewPoint*          viewpoint) ;
-
           /// get scene node.
           /*!
             Init the view if necessary.

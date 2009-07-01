@@ -36,15 +36,6 @@ namespace ProjetUnivers
                      Implementation::Collision, 
                      OpenAL::RealWorldViewPoint) ;
              
-        Collision::Collision(Implementation::Collision* collision,
-                             RealWorldViewPoint*        viewpoint) 
-        : Kernel::TraitView<Implementation::Collision,
-                            RealWorldViewPoint>(collision,viewpoint),
-          SoundEmitter()
-        {
-          InternalMessage("Sound","Building OpenAL::Collision") ;
-        }
-                    
         std::string Collision::getSoundFileName() const
         {
           Model::Collision* collision = getTrait<Model::Collision>() ;

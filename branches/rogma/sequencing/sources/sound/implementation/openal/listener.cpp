@@ -23,24 +23,19 @@
 #include <sound/implementation/openal/openal.h>
 #include <sound/implementation/openal/listener.h>
 
-namespace ProjetUnivers {
-  namespace Sound {
-    namespace Implementation {
-      namespace OpenAL {
+namespace ProjetUnivers
+{
+  namespace Sound
+  {
+    namespace Implementation
+    {
+      namespace OpenAL
+      {
         
         RegisterView(OpenAL::Listener, 
                      Implementation::Listener, 
                      OpenAL::RealWorldViewPoint) ;
         
-        Listener::Listener(
-          Implementation::Listener*   object,
-          OpenAL::RealWorldViewPoint* viewpoint) 
-        : Kernel::TraitView<Implementation::Listener,
-                            OpenAL::RealWorldViewPoint>(object,viewpoint),
-        SoundListener()
-        {
-          InternalMessage("Sound","Building OpenAL::Listener") ;
-        }
         
         float Listener::getGain() const
         {

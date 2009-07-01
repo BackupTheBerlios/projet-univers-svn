@@ -18,8 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_IMPLEMENTATION_LOGIC_FLYING_GROUP_H_
-#define PU_MODEL_IMPLEMENTATION_LOGIC_FLYING_GROUP_H_
+#pragma once
 
 #include <kernel/controler.h>
 #include <model/position.h>
@@ -40,9 +39,6 @@ namespace ProjetUnivers
                                                      LogicSystem>
         {
         public:
-          
-          /// Construct.
-          FlyingGroup(Implementation::ActivatedFlyingGroup*,LogicSystem*) ;
         
           /// Respawn the player in an AI.
           void respawnPlayer() ;
@@ -55,6 +51,8 @@ namespace ProjetUnivers
           /// Handle respawn.
           virtual void onUpdate() ;
           
+          void spawn() ;
+
           /// Calculate the spawning position.
           Position getStartingPosition() const ;
           
@@ -66,6 +64,3 @@ namespace ProjetUnivers
     }
   }
 }
-
-
-#endif /*PU_MODEL_IMPLEMENTATION_LOGIC_FLYING_GROUP_H_*/

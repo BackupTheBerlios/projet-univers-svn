@@ -25,21 +25,18 @@
 #include <physic/implementation/ode/ode.h>
 #include <physic/implementation/ode/laser_beam.h>
 
-namespace ProjetUnivers {
-  namespace Physic {
-    namespace Implementation {
-      namespace Ode {
+namespace ProjetUnivers
+{
+  namespace Physic
+  {
+    namespace Implementation
+    {
+      namespace Ode
+      {
 
         RegisterControler(LaserBeam, 
                           Implementation::LaserBeam, 
                           PhysicSystem) ;
-
-        LaserBeam::LaserBeam(Implementation::LaserBeam* object,
-                             PhysicSystem*              physic)
-        : Kernel::Controler<Implementation::LaserBeam,PhysicSystem>(object,physic)
-        {
-          InternalMessage("Physic","Physic::Implementation::Ode::LaserBeam built") ;
-        }
 
         /*
           geom is put in the world's space

@@ -31,22 +31,18 @@
 #include <physic/implementation/ode/physical_world.h>
 #include <physic/implementation/ode/torque_generator.h>
 
-namespace ProjetUnivers {
-  namespace Physic {
-    namespace Implementation {
-      namespace Ode {
+namespace ProjetUnivers
+{
+  namespace Physic
+  {
+    namespace Implementation
+    {
+      namespace Ode
+      {
 
         RegisterControler(TorqueGenerator, 
                           Model::TorqueGenerator, 
                           PhysicSystem) ;
-      
-        TorqueGenerator::TorqueGenerator(
-            Model::TorqueGenerator* i_object,
-            PhysicSystem*           i_system)
-        : Kernel::Controler<Model::TorqueGenerator,
-                            PhysicSystem>(i_object,i_system),
-          m_object(NULL)
-        {}
         
         void TorqueGenerator::prepare()
         {

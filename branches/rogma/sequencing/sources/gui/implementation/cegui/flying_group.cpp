@@ -50,18 +50,11 @@ namespace ProjetUnivers
                           EditedFlyingGroup,
                           GUIControlerSet) ;
 
-        FlyingGroup::FlyingGroup(EditedFlyingGroup* group,
-                                 GUIControlerSet*   gui)
-        : Kernel::Controler<EditedFlyingGroup,GUIControlerSet>(group,gui),
-          m_window(NULL),
-          m_updating(false),
-          m_group(NULL),
-          m_pilot(NULL)
-        {}
-
         void FlyingGroup::onInit()
         {
           InternalMessage("CustomMission","CEGUI::FlyingGroup::onInit") ;
+
+          m_updating = false ;
 
           m_team = getControler<Team>() ;
 

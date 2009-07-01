@@ -74,15 +74,6 @@ namespace ProjetUnivers
 
         }
 
-        Positionned::Positionned(Implementation::Positionned* object,
-                                 RealWorldViewPoint*          viewpoint)
-        : Kernel::TraitView<Implementation::Positionned,RealWorldViewPoint>(object,viewpoint),
-          m_node(NULL)
-        {
-          InternalMessage("Display","Entering Ogre::Positionned::Positionned") ;
-          InternalMessage("Display","Leaving Ogre::Positionned::Positionned") ;
-        }
-
         /*!
         @pre
           Parent Positionned View is init.

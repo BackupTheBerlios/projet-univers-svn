@@ -42,13 +42,6 @@ namespace ProjetUnivers
                        Implementation::IdentifiedTarget,
                        HeadUpDisplayViewPoint) ;
 
-          IdentifiedTarget::IdentifiedTarget(
-              Implementation::IdentifiedTarget* object,
-              HeadUpDisplayViewPoint* viewpoint)
-          : Kernel::TraitView<Implementation::IdentifiedTarget,HeadUpDisplayViewPoint>(object,viewpoint),
-            m_target(NULL)
-          {}
-
           void IdentifiedTarget::onInit()
           {
             InternalMessage("Display","Entering IdentifiedTarget::onInit") ;

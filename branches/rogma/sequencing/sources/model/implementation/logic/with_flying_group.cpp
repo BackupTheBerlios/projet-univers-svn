@@ -34,11 +34,6 @@ namespace ProjetUnivers
                           Implementation::WithFlyingGroup, 
                           LogicSystem) ;
         
-        WithFlyingGroup::WithFlyingGroup(Implementation::WithFlyingGroup* group,
-                                         LogicSystem*                     system)
-        : Kernel::Controler<Implementation::WithFlyingGroup,LogicSystem>(group,system)
-        {}
-        
         void WithFlyingGroup::onClose()
         {
           Kernel::Object* group = getTrait()->getFlyingGroup() ;

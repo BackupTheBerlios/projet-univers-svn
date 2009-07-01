@@ -18,29 +18,25 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_IMPLEMENTATION_LOGIC_END_OF_SIMULATION_H_
-#define PU_MODEL_IMPLEMENTATION_LOGIC_END_OF_SIMULATION_H_
+#pragma once
 
 #include <kernel/controler.h>
 #include <model/implementation/activated_end_of_simulation.h>
 #include <model/implementation/logic/logic_system.h>
 
-namespace ProjetUnivers {
-  namespace Model {
-    namespace Implementation {
-      namespace Logic {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
+    namespace Implementation
+    {
+      namespace Logic
+      {
 
-        /// Delete all objects od the model.
+        /// Delete all objects of the model.
         class EndOfSimulation : public Kernel::Controler<ActivatedEndOfSimulation,
                                                          LogicSystem>
         {
-        public:
-          
-          /// Construct.
-          EndOfSimulation(ActivatedEndOfSimulation* object,
-                          LogicSystem*              system) ;
-        
-        
         protected:
           
           /// Destroy all model roots.
@@ -51,6 +47,3 @@ namespace ProjetUnivers {
     }
   }
 }
-
-
-#endif /*PU_MODEL_IMPLEMENTATION_LOGIC_END_OF_SIMULATION_H_*/

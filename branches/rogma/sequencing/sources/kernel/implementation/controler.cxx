@@ -48,6 +48,10 @@ namespace ProjetUnivers
     {}
 
     template<class _Trait,class _ControlerSet> 
+    Controler<_Trait,_ControlerSet>::Controler()
+    {}
+
+    template<class _Trait,class _ControlerSet>
     void Controler<_Trait,_ControlerSet>::onInit() 
     {
     }

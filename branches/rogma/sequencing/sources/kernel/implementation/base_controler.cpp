@@ -42,6 +42,15 @@ namespace ProjetUnivers
       m_controler_set(controler_set)
     {}
 
+    BaseControler::BaseControler()
+    : m_controler_set(NULL)
+    {}
+
+    void BaseControler::setControlerSet(ControlerSet* controler_set)
+    {
+      m_controler_set = controler_set ;
+    }
+
     void BaseControler::realInit()
     {
       /*!
