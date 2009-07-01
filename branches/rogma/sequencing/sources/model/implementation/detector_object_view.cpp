@@ -41,6 +41,11 @@ namespace ProjetUnivers {
         m_detection_information(NULL)
       {}
       
+      void DetectorObjectView::onInit()
+      {
+        m_detection_information = NULL ;
+      }
+
       void DetectorObjectView::check()
       {
         InternalMessage("Model","Model::DetectorObjectView::check entering") ;
@@ -80,6 +85,8 @@ namespace ProjetUnivers {
             m_detection_information->addTrait(new DetectionData(detector->getComputer())) ;
             m_detection_information->addTrait(new Positionned()) ;
             m_detection_information->addTrait(new Solid(solid->getMesh())) ;
+
+            m_detection_information->getTrait<DetectionData>()->m_detected = getObject() ;
           }
           // update object position
           Position position = getRelativePosition(getObject(),

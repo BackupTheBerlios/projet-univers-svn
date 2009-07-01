@@ -72,10 +72,7 @@ namespace ProjetUnivers
       void destroyObject(Object* object) ;
 
       /// Manually add a view.
-      /*!
-        The view already contains a reference to its viewpoint and trait.
-      */
-      void addManualView(BaseTraitView*) ;
+      void addManualView(Trait*,BaseTraitView*,ViewPoint*) ;
 
       /// Build all registered viewpoints and controler sets.
       void init() ;

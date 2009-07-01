@@ -53,6 +53,10 @@ namespace ProjetUnivers {
         void SoundEnvironnement::onInit()
         {
           InformationMessage("Sound","OpenAL::SoundEnvironnement::init enter") ;
+
+          m_auxEffectSlot = 0 ;
+          m_effect = 0 ;
+
           EFX::createEffect(&m_effect,&m_auxEffectSlot) ;
           update();
           InformationMessage("Sound","OpenAL::SoundEnvironnement::init leaving with status: " + getErrorString(alGetError())) ;

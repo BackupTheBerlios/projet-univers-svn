@@ -69,9 +69,9 @@ namespace ProjetUnivers {
         Kernel::Object* ship = Model::getControledShip(getObject()) ;
         if (ship)
         {
-          getObject()->getModel()->addManualView(new AgentVehicle(
-              ship->getTrait<Model::PhysicalObject>(),
-              m_vehicle_view_point)) ;
+          getObject()->getModel()->addManualView(ship->getTrait<Model::PhysicalObject>(),
+                                                 new AgentVehicle(ship->getTrait<Model::PhysicalObject>(),m_vehicle_view_point),
+                                                 m_vehicle_view_point) ;
           m_added_view = true ;
         }
 
@@ -100,9 +100,7 @@ namespace ProjetUnivers {
           Kernel::Object* ship = Model::getControledShip(getObject()) ;
           if (ship && ! m_added_view)
           {
-            getObject()->getModel()->addManualView(new AgentVehicle(
-                ship->getTrait<Model::PhysicalObject>(),
-                m_vehicle_view_point)) ;
+            getObject()->getModel()->addManualView(ship->getTrait<Model::PhysicalObject>(),new AgentVehicle(ship->getTrait<Model::PhysicalObject>(),m_vehicle_view_point),m_vehicle_view_point) ;
             m_added_view = true ;
           }
 //        }

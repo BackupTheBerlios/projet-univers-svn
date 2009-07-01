@@ -1299,6 +1299,11 @@
 
   * Kernel :
     - views on relation (onInit/onClose/onUpdate)  
+
+2009-07-01 rogma
+
+  * Model : 
+    - added pointer to real object in DetectionData
     
 in commit
 --------
@@ -1306,14 +1311,26 @@ in commit
     
 in progress
 -----------
-   
-      
+
+  * Kernel :
+    - simplification of view/controler : we are not obliged to have a special 
+      constructor (see mecanism for relation view)
+       # first pass
+    
 todo
 ----
   
-  * Kernel :
-    - simplificaiton of view/controler : we are not olbiged to have a special 
-      constructor (see mecanism for relation view)
+
+  * AI : 
+    - complete refactoring : 
+      # Vehicule view on Solid and PhysicalObject
+      # Keep agent view
+        change getVehicule (the parent Vehicule object)
+      # Target view on Selection relation between TargetingSystem and DetectionData : 
+        updates the current vehicule target of agent  
+        (latter we will directly put the selection link between TargetingSystem and 
+         real object)
+      
   
   * Model : 
   

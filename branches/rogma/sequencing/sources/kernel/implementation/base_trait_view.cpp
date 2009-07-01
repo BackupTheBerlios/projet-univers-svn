@@ -57,5 +57,14 @@ namespace ProjetUnivers
       m_viewpoint(viewpoint)
     {}
 
+    BaseTraitView::BaseTraitView()
+    : m_viewpoint(NULL)
+    {}
+
+    void BaseTraitView::setViewPoint(ViewPoint* viewpoint)
+    {
+      m_viewpoint = viewpoint ;
+    }
+
   }
 }

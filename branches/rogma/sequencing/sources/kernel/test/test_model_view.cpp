@@ -1218,8 +1218,10 @@ namespace ProjetUnivers
         ViewPoint* viewpoint(model->addViewPoint(new ManualViewPoint(model.get()))) ;
 
         // manual add of a view
-        model->addManualView(new ManualView(person->getTrait<Person>(),
-                                            (ManualViewPoint*)viewpoint)) ;
+        model->addManualView(person->getTrait<Person>(),
+                             new ManualView(person->getTrait<Person>(),
+                                            (ManualViewPoint*)viewpoint),
+                             viewpoint) ;
 
         /// init the viewpoint
         viewpoint->init() ;
@@ -1262,8 +1264,10 @@ namespace ProjetUnivers
         viewpoint->init() ;
 
         // manual add of a view
-        model->addManualView(new ManualView(person->getTrait<Person>(),
-                                            (ManualViewPoint*)viewpoint)) ;
+        model->addManualView(person->getTrait<Person>(),
+                             new ManualView(person->getTrait<Person>(),
+                                            (ManualViewPoint*)viewpoint),
+                             viewpoint) ;
 
 
         Person* persontrait = person->getTrait<Person>() ;

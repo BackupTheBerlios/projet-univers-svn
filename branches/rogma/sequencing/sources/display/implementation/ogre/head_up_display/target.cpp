@@ -109,6 +109,9 @@ namespace ProjetUnivers
           {
             InternalMessage("Display","Entering Target::onInit") ;
             
+            m_target_is_shown = false ;
+            m_arrow_is_shown = false ;
+
             m_target_container = static_cast< ::Ogre::OverlayContainer* >(
               ::Ogre::OverlayManager::getSingleton().createOverlayElement(
                     "Panel", Utility::getUniqueName())) ;

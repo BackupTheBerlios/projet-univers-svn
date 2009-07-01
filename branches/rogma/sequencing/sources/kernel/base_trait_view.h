@@ -55,6 +55,7 @@ namespace ProjetUnivers
 
       /// abstract class means protected constructor.
       BaseTraitView(Trait* trait,ViewPoint* viewpoint) ;
+      BaseTraitView() ;
 
     /*!
       @name data
@@ -64,6 +65,11 @@ namespace ProjetUnivers
       ViewPoint* m_viewpoint ;
 
     //@}
+
+    private:
+
+      void setViewPoint(ViewPoint* viewpoint) ;
+
 
       friend class Trait ;
       friend class Model ;

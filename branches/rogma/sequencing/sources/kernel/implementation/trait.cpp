@@ -194,6 +194,8 @@ namespace ProjetUnivers
             if (finder->second.first.isInstance(this))
             {
               BaseTraitView* view = finder->second.second(this,i_viewpoint) ;
+              view->setObserved(this) ;
+              view->setViewPoint(i_viewpoint) ;
               m_views.insert(std::pair<ViewPoint*,BaseTraitView*>(
                               i_viewpoint,view)) ;
             }

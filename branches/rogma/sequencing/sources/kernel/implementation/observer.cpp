@@ -46,6 +46,17 @@ namespace ProjetUnivers
       m_trait(trait)
     {}
 
+    Observer::Observer()
+    : m_initialised(false),
+      m_really_initialised(false),
+      m_trait(NULL)
+    {}
+
+    void Observer::setObserved(Trait* trait)
+    {
+      m_trait = trait ;
+    }
+
     void Observer::_init()
     {
       if (!m_initialised)

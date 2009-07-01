@@ -323,8 +323,10 @@ namespace ProjetUnivers
       m_references.erase(reference) ;
     }
 
-    void Model::addManualView(BaseTraitView* view)
+    void Model::addManualView(Trait* trait,BaseTraitView* view,ViewPoint* viewpoint)
     {
+      view->setObserved(trait) ;
+      view->setViewPoint(viewpoint) ;
       view->getTrait()->addView(view->m_viewpoint,view) ;
       if (!view->getObject()->m_deleting && view->m_viewpoint->isInitialised())
       {

@@ -53,7 +53,7 @@ namespace ProjetUnivers
         /// Constructor.
         Agent(AutonomousAgent*,AISystem*) ;
 
-        /// Build the associated vehicle and behaviours.
+        /// Build the associated vehicle and behaviors.
         virtual void onInit() ;
 
         virtual void onClose() ;
@@ -108,7 +108,7 @@ namespace ProjetUnivers
 
         /// Execute the given objective.
         /*!
-          Either send direct command to object or caclulate m_steering.
+          Either send direct command to object or calculate m_steering.
         */
         void applyObjective(const Model::Objective& objective,
                             Kernel::Object* agent,
@@ -142,7 +142,7 @@ namespace ProjetUnivers
         Kernel::Percentage m_previous_X ;
         Kernel::Percentage m_previous_Y ;
 
-        /// Difference of throtle value sent previous frame
+        /// Difference of throttle value sent previous frame
         Kernel::Percentage m_delta_throttle ;
 
         /// Deduced maximum steering.
@@ -152,7 +152,7 @@ namespace ProjetUnivers
         Ogre::Degree       m_max_steering_X ;
         Ogre::Degree       m_max_steering_Y ;
 
-        /// Maximum acceleration in meter per suare seconds per unit of throttle
+        /// Maximum acceleration in meter per square seconds per unit of throttle
         float              m_max_steering_speed ;
 
         friend class ::ProjetUnivers::ArtificialIntelligence::Test::TestModelControler ;

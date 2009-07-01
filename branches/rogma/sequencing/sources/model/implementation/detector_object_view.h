@@ -45,6 +45,8 @@ namespace ProjetUnivers {
         
       protected:
         
+        virtual void onInit() ;
+
         /// Called just before the view is destroyed.
         virtual void onClose() ;
         

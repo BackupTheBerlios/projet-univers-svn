@@ -81,13 +81,20 @@ namespace ProjetUnivers
 
       /// Constructs
       Observer(Trait*) ;
+      Observer() ;
 
       bool       m_initialised ;
       bool       m_really_initialised ;
       Trait*     m_trait ;
 
+    private:
+
+      /// Set the trait observed
+      void setObserved(Trait*) ;
+
       friend class ::ProjetUnivers::Kernel::Implementation::Operation ;
       friend class Model ;
+      friend class Trait ;
 
     };
   }
