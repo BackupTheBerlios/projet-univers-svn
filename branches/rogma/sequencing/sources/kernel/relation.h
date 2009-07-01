@@ -41,7 +41,7 @@ namespace ProjetUnivers
 
     /// A relation 'type' between objects.
     /*!
-      The relation is destroyed when one of object is.
+      A relation link is destroyed when one of object is.
 
       Create a sub-class of Relation to define a new relation type.
       * Use
@@ -92,6 +92,9 @@ namespace ProjetUnivers
       /// True iff @c object1 @c _Relation @c object2.
       static bool _areLinked(const TypeIdentifier& relation,Object* object1,Object* object2) ;
 
+      /// Notify for a change and update all observers.
+      void notify() ;
+
     protected:
 
       Relation() ;
@@ -115,14 +118,17 @@ namespace ProjetUnivers
     //@{
 
       /// Type for function that build views from a relation and viewpoint.
+      /*!
+        @todo : simplify (no need to have the parameters anymore)
+      */
       typedef
       boost::function2<BaseRelationView*,const Relation&,ViewPoint*> ViewBuilder ;
 
       /// create the views.
-      void createViews() ;
+      void createViews() const ;
 
       /// create views for a viewpoint.
-      void createViews(ViewPoint* viewpoint) ;
+      void createViews(ViewPoint* viewpoint) const ;
 
       /// Register @c builder as the builder for @c relation in @c viewpoint
       /*!
@@ -152,10 +158,12 @@ namespace ProjetUnivers
         /// Access to singleton.
         static StaticStorage* get() ;
 
-        /// ViewPoint -> Relation X ViewBuilder (in term of classes names)
-        std::multimap<TypeIdentifier,
-                      std::pair<TypeIdentifier,
-                                ViewBuilder> >            m_view_builders ;
+        /// Return the view builder.
+        ViewBuilder getBuilder(ViewPoint*,const Relation&) ;
+
+        /// ViewPoint X Relation --> ViewBuilder (in term of classes names)
+        std::map<std::pair<TypeIdentifier,TypeIdentifier>,
+                 ViewBuilder>                              m_view_builders ;
       };
 
       template <class Relation> friend class Link ;
@@ -164,6 +172,7 @@ namespace ProjetUnivers
       friend class RelationObserver ;
       template <class _Relation,class _ViewPoint,class _View>
       friend class RelationViewRegistration ;
+      friend class Model ;
     };
 
     /// The act of linking two objects
@@ -227,9 +236,7 @@ namespace ProjetUnivers
           const ProjetUnivers::Kernel::Relation& _model,                     \
           ProjetUnivers::Kernel::ViewPoint* _viewpoint)                      \
         {                                                                    \
-          ClassViewPoint* temp(static_cast<ClassViewPoint*>( _viewpoint)) ;  \
-          ClassView* result(new ClassView(temp)) ;                           \
-          result->_setRelation(_model) ;                                     \
+          ClassView* result(new ClassView()) ;                               \
           return result ;                                                    \
         }                                                                    \
         static                                                               \

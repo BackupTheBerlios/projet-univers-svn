@@ -28,6 +28,7 @@ namespace ProjetUnivers
   namespace Kernel
   {
     class Observer ;
+    class RelationObserver ;
 
     namespace Implementation
     {
@@ -44,6 +45,9 @@ namespace ProjetUnivers
         static Operation close(Observer*) ;
         static Operation update(Observer*) ;
         static Operation changeParent(Observer*,Object*) ;
+        static Operation init(RelationObserver*) ;
+        static Operation close(RelationObserver*) ;
+        static Operation update(RelationObserver*) ;
 
       // @}
 
@@ -64,12 +68,16 @@ namespace ProjetUnivers
           Close,
           Update,
           ChangeParent,
+          InitRelation,
+          CloseRelation,
+          UpdateRelation,
           None
         };
 
         Type      m_type ;
         Object*   m_object ;
         Observer* m_observer ;
+        RelationObserver* m_relation_observer ;
 
         std::string m_debug_display ;
       };

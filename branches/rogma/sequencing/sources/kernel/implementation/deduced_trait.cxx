@@ -209,6 +209,12 @@ namespace ProjetUnivers
       /// A child formula has been updated.
       virtual void onChildFormulaUpdated(Object* object) = 0 ;
 
+      /// Notify propagation
+      void update(const ObjectPair& pair) ;
+
+      /// A child formula has been updated.
+      virtual void onChildFormulaUpdated(const ObjectPair& pair) ;
+
     // @}
     /*!
       @name Attributes.
@@ -378,6 +384,8 @@ namespace ProjetUnivers
       virtual void onChildFormulaUpdated(Object* object) ;
       virtual void onAddChildFormulaTrue(const ObjectPair& pair) ;
       virtual void onAddChildFormulaFalse(const ObjectPair& pair) ;
+      /// A child formula has been updated.
+      virtual void onChildFormulaUpdated(const ObjectPair& pair) ;
 
     };
 
@@ -407,6 +415,8 @@ namespace ProjetUnivers
       virtual void onChildFormulaUpdated(Object* object) ;
       virtual void onAddChildFormulaTrue(const ObjectPair& pair) ;
       virtual void onAddChildFormulaFalse(const ObjectPair& pair) ;
+      /// A child formula has been updated.
+      virtual void onChildFormulaUpdated(const ObjectPair& pair) ;
 
     };
 

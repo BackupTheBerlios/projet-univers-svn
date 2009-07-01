@@ -33,7 +33,7 @@ namespace ProjetUnivers
 
       RelationViewRegistration(Relation::ViewBuilder builder)
       {
-
+        Relation::registerBuilder(getClassTypeIdentifier(_Relation),getClassTypeIdentifier(_ViewPoint),builder) ;
       }
 
     };

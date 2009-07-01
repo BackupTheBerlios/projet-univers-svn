@@ -2398,6 +2398,29 @@ namespace ProjetUnivers
       }
     }
 
+    void Formula::update(const ObjectPair& pair)
+    {
+      /// notify deduced relations...
+      if (isValid(pair))
+      {
+        // if this formula defines a deduced relation, it acts as a notify() on it
+        DeducedRelation::update(this,pair) ;
+        for(std::set<Formula*>::const_iterator parent = m_parents.begin() ;
+            parent != m_parents.end() ;
+            ++parent)
+        {
+          (*parent)->onChildFormulaUpdated(pair) ;
+        }
+      }
+    }
+
+    void Formula::onChildFormulaUpdated(const ObjectPair& pair)
+    {
+      // default implementation is error
+      ErrorMessage("Formula::onChildFormulaUpdated(const ObjectPair& pair)") ;
+    }
+
+
     void DeducedTrait::update(Formula* formula,
                               Object* object)
     {
@@ -2406,6 +2429,17 @@ namespace ProjetUnivers
       if (destructor != StaticStorage::get()->m_destructors.end())
       {
         object->_getDeducedTrait(destructor->second)->notify() ;
+      }
+    }
+
+    void DeducedRelation::update(Formula*          formula,
+                                 const ObjectPair& relation)
+    {
+      TypeIdentifier deduced_relation(get(formula)) ;
+      if (deduced_relation != VoidTypeIdentifier)
+      {
+        Relation observed(deduced_relation,relation.getObjectFrom(),relation.getObjectTo()) ;
+        observed.notify() ;
       }
     }
 
@@ -2419,9 +2453,19 @@ namespace ProjetUnivers
       update(object) ;
     }
 
+    void FormulaOr::onChildFormulaUpdated(const ObjectPair& pair)
+    {
+      update(pair) ;
+    }
+
     void FormulaAnd::onChildFormulaUpdated(Object* object)
     {
       update(object) ;
+    }
+
+    void FormulaAnd::onChildFormulaUpdated(const ObjectPair& pair)
+    {
+      update(pair) ;
     }
 
     void FormulaNot::onChildFormulaUpdated(Object* object)
@@ -2432,12 +2476,24 @@ namespace ProjetUnivers
     void IsFromFormula::onChildFormulaUpdated(Object* object)
     {
       // @todo update the relation
+      std::set<Object*> objects(Relation::_getLinked(object)) ;
+      for(std::set<Object*>::iterator to = objects.begin() ; to != objects.end() ; ++to)
+      {
+        update(ObjectPair(object,*to)) ;
+      }
+
     }
 
     void IsToFormula::onChildFormulaUpdated(Object* object)
     {
       // @todo update the relation
-    }
+      // all links going to object must be updated
+      std::set<Object*> objects(Relation::_getInversedLinked(object)) ;
+      for(std::set<Object*>::iterator from = objects.begin() ; from != objects.end() ; ++from)
+      {
+        update(ObjectPair(*from,object)) ;
+      }
+}
 
     void DeducedTrait::notify()
     {

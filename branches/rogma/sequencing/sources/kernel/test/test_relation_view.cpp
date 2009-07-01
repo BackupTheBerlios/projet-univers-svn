@@ -56,15 +56,41 @@ namespace ProjetUnivers
         {
         public:
 
-          SelectionView(RelationViewPoint* viewpoint)
-          : RelationView<RelationViewPoint>(viewpoint)
-          {}
+          static int m_number_of_init ;
+          static int m_number_of_close ;
+
+          void onInit()
+          {
+            ++m_number_of_init ;
+          }
+
+          void onClose()
+          {
+            ++m_number_of_close ;
+          }
         };
+
+        int SelectionView::m_number_of_init = 0 ;
+        int SelectionView::m_number_of_close = 0 ;
 
         RegisterRelationView(SelectionView,Selection,RelationViewPoint) ;
       }
 
-      void TestRelationView::test()
+      void TestRelationView::initView()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+        model->init() ;
+        Object* o1 = model->createObject() ;
+        Object* o2 = model->createObject() ;
+
+        SelectionView::m_number_of_init = 0 ;
+
+        Link<Selection>(o1,o2) ;
+
+        CPPUNIT_ASSERT_EQUAL(1,SelectionView::m_number_of_init) ;
+      }
+
+      void TestRelationView::closeView()
       {
         std::auto_ptr<Model> model(new Model()) ;
         model->init() ;
@@ -72,10 +98,90 @@ namespace ProjetUnivers
         Object* o2 = model->createObject() ;
 
         Link<Selection>(o1,o2) ;
-        std::set<Object*> related(Relation::getLinked<Selection>(o1)) ;
-        CPPUNIT_ASSERT(related.find(o2) != related.end()) ;
-        CPPUNIT_ASSERT(related.size() == 1) ;
+        SelectionView::m_number_of_close = 0 ;
+
+        UnLink<Selection>(o1,o2) ;
+        CPPUNIT_ASSERT_EQUAL(1,SelectionView::m_number_of_close) ;
       }
+
+      namespace
+      {
+        class T1 : public Trait
+        {};
+
+        class T2 : public Trait
+        {
+        public:
+
+          void touch()
+          {
+            notify() ;
+          }
+        };
+
+        class DeducedSelection : public DeducedRelation
+        {};
+
+        DeclareDeducedRelation(DeducedSelection,
+                               Selection,
+                               And(IsFrom(HasTrait(T1)),
+                                   IsTo(HasTrait(T2)))) ;
+
+        class DeducedSelectionView : public RelationView<RelationViewPoint>
+        {
+        public:
+
+          static int m_number_of_init ;
+          static int m_number_of_close ;
+          static int m_number_of_update ;
+
+          void onInit()
+          {
+            ++m_number_of_init ;
+          }
+
+          void onClose()
+          {
+            ++m_number_of_close ;
+          }
+
+          void onUpdate()
+          {
+            ++m_number_of_update ;
+          }
+        };
+
+        int DeducedSelectionView::m_number_of_init = 0 ;
+        int DeducedSelectionView::m_number_of_close = 0 ;
+        int DeducedSelectionView::m_number_of_update = 0 ;
+
+        RegisterRelationView(DeducedSelectionView,DeducedSelection,RelationViewPoint) ;
+      }
+
+      void TestRelationView::viewOnDeducedRelation()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+        model->init() ;
+        Object* o1 = model->createObject() ;
+        Object* o2 = model->createObject() ;
+
+        DeducedSelectionView::m_number_of_init = 0 ;
+        Link<Selection>(o1,o2) ;
+        o1->addTrait(new T1()) ;
+        o2->addTrait(new T2()) ;
+
+        CPPUNIT_ASSERT_EQUAL(1,DeducedSelectionView::m_number_of_init) ;
+
+        DeducedSelectionView::m_number_of_update = 0 ;
+        o2->getTrait<T2>()->touch() ;
+        CPPUNIT_ASSERT_EQUAL(1,DeducedSelectionView::m_number_of_update) ;
+
+        DeducedSelectionView::m_number_of_close = 0 ;
+        o2->destroyTrait(o2->getTrait<T2>()) ;
+        CPPUNIT_ASSERT_EQUAL(1,DeducedSelectionView::m_number_of_close) ;
+      }
+
+
     }
   }
 }

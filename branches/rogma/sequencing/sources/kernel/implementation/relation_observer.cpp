@@ -65,12 +65,6 @@ namespace ProjetUnivers
     RelationObserver::~RelationObserver()
     {}
 
-    RelationObserver::RelationObserver(const Relation& relation)
-    : m_initialised(false),
-      m_really_initialised(false),
-      m_relation(relation)
-    {}
-
     RelationObserver::RelationObserver()
     : m_initialised(false),
       m_really_initialised(false),

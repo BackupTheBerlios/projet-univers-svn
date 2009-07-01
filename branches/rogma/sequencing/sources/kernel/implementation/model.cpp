@@ -19,6 +19,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include <iostream>
+#include <typeinfo>
 #include <kernel/log.h>
 #include <kernel/error.h>
 #include <kernel/exception_kernel.h>
@@ -32,10 +33,8 @@
 #include <kernel/trait.h>
 #include <kernel/view_point.h>
 #include <kernel/controler_set.h>
+#include <kernel/base_relation_view.h>
 #include <kernel/model.h>
-
-#include <typeinfo>
-
 
 namespace ProjetUnivers
 {
@@ -490,17 +489,17 @@ namespace ProjetUnivers
 
     void Model::initObserver(RelationObserver* observer)
     {
-      /// @todo
+      addOperation(Implementation::Operation::init(observer)) ;
     }
 
     void Model::closeObserver(RelationObserver* observer)
     {
-      /// @todo
+      addOperation(Implementation::Operation::close(observer)) ;
     }
 
     void Model::updateObserver(RelationObserver* observer)
     {
-      /// @todo
+      addOperation(Implementation::Operation::update(observer)) ;
     }
 
     void Model::addRelation(const Relation& relation)
@@ -509,6 +508,8 @@ namespace ProjetUnivers
       m_relations.insert(relation) ;
       m_relation_validities[relation].reserve(Formula::getNumberOfFormulae()) ;
       m_number_of_true_child_formulae[relation].reserve(Formula::getNumberOfFormulae()) ;
+      relation.createViews() ;
+      init(relation) ;
       DeducedTrait::addRelation(relation) ;
       endTransaction() ;
     }
@@ -516,11 +517,36 @@ namespace ProjetUnivers
     void Model::removeRelation(const Relation& relation)
     {
       startTransaction() ;
-      m_relations.erase(relation) ;
+
+      close(relation) ;
       DeducedTrait::removeRelation(relation) ;
+      m_relations.erase(relation) ;
+      recordRelationToDestroy(relation) ;
+
+      endTransaction() ;
+    }
+
+    void Model::_internalDestroyRelation(const Relation& relation)
+    {
       m_relation_validities.erase(relation) ;
       m_number_of_true_child_formulae.erase(relation) ;
-      endTransaction() ;
+      destroyRelationView(relation) ;
+    }
+
+    void Model::removeRelations(Object* object)
+    {
+      std::list<Relation> to_remove ;
+
+      for(std::set<Relation>::const_iterator relation = m_relations.begin() ; relation != m_relations.end() ; ++relation)
+      {
+        if (relation->getObjectFrom() == object || relation->getObjectTo() == object)
+          to_remove.push_back(*relation) ;
+      }
+
+      for(std::list<Relation>::const_iterator relation = to_remove.begin() ; relation != to_remove.end() ; ++relation)
+      {
+        removeRelation(*relation) ;
+      }
     }
 
     std::set<Object*> Model::getRelations(const TypeIdentifier& type,Object* object) const
@@ -574,23 +600,6 @@ namespace ProjetUnivers
       return result ;
     }
 
-    void Model::removeRelations(Object* object)
-    {
-      /// @todo : should push this command into the interpretor
-      std::list<Relation> to_remove ;
-
-      for(std::set<Relation>::const_iterator relation = m_relations.begin() ; relation != m_relations.end() ; ++relation)
-      {
-        if (relation->getObjectFrom() == object || relation->getObjectTo() == object)
-          to_remove.push_back(*relation) ;
-      }
-
-      for(std::list<Relation>::const_iterator relation = to_remove.begin() ; relation != to_remove.end() ; ++relation)
-      {
-        removeRelation(*relation) ;
-      }
-    }
-
     bool Model::getValidity(const ObjectPair& relation,const Formula* formula)
     {
       return m_relation_validities[relation][formula->getIdentifier()] ;
@@ -614,6 +623,45 @@ namespace ProjetUnivers
       m_number_of_true_child_formulae[relation][formula->getIdentifier()] = number ;
     }
 
+    void Model::addRelationView(const Relation& relation,BaseRelationView* view,ViewPoint* viewpoint)
+    {
+      m_relation_views[relation].insert(view) ;
+      view->_setRelation(relation) ;
+      view->_setViewPoint(viewpoint) ;
+    }
+
+    void Model::destroyRelationView(const Relation& relation)
+    {
+      for(std::set<BaseRelationView*>::iterator view = m_relation_views[relation].begin() ; view != m_relation_views[relation].end() ; ++view)
+      {
+        delete *view ;
+      }
+      m_relation_views.erase(relation) ;
+    }
+
+    void Model::init(const Relation& relation)
+    {
+      for(std::set<BaseRelationView*>::iterator view = m_relation_views[relation].begin() ; view != m_relation_views[relation].end() ; ++view)
+      {
+        (*view)->init() ;
+      }
+    }
+
+    void Model::close(const Relation& relation)
+    {
+      for(std::set<BaseRelationView*>::iterator view = m_relation_views[relation].begin() ; view != m_relation_views[relation].end() ; ++view)
+      {
+        (*view)->close() ;
+      }
+    }
+
+    void Model::update(const Relation& relation)
+    {
+      for(std::set<BaseRelationView*>::iterator view = m_relation_views[relation].begin() ; view != m_relation_views[relation].end() ; ++view)
+      {
+        (*view)->update() ;
+      }
+    }
   }
 }
 

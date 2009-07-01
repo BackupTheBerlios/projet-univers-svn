@@ -22,6 +22,7 @@
 #include <kernel/model.h>
 #include <kernel/object.h>
 #include <kernel/observer.h>
+#include <kernel/relation_observer.h>
 #include <kernel/implementation/operation.h>
 
 namespace ProjetUnivers
@@ -35,13 +36,15 @@ namespace ProjetUnivers
       : m_type(operation.m_type),
         m_object(operation.m_object),
         m_observer(operation.m_observer),
+        m_relation_observer(operation.m_relation_observer),
         m_debug_display(operation.m_debug_display)
       {}
 
       Operation::Operation()
       : m_type(None),
         m_object(),
-        m_observer(NULL)
+        m_observer(NULL),
+        m_relation_observer(NULL)
       {}
 
       Operation Operation::init(Observer* observer)
@@ -74,6 +77,33 @@ namespace ProjetUnivers
         return result ;
       }
 
+      Operation Operation::init(RelationObserver* observer)
+      {
+        Operation result ;
+        result.m_type = InitRelation ;
+        result.m_relation_observer = observer ;
+        result.m_debug_display = "InitRelation(" + getObjectTypeIdentifier(result.m_relation_observer).toString() +")" ;
+        return result ;
+      }
+
+      Operation Operation::close(RelationObserver* observer)
+      {
+        Operation result ;
+        result.m_type = CloseRelation ;
+        result.m_relation_observer = observer ;
+        result.m_debug_display = "InitRelation(" + getObjectTypeIdentifier(result.m_relation_observer).toString() +")" ;
+        return result ;
+      }
+
+      Operation Operation::update(RelationObserver* observer)
+      {
+        Operation result ;
+        result.m_type = UpdateRelation ;
+        result.m_relation_observer = observer ;
+        result.m_debug_display = "InitRelation(" + getObjectTypeIdentifier(result.m_relation_observer).toString() +")" ;
+        return result ;
+      }
+
       void Operation::execute() const
       {
         switch(m_type)
@@ -86,6 +116,15 @@ namespace ProjetUnivers
           break ;
         case Update:
           m_observer->realUpdate() ;
+          break ;
+        case InitRelation:
+          m_relation_observer->realInit() ;
+          break ;
+        case CloseRelation:
+          m_relation_observer->realClose() ;
+          break ;
+        case UpdateRelation:
+          m_relation_observer->realUpdate() ;
           break ;
         case None:
           break ;

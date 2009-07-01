@@ -58,8 +58,6 @@ namespace ProjetUnivers
       /// True when onInit has been executed.
       bool isInitialised() const ;
 
-      void _setRelation(const Relation&) ;
-
     protected:
 
       /// Called after the relation appears.
@@ -76,12 +74,16 @@ namespace ProjetUnivers
       void realUpdate() ;
 
       /// Constructs
-      RelationObserver(const Relation&) ;
       RelationObserver() ;
 
       bool       m_initialised ;
       bool       m_really_initialised ;
       Relation   m_relation ;
+
+    private:
+
+      /// Set the observed relation.
+      void _setRelation(const Relation&) ;
 
       friend class ::ProjetUnivers::Kernel::Implementation::Operation ;
       friend class Model ;

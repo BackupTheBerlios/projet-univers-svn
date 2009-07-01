@@ -25,8 +25,7 @@ namespace ProjetUnivers
     class Model ;
 
     template <class _ViewPoint>
-    RelationView<_ViewPoint>::RelationView(_ViewPoint* i_viewpoint)
-    : BaseRelationView(i_viewpoint)
+    RelationView<_ViewPoint>::RelationView()
     {}
 
     template <class _ViewPoint>

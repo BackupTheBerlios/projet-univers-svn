@@ -75,7 +75,7 @@ namespace ProjetUnivers
     // @}
 
       /// Abstract class means protected constructor.
-      RelationView(_ViewPoint* i_viewpoint) ;
+      RelationView() ;
 
     };
   }

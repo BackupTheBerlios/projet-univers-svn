@@ -59,6 +59,62 @@ namespace ProjetUnivers
           operation.execute() ;
       }
 
+      void Interpretor::destroyTraits()
+      {
+        m_destroying_traits = true ;
+        for(std::set<Trait*>::iterator trait = m_traits_to_destroy.begin() ; trait != m_traits_to_destroy.end() ; ++trait)
+        {
+          (*trait)->getObject()->_detach(getObjectTypeIdentifier(*trait)) ;
+          delete *trait ;
+        }
+        m_traits_to_destroy.clear() ;
+        m_destroying_traits = false ;
+      }
+
+      void Interpretor::destroyObjects()
+      {
+        for(std::list<ObjectReference>::const_iterator object = m_objects_to_destroy.begin() ; object != m_objects_to_destroy.end() ; ++object)
+        {
+          if (*object)
+          {
+            if ((*object)->isLocked())
+            {
+              ErrorMessage("Interpretor::endTransaction Destroying a lock object") ;
+            }
+
+            Model* model = (*object)->getModel() ;
+
+            if ((*object)->getParent() == NULL)
+            {
+              /// a top object
+              model->m_objects.erase(*object) ;
+              delete *object ;
+            }
+            else
+            {
+              /// a sub object
+              (*object)->getParent()->_remove(*object) ;
+            }
+          }
+        }
+        m_objects_to_destroy.clear() ;
+      }
+
+      void Interpretor::destroyRelations()
+      {
+        for(std::list<Relation>::iterator relation = m_relation_to_destroy.begin() ; relation != m_relation_to_destroy.end() ; ++relation)
+        {
+          Model* model_from = relation->getObjectFrom()?relation->getObjectFrom()->getModel():NULL ;
+          Model* model_to = relation->getObjectFrom()?relation->getObjectFrom()->getModel():NULL ;
+          if (model_from == this)
+            model_from->_internalDestroyRelation(*relation) ;
+          else if (model_to == this)
+            model_to->_internalDestroyRelation(*relation) ;
+        }
+
+        m_relation_to_destroy.clear() ;
+      }
+
       void Interpretor::endTransaction()
       {
         --m_number_of_openned_transaction ;
@@ -67,7 +123,10 @@ namespace ProjetUnivers
           m_is_finishing = true ;
           m_performed_operations.clear() ;
 
-          while (!m_operations.empty() || !m_traits_to_destroy.empty() || !m_objects_to_destroy.empty())
+          while (!m_operations.empty() ||
+                !m_traits_to_destroy.empty() ||
+                !m_objects_to_destroy.empty() ||
+                !m_relation_to_destroy.empty())
           {
             while (!m_operations.empty())
             {
@@ -77,43 +136,15 @@ namespace ProjetUnivers
               operation.execute() ;
             }
 
-            m_destroying_traits = true ;
-            for(std::set<Trait*>::iterator trait = m_traits_to_destroy.begin() ; trait != m_traits_to_destroy.end() ; ++trait)
-            {
-              (*trait)->getObject()->_detach(getObjectTypeIdentifier(*trait)) ;
-              delete *trait ;
-            }
-            m_traits_to_destroy.clear() ;
-            m_destroying_traits = false ;
+            destroyTraits() ;
 
             if (!m_operations.empty())
               ErrorMessage("Interpretor::endTransaction Remaining operations after trait destroy") ;
 
-            for(std::list<ObjectReference>::const_iterator object = m_objects_to_destroy.begin() ; object != m_objects_to_destroy.end() ; ++object)
-            {
-              if (*object)
-              {
-                if ((*object)->isLocked())
-                {
-                  ErrorMessage("Interpretor::endTransaction Destroying a lock object") ;
-                }
+            destroyRelations() ;
 
-                Model* model = (*object)->getModel() ;
+            destroyObjects() ;
 
-                if ((*object)->getParent() == NULL)
-                {
-                  /// a top object
-                  model->m_objects.erase(*object) ;
-                  delete *object ;
-                }
-                else
-                {
-                  /// a sub object
-                  (*object)->getParent()->_remove(*object) ;
-                }
-              }
-            }
-            m_objects_to_destroy.clear() ;
             m_performed_operations.clear() ;
 
             for(std::list<Operation>::iterator operation = m_operations.begin() ; operation != m_operations.end() ; ++operation)
@@ -140,6 +171,10 @@ namespace ProjetUnivers
       {
         if (! m_destroying)
           m_objects_to_destroy.push_back(object) ;
+      }
+      void Interpretor::recordRelationToDestroy(const Relation& relation)
+      {
+        m_relation_to_destroy.push_back(relation) ;
       }
 
       std::string Interpretor::toString(const char* module) const

@@ -36,13 +36,17 @@ namespace ProjetUnivers
       /// @name Tests methods
       // @{
 
-        void test() ;
+        void initView() ;
+        void closeView() ;
+        void viewOnDeducedRelation() ;
 
       // @}
 
         CPPUNIT_TEST_SUITE(TestRelationView) ;
 
-        CPPUNIT_TEST(test) ;
+        CPPUNIT_TEST(initView) ;
+        CPPUNIT_TEST(closeView) ;
+        CPPUNIT_TEST(viewOnDeducedRelation) ;
 
         CPPUNIT_TEST_SUITE_END() ;
       };

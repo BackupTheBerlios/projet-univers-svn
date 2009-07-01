@@ -45,7 +45,7 @@ namespace ProjetUnivers
     protected:
 
       /// abstract class means protected constructor.
-      BaseRelationView(ViewPoint* viewpoint) ;
+      BaseRelationView() ;
 
     /*!
       @name data
@@ -55,6 +55,10 @@ namespace ProjetUnivers
       ViewPoint* m_viewpoint ;
 
     //@}
+
+    private:
+
+      void _setViewPoint(ViewPoint* viewpoint) ;
 
       friend class Relation ;
       friend class Model ;

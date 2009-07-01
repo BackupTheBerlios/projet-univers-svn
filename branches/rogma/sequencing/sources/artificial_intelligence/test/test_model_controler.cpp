@@ -499,7 +499,7 @@ namespace ProjetUnivers
           ship2 = ship ;
         }
 
-        for(int i = 0 ; i < 300 ; ++i)
+        for(int i = 0 ; i < 400 ; ++i)
         {
           model->update(0.1) ;
         }

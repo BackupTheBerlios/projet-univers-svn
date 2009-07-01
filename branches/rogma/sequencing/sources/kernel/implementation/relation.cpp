@@ -19,6 +19,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include <kernel/relation.h>
+#include <kernel/view_point.h>
 namespace ProjetUnivers
 {
   namespace Kernel
@@ -28,6 +29,18 @@ namespace ProjetUnivers
     {
       static StaticStorage instance ;
       return &instance ;
+    }
+
+    Relation::ViewBuilder Relation::StaticStorage::getBuilder(ViewPoint* viewpoint,const Relation& relation)
+    {
+      std::map<std::pair<TypeIdentifier,TypeIdentifier>,
+                       ViewBuilder>::iterator      finder ;
+
+      finder = m_view_builders.find(std::make_pair(getObjectTypeIdentifier(viewpoint),relation.getType())) ;
+      if (finder != m_view_builders.end())
+        return finder->second ;
+
+      return ViewBuilder() ;
     }
 
     Relation::Relation(const TypeIdentifier& type,Object* object1,Object* object2)
@@ -103,6 +116,8 @@ namespace ProjetUnivers
     {
       Relation relation(type,object1,object2) ;
       object1->getModel()->addRelation(relation) ;
+
+      /// @todo : see if it is useful
       if (object1->getModel() != object2->getModel())
         object2->getModel()->addRelation(relation) ;
     }
@@ -111,9 +126,43 @@ namespace ProjetUnivers
     {
       Relation relation(type,object1,object2) ;
       object1->getModel()->removeRelation(relation) ;
+
+      /// @todo : see if it is useful
       if (object1->getModel() != object2->getModel())
         object2->getModel()->removeRelation(relation) ;
 
+    }
+
+    void Relation::createViews() const
+    {
+      for(std::set<ViewPoint*>::iterator viewpoint = getObjectFrom()->getModel()->m_viewpoints.begin() ;
+          viewpoint != getObjectFrom()->getModel()->m_viewpoints.end() ;
+          ++viewpoint)
+      {
+        createViews(*viewpoint) ;
+      }
+
+    }
+
+    void Relation::createViews(ViewPoint* viewpoint) const
+    {
+      ViewBuilder builder = StaticStorage::get()->getBuilder(viewpoint,*this) ;
+
+      if (!builder.empty())
+        getObjectFrom()->getModel()->addRelationView(*this,builder(*this,viewpoint),viewpoint) ;
+
+    }
+
+    void Relation::registerBuilder(const TypeIdentifier& relation,
+                                   const TypeIdentifier& viewpoint,
+                                   ViewBuilder           builder)
+    {
+      StaticStorage::get()->m_view_builders[std::make_pair(viewpoint,relation)] = builder ;
+    }
+
+    void Relation::notify()
+    {
+      getObjectFrom()->getModel()->update(*this) ;
     }
 
   }

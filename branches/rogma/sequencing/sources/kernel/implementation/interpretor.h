@@ -22,6 +22,7 @@
 
 #include <list>
 #include <set>
+#include <kernel/relation.h>
 #include <kernel/implementation/operation.h>
 
 namespace ProjetUnivers
@@ -33,7 +34,7 @@ namespace ProjetUnivers
     {
       /// Model command interpretor.
       /*!
-        Memorise init/close/update on obsever to play them after.
+        Memorize init/close/update on observer to play them afterwards.
       */
       class Interpretor
       {
@@ -43,7 +44,7 @@ namespace ProjetUnivers
       */
       // @{
 
-        /// All observers callbacks performed during a transation are delayed.
+        /// All observers callbacks performed during a transaction are delayed.
         void startTransaction() ;
 
         /// Add an operation to be performed locally
@@ -66,8 +67,20 @@ namespace ProjetUnivers
 
         Interpretor() ;
 
+        /// Put the relation in a pool of relation to destroy.
+        void recordRelationToDestroy(const Relation&) ;
+
         /// Add an object to be destroyed.
         void addObjectToDestroy(Object*) ;
+
+        /// Destroy the traits.
+        void destroyTraits() ;
+
+        /// Destroy the objects.
+        void destroyObjects() ;
+
+        /// Destroy the objects.
+        void destroyRelations() ;
 
         /// true during destruction.
         bool m_destroying ;
@@ -83,6 +96,7 @@ namespace ProjetUnivers
         /// Objects to be destroyed.
         std::list<ObjectReference> m_objects_to_destroy ;
         bool m_destroying_traits ;
+        std::list<Relation> m_relation_to_destroy ;
 
         std::list<Implementation::Operation> m_performed_operations ;
       };

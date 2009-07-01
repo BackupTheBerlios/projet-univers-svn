@@ -47,10 +47,15 @@ namespace ProjetUnivers
 //      }
     }
 
-    BaseRelationView::BaseRelationView(ViewPoint* viewpoint)
-    : RelationObserver(),
-      m_viewpoint(viewpoint)
+    BaseRelationView::BaseRelationView()
+    : m_viewpoint(NULL)
     {}
+
+    void BaseRelationView::_setViewPoint(ViewPoint* viewpoint)
+    {
+      m_viewpoint = viewpoint ;
+    }
+
   }
 }
 

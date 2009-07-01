@@ -1293,6 +1293,12 @@
       where :
       primitive_relation is a relation
       relation_formula is And/Or/Not/IsFrom(object_formula)/IsTo(object_formula)  
+
+
+2009-07-01 rogma
+
+  * Kernel :
+    - views on relation (onInit/onClose/onUpdate)  
     
 in commit
 --------
@@ -1301,11 +1307,13 @@ in commit
 in progress
 -----------
    
-    - views/controlers on relation (onInit/onClose/onUpdate)  
       
 todo
 ----
   
+  * Kernel :
+    - simplificaiton of view/controler : we are not olbiged to have a special 
+      constructor (see mecanism for relation view)
   
   * Model : 
   

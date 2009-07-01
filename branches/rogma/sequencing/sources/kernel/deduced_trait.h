@@ -296,7 +296,14 @@ namespace ProjetUnivers
                          bool              validity,
                          const ObjectPair& relation) ;
 
+      /// Notify that @c formula is updated on @c relation
+      static void update(Formula*          formula,
+                         const ObjectPair& relation) ;
+
+      /// Notify that a relation link has been added
       static void onAddRelation(const Relation&) ;
+
+      /// Notify that a relation link has been removed
       static void onRemoveRelation(const Relation&) ;
 
     private:

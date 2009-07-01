@@ -44,9 +44,12 @@ CPPUNIT_TEST_SUITE_REGISTRATION(ProjetUnivers::
                                 Test::
                                 TestTargetingSystem) ;
 
-namespace ProjetUnivers {
-  namespace Model {
-    namespace Test {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
+    namespace Test
+    {
 
       void TestTargetingSystem::selectOneObject()
       {
@@ -433,13 +436,6 @@ namespace ProjetUnivers {
         InternalMessage("Model","Model::TestTargetingSystem::selectNearestEnemyAfterDestruction leaving") ;
       }
 
-      void TestTargetingSystem::setUp()
-      {
-      }
-
-      void TestTargetingSystem::tearDown()
-      {
-      }
     }
   }
 }

@@ -226,8 +226,12 @@ namespace ProjetUnivers
       /// All the links
       std::set<Relation> m_relations ;
 
+      /// Functional operations
       void addRelation(const Relation&) ;
       void removeRelation(const Relation&) ;
+
+      /// Really destroy a relation.
+      void _internalDestroyRelation(const Relation&) ;
 
       /// The objects related to an object though a particular relation type.
       std::set<Object*> getRelations(const TypeIdentifier&,Object*) const ;
@@ -260,7 +264,22 @@ namespace ProjetUnivers
       std::map<ObjectPair,std::vector<unsigned short> > m_number_of_true_child_formulae ;
 
       /// Storage for relation views.
+      std::map<Relation,std::set<BaseRelationView*> > m_relation_views ;
 
+      /// Add a relation view
+      void addRelationView(const Relation&,BaseRelationView*,ViewPoint*) ;
+
+      /// Destroy the relation's views
+      void destroyRelationView(const Relation&) ;
+
+      /// Initialize the observers of the relation
+      void init(const Relation&) ;
+
+      /// Terminate the observers of the relation
+      void close(const Relation&) ;
+
+      /// Update the observers of the relation
+      void update(const Relation&) ;
 
     // @}
 
