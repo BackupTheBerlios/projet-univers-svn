@@ -68,6 +68,7 @@
 #include <artificial_intelligence/implementation/agent.h>
 #include <artificial_intelligence/implementation/autonomous_agent.h>
 #include <artificial_intelligence/test/test_model_controler.h>
+#include <artificial_intelligence/implementation/with_vehicle_controler.h>
 
 
 
@@ -611,6 +612,19 @@ namespace ProjetUnivers
           agent2 = agent ;
         }
 
+        /*
+        Seen from top :
+
+          ^                ^
+          |  ship2         |  ship1
+
+        Which must result in :
+
+                          <- desired speed
+                          <- "command"
+        */
+
+
         model->update(0.1) ;
 
         Implementation::AISystem* ai_system = model->getControlerSet<Implementation::AISystem>() ;
@@ -622,26 +636,54 @@ namespace ProjetUnivers
 
         agent_controler->applyObjective(Model::Objective::attackAllEnemies(),agent1,0.1) ;
 
-        Ogre::Vector3 desired_speed = agent_controler->m_steering + agent_controler->getVehicle()->getSpeed() ;
-        desired_speed.normalise() ;
         // need to go right
-        CPPUNIT_ASSERT(desired_speed.positionEquals(Ogre::Vector3::UNIT_X,0.1)) ;
+        CPPUNIT_ASSERT(agent_controler->getDesiredSpeed().positionEquals(Ogre::Vector3::UNIT_X,0.1)) ;
         CPPUNIT_ASSERT(agent_controler->calculateSteeringCommands(0.1).x > 0) ;
+
 
         // move agent...
         ship2->getTrait<Model::Positionned>()->setPosition(Model::Position::Meter(0,0,0)) ;
         ship2->getTrait<Model::Mobile>()->setSpeed(Model::Speed()) ;
+        ship2->getTrait<Model::Oriented>()->setOrientation(Model::Orientation()) ;
         ship1->getTrait<Model::Positionned>()->setPosition(Model::Position::Meter(0,1000,0)) ;
         ship1->getTrait<Model::Mobile>()->setSpeed(Model::Speed()) ;
-        model->update(0.01) ;
+        ship1->getTrait<Model::Oriented>()->setOrientation(Model::Orientation()) ;
 
-        agent_controler->applyObjective(Model::Objective::attackAllEnemies(),agent1,0.01) ;
+        Implementation::WithVehicleControler* vehicle =
+            ship1->getTrait<Implementation::WithVehicle>()
+                 ->getControler<Implementation::WithVehicleControler>(ai_system) ;
 
-        desired_speed = agent_controler->m_steering + agent_controler->getVehicle()->getSpeed() ;
-        desired_speed.normalise() ;
+        CPPUNIT_ASSERT(vehicle) ;
 
-        std::cout << desired_speed ;
-        CPPUNIT_ASSERT(desired_speed.positionEquals(Ogre::Vector3::NEGATIVE_UNIT_Y,0.1)) ;
+//        std::cout << vehicle->getVehicle()->toString() << std::endl ;
+
+        /*
+        Seen from left :
+
+        <-- ship1
+
+        <-- ship2
+
+        Which must result in :
+
+             |  desired speed
+             V
+
+             |  "command"
+             V
+        */
+
+
+        model->update(0.1) ;
+
+//        std::cout << vehicle->getVehicle()->toString() << std::endl ;
+
+        agent_controler->applyObjective(Model::Objective::attackAllEnemies(),agent1,0.1) ;
+
+//        std::cout << vehicle->getVehicle()->toString() << std::endl ;
+//
+//        std::cout << agent_controler->getDesiredSpeed() ;
+        CPPUNIT_ASSERT(agent_controler->getDesiredSpeed().positionEquals(Ogre::Vector3::NEGATIVE_UNIT_Y,0.1)) ;
         CPPUNIT_ASSERT(agent_controler->calculateSteeringCommands(0.1).y > 0) ;
       }
     }

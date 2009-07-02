@@ -1328,6 +1328,11 @@
         updates the current vehicule target of agent  
         (latter we will directly put the selection link between TargetingSystem 
          and real object)
+
+2009-07-02 rogma
+
+    - considered in a lot of places that Z axis is forward... whereas Ogre 
+      consider negative Z as forward ??? 
     
 in commit
 --------
@@ -1455,9 +1460,6 @@ todo
   * All : 
     - Custom mission controler dealt with victory/ending conditions and leads 
       to game over state
-    
-    - considered in a lot of places that Z axis is forward... whereas Ogre 
-      consider negative Z as forward ??? 
 
   * Packaging
     - inspire from funguloid package for debian/ubuntu packaging

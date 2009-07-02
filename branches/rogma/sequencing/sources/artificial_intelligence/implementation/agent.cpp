@@ -59,18 +59,9 @@ namespace ProjetUnivers
         InternalMessage("AI","built Agent") ;
       }
 
-      void Agent::onClose()
-      {
-      }
-
       void Agent::setTarget(Vehicle* vehicle)
       {
         m_target = vehicle ;
-      }
-
-      const std::set<Vehicle*>& Agent::getVehicles() const
-      {
-        return m_other_vehicles ;
       }
 
       Vehicle* Agent::getTarget() const
@@ -93,10 +84,35 @@ namespace ProjetUnivers
         return NULL ;
       }
 
-      void Agent::applyObjective(
-          const Model::Objective& objective,
-          Kernel::Object*         agent,
-          const float&            seconds)
+      void Agent::simulate(const float& seconds)
+      {
+        if (seconds == 0)
+          return ;
+
+        // re-init the steering behaviour
+        m_steering = Ogre::Vector3::ZERO ;
+
+        applyObjectives(seconds) ;
+
+        applyCommands(calculateSteeringCommands(seconds)) ;
+      }
+
+      void Agent::applyObjectives(const float& seconds)
+      {
+        const std::set<Model::Objective>& objectives =
+          getObject()->getTrait<Model::WithObjectives>()->getObjectives() ;
+
+        for(std::set<Model::Objective>::const_iterator objective = objectives.begin() ;
+            objective != objectives.end() ;
+            ++objective)
+        {
+          applyObjective(*objective,getObject(),seconds) ;
+        }
+      }
+
+      void Agent::applyObjective(const Model::Objective& objective,
+                                 Kernel::Object*         agent,
+                                 const float&            seconds)
       {
         switch(objective.getKind())
         {
@@ -241,26 +257,8 @@ namespace ProjetUnivers
         InternalMessage("Agent","calibration m_max_steering_speed=" + Kernel::toString(m_max_steering_speed)) ;
       }
 
-      void Agent::simulate(const float& seconds)
+      void Agent::applyCommands(const Ogre::Vector3& commands)
       {
-        if (seconds == 0)
-          return ;
-
-        // re-init the steering behaviour
-        m_steering = Ogre::Vector3::ZERO ;
-
-        const std::set<Model::Objective>& objectives =
-          getObject()->getTrait<Model::WithObjectives>()->getObjectives() ;
-
-        for(std::set<Model::Objective>::const_iterator objective = objectives.begin() ;
-            objective != objectives.end() ;
-            ++objective)
-        {
-          applyObjective(*objective,getObject(),seconds) ;
-        }
-
-        Ogre::Vector3 commands = calculateSteeringCommands(seconds) ;
-
         m_previous_X = int(commands.x) ;
         m_previous_Y = int(commands.y) ;
         m_delta_throttle = int(commands.z) ;
@@ -293,6 +291,13 @@ namespace ProjetUnivers
         if (systems.size() != 1)
           return NULL ;
         return (*(systems.begin()))->getObject() ;
+      }
+
+      Ogre::Vector3 Agent::getDesiredSpeed() const
+      {
+        Ogre::Vector3 desired_speed = m_steering + getVehicle()->getSpeed() ;
+        desired_speed.normalise() ;
+        return desired_speed ;
       }
 
     }

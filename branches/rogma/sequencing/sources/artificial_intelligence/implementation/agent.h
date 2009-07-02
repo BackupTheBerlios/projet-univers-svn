@@ -50,16 +50,11 @@ namespace ProjetUnivers
         /// Build the associated vehicle and behaviors.
         virtual void onInit() ;
 
-        virtual void onClose() ;
-
         /// Simulate agent during a certain duration.
         virtual void simulate(const float& seconds) ;
 
         /// Change the current target.
         void setTarget(Vehicle* vehicle) ;
-
-        /// Access to vehicles.
-        const std::set<Vehicle*>& getVehicles() const ;
 
         /// Access to current target.
         Vehicle* getTarget() const ;
@@ -70,6 +65,11 @@ namespace ProjetUnivers
         /// Access to the targeting system.
         Kernel::Object* getTargetingSystem() const ;
 
+
+        /// Give the "desired" speed of the agent.
+        Ogre::Vector3 getDesiredSpeed() const ;
+
+
       private:
 
         /// Other vehicles
@@ -78,6 +78,9 @@ namespace ProjetUnivers
         /// Current target.
         Vehicle*               m_target ;
 
+        /// Apply all the objectives
+        void applyObjectives(const float& seconds) ;
+
         /// Execute the given objective.
         /*!
           Either send direct command to object or calculate m_steering.
@@ -85,6 +88,7 @@ namespace ProjetUnivers
         void applyObjective(const Model::Objective& objective,
                             Kernel::Object* agent,
                             const float& seconds) ;
+
 
         /// Calculate the steering commands.
         Ogre::Vector3 calculateSteeringCommands(const float& seconds_since_last_frame) ;
@@ -97,6 +101,9 @@ namespace ProjetUnivers
           the case due to physic representation)
         */
         void calibrateSteering(const float& seconds_since_last_frame) ;
+
+        /// Apply a piloting command.
+        void applyCommands(const Ogre::Vector3&) ;
 
         /// Steering to apply this turn.
         Ogre::Vector3      m_steering ;

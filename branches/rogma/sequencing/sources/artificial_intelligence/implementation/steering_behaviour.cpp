@@ -54,9 +54,7 @@ namespace ProjetUnivers
         float WanderSide = 0 ;
         float WanderUp = 0 ;
         
-        Ogre::Vector3 seek(
-            const Vehicle& agent,
-            const Vehicle& target)
+        Ogre::Vector3 seek(const Vehicle& agent,const Vehicle& target)
         {
           Ogre::Vector3 desiredVelocity = target.getPosition()-agent.getPosition() ;
           agent.normalizeSpeed(desiredVelocity) ;
@@ -76,17 +74,14 @@ namespace ProjetUnivers
             return 0;
         }
         
-        Ogre::Vector3 pursuit(
-            const Vehicle& agent,
-            const Vehicle& target)
+        Ogre::Vector3 pursuit(const Vehicle& agent,const Vehicle& target)
         {
           return offsetPursuit(agent,target,Ogre::Vector3(0,0,0)) ;
         }
   
-        Ogre::Vector3 offsetPursuit(
-            const Vehicle& agent,
-            const Vehicle& target,
-            const Ogre::Vector3& local_space_target_offset)
+        Ogre::Vector3 offsetPursuit(const Vehicle& agent,
+                                    const Vehicle& target,
+                                    const Ogre::Vector3& local_space_target_offset)
         {
           
           InternalMessage("AI","agent.getPosition() =" + 
@@ -153,10 +148,9 @@ namespace ProjetUnivers
         }
   
         
-        Ogre::Vector3 offsetPursuit(
-            const Vehicle& agent,
-            const Vehicle& target,
-            const float&   distance)
+        Ogre::Vector3 offsetPursuit(const Vehicle& agent,
+                                    const Vehicle& target,
+                                    const float&   distance)
         {
           
           InternalMessage("AI","agent.getPosition() =" + 
@@ -233,10 +227,8 @@ namespace ProjetUnivers
             return (((float) rand ()) / ((float) RAND_MAX));
         }
         
-        float scalarRandomWalk (const float initial, 
-                                       const float walkspeed,
-                                       const float min,
-                                       const float max)
+        float scalarRandomWalk(const float initial,const float walkspeed,
+                               const float min,const float max)
         {
             const float next = initial + (((frandom01() * 2) - 1) * walkspeed);
             if (next < min) return min;
@@ -296,10 +288,9 @@ namespace ProjetUnivers
           return desiredVelocity-agent.getSpeed() ;
         }
   
-        Ogre::Vector3 separate(
-            const Vehicle&            agent, 
-            const std::set<Vehicle*>& neighbours,
-            const float               simulation_time)
+        Ogre::Vector3 separate(const Vehicle& agent,
+                               const std::set<Vehicle*>& neighbours,
+                               const float simulation_time)
         {
           Ogre::Vector3 result(Ogre::Vector3::ZERO) ;
           
@@ -332,9 +323,8 @@ namespace ProjetUnivers
           return result ;
         }
         
-        Ogre::Vector3 obstacleAvoidance(
-            const Vehicle&            agent, 
-            const std::set<Vehicle*>& obstacles)
+        Ogre::Vector3 obstacleAvoidance(const Vehicle& agent,
+                                        const std::set<Vehicle*>& obstacles)
         {
           Ogre::Vector3 result(Ogre::Vector3::ZERO) ;
           

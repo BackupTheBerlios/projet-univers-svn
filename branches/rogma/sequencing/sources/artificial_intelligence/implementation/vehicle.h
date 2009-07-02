@@ -113,6 +113,9 @@ namespace ProjetUnivers
         /// Access to the turning rate.
         const Ogre::Radian& getTurningRate() const ;
 
+        /// Debug printing
+        std::string toString() const ;
+
       // @}
 
       private:

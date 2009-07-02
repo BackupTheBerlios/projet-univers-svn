@@ -81,7 +81,7 @@ namespace ProjetUnivers
         CPPUNIT_TEST(groupAttack) ;
         CPPUNIT_TEST(testPositionUpdate) ;
         CPPUNIT_TEST(simulate) ;
-//        CPPUNIT_TEST(steering) ;
+        CPPUNIT_TEST(steering) ;
 
         CPPUNIT_TEST_SUITE_END() ;
       };

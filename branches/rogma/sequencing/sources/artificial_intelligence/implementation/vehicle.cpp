@@ -266,6 +266,17 @@ namespace ProjetUnivers
         return m_turning_rate ;
       }
 
+      std::string Vehicle::toString() const
+      {
+        std::string result("Vehicle(") ;
+
+        result += "position=" + Ogre::StringConverter::toString(getPosition()) ;
+        result += ",forward=" + Ogre::StringConverter::toString(getForward()) ;
+        result += ",speed=" + Ogre::StringConverter::toString(getSpeed()) ;
+
+        return result + ")" ;
+      }
+
     }
   }
 }
