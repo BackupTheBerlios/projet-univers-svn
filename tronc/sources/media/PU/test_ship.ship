@@ -44,13 +44,13 @@
 		</Massive>
 		
 		<Solid>
-			<Mesh ogre_ressource="razor.mesh"/>
+			<Mesh ogre_ressource="test_ship.mesh"/>
 		</Solid>
 	
 		<!-- The laser --> 
 		<object id="2">
 			<Laser>
-				<Position x="0" y="0" z="80" unit="Meter"/>
+				<Position x="0" y="0" z="-120" unit="Meter"/>
 				<Orientation/>
         <!-- the energy of the laser beam -->
 				<Energy value="10" unit="Joule"/>
@@ -104,7 +104,7 @@
     <object id="8">
       <Engine>
         <!--  The force of the engine, the more the speeder, warning keep x,y to zero -->
-        <Force x="0" y="0" z="650" unit="Newton"/>
+        <Force x="0" y="0" z="-650" unit="Newton"/>
         <ObjectReference id="9" name="controler"/>
       </Engine>
       <Component/>

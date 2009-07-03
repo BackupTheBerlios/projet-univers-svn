@@ -18,16 +18,15 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_SELECTED_H_
-#define PU_MODEL_SELECTED_H_
+#pragma once
 
-#include <set>
 #include <kernel/trait.h>
 #include <kernel/object.h>
-#include <kernel/object_reference.h>
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
 
     /// For DetectionData that are selected.
     class Selected : public Kernel::Trait
@@ -67,14 +66,6 @@ namespace ProjetUnivers {
       void unSelect(Kernel::Object* by) ;
 
     // @}
-        
-    private:
-      
-      /// Those who selected this.
-      std::set<Kernel::ObjectReference> m_selectors ;
-    
     };
   }
 }
-
-#endif /*PU_MODEL_SELECTED_H_*/

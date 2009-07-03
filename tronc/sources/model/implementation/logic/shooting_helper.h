@@ -18,8 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_IMPLEMENTATION_LOGIC_SHOOTING_HELPER_H_
-#define PU_MODEL_IMPLEMENTATION_LOGIC_SHOOTING_HELPER_H_
+#pragma once
 
 #include <memory>
 #include <kernel/controler.h>
@@ -27,12 +26,16 @@
 #include <model/implementation/logic/logic_system.h>
 #include <model/implementation/logic/shooting_helper_viewpoint.h>
 
-namespace ProjetUnivers {
-  namespace Model {
-    namespace Implementation {
-      namespace Logic {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
+    namespace Implementation
+    {
+      namespace Logic
+      {
 
-        /// Generates the associated ideal target with the selectioned target. 
+        /// Generates the associated ideal target with the selected target.
         /*!
         @dot
         digraph 
@@ -84,19 +87,7 @@ namespace ProjetUnivers {
         class ShootingHelper : public Kernel::Controler<Model::ShootingHelper,
                                                         LogicSystem>
         {
-        public:
-        
-        /*! 
-          @name Construct
-        */ 
-        // @{
-
-          /// Constructor.
-          ShootingHelper(Model::ShootingHelper* object,
-                         LogicSystem* system) ;
-        // @}
-          
-      protected:
+        protected:
         /*!
           @name Updates
         */
@@ -120,5 +111,3 @@ namespace ProjetUnivers {
     }
   }
 }
-
-#endif /*PU_MODEL_IMPLEMENTATION_LOGIC_SHOOTING_HELPER_H_*/

@@ -27,13 +27,13 @@
 
 #include <boost/function.hpp>
 
-namespace ProjetUnivers 
+namespace ProjetUnivers
 {
-  namespace Kernel 
+  namespace Kernel
   {
 
     class Trait ;
-    
+
     /// Something that identify a type.
     class TypeIdentifier
     {
@@ -51,19 +51,19 @@ namespace ProjetUnivers
       /// Constructor.
       TypeIdentifier(const std::type_info& i_name,
                      boost::function1<bool,Trait*> i_object_test) ;
-      
-      /// Return a string that represents the type identifier. 
+
+      /// Return a string that represents the type identifier.
       std::string toString() const ;
 
       /// Comparison.
       bool operator ==(const TypeIdentifier& i_type_identifier) const ;
-      
+
       /// Comparison.
       bool operator !=(const TypeIdentifier& i_type_identifier) const ;
 
       /// For std::map.
       bool operator <(const TypeIdentifier& i_type_identifier) const ;
-      
+
       /// Returns true iff i_object is instance of that type.
       /*!
         Only work for TypeIdentifiers obtained from getClassTypeIdentifier.
@@ -71,41 +71,42 @@ namespace ProjetUnivers
       bool isInstance(Trait* i_object) const ;
 
       /// gcc typeid name to class name
-      std::string className() const ; 
+      std::string className() const ;
+      std::string fullName() const ;
 
       /// Assignment.
       TypeIdentifier& operator=(const TypeIdentifier& i_type_identifier) ;
 
     private:
-      
+
       /// For isInstance implementation.
       class StaticStorage
       {
       public:
-        
+
         std::map<TypeIdentifier,boost::function1<bool,Trait*> > m_instance_tests ;
-        
+
         static StaticStorage* get() ;
-        
+
       private:
-        
+
         StaticStorage()
         {}
-        
+
       };
 
       /// Internal representation.
       const std::type_info* m_representation ;
-      
+
     };
-    
+
     /// Element that represent no type.
     const TypeIdentifier VoidTypeIdentifier = TypeIdentifier() ;
-    
+
     /// Returns true iff @c i_object is instance of @c T.
     template <class T> bool isInstance(Trait* i_object)
     {
-      
+
       if (dynamic_cast<T*>(i_object) != NULL)
       {
         return true ;
@@ -115,11 +116,11 @@ namespace ProjetUnivers
         return false ;
       }
     }
-    
+
     /// Get the type identifier for @c i_object
     #define getObjectTypeIdentifier(i_object) \
       ProjetUnivers::Kernel::TypeIdentifier(typeid(*i_object))
-    
+
     /// Get the type identifier for @c i_class
     #define getClassTypeIdentifier(i_class) \
       ProjetUnivers::Kernel::TypeIdentifier(typeid(i_class),&ProjetUnivers::Kernel::isInstance<i_class>)

@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2008 Mathieu ROGER                                      *
+ *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,19 +18,51 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_AI_IMPLEMENTATION_SELECTED_TARGET_H_
-#define PU_AI_IMPLEMENTATION_SELECTED_TARGET_H_
+#pragma once
 
-#include <kernel/deduced_trait.h>
+#include <kernel/object.h>
+#include <kernel/relation.h>
+#include <kernel/relation_observer.h>
 
-namespace ProjetUnivers {
-  namespace ArtificialIntelligence {
-    namespace Implementation {
-          
-      /// A selected target.
-      class SelectedTarget : public Kernel::DeducedTrait
-      {};
-    }
+namespace ProjetUnivers
+{
+  namespace Kernel
+  {
+
+    class ControlerSet ;
+
+    /// A controler on a relation.
+    class BaseRelationControler : public RelationObserver
+    {
+    public:
+
+      /// init the view after construction.
+      virtual void realInit() ;
+
+      /// abstract class means virtual destructor.
+      virtual ~BaseRelationControler() ;
+
+    protected:
+
+      /// abstract class means protected constructor.
+      BaseRelationControler() ;
+
+    /*!
+      @name data
+    */
+    //@{
+
+      ControlerSet* m_controler_set ;
+
+    //@}
+
+    private:
+
+      void _setControlerSet(ControlerSet* controler_set) ;
+
+      friend class Relation ;
+      friend class Model ;
+
+    };
   }
 }
-#endif /*PU_AI_IMPLEMENTATION_SELECTED_TARGET_H_*/

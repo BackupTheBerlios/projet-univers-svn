@@ -18,8 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_PHYSIC_IMPLEMENTATION_ODE_PHYSICAL_WORLD_H_
-#define PU_PHYSIC_IMPLEMENTATION_ODE_PHYSICAL_WORLD_H_
+#pragma once
 
 #include <set>
 #include <ode/ode.h>
@@ -32,10 +31,14 @@
 
 class dWorld ;
 
-namespace ProjetUnivers {
-  namespace Physic {
-    namespace Implementation {
-      namespace Ode {
+namespace ProjetUnivers
+{
+  namespace Physic
+  {
+    namespace Implementation
+    {
+      namespace Ode
+      {
         
         class Solid ;
         class PhysicalObject ;
@@ -49,9 +52,6 @@ namespace ProjetUnivers {
         {
         public:
 
-          /// Constructor.
-          PhysicalWorld(Model::PhysicalWorld*,PhysicSystem*) ;
-          
           /// Simulate world during a certain duration and notify positions.
           void simulate(const float& i_duration) ;
           
@@ -106,6 +106,3 @@ namespace ProjetUnivers {
     }
   }
 }
-
-
-#endif /*PU_PHYSIC_IMPLEMENTATION_ODE_PHYSICAL_WORLD_H_*/

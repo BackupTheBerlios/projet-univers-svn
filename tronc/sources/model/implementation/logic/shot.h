@@ -18,27 +18,26 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_IMPLEMENTATION_LOGIC_SHOT_H_
-#define PU_MODEL_IMPLEMENTATION_LOGIC_SHOT_H_
+#pragma once
 
 #include <kernel/controler.h>
 #include <model/shot.h>
 #include <model/implementation/logic/logic_system.h>
 
-namespace ProjetUnivers {
-  namespace Model {
-    namespace Implementation {
-      namespace Logic {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
+    namespace Implementation
+    {
+      namespace Logic
+      {
 
         /// Calculate damage and destroy collision object.
         class Shot : public Kernel::Controler<Model::Shot,
                                               LogicSystem>
         {
         public:
-          
-          /// Construct.
-          Shot(Model::Shot* i_object,
-               LogicSystem* i_system) ;
         
           /// Calculate damage.
           void simulate(const float& i_seconds) ;
@@ -48,6 +47,3 @@ namespace ProjetUnivers {
     }
   }
 }
-
-
-#endif

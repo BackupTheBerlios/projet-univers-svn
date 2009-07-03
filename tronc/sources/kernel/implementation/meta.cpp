@@ -20,9 +20,9 @@
  ***************************************************************************/
 #include <kernel/meta.h>
 
-namespace ProjetUnivers 
+namespace ProjetUnivers
 {
-  namespace Kernel 
+  namespace Kernel
   {
 
     TypeIdentifier::StaticStorage* TypeIdentifier::StaticStorage::get()
@@ -30,7 +30,7 @@ namespace ProjetUnivers
       static StaticStorage result ;
       return &result ;
     }
-    
+
     TypeIdentifier::TypeIdentifier()
     : m_representation(&typeid(void))
     {}
@@ -48,34 +48,34 @@ namespace ProjetUnivers
       boost::function1<bool,Trait*> i_object_test)
     : m_representation(&i_name)
     {
-        
+
       TypeIdentifier id(i_name) ;
-      
-      if (StaticStorage::get()->m_instance_tests.find(id) == 
+
+      if (StaticStorage::get()->m_instance_tests.find(id) ==
           StaticStorage::get()->m_instance_tests.end())
       {
-        StaticStorage::get()->m_instance_tests.insert( 
+        StaticStorage::get()->m_instance_tests.insert(
             std::make_pair<TypeIdentifier,
                       boost::function1<bool,Trait*> >(id,i_object_test)) ;
       }
     }
-    
+
     std::string TypeIdentifier::toString() const
     {
       return m_representation->name() ;
     }
-    
+
     bool TypeIdentifier::operator <(const TypeIdentifier& i_type_identifier) const
     {
       return m_representation->before(*i_type_identifier.m_representation) ;
     }
 
-    bool TypeIdentifier::isInstance(Trait* i_object) const 
+    bool TypeIdentifier::isInstance(Trait* i_object) const
     {
-      std::map<TypeIdentifier,boost::function1<bool,Trait*> >::iterator finder 
+      std::map<TypeIdentifier,boost::function1<bool,Trait*> >::iterator finder
         = StaticStorage::get()->m_instance_tests.find(*this) ;
-      
-      if (finder != StaticStorage::get()->m_instance_tests.end() && 
+
+      if (finder != StaticStorage::get()->m_instance_tests.end() &&
           ! finder->second.empty())
       {
         return finder->second(i_object) ;
@@ -85,7 +85,7 @@ namespace ProjetUnivers
         return false ;
       }
     }
-    
+
     bool TypeIdentifier::operator==(const TypeIdentifier& i_type_identifier) const
     {
       return *m_representation == *i_type_identifier.m_representation ;
@@ -100,15 +100,15 @@ namespace ProjetUnivers
     {
       std::string result ;
       std::string::size_type current = position ;
-      
+
       int number = 0 ;
-      
+
       while(current < name.length() && name[current] >= '0' && name[current] <= '9')
       {
         result += name[current++] ;
         number++ ;
       }
-      
+
       if (result != "")
       {
         return std::pair<int,int>(number,atoi(result.c_str())) ;
@@ -120,25 +120,25 @@ namespace ProjetUnivers
     }
 
     /*!
-      Of the form : 
-      
+      Of the form :
+
       (N{number}{NamespaceName})*{number}{ClassName}E
     */
     std::string TypeIdentifier::className() const
     {
       std::string::size_type position = 0 ;
       std::string name(m_representation->name()) ;
-    
+
       if (name[position] == 'N')
       {
         ++position ;
-      }  
+      }
       else
       {
         std::pair<int,int> temp(getNumber(name,position)) ;
         return name.substr(position+temp.first,temp.second) ;
       }
-      
+
       while(position <= name.length())
       {
         /// a number and a class...
@@ -151,6 +151,43 @@ namespace ProjetUnivers
       }
 
       return "" ;
+    }
+
+    std::string TypeIdentifier::fullName() const
+    {
+      std::string::size_type position = 0 ;
+      std::string name(m_representation->name()) ;
+
+      std::string result ;
+
+      if (name[position] == 'N')
+      {
+        ++position ;
+      }
+      else
+      {
+        std::pair<int,int> temp(getNumber(name,position)) ;
+        return name.substr(position+temp.first,temp.second) ;
+      }
+      bool first = true ;
+
+      while(position <= name.length())
+      {
+        /// a number and a class...
+        std::pair<int,int> temp(getNumber(name,position)) ;
+        if (name[position+temp.first+temp.second] == 'E')
+        {
+          result = result + name.substr(position+temp.first,temp.second) ;
+          break ;
+        }
+        if (first)
+          first = false ;
+        else
+          result = result + name.substr(position+temp.first,temp.second) + "::" ;
+        position = position+temp.first+temp.second ;
+      }
+
+      return result ;
     }
 
     TypeIdentifier& TypeIdentifier::operator=(const TypeIdentifier& type_identifier)

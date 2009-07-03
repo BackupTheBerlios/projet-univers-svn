@@ -21,21 +21,18 @@
 #include <kernel/log.h>
 #include <model/implementation/logic/shooting_helper.h>
 
-namespace ProjetUnivers {
-  namespace Model {
-    namespace Implementation {
-      namespace Logic {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
+    namespace Implementation
+    {
+      namespace Logic
+      {
 
         RegisterControler(Logic::ShootingHelper,
                           Model::ShootingHelper,
                           Logic::LogicSystem) ;
-        
-        ShootingHelper::ShootingHelper(
-            Model::ShootingHelper* object,
-            LogicSystem* system)
-        : Kernel::Controler<Model::ShootingHelper,LogicSystem>(object,system),
-          m_implementation(NULL)
-        {}
             
         void ShootingHelper::onInit()
         {

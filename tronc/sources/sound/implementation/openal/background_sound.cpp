@@ -35,15 +35,6 @@ namespace ProjetUnivers
                      Model::BackgroundSound, 
                      OpenAL::RealWorldViewPoint) ;
              
-        BackgroundSound::BackgroundSound(
-          Model::BackgroundSound* i_observer,
-          RealWorldViewPoint*     i_viewpoint) 
-        : Kernel::TraitView<Model::BackgroundSound,RealWorldViewPoint>(i_observer,i_viewpoint),
-        SoundEmitter()
-        {
-          InternalMessage("Sound","Building OpenAL::BackgroundSound") ;
-        }
-                    
         std::string BackgroundSound::getSoundFileName() const
         {
           return this->getTrait()->getFileName();

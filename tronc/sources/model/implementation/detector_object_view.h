@@ -18,8 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_IMPLEMENTATION_DETECTOR_OBJECT_VIEW_H_
-#define PU_MODEL_IMPLEMENTATION_DETECTOR_OBJECT_VIEW_H_
+#pragma once
 
 #include <kernel/trait_view.h>
 #include <kernel/object_reference.h>
@@ -27,24 +26,26 @@
 #include <model/implementation/detectable.h>
 #include <model/implementation/detector_view_point.h>
 
-namespace ProjetUnivers {
-  namespace Model {
-    namespace Implementation {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
+    namespace Implementation
+    {
       
       /// An object that is potentially detected by a detector.
       class DetectorObjectView : public Kernel::TraitView<Detectable,
                                                           DetectorViewPoint>
       {
       public:
-        
-        /// Construct.
-        DetectorObjectView(Detectable*,DetectorViewPoint*) ;
 
         /// Check if object is detectable.
         void check() ;
         
       protected:
         
+        virtual void onInit() ;
+
         /// Called just before the view is destroyed.
         virtual void onClose() ;
         
@@ -61,6 +62,3 @@ namespace ProjetUnivers {
     }
   }
 }
-
-
-#endif /*PU_MODEL_IMPLEMENTATION_DETECTOR_OBJECT_VIEW_H_*/

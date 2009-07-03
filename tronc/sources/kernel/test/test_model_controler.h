@@ -22,22 +22,22 @@
 
 #include <cppunit/extensions/HelperMacros.h>
 
-namespace ProjetUnivers 
+namespace ProjetUnivers
 {
-  namespace Kernel 
+  namespace Kernel
   {
-    namespace Test 
+    namespace Test
     {
 
       ///  Test for Model/Controler.
-      class TestModelControler : public CppUnit::TestFixture 
+      class TestModelControler : public CppUnit::TestFixture
       {
       protected:
 
-      /*! 
+      /*!
         @name Tests methods
       */
-      // @{  
+      // @{
 
         /// Tests construction on empty model.
         void testBuildOnEmptyModel() ;
@@ -62,7 +62,7 @@ namespace ProjetUnivers
 
         /// Tests the bottom up simulation.
         void testSimulateAll() ;
-        
+
         /// Tests several controler sets on the same model.
         void testMultiControlerSet() ;
 
@@ -77,13 +77,13 @@ namespace ProjetUnivers
 
         /// Test a bug : crash on init controler set with NULL model.
         void initControlerSetWithNullModel() ;
-        
+
         /// Test the correction of the preceeding bug.
         /*!
           # building a controler set with a NULL model
           # init the controler set
           # reset a non NULL model
-          # check that controlers have been initialised 
+          # check that controlers have been initialised
         */
         void setModelOnInitialisedControlerSetWithNullModel() ;
 
@@ -92,24 +92,27 @@ namespace ProjetUnivers
           # building a controler set on a model
           # init the controler set
           # reset another model
-          # check that controler have been closed 
+          # check that controler have been closed
         */
         void changeModelOnInitialisedControlerSet() ;
 
         /// Simulation destroy a trait of the current object.
         void simulateDestroyTrait() ;
-        
+
         /// Access a trait of object.
         void accessOtherTrait() ;
-        
+
         /// Object destruction during simulation.
         void destroyObject() ;
 
         /// Object destruction during simulation.
         void destroyObjectTwice() ;
-        
+
         void onUpdateIsConcurrentOnDelete() ;
-        
+
+        void initNotTrait() ;
+        void dependentTraitsAreInitAfter() ;
+
       // @}
 
 
@@ -133,14 +136,16 @@ namespace ProjetUnivers
         CPPUNIT_TEST(destroyObject) ;
         CPPUNIT_TEST(destroyObjectTwice) ;
 //        CPPUNIT_TEST(onUpdateIsConcurrentOnDelete) ;
-        
+        CPPUNIT_TEST(initNotTrait) ;
+        CPPUNIT_TEST(dependentTraitsAreInitAfter) ;
+
         CPPUNIT_TEST_SUITE_END() ;
 
-      
+
       };
     }
   }
 }
-    
+
 
 

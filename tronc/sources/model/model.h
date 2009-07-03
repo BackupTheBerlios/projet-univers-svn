@@ -24,9 +24,10 @@
 #include <string>
 #include <model/duration.h>
 
-namespace ProjetUnivers {
-  
-  namespace Kernel {
+namespace ProjetUnivers
+{
+  namespace Kernel
+  {
     class Object ;
     class Trait ;
     class Model ;
@@ -89,6 +90,7 @@ namespace ProjetUnivers {
     
     /// Return the ship of an object
     Kernel::Object* getShip(Kernel::Object* object) ;
+
     
   //@}
   

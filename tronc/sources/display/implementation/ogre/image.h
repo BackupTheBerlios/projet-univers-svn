@@ -18,8 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_DISPLAY_IMPLEMENTATION_OGRE_IMAGE_H_
-#define PU_DISPLAY_IMPLEMENTATION_OGRE_IMAGE_H_
+#pragma once
 
 #include <kernel/trait_view.h>
 #include <display/implementation/image.h>
@@ -27,28 +26,20 @@
 #include <display/implementation/ogre/real_world_view_point.h>
 
 
-namespace ProjetUnivers {
-  namespace Display {
-    namespace Implementation {
-      namespace Ogre {
+namespace ProjetUnivers
+{
+  namespace Display
+  {
+    namespace Implementation
+    {
+      namespace Ogre
+      {
 
         /// Display an image.
         class Image : public Kernel::TraitView<Implementation::Image,
                                                RealWorldViewPoint>
         {
-        public:
-        
-        /*!
-          @name Construct
-        */
-        // @{
-
-          /// Constructor.
-          Image(Implementation::Image* object,
-                RealWorldViewPoint*    viewpoint) ;
-
         protected:
-        //@}
         /*!
           @name Updates
         */
@@ -72,5 +63,3 @@ namespace ProjetUnivers {
     }
   }
 }
-
-#endif /*PU_DISPLAY_IMPLEMENTATION_OGRE_IMAGE_H_*/

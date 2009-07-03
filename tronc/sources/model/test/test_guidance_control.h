@@ -18,68 +18,46 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_TEST_GUIDANCE_CONTROL_H_
-#define PU_MODEL_TEST_GUIDANCE_CONTROL_H_
+#pragma once
 
 #include <cppunit/extensions/HelperMacros.h>
 
-namespace ProjetUnivers {
-  namespace Model {
-    namespace Test {
-
-
-            
+namespace ProjetUnivers
+{
+  namespace Model
+  {
+    namespace Test
+    {
       /// Test of GuidanceControl.
-      /*!
-
-      */
       class TestGuidanceControl : public CppUnit::TestFixture {
       protected:
-        
-      /*! 
+      /*!
         @name Tests methods
       */
       // @{
-        
+
         /// Basic test.
         void basicTest() ;
-           
-      // @}
-      /*! 
-        @name Tests registration
-      */
-      // @{      
-    
-        CPPUNIT_TEST_SUITE(TestGuidanceControl) ;
-      
-        CPPUNIT_TEST(basicTest) ;
-      
-        CPPUNIT_TEST_SUITE_END() ;
 
-      public:
-  
+        /// Determine what direction we go full right
+        void fullRigth() ;
+
       // @}
-      /*! 
-        @name Mandatory methods
+      /*!
+        @name Tests registration
       */
       // @{
 
-      
-        /// Initialisation du test
-        void setUp() ;
-      
-        /// Desinitialisation du test
-        void tearDown() ;
-      
-      // @}      
-                
-       
-      
+        CPPUNIT_TEST_SUITE(TestGuidanceControl) ;
+
+        CPPUNIT_TEST(basicTest) ;
+        CPPUNIT_TEST(fullRigth) ;
+
+        CPPUNIT_TEST_SUITE_END() ;
+
       };
 
     }
   }
 }
 
-
-#endif

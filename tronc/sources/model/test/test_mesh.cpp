@@ -41,18 +41,18 @@ namespace ProjetUnivers {
       void TestMesh::testGetInformation()
       {
         InternalMessage("Model","Model::TestMesh::testGetInformation entering") ;
-        
-        Mesh test_mesh("razor.mesh") ;
-        
+
+        Mesh test_mesh("test_ship.mesh") ;
+
         std::vector< ::Ogre::Vector3> vertices ;
         std::vector<unsigned long>    indices ;
-        Ogre::Vector3                 scale(1,1,1) ;        
-        
+        Ogre::Vector3                 scale(1,1,1) ;
+
 //        std::cout << test_mesh.getBoundingSphereRadius() << std::endl ;
         CPPUNIT_ASSERT(test_mesh.getBoundingSphereRadius()>0) ;
-        
+
         test_mesh.getMeshInformation(vertices,indices,scale) ;
-        
+
         CPPUNIT_ASSERT(! vertices.empty()) ;
         CPPUNIT_ASSERT(! indices.empty()) ;
 
@@ -62,9 +62,9 @@ namespace ProjetUnivers {
         float max_y = 0 ;
         float min_z = 0 ;
         float max_z = 0 ;
-        
+
         int i = 0 ;
-        
+
         for(std::vector< ::Ogre::Vector3>::iterator vertex = vertices.begin() ;
             vertex != vertices.end() ;
             ++vertex)
@@ -76,22 +76,22 @@ namespace ProjetUnivers {
           max_x = std::max(max_x,vertex->x) ;
           max_y = std::max(max_y,vertex->y) ;
           max_z = std::max(max_z,vertex->z) ;
-          
+
 //          std::cout << "vertex[" << i/3 << "][0]=" << vertex->x  << ";" << std::endl ;
 //          std::cout << "vertex[" << i/3 << "][1]=" << vertex->y  << ";" << std::endl ;
 //          std::cout << "vertex[" << i/3 << "][2]=" << vertex->z  << ";" << std::endl ;
           ++i ;
         }
-        
-//        std::cout << "aabb = " << min_x << " " << max_x 
+
+//        std::cout << "aabb = " << min_x << " " << max_x
 //                  << " " <<  min_y << " " << max_y
 //                  << " " <<  min_z << " " << max_z << std::endl ;
-        
-        // indices represents triangles 
+
+        // indices represents triangles
         CPPUNIT_ASSERT(indices.size()%3==0) ;
-        
+
         i = 0 ;
-        // indexes must be vertex indexes.        
+        // indexes must be vertex indexes.
         for(std::vector<unsigned long>::iterator index = indices.begin() ;
             index != indices.end() ;
             ++index)
@@ -109,7 +109,7 @@ namespace ProjetUnivers {
               std::cout << "degenerated mesh" <<std::endl ;
               CPPUNIT_ASSERT(false) ;
             }
-            
+
           }
         }
 
@@ -117,43 +117,43 @@ namespace ProjetUnivers {
 //        std::vector<unsigned long>::iterator index = indices.begin() ;
 //        while(index != indices.end())
 //        {
-//          
+//
 //          ++index ;
-        
-        
+
+
         InternalMessage("Model","Model::TestMesh::testGetInformation leaving") ;
       }
-      
+
       void TestMesh::testUnexistingMesh()
       {
         InternalMessage("Model","Model::TestMesh::testUnexistingMesh entering") ;
-        
+
         Mesh test_mesh("unexisting") ;
-        
+
         std::vector< ::Ogre::Vector3> vertices ;
         std::vector<unsigned long>    indices ;
-        Ogre::Vector3                 scale(1,1,1) ;        
+        Ogre::Vector3                 scale(1,1,1) ;
 
         test_mesh.getMeshInformation(vertices,indices,scale) ;
-        
+
         CPPUNIT_ASSERT(vertices.empty()) ;
         CPPUNIT_ASSERT(indices.empty()) ;
-        
+
         InternalMessage("Model","Model::TestMesh::testUnexistingMesh leaving") ;
-        
+
       }
 
       void TestMesh::testSolidSize()
       {
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestMesh::testSolidSize")) ;
-        
+
         Kernel::Object* object = model->createObject() ;
-        object->addTrait(new Solid(Mesh("razor.mesh"))) ;
-        
+        object->addTrait(new Solid(Mesh("test_ship.mesh"))) ;
+
         CPPUNIT_ASSERT(object->getTrait<Solid>()) ;
         CPPUNIT_ASSERT(object->getTrait<Solid>()->getRadius().Meter() > 0) ;
       }
-      
+
     }
   }
 }

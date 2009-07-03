@@ -24,9 +24,12 @@
 
 #include <artificial_intelligence/implementation/ai_system.h>
 
-namespace ProjetUnivers {
-  namespace ArtificialIntelligence {
-    namespace Implementation {
+namespace ProjetUnivers
+{
+  namespace ArtificialIntelligence
+  {
+    namespace Implementation
+    {
 
       RegisterControlerSet(AISystem) ;
       

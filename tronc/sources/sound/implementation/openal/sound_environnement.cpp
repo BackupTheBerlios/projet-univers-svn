@@ -26,25 +26,19 @@
 #include <sound/implementation/openal/sound_environnement.h>
 
 
-namespace ProjetUnivers {
-  namespace Sound {
-    namespace Implementation {
-      namespace OpenAL {
+namespace ProjetUnivers
+{
+  namespace Sound
+  {
+    namespace Implementation
+    {
+      namespace OpenAL
+      {
 
         RegisterView(OpenAL::SoundEnvironnement, 
                      Model::SoundEnvironnement, 
                      OpenAL::RealWorldViewPoint) ;
                      
-        SoundEnvironnement::SoundEnvironnement(
-          Model::SoundEnvironnement* object,
-          RealWorldViewPoint*        viewpoint)
-        : Kernel::TraitView<Model::SoundEnvironnement,
-                            RealWorldViewPoint>(object,viewpoint),
-          m_auxEffectSlot(0), m_effect(0)
-        {
-          InformationMessage("Sound","Building OpenAL::SoundEnvironnement") ;
-        }
-        
         ALuint SoundEnvironnement::getAuxEffectSlot()
         {
           return m_auxEffectSlot ;  
@@ -53,6 +47,10 @@ namespace ProjetUnivers {
         void SoundEnvironnement::onInit()
         {
           InformationMessage("Sound","OpenAL::SoundEnvironnement::init enter") ;
+
+          m_auxEffectSlot = 0 ;
+          m_effect = 0 ;
+
           EFX::createEffect(&m_effect,&m_auxEffectSlot) ;
           update();
           InformationMessage("Sound","OpenAL::SoundEnvironnement::init leaving with status: " + getErrorString(alGetError())) ;

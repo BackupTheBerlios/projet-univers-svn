@@ -39,20 +39,7 @@ namespace ProjetUnivers
         class SpeedIndicator : public Kernel::TraitView<Implementation::SpeedIndicator,
                                                         RealWorldViewPoint>
         {
-        public:
-        
-        /*!
-          @name Construction 
-        */
-        // @{
-
-
-          /// Constructor.
-          SpeedIndicator(Implementation::SpeedIndicator*,RealWorldViewPoint*) ;
-
-        // @}
         protected:
-
         /*!
           @name Updates.
         */

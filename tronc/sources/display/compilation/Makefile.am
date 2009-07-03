@@ -16,7 +16,6 @@ libdisplay_la_SOURCES = \
 ../implementation/identified_target.cpp \
 ../implementation/image.cpp \
 ../implementation/observer.cpp \
-../implementation/oriented.cpp \
 ../implementation/positionned.cpp \
 ../implementation/space_dust.cpp \
 ../implementation/speed_indicator.cpp \
@@ -26,7 +25,6 @@ libdisplay_la_SOURCES = \
 ../implementation/ogre/image.cpp \
 ../implementation/ogre/observer.cpp \
 ../implementation/ogre/ogre.cpp \
-../implementation/ogre/oriented.cpp \
 ../implementation/ogre/positionned.cpp \
 ../implementation/ogre/real_world_view_point.cpp \
 ../implementation/ogre/speed_indicator.cpp \

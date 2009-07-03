@@ -46,35 +46,31 @@
 #include <model/implementation/logic/activated_mission.h>
 #include <model/implementation/logic/flying_group.h>
 
-namespace ProjetUnivers 
+namespace ProjetUnivers
 {
-  namespace Model 
+  namespace Model
   {
-    namespace Implementation 
+    namespace Implementation
     {
-      namespace Logic 
+      namespace Logic
       {
 
-        RegisterControler(FlyingGroup, 
-                          Implementation::ActivatedFlyingGroup, 
+        RegisterControler(FlyingGroup,
+                          Implementation::ActivatedFlyingGroup,
                           LogicSystem) ;
 
-        FlyingGroup::FlyingGroup(Implementation::ActivatedFlyingGroup* group,
-                                 LogicSystem*                          system)
-        : Kernel::Controler<Implementation::ActivatedFlyingGroup,
-                            LogicSystem>(group,system),
-          m_number_of_spawn(0)
-        {}
-        
         Position FlyingGroup::getStartingPosition() const
         {
           std::set<Position> enemy_positions ;
           Mission* mission = getObject()->getParent<Mission>() ;
           Team* team = getObject()->getParent<Team>() ;
           Kernel::Object* system = mission->getSystem() ;
-
-          std::set<WithFlyingGroup*> ships(system->getChildren<WithFlyingGroup>()) ;
           
+          if (!system)
+            return Position() ;
+          
+          std::set<WithFlyingGroup*> ships(system->getChildren<WithFlyingGroup>()) ;
+
           for(std::set<WithFlyingGroup*>::const_iterator ship = ships.begin() ;
               ship != ships.end() ;
               ++ship)
@@ -86,12 +82,12 @@ namespace ProjetUnivers
           }
 
           Area enemy_area(enemy_positions) ;
-          
+
           Distance distance = enemy_area.getRadius() + mission->getStartingDistance() ;
           Position delta(Position::Meter(distance.Meter(),0,0)) ;
           return Position(enemy_area.getCenter()+delta) ;
         }
-        
+
         void createPlayerPilot(Kernel::Object* ship,Kernel::Object* pilot,Mission* mission)
         {
           pilot->addTrait(new Positionned()) ;
@@ -100,37 +96,36 @@ namespace ProjetUnivers
           pilot->addTrait(new Observer()) ;
           pilot->addTrait(new Listener()) ;
           pilot->addTrait(new Active()) ;
-          
+
           ship->addTrait(new HeadUpDisplay()) ;
           HeadUpDisplay::connect(ship,ship) ;
-          
+
           Player::connect(pilot,mission->getPlayerConfiguration()) ;
           pilot->addTrait(new State()) ;
           pilot->getTrait<State>()->addCommandAlias("Menu","push(main_menu_in_game,Displayed)") ;
         }
-        
-        void FlyingGroup::onInit()
+
+        void FlyingGroup::spawn()
         {
-          InternalMessage("Mission","FlyingGroup::onInit") ;
           Position starting_position(getStartingPosition()) ;
           Distance radius ;
-          
+
           // create the ships in the system
           Mission* mission = getObject()->getParent<Mission>() ;
           Team* team = getObject()->getParent<Team>() ;
-          
+
           Kernel::Object* system = mission->getSystem() ;
-          
+
           Model::FlyingGroup* group = getTrait<Model::FlyingGroup>() ;
-          
+
           for(unsigned int i = 1 ; i <= group->getInitialNumberOfShips() ; ++i)
           {
             Kernel::Object* ship = Model::loadShip(group->getShipName(),system) ;
             ship->addTrait(new WithFlyingGroup(getTrait<Model::FlyingGroup>())) ;
             ship->addTrait(new Transponder(team->getObject())) ;
-            
+
             ship->setName("ship #" + Kernel::toString(i) + " " + team->getName() + " "  + group->getName()) ;
-            
+
             // position the ship
             if (i == 1 && ship->getTrait<Sized>())
               radius = 1.5*ship->getTrait<Sized>()->getRadius() ;
@@ -144,15 +139,15 @@ namespace ProjetUnivers
             {
               delta = Position::Meter(0,-local.Meter(),0) ;
             }
-            
+
             if (ship->getTrait<Positionned>())
             {
               ship->getTrait<Positionned>()->setPosition(starting_position+delta) ;
             }
-            
+
             // create the pilot
             Kernel::Object* pilot = ship->createObject() ;
-            
+
             if (i == 1 && group->hasPlayer())
             {
               createPlayerPilot(ship,pilot,mission) ;
@@ -166,27 +161,35 @@ namespace ProjetUnivers
 
             pilot->addTrait(new Kernel::CommandDelegator()) ;
             pilot->getTrait<Kernel::CommandDelegator>()->addDelegate(ship) ;
-            
+
             group->addShip(ship) ;
           }
-          
+
           ++m_number_of_spawn ;
+        }
+
+        void FlyingGroup::onInit()
+        {
+          InternalMessage("Mission","FlyingGroup::onInit") ;
+
+          m_number_of_spawn = 0 ;
+          spawn() ;
           InternalMessage("Mission","FlyingGroup::onInit") ;
         }
 
         void FlyingGroup::onUpdate()
         {
           if (getTrait<Model::FlyingGroup>()->getNumberOfShips() == 0)
-          {   
+          {
             if (m_number_of_spawn < getTrait<Model::FlyingGroup>()->getNumberOfSpawn())
             {
-              onInit() ;
+              spawn() ;
             }
             else
             {
               Mission* mission = getObject()->getParent<Mission>() ;
                 mission->getObject()->getTrait<Implementation::ActivatedMission>()
-                                    ->getControler<Logic::ActivatedMission>(getControlerSet()) 
+                                    ->getControler<Logic::ActivatedMission>(getControlerSet())
                                     ->indicateGroupHasNoMoreSpawn(getObject()) ;
             }
           }
@@ -196,19 +199,19 @@ namespace ProjetUnivers
         {
           Model::FlyingGroup* group = getTrait<Model::FlyingGroup>() ;
           Mission* mission = getObject()->getParent<Mission>() ;
-          
+
           Kernel::Object* ship = group->getAIShip() ;
           if (ship)
           {
             std::set<AutonomousCharacter*> ais = ship->getChildren<AutonomousCharacter>() ;
-            
+
             Kernel::Object* pilot = (*ais.begin())->getObject() ;
             pilot->destroyTrait(pilot->getTrait<AutonomousCharacter>()) ;
             createPlayerPilot(ship,pilot,mission) ;
           }
         }
-        
-        
+
+
       }
     }
   }

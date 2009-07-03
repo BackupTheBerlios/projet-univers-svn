@@ -30,17 +30,17 @@ namespace ProjetUnivers {
       /// Test of SteeringBehaviour.
       class TestSteeringBehaviour : public CppUnit::TestFixture {
       public:
-        
+
         /// Apply a force to vehicle for simulation.
         static void simulate(Implementation::Vehicle& vehicle,
                              Ogre::Vector3& force) ;
 
       protected:
-      /*! 
-        @name Tests 
+      /*!
+        @name Tests
       */
       // @{
-        
+
         /// Test the seek behaviour.
         void testSeek() ;
 
@@ -49,13 +49,13 @@ namespace ProjetUnivers {
 
         /// Test the pursuit behaviour.
         void testPursuitPlannar() ;
-        
+
         /// Test the pursuit behaviour.
         void testPursuitTargetBehind() ;
 
         /// Test the offsetPursuit behaviour.
         void testOffsetPursuitTargetBehind() ;
-        
+
         /// Test the offsetPursuit behaviour.
         void testOffsetPursuitTargetSide() ;
 
@@ -64,26 +64,26 @@ namespace ProjetUnivers {
 
         /// Test the evade behaviour when target is near.
         /*!
-          check that even iff pursuing object is near, the evading speed is 
+          check that even iff pursuing object is near, the evading speed is
           maximal.
         */
         void evadeNearTarget() ;
-        
+
         /// Test the obstacleAvoidance behaviour.
         void obstacleAvoidance() ;
-        
+
         /*!
           @todo add a test for a complex behaviour combining pursuit and avoiding
         */
-        
+
       // @}
-      /*! 
+      /*!
         @name Tests registration
       */
-      // @{      
-    
+      // @{
+
         CPPUNIT_TEST_SUITE(TestSteeringBehaviour) ;
-      
+
         CPPUNIT_TEST(testSeek) ;
         CPPUNIT_TEST(testPursuitLinear) ;
         CPPUNIT_TEST(testPursuitPlannar) ;
@@ -93,28 +93,8 @@ namespace ProjetUnivers {
         CPPUNIT_TEST(pursuitWanderingTarget) ;
         CPPUNIT_TEST(evadeNearTarget) ;
         CPPUNIT_TEST(obstacleAvoidance) ;
-      
+
         CPPUNIT_TEST_SUITE_END() ;
-
-      public:
-        
-      // @}
-        /*! 
-          @name Mandatory methods
-        */
-      // @{
-
-      
-        /// Initialisation du test
-        void setUp() ;
-      
-        /// Desinitialisation du test
-        void tearDown() ;
-      
-      // @}      
-                
-       
-      
       };
 
     }

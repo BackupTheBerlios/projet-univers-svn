@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,73 +18,70 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_KERNEL_CONTROLER_H_
-#define PU_KERNEL_CONTROLER_H_
+#pragma once
 
 #include <kernel/base_controler.h>
 
-namespace ProjetUnivers 
+namespace ProjetUnivers
 {
-  namespace Kernel 
+  namespace Kernel
   {
-   
-    /// Abstract class for object that perform modifications. 
+
+    /// Abstract class for object that perform modifications.
     /*!
-      Controlers : 
+      Controlers :
       - are grouped into ControlerSet.
-      - are registered onto Trait and automatically created when 
+      - are registered onto Trait and automatically created when
         the corresponding trait appears (like a view).
-      - have a simulate method 
+      - have a simulate method
     */
-    template <class _Trait,class _ControlerSet>  
+    template <class _Trait,class _ControlerSet>
     class Controler : public BaseControler
     {
     public:
 
-      /// Access to object's trait viewed.     
+      /// Access to object's trait viewed.
       _Trait* getTrait() const ;
-      
+
       /// Access to trait of type T if exists.
       template <class T> T* getTrait() const ;
-      
+
       /// Abstract class means virtual destructor.
       virtual ~Controler() ;
 
-      /// Access to specialised controler set.
+      /// Access to specialized controler set.
       _ControlerSet* getControlerSet() const ;
-      
+
     protected:
 
     /*!
       @name To be redefined methods
-      
+
       Default implementation is a empty stub.
       Each specific controler should override some of these methods.
     */
     // @{
-    
+
       /// Called after the controler is created on a initialised controler set.
       virtual void onInit() ;
-      
+
       /// Called just before the controler is destroyed.
       virtual void onClose() ;
 
       /// Called when parent changed.
       virtual void onChangeParent(Object* i_old_parent) ;
-      
+
       /// Called when the model trait has changed.
       virtual void onUpdate() ;
 
     // @}
-      
+
       /// Abstract class means protected constructor.
-      Controler(_Trait* i_trait,_ControlerSet* i_controler_set) ;
-      
-      
+      Controler() ;
+
+
     };
   }
 }
 
 #include <kernel/implementation/controler.cxx>
-
-#endif /*PU_KERNEL_CONTROLER_H_*/

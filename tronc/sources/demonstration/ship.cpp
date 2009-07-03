@@ -49,14 +49,14 @@ using namespace ProjetUnivers ;
 
 std::string getModelName()
 {
-  return "razor" ;
+  return "default_ship" ;
 }
 
 /*
   Load a ship and display it
 
 */
-int main() 
+int main()
 {
   /// init
   Kernel::Parameters::load("demonstration.config") ;
@@ -69,9 +69,9 @@ int main()
   Display::start(Display::ChooseRenderer) ;
   Input::start() ;
   GUI::start() ;
-  
-  InformationMessage("Demonstration","Starting of projet univers" + 
-                                     Version + 
+
+  InformationMessage("Demonstration","Starting of projet univers" +
+                                     Version +
                                      " revision " + RevisionNumber) ;
 
   std::auto_ptr<Kernel::Model> model(new Kernel::Model()) ;
@@ -87,40 +87,40 @@ int main()
   Kernel::Object* player_configuration = Model::createDefaultPlayerConfiguration(root) ;
   player_configuration->getTrait<Model::PlayerConfiguration>()
                       ->addMapping(Model::PlayerConfiguration::InputEvent::key(OIS::KC_RETURN),"quit") ;
-  
+
   Kernel::Object* ship = Model::loadShip(getModelName(),root) ;
 
   // determine a distance that correspond to ship size
   Model::Distance distance(Model::Distance::_Meter,1000) ;
-  Model::Solid* solid_ship = ship->getTrait<Model::Solid>() ; 
+  Model::Solid* solid_ship = ship->getTrait<Model::Solid>() ;
   if (solid_ship)
   {
     distance = solid_ship->getRadius()*2 ;
   }
-  
+
   Kernel::Object* observer = root->createObject() ;
   observer->addTrait(new Model::Observer()) ;
   observer->addTrait(new Model::Player()) ;
-  observer->addTrait(new Model::Positionned(Model::Position::Meter(0,0,-distance.Meter()))) ;
+  observer->addTrait(new Model::Positionned(Model::Position::Meter(0,0,distance.Meter()))) ;
   observer->addTrait(new Model::Oriented()) ;
   observer->addTrait(new Model::State()) ;
   observer->addTrait(new Kernel::CommandDelegator()) ;
-  
+
   observer->getTrait<Model::State>()->addCommandAlias("quit","change(quit,Active)") ;
   observer->getTrait<Kernel::CommandDelegator>()->addDelegate(ship) ;
-  
+
   root->getTrait<Model::State>()->pushState(observer,new Model::Active()) ;
-  
+
   Model::Player::connect(observer,player_configuration) ;
-  
+
   Kernel::Object* quit = root->createObject() ;
   quit->setName("quit") ;
   quit->addTrait(new Model::EndOfSimulation()) ;
   quit->addTrait(new Model::State()) ;
 
-  
+
   Kernel::Timer timer ;
-  
+
   while (! model->getRoots().empty())
   {
     float seconds = timer.getSecond() ;
@@ -132,17 +132,17 @@ int main()
   }
 
   model->close() ;
-  
+
   ArtificialIntelligence::terminate() ;
   Sound::terminate() ;
   GUI::terminate() ;
   Input::terminate() ;
   Display::terminate() ;
   Physic::terminate() ;
-  
+
   /// out
   InformationMessage("Demonstration","Modules closed") ;
   Kernel::Log::close() ;
-  
+
   return 0 ;
 }

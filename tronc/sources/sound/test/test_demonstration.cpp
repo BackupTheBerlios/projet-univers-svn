@@ -51,12 +51,12 @@ namespace ProjetUnivers
         InternalMessage("Sound","entering TestDemonstration::oneShip") ;
         std::cerr << "TestDemonstration::oneShip" << std::endl ;
         std::cerr.flush() ;
-        
+
         std::auto_ptr<Kernel::Model> model(new Kernel::Model()) ;
         model->init() ;
-        
+
         Kernel::Object* root = model->createObject() ;
-        
+
         Kernel::Object* universe = root->createObject() ;
         universe->addTrait(new Model::Universe()) ;
         universe->addTrait(new Model::Positionned()) ;
@@ -66,9 +66,9 @@ namespace ProjetUnivers
         system->addTrait(new Model::StellarSystem()) ;
         system->addTrait(new Model::Positionned()) ;
         system->setName("system") ;
-        
-//        Kernel::Object* ship = Model::loadShip("razor",system) ;
-        
+
+//        Kernel::Object* ship = Model::loadShip("test_ship",system) ;
+
         Kernel::Object* pilot = system->createObject() ;
         pilot->addTrait(new Model::Listener()) ;
         pilot->addTrait(new Model::Positionned()) ;
@@ -77,18 +77,18 @@ namespace ProjetUnivers
         pilot->addTrait(new Model::Observer()) ;
         pilot->addTrait(new Model::Active()) ;
 
-        Kernel::Object* ship2 = Model::loadShip("razor",system) ;
-        
-        Model::Positionned* ship2_positionned = ship2->getTrait<Model::Positionned>() ; 
+        Kernel::Object* ship2 = Model::loadShip("test_ship",system) ;
+
+        Model::Positionned* ship2_positionned = ship2->getTrait<Model::Positionned>() ;
         ship2_positionned->setPosition(Model::Position::Meter(0,0,200)) ;
         ship2->getTrait<Model::Mobile>()->setSpeed(Model::Speed::MeterPerSecond(0,0,-50)) ;
         Kernel::Timer global_timer ;
         Kernel::Timer timer ;
 
         std::set<Model::Throttle*> throttles = ship2->getChildren<Model::Throttle>() ;
-        
+
         (*throttles.begin())->set(100) ;
-        
+
         while (global_timer.getSecond() <= 4)
         {
           float seconds = timer.getSecond() ;
@@ -107,11 +107,11 @@ namespace ProjetUnivers
         InternalMessage("Sound","entering TestDemonstration::recreateListener") ;
         std::cerr << "TestDemonstration::oneShip" << std::endl ;
         std::cerr.flush() ;
-        
+
         std::auto_ptr<Kernel::Model> model(new Kernel::Model()) ;
         model->init() ;
         Kernel::Object* root = model->createObject() ;
-        
+
         Kernel::Object* universe = root->createObject() ;
         universe->addTrait(new Model::Universe()) ;
         universe->addTrait(new Model::Positionned()) ;
@@ -121,7 +121,7 @@ namespace ProjetUnivers
           system->addTrait(new Model::StellarSystem()) ;
           system->addTrait(new Model::Positionned()) ;
           system->setName("system") ;
-          
+
           Kernel::Object* pilot = system->createObject() ;
           pilot->addTrait(new Model::Listener()) ;
           pilot->addTrait(new Model::Positionned()) ;
@@ -129,19 +129,19 @@ namespace ProjetUnivers
           pilot->addTrait(new Model::Player()) ;
           pilot->addTrait(new Model::Observer()) ;
           pilot->addTrait(new Model::Active()) ;
-  
-          Kernel::Object* ship2 = Model::loadShip("razor",system) ;
-          
-          Model::Positionned* ship2_positionned = ship2->getTrait<Model::Positionned>() ; 
+
+          Kernel::Object* ship2 = Model::loadShip("test_ship",system) ;
+
+          Model::Positionned* ship2_positionned = ship2->getTrait<Model::Positionned>() ;
           ship2_positionned->setPosition(Model::Position::Meter(0,0,50)) ;
           ship2->getTrait<Model::Mobile>()->setSpeed(Model::Speed::MeterPerSecond(0,0,-50)) ;
           Kernel::Timer global_timer ;
           Kernel::Timer timer ;
-  
+
           std::set<Model::Throttle*> throttles = ship2->getChildren<Model::Throttle>() ;
-          
+
           (*throttles.begin())->set(100) ;
-          
+
           while (global_timer.getSecond() <= 1)
           {
             float seconds = timer.getSecond() ;
@@ -152,7 +152,7 @@ namespace ProjetUnivers
               model->update(seconds) ;
             }
           }
-        
+
           system->destroyObject() ;
         }
         {
@@ -160,7 +160,7 @@ namespace ProjetUnivers
           system->addTrait(new Model::StellarSystem()) ;
           system->addTrait(new Model::Positionned()) ;
           system->setName("system") ;
-          
+
           Kernel::Object* pilot = system->createObject() ;
           pilot->addTrait(new Model::Listener()) ;
           pilot->addTrait(new Model::Positionned()) ;
@@ -168,19 +168,19 @@ namespace ProjetUnivers
           pilot->addTrait(new Model::Player()) ;
           pilot->addTrait(new Model::Observer()) ;
           pilot->addTrait(new Model::Active()) ;
-  
-          Kernel::Object* ship2 = Model::loadShip("razor",system) ;
-          
-          Model::Positionned* ship2_positionned = ship2->getTrait<Model::Positionned>() ; 
+
+          Kernel::Object* ship2 = Model::loadShip("test_ship",system) ;
+
+          Model::Positionned* ship2_positionned = ship2->getTrait<Model::Positionned>() ;
           ship2_positionned->setPosition(Model::Position::Meter(0,0,50)) ;
           ship2->getTrait<Model::Mobile>()->setSpeed(Model::Speed::MeterPerSecond(0,0,-50)) ;
           Kernel::Timer global_timer ;
           Kernel::Timer timer ;
-  
+
           std::set<Model::Throttle*> throttles = ship2->getChildren<Model::Throttle>() ;
-          
+
           (*throttles.begin())->set(100) ;
-          
+
           while (global_timer.getSecond() <= 1)
           {
             float seconds = timer.getSecond() ;
@@ -192,10 +192,10 @@ namespace ProjetUnivers
             }
           }
         }
-        
+
         InternalMessage("Sound","leaving TestDemonstration::oneShip") ;
       }
-      
+
     }
   }
 }

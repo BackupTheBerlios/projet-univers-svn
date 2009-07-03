@@ -23,41 +23,41 @@
 
 #include <cppunit/extensions/HelperMacros.h>
 
-namespace ProjetUnivers 
+namespace ProjetUnivers
 {
-  namespace Display 
+  namespace Display
   {
-    namespace Test 
+    namespace Test
     {
-            
+
       /// Test of Detector.
-      class TestTarget : public CppUnit::TestFixture 
+      class TestTarget : public CppUnit::TestFixture
       {
       protected:
-      /*! 
+      /*!
         @name Tests
-      */ 
+      */
       // @{
-        
+
         /// Basic test.
         void testConstruct() ;
 
         /// test for HUD::Target::calculateRotation.
         void testCalculateRotation() ;
-        
+
       // @}
       /*!
         @name Test registration
       */
-      // @{      
-    
+      // @{
+
         CPPUNIT_TEST_SUITE(TestTarget) ;
-      
+
         CPPUNIT_TEST(testConstruct) ;
         CPPUNIT_TEST(testCalculateRotation) ;
-      
+
         CPPUNIT_TEST_SUITE_END() ;
-      // @}      
+      // @}
       };
 
     }

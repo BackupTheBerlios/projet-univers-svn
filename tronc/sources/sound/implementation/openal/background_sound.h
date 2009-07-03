@@ -42,18 +42,6 @@ namespace ProjetUnivers
                                                          RealWorldViewPoint>,
                                 public SoundEmitter
         {
-        public:
-          
-        /*!
-          @name Construction 
-        */
-        // @{
-
-          /// Constructor.
-          BackgroundSound(Model::BackgroundSound*,RealWorldViewPoint*) ;
-        
-        // @{
-
         protected:
         
         // @}

@@ -25,8 +25,10 @@
 #include <display/implementation/target.h>
 #include <display/implementation/ogre/head_up_display/head_up_display_viewpoint.h>
 
-namespace ProjetUnivers {
-  namespace Display {
+namespace ProjetUnivers
+{
+  namespace Display
+  {
     namespace Test
     {
       class TestTarget ;
@@ -56,10 +58,6 @@ namespace ProjetUnivers
             @name Construct
           */ 
           // @{
-  
-            /// Constructor.
-            Target(Implementation::Target* object,
-                   HeadUpDisplayViewPoint* viewpoint) ;
 
             /// Set the target colour.
             void setTargetColour(const ::Ogre::ColourValue&) ;

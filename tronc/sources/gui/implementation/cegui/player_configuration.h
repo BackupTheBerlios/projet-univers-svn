@@ -18,8 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_GUI_IMPLEMENTATION_CEGUI_PLAYER_CONFIGURATION_H_
-#define PU_GUI_IMPLEMENTATION_CEGUI_PLAYER_CONFIGURATION_H_
+#pragma once
 
 #include <CEGUI/CEGUIWindow.h>
 
@@ -27,10 +26,14 @@
 #include <gui/implementation/edited_player_configuration.h>
 #include <gui/implementation/cegui/gui_controler_set.h>
 
-namespace ProjetUnivers {
-  namespace GUI {
-    namespace Implementation {
-      namespace CEGUI {
+namespace ProjetUnivers
+{
+  namespace GUI
+  {
+    namespace Implementation
+    {
+      namespace CEGUI
+      {
         
         /// Menu display.
         class PlayerConfiguration : 
@@ -38,9 +41,6 @@ namespace ProjetUnivers {
                                    GUIControlerSet>
         {
         public:
-  
-          /// Constructor.
-          PlayerConfiguration(EditedPlayerConfiguration*,GUIControlerSet*) ;
   
           virtual void simulate(const float& seconds) ;
           
@@ -89,9 +89,6 @@ namespace ProjetUnivers {
           /// Display commands
           std::map<std::string,::CEGUI::Window*> m_commands ;
           
-          /// to quit this menu
-          ::CEGUI::PushButton* m_ok ;
-          
           /// Current edited command.
           std::string m_command ;
           
@@ -105,5 +102,3 @@ namespace ProjetUnivers {
     }
   }
 }
-
-#endif /*PU_GUI_IMPLEMENTATION_CEGUI_PLAYER_CONFIGURATION_H_*/

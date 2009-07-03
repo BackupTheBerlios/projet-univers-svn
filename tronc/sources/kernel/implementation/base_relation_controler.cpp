@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2008 Mathieu ROGER                                      *
+ *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,57 +18,40 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_AI_IMPLEMENTATION_AGENT_VIEW_POINT_H_
-#define PU_AI_IMPLEMENTATION_AGENT_VIEW_POINT_H_
+#include <kernel/controler_set.h>
+#include <kernel/base_relation_controler.h>
 
-#include <kernel/view_point.h>
+namespace ProjetUnivers
+{
+  namespace Kernel
+  {
 
-namespace ProjetUnivers {
-  namespace ArtificialIntelligence {
-    namespace Implementation {
-
-      class Vehicle ;
-      class Agent ;
-      
-      /// A particular view point on an agent's detection data.
-      class AgentViewPoint : public Kernel::ViewPoint
+    void BaseRelationControler::realInit()
+    {
+      if (m_controler_set)
       {
-      public:
-      
-        /// Constructor.
-        /*!
-          @pre agent must be a AutonomousAgent.
-        */
-        AgentViewPoint(Agent* agent) ;
-        
-        /// When system may change computer or other things.
-        void update() ;
-
-        /// Add a vehicle to the set of agent's other vehicles. 
-        void addVehicle(Vehicle*) ;
-
-        /// Remove a vehicle to the set of agent's other vehicles. 
-        void removeVehicle(Vehicle*) ;
-        
-        /// Change the current target.
-        void setTarget(Vehicle*) ;
-        
-        /// Set the agent vehicle.
-        void setVehicle(Vehicle*) ;
-        
-        /// Access to agent object.
-        Kernel::Object* getAgent() const ;
-        
-        /// Access to the targeting system.
-        Kernel::Object* getTargetingSystem() const ;
-        
-      private:
-        
-        Agent* m_agent ;
-      };
-      
+        if (! m_really_initialised && m_controler_set->isInitialised())
+        {
+          onInit() ;
+          m_really_initialised = true ;
+        }
+      }
     }
+
+    BaseRelationControler::~BaseRelationControler()
+    {
+      close() ;
+    }
+
+    BaseRelationControler::BaseRelationControler()
+    : m_controler_set(NULL)
+    {}
+
+    void BaseRelationControler::_setControlerSet(ControlerSet* controler_set)
+    {
+      m_controler_set = controler_set ;
+    }
+
   }
 }
 
-#endif /*PU_AI_IMPLEMENTATION_AGENT_VIEW_POINT_H_*/

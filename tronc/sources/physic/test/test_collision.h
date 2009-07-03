@@ -18,23 +18,21 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_PHYSIC_TEST_COLLISION_H_
-#define PU_PHYSIC_TEST_COLLISION_H_
+#pragma once
 
 #include <cppunit/extensions/HelperMacros.h>
 
 
-namespace ProjetUnivers {
-  namespace Physic {
-    namespace Test {
+namespace ProjetUnivers
+{
+  namespace Physic
+  {
+    namespace Test
+    {
 
-
-            
       /// Collision tests.
       class TestCollision : public CppUnit::TestFixture {
       protected:
-      
-        
       /*!
         @name Test methods
       */
@@ -43,15 +41,15 @@ namespace ProjetUnivers {
         /// A basic test.
         void basicTest() ;
 
-        /// Test the bug for laser beams touching their own ship.         
+        /// Test the bug for laser beams touching their own ship.
         void testBugLaser() ;
 
         /// Test LaserBeam/Solid collision.
         void testLaserBeamSolidCollision() ;
-        
+
         /// Test that LaserBeam/LaserBeam does not collide.
         void testLaserBeamLaserBeamNoCollision() ;
-        
+
         /// Fire a beam against a ship
         void testFire() ;
 
@@ -59,40 +57,31 @@ namespace ProjetUnivers {
       /*!
         @name Test registration
       */
-      // @{      
-    
+      // @{
+
         CPPUNIT_TEST_SUITE(TestCollision) ;
-      
+
         CPPUNIT_TEST(basicTest) ;
         CPPUNIT_TEST(testBugLaser) ;
         CPPUNIT_TEST(testLaserBeamSolidCollision) ;
         CPPUNIT_TEST(testLaserBeamLaserBeamNoCollision) ;
         CPPUNIT_TEST(testFire) ;
-     
+
         CPPUNIT_TEST_SUITE_END() ;
 
       public:
-  
+
       // @}
       /*!
-        @name Mandatory methods
+        @name Init
       */
       // @{
 
-      
         void setUp() ;
-      
-        void tearDown() ;
-      
-      // @}      
-                
-       
-      
+
+      // @}
       };
 
     }
   }
 }
-
-
-#endif

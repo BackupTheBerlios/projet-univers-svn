@@ -38,8 +38,6 @@ namespace ProjetUnivers
         {
         public:
           
-          Player(PlayerInActivatedFlyingGroup*,LogicSystem*) ;
-          
           virtual void onClose() ; 
         };
       }

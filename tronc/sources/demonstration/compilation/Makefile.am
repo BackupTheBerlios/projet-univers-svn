@@ -1,4 +1,4 @@
-bin_PROGRAMS = demonstration ship test
+bin_PROGRAMS = demonstration ship test pu
 
 SOURCES = $(top_srcdir)/sources
 INCLUDES = -I../..
@@ -28,6 +28,7 @@ bindir_DATA = demonstration.config ogre.cfg
 demonstration_SOURCES = ../demonstration.cpp
 ship_SOURCES = ../ship.cpp
 test_SOURCES = ../test.cpp
+pu_SOURCES = ../pu.cpp
 
 
 all-local:ressources.cfg plugins.cfg copy_joystick_configurator

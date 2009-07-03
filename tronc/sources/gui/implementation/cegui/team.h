@@ -18,8 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_GUI_IMPLEMENTATION_CEGUI_TEAM_H_
-#define PU_GUI_IMPLEMENTATION_CEGUI_TEAM_H_
+#pragma once
 
 #include <CEGUI/CEGUIWindow.h>
 
@@ -47,9 +46,6 @@ namespace ProjetUnivers
                                               GUIControlerSet>
         {
         public:
-  
-          /// Constructor.
-          Team(EditedTeam*,GUIControlerSet*) ;
   
           /// Create a new sub window for a new flying group edition.
           ::CEGUI::Window* addGroupWindow(Kernel::Object*) ;
@@ -103,5 +99,3 @@ namespace ProjetUnivers
     }
   }
 }
-
-#endif /*PU_GUI_IMPLEMENTATION_CEGUI_TEAM_H_*/

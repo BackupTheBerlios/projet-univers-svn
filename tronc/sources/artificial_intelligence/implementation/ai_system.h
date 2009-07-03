@@ -18,15 +18,17 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_AI_IMPLEMENTATION_SYSTEM_H_
-#define PU_AI_IMPLEMENTATION_SYSTEM_H_
+#pragma once
 
 #include <model/duration.h>
 #include <kernel/controler_set.h>
 
-namespace ProjetUnivers {
-  namespace ArtificialIntelligence {
-    namespace Implementation {
+namespace ProjetUnivers
+{
+  namespace ArtificialIntelligence
+  {
+    namespace Implementation
+    {
     
       /// Standard controler set for AI calculus.
       class AISystem : public Kernel::ControlerSet
@@ -43,5 +45,3 @@ namespace ProjetUnivers {
     }    
   }
 }
-
-#endif //PU_IMPLEMENTATION_VIEW_POINT_H_

@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2008 Mathieu ROGER                                      *
+ *   Copyright (C) 2008-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,68 +18,54 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_TEST_ORIENTATION_H_
-#define PU_MODEL_TEST_ORIENTATION_H_
+#pragma once
 
 #include <cppunit/extensions/HelperMacros.h>
 
-namespace ProjetUnivers {
-  namespace Model {
-    namespace Test {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
+    namespace Test
+    {
 
-            
+
       /// Test for Model::Orientation
       class TestOrientation : public CppUnit::TestFixture {
       protected:
-      
-        
+
+
       /*!
         @name Test methods
       */
       // @{
-        
+
         /// Test that we are in a rigth handed anticlockwise system.
         void rigthHandedAntiClockWise() ;
-        
-        /// Test that applyance of orientation is made in the correct order.  
+
+        /// Test that applyance of orientation is made in the correct order.
         void composeOrientation() ;
-        
+
         /// Forward is negative local z axis.
         void localZAxis() ;
-        
+
       // @}
       /*!
         @name Test registration
       */
-      // @{      
-      
+      // @{
+
         CPPUNIT_TEST_SUITE(TestOrientation) ;
-      
+
         CPPUNIT_TEST(rigthHandedAntiClockWise) ;
         CPPUNIT_TEST(composeOrientation) ;
         CPPUNIT_TEST(localZAxis) ;
 
         CPPUNIT_TEST_SUITE_END() ;
-      
-      // @}      
-                
-     public:
 
-      /*!
-        @name Mandatory methods
-      */
-      // @{
-      
-        void setUp() ;
-        void tearDown() ;
-      
-      // @}      
-      
-      
+      // @}
       };
 
     }
   }
 }
-
-#endif /*PU_MODEL_TEST_ORIENTATION_H_*/

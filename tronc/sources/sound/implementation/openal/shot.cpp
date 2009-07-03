@@ -37,16 +37,6 @@ namespace ProjetUnivers
                      Implementation::Shot, 
                      OpenAL::RealWorldViewPoint) ;
              
-        Shot::Shot(
-          Implementation::Shot*        object,
-          OpenAL::RealWorldViewPoint*  viewpoint) 
-        : Kernel::TraitView<Implementation::Shot,
-                            OpenAL::RealWorldViewPoint>(object,viewpoint),
-          SoundEmitter()
-        {
-          InternalMessage("Sound","Building OpenAL::Shot") ;
-        }
-                    
         std::string Shot::getSoundFileName() const
         {
           return "laser.ogg" ;

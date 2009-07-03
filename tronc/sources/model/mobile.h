@@ -29,7 +29,7 @@
 namespace ProjetUnivers {
   namespace Model {
 
-    /// For objects that move relativly to their parent.
+    /// For objects that move relatively to their parent.
     /*!
       Any speed is relative to the parent physical world.
       

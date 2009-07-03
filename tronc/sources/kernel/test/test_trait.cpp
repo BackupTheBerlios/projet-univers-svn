@@ -33,7 +33,6 @@ namespace ProjetUnivers
     namespace Test
     {
 
-
       namespace
       {
         class Trait1 : public Trait
@@ -173,6 +172,36 @@ namespace ProjetUnivers
                             Or(HasTrait(Trait1Or),
                                HasTrait(Trait2Or))) ;
 
+        class HasParentTrait2 : public DeducedTrait
+        {};
+
+        DeclareDeducedTrait(HasParentTrait2,
+                            And(HasTrait(Trait2),HasParent(Parent))) ;
+
+        class HasParentDeducedTrait1 : public DeducedTrait
+        {};
+
+        DeclareDeducedTrait(HasParentDeducedTrait1,
+                            And(HasTrait(Trait2),HasParent(DeducedTrait1))) ;
+
+        class Played : public Trait
+        {};
+        class Mission : public Trait
+        {};
+        class ActivatedMission : public DeducedTrait
+        {};
+        DeclareDeducedTrait(ActivatedMission,
+                            And(HasTrait(Played),
+                                HasTrait(Mission))) ;
+
+        class FlyingGroup : public Trait
+        {};
+        class ActivatedFlyingGroup : public DeducedTrait
+        {};
+        DeclareDeducedTrait(ActivatedFlyingGroup,
+                            And(HasTrait(FlyingGroup),
+                                HasParent(ActivatedMission))) ;
+
       }
 
       void TestTrait::depedentTrait()
@@ -268,7 +297,7 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(t2->getDependentTraits().find(dtor) != t2->getDependentTraits().end()) ;
       }
 
-      void TestTrait::changeParent()
+      void TestTrait::addTraitChangeHasParentDependencies()
       {
         std::auto_ptr<Model> model(new Model()) ;
 
@@ -286,15 +315,187 @@ namespace ProjetUnivers
 
         CPPUNIT_ASSERT(parent->getDependentTraits().find(dt_father) != parent->getDependentTraits().end()) ;
         CPPUNIT_ASSERT(parent->getDependentTraits().find(dt_child) != parent->getDependentTraits().end()) ;
-        // add an intermediate trait will change dependencies
+
+        // tested event : add an intermediate trait will change dependencies
         Parent* parent2 = new Parent() ;
         father->addTrait(parent2) ;
+
         CPPUNIT_ASSERT(parent->getDependentTraits().find(dt_father) == parent->getDependentTraits().end()) ;
         CPPUNIT_ASSERT(parent->getDependentTraits().find(dt_child) == parent->getDependentTraits().end()) ;
         CPPUNIT_ASSERT(parent2->getDependentTraits().find(dt_father) != parent2->getDependentTraits().end()) ;
         CPPUNIT_ASSERT(parent2->getDependentTraits().find(dt_child) != parent2->getDependentTraits().end()) ;
       }
 
+      void TestTrait::removeTraitChangeHasParentDependencies()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+
+        Object* grand_father = model->createObject() ;
+        Parent* parent = new Parent() ;
+        grand_father->addTrait(parent) ;
+
+        Object* father = grand_father->createObject() ;
+        Parent* parent2 = new Parent() ;
+        father->addTrait(parent2) ;
+        HasParentTrait1* dt_father = father->getTrait<HasParentTrait1>() ;
+        CPPUNIT_ASSERT(dt_father) ;
+
+        Object* child = father->createObject() ;
+        HasParentTrait1* dt_child = child->getTrait<HasParentTrait1>() ;
+        CPPUNIT_ASSERT(dt_child) ;
+
+        // check initial situation for sure-ness
+        CPPUNIT_ASSERT(parent->getDependentTraits().find(dt_father) == parent->getDependentTraits().end()) ;
+        CPPUNIT_ASSERT(parent->getDependentTraits().find(dt_child) == parent->getDependentTraits().end()) ;
+        CPPUNIT_ASSERT(parent2->getDependentTraits().find(dt_father) != parent2->getDependentTraits().end()) ;
+        CPPUNIT_ASSERT(parent2->getDependentTraits().find(dt_child) != parent2->getDependentTraits().end()) ;
+
+        // tested event : remove an intermediate trait will change dependencies
+        father->destroyTrait(parent2) ;
+
+        CPPUNIT_ASSERT(parent->getDependentTraits().find(dt_father) != parent->getDependentTraits().end()) ;
+        CPPUNIT_ASSERT(parent->getDependentTraits().find(dt_child) != parent->getDependentTraits().end()) ;
+      }
+
+      void TestTrait::removeTraitChangeHasParentDependenciesByBecommingFalse()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+
+        Object* grand_father = model->createObject() ;
+
+        Object* father = grand_father->createObject() ;
+        Parent* parent2 = new Parent() ;
+        father->addTrait(parent2) ;
+        HasParentTrait1* dt_father = father->getTrait<HasParentTrait1>() ;
+        CPPUNIT_ASSERT(dt_father) ;
+
+        Object* child = father->createObject() ;
+        HasParentTrait1* dt_child = child->getTrait<HasParentTrait1>() ;
+        CPPUNIT_ASSERT(dt_child) ;
+
+        // check initial situation for sure-ness
+        CPPUNIT_ASSERT(parent2->getDependentTraits().find(dt_father) != parent2->getDependentTraits().end()) ;
+        CPPUNIT_ASSERT(parent2->getDependentTraits().find(dt_child) != parent2->getDependentTraits().end()) ;
+
+        // tested event : remove an intermediate trait will change dependencies
+        father->destroyTrait(parent2) ;
+
+        // no more traits so no more dependencies to check
+      }
+
+      void TestTrait::changeParentChangeHasParentDependencies()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+
+        Object* father1 = model->createObject() ;
+        Parent* parent1 = new Parent() ;
+        father1->addTrait(parent1) ;
+
+        Object* father2 = model->createObject() ;
+        Parent* parent2 = new Parent() ;
+        father2->addTrait(parent2) ;
+
+        Object* child = father1->createObject() ;
+        HasParentTrait1* dt_child = child->getTrait<HasParentTrait1>() ;
+        CPPUNIT_ASSERT(dt_child) ;
+
+        CPPUNIT_ASSERT(parent1->getDependentTraits().find(dt_child) != parent1->getDependentTraits().end()) ;
+        CPPUNIT_ASSERT(parent2->getDependentTraits().find(dt_child) == parent2->getDependentTraits().end()) ;
+
+        // tested event : switch child parent
+        child->changeParent(father2) ;
+
+        CPPUNIT_ASSERT(parent1->getDependentTraits().find(dt_child) == parent1->getDependentTraits().end()) ;
+        CPPUNIT_ASSERT(parent2->getDependentTraits().find(dt_child) != parent2->getDependentTraits().end()) ;
+      }
+
+      void TestTrait::addTraitOnEmptyStructure()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+
+        Object* grand_father = model->createObject() ;
+
+        Object* father = grand_father->createObject() ;
+        CPPUNIT_ASSERT(!father->getTrait<HasParentTrait1>()) ;
+
+        Object* child = father->createObject() ;
+        CPPUNIT_ASSERT(!child->getTrait<HasParentTrait1>()) ;
+
+        Parent* parent = new Parent() ;
+        grand_father->addTrait(parent) ;
+
+      }
+
+      void TestTrait::hasParentFormulaDependencies()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+
+        Object* father = model->createObject() ;
+        father->addTrait(new Parent()) ;
+
+        Object* child = father->createObject() ;
+
+        Formula* formula = HasParentFormula::get(getClassTypeIdentifier(Parent)) ;
+        std::set<Trait*> dependencies = formula->getDependentTraits(father) ;
+        CPPUNIT_ASSERT(father->getTrait<HasParentTrait1>()) ;
+        CPPUNIT_ASSERT(father->getTrait<HasParentTrait1>()->getFormula() == formula) ;
+        CPPUNIT_ASSERT(dependencies.find(father->getTrait<HasParentTrait1>()) != dependencies.end()) ;
+        CPPUNIT_ASSERT(dependencies.find(child->getTrait<HasParentTrait1>()) == dependencies.end()) ;
+      }
+
+      void TestTrait::andHasParentAddTraitChangeHasParentDependencies()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+
+        Object* grand_father = model->createObject() ;
+
+        Object* father = grand_father->createObject() ;
+        CPPUNIT_ASSERT(!father->getTrait<HasParentTrait2>()) ;
+
+        Object* child1 = father->createObject() ;
+        child1->addTrait(new Trait2()) ;
+        CPPUNIT_ASSERT(!child1->getTrait<HasParentTrait2>()) ;
+
+        Object* child2 = father->createObject() ;
+        child2->addTrait(new Trait2()) ;
+        CPPUNIT_ASSERT(!child2->getTrait<HasParentTrait2>()) ;
+
+        Parent* parent = new Parent() ;
+        grand_father->addTrait(parent) ;
+
+        CPPUNIT_ASSERT(child1->getTrait<HasParentTrait2>()) ;
+
+        CPPUNIT_ASSERT(parent->getDependentTraits().find(child1->getTrait<HasParentTrait2>()) != parent->getDependentTraits().end()) ;
+      }
+
+      void TestTrait::hasParentOnDeducedTrait()
+      {
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model()) ;
+        model->init() ;
+
+        Kernel::Object* mission = model->createObject() ;
+        mission->addTrait(new Mission()) ;
+
+        {
+          Kernel::Object* team = mission->createObject() ;
+
+          Kernel::Object* flying_group = team->createObject() ;
+          flying_group->addTrait(new FlyingGroup()) ;
+        }
+
+        {
+          Kernel::Object* team = mission->createObject() ;
+
+          Kernel::Object* flying_group = team->createObject() ;
+          flying_group->addTrait(new FlyingGroup()) ;
+
+
+          /// @temp
+          CPPUNIT_ASSERT(!flying_group->getTrait<ActivatedFlyingGroup>()) ;
+        }
+
+        mission->addTrait(new Played()) ;
+      }
 
     }
   }

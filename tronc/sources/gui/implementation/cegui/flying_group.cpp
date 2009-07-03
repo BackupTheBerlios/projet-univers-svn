@@ -37,41 +37,33 @@
 #include <gui/implementation/cegui/team.h>
 #include <gui/implementation/cegui/gui_controler_set.h>
 
-namespace ProjetUnivers 
+namespace ProjetUnivers
 {
-  namespace GUI 
+  namespace GUI
   {
-    namespace Implementation 
+    namespace Implementation
     {
-      namespace CEGUI 
+      namespace CEGUI
       {
 
         RegisterControler(FlyingGroup,
                           EditedFlyingGroup,
                           GUIControlerSet) ;
-  
-        FlyingGroup::FlyingGroup(EditedFlyingGroup* group,
-                                 GUIControlerSet*   gui)
-        : Kernel::Controler<EditedFlyingGroup,GUIControlerSet>(group,gui),
-          m_window(NULL),
-          m_updating(false),
-          m_group(NULL),
-          m_pilot(NULL)
-        {}
-        
+
         void FlyingGroup::onInit()
         {
           InternalMessage("CustomMission","CEGUI::FlyingGroup::onInit") ;
-          m_team =
-              getObject()->getParent<EditedTeam>()
-                         ->getControler<Team>(getControlerSet()) ;
+
+          m_updating = false ;
+
+          m_team = getControler<Team>() ;
 
           m_window = m_team->addGroupWindow(getObject()) ;
-          
+
           m_group = getTrait<Model::FlyingGroup>() ;
-          
+
           ::CEGUI::WindowManager& manager = ::CEGUI::WindowManager::getSingleton() ;
-          
+
           // title
           m_name = createWindow(m_window,"ProjetUnivers/Editbox","name") ;
           m_name->setText(m_group->getName()) ;
@@ -82,7 +74,7 @@ namespace ProjetUnivers
 
           m_name->subscribeEvent(::CEGUI::Window::EventTextChanged,
                                  ::CEGUI::Event::Subscriber(&FlyingGroup::changedName,this)) ;
-          
+
           m_pilot = createWindow(m_window,"ProjetUnivers/StaticText","pilot") ;
           m_pilot->setText(m_group->hasPlayer()?"Player":"AI") ;
           m_pilot->setArea(::CEGUI::UDim(0.1,0),
@@ -104,7 +96,7 @@ namespace ProjetUnivers
                                      ::CEGUI::UDim(0.1,-20),
                                      ::CEGUI::UDim(1,0)) ;
           m_number_of_ships->setProperty("HorzFormatting","HorzCentred") ;
-          
+
           ::CEGUI::Window* decrease = createWindow(m_window,"ProjetUnivers/DecreaseButton","decreaseInitialNumberOfShips") ;
           decrease->setArea(::CEGUI::UDim(0.3,0),
                             ::CEGUI::UDim(0,0),
@@ -120,8 +112,8 @@ namespace ProjetUnivers
                             ::CEGUI::UDim(1,0)) ;
           increase->subscribeEvent(::CEGUI::Window::EventMouseClick,
                                    ::CEGUI::Event::Subscriber(&FlyingGroup::increaseNumberOfShips,this)) ;
-          
-          
+
+
           ::CEGUI::Window* objective = createWindow(m_window,"ProjetUnivers/StaticText","objective") ;
           objective->setText("Attack") ;
           objective->setArea(::CEGUI::UDim(0.4,0),
@@ -129,7 +121,7 @@ namespace ProjetUnivers
                              ::CEGUI::UDim(0.1,0),
                              ::CEGUI::UDim(1,0)) ;
 
-          
+
           m_number_of_spawn = createWindow(m_window,
                                            "ProjetUnivers/StaticText",
                                            "NumberOfSpawn") ;
@@ -139,7 +131,7 @@ namespace ProjetUnivers
                                      ::CEGUI::UDim(0.1,-20),
                                      ::CEGUI::UDim(1,0)) ;
           m_number_of_spawn->setProperty("HorzFormatting","HorzCentred") ;
-          
+
           decrease = createWindow(m_window,
                                   "ProjetUnivers/DecreaseButton",
                                   "decreaseNumberOfSpawn") ;
@@ -159,7 +151,7 @@ namespace ProjetUnivers
                             ::CEGUI::UDim(1,0)) ;
           increase->subscribeEvent(::CEGUI::Window::EventMouseClick,
                                    ::CEGUI::Event::Subscriber(&FlyingGroup::increaseNumberOfSpawn,this)) ;
-          
+
           // delete
           ::CEGUI::Window* button_delete = createWindow(m_window,"ProjetUnivers/DeleteButton","delete") ;
           button_delete->setArea(::CEGUI::UDim(0.8,0),
@@ -169,10 +161,10 @@ namespace ProjetUnivers
           button_delete->setText("Delete FlyingGroup") ;
           button_delete->subscribeEvent(::CEGUI::Window::EventMouseClick,
                                         ::CEGUI::Event::Subscriber(&FlyingGroup::deleteGroup,this)) ;
-          
+
           InternalMessage("GUI",printStructure(m_window,0)) ;
         }
-          
+
         void FlyingGroup::onClose()
         {
           InternalMessage("CustomMission","CEGUI::FlyingGroup::onClose") ;
@@ -183,7 +175,7 @@ namespace ProjetUnivers
              m_window = NULL ;
           }
         }
-        
+
         void FlyingGroup::onUpdate()
         {
           m_updating = true ;
@@ -193,16 +185,16 @@ namespace ProjetUnivers
           m_number_of_ships->setText(Kernel::toString(m_group->getInitialNumberOfShips())) ;
           m_number_of_spawn->setText(Kernel::toString(m_group->getNumberOfSpawn())) ;
           m_pilot->setText(m_group->hasPlayer()?"Player":"AI") ;
-          
+
           m_updating = false ;
         }
-        
+
         bool FlyingGroup::deleteGroup(const ::CEGUI::EventArgs& args)
         {
           getObject()->destroyObject() ;
           return true ;
         }
-        
+
         bool FlyingGroup::changedName(const ::CEGUI::EventArgs& args)
         {
           const ::CEGUI::WindowEventArgs* argument = dynamic_cast<const ::CEGUI::WindowEventArgs*>(&args) ;
@@ -212,35 +204,35 @@ namespace ProjetUnivers
           }
           return true ;
         }
-        
+
         bool FlyingGroup::decreaseNumberOfShips(const ::CEGUI::EventArgs& args)
         {
           if (m_group->getInitialNumberOfShips()>1)
             m_group->setInitialNumberOfShips(m_group->getInitialNumberOfShips()-1) ;
           return true ;
         }
-        
+
         bool FlyingGroup::increaseNumberOfShips(const ::CEGUI::EventArgs& args)
         {
           m_group->setInitialNumberOfShips(m_group->getInitialNumberOfShips()+1) ;
           return true ;
         }
-        
+
         bool FlyingGroup::decreaseNumberOfSpawn(const ::CEGUI::EventArgs& args)
         {
           if (m_group->getNumberOfSpawn()>1)
           m_group->setNumberOfSpawn(m_group->getNumberOfSpawn()-1) ;
           return true ;
         }
-        
+
         bool FlyingGroup::increaseNumberOfSpawn(const ::CEGUI::EventArgs& args)
         {
           m_group->setNumberOfSpawn(m_group->getNumberOfSpawn()+1) ;
           return true ;
         }
-        
-        
-      }      
+
+
+      }
     }
   }
 }

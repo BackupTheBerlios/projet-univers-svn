@@ -18,80 +18,71 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_TEST_LOGIC_H_
-#define PU_MODEL_TEST_LOGIC_H_
+#pragma once
 
 #include <cppunit/extensions/HelperMacros.h>
 
-namespace ProjetUnivers {
-  namespace Model {
-    namespace Test {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
+    namespace Test
+    {
 
-
-            
       /// Test of Model::Implementation::Logic classes.
-      /*!
-
-      */
-      class TestLogic : public CppUnit::TestFixture {
+      class TestLogic : public CppUnit::TestFixture
+      {
       protected:
-      
-      /*! 
-        @name Tests 
+      /*!
+        @name Tests
       */
       // @{
-        
+
         /// Tests that laser beams disappear after some time.
         void testLaserBeamDisappearing() ;
-        
-        /// A destroyable object disappears when it takes too much damage. 
+
+        /// A destroyable object disappears when it takes too much damage.
         void testDestroyable() ;
 
-        /// A LaserBeam/Destroyable collision produce damage. 
+        /// A LaserBeam/Destroyable collision produce damage.
         void testLaserBeamDestroyableCollision() ;
-        
+
         /// A Shot disappear just after creation.
         void testShotDisappearing() ;
-        
+
+        void endOfSimulation() ;
+
       // @}
-      /*! 
+      /*!
         @name Tests registration
       */
-      // @{      
-    
+      // @{
+
         CPPUNIT_TEST_SUITE(TestLogic) ;
-      
+
         CPPUNIT_TEST(testLaserBeamDisappearing) ;
         CPPUNIT_TEST(testDestroyable) ;
         CPPUNIT_TEST(testLaserBeamDestroyableCollision) ;
         CPPUNIT_TEST(testShotDisappearing) ;
-      
+        CPPUNIT_TEST(endOfSimulation) ;
+
         CPPUNIT_TEST_SUITE_END() ;
 
       public:
-  
+
       // @}
-      /*! 
-        @name Mandatory methods
+      /*!
+        @name Init/close methods
       */
       // @{
 
-      
         /// Initialisation du test
         void setUp() ;
-      
-        /// Desinitialisation du test
-        void tearDown() ;
-      
-      // @}      
-                
-       
-      
+
+      // @}
       };
 
     }
   }
 }
 
-
-#endif /*PU_MODEL_TEST_LOGIC_H_*/

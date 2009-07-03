@@ -12,7 +12,7 @@
   
   * kernel : bug corrections : 
     - getTrait made an empty trait (test added)
-    - destroying a model with initialised viewpoint made an error (test added)
+    - destroying a model with initialized viewpoint made an error (test added)
   * model : added functionalities
     - Positionned now can compute position/orientation relatively to 
       an other object (test added)
@@ -194,7 +194,7 @@
   * physic/ode : 
     - produced collision objects 
     - refactor solid and laser beam inherit collideable (laser beam does not 
-      need to be solid anymore) (added laserbeam/solid colision test)
+      need to be solid anymore) (added laserbeam/solid collision test)
     - prevent laserbeam/laserbeam collision (added negative laserbeam/laserbeam 
       collision test)
   * display :
@@ -1233,13 +1233,205 @@
   * Demo :
     - added a "mouse" cross for mouse piloting as a view on stick
     - different mouse sensibility : in game and in menu (still not correct)
-    
-@todo :
 
+2009-05-31 rogma
+
+  * Demo :
+    - added an autonomous test application that create n ships and simulate 
+      during n seconds for profiling purpose
+  * All :
+    - added tclap as dependency
+
+2009-06-21 rogma
+
+  * Kernel :
+    - Log added Block class to create a local object that indent and tell enter/
+      leave
+    - added debugging print functions 
+    - work on trait update relations between traits and deduced traits
+    - block update/init/close of deduced traits during deduction by 
+      using transactions
+    - destroying an object is equivalent to destroying all its primitive traits
+
+2009-06-21 rogma
+
+  * Kernel :
+    - added a simplified access to views/controlers inside another view controler
+      and usage in viewpoints and controler sets 
+
+2009-06-24 rogma
+
+  * Display :
+    - a view Node <=> Oriented or Positionned 
+  * All :
+    - correct the coordinate system
+    - added current directory for tests media
+
+2009-06-24 rogma
+
+  * Kernel :
+    - added relation between objects
+
+2009-06-25 rogma
+
+  * Kernel :
+    - deduction on relation between objects
+
+2009-06-29 rogma
+
+  * Model :
+    - basic usage of Selection relation
+  * All :
+    - checked spelling
+    - added cdt6 code profile
+
+2009-07-01 rogma
+
+  * Kernel :
+    - deduced relations : 
+      DeclareDeducedRelation(relation,primitive_relation,relation_formula) 
+      where :
+      primitive_relation is a relation
+      relation_formula is And/Or/Not/IsFrom(object_formula)/IsTo(object_formula)  
+
+
+2009-07-01 rogma
+
+  * Kernel :
+    - views on relation (onInit/onClose/onUpdate)  
+
+2009-07-01 rogma
+
+  * Model : 
+    - added pointer to real object in DetectionData
+
+2009-07-01 rogma
+
+  * Kernel :
+    - simplification of view/controler : we are not obliged to have a special 
+      constructor (see mecanism for relation view). Now we do not provide any 
+      constructor (it should have a default constructor).
+
+2009-07-02 rogma
+
+  * Kernel :
+    - simplification of view/controler : removed useless constructors 
+  * Kernel :
+    - controlers on relation (onInit/onClose/onUpdate)  
+  * AI : 
+    - complete refactoring : 
+      # Vehicule view on Solid and PhysicalObject
+      # Keep agent view
+        change getVehicule (the parent Vehicule object)
+      # Target view on Selection relation between TargetingSystem and 
+        DetectionData : 
+        updates the current vehicule target of agent  
+        (latter we will directly put the selection link between TargetingSystem 
+         and real object)
+
+2009-07-02 rogma
+
+    - considered in a lot of places that Z axis is forward... whereas Ogre 
+      consider negative Z as forward ??? 
+
+2009-07-03 rogma
+
+  * AI : 
+    - bug when two ships are back to back they do not turn 
+
+  * Kernel :
+    - added function access for observers (getParent...) 
+
+2009-07-03 rogma
+
+  * merging back the sequencing branch to trunk 
+    
+in commit
+--------
+
+    
+in progress
+-----------
   
+  
+todo
+----
+
+  * Model : 
+      - selected target is the relation :  
+      Selection and 
+      IsFrom(RecursivellyPositioned) and IsTo(RecursivellyPositioned)
+      --> once selector or selected is updated, the controler is called
+          the controler can determine iff it is still detectable :)
+          the ideal target is moved, shootable status is created/destroyed 
+          (which is a relation between objects) 
+      --> Display view is updated so the position is changed
+
+  * AI : 
+    - issues with ship fleeing : when two ships aim at each other... they flee
+      perpendicularly
+
+  * Kernel :
+    - controlers ... during simulation of a controler, the updates on its trait 
+      should not be triggered (could remove two checks in physics and gui)
+    - normalise headers : all non used headers should be in implementation. 
+      Used headers are : 
+      - trait
+      - object
+      - deduced trait (to be rennamed in deduction)
+      - model 
+      ...
+      
+      Create a kernel.h header containg all the stuff...   
+  
+
+  * Kernel :
+    - we should use onChangedParent() for formulae on parent instead of 
+      onUpdate, onChangeParent is exactly the event that indicates that the 
+      formula is still true but through another one
+
+  * Kernel :
+    - repair getLatestUpdatedTrait() : memorisation of the event that caused 
+      the update (could be update trait, changeHasParent, changeHasAncestor, 
+      humm...)
+
+  * windows
+    - build and upload a tclap package
+
   * Demo :
     - majority of performance issue seems to be due to detector system... that 
-      is in n² (in the best case) : do not know how to handle it better
+      is in n² (in the best case)
+    - share simulation for all detectors
+    - Detector : make use of absolute positions instead of relative ones, we 
+      can recreate the whole universe  : allow to add absolute coordinates not 
+      relating to any object
+    - should use real object, and only build some data that reference normal 
+      object
+      --> updated when referenced object is (should probably add a relation and 
+      formula Related(...,RecursivelyPositionned)
+    
+  * Kernel:
+    - maintain the set of direct impact for traits updates (in progress)
+    - all members should be encapsulated, even for own class : allow to change 
+      storage (pool ...)  
+    
+  * all : 
+   - display the list of used formulaes (number and kind)
+   - count the create/destroy of objects of traits
+   - display the average size of objects (how many traits/views/deduced traits...)
+   - create an object pool per model, a pool on views too... 
+
+  * Model : 
+    - Mission : destruction sequence during player's ship explosion 
+      (Player & Parent(Explosion)) --> change current camera to a fixed one 
+  
+  * Demo :
+    - history of who killed who (need to add the transponder on the LaserBeam 
+      object)
+    - score menu at the end of the mission
+  
+  * Input :
+    - Bug : mouse go faster on right than left !!!
     
   * Sound : 
     - bug : sometimes no sound when replaying the mission but difficult to 
@@ -1249,23 +1441,16 @@
      
   * Demo : 
     - reduce size of ship
-    - still perf problems ...
     
   * GUI : 
     - add input config validation : cannot save or back till it is correct
 
-  * Demo :
-    - score menu at the end of the mission
-    - history of who killed who (need to add the transponder on the LaserBeam 
-      object)
+  * Model :
+    - add performance tests 
   
   * Display :
     - display score on hud
     
-  * Model : 
-    - Mission : destruction sequence during player's ship explosion 
-      (Player & Parent(Explosion)) --> change current camera to a fixed one 
-  
   * AI :
     - AI tend to "flee on the side" once the target has gone in a perpendicular 
       direction, its targeting go the same and the phenomenon amplifies
@@ -1290,15 +1475,11 @@
   * All : 
     - Custom mission controler dealt with victory/ending conditions and leads 
       to game over state
-    
-    - considered in a lot of places that Z axis is forward... whereas Ogre 
-      consider negative Z as forward ??? 
 
   * Packaging
-    - make install does not work on win32 : libtool refuses to link with Ogre 
-      (wheread it works in normal make !!)
-
     - inspire from funguloid package for debian/ubuntu packaging
+    - Info : make install does not work on win32 : libtool refuses to link with Ogre 
+      (wheread it works in normal make !!)
      
   * Model : 
     - add test for adding objects during a structure destroying ?  
@@ -1328,10 +1509,6 @@
       ...). Detectors could then be caractrized by their detection abilities :
       SpeedDetector&MassDetector... but it is not clear now
     
-    - Detector : make use of absolute positions instead of relative ones, we 
-      can recreate the whole universe  : allow to add absolute coordinates not 
-      relating to any object 
-
     - be able to get bouding box (?) and perform ray 
       casting inside Model. Code could rely on Ogre but we would be an 
       encapsulation.
@@ -1351,8 +1528,6 @@
     - change all hover/pushed elements 
    
   * Display :
-    - seg fault when having an Oriented object that is not Positionned, use 
-      a deduction like : Oriented and HasParent(Positionned) 
     - when initing ogre, close any already openned ogre objects in other 
       modules
     - find a way to preload ressources as needed (some ressources may appear 
@@ -1386,27 +1561,31 @@
     - reconsider the implementation with the limitation 
     
   * Kernel :
-    
-    - refactoring : viewpoint and controler set have a lot in common...
     - add better errors on object structure
     - maybe call axis should take a Percentage
     - be able to copy an object, use read and add a write to Traits.
-    - it is sometimes very hard to debug the framework, some behaviour depends 
-      on deduction order. More generally, trait addition order may have a direct 
-      impact on behaviour
+    - relation transitive close (?)
+    - relation reflexive closure (?)
+    - relation inheritance (?)
       
   * all :
     - make use of Quantities library, 
       @see http://sourceforge.net/projects/quantity ??
-    - correct the coordinate system; Stick/Throttle must use correct 
-      orientation 
     - deduce meta structure
+      # use a metamodel 
       # use gccxml
       # use a modified doxygen
       # instead of generating code, genetate an xml structure for attributes, 
         getter and setters ?  (it would be ridiculous : better forget c++ then)
-      
+
+  * Network :
+    - udp for position update of physical objects
+    - tcp for structural opérations (creation destruction)
+    - test if position is sent only when moving
+    - mock network : receive position updates and in other side check that correct 
+      messages are sent
+  
   * Continuous integration :
     - use cccc
-    - profile with oprofile
+    - profile with valgrind (cachegrind)
   

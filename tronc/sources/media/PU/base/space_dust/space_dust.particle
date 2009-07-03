@@ -18,7 +18,7 @@ PU/base/SpaceDust
         time_to_live 2
         velocity_min 0
         velocity_max 0
-        direction 0 0 -1
-        position 0 0 100
+        direction 0 0 1
+        position 0 0 -100
     }
 }

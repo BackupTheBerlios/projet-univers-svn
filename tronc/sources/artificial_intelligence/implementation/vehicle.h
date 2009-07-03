@@ -18,33 +18,35 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_IMPLEMENTATION_VEHICULE_H_
-#define PU_IMPLEMENTATION_VEHICULE_H_
+#pragma once
 
 #include <OgreVector3.h>
 
-namespace ProjetUnivers {
-  namespace ArtificialIntelligence {
-    namespace Implementation {
-    
-      /// Something that has a position, orientaiton and moves.
+namespace ProjetUnivers
+{
+  namespace ArtificialIntelligence
+  {
+    namespace Implementation
+    {
+
+      /// Something that has a position, orientation and moves.
       /*!
         When doing calculus all position orientations must be in the same space.
-        Vehicule objects are generally calculated from Model objects.
-        
-        All units are in a coherent system, for example meter and seconds. 
+        Vehicle objects are generally calculated from Model objects.
+
+        All units are in a coherent system, for example meter and seconds.
       */
       class Vehicle
       {
       public:
-      /*! 
-        @name Construction 
+      /*!
+        @name Construction
       */
       // @{
 
         /// default constructor.
         Vehicle() ;
-        
+
         Vehicle(const Ogre::Vector3& position,
                 const Ogre::Quaternion& orientation,
                 const Ogre::Vector3& speed,
@@ -59,86 +61,88 @@ namespace ProjetUnivers {
 
         /// Change speed.
         void setSpeed(const Ogre::Vector3& speed) ;
-        
+
         /// Change size.
         void setSize(const float& size) ;
-        
+
         /// Change maximum speed.
         void setMaxSpeed(const float& max_speed) ;
 
         /// Change the maximum turning rate.
         void setTurningRate(const Ogre::Degree&) ;
-        
-        /// Basic physic simulation, used for internal tests only. 
+
+        /// Basic physic simulation, used for internal tests only.
         void simulate(const Ogre::Vector3& force,const int mode = 0) ;
 
-        /// @c speed is normalised not to exceed max speed.
+        /// @c speed is normalized not to exceed max speed.
         void normalizeSpeed(Ogre::Vector3& speed) const ;
-        
+
       // @}
-      /*! 
-        @name Access 
+      /*!
+        @name Access
       */
       // @{
-        
-        /// Access to posiiton of vehicle.
+
+        /// Access to position of vehicle.
         const Ogre::Vector3& getPosition() const ;
 
         /// Access to speed of vehicle.
         const Ogre::Vector3& getSpeed() const ;
-        
+
         /// Access to orientation of vehicle.
         const Ogre::Quaternion& getOrientation() const ;
-        
+
         /// Access to forward direction of vehicle.
         Ogre::Vector3 getForward() const ;
 
         /// Access to up direction of vehicle.
         Ogre::Vector3 getUp() const ;
-        
+
         /// Access to side direction of vehicle.
         Ogre::Vector3 getSide() const ;
 
-        /// Predict the future position of element 
+        /// Predict the future position of element
         Ogre::Vector3 predictFuturePosition(const float& time) const ;
-        
-        /// Acces to maximal vehicle speed.
-        float getMaxSpeed() const ; 
-        
+
+        /// Access to maximal vehicle speed.
+        float getMaxSpeed() const ;
+
         /// Access to Vehicle size.
         float getRadius() const ;
-        
+
         /// Access to the turning rate.
         const Ogre::Radian& getTurningRate() const ;
-        
+
+        /// Debug printing
+        std::string toString() const ;
+
       // @}
-        
+
       private:
-        
-        /// Basic physic simulation, used for internal tests only. 
+
+        /// Basic physic simulation, used for internal tests only.
         void simulateClassic(const Ogre::Vector3& force) ;
 
-        /// Basic physic simulation, used for internal tests only. 
+        /// Basic physic simulation, used for internal tests only.
         void simulateNew(const Ogre::Vector3& force) ;
 
-        
+
         Ogre::Vector3 m_position ;
 
         Ogre::Vector3 m_speed ;
-        
+
         Ogre::Quaternion m_orientation ;
-        
+
         /// Maximum speed of the vehicle.
         float m_max_speed ;
-        
+
         /// Radius of the vehicle.
         float m_radius ;
-        
-        /// Maximum directional steering, for example in degree per seconds. 
+
+        /// Maximum directional steering, for example in degree per seconds.
         Ogre::Radian m_turning_rate ;
-        
+
       };
     }
   }
 }
-#endif /*PU_IMPLEMENTATION_VEHICULE_H_*/

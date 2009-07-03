@@ -18,8 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_DISPLAY_IMPLEMENTATION_OGRE_POSITIONNED_H_
-#define PU_DISPLAY_IMPLEMENTATION_OGRE_POSITIONNED_H_
+#pragma once
 
 #include <Ogre.h>
 
@@ -29,26 +28,25 @@
 #include <display/implementation/ogre/real_world_view_point.h>
 
 
-namespace ProjetUnivers {
-  namespace Display {
-    namespace Implementation {
-      namespace Ogre {
-
+namespace ProjetUnivers
+{
+  namespace Display
+  {
+    namespace Implementation
+    {
+      namespace Ogre
+      {
         /// Convert position to Ogre position
         ::Ogre::Vector3 convert(const Model::Position& _position) ;
-        
+
         /// Convert a distance to an Ogre distance.
         ::Ogre::Real convert(const Model::Distance& distance) ;
-        
+
         /// View on object that have a position in space.
         class Positionned : public Kernel::TraitView<Implementation::Positionned,
                                                      RealWorldViewPoint>
         {
         public:
-
-          /// Construct.
-          Positionned(Implementation::Positionned* object,
-                      RealWorldViewPoint*          viewpoint) ;
 
           /// get scene node.
           /*!
@@ -57,29 +55,30 @@ namespace ProjetUnivers {
           ::Ogre::SceneNode* getNode() ;
 
         protected:
-        
+
           /// Build a scene node.
           virtual void onInit() ;
 
           /// Destroy the node.
           virtual void onClose() ;
-        
+
           /// Position update.
           virtual void onUpdate() ;
-          
+
           /// must detach/reattach node.
           virtual void onChangeParent(Kernel::Object* i_old_parent) ;
-          
-          
+
         private:
-          
+
+          void setPosition() ;
+          void setOrientation() ;
+
           /// Scene node.
           ::Ogre::SceneNode* m_node ;
 
         };
 
-      }      
+      }
     }
   }
 }
-#endif

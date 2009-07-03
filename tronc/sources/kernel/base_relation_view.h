@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2008 Mathieu ROGER                                      *
+ *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,18 +18,51 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <model/selected.h>
-#include <artificial_intelligence/implementation/target.h>
-#include <artificial_intelligence/implementation/selected_target.h>
+#pragma once
 
-namespace ProjetUnivers {
-  namespace ArtificialIntelligence {
-    namespace Implementation {
-          
-      DeclareDeducedTrait(
-          SelectedTarget,
-          And(HasTrait(Target),
-              HasTrait(Model::Selected))) ;
-    }
+#include <kernel/object.h>
+#include <kernel/relation.h>
+#include <kernel/relation_observer.h>
+
+namespace ProjetUnivers
+{
+  namespace Kernel
+  {
+
+    class ViewPoint ;
+
+    /// A view on a relation.
+    class BaseRelationView : public RelationObserver
+    {
+    public:
+
+      /// init the view after construction.
+      virtual void realInit() ;
+
+      /// abstract class means virtual destructor.
+      virtual ~BaseRelationView() ;
+
+    protected:
+
+      /// abstract class means protected constructor.
+      BaseRelationView() ;
+
+    /*!
+      @name data
+    */
+    //@{
+
+      ViewPoint* m_viewpoint ;
+
+    //@}
+
+    private:
+
+      void _setViewPoint(ViewPoint* viewpoint) ;
+
+      friend class Relation ;
+      friend class Model ;
+
+    };
   }
 }

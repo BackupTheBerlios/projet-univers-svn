@@ -40,18 +40,6 @@ namespace ProjetUnivers
                                               RealWorldViewPoint>,
                        public SoundEmitter
         {
-        public:
-          
-        /*!
-          @name Construction 
-        */
-        // @{
-
-          /// Constructor.
-          Shot(Implementation::Shot*,RealWorldViewPoint*) ;
-
-        // @}
-        
         protected:
         
         /*!

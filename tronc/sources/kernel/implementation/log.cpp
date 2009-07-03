@@ -23,13 +23,19 @@
 #include <kernel/parameters.h>
 #include <kernel/log.h>
 
-namespace ProjetUnivers 
+namespace ProjetUnivers
 {
-  namespace Kernel 
+  namespace Kernel
   {
-    namespace Log 
+    namespace Log
     {
-      
+      int indentation = 0 ;
+
+      int getIndentation()
+      {
+        return indentation*2 ;
+      }
+
       const std::string errorFileName("error.log") ;
       std::auto_ptr<rlog::StdioNode> errorLog ;
       FILE* error ;
@@ -37,7 +43,7 @@ namespace ProjetUnivers
       const std::string debugFileName("debug.log") ;
       std::auto_ptr<rlog::StdioNode> debugLog ;
       FILE* debug ;
-  
+
       void init()
       {
       #ifndef NDEBUG
@@ -54,7 +60,7 @@ namespace ProjetUnivers
         debugLog->subscribeTo( rlog::GetGlobalChannel( "error" ));
 
         std::set<std::string> logs(Parameters::getActivatedLogs()) ;
-        
+
         for(std::set<std::string>::const_iterator log = logs.begin() ;
             log != logs.end() ;
             ++log)
@@ -62,15 +68,29 @@ namespace ProjetUnivers
           debugLog->subscribeTo(rlog::GetGlobalChannel(log->c_str()));
         }
 
-      #endif          
+      #endif
       }
-      
-      void close() 
+
+      void close()
       {
       #ifndef NDEBUG
         fclose(debug) ;
         fclose(error) ;
-      #endif          
+      #endif
+      }
+
+      Block::Block(const std::string& module,const std::string& name)
+      : m_module(module),
+        m_name(name)
+      {
+        InternalMessage(m_module.c_str(),std::string("Entering [") + m_module +"] " + m_name) ;
+        ++indentation ;
+      }
+
+      Block::~Block()
+      {
+        --indentation ;
+        InternalMessage(m_module.c_str(),std::string("Leaving [") + m_module +"] " + m_name) ;
       }
 
     }

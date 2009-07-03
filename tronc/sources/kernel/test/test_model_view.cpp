@@ -153,14 +153,7 @@ namespace ProjetUnivers
         };
 
         class ViewDeducedTrait1 : public TraitView<DeducedTrait1,TestViewPoint>
-        {
-        public:
-
-          ViewDeducedTrait1(DeducedTrait1* trait,TestViewPoint* i_viewpoint)
-          : TraitView<DeducedTrait1,TestViewPoint>(trait,i_viewpoint)
-          {}
-
-        };
+        {};
 
 
         class ViewHead : public TraitView<Head,TestViewPoint>
@@ -168,11 +161,10 @@ namespace ProjetUnivers
         public:
 
 
-          ViewHead(Head* i_head,TestViewPoint* i_viewpoint)
-          : TraitView<Head,TestViewPoint>(i_head,i_viewpoint),
-            updated(false),
+          ViewHead()
+          : updated(false),
             init_number(0),
-            value(i_head->getValue())
+            value()
           {
             ++number_of_instance ;
           }
@@ -185,6 +177,7 @@ namespace ProjetUnivers
           /// Called after the view is created on a initialised viewpoint.
           void onInit()
           {
+            value = getTrait()->getValue() ;
             ++init_number ;
           }
 
@@ -236,11 +229,10 @@ namespace ProjetUnivers
         public:
 
 
-          ViewPerson(Person* i_person,TestViewPoint* i_viewpoint)
-          : TraitView<Person,TestViewPoint>(i_person,i_viewpoint),
-            updated(false),
+          ViewPerson()
+          : updated(false),
             init_number(0),
-            value(i_person->getValue())
+            value()
           {
             ++number_of_instance ;
           }
@@ -258,6 +250,7 @@ namespace ProjetUnivers
           /// Called after the view is created on a initialised viewpoint.
           void onInit()
           {
+            value = getTrait()->getValue() ;
             ++init_number ;
           }
 
@@ -326,11 +319,10 @@ namespace ProjetUnivers
         public:
 
 
-          ViewHead2(Head* i_head,TestViewPoint2* i_viewpoint)
-          : TraitView<Head,TestViewPoint2>(i_head,i_viewpoint),
-            updated(false),
+          ViewHead2()
+          : updated(false),
             init_number(0),
-            value(i_head->getValue())
+            value()
           {
             ++number_of_instance ;
           }
@@ -343,6 +335,7 @@ namespace ProjetUnivers
           /// Called after the view is created on a initialised viewpoint.
           void onInit()
           {
+            value = getTrait()->getValue() ;
             ++init_number ;
           }
 
@@ -401,26 +394,12 @@ namespace ProjetUnivers
         {} ;
 
         class V1 : public TraitView<T1,TestViewPoint>
-        {
-        public:
-
-          V1(T1* i_object,TestViewPoint* i_viewpoint)
-          : TraitView<T1,TestViewPoint>(i_object,i_viewpoint)
-          {}
-
-        };
+        {};
 
         RegisterView(V1,T1,TestViewPoint) ;
 
         class V2 : public TraitView<T2,TestViewPoint>
-        {
-        public:
-
-          V2(T2* i_object,TestViewPoint* i_viewpoint)
-          : TraitView<T2,TestViewPoint>(i_object,i_viewpoint)
-          {}
-
-        };
+        {};
 
         RegisterView(V2,T2,TestViewPoint) ;
 
@@ -435,38 +414,17 @@ namespace ProjetUnivers
         {};
 
         class Vv1 : public TraitView<Tv1,TestViewPoint>
-        {
-        public:
-
-          Vv1(Tv1* i_object,TestViewPoint* i_viewpoint)
-          : TraitView<Tv1,TestViewPoint>(i_object,i_viewpoint)
-          {}
-
-        };
+        {};
 
         RegisterView(Vv1,Tv1,TestViewPoint) ;
 
         class Vv2 : public TraitView<Tv2,TestViewPoint>
-        {
-        public:
-
-          Vv2(Tv2* i_object,TestViewPoint* i_viewpoint)
-          : TraitView<Tv2,TestViewPoint>(i_object,i_viewpoint)
-          {}
-
-        };
+        {};
 
         RegisterView(Vv2,Tv2,TestViewPoint) ;
 
         class VvFinal : public TraitView<TvFinal,TestViewPoint>
-        {
-        public:
-
-          VvFinal(TvFinal* i_object,TestViewPoint* i_viewpoint)
-          : TraitView<TvFinal,TestViewPoint>(i_object,i_viewpoint)
-          {}
-
-        };
+        {};
 
         RegisterView(VvFinal,TvFinal,TestViewPoint) ;
 
@@ -486,11 +444,10 @@ namespace ProjetUnivers
         public:
 
 
-          ManualView(Person* person,ManualViewPoint* viewpoint)
-          : TraitView<Person,ManualViewPoint>(person,viewpoint),
-            updated(false),
+          ManualView()
+          : updated(false),
             init_number(0),
-            value(person->getValue())
+            value()
           {
             ++number_of_instance ;
           }
@@ -503,6 +460,7 @@ namespace ProjetUnivers
           /// Called after the view is created on a initialised viewpoint.
           void onInit()
           {
+            value = getTrait()->getValue() ;
             ++init_number ;
           }
 
@@ -1109,9 +1067,8 @@ namespace ProjetUnivers
         {
         public:
 
-          View1(Trait1* i_trait,TestViewPoint* i_viewpoint)
-          : TraitView<Trait1,TestViewPoint>(i_trait,i_viewpoint),
-            changed_parent_number(0)
+          View1()
+          : changed_parent_number(0)
           {
             ++total_number_of_instance ;
           }
@@ -1205,6 +1162,8 @@ namespace ProjetUnivers
 
       void TestModelView::testManualView()
       {
+        ManualView::number_of_instance = 0 ;
+
         // create a model
         std::auto_ptr<Model> model(new Model()) ;
 
@@ -1216,11 +1175,14 @@ namespace ProjetUnivers
         ViewPoint* viewpoint(model->addViewPoint(new ManualViewPoint(model.get()))) ;
 
         // manual add of a view
-        model->addManualView(new ManualView(person->getTrait<Person>(),
-                                            (ManualViewPoint*)viewpoint)) ;
+        model->addManualView(person->getTrait<Person>(),
+                             new ManualView(),
+                             viewpoint) ;
 
         /// init the viewpoint
         viewpoint->init() ;
+
+        CPPUNIT_ASSERT(ManualView::number_of_instance==1) ;
 
         Person* persontrait = person->getTrait<Person>() ;
         CPPUNIT_ASSERT(persontrait) ;
@@ -1228,9 +1190,9 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(personview) ;
 
         // test update
-        CPPUNIT_ASSERT(personview->getValue()==0) ;
+        CPPUNIT_ASSERT_EQUAL(0,personview->getValue()) ;
         persontrait->changeValue(10) ;
-        CPPUNIT_ASSERT(personview->getValue()==10) ;
+        CPPUNIT_ASSERT_EQUAL(10,personview->getValue()) ;
 
         // test delete
         CPPUNIT_ASSERT(ManualView::number_of_instance==1) ;
@@ -1242,6 +1204,8 @@ namespace ProjetUnivers
 
       void TestModelView::testManualViewOnInitViewPoint()
       {
+        ManualView::number_of_instance = 0 ;
+
         // create a model
         std::auto_ptr<Model> model(new Model()) ;
 
@@ -1256,8 +1220,9 @@ namespace ProjetUnivers
         viewpoint->init() ;
 
         // manual add of a view
-        model->addManualView(new ManualView(person->getTrait<Person>(),
-                                            (ManualViewPoint*)viewpoint)) ;
+        model->addManualView(person->getTrait<Person>(),
+                             new ManualView(),
+                             viewpoint) ;
 
 
         Person* persontrait = person->getTrait<Person>() ;
@@ -1440,10 +1405,6 @@ namespace ProjetUnivers
         {
         public:
 
-          ViewDestroyViewPoint(TraitDestroyViewPoint* i_trait,ViewPointDestroyViewPoint* i_viewpoint)
-          : TraitView<TraitDestroyViewPoint,ViewPointDestroyViewPoint>(i_trait,i_viewpoint)
-          {}
-
           /// Called just before the view is destroyed.
           void onClose()
           {
@@ -1507,10 +1468,6 @@ namespace ProjetUnivers
         public:
 
           static bool m_accessed ;
-
-          AccessView1(AccessTrait1* trait,AccesViewPoint* viewpoint)
-          : TraitView<AccessTrait1,AccesViewPoint>(trait,viewpoint)
-          {}
 
         protected:
 
@@ -1576,10 +1533,6 @@ namespace ProjetUnivers
 
           static int m_updates ;
 
-          ViewAncestor(AncestorPos* trait,AncestorViewPoint* viewpoint)
-          : TraitView<AncestorPos,AncestorViewPoint>(trait,viewpoint)
-          {}
-
         protected:
 
           virtual void onUpdate()
@@ -1627,10 +1580,6 @@ namespace ProjetUnivers
         public:
 
           static int m_updates ;
-
-          ViewRecursive(RecursivePos* trait,AncestorViewPoint* viewpoint)
-          : TraitView<RecursivePos,AncestorViewPoint>(trait,viewpoint)
-          {}
 
         protected:
 
@@ -1708,10 +1657,6 @@ namespace ProjetUnivers
 
           static int m_updates ;
 
-          ViewParentPos(ParentPos* trait,AncestorViewPoint* viewpoint)
-          : TraitView<ParentPos,AncestorViewPoint>(trait,viewpoint)
-          {}
-
         protected:
 
           virtual void onUpdate()
@@ -1770,6 +1715,42 @@ namespace ProjetUnivers
 
         // only root should be updated
         CPPUNIT_ASSERT_EQUAL(1,ViewParentPos::m_updates) ;
+      }
+
+      namespace
+      {
+        class NotAnything : public DeducedTrait
+        {};
+
+        DeclareDeducedTrait(NotAnything,Not(HasTrait(Head))) ;
+
+        class ViewNotAnything : public TraitView<NotAnything,TestViewPoint>
+        {
+        public:
+
+          void onInit()
+          {
+            ++number_of_init ;
+          }
+
+          static int number_of_init ;
+        };
+
+        int ViewNotAnything::number_of_init = 0 ;
+
+        RegisterView(ViewNotAnything,NotAnything,TestViewPoint) ;
+      }
+
+      void TestModelView::initNotTrait()
+      {
+        ViewNotAnything::number_of_init = 0 ;
+        std::auto_ptr<Model> model(new Model("TestModelView::updateParentTrait")) ;
+        ViewPoint* viewpoint(new TestViewPoint(model.get())) ;
+        viewpoint->init() ;
+
+        Object* root = model->createObject() ;
+
+        CPPUNIT_ASSERT_EQUAL(1,ViewNotAnything::number_of_init) ;
       }
 
     }

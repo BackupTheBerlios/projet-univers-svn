@@ -18,8 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_KERNEL_TRAIT_VIEW_H_
-#define PU_KERNEL_TRAIT_VIEW_H_
+#pragma once
 
 #include <boost/function.hpp>
 #include <kernel/base_trait_view.h>
@@ -33,18 +32,19 @@ namespace ProjetUnivers
     class ViewPoint ;
     
     
-    /// A specialised trait view.
+    /// A specialized trait view.
     /*!
     @par Usage
 
       Inherit from this class and implement :
-      - init, called at creation
-      - close, called before destruction
-      - update, called when the _Trait model object has changed
+      - onInit, called at creation
+      - onClose, called before destruction
+      - onUpdate, called when the _Trait model object has changed
 
-      If one to have initialisation sequencement between trait views of an 
-      object, call the init of another trait view (calling twice init does 
-      only one). 
+      If one to have initialization sequencing between trait views objects,
+      define views on deduced traits, initialization is performed following
+      the order in formulae, i.e. if one has a view on a formula containing A,
+      the view on A are initialized before.
     
     @pre
       _Trait must be a subclass of ProjetUnivers::Kernel::Trait
@@ -60,7 +60,7 @@ namespace ProjetUnivers
       /// Access to trait of type T if exists.
       template <class T> T* getTrait() const ;
       
-      /// Access to specialised viewpoint.
+      /// Access to specialized viewpoint.
       _ViewPoint* getViewPoint() const ;
 
       /// Abstract class means virtual destructor.
@@ -76,7 +76,7 @@ namespace ProjetUnivers
     */
     // @{
     
-      /// Called after the view is created on a initialised viewpoint.
+      /// Called after the view is created on a initialized viewpoint.
       virtual void onInit() ;
       
       /// Called just before the view is destroyed.
@@ -91,7 +91,7 @@ namespace ProjetUnivers
     // @}
       
       /// Abstract class means protected constructor.
-      TraitView(_Trait* i_model,_ViewPoint* i_viewpoint) ;
+      TraitView() ;
       
     };
     
@@ -99,7 +99,4 @@ namespace ProjetUnivers
 }
 
 #include <kernel/implementation/trait_view.cxx>
-
-
-#endif
 

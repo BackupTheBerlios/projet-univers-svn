@@ -59,37 +59,37 @@ CPPUNIT_TEST_SUITE_REGISTRATION(ProjetUnivers::
                                 Test::
                                 TestMenu) ;
 
-namespace ProjetUnivers 
+namespace ProjetUnivers
 {
-  namespace GUI 
+  namespace GUI
   {
-    namespace Test 
+    namespace Test
     {
-      
+
       void TestMenu::basicTest()
       {
         InternalMessage("GUI","GUI::TestMenu::basicTest entering") ;
 
-        try 
+        try
         {
           std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestMenu::basicTest")) ;
           model->init() ;
-  
+
           std::string menu_name ;
-          
-          menu_name = Kernel::Parameters::getValue<std::string>("GUI","Test.BasicTest.Name","main_menu.layout") ; 
-          
+
+          menu_name = Kernel::Parameters::getValue<std::string>("GUI","Test.BasicTest.Name","main_menu.layout") ;
+
           Kernel::Object* menu = model->createObject() ;
           menu->addTrait(new Model::Menu(menu_name)) ;
           menu->addTrait(new Model::Displayed()) ;
-          
+
           Kernel::Timer timer ;
           Kernel::Timer global_timer ;
-          
+
           float test_duration = 0 ;
-          
-          test_duration = Kernel::Parameters::getValue<float>("GUI","Test.BasicTest.Duration",5) ; 
-          
+
+          test_duration = Kernel::Parameters::getValue<float>("GUI","Test.BasicTest.Duration",5) ;
+
           while (global_timer.getSecond() < test_duration)
           {
             float seconds = timer.getSecond() ;
@@ -98,7 +98,7 @@ namespace ProjetUnivers
               timer.reset() ;
             }
             model->update(seconds) ;
-          }        
+          }
         }
         catch( ::CEGUI::Exception& exception)
         {
@@ -114,25 +114,25 @@ namespace ProjetUnivers
 
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestMenu::playerConfiguration")) ;
         model->init() ;
-        
+
         Kernel::Object* option = model->createObject() ;
         Kernel::Object* configuration = Model::createDefaultPlayerConfiguration(option) ;
         configuration->addTrait(new Model::Edited()) ;
-        
+
         Kernel::Timer timer ;
         Kernel::Timer global_timer ;
-        
+
         float test_duration = 0 ;
-        
-        try 
+
+        try
         {
-          test_duration = Kernel::Parameters::getValue<float>("GUI","Test.PlayerConfiguration.Duration") ; 
+          test_duration = Kernel::Parameters::getValue<float>("GUI","Test.PlayerConfiguration.Duration") ;
         }
         catch(...)
         {
           test_duration = 5 ;
         }
-        
+
         while (global_timer.getSecond() < test_duration)
         {
           float seconds = timer.getSecond() ;
@@ -141,11 +141,11 @@ namespace ProjetUnivers
             timer.reset() ;
           }
           model->update(seconds) ;
-        }        
-        
+        }
+
         InternalMessage("GUI","GUI::TestMenu::playerConfiguration leaving") ;
       }
-      
+
       void TestMenu::testFullMenu()
       {
         InternalMessage("GUI","GUI::TestMenu::testFullMenu entering") ;
@@ -156,7 +156,7 @@ namespace ProjetUnivers
         Kernel::Object* root = model->createObject() ;
         root->addTrait(new Model::State()) ;
         root->addTrait(new Model::Active()) ;
-        
+
         Kernel::Object* main_menu = root->createObject() ;
         main_menu->setName("main_menu") ;
         main_menu->addTrait(new Model::Menu("main_menu.layout")) ;
@@ -168,22 +168,21 @@ namespace ProjetUnivers
         player_configuration->addTrait(new Model::State()) ;
 
         root->getTrait<Model::State>()->changeState(main_menu,new Model::Displayed()) ;
-//        main_menu->getTrait<Model::State>()->pushState(player_configuration,new Model::Edited()) ;
-        
+
         Kernel::Timer timer ;
         Kernel::Timer global_timer ;
-        
+
         float test_duration = 0 ;
-        
-        try 
+
+        try
         {
-          test_duration = Kernel::Parameters::getValue<float>("GUI","Test.PlayerConfiguration.Duration") ; 
+          test_duration = Kernel::Parameters::getValue<float>("GUI","Test.PlayerConfiguration.Duration") ;
         }
         catch(...)
         {
           test_duration = 5 ;
         }
-        
+
         while (global_timer.getSecond() < test_duration)
         {
           float seconds = timer.getSecond() ;
@@ -192,47 +191,47 @@ namespace ProjetUnivers
             timer.reset() ;
           }
           model->update(seconds) ;
-        }        
-        
+        }
+
         InternalMessage("GUI","GUI::TestMenu::testFullMenu leaving") ;
-        
+
       }
 
       void TestMenu::customMission()
       {
         InternalMessage("GUI","GUI::TestMenu::customMission entering") ;
-        try 
+        try
         {
           std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestMenu::customMission")) ;
           model->init() ;
-          
+
           Kernel::Object* mission = model->createObject() ;
           mission->addTrait(new Model::CustomMission("test",NULL,NULL)) ;
           mission->addTrait(new Model::Edited()) ;
-          
+
           Kernel::Object* team1 = mission->createObject() ;
           team1->addTrait(new Model::Team("team 1")) ;
-  
+
           Kernel::Object* team2 = mission->createObject() ;
           team2->addTrait(new Model::Team("team 2")) ;
-  
+
           Kernel::Object* team3 = mission->createObject() ;
           team3->addTrait(new Model::Team("team 3")) ;
-          
+
           Kernel::Timer timer ;
           Kernel::Timer global_timer ;
-          
+
           float test_duration = 0 ;
-          
-          try 
+
+          try
           {
-            test_duration = Kernel::Parameters::getValue<float>("GUI","Test.PlayerConfiguration.Duration") ; 
+            test_duration = Kernel::Parameters::getValue<float>("GUI","Test.PlayerConfiguration.Duration") ;
           }
           catch(...)
           {
             test_duration = 5 ;
           }
-          
+
           while (global_timer.getSecond() < test_duration)
           {
             float seconds = timer.getSecond() ;
@@ -241,14 +240,14 @@ namespace ProjetUnivers
               timer.reset() ;
             }
             model->update(seconds) ;
-          }        
+          }
         }
         catch( ::CEGUI::Exception& exception)
         {
           std::cout << exception.getMessage() << std::endl ;
           throw ;
         }
-        
+
         InternalMessage("GUI","GUI::TestMenu::customMission leaving") ;
       }
 

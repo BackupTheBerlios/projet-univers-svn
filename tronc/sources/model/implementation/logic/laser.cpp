@@ -20,23 +20,19 @@
  ***************************************************************************/
 #include <model/implementation/logic/laser.h>
 
-namespace ProjetUnivers {
-  namespace Model {
-    namespace Implementation {
-      namespace Logic {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
+    namespace Implementation
+    {
+      namespace Logic
+      {
 
 
         RegisterControler(Logic::Laser, 
                           Model::Laser, 
                           LogicSystem) ;
-
-        Laser::Laser(Model::Laser* object,
-                     LogicSystem*  system)
-        : Kernel::Controler<Model::Laser,
-                            LogicSystem>(object,system)
-        {
-          InternalMessage("Model","Logic::Laser controler built") ;
-        }
       
         void Laser::simulate(const float& seconds)
         {

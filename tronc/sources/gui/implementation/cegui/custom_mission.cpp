@@ -50,14 +50,6 @@ namespace ProjetUnivers
                           GUIControlerSet) ;
         
   
-        CustomMission::CustomMission(EditedCustomMission* mission,
-                                     GUIControlerSet*     gui)
-        : Kernel::Controler<EditedCustomMission,
-                            GUIControlerSet>(mission,gui),
-          m_window(NULL),
-          m_teams(NULL)
-        {}
-        
         void CustomMission::onInit()
         {
           InternalMessage("CustomMission","CEGUI::CustomMission::onInit") ;

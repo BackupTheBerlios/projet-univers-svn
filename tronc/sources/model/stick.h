@@ -28,27 +28,31 @@ namespace ProjetUnivers
 {
   namespace Model
   {
+    namespace Test
+    {
+      class TestGuidanceControl ;
+    }
 
     /// For objects that are a stick.
     /*!
       rigth is positive X axis
       up is positive y axis
-      z axis is for roll  
+      z axis is for roll
     */
     class Stick : public Oriented
     {
     public:
-    
+
       /// Constructor.
       Stick() ;
 
       /// Read a Stick trait.
       /*!
-        stored as 
+        stored as
         @code
           <Stick/>
         @endcode
-      */          
+      */
       static Kernel::Trait* read(Kernel::Reader* reader) ;
 
       /// Access redefinition.
@@ -62,21 +66,21 @@ namespace ProjetUnivers
       void setX(const int& i_x) ;
       void setY(const int& i_y) ;
       void setZ(const int& i_z) ;
-    
+
       Kernel::Percentage getX() const ;
       Kernel::Percentage getY() const ;
-      
+
     private:
-      
+
       int m_x ;
       int m_y ;
       int m_z ;
 
       /// Update local orientation before access.
       void updateOrientation() const ;
-    
-      bool m_updated ;
 
+      bool m_updated ;
+      friend class ::ProjetUnivers::Model::Test::TestGuidanceControl ;
     };
   }
 }

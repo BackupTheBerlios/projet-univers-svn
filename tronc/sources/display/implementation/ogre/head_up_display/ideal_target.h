@@ -46,13 +46,10 @@ namespace ProjetUnivers
             @name Construct
           */ 
           // @{
-  
-            /// Constructor.
-            IdealTarget(Implementation::IdealTarget*  object,
-                        HeadUpDisplayViewPoint* viewpoint) ;
 
             /// Set the target colour.
             void setColour(const ::Ogre::ColourValue&) ;
+
           // @}
         protected:
           /*!

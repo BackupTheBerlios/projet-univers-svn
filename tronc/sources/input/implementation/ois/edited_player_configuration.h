@@ -18,8 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_INPUT_IMPLEMENTATION_OIS_EDITED_PLAYER_CONFIGURATION_H_
-#define PU_INPUT_IMPLEMENTATION_OIS_EDITED_PLAYER_CONFIGURATION_H_
+#pragma once
 
 #include <kernel/controler.h>
 
@@ -44,9 +43,6 @@ namespace ProjetUnivers
         {
         public:
           
-          /// Constructor.
-          EditedPlayerConfiguration(Implementation::EditedPlayerConfiguration*,InputControlerSet*) ;
-          
           /// Send commands to specific menu. 
           virtual void simulate(const float& seconds) ;
 
@@ -65,6 +61,3 @@ namespace ProjetUnivers
     }
   }
 }
-
-
-#endif /*PU_INPUT_IMPLEMENTATION_OIS_EDITED_PLAYER_CONFIGURATION_H_*/

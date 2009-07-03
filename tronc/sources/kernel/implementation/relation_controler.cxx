@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2009 Mathieu ROGER                                      *
+ *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,38 +18,43 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#pragma once
-
-namespace ProjetUnivers 
+namespace ProjetUnivers
 {
-  namespace Kernel 
+  namespace Kernel
   {
     class Model ;
-    
-    namespace Implementation
-    {
-      class Operation ;
-      
-      /// A set of operations on a model.
-      class ConcurrentBlock
-      {
-      public:
-        
-        ConcurrentBlock(Model*) ;
 
-        void addOperation(Operation*) ;
-        
-        Trait* getTrait(Object*,const TypeIdentifier&) const ;
-        std::set<Object*> getChildren(Object*) const ;
-        
-        /// Perform operations
-        void execute() ;
-        
-      private:
-        
-        Model*                m_model ;
-        std::list<Operation*> m_operations ;
-      };
+    template <class _ControlerSet>
+    RelationControler<_ControlerSet>::RelationControler()
+    {}
+
+    template <class _ControlerSet>
+    RelationControler<_ControlerSet>::~RelationControler()
+    {}
+
+    template <class _ControlerSet>
+    _ControlerSet* RelationControler<_ControlerSet>::getControlerSet() const
+    {
+      return static_cast<_ControlerSet*>(m_controler_set) ;
     }
+    /// default implementation : empty
+
+    template <class _ControlerSet>
+    void RelationControler<_ControlerSet>::onInit()
+    {
+    }
+
+    template <class _ControlerSet>
+    void RelationControler<_ControlerSet>::onClose()
+    {
+    }
+
+    template <class _ControlerSet>
+    void RelationControler<_ControlerSet>::onUpdate()
+    {
+    }
+
   }
 }
+
+

@@ -45,24 +45,15 @@ namespace ProjetUnivers
         RegisterControler(PlayerConfiguration,
                           EditedPlayerConfiguration,
                           GUIControlerSet) ;
-        
   
-        PlayerConfiguration::PlayerConfiguration(
-            EditedPlayerConfiguration* configuration,
-            GUIControlerSet*           gui)
-        : Kernel::Controler<EditedPlayerConfiguration,
-                            GUIControlerSet>(configuration,gui),
-          m_window(NULL),
-          m_controls(NULL),
-          m_ok(NULL),
-          m_remaining_seconds(0),
-          m_is_recording(false)
-        {}
         
         void PlayerConfiguration::onInit()
         {
           InternalMessage("PlayerConfiguration","CEGUI::PlayerConfiguration::onInit") ;
           
+          m_is_recording = false ;
+          m_remaining_seconds = 0 ;
+
           try 
           {
             m_window = ::CEGUI::WindowManager::getSingleton().loadWindowLayout(

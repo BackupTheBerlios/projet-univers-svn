@@ -34,36 +34,29 @@
 #include <gui/implementation/cegui/team.h>
 #include <gui/implementation/cegui/gui_controler_set.h>
 
-namespace ProjetUnivers 
+namespace ProjetUnivers
 {
-  namespace GUI 
+  namespace GUI
   {
-    namespace Implementation 
+    namespace Implementation
     {
-      namespace CEGUI 
+      namespace CEGUI
       {
 
         RegisterControler(Team,
                           EditedTeam,
                           GUIControlerSet) ;
-  
-        Team::Team(EditedTeam*      team,
-                   GUIControlerSet* gui)
-        : Kernel::Controler<EditedTeam,GUIControlerSet>(team,gui),
-          m_window(NULL)
-        {}
-        
+
         void Team::onInit()
         {
           InternalMessage("CustomMission","CEGUI::Team::onInit") ;
-          m_mission =
-              getObject()->getParent<EditedCustomMission>()
-                         ->getControler<CustomMission>(getControlerSet()) ;
+
+          m_mission = getControler<CustomMission>() ;
 
           m_window = m_mission->addTeamWindow(getObject()) ;
-          
+
           ::CEGUI::WindowManager& manager = ::CEGUI::WindowManager::getSingleton() ;
-          
+
           ::CEGUI::Window* name = createWindow(m_window,"ProjetUnivers/Editbox","name") ;
           name->setText(getTrait<Model::Team>()->getName()) ;
           name->setArea(::CEGUI::UDim(0,5),
@@ -73,8 +66,8 @@ namespace ProjetUnivers
 
           name->subscribeEvent(::CEGUI::Window::EventTextChanged,
                                ::CEGUI::Event::Subscriber(&Team::changedName,this)) ;
-          
-          
+
+
           ::CEGUI::Window* button_delete = createWindow(m_window,"ProjetUnivers/DeleteButton","delete") ;
           button_delete->setArea(::CEGUI::UDim(0.8,0),
                                  ::CEGUI::UDim(0,0),
@@ -93,7 +86,7 @@ namespace ProjetUnivers
           m_add_group->subscribeEvent(::CEGUI::Window::EventMouseClick,
                                       ::CEGUI::Event::Subscriber(&Team::addGroup,this)) ;
         }
-          
+
         void Team::onClose()
         {
           InternalMessage("CustomMission","CEGUI::Team::onClose") ;
@@ -104,30 +97,30 @@ namespace ProjetUnivers
              m_window = NULL ;
           }
         }
-        
+
         bool Team::deleteTeam(const ::CEGUI::EventArgs& args)
         {
           getObject()->destroyObject() ;
           return true ;
         }
-     
+
         ::CEGUI::Window* Team::addGroupWindow(Kernel::Object* group)
         {
           ::CEGUI::WindowManager& manager = ::CEGUI::WindowManager::getSingleton() ;
-          
+
           ::CEGUI::Window* result = manager.createWindow("ProjetUnivers/BasicWindow") ;
-          
+
           const unsigned int number_of_groups = m_group_windows.size() ;
-          
+
           result->setArea(::CEGUI::UDim(0,0),
                           ::CEGUI::UDim(number_of_groups*0.1+0.1,0),
                           ::CEGUI::UDim(1,-12),
                           ::CEGUI::UDim(0.1,0)) ;
-          
+
           m_window->addChildWindow(result) ;
 
           m_group_windows.push_back(result) ;
-          
+
           return result ;
         }
 
@@ -143,7 +136,7 @@ namespace ProjetUnivers
           Kernel::Object* group = getObject()->createObject() ;
           group->addTrait(new Model::FlyingGroup("new group")) ;
         }
-        
+
         bool Team::changedName(const ::CEGUI::EventArgs& args)
         {
           const ::CEGUI::WindowEventArgs* argument = dynamic_cast<const ::CEGUI::WindowEventArgs*>(&args) ;
@@ -153,7 +146,7 @@ namespace ProjetUnivers
           }
           return true ;
         }
-        
+
       }
     }
   }

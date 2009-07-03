@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2008 Mathieu ROGER                                      *
+ *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,22 +18,44 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <model/positionned.h>
-#include <model/solid.h>
-#include <model/detection_data.h>
-#include <model/mobile.h>
-#include <artificial_intelligence/implementation/target.h>
+#include <kernel/view_point.h>
+#include <kernel/base_relation_view.h>
 
-namespace ProjetUnivers {
-  namespace ArtificialIntelligence {
-    namespace Implementation {
-          
-      DeclareDeducedTrait(
-          Target,
-          And(HasTrait(Model::DetectionData),
-              HasTrait(Model::Solid),
-              HasTrait(Model::Positionned),
-              HasTrait(Model::Mobile))) ;
+namespace ProjetUnivers
+{
+  namespace Kernel
+  {
+
+    void BaseRelationView::realInit()
+    {
+      if (m_viewpoint)
+      {
+        if (! m_really_initialised && m_viewpoint->isInitialised())
+        {
+          onInit() ;
+          m_really_initialised = true ;
+        }
+      }
     }
+
+    BaseRelationView::~BaseRelationView()
+    {
+      close() ;
+//      if (m_trait)
+//      {
+//        m_trait->_remove_view(m_viewpoint,this) ;
+//      }
+    }
+
+    BaseRelationView::BaseRelationView()
+    : m_viewpoint(NULL)
+    {}
+
+    void BaseRelationView::_setViewPoint(ViewPoint* viewpoint)
+    {
+      m_viewpoint = viewpoint ;
+    }
+
   }
 }
+

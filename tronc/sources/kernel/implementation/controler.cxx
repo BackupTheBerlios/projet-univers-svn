@@ -41,13 +41,10 @@ namespace ProjetUnivers
     {}
 
     template<class _Trait,class _ControlerSet> 
-    Controler<_Trait,_ControlerSet>::Controler(
-      _Trait*        i_trait,
-      _ControlerSet* i_controler_set)
-    : BaseControler(i_trait,i_controler_set)
+    Controler<_Trait,_ControlerSet>::Controler()
     {}
 
-    template<class _Trait,class _ControlerSet> 
+    template<class _Trait,class _ControlerSet>
     void Controler<_Trait,_ControlerSet>::onInit() 
     {
     }

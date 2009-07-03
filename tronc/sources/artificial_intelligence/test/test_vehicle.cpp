@@ -32,7 +32,7 @@ namespace ProjetUnivers {
 
       namespace
       {
-        /// Acceptable variable for comparison 
+        /// Acceptable variable for comparison
         const float delta = 1e-4 ;
 
         bool equal(float i1,float i2)
@@ -40,17 +40,18 @@ namespace ProjetUnivers {
           return (fabs(i1 - i2) <= delta) ;
         }
       }
-      
+
       void TestVehicle::testSimulateFront()
       {
         // A vehicle seeking
         Implementation::Vehicle vehicle ;
         vehicle.setMaxSpeed(10) ;
-        
-        vehicle.simulate(Ogre::Vector3::UNIT_Z,1) ;
-        
-        CPPUNIT_ASSERT(vehicle.getForward()==Ogre::Vector3::UNIT_Z) ;
-        CPPUNIT_ASSERT(vehicle.getPosition().z > 0) ;
+
+        // send an impulse toward front
+        vehicle.simulate(Ogre::Vector3::NEGATIVE_UNIT_Z,1) ;
+
+        CPPUNIT_ASSERT_EQUAL(Ogre::Vector3::NEGATIVE_UNIT_Z,vehicle.getForward()) ;
+        CPPUNIT_ASSERT(vehicle.getPosition().z < 0) ;
         CPPUNIT_ASSERT(vehicle.getPosition().x == 0) ;
         CPPUNIT_ASSERT(vehicle.getPosition().y == 0) ;
       }
@@ -61,11 +62,11 @@ namespace ProjetUnivers {
         Implementation::Vehicle vehicle ;
         vehicle.setMaxSpeed(10) ;
         vehicle.setTurningRate(Ogre::Degree(45)) ;
-        
-        vehicle.simulate(Ogre::Vector3::NEGATIVE_UNIT_Z) ;
-        CPPUNIT_ASSERT(vehicle.getForward().x > 0) ;
+
+        vehicle.simulate(Ogre::Vector3::UNIT_Z) ;
+        CPPUNIT_ASSERT(vehicle.getForward().x != 0) ;
         CPPUNIT_ASSERT(vehicle.getForward().y == 0) ;
-        
+
       }
 
       void TestVehicle::testSimulateSide()
@@ -74,19 +75,24 @@ namespace ProjetUnivers {
         Implementation::Vehicle vehicle ;
         vehicle.setMaxSpeed(10) ;
         vehicle.setTurningRate(Ogre::Degree(45)) ;
-        
+
         vehicle.simulate(Ogre::Vector3::UNIT_X,1) ;
-        
+
         CPPUNIT_ASSERT(vehicle.getForward().x > 0) ;
         CPPUNIT_ASSERT(vehicle.getForward().y == 0) ;
       }
-      
-      void TestVehicle::setUp() 
+
+      void TestVehicle::testSimulateUp()
       {
-      }
-      
-      void TestVehicle::tearDown() 
-      {
+        // A vehicle seeking
+        Implementation::Vehicle vehicle ;
+        vehicle.setMaxSpeed(10) ;
+        vehicle.setTurningRate(Ogre::Degree(45)) ;
+
+        vehicle.simulate(Ogre::Vector3::UNIT_Y,1) ;
+
+        CPPUNIT_ASSERT(vehicle.getForward().x == 0) ;
+        CPPUNIT_ASSERT(vehicle.getForward().y > 0) ;
       }
 
     }

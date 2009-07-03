@@ -37,16 +37,6 @@ namespace ProjetUnivers
                      Implementation::Engine, 
                      OpenAL::RealWorldViewPoint) ;
              
-        Engine::Engine(
-          Implementation::Engine*      object,
-          OpenAL::RealWorldViewPoint*  viewpoint) 
-        : Kernel::TraitView<Implementation::Engine,
-                            OpenAL::RealWorldViewPoint>(object,viewpoint),
-          SoundEmitter()
-        {
-          InternalMessage("Sound","Building OpenAL::EngineSound") ;
-        }
-                    
         std::string Engine::getSoundFileName() const
         {
           return "pu_moteur_2.ogg" ;

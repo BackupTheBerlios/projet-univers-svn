@@ -23,106 +23,94 @@
 
 #include <cppunit/extensions/HelperMacros.h>
 
-namespace ProjetUnivers {
-  namespace Model {
-    namespace Test {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
+    namespace Test
+    {
 
-            
+
       /// Test for the Model::ShootingHelper and associated logic.
       class TestShootingHelper : public CppUnit::TestFixture {
       protected:
-      
-        
       /*!
         @name Test methods
       */
       // @{
-        
+
         /// A basic functional test.
         /*!
           Aiming a static target.
-        */ 
+        */
         void basicTest() ;
-        
+
         /// Test an object flying away from the shot.
         void testMovingFront() ;
-        
+
         /// Test an object flying away from the shot and untouchable.
         void testMovingUnshootable() ;
-        
+
         /// Test an object moving in orthogonal direction of the shot.
         void testMovingLateral() ;
 
         /// Test an object moving in orthogonal direction of the shot.
         void testMovingLateralWithRotation() ;
-        
+
         /// Test a Computer destruction.
         void destroyComputer() ;
-        
+
         /// Test a Laser destruction.
         void destroyLaser() ;
-        
+
         /// Test a Computer deconnection.
         /*!
           We deconnect the computer but the ideal target still exists.
-          
+
           @todo what is the correct behaviour ??
         */
         void deconnectComputer() ;
-        
+
         /// A target in front.
         void testShootable() ;
 
         /// A target in front all system rotated 45 degrees.
         void testShootableWithRotation() ;
-        
+
         /// A target aligned but behind.
         void testNotShootableBehind() ;
-        
+
         /// A target in front but decaled on the side.
         void testNotShootableOnTheSide() ;
 
         /// A target in front and decaled on the side, shoot it in the back.
         void testShootableOnTheSide() ;
-        
+
       // @}
       /*!
         @name Test registration
       */
-      // @{      
-      
-        CPPUNIT_TEST_SUITE(TestShootingHelper) ;
-
-//        CPPUNIT_TEST(basicTest) ;
-//        CPPUNIT_TEST(testMovingFront) ;
-        CPPUNIT_TEST(testMovingUnshootable) ;
-        // CPPUNIT_TEST(testMovingLateral) ;
-        // CPPUNIT_TEST(testMovingLateralWithRotation) ;
-        // CPPUNIT_TEST(destroyComputer) ;
-        // CPPUNIT_TEST(destroyLaser) ;
-        // CPPUNIT_TEST(deconnectComputer) ;
-        // CPPUNIT_TEST(testShootable) ;
-        // CPPUNIT_TEST(testShootableWithRotation) ;
-        // CPPUNIT_TEST(testNotShootableBehind) ;
-        // CPPUNIT_TEST(testNotShootableOnTheSide) ;
-        // CPPUNIT_TEST(testShootableOnTheSide) ;
-
-        CPPUNIT_TEST_SUITE_END() ;
-      
-      // @}      
-                
-     public:
-
-      /*!
-        @name Mandatory methods
-      */
       // @{
 
-      
-        void setUp() ;
-        void tearDown() ;
-      
-      // @}      
+        CPPUNIT_TEST_SUITE(TestShootingHelper) ;
+
+         CPPUNIT_TEST(basicTest) ;
+         CPPUNIT_TEST(testMovingFront) ;
+         CPPUNIT_TEST(testMovingUnshootable) ;
+         CPPUNIT_TEST(testMovingLateral) ;
+         CPPUNIT_TEST(testMovingLateralWithRotation) ;
+//         CPPUNIT_TEST(destroyComputer) ;
+         CPPUNIT_TEST(destroyLaser) ;
+         CPPUNIT_TEST(deconnectComputer) ;
+         CPPUNIT_TEST(testShootable) ;
+         CPPUNIT_TEST(testShootableWithRotation) ;
+         CPPUNIT_TEST(testNotShootableBehind) ;
+         CPPUNIT_TEST(testNotShootableOnTheSide) ;
+         CPPUNIT_TEST(testShootableOnTheSide) ;
+
+        CPPUNIT_TEST_SUITE_END() ;
+
+      // @}
       };
     }
   }

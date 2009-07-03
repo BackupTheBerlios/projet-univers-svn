@@ -211,9 +211,8 @@ namespace ProjetUnivers
         {
         public:
 
-          View7(DeducedTrait7* i_trait, TestViewPoint* i_viewpoint)
-          : TraitView<DeducedTrait7,TestViewPoint>(i_trait,i_viewpoint),
-            m_update_number(0)
+          View7()
+          : m_update_number(0)
           {}
 
           int m_update_number ;
@@ -602,9 +601,6 @@ namespace ProjetUnivers
         class View11 : public TraitView<DeducedTrait11,ViewPoint11>
         {
         public:
-          View11(DeducedTrait11* i_trait, ViewPoint11* i_viewpoint)
-          : TraitView<DeducedTrait11,ViewPoint11>(i_trait,i_viewpoint)
-          {}
 
           TypeIdentifier m_latest_updated_trait ;
 
@@ -626,10 +622,6 @@ namespace ProjetUnivers
         class View12 : public TraitView<DeducedTrait12,ViewPoint11>
         {
         public:
-
-          View12(DeducedTrait12* i_trait, ViewPoint11* i_viewpoint)
-          : TraitView<DeducedTrait12,ViewPoint11>(i_trait,i_viewpoint)
-          {}
 
           TypeIdentifier m_latest_updated_trait ;
 
@@ -703,9 +695,8 @@ namespace ProjetUnivers
         {
         public:
 
-          ViewHasParentTrait1(HasParentTrait1* o,TestViewPoint* v)
-          : TraitView<HasParentTrait1,TestViewPoint>(o,v),
-            m_update_number(0)
+          ViewHasParentTrait1()
+          : m_update_number(0)
           {}
 
           int getUpdateNumber() const
@@ -735,9 +726,8 @@ namespace ProjetUnivers
         {
         public:
 
-          ViewHasParentAndTrait1(ParentAndTrait1* o,TestViewPoint* v)
-          : TraitView<ParentAndTrait1,TestViewPoint>(o,v),
-            m_update_number(0)
+          ViewHasParentAndTrait1()
+          : m_update_number(0)
           {}
 
           int getUpdateNumber() const
@@ -1179,9 +1169,8 @@ namespace ProjetUnivers
         {
         public:
 
-          ViewHasChildTrait1(HasChildTrait1* o,TestViewPoint* v)
-          : TraitView<HasChildTrait1,TestViewPoint>(o,v),
-            m_update_number(0)
+          ViewHasChildTrait1()
+          : m_update_number(0)
           {}
 
           int getUpdateNumber() const
@@ -1265,13 +1254,13 @@ namespace ProjetUnivers
       void TestDeducedTrait::getDependentTraits()
       {
         std::auto_ptr<Trait1> t1(new Trait1()) ;
-        CPPUNIT_ASSERT_EQUAL((unsigned int)9,DeducedTrait::getDependentTraits(t1.get()).size()) ;
+        CPPUNIT_ASSERT_EQUAL((unsigned int)9,DeducedTrait::getDependentTraitTypes(t1.get()).size()) ;
 
         std::auto_ptr<Parent> parent(new Parent()) ;
-        CPPUNIT_ASSERT_EQUAL((unsigned int)2,DeducedTrait::getDependentTraits(parent.get()).size()) ;
+        CPPUNIT_ASSERT_EQUAL((unsigned int)2,DeducedTrait::getDependentTraitTypes(parent.get()).size()) ;
 
         std::auto_ptr<Child> child(new Child()) ;
-        CPPUNIT_ASSERT_EQUAL((unsigned int)2,DeducedTrait::getDependentTraits(child.get()).size()) ;
+        CPPUNIT_ASSERT_EQUAL((unsigned int)2,DeducedTrait::getDependentTraitTypes(child.get()).size()) ;
 
       }
 
@@ -1383,6 +1372,99 @@ namespace ProjetUnivers
         child->changeParent(parent2) ;
 
         CPPUNIT_ASSERT(child->getTrait<AncestorPos>()) ;
+      }
+
+      namespace OrView
+      {
+        class T1 : public Trait
+        {};
+        class T2 : public Trait
+        {};
+        class T12 : public DeducedTrait
+        {};
+
+        DeclareDeducedTrait(T12,Or(HasTrait(T1),HasTrait(T2))) ;
+
+        class Viewpoint1 : public ViewPoint
+        {
+        public:
+          Viewpoint1(Model* m)
+          : ViewPoint(m)
+          {}
+        };
+
+        class V12 : public TraitView<T12,Viewpoint1>
+        {
+        public:
+
+          void onUpdate()
+          {
+            ++number_of_updates ;
+          }
+          static int number_of_updates ;
+        };
+
+        int V12::number_of_updates = 0 ;
+
+        RegisterView(V12,T12,Viewpoint1) ;
+
+        class T3 : public Trait
+        {};
+
+        class T123 : public DeducedTrait
+        {};
+
+        DeclareDeducedTrait(T123,And(Or(HasTrait(T1),HasTrait(T2)),HasTrait(T3))) ;
+
+        class V123 : public TraitView<T123,Viewpoint1>
+        {
+        public:
+
+          void onUpdate()
+          {
+            ++number_of_updates ;
+          }
+          static int number_of_updates ;
+        };
+
+        int V123::number_of_updates = 0 ;
+
+        RegisterView(V123,T123,Viewpoint1) ;
+      }
+
+      void TestDeducedTrait::orStillTrueUpdatesObserver()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+        ViewPoint* viewpoint(new OrView::Viewpoint1(model.get())) ;
+        viewpoint->init() ;
+
+        Object* root = model->createObject() ;
+        root->addTrait(new OrView::T1()) ;
+
+        OrView::V12::number_of_updates = 0 ;
+
+        // tested method
+        root->addTrait(new OrView::T2()) ;
+
+        CPPUNIT_ASSERT_EQUAL(1,OrView::V12::number_of_updates) ;
+      }
+
+      void TestDeducedTrait::orStillTrueUpdatesObserverThroughAnd()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+        ViewPoint* viewpoint(new OrView::Viewpoint1(model.get())) ;
+        viewpoint->init() ;
+
+        Object* root = model->createObject() ;
+        root->addTrait(new OrView::T1()) ;
+        root->addTrait(new OrView::T3()) ;
+
+        OrView::V123::number_of_updates = 0 ;
+
+        // tested method
+        root->addTrait(new OrView::T2()) ;
+
+        CPPUNIT_ASSERT_EQUAL(1,OrView::V123::number_of_updates) ;
       }
 
     }

@@ -29,59 +29,53 @@
 #include <display/implementation/ogre/positionned.h>
 #include <display/implementation/ogre/space_dust.h>
 
-namespace ProjetUnivers {
-  namespace Display {
-    namespace Implementation {
-      namespace Ogre {
-        
-        RegisterView(Ogre::SpaceDust, 
-                     Implementation::SpaceDust, 
+namespace ProjetUnivers
+{
+  namespace Display
+  {
+    namespace Implementation
+    {
+      namespace Ogre
+      {
+
+        RegisterView(Ogre::SpaceDust,
+                     Implementation::SpaceDust,
                      Ogre::RealWorldViewPoint) ;
-        
-        SpaceDust::SpaceDust(Implementation::SpaceDust* dust,
-                             RealWorldViewPoint*        viewpoint) 
-        : Kernel::TraitView<Implementation::SpaceDust,
-                            RealWorldViewPoint>(dust,viewpoint), 
-          m_space_dust_node(NULL),
-          m_space_dusts(NULL)
-        {
-          InternalMessage("Display","Building Ogre::SpaceDust::SpaceDust") ;
-        }
-        
+
+
         void SpaceDust::setEmmisionRate()
         {
-          
+
           float speed_ms = getObject()->getParent<Model::Mobile>()
                                       ->getSpeed().MeterPerSecond().length() ;
-          
+
           m_space_dusts->getEmitter(0)
                        ->setEmissionRate(std::min(speed_ms,float(200))) ;
         }
-        
+
         void SpaceDust::onInit()
         {
           InternalMessage("Display","Display::SpaceDust::onInit Entering") ;
 
           ::Ogre::SceneManager* manager = this->getViewPoint()->getManager() ;
-          Positionned* positionned(getObject()->getParent<Implementation::Positionned>()
-                                   ->getView<Positionned>(getViewPoint())) ;
-          
-          InternalMessage("Display","creating space dust scene node with parent " + 
+          Positionned* positionned(getView<Positionned>()) ;
+
+          InternalMessage("Display","creating space dust scene node with parent " +
                                     positionned->getNode()->getName()) ;
-          
+
           // add the space dust effect
           m_space_dusts = manager->createParticleSystem(Utility::getUniqueName(),
                                                         "PU/base/SpaceDust") ;
-          
+
           m_space_dust_node = static_cast< ::Ogre::SceneNode* >(
                                         positionned->getNode()->createChild()) ;
           m_space_dust_node->attachObject(m_space_dusts) ;
-          
+
           setEmmisionRate() ;
-          
+
           InternalMessage("Display","Display::SpaceDust::onInit Leaving") ;
         }
-          
+
         void SpaceDust::onClose()
         {
           InternalMessage("Display","Display::SpaceDust::onClose Entering") ;
@@ -89,12 +83,12 @@ namespace ProjetUnivers {
               ->destroySceneNode(m_space_dust_node->getName()) ;
           InternalMessage("Display","Display::SpaceDust::onClose Leaving") ;
         }
-        
+
         void SpaceDust::onUpdate()
         {
           setEmmisionRate() ;
         }
-        
+
       }
     }
   }

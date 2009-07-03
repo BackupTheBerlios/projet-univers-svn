@@ -27,51 +27,50 @@
 #include <gui/implementation/cegui/menu.h>
 #include <gui/implementation/cegui/cegui.h>
 
-namespace ProjetUnivers {
-  namespace GUI {
-    namespace Implementation {
-      namespace CEGUI {
-        
-        RegisterControler(Menu, 
-                          ActiveMenu, 
+namespace ProjetUnivers
+{
+  namespace GUI
+  {
+    namespace Implementation
+    {
+      namespace CEGUI
+      {
+
+        RegisterControler(Menu,
+                          ActiveMenu,
                           GUIControlerSet) ;
-        
-        Menu::Menu(ActiveMenu* object,GUIControlerSet* viewpoint)
-        : Kernel::Controler<ActiveMenu,GUIControlerSet>(object,viewpoint), 
-          m_window(NULL)
-        {
-          InternalMessage("GUI","Building CEGUI::Menu::Menu") ;
-        }
-  
+
+
         void Menu::onInit()
         {
           InternalMessage("GUI","Building CEGUI::Menu::onInit entering") ;
-          
+
           m_window = ::CEGUI::WindowManager::getSingleton().loadWindowLayout(
               getObject()->getTrait<Model::Menu>()->getFileName()) ;
-          
+
           // set the binding to the current trait
           m_window->setUserData(getObject()) ;
-          
+
           InternalMessage("GUI","Building CEGUI::Menu::onInit #1") ;
 
           InternalMessage("GUI",printStructure(m_window,0)) ;
-          
-          GUI::addActiveGUI(m_window) ;          
-          
+
+          GUI::addActiveGUI(m_window) ;
+
           InternalMessage("GUI","Building CEGUI::Menu::onInit leaving") ;
         }
-        
+
         void Menu::onClose()
         {
-          GUI::removeActiveGUI(m_window) ;          
+          Kernel::Log::Block temp("Menu","Menu::onClose") ;
+          GUI::removeActiveGUI(m_window) ;
           if (m_window)
           {
              ::CEGUI::WindowManager::getSingleton().destroyWindow(m_window) ;
              m_window = NULL ;
           }
         }
-      }        
+      }
     }
   }
 }

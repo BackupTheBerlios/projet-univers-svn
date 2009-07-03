@@ -23,51 +23,26 @@
 #include <kernel/trait.h>
 #include <kernel/base_trait_view.h>
 
-namespace ProjetUnivers 
+namespace ProjetUnivers
 {
-  namespace Kernel 
+  namespace Kernel
   {
 
-    void BaseTraitView::_init()
+    void BaseTraitView::realInit()
     {
       /*!
         We initialise only if the view point has been initialised.
       */
       if (m_viewpoint)
       {
-        if (! m_initialised && m_viewpoint->isInitialised())
+        if (! m_really_initialised && m_viewpoint->isInitialised())
         {
           onInit() ;
-          m_initialised = true ;        
+          m_really_initialised = true ;
         }
       }
     }
-    
-    void BaseTraitView::_close()
-    {
-      if (m_initialised)
-      {
-        onClose() ;
-        m_initialised = false ;        
-      }
-    }
-    
-    void BaseTraitView::_changed_parent(Object* i_old_parent)
-    {
-      if (m_initialised)
-      {
-        onChangeParent(i_old_parent) ;
-      }
-    }
-    
-    void BaseTraitView::_updated()
-    {
-      if (m_initialised)
-      {
-        onUpdate() ;
-      }
-    }
-    
+
     BaseTraitView::~BaseTraitView()
     {
       _close() ;
@@ -77,20 +52,14 @@ namespace ProjetUnivers
       }
     }
 
-    BaseTraitView::BaseTraitView(Trait* trait,ViewPoint* viewpoint)
-    : m_initialised(false),
-      m_trait(trait), 
-      m_viewpoint(viewpoint)
+    BaseTraitView::BaseTraitView()
+    : m_viewpoint(NULL)
     {}
 
-    Object* BaseTraitView::getObject() const
+    void BaseTraitView::setViewPoint(ViewPoint* viewpoint)
     {
-      return m_trait->getObject() ;
+      m_viewpoint = viewpoint ;
     }
-    
-    Trait* BaseTraitView::getTrait() const
-    {
-      return m_trait ;
-    }
+
   }
 }

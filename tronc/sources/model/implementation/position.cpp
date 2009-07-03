@@ -23,34 +23,34 @@
 #include <model/position.h>
 #include <model/positionned.h>
 
-namespace ProjetUnivers {
-  namespace Model {
-
+namespace ProjetUnivers
+{
+  namespace Model
+  {
 
     Position::Position()
     : m_value(0,0,0),
       m_unit(Distance::_Meter)
     {}
 
-    Position::Position(const Position& i_position)
-    : m_value(i_position.m_value),
-      m_unit(i_position.m_unit)
+    Position::Position(const Position& position)
+    : m_value(position.m_value),
+      m_unit(position.m_unit)
     {}
 
-    Position::Position(Distance::Unit i_unit,
-                       float          i_x, 
-                       float          i_y, 
-                       float          i_z)
-    : m_value(i_x,i_y,i_z),
-      m_unit(i_unit)
-      
+    Position::Position(Distance::Unit unit,
+                       const float&   x,
+                       const float&   y,
+                       const float&   z)
+    : m_value(x,y,z),
+      m_unit(unit)
     {}
 
-    Position Position::Meter(float i_x, 
-                             float i_y, 
-                             float i_z)
+    Position Position::Meter(const float& x,
+                             const float& y,
+                             const float& z)
     {
-      return Position(Distance::_Meter,i_x,i_y,i_z) ;
+      return Position(Distance::_Meter,x,y,z) ;
     }
 
     Ogre::Vector3 Position::Meter() const
@@ -67,72 +67,72 @@ namespace ProjetUnivers {
                                              Distance::_Meter),
                            Distance::convert(m_value[2],
                                              m_unit,
-                                             Distance::_Meter)) ;                                            
+                                             Distance::_Meter)) ;
     }
-    
-    Position Position::operator+(const Position& i_position) const
+
+    Position Position::operator+(const Position& position) const
     {
       Distance::Unit result_unit = Distance::bestCompatibleUnit(m_unit,
-                                                                i_position.m_unit) ;
+                                                                position.m_unit) ;
       /// convert all data into the result_unit
       return Position(result_unit,
                       Distance::convert(m_value[0],
                                         m_unit,
                                         result_unit) +
-                      Distance::convert(i_position.m_value[0],
-                                        i_position.m_unit,
+                      Distance::convert(position.m_value[0],
+                                        position.m_unit,
                                         result_unit),
                       Distance::convert(m_value[1],
                                         m_unit,
                                         result_unit) +
-                      Distance::convert(i_position.m_value[1],
-                                        i_position.m_unit,
+                      Distance::convert(position.m_value[1],
+                                        position.m_unit,
                                         result_unit),
                       Distance::convert(m_value[2],
                                         m_unit,
                                         result_unit) +
-                      Distance::convert(i_position.m_value[2],
-                                        i_position.m_unit,
+                      Distance::convert(position.m_value[2],
+                                        position.m_unit,
                                         result_unit)) ;
-      
+
     }
 
-    Position Position::operator-(const Position& i_position) const
+    Position Position::operator-(const Position& position) const
     {
-      
+
       Distance::Unit result_unit = Distance::bestCompatibleUnit(m_unit,
-                                                                i_position.m_unit) ;
+                                                                position.m_unit) ;
       /// convert all data into the result_unit
       return Position(result_unit,
                       Distance::convert(m_value[0],
                                         m_unit,
                                         result_unit) -
-                      Distance::convert(i_position.m_value[0],
-                                        i_position.m_unit,
+                      Distance::convert(position.m_value[0],
+                                        position.m_unit,
                                         result_unit),
                       Distance::convert(m_value[1],
                                         m_unit,
                                         result_unit) -
-                      Distance::convert(i_position.m_value[1],
-                                        i_position.m_unit,
+                      Distance::convert(position.m_value[1],
+                                        position.m_unit,
                                         result_unit),
                       Distance::convert(m_value[2],
                                         m_unit,
                                         result_unit) -+
-                      Distance::convert(i_position.m_value[2],
-                                        i_position.m_unit,
+                      Distance::convert(position.m_value[2],
+                                        position.m_unit,
                                         result_unit)) ;
-      
+
     }
 
     Position Position::operator*(const Orientation& orientation) const
     {
       Position result(*this) ;
       result.m_value = orientation.getQuaternion()*result.m_value ;
-      
+
       return result ;
     }
-        
+
     Distance Position::getXCoordinate() const
     {
       return Distance(m_unit,m_value[0]) ;
@@ -142,21 +142,21 @@ namespace ProjetUnivers {
     {
       return Distance(m_unit,m_value[1]) ;
     }
-    
+
     Distance Position::getZCoordinate() const
     {
       return Distance(m_unit,m_value[2]) ;
     }
-    
+
     Distance Position::calculateDistance(const Position& position) const
     {
       Position temp(position - *this) ;
       return Distance(temp.m_unit,temp.m_value.length()) ;
     }
-    
-    std::ostream& operator<<(std::ostream& out,const Position& i_position)
+
+    std::ostream& operator<<(std::ostream& out,const Position& position)
     {
-      out << "Position(Unit=" << i_position.m_unit << "," << i_position.m_value << ")" ;
+      out << "Position(Unit=" << position.m_unit << "," << position.m_value << ")" ;
       return out ;
     }
 
@@ -169,24 +169,24 @@ namespace ProjetUnivers {
     {
       Ogre::Vector3 this_meter(Meter()) ;
       Ogre::Vector3 position_meter(position.Meter()) ;
-      return this_meter == position_meter ; 
+      return this_meter == position_meter ;
     }
 
     bool Position::operator<(const Position& position) const
     {
       Ogre::Vector3 this_meter(Meter()) ;
       Ogre::Vector3 position_meter(position.Meter()) ;
-      
-      return (this_meter.x < position_meter.x) || 
+
+      return (this_meter.x < position_meter.x) ||
              (this_meter.x == position_meter.x && this_meter.y < position_meter.y) ||
              (this_meter.x == position_meter.x && this_meter.y == position_meter.y && this_meter.y < position_meter.y) ;
     }
-    
+
     Position Position::read(Kernel::Reader* reader)
     {
       Position result(Distance::_Meter,0,0,0) ;
-      
-      std::map<std::string,std::string>::const_iterator finder ; 
+
+      std::map<std::string,std::string>::const_iterator finder ;
 
       finder = reader->getAttributes().find("x") ;
       if (finder != reader->getAttributes().end())
@@ -217,7 +217,7 @@ namespace ProjetUnivers {
       {
         ErrorMessage("Model::Position::read required attribute : z") ;
       }
-      
+
       finder = reader->getAttributes().find("unit") ;
       if (finder != reader->getAttributes().end())
       {
@@ -233,7 +233,7 @@ namespace ProjetUnivers {
         {
           result.m_unit = Distance::_Meter ;
         }
-        else 
+        else
         {
           ErrorMessage("Model::Position::read invalid unit : " + finder->second) ;
         }
@@ -242,15 +242,15 @@ namespace ProjetUnivers {
       {
         ErrorMessage("Model::Position::read required attribute : unit") ;
       }
-      
+
       // move out of node
       while (!reader->isEndNode() && reader->processNode())
       {}
-      
+
       reader->processNode() ;
-      
-      return result ;            
-    }   
+
+      return result ;
+    }
 
   }
 }

@@ -42,18 +42,7 @@ namespace ProjetUnivers
             public Kernel::TraitView<Implementation::TargetWithSelection,
                                      HeadUpDisplayViewPoint>
           {
-          public:
-          
-          /*! 
-            @name Construct
-          */ 
-          // @{
-  
-            /// Constructor.
-            TargetWithSelection(Implementation::TargetWithSelection* object,
-                                HeadUpDisplayViewPoint*              viewpoint) ;
-          // @}
-        protected:
+          protected:
           /*!
             @name Updates
           */

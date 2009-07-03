@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2008 Mathieu ROGER                                      *
+ *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,20 +18,19 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <model/oriented.h>
-#include <display/implementation/positionned.h>
-#include <display/implementation/oriented.h>
+#pragma once
 
-namespace ProjetUnivers 
+#include <kernel/deduced_trait.h>
+
+namespace ProjetUnivers
 {
-  namespace Display 
+  namespace ArtificialIntelligence
   {
-    namespace Implementation 
+    namespace Implementation
     {
-
-      DeclareDeducedTrait(Oriented,
-                          And(HasTrait(Model::Oriented),
-                              HasParent(Implementation::Positionned))) ;
+      /// The target of an agent.
+      class AgentTarget : public Kernel::DeducedRelation
+      {};
     }
   }
 }

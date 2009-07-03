@@ -115,6 +115,11 @@ else
 fi
 AM_CONDITIONAL(HAVE_CLANLIB, test "x$CLANLIB_CONFIG" != "xno")
 
+AC_CHECK_HEADER([tclap/CmdLine.h],[havetclap=yes],[havetclap=no])
+if test "x$havetclap" = xno; then
+  AC_MSG_ERROR("Error : you need libtclap-dev")
+fi
+
 ## platform dependent configuration
 # ogre plugin configuration 
 # generates plugin.cfg and ogre.cfg for tests

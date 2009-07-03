@@ -41,18 +41,7 @@ namespace ProjetUnivers
           class IdentifiedTarget : public Kernel::TraitView<Implementation::IdentifiedTarget,
                                                             HeadUpDisplayViewPoint>
           {
-          public:
-          
-          /*! 
-            @name Construct
-          */ 
-          // @{
-  
-            /// Constructor.
-            IdentifiedTarget(Implementation::IdentifiedTarget* object,
-                             HeadUpDisplayViewPoint*          viewpoint) ;
-          // @}
-        protected:
+          protected:
           /*!
             @name Updates
           */

@@ -18,18 +18,18 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_DETECTION_DATA_H_
-#define PU_MODEL_DETECTION_DATA_H_
+#pragma once
 
 #include <model/computer_data.h>
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers 
+{
+  namespace Model 
+  {
       
     /// Represents detection information on objects.
     /*!
-      Detection data are generally also Positionned, in that case, the position 
-      is in the local space of the Computer holding the data. 
+      Directly point to the detected object
     */
     class DetectionData : public ComputerData
     {
@@ -37,8 +37,9 @@ namespace ProjetUnivers {
 
       /// Constructs.
       DetectionData(Kernel::Object* computer) ;
+      
+      /// Detected object
+      Kernel::ObjectReference m_detected ;
     };
   }
 }
-
-#endif /*PU_MODEL_DETECTION_DATA_H_*/

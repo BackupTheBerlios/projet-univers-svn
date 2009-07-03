@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2008 Mathieu ROGER                                      *
+ *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,41 +18,19 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_AI_IMPLEMENTATION_SELECTED_VEHICLE_H_
-#define PU_AI_IMPLEMENTATION_SELECTED_VEHICLE_H_
+#pragma once
 
-#include <kernel/trait_view.h>
-#include <artificial_intelligence/implementation/selected_target.h>
-#include <artificial_intelligence/implementation/vehicle.h>
-#include <artificial_intelligence/implementation/agent_view_point.h>
+#include <kernel/deduced_trait.h>
 
-namespace ProjetUnivers {
-  namespace ArtificialIntelligence {
-    namespace Implementation {
-
-      /// The selected vehicle.
-      class SelectedVehicle : public Kernel::TraitView<SelectedTarget,AgentViewPoint>
-      {
-      public:
-        
-        /// Construction.
-        SelectedVehicle(SelectedTarget*,AgentViewPoint*) ;
-        
-        /// Build the associated vehicle.
-        virtual void onInit() ;
-        
-        /// Destroy the associated vehicle.
-        virtual void onClose() ;
-        
-        /// Update the associated vehicle.
-        virtual void onUpdate() ;
-        
-      private:
-
-        /// True iff the target is selected            
-        bool isSelected() const ;
-      };
+namespace ProjetUnivers
+{
+  namespace ArtificialIntelligence
+  {
+    namespace Implementation
+    {
+      /// Something we will associate with a vehicle.
+      class WithVehicle : public Kernel::DeducedTrait
+      {};
     }
   }
 }
-#endif /*PU_AI_IMPLEMENTATION_SELECTED_VEHICLE_H_*/

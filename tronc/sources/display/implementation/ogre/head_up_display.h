@@ -18,8 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_DISPLAY_IMPLEMENTATION_OGRE_HUD_TARGET_DISPLAYER_H_
-#define PU_DISPLAY_IMPLEMENTATION_OGRE_HUD_TARGET_DISPLAYER_H_
+#pragma once
 
 #include <Ogre.h>
 
@@ -100,22 +99,7 @@ namespace ProjetUnivers
         class HeadUpDisplay : public Kernel::TraitView<Model::HeadUpDisplay,
                                                        RealWorldViewPoint>
         {
-        public:
-        
-        /*!
-          @name Construction 
-        */
-        // @{
-
-          /// Constructeur.
-          HeadUpDisplay(Model::HeadUpDisplay* i_object,
-                        RealWorldViewPoint* i_viewpoint) ;
-
-        //@}
-          
-
         protected:
-
         /*!
           @name Updates
         */
@@ -146,4 +130,3 @@ namespace ProjetUnivers
     }
   }
 }
-#endif

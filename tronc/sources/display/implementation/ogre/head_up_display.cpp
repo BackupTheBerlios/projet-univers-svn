@@ -46,15 +46,6 @@ namespace ProjetUnivers
                      Model::HeadUpDisplay,
                      Ogre::RealWorldViewPoint) ;
 
-        HeadUpDisplay::HeadUpDisplay(Model::HeadUpDisplay* object,
-                                     RealWorldViewPoint*   viewpoint)
-        : Kernel::TraitView<Model::HeadUpDisplay,
-                            RealWorldViewPoint>(object,viewpoint),
-          m_reticule_container(NULL),
-          m_reticule(NULL),
-          m_implementation(NULL)
-        {}
-
         namespace 
         {
           std::string reticule_material ;

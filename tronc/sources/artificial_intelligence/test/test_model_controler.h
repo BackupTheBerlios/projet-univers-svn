@@ -18,35 +18,31 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_AI_TEST_MODEL_CONTROLER_H_
-#define PU_AI_TEST_MODEL_CONTROLER_H_
+#pragma once
 
 
 #include <cppunit/extensions/HelperMacros.h>
 
-namespace ProjetUnivers 
+namespace ProjetUnivers
 {
-  namespace ArtificialIntelligence 
+  namespace ArtificialIntelligence
   {
-    namespace Test 
+    namespace Test
     {
 
 
       ///  Test for AI building.
-      class TestModelControler : public CppUnit::TestFixture {
+      class TestModelControler : public CppUnit::TestFixture
+      {
       protected:
-
-      /*! 
+      /*!
         @name Tests methods
       */
-      // @{  
-
-        /// Tests basic construction.
-        void build() ;
+      // @{
 
         /// Tests basic simulation.
         void simulate() ;
-        
+
         /// Tests construction with lack of elements.
         void buildWithoutElements() ;
 
@@ -56,43 +52,47 @@ namespace ProjetUnivers
           A ship pursuit an ennemy.
         */
         void attackAllEnemies() ;
-        
+
         /// Two agents attacking each other.
         void twoShips() ;
-        
+
         /// Two teams attacking each other
         /*!
           Foirst team must win because they are twice 2 against 1
         */
         void groupAttack() ;
-        
+
         /// Test the updating of the positions.
         void testPositionUpdate() ;
-        
+
         void testMission() ;
-        
+
+        /// Check that correct steering is calculated
+        void steering() ;
+
+        void avoidMutualFlee() ;
+
       // @}
 
 
         CPPUNIT_TEST_SUITE(TestModelControler) ;
 
-        CPPUNIT_TEST(build) ;
         CPPUNIT_TEST(buildWithoutElements) ;
         CPPUNIT_TEST(attackAllEnemies) ;
         CPPUNIT_TEST(twoShips) ;
         CPPUNIT_TEST(groupAttack) ;
         CPPUNIT_TEST(testPositionUpdate) ;
         CPPUNIT_TEST(simulate) ;
-        
-        CPPUNIT_TEST_SUITE_END() ;
+        CPPUNIT_TEST(steering) ;
 
-      
+        /// @todo make it pass
+//        CPPUNIT_TEST(avoidMutualFlee) ;
+
+        CPPUNIT_TEST_SUITE_END() ;
       };
     }
   }
 }
 
-#endif 
-    
 
 

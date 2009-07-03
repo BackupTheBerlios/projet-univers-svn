@@ -18,8 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_AI_TEST_VEHICLE_H_
-#define PU_AI_TEST_VEHICLE_H_
+#pragma once
 
 #include <cppunit/extensions/HelperMacros.h>
 
@@ -30,64 +29,46 @@ namespace ProjetUnivers {
       /// Test of Vehicle class.
       class TestVehicle : public CppUnit::TestFixture {
       public:
-        
+
         /// Apply a force to vehicle for simulation.
         static void simulate(Implementation::Vehicle& vehicle,
                              Ogre::Vector3& force) ;
 
       protected:
-      /*! 
-        @name Tests 
+      /*!
+        @name Tests
       */
       // @{
-        
-        /// Simulate with an front steering.
+
+        /// Simulate with a front steering.
         void testSimulateFront() ;
 
-        /// Simulate with an back steering.
+        /// Simulate with a back steering.
         void testSimulateBack() ;
 
-        /// Simulate with an side steering.
+        /// Simulate with a side steering.
         void testSimulateSide() ;
 
+        /// Simulate with an up steering.
+        void testSimulateUp() ;
+
       // @}
-      /*! 
+      /*!
         @name Tests registration
       */
-      // @{      
-    
+      // @{
+
         CPPUNIT_TEST_SUITE(TestVehicle) ;
-      
+
         CPPUNIT_TEST(testSimulateFront) ;
         CPPUNIT_TEST(testSimulateBack) ;
         CPPUNIT_TEST(testSimulateSide) ;
-      
+        CPPUNIT_TEST(testSimulateUp) ;
+
         CPPUNIT_TEST_SUITE_END() ;
-
-      public:
-        
-      // @}
-        /*! 
-          @name Mandatory methods
-        */
-      // @{
-
-      
-        /// Tests setup
-        void setUp() ;
-      
-        /// DesTests setup
-        void tearDown() ;
-      
-      // @}      
-                
-       
-      
       };
 
     }
   }
 }
 
-
-#endif /*PU_AI_TEST_VEHICLE_H_*/

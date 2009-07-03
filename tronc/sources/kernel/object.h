@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2008 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,8 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_KERNEL_OBJECT_H_
-#define PU_KERNEL_OBJECT_H_
+#pragma once
 
 #include <list>
 #include <set>
@@ -45,8 +44,6 @@ namespace ProjetUnivers
     {
       class Operation ;
       class Interpretor ;
-      class Transaction ;
-      class ConcurrentBlock ;
     }
 
     class Trait ;
@@ -65,6 +62,11 @@ namespace ProjetUnivers
     class HasChildFormula ;
     class Reader ;
     class Writer ;
+    class BaseTraitView ;
+    class BaseControler ;
+    class IsRelatedFormula ;
+    class IsOnlyRelatedFormula ;
+    class WithRelationFormula ;
 
     /// A model object.
     /*!
@@ -165,6 +167,12 @@ namespace ProjetUnivers
 
       /// Get all the descendant (including @c this) with trait T.
       template <class T> std::set<T*> getChildren() const ;
+
+      /// Get the descendant (including @c this) with trait T.
+      /*!
+        Return NULL iff severals.
+      */
+      template <class T> T* getChild() const ;
 
       /// Call a void command.
       /*!
@@ -435,13 +443,14 @@ namespace ProjetUnivers
       friend class Reader ;
       friend class Writer ;
       friend class ::ProjetUnivers::Kernel::Implementation::Operation ;
-      friend class ::ProjetUnivers::Kernel::Implementation::Transaction ;
       friend class ::ProjetUnivers::Kernel::Implementation::Interpretor ;
-      friend class ::ProjetUnivers::Kernel::Implementation::ConcurrentBlock ;
+      friend class BaseTraitView ;
+      friend class BaseControler ;
+      friend class IsRelatedFormula ;
+      friend class IsOnlyRelatedFormula ;
+      friend class WithRelationFormula ;
     };
   }
 }
 
 #include <kernel/implementation/object.cxx>
-
-#endif /*PU_KERNEL_OBJECT_H_*/

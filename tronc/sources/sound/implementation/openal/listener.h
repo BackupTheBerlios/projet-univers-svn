@@ -40,17 +40,6 @@ namespace ProjetUnivers
                                                   RealWorldViewPoint>, 
                          public SoundListener
         {
-        public:
-        /*!
-         @name Construction 
-         */
-        // @{
-
-          /// Constructor.
-          Listener(Implementation::Listener*, RealWorldViewPoint*);
-
-        // @}
-
         protected:
         /*!
          @name Access methods

@@ -69,10 +69,6 @@ namespace ProjetUnivers
         {
         public:
           
-          KeyboardListener(Keyboard* object,Implementation::OIS::InputControlerSet* set)
-          : Kernel::Controler<Keyboard,Implementation::OIS::InputControlerSet>(object,set)
-          {}
-          
           virtual void simulate(const float&) 
           {
             Implementation::OIS::Keyboard* keyboard = Implementation::OIS::getKeyboard() ;
@@ -152,10 +148,6 @@ namespace ProjetUnivers
         {
         public:
           
-          MouseListener(Mouse* object,Implementation::OIS::InputControlerSet* set)
-          : Kernel::Controler<Mouse,Implementation::OIS::InputControlerSet>(object,set)
-          {}
-          
           virtual void simulate(const float&) 
           {
             Implementation::OIS::Mouse* mouse = Implementation::OIS::getMouse() ;
@@ -234,10 +226,6 @@ namespace ProjetUnivers
         class JoystickListener : public Kernel::Controler<Joystick,Implementation::OIS::InputControlerSet>
         {
         public:
-          
-          JoystickListener(Joystick* object,Implementation::OIS::InputControlerSet* set)
-          : Kernel::Controler<Joystick,Implementation::OIS::InputControlerSet>(object,set)
-          {}
           
           virtual void simulate(const float&) 
           {

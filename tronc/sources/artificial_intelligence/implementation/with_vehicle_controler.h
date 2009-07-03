@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2008 Mathieu ROGER                                      *
+ *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,54 +18,51 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_AI_IMPLEMENTATION_AGENT_VEHICLE_H_
-#define PU_AI_IMPLEMENTATION_AGENT_VEHICLE_H_
+#pragma once
 
-#include <OgreVector3.h>
-#include <kernel/trait_view.h>
-#include <model/physical_object.h>
-#include <artificial_intelligence/implementation/agent_vehicle_view_point.h>
+#include <memory>
+#include <kernel/controler.h>
+#include <artificial_intelligence/implementation/ai_system.h>
+#include <artificial_intelligence/implementation/with_vehicle.h>
+#include <artificial_intelligence/implementation/vehicle.h>
 
-namespace ProjetUnivers {
-  namespace ArtificialIntelligence {
-    namespace Implementation {
-
-      class Vehicle ;
-      class Agent ;
-      
-      /// The agent vehicle.
-      /*!
-        A manual view.
-      */
-      class AgentVehicle : public Kernel::TraitView<Model::PhysicalObject,
-                                                    AgentVehicleViewPoint>
+namespace ProjetUnivers
+{
+  namespace ArtificialIntelligence
+  {
+    namespace Implementation
+    {
+      /// Something we will associate with a vehicle.
+      class WithVehicleControler : public Kernel::Controler<WithVehicle,
+                                                            AISystem>
       {
       public:
-      
-        /// Constructor.
-        AgentVehicle(Model::PhysicalObject*,AgentVehicleViewPoint*) ;
-        
-        /// Build the associated vehicle
-        virtual void onInit() ;
 
-        /// Destroy the associated vehicle
-        virtual void onClose() ;
+        /// Access to vehicle.
+        Vehicle* getVehicle() const ;
 
-        /// Update the associated vehicle
-        virtual void onUpdate() ;
-        
+      protected:
+
+        /// Create a vehicle
+        void onInit() ;
+
+        /// Destroy the vehicle.
+        void onClose() ;
+
+        /// Update position etc...
+        void onUpdate() ;
+
       private:
 
+        /// Simplified access functions.
         Ogre::Vector3 getPosition() const ;
         Ogre::Vector3 getSpeed() const ;
         Ogre::Quaternion getOrientation() const ;
         float getSize() const ;
-        
+
         std::auto_ptr<Vehicle> m_vehicle ;
+
       };
-      
     }
   }
 }
-
-#endif /*PU_AI_IMPLEMENTATION_AGENT_VEHICLE_H_*/

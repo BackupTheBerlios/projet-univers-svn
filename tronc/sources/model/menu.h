@@ -18,16 +18,17 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_MENU_H_
-#define PU_MODEL_MENU_H_
+#pragma once
 
 #include <string>
 #include <kernel/trait.h>
 #include <kernel/reader.h>
 
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers 
+{
+  namespace Model 
+  {
 
     /// For objects that are a menu
     class Menu : public Kernel::Trait
@@ -56,5 +57,3 @@ namespace ProjetUnivers {
     };
   }
 }
-
-#endif /*PU_MODEL_MENU_H_*/

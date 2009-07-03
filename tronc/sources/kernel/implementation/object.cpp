@@ -225,17 +225,13 @@ namespace ProjetUnivers
 
       i_trait->m_object = this ;
 
-
       /// on range les facettes en fonction de leur classe
       _getTraits()[trait_name] = i_trait ;
 
       i_trait->_create_views() ;
       i_trait->_create_controlers() ;
 
-      if (!m_is_reading)
-      {
-        i_trait->_init() ;
-      }
+      i_trait->_init() ;
 
       DeducedTrait::addTrait(this,i_trait) ;
     }
@@ -291,28 +287,23 @@ namespace ProjetUnivers
       DeducedTrait::removeTrait(this,trait) ;
       trait->_close() ;
 
-
-      if (trait->isLocked())
-      {
-        trait->markAsToBeDestroyed(i_trait_name) ;
-      }
-      else
+      if (!trait->isLocked() && !m_deleting)
       {
         _getTraits().erase(i_trait_name) ;
-        delete trait ;
       }
+      getModel()->recordTraitToDestroy(trait) ;
     }
 
     void Object::_remove(Trait* i_trait)
     {
-      CHECK(i_trait,"Kernel::_remove(Trait*) no trait") ;
       TypeIdentifier trait_name(getObjectTypeIdentifier(i_trait)) ;
       _remove(trait_name) ;
     }
 
     Object* Object::_detach(const TypeIdentifier& trait_name)
     {
-      _getTraits().erase(trait_name) ;
+      if (!_getTraits().empty())
+        _getTraits().erase(trait_name) ;
     }
 
     Object::~Object()
@@ -405,6 +396,7 @@ namespace ProjetUnivers
     void Object::_close()
     {
       m_deleting = true ;
+
       for(std::set<Object*>::iterator child = children.begin() ;
           child != children.end() ;
           ++child)
@@ -413,12 +405,17 @@ namespace ProjetUnivers
       }
 
       std::set<Trait*> locked_traits(lockTraits()) ;
+
       for(std::map<TypeIdentifier, Trait*>::iterator trait = _getTraits().begin() ;
           trait != _getTraits().end() ;
           ++trait)
       {
-        trait->second->_close() ;
+//        if (trait->second->isPrimitive())
+//        {
+          destroyTrait(trait->second) ;
+//        }
       }
+
       unlockTraits(locked_traits) ;
     }
 
@@ -512,10 +509,8 @@ namespace ProjetUnivers
       {
         trait->second->_changed_parent(i_old_parent) ;
       }
-      HasParentFormula::changeParent(this,i_old_parent) ;
-      HasAncestorFormula::changeParent(this,i_old_parent) ;
-      HasChildFormula::changeParent(this,i_old_parent) ;
 
+      DeducedTrait::changeParent(this,i_old_parent) ;
     }
 
     Trait* Object::_get(const TypeIdentifier& i_trait_name) const

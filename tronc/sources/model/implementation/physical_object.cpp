@@ -22,6 +22,7 @@
 #include <model/mobile.h>
 #include <model/massive.h>
 #include <model/positionned.h>
+#include <model/oriented.h>
 #include <model/whole.h>
 
 #include <model/physical_world.h>
@@ -34,20 +35,18 @@ namespace ProjetUnivers {
     DeclareDeducedTrait(PhysicalObject,
                         And(HasTrait(Mobile),
                             HasTrait(Positionned),
+                            HasTrait(Oriented),
                             HasTrait(Massive),
-                            HasTrait(Whole))) ;
+                            HasTrait(Whole),
+                            HasAncestor(PhysicalWorld))) ;
 
     Kernel::Object* PhysicalObject::getPhysicalWorld() const
     {
-      Kernel::Object* parent = getObject()->getParent() ;
-      if (parent)
+      Model::PhysicalWorld* world = getObject()->getAncestor<PhysicalWorld>() ;
+      if (world)
       {
-        Model::PhysicalWorld* 
-            world = parent->getParent<Model::PhysicalWorld>() ;
-        
         return world->getObject() ;
       }
-      
       return NULL ;
     }
 

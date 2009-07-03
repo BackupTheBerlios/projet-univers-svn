@@ -44,16 +44,19 @@ CPPUNIT_TEST_SUITE_REGISTRATION(ProjetUnivers::
                                 Test::
                                 TestTargetingSystem) ;
 
-namespace ProjetUnivers {
-  namespace Model {
-    namespace Test {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
+    namespace Test
+    {
 
       void TestTargetingSystem::selectOneObject()
       {
         InternalMessage("Model","Model::TestTargetingSystem::selectOneObject entering") ;
         /*!
-          We create a ship with a detector and a second object to detect. 
-        */        
+          We create a ship with a detector and a second object to detect.
+        */
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestTargetingSystem::selectOneObject")) ;
         model->init() ;
 
@@ -64,7 +67,7 @@ namespace ProjetUnivers {
         ship->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship->addTrait(new Oriented()) ;
         ship->addTrait(new Mobile()) ;
-        ship->addTrait(new Solid(Mesh("razor.mesh"))) ;
+        ship->addTrait(new Solid(Mesh("test_ship.mesh"))) ;
         ship->addTrait(new Computer()) ;
         ship->addTrait(new Detector(ship)) ;
         ship->addTrait(new TargetingSystem()) ;
@@ -75,16 +78,16 @@ namespace ProjetUnivers {
         ship2->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship2->addTrait(new Oriented()) ;
         ship2->addTrait(new Mobile()) ;
-        ship2->addTrait(new Solid(Mesh("razor.mesh"))) ;
+        ship2->addTrait(new Solid(Mesh("test_ship.mesh"))) ;
 
         model->update(0.1) ;
-        
+
         //the second ship has been detected.
         CPPUNIT_ASSERT(ship->getTrait<Computer>()->getMemoryModel()->getRoots().size() == 1) ;
         ship->getTrait<TargetingSystem>()->selectNextTarget() ;
 
         Kernel::Object* data = *(ship->getTrait<Computer>()->getMemoryModel()->getRoots().begin()) ;
-        
+
         CPPUNIT_ASSERT(data->getTrait<Positionned>()) ;
         CPPUNIT_ASSERT(data->getTrait<Solid>()) ;
         CPPUNIT_ASSERT(data->getTrait<DetectionData>()) ;
@@ -99,8 +102,8 @@ namespace ProjetUnivers {
       {
         InternalMessage("Model","Model::TestTargetingSystem::changeSelection entering") ;
         /*!
-          We create a ship with a detector and a second object to detect. 
-        */        
+          We create a ship with a detector and a second object to detect.
+        */
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestTargetingSystem::changeSelection")) ;
         model->init() ;
 
@@ -111,36 +114,36 @@ namespace ProjetUnivers {
         ship->addTrait(new Oriented()) ;
         ship->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship->addTrait(new Mobile()) ;
-        ship->addTrait(new Solid(Mesh("razor.mesh"))) ;
+        ship->addTrait(new Solid(Mesh("test_ship.mesh"))) ;
         ship->addTrait(new Computer()) ;
         ship->addTrait(new Detector(ship)) ;
         ship->addTrait(new TargetingSystem()) ;
         TargetingSystem::connect(ship,ship) ;
-        
+
         Kernel::Object* ship2 = system->createObject() ;
         ship2->addTrait(new Positionned(Position::Meter(0,0,500))) ;
         ship2->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship2->addTrait(new Oriented()) ;
         ship2->addTrait(new Mobile()) ;
-        ship2->addTrait(new Solid(Mesh("razor.mesh"))) ;
+        ship2->addTrait(new Solid(Mesh("test_ship.mesh"))) ;
         Kernel::Object* ship3 = system->createObject() ;
         ship3->addTrait(new Positionned(Position::Meter(0,500,0))) ;
         ship3->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship3->addTrait(new Oriented()) ;
         ship3->addTrait(new Mobile()) ;
-        ship3->addTrait(new Solid(Mesh("razor.mesh"))) ;
-        
+        ship3->addTrait(new Solid(Mesh("test_ship.mesh"))) ;
+
         model->update(0.1) ;
-        
+
         // the ships have been detected.
         CPPUNIT_ASSERT(ship->getTrait<Computer>()->getMemoryModel()->getRoots().size() == 2) ;
-        
-        std::set<Kernel::Object*>::const_iterator data_pointer 
-          = ship->getTrait<Computer>()->getMemoryModel()->getRoots().begin() ; 
+
+        std::set<Kernel::Object*>::const_iterator data_pointer
+          = ship->getTrait<Computer>()->getMemoryModel()->getRoots().begin() ;
         ship->getTrait<TargetingSystem>()->selectNextTarget() ;
 
         Kernel::Object* data = *(data_pointer) ;
-        
+
         CPPUNIT_ASSERT(data->getTrait<Positionned>()) ;
         CPPUNIT_ASSERT(data->getTrait<Solid>()) ;
         CPPUNIT_ASSERT(data->getTrait<DetectionData>()) ;
@@ -154,7 +157,7 @@ namespace ProjetUnivers {
         CPPUNIT_ASSERT(data->getTrait<Solid>()) ;
         CPPUNIT_ASSERT(data->getTrait<DetectionData>()) ;
         CPPUNIT_ASSERT(! data->getTrait<Selected>()) ;
-        
+
         InternalMessage("Model","Model::TestTargetingSystem::changeSelection leaving") ;
       }
 
@@ -162,8 +165,8 @@ namespace ProjetUnivers {
       {
         InternalMessage("Model","Model::TestTargetingSystem::destroyComputer entering") ;
         /*!
-          We create a ship with a detector and a second object to detect. 
-        */        
+          We create a ship with a detector and a second object to detect.
+        */
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestTargetingSystem::destroyComputer")) ;
         model->init() ;
 
@@ -174,7 +177,7 @@ namespace ProjetUnivers {
         ship->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship->addTrait(new Oriented()) ;
         ship->addTrait(new Mobile()) ;
-        ship->addTrait(new Solid(Mesh("razor.mesh"))) ;
+        ship->addTrait(new Solid(Mesh("test_ship.mesh"))) ;
         ship->addTrait(new Computer()) ;
         ship->addTrait(new Detector(ship)) ;
         ship->addTrait(new TargetingSystem()) ;
@@ -185,16 +188,16 @@ namespace ProjetUnivers {
         ship2->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship2->addTrait(new Oriented()) ;
         ship2->addTrait(new Mobile()) ;
-        ship2->addTrait(new Solid(Mesh("razor.mesh"))) ;
+        ship2->addTrait(new Solid(Mesh("test_ship.mesh"))) ;
 
         model->update(0.1) ;
-        
+
         //the second ship has been detected.
         CPPUNIT_ASSERT(ship->getTrait<Computer>()->getMemoryModel()->getRoots().size() == 1) ;
         ship->getTrait<TargetingSystem>()->selectNextTarget() ;
 
         ship->destroyTrait(ship->getTrait<Computer>()) ;
-        
+
         InternalMessage("Model","Model::TestTargetingSystem::destroyComputer leaving") ;
       }
 
@@ -202,8 +205,8 @@ namespace ProjetUnivers {
       {
         InternalMessage("Model","Model::TestTargetingSystem::destroyDetector entering") ;
         /*!
-          We create a ship with a detector and a second object to detect. 
-        */        
+          We create a ship with a detector and a second object to detect.
+        */
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestTargetingSystem::destroyDetector")) ;
         model->init() ;
 
@@ -214,7 +217,7 @@ namespace ProjetUnivers {
         ship->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship->addTrait(new Oriented()) ;
         ship->addTrait(new Mobile()) ;
-        ship->addTrait(new Solid(Mesh("razor.mesh"))) ;
+        ship->addTrait(new Solid(Mesh("test_ship.mesh"))) ;
         ship->addTrait(new Computer()) ;
         ship->addTrait(new Detector(ship)) ;
         ship->addTrait(new TargetingSystem()) ;
@@ -225,19 +228,19 @@ namespace ProjetUnivers {
         ship2->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship2->addTrait(new Oriented()) ;
         ship2->addTrait(new Mobile()) ;
-        ship2->addTrait(new Solid(Mesh("razor.mesh"))) ;
+        ship2->addTrait(new Solid(Mesh("test_ship.mesh"))) ;
 
         model->update(0.1) ;
-        
+
         //the second ship has been detected.
         CPPUNIT_ASSERT(ship->getTrait<Computer>()->getMemoryModel()->getRoots().size() == 1) ;
         ship->getTrait<TargetingSystem>()->selectNextTarget() ;
 
         ship->destroyTrait(ship->getTrait<Detector>()) ;
-        
+
         InternalMessage("Model","Model::TestTargetingSystem::destroyDetector leaving") ;
       }
-      
+
       void TestTargetingSystem::selectNearestTarget()
       {
         InternalMessage("Model","Model::TestTargetingSystem::selectNearestTarget entering") ;
@@ -252,34 +255,34 @@ namespace ProjetUnivers {
         ship->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship->addTrait(new Oriented()) ;
         ship->addTrait(new Mobile()) ;
-        ship->addTrait(new Solid(Mesh("razor.mesh"))) ;
+        ship->addTrait(new Solid(Mesh("test_ship.mesh"))) ;
         ship->addTrait(new Computer()) ;
         ship->addTrait(new Detector(ship)) ;
         ship->addTrait(new TargetingSystem()) ;
         TargetingSystem::connect(ship,ship) ;
-        
+
         Kernel::Object* ship2 = system->createObject() ;
         ship2->addTrait(new Positionned(Position::Meter(0,0,500))) ;
         ship2->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship2->addTrait(new Oriented()) ;
         ship2->addTrait(new Mobile()) ;
-        ship2->addTrait(new Solid(Mesh("razor.mesh"))) ;
+        ship2->addTrait(new Solid(Mesh("test_ship.mesh"))) ;
 
         Kernel::Object* ship3 = system->createObject() ;
         ship3->addTrait(new Positionned(Position::Meter(0,0,50))) ;
         ship3->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship3->addTrait(new Oriented()) ;
         ship3->addTrait(new Mobile()) ;
-        ship3->addTrait(new Solid(Mesh("razor.mesh"))) ;
-        
+        ship3->addTrait(new Solid(Mesh("test_ship.mesh"))) ;
+
         model->update(0.1) ;
-        
+
         //the second ship has been detected.
         CPPUNIT_ASSERT(ship->getTrait<Computer>()->getMemoryModel()->getRoots().size() == 2) ;
         ship->getTrait<TargetingSystem>()->selectNearestTarget() ;
 
         Kernel::Object* data = ship->getTrait<TargetingSystem>()->getTarget() ;
-        
+
         CPPUNIT_ASSERT(data->getTrait<Positionned>()) ;
         CPPUNIT_ASSERT(data->getTrait<Solid>()) ;
         CPPUNIT_ASSERT(data->getTrait<DetectionData>()) ;
@@ -310,20 +313,20 @@ namespace ProjetUnivers {
         ship->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship->addTrait(new Oriented()) ;
         ship->addTrait(new Mobile()) ;
-        ship->addTrait(new Solid(Mesh("razor.mesh"))) ;
+        ship->addTrait(new Solid(Mesh("test_ship.mesh"))) ;
         ship->addTrait(new Computer()) ;
         ship->addTrait(new Detector(ship)) ;
         ship->addTrait(new Transponder(team1)) ;
-        
+
         ship->addTrait(new TargetingSystem()) ;
         TargetingSystem::connect(ship,ship) ;
-        
+
         Kernel::Object* ship2 = system->createObject() ;
         ship2->addTrait(new Positionned(Position::Meter(0,0,500))) ;
         ship2->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship2->addTrait(new Oriented()) ;
         ship2->addTrait(new Mobile()) ;
-        ship2->addTrait(new Solid(Mesh("razor.mesh"))) ;
+        ship2->addTrait(new Solid(Mesh("test_ship.mesh"))) ;
         ship2->addTrait(new Transponder(team2)) ;
 
         Kernel::Object* ship3 = system->createObject() ;
@@ -331,17 +334,17 @@ namespace ProjetUnivers {
         ship3->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship3->addTrait(new Oriented()) ;
         ship3->addTrait(new Mobile()) ;
-        ship3->addTrait(new Solid(Mesh("razor.mesh"))) ;
+        ship3->addTrait(new Solid(Mesh("test_ship.mesh"))) ;
         ship3->addTrait(new Transponder(team1)) ;
-        
+
         model->update(0.1) ;
-        
+
         //the second ship has been detected.
         CPPUNIT_ASSERT(ship->getTrait<Computer>()->getMemoryModel()->getRoots().size() == 2) ;
         ship->getTrait<TargetingSystem>()->selectNearestEnemy() ;
 
         Kernel::Object* data = ship->getTrait<TargetingSystem>()->getTarget() ;
-        
+
         CPPUNIT_ASSERT(data) ;
         CPPUNIT_ASSERT(data->getTrait<Positionned>()) ;
         CPPUNIT_ASSERT(data->getTrait<Solid>()) ;
@@ -352,7 +355,7 @@ namespace ProjetUnivers {
         CPPUNIT_ASSERT(data->getTrait<Positionned>()->getPosition().calculateDistance(Position()).Meter() == 500) ;
         InternalMessage("Model","Model::TestTargetingSystem::selectNearestEnemy leaving") ;
       }
-      
+
       void TestTargetingSystem::selectNearestEnemyAfterDestruction()
       {
         InternalMessage("Model","Model::TestTargetingSystem::selectNearestEnemyAfterDestruction entering") ;
@@ -372,20 +375,20 @@ namespace ProjetUnivers {
         ship->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship->addTrait(new Oriented()) ;
         ship->addTrait(new Mobile()) ;
-        ship->addTrait(new Solid(Mesh("razor.mesh"))) ;
+        ship->addTrait(new Solid(Mesh("test_ship.mesh"))) ;
         ship->addTrait(new Computer()) ;
         ship->addTrait(new Detector(ship,Distance(Distance::_Meter,10000))) ;
         ship->addTrait(new Transponder(team1)) ;
-        
+
         ship->addTrait(new TargetingSystem()) ;
         TargetingSystem::connect(ship,ship) ;
-        
+
         Kernel::ObjectReference ship2 = system->createObject() ;
         ship2->addTrait(new Positionned(Position::Meter(0,0,500))) ;
         ship2->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship2->addTrait(new Oriented()) ;
         ship2->addTrait(new Mobile()) ;
-        ship2->addTrait(new Solid(Mesh("razor.mesh"))) ;
+        ship2->addTrait(new Solid(Mesh("test_ship.mesh"))) ;
         ship2->addTrait(new Transponder(team2)) ;
 
         Kernel::Object* ship3 = system->createObject() ;
@@ -393,17 +396,17 @@ namespace ProjetUnivers {
         ship3->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship3->addTrait(new Oriented()) ;
         ship3->addTrait(new Mobile()) ;
-        ship3->addTrait(new Solid(Mesh("razor.mesh"))) ;
+        ship3->addTrait(new Solid(Mesh("test_ship.mesh"))) ;
         ship3->addTrait(new Transponder(team2)) ;
-        
+
         model->update(0.1) ;
-        
+
         //the second ship has been detected.
         CPPUNIT_ASSERT(ship->getTrait<Computer>()->getMemoryModel()->getRoots().size() == 2) ;
         ship->getTrait<TargetingSystem>()->selectNearestEnemy() ;
 
         Kernel::Object* data = ship->getTrait<TargetingSystem>()->getTarget() ;
-        
+
         CPPUNIT_ASSERT(data) ;
         CPPUNIT_ASSERT(data->getTrait<Positionned>()) ;
         CPPUNIT_ASSERT(data->getTrait<Solid>()) ;
@@ -412,14 +415,14 @@ namespace ProjetUnivers {
         CPPUNIT_ASSERT(data->getTrait<Selected>()->isSelected()) ;
         CPPUNIT_ASSERT(data->getTrait<Selected>()->isSelected(ship)) ;
         CPPUNIT_ASSERT(data->getTrait<Positionned>()->getPosition().calculateDistance(Position()).Meter() == 500) ;
-        
+
         model->destroyObject(ship2) ;
         model->update(0.1) ;
 
         CPPUNIT_ASSERT(!ship2) ;
-        
+
         ship->getTrait<TargetingSystem>()->selectNearestEnemy() ;
-        
+
         data = ship->getTrait<TargetingSystem>()->getTarget() ;
         CPPUNIT_ASSERT(data) ;
         CPPUNIT_ASSERT(data->getTrait<Positionned>()) ;
@@ -429,17 +432,10 @@ namespace ProjetUnivers {
         CPPUNIT_ASSERT(data->getTrait<Selected>()->isSelected()) ;
         CPPUNIT_ASSERT(data->getTrait<Selected>()->isSelected(ship)) ;
         CPPUNIT_ASSERT(data->getTrait<Positionned>()->getPosition().calculateDistance(Position()).Meter() == 5000) ;
-        
+
         InternalMessage("Model","Model::TestTargetingSystem::selectNearestEnemyAfterDestruction leaving") ;
       }
-      
-      void TestTargetingSystem::setUp() 
-      {
-      }
-      
-      void TestTargetingSystem::tearDown() 
-      {
-      }
+
     }
   }
 }

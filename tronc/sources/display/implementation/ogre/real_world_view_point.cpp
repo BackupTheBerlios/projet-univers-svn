@@ -59,7 +59,7 @@ namespace ProjetUnivers {
           /*!
           @todo
             _modele is a parent of observer
-            ou 
+            or
             _modele is near from observer (ratio size/distance is less that a 
             given value) 
           */

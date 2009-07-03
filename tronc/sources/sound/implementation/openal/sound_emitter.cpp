@@ -45,11 +45,13 @@ namespace ProjetUnivers
       namespace OpenAL
       {
 
-        SoundEmitter::SoundEmitter() :
-          m_source(0), m_auxEffectSlot(0), m_reader(0), m_posInFile(0),
-              m_posInBuffer(0)
-        {
-        }
+        SoundEmitter::SoundEmitter()
+        : m_source(0),
+          m_auxEffectSlot(0),
+          m_reader(0),
+          m_posInFile(0),
+          m_posInBuffer(0)
+        {}
 
         void SoundEmitter::initSound(Kernel::ViewPoint* viewpoint)
         {
@@ -63,7 +65,7 @@ namespace ProjetUnivers
                                                   isEvent(),
                                                   m_posInFile,
                                                   m_posInBuffer) ;
-            
+
             alSourcei(m_source,AL_SOURCE_RELATIVE,AL_FALSE) ;
             updateSource(viewpoint) ;
           }
@@ -101,9 +103,9 @@ namespace ProjetUnivers
             alSourcef(m_source, AL_ROLLOFF_FACTOR, getRolloffFactor());
 
             Ogre::Vector3 position = getPosition().Meter() ;
-            
+
             InternalMessage("Sound","SoundEmitter::updateSource position=" + ::Ogre::StringConverter::toString(position)) ;
-            
+
             alSource3f(m_source,AL_POSITION,(float)position.x,(float)position.y,(float)position.z) ;
 
             Ogre::Vector3 speed = getSpeed().MeterPerSecond();

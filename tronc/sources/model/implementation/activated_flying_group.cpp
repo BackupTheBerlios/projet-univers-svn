@@ -22,13 +22,13 @@
 #include <model/implementation/activated_mission.h>
 #include <model/implementation/activated_flying_group.h>
 
-namespace ProjetUnivers 
+namespace ProjetUnivers
 {
-  namespace Model 
+  namespace Model
   {
-    namespace Implementation 
+    namespace Implementation
     {
-          
+
       DeclareDeducedTrait(ActivatedFlyingGroup,
                           And(HasTrait(FlyingGroup),
                               HasParent(ActivatedMission))) ;

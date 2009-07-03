@@ -20,28 +20,36 @@
  ***************************************************************************/
 #include <kernel/exception.h>
 
-namespace ProjetUnivers 
+namespace ProjetUnivers
 {
-  namespace Kernel 
-  {    
-    
-    Exception::Exception
-        (const std::string& _message,
-         const unsigned int& numero)
-        
-      : message(_message),numeroErreur(numero)
-    {} 
-    
-    Exception::~Exception()
+  namespace Kernel
+  {
+
+    Exception::Exception(const std::string& message)
+    : message(message),numeroErreur(0)
     {}
-    
+
+    Exception::Exception(const std::string& message,const unsigned int& numero)
+    : message(message),numeroErreur(numero)
+    {}
+
+    Exception::~Exception() throw()
+    {}
+
     Exception::Exception(const Exception& x)
-      : message(x.message),numeroErreur(x.numeroErreur)
+    : message(x.message),numeroErreur(x.numeroErreur)
     {}
-    
-    std::string Exception::Message() const {
-    
+
+    std::string Exception::Message() const
+    {
+
       return std::string("ERREUR") + std::string(" : ") + message;
     }
-  }   
+
+    const char* Exception::what() const throw()
+    {
+      return message.c_str() ;
+    }
+
+  }
 }

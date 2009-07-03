@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2008 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,87 +18,62 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_KERNEL_BASE_TRAIT_VIEW_H_
-#define PU_KERNEL_BASE_TRAIT_VIEW_H_
+#pragma once
 
 #include <kernel/object.h>
 #include <kernel/trait.h>
+#include <kernel/observer.h>
 
-namespace ProjetUnivers 
+namespace ProjetUnivers
 {
-  namespace Kernel 
+  namespace Kernel
   {
-  
+
     class ViewPoint ;
-    
+
     /// A view on a trait.
-    class BaseTraitView
+    class BaseTraitView : public Observer
     {
     public:
-      
-      /// init the view after construction.
-      void _init() ;
 
-      /// closes the view before destruction.
-      void _close() ;
+      /// init the view after construction.
+      virtual void realInit() ;
 
       /// abstract class means virtual destructor.
       virtual ~BaseTraitView() ;
-      
-      /// Access to a view of the same object.
+
+      /// Access to the first parent view of the same viewpoint.
+      /*!
+        @return the first (up, by parentship) initialised view
+      */
       template <class _View> _View* getView() const ;
 
-      /// Access to object.
-      Object* getObject() const ;
-    
+      /// Access to the first ancestor view of the same viewpoint.
+      template <class _View> _View* getAncestorView() const ;
+
     protected:
 
       /// abstract class means protected constructor.
-      BaseTraitView(Trait* i_trait,ViewPoint* i_viewpoint) ;
-
-      /// Access to trait
-      Trait* getTrait() const ;
-      
-      /// Called after the view is created on a initialised viewpoint.
-      virtual void onInit() = 0 ;
-      
-      /// Called just before the view is destroyed.
-      virtual void onClose() = 0 ;
-
-      /// Called when parent changed.
-      virtual void onChangeParent(Object* i_old_parent) = 0 ;
-      
-      /// Called when the model trait has changed.
-      virtual void onUpdate() = 0 ;
-
-      /// update the view for a change_parent. 
-      void _changed_parent(Object* i_old_parent) ;
-      
-      /// update the view.
-      void _updated() ;
+      BaseTraitView() ;
 
     /*!
       @name data
     */
     //@{
-    
-      bool       m_initialised ;
-      Trait*     m_trait ;
+
       ViewPoint* m_viewpoint ;
 
     //@}
+
+    private:
+
+      void setViewPoint(ViewPoint* viewpoint) ;
+
 
       friend class Trait ;
       friend class Model ;
 
     };
-    
-    template <class _View> _View* BaseTraitView::getView() const
-    {
-      return getObject()->getView<_View>(m_viewpoint) ;
-    }
-    
   }
 }
-
-#endif /*PU_KERNEL_BASE_TRAIT_VIEW_H_*/
+#include <kernel/implementation/base_trait_view.cxx>

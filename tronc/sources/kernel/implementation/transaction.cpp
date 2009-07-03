@@ -18,10 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <kernel/model.h>
-#include <kernel/object.h>
 #include <kernel/implementation/operation.h>
-#include <kernel/implementation/concurrent_block.h>
 #include <kernel/implementation/transaction.h>
 
 namespace ProjetUnivers 
@@ -30,73 +27,31 @@ namespace ProjetUnivers
   {
     namespace Implementation
     {
-      Transaction::Transaction(Model* model)
-      : m_model(model)
+      Transaction::Transaction()
       {}
 
-      void Transaction::startConcurrentBlock()
-      {
-        m_blocks.push_back(new ConcurrentBlock(m_model)) ;
-      }
-      
       void Transaction::addOperation(Operation* operation)
       {
-        if (!m_blocks.empty())
-        {
-          m_blocks.back()->addOperation(operation) ;
-        }
-        else
-        {
-          ErrorMessage("No concurrent block") ;
-          throw std::exception() ;
-        }
-      }
-      
-      void Transaction::endConcurrentBlock()
-      {
-        if (m_blocks.empty())
-        {
-          ErrorMessage("Closing an openned concurrent block") ;
-          throw std::exception() ;
-        }
+        m_operations.push_back(operation) ;
       }
       
       void Transaction::execute()
       {
-        for(std::list<ConcurrentBlock*>::const_iterator block = m_blocks.begin() ;
-            block != m_blocks.end() ;
-            ++block)
+        for(std::list<Operation*>::const_iterator operation = m_operations.begin() ;
+            operation != m_operations.end() ;
+            ++operation)
         {
-          (*block)->execute() ;
+          (*operation)->execute() ;
         }
       }
       
       Transaction::~Transaction()
       {
-        
-      }
-      
-      Trait* Transaction::getTrait(Object* object,const TypeIdentifier& trait) const
-      {
-        if (! m_blocks.empty())
+        for(std::list<Operation*>::const_iterator operation = m_operations.begin() ;
+            operation != m_operations.end() ;
+            ++operation)
         {
-          return m_blocks.back()->getTrait(object,trait) ;
-        }
-        else
-        {
-          return object->getTrait(trait) ;
-        }
-      }
-
-      std::set<Object*> Transaction::getChildren(Object* object) const
-      {
-        if (! m_blocks.empty())
-        {
-          return m_blocks.back()->getChildren(object) ;
-        }
-        else
-        {
-          return object->getChildren() ;
+          delete *operation ;
         }
       }
       

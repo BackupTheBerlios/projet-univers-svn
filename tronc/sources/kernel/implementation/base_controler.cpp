@@ -23,16 +23,11 @@
 
 #include <kernel/controler.h>
 
-namespace ProjetUnivers 
+namespace ProjetUnivers
 {
-  namespace Kernel 
+  namespace Kernel
   {
 
-    Object* BaseControler::getObject() const
-    {
-      return m_trait->getObject() ; 
-    }
-  
     BaseControler::~BaseControler()
     {
       _close() ;
@@ -42,55 +37,27 @@ namespace ProjetUnivers
       }
     }
 
-    BaseControler::BaseControler(Trait* i_trait,ControlerSet* i_controler_set)
-    : m_initialised(false),
-      m_trait(i_trait),
-      m_controler_set(i_controler_set)
+    BaseControler::BaseControler()
+    : m_controler_set(NULL)
     {}
 
-    void BaseControler::_init()
+    void BaseControler::setControlerSet(ControlerSet* controler_set)
+    {
+      m_controler_set = controler_set ;
+    }
+
+    void BaseControler::realInit()
     {
       /*!
         We initialise only if the controler set has been initialised.
       */
       if (m_controler_set)
       {
-        if (! m_initialised && m_controler_set->isInitialised())
+        if (! m_really_initialised && m_controler_set->isInitialised())
         {
           onInit() ;
-          m_initialised = true ;        
+          m_really_initialised = true ;
         }
-      }
-    }
-
-    void BaseControler::_close()
-    {
-      if (m_initialised)
-      {
-        onClose() ;
-        m_initialised = false ;        
-      }
-    }
-
-    void BaseControler::_changed_parent(Object* i_old_parent)
-    {
-      if (m_initialised)
-      {
-        onChangeParent(i_old_parent) ;
-      }
-    }
-    
-    void BaseControler::_updated()
-    {
-      if (m_initialised)
-      {
-        onUpdate() ;
-        
-        /*!
-          @todo
-            maybe we should introduce a little "consistency check" here 
-            by calling a Model::checkConsistency(Object)?
-        */
       }
     }
 
@@ -98,11 +65,11 @@ namespace ProjetUnivers
     {
       return m_controler_set ;
     }
-    
+
     void BaseControler::prepare()
     {
     }
-    
+
     void BaseControler::simulate(const float&)
     {
     }

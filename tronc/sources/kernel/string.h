@@ -18,19 +18,16 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_KERNEL_STRING_H_
-#define PU_KERNEL_STRING_H_
+#pragma once
 
 #include <string>
 #include <sstream>
-namespace ProjetUnivers 
+namespace ProjetUnivers
 {
-  namespace Kernel 
+  namespace Kernel
   {
-    
+
     /// Convert numeric to string.
     std::string toString(const float& _i) ;
   }
 }
-
-#endif /*PU_KERNEL_STRING_H_*/

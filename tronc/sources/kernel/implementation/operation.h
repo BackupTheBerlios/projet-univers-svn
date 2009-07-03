@@ -23,47 +23,63 @@
 #include <kernel/object_reference.h>
 #include <kernel/trait.h>
 
-namespace ProjetUnivers 
+namespace ProjetUnivers
 {
-  namespace Kernel 
+  namespace Kernel
   {
+    class Observer ;
+    class RelationObserver ;
+
     namespace Implementation
     {
-      class ConcurrentBlock ;
-      
-      /// Model operation.
+      /// Operation that modifies a model.
       class Operation
       {
       public:
-        
-        static Operation* addTrait(Object*,Trait*) ;
-        static Operation* destroyTrait(Trait*) ;
-        static Operation* destroyObject(Object*) ;
-        
+      /*!
+        @name Callbacks on view/controlers
+      */
+      // @{
+
+        static Operation init(Observer*) ;
+        static Operation close(Observer*) ;
+        static Operation update(Observer*) ;
+        static Operation changeParent(Observer*,Object*) ;
+        static Operation init(RelationObserver*) ;
+        static Operation close(RelationObserver*) ;
+        static Operation update(RelationObserver*) ;
+
+      // @}
+
         Operation(const Operation&) ;
-        
+
         /// Really execute the operation
-        void execute() ;
+        virtual void execute() const ;
+
+        std::string toString() const ;
 
       private:
-        
+
         Operation() ;
-        
+
         enum Type
         {
-          DestroyObject,
-          DestroyTrait,
-          AddTrait,
+          Init,
+          Close,
+          Update,
+          ChangeParent,
+          InitRelation,
+          CloseRelation,
+          UpdateRelation,
           None
         };
-        
-        Type            m_type ;
-        ObjectReference m_object ;
-        TypeIdentifier  m_trait_identifier ;
-        Trait*          m_trait ;
-        Model*          m_model ;
-        
-        friend class ConcurrentBlock ;
+
+        Type      m_type ;
+        Object*   m_object ;
+        Observer* m_observer ;
+        RelationObserver* m_relation_observer ;
+
+        std::string m_debug_display ;
       };
     }
   }

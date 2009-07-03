@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2008 Mathieu ROGER                                      *
+ *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,18 +18,22 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_DISPLAY_IMPLEMENTATION_ORIENTED_H_
-#define PU_DISPLAY_IMPLEMENTATION_ORIENTED_H_
-#include <kernel/deduced_trait.h>
+#include <model/selection.h>
+#include <model/targeting_system.h>
+#include <model/detection_data.h>
+#include <artificial_intelligence/implementation/agent_target.h>
 
-namespace ProjetUnivers {
-  namespace Display {
-    namespace Implementation {
-          
-      /// A displayable node with orientation.
-      class Oriented : public Kernel::DeducedTrait
-      {};
+namespace ProjetUnivers
+{
+  namespace ArtificialIntelligence
+  {
+    namespace Implementation
+    {
+
+      DeclareDeducedRelation(AgentTarget,Model::Selection,
+                             And(IsTo(HasTrait(Model::DetectionData)),
+                                 IsFrom(HasTrait(Model::TargetingSystem)))) ;
     }
   }
 }
-#endif /*PU_DISPLAY_IMPLEMENTATION_ORIENTED_H_*/
+

@@ -18,27 +18,26 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_IMPLEMENTATION_LOGIC_WITH_LIFETIME_H_
-#define PU_MODEL_IMPLEMENTATION_LOGIC_WITH_LIFETIME_H_
+#pragma once
 
 #include <kernel/controler.h>
 #include <model/with_lifetime.h>
 #include <model/implementation/logic/logic_system.h>
 
-namespace ProjetUnivers {
-  namespace Model {
-    namespace Implementation {
-      namespace Logic {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
+    namespace Implementation
+    {
+      namespace Logic
+      {
         
         /// Makes object disappear after a certain amount of time.
         class WithLifetime : public Kernel::Controler<Model::WithLifetime,
                                                       LogicSystem>
         {
         public:
-          
-          /// Construct.
-          WithLifetime(Model::WithLifetime* i_object,
-                       LogicSystem*      i_system) ;
         
           /// Manage life.
           void simulate(const float& i_seconds) ;
@@ -48,6 +47,3 @@ namespace ProjetUnivers {
     }
   }
 }
-
-
-#endif

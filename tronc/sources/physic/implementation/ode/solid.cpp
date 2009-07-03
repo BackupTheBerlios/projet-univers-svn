@@ -34,20 +34,19 @@
 
 #include <physic/implementation/ode/solid.h>
 
-namespace ProjetUnivers {
-  namespace Physic {
-    namespace Implementation {
-      namespace Ode {
+namespace ProjetUnivers
+{
+  namespace Physic
+  {
+    namespace Implementation
+    {
+      namespace Ode
+      {
 
         RegisterControler(Solid, 
                           Implementation::SolidPhysicalObject, 
                           PhysicSystem) ;
 
-        Solid::Solid(Implementation::SolidPhysicalObject* object,
-                     PhysicSystem*                        physic)
-        : Kernel::Controler<Implementation::SolidPhysicalObject,
-                            PhysicSystem>(object,physic)
-        {}
 
         /*
           geom is put in the world's space

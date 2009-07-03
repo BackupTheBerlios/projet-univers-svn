@@ -18,23 +18,23 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_MASSIVE_H_
-#define PU_MODEL_MASSIVE_H_
+#pragma once
 
 #include <kernel/trait.h>
 #include <kernel/reader.h>
 
 #include <model/mass.h>
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers 
+{
+  namespace Model 
+  {
 
     /// For objects that have a mass.
     /*!
       Here we have a problem : 
       - composite object have composite masses...
       - this trait is a kind of mass for atomic objects
-      
     */
     class Massive : public Kernel::Trait
     {
@@ -85,5 +85,3 @@ namespace ProjetUnivers {
     };
   }
 }
-
-#endif /*PU_MODEL_MASSIVE_H_*/

@@ -23,22 +23,18 @@
 
 #include <model/implementation/logic/shot.h>
 
-namespace ProjetUnivers {
-  namespace Model {
-    namespace Implementation {
-      namespace Logic {      
+namespace ProjetUnivers
+{
+  namespace Model
+  {
+    namespace Implementation
+    {
+      namespace Logic
+      {
         
         RegisterControler(Logic::Shot, 
                           Model::Shot, 
                           LogicSystem) ;
-        
-        Shot::Shot(Model::Shot* i_object,
-                   LogicSystem* i_system)
-        : Kernel::Controler<Model::Shot,
-                            LogicSystem>(i_object,i_system)
-        {
-          InternalMessage("Model","Shot controler built") ;
-        }
         
         void Shot::simulate(const float& i_seconds)
         {

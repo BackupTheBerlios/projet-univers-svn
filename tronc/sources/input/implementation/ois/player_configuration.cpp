@@ -38,12 +38,6 @@ namespace ProjetUnivers
                           Model::PlayerConfiguration,
                           InputControlerSet) ;
    
-        PlayerConfiguration::PlayerConfiguration(
-                Model::PlayerConfiguration* configuration,
-                InputControlerSet*          system)
-        : Kernel::Controler<Model::PlayerConfiguration,InputControlerSet>(configuration,system)
-        {}
-
         void PlayerConfiguration::onInit()
         {
           indicatePresence(getTrait()) ;

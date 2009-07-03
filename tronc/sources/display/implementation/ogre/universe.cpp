@@ -26,22 +26,18 @@
 #include <display/implementation/ogre/universe.h>
 
 
-namespace ProjetUnivers {
-  namespace Display {
-    namespace Implementation {
-      namespace Ogre {
+namespace ProjetUnivers
+{
+  namespace Display
+  {
+    namespace Implementation
+    {
+      namespace Ogre
+      {
 
         RegisterView(Ogre::Universe,Model::Universe, Ogre::RealWorldViewPoint) ;
 
 
-        Universe::Universe(Model::Universe* i_universe,
-                           RealWorldViewPoint* i_viewpoint)
-        : Kernel::TraitView<Model::Universe,RealWorldViewPoint>(i_universe,i_viewpoint), 
-          light(NULL)
-        {
-          InternalMessage("Display","Built Ogre::Universe") ;
-        }
-        
         void Universe::onInit()
         {
           InternalMessage("Display","Display::Universe::onInit Entering") ;

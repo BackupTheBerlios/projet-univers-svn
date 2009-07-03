@@ -21,11 +21,13 @@
 #include <kernel/log.h>
 #include <model/stick.h>
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
 
     RegisterTrait(Stick) ;
-      
+
     namespace
     {
       /// local data
@@ -43,7 +45,7 @@ namespace ProjetUnivers {
     Kernel::Trait* Stick::read(Kernel::Reader* reader)
     {
       Stick* result = new Stick() ;
-      
+
       while (!reader->isEndNode() && reader->processNode())
       {}
 
@@ -51,13 +53,13 @@ namespace ProjetUnivers {
 
       return result ;
     }
-    
+
     const Orientation& Stick::getOrientation() const
     {
       updateOrientation() ;
       return Oriented::getOrientation() ;
     }
-    
+
     void Stick::modifyX(const int& i_delta_x)
     {
       m_x += i_delta_x ;
@@ -71,7 +73,7 @@ namespace ProjetUnivers {
       }
       m_updated = false ;
     }
-    
+
     void Stick::modifyY(const int& i_delta_y)
     {
       m_y += i_delta_y ;
@@ -116,7 +118,7 @@ namespace ProjetUnivers {
       updateOrientation() ;
       notify() ;
     }
-    
+
     void Stick::setY(const int& i_y)
     {
       m_y = i_y ;
@@ -153,39 +155,39 @@ namespace ProjetUnivers {
     {
       return m_x ;
     }
-    
+
     Kernel::Percentage Stick::getY() const
     {
       return m_y ;
     }
-    
+
     RegisterAxis("Yaw","Piloting",Stick,setX) ;
     RegisterAxis("Pitch","Piloting",Stick,setY) ;
     RegisterAxis("Roll","Piloting",Stick,setZ) ;
-  
+
     void Stick::updateOrientation() const
     {
       if (!m_updated)
       {
-        
+
 //        std::cout << "X=" << m_x << ",Y=" << m_y << ",Z=" << m_z << std::endl ;
         /// technique with plannar mapping
-        /* 
+        /*
           map m_x,m_y on a square
-        */ 
+        */
         Ogre::Vector3 view(-m_x,m_y,max) ;
 
         view.normalise() ;
-        
-        Ogre::Vector3 y_rotation = 
+
+        Ogre::Vector3 y_rotation =
           Ogre::Quaternion(Ogre::Degree(-0.45*m_z),Ogre::Vector3::NEGATIVE_UNIT_Z)
           * Ogre::Vector3::UNIT_Y ;
-        
+
         Ogre::Vector3 rigth = -view.crossProduct(y_rotation) ;
         rigth.normalise() ;
         Ogre::Vector3 up = view.crossProduct(rigth) ;
         up.normalise() ;
-        
+
         Ogre::Quaternion orientation(rigth,up,view) ;
         m_orientation = Model::Orientation(orientation) ;
       }

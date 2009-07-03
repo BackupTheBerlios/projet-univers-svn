@@ -21,12 +21,18 @@
 #include <iostream>
 #include <kernel/log.h>
 #include <kernel/object.h>
+#include <kernel/model.h>
 #include <kernel/deduced_trait.h>
 
 namespace ProjetUnivers
 {
   namespace Kernel
   {
+
+  /*!
+    @ Static storage
+  */
+  // @{
 
     Formula::StaticStorage* Formula::StaticStorage::get()
     {
@@ -64,6 +70,19 @@ namespace ProjetUnivers
       return &instance ;
     }
 
+    WithRelationFormula::StaticStorage* WithRelationFormula::StaticStorage::get()
+    {
+      static StaticStorage instance ;
+      return &instance ;
+    }
+
+    DeducedRelation::StaticStorage* DeducedRelation::StaticStorage::get()
+    {
+      static StaticStorage instance ;
+      return &instance ;
+    }
+
+  // @}
   /*!
     @name Access
   */
@@ -72,6 +91,11 @@ namespace ProjetUnivers
     bool Formula::isValid(Object* object) const
     {
       return object->getValidity(this) ;
+    }
+
+    bool Formula::isValid(const ObjectPair& relation) const
+    {
+      return relation.getValidity(this) ;
     }
 
     int Formula::getIdentifier() const
@@ -125,6 +149,11 @@ namespace ProjetUnivers
     int Formula::getDepth() const
     {
       return m_depth ;
+    }
+
+    Formula* DeducedTrait::getFormula() const
+    {
+      return m_formula ;
     }
 
     HasParentFormula* HasParentFormula::get(const TypeIdentifier& trait_name)
@@ -237,6 +266,33 @@ namespace ProjetUnivers
       }
 
       return StaticStorage::get()->m_impacted_formulae[type] = result ;
+    }
+
+    TypeIdentifier DeducedRelation::get(Formula* formula)
+    {
+      std::map<Formula*,TypeIdentifier>::iterator finder ;
+      finder = StaticStorage::get()->m_deduced_relations.find(formula) ;
+      if (finder != StaticStorage::get()->m_deduced_relations.end())
+        return finder->second ;
+      return VoidTypeIdentifier ;
+    }
+
+    std::set<Formula*> DeducedRelation::getFormulae(const TypeIdentifier& primitive_relation)
+    {
+      std::set<Formula*> result ;
+
+      for (std::multimap<TypeIdentifier,Formula*>::iterator
+             formula = StaticStorage::get()->m_primitive_relation_to_formulae.lower_bound(primitive_relation),
+             last = StaticStorage::get()->m_primitive_relation_to_formulae.upper_bound(primitive_relation) ;
+
+           formula != StaticStorage::get()->m_primitive_relation_to_formulae.end() &&
+           formula != last && formula->first == primitive_relation ;
+           ++formula)
+      {
+        result.insert(formula->second) ;
+      }
+
+      return result ;
     }
 
   // @}
@@ -446,6 +502,90 @@ namespace ProjetUnivers
       return "HasChild(" + m_trait.toString() + ")" ;
     }
 
+    std::string IsRelatedFormula::internalPrint() const
+    {
+      std::string result = "IsRelated(" + m_relation.fullName() + "," ;
+      std::string children ;
+      for(std::set<Formula*>::const_iterator child = m_children.begin() ; child != m_children.end() ; ++child)
+      {
+        if(!children.empty())
+          children += "," ;
+        children += (*child)->print() ;
+      }
+
+      return result + children + ")" ;
+    }
+
+    WithRelationFormula::WithRelationFormula(const TypeIdentifier& relation)
+    : m_relation(relation)
+    {
+      generateIdentifier() ;
+      StaticStorage::get()->m_formulae[relation].insert(this) ;
+    }
+
+    IsRelatedFormula::IsRelatedFormula(const TypeIdentifier& relation)
+    : WithRelationFormula(relation)
+    {}
+
+    std::string IsOnlyRelatedFormula::internalPrint() const
+    {
+      std::string result = "IsOnlyRelated(" + m_relation.fullName() + "," ;
+      std::string children ;
+      for(std::set<Formula*>::const_iterator child = m_children.begin() ; child != m_children.end() ; ++child)
+      {
+        if(!children.empty())
+          children += "," ;
+        children += (*child)->print() ;
+      }
+
+      return result + children + ")" ;
+    }
+
+    IsOnlyRelatedFormula::IsOnlyRelatedFormula(const TypeIdentifier& relation)
+    : WithRelationFormula(relation)
+    {}
+
+    FormulaOnRelation::FormulaOnRelation()
+    {}
+
+    IsFromFormula::IsFromFormula()
+    {
+      generateIdentifier() ;
+    }
+
+    IsToFormula::IsToFormula()
+    {
+      generateIdentifier() ;
+    }
+
+    std::string IsFromFormula::internalPrint() const
+    {
+      std::string result = "IsFrom(" ;
+      std::string children ;
+      for(std::set<Formula*>::const_iterator child = m_children.begin() ; child != m_children.end() ; ++child)
+      {
+        if(!children.empty())
+          children += "," ;
+        children += (*child)->print() ;
+      }
+
+      return result + children + ")" ;
+    }
+
+    std::string IsToFormula::internalPrint() const
+    {
+      std::string result = "IsTo(" ;
+      std::string children ;
+      for(std::set<Formula*>::const_iterator child = m_children.begin() ; child != m_children.end() ; ++child)
+      {
+        if(!children.empty())
+          children += "," ;
+        children += (*child)->print() ;
+      }
+
+      return result + children + ")" ;
+    }
+
     DeducedTrait::~DeducedTrait()
     {}
 
@@ -459,9 +599,19 @@ namespace ProjetUnivers
     }
 
     DeducedTrait::DeducedTrait()
+    : m_formula(NULL)
     {}
 
-    std::set<TypeIdentifier> Formula::getDependentTraits() const
+    void DeducedRelation::registerRelation(const TypeIdentifier& relation,
+                                           const TypeIdentifier& primitive_relation,
+                                           Formula*              formula)
+    {
+      StaticStorage::get()->m_deduced_relations[formula] = relation ;
+      StaticStorage::get()->m_primitive_relation_to_formulae.insert(std::make_pair(primitive_relation,formula)) ;
+    }
+
+
+    std::set<TypeIdentifier> Formula::getDependentTraitTypes() const
     {
       std::set<TypeIdentifier> result ;
 
@@ -476,7 +626,7 @@ namespace ProjetUnivers
           parent != m_parents.end() ;
           ++parent)
       {
-        std::set<TypeIdentifier> temp((*parent)->getDependentTraits()) ;
+        std::set<TypeIdentifier> temp((*parent)->getDependentTraitTypes()) ;
         result.insert(temp.begin(),temp.end()) ;
       }
 
@@ -486,27 +636,23 @@ namespace ProjetUnivers
     std::set<Trait*> Formula::getDependentTraits(Object* object) const
     {
       std::set<Trait*> result ;
-      if (m_parents.empty())
+
+      std::map<Formula*,TypeIdentifier>::const_iterator finder =  DeducedTrait::StaticStorage::get()->m_destructors.find(const_cast<Formula*>(this)) ;
+      if (finder != DeducedTrait::StaticStorage::get()->m_destructors.end())
       {
-        std::map<Formula*,TypeIdentifier>::const_iterator finder =  DeducedTrait::StaticStorage::get()->m_destructors.find(const_cast<Formula*>(this)) ;
-        if (finder != DeducedTrait::StaticStorage::get()->m_destructors.end())
-        {
-          result.insert(object->getTrait(finder->second)) ;
-        }
+        result.insert(object->getTrait(finder->second)) ;
       }
-      else
+
+      for(std::set<Formula*>::const_iterator parent = m_parents.begin() ; parent != m_parents.end() ; ++parent)
       {
-        for(std::set<Formula*>::const_iterator parent = m_parents.begin() ; parent != m_parents.end() ; ++parent)
-        {
-          std::set<Trait*> temp((*parent)->getDependentTraits(object)) ;
-          result.insert(temp.begin(),temp.end()) ;
-        }
+        std::set<Trait*> temp((*parent)->getDependentTraits(object)) ;
+        result.insert(temp.begin(),temp.end()) ;
       }
 
       return result ;
     }
 
-    const std::set<TypeIdentifier>& DeducedTrait::getDependentTraits(Trait* trait)
+    const std::set<TypeIdentifier>& DeducedTrait::getDependentTraitTypes(Trait* trait)
     {
       TypeIdentifier type(getObjectTypeIdentifier(trait)) ;
 
@@ -518,15 +664,15 @@ namespace ProjetUnivers
         return finder->second ;
       }
 
-      std::set<TypeIdentifier> result(TraitFormula::getDependentTraits(trait)) ;
-      std::set<TypeIdentifier> temp1(HasParentFormula::getDependentTraits(trait)) ;
-      std::set<TypeIdentifier> temp2(HasChildFormula::getDependentTraits(trait)) ;
+      std::set<TypeIdentifier> result(TraitFormula::getDependentTraitTypes(trait)) ;
+      std::set<TypeIdentifier> temp1(HasParentFormula::getDependentTraitTypes(trait)) ;
+      std::set<TypeIdentifier> temp2(HasChildFormula::getDependentTraitTypes(trait)) ;
       result.insert(temp1.begin(),temp1.end()) ;
       result.insert(temp2.begin(),temp2.end()) ;
       return StaticStorage::get()->m_dependent_traits[type] = result ;
     }
 
-    std::set<TypeIdentifier> TraitFormula::getDependentTraits(Trait* trait)
+    std::set<TypeIdentifier> TraitFormula::getDependentTraitTypes(Trait* trait)
     {
 
       std::set<TypeIdentifier> result ;
@@ -535,13 +681,13 @@ namespace ProjetUnivers
           formula != formulae.end() ;
           ++formula)
       {
-        std::set<TypeIdentifier> temp(((Formula*)*formula)->getDependentTraits()) ;
+        std::set<TypeIdentifier> temp(((Formula*)*formula)->getDependentTraitTypes()) ;
         result.insert(temp.begin(),temp.end()) ;
       }
       return result ;
     }
 
-    std::set<TypeIdentifier> HasParentFormula::getDependentTraits(Trait* trait)
+    std::set<TypeIdentifier> HasParentFormula::getDependentTraitTypes(Trait* trait)
     {
       std::set<TypeIdentifier> result ;
       const std::set<HasParentFormula*>& formulae = find(trait) ;
@@ -549,13 +695,13 @@ namespace ProjetUnivers
           formula != formulae.end() ;
           ++formula)
       {
-        std::set<TypeIdentifier> temp(((Formula*)*formula)->getDependentTraits()) ;
+        std::set<TypeIdentifier> temp(((Formula*)*formula)->getDependentTraitTypes()) ;
         result.insert(temp.begin(),temp.end()) ;
       }
       return result ;
     }
 
-    std::set<TypeIdentifier> HasAncestorFormula::getDependentTraits(Trait* trait)
+    std::set<TypeIdentifier> HasAncestorFormula::getDependentTraitTypes(Trait* trait)
     {
       std::set<TypeIdentifier> result ;
       const std::set<HasAncestorFormula*>& formulae = find(trait) ;
@@ -563,13 +709,13 @@ namespace ProjetUnivers
           formula != formulae.end() ;
           ++formula)
       {
-        std::set<TypeIdentifier> temp(((Formula*)*formula)->getDependentTraits()) ;
+        std::set<TypeIdentifier> temp(((Formula*)*formula)->getDependentTraitTypes()) ;
         result.insert(temp.begin(),temp.end()) ;
       }
       return result ;
     }
 
-    std::set<TypeIdentifier> HasChildFormula::getDependentTraits(Trait* trait)
+    std::set<TypeIdentifier> HasChildFormula::getDependentTraitTypes(Trait* trait)
     {
       std::set<TypeIdentifier> result ;
       const std::set<HasChildFormula*> formulae = find(trait) ;
@@ -577,7 +723,7 @@ namespace ProjetUnivers
           formula != formulae.end() ;
           ++formula)
       {
-        std::set<TypeIdentifier> temp(((Formula*)*formula)->getDependentTraits()) ;
+        std::set<TypeIdentifier> temp(((Formula*)*formula)->getDependentTraitTypes()) ;
         result.insert(temp.begin(),temp.end()) ;
       }
       return result ;
@@ -622,6 +768,23 @@ namespace ProjetUnivers
       }
     }
 
+    void Formula::evaluateInitial(const ObjectPair& relation)
+    {
+      for(std::set<Formula*>::iterator child = m_children.begin() ; child != m_children.end() ; ++child)
+      {
+        (*child)->evaluateInitial(relation) ;
+      }
+
+      eval(relation) ;
+      if (isValid(relation))
+        DeducedRelation::notify(this,true,relation) ;
+    }
+
+    void Formula::eval(const ObjectPair& relation)
+    {
+      // default is nop
+    }
+
     void DeducedTrait::evaluateInitial(Object* object)
     {
       /// calculate all formulas.
@@ -648,7 +811,27 @@ namespace ProjetUnivers
 
       object->setValidity(this,validity) ;
       object->setNumberOfTrueChildFormulae(this,true_child_number) ;
+    }
 
+    void FormulaAnd::eval(const ObjectPair& pair)
+    {
+      bool validity = true ;
+      int true_child_number = 0 ;
+
+      for(std::set<Formula*>::const_iterator child = m_children.begin() ;
+          child != m_children.end() ;
+          ++child)
+      {
+        bool child_validity = (*child)->isValid(pair) ;
+        validity &= child_validity ;
+
+        if (child_validity)
+        {
+          ++true_child_number ;
+        }
+      }
+      pair.setValidity(this,validity) ;
+      pair.setNumberOfTrueChildFormulae(this,true_child_number) ;
     }
 
     void FormulaOr::eval(Object* object)
@@ -672,8 +855,31 @@ namespace ProjetUnivers
 
       object->setValidity(this,validity) ;
       object->setNumberOfTrueChildFormulae(this,true_child_number) ;
-
     }
+
+    void FormulaOr::eval(const ObjectPair& pair)
+    {
+      bool validity = false ;
+      int true_child_number = 0 ;
+
+      for(std::set<Formula*>::const_iterator child = m_children.begin() ;
+          child != m_children.end() ;
+          ++child)
+      {
+        bool child_validity = (*child)->isValid(pair) ;
+
+        validity |= child_validity ;
+
+        if (child_validity)
+        {
+          ++true_child_number ;
+        }
+      }
+
+      pair.setValidity(this,validity) ;
+      pair.setNumberOfTrueChildFormulae(this,true_child_number) ;
+    }
+
 
     void FormulaNot::eval(Object* object)
     {
@@ -695,6 +901,27 @@ namespace ProjetUnivers
       }
       object->setNumberOfTrueChildFormulae(this,true_child_number) ;
       object->setValidity(this,validity) ;
+    }
+
+    void FormulaNot::eval(const ObjectPair& pair)
+    {
+      bool validity = false ;
+      int true_child_number = 0 ;
+
+      std::set<Formula*>::const_iterator child = m_children.begin() ;
+
+      if ((*child)->isValid(pair))
+      {
+        validity = false ;
+        true_child_number = 1 ;
+      }
+      else
+      {
+        validity = true ;
+      }
+
+      pair.setValidity(this,validity) ;
+      pair.setNumberOfTrueChildFormulae(this,true_child_number) ;
     }
 
     void TraitFormula::eval(Object* object)
@@ -726,6 +953,70 @@ namespace ProjetUnivers
       unsigned int number_of_children = object->getNumberOfChildren(m_trait) ;
       object->setNumberOfTrueChildFormulae(this,number_of_children) ;
       object->setValidity(this,number_of_children > 0) ;
+    }
+
+    void IsRelatedFormula::eval(Object* object)
+    {
+      Formula* formula = *m_children.begin() ;
+      std::set<Object*> related(object->getModel()->getRelations(m_relation,object)) ;
+      unsigned int number_of_true_related = 0 ;
+      for(std::set<Object*>::iterator related_object = related.begin() ; related_object != related.end() ; ++ related_object)
+      {
+        if (formula->isValid(*related_object))
+          ++number_of_true_related ;
+      }
+
+      object->setNumberOfTrueChildFormulae(this,number_of_true_related) ;
+      object->setValidity(this,number_of_true_related > 0) ;
+    }
+
+    void IsOnlyRelatedFormula::eval(Object* object)
+    {
+      Formula* formula = *m_children.begin() ;
+      std::set<Object*> related(object->getModel()->getRelations(m_relation,object)) ;
+      unsigned int number_of_true_related = 0 ;
+      for(std::set<Object*>::iterator related_object = related.begin() ; related_object != related.end() ; ++ related_object)
+      {
+        if (formula->isValid(*related_object))
+          ++number_of_true_related ;
+      }
+
+      object->setNumberOfTrueChildFormulae(this,number_of_true_related) ;
+      object->setValidity(this,number_of_true_related > 0 && number_of_true_related == related.size()) ;
+    }
+
+    void IsToFormula::eval(Object* object)
+    {
+      // nop
+    }
+
+    void IsFromFormula::eval(Object* object)
+    {
+      // nop
+    }
+
+    void IsFromFormula::evaluateInitial(const ObjectPair& relation)
+    {
+      eval(relation) ;
+      if (isValid(relation))
+        DeducedRelation::notify(this,true,relation) ;
+    }
+
+    void IsFromFormula::eval(const ObjectPair& relation)
+    {
+      Formula* child = *m_children.begin() ;
+      relation.setValidity(this,child->isValid(relation.getObjectFrom())) ;
+    }
+
+    void IsToFormula::evaluateInitial(const ObjectPair& relation)
+    {
+      eval(relation) ;
+    }
+
+    void IsToFormula::eval(const ObjectPair& relation)
+    {
+      Formula* child = *m_children.begin() ;
+      relation.setValidity(this,child->isValid(relation.getObjectTo())) ;
     }
 
   // @}
@@ -760,7 +1051,9 @@ namespace ProjetUnivers
 
     void HasParentFormula::addTrait(Object* object,Trait* trait)
     {
-      CHECK(object,"HasParentFormula::addTrait no object")
+      Log::Block temp("Deduction",std::string("addTrait ") +
+                                  toString(object->getIdentifier()) + " " +
+                                  getObjectTypeIdentifier(trait).className()) ;
 
       const std::set<HasParentFormula*>& formulaes = find(trait) ;
       for(std::set<HasParentFormula*>::const_iterator formula = formulaes.begin() ;
@@ -771,19 +1064,14 @@ namespace ProjetUnivers
       }
     }
 
-    void HasParentFormula::removeTrait(Object* object,Trait* trait)
-    {
-      const std::set<HasParentFormula*>& formulaes = find(trait) ;
-      for(std::set<HasParentFormula*>::const_iterator formula = formulaes.begin() ;
-          formula != formulaes.end() ;
-          ++formula)
-      {
-        (*formula)->removedParent(object) ;
-      }
-    }
-
     void HasParentFormula::addParent(Object* object,Trait* trait)
     {
+      Log::Block temp("Deduction",std::string("addParent ") +
+                                  toString(object->getIdentifier()) + " " +
+                                  getObjectTypeIdentifier(trait).className() +
+                                  " number of brothers " +
+                                  toString(object->getParent()?
+                                      object->getParent()->getChildren().size():0)) ;
       /*
         Here we use the number of true child formulae on objects to code the
         number of parents with trait @c trait_name
@@ -800,6 +1088,23 @@ namespace ProjetUnivers
            -# m_trait(object) is dependent of trait
         */
         update(object) ;
+
+        // Update trait dependencies
+
+        Trait* old_updater = trait->getObject()->getAncestor(m_trait) ;
+        std::set<Trait*> dependents = getDependentTraits(object) ;
+        for(std::set<Trait*>::iterator dependent = dependents.begin() ; dependent != dependents.end() ; ++dependent)
+        {
+          /// @todo remove that test
+          if (old_updater)
+          {
+            /*
+              We may have added objects under the element...
+            */
+            old_updater->removeDependentTrait((DeducedTrait*)*dependent) ;
+            trait->addDependentTrait((DeducedTrait*)*dependent) ;
+          }
+        }
       }
       else
       {
@@ -809,15 +1114,26 @@ namespace ProjetUnivers
       unsigned short true_child = object->getNumberOfTrueChildFormulae(this) ;
       object->setNumberOfTrueChildFormulae(this,true_child+1) ;
 
-      for(std::set<Object*>::const_iterator child = object->getChildren().begin() ;
-          child != object->getChildren().end() ;
-          ++child)
+      std::set<Object*> children(object->getChildren()) ;
+
+      for(std::set<Object*>::const_iterator child = children.begin() ; child != children.end() ; ++child)
       {
         addParent(*child,trait) ;
       }
     }
 
-    void HasParentFormula::removedParent(Object* object)
+    void HasParentFormula::removeTrait(Object* object,Trait* trait)
+    {
+      const std::set<HasParentFormula*>& formulaes = find(trait) ;
+      for(std::set<HasParentFormula*>::const_iterator formula = formulaes.begin() ;
+          formula != formulaes.end() ;
+          ++formula)
+      {
+        (*formula)->removedParent(object,trait) ;
+      }
+    }
+
+    void HasParentFormula::removedParent(Object* object,Trait* trait)
     {
       /*
         Here we use the number of true child formulae on objects to code the
@@ -837,13 +1153,27 @@ namespace ProjetUnivers
       {
         // still true but parent has changed
         update(object) ;
+
+        Trait* new_updater = trait->getObject()->getAncestor(m_trait) ;
+        std::set<Trait*> dependents = this->getDependentTraits(object) ;
+        for(std::set<Trait*>::iterator dependent = dependents.begin() ; dependent != dependents.end() ; ++dependent)
+        {
+          /// @todo remove that test
+          if (new_updater)
+          {
+            // useless but left for clarity
+            trait->removeDependentTrait((DeducedTrait*)*dependent) ;
+            new_updater->addDependentTrait((DeducedTrait*)*dependent) ;
+          }
+        }
+
       }
 
       for(std::set<Object*>::const_iterator child = object->getChildren().begin() ;
           child != object->getChildren().end() ;
           ++child)
       {
-        removedParent(*child) ;
+        removedParent(*child,trait) ;
       }
 
     }
@@ -889,6 +1219,20 @@ namespace ProjetUnivers
       {
         // update because parent with trait has changed
         DeducedTrait::update(this,object) ;
+
+        Trait* old_updater = old_parent->getParent(m_trait) ;
+        Trait* new_updater = object->getParent(m_trait) ;
+        std::set<Trait*> dependents = this->getDependentTraits(object) ;
+        for(std::set<Trait*>::iterator dependent = dependents.begin() ; dependent != dependents.end() ; ++dependent)
+        {
+          /// @todo remove that test
+          // useless but left for clarity
+          if (old_updater)
+            old_updater->removeDependentTrait((DeducedTrait*)*dependent) ;
+          if (new_updater)
+            new_updater->addDependentTrait((DeducedTrait*)*dependent) ;
+        }
+
       }
       else if (old_validity && !new_validity)
       {
@@ -899,7 +1243,7 @@ namespace ProjetUnivers
         becomeTrue(object) ;
       }
 
-      // iterate on children
+      // iterate on object children
       for(std::set<Object*>::const_iterator child = object->getChildren().begin() ;
           child != object->getChildren().end() ;
           ++child)
@@ -1257,6 +1601,7 @@ namespace ProjetUnivers
         if (builder != StaticStorage::get()->m_builders.end())
         {
           DeducedTrait* new_trait = (builder->second)() ;
+          new_trait->m_formula = formula ;
           // deduced trait added :
           std::set<Trait*> updaters(formula->getUpdaterTraits(object)) ;
 
@@ -1267,7 +1612,7 @@ namespace ProjetUnivers
             (*updater)->addDependentTrait(new_trait) ;
           }
 
-          object->_add(new_trait) ;
+          object->addTrait(new_trait) ;
         }
       }
       else
@@ -1294,28 +1639,71 @@ namespace ProjetUnivers
       }
     }
 
-    void Formula::addChildTrue(Object* object)
+    void DeducedRelation::notify(Formula*          formula,
+                                 bool              validity,
+                                 const ObjectPair& pair)
     {
-      CHECK(object,"Formula::addChildTrue no object") ;
+      TypeIdentifier relation = get(formula) ;
 
+      if (relation != VoidTypeIdentifier)
+      {
+        if (validity)
+        {
+          // add a link
+          Relation::createLink(relation,pair.getObjectFrom(),pair.getObjectTo()) ;
+        }
+        else
+        {
+          // remove a link
+          Relation::destroyLink(relation,pair.getObjectFrom(),pair.getObjectTo()) ;
+        }
+      }
+    }
+
+    void Formula::addChildFormulaTrue(Object* object)
+    {
       unsigned short true_child = object->getNumberOfTrueChildFormulae(this) ;
 
       object->setNumberOfTrueChildFormulae(this,true_child+1) ;
-      onAddChildTrue(object) ;
+      onAddChildFormulaTrue(object) ;
     }
 
-    void Formula::addChildFalse(Object* object)
+    void Formula::addChildFormulaFalse(Object* object)
     {
       object->setNumberOfTrueChildFormulae(
         this,object->getNumberOfTrueChildFormulae(this)-1) ;
 
-      onAddChildFalse(object) ;
+      onAddChildFormulaFalse(object) ;
+    }
+
+    void Formula::addChildFormulaTrue(const ObjectPair& pair)
+    {
+      unsigned short true_child = pair.getNumberOfTrueChildFormulae(this) ;
+
+      pair.setNumberOfTrueChildFormulae(this,true_child+1) ;
+      onAddChildFormulaTrue(pair) ;
+    }
+
+    void Formula::addChildFormulaFalse(const ObjectPair& pair)
+    {
+      pair.setNumberOfTrueChildFormulae(
+        this,pair.getNumberOfTrueChildFormulae(this)-1) ;
+
+      onAddChildFormulaFalse(pair) ;
+    }
+
+    void Formula::onAddChildFormulaTrue(const ObjectPair&)
+    {
+      // default is nop
+    }
+
+    void Formula::onAddChildFormulaFalse(const ObjectPair&)
+    {
+      // default is nop
     }
 
     void Formula::becomeTrue(Object* object)
     {
-      CHECK(object,"Formula::becomeTrue no object")
-
       if (m_identifier >= 0)
       {
         object->setValidity(this,true) ;
@@ -1334,13 +1722,53 @@ namespace ProjetUnivers
       notifyParentFalse(object) ;
     }
 
+    void Formula::becomeTrue(const ObjectPair& pair)
+    {
+      if (m_identifier >= 0)
+      {
+        pair.setValidity(this,true) ;
+      }
+      DeducedRelation::notify(this,true,pair) ;
+      notifyParentTrue(pair) ;
+    }
+
+    void Formula::becomeFalse(const ObjectPair& pair)
+    {
+      if (m_identifier >= 0)
+      {
+        pair.setValidity(this,false) ;
+      }
+      DeducedRelation::notify(this,false,pair) ;
+      notifyParentFalse(pair) ;
+    }
+
+    void Formula::notifyParentTrue(const ObjectPair& pair)
+    {
+      for(std::set<Formula*>::const_iterator parent = m_parents.begin() ;
+          parent != m_parents.end() ;
+          ++parent)
+      {
+        (*parent)->addChildFormulaTrue(pair) ;
+      }
+    }
+
+    void Formula::notifyParentFalse(const ObjectPair& pair)
+    {
+      for(std::set<Formula*>::const_iterator parent = m_parents.begin() ;
+          parent != m_parents.end() ;
+          ++parent)
+      {
+        (*parent)->addChildFormulaFalse(pair) ;
+      }
+    }
+
     void Formula::notifyParentTrue(Object* object)
     {
       for(std::set<Formula*>::const_iterator parent = m_parents.begin() ;
           parent != m_parents.end() ;
           ++parent)
       {
-        (*parent)->addChildTrue(object) ;
+        (*parent)->addChildFormulaTrue(object) ;
       }
     }
 
@@ -1350,11 +1778,11 @@ namespace ProjetUnivers
           parent != m_parents.end() ;
           ++parent)
       {
-        (*parent)->addChildFalse(object) ;
+        (*parent)->addChildFormulaFalse(object) ;
       }
     }
 
-    void FormulaAnd::onAddChildFalse(Object* object)
+    void FormulaAnd::onAddChildFormulaFalse(Object* object)
     {
       if (isValid(object))
       {
@@ -1362,7 +1790,7 @@ namespace ProjetUnivers
       }
     }
 
-    void FormulaAnd::onAddChildTrue(Object* object)
+    void FormulaAnd::onAddChildFormulaTrue(Object* object)
     {
       if (! isValid(object) &&
           object->getNumberOfTrueChildFormulae(this) == m_children.size())
@@ -1371,7 +1799,24 @@ namespace ProjetUnivers
       }
     }
 
-    void FormulaOr::onAddChildTrue(Object* object)
+    void FormulaAnd::onAddChildFormulaFalse(const ObjectPair& pair)
+    {
+      if (isValid(pair))
+      {
+        becomeFalse(pair) ;
+      }
+    }
+
+    void FormulaAnd::onAddChildFormulaTrue(const ObjectPair& pair)
+    {
+      if (! isValid(pair) &&
+          pair.getNumberOfTrueChildFormulae(this) == m_children.size())
+      {
+        becomeTrue(pair) ;
+      }
+    }
+
+    void FormulaOr::onAddChildFormulaTrue(Object* object)
     {
       if (! isValid(object))
       {
@@ -1379,6 +1824,8 @@ namespace ProjetUnivers
       }
       else
       {
+        update(object) ;
+
         std::set<Trait*> deduced_traits(getDependentTraits(object)) ;
         std::set<Trait*> new_updatertraits(getUpdaterTraits(object)) ;
 
@@ -1393,76 +1840,94 @@ namespace ProjetUnivers
       }
     }
 
-    void FormulaOr::onAddChildFalse(Object* object)
+    void FormulaOr::onAddChildFormulaFalse(Object* object)
     {
       if (isValid(object) &&
           object->getNumberOfTrueChildFormulae(this) == 0)
       {
         becomeFalse(object) ;
       }
+      /// @todo handle dependent traits
     }
 
-    void TraitFormula::onAddChildTrue(Object* object)
+    void FormulaOr::onAddChildFormulaTrue(const ObjectPair& pair)
     {
-      ErrorMessage("TraitFormula::onAddChildTrue") ;
+      if (! isValid(pair))
+      {
+        becomeTrue(pair) ;
+      }
     }
 
-    void TraitFormula::onAddChildFalse(Object* object)
+    void FormulaOr::onAddChildFormulaFalse(const ObjectPair& pair)
     {
-      ErrorMessage("TraitFormula::onAddChildFalse") ;
+      if (isValid(pair) &&
+          pair.getNumberOfTrueChildFormulae(this) == 0)
+      {
+        becomeFalse(pair) ;
+      }
     }
 
-    void HasParentFormula::onAddChildTrue(Object* object)
+    void TraitFormula::onAddChildFormulaTrue(Object* object)
     {
-      ErrorMessage("HasParentFormula::onAddChildTrue") ;
+      ErrorMessage("TraitFormula::onAddChildFormulaTrue") ;
     }
 
-    void HasParentFormula::onAddChildFalse(Object* object)
+    void TraitFormula::onAddChildFormulaFalse(Object* object)
     {
-      ErrorMessage("HasParentFormula::onAddChildFalse") ;
+      ErrorMessage("TraitFormula::onAddChildFormulaFalse") ;
     }
 
-    void HasAncestorFormula::onAddChildTrue(Object* object)
+    void HasParentFormula::onAddChildFormulaTrue(Object* object)
     {
-      ErrorMessage("HasAncestorFormula::onAddChildTrue") ;
+      ErrorMessage("HasParentFormula::onAddChildFormulaTrue") ;
     }
 
-    void HasAncestorFormula::onAddChildFalse(Object* object)
+    void HasParentFormula::onAddChildFormulaFalse(Object* object)
     {
-      ErrorMessage("HasAncestorFormula::onAddChildFalse") ;
+      ErrorMessage("HasParentFormula::onAddChildFormulaFalse") ;
     }
 
-    void HasChildFormula::onAddChildTrue(Object* object)
+    void HasAncestorFormula::onAddChildFormulaTrue(Object* object)
     {
-      ErrorMessage("HasChildFormula::onAddChildTrue") ;
+      ErrorMessage("HasAncestorFormula::onAddChildFormulaTrue") ;
     }
 
-    void HasChildFormula::onAddChildFalse(Object* object)
+    void HasAncestorFormula::onAddChildFormulaFalse(Object* object)
     {
-      ErrorMessage("HasParentFormula::onAddChildFalse") ;
+      ErrorMessage("HasAncestorFormula::onAddChildFormulaFalse") ;
     }
 
-    void TraitFormula::onChildUpdated(Object* object)
+    void HasChildFormula::onAddChildFormulaTrue(Object* object)
+    {
+      ErrorMessage("HasChildFormula::onAddChildFormulaTrue") ;
+    }
+
+    void HasChildFormula::onAddChildFormulaFalse(Object* object)
+    {
+      ErrorMessage("HasParentFormula::onAddChildFormulaFalse") ;
+    }
+
+    void TraitFormula::onChildFormulaUpdated(Object* object)
     {
       //// error
     }
 
-    void HasParentFormula::onChildUpdated(Object* object)
+    void HasParentFormula::onChildFormulaUpdated(Object* object)
     {
       // error
     }
 
-    void HasAncestorFormula::onChildUpdated(Object* object)
+    void HasAncestorFormula::onChildFormulaUpdated(Object* object)
     {
       // error
     }
 
-    void HasChildFormula::onChildUpdated(Object* object)
+    void HasChildFormula::onChildFormulaUpdated(Object* object)
     {
       // error
     }
 
-    void FormulaNot::onAddChildTrue(Object* object)
+    void FormulaNot::onAddChildFormulaTrue(Object* object)
     {
       if (isValid(object))
       {
@@ -1470,11 +1935,209 @@ namespace ProjetUnivers
       }
     }
 
-    void FormulaNot::onAddChildFalse(Object* object)
+    void FormulaNot::onAddChildFormulaFalse(Object* object)
     {
       if (! isValid(object))
       {
         becomeTrue(object) ;
+      }
+    }
+
+    void FormulaNot::onAddChildFormulaTrue(const ObjectPair& pair)
+    {
+      if (isValid(pair))
+      {
+        becomeFalse(pair) ;
+      }
+    }
+
+    void FormulaNot::onAddChildFormulaFalse(const ObjectPair& pair)
+    {
+      if (! isValid(pair))
+      {
+        becomeTrue(pair) ;
+      }
+    }
+
+    void WithRelationFormula::addChildFormulaTrue(Object* object)
+    {
+      std::set<Object*> objects(object->getModel()->getInverseRelations(m_relation,object)) ;
+      for(std::set<Object*>::iterator related = objects.begin() ; related != objects.end() ; ++related)
+      {
+        unsigned short true_related = (*related)->getNumberOfTrueChildFormulae(this) ;
+        (*related)->setNumberOfTrueChildFormulae(this,true_related+1) ;
+        onAddChildFormulaTrue(*related) ;
+      }
+    }
+
+    void WithRelationFormula::addChildFormulaFalse(Object* object)
+    {
+      std::set<Object*> objects(object->getModel()->getInverseRelations(m_relation,object)) ;
+      for(std::set<Object*>::iterator related = objects.begin() ; related != objects.end() ; ++related)
+      {
+        unsigned short true_related = (*related)->getNumberOfTrueChildFormulae(this) ;
+        (*related)->setNumberOfTrueChildFormulae(this,true_related-1) ;
+        onAddChildFormulaFalse(*related) ;
+      }
+    }
+
+    void IsRelatedFormula::onAddChildFormulaTrue(Object* object)
+    {
+      if (object->getNumberOfTrueChildFormulae(this) == 1)
+        becomeTrue(object) ;
+      else
+        update(object) ;
+    }
+
+    void IsRelatedFormula::onAddChildFormulaFalse(Object* object)
+    {
+      if (object->getNumberOfTrueChildFormulae(this) == 0)
+        becomeFalse(object) ;
+      else
+        update(object) ;
+    }
+
+    void IsRelatedFormula::onChildFormulaUpdated(Object* object)
+    {
+      std::set<Object*> objects(object->getModel()->getInverseRelations(m_relation,object)) ;
+      for(std::set<Object*>::iterator related = objects.begin() ; related != objects.end() ; ++related)
+      {
+        update(*related) ;
+      }
+    }
+
+    void IsOnlyRelatedFormula::onAddChildFormulaTrue(Object* object)
+    {
+      if (object->getNumberOfTrueChildFormulae(this) ==
+          object->getModel()->getRelations(m_relation,object).size())
+        becomeTrue(object) ;
+    }
+
+    void IsOnlyRelatedFormula::onAddChildFormulaFalse(Object* object)
+    {
+      becomeFalse(object) ;
+    }
+
+    void IsOnlyRelatedFormula::onChildFormulaUpdated(Object* object)
+    {
+      std::set<Object*> objects(object->getModel()->getInverseRelations(m_relation,object)) ;
+      for(std::set<Object*>::iterator related = objects.begin() ; related != objects.end() ; ++related)
+      {
+        update(*related) ;
+      }
+    }
+
+    void WithRelationFormula::onAddRelation(const Relation& relation)
+    {
+      std::map<TypeIdentifier,std::set<WithRelationFormula*> >::const_iterator finder =
+        StaticStorage::get()->m_formulae.find(relation.getType()) ;
+
+      if (finder != StaticStorage::get()->m_formulae.end())
+      {
+        const std::set<WithRelationFormula*>& formulae = finder->second ;
+
+        for(std::set<WithRelationFormula*>::iterator formula = formulae.begin() ; formula != formulae.end() ; ++formula)
+        {
+          Formula* child_formula = *((*formula)->m_children.begin()) ;
+
+          if (child_formula->isValid(relation.getObjectTo()))
+          {
+            unsigned short true_related = relation.getObjectFrom()->getNumberOfTrueChildFormulae(*formula) ;
+            relation.getObjectFrom()->setNumberOfTrueChildFormulae(*formula,true_related+1) ;
+            (*formula)->onAddChildFormulaTrue(relation.getObjectFrom()) ;
+          }
+        }
+      }
+    }
+
+    void WithRelationFormula::onRemoveRelation(const Relation& relation)
+    {
+      std::map<TypeIdentifier,std::set<WithRelationFormula*> >::const_iterator finder =
+        StaticStorage::get()->m_formulae.find(relation.getType()) ;
+
+      if (finder != StaticStorage::get()->m_formulae.end())
+      {
+        const std::set<WithRelationFormula*>& formulae = finder->second ;
+
+        for(std::set<WithRelationFormula*>::iterator formula = formulae.begin() ; formula != formulae.end() ; ++formula)
+        {
+          Formula* child_formula = *((*formula)->m_children.begin()) ;
+
+          if (child_formula->isValid(relation.getObjectTo()))
+          {
+            unsigned short true_related = relation.getObjectFrom()->getNumberOfTrueChildFormulae(*formula) ;
+            relation.getObjectFrom()->setNumberOfTrueChildFormulae(*formula,true_related-1) ;
+            (*formula)->onAddChildFormulaFalse(relation.getObjectFrom()) ;
+          }
+        }
+      }
+    }
+
+    void DeducedRelation::onAddRelation(const Relation& relation)
+    {
+      std::set<Formula*> formulae(getFormulae(relation.getType())) ;
+      for (std::set<Formula*>::iterator formula = formulae.begin() ; formula != formulae.end() ; ++formula)
+      {
+        (*formula)->evaluateInitial(relation) ;
+      }
+    }
+
+    void DeducedRelation::onRemoveRelation(const Relation& relation)
+    {
+      std::set<Formula*> formulae(getFormulae(relation.getType())) ;
+      for (std::set<Formula*>::iterator formula = formulae.begin() ; formula != formulae.end() ; ++formula)
+      {
+        (*formula)->becomeFalse(relation) ;
+      }
+    }
+
+    void IsFromFormula::onAddChildFormulaTrue(Object* object)
+    {
+      /*
+        Here we should say that the formula has gained a true children
+        for all ObjectPair (object,x) which is prohibitive
+        Same applies for
+        * IsFromFormula::onAddChildFormulaFalse
+        * IsToFormula::onAddChildFormulaTrue
+        * IsToFormula::onAddChildFormulaFalse
+
+        So we limit ourselves to the object pairs taken from existing links
+      */
+
+      std::set<Object*> objects(Relation::_getLinked(object)) ;
+      for(std::set<Object*>::iterator to = objects.begin() ; to != objects.end() ; ++to)
+      {
+        becomeTrue(ObjectPair(object,*to)) ;
+      }
+    }
+
+    void IsFromFormula::onAddChildFormulaFalse(Object* object)
+    {
+      // all links going from object became false
+      std::set<Object*> objects(Relation::_getLinked(object)) ;
+      for(std::set<Object*>::iterator to = objects.begin() ; to != objects.end() ; ++to)
+      {
+        becomeFalse(ObjectPair(object,*to)) ;
+      }
+    }
+
+    void IsToFormula::onAddChildFormulaTrue(Object* object)
+    {
+      // all links going to object became true
+      std::set<Object*> objects(Relation::_getInversedLinked(object)) ;
+      for(std::set<Object*>::iterator from = objects.begin() ; from != objects.end() ; ++from)
+      {
+        becomeTrue(ObjectPair(*from,object)) ;
+      }
+    }
+
+    void IsToFormula::onAddChildFormulaFalse(Object* object)
+    {
+      // all links going to object became false
+      std::set<Object*> objects(Relation::_getInversedLinked(object)) ;
+      for(std::set<Object*>::iterator from = objects.begin() ; from != objects.end() ; ++from)
+      {
+        becomeFalse(ObjectPair(*from,object)) ;
       }
     }
 
@@ -1552,6 +2215,35 @@ namespace ProjetUnivers
     std::set<Trait*> FormulaNot::getUpdaterTraits(Object* object) const
     {
       return std::set<Trait*>() ;
+    }
+
+    std::set<Trait*> WithRelationFormula::getUpdaterTraits(Object* object) const
+    {
+      std::set<Trait*> result ;
+      Formula* formula = *m_children.begin() ;
+      Model* model = object->getModel() ;
+      std::set<Object*> objects(model->getRelations(m_relation,object)) ;
+      for(std::set<Object*>::iterator related = objects.begin() ; related != objects.end() ; ++related)
+      {
+        if (formula->isValid(*related))
+        {
+          std::set<Trait*> temp(formula->getUpdaterTraits(*related)) ;
+          result.insert(temp.begin(),temp.end()) ;
+        }
+      }
+      return result ;
+    }
+
+    std::set<Trait*> IsFromFormula::getUpdaterTraits(Object* object) const
+    {
+      Formula* formula = *m_children.begin() ;
+      return formula->getUpdaterTraits(object) ;
+    }
+
+    std::set<Trait*> IsToFormula::getUpdaterTraits(Object* object) const
+    {
+      Formula* formula = *m_children.begin() ;
+      return formula->getUpdaterTraits(object) ;
     }
 
     void TraitFormula::updateTrait(Object* object,Trait* trait)
@@ -1694,16 +2386,40 @@ namespace ProjetUnivers
       /// notify deduced traits...
       if (isValid(object))
       {
+        // if this formula defines a deduced trait, it acts as a notify() on it
         DeducedTrait::update(this,object) ;
-        /// @todo optim 50% du temps sur un update
+        /// @todo optimize 50% of time on an update
         for(std::set<Formula*>::const_iterator parent = m_parents.begin() ;
             parent != m_parents.end() ;
             ++parent)
         {
-          (*parent)->onChildUpdated(object) ;
+          (*parent)->onChildFormulaUpdated(object) ;
         }
       }
     }
+
+    void Formula::update(const ObjectPair& pair)
+    {
+      /// notify deduced relations...
+      if (isValid(pair))
+      {
+        // if this formula defines a deduced relation, it acts as a notify() on it
+        DeducedRelation::update(this,pair) ;
+        for(std::set<Formula*>::const_iterator parent = m_parents.begin() ;
+            parent != m_parents.end() ;
+            ++parent)
+        {
+          (*parent)->onChildFormulaUpdated(pair) ;
+        }
+      }
+    }
+
+    void Formula::onChildFormulaUpdated(const ObjectPair& pair)
+    {
+      // default implementation is error
+      ErrorMessage("Formula::onChildFormulaUpdated(const ObjectPair& pair)") ;
+    }
+
 
     void DeducedTrait::update(Formula* formula,
                               Object* object)
@@ -1716,25 +2432,68 @@ namespace ProjetUnivers
       }
     }
 
+    void DeducedRelation::update(Formula*          formula,
+                                 const ObjectPair& relation)
+    {
+      TypeIdentifier deduced_relation(get(formula)) ;
+      if (deduced_relation != VoidTypeIdentifier)
+      {
+        Relation observed(deduced_relation,relation.getObjectFrom(),relation.getObjectTo()) ;
+        observed.notify() ;
+      }
+    }
+
     const TypeIdentifier& DeducedTrait::getLatestUpdatedTrait() const
     {
       return Trait::m_latest_updated_trait.top() ;
     }
 
-    void FormulaOr::onChildUpdated(Object* object)
+    void FormulaOr::onChildFormulaUpdated(Object* object)
     {
       update(object) ;
     }
 
-    void FormulaAnd::onChildUpdated(Object* object)
+    void FormulaOr::onChildFormulaUpdated(const ObjectPair& pair)
+    {
+      update(pair) ;
+    }
+
+    void FormulaAnd::onChildFormulaUpdated(Object* object)
     {
       update(object) ;
     }
 
-    void FormulaNot::onChildUpdated(Object* object)
+    void FormulaAnd::onChildFormulaUpdated(const ObjectPair& pair)
     {
-      /// nothing
+      update(pair) ;
     }
+
+    void FormulaNot::onChildFormulaUpdated(Object* object)
+    {
+      /// nothing (on purpose)
+    }
+
+    void IsFromFormula::onChildFormulaUpdated(Object* object)
+    {
+      // @todo update the relation
+      std::set<Object*> objects(Relation::_getLinked(object)) ;
+      for(std::set<Object*>::iterator to = objects.begin() ; to != objects.end() ; ++to)
+      {
+        update(ObjectPair(object,*to)) ;
+      }
+
+    }
+
+    void IsToFormula::onChildFormulaUpdated(Object* object)
+    {
+      // @todo update the relation
+      // all links going to object must be updated
+      std::set<Object*> objects(Relation::_getInversedLinked(object)) ;
+      for(std::set<Object*>::iterator from = objects.begin() ; from != objects.end() ; ++from)
+      {
+        update(ObjectPair(*from,object)) ;
+      }
+}
 
     void DeducedTrait::notify()
     {
@@ -1743,6 +2502,12 @@ namespace ProjetUnivers
       DeducedTrait::updateTrait(getObject(),this) ;
       unlock() ;
     }
+
+  // @}
+  /*!
+    @name Global treatments
+  */
+  // @{
 
     void DeducedTrait::addTrait(Object* object,Trait* trait)
     {
@@ -1773,6 +2538,34 @@ namespace ProjetUnivers
       HasParentFormula::removeTrait(object,trait) ;
       HasAncestorFormula::removeTrait(object,trait) ;
       HasChildFormula::removeTrait(object,trait) ;
+    }
+
+    void DeducedTrait::changeParent(Object* object,Object* old_parent)
+    {
+      /*
+        @remark nothing to do for TraitFormula because that cannot change
+        the validity ;)
+      */
+      HasParentFormula::changeParent(object,old_parent) ;
+      HasAncestorFormula::changeParent(object,old_parent) ;
+      HasChildFormula::changeParent(object,old_parent) ;
+    }
+
+    void DeducedTrait::addRelation(const Relation& relation)
+    {
+      DeducedRelation::onAddRelation(relation) ;
+      WithRelationFormula::onAddRelation(relation) ;
+    }
+
+    void DeducedTrait::removeRelation(const Relation& relation)
+    {
+      DeducedRelation::onRemoveRelation(relation) ;
+      WithRelationFormula::onRemoveRelation(relation) ;
+    }
+
+    bool DeducedTrait::isPrimitive() const
+    {
+      return false ;
     }
 
   // @}

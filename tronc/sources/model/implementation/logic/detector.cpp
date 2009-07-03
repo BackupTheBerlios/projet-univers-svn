@@ -20,21 +20,20 @@
  ***************************************************************************/
 #include <model/implementation/logic/detector.h>
 
-namespace ProjetUnivers {
-  namespace Model {
-    namespace Implementation {
-      namespace Logic {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
+    namespace Implementation
+    {
+      namespace Logic
+      {
 
 
         RegisterControler(Logic::Detector, 
                           Model::Detector, 
                           LogicSystem) ;
 
-        Detector::Detector(Model::Detector* i_object,
-                           LogicSystem*     i_system)
-        : Kernel::Controler<Model::Detector,
-                            LogicSystem>(i_object,i_system)
-        {}
       
         void Detector::simulate(const float& i_seconds)
         {

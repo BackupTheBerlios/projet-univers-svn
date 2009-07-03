@@ -18,8 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_IMPLEMENTATION_LOGIC_WITH_FLYING_GROUP_H_
-#define PU_MODEL_IMPLEMENTATION_LOGIC_WITH_FLYING_GROUP_H_
+#pragma once
 
 #include <kernel/controler.h>
 #include <model/implementation/with_flying_group.h>
@@ -38,9 +37,6 @@ namespace ProjetUnivers
                                                          LogicSystem>
         {
         public:
-          
-          WithFlyingGroup(Implementation::WithFlyingGroup*,LogicSystem*) ;
-          
           /// One ship was destroyed.
           virtual void onClose() ;
           
@@ -49,4 +45,3 @@ namespace ProjetUnivers
     }
   }
 }
-#endif /*PU_MODEL_IMPLEMENTATION_LOGIC_WITH_FLYING_GROUP_H_*/

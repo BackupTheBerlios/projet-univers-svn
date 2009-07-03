@@ -27,20 +27,20 @@
 
 #include <kernel/reader.h>
 
-namespace ProjetUnivers 
+namespace ProjetUnivers
 {
-  namespace Kernel 
+  namespace Kernel
   {
 
     Object* Reader::readObject(Model* model,Object* parent)
     {
       if (!isObjectNode() || !isBeginNode())
       {
-        std::cerr << "expected object node" << std::endl ; 
+        std::cerr << "expected object node" << std::endl ;
         return NULL ;
       }
       Object* result ;
-      
+
       if (parent)
       {
         result = model->createObject(parent) ;
@@ -49,10 +49,10 @@ namespace ProjetUnivers
       {
         result = model->createObject() ;
       }
-      
+
       // internal to normal id
       m_local_id_to_real_id[getObjectIdentifier()] = result->getIdentifier() ;
-      
+
       while (!isEndNode() && processNode())
       {
         if (isObjectNode())
@@ -73,41 +73,42 @@ namespace ProjetUnivers
 
       return result ;
     }
-    
+
     Object* Reader::internalReadModel(Model* model,Object* parent)
     {
       m_local_id_to_real_id.clear() ;
       m_references.clear() ;
-      Object::startReading() ;
-      
+
       if (! isModelNode())
       {
-        std::cerr << "first node is not a model" << std::endl ; 
+        std::cerr << "first node is not a model" << std::endl ;
         return NULL ;
       }
-      
+
+      model->startTransaction() ;
+
       int depth = getNodeDepth() ;
-      
+
       std::set<Object*> roots ;
-      
+
       // reading
       while (moveToTraitOrChild(depth) && isObjectNode())
       {
         roots.insert(readObject(model,parent)) ;
       }
-      
-      // local reference resolution 
+
+      // local reference resolution
       try
-      {      
+      {
         for(std::set<ObjectReference*>::const_iterator reference = m_references.begin() ;
             reference != m_references.end() ;
             ++reference)
         {
-          std::map<int,int>::const_iterator finder 
+          std::map<int,int>::const_iterator finder
             = m_local_id_to_real_id.find((*reference)->m_object_identifier) ;
           if (finder != m_local_id_to_real_id.end())
           {
-          
+
             (*reference)->m_object_identifier = finder->second ;
             (*reference)->m_reader = NULL ;
             (*reference)->_setModel(model) ;
@@ -128,16 +129,9 @@ namespace ProjetUnivers
           model->destroyObject(*object) ;
         }
       }
-      
-      Object::stopReading() ;
-      // now we can init the objects
-      for(std::set<Object*>::const_iterator object = roots.begin() ;
-          object != roots.end() ;
-          ++object)
-      {
-        (*object)->_init() ;
-      } 
-      
+
+      model->endTransaction() ;
+
       if (roots.size() > 0)
       {
         return *roots.begin() ;
@@ -147,7 +141,7 @@ namespace ProjetUnivers
         return NULL ;
       }
     }
-    
+
     void Reader::read(Model* model)
     {
       internalReadModel(model,NULL) ;
@@ -157,55 +151,55 @@ namespace ProjetUnivers
     {
       return internalReadModel(parent->getModel(),parent) ;
     }
-    
+
     bool Reader::moveToTraitOrChild(const int& depth)
     {
-      while (!isTraitNode() && (!isObjectNode() && getNodeDepth() >= depth) 
+      while (!isTraitNode() && (!isObjectNode() && getNodeDepth() >= depth)
              && processNode())
       {
 //        std::cout << print() << std::endl ;
       }
-      
+
       return hasNode() ;
     }
 
     std::string Reader::getName() const
     {
-      std::map<std::string,std::string>::const_iterator finder ; 
-  
+      std::map<std::string,std::string>::const_iterator finder ;
+
       finder = getAttributes().find("name") ;
       if (finder != getAttributes().end())
       {
         return finder->second ;
       }
-      
+
       return "" ;
     }
-    
+
     std::string Reader::print() const
     {
       std::string result("<node name=") ;
-      
-      result = result + getTraitName() 
+
+      result = result + getTraitName()
                + " isbegin=" + (const char*)(isBeginNode()?"true":"false")
                + " isend=" + (const char*)(isEndNode()?"true":"false")
                + " isobject=" + (const char*)(isObjectNode()?"true":"false")
                + " istrait=" + (const char*)(isTraitNode()?"true":"false")
                + " depth=" + toString(getNodeDepth())
                + "/>" ;
-      
+
       return result ;
-    }    
+    }
 
     void Reader::_registerReference(ObjectReference* reference)
     {
       m_references.insert(reference) ;
     }
-      
+
     void Reader::_unregisterReference(ObjectReference* reference)
     {
       m_references.erase(reference) ;
     }
   }
 }
-    
+

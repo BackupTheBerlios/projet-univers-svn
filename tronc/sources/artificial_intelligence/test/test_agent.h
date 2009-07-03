@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2008 Mathieu ROGER                                      *
+ *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,39 +18,41 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_AI_IMPLEMENTATION_AGENT_VEHICLE_VIEW_POINT_H_
-#define PU_AI_IMPLEMENTATION_AGENT_VEHICLE_VIEW_POINT_H_
+#pragma once
 
-#include <kernel/view_point.h>
+#include <cppunit/extensions/HelperMacros.h>
 
-namespace ProjetUnivers {
-  namespace ArtificialIntelligence {
-    namespace Implementation {
+namespace ProjetUnivers
+{
+  namespace ArtificialIntelligence
+  {
+    namespace Test
+    {
 
-      class Vehicle ;
-      class Agent ;
-      
-      /// A particular view point for an agent.
-      class AgentVehicleViewPoint : public Kernel::ViewPoint
+      /// Tests for Agent class.
+      class TestAgent : public CppUnit::TestFixture
       {
-      public:
-      
-        /// Constructor.
-        /*!
-          @pre agent must be a AutonomousAgent.
-        */
-        AgentVehicleViewPoint(Agent* agent) ;
-        
-        /// Set the agent vehicle.
-        void setVehicle(Vehicle*) ;
-        
-      private:
-        
-        Agent* m_agent ;
+      protected:
+      /*!
+        @name Tests methods
+      */
+      // @{
+
+        void steeringFullBackShouldTurn() ;
+
+        void isTargetedByTarget() ;
+
+      // @}
+
+        CPPUNIT_TEST_SUITE(TestAgent) ;
+
+        CPPUNIT_TEST(steeringFullBackShouldTurn) ;
+
+        // @todo : simplify targeting system before that test
+//        CPPUNIT_TEST(isTargetedByTarget) ;
+
+        CPPUNIT_TEST_SUITE_END() ;
       };
-      
     }
   }
 }
-
-#endif /*PU_AI_IMPLEMENTATION_AGENT_VIEW_POINT_H_*/

@@ -32,7 +32,7 @@ namespace ProjetUnivers {
       void TestOrientation::rigthHandedAntiClockWise()
       {
         /*
-          turing of 90Â° around up is anticlockwise
+          turing of 90° around up is anticlockwise
         */
         Orientation orientation(Ogre::Quaternion(Ogre::Degree(90),Ogre::Vector3::UNIT_Y)) ;
 
@@ -45,28 +45,20 @@ namespace ProjetUnivers {
       {
         Orientation orientation1(Ogre::Quaternion(Ogre::Degree(90),Ogre::Vector3::UNIT_Y)) ;
         Orientation orientation2(Ogre::Quaternion(Ogre::Degree(90),Ogre::Vector3::UNIT_Z)) ;
-        
+
         Orientation orientation = orientation2*orientation1 ;
-          
+
         CPPUNIT_ASSERT(orientation.getQuaternion().zAxis().positionEquals(Ogre::Vector3(0,1,0),1e-4)) ;
         CPPUNIT_ASSERT(orientation.getQuaternion().yAxis().positionEquals(Ogre::Vector3(-1,0,0),1e-4)) ;
         CPPUNIT_ASSERT(orientation.getQuaternion().xAxis().positionEquals(Ogre::Vector3(0,0,-1),1e-4)) ;
       }
-      
+
       void TestOrientation::localZAxis()
       {
         Orientation orientation ;
         CPPUNIT_ASSERT(orientation.getQuaternion().zAxis().positionEquals(Ogre::Vector3::UNIT_Z,1e-4)) ;
       }
-      
-      void TestOrientation::setUp() 
-      {
-      }
-      
-      void TestOrientation::tearDown() 
-      {
-      }
-      
+
 
     }
   }

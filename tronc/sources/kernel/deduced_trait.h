@@ -18,8 +18,12 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_KERNEL_DEDUCED_TRAIT_H_
-#define PU_KERNEL_DEDUCED_TRAIT_H_
+#pragma once
+
+/*!
+  @file deduced_trait.h
+
+*/
 
 #include <vector>
 #include <string>
@@ -28,27 +32,29 @@
 
 #include <kernel/helper_macros.h>
 #include <kernel/meta.h>
+#include <kernel/relation.h>
 
 #include <kernel/trait.h>
 
-namespace ProjetUnivers 
+namespace ProjetUnivers
 {
-  namespace Kernel 
+  namespace Kernel
   {
-    
+
     class Formula ;
     class HasParentFormula ;
     class HasAncestorFormula ;
-    
+    class FormulaOr ;
+
     /// Function type that build a deduced trait.
     typedef boost::function0<DeducedTrait*> DeducedTraitBuilder ;
 
-    
-    /// Declare @c trait as a deduced trait defined by @c formula 
+
+    /// Declare @c trait as a deduced trait defined by @c formula
     /*!
       @param trait the trait class being defined
-      @param formula any combination of And, Or, Not HasTrait
-             see below.
+      @param formula any combination of And, Or, Not, HasTrait, HasParent,
+             HasAncestor, HasChild. see below.
     */
     #define DeclareDeducedTrait(trait,formula)  \
       namespace PU_MAKE_UNIQUE_NAME(local)      \
@@ -66,64 +72,112 @@ namespace ProjetUnivers
           getClassTypeIdentifier(trait)) ;      \
       }
 
-    /// Conjunction of formulaes
+    /// Declare @c relation as a deduced relation defined by @c relation_formula
     /*!
-      Example : 
+      @param relation the deduced relation class being defined
+      @param primitive_relation the deduced relation is included into another
+                                relation
+      @param relation_formula any combination of
+             And, Or, Not, IsFrom,
+             IsTo. see below.
+    */
+    #define DeclareDeducedRelation(relation,primitive_relation,relation_formula) \
+      namespace PU_MAKE_UNIQUE_NAME(local)                     \
+      {                                                        \
+        static                                                 \
+        Kernel::DeducedRelationDeclaration temp(               \
+          relation_formula::build(),                           \
+          getClassTypeIdentifier(relation),                    \
+          getClassTypeIdentifier(primitive_relation)) ;        \
+      }
+
+
+    /// Conjunction of formulae
+    /*!
+      Example :
         DeclareDeducedTrait(C,And(HasTrait(A),HasTrait(B))) ;
-    */    
+        C is equivalent to A^B
+    */
     #define And(...) \
       Kernel::TemplateAnd< __VA_ARGS__ >
 
-    /// Disjunction of formulaes    
+    /// Disjunction of formulaes
     #define Or(...) \
       Kernel::TemplateOr< __VA_ARGS__ >
-    
+
     /// Negation of @c formula.
     #define Not(formula) \
       Kernel::TemplateNot<formula>
-    
+
     /// Elementary formula true iff object has trait @c trait
     #define HasTrait(trait) \
       Kernel::TemplateHasTrait<trait>
 
     /// Elementary formula true iff object has parent trait @c trait
     /*!
-      @remark if object has @c trait then formula is true, @see 
-      object::getParent(). 
+      @remark if object has @c trait then formula is true, @see
+      object::getParent().
     */
     #define HasParent(trait) \
       Kernel::TemplateHasParent<trait>
 
     /// Elementary formula true iff object has ancestor trait @c trait
     /*!
-      @see object::getAncestor(). 
+      @see object::getAncestor().
     */
     #define HasAncestor(trait) \
       Kernel::TemplateHasAncestor<trait>
-    
+
     /// Elementary formula true iff object has child trait @c trait
     /*!
-      @remark if object has @c trait then formula is true, @see 
-      object::getChildren(). 
+      @remark if object has @c trait then formula is true, @see
+      object::getChildren().
     */
     #define HasChild(trait) \
       Kernel::TemplateHasChild<trait>
-    
+
+    /// True iff object is related to a @c formula object through @c relation.
+    /*!
+      This formula is true for object o iff :
+      exist x, relation(o,x) and formula(x)
+    */
+    #define IsRelated(relation,formula) \
+      Kernel::TemplateIsRelated<relation,formula>
+
+    /// True iff object is only related to @c formula objects through @c relation.
+    /*!
+      This formula is true for object o iff :
+      for all x, relation(o,x) => formula(x)
+    */
+    #define IsOnlyRelated(relation,formula) \
+      Kernel::TemplateIsOnlyRelated<relation,formula>
+
+    /// True iff a relation goes from an object satisfying formula.
+    #define IsFrom(formula) \
+      Kernel::TemplateIsFrom<formula>
+
+    /// True iff a relation goes to an object satisfying formula.
+    #define IsTo(formula) \
+      Kernel::TemplateIsTo<formula>
+
     /// Abstract class for traits that are deduced.
     /*!
       Each object :
-      - has a deduced trait when its associated formula is true
-      - does not have it when formula is false 
+      - gain a deduced trait when its associated formula is true
+      - loose it when formula is false
 
-      As a trait : 
-      - onInit, onClose are treated as usual (in that particular case they are 
-      also callbacks for validity change of the formula)
+      As a trait :
+      - onInit, onClose are called as usual (in that particular case they are
+        called when formula validity changes)
       - onChangeParent is treated as usual
       - onUpdate is framed depending on formula type :
-        - Not formula : never 
-        - And formula : whenever a child update event occurs 
-        - Or formula : whenever a true child update event occurs or a new 
+        - Not formula : never
+        - And formula : whenever a child update event occurs
+        - Or formula : whenever a true child update event occurs or a new
           true child appear
+        - HasParent formula : whenever the return value of getParent<T> changes,
+          i.e., the parent that makes the formula true is not the same as before
+        - HasAncestor : idem as HasParent
     */
     class DeducedTrait : public Trait
     {
@@ -136,16 +190,26 @@ namespace ProjetUnivers
       static void registerTrait(Formula*              formula,
                                 DeducedTraitBuilder   builder,
                                 const TypeIdentifier& trait_name) ;
-      
 
+
+      /// Called when @c object gained @c trait
       static void addTrait(Object* object,Trait* trait) ;
-      
+
       /// Object trait has been updated
       static void updateTrait(Object* object,Trait* trait) ;
-      
+
+      /// Called when @c object loosed @c trait
       static void removeTrait(Object* object,Trait* trait) ;
-      
-      
+
+      /// Called when @c object changed parent.
+      static void changeParent(Object* object,Object* old_parent) ;
+
+      /// Called when @c relation has been added
+      static void addRelation(const Relation& relation) ;
+
+      /// Called when @c relation has been removed
+      static void removeRelation(const Relation& relation) ;
+
       /// Calculate initial value.
       static void evaluateInitial(Object* object) ;
 
@@ -155,33 +219,41 @@ namespace ProjetUnivers
       /// Abstract class means virtual destructor.
       virtual ~DeducedTrait() ;
 
-      /// Print all the registered deducedtrait.
+      /// Print all the registered deduced traits.
       static std::string printDeclarations() ;
 
       /// Gives the traits directly depending on @c trait.
-      static const std::set<TypeIdentifier>& getDependentTraits(Trait* trait) ;
-      
-    protected: 
-    
+      static const std::set<TypeIdentifier>& getDependentTraitTypes(Trait* trait) ;
+
+      /// Access to formula of the deduced trait.
+      Formula* getFormula() const ;
+
+      /// Return false because the trait is deduced.
+      virtual bool isPrimitive() const ;
+
+    protected:
+
       /// Abstract class means protected constructor.
       DeducedTrait() ;
-      
+
+      Formula* m_formula ;
+
       /// Tells the views the trait has changed.
       virtual void notify() ;
-      
+
       /// Notify that @c formula has gained @c validity on @c object
       static void notify(Formula* formula,
                          bool     validity,
                          Object*  object) ;
-      
+
       /// Notify that @c formula is updated on @c object
       static void update(Formula* formula,
                          Object*  object) ;
-      
+
       class StaticStorage
       {
       public:
-        
+
         /// Access to singleton.
         static StaticStorage* get() ;
 
@@ -190,27 +262,86 @@ namespace ProjetUnivers
 
         /// map formula to deduced trait names for destruction.
         std::map<Formula*,TypeIdentifier> m_destructors ;
-      
+
         /// Caching for getDependentTraits
         std::map<TypeIdentifier,std::set<TypeIdentifier> > m_dependent_traits ;
-        
+
       private:
-        
+
         StaticStorage()
         {}
       };
-      
+
       friend class Formula ;
       friend class HasParentFormula ;
       friend class HasAncestorFormula ;
       friend class HasChildFormula ;
       friend class Trait ;
-      
-    }; 
+      friend class FormulaOr ;
+
+    };
+
+    /// Class for deduced relations
+    class DeducedRelation : public Relation
+    {
+    public:
+
+      /// Register that @c relation is associated with @c formula.
+      static void registerRelation(const TypeIdentifier& relation,
+                                   const TypeIdentifier& primitive_relation,
+                                   Formula*              formula) ;
+
+      /// Notify that @c formula has gained @c validity on @c relation
+      static void notify(Formula*          formula,
+                         bool              validity,
+                         const ObjectPair& relation) ;
+
+      /// Notify that @c formula is updated on @c relation
+      static void update(Formula*          formula,
+                         const ObjectPair& relation) ;
+
+      /// Notify that a relation link has been added
+      static void onAddRelation(const Relation&) ;
+
+      /// Notify that a relation link has been removed
+      static void onRemoveRelation(const Relation&) ;
+
+    private:
+
+      /// Type identifier associated with the formula
+      /*!
+        @returns VoidTypeIdentifier if the formula is not associated with a deduced relation
+      */
+      static TypeIdentifier get(Formula*) ;
+
+      /// Get the formulae that applies to @c primitive_relation.
+      static std::set<Formula*> getFormulae(const TypeIdentifier& primitive_relation) ;
+
+      class StaticStorage
+      {
+      public:
+
+        /// Access to singleton.
+        static StaticStorage* get() ;
+
+        /// map formula to deduced relation type name.
+        std::map<Formula*,TypeIdentifier> m_deduced_relations ;
+
+        /// Map primitive relation to formulae
+        std::multimap<TypeIdentifier,Formula*> m_primitive_relation_to_formulae ;
+
+      private:
+
+        StaticStorage()
+        {}
+      };
+
+      friend class Formula ;
+    };
 
 
   }
 }
+
 #include <kernel/implementation/deduced_trait.cxx>
 
-#endif /*PU_KERNEL_DEDUCED_TRAIT_H_*/

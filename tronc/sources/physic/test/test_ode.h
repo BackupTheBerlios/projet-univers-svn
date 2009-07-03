@@ -30,23 +30,23 @@ namespace ProjetUnivers {
     namespace Test {
 
 
-            
+
       /// Direct tests on ODE.
       /*!
         To check properties of ODE.
       */
       class TestODE : public CppUnit::TestFixture {
       protected:
-      
-        
+
+
       /*!
         @name Test methods
       */
       // @{
-        
+
         /// Test a simulation of two worlds.
         void testTwoWorlds() ;
-        
+
         /// Test trimesh collision.
         void testTrimesh() ;
 
@@ -58,9 +58,9 @@ namespace ProjetUnivers {
 
         /// Test trimesh collision against a cube.
         /*!
-          ODE's bug submitted as : 
+          ODE's bug submitted as :
           http://sourceforge.net/tracker/index.php?func=detail&aid=1905353&group_id=24884&atid=382799
-          Marked as CPPUNIT_TEST_FAIL to get a clear result but test is KO. 
+          Marked as CPPUNIT_TEST_FAIL to get a clear result but test is KO.
         */
         void testTrimeshCubeCollision() ;
 
@@ -71,36 +71,36 @@ namespace ProjetUnivers {
       /*!
         @name Test registration
       */
-      // @{      
-    
+      // @{
+
         CPPUNIT_TEST_SUITE(TestODE) ;
-      
+
         CPPUNIT_TEST(testTwoWorlds) ;
         CPPUNIT_TEST(testTrimesh) ;
         CPPUNIT_TEST(testTrimeshInertia) ;
         CPPUNIT_TEST(testCubeCubeCollision) ;
         CPPUNIT_TEST_FAIL(testTrimeshCubeCollision) ;
         CPPUNIT_TEST(testTrimeshCubeCollisionBasic) ;
-      
+
         CPPUNIT_TEST_SUITE_END() ;
 
       public:
-  
+
       // @}
       /*!
         @name Mandatory methods
       */
       // @{
 
-      
+
         void setUp() ;
-      
+
         void tearDown() ;
-      
-      // @}      
-                
-       
-      
+
+      // @}
+
+
+
       };
 
     }

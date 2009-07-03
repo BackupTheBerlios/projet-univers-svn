@@ -29,7 +29,7 @@ namespace ProjetUnivers {
       DeclareDeducedTrait(LaserBeam,
                           And(HasTrait(Model::PhysicalObject),
                               HasTrait(Model::LaserBeam))) ;
-      
+
     }
   }
 }

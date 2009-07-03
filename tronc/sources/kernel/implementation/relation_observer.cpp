@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2008 Mathieu ROGER                                      *
+ *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,53 +18,85 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <kernel/log.h>
-#include <model/selected.h>
-#include <artificial_intelligence/implementation/detected_vehicle.h>
-#include <artificial_intelligence/implementation/selected_vehicle.h>
+#include <kernel/object.h>
+#include <kernel/relation_observer.h>
 
-namespace ProjetUnivers {
-  namespace ArtificialIntelligence {
-    namespace Implementation {
+namespace ProjetUnivers
+{
+  namespace Kernel
+  {
 
-      RegisterView(SelectedVehicle,SelectedTarget,AgentViewPoint) ;
-      
-      SelectedVehicle::SelectedVehicle(SelectedTarget* data,AgentViewPoint* viewpoint)
-      : Kernel::TraitView<SelectedTarget,AgentViewPoint>(data,viewpoint)
-      {}
-      
-      void SelectedVehicle::onInit() 
+    void RelationObserver::init()
+    {
+      if (!m_initialised)
       {
-        InternalMessage("AI","entering SelectedVehicle::onInit") ;
-        onUpdate() ;
-        InternalMessage("AI","leaving SelectedVehicle::onInit") ;
+        getObjectFrom()->getModel()->initObserver(this) ;
+        m_initialised = true ;
       }
-      
-      void SelectedVehicle::onClose()
-      {
-      }
-      
-      void SelectedVehicle::onUpdate()
-      {
-        InternalMessage("AI","entering SelectedVehicle::onUpdate") ;
-        if (isSelected())
-        {
-          DetectedVehicle* detected = getView<DetectedVehicle>() ;
-          if (detected)
-          {
-            InternalMessage("AI","SelectedVehicle::onUpdate#1") ;
-            getViewPoint()->setTarget(detected->getVehicle()) ;
-          }
-        }
-        InternalMessage("AI","leaving SelectedVehicle::onUpdate") ;
-      }
-
-      bool SelectedVehicle::isSelected() const
-      {
-        return getObject()->getTrait<Model::Selected>()
-                          ->isSelected(getViewPoint()->getTargetingSystem()) ;
-      }          
-      
     }
+
+    void RelationObserver::close()
+    {
+      if (m_initialised)
+      {
+        getObjectFrom()->getModel()->closeObserver(this) ;
+        m_initialised = false ;
+      }
+    }
+
+    void RelationObserver::update()
+    {
+      if (m_initialised)
+      {
+        getObjectFrom()->getModel()->updateObserver(this) ;
+      }
+    }
+
+    Object* RelationObserver::getObjectFrom() const
+    {
+      return m_relation.getObjectFrom() ;
+    }
+
+    Object* RelationObserver::getObjectTo() const
+    {
+      return m_relation.getObjectTo() ;
+    }
+
+    RelationObserver::~RelationObserver()
+    {}
+
+    RelationObserver::RelationObserver()
+    : m_initialised(false),
+      m_really_initialised(false),
+      m_relation()
+    {}
+
+    void RelationObserver::_setRelation(const Relation& relation)
+    {
+      m_relation = relation ;
+    }
+
+    bool RelationObserver::isInitialised() const
+    {
+      return m_really_initialised ;
+    }
+
+    void RelationObserver::realClose()
+    {
+      if (m_really_initialised)
+      {
+        onClose() ;
+        m_really_initialised = false ;
+      }
+    }
+
+    void RelationObserver::realUpdate()
+    {
+      if (m_really_initialised)
+      {
+        onUpdate() ;
+      }
+    }
+
   }
 }

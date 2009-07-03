@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2008 Mathieu ROGER                                      *
+ *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,34 +18,37 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <model/selection.h>
 #include <model/selected.h>
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
 
     Selected::Selected()
     {}
 
     bool Selected::isSelected(Kernel::Object* by) const
     {
-      return m_selectors.find(by) != m_selectors.end() ;
+      return Kernel::Relation::areLinked<Selection>(by,getObject()) ;
     }
 
     void Selected::select(Kernel::Object* by)
     {
-      m_selectors.insert(by) ;
+      Kernel::Link<Selection>(by,getObject()) ;
       notify() ;
     }
 
     void Selected::unSelect(Kernel::Object* by)
     {
-      m_selectors.erase(by) ;
+      Kernel::UnLink<Selection>(by,getObject()) ;
       notify() ;
     }
 
     bool Selected::isSelected() const
     {
-      return m_selectors.size() != 0 ;
+      return Kernel::Relation::getLinked<Kernel::Inverse<Selection> >(getObject()).size() != 0 ;
     }
   }
 }

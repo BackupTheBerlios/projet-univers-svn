@@ -18,19 +18,20 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_SOLID_H_
-#define PU_MODEL_SOLID_H_
+#pragma once
 
 #include <kernel/reader.h>
 #include <model/mesh.h>
 #include <model/sized.h>
 #include <model/orientation.h>
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
 
 
-    /// For objects that ar solid.
+    /// For objects that are solid.
     class Solid : public Sized 
     {
     public:
@@ -61,7 +62,7 @@ namespace ProjetUnivers {
       
     private:
       
-      /// The radius of an englobing sphere. 
+      /// The radius of an containing sphere.
       Distance getBoundingSphereRadius() const ;      
 
       /// Volume and texture properties.
@@ -69,4 +70,3 @@ namespace ProjetUnivers {
     };
   }
 }
-#endif

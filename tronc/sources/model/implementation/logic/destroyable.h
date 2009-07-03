@@ -18,28 +18,29 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_IMPLEMENTATION_LOGIC_DESTROYABLE_H_
-#define PU_MODEL_IMPLEMENTATION_LOGIC_DESTROYABLE_H_
+#pragma once
 
 #include <kernel/controler.h>
 #include <model/destroyable.h>
 #include <model/implementation/logic/logic_system.h>
 
-namespace ProjetUnivers {
-  namespace Model {
-    namespace Implementation {
-      namespace Logic {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
+    namespace Implementation
+    {
+      namespace Logic
+      {
 
         /// Manage deletion of destroyable objects.
         class Destroyable : public Kernel::Controler<Model::Destroyable,
                                                      LogicSystem>
         {
         public:
-          
-          /// Construct.
-          Destroyable(Model::Destroyable* i_object,
-                      LogicSystem*      i_system) ;
         
+          virtual void onInit() ;
+
           /// Destroy object if life is zero.
           void simulate(const float& i_seconds) ;
         
@@ -52,6 +53,3 @@ namespace ProjetUnivers {
     }
   }
 }
-
-
-#endif

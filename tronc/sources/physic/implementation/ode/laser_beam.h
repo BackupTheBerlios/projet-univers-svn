@@ -18,8 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_PHYSIC_IMPLEMENTATION_ODE_LASER_BEAM_H_
-#define PU_PHYSIC_IMPLEMENTATION_ODE_LASER_BEAM_H_
+#pragma once
 
 #include <ode/ode.h>
 
@@ -28,22 +27,21 @@
 #include <physic/implementation/ode/collideable.h>
 #include <physic/implementation/ode/physic_system.h>
 
-namespace ProjetUnivers {
-  namespace Physic {
-    namespace Implementation {
-      namespace Ode {
+namespace ProjetUnivers
+{
+  namespace Physic
+  {
+    namespace Implementation
+    {
+      namespace Ode
+      {
         
         /// ODE laser beam view
-        /*!
-        */
         class LaserBeam : public Kernel::Controler<Implementation::LaserBeam,
                                                    PhysicSystem>,
                           public Collideable
         {
         public:
-
-          /// constructor.
-          LaserBeam(Implementation::LaserBeam*,PhysicSystem*) ;
 
           /// Check whether @c this is collideable with another Collideable.
           virtual bool isCollideableWith(const Collideable*) const ;
@@ -78,5 +76,3 @@ namespace ProjetUnivers {
     }
   }
 }
-
-#endif /*PU_PHYSIC_IMPLEMENTATION_ODE_LASER_BEAM_H_*/
