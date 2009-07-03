@@ -59,14 +59,14 @@ namespace ProjetUnivers
         InternalMessage("AI","built Agent") ;
       }
 
-      void Agent::setTarget(Vehicle* vehicle)
+      void Agent::setTarget(WithVehicleControler* vehicle)
       {
         m_target = vehicle ;
       }
 
       Vehicle* Agent::getTarget() const
       {
-        return m_target ;
+        return m_target?m_target->getVehicle():NULL ;
       }
 
       Vehicle* Agent::getVehicle() const
@@ -110,6 +110,18 @@ namespace ProjetUnivers
         }
       }
 
+      bool Agent::isTargetedByTarget() const
+      {
+        if (!m_target)
+          return false ;
+
+        Kernel::Object* ship = Model::getControledShip(getObject()) ;
+
+        m_target->getChild<Model::TargetingSystem>() ;
+
+        return false ;
+      }
+
       void Agent::applyObjective(const Model::Objective& objective,
                                  Kernel::Object*         agent,
                                  const float&            seconds)
@@ -131,7 +143,7 @@ namespace ProjetUnivers
             // if enemy selected pursuit it
             if (m_target)
             {
-              m_steering += SteeringBehaviour::offsetPursuit(*getVehicle(),*m_target,m_target->getRadius()*2) ;
+              m_steering += SteeringBehaviour::offsetPursuit(*getVehicle(),*getTarget(),getTarget()->getRadius()*2) ;
             }
             else
             {
@@ -188,26 +200,38 @@ namespace ProjetUnivers
         Ogre::Quaternion rotation = Ogre::Vector3::UNIT_Z.getRotationTo(aim_speed_local_space) ;
         rotation.normalise() ;
 
-        InternalMessage("Agent","rotation yaw=" + Kernel::toString(rotation.getYaw().valueDegrees())) ;
-        InternalMessage("Agent","rotation pitch=" + Kernel::toString(rotation.getPitch().valueDegrees())) ;
+        Ogre::Vector3 local_aim_direction(aim_speed_local_space) ;
+        local_aim_direction.normalise() ;
 
-        InternalMessage("Agent","divider yaw=" + Kernel::toString((m_max_steering_X*seconds_since_last_frame).valueDegrees())) ;
+        Kernel::Percentage X ;
+        Kernel::Percentage Y ;
+        Kernel::Percentage throttle ;
 
-        // x part
-        Kernel::Percentage X =
-          float(rotation.getYaw().valueDegrees()/
-              fabs((m_max_steering_X*seconds_since_last_frame).valueDegrees())) ;
+        // if nearly full back
+        if (local_aim_direction.directionEquals(Ogre::Vector3::UNIT_Z,Ogre::Degree(5)))
+        {
+          X = float(1.0) ;
+        }
+        else
+        {
+          InternalMessage("Agent","rotation yaw=" + Kernel::toString(rotation.getYaw().valueDegrees())) ;
+          InternalMessage("Agent","rotation pitch=" + Kernel::toString(rotation.getPitch().valueDegrees())) ;
 
-        // Y part
-        Kernel::Percentage Y =
-          float(rotation.getPitch().valueDegrees()/
-              fabs((m_max_steering_Y*seconds_since_last_frame).valueDegrees())) ;
+          InternalMessage("Agent","divider yaw=" + Kernel::toString((m_max_steering_X*seconds_since_last_frame).valueDegrees())) ;
 
+          // x part
+          X =float(rotation.getYaw().valueDegrees()/
+                   fabs((m_max_steering_X*seconds_since_last_frame).valueDegrees())) ;
+
+          // Y part
+          Y = float(rotation.getPitch().valueDegrees()/
+                    fabs((m_max_steering_Y*seconds_since_last_frame).valueDegrees())) ;
+        }
         // throttle part
         float delta_speed = aim_speed_local_space.length()-getVehicle()->getSpeed().length() ;
 
-        Kernel::Percentage throttle =
-          delta_speed / (m_max_steering_speed*seconds_since_last_frame) ;
+        throttle = delta_speed/(m_max_steering_speed*seconds_since_last_frame) ;
+
 
         return Ogre::Vector3(int(X),int(Y),int(throttle)) ;
       }
@@ -267,7 +291,7 @@ namespace ProjetUnivers
 
         if(m_target)
         {
-          InternalMessage("Agent","target position=" + Ogre::StringConverter::toString(m_target->getPosition())) ;
+          InternalMessage("Agent","target position=" + Ogre::StringConverter::toString(getTarget()->getPosition())) ;
         }
 
         InternalMessage("Agent","agent position=" + Ogre::StringConverter::toString(getVehicle()->getPosition())) ;

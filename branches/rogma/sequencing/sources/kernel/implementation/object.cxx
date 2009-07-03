@@ -205,6 +205,14 @@ namespace ProjetUnivers
       return result ;
     }
     
+    template <class T> T* Object::getChild() const
+    {
+      std::set<T*> temp(getDescendants<T>()) ;
+      if (temp.size() == 1)
+        return *temp.begin() ;
+      return NULL ;
+    }
+
     template <typename ReturnType>
     ReturnType Object::callFunction(const std::string& function_name) const
     throw (boost::bad_any_cast,std::exception)

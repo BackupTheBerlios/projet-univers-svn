@@ -1333,6 +1333,14 @@
 
     - considered in a lot of places that Z axis is forward... whereas Ogre 
       consider negative Z as forward ??? 
+
+2009-07-03 rogma
+
+  * AI : 
+    - bug when two ships are back to back they do not turn 
+
+  * Kernel :
+    - added function access for observers (getParent...) 
     
 in commit
 --------
@@ -1340,10 +1348,24 @@ in commit
     
 in progress
 -----------
-
-
+  
+  
 todo
 ----
+
+  * Model : 
+      - selected target is the relation :  
+      Selection and 
+      IsFrom(RecursivellyPositioned) and IsTo(RecursivellyPositioned)
+      --> once selector or selected is updated, the controler is called
+          the controler can determine iff it is still detectable :)
+          the ideal target is moved, shootable status is created/destroyed 
+          (which is a relation between objects) 
+      --> Display view is updated so the position is changed
+
+  * AI : 
+    - issues with ship fleeing : when two ships aim at each other... they flee
+      perpendicularly
 
   * Kernel :
     - controlers ... during simulation of a controler, the updates on its trait 
@@ -1357,17 +1379,6 @@ todo
       ...
       
       Create a kernel.h header containg all the stuff...   
-  
-  * Model : 
-  
-    - selected target is the relation :  
-      Selection and 
-      RelationFrom(RecursivellyPositioned) and RelationTo(RecursivellyPositioned)
-      --> once selector or selected is updated, the controler is called
-          the controler can determine iff it is still detectable :)
-          the ideal target is moved, shootable status is created/destroyed 
-          (which is a relation between objects) 
-      --> Display view is updated so the position is changed
   
 
   * Kernel :

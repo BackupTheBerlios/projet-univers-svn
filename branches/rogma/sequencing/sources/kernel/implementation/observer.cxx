@@ -18,39 +18,38 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#pragma once
-
-#include <kernel/relation_controler.h>
-#include <artificial_intelligence/implementation/ai_system.h>
-#include <artificial_intelligence/implementation/agent_target.h>
-#include <artificial_intelligence/implementation/agent.h>
+#include <kernel/object.h>
 
 namespace ProjetUnivers
 {
-  namespace ArtificialIntelligence
+  namespace Kernel
   {
-    namespace Implementation
+
+    template <class T> T* Observer::getParent() const
     {
-      /// Something we will associate with a vehicle.
-      class AgentTargetControler : public Kernel::RelationControler<AISystem>
-      {
-      protected:
-
-        /// Set the target for the agent
-        void onInit() ;
-
-        /// Remove the target for the agent.
-        void onClose() ;
-
-      private:
-
-        /// Access to the targeting agent
-        Agent* getAgent() const ;
-
-        /// Access to the target
-        WithVehicleControler* getTarget() const ;
-      };
+      return getObject()->getParent<T>() ;
     }
+
+    template <class T> T* Observer::getAncestor() const
+    {
+      return getObject()->getAncestor<T>() ;
+    }
+
+    template <class T> std::set<T*> Observer::getDescendants() const
+    {
+      return getObject()->getDescendants<T>() ;
+    }
+
+    template <class T> std::set<T*> Observer::getChildren() const
+    {
+      return getObject()->getChildren<T>() ;
+    }
+
+    template <class T> T* Observer::getChild() const
+    {
+      return getObject()->getChild<T>() ;
+    }
+
   }
 }
 

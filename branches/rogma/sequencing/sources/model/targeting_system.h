@@ -85,14 +85,13 @@ namespace ProjetUnivers
       
     // @}  
       
-      
-    private:
-      
       /// Select an object as a target.
       void selectTarget(Kernel::Object*) ;
       
       /// Unselect an object as a target.
       void unSelectTarget(Kernel::Object*) ;
+
+    private:
 
       /// The DetectionData targeted.
       Kernel::ObjectReference m_target ;

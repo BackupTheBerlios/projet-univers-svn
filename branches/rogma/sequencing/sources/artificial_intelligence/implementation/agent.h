@@ -35,12 +35,14 @@ namespace ProjetUnivers
     namespace Test
     {
       class TestModelControler ;
+      class TestAgent ;
     }
 
     namespace Implementation
     {
 
       class Behaviour ;
+      class WithVehicleControler ;
 
       /// An autonomous agent controler
       class Agent : public Kernel::Controler<AutonomousAgent,AISystem>
@@ -54,7 +56,7 @@ namespace ProjetUnivers
         virtual void simulate(const float& seconds) ;
 
         /// Change the current target.
-        void setTarget(Vehicle* vehicle) ;
+        void setTarget(WithVehicleControler* vehicle) ;
 
         /// Access to current target.
         Vehicle* getTarget() const ;
@@ -76,7 +78,10 @@ namespace ProjetUnivers
         std::set<Vehicle*>     m_other_vehicles ;
 
         /// Current target.
-        Vehicle*               m_target ;
+        WithVehicleControler*  m_target ;
+
+        /// True iff target is targeting this
+        bool isTargetedByTarget() const ;
 
         /// Apply all the objectives
         void applyObjectives(const float& seconds) ;
@@ -135,6 +140,7 @@ namespace ProjetUnivers
         float              m_max_steering_speed ;
 
         friend class ::ProjetUnivers::ArtificialIntelligence::Test::TestModelControler ;
+        friend class ::ProjetUnivers::ArtificialIntelligence::Test::TestAgent ;
       };
 
     }

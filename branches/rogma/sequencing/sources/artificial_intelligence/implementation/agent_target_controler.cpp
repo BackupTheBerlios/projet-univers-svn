@@ -64,7 +64,7 @@ namespace ProjetUnivers
         return NULL ;
       }
 
-      Vehicle* AgentTargetControler::getTarget() const
+      WithVehicleControler* AgentTargetControler::getTarget() const
       {
         Kernel::Object* detected = getObjectTo()->getTrait<Model::DetectionData>()->m_detected ;
         WithVehicle* with_vehicle = detected->getTrait<WithVehicle>() ;
@@ -74,7 +74,7 @@ namespace ProjetUnivers
           return NULL ;
         }
 
-        return with_vehicle->getControler<WithVehicleControler>(getControlerSet())->getVehicle() ;
+        return with_vehicle->getControler<WithVehicleControler>(getControlerSet()) ;
       }
 
 

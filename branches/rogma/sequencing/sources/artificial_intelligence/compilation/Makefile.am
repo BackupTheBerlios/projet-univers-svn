@@ -47,6 +47,7 @@ check_PROGRAMS = $(TESTS)
 # then game logic test
 # finally a global test
 test_ai_SOURCES = \
+../test/test_agent.cpp \
 ../test/test_artificial_intelligence.cpp \
 ../test/test_model_controler.cpp \
 ../test/test_steering_behaviour.cpp \

@@ -90,6 +90,7 @@ namespace ProjetUnivers
     
     /// Return the ship of an object
     Kernel::Object* getShip(Kernel::Object* object) ;
+
     
   //@}
   

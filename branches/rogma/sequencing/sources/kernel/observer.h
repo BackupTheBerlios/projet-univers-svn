@@ -20,6 +20,8 @@
  ***************************************************************************/
 #pragma once
 
+#include <set>
+
 namespace ProjetUnivers
 {
   namespace Kernel
@@ -54,6 +56,24 @@ namespace ProjetUnivers
 
       /// Access to trait
       Trait* getTrait() const ;
+
+      /// First ancestor (including @c this) with trait T.
+      template <class T> T* getParent() const ;
+
+      /// First ancestor (excluding @c this) with trait T.
+      template <class T> T* getAncestor() const ;
+
+      /// Get all the descendant (excluding @c this) with trait T.
+      template <class T> std::set<T*> getDescendants() const ;
+
+      /// Get all the descendant (including @c this) with trait T.
+      template <class T> std::set<T*> getChildren() const ;
+
+      /// Get the descendant (including @c this) with trait T.
+      /*!
+        Return NULL iff severals.
+      */
+      template <class T> T* getChild() const ;
 
       virtual ~Observer() ;
 
@@ -99,3 +119,5 @@ namespace ProjetUnivers
     };
   }
 }
+
+#include <kernel/implementation/observer.cxx>

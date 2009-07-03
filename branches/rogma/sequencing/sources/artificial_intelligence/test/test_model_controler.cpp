@@ -69,6 +69,7 @@
 #include <artificial_intelligence/implementation/autonomous_agent.h>
 #include <artificial_intelligence/test/test_model_controler.h>
 #include <artificial_intelligence/implementation/with_vehicle_controler.h>
+#include <model/area.h>
 
 
 
@@ -686,6 +687,83 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(agent_controler->getDesiredSpeed().positionEquals(Ogre::Vector3::NEGATIVE_UNIT_Y,0.1)) ;
         CPPUNIT_ASSERT(agent_controler->calculateSteeringCommands(0.1).y > 0) ;
       }
+
+      void TestModelControler::avoidMutualFlee()
+      {
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestModelControler::avoidMutualFlee")) ;
+        model->init() ;
+
+        Kernel::Object* team1 = model->createObject() ;
+        team1->addTrait(new Model::Team("team1")) ;
+        Kernel::Object* team2 = model->createObject() ;
+        team2->addTrait(new Model::Team("team2")) ;
+
+        Kernel::Object* system = model->createObject() ;
+        system->addTrait(new Model::StellarSystem()) ;
+        system->addTrait(new Model::Positionned()) ;
+
+        /*
+        Situaltion seen from top :
+
+        ------------------------
+        |                      |
+        | <--            -->   |
+        | ship1          ship2 |
+        |                      |
+        ------------------------
+
+        Objective of the the system : they must stay in the box
+        (initial_distance+ship_size*4,ship_size*4,ship_size*4)
+        */
+
+        Kernel::ObjectReference ship1 ;
+        {
+          Kernel::Object* ship = Model::createShip(system) ;
+          ship->getTrait<Model::Positionned>()->setPosition(Model::Position::Meter(-500,0,0)) ;
+          ship->getTrait<Model::Oriented>()->setOrientation(Model::Orientation(Ogre::Quaternion(Ogre::Degree(90),Ogre::Vector3::UNIT_Y))) ;
+          ship->addTrait(new Model::Transponder(team1)) ;
+          ship->destroyTrait(ship->getTrait<Model::Destroyable>()) ;
+          Kernel::Object* agent = Model::createAI(ship) ;
+          agent->getTrait<Model::WithObjectives>()->addObjective(Model::Objective::attackAllEnemies()) ;
+          ship1 = ship ;
+        }
+
+        Kernel::ObjectReference ship2 ;
+        {
+          Kernel::Object* ship = Model::createShip(system) ;
+          ship->getTrait<Model::Positionned>()->setPosition(Model::Position::Meter(500,0,0)) ;
+          ship->getTrait<Model::Oriented>()->setOrientation(Model::Orientation(Ogre::Quaternion(Ogre::Degree(-90),Ogre::Vector3::UNIT_Y))) ;
+          ship->addTrait(new Model::Transponder(team2)) ;
+          ship->destroyTrait(ship->getTrait<Model::Destroyable>()) ;
+          Kernel::Object* agent = Model::createAI(ship) ;
+          agent->getTrait<Model::WithObjectives>()->addObjective(Model::Objective::attackAllEnemies()) ;
+          ship2 = ship ;
+        }
+
+        float ship_size = ship1->getTrait<Model::Solid>()->getRadius().Meter()*2 ;
+
+        std::set<Model::Position> positions ;
+        positions.insert(Model::Position::Meter(500,2*ship_size,2*ship_size)) ;
+        positions.insert(Model::Position::Meter(-500,-2*ship_size,-2*ship_size)) ;
+
+        Model::Area area(positions) ;
+
+
+        for(int i = 0 ; i < 400 ; ++i)
+        {
+          model->update(0.1) ;
+
+          // check they stay in the box
+          CPPUNIT_ASSERT_MESSAGE("ship1 left the area at " + Kernel::toString(i) +
+                                 " with position " + Ogre::StringConverter::toString(ship1->getTrait<Model::Positionned>()->getPosition().Meter()),
+                                 area.contains(ship1->getTrait<Model::Positionned>()->getPosition())) ;
+          CPPUNIT_ASSERT_MESSAGE("ship2 left the area at " + Kernel::toString(i) +
+                                 " with position " + Ogre::StringConverter::toString(ship2->getTrait<Model::Positionned>()->getPosition().Meter()),
+                                 area.contains(ship2->getTrait<Model::Positionned>()->getPosition())) ;
+        }
+
+      }
+
     }
   }
 }

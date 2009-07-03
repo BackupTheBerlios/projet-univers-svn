@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2008-2009 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -20,7 +20,6 @@
  ***************************************************************************/
 #pragma once
 
-
 #include <cppunit/extensions/HelperMacros.h>
 
 namespace ProjetUnivers
@@ -30,9 +29,8 @@ namespace ProjetUnivers
     namespace Test
     {
 
-
-      ///  Test for AI building.
-      class TestModelControler : public CppUnit::TestFixture
+      /// Tests for Agent class.
+      class TestAgent : public CppUnit::TestFixture
       {
       protected:
       /*!
@@ -40,59 +38,21 @@ namespace ProjetUnivers
       */
       // @{
 
-        /// Tests basic simulation.
-        void simulate() ;
+        void steeringFullBackShouldTurn() ;
 
-        /// Tests construction with lack of elements.
-        void buildWithoutElements() ;
-
-        /// Test a AttackAllEnemy behaviour.
-        /*!
-          A complete test with own main loop including model, physic and ai.
-          A ship pursuit an ennemy.
-        */
-        void attackAllEnemies() ;
-
-        /// Two agents attacking each other.
-        void twoShips() ;
-
-        /// Two teams attacking each other
-        /*!
-          Foirst team must win because they are twice 2 against 1
-        */
-        void groupAttack() ;
-
-        /// Test the updating of the positions.
-        void testPositionUpdate() ;
-
-        void testMission() ;
-
-        /// Check that correct steering is calculated
-        void steering() ;
-
-        void avoidMutualFlee() ;
+        void isTargetedByTarget() ;
 
       // @}
 
+        CPPUNIT_TEST_SUITE(TestAgent) ;
 
-        CPPUNIT_TEST_SUITE(TestModelControler) ;
+        CPPUNIT_TEST(steeringFullBackShouldTurn) ;
 
-        CPPUNIT_TEST(buildWithoutElements) ;
-        CPPUNIT_TEST(attackAllEnemies) ;
-        CPPUNIT_TEST(twoShips) ;
-        CPPUNIT_TEST(groupAttack) ;
-        CPPUNIT_TEST(testPositionUpdate) ;
-        CPPUNIT_TEST(simulate) ;
-        CPPUNIT_TEST(steering) ;
-
-        /// @todo make it pass
-//        CPPUNIT_TEST(avoidMutualFlee) ;
+        // @todo : simplify targeting system before that test
+//        CPPUNIT_TEST(isTargetedByTarget) ;
 
         CPPUNIT_TEST_SUITE_END() ;
       };
     }
   }
 }
-
-
-
