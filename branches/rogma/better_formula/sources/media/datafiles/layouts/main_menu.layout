@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<GUILayout >
+    <Window Type="DefaultWindow" Name="MainMenu" >
+        <Property Name="InheritsAlpha" Value="False" />
+        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+        <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
+        <Window Type="ProjetUnivers/FrameWindow" Name="MainMenu/Root/" >
+            <Property Name="Font" Value="BlueHighway-12" />
+            <Property Name="TitlebarFont" Value="BlueHighway-12" />
+            <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+            <Property Name="TitlebarEnabled" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
+            <Property Name="EWSizingCursorImage" Value="" />
+            <Property Name="NSSizingCursorImage" Value="" />
+            <Property Name="NESWSizingCursorImage" Value="" />
+            <Property Name="NWSESizingCursorImage" Value="" />
+            <Window Type="ProjetUnivers/Button" Name="MainMenu/Root/Play" >
+                <Property Name="Text" Value="Play" />
+                <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.0133334,0},{0.12,0},{0.163571,0},{0.2,0}}" />
+                <Event Name="Clicked" Function="play"/>
+            </Window>
+            <Window Type="ProjetUnivers/Button" Name="MainMenu/Root/Configure" >
+                <Property Name="Font" Value="Commonwealth-10" />
+                <Property Name="Text" Value="Configure Inputs" />
+                <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.0133334,0},{0.2,0},{0.163571,0},{0.28,0}}" />
+                <Event Name="Clicked" Function="configure"/>
+            </Window>
+            <Window Type="ProjetUnivers/Button" Name="MainMenu/Root/Credit" >
+                <Property Name="Font" Value="Commonwealth-10" />
+                <Property Name="Text" Value="Credits" />
+                <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.0133334,0},{0.28,0},{0.163571,0},{0.36,0}}" />
+            </Window>
+            <Window Type="ProjetUnivers/Button" Name="MainMenu/Root/Quit" >
+                <Property Name="Font" Value="Commonwealth-10" />
+                <Property Name="Text" Value="Quit" />
+                <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.0133334,0},{0.36,0},{0.163571,0},{0.44,0}}" />
+                <Event Name="Clicked" Function="quit"/>
+            </Window>
+        </Window>
+    </Window>
+</GUILayout>

@@ -1,0 +1,83 @@
+/***************************************************************************
+ *   Copyright (C) 2004-2008 by Equipe Projet Univers                      *
+ *   rogma.boami@free.fr                                                   *
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program; if not, write to the                         *
+ *   Free Software Foundation, Inc.,                                       *
+ *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+ ***************************************************************************/
+
+/*
+  General architecture for the project.
+*/
+
+digraph Architecure {
+	compound=true;
+    node [shape=record, style=rounded];
+	EntreesLocales [label="KeyBoard\nMouse\nJoystick"];
+	EntreesReseau [label="Network\ Card"];
+	SortiesReseau [label="Network\ Card"];
+	SortiesEcran [label="Graphic\ Card\nScreen"] ;
+
+	ControleEntrees [label="ControleEntrees"] ;
+	IntelligenceArtificielle [Label="IntelligenceArtificielle"] ;
+	Physique [label="{Physique|Les\ calcul\ des\ interractions\ physiques}"];
+
+	Actions [label="{Action|ensemble\ des\ actions\ e\ realiser\npour\ passer\ de\ l'etat\nN\ e\ N+1}"];
+
+
+	ModeleEtat1 [label="{ModeleUnivers|ensemble\ des\ objets\ndans\ leur\ etat\ N}"];
+	ModeleEtat2 [label="{ModeleUnivers|ensemble\ des\ objets\ndans\ leur\ etat\ N+1}"];
+
+	VueAffichage [label="{Affichage|ensemble\ des\ objets\ d'affichage\ndans\ leur\ etat\ N+1}"];
+	VueSortieReseau [label="VueSortieReseau"] ;
+
+
+
+	subgraph cluster_CalculDeLaTransition {
+
+		label="Etape 1 :\nCalcul des actions e realiser";
+
+	    IntelligenceArtificielle -> Actions [label="ajout",arrowhead="open"];
+		ControleEntrees -> Actions [label="ajout",arrowhead="open"];
+		Physique -> Actions [label="ajout",arrowhead="open"];
+	}
+
+	subgraph cluster_Transition {		
+		label="Etape 2 :\nChangement d'etat";
+
+	    ModeleEtat1 -> ModeleEtat2 [label="resultat de la\nrealisation des actions",arrowhead="open",style=dashed];
+	}
+   
+    
+    subgraph cluster_Vue {
+    	label="Etape 3 :\nCalcul des Vues sur le modele d'univers";
+    	
+	    VueSortieReseau -> SortiesReseau [label="ecriture",arrowhead="open"];
+    	VueAffichage -> SortiesEcran [label="ecriture",arrowhead="open"];
+    	
+    }
+    
+    ModeleEtat2 -> VueAffichage [label="lecture",arrowhead="open"];
+    ModeleEtat2 -> VueSortieReseau [label="lecture",arrowhead="open"];
+    
+	ControleEntrees -> VueAffichage [label="modification du\npoint de vue courant",arrowhead="open"];
+    Actions -> ModeleEtat1 [style=bold,label="realisation\ des\ actions",arrowhead="open",weight=10];
+    
+  	EntreesLocales -> ControleEntrees [label="lecture",arrowhead="open"];
+    EntreesReseau -> ControleEntrees [label="lecture",arrowhead="open"];
+
+    ModeleEtat1 -> IntelligenceArtificielle [label="lecture",arrowhead="open"];
+    ModeleEtat1 -> Physique [label="lecture",arrowhead="open"];
+}

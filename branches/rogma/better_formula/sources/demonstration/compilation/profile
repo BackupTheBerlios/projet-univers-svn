@@ -1,0 +1,10 @@
+opcontrol --shutdown
+opcontrol --reset
+opcontrol --no-vmlinux
+opcontrol --separate=lib
+opcontrol --event=default
+opcontrol --start
+./demonstration
+opcontrol --dump
+opreport -l .libs/lt-demonstration > report.txt
+

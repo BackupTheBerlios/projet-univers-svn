@@ -1,0 +1,1752 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN"
+"http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd">
+<article>
+  <title>Charte Graphique</title>
+
+  <articleinfo>
+    <abstract>
+      <para>Ce document décrit les diverses contraintes imposées sur la
+      structure des modèles 3D destinés au Projet Univers.</para>
+    </abstract>
+
+    <orgname>Équipe Projet Univers</orgname>
+
+    <author>
+      <firstname>Nicolas</firstname>
+
+      <othername>Faro</othername>
+
+      <surname>Petitdemange</surname>
+
+      <email>faro@lfxw.com</email>
+    </author>
+
+    <author>
+      <firstname>Mathieu</firstname>
+
+      <surname>Roger</surname>
+
+      <email>rogmaboami@hotmail.com</email>
+    </author>
+
+    <revhistory>
+      <revision>
+        <revnumber>1</revnumber>
+
+        <date>17 juillet 2004</date>
+
+        <revdescription>
+          <para>Création initiale</para>
+        </revdescription>
+      </revision>
+
+      <revision>
+        <revnumber>1.2</revnumber>
+
+        <date>7 août 2004</date>
+
+        <revdescription>
+          <para>Changement de l'échelle de conversion entre blender et
+          PU.</para>
+
+          <para>Conversion du document en DocBook.</para>
+        </revdescription>
+      </revision>
+
+      <revision>
+        <revnumber>1.3</revnumber>
+
+        <date>19 Août 2004</date>
+
+        <revdescription>
+          <para>Ajout des idées de tailles des vaisseaux</para>
+
+          <para>Ajout de détail sur les Vaisseaux Lourds</para>
+        </revdescription>
+      </revision>
+
+      <revision>
+        <revnumber>1.4</revnumber>
+
+        <date>25 août 2004</date>
+
+        <revdescription>
+          <para>Ajout des règles de noms des objets</para>
+
+          <para>Ajout des objets "dégâts"</para>
+
+          <para>Ajout des entrés de hangars</para>
+        </revdescription>
+      </revision>
+
+      <revision>
+        <revnumber>1.5</revnumber>
+
+        <date>13 novembre 2004</date>
+
+        <revdescription>
+          <para>Ajout des objets non affichés boucliers.</para>
+
+          <para>Ajout de la notion de variante de composants.</para>
+        </revdescription>
+      </revision>
+
+      <revision>
+        <revnumber>1.6</revnumber>
+
+        <date>28 avril 2005</date>
+
+        <revdescription>
+          <para>Grosse réorganisation.</para>
+
+          <para>Séparation des modèles de vaisseau et des modèles de
+          composant.</para>
+
+          <para>Structuration des composants à l'aide des liens de
+          parenté.</para>
+        </revdescription>
+      </revision>
+    </revhistory>
+
+    <legalnotice>
+      <para>Ce document est sous licence <ulink
+      url="http://www.gnu.org/copyleft/fdl.html">GNU General Public
+      Licence</ulink></para>
+    </legalnotice>
+  </articleinfo>
+
+  <section>
+    <title>Introduction à la modélisation 3D pour un jeu</title>
+
+    <para>Une <link linkend="FAQ">Foire Aux Questions</link> se trouve à la
+    fin de ce document.</para>
+
+    <para>Un modèle blender pour un vaisseau du projet univers n'est pas
+    uniquement une oeuvre d'art en trois dimensions constituée de triangles et
+    de textures. Un tel modèle doit être vu comme quelque chose
+    d'intermédiaire entre un modèle 3D <emphasis>et</emphasis> le plan de
+    fonctionnement du vaisseau.</para>
+
+    <para>Avant de passer à la structure des modèles et au nombre de polygones
+    minimal et maximal, quelques petits conseils pour la création de vos
+    modèles 3D :</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>Un vaisseau est avant tout un ensemble de composants (coque,
+        moteur, canon, cockpit, etc...). L'idée est de considérer le vaisseau
+        comme un assemblage de pièces (composants) qui ont chacune un rôle
+        dans l'utilisation du vaisseau par son équipage.</para>
+
+        <para>Ceci oblige le modeleur à mettre des objets blender qui ne
+        seront pas affichés mais qui serviront au pilotage et à l'utilisation
+        du vaisseau.</para>
+      </listitem>
+
+      <listitem>
+        <para>Pas trop de détails sur l'intérieur des moteurs (il y aura des
+        effets représentant ce qui s'échappe de ces moteurs). Dans le même
+        ordre d'idée, tout endroit ou vous pensez qu'il faudra faire un effet
+        ne dois pas trop être détaillé.</para>
+      </listitem>
+    </itemizedlist>
+
+    <para>Les questions à se poser sont les suivantes : <itemizedlist>
+        <listitem>
+          <para>est ce que ce morceau de vaisseau pourrait être détaché du
+          reste ?</para>
+        </listitem>
+
+        <listitem>
+          <para>Est-ce que ce morceau peut être endommagé indépendamment du
+          reste du vaisseau ?</para>
+        </listitem>
+      </itemizedlist></para>
+
+    <para>Si la réponse à une de ces questions est oui, alors c'est qu'il faut
+    en faire un objet distinct.</para>
+  </section>
+
+  <section>
+    <title>Règles générales</title>
+
+    <section>
+      <title>Outils</title>
+
+      <important>
+        <title>Outil 3D</title>
+
+        <para>Les modèles 3D sont réalisés avec <ulink
+        url="http://www.blender3d.com">blender</ulink>.</para>
+      </important>
+
+      <important>
+        <title>Outil 2D</title>
+
+        <para>Les images pour les textures sont manipulés avec <ulink
+        url="http://www.gimp.org/">gimp</ulink>.</para>
+      </important>
+    </section>
+
+    <section>
+      <title>License</title>
+
+      <important>
+        <title>Licence des modèles</title>
+
+        <para>Chaque modèle est placé sous la license <ulink
+        url="http://www.gnu.org/licenses/gpl.html">GPL</ulink>. Il doit donc
+        contenir le texte suivant rempli par les soins de ou des
+        auteurs.</para>
+
+        <programlisting>Copyright © <replaceable>date</replaceable> <replaceable>nom des auteurs</replaceable>
+
+This file is part of Projet Univers.
+
+    Projet Univers is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    Foobar is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Foobar; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA</programlisting>
+
+        <para>De plus, tout modèle doit être livré avec un fichier texte nommé
+        license.txt qui contient :</para>
+
+        <programlisting>Copyright © <replaceable>date</replaceable> <replaceable>nom des auteurs</replaceable>
+
+The following files  
+ - <replaceable>fichier1     </replaceable><co id="liste_fichier" />
+ - <replaceable>fichier2</replaceable>
+ - ...
+
+are part of Projet Univers.
+
+    Projet Univers is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    Foobar is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Foobar; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA</programlisting>
+
+        <calloutlist>
+          <callout arearefs="liste_fichier">
+            <para>la liste de tous les fichiers utilisé pour définir votre
+            modèle : le fichier blender et les fichiers images de
+            texture.</para>
+          </callout>
+        </calloutlist>
+      </important>
+
+      <warning>
+        <title>License</title>
+
+        <para>Assurez vous d'avoir bien compris les termes de cette license
+        avant de mettre vos modèles sous celle-ci.</para>
+
+        <para>Assurez vous que les images que vous utilisez sont soit :</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>sous une license compatible avec la GPL</para>
+          </listitem>
+
+          <listitem>
+            <para>votre création personnelle, et vous les passerez sous
+            license GPL.</para>
+          </listitem>
+        </itemizedlist>
+      </warning>
+    </section>
+
+    <section>
+      <title>Livraison des modèles</title>
+
+      <para>Les modèles doivent être livrés sur le serveur de fichiers
+      subversion.</para>
+
+      <important>
+        <para>Les noms des fichiers doivent être écrits en minuscules sans
+        accents, les différents mots étant composés à l'aide du caractère
+        <filename>_</filename>.</para>
+      </important>
+
+      <important>
+        <title>Modèle de vaisseau</title>
+
+        <para>Les modèles de vaisseau doivent être livrés sur le serveur dans
+        le répertoire
+        <filename>modeles/<replaceable>catégorie</replaceable>/<replaceable>nom_du_vaisseau</replaceable></filename>
+        où <replaceable>catégorie</replaceable> est la catégorie du vaisseau
+        et <replaceable>nom_du_vaisseau</replaceable> le nom du
+        vaisseau.<example>
+            <title>Exemples de répertoires de livraisons de modèles</title>
+
+            <itemizedlist>
+              <listitem>
+                <para>modeles/chasseur/chasseur/sakouatel/</para>
+
+                <itemizedlist>
+                  <listitem>
+                    <para>vaisseau.blend</para>
+                  </listitem>
+
+                  <listitem>
+                    <para>texture1.jpg</para>
+                  </listitem>
+                </itemizedlist>
+              </listitem>
+            </itemizedlist>
+          </example></para>
+      </important>
+
+      <important>
+        <title>Modèle de composant sur le serveur</title>
+
+        <para>Les fichiers d'un même modèle de composant doivent être livrés
+        sur le serveur dans le répertoire
+        <filename>modeles/composants/<replaceable>type_de_composant</replaceable>/<replaceable>nom_du_composant</replaceable>/</filename>
+        où <replaceable>type_de_composant</replaceable> est le type du
+        composant livré (MOTEUR, ARME, etc ...) et
+        <replaceable>nom_du_composant</replaceable> un nom destiné à le
+        différentier des autres composants du même type.</para>
+      </important>
+    </section>
+
+    <section>
+      <title>Plaquage de textures</title>
+
+      <important>
+        <title>Textures</title>
+
+        <para>Les textures doivent être gérée en UV Mapping. Les fichiers
+        images de ces textures doivent être laissés àl'exterieur du fichier
+        blender (il ne faut utiliser l'option pack) et les chemins doivent
+        être relatifs.</para>
+      </important>
+    </section>
+
+    <section>
+      <title>Correspondance entre la taille des modèles et leur taille
+      "réelle"</title>
+
+      <important>
+        <title>Echelle des modèles</title>
+
+        <para>Une unité blender équivaut à dix centimètre dans le monde
+        modélisé.</para>
+
+        <para><emphasis>1 Blender = 10 cm PU</emphasis></para>
+      </important>
+    </section>
+  </section>
+
+  <section>
+    <title>Les différents modèles blender</title>
+
+    <para>Vous aurez besoin d'autres objets si vous composez une cinématique
+    d'explosion (les ailes par exemple).</para>
+
+    <para>Nous allons considérer dans la suite 3 types de modèles blender
+    :</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>Les modèles de composants</para>
+
+        <para>Ce sont des modèles à part pour un moteur, un système d'armes ou
+        tout autre composant.</para>
+      </listitem>
+
+      <listitem>
+        <para>Les modèles de carcasse de vaisseau</para>
+
+        <para>Ce sont des modèles contenant la carcasse d'un vaisseau non
+        équipé, i.e., sans moteurs, sans</para>
+      </listitem>
+
+      <listitem>
+        <para>Les modèles d'objets naturels</para>
+
+        <para>Ce sont des modèles contenant des objets que l'on trouve
+        naturellement dans l'univers : planètes, étoiles, etc...</para>
+      </listitem>
+    </itemizedlist>
+
+    <para>Ensuite, l'idée générale est d'utiliser la structuration de la
+    relation de parenté entre objets blender pour représenter la composition.
+    Par exemple, un vaisseau est composé (est fait de) de plusieurs
+    composants. De même chaque représentation de composant est elle-même
+    composé de plusieurs objets blender.</para>
+
+    <section>
+      <title>Modèle de composant</title>
+
+      <para>Pour un modèle de composant, seuls certains types de composants
+      sont autorisés. Les autres types de composants étant réservés au modèles
+      de vaisseau.</para>
+
+      <important>
+        <title>Structure d'un modèle de composant</title>
+
+        <para>Un modèle de composant est constitué de la représentation d'un
+        <emphasis role="bold">unique</emphasis> composant d'un des types
+        suivant : <itemizedlist>
+            <listitem>
+              <para>MOTEUR</para>
+            </listitem>
+
+            <listitem>
+              <para>ARME</para>
+            </listitem>
+
+            <listitem>
+              <para>TOURELLE</para>
+            </listitem>
+          </itemizedlist>c.f. <link
+        linkend="RepresentationComposants">Représentation des
+        composants</link>.</para>
+
+        <remark>Un modèle de composant est donc un modèle de moteur ou un
+        modèle d'arme ou un modèle de tourelle.</remark>
+      </important>
+    </section>
+
+    <section>
+      <title>Modèle de vaisseau</title>
+
+      <para>Un modèle de vaisseau est constitué de composants, qui sont eux
+      même constitués d'un ou plusieurs objets Blender (Mesh, Text, MetaBall
+      et Empty).</para>
+
+      <important>
+        <title>Structure d'un modèle de vaisseau</title>
+
+        <para>Un modèle de vaisseau est constitué d'un objet Empty nommé
+        VAISSEAU ayant les propriétés suivantes : <itemizedlist>
+            <listitem>
+              <para>catégorie</para>
+
+              <para>de type String, c'est la catégorie du vaisseau, c'est à
+              dire une des chaînes suivantes :</para>
+
+              <itemizedlist>
+                <listitem>
+                  <para>chasseur</para>
+                </listitem>
+
+                <listitem>
+                  <para>navette</para>
+                </listitem>
+
+                <listitem>
+                  <para>corvette</para>
+                </listitem>
+
+                <listitem>
+                  <para>destroyer</para>
+                </listitem>
+
+                <listitem>
+                  <para>croiseur</para>
+                </listitem>
+
+                <listitem>
+                  <para>cuirassé</para>
+                </listitem>
+              </itemizedlist>
+            </listitem>
+
+            <listitem>
+              <para>nom</para>
+
+              <para>de type String, c'est le nom du vaisseau.</para>
+            </listitem>
+
+            <listitem>
+              <para>constructeur</para>
+
+              <para>de type String, c'est le nom du constructeur du
+              vaisseau.</para>
+            </listitem>
+          </itemizedlist>ayant <emphasis
+        role="bold">obligatoirement</emphasis> comme objets fils les
+        représentations : <itemizedlist>
+            <listitem>
+              <para>d'un seul composant de type PONT</para>
+            </listitem>
+
+            <listitem>
+              <para>d'un ou plusieurs composants de type COQUE</para>
+
+              <para>Parmi ces composants il doit obligatoirement y avoir au
+              moins une attache de moteur.</para>
+            </listitem>
+          </itemizedlist>et ayant <emphasis
+        role="bold">optionnellement</emphasis> comme objets fils une ou des
+        représentation des types de composants suivants :<itemizedlist>
+            <listitem>
+              <para>ARME</para>
+            </listitem>
+
+            <listitem>
+              <para>TOURELLE</para>
+            </listitem>
+
+            <listitem>
+              <para>MOTEUR</para>
+            </listitem>
+          </itemizedlist><remark>Il n'est pas conseillé d'inclure des
+        composants dans un modèle de vaisseau.</remark></para>
+      </important>
+    </section>
+
+    <section id="RepresentationComposants">
+      <title>Représentation des Composants</title>
+
+      <para>Cette section décrit comment sont représentés dans Blender les
+      composants de chaque type. Tout d'abord une notation.</para>
+
+      <important>
+        <title>Notation pour les noms d'objets</title>
+
+        <para>Nous adoptons la notation <replaceable>NOM</replaceable>.xxx
+        signifie le mot <replaceable>NOM</replaceable> suivit d'un point
+        (caractère <wordasword>.</wordasword>) et suivit de 3 chiffres (notés
+        ici xxx).<example>
+            <title>Exemples</title>
+
+            <para><itemizedlist>
+                <listitem>
+                  <para>PONT.002</para>
+                </listitem>
+
+                <listitem>
+                  <para>MOTEUR.123</para>
+                </listitem>
+              </itemizedlist></para>
+          </example></para>
+      </important>
+
+      <section>
+        <title>Pont</title>
+
+        <important>
+          <title>Représentation d'un pont</title>
+
+          <para>Un composant de type PONT est représenté par un objet Empty
+          nommé PONT.xxx</para>
+
+          <para>ayant comme objets fils :</para>
+
+          <itemizedlist>
+            <listitem>
+              <para>la représentation d'un composant de type COQUE</para>
+
+              <para><remark>Il s'agit de la partie extérieur du
+              pont.</remark></para>
+            </listitem>
+
+            <listitem>
+              <para>la représentation d'un composant de type COCKPIT</para>
+
+              <para><remark>Il s'agit de ce qui est vu par l'équipage à
+              l'intérieur du pont. Il doit être placé à l'intérieur de la
+              COQUE qui lui correspond.</remark></para>
+            </listitem>
+          </itemizedlist>
+        </important>
+      </section>
+
+      <section>
+        <title>Cockpit</title>
+
+        <important>
+          <title>Représentation d'un cockpit</title>
+
+          <para>Un composant de type COCKPIT est représenté par un objet Empty
+          nommé COCKPIT.xxx</para>
+
+          <para>ayant comme objets fils :</para>
+
+          <itemizedlist>
+            <listitem>
+              <para>un objet Mesh</para>
+
+              <para><remark>Il s'agit de ce qui est vu par l'équipage depuis
+              l'intérieur du pont : tableau de bord etc... </remark></para>
+            </listitem>
+
+            <listitem>
+              <para>un objet Empty nommé PILOTE.xxx</para>
+
+              <para><remark>Il s'agit de l'orientation normale de la tête du
+              pilote.</remark></para>
+            </listitem>
+          </itemizedlist>
+        </important>
+      </section>
+
+      <section>
+        <title>Moteur</title>
+
+        <important>
+          <title>Représentation d'un moteur</title>
+
+          <para>Un composant Moteur est représenté par un objet Empty nommé
+          MOTEUR.xxx ayant comme propriétés :</para>
+
+          <itemizedlist>
+            <listitem>
+              <para>nom</para>
+
+              <para>de type String, c'est le nom du moteur.</para>
+            </listitem>
+
+            <listitem>
+              <para>constructeur</para>
+
+              <para>de type String, c'est le nom du constructeur du
+              moteur.</para>
+            </listitem>
+
+            <listitem>
+              <para>resistance</para>
+
+              <para>de type Float, c'est la quantité de dégâts totale du
+              moteur exprimé en joules.</para>
+            </listitem>
+          </itemizedlist>
+
+          <para>et ayant comme objets fils :</para>
+
+          <itemizedlist>
+            <listitem>
+              <para>des objets Empty</para>
+
+              <para><remark>Ces objets et leurs sous objets servent à
+              représenter les différents niveaux de dégâts du moteur.
+              </remark></para>
+
+              <para><remark>On met donc un sous-arbre d'objets par niveau de
+              dégâts.</remark></para>
+
+              <para>ayant comme propriétés :</para>
+
+              <itemizedlist>
+                <listitem>
+                  <para>degats</para>
+
+                  <para>de type Int, c'est la quantité de dégâts qu'à déjà
+                  reçu le composant en pourcentage.</para>
+
+                  <para><example>
+                      <title>Exemple des dégâts</title>
+
+                      <itemizedlist>
+                        <listitem>
+                          <para>0</para>
+
+                          <para>aucun dégâts subit par le composant, il est
+                          comme neuf</para>
+                        </listitem>
+
+                        <listitem>
+                          <para>25</para>
+
+                          <para>le composant a subit 25% de dégâts</para>
+                        </listitem>
+                      </itemizedlist>
+                    </example></para>
+                </listitem>
+
+                <listitem>
+                  <para>poussee</para>
+
+                  <para>de type Float, c'est la poussée maximum du moteur
+                  exprimée en kg.m.s<superscript>-2</superscript>, i.e. en
+                  <ulink
+                  url="http://fr.wikipedia.org/wiki/Newton_(unité)">newton</ulink>.</para>
+
+                  <para><remark>Il s'agit en quelque sorte de la "puissance"
+                  du moteur, sa force.</remark></para>
+
+                  <para><remark>Cette poussée peut donc varier en fonction du
+                  niveau de dégâts.</remark></para>
+                </listitem>
+
+                <listitem>
+                  <para>masse</para>
+
+                  <para>de type Float, c'est la masse du moteur exprimée en
+                  kilogrammes.</para>
+
+                  <para><remark>Cette masse peut donc varier en fonction du
+                  niveau de dégâts.</remark></para>
+                </listitem>
+              </itemizedlist>
+
+              <para>ayant <emphasis role="bold">obligatoirement</emphasis>
+              comme objets fils :</para>
+
+              <itemizedlist>
+                <listitem>
+                  <para>un ou plusieurs objets Mesh</para>
+
+                  <para><remark>Il s'agit des modèles 3D représentant le
+                  moteur à ce niveau de dégâts, un par niveau de détail que
+                  l'on souhaite représenter.</remark></para>
+
+                  <para>ayant chacun la propriété :</para>
+
+                  <itemizedlist>
+                    <listitem>
+                      <para>niveau_de_detail</para>
+
+                      <para>de type Int, c'est un indicateur de quantité de
+                      détails du modèle 3D, plus le chiffre est important plus
+                      le niveau de détails est faible.</para>
+                    </listitem>
+                  </itemizedlist>
+                </listitem>
+
+                <listitem>
+                  <para>un objet Mesh à deux dimensions nommé
+                  EFFET_MOTEUR.xxx</para>
+
+                  <para><remark>Il s'agit de la zone d'éjection du moteur, sa
+                  sortie.</remark></para>
+
+                  <para><remark>Cette zone peut varier en fonction des
+                  dégâts.</remark></para>
+                </listitem>
+
+                <listitem>
+                  <para>un objet Empty nommé POUSSEE.xxx dont la direction X
+                  indique la direction de poussée du moteur.</para>
+
+                  <para><remark>Il s'agit de l'orientation de la poussée du
+                  moteur.</remark></para>
+
+                  <para><remark>La poussée du moteur est donnée par le vecteur
+                  X de l'objet Empty.</remark></para>
+
+                  <para><remark>Il faut bien prendre garde au placement de ce
+                  vecteur de poussée, notamment par rapport au centre de
+                  gravité. Si les différents vecteurs de poussée sont placés
+                  approximativement, le vaisseau aura une tendance à parti
+                  d'un coté... comme une voiture aux roues mal
+                  réglées.</remark></para>
+
+                  <para><remark>Le vecteur de poussée peut dépendre des
+                  dégâts.</remark></para>
+                </listitem>
+
+                <listitem>
+                  <para>un objet Empty nommé CENTRE_GRAVITE.xxx</para>
+
+                  <para><remark>Il s'agit du point d'équilibre des masses du
+                  moteur.</remark></para>
+
+                  <para><remark>Le centre de gravité peut varier en fonction
+                  du niveau de dégâts</remark></para>
+                </listitem>
+              </itemizedlist>
+
+              <para>et ayant <emphasis role="bold">optionnellement</emphasis>
+              comme objet fils :</para>
+
+              <itemizedlist>
+                <listitem>
+                  <para>un objet Empty nommé ATTACHE_COQUE.xxx centré sur un
+                  point de la surface de son Mesh frère et dont la direction X
+                  indique l'extérieur.</para>
+
+                  <para><remark>Il s'agit d'un objet permettant d'attacher le
+                  moteur sur un vaisseau.</remark></para>
+
+                  <para><remark>Si on ne met pas d'attache, cela signifie qu'à
+                  ce niveau de dégâts, le moteur ne peut pas être attaché au
+                  vaisseau.</remark></para>
+                </listitem>
+              </itemizedlist>
+            </listitem>
+          </itemizedlist>
+        </important>
+      </section>
+
+      <section>
+        <title>Coque</title>
+
+        <important>
+          <title>Représentation d'une coque</title>
+
+          <para>Un composant de type COQUE est représenté par un objet Empty
+          nommé COQUE.xxx</para>
+
+          <para>ayant comme propriété :</para>
+
+          <itemizedlist>
+            <listitem>
+              <para>resistance</para>
+
+              <para>de type Float, c'est la résistance au dégâts de cette
+              coque exprimé en Joules.</para>
+            </listitem>
+          </itemizedlist>
+
+          <para>ayant comme fils :</para>
+
+          <itemizedlist>
+            <listitem>
+              <para>un objet MetaBall nommé BOUCLIER.xxx</para>
+
+              <para>ayant comme propriétés :</para>
+
+              <itemizedlist>
+                <listitem>
+                  <para>resistance</para>
+
+                  <para>de type Float, c'est la résistance maximale aux dégâts
+                  du bouclier exprimée en Joules.</para>
+                </listitem>
+              </itemizedlist>
+            </listitem>
+
+            <listitem>
+              <para>des objets Empty</para>
+
+              <para><remark>Ce sont les différents états de la coque aux
+              différents niveaux de dégâts.</remark></para>
+
+              <para>ayant les propriétés suivantes :</para>
+
+              <itemizedlist>
+                <listitem>
+                  <para>degats</para>
+
+                  <para>de type Int, c'est la quantité de dégâts qu'à déjà
+                  reçu la coque en pourcentage.</para>
+
+                  <para><example>
+                      <title>Exemple des dégâts</title>
+
+                      <itemizedlist>
+                        <listitem>
+                          <para>0</para>
+
+                          <para>aucun dégâts subit par la coque, elle est
+                          comme neuve</para>
+                        </listitem>
+
+                        <listitem>
+                          <para>25</para>
+
+                          <para>la coque a subit 25% de dégâts</para>
+                        </listitem>
+                      </itemizedlist>
+                    </example></para>
+                </listitem>
+
+                <listitem>
+                  <para>masse</para>
+
+                  <para>de type Float, c'est la masse du morceau de coque
+                  exprimée en kilogrammes.</para>
+                </listitem>
+              </itemizedlist>
+
+              <para>ayant <emphasis role="bold">obligatoirement</emphasis>
+              comme objets fils :</para>
+
+              <itemizedlist>
+                <listitem>
+                  <para>un ou des objets Mesh</para>
+
+                  <para><remark>Ce sont les modèles 3D proprement dits, chacun
+                  à son niveau de détail.</remark></para>
+
+                  <para>ayant chacun la propriété :</para>
+
+                  <itemizedlist>
+                    <listitem>
+                      <para>niveau_de_detail</para>
+
+                      <para>de type Int, c'est un indicateur de quantité de
+                      détails du modèle 3D, plus le chiffre est faible plus le
+                      niveau de détails est important.</para>
+                    </listitem>
+                  </itemizedlist>
+                </listitem>
+
+                <listitem>
+                  <para>un objet Empty nommé CENTRE_GRAVITE.xxx</para>
+
+                  <para><remark>Il s'agit du point d'équilibre des masses de
+                  ce morceau de coque.</remark></para>
+                </listitem>
+              </itemizedlist>
+
+              <para>et ayant <emphasis role="bold">optionnellement</emphasis>
+              un ou plusieurs des objets fils suivants :</para>
+
+              <itemizedlist>
+                <listitem>
+                  <para>un objet Empty nommé ATTACHE_MOTEUR.xxx</para>
+                </listitem>
+
+                <listitem>
+                  <para>un objet Empty nommé ATTACHE_ARME.xxx</para>
+                </listitem>
+
+                <listitem>
+                  <para>un objet Empty nommé ATTACHE_TOURELLE.xxx</para>
+                </listitem>
+              </itemizedlist>
+            </listitem>
+          </itemizedlist>
+        </important>
+      </section>
+
+      <section>
+        <title>Arme</title>
+
+        <para>Un composant de type ARME est tout système d'arme non-mobile,
+        les systèmes d'armes mobiles sont les composants de type
+        TOURELLE.</para>
+
+        <important>
+          <title>Représentation d'une arme</title>
+
+          <para>Un composant de type ARME est représenté par un objet Empty
+          nommé ARME.xxx</para>
+
+          <para>ayant comme propriétés :</para>
+
+          <itemizedlist>
+            <listitem>
+              <para>nom</para>
+
+              <para>de type String, c'est le nom du moteur.</para>
+            </listitem>
+
+            <listitem>
+              <para>constructeur</para>
+
+              <para>de type String, c'est le nom du constructeur du
+              moteur.</para>
+            </listitem>
+
+            <listitem>
+              <para>resistance</para>
+
+              <para>de type Float, c'est la quantité de dégâts totale du
+              moteur exprimé en joules.</para>
+            </listitem>
+          </itemizedlist>
+
+          <para>et ayant comme objets fils :</para>
+
+          <itemizedlist>
+            <listitem>
+              <para>un ou des objets Empty</para>
+
+              <para><remark>Ce sont les différents états de l'armes aux
+              différents niveaux de dégâts.</remark></para>
+
+              <para>ayant les propriétés suivantes :</para>
+
+              <itemizedlist>
+                <listitem>
+                  <para>degats</para>
+
+                  <para>de type Int, c'est la quantité de dégâts qu'à déjà
+                  reçu l'arme en pourcentage.</para>
+
+                  <para><example>
+                      <title>Exemple des dégâts</title>
+
+                      <itemizedlist>
+                        <listitem>
+                          <para>0</para>
+
+                          <para>aucun dégâts subit par la coque, elle est
+                          comme neuve</para>
+                        </listitem>
+
+                        <listitem>
+                          <para>25</para>
+
+                          <para>la coque a subit 25% de dégâts</para>
+                        </listitem>
+                      </itemizedlist>
+                    </example></para>
+                </listitem>
+
+                <listitem>
+                  <para>masse</para>
+
+                  <para>de type Float, c'est la masse de l'arme exprimée en
+                  kilogrammes.</para>
+                </listitem>
+
+                <listitem>
+                  <para>degats_infliges</para>
+
+                  <para>de type Float, c'est la quantité de dégâts infligée
+                  par l'arme à pleine puissance exprimée en Joules.</para>
+                </listitem>
+              </itemizedlist>
+
+              <para>ayant <emphasis role="bold">obligatoirement</emphasis>
+              comme objets fils :</para>
+
+              <itemizedlist>
+                <listitem>
+                  <para>un ou plusieurs objet Mesh</para>
+
+                  <para><remark>Il s'agit du modèle 3D représentant le système
+                  d'arme proprement dit à un certain niveau de
+                  détails.</remark></para>
+                </listitem>
+
+                <listitem>
+                  <para>un ou plusieurs objets Empty nommés SORTIE.xxx.</para>
+
+                  <para>La direction X du vecteur indique le vecteur de sortie
+                  d'un des cannons, le centre de cet objet indiquant l'endroit
+                  d'où sortent les tirs.</para>
+
+                  <para><remark>Il s'agit des points de sortie et de
+                  l'orientation des tirs de l'arme. Une arme peut être
+                  composée de plusieurs cannons.</remark></para>
+
+                  <para><remark>Le nombre de ces points de sortie peut varier
+                  d'un niveau de dégâts à l'autre.</remark></para>
+                </listitem>
+
+                <listitem>
+                  <para>un objet Emty nommé CENTRE_GRAVITE.xxx</para>
+
+                  <para><remark>Il s'agit du point d'équilibre des masses de
+                  ce système d'armes.</remark></para>
+                </listitem>
+              </itemizedlist>
+            </listitem>
+          </itemizedlist>
+        </important>
+      </section>
+
+      <section>
+        <title>Tourelle (à faire)</title>
+
+        <important>
+          <title>Représentation d'une tourelle</title>
+
+          <para>Un composant de type TOURELLE est représenté par un objet
+          Empty nommé TOURELLE</para>
+
+          <para>ayant comme propriétés :</para>
+
+          <itemizedlist>
+            <listitem>
+              <para>degats</para>
+
+              <para>de type Float, c'est la quantité de dégâts infligée par
+              l'arme à pleine puissance exprimée en Joules.</para>
+            </listitem>
+
+            <listitem>
+              <para>resistance</para>
+
+              <para>de type Float, c'est la résistance aux dégâts du système
+              d'armes exprimée en Joules.</para>
+            </listitem>
+          </itemizedlist>
+
+          <para>et ayant comme objets fils :</para>
+
+          <itemizedlist>
+            <listitem>
+              <para>un objet blender Armature</para>
+            </listitem>
+
+            <listitem>
+              <para>un objet Mesh pour chacune des parties mobile de la
+              tourelle</para>
+
+              <para>Chacun de ces objets doit être lié à un unique Bone de
+              l'armature.</para>
+            </listitem>
+          </itemizedlist>
+        </important>
+      </section>
+    </section>
+
+    <section>
+      <title>A propos des attaches</title>
+
+      <para>Le fonctionnement des attaches de moteur, d'arme et de tourelle
+      est le suivant.</para>
+
+      <para>Il y a 2 objets Empty pour l'attache :</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>un du coté du moteur (respectivement arme, tourelle)</para>
+        </listitem>
+
+        <listitem>
+          <para>un du coté de la coque</para>
+        </listitem>
+      </itemizedlist>
+
+      <para>Lors de l'assemblage : ces deux objets Empty seront placés de
+      telle sorte qu'ils coïncident.</para>
+
+      <para>Pour garantir une compatibilité entre les différentes carcasses de
+      vaisseau et les composants, la règle suivante doit être adoptée :</para>
+
+      <para>concernant l'objet Empty d'une attache de moteur sur le moteur
+      lui-même :</para>
+
+      <para>le vecteur X doit être parallèle au vecteur X de la POUSSEE du
+      moteur</para>
+
+      <para>le vecteur Y doit pointer vers le haut du moteur</para>
+
+      <para>le vecteur Z doit pointer vers l'intérieur du moteur</para>
+
+      <para>concernant l'objet Empty d'une attache d'arme sur l'arme elle-même
+      : à compléter</para>
+    </section>
+  </section>
+
+  <section>
+    <title>Limitations en taille</title>
+
+    <para>Les vaisseaux sont classés par catégories. Chacune de ces catégories
+    est limitée en taille et en nombre de polygones.</para>
+
+    <section>
+      <title>Catégorie de vaisseaux</title>
+
+      <para>Ce qui suit est tiré du cahier des charges de projet
+      univers&nbsp;:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>Chasseur</para>
+
+          <para>Un chasseur est un vaisseau mono-place destiné au combat
+          spatial.</para>
+
+          <para>Un chasseur mesure généralement moins de 15 mètres de
+          long.</para>
+        </listitem>
+
+        <listitem>
+          <para>Navette</para>
+
+          <para>Une navette est ...</para>
+
+          <para>Une navette mesure généralement de 15 à 50 mètres.</para>
+        </listitem>
+
+        <listitem>
+          <para>Corvette</para>
+
+          <para>Une corvette est ...</para>
+
+          <para>Une corvette mesure généralement entre 50 et 200
+          mètres.</para>
+
+          <itemizedlist>
+            <listitem>
+              <para>Navette</para>
+
+              <para>Une navette sert à transporter des passagers.</para>
+            </listitem>
+
+            <listitem>
+              <para>Transport</para>
+
+              <para>Une corvette de Transport sert à transporter de la
+              marchandise.</para>
+            </listitem>
+
+            <listitem>
+              <para>Combat</para>
+
+              <para>Un vaisseau de combat.</para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+
+        <listitem>
+          <para>Frégate</para>
+        </listitem>
+
+        <listitem>
+          <para>Destroyer</para>
+        </listitem>
+
+        <listitem>
+          <para>Croiseur</para>
+        </listitem>
+
+        <listitem>
+          <para>Cuirassé</para>
+        </listitem>
+
+        <listitem>
+          <para>Station</para>
+
+          <itemizedlist>
+            <listitem>
+              <para>Civile</para>
+            </listitem>
+
+            <listitem>
+              <para>Combat</para>
+            </listitem>
+
+            <listitem>
+              <para>Défense</para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+
+        <listitem>
+          <para>Balise</para>
+
+          <itemizedlist>
+            <listitem>
+              <para>Satellite Artificiel</para>
+            </listitem>
+
+            <listitem>
+              <para>Sonde</para>
+            </listitem>
+
+            <listitem>
+              <para>Balise de navigation</para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+
+        <listitem>
+          <para>Astre</para>
+
+          <itemizedlist>
+            <listitem>
+              <para>Satellite Naturel</para>
+            </listitem>
+
+            <listitem>
+              <para>Trou noir</para>
+            </listitem>
+
+            <listitem>
+              <para>Planète</para>
+            </listitem>
+
+            <listitem>
+              <para>Curiosité</para>
+            </listitem>
+
+            <listitem>
+              <para>Étoile</para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+      </itemizedlist>
+    </section>
+
+    <section>
+      <title>Taille des vaisseaux</title>
+
+      <para>Voilà un ordre d'idée des tailles des vaisseaux :</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>Chasseur : entre 9 et 20 mètres.</para>
+        </listitem>
+      </itemizedlist>
+
+      <itemizedlist>
+        <listitem>
+          <para>Corvette</para>
+
+          <itemizedlist>
+            <listitem>
+              <para>Navette : entre 12 et 25 Mètres.</para>
+            </listitem>
+
+            <listitem>
+              <para>Transports : entre 20 et 30 Mètres.</para>
+            </listitem>
+
+            <listitem>
+              <para>De combat : entre 15 et 35 Mètres.</para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+      </itemizedlist>
+
+      <itemizedlist>
+        <listitem>
+          <para>Vaisseau Lourd</para>
+
+          <itemizedlist>
+            <listitem>
+              <para>Frégate : entre 40 et 100 Mètres.</para>
+            </listitem>
+
+            <listitem>
+              <para>Destroyer : entre 150 et 500 Mètres.</para>
+            </listitem>
+
+            <listitem>
+              <para>Croiseur : entre 800 et 1500 Mètres.</para>
+            </listitem>
+
+            <listitem>
+              <para>Cuirassé : entre 2000 et 5000 Mètres.</para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+      </itemizedlist>
+
+      <itemizedlist>
+        <listitem>
+          <para>Station</para>
+
+          <itemizedlist>
+            <listitem>
+              <para>Civile : Entre 100 et 1000 Mètres</para>
+            </listitem>
+
+            <listitem>
+              <para>Combat : Entre 200 et 2000 Mètres</para>
+            </listitem>
+
+            <listitem>
+              <para>Défense : Entre 300 et 1000 Mètres</para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+      </itemizedlist>
+
+      <itemizedlist>
+        <listitem>
+          <para>Balise : Entre 5 et 10 Mètres</para>
+        </listitem>
+      </itemizedlist>
+
+      <itemizedlist>
+        <listitem>
+          <para>Astre : Entre 200 et 4000 Mètre</para>
+        </listitem>
+      </itemizedlist>
+    </section>
+
+    <section>
+      <title>Pour le groupe des Chasseurs</title>
+
+      <para>Un chasseur est un petit vaisseau, rapide, il a différentes
+      missions. Certains ont pour but de bombarder des cibles (plus gros,
+      moins maniables, mais plus de capacité d'emport de missiles), certains
+      sont rapide (fins, racés, maniables) et d'autre sont plutôt
+      multitâches.</para>
+
+      <remark>Vu le découpage des modèles en objets, ce sont les différents
+      types d'objets pour lesquels on doit limiter le nombre de polygones. Ce
+      qui n'empêche pas d'avoir un nombre de polygones maximum pour chacune
+      des configurations (une configuration est le choix d'un état pour chacun
+      des composants).</remark>
+
+      <section>
+        <title>Limitations du nombre de Polygones</title>
+
+        <orderedlist>
+          <listitem>
+            <para>proche : 1000 polygones maximum, texture de bonne
+            qualité</para>
+          </listitem>
+
+          <listitem>
+            <para>moyen : 600 polygones maximum, texture de bonne
+            qualité</para>
+          </listitem>
+
+          <listitem>
+            <para>loin : 300 polygones maximum, texture de qualité
+            basse</para>
+          </listitem>
+        </orderedlist>
+      </section>
+
+      <section>
+        <title>Autres limitations</title>
+
+        <para>Si possible, faire une cinématique d'explosion pour chaque
+        modèle, sauf le modèle 3 (Loin). Cette cinématique doit montrer que le
+        vaisseaux est détruit. Le vaisseaux doit donc se "décomposer" en
+        morceaux, assez rapidement.</para>
+
+        <para>L'animation ne doit pas durer plus de 3 secondes.</para>
+      </section>
+    </section>
+
+    <section>
+      <title>Pour le groupe des Corvettes</title>
+
+      <para>Il est possible de prévoir sur ses modèles une ou deux tourelles
+      lasers, en plus des canons du pilote (Pensez au faucon
+      millénium).</para>
+
+      <section>
+        <title>Limitations du nombre de Polygones</title>
+
+        <orderedlist>
+          <listitem>
+            <para>proche : 1300 polygones maximum, texture de bonne
+            qualité</para>
+          </listitem>
+
+          <listitem>
+            <para>moyen : 800 polygones maximum, texture de bonne
+            qualité</para>
+          </listitem>
+
+          <listitem>
+            <para>loin : 350 polygones maximum, texture de qualité
+            basse</para>
+          </listitem>
+        </orderedlist>
+      </section>
+
+      <section>
+        <title>Autres limitations</title>
+
+        <para>Il est possible de faire une cinématique d'explosion pour chaque
+        modèle, sauf le modèle 3 (Loin). Cette cinématique doit montrer que le
+        vaisseaux est détruit. Le vaisseaux doit donc se "décomposer" en
+        morceaux, assez rapidement.</para>
+
+        <para>L'animation ne doit pas durer plus de 5 secondes.</para>
+      </section>
+    </section>
+
+    <section>
+      <title>Pour le groupe des Vaisseaux lourds</title>
+
+      <section>
+        <title>Limitations du nombre de Polygones</title>
+
+        <orderedlist>
+          <listitem>
+            <para>proche : 2500 polygones maximum, texture de bonne
+            qualité</para>
+          </listitem>
+
+          <listitem>
+            <para>moyen : 1000 polygones maximum, texture de bonne
+            qualité</para>
+          </listitem>
+
+          <listitem>
+            <para>loin : 700 polygones maximum, texture de qualité
+            basse</para>
+          </listitem>
+        </orderedlist>
+      </section>
+
+      <section>
+        <title>Autres limitations</title>
+
+        <para>La, on va avoir une limitation de taille. Il faudrait en effet
+        que votre modèle puisse être fait en plusieurs parties. Par exemple,
+        le vaisseau est proche de la destruction, et ses ennemis lui portent
+        beaucoup de dégâts sur le milieu : il va se couper en deux. Ce genre
+        d'exemples implique des modèles en "morceaux". Autre détail de taille,
+        il faut texturer les "failles", pour que l'on ait l'impression de voir
+        l'intérieur du vaisseaux!!!</para>
+
+        <para>Les explosions peuvent être personnalisées, la destruction d'un
+        vaisseau mère peut être personnalisée, mais il faut faire très
+        attention à rester dans le domaine du raisonnable.</para>
+      </section>
+    </section>
+
+    <section>
+      <title>Pour le groupe des Stations</title>
+
+      <section>
+        <title>Limitations du nombre de Polygones</title>
+
+        <orderedlist>
+          <listitem>
+            <para>proche : 2000 polygones maximum, texture de bonne
+            qualité</para>
+          </listitem>
+
+          <listitem>
+            <para>moyen : 900 polygones maximum, texture de bonne
+            qualité</para>
+          </listitem>
+
+          <listitem>
+            <para>loin : 500 polygones maximum, texture de qualité
+            basse</para>
+          </listitem>
+        </orderedlist>
+      </section>
+
+      <section>
+        <title>Autres limitations</title>
+
+        <para>Même remarque que pour les vaisseaux lourds.</para>
+      </section>
+    </section>
+
+    <section>
+      <title>Pour le groupe des Balises</title>
+
+      <para>En ce qui concerne les balises et autres, c'est pas plus de 100
+      Poly, sauf pour les plus grande, ou l'on peut aller jusque 200
+      polygones.</para>
+    </section>
+
+    <section>
+      <title>Pour le groupe des Astres</title>
+
+      <para>Pour les Astres, tout dépend, si on utilise une version BMP pour
+      le fond d'une mission (pas de réelle 3D) alors on peut travailler sans
+      limite, sinon, c'est les limitations suivantes&nbsp;:</para>
+
+      <orderedlist>
+        <listitem>
+          <para>proche&nbsp;: 2500 polygones maximum</para>
+        </listitem>
+
+        <listitem>
+          <para>moyen&nbsp;: 900 polygones maximum</para>
+        </listitem>
+
+        <listitem>
+          <para>Loin&nbsp;: 500 polygones maximum</para>
+        </listitem>
+      </orderedlist>
+    </section>
+  </section>
+
+  <glossary>
+    <glossdiv>
+      <title>Glossaire des termes</title>
+
+      <glossentry>
+        <glossterm>Composant</glossterm>
+
+        <glossdef>
+          <para>Une partie d'un vaisseau. Il existe plusieurs types de
+          composants.</para>
+        </glossdef>
+      </glossentry>
+
+      <glossentry>
+        <glossterm>Type de composant</glossterm>
+
+        <glossdef>
+          <para>Chaque composant possède un type permettant de savoir de quel
+          genre de composant il s'agit. Les types sont :</para>
+
+          <itemizedlist>
+            <listitem>
+              <para>PONT</para>
+            </listitem>
+
+            <listitem>
+              <para>COCKPIT</para>
+            </listitem>
+
+            <listitem>
+              <para>MOTEUR</para>
+            </listitem>
+
+            <listitem>
+              <para>COQUE</para>
+            </listitem>
+
+            <listitem>
+              <para>PONT</para>
+            </listitem>
+
+            <listitem>
+              <para>ARME</para>
+            </listitem>
+
+            <listitem>
+              <para>TOURELLE</para>
+            </listitem>
+          </itemizedlist>
+        </glossdef>
+      </glossentry>
+
+      <glossentry>
+        <glossterm>Modèle blender</glossterm>
+
+        <glossdef>
+          <para>Un fichier blender (<filename>*.blend</filename>).</para>
+        </glossdef>
+      </glossentry>
+
+      <glossentry>
+        <glossterm>Modèle de composant</glossterm>
+
+        <glossdef>
+          <para>Un fichier blender contenant un unique composant.</para>
+        </glossdef>
+      </glossentry>
+
+      <glossentry>
+        <glossterm>Modèle de vaisseau</glossterm>
+
+        <glossdef>
+          <para>Un fichier blender contenant la carcasse d'un vaisseau.</para>
+        </glossdef>
+      </glossentry>
+
+      <glossentry>
+        <glossterm>Propriété blender</glossterm>
+
+        <glossdef>
+          <para>Blender permet d'attacher des propriétés aux objets : fenêtre
+          <foreignphrase>Buttons Window</foreignphrase>, Panel
+          <foreignphrase>Logic</foreignphrase>.</para>
+        </glossdef>
+      </glossentry>
+    </glossdiv>
+  </glossary>
+
+  <appendix>
+    <title>Notes et liste des choses à faire</title>
+
+    <para>Quelques notes/listes de chosesp ossibles à faire qui sont mieux ici
+    que sur des feuilles de papier éparses.</para>
+
+    <note>
+      <title>Schéma technique d'un vaisseau</title>
+
+      <para>Il pourrait être envisagé de définir le circuit d'alimentation en
+      energie d'un vaisseau dans ce format.</para>
+    </note>
+
+    <note>
+      <title>L'intérieur des vaisseaux</title>
+
+      <para>A la limitte, on devrait permettre de modéliser entièrement
+      l'intérieur d'un vaisseau.</para>
+    </note>
+
+    <note>
+      <title>Amarrage des vaisseaux</title>
+
+      <para>Peut être peut on ajouter des composants spéciaux permettant
+      l'amarrage de 2 vaisseaux.</para>
+    </note>
+
+    <note>
+      <title>Attaches entre parties de coques</title>
+
+      <para>Pourquoi ne pas définir des attaches entre parties de coques :
+      cela permettrait de briser un vaisseau en 2. Pour cela l'existence ou
+      non d'une attache sur un morceau de coque devrait dépendre de la
+      quantité de dégats.</para>
+    </note>
+  </appendix>
+
+  <appendix id="FAQ">
+    <title>Foire aux questions</title>
+
+    <qandaset>
+      <qandadiv>
+        <qandaentry>
+          <question>
+            <para>Comment créer les liens parent/enfant?</para>
+          </question>
+
+          <answer>
+            <procedure>
+              <step>
+                <para>Sélectionner le futur objet fils</para>
+              </step>
+
+              <step>
+                <para>Sélectionner le futur objet père en gardant
+                <keycap>Shift</keycap> appuyé</para>
+
+                <para>A ce moment là vous devez avoir les deux objets
+                sélectionnés</para>
+              </step>
+
+              <step>
+                <para>Faire <command>make parent</command> (<keycombo>
+                    <keycap>Ctrl</keycap>
+
+                    <keycap>p</keycap>
+                  </keycombo>)</para>
+              </step>
+
+              <step>
+                <para>Vous pouvez vérifier vos liens de parentés dans la
+                fenêtre <guimenuitem>Outliner</guimenuitem> et dans sa vue
+                <guimenuitem>Show Outliner</guimenuitem>, les objets y sont
+                rangés comme dans des répertoires</para>
+              </step>
+            </procedure>
+          </answer>
+        </qandaentry>
+
+        <qandaentry>
+          <question>
+            <para>Comment ajouter une propriété à un objet?</para>
+          </question>
+
+          <answer>
+            <procedure>
+              <step>
+                <para>Fenêtre <guimenuitem>Buttons Window</guimenuitem></para>
+              </step>
+
+              <step>
+                <para>panel <guimenuitem>Logic</guimenuitem></para>
+              </step>
+
+              <step>
+                <para>le bouton <guibutton>Add Property</guibutton> en bas à
+                gauche</para>
+              </step>
+            </procedure>
+          </answer>
+        </qandaentry>
+      </qandadiv>
+    </qandaset>
+  </appendix>
+</article>
