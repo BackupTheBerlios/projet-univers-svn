@@ -34,7 +34,7 @@ namespace ProjetUnivers
       {
       protected:
       /*!
-        @name Trait dependencies udpate tests
+        @name Trait dependencies update tests
 
         there are 3 operations : addTrait, destroyTrait and changeParent
         there are 7 formula constructors (And,Or,HasTrait,HasParent,HasAncestor,
@@ -46,39 +46,56 @@ namespace ProjetUnivers
       */
       // @{
 
-        void depedentTrait() ;
-        void removeDeducedTrait() ;
-        void parentTrait() ;
-        void childTrait() ;
-        void orAddNewTrait() ;
+        void andBecomesTrueDepedentTrait() ;
+        void removeDeducedTraitOnAndDepedentTrait() ;
 
-        void addTraitChangeHasParentDependencies() ;
-        void removeTraitChangeHasParentDependencies() ;
+        void childTraitIsHasChildDependency() ;
+
+        void addNewTraitOnOrChangeDepedencies() ;
+        /// @todo
+        void removeTraitOnOrChangeDepedencies() ;
+
+        void parentTraitIsHasParentDependency() ;
+        void addIntermediateTraitChangeHasParentDependencies() ;
+        void removeIntermediateTraitChangeHasParentDependencies() ;
         void removeTraitChangeHasParentDependenciesByBecommingFalse() ;
         void changeParentChangeHasParentDependencies() ;
         void addTraitOnEmptyStructure() ;
-
         void hasParentFormulaDependencies() ;
         void andHasParentAddTraitChangeHasParentDependencies() ;
         void hasParentOnDeducedTrait() ;
+
+      // @}
+      /*!
+        @name Formula updaters calculus test
+      */
+      // @{
+
+        void hasTraitFormulaUpdaterTraits() ;
+        void andUpdaterTraits() ;
+        void hasParentUpdaterTraits() ;
 
      // @}
 
         CPPUNIT_TEST_SUITE(TestTrait) ;
 
-        CPPUNIT_TEST(depedentTrait) ;
-        CPPUNIT_TEST(removeDeducedTrait) ;
-        CPPUNIT_TEST(parentTrait) ;
-        CPPUNIT_TEST(childTrait) ;
-        CPPUNIT_TEST(orAddNewTrait) ;
-        CPPUNIT_TEST(addTraitChangeHasParentDependencies) ;
-        CPPUNIT_TEST(removeTraitChangeHasParentDependencies) ;
+        CPPUNIT_TEST(andBecomesTrueDepedentTrait) ;
+        CPPUNIT_TEST(removeDeducedTraitOnAndDepedentTrait) ;
+        CPPUNIT_TEST(parentTraitIsHasParentDependency) ;
+        CPPUNIT_TEST(childTraitIsHasChildDependency) ;
+        CPPUNIT_TEST(addNewTraitOnOrChangeDepedencies) ;
+        CPPUNIT_TEST(addIntermediateTraitChangeHasParentDependencies) ;
+        CPPUNIT_TEST(removeIntermediateTraitChangeHasParentDependencies) ;
         CPPUNIT_TEST(removeTraitChangeHasParentDependenciesByBecommingFalse) ;
         CPPUNIT_TEST(changeParentChangeHasParentDependencies) ;
         CPPUNIT_TEST(addTraitOnEmptyStructure) ;
         CPPUNIT_TEST(hasParentFormulaDependencies) ;
         CPPUNIT_TEST(andHasParentAddTraitChangeHasParentDependencies) ;
         CPPUNIT_TEST(hasParentOnDeducedTrait) ;
+
+        CPPUNIT_TEST(hasTraitFormulaUpdaterTraits) ;
+        CPPUNIT_TEST(andUpdaterTraits) ;
+        CPPUNIT_TEST(hasParentUpdaterTraits) ;
 
         CPPUNIT_TEST_SUITE_END() ;
       };

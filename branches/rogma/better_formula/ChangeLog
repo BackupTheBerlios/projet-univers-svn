@@ -1349,11 +1349,16 @@
 in commit
 --------
 
+  * windows
+    - build and upload a tclap package
     
 in progress
 -----------
   
-  
+  * Kernel:
+    - maintain the set of direct impact for traits updates (in progress)
+    - HasParent (/),HasAncestor,HasChild take a formula 
+   
 todo
 ----
 
@@ -1395,9 +1400,6 @@ todo
       the update (could be update trait, changeHasParent, changeHasAncestor, 
       humm...)
 
-  * windows
-    - build and upload a tclap package
-
   * Demo :
     - majority of performance issue seems to be due to detector system... that 
       is in n² (in the best case)
@@ -1411,7 +1413,6 @@ todo
       formula Related(...,RecursivelyPositionned)
     
   * Kernel:
-    - maintain the set of direct impact for traits updates (in progress)
     - all members should be encapsulated, even for own class : allow to change 
       storage (pool ...)  
     

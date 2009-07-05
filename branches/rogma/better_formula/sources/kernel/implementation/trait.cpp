@@ -831,12 +831,12 @@ namespace ProjetUnivers
       return *m_impacted_trait_formulae ;
     }
 
-    void Trait::addDependentTrait(DeducedTrait* trait)
+    void Trait::addDependency(DeducedTrait* trait)
     {
       m_direct_dependent_traits.insert(trait) ;
     }
 
-    void Trait::removeDependentTrait(DeducedTrait* trait)
+    void Trait::removeDependency(DeducedTrait* trait)
     {
       m_direct_dependent_traits.erase(trait) ;
     }
@@ -851,7 +851,7 @@ namespace ProjetUnivers
       }
     }
 
-    const std::set<DeducedTrait*>& Trait::getDependentTraits() const
+    const std::set<DeducedTrait*>& Trait::getDependentDeducedTraits() const
     {
       return m_direct_dependent_traits ;
     }

@@ -359,23 +359,31 @@ namespace ProjetUnivers
       /// True during notify().
       bool m_is_updating ;
 
-      void addDependentTrait(DeducedTrait*) ;
-      void removeDependentTrait(DeducedTrait*) ;
-      void updateDepedentTraits() const ;
+      void addDependency(DeducedTrait*) ;
+      void removeDependency(DeducedTrait*) ;
 
-      /// Access to dependent traits.
+      /// Access to direct dependent deduced traits.
       /*!
+        @todo change to multivalued redundant collection (because the same
+        trait update twice ;) ) + add a test showing the bug
+
         Gives the traits to update if we update @c this (non recursive).
 
         This value is stored and maintained during structure changes. So access
         if fast at cost of structural changes.
 
         In case of DeducedTrait, this value is equivalent to
-        getDependentTraits(@c this) on the formula defining the deduced trait.
+        getDependentDeducedTraits(@c this) on the formula defining the deduced trait.
       */
-      const std::set<DeducedTrait*>& getDependentTraits() const ;
+      const std::set<DeducedTrait*>& getDependentDeducedTraits() const ;
       /// Traits that directly depends on @c this
       std::set<DeducedTrait*> m_direct_dependent_traits ;
+
+      /// Propagate update on dependent traits.
+      /*!
+        @todo use it instead of formula update propagation.
+      */
+      void updateDepedentTraits() const ;
 
     // @}
 

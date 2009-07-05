@@ -278,7 +278,7 @@ namespace ProjetUnivers
       Trait* _get(const TypeIdentifier& i_trait_name) const ;
 
       /// Retreive the trait named @c i_trait_name.
-      Trait* _getDeducedTrait(const TypeIdentifier& i_trait_name) const ;
+      DeducedTrait* _getDeducedTrait(const TypeIdentifier& i_trait_name) const ;
 
       /// update the views for a change_parent.
       void _changed_parent(Object* i_old_parent) ;
@@ -362,6 +362,9 @@ namespace ProjetUnivers
 
       /// Access to number of children with trait @c name.
       unsigned int getNumberOfChildren(const TypeIdentifier& name) const ;
+
+      /// Access to number of parents with trait @c formula.
+      unsigned int getNumberOfParent(const Formula* formula) const ;
 
     // @}
 

@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -113,13 +113,13 @@ namespace ProjetUnivers
     #define HasTrait(trait) \
       Kernel::TemplateHasTrait<trait>
 
-    /// Elementary formula true iff object has parent trait @c trait
+    /// True iff object has parent with @c formula
     /*!
-      @remark if object has @c trait then formula is true, @see
-      object::getParent().
+      @remark if object satisfy @c formula then HasParent(formula) is true.
+      Notably, HasParent(HasTrait(T)), @see object::getParent<T>().
     */
-    #define HasParent(trait) \
-      Kernel::TemplateHasParent<trait>
+    #define HasParent(formula) \
+      Kernel::TemplateHasParent<formula>
 
     /// Elementary formula true iff object has ancestor trait @c trait
     /*!
@@ -263,7 +263,7 @@ namespace ProjetUnivers
         /// map formula to deduced trait names for destruction.
         std::map<Formula*,TypeIdentifier> m_destructors ;
 
-        /// Caching for getDependentTraits
+        /// Caching for getDependentDeducedTraits
         std::map<TypeIdentifier,std::set<TypeIdentifier> > m_dependent_traits ;
 
       private:

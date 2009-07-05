@@ -1649,7 +1649,7 @@ namespace ProjetUnivers
       {
         class ParentPos : public DeducedTrait
         {};
-        DeclareDeducedTrait(ParentPos,HasParent(Pos)) ;
+        DeclareDeducedTrait(ParentPos,HasParent(HasTrait(Pos))) ;
 
         class ViewParentPos : public TraitView<ParentPos,AncestorViewPoint>
         {

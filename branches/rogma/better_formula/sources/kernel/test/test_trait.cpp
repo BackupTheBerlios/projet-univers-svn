@@ -140,7 +140,7 @@ namespace ProjetUnivers
         {};
 
         DeclareDeducedTrait(HasParentTrait1,
-                            HasParent(Parent)) ;
+                            HasParent(HasTrait(Parent))) ;
 
         class Child : public Trait
         {
@@ -176,13 +176,13 @@ namespace ProjetUnivers
         {};
 
         DeclareDeducedTrait(HasParentTrait2,
-                            And(HasTrait(Trait2),HasParent(Parent))) ;
+                            And(HasTrait(Trait2),HasParent(HasTrait(Parent)))) ;
 
         class HasParentDeducedTrait1 : public DeducedTrait
         {};
 
         DeclareDeducedTrait(HasParentDeducedTrait1,
-                            And(HasTrait(Trait2),HasParent(DeducedTrait1))) ;
+                            And(HasTrait(Trait2),HasParent(HasTrait(DeducedTrait1)))) ;
 
         class Played : public Trait
         {};
@@ -200,11 +200,11 @@ namespace ProjetUnivers
         {};
         DeclareDeducedTrait(ActivatedFlyingGroup,
                             And(HasTrait(FlyingGroup),
-                                HasParent(ActivatedMission))) ;
+                                HasParent(HasTrait(ActivatedMission)))) ;
 
       }
 
-      void TestTrait::depedentTrait()
+      void TestTrait::andBecomesTrueDepedentTrait()
       {
         std::auto_ptr<Model> model(new Model()) ;
 
@@ -213,25 +213,25 @@ namespace ProjetUnivers
         Trait1* t1 = new Trait1() ;
         object->addTrait(t1) ;
 
-        CPPUNIT_ASSERT(t1->getDependentTraits().empty()) ;
+        CPPUNIT_ASSERT(t1->getDependentDeducedTraits().empty()) ;
 
         Trait2* t2 = new Trait2() ;
         object->addTrait(t2) ;
 
-        CPPUNIT_ASSERT(t2->getDependentTraits().empty()) ;
+        CPPUNIT_ASSERT(t2->getDependentDeducedTraits().empty()) ;
 
         Trait3* t3 = new Trait3() ;
         object->addTrait(t3) ;
 
         DeducedTrait1* dt1 = object->getTrait<DeducedTrait1>() ;
 
-        CPPUNIT_ASSERT(!t3->getDependentTraits().empty()) ;
-        CPPUNIT_ASSERT(t3->getDependentTraits().find(dt1) != t3->getDependentTraits().end()) ;
-        CPPUNIT_ASSERT(t1->getDependentTraits().find(dt1) != t1->getDependentTraits().end()) ;
-        CPPUNIT_ASSERT(t2->getDependentTraits().find(dt1) != t2->getDependentTraits().end()) ;
+        CPPUNIT_ASSERT(!t3->getDependentDeducedTraits().empty()) ;
+        CPPUNIT_ASSERT(t3->getDependentDeducedTraits().find(dt1) != t3->getDependentDeducedTraits().end()) ;
+        CPPUNIT_ASSERT(t1->getDependentDeducedTraits().find(dt1) != t1->getDependentDeducedTraits().end()) ;
+        CPPUNIT_ASSERT(t2->getDependentDeducedTraits().find(dt1) != t2->getDependentDeducedTraits().end()) ;
       }
 
-      void TestTrait::removeDeducedTrait()
+      void TestTrait::removeDeducedTraitOnAndDepedentTrait()
       {
         std::auto_ptr<Model> model(new Model()) ;
 
@@ -244,12 +244,12 @@ namespace ProjetUnivers
         object->addTrait(t3) ;
         DeducedTrait1* dt1 = object->getTrait<DeducedTrait1>() ;
 
-        CPPUNIT_ASSERT(t3->getDependentTraits().find(dt1) != t3->getDependentTraits().end()) ;
+        CPPUNIT_ASSERT(t3->getDependentDeducedTraits().find(dt1) != t3->getDependentDeducedTraits().end()) ;
         object->destroyTrait(t1) ;
-        CPPUNIT_ASSERT(t3->getDependentTraits().empty()) ;
+        CPPUNIT_ASSERT(t3->getDependentDeducedTraits().empty()) ;
       }
 
-      void TestTrait::parentTrait()
+      void TestTrait::parentTraitIsHasParentDependency()
       {
         std::auto_ptr<Model> model(new Model()) ;
 
@@ -260,10 +260,10 @@ namespace ProjetUnivers
         Object* child = object->createObject() ;
         HasParentTrait1* dt = child->getTrait<HasParentTrait1>() ;
         CPPUNIT_ASSERT(dt) ;
-        CPPUNIT_ASSERT(parent->getDependentTraits().find(dt) != parent->getDependentTraits().end()) ;
+        CPPUNIT_ASSERT(parent->getDependentDeducedTraits().find(dt) != parent->getDependentDeducedTraits().end()) ;
       }
 
-      void TestTrait::childTrait()
+      void TestTrait::childTraitIsHasChildDependency()
       {
         std::auto_ptr<Model> model(new Model()) ;
         Object* object = model->createObject() ;
@@ -275,10 +275,10 @@ namespace ProjetUnivers
         HasChildTrait1* dt = object->getTrait<HasChildTrait1>() ;
 
         CPPUNIT_ASSERT(dt) ;
-        CPPUNIT_ASSERT(child_trait->getDependentTraits().find(dt) != child_trait->getDependentTraits().end()) ;
+        CPPUNIT_ASSERT(child_trait->getDependentDeducedTraits().find(dt) != child_trait->getDependentDeducedTraits().end()) ;
       }
 
-      void TestTrait::orAddNewTrait()
+      void TestTrait::addNewTraitOnOrChangeDepedencies()
       {
         std::auto_ptr<Model> model(new Model()) ;
 
@@ -289,15 +289,15 @@ namespace ProjetUnivers
 
         DeducedTrait2* dtor = object->getTrait<DeducedTrait2>() ;
 
-        CPPUNIT_ASSERT(t1->getDependentTraits().find(dtor) != t1->getDependentTraits().end()) ;
+        CPPUNIT_ASSERT(t1->getDependentDeducedTraits().find(dtor) != t1->getDependentDeducedTraits().end()) ;
 
         Trait2Or* t2 = new Trait2Or() ;
         object->addTrait(t2) ;
 
-        CPPUNIT_ASSERT(t2->getDependentTraits().find(dtor) != t2->getDependentTraits().end()) ;
+        CPPUNIT_ASSERT(t2->getDependentDeducedTraits().find(dtor) != t2->getDependentDeducedTraits().end()) ;
       }
 
-      void TestTrait::addTraitChangeHasParentDependencies()
+      void TestTrait::addIntermediateTraitChangeHasParentDependencies()
       {
         std::auto_ptr<Model> model(new Model()) ;
 
@@ -313,20 +313,20 @@ namespace ProjetUnivers
         HasParentTrait1* dt_child = child->getTrait<HasParentTrait1>() ;
         CPPUNIT_ASSERT(dt_child) ;
 
-        CPPUNIT_ASSERT(parent->getDependentTraits().find(dt_father) != parent->getDependentTraits().end()) ;
-        CPPUNIT_ASSERT(parent->getDependentTraits().find(dt_child) != parent->getDependentTraits().end()) ;
+        CPPUNIT_ASSERT(parent->getDependentDeducedTraits().find(dt_father) != parent->getDependentDeducedTraits().end()) ;
+        CPPUNIT_ASSERT(parent->getDependentDeducedTraits().find(dt_child) != parent->getDependentDeducedTraits().end()) ;
 
         // tested event : add an intermediate trait will change dependencies
         Parent* parent2 = new Parent() ;
         father->addTrait(parent2) ;
 
-        CPPUNIT_ASSERT(parent->getDependentTraits().find(dt_father) == parent->getDependentTraits().end()) ;
-        CPPUNIT_ASSERT(parent->getDependentTraits().find(dt_child) == parent->getDependentTraits().end()) ;
-        CPPUNIT_ASSERT(parent2->getDependentTraits().find(dt_father) != parent2->getDependentTraits().end()) ;
-        CPPUNIT_ASSERT(parent2->getDependentTraits().find(dt_child) != parent2->getDependentTraits().end()) ;
+        CPPUNIT_ASSERT(parent->getDependentDeducedTraits().find(dt_father) == parent->getDependentDeducedTraits().end()) ;
+        CPPUNIT_ASSERT(parent->getDependentDeducedTraits().find(dt_child) == parent->getDependentDeducedTraits().end()) ;
+        CPPUNIT_ASSERT(parent2->getDependentDeducedTraits().find(dt_father) != parent2->getDependentDeducedTraits().end()) ;
+        CPPUNIT_ASSERT(parent2->getDependentDeducedTraits().find(dt_child) != parent2->getDependentDeducedTraits().end()) ;
       }
 
-      void TestTrait::removeTraitChangeHasParentDependencies()
+      void TestTrait::removeIntermediateTraitChangeHasParentDependencies()
       {
         std::auto_ptr<Model> model(new Model()) ;
 
@@ -345,16 +345,16 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(dt_child) ;
 
         // check initial situation for sure-ness
-        CPPUNIT_ASSERT(parent->getDependentTraits().find(dt_father) == parent->getDependentTraits().end()) ;
-        CPPUNIT_ASSERT(parent->getDependentTraits().find(dt_child) == parent->getDependentTraits().end()) ;
-        CPPUNIT_ASSERT(parent2->getDependentTraits().find(dt_father) != parent2->getDependentTraits().end()) ;
-        CPPUNIT_ASSERT(parent2->getDependentTraits().find(dt_child) != parent2->getDependentTraits().end()) ;
+        CPPUNIT_ASSERT(parent->getDependentDeducedTraits().find(dt_father) == parent->getDependentDeducedTraits().end()) ;
+        CPPUNIT_ASSERT(parent->getDependentDeducedTraits().find(dt_child) == parent->getDependentDeducedTraits().end()) ;
+        CPPUNIT_ASSERT(parent2->getDependentDeducedTraits().find(dt_father) != parent2->getDependentDeducedTraits().end()) ;
+        CPPUNIT_ASSERT(parent2->getDependentDeducedTraits().find(dt_child) != parent2->getDependentDeducedTraits().end()) ;
 
         // tested event : remove an intermediate trait will change dependencies
         father->destroyTrait(parent2) ;
 
-        CPPUNIT_ASSERT(parent->getDependentTraits().find(dt_father) != parent->getDependentTraits().end()) ;
-        CPPUNIT_ASSERT(parent->getDependentTraits().find(dt_child) != parent->getDependentTraits().end()) ;
+        CPPUNIT_ASSERT(parent->getDependentDeducedTraits().find(dt_father) != parent->getDependentDeducedTraits().end()) ;
+        CPPUNIT_ASSERT(parent->getDependentDeducedTraits().find(dt_child) != parent->getDependentDeducedTraits().end()) ;
       }
 
       void TestTrait::removeTraitChangeHasParentDependenciesByBecommingFalse()
@@ -374,8 +374,8 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(dt_child) ;
 
         // check initial situation for sure-ness
-        CPPUNIT_ASSERT(parent2->getDependentTraits().find(dt_father) != parent2->getDependentTraits().end()) ;
-        CPPUNIT_ASSERT(parent2->getDependentTraits().find(dt_child) != parent2->getDependentTraits().end()) ;
+        CPPUNIT_ASSERT(parent2->getDependentDeducedTraits().find(dt_father) != parent2->getDependentDeducedTraits().end()) ;
+        CPPUNIT_ASSERT(parent2->getDependentDeducedTraits().find(dt_child) != parent2->getDependentDeducedTraits().end()) ;
 
         // tested event : remove an intermediate trait will change dependencies
         father->destroyTrait(parent2) ;
@@ -399,14 +399,14 @@ namespace ProjetUnivers
         HasParentTrait1* dt_child = child->getTrait<HasParentTrait1>() ;
         CPPUNIT_ASSERT(dt_child) ;
 
-        CPPUNIT_ASSERT(parent1->getDependentTraits().find(dt_child) != parent1->getDependentTraits().end()) ;
-        CPPUNIT_ASSERT(parent2->getDependentTraits().find(dt_child) == parent2->getDependentTraits().end()) ;
+        CPPUNIT_ASSERT(parent1->getDependentDeducedTraits().find(dt_child) != parent1->getDependentDeducedTraits().end()) ;
+        CPPUNIT_ASSERT(parent2->getDependentDeducedTraits().find(dt_child) == parent2->getDependentDeducedTraits().end()) ;
 
         // tested event : switch child parent
         child->changeParent(father2) ;
 
-        CPPUNIT_ASSERT(parent1->getDependentTraits().find(dt_child) == parent1->getDependentTraits().end()) ;
-        CPPUNIT_ASSERT(parent2->getDependentTraits().find(dt_child) != parent2->getDependentTraits().end()) ;
+        CPPUNIT_ASSERT(parent1->getDependentDeducedTraits().find(dt_child) == parent1->getDependentDeducedTraits().end()) ;
+        CPPUNIT_ASSERT(parent2->getDependentDeducedTraits().find(dt_child) != parent2->getDependentDeducedTraits().end()) ;
       }
 
       void TestTrait::addTraitOnEmptyStructure()
@@ -434,9 +434,9 @@ namespace ProjetUnivers
         father->addTrait(new Parent()) ;
 
         Object* child = father->createObject() ;
-
-        Formula* formula = HasParentFormula::get(getClassTypeIdentifier(Parent)) ;
-        std::set<Trait*> dependencies = formula->getDependentTraits(father) ;
+        DeducedTrait* deduced = child->getTrait<HasParentTrait1>() ;
+        Formula* formula = deduced->getFormula() ;
+        std::set<DeducedTrait*> dependencies = formula->getDependentDeducedTraits(father) ;
         CPPUNIT_ASSERT(father->getTrait<HasParentTrait1>()) ;
         CPPUNIT_ASSERT(father->getTrait<HasParentTrait1>()->getFormula() == formula) ;
         CPPUNIT_ASSERT(dependencies.find(father->getTrait<HasParentTrait1>()) != dependencies.end()) ;
@@ -465,7 +465,7 @@ namespace ProjetUnivers
 
         CPPUNIT_ASSERT(child1->getTrait<HasParentTrait2>()) ;
 
-        CPPUNIT_ASSERT(parent->getDependentTraits().find(child1->getTrait<HasParentTrait2>()) != parent->getDependentTraits().end()) ;
+        CPPUNIT_ASSERT(parent->getDependentDeducedTraits().find(child1->getTrait<HasParentTrait2>()) != parent->getDependentDeducedTraits().end()) ;
       }
 
       void TestTrait::hasParentOnDeducedTrait()
@@ -495,6 +495,79 @@ namespace ProjetUnivers
         }
 
         mission->addTrait(new Played()) ;
+      }
+
+      namespace
+      {
+        class T1 : public Trait
+        {};
+
+        class HasT1 : public DeducedTrait
+        {};
+
+        DeclareDeducedTrait(HasT1,HasTrait(T1)) ;
+
+      }
+
+      void TestTrait::hasTraitFormulaUpdaterTraits()
+      {
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model()) ;
+        model->init() ;
+
+        Kernel::Object* object = model->createObject() ;
+        object->addTrait(new T1()) ;
+
+        Formula* formula = ((DeducedTrait*)object->getTrait<HasT1>())->getFormula() ;
+
+        std::set<Trait*> updater_traits(formula->getUpdaterTraits(object)) ;
+
+        CPPUNIT_ASSERT_EQUAL((unsigned int)1,updater_traits.size()) ;
+        CPPUNIT_ASSERT(updater_traits.find(object->getTrait<T1>()) != updater_traits.end()) ;
+      }
+
+      void TestTrait::andUpdaterTraits()
+      {
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model()) ;
+        model->init() ;
+
+        Kernel::Object* object = model->createObject() ;
+        object->addTrait(new Trait1()) ;
+        object->addTrait(new Trait2()) ;
+        object->addTrait(new Trait3()) ;
+
+        Formula* formula = ((DeducedTrait*)object->getTrait<DeducedTrait1>())->getFormula() ;
+
+        std::set<Trait*> updater_traits(formula->getUpdaterTraits(object)) ;
+
+        CPPUNIT_ASSERT_EQUAL((unsigned int)3,updater_traits.size()) ;
+        CPPUNIT_ASSERT(updater_traits.find(object->getTrait<Trait1>()) != updater_traits.end()) ;
+        CPPUNIT_ASSERT(updater_traits.find(object->getTrait<Trait2>()) != updater_traits.end()) ;
+        CPPUNIT_ASSERT(updater_traits.find(object->getTrait<Trait3>()) != updater_traits.end()) ;
+      }
+
+      void TestTrait::hasParentUpdaterTraits()
+      {
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model()) ;
+        model->init() ;
+
+        Kernel::Object* object = model->createObject() ;
+        object->addTrait(new Parent()) ;
+
+        Kernel::Object* object2 = object->createObject() ;
+
+        Formula* formula = ((DeducedTrait*)object->getTrait<HasParentTrait1>())->getFormula() ;
+
+        {
+          std::set<Trait*> updater_traits(formula->getUpdaterTraits(object)) ;
+          CPPUNIT_ASSERT_EQUAL((unsigned int)1,updater_traits.size()) ;
+          CPPUNIT_ASSERT(updater_traits.find(object->getTrait<Parent>()) != updater_traits.end()) ;
+        }
+        {
+          std::set<Trait*> updater_traits(formula->getUpdaterTraits(object2)) ;
+          CPPUNIT_ASSERT_EQUAL((unsigned int)1,updater_traits.size()) ;
+          CPPUNIT_ASSERT(updater_traits.find(object->getTrait<Parent>()) != updater_traits.end()) ;
+        }
+
       }
 
     }

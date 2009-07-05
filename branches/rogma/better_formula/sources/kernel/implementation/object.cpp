@@ -534,13 +534,13 @@ namespace ProjetUnivers
       return NULL ;
     }
 
-    Trait* Object::_getDeducedTrait(const TypeIdentifier& i_trait_name) const
+    DeducedTrait* Object::_getDeducedTrait(const TypeIdentifier& i_trait_name) const
     {
       /// simpler : no inheritance is taken int account
       std::map<TypeIdentifier, Trait*>::const_iterator trait = _getTraits().find(i_trait_name) ;
       if (trait != _getTraits().end())
       {
-        return trait->second ;
+        return (DeducedTrait*)trait->second ;
       }
       return NULL ;
     }
@@ -832,6 +832,20 @@ namespace ProjetUnivers
       while(iterator)
       {
         if (iterator->getTrait(name))
+          ++result ;
+        iterator = iterator->getParent() ;
+      }
+      return result ;
+    }
+
+    unsigned int Object::getNumberOfParent(const Formula* formula) const
+    {
+      unsigned int result = 0 ;
+
+      Object* iterator(const_cast<Object*>(this)) ;
+      while(iterator)
+      {
+        if (formula->isValid(iterator))
           ++result ;
         iterator = iterator->getParent() ;
       }

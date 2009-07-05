@@ -689,7 +689,7 @@ namespace ProjetUnivers
         {};
 
         DeclareDeducedTrait(HasParentTrait1,
-                            HasParent(Parent)) ;
+                            HasParent(HasTrait(Parent))) ;
 
         class ViewHasParentTrait1 : public TraitView<HasParentTrait1,TestViewPoint>
         {
@@ -720,7 +720,7 @@ namespace ProjetUnivers
         {};
 
         DeclareDeducedTrait(ParentAndTrait1,
-                            And(HasParent(Parent),HasTrait(Trait1))) ;
+                            And(HasParent(HasTrait(Parent)),HasTrait(Trait1))) ;
 
         class ViewHasParentAndTrait1 : public TraitView<ParentAndTrait1,TestViewPoint>
         {
@@ -1251,7 +1251,7 @@ namespace ProjetUnivers
 
       }
 
-      void TestDeducedTrait::getDependentTraits()
+      void TestDeducedTrait::getDependentDeducedTraits()
       {
         std::auto_ptr<Trait1> t1(new Trait1()) ;
         CPPUNIT_ASSERT_EQUAL((unsigned int)9,DeducedTrait::getDependentTraitTypes(t1.get()).size()) ;
@@ -1278,7 +1278,7 @@ namespace ProjetUnivers
         {};
 
         DeclareDeducedTrait(EditedMission,And(HasTrait(Mission),HasTrait(Edited))) ;
-        DeclareDeducedTrait(EditedFlyingGroup,And(HasTrait(FlyingGroup),HasParent(EditedMission))) ;
+        DeclareDeducedTrait(EditedFlyingGroup,And(HasTrait(FlyingGroup),HasParent(HasTrait(EditedMission)))) ;
       }
 
       void TestDeducedTrait::removeParentDeducedTrait()
