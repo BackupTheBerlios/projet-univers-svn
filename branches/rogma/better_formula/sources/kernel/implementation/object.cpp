@@ -852,6 +852,14 @@ namespace ProjetUnivers
       return result ;
     }
 
+    unsigned int Object::getNumberOfAncestor(const Formula* formula) const
+    {
+      if (getParent())
+        return getNumberOfParent(formula) ;
+
+      return 0 ;
+    }
+
     unsigned int Object::getNumberOfAncestor(const TypeIdentifier& name) const
     {
       unsigned int result = 0 ;

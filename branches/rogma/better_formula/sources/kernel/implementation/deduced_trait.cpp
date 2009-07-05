@@ -176,43 +176,6 @@ namespace ProjetUnivers
       return m_formula ;
     }
 
-    HasAncestorFormula* HasAncestorFormula::get(const TypeIdentifier& trait_name)
-    {
-      std::map<TypeIdentifier,HasAncestorFormula*>::iterator trait ;
-      trait = StaticStorage::get()->m_ancestor_traits_formulae.find(trait_name) ;
-      if (trait != StaticStorage::get()->m_ancestor_traits_formulae.end())
-      {
-        return trait->second ;
-      }
-
-      return NULL ;
-    }
-
-    const std::set<HasAncestorFormula*>& HasAncestorFormula::find(Trait* i_trait)
-    {
-      TypeIdentifier type(getObjectTypeIdentifier(i_trait)) ;
-
-      std::map<TypeIdentifier,std::set<HasAncestorFormula*> >::const_iterator finder =
-        StaticStorage::get()->m_impacted_formulae.find(type) ;
-
-      if (finder != StaticStorage::get()->m_impacted_formulae.end())
-
-        return finder->second ;
-
-      std::set<HasAncestorFormula*> result ;
-
-      for(std::map<TypeIdentifier,HasAncestorFormula*>::const_iterator trait = StaticStorage::get()->m_ancestor_traits_formulae.begin() ;
-          trait != StaticStorage::get()->m_ancestor_traits_formulae.end() ;
-          ++trait)
-      {
-        if (trait->first.isInstance(i_trait))
-        {
-          result.insert(trait->second) ;
-        }
-      }
-      return StaticStorage::get()->m_impacted_formulae[type] = result ;
-    }
-
     HasChildFormula* HasChildFormula::get(const TypeIdentifier& trait_name)
     {
       std::map<TypeIdentifier,HasChildFormula*>::iterator trait ;
@@ -428,29 +391,21 @@ namespace ProjetUnivers
       return *m_children.begin() ;
     }
 
-    HasAncestorFormula* HasAncestorFormula::build(const TypeIdentifier& trait_name)
-    {
-      HasAncestorFormula* result = get(trait_name) ;
-      if (! result)
-      {
-        result = new HasAncestorFormula(trait_name) ;
-        StaticStorage::get()->m_ancestor_traits_formulae[trait_name] = result ;
-      }
-
-      return result ;
-    }
-
-    HasAncestorFormula::HasAncestorFormula(const TypeIdentifier& trait_name)
-    : Formula(),
-      m_trait(trait_name)
+    HasAncestorFormula::HasAncestorFormula()
+    : Formula()
     {
       generateIdentifier() ;
-      CHECK((m_depth==0),"HasAncestorFormula::HasAncestorFormula invalid depth") ;
+      StaticStorage::get()->m_formulae.insert(this) ;
     }
 
     std::string HasAncestorFormula::internalPrint() const
     {
-      return "HasAncestorFormula(" + m_trait.toString() + ")" ;
+      return "HasAncestorFormula" ;
+    }
+
+    Formula* HasAncestorFormula::getChildFormula() const
+    {
+      return *m_children.begin() ;
     }
 
     HasChildFormula* HasChildFormula::build(const TypeIdentifier& trait_name)
@@ -651,20 +606,6 @@ namespace ProjetUnivers
       std::set<TypeIdentifier> result ;
       const std::set<TraitFormula*>& formulae = find(trait) ;
       for(std::set<TraitFormula*>::const_iterator formula = formulae.begin() ;
-          formula != formulae.end() ;
-          ++formula)
-      {
-        std::set<TypeIdentifier> temp(((Formula*)*formula)->getDependentTraitTypes()) ;
-        result.insert(temp.begin(),temp.end()) ;
-      }
-      return result ;
-    }
-
-    std::set<TypeIdentifier> HasAncestorFormula::getDependentTraitTypes(Trait* trait)
-    {
-      std::set<TypeIdentifier> result ;
-      const std::set<HasAncestorFormula*>& formulae = find(trait) ;
-      for(std::set<HasAncestorFormula*>::const_iterator formula = formulae.begin() ;
           formula != formulae.end() ;
           ++formula)
       {
@@ -895,15 +836,14 @@ namespace ProjetUnivers
 
     void HasParentFormula::eval(Object* object)
     {
-      Formula* child_formula = getChildFormula() ;
-      unsigned int number_of_parents = object->getNumberOfParent(child_formula) ;
+      unsigned int number_of_parents = object->getNumberOfParent(getChildFormula()) ;
       object->setNumberOfTrueChildFormulae(this,number_of_parents) ;
       object->setValidity(this,number_of_parents > 0) ;
     }
 
     void HasAncestorFormula::eval(Object* object)
     {
-      unsigned int number_of_ancestors = object->getNumberOfAncestor(m_trait) ;
+      unsigned int number_of_ancestors = object->getNumberOfAncestor(getChildFormula()) ;
       object->setNumberOfTrueChildFormulae(this,number_of_ancestors) ;
       object->setValidity(this,number_of_ancestors > 0) ;
     }
@@ -1086,7 +1026,6 @@ namespace ProjetUnivers
             (*new_updater)->addDependency(*dependent) ;
           }
         }
-
       }
 
       for(std::set<Object*>::const_iterator child = object->getChildren().begin() ;
@@ -1357,53 +1296,41 @@ namespace ProjetUnivers
 
     }
 
-    void HasAncestorFormula::addTrait(Object* object,Trait* trait)
+    void HasAncestorFormula::addAncestor(Object* object,Object* new_ancestor)
     {
-      CHECK(object,"HasAncestorFormula::addTrait no object")
-
-      const std::set<HasAncestorFormula*>& formulaes = find(trait) ;
-      for(std::set<HasAncestorFormula*>::const_iterator formula = formulaes.begin() ;
-          formula != formulaes.end() ;
-          ++formula)
+      // important to go down first because of recursive case...
+      for(std::set<Object*>::const_iterator child = object->getChildren().begin() ;
+          child != object->getChildren().end() ;
+          ++child)
       {
-        for(std::set<Object*>::const_iterator child = object->getChildren().begin() ;
-            child != object->getChildren().end() ;
-            ++child)
-        {
-          (*formula)->addedAncestor(*child) ;
-        }
+        addAncestor(*child,new_ancestor) ;
       }
-    }
 
-    void HasAncestorFormula::removeTrait(Object* object,Trait* trait)
-    {
-      const std::set<HasAncestorFormula*>& formulaes = find(trait) ;
-      for(std::set<HasAncestorFormula*>::const_iterator formula = formulaes.begin() ;
-          formula != formulaes.end() ;
-          ++formula)
-      {
-        for(std::set<Object*>::const_iterator child = object->getChildren().begin() ;
-            child != object->getChildren().end() ;
-            ++child)
-        {
-          (*formula)->removedAncestor(*child) ;
-        }
-      }
-    }
-
-    void HasAncestorFormula::addedAncestor(Object* object)
-    {
       /*
-        Here we use the number of true child formulae on objects to code the
-        number of parents with trait @c trait_name
-
-        Direct parent just add been added
+        Ancestor just add been added
       */
       // formula is true for current object
       if (isValid(object))
       {
         // update because parent with trait has changed
         update(object) ;
+
+        // Update trait dependencies
+        std::set<Trait*> old_updaters = getChildFormula()->getUpdaterTraits(getChildFormula()->getValidAncestor(new_ancestor)) ;
+        std::set<Trait*> new_updaters = getChildFormula()->getUpdaterTraits(new_ancestor) ;
+
+        std::set<DeducedTrait*> dependents = getDependentDeducedTraits(object) ;
+        for(std::set<DeducedTrait*>::iterator dependent = dependents.begin() ; dependent != dependents.end() ; ++dependent)
+        {
+          for(std::set<Trait*>::iterator old_updater = old_updaters.begin() ; old_updater != old_updaters.end() ; ++old_updater)
+          {
+            (*old_updater)->removeDependency(*dependent) ;
+          }
+          for(std::set<Trait*>::iterator new_updater = new_updaters.begin() ; new_updater != new_updaters.end() ; ++new_updater)
+          {
+            (*new_updater)->addDependency(*dependent) ;
+          }
+        }
       }
       else
       {
@@ -1412,23 +1339,19 @@ namespace ProjetUnivers
 
       unsigned short true_child = object->getNumberOfTrueChildFormulae(this) ;
       object->setNumberOfTrueChildFormulae(this,true_child+1) ;
+    }
 
+    void HasAncestorFormula::removeAncestor(Object* object,Object* removed_ancestor)
+    {
       for(std::set<Object*>::const_iterator child = object->getChildren().begin() ;
           child != object->getChildren().end() ;
           ++child)
       {
-        addedAncestor(*child) ;
+        removeAncestor(*child,removed_ancestor) ;
       }
-    }
 
-    void HasAncestorFormula::removedAncestor(Object* object)
-    {
       /*
-        Here we use the number of true child formulae on objects to code the
-        number of parents with trait @c trait_name
-
-        Direct parent with trait has changed
-
+        a true ancestor has been removed
       */
       unsigned short true_child = object->getNumberOfTrueChildFormulae(this) ;
       object->setNumberOfTrueChildFormulae(this,true_child-1) ;
@@ -1441,32 +1364,34 @@ namespace ProjetUnivers
       {
         // still true but parent has changed
         update(object) ;
-      }
 
-      for(std::set<Object*>::const_iterator child = object->getChildren().begin() ;
-          child != object->getChildren().end() ;
-          ++child)
-      {
-        removedAncestor(*child) ;
+        std::set<Trait*> new_updaters = getChildFormula()->getUpdaterTraits(getChildFormula()->getValidAncestor(removed_ancestor)) ;
+        std::set<DeducedTrait*> dependents = this->getDependentDeducedTraits(object) ;
+        for(std::set<DeducedTrait*>::iterator dependent = dependents.begin() ; dependent != dependents.end() ; ++dependent)
+        {
+          for(std::set<Trait*>::iterator new_updater = new_updaters.begin() ; new_updater != new_updaters.end() ; ++new_updater)
+          {
+            (*new_updater)->addDependency(*dependent) ;
+          }
+        }
       }
 
     }
 
     void HasAncestorFormula::changeParent(Object* object,Object* old_parent)
     {
-      for(std::map<TypeIdentifier,HasAncestorFormula*>::const_iterator
-            formula = StaticStorage::get()->m_ancestor_traits_formulae.begin() ;
-          formula != StaticStorage::get()->m_ancestor_traits_formulae.end() ;
+      for(std::set<HasAncestorFormula*>::const_iterator formula = StaticStorage::get()->m_formulae.begin() ;
+          formula != StaticStorage::get()->m_formulae.end() ;
           ++formula)
       {
-        formula->second->onChangedParent(object,old_parent) ;
+        (*formula)->onChangedParent(object,old_parent) ;
       }
     }
 
     void HasAncestorFormula::onChangedParent(Object* object,Object* old_parent)
     {
       /*
-        @c object has changed parent : its number of parents with m_trait may
+        @c object has changed parent : its number of parents with formula may
         change
       */
 
@@ -1476,7 +1401,7 @@ namespace ProjetUnivers
       Object* new_parent = object->getParent() ;
       if (new_parent)
       {
-        number_of_parents += new_parent->getNumberOfParent(m_trait) ;
+        number_of_parents += new_parent->getNumberOfParent(getChildFormula()) ;
       }
 
       object->setNumberOfTrueChildFormulae(this,number_of_parents) ;
@@ -1486,7 +1411,24 @@ namespace ProjetUnivers
       if (old_validity && new_validity)
       {
         // update because parent with trait has changed
-        DeducedTrait::update(this,object) ;
+        update(object) ;
+
+        /// @todo maintain dependencies
+        std::set<Trait*> old_updaters = getChildFormula()->getUpdaterTraits(getChildFormula()->getValidParent(old_parent)) ;
+        std::set<Trait*> new_updaters = getChildFormula()->getUpdaterTraits(getChildFormula()->getValidAncestor(object)) ;
+
+        std::set<DeducedTrait*> dependents = this->getDependentDeducedTraits(object) ;
+        for(std::set<DeducedTrait*>::iterator dependent = dependents.begin() ; dependent != dependents.end() ; ++dependent)
+        {
+          for(std::set<Trait*>::iterator old_updater = old_updaters.begin() ; old_updater != old_updaters.end() ; ++old_updater)
+          {
+            (*old_updater)->removeDependency(*dependent) ;
+          }
+          for(std::set<Trait*>::iterator new_updater = new_updaters.begin() ; new_updater != new_updaters.end() ; ++new_updater)
+          {
+            (*new_updater)->addDependency(*dependent) ;
+          }
+        }
       }
       else if (old_validity && !new_validity)
       {
@@ -1810,12 +1752,18 @@ namespace ProjetUnivers
 
     void HasAncestorFormula::onAddChildFormulaTrue(Object* object)
     {
-      ErrorMessage("HasAncestorFormula::onAddChildFormulaTrue") ;
+      for(std::set<Object*>::iterator child = object->getChildren().begin() ; child != object->getChildren().end() ; ++child)
+      {
+        addAncestor(*child,object) ;
+      }
     }
 
     void HasAncestorFormula::onAddChildFormulaFalse(Object* object)
     {
-      ErrorMessage("HasAncestorFormula::onAddChildFormulaFalse") ;
+      for(std::set<Object*>::iterator child = object->getChildren().begin() ; child != object->getChildren().end() ; ++child)
+      {
+        removeAncestor(*child,object) ;
+      }
     }
 
     void HasChildFormula::onAddChildFormulaTrue(Object* object)
@@ -1848,10 +1796,8 @@ namespace ProjetUnivers
 
     void HasParentFormula::updateChildrenObjects(Object* object)
     {
-      Formula* child_formula = getChildFormula() ;
-
       // if the object has the formula we should stop going down
-      if (! child_formula->isValid(object))
+      if (! getChildFormula()->isValid(object))
       {
         update(object) ;
 
@@ -1866,7 +1812,12 @@ namespace ProjetUnivers
 
     void HasAncestorFormula::onChildFormulaUpdated(Object* object)
     {
-      // error
+      for(std::set<Object*>::const_iterator child = object->getChildren().begin() ;
+          child != object->getChildren().end() ;
+          ++child)
+      {
+        updateDescendentObject(*child) ;
+      }
     }
 
     void HasChildFormula::onChildFormulaUpdated(Object* object)
@@ -2118,10 +2069,13 @@ namespace ProjetUnivers
     std::set<Trait*> HasAncestorFormula::getUpdaterTraits(Object* object) const
     {
       std::set<Trait*> result ;
-      Trait* trait = object->getAncestor(m_trait) ;
-      if (trait)
-        result.insert(trait) ;
-      return result ;
+
+      Object* valid_ancestor = getChildFormula()->getValidAncestor(object) ;
+
+      if (!valid_ancestor)
+        return result ;
+
+      return getChildFormula()->getUpdaterTraits(valid_ancestor) ;
     }
 
 
@@ -2129,14 +2083,12 @@ namespace ProjetUnivers
     {
       std::set<Trait*> result ;
 
-      Formula* formula = getChildFormula() ;
-
-      Object* valid_parent = formula->getValidParent(object) ;
+      Object* valid_parent = getChildFormula()->getValidParent(object) ;
 
       if (!valid_parent)
         return result ;
 
-      return formula->getUpdaterTraits(valid_parent) ;
+      return getChildFormula()->getUpdaterTraits(valid_parent) ;
     }
 
     std::set<Trait*> FormulaAnd::getUpdaterTraits(Object* object) const
@@ -2216,43 +2168,43 @@ namespace ProjetUnivers
       }
     }
 
-    void HasAncestorFormula::updateTrait(Object* object,Trait* trait)
-    {
-      if (!object)
-        return ;
+//    void HasAncestorFormula::updateTrait(Object* object,Trait* trait)
+//    {
+//      if (!object)
+//        return ;
+//
+//      const std::set<HasAncestorFormula*>& formulaes = find(trait) ;
+//      if (formulaes.empty())
+//        return ;
+//      for(std::set<HasAncestorFormula*>::const_iterator formula = formulaes.begin() ;
+//          formula != formulaes.end() ;
+//          ++formula)
+//      {
+//        for(std::set<Object*>::const_iterator child = object->getChildren().begin() ;
+//            child != object->getChildren().end() ;
+//            ++child)
+//        {
+//          if ((*formula)->isValid(*child))
+//          {
+//            (*formula)->updateAncestorTrait(*child) ;
+//          }
+//        }
+//
+//      }
+//    }
 
-      const std::set<HasAncestorFormula*>& formulaes = find(trait) ;
-      if (formulaes.empty())
-        return ;
-      for(std::set<HasAncestorFormula*>::const_iterator formula = formulaes.begin() ;
-          formula != formulaes.end() ;
-          ++formula)
-      {
-        for(std::set<Object*>::const_iterator child = object->getChildren().begin() ;
-            child != object->getChildren().end() ;
-            ++child)
-        {
-          if ((*formula)->isValid(*child))
-          {
-            (*formula)->updateAncestorTrait(*child) ;
-          }
-        }
-
-      }
-    }
-
-    void HasAncestorFormula::updateAncestorTrait(Object* object)
+    void HasAncestorFormula::updateDescendentObject(Object* object)
     {
       update(object) ;
 
-      // if object has not the trait...
-      if (!object->_getDeducedTrait(m_trait))
+      // if object has not the formula...
+      if (!getChildFormula()->isValid(object))
       {
         for(std::set<Object*>::const_iterator child = object->getChildren().begin() ;
             child != object->getChildren().end() ;
             ++child)
         {
-          updateAncestorTrait(*child) ;
+          updateDescendentObject(*child) ;
         }
       }
     }
@@ -2423,7 +2375,6 @@ namespace ProjetUnivers
     void DeducedTrait::addTrait(Object* object,Trait* trait)
     {
       TraitFormula::addTrait(object,trait) ;
-      HasAncestorFormula::addTrait(object,trait) ;
       HasChildFormula::addTrait(object,trait) ;
     }
 
@@ -2437,20 +2388,20 @@ namespace ProjetUnivers
       */
       TraitFormula::updateTrait(object,trait) ;
       /// @todo optim 50% du temps sur un système sans formules de parentés !!
-      HasAncestorFormula::updateTrait(object,trait) ;
       HasChildFormula::updateTrait(object,trait) ;
     }
 
     void DeducedTrait::removeTrait(Object* object,Trait* trait)
     {
       TraitFormula::removeTrait(object,trait) ;
-      HasAncestorFormula::removeTrait(object,trait) ;
       HasChildFormula::removeTrait(object,trait) ;
     }
 
     void DeducedTrait::changeParent(Object* object,Object* old_parent)
     {
       /*
+        We only need to deal with formula on parentship.
+
         @remark nothing to do for TraitFormula because that cannot change
         the validity ;)
       */

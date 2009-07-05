@@ -43,6 +43,8 @@ namespace ProjetUnivers
         That makes a total of 2x7 (add/destroy trait on all formulae)
                             + 4 (changeParent on "parentship" formulae)
                             = 18 combinations just for the nominal tests
+
+        @todo we should also perform some tests with a recursive formula.
       */
       // @{
 
@@ -53,9 +55,9 @@ namespace ProjetUnivers
 
         void addNewTraitOnOrChangeDepedencies() ;
         /// @todo
-        void removeTraitOnOrChangeDepedencies() ;
+//        void removeTraitOnOrChangeDepedencies() ;
 
-        void parentTraitIsHasParentDependency() ;
+        void parentTraitHasParentDependency() ;
         void addIntermediateTraitChangeHasParentDependencies() ;
         void removeIntermediateTraitChangeHasParentDependencies() ;
         void removeTraitChangeHasParentDependenciesByBecommingFalse() ;
@@ -64,6 +66,11 @@ namespace ProjetUnivers
         void hasParentFormulaDependencies() ;
         void andHasParentAddTraitChangeHasParentDependencies() ;
         void hasParentOnDeducedTrait() ;
+
+        void hasAncestorHasDependencies() ;
+        void addIntermediateTraitChangeHasAncestorDependencies() ;
+        void removeIntermediateTraitChangeHasAncestorDependencies() ;
+        void changeParentChangeHasAncestorDependencies() ;
 
       // @}
       /*!
@@ -81,9 +88,12 @@ namespace ProjetUnivers
 
         CPPUNIT_TEST(andBecomesTrueDepedentTrait) ;
         CPPUNIT_TEST(removeDeducedTraitOnAndDepedentTrait) ;
-        CPPUNIT_TEST(parentTraitIsHasParentDependency) ;
+
         CPPUNIT_TEST(childTraitIsHasChildDependency) ;
+
         CPPUNIT_TEST(addNewTraitOnOrChangeDepedencies) ;
+
+        CPPUNIT_TEST(parentTraitHasParentDependency) ;
         CPPUNIT_TEST(addIntermediateTraitChangeHasParentDependencies) ;
         CPPUNIT_TEST(removeIntermediateTraitChangeHasParentDependencies) ;
         CPPUNIT_TEST(removeTraitChangeHasParentDependenciesByBecommingFalse) ;
@@ -92,6 +102,11 @@ namespace ProjetUnivers
         CPPUNIT_TEST(hasParentFormulaDependencies) ;
         CPPUNIT_TEST(andHasParentAddTraitChangeHasParentDependencies) ;
         CPPUNIT_TEST(hasParentOnDeducedTrait) ;
+
+        CPPUNIT_TEST(hasAncestorHasDependencies) ;
+        CPPUNIT_TEST(addIntermediateTraitChangeHasAncestorDependencies) ;
+        CPPUNIT_TEST(removeIntermediateTraitChangeHasAncestorDependencies) ;
+        CPPUNIT_TEST(changeParentChangeHasAncestorDependencies) ;
 
         CPPUNIT_TEST(hasTraitFormulaUpdaterTraits) ;
         CPPUNIT_TEST(andUpdaterTraits) ;

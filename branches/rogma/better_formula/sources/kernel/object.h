@@ -363,8 +363,11 @@ namespace ProjetUnivers
       /// Access to number of children with trait @c name.
       unsigned int getNumberOfChildren(const TypeIdentifier& name) const ;
 
-      /// Access to number of parents with trait @c formula.
+      /// Access to number of parents with @c formula.
       unsigned int getNumberOfParent(const Formula* formula) const ;
+
+      /// Access to number of ancestors with @c formula.
+      unsigned int getNumberOfAncestor(const Formula* formula) const ;
 
     // @}
 

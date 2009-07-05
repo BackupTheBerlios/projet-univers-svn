@@ -1516,7 +1516,7 @@ namespace ProjetUnivers
         };
         class AncestorPos : public DeducedTrait
         {};
-        DeclareDeducedTrait(AncestorPos,HasAncestor(Pos)) ;
+        DeclareDeducedTrait(AncestorPos,HasAncestor(HasTrait(Pos))) ;
         class AncestorViewPoint : public ViewPoint
         {
         public:
@@ -1573,7 +1573,7 @@ namespace ProjetUnivers
       {
         class RecursivePos : public DeducedTrait
         {};
-        DeclareDeducedTrait(RecursivePos,Or(HasAncestor(RecursivePos),HasTrait(Pos))) ;
+        DeclareDeducedTrait(RecursivePos,Or(HasAncestor(HasTrait(RecursivePos)),HasTrait(Pos))) ;
 
         class ViewRecursive : public TraitView<RecursivePos,AncestorViewPoint>
         {

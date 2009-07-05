@@ -1310,7 +1310,7 @@ namespace ProjetUnivers
         {};
         class AncestorPos : public DeducedTrait
         {};
-        DeclareDeducedTrait(AncestorPos,HasAncestor(Pos)) ;
+        DeclareDeducedTrait(AncestorPos,HasAncestor(HasTrait(Pos))) ;
       }
 
       void TestDeducedTrait::hasAncestor()

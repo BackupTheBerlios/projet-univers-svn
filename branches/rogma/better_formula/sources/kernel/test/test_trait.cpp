@@ -249,7 +249,7 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(t3->getDependentDeducedTraits().empty()) ;
       }
 
-      void TestTrait::parentTraitIsHasParentDependency()
+      void TestTrait::parentTraitHasParentDependency()
       {
         std::auto_ptr<Model> model(new Model()) ;
 
@@ -567,7 +567,110 @@ namespace ProjetUnivers
           CPPUNIT_ASSERT_EQUAL((unsigned int)1,updater_traits.size()) ;
           CPPUNIT_ASSERT(updater_traits.find(object->getTrait<Parent>()) != updater_traits.end()) ;
         }
+      }
 
+      namespace
+      {
+        class Ancestor : public Trait
+        {};
+
+        class WithAncestor : public DeducedTrait
+        {};
+
+        DeclareDeducedTrait(WithAncestor,HasAncestor(HasTrait(Ancestor))) ;
+      }
+
+      void TestTrait::hasAncestorHasDependencies()
+      {
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model()) ;
+        model->init() ;
+
+        Kernel::Object* object = model->createObject() ;
+        Trait* a = new Ancestor() ;
+        object->addTrait(a) ;
+
+        Kernel::Object* object2 = object->createObject() ;
+        WithAncestor* d = object2->getTrait<WithAncestor>() ;
+
+        CPPUNIT_ASSERT_EQUAL((unsigned int)1,a->getDependentDeducedTraits().size()) ;
+        CPPUNIT_ASSERT(a->getDependentDeducedTraits().find(d) != a->getDependentDeducedTraits().end()) ;
+      }
+
+      void TestTrait::addIntermediateTraitChangeHasAncestorDependencies()
+      {
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model()) ;
+        model->init() ;
+
+        Kernel::Object* root = model->createObject() ;
+        Trait* a = new Ancestor() ;
+        root->addTrait(a) ;
+
+        Kernel::Object* object1 = root->createObject() ;
+
+        Kernel::Object* object2 = object1->createObject() ;
+        WithAncestor* d = object2->getTrait<WithAncestor>() ;
+
+        CPPUNIT_ASSERT_EQUAL((unsigned int)2,a->getDependentDeducedTraits().size()) ;
+        CPPUNIT_ASSERT(a->getDependentDeducedTraits().find(d) != a->getDependentDeducedTraits().end()) ;
+
+        Trait* a1 = new Ancestor() ;
+        object1->addTrait(a1) ;
+
+        CPPUNIT_ASSERT(a->getDependentDeducedTraits().find(d) == a->getDependentDeducedTraits().end()) ;
+        CPPUNIT_ASSERT_EQUAL((unsigned int)1,a1->getDependentDeducedTraits().size()) ;
+        CPPUNIT_ASSERT(a1->getDependentDeducedTraits().find(d) != a1->getDependentDeducedTraits().end()) ;
+      }
+
+      void TestTrait::removeIntermediateTraitChangeHasAncestorDependencies()
+      {
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model()) ;
+        model->init() ;
+
+        Kernel::Object* root = model->createObject() ;
+        Trait* a = new Ancestor() ;
+        root->addTrait(a) ;
+
+        Kernel::Object* object1 = root->createObject() ;
+        Trait* a1 = new Ancestor() ;
+        object1->addTrait(a1) ;
+
+        Kernel::Object* object2 = object1->createObject() ;
+        WithAncestor* d = object2->getTrait<WithAncestor>() ;
+
+        CPPUNIT_ASSERT(a->getDependentDeducedTraits().find(d) == a->getDependentDeducedTraits().end()) ;
+        CPPUNIT_ASSERT_EQUAL((unsigned int)1,a1->getDependentDeducedTraits().size()) ;
+        CPPUNIT_ASSERT(a1->getDependentDeducedTraits().find(d) != a1->getDependentDeducedTraits().end()) ;
+
+        object1->destroyTrait(a1) ;
+
+        CPPUNIT_ASSERT_EQUAL((unsigned int)2,a->getDependentDeducedTraits().size()) ;
+        CPPUNIT_ASSERT(a->getDependentDeducedTraits().find(d) != a->getDependentDeducedTraits().end()) ;
+      }
+
+      void TestTrait::changeParentChangeHasAncestorDependencies()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+
+        Object* father1 = model->createObject() ;
+        Ancestor* a1 = new Ancestor() ;
+        father1->addTrait(a1) ;
+
+        Object* father2 = model->createObject() ;
+        Ancestor* a2 = new Ancestor() ;
+        father2->addTrait(a2) ;
+
+        Object* child = father1->createObject() ;
+        WithAncestor* dt_child = child->getTrait<WithAncestor>() ;
+        CPPUNIT_ASSERT(dt_child) ;
+
+        CPPUNIT_ASSERT(a1->getDependentDeducedTraits().find(dt_child) != a1->getDependentDeducedTraits().end()) ;
+        CPPUNIT_ASSERT(a2->getDependentDeducedTraits().find(dt_child) == a2->getDependentDeducedTraits().end()) ;
+
+        // tested event : switch child parent
+        child->changeParent(father2) ;
+
+        CPPUNIT_ASSERT(a1->getDependentDeducedTraits().find(dt_child) == a1->getDependentDeducedTraits().end()) ;
+        CPPUNIT_ASSERT(a2->getDependentDeducedTraits().find(dt_child) != a2->getDependentDeducedTraits().end()) ;
       }
 
     }

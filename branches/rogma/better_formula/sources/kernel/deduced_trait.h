@@ -121,12 +121,12 @@ namespace ProjetUnivers
     #define HasParent(formula) \
       Kernel::TemplateHasParent<formula>
 
-    /// Elementary formula true iff object has ancestor trait @c trait
+    /// Elementary formula true iff object has ancestor with true @c formula
     /*!
       @see object::getAncestor().
     */
-    #define HasAncestor(trait) \
-      Kernel::TemplateHasAncestor<trait>
+    #define HasAncestor(formula) \
+      Kernel::TemplateHasAncestor<formula>
 
     /// Elementary formula true iff object has child trait @c trait
     /*!
