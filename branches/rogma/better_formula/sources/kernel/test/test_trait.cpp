@@ -489,12 +489,51 @@ namespace ProjetUnivers
           Kernel::Object* flying_group = team->createObject() ;
           flying_group->addTrait(new FlyingGroup()) ;
 
-
-          /// @temp
           CPPUNIT_ASSERT(!flying_group->getTrait<ActivatedFlyingGroup>()) ;
         }
 
         mission->addTrait(new Played()) ;
+      }
+
+      void TestTrait::destroyParentObject()
+      {
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model()) ;
+        model->init() ;
+
+        Kernel::Object* root = model->createObject() ;
+        root->addTrait(new Parent()) ;
+
+        Kernel::Object* mission = root->createObject() ;
+        mission->addTrait(new Mission()) ;
+
+        Kernel::Object* team = mission->createObject() ;
+
+        Kernel::Object* flying_group = team->createObject() ;
+        flying_group->addTrait(new FlyingGroup()) ;
+
+        mission->addTrait(new Played()) ;
+
+        CPPUNIT_ASSERT(mission->getTrait<HasParentTrait1>()) ;
+
+        mission->destroyObject() ;
+
+        CPPUNIT_ASSERT_EQUAL((unsigned int)1,root->getTrait<Parent>()->getDependentDeducedTraits().size()) ;
+      }
+
+      void TestTrait::changeParentChangingNothing()
+      {
+        // Trait2^Parent
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model()) ;
+        model->init() ;
+
+        Kernel::Object* root = model->createObject() ;
+        Kernel::Object* root2 = model->createObject() ;
+        root2->addTrait(new Parent()) ;
+
+        Kernel::Object* object = root2->createObject() ;
+        object->addTrait(new Trait2()) ;
+
+        root2->changeParent(root) ;
       }
 
       namespace
@@ -672,6 +711,54 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(a1->getDependentDeducedTraits().find(dt_child) == a1->getDependentDeducedTraits().end()) ;
         CPPUNIT_ASSERT(a2->getDependentDeducedTraits().find(dt_child) != a2->getDependentDeducedTraits().end()) ;
       }
+
+      void TestTrait::destroyAncestorObject()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+
+        Object* father1 = model->createObject() ;
+        Ancestor* a1 = new Ancestor() ;
+        father1->addTrait(a1) ;
+
+        Object* father2 = model->createObject() ;
+        Ancestor* a2 = new Ancestor() ;
+        father2->addTrait(a2) ;
+
+        Object* child = father1->createObject() ;
+        WithAncestor* dt_child = child->getTrait<WithAncestor>() ;
+        CPPUNIT_ASSERT(dt_child) ;
+
+        father1->destroyObject() ;
+      }
+
+      namespace
+      {
+        class Positionned : public Trait
+        {};
+
+        class RecursivelyPositionned : public DeducedTrait
+        {};
+
+        DeclareDeducedTrait(RecursivelyPositionned,
+                            Or(HasTrait(Positionned),
+                               HasAncestor(HasTrait(RecursivelyPositionned)))) ;
+      }
+
+      void TestTrait::destroyObjectOnRecusiveFormula()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+
+        Object* root = model->createObject() ;
+        root->addTrait(new Positionned()) ;
+
+        Object* child = root->createObject() ;
+        child->addTrait(new Positionned()) ;
+
+        child->destroyTrait(child->getTrait<Positionned>()) ;
+
+        child->destroyObject() ;
+      }
+
 
     }
   }

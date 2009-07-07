@@ -32,7 +32,7 @@ namespace ProjetUnivers
 
       DeclareDeducedTrait(DisplayedSolid,
                           And(HasTrait(Model::Solid),
-                              HasParent(Implementation::Positionned),
+                              HasParent(HasTrait(Implementation::Positionned)),
                               Not(HasChild(Observer)))) ;
     }
   }

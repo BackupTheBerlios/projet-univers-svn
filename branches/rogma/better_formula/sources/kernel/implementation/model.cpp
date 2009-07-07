@@ -171,7 +171,9 @@ namespace ProjetUnivers
     void Model::destroyTrait(Object* object,
                             Trait* trait)
     {
-      Log::Block temp("Structure","destroyTrait") ;
+      std::string trait_name(getObjectTypeIdentifier(trait).fullName()) ;
+
+      Log::Block temp("Structure","destroyTrait" + trait_name) ;
 
       DeducedTrait* deduced = dynamic_cast<DeducedTrait*>(trait) ;
       if (deduced)
@@ -615,7 +617,7 @@ namespace ProjetUnivers
       m_relation_validities[relation][formula->getIdentifier()] = validity ;
     }
 
-    unsigned short Model::getNumberOfTrueChildFormulae(const ObjectPair& relation,
+    short Model::getNumberOfTrueChildFormulae(const ObjectPair& relation,
                                                        const Formula* formula)
     {
       return m_number_of_true_child_formulae[relation][formula->getIdentifier()] ;
@@ -623,7 +625,7 @@ namespace ProjetUnivers
 
     void Model::setNumberOfTrueChildFormulae(const ObjectPair& relation,
                                              const Formula* formula,
-                                             unsigned short number)
+                                             short number)
     {
       m_number_of_true_child_formulae[relation][formula->getIdentifier()] = number ;
     }

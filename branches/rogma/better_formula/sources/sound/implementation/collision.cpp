@@ -24,9 +24,12 @@
 
 #include <sound/implementation/collision.h>
 
-namespace ProjetUnivers {
-  namespace Sound {
-    namespace Implementation {
+namespace ProjetUnivers
+{
+  namespace Sound
+  {
+    namespace Implementation
+    {
 
       DeclareDeducedTrait(Collision,
                           And(HasTrait(Model::Collision),

@@ -1644,6 +1644,27 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT_EQUAL(3,ViewRecursive::m_updates) ;
       }
 
+      void TestModelView::addingParentUpdateHasAncestor()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+        ViewPoint* viewpoint(new AncestorViewPoint(model.get())) ;
+        viewpoint->init() ;
+
+        ViewRecursive::m_updates = 0 ;
+
+        Object* root = model->createObject() ;
+        Object* child = root->createObject() ;
+        Object* grand_child = child->createObject() ;
+        root->addTrait(new Pos()) ;
+
+        // already 1 update due to recursivity
+        CPPUNIT_ASSERT_EQUAL(1,ViewRecursive::m_updates) ;
+
+        child->addTrait(new Pos()) ;
+
+        CPPUNIT_ASSERT_EQUAL(3,ViewRecursive::m_updates) ;
+      }
+
 
       namespace
       {

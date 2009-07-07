@@ -32,7 +32,7 @@ namespace ProjetUnivers
 
       DeclareDeducedTrait(EditedTeam,
                           And(HasTrait(Model::Team),
-                              HasParent(EditedCustomMission))) ;
+                              HasParent(HasTrait(EditedCustomMission)))) ;
     }
   }
 }

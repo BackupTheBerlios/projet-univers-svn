@@ -62,6 +62,9 @@ namespace ProjetUnivers
 
       _close() ;
 
+      for(std::set<DeducedTrait*>::iterator dependent = m_direct_dependent_traits.begin() ; dependent != m_direct_dependent_traits.end() ; ++dependent)
+        (*dependent)->removeDependency(this) ;
+
       for(std::set<BaseTraitReference*>::iterator reference = m_references.begin() ;
           reference != m_references.end() ;
           ++reference)
@@ -94,7 +97,6 @@ namespace ProjetUnivers
       m_views(),
       m_controlers(),
       m_locks(0),
-      m_marked_for_destruction(false),
       m_is_updating(false),
       m_impacted_trait_formulae(NULL)
     {}
@@ -324,15 +326,10 @@ namespace ProjetUnivers
     void Trait::_close()
     {
       // first : close dependent traits...
-      const std::set<TypeIdentifier>& dependent_traits = DeducedTrait::getDependentTraitTypes(this) ;
 
-      for(std::set<TypeIdentifier>::const_iterator trait = dependent_traits.begin() ;
-          trait != dependent_traits.end() ;
-          ++trait)
+      for(std::set<DeducedTrait*>::iterator trait = m_direct_dependent_traits.begin() ; trait != m_direct_dependent_traits.end() ; ++trait)
       {
-        Trait* object_trait = getObject()->getTrait(*trait) ;
-        if (object_trait)
-          object_trait->_close() ;
+        (*trait)->_close() ;
       }
 
       for(std::multimap<ViewPoint*,BaseTraitView*>::iterator view = m_views.begin() ;
@@ -814,12 +811,6 @@ namespace ProjetUnivers
       return m_locks>0 ;
     }
 
-    void Trait::markAsToBeDestroyed(const TypeIdentifier& trait_name)
-    {
-      m_marked_for_destruction = true ;
-      m_trait_name = trait_name ;
-    }
-
     void Trait::write(Writer*)
     {}
 
@@ -833,11 +824,22 @@ namespace ProjetUnivers
 
     void Trait::addDependency(DeducedTrait* trait)
     {
+      if (!trait)
+        throw ExceptionKernel("Trait::addDependency") ;
       m_direct_dependent_traits.insert(trait) ;
+      trait->addDependency(this) ;
     }
 
     void Trait::removeDependency(DeducedTrait* trait)
     {
+      _removeDependency(trait) ;
+      trait->removeDependency(this) ;
+    }
+
+    void Trait::_removeDependency(DeducedTrait* trait)
+    {
+      if (!trait)
+        throw ExceptionKernel("Trait::removeDependency") ;
       m_direct_dependent_traits.erase(trait) ;
     }
 

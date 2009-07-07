@@ -66,11 +66,15 @@ namespace ProjetUnivers
         void hasParentFormulaDependencies() ;
         void andHasParentAddTraitChangeHasParentDependencies() ;
         void hasParentOnDeducedTrait() ;
+        void destroyParentObject() ;
+        void changeParentChangingNothing() ;
 
         void hasAncestorHasDependencies() ;
         void addIntermediateTraitChangeHasAncestorDependencies() ;
         void removeIntermediateTraitChangeHasAncestorDependencies() ;
         void changeParentChangeHasAncestorDependencies() ;
+        void destroyAncestorObject() ;
+        void destroyObjectOnRecusiveFormula() ;
 
       // @}
       /*!
@@ -102,11 +106,15 @@ namespace ProjetUnivers
         CPPUNIT_TEST(hasParentFormulaDependencies) ;
         CPPUNIT_TEST(andHasParentAddTraitChangeHasParentDependencies) ;
         CPPUNIT_TEST(hasParentOnDeducedTrait) ;
+        CPPUNIT_TEST(destroyParentObject) ;
+        CPPUNIT_TEST(changeParentChangingNothing) ;
 
         CPPUNIT_TEST(hasAncestorHasDependencies) ;
         CPPUNIT_TEST(addIntermediateTraitChangeHasAncestorDependencies) ;
         CPPUNIT_TEST(removeIntermediateTraitChangeHasAncestorDependencies) ;
         CPPUNIT_TEST(changeParentChangeHasAncestorDependencies) ;
+        CPPUNIT_TEST(destroyAncestorObject) ;
+        CPPUNIT_TEST(destroyObjectOnRecusiveFormula) ;
 
         CPPUNIT_TEST(hasTraitFormulaUpdaterTraits) ;
         CPPUNIT_TEST(andUpdaterTraits) ;

@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -177,24 +177,23 @@ namespace ProjetUnivers
       m_validities[i_formula->getIdentifier()] = i_validity ;
     }
 
-    unsigned short Object::getNumberOfTrueChildFormulae(const Formula* i_formula) const
+    short Object::getNumberOfTrueChildFormulae(const Formula* formula) const
     {
-      CHECK(i_formula,"Object::getNumberOfTrueChildFormulae no formula") ;
+      CHECK(formula,"Object::getNumberOfTrueChildFormulae no formula") ;
       CHECK(Formula::getNumberOfFormulae() <= m_number_of_true_child_formulae.size(),
             "Object::getNumberOfTrueChildFormulae not enought place") ;
 
-      return m_number_of_true_child_formulae[i_formula->getIdentifier()] ;
+      return m_number_of_true_child_formulae[formula->getIdentifier()] ;
     }
 
-    void Object::setNumberOfTrueChildFormulae(const Formula*     i_formula,
-                                              unsigned short i_number)
+    void Object::setNumberOfTrueChildFormulae(const Formula* formula,
+                                              short          number)
     {
-      CHECK(i_formula,"Object::setNumberOfTrueChildFormulae no formula") ;
+      CHECK(formula,"Object::setNumberOfTrueChildFormulae no formula") ;
       CHECK(Formula::getNumberOfFormulae() <= m_number_of_true_child_formulae.size(),
             "Object::setNumberOfTrueChildFormulae not enought place") ;
 
-      m_number_of_true_child_formulae[i_formula->getIdentifier()]
-        = i_number ;
+      m_number_of_true_child_formulae[formula->getIdentifier()] = number ;
     }
 
   // @}
@@ -281,7 +280,7 @@ namespace ProjetUnivers
 
       /*
       should be before closing because closing local views/controlers
-      because views/controlers on deduced trait including the curent trait
+      because views/controlers on deduced trait including the current trait
       would depend on local views.
       */
       DeducedTrait::removeTrait(this,trait) ;
@@ -410,10 +409,7 @@ namespace ProjetUnivers
           trait != _getTraits().end() ;
           ++trait)
       {
-//        if (trait->second->isPrimitive())
-//        {
-          destroyTrait(trait->second) ;
-//        }
+        destroyTrait(trait->second) ;
       }
 
       unlockTraits(locked_traits) ;
@@ -724,6 +720,11 @@ namespace ProjetUnivers
     const std::set<Object*>& Object::getChildren() const
     {
       return children ;
+    }
+
+    bool Object::isDeleting() const
+    {
+      return m_deleting ;
     }
 
     std::list<Object*> Object::getAncestorPath() const

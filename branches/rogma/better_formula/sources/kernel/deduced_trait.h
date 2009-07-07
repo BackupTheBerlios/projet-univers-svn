@@ -238,6 +238,10 @@ namespace ProjetUnivers
 
       Formula* m_formula ;
 
+      void addDependency(Trait*) ;
+      void removeDependency(Trait*) ;
+      std::set<Trait*> m_dependencies ;
+
       /// Tells the views the trait has changed.
       virtual void notify() ;
 

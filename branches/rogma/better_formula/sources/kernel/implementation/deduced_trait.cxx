@@ -664,10 +664,10 @@ namespace ProjetUnivers
       void removedChild(Object* object) ;
 
       /// Declare that the trait has been added to number of @c object's children.
-      void addedChildren(Object* object,unsigned short number_of_children) ;
+      void addedChildren(Object* object,short number_of_children) ;
 
       /// Declare that the trait has been removed to number @c object's children.
-      void removedChildren(Object* object,unsigned short number_of_children) ;
+      void removedChildren(Object* object,short number_of_children) ;
 
       /// Child trait has been updated.
       void updateChildTrait(Object* object) ;

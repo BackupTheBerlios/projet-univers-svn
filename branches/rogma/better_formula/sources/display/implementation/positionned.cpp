@@ -32,7 +32,7 @@ namespace ProjetUnivers
 
       DeclareDeducedTrait(Positionned,
                           And(Or(HasTrait(Model::Positionned),HasTrait(Model::Oriented)),
-                              HasParent(Model::Universe))) ;
+                              HasParent(HasTrait(Model::Universe)))) ;
     }
   }
 }

@@ -34,7 +34,7 @@ namespace ProjetUnivers
     {
 
       DeclareDeducedTrait(Engine,
-                          And(HasParent(Model::Mobile),
+                          And(HasParent(HasTrait(Model::Mobile)),
                               HasTrait(RecursivelyPositionned),
                               HasTrait(Model::Engine))) ;
 

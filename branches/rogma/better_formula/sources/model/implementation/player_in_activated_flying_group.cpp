@@ -31,7 +31,7 @@ namespace ProjetUnivers
           
       DeclareDeducedTrait(PlayerInActivatedFlyingGroup,
                           And(HasTrait(Player),
-                              HasParent(WithFlyingGroup))) ;
+                              HasParent(HasTrait(WithFlyingGroup)))) ;
     }
   }
 }

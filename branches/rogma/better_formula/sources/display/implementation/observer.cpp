@@ -32,8 +32,8 @@ namespace ProjetUnivers
 
       DeclareDeducedTrait(Observer,
                           And(HasTrait(Model::Observer),
-                              HasParent(Implementation::Positionned),
-                              HasParent(Model::Active))) ;
+                              HasParent(HasTrait(Implementation::Positionned)),
+                              HasParent(HasTrait(Model::Active)))) ;
     }
   }
 }

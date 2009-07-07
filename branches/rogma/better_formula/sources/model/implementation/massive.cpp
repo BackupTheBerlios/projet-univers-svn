@@ -20,8 +20,10 @@
  ***************************************************************************/
 #include <model/massive.h>
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
 
     RegisterTrait(Massive) ;
 

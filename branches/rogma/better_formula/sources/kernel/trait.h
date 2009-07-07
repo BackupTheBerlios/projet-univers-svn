@@ -346,11 +346,6 @@ namespace ProjetUnivers
       /// Number of active locks
       int m_locks ;
 
-      /// Mark trait for destruction when unlocked
-      void markAsToBeDestroyed(const TypeIdentifier& trait_name) ;
-      bool m_marked_for_destruction ;
-      TypeIdentifier m_trait_name ;
-
     /*!
       @name Dependency management
     */
@@ -359,8 +354,12 @@ namespace ProjetUnivers
       /// True during notify().
       bool m_is_updating ;
 
+      /// Add a dependent trait.
       void addDependency(DeducedTrait*) ;
+      /// Remove a dependent trait.
       void removeDependency(DeducedTrait*) ;
+      /// Remove a dependent trait.
+      void _removeDependency(DeducedTrait*) ;
 
       /// Access to direct dependent deduced traits.
       /*!
@@ -370,7 +369,7 @@ namespace ProjetUnivers
         Gives the traits to update if we update @c this (non recursive).
 
         This value is stored and maintained during structure changes. So access
-        if fast at cost of structural changes.
+        if fast at cost of structural changes and memory.
 
         In case of DeducedTrait, this value is equivalent to
         getDependentDeducedTraits(@c this) on the formula defining the deduced trait.

@@ -105,7 +105,7 @@ namespace ProjetUnivers
       void TestDemonstration::recreateListener()
       {
         InternalMessage("Sound","entering TestDemonstration::recreateListener") ;
-        std::cerr << "TestDemonstration::oneShip" << std::endl ;
+        std::cerr << "TestDemonstration::recreateListener" << std::endl ;
         std::cerr.flush() ;
 
         std::auto_ptr<Kernel::Model> model(new Kernel::Model()) ;
@@ -193,7 +193,7 @@ namespace ProjetUnivers
           }
         }
 
-        InternalMessage("Sound","leaving TestDemonstration::oneShip") ;
+        InternalMessage("Sound","leaving TestDemonstration::recreateListener") ;
       }
 
     }

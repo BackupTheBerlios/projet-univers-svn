@@ -100,7 +100,7 @@ namespace ProjetUnivers
       /// Destroy an object's trait.
       void destroyTrait(Trait* trait) ;
 
-      /// Set the object name (optionnal).
+      /// Set the object name (optional).
       void setName(const std::string& name) ;
 
     //@}
@@ -127,7 +127,7 @@ namespace ProjetUnivers
       /// True iff @c this is ancestor of @c object
       bool isAncestor(const Object* object) const ;
 
-      /// Acces to model.
+      /// Access to model.
       Model* getModel() const ;
 
       /// Access to trait of type T if exists.
@@ -177,13 +177,13 @@ namespace ProjetUnivers
       /// Call a void command.
       /*!
         Try first on object traits then on sub-objects...??
-        @return true iff succedeed.
+        @return true iff succeeded.
       */
       bool call(const std::string& i_command) ;
 
       /// Call an int command.
       /*!
-        @return true iff succedeed.
+        @return true iff succeeded.
       */
       bool call(const std::string& i_command, const int&) ;
 
@@ -204,6 +204,9 @@ namespace ProjetUnivers
 
       /// Access to all children.
       const std::set<Object*>& getChildren() const ;
+
+      /// True when object is deleting.
+      bool isDeleting() const ;
 
     //@}
     /*!
@@ -237,7 +240,7 @@ namespace ProjetUnivers
       /// Constructor.
       Object(Model* i_model) ;
 
-      /// Destructs the objects and the traits.
+      /// Destroy the objects and the traits.
       ~Object() ;
 
     /*!
@@ -274,10 +277,10 @@ namespace ProjetUnivers
       /// Detach a trait.
       Object* _detach(const TypeIdentifier& trait_name) ;
 
-      /// Retreive the trait named @c i_trait_name.
+      /// Retrieve the trait named @c i_trait_name.
       Trait* _get(const TypeIdentifier& i_trait_name) const ;
 
-      /// Retreive the trait named @c i_trait_name.
+      /// Retrieve the trait named @c i_trait_name.
       DeducedTrait* _getDeducedTrait(const TypeIdentifier& i_trait_name) const ;
 
       /// update the views for a change_parent.
@@ -286,16 +289,16 @@ namespace ProjetUnivers
       /// update the views.
       void _updated() ;
 
-      /// True iff we can init views, controlers.
+      /// True iff we can initialize views, controlers.
       bool mayInit() const ;
 
-      /// init after construction.
+      /// Initialize after construction.
       void _init() ;
 
-      /// init the views after construction.
+      /// Initialize the views after construction.
       void _init(ViewPoint* i_viewpoint) ;
 
-      /// init the controlers after construction.
+      /// Initialize the controlers after construction.
       void _init(ControlerSet* i_controler_set) ;
 
       /// closes before destruction.
@@ -307,21 +310,21 @@ namespace ProjetUnivers
       /// close the controlers before controler set closing.
       void _close(ControlerSet* i_controler_set) ;
 
-      /// recursivelly create views for a viewpoint.
+      /// Recursively create views for a viewpoint.
       void _create_views(ViewPoint* i_viewpoint) ;
 
-      /// recursivelly create controlers for a controler set.
+      /// Recursively create controlers for a controler set.
       void _create_controlers(ControlerSet* i_controler_set) ;
 
       /// Internal call a void command.
       /*!
-        @return true iff succedeed.
+        @return true iff succeeded.
       */
       bool _call(const std::string& i_command) ;
 
       /// Internal call an int command.
       /*!
-        @return true iff succedeed.
+        @return true iff succeeded.
       */
       bool _call(const std::string& i_command, const int&) ;
 
@@ -341,11 +344,11 @@ namespace ProjetUnivers
       void setValidity(const Formula* i_formula,bool i_validity) ;
 
       /// Access to the number of true child formulae for @c this
-      unsigned short getNumberOfTrueChildFormulae(const Formula* i_formula) const ;
+      short getNumberOfTrueChildFormulae(const Formula* i_formula) const ;
 
       /// Change the number of true child formulae for @c this
       void setNumberOfTrueChildFormulae(const Formula* i_formula,
-                                        unsigned short i_number) ;
+                                        short i_number) ;
 
       /// Access to a trait by name.
       Trait* getTrait(const TypeIdentifier&) const ;
@@ -402,8 +405,8 @@ namespace ProjetUnivers
       /// Validities for each formula
       std::vector<bool>                m_validities ;
 
-      /// Number of true chid formulae indexed by formulae.
-      std::vector<unsigned short>      m_number_of_true_child_formulae ;
+      /// Number of true child formulae indexed by formulae.
+      std::vector<short>      m_number_of_true_child_formulae ;
 
       /// Object name
       std::string                      m_name ;

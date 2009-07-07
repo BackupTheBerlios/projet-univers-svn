@@ -31,7 +31,7 @@ namespace ProjetUnivers
 
       DeclareDeducedTrait(DisplayedStick,
                           And(HasTrait(Model::Stick),
-                              HasParent(Model::HeadUpDisplay))) ;
+                              HasParent(HasTrait(Model::HeadUpDisplay)))) ;
     }
   }
 }
