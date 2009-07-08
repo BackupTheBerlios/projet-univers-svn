@@ -2193,31 +2193,6 @@ namespace ProjetUnivers
       }
     }
 
-//    void HasAncestorFormula::updateTrait(Object* object,Trait* trait)
-//    {
-//      if (!object)
-//        return ;
-//
-//      const std::set<HasAncestorFormula*>& formulaes = find(trait) ;
-//      if (formulaes.empty())
-//        return ;
-//      for(std::set<HasAncestorFormula*>::const_iterator formula = formulaes.begin() ;
-//          formula != formulaes.end() ;
-//          ++formula)
-//      {
-//        for(std::set<Object*>::const_iterator child = object->getChildren().begin() ;
-//            child != object->getChildren().end() ;
-//            ++child)
-//        {
-//          if ((*formula)->isValid(*child))
-//          {
-//            (*formula)->updateAncestorTrait(*child) ;
-//          }
-//        }
-//
-//      }
-//    }
-
     void HasAncestorFormula::updateDescendentObject(Object* object)
     {
       update(object) ;
@@ -2395,10 +2370,14 @@ namespace ProjetUnivers
 
     void DeducedTrait::notify()
     {
+      if (m_updating.find(this) != m_updating.end())
+        return ;
+      m_updating.insert(this) ;
       lock() ;
       _updated() ;
       DeducedTrait::updateTrait(getObject(),this) ;
       unlock() ;
+      m_updating.erase(this) ;
     }
 
   // @}

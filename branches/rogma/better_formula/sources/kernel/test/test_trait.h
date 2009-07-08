@@ -85,6 +85,7 @@ namespace ProjetUnivers
         void hasTraitFormulaUpdaterTraits() ;
         void andUpdaterTraits() ;
         void hasParentUpdaterTraits() ;
+        void updaterTraitsShouldNotBeReflexive() ;
 
      // @}
 
@@ -119,6 +120,7 @@ namespace ProjetUnivers
         CPPUNIT_TEST(hasTraitFormulaUpdaterTraits) ;
         CPPUNIT_TEST(andUpdaterTraits) ;
         CPPUNIT_TEST(hasParentUpdaterTraits) ;
+        CPPUNIT_TEST(updaterTraitsShouldNotBeReflexive) ;
 
         CPPUNIT_TEST_SUITE_END() ;
       };

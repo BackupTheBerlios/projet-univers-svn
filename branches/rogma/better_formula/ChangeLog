@@ -1358,6 +1358,7 @@ in progress
   * Kernel:
     - maintain the set of direct impact for traits updates (in progress)
     - HasParent (/),HasAncestor (/),HasChild take a formula 
+    - corrected some bugs
    
 todo
 ----

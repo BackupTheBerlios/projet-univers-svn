@@ -759,6 +759,30 @@ namespace ProjetUnivers
         child->destroyObject() ;
       }
 
+      namespace
+      {
+        class Starter : public Trait
+        {};
+
+        class Reflexive : public DeducedTrait
+        {};
+
+        DeclareDeducedTrait(Reflexive,
+                            Or(HasTrait(Starter),
+                               HasParent(HasTrait(Reflexive)))) ;
+      }
+
+      void TestTrait::updaterTraitsShouldNotBeReflexive()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+
+        Object* root = model->createObject() ;
+        root->addTrait(new Starter()) ;
+
+        std::set<DeducedTrait*> deduced = root->getTrait<Reflexive>()->getDependentDeducedTraits() ;
+        CPPUNIT_ASSERT(deduced.find(root->getTrait<Reflexive>()) == deduced.end()) ;
+      }
+
 
     }
   }

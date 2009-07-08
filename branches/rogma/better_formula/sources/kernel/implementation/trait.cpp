@@ -826,12 +826,19 @@ namespace ProjetUnivers
     {
       if (!trait)
         throw ExceptionKernel("Trait::addDependency") ;
+
+      if (this == trait)
+        return ;
+
       m_direct_dependent_traits.insert(trait) ;
       trait->addDependency(this) ;
     }
 
     void Trait::removeDependency(DeducedTrait* trait)
     {
+      if (this == trait)
+        return ;
+
       _removeDependency(trait) ;
       trait->removeDependency(this) ;
     }

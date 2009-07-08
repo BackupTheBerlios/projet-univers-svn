@@ -254,6 +254,9 @@ namespace ProjetUnivers
       static void update(Formula* formula,
                          Object*  object) ;
 
+      /// Objects that are updating, to avoid loops in weird cases.
+      std::set<DeducedTrait*> m_updating ;
+
       class StaticStorage
       {
       public:
