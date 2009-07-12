@@ -50,7 +50,7 @@ namespace ProjetUnivers
           CPPUNIT_ASSERT(false) ;
         }
         
-        catch (const char*)
+        catch (std::exception&)
         {
           // ok
           CPPUNIT_ASSERT(true) ;

@@ -208,8 +208,8 @@ namespace ProjetUnivers
       m_identifier(model->m_next_identifier++),
       m_parent(NULL),
       m_model(model),
-      m_validities(Formula::getNumberOfFormulae()),
-      m_number_of_true_child_formulae(Formula::getNumberOfFormulae()),
+      m_validities(Formula::getNumberOfFormulae(),false),
+      m_number_of_true_child_formulae(Formula::getNumberOfFormulae(),0),
       m_locks(0)
     {
     }
@@ -889,6 +889,25 @@ namespace ProjetUnivers
 
       // local
       if (getTrait(name))
+        ++result ;
+
+      return result ;
+    }
+
+    unsigned int Object::getNumberOfChildren(const Formula* formula) const
+    {
+      unsigned int result = 0 ;
+
+      // recurse
+      for(std::set<Object*>::const_iterator child = children.begin() ;
+          child != children.end() ;
+          ++child)
+      {
+        result += (*child)->getNumberOfChildren(formula) ;
+      }
+
+      // local
+      if (formula->isValid(const_cast<Object*>(this)))
         ++result ;
 
       return result ;

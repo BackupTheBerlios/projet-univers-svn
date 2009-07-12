@@ -45,7 +45,11 @@ namespace ProjetUnivers
       class Operation ;
       class Interpretor ;
     }
-
+    namespace Test
+    {
+      class TestModelView ;
+      class TestTrait ;
+    }
     class Trait ;
     class Model ;
     class ViewPoint ;
@@ -366,6 +370,9 @@ namespace ProjetUnivers
       /// Access to number of children with trait @c name.
       unsigned int getNumberOfChildren(const TypeIdentifier& name) const ;
 
+      /// Access to number of children with c formula.
+      unsigned int getNumberOfChildren(const Formula* formula) const ;
+
       /// Access to number of parents with @c formula.
       unsigned int getNumberOfParent(const Formula* formula) const ;
 
@@ -453,6 +460,8 @@ namespace ProjetUnivers
       friend class Writer ;
       friend class ::ProjetUnivers::Kernel::Implementation::Operation ;
       friend class ::ProjetUnivers::Kernel::Implementation::Interpretor ;
+      friend class ::ProjetUnivers::Kernel::Test::TestModelView ;
+      friend class ::ProjetUnivers::Kernel::Test::TestTrait ;
       friend class BaseTraitView ;
       friend class BaseControler ;
       friend class IsRelatedFormula ;

@@ -87,6 +87,17 @@ namespace ProjetUnivers
         void hasParentUpdaterTraits() ;
         void updaterTraitsShouldNotBeReflexive() ;
 
+      // @}
+      /*!
+        @name Formula number of true formula maintenance
+      */
+      // @{
+
+        /// For HasAncestor
+        void addingAncestorChangeNumberOfTrueChildFormulae() ;
+        void addingParentChangeNumberOfTrueChildFormulae() ;
+        void addingChildChangeNumberOfTrueChildFormulae() ;
+
      // @}
 
         CPPUNIT_TEST_SUITE(TestTrait) ;
@@ -121,6 +132,10 @@ namespace ProjetUnivers
         CPPUNIT_TEST(andUpdaterTraits) ;
         CPPUNIT_TEST(hasParentUpdaterTraits) ;
         CPPUNIT_TEST(updaterTraitsShouldNotBeReflexive) ;
+
+        CPPUNIT_TEST(addingAncestorChangeNumberOfTrueChildFormulae) ;
+        CPPUNIT_TEST(addingParentChangeNumberOfTrueChildFormulae) ;
+        CPPUNIT_TEST(addingChildChangeNumberOfTrueChildFormulae) ;
 
         CPPUNIT_TEST_SUITE_END() ;
       };

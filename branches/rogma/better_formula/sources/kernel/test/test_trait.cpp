@@ -155,8 +155,7 @@ namespace ProjetUnivers
         class HasChildTrait1 : public DeducedTrait
         {};
 
-
-        DeclareDeducedTrait(HasChildTrait1,HasChild(Child)) ;
+        DeclareDeducedTrait(HasChildTrait1,HasChild(HasTrait(Child))) ;
 
         class Trait1Or : public Trait
         {};
@@ -781,6 +780,81 @@ namespace ProjetUnivers
 
         std::set<DeducedTrait*> deduced = root->getTrait<Reflexive>()->getDependentDeducedTraits() ;
         CPPUNIT_ASSERT(deduced.find(root->getTrait<Reflexive>()) == deduced.end()) ;
+      }
+
+      void TestTrait::addingAncestorChangeNumberOfTrueChildFormulae()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+
+        Formula* formula = DeducedTrait::getFormula(getClassTypeIdentifier(WithAncestor)) ;
+
+        Object* root = model->createObject() ;
+        Object* child = root->createObject() ;
+        Object* grand_child = child->createObject() ;
+
+        CPPUNIT_ASSERT_EQUAL((short)0,root->getNumberOfTrueChildFormulae(formula)) ;
+
+        child->addTrait(new Ancestor()) ;
+
+        CPPUNIT_ASSERT_EQUAL((short)0,root->getNumberOfTrueChildFormulae(formula)) ;
+        CPPUNIT_ASSERT_EQUAL((short)0,child->getNumberOfTrueChildFormulae(formula)) ;
+        CPPUNIT_ASSERT_EQUAL((short)1,grand_child->getNumberOfTrueChildFormulae(formula)) ;
+
+        root->addTrait(new Ancestor()) ;
+
+        CPPUNIT_ASSERT_EQUAL((short)0,root->getNumberOfTrueChildFormulae(formula)) ;
+        CPPUNIT_ASSERT_EQUAL((short)1,child->getNumberOfTrueChildFormulae(formula)) ;
+        CPPUNIT_ASSERT_EQUAL((short)2,grand_child->getNumberOfTrueChildFormulae(formula)) ;
+      }
+
+      void TestTrait::addingParentChangeNumberOfTrueChildFormulae()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+
+        Formula* formula = DeducedTrait::getFormula(getClassTypeIdentifier(HasParentTrait1)) ;
+
+        Object* root = model->createObject() ;
+        Object* child = root->createObject() ;
+        Object* grand_child = child->createObject() ;
+
+        CPPUNIT_ASSERT_EQUAL((short)0,root->getNumberOfTrueChildFormulae(formula)) ;
+
+        child->addTrait(new Parent()) ;
+
+        CPPUNIT_ASSERT_EQUAL((short)0,root->getNumberOfTrueChildFormulae(formula)) ;
+        CPPUNIT_ASSERT_EQUAL((short)1,child->getNumberOfTrueChildFormulae(formula)) ;
+        CPPUNIT_ASSERT_EQUAL((short)1,grand_child->getNumberOfTrueChildFormulae(formula)) ;
+
+        root->addTrait(new Parent()) ;
+
+        CPPUNIT_ASSERT_EQUAL((short)1,root->getNumberOfTrueChildFormulae(formula)) ;
+        CPPUNIT_ASSERT_EQUAL((short)2,child->getNumberOfTrueChildFormulae(formula)) ;
+        CPPUNIT_ASSERT_EQUAL((short)2,grand_child->getNumberOfTrueChildFormulae(formula)) ;
+      }
+
+      void TestTrait::addingChildChangeNumberOfTrueChildFormulae()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+
+        Formula* formula = DeducedTrait::getFormula(getClassTypeIdentifier(HasChildTrait1)) ;
+
+        Object* root = model->createObject() ;
+        Object* child = root->createObject() ;
+        Object* grand_child = child->createObject() ;
+
+        CPPUNIT_ASSERT_EQUAL((short)0,root->getNumberOfTrueChildFormulae(formula)) ;
+
+        child->addTrait(new Child()) ;
+
+        CPPUNIT_ASSERT_EQUAL((short)1,root->getNumberOfTrueChildFormulae(formula)) ;
+        CPPUNIT_ASSERT_EQUAL((short)1,child->getNumberOfTrueChildFormulae(formula)) ;
+        CPPUNIT_ASSERT_EQUAL((short)0,grand_child->getNumberOfTrueChildFormulae(formula)) ;
+
+        root->addTrait(new Child()) ;
+
+        CPPUNIT_ASSERT_EQUAL((short)2,root->getNumberOfTrueChildFormulae(formula)) ;
+        CPPUNIT_ASSERT_EQUAL((short)1,child->getNumberOfTrueChildFormulae(formula)) ;
+        CPPUNIT_ASSERT_EQUAL((short)0,grand_child->getNumberOfTrueChildFormulae(formula)) ;
       }
 
 

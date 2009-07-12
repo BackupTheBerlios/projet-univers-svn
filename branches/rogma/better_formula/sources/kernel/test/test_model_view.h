@@ -154,8 +154,18 @@ namespace ProjetUnivers
         void updateParentTrait() ;
         /// Same test as above with two level children
         void updateRecursiveParentTrait() ;
+        void addingNewParentObjectShouldNotUpdateHasParentDescendant() ;
+        void removingAncestorShouldNotUpdateHasParentDescendant() ;
+        void removingAncestorShouldNotUpdateHasAncestorDescendant() ;
+        void removingDescendantShouldNotUpdateHasChildAncestor() ;
 
         void initNotTrait() ;
+
+        void updatingChildObjectUpdatesHasChild() ;
+        void addingNewChildObjectUpdatesHasChild() ;
+        void addingNewDescendentObjectDoesNotUpdateHasChild() ;
+        void removingDescendentObjectDoesNotUpdateHasChild() ;
+        void removingChildObjectUpdatesHasChild() ;
 
       // @}
 
@@ -196,7 +206,16 @@ namespace ProjetUnivers
         CPPUNIT_TEST(addingParentUpdateHasAncestor) ;
         CPPUNIT_TEST(updateParentTrait) ;
         CPPUNIT_TEST(updateRecursiveParentTrait) ;
+        CPPUNIT_TEST(addingNewParentObjectShouldNotUpdateHasParentDescendant) ;
+        CPPUNIT_TEST(removingAncestorShouldNotUpdateHasParentDescendant) ;
+        CPPUNIT_TEST(removingAncestorShouldNotUpdateHasAncestorDescendant) ;
+        CPPUNIT_TEST(removingDescendantShouldNotUpdateHasChildAncestor) ;
         CPPUNIT_TEST(initNotTrait) ;
+        CPPUNIT_TEST(updatingChildObjectUpdatesHasChild) ;
+        CPPUNIT_TEST(addingNewChildObjectUpdatesHasChild) ;
+        CPPUNIT_TEST(addingNewDescendentObjectDoesNotUpdateHasChild) ;
+        CPPUNIT_TEST(removingDescendentObjectDoesNotUpdateHasChild) ;
+        CPPUNIT_TEST(removingChildObjectUpdatesHasChild) ;
 
         CPPUNIT_TEST_SUITE_END() ;
 

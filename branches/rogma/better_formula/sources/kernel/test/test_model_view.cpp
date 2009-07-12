@@ -1738,6 +1738,60 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT_EQUAL(1,ViewParentPos::m_updates) ;
       }
 
+      void TestModelView::addingNewParentObjectShouldNotUpdateHasParentDescendant()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+        ViewPoint* viewpoint(new AncestorViewPoint(model.get())) ;
+        viewpoint->init() ;
+
+        Object* root = model->createObject() ;
+        Object* child = root->createObject() ;
+        Object* grand_child = child->createObject() ;
+        child->addTrait(new Pos()) ;
+
+        ViewParentPos::m_updates = 0 ;
+
+        root->addTrait(new Pos()) ;
+
+        CPPUNIT_ASSERT_EQUAL(0,ViewParentPos::m_updates) ;
+      }
+
+      void TestModelView::removingAncestorShouldNotUpdateHasParentDescendant()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+        ViewPoint* viewpoint(new AncestorViewPoint(model.get())) ;
+        viewpoint->init() ;
+
+        Object* root = model->createObject() ;
+        Object* child = root->createObject() ;
+        Object* grand_child = child->createObject() ;
+        child->addTrait(new Pos()) ;
+        root->addTrait(new Pos()) ;
+        ViewParentPos::m_updates = 0 ;
+
+        root->destroyTrait(root->getTrait<Pos>()) ;
+
+        CPPUNIT_ASSERT_EQUAL(0,ViewParentPos::m_updates) ;
+      }
+
+      void TestModelView::removingAncestorShouldNotUpdateHasAncestorDescendant()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+        ViewPoint* viewpoint(new AncestorViewPoint(model.get())) ;
+        viewpoint->init() ;
+
+        Object* root = model->createObject() ;
+        Object* child = root->createObject() ;
+        Object* grand_child = child->createObject() ;
+        child->addTrait(new Pos()) ;
+        root->addTrait(new Pos()) ;
+        ViewAncestor::m_updates = 0 ;
+
+        root->destroyTrait(root->getTrait<Pos>()) ;
+
+        CPPUNIT_ASSERT_EQUAL(0,ViewAncestor::m_updates) ;
+      }
+
       namespace
       {
         class NotAnything : public DeducedTrait
@@ -1773,6 +1827,181 @@ namespace ProjetUnivers
 
         CPPUNIT_ASSERT_EQUAL(1,ViewNotAnything::number_of_init) ;
       }
+
+      namespace
+      {
+
+        class HasChildHead : public DeducedTrait
+        {};
+
+        DeclareDeducedTrait(HasChildHead,HasChild(HasTrait(Head))) ;
+
+        class ViewHasChildHead : public TraitView<HasChildHead,TestViewPoint>
+        {
+        public:
+
+          void onInit()
+          {
+            ++number_of_init ;
+          }
+          static int number_of_init ;
+
+          void onUpdate()
+          {
+            ++number_of_updates ;
+          }
+          static int number_of_updates ;
+        };
+
+        int ViewHasChildHead::number_of_init = 0 ;
+        int ViewHasChildHead::number_of_updates = 0 ;
+
+        RegisterView(ViewHasChildHead,HasChildHead,TestViewPoint) ;
+      }
+
+      void TestModelView::removingDescendantShouldNotUpdateHasChildAncestor()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+        ViewPoint* viewpoint(new TestViewPoint(model.get())) ;
+        viewpoint->init() ;
+
+        Object* root = model->createObject() ;
+        Object* child = root->createObject() ;
+        Object* grand_child = child->createObject() ;
+        Object* leaf1 = grand_child->createObject() ;
+        child->addTrait(new Head()) ;
+        leaf1->addTrait(new Head()) ;
+
+        ViewHasChildHead::number_of_updates = 0 ;
+
+        leaf1->destroyTrait(leaf1->getTrait<Head>()) ;
+
+        CPPUNIT_ASSERT_EQUAL(0,ViewHasChildHead::number_of_updates) ;
+      }
+
+
+      void TestModelView::updatingChildObjectUpdatesHasChild()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+        ViewPoint* viewpoint(model->addViewPoint(new TestViewPoint(model.get()))) ;
+        // init the viewpoint
+        viewpoint->init() ;
+
+        ViewHasChildHead::number_of_init = 0 ;
+
+        // fill the model
+        Object* person = model->createObject() ;
+        person->addTrait(new Person()) ;
+        Object* head = person->createObject() ;
+        head->addTrait(new Head()) ;
+
+        CPPUNIT_ASSERT_EQUAL(2,ViewHasChildHead::number_of_init) ;
+
+        ViewHasChildHead::number_of_updates = 0 ;
+
+        head->getTrait<Head>()->change(1) ;
+
+        CPPUNIT_ASSERT_EQUAL(2,ViewHasChildHead::number_of_updates) ;
+      }
+
+      void TestModelView::addingNewChildObjectUpdatesHasChild()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+        ViewPoint* viewpoint(model->addViewPoint(new TestViewPoint(model.get()))) ;
+        // init the viewpoint
+        viewpoint->init() ;
+
+        ViewHasChildHead::number_of_init = 0 ;
+
+        // fill the model
+        Object* person = model->createObject() ;
+        person->addTrait(new Person()) ;
+        Object* head = person->createObject() ;
+        head->addTrait(new Head()) ;
+        Object* head2 = person->createObject() ;
+
+        CPPUNIT_ASSERT_EQUAL(2,ViewHasChildHead::number_of_init) ;
+
+        ViewHasChildHead::number_of_updates = 0 ;
+
+        head2->addTrait(new Head()) ;
+
+        CPPUNIT_ASSERT_EQUAL(1,ViewHasChildHead::number_of_updates) ;
+      }
+
+      void TestModelView::addingNewDescendentObjectDoesNotUpdateHasChild()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+        ViewPoint* viewpoint(model->addViewPoint(new TestViewPoint(model.get()))) ;
+        // init the viewpoint
+        viewpoint->init() ;
+
+        ViewHasChildHead::number_of_init = 0 ;
+
+        // fill the model
+        Object* person = model->createObject() ;
+        person->addTrait(new Person()) ;
+        Object* head = person->createObject() ;
+        head->addTrait(new Head()) ;
+        Object* head2 = head->createObject() ;
+
+        CPPUNIT_ASSERT_EQUAL(2,ViewHasChildHead::number_of_init) ;
+
+        ViewHasChildHead::number_of_updates = 0 ;
+
+        head2->addTrait(new Head()) ;
+
+        CPPUNIT_ASSERT_EQUAL(0,ViewHasChildHead::number_of_updates) ;
+      }
+
+      void TestModelView::removingDescendentObjectDoesNotUpdateHasChild()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+        ViewPoint* viewpoint(model->addViewPoint(new TestViewPoint(model.get()))) ;
+        // init the viewpoint
+        viewpoint->init() ;
+
+        ViewHasChildHead::number_of_init = 0 ;
+
+        // fill the model
+        Object* person = model->createObject() ;
+        person->addTrait(new Person()) ;
+        Object* head = person->createObject() ;
+        head->addTrait(new Head()) ;
+        Object* head2 = head->createObject() ;
+        head2->addTrait(new Head()) ;
+
+        ViewHasChildHead::number_of_updates = 0 ;
+
+        head2->destroyTrait(head2->getTrait<Head>()) ;
+
+        CPPUNIT_ASSERT_EQUAL(0,ViewHasChildHead::number_of_updates) ;
+      }
+
+      void TestModelView::removingChildObjectUpdatesHasChild()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+        ViewPoint* viewpoint(model->addViewPoint(new TestViewPoint(model.get()))) ;
+        // init the viewpoint
+        viewpoint->init() ;
+
+        ViewHasChildHead::number_of_init = 0 ;
+
+        // fill the model
+        Object* person = model->createObject() ;
+        person->addTrait(new Person()) ;
+        Object* head = person->createObject() ;
+        head->addTrait(new Head()) ;
+        Object* head2 = person->createObject() ;
+        head2->addTrait(new Head()) ;
+
+        ViewHasChildHead::number_of_updates = 0 ;
+
+        head2->destroyTrait(head2->getTrait<Head>()) ;
+
+        CPPUNIT_ASSERT_EQUAL(1,ViewHasChildHead::number_of_updates) ;
+      }
+
 
     }
   }

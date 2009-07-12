@@ -54,7 +54,7 @@ namespace ProjetUnivers
     /*!
       @param trait the trait class being defined
       @param formula any combination of And, Or, Not, HasTrait, HasParent,
-             HasAncestor, HasChild. see below.
+             HasAncestor, HasChild, IsRelated, IsOnlyRelated. see below.
     */
     #define DeclareDeducedTrait(trait,formula)  \
       namespace PU_MAKE_UNIQUE_NAME(local)      \
@@ -133,8 +133,8 @@ namespace ProjetUnivers
       @remark if object has @c trait then formula is true, @see
       object::getChildren().
     */
-    #define HasChild(trait) \
-      Kernel::TemplateHasChild<trait>
+    #define HasChild(formula) \
+      Kernel::TemplateHasChild<formula>
 
     /// True iff object is related to a @c formula object through @c relation.
     /*!
@@ -222,11 +222,11 @@ namespace ProjetUnivers
       /// Print all the registered deduced traits.
       static std::string printDeclarations() ;
 
-      /// Gives the traits directly depending on @c trait.
-      static const std::set<TypeIdentifier>& getDependentTraitTypes(Trait* trait) ;
-
       /// Access to formula of the deduced trait.
       Formula* getFormula() const ;
+
+      /// Access to formula of the deduced trait.
+      static Formula* getFormula(const TypeIdentifier&) ;
 
       /// Return false because the trait is deduced.
       virtual bool isPrimitive() const ;
@@ -269,6 +269,8 @@ namespace ProjetUnivers
 
         /// map formula to deduced trait names for destruction.
         std::map<Formula*,TypeIdentifier> m_destructors ;
+
+        std::map<TypeIdentifier,Formula*> m_formulae ;
 
         /// Caching for getDependentDeducedTraits
         std::map<TypeIdentifier,std::set<TypeIdentifier> > m_dependent_traits ;
