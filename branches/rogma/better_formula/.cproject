@@ -410,7 +410,6 @@
 
 
 
-<storageModule moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings"/>
 <storageModule moduleId="org.eclipse.cdt.make.core.buildtargets">
 <buildTargets>
 <target name="all" path="sources/outils/compilateur" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
@@ -1010,10 +1009,11 @@
 </scannerInfoProvider>
 </profile>
 </storageModule>
+<storageModule moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings"/>
 <storageModule moduleId="org.eclipse.cdt.core.pathentry">
 <pathentry base-path="projet-univers" include="sources" kind="inc" path="" system="true"/>
 <pathentry kind="con" path="org.eclipse.cdt.make.core.DISCOVERED_SCANNER_INFO"/>
-<pathentry kind="src" path=""/>
+<pathentry kind="src" path="sources"/>
 <pathentry kind="out" path=""/>
 </storageModule>
 </cconfiguration>

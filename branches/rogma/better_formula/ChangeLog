@@ -1359,6 +1359,7 @@ in progress
     - maintain the set of direct impact for traits updates
     - HasParent, HasAncestor, HasChild take an object formula 
     - corrected some bugs on updates (too many updatyes called)
+  * removed some compiling warnings
    
 todo
 ----

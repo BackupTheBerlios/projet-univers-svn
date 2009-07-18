@@ -4,7 +4,7 @@ lib_LTLIBRARIES = libdisplay.la
 noinst_PROGRAMS = test_ogre 
 
 SOURCES = $(top_srcdir)/sources
-INCLUDES = -I$(SOURCES)
+AM_CPPFLAGS = -I$(SOURCES)
 AM_CXXFLAGS=$(PU_CXXFLAGS)
 
 libdisplay_la_SOURCES = \

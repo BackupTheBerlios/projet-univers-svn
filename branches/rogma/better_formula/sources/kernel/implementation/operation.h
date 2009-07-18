@@ -54,7 +54,7 @@ namespace ProjetUnivers
         Operation(const Operation&) ;
 
         /// Really execute the operation
-        virtual void execute() const ;
+        void execute() const ;
 
         std::string toString() const ;
 

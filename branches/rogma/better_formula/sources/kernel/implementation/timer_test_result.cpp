@@ -23,7 +23,7 @@
 
 CPPUNIT_NS_BEGIN
 
-void TimerTestResult::startTest(Test* test)
+void TimerTestResult::startTest(Test*)
 {
   m_timer.reset() ;
 }

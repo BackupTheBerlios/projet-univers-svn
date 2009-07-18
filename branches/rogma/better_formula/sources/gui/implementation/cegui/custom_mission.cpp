@@ -123,6 +123,7 @@ namespace ProjetUnivers
         {
           Kernel::Object* team = getObject()->createObject() ;
           team->addTrait(new Model::Team("new team")) ;
+          return true ;
         }
         
       }

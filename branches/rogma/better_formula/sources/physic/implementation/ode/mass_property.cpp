@@ -61,7 +61,7 @@ namespace ProjetUnivers {
                 (float)0.0, (float)0.0, (float)0.0, (float)0.0, (float)0.0, (float)0.0 };
         
             int index =0 ;            
-            for (int i = 0; i < i_indices.size()/3; i++)
+            for (unsigned int i = 0; i < i_indices.size()/3; i++)
             {
                 // get vertices of triangle i
                 Ogre::Vector3 kV0 = i_vertexes[i_indices[index++]];

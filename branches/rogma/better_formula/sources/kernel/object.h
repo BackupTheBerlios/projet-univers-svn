@@ -279,7 +279,7 @@ namespace ProjetUnivers
       void _remove(const TypeIdentifier& i_trait_name) ;
 
       /// Detach a trait.
-      Object* _detach(const TypeIdentifier& trait_name) ;
+      void _detach(const TypeIdentifier& trait_name) ;
 
       /// Retrieve the trait named @c i_trait_name.
       Trait* _get(const TypeIdentifier& i_trait_name) const ;
@@ -400,7 +400,7 @@ namespace ProjetUnivers
       std::map<TypeIdentifier,Trait*>& _getTraits() ;
       const std::map<TypeIdentifier,Trait*>& _getTraits() const ;
       /// @composite
-      std::map<TypeIdentifier,Trait*>  traits ;
+      std::map<TypeIdentifier,Trait*>  m_traits ;
 
       Object*                          m_parent ;
       /// @composite

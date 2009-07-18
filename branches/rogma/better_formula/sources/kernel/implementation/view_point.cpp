@@ -133,12 +133,12 @@ namespace ProjetUnivers
     {
     }
 
-    bool ViewPoint::isVisible(Object* i_object) const
+    bool ViewPoint::isVisible(Object*) const
     {
       return true ;
     }
 
-    void ViewPoint::update(const float& seconds)
+    void ViewPoint::update(const float&)
     {}
   
     void ViewPoint::registerBuilder(ViewPoint::ViewPointBuilder builder)

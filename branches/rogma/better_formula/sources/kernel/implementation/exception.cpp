@@ -26,29 +26,30 @@ namespace ProjetUnivers
   {
 
     Exception::Exception(const std::string& message)
-    : message(message),numeroErreur(0)
+    : m_message(message),numeroErreur(0)
     {}
 
     Exception::Exception(const std::string& message,const unsigned int& numero)
-    : message(message),numeroErreur(numero)
+    : m_message(message),numeroErreur(numero)
     {}
 
     Exception::~Exception() throw()
     {}
 
     Exception::Exception(const Exception& x)
-    : message(x.message),numeroErreur(x.numeroErreur)
+    : std::exception(*this),
+    m_message(x.m_message),numeroErreur(x.numeroErreur)
     {}
 
     std::string Exception::Message() const
     {
 
-      return std::string("ERREUR") + std::string(" : ") + message;
+      return std::string("ERREUR") + std::string(" : ") + m_message;
     }
 
     const char* Exception::what() const throw()
     {
-      return message.c_str() ;
+      return m_message.c_str() ;
     }
 
   }

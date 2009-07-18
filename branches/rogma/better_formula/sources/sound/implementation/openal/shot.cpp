@@ -49,7 +49,7 @@ namespace ProjetUnivers
         
         Kernel::Object* Shot::getObject() const
         {
-          getTrait()->getObject() ;
+          return getTrait()->getObject() ;
         }
         
         void Shot::onInit()

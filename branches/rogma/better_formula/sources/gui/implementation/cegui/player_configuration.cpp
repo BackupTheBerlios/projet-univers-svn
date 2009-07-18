@@ -311,6 +311,7 @@ namespace ProjetUnivers
             ::CEGUI::Window* value = (::CEGUI::Window*)name->getUserData() ;
             value->setText(axis.toString()) ;
           }
+          return true ;
         }
 
         bool PlayerConfiguration::onIncrease(const ::CEGUI::EventArgs& args)
@@ -330,6 +331,7 @@ namespace ProjetUnivers
             ::CEGUI::Window* value = (::CEGUI::Window*)name->getUserData() ;
             value->setText(axis.toString()) ;
           }
+          return true ;
         }
         
         void PlayerConfiguration::simulate(const float& seconds)

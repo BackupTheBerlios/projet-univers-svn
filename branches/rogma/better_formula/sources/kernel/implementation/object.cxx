@@ -217,8 +217,8 @@ namespace ProjetUnivers
     ReturnType Object::callFunction(const std::string& function_name) const
     throw (boost::bad_any_cast,std::exception)
     {
-      for(std::map<TypeIdentifier,Trait*>::const_iterator trait = traits.begin() ;
-          trait != traits.end() ;
+      for(std::map<TypeIdentifier,Trait*>::const_iterator trait = m_traits.begin() ;
+          trait != m_traits.end() ;
           ++trait)
       {
         std::pair<bool,boost::any> temp(

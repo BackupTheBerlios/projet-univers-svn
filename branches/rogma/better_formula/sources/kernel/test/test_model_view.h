@@ -166,6 +166,13 @@ namespace ProjetUnivers
         void addingNewDescendentObjectDoesNotUpdateHasChild() ;
         void removingDescendentObjectDoesNotUpdateHasChild() ;
         void removingChildObjectUpdatesHasChild() ;
+        void removingIntermediateUpdatesHasChild() ;
+
+        void changingParentUpdatesHasParent() ;
+        void changingParentUpdatesHasParentNegativeTest() ;
+        void changingParentUpdatesHasAncestor() ;
+        void changingParentUpdatesHasAncestorNegativeTest() ;
+        void changingParentUpdatesHasChild() ;
 
       // @}
 
@@ -216,6 +223,12 @@ namespace ProjetUnivers
         CPPUNIT_TEST(addingNewDescendentObjectDoesNotUpdateHasChild) ;
         CPPUNIT_TEST(removingDescendentObjectDoesNotUpdateHasChild) ;
         CPPUNIT_TEST(removingChildObjectUpdatesHasChild) ;
+        CPPUNIT_TEST(removingIntermediateUpdatesHasChild) ;
+        CPPUNIT_TEST(changingParentUpdatesHasParent) ;
+        CPPUNIT_TEST(changingParentUpdatesHasParentNegativeTest) ;
+        CPPUNIT_TEST(changingParentUpdatesHasAncestor) ;
+        CPPUNIT_TEST(changingParentUpdatesHasAncestorNegativeTest) ;
+        CPPUNIT_TEST(changingParentUpdatesHasChild) ;
 
         CPPUNIT_TEST_SUITE_END() ;
 

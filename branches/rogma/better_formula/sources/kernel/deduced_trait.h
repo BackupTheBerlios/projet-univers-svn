@@ -107,7 +107,7 @@ namespace ProjetUnivers
 
     /// Negation of @c formula.
     #define Not(formula) \
-      Kernel::TemplateNot<formula>
+      Kernel::TemplateNot< formula >
 
     /// Elementary formula true iff object has trait @c trait
     #define HasTrait(trait) \
@@ -119,14 +119,14 @@ namespace ProjetUnivers
       Notably, HasParent(HasTrait(T)), @see object::getParent<T>().
     */
     #define HasParent(formula) \
-      Kernel::TemplateHasParent<formula>
+      Kernel::TemplateHasParent< formula >
 
     /// Elementary formula true iff object has ancestor with true @c formula
     /*!
       @see object::getAncestor().
     */
     #define HasAncestor(formula) \
-      Kernel::TemplateHasAncestor<formula>
+      Kernel::TemplateHasAncestor< formula >
 
     /// Elementary formula true iff object has child trait @c trait
     /*!
@@ -134,7 +134,7 @@ namespace ProjetUnivers
       object::getChildren().
     */
     #define HasChild(formula) \
-      Kernel::TemplateHasChild<formula>
+      Kernel::TemplateHasChild< formula >
 
     /// True iff object is related to a @c formula object through @c relation.
     /*!
@@ -142,7 +142,7 @@ namespace ProjetUnivers
       exist x, relation(o,x) and formula(x)
     */
     #define IsRelated(relation,formula) \
-      Kernel::TemplateIsRelated<relation,formula>
+      Kernel::TemplateIsRelated< relation,formula >
 
     /// True iff object is only related to @c formula objects through @c relation.
     /*!
@@ -150,15 +150,15 @@ namespace ProjetUnivers
       for all x, relation(o,x) => formula(x)
     */
     #define IsOnlyRelated(relation,formula) \
-      Kernel::TemplateIsOnlyRelated<relation,formula>
+      Kernel::TemplateIsOnlyRelated< relation,formula >
 
     /// True iff a relation goes from an object satisfying formula.
     #define IsFrom(formula) \
-      Kernel::TemplateIsFrom<formula>
+      Kernel::TemplateIsFrom< formula >
 
     /// True iff a relation goes to an object satisfying formula.
     #define IsTo(formula) \
-      Kernel::TemplateIsTo<formula>
+      Kernel::TemplateIsTo< formula >
 
     /// Abstract class for traits that are deduced.
     /*!
@@ -177,7 +177,8 @@ namespace ProjetUnivers
           true child appear
         - HasParent formula : whenever the return value of getParent<T> changes,
           i.e., the parent that makes the formula true is not the same as before
-        - HasAncestor : idem as HasParent
+        - HasAncestor : same as HasParent
+        - HasChild :
     */
     class DeducedTrait : public Trait
     {

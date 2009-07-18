@@ -80,6 +80,8 @@ namespace ProjetUnivers
       */
       virtual std::set<Trait*> getUpdaterTraits(Object* object) const = 0 ;
 
+      std::set<Trait*> getUpdaterTraits(const std::set<Object*> objects) const ;
+
       /// Gives the @c objects' deduced traits directly depending on formula.
       /*!
         These are the traits instances that should be updated when the formula
@@ -95,8 +97,11 @@ namespace ProjetUnivers
       /// Return the first "valid" object in parentship of @c object.
       Object* getValidAncestor(Object* object) const ;
 
-      /// Return the first valid children  in parentship of @c object.
+      /// Return the first valid children in parentship of @c object.
       std::set<Object*> getDirectChildren(Object*object) ;
+
+      /// Return the first valid descendants in parentship of @c object.
+      std::set<Object*> getDirectDescendants(Object*object) ;
 
     protected:
 
@@ -544,7 +549,7 @@ namespace ProjetUnivers
       void updateDescendentObject(Object* object) ;
 
       /// Notify that @c object has changed parent.
-      void onChangedParent(Object* object,Object* old_parent) ;
+      void onChangedParent(Object* object,Object* old_parent,const bool& may_update) ;
 
     private:
 
@@ -599,7 +604,7 @@ namespace ProjetUnivers
       void removeParent(Object* object,Object* removed_parent,const bool& may_update) ;
 
       /// @c object has changed parent.
-      virtual void onChangedParent(Object* object,Object* old_parent) ;
+      virtual void onChangedParent(Object* object,Object* old_parent,const bool& may_update) ;
 
     private:
 

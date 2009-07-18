@@ -25,14 +25,12 @@ namespace ProjetUnivers
   namespace Kernel 
   {    
     
-    ExceptionKernel::ExceptionKernel
-        (const std::string& _message)
-        
-      : Exception(_message,1)
+    ExceptionKernel::ExceptionKernel(const std::string& message)
+    : Exception(message,1)
     {} 
    
     ExceptionKernel::ExceptionKernel(const ExceptionKernel& x)
-      : Exception(x.message,x.numeroErreur)
+    : Exception(x)
     {}
     
     

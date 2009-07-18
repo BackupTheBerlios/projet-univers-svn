@@ -4,7 +4,7 @@ bin_PROGRAMS = autoconfig_joystick
 AUTOMAKE_OPTIONS=subdir-objects
 
 SOURCES = $(top_srcdir)/sources
-INCLUDES = -I$(SOURCES)
+AM_CPPFLAGS = -I$(SOURCES)
 AM_CXXFLAGS=$(PU_CXXFLAGS)
 
 libinput_la_SOURCES = \

@@ -168,7 +168,7 @@ namespace ProjetUnivers
       CHECK(Formula::getNumberOfFormulae() <= m_validities.size(),
             "Object::setValidity not enought place") ;
 
-      if (i_formula->getIdentifier() >= m_validities.size())
+      if (i_formula->getIdentifier() >= (int)m_validities.size())
       {
         // error
         std::cout << "error" << std::endl << i_formula->print() ;
@@ -183,7 +183,13 @@ namespace ProjetUnivers
       CHECK(Formula::getNumberOfFormulae() <= m_number_of_true_child_formulae.size(),
             "Object::getNumberOfTrueChildFormulae not enought place") ;
 
-      return m_number_of_true_child_formulae[formula->getIdentifier()] ;
+      short result = m_number_of_true_child_formulae[formula->getIdentifier()] ;
+
+      if (result < 0 && !isDeleting())
+        throw ExceptionKernel("Object::getNumberOfTrueChildFormulae getting a negative value for "
+                              + formula->print()) ;
+
+      return result ;
     }
 
     void Object::setNumberOfTrueChildFormulae(const Formula* formula,
@@ -191,7 +197,19 @@ namespace ProjetUnivers
     {
       CHECK(formula,"Object::setNumberOfTrueChildFormulae no formula") ;
       CHECK(Formula::getNumberOfFormulae() <= m_number_of_true_child_formulae.size(),
-            "Object::setNumberOfTrueChildFormulae not enought place") ;
+            "Object::setNumberOfTrueChildFormulae not enough place") ;
+
+      if (number < 0)
+        /*
+          temporary hack, the issue comes from destroying an object
+          in some cases we start by destroying a deduced trait... and after
+          we destroy the underlying trait causing a double removal...
+        */
+        return ;
+
+      if (number < 0 && !isDeleting())
+        throw ExceptionKernel("Object::setNumberOfTrueChildFormulae setting a negative value for "
+                              + formula->print()) ;
 
       m_number_of_true_child_formulae[formula->getIdentifier()] = number ;
     }
@@ -299,7 +317,7 @@ namespace ProjetUnivers
       _remove(trait_name) ;
     }
 
-    Object* Object::_detach(const TypeIdentifier& trait_name)
+    void Object::_detach(const TypeIdentifier& trait_name)
     {
       if (!_getTraits().empty())
         _getTraits().erase(trait_name) ;
@@ -511,10 +529,10 @@ namespace ProjetUnivers
 
     Trait* Object::_get(const TypeIdentifier& i_trait_name) const
     {
-      std::map<TypeIdentifier, Trait*>::const_iterator trait = _getTraits().find(i_trait_name) ;
-      if (trait != _getTraits().end())
+      std::map<TypeIdentifier, Trait*>::const_iterator finder = _getTraits().find(i_trait_name) ;
+      if (finder != _getTraits().end())
       {
-        return trait->second ;
+        return finder->second ;
       }
 
       for(std::map<TypeIdentifier, Trait*>::const_iterator trait = _getTraits().begin() ;
@@ -979,12 +997,12 @@ namespace ProjetUnivers
 
     std::map<TypeIdentifier,Trait*>& Object::_getTraits()
     {
-      return traits ;
+      return m_traits ;
     }
 
     const std::map<TypeIdentifier,Trait*>& Object::_getTraits() const
     {
-      return traits ;
+      return m_traits ;
     }
 
   }

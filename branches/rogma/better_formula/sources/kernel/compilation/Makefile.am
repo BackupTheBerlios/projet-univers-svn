@@ -1,8 +1,8 @@
 lib_LTLIBRARIES = libkernel.la
 
 SOURCES = $(top_srcdir)/sources
-INCLUDES = -I$(SOURCES)
-AM_CXXFLAGS=$(PU_CXXFLAGS)
+AM_CPPFLAGS = -I$(SOURCES)
+AM_CXXFLAGS = $(PU_WARNINGS) $(PU_CXXFLAGS)
 
 libkernel_la_SOURCES = \
 $(SOURCES)/kernel/implementation/algorithm.cpp \
@@ -78,7 +78,7 @@ $(SOURCES)/kernel/test/test_xml_writer.cpp \
 $(SOURCES)/kernel/test/test_model.cpp 
 
 # checks that "test_inherits.cpp" does not compile
-# its is a neagtive test for inherits : class does not inhertits and should 
+# its is a negative test for inherits : class does not inherits and should 
 # produce compile error.
 test_inherits.o : $(SOURCES)/kernel/test/test_inherits.cpp
 	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
@@ -87,7 +87,7 @@ test_inherits.o : $(SOURCES)/kernel/test/test_inherits.cpp
 	then echo "test_inherits : Erreur"; exit 1; else echo "test_inherits : OK"; exit 0; fi
 
 
-test_kernel_CXXFLAGS = $(PU_CXXFLAGS) 
+test_kernel_CXXFLAGS = $(PU_TESTS_WARNINGS) $(PU_CXXFLAGS) 
 test_kernel_LDFLAGS = $(CPPUNIT_LIBS) 
 test_kernel_LDADD = libkernel.la $(librlog_LIBS) $(libXML_LIBS)
 

@@ -1280,7 +1280,7 @@ namespace ProjetUnivers
         ControlerSet* controler(new TestControlerSet(model.get())) ;
         controler->init() ;
 
-        Object* root = model->createObject() ;
+        model->createObject() ;
 
         CPPUNIT_ASSERT_EQUAL(1,ControlerNotAnything::number_of_init) ;
       }

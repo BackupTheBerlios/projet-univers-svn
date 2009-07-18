@@ -205,15 +205,15 @@ namespace ProjetUnivers {
       {
       case Distance::_Meter:
         out << "Meter" ;
-        return out ;
+        break ;
       case Distance::_LightYear:
         out << "LightYear" ;
-        return out ;
-       
+        break ;
       case Distance::_Parsec : 
         out << "Parsec" ;
-        return out ;
+        break ;
       }
+      return out ;
     }
 
     std::ostream& operator<<(std::ostream& out,const Distance& distance)

@@ -67,7 +67,7 @@ namespace ProjetUnivers
     } 
     
     template <class _Trait,class _ViewPoint>
-    void TraitView<_Trait,_ViewPoint>::onChangeParent(Object* i_old_parent)
+    void TraitView<_Trait,_ViewPoint>::onChangeParent(Object*)
     {
     }
 

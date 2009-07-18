@@ -64,8 +64,8 @@ namespace ProjetUnivers
     void Writer::write(Object* object)
     {
       startObject(object) ;
-      for(std::map<TypeIdentifier,Trait*>::const_iterator trait = object->traits.begin() ;
-         trait != object->traits.end() ;
+      for(std::map<TypeIdentifier,Trait*>::const_iterator trait = object->_getTraits().begin() ;
+         trait != object->_getTraits().end() ;
          ++trait)
       {
         trait->second->write(this) ;
@@ -80,11 +80,11 @@ namespace ProjetUnivers
         objects.insert(*child) ;
       }
       
-      for(std::set<ObjectReference>::const_iterator object = objects.begin() ;
-          object != objects.end() ;
-          ++object)
+      for(std::set<ObjectReference>::const_iterator created_object = objects.begin() ;
+          created_object != objects.end() ;
+          ++created_object)
       {
-        write(*object) ;
+        write(*created_object) ;
       }
       
       endObject() ;
@@ -93,5 +93,7 @@ namespace ProjetUnivers
     Writer::Writer()
     {}
     
+    Writer::~Writer()
+    {}
   }
 }

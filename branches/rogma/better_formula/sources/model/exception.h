@@ -42,7 +42,7 @@ namespace ProjetUnivers {
     protected:
     
       /// Error message.
-      std::string message ;
+      std::string m_message ;
     
 
     };

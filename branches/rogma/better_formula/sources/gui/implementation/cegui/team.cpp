@@ -135,6 +135,8 @@ namespace ProjetUnivers
         {
           Kernel::Object* group = getObject()->createObject() ;
           group->addTrait(new Model::FlyingGroup("new group")) ;
+
+          return true ;
         }
 
         bool Team::changedName(const ::CEGUI::EventArgs& args)

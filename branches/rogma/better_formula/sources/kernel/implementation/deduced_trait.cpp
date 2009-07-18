@@ -133,7 +133,19 @@ namespace ProjetUnivers
       }
 
       return result ;
+    }
 
+    std::set<Object*> Formula::getDirectDescendants(Object*object)
+    {
+      std::set<Object*> result ;
+
+      for(std::set<Object*>::iterator child = object->getChildren().begin() ; child != object->getChildren().end() ; ++child)
+      {
+        std::set<Object*> temp(getDirectChildren(*child)) ;
+        result.insert(temp.begin(),temp.end()) ;
+      }
+
+      return result ;
     }
 
     int Formula::getIdentifier() const
@@ -294,6 +306,17 @@ namespace ProjetUnivers
       }
     }
 
+    std::set<Trait*> Formula::getUpdaterTraits(const std::set<Object*> objects) const
+    {
+      std::set<Trait*> result ;
+      for(std::set<Object*>::iterator object = objects.begin() ; object != objects.end() ; ++object)
+      {
+        std::set<Trait*> temp(getUpdaterTraits(*object)) ;
+        result.insert(temp.begin(),temp.end()) ;
+      }
+      return result ;
+    }
+
     FormulaOr::FormulaOr()
     : Formula()
     {
@@ -356,7 +379,7 @@ namespace ProjetUnivers
 
     std::string TraitFormula::internalPrint() const
     {
-      return "HasTrait(" + m_trait.toString() + ")" ;
+      return "HasTrait(" + m_trait.fullName() + ")" ;
     }
 
     HasParentFormula::HasParentFormula()
@@ -580,7 +603,7 @@ namespace ProjetUnivers
         DeducedRelation::notify(this,true,relation) ;
     }
 
-    void Formula::eval(const ObjectPair& relation)
+    void Formula::eval(const ObjectPair&)
     {
       // default is nop
     }
@@ -724,7 +747,7 @@ namespace ProjetUnivers
       pair.setNumberOfTrueChildFormulae(this,true_child_number) ;
     }
 
-    void TraitFormula::eval(Object* object)
+    void TraitFormula::eval(Object*)
     {
       // nothing to do : its false...
     }
@@ -785,12 +808,12 @@ namespace ProjetUnivers
       object->setValidity(this,number_of_true_related > 0 && number_of_true_related == related.size()) ;
     }
 
-    void IsToFormula::eval(Object* object)
+    void IsToFormula::eval(Object*)
     {
       // nop
     }
 
-    void IsFromFormula::eval(Object* object)
+    void IsFromFormula::eval(Object*)
     {
       // nop
     }
@@ -956,20 +979,22 @@ namespace ProjetUnivers
           formula != StaticStorage::get()->m_formulae.end() ;
           ++formula)
       {
-        (*formula)->onChangedParent(object,old_parent) ;
+        (*formula)->onChangedParent(object,old_parent,true) ;
       }
     }
 
-    void HasParentFormula::onChangedParent(Object* object,Object* old_parent)
+    void HasParentFormula::onChangedParent(Object* object,Object* old_parent,const bool& may_update)
     {
       /*
-        @c object has changed parent : its number of parents with formula may
-        change
+        an @c object ancestor has changed parent : its number of parents with
+        formula may change
       */
       bool old_validity = isValid(object) ;
       bool has_formula = getChildFormula()->isValid(object) ;
 
-      unsigned int number_of_parents = 0 ;
+      short number_of_parents = 0 ;
+
+      bool local_may_upate = may_update && !has_formula ;
 
       if (has_formula)
       {
@@ -986,7 +1011,7 @@ namespace ProjetUnivers
 
       bool new_validity = number_of_parents != 0 ;
 
-      if (old_validity && new_validity && ! has_formula)
+      if (old_validity && new_validity && local_may_upate)
       {
         // update because parent with trait has changed
         update(object) ;
@@ -1017,24 +1042,16 @@ namespace ProjetUnivers
         becomeTrue(object) ;
       }
 
-      // iterate on object children only if it has changed something
-      if (old_validity != new_validity)
+      for(std::set<Object*>::const_iterator child = object->getChildren().begin() ;
+          child != object->getChildren().end() ;
+          ++child)
       {
-        for(std::set<Object*>::const_iterator child = object->getChildren().begin() ;
-            child != object->getChildren().end() ;
-            ++child)
-        {
-          onChangedParent(*child,old_parent) ;
-        }
+        onChangedParent(*child,old_parent,local_may_upate) ;
       }
     }
 
     void HasChildFormula::addedChild(Object* object,Object* new_child,const bool& may_update)
     {
-      /*
-        @todo maintain dependencies
-      */
-
       bool local_may_update = may_update ;
 
       // formula is true for current object
@@ -1042,6 +1059,23 @@ namespace ProjetUnivers
       {
         update(object) ;
         local_may_update = false ;
+
+        std::set<Trait*> old_updaters = getChildFormula()->getUpdaterTraits(getChildFormula()->getDirectDescendants(new_child)) ;
+        std::set<Trait*> new_updaters = getChildFormula()->getUpdaterTraits(new_child) ;
+
+        std::set<DeducedTrait*> dependents = getDependentDeducedTraits(object) ;
+        for(std::set<DeducedTrait*>::iterator dependent = dependents.begin() ; dependent != dependents.end() ; ++dependent)
+        {
+          for(std::set<Trait*>::iterator old_updater = old_updaters.begin() ; old_updater != old_updaters.end() ; ++old_updater)
+          {
+            (*old_updater)->removeDependency(*dependent) ;
+          }
+          for(std::set<Trait*>::iterator new_updater = new_updaters.begin() ; new_updater != new_updaters.end() ; ++new_updater)
+          {
+            (*new_updater)->addDependency(*dependent) ;
+          }
+        }
+
       }
       else if (!isValid(object))
       {
@@ -1064,32 +1098,35 @@ namespace ProjetUnivers
 
     void HasChildFormula::removedChild(Object* object,Object* removed_child,const bool& may_update)
     {
-      /*
-        @todo maintain dependencies
-      */
       short true_child = object->getNumberOfTrueChildFormulae(this) ;
       object->setNumberOfTrueChildFormulae(this,true_child-1) ;
 
-      bool local_may_update = may_update ;
+      bool local_may_update = may_update && !(getChildFormula()->isValid(object) && object != removed_child) ;
 
       if (true_child == 1)
       {
         becomeFalse(object) ;
       }
-      else if (may_update && !getChildFormula()->isValid(object))
+      else if (local_may_update)
       {
         // still true but child has changed
         update(object) ;
-        local_may_update = false ;
-      }
-      else if (getChildFormula()->isValid(object))
-      {
-        /*
-          if we had to update something it would already happened
-          we won't be able to update nothing because the removed object cannot
-          be part of the true children of the above objects, as object is true
-        */
-        local_may_update = false ;
+
+        std::set<Trait*> old_updaters = getChildFormula()->getUpdaterTraits(removed_child) ;
+        std::set<Trait*> new_updaters = getChildFormula()->getUpdaterTraits(getChildFormula()->getDirectDescendants(removed_child)) ;
+
+        std::set<DeducedTrait*> dependents = getDependentDeducedTraits(object) ;
+        for(std::set<DeducedTrait*>::iterator dependent = dependents.begin() ; dependent != dependents.end() ; ++dependent)
+        {
+          for(std::set<Trait*>::iterator old_updater = old_updaters.begin() ; old_updater != old_updaters.end() ; ++old_updater)
+          {
+            (*old_updater)->removeDependency(*dependent) ;
+          }
+          for(std::set<Trait*>::iterator new_updater = new_updaters.begin() ; new_updater != new_updaters.end() ; ++new_updater)
+          {
+            (*new_updater)->addDependency(*dependent) ;
+          }
+        }
       }
 
       Object* parent = object->getParent() ;
@@ -1097,7 +1134,6 @@ namespace ProjetUnivers
       {
         removedChild(parent,removed_child,local_may_update) ;
       }
-
     }
 
     void HasChildFormula::addedChildren(Object* object, short number_of_children)
@@ -1313,11 +1349,11 @@ namespace ProjetUnivers
           formula != StaticStorage::get()->m_formulae.end() ;
           ++formula)
       {
-        (*formula)->onChangedParent(object,old_parent) ;
+        (*formula)->onChangedParent(object,old_parent,true) ;
       }
     }
 
-    void HasAncestorFormula::onChangedParent(Object* object,Object* old_parent)
+    void HasAncestorFormula::onChangedParent(Object* object,Object* old_parent,const bool& may_update)
     {
       /*
         @c object has changed parent : its number of parents with formula may
@@ -1326,6 +1362,8 @@ namespace ProjetUnivers
 
       bool old_validity = isValid(object) ;
       unsigned int number_of_parents = 0 ;
+
+      bool local_may_update = may_update && !getChildFormula()->isValid(object) ;
 
       Object* new_parent = object->getParent() ;
       if (new_parent)
@@ -1337,7 +1375,7 @@ namespace ProjetUnivers
 
       bool new_validity = number_of_parents != 0 ;
 
-      if (old_validity && new_validity)
+      if (old_validity && new_validity && may_update)
       {
         // update because parent with trait has changed
         update(object) ;
@@ -1372,7 +1410,7 @@ namespace ProjetUnivers
           child != object->getChildren().end() ;
           ++child)
       {
-        onChangedParent(*child,old_parent) ;
+        onChangedParent(*child,old_parent,local_may_update) ;
       }
 
     }
@@ -1612,7 +1650,7 @@ namespace ProjetUnivers
     void FormulaAnd::onAddChildFormulaTrue(const ObjectPair& pair)
     {
       if (! isValid(pair) &&
-          pair.getNumberOfTrueChildFormulae(this) == m_children.size())
+          (unsigned int)pair.getNumberOfTrueChildFormulae(this) == m_children.size())
       {
         becomeTrue(pair) ;
       }
@@ -1667,12 +1705,12 @@ namespace ProjetUnivers
       }
     }
 
-    void TraitFormula::onAddChildFormulaTrue(Object* object)
+    void TraitFormula::onAddChildFormulaTrue(Object*)
     {
       ErrorMessage("TraitFormula::onAddChildFormulaTrue") ;
     }
 
-    void TraitFormula::onAddChildFormulaFalse(Object* object)
+    void TraitFormula::onAddChildFormulaFalse(Object*)
     {
       ErrorMessage("TraitFormula::onAddChildFormulaFalse") ;
     }
@@ -1713,7 +1751,7 @@ namespace ProjetUnivers
       removedChild(object,object,true) ;
     }
 
-    void TraitFormula::onChildFormulaUpdated(Object* object)
+    void TraitFormula::onChildFormulaUpdated(Object*)
     {
       ErrorMessage("TraitFormula::onChildFormulaUpdated") ;
     }
@@ -2013,7 +2051,7 @@ namespace ProjetUnivers
       return result ;
     }
 
-    std::set<Trait*> FormulaHasDescendant::getUpdaterTraits(Object* object) const
+    std::set<Trait*> FormulaHasDescendant::getUpdaterTraits(Object*) const
     {
       // not implemented
       return std::set<Trait*>() ;
@@ -2070,7 +2108,7 @@ namespace ProjetUnivers
       return result ;
     }
 
-    std::set<Trait*> FormulaNot::getUpdaterTraits(Object* object) const
+    std::set<Trait*> FormulaNot::getUpdaterTraits(Object*) const
     {
       // empty on purpose
       return std::set<Trait*>() ;
@@ -2185,7 +2223,7 @@ namespace ProjetUnivers
       }
     }
 
-    void Formula::onChildFormulaUpdated(const ObjectPair& pair)
+    void Formula::onChildFormulaUpdated(const ObjectPair&)
     {
       // default implementation is error
       ErrorMessage("Formula::onChildFormulaUpdated(const ObjectPair& pair)") ;
@@ -2239,7 +2277,7 @@ namespace ProjetUnivers
       update(pair) ;
     }
 
-    void FormulaNot::onChildFormulaUpdated(Object* object)
+    void FormulaNot::onChildFormulaUpdated(Object*)
     {
       /// nothing (on purpose)
     }

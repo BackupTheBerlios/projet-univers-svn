@@ -3,7 +3,7 @@ lib_LTLIBRARIES = libmodel.la
 AUTOMAKE_OPTIONS=subdir-objects
 
 SOURCES = $(top_srcdir)/sources
-INCLUDES = -I$(SOURCES)
+AM_CPPFLAGS = -I$(SOURCES)
 AM_CXXFLAGS = $(PU_CXXFLAGS)
 
 libmodel_la_SOURCES = \

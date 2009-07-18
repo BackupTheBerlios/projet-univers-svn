@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007 Mathieu ROGER                                      *
+ *   Copyright (C) 2007-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,8 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_KERNEL_BASE_TRAIT_REFERENCE_H_
-#define PU_KERNEL_BASE_TRAIT_REFERENCE_H_
+#pragma once
 
 namespace ProjetUnivers 
 {
@@ -31,6 +30,10 @@ namespace ProjetUnivers
     /// Base class for TraitReference.
     class BaseTraitReference
     {
+    public:
+
+      virtual ~BaseTraitReference() ;
+
     protected:
       
       /// Constructor.
@@ -45,5 +48,3 @@ namespace ProjetUnivers
     };
   }
 }
-
-#endif /*PU_KERNEL_BASE_TRAIT_REFERENCE_H_*/

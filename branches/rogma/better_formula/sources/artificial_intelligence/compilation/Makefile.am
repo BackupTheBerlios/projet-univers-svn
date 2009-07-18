@@ -8,7 +8,7 @@ if HAVE_CLANLIB
 endif
 
 SOURCES = $(top_srcdir)/sources
-INCLUDES = -I$(SOURCES)
+AM_CPPFLAGS = -I$(SOURCES)
 AM_CXXFLAGS = $(PU_CXXFLAGS)
 
 libai_la_SOURCES = \

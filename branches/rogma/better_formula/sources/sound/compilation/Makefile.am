@@ -3,7 +3,7 @@ lib_LTLIBRARIES = libsound.la
 AUTOMAKE_OPTIONS=subdir-objects
 
 SOURCES = $(top_srcdir)/sources
-INCLUDES = -I$(SOURCES)
+AM_CPPFLAGS = -I$(SOURCES)
 AM_CXXFLAGS = $(PU_CXXFLAGS)
 
 libsound_la_SOURCES = \

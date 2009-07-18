@@ -126,6 +126,8 @@ namespace ProjetUnivers
         case UpdateRelation:
           m_relation_observer->realUpdate() ;
           break ;
+        case ChangeParent:
+          // @ todo handle changeParent...
         case None:
           break ;
         }

@@ -99,7 +99,6 @@ namespace ProjetUnivers
               // try numeric
               numeric_value = atof(value.c_str()) ;
               m_parameters[section][name] = numeric_value ;
-              
             }
             
             break ;

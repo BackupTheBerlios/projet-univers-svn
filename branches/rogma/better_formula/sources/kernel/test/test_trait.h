@@ -34,7 +34,7 @@ namespace ProjetUnivers
       {
       protected:
       /*!
-        @name Trait dependencies update tests
+        @name Trait dependencies maintenance tests
 
         there are 3 operations : addTrait, destroyTrait and changeParent
         there are 7 formula constructors (And,Or,HasTrait,HasParent,HasAncestor,
@@ -51,8 +51,6 @@ namespace ProjetUnivers
         void andBecomesTrueDepedentTrait() ;
         void removeDeducedTraitOnAndDepedentTrait() ;
 
-        void childTraitIsHasChildDependency() ;
-
         void addNewTraitOnOrChangeDepedencies() ;
         /// @todo
 //        void removeTraitOnOrChangeDepedencies() ;
@@ -62,6 +60,7 @@ namespace ProjetUnivers
         void removeIntermediateTraitChangeHasParentDependencies() ;
         void removeTraitChangeHasParentDependenciesByBecommingFalse() ;
         void changeParentChangeHasParentDependencies() ;
+        void changeParentChangeHasParentDependenciesRecursivelly() ;
         void addTraitOnEmptyStructure() ;
         void hasParentFormulaDependencies() ;
         void andHasParentAddTraitChangeHasParentDependencies() ;
@@ -75,6 +74,12 @@ namespace ProjetUnivers
         void changeParentChangeHasAncestorDependencies() ;
         void destroyAncestorObject() ;
         void destroyObjectOnRecusiveFormula() ;
+
+        void hasChildHasDependencies() ;
+        void childTraitIsHasChildDependency() ;
+        void addingIntermediateTraitChangeHasChildDependencies() ;
+        void removingIntermediateTraitChangeHasChildDependencies() ;
+        void destroyChildObjectShouldNotCrash() ;
 
       // @}
       /*!
@@ -93,10 +98,12 @@ namespace ProjetUnivers
       */
       // @{
 
-        /// For HasAncestor
         void addingAncestorChangeNumberOfTrueChildFormulae() ;
         void addingParentChangeNumberOfTrueChildFormulae() ;
         void addingChildChangeNumberOfTrueChildFormulae() ;
+        void changingParentOfHasParentChangesNumberOfTrueChildFormulae() ;
+        void changingParentOfHasAncestorChangesNumberOfTrueChildFormulae() ;
+        void changingParentOfHasChildChangesNumberOfTrueChildFormulae() ;
 
      // @}
 
@@ -105,8 +112,6 @@ namespace ProjetUnivers
         CPPUNIT_TEST(andBecomesTrueDepedentTrait) ;
         CPPUNIT_TEST(removeDeducedTraitOnAndDepedentTrait) ;
 
-        CPPUNIT_TEST(childTraitIsHasChildDependency) ;
-
         CPPUNIT_TEST(addNewTraitOnOrChangeDepedencies) ;
 
         CPPUNIT_TEST(parentTraitHasParentDependency) ;
@@ -114,6 +119,7 @@ namespace ProjetUnivers
         CPPUNIT_TEST(removeIntermediateTraitChangeHasParentDependencies) ;
         CPPUNIT_TEST(removeTraitChangeHasParentDependenciesByBecommingFalse) ;
         CPPUNIT_TEST(changeParentChangeHasParentDependencies) ;
+        CPPUNIT_TEST(changeParentChangeHasParentDependenciesRecursivelly) ;
         CPPUNIT_TEST(addTraitOnEmptyStructure) ;
         CPPUNIT_TEST(hasParentFormulaDependencies) ;
         CPPUNIT_TEST(andHasParentAddTraitChangeHasParentDependencies) ;
@@ -128,6 +134,12 @@ namespace ProjetUnivers
         CPPUNIT_TEST(destroyAncestorObject) ;
         CPPUNIT_TEST(destroyObjectOnRecusiveFormula) ;
 
+        CPPUNIT_TEST(hasChildHasDependencies) ;
+        CPPUNIT_TEST(childTraitIsHasChildDependency) ;
+        CPPUNIT_TEST(addingIntermediateTraitChangeHasChildDependencies) ;
+        CPPUNIT_TEST(removingIntermediateTraitChangeHasChildDependencies) ;
+        CPPUNIT_TEST(destroyChildObjectShouldNotCrash) ;
+
         CPPUNIT_TEST(hasTraitFormulaUpdaterTraits) ;
         CPPUNIT_TEST(andUpdaterTraits) ;
         CPPUNIT_TEST(hasParentUpdaterTraits) ;
@@ -136,6 +148,9 @@ namespace ProjetUnivers
         CPPUNIT_TEST(addingAncestorChangeNumberOfTrueChildFormulae) ;
         CPPUNIT_TEST(addingParentChangeNumberOfTrueChildFormulae) ;
         CPPUNIT_TEST(addingChildChangeNumberOfTrueChildFormulae) ;
+        CPPUNIT_TEST(changingParentOfHasParentChangesNumberOfTrueChildFormulae) ;
+        CPPUNIT_TEST(changingParentOfHasAncestorChangesNumberOfTrueChildFormulae) ;
+        CPPUNIT_TEST(changingParentOfHasChildChangesNumberOfTrueChildFormulae) ;
 
         CPPUNIT_TEST_SUITE_END() ;
       };
