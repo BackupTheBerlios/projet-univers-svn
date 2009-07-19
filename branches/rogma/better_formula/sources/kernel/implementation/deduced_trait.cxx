@@ -698,6 +698,9 @@ namespace ProjetUnivers
       /// Called when a relation has been removed.
       static void onRemoveRelation(const Relation&) ;
 
+      /// Access to child formula.
+      Formula* getChildFormula() const ;
+
     protected:
 
       WithRelationFormula(const TypeIdentifier& relation) ;
@@ -710,6 +713,14 @@ namespace ProjetUnivers
 
       /// Declare that a child formula has became false.
       virtual void addChildFormulaFalse(Object* object) ;
+
+      virtual void onAddChildFormulaTrue(Object* object) ;
+      virtual void onAddChildFormulaFalse(Object* object) ;
+      virtual void onChildFormulaUpdated(Object* object) ;
+
+      virtual void onAddTrueRelated(Object* from,Object* new_to) = 0 ;
+      virtual void onAddFalseRelated(Object* from,Object* new_to) = 0 ;
+
 
       TypeIdentifier m_relation ;
 
@@ -748,9 +759,8 @@ namespace ProjetUnivers
       virtual void eval(Object* object) ;
 
       /// Continuous evaluation
-      virtual void onAddChildFormulaTrue(Object* object) ;
-      virtual void onAddChildFormulaFalse(Object* object) ;
-      virtual void onChildFormulaUpdated(Object* object) ;
+      virtual void onAddTrueRelated(Object* from,Object* new_to) ;
+      virtual void onAddFalseRelated(Object* from,Object* old_to) ;
 
     private:
 
@@ -773,9 +783,8 @@ namespace ProjetUnivers
       virtual void eval(Object* object) ;
 
       /// Continuous evaluation
-      virtual void onAddChildFormulaTrue(Object* object) ;
-      virtual void onAddChildFormulaFalse(Object* object) ;
-      virtual void onChildFormulaUpdated(Object* object) ;
+      virtual void onAddTrueRelated(Object* from,Object* new_to) ;
+      virtual void onAddFalseRelated(Object* from,Object* old_to) ;
     };
 
 

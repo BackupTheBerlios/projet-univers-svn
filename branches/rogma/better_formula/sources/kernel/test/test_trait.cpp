@@ -882,6 +882,156 @@ namespace ProjetUnivers
 
       namespace
       {
+        class R : public Relation
+        {};
+
+        class TR : public Trait
+        {};
+
+        class LinkedToTR : public DeducedTrait
+        {};
+
+        DeclareDeducedTrait(LinkedToTR,IsRelated(R,HasTrait(TR))) ;
+      }
+
+
+      void TestTrait::isRelatedHasDependencies()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+
+        Object* source = model->createObject() ;
+        Object* destination = model->createObject() ;
+
+        Trait* tr = destination->addTrait(new TR()) ;
+
+        Link<R>(source,destination) ;
+
+        DeducedTrait* dt = source->getTrait<LinkedToTR>() ;
+
+        CPPUNIT_ASSERT(tr->getDependentDeducedTraits().find(dt) != tr->getDependentDeducedTraits().end()) ;
+      }
+
+      void TestTrait::addRelatedChangeDependencies()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+
+        Object* source = model->createObject() ;
+        Object* destination1 = model->createObject() ;
+
+        Trait* tr1 = destination1->addTrait(new TR()) ;
+
+        Link<R>(source,destination1) ;
+
+        Object* destination2 = model->createObject() ;
+        Trait* tr2 = destination2->addTrait(new TR()) ;
+
+        Link<R>(source,destination2) ;
+
+        DeducedTrait* dt = source->getTrait<LinkedToTR>() ;
+
+        CPPUNIT_ASSERT(tr1->getDependentDeducedTraits().find(dt) != tr1->getDependentDeducedTraits().end()) ;
+        CPPUNIT_ASSERT(tr2->getDependentDeducedTraits().find(dt) != tr2->getDependentDeducedTraits().end()) ;
+      }
+
+      void TestTrait::removeRelatedChangeDependencies()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+
+        Object* source = model->createObject() ;
+        Object* destination1 = model->createObject() ;
+
+        Trait* tr1 = destination1->addTrait(new TR()) ;
+
+        Link<R>(source,destination1) ;
+
+        Object* destination2 = model->createObject() ;
+        Trait* tr2 = destination2->addTrait(new TR()) ;
+
+        Link<R>(source,destination2) ;
+
+        UnLink<R>(source,destination1) ;
+
+        DeducedTrait* dt = source->getTrait<LinkedToTR>() ;
+
+        CPPUNIT_ASSERT(tr1->getDependentDeducedTraits().find(dt) == tr1->getDependentDeducedTraits().end()) ;
+        CPPUNIT_ASSERT(tr2->getDependentDeducedTraits().find(dt) != tr2->getDependentDeducedTraits().end()) ;
+      }
+
+      namespace
+      {
+        class ROnly : public Relation
+        {};
+
+        class TROnly : public Trait
+        {};
+
+        class LinkedToTROnly : public DeducedTrait
+        {};
+
+        DeclareDeducedTrait(LinkedToTROnly,IsOnlyRelated(ROnly,HasTrait(TROnly))) ;
+      }
+
+      void TestTrait::isOnlyRelatedHasDependencies()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+
+        Object* source = model->createObject() ;
+        Object* destination = model->createObject() ;
+
+        Trait* tr = destination->addTrait(new TROnly()) ;
+
+        Link<ROnly>(source,destination) ;
+
+        DeducedTrait* dt = source->getTrait<LinkedToTROnly>() ;
+
+        CPPUNIT_ASSERT(tr->getDependentDeducedTraits().find(dt) != tr->getDependentDeducedTraits().end()) ;
+      }
+
+      void TestTrait::addOnlyRelatedChangeDependencies()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+
+        Object* source = model->createObject() ;
+        Object* destination1 = model->createObject() ;
+
+        Trait* tr1 = destination1->addTrait(new TROnly()) ;
+
+        Link<ROnly>(source,destination1) ;
+
+        Object* destination2 = model->createObject() ;
+        Trait* tr2 = destination2->addTrait(new TROnly()) ;
+
+        Link<ROnly>(source,destination2) ;
+
+        DeducedTrait* dt = source->getTrait<LinkedToTROnly>() ;
+
+        CPPUNIT_ASSERT(tr1->getDependentDeducedTraits().find(dt) != tr1->getDependentDeducedTraits().end()) ;
+        CPPUNIT_ASSERT(tr2->getDependentDeducedTraits().find(dt) != tr2->getDependentDeducedTraits().end()) ;
+      }
+
+      void TestTrait::addFalseOnlyRelatedChangeDependencies()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+
+        Object* source = model->createObject() ;
+        Object* destination1 = model->createObject() ;
+
+        Trait* tr1 = destination1->addTrait(new TROnly()) ;
+
+        Link<ROnly>(source,destination1) ;
+
+        Object* destination2 = model->createObject() ;
+
+        Link<ROnly>(source,destination2) ;
+
+        CPPUNIT_ASSERT(!source->getTrait<LinkedToTROnly>()) ;
+
+        CPPUNIT_ASSERT(tr1->getDependentDeducedTraits().empty()) ;
+      }
+
+
+      namespace
+      {
         class Starter : public Trait
         {};
 

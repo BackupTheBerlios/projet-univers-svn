@@ -30,30 +30,49 @@ namespace ProjetUnivers
     {
 
       /// Test for trait/deduced trait dependencies.
+      /*!
+        There are 3 operations : addTrait, destroyTrait and changeParent
+        There are 9 formula constructors
+        # And,
+        # Or,
+        # Not,
+        # HasTrait,
+        # HasParent,
+        # HasAncestor,
+        # HasChild,
+        # IsRelated,
+        # IsOnlyRelated
+        with only 4 that are impacted by changeParent.
+
+        That makes a total of 2x9 (add/destroy trait on all formulae)
+                            + 4 (changeParent on "parentship" formulae)
+                            = 22 combinations just for the nominal tests
+
+      */
       class TestTrait : public CppUnit::TestFixture
       {
       protected:
       /*!
-        @name Trait dependencies maintenance tests
-
-        there are 3 operations : addTrait, destroyTrait and changeParent
-        there are 7 formula constructors (And,Or,HasTrait,HasParent,HasAncestor,
-        HasChild) with only 4 that are impacted by changeParent.
-
-        That makes a total of 2x7 (add/destroy trait on all formulae)
-                            + 4 (changeParent on "parentship" formulae)
-                            = 18 combinations just for the nominal tests
-
-        @todo we should also perform some tests with a recursive formula.
+        @name Or dependencies maintenance tests
       */
       // @{
 
         void andBecomesTrueDepedentTrait() ;
         void removeDeducedTraitOnAndDepedentTrait() ;
 
+      // @}
+      /*!
+        @name Or dependencies maintenance tests
+      */
+      // @{
+
         void addNewTraitOnOrChangeDepedencies() ;
-        /// @todo
-//        void removeTraitOnOrChangeDepedencies() ;
+
+      // @}
+      /*!
+        @name HasParent dependencies maintenance tests
+      */
+      // @{
 
         void parentTraitHasParentDependency() ;
         void addIntermediateTraitChangeHasParentDependencies() ;
@@ -68,6 +87,12 @@ namespace ProjetUnivers
         void destroyParentObject() ;
         void changeParentChangingNothing() ;
 
+      // @}
+      /*!
+        @name HasAncestor dependencies maintenance tests
+      */
+      // @{
+
         void hasAncestorHasDependencies() ;
         void addIntermediateTraitChangeHasAncestorDependencies() ;
         void removeIntermediateTraitChangeHasAncestorDependencies() ;
@@ -75,11 +100,49 @@ namespace ProjetUnivers
         void destroyAncestorObject() ;
         void destroyObjectOnRecusiveFormula() ;
 
+      // @}
+      /*!
+        @name HasChild dependencies maintenance tests
+      */
+      // @{
+
         void hasChildHasDependencies() ;
         void childTraitIsHasChildDependency() ;
         void addingIntermediateTraitChangeHasChildDependencies() ;
         void removingIntermediateTraitChangeHasChildDependencies() ;
         void destroyChildObjectShouldNotCrash() ;
+
+      // @}
+      /*!
+        @name IsRelated dependencies maintenance tests
+      */
+      // @{
+
+        void isRelatedHasDependencies() ;
+        void addRelatedChangeDependencies() ;
+        void removeRelatedChangeDependencies() ;
+
+      // @}
+      /*!
+        @name IsOnlyRelated dependencies maintenance tests
+      */
+      // @{
+
+        void isOnlyRelatedHasDependencies() ;
+        void addOnlyRelatedChangeDependencies() ;
+        void addFalseOnlyRelatedChangeDependencies() ;
+
+      // @}
+      /*!
+        @name IsFrom dependencies maintenance tests
+      */
+      // @{
+
+      // @}
+      /*!
+        @name IsTo dependencies maintenance tests
+      */
+      // @{
 
       // @}
       /*!
@@ -139,6 +202,14 @@ namespace ProjetUnivers
         CPPUNIT_TEST(addingIntermediateTraitChangeHasChildDependencies) ;
         CPPUNIT_TEST(removingIntermediateTraitChangeHasChildDependencies) ;
         CPPUNIT_TEST(destroyChildObjectShouldNotCrash) ;
+
+        CPPUNIT_TEST(isRelatedHasDependencies) ;
+        CPPUNIT_TEST(addRelatedChangeDependencies) ;
+        CPPUNIT_TEST(removeRelatedChangeDependencies) ;
+
+        CPPUNIT_TEST(isOnlyRelatedHasDependencies) ;
+        CPPUNIT_TEST(addOnlyRelatedChangeDependencies) ;
+        CPPUNIT_TEST(addFalseOnlyRelatedChangeDependencies) ;
 
         CPPUNIT_TEST(hasTraitFormulaUpdaterTraits) ;
         CPPUNIT_TEST(andUpdaterTraits) ;

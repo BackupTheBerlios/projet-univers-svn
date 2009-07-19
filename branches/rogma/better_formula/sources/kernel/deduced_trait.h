@@ -35,6 +35,7 @@
 #include <kernel/relation.h>
 
 #include <kernel/trait.h>
+#include <kernel/notifiable.h>
 
 namespace ProjetUnivers
 {
@@ -138,7 +139,7 @@ namespace ProjetUnivers
 
     /// True iff object is related to a @c formula object through @c relation.
     /*!
-      This formula is true for object o iff :
+      This formula is true for an object o iff :
       exist x, relation(o,x) and formula(x)
     */
     #define IsRelated(relation,formula) \
@@ -146,7 +147,7 @@ namespace ProjetUnivers
 
     /// True iff object is only related to @c formula objects through @c relation.
     /*!
-      This formula is true for object o iff :
+      This formula is true for an object o iff :
       for all x, relation(o,x) => formula(x)
     */
     #define IsOnlyRelated(relation,formula) \
@@ -300,6 +301,10 @@ namespace ProjetUnivers
       static void registerRelation(const TypeIdentifier& relation,
                                    const TypeIdentifier& primitive_relation,
                                    Formula*              formula) ;
+
+      /// Relation has been updated
+      static void updateRelation(const Relation&) ;
+
 
       /// Notify that @c formula has gained @c validity on @c relation
       static void notify(Formula*          formula,

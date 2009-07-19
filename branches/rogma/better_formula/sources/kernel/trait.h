@@ -60,6 +60,8 @@ namespace ProjetUnivers
     class Writer ;
     class TraitFormula ;
     class FormulaOr ;
+    class IsRelatedFormula ;
+    class IsOnlyRelatedFormula ;
 
     /// Abstract class for object traits.
     class Trait
@@ -474,6 +476,8 @@ namespace ProjetUnivers
       friend class HasParentFormula ;
       friend class HasAncestorFormula ;
       friend class HasChildFormula ;
+      friend class IsRelatedFormula ;
+      friend class IsOnlyRelatedFormula ;
       friend class ::ProjetUnivers::Kernel::Test::TestTrait ;
       friend class ::ProjetUnivers::Kernel::Implementation::Operation ;
     };

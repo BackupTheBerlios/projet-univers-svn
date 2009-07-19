@@ -65,12 +65,15 @@ namespace ProjetUnivers
         getModel()->changeParent(this,new_parent) ;
     }
 
-    void Object::addTrait(Trait* trait)
+    Trait* Object::addTrait(Trait* trait)
     {
       if (getModel())
-        getModel()->addTrait(this,trait) ;
+        return getModel()->addTrait(this,trait) ;
       else
+      {
         delete trait ;
+        return NULL ;
+      }
     }
 
     void Object::destroyTrait(Trait* trait)

@@ -99,7 +99,10 @@ namespace ProjetUnivers
       void changeParent(Object* new_parent) ;
 
       /// Adds a new trait to object.
-      void addTrait(Trait* trait) ;
+      /*!
+        @return the trait added
+      */
+      Trait* addTrait(Trait* trait) ;
 
       /// Destroy an object's trait.
       void destroyTrait(Trait* trait) ;

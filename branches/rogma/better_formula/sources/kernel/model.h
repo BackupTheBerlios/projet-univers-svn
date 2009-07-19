@@ -117,16 +117,13 @@ namespace ProjetUnivers
       Object* createObject(Object* parent) ;
 
       /// Changes parent of a given Object.
-      void changeParent(Object* object,
-                        Object* new_parent) ;
+      void changeParent(Object* object,Object* new_parent) ;
 
       /// Adds a new trait to an Object.
-      void addTrait(Object* object,
-                    Trait* new_trait) ;
+      Trait* addTrait(Object* object,Trait* new_trait) ;
 
       /// Destroy an Object's trait.
-      void destroyTrait(Object* object,
-                        Trait* trait) ;
+      void destroyTrait(Object* object,Trait* trait) ;
 
       /// Access to viewpoints.
       const std::set<ViewPoint*>& getViewPoints() const ;

@@ -480,7 +480,7 @@ namespace ProjetUnivers
       {
         // it seems a bad idea to have kind of cycle on the same trait
         ErrorMessage("Updating a trait that is already during an update :"
-                     " it is probalby a bad idea, the behaviour could "
+                     " it is probably a bad idea, the behavior could "
                      "depend on order") ;
         remove_update = false ;
       }

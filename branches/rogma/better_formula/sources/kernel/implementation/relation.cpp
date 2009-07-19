@@ -21,6 +21,7 @@
 #include <kernel/view_point.h>
 #include <kernel/controler_set.h>
 #include <kernel/relation.h>
+#include <kernel/deduced_trait.h>
 
 namespace ProjetUnivers
 {
@@ -208,6 +209,7 @@ namespace ProjetUnivers
     void Relation::notify()
     {
       getObjectFrom()->getModel()->update(*this) ;
+      DeducedRelation::updateRelation(*this) ;
     }
 
   }

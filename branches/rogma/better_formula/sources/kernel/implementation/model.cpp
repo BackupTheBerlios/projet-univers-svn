@@ -148,13 +148,13 @@ namespace ProjetUnivers
 
     }
 
-    void Model::addTrait(Object* object,
+    Trait* Model::addTrait(Object* object,
                          Trait* new_trait)
     {
       Log::Block temp("Structure","addTrait") ;
 
       if (object->m_deleting)
-        return ;
+        return NULL ;
 
       bool deduced = ! new_trait->isPrimitive() ;
 
@@ -166,6 +166,8 @@ namespace ProjetUnivers
         m_statistics.addDeducedTrait() ;
       else
         m_statistics.addPrimitiveTrait() ;
+
+      return new_trait ;
     }
 
     void Model::destroyTrait(Object* object,

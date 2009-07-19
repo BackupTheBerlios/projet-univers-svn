@@ -41,6 +41,9 @@ namespace ProjetUnivers
         void viewOnDeducedRelation() ;
         void initControler() ;
         void closeControler() ;
+        void updateOrFormula() ;
+        void deducedRelationOnDeducedRelation() ;
+
 
       // @}
 
@@ -51,6 +54,8 @@ namespace ProjetUnivers
         CPPUNIT_TEST(viewOnDeducedRelation) ;
         CPPUNIT_TEST(initControler) ;
         CPPUNIT_TEST(closeControler) ;
+        CPPUNIT_TEST(updateOrFormula) ;
+        CPPUNIT_TEST(deducedRelationOnDeducedRelation) ;
 
         CPPUNIT_TEST_SUITE_END() ;
       };
