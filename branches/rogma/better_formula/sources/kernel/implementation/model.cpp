@@ -509,10 +509,16 @@ namespace ProjetUnivers
       addOperation(Implementation::Operation::update(observer)) ;
     }
 
+    Relation& Model::getCanonical(const Relation& relation)
+    {
+      return m_canonical_relations.find(relation)->second ;
+    }
+
     void Model::addRelation(const Relation& relation)
     {
       startTransaction() ;
       m_relations.insert(relation) ;
+      m_canonical_relations.insert(std::make_pair(relation,relation)) ;
       m_relation_validities[relation].reserve(Formula::getNumberOfFormulae()) ;
       m_number_of_true_child_formulae[relation].reserve(Formula::getNumberOfFormulae()) ;
       relation.createViews() ;
@@ -536,6 +542,7 @@ namespace ProjetUnivers
 
     void Model::_internalDestroyRelation(const Relation& relation)
     {
+      m_canonical_relations.erase(relation) ;
       m_relation_validities.erase(relation) ;
       m_number_of_true_child_formulae.erase(relation) ;
       destroyRelationView(relation) ;

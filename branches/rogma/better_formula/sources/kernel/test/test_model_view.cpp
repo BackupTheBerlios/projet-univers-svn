@@ -188,7 +188,7 @@ namespace ProjetUnivers
           }
 
           /// Called when parent changed.
-          void onChangeParent(Object* i_old_parent)
+          void onChangeParent(Object*)
           {
           }
 
@@ -261,7 +261,7 @@ namespace ProjetUnivers
           }
 
           /// Called when parent changed.
-          void onChangeParent(Object* i_old_parent)
+          void onChangeParent(Object*)
           {
           }
 
@@ -346,7 +346,7 @@ namespace ProjetUnivers
           }
 
           /// Called when parent changed.
-          void onChangeParent(Object* i_old_parent)
+          void onChangeParent(Object*)
           {
           }
 
@@ -471,7 +471,7 @@ namespace ProjetUnivers
           }
 
           /// Called when parent changed.
-          void onChangeParent(Object* i_old_parent)
+          void onChangeParent(Object*)
           {
           }
 
@@ -1090,7 +1090,7 @@ namespace ProjetUnivers
           }
 
           /// Called when parent changed.
-          void onChangeParent(Object* i_old_parent)
+          void onChangeParent(Object*)
           {
           }
 
@@ -1359,7 +1359,7 @@ namespace ProjetUnivers
         viewpoint->init() ;
 
         Object* object1 = model->createObject() ;
-        Object* object2 = object1->createObject() ;
+        object1->createObject() ;
 
         object1->addTrait(new Person()) ;
         object1->addTrait(new Head()) ;
@@ -1746,7 +1746,7 @@ namespace ProjetUnivers
 
         Object* root = model->createObject() ;
         Object* child = root->createObject() ;
-        Object* grand_child = child->createObject() ;
+        child->createObject() ;
         child->addTrait(new Pos()) ;
 
         ViewParentPos::m_updates = 0 ;
@@ -1764,7 +1764,7 @@ namespace ProjetUnivers
 
         Object* root = model->createObject() ;
         Object* child = root->createObject() ;
-        Object* grand_child = child->createObject() ;
+        child->createObject() ;
         child->addTrait(new Pos()) ;
         root->addTrait(new Pos()) ;
         ViewParentPos::m_updates = 0 ;
@@ -1782,7 +1782,7 @@ namespace ProjetUnivers
 
         Object* root = model->createObject() ;
         Object* child = root->createObject() ;
-        Object* grand_child = child->createObject() ;
+        child->createObject() ;
         child->addTrait(new Pos()) ;
         root->addTrait(new Pos()) ;
         ViewAncestor::m_updates = 0 ;
@@ -1823,7 +1823,7 @@ namespace ProjetUnivers
         ViewPoint* viewpoint(new TestViewPoint(model.get())) ;
         viewpoint->init() ;
 
-        Object* root = model->createObject() ;
+        model->createObject() ;
 
         CPPUNIT_ASSERT_EQUAL(1,ViewNotAnything::number_of_init) ;
       }
@@ -2033,7 +2033,7 @@ namespace ProjetUnivers
         Object* root1 = model->createObject() ;
         Object* root2 = model->createObject() ;
         Object* child = root1->createObject() ;
-        Object* grand_child = child->createObject() ;
+        child->createObject() ;
         root1->addTrait(new Pos()) ;
         root2->addTrait(new Pos()) ;
 
@@ -2073,7 +2073,7 @@ namespace ProjetUnivers
         Object* root1 = model->createObject() ;
         Object* root2 = model->createObject() ;
         Object* child = root1->createObject() ;
-        Object* grand_child = child->createObject() ;
+        child->createObject() ;
         root1->addTrait(new Pos()) ;
         root2->addTrait(new Pos()) ;
         child->addTrait(new Pos()) ;
@@ -2094,7 +2094,7 @@ namespace ProjetUnivers
         Object* root1 = model->createObject() ;
         Object* root2 = model->createObject() ;
         Object* child = root1->createObject() ;
-        Object* grand_child = child->createObject() ;
+        child->createObject() ;
         child->addTrait(new Pos()) ;
 
         ViewAncestor::m_updates = 0 ;

@@ -1351,11 +1351,11 @@ in commit
 
   * windows
     - build and upload a tclap package
-  * removed some compiling warnings
   * Kernel:
     - maintain the set of direct impact for traits updates
     - HasParent, HasAncestor, HasChild take an object formula 
     - corrected some bugs on updates (too many updatyes called)
+    - removed compiler warnings
     
 in progress
 -----------

@@ -192,7 +192,7 @@ namespace ProjetUnivers
 
             if (finder->second.first.isInstance(this))
             {
-              BaseTraitView* view = finder->second.second(this,i_viewpoint) ;
+              BaseTraitView* view = finder->second.second() ;
               view->setObserved(this) ;
               view->setViewPoint(i_viewpoint) ;
               m_views.insert(std::pair<ViewPoint*,BaseTraitView*>(
@@ -233,7 +233,7 @@ namespace ProjetUnivers
 
             if (finder->second.first.isInstance(this))
             {
-              BaseControler* controler = finder->second.second(this,i_controler_set) ;
+              BaseControler* controler = finder->second.second() ;
               controler->setObserved(this) ;
               controler->setControlerSet(i_controler_set) ;
               m_controlers.insert(std::pair<ControlerSet*,BaseControler*>(

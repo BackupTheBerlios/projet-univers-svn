@@ -165,13 +165,11 @@ namespace ProjetUnivers
 
       void TestModel::testObjectReference()
       {
-        /// create a model
+        // create a model
         std::auto_ptr<Model> model(new Model("TestModel::testObjectReference")) ;
 
-        //// fill the model
-        Object* object = model->createObject() ;
-        
-        ObjectReference reference(object) ;
+        // fill the model
+        ObjectReference reference(model->createObject()) ;
         
         {
           Object* object = reference ;
@@ -193,8 +191,8 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(!reference) ;
         
         {
-          Object* object = reference ;
-          CPPUNIT_ASSERT(!object) ;
+          Object* object2 = reference ;
+          CPPUNIT_ASSERT(!object2) ;
         }
 
       }
@@ -211,8 +209,8 @@ namespace ProjetUnivers
         model->destroyObject(object) ;
         
         {
-          Object* object = reference ;
-          CPPUNIT_ASSERT(!object) ;
+          Object* object2 = reference ;
+          CPPUNIT_ASSERT(!object2) ;
         }
 
       }
@@ -298,8 +296,8 @@ namespace ProjetUnivers
         model.reset(NULL) ;
         
         {
-          Object* object = reference ;
-          CPPUNIT_ASSERT(!object) ;
+          Object* object2 = reference ;
+          CPPUNIT_ASSERT(!object2) ;
         }
       }      
 
@@ -331,7 +329,7 @@ namespace ProjetUnivers
         std::auto_ptr<Model> model(new Model("TestModel::destroyObjectWithDeducedTraits")) ;
 
         Object* object1 = model->createObject() ;
-        Object* object2 = object1->createObject() ;
+        object1->createObject() ;
         
         object1->addTrait(new Person()) ;
         object1->addTrait(new Head()) ;

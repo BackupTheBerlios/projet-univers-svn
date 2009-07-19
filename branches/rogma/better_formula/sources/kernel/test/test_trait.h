@@ -112,6 +112,8 @@ namespace ProjetUnivers
         void removingIntermediateTraitChangeHasChildDependencies() ;
         void destroyChildObjectShouldNotCrash() ;
 
+        /// @todo change parent tests
+
       // @}
       /*!
         @name IsRelated dependencies maintenance tests
@@ -137,6 +139,8 @@ namespace ProjetUnivers
         @name IsFrom dependencies maintenance tests
       */
       // @{
+
+        void isFromHasDependencies() ;
 
       // @}
       /*!
@@ -210,6 +214,8 @@ namespace ProjetUnivers
         CPPUNIT_TEST(isOnlyRelatedHasDependencies) ;
         CPPUNIT_TEST(addOnlyRelatedChangeDependencies) ;
         CPPUNIT_TEST(addFalseOnlyRelatedChangeDependencies) ;
+
+//        CPPUNIT_TEST(isFromHasDependencies) ;
 
         CPPUNIT_TEST(hasTraitFormulaUpdaterTraits) ;
         CPPUNIT_TEST(andUpdaterTraits) ;

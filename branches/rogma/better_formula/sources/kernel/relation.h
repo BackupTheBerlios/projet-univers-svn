@@ -103,6 +103,7 @@ namespace ProjetUnivers
       /// Closes the observer on relation.
       virtual void _close() ;
 
+
     protected:
 
       Relation() ;
@@ -113,6 +114,8 @@ namespace ProjetUnivers
 
       /// Destroy a link.
       static void destroyLink(const TypeIdentifier&,Object*,Object*) ;
+
+
 
     private:
 
@@ -125,12 +128,9 @@ namespace ProjetUnivers
     */
     //@{
 
-      /// Type for function that build views from a relation and viewpoint.
-      /*!
-        @todo : simplify (no need to have the parameters anymore)
-      */
+      /// Type for function that build views.
       typedef
-      boost::function2<BaseRelationView*,const Relation&,ViewPoint*> ViewBuilder ;
+      boost::function0<BaseRelationView*> ViewBuilder ;
 
       /// create the views.
       void createViews() const ;
@@ -273,9 +273,7 @@ namespace ProjetUnivers
     #define RegisterRelationView(ClassView,ClassRelation,ClassViewPoint)     \
       namespace PU_MAKE_UNIQUE_NAME(register_view) {                         \
         static                                                               \
-        ProjetUnivers::Kernel::BaseRelationView* build(                      \
-          const ProjetUnivers::Kernel::Relation& _model,                     \
-          ProjetUnivers::Kernel::ViewPoint* _viewpoint)                      \
+        ProjetUnivers::Kernel::BaseRelationView* build()                     \
         {                                                                    \
           ClassView* result(new ClassView()) ;                               \
           return result ;                                                    \

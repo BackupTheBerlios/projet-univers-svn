@@ -232,9 +232,8 @@ namespace ProjetUnivers
       */
       std::multimap<ViewPoint*,BaseTraitView*>             m_views ;
 
-      /// Type for function that build views from a trait and viewpoint.
-      typedef
-      boost::function2<BaseTraitView*, Trait*, ViewPoint*> ViewBuilder ;
+      /// Type for function that build views.
+      typedef boost::function0<BaseTraitView*> ViewBuilder ;
 
 
       /// Register @c _builder as the builder for @c _trait in @c _viewpoint
@@ -264,10 +263,8 @@ namespace ProjetUnivers
       /// Controlers that apply on the trait, organized by controler sets.
       std::multimap<ControlerSet*,BaseControler*> m_controlers ;
 
-      // The type for Trait X ControlerSet -> BaseControler
-      typedef
-      boost::function2<BaseControler*, Trait*, ControlerSet*>
-        ControlerBuilder ;
+      // Function that build controlers.
+      typedef boost::function0<BaseControler*> ControlerBuilder ;
 
 
       /// Register @c builder as the builder for @c trait_class in
@@ -484,9 +481,7 @@ namespace ProjetUnivers
     #define RegisterView(ClassView,ClassTrait,ClassViewPoint)                \
       namespace PU_MAKE_UNIQUE_NAME(register_view) {                         \
         static                                                               \
-        ProjetUnivers::Kernel::BaseTraitView* build(                         \
-          ProjetUnivers::Kernel::Trait* _model,                              \
-          ProjetUnivers::Kernel::ViewPoint* _viewpoint)                      \
+        ProjetUnivers::Kernel::BaseTraitView* build()                        \
         {                                                                    \
           return new ClassView() ;                                           \
         }                                                                    \
@@ -518,9 +513,7 @@ namespace ProjetUnivers
     #define RegisterControler(ClassControler,ClassTrait,ClassControlerSet)   \
       namespace PU_MAKE_UNIQUE_NAME(register_controler) {                    \
         static                                                               \
-        ProjetUnivers::Kernel::BaseControler* build(                         \
-          ProjetUnivers::Kernel::Trait* _model,                              \
-          ProjetUnivers::Kernel::ControlerSet* _set)                         \
+        ProjetUnivers::Kernel::BaseControler* build()                        \
         {                                                                    \
           return new ClassControler() ;                                      \
         }                                                                    \

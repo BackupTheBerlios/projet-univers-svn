@@ -545,6 +545,8 @@ namespace ProjetUnivers
         result.insert(temp) ;
       }
 
+      // @todo add the relations...
+
       for(std::set<Formula*>::const_iterator parent = m_parents.begin() ; parent != m_parents.end() ; ++parent)
       {
         std::set<Notifiable*> temp((*parent)->getDependentNotifiables(object)) ;

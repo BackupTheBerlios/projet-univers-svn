@@ -239,7 +239,7 @@ namespace ProjetUnivers
           }
 
           /// Called when parent changed.
-          void onChangeParent(Object* i_old_parent)
+          void onChangeParent(Object*)
           {
           }
 
@@ -303,7 +303,7 @@ namespace ProjetUnivers
           }
 
           /// Called when parent changed.
-          void onChangeParent(Object* i_old_parent)
+          void onChangeParent(Object*)
           {
           }
 
@@ -369,7 +369,7 @@ namespace ProjetUnivers
           }
 
           /// Called when parent changed.
-          void onChangeParent(Object* i_old_parent)
+          void onChangeParent(Object*)
           {
           }
 
@@ -453,7 +453,7 @@ namespace ProjetUnivers
           }
 
           /// Called when parent changed.
-          void onChangeParent(Object* i_old_parent)
+          void onChangeParent(Object*)
           {
           }
 

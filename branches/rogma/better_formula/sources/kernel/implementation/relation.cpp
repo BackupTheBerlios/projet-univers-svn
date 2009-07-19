@@ -172,7 +172,7 @@ namespace ProjetUnivers
       ViewBuilder builder = StaticStorage::get()->getViewBuilder(viewpoint,*this) ;
 
       if (!builder.empty())
-        getObjectFrom()->getModel()->addRelationView(*this,builder(*this,viewpoint),viewpoint) ;
+        getObjectFrom()->getModel()->addRelationView(*this,builder(),viewpoint) ;
 
     }
 

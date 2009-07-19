@@ -54,6 +54,8 @@ namespace ProjetUnivers
         void relationUnDeducedByModifyingALinkedObject() ;
         void relationUnDeducedByRemovingALink() ;
 
+        void primitiveRelationDoesNotTriggerOtherDeduction() ;
+
       // @}
 
         CPPUNIT_TEST_SUITE(TestRelation) ;
@@ -73,6 +75,7 @@ namespace ProjetUnivers
         CPPUNIT_TEST(relationDeducedByModifyingALinkedObject) ;
         CPPUNIT_TEST(relationUnDeducedByModifyingALinkedObject) ;
         CPPUNIT_TEST(relationUnDeducedByRemovingALink) ;
+        CPPUNIT_TEST(primitiveRelationDoesNotTriggerOtherDeduction) ;
 
         CPPUNIT_TEST_SUITE_END() ;
       };

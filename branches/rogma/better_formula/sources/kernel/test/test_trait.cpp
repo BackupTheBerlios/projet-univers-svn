@@ -1029,6 +1029,34 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(tr1->getDependentNotifiables().empty()) ;
       }
 
+      namespace
+      {
+        class R2 : public Relation
+        {};
+
+        class From : public Trait
+        {};
+
+        class R2From : public DeducedRelation
+        {};
+
+        DeclareDeducedRelation(R2From,R2,IsFrom(HasTrait(From))) ;
+      }
+
+
+      void TestTrait::isFromHasDependencies()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+
+        Object* source = model->createObject() ;
+        Object* destination = model->createObject() ;
+
+        Trait* from = source->addTrait(new From()) ;
+
+        Link<R2>(source,destination) ;
+
+        CPPUNIT_ASSERT_EQUAL((unsigned int)1,from->getDependentNotifiables().size()) ;
+      }
 
       namespace
       {

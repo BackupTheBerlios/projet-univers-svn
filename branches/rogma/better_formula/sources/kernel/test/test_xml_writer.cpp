@@ -138,7 +138,7 @@ namespace ProjetUnivers
       void TestXMLWriter::object()
       {
         std::auto_ptr<Model> model(new Model("TestXMLWriter::object")) ;
-        Kernel::Object* object = model->createObject() ;
+        model->createObject() ;
         
         std::auto_ptr<XMLWriter> writer(XMLWriter::getStringWriter()) ;
         
@@ -152,8 +152,8 @@ namespace ProjetUnivers
       void TestXMLWriter::trait()
       {
         std::auto_ptr<Model> model(new Model("TestXMLWriter::trait")) ;
-        Kernel::Object* object = model->createObject() ;
-        object->addTrait(new Universe()) ;
+        Kernel::Object* object1 = model->createObject() ;
+        object1->addTrait(new Universe()) ;
         
         std::auto_ptr<XMLWriter> writer(XMLWriter::getStringWriter()) ;
         
@@ -167,8 +167,8 @@ namespace ProjetUnivers
       void TestXMLWriter::traitWithContent()
       {
         std::auto_ptr<Model> model(new Model("TestXMLWriter::traitWithContent")) ;
-        Kernel::Object* object = model->createObject() ;
-        object->addTrait(new Positionned(Position())) ;
+        Kernel::Object* object1 = model->createObject() ;
+        object1->addTrait(new Positionned(Position())) ;
         
         std::auto_ptr<XMLWriter> writer(XMLWriter::getStringWriter()) ;
         
@@ -185,8 +185,8 @@ namespace ProjetUnivers
       {
         std::auto_ptr<Model> model(new Model("TestXMLWriter::traitWithObjectReference")) ;
         Kernel::Object* object1 = model->createObject() ;
-        Kernel::Object* object = model->createObject() ;
-        object->addTrait(new Truc(object1)) ;
+        Kernel::Object* object2 = model->createObject() ;
+        object2->addTrait(new Truc(object1)) ;
         
         std::auto_ptr<XMLWriter> writer(XMLWriter::getStringWriter()) ;
         
@@ -207,7 +207,7 @@ namespace ProjetUnivers
       {
         std::auto_ptr<Model> model(new Model("TestXMLWriter::writeSingleObject")) ;
         Kernel::Object* object1 = model->createObject() ;
-        Kernel::Object* object = model->createObject() ;
+        model->createObject() ;
         
         std::auto_ptr<XMLWriter> writer(XMLWriter::getStringWriter()) ;
         
@@ -223,7 +223,7 @@ namespace ProjetUnivers
       {
         std::auto_ptr<Model> model(new Model("TestXMLWriter::writeSingleObject")) ;
         Kernel::Object* object1 = model->createObject() ;
-        Kernel::Object* object = object1->createObject() ;
+        object1->createObject() ;
         
         std::auto_ptr<XMLWriter> writer(XMLWriter::getStringWriter()) ;
         
