@@ -212,22 +212,22 @@ namespace ProjetUnivers
         Trait1* t1 = new Trait1() ;
         object->addTrait(t1) ;
 
-        CPPUNIT_ASSERT(t1->getDependentDeducedTraits().empty()) ;
+        CPPUNIT_ASSERT(t1->getDependentNotifiables().empty()) ;
 
         Trait2* t2 = new Trait2() ;
         object->addTrait(t2) ;
 
-        CPPUNIT_ASSERT(t2->getDependentDeducedTraits().empty()) ;
+        CPPUNIT_ASSERT(t2->getDependentNotifiables().empty()) ;
 
         Trait3* t3 = new Trait3() ;
         object->addTrait(t3) ;
 
         DeducedTrait1* dt1 = object->getTrait<DeducedTrait1>() ;
 
-        CPPUNIT_ASSERT(!t3->getDependentDeducedTraits().empty()) ;
-        CPPUNIT_ASSERT(t3->getDependentDeducedTraits().find(dt1) != t3->getDependentDeducedTraits().end()) ;
-        CPPUNIT_ASSERT(t1->getDependentDeducedTraits().find(dt1) != t1->getDependentDeducedTraits().end()) ;
-        CPPUNIT_ASSERT(t2->getDependentDeducedTraits().find(dt1) != t2->getDependentDeducedTraits().end()) ;
+        CPPUNIT_ASSERT(!t3->getDependentNotifiables().empty()) ;
+        CPPUNIT_ASSERT(t3->getDependentNotifiables().find(dt1) != t3->getDependentNotifiables().end()) ;
+        CPPUNIT_ASSERT(t1->getDependentNotifiables().find(dt1) != t1->getDependentNotifiables().end()) ;
+        CPPUNIT_ASSERT(t2->getDependentNotifiables().find(dt1) != t2->getDependentNotifiables().end()) ;
       }
 
       void TestTrait::removeDeducedTraitOnAndDepedentTrait()
@@ -243,9 +243,9 @@ namespace ProjetUnivers
         object->addTrait(t3) ;
         DeducedTrait1* dt1 = object->getTrait<DeducedTrait1>() ;
 
-        CPPUNIT_ASSERT(t3->getDependentDeducedTraits().find(dt1) != t3->getDependentDeducedTraits().end()) ;
+        CPPUNIT_ASSERT(t3->getDependentNotifiables().find(dt1) != t3->getDependentNotifiables().end()) ;
         object->destroyTrait(t1) ;
-        CPPUNIT_ASSERT(t3->getDependentDeducedTraits().empty()) ;
+        CPPUNIT_ASSERT(t3->getDependentNotifiables().empty()) ;
       }
 
       void TestTrait::parentTraitHasParentDependency()
@@ -259,7 +259,7 @@ namespace ProjetUnivers
         Object* child = object->createObject() ;
         HasParentTrait1* dt = child->getTrait<HasParentTrait1>() ;
         CPPUNIT_ASSERT(dt) ;
-        CPPUNIT_ASSERT(parent->getDependentDeducedTraits().find(dt) != parent->getDependentDeducedTraits().end()) ;
+        CPPUNIT_ASSERT(parent->getDependentNotifiables().find(dt) != parent->getDependentNotifiables().end()) ;
       }
 
       void TestTrait::childTraitIsHasChildDependency()
@@ -274,7 +274,7 @@ namespace ProjetUnivers
         HasChildTrait1* dt = object->getTrait<HasChildTrait1>() ;
 
         CPPUNIT_ASSERT(dt) ;
-        CPPUNIT_ASSERT(child_trait->getDependentDeducedTraits().find(dt) != child_trait->getDependentDeducedTraits().end()) ;
+        CPPUNIT_ASSERT(child_trait->getDependentNotifiables().find(dt) != child_trait->getDependentNotifiables().end()) ;
       }
 
       void TestTrait::addNewTraitOnOrChangeDepedencies()
@@ -288,12 +288,12 @@ namespace ProjetUnivers
 
         DeducedTrait2* dtor = object->getTrait<DeducedTrait2>() ;
 
-        CPPUNIT_ASSERT(t1->getDependentDeducedTraits().find(dtor) != t1->getDependentDeducedTraits().end()) ;
+        CPPUNIT_ASSERT(t1->getDependentNotifiables().find(dtor) != t1->getDependentNotifiables().end()) ;
 
         Trait2Or* t2 = new Trait2Or() ;
         object->addTrait(t2) ;
 
-        CPPUNIT_ASSERT(t2->getDependentDeducedTraits().find(dtor) != t2->getDependentDeducedTraits().end()) ;
+        CPPUNIT_ASSERT(t2->getDependentNotifiables().find(dtor) != t2->getDependentNotifiables().end()) ;
       }
 
       void TestTrait::addIntermediateTraitChangeHasParentDependencies()
@@ -312,17 +312,17 @@ namespace ProjetUnivers
         HasParentTrait1* dt_child = child->getTrait<HasParentTrait1>() ;
         CPPUNIT_ASSERT(dt_child) ;
 
-        CPPUNIT_ASSERT(parent->getDependentDeducedTraits().find(dt_father) != parent->getDependentDeducedTraits().end()) ;
-        CPPUNIT_ASSERT(parent->getDependentDeducedTraits().find(dt_child) != parent->getDependentDeducedTraits().end()) ;
+        CPPUNIT_ASSERT(parent->getDependentNotifiables().find(dt_father) != parent->getDependentNotifiables().end()) ;
+        CPPUNIT_ASSERT(parent->getDependentNotifiables().find(dt_child) != parent->getDependentNotifiables().end()) ;
 
         // tested event : add an intermediate trait will change dependencies
         Parent* parent2 = new Parent() ;
         father->addTrait(parent2) ;
 
-        CPPUNIT_ASSERT(parent->getDependentDeducedTraits().find(dt_father) == parent->getDependentDeducedTraits().end()) ;
-        CPPUNIT_ASSERT(parent->getDependentDeducedTraits().find(dt_child) == parent->getDependentDeducedTraits().end()) ;
-        CPPUNIT_ASSERT(parent2->getDependentDeducedTraits().find(dt_father) != parent2->getDependentDeducedTraits().end()) ;
-        CPPUNIT_ASSERT(parent2->getDependentDeducedTraits().find(dt_child) != parent2->getDependentDeducedTraits().end()) ;
+        CPPUNIT_ASSERT(parent->getDependentNotifiables().find(dt_father) == parent->getDependentNotifiables().end()) ;
+        CPPUNIT_ASSERT(parent->getDependentNotifiables().find(dt_child) == parent->getDependentNotifiables().end()) ;
+        CPPUNIT_ASSERT(parent2->getDependentNotifiables().find(dt_father) != parent2->getDependentNotifiables().end()) ;
+        CPPUNIT_ASSERT(parent2->getDependentNotifiables().find(dt_child) != parent2->getDependentNotifiables().end()) ;
       }
 
       void TestTrait::removeIntermediateTraitChangeHasParentDependencies()
@@ -344,16 +344,16 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(dt_child) ;
 
         // check initial situation for sure-ness
-        CPPUNIT_ASSERT(parent->getDependentDeducedTraits().find(dt_father) == parent->getDependentDeducedTraits().end()) ;
-        CPPUNIT_ASSERT(parent->getDependentDeducedTraits().find(dt_child) == parent->getDependentDeducedTraits().end()) ;
-        CPPUNIT_ASSERT(parent2->getDependentDeducedTraits().find(dt_father) != parent2->getDependentDeducedTraits().end()) ;
-        CPPUNIT_ASSERT(parent2->getDependentDeducedTraits().find(dt_child) != parent2->getDependentDeducedTraits().end()) ;
+        CPPUNIT_ASSERT(parent->getDependentNotifiables().find(dt_father) == parent->getDependentNotifiables().end()) ;
+        CPPUNIT_ASSERT(parent->getDependentNotifiables().find(dt_child) == parent->getDependentNotifiables().end()) ;
+        CPPUNIT_ASSERT(parent2->getDependentNotifiables().find(dt_father) != parent2->getDependentNotifiables().end()) ;
+        CPPUNIT_ASSERT(parent2->getDependentNotifiables().find(dt_child) != parent2->getDependentNotifiables().end()) ;
 
         // tested event : remove an intermediate trait will change dependencies
         father->destroyTrait(parent2) ;
 
-        CPPUNIT_ASSERT(parent->getDependentDeducedTraits().find(dt_father) != parent->getDependentDeducedTraits().end()) ;
-        CPPUNIT_ASSERT(parent->getDependentDeducedTraits().find(dt_child) != parent->getDependentDeducedTraits().end()) ;
+        CPPUNIT_ASSERT(parent->getDependentNotifiables().find(dt_father) != parent->getDependentNotifiables().end()) ;
+        CPPUNIT_ASSERT(parent->getDependentNotifiables().find(dt_child) != parent->getDependentNotifiables().end()) ;
       }
 
       void TestTrait::removeTraitChangeHasParentDependenciesByBecommingFalse()
@@ -373,8 +373,8 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(dt_child) ;
 
         // check initial situation for sure-ness
-        CPPUNIT_ASSERT(parent2->getDependentDeducedTraits().find(dt_father) != parent2->getDependentDeducedTraits().end()) ;
-        CPPUNIT_ASSERT(parent2->getDependentDeducedTraits().find(dt_child) != parent2->getDependentDeducedTraits().end()) ;
+        CPPUNIT_ASSERT(parent2->getDependentNotifiables().find(dt_father) != parent2->getDependentNotifiables().end()) ;
+        CPPUNIT_ASSERT(parent2->getDependentNotifiables().find(dt_child) != parent2->getDependentNotifiables().end()) ;
 
         // tested event : remove an intermediate trait will change dependencies
         father->destroyTrait(parent2) ;
@@ -398,14 +398,14 @@ namespace ProjetUnivers
         HasParentTrait1* dt_child = child->getTrait<HasParentTrait1>() ;
         CPPUNIT_ASSERT(dt_child) ;
 
-        CPPUNIT_ASSERT(parent1->getDependentDeducedTraits().find(dt_child) != parent1->getDependentDeducedTraits().end()) ;
-        CPPUNIT_ASSERT(parent2->getDependentDeducedTraits().find(dt_child) == parent2->getDependentDeducedTraits().end()) ;
+        CPPUNIT_ASSERT(parent1->getDependentNotifiables().find(dt_child) != parent1->getDependentNotifiables().end()) ;
+        CPPUNIT_ASSERT(parent2->getDependentNotifiables().find(dt_child) == parent2->getDependentNotifiables().end()) ;
 
         // tested event : switch child parent
         child->changeParent(father2) ;
 
-        CPPUNIT_ASSERT(parent1->getDependentDeducedTraits().find(dt_child) == parent1->getDependentDeducedTraits().end()) ;
-        CPPUNIT_ASSERT(parent2->getDependentDeducedTraits().find(dt_child) != parent2->getDependentDeducedTraits().end()) ;
+        CPPUNIT_ASSERT(parent1->getDependentNotifiables().find(dt_child) == parent1->getDependentNotifiables().end()) ;
+        CPPUNIT_ASSERT(parent2->getDependentNotifiables().find(dt_child) != parent2->getDependentNotifiables().end()) ;
       }
 
       void TestTrait::changeParentChangeHasParentDependenciesRecursivelly()
@@ -425,14 +425,14 @@ namespace ProjetUnivers
         HasParentTrait1* dt_child = grand_child->getTrait<HasParentTrait1>() ;
         CPPUNIT_ASSERT(dt_child) ;
 
-        CPPUNIT_ASSERT(parent1->getDependentDeducedTraits().find(dt_child) != parent1->getDependentDeducedTraits().end()) ;
-        CPPUNIT_ASSERT(parent2->getDependentDeducedTraits().find(dt_child) == parent2->getDependentDeducedTraits().end()) ;
+        CPPUNIT_ASSERT(parent1->getDependentNotifiables().find(dt_child) != parent1->getDependentNotifiables().end()) ;
+        CPPUNIT_ASSERT(parent2->getDependentNotifiables().find(dt_child) == parent2->getDependentNotifiables().end()) ;
 
         // tested event : switch child parent
         child->changeParent(father2) ;
 
-        CPPUNIT_ASSERT(parent1->getDependentDeducedTraits().find(dt_child) == parent1->getDependentDeducedTraits().end()) ;
-        CPPUNIT_ASSERT(parent2->getDependentDeducedTraits().find(dt_child) != parent2->getDependentDeducedTraits().end()) ;
+        CPPUNIT_ASSERT(parent1->getDependentNotifiables().find(dt_child) == parent1->getDependentNotifiables().end()) ;
+        CPPUNIT_ASSERT(parent2->getDependentNotifiables().find(dt_child) != parent2->getDependentNotifiables().end()) ;
       }
 
       void TestTrait::addTraitOnEmptyStructure()
@@ -462,7 +462,7 @@ namespace ProjetUnivers
         Object* child = father->createObject() ;
         DeducedTrait* deduced = child->getTrait<HasParentTrait1>() ;
         Formula* formula = deduced->getFormula() ;
-        std::set<DeducedTrait*> dependencies = formula->getDependentDeducedTraits(father) ;
+        std::set<Notifiable*> dependencies(formula->getDependentNotifiables(father)) ;
         CPPUNIT_ASSERT(father->getTrait<HasParentTrait1>()) ;
         CPPUNIT_ASSERT(father->getTrait<HasParentTrait1>()->getFormula() == formula) ;
         CPPUNIT_ASSERT(dependencies.find(father->getTrait<HasParentTrait1>()) != dependencies.end()) ;
@@ -491,7 +491,7 @@ namespace ProjetUnivers
 
         CPPUNIT_ASSERT(child1->getTrait<HasParentTrait2>()) ;
 
-        CPPUNIT_ASSERT(parent->getDependentDeducedTraits().find(child1->getTrait<HasParentTrait2>()) != parent->getDependentDeducedTraits().end()) ;
+        CPPUNIT_ASSERT(parent->getDependentNotifiables().find(child1->getTrait<HasParentTrait2>()) != parent->getDependentNotifiables().end()) ;
       }
 
       void TestTrait::hasParentOnDeducedTrait()
@@ -543,7 +543,7 @@ namespace ProjetUnivers
 
         mission->destroyObject() ;
 
-        CPPUNIT_ASSERT_EQUAL((unsigned int)1,root->getTrait<Parent>()->getDependentDeducedTraits().size()) ;
+        CPPUNIT_ASSERT_EQUAL((unsigned int)1,root->getTrait<Parent>()->getDependentNotifiables().size()) ;
       }
 
       void TestTrait::changeParentChangingNothing()
@@ -657,8 +657,8 @@ namespace ProjetUnivers
         Kernel::Object* object2 = object->createObject() ;
         WithAncestor* d = object2->getTrait<WithAncestor>() ;
 
-        CPPUNIT_ASSERT_EQUAL((unsigned int)1,a->getDependentDeducedTraits().size()) ;
-        CPPUNIT_ASSERT(a->getDependentDeducedTraits().find(d) != a->getDependentDeducedTraits().end()) ;
+        CPPUNIT_ASSERT_EQUAL((unsigned int)1,a->getDependentNotifiables().size()) ;
+        CPPUNIT_ASSERT(a->getDependentNotifiables().find(d) != a->getDependentNotifiables().end()) ;
       }
 
       void TestTrait::addIntermediateTraitChangeHasAncestorDependencies()
@@ -675,15 +675,15 @@ namespace ProjetUnivers
         Kernel::Object* object2 = object1->createObject() ;
         WithAncestor* d = object2->getTrait<WithAncestor>() ;
 
-        CPPUNIT_ASSERT_EQUAL((unsigned int)2,a->getDependentDeducedTraits().size()) ;
-        CPPUNIT_ASSERT(a->getDependentDeducedTraits().find(d) != a->getDependentDeducedTraits().end()) ;
+        CPPUNIT_ASSERT_EQUAL((unsigned int)2,a->getDependentNotifiables().size()) ;
+        CPPUNIT_ASSERT(a->getDependentNotifiables().find(d) != a->getDependentNotifiables().end()) ;
 
         Trait* a1 = new Ancestor() ;
         object1->addTrait(a1) ;
 
-        CPPUNIT_ASSERT(a->getDependentDeducedTraits().find(d) == a->getDependentDeducedTraits().end()) ;
-        CPPUNIT_ASSERT_EQUAL((unsigned int)1,a1->getDependentDeducedTraits().size()) ;
-        CPPUNIT_ASSERT(a1->getDependentDeducedTraits().find(d) != a1->getDependentDeducedTraits().end()) ;
+        CPPUNIT_ASSERT(a->getDependentNotifiables().find(d) == a->getDependentNotifiables().end()) ;
+        CPPUNIT_ASSERT_EQUAL((unsigned int)1,a1->getDependentNotifiables().size()) ;
+        CPPUNIT_ASSERT(a1->getDependentNotifiables().find(d) != a1->getDependentNotifiables().end()) ;
       }
 
       void TestTrait::removeIntermediateTraitChangeHasAncestorDependencies()
@@ -702,14 +702,14 @@ namespace ProjetUnivers
         Kernel::Object* object2 = object1->createObject() ;
         WithAncestor* d = object2->getTrait<WithAncestor>() ;
 
-        CPPUNIT_ASSERT(a->getDependentDeducedTraits().find(d) == a->getDependentDeducedTraits().end()) ;
-        CPPUNIT_ASSERT_EQUAL((unsigned int)1,a1->getDependentDeducedTraits().size()) ;
-        CPPUNIT_ASSERT(a1->getDependentDeducedTraits().find(d) != a1->getDependentDeducedTraits().end()) ;
+        CPPUNIT_ASSERT(a->getDependentNotifiables().find(d) == a->getDependentNotifiables().end()) ;
+        CPPUNIT_ASSERT_EQUAL((unsigned int)1,a1->getDependentNotifiables().size()) ;
+        CPPUNIT_ASSERT(a1->getDependentNotifiables().find(d) != a1->getDependentNotifiables().end()) ;
 
         object1->destroyTrait(a1) ;
 
-        CPPUNIT_ASSERT_EQUAL((unsigned int)2,a->getDependentDeducedTraits().size()) ;
-        CPPUNIT_ASSERT(a->getDependentDeducedTraits().find(d) != a->getDependentDeducedTraits().end()) ;
+        CPPUNIT_ASSERT_EQUAL((unsigned int)2,a->getDependentNotifiables().size()) ;
+        CPPUNIT_ASSERT(a->getDependentNotifiables().find(d) != a->getDependentNotifiables().end()) ;
       }
 
       void TestTrait::changeParentChangeHasAncestorDependencies()
@@ -728,14 +728,14 @@ namespace ProjetUnivers
         WithAncestor* dt_child = child->getTrait<WithAncestor>() ;
         CPPUNIT_ASSERT(dt_child) ;
 
-        CPPUNIT_ASSERT(a1->getDependentDeducedTraits().find(dt_child) != a1->getDependentDeducedTraits().end()) ;
-        CPPUNIT_ASSERT(a2->getDependentDeducedTraits().find(dt_child) == a2->getDependentDeducedTraits().end()) ;
+        CPPUNIT_ASSERT(a1->getDependentNotifiables().find(dt_child) != a1->getDependentNotifiables().end()) ;
+        CPPUNIT_ASSERT(a2->getDependentNotifiables().find(dt_child) == a2->getDependentNotifiables().end()) ;
 
         // tested event : switch child parent
         child->changeParent(father2) ;
 
-        CPPUNIT_ASSERT(a1->getDependentDeducedTraits().find(dt_child) == a1->getDependentDeducedTraits().end()) ;
-        CPPUNIT_ASSERT(a2->getDependentDeducedTraits().find(dt_child) != a2->getDependentDeducedTraits().end()) ;
+        CPPUNIT_ASSERT(a1->getDependentNotifiables().find(dt_child) == a1->getDependentNotifiables().end()) ;
+        CPPUNIT_ASSERT(a2->getDependentNotifiables().find(dt_child) != a2->getDependentNotifiables().end()) ;
       }
 
       void TestTrait::destroyAncestorObject()
@@ -798,7 +798,7 @@ namespace ProjetUnivers
         HasChildTrait1* dt_root = root->getTrait<HasChildTrait1>() ;
         CPPUNIT_ASSERT(dt_root) ;
 
-        CPPUNIT_ASSERT(c->getDependentDeducedTraits().find(dt_root) != c->getDependentDeducedTraits().end()) ;
+        CPPUNIT_ASSERT(c->getDependentNotifiables().find(dt_root) != c->getDependentNotifiables().end()) ;
       }
 
       void TestTrait::addingIntermediateTraitChangeHasChildDependencies()
@@ -814,13 +814,13 @@ namespace ProjetUnivers
         HasChildTrait1* dt_root = root->getTrait<HasChildTrait1>() ;
         CPPUNIT_ASSERT(dt_root) ;
 
-        CPPUNIT_ASSERT(gc->getDependentDeducedTraits().find(dt_root) != gc->getDependentDeducedTraits().end()) ;
+        CPPUNIT_ASSERT(gc->getDependentNotifiables().find(dt_root) != gc->getDependentNotifiables().end()) ;
 
         Child* c = new Child() ;
         child->addTrait(c) ;
 
-        CPPUNIT_ASSERT(c->getDependentDeducedTraits().find(dt_root) != c->getDependentDeducedTraits().end()) ;
-        CPPUNIT_ASSERT(gc->getDependentDeducedTraits().find(dt_root) == gc->getDependentDeducedTraits().end()) ;
+        CPPUNIT_ASSERT(c->getDependentNotifiables().find(dt_root) != c->getDependentNotifiables().end()) ;
+        CPPUNIT_ASSERT(gc->getDependentNotifiables().find(dt_root) == gc->getDependentNotifiables().end()) ;
       }
 
       void TestTrait::removingIntermediateTraitChangeHasChildDependencies()
@@ -838,12 +838,12 @@ namespace ProjetUnivers
         HasChildTrait1* dt_root = root->getTrait<HasChildTrait1>() ;
         CPPUNIT_ASSERT(dt_root) ;
 
-        CPPUNIT_ASSERT(gc->getDependentDeducedTraits().find(dt_root) == gc->getDependentDeducedTraits().end()) ;
-        CPPUNIT_ASSERT(c->getDependentDeducedTraits().find(dt_root) != c->getDependentDeducedTraits().end()) ;
+        CPPUNIT_ASSERT(gc->getDependentNotifiables().find(dt_root) == gc->getDependentNotifiables().end()) ;
+        CPPUNIT_ASSERT(c->getDependentNotifiables().find(dt_root) != c->getDependentNotifiables().end()) ;
 
         child->destroyTrait(c) ;
 
-        CPPUNIT_ASSERT(gc->getDependentDeducedTraits().find(dt_root) != gc->getDependentDeducedTraits().end()) ;
+        CPPUNIT_ASSERT(gc->getDependentNotifiables().find(dt_root) != gc->getDependentNotifiables().end()) ;
       }
 
       namespace
@@ -908,7 +908,7 @@ namespace ProjetUnivers
 
         DeducedTrait* dt = source->getTrait<LinkedToTR>() ;
 
-        CPPUNIT_ASSERT(tr->getDependentDeducedTraits().find(dt) != tr->getDependentDeducedTraits().end()) ;
+        CPPUNIT_ASSERT(tr->getDependentNotifiables().find(dt) != tr->getDependentNotifiables().end()) ;
       }
 
       void TestTrait::addRelatedChangeDependencies()
@@ -929,8 +929,8 @@ namespace ProjetUnivers
 
         DeducedTrait* dt = source->getTrait<LinkedToTR>() ;
 
-        CPPUNIT_ASSERT(tr1->getDependentDeducedTraits().find(dt) != tr1->getDependentDeducedTraits().end()) ;
-        CPPUNIT_ASSERT(tr2->getDependentDeducedTraits().find(dt) != tr2->getDependentDeducedTraits().end()) ;
+        CPPUNIT_ASSERT(tr1->getDependentNotifiables().find(dt) != tr1->getDependentNotifiables().end()) ;
+        CPPUNIT_ASSERT(tr2->getDependentNotifiables().find(dt) != tr2->getDependentNotifiables().end()) ;
       }
 
       void TestTrait::removeRelatedChangeDependencies()
@@ -953,8 +953,8 @@ namespace ProjetUnivers
 
         DeducedTrait* dt = source->getTrait<LinkedToTR>() ;
 
-        CPPUNIT_ASSERT(tr1->getDependentDeducedTraits().find(dt) == tr1->getDependentDeducedTraits().end()) ;
-        CPPUNIT_ASSERT(tr2->getDependentDeducedTraits().find(dt) != tr2->getDependentDeducedTraits().end()) ;
+        CPPUNIT_ASSERT(tr1->getDependentNotifiables().find(dt) == tr1->getDependentNotifiables().end()) ;
+        CPPUNIT_ASSERT(tr2->getDependentNotifiables().find(dt) != tr2->getDependentNotifiables().end()) ;
       }
 
       namespace
@@ -984,7 +984,7 @@ namespace ProjetUnivers
 
         DeducedTrait* dt = source->getTrait<LinkedToTROnly>() ;
 
-        CPPUNIT_ASSERT(tr->getDependentDeducedTraits().find(dt) != tr->getDependentDeducedTraits().end()) ;
+        CPPUNIT_ASSERT(tr->getDependentNotifiables().find(dt) != tr->getDependentNotifiables().end()) ;
       }
 
       void TestTrait::addOnlyRelatedChangeDependencies()
@@ -1005,8 +1005,8 @@ namespace ProjetUnivers
 
         DeducedTrait* dt = source->getTrait<LinkedToTROnly>() ;
 
-        CPPUNIT_ASSERT(tr1->getDependentDeducedTraits().find(dt) != tr1->getDependentDeducedTraits().end()) ;
-        CPPUNIT_ASSERT(tr2->getDependentDeducedTraits().find(dt) != tr2->getDependentDeducedTraits().end()) ;
+        CPPUNIT_ASSERT(tr1->getDependentNotifiables().find(dt) != tr1->getDependentNotifiables().end()) ;
+        CPPUNIT_ASSERT(tr2->getDependentNotifiables().find(dt) != tr2->getDependentNotifiables().end()) ;
       }
 
       void TestTrait::addFalseOnlyRelatedChangeDependencies()
@@ -1026,7 +1026,7 @@ namespace ProjetUnivers
 
         CPPUNIT_ASSERT(!source->getTrait<LinkedToTROnly>()) ;
 
-        CPPUNIT_ASSERT(tr1->getDependentDeducedTraits().empty()) ;
+        CPPUNIT_ASSERT(tr1->getDependentNotifiables().empty()) ;
       }
 
 
@@ -1050,8 +1050,8 @@ namespace ProjetUnivers
         Object* root = model->createObject() ;
         root->addTrait(new Starter()) ;
 
-        std::set<DeducedTrait*> deduced = root->getTrait<Reflexive>()->getDependentDeducedTraits() ;
-        CPPUNIT_ASSERT(deduced.find(root->getTrait<Reflexive>()) == deduced.end()) ;
+        std::set<Notifiable*> dependencies(root->getTrait<Reflexive>()->getDependentNotifiables()) ;
+        CPPUNIT_ASSERT(dependencies.find(root->getTrait<Reflexive>()) == dependencies.end()) ;
       }
 
       void TestTrait::addingAncestorChangeNumberOfTrueChildFormulae()

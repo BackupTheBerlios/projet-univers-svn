@@ -23,6 +23,7 @@
 #include <set>
 #include <kernel/object_reference.h>
 #include <kernel/meta.h>
+#include <kernel/notifiable.h>
 
 namespace ProjetUnivers
 {
@@ -59,7 +60,7 @@ namespace ProjetUnivers
         @endcode
         to un-link two objects
     */
-    class Relation
+    class Relation : public Notifiable
     {
     public:
 
@@ -97,7 +98,10 @@ namespace ProjetUnivers
       static bool _areLinked(const TypeIdentifier& relation,Object* object1,Object* object2) ;
 
       /// Notify for a change and update all observers.
-      void notify() ;
+      virtual void notify() ;
+
+      /// Closes the observer on relation.
+      virtual void _close() ;
 
     protected:
 

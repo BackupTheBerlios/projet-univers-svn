@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -34,6 +34,7 @@
 #include <kernel/helper_macros.h>
 #include <kernel/log.h>
 #include <kernel/string.h>
+#include <kernel/notifiable.h>
 
 namespace ProjetUnivers
 {
@@ -64,7 +65,7 @@ namespace ProjetUnivers
     class IsOnlyRelatedFormula ;
 
     /// Abstract class for object traits.
-    class Trait
+    class Trait : public Notifiable
     {
     public:
 
@@ -355,36 +356,6 @@ namespace ProjetUnivers
 
       /// True during notify().
       bool m_is_updating ;
-
-      /// Add a dependent trait.
-      void addDependency(DeducedTrait*) ;
-      /// Remove a dependent trait.
-      void removeDependency(DeducedTrait*) ;
-      /// Remove a dependent trait.
-      void _removeDependency(DeducedTrait*) ;
-
-      /// Access to direct dependent deduced traits.
-      /*!
-        @todo change to multivalued redundant collection (because the same
-        trait update twice ;) ) + add a test showing the bug
-
-        Gives the traits to update if we update @c this (non recursive).
-
-        This value is stored and maintained during structure changes. So access
-        if fast at cost of structural changes and memory.
-
-        In case of DeducedTrait, this value is equivalent to
-        getDependentDeducedTraits(@c this) on the formula defining the deduced trait.
-      */
-      const std::set<DeducedTrait*>& getDependentDeducedTraits() const ;
-      /// Traits that directly depends on @c this
-      std::set<DeducedTrait*> m_direct_dependent_traits ;
-
-      /// Propagate update on dependent traits.
-      /*!
-        @todo use it instead of formula update propagation.
-      */
-      void updateDepedentTraits() const ;
 
     // @}
 

@@ -510,10 +510,7 @@ namespace ProjetUnivers
     }
 
     DeducedTrait::~DeducedTrait()
-    {
-      for(std::set<Trait*>::iterator dependency = m_dependencies.begin() ; dependency != m_dependencies.end() ; ++dependency)
-        (*dependency)->_removeDependency(this) ;
-    }
+    {}
 
     void DeducedTrait::registerTrait(Formula* formula,
                                      DeducedTraitBuilder builder,
@@ -536,9 +533,9 @@ namespace ProjetUnivers
       StaticStorage::get()->m_primitive_relation_to_formulae.insert(std::make_pair(primitive_relation,formula)) ;
     }
 
-    std::set<DeducedTrait*> Formula::getDependentDeducedTraits(Object* object) const
+    std::set<Notifiable*> Formula::getDependentNotifiables(Object* object) const
     {
-      std::set<DeducedTrait*> result ;
+      std::set<Notifiable*> result ;
 
       std::map<Formula*,TypeIdentifier>::const_iterator finder =  DeducedTrait::StaticStorage::get()->m_destructors.find(const_cast<Formula*>(this)) ;
       if (finder != DeducedTrait::StaticStorage::get()->m_destructors.end())
@@ -550,7 +547,7 @@ namespace ProjetUnivers
 
       for(std::set<Formula*>::const_iterator parent = m_parents.begin() ; parent != m_parents.end() ; ++parent)
       {
-        std::set<DeducedTrait*> temp((*parent)->getDependentDeducedTraits(object)) ;
+        std::set<Notifiable*> temp((*parent)->getDependentNotifiables(object)) ;
         result.insert(temp.begin(),temp.end()) ;
       }
 
@@ -902,8 +899,8 @@ namespace ProjetUnivers
         std::set<Trait*> old_updaters = getChildFormula()->getUpdaterTraits(getChildFormula()->getValidAncestor(new_parent)) ;
         std::set<Trait*> new_updaters = getChildFormula()->getUpdaterTraits(new_parent) ;
 
-        std::set<DeducedTrait*> dependents = getDependentDeducedTraits(object) ;
-        for(std::set<DeducedTrait*>::iterator dependent = dependents.begin() ; dependent != dependents.end() ; ++dependent)
+        std::set<Notifiable*> dependents = getDependentNotifiables(object) ;
+        for(std::set<Notifiable*>::iterator dependent = dependents.begin() ; dependent != dependents.end() ; ++dependent)
         {
           for(std::set<Trait*>::iterator old_updater = old_updaters.begin() ; old_updater != old_updaters.end() ; ++old_updater)
           {
@@ -959,8 +956,8 @@ namespace ProjetUnivers
         update(object) ;
 
         std::set<Trait*> new_updaters = getChildFormula()->getUpdaterTraits(getChildFormula()->getValidAncestor(removed_parent)) ;
-        std::set<DeducedTrait*> dependents = this->getDependentDeducedTraits(object) ;
-        for(std::set<DeducedTrait*>::iterator dependent = dependents.begin() ; dependent != dependents.end() ; ++dependent)
+        std::set<Notifiable*> dependents(getDependentNotifiables(object)) ;
+        for(std::set<Notifiable*>::iterator dependent = dependents.begin() ; dependent != dependents.end() ; ++dependent)
         {
           for(std::set<Trait*>::iterator new_updater = new_updaters.begin() ; new_updater != new_updaters.end() ; ++new_updater)
           {
@@ -1024,8 +1021,8 @@ namespace ProjetUnivers
         std::set<Trait*> old_updaters = getChildFormula()->getUpdaterTraits(getChildFormula()->getValidParent(old_parent)) ;
         std::set<Trait*> new_updaters = getChildFormula()->getUpdaterTraits(getChildFormula()->getValidParent(object)) ;
 
-        std::set<DeducedTrait*> dependents = this->getDependentDeducedTraits(object) ;
-        for(std::set<DeducedTrait*>::iterator dependent = dependents.begin() ; dependent != dependents.end() ; ++dependent)
+        std::set<Notifiable*> dependents(getDependentNotifiables(object)) ;
+        for(std::set<Notifiable*>::iterator dependent = dependents.begin() ; dependent != dependents.end() ; ++dependent)
         {
           for(std::set<Trait*>::iterator old_updater = old_updaters.begin() ; old_updater != old_updaters.end() ; ++old_updater)
           {
@@ -1068,8 +1065,8 @@ namespace ProjetUnivers
         std::set<Trait*> old_updaters = getChildFormula()->getUpdaterTraits(getChildFormula()->getDirectDescendants(new_child)) ;
         std::set<Trait*> new_updaters = getChildFormula()->getUpdaterTraits(new_child) ;
 
-        std::set<DeducedTrait*> dependents = getDependentDeducedTraits(object) ;
-        for(std::set<DeducedTrait*>::iterator dependent = dependents.begin() ; dependent != dependents.end() ; ++dependent)
+        std::set<Notifiable*> dependents = getDependentNotifiables(object) ;
+        for(std::set<Notifiable*>::iterator dependent = dependents.begin() ; dependent != dependents.end() ; ++dependent)
         {
           for(std::set<Trait*>::iterator old_updater = old_updaters.begin() ; old_updater != old_updaters.end() ; ++old_updater)
           {
@@ -1120,8 +1117,8 @@ namespace ProjetUnivers
         std::set<Trait*> old_updaters = getChildFormula()->getUpdaterTraits(removed_child) ;
         std::set<Trait*> new_updaters = getChildFormula()->getUpdaterTraits(getChildFormula()->getDirectDescendants(removed_child)) ;
 
-        std::set<DeducedTrait*> dependents = getDependentDeducedTraits(object) ;
-        for(std::set<DeducedTrait*>::iterator dependent = dependents.begin() ; dependent != dependents.end() ; ++dependent)
+        std::set<Notifiable*> dependents = getDependentNotifiables(object) ;
+        for(std::set<Notifiable*>::iterator dependent = dependents.begin() ; dependent != dependents.end() ; ++dependent)
         {
           for(std::set<Trait*>::iterator old_updater = old_updaters.begin() ; old_updater != old_updaters.end() ; ++old_updater)
           {
@@ -1278,8 +1275,8 @@ namespace ProjetUnivers
         std::set<Trait*> old_updaters = getChildFormula()->getUpdaterTraits(getChildFormula()->getValidAncestor(new_ancestor)) ;
         std::set<Trait*> new_updaters = getChildFormula()->getUpdaterTraits(new_ancestor) ;
 
-        std::set<DeducedTrait*> dependents = getDependentDeducedTraits(object) ;
-        for(std::set<DeducedTrait*>::iterator dependent = dependents.begin() ; dependent != dependents.end() ; ++dependent)
+        std::set<Notifiable*> dependents = getDependentNotifiables(object) ;
+        for(std::set<Notifiable*>::iterator dependent = dependents.begin() ; dependent != dependents.end() ; ++dependent)
         {
           for(std::set<Trait*>::iterator old_updater = old_updaters.begin() ; old_updater != old_updaters.end() ; ++old_updater)
           {
@@ -1331,8 +1328,8 @@ namespace ProjetUnivers
         update(object) ;
 
         std::set<Trait*> new_updaters = getChildFormula()->getUpdaterTraits(getChildFormula()->getValidAncestor(removed_ancestor)) ;
-        std::set<DeducedTrait*> dependents = this->getDependentDeducedTraits(object) ;
-        for(std::set<DeducedTrait*>::iterator dependent = dependents.begin() ; dependent != dependents.end() ; ++dependent)
+        std::set<Notifiable*> dependents(getDependentNotifiables(object)) ;
+        for(std::set<Notifiable*>::iterator dependent = dependents.begin() ; dependent != dependents.end() ; ++dependent)
         {
           for(std::set<Trait*>::iterator new_updater = new_updaters.begin() ; new_updater != new_updaters.end() ; ++new_updater)
           {
@@ -1388,8 +1385,8 @@ namespace ProjetUnivers
         std::set<Trait*> old_updaters = getChildFormula()->getUpdaterTraits(getChildFormula()->getValidParent(old_parent)) ;
         std::set<Trait*> new_updaters = getChildFormula()->getUpdaterTraits(getChildFormula()->getValidAncestor(object)) ;
 
-        std::set<DeducedTrait*> dependents = this->getDependentDeducedTraits(object) ;
-        for(std::set<DeducedTrait*>::iterator dependent = dependents.begin() ; dependent != dependents.end() ; ++dependent)
+        std::set<Notifiable*> dependents(getDependentNotifiables(object)) ;
+        for(std::set<Notifiable*>::iterator dependent = dependents.begin() ; dependent != dependents.end() ; ++dependent)
         {
           for(std::set<Trait*>::iterator old_updater = old_updaters.begin() ; old_updater != old_updaters.end() ; ++old_updater)
           {
@@ -1671,10 +1668,10 @@ namespace ProjetUnivers
       {
         update(object) ;
 
-        std::set<DeducedTrait*> deduced_traits(getDependentDeducedTraits(object)) ;
+        std::set<Notifiable*> deduced_traits(getDependentNotifiables(object)) ;
         std::set<Trait*> new_updatertraits(getUpdaterTraits(object)) ;
 
-        for(std::set<DeducedTrait*>::const_iterator deduced_trait = deduced_traits.begin() ; deduced_trait != deduced_traits.end() ; ++deduced_trait)
+        for(std::set<Notifiable*>::const_iterator deduced_trait = deduced_traits.begin() ; deduced_trait != deduced_traits.end() ; ++deduced_trait)
         {
           for(std::set<Trait*>::const_iterator updater = new_updatertraits.begin() ; updater != new_updatertraits.end() ; ++updater)
           {
@@ -1887,9 +1884,9 @@ namespace ProjetUnivers
       {
         update(from) ;
 
-        std::set<DeducedTrait*> dependents = getDependentDeducedTraits(from) ;
+        std::set<Notifiable*> dependents = getDependentNotifiables(from) ;
         std::set<Trait*> new_updaters = getChildFormula()->getUpdaterTraits(new_to) ;
-        for(std::set<DeducedTrait*>::iterator dependent = dependents.begin() ; dependent != dependents.end() ; ++dependent)
+        for(std::set<Notifiable*>::iterator dependent = dependents.begin() ; dependent != dependents.end() ; ++dependent)
         {
           for(std::set<Trait*>::iterator new_updater = new_updaters.begin() ; new_updater != new_updaters.end() ; ++new_updater)
           {
@@ -1908,9 +1905,9 @@ namespace ProjetUnivers
       {
         update(from) ;
 
-        std::set<DeducedTrait*> dependents = getDependentDeducedTraits(from) ;
+        std::set<Notifiable*> dependents = getDependentNotifiables(from) ;
         std::set<Trait*> old_updaters = getChildFormula()->getUpdaterTraits(old_to) ;
-        for(std::set<DeducedTrait*>::iterator dependent = dependents.begin() ; dependent != dependents.end() ; ++dependent)
+        for(std::set<Notifiable*>::iterator dependent = dependents.begin() ; dependent != dependents.end() ; ++dependent)
         {
           for(std::set<Trait*>::iterator old_updater = old_updaters.begin() ; old_updater != old_updaters.end() ; ++old_updater)
           {
@@ -1943,9 +1940,9 @@ namespace ProjetUnivers
           // a new true related...
           update(from) ;
 
-          std::set<DeducedTrait*> dependents = getDependentDeducedTraits(from) ;
+          std::set<Notifiable*> dependents = getDependentNotifiables(from) ;
           std::set<Trait*> new_updaters = getChildFormula()->getUpdaterTraits(new_to) ;
-          for(std::set<DeducedTrait*>::iterator dependent = dependents.begin() ; dependent != dependents.end() ; ++dependent)
+          for(std::set<Notifiable*>::iterator dependent = dependents.begin() ; dependent != dependents.end() ; ++dependent)
           {
             for(std::set<Trait*>::iterator new_updater = new_updaters.begin() ; new_updater != new_updaters.end() ; ++new_updater)
             {
@@ -2364,16 +2361,6 @@ namespace ProjetUnivers
       }
     }
 
-    void DeducedTrait::addDependency(Trait* trait)
-    {
-      m_dependencies.insert(trait) ;
-    }
-
-    void DeducedTrait::removeDependency(Trait* trait)
-    {
-      m_dependencies.erase(trait) ;
-    }
-
     void DeducedTrait::notify()
     {
       if (m_updating.find(this) != m_updating.end())
@@ -2401,7 +2388,7 @@ namespace ProjetUnivers
     {
 
       // @todo
-//      for(std::set<DeducedTrait*>::const_iterator dependent = trait->getDependentDeducedTraits().begin() ; dependent != trait->getDependentDeducedTraits().end() ; ++dependent)
+//      for(std::set<Notifiable*>getDependentNotifiables().end() ; ++dependent)
 //      {
 //        (*dependent)->notify() ;
 //      }

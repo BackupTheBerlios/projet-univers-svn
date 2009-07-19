@@ -22,6 +22,7 @@ $(SOURCES)/kernel/implementation/interpretor.cpp \
 $(SOURCES)/kernel/implementation/log.cpp \
 $(SOURCES)/kernel/implementation/meta.cpp \
 $(SOURCES)/kernel/implementation/model.cpp \
+$(SOURCES)/kernel/implementation/notifiable.cpp \
 $(SOURCES)/kernel/implementation/object.cpp \
 $(SOURCES)/kernel/implementation/object_reference.cpp \
 $(SOURCES)/kernel/implementation/observer.cpp \

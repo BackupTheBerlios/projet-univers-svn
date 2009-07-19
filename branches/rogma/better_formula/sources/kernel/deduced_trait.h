@@ -240,10 +240,6 @@ namespace ProjetUnivers
 
       Formula* m_formula ;
 
-      void addDependency(Trait*) ;
-      void removeDependency(Trait*) ;
-      std::set<Trait*> m_dependencies ;
-
       /// Tells the views the trait has changed.
       virtual void notify() ;
 
@@ -257,7 +253,7 @@ namespace ProjetUnivers
                          Object*  object) ;
 
       /// Objects that are updating, to avoid loops in weird cases.
-      std::set<DeducedTrait*> m_updating ;
+      std::set<Notifiable*> m_updating ;
 
       class StaticStorage
       {
@@ -274,7 +270,7 @@ namespace ProjetUnivers
 
         std::map<TypeIdentifier,Formula*> m_formulae ;
 
-        /// Caching for getDependentDeducedTraits
+        /// Caching for getDependentNotifiables
         std::map<TypeIdentifier,std::set<TypeIdentifier> > m_dependent_traits ;
 
       private:

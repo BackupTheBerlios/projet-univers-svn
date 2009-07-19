@@ -89,7 +89,7 @@ namespace ProjetUnivers
 
         Calculated by browsing the formula up.
       */
-      std::set<DeducedTrait*> getDependentDeducedTraits(Object* object) const ;
+      std::set<Notifiable*> getDependentNotifiables(Object* object) const ;
 
       /// Return the first "valid" object in parentship of @c object.
       Object* getValidParent(Object* object) const ;

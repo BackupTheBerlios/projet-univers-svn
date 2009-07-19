@@ -1361,6 +1361,7 @@ in progress
 -----------
   
   * Kernel :
+    - pull up of impact management 
     - maintain the set of impacted relationships too...
     - use maintained impacts to propagate updates
    

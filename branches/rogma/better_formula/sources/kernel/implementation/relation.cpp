@@ -75,8 +75,12 @@ namespace ProjetUnivers
     Relation::~Relation()
     {}
 
+    /*
+      We do not clone notifiable content...
+    */
     Relation::Relation(const Relation& relation)
-    : m_object_from(relation.m_object_from),
+    : Notifiable(),
+      m_object_from(relation.m_object_from),
       m_object_to(relation.m_object_to),
       m_type(relation.m_type)
     {}
@@ -210,6 +214,11 @@ namespace ProjetUnivers
     {
       getObjectFrom()->getModel()->update(*this) ;
       DeducedRelation::updateRelation(*this) ;
+    }
+
+    void Relation::_close()
+    {
+      getObjectFrom()->getModel()->close(*this) ;
     }
 
   }
