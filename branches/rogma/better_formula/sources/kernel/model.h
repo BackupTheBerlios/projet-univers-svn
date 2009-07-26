@@ -218,7 +218,7 @@ namespace ProjetUnivers
     // @{
 
       /// Return the 'canonical' element of a relation.
-      Relation& getCanonical(const Relation&) ;
+      Relation* getCanonical(const Relation&) ;
 
       std::map<Relation,Relation> m_canonical_relations ;
 

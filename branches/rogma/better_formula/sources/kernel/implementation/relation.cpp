@@ -133,7 +133,7 @@ namespace ProjetUnivers
       return linked.find(object2) != linked.end() ;
     }
 
-    void Relation::createLink(const TypeIdentifier& type,Object* object1,Object* object2)
+    Relation* Relation::createLink(const TypeIdentifier& type,Object* object1,Object* object2)
     {
       Relation relation(type,object1,object2) ;
       object1->getModel()->addRelation(relation) ;
@@ -141,6 +141,8 @@ namespace ProjetUnivers
       /// @todo : see if it is useful
       if (object1->getModel() != object2->getModel())
         object2->getModel()->addRelation(relation) ;
+
+      return object1->getModel()->getCanonical(relation) ;
     }
 
     void Relation::destroyLink(const TypeIdentifier& type,Object* object1,Object* object2)
@@ -218,7 +220,13 @@ namespace ProjetUnivers
 
     void Relation::_close()
     {
-      getObjectFrom()->getModel()->close(*this) ;
+      if (getObjectFrom())
+        getObjectFrom()->getModel()->close(*this) ;
+    }
+
+    Relation* Relation::getRelation(const TypeIdentifier& type,Object* from,Object* to)
+    {
+      return from->getModel()->getCanonical(Relation(type,from,to)) ;
     }
 
   }

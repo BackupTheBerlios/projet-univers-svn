@@ -78,18 +78,21 @@ namespace ProjetUnivers
 
         Calculated by browsing the formula down.
       */
-      virtual std::set<Trait*> getUpdaterTraits(Object* object) const = 0 ;
+      virtual std::set<Notifiable*> getUpdaterNotifiables(Object* object) const = 0 ;
 
-      std::set<Trait*> getUpdaterTraits(const std::set<Object*> objects) const ;
+      std::set<Notifiable*> getUpdaterNotifiables(const std::set<Object*> objects) const ;
 
-      /// Gives the @c objects' deduced traits directly depending on formula.
+      /// Gives the @c objects' deduced elements directly depending on formula.
       /*!
-        These are the traits instances that should be updated when the formula
-        is updated.
+        These are the traits or relation instances that should be updated when
+        the formula is updated.
 
         Calculated by browsing the formula up.
       */
       std::set<Notifiable*> getDependentNotifiables(Object* object) const ;
+
+      std::set<Notifiable*> getDependentNotifiables(const ObjectPair&) const ;
+
 
       /// Return the first "valid" object in parentship of @c object.
       Object* getValidParent(Object* object) const ;
@@ -105,16 +108,31 @@ namespace ProjetUnivers
 
     protected:
 
-
       /// Print the formula.
       virtual std::string internalPrint() const = 0 ;
 
-      /// The distance to elementary formula
+    /*!
+      @name Dependency maintenance.
+    */
+    // @{
+
+      /// Maintain the dependencies of @c object with regard to @c this
       /*!
-        We need a lattice, the depth acts as a stratification.
+        The updaters of @c child_formula + @c new_source will be added to
+        @c this + @c object dependencies
+        The updaters of @c child_formula + @c old_source will be removed from
+        @c this + @c object dependencies
       */
-      int getDepth() const ;
-      void setDepth(int i_depth) ;
+      void maintainDependencies(Object* object,Formula* child_formula,
+                                Object* new_source,Object* old_source) const ;
+      void maintainDependencies(Object* object,Formula* child_formula,
+                                std::set<Object*> new_sources,Object* old_source) const ;
+      void maintainDependencies(Object* object,Formula* child_formula,
+                                Object* new_source,std::set<Object*> old_sources) const ;
+      void maintainDependencies(Object* object,Formula* child_formula,
+                                std::set<Object*> new_sources,std::set<Object*> old_sources) const ;
+
+    // @}
 
     /*!
       @name Construct.
@@ -129,6 +147,13 @@ namespace ProjetUnivers
 
       /// Generate a unique identifier
       void generateIdentifier() ;
+
+      /// The distance to elementary formula
+      /*!
+        We need a lattice, the depth acts as a stratification.
+      */
+      int getDepth() const ;
+      void setDepth(int i_depth) ;
 
     // @}
     /*!
@@ -315,7 +340,7 @@ namespace ProjetUnivers
       virtual bool isValid(Object* object) const ;
 
       /// Access to the traits that trigger update for this formula.
-      virtual std::set<Trait*> getUpdaterTraits(Object* object) const ;
+      virtual std::set<Notifiable*> getUpdaterNotifiables(Object* object) const ;
 
     protected:
 
@@ -375,7 +400,7 @@ namespace ProjetUnivers
       virtual std::string internalPrint() const ;
 
       /// Access to the traits that trigger update for this formula.
-      virtual std::set<Trait*> getUpdaterTraits(Object* object) const ;
+      virtual std::set<Notifiable*> getUpdaterNotifiables(Object* object) const ;
 
     private:
 
@@ -406,7 +431,7 @@ namespace ProjetUnivers
       virtual std::string internalPrint() const ;
 
       /// Access to the traits that trigger update for this formula.
-      virtual std::set<Trait*> getUpdaterTraits(Object* object) const ;
+      virtual std::set<Notifiable*> getUpdaterNotifiables(Object* object) const ;
 
     private:
 
@@ -443,7 +468,7 @@ namespace ProjetUnivers
       virtual std::string internalPrint() const ;
 
       /// Access to the traits that trigger update for this formula.
-      virtual std::set<Trait*> getUpdaterTraits(Object* object) const ;
+      virtual std::set<Notifiable*> getUpdaterNotifiables(Object* object) const ;
 
     private:
 
@@ -501,7 +526,7 @@ namespace ProjetUnivers
       virtual std::string internalPrint() const ;
 
       /// Access to the traits that trigger update for this formula.
-      virtual std::set<Trait*> getUpdaterTraits(Object* object) const ;
+      virtual std::set<Notifiable*> getUpdaterNotifiables(Object* object) const ;
 
     private:
 
@@ -528,7 +553,7 @@ namespace ProjetUnivers
       virtual std::string internalPrint() const ;
 
       /// Access to the traits that trigger update for this formula.
-      virtual std::set<Trait*> getUpdaterTraits(Object* object) const ;
+      virtual std::set<Notifiable*> getUpdaterNotifiables(Object* object) const ;
 
     protected:
 
@@ -584,7 +609,7 @@ namespace ProjetUnivers
       virtual std::string internalPrint() const ;
 
       /// Access to the traits that trigger update for this formula.
-      virtual std::set<Trait*> getUpdaterTraits(Object* object) const ;
+      virtual std::set<Notifiable*> getUpdaterNotifiables(Object* object) const ;
 
     protected:
 
@@ -640,7 +665,7 @@ namespace ProjetUnivers
       virtual std::string internalPrint() const ;
 
       /// Access to the traits that trigger update for this formula.
-      virtual std::set<Trait*> getUpdaterTraits(Object* object) const ;
+      virtual std::set<Notifiable*> getUpdaterNotifiables(Object* object) const ;
 
     protected:
 
@@ -706,7 +731,7 @@ namespace ProjetUnivers
       WithRelationFormula(const TypeIdentifier& relation) ;
 
       /// Access to the traits that trigger update for this formula.
-      virtual std::set<Trait*> getUpdaterTraits(Object* object) const ;
+      virtual std::set<Notifiable*> getUpdaterNotifiables(Object* object) const ;
 
       /// Declare that a child formula has became true.
       virtual void addChildFormulaTrue(Object* object) ;
@@ -816,15 +841,13 @@ namespace ProjetUnivers
       virtual void eval(Object* object) ;
       /// Initial value.
       virtual void eval(const ObjectPair& relation) ;
-      /// Calculate initial state.
-      virtual void evaluateInitial(const ObjectPair& relation) ;
 
       /// Continuous evaluation
       virtual void onAddChildFormulaTrue(Object* object) ;
       virtual void onAddChildFormulaFalse(Object* object) ;
       virtual void onChildFormulaUpdated(Object* object) ;
 
-      virtual std::set<Trait*> getUpdaterTraits(Object* object) const ;
+      virtual std::set<Notifiable*> getUpdaterNotifiables(Object* object) const ;
 
       /// Print the formula.
       virtual std::string internalPrint() const ;
@@ -841,15 +864,13 @@ namespace ProjetUnivers
       virtual void eval(Object* object) ;
       /// Initial value.
       virtual void eval(const ObjectPair& relation) ;
-      /// Calculate initial state.
-      virtual void evaluateInitial(const ObjectPair& relation) ;
 
       /// Continuous evaluation
       virtual void onAddChildFormulaTrue(Object* object) ;
       virtual void onAddChildFormulaFalse(Object* object) ;
       virtual void onChildFormulaUpdated(Object* object) ;
 
-      virtual std::set<Trait*> getUpdaterTraits(Object* object) const ;
+      virtual std::set<Notifiable*> getUpdaterNotifiables(Object* object) const ;
 
       /// Print the formula.
       virtual std::string internalPrint() const ;

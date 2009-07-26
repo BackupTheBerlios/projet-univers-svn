@@ -67,6 +67,7 @@ namespace ProjetUnivers
       // @{
 
         void addNewTraitOnOrChangeDepedencies() ;
+        void addNewTraitOnOrRelationChangeDepedencies() ;
 
       // @}
       /*!
@@ -141,12 +142,19 @@ namespace ProjetUnivers
       // @{
 
         void isFromHasDependencies() ;
+        void addRelationChangeIsFromDependencies() ;
+        void removeRelationChangeIsFromDependencies() ;
 
       // @}
       /*!
         @name IsTo dependencies maintenance tests
       */
       // @{
+
+        void isToHasDependencies() ;
+        void addRelationChangeIsToDependencies() ;
+        void removeRelationChangeIsToDependencies() ;
+        void isToHasOnlyDestinationDependencies() ;
 
       // @}
       /*!
@@ -180,6 +188,7 @@ namespace ProjetUnivers
         CPPUNIT_TEST(removeDeducedTraitOnAndDepedentTrait) ;
 
         CPPUNIT_TEST(addNewTraitOnOrChangeDepedencies) ;
+        CPPUNIT_TEST(addNewTraitOnOrRelationChangeDepedencies) ;
 
         CPPUNIT_TEST(parentTraitHasParentDependency) ;
         CPPUNIT_TEST(addIntermediateTraitChangeHasParentDependencies) ;
@@ -215,7 +224,14 @@ namespace ProjetUnivers
         CPPUNIT_TEST(addOnlyRelatedChangeDependencies) ;
         CPPUNIT_TEST(addFalseOnlyRelatedChangeDependencies) ;
 
-//        CPPUNIT_TEST(isFromHasDependencies) ;
+        CPPUNIT_TEST(isFromHasDependencies) ;
+        CPPUNIT_TEST(addRelationChangeIsFromDependencies) ;
+        CPPUNIT_TEST(removeRelationChangeIsFromDependencies) ;
+
+        CPPUNIT_TEST(isToHasDependencies) ;
+        CPPUNIT_TEST(addRelationChangeIsToDependencies) ;
+        CPPUNIT_TEST(removeRelationChangeIsToDependencies) ;
+//        CPPUNIT_TEST(isToHasOnlyDestinationDependencies) ;
 
         CPPUNIT_TEST(hasTraitFormulaUpdaterTraits) ;
         CPPUNIT_TEST(andUpdaterTraits) ;

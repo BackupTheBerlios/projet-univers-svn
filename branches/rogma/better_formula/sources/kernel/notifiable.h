@@ -26,6 +26,17 @@ namespace ProjetUnivers
 {
   namespace Kernel
   {
+
+    class HasParentFormula ;
+    class HasAncestorFormula ;
+    class HasChildFormula ;
+    class FormulaOr ;
+    class IsRelatedFormula ;
+    class IsOnlyRelatedFormula ;
+    class DeducedTrait ;
+    class DeducedRelation ;
+    class Formula ;
+
     /// Something observed that can be notified.
     class Notifiable
     {
@@ -52,6 +63,9 @@ namespace ProjetUnivers
       */
       const std::set<Notifiable*>& getDependentNotifiables() const ;
 
+      /// The notifiables on with  @c this depends.
+      const std::set<Notifiable*>& getDependencies() const ;
+
       virtual ~Notifiable() ;
 
     protected:
@@ -62,10 +76,12 @@ namespace ProjetUnivers
       /*!
         @todo use it instead of formula update propagation.
       */
-      void updateDepedentTraits() const ;
+      void updateDependents() const ;
 
       /// Propagate close on dependent notifiable.
-      void closeDependentNotifiable() const ;
+      void closeDependents() const ;
+
+    private:
 
       /// Add a dependent trait.
       void addDependency(Notifiable*) ;
@@ -74,13 +90,18 @@ namespace ProjetUnivers
       /// Remove a dependent trait.
       void _removeDependency(Notifiable*) ;
 
-    private:
+      /// Notifiables that directly depends on @c this
+      std::set<Notifiable*> m_direct_dependent_notifiables ;
 
-      /// Traits that directly depends on @c this
-      std::set<Notifiable*> m_direct_dependent_traits ;
-
-      /// Inverse of m_direct_dependent_traits
+      /// Inverse of m_direct_dependent_notifiables
       std::set<Notifiable*> m_reverse_dependencies ;
+
+      friend class FormulaOr ;
+      friend class IsRelatedFormula ;
+      friend class IsOnlyRelatedFormula ;
+      friend class DeducedTrait ;
+      friend class DeducedRelation ;
+      friend class Formula ;
     };
   }
 }

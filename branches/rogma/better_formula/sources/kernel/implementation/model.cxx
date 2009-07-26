@@ -98,8 +98,6 @@ namespace ProjetUnivers
 
       ObjectReference m_object1 ;
       ObjectReference m_object2 ;
-
-
     };
 
     template <class _Relation>

@@ -323,7 +323,7 @@ namespace ProjetUnivers
     void Trait::_close()
     {
       // first : close dependent traits...
-      closeDependentNotifiable() ;
+      closeDependents() ;
 
       for(std::multimap<ViewPoint*,BaseTraitView*>::iterator view = m_views.begin() ;
           view != m_views.end() ;

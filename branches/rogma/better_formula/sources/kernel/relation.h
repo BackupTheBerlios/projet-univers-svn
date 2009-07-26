@@ -97,6 +97,9 @@ namespace ProjetUnivers
       /// True iff @c object1 @c _Relation @c object2.
       static bool _areLinked(const TypeIdentifier& relation,Object* object1,Object* object2) ;
 
+      /// Return the representative instance of a relation.
+      static Relation* getRelation(const TypeIdentifier&,Object*,Object*) ;
+
       /// Notify for a change and update all observers.
       virtual void notify() ;
 
@@ -110,7 +113,7 @@ namespace ProjetUnivers
       Relation(const TypeIdentifier&,Object*,Object*) ;
 
       /// Create a link.
-      static void createLink(const TypeIdentifier&,Object*,Object*) ;
+      static Relation* createLink(const TypeIdentifier&,Object*,Object*) ;
 
       /// Destroy a link.
       static void destroyLink(const TypeIdentifier&,Object*,Object*) ;

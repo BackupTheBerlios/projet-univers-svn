@@ -34,7 +34,7 @@ namespace ProjetUnivers
         (*dependency)->_removeDependency(this) ;
       }
 
-      for(std::set<Notifiable*>::iterator dependent = m_direct_dependent_traits.begin() ; dependent != m_direct_dependent_traits.end() ; ++dependent)
+      for(std::set<Notifiable*>::iterator dependent = m_direct_dependent_notifiables.begin() ; dependent != m_direct_dependent_notifiables.end() ; ++dependent)
       {
         (*dependent)->removeReverseDependency(this) ;
       }
@@ -55,54 +55,59 @@ namespace ProjetUnivers
 
     const std::set<Notifiable*>& Notifiable::getDependentNotifiables() const
     {
-      return m_direct_dependent_traits ;
+      return m_direct_dependent_notifiables ;
     }
 
-    void Notifiable::addDependency(Notifiable* trait)
+    const std::set<Notifiable*>& Notifiable::getDependencies() const
     {
-      if (!trait)
-        throw ExceptionKernel("Trait::addDependency") ;
+      return m_reverse_dependencies ;
+    }
 
-      if (this == trait)
+    void Notifiable::addDependency(Notifiable* notifiable)
+    {
+      if (!notifiable)
+        throw ExceptionKernel("Notifiable::addDependency") ;
+
+      if (this == notifiable)
         return ;
 
-      m_direct_dependent_traits.insert(trait) ;
-      trait->addReverseDependency(this) ;
+      m_direct_dependent_notifiables.insert(notifiable) ;
+      notifiable->addReverseDependency(this) ;
     }
 
-    void Notifiable::removeDependency(Notifiable* trait)
+    void Notifiable::removeDependency(Notifiable* notifiable)
     {
-      if (this == trait)
+      if (this == notifiable)
         return ;
 
-      _removeDependency(trait) ;
-      trait->removeReverseDependency(this) ;
+      _removeDependency(notifiable) ;
+      notifiable->removeReverseDependency(this) ;
     }
 
-    void Notifiable::_removeDependency(Notifiable* trait)
+    void Notifiable::_removeDependency(Notifiable* notifiable)
     {
-      if (!trait)
-        throw ExceptionKernel("Trait::removeDependency") ;
-      m_direct_dependent_traits.erase(trait) ;
+      if (!notifiable)
+        throw ExceptionKernel("Notifiable::removeDependency") ;
+      m_direct_dependent_notifiables.erase(notifiable) ;
     }
 
-    void Notifiable::updateDepedentTraits() const
+    void Notifiable::updateDependents() const
     {
-      for(std::set<Notifiable*>::const_iterator trait = m_direct_dependent_traits.begin() ;
-          trait != m_direct_dependent_traits.end() ;
-          ++trait)
+      for(std::set<Notifiable*>::const_iterator notifiable = m_direct_dependent_notifiables.begin() ;
+          notifiable != m_direct_dependent_notifiables.end() ;
+          ++notifiable)
       {
-        (*trait)->notify() ;
+        (*notifiable)->notify() ;
       }
     }
 
-    void Notifiable::closeDependentNotifiable() const
+    void Notifiable::closeDependents() const
     {
-      for(std::set<Notifiable*>::const_iterator trait = m_direct_dependent_traits.begin() ;
-          trait != m_direct_dependent_traits.end() ;
-          ++trait)
+      for(std::set<Notifiable*>::const_iterator notifiable = m_direct_dependent_notifiables.begin() ;
+          notifiable != m_direct_dependent_notifiables.end() ;
+          ++notifiable)
       {
-        (*trait)->_close() ;
+        (*notifiable)->_close() ;
       }
     }
 

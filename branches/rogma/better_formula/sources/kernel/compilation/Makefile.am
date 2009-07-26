@@ -58,6 +58,8 @@ libkernel_la_LDFLAGS += $(librlog_LIBS) $(libXML_LIBS) $(OGRE_LIBS) $(CPPUNIT_LI
 
 TESTS = test_kernel test_kernel_automatic_registration 
 
+bin_PROGRAMS = test_performance_kernel
+
 check_PROGRAMS = $(TESTS)
 
 test_kernel_SOURCES = \

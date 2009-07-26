@@ -1352,21 +1352,21 @@ in commit
   * windows
     - build and upload a tclap package
   * Kernel:
-    - maintain the set of direct impact for traits updates
-    - HasParent, HasAncestor, HasChild take an object formula 
-    - corrected some bugs on updates (too many updatyes called)
+    - corrected some bugs on updates (too many updates called)
     - removed compiler warnings
+    - pull up of impact management 
+    - maintain the set of direct impact for traits updates and relationships
+    - HasParent, HasAncestor, HasChild take an object formula (generalisation)
+    - use maintained impacts to propagate updates
     
 in progress
 -----------
   
-  * Kernel :
-    - pull up of impact management 
-    - maintain the set of impacted relationships too...
-    - use maintained impacts to propagate updates
-   
+  
 todo
 ----
+
+  * merge back to trunk
 
   * Model : 
       - selected target is the relation :  
@@ -1394,7 +1394,6 @@ todo
       ...
       
       Create a kernel.h header containg all the stuff...   
-  
 
   * Kernel :
     - we should use onChangedParent() for formulae on parent instead of 

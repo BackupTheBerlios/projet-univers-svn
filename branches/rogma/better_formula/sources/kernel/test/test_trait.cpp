@@ -296,6 +296,47 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(t2->getDependentNotifiables().find(dtor) != t2->getDependentNotifiables().end()) ;
       }
 
+      namespace
+      {
+        class ROr : public Relation
+        {};
+
+        class OrFrom : public Trait
+        {};
+
+        class OrTo : public Trait
+        {};
+
+        class DeducedOr : public DeducedRelation
+        {};
+
+        DeclareDeducedRelation(DeducedOr,ROr,Or(IsFrom(HasTrait(OrFrom)),IsTo(HasTrait(OrTo)))) ;
+
+      }
+
+
+      void TestTrait::addNewTraitOnOrRelationChangeDepedencies()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+
+        Object* source = model->createObject() ;
+        Object* destination = model->createObject() ;
+
+        OrFrom* from = new OrFrom() ;
+        source->addTrait(from) ;
+
+        Link<ROr>(source,destination) ;
+
+        Relation* deduced(Relation::getRelation(getClassTypeIdentifier(DeducedOr),source,destination)) ;
+
+        CPPUNIT_ASSERT(from->getDependentNotifiables().find(deduced) != from->getDependentNotifiables().end()) ;
+
+        OrTo* to = new OrTo() ;
+        destination->addTrait(to) ;
+
+        CPPUNIT_ASSERT(to->getDependentNotifiables().find(deduced) != to->getDependentNotifiables().end()) ;
+      }
+
       void TestTrait::addIntermediateTraitChangeHasParentDependencies()
       {
         std::auto_ptr<Model> model(new Model()) ;
@@ -584,7 +625,7 @@ namespace ProjetUnivers
 
         Formula* formula = ((DeducedTrait*)object->getTrait<HasT1>())->getFormula() ;
 
-        std::set<Trait*> updater_traits(formula->getUpdaterTraits(object)) ;
+        std::set<Notifiable*> updater_traits(formula->getUpdaterNotifiables(object)) ;
 
         CPPUNIT_ASSERT_EQUAL((unsigned int)1,updater_traits.size()) ;
         CPPUNIT_ASSERT(updater_traits.find(object->getTrait<T1>()) != updater_traits.end()) ;
@@ -602,7 +643,7 @@ namespace ProjetUnivers
 
         Formula* formula = ((DeducedTrait*)object->getTrait<DeducedTrait1>())->getFormula() ;
 
-        std::set<Trait*> updater_traits(formula->getUpdaterTraits(object)) ;
+        std::set<Notifiable*> updater_traits(formula->getUpdaterNotifiables(object)) ;
 
         CPPUNIT_ASSERT_EQUAL((unsigned int)3,updater_traits.size()) ;
         CPPUNIT_ASSERT(updater_traits.find(object->getTrait<Trait1>()) != updater_traits.end()) ;
@@ -623,12 +664,12 @@ namespace ProjetUnivers
         Formula* formula = ((DeducedTrait*)object->getTrait<HasParentTrait1>())->getFormula() ;
 
         {
-          std::set<Trait*> updater_traits(formula->getUpdaterTraits(object)) ;
+          std::set<Notifiable*> updater_traits(formula->getUpdaterNotifiables(object)) ;
           CPPUNIT_ASSERT_EQUAL((unsigned int)1,updater_traits.size()) ;
           CPPUNIT_ASSERT(updater_traits.find(object->getTrait<Parent>()) != updater_traits.end()) ;
         }
         {
-          std::set<Trait*> updater_traits(formula->getUpdaterTraits(object2)) ;
+          std::set<Notifiable*> updater_traits(formula->getUpdaterNotifiables(object2)) ;
           CPPUNIT_ASSERT_EQUAL((unsigned int)1,updater_traits.size()) ;
           CPPUNIT_ASSERT(updater_traits.find(object->getTrait<Parent>()) != updater_traits.end()) ;
         }
@@ -1054,8 +1095,146 @@ namespace ProjetUnivers
         Trait* from = source->addTrait(new From()) ;
 
         Link<R2>(source,destination) ;
+        Relation* deduced(Relation::getRelation(getClassTypeIdentifier(R2From),source,destination)) ;
 
         CPPUNIT_ASSERT_EQUAL((unsigned int)1,from->getDependentNotifiables().size()) ;
+        CPPUNIT_ASSERT(from->getDependentNotifiables().find(deduced) != from->getDependentNotifiables().end()) ;
+      }
+
+      void TestTrait::addRelationChangeIsFromDependencies()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+
+        Object* source = model->createObject() ;
+        Object* destination1 = model->createObject() ;
+        Object* destination2 = model->createObject() ;
+        Trait* from = source->addTrait(new From()) ;
+
+        Link<R2>(source,destination1) ;
+
+        Relation* deduced1(Relation::getRelation(getClassTypeIdentifier(R2From),source,destination1)) ;
+        CPPUNIT_ASSERT_EQUAL((unsigned int)1,from->getDependentNotifiables().size()) ;
+        CPPUNIT_ASSERT(from->getDependentNotifiables().find(deduced1) != from->getDependentNotifiables().end()) ;
+
+        Link<R2>(source,destination2) ;
+
+        Relation* deduced2(Relation::getRelation(getClassTypeIdentifier(R2From),source,destination2)) ;
+        CPPUNIT_ASSERT_EQUAL((unsigned int)2,from->getDependentNotifiables().size()) ;
+        CPPUNIT_ASSERT(from->getDependentNotifiables().find(deduced2) != from->getDependentNotifiables().end()) ;
+      }
+
+      void TestTrait::removeRelationChangeIsFromDependencies()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+
+        Object* source = model->createObject() ;
+        Object* destination1 = model->createObject() ;
+        Object* destination2 = model->createObject() ;
+        Trait* from = source->addTrait(new From()) ;
+
+        Link<R2>(source,destination1) ;
+        Link<R2>(source,destination2) ;
+
+        CPPUNIT_ASSERT_EQUAL((unsigned int)2,from->getDependentNotifiables().size()) ;
+
+        UnLink<R2>(source,destination1) ;
+
+        CPPUNIT_ASSERT_EQUAL((unsigned int)1,from->getDependentNotifiables().size()) ;
+
+        UnLink<R2>(source,destination2) ;
+
+        CPPUNIT_ASSERT_EQUAL((unsigned int)0,from->getDependentNotifiables().size()) ;
+      }
+
+      namespace
+      {
+        class R3 : public Relation
+        {};
+
+        class To : public Trait
+        {};
+
+        class R3To : public DeducedRelation
+        {};
+
+        DeclareDeducedRelation(R3To,R3,IsTo(HasTrait(To))) ;
+      }
+
+      void TestTrait::isToHasDependencies()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+
+        Object* source = model->createObject() ;
+        Object* destination = model->createObject() ;
+
+        Trait* to = destination->addTrait(new To()) ;
+
+        Link<R3>(source,destination) ;
+
+        Relation* deduced(Relation::getRelation(getClassTypeIdentifier(R3To),source,destination)) ;
+        CPPUNIT_ASSERT(Relation::areLinked<R3To>(source,destination)) ;
+        CPPUNIT_ASSERT_EQUAL((unsigned int)1,to->getDependentNotifiables().size()) ;
+        CPPUNIT_ASSERT(to->getDependentNotifiables().find(deduced) != to->getDependentNotifiables().end()) ;
+      }
+
+      void TestTrait::addRelationChangeIsToDependencies()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+
+        Object* source1 = model->createObject() ;
+        Object* source2 = model->createObject() ;
+        Object* destination = model->createObject() ;
+        Trait* to = destination->addTrait(new To()) ;
+
+        Link<R3>(source1,destination) ;
+
+        CPPUNIT_ASSERT_EQUAL((unsigned int)1,to->getDependentNotifiables().size()) ;
+
+        Link<R3>(source2,destination) ;
+
+        CPPUNIT_ASSERT_EQUAL((unsigned int)2,to->getDependentNotifiables().size()) ;
+      }
+
+      void TestTrait::removeRelationChangeIsToDependencies()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+
+        Object* source1 = model->createObject() ;
+        Object* source2 = model->createObject() ;
+        Object* destination = model->createObject() ;
+        Trait* to = destination->addTrait(new To()) ;
+
+        Link<R3>(source1,destination) ;
+        Link<R3>(source2,destination) ;
+
+        CPPUNIT_ASSERT_EQUAL((unsigned int)2,to->getDependentNotifiables().size()) ;
+
+        UnLink<R3>(source1,destination) ;
+
+        CPPUNIT_ASSERT_EQUAL((unsigned int)1,to->getDependentNotifiables().size()) ;
+
+        UnLink<R3>(source2,destination) ;
+
+        CPPUNIT_ASSERT_EQUAL((unsigned int)0,to->getDependentNotifiables().size()) ;
+      }
+
+      void TestTrait::isToHasOnlyDestinationDependencies()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+
+        Object* source = model->createObject() ;
+        Object* destination = model->createObject() ;
+
+        Trait* to = destination->addTrait(new To()) ;
+        Trait* to_source = source->addTrait(new To()) ;
+
+        Link<R3>(source,destination) ;
+
+        CPPUNIT_ASSERT(Relation::areLinked<R3To>(source,destination)) ;
+        Relation* deduced(Relation::getRelation(getClassTypeIdentifier(R3To),source,destination)) ;
+        CPPUNIT_ASSERT(deduced->getDependencies().find(to) != deduced->getDependencies().end()) ;
+        CPPUNIT_ASSERT(deduced->getDependencies().find(to_source) == deduced->getDependencies().end()) ;
+        CPPUNIT_ASSERT_EQUAL((unsigned int)1,deduced->getDependencies().size()) ;
       }
 
       namespace

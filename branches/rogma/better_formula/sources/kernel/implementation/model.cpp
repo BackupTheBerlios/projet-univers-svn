@@ -509,9 +509,9 @@ namespace ProjetUnivers
       addOperation(Implementation::Operation::update(observer)) ;
     }
 
-    Relation& Model::getCanonical(const Relation& relation)
+    Relation* Model::getCanonical(const Relation& relation)
     {
-      return m_canonical_relations.find(relation)->second ;
+      return &(m_canonical_relations.find(relation)->second) ;
     }
 
     void Model::addRelation(const Relation& relation)
