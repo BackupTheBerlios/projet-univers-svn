@@ -28,8 +28,7 @@
 #include <kernel/parameters.h>
 #include <kernel/log.h>
 
-int 
-main( int argc, char* argv[] )
+int main(int,char*[])
 {
   ProjetUnivers::Kernel::Parameters::load("kernel.config") ;
   ProjetUnivers::Kernel::Log::init() ;

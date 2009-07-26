@@ -557,8 +557,6 @@ namespace ProjetUnivers
 
     std::set<Notifiable*> Formula::getDependentNotifiables(const ObjectPair& pair) const
     {
-      // @todo add the relations... but I do not understand...
-
       std::set<Notifiable*> result ;
 
       std::map<Formula*,TypeIdentifier>::const_iterator deduced_relation =
@@ -1484,28 +1482,14 @@ namespace ProjetUnivers
           // add a link
           Relation* new_relation(Relation::createLink(relation,pair.getObjectFrom(),pair.getObjectTo())) ;
 
+          std::set<Notifiable*> updaters(formula->getUpdaterNotifiables(pair)) ;
+
+          for(std::set<Notifiable*>::iterator updater = updaters.begin() ;
+              updater != updaters.end() ;
+              ++updater)
           {
-            std::set<Notifiable*> updaters(formula->getUpdaterNotifiables(pair.getObjectFrom())) ;
-
-            for(std::set<Notifiable*>::iterator updater = updaters.begin() ;
-                updater != updaters.end() ;
-                ++updater)
-            {
-              (*updater)->addDependency(new_relation) ;
-            }
+            (*updater)->addDependency(new_relation) ;
           }
-
-          {
-            std::set<Notifiable*> updaters(formula->getUpdaterNotifiables(pair.getObjectTo())) ;
-
-            for(std::set<Notifiable*>::iterator updater = updaters.begin() ;
-                updater != updaters.end() ;
-                ++updater)
-            {
-              (*updater)->addDependency(new_relation) ;
-            }
-          }
-
         }
         else
         {
@@ -1728,29 +1712,15 @@ namespace ProjetUnivers
 
         std::set<Notifiable*> deduced_traits(getDependentNotifiables(pair)) ;
 
-        {
-          std::set<Notifiable*> new_updaters(getUpdaterNotifiables(pair.getObjectFrom())) ;
+        std::set<Notifiable*> new_updaters(getUpdaterNotifiables(pair)) ;
 
-          for(std::set<Notifiable*>::const_iterator deduced_trait = deduced_traits.begin() ; deduced_trait != deduced_traits.end() ; ++deduced_trait)
+        for(std::set<Notifiable*>::const_iterator deduced_trait = deduced_traits.begin() ; deduced_trait != deduced_traits.end() ; ++deduced_trait)
+        {
+          for(std::set<Notifiable*>::const_iterator updater = new_updaters.begin() ; updater != new_updaters.end() ; ++updater)
           {
-            for(std::set<Notifiable*>::const_iterator updater = new_updaters.begin() ; updater != new_updaters.end() ; ++updater)
-            {
-              (*updater)->addDependency(*deduced_trait) ;
-            }
+            (*updater)->addDependency(*deduced_trait) ;
           }
         }
-        {
-          std::set<Notifiable*> new_updaters(getUpdaterNotifiables(pair.getObjectTo())) ;
-
-          for(std::set<Notifiable*>::const_iterator deduced_trait = deduced_traits.begin() ; deduced_trait != deduced_traits.end() ; ++deduced_trait)
-          {
-            for(std::set<Notifiable*>::const_iterator updater = new_updaters.begin() ; updater != new_updaters.end() ; ++updater)
-            {
-              (*updater)->addDependency(*deduced_trait) ;
-            }
-          }
-        }
-
       }
     }
 
@@ -2142,21 +2112,33 @@ namespace ProjetUnivers
   */
   // @{
 
-    std::set<Notifiable*> TraitFormula::getUpdaterNotifiables(Object* object) const
+    std::set<Notifiable*> TraitFormula::getUpdaterNotifiables(const DeductionElement& element) const
     {
+      std::set<Notifiable*> result ;
+
+      if (!element.isObject())
+        return result ;
+
+      Object* object = element.getObject() ;
+
       if (!object)
         throw ExceptionKernel("TraitFormula::getUpdaterNotifiables") ;
 
-      std::set<Notifiable*> result ;
       Trait* trait = object->getTrait(m_trait) ;
       if (trait)
         result.insert(trait) ;
       return result ;
     }
 
-    std::set<Notifiable*> HasChildFormula::getUpdaterNotifiables(Object* object) const
+    std::set<Notifiable*> HasChildFormula::getUpdaterNotifiables(const DeductionElement& element) const
     {
       std::set<Notifiable*> result ;
+
+      if (!element.isObject())
+        return result ;
+
+      Object* object = element.getObject() ;
+
       std::set<Object*> true_children(getChildFormula()->getDirectChildren(object)) ;
       for(std::set<Object*>::iterator true_child = true_children.begin() ; true_child != true_children.end() ; ++true_child)
       {
@@ -2166,15 +2148,20 @@ namespace ProjetUnivers
       return result ;
     }
 
-    std::set<Notifiable*> FormulaHasDescendant::getUpdaterNotifiables(Object*) const
+    std::set<Notifiable*> FormulaHasDescendant::getUpdaterNotifiables(const DeductionElement&) const
     {
       // not implemented
       return std::set<Notifiable*>() ;
     }
 
-    std::set<Notifiable*> HasAncestorFormula::getUpdaterNotifiables(Object* object) const
+    std::set<Notifiable*> HasAncestorFormula::getUpdaterNotifiables(const DeductionElement& element) const
     {
       std::set<Notifiable*> result ;
+
+      if (!element.isObject())
+        return result ;
+
+      Object* object = element.getObject() ;
 
       Object* valid_ancestor = getChildFormula()->getValidAncestor(object) ;
 
@@ -2185,9 +2172,14 @@ namespace ProjetUnivers
     }
 
 
-    std::set<Notifiable*> HasParentFormula::getUpdaterNotifiables(Object* object) const
+    std::set<Notifiable*> HasParentFormula::getUpdaterNotifiables(const DeductionElement& element) const
     {
       std::set<Notifiable*> result ;
+
+      if (!element.isObject())
+        return result ;
+
+      Object* object = element.getObject() ;
 
       Object* valid_parent = getChildFormula()->getValidParent(object) ;
 
@@ -2197,7 +2189,7 @@ namespace ProjetUnivers
       return getChildFormula()->getUpdaterNotifiables(valid_parent) ;
     }
 
-    std::set<Notifiable*> FormulaAnd::getUpdaterNotifiables(Object* object) const
+    std::set<Notifiable*> FormulaAnd::getUpdaterNotifiables(const DeductionElement& object) const
     {
       std::set<Notifiable*> result ;
       for(std::set<Formula*>::const_iterator child = m_children.begin() ;
@@ -2210,7 +2202,7 @@ namespace ProjetUnivers
       return result ;
     }
 
-    std::set<Notifiable*> FormulaOr::getUpdaterNotifiables(Object* object) const
+    std::set<Notifiable*> FormulaOr::getUpdaterNotifiables(const DeductionElement& object) const
     {
       std::set<Notifiable*> result ;
       for(std::set<Formula*>::const_iterator child = m_children.begin() ;
@@ -2223,15 +2215,21 @@ namespace ProjetUnivers
       return result ;
     }
 
-    std::set<Notifiable*> FormulaNot::getUpdaterNotifiables(Object*) const
+    std::set<Notifiable*> FormulaNot::getUpdaterNotifiables(const DeductionElement&) const
     {
       // empty on purpose
       return std::set<Notifiable*>() ;
     }
 
-    std::set<Notifiable*> WithRelationFormula::getUpdaterNotifiables(Object* object) const
+    std::set<Notifiable*> WithRelationFormula::getUpdaterNotifiables(const DeductionElement& element) const
     {
       std::set<Notifiable*> result ;
+
+      if (!element.isObject())
+        return result ;
+
+      Object* object = element.getObject() ;
+
       Formula* formula = *m_children.begin() ;
       Model* model = object->getModel() ;
       std::set<Object*> objects(model->getRelations(m_relation,object)) ;
@@ -2246,16 +2244,26 @@ namespace ProjetUnivers
       return result ;
     }
 
-    std::set<Notifiable*> IsFromFormula::getUpdaterNotifiables(Object* object) const
+    std::set<Notifiable*> IsFromFormula::getUpdaterNotifiables(const DeductionElement& element) const
     {
+      std::set<Notifiable*> result ;
+
+      if (element.isObject())
+        return result ;
+
       Formula* formula = *m_children.begin() ;
-      return formula->getUpdaterNotifiables(object) ;
+      return formula->getUpdaterNotifiables(element.getObjectFrom()) ;
     }
 
-    std::set<Notifiable*> IsToFormula::getUpdaterNotifiables(Object* object) const
+    std::set<Notifiable*> IsToFormula::getUpdaterNotifiables(const DeductionElement& element) const
     {
+      std::set<Notifiable*> result ;
+
+      if (element.isObject())
+        return result ;
+
       Formula* formula = *m_children.begin() ;
-      return formula->getUpdaterNotifiables(object) ;
+      return formula->getUpdaterNotifiables(element.getObjectTo()) ;
     }
 
     void TraitFormula::updateTrait(Object* object,Trait* trait)

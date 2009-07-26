@@ -43,6 +43,9 @@ namespace ProjetUnivers
         m_object2(relation.getObjectTo())
       {}
 
+      ObjectPair()
+      {}
+
       bool operator ==(const ObjectPair& pair) const
       {
         return m_object1 == pair.m_object1 && m_object2 == pair.m_object2 ;

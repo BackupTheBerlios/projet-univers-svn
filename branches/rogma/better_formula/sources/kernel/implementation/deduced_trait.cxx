@@ -18,13 +18,14 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <kernel/implementation/deduction_element.h>
 namespace ProjetUnivers
 {
   namespace Kernel
   {
 
     class Object ;
-
+    using Implementation::DeductionElement ;
     /// Formula over traits.
     /*!
       Formula are stored statically and destroyed at the end of the program.
@@ -78,7 +79,7 @@ namespace ProjetUnivers
 
         Calculated by browsing the formula down.
       */
-      virtual std::set<Notifiable*> getUpdaterNotifiables(Object* object) const = 0 ;
+      virtual std::set<Notifiable*> getUpdaterNotifiables(const DeductionElement& object) const = 0 ;
 
       std::set<Notifiable*> getUpdaterNotifiables(const std::set<Object*> objects) const ;
 
@@ -340,7 +341,7 @@ namespace ProjetUnivers
       virtual bool isValid(Object* object) const ;
 
       /// Access to the traits that trigger update for this formula.
-      virtual std::set<Notifiable*> getUpdaterNotifiables(Object* object) const ;
+      virtual std::set<Notifiable*> getUpdaterNotifiables(const DeductionElement& object) const ;
 
     protected:
 
@@ -400,7 +401,7 @@ namespace ProjetUnivers
       virtual std::string internalPrint() const ;
 
       /// Access to the traits that trigger update for this formula.
-      virtual std::set<Notifiable*> getUpdaterNotifiables(Object* object) const ;
+      virtual std::set<Notifiable*> getUpdaterNotifiables(const DeductionElement& object) const ;
 
     private:
 
@@ -431,7 +432,7 @@ namespace ProjetUnivers
       virtual std::string internalPrint() const ;
 
       /// Access to the traits that trigger update for this formula.
-      virtual std::set<Notifiable*> getUpdaterNotifiables(Object* object) const ;
+      virtual std::set<Notifiable*> getUpdaterNotifiables(const DeductionElement& object) const ;
 
     private:
 
@@ -468,7 +469,7 @@ namespace ProjetUnivers
       virtual std::string internalPrint() const ;
 
       /// Access to the traits that trigger update for this formula.
-      virtual std::set<Notifiable*> getUpdaterNotifiables(Object* object) const ;
+      virtual std::set<Notifiable*> getUpdaterNotifiables(const DeductionElement& object) const ;
 
     private:
 
@@ -526,7 +527,7 @@ namespace ProjetUnivers
       virtual std::string internalPrint() const ;
 
       /// Access to the traits that trigger update for this formula.
-      virtual std::set<Notifiable*> getUpdaterNotifiables(Object* object) const ;
+      virtual std::set<Notifiable*> getUpdaterNotifiables(const DeductionElement& object) const ;
 
     private:
 
@@ -553,7 +554,7 @@ namespace ProjetUnivers
       virtual std::string internalPrint() const ;
 
       /// Access to the traits that trigger update for this formula.
-      virtual std::set<Notifiable*> getUpdaterNotifiables(Object* object) const ;
+      virtual std::set<Notifiable*> getUpdaterNotifiables(const DeductionElement& object) const ;
 
     protected:
 
@@ -609,7 +610,7 @@ namespace ProjetUnivers
       virtual std::string internalPrint() const ;
 
       /// Access to the traits that trigger update for this formula.
-      virtual std::set<Notifiable*> getUpdaterNotifiables(Object* object) const ;
+      virtual std::set<Notifiable*> getUpdaterNotifiables(const DeductionElement& object) const ;
 
     protected:
 
@@ -665,7 +666,7 @@ namespace ProjetUnivers
       virtual std::string internalPrint() const ;
 
       /// Access to the traits that trigger update for this formula.
-      virtual std::set<Notifiable*> getUpdaterNotifiables(Object* object) const ;
+      virtual std::set<Notifiable*> getUpdaterNotifiables(const DeductionElement& object) const ;
 
     protected:
 
@@ -731,7 +732,7 @@ namespace ProjetUnivers
       WithRelationFormula(const TypeIdentifier& relation) ;
 
       /// Access to the traits that trigger update for this formula.
-      virtual std::set<Notifiable*> getUpdaterNotifiables(Object* object) const ;
+      virtual std::set<Notifiable*> getUpdaterNotifiables(const DeductionElement& object) const ;
 
       /// Declare that a child formula has became true.
       virtual void addChildFormulaTrue(Object* object) ;
@@ -847,7 +848,7 @@ namespace ProjetUnivers
       virtual void onAddChildFormulaFalse(Object* object) ;
       virtual void onChildFormulaUpdated(Object* object) ;
 
-      virtual std::set<Notifiable*> getUpdaterNotifiables(Object* object) const ;
+      virtual std::set<Notifiable*> getUpdaterNotifiables(const DeductionElement& object) const ;
 
       /// Print the formula.
       virtual std::string internalPrint() const ;
@@ -870,7 +871,7 @@ namespace ProjetUnivers
       virtual void onAddChildFormulaFalse(Object* object) ;
       virtual void onChildFormulaUpdated(Object* object) ;
 
-      virtual std::set<Notifiable*> getUpdaterNotifiables(Object* object) const ;
+      virtual std::set<Notifiable*> getUpdaterNotifiables(const DeductionElement& object) const ;
 
       /// Print the formula.
       virtual std::string internalPrint() const ;

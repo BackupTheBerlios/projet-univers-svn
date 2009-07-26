@@ -231,7 +231,7 @@ namespace ProjetUnivers
         CPPUNIT_TEST(isToHasDependencies) ;
         CPPUNIT_TEST(addRelationChangeIsToDependencies) ;
         CPPUNIT_TEST(removeRelationChangeIsToDependencies) ;
-//        CPPUNIT_TEST(isToHasOnlyDestinationDependencies) ;
+        CPPUNIT_TEST(isToHasOnlyDestinationDependencies) ;
 
         CPPUNIT_TEST(hasTraitFormulaUpdaterTraits) ;
         CPPUNIT_TEST(andUpdaterTraits) ;

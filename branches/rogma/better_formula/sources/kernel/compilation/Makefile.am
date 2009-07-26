@@ -18,6 +18,7 @@ $(SOURCES)/kernel/implementation/cppunit_multi_outputter.cpp \
 $(SOURCES)/kernel/implementation/exception.cpp \
 $(SOURCES)/kernel/implementation/exception_kernel.cpp \
 $(SOURCES)/kernel/implementation/deduced_trait.cpp \
+$(SOURCES)/kernel/implementation/deduction_element.cpp \
 $(SOURCES)/kernel/implementation/interpretor.cpp \
 $(SOURCES)/kernel/implementation/log.cpp \
 $(SOURCES)/kernel/implementation/meta.cpp \
