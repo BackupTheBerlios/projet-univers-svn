@@ -55,6 +55,10 @@ ressources.cfg:../../ressources.cfg.in
 
 TESTS = test_sound 
 
+# compile tests program without launching them so make build them
+noinst_PROGRAMS = $(TESTS)
+
+# launch tests in case of make check
 check_PROGRAMS = $(TESTS)
 
 LDADD_OPTIONS = \

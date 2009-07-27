@@ -57,8 +57,10 @@ libkernel_la_LDFLAGS += $(librlog_LIBS) $(libXML_LIBS) $(OGRE_LIBS) $(CPPUNIT_LI
 
 TESTS = test_kernel test_kernel_automatic_registration 
 
-bin_PROGRAMS = test_performance_kernel
+# compile tests program without launching them
+noinst_PROGRAMS = test_performance_kernel $(TESTS)
 
+# launch tests in case of make check
 check_PROGRAMS = $(TESTS)
 
 test_kernel_SOURCES = \

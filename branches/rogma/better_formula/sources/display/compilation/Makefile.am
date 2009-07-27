@@ -1,7 +1,6 @@
 AUTOMAKE_OPTIONS=subdir-objects
 
 lib_LTLIBRARIES = libdisplay.la 
-noinst_PROGRAMS = test_ogre 
 
 SOURCES = $(top_srcdir)/sources
 AM_CPPFLAGS = -I$(SOURCES)
@@ -67,6 +66,10 @@ plugins.cfg:../../plugins.cfg.in
 
 TESTS = test_display
 
+# compile tests program without launching them so make build them
+noinst_PROGRAMS = test_ogre $(TESTS)  
+
+# launch tests in case of make check
 check_PROGRAMS = $(TESTS)
 
 # unit tests 

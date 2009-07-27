@@ -54,6 +54,10 @@ copy_joystick_configurator:
   
 TESTS = test_gui 
 
+# compile tests program without launching them so make build them
+noinst_PROGRAMS = $(TESTS)
+
+# launch tests in case of make check
 check_PROGRAMS = $(TESTS)
 
 test_gui_SOURCES = \
@@ -69,5 +73,5 @@ $(SOURCES)/kernel/compilation/libkernel.la \
 $(SOURCES)/display/compilation/libdisplay.la \
 $(SOURCES)/input/compilation/libinput.la \
 $(SOURCES)/model/compilation/libmodel.la \
-$(SOURCES)/gui/compilation/libgui.la \
+libgui.la \
 $(OIS_LIBS) 

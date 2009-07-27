@@ -1358,8 +1358,10 @@ in commit
     - maintain the set of direct impact for traits updates and relationships
     - HasParent, HasAncestor, HasChild take an object formula (generalisation)
     - use maintained impacts to propagate updates
-    - suppressed Traitreference because useless...
-    
+    - suppressed TraitReference because useless...
+  * build : 
+    - make all also build the tests
+     
 in progress
 -----------
   

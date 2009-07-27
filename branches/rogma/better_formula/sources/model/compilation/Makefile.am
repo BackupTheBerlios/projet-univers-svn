@@ -126,6 +126,10 @@ ressources.cfg:../../ressources.cfg.in
 
 TESTS = test_model
 
+# compile tests program without launching them so make build them
+noinst_PROGRAMS = $(TESTS)
+
+# launch tests in case of make check
 check_PROGRAMS = $(TESTS)
 
 # unit tests 
