@@ -296,6 +296,27 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(t2->getDependentNotifiables().find(dtor) != t2->getDependentNotifiables().end()) ;
       }
 
+      void TestTrait::removeTraitOnOrChangeDepedencies()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+
+        Object* object = model->createObject() ;
+        Trait1Or* t1 = new Trait1Or() ;
+        object->addTrait(t1) ;
+        Trait2Or* t2 = new Trait2Or() ;
+        object->addTrait(t2) ;
+
+        DeducedTrait2* dtor = object->getTrait<DeducedTrait2>() ;
+
+        CPPUNIT_ASSERT(dtor->getDependencies().find(t1) != dtor->getDependencies().end()) ;
+        CPPUNIT_ASSERT(dtor->getDependencies().find(t2) != dtor->getDependencies().end()) ;
+
+        object->destroyTrait(t2) ;
+
+        CPPUNIT_ASSERT(dtor->getDependencies().find(t1) != dtor->getDependencies().end()) ;
+        CPPUNIT_ASSERT(dtor->getDependencies().find(t2) == dtor->getDependencies().end()) ;
+      }
+
       namespace
       {
         class ROr : public Relation
@@ -335,6 +356,31 @@ namespace ProjetUnivers
         destination->addTrait(to) ;
 
         CPPUNIT_ASSERT(to->getDependentNotifiables().find(deduced) != to->getDependentNotifiables().end()) ;
+      }
+
+      void TestTrait::removeTraitOnOrRelationChangeDepedencies()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+
+        Object* source = model->createObject() ;
+        Object* destination = model->createObject() ;
+
+        OrFrom* from = new OrFrom() ;
+        source->addTrait(from) ;
+        OrTo* to = new OrTo() ;
+        destination->addTrait(to) ;
+
+        Link<ROr>(source,destination) ;
+
+        Relation* deduced(Relation::getRelation(getClassTypeIdentifier(DeducedOr),source,destination)) ;
+
+        CPPUNIT_ASSERT(deduced->getDependencies().find(from) != deduced->getDependencies().end()) ;
+        CPPUNIT_ASSERT(deduced->getDependencies().find(to) != deduced->getDependencies().end()) ;
+
+        destination->destroyTrait(to) ;
+
+        CPPUNIT_ASSERT(deduced->getDependencies().find(from) != deduced->getDependencies().end()) ;
+        CPPUNIT_ASSERT(deduced->getDependencies().find(to) == deduced->getDependencies().end()) ;
       }
 
       void TestTrait::addIntermediateTraitChangeHasParentDependencies()
@@ -886,6 +932,90 @@ namespace ProjetUnivers
 
         CPPUNIT_ASSERT(gc->getDependentNotifiables().find(dt_root) != gc->getDependentNotifiables().end()) ;
       }
+
+      void TestTrait::changeParentChangeHasChildDependencies()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+
+        Object* root = model->createObject() ;
+        Object* child = root->createObject() ;
+        Child* c = new Child() ;
+        child->addTrait(c) ;
+
+        Object* other_root = model->createObject() ;
+
+        HasChildTrait1* dt_root = root->getTrait<HasChildTrait1>() ;
+        CPPUNIT_ASSERT(dt_root) ;
+
+        CPPUNIT_ASSERT(c->getDependentNotifiables().find(dt_root) != c->getDependentNotifiables().end()) ;
+
+        child->changeParent(other_root) ;
+
+        HasChildTrait1* dt_other_root = other_root->getTrait<HasChildTrait1>() ;
+        CPPUNIT_ASSERT(dt_other_root) ;
+
+        CPPUNIT_ASSERT(c->getDependentNotifiables().find(dt_root) == c->getDependentNotifiables().end()) ;
+        CPPUNIT_ASSERT(c->getDependentNotifiables().find(dt_other_root) != c->getDependentNotifiables().end()) ;
+      }
+
+      void TestTrait::recursiveChangeParentChangeHasChildDependencies()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+
+        Object* root = model->createObject() ;
+        Object* child = root->createObject() ;
+        Object* grand_child = child->createObject() ;
+        Child* gc = new Child() ;
+        grand_child->addTrait(gc) ;
+
+        Object* other_root = model->createObject() ;
+
+        HasChildTrait1* dt_root = root->getTrait<HasChildTrait1>() ;
+        CPPUNIT_ASSERT(dt_root) ;
+
+        CPPUNIT_ASSERT(gc->getDependentNotifiables().find(dt_root) != gc->getDependentNotifiables().end()) ;
+
+        child->changeParent(other_root) ;
+
+        HasChildTrait1* dt_other_root = other_root->getTrait<HasChildTrait1>() ;
+        CPPUNIT_ASSERT(dt_other_root) ;
+
+        CPPUNIT_ASSERT(gc->getDependentNotifiables().find(dt_root) == gc->getDependentNotifiables().end()) ;
+        CPPUNIT_ASSERT(gc->getDependentNotifiables().find(dt_other_root) != gc->getDependentNotifiables().end()) ;
+      }
+
+      void TestTrait::changeParentToAnAlreadyValidParentChangeHasChildDependencies()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+
+        Object* root1 = model->createObject() ;
+
+        Object* child1 = root1->createObject() ;
+        Child* c1 = new Child() ;
+        child1->addTrait(c1) ;
+
+        Object* child2 = root1->createObject() ;
+        Child* c2 = new Child() ;
+        child2->addTrait(c2) ;
+
+        Object* root2 = model->createObject() ;
+
+        Object* child3 = root2->createObject() ;
+        Child* c3 = new Child() ;
+        child3->addTrait(c3) ;
+
+        child1->changeParent(root2) ;
+
+        HasChildTrait1* dt_root1 = root1->getTrait<HasChildTrait1>() ;
+        CPPUNIT_ASSERT(dt_root1) ;
+
+        HasChildTrait1* dt_root2 = root2->getTrait<HasChildTrait1>() ;
+        CPPUNIT_ASSERT(dt_root2) ;
+
+        CPPUNIT_ASSERT(c1->getDependentNotifiables().find(dt_root1) == c1->getDependentNotifiables().end()) ;
+        CPPUNIT_ASSERT(c1->getDependentNotifiables().find(dt_root2) != c1->getDependentNotifiables().end()) ;
+      }
+
 
       namespace
       {

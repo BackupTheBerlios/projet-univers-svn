@@ -265,11 +265,6 @@ namespace ProjetUnivers
       RegisterRelationView(ClassView,ClassRelation,ClassViewPoint) ;
     @endcode
 
-    @par Example
-    @code
-      RegisterRelationView( @todo ) ;
-    @endcode
-
     @par How does it works
       Same principle than CPPUNIT_TEST_SUITE_REGISTRATION
     */
@@ -296,11 +291,6 @@ namespace ProjetUnivers
     In the .cpp of a view class :
     @code
       RegisterRelationControler(ClassControler,ClassRelation,ClassControlerSet) ;
-    @endcode
-
-    @par Example
-    @code
-      RegisterRelationView( @todo ) ;
     @endcode
 
     @par How does it works

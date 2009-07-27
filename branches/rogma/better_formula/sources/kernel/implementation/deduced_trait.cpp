@@ -1161,22 +1161,22 @@ namespace ProjetUnivers
       }
     }
 
-    void HasChildFormula::addedChildren(Object* object, short number_of_children)
+    void HasChildFormula::addedChildren(Object* object,short number_of_children,Object* new_descendant)
     {
       /*
         Here we use the number of true child formulae on objects to code the
         number of children with trait @c trait_name
-
-        Direct child just add been added
-
-        @todo maintain dependencies
-
       */
       // formula is true for current object
       if (isValid(object))
       {
         // update because parent with trait has changed
         update(object) ;
+
+        maintainDependencies(object,
+                             getChildFormula(),
+                             new_descendant,
+                             NULL) ;
       }
       else
       {
@@ -1189,24 +1189,17 @@ namespace ProjetUnivers
       Object* parent = object->getParent() ;
       if (parent)
       {
-        addedChildren(parent,number_of_children) ;
+        addedChildren(parent,number_of_children,new_descendant) ;
       }
     }
 
-    void HasChildFormula::removedChildren(Object* object, short number_of_children)
+    void HasChildFormula::removedChildren(Object* object,short number_of_children,Object* old_descendant)
     {
       /*
         Here we use the number of true child formulae on objects to code the
         number of children with trait @c trait_name
-
-        Direct parent with trait has changed
-        @todo maintain dependencies
-
       */
       short true_child = object->getNumberOfTrueChildFormulae(this) ;
-
-      CHECK(true_child>=number_of_children,"incorrect removed child") ;
-
       object->setNumberOfTrueChildFormulae(this,true_child-number_of_children) ;
 
       if (true_child == number_of_children)
@@ -1217,12 +1210,17 @@ namespace ProjetUnivers
       {
         // still true but child has changed
         update(object) ;
+
+        maintainDependencies(object,
+                             getChildFormula(),
+                             NULL,
+                             old_descendant) ;
       }
 
       Object* parent = object->getParent() ;
       if (parent)
       {
-        removedChildren(parent,number_of_children) ;
+        removedChildren(parent,number_of_children,old_descendant) ;
       }
 
     }
@@ -1246,22 +1244,21 @@ namespace ProjetUnivers
         also has new parent
 
         @c object cannot have changed status because its children have not moved
-
-        @todo maintain dependencies
       */
 
       unsigned int number_of_children = object->getNumberOfChildren(getChildFormula()) ;
 
       if (old_parent && number_of_children > 0)
       {
-        removedChildren(old_parent,number_of_children) ;
-      }
-      Object* parent = object->getParent() ;
-      if (parent && number_of_children > 0)
-      {
-        addedChildren(parent,number_of_children) ;
+        removedChildren(old_parent,number_of_children,object) ;
       }
 
+      Object* parent = object->getParent() ;
+
+      if (parent && number_of_children > 0)
+      {
+        addedChildren(parent,number_of_children,object) ;
+      }
     }
 
     void HasAncestorFormula::addAncestor(Object* object,Object* new_ancestor,const bool& may_update)
@@ -1697,7 +1694,12 @@ namespace ProjetUnivers
       {
         becomeFalse(object) ;
       }
-      /// @todo
+      /*
+      no dependencies to handle because the only way is destroying something
+      so destruction will handle this
+
+      @see TestTrait::removeTraitOnOrChangeDepedencies
+      */
     }
 
     void FormulaOr::onAddChildFormulaTrue(const ObjectPair& pair)
@@ -1733,8 +1735,13 @@ namespace ProjetUnivers
       }
       else
       {
-        // @todo maintain dependencies...
         update(pair) ;
+        /*
+        no dependencies to handle because the only way is destroying something
+        so destruction will handle this
+
+        @see TestTrait::removeTraitOnOrRelationChangeDepedencies
+        */
       }
     }
 
@@ -2449,10 +2456,7 @@ namespace ProjetUnivers
 
     void DeducedTrait::updateTrait(Object*,Trait* trait)
     {
-      for(std::set<Notifiable*>::iterator dependent = trait->getDependentNotifiables().begin() ; dependent != trait->getDependentNotifiables().end() ; ++dependent)
-      {
-        (*dependent)->notify() ;
-      }
+      trait->updateDependents() ;
 
       /*
         valgrind indicates that following functions take the same time on

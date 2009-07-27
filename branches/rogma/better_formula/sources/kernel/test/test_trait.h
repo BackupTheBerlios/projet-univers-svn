@@ -53,7 +53,7 @@ namespace ProjetUnivers
       {
       protected:
       /*!
-        @name Or dependencies maintenance tests
+        @name And dependencies maintenance tests
       */
       // @{
 
@@ -67,7 +67,9 @@ namespace ProjetUnivers
       // @{
 
         void addNewTraitOnOrChangeDepedencies() ;
+        void removeTraitOnOrChangeDepedencies() ;
         void addNewTraitOnOrRelationChangeDepedencies() ;
+        void removeTraitOnOrRelationChangeDepedencies() ;
 
       // @}
       /*!
@@ -111,9 +113,10 @@ namespace ProjetUnivers
         void childTraitIsHasChildDependency() ;
         void addingIntermediateTraitChangeHasChildDependencies() ;
         void removingIntermediateTraitChangeHasChildDependencies() ;
+        void changeParentChangeHasChildDependencies() ;
+        void recursiveChangeParentChangeHasChildDependencies() ;
+        void changeParentToAnAlreadyValidParentChangeHasChildDependencies() ;
         void destroyChildObjectShouldNotCrash() ;
-
-        /// @todo change parent tests
 
       // @}
       /*!
@@ -188,7 +191,9 @@ namespace ProjetUnivers
         CPPUNIT_TEST(removeDeducedTraitOnAndDepedentTrait) ;
 
         CPPUNIT_TEST(addNewTraitOnOrChangeDepedencies) ;
+        CPPUNIT_TEST(removeTraitOnOrChangeDepedencies) ;
         CPPUNIT_TEST(addNewTraitOnOrRelationChangeDepedencies) ;
+        CPPUNIT_TEST(removeTraitOnOrRelationChangeDepedencies) ;
 
         CPPUNIT_TEST(parentTraitHasParentDependency) ;
         CPPUNIT_TEST(addIntermediateTraitChangeHasParentDependencies) ;
@@ -214,6 +219,9 @@ namespace ProjetUnivers
         CPPUNIT_TEST(childTraitIsHasChildDependency) ;
         CPPUNIT_TEST(addingIntermediateTraitChangeHasChildDependencies) ;
         CPPUNIT_TEST(removingIntermediateTraitChangeHasChildDependencies) ;
+        CPPUNIT_TEST(changeParentChangeHasChildDependencies) ;
+        CPPUNIT_TEST(recursiveChangeParentChangeHasChildDependencies) ;
+        CPPUNIT_TEST(changeParentToAnAlreadyValidParentChangeHasChildDependencies) ;
         CPPUNIT_TEST(destroyChildObjectShouldNotCrash) ;
 
         CPPUNIT_TEST(isRelatedHasDependencies) ;

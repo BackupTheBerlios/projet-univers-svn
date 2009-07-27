@@ -489,9 +489,9 @@ namespace ProjetUnivers
       addOperation(Implementation::Operation::update(observer)) ;
     }
 
-    void Model::changeParentObserver(Observer*,Object*)
+    void Model::changeParentObserver(Observer* observer,Object* old_parent)
     {
-      /// @todo
+      addOperation(Implementation::Operation::changeParent(observer,old_parent)) ;
     }
 
     void Model::initObserver(RelationObserver* observer)

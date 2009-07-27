@@ -56,7 +56,6 @@ namespace ProjetUnivers
     class DeducedTrait ;
     class ControlerSet ;
     class BaseControler ;
-    class BaseTraitReference ;
     class Reader ;
     class Writer ;
     class TraitFormula ;
@@ -326,20 +325,6 @@ namespace ProjetUnivers
       bool isLocked() const ;
 
     private:
-
-    // @}
-    /*!
-      @name Reference management
-    */
-    // @{
-
-      void _registerReference(BaseTraitReference*) ;
-      void _unregisterReference(BaseTraitReference*) ;
-
-      /// Trait references pointing on this.
-      std::set<BaseTraitReference*> m_references ;
-
-      template <class Trait> friend class TraitReference ;
 
     // @}
 

@@ -36,6 +36,7 @@ namespace ProjetUnivers
       : m_type(operation.m_type),
         m_object(operation.m_object),
         m_observer(operation.m_observer),
+        m_old_parent(operation.m_old_parent),
         m_relation_observer(operation.m_relation_observer),
         m_debug_display(operation.m_debug_display)
       {}
@@ -44,6 +45,7 @@ namespace ProjetUnivers
       : m_type(None),
         m_object(),
         m_observer(NULL),
+        m_old_parent(NULL),
         m_relation_observer(NULL)
       {}
 
@@ -74,6 +76,19 @@ namespace ProjetUnivers
         result.m_object = observer->getObject() ;
         result.m_observer = observer ;
         result.m_debug_display = "Update(" + Kernel::toString(result.m_object->getIdentifier()) + "," + getObjectTypeIdentifier(result.m_observer).toString() +")" ;
+        return result ;
+      }
+
+      Operation Operation::changeParent(Observer* observer,Object* old_parent)
+      {
+        Operation result ;
+        result.m_type = ChangeParent ;
+        result.m_object = observer->getObject() ;
+        result.m_observer = observer ;
+        result.m_old_parent = old_parent ;
+        result.m_debug_display = "ChangeParent(" + Kernel::toString(result.m_object->getIdentifier()) +
+                                 "," + getObjectTypeIdentifier(result.m_observer).toString() +
+                                  Kernel::toString(result.m_old_parent?result.m_old_parent->getIdentifier():-1) + ")" ;
         return result ;
       }
 
@@ -117,6 +132,9 @@ namespace ProjetUnivers
         case Update:
           m_observer->realUpdate() ;
           break ;
+        case ChangeParent:
+          m_observer->realChangeParent(m_old_parent) ;
+          break ;
         case InitRelation:
           m_relation_observer->realInit() ;
           break ;
@@ -126,8 +144,6 @@ namespace ProjetUnivers
         case UpdateRelation:
           m_relation_observer->realUpdate() ;
           break ;
-        case ChangeParent:
-          // @ todo handle changeParent...
         case None:
           break ;
         }

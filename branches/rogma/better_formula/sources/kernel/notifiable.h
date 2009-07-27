@@ -73,9 +73,6 @@ namespace ProjetUnivers
       Notifiable() ;
 
       /// Propagate update on dependent traits.
-      /*!
-        @todo use it instead of formula update propagation.
-      */
       void updateDependents() const ;
 
       /// Propagate close on dependent notifiable.

@@ -77,6 +77,7 @@ namespace ProjetUnivers
         Type      m_type ;
         Object*   m_object ;
         Observer* m_observer ;
+        Object*   m_old_parent ;
         RelationObserver* m_relation_observer ;
 
         std::string m_debug_display ;

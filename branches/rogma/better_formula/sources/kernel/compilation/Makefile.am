@@ -9,7 +9,6 @@ $(SOURCES)/kernel/implementation/algorithm.cpp \
 $(SOURCES)/kernel/implementation/base_controler.cpp \
 $(SOURCES)/kernel/implementation/base_relation_controler.cpp \
 $(SOURCES)/kernel/implementation/base_relation_view.cpp \
-$(SOURCES)/kernel/implementation/base_trait_reference.cpp \
 $(SOURCES)/kernel/implementation/base_trait_view.cpp \
 $(SOURCES)/kernel/implementation/command_delegator.cpp \
 $(SOURCES)/kernel/implementation/controler.cpp \
@@ -42,7 +41,6 @@ $(SOURCES)/kernel/implementation/timer_test_listener.cpp \
 $(SOURCES)/kernel/implementation/timer_test_result.cpp \
 $(SOURCES)/kernel/implementation/timer_xml_outputter_hook.cpp \
 $(SOURCES)/kernel/implementation/trait.cpp \
-$(SOURCES)/kernel/implementation/trait_reference.cpp \
 $(SOURCES)/kernel/implementation/trait_view.cpp \
 $(SOURCES)/kernel/implementation/transaction.cpp \
 $(SOURCES)/kernel/implementation/view_point.cpp \

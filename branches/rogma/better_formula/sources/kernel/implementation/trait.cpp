@@ -23,7 +23,6 @@
 #include <kernel/log.h>
 #include <kernel/string.h>
 #include <kernel/exception_kernel.h>
-#include <kernel/base_trait_reference.h>
 
 #include <kernel/base_controler.h>
 #include <kernel/controler_set.h>
@@ -62,12 +61,6 @@ namespace ProjetUnivers
 
       _close() ;
 
-      for(std::set<BaseTraitReference*>::iterator reference = m_references.begin() ;
-          reference != m_references.end() ;
-          ++reference)
-      {
-        (*reference)->_reset() ;
-      }
       m_destroying = true ;
 
 
@@ -663,16 +656,6 @@ namespace ProjetUnivers
       {
         return std::pair<bool,boost::any>(false,false) ;
       }
-    }
-
-    void Trait::_registerReference(BaseTraitReference* reference)
-    {
-      m_references.insert(reference) ;
-    }
-
-    void Trait::_unregisterReference(BaseTraitReference* reference)
-    {
-      m_references.erase(reference) ;
     }
 
     void Trait::_registerReader(const std::string& name,ReaderFunction reader)
