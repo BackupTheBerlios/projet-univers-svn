@@ -95,22 +95,22 @@ namespace ProjetUnivers
         /// Test manual views handling.
         void testManualView() ;
 
-        /// Test manual view construction on an initialised viewpoint.
+        /// Test manual view construction on an initialized viewpoint.
         void testManualViewOnInitViewPoint() ;
 
         /// Test a bug : crash on init viewpoint with NULL model.
         void initViewPointWithNullModel() ;
 
-        /// Test the correction of the preceeding bug.
+        /// Test the correction of the preceding bug.
         /*!
           # building a viewpoint with a NULL model
           # init the viewpoint
           # reset a non NULL model
-          # check that views have been initialised
+          # check that views have been initialized
         */
         void setModelOnInitialisedViewPointWithNullModel() ;
 
-        /// Test the correction of the preceeding bug.
+        /// Test the correction of the preceding bug.
         /*!
           # building a viewpoint on a model
           # init the viewpoint
@@ -119,12 +119,12 @@ namespace ProjetUnivers
         */
         void changeModelOnInitialisedViewPoint() ;
 
-        /// Test the correction of the preceeding bug.
+        /// Test the correction of the preceding bug.
         /*!
           # building a viewpoint on a model
           # init the viewpoint
           # reset another model
-          # adde object
+          # add object
           # check that views on new model's objects exist
         */
         void changeModelOnViewPoint() ;
@@ -141,19 +141,38 @@ namespace ProjetUnivers
         /// Access a trait of object.
         void accessOtherTrait() ;
 
-        /// Updating an ancestor trait update the descendent deduced trait
+        /// Updating an ancestor trait update the descendant deduced trait
         void updateAncestor() ;
         /// Same test as above in recursive case
         void updateRecursiveAncestor() ;
-        /// Same test as above with two level childs
+        /// Same test as above with two level children
         void updateRecursiveAncestorLevel2() ;
 
-        /// Updating a parent trait update the descendent deduced traits
+        void addingParentUpdateHasAncestor() ;
+
+        /// Updating a parent trait update the descendant deduced traits
         void updateParentTrait() ;
-        /// Same test as above with two level childs
+        /// Same test as above with two level children
         void updateRecursiveParentTrait() ;
+        void addingNewParentObjectShouldNotUpdateHasParentDescendant() ;
+        void removingAncestorShouldNotUpdateHasParentDescendant() ;
+        void removingAncestorShouldNotUpdateHasAncestorDescendant() ;
+        void removingDescendantShouldNotUpdateHasChildAncestor() ;
 
         void initNotTrait() ;
+
+        void updatingChildObjectUpdatesHasChild() ;
+        void addingNewChildObjectUpdatesHasChild() ;
+        void addingNewDescendentObjectDoesNotUpdateHasChild() ;
+        void removingDescendentObjectDoesNotUpdateHasChild() ;
+        void removingChildObjectUpdatesHasChild() ;
+        void removingIntermediateUpdatesHasChild() ;
+
+        void changingParentUpdatesHasParent() ;
+        void changingParentUpdatesHasParentNegativeTest() ;
+        void changingParentUpdatesHasAncestor() ;
+        void changingParentUpdatesHasAncestorNegativeTest() ;
+        void changingParentUpdatesHasChild() ;
 
       // @}
 
@@ -191,9 +210,25 @@ namespace ProjetUnivers
         CPPUNIT_TEST(updateAncestor) ;
         CPPUNIT_TEST(updateRecursiveAncestor) ;
         CPPUNIT_TEST(updateRecursiveAncestorLevel2) ;
+        CPPUNIT_TEST(addingParentUpdateHasAncestor) ;
         CPPUNIT_TEST(updateParentTrait) ;
         CPPUNIT_TEST(updateRecursiveParentTrait) ;
+        CPPUNIT_TEST(addingNewParentObjectShouldNotUpdateHasParentDescendant) ;
+        CPPUNIT_TEST(removingAncestorShouldNotUpdateHasParentDescendant) ;
+        CPPUNIT_TEST(removingAncestorShouldNotUpdateHasAncestorDescendant) ;
+        CPPUNIT_TEST(removingDescendantShouldNotUpdateHasChildAncestor) ;
         CPPUNIT_TEST(initNotTrait) ;
+        CPPUNIT_TEST(updatingChildObjectUpdatesHasChild) ;
+        CPPUNIT_TEST(addingNewChildObjectUpdatesHasChild) ;
+        CPPUNIT_TEST(addingNewDescendentObjectDoesNotUpdateHasChild) ;
+        CPPUNIT_TEST(removingDescendentObjectDoesNotUpdateHasChild) ;
+        CPPUNIT_TEST(removingChildObjectUpdatesHasChild) ;
+        CPPUNIT_TEST(removingIntermediateUpdatesHasChild) ;
+        CPPUNIT_TEST(changingParentUpdatesHasParent) ;
+        CPPUNIT_TEST(changingParentUpdatesHasParentNegativeTest) ;
+        CPPUNIT_TEST(changingParentUpdatesHasAncestor) ;
+        CPPUNIT_TEST(changingParentUpdatesHasAncestorNegativeTest) ;
+        CPPUNIT_TEST(changingParentUpdatesHasChild) ;
 
         CPPUNIT_TEST_SUITE_END() ;
 

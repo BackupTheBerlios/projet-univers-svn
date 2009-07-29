@@ -2,13 +2,8 @@
 
 lib_LTLIBRARIES = libai.la 
 
-# if we have clan lib we can compile an additional program
-if HAVE_CLANLIB
-  noinst_PROGRAMS = test_behaviour_display
-endif
-
 SOURCES = $(top_srcdir)/sources
-INCLUDES = -I$(SOURCES)
+AM_CPPFLAGS = -I$(SOURCES)
 AM_CXXFLAGS = $(PU_CXXFLAGS)
 
 libai_la_SOURCES = \
@@ -40,6 +35,10 @@ ressources.cfg:../../ressources.cfg.in
 
 TESTS = test_ai
 
+# compile tests program without launching them so make build them
+noinst_PROGRAMS = $(TESTS)
+
+# launch tests in case of make check
 check_PROGRAMS = $(TESTS)
 
 # unit tests 
@@ -63,14 +62,3 @@ $(SOURCES)/physic/compilation/libphysic.la \
 $(librlog_LIBS) \
 $(libXML_LIBS)  \
 $(OGRE_LIBS)
-
-test_behaviour_display_SOURCES = ../test/test_behaviour_display.cpp
-test_behaviour_display_CXXFLAGS = $(PU_CXXFLAGS) $(CLAN_CXXFLAGS)
-test_behaviour_display_LDFLAGS = $(CLAN_LIBS) -lclanDisplay -lclanCore -lclanApp -lclanGL
-test_behaviour_display_LDADD = \
-libai.la \
-$(SOURCES)/kernel/compilation/libkernel.la \
-$(SOURCES)/model/compilation/libmodel.la \
-$(OGRE_LIBS) \
-$(librlog_LIBS) \
-$(libXML_LIBS) 

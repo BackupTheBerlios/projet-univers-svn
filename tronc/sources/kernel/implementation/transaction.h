@@ -44,7 +44,7 @@ namespace ProjetUnivers
         void addOperation(Operation*) ;
         
         /// Perform operations
-        virtual void execute() ;
+        void execute() ;
         
         ~Transaction() ;
         

@@ -44,7 +44,7 @@ namespace ProjetUnivers
         
         Kernel::Object* Listener::getObject() const
         {
-          getTrait()->getObject() ;
+          return getTrait()->getObject() ;
         }
         
         void Listener::onInit()

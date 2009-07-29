@@ -32,7 +32,7 @@ namespace ProjetUnivers
 
       DeclareDeducedTrait(EditedFlyingGroup,
                           And(HasTrait(Model::FlyingGroup),
-                              HasParent(EditedTeam))) ;
+                              HasParent(HasTrait(EditedTeam)))) ;
     }
   }
 }

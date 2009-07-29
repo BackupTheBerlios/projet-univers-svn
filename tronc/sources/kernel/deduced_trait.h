@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -35,6 +35,7 @@
 #include <kernel/relation.h>
 
 #include <kernel/trait.h>
+#include <kernel/notifiable.h>
 
 namespace ProjetUnivers
 {
@@ -54,7 +55,7 @@ namespace ProjetUnivers
     /*!
       @param trait the trait class being defined
       @param formula any combination of And, Or, Not, HasTrait, HasParent,
-             HasAncestor, HasChild. see below.
+             HasAncestor, HasChild, IsRelated, IsOnlyRelated. see below.
     */
     #define DeclareDeducedTrait(trait,formula)  \
       namespace PU_MAKE_UNIQUE_NAME(local)      \
@@ -107,58 +108,58 @@ namespace ProjetUnivers
 
     /// Negation of @c formula.
     #define Not(formula) \
-      Kernel::TemplateNot<formula>
+      Kernel::TemplateNot< formula >
 
     /// Elementary formula true iff object has trait @c trait
     #define HasTrait(trait) \
       Kernel::TemplateHasTrait<trait>
 
-    /// Elementary formula true iff object has parent trait @c trait
+    /// True iff object has parent with @c formula
     /*!
-      @remark if object has @c trait then formula is true, @see
-      object::getParent().
+      @remark if object satisfy @c formula then HasParent(formula) is true.
+      Notably, HasParent(HasTrait(T)), @see object::getParent<T>().
     */
-    #define HasParent(trait) \
-      Kernel::TemplateHasParent<trait>
+    #define HasParent(formula) \
+      Kernel::TemplateHasParent< formula >
 
-    /// Elementary formula true iff object has ancestor trait @c trait
+    /// Elementary formula true iff object has ancestor with true @c formula
     /*!
       @see object::getAncestor().
     */
-    #define HasAncestor(trait) \
-      Kernel::TemplateHasAncestor<trait>
+    #define HasAncestor(formula) \
+      Kernel::TemplateHasAncestor< formula >
 
     /// Elementary formula true iff object has child trait @c trait
     /*!
       @remark if object has @c trait then formula is true, @see
       object::getChildren().
     */
-    #define HasChild(trait) \
-      Kernel::TemplateHasChild<trait>
+    #define HasChild(formula) \
+      Kernel::TemplateHasChild< formula >
 
     /// True iff object is related to a @c formula object through @c relation.
     /*!
-      This formula is true for object o iff :
+      This formula is true for an object o iff :
       exist x, relation(o,x) and formula(x)
     */
     #define IsRelated(relation,formula) \
-      Kernel::TemplateIsRelated<relation,formula>
+      Kernel::TemplateIsRelated< relation,formula >
 
     /// True iff object is only related to @c formula objects through @c relation.
     /*!
-      This formula is true for object o iff :
+      This formula is true for an object o iff :
       for all x, relation(o,x) => formula(x)
     */
     #define IsOnlyRelated(relation,formula) \
-      Kernel::TemplateIsOnlyRelated<relation,formula>
+      Kernel::TemplateIsOnlyRelated< relation,formula >
 
     /// True iff a relation goes from an object satisfying formula.
     #define IsFrom(formula) \
-      Kernel::TemplateIsFrom<formula>
+      Kernel::TemplateIsFrom< formula >
 
     /// True iff a relation goes to an object satisfying formula.
     #define IsTo(formula) \
-      Kernel::TemplateIsTo<formula>
+      Kernel::TemplateIsTo< formula >
 
     /// Abstract class for traits that are deduced.
     /*!
@@ -177,7 +178,8 @@ namespace ProjetUnivers
           true child appear
         - HasParent formula : whenever the return value of getParent<T> changes,
           i.e., the parent that makes the formula true is not the same as before
-        - HasAncestor : idem as HasParent
+        - HasAncestor : same as HasParent
+        - HasChild :
     */
     class DeducedTrait : public Trait
     {
@@ -222,11 +224,11 @@ namespace ProjetUnivers
       /// Print all the registered deduced traits.
       static std::string printDeclarations() ;
 
-      /// Gives the traits directly depending on @c trait.
-      static const std::set<TypeIdentifier>& getDependentTraitTypes(Trait* trait) ;
-
       /// Access to formula of the deduced trait.
       Formula* getFormula() const ;
+
+      /// Access to formula of the deduced trait.
+      static Formula* getFormula(const TypeIdentifier&) ;
 
       /// Return false because the trait is deduced.
       virtual bool isPrimitive() const ;
@@ -250,6 +252,9 @@ namespace ProjetUnivers
       static void update(Formula* formula,
                          Object*  object) ;
 
+      /// Objects that are updating, to avoid loops in weird cases.
+      std::set<Notifiable*> m_updating ;
+
       class StaticStorage
       {
       public:
@@ -263,7 +268,9 @@ namespace ProjetUnivers
         /// map formula to deduced trait names for destruction.
         std::map<Formula*,TypeIdentifier> m_destructors ;
 
-        /// Caching for getDependentTraits
+        std::map<TypeIdentifier,Formula*> m_formulae ;
+
+        /// Caching for getDependentNotifiables
         std::map<TypeIdentifier,std::set<TypeIdentifier> > m_dependent_traits ;
 
       private:
@@ -290,6 +297,10 @@ namespace ProjetUnivers
       static void registerRelation(const TypeIdentifier& relation,
                                    const TypeIdentifier& primitive_relation,
                                    Formula*              formula) ;
+
+      /// Relation has been updated
+      static void updateRelation(const Relation&) ;
+
 
       /// Notify that @c formula has gained @c validity on @c relation
       static void notify(Formula*          formula,

@@ -85,7 +85,7 @@ namespace ProjetUnivers
             ::CEGUI::MouseCursor::getSingleton().hide() ;
             
             // useless if scheme contains a font reference.
-            ::CEGUI::Font* font = ::CEGUI::FontManager::getSingleton().createFont("bluehighway-12.font") ;
+            ::CEGUI::FontManager::getSingleton().createFont("bluehighway-12.font") ;
             
             // create a default window
             m_window = ::CEGUI::WindowManager::getSingleton().createWindow("DefaultWindow","System") ;
@@ -238,7 +238,7 @@ namespace ProjetUnivers
           }
           else
           {
-            for(int child_index = 0 ; child_index < window->getChildCount() ; ++child_index)
+            for(unsigned int child_index = 0 ; child_index < window->getChildCount() ; ++child_index)
             {
               ::CEGUI::Window* child = window->getChildAtIdx(child_index) ;
               ::CEGUI::Window* result = getNamedDescendant(child,name) ;
@@ -261,7 +261,7 @@ namespace ProjetUnivers
           }
           else
           {
-            for(int child_index = 0 ; child_index < window->getChildCount() ; ++child_index)
+            for(unsigned int child_index = 0 ; child_index < window->getChildCount() ; ++child_index)
             {
               ::CEGUI::Window* child = window->getChildAtIdx(child_index) ;
               ::CEGUI::Window* result = getTypedDescendant(child,type) ;
@@ -285,7 +285,7 @@ namespace ProjetUnivers
           }
           else
           {
-            for(int child_index = 0 ; child_index < window->getChildCount() ; ++child_index)
+            for(unsigned int child_index = 0 ; child_index < window->getChildCount() ; ++child_index)
             {
               ::CEGUI::Window* child = window->getChildAtIdx(child_index) ;
               ::CEGUI::Window* result = getTypedDescendant(child,type,text) ;
@@ -330,7 +330,7 @@ namespace ProjetUnivers
 //              result = result + printed_indent + property_name.c_str() + "="+ window->getProperty(property_name).c_str() + "\n"; 
 //            }
             
-            for(int child_index = 0 ; child_index < window->getChildCount() ; ++child_index)
+            for(unsigned int child_index = 0 ; child_index < window->getChildCount() ; ++child_index)
             {
               ::CEGUI::Window* child = window->getChildAtIdx(child_index) ;
               result += printStructure(child,indent+2) ;
@@ -399,7 +399,7 @@ namespace ProjetUnivers
           }
           else
           {
-            for(int child_index = 0 ; child_index < window->getChildCount() ; ++child_index)
+            for(unsigned int child_index = 0 ; child_index < window->getChildCount() ; ++child_index)
             {
               ::CEGUI::Window* child = window->getChildAtIdx(child_index) ;
               ::CEGUI::Window* result = getChild(child,local_name) ;

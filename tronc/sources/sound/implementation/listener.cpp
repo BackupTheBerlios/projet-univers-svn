@@ -26,12 +26,15 @@
 #include <sound/implementation/recursively_positionned.h>
 #include <sound/implementation/listener.h>
 
-namespace ProjetUnivers {
-  namespace Sound {
-    namespace Implementation {
+namespace ProjetUnivers
+{
+  namespace Sound
+  {
+    namespace Implementation
+    {
 
       DeclareDeducedTrait(Listener,
-                          And(HasParent(Model::Mobile),
+                          And(HasParent(HasTrait(Model::Mobile)),
                               HasTrait(RecursivelyPositionned),
                               HasTrait(Model::Listener))) ;
 

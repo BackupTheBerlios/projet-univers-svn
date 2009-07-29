@@ -41,6 +41,9 @@ namespace ProjetUnivers
       namespace OpenAL
       {
 
+        SoundListener::~SoundListener()
+        {}
+
         SoundListener::SoundListener()
         {}
         

@@ -49,7 +49,7 @@ namespace ProjetUnivers
         
         Kernel::Object* Engine::getObject() const
         {
-          getTrait()->getObject() ;
+          return getTrait()->getObject() ;
         }
         
         float Engine::getOuterGain() const

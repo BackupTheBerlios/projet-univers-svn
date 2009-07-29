@@ -33,7 +33,7 @@ namespace ProjetUnivers
       DeclareDeducedTrait(SpaceDust,
                           And(HasTrait(Implementation::Observer),
                               HasTrait(Implementation::Positionned),
-                              HasParent(Model::Mobile))) ;
+                              HasParent(HasTrait(Model::Mobile)))) ;
     }
   }
 }

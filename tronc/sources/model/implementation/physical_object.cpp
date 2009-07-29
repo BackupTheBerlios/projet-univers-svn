@@ -38,7 +38,7 @@ namespace ProjetUnivers {
                             HasTrait(Oriented),
                             HasTrait(Massive),
                             HasTrait(Whole),
-                            HasAncestor(PhysicalWorld))) ;
+                            HasAncestor(HasTrait(PhysicalWorld)))) ;
 
     Kernel::Object* PhysicalObject::getPhysicalWorld() const
     {

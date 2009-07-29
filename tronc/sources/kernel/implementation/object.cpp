@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -65,12 +65,15 @@ namespace ProjetUnivers
         getModel()->changeParent(this,new_parent) ;
     }
 
-    void Object::addTrait(Trait* trait)
+    Trait* Object::addTrait(Trait* trait)
     {
       if (getModel())
-        getModel()->addTrait(this,trait) ;
+        return getModel()->addTrait(this,trait) ;
       else
+      {
         delete trait ;
+        return NULL ;
+      }
     }
 
     void Object::destroyTrait(Trait* trait)
@@ -168,7 +171,7 @@ namespace ProjetUnivers
       CHECK(Formula::getNumberOfFormulae() <= m_validities.size(),
             "Object::setValidity not enought place") ;
 
-      if (i_formula->getIdentifier() >= m_validities.size())
+      if (i_formula->getIdentifier() >= (int)m_validities.size())
       {
         // error
         std::cout << "error" << std::endl << i_formula->print() ;
@@ -177,24 +180,41 @@ namespace ProjetUnivers
       m_validities[i_formula->getIdentifier()] = i_validity ;
     }
 
-    unsigned short Object::getNumberOfTrueChildFormulae(const Formula* i_formula) const
+    short Object::getNumberOfTrueChildFormulae(const Formula* formula) const
     {
-      CHECK(i_formula,"Object::getNumberOfTrueChildFormulae no formula") ;
+      CHECK(formula,"Object::getNumberOfTrueChildFormulae no formula") ;
       CHECK(Formula::getNumberOfFormulae() <= m_number_of_true_child_formulae.size(),
             "Object::getNumberOfTrueChildFormulae not enought place") ;
 
-      return m_number_of_true_child_formulae[i_formula->getIdentifier()] ;
+      short result = m_number_of_true_child_formulae[formula->getIdentifier()] ;
+
+      if (result < 0 && !isDeleting())
+        throw ExceptionKernel("Object::getNumberOfTrueChildFormulae getting a negative value for "
+                              + formula->print()) ;
+
+      return result ;
     }
 
-    void Object::setNumberOfTrueChildFormulae(const Formula*     i_formula,
-                                              unsigned short i_number)
+    void Object::setNumberOfTrueChildFormulae(const Formula* formula,
+                                              short          number)
     {
-      CHECK(i_formula,"Object::setNumberOfTrueChildFormulae no formula") ;
+      CHECK(formula,"Object::setNumberOfTrueChildFormulae no formula") ;
       CHECK(Formula::getNumberOfFormulae() <= m_number_of_true_child_formulae.size(),
-            "Object::setNumberOfTrueChildFormulae not enought place") ;
+            "Object::setNumberOfTrueChildFormulae not enough place") ;
 
-      m_number_of_true_child_formulae[i_formula->getIdentifier()]
-        = i_number ;
+      if (number < 0)
+        /*
+          temporary hack, the issue comes from destroying an object
+          in some cases we start by destroying a deduced trait... and after
+          we destroy the underlying trait causing a double removal...
+        */
+        return ;
+
+      if (number < 0 && !isDeleting())
+        throw ExceptionKernel("Object::setNumberOfTrueChildFormulae setting a negative value for "
+                              + formula->print()) ;
+
+      m_number_of_true_child_formulae[formula->getIdentifier()] = number ;
     }
 
   // @}
@@ -209,8 +229,8 @@ namespace ProjetUnivers
       m_identifier(model->m_next_identifier++),
       m_parent(NULL),
       m_model(model),
-      m_validities(Formula::getNumberOfFormulae()),
-      m_number_of_true_child_formulae(Formula::getNumberOfFormulae()),
+      m_validities(Formula::getNumberOfFormulae(),false),
+      m_number_of_true_child_formulae(Formula::getNumberOfFormulae(),0),
       m_locks(0)
     {
     }
@@ -281,7 +301,7 @@ namespace ProjetUnivers
 
       /*
       should be before closing because closing local views/controlers
-      because views/controlers on deduced trait including the curent trait
+      because views/controlers on deduced trait including the current trait
       would depend on local views.
       */
       DeducedTrait::removeTrait(this,trait) ;
@@ -300,7 +320,7 @@ namespace ProjetUnivers
       _remove(trait_name) ;
     }
 
-    Object* Object::_detach(const TypeIdentifier& trait_name)
+    void Object::_detach(const TypeIdentifier& trait_name)
     {
       if (!_getTraits().empty())
         _getTraits().erase(trait_name) ;
@@ -410,10 +430,7 @@ namespace ProjetUnivers
           trait != _getTraits().end() ;
           ++trait)
       {
-//        if (trait->second->isPrimitive())
-//        {
-          destroyTrait(trait->second) ;
-//        }
+        destroyTrait(trait->second) ;
       }
 
       unlockTraits(locked_traits) ;
@@ -515,10 +532,10 @@ namespace ProjetUnivers
 
     Trait* Object::_get(const TypeIdentifier& i_trait_name) const
     {
-      std::map<TypeIdentifier, Trait*>::const_iterator trait = _getTraits().find(i_trait_name) ;
-      if (trait != _getTraits().end())
+      std::map<TypeIdentifier, Trait*>::const_iterator finder = _getTraits().find(i_trait_name) ;
+      if (finder != _getTraits().end())
       {
-        return trait->second ;
+        return finder->second ;
       }
 
       for(std::map<TypeIdentifier, Trait*>::const_iterator trait = _getTraits().begin() ;
@@ -534,13 +551,13 @@ namespace ProjetUnivers
       return NULL ;
     }
 
-    Trait* Object::_getDeducedTrait(const TypeIdentifier& i_trait_name) const
+    DeducedTrait* Object::_getDeducedTrait(const TypeIdentifier& i_trait_name) const
     {
       /// simpler : no inheritance is taken int account
       std::map<TypeIdentifier, Trait*>::const_iterator trait = _getTraits().find(i_trait_name) ;
       if (trait != _getTraits().end())
       {
-        return trait->second ;
+        return (DeducedTrait*)trait->second ;
       }
       return NULL ;
     }
@@ -726,6 +743,11 @@ namespace ProjetUnivers
       return children ;
     }
 
+    bool Object::isDeleting() const
+    {
+      return m_deleting ;
+    }
+
     std::list<Object*> Object::getAncestorPath() const
     {
       std::list<Object*> result ;
@@ -838,6 +860,28 @@ namespace ProjetUnivers
       return result ;
     }
 
+    unsigned int Object::getNumberOfParent(const Formula* formula) const
+    {
+      unsigned int result = 0 ;
+
+      Object* iterator(const_cast<Object*>(this)) ;
+      while(iterator)
+      {
+        if (formula->isValid(iterator))
+          ++result ;
+        iterator = iterator->getParent() ;
+      }
+      return result ;
+    }
+
+    unsigned int Object::getNumberOfAncestor(const Formula* formula) const
+    {
+      if (getParent())
+        return getNumberOfParent(formula) ;
+
+      return 0 ;
+    }
+
     unsigned int Object::getNumberOfAncestor(const TypeIdentifier& name) const
     {
       unsigned int result = 0 ;
@@ -866,6 +910,25 @@ namespace ProjetUnivers
 
       // local
       if (getTrait(name))
+        ++result ;
+
+      return result ;
+    }
+
+    unsigned int Object::getNumberOfChildren(const Formula* formula) const
+    {
+      unsigned int result = 0 ;
+
+      // recurse
+      for(std::set<Object*>::const_iterator child = children.begin() ;
+          child != children.end() ;
+          ++child)
+      {
+        result += (*child)->getNumberOfChildren(formula) ;
+      }
+
+      // local
+      if (formula->isValid(const_cast<Object*>(this)))
         ++result ;
 
       return result ;
@@ -937,12 +1000,12 @@ namespace ProjetUnivers
 
     std::map<TypeIdentifier,Trait*>& Object::_getTraits()
     {
-      return traits ;
+      return m_traits ;
     }
 
     const std::map<TypeIdentifier,Trait*>& Object::_getTraits() const
     {
-      return traits ;
+      return m_traits ;
     }
 
   }

@@ -308,6 +308,29 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(Relation::getLinked<DeducedSelection>(o1).empty()) ;
       }
 
+      namespace
+      {
+        class OtherSelection : public Relation
+        {};
+      }
+
+      void TestRelation::primitiveRelationDoesNotTriggerOtherDeduction()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+        Object* o1 = model->createObject() ;
+        Object* o2 = model->createObject() ;
+
+        o1->addTrait(new T1()) ;
+        o2->addTrait(new T2()) ;
+
+        CPPUNIT_ASSERT(Relation::getLinked<DeducedSelection>(o1).empty()) ;
+
+        Link<OtherSelection>(o1,o2) ;
+
+        std::set<Object*> related(Relation::getLinked<DeducedSelection>(o1)) ;
+
+        CPPUNIT_ASSERT_EQUAL((unsigned int)0,related.size()) ;
+      }
 
     }
   }

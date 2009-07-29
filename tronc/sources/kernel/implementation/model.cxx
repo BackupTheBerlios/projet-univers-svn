@@ -43,6 +43,9 @@ namespace ProjetUnivers
         m_object2(relation.getObjectTo())
       {}
 
+      ObjectPair()
+      {}
+
       bool operator ==(const ObjectPair& pair) const
       {
         return m_object1 == pair.m_object1 && m_object2 == pair.m_object2 ;
@@ -71,7 +74,7 @@ namespace ProjetUnivers
       }
 
       /// Access to the number of true child formulae for @c this
-      unsigned short getNumberOfTrueChildFormulae(const Formula* formula) const
+      short getNumberOfTrueChildFormulae(const Formula* formula) const
       {
         if (m_object1)
           return m_object1->getModel()->getNumberOfTrueChildFormulae(*this,formula) ;
@@ -79,7 +82,7 @@ namespace ProjetUnivers
       }
 
       /// Change the number of true child formulae for @c this
-      void setNumberOfTrueChildFormulae(const Formula* formula,unsigned short number) const
+      void setNumberOfTrueChildFormulae(const Formula* formula,short number) const
       {
         if (m_object1)
           m_object1->getModel()->setNumberOfTrueChildFormulae(*this,formula,number) ;
@@ -98,8 +101,6 @@ namespace ProjetUnivers
 
       ObjectReference m_object1 ;
       ObjectReference m_object2 ;
-
-
     };
 
     template <class _Relation>

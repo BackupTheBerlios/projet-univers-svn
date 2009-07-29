@@ -28,16 +28,10 @@
 #include <kernel/parameters.h>
 #include <kernel/log.h>
 
-int 
-main( int argc, char* argv[] )
+int main(int,char*[])
 {
   ProjetUnivers::Kernel::Parameters::load("kernel.config") ;
   ProjetUnivers::Kernel::Log::init() ;
-  
-  // if command line contains "-selftest" then this is the post build check
-  // => the output must be in the compiler error format.
-  bool selfTest = (argc > 1)  &&  
-                  (std::string("-selftest") == argv[1]);
 
   CppUnit::TextUi::TestRunner runner;
   CppUnit::TestFactoryRegistry &registry = CppUnit::TestFactoryRegistry::getRegistry();

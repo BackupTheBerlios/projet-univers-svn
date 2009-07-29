@@ -18,11 +18,11 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_KERNEL_ERROR_H_
-#define PU_KERNEL_ERROR_H_
+#pragma once
 
 #include <cassert>
 #include <kernel/log.h>
+#include <kernel/exception_kernel.h>
 /*!
   @name Error handling
   
@@ -42,11 +42,6 @@
 
 #else
 
-  #define CHECK(condition,message) { if (!(condition)) { ErrorMessage(message) ; throw message ; } }
+  #define CHECK(condition,message) { if (!(condition)) { ErrorMessage(message) ; throw ProjetUnivers::Kernel::ExceptionKernel(message) ; } }
 
 #endif
-
-
-
-
-#endif /*PU_KERNEL_ERROR_H_*/

@@ -3,7 +3,7 @@ AC_PREREQ(2.50)
 # Version
 AC_INIT([ProjetUnivers], 0.3.2)
 AC_CONFIG_SRCDIR([sources/demonstration/demonstration.cpp])
-AM_INIT_AUTOMAKE([1.9 tar-pax])
+AM_INIT_AUTOMAKE([1.9 tar-pax -Wall])
 
 # svn revision
 AC_SUBST(SVN_REVISION, `svnversion|tr -d '\n'`)
@@ -103,6 +103,12 @@ AC_SUBST(libXML_CFLAGS)
 # Global c++ variable :
 PU_CXXFLAGS="$OGRE_CFLAGS $OIS_CFLAGS $librlog_CFLAGS $CEGUI_OGRE_CFLAGS $libXML_CFLAGS"
 AC_SUBST(PU_CXXFLAGS)
+
+PU_WARNINGS="-W -Wall -Wconversion -Wshadow -Wwrite-strings"
+AC_SUBST(PU_WARNINGS)
+
+PU_TESTS_WARNINGS="-W -Wall -Wconversion -Wshadow -Wwrite-strings"
+AC_SUBST(PU_TESTS_WARNINGS)
 
 # check clanlib
 AC_PATH_PROG(CLANLIB_CONFIG, clanlib-config, no)

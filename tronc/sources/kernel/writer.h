@@ -48,6 +48,8 @@ namespace ProjetUnivers
       virtual void endTrait() = 0 ;
       virtual void addAttribute(const std::string&,const std::string&) = 0 ;
       
+      virtual ~Writer() ;
+
     protected:
       
       /// Write an object. 

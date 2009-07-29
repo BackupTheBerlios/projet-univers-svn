@@ -233,6 +233,8 @@ namespace ProjetUnivers
             return "Illegal call" ;
           case AL_OUT_OF_MEMORY:
             return "Unable to allocate memory" ;
+          default:
+            return "Unknown error" ;
           }
         }
 

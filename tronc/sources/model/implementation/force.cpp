@@ -51,6 +51,8 @@ namespace ProjetUnivers {
                      m_value[1]+i_f.m_value[1]) ;
                      
       }
+
+      return Force() ;
     }
     
     Force Force::operator -(const Force& i_f) const 
@@ -63,6 +65,8 @@ namespace ProjetUnivers {
                      m_value[1]-i_f.m_value[1]) ;
                      
       }
+
+      return Force() ;
     }
 
     Ogre::Vector3 Force::Newton() const  

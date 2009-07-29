@@ -111,6 +111,7 @@ namespace ProjetUnivers
           m_reader->_registerReference(this) ;
         }
       }
+      return *this ;
     }
 
     ObjectReference& ObjectReference::operator=(Object* object)

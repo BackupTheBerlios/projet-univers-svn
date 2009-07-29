@@ -26,7 +26,6 @@
 #include <kernel/deduced_trait.h>
 #include <kernel/trait_view.h>
 #include <kernel/view_point.h>
-#include <kernel/trait_reference.h>
 
 #include <kernel/test/test_model.h>
 
@@ -165,13 +164,11 @@ namespace ProjetUnivers
 
       void TestModel::testObjectReference()
       {
-        /// create a model
+        // create a model
         std::auto_ptr<Model> model(new Model("TestModel::testObjectReference")) ;
 
-        //// fill the model
-        Object* object = model->createObject() ;
-        
-        ObjectReference reference(object) ;
+        // fill the model
+        ObjectReference reference(model->createObject()) ;
         
         {
           Object* object = reference ;
@@ -193,8 +190,8 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(!reference) ;
         
         {
-          Object* object = reference ;
-          CPPUNIT_ASSERT(!object) ;
+          Object* object2 = reference ;
+          CPPUNIT_ASSERT(!object2) ;
         }
 
       }
@@ -211,63 +208,10 @@ namespace ProjetUnivers
         model->destroyObject(object) ;
         
         {
-          Object* object = reference ;
-          CPPUNIT_ASSERT(!object) ;
+          Object* object2 = reference ;
+          CPPUNIT_ASSERT(!object2) ;
         }
 
-      }
-      
-      void TestModel::testTraitReference()
-      {
-        /// create a model
-        std::auto_ptr<Model> model(new Model("TestModel::testTraitReference")) ;
-
-        //// fill the model
-        Object* object = model->createObject() ;
-        object->addTrait(new Person()) ;
-        
-        TraitReference<Person> reference(object) ;
-        
-        {
-          Person* person = reference ;
-          CPPUNIT_ASSERT(person) ;
-        }
-      }
-        
-      void TestModel::testTraitReferenceToRemovedTrait()
-      {
-        /// create a model
-        std::auto_ptr<Model> model(new Model("TestModel::testTraitReferenceToRemovedTrait")) ;
-
-        //// fill the model
-        Object* object = model->createObject() ;
-        object->addTrait(new Person()) ;
-        
-        TraitReference<Person> reference(object) ;
-        object->destroyTrait(reference) ;
-        
-        {
-          Person* person = reference ;
-          CPPUNIT_ASSERT(!person) ;
-        }
-      }
-
-      void TestModel::testTraitReferenceToDestroyedObject()
-      {
-        /// create a model
-        std::auto_ptr<Model> model(new Model("TestModel::testTraitReferenceToDestroyedObject")) ;
-
-        //// fill the model
-        Object* object = model->createObject() ;
-        object->addTrait(new Person()) ;
-        
-        TraitReference<Person> reference(object) ;
-        model->destroyObject(object) ;
-        
-        {
-          Person* person = reference ;
-          CPPUNIT_ASSERT(!person) ;
-        }
       }
 
       void TestModel::conversionTestObjectReference()
@@ -298,8 +242,8 @@ namespace ProjetUnivers
         model.reset(NULL) ;
         
         {
-          Object* object = reference ;
-          CPPUNIT_ASSERT(!object) ;
+          Object* object2 = reference ;
+          CPPUNIT_ASSERT(!object2) ;
         }
       }      
 
@@ -331,7 +275,7 @@ namespace ProjetUnivers
         std::auto_ptr<Model> model(new Model("TestModel::destroyObjectWithDeducedTraits")) ;
 
         Object* object1 = model->createObject() ;
-        Object* object2 = object1->createObject() ;
+        object1->createObject() ;
         
         object1->addTrait(new Person()) ;
         object1->addTrait(new Head()) ;

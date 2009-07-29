@@ -55,7 +55,6 @@ namespace ProjetUnivers
           if (it != fileInfos->end())
           {
             foundPath = it->archive->getName() + "/" + foundPath;
-            foundPath;
           }
           else
             foundPath = "";

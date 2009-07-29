@@ -36,6 +36,9 @@ namespace ProjetUnivers
       namespace OpenAL
       {
 
+        Reader::~Reader()
+        {}
+
         Reader::Reader(const ALuint& source,Stream* stream,const bool& is_event)
         : m_source(source),
           m_stream(stream),

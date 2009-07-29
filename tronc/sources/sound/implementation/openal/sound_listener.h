@@ -38,6 +38,10 @@ namespace ProjetUnivers {
         */
         class SoundListener
         {
+        public:
+
+          virtual ~SoundListener() ;
+
         protected:
         
         /*!

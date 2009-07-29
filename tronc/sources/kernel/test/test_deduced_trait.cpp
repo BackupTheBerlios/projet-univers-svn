@@ -689,7 +689,7 @@ namespace ProjetUnivers
         {};
 
         DeclareDeducedTrait(HasParentTrait1,
-                            HasParent(Parent)) ;
+                            HasParent(HasTrait(Parent))) ;
 
         class ViewHasParentTrait1 : public TraitView<HasParentTrait1,TestViewPoint>
         {
@@ -720,7 +720,7 @@ namespace ProjetUnivers
         {};
 
         DeclareDeducedTrait(ParentAndTrait1,
-                            And(HasParent(Parent),HasTrait(Trait1))) ;
+                            And(HasParent(HasTrait(Parent)),HasTrait(Trait1))) ;
 
         class ViewHasParentAndTrait1 : public TraitView<ParentAndTrait1,TestViewPoint>
         {
@@ -865,16 +865,16 @@ namespace ProjetUnivers
                             ->getUpdateNumber() == 1) ;
 
         // view has been updated because Parent parent has changed
-        CPPUNIT_ASSERT(grand_child->getTrait<HasParentTrait1>()
-                                  ->getView<ViewHasParentTrait1>(viewpoint.get())
-                                  ->getUpdateNumber() == 1) ;
+        CPPUNIT_ASSERT_EQUAL(1,grand_child->getTrait<HasParentTrait1>()
+                                          ->getView<ViewHasParentTrait1>(viewpoint.get())
+                                          ->getUpdateNumber()) ;
 
         object->getTrait<Parent>()->modify() ;
 
         // view has not been updated because its too up
-        CPPUNIT_ASSERT(grand_child->getTrait<HasParentTrait1>()
-                                  ->getView<ViewHasParentTrait1>(viewpoint.get())
-                                  ->getUpdateNumber() == 1) ;
+        CPPUNIT_ASSERT_EQUAL(1,grand_child->getTrait<HasParentTrait1>()
+                                          ->getView<ViewHasParentTrait1>(viewpoint.get())
+                                          ->getUpdateNumber()) ;
 
         // view has not been updated because its too up
         CPPUNIT_ASSERT(child->getTrait<HasParentTrait1>()
@@ -949,15 +949,15 @@ namespace ProjetUnivers
         object->addTrait(new Parent()) ;
         child->addTrait(new Parent()) ;
 
-        CPPUNIT_ASSERT(grand_child->getTrait<HasParentTrait1>()
-                                  ->getView<ViewHasParentTrait1>(viewpoint.get())
-                                  ->getUpdateNumber() == 1) ;
+        CPPUNIT_ASSERT_EQUAL(1,grand_child->getTrait<HasParentTrait1>()
+                                          ->getView<ViewHasParentTrait1>(viewpoint.get())
+                                          ->getUpdateNumber()) ;
 
         child->destroyTrait(child->getTrait<Parent>()) ;
 
-        CPPUNIT_ASSERT(grand_child->getTrait<HasParentTrait1>()
-                                  ->getView<ViewHasParentTrait1>(viewpoint.get())
-                                  ->getUpdateNumber() == 2) ;
+        CPPUNIT_ASSERT_EQUAL(2,grand_child->getTrait<HasParentTrait1>()
+                                          ->getView<ViewHasParentTrait1>(viewpoint.get())
+                                          ->getUpdateNumber()) ;
 
       }
 
@@ -1158,12 +1158,12 @@ namespace ProjetUnivers
         class HasChildTrait1 : public DeducedTrait
         {};
 
-        DeclareDeducedTrait(HasChildTrait1,HasChild(Child)) ;
+        DeclareDeducedTrait(HasChildTrait1,HasChild(HasTrait(Child))) ;
 
         class ChildAndTrait1 : public DeducedTrait
         {};
 
-        DeclareDeducedTrait(ChildAndTrait1,And(HasChild(Child),HasTrait(Trait1))) ;
+        DeclareDeducedTrait(ChildAndTrait1,And(HasChild(HasTrait(Child)),HasTrait(Trait1))) ;
 
         class ViewHasChildTrait1 : public TraitView<HasChildTrait1,TestViewPoint>
         {
@@ -1251,19 +1251,6 @@ namespace ProjetUnivers
 
       }
 
-      void TestDeducedTrait::getDependentTraits()
-      {
-        std::auto_ptr<Trait1> t1(new Trait1()) ;
-        CPPUNIT_ASSERT_EQUAL((unsigned int)9,DeducedTrait::getDependentTraitTypes(t1.get()).size()) ;
-
-        std::auto_ptr<Parent> parent(new Parent()) ;
-        CPPUNIT_ASSERT_EQUAL((unsigned int)2,DeducedTrait::getDependentTraitTypes(parent.get()).size()) ;
-
-        std::auto_ptr<Child> child(new Child()) ;
-        CPPUNIT_ASSERT_EQUAL((unsigned int)2,DeducedTrait::getDependentTraitTypes(child.get()).size()) ;
-
-      }
-
       namespace
       {
         class Edited : public Trait
@@ -1278,7 +1265,7 @@ namespace ProjetUnivers
         {};
 
         DeclareDeducedTrait(EditedMission,And(HasTrait(Mission),HasTrait(Edited))) ;
-        DeclareDeducedTrait(EditedFlyingGroup,And(HasTrait(FlyingGroup),HasParent(EditedMission))) ;
+        DeclareDeducedTrait(EditedFlyingGroup,And(HasTrait(FlyingGroup),HasParent(HasTrait(EditedMission)))) ;
       }
 
       void TestDeducedTrait::removeParentDeducedTrait()
@@ -1310,7 +1297,7 @@ namespace ProjetUnivers
         {};
         class AncestorPos : public DeducedTrait
         {};
-        DeclareDeducedTrait(AncestorPos,HasAncestor(Pos)) ;
+        DeclareDeducedTrait(AncestorPos,HasAncestor(HasTrait(Pos))) ;
       }
 
       void TestDeducedTrait::hasAncestor()

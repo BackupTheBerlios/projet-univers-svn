@@ -148,13 +148,13 @@ namespace ProjetUnivers
 
     }
 
-    void Model::addTrait(Object* object,
+    Trait* Model::addTrait(Object* object,
                          Trait* new_trait)
     {
       Log::Block temp("Structure","addTrait") ;
 
       if (object->m_deleting)
-        return ;
+        return NULL ;
 
       bool deduced = ! new_trait->isPrimitive() ;
 
@@ -166,12 +166,16 @@ namespace ProjetUnivers
         m_statistics.addDeducedTrait() ;
       else
         m_statistics.addPrimitiveTrait() ;
+
+      return new_trait ;
     }
 
     void Model::destroyTrait(Object* object,
                             Trait* trait)
     {
-      Log::Block temp("Structure","destroyTrait") ;
+      std::string trait_name(getObjectTypeIdentifier(trait).fullName()) ;
+
+      Log::Block temp("Structure","destroyTrait" + trait_name) ;
 
       DeducedTrait* deduced = dynamic_cast<DeducedTrait*>(trait) ;
       if (deduced)
@@ -485,9 +489,9 @@ namespace ProjetUnivers
       addOperation(Implementation::Operation::update(observer)) ;
     }
 
-    void Model::changeParentObserver(Observer*,Object*)
+    void Model::changeParentObserver(Observer* observer,Object* old_parent)
     {
-      /// @todo
+      addOperation(Implementation::Operation::changeParent(observer,old_parent)) ;
     }
 
     void Model::initObserver(RelationObserver* observer)
@@ -505,10 +509,16 @@ namespace ProjetUnivers
       addOperation(Implementation::Operation::update(observer)) ;
     }
 
+    Relation* Model::getCanonical(const Relation& relation)
+    {
+      return &(m_canonical_relations.find(relation)->second) ;
+    }
+
     void Model::addRelation(const Relation& relation)
     {
       startTransaction() ;
       m_relations.insert(relation) ;
+      m_canonical_relations.insert(std::make_pair(relation,relation)) ;
       m_relation_validities[relation].reserve(Formula::getNumberOfFormulae()) ;
       m_number_of_true_child_formulae[relation].reserve(Formula::getNumberOfFormulae()) ;
       relation.createViews() ;
@@ -532,6 +542,7 @@ namespace ProjetUnivers
 
     void Model::_internalDestroyRelation(const Relation& relation)
     {
+      m_canonical_relations.erase(relation) ;
       m_relation_validities.erase(relation) ;
       m_number_of_true_child_formulae.erase(relation) ;
       destroyRelationView(relation) ;
@@ -615,7 +626,7 @@ namespace ProjetUnivers
       m_relation_validities[relation][formula->getIdentifier()] = validity ;
     }
 
-    unsigned short Model::getNumberOfTrueChildFormulae(const ObjectPair& relation,
+    short Model::getNumberOfTrueChildFormulae(const ObjectPair& relation,
                                                        const Formula* formula)
     {
       return m_number_of_true_child_formulae[relation][formula->getIdentifier()] ;
@@ -623,7 +634,7 @@ namespace ProjetUnivers
 
     void Model::setNumberOfTrueChildFormulae(const ObjectPair& relation,
                                              const Formula* formula,
-                                             unsigned short number)
+                                             short number)
     {
       m_number_of_true_child_formulae[relation][formula->getIdentifier()] = number ;
     }

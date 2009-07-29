@@ -51,14 +51,7 @@ namespace ProjetUnivers
         Kernel::Object* ship = Model::getShip(getObjectFrom()) ;
         if (ship)
         {
-          // @todo : find a better way (add a relation Pilot)
-          std::set<AutonomousAgent*> agents = ship->getChildren<AutonomousAgent>() ;
-          if (agents.empty())
-          {
-            ErrorMessage("AgentTargetControler::getAgent()") ;
-            return NULL ;
-          }
-          return (*agents.begin())->getControler<Agent>(getControlerSet()) ;
+          return ship->getChild<AutonomousAgent>()->getControler<Agent>(getControlerSet()) ;
         }
         ErrorMessage("AgentTargetControler::getAgent()") ;
         return NULL ;

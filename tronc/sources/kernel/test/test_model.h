@@ -60,15 +60,6 @@ namespace ProjetUnivers
         /// Referencing a destroyed object after a destruction.
         void testObjectReferenceAffectation() ;
 
-        /// Basic test for TraitReference.
-        void testTraitReference() ;
-        
-        /// Test referencing a removed trait.
-        void testTraitReferenceToRemovedTrait() ;
-
-        /// Test referencing a trait of a destroyed object.
-        void testTraitReferenceToDestroyedObject() ;
-
         /// Test a set of object references.
         void testSetOfObjectReferences() ;
 
@@ -101,9 +92,6 @@ namespace ProjetUnivers
         CPPUNIT_TEST(testObjectReferenceToDestroyedObject) ;
         CPPUNIT_TEST(testObjectReferenceToDestroyedModel) ;
         CPPUNIT_TEST(testObjectReferenceAffectation) ;
-        CPPUNIT_TEST(testTraitReference) ;
-        CPPUNIT_TEST(testTraitReferenceToRemovedTrait) ;
-        CPPUNIT_TEST(testTraitReferenceToDestroyedObject) ;
         CPPUNIT_TEST(testSetOfObjectReferences) ;
         CPPUNIT_TEST(notifyOnNotAssignedTrait) ;
         CPPUNIT_TEST(destroyObjectWithDeducedTraits) ;

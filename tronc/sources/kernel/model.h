@@ -117,16 +117,13 @@ namespace ProjetUnivers
       Object* createObject(Object* parent) ;
 
       /// Changes parent of a given Object.
-      void changeParent(Object* object,
-                        Object* new_parent) ;
+      void changeParent(Object* object,Object* new_parent) ;
 
       /// Adds a new trait to an Object.
-      void addTrait(Object* object,
-                    Trait* new_trait) ;
+      Trait* addTrait(Object* object,Trait* new_trait) ;
 
       /// Destroy an Object's trait.
-      void destroyTrait(Object* object,
-                        Trait* trait) ;
+      void destroyTrait(Object* object,Trait* trait) ;
 
       /// Access to viewpoints.
       const std::set<ViewPoint*>& getViewPoints() const ;
@@ -220,6 +217,11 @@ namespace ProjetUnivers
     */
     // @{
 
+      /// Return the 'canonical' element of a relation.
+      Relation* getCanonical(const Relation&) ;
+
+      std::map<Relation,Relation> m_canonical_relations ;
+
       /// All the links
       std::set<Relation> m_relations ;
 
@@ -251,14 +253,14 @@ namespace ProjetUnivers
       std::map<ObjectPair,std::vector<bool> > m_relation_validities ;
 
       /// Access to the number of true child formulae for @c this
-      unsigned short getNumberOfTrueChildFormulae(const ObjectPair& relation,const Formula* formula) ;
+      short getNumberOfTrueChildFormulae(const ObjectPair& relation,const Formula* formula) ;
 
       /// Change the number of true child formulae for @c this
       void setNumberOfTrueChildFormulae(const ObjectPair& relation,
                                         const Formula* formula,
-                                        unsigned short number) ;
+                                        short number) ;
 
-      std::map<ObjectPair,std::vector<unsigned short> > m_number_of_true_child_formulae ;
+      std::map<ObjectPair,std::vector<short> > m_number_of_true_child_formulae ;
 
       /// Storage for relation views.
       std::map<Relation,std::set<BaseRelationView*> > m_relation_views ;

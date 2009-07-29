@@ -38,6 +38,8 @@ namespace ProjetUnivers
         {
         public:
           
+          virtual ~Reader() ;
+
           Reader(const ALuint& source,Stream*,const bool& is_event) ;
           
           /// Open the file, create and load the 2 buffers to link to the source

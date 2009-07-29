@@ -18,10 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_KERNEL_KERNEL_EXCEPTION_H_
-#define PU_KERNEL_KERNEL_EXCEPTION_H_
-
-
+#pragma once
 
 #include <string>
 #include <kernel/exception.h>
@@ -33,7 +30,8 @@ namespace ProjetUnivers
   {
     
     /// Kernel exception base class.
-    class ExceptionKernel : public Exception {
+    class ExceptionKernel : public Exception
+    {
     public:
 
       /// Constructor.
@@ -46,5 +44,3 @@ namespace ProjetUnivers
 
   }
 }
-
-#endif

@@ -109,7 +109,14 @@ namespace ProjetUnivers
       namespace
       {
         class T1 : public Trait
-        {};
+        {
+        public:
+
+          void touch()
+          {
+            notify() ;
+          }
+        };
 
         class T2 : public Trait
         {
@@ -177,6 +184,8 @@ namespace ProjetUnivers
         DeducedSelectionView::m_number_of_update = 0 ;
         o2->getTrait<T2>()->touch() ;
         CPPUNIT_ASSERT_EQUAL(1,DeducedSelectionView::m_number_of_update) ;
+        o1->getTrait<T1>()->touch() ;
+        CPPUNIT_ASSERT_EQUAL(2,DeducedSelectionView::m_number_of_update) ;
 
         DeducedSelectionView::m_number_of_close = 0 ;
         o2->destroyTrait(o2->getTrait<T2>()) ;
@@ -248,6 +257,140 @@ namespace ProjetUnivers
         UnLink<Selection>(o1,o2) ;
         CPPUNIT_ASSERT_EQUAL(1,SelectionControler::m_number_of_close) ;
       }
+
+      namespace
+      {
+        class OrSelection : public DeducedRelation
+        {};
+
+        DeclareDeducedRelation(OrSelection,
+                               Selection,
+                               Or(IsFrom(HasTrait(T1)),
+                                   IsTo(HasTrait(T2)))) ;
+
+        class OrView : public RelationView<RelationViewPoint>
+        {
+        public:
+
+          static int m_number_of_init ;
+          static int m_number_of_close ;
+          static int m_number_of_update ;
+
+          void onInit()
+          {
+            ++m_number_of_init ;
+          }
+
+          void onClose()
+          {
+            ++m_number_of_close ;
+          }
+
+          void onUpdate()
+          {
+            ++m_number_of_update ;
+          }
+        };
+
+        int OrView::m_number_of_init = 0 ;
+        int OrView::m_number_of_close = 0 ;
+        int OrView::m_number_of_update = 0 ;
+
+        RegisterRelationView(OrView,OrSelection,RelationViewPoint) ;
+      }
+
+      void TestRelationView::updateOrFormula()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+        model->init() ;
+        Object* o1 = model->createObject() ;
+        Object* o2 = model->createObject() ;
+
+        Link<Selection>(o1,o2) ;
+        o1->addTrait(new T1()) ;
+
+        OrView::m_number_of_update = 0 ;
+
+        o1->getTrait<T1>()->touch() ;
+        CPPUNIT_ASSERT_EQUAL(1,OrView::m_number_of_update) ;
+
+        o2->addTrait(new T2()) ;
+
+        CPPUNIT_ASSERT_EQUAL(2,OrView::m_number_of_update) ;
+
+        o2->getTrait<T2>()->touch() ;
+
+        CPPUNIT_ASSERT_EQUAL(3,OrView::m_number_of_update) ;
+      }
+
+      namespace
+      {
+        class T3 : public Trait
+        {
+
+        };
+
+        class DeducedDeduced : public DeducedRelation
+        {};
+
+        DeclareDeducedRelation(DeducedDeduced,
+                               DeducedSelection,
+                               IsFrom(HasTrait(T3))) ;
+
+        class DeducedDeducedView : public RelationView<RelationViewPoint>
+        {
+        public:
+
+          static int m_number_of_init ;
+          static int m_number_of_close ;
+          static int m_number_of_update ;
+
+          void onInit()
+          {
+            ++m_number_of_init ;
+          }
+
+          void onClose()
+          {
+            ++m_number_of_close ;
+          }
+
+          void onUpdate()
+          {
+            ++m_number_of_update ;
+          }
+        };
+
+        int DeducedDeducedView::m_number_of_init = 0 ;
+        int DeducedDeducedView::m_number_of_close = 0 ;
+        int DeducedDeducedView::m_number_of_update = 0 ;
+
+        RegisterRelationView(DeducedDeducedView,DeducedDeduced,RelationViewPoint) ;
+      }
+
+      void TestRelationView::deducedRelationOnDeducedRelation()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+        model->init() ;
+        Object* o1 = model->createObject() ;
+        Object* o2 = model->createObject() ;
+
+        Link<Selection>(o1,o2) ;
+        o1->addTrait(new T1()) ;
+        o2->addTrait(new T2()) ;
+        o1->addTrait(new T3()) ;
+
+        DeducedDeducedView::m_number_of_update = 0 ;
+
+        o1->getTrait<T1>()->touch() ;
+
+        CPPUNIT_ASSERT_EQUAL(1,DeducedDeducedView::m_number_of_update) ;
+
+        o2->getTrait<T2>()->touch() ;
+
+        CPPUNIT_ASSERT_EQUAL(2,DeducedDeducedView::m_number_of_update) ;
+      }
+
 
     }
   }

@@ -1,7 +1,7 @@
 bin_PROGRAMS = demonstration ship test pu
 
 SOURCES = $(top_srcdir)/sources
-INCLUDES = -I../..
+AM_CPPFLAGS = -I../..
 AM_CXXFLAGS=$(PU_CXXFLAGS)
 
 LDADD = \

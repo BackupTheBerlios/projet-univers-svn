@@ -62,8 +62,6 @@ namespace ProjetUnivers
 
           m_group = getTrait<Model::FlyingGroup>() ;
 
-          ::CEGUI::WindowManager& manager = ::CEGUI::WindowManager::getSingleton() ;
-
           // title
           m_name = createWindow(m_window,"ProjetUnivers/Editbox","name") ;
           m_name->setText(m_group->getName()) ;

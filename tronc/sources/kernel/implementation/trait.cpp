@@ -23,7 +23,6 @@
 #include <kernel/log.h>
 #include <kernel/string.h>
 #include <kernel/exception_kernel.h>
-#include <kernel/base_trait_reference.h>
 
 #include <kernel/base_controler.h>
 #include <kernel/controler_set.h>
@@ -62,12 +61,6 @@ namespace ProjetUnivers
 
       _close() ;
 
-      for(std::set<BaseTraitReference*>::iterator reference = m_references.begin() ;
-          reference != m_references.end() ;
-          ++reference)
-      {
-        (*reference)->_reset() ;
-      }
       m_destroying = true ;
 
 
@@ -94,7 +87,6 @@ namespace ProjetUnivers
       m_views(),
       m_controlers(),
       m_locks(0),
-      m_marked_for_destruction(false),
       m_is_updating(false),
       m_impacted_trait_formulae(NULL)
     {}
@@ -193,7 +185,7 @@ namespace ProjetUnivers
 
             if (finder->second.first.isInstance(this))
             {
-              BaseTraitView* view = finder->second.second(this,i_viewpoint) ;
+              BaseTraitView* view = finder->second.second() ;
               view->setObserved(this) ;
               view->setViewPoint(i_viewpoint) ;
               m_views.insert(std::pair<ViewPoint*,BaseTraitView*>(
@@ -234,7 +226,7 @@ namespace ProjetUnivers
 
             if (finder->second.first.isInstance(this))
             {
-              BaseControler* controler = finder->second.second(this,i_controler_set) ;
+              BaseControler* controler = finder->second.second() ;
               controler->setObserved(this) ;
               controler->setControlerSet(i_controler_set) ;
               m_controlers.insert(std::pair<ControlerSet*,BaseControler*>(
@@ -324,16 +316,7 @@ namespace ProjetUnivers
     void Trait::_close()
     {
       // first : close dependent traits...
-      const std::set<TypeIdentifier>& dependent_traits = DeducedTrait::getDependentTraitTypes(this) ;
-
-      for(std::set<TypeIdentifier>::const_iterator trait = dependent_traits.begin() ;
-          trait != dependent_traits.end() ;
-          ++trait)
-      {
-        Trait* object_trait = getObject()->getTrait(*trait) ;
-        if (object_trait)
-          object_trait->_close() ;
-      }
+      closeDependents() ;
 
       for(std::multimap<ViewPoint*,BaseTraitView*>::iterator view = m_views.begin() ;
           view != m_views.end() ;
@@ -483,7 +466,7 @@ namespace ProjetUnivers
       {
         // it seems a bad idea to have kind of cycle on the same trait
         ErrorMessage("Updating a trait that is already during an update :"
-                     " it is probalby a bad idea, the behaviour could "
+                     " it is probably a bad idea, the behavior could "
                      "depend on order") ;
         remove_update = false ;
       }
@@ -675,16 +658,6 @@ namespace ProjetUnivers
       }
     }
 
-    void Trait::_registerReference(BaseTraitReference* reference)
-    {
-      m_references.insert(reference) ;
-    }
-
-    void Trait::_unregisterReference(BaseTraitReference* reference)
-    {
-      m_references.erase(reference) ;
-    }
-
     void Trait::_registerReader(const std::string& name,ReaderFunction reader)
     {
       StaticStorage::get()->m_readers[name] = reader ;
@@ -814,12 +787,6 @@ namespace ProjetUnivers
       return m_locks>0 ;
     }
 
-    void Trait::markAsToBeDestroyed(const TypeIdentifier& trait_name)
-    {
-      m_marked_for_destruction = true ;
-      m_trait_name = trait_name ;
-    }
-
     void Trait::write(Writer*)
     {}
 
@@ -829,31 +796,6 @@ namespace ProjetUnivers
         m_impacted_trait_formulae = &(TraitFormula::find(this)) ;
 
       return *m_impacted_trait_formulae ;
-    }
-
-    void Trait::addDependentTrait(DeducedTrait* trait)
-    {
-      m_direct_dependent_traits.insert(trait) ;
-    }
-
-    void Trait::removeDependentTrait(DeducedTrait* trait)
-    {
-      m_direct_dependent_traits.erase(trait) ;
-    }
-
-    void Trait::updateDepedentTraits() const
-    {
-      for(std::set<DeducedTrait*>::const_iterator trait = m_direct_dependent_traits.begin() ;
-          trait != m_direct_dependent_traits.end() ;
-          ++trait)
-      {
-        (*trait)->notify() ;
-      }
-    }
-
-    const std::set<DeducedTrait*>& Trait::getDependentTraits() const
-    {
-      return m_direct_dependent_traits ;
     }
 
     bool Trait::isPrimitive() const

@@ -31,7 +31,7 @@ namespace ProjetUnivers
 
       DeclareDeducedTrait(ActivatedFlyingGroup,
                           And(HasTrait(FlyingGroup),
-                              HasParent(ActivatedMission))) ;
+                              HasParent(HasTrait(ActivatedMission)))) ;
     }
   }
 }

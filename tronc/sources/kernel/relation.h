@@ -23,6 +23,7 @@
 #include <set>
 #include <kernel/object_reference.h>
 #include <kernel/meta.h>
+#include <kernel/notifiable.h>
 
 namespace ProjetUnivers
 {
@@ -59,7 +60,7 @@ namespace ProjetUnivers
         @endcode
         to un-link two objects
     */
-    class Relation
+    class Relation : public Notifiable
     {
     public:
 
@@ -96,8 +97,15 @@ namespace ProjetUnivers
       /// True iff @c object1 @c _Relation @c object2.
       static bool _areLinked(const TypeIdentifier& relation,Object* object1,Object* object2) ;
 
+      /// Return the representative instance of a relation.
+      static Relation* getRelation(const TypeIdentifier&,Object*,Object*) ;
+
       /// Notify for a change and update all observers.
-      void notify() ;
+      virtual void notify() ;
+
+      /// Closes the observer on relation.
+      virtual void _close() ;
+
 
     protected:
 
@@ -105,10 +113,12 @@ namespace ProjetUnivers
       Relation(const TypeIdentifier&,Object*,Object*) ;
 
       /// Create a link.
-      static void createLink(const TypeIdentifier&,Object*,Object*) ;
+      static Relation* createLink(const TypeIdentifier&,Object*,Object*) ;
 
       /// Destroy a link.
       static void destroyLink(const TypeIdentifier&,Object*,Object*) ;
+
+
 
     private:
 
@@ -121,12 +131,9 @@ namespace ProjetUnivers
     */
     //@{
 
-      /// Type for function that build views from a relation and viewpoint.
-      /*!
-        @todo : simplify (no need to have the parameters anymore)
-      */
+      /// Type for function that build views.
       typedef
-      boost::function2<BaseRelationView*,const Relation&,ViewPoint*> ViewBuilder ;
+      boost::function0<BaseRelationView*> ViewBuilder ;
 
       /// create the views.
       void createViews() const ;
@@ -258,20 +265,13 @@ namespace ProjetUnivers
       RegisterRelationView(ClassView,ClassRelation,ClassViewPoint) ;
     @endcode
 
-    @par Example
-    @code
-      RegisterRelationView( @todo ) ;
-    @endcode
-
     @par How does it works
       Same principle than CPPUNIT_TEST_SUITE_REGISTRATION
     */
     #define RegisterRelationView(ClassView,ClassRelation,ClassViewPoint)     \
       namespace PU_MAKE_UNIQUE_NAME(register_view) {                         \
         static                                                               \
-        ProjetUnivers::Kernel::BaseRelationView* build(                      \
-          const ProjetUnivers::Kernel::Relation& _model,                     \
-          ProjetUnivers::Kernel::ViewPoint* _viewpoint)                      \
+        ProjetUnivers::Kernel::BaseRelationView* build()                     \
         {                                                                    \
           ClassView* result(new ClassView()) ;                               \
           return result ;                                                    \
@@ -291,11 +291,6 @@ namespace ProjetUnivers
     In the .cpp of a view class :
     @code
       RegisterRelationControler(ClassControler,ClassRelation,ClassControlerSet) ;
-    @endcode
-
-    @par Example
-    @code
-      RegisterRelationView( @todo ) ;
     @endcode
 
     @par How does it works

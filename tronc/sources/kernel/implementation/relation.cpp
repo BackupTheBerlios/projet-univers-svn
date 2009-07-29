@@ -21,6 +21,7 @@
 #include <kernel/view_point.h>
 #include <kernel/controler_set.h>
 #include <kernel/relation.h>
+#include <kernel/deduced_trait.h>
 
 namespace ProjetUnivers
 {
@@ -74,8 +75,12 @@ namespace ProjetUnivers
     Relation::~Relation()
     {}
 
+    /*
+      We do not clone notifiable content...
+    */
     Relation::Relation(const Relation& relation)
-    : m_object_from(relation.m_object_from),
+    : Notifiable(),
+      m_object_from(relation.m_object_from),
       m_object_to(relation.m_object_to),
       m_type(relation.m_type)
     {}
@@ -128,7 +133,7 @@ namespace ProjetUnivers
       return linked.find(object2) != linked.end() ;
     }
 
-    void Relation::createLink(const TypeIdentifier& type,Object* object1,Object* object2)
+    Relation* Relation::createLink(const TypeIdentifier& type,Object* object1,Object* object2)
     {
       Relation relation(type,object1,object2) ;
       object1->getModel()->addRelation(relation) ;
@@ -136,6 +141,8 @@ namespace ProjetUnivers
       /// @todo : see if it is useful
       if (object1->getModel() != object2->getModel())
         object2->getModel()->addRelation(relation) ;
+
+      return object1->getModel()->getCanonical(relation) ;
     }
 
     void Relation::destroyLink(const TypeIdentifier& type,Object* object1,Object* object2)
@@ -167,7 +174,7 @@ namespace ProjetUnivers
       ViewBuilder builder = StaticStorage::get()->getViewBuilder(viewpoint,*this) ;
 
       if (!builder.empty())
-        getObjectFrom()->getModel()->addRelationView(*this,builder(*this,viewpoint),viewpoint) ;
+        getObjectFrom()->getModel()->addRelationView(*this,builder(),viewpoint) ;
 
     }
 
@@ -208,6 +215,18 @@ namespace ProjetUnivers
     void Relation::notify()
     {
       getObjectFrom()->getModel()->update(*this) ;
+      DeducedRelation::updateRelation(*this) ;
+    }
+
+    void Relation::_close()
+    {
+      if (getObjectFrom())
+        getObjectFrom()->getModel()->close(*this) ;
+    }
+
+    Relation* Relation::getRelation(const TypeIdentifier& type,Object* from,Object* to)
+    {
+      return from->getModel()->getCanonical(Relation(type,from,to)) ;
     }
 
   }

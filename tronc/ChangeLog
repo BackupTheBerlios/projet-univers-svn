@@ -1345,11 +1345,27 @@
 2009-07-03 rogma
 
   * merging back the sequencing branch to trunk 
+
+2009-07-29
+
+  * windows
+    - build and upload a tclap package
+  * Kernel:
+    - corrected some bugs on updates (too many updates called)
+    - removed compiler warnings
+    - pull up of impact management 
+    - maintain the set of direct impact for traits updates and relationships
+    - HasParent, HasAncestor, HasChild take an object formula (generalisation)
+    - use maintained impacts to propagate updates
+    - suppressed TraitReference because useless...
+  * build : 
+    - make all also build the tests
+    - added compiler warnings
     
 in commit
 --------
 
-    
+     
 in progress
 -----------
   
@@ -1383,8 +1399,8 @@ todo
       ...
       
       Create a kernel.h header containg all the stuff...   
-  
-
+    - add traits on relations ? 
+    
   * Kernel :
     - we should use onChangedParent() for formulae on parent instead of 
       onUpdate, onChangeParent is exactly the event that indicates that the 
@@ -1395,25 +1411,17 @@ todo
       the update (could be update trait, changeHasParent, changeHasAncestor, 
       humm...)
 
-  * windows
-    - build and upload a tclap package
-
   * Demo :
     - majority of performance issue seems to be due to detector system... that 
-      is in nÂ² (in the best case)
-    - share simulation for all detectors
-    - Detector : make use of absolute positions instead of relative ones, we 
-      can recreate the whole universe  : allow to add absolute coordinates not 
-      relating to any object
+      is in n² (in the best case) : refactor using relations
     - should use real object, and only build some data that reference normal 
       object
       --> updated when referenced object is (should probably add a relation and 
       formula Related(...,RecursivelyPositionned)
     
   * Kernel:
-    - maintain the set of direct impact for traits updates (in progress)
     - all members should be encapsulated, even for own class : allow to change 
-      storage (pool ...)  
+      storage (object pool...)  
     
   * all : 
    - display the list of used formulaes (number and kind)

@@ -3,7 +3,7 @@ lib_LTLIBRARIES = libphysic.la
 AUTOMAKE_OPTIONS=subdir-objects
 
 SOURCES = $(top_srcdir)/sources
-INCLUDES = -I$(SOURCES)
+AM_CPPFLAGS = -I$(SOURCES)
 AM_CXXFLAGS=$(PU_CXXFLAGS)
 
 libphysic_la_SOURCES = \
@@ -38,6 +38,10 @@ ressources.cfg:../../ressources.cfg.in
 
 TESTS = test_physic
 
+# compile tests program without launching them so make build them
+noinst_PROGRAMS = $(TESTS)
+
+# launch tests in case of make check
 check_PROGRAMS = $(TESTS)
 
 test_physic_SOURCES = \

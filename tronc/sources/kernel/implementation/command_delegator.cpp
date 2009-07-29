@@ -37,9 +37,7 @@ namespace ProjetUnivers
       notify() ;
     }
 
-    bool CommandDelegator::call(
-      const TypeIdentifier& trait_type,
-      const std::string&    command)
+    bool CommandDelegator::call(const TypeIdentifier&,const std::string& command)
     {
       bool found = false ;
 
@@ -56,10 +54,9 @@ namespace ProjetUnivers
       return found ;
     }
 
-    bool CommandDelegator::call(
-      const TypeIdentifier& trait_type,
-      const std::string&    command,
-      const int&            parameter)
+    bool CommandDelegator::call(const TypeIdentifier&,
+                                const std::string&    command,
+                                const int&            parameter)
     {
       bool found = false ;
 

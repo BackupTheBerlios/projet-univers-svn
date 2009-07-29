@@ -85,8 +85,7 @@ namespace ProjetUnivers
 
     void Observer::_changed_parent(Object* old_parent)
     {
-      realChangeParent(old_parent) ;
-//      getObject()->getModel()->
+      getObject()->getModel()->changeParentObserver(this,old_parent) ;
     }
 
     void Observer::realClose()
@@ -111,12 +110,6 @@ namespace ProjetUnivers
       if (m_really_initialised)
       {
         onUpdate() ;
-
-        /*!
-          @todo
-            maybe we should introduce a little "consistency check" here
-            by calling a Model::checkConsistency(Object)?
-        */
       }
     }
 

@@ -32,7 +32,7 @@ namespace ProjetUnivers
 
       DeclareDeducedTrait(RecursivelyPositionned,
                           Or(HasTrait(Model::Positionned),
-                             HasAncestor(RecursivelyPositionned))) ;
+                             HasAncestor(HasTrait(RecursivelyPositionned)))) ;
 
     }
   } 

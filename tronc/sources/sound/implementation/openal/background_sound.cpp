@@ -47,7 +47,7 @@ namespace ProjetUnivers
         
         Kernel::Object* BackgroundSound::getObject() const
         {
-          getTrait()->getObject() ;
+          return getTrait()->getObject() ;
         }
                   
         void BackgroundSound::onInit()

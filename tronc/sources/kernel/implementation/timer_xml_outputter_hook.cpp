@@ -33,7 +33,7 @@ TimerXmlOutputterHook::TimerXmlOutputterHook(TimerTestResult* result)
 : m_result(result)
 {}
   
-void TimerXmlOutputterHook::successfulTestAdded(XmlDocument* document,
+void TimerXmlOutputterHook::successfulTestAdded(XmlDocument*,
                                                 XmlElement* testElement,
                                                 Test* test)
 {

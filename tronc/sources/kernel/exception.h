@@ -39,7 +39,7 @@ namespace ProjetUnivers
       /// Copy constructor.
       Exception(const Exception& x) ;
 
-      /// Abstract classes nedd virtual destructor.
+      /// Abstract classes need virtual destructor.
       virtual ~Exception() throw() ;
 
       /// Error message.
@@ -49,12 +49,10 @@ namespace ProjetUnivers
     protected:
 
       /// Message.
-      std::string		message ;
+      std::string		m_message ;
 
       /// Error number.
       unsigned int		numeroErreur ;
-
-
     };
 
   }

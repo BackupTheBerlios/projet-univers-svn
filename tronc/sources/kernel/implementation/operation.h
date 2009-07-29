@@ -54,7 +54,7 @@ namespace ProjetUnivers
         Operation(const Operation&) ;
 
         /// Really execute the operation
-        virtual void execute() const ;
+        void execute() const ;
 
         std::string toString() const ;
 
@@ -77,6 +77,7 @@ namespace ProjetUnivers
         Type      m_type ;
         Object*   m_object ;
         Observer* m_observer ;
+        Object*   m_old_parent ;
         RelationObserver* m_relation_observer ;
 
         std::string m_debug_display ;
