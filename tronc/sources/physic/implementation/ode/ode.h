@@ -59,7 +59,7 @@ namespace ProjetUnivers {
           |
           -- planet1 Positionned Massive Mobile Solid Whole --> dBody1(dWorld1), dWorld2
           |
-          -- ship Positionned Mobile Composite Massive Solid Whole --> dBody2(dWorld1), dWorld3
+          -- ship Positionned Mobile Massive Solid Whole --> dBody2(dWorld1), dWorld3
           |   |
           |   -- engine Positionned Massive Component Solid --> dGeom1(dBody2)
           |   |

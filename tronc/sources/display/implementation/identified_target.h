@@ -18,22 +18,20 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_DISPLAY_IMPLEMENTATION_IDENTIFIED_TARGET_H_
-#define PU_DISPLAY_IMPLEMENTATION_IDENTIFIED_TARGET_H_
+#pragma once
 
 #include <kernel/deduced_trait.h>
 
-namespace ProjetUnivers {
-  namespace Display {
-    namespace Implementation {
+namespace ProjetUnivers
+{
+  namespace Display
+  {
+    namespace Implementation
+    {
           
       /// An identified potential target
-      /*!
-        IdentifiedTarget <=> Display::Implementation::Target & Model::Transponder
-      */ 
-      class IdentifiedTarget : public Kernel::DeducedTrait
+      class IdentifiedTarget : public Kernel::DeducedRelation
       {};
     }
   }
 }
-#endif /*PU_DISPLAY_IMPLEMENTATION_IDENTIFIED_TARGET_H_*/

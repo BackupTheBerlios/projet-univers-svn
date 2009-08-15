@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007 Mathieu ROGER                                      *
+ *   Copyright (C) 2007-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,20 +18,21 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_TEST_DETECTOR_H_
-#define PU_MODEL_TEST_DETECTOR_H_
+#pragma once
 
 #include <cppunit/extensions/HelperMacros.h>
 
-namespace ProjetUnivers {
-  namespace Model {
-    namespace Test {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
+    namespace Test
+    {
             
       /// Test of Detector.
-      class TestDetector : public CppUnit::TestFixture {
+      class TestDetector : public CppUnit::TestFixture
+      {
       protected:
-      
-        
       /*! 
         @name Tests methods
       */
@@ -46,7 +47,7 @@ namespace ProjetUnivers {
         /// Test moving object detection and detection data update.
         void detectMovingObject() ;
 
-        /// Test moving object detection and disapearing when out of range.
+        /// Test moving object detection and disappearing when out of range.
         void detectObjectMovingOutOfRange() ;
 
         /// Test destruction of computer
@@ -55,8 +56,6 @@ namespace ProjetUnivers {
         /// Test destruction of detector
         void testDetectorDestruction() ;
 
-        /// Test the relative position of the detected object.
-        void testRelativePosition() ;
         
       // @}
       /*! 
@@ -72,34 +71,11 @@ namespace ProjetUnivers {
         CPPUNIT_TEST(detectObjectMovingOutOfRange) ;
         CPPUNIT_TEST(testComputerDestruction) ;
         CPPUNIT_TEST(testDetectorDestruction) ;
-        CPPUNIT_TEST(testRelativePosition) ;
       
         CPPUNIT_TEST_SUITE_END() ;
-
-      public:
-  
       // @}
-      /*! 
-        @name Mandatory methods
-      */
-      // @{
-
-      
-        /// Initialisation du test
-        void setUp() ;
-      
-        /// Desinitialisation du test
-        void tearDown() ;
-      
-      // @}      
-                
-       
-      
       };
 
     }
   }
 }
-
-
-#endif

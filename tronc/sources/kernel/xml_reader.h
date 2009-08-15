@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007 Mathieu ROGER                                      *
+ *   Copyright (C) 2007-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,8 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_KERNEL_XML_READER_H
-#define PU_KERNEL_XML_READER_H
+#pragma once
 
 #include <string>
 #include <map>
@@ -59,6 +58,9 @@ namespace ProjetUnivers
       /// True iff current node is an object one.
       virtual bool isObjectNode() const ;
 
+      /// True iff current node is an relation one.
+      virtual bool isRelationNode() const ;
+
       /// Access to object identifier.
       virtual int getObjectIdentifier() const ;
 
@@ -92,5 +94,3 @@ namespace ProjetUnivers
     };
   }
 }
-
-#endif

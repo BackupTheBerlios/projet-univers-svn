@@ -21,12 +21,13 @@
 #include <kernel/trait_view.h>
 #include <kernel/parameters.h>
 
-#include <model/selected.h>
 #include <model/targeting_system.h>
 #include <model/computer.h>
 #include <model/solid.h>
 #include <model/positionned.h>
+#include <model/observer.h>
 
+#include <display/implementation/ogre/observer.h>
 #include <display/implementation/ogre/ogre.h>
 #include <display/implementation/ogre/utility.h>
 #include <display/implementation/ogre/positionned.h>
@@ -43,9 +44,9 @@ namespace ProjetUnivers
         namespace HUD 
         {
 
-          RegisterView(Target, 
-                       Implementation::Target, 
-                       HeadUpDisplayViewPoint) ;
+          RegisterRelationView(Target,
+                               Implementation::Target,
+                               RealWorldViewPoint) ;
           
 
           namespace 
@@ -205,16 +206,31 @@ namespace ProjetUnivers
             
             getOverlay()->show() ;
             
-            if (isSelected())
-            {
-              onUpdate() ;
-            }
+            onUpdate() ;
   
             InternalMessage("Display","Leaving Target::onInit") ;
           }
           
           void Target::onClose()
           {
+            InternalMessage("Display","Entering Target::onClose") ;
+
+            if (m_target_is_shown)
+            {
+              // hide the overlay
+              m_target_container->hide() ;
+              m_identification_container->hide() ;
+              m_target_text_container->hide() ;
+              m_target_is_shown = false ;
+            }
+
+            if (m_arrow_is_shown)
+            {
+              // hide the overlay
+              m_arrow_container->hide() ;
+              m_arrow_is_shown = false ;
+            }
+
             if (m_target_container)
             {
               getOverlay()->remove2D(m_target_container) ;
@@ -247,54 +263,25 @@ namespace ProjetUnivers
               m_target_text_container = NULL ;
               m_target_text = NULL ;
             }
+            InternalMessage("Display","Leaving Target::onClose") ;
           }
           
           void Target::onUpdate()
           {
-            if (! isSelected()) 
-            {
-              if (m_target_is_shown)
-              {
-                // hide the overlay
-                m_target_container->hide() ;
-                m_identification_container->hide() ;
-                m_target_text_container->hide() ;
-                m_target_is_shown = false ;
-              }
-
-              if (m_arrow_is_shown)
-              {
-                // hide the overlay
-                m_arrow_container->hide() ;
-                m_arrow_is_shown = false ;
-              }
-              return ;
-            }
-            
             InternalMessage("Display","Target::onUpdate calculating target position") ;
 
-            ::Ogre::Camera* camera = getViewPoint()->getCamera() ;
+            ::Ogre::Camera* camera = getObjectFrom()->getChild<Implementation::Observer>()
+                                     ->getView<Ogre::Observer>(getViewPoint())->getCamera() ;
             
             if (!camera)
               return ;
             
-            Model::Computer* computer 
-              = getViewPoint()->getTargetingSystem()->getTrait<Model::TargetingSystem>()
-                ->getComputer()->getTrait<Model::Computer>() ;
-            
-            // update target position
-            /*!
-              Detector position is relative to computer
-              we have to make it a global position
-            */
-            Model::Position pos 
-              = computer->getDataPosition(getObject(),getViewPoint()->getWorldRoot()) ;
+            // update target global position
+            Model::Position pos = getObjectTo()->getTrait<Model::Positionned>()
+                                  ->getPosition(getViewPoint()->getRootObject()) ;
             
             ::Ogre::Vector3 position = convert(pos) ;
 
-            InternalMessage("Display","Target::onUpdate object relative position="+
-                                      ::Ogre::StringConverter::toString(convert(getObject()->getTrait<Model::Positionned>()->getPosition()))) ;
-            
             InternalMessage("Display","Target::onUpdate object absolute position="
                             + Kernel::toString(position.x)
                             +","
@@ -326,8 +313,8 @@ namespace ProjetUnivers
               ) ;
 
             // calculate projected size
-            ::Ogre::Real radius = convert(getObject()->getTrait<Model::Solid>()
-                                                     ->getRadius()) ; 
+            ::Ogre::Real radius = convert(getObjectTo()->getTrait<Model::Solid>()
+                                                       ->getRadius()) ;
 
             InternalMessage(
               "Display","Target::updateHUD radius="
@@ -348,9 +335,9 @@ namespace ProjetUnivers
               it seems that x,y can get out of [-1,1]
               it means that it is out of the screen
               we can print it when 
-              x,y in -1/1 + sceen size/2  
+              x,y in -1/1 + screen size/2
               
-              otherwize we are in the case where we should print an arrow
+              Otherwise we are in the case where we should print an arrow
               and we have the position...
               
               @see http://www.ogre3d.org/phpBB2/viewtopic.php?t=10131&highlight=rotate+overlay
@@ -490,12 +477,6 @@ namespace ProjetUnivers
               m_identification->setCaption(identification) ;
           }
           
-          bool Target::isSelected() const
-          {
-            return getObject()->getTrait<Model::Selected>()
-                              ->isSelected(getViewPoint()->getTargetingSystem()) ;
-          }          
-
           ::Ogre::Degree Target::calculateRotation(float x,float y)
           {
             ::Ogre::Degree result ;

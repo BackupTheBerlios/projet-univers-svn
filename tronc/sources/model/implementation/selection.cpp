@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2008 Mathieu ROGER                                      *
+ *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,24 +18,27 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_SHOOTABLE_H_
-#define PU_MODEL_SHOOTABLE_H_
+#include <model/selection.h>
 
-#include <kernel/trait.h>
-
-namespace ProjetUnivers {
-  namespace Model {
-
-    /// For IdealTarget that would be touched if fired at.
-    class Shootable : public Kernel::Trait
+namespace ProjetUnivers
+{
+  namespace Model
+  {
+    bool Selection::isSelected(Kernel::Object* by,Kernel::Object* selected)
     {
-    public:
-      
-      /// Constructs.
-      Shootable() ;
-      
-    };
+      return Kernel::Relation::areLinked<Selection>(by,selected) ;
+    }
 
+    void Selection::select(Kernel::Object* by,Kernel::Object* selected)
+    {
+      Kernel::Link<Selection>(by,selected) ;
+    }
+
+    void Selection::unSelect(Kernel::Object* by,Kernel::Object* selected)
+    {
+      Kernel::UnLink<Selection>(by,selected) ;
+    }
   }
 }
-#endif /*PU_MODEL_SHOOTABLE_H_*/
+
+

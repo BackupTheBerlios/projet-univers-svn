@@ -18,19 +18,21 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_DISPLAY_IMPLEMENTATION_TARGET_WITH_SELECTION_H_
-#define PU_DISPLAY_IMPLEMENTATION_TARGET_WITH_SELECTION_H_
+#pragma once
 
 #include <kernel/deduced_trait.h>
 
-namespace ProjetUnivers {
-  namespace Display {
-    namespace Implementation {
+namespace ProjetUnivers
+{
+  namespace Display
+  {
+    namespace Implementation
+    {
           
       /// A target with a target selection
-      class TargetWithSelection : public Kernel::DeducedTrait
+      class TargetWithSelection : public Kernel::DeducedRelation
       {};
     }
   }
 }
-#endif /*PU_DISPLAY_IMPLEMENTATION_TARGET_WITH_SELECTION_H_*/
+

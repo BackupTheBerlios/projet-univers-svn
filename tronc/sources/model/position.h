@@ -32,7 +32,7 @@ namespace ProjetUnivers
   namespace Model
   {
 
-    /// A position in a three dimention world.
+    /// A position in a three dimension world.
     /*!
       A position is relative to the Positionned parent (if exists).
 

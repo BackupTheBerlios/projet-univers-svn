@@ -70,6 +70,12 @@ namespace ProjetUnivers
         /// Put the relation in a pool of relation to destroy.
         void recordRelationToDestroy(const Relation&) ;
 
+        /// True if the relation is marked to be destroyed
+        bool isToDestroy(const Relation&) const ;
+
+        /// Reverse of recordRelationToDestroy
+        void unRecordRelationToDestroy(const Relation&) ;
+
         /// Add an object to be destroyed.
         void addObjectToDestroy(Object*) ;
 
@@ -96,7 +102,7 @@ namespace ProjetUnivers
         /// Objects to be destroyed.
         std::list<ObjectReference> m_objects_to_destroy ;
         bool m_destroying_traits ;
-        std::list<Relation> m_relation_to_destroy ;
+        std::set<Relation> m_relation_to_destroy ;
 
         std::list<Implementation::Operation> m_performed_operations ;
       };

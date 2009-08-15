@@ -25,6 +25,17 @@ namespace ProjetUnivers
   namespace Kernel
   {
 
+    /// For static registration of readers.
+    class RelationReaderRegistration
+    {
+    public:
+
+      RelationReaderRegistration(const std::string& name,const TypeIdentifier& type)
+      {
+        Relation::_registerReader(name,type) ;
+      }
+    };
+
     /// Register a view on relation.
     template <class _Relation,class _ViewPoint,class _View>
     class RelationViewRegistration
@@ -36,11 +47,14 @@ namespace ProjetUnivers
         Relation::registerViewBuilder(getClassTypeIdentifier(_Relation),
                                       getClassTypeIdentifier(_ViewPoint),
                                       builder) ;
+        Relation::registerMapping(getClassTypeIdentifier(_View),
+                                  getClassTypeIdentifier(_ViewPoint),
+                                  getClassTypeIdentifier(_Relation)) ;
       }
 
     };
 
-    /// Register a view on relation.
+    /// Register a controller on relation.
     template <class _Relation,class _ControlerSet,class _Controler>
     class RelationControlerRegistration
     {

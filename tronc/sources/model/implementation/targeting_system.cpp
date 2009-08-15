@@ -23,12 +23,14 @@
 #include <kernel/algorithm.h>
 
 #include <model/model.h>
-#include <model/selected.h>
+#include <model/selection.h>
 #include <model/computer.h>
 #include <model/transponder.h>
 #include <model/positionned.h>
 #include <model/computer_data.h>
 #include <model/targeting_system.h>
+#include <model/whole.h>
+#include <model/data_connection.h>
 
 namespace ProjetUnivers 
 {
@@ -37,10 +39,15 @@ namespace ProjetUnivers
 
     RegisterTrait(TargetingSystem) ;
     
-    RegisterCommand("Select Next Target",TargetingSystem,selectNextTarget) ;
-    RegisterCommand("Select Previous Target",TargetingSystem,selectPreviousTarget) ;
-    RegisterCommand("Select Nearest Target",TargetingSystem,selectNearestTarget) ;
-    RegisterCommand("Select Nearest Enemy",TargetingSystem,selectNearestEnemy) ;
+    std::string TargetingSystem::SelectNextTarget = "Select Next Target" ;
+    std::string TargetingSystem::SelectPreviousTarget = "Select Previous Target" ;
+    std::string TargetingSystem::SelectNearestTarget = "Select Nearest Target" ;
+    std::string TargetingSystem::SelectNearestEnemy = "Select Nearest Enemy" ;
+
+    RegisterCommand(TargetingSystem::SelectNextTarget,TargetingSystem,selectNextTarget) ;
+    RegisterCommand(TargetingSystem::SelectPreviousTarget,TargetingSystem,selectPreviousTarget) ;
+    RegisterCommand(TargetingSystem::SelectNearestTarget,TargetingSystem,selectNearestTarget) ;
+    RegisterCommand(TargetingSystem::SelectNearestEnemy,TargetingSystem,selectNearestEnemy) ;
 
     TargetingSystem::TargetingSystem()
     {}
@@ -54,7 +61,7 @@ namespace ProjetUnivers
         TargetingSystem* system = targeting_system->getTrait<TargetingSystem>() ;
         if (system)
         {
-          system->m_computer = computer ;
+          Kernel::Link<DataConnection>(computer,targeting_system) ;
         }
       }
     }
@@ -65,12 +72,7 @@ namespace ProjetUnivers
       
       while (!reader->isEndNode() && reader->processNode())
       {
-        if (reader->isTraitNode() && 
-            reader->getTraitName() == "ObjectReference")
-        {
-          result->m_computer = Kernel::ObjectReference::read(reader) ;
-        }
-        else 
+        if (reader->isTraitNode())
         {
           Trait::read(reader) ;
         }
@@ -85,12 +87,12 @@ namespace ProjetUnivers
     {
       InternalMessage("Model","TargetingSystem::selectNextTarget entering") ;
       
-      if (!m_computer)
+      if (!getComputer())
         return ;
 
       InternalMessage("Model","TargetingSystem::selectNextTarget has computer") ;
 
-      Computer* computer = m_computer->getTrait<Computer>() ;
+      Computer* computer = getComputer()->getTrait<Computer>() ;
       if (!computer)
         return ;
       
@@ -99,7 +101,7 @@ namespace ProjetUnivers
         1 if no target take the first one 
         2 if a target take the next one
       */
-      const std::set<Kernel::Object*>& roots = computer->getMemoryModel()->getRoots() ;
+      const std::set<Kernel::Object*>& roots = computer->getDetectedObjects() ;
 
       if (roots.size() > 0)
       {
@@ -127,15 +129,18 @@ namespace ProjetUnivers
     {
       InternalMessage("Model","TargetingSystem::selectPreviousTarget entering") ;
       
-      if (!m_computer)
+      if (!getComputer())
+        return ;
+
+      Computer* computer = getComputer()->getTrait<Computer>() ;
+      if (!computer)
         return ;
 
       /*!
         1 if no target take the first one 
         2 if a target take the previous one
       */
-      const std::set<Kernel::Object*>& roots =
-        m_computer->getTrait<Computer>()->getMemoryModel()->getRoots() ;
+      const std::set<Kernel::Object*>& roots = computer->getDetectedObjects() ;
       if (roots.size() > 0)
       {
         InternalMessage("Model","TargetingSystem::selectPreviousTarget selected") ;
@@ -161,17 +166,17 @@ namespace ProjetUnivers
     {
       InternalMessage("Model","TargetingSystem::selectNearestTarget entering") ;
       
-      if (!m_computer)
+      if (!getComputer())
         return ;
 
       InternalMessage("Model","TargetingSystem::selectNearestTarget has computer") ;
 
-      Computer* computer = m_computer->getTrait<Computer>() ;
+      Computer* computer = getComputer()->getTrait<Computer>() ;
       if (!computer)
         return ;
       
       InternalMessage("Model","TargetingSystem::selectNearestTarget computer is correct") ;
-      const std::set<Kernel::Object*>& roots = computer->getMemoryModel()->getRoots() ;
+      const std::set<Kernel::Object*>& roots = computer->getDetectedObjects() ;
 
       Distance shortest_distance ;
       Kernel::Object* target = NULL ; 
@@ -203,17 +208,17 @@ namespace ProjetUnivers
     {
       InternalMessage("Model","TargetingSystem::selectNearestEnemy entering") ;
       
-      if (!m_computer)
+      if (!getComputer())
         return ;
 
       InternalMessage("Model","TargetingSystem::selectNearestEnemy has computer") ;
 
-      Computer* computer = m_computer->getTrait<Computer>() ;
+      Computer* computer = getComputer()->getTrait<Computer>() ;
       if (!computer)
         return ;
       
       InternalMessage("Model","TargetingSystem::selectNearestEnemy computer is correct") ;
-      const std::set<Kernel::Object*>& roots = computer->getMemoryModel()->getRoots() ;
+      const std::set<Kernel::Object*>& roots = computer->getDetectedObjects() ;
 
       Distance shortest_distance ;
       Kernel::Object* target = NULL ; 
@@ -260,20 +265,9 @@ namespace ProjetUnivers
       
       unSelectTarget(m_target) ;
       
+      Selection::select(getObject()->getParent<Whole>()->getObject(),object) ;
       m_target = object ;
-      Selected* selected = object->getTrait<Selected>() ;
-      
-      if (! selected)
-      {
-        InternalMessage("Model","TargetingSystem::selectTarget#0") ;
-        object->addTrait(new Selected()) ;
-        InternalMessage("Model","TargetingSystem::selectTarget#1") ;
-        selected = object->getTrait<Selected>() ;
-        InternalMessage("Model","TargetingSystem::selectTarget#2") ;
-      }
-      
-      InternalMessage("Model","TargetingSystem::selectTarget#3") ;
-      selected->select(getObject()) ;
+
       InternalMessage("Model","TargetingSystem::selectTarget leaving") ;
     }
     
@@ -285,16 +279,7 @@ namespace ProjetUnivers
         return ;
       }
       
-      Selected* selected = object->getTrait<Selected>() ;
-      
-      if (selected)
-      {
-        selected->unSelect(getObject()) ;
-        if (! selected->isSelected())
-        {
-          selected->getObject()->destroyTrait(selected) ;
-        }
-      }
+      Selection::unSelect(getObject()->getParent<Whole>()->getObject(),object) ;
       m_target = NULL ;
     }
 
@@ -302,7 +287,7 @@ namespace ProjetUnivers
     {
       Computer* computer ;
       
-      if(!m_computer || !(computer = m_computer->getTrait<Computer>()))
+      if(!getComputer() || !(computer = getComputer()->getTrait<Computer>()))
       {
         ErrorMessage("TargetingSystem::getComputerModel : no computer") ;
         return NULL ;
@@ -313,7 +298,12 @@ namespace ProjetUnivers
 
     Kernel::Object* TargetingSystem::getComputer() const
     {
-      return m_computer ;
+      std::set<Kernel::Object*> computers(Kernel::Relation::getLinked<Kernel::Inverse<DataConnection> >(getObject())) ;
+
+      if (computers.size() != 1)
+        return NULL ;
+
+      return *(computers.begin()) ;
     }
   }
 }

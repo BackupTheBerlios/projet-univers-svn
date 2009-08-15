@@ -21,9 +21,9 @@
 #pragma once
 
 #include <Ogre.h>
-#include <kernel/trait_view.h>
+#include <kernel/relation_view.h>
 #include <display/implementation/target_with_selection.h>
-#include <display/implementation/ogre/head_up_display/head_up_display_viewpoint.h>
+#include <display/implementation/ogre/real_world_view_point.h>
 
 namespace ProjetUnivers
 {
@@ -38,9 +38,7 @@ namespace ProjetUnivers
 
           class Target ;
           
-          class TargetWithSelection : 
-            public Kernel::TraitView<Implementation::TargetWithSelection,
-                                     HeadUpDisplayViewPoint>
+          class TargetWithSelection : public Kernel::RelationView<RealWorldViewPoint>
           {
           protected:
           /*!

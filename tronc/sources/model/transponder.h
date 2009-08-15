@@ -18,14 +18,15 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_TRANSPONDER_H
-#define PU_MODEL_TRANSPONDER_H
+#pragma once
 
 #include <string>
 #include <kernel/trait.h>
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
       
     /// System that identify object and its team by a code.
     class Transponder : public Kernel::Trait
@@ -54,9 +55,6 @@ namespace ProjetUnivers {
       
       /// Team name.
       std::string m_team_name ;
-      int         m_code ; 
     };
   }
 }
-
-#endif /*PU_MODEL_TRANSPONDER_H*/

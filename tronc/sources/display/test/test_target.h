@@ -18,8 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_DISPLAY_TEST_TARGET_H_
-#define PU_DISPLAY_TEST_TARGET_H_
+#pragma once
 
 #include <cppunit/extensions/HelperMacros.h>
 
@@ -30,7 +29,7 @@ namespace ProjetUnivers
     namespace Test
     {
 
-      /// Test of Detector.
+      /// Test of Ogre::Target.
       class TestTarget : public CppUnit::TestFixture
       {
       protected:
@@ -39,11 +38,16 @@ namespace ProjetUnivers
       */
       // @{
 
-        /// Basic test.
-        void testConstruct() ;
-
         /// test for HUD::Target::calculateRotation.
         void testCalculateRotation() ;
+
+        /// Select a target and display it
+        void selectedTarget() ;
+        void changeTargetDisplayer() ;
+        void selectedTargetHasSelection() ;
+        void identifiedTarget() ;
+        void changeTarget() ;
+
 
       // @}
       /*!
@@ -53,16 +57,21 @@ namespace ProjetUnivers
 
         CPPUNIT_TEST_SUITE(TestTarget) ;
 
-        CPPUNIT_TEST(testConstruct) ;
         CPPUNIT_TEST(testCalculateRotation) ;
+        CPPUNIT_TEST(selectedTarget) ;
+        CPPUNIT_TEST(changeTargetDisplayer) ;
+        CPPUNIT_TEST(selectedTargetHasSelection) ;
+        CPPUNIT_TEST(identifiedTarget) ;
+        CPPUNIT_TEST(changeTarget) ;
 
         CPPUNIT_TEST_SUITE_END() ;
       // @}
+
+      private:
+
+        void rotateObserverLeft(Kernel::Object*) ;
       };
 
     }
   }
 }
-
-
-#endif

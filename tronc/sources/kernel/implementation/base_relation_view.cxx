@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007-2009 Morgan GRIGNARD Mathieu ROGER                 *
+ *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,22 +18,29 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <kernel/deduced_trait.h>
-#include <model/positionned.h>
-
-#include <sound/implementation/recursively_positionned.h>
-
 namespace ProjetUnivers
 {
-  namespace Sound
+  namespace Kernel
   {
-    namespace Implementation
+
+    template <class _View> _View* BaseRelationView::getView() const
     {
+      // 1. get the relation type associated with the view for that viewpoint
+      TypeIdentifier relation_name = Relation::getRelationOfView(getClassTypeIdentifier(_View),
+                                                                 getObjectTypeIdentifier(m_viewpoint)) ;
 
-      DeclareDeducedTrait(RecursivelyPositionned,
-                          Or(HasTrait(Model::Positionned),
-                             HasAncestor(HasTrait(RecursivelyPositionned)))) ;
+//      if (!Relation::_areLinked(relation_name,getObjectFrom(),getObjectTo()))
+//        return NULL ;
 
+      Relation* relation = Relation::getRelation(relation_name,getObjectFrom(),getObjectTo()) ;
+
+      if (relation)
+      {
+        return relation->getView<_View>() ;
+      }
+
+      return NULL ;
     }
-  } 
+  }
 }
+

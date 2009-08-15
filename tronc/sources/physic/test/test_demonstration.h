@@ -18,8 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_PHYSIC_TEST_DEMONSTRATION_H_
-#define PU_PHYSIC_TEST_DEMONSTRATION_H_
+#pragma once
 
 #include <cppunit/extensions/HelperMacros.h>
 
@@ -62,7 +61,7 @@ namespace ProjetUnivers
         /// Test a stabilizer.
         /*!
           Add a stabilizer on an object
-          Make it totate in the direction of the stabilizer
+          Make it rotate in the direction of the stabilizer
           check that after a certain amount of time, the angular speed is null
         */
         void testStabilizer() ;
@@ -73,7 +72,7 @@ namespace ProjetUnivers
         /// Test a stabilizer with opposite rotation.
         /*!
           Add a stabilizer on an object
-          Make it totate in the direction of the stabilizer
+          Make it rotate in the direction of the stabilizer
           check that after a certain amount of time, the angular speed is null
         */
         void testStabilizer2() ;
@@ -111,6 +110,3 @@ namespace ProjetUnivers
     }
   }
 }
-
-
-#endif

@@ -18,8 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_PHYSIC_TEST_DRAGGER_H_
-#define PU_PHYSIC_TEST_DRAGGER_H_
+#pragma once
 
 #include <cppunit/extensions/HelperMacros.h>
 
@@ -55,22 +54,9 @@ namespace ProjetUnivers
 
         CPPUNIT_TEST_SUITE_END() ;
 
-      public:
-
-      // @}
-      /*!
-        @name Init
-      */
-      // @{
-
-        void setUp() ;
-
       // @}
       };
 
     }
   }
 }
-
-
-#endif

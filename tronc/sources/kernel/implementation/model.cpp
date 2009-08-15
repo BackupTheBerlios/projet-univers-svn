@@ -42,17 +42,6 @@ namespace ProjetUnivers
   namespace Kernel
   {
 
-    namespace
-    {
-      int next_number = 0 ;
-    }
-
-    /// create a unique object name.
-    std::string getUniqueName()
-    {
-      return "PU::Kernel::Name" + toString(next_number++) ;
-    }
-
     Object* Model::getObject(const int& identifier) const
     {
       std::map<int,Object*>::const_iterator finder
@@ -190,18 +179,7 @@ namespace ProjetUnivers
 
     Model::~Model()
     {
-      m_destroying = true ;
-
-      m_relations.clear() ;
-
-      for(std::set<ObjectReference*>::iterator reference = m_references.begin() ;
-          reference != m_references.end() ;
-          ++reference)
-      {
-        (*reference)->_setModel(NULL) ;
-      }
-
-      /// 1. close all controler sets
+      /// 1. close all controller sets
       for(std::set<ControlerSet*>::iterator controler_set = m_controler_sets.begin() ;
           controler_set != m_controler_sets.end() ;
           ++controler_set)
@@ -217,6 +195,17 @@ namespace ProjetUnivers
       {
         (*viewpoint)->close() ;
         delete *viewpoint ;
+      }
+
+      m_destroying = true ;
+
+      m_relations.clear() ;
+
+      for(std::set<ObjectReference*>::iterator reference = m_references.begin() ;
+          reference != m_references.end() ;
+          ++reference)
+      {
+        (*reference)->_setModel(NULL) ;
       }
 
       /// 2. destroy m_objects
@@ -285,12 +274,27 @@ namespace ProjetUnivers
 
     void Model::_close(ViewPoint* viewpoint)
     {
+      startTransaction() ;
+
       for(std::set<Object*>::iterator object = m_objects.begin() ;
           object != m_objects.end() ;
           ++object)
       {
         (*object)->_close(viewpoint) ;
       }
+
+      for(std::map<Relation,std::set<BaseRelationView*> >::iterator relation_view = m_relation_views.begin() ; relation_view != m_relation_views.end() ; ++relation_view)
+      {
+        for(std::set<BaseRelationView*>::iterator view = relation_view->second.begin() ; view != relation_view->second.end() ; ++view)
+        {
+          if ((*view)->m_viewpoint == viewpoint)
+          {
+            (*view)->realClose() ;
+          }
+        }
+      }
+
+      endTransaction() ;
     }
 
     void Model::_init(ControlerSet* controler_set)
@@ -305,12 +309,27 @@ namespace ProjetUnivers
 
     void Model::_close(ControlerSet* controler_set)
     {
+      startTransaction() ;
+
+      for(std::map<Relation,std::set<BaseRelationControler*> >::iterator relation_controler = m_relation_controlers.begin() ; relation_controler != m_relation_controlers.end() ; ++relation_controler)
+      {
+        for(std::set<BaseRelationControler*>::iterator controler = relation_controler->second.begin() ; controler != relation_controler->second.end() ; ++controler)
+        {
+          if ((*controler)->m_controler_set == controler_set)
+          {
+            (*controler)->close() ;
+          }
+        }
+      }
+
       for(std::set<Object*>::iterator object = m_objects.begin() ;
           object != m_objects.end() ;
           ++object)
       {
         (*object)->_close(controler_set) ;
       }
+
+      endTransaction() ;
     }
 
     const std::set<Object*>& Model::getRoots() const
@@ -399,11 +418,16 @@ namespace ProjetUnivers
       {
         (*viewpoint)->close() ;
       }
+
+      for(std::set<Relation>::iterator relation = m_relations.begin() ; relation != m_relations.end() ; ++relation)
+      {
+        close(*relation) ;
+      }
     }
 
     void Model::update(const float& seconds)
     {
-      // first update controler sets then viewpoints
+      // first update controller sets then viewpoints
       const std::set<Kernel::ControlerSet*>& controlersets = getControlerSets() ;
       for(std::set<Kernel::ControlerSet*>::const_iterator controlerset = controlersets.begin() ;
           controlerset != controlersets.end() ;
@@ -517,12 +541,30 @@ namespace ProjetUnivers
     void Model::addRelation(const Relation& relation)
     {
       startTransaction() ;
+
+      if (m_pair_reference_counting.find(relation) == m_pair_reference_counting.end())
+        m_pair_reference_counting[relation] = 0 ;
+
+      ++m_pair_reference_counting[relation] ;
+
       m_relations.insert(relation) ;
-      m_canonical_relations.insert(std::make_pair(relation,relation)) ;
-      m_relation_validities[relation].reserve(Formula::getNumberOfFormulae()) ;
-      m_number_of_true_child_formulae[relation].reserve(Formula::getNumberOfFormulae()) ;
-      relation.createViews() ;
-      relation.createControlers() ;
+
+      /*
+       handle the case where during a transaction we add, remove and re-add the
+       the same relation @see TestRelationView::severalInitCloseInTheSameFrame
+      */
+      if (isToDestroy(relation))
+      {
+        unRecordRelationToDestroy(relation) ;
+      }
+      else
+      {
+        m_canonical_relations.insert(std::make_pair(relation,relation)) ;
+        m_relation_validities.insert(std::make_pair(relation,std::vector<bool>(Formula::getNumberOfFormulae(),false))) ;
+        m_number_of_true_child_formulae.insert(std::make_pair(relation,std::vector<short>(Formula::getNumberOfFormulae(),0))) ;
+        relation.createViews() ;
+        relation.createControlers() ;
+      }
       init(relation) ;
       DeducedTrait::addRelation(relation) ;
       endTransaction() ;
@@ -543,8 +585,15 @@ namespace ProjetUnivers
     void Model::_internalDestroyRelation(const Relation& relation)
     {
       m_canonical_relations.erase(relation) ;
-      m_relation_validities.erase(relation) ;
-      m_number_of_true_child_formulae.erase(relation) ;
+
+      int& counting = m_pair_reference_counting[relation] ;
+      --counting ;
+
+      if (counting == 0)
+      {
+        m_relation_validities.erase(relation) ;
+        m_number_of_true_child_formulae.erase(relation) ;
+      }
       destroyRelationView(relation) ;
       destroyRelationControler(relation) ;
     }
@@ -618,17 +667,35 @@ namespace ProjetUnivers
 
     bool Model::getValidity(const ObjectPair& relation,const Formula* formula)
     {
+      if (formula->getIdentifier() > (int)m_relation_validities[relation].capacity() ||
+          formula->getIdentifier() < 0)
+      {
+        throw ExceptionKernel("Model::getValidity " + formula->print()) ;
+      }
+
       return m_relation_validities[relation][formula->getIdentifier()] ;
     }
 
     void Model::setValidity(const ObjectPair& relation,const Formula* formula,const bool& validity)
     {
+      if (formula->getIdentifier() > (int)m_relation_validities[relation].capacity() ||
+          formula->getIdentifier() < 0)
+      {
+        throw ExceptionKernel("Model::setValidity " + formula->print() + " identifier=" +
+                              Kernel::toString(formula->getIdentifier()) + " capacity=" +
+                              Kernel::toString(m_relation_validities[relation].capacity())) ;
+      }
       m_relation_validities[relation][formula->getIdentifier()] = validity ;
     }
 
     short Model::getNumberOfTrueChildFormulae(const ObjectPair& relation,
-                                                       const Formula* formula)
+                                              const Formula* formula)
     {
+      if (formula->getIdentifier() > (int)m_number_of_true_child_formulae[relation].capacity() ||
+          formula->getIdentifier() < 0)
+      {
+        throw ExceptionKernel("Model::getNumberOfTrueChildFormulae") ;
+      }
       return m_number_of_true_child_formulae[relation][formula->getIdentifier()] ;
     }
 
@@ -636,6 +703,11 @@ namespace ProjetUnivers
                                              const Formula* formula,
                                              short number)
     {
+      if (formula->getIdentifier() > (int)m_number_of_true_child_formulae[relation].capacity() ||
+          formula->getIdentifier() < 0)
+      {
+        throw ExceptionKernel("Model::setNumberOfTrueChildFormulae") ;
+      }
       m_number_of_true_child_formulae[relation][formula->getIdentifier()] = number ;
     }
 

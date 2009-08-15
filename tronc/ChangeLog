@@ -1361,27 +1361,64 @@
   * build : 
     - make all also build the tests
     - added compiler warnings
+
+2009-08-15
+
+  * Kernel :
+    - inverse relation on IsRelated/IsOnlyRelated
+    - relation XML reading
+    - corrected some big bugs on relations : adding twice the same relation was 
+      used in deduction! Some deduced relation where closed whereas primitive 
+      relation where not even present! 
+    - corrected a bug on object destruction : removing twice a deduced trait 
+      (first time because of object closing, second time because of deduction)
+    - corrected invalid accesses on relations deduction
+    - getView on relation
+    - bug : model destroy does not call close on relation observers
+
+  * Model :
+    - moved RecursivelyPositionned to model 
+    - Selection relation occurs directly between ships, removed Selected
+    - added DataConnection relation between Computer, Detector, TargetingSystem,
+      ShootingHelper
+    - kept IdealTarget as an object in computer (would prefer to throw it out)
+    - remove Shootable and replace by HasInLineOfSight relation
+    
+   * AI :
+    - changed Selection usage
+    - corrected tests
+
+  * Display : 
+    - change selection printing
+
+  * Physic :
+    - corrected a bug on force generator
     
 in commit
 --------
 
-     
+   
 in progress
 -----------
-  
-  
+
+    
 todo
 ----
+  
+  * Sound : 
+    - exception floating point
+  * AI :
+    - still seg fault on TargetAgentControler::onClose
 
-  * Model : 
-      - selected target is the relation :  
-      Selection and 
-      IsFrom(RecursivellyPositioned) and IsTo(RecursivellyPositioned)
-      --> once selector or selected is updated, the controler is called
-          the controler can determine iff it is still detectable :)
-          the ideal target is moved, shootable status is created/destroyed 
-          (which is a relation between objects) 
-      --> Display view is updated so the position is changed
+  * Kernel : 
+   - detect illegal access in view/controler, an illegal access is accessing a 
+     trait/view/controler that is not part of the formula
+   
+   - refactor types : Object, to catch NULL call
+   
+
+  * Display : 
+    - change selection printing (change color of ideal target)
 
   * AI : 
     - issues with ship fleeing : when two ships aim at each other... they flee
@@ -1595,5 +1632,7 @@ todo
   
   * Continuous integration :
     - use cccc
-    - profile with valgrind (cachegrind)
+    - profile with valgrind (cachegrind) valgring --tool=cachegrind + kcachegrind 
+      for visualisation
+    - use valgrind for leaks (a lot on kernel tests, try whithout -O2) + invalid access
   

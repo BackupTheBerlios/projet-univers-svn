@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -19,42 +19,40 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include <OgreStringConverter.h>
-#include <model/implementation/detector_view_point.h>
-#include <model/implementation/detector_object_view.h>
+
+#include <kernel/object.h>
 
 #include <model/positionned.h>
 #include <model/detector.h>
+#include <model/data_connection.h>
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
 
     RegisterTrait(Detector) ;
     
-    Detector::Detector(Kernel::Object* computer)
-    : m_implementation(),
-      m_range(Distance::_Meter,1000),
-      m_computer(computer)
+    Detector::Detector()
+    : m_range(Distance::_Meter,1000)
     {}
     
-    Detector::Detector(Kernel::Object* computer,const Distance& range)
-    : m_implementation(),
-      m_range(range),
-      m_computer(computer)
+    Detector::Detector(const Distance& range)
+    : m_range(range)
     {}
+
+    void Detector::connect(Kernel::Object* detector,Kernel::Object* computer)
+    {
+      Kernel::Link<DataConnection>(detector,computer) ;
+    }
 
     Kernel::Trait* Detector::read(Kernel::Reader* reader)
     {
-      Detector* result = new Detector(NULL) ;
+      Detector* result = new Detector() ;
       
       while (!reader->isEndNode() && reader->processNode())
       {
-        if (reader->isTraitNode() && 
-            reader->getTraitName() == "ObjectReference")
-        {
-          result->m_computer = Kernel::ObjectReference::read(reader) ;
-        }
-        else if (reader->isTraitNode() && 
-                 reader->getTraitName() == "Distance")
+        if (reader->isTraitNode() && reader->getTraitName() == "Distance")
         {
           result->m_range = Distance::read(reader) ;
         }
@@ -66,24 +64,6 @@ namespace ProjetUnivers {
       reader->processNode() ;
       
       return result ;
-    }
-
-    void Detector::detect()
-    {
-      InternalMessage("Model","Model::Detector::detect entering") ;
-      // perform detection pass on implementation
-      Kernel::forAll<Implementation::DetectorObjectView>(
-        m_implementation,&Implementation::DetectorObjectView::check) ;
-      InternalMessage("Model","Model::Detector::detect leaving") ;
-    }
-    
-    void Detector::init()
-    {
-      if (! m_implementation)
-      {
-        m_implementation = new Implementation::DetectorViewPoint(this) ;
-        m_implementation->init() ;
-      }
     }
     
     Distance Detector::getRange() const
@@ -111,11 +91,7 @@ namespace ProjetUnivers {
 
       return in_range ;      
     }
-    
-    Kernel::Object* Detector::getComputer() const
-    {
-      return m_computer ;
-    }    
+
 
   }     
 }

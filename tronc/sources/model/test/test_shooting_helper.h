@@ -18,8 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_TEST_SHOOTING_HELPER_H_
-#define PU_MODEL_TEST_SHOOTING_HELPER_H_
+#pragma once
 
 #include <cppunit/extensions/HelperMacros.h>
 
@@ -99,7 +98,7 @@ namespace ProjetUnivers
          CPPUNIT_TEST(testMovingUnshootable) ;
          CPPUNIT_TEST(testMovingLateral) ;
          CPPUNIT_TEST(testMovingLateralWithRotation) ;
-//         CPPUNIT_TEST(destroyComputer) ;
+         CPPUNIT_TEST(destroyComputer) ;
          CPPUNIT_TEST(destroyLaser) ;
          CPPUNIT_TEST(deconnectComputer) ;
          CPPUNIT_TEST(testShootable) ;
@@ -116,5 +115,3 @@ namespace ProjetUnivers
   }
 }
 
-
-#endif /*PU_MODEL_TEST_SHOOTING_HELPER_H_*/

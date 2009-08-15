@@ -30,14 +30,17 @@
 #include <model/mobile.h>
 #include <model/solid.h>
 #include <model/laser.h>
-#include <model/selected.h>
+#include <model/selection.h>
 #include <model/detection_data.h>
 #include <model/targeting_system.h>
 #include <model/ideal_target.h>
 #include <model/shooting_helper.h>
-#include <model/shootable.h>
+#include <model/has_in_line_of_sight.h>
 
 #include <model/test/test_shooting_helper.h>
+#include <model/data_connection.h>
+#include <model/selection.h>
+#include <model/implementation/logic/selection.h>
 
 CPPUNIT_TEST_SUITE_REGISTRATION(ProjetUnivers::
                                 Model::
@@ -45,9 +48,12 @@ CPPUNIT_TEST_SUITE_REGISTRATION(ProjetUnivers::
                                 TestShootingHelper) ;
 
 
-namespace ProjetUnivers {
-  namespace Model {
-    namespace Test {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
+    namespace Test
+    {
 
 
       void TestShootingHelper::basicTest()
@@ -73,7 +79,9 @@ namespace ProjetUnivers {
         ship->addTrait(new Solid(Mesh("test_ship.mesh"))) ;
         ship->addTrait(new Computer()) ;
         ship->addTrait(new Laser(Position(),Orientation(),Energy::Joule(10))) ;
-        ship->addTrait(new Detector(ship)) ;
+        ship->addTrait(new Detector()) ;
+        Detector::connect(ship,ship) ;
+
         ship->addTrait(new TargetingSystem()) ;
         TargetingSystem::connect(ship,ship) ;
         ship->addTrait(new ShootingHelper()) ;
@@ -86,20 +94,17 @@ namespace ProjetUnivers {
         ship2->addTrait(new Mobile()) ;
         ship2->addTrait(new Solid(Mesh("test_ship.mesh"))) ;
 
-        model->update(0.1) ;
+        ship->getTrait<TargetingSystem>()->selectNextTarget() ;
 
         // the ship has been detected.
         CPPUNIT_ASSERT(ship->getTrait<Computer>()->getMemoryModel()->getRoots().size() == 1) ;
 
         std::set<Kernel::Object*>::const_iterator data_pointer
           = ship->getTrait<Computer>()->getMemoryModel()->getRoots().begin() ;
-        ship->getTrait<TargetingSystem>()->selectNextTarget() ;
-
         Kernel::Object* data = *(data_pointer) ;
-        CPPUNIT_ASSERT(data->getTrait<Selected>()) ;
 
         // get the ideal target data and check it
-        std::set<IdealTarget*> children = data->getDescendants<IdealTarget>() ;
+        std::set<IdealTarget*> children = data->getChildren<IdealTarget>() ;
 
         CPPUNIT_ASSERT(children.size()==1) ;
         Kernel::Object* child = (*(children.begin()))->getObject() ;
@@ -107,7 +112,7 @@ namespace ProjetUnivers {
         CPPUNIT_ASSERT(positionned) ;
 
         /// ideal position is ship position because it does not move
-        CPPUNIT_ASSERT(positionned->getPosition()==Position::Meter(0,0,500)) ;
+        CPPUNIT_ASSERT_EQUAL(Position::Meter(0,0,500),positionned->getPosition()) ;
       }
 
       void TestShootingHelper::testMovingFront()
@@ -133,7 +138,9 @@ namespace ProjetUnivers {
         ship->addTrait(new Solid(Mesh("test_ship.mesh"))) ;
         ship->addTrait(new Computer()) ;
         ship->addTrait(new Laser(Position(),Orientation(),Energy::Joule(10))) ;
-        ship->addTrait(new Detector(ship)) ;
+        ship->addTrait(new Detector()) ;
+        Detector::connect(ship,ship) ;
+
         ship->addTrait(new TargetingSystem()) ;
         TargetingSystem::connect(ship,ship) ;
         ship->addTrait(new ShootingHelper()) ;
@@ -146,20 +153,18 @@ namespace ProjetUnivers {
         ship2->addTrait(new Mobile(Speed::MeterPerSecond(0,0,1))) ;
         ship2->addTrait(new Solid(Mesh("test_ship.mesh"))) ;
 
-        model->update(0.1) ;
-
         // the ship has been detected.
+        ship->getTrait<TargetingSystem>()->selectNextTarget() ;
+
         CPPUNIT_ASSERT(ship->getTrait<Computer>()->getMemoryModel()->getRoots().size() == 1) ;
 
         std::set<Kernel::Object*>::const_iterator data_pointer
           = ship->getTrait<Computer>()->getMemoryModel()->getRoots().begin() ;
-        ship->getTrait<TargetingSystem>()->selectNextTarget() ;
 
         Kernel::Object* data = *(data_pointer) ;
-        CPPUNIT_ASSERT(data->getTrait<Selected>()) ;
 
         // get the ideal target data and check it
-        std::set<IdealTarget*> children = data->getDescendants<IdealTarget>() ;
+        std::set<IdealTarget*> children = data->getChildren<IdealTarget>() ;
 
         CPPUNIT_ASSERT(children.size()==1) ;
         Kernel::Object* child = (*(children.begin()))->getObject() ;
@@ -193,7 +198,8 @@ namespace ProjetUnivers {
         ship->addTrait(new Computer()) ;
         ship->addTrait(new Laser(Position(),Orientation(),Energy::Joule(10))) ;
         float laser_speed_meter_per_second = ship->getTrait<Laser>()->getLaserSpeedMeterPerSecond() ;
-        ship->addTrait(new Detector(ship)) ;
+        ship->addTrait(new Detector()) ;
+        Detector::connect(ship,ship) ;
         ship->addTrait(new TargetingSystem()) ;
         TargetingSystem::connect(ship,ship) ;
         ship->addTrait(new ShootingHelper()) ;
@@ -206,20 +212,10 @@ namespace ProjetUnivers {
         ship2->addTrait(new Mobile(Speed::MeterPerSecond(0,0,laser_speed_meter_per_second))) ;
         ship2->addTrait(new Solid(Mesh("test_ship.mesh"))) ;
 
-        model->update(0.1) ;
-
-        // the ship has been detected.
-        CPPUNIT_ASSERT(ship->getTrait<Computer>()->getMemoryModel()->getRoots().size() == 1) ;
-
-        std::set<Kernel::Object*>::const_iterator data_pointer
-          = ship->getTrait<Computer>()->getMemoryModel()->getRoots().begin() ;
         ship->getTrait<TargetingSystem>()->selectNextTarget() ;
 
-        Kernel::Object* data = *(data_pointer) ;
-        CPPUNIT_ASSERT(data->getTrait<Selected>()) ;
-
         // no ideal target
-        CPPUNIT_ASSERT(data->getDescendants<IdealTarget>().size()==0) ;
+        CPPUNIT_ASSERT(ship->getTrait<Computer>()->getMemoryModel()->getRoots().size() == 0) ;
       }
 
       void TestShootingHelper::testMovingLateral()
@@ -245,7 +241,9 @@ namespace ProjetUnivers {
         ship->addTrait(new Solid(Mesh("test_ship.mesh"))) ;
         ship->addTrait(new Computer()) ;
         ship->addTrait(new Laser(Position(),Orientation(),Energy::Joule(10))) ;
-        ship->addTrait(new Detector(ship)) ;
+        ship->addTrait(new Detector()) ;
+        Detector::connect(ship,ship) ;
+
         ship->addTrait(new TargetingSystem()) ;
         TargetingSystem::connect(ship,ship) ;
         ship->addTrait(new ShootingHelper()) ;
@@ -258,20 +256,16 @@ namespace ProjetUnivers {
         ship2->addTrait(new Mobile(Speed::MeterPerSecond(0,10,0))) ;
         ship2->addTrait(new Solid(Mesh("test_ship.mesh"))) ;
 
-        model->update(0.1) ;
+        ship->getTrait<TargetingSystem>()->selectNextTarget() ;
 
-        // the ship has been detected.
         CPPUNIT_ASSERT(ship->getTrait<Computer>()->getMemoryModel()->getRoots().size() == 1) ;
 
         std::set<Kernel::Object*>::const_iterator data_pointer
           = ship->getTrait<Computer>()->getMemoryModel()->getRoots().begin() ;
-        ship->getTrait<TargetingSystem>()->selectNextTarget() ;
-
         Kernel::Object* data = *(data_pointer) ;
-        CPPUNIT_ASSERT(data->getTrait<Selected>()) ;
 
         // get the ideal target data and check it
-        std::set<IdealTarget*> children = data->getDescendants<IdealTarget>() ;
+        std::set<IdealTarget*> children = data->getChildren<IdealTarget>() ;
 
         CPPUNIT_ASSERT(children.size()==1) ;
         Kernel::Object* child = (*(children.begin()))->getObject() ;
@@ -305,7 +299,9 @@ namespace ProjetUnivers {
         ship->addTrait(new Solid(Mesh("test_ship.mesh"))) ;
         ship->addTrait(new Computer()) ;
         ship->addTrait(new Laser(Position(),Orientation(),Energy::Joule(10))) ;
-        ship->addTrait(new Detector(ship)) ;
+        ship->addTrait(new Detector()) ;
+        Detector::connect(ship,ship) ;
+
         ship->addTrait(new TargetingSystem()) ;
         TargetingSystem::connect(ship,ship) ;
         ship->addTrait(new ShootingHelper()) ;
@@ -318,27 +314,23 @@ namespace ProjetUnivers {
         ship2->addTrait(new Mobile(Speed::MeterPerSecond(10,0,0))) ;
         ship2->addTrait(new Solid(Mesh("test_ship.mesh"))) ;
 
-        model->update(0.1) ;
+        ship->getTrait<TargetingSystem>()->selectNextTarget() ;
 
-        // the ship has been detected.
         CPPUNIT_ASSERT(ship->getTrait<Computer>()->getMemoryModel()->getRoots().size() == 1) ;
 
         std::set<Kernel::Object*>::const_iterator data_pointer
           = ship->getTrait<Computer>()->getMemoryModel()->getRoots().begin() ;
-        ship->getTrait<TargetingSystem>()->selectNextTarget() ;
-
         Kernel::Object* data = *(data_pointer) ;
-        CPPUNIT_ASSERT(data->getTrait<Selected>()) ;
 
         // get the ideal target data and check it
-        std::set<IdealTarget*> children = data->getDescendants<IdealTarget>() ;
+        std::set<IdealTarget*> children = data->getChildren<IdealTarget>() ;
 
         CPPUNIT_ASSERT(children.size()==1) ;
         Kernel::Object* child = (*(children.begin()))->getObject() ;
         Positionned* positionned = child->getTrait<Positionned>() ;
         CPPUNIT_ASSERT(positionned) ;
 //        std::cout << positionned->getPosition().Meter() << std::endl ;
-        CPPUNIT_ASSERT(positionned->getPosition().Meter().z == -500) ;
+        CPPUNIT_ASSERT(positionned->getPosition().Meter().z == 500) ;
         CPPUNIT_ASSERT(positionned->getPosition().Meter().y == 0) ;
 
         // in local ship space targeted ship goes -x
@@ -369,11 +361,17 @@ namespace ProjetUnivers {
         ship->addTrait(new Solid(Mesh("test_ship.mesh"))) ;
         ship->addTrait(new Computer()) ;
         ship->addTrait(new Laser(Position(),Orientation(),Energy::Joule(10))) ;
-        ship->addTrait(new Detector(ship)) ;
+        ship->addTrait(new Detector()) ;
+        Detector::connect(ship,ship) ;
+
         ship->addTrait(new TargetingSystem()) ;
+        CPPUNIT_ASSERT(!Kernel::Relation::areLinked<Implementation::Selection>(ship,ship)) ;
         TargetingSystem::connect(ship,ship) ;
+
         ship->addTrait(new ShootingHelper()) ;
         ShootingHelper::connect(ship,ship,ship) ;
+
+        CPPUNIT_ASSERT(!Kernel::Relation::areLinked<Implementation::Selection>(ship,ship)) ;
 
         Kernel::Object* ship2 = system->createObject() ;
         ship2->addTrait(new Positionned(Position::Meter(0,0,500))) ;
@@ -382,23 +380,27 @@ namespace ProjetUnivers {
         ship2->addTrait(new Mobile(Speed::MeterPerSecond(0,10,0))) ;
         ship2->addTrait(new Solid(Mesh("test_ship.mesh"))) ;
 
-        model->update(0.1) ;
-
-        // the ship has been detected.
-        CPPUNIT_ASSERT(ship->getTrait<Computer>()->getMemoryModel()->getRoots().size() == 1) ;
-
-        std::set<Kernel::Object*>::const_iterator data_pointer
-          = ship->getTrait<Computer>()->getMemoryModel()->getRoots().begin() ;
         ship->getTrait<TargetingSystem>()->selectNextTarget() ;
 
+        CPPUNIT_ASSERT(Kernel::Relation::getLinked<Selection>(ship).size() == 1) ;
+
+        CPPUNIT_ASSERT(ship->getTrait<Computer>()->getMemoryModel()->getRoots().size() == 1) ;
+        std::set<Kernel::Object*>::const_iterator data_pointer
+          = ship->getTrait<Computer>()->getMemoryModel()->getRoots().begin() ;
         Kernel::Object* data = *(data_pointer) ;
-        CPPUNIT_ASSERT(data->getTrait<Selected>()) ;
 
         // get the ideal target data and check it
-        std::set<IdealTarget*> children = data->getDescendants<IdealTarget>() ;
+        std::set<IdealTarget*> children = data->getChildren<IdealTarget>() ;
 
         CPPUNIT_ASSERT(children.size()==1) ;
+
+        CPPUNIT_ASSERT(Kernel::Relation::areLinked<Selection>(ship,ship2)) ;
+        CPPUNIT_ASSERT(!Kernel::Relation::areLinked<Selection>(ship,ship)) ;
+        CPPUNIT_ASSERT(!Kernel::Relation::areLinked<Implementation::Selection>(ship,ship)) ;
+
         ship->destroyTrait(ship->getTrait<Computer>()) ;
+
+        CPPUNIT_ASSERT(!Selection::isSelected(ship,ship2)) ;
       }
 
       void TestShootingHelper::destroyLaser()
@@ -425,7 +427,9 @@ namespace ProjetUnivers {
         ship->addTrait(new Solid(Mesh("test_ship.mesh"))) ;
         ship->addTrait(new Computer()) ;
         ship->addTrait(new Laser(Position(),Orientation(),Energy::Joule(10))) ;
-        ship->addTrait(new Detector(ship)) ;
+        ship->addTrait(new Detector()) ;
+        Detector::connect(ship,ship) ;
+
         ship->addTrait(new TargetingSystem()) ;
         TargetingSystem::connect(ship,ship) ;
         ship->addTrait(new ShootingHelper()) ;
@@ -438,20 +442,16 @@ namespace ProjetUnivers {
         ship2->addTrait(new Mobile(Speed::MeterPerSecond(0,10,0))) ;
         ship2->addTrait(new Solid(Mesh("test_ship.mesh"))) ;
 
-        model->update(0.1) ;
+        ship->getTrait<TargetingSystem>()->selectNextTarget() ;
 
-        // the ship has been detected.
         CPPUNIT_ASSERT(ship->getTrait<Computer>()->getMemoryModel()->getRoots().size() == 1) ;
 
         std::set<Kernel::Object*>::const_iterator data_pointer
           = ship->getTrait<Computer>()->getMemoryModel()->getRoots().begin() ;
-        ship->getTrait<TargetingSystem>()->selectNextTarget() ;
-
         Kernel::Object* data = *(data_pointer) ;
-        CPPUNIT_ASSERT(data->getTrait<Selected>()) ;
 
         // get the ideal target data and check it
-        std::set<IdealTarget*> children = data->getDescendants<IdealTarget>() ;
+        std::set<IdealTarget*> children = data->getChildren<IdealTarget>() ;
 
         CPPUNIT_ASSERT(children.size()==1) ;
         ship->destroyTrait(ship->getTrait<Laser>()) ;
@@ -459,7 +459,7 @@ namespace ProjetUnivers {
 
       void TestShootingHelper::deconnectComputer()
       {
-        InternalMessage("Model","Model::TestShootingHelper::destroyComputer entering") ;
+        InternalMessage("Model","Model::TestShootingHelper::deconnectComputer entering") ;
         /*!
           we construct a complete system :
           a main ship
@@ -481,7 +481,9 @@ namespace ProjetUnivers {
         ship->addTrait(new Solid(Mesh("test_ship.mesh"))) ;
         ship->addTrait(new Computer()) ;
         ship->addTrait(new Laser(Position(),Orientation(),Energy::Joule(10))) ;
-        ship->addTrait(new Detector(ship)) ;
+        ship->addTrait(new Detector()) ;
+        Detector::connect(ship,ship) ;
+
         ship->addTrait(new TargetingSystem()) ;
         TargetingSystem::connect(ship,ship) ;
         ship->addTrait(new ShootingHelper()) ;
@@ -494,29 +496,22 @@ namespace ProjetUnivers {
         ship2->addTrait(new Mobile(Speed::MeterPerSecond(0,10,0))) ;
         ship2->addTrait(new Solid(Mesh("test_ship.mesh"))) ;
 
-        model->update(0.1) ;
+        ship->getTrait<TargetingSystem>()->selectNextTarget() ;
 
-        // the ship has been detected.
         CPPUNIT_ASSERT(ship->getTrait<Computer>()->getMemoryModel()->getRoots().size() == 1) ;
 
         std::set<Kernel::Object*>::const_iterator data_pointer
           = ship->getTrait<Computer>()->getMemoryModel()->getRoots().begin() ;
-        ship->getTrait<TargetingSystem>()->selectNextTarget() ;
-
         Kernel::Object* data = *(data_pointer) ;
-        CPPUNIT_ASSERT(data->getTrait<Selected>()) ;
 
         // get the ideal target data and check it
-        std::set<IdealTarget*> children = data->getDescendants<IdealTarget>() ;
+        std::set<IdealTarget*> children = data->getChildren<IdealTarget>() ;
 
         CPPUNIT_ASSERT(children.size()==1) ;
 
-        ShootingHelper::connect(ship,NULL,ship) ;
+        Kernel::UnLink<DataConnection>(ship,ship) ;
 
-        children = data->getDescendants<IdealTarget>() ;
-        CPPUNIT_ASSERT(children.size()==1) ;
-
-        InternalMessage("Model","Model::TestShootingHelper::destroyComputer leaving") ;
+        InternalMessage("Model","Model::TestShootingHelper::deconnectComputer leaving") ;
       }
 
       void TestShootingHelper::testShootable()
@@ -542,7 +537,9 @@ namespace ProjetUnivers {
         ship->addTrait(new Solid(Mesh("test_ship.mesh"))) ;
         ship->addTrait(new Computer()) ;
         ship->addTrait(new Laser(Position(),Orientation(),Energy::Joule(10))) ;
-        ship->addTrait(new Detector(ship)) ;
+        ship->addTrait(new Detector()) ;
+        Detector::connect(ship,ship) ;
+
         ship->addTrait(new TargetingSystem()) ;
         TargetingSystem::connect(ship,ship) ;
         ship->addTrait(new ShootingHelper()) ;
@@ -555,19 +552,9 @@ namespace ProjetUnivers {
         ship2->addTrait(new Mobile(Speed::MeterPerSecond(0,10,0))) ;
         ship2->addTrait(new Solid(Mesh("test_ship.mesh"))) ;
 
-        model->update(0.1) ;
-
-        // the ship has been detected.
-        CPPUNIT_ASSERT(ship->getTrait<Computer>()->getMemoryModel()->getRoots().size() == 1) ;
-
-        std::set<Kernel::Object*>::const_iterator data_pointer
-          = ship->getTrait<Computer>()->getMemoryModel()->getRoots().begin() ;
         ship->getTrait<TargetingSystem>()->selectNextTarget() ;
 
-        Kernel::Object* data = *(data_pointer) ;
-        CPPUNIT_ASSERT(data->getTrait<Selected>()) ;
-
-        CPPUNIT_ASSERT(data->getTrait<Shootable>()) ;
+        CPPUNIT_ASSERT(Kernel::Relation::areLinked<HasInLineOfSight>(ship,ship2)) ;
 
         InternalMessage("Model","Model::TestShootingHelper::testShootable leaving") ;
       }
@@ -595,7 +582,9 @@ namespace ProjetUnivers {
         ship->addTrait(new Solid(Mesh("test_ship.mesh"))) ;
         ship->addTrait(new Computer()) ;
         ship->addTrait(new Laser(Position(),Orientation(),Energy::Joule(10))) ;
-        ship->addTrait(new Detector(ship)) ;
+        ship->addTrait(new Detector()) ;
+        Detector::connect(ship,ship) ;
+
         ship->addTrait(new TargetingSystem()) ;
         TargetingSystem::connect(ship,ship) ;
         ship->addTrait(new ShootingHelper()) ;
@@ -608,19 +597,9 @@ namespace ProjetUnivers {
         ship2->addTrait(new Mobile(Speed::MeterPerSecond(0,10,0))) ;
         ship2->addTrait(new Solid(Mesh("test_ship.mesh"))) ;
 
-        model->update(0.1) ;
-
-        // the ship has been detected.
-        CPPUNIT_ASSERT(ship->getTrait<Computer>()->getMemoryModel()->getRoots().size() == 1) ;
-
-        std::set<Kernel::Object*>::const_iterator data_pointer
-          = ship->getTrait<Computer>()->getMemoryModel()->getRoots().begin() ;
         ship->getTrait<TargetingSystem>()->selectNextTarget() ;
 
-        Kernel::Object* data = *(data_pointer) ;
-        CPPUNIT_ASSERT(data->getTrait<Selected>()) ;
-
-        CPPUNIT_ASSERT(data->getTrait<Shootable>()) ;
+        CPPUNIT_ASSERT(Kernel::Relation::areLinked<HasInLineOfSight>(ship,ship2)) ;
 
         InternalMessage("Model","Model::TestShootingHelper::testShootableWithRotation leaving") ;
       }
@@ -648,7 +627,9 @@ namespace ProjetUnivers {
         ship->addTrait(new Solid(Mesh("test_ship.mesh"))) ;
         ship->addTrait(new Computer()) ;
         ship->addTrait(new Laser(Position(),Orientation(),Energy::Joule(10))) ;
-        ship->addTrait(new Detector(ship)) ;
+        ship->addTrait(new Detector()) ;
+        Detector::connect(ship,ship) ;
+
         ship->addTrait(new TargetingSystem()) ;
         TargetingSystem::connect(ship,ship) ;
         ship->addTrait(new ShootingHelper()) ;
@@ -661,19 +642,9 @@ namespace ProjetUnivers {
         ship2->addTrait(new Mobile(Speed::MeterPerSecond(0,10,0))) ;
         ship2->addTrait(new Solid(Mesh("test_ship.mesh"))) ;
 
-        model->update(0.1) ;
-
-        // the ship has been detected.
-        CPPUNIT_ASSERT(ship->getTrait<Computer>()->getMemoryModel()->getRoots().size() == 1) ;
-
-        std::set<Kernel::Object*>::const_iterator data_pointer
-          = ship->getTrait<Computer>()->getMemoryModel()->getRoots().begin() ;
         ship->getTrait<TargetingSystem>()->selectNextTarget() ;
 
-        Kernel::Object* data = *(data_pointer) ;
-        CPPUNIT_ASSERT(data->getTrait<Selected>()) ;
-
-        CPPUNIT_ASSERT(!data->getTrait<Shootable>()) ;
+        CPPUNIT_ASSERT(!Kernel::Relation::areLinked<HasInLineOfSight>(ship,ship2)) ;
 
         InternalMessage("Model","Model::TestShootingHelper::testNotShootableBehind leaving") ;
       }
@@ -701,7 +672,9 @@ namespace ProjetUnivers {
         ship->addTrait(new Solid(Mesh("test_ship.mesh"))) ;
         ship->addTrait(new Computer()) ;
         ship->addTrait(new Laser(Position(),Orientation(),Energy::Joule(10))) ;
-        ship->addTrait(new Detector(ship)) ;
+        ship->addTrait(new Detector()) ;
+        Detector::connect(ship,ship) ;
+
         ship->addTrait(new TargetingSystem()) ;
         TargetingSystem::connect(ship,ship) ;
         ship->addTrait(new ShootingHelper()) ;
@@ -714,19 +687,9 @@ namespace ProjetUnivers {
         ship2->addTrait(new Oriented()) ;
         ship2->addTrait(new Mobile(Speed::MeterPerSecond(0,10,0))) ;
 
-        model->update(0.1) ;
-
-        // the ship has been detected.
-        CPPUNIT_ASSERT(ship->getTrait<Computer>()->getMemoryModel()->getRoots().size() == 1) ;
-
-        std::set<Kernel::Object*>::const_iterator data_pointer
-          = ship->getTrait<Computer>()->getMemoryModel()->getRoots().begin() ;
         ship->getTrait<TargetingSystem>()->selectNextTarget() ;
 
-        Kernel::Object* data = *(data_pointer) ;
-        CPPUNIT_ASSERT(data->getTrait<Selected>()) ;
-
-        CPPUNIT_ASSERT(!data->getTrait<Shootable>()) ;
+        CPPUNIT_ASSERT(!Kernel::Relation::areLinked<HasInLineOfSight>(ship,ship2)) ;
 
         InternalMessage("Model","Model::TestShootingHelper::testNotShootableOnTheSide leaving") ;
       }
@@ -754,7 +717,9 @@ namespace ProjetUnivers {
         ship->addTrait(new Solid(Mesh("test_ship.mesh"))) ;
         ship->addTrait(new Computer()) ;
         ship->addTrait(new Laser(Position(),Orientation(),Energy::Joule(10))) ;
-        ship->addTrait(new Detector(ship)) ;
+        ship->addTrait(new Detector()) ;
+        Detector::connect(ship,ship) ;
+
         ship->addTrait(new TargetingSystem()) ;
         TargetingSystem::connect(ship,ship) ;
         ship->addTrait(new ShootingHelper()) ;
@@ -767,19 +732,9 @@ namespace ProjetUnivers {
         ship2->addTrait(new Oriented()) ;
         ship2->addTrait(new Mobile(Speed::MeterPerSecond(0,10,0))) ;
 
-        model->update(0.1) ;
-
-        // the ship has been detected.
-        CPPUNIT_ASSERT(ship->getTrait<Computer>()->getMemoryModel()->getRoots().size() == 1) ;
-
-        std::set<Kernel::Object*>::const_iterator data_pointer
-          = ship->getTrait<Computer>()->getMemoryModel()->getRoots().begin() ;
         ship->getTrait<TargetingSystem>()->selectNextTarget() ;
 
-        Kernel::Object* data = *(data_pointer) ;
-        CPPUNIT_ASSERT(data->getTrait<Selected>()) ;
-
-        CPPUNIT_ASSERT(data->getTrait<Shootable>()) ;
+        CPPUNIT_ASSERT(Kernel::Relation::areLinked<HasInLineOfSight>(ship,ship2)) ;
 
         InternalMessage("Model","Model::TestShootingHelper::testShootableOnTheSide leaving") ;
       }

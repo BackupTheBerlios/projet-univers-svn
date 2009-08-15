@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007 Mathieu ROGER                                      *
+ *   Copyright (C) 2007-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -32,6 +32,7 @@ namespace ProjetUnivers
     class Model ;
     class Reader ;
     class Writer ;
+    class Relation ;
     
     /// Used to reference an object.
     /*!
@@ -107,11 +108,11 @@ namespace ProjetUnivers
       
       friend class Model ;
       
-      /// In case this reference is a temporary one : reder that is reading it.
+      /// In case this reference is a temporary one : reader that is reading it.
       Reader* m_reader ;
       
       friend class Reader ;
-      
+      friend class Relation ;
     };
 
   }

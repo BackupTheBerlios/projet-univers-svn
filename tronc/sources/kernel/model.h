@@ -247,6 +247,9 @@ namespace ProjetUnivers
       /// Remove all relation involving the object.
       void removeRelations(Object*) ;
 
+      /// Reference counting on pairs
+      std::map<ObjectPair,int> m_pair_reference_counting ;
+
       bool getValidity(const ObjectPair& relation,const Formula* formula) ;
       void setValidity(const ObjectPair& relation,const Formula* formula,const bool&) ;
 
@@ -273,6 +276,9 @@ namespace ProjetUnivers
 
       /// Storage for relation controlers.
       std::map<Relation,std::set<BaseRelationControler*> > m_relation_controlers ;
+
+      /// Get a relation view.
+      template <class _View> _View* getView(const Relation&) const ;
 
       /// Add a relation controler.
       void addRelationControler(const Relation&,BaseRelationControler*,ControlerSet*) ;

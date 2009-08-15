@@ -40,7 +40,7 @@
 #include <model/solid.h>
 #include <model/laser.h>
 #include <model/laser_beam.h>
-#include <model/selected.h>
+#include <model/selection.h>
 #include <model/detection_data.h>
 #include <model/targeting_system.h>
 #include <model/ideal_target.h>
@@ -54,9 +54,12 @@
 
 CPPUNIT_TEST_SUITE_REGISTRATION(ProjetUnivers::Physic::Test::TestShootingHelper) ;
 
-namespace ProjetUnivers {
-  namespace Physic {
-    namespace Test {
+namespace ProjetUnivers
+{
+  namespace Physic
+  {
+    namespace Test
+    {
 
       namespace
       {
@@ -95,7 +98,8 @@ namespace ProjetUnivers {
         ship->addTrait(new Model::Laser(Model::Position(),
                                         Model::Orientation(),
                                         Model::Energy::Joule(10))) ;
-        ship->addTrait(new Model::Detector(ship)) ;
+        ship->addTrait(new Model::Detector()) ;
+        Model::Detector::connect(ship,ship) ;
         ship->addTrait(new Model::TargetingSystem()) ;
         Model::TargetingSystem::connect(ship,ship) ;
         ship->addTrait(new Model::ShootingHelper()) ;
@@ -108,27 +112,25 @@ namespace ProjetUnivers {
         ship2->addTrait(new Model::Mobile(Model::Speed::MeterPerSecond(0,10,0))) ;
         ship2->addTrait(new Model::Solid(Model::Mesh("test_ship.mesh"))) ;
 
-        // for detection
-        model->update(1) ;
+        ship->getTrait<Model::TargetingSystem>()->selectNextTarget() ;
+
 
         CPPUNIT_ASSERT(ship->getTrait<Model::Computer>()->getMemoryModel()->getRoots().size() == 1) ;
 
         std::set<Kernel::Object*>::const_iterator data_pointer
           = ship->getTrait<Model::Computer>()->getMemoryModel()->getRoots().begin() ;
-        ship->getTrait<Model::TargetingSystem>()->selectNextTarget() ;
 
         Kernel::Object* data = *(data_pointer) ;
-        CPPUNIT_ASSERT(data->getTrait<Model::Selected>()) ;
 
         // get the ideal target data and check it
-        std::set<Model::IdealTarget*> children = data->getDescendants<Model::IdealTarget>() ;
+        std::set<Model::IdealTarget*> children = data->getChildren<Model::IdealTarget>() ;
 
         CPPUNIT_ASSERT(children.size()==1) ;
         Kernel::Object* child = (*(children.begin()))->getObject() ;
         Model::Positionned* positionned = child->getTrait<Model::Positionned>() ;
         CPPUNIT_ASSERT(positionned) ;
 
-        // calculate orientation of laser from positionned and laser out position
+        // calculate orientation of laser from positioned and laser out position
         // we should also use laser relative position to the ship if existed
         ::Ogre::Quaternion quaternion(
               ::Ogre::Degree(0),
@@ -141,14 +143,14 @@ namespace ProjetUnivers {
         Kernel::ControlerSet* physics = model->getControlerSet<Implementation::Ode::PhysicSystem>() ;
         CPPUNIT_ASSERT(physics) ;
 
-        /// simulation during enought time seconds ...
+        /// simulation during enough time seconds ...
         const int steps_number = 200 ;
         for(int i = 1 ; i <= steps_number ; ++i)
         {
           physics->simulate(0.1) ;
         }
 
-        /// check that collision has occured
+        /// check that collision has occurred
         std::set<Model::Collision*> collisions = system->getDescendants<Model::Collision>() ;
         CPPUNIT_ASSERT(collisions.size()!=0) ;
 
@@ -161,11 +163,6 @@ namespace ProjetUnivers {
 
         InternalMessage("Physic","Physic::Test::TestShootingHelper::basicTest leaving") ;
 
-      }
-
-      void TestShootingHelper::setUp()
-      {
-        Kernel::Parameters::load("demonstration.config") ;
       }
 
     }

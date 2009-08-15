@@ -23,38 +23,31 @@
 #include <model/team.h>
 #include <model/transponder.h>
 
-namespace ProjetUnivers {
-  namespace Model {
-    
-    namespace
-    {
-      int number = 0 ;
-    }
+namespace ProjetUnivers
+{
+  namespace Model
+  {
     
     Transponder::Transponder(Kernel::Object* team)
-    : m_code(++number)
     {
       if (team && team->getTrait<Team>())
       {  
         m_team_name = team->getTrait<Team>()->getName() + "-" ;
       }
-      
     }
 
     Transponder::Transponder(const Transponder& transponder)
-    : m_team_name(transponder.m_team_name),
-      m_code(transponder.m_code)
+    : m_team_name(transponder.m_team_name)
     {}
     
     void Transponder::setCode(const Transponder* transponder)
     {
       m_team_name = transponder->m_team_name ;
-      m_code = transponder->m_code ;
     }
     
     std::string Transponder::getCode() const
     {
-      return m_team_name + "-" + Kernel::toString(m_code) ;
+      return m_team_name + "-" + Kernel::toString(getObject()->getIdentifier()) ;
     }
 
     bool Transponder::areFoe(Kernel::Object* object1,Kernel::Object* object2)

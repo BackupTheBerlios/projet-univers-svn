@@ -20,8 +20,10 @@
  ***************************************************************************/
 #include <kernel/trait_view.h>
 #include <kernel/parameters.h>
+
 #include <model/transponder.h>
-#include <model/targeting_system.h>
+#include <model/selection.h>
+
 #include <display/implementation/ogre/ogre.h>
 #include <display/implementation/ogre/head_up_display/target.h>
 #include <display/implementation/ogre/head_up_display/target_with_selection.h>
@@ -37,14 +39,25 @@ namespace ProjetUnivers
         namespace HUD
         {
 
-          RegisterView(TargetWithSelection,
-                       Implementation::TargetWithSelection,
-                       HeadUpDisplayViewPoint) ;
+          RegisterRelationView(TargetWithSelection,
+                               Implementation::TargetWithSelection,
+                               RealWorldViewPoint) ;
 
           void TargetWithSelection::onInit()
           {
             InternalMessage("Display","Entering TargetWithSelection::onInit") ;
-            m_target = getView<Target>() ;
+
+            // @todo : sometimes it is NULL ???
+            m_target = getView<HUD::Target>() ;
+
+            if (!m_target)
+            {
+              Kernel::Relation* relation = Kernel::Relation::getRelation(getClassTypeIdentifier(Implementation::Target),getObjectFrom(),getObjectTo()) ;
+
+              std::cout << "internal error" ;
+
+            }
+
             onUpdate() ;
             InternalMessage("Display","Leaving TargetWithSelection::onInit") ;
           }
@@ -52,7 +65,9 @@ namespace ProjetUnivers
           void TargetWithSelection::onClose()
           {
             InternalMessage("Display","Entering TargetWithSelection::onClose") ;
-            m_target = getView<Target>() ;
+
+            // @todo find why I put this assignment
+            m_target = getView<HUD::Target>() ;
             if (m_target)
             {
               m_target->setTargetIdentification("") ;
@@ -64,16 +79,15 @@ namespace ProjetUnivers
           {
             InternalMessage("Display","Entering TargetWithSelection::onUpdate") ;
 
-            // display transponder code of the selected target
-            Model::TargetingSystem* system = getObject()->getTrait<Model::TargetingSystem>() ;
+            std::set<Kernel::Object*> selected(Kernel::Relation::getLinked<Model::Selection>(getObjectTo())) ;
 
-            if (!system || !system->getTarget())
-              return ;
-
-            Model::Transponder* transponder = system->getTarget()->getTrait<Model::Transponder>() ;
-            if (transponder)
+            if (selected.size() == 1)
             {
-              m_target->setTargetIdentification(transponder->getCode()) ;
+              Model::Transponder* transponder = (*selected.begin())->getChild<Model::Transponder>() ;
+              if (transponder)
+              {
+                m_target->setTargetIdentification(transponder->getCode()) ;
+              }
             }
             InternalMessage("Display","Leaving TargetWithSelection::onUpdate") ;
           }

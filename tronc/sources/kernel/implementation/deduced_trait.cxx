@@ -71,7 +71,7 @@ namespace ProjetUnivers
       virtual ~Formula() ;
 
       /// Print the formula.
-      std::string print() const ;
+      virtual std::string print() const ;
 
       /// Access to the traits that trigger update for this formula.
       /*!
@@ -110,7 +110,7 @@ namespace ProjetUnivers
     protected:
 
       /// Print the formula.
-      virtual std::string internalPrint() const = 0 ;
+      virtual std::string internalPrint() const ;
 
     /*!
       @name Dependency maintenance.
@@ -339,6 +339,9 @@ namespace ProjetUnivers
 
       /// True iff the formula is valid.
       virtual bool isValid(Object* object) const ;
+
+      /// True iff the formula is valid.
+      virtual bool isValid(const ObjectPair& relation) const ;
 
       /// Access to the traits that trigger update for this formula.
       virtual std::set<Notifiable*> getUpdaterNotifiables(const DeductionElement& object) const ;
@@ -729,7 +732,7 @@ namespace ProjetUnivers
 
     protected:
 
-      WithRelationFormula(const TypeIdentifier& relation) ;
+      WithRelationFormula(const TypeIdentifier& relation,const bool& is_inversed) ;
 
       /// Access to the traits that trigger update for this formula.
       virtual std::set<Notifiable*> getUpdaterNotifiables(const DeductionElement& object) const ;
@@ -747,8 +750,17 @@ namespace ProjetUnivers
       virtual void onAddTrueRelated(Object* from,Object* new_to) = 0 ;
       virtual void onAddFalseRelated(Object* from,Object* new_to) = 0 ;
 
+      std::set<Object*> getRelated(Object*) const ;
+      std::set<Object*> getInverseRelated(Object*) const ;
 
+      Object* getObjectFrom(const Relation&) const ;
+      Object* getObjectTo(const Relation&) const ;
+
+      /// The relation
       TypeIdentifier m_relation ;
+
+      /// True iff we want the inverse relation
+      bool m_is_inversed ;
 
       class StaticStorage
       {
@@ -774,10 +786,10 @@ namespace ProjetUnivers
     public:
 
       /// Constructor
-      IsRelatedFormula(const TypeIdentifier& relation) ;
+      IsRelatedFormula(const TypeIdentifier& relation,const bool& is_inversed) ;
 
       /// Print the formula.
-      virtual std::string internalPrint() const ;
+      virtual std::string print() const ;
 
     protected:
 
@@ -798,10 +810,10 @@ namespace ProjetUnivers
     public:
 
       /// Constructor
-      IsOnlyRelatedFormula(const TypeIdentifier& relation) ;
+      IsOnlyRelatedFormula(const TypeIdentifier& relation,const bool& is_inversed) ;
 
       /// Print the formula.
-      virtual std::string internalPrint() const ;
+      virtual std::string print() const ;
 
     protected:
 
@@ -1165,7 +1177,20 @@ namespace ProjetUnivers
 
       static Formula* build()
       {
-        Formula* result = new IsRelatedFormula(getClassTypeIdentifier(_Relation)) ;
+        Formula* result = new IsRelatedFormula(getClassTypeIdentifier(_Relation),false) ;
+        result->addChild(_Formula::build()) ;
+        return result ;
+      }
+    };
+
+    template <class _Relation,class _Formula>
+    class TemplateIsRelated<Inverse<_Relation>,_Formula>
+    {
+    public:
+
+      static Formula* build()
+      {
+        Formula* result = new IsRelatedFormula(getClassTypeIdentifier(_Relation),true) ;
         result->addChild(_Formula::build()) ;
         return result ;
       }
@@ -1179,7 +1204,20 @@ namespace ProjetUnivers
 
       static Formula* build()
       {
-        Formula* result = new IsOnlyRelatedFormula(getClassTypeIdentifier(_Relation)) ;
+        Formula* result = new IsOnlyRelatedFormula(getClassTypeIdentifier(_Relation),false) ;
+        result->addChild(_Formula::build()) ;
+        return result ;
+      }
+    };
+
+    template <class _Relation,class _Formula>
+    class TemplateIsOnlyRelated<Inverse<_Relation>,_Formula>
+    {
+    public:
+
+      static Formula* build()
+      {
+        Formula* result = new IsOnlyRelatedFormula(getClassTypeIdentifier(_Relation),true) ;
         result->addChild(_Formula::build()) ;
         return result ;
       }

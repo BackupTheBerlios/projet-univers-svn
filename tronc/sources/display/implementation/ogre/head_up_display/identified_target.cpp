@@ -38,9 +38,9 @@ namespace ProjetUnivers
         namespace HUD
         {
 
-          RegisterView(IdentifiedTarget,
-                       Implementation::IdentifiedTarget,
-                       HeadUpDisplayViewPoint) ;
+          RegisterRelationView(IdentifiedTarget,
+                               Implementation::IdentifiedTarget,
+                               RealWorldViewPoint) ;
 
           void IdentifiedTarget::onInit()
           {
@@ -64,14 +64,14 @@ namespace ProjetUnivers
           void IdentifiedTarget::onUpdate()
           {
             InternalMessage("Display","Entering IdentifiedTarget::onUpdate") ;
-            // calculate colour
+            // calculate color
             ::Ogre::ColourValue colour ;
-            if (Model::Transponder::areFriend(getObject(),getViewPoint()->getTargetingSystem()))
+            if (Model::Transponder::areFriend(getObjectFrom(),getObjectTo()))
             {
               InternalMessage("Display","IdentifiedTarget::onUpdate friend") ;
               colour = ::Ogre::ColourValue::Green ;
             }
-            else if (Model::Transponder::areFoe(getObject(),getViewPoint()->getTargetingSystem()))
+            else if (Model::Transponder::areFoe(getObjectFrom(),getObjectTo()))
             {
               InternalMessage("Display","IdentifiedTarget::onUpdate enemy") ;
               colour = ::Ogre::ColourValue::Red ;
@@ -84,17 +84,17 @@ namespace ProjetUnivers
 
             m_target->setTargetColour(colour) ;
 
-            std::set<Implementation::IdealTarget*> ideal_targets =
-                m_target->getObject()->getDescendants<Implementation::IdealTarget>() ;
-            for(std::set<Implementation::IdealTarget*>::iterator ideal_target = ideal_targets.begin() ;
-                ideal_target != ideal_targets.end() ;
-                ++ideal_target)
-            {
-              (*ideal_target)->getView<IdealTarget>(getViewPoint())->setColour(colour) ;
-            }
+//            std::set<Implementation::IdealTarget*> ideal_targets =
+//                m_target->getObject()->getDescendants<Implementation::IdealTarget>() ;
+//            for(std::set<Implementation::IdealTarget*>::iterator ideal_target = ideal_targets.begin() ;
+//                ideal_target != ideal_targets.end() ;
+//                ++ideal_target)
+//            {
+//              (*ideal_target)->getView<IdealTarget>(getViewPoint())->setColour(colour) ;
+//            }
 
             // display transponder code
-            Model::Transponder* transponder = getObject()->getTrait<Model::Transponder>() ;
+            Model::Transponder* transponder = getObjectTo()->getChild<Model::Transponder>() ;
             if (transponder)
             {
               m_target->setIdentification(transponder->getCode()) ;

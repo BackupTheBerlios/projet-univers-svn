@@ -175,6 +175,9 @@ namespace ProjetUnivers
       /// Get all the descendant (including @c this) with trait T.
       template <class T> std::set<T*> getChildren() const ;
 
+      /// Get all the descendant (including @c this) with trait T.
+      template <class T> std::set<Object*> getChildrenObjects() const ;
+
       /// Get the descendant (including @c this) with trait T.
       /*!
         Return NULL iff severals.

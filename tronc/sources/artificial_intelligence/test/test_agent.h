@@ -42,11 +42,14 @@ namespace ProjetUnivers
 
         void isTargetedByTarget() ;
 
+        void applyOnlyToAI() ;
+
       // @}
 
         CPPUNIT_TEST_SUITE(TestAgent) ;
 
         CPPUNIT_TEST(steeringFullBackShouldTurn) ;
+        CPPUNIT_TEST(applyOnlyToAI) ;
 
         // @todo : simplify targeting system before that test
 //        CPPUNIT_TEST(isTargetedByTarget) ;

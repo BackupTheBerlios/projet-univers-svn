@@ -18,13 +18,14 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_END_OF_SIMULATION_H_
-#define PU_MODEL_END_OF_SIMULATION_H_
+#pragma once
 
 #include <kernel/trait.h>
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
   
     /// When activated, terminate the simulation
     class EndOfSimulation : public Kernel::Trait
@@ -38,5 +39,3 @@ namespace ProjetUnivers {
         
   }
 }
-
-#endif /*PU_MODEL_END_OF_SIMULATION_H_*/

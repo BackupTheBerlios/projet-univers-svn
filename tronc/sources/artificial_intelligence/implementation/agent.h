@@ -67,10 +67,8 @@ namespace ProjetUnivers
         /// Access to the targeting system.
         Kernel::Object* getTargetingSystem() const ;
 
-
         /// Give the "desired" speed of the agent.
         Ogre::Vector3 getDesiredSpeed() const ;
-
 
       private:
 
@@ -82,6 +80,9 @@ namespace ProjetUnivers
 
         /// True iff target is targeting this
         bool isTargetedByTarget() const ;
+
+        /// Tells if target is shootable
+        bool isShootable(Kernel::Object* target) const ;
 
         /// Apply all the objectives
         void applyObjectives(const float& seconds) ;

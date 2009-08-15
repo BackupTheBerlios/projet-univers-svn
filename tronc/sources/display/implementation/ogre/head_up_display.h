@@ -35,7 +35,7 @@ namespace ProjetUnivers
   {
     namespace Test
     {
-      class TestModelView ;
+      class TestTarget ;
     }
     
     namespace Implementation 
@@ -124,7 +124,7 @@ namespace ProjetUnivers
           /// Viewpoint displaying targets
           std::auto_ptr<Kernel::ViewPoint> m_implementation ;
           
-          friend class ::ProjetUnivers::Display::Test::TestModelView ;
+          friend class ::ProjetUnivers::Display::Test::TestTarget ;
         };
       }
     }

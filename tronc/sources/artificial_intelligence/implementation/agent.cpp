@@ -27,10 +27,10 @@
 #include <model/physical_world.h>
 #include <model/with_objectives.h>
 #include <model/targeting_system.h>
-#include <model/shootable.h>
 #include <artificial_intelligence/implementation/steering_behaviour.h>
 #include <artificial_intelligence/implementation/agent.h>
 #include <artificial_intelligence/implementation/with_vehicle_controler.h>
+#include <model/has_in_line_of_sight.h>
 
 namespace ProjetUnivers
 {
@@ -130,14 +130,11 @@ namespace ProjetUnivers
         {
           case Model::Objective::AttackAllEnemies:
           {
-            Kernel::Object* target
-              = getTargetingSystem()->getTrait<Model::TargetingSystem>()->getTarget() ;
-
             // if no enemy selected select one
-            if (!target)
+            if (!m_target)
             {
               InternalMessage("Agent","selecting new enemy") ;
-              getTargetingSystem()->getTrait<Model::TargetingSystem>()->selectNearestEnemy() ;
+              getObject()->call(Model::TargetingSystem::SelectNearestEnemy) ;
             }
 
             // if enemy selected pursuit it
@@ -151,7 +148,7 @@ namespace ProjetUnivers
             }
 
             // if in range shoot
-            if (target && target->getTrait<Model::Shootable>())
+            if (m_target && isShootable(m_target->getObject()))
             {
               InternalMessage("Agent","fire") ;
               getObject()->call("fire") ;
@@ -324,6 +321,10 @@ namespace ProjetUnivers
         return desired_speed ;
       }
 
+      bool Agent::isShootable(Kernel::Object* target) const
+      {
+        return Kernel::Relation::areLinked<Model::HasInLineOfSight>(Model::getControledShip(getObject()),target) ;
+      }
     }
   }
 }

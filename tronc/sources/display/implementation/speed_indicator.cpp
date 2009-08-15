@@ -31,7 +31,7 @@ namespace ProjetUnivers
     {
 
       DeclareDeducedTrait(SpeedIndicator,
-                          And(HasTrait(Model::HeadUpDisplay),
+                          And(HasChild(HasTrait(Model::HeadUpDisplay)),
                               HasChild(HasTrait(Model::Player)),
                               HasTrait(Model::Mobile))) ;
     }

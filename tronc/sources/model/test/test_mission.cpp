@@ -361,6 +361,7 @@ namespace ProjetUnivers
         ++ship ;
         Position p3 = (*ship)->getObject()->getTrait<Positionned>()->getPosition() ;
 
+        CPPUNIT_ASSERT((*ship)->getObject()->getTrait<Solid>()) ;
         Distance radius =  (*ship)->getObject()->getTrait<Solid>()->getRadius() ;
 
         CPPUNIT_ASSERT(p1.calculateDistance(p2) >= 2*radius) ;

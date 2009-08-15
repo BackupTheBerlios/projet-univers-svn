@@ -43,7 +43,6 @@
 #include <model/throttle.h>
 #include <model/dragger.h>
 #include <model/laser.h>
-#include <model/selected.h>
 #include <model/detection_data.h>
 #include <model/targeting_system.h>
 #include <model/shooting_helper.h>
@@ -107,7 +106,8 @@ namespace ProjetUnivers
         ship->addTrait(new Model::Laser(Model::Position(),
                                         Model::Orientation(),
                                         Model::Energy::Joule(10))) ;
-        ship->addTrait(new Model::Detector(ship)) ;
+        ship->addTrait(new Model::Detector()) ;
+        Model::Detector::connect(ship,ship) ;
         ship->addTrait(new Model::Transponder(team1)) ;
         ship->addTrait(new Model::TargetingSystem()) ;
         Model::TargetingSystem::connect(ship,ship) ;
@@ -220,73 +220,15 @@ namespace ProjetUnivers
         system->addTrait(new Model::StellarSystem()) ;
         system->addTrait(new Model::Positionned()) ;
 
-        Kernel::Object* ship = system->createObject() ;
-        ship->addTrait(new Model::Positionned()) ;
-        ship->addTrait(new Model::Oriented()) ;
-        ship->addTrait(new Model::Massive(Model::Mass::Kilogram(1))) ;
-        ship->addTrait(new Model::Mobile()) ;
-        ship->addTrait(new Model::Solid(Model::Mesh("test_ship.mesh"))) ;
-        ship->addTrait(new Model::Computer()) ;
-        ship->addTrait(new Model::Laser(Model::Position::Meter(0,0,-120),
-                                              Model::Orientation(),
-                                              Model::Energy::Joule(10))) ;
-
-        ship->getTrait<Model::Laser>()->setShotTimeDelay(Model::Duration::Second(1)) ;
-        ship->addTrait(new Model::Detector(ship,Model::Distance(Model::Distance::_Meter,5000))) ;
-        ship->addTrait(new Model::Transponder(team1)) ;
-        ship->addTrait(new Model::TargetingSystem()) ;
-        Model::TargetingSystem::connect(ship,ship) ;
-
-        ship->addTrait(new Model::ShootingHelper()) ;
-        Model::ShootingHelper::connect(ship,ship,ship) ;
-
-        ship->addTrait(new Model::Dragger(Kernel::Parameters::getValue<float>("Model","DraggerCoeeficient",0.01))) ;
-
-        Kernel::Object* st1 = ship->createObject() ;
-        st1->addTrait(new Model::Stabilizer(0,Kernel::Parameters::getValue<float>("Model","StabilizerForce",10),0)) ;
-        st1->addTrait(new Model::Component()) ;
-
-        Kernel::Object* st2 = ship->createObject() ;
-        st2->addTrait(new Model::Stabilizer(Kernel::Parameters::getValue<float>("Model","StabilizerForce",10),0,0)) ;
-        st2->addTrait(new Model::Component()) ;
-
-        Kernel::Object* st3 = ship->createObject() ;
-        st3->addTrait(new Model::Stabilizer(0,0,Kernel::Parameters::getValue<float>("Model","StabilizerForce",10))) ;
-        st3->addTrait(new Model::Component()) ;
-
-        Kernel::Object* stick = ship->createObject() ;
-        stick->addTrait(new Model::Positionned()) ;
-        stick->addTrait(new Model::Stick()) ;
-        stick->addTrait(new Model::Component()) ;
-
-        ship->addTrait(new Model::GuidanceSystem(Kernel::Parameters::getValue<float>("Model","GuidanceForce",5))) ;
-        ship->addTrait(new Model::GuidanceControler()) ;
-        // stick,ship
-        Model::connectStickControler(stick,ship) ;
-        Model::connectControlerGuidanceSystem(ship,ship) ;
-
-        /// engine + engine control...
-        Kernel::Object* throttle = ship->createObject() ;
-        throttle->addTrait(new Model::Throttle()) ;
-        throttle->addTrait(new Model::Component()) ;
-
-        Kernel::Object* engine = ship->createObject() ;
-        engine->addTrait(new Model::Engine(Model::Force::Newton(0,0,Kernel::Parameters::getValue<float>("Model","EngineMaxForce",500)))) ;
-        engine->addTrait(new Model::Component()) ;
-
-        Kernel::Object* engine_control = ship->createObject() ;
-        engine_control->addTrait(new Model::EngineControler()) ;
-        engine_control->addTrait(new Model::Component()) ;
-
-        Model::connectThrottleControler(throttle,engine_control) ;
-        Model::connectControlerEngine(engine_control,engine) ;
-
-        Kernel::Object* agent = ship->createObject() ;
-        agent->addTrait(new Model::AutonomousCharacter()) ;
-        agent->addTrait(new Model::WithObjectives()) ;
-        agent->addTrait(new Kernel::CommandDelegator()) ;
-        agent->getTrait<Kernel::CommandDelegator>()->addDelegate(ship) ;
-        agent->getTrait<Model::WithObjectives>()->addObjective(Model::Objective::attackAllEnemies()) ;
+        Kernel::ObjectReference ship1 ;
+        {
+          Kernel::Object* ship = Model::createShip(system) ;
+          ship->getTrait<Model::Positionned>()->setPosition(Model::Position::Meter(0,0,0)) ;
+          ship->addTrait(new Model::Transponder(team1)) ;
+          Kernel::Object* agent = Model::createAI(ship) ;
+          agent->getTrait<Model::WithObjectives>()->addObjective(Model::Objective::attackAllEnemies()) ;
+          ship1 = ship ;
+        }
 
 
         // the attacked enemy ship
@@ -315,26 +257,13 @@ namespace ProjetUnivers
 
         Kernel::ObjectReference enemy(enemy_ship) ;
 
-        Model::PhysicalWorld* physical_world = agent->getAncestor<Model::PhysicalWorld>() ;
-        CPPUNIT_ASSERT(physical_world) ;
-
         for(int i = 0 ; i < 500 ; ++i)
         {
           model->update(0.1) ;
         }
 
-        /// get the physical viewpoint
-        Implementation::AISystem* ai_system = model->getControlerSet<Implementation::AISystem>() ;
-        CPPUNIT_ASSERT(ai_system) ;
-
-        Implementation::AutonomousAgent* autonomous_agent = agent->getTrait<Implementation::AutonomousAgent>() ;
-        CPPUNIT_ASSERT(autonomous_agent) ;
-
-        Implementation::Agent* agent_controler = autonomous_agent->getControler<Implementation::Agent>(ai_system) ;
-        CPPUNIT_ASSERT(agent_controler) ;
-
         // enemy is destroyed
-//        CPPUNIT_ASSERT(!enemy) ;
+        CPPUNIT_ASSERT(!enemy) ;
         InternalMessage("AI","AI::TestModelControler::attackAllEnemies leaving") ;
       }
 
@@ -377,7 +306,7 @@ namespace ProjetUnivers
           ship2 = ship ;
         }
 
-        for(int i = 0 ; i < 400 ; ++i)
+        for(int i = 0 ; i < 1000 ; ++i)
         {
           model->update(0.1) ;
         }
@@ -447,7 +376,7 @@ namespace ProjetUnivers
           ship4 = ship ;
         }
 
-        // team1 is not destroyable -> it should win and destroy ship3/ship4
+        // team1 cannot be destroyed -> it should win and destroy ship3/ship4
 
         for(int i = 0 ; i < 400 ; ++i)
         {
@@ -456,7 +385,7 @@ namespace ProjetUnivers
 
         // team2 has been destroyed
         CPPUNIT_ASSERT(!ship3) ;
-//        CPPUNIT_ASSERT(!ship4) ;
+        CPPUNIT_ASSERT(!ship4) ;
 
         // team1 has survived
         CPPUNIT_ASSERT(ship1 && ship2) ;

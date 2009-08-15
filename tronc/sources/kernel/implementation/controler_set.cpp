@@ -132,7 +132,7 @@ namespace ProjetUnivers
     {
       if (m_initialised && m_model)
       {
-        /// must init all the objects according to current controler set
+        /// must init all the objects according to current controller set
         m_model->_close(this) ;
         onClose() ;
         m_model->_unregister(this) ;

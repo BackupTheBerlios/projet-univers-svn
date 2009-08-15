@@ -28,6 +28,29 @@ namespace ProjetUnivers
   {
     /// Relate a selecting object to a selected object.
     class Selection : public Kernel::Relation
-    {};
+    {
+    public:
+      /*!
+        @name Access
+      */
+      // @{
+
+        /// Tell if @c by is selecting this.
+        static bool isSelected(Kernel::Object* by,Kernel::Object* selected) ;
+
+      // @}
+      /*!
+        @name Update
+      */
+      // @{
+
+        /// Make @c selected selected by @c by.
+        static void select(Kernel::Object* by,Kernel::Object* selected) ;
+
+        /// Make @c selected un-selected by @c by.
+        static void unSelect(Kernel::Object* by,Kernel::Object* selected) ;
+
+      // @}
+    };
   }
 }

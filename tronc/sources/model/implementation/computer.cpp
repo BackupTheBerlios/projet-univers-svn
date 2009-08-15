@@ -18,20 +18,25 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-
+#include <kernel/object.h>
 #include <model/positionned.h>
 #include <model/oriented.h>
+#include <model/implementation/detectable.h>
 
 #include <model/computer.h>
+#include <model/data_connection.h>
+#include <model/detector.h>
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
 
     RegisterTrait(Computer) ;
     
     Computer::Computer()
     : Trait(),
-      m_memory(new Kernel::Model())
+      m_memory(new Kernel::Model("Computer"))
     {}
 
     Kernel::Trait* Computer::read(Kernel::Reader* reader)
@@ -56,6 +61,27 @@ namespace ProjetUnivers {
              getRelativePosition(getObject(),relative_to) ;
     }
   
-  
+    std::set<Kernel::Object*> Computer::getDetectedObjects() const
+    {
+      std::set<Kernel::Object*> result ;
+      std::set<Kernel::Object*> detectables(getObject()->getRoot()->getChildrenObjects<Implementation::Detectable>()) ;
+
+      std::set<Kernel::Object*> detectors(Kernel::Relation::getLinked<Kernel::Inverse<DataConnection> >(getObject())) ;
+
+      for(std::set<Kernel::Object*>::const_iterator detector = detectors.begin() ; detector != detectors.end() ; ++detector)
+      {
+        Detector* local = (*detector)->getTrait<Detector>() ;
+        if (local)
+        {
+          for(std::set<Kernel::Object*>::const_iterator detectable = detectables.begin() ; detectable != detectables.end() ; ++detectable)
+          {
+            if (local->canDetect(*detectable))
+              result.insert(*detectable) ;
+          }
+        }
+      }
+
+      return result ;
+    }
   }
 }

@@ -18,16 +18,18 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_ORIENTED_H_
-#define PU_MODEL_ORIENTED_H_
+#pragma once
 
 #include <kernel/trait.h>
 #include <kernel/reader.h>
+#include <kernel/deduced_trait.h>
 #include <model/position.h>
 #include <model/orientation.h>
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
 
     
     /// Calculate the orientation of o1 relative to o2.
@@ -116,7 +118,10 @@ namespace ProjetUnivers {
       mutable Orientation m_orientation ;
 
     };
+
+    /// For objects that have a global orientation
+    class RecursivelyOriented : public Kernel::DeducedTrait
+    {};
+
   }
 }
-
-#endif /*PU_MODEL_ORIENTED_H_*/

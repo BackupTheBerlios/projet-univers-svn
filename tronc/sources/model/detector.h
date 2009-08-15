@@ -18,8 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_DETECTOR_H_
-#define PU_MODEL_DETECTOR_H_
+#pragma once
 
 #include <memory>
 
@@ -29,13 +28,11 @@
 
 #include <model/distance.h>
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
 
-    namespace Implementation {
-      class DetectorViewPoint ;
-    }
-      
     /// Trait for objects that can detect other objects.
     /*!
       Maybe there are kinds of detectors :
@@ -50,11 +47,13 @@ namespace ProjetUnivers {
     {
     public:
 
-      /// Constructs with a computer.
-      Detector(Kernel::Object* computer) ;
+      /// Constructs.
+      Detector() ;
       
       /// Constructs with a computer and a range.
-      Detector(Kernel::Object* computer,const Distance& range) ;
+      Detector(const Distance& range) ;
+
+      static void connect(Kernel::Object* detector,Kernel::Object* computer) ;
 
       /// Read a Detector trait.
       /*!
@@ -68,25 +67,13 @@ namespace ProjetUnivers {
       */     
       static Kernel::Trait* read(Kernel::Reader* reader) ;
 
-      /// Initialisation.
-      void init() ;
-      
       /// Detector range.
       Distance getRange() const ;
-      
-      /// Performs detection.
-      void detect() ;
       
       /// True iff the object is detected by @c this.
       virtual bool canDetect(const Kernel::Object*) const ;
       
-      /// Access to computer.
-      Kernel::Object* getComputer() const ;
-      
     private:
-      
-      /// Implementation.
-      Implementation::DetectorViewPoint* m_implementation ;
       
       /// detecting range.
       Distance                           m_range ;
@@ -99,5 +86,3 @@ namespace ProjetUnivers {
   }
 
 }
-
-#endif

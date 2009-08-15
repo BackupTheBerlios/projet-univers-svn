@@ -65,6 +65,10 @@ namespace ProjetUnivers
         {
           readObject(model,result) ;
         }
+        else if (isRelationNode())
+        {
+          readRelation() ;
+        }
         else if (isTraitNode())
         {
           Trait* trait = Trait::read(this) ;
@@ -80,10 +84,21 @@ namespace ProjetUnivers
       return result ;
     }
 
+    void Reader::readRelation()
+    {
+      if (!isRelationNode() || !isBeginNode())
+      {
+        std::cerr << "expected relation node" << std::endl ;
+        return ;
+      }
+      m_relations.insert(Relation::read(this)) ;
+    }
+
     Object* Reader::internalReadModel(Model* model,Object* parent)
     {
       m_local_id_to_real_id.clear() ;
       m_references.clear() ;
+      m_relations.clear() ;
 
       if (! isModelNode())
       {
@@ -98,9 +113,12 @@ namespace ProjetUnivers
       std::set<Object*> roots ;
 
       // reading
-      while (moveToTraitOrChild(depth) && isObjectNode())
+      while (moveToTraitOrChild(depth) && (isObjectNode() || isRelationNode()))
       {
-        roots.insert(readObject(model,parent)) ;
+        if (isObjectNode())
+          roots.insert(readObject(model,parent)) ;
+        else
+          readRelation() ;
       }
 
       // local reference resolution
@@ -125,6 +143,16 @@ namespace ProjetUnivers
             throw std::exception() ;
           }
         }
+
+        // relation management
+        for(std::set<Relation*>::const_iterator relation = m_relations.begin() ;
+            relation != m_relations.end() ;
+            ++relation)
+        {
+          model->addRelation(**relation) ;
+          delete *relation ;
+        }
+        m_relations.clear() ;
       }
       catch(std::exception)
       {

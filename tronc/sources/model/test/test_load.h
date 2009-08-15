@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,8 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_TEST_LOAD_H_
-#define PU_MODEL_TEST_LOAD_H_
+#pragma once
 
 #include <cppunit/extensions/HelperMacros.h>
 
@@ -64,6 +63,8 @@ namespace ProjetUnivers
         void testLoadUniverse() ;
         void testTargetingSystem() ;
 
+        void loadShip() ;
+
       // @}
       /*! 
         @name Tests registration
@@ -96,6 +97,7 @@ namespace ProjetUnivers
         CPPUNIT_TEST(testLoadTorqueGenerator) ;
         CPPUNIT_TEST(testLoadUniverse) ;
         CPPUNIT_TEST(testTargetingSystem) ;
+        CPPUNIT_TEST(loadShip) ;
       
         CPPUNIT_TEST_SUITE_END() ;
 
@@ -105,6 +107,3 @@ namespace ProjetUnivers
     }
   }
 }
-
-
-#endif /*PU_MODEL_TEST_LOAD_H_*/

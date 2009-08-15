@@ -18,18 +18,22 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <model/targeting_system.h>
+#include <model/selection.h>
+#include <model/transponder.h>
 #include <display/implementation/target.h>
 #include <display/implementation/target_with_selection.h>
 
-namespace ProjetUnivers {
-  namespace Display {
-    namespace Implementation {
+namespace ProjetUnivers
+{
+  namespace Display
+  {
+    namespace Implementation
+    {
 
-      DeclareDeducedTrait(
-          TargetWithSelection,
-          And(HasTrait(Target),
-              HasTrait(Model::TargetingSystem))) ;
+      DeclareDeducedRelation(TargetWithSelection,
+                             Target,
+                             IsTo(IsRelated(Model::Selection,
+                                            HasChild(HasTrait(Model::Transponder))))) ;
     }
   }
 }

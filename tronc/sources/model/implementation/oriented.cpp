@@ -21,8 +21,10 @@
 #include <kernel/object.h>
 #include <model/oriented.h>
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
 
     RegisterTrait(Oriented) ;
 
@@ -153,6 +155,10 @@ namespace ProjetUnivers {
       Orientation orientation = oriented->getOrientation(o2) ;
       return orientation ;
     }
+
+    DeclareDeducedTrait(RecursivelyOriented,
+                        Or(HasTrait(Oriented),
+                           HasAncestor(HasTrait(RecursivelyOriented)))) ;
     
   }
 }

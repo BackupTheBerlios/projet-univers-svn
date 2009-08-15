@@ -43,7 +43,10 @@ namespace ProjetUnivers
         void closeControler() ;
         void updateOrFormula() ;
         void deducedRelationOnDeducedRelation() ;
-
+        void severalInitCloseInTheSameFrame() ;
+        void deducedRelationDestroyBaseRelation() ;
+        void destroyModelShouldCloseRelationViews() ;
+        void destroyModelShouldCloseRelationControlers() ;
 
       // @}
 
@@ -56,6 +59,10 @@ namespace ProjetUnivers
         CPPUNIT_TEST(closeControler) ;
         CPPUNIT_TEST(updateOrFormula) ;
         CPPUNIT_TEST(deducedRelationOnDeducedRelation) ;
+        CPPUNIT_TEST(severalInitCloseInTheSameFrame) ;
+        CPPUNIT_TEST(deducedRelationDestroyBaseRelation) ;
+        CPPUNIT_TEST(destroyModelShouldCloseRelationViews) ;
+        CPPUNIT_TEST(destroyModelShouldCloseRelationControlers) ;
 
         CPPUNIT_TEST_SUITE_END() ;
       };

@@ -21,9 +21,9 @@
 #pragma once
 
 #include <Ogre.h>
-#include <kernel/trait_view.h>
+#include <kernel/relation_view.h>
 #include <display/implementation/target.h>
-#include <display/implementation/ogre/head_up_display/head_up_display_viewpoint.h>
+#include <display/implementation/ogre/real_world_view_point.h>
 
 namespace ProjetUnivers
 {
@@ -49,17 +49,15 @@ namespace ProjetUnivers
         {
 
           /// Display a selection around the detected target
-          class Target : public Kernel::TraitView<Implementation::Target,
-                                                  HeadUpDisplayViewPoint>
+          class Target : public Kernel::RelationView<RealWorldViewPoint>
           {
           public:
-          
           /*! 
             @name Construct
           */ 
           // @{
 
-            /// Set the target colour.
+            /// Set the target color.
             void setTargetColour(const ::Ogre::ColourValue&) ;
  
             /// Set the identification of the target.
@@ -87,21 +85,18 @@ namespace ProjetUnivers
           // @}
           private:
             
-            /// Calculate the clockwize angle to up from @c (x,y) coordinates.
+            /// Calculate the clockwise angle to up from @c (x,y) coordinates.
             /*!
               param[in,out] x,y screen coordinates
               param[in] z eye z position 
             */
             static ::Ogre::Degree calculateRotation(float x,float y) ;
             
-            /// True iff the target is selected            
-            bool isSelected() const ;
-
             /// 3D ogre element.
             ::Ogre::OverlayContainer* m_target_container ;
             ::Ogre::OverlayElement*   m_target ;
 
-            /// The side arrow wused when target is out of screen
+            /// The side arrow used when target is out of screen
             ::Ogre::OverlayContainer* m_arrow_container ;
             ::Ogre::OverlayElement*   m_arrow ;
 

@@ -26,6 +26,7 @@
 #include <kernel/trait.h>
 #include <kernel/xml_reader.h>
 #include <kernel/test/test_xml_reader.h>
+#include <kernel/relation.h>
 
 CPPUNIT_TEST_SUITE_REGISTRATION(
     ProjetUnivers::Kernel::Test::TestXMLReader) ;
@@ -193,6 +194,11 @@ namespace ProjetUnivers
         
         RegisterTrait(Truc) ;
         
+        class R : public Relation
+        {};
+
+        RegisterRelation(R) ;
+
       }
 
       void TestXMLReader::basicTest()
@@ -265,6 +271,94 @@ namespace ProjetUnivers
         
         CPPUNIT_ASSERT(xmlStrEqual(data,data)==1) ;
         
+      }
+
+      void TestXMLReader::readRelation()
+      {
+        std::auto_ptr<Model> model(new Model("TestXMLReader::basicTest")) ;
+        std::string content(
+          "<?xml version=\"1.0\"?>\n"
+            "<model>\n"
+              "<object id=\"1\">\n"
+                "<Universe/>\n"
+              "</object>\n"
+              "<object id=\"2\">\n"
+                "<Truc/>\n"
+              "</object>\n"
+              "<Relation name=\"R\" from=\"1\" to=\"2\"/>\n"
+            "</model>\n"
+        ) ;
+
+        std::auto_ptr<XMLReader> reader(XMLReader::getStringReader(content)) ;
+        reader->read(model.get()) ;
+
+        std::set<Object*> roots(model->getRoots()) ;
+        CPPUNIT_ASSERT(roots.size()==2) ;
+
+        std::set<Object*>::const_iterator iterator = roots.begin() ;
+        Object* first ;
+        Object* second ;
+
+        CPPUNIT_ASSERT((*iterator)->getTrait<Universe>()||(*iterator)->getTrait<Truc>()) ;
+
+        if ((*iterator)->getTrait<Universe>())
+        {
+          first = *iterator ;
+          ++iterator ;
+          second = *iterator ;
+        }
+        else
+        {
+          second = *iterator ;
+          ++iterator ;
+          first = *iterator ;
+        }
+
+        CPPUNIT_ASSERT(Relation::areLinked<R>(first,second)) ;
+      }
+
+      void TestXMLReader::readRelationEvenInsideObject()
+      {
+        std::auto_ptr<Model> model(new Model("TestXMLReader::basicTest")) ;
+        std::string content(
+          "<?xml version=\"1.0\"?>\n"
+            "<model>\n"
+              "<object id=\"1\">\n"
+                "<Universe/>\n"
+                "<Relation name=\"R\" from=\"1\" to=\"2\"/>\n"
+              "</object>\n"
+              "<object id=\"2\">\n"
+                "<Truc/>\n"
+              "</object>\n"
+            "</model>\n"
+        ) ;
+
+        std::auto_ptr<XMLReader> reader(XMLReader::getStringReader(content)) ;
+        reader->read(model.get()) ;
+
+        std::set<Object*> roots(model->getRoots()) ;
+        CPPUNIT_ASSERT(roots.size()==2) ;
+
+        std::set<Object*>::const_iterator iterator = roots.begin() ;
+        Object* first ;
+        Object* second ;
+
+        CPPUNIT_ASSERT((*iterator)->getTrait<Universe>()||(*iterator)->getTrait<Truc>()) ;
+
+        if ((*iterator)->getTrait<Universe>())
+        {
+          first = *iterator ;
+          ++iterator ;
+          second = *iterator ;
+        }
+        else
+        {
+          second = *iterator ;
+          ++iterator ;
+          first = *iterator ;
+        }
+
+        CPPUNIT_ASSERT(Relation::areLinked<R>(first,second)) ;
       }
 
     }

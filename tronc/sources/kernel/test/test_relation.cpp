@@ -220,6 +220,35 @@ namespace ProjetUnivers
 
       namespace
       {
+        class Ti : public Trait
+        {};
+
+        class DTi : public DeducedTrait
+        {};
+
+        DeclareDeducedTrait(DTi,
+                            IsRelated(Inverse<Selection>,HasTrait(Ti))) ;
+      }
+
+      void TestRelation::isRelatedInverse()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+        Object* o1 = model->createObject() ;
+        Object* o2 = model->createObject() ;
+
+        Link<Selection>(o1,o2) ;
+
+        o1->addTrait(new Ti()) ;
+
+        CPPUNIT_ASSERT(o2->getTrait<DTi>()) ;
+
+        o1->destroyTrait(o1->getTrait<Ti>()) ;
+
+        CPPUNIT_ASSERT(!o2->getTrait<DTi>()) ;
+      }
+
+      namespace
+      {
         class T2 : public Trait
         {};
 
@@ -332,6 +361,36 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT_EQUAL((unsigned int)0,related.size()) ;
       }
 
+      namespace
+      {
+        class DontHave : public Relation
+        {};
+
+        class ShouldNotDeduce : public DeducedRelation
+        {};
+
+        DeclareDeducedRelation(ShouldNotDeduce,DontHave,IsFrom(And(HasTrait(T1),
+                                                                   IsRelated(Selection,HasTrait(T2))))) ;
+
+      }
+
+      void TestRelation::havingAllButPrimitiveRelationDoesNotMakeItTrue()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+        Object* o1 = model->createObject() ;
+        Object* o2 = model->createObject() ;
+
+        o2->addTrait(new T2()) ;
+
+        Link<Selection>(o1,o2) ;
+
+        CPPUNIT_ASSERT(!Relation::areLinked<ShouldNotDeduce>(o1,o2)) ;
+
+        // should not change anything
+        o1->addTrait(new T1()) ;
+
+        CPPUNIT_ASSERT(!Relation::areLinked<ShouldNotDeduce>(o1,o2)) ;
+      }
     }
   }
 }

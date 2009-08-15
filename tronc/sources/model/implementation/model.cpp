@@ -427,7 +427,8 @@ namespace ProjetUnivers {
           Kernel::Object* computer = observer->createObject() ;
           computer->addTrait(new Computer()) ;
           Kernel::Object* detector = observer->createObject() ;
-          detector->addTrait(new Detector(computer,Distance(Distance::_Meter,8000))) ;
+          detector->addTrait(new Detector(Distance(Distance::_Meter,8000))) ;
+          Detector::connect(detector,computer) ;
           Kernel::Object* target_selector = observer->createObject() ;
           target_selector->addTrait(new TargetingSystem()) ;
           TargetingSystem::connect(target_selector,computer) ;
@@ -618,7 +619,8 @@ namespace ProjetUnivers {
       ship->addTrait(new Mobile()) ;
       ship->addTrait(new Solid(Mesh("default_ship.mesh"))) ;
       ship->addTrait(new Computer()) ;
-      ship->addTrait(new Detector(ship,Distance(Distance::_Meter,8000))) ;
+      ship->addTrait(new Detector(Distance(Distance::_Meter,8000))) ;
+      Detector::connect(ship,ship) ;
       ship->addTrait(new TargetingSystem()) ;
       ship->addTrait(new GuidanceSystem(Kernel::Parameters::getValue<float>("Model","GuidanceForce",3))) ;
       ship->addTrait(new GuidanceControler()) ;

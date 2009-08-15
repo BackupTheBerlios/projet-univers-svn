@@ -39,6 +39,9 @@ namespace ProjetUnivers
       /// init the view after construction.
       virtual void realInit() ;
 
+      /// Access to a view of the same viewpoint.
+      template <class _View> _View* getView() const ;
+
       /// abstract class means virtual destructor.
       virtual ~BaseRelationView() ;
 
@@ -66,3 +69,4 @@ namespace ProjetUnivers
     };
   }
 }
+#include <kernel/implementation/base_relation_view.cxx>

@@ -378,11 +378,6 @@ namespace ProjetUnivers
         InternalMessage("Physic","Physic::Test::TestCollision::testFire leaving") ;
       }
 
-      void TestCollision::setUp()
-      {
-        Kernel::Parameters::load("demonstration.config") ;
-      }
-
     }
   }
 }

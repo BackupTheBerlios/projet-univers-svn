@@ -127,6 +127,9 @@ namespace ProjetUnivers
         void isRelatedHasDependencies() ;
         void addRelatedChangeDependencies() ;
         void removeRelatedChangeDependencies() ;
+        void isInverseRelatedHasDependencies() ;
+        void addInverseRelatedChangeDependencies() ;
+        void removeInverseRelatedChangeDependencies() ;
 
       // @}
       /*!
@@ -182,8 +185,17 @@ namespace ProjetUnivers
         void changingParentOfHasParentChangesNumberOfTrueChildFormulae() ;
         void changingParentOfHasAncestorChangesNumberOfTrueChildFormulae() ;
         void changingParentOfHasChildChangesNumberOfTrueChildFormulae() ;
+        void severalLinkToTheSameShouldNotIncreaseTrueChildOfIsRelated() ;
 
      // @}
+
+        /*!
+          Due to a bad idea on validity storage for relations, once we remove a
+          relation all validities for the object pair are removed (even if other
+          relations exists...)
+        */
+        void removingRelationShouldNotCleanOtherRelationValidities() ;
+
 
         CPPUNIT_TEST_SUITE(TestTrait) ;
 
@@ -227,6 +239,9 @@ namespace ProjetUnivers
         CPPUNIT_TEST(isRelatedHasDependencies) ;
         CPPUNIT_TEST(addRelatedChangeDependencies) ;
         CPPUNIT_TEST(removeRelatedChangeDependencies) ;
+        CPPUNIT_TEST(isInverseRelatedHasDependencies) ;
+        CPPUNIT_TEST(addInverseRelatedChangeDependencies) ;
+        CPPUNIT_TEST(removeInverseRelatedChangeDependencies) ;
 
         CPPUNIT_TEST(isOnlyRelatedHasDependencies) ;
         CPPUNIT_TEST(addOnlyRelatedChangeDependencies) ;
@@ -252,6 +267,9 @@ namespace ProjetUnivers
         CPPUNIT_TEST(changingParentOfHasParentChangesNumberOfTrueChildFormulae) ;
         CPPUNIT_TEST(changingParentOfHasAncestorChangesNumberOfTrueChildFormulae) ;
         CPPUNIT_TEST(changingParentOfHasChildChangesNumberOfTrueChildFormulae) ;
+        CPPUNIT_TEST(severalLinkToTheSameShouldNotIncreaseTrueChildOfIsRelated) ;
+
+        CPPUNIT_TEST(removingRelationShouldNotCleanOtherRelationValidities) ;
 
         CPPUNIT_TEST_SUITE_END() ;
       };

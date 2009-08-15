@@ -55,12 +55,12 @@ int main(int argc,char** argv)
     TCLAP::ValueArg<int> number("n","number","number of ships",true,5,"integer") ;
     cmd.add(number) ;
 
-    TCLAP::ValueArg<float> time("t","time","simulation time",false,3,"float") ;
-    cmd.add(time) ;
+    TCLAP::ValueArg<int> frame("f","frame","number of frame",false,1000,"integer") ;
+    cmd.add(frame) ;
 
     cmd.parse(argc,argv) ;
     Kernel::Parameters::setValue<float>("Test","numberOfShips",number.getValue()) ;
-    Kernel::Parameters::setValue<float>("Test","simultationTime",time.getValue()) ;
+    Kernel::Parameters::setValue<float>("Test","NumberOfFrame",frame.getValue()) ;
   }
   catch(...)
   {
@@ -79,14 +79,14 @@ int main(int argc,char** argv)
   model->init() ;
   Model::load("test",model.get()) ;
 
-  float simulation_time = Kernel::Parameters::getValue<float>("Test","simultationTime",3) ;
+  int number_of_frame = (int)Kernel::Parameters::getValue<float>("Test","NumberOfFrame",3) ;
 
   Kernel::Timer timer ;
   int n = 0 ;
 
   Kernel::Timer global_timer ;
 
-  while (n <= simulation_time)
+  while (n <= number_of_frame)
   {
     float seconds = timer.getSecond() ;
     if (seconds > 0)

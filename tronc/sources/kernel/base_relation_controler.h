@@ -31,7 +31,7 @@ namespace ProjetUnivers
 
     class ControlerSet ;
 
-    /// A controler on a relation.
+    /// A controller on a relation.
     class BaseRelationControler : public RelationObserver
     {
     public:

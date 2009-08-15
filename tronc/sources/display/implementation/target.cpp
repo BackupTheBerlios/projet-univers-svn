@@ -19,21 +19,27 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include <model/positionned.h>
-#include <model/solid.h>
-#include <model/detection_data.h>
-#include <model/selected.h>
+#include <model/oriented.h>
+#include <model/head_up_display.h>
+#include <model/selection.h>
+#include <display/implementation/observer.h>
 #include <display/implementation/target.h>
 
-namespace ProjetUnivers {
-  namespace Display {
-    namespace Implementation {
+namespace ProjetUnivers
+{
+  namespace Display
+  {
+    namespace Implementation
+    {
           
-      DeclareDeducedTrait(
+      DeclareDeducedRelation(
           Target,
-          And(HasTrait(Model::DetectionData),
-              HasTrait(Model::Solid),
-              HasTrait(Model::Positionned),
-              HasTrait(Model::Selected))) ;
+          Model::Selection,
+          And(IsFrom(And(HasChild(HasTrait(Model::HeadUpDisplay)),
+                         HasChild(And(HasTrait(Implementation::Observer),
+                                      HasTrait(Model::RecursivelyPositionned),
+                                      HasTrait(Model::RecursivelyOriented))))),
+              IsTo(HasTrait(Model::RecursivelyPositionned)))) ;
     }
   }
 }

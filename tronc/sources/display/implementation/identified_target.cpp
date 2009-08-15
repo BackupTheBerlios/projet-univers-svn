@@ -22,14 +22,17 @@
 #include <display/implementation/target.h>
 #include <display/implementation/identified_target.h>
 
-namespace ProjetUnivers {
-  namespace Display {
-    namespace Implementation {
+namespace ProjetUnivers
+{
+  namespace Display
+  {
+    namespace Implementation
+    {
 
-      DeclareDeducedTrait(
+      DeclareDeducedRelation(
           IdentifiedTarget,
-          And(HasTrait(Target),
-              HasTrait(Model::Transponder))) ;
+          Target,
+          IsTo(HasChild(HasTrait(Model::Transponder)))) ;
     }
   }
 }

@@ -91,6 +91,30 @@ namespace ProjetUnivers
 //        targeting_system1->selectTarget()
       }
 
+      void TestAgent::applyOnlyToAI()
+      {
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestModelControler::attackAllEnemies")) ;
+        model->init() ;
+
+        Kernel::Object* system = model->createObject() ;
+        system->addTrait(new Model::StellarSystem()) ;
+        system->addTrait(new Model::Positionned()) ;
+
+        Kernel::ObjectReference ship1 ;
+        {
+          Kernel::Object* ship = Model::createShip(system) ;
+          ship->getTrait<Model::Positionned>()->setPosition(Model::Position::Meter(0,0,0)) ;
+          ship1 = ship ;
+        }
+
+        {
+          Kernel::Object* ship = Model::createShip(system) ;
+          ship->getTrait<Model::Positionned>()->setPosition(Model::Position::Meter(1000,0,0)) ;
+        }
+
+        ship1->call(Model::TargetingSystem::SelectNextTarget) ;
+      }
+
     }
   }
 }

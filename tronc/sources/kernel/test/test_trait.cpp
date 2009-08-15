@@ -1130,6 +1130,79 @@ namespace ProjetUnivers
 
       namespace
       {
+        class TRi : public Trait
+        {};
+
+        class LinkedToTRi : public DeducedTrait
+        {};
+
+        DeclareDeducedTrait(LinkedToTRi,IsRelated(Inverse<R>,HasTrait(TRi))) ;
+      }
+
+      void TestTrait::isInverseRelatedHasDependencies()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+
+        Object* source = model->createObject() ;
+        Object* destination = model->createObject() ;
+
+        Trait* tr = destination->addTrait(new TRi()) ;
+
+        Link<Inverse<R> >(source,destination) ;
+
+        DeducedTrait* dt = source->getTrait<LinkedToTRi>() ;
+
+        CPPUNIT_ASSERT(tr->getDependentNotifiables().find(dt) != tr->getDependentNotifiables().end()) ;
+      }
+
+      void TestTrait::addInverseRelatedChangeDependencies()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+
+        Object* source = model->createObject() ;
+        Object* destination1 = model->createObject() ;
+
+        Trait* tr1 = destination1->addTrait(new TRi()) ;
+
+        Link<Inverse<R> >(source,destination1) ;
+
+        Object* destination2 = model->createObject() ;
+        Trait* tr2 = destination2->addTrait(new TRi()) ;
+
+        Link<Inverse<R> >(source,destination2) ;
+
+        DeducedTrait* dt = source->getTrait<LinkedToTRi>() ;
+
+        CPPUNIT_ASSERT(tr1->getDependentNotifiables().find(dt) != tr1->getDependentNotifiables().end()) ;
+        CPPUNIT_ASSERT(tr2->getDependentNotifiables().find(dt) != tr2->getDependentNotifiables().end()) ;
+      }
+
+      void TestTrait::removeInverseRelatedChangeDependencies()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+
+        Object* source = model->createObject() ;
+        Object* destination1 = model->createObject() ;
+
+        Trait* tr1 = destination1->addTrait(new TRi()) ;
+
+        Link<Inverse<R> >(source,destination1) ;
+
+        Object* destination2 = model->createObject() ;
+        Trait* tr2 = destination2->addTrait(new TRi()) ;
+
+        Link<Inverse<R> >(source,destination2) ;
+
+        UnLink<Inverse<R> >(source,destination1) ;
+
+        DeducedTrait* dt = source->getTrait<LinkedToTRi>() ;
+
+        CPPUNIT_ASSERT(tr1->getDependentNotifiables().find(dt) == tr1->getDependentNotifiables().end()) ;
+        CPPUNIT_ASSERT(tr2->getDependentNotifiables().find(dt) != tr2->getDependentNotifiables().end()) ;
+      }
+
+      namespace
+      {
         class ROnly : public Relation
         {};
 
@@ -1567,7 +1640,61 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT_EQUAL((short)2,root2->getNumberOfTrueChildFormulae(formula)) ;
       }
 
+      namespace Complex
+      {
+        class R1 : public Relation
+        {};
+        class T1 : public Trait
+        {};
+        class T2 : public Trait
+        {};
 
+        class DT1 : public DeducedTrait
+        {};
+
+        DeclareDeducedTrait(DT1,IsRelated(Inverse<R1>,And(HasTrait(T1),IsRelated(Inverse<R1>,HasTrait(T2))))) ;
+
+      }
+
+      void TestTrait::severalLinkToTheSameShouldNotIncreaseTrueChildOfIsRelated()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+
+        Object* o1 = model->createObject() ;
+
+        o1->addTrait(new Complex::T1()) ;
+        o1->addTrait(new Complex::T2()) ;
+
+        Link<Complex::R1>(o1,o1) ;
+        Link<Complex::R1>(o1,o1) ;
+
+        CPPUNIT_ASSERT(o1->getTrait<Complex::DT1>()) ;
+
+        Formula* formula = o1->getTrait<Complex::DT1>()->getFormula() ;
+
+        CPPUNIT_ASSERT_EQUAL((short)1,o1->getNumberOfTrueChildFormulae(formula)) ;
+      }
+
+      void TestTrait::removingRelationShouldNotCleanOtherRelationValidities()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+
+        Object* o1 = model->createObject() ;
+        Object* o2 = model->createObject() ;
+
+        Trait* t1 = o1->addTrait(new OrFrom()) ;
+
+        Link<ROr>(o1,o2) ;
+
+        CPPUNIT_ASSERT(Relation::areLinked<DeducedOr>(o1,o2)) ;
+
+        Link<R2>(o1,o2) ;
+        UnLink<R2>(o1,o2) ;
+
+        o1->destroyTrait(t1) ;
+
+        CPPUNIT_ASSERT(!Relation::areLinked<DeducedOr>(o1,o2)) ;
+      }
 
     }
   }

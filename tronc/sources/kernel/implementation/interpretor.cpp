@@ -44,12 +44,7 @@ namespace ProjetUnivers
       }
 
       Interpretor::~Interpretor()
-      {
-//        if (!m_operations.empty())
-//        {
-//          throw Exception(std::string("Interpretor::~Interpretor remaining ") + toString(m_operations.size()) +  " operations") ;
-//        }
-      }
+      {}
 
       void Interpretor::addOperation(const Implementation::Operation& operation)
       {
@@ -102,7 +97,7 @@ namespace ProjetUnivers
 
       void Interpretor::destroyRelations()
       {
-        for(std::list<Relation>::iterator relation = m_relation_to_destroy.begin() ; relation != m_relation_to_destroy.end() ; ++relation)
+        for(std::set<Relation>::iterator relation = m_relation_to_destroy.begin() ; relation != m_relation_to_destroy.end() ; ++relation)
         {
           Model* model_from = relation->getObjectFrom()?relation->getObjectFrom()->getModel():NULL ;
           Model* model_to = relation->getObjectFrom()?relation->getObjectFrom()->getModel():NULL ;
@@ -174,7 +169,17 @@ namespace ProjetUnivers
       }
       void Interpretor::recordRelationToDestroy(const Relation& relation)
       {
-        m_relation_to_destroy.push_back(relation) ;
+        m_relation_to_destroy.insert(relation) ;
+      }
+
+      bool Interpretor::isToDestroy(const Relation& relation) const
+      {
+        return m_relation_to_destroy.find(relation) != m_relation_to_destroy.end() ;
+      }
+
+      void Interpretor::unRecordRelationToDestroy(const Relation& relation)
+      {
+        m_relation_to_destroy.erase(relation) ;
       }
 
       std::string Interpretor::toString(const char* module) const

@@ -24,8 +24,10 @@
 #include <model/positionned.h>
 
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
 
     RegisterTrait(Positionned) ;
 
@@ -167,5 +169,9 @@ namespace ProjetUnivers {
       return position ;
     }
     
+    DeclareDeducedTrait(RecursivelyPositionned,
+                        Or(HasTrait(Positionned),
+                           HasAncestor(HasTrait(RecursivelyPositionned)))) ;
+
   }
 }

@@ -27,13 +27,15 @@
 #include <model/oriented.h>
 #include <model/solid.h>
 #include <model/laser.h>
-#include <model/shootable.h>
+#include <model/has_in_line_of_sight.h>
 #include <model/mobile.h>
 #include <model/ideal_target.h>
 #include <model/physical_world.h>
 #include <model/physical_object.h>
 
 #include <model/implementation/logic/target.h>
+#include <model/computer.h>
+#include <model/data_connection.h>
 
 namespace ProjetUnivers
 {
@@ -44,9 +46,9 @@ namespace ProjetUnivers
       namespace Logic
       {
 
-        RegisterView(Target,
-                     Implementation::Target,
-                     ShootingHelperViewPoint) ;
+        RegisterRelationControler(Target,
+                                  Implementation::Target,
+                                  LogicSystem) ;
 
         void Target::onInit()
         {
@@ -57,7 +59,7 @@ namespace ProjetUnivers
         {
           if (m_ideal_target)
           {
-            getObject()->getModel()->destroyObject(m_ideal_target) ;
+            m_ideal_target->destroyObject() ;
           }
         }
 
@@ -65,9 +67,17 @@ namespace ProjetUnivers
         {
           InternalMessage("Model","entering Logic::Target::onUpdate") ;
 
-          Kernel::Object* laser_object = getViewPoint()->getLaser() ;
-          Laser* laser = laser_object ? laser_object->getTrait<Laser>():NULL ;
-          float laser_speed = laser? laser->getLaserSpeedMeterPerSecond():0 ;
+          /// @todo deal with multiple lasers
+          /*
+            All the calculus works with one laser...
+            But how to do it with multiple...
+
+            Maybe we should simply take the front of the ship and the mean speed
+            of lasers assuming they all point forward
+
+          */
+          Laser* laser = getObjectFrom()->getChild<Laser>() ;
+          float laser_speed = laser->getLaserSpeedMeterPerSecond() ;
 
           if (laser_speed <= 0)
           {
@@ -76,14 +86,18 @@ namespace ProjetUnivers
             return ;
           }
 
-          // relative to computer
-          Ogre::Vector3 position = getObject()->getTrait<Positionned>()->getPosition().Meter() ;
+          Kernel::Object* world = getObjectTo()->getParent<PhysicalObject>()->getPhysicalWorld() ;
+
+          // absolute position
+          Ogre::Vector3 target_absolute_position = getObjectTo()->getTrait<Positionned>()->getPosition(world).Meter() ;
+          Ogre::Vector3 targeting_absolute_position = getObjectFrom()->getTrait<Positionned>()->getPosition(world).Meter() ;
+          Ogre::Vector3 position = target_absolute_position-targeting_absolute_position ;
 
           // relative to ship's physical world
-          Ogre::Vector3 speed = getObject()->getTrait<Mobile>()->getSpeed().MeterPerSecond() ;
-          Kernel::Object* world = laser_object->getParent<PhysicalObject>()->getPhysicalWorld() ;
-          // now it is relative to laser object
-          speed = getRelativeOrientation(laser_object,world).getQuaternion().Inverse()*speed ;
+          Ogre::Vector3 speed = getObjectTo()->getTrait<Mobile>()->getSpeed().MeterPerSecond() ;
+
+          // now it is relative to targeting object
+          speed = getRelativeOrientation(getObjectFrom(),world).getQuaternion()*speed ;
 
           InternalMessage("Model","calculateInterceptionTime(" + Ogre::StringConverter::toString(position)
 		                          + "," + Ogre::StringConverter::toString(speed) + "," + Kernel::toString(laser_speed) +")") ;
@@ -108,13 +122,13 @@ namespace ProjetUnivers
           Ogre::Vector3 touch = position + speed*fabs(time) ;
           Position touch_position(Position::Meter(touch.x,touch.y,touch.z)) ;
 
-          Kernel::Model* model = getObject()->getModel() ;
+          Kernel::Model* model = getObjectFrom()->getChild<Computer>()->getMemoryModel() ;
           // if no ideal target create
           if (! m_ideal_target)
           {
-            m_ideal_target = getObject()->createObject() ;
+            m_ideal_target = model->createObject() ;
             m_ideal_target->addTrait(new Positionned()) ;
-            m_ideal_target->addTrait(new IdealTarget(getObject()->getTrait<ComputerData>()->getComputer())) ;
+            m_ideal_target->addTrait(new IdealTarget(getObjectFrom()->getChild<Computer>()->getObject())) ;
           }
           // update ideal target
           Positionned* positionned = m_ideal_target->getTrait<Positionned>() ;
@@ -166,7 +180,7 @@ namespace ProjetUnivers
 
             if (nearest_point.dotProduct(u) >= 0)
             {
-              float target_size = getObject()->getTrait<Solid>()->getRadius().Meter() ;
+              float target_size = getObjectTo()->getTrait<Solid>()->getRadius().Meter() ;
               InternalMessage("Model","target_size=" + Kernel::toString(target_size)) ;
               if (target_size <= (position-nearest_point).length())
               {
@@ -179,14 +193,13 @@ namespace ProjetUnivers
             }
 
             InternalMessage("Model",shootable?"shootable=true":"shootable=false") ;
-            Shootable* shootable_trait = getObject()->getTrait<Shootable>() ;
-            if (shootable_trait && !shootable)
+            if (shootable)
             {
-              getObject()->destroyTrait(shootable_trait) ;
+              Kernel::Link<HasInLineOfSight>(getObjectFrom(),getObjectTo()) ;
             }
-            else if (!shootable_trait && shootable)
+            else
             {
-              getObject()->addTrait(new Shootable()) ;
+              Kernel::UnLink<HasInLineOfSight>(getObjectFrom(),getObjectTo()) ;
             }
 
           }
@@ -198,7 +211,7 @@ namespace ProjetUnivers
           // remove the helper object
           if (m_ideal_target)
           {
-            getObject()->getModel()->destroyObject(m_ideal_target) ;
+            m_ideal_target->destroyObject() ;
           }
         }
 

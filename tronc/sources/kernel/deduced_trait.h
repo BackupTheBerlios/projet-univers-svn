@@ -102,7 +102,7 @@ namespace ProjetUnivers
     #define And(...) \
       Kernel::TemplateAnd< __VA_ARGS__ >
 
-    /// Disjunction of formulaes
+    /// Disjunction of formulae
     #define Or(...) \
       Kernel::TemplateOr< __VA_ARGS__ >
 
@@ -325,6 +325,9 @@ namespace ProjetUnivers
       */
       static TypeIdentifier get(Formula*) ;
 
+      /// Primitive relation associated with a deduced one.
+      static TypeIdentifier getPrimitive(const TypeIdentifier&) ;
+
       /// Get the formulae that applies to @c primitive_relation.
       static std::set<Formula*> getFormulae(const TypeIdentifier& primitive_relation) ;
 
@@ -340,6 +343,9 @@ namespace ProjetUnivers
 
         /// Map primitive relation to formulae
         std::multimap<TypeIdentifier,Formula*> m_primitive_relation_to_formulae ;
+
+        /// Associate a deduced relation with its primitive relation
+        std::map<TypeIdentifier,TypeIdentifier> m_deduced_to_primitive_relation ;
 
       private:
 

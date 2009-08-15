@@ -20,11 +20,10 @@
  ***************************************************************************/
 #include <kernel/log.h>
 #include <model/model.h>
-#include <model/detection_data.h>
+#include <model/selection.h>
 #include <artificial_intelligence/implementation/agent.h>
 #include <artificial_intelligence/implementation/with_vehicle.h>
 #include <artificial_intelligence/implementation/with_vehicle_controler.h>
-
 #include <artificial_intelligence/implementation/agent_target_controler.h>
 
 namespace ProjetUnivers
@@ -34,7 +33,14 @@ namespace ProjetUnivers
     namespace Implementation
     {
 
-      RegisterRelationControler(AgentTargetControler,AgentTarget,AISystem) ;
+      class SelectionOfAgent : public Kernel::DeducedRelation
+      {};
+
+      DeclareDeducedRelation(SelectionOfAgent,
+                             Model::Selection,
+                             IsFrom(HasChild(HasTrait(AutonomousAgent)))) ;
+
+      RegisterRelationControler(AgentTargetControler,SelectionOfAgent,AISystem) ;
 
       void AgentTargetControler::onInit()
       {
@@ -59,7 +65,7 @@ namespace ProjetUnivers
 
       WithVehicleControler* AgentTargetControler::getTarget() const
       {
-        Kernel::Object* detected = getObjectTo()->getTrait<Model::DetectionData>()->m_detected ;
+        Kernel::Object* detected = getObjectTo() ;
         WithVehicle* with_vehicle = detected->getTrait<WithVehicle>() ;
         if (!with_vehicle)
         {

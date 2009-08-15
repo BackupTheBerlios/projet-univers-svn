@@ -19,23 +19,28 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include <model/positionned.h>
-#include <model/solid.h>
-#include <model/detection_data.h>
-#include <model/selected.h>
+#include <model/selection.h>
+#include <model/computer.h>
+#include <model/shooting_helper.h>
+#include <model/laser.h>
 #include <model/mobile.h>
 #include <model/implementation/target.h>
 
-namespace ProjetUnivers {
-  namespace Model {
-    namespace Implementation {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
+    namespace Implementation
+    {
           
-      DeclareDeducedTrait(
-          Target,
-          And(HasTrait(DetectionData),
-              HasTrait(Solid),
-              HasTrait(Positionned),
-              HasTrait(Selected),
-              HasTrait(Mobile))) ;
+      DeclareDeducedRelation(Target,
+                             Selection,
+                             And(IsFrom(And(HasTrait(RecursivelyPositionned),
+                                            HasChild(HasTrait(Computer)),
+                                            HasChild(HasTrait(ShootingHelper)),
+                                            HasChild(HasTrait(Laser)))),
+                                 IsTo(And(HasTrait(RecursivelyPositionned),
+                                          HasTrait(Mobile))))) ;
     }
   }
 }

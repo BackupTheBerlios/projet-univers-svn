@@ -348,6 +348,7 @@ namespace ProjetUnivers
           void onInit()
           {
             ++m_number_of_init ;
+            CPPUNIT_ASSERT(getView<DeducedSelectionView>()) ;
           }
 
           void onClose()
@@ -391,6 +392,106 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT_EQUAL(2,DeducedDeducedView::m_number_of_update) ;
       }
 
+      void TestRelationView::severalInitCloseInTheSameFrame()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+        model->init() ;
+        Object* o1 = model->createObject() ;
+        Object* o2 = model->createObject() ;
+
+        o1->addTrait(new T1()) ;
+        o2->addTrait(new T2()) ;
+        o1->addTrait(new T3()) ;
+
+        DeducedDeducedView::m_number_of_init = 0 ;
+        DeducedDeducedView::m_number_of_close = 0 ;
+        DeducedDeducedView::m_number_of_update = 0 ;
+        DeducedSelectionView::m_number_of_init = 0 ;
+
+        model->startTransaction() ;
+
+        Link<Selection>(o1,o2) ;
+        UnLink<Selection>(o1,o2) ;
+        Link<Selection>(o1,o2) ;
+
+        model->endTransaction() ;
+
+      }
+
+
+      namespace
+      {
+        class BaseRelation : public Relation
+        {};
+
+        class Deduced : public DeducedRelation
+        {};
+
+        class A : public Trait
+        {};
+
+        DeclareDeducedRelation(Deduced,BaseRelation,IsFrom(HasTrait(A))) ;
+
+        class DeducedControler : public RelationControler<RelationControlerSet>
+        {
+        protected:
+
+          void onClose()
+          {
+            CPPUNIT_ASSERT(Relation::areLinked<BaseRelation>(getObjectFrom(),getObjectTo())) ;
+            UnLink<BaseRelation>(getObjectFrom(),getObjectTo()) ;
+          }
+        };
+
+        RegisterRelationControler(DeducedControler,Deduced,RelationControlerSet)
+      }
+
+      void TestRelationView::deducedRelationDestroyBaseRelation()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+        model->init() ;
+        Object* o1 = model->createObject() ;
+        Object* o2 = model->createObject() ;
+
+        Link<BaseRelation>(o1,o2) ;
+        Trait* a = o1->addTrait(new A()) ;
+
+        Link<Selection>(o1,o1) ;
+
+        o1->destroyTrait(a) ;
+
+        CPPUNIT_ASSERT(!Relation::areLinked<BaseRelation>(o1,o2)) ;
+      }
+
+      void TestRelationView::destroyModelShouldCloseRelationViews()
+      {
+        SelectionView::m_number_of_close = 0 ;
+        {
+          std::auto_ptr<Model> model(new Model()) ;
+          model->init() ;
+          Object* o1 = model->createObject() ;
+          Object* o2 = model->createObject() ;
+
+          Link<Selection>(o1,o2) ;
+        }
+
+        CPPUNIT_ASSERT_EQUAL(1,SelectionView::m_number_of_close) ;
+      }
+
+      void TestRelationView::destroyModelShouldCloseRelationControlers()
+      {
+        SelectionControler::m_number_of_close = 0 ;
+        {
+          std::auto_ptr<Model> model(new Model()) ;
+          model->init() ;
+          Object* o1 = model->createObject() ;
+          Object* o2 = model->createObject() ;
+
+          Link<Selection>(o1,o2) ;
+        }
+
+        CPPUNIT_ASSERT_EQUAL(1,SelectionControler::m_number_of_close) ;
+      }
 
     }
   }

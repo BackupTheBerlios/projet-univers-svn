@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -20,45 +20,18 @@
  ***************************************************************************/
 #pragma once
 
-#include <kernel/trait_view.h>
-#include <kernel/object_reference.h>
-
-#include <model/implementation/detectable.h>
-#include <model/implementation/detector_view_point.h>
+#include <kernel/relation.h>
 
 namespace ProjetUnivers
 {
   namespace Model
   {
-    namespace Implementation
-    {
-      
-      /// An object that is potentially detected by a detector.
-      class DetectorObjectView : public Kernel::TraitView<Detectable,
-                                                          DetectorViewPoint>
-      {
-      public:
-
-        /// Check if object is detectable.
-        void check() ;
-        
-      protected:
-        
-        virtual void onInit() ;
-
-        /// Called just before the view is destroyed.
-        virtual void onClose() ;
-        
-      private:
-        
-        /// Object representing detection information
-        /*!
-          Placed under the detector object.
-          Remove and added when necessary.
-        */
-        Kernel::ObjectReference m_detection_information ;
-
-      };
-    }
+    /// A data connection
+    /*!
+      Connects a data provider to a data receiver
+     */
+    class DataConnection : public Kernel::Relation
+    {};
   }
 }
+

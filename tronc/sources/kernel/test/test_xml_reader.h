@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007 Mathieu ROGER                                      *
+ *   Copyright (C) 2007-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,8 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_KERNEL_TEST_TEST_XML_READER_H_
-#define PU_KERNEL_TEST_TEST_XML_READER_H_
+#pragma once
 
 #include <cppunit/extensions/HelperMacros.h>
 
@@ -46,6 +45,10 @@ namespace ProjetUnivers
         /// A simple test.
         void XMLCharTest() ;
         
+        void readRelation() ;
+        void readRelationEvenInsideObject() ;
+
+
       // @}
 
 
@@ -53,6 +56,8 @@ namespace ProjetUnivers
 
         CPPUNIT_TEST(basicTest) ;
         CPPUNIT_TEST(XMLCharTest) ;
+        CPPUNIT_TEST(readRelation) ;
+        CPPUNIT_TEST(readRelationEvenInsideObject) ;
 
         CPPUNIT_TEST_SUITE_END() ;
 
@@ -61,5 +66,3 @@ namespace ProjetUnivers
     }
   }
 }
-
-#endif /*PU_KERNEL_TEST_TEST_XML_READER_H_*/

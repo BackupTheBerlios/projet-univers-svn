@@ -18,8 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_IMPLEMENTATION_LOGIC_LOGIC_SYSTEM_H_
-#define PU_MODEL_IMPLEMENTATION_LOGIC_LOGIC_SYSTEM_H_
+#pragma once
 
 #include <kernel/object_reference.h>
 #include <kernel/controler_set.h>
@@ -34,7 +33,7 @@ namespace ProjetUnivers
       namespace Logic 
       {
         
-        /// Set of controlers for internal behaviour of Model.
+        /// Set of controllers for internal behavior of Model.
         /*!
           Uses default top down simulation.
         */
@@ -50,6 +49,3 @@ namespace ProjetUnivers
     }
   }
 }
-
-
-#endif

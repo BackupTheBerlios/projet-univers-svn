@@ -46,10 +46,10 @@ namespace ProjetUnivers
         /// Tests construction with lack of elements.
         void buildWithoutElements() ;
 
-        /// Test a AttackAllEnemy behaviour.
+        /// Test a AttackAllEnemy behavior.
         /*!
           A complete test with own main loop including model, physic and ai.
-          A ship pursuit an ennemy.
+          A ship pursuit an enemy.
         */
         void attackAllEnemies() ;
 
@@ -58,18 +58,20 @@ namespace ProjetUnivers
 
         /// Two teams attacking each other
         /*!
-          Foirst team must win because they are twice 2 against 1
+          First team must win because they are 2 against 1
         */
         void groupAttack() ;
 
         /// Test the updating of the positions.
         void testPositionUpdate() ;
 
+        /// Check that basic mission can be constructed and destroyed
         void testMission() ;
 
         /// Check that correct steering is calculated
         void steering() ;
 
+        /// @todo
         void avoidMutualFlee() ;
 
       // @}

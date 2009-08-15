@@ -7,7 +7,6 @@ AM_CPPFLAGS = -I$(SOURCES)
 AM_CXXFLAGS = $(PU_CXXFLAGS)
 
 libai_la_SOURCES = \
-$(SOURCES)/artificial_intelligence/implementation/agent_target.cpp \
 $(SOURCES)/artificial_intelligence/implementation/agent_target_controler.cpp \
 $(SOURCES)/artificial_intelligence/implementation/agent.cpp \
 $(SOURCES)/artificial_intelligence/implementation/ai_system.cpp \

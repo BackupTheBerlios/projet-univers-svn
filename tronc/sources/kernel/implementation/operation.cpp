@@ -75,7 +75,7 @@ namespace ProjetUnivers
         result.m_type = Update ;
         result.m_object = observer->getObject() ;
         result.m_observer = observer ;
-        result.m_debug_display = "Update(" + Kernel::toString(result.m_object->getIdentifier()) + "," + getObjectTypeIdentifier(result.m_observer).toString() +")" ;
+        result.m_debug_display = "Update(" + Kernel::toString(result.m_object->getIdentifier()) + "," + getObjectTypeIdentifier(result.m_observer).fullName() +")" ;
         return result ;
       }
 
@@ -87,7 +87,7 @@ namespace ProjetUnivers
         result.m_observer = observer ;
         result.m_old_parent = old_parent ;
         result.m_debug_display = "ChangeParent(" + Kernel::toString(result.m_object->getIdentifier()) +
-                                 "," + getObjectTypeIdentifier(result.m_observer).toString() +
+                                 "," + getObjectTypeIdentifier(result.m_observer).fullName() +
                                   Kernel::toString(result.m_old_parent?result.m_old_parent->getIdentifier():-1) + ")" ;
         return result ;
       }
@@ -97,7 +97,9 @@ namespace ProjetUnivers
         Operation result ;
         result.m_type = InitRelation ;
         result.m_relation_observer = observer ;
-        result.m_debug_display = "InitRelation(" + getObjectTypeIdentifier(result.m_relation_observer).toString() +")" ;
+        result.m_debug_display = "InitRelation(" + getObjectTypeIdentifier(result.m_relation_observer).fullName() +
+                                 "," + Kernel::toString(observer->getObjectFrom()->getIdentifier()) + "," +
+                                 Kernel::toString(observer->getObjectTo()->getIdentifier()) + ")" ;
         return result ;
       }
 
@@ -106,7 +108,9 @@ namespace ProjetUnivers
         Operation result ;
         result.m_type = CloseRelation ;
         result.m_relation_observer = observer ;
-        result.m_debug_display = "InitRelation(" + getObjectTypeIdentifier(result.m_relation_observer).toString() +")" ;
+        result.m_debug_display = "CloseRelation(" + getObjectTypeIdentifier(result.m_relation_observer).fullName() +
+                                 "," + Kernel::toString(observer->getObjectFrom()->getIdentifier()) + "," +
+                                 Kernel::toString(observer->getObjectTo()->getIdentifier()) + ")" ;
         return result ;
       }
 
@@ -115,7 +119,10 @@ namespace ProjetUnivers
         Operation result ;
         result.m_type = UpdateRelation ;
         result.m_relation_observer = observer ;
-        result.m_debug_display = "InitRelation(" + getObjectTypeIdentifier(result.m_relation_observer).toString() +")" ;
+        result.m_debug_display = "UpdateRelation(" + getObjectTypeIdentifier(result.m_relation_observer).fullName() +
+                                 "," + Kernel::toString(observer->getObjectFrom()->getIdentifier()) + "," +
+                                 Kernel::toString(observer->getObjectTo()->getIdentifier()) + ")" ;
+
         return result ;
       }
 

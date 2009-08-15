@@ -18,8 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_TARGETING_SYSTEM_H_
-#define PU_MODEL_TARGETING_SYSTEM_H_
+#pragma once
 
 #include <kernel/object_reference.h>
 #include <kernel/trait.h>
@@ -39,7 +38,19 @@ namespace ProjetUnivers
     class TargetingSystem : public Kernel::Trait
     {
     public:
-    
+    /*!
+      @name Operations Names
+
+      Meant to be called on Object, @see Object::call().
+    */
+    // @{
+
+      static std::string SelectNextTarget ;
+      static std::string SelectPreviousTarget ;
+      static std::string SelectNearestTarget ;
+      static std::string SelectNearestEnemy ;
+
+    // @{
     /*!
       @name Construction
     */
@@ -56,9 +67,7 @@ namespace ProjetUnivers
       /*!
         stored as 
         @code
-          <TargetingSystem>
-            [<ObjectReference ... [name="computer"]/>]
-          </TargetingSystem>
+          <TargetingSystem/>
         @endcode
       */     
       static Kernel::Trait* read(Kernel::Reader* reader) ;
@@ -96,12 +105,6 @@ namespace ProjetUnivers
       /// The DetectionData targeted.
       Kernel::ObjectReference m_target ;
       
-      /// The computer that is ancestor of detection data.
-      Kernel::ObjectReference m_computer ;
-      
-      friend class Implementation::DetectorObjectView ;
     };
   }
 }
-
-#endif /*PU_MODEL_TARGETING_SYSTEM_H_*/

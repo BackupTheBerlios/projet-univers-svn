@@ -21,8 +21,8 @@
 #pragma once
 
 #include <kernel/relation_controler.h>
+#include <kernel/deduced_trait.h>
 #include <artificial_intelligence/implementation/ai_system.h>
-#include <artificial_intelligence/implementation/agent_target.h>
 #include <artificial_intelligence/implementation/agent.h>
 
 namespace ProjetUnivers
@@ -31,6 +31,7 @@ namespace ProjetUnivers
   {
     namespace Implementation
     {
+
       /// Something we will associate with a vehicle.
       class AgentTargetControler : public Kernel::RelationControler<AISystem>
       {

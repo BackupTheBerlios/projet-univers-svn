@@ -20,10 +20,9 @@
  ***************************************************************************/
 #pragma once
 
-#include <Ogre.h>
-#include <kernel/trait_view.h>
+#include <kernel/relation_controler.h>
 #include <model/implementation/target.h>
-#include <model/implementation/logic/shooting_helper_viewpoint.h>
+#include <model/implementation/logic/logic_system.h>
 
 namespace ProjetUnivers
 {
@@ -34,9 +33,8 @@ namespace ProjetUnivers
       namespace Logic
       {
 
-        /// Generates the associated ideal target with the selectioned target. 
-        class Target : public Kernel::TraitView<Implementation::Target,
-                                                ShootingHelperViewPoint>
+        /// Generates the associated ideal target with the selected target.
+        class Target : public Kernel::RelationControler<Implementation::Target>
         {
         protected:
         /*!

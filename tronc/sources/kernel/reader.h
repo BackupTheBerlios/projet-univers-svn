@@ -34,6 +34,7 @@ namespace ProjetUnivers
     class Object ;
     class Model ;
     class ObjectReference ;
+    class Relation ;
     
     /// Abstract class for data reading.
     class Reader
@@ -70,6 +71,9 @@ namespace ProjetUnivers
       
       /// True iff current node is an object one.
       virtual bool isObjectNode() const = 0 ;
+
+      /// True iff current node is an relation one.
+      virtual bool isRelationNode() const = 0 ;
       
       /// Access to object identifier.
       virtual int getObjectIdentifier() const = 0 ;
@@ -113,12 +117,18 @@ namespace ProjetUnivers
       */
       Object* readObject(Model* model,Object* parent) ;
     
+      /// Read a relation node
+      void readRelation() ;
+
       /// Mapping between id used in the reading source to the real object ids. 
       std::map<int,int> m_local_id_to_real_id ;
       
       /// References to be resolved.
       std::set<ObjectReference*> m_references ;
       
+      /// Created relations.
+      std::set<Relation*> m_relations ;
+
       /// ??
       int m_current_object_depth ;
       
@@ -129,7 +139,7 @@ namespace ProjetUnivers
       void _unregisterReference(ObjectReference*) ;
       
       friend class ObjectReference ;
-      
+      friend class Relation ;
     };
 
 

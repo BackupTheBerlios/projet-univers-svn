@@ -19,6 +19,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include <kernel/object.h>
+#include <model/data_connection.h>
 #include <model/shooting_helper.h>
 
 namespace ProjetUnivers 
@@ -40,9 +41,12 @@ namespace ProjetUnivers
       
       if (trait)
       {
-        trait->m_computer = computer ;
         trait->m_laser = laser ;
+
+        Kernel::Link<DataConnection>(computer,shooting_helper) ;
+
         trait->notify() ;
+
       }
     }
 
@@ -60,11 +64,7 @@ namespace ProjetUnivers
           finder = reader->getAttributes().find("name") ;
           if (finder != reader->getAttributes().end())
           {
-            if (finder->second == "computer")
-            {
-              result->m_computer = Kernel::ObjectReference::read(reader) ;
-            }
-            else if (finder->second == "laser")
+            if (finder->second == "laser")
             {
               result->m_laser = Kernel::ObjectReference::read(reader) ;
             }
@@ -83,7 +83,12 @@ namespace ProjetUnivers
     
     Kernel::Object* ShootingHelper::getComputer() const
     {
-      return m_computer ;
+      std::set<Kernel::Object*> computers(Kernel::Relation::getLinked<Kernel::Inverse<DataConnection> >(getObject())) ;
+
+      if (computers.size() != 1)
+        return NULL ;
+
+      return *(computers.begin()) ;
     }
     
     Kernel::Object* ShootingHelper::getLaser() const

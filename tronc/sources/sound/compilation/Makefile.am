@@ -10,7 +10,6 @@ libsound_la_SOURCES = \
 ../implementation/collision.cpp \
 ../implementation/engine.cpp \
 ../implementation/listener.cpp \
-../implementation/recursively_positionned.cpp \
 ../implementation/shot.cpp \
 ../implementation/sound.cpp \
 ../implementation/openal/background_sound.cpp \

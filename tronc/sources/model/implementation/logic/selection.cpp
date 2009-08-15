@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2008 Mathieu ROGER                                      *
+ *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,8 +18,13 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <kernel/log.h>
-#include <model/implementation/logic/shooting_helper.h>
+
+#include <model/implementation/logic/selection.h>
+#include <model/targeting_system.h>
+#include <model/data_connection.h>
+#include <model/computer.h>
+#include <model/detector.h>
+#include <model/selection.h>
 
 namespace ProjetUnivers
 {
@@ -27,35 +32,22 @@ namespace ProjetUnivers
   {
     namespace Implementation
     {
+      DeclareDeducedRelation(Implementation::Selection,
+                             Model::Selection,
+                             IsFrom(HasChild(And(HasTrait(TargetingSystem),
+                                                 IsRelated(Kernel::Inverse<DataConnection>,
+                                                           And(HasTrait(Computer),
+                                                               IsRelated(Kernel::Inverse<DataConnection>,
+                                                                         HasTrait(Detector)))))))) ;
+
       namespace Logic
       {
 
-        RegisterControler(Logic::ShootingHelper,
-                          Model::ShootingHelper,
-                          Logic::LogicSystem) ;
-            
-        void ShootingHelper::onInit()
+        RegisterRelationControler(Selection,Implementation::Selection,LogicSystem) ;
+
+        void Selection::onClose()
         {
-          InternalMessage("Model","Entering ShootingHelper::onInit") ;
-          m_implementation= new ShootingHelperViewPoint(getObject()) ;
-          m_implementation->init() ;
-          InternalMessage("Model","Leaving ShootingHelper::onInit") ;
-        }
-        
-        void ShootingHelper::onClose() 
-        {
-          InternalMessage("Model","ShootingHelper::onClose") ;
-          if (m_implementation)
-          {
-            m_implementation->close() ;
-            m_implementation = NULL ;
-          }
-        }
-          
-        void ShootingHelper::onUpdate()
-        {
-          InternalMessage("Model","Entering ShootingHelper::onUpdate") ;
-          m_implementation->update() ;
+          Kernel::UnLink<Model::Selection>(getObjectFrom(),getObjectTo()) ;
         }
       }
     }

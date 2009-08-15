@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2008 Mathieu ROGER                                      *
+ *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,12 +18,32 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <model/shootable.h>
+#pragma once
+#include <kernel/relation_controler.h>
+#include <model/implementation/logic/logic_system.h>
+#include <kernel/deduced_trait.h>
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
+    namespace Implementation
+    {
+      class Selection : public Kernel::DeducedRelation
+      {};
 
-    Shootable::Shootable()
-    {}
+      namespace Logic
+      {
+
+        /// Handle the selection
+        class Selection : public Kernel::RelationControler<Implementation::Selection>
+        {
+        protected:
+
+          /// Destroy the Selection.
+          void onClose() ;
+        };
+      }
+    }
   }
 }

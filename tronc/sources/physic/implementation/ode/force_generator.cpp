@@ -37,12 +37,16 @@ namespace ProjetUnivers
   {
     namespace Implementation
     {
+
+      DeclareDeducedTrait(ForceGenerator,And(HasTrait(Model::ForceGenerator),
+                                             HasParent(HasTrait(Model::PhysicalObject)))) ;
+
       namespace Ode
       {
 
         // control registration
         RegisterControler(ForceGenerator,
-                          Model::ForceGenerator,
+                          Implementation::ForceGenerator,
                           PhysicSystem) ;
 
 
@@ -51,7 +55,7 @@ namespace ProjetUnivers
           /// set a force on it's body
           if (m_object && m_object->getBody())
           {
-            Ogre::Vector3 force = getTrait()->getAppliedForce().Newton() ;
+            Ogre::Vector3 force = getTrait<Model::ForceGenerator>()->getAppliedForce().Newton() ;
 
             InternalMessage("Physic","Physic::ForceGenerator::prepare " +
                             Kernel::toString(getObject()->getIdentifier())
@@ -72,17 +76,9 @@ namespace ProjetUnivers
           m_object = determineObject() ;
         }
 
-        void ForceGenerator::onClose()
-        {
-        }
-
         void ForceGenerator::onChangeParent(Kernel::Object* i_old_parent)
         {
           onClose() ;
-        }
-
-        void ForceGenerator::onUpdate()
-        {
         }
 
         PhysicalObject* ForceGenerator::determineObject() const

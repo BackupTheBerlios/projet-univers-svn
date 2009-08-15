@@ -22,6 +22,7 @@
 #include <kernel/controler_set.h>
 #include <kernel/relation.h>
 #include <kernel/deduced_trait.h>
+#include <kernel/reader.h>
 
 namespace ProjetUnivers
 {
@@ -136,19 +137,22 @@ namespace ProjetUnivers
     Relation* Relation::createLink(const TypeIdentifier& type,Object* object1,Object* object2)
     {
       Relation relation(type,object1,object2) ;
-      object1->getModel()->addRelation(relation) ;
 
-      /// @todo : see if it is useful
-      if (object1->getModel() != object2->getModel())
-        object2->getModel()->addRelation(relation) ;
+      if (! _areLinked(type,object1,object2))
+      {
+        object1->getModel()->addRelation(relation) ;
 
+        /// @todo : see if it is useful
+        if (object1->getModel() != object2->getModel())
+          object2->getModel()->addRelation(relation) ;
+      }
       return object1->getModel()->getCanonical(relation) ;
     }
 
     void Relation::destroyLink(const TypeIdentifier& type,Object* object1,Object* object2)
     {
       Relation relation(type,object1,object2) ;
-      if (object1)
+      if (object1 && _areLinked(type,object1,object2))
       {
         object1->getModel()->removeRelation(relation) ;
 
@@ -183,6 +187,28 @@ namespace ProjetUnivers
                                        ViewBuilder           builder)
     {
       StaticStorage::get()->m_view_builders[std::make_pair(viewpoint,relation)] = builder ;
+    }
+
+    void Relation::registerMapping(const TypeIdentifier& view,
+                                   const TypeIdentifier& viewpoint,
+                                   const TypeIdentifier& relation)
+    {
+      StaticStorage::get()->m_relation_of_view[std::make_pair(view,viewpoint)] = relation ;
+    }
+
+    TypeIdentifier Relation::getRelationOfView(const TypeIdentifier& view,
+                                               const TypeIdentifier& viewpoint)
+    {
+      std::map<std::pair<TypeIdentifier,TypeIdentifier>,
+               TypeIdentifier>::const_iterator trait_identifier =
+        StaticStorage::get()
+        ->m_relation_of_view.find(std::make_pair(view,viewpoint)) ;
+
+      if (trait_identifier != StaticStorage::get()->m_relation_of_view.end())
+      {
+        return trait_identifier->second ;
+      }
+      return VoidTypeIdentifier ;
     }
 
     void Relation::createControlers() const
@@ -229,5 +255,58 @@ namespace ProjetUnivers
       return from->getModel()->getCanonical(Relation(type,from,to)) ;
     }
 
+    void Relation::_registerReader(const std::string& name,const TypeIdentifier& type)
+    {
+      StaticStorage::get()->m_readers[name] = type ;
+    }
+
+    Relation* Relation::read(Reader* reader)
+    {
+      std::string name = reader->getName() ;
+      ObjectReference from ;
+      ObjectReference to ;
+
+      std::map<std::string,std::string>::const_iterator finder ;
+
+      finder = reader->getAttributes().find("from") ;
+      if (finder != reader->getAttributes().end())
+      {
+        from.m_object_identifier = atoi(finder->second.c_str()) ;
+      }
+      else
+      {
+        ErrorMessage("Kernel::ObjectReference::read required attribute : from") ;
+      }
+
+      finder = reader->getAttributes().find("to") ;
+      if (finder != reader->getAttributes().end())
+      {
+        to.m_object_identifier = atoi(finder->second.c_str()) ;
+      }
+      else
+      {
+        ErrorMessage("Kernel::ObjectReference::read required attribute : from") ;
+      }
+
+      TypeIdentifier type = StaticStorage::get()->m_readers[name] ;
+
+      Relation* result(new Relation()) ;
+      result->m_type = type ;
+      result->m_object_from = from ;
+      result->m_object_to = to ;
+
+      reader->_registerReference(&result->m_object_from) ;
+      result->m_object_from.m_reader = reader ;
+
+      reader->_registerReference(&result->m_object_to) ;
+      result->m_object_to.m_reader = reader ;
+
+      while (!reader->isEndNode() && reader->processNode())
+      {
+      }
+      reader->processNode() ;
+
+      return result ;
+    }
   }
 }

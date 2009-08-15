@@ -18,18 +18,16 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_PHYSIC_TEST_ODE_H_
-#define PU_PHYSIC_TEST_ODE_H_
-
+#pragma once
 
 #include <cppunit/extensions/HelperMacros.h>
 
-
-namespace ProjetUnivers {
-  namespace Physic {
-    namespace Test {
-
-
+namespace ProjetUnivers
+{
+  namespace Physic
+  {
+    namespace Test
+    {
 
       /// Direct tests on ODE.
       /*!
@@ -84,28 +82,9 @@ namespace ProjetUnivers {
 
         CPPUNIT_TEST_SUITE_END() ;
 
-      public:
-
       // @}
-      /*!
-        @name Mandatory methods
-      */
-      // @{
-
-
-        void setUp() ;
-
-        void tearDown() ;
-
-      // @}
-
-
-
       };
 
     }
   }
 }
-
-
-#endif

@@ -48,6 +48,7 @@ namespace ProjetUnivers
         void isRelatedFormulaChangeStateWhenModifyingRelatedObject() ;
         void isRelatedFormulaChangeStateWhenChangingRelation() ;
         void isRelatedFormulaComplexSample() ;
+        void isRelatedInverse() ;
 
         void relationDeducedByAddingALink() ;
         void relationDeducedByModifyingALinkedObject() ;
@@ -55,6 +56,7 @@ namespace ProjetUnivers
         void relationUnDeducedByRemovingALink() ;
 
         void primitiveRelationDoesNotTriggerOtherDeduction() ;
+        void havingAllButPrimitiveRelationDoesNotMakeItTrue() ;
 
       // @}
 
@@ -71,11 +73,13 @@ namespace ProjetUnivers
         CPPUNIT_TEST(isRelatedFormulaChangeStateWhenModifyingRelatedObject) ;
         CPPUNIT_TEST(isRelatedFormulaChangeStateWhenChangingRelation) ;
         CPPUNIT_TEST(isRelatedFormulaComplexSample) ;
+        CPPUNIT_TEST(isRelatedInverse) ;
         CPPUNIT_TEST(relationDeducedByAddingALink) ;
         CPPUNIT_TEST(relationDeducedByModifyingALinkedObject) ;
         CPPUNIT_TEST(relationUnDeducedByModifyingALinkedObject) ;
         CPPUNIT_TEST(relationUnDeducedByRemovingALink) ;
         CPPUNIT_TEST(primitiveRelationDoesNotTriggerOtherDeduction) ;
+        CPPUNIT_TEST(havingAllButPrimitiveRelationDoesNotMakeItTrue) ;
 
         CPPUNIT_TEST_SUITE_END() ;
       };

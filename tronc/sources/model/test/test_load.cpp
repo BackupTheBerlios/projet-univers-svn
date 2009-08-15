@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -23,6 +23,7 @@
 #include <kernel/parameters.h>
 #include <kernel/xml_reader.h>
 
+#include <model/model.h>
 #include <model/component.h>
 #include <model/computer.h>
 #include <model/destroyable.h>
@@ -132,13 +133,13 @@ namespace ProjetUnivers
             "<model>\n"
               "<object id=\"1\">\n"
                 "<Detector>\n"
-                  "<ObjectReference id=\"2\" name=\"computer\"/>\n"
                   "<Distance value=\"5\" unit=\"Meter\" name=\"range\"/>\n"
                 "</Detector>\n"
               "</object>\n"
               "<object id=\"2\">\n"
                 "<Computer/>\n"
               "</object>\n"
+              "<Relation name=\"DataConnection\" from=\"1\" to=\"2\"/>\n"
             "</model>\n") ;
         std::auto_ptr<Kernel::XMLReader> reader(Kernel::XMLReader::getStringReader(content)) ;
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadDetector")) ;
@@ -158,7 +159,6 @@ namespace ProjetUnivers
           {
             exist_detector = true ;
             CPPUNIT_ASSERT(object->getTrait<Detector>()->getRange().Meter() == 5) ;
-            CPPUNIT_ASSERT(object->getTrait<Detector>()->getComputer()) ;
           }
         }
 
@@ -644,9 +644,7 @@ namespace ProjetUnivers
           "<?xml version=\"1.0\"?>\n"
             "<model>\n"
               "<object id=\"1\">\n"
-                "<TargetingSystem>\n"
-                  "<ObjectReference id=\"1\"/>\n"
-                "</TargetingSystem>\n"
+                "<TargetingSystem/>\n"
               "</object>\n"
             "</model>\n") ;
         std::auto_ptr<Kernel::XMLReader> reader(Kernel::XMLReader::getStringReader(content)) ;
@@ -657,6 +655,19 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(roots.size() == 1) ;
         Kernel::Object* root = *roots.begin() ;
         CPPUNIT_ASSERT(root->getTrait<TargetingSystem>()) ;
+      }
+
+      void TestLoad::loadShip()
+      {
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadUniverse")) ;
+        Model::load("default_ship.ship",model.get()) ;
+
+        std::set<Kernel::Object*> roots(model->getRoots()) ;
+        CPPUNIT_ASSERT(roots.size() == 1) ;
+        Kernel::Object* root = *roots.begin() ;
+
+        CPPUNIT_ASSERT(!root->getChildren<TargetingSystem>().empty()) ;
+        CPPUNIT_ASSERT(root->getChildren<TargetingSystem>().size()==1) ;
       }
 
     }

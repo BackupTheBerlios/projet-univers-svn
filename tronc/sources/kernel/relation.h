@@ -43,6 +43,7 @@ namespace ProjetUnivers
     class ViewPoint ;
     class BaseRelationControler ;
     class ControlerSet ;
+    class RelationReaderRegistration ;
 
     /// A relation 'type' between objects.
     /*!
@@ -106,6 +107,10 @@ namespace ProjetUnivers
       /// Closes the observer on relation.
       virtual void _close() ;
 
+      /// Get a relation view.
+      template <class _View> _View* getView() const ;
+
+      static Relation* read(Reader*) ;
 
     protected:
 
@@ -150,9 +155,18 @@ namespace ProjetUnivers
                                       const TypeIdentifier& viewpoint,
                                       ViewBuilder           builder) ;
 
+      static void registerMapping(const TypeIdentifier& view,
+                                  const TypeIdentifier& viewpoint,
+                                  const TypeIdentifier& relation) ;
+
+
+      /// Return the base relation of a view.
+      static TypeIdentifier getRelationOfView(const TypeIdentifier& view,
+                                              const TypeIdentifier& viewpoint) ;
+
     //@}
     /*!
-      @name Controler Handling
+      @name Controller Handling
     */
     //@{
 
@@ -160,7 +174,7 @@ namespace ProjetUnivers
       typedef
       boost::function0<BaseRelationControler*> ControlerBuilder ;
 
-      /// create the controlers.
+      /// create the controllers.
       void createControlers() const ;
 
       /// create views for a viewpoint.
@@ -168,14 +182,16 @@ namespace ProjetUnivers
 
       /// Register @c builder as the builder for @c relation in @c controler_set
       /*!
-        Whenever a relation is built, the corresponding relation controlers will
-        be automatically built in each controler set.
+        Whenever a relation is built, the corresponding relation controllers will
+        be automatically built in each controller set.
       */
       static void registerControlerBuilder(const TypeIdentifier& relation,
                                            const TypeIdentifier& controler_set,
                                            ControlerBuilder      builder) ;
 
     //@}
+
+      static void _registerReader(const std::string& name,const TypeIdentifier& type) ;
 
       /// Static storage
       /*!
@@ -200,12 +216,19 @@ namespace ProjetUnivers
         std::map<std::pair<TypeIdentifier,TypeIdentifier>,
                  ViewBuilder>                              m_view_builders ;
 
-        /// Return the controler builder.
+        /// Return the controller builder.
         ControlerBuilder getControlerBuilder(ControlerSet*,const Relation&) ;
 
         /// ViewPoint X Relation --> ViewBuilder (in term of classes names)
         std::map<std::pair<TypeIdentifier,TypeIdentifier>,
                  ControlerBuilder>                         m_controler_builders ;
+
+        /// View X ViewPoint -> Trait (in term of classes names)
+        std::map<std::pair<TypeIdentifier,TypeIdentifier>,
+                 TypeIdentifier>                           m_relation_of_view ;
+
+        /// Readers
+        std::map<std::string,TypeIdentifier> m_readers ;
       };
 
       template <class Relation> friend class Link ;
@@ -217,6 +240,8 @@ namespace ProjetUnivers
       template <class _Relation,class _ViewPoint,class _View>
       friend class RelationControlerRegistration ;
       friend class Model ;
+      friend class RelationReaderRegistration ;
+      friend class BaseRelationView ;
     };
 
     /// The act of linking two objects
@@ -252,6 +277,33 @@ namespace ProjetUnivers
     */
     template <class _Relation> class Inverse : public Relation
     {};
+
+    /// Tells that @c RelationClass is a relation class.
+    /*!
+      Necessary for relation reading. The name in XML will be @c RelationClass
+      whatever namespace it is in.
+
+      @par Example
+
+      @code
+        RegisterRelation(Foo) ;
+      @endcode
+
+      The name will be Foo.
+
+      @code
+        RegisterRelation(Namespace::Bar) ;
+      @endcode
+
+      The name will be Namespace::Bar.
+
+    */
+    #define RegisterRelation(RelationClass)                                  \
+      namespace PU_MAKE_UNIQUE_NAME(register_relation) {                     \
+        static                                                               \
+        ProjetUnivers::Kernel::RelationReaderRegistration                    \
+          temp(#RelationClass,getClassTypeIdentifier(RelationClass)) ;       \
+      }
 
     /// @c ClassView is the view for @c ClassRelation in @c ClassViewPoint.
     /*!

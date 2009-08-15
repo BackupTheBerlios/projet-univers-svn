@@ -70,7 +70,7 @@ int main()
   Input::start() ;
   GUI::start() ;
 
-  InformationMessage("Demonstration","Starting of projet univers" +
+  InformationMessage("Demonstration","Starting of projet univers ship test application" +
                                      Version +
                                      " revision " + RevisionNumber) ;
 

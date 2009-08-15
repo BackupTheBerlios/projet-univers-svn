@@ -18,9 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_COMPUTER_H_
-#define PU_MODEL_COMPUTER_H_
-
+#pragma once
 #include <memory>
 
 #include <kernel/trait.h>
@@ -28,8 +26,10 @@
 #include <kernel/reader.h>
 #include <model/position.h>
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
 
       
     /// For objects that are computer.
@@ -61,6 +61,9 @@ namespace ProjetUnivers {
       Position getDataPosition(Kernel::Object* data,
                                Kernel::Object* relative_to) const ;
       
+      /// Return teh detected objects.
+      std::set<Kernel::Object*> getDetectedObjects() const ;
+
     private:
       
       /// The set of objects in memory.
@@ -71,5 +74,3 @@ namespace ProjetUnivers {
   }
 
 }
-
-#endif /*PU_MODEL_COMPUTER_H_*/

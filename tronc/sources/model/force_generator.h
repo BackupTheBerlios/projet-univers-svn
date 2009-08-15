@@ -18,22 +18,23 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_FORCE_GENERATOR_H_
-#define PU_MODEL_FORCE_GENERATOR_H_
+#pragma once
 
 #include <kernel/trait.h>
 #include <kernel/reader.h>
 
 #include <model/force.h>
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
     
     /// For objects that generate physical forces.
     /*!
       For example : engine...
       
-      Applyed force are relative to the physical world parent.
+      Applied force are relative to the physical world parent.
       
       It applies a force on its own position.      
     */
@@ -69,5 +70,3 @@ namespace ProjetUnivers {
     
   }
 }
-
-#endif

@@ -18,8 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_SHOOTING_HELPER_H_
-#define PU_MODEL_SHOOTING_HELPER_H_
+#pragma once
 
 #include <kernel/object_reference.h>
 #include <kernel/trait.h>
@@ -73,10 +72,6 @@ namespace ProjetUnivers
       /// The laser.
       Kernel::ObjectReference m_laser ;
       
-      /// The computer that is ancestor of detection data.
-      Kernel::ObjectReference m_computer ;
     };
   }
 }
-
-#endif /*PU_MODEL_SHOOTING_HELPER_H_*/

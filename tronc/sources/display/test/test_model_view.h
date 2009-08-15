@@ -47,9 +47,6 @@ namespace ProjetUnivers
         */
         void destroyObserver() ;
 
-        /// Select a target and display it
-        void selectedTarget() ;
-
         /// Display an ideal target
         void displayIdealTarget() ;
 
@@ -73,9 +70,9 @@ namespace ProjetUnivers
 
         void changeObserver() ;
 
-        void changeTargetDisplayer() ;
-
         void setOrientation() ;
+
+        void testMission() ;
 
       // @}
         /*!
@@ -87,7 +84,6 @@ namespace ProjetUnivers
 
         CPPUNIT_TEST(testConstruct) ;
         CPPUNIT_TEST(destroyObserver) ;
-        CPPUNIT_TEST(selectedTarget) ;
         CPPUNIT_TEST(displayIdealTarget) ;
         CPPUNIT_TEST(spaceDust) ;
         CPPUNIT_TEST(displayImage) ;
@@ -96,8 +92,8 @@ namespace ProjetUnivers
         CPPUNIT_TEST(getMeshSize) ;
         CPPUNIT_TEST(changeParent) ;
         CPPUNIT_TEST(changeObserver) ;
-        CPPUNIT_TEST(changeTargetDisplayer) ;
         CPPUNIT_TEST(setOrientation) ;
+        CPPUNIT_TEST(testMission) ;
 
         CPPUNIT_TEST_SUITE_END() ;
 

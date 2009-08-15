@@ -45,7 +45,11 @@
 #include <model/detector.h>
 #include <model/team.h>
 #include <model/transponder.h>
-#include <model/selected.h>
+#include <model/custom_mission.h>
+#include <model/flying_group.h>
+#include <model/state.h>
+#include <model/mission.h>
+#include <model/played.h>
 
 #include <display/display.h>
 #include <display/implementation/ogre/real_world_view_point.h>
@@ -54,6 +58,8 @@
 #include <display/implementation/space_dust.h>
 #include <display/implementation/positionned.h>
 #include <display/test/test_model_view.h>
+#include <model/selection.h>
+#include <display/implementation/target.h>
 
 
 CPPUNIT_TEST_SUITE_REGISTRATION(ProjetUnivers::
@@ -105,7 +111,7 @@ namespace ProjetUnivers
         Kernel::Timer timer ;
         Kernel::Timer global_timer ;
 
-        while (global_timer.getSecond() < 3)
+        while (global_timer.getSecond() < 0.1)
         {
           float seconds = timer.getSecond() ;
           if (seconds != 0)
@@ -148,10 +154,10 @@ namespace ProjetUnivers
 
         bool destroyed = false ;
 
-        while (global_timer.getSecond() < 3)
+        while (global_timer.getSecond() < 0.2)
         {
           float seconds = timer.getSecond() ;
-          if (!destroyed && global_timer.getSecond() > 1.5)
+          if (!destroyed && global_timer.getSecond() > 0.1)
           {
             model->destroyObject(observer) ;
             destroyed = true ;
@@ -164,72 +170,6 @@ namespace ProjetUnivers
         }
 
         InternalMessage("Display","Display::TestModelView::destroyObserver leaving") ;
-      }
-
-      void TestModelView::selectedTarget()
-      {
-        InternalMessage("Display","Display::TestModelView::selectedTarget entering") ;
-
-        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestModelView::selectedTarget")) ;
-        model->init() ;
-
-        Kernel::Object* universe = model->createObject() ;
-        universe->addTrait(new Model::Universe()) ;
-        universe->addTrait(new Model::Positionned()) ;
-
-        Kernel::Object* system = universe->createObject() ;
-        system->addTrait(new Model::StellarSystem()) ;
-        system->addTrait(new Model::Positionned()) ;
-        {
-          Kernel::Object* ship = Model::createShip(system) ;
-          ship->getTrait<Model::Positionned>()->setPosition(Model::Position::Meter(0,0,-500)) ;
-        }
-
-        Kernel::Object* ship = Model::createShip(system) ;
-
-        ship->addTrait(new Model::HeadUpDisplay()) ;
-        Model::HeadUpDisplay::connect(ship,ship) ;
-
-        Kernel::Object* observer = ship->createObject() ;
-        observer->addTrait(new Model::Player()) ;
-        observer->addTrait(new Model::Active()) ;
-        observer->addTrait(new Model::Positionned()) ;
-        observer->addTrait(new Model::Oriented()) ;
-        observer->addTrait(new Model::Observer()) ;
-        observer->addTrait(new Kernel::CommandDelegator()) ;
-        observer->getTrait<Kernel::CommandDelegator>()->addDelegate(ship) ;
-
-//        ship->getTrait<Model::Oriented>()
-//            ->setOrientation(Model::Orientation(::Ogre::Quaternion(::Ogre::Degree(180),::Ogre::Vector3::UNIT_Y))) ;
-
-        model->update(0.1) ;
-        observer->call("Select Next Target") ;
-
-        Kernel::Timer timer ;
-        Kernel::Timer global_timer ;
-
-        Kernel::Timer rotation_timer ;
-
-        while (global_timer.getSecond() < 10)
-        {
-          float seconds = timer.getSecond() ;
-          if (rotation_timer.getSecond() > 1)
-          {
-            ship->getTrait<Model::Oriented>()
-            ->setOrientation(ship->getTrait<Model::Oriented>()->getOrientation()*
-                             Model::Orientation(::Ogre::Quaternion(::Ogre::Degree(45),::Ogre::Vector3::UNIT_Y))) ;
-
-            rotation_timer.reset() ;
-          }
-
-          if (seconds != 0)
-          {
-            timer.reset() ;
-          }
-          model->update(seconds) ;
-        }
-
-        InternalMessage("Display","Display::TestModelView::selectedTarget leaving") ;
       }
 
       void TestModelView::displayIdealTarget()
@@ -269,7 +209,7 @@ namespace ProjetUnivers
         Kernel::Timer timer ;
         Kernel::Timer global_timer ;
 
-        while (global_timer.getSecond() < 3)
+        while (global_timer.getSecond() < 0.1)
         {
           float seconds = timer.getSecond() ;
           if (seconds != 0)
@@ -314,7 +254,7 @@ namespace ProjetUnivers
         Kernel::Timer timer ;
         Kernel::Timer global_timer ;
 
-        while (global_timer.getSecond() < 3)
+        while (global_timer.getSecond() < 0.1)
         {
           float seconds = timer.getSecond() ;
           if (seconds != 0)
@@ -341,7 +281,7 @@ namespace ProjetUnivers
         Kernel::Timer timer ;
         Kernel::Timer global_timer ;
 
-        while (global_timer.getSecond() < 3)
+        while (global_timer.getSecond() < 0.1)
         {
           float seconds = timer.getSecond() ;
           if (seconds != 0)
@@ -427,15 +367,15 @@ namespace ProjetUnivers
         bool destroyed = false ;
         bool recreated = false ;
 
-        while (global_timer.getSecond() < 3)
+        while (global_timer.getSecond() < 0.3)
         {
           float seconds = timer.getSecond() ;
-          if (!destroyed && global_timer.getSecond() > 1.5)
+          if (!destroyed && global_timer.getSecond() > 0.1)
           {
             model->destroyObject(observer) ;
             destroyed = true ;
           }
-          if (destroyed && !recreated && global_timer.getSecond() > 2)
+          if (destroyed && !recreated && global_timer.getSecond() > 0.2)
           {
             observer = system->createObject() ;
             observer->addTrait(new Model::Observer()) ;
@@ -540,7 +480,7 @@ namespace ProjetUnivers
         Kernel::Timer timer ;
         Kernel::Timer global_timer ;
 
-        while (global_timer.getSecond() < 2)
+        while (global_timer.getSecond() < 0.1)
         {
           float seconds = timer.getSecond() ;
           if (seconds != 0)
@@ -554,7 +494,7 @@ namespace ProjetUnivers
         observer2->addTrait(new Model::Active()) ;
 
         global_timer.reset() ;
-        while (global_timer.getSecond() < 1)
+        while (global_timer.getSecond() < 0.1)
         {
           float seconds = timer.getSecond() ;
           if (seconds != 0)
@@ -565,125 +505,6 @@ namespace ProjetUnivers
         }
 
         InternalMessage("Display","Display::TestModelView::changeObserver leaving") ;
-      }
-
-      void TestModelView::changeTargetDisplayer()
-      {
-        InternalMessage("Display","Display::TestModelView::changeTargetDisplayer entering") ;
-
-        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestModelView::changeTargetDisplayer")) ;
-        model->init() ;
-
-        Implementation::Ogre::RealWorldViewPoint* viewpoint =
-          model->getViewPoint<Implementation::Ogre::RealWorldViewPoint>() ;
-
-        Kernel::Object* universe = model->createObject() ;
-        universe->addTrait(new Model::Universe()) ;
-        universe->addTrait(new Model::Positionned()) ;
-
-        Kernel::Object* system = universe->createObject() ;
-        system->addTrait(new Model::StellarSystem()) ;
-        system->addTrait(new Model::Positionned()) ;
-
-        Kernel::Object* target = Model::createShip(system) ;
-        target->getTrait<Model::Positionned>()->setPosition(Model::Position::Meter(0,0,-500)) ;
-
-
-        Kernel::Object* ship1 = system->createObject() ;
-        ship1->addTrait(new Model::Detector(ship1,Model::Distance(Model::Distance::_Meter,2000))) ;
-        ship1->addTrait(new Model::TargetingSystem()) ;
-        ship1->addTrait(new Model::Computer()) ;
-        Model::TargetingSystem::connect(ship1,ship1) ;
-        ship1->addTrait(new Model::HeadUpDisplay()) ;
-        Model::HeadUpDisplay::connect(ship1,ship1) ;
-
-        Kernel::Object* observer = ship1->createObject() ;
-        observer->addTrait(new Model::Observer()) ;
-        observer->addTrait(new Model::Active()) ;
-        observer->addTrait(new Model::Positionned()) ;
-        observer->addTrait(new Model::Oriented()) ;
-
-
-        Kernel::Object* ship2 = system->createObject() ;
-        ship2->addTrait(new Model::Detector(ship2,Model::Distance(Model::Distance::_Meter,2000))) ;
-        ship2->addTrait(new Model::TargetingSystem()) ;
-        ship2->addTrait(new Model::Computer()) ;
-        Model::TargetingSystem::connect(ship2,ship2) ;
-
-        Kernel::Object* observer2 = ship2->createObject() ;
-        observer2->addTrait(new Model::Observer()) ;
-        observer2->addTrait(new Model::Positionned(Model::Position::Meter(0,0,500))) ;
-        observer2->addTrait(new Model::Oriented()) ;
-
-        model->update(0.1) ;
-        ship1->call("Select Next Target") ;
-
-        ship2->call("Select Next Target") ;
-        Model::Computer* computer2 = ship2->getTrait<Model::Computer>() ;
-        CPPUNIT_ASSERT(computer2) ;
-        CPPUNIT_ASSERT(computer2->getMemoryModel()) ;
-
-        CPPUNIT_ASSERT_EQUAL(Model::Position::Meter(0,0,0),
-                             Model::getRelativePosition(viewpoint->getObserver(),universe)) ;
-
-        Kernel::Timer timer ;
-        Kernel::Timer global_timer ;
-
-        while (global_timer.getSecond() < 2)
-        {
-          float seconds = timer.getSecond() ;
-          if (seconds != 0)
-          {
-            timer.reset() ;
-          }
-          model->update(seconds) ;
-        }
-
-        // *destroy* previous observer + ship
-        observer->destroyObject() ;
-        ship1->destroyTrait(ship1->getTrait<Model::HeadUpDisplay>()) ;
-
-        // switch observer + add a target displayer
-        ship2->addTrait(new Model::HeadUpDisplay()) ;
-        Implementation::Ogre::HeadUpDisplay* new_displayer =
-          ship2->getTrait<Model::HeadUpDisplay>()
-               ->getView<Implementation::Ogre::HeadUpDisplay>(viewpoint) ;
-
-        CPPUNIT_ASSERT(!new_displayer->m_implementation->getModel()) ;
-
-        Model::HeadUpDisplay::connect(ship2,ship2) ;
-
-        CPPUNIT_ASSERT(new_displayer->m_implementation.get()) ;
-        CPPUNIT_ASSERT(new_displayer->m_implementation->getModel()) ;
-        Kernel::Model* memory = computer2->getMemoryModel() ;
-        CPPUNIT_ASSERT(memory == new_displayer->m_implementation->getModel()) ;
-        CPPUNIT_ASSERT_EQUAL((unsigned int)1,memory->getRoots().size()) ;
-
-        Kernel::Object* root = *memory->getRoots().begin() ;
-        CPPUNIT_ASSERT_EQUAL((unsigned int)1,root->getChildren<Model::Selected>().size()) ;
-
-        Model::Selected* selected = *root->getChildren<Model::Selected>().begin() ;
-
-        // @todo still some checks to perform...
-
-        observer2->addTrait(new Model::Active()) ;
-        CPPUNIT_ASSERT(viewpoint->getObserver()) ;
-        CPPUNIT_ASSERT_EQUAL(Model::Position::Meter(0,0,500),
-                             Model::getRelativePosition(viewpoint->getObserver(),universe)) ;
-
-
-        global_timer.reset() ;
-        while (global_timer.getSecond() < 2)
-        {
-          float seconds = timer.getSecond() ;
-          if (seconds != 0)
-          {
-            timer.reset() ;
-          }
-          model->update(seconds) ;
-        }
-
-        InternalMessage("Display","Display::TestModelView::changeTargetDisplayer leaving") ;
       }
 
       void TestModelView::setOrientation()
@@ -720,9 +541,52 @@ namespace ProjetUnivers
         target->getTrait<Model::Oriented>()->setOrientation(::Ogre::Quaternion(::Ogre::Degree(90),::Ogre::Vector3::UNIT_Y)) ;
 
         CPPUNIT_ASSERT_EQUAL(Ogre::Quaternion(::Ogre::Degree(90),::Ogre::Vector3::UNIT_Y),positionned->getNode()->getOrientation()) ;
-
       }
 
+      void TestModelView::testMission()
+      {
+        Kernel::Log::Block temp("Physic","TestDemonstration::testMission") ;
+
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model()) ;
+        model->init() ;
+
+        Kernel::Object* mission = model->createObject() ;
+        mission->addTrait(new Model::CustomMission("",NULL,NULL)) ;
+        mission->getTrait<Model::CustomMission>()->setStartingDistance(Model::Distance(Model::Distance::_Meter,4000)) ;
+        mission->addTrait(new Model::State()) ;
+
+        {
+          Kernel::Object* team = mission->createObject() ;
+          team->addTrait(new Model::Team("")) ;
+
+          Kernel::Object* flying_group = team->createObject() ;
+          flying_group->addTrait(new Model::FlyingGroup("")) ;
+
+          flying_group->getTrait<Model::FlyingGroup>()->setShipName("test_ship") ;
+          flying_group->getTrait<Model::FlyingGroup>()->setInitialNumberOfShips(2) ;
+          flying_group->getTrait<Model::FlyingGroup>()->setHasPlayer(true) ;
+        }
+
+        {
+          Kernel::Object* team = mission->createObject() ;
+          team->addTrait(new Model::Team("")) ;
+
+          Kernel::Object* flying_group = team->createObject() ;
+          flying_group->addTrait(new Model::FlyingGroup("")) ;
+
+          flying_group->getTrait<Model::FlyingGroup>()->setShipName("test_ship") ;
+          flying_group->getTrait<Model::FlyingGroup>()->setInitialNumberOfShips(3) ;
+          flying_group->getTrait<Model::FlyingGroup>()->setHasPlayer(false) ;
+          flying_group->getTrait<Model::FlyingGroup>()->setNumberOfSpawn(2) ;
+
+        }
+
+        CPPUNIT_ASSERT(!mission->getTrait<Model::Mission>()->getSystem()) ;
+        mission->addTrait(new Model::Played()) ;
+        model->update(0.1) ;
+        mission->destroyTrait(mission->getTrait<Model::Played>()) ;
+        model->update(0.1) ;
+      }
 
 
     }

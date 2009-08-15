@@ -22,6 +22,7 @@
 
 #include <kernel/controler.h>
 #include <kernel/object.h>
+#include <kernel/deduced_trait.h>
 
 #include <model/force_generator.h>
 
@@ -33,16 +34,20 @@ namespace ProjetUnivers
   {
     namespace Implementation
     {
+
+      class ForceGenerator : public Kernel::DeducedTrait
+      {};
+
       namespace Ode
       {
         
         class PhysicalObject ;
               
-        /// Force controler.
+        /// Force controller.
         /*!
           @see Model::ForceGenerator
         */
-        class ForceGenerator : public Kernel::Controler<Model::ForceGenerator,
+        class ForceGenerator : public Kernel::Controler<ForceGenerator,
                                                         PhysicSystem>
         {
         public:
@@ -52,18 +57,12 @@ namespace ProjetUnivers
           
         protected:
         
-          /// Called after the view is created on a initialised viewpoint.
+          /// Called after the view is created on a initialized viewpoint.
           virtual void onInit() ;
-          
-          /// Called just before the view is destroyed.
-          virtual void onClose() ;
     
           /// Called when parent changed.
           virtual void onChangeParent(Kernel::Object* i_old_parent) ;
           
-          /// Called when the model trait has changed.
-          virtual void onUpdate() ;
-        
         private:
 
           /// Calculate the object on which this force applies. 

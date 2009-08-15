@@ -219,5 +219,28 @@ namespace ProjetUnivers
       return NULL ;
     }
 
+    template <class _View> _View* Model::getView(const Relation& relation) const
+    {
+      std::map<Relation,std::set<BaseRelationView*> >::const_iterator finder =
+          m_relation_views.find(relation) ;
+
+      if (finder != m_relation_views.end())
+      {
+        for(std::set<BaseRelationView*>::const_iterator view = finder->second.begin() ; view != finder->second.end() ; ++view)
+        {
+          _View* result = dynamic_cast<_View*>(*view) ;
+          if (result)
+            return result ;
+        }
+      }
+
+      return NULL ;
+    }
+
+    template <class _View> _View* Relation::getView() const
+    {
+      return getObjectFrom()->getModel()->getView<_View>(*this) ;
+    }
+
   }
 }

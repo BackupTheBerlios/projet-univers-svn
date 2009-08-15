@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007 Mathieu ROGER                                      *
+ *   Copyright (C) 2007-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -100,6 +100,13 @@ namespace ProjetUnivers
       const xmlChar* name = xmlTextReaderConstName(m_reader) ;
       
       return isBeginNode() && xmlStrEqual(name,(const xmlChar*)"object") == 1 ;
+    }
+
+    bool XMLReader::isRelationNode() const
+    {
+      const xmlChar* name = xmlTextReaderConstName(m_reader) ;
+
+      return isBeginNode() && xmlStrEqual(name,(const xmlChar*)"Relation") == 1 ;
     }
 
     int XMLReader::getObjectIdentifier() const

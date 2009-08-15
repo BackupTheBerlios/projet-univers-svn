@@ -4220,15 +4220,6 @@ namespace ProjetUnivers {
 //                  << std::endl ;
       }
 
-      void TestODE::setUp()
-      {
-        Kernel::Parameters::load("demonstration.config") ;
-      }
-
-      void TestODE::tearDown()
-      {
-      }
-
 
     }
   }

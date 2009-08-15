@@ -18,8 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_MODEL_H_
-#define PU_MODEL_MODEL_H_
+#pragma once
 
 #include <string>
 #include <model/duration.h>
@@ -37,7 +36,7 @@ namespace ProjetUnivers
   /*!
   @par Introduction
   
-    Model part of Model/View/Control. Functionnal core.
+    Model part of Model/View/Control. Functional core.
     
     This module contains all data about manipulated objects in the game 
     regardless of displaying and events that triggers modifications.
@@ -52,15 +51,15 @@ namespace ProjetUnivers
     /// Load a model from disk.
     void load(const std::string& name,Kernel::Model* model) ;
     
-    /// Load and init external ressources.
+    /// Load and initialize external resources.
     void initRessources() ;
     
-    /// Unload and close external ressources.
+    /// Unload and close external resources.
     void closeRessources() ;
 
   //@}
   /*!
-    @name Specialised Modification Interface
+    @name Specialized Modification Interface
     
   */
   // @{
@@ -96,6 +95,3 @@ namespace ProjetUnivers
   
   }
 }
-
-#endif
-

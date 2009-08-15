@@ -205,9 +205,22 @@ namespace ProjetUnivers
       return result ;
     }
     
+    template <class T> std::set<Object*> Object::getChildrenObjects() const
+    {
+      std::set<Object*> result ;
+      std::set<T*> traits(getChildren<T>()) ;
+
+      for(typename std::set<T*>::const_iterator trait = traits.begin() ; trait != traits.end() ; ++trait)
+      {
+        result.insert((*trait)->getObject()) ;
+      }
+
+      return result ;
+    }
+
     template <class T> T* Object::getChild() const
     {
-      std::set<T*> temp(getDescendants<T>()) ;
+      std::set<T*> temp(getChildren<T>()) ;
       if (temp.size() == 1)
         return *temp.begin() ;
       return NULL ;

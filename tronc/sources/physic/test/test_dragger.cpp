@@ -111,11 +111,6 @@ namespace ProjetUnivers {
         InternalMessage("Physic","Physic::Test::TestDragger::basicTest leaving") ;
       }
 
-      void TestDragger::setUp()
-      {
-        Kernel::Parameters::load("demonstration.config") ;
-      }
-
 
     }
   }

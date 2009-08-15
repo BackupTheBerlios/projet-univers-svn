@@ -85,8 +85,9 @@ namespace ProjetUnivers
     {
       if (m_really_initialised)
       {
-        onClose() ;
+        m_initialised = false ;
         m_really_initialised = false ;
+        onClose() ;
       }
     }
 

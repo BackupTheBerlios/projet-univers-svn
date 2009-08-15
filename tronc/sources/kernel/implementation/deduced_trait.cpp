@@ -220,6 +220,11 @@ namespace ProjetUnivers
       return VoidTypeIdentifier ;
     }
 
+    TypeIdentifier DeducedRelation::getPrimitive(const TypeIdentifier& deduced)
+    {
+      return StaticStorage::get()->m_deduced_to_primitive_relation[deduced] ;
+    }
+
     std::set<Formula*> DeducedRelation::getFormulae(const TypeIdentifier& primitive_relation)
     {
       std::set<Formula*> result ;
@@ -257,19 +262,29 @@ namespace ProjetUnivers
 
     std::string Formula::print() const
     {
-      std::string result(internalPrint() + "(") ;
+      std::string result(internalPrint()) ;
 
-      for(std::set<Formula*>::const_iterator child = m_children.begin() ;
-          child != m_children.end() ;
-          ++child)
+      if (!m_children.empty())
       {
-        if (child==m_children.begin())
-          result += (*child)->print() ;
-        else
-          result += "," + (*child)->print() ;
-      }
+        result += "(" ;
 
-      return result + ")" ;
+        for(std::set<Formula*>::const_iterator child = m_children.begin() ;
+            child != m_children.end() ;
+            ++child)
+        {
+          if (child==m_children.begin())
+            result += (*child)->print() ;
+          else
+            result += "," + (*child)->print() ;
+        }
+        result += ")" ;
+      }
+      return result ;
+    }
+
+    std::string Formula::internalPrint() const
+    {
+      return "" ;
     }
 
     void Formula::addChild(Formula* formula)
@@ -425,9 +440,49 @@ namespace ProjetUnivers
       return *m_children.begin() ;
     }
 
-    std::string IsRelatedFormula::internalPrint() const
+    std::set<Object*> WithRelationFormula::getRelated(Object* object) const
     {
-      std::string result = "IsRelated(" + m_relation.fullName() + "," ;
+      Model* model = object->getModel() ;
+      if (m_is_inversed)
+        return model->getInverseRelations(m_relation,object) ;
+      else
+        return model->getRelations(m_relation,object) ;
+    }
+
+    std::set<Object*> WithRelationFormula::getInverseRelated(Object* object) const
+    {
+      Model* model = object->getModel() ;
+      if (m_is_inversed)
+        return model->getRelations(m_relation,object) ;
+      else
+        return model->getInverseRelations(m_relation,object) ;
+    }
+
+    Object* WithRelationFormula::getObjectFrom(const Relation& relation) const
+    {
+      if (m_is_inversed)
+        return relation.getObjectTo() ;
+      else
+        return relation.getObjectFrom() ;
+    }
+
+    Object* WithRelationFormula::getObjectTo(const Relation& relation) const
+    {
+      if (m_is_inversed)
+        return relation.getObjectFrom() ;
+      else
+        return relation.getObjectTo() ;
+    }
+
+
+    std::string IsRelatedFormula::print() const
+    {
+      std::string result = "IsRelated(" ;
+      if (m_is_inversed)
+        result = result + "Inversed<" + m_relation.fullName() + ">" ;
+      else
+        result += m_relation.fullName() ;
+      result += "," ;
       std::string children ;
       for(std::set<Formula*>::const_iterator child = m_children.begin() ; child != m_children.end() ; ++child)
       {
@@ -439,18 +494,20 @@ namespace ProjetUnivers
       return result + children + ")" ;
     }
 
-    WithRelationFormula::WithRelationFormula(const TypeIdentifier& relation)
-    : m_relation(relation)
+    WithRelationFormula::WithRelationFormula(const TypeIdentifier& relation,
+                                             const bool& is_inversed)
+    : m_relation(relation),
+      m_is_inversed(is_inversed)
     {
       generateIdentifier() ;
       StaticStorage::get()->m_formulae[relation].insert(this) ;
     }
 
-    IsRelatedFormula::IsRelatedFormula(const TypeIdentifier& relation)
-    : WithRelationFormula(relation)
+    IsRelatedFormula::IsRelatedFormula(const TypeIdentifier& relation,const bool& is_inversed)
+    : WithRelationFormula(relation,is_inversed)
     {}
 
-    std::string IsOnlyRelatedFormula::internalPrint() const
+    std::string IsOnlyRelatedFormula::print() const
     {
       std::string result = "IsOnlyRelated(" + m_relation.fullName() + "," ;
       std::string children ;
@@ -464,8 +521,8 @@ namespace ProjetUnivers
       return result + children + ")" ;
     }
 
-    IsOnlyRelatedFormula::IsOnlyRelatedFormula(const TypeIdentifier& relation)
-    : WithRelationFormula(relation)
+    IsOnlyRelatedFormula::IsOnlyRelatedFormula(const TypeIdentifier& relation,const bool& is_inversed)
+    : WithRelationFormula(relation,is_inversed)
     {}
 
     FormulaOnRelation::FormulaOnRelation()
@@ -531,6 +588,7 @@ namespace ProjetUnivers
     {
       StaticStorage::get()->m_deduced_relations[formula] = relation ;
       StaticStorage::get()->m_primitive_relation_to_formulae.insert(std::make_pair(primitive_relation,formula)) ;
+      StaticStorage::get()->m_deduced_to_primitive_relation[relation] = primitive_relation ;
     }
 
     std::set<Notifiable*> Formula::getDependentNotifiables(Object* object) const
@@ -845,6 +903,11 @@ namespace ProjetUnivers
       return object->getTrait(m_trait) ;
     }
 
+    bool TraitFormula::isValid(const ObjectPair&) const
+    {
+      return false ;
+    }
+
     void HasParentFormula::eval(Object* object)
     {
       unsigned int number_of_parents = object->getNumberOfParent(getChildFormula()) ;
@@ -869,7 +932,8 @@ namespace ProjetUnivers
     void IsRelatedFormula::eval(Object* object)
     {
       Formula* formula = *m_children.begin() ;
-      std::set<Object*> related(object->getModel()->getRelations(m_relation,object)) ;
+      std::set<Object*> related(getRelated(object)) ;
+
       unsigned int number_of_true_related = 0 ;
       for(std::set<Object*>::iterator related_object = related.begin() ; related_object != related.end() ; ++ related_object)
       {
@@ -884,7 +948,7 @@ namespace ProjetUnivers
     void IsOnlyRelatedFormula::eval(Object* object)
     {
       Formula* formula = *m_children.begin() ;
-      std::set<Object*> related(object->getModel()->getRelations(m_relation,object)) ;
+      std::set<Object*> related(getRelated(object)) ;
       unsigned int number_of_true_related = 0 ;
       for(std::set<Object*>::iterator related_object = related.begin() ; related_object != related.end() ; ++ related_object)
       {
@@ -1002,12 +1066,8 @@ namespace ProjetUnivers
       short true_child = object->getNumberOfTrueChildFormulae(this) ;
       object->setNumberOfTrueChildFormulae(this,true_child-1) ;
 
-      bool local_may_update = may_update && ( !getChildFormula()->isValid(object) || object == removed_parent) ;
-
-      if (true_child <= 0)
-      {
-        throw ExceptionKernel("HasParentFormula::removeParent") ;
-      }
+      bool local_may_update = may_update &&
+           (!getChildFormula()->isValid(object) || object == removed_parent) ;
 
       if (true_child == 1)
       {
@@ -1322,7 +1382,7 @@ namespace ProjetUnivers
 
       if (true_child <= 0)
       {
-        throw ExceptionKernel("HasAncestorFormula::removeAncestor") ;
+        throw ExceptionKernel("HasAncestorFormula::removeAncestor " + this->print()) ;
       }
 
       object->setNumberOfTrueChildFormulae(this,true_child-1) ;
@@ -1448,8 +1508,12 @@ namespace ProjetUnivers
         destructor = StaticStorage::get()->m_destructors.find(formula) ;
         if (destructor != StaticStorage::get()->m_destructors.end())
         {
-
           DeducedTrait* removed = (DeducedTrait*)object->getTrait(destructor->second) ;
+
+          // may be NULL ... if we already have removed the trait for another reason
+          if (!removed)
+            return ;
+
           // deduced trait removed
           std::set<Notifiable*> updaters(formula->getUpdaterNotifiables(object)) ;
 
@@ -1474,7 +1538,7 @@ namespace ProjetUnivers
 
       if (relation != VoidTypeIdentifier)
       {
-        if (validity)
+        if (validity && Relation::_areLinked(getPrimitive(relation),pair.getObjectFrom(),pair.getObjectTo()))
         {
           // add a link
           Relation* new_relation(Relation::createLink(relation,pair.getObjectFrom(),pair.getObjectTo())) ;
@@ -1488,7 +1552,7 @@ namespace ProjetUnivers
             (*updater)->addDependency(new_relation) ;
           }
         }
-        else
+        else if (Relation::_areLinked(relation,pair.getObjectFrom(),pair.getObjectTo()))
         {
           // remove a link
           Relation::destroyLink(relation,pair.getObjectFrom(),pair.getObjectTo()) ;
@@ -1885,7 +1949,7 @@ namespace ProjetUnivers
 
     void WithRelationFormula::onAddChildFormulaTrue(Object* object)
     {
-      std::set<Object*> objects(object->getModel()->getInverseRelations(m_relation,object)) ;
+      std::set<Object*> objects(getInverseRelated(object)) ;
       for(std::set<Object*>::iterator related = objects.begin() ; related != objects.end() ; ++related)
       {
         short true_related = (*related)->getNumberOfTrueChildFormulae(this) ;
@@ -1901,7 +1965,7 @@ namespace ProjetUnivers
 
     void WithRelationFormula::onAddChildFormulaFalse(Object* object)
     {
-      std::set<Object*> objects(object->getModel()->getInverseRelations(m_relation,object)) ;
+      std::set<Object*> objects(getInverseRelated(object)) ;
       for(std::set<Object*>::iterator related = objects.begin() ; related != objects.end() ; ++related)
       {
         short true_related = (*related)->getNumberOfTrueChildFormulae(this) ;
@@ -1954,7 +2018,7 @@ namespace ProjetUnivers
 
     void WithRelationFormula::onChildFormulaUpdated(Object* object)
     {
-      std::set<Object*> objects(object->getModel()->getInverseRelations(m_relation,object)) ;
+      std::set<Object*> objects(getInverseRelated(object)) ;
       for(std::set<Object*>::iterator related = objects.begin() ; related != objects.end() ; ++related)
       {
         update(*related) ;
@@ -1963,8 +2027,7 @@ namespace ProjetUnivers
 
     void IsOnlyRelatedFormula::onAddTrueRelated(Object* from,Object* new_to)
     {
-      if ((unsigned int)from->getNumberOfTrueChildFormulae(this) ==
-          from->getModel()->getRelations(m_relation,from).size())
+      if ((unsigned int)from->getNumberOfTrueChildFormulae(this) == getRelated(from).size())
 
       {
         if (!isValid(from))
@@ -1991,7 +2054,9 @@ namespace ProjetUnivers
     void IsOnlyRelatedFormula::onAddFalseRelated(Object* from,Object*)
     {
       if (isValid(from))
+      {
         becomeFalse(from) ;
+      }
     }
 
     void WithRelationFormula::onAddRelation(const Relation& relation)
@@ -2007,15 +2072,17 @@ namespace ProjetUnivers
         {
           Formula* child_formula = *((*formula)->m_children.begin()) ;
 
-          if (child_formula->isValid(relation.getObjectTo()))
+          Object* from = (*formula)->getObjectFrom(relation) ;
+          Object* to = (*formula)->getObjectTo(relation) ;
+          if (child_formula->isValid(to))
           {
-            short true_related = relation.getObjectFrom()->getNumberOfTrueChildFormulae(*formula) ;
-            relation.getObjectFrom()->setNumberOfTrueChildFormulae(*formula,true_related+1) ;
-            (*formula)->onAddTrueRelated(relation.getObjectFrom(),relation.getObjectTo()) ;
+            short true_related = from->getNumberOfTrueChildFormulae(*formula) ;
+            from->setNumberOfTrueChildFormulae(*formula,true_related+1) ;
+            (*formula)->onAddTrueRelated(from,to) ;
           }
-          else if ((*formula)->isValid(relation.getObjectFrom()))
+          else if ((*formula)->isValid(from))
           {
-            (*formula)->onAddFalseRelated(relation.getObjectFrom(),relation.getObjectTo()) ;
+            (*formula)->onAddFalseRelated(from,to) ;
           }
         }
       }
@@ -2034,11 +2101,14 @@ namespace ProjetUnivers
         {
           Formula* child_formula = *((*formula)->m_children.begin()) ;
 
-          if (child_formula->isValid(relation.getObjectTo()))
+          Object* from = (*formula)->getObjectFrom(relation) ;
+          Object* to = (*formula)->getObjectTo(relation) ;
+
+          if (child_formula->isValid(to))
           {
-            short true_related = relation.getObjectFrom()->getNumberOfTrueChildFormulae(*formula) ;
-            relation.getObjectFrom()->setNumberOfTrueChildFormulae(*formula,true_related-1) ;
-            (*formula)->onAddFalseRelated(relation.getObjectFrom(),relation.getObjectTo()) ;
+            short true_related = from->getNumberOfTrueChildFormulae(*formula) ;
+            from->setNumberOfTrueChildFormulae(*formula,true_related-1) ;
+            (*formula)->onAddFalseRelated(from,to) ;
           }
         }
       }
@@ -2129,7 +2199,7 @@ namespace ProjetUnivers
       Object* object = element.getObject() ;
 
       if (!object)
-        throw ExceptionKernel("TraitFormula::getUpdaterNotifiables") ;
+        throw ExceptionKernel("TraitFormula::getUpdaterNotifiables " + this->print()) ;
 
       Trait* trait = object->getTrait(m_trait) ;
       if (trait)
@@ -2238,8 +2308,7 @@ namespace ProjetUnivers
       Object* object = element.getObject() ;
 
       Formula* formula = *m_children.begin() ;
-      Model* model = object->getModel() ;
-      std::set<Object*> objects(model->getRelations(m_relation,object)) ;
+      std::set<Object*> objects(getRelated(object)) ;
       for(std::set<Object*>::iterator related = objects.begin() ; related != objects.end() ; ++related)
       {
         if (formula->isValid(*related))
