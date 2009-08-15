@@ -46,6 +46,8 @@ namespace ProjetUnivers
     
       std::string getContent() const ;
       
+      virtual ~XMLWriter() ;
+
     protected:
       
       virtual void startTrait(const std::string&) ;

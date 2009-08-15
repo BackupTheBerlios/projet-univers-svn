@@ -82,6 +82,8 @@ namespace ProjetUnivers
       /// Access to attribute values.
       virtual const std::map<std::string,std::string>& getAttributes() const ;
     
+      virtual ~XMLReader() ;
+
     private:
 
       /// Constructor.

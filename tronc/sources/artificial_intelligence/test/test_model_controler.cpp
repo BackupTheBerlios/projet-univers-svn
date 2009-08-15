@@ -292,6 +292,8 @@ namespace ProjetUnivers
           Kernel::Object* agent = Model::createAI(ship) ;
           agent->getTrait<Model::WithObjectives>()->addObjective(Model::Objective::attackAllEnemies()) ;
           ship1 = ship ;
+
+          ship->destroyTrait(ship->getTrait<Model::Destroyable>()) ;
         }
 
         CPPUNIT_ASSERT(ship1->getModel()==model.get()) ;
@@ -306,13 +308,13 @@ namespace ProjetUnivers
           ship2 = ship ;
         }
 
-        for(int i = 0 ; i < 1000 ; ++i)
+        for(int i = 0 ; i < 3000 ; ++i)
         {
           model->update(0.1) ;
         }
 
         // at least one ship has been destroyed (in fact both?)
-        CPPUNIT_ASSERT(!ship1 || !ship2) ;
+        CPPUNIT_ASSERT(!ship2) ;
 
         InternalMessage("AI","AI::TestModelControler::twoShips leaving") ;
       }
@@ -378,7 +380,7 @@ namespace ProjetUnivers
 
         // team1 cannot be destroyed -> it should win and destroy ship3/ship4
 
-        for(int i = 0 ; i < 400 ; ++i)
+        for(int i = 0 ; i < 1000 ; ++i)
         {
           model->update(0.1) ;
         }

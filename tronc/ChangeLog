@@ -1393,6 +1393,11 @@
 
   * Physic :
     - corrected a bug on force generator
+
+2009-08-15
+
+  * Kernel :
+    - corrected seg fault
     
 in commit
 --------

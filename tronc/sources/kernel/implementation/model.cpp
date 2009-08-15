@@ -179,12 +179,16 @@ namespace ProjetUnivers
 
     Model::~Model()
     {
+      InternalMessage("Kernel",Kernel::toString(m_controler_sets.size())) ;
+      m_destroying = true ;
+
       /// 1. close all controller sets
       for(std::set<ControlerSet*>::iterator controler_set = m_controler_sets.begin() ;
           controler_set != m_controler_sets.end() ;
           ++controler_set)
       {
         (*controler_set)->close() ;
+        // @todo here valgrind detect an invalid read, windows version seg fault
         delete (*controler_set) ;
       }
 
@@ -194,10 +198,9 @@ namespace ProjetUnivers
           ++viewpoint)
       {
         (*viewpoint)->close() ;
+        // @todo here valgrind detect an invalid read, windows version seg fault
         delete *viewpoint ;
       }
-
-      m_destroying = true ;
 
       m_relations.clear() ;
 

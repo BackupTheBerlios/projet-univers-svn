@@ -31,6 +31,12 @@ namespace ProjetUnivers
     
     #define MY_ENCODING "ISO-8859-1"
     
+    XMLWriter::~XMLWriter()
+    {
+      xmlFreeTextWriter(m_writer) ;
+      xmlBufferFree(m_buffer) ;
+    }
+
     XMLWriter* XMLWriter::getFileWriter(const std::string& file)
     {
       XMLWriter* result = new XMLWriter() ;

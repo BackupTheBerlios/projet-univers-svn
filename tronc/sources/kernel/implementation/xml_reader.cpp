@@ -45,6 +45,11 @@ namespace ProjetUnivers
       }
     }
 
+    XMLReader::~XMLReader()
+    {
+      xmlFreeTextReader(m_reader) ;
+    }
+
     bool XMLReader::processNode()
     {
       if (m_reader == NULL)
