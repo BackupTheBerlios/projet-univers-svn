@@ -41,22 +41,8 @@ namespace ProjetUnivers
         
         PhysicSystem::PhysicSystem(Kernel::Model* model)
         : Kernel::ControlerSet(model)
-        {}
-
-        void PhysicSystem::simulate(const float& seconds)
         {
-          InternalMessage("Physic","Ode::PhysicSystem::simulate preparation") ;
-          
-          /// 1. apply all force/torque on objects
-          applyTopDown(&Kernel::BaseControler::prepare) ;
-          
-          /// 2. simulate all world top down and update model
-          boost::function2<void,
-                           Kernel::BaseControler*,
-                           float> f 
-                              = &Kernel::BaseControler::simulate ;
-
-          applyTopDown(std::bind2nd(f,m_timestep)) ;
+          setTimeStep(0.1) ;
         }
         
         void PhysicSystem::onInit()

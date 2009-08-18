@@ -113,6 +113,11 @@ namespace ProjetUnivers
         void initNotTrait() ;
         void dependentTraitsAreInitAfter() ;
 
+        /// Check that a controller is after what it depends on.
+        void dependencyOrderFollowsDependencies() ;
+
+        void destroyObjectDuringSimulationShouldCloseTheControler() ;
+
       // @}
 
 
@@ -138,6 +143,8 @@ namespace ProjetUnivers
 //        CPPUNIT_TEST(onUpdateIsConcurrentOnDelete) ;
         CPPUNIT_TEST(initNotTrait) ;
         CPPUNIT_TEST(dependentTraitsAreInitAfter) ;
+        CPPUNIT_TEST(dependencyOrderFollowsDependencies) ;
+        CPPUNIT_TEST(destroyObjectDuringSimulationShouldCloseTheControler) ;
 
         CPPUNIT_TEST_SUITE_END() ;
 

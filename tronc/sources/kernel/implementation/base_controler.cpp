@@ -35,6 +35,8 @@ namespace ProjetUnivers
       {
         m_trait->_remove_controler(m_controler_set,this) ;
       }
+
+      m_controler_set->destroyController(this) ;
     }
 
     BaseControler::BaseControler()
@@ -49,7 +51,7 @@ namespace ProjetUnivers
     void BaseControler::realInit()
     {
       /*!
-        We initialise only if the controler set has been initialised.
+        We initialize only if the controller set has been initialized.
       */
       if (m_controler_set)
       {
@@ -57,8 +59,15 @@ namespace ProjetUnivers
         {
           onInit() ;
           m_really_initialised = true ;
+          m_controler_set->addControler(this) ;
         }
       }
+    }
+
+    void BaseControler::realClose()
+    {
+      Observer::realClose() ;
+      m_controler_set->removeControler(this) ;
     }
 
     ControlerSet* BaseControler::getControlerSet() const
@@ -73,5 +82,25 @@ namespace ProjetUnivers
     void BaseControler::simulate(const float&)
     {
     }
+
+    bool BaseControler::DependencyOrder::operator()(BaseControler* const & x,BaseControler* const & y) const
+    {
+      if (y->getTrait()->dependsOn(x->getTrait()))
+        return true ;
+
+      if (x->getTrait()->dependsOn(y->getTrait()))
+        return false ;
+
+      // unrelated through dependencies : we still need an order
+      return x < y ;
+    }
+
+    std::string BaseControler::toString() const
+    {
+      std::string result(getObjectTypeIdentifier(this).fullName()) ;
+
+      return result + "(" + Kernel::toString(getObject()->getIdentifier()) + ")" ;
+    }
+
   }
 }

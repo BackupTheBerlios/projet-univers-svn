@@ -147,7 +147,7 @@ namespace ProjetUnivers
         Kernel::ControlerSet* physics = model->getControlerSet<Implementation::Ode::PhysicSystem>() ;
         CPPUNIT_ASSERT(physics) ;
 
-        Implementation::Ode::PhysicalObject* body = ship->getTrait<Model::PhysicalObject>()->getControler<Implementation::Ode::PhysicalObject>(physics) ;
+        Implementation::Ode::PhysicalObject* body = ship->getTrait<Implementation::PhysicalObject>()->getControler<Implementation::Ode::PhysicalObject>(physics) ;
         CPPUNIT_ASSERT(body) ;
 
         {

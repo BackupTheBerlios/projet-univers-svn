@@ -30,16 +30,13 @@ namespace ProjetUnivers
     namespace Implementation
     {
     
-      /// Standard controler set for AI calculus.
+      /// Standard controller set for AI calculus.
       class AISystem : public Kernel::ControlerSet
       {
       public:
         
-        /// Build the controler set.
+        /// Build the controller set.
         AISystem(Kernel::Model* model) ;
-        
-        /// Simulate the system during @c seconds seconds.
-        virtual void simulate(const float& seconds) ;
         
       };
     }    

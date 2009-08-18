@@ -27,10 +27,14 @@
 #include <physic/implementation/ode/ode.h>
 #include <physic/implementation/ode/collideable.h>
 
-namespace ProjetUnivers {
-  namespace Physic {
-    namespace Implementation {
-      namespace Ode {
+namespace ProjetUnivers
+{
+  namespace Physic
+  {
+    namespace Implementation
+    {
+      namespace Ode
+      {
 
         bool Collideable::canCollide(const dGeomID& g1,const dGeomID& g2)
         {

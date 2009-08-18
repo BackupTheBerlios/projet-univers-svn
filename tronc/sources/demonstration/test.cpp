@@ -52,15 +52,15 @@ int main(int argc,char** argv)
   try
   {
     TCLAP::CmdLine cmd("Command description message",' ',"1") ;
-    TCLAP::ValueArg<int> number("n","number","number of ships",true,5,"integer") ;
+    TCLAP::ValueArg<int> number("n","number","number of ships",false,5,"integer") ;
     cmd.add(number) ;
 
-    TCLAP::ValueArg<int> frame("f","frame","number of frame",false,1000,"integer") ;
-    cmd.add(frame) ;
+    TCLAP::ValueArg<int> time("t","time","duration in seconds (default 1)",false,1,"integer") ;
+    cmd.add(time) ;
 
     cmd.parse(argc,argv) ;
     Kernel::Parameters::setValue<float>("Test","numberOfShips",number.getValue()) ;
-    Kernel::Parameters::setValue<float>("Test","NumberOfFrame",frame.getValue()) ;
+    Kernel::Parameters::setValue<float>("Test","Duration",time.getValue()) ;
   }
   catch(...)
   {
@@ -79,14 +79,14 @@ int main(int argc,char** argv)
   model->init() ;
   Model::load("test",model.get()) ;
 
-  int number_of_frame = (int)Kernel::Parameters::getValue<float>("Test","NumberOfFrame",3) ;
+  int duration = (int)Kernel::Parameters::getValue<float>("Test","Duration",3) ;
 
   Kernel::Timer timer ;
   int n = 0 ;
 
   Kernel::Timer global_timer ;
 
-  while (n <= number_of_frame)
+  while (global_timer.getSecond() < duration)
   {
     float seconds = timer.getSecond() ;
     if (seconds > 0)
@@ -97,7 +97,7 @@ int main(int argc,char** argv)
     }
   }
 
-  std::cout << global_timer.getSecond() << std::endl ;
+  std::cout << "number of frame per second " << (float)n/duration << std::endl ;
 
   model->close() ;
 

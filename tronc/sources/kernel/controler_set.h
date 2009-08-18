@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,12 +18,12 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_KERNEL_CONTROLER_SET_H_
-#define PU_KERNEL_CONTROLER_SET_H_
+#pragma once
 
 #include <list>
 #include <boost/function.hpp>
 #include <kernel/helper_macros.h>
+#include <kernel/base_controler.h>
 
 namespace ProjetUnivers 
 {
@@ -32,70 +32,73 @@ namespace ProjetUnivers
   
     class Model ;
     class Object ;
-    class BaseControler ;
     class ControlerSetRegistration ;
     
-    /// A set of coherent controlers.
+    /// A set of coherent controllers.
     class ControlerSet
     {
     public:
 
-      /// Set the simulation time step in seconds. 
+      /// Set the simulation time step in seconds.
+      /*!
+        When one wants a fixed timestep for simulation, e.g. for physics.
+        If one does not want a fixed timestep just let it to zero (default).
+      */
       void setTimeStep(const float& timestep) ;
       
-      /// Initialise the controler set.
+      /// Initialize the controller set.
       void init() ;
 
       /// Change the model.
       void setModel(Model* model) ;
       
-      /// Close the controler set.
+      /// Close the controller set.
       void close() ;
 
-      /// Simulate all controlers top down.
+      /// Called just before simulation.
+      virtual void beforeSimulation(const float& seconds) ;
+
+      /// Simulate all controllers top down.
       /*!
         Can be overridden for specific purpose. 
       */
       virtual void simulate(const float& seconds) ;
 
+      /// Called just before simulation.
+      virtual void afterSimulation(const float& seconds) ;
+
       /// Perform the simulation.
       void update(const float& seconds) ;
       
-      /// True iff the controler set has been initialised
+      /// True iff the controller set has been initialized
       bool isInitialised() const ; 
       
       /// Abstract class means virtual destructor.
       virtual ~ControlerSet() ;
 
-      /// Statistics managment.
+      /// Statistics management.
       float getStatistics() const ;
       void resetStatistics() ;
       
     protected:
       
-      /// Build all the registered controler sets on @c model.
-      /*!
-        ControlerSets can be registered through RegisterControlerSet macro.
-      */
-      static void buildRegistered(Model* model) ;
-      
-      /// called during initialisation before controlers initialisation.
+      /// called during initialization before controllers initialization.
       /*!
         Default implementation does nothing. Specific viewpoint should 
         probably redefine this.
       */
       virtual void onInit() ;
 
-      /// called during closing after controlers closing.
+      /// called during closing after controllers closing.
       /*!
-        Default implementation does nothing. Specific controler set should 
+        Default implementation does nothing. Specific controller set should
         probably redefine this.
       */
       virtual void onClose() ;
 
-      /// Should @c i_object should have controlers for that controler set.
+      /// Should @c i_object should have controllers for that controller set.
       /*!
-        Should be redefined for specialised viewpoints. Default implementation 
+        Should be redefined for specialized viewpoints. Default implementation
         returns true.
         
         @invariant
@@ -105,14 +108,20 @@ namespace ProjetUnivers
       */
       virtual bool isVisible(Object* object) const ;
  
-      /// Apply a procedure on all controlers.
+      /// Apply a procedure on all controllers.
       void applyTopDown(boost::function1<void,BaseControler*> procedure) ;
  
-      /// Apply a procedure on all controlers.
+      /// Apply a procedure on all controllers.
       void applyBottomUp(boost::function1<void,BaseControler*> procedure) ;
-      
+
       /// Abstract class means protected constructor.
       ControlerSet(Model* model) ;
+      
+      /// Build all the registered controller sets on @c model.
+      /*!
+        ControlerSets can be registered through RegisterControlerSet macro.
+      */
+      static void buildRegistered(Model* model) ;
       
       Model* m_model ;
       bool   m_initialised ;
@@ -127,17 +136,31 @@ namespace ProjetUnivers
       float m_consumed_time ;
       float m_simulation_time ;
       
-      /// Function that build a controler set.
+
+      /// Add an initialized controller.
+      void addControler(BaseControler*) ;
+      void removeControler(BaseControler*) ;
+
+      /// If called it is an error.
+      void destroyController(BaseControler*) ;
+
+      /// Controllers
+      /*!
+        Only contains initialized controllers.
+      */
+      std::list<BaseControler*> m_controllers ;
+
+      /// Function that build a controller set.
       typedef boost::function1<ControlerSet*, Model*> ControlerSetBuilder ;
 
       /// Static storage
       /*!
-        Because static variable dynamic initialisation occurs in an undefined 
+        Because static variable dynamic initialization occurs in an undefined
         order, we use this hook. By calling : 
         <code>
           StaticStorage::get()->variable...
         </code>
-        we are assured that map are dynamically initialised on demand.
+        we are assured that map are dynamically initialized on demand.
       */
       class StaticStorage
       {
@@ -155,16 +178,17 @@ namespace ProjetUnivers
         
       };
       
-      /// Register a controler set builder.
+      /// Register a controller set builder.
       static void registerBuilder(ControlerSetBuilder) ;
       
       
       friend class Object ;
       friend class Model ;
       friend class ControlerSetRegistration ;
+      friend class BaseControler ;
     };
 
-    /// Register a controler set
+    /// Register a controller set
     #define RegisterControlerSet(ClassControlerSet) \
       namespace PU_MAKE_UNIQUE_NAME(RegisterControlerSet) {              \
         static ProjetUnivers::Kernel::ControlerSet*                      \
@@ -180,5 +204,3 @@ namespace ProjetUnivers
 }
 
 #include <kernel/implementation/controler_set.cxx>
-
-#endif /*PU_KERNEL_CONTROLER_SET_H_*/

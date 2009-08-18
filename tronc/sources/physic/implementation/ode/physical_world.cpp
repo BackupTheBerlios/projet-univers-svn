@@ -259,6 +259,11 @@ namespace ProjetUnivers
           }
         }
 
+        void PhysicalWorld::prepare()
+        {
+          m_has_been_simulated = false ;
+        }
+
         void PhysicalWorld::simulate(const float& i_seconds)
         {
           InternalMessage("Physic","Physic::PhysicalWorld::simulate " +
@@ -290,6 +295,8 @@ namespace ProjetUnivers
           }
 
           dJointGroupEmpty(m_contact_group) ;
+
+          m_has_been_simulated = true ;
 
           InternalMessage("Physic","PhysicalWorld::simulate " +
                                    Kernel::toString(getObject()->getIdentifier()) +

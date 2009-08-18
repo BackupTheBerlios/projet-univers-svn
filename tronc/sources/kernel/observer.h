@@ -95,7 +95,7 @@ namespace ProjetUnivers
       virtual void onUpdate() = 0 ;
 
       virtual void realInit() = 0 ;
-      void realClose() ;
+      virtual void realClose() ;
       void realUpdate() ;
       void realChangeParent(Object* old_parent) ;
 

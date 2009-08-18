@@ -47,7 +47,7 @@ namespace ProjetUnivers
         /*!
           @see Model::ForceGenerator
         */
-        class ForceGenerator : public Kernel::Controler<ForceGenerator,
+        class ForceGenerator : public Kernel::Controler<Implementation::ForceGenerator,
                                                         PhysicSystem>
         {
         public:

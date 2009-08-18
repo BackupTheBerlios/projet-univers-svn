@@ -1344,6 +1344,80 @@ namespace ProjetUnivers
         object->addTrait(new InitOrder::T2()) ;
       }
 
+      void TestModelControler::dependencyOrderFollowsDependencies()
+      {
+        InitOrder::C11::initialised = false ;
+
+        std::auto_ptr<Model> model(new Model()) ;
+        ControlerSet* controler_set = model->addControlerSet(new InitOrder::C1(model.get())) ;
+        controler_set->init() ;
+
+        ObjectReference object = model->createObject() ;
+        Trait* t1 = object->addTrait(new InitOrder::T1()) ;
+        object->addTrait(new InitOrder::T2()) ;
+
+        BaseControler* c1 = t1->getControler<InitOrder::C11>(controler_set) ;
+
+        // dt depends on t1 and t2
+        Trait* dt = object->getTrait<InitOrder::T12>() ;
+
+        BaseControler* ct = dt->getControler<InitOrder::C12>(controler_set) ;
+
+        BaseControler::DependencyOrder order ;
+
+        // Correct order + antisymmetry
+        CPPUNIT_ASSERT(order(c1,ct)) ;
+        CPPUNIT_ASSERT(!order(ct,c1)) ;
+
+        // irreflexivity
+        CPPUNIT_ASSERT(!order(c1,c1)) ;
+        CPPUNIT_ASSERT(!order(ct,ct)) ;
+      }
+
+      namespace
+      {
+        class Controler1 : public Controler<Trait1,TestControlerSet>
+        {
+        public:
+
+          void simulate(const float&)
+          {
+            getObject()->destroyObject() ;
+          }
+
+          void onClose()
+          {
+            ++m_number_of_close ;
+          }
+
+          static int m_number_of_close ;
+        };
+
+        int Controler1::m_number_of_close = 0 ;
+
+        RegisterControler(Controler1,Trait1,TestControlerSet) ;
+
+      }
+
+      void TestModelControler::destroyObjectDuringSimulationShouldCloseTheControler()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+        ControlerSet* controler_set = model->addControlerSet(new TestControlerSet(model.get())) ;
+        controler_set->init() ;
+
+        Controler1::m_number_of_close = 0 ;
+
+        model->createObject()->addTrait(new Trait1()) ;
+
+        CPPUNIT_ASSERT_EQUAL(0,Controler1::m_number_of_close) ;
+
+        model->startTransaction() ;
+        model->update(0.1) ;
+        model->update(0.1) ;
+        model->endTransaction() ;
+
+        CPPUNIT_ASSERT_EQUAL(1,Controler1::m_number_of_close) ;
+      }
 
     }
   }

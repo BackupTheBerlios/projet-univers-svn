@@ -40,9 +40,6 @@ namespace ProjetUnivers
           /// Contructs.
           PhysicSystem(Kernel::Model* model) ;
 
-          /// Simulate the system during @c i_seconds seconds.
-          virtual void simulate(const float& i_seconds) ;
-
         protected:
           
           /// Initialise ODE.

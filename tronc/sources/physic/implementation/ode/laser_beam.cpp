@@ -23,6 +23,7 @@
 #include <kernel/log.h>
 #include <model/laser_beam.h>
 #include <physic/implementation/ode/ode.h>
+#include <physic/implementation/ode/physical_object.h>
 #include <physic/implementation/ode/laser_beam.h>
 
 namespace ProjetUnivers
@@ -31,6 +32,10 @@ namespace ProjetUnivers
   {
     namespace Implementation
     {
+      DeclareDeducedTrait(LaserBeam,
+                          And(HasTrait(Implementation::PhysicalObject),
+                              HasTrait(Model::LaserBeam))) ;
+
       namespace Ode
       {
 

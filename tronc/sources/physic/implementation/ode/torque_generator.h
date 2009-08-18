@@ -33,6 +33,10 @@ namespace ProjetUnivers
   {
     namespace Implementation
     {
+
+      class TorqueGenerator : public Kernel::DeducedTrait
+      {} ;
+
       namespace Ode
       {
         
@@ -42,7 +46,7 @@ namespace ProjetUnivers
         /*!
           @see Model::TorqueGenerator
         */
-        class TorqueGenerator : public Kernel::Controler<Model::TorqueGenerator,
+        class TorqueGenerator : public Kernel::Controler<Implementation::TorqueGenerator,
                                                          PhysicSystem>
         {
         public:
@@ -55,15 +59,6 @@ namespace ProjetUnivers
           /// Called after the view is created on a initialized viewpoint.
           virtual void onInit() ;
           
-          /// Called just before the view is destroyed.
-          virtual void onClose() ;
-    
-          /// Called when parent changed.
-          virtual void onChangeParent(Kernel::Object* i_old_parent) ;
-          
-          /// Called when the model trait has changed.
-          virtual void onUpdate() ;
-        
         private:
 
           /// Calculate the object on which this torque applies. 

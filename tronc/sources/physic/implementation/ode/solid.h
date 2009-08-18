@@ -23,7 +23,6 @@
 #include <ode/ode.h>
 
 #include <kernel/controler.h>
-#include <physic/implementation/solid_physical_object.h>
 #include <physic/implementation/ode/collideable.h>
 #include <physic/implementation/ode/physic_system.h>
 
@@ -33,6 +32,10 @@ namespace ProjetUnivers
   {
     namespace Implementation
     {
+
+      class SolidPhysicalObject : public Kernel::DeducedTrait
+      {};
+
       namespace Ode
       {
         

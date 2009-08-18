@@ -43,13 +43,11 @@ namespace ProjetUnivers
         {
           start() ;
         }
-        
-        void GUIControlerSet::simulate(const float& seconds)
+        void GUIControlerSet::beforeSimulation(const float& seconds)
         {
           ::CEGUI::System::getSingleton().injectTimePulse(seconds) ;
-          
-          ControlerSet::simulate(seconds) ;
         }
+        
       }      
     }
   }

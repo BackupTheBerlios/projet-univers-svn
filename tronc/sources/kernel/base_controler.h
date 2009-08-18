@@ -30,44 +30,53 @@ namespace ProjetUnivers
     class ControlerSet ;
     class Object ;
 
-    /// A controler on a trait.
+    /// A controller on a trait.
     class BaseControler : public Observer
     {
     public:
 
-      /// Any controler does a simulation.
-      virtual void simulate(const float& seconds) ;
-
-      /// Some controlers prepare simulation.
+      /// Called just before simulation.
       virtual void prepare() ;
 
-      /// init the controler after construction.
+      /// Called during simulation.
+      virtual void simulate(const float& seconds) ;
+
+      /// Initialize the controller after construction.
       virtual void realInit() ;
 
       /// abstract class means virtual destructor.
       virtual ~BaseControler() ;
 
-      /// Access to controler set.
+      /// Access to controller set.
       ControlerSet* getControlerSet() const ;
 
-      /// Access to the first parent controler of the same controler set.
+      /// Access to the first parent controller of the same controller set.
       /*!
-        @return the first (up, by parentship) initialised controler
+        @return the first (up, by parentship) initialised controller
       */
       template <class _Controler> _Controler* getControler() const ;
 
-      /// Access to the first ancestor controler of the same controler set.
+      /// Access to the first ancestor controller of the same controller set.
       template <class _Controler> _Controler* getAncestorControler() const ;
+
+      /// Dependency order.
+      struct DependencyOrder
+      {
+        bool operator()(BaseControler* const & x,BaseControler* const & y) const ;
+      };
+
+      std::string toString() const ;
 
     protected:
 
       /// abstract class means protected constructor.
       BaseControler() ;
 
-
       ControlerSet* m_controler_set ;
 
     private:
+
+      virtual void realClose() ;
 
       void setControlerSet(ControlerSet* controler_set) ;
 

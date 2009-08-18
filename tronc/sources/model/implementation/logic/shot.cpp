@@ -36,13 +36,11 @@ namespace ProjetUnivers
                           Model::Shot, 
                           LogicSystem) ;
         
-        void Shot::simulate(const float& i_seconds)
+        void Shot::simulate(const float&)
         {
-          InternalMessage("Model","Shot::simulate entering") ;
-          // mark the shot object for destruction
           getObject()->destroyObject() ;
-          InternalMessage("Model","Shot::simulate leaving") ;
         }
+
       }      
     }
   }

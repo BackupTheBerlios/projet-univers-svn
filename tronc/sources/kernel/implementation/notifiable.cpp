@@ -111,5 +111,19 @@ namespace ProjetUnivers
       }
     }
 
+    bool Notifiable::dependsOn(const Notifiable* notifiable) const
+    {
+      /// @todo handle cycle in dependencies
+      for(std::set<Notifiable*>::const_iterator dependency = m_reverse_dependencies.begin() ; dependency != m_reverse_dependencies.end() ; ++dependency)
+      {
+        if (*dependency == notifiable)
+          return true ;
+
+        if ((*dependency)->dependsOn(notifiable))
+          return true ;
+      }
+
+      return false ;
+    }
   }
 }

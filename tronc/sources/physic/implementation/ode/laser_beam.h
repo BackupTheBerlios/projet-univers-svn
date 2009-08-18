@@ -23,7 +23,6 @@
 #include <ode/ode.h>
 
 #include <kernel/controler.h>
-#include <physic/implementation/laser_beam.h>
 #include <physic/implementation/ode/collideable.h>
 #include <physic/implementation/ode/physic_system.h>
 
@@ -33,6 +32,9 @@ namespace ProjetUnivers
   {
     namespace Implementation
     {
+      class LaserBeam : public Kernel::DeducedTrait
+      {};
+
       namespace Ode
       {
         

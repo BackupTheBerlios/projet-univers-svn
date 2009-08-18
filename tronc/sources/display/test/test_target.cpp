@@ -98,14 +98,29 @@ namespace ProjetUnivers
 
       }
 
+      void TestTarget::simulate(Kernel::Model* model,const float& time)
+      {
+        Kernel::Timer timer ;
+        Kernel::Timer global_timer ;
+
+        while (global_timer.getSecond() < time)
+        {
+          float seconds = timer.getSecond() ;
+          if (seconds != 0)
+          {
+            timer.reset() ;
+          }
+          model->update(seconds) ;
+        }
+      }
+
       void TestTarget::rotateObserverLeft(Kernel::Object* ship)
       {
         ship->getTrait<Model::Oriented>()
         ->setOrientation(ship->getTrait<Model::Oriented>()->getOrientation()*
                          Model::Orientation(::Ogre::Quaternion(::Ogre::Degree(45),::Ogre::Vector3::UNIT_Y))) ;
-        ship->getModel()->update(0.1) ;
-        ship->getModel()->update(0.1) ;
-        ship->getModel()->update(0.1) ;
+
+        simulate(ship->getModel(),0.3) ;
       }
 
       void TestTarget::selectedTarget()

@@ -33,16 +33,22 @@
 #include <physic/implementation/ode/physical_world.h>
 #include <physic/implementation/ode/physical_object.h>
 
-namespace ProjetUnivers {
-  namespace Physic {
-    namespace Implementation {
-      namespace Ode {
+namespace ProjetUnivers
+{
+  namespace Physic
+  {
+    namespace Implementation
+    {
+      DeclareDeducedTrait(PhysicalObject,And(HasTrait(Model::PhysicalObject),
+                                             HasAncestor(HasTrait(Model::PhysicalWorld))))
+
+      namespace Ode
+      {
+
 
         RegisterControler(PhysicalObject,
-                          Model::PhysicalObject,
+                          Implementation::PhysicalObject,
                           PhysicSystem) ;
-
-
 
         dBody* PhysicalObject::getBody() const
         {
@@ -205,6 +211,10 @@ namespace ProjetUnivers {
           InternalMessage("Physic","Ode::PhysicalObject::simulate " +
                                    Kernel::toString(getObject()->getIdentifier()) +
                                    " entering") ;
+
+          if (!getAncestorControler<PhysicalWorld>()->m_has_been_simulated)
+            InternalMessage("Physic","Ode::PhysicalObject::simulate error") ;
+
           updateModelPositionned() ;
           updateModelMobile() ;
           InternalMessage("Physic","Ode::PhysicalObject::simulate " +

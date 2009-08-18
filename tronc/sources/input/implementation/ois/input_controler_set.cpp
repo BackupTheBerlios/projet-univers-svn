@@ -42,14 +42,13 @@ namespace ProjetUnivers
           setTimeStep(0.02) ;
         }
         
-        void InputControlerSet::simulate(const float& seconds)
+        void InputControlerSet::beforeSimulation(const float& seconds)
         {
           Input::update(seconds) ;
-          boost::function2<void,Kernel::BaseControler*,float> 
-            f = &Kernel::BaseControler::simulate ;
-          
-          applyTopDown(std::bind2nd(f,seconds)) ;
-          
+        }
+
+        void InputControlerSet::afterSimulation(const float& seconds)
+        {
           Input::clear() ;
         }
         

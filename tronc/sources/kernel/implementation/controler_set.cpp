@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,6 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <algorithm>
 #include <kernel/model.h>
 #include <kernel/base_controler.h>
 #include <kernel/object.h>
@@ -45,6 +46,7 @@ namespace ProjetUnivers
     {
       Kernel::Timer timer ;
 
+      // timestep == 0 means no fixed timestep
       if (m_timestep==0)
       {
         this->simulate(seconds) ;
@@ -65,16 +67,63 @@ namespace ProjetUnivers
       m_simulation_time += seconds ;
     }
 
+    void ControlerSet::beforeSimulation(const float&)
+    {}
+
     void ControlerSet::simulate(const float& seconds)
     {
+      BaseControler::DependencyOrder order ;
 
-      boost::function2<void,
-                       BaseControler*,
-                       float> f
-                          = &BaseControler::simulate ;
+      m_controllers.sort(order) ;
 
-      applyTopDown(std::bind2nd(f,seconds)) ;
+//      for(std::list<BaseControler*>::iterator temp = controllers.begin() ; temp != controllers.end() ; ++temp)
+//      {
+//        for(std::list<BaseControler*>::iterator temp2 = temp ; temp2 != controllers.end() ; ++temp2)
+//        {
+//          if (temp2 != temp && !order(*temp,*temp2))
+//          {
+//            BaseControler* controler1 = *temp ;
+//            BaseControler* controler2 = *temp2 ;
+//
+//            order(*temp,*temp2) ;
+//
+//            throw ExceptionKernel("ControlerSet::simulate " + controler1->toString() +
+//                                  " " + controler2->toString()) ;
+//          }
+//        }
+//      }
+//
+//      std::string debug ;
+//
+//      for(std::list<BaseControler*>::iterator temp = controllers.begin() ; temp != controllers.end() ; ++temp)
+//      {
+//        BaseControler* controler = *temp ;
+//        debug = debug + " " + getObjectTypeIdentifier(controler).fullName() ;
+//      }
+
+
+      m_model->startTransaction() ;
+
+      beforeSimulation(seconds) ;
+
+      for(std::list<BaseControler*>::iterator controller = m_controllers.begin() ; controller != m_controllers.end() ; ++controller)
+      {
+        (*controller)->prepare() ;
+      }
+
+      for(std::list<BaseControler*>::iterator controller = m_controllers.begin() ; controller != m_controllers.end() ; ++controller)
+      {
+        (*controller)->simulate(seconds) ;
+      }
+
+      afterSimulation(seconds) ;
+
+      m_model->endTransaction() ;
+
     }
+
+    void ControlerSet::afterSimulation(const float&)
+    {}
 
     float ControlerSet::getStatistics() const
     {
@@ -149,7 +198,7 @@ namespace ProjetUnivers
     : m_model(model),
       m_initialised(false),
       m_elapsed(0),
-      m_timestep(0.1),
+      m_timestep(0),
       m_consumed_time(0),
       m_simulation_time(0)
     {}
@@ -211,6 +260,24 @@ namespace ProjetUnivers
         ControlerSet* controlerset = (*builder)(model) ;
         model->_register(controlerset) ;
       }
+    }
+
+    void ControlerSet::addControler(BaseControler* controler)
+    {
+      std::string debug = " " + getObjectTypeIdentifier(controler).fullName() ;
+
+      m_controllers.push_back(controler) ;
+    }
+
+    void ControlerSet::removeControler(BaseControler* controler)
+    {
+      m_controllers.remove(controler) ;
+    }
+
+    void ControlerSet::destroyController(BaseControler* controler)
+    {
+      if (std::find(m_controllers.begin(),m_controllers.end(),controler) != m_controllers.end())
+        throw ExceptionKernel("ControlerSet::destroyController") ;
     }
 
   }

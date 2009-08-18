@@ -60,6 +60,8 @@
 #include <physic/implementation/ode/physical_object.h>
 
 #include <physic/test/test_demonstration.h>
+#include <physic/implementation/ode/force_generator.h>
+#include <physic/implementation/ode/torque_generator.h>
 
 CPPUNIT_TEST_SUITE_REGISTRATION(ProjetUnivers::Physic::Test::TestDemonstration) ;
 
@@ -156,7 +158,7 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(physics) ;
 
         /// get the ship and apply a force
-        Model::PhysicalObject* object(ship->getTrait<Model::PhysicalObject>()) ;
+        Implementation::PhysicalObject* object(ship->getTrait<Implementation::PhysicalObject>()) ;
         CPPUNIT_ASSERT(object) ;
         CPPUNIT_ASSERT(object->getControler<Implementation::Ode::PhysicalObject>(physics)) ;
         CPPUNIT_ASSERT(
@@ -216,11 +218,10 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(physics) ;
 
         /// get the ship and apply a force
-        Model::PhysicalObject* object(ship->getTrait<Model::PhysicalObject>()) ;
+        Implementation::PhysicalObject* object(ship->getTrait<Implementation::PhysicalObject>()) ;
         CPPUNIT_ASSERT(object) ;
         CPPUNIT_ASSERT(object->getControler<Implementation::Ode::PhysicalObject>(physics)) ;
-        CPPUNIT_ASSERT(
-          object->getControler<Implementation::Ode::PhysicalObject>(physics)->getBody()->id()) ;
+        CPPUNIT_ASSERT(object->getControler<Implementation::Ode::PhysicalObject>(physics)->getBody()->id()) ;
 
         Model::Oriented* oriented(ship->getTrait<Model::Oriented>()) ;
         CPPUNIT_ASSERT(oriented) ;
@@ -258,11 +259,9 @@ namespace ProjetUnivers
         ship->addTrait(new Model::Positionned()) ;
         ship->addTrait(new Model::Oriented()) ;
         ship->addTrait(new Model::Mobile()) ;
-        ship->addTrait(new Model::Solid(Model::Mesh("toto"))) ;
         ship->addTrait(new Model::Massive(Model::Mass::Kilogram(1000))) ;
 
         CPPUNIT_ASSERT(ship->getTrait<Model::PhysicalObject>()) ;
-        CPPUNIT_ASSERT(ship->getTrait<Model::Solid>()) ;
         CPPUNIT_ASSERT(ship->getTrait<Model::PhysicalWorld>()) ;
 
         /// get the ship and set initial speed
@@ -276,11 +275,10 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(physics) ;
         physics->setTimeStep(0.02) ;
 
-        Model::PhysicalObject* object(ship->getTrait<Model::PhysicalObject>()) ;
+        Implementation::PhysicalObject* object(ship->getTrait<Implementation::PhysicalObject>()) ;
         CPPUNIT_ASSERT(object) ;
         CPPUNIT_ASSERT(object->getControler<Implementation::Ode::PhysicalObject>(physics)) ;
-        CPPUNIT_ASSERT(
-          object->getControler<Implementation::Ode::PhysicalObject>(physics)->getBody()->id()) ;
+        CPPUNIT_ASSERT(object->getControler<Implementation::Ode::PhysicalObject>(physics)->getBody()->id()) ;
 
         /// store the position before "move"
         Model::Positionned* positionned(ship->getTrait<Model::Positionned>()) ;
@@ -364,12 +362,9 @@ namespace ProjetUnivers
         ship->addTrait(new Model::Positionned()) ;
         ship->addTrait(new Model::Oriented()) ;
         ship->addTrait(new Model::Mobile()) ;
-        ship->addTrait(new Model::Solid(Model::Mesh("toto"))) ;
         ship->addTrait(new Model::Massive(Model::Mass::Kilogram(1000))) ;
 
-        CPPUNIT_ASSERT(ship->getTrait<Model::PhysicalObject>()) ;
-        CPPUNIT_ASSERT(ship->getTrait<Model::Solid>()) ;
-        CPPUNIT_ASSERT(ship->getTrait<Model::PhysicalWorld>()) ;
+        CPPUNIT_ASSERT(ship->getTrait<Implementation::PhysicalObject>()) ;
 
         /// get the ship and set initial speed
         Model::Mobile* mobile(ship->getTrait<Model::Mobile>()) ;
@@ -392,7 +387,8 @@ namespace ProjetUnivers
         Ogre::Quaternion final_orientation(oriented->getOrientation().getQuaternion()) ;
 
         // check that object has rotated half a turn
-        CPPUNIT_ASSERT(final_orientation.equals(Ogre::Quaternion(Ogre::Degree(180),Ogre::Vector3::UNIT_Y),Ogre::Degree(5))) ;
+        CPPUNIT_ASSERT_MESSAGE(Ogre::StringConverter::toString(final_orientation),
+                               final_orientation.equals(Ogre::Quaternion(Ogre::Degree(180),Ogre::Vector3::UNIT_Y),Ogre::Degree(5))) ;
 
         InternalMessage("Physic","Physic::Test::testSimulate::testSimulateRotatingHalfTurn leaving") ;
       }
@@ -412,11 +408,9 @@ namespace ProjetUnivers
         ship->addTrait(new Model::Positionned()) ;
         ship->addTrait(new Model::Oriented()) ;
         ship->addTrait(new Model::Mobile()) ;
-        ship->addTrait(new Model::Solid(Model::Mesh("toto"))) ;
         ship->addTrait(new Model::Massive(Model::Mass::Kilogram(1))) ;
 
-        CPPUNIT_ASSERT(ship->getTrait<Model::PhysicalObject>()) ;
-        CPPUNIT_ASSERT(ship->getTrait<Model::Solid>()) ;
+        CPPUNIT_ASSERT(ship->getTrait<Implementation::PhysicalObject>()) ;
         CPPUNIT_ASSERT(ship->getTrait<Model::PhysicalWorld>()) ;
 
         Model::Mobile* mobile = ship->getTrait<Model::Mobile>() ;
@@ -424,6 +418,8 @@ namespace ProjetUnivers
         mobile->setAngularSpeed(Model::AngularSpeed::TurnPerSecond(0,1,0)) ;
 
         ship->addTrait(new Model::Stabilizer(0,3,0)) ;
+
+        CPPUNIT_ASSERT(ship->getTrait<Implementation::TorqueGenerator>()) ;
 
         /// store the orientation before "rotation"
         Ogre::Quaternion initial_orientation =
@@ -449,7 +445,7 @@ namespace ProjetUnivers
           ship->getTrait<Model::Mobile>()
           ->getAngularSpeed().TurnPerSecond() ;
 
-        //std::cout <<"final_angular_speed=" << final_angular_speed << std::endl ;
+//        std::cout <<"final_angular_speed=" << final_angular_speed << std::endl ;
 
         CPPUNIT_ASSERT(equal(0,final_angular_speed[0]) &&
                        equal(0,final_angular_speed[1]) &&

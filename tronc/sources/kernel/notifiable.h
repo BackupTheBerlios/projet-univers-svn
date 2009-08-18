@@ -63,8 +63,14 @@ namespace ProjetUnivers
       */
       const std::set<Notifiable*>& getDependentNotifiables() const ;
 
-      /// The notifiables on with  @c this depends.
+      /// The notifiables on with @c this depends.
+      /*!
+        These are the traits/relations that trigger update for @c this.
+      */
       const std::set<Notifiable*>& getDependencies() const ;
+
+      /// Transitive dependency.
+      bool dependsOn(const Notifiable*) const ;
 
       virtual ~Notifiable() ;
 

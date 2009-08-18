@@ -1398,10 +1398,23 @@
 
   * Kernel :
     - corrected seg fault
+
+2009-08-18
+
+  * Kernel :
+    - centralized simulation of controlers, first pass of prepare, second pass 
+      of simulate, with dependency order
+    - only simulate a controler set if it has active controlers (should 
+      generaly optimize)
+    - only a few controlers/viewpoint need a fixed timestep : change simulate 
+      to use fixed timestep for those who really whants 
+
+  * Physics : 
+    - added correct usage of formulae for all controllers
     
 in commit
 --------
-
+   
    
 in progress
 -----------
@@ -1410,11 +1423,30 @@ in progress
 todo
 ----
   
+  
+  * All :
+    - callgrind shwos that descativating gui and input in a system with no gui 
+      allow to go up to 80 ships !!
+  
+  * Kernel : 
+    - be able to desactivate a module (sound,display,input,gui,...) by config
+    - optimise controler set simulation, callgrind shows a lot of time in it 
+    
   * Sound : 
     - exception floating point
+    - Message "AL lib: ALc.c:1345: alcCloseDevice(): destroying 1 Context" on 
+      quitting test applications 
+    - probably too many sources (we should limit sources number)
+  
   * AI :
     - still seg fault on TargetAgentControler::onClose
-
+  
+  * Display :
+    - instability on target... (test failling randomly) it is a real bug
+    
+  * Input :
+    - instability on test autorepeat
+    
   * Kernel : 
    - detect illegal access in view/controler, an illegal access is accessing a 
      trait/view/controler that is not part of the formula
@@ -1452,14 +1484,6 @@ todo
     - repair getLatestUpdatedTrait() : memorisation of the event that caused 
       the update (could be update trait, changeHasParent, changeHasAncestor, 
       humm...)
-
-  * Demo :
-    - majority of performance issue seems to be due to detector system... that 
-      is in n² (in the best case) : refactor using relations
-    - should use real object, and only build some data that reference normal 
-      object
-      --> updated when referenced object is (should probably add a relation and 
-      formula Related(...,RecursivelyPositionned)
     
   * Kernel:
     - all members should be encapsulated, even for own class : allow to change 

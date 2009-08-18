@@ -39,7 +39,7 @@ namespace ProjetUnivers
     {
 
       DeclareDeducedTrait(ForceGenerator,And(HasTrait(Model::ForceGenerator),
-                                             HasParent(HasTrait(Model::PhysicalObject)))) ;
+                                             HasParent(HasTrait(Implementation::PhysicalObject)))) ;
 
       namespace Ode
       {

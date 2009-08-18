@@ -69,6 +69,7 @@ namespace ProjetUnivers
 
       private:
 
+        void simulate(Kernel::Model*,const float& time) ;
         void rotateObserverLeft(Kernel::Object*) ;
       };
 

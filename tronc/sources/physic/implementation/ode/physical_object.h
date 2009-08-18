@@ -23,6 +23,7 @@
 #include <ode/ode.h>
 
 #include <kernel/controler.h>
+#include <kernel/deduced_trait.h>
 
 #include <model/physical_object.h>
 #include <model/physical_world.h>
@@ -35,6 +36,9 @@ namespace ProjetUnivers
   {
     namespace Implementation
     {
+      class PhysicalObject : public Kernel::DeducedTrait
+      {} ;
+
       namespace Ode
       {
       
@@ -44,7 +48,7 @@ namespace ProjetUnivers
         /*!
           @see Model::PhysicalWorld
         */
-        class PhysicalObject : public Kernel::Controler<Model::PhysicalObject,
+        class PhysicalObject : public Kernel::Controler<Implementation::PhysicalObject,
                                                         PhysicSystem>
         {
         public:

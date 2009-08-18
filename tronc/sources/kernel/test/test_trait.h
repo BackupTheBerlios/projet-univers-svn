@@ -187,7 +187,11 @@ namespace ProjetUnivers
         void changingParentOfHasChildChangesNumberOfTrueChildFormulae() ;
         void severalLinkToTheSameShouldNotIncreaseTrueChildOfIsRelated() ;
 
-     // @}
+      // @}
+      /*!
+        @name Other tests
+      */
+      // @{
 
         /*!
           Due to a bad idea on validity storage for relations, once we remove a
@@ -196,6 +200,11 @@ namespace ProjetUnivers
         */
         void removingRelationShouldNotCleanOtherRelationValidities() ;
 
+      // @}
+      /*!
+        @name Tests registration
+      */
+      // @{
 
         CPPUNIT_TEST_SUITE(TestTrait) ;
 

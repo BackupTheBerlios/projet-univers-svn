@@ -52,6 +52,11 @@ namespace ProjetUnivers
         {
         public:
 
+          /// temporary
+          virtual void prepare() ;
+          bool m_has_been_simulated ;
+
+
           /// Simulate world during a certain duration and notify positions.
           void simulate(const float& i_duration) ;
           

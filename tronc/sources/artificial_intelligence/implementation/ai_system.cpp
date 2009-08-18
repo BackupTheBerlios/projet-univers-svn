@@ -37,16 +37,6 @@ namespace ProjetUnivers
       : Kernel::ControlerSet(model)
       {}
       
-      void AISystem::simulate(const float& seconds)
-      {
-        boost::function2<void,Kernel::BaseControler*,float> f 
-          = &Kernel::BaseControler::simulate ;
-
-        InternalMessage("AI","AISystem::simulate simulation") ;
-        
-        applyTopDown(std::bind2nd(f,seconds)) ;
-      }
-      
     }    
   }
 }

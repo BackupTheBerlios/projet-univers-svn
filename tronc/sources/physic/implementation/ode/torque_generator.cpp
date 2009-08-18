@@ -37,11 +37,14 @@ namespace ProjetUnivers
   {
     namespace Implementation
     {
+
+      DeclareDeducedTrait(TorqueGenerator,And(HasTrait(Model::TorqueGenerator),
+                                              HasParent(HasTrait(Implementation::PhysicalObject)))) ;
       namespace Ode
       {
 
         RegisterControler(TorqueGenerator, 
-                          Model::TorqueGenerator, 
+                          Implementation::TorqueGenerator,
                           PhysicSystem) ;
         
         void TorqueGenerator::prepare()
@@ -49,7 +52,7 @@ namespace ProjetUnivers
           /// set a torque on it's body
           if (m_object && m_object->getBody())
           {
-            Ogre::Vector3 torque(getTrait()->NewtonMeter()) ;
+            Ogre::Vector3 torque(getTrait<Model::TorqueGenerator>()->NewtonMeter()) ;
             InternalMessage("Physic","Physic::TorqueGenerator::prepare " +
                                       Kernel::toString(getObject()->getIdentifier()) + " torque = " +  
                                       Kernel::toString(torque.x) + "," + 
@@ -67,29 +70,9 @@ namespace ProjetUnivers
           m_object = determineObject() ;
         }
         
-        void TorqueGenerator::onClose()
-        {
-        }
-  
-        void TorqueGenerator::onChangeParent(Kernel::Object* i_old_parent)
-        {
-          onClose() ;
-        }
-        
-        void TorqueGenerator::onUpdate()
-        {
-        }
-        
         PhysicalObject* TorqueGenerator::determineObject() const
         {
-          Model::PhysicalObject* physical_object = 
-              getObject()->getParent<Model::PhysicalObject>() ;
-
-          if (physical_object)
-          {
-            return physical_object->getControler<PhysicalObject>(getControlerSet()) ;
-          }           
-          return NULL ;
+          return getControler<PhysicalObject>() ;
         }
       }
     }

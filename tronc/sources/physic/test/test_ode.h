@@ -73,11 +73,11 @@ namespace ProjetUnivers
 
         CPPUNIT_TEST_SUITE(TestODE) ;
 
+//        CPPUNIT_TEST_FAIL(testTrimeshCubeCollision) ;
         CPPUNIT_TEST(testTwoWorlds) ;
         CPPUNIT_TEST(testTrimesh) ;
         CPPUNIT_TEST(testTrimeshInertia) ;
         CPPUNIT_TEST(testCubeCubeCollision) ;
-        CPPUNIT_TEST_FAIL(testTrimeshCubeCollision) ;
         CPPUNIT_TEST(testTrimeshCubeCollisionBasic) ;
 
         CPPUNIT_TEST_SUITE_END() ;

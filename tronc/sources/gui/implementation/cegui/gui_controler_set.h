@@ -42,8 +42,8 @@ namespace ProjetUnivers
           /// Init the module on demand.
           virtual void onInit() ;
   
-          /// Simulate all controlers.
-          virtual void simulate(const float& seconds) ;
+          /// Called just before simulation.
+          virtual void beforeSimulation(const float& seconds) ;
           
         };
       }      

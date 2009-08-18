@@ -41,12 +41,15 @@ namespace ProjetUnivers
           /// Constructor.
           InputControlerSet(Kernel::Model*) ;
           
-          /// Capture inputs and send them to objects.
-          virtual void simulate(const float& seconds) ;
+          /// Called just before simulation.
+          virtual void beforeSimulation(const float& seconds) ;
+
+          /// Called just before simulation.
+          virtual void afterSimulation(const float& seconds) ;
           
         protected:
   
-          /// Initialise input system.
+          /// Initialize input system.
           virtual void onInit() ;
   
           /// Close input system.

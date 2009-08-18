@@ -18,14 +18,16 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_INPUT_TEST_INPUT_SYSTEM_H_
-#define PU_INPUT_TEST_INPUT_SYSTEM_H_
+#pragma once
 
 #include <cppunit/extensions/HelperMacros.h>
 
-namespace ProjetUnivers {
-  namespace Input {
-    namespace Test {
+namespace ProjetUnivers
+{
+  namespace Input
+  {
+    namespace Test
+    {
             
       /// Global testing of input system.
       class TestInputSystem : public CppUnit::TestFixture 
@@ -38,7 +40,7 @@ namespace ProjetUnivers {
       */ 
       // @{
         
-        /// Init and close the system several times.
+        /// Initialize and close the system several times.
         void severalInitClose() ;
 
         /// Test the auto repeat feature
@@ -70,5 +72,3 @@ namespace ProjetUnivers {
     }
   }
 }
-
-#endif /*PU_INPUT_TEST_INPUT_SYSTEM_H_*/

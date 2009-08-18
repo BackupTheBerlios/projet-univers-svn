@@ -39,9 +39,8 @@ namespace ProjetUnivers
         {
         public:
         
-          /// Calculate damage.
-          void simulate(const float& i_seconds) ;
-        
+          /// Event object is destroyed.
+          virtual void simulate(const float&) ;
         };
       }
     }

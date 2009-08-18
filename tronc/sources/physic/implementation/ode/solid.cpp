@@ -29,8 +29,8 @@
 #include <model/solid.h>
 
 #include <physic/implementation/ode/mass_property.h>
-
 #include <physic/implementation/ode/ode.h>
+#include <physic/implementation/ode/physical_object.h>
 
 #include <physic/implementation/ode/solid.h>
 
@@ -40,6 +40,11 @@ namespace ProjetUnivers
   {
     namespace Implementation
     {
+
+      DeclareDeducedTrait(SolidPhysicalObject,
+                          And(HasTrait(Implementation::PhysicalObject),
+                              HasTrait(Model::Solid))) ;
+
       namespace Ode
       {
 
