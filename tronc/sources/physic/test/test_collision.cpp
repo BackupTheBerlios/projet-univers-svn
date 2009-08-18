@@ -127,7 +127,7 @@ namespace ProjetUnivers
           physics->simulate(0.1) ;
         }
 
-        /// check that collision has occured
+        /// check that collision has occurred
         unsigned int collision_number = system->getDescendants<Model::Collision>().size() ;
         CPPUNIT_ASSERT(collision_number!=0) ;
 

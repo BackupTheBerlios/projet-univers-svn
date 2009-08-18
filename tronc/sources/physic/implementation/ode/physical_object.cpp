@@ -102,6 +102,12 @@ namespace ProjetUnivers
             delete m_body ;
             m_body = NULL ;
           }
+          if (m_collision_space)
+          {
+            delete m_collision_space ;
+            m_collision_space = NULL ;
+          }
+
           InternalMessage("Physic","Ode::PhysicalObject::onClose leaving " +
                                    Kernel::toString(getObject()->getIdentifier())) ;
         }

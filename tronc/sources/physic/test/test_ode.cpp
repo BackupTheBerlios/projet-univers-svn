@@ -90,7 +90,7 @@ namespace ProjetUnivers {
         dInitODE();
 
         std::auto_ptr<dWorld> world(new dWorld()) ;
-        dBody* body = new dBody(world->id()) ;
+        std::auto_ptr<dBody> body(new dBody(world->id())) ;
 
         Size[0] = 5.0f;
         Size[1] = 5.0f;
@@ -170,7 +170,7 @@ namespace ProjetUnivers {
         dReal* aabb = new dReal[6] ;
         dGeomGetAABB(TriMesh,aabb) ;
 
-
+        delete[] aabb ;
       }
 
       void onGeometryCollision(void*   i_world,
@@ -4157,6 +4157,7 @@ namespace ProjetUnivers {
         */
         dReal* aabb = new dReal[6] ;
         dGeomGetAABB(TriMesh,aabb) ;
+        delete[] aabb ;
 
         // we create a cube
         dGeomID cube = dCreateBox(space,1,1,1) ;

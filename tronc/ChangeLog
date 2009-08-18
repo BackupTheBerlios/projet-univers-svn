@@ -1416,11 +1416,23 @@
   
   * Sound :
     - corrected a bug in closing
+
+2009-08-19
+
+  * Kernel :
+    - corrected an invalid access
+    - corrected some leaks
+
+  * Model :
+    - corrected some leaks
+
+  * Physic :
+    - corrected some leaks
         
 in commit
 --------
    
-   
+    
 in progress
 -----------
 
@@ -1428,6 +1440,8 @@ in progress
 todo
 ----
   
+  * Kernel :
+    - leak found a excellent bug see : TestDeducedTrait::testCompositeWithDeduced 
   
   * All :
     - callgrind shwos that descativating gui and input in a system with no gui 

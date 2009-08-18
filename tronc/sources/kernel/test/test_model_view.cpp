@@ -21,6 +21,8 @@
 #include <iostream>
 using namespace std ;
 
+#include <boost/shared_ptr.hpp>
+
 #include <kernel/log.h>
 
 #include <kernel/exception.h>
@@ -793,7 +795,7 @@ namespace ProjetUnivers
         head->addTrait(new Dummy()) ;
 
         /// create a view
-        ViewPoint* viewpoint(model->addViewPoint(new TestViewPoint(model.get()))) ;
+        boost::shared_ptr<ViewPoint> viewpoint(model->addViewPoint(new TestViewPoint(model.get()))) ;
 
         /// init the viewpoint
         viewpoint->init() ;
@@ -801,13 +803,13 @@ namespace ProjetUnivers
           /// check the views are initialised
           Trait* persontrait = person->getTrait<Person>() ;
           CPPUNIT_ASSERT(persontrait) ;
-          ViewPerson* personview = persontrait->getView<ViewPerson>(viewpoint) ;
+          ViewPerson* personview = persontrait->getView<ViewPerson>(viewpoint.get()) ;
           CPPUNIT_ASSERT(personview) ;
           CPPUNIT_ASSERT(personview->init_number == 1) ;
 
           Trait* headtrait = head->getTrait<Head>() ;
           CPPUNIT_ASSERT(headtrait) ;
-          ViewHead* headview = headtrait->getView<ViewHead>(viewpoint) ;
+          ViewHead* headview = headtrait->getView<ViewHead>(viewpoint.get()) ;
           CPPUNIT_ASSERT(headview) ;
           CPPUNIT_ASSERT(headview->init_number == 1) ;
         }
@@ -817,13 +819,13 @@ namespace ProjetUnivers
           /// check the views are closed
           Trait* persontrait = person->getTrait<Person>() ;
           CPPUNIT_ASSERT(persontrait) ;
-          ViewPerson* personview = persontrait->getView<ViewPerson>(viewpoint) ;
+          ViewPerson* personview = persontrait->getView<ViewPerson>(viewpoint.get()) ;
           CPPUNIT_ASSERT(personview) ;
           CPPUNIT_ASSERT(personview->init_number == 0) ;
 
           Trait* headtrait = head->getTrait<Head>() ;
           CPPUNIT_ASSERT(headtrait) ;
-          ViewHead* headview = headtrait->getView<ViewHead>(viewpoint) ;
+          ViewHead* headview = headtrait->getView<ViewHead>(viewpoint.get()) ;
           CPPUNIT_ASSERT(headview) ;
           CPPUNIT_ASSERT(headview->init_number == 0) ;
         }
@@ -845,8 +847,6 @@ namespace ProjetUnivers
         viewpoint->init() ;
         /// get a not present trait :
         CPPUNIT_ASSERT(person->getTrait<Dummy>() == NULL) ;
-        /// Then closes the viexpoint
-        viewpoint->close() ;
       }
 
       void TestModelView::testDestroyModel()
@@ -1247,7 +1247,7 @@ namespace ProjetUnivers
       {
         InternalMessage("Kernel","Kernel::Test::initViewPointWithNullModel entering") ;
         std::auto_ptr<Model> model ;
-        ViewPoint* viewpoint(model->addViewPoint(new TestViewPoint(model.get()))) ;
+        boost::shared_ptr<ViewPoint> viewpoint(model->addViewPoint(new TestViewPoint(model.get()))) ;
         /// init the viewpoint
         viewpoint->init() ;
         InternalMessage("Kernel","Kernel::Test::initViewPointWithNullModel leaving") ;

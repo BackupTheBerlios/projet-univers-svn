@@ -1607,6 +1607,7 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT_EQUAL((short)1,child->getNumberOfTrueChildFormulae(formula)) ;
         CPPUNIT_ASSERT_EQUAL((short)2,grand_child->getNumberOfTrueChildFormulae(formula)) ;
 
+        // induces a memory lost of WithAncestor created on child
         child->changeParent(root2) ;
 
         CPPUNIT_ASSERT_EQUAL((short)0,root1->getNumberOfTrueChildFormulae(formula)) ;

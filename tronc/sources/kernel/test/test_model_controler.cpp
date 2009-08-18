@@ -21,6 +21,8 @@
 #include <iostream>
 using namespace std ;
 
+#include <boost/shared_ptr.hpp>
+
 #include <kernel/log.h>
 
 #include <kernel/deduced_trait.h>
@@ -637,7 +639,7 @@ namespace ProjetUnivers
         head->addTrait(new Dummy()) ;
 
         /// create a controler
-        ControlerSet* controler(model->addControlerSet(new TestControlerSet(model.get()))) ;
+        boost::shared_ptr<ControlerSet> controler(model->addControlerSet(new TestControlerSet(model.get()))) ;
 
         /// init the controlers
         controler->init() ;
@@ -646,13 +648,13 @@ namespace ProjetUnivers
           Trait* persontrait = person->getTrait<Person>() ;
           CPPUNIT_ASSERT(persontrait) ;
           ControlerPerson* personcontroler
-            = persontrait->getControler<ControlerPerson>(controler) ;
+            = persontrait->getControler<ControlerPerson>(controler.get()) ;
           CPPUNIT_ASSERT(personcontroler) ;
           CPPUNIT_ASSERT(personcontroler->init_number == 1) ;
 
           Trait* headtrait = head->getTrait<Head>() ;
           CPPUNIT_ASSERT(headtrait) ;
-          ControlerHead* headcontroler = headtrait->getControler<ControlerHead>(controler) ;
+          ControlerHead* headcontroler = headtrait->getControler<ControlerHead>(controler.get()) ;
           CPPUNIT_ASSERT(headcontroler) ;
           CPPUNIT_ASSERT(headcontroler->init_number == 1) ;
         }
@@ -662,13 +664,13 @@ namespace ProjetUnivers
           /// check the controlers are closed
           Trait* persontrait = person->getTrait<Person>() ;
           CPPUNIT_ASSERT(persontrait) ;
-          ControlerPerson* personcontroler = persontrait->getControler<ControlerPerson>(controler) ;
+          ControlerPerson* personcontroler = persontrait->getControler<ControlerPerson>(controler.get()) ;
           CPPUNIT_ASSERT(personcontroler) ;
           CPPUNIT_ASSERT(personcontroler->init_number == 0) ;
 
           Trait* headtrait = head->getTrait<Head>() ;
           CPPUNIT_ASSERT(headtrait) ;
-          ControlerHead* headcontroler = headtrait->getControler<ControlerHead>(controler) ;
+          ControlerHead* headcontroler = headtrait->getControler<ControlerHead>(controler.get()) ;
           CPPUNIT_ASSERT(headcontroler) ;
           CPPUNIT_ASSERT(headcontroler->init_number == 0) ;
         }
@@ -859,7 +861,7 @@ namespace ProjetUnivers
       {
         InternalMessage("Kernel","Kernel::Test::initControlerSetWithNullModel entering") ;
         std::auto_ptr<Model> model ;
-        ControlerSet* controler_set(model->addControlerSet(new TestControlerSet(model.get()))) ;
+        boost::shared_ptr<ControlerSet> controler_set(model->addControlerSet(new TestControlerSet(model.get()))) ;
         /// init the controler set
         controler_set->init() ;
         InternalMessage("Kernel","Kernel::Test::initControlerSetWithNullModel leaving") ;

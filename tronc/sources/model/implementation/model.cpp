@@ -101,7 +101,7 @@ namespace ProjetUnivers {
     Ogre::MaterialManager*        material_manager = NULL ;
     Ogre::SkeletonManager*        skeleton_manager = NULL ;
     Ogre::ArchiveManager*         archive_manager = NULL ;
-    Ogre::Root*                   root = NULL ;
+    std::auto_ptr<Ogre::Root>     root ;
 
     bool initialised = false ;
 
@@ -141,7 +141,7 @@ namespace ProjetUnivers {
       {
         log_manager = new LogManager() ;
         log_manager->createLog("Ogre.log", false, false) ;
-        root = new Root() ;
+        root.reset(new Root()) ;
         hardware_buffer_manager = new DefaultHardwareBufferManager() ;
         MaterialManager::getSingletonPtr()->initialise() ;
         MeshManager::getSingletonPtr()->_initialise() ;
@@ -181,15 +181,10 @@ namespace ProjetUnivers {
 
     void closeRessources()
     {
-      if (root)
+      if (root.get())
       {
         delete hardware_buffer_manager ;
-//        delete skeleton_manager ;
-//        delete material_manager ;
-//        delete mesh_manager ;
-//        delete math ;
-//        delete ressource_group_manager ;
-        delete root ;
+        root.reset() ;
 
         initialised = false ;
       }

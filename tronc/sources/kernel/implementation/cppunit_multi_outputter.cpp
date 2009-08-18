@@ -32,6 +32,12 @@ CPPUNIT_NS_BEGIN
   
   MultiOutputter::~MultiOutputter()
   {
+    for(std::set<Outputter*>::const_iterator outputter = m_outputters.begin() ;
+        outputter != m_outputters.end() ;
+        ++outputter)
+    {
+      delete *outputter ;
+    }
   }
 
   void MultiOutputter::write()

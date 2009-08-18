@@ -265,7 +265,7 @@ namespace ProjetUnivers
       
       void TestModel::notifyOnNotAssignedTrait()
       {
-        Head* head = new Head() ;
+        std::auto_ptr<Head> head(new Head()) ;
         head->change(10) ;
       }
       

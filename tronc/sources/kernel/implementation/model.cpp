@@ -122,6 +122,14 @@ namespace ProjetUnivers
 
       Object* old_parent = object->getParent() ;
 
+      // there is no change !
+      if (old_parent == new_parent)
+      {
+        return ;
+      }
+
+      startTransaction() ;
+
       if (object->getParent() == NULL)
       {
         /// a top object
@@ -135,15 +143,19 @@ namespace ProjetUnivers
       new_parent->_add(object) ;
       object->_changed_parent(old_parent) ;
 
+      endTransaction() ;
     }
 
     Trait* Model::addTrait(Object* object,
-                         Trait* new_trait)
+                           Trait* new_trait)
     {
       Log::Block temp("Structure","addTrait") ;
 
       if (object->m_deleting)
+      {
+        delete new_trait ;
         return NULL ;
+      }
 
       bool deduced = ! new_trait->isPrimitive() ;
 
@@ -228,6 +240,24 @@ namespace ProjetUnivers
       {
         delete *viewpoint ;
       }
+
+      // delete view and controlers on relations
+      for(std::map<Relation,std::set<BaseRelationView*> >::iterator relation = m_relation_views.begin() ; relation != m_relation_views.end() ; ++ relation)
+      {
+        for(std::set<BaseRelationView*>::iterator view = relation->second.begin() ; view != relation->second.end() ; ++view)
+        {
+          delete *view ;
+        }
+      }
+
+      for(std::map<Relation,std::set<BaseRelationControler*> >::iterator relation = m_relation_controlers.begin() ; relation != m_relation_controlers.end() ; ++ relation)
+      {
+        for(std::set<BaseRelationControler*>::iterator controller = relation->second.begin() ; controller != relation->second.end() ; ++controller)
+        {
+          delete *controller ;
+        }
+      }
+
     }
 
     Model::Model(const std::string& name)

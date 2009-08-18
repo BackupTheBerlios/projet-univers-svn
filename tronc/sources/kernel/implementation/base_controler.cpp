@@ -35,8 +35,6 @@ namespace ProjetUnivers
       {
         m_trait->_remove_controler(m_controler_set,this) ;
       }
-
-      m_controler_set->destroyController(this) ;
     }
 
     BaseControler::BaseControler()

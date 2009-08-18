@@ -159,11 +159,11 @@ namespace ProjetUnivers
         /// formula is ((T1^T2)U~(T3^T1))
         DeclareDeducedTrait(DeducedTrait4,
                             Or(
-                              Not(
+                                Not(
+                                    And(HasTrait(Trait1),
+                                        HasTrait(Trait3))),
                                 And(HasTrait(Trait1),
-                                    HasTrait(Trait3))),
-                              And(HasTrait(Trait1),
-                                  HasTrait(Trait2)))) ;
+                                    HasTrait(Trait2)))) ;
 
         class DeducedTrait5 : public Kernel::DeducedTrait
         {};
@@ -392,11 +392,15 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(object->getTrait<DeducedTrait5>()) ;
         CPPUNIT_ASSERT(object->getTrait<DeducedTrait6>()) ;
 
+        CPPUNIT_ASSERT(object->getTrait<DeducedTrait4>()) ;
+
         object->addTrait(new Trait1()) ;
         /// Check that object has lost both DeducedTrait5 and DeducedTrait6
         CPPUNIT_ASSERT(!object->getTrait<DeducedTrait5>()) ;
         CPPUNIT_ASSERT(!object->getTrait<DeducedTrait6>()) ;
 
+        // @todo this one is too complicated for me :)
+//        CPPUNIT_ASSERT(object->getTrait<DeducedTrait4>()) ;
       }
 
       void TestDeducedTrait::testDeducedTraitViews()
@@ -436,7 +440,7 @@ namespace ProjetUnivers
 
       void TestDeducedTrait::notifyOnNotAssignedTrait()
       {
-        Trait1* trait = new Trait1() ;
+        std::auto_ptr<Trait1> trait(new Trait1()) ;
         trait->change(10) ;
       }
 
