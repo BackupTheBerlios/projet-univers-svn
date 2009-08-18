@@ -79,7 +79,6 @@ test_sound_SOURCES = \
 ../test/test_background_sound.cpp \
 ../test/test_cone_property.cpp \
 ../test/test_demonstration.cpp \
-../test/test_openal_lib.cpp \
 ../test/test_moving_object.cpp \
 ../test/test_sound_environnement.cpp \
 ../test/test_sound_event.cpp

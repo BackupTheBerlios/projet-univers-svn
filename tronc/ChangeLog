@@ -1411,7 +1411,12 @@
 
   * Physics : 
     - added correct usage of formulae for all controllers
-    
+
+2009-08-18
+  
+  * Sound :
+    - corrected a bug in closing
+        
 in commit
 --------
    
@@ -1434,8 +1439,6 @@ todo
     
   * Sound : 
     - exception floating point
-    - Message "AL lib: ALc.c:1345: alcCloseDevice(): destroying 1 Context" on 
-      quitting test applications 
     - probably too many sources (we should limit sources number)
   
   * AI :

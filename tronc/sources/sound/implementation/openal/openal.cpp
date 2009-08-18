@@ -140,6 +140,9 @@ namespace ProjetUnivers
               alcMakeContextCurrent(NULL) ;
       
               EFX::close() ;
+
+              if (context)
+                alcDestroyContext(context) ;
               
               // Device closing
               if(!alcCloseDevice(device))
@@ -147,8 +150,6 @@ namespace ProjetUnivers
                 InformationMessage("Sound","Sound::OpenAL::close can't close device, some device or buffer remain") ;
               }
 
-              if (context)
-                alcDestroyContext(context) ;
               initialised = false ;
             }
             
