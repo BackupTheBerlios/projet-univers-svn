@@ -91,6 +91,10 @@ namespace ProjetUnivers
         std::string m_name ;
       };
 
+      /// Log something to a file whose name is unique
+      void logToFile(const std::string& content) ;
+
+
     // @}
 
 

@@ -400,7 +400,7 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(!object->getTrait<DeducedTrait6>()) ;
 
         // @todo this one is too complicated for me :)
-//        CPPUNIT_ASSERT(object->getTrait<DeducedTrait4>()) ;
+        CPPUNIT_ASSERT(object->getTrait<DeducedTrait4>()) ;
       }
 
       void TestDeducedTrait::testDeducedTraitViews()

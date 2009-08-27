@@ -18,8 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_KERNEL_META_H_
-#define PU_KERNEL_META_H_
+#pragma once
 
 #include <string>
 #include <typeinfo>
@@ -43,39 +42,42 @@ namespace ProjetUnivers
       TypeIdentifier() ;
 
       /// Constructor.
-      TypeIdentifier(const std::type_info& i_name) ;
+      TypeIdentifier(const std::type_info& name) ;
 
       /// Copy constructor.
-      TypeIdentifier(const TypeIdentifier& i_type_identifier) ;
+      TypeIdentifier(const TypeIdentifier& type_identifier) ;
 
       /// Constructor.
-      TypeIdentifier(const std::type_info& i_name,
-                     boost::function1<bool,Trait*> i_object_test) ;
+      TypeIdentifier(const std::type_info& name,
+                     boost::function1<bool,Trait*> object_test) ;
 
       /// Return a string that represents the type identifier.
       std::string toString() const ;
 
       /// Comparison.
-      bool operator ==(const TypeIdentifier& i_type_identifier) const ;
+      bool operator ==(const TypeIdentifier& type_identifier) const ;
 
       /// Comparison.
-      bool operator !=(const TypeIdentifier& i_type_identifier) const ;
+      bool operator !=(const TypeIdentifier& type_identifier) const ;
 
       /// For std::map.
-      bool operator <(const TypeIdentifier& i_type_identifier) const ;
+      bool operator <(const TypeIdentifier& type_identifier) const ;
 
-      /// Returns true iff i_object is instance of that type.
+      /// Returns true iff object is instance of that type.
       /*!
         Only work for TypeIdentifiers obtained from getClassTypeIdentifier.
       */
-      bool isInstance(Trait* i_object) const ;
+      bool isInstance(Trait* object) const ;
 
       /// gcc typeid name to class name
       std::string className() const ;
       std::string fullName() const ;
 
       /// Assignment.
-      TypeIdentifier& operator=(const TypeIdentifier& i_type_identifier) ;
+      TypeIdentifier& operator=(const TypeIdentifier& type_identifier) ;
+
+      /// Get a unique identifier for that type.
+      int getIdentifier() const ;
 
     private:
 
@@ -103,11 +105,11 @@ namespace ProjetUnivers
     /// Element that represent no type.
     const TypeIdentifier VoidTypeIdentifier = TypeIdentifier() ;
 
-    /// Returns true iff @c i_object is instance of @c T.
-    template <class T> bool isInstance(Trait* i_object)
+    /// Returns true iff @c object is instance of @c T.
+    template <class T> bool isInstance(Trait* object)
     {
 
-      if (dynamic_cast<T*>(i_object) != NULL)
+      if (dynamic_cast<T*>(object) != NULL)
       {
         return true ;
       }
@@ -117,14 +119,12 @@ namespace ProjetUnivers
       }
     }
 
-    /// Get the type identifier for @c i_object
-    #define getObjectTypeIdentifier(i_object) \
-      ProjetUnivers::Kernel::TypeIdentifier(typeid(*i_object))
+    /// Get the type identifier for @c object
+    #define getObjectTypeIdentifier(object) \
+      ProjetUnivers::Kernel::TypeIdentifier(typeid(*object))
 
-    /// Get the type identifier for @c i_class
+    /// Get the type identifier for @c class
     #define getClassTypeIdentifier(i_class) \
       ProjetUnivers::Kernel::TypeIdentifier(typeid(i_class),&ProjetUnivers::Kernel::isInstance<i_class>)
   }
 }
-
-#endif /*PU_KERNEL_META_H_*/

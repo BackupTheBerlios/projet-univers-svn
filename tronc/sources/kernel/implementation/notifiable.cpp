@@ -18,9 +18,12 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <kernel/exception_kernel.h>
+#include <kernel/log.h>
+#include <kernel/meta.h>
 
 #include <kernel/notifiable.h>
-#include <kernel/exception_kernel.h>
+#include <kernel/string.h>
 
 namespace ProjetUnivers
 {
@@ -93,10 +96,15 @@ namespace ProjetUnivers
 
     void Notifiable::updateDependents() const
     {
+      /// @todo : should update notifiables in order depending on dependence graph
+
+      Log::Block block("Update","Notifiable::updateDependents" + Kernel::toString(m_direct_dependent_notifiables.size())) ;
+
       for(std::set<Notifiable*>::const_iterator notifiable = m_direct_dependent_notifiables.begin() ;
           notifiable != m_direct_dependent_notifiables.end() ;
           ++notifiable)
       {
+        InternalMessage("Update","Updating : " + getObjectTypeIdentifier(*notifiable).fullName()) ;
         (*notifiable)->notify() ;
       }
     }

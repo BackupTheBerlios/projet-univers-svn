@@ -338,9 +338,6 @@ namespace ProjetUnivers
       virtual std::string internalPrint() const ;
 
       /// True iff the formula is valid.
-      virtual bool isValid(Object* object) const ;
-
-      /// True iff the formula is valid.
       virtual bool isValid(const ObjectPair& relation) const ;
 
       /// Access to the traits that trigger update for this formula.
@@ -397,9 +394,6 @@ namespace ProjetUnivers
     {
     public:
 
-      /// Constructs.
-      FormulaAnd() ;
-
       /// Print the formula.
       virtual std::string internalPrint() const ;
 
@@ -427,9 +421,6 @@ namespace ProjetUnivers
     class FormulaOr : public Formula
     {
     public:
-
-      /// Constructs.
-      FormulaOr() ;
 
       /// Print the formula.
       virtual std::string internalPrint() const ;
@@ -461,9 +452,6 @@ namespace ProjetUnivers
     class FormulaNot : public Formula
     {
     public:
-
-      /// Constructs.
-      FormulaNot() ;
 
       /// Add a child formula.
       virtual void addChild(Formula* formula) ;
@@ -848,8 +836,6 @@ namespace ProjetUnivers
     {
     public:
 
-      IsFromFormula() ;
-
       /// Initial value.
       virtual void eval(Object* object) ;
       /// Initial value.
@@ -870,8 +856,6 @@ namespace ProjetUnivers
     class IsToFormula : public FormulaOnRelation
     {
     public:
-
-      IsToFormula() ;
 
       /// Initial value.
       virtual void eval(Object* object) ;

@@ -308,5 +308,12 @@ namespace ProjetUnivers
 
       return result ;
     }
+
+    std::string Relation::graphvizName() const
+    {
+      // @todo
+      return "todo" ;
+    }
+
   }
 }

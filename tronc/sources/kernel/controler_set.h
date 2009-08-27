@@ -117,6 +117,19 @@ namespace ProjetUnivers
       /// Abstract class means protected constructor.
       ControlerSet(Model* model) ;
       
+
+    private:
+
+      /// Check some properties on order.
+      void checkOrder(const std::list<BaseControler*>& controllers) ;
+
+      /// Reorder controllers for the next round.
+      /*!
+        We do it at the beginning of the simulation because order change during
+        the simulation. With that trick we avoid weird behaviors.
+      */
+      void orderControlers() ;
+
       /// Build all the registered controller sets on @c model.
       /*!
         ControlerSets can be registered through RegisterControlerSet macro.

@@ -623,6 +623,7 @@ namespace ProjetUnivers
         person->destroyTrait(persontrait) ;
         CPPUNIT_ASSERT(ControlerPerson::number_of_instance == 0) ;
         CPPUNIT_ASSERT(ControlerHead::number_of_instance == 1) ;
+        Log::logToFile(model->toGraphviz(controler)) ;
         InternalMessage("Kernel","Kernel::Test::TestModelControler::testDestroyTrait leaving") ;
       }
 

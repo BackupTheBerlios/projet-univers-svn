@@ -1428,23 +1428,48 @@
 
   * Physic :
     - corrected some leaks
+
+2009-08-27
+
+  * Kernel :
+    - deduced formula now store Trait formula as others, allow not to remove 
+      trait from object during modification
+      corrects bug TestDeducedTrait::testCompositeWithDeduced
+    - print the object structure into graphviz format, object in hierarchy + 
+      dependencies between traits + deduced traits + current controllers (if a 
+      controller set is provided)
+    - now adding a trait on an object being destroyed succeeds, see 
+      TestInterpretor::addingTraitOnADestroyedObject
+    - added Kernel ActivateCoherencyChecks option, if set to true performs 
+      coherence checks (costly)
+      
+  * AI :
+    - corrects seg fault on TargetAgentControler::onClose
         
 in commit
 --------
+
    
-    
 in progress
 -----------
 
     
 todo
 ----
-  
-  * Kernel :
-    - leak found a excellent bug see : TestDeducedTrait::testCompositeWithDeduced 
+
+  * All : 
+    - build for continuous integration : migrate to ant
+  * Kernel : 
+    - print for IsTo is incorrect
+  * Display :
+    - instability on target... test failling randomly but it is a real bug in 
+      Kernel : 
+      when the structure of updates is complex, this may cause wrong update 
+      order (A -> B, A -> C, C -> B : correct order from A should be A,C,D)
+      --> that should be the reason for test target to fail so often 
   
   * All :
-    - callgrind shwos that descativating gui and input in a system with no gui 
+    - callgrind shows that desactivating gui and input in a system with no gui 
       allow to go up to 80 ships !!
   
   * Kernel : 
@@ -1453,13 +1478,9 @@ todo
     
   * Sound : 
     - exception floating point
-    - probably too many sources (we should limit sources number)
-  
-  * AI :
-    - still seg fault on TargetAgentControler::onClose
-  
-  * Display :
-    - instability on target... (test failling randomly) it is a real bug
+    - probably too many sources (we should limit sources number) one my dev 
+      machine : linear time on test up to 50 ships and time crashes at 60...
+      valgring shows 50% time on mix sound for 50... 
     
   * Input :
     - instability on test autorepeat
@@ -1467,13 +1488,14 @@ todo
   * Kernel : 
    - detect illegal access in view/controler, an illegal access is accessing a 
      trait/view/controler that is not part of the formula
-   
-   - refactor types : Object, to catch NULL call
-   
+   - refactor types : Object, to catch NULL call by using kind of shared_ptr
 
   * Display : 
     - change selection printing (change color of ideal target)
-
+  
+  * Model : 
+    - selected target going out of range will not be unselected
+  
   * AI : 
     - issues with ship fleeing : when two ships aim at each other... they flee
       perpendicularly
@@ -1504,13 +1526,13 @@ todo
     
   * Kernel:
     - all members should be encapsulated, even for own class : allow to change 
-      storage (object pool...)  
+      storage (object pool...) for allocation optimisation
+   - create an object pool per model, a pool on views too... 
     
-  * all : 
+  * Kernel : 
    - display the list of used formulaes (number and kind)
    - count the create/destroy of objects of traits
    - display the average size of objects (how many traits/views/deduced traits...)
-   - create an object pool per model, a pool on views too... 
 
   * Model : 
     - Mission : destruction sequence during player's ship explosion 
@@ -1559,8 +1581,8 @@ todo
 
   * Model : 
     - bug : adding a mapping on an already assigned key does not worK ?
-    - add a distance on target
-    - add a name indicator
+    - add a distance on target display
+    - add a current ship name indicator
     - add a damage indicator
        
   * All : 
@@ -1570,7 +1592,7 @@ todo
   * Packaging
     - inspire from funguloid package for debian/ubuntu packaging
     - Info : make install does not work on win32 : libtool refuses to link with Ogre 
-      (wheread it works in normal make !!)
+      (wheread it works in normal make !!), probably a limitation of msys package
      
   * Model : 
     - add test for adding objects during a structure destroying ?  
@@ -1615,8 +1637,8 @@ todo
     
   * GUI : 
     - add key shortcuts for clicable buttons
-    - custom mission menu
-    - change all hover/pushed elements 
+    - change all hover/pushed elements inspire from  
+      http://sourceforge.net/projects/galactitrade/
    
   * Display :
     - when initing ogre, close any already openned ogre objects in other 
@@ -1649,7 +1671,6 @@ todo
     - Bug : infinite loop when no sound device is found...
     - Refactoring : every event sound is the same : make a general view on event and get the 
       sound name by a function 
-    - reconsider the implementation with the limitation 
     
   * Kernel :
     - add better errors on object structure
@@ -1671,7 +1692,7 @@ todo
 
   * Network :
     - udp for position update of physical objects
-    - tcp for structural opérations (creation destruction)
+    - tcp for structural operations (creation destruction)
     - test if position is sent only when moving
     - mock network : receive position updates and in other side check that correct 
       messages are sent
@@ -1681,4 +1702,5 @@ todo
     - profile with valgrind (cachegrind) valgring --tool=cachegrind + kcachegrind 
       for visualisation
     - use valgrind for leaks (a lot on kernel tests, try whithout -O2) + invalid access
+      invalid access should crash make check (xml output and a check for Invalid Acess)
   

@@ -162,6 +162,32 @@ namespace ProjetUnivers
           throw Exception("recordTraitToDestroy while destroying traits") ;
       }
 
+      void Interpretor::removeTraitToDestroy(Object* object,const TypeIdentifier& type)
+      {
+        if (!m_destroying_traits)
+        {
+          Trait* undestroy_trait = NULL ;
+
+          for(std::set<Trait*>::iterator trait = m_traits_to_destroy.begin() ; trait != m_traits_to_destroy.end() ; ++trait)
+          {
+            if ((*trait)->getObject() == object && getObjectTypeIdentifier(*trait) == type)
+            {
+              undestroy_trait = *trait ;
+            }
+          }
+
+          if (undestroy_trait)
+            m_traits_to_destroy.erase(undestroy_trait) ;
+        }
+        else
+          throw Exception("recordTraitToDestroy while destroying traits") ;
+      }
+
+      bool Interpretor::isToBeDestroyed(Trait* trait) const
+      {
+        return m_traits_to_destroy.find(trait) != m_traits_to_destroy.end() ;
+      }
+
       void Interpretor::addObjectToDestroy(Object* object)
       {
         if (! m_destroying)

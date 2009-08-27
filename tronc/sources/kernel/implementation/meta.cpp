@@ -198,5 +198,10 @@ namespace ProjetUnivers
       }
       return *this ;
     }
+
+    int TypeIdentifier::getIdentifier() const
+    {
+      return (int)m_representation ;
+    }
   }
 }

@@ -573,6 +573,8 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(headview) ;
         CPPUNIT_ASSERT(headview->init_number == 1) ;
         InternalMessage("Kernel","Kernel::Test::testBuildOnNonEmptyModel leaving") ;
+
+        Log::logToFile(model->toGraphviz(viewpoint)) ;
       }
 
       void TestModelView::testDestroyRootObject()

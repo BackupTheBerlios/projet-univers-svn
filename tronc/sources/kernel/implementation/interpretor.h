@@ -53,6 +53,12 @@ namespace ProjetUnivers
         /// Put the trait in a pool of trait to destroy.
         void recordTraitToDestroy(Trait*) ;
 
+        /// Undo the trait destroying.
+        void removeTraitToDestroy(Object*,const TypeIdentifier&) ;
+
+        /// True iff the trait is to be destroyed.
+        bool isToBeDestroyed(Trait*) const ;
+
         /// Really executes the callbacks
         void endTransaction() ;
 

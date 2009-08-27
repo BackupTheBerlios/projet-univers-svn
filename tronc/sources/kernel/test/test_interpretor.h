@@ -37,9 +37,7 @@ namespace ProjetUnivers
       */
       // @{
 
-        void addTrait() ;
-        void destroyTrait() ;
-        void destroyObject() ;
+        void addingTraitOnADestroyedObject() ;
 
       // @}
       /*!
@@ -49,9 +47,7 @@ namespace ProjetUnivers
 
         CPPUNIT_TEST_SUITE(TestInterpretor) ;
 
-        CPPUNIT_TEST(addTrait) ;
-        CPPUNIT_TEST(destroyTrait) ;
-        CPPUNIT_TEST(destroyObject) ;
+        CPPUNIT_TEST(addingTraitOnADestroyedObject) ;
 
         CPPUNIT_TEST_SUITE_END() ;
 

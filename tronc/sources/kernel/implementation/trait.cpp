@@ -803,5 +803,40 @@ namespace ProjetUnivers
       return true ;
     }
 
+    std::string Trait::graphvizName() const
+    {
+      return getObject()->graphvizName() + ":" + getGraphvizPortName() ;
+    }
+
+    std::string Trait::getGraphvizPortName() const
+    {
+      std::string name(getObjectTypeIdentifier(this).fullName()) ;
+
+      std::replace(name.begin(),name.end(),':','_') ;
+      std::replace(name.begin(),name.end(),'.','_') ;
+
+      return name ;
+    }
+
+    bool Trait::hasController(ControlerSet* controller_set) const
+    {
+      for (std::multimap<ControlerSet*,BaseControler*>::const_iterator controller = m_controlers.begin() ; controller != m_controlers.end() ; ++controller)
+      {
+        if (controller->first == controller_set)
+          return true ;
+      }
+      return false ;
+    }
+
+    bool Trait::hasViewPoint(ViewPoint* viewpoint) const
+    {
+      for (std::multimap<ViewPoint*,BaseTraitView*>::const_iterator view = m_views.begin() ; view != m_views.end() ; ++view)
+      {
+        if (view->first == viewpoint)
+          return true ;
+      }
+      return false ;
+    }
+
   }
 }

@@ -253,6 +253,7 @@ namespace ProjetUnivers
     : m_identifier(-1),
       m_depth(0)
     {
+      generateIdentifier() ;
       StaticStorage::get()->m_formulae.insert(this) ;
       StaticStorage::get()->m_stratification[m_depth].insert(this) ;
     }
@@ -332,32 +333,14 @@ namespace ProjetUnivers
       return result ;
     }
 
-    FormulaOr::FormulaOr()
-    : Formula()
-    {
-      generateIdentifier() ;
-    }
-
     std::string FormulaOr::internalPrint() const
     {
       return "Or" ;
     }
 
-    FormulaAnd::FormulaAnd()
-    : Formula()
-    {
-      generateIdentifier() ;
-    }
-
     std::string FormulaAnd::internalPrint() const
     {
       return "And" ;
-    }
-
-    FormulaNot::FormulaNot()
-    : Formula()
-    {
-      generateIdentifier() ;
     }
 
     std::string FormulaNot::internalPrint() const
@@ -387,10 +370,7 @@ namespace ProjetUnivers
     TraitFormula::TraitFormula(const TypeIdentifier& trait_name)
     : Formula(),
       m_trait(trait_name)
-    {
-      CHECK((m_identifier==-1),"TraitFormula::TraitFormula invalid identifier") ;
-      CHECK((m_depth==0),"TraitFormula::TraitFormula invalid depth") ;
-    }
+    {}
 
     std::string TraitFormula::internalPrint() const
     {
@@ -399,7 +379,6 @@ namespace ProjetUnivers
 
     HasParentFormula::HasParentFormula()
     {
-      generateIdentifier() ;
       StaticStorage::get()->m_formulae.insert(this) ;
     }
 
@@ -410,7 +389,6 @@ namespace ProjetUnivers
 
     HasAncestorFormula::HasAncestorFormula()
     {
-      generateIdentifier() ;
       StaticStorage::get()->m_formulae.insert(this) ;
     }
 
@@ -421,7 +399,6 @@ namespace ProjetUnivers
 
     HasChildFormula::HasChildFormula()
     {
-      generateIdentifier() ;
       StaticStorage::get()->m_formulae.insert(this) ;
     }
 
@@ -499,7 +476,6 @@ namespace ProjetUnivers
     : m_relation(relation),
       m_is_inversed(is_inversed)
     {
-      generateIdentifier() ;
       StaticStorage::get()->m_formulae[relation].insert(this) ;
     }
 
@@ -527,16 +503,6 @@ namespace ProjetUnivers
 
     FormulaOnRelation::FormulaOnRelation()
     {}
-
-    IsFromFormula::IsFromFormula()
-    {
-      generateIdentifier() ;
-    }
-
-    IsToFormula::IsToFormula()
-    {
-      generateIdentifier() ;
-    }
 
     std::string IsFromFormula::internalPrint() const
     {
@@ -896,11 +862,6 @@ namespace ProjetUnivers
     void TraitFormula::eval(Object*)
     {
       // nothing to do : its false...
-    }
-
-    bool TraitFormula::isValid(Object* object) const
-    {
-      return object->getTrait(m_trait) ;
     }
 
     bool TraitFormula::isValid(const ObjectPair&) const
@@ -2503,7 +2464,10 @@ namespace ProjetUnivers
     void DeducedTrait::notify()
     {
       if (m_updating.find(this) != m_updating.end())
+      {
+        InternalMessage("Update","Skipping update trait because already updated") ;
         return ;
+      }
       m_updating.insert(this) ;
       lock() ;
       _updated() ;

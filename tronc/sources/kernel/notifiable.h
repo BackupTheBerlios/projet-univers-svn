@@ -74,6 +74,9 @@ namespace ProjetUnivers
 
       virtual ~Notifiable() ;
 
+      /// Return the graphviz name.
+      virtual std::string graphvizName() const = 0 ;
+
     protected:
 
       Notifiable() ;

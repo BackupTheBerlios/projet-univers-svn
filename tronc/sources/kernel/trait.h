@@ -139,6 +139,12 @@ namespace ProjetUnivers
       /// True if the trait is not deduced
       virtual bool isPrimitive() const ;
 
+      /// Return the graphviz name.
+      virtual std::string graphvizName() const ;
+
+      /// Return the graphviz port name.
+      virtual std::string getGraphvizPortName() const ;
+
     protected:
 
       /// Abstract class means protected constructor.
@@ -154,6 +160,11 @@ namespace ProjetUnivers
       static std::stack<TypeIdentifier> m_latest_updated_trait ;
 
     private:
+
+      /// True iff trait has a controller on @c
+      bool hasController(ControlerSet* controller_set) const ;
+
+      bool hasViewPoint(ViewPoint* viewpoint) const ;
 
     /*!
       @name Update notifications.
@@ -172,7 +183,7 @@ namespace ProjetUnivers
       /// init the views after construction.
       void _init(ViewPoint* viewpoint) ;
 
-      /// init the controlers after construction.
+      /// init the controllers after construction.
       void _init(ControlerSet* controler_set) ;
 
       /// closes before destruction.
@@ -181,7 +192,7 @@ namespace ProjetUnivers
       /// close the views.
       void _close(ViewPoint* viewpoint) ;
 
-      /// close the controlers before controler set closing.
+      /// close the controllers before controller set closing.
       void _close(ControlerSet* controler_set) ;
 
     // @}
@@ -254,23 +265,23 @@ namespace ProjetUnivers
 
     // @}
     /*!
-      @name Trait Controler managment
+      @name Trait Controller management
     */
     // @{
 
 
-      /// Controlers that apply on the trait, organized by controler sets.
+      /// Controllers that apply on the trait, organized by controller sets.
       std::multimap<ControlerSet*,BaseControler*> m_controlers ;
 
-      // Function that build controlers.
+      // Function that build controllers.
       typedef boost::function0<BaseControler*> ControlerBuilder ;
 
 
       /// Register @c builder as the builder for @c trait_class in
       /// @c controler_set_class
       /*!
-        Whenever a trait is build, the corresponding trait controler will be
-        automatically built in each controler set.
+        Whenever a trait is build, the corresponding trait controller will be
+        automatically built in each controller set.
       */
       static void registerControler(
             const TypeIdentifier& trait_class,
@@ -302,7 +313,7 @@ namespace ProjetUnivers
       virtual bool call(const TypeIdentifier& trait_type,
                         const std::string&    command) ;
 
-      /// call an int command returns true iff succeeded.
+      /// call an integer command returns true iff succeeded.
       virtual bool call(const TypeIdentifier& trait_type,
                         const std::string&    command,
                         const int&            parameter) ;
@@ -376,7 +387,7 @@ namespace ProjetUnivers
                       std::pair<TypeIdentifier,
                                 Trait::ControlerBuilder> > m_controler_builders ;
 
-        /// Controler X ControlerSet -> Trait (in term of classes names)
+        /// Controller X ControlerSet -> Trait (in term of classes names)
         std::map<std::pair<TypeIdentifier,TypeIdentifier>,
                  TypeIdentifier>                          m_trait_of_controler ;
 
@@ -405,7 +416,7 @@ namespace ProjetUnivers
                  std::map<std::string,
                           boost::function1<boost::any,Trait*> > > m_functions ;
 
-        /// xml tag name -> reader functions
+        /// XML tag name -> reader functions
         std::map<std::string,ReaderFunction> m_readers ;
 
       private:

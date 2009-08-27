@@ -111,6 +111,15 @@ namespace ProjetUnivers
 
       const Statistics& getStatistics() const ;
 
+      /// Returns a dot language representation of the model.
+      std::string toGraphviz() const ;
+
+      /// Returns a dot language representation of the model relative to @c controller_set.
+      std::string toGraphviz(ControlerSet* controller_set) const ;
+
+      /// Returns a dot language representation of the model relative to @c viewpoint.
+      std::string toGraphviz(ViewPoint* viewpoint) const ;
+
     private:
 
       /// Creates a new Object with given parent.
@@ -296,6 +305,9 @@ namespace ProjetUnivers
       void update(const Relation&) ;
 
     // @}
+
+      std::string beginGraphviz() const ;
+      std::string printGraphvizRank() const ;
 
       /// The next identifier to assign
       int m_next_identifier ;

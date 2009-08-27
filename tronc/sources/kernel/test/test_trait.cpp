@@ -20,6 +20,7 @@
  ***************************************************************************/
 #include <iostream>
 #include <kernel/deduced_trait.h>
+#include <kernel/log.h>
 #include <kernel/model.h>
 #include <kernel/object.h>
 #include <kernel/test/test_trait.h>

@@ -18,9 +18,11 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <fstream>
 #include <stdio.h>
 #include <memory>
 #include <kernel/parameters.h>
+#include <kernel/string.h>
 #include <kernel/log.h>
 
 namespace ProjetUnivers
@@ -91,6 +93,21 @@ namespace ProjetUnivers
       {
         --indentation ;
         InternalMessage(m_module.c_str(),std::string("Leaving [") + m_module +"] " + m_name) ;
+      }
+
+      namespace
+      {
+        int number = 0 ;
+      }
+
+      void logToFile(const std::string& content)
+      {
+        std::string filename("temp" + Kernel::toString(number++) + ".log") ;
+        std::ofstream file(filename.c_str()) ;
+
+        file << content ;
+
+        file.close() ;
       }
 
     }

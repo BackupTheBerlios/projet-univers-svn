@@ -18,11 +18,13 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <iostream>
 #include <algorithm>
 #include <kernel/model.h>
 #include <kernel/base_controler.h>
 #include <kernel/object.h>
 #include <kernel/timer.h>
+#include <kernel/parameters.h>
 
 #include <kernel/controler_set.h>
 
@@ -70,17 +72,106 @@ namespace ProjetUnivers
     void ControlerSet::beforeSimulation(const float&)
     {}
 
-    void ControlerSet::simulate(const float& seconds)
+
+    struct Equivalence
+    {
+      bool operator()(BaseControler* const & x,BaseControler* const & y) const
+      {
+        BaseControler::DependencyOrder local ;
+        return !local(x,y) && !local(y,x) ;
+      }
+    };
+
+    void ControlerSet::checkOrder(const std::list<BaseControler*>& controllers)
+    {
+
+      if (!Parameters::getValue<bool>("Kernel","ActivateCoherencyChecks",false))
+        return ;
+
+      BaseControler::DependencyOrder order ;
+      bool error = false ;
+
+      // check Irreflexivity
+      for(std::list<BaseControler*>::const_iterator controller = controllers.begin() ; controller != controllers.end() ; ++controller)
+      {
+        if (order(*controller,*controller))
+          error = true ;
+      }
+
+      // check Antisymmetry
+      for(std::list<BaseControler*>::const_iterator controller1 = controllers.begin() ; controller1 != controllers.end() ; ++controller1)
+      {
+        for(std::list<BaseControler*>::const_iterator controller2 = controllers.begin() ; controller2 != controllers.end() ; ++controller2)
+        {
+          if (order(*controller1,*controller2) && order(*controller2,*controller1))
+          {
+            error = true ;
+          }
+        }
+      }
+
+      Equivalence equivalent ;
+
+      // check Transitivity of equivalence
+      for(std::list<BaseControler*>::const_iterator controller1 = controllers.begin() ; controller1 != controllers.end() ; ++controller1)
+      {
+        for(std::list<BaseControler*>::const_iterator controller2 = controllers.begin() ; controller2 != controllers.end() ; ++controller2)
+        {
+          for(std::list<BaseControler*>::const_iterator controller3 = controllers.begin() ; controller3 != controllers.end() ; ++controller3)
+          {
+            if (equivalent(*controller1,*controller2) && equivalent(*controller2,*controller3) && !equivalent(*controller1,*controller3))
+            {
+              error = true ;
+            }
+          }
+        }
+      }
+
+      // check Transitivity
+      for(std::list<BaseControler*>::const_iterator controller1 = controllers.begin() ; controller1 != controllers.end() ; ++controller1)
+      {
+        for(std::list<BaseControler*>::const_iterator controller2 = controllers.begin() ; controller2 != controllers.end() ; ++controller2)
+        {
+          for(std::list<BaseControler*>::const_iterator controller3 = controllers.begin() ; controller3 != controllers.end() ; ++controller3)
+          {
+            if ( order(*controller1,*controller2) && order(*controller2,*controller3) && !order(*controller1,*controller3))
+            {
+              error = true ;
+              std::cout << std::endl << "order does not satisfy Transitivity : "
+                        << (*controller1)->toString() << " < "
+                        << (*controller2)->toString() << " and "
+                        << (*controller2)->toString() << " < "
+                        << (*controller3)->toString() << " but "
+                        << (*controller1)->toString() << " is not < "
+                        << (*controller3)->toString() << std::endl ;
+            }
+          }
+        }
+      }
+
+      if (error)
+        Log::logToFile(m_model->toGraphviz(this)) ;
+    }
+
+    void ControlerSet::orderControlers()
     {
       BaseControler::DependencyOrder order ;
 
       m_controllers.sort(order) ;
 
-//      for(std::list<BaseControler*>::iterator temp = controllers.begin() ; temp != controllers.end() ; ++temp)
+      checkOrder(m_controllers) ;
+    }
+
+    void ControlerSet::simulate(const float& seconds)
+    {
+
+//      for(std::list<BaseControler*>::iterator temp = m_controllers.begin() ; temp != m_controllers.end() ; ++temp)
 //      {
-//        for(std::list<BaseControler*>::iterator temp2 = temp ; temp2 != controllers.end() ; ++temp2)
+//        for(std::list<BaseControler*>::iterator temp2 = temp ; temp2 != m_controllers.end() ; ++temp2)
 //        {
-//          if (temp2 != temp && !order(*temp,*temp2))
+//          if (!(temp2 == temp ||
+//                order(*temp,*temp2) ||
+//                (!order(*temp,*temp2) && order(*temp2,*temp))))
 //          {
 //            BaseControler* controler1 = *temp ;
 //            BaseControler* controler2 = *temp2 ;
@@ -198,7 +289,7 @@ namespace ProjetUnivers
     : m_model(model),
       m_initialised(false),
       m_elapsed(0),
-      m_timestep(0),
+      m_timestep(0.1),
       m_consumed_time(0),
       m_simulation_time(0)
     {}

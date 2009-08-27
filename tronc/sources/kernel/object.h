@@ -233,17 +233,26 @@ namespace ProjetUnivers
                  ViewPoint* i_viewpoint,
                  boost::function1<void,_View*> i_operation) ;
 
-      /// Apply @c i_operation on all controlers of @c i_controler_set.
+      /// Apply @c i_operation on all controllers of @c i_controler_set.
       void applyTopDown
                 (ControlerSet*                         i_controler_set,
                  boost::function1<void,BaseControler*> i_operation) ;
 
-      /// Apply @c i_operation on all controlers of @c i_controler_set.
+      /// Apply @c i_operation on all controllers of @c i_controler_set.
       void applyBottomUp
                 (ControlerSet*                         i_controler_set,
                  boost::function1<void,BaseControler*> i_operation) ;
 
     //@}
+
+      /// Returns a dot language representation of the object.
+      std::string toGraphviz() const ;
+
+      /// Returns a dot language representation of the model relative to @c controller_set.
+      std::string toGraphviz(ControlerSet* controller_set) const ;
+
+      /// Returns a dot language representation of the model relative to @c viewpoint.
+      std::string toGraphviz(ViewPoint* viewpoint) const ;
 
     private:
 
@@ -252,6 +261,15 @@ namespace ProjetUnivers
 
       /// Destroy the objects and the traits.
       ~Object() ;
+
+      /// Returns the name of the object.
+      std::string graphvizName() const ;
+
+      /// Build the graphviz object ranks.
+      void buildGraphvizRanks(const int& current_rank,std::map<int,std::string>& ranks) const ;
+
+      /// Returns a dot language representation of the object.
+      std::string toGraphviz(boost::function1<bool,Trait*> trait_condition) const ;
 
     /*!
       @name Internal construction
@@ -299,7 +317,7 @@ namespace ProjetUnivers
       /// update the views.
       void _updated() ;
 
-      /// True iff we can initialize views, controlers.
+      /// True iff we can initialize views, controllers.
       bool mayInit() const ;
 
       /// Initialize after construction.
@@ -308,7 +326,7 @@ namespace ProjetUnivers
       /// Initialize the views after construction.
       void _init(ViewPoint* i_viewpoint) ;
 
-      /// Initialize the controlers after construction.
+      /// Initialize the controllers after construction.
       void _init(ControlerSet* i_controler_set) ;
 
       /// closes before destruction.
@@ -317,13 +335,13 @@ namespace ProjetUnivers
       /// close the views before viewpoint closing.
       void _close(ViewPoint* i_viewpoint) ;
 
-      /// close the controlers before controler set closing.
+      /// close the controllers before controller set closing.
       void _close(ControlerSet* i_controler_set) ;
 
       /// Recursively create views for a viewpoint.
       void _create_views(ViewPoint* i_viewpoint) ;
 
-      /// Recursively create controlers for a controler set.
+      /// Recursively create controllers for a controller set.
       void _create_controlers(ControlerSet* i_controler_set) ;
 
       /// Internal call a void command.

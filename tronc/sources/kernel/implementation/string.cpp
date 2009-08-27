@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -25,14 +25,34 @@ namespace ProjetUnivers
   namespace Kernel 
   {
     
-    std::string toString(const float& _i) 
+    std::string toString(const float& number)
     {
-      std::stringstream ss;
-      std::string str;
-      ss << _i;
-      ss >> str;
+      std::stringstream ss ;
+      std::string str ;
+      ss << number ;
+      ss >> str ;
       return str ;  
     }
+
+    std::string toString(const int& number)
+    {
+      std::stringstream ss ;
+      std::string str ;
+      ss << number ;
+      ss >> str ;
+      return str ;
+    }
+
+    std::string toString(const unsigned int& number)
+    {
+      std::stringstream ss ;
+      std::string str ;
+      ss << number ;
+      ss >> str ;
+      return str ;
+    }
+
+
   }
 }
     

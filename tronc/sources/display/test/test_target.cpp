@@ -55,6 +55,8 @@
 #include <display/implementation/ogre/head_up_display/target.h>
 #include <display/implementation/ogre/head_up_display/target_with_selection.h>
 #include <display/test/test_target.h>
+#include <display/implementation/positionned.h>
+#include <display/implementation/observer.h>
 
 using ProjetUnivers::Display::Implementation::Ogre::HUD::Target;
 
@@ -109,8 +111,8 @@ namespace ProjetUnivers
           if (seconds != 0)
           {
             timer.reset() ;
+            model->update(seconds) ;
           }
-          model->update(seconds) ;
         }
       }
 
@@ -173,7 +175,40 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT_EQUAL(Ogre::Real(0),target_view->m_target_container->getLeft()) ;
         CPPUNIT_ASSERT_EQUAL(Ogre::Real(0),target_view->m_target_container->getTop()) ;
 
+        {
+          // check the dependencies
+          Kernel::Notifiable* positionned = observer->getTrait<Implementation::Positionned>() ;
+          Kernel::Notifiable* camera = observer->getTrait<Implementation::Observer>() ;
+          Kernel::Notifiable* selected = Kernel::Relation::getRelation(getClassTypeIdentifier(Display::Implementation::Target),ship,target) ;
+          Kernel::Notifiable* oriented = observer->getTrait<Model::Oriented>() ;
+          Kernel::Notifiable* recursively_oriented = observer->getTrait<Model::RecursivelyOriented>() ;
+
+          CPPUNIT_ASSERT(positionned) ;
+          CPPUNIT_ASSERT(camera) ;
+          CPPUNIT_ASSERT(selected) ;
+
+          CPPUNIT_ASSERT(camera->dependsOn(positionned)) ;
+          CPPUNIT_ASSERT(selected->dependsOn(camera)) ;
+          CPPUNIT_ASSERT(selected->dependsOn(oriented)) ;
+          CPPUNIT_ASSERT(camera->dependsOn(oriented)) ;
+          CPPUNIT_ASSERT(positionned->dependsOn(oriented)) ;
+
+          CPPUNIT_ASSERT(oriented->getDependentNotifiables().find(recursively_oriented) != oriented->getDependentNotifiables().end()) ;
+          CPPUNIT_ASSERT(oriented->getDependentNotifiables().find(positionned) != oriented->getDependentNotifiables().end()) ;
+
+          CPPUNIT_ASSERT(recursively_oriented->getDependentNotifiables().find(selected) != recursively_oriented->getDependentNotifiables().end()) ;
+
+          CPPUNIT_ASSERT(positionned->getDependentNotifiables().find(camera) != positionned->getDependentNotifiables().end()) ;
+
+          CPPUNIT_ASSERT(camera->getDependentNotifiables().find(selected) != camera->getDependentNotifiables().end()) ;
+        }
+
+
+        InternalMessage("Display","***************************") ;
+
         rotateObserverLeft(ship) ;
+
+        Kernel::Log::logToFile(model->toGraphviz(target_view->getViewPoint())) ;
 
         CPPUNIT_ASSERT(!target_view->m_arrow_is_shown) ;
         CPPUNIT_ASSERT(target_view->m_target_is_shown) ;
@@ -278,18 +313,7 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT_EQUAL(Model::Position::Meter(0,0,0),
                              Model::getRelativePosition(viewpoint->getObserver(),universe)) ;
 
-        Kernel::Timer timer ;
-        Kernel::Timer global_timer ;
-
-        while (global_timer.getSecond() < 0.5)
-        {
-          float seconds = timer.getSecond() ;
-          if (seconds != 0)
-          {
-            timer.reset() ;
-          }
-          model->update(seconds) ;
-        }
+        simulate(model.get(),0.5) ;
 
         // *destroy* previous observer + ship
         observer->destroyObject() ;
@@ -313,16 +337,7 @@ namespace ProjetUnivers
                              Model::getRelativePosition(viewpoint->getObserver(),universe)) ;
 
 
-        global_timer.reset() ;
-        while (global_timer.getSecond() < 0.5)
-        {
-          float seconds = timer.getSecond() ;
-          if (seconds != 0)
-          {
-            timer.reset() ;
-          }
-          model->update(seconds) ;
-        }
+        simulate(model.get(),0.5) ;
 
         InternalMessage("Display","Display::TestTarget::changeTargetDisplayer leaving") ;
       }

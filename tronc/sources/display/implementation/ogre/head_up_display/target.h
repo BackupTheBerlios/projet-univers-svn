@@ -117,7 +117,6 @@ namespace ProjetUnivers
             /// for tests
             friend class ProjetUnivers::Display::Test::TestTarget ;
             friend class ProjetUnivers::Display::Test::TestModelView ;
-            
           };
         }
       }

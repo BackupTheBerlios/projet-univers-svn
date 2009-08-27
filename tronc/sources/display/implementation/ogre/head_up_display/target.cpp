@@ -274,7 +274,10 @@ namespace ProjetUnivers
                                      ->getView<Ogre::Observer>(getViewPoint())->getCamera() ;
             
             if (!camera)
+            {
+              ErrorMessage("Target::onUpdate no camera") ;
               return ;
+            }
             
             // update target global position
             Model::Position pos = getObjectTo()->getTrait<Model::Positionned>()

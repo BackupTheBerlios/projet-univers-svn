@@ -151,12 +151,6 @@ namespace ProjetUnivers
     {
       Log::Block temp("Structure","addTrait") ;
 
-      if (object->m_deleting)
-      {
-        delete new_trait ;
-        return NULL ;
-      }
-
       bool deduced = ! new_trait->isPrimitive() ;
 
       startTransaction() ;
@@ -470,8 +464,16 @@ namespace ProjetUnivers
 
     void Model::update(const float& seconds)
     {
-      // first update controller sets then viewpoints
+
       const std::set<Kernel::ControlerSet*>& controlersets = getControlerSets() ;
+      for(std::set<Kernel::ControlerSet*>::const_iterator controlerset = controlersets.begin() ;
+          controlerset != controlersets.end() ;
+          ++controlerset)
+      {
+        (*controlerset)->orderControlers() ;
+      }
+
+      // first update controller sets then viewpoints
       for(std::set<Kernel::ControlerSet*>::const_iterator controlerset = controlersets.begin() ;
           controlerset != controlersets.end() ;
           ++controlerset)
@@ -823,6 +825,85 @@ namespace ProjetUnivers
         (*controler)->update() ;
       }
     }
+
+    std::string Model::beginGraphviz() const
+    {
+      std::string result("digraph\n{\n") ;
+
+      return result + "node [shape=plaintext];\n" ;
+    }
+
+    std::string Model::printGraphvizRank() const
+    {
+      std::string result ;
+
+      std::map<int,std::string> ranks ;
+
+      for(std::set<Object*>::iterator object = m_objects.begin() ;
+          object != m_objects.end() ;
+          ++object)
+      {
+        (*object)->buildGraphvizRanks(0,ranks) ;
+      }
+
+      for(std::map<int,std::string>::iterator rank = ranks.begin() ; rank != ranks.end() ; ++rank)
+      {
+        result += "{ rank = same ; " ;
+        result += rank->second ;
+        result += "}\n" ;
+      }
+
+      return result ;
+    }
+
+    std::string Model::toGraphviz() const
+    {
+      std::string result(beginGraphviz()) ;
+
+      for(std::set<Object*>::iterator object = m_objects.begin() ;
+          object != m_objects.end() ;
+          ++object)
+      {
+        result += (*object)->toGraphviz() ;
+      }
+
+      result += printGraphvizRank() ;
+
+      return result + "\n}" ;
+    }
+
+    std::string Model::toGraphviz(ControlerSet* controller_set) const
+    {
+      std::string result(beginGraphviz()) ;
+
+      for(std::set<Object*>::iterator object = m_objects.begin() ;
+          object != m_objects.end() ;
+          ++object)
+      {
+        result += (*object)->toGraphviz(controller_set) ;
+      }
+
+      result += printGraphvizRank() ;
+
+      return result + "\n}" ;
+    }
+
+    std::string Model::toGraphviz(ViewPoint* viewpoint) const
+    {
+      std::string result(beginGraphviz()) ;
+
+      for(std::set<Object*>::iterator object = m_objects.begin() ;
+          object != m_objects.end() ;
+          ++object)
+      {
+        result += (*object)->toGraphviz(viewpoint) ;
+      }
+
+      result += printGraphvizRank() ;
+
+      return result + "\n}" ;
+    }
+
   }
 }
 

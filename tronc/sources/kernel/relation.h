@@ -112,6 +112,9 @@ namespace ProjetUnivers
 
       static Relation* read(Reader*) ;
 
+      /// Return the graphviz name.
+      virtual std::string graphvizName() const ;
+
     protected:
 
       Relation() ;

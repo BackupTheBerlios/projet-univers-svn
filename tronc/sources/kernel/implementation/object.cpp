@@ -235,25 +235,41 @@ namespace ProjetUnivers
     {
     }
 
-    void Object::_add(Trait* i_trait)
+    void Object::_add(Trait* trait)
     {
-      CHECK(i_trait,"Kernel::_add(Trait*) no trait") ;
-      TypeIdentifier trait_name(getObjectTypeIdentifier(i_trait)) ;
+      CHECK(trait,"Kernel::_add(Trait*) no trait") ;
+      TypeIdentifier trait_name(getObjectTypeIdentifier(trait)) ;
 
-      CHECK(_getTraits().find(trait_name)==_getTraits().end(),
-            "trait " + trait_name.toString() + " already exists on object " + toString(getIdentifier())) ;
+      if (_getTraits().find(trait_name) !=_getTraits().end())
+      {
+        // already have
+        delete trait ;
 
-      i_trait->m_object = this ;
+        if (!isDeleting())
+          // if we have marked the trait for destruction, undo it
+          getModel()->removeTraitToDestroy(this,trait_name) ;
+        return ;
+      }
 
-      /// on range les facettes en fonction de leur classe
-      _getTraits()[trait_name] = i_trait ;
+      trait->m_object = this ;
 
-      i_trait->_create_views() ;
-      i_trait->_create_controlers() ;
+      _getTraits()[trait_name] = trait ;
 
-      i_trait->_init() ;
+      // hope deleting objects wont need it
+      if (isDeleting())
+      {
+        getModel()->recordTraitToDestroy(trait) ;
+      }
+      else
+      {
+        trait->_create_views() ;
+        trait->_create_controlers() ;
 
-      DeducedTrait::addTrait(this,i_trait) ;
+        trait->_init() ;
+
+        DeducedTrait::addTrait(this,trait) ;
+      }
+
     }
 
     Object* Object::_add(Object* child)
@@ -306,11 +322,6 @@ namespace ProjetUnivers
       */
       DeducedTrait::removeTrait(this,trait) ;
       trait->_close() ;
-
-      if (!trait->isLocked() && !m_deleting)
-      {
-        _getTraits().erase(i_trait_name) ;
-      }
       getModel()->recordTraitToDestroy(trait) ;
     }
 
@@ -1008,5 +1019,144 @@ namespace ProjetUnivers
       return m_traits ;
     }
 
+    std::string Object::toGraphviz(boost::function1<bool,Trait*> trait_condition) const
+    {
+      std::string object(graphvizName()) ;
+
+      // print the object it self
+      std::string result(object) ;
+
+      result += " [label=<<TABLE>" ;
+      result += "<TR><TD>" ;
+      result += Kernel::toString(getIdentifier()) ;
+      result += "</TD></TR>" ;
+
+      // print the traits we use HTML array grouping
+      if (!_getTraits().empty())
+      {
+        std::string traits ;
+
+        for(std::map<TypeIdentifier,Trait*>::const_iterator trait = _getTraits().begin() ;
+            trait != _getTraits().end() ;
+            ++trait)
+        {
+          traits = traits + "<TR><TD TOOLTIP=\"" + trait->first.fullName() + "\" " +
+                                    "PORT=\"" + trait->second->getGraphvizPortName() + "\"" ;
+
+
+          // color indicate status :
+          //  red for primitive trait to be destroyed
+          //  yellow for deduced trait
+          //  orange for primitive trait to be destroyed
+          if (trait_condition(trait->second))
+          {
+            traits += " BGCOLOR=\"green\"" ;
+          }
+          else if (!trait->second->isPrimitive())
+          {
+            if (getModel()->isToBeDestroyed(trait->second))
+            {
+              traits += " BGCOLOR=\"orange\"" ;
+            }
+            else
+            {
+              traits += " BGCOLOR=\"yellow\"" ;
+            }
+          }
+          else if (getModel()->isToBeDestroyed(trait->second))
+          {
+            traits += " BGCOLOR=\"red\"" ;
+          }
+
+          traits += + ">" ;
+          traits += trait->first.className() ;
+          traits += "</TD></TR>\n" ;
+        }
+
+        result += traits ;
+      }
+
+      result += "</TABLE>>" ;
+
+      result += "]" ;
+      result += " ;\n" ;
+
+      // dependencies
+      for(std::map<TypeIdentifier,Trait*>::const_iterator trait = _getTraits().begin() ;
+          trait != _getTraits().end() ;
+          ++trait)
+      {
+        if (trait_condition(trait->second))
+        {
+          const std::set<Notifiable*>& dependencies = trait->second->getDependencies() ;
+
+          for(std::set<Notifiable*>::const_iterator dependency = dependencies.begin() ; dependency != dependencies.end() ; ++dependency)
+          {
+            result += trait->second->graphvizName() ;
+            result += " -> " ;
+            result += (*dependency)->graphvizName() ;
+            result += " [style=dashed];\n" ;
+          }
+        }
+      }
+
+      // print its children + link parent/child
+      for(std::set<Object*>::iterator child = children.begin() ;
+          child != children.end() ;
+          ++child)
+      {
+        result += (*child)->toGraphviz(trait_condition) ;
+
+        std::string object_child((*child)->graphvizName()) ;
+
+        result = result + object + " -> " + object_child + " ;\n" ;
+      }
+
+      return result ;
+
+    }
+
+    namespace
+    {
+      bool alwaysTrue(Trait*)
+      {
+        return true ;
+      }
+    }
+
+    std::string Object::toGraphviz() const
+    {
+
+      return toGraphviz(&alwaysTrue) ;
+    }
+
+    std::string Object::toGraphviz(ViewPoint* viewpoint) const
+    {
+      return toGraphviz(boost::bind(&Trait::hasViewPoint,_1,viewpoint)) ;
+    }
+
+    std::string Object::toGraphviz(ControlerSet* controller_set) const
+    {
+
+      return toGraphviz(boost::bind(&Trait::hasController,_1,controller_set)) ;
+    }
+
+    std::string Object::graphvizName() const
+    {
+      return "Object_" + Kernel::toString(getIdentifier()) ;
+    }
+
+    void Object::buildGraphvizRanks(const int& current_rank,std::map<int,std::string>& ranks) const
+    {
+      ranks[current_rank] += graphvizName() ;
+      ranks[current_rank] += " ; " ;
+
+      for(std::set<Object*>::iterator child = children.begin() ;
+          child != children.end() ;
+          ++child)
+      {
+        (*child)->buildGraphvizRanks(current_rank+1,ranks) ;
+      }
+    }
   }
 }

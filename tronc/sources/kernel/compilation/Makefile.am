@@ -67,6 +67,7 @@ test_kernel_SOURCES = \
 $(SOURCES)/kernel/test/test_algorithm.cpp \
 $(SOURCES)/kernel/test/test_error.cpp \
 $(SOURCES)/kernel/test/test_kernel.cpp \
+$(SOURCES)/kernel/test/test_interpretor.cpp \
 $(SOURCES)/kernel/test/test_meta.cpp \
 $(SOURCES)/kernel/test/test_model_controler.cpp \
 $(SOURCES)/kernel/test/test_model_view.cpp \

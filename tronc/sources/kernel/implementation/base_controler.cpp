@@ -89,8 +89,8 @@ namespace ProjetUnivers
       if (x->getTrait()->dependsOn(y->getTrait()))
         return false ;
 
-      // unrelated through dependencies : we still need an order
-      return x < y ;
+      // unrelated through dependencies : are equivalent
+      return false ;
     }
 
     std::string BaseControler::toString() const

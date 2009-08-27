@@ -38,105 +38,28 @@ namespace ProjetUnivers
         class T1 : public Trait
         {};
       }
-      
-      void TestInterpretor::addTrait()
+
+      void TestInterpretor::addingTraitOnADestroyedObject()
       {
         using namespace InterpretorModel ;
-        
+
         std::auto_ptr<Model> model(new Model()) ;
-        std::auto_ptr<Implementation::Interpretor> interpretor(new Implementation::Interpretor(model.get())) ;
-        
-        Kernel::Object* object = model->createObject() ;
-        
-        interpretor->startTransaction() ;
-        
-        interpretor->startConcurrentBlock() ;
-        
-        interpretor->addTrait(object,new T1()) ;
-        // during a block operations are performed
-        CPPUNIT_ASSERT(interpretor->getTrait(object,getClassTypeIdentifier(T1))) ;
-        
-        interpretor->endConcurrentBlock() ;
 
-        interpretor->startConcurrentBlock() ;
-
-        // but in a concurrent block operations are not performed
-        CPPUNIT_ASSERT(!interpretor->getTrait(object,getClassTypeIdentifier(T1))) ;
-        
-        interpretor->endConcurrentBlock() ;
-        
-        interpretor->endTransaction() ;
-        
-        // finally operations are performed at the end of the transaction
-        CPPUNIT_ASSERT(interpretor->getTrait(object,getClassTypeIdentifier(T1))) ;
-      }
-
-      void TestInterpretor::destroyTrait()
-      {
-        using namespace InterpretorModel ;
-        
-        std::auto_ptr<Model> model(new Model()) ;
-        std::auto_ptr<Implementation::Interpretor> interpretor(new Implementation::Interpretor(model.get())) ;
-        
-        Kernel::Object* object = model->createObject() ;
-        object->addTrait(new T1()) ;
-        
-        interpretor->startTransaction() ;
-        
-        interpretor->startConcurrentBlock() ;
-        
-        interpretor->destroyTrait(object,interpretor->getTrait(object,getClassTypeIdentifier(T1))) ;
-        // during a block operations are performed
-        CPPUNIT_ASSERT(!interpretor->getTrait(object,getClassTypeIdentifier(T1))) ;
-        
-        interpretor->endConcurrentBlock() ;
-
-        interpretor->startConcurrentBlock() ;
-
-        // but in a concurrent block operations are not performed
-        CPPUNIT_ASSERT(interpretor->getTrait(object,getClassTypeIdentifier(T1))) ;
-        
-        interpretor->endConcurrentBlock() ;
-        
-        interpretor->endTransaction() ;
-        
-        // finally operations are performed at the end of the transaction
-        CPPUNIT_ASSERT(!interpretor->getTrait(object,getClassTypeIdentifier(T1))) ;
-      }
-     
-      void TestInterpretor::destroyObject()
-      {
-        using namespace InterpretorModel ;
-        
-        std::auto_ptr<Model> model(new Model()) ;
-        std::auto_ptr<Implementation::Interpretor> interpretor(new Implementation::Interpretor(model.get())) ;
-        
         Kernel::Object* object = model->createObject() ;
         Kernel::Object* object2 = object->createObject() ;
-        
-        interpretor->startTransaction() ;
-        
-        interpretor->startConcurrentBlock() ;
-        
-        interpretor->destroyObject(object2) ;
-        // during a block operations are performed
-        CPPUNIT_ASSERT(interpretor->getChildren(object).empty()) ;
-        
-        interpretor->endConcurrentBlock() ;
 
-        interpretor->startConcurrentBlock() ;
 
-        // but in a concurrent block operations are not performed
-        CPPUNIT_ASSERT(!interpretor->getChildren(object).empty()) ;
-        
-        interpretor->endConcurrentBlock() ;
-        
-        interpretor->endTransaction() ;
-        
-        // finally operations are performed at the end of the transaction
-        CPPUNIT_ASSERT(interpretor->getChildren(object).empty()) ;
-        
+        model->startTransaction() ;
+
+        object->destroyObject() ;
+        object2->addTrait(new T1()) ;
+
+        // even if the object is to be destroyed we should add it
+        CPPUNIT_ASSERT(object2->getTrait<T1>()) ;
+
+        model->endTransaction() ;
       }
+
       
     }
   }
