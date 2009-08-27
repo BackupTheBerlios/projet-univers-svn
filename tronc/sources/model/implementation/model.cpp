@@ -101,13 +101,13 @@ namespace ProjetUnivers {
     Ogre::MaterialManager*        material_manager = NULL ;
     Ogre::SkeletonManager*        skeleton_manager = NULL ;
     Ogre::ArchiveManager*         archive_manager = NULL ;
-    std::auto_ptr<Ogre::Root>     root ;
+    Ogre::Root*                   root = NULL ;
 
     bool initialised = false ;
 
   // @}
 
-    /// Search a filename in the ressources
+    /// Search a filename in the resources
     std::string findFilePath(const std::string& filename)
     {
       // on demand init
@@ -135,23 +135,21 @@ namespace ProjetUnivers {
 
     void initRessources()
     {
-      /// if sufficient ressources have not been initialised...
+      /// if sufficient resources have not been initialized...
       InternalMessage("Model","Model::initRessources entering") ;
       if (! MeshManager::getSingletonPtr())
       {
         log_manager = new LogManager() ;
         log_manager->createLog("Ogre.log", false, false) ;
-        root.reset(new Root()) ;
+        root = new Root() ;
         hardware_buffer_manager = new DefaultHardwareBufferManager() ;
         MaterialManager::getSingletonPtr()->initialise() ;
         MeshManager::getSingletonPtr()->_initialise() ;
-//        skeleton_manager = new SkeletonManager() ;
-//        mesh_manager = new MeshManager();
 
         ConfigFile file ;
         file.load("ressources.cfg") ;
 
-        // On parcours ses sections
+        // we loop on sections
         ConfigFile::SectionIterator section = file.getSectionIterator();
 
         String nomSection, nomType, nomArchitecture ;
@@ -172,7 +170,6 @@ namespace ProjetUnivers {
         }
         initialised = true ;
 
-
       }
 
       InternalMessage("Model","Model::initRessources leaving") ;
@@ -181,10 +178,10 @@ namespace ProjetUnivers {
 
     void closeRessources()
     {
-      if (root.get())
+      if (root)
       {
         delete hardware_buffer_manager ;
-        root.reset() ;
+        delete root ;
 
         initialised = false ;
       }
@@ -271,14 +268,12 @@ namespace ProjetUnivers {
     {
       if (name == "TestDemonstration")
       {
-        /// 1. Construction d'un univers
         InternalMessage("Model","building Universe...") ;
         Kernel::Object* universe = model->createObject() ;
         universe->addTrait(new Universe()) ;
         universe->addTrait(new Positionned()) ;
         universe->addTrait(new Active()) ;
 
-        /// 1.5 Un système stellaire
         InternalMessage("Model","building stellar system...") ;
         Kernel::Object* system = universe->createObject() ;
         system->addTrait(new StellarSystem()) ;
@@ -316,102 +311,9 @@ namespace ProjetUnivers {
           ship2 = ship ;
         }
 
-//        {
-//          Kernel::Object* ship = createShip(system) ;
-//          ship->addTrait(new Transponder(team1)) ;
-//          InternalMessage("Model","changing position") ;
-//          ship->getTrait<Positionned>()->setPosition(Position::Meter(0,200,-500)) ;
-//          InternalMessage("Model","changing orientation") ;
-//          ship->getTrait<Oriented>()->setOrientation(::Ogre::Quaternion(::Ogre::Degree(90),::Ogre::Vector3::UNIT_Y)) ;
-//          Kernel::Object* agent = createAI(ship) ;
-//          agent->getTrait<WithObjectives>()->addObjective(Objective::attackAllEnemies()) ;
-//        }
-//        {
-//          // a sitting duck
-//          InternalMessage("Model","building ship...") ;
-//          Kernel::Object* ship = system->createObject() ;
-//          ship->addTrait(new Positionned(Position::Meter(-200,
-//                                                         50,
-//                                                         -500))) ;
-//          ship->addTrait(new Oriented(::Ogre::Quaternion(::Ogre::Degree(90),::Ogre::Vector3::UNIT_Y))) ;
-//          ship->addTrait(new Solid(Mesh("test_ship.mesh"))) ;
-//          ship->addTrait(new Mobile()) ;
-//          ship->addTrait(new Massive(Mass::Kilogram(1000))) ;
-//          ship->addTrait(new Dragger(Kernel::Parameters::getValue<float>("Model","DraggerCoeeficient"))) ;
-//
-//          Kernel::Object* st1 = ship->createObject() ;
-//          st1->addTrait(new Stabilizer(0,Kernel::Parameters::getValue<float>("Model","StabilizerForce"),0)) ;
-//
-//          Kernel::Object* st2 = ship->createObject() ;
-//          st2->addTrait(new Stabilizer(Kernel::Parameters::getValue<float>("Model","StabilizerForce"),0,0)) ;
-//
-//          Kernel::Object* st3 = ship->createObject() ;
-//          st3->addTrait(new Stabilizer(0,0,Kernel::Parameters::getValue<float>("Model","StabilizerForce"))) ;
-//
-//          InternalMessage("Model","building ship done") ;
-//        }
-//
-//        {
-//          InternalMessage("Model","building ship...") ;
-//          Kernel::Object* ship = system->createObject() ;
-//          ship->addTrait(new Positionned(Position::Meter(200,
-//                                                         50,
-//                                                         -1000))) ;
-//          ship->addTrait(new Oriented(Orientation(Ogre::Quaternion(Ogre::Degree(90),Ogre::Vector3::UNIT_Y)))) ;
-//
-//          ship->addTrait(new Solid(Mesh("test_ship.mesh"))) ;
-//          ship->addTrait(new Mobile(Speed::MeterPerSecond(-50,0,0))) ;
-//          ship->addTrait(new Massive(Mass::Kilogram(1000))) ;
-//          ship->addTrait(new Dragger(Kernel::Parameters::getValue<float>("Model","DraggerCoeeficient"))) ;
-//
-//          Kernel::Object* st1 = ship->createObject() ;
-//          st1->addTrait(new Stabilizer(0,Kernel::Parameters::getValue<float>("Model","StabilizerForce"),0)) ;
-//
-//          Kernel::Object* st2 = ship->createObject() ;
-//          st2->addTrait(new Stabilizer(Kernel::Parameters::getValue<float>("Model","StabilizerForce"),0,0)) ;
-//
-//          Kernel::Object* st3 = ship->createObject() ;
-//          st3->addTrait(new Stabilizer(0,0,Kernel::Parameters::getValue<float>("Model","StabilizerForce"))) ;
-//
-//
-//          Kernel::Object* stick = system->createObject() ;
-//          stick->addTrait(new Positionned(Position::Meter(0,
-//                                                          0,
-//                                                          -50))) ;
-//          stick->addTrait(new Stick()) ;
-//
-//          ship->addTrait(new GuidanceSystem(Kernel::Parameters::getValue<float>("Model","GuidanceForce"))) ;
-//          ship->addTrait(new GuidanceControler()) ;
-//          // stick,ship
-//          connectStickControler(stick,ship) ;
-//          connectControlerGuidanceSystem(ship,ship) ;
-//
-//          /// engine + engine control...
-//          Kernel::Object* throttle = ship->createObject() ;
-//          throttle->addTrait(new Throttle()) ;
-//
-//          Kernel::Object* engine = ship->createObject() ;
-//          engine->addTrait(new Engine(Force::Newton(0,0,Kernel::Parameters::getValue<float>("Model","EngineMaxForce")))) ;
-//
-//          Kernel::Object* engine_control = ship->createObject() ;
-//          engine_control->addTrait(new EngineControler()) ;
-//
-//          connectThrottleControler(throttle,engine_control) ;
-//          connectControlerEngine(engine_control,engine) ;
-//
-//          Kernel::Object* laser = ship->createObject() ;
-//          laser->addTrait(new Laser(Position::Meter(0,0,-120),
-//                                          Orientation(),
-//                                          Energy::Joule(10))) ;
-//          laser->addTrait(new Component()) ;
-//
-//          ship->addTrait(new Transponder(team2)) ;
-//
-//        }
         {
           InternalMessage("Model","building ship done") ;
 
-          /// 4. Ajout d'un observateur
           InternalMessage("Model","building observer...") ;
           Kernel::Object* observer = system->createObject() ;
           observer->addTrait(new Positionned(Position::Meter(0,
@@ -441,15 +343,10 @@ namespace ProjetUnivers {
 
 
           observer->addTrait(new Oriented()) ;
-          /// Il a la facult d'observer
           observer->addTrait(new Observer()) ;
           observer->addTrait(new Player()) ;
           observer->addTrait(new Active()) ;
           observer->addTrait(new Kernel::CommandDelegator()) ;
-//          observer->getTrait<Kernel::CommandDelegator>()->addDelegate(stick) ;
-//          observer->getTrait<Kernel::CommandDelegator>()->addDelegate(throttle) ;
-//          observer->getTrait<Kernel::CommandDelegator>()->addDelegate(laser) ;
-//          observer->getTrait<Kernel::CommandDelegator>()->addDelegate(target_selector) ;
 
           observer->addTrait(new Transponder(team1)) ;
 
@@ -698,14 +595,14 @@ namespace ProjetUnivers {
 
     Kernel::Object* createDefaultPlayerConfiguration(Kernel::Object* parent)
     {
-      // read from config file
+      // read from configuration file
       std::auto_ptr<Kernel::XMLReader> reader(Kernel::XMLReader::getFileReader(findFilePath("player_configuration.xml"))) ;
       return reader->read(parent) ;
     }
 
     void savePlayerConfiguration(Kernel::Object* configuration)
     {
-      // read from config file
+      // read from configuration file
       std::auto_ptr<Kernel::XMLWriter> writer(Kernel::XMLWriter::getFileWriter(findFilePath("player_configuration.xml"))) ;
       writer->writeSingleObject(configuration) ;
     }

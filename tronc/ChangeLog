@@ -1445,6 +1445,11 @@
       
   * AI :
     - corrects seg fault on TargetAgentControler::onClose
+
+2009-08-27
+
+  * Model : 
+    - corrected error during test deployment for model lib on windows
         
 in commit
 --------
