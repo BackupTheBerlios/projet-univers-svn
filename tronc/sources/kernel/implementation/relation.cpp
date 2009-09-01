@@ -309,6 +309,12 @@ namespace ProjetUnivers
       return result ;
     }
 
+    std::string Relation::toString() const
+    {
+      return m_type.fullName() + "(" + Kernel::toString(m_object_from->getIdentifier()) +
+             "," + Kernel::toString(m_object_to->getIdentifier()) + ")" ;
+    }
+
     std::string Relation::graphvizName() const
     {
       // @todo

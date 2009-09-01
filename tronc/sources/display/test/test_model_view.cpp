@@ -54,9 +54,9 @@
 #include <display/display.h>
 #include <display/implementation/ogre/real_world_view_point.h>
 #include <display/implementation/ogre/head_up_display.h>
-#include <display/implementation/ogre/positionned.h>
+#include <display/implementation/ogre/positioned.h>
 #include <display/implementation/space_dust.h>
-#include <display/implementation/positionned.h>
+#include <display/implementation/positioned.h>
 #include <display/test/test_model_view.h>
 #include <model/selection.h>
 #include <display/implementation/target.h>
@@ -102,7 +102,7 @@ namespace ProjetUnivers
         InternalMessage("Display","Display::TestModelView::testConstruct") ;
         observer->addTrait(new Model::Oriented(::Ogre::Quaternion(::Ogre::Degree(180),::Ogre::Vector3::UNIT_Y))) ;
 
-        Implementation::Ogre::Positionned* positionned_observer = observer->getTrait<Implementation::Positionned>()->getView<Implementation::Ogre::Positionned>(viewpoint) ;
+        Implementation::Ogre::Positioned* positionned_observer = observer->getTrait<Implementation::Positioned>()->getView<Implementation::Ogre::Positioned>(viewpoint) ;
         CPPUNIT_ASSERT(positionned_observer->getNode()->_getDerivedOrientation().equals(::Ogre::Quaternion(0,0,1,0),::Ogre::Degree(5))) ;
 
         observer->getTrait<Model::Oriented>()->setOrientation(::Ogre::Quaternion()) ;
@@ -527,7 +527,7 @@ namespace ProjetUnivers
 
         Kernel::Object* target = Model::createShip(system) ;
 
-        Implementation::Ogre::Positionned* positionned = target->getTrait<Implementation::Positionned>()->getView<Implementation::Ogre::Positionned>(viewpoint) ;
+        Implementation::Ogre::Positioned* positionned = target->getTrait<Implementation::Positioned>()->getView<Implementation::Ogre::Positioned>(viewpoint) ;
         CPPUNIT_ASSERT(positionned) ;
 
         CPPUNIT_ASSERT_EQUAL(Ogre::Vector3(0,0,0),positionned->getNode()->getPosition()) ;

@@ -22,9 +22,12 @@
 #include <model/ideal_target.h>
 #include <display/implementation/ideal_target.h>
 
-namespace ProjetUnivers {
-  namespace Display {
-    namespace Implementation {
+namespace ProjetUnivers
+{
+  namespace Display
+  {
+    namespace Implementation
+    {
           
       DeclareDeducedTrait(
           IdealTarget,

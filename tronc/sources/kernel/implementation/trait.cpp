@@ -803,6 +803,11 @@ namespace ProjetUnivers
       return true ;
     }
 
+    std::string Trait::toString() const
+    {
+      return getObjectTypeIdentifier(this).fullName() + "[" + Kernel::toString(getObject()->getIdentifier()) + "]" ;
+    }
+
     std::string Trait::graphvizName() const
     {
       return getObject()->graphvizName() + ":" + getGraphvizPortName() ;

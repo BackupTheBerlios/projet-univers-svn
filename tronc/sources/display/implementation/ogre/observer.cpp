@@ -27,7 +27,7 @@
 #include <display/implementation/ogre/utility.h>
 #include <display/implementation/ogre/real_world_view_point.h>
 #include <display/implementation/ogre/solid.h>
-#include <display/implementation/ogre/positionned.h>
+#include <display/implementation/ogre/positioned.h>
 #include <display/implementation/ogre/observer.h>
 
 namespace ProjetUnivers
@@ -47,9 +47,9 @@ namespace ProjetUnivers
         {
           InternalMessage("Display","Display::Observer::onInit Entering") ;
 
-          // positionned view must be initialised first
-          Positionned* positionned(getView<Positionned>()) ;
-          CHECK(positionned,"error") ;
+          // Positioned view must be initialized first
+          Positioned* positioned(getView<Positioned>()) ;
+          CHECK(positioned,"error") ;
 
           ::Ogre::SceneManager* manager = this->getViewPoint()->getManager() ;
 
@@ -58,12 +58,12 @@ namespace ProjetUnivers
           Ogre::addCamera(m_camera) ;
 
           InternalMessage("Display","creating camera scene node with parent " +
-                                    positionned->getNode()->getName()) ;
+                                    positioned->getNode()->getName()) ;
 
-          m_node = static_cast< ::Ogre::SceneNode* >(positionned->getNode()->createChild()) ;
+          m_node = static_cast< ::Ogre::SceneNode* >(positioned->getNode()->createChild()) ;
           m_node->attachObject(m_camera) ;
 
-          // @todo configurate in files
+          // @todo configure in files
           m_camera->setFOVy(::Ogre::Degree(70)) ;
 
           // near clip distance is 1 cm
@@ -87,14 +87,14 @@ namespace ProjetUnivers
         void Observer::onUpdate()
         {
           InternalMessage("Display","Display::Observer::onUpdate Entering") ;
-          Positionned* positionned(getView<Positionned>()) ;
+          Positioned* positioned(getView<Positioned>()) ;
 
           // acts as a change parent like
           m_node->getParent()->removeChild(m_node) ;
-          positionned->getNode()->addChild(m_node) ;
+          positioned->getNode()->addChild(m_node) ;
 
           InternalMessage("Display","moving camera scene node to parent " +
-                                    positionned->getNode()->getName()) ;
+                                    positioned->getNode()->getName()) ;
 
           InternalMessage("Display","Display::Observer::onUpdate Leaving") ;
         }

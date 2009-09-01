@@ -25,7 +25,7 @@
 #include <model/solid.h>
 
 #include <display/implementation/ogre/utility.h>
-#include <display/implementation/ogre/positionned.h>
+#include <display/implementation/ogre/positioned.h>
 #include <display/implementation/ogre/solid.h>
 
 
@@ -45,7 +45,7 @@ namespace ProjetUnivers
         {
           InternalMessage("Display","Entering Solid::onInit") ;
 
-          Positionned* positionned(getView<Positionned>()) ;
+          Positioned* positioned(getView<Positioned>()) ;
 
           // build 3D object
           m_mesh = this->getViewPoint()->getManager()
@@ -53,12 +53,12 @@ namespace ProjetUnivers
                                  getObject()->getTrait<Model::Solid>()->getMesh().getName()) ;
 
           // put it on the node
-          positionned->getNode()->attachObject(m_mesh) ;
+          positioned->getNode()->attachObject(m_mesh) ;
 
           // reset scale factor
-          positionned->getNode()->setScale(::Ogre::Vector3(1.0/conversion_factor,
-                                                           1.0/conversion_factor,
-                                                           1.0/conversion_factor)) ;
+          positioned->getNode()->setScale(::Ogre::Vector3(1.0/conversion_factor,
+                                                          1.0/conversion_factor,
+                                                          1.0/conversion_factor)) ;
 
           InternalMessage("Display","Leaving Solid::onInit") ;
         }

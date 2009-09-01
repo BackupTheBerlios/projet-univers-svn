@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007 Mathieu ROGER                                      *
+ *   Copyright (C) 2008-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -20,13 +20,7 @@
  ***************************************************************************/
 #pragma once
 
-#include <Ogre.h>
-
-#include <kernel/trait_view.h>
-#include <model/distance.h>
-#include <display/implementation/positionned.h>
-#include <display/implementation/ogre/real_world_view_point.h>
-
+#include <kernel/deduced_trait.h>
 
 namespace ProjetUnivers
 {
@@ -34,51 +28,14 @@ namespace ProjetUnivers
   {
     namespace Implementation
     {
-      namespace Ogre
-      {
-        /// Convert position to Ogre position
-        ::Ogre::Vector3 convert(const Model::Position& _position) ;
 
-        /// Convert a distance to an Ogre distance.
-        ::Ogre::Real convert(const Model::Distance& distance) ;
+      /// A node that can be displayed.
+      class Positioned : public Kernel::DeducedTrait
+      {};
 
-        /// View on object that have a position in space.
-        class Positionned : public Kernel::TraitView<Implementation::Positionned,
-                                                     RealWorldViewPoint>
-        {
-        public:
-
-          /// get scene node.
-          /*!
-            Init the view if necessary.
-          */
-          ::Ogre::SceneNode* getNode() ;
-
-        protected:
-
-          /// Build a scene node.
-          virtual void onInit() ;
-
-          /// Destroy the node.
-          virtual void onClose() ;
-
-          /// Position update.
-          virtual void onUpdate() ;
-
-          /// must detach/reattach node.
-          virtual void onChangeParent(Kernel::Object* i_old_parent) ;
-
-        private:
-
-          void setPosition() ;
-          void setOrientation() ;
-
-          /// Scene node.
-          ::Ogre::SceneNode* m_node ;
-
-        };
-
-      }
+      /// Recursive of Positioned.
+      class RecursivelyPositioned : public Kernel::DeducedTrait
+      {};
     }
   }
 }

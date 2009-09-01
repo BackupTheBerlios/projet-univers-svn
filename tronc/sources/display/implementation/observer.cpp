@@ -19,7 +19,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include <model/observer.h>
-#include <display/implementation/positionned.h>
+#include <display/implementation/positioned.h>
 #include <model/active.h>
 #include <display/implementation/observer.h>
 
@@ -32,7 +32,7 @@ namespace ProjetUnivers
 
       DeclareDeducedTrait(Observer,
                           And(HasTrait(Model::Observer),
-                              HasParent(HasTrait(Implementation::Positionned)),
+                              HasTrait(Implementation::RecursivelyPositioned),
                               HasParent(HasTrait(Model::Active)))) ;
     }
   }

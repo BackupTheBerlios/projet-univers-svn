@@ -20,7 +20,7 @@
  ***************************************************************************/
 #include <model/solid.h>
 #include <display/implementation/observer.h>
-#include <display/implementation/positionned.h>
+#include <display/implementation/positioned.h>
 #include <display/implementation/displayed_solid.h>
 
 namespace ProjetUnivers
@@ -32,7 +32,7 @@ namespace ProjetUnivers
 
       DeclareDeducedTrait(DisplayedSolid,
                           And(HasTrait(Model::Solid),
-                              HasParent(HasTrait(Implementation::Positionned)),
+                              HasTrait(Implementation::RecursivelyPositioned),
                               Not(HasChild(HasTrait(Observer))))) ;
     }
   }

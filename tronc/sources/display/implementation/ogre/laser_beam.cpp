@@ -23,7 +23,7 @@
 #include <kernel/log.h>
 
 #include <display/implementation/ogre/utility.h>
-#include <display/implementation/ogre/positionned.h>
+#include <display/implementation/ogre/positioned.h>
 #include <display/implementation/ogre/laser_beam.h>
 
 
@@ -45,7 +45,7 @@ namespace ProjetUnivers
         {
           InternalMessage("Display","Entering Ogre::LaserBeam::onInit") ;
 
-          Positionned* positionned(getView<Positionned>()) ;
+          Positioned* positioned(getView<Positioned>()) ;
 
           // build 3D object
           mesh = this->getViewPoint()->getManager()
@@ -53,12 +53,12 @@ namespace ProjetUnivers
                                  "laser.mesh") ;
 
           // put it on the node
-          positionned->getNode()->attachObject(mesh) ;
+          positioned->getNode()->attachObject(mesh) ;
 
           // reset scale factor
-          positionned->getNode()->setScale(::Ogre::Vector3(1.0/conversion_factor,
-                                                           1.0/conversion_factor,
-                                                           1.0/conversion_factor)) ;
+          positioned->getNode()->setScale(::Ogre::Vector3(1.0/conversion_factor,
+                                                          1.0/conversion_factor,
+                                                          1.0/conversion_factor)) ;
 
           InternalMessage("Display","Leaving Ogre::LaserBeam::onInit") ;
         }

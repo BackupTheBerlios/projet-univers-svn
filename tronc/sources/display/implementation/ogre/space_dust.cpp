@@ -26,7 +26,7 @@
 #include <model/mobile.h>
 
 #include <display/implementation/ogre/utility.h>
-#include <display/implementation/ogre/positionned.h>
+#include <display/implementation/ogre/positioned.h>
 #include <display/implementation/ogre/space_dust.h>
 
 namespace ProjetUnivers
@@ -58,17 +58,17 @@ namespace ProjetUnivers
           InternalMessage("Display","Display::SpaceDust::onInit Entering") ;
 
           ::Ogre::SceneManager* manager = this->getViewPoint()->getManager() ;
-          Positionned* positionned(getView<Positionned>()) ;
+          Positioned* positioned(getView<Positioned>()) ;
 
           InternalMessage("Display","creating space dust scene node with parent " +
-                                    positionned->getNode()->getName()) ;
+                                    positioned->getNode()->getName()) ;
 
           // add the space dust effect
           m_space_dusts = manager->createParticleSystem(Utility::getUniqueName(),
                                                         "PU/base/SpaceDust") ;
 
           m_space_dust_node = static_cast< ::Ogre::SceneNode* >(
-                                        positionned->getNode()->createChild()) ;
+                                        positioned->getNode()->createChild()) ;
           m_space_dust_node->attachObject(m_space_dusts) ;
 
           setEmmisionRate() ;

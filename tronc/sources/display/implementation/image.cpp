@@ -22,9 +22,12 @@
 #include <model/displayed.h>
 #include <display/implementation/image.h>
 
-namespace ProjetUnivers {
-  namespace Display {
-    namespace Implementation {
+namespace ProjetUnivers
+{
+  namespace Display
+  {
+    namespace Implementation
+    {
 
       DeclareDeducedTrait(Image,
                           And(HasTrait(Model::Image),

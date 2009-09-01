@@ -30,7 +30,7 @@
 #include <display/implementation/ogre/observer.h>
 #include <display/implementation/ogre/ogre.h>
 #include <display/implementation/ogre/utility.h>
-#include <display/implementation/ogre/positionned.h>
+#include <display/implementation/ogre/positioned.h>
 #include <display/implementation/ogre/head_up_display/target.h>
 
 namespace ProjetUnivers 

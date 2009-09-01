@@ -139,6 +139,9 @@ namespace ProjetUnivers
       /// True if the trait is not deduced
       virtual bool isPrimitive() const ;
 
+      /// Return a printable description
+      virtual std::string toString() const ;
+
       /// Return the graphviz name.
       virtual std::string graphvizName() const ;
 

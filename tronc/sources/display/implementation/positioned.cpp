@@ -21,7 +21,7 @@
 #include <model/universe.h>
 #include <model/positionned.h>
 #include <model/oriented.h>
-#include <display/implementation/positionned.h>
+#include <display/implementation/positioned.h>
 
 namespace ProjetUnivers
 {
@@ -30,9 +30,13 @@ namespace ProjetUnivers
     namespace Implementation
     {
 
-      DeclareDeducedTrait(Positionned,
+      DeclareDeducedTrait(Positioned,
                           And(Or(HasTrait(Model::Positionned),HasTrait(Model::Oriented)),
                               HasParent(HasTrait(Model::Universe)))) ;
+
+      DeclareDeducedTrait(RecursivelyPositioned,
+                          Or(HasTrait(Positioned),
+                             HasAncestor(HasTrait(RecursivelyPositioned)))) ;
     }
   }
 }

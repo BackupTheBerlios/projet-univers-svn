@@ -97,14 +97,16 @@ namespace ProjetUnivers
     void Notifiable::updateDependents() const
     {
       /// @todo : should update notifiables in order depending on dependence graph
+      if (m_direct_dependent_notifiables.empty())
+        return ;
 
-      Log::Block block("Update","Notifiable::updateDependents" + Kernel::toString(m_direct_dependent_notifiables.size())) ;
+      Log::Block block("Update","Notifiable::updateDependents " + toString()) ;
 
       for(std::set<Notifiable*>::const_iterator notifiable = m_direct_dependent_notifiables.begin() ;
           notifiable != m_direct_dependent_notifiables.end() ;
           ++notifiable)
       {
-        InternalMessage("Update","Updating : " + getObjectTypeIdentifier(*notifiable).fullName()) ;
+        InternalMessage("Update","Updating : " + (*notifiable)->toString()) ;
         (*notifiable)->notify() ;
       }
     }

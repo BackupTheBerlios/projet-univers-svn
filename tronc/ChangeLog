@@ -1450,10 +1450,24 @@
 
   * Model : 
     - corrected error during test deployment for model lib on windows
+
+2009-10-01
+
+   * Kernel : 
+     - log : removed file and line number and better handling of Log::Block
+  * Display :
+    - instability on target... test failling randomly but it is a real bug in 
+      formulae : 
+      #11 Oriented -> RecOriented 
+          Oriented -> Impl::Positionned
+      #20 Oriented(#11) -> RecOriented -> observer
+      => random order 
+      Correction is to have a better formula.
+    - renamed Positionned into Positioned (english correct)    
         
 in commit
 --------
-
+   
    
 in progress
 -----------
@@ -1461,25 +1475,17 @@ in progress
     
 todo
 ----
-
+  * All :
+    - rename Positionned into Positioned
+    
   * All : 
     - build for continuous integration : migrate to ant
+  
   * Kernel : 
     - print for IsTo is incorrect
-  * Display :
-    - instability on target... test failling randomly but it is a real bug in 
-      Kernel : 
-      when the structure of updates is complex, this may cause wrong update 
-      order (A -> B, A -> C, C -> B : correct order from A should be A,C,D)
-      --> that should be the reason for test target to fail so often 
-  
-  * All :
+    - be able to desactivate a module (sound,display,input,gui,...) by config
     - callgrind shows that desactivating gui and input in a system with no gui 
       allow to go up to 80 ships !!
-  
-  * Kernel : 
-    - be able to desactivate a module (sound,display,input,gui,...) by config
-    - optimise controler set simulation, callgrind shows a lot of time in it 
     
   * Sound : 
     - exception floating point
@@ -1522,7 +1528,7 @@ todo
   * Kernel :
     - we should use onChangedParent() for formulae on parent instead of 
       onUpdate, onChangeParent is exactly the event that indicates that the 
-      formula is still true but through another one
+      formula is still true but through another one ?
 
   * Kernel :
     - repair getLatestUpdatedTrait() : memorisation of the event that caused 
@@ -1532,7 +1538,7 @@ todo
   * Kernel:
     - all members should be encapsulated, even for own class : allow to change 
       storage (object pool...) for allocation optimisation
-   - create an object pool per model, a pool on views too... 
+    - create an object pool per model, a pool on views too... boost::object_pool 
     
   * Kernel : 
    - display the list of used formulaes (number and kind)

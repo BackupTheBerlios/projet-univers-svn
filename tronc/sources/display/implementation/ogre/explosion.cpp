@@ -22,7 +22,7 @@
 #include <model/positionned.h>
 #include <model/explosion.h>
 #include <display/implementation/ogre/utility.h>
-#include <display/implementation/ogre/positionned.h>
+#include <display/implementation/ogre/positioned.h>
 #include <display/implementation/ogre/explosion.h>
 
 
@@ -44,16 +44,16 @@ namespace ProjetUnivers
         {
           InternalMessage("Display","Entering Ogre::Explosion::onInit") ;
 
-          Model::Positionned* positionned = getObject()->getTrait<Model::Positionned>() ;
+          Model::Positionned* positioned = getObject()->getTrait<Model::Positionned>() ;
 
-          Implementation::Positionned* positionned_ancestor
-            = getObject()->getAncestor<Implementation::Positionned>() ;
+          Implementation::Positioned* positioned_ancestor
+            = getObject()->getAncestor<Implementation::Positioned>() ;
 
-          if (positionned_ancestor)
+          if (positioned_ancestor)
           {
-            Positionned* parent_node(positionned_ancestor->getView<Positionned>(getViewPoint())) ;
+            Positioned* parent_node(positioned_ancestor->getView<Positioned>(getViewPoint())) ;
             m_node = static_cast< ::Ogre::SceneNode* >(parent_node->getNode()->createChild()) ;
-            m_node->setPosition(convert(positionned->getPosition())) ;
+            m_node->setPosition(convert(positioned->getPosition())) ;
           }
           else
           {
@@ -72,8 +72,8 @@ namespace ProjetUnivers
 
           // change orientation
           ::Ogre::Vector3 point(getViewPoint()->getObserver()
-                                              ->getTrait<Implementation::Positionned>()
-                                              ->getView<Positionned>(getViewPoint())
+                                              ->getTrait<Implementation::Positioned>()
+                                              ->getView<Positioned>(getViewPoint())
                                               ->getNode()->_getDerivedPosition()) ;
           m_node->lookAt(point,::Ogre::Node::TS_WORLD,::Ogre::Vector3::UNIT_Z) ;
 

@@ -20,7 +20,7 @@
  ***************************************************************************/
 #include <model/explosion.h>
 #include <model/solid.h>
-#include <display/implementation/positionned.h>
+#include <display/implementation/positioned.h>
 #include <display/implementation/explosion.h>
 
 namespace ProjetUnivers 
@@ -33,7 +33,7 @@ namespace ProjetUnivers
       DeclareDeducedTrait(
           Explosion,
           And(HasTrait(Model::Explosion),
-              HasTrait(Implementation::Positionned),
+              HasTrait(Implementation::RecursivelyPositioned),
               HasTrait(Model::Solid))) ;
     }
   }

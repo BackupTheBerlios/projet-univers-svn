@@ -19,7 +19,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include <display/implementation/observer.h>
-#include <display/implementation/positionned.h>
+#include <display/implementation/positioned.h>
 #include <model/mobile.h>
 #include <display/implementation/space_dust.h>
 
@@ -32,7 +32,7 @@ namespace ProjetUnivers
 
       DeclareDeducedTrait(SpaceDust,
                           And(HasTrait(Implementation::Observer),
-                              HasTrait(Implementation::Positionned),
+                              HasTrait(Implementation::Positioned),
                               HasParent(HasTrait(Model::Mobile)))) ;
     }
   }
