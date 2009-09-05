@@ -34,7 +34,7 @@
 #include <model/duration.h>
 #include <model/physical_world.h>
 #include <model/physical_object.h>
-#include <model/positionned.h>
+#include <model/positioned.h>
 #include <model/oriented.h>
 #include <model/solid.h>
 #include <model/mobile.h>
@@ -86,7 +86,7 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(system->getTrait<Model::PhysicalWorld>()) ;
 
         Kernel::Object* ship = system->createObject() ;
-        ship->addTrait(new Model::Positionned(Model::Position::Meter(100,0,0))) ;
+        ship->addTrait(new Model::Positioned(Model::Position::Meter(100,0,0))) ;
         ship->addTrait(new Model::Oriented()) ;
         ship->addTrait(new Model::Mobile()) ;
         ship->addTrait(new Model::Solid(Model::Mesh("test_ship.mesh"))) ;
@@ -97,7 +97,7 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(ship->getTrait<Model::PhysicalWorld>()) ;
 
         Kernel::Object* ship2 = system->createObject() ;
-        ship2->addTrait(new Model::Positionned(Model::Position::Meter(100,-200,0))) ;
+        ship2->addTrait(new Model::Positioned(Model::Position::Meter(100,-200,0))) ;
         ship2->addTrait(new Model::Oriented()) ;
         ship2->addTrait(new Model::Mobile()) ;
         ship2->addTrait(new Model::Solid(Model::Mesh("test_ship.mesh"))) ;
@@ -132,10 +132,10 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(collision_number!=0) ;
 
         /// again in another direction
-        ship2->getTrait<Model::Positionned>()->setPosition(Model::Position::Meter(0,0,-200)) ;
+        ship2->getTrait<Model::Positioned>()->setPosition(Model::Position::Meter(0,0,-200)) ;
         ship2->getTrait<Model::Oriented>()->setOrientation(Model::Orientation()) ;
 
-        ship->getTrait<Model::Positionned>()->setPosition(Model::Position::Meter(0,0,0)) ;
+        ship->getTrait<Model::Positioned>()->setPosition(Model::Position::Meter(0,0,0)) ;
         ship->getTrait<Model::Oriented>()->setOrientation(Model::Orientation()) ;
 
         ship2->getTrait<Model::Mobile>()->setSpeed(Model::Speed::MeterPerSecond(0,0,5)) ;
@@ -172,7 +172,7 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(system->getTrait<Model::PhysicalWorld>()) ;
 
         Kernel::Object* ship = system->createObject() ;
-        ship->addTrait(new Model::Positionned()) ;
+        ship->addTrait(new Model::Positioned()) ;
         ship->addTrait(new Model::Oriented()) ;
         ship->addTrait(new Model::Mobile()) ;
         ship->addTrait(new Model::Solid(Model::Mesh("test_ship.mesh"))) ;
@@ -225,7 +225,7 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(system->getTrait<Model::PhysicalWorld>()) ;
 
         Kernel::Object* ship = system->createObject() ;
-        ship->addTrait(new Model::Positionned()) ;
+        ship->addTrait(new Model::Positioned()) ;
         ship->addTrait(new Model::Oriented()) ;
         ship->addTrait(new Model::Mobile()) ;
         ship->addTrait(new Model::Solid(Model::Mesh("test_ship.mesh"))) ;
@@ -234,7 +234,7 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(ship->getTrait<Model::PhysicalWorld>()) ;
 
         Kernel::Object* beam = system->createObject() ;
-        beam->addTrait(new Model::Positionned(Model::Position::Meter(0,0,-100))) ;
+        beam->addTrait(new Model::Positioned(Model::Position::Meter(0,0,-100))) ;
         beam->addTrait(new Model::Oriented()) ;
         beam->addTrait(new Model::Mobile(Model::Speed::MeterPerSecond(0,0,50))) ;
         beam->addTrait(new Model::Massive(Model::Mass(Model::Energy::Joule(10),
@@ -277,7 +277,7 @@ namespace ProjetUnivers
 
         {
           Kernel::Object* beam = system->createObject() ;
-          beam->addTrait(new Model::Positionned(Model::Position::Meter(0,0,0))) ;
+          beam->addTrait(new Model::Positioned(Model::Position::Meter(0,0,0))) ;
           beam->addTrait(new Model::Oriented()) ;
           beam->addTrait(new Model::Mobile()) ;
           beam->addTrait(new Model::LaserBeam()) ;
@@ -287,7 +287,7 @@ namespace ProjetUnivers
 
         {
           Kernel::Object* beam = system->createObject() ;
-          beam->addTrait(new Model::Positionned(Model::Position::Meter(0,0,-20))) ;
+          beam->addTrait(new Model::Positioned(Model::Position::Meter(0,0,-20))) ;
           beam->addTrait(new Model::Oriented()) ;
           beam->addTrait(new Model::Mobile(Model::Speed::MeterPerSecond(0,0,10))) ;
           beam->addTrait(new Model::LaserBeam()) ;
@@ -329,7 +329,7 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(system->getTrait<Model::PhysicalWorld>()) ;
 
         Kernel::Object* ship = system->createObject() ;
-        ship->addTrait(new Model::Positionned()) ;
+        ship->addTrait(new Model::Positioned()) ;
         ship->addTrait(new Model::Oriented()) ;
         ship->addTrait(new Model::Mobile()) ;
         ship->addTrait(new Model::Solid(Model::Mesh("test_ship.mesh"))) ;
@@ -342,7 +342,7 @@ namespace ProjetUnivers
 
         {
           Kernel::Object* ship = system->createObject() ;
-          ship->addTrait(new Model::Positionned(Model::Position::Meter(0,0,200))) ;
+          ship->addTrait(new Model::Positioned(Model::Position::Meter(0,0,200))) ;
           ship->addTrait(new Model::Oriented()) ;
           ship->addTrait(new Model::Mobile()) ;
           ship->addTrait(new Model::Solid(Model::Mesh("test_ship.mesh"))) ;
@@ -364,13 +364,13 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(system->getDescendants<Model::LaserBeam>().size()==1) ;
 
         Kernel::Object* beam = (*system->getDescendants<Model::LaserBeam>().begin())->getObject() ;
-        Model::Positionned* positionned = beam->getTrait<Model::Positionned>() ;
+        Model::Positioned* positioned = beam->getTrait<Model::Positioned>() ;
 
         for(int i = 1 ; i <= 200 ; i++)
         {
           physics->simulate(0.01) ;
 
-//          std::cout << positionned->getPosition().Meter() << std::endl ;
+//          std::cout << positioned->getPosition().Meter() << std::endl ;
         }
 
         // check that no collision occured

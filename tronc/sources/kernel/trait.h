@@ -577,7 +577,7 @@ namespace ProjetUnivers
 
     Example
     @code
-      RegisterFunction("getPosition",Model::Positionned,getPosition) ;
+      RegisterFunction("getPosition",Model::Positioned,getPosition) ;
     @endcode
 
     @par How does it works

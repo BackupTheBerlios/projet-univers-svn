@@ -22,7 +22,7 @@
 #include <kernel/string.h>
 #include <kernel/log.h>
 
-#include <model/positionned.h>
+#include <model/positioned.h>
 #include <model/oriented.h>
 #include <model/mobile.h>
 
@@ -68,6 +68,7 @@ namespace ProjetUnivers
 
             alSourcei(m_source,AL_SOURCE_RELATIVE,AL_FALSE) ;
             updateSource(viewpoint) ;
+            addSource() ;
           }
           InformationMessage("Sound", "SoundEmitter::initSound leaving") ;
         }
@@ -203,6 +204,7 @@ namespace ProjetUnivers
             alGetSourcei(m_source, AL_SAMPLE_OFFSET, &m_posInBuffer) ;
             stopSound();
           }
+          removeSource() ;
           m_auxEffectSlot = 0;
           m_source = 0;
           InformationMessage("Sound", "SoundEmitter::deleteSound : leaving") ;

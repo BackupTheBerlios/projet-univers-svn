@@ -27,7 +27,7 @@
 
 #include <model/model.h>
 #include <model/duration.h>
-#include <model/positionned.h>
+#include <model/positioned.h>
 #include <model/position.h>
 #include <model/oriented.h>
 #include <model/listener.h>
@@ -86,19 +86,19 @@ namespace ProjetUnivers
         model->init() ;
         
         Kernel::Object* system = model->createObject() ;
-        system->addTrait(new Model::Positionned()) ;
+        system->addTrait(new Model::Positioned()) ;
         system->addTrait(new Model::Oriented()) ;
 
         Kernel::Object* listener = system->createObject() ;
         listener->addTrait(new Model::Listener()) ;
-        Model::Positionned* listenerPos = new Model::Positionned();
+        Model::Positioned* listenerPos = new Model::Positioned();
         listener->addTrait(listenerPos) ;
         listener->addTrait(new Model::Oriented()) ;
         listener->addTrait(new Model::Mobile());
 
         Kernel::Object* engine = system->createObject() ;
         engine->addTrait(new Model::Engine(Model::Force::Newton(10,10,10))) ;
-        Model::Positionned* enginePos = new Model::Positionned(Model::Position::Meter(0,0,-50));
+        Model::Positioned* enginePos = new Model::Positioned(Model::Position::Meter(0,0,-50));
         engine->addTrait(enginePos);
         engine->addTrait(new Model::Oriented()) ;
         engine->addTrait(new Model::Mobile());
@@ -242,19 +242,19 @@ namespace ProjetUnivers
         model->init() ;
         
         Kernel::Object* system = model->createObject() ;
-        system->addTrait(new Model::Positionned()) ;
+        system->addTrait(new Model::Positioned()) ;
         system->addTrait(new Model::Oriented()) ;
 
         Kernel::Object* listener = system->createObject() ;
         listener->addTrait(new Model::Listener()) ;
-        Model::Positionned* listenerPos = new Model::Positionned();
+        Model::Positioned* listenerPos = new Model::Positioned();
         listener->addTrait(listenerPos) ;
         listener->addTrait(new Model::Oriented()) ;
         listener->addTrait(new Model::Mobile());
         
         Kernel::Object* ship = system->createObject() ;
-        Model::Positionned* ship_positionned = new Model::Positionned(Model::Position::Meter(0,0,-50));
-        ship->addTrait(ship_positionned);
+        Model::Positioned* ship_positioned = new Model::Positioned(Model::Position::Meter(0,0,-50));
+        ship->addTrait(ship_positioned);
         ship->addTrait(new Model::Oriented()) ;
         ship->addTrait(new Model::Mobile());
         
@@ -281,7 +281,7 @@ namespace ProjetUnivers
                             expected_position_y,
                             expected_position_z) ;
 
-        ship_positionned->setPosition(ship_positionned->getPosition()+Model::Position::Meter(0,0,-0.01));
+        ship_positioned->setPosition(ship_positioned->getPosition()+Model::Position::Meter(0,0,-0.01));
         
         expected_position_z -= 0.01 ;
 
@@ -302,25 +302,25 @@ namespace ProjetUnivers
         model->init() ;
         
         Kernel::Object* system = model->createObject() ;
-        system->addTrait(new Model::Positionned()) ;
+        system->addTrait(new Model::Positioned()) ;
         system->addTrait(new Model::Oriented()) ;
 
         Kernel::Object* listener = system->createObject() ;
         listener->addTrait(new Model::Listener()) ;
-        Model::Positionned* listenerPos = new Model::Positionned();
+        Model::Positioned* listenerPos = new Model::Positioned();
         listener->addTrait(listenerPos) ;
         listener->addTrait(new Model::Oriented()) ;
         listener->addTrait(new Model::Mobile());
         
         Kernel::Object* ship = system->createObject() ;
-        Model::Positionned* ship_positionned = new Model::Positionned(Model::Position::Meter(0,0,-50));
-        ship->addTrait(ship_positionned);
+        Model::Positioned* ship_positioned = new Model::Positioned(Model::Position::Meter(0,0,-50));
+        ship->addTrait(ship_positioned);
         ship->addTrait(new Model::Oriented()) ;
         ship->addTrait(new Model::Mobile());
         
         Kernel::Object* engine = ship->createObject() ;
         engine->addTrait(new Model::Engine(Model::Force::Newton(10,10,10))) ;
-        engine->addTrait(new Model::Positionned()) ;
+        engine->addTrait(new Model::Positioned()) ;
         
         Kernel::ViewPoint* viewpoint = model->getViewPoint<Implementation::OpenAL::RealWorldViewPoint>() ;
         CPPUNIT_ASSERT(engine->getTrait<Implementation::Engine>()
@@ -342,7 +342,7 @@ namespace ProjetUnivers
                             expected_position_y,
                             expected_position_z) ;
 
-        ship_positionned->setPosition(ship_positionned->getPosition()+Model::Position::Meter(0,0,-1));
+        ship_positioned->setPosition(ship_positioned->getPosition()+Model::Position::Meter(0,0,-1));
         
         expected_position_z -= 1 ;
 
@@ -362,28 +362,28 @@ namespace ProjetUnivers
         model->init() ;
         
         Kernel::Object* system = model->createObject() ;
-        system->addTrait(new Model::Positionned()) ;
+        system->addTrait(new Model::Positioned()) ;
         system->addTrait(new Model::Oriented()) ;
 
         Kernel::Object* listener_ship = system->createObject() ;
-        Model::Positionned* listener_ship_positionned = new Model::Positionned();
-        listener_ship->addTrait(listener_ship_positionned) ;
+        Model::Positioned* listener_ship_positioned = new Model::Positioned();
+        listener_ship->addTrait(listener_ship_positioned) ;
         
         Kernel::Object* listener = listener_ship->createObject() ;
-        listener->addTrait(new Model::Positionned()) ;
+        listener->addTrait(new Model::Positioned()) ;
         listener->addTrait(new Model::Listener()) ;
         listener->addTrait(new Model::Oriented()) ;
         listener->addTrait(new Model::Mobile());
         
         Kernel::Object* ship = system->createObject() ;
-        Model::Positionned* ship_positionned = new Model::Positionned(Model::Position::Meter(0,0,-50));
-        ship->addTrait(ship_positionned);
+        Model::Positioned* ship_positioned = new Model::Positioned(Model::Position::Meter(0,0,-50));
+        ship->addTrait(ship_positioned);
         ship->addTrait(new Model::Oriented()) ;
         ship->addTrait(new Model::Mobile());
         
         Kernel::Object* engine = ship->createObject() ;
         engine->addTrait(new Model::Engine(Model::Force::Newton(10,10,10))) ;
-        engine->addTrait(new Model::Positionned()) ;
+        engine->addTrait(new Model::Positioned()) ;
         
         Kernel::Timer global_timer ;
         Kernel::Timer timer ;
@@ -401,7 +401,7 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT_DOUBLES_EQUAL(expected_listener_position_y,listener_position_y,delta) ;
         CPPUNIT_ASSERT_DOUBLES_EQUAL(expected_listener_position_z,listener_position_z,delta) ;
 
-        listener_ship_positionned->setPosition(listener_ship_positionned->getPosition()+Model::Position::Meter(0,0,-1));
+        listener_ship_positioned->setPosition(listener_ship_positioned->getPosition()+Model::Position::Meter(0,0,-1));
         
         expected_listener_position_z -= 1 ;
 

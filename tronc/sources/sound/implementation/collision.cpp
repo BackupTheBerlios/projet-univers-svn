@@ -20,7 +20,7 @@
  ***************************************************************************/
 #include <kernel/deduced_trait.h>
 #include <model/collision.h>
-#include <model/positionned.h>
+#include <model/positioned.h>
 
 #include <sound/implementation/collision.h>
 
@@ -33,7 +33,7 @@ namespace ProjetUnivers
 
       DeclareDeducedTrait(Collision,
                           And(HasTrait(Model::Collision),
-                              HasTrait(Model::Positionned))) ;
+                              HasTrait(Model::Positioned))) ;
 
     }
   } 

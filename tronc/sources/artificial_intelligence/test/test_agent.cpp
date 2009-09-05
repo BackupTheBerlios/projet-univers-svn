@@ -19,7 +19,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include <model/model.h>
-#include <model/positionned.h>
+#include <model/positioned.h>
 #include <model/stellar_system.h>
 #include <artificial_intelligence/implementation/agent.h>
 
@@ -43,7 +43,7 @@ namespace ProjetUnivers
 
         Kernel::Object* system = model->createObject() ;
         system->addTrait(new Model::StellarSystem()) ;
-        system->addTrait(new Model::Positionned()) ;
+        system->addTrait(new Model::Positioned()) ;
 
         Kernel::Object* ship = Model::createShip(system) ;
         Kernel::Object* agent = Model::createAI(ship) ;
@@ -79,7 +79,7 @@ namespace ProjetUnivers
 
         Kernel::Object* system = model->createObject() ;
         system->addTrait(new Model::StellarSystem()) ;
-        system->addTrait(new Model::Positionned()) ;
+        system->addTrait(new Model::Positioned()) ;
 
         Kernel::Object* ship1 = Model::createShip(system) ;
         Kernel::Object* agent = Model::createAI(ship1) ;
@@ -98,18 +98,18 @@ namespace ProjetUnivers
 
         Kernel::Object* system = model->createObject() ;
         system->addTrait(new Model::StellarSystem()) ;
-        system->addTrait(new Model::Positionned()) ;
+        system->addTrait(new Model::Positioned()) ;
 
         Kernel::ObjectReference ship1 ;
         {
           Kernel::Object* ship = Model::createShip(system) ;
-          ship->getTrait<Model::Positionned>()->setPosition(Model::Position::Meter(0,0,0)) ;
+          ship->getTrait<Model::Positioned>()->setPosition(Model::Position::Meter(0,0,0)) ;
           ship1 = ship ;
         }
 
         {
           Kernel::Object* ship = Model::createShip(system) ;
-          ship->getTrait<Model::Positionned>()->setPosition(Model::Position::Meter(1000,0,0)) ;
+          ship->getTrait<Model::Positioned>()->setPosition(Model::Position::Meter(1000,0,0)) ;
         }
 
         ship1->call(Model::TargetingSystem::SelectNextTarget) ;

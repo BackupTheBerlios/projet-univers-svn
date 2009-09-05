@@ -3,7 +3,7 @@
   <!-- an example ship named razor -->
   
   <object id="1">
-    <Positionned/>
+    <Positioned/>
     <Oriented/>
     <Mobile/>
     
@@ -77,14 +77,14 @@
     <!-- The ship's stick  -->
     <object id="6">
       <Stick/>
-      <Positionned/>    
+      <Positioned/>    
       <Component/>
     </object>
 
     <!-- The ship's throttle stick -->
     <object id="7">
       <Throttle/>
-      <Positionned/>    
+      <Positioned/>    
       <Component/>
     </object>
   

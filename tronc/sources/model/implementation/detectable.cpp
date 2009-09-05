@@ -18,7 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <model/positionned.h>
+#include <model/positioned.h>
 #include <model/solid.h>
 #include <model/massive.h>
 #include <model/whole.h>
@@ -29,7 +29,7 @@ namespace ProjetUnivers {
     namespace Implementation {
 
       DeclareDeducedTrait(Detectable,
-                          And(HasTrait(Positionned),
+                          And(HasTrait(Positioned),
                               HasTrait(Solid),
                               HasTrait(Whole),
                               HasTrait(Massive))) ;      

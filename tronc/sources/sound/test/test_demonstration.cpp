@@ -25,7 +25,7 @@
 
 #include <model/model.h>
 #include <model/universe.h>
-#include <model/positionned.h>
+#include <model/positioned.h>
 #include <model/stellar_system.h>
 #include <model/listener.h>
 #include <model/oriented.h>
@@ -59,19 +59,19 @@ namespace ProjetUnivers
 
         Kernel::Object* universe = root->createObject() ;
         universe->addTrait(new Model::Universe()) ;
-        universe->addTrait(new Model::Positionned()) ;
+        universe->addTrait(new Model::Positioned()) ;
         universe->setName("universe") ;
 
         Kernel::Object* system = universe->createObject() ;
         system->addTrait(new Model::StellarSystem()) ;
-        system->addTrait(new Model::Positionned()) ;
+        system->addTrait(new Model::Positioned()) ;
         system->setName("system") ;
 
 //        Kernel::Object* ship = Model::loadShip("test_ship",system) ;
 
         Kernel::Object* pilot = system->createObject() ;
         pilot->addTrait(new Model::Listener()) ;
-        pilot->addTrait(new Model::Positionned()) ;
+        pilot->addTrait(new Model::Positioned()) ;
         pilot->addTrait(new Model::Oriented()) ;
         pilot->addTrait(new Model::Player()) ;
         pilot->addTrait(new Model::Observer()) ;
@@ -79,8 +79,8 @@ namespace ProjetUnivers
 
         Kernel::Object* ship2 = Model::loadShip("test_ship",system) ;
 
-        Model::Positionned* ship2_positionned = ship2->getTrait<Model::Positionned>() ;
-        ship2_positionned->setPosition(Model::Position::Meter(0,0,200)) ;
+        Model::Positioned* ship2_positioned = ship2->getTrait<Model::Positioned>() ;
+        ship2_positioned->setPosition(Model::Position::Meter(0,0,200)) ;
         ship2->getTrait<Model::Mobile>()->setSpeed(Model::Speed::MeterPerSecond(0,0,-50)) ;
         Kernel::Timer global_timer ;
         Kernel::Timer timer ;
@@ -95,7 +95,7 @@ namespace ProjetUnivers
           if (seconds > 0)
           {
             timer.reset() ;
-            ship2_positionned->setPosition(ship2_positionned->getPosition()+Model::Position::Meter(0,0,-50*seconds)) ;
+            ship2_positioned->setPosition(ship2_positioned->getPosition()+Model::Position::Meter(0,0,-50*seconds)) ;
             model->update(seconds) ;
           }
         }
@@ -114,17 +114,17 @@ namespace ProjetUnivers
 
         Kernel::Object* universe = root->createObject() ;
         universe->addTrait(new Model::Universe()) ;
-        universe->addTrait(new Model::Positionned()) ;
+        universe->addTrait(new Model::Positioned()) ;
         universe->setName("universe") ;
         {
           Kernel::Object* system = universe->createObject() ;
           system->addTrait(new Model::StellarSystem()) ;
-          system->addTrait(new Model::Positionned()) ;
+          system->addTrait(new Model::Positioned()) ;
           system->setName("system") ;
 
           Kernel::Object* pilot = system->createObject() ;
           pilot->addTrait(new Model::Listener()) ;
-          pilot->addTrait(new Model::Positionned()) ;
+          pilot->addTrait(new Model::Positioned()) ;
           pilot->addTrait(new Model::Oriented()) ;
           pilot->addTrait(new Model::Player()) ;
           pilot->addTrait(new Model::Observer()) ;
@@ -132,8 +132,8 @@ namespace ProjetUnivers
 
           Kernel::Object* ship2 = Model::loadShip("test_ship",system) ;
 
-          Model::Positionned* ship2_positionned = ship2->getTrait<Model::Positionned>() ;
-          ship2_positionned->setPosition(Model::Position::Meter(0,0,50)) ;
+          Model::Positioned* ship2_positioned = ship2->getTrait<Model::Positioned>() ;
+          ship2_positioned->setPosition(Model::Position::Meter(0,0,50)) ;
           ship2->getTrait<Model::Mobile>()->setSpeed(Model::Speed::MeterPerSecond(0,0,-50)) ;
           Kernel::Timer global_timer ;
           Kernel::Timer timer ;
@@ -148,7 +148,7 @@ namespace ProjetUnivers
             if (seconds > 0)
             {
               timer.reset() ;
-              ship2_positionned->setPosition(ship2_positionned->getPosition()+Model::Position::Meter(0,0,-50*seconds)) ;
+              ship2_positioned->setPosition(ship2_positioned->getPosition()+Model::Position::Meter(0,0,-50*seconds)) ;
               model->update(seconds) ;
             }
           }
@@ -158,12 +158,12 @@ namespace ProjetUnivers
         {
           Kernel::Object* system = universe->createObject() ;
           system->addTrait(new Model::StellarSystem()) ;
-          system->addTrait(new Model::Positionned()) ;
+          system->addTrait(new Model::Positioned()) ;
           system->setName("system") ;
 
           Kernel::Object* pilot = system->createObject() ;
           pilot->addTrait(new Model::Listener()) ;
-          pilot->addTrait(new Model::Positionned()) ;
+          pilot->addTrait(new Model::Positioned()) ;
           pilot->addTrait(new Model::Oriented()) ;
           pilot->addTrait(new Model::Player()) ;
           pilot->addTrait(new Model::Observer()) ;
@@ -171,8 +171,8 @@ namespace ProjetUnivers
 
           Kernel::Object* ship2 = Model::loadShip("test_ship",system) ;
 
-          Model::Positionned* ship2_positionned = ship2->getTrait<Model::Positionned>() ;
-          ship2_positionned->setPosition(Model::Position::Meter(0,0,50)) ;
+          Model::Positioned* ship2_positioned = ship2->getTrait<Model::Positioned>() ;
+          ship2_positioned->setPosition(Model::Position::Meter(0,0,50)) ;
           ship2->getTrait<Model::Mobile>()->setSpeed(Model::Speed::MeterPerSecond(0,0,-50)) ;
           Kernel::Timer global_timer ;
           Kernel::Timer timer ;
@@ -187,7 +187,7 @@ namespace ProjetUnivers
             if (seconds > 0)
             {
               timer.reset() ;
-              ship2_positionned->setPosition(ship2_positionned->getPosition()+Model::Position::Meter(0,0,-50*seconds)) ;
+              ship2_positioned->setPosition(ship2_positioned->getPosition()+Model::Position::Meter(0,0,-50*seconds)) ;
               model->update(seconds) ;
             }
           }

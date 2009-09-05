@@ -28,7 +28,7 @@
 
 #include <model/model.h>
 #include <model/duration.h>
-#include <model/positionned.h>
+#include <model/positioned.h>
 #include <model/position.h>
 #include <model/oriented.h>
 #include <model/orientation.h>
@@ -70,19 +70,19 @@ namespace ProjetUnivers
         model->init() ;
 
         Kernel::Object* system = model->createObject() ;
-        system->addTrait(new Model::Positionned()) ;
+        system->addTrait(new Model::Positioned()) ;
         system->addTrait(new Model::Oriented()) ;
 
         Kernel::Object* listener = system->createObject() ;
         listener->addTrait(new Model::Listener()) ;
-        listener->addTrait(new Model::Positionned()) ;
+        listener->addTrait(new Model::Positioned()) ;
         listener->addTrait(new Model::Oriented()) ;
         listener->addTrait(new Model::Mobile());
 
         Kernel::Object* collision = system->createObject() ;
         collision->addTrait(new Model::Collision(system,
             listener)) ;
-        collision->addTrait(new Model::Positionned(Model::Position::Meter(10,10,10))) ;
+        collision->addTrait(new Model::Positioned(Model::Position::Meter(10,10,10))) ;
 
         Kernel::Timer timer;
         Kernel::Timer global_timer;
@@ -110,18 +110,18 @@ namespace ProjetUnivers
         model->init() ;
 
         Kernel::Object* system = model->createObject() ;
-        system->addTrait(new Model::Positionned()) ;
+        system->addTrait(new Model::Positioned()) ;
         system->addTrait(new Model::Oriented()) ;
 
         Kernel::Object* listener = system->createObject() ;
         listener->addTrait(new Model::Listener()) ;
-        listener->addTrait(new Model::Positionned()) ;
+        listener->addTrait(new Model::Positioned()) ;
         listener->addTrait(new Model::Oriented()) ;
         listener->addTrait(new Model::Mobile());
 
         Kernel::Object* collision = system->createObject() ;
         collision->addTrait(new Model::Collision(system,listener)) ;
-        collision->addTrait(new Model::Positionned(Model::Position::Meter(0,0,100))) ;
+        collision->addTrait(new Model::Positioned(Model::Position::Meter(0,0,100))) ;
 
         Kernel::Timer timer;
         Kernel::Timer global_timer;
@@ -149,18 +149,18 @@ namespace ProjetUnivers
         model->init() ;
 
         Kernel::Object* system = model->createObject() ;
-        system->addTrait(new Model::Positionned()) ;
+        system->addTrait(new Model::Positioned()) ;
         system->addTrait(new Model::Oriented()) ;
 
         Kernel::Object* listener = system->createObject() ;
         listener->addTrait(new Model::Listener()) ;
-        listener->addTrait(new Model::Positionned()) ;
+        listener->addTrait(new Model::Positioned()) ;
         listener->addTrait(new Model::Oriented()) ;
         listener->addTrait(new Model::Mobile());
 
         Kernel::Object* collision = system->createObject() ;
         collision->addTrait(new Model::Shot()) ;
-        collision->addTrait(new Model::Positionned(Model::Position::Meter(10,10,10))) ;
+        collision->addTrait(new Model::Positioned(Model::Position::Meter(10,10,10))) ;
 
         Kernel::Timer timer;
         Kernel::Timer global_timer;

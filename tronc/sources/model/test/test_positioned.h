@@ -30,8 +30,8 @@ namespace ProjetUnivers
     namespace Test 
     {
             
-      /// Test for Model::Positionned
-      class TestPositionned : public CppUnit::TestFixture 
+      /// Test for Model::Positioned
+      class TestPositioned : public CppUnit::TestFixture 
       {
       protected:
       /*!
@@ -39,13 +39,13 @@ namespace ProjetUnivers
       */
       // @{
         
-        /// Test Model::Positionned::getPosition(Kernel::Object*).
+        /// Test Model::Positioned::getPosition(Kernel::Object*).
         void testGetPosition1() ;
 
-        /// Test getPosition(Object*) with non Positionned ancestor.
+        /// Test getPosition(Object*) with non Positioned ancestor.
         void testGetPosition2() ;
 
-        /// Test getPosition(Object*) with non Positionned intermediate.
+        /// Test getPosition(Object*) with non Positioned intermediate.
         void testGetPosition3() ;
 
         /// Test getPosition(Object*) between branches.
@@ -54,10 +54,10 @@ namespace ProjetUnivers
         /// Test setPosition(Position,Object*) in normal case.
         void testSetPosition1() ;
 
-        /// Test setPosition(Position,Object*) with non Positionned ancestor.
+        /// Test setPosition(Position,Object*) with non Positioned ancestor.
         void testSetPosition2() ;
 
-        /// Test setPosition(Position,Object*) with non Positionned intermediate.
+        /// Test setPosition(Position,Object*) with non Positioned intermediate.
         void testSetPosition3() ;
 
         /// Test getRelativePosition().
@@ -81,7 +81,7 @@ namespace ProjetUnivers
       */
       // @{      
       
-        CPPUNIT_TEST_SUITE(TestPositionned) ;
+        CPPUNIT_TEST_SUITE(TestPositioned) ;
       
         CPPUNIT_TEST(testGetPosition1) ;
         CPPUNIT_TEST(testGetPosition2) ;

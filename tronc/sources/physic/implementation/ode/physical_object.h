@@ -81,14 +81,14 @@ namespace ProjetUnivers
 
           
           /// Set ODE position and orientation from Model.
-          void updatePositionned() ;
+          void updatePositioned() ;
           /// Set ODE mass from Model.
           void updateMassive() ;
           /// Set ODE speeds from Model.
           void updateMobile() ;
           
           /// Modify model position/orientation. 
-          void updateModelPositionned() ;
+          void updateModelPositioned() ;
 
           /// Modify model speed. 
           void updateModelMobile() ;

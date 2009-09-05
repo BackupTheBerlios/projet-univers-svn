@@ -25,7 +25,7 @@
 #include <model/computer.h>
 #include <model/massive.h>
 #include <model/detector.h>
-#include <model/positionned.h>
+#include <model/positioned.h>
 #include <model/oriented.h>
 #include <model/mobile.h>
 #include <model/solid.h>
@@ -72,7 +72,7 @@ namespace ProjetUnivers
         Kernel::Object* system = model->createObject() ;
 
         Kernel::Object* ship = system->createObject() ;
-        ship->addTrait(new Positionned()) ;
+        ship->addTrait(new Positioned()) ;
         ship->addTrait(new Oriented()) ;
         ship->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship->addTrait(new Mobile()) ;
@@ -88,7 +88,7 @@ namespace ProjetUnivers
         ShootingHelper::connect(ship,ship,ship) ;
 
         Kernel::Object* ship2 = system->createObject() ;
-        ship2->addTrait(new Positionned(Position::Meter(0,0,500))) ;
+        ship2->addTrait(new Positioned(Position::Meter(0,0,500))) ;
         ship2->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship2->addTrait(new Oriented()) ;
         ship2->addTrait(new Mobile()) ;
@@ -108,11 +108,11 @@ namespace ProjetUnivers
 
         CPPUNIT_ASSERT(children.size()==1) ;
         Kernel::Object* child = (*(children.begin()))->getObject() ;
-        Positionned* positionned = child->getTrait<Positionned>() ;
-        CPPUNIT_ASSERT(positionned) ;
+        Positioned* positioned = child->getTrait<Positioned>() ;
+        CPPUNIT_ASSERT(positioned) ;
 
         /// ideal position is ship position because it does not move
-        CPPUNIT_ASSERT_EQUAL(Position::Meter(0,0,500),positionned->getPosition()) ;
+        CPPUNIT_ASSERT_EQUAL(Position::Meter(0,0,500),positioned->getPosition()) ;
       }
 
       void TestShootingHelper::testMovingFront()
@@ -131,7 +131,7 @@ namespace ProjetUnivers
         Kernel::Object* system = model->createObject() ;
 
         Kernel::Object* ship = system->createObject() ;
-        ship->addTrait(new Positionned()) ;
+        ship->addTrait(new Positioned()) ;
         ship->addTrait(new Oriented()) ;
         ship->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship->addTrait(new Mobile()) ;
@@ -147,7 +147,7 @@ namespace ProjetUnivers
         ShootingHelper::connect(ship,ship,ship) ;
 
         Kernel::Object* ship2 = system->createObject() ;
-        ship2->addTrait(new Positionned(Position::Meter(0,0,500))) ;
+        ship2->addTrait(new Positioned(Position::Meter(0,0,500))) ;
         ship2->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship2->addTrait(new Oriented()) ;
         ship2->addTrait(new Mobile(Speed::MeterPerSecond(0,0,1))) ;
@@ -168,10 +168,10 @@ namespace ProjetUnivers
 
         CPPUNIT_ASSERT(children.size()==1) ;
         Kernel::Object* child = (*(children.begin()))->getObject() ;
-        Positionned* positionned = child->getTrait<Positionned>() ;
-        CPPUNIT_ASSERT(positionned) ;
-        CPPUNIT_ASSERT(positionned->getPosition().Meter().z > 500) ;
-//        std::cout << positionned->getPosition().Meter() << std::endl ;
+        Positioned* positioned = child->getTrait<Positioned>() ;
+        CPPUNIT_ASSERT(positioned) ;
+        CPPUNIT_ASSERT(positioned->getPosition().Meter().z > 500) ;
+//        std::cout << positioned->getPosition().Meter() << std::endl ;
       }
 
       void TestShootingHelper::testMovingUnshootable()
@@ -190,7 +190,7 @@ namespace ProjetUnivers
         Kernel::Object* system = model->createObject() ;
 
         Kernel::Object* ship = system->createObject() ;
-        ship->addTrait(new Positionned()) ;
+        ship->addTrait(new Positioned()) ;
         ship->addTrait(new Oriented()) ;
         ship->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship->addTrait(new Mobile()) ;
@@ -206,7 +206,7 @@ namespace ProjetUnivers
         ShootingHelper::connect(ship,ship,ship) ;
 
         Kernel::Object* ship2 = system->createObject() ;
-        ship2->addTrait(new Positionned(Position::Meter(0,0,-500))) ;
+        ship2->addTrait(new Positioned(Position::Meter(0,0,-500))) ;
         ship2->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship2->addTrait(new Oriented()) ;
         ship2->addTrait(new Mobile(Speed::MeterPerSecond(0,0,laser_speed_meter_per_second))) ;
@@ -234,7 +234,7 @@ namespace ProjetUnivers
         Kernel::Object* system = model->createObject() ;
 
         Kernel::Object* ship = system->createObject() ;
-        ship->addTrait(new Positionned()) ;
+        ship->addTrait(new Positioned()) ;
         ship->addTrait(new Oriented()) ;
         ship->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship->addTrait(new Mobile()) ;
@@ -250,7 +250,7 @@ namespace ProjetUnivers
         ShootingHelper::connect(ship,ship,ship) ;
 
         Kernel::Object* ship2 = system->createObject() ;
-        ship2->addTrait(new Positionned(Position::Meter(0,0,-500))) ;
+        ship2->addTrait(new Positioned(Position::Meter(0,0,-500))) ;
         ship2->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship2->addTrait(new Oriented()) ;
         ship2->addTrait(new Mobile(Speed::MeterPerSecond(0,10,0))) ;
@@ -269,11 +269,11 @@ namespace ProjetUnivers
 
         CPPUNIT_ASSERT(children.size()==1) ;
         Kernel::Object* child = (*(children.begin()))->getObject() ;
-        Positionned* positionned = child->getTrait<Positionned>() ;
-        CPPUNIT_ASSERT(positionned) ;
-        CPPUNIT_ASSERT(positionned->getPosition().Meter().z == -500) ;
-        CPPUNIT_ASSERT(positionned->getPosition().Meter().y > 0) ;
-//        std::cout << positionned->getPosition().Meter() << std::endl ;
+        Positioned* positioned = child->getTrait<Positioned>() ;
+        CPPUNIT_ASSERT(positioned) ;
+        CPPUNIT_ASSERT(positioned->getPosition().Meter().z == -500) ;
+        CPPUNIT_ASSERT(positioned->getPosition().Meter().y > 0) ;
+//        std::cout << positioned->getPosition().Meter() << std::endl ;
       }
 
       void TestShootingHelper::testMovingLateralWithRotation()
@@ -292,7 +292,7 @@ namespace ProjetUnivers
         Kernel::Object* system = model->createObject() ;
 
         Kernel::Object* ship = system->createObject() ;
-        ship->addTrait(new Positionned()) ;
+        ship->addTrait(new Positioned()) ;
         ship->addTrait(new Oriented(Orientation(::Ogre::Quaternion(::Ogre::Degree(180),::Ogre::Vector3::UNIT_Y)))) ;
         ship->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship->addTrait(new Mobile()) ;
@@ -308,7 +308,7 @@ namespace ProjetUnivers
         ShootingHelper::connect(ship,ship,ship) ;
 
         Kernel::Object* ship2 = system->createObject() ;
-        ship2->addTrait(new Positionned(Position::Meter(0,0,500))) ;
+        ship2->addTrait(new Positioned(Position::Meter(0,0,500))) ;
         ship2->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship2->addTrait(new Oriented()) ;
         ship2->addTrait(new Mobile(Speed::MeterPerSecond(10,0,0))) ;
@@ -327,14 +327,14 @@ namespace ProjetUnivers
 
         CPPUNIT_ASSERT(children.size()==1) ;
         Kernel::Object* child = (*(children.begin()))->getObject() ;
-        Positionned* positionned = child->getTrait<Positionned>() ;
-        CPPUNIT_ASSERT(positionned) ;
-//        std::cout << positionned->getPosition().Meter() << std::endl ;
-        CPPUNIT_ASSERT(positionned->getPosition().Meter().z == 500) ;
-        CPPUNIT_ASSERT(positionned->getPosition().Meter().y == 0) ;
+        Positioned* positioned = child->getTrait<Positioned>() ;
+        CPPUNIT_ASSERT(positioned) ;
+//        std::cout << positioned->getPosition().Meter() << std::endl ;
+        CPPUNIT_ASSERT(positioned->getPosition().Meter().z == 500) ;
+        CPPUNIT_ASSERT(positioned->getPosition().Meter().y == 0) ;
 
         // in local ship space targeted ship goes -x
-        CPPUNIT_ASSERT(positionned->getPosition().Meter().x < 0) ;
+        CPPUNIT_ASSERT(positioned->getPosition().Meter().x < 0) ;
       }
 
       void TestShootingHelper::destroyComputer()
@@ -354,7 +354,7 @@ namespace ProjetUnivers
         Kernel::Object* system = model->createObject() ;
 
         Kernel::Object* ship = system->createObject() ;
-        ship->addTrait(new Positionned()) ;
+        ship->addTrait(new Positioned()) ;
         ship->addTrait(new Oriented()) ;
         ship->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship->addTrait(new Mobile()) ;
@@ -374,7 +374,7 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(!Kernel::Relation::areLinked<Implementation::Selection>(ship,ship)) ;
 
         Kernel::Object* ship2 = system->createObject() ;
-        ship2->addTrait(new Positionned(Position::Meter(0,0,500))) ;
+        ship2->addTrait(new Positioned(Position::Meter(0,0,500))) ;
         ship2->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship2->addTrait(new Oriented()) ;
         ship2->addTrait(new Mobile(Speed::MeterPerSecond(0,10,0))) ;
@@ -420,7 +420,7 @@ namespace ProjetUnivers
         Kernel::Object* system = model->createObject() ;
 
         Kernel::Object* ship = system->createObject() ;
-        ship->addTrait(new Positionned()) ;
+        ship->addTrait(new Positioned()) ;
         ship->addTrait(new Oriented()) ;
         ship->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship->addTrait(new Mobile()) ;
@@ -436,7 +436,7 @@ namespace ProjetUnivers
         ShootingHelper::connect(ship,ship,ship) ;
 
         Kernel::Object* ship2 = system->createObject() ;
-        ship2->addTrait(new Positionned(Position::Meter(0,0,500))) ;
+        ship2->addTrait(new Positioned(Position::Meter(0,0,500))) ;
         ship2->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship2->addTrait(new Oriented()) ;
         ship2->addTrait(new Mobile(Speed::MeterPerSecond(0,10,0))) ;
@@ -474,7 +474,7 @@ namespace ProjetUnivers
         Kernel::Object* system = model->createObject() ;
 
         Kernel::Object* ship = system->createObject() ;
-        ship->addTrait(new Positionned()) ;
+        ship->addTrait(new Positioned()) ;
         ship->addTrait(new Oriented()) ;
         ship->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship->addTrait(new Mobile()) ;
@@ -490,7 +490,7 @@ namespace ProjetUnivers
         ShootingHelper::connect(ship,ship,ship) ;
 
         Kernel::Object* ship2 = system->createObject() ;
-        ship2->addTrait(new Positionned(Position::Meter(0,0,500))) ;
+        ship2->addTrait(new Positioned(Position::Meter(0,0,500))) ;
         ship2->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship2->addTrait(new Oriented()) ;
         ship2->addTrait(new Mobile(Speed::MeterPerSecond(0,10,0))) ;
@@ -530,7 +530,7 @@ namespace ProjetUnivers
         Kernel::Object* system = model->createObject() ;
 
         Kernel::Object* ship = system->createObject() ;
-        ship->addTrait(new Positionned()) ;
+        ship->addTrait(new Positioned()) ;
         ship->addTrait(new Oriented()) ;
         ship->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship->addTrait(new Mobile()) ;
@@ -546,7 +546,7 @@ namespace ProjetUnivers
         ShootingHelper::connect(ship,ship,ship) ;
 
         Kernel::Object* ship2 = system->createObject() ;
-        ship2->addTrait(new Positionned(Position::Meter(0,0,-500))) ;
+        ship2->addTrait(new Positioned(Position::Meter(0,0,-500))) ;
         ship2->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship2->addTrait(new Oriented()) ;
         ship2->addTrait(new Mobile(Speed::MeterPerSecond(0,10,0))) ;
@@ -575,7 +575,7 @@ namespace ProjetUnivers
         Kernel::Object* system = model->createObject() ;
 
         Kernel::Object* ship = system->createObject() ;
-        ship->addTrait(new Positionned()) ;
+        ship->addTrait(new Positioned()) ;
         ship->addTrait(new Oriented(Orientation(Ogre::Quaternion(Ogre::Degree(-45),Ogre::Vector3::UNIT_Y)))) ;
         ship->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship->addTrait(new Mobile()) ;
@@ -591,7 +591,7 @@ namespace ProjetUnivers
         ShootingHelper::connect(ship,ship,ship) ;
 
         Kernel::Object* ship2 = system->createObject() ;
-        ship2->addTrait(new Positionned(Position::Meter(100,0,-100))) ;
+        ship2->addTrait(new Positioned(Position::Meter(100,0,-100))) ;
         ship2->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship2->addTrait(new Oriented()) ;
         ship2->addTrait(new Mobile(Speed::MeterPerSecond(0,10,0))) ;
@@ -620,7 +620,7 @@ namespace ProjetUnivers
         Kernel::Object* system = model->createObject() ;
 
         Kernel::Object* ship = system->createObject() ;
-        ship->addTrait(new Positionned()) ;
+        ship->addTrait(new Positioned()) ;
         ship->addTrait(new Oriented()) ;
         ship->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship->addTrait(new Mobile()) ;
@@ -636,7 +636,7 @@ namespace ProjetUnivers
         ShootingHelper::connect(ship,ship,ship) ;
 
         Kernel::Object* ship2 = system->createObject() ;
-        ship2->addTrait(new Positionned(Position::Meter(0,0,500))) ;
+        ship2->addTrait(new Positioned(Position::Meter(0,0,500))) ;
         ship2->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship2->addTrait(new Oriented()) ;
         ship2->addTrait(new Mobile(Speed::MeterPerSecond(0,10,0))) ;
@@ -665,7 +665,7 @@ namespace ProjetUnivers
         Kernel::Object* system = model->createObject() ;
 
         Kernel::Object* ship = system->createObject() ;
-        ship->addTrait(new Positionned()) ;
+        ship->addTrait(new Positioned()) ;
         ship->addTrait(new Oriented()) ;
         ship->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship->addTrait(new Mobile()) ;
@@ -682,7 +682,7 @@ namespace ProjetUnivers
 
         Kernel::Object* ship2 = system->createObject() ;
         ship2->addTrait(new Solid(Mesh("test_ship.mesh"))) ;
-        ship2->addTrait(new Positionned(Position::Meter(ship2->getTrait<Solid>()->getRadius().Meter()+10,0,-400))) ;
+        ship2->addTrait(new Positioned(Position::Meter(ship2->getTrait<Solid>()->getRadius().Meter()+10,0,-400))) ;
         ship2->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship2->addTrait(new Oriented()) ;
         ship2->addTrait(new Mobile(Speed::MeterPerSecond(0,10,0))) ;
@@ -710,7 +710,7 @@ namespace ProjetUnivers
         Kernel::Object* system = model->createObject() ;
 
         Kernel::Object* ship = system->createObject() ;
-        ship->addTrait(new Positionned()) ;
+        ship->addTrait(new Positioned()) ;
         ship->addTrait(new Oriented()) ;
         ship->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship->addTrait(new Mobile()) ;
@@ -727,7 +727,7 @@ namespace ProjetUnivers
 
         Kernel::Object* ship2 = system->createObject() ;
         ship2->addTrait(new Solid(Mesh("test_ship.mesh"))) ;
-        ship2->addTrait(new Positionned(Position::Meter(ship2->getTrait<Solid>()->getRadius().Meter()-10,0,-400))) ;
+        ship2->addTrait(new Positioned(Position::Meter(ship2->getTrait<Solid>()->getRadius().Meter()-10,0,-400))) ;
         ship2->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship2->addTrait(new Oriented()) ;
         ship2->addTrait(new Mobile(Speed::MeterPerSecond(0,10,0))) ;

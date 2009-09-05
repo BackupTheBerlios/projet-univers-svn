@@ -57,7 +57,7 @@ namespace ProjetUnivers
         
         /*!
           To be visible an object needs :
-          - being positionned and (mobile or solid) 
+          - being positioned and (mobile or solid) 
           - ??? 
           not too far from the observer....
         */

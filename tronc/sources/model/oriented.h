@@ -77,7 +77,7 @@ namespace ProjetUnivers
 
       /// Access to orientation relative to @c object.
       /*!
-        Skips any non positionned intermediate object.
+        Skips any non positioned intermediate object.
       */
       Orientation getOrientation(const Kernel::Object* object) const ;
 

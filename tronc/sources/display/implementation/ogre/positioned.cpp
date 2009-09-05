@@ -20,7 +20,7 @@
  ***************************************************************************/
 #include <kernel/log.h>
 
-#include <model/positionned.h>
+#include <model/positioned.h>
 #include <model/oriented.h>
 #include <display/implementation/ogre/real_world_view_point.h>
 #include <display/implementation/ogre/positioned.h>
@@ -187,7 +187,7 @@ namespace ProjetUnivers
 
         void Positioned::setPosition()
         {
-          Model::Positionned* Positioned = getTrait<Model::Positionned>() ;
+          Model::Positioned* Positioned = getTrait<Model::Positioned>() ;
           if (Positioned)
             m_node->setPosition(convert(Positioned->getPosition())) ;
         }

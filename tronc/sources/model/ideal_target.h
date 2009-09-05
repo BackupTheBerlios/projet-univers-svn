@@ -29,7 +29,7 @@ namespace ProjetUnivers {
     /// For objects that represent where to shoot.
     /*!
       For a targeted element, a computer object is built that represent where 
-      to shoot. If the ship is aimed at this positionned object then shooting 
+      to shoot. If the ship is aimed at this positioned object then shooting 
       will touch the targeted object provided it does not change direction and 
       speed. 
     */

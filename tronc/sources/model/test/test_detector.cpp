@@ -24,7 +24,7 @@
 #include <model/model.h>
 #include <model/computer.h>
 #include <model/detector.h>
-#include <model/positionned.h>
+#include <model/positioned.h>
 #include <model/oriented.h>
 #include <model/mobile.h>
 #include <model/solid.h>
@@ -57,7 +57,7 @@ namespace ProjetUnivers
         Kernel::Object* system = model->createObject() ;
 
         Kernel::Object* ship = system->createObject() ;
-        ship->addTrait(new Positionned()) ;
+        ship->addTrait(new Positioned()) ;
         ship->addTrait(new Oriented()) ;
         ship->addTrait(new Mobile()) ;
         ship->addTrait(new Solid(Mesh("test_ship.mesh"))) ;
@@ -67,7 +67,7 @@ namespace ProjetUnivers
         Detector::connect(ship,ship) ;
 
         Kernel::Object* ship2 = system->createObject() ;
-        ship2->addTrait(new Positionned(Position::Meter(0,0,500))) ;
+        ship2->addTrait(new Positioned(Position::Meter(0,0,500))) ;
         ship2->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship2->addTrait(new Oriented()) ;
         ship2->addTrait(new Mobile()) ;
@@ -94,7 +94,7 @@ namespace ProjetUnivers
         Kernel::Object* system = model->createObject() ;
 
         Kernel::Object* ship = system->createObject() ;
-        ship->addTrait(new Positionned()) ;
+        ship->addTrait(new Positioned()) ;
         ship->addTrait(new Oriented()) ;
         ship->addTrait(new Mobile()) ;
         ship->addTrait(new Solid(Mesh("test_ship.mesh"))) ;
@@ -104,7 +104,7 @@ namespace ProjetUnivers
         Detector::connect(ship,ship) ;
 
         Kernel::Object* ship2 = system->createObject() ;
-        ship2->addTrait(new Positionned(Position::Meter(0,0,500))) ;
+        ship2->addTrait(new Positioned(Position::Meter(0,0,500))) ;
         ship2->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship2->addTrait(new Oriented()) ;
         ship2->addTrait(new Mobile()) ;
@@ -137,7 +137,7 @@ namespace ProjetUnivers
         Kernel::Object* system = model->createObject() ;
 
         Kernel::Object* ship = system->createObject() ;
-        ship->addTrait(new Positionned()) ;
+        ship->addTrait(new Positioned()) ;
         ship->addTrait(new Oriented()) ;
         ship->addTrait(new Mobile()) ;
         ship->addTrait(new Solid(Mesh("test_ship.mesh"))) ;
@@ -147,7 +147,7 @@ namespace ProjetUnivers
         Detector::connect(ship,ship) ;
 
         Kernel::Object* ship2 = system->createObject() ;
-        ship2->addTrait(new Positionned(Position::Meter(0,0,500))) ;
+        ship2->addTrait(new Positioned(Position::Meter(0,0,500))) ;
         ship2->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship2->addTrait(new Oriented()) ;
         ship2->addTrait(new Mobile()) ;
@@ -158,7 +158,7 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(!detected.empty()) ;
         CPPUNIT_ASSERT(detected.find(ship2) != detected.end()) ;
 
-        ship2->getTrait<Positionned>()->setPosition(Position::Meter(0,100,0)) ;
+        ship2->getTrait<Positioned>()->setPosition(Position::Meter(0,100,0)) ;
 
         // the second ship has been detected.
         detected = ship->getTrait<Computer>()->getDetectedObjects() ;
@@ -181,7 +181,7 @@ namespace ProjetUnivers
         Kernel::Object* system = model->createObject() ;
 
         Kernel::Object* ship = system->createObject() ;
-        ship->addTrait(new Positionned()) ;
+        ship->addTrait(new Positioned()) ;
         ship->addTrait(new Oriented()) ;
         ship->addTrait(new Mobile()) ;
         ship->addTrait(new Solid(Mesh("test_ship.mesh"))) ;
@@ -191,7 +191,7 @@ namespace ProjetUnivers
         Detector::connect(ship,ship) ;
 
         Kernel::Object* ship2 = system->createObject() ;
-        ship2->addTrait(new Positionned(Position::Meter(0,0,100))) ;
+        ship2->addTrait(new Positioned(Position::Meter(0,0,100))) ;
         ship2->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship2->addTrait(new Oriented()) ;
         ship2->addTrait(new Mobile()) ;
@@ -202,7 +202,7 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(!detected.empty()) ;
         CPPUNIT_ASSERT(detected.find(ship2) != detected.end()) ;
 
-        ship2->getTrait<Positionned>()->setPosition(Position::Meter(0,500,0)) ;
+        ship2->getTrait<Positioned>()->setPosition(Position::Meter(0,500,0)) ;
 
         // the second ship is out of range
         detected = ship->getTrait<Computer>()->getDetectedObjects() ;
@@ -224,7 +224,7 @@ namespace ProjetUnivers
         Kernel::Object* system = model->createObject() ;
 
         Kernel::Object* ship = system->createObject() ;
-        ship->addTrait(new Positionned()) ;
+        ship->addTrait(new Positioned()) ;
         ship->addTrait(new Oriented()) ;
         ship->addTrait(new Mobile()) ;
         ship->addTrait(new Solid(Mesh("test_ship.mesh"))) ;
@@ -234,7 +234,7 @@ namespace ProjetUnivers
         Detector::connect(ship,ship) ;
 
         Kernel::Object* ship2 = system->createObject() ;
-        ship2->addTrait(new Positionned(Position::Meter(0,0,500))) ;
+        ship2->addTrait(new Positioned(Position::Meter(0,0,500))) ;
         ship2->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship2->addTrait(new Oriented()) ;
         ship2->addTrait(new Mobile()) ;
@@ -260,7 +260,7 @@ namespace ProjetUnivers
         Kernel::Object* system = model->createObject() ;
 
         Kernel::Object* ship = system->createObject() ;
-        ship->addTrait(new Positionned()) ;
+        ship->addTrait(new Positioned()) ;
         ship->addTrait(new Oriented()) ;
         ship->addTrait(new Mobile()) ;
         ship->addTrait(new Solid(Mesh("test_ship.mesh"))) ;
@@ -270,7 +270,7 @@ namespace ProjetUnivers
         Detector::connect(ship,ship) ;
 
         Kernel::Object* ship2 = system->createObject() ;
-        ship2->addTrait(new Positionned(Position::Meter(0,0,500))) ;
+        ship2->addTrait(new Positioned(Position::Meter(0,0,500))) ;
         ship2->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship2->addTrait(new Oriented()) ;
         ship2->addTrait(new Mobile()) ;

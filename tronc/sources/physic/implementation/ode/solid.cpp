@@ -23,7 +23,7 @@
 
 #include <kernel/log.h>
 
-#include <model/positionned.h>
+#include <model/positioned.h>
 #include <model/physical_world.h>
 #include <model/physical_object.h>
 #include <model/solid.h>

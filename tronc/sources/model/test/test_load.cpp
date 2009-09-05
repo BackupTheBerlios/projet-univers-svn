@@ -40,7 +40,7 @@
 #include <model/menu.h>
 #include <model/observer.h>
 #include <model/player_configuration.h>
-#include <model/positionned.h>
+#include <model/positioned.h>
 #include <model/oriented.h>
 #include <model/mobile.h>
 #include <model/massive.h>
@@ -471,25 +471,25 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(root->getTrait<Oriented>()) ;
       }
 
-      void TestLoad::testLoadPositionned()
+      void TestLoad::testLoadPositioned()
       {
         std::string content(
           "<?xml version=\"1.0\"?>\n"
             "<model>\n"
               "<object id=\"1\">\n"
-                "<Positionned>\n"
+                "<Positioned>\n"
                   "<Position x=\"0\" y=\"0\" z=\"0\" unit=\"Meter\"/>\n"
-                "</Positionned>\n"
+                "</Positioned>\n"
               "</object>\n"
             "</model>\n") ;
         std::auto_ptr<Kernel::XMLReader> reader(Kernel::XMLReader::getStringReader(content)) ;
-        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadPositionned")) ;
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadPositioned")) ;
         reader->read(model.get()) ;
 
         std::set<Kernel::Object*> roots(model->getRoots()) ;
         CPPUNIT_ASSERT(roots.size() == 1) ;
         Kernel::Object* root = *roots.begin() ;
-        CPPUNIT_ASSERT(root->getTrait<Positionned>()) ;
+        CPPUNIT_ASSERT(root->getTrait<Positioned>()) ;
       }
 
       void TestLoad::testLoadSolid()

@@ -26,7 +26,7 @@
 
 #include <model/model.h>
 #include <model/listener.h>
-#include <model/positionned.h>
+#include <model/positioned.h>
 #include <model/oriented.h>
 #include <model/mobile.h>
 #include <model/background_sound.h>
@@ -63,25 +63,25 @@ namespace ProjetUnivers
         model->init() ;
 
         Kernel::Object* system = model->createObject() ;
-        system->addTrait(new Model::Positionned()) ;
+        system->addTrait(new Model::Positioned()) ;
         system->addTrait(new Model::Oriented()) ;
 
         Kernel::Object* listener = system->createObject() ;
         listener->addTrait(new Model::Listener()) ;
-        listener->addTrait(new Model::Positionned()) ;
+        listener->addTrait(new Model::Positioned()) ;
         listener->addTrait(new Model::Oriented()) ;
         listener->addTrait(new Model::Mobile());
 
         Kernel::Object* emmiter = system->createObject() ;
         emmiter->addTrait(new Model::BackgroundSound("pu_comm_essai_1.ogg")) ;
-        emmiter->addTrait(new Model::Positionned()) ;
+        emmiter->addTrait(new Model::Positioned()) ;
         emmiter->addTrait(new Model::Oriented()) ;
 
         Kernel::Object* elm1 = system->createObject() ;
         Kernel::Object* elm2 = system->createObject() ;
         Kernel::Object* collision = system->createObject() ;
         collision->addTrait(new Model::Collision(elm1, elm2)) ;
-        collision->addTrait(new Model::Positionned()) ;
+        collision->addTrait(new Model::Positioned()) ;
 
         InternalMessage("Sound", "fin definition world") ;
 
@@ -114,18 +114,18 @@ namespace ProjetUnivers
         model->init() ;
 
         Kernel::Object* system = model->createObject() ;
-        system->addTrait(new Model::Positionned()) ;
+        system->addTrait(new Model::Positioned()) ;
         system->addTrait(new Model::Oriented()) ;
 
         Kernel::Object* listener = system->createObject() ;
         listener->addTrait(new Model::Listener()) ;
-        listener->addTrait(new Model::Positionned()) ;
+        listener->addTrait(new Model::Positioned()) ;
         listener->addTrait(new Model::Oriented()) ;
         listener->addTrait(new Model::Mobile());
 
         Kernel::Object* emmiter = system->createObject() ;
         emmiter->addTrait(new Model::BackgroundSound("test.wav")) ;
-        emmiter->addTrait(new Model::Positionned()) ;
+        emmiter->addTrait(new Model::Positioned()) ;
         emmiter->addTrait(new Model::Oriented()) ;
 
         Kernel::Timer global_timer;

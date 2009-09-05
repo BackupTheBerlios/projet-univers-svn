@@ -19,7 +19,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include <kernel/object.h>
-#include <model/positionned.h>
+#include <model/positioned.h>
 #include <model/oriented.h>
 #include <model/implementation/detectable.h>
 
@@ -56,7 +56,7 @@ namespace ProjetUnivers
     Position Computer::getDataPosition(Kernel::Object* data,
                                        Kernel::Object* relative_to) const
     {
-      return data->getTrait<Positionned>()->getPosition()*
+      return data->getTrait<Positioned>()->getPosition()*
              getRelativeOrientation(getObject(),relative_to) +
              getRelativePosition(getObject(),relative_to) ;
     }

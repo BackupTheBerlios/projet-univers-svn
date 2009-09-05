@@ -26,7 +26,7 @@
 #include <kernel/command_delegator.h>
 
 #include <model/model.h>
-#include <model/positionned.h>
+#include <model/positioned.h>
 #include <model/stellar_system.h>
 #include <model/oriented.h>
 #include <model/observer.h>
@@ -85,28 +85,28 @@ namespace ProjetUnivers
 
         Kernel::Object* universe = model->createObject() ;
         universe->addTrait(new Model::Universe()) ;
-        universe->addTrait(new Model::Positionned()) ;
+        universe->addTrait(new Model::Positioned()) ;
 
         Kernel::Object* system = universe->createObject() ;
         system->addTrait(new Model::StellarSystem()) ;
-        system->addTrait(new Model::Positionned()) ;
+        system->addTrait(new Model::Positioned()) ;
 
         Kernel::Object* ship = Model::createShip(system) ;
-        ship->getTrait<Model::Positionned>()->setPosition(Model::Position::Meter(0,0,-500)) ;
+        ship->getTrait<Model::Positioned>()->setPosition(Model::Position::Meter(0,0,-500)) ;
 
         Kernel::Object* observer = system->createObject() ;
         observer->addTrait(new Model::Observer()) ;
         observer->addTrait(new Model::Player()) ;
         observer->addTrait(new Model::Active()) ;
-        observer->addTrait(new Model::Positionned()) ;
+        observer->addTrait(new Model::Positioned()) ;
         InternalMessage("Display","Display::TestModelView::testConstruct") ;
         observer->addTrait(new Model::Oriented(::Ogre::Quaternion(::Ogre::Degree(180),::Ogre::Vector3::UNIT_Y))) ;
 
-        Implementation::Ogre::Positioned* positionned_observer = observer->getTrait<Implementation::Positioned>()->getView<Implementation::Ogre::Positioned>(viewpoint) ;
-        CPPUNIT_ASSERT(positionned_observer->getNode()->_getDerivedOrientation().equals(::Ogre::Quaternion(0,0,1,0),::Ogre::Degree(5))) ;
+        Implementation::Ogre::Positioned* positioned_observer = observer->getTrait<Implementation::Positioned>()->getView<Implementation::Ogre::Positioned>(viewpoint) ;
+        CPPUNIT_ASSERT(positioned_observer->getNode()->_getDerivedOrientation().equals(::Ogre::Quaternion(0,0,1,0),::Ogre::Degree(5))) ;
 
         observer->getTrait<Model::Oriented>()->setOrientation(::Ogre::Quaternion()) ;
-        CPPUNIT_ASSERT(positionned_observer->getNode()->_getDerivedOrientation().equals(::Ogre::Quaternion(1,0,0,0),::Ogre::Degree(5))) ;
+        CPPUNIT_ASSERT(positioned_observer->getNode()->_getDerivedOrientation().equals(::Ogre::Quaternion(1,0,0,0),::Ogre::Degree(5))) ;
 
         Kernel::Timer timer ;
         Kernel::Timer global_timer ;
@@ -133,20 +133,20 @@ namespace ProjetUnivers
 
         Kernel::Object* universe = model->createObject() ;
         universe->addTrait(new Model::Universe()) ;
-        universe->addTrait(new Model::Positionned()) ;
+        universe->addTrait(new Model::Positioned()) ;
 
         Kernel::Object* system = universe->createObject() ;
         system->addTrait(new Model::StellarSystem()) ;
-        system->addTrait(new Model::Positionned()) ;
+        system->addTrait(new Model::Positioned()) ;
 
         Kernel::Object* ship = Model::createShip(system) ;
-        ship->getTrait<Model::Positionned>()->setPosition(Model::Position::Meter(0,0,-500)) ;
+        ship->getTrait<Model::Positioned>()->setPosition(Model::Position::Meter(0,0,-500)) ;
 
         Kernel::Object* observer = system->createObject() ;
         observer->addTrait(new Model::Observer()) ;
         observer->addTrait(new Model::Player()) ;
         observer->addTrait(new Model::Active()) ;
-        observer->addTrait(new Model::Positionned()) ;
+        observer->addTrait(new Model::Positioned()) ;
         observer->addTrait(new Model::Oriented()) ;
 
         Kernel::Timer timer ;
@@ -181,17 +181,17 @@ namespace ProjetUnivers
 
         Kernel::Object* universe = model->createObject() ;
         universe->addTrait(new Model::Universe()) ;
-        universe->addTrait(new Model::Positionned()) ;
+        universe->addTrait(new Model::Positioned()) ;
 
         Kernel::Object* system = universe->createObject() ;
         system->addTrait(new Model::StellarSystem()) ;
-        system->addTrait(new Model::Positionned()) ;
+        system->addTrait(new Model::Positioned()) ;
 
         Kernel::Object* observer = system->createObject() ;
         observer->addTrait(new Model::Observer()) ;
         observer->addTrait(new Model::Player()) ;
         observer->addTrait(new Model::Active()) ;
-        observer->addTrait(new Model::Positionned(Model::Position::Meter(0,0,200))) ;
+        observer->addTrait(new Model::Positioned(Model::Position::Meter(0,0,200))) ;
         observer->addTrait(new Model::Oriented()) ;
 
         Kernel::Object* computer = observer->createObject() ;
@@ -203,7 +203,7 @@ namespace ProjetUnivers
 
         Kernel::Model* computer_model = computer->getTrait<Model::Computer>()->getMemoryModel() ;
         Kernel::Object* target = computer_model->createObject() ;
-        target->addTrait(new Model::Positionned(Model::Position::Meter(50,-100,-200))) ;
+        target->addTrait(new Model::Positioned(Model::Position::Meter(50,-100,-200))) ;
         target->addTrait(new Model::IdealTarget(computer)) ;
 
         Kernel::Timer timer ;
@@ -231,21 +231,21 @@ namespace ProjetUnivers
 
         Kernel::Object* universe = model->createObject() ;
         universe->addTrait(new Model::Universe()) ;
-        universe->addTrait(new Model::Positionned()) ;
+        universe->addTrait(new Model::Positioned()) ;
 
         Kernel::Object* system = universe->createObject() ;
         system->addTrait(new Model::StellarSystem()) ;
-        system->addTrait(new Model::Positionned()) ;
+        system->addTrait(new Model::Positioned()) ;
 
         Kernel::Object* ship = Model::createShip(system) ;
-        ship->getTrait<Model::Positionned>()->setPosition(Model::Position::Meter(0,0,-500)) ;
+        ship->getTrait<Model::Positioned>()->setPosition(Model::Position::Meter(0,0,-500)) ;
         ship->getTrait<Model::Mobile>()->setSpeed(Model::Speed::MeterPerSecond(0,0,-10)) ;
 
         Kernel::Object* observer = ship->createObject() ;
         observer->addTrait(new Model::Observer()) ;
         observer->addTrait(new Model::Player()) ;
         observer->addTrait(new Model::Active()) ;
-        observer->addTrait(new Model::Positionned()) ;
+        observer->addTrait(new Model::Positioned()) ;
         observer->addTrait(new Model::Oriented()) ;
 
         CPPUNIT_ASSERT(observer->getParent<Model::Mobile>()) ;
@@ -303,21 +303,21 @@ namespace ProjetUnivers
         model->init() ;
         Kernel::Object* universe = model->createObject() ;
         universe->addTrait(new Model::Universe()) ;
-        universe->addTrait(new Model::Positionned()) ;
+        universe->addTrait(new Model::Positioned()) ;
 
         Kernel::Object* system = universe->createObject() ;
         system->addTrait(new Model::StellarSystem()) ;
-        system->addTrait(new Model::Positionned()) ;
+        system->addTrait(new Model::Positioned()) ;
 
         Kernel::Object* ship = Model::createShip(system) ;
-        ship->getTrait<Model::Positionned>()->setPosition(Model::Position::Meter(0,0,-500)) ;
+        ship->getTrait<Model::Positioned>()->setPosition(Model::Position::Meter(0,0,-500)) ;
         ship->getTrait<Model::Destroyable>()->damage(Model::Energy::Joule(50)) ;
 
         Kernel::Object* observer = system->createObject() ;
         observer->addTrait(new Model::Observer()) ;
         observer->addTrait(new Model::Player()) ;
         observer->addTrait(new Model::Active()) ;
-        observer->addTrait(new Model::Positionned()) ;
+        observer->addTrait(new Model::Positioned()) ;
         observer->addTrait(new Model::Oriented()) ;
 
         Kernel::Timer timer ;
@@ -345,20 +345,20 @@ namespace ProjetUnivers
 
         Kernel::Object* universe = model->createObject() ;
         universe->addTrait(new Model::Universe()) ;
-        universe->addTrait(new Model::Positionned()) ;
+        universe->addTrait(new Model::Positioned()) ;
 
         Kernel::Object* system = universe->createObject() ;
         system->addTrait(new Model::StellarSystem()) ;
-        system->addTrait(new Model::Positionned()) ;
+        system->addTrait(new Model::Positioned()) ;
 
         Kernel::Object* ship = Model::createShip(system) ;
-        ship->getTrait<Model::Positionned>()->setPosition(Model::Position::Meter(0,0,-500)) ;
+        ship->getTrait<Model::Positioned>()->setPosition(Model::Position::Meter(0,0,-500)) ;
 
         Kernel::Object* observer = system->createObject() ;
         observer->addTrait(new Model::Observer()) ;
         observer->addTrait(new Model::Player()) ;
         observer->addTrait(new Model::Active()) ;
-        observer->addTrait(new Model::Positionned()) ;
+        observer->addTrait(new Model::Positioned()) ;
         observer->addTrait(new Model::Oriented()) ;
 
         Kernel::Timer timer ;
@@ -381,7 +381,7 @@ namespace ProjetUnivers
             observer->addTrait(new Model::Observer()) ;
             observer->addTrait(new Model::Player()) ;
             observer->addTrait(new Model::Active()) ;
-            observer->addTrait(new Model::Positionned()) ;
+            observer->addTrait(new Model::Positioned()) ;
             observer->addTrait(new Model::Oriented()) ;
             recreated = true ;
           }
@@ -423,16 +423,16 @@ namespace ProjetUnivers
 
         Kernel::Object* universe = model->createObject() ;
         universe->addTrait(new Model::Universe()) ;
-        universe->addTrait(new Model::Positionned()) ;
+        universe->addTrait(new Model::Positioned()) ;
 
         Kernel::Object* system = universe->createObject() ;
         system->addTrait(new Model::StellarSystem()) ;
-        system->addTrait(new Model::Positionned()) ;
+        system->addTrait(new Model::Positioned()) ;
 
         Kernel::Object* database = model->createObject() ;
 
         Kernel::Object* ship = Model::createShip(database) ;
-        ship->getTrait<Model::Positionned>()->setPosition(Model::Position::Meter(0,0,-500)) ;
+        ship->getTrait<Model::Positioned>()->setPosition(Model::Position::Meter(0,0,-500)) ;
 
         ship->changeParent(system) ;
 
@@ -440,7 +440,7 @@ namespace ProjetUnivers
         observer->addTrait(new Model::Observer()) ;
         observer->addTrait(new Model::Player()) ;
         observer->addTrait(new Model::Active()) ;
-        observer->addTrait(new Model::Positionned()) ;
+        observer->addTrait(new Model::Positioned()) ;
         observer->addTrait(new Model::Oriented()) ;
 
         model->update(1) ;
@@ -457,24 +457,24 @@ namespace ProjetUnivers
 
         Kernel::Object* universe = model->createObject() ;
         universe->addTrait(new Model::Universe()) ;
-        universe->addTrait(new Model::Positionned()) ;
+        universe->addTrait(new Model::Positioned()) ;
 
         Kernel::Object* system = universe->createObject() ;
         system->addTrait(new Model::StellarSystem()) ;
-        system->addTrait(new Model::Positionned()) ;
+        system->addTrait(new Model::Positioned()) ;
 
         Kernel::Object* ship = Model::createShip(system) ;
-        ship->getTrait<Model::Positionned>()->setPosition(Model::Position::Meter(0,0,-500)) ;
+        ship->getTrait<Model::Positioned>()->setPosition(Model::Position::Meter(0,0,-500)) ;
 
         Kernel::Object* observer1 = system->createObject() ;
         observer1->addTrait(new Model::Observer()) ;
         observer1->addTrait(new Model::Active()) ;
-        observer1->addTrait(new Model::Positionned()) ;
+        observer1->addTrait(new Model::Positioned()) ;
         observer1->addTrait(new Model::Oriented()) ;
 
         Kernel::Object* observer2 = system->createObject() ;
         observer2->addTrait(new Model::Observer()) ;
-        observer2->addTrait(new Model::Positionned(Model::Position::Meter(0,0,500))) ;
+        observer2->addTrait(new Model::Positioned(Model::Position::Meter(0,0,500))) ;
         observer2->addTrait(new Model::Oriented()) ;
 
         Kernel::Timer timer ;
@@ -519,28 +519,28 @@ namespace ProjetUnivers
 
         Kernel::Object* universe = model->createObject() ;
         universe->addTrait(new Model::Universe()) ;
-        universe->addTrait(new Model::Positionned()) ;
+        universe->addTrait(new Model::Positioned()) ;
 
         Kernel::Object* system = universe->createObject() ;
         system->addTrait(new Model::StellarSystem()) ;
-        system->addTrait(new Model::Positionned()) ;
+        system->addTrait(new Model::Positioned()) ;
 
         Kernel::Object* target = Model::createShip(system) ;
 
-        Implementation::Ogre::Positioned* positionned = target->getTrait<Implementation::Positioned>()->getView<Implementation::Ogre::Positioned>(viewpoint) ;
-        CPPUNIT_ASSERT(positionned) ;
+        Implementation::Ogre::Positioned* positioned = target->getTrait<Implementation::Positioned>()->getView<Implementation::Ogre::Positioned>(viewpoint) ;
+        CPPUNIT_ASSERT(positioned) ;
 
-        CPPUNIT_ASSERT_EQUAL(Ogre::Vector3(0,0,0),positionned->getNode()->getPosition()) ;
-        CPPUNIT_ASSERT_EQUAL(Ogre::Quaternion(),positionned->getNode()->getOrientation()) ;
+        CPPUNIT_ASSERT_EQUAL(Ogre::Vector3(0,0,0),positioned->getNode()->getPosition()) ;
+        CPPUNIT_ASSERT_EQUAL(Ogre::Quaternion(),positioned->getNode()->getOrientation()) ;
 
-        target->getTrait<Model::Positionned>()->setPosition(Model::Position::Meter(0,0,-500)) ;
+        target->getTrait<Model::Positioned>()->setPosition(Model::Position::Meter(0,0,-500)) ;
 
-        CPPUNIT_ASSERT_EQUAL(Ogre::Vector3(0,0,-500/Implementation::Ogre::conversion_factor),positionned->getNode()->getPosition()) ;
-        CPPUNIT_ASSERT_EQUAL(Ogre::Quaternion(),positionned->getNode()->getOrientation()) ;
+        CPPUNIT_ASSERT_EQUAL(Ogre::Vector3(0,0,-500/Implementation::Ogre::conversion_factor),positioned->getNode()->getPosition()) ;
+        CPPUNIT_ASSERT_EQUAL(Ogre::Quaternion(),positioned->getNode()->getOrientation()) ;
 
         target->getTrait<Model::Oriented>()->setOrientation(::Ogre::Quaternion(::Ogre::Degree(90),::Ogre::Vector3::UNIT_Y)) ;
 
-        CPPUNIT_ASSERT_EQUAL(Ogre::Quaternion(::Ogre::Degree(90),::Ogre::Vector3::UNIT_Y),positionned->getNode()->getOrientation()) ;
+        CPPUNIT_ASSERT_EQUAL(Ogre::Quaternion(::Ogre::Degree(90),::Ogre::Vector3::UNIT_Y),positioned->getNode()->getOrientation()) ;
       }
 
       void TestModelView::testMission()

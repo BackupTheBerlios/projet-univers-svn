@@ -22,7 +22,7 @@
 #include <model/engine.h>
 #include <model/mobile.h>
 #include <model/oriented.h>
-#include <model/positionned.h>
+#include <model/positioned.h>
 
 #include <sound/implementation/engine.h>
 
@@ -35,7 +35,7 @@ namespace ProjetUnivers
 
       DeclareDeducedTrait(Engine,
                           And(HasParent(HasTrait(Model::Mobile)),
-                              HasTrait(Model::RecursivelyPositionned),
+                              HasTrait(Model::RecursivelyPositioned),
                               HasTrait(Model::Engine))) ;
 
     }

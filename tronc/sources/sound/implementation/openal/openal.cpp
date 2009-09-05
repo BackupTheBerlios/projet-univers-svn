@@ -176,7 +176,7 @@ namespace ProjetUnivers
         {
           InternalMessage("Sound","Sound::OpenAL::close entering") ;
           system.reset(NULL) ;
-          InternalMessage("Sound","Sound::OpenAL::close leaving") ;
+          InternalMessage("Sound","Sound::OpenAL::close leaving with " + Kernel::toString(getMaximumNumberOfSources())) ;
         }
     
         void update()
@@ -242,6 +242,29 @@ namespace ProjetUnivers
         Manager* getManager()
         {
           return manager.get() ;
+        }
+
+        namespace
+        {
+          int number_of_sources = 0 ;
+          int max_number_of_sources = 0 ;
+        }
+
+        void addSource()
+        {
+          ++number_of_sources ;
+          if (number_of_sources > max_number_of_sources)
+            max_number_of_sources = number_of_sources ;
+        }
+
+        void removeSource()
+        {
+          --number_of_sources ;
+        }
+
+        int getMaximumNumberOfSources()
+        {
+          return max_number_of_sources ;
         }
         
       }

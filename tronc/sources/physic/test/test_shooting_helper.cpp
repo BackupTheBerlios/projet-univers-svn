@@ -34,7 +34,7 @@
 #include <model/computer.h>
 #include <model/massive.h>
 #include <model/detector.h>
-#include <model/positionned.h>
+#include <model/positioned.h>
 #include <model/oriented.h>
 #include <model/mobile.h>
 #include <model/solid.h>
@@ -90,7 +90,7 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(system->getTrait<Model::PhysicalWorld>()) ;
 
         Kernel::Object* ship = system->createObject() ;
-        ship->addTrait(new Model::Positionned()) ;
+        ship->addTrait(new Model::Positioned()) ;
         ship->addTrait(new Model::Oriented()) ;
         ship->addTrait(new Model::Massive(Model::Mass::Kilogram(1000))) ;
         ship->addTrait(new Model::Mobile()) ;
@@ -106,7 +106,7 @@ namespace ProjetUnivers
         Model::ShootingHelper::connect(ship,ship,ship) ;
 
         Kernel::Object* ship2 = system->createObject() ;
-        ship2->addTrait(new Model::Positionned(Model::Position::Meter(0,0,-300))) ;
+        ship2->addTrait(new Model::Positioned(Model::Position::Meter(0,0,-300))) ;
         ship2->addTrait(new Model::Massive(Model::Mass::Kilogram(1000))) ;
         ship2->addTrait(new Model::Oriented()) ;
         ship2->addTrait(new Model::Mobile(Model::Speed::MeterPerSecond(0,10,0))) ;
@@ -127,14 +127,14 @@ namespace ProjetUnivers
 
         CPPUNIT_ASSERT(children.size()==1) ;
         Kernel::Object* child = (*(children.begin()))->getObject() ;
-        Model::Positionned* positionned = child->getTrait<Model::Positionned>() ;
-        CPPUNIT_ASSERT(positionned) ;
+        Model::Positioned* positioned = child->getTrait<Model::Positioned>() ;
+        CPPUNIT_ASSERT(positioned) ;
 
         // calculate orientation of laser from positioned and laser out position
         // we should also use laser relative position to the ship if existed
         ::Ogre::Quaternion quaternion(
               ::Ogre::Degree(0),
-              (positionned->getPosition() - ship->getTrait<Model::Laser>()->getOutPosition()).Meter()) ;
+              (positioned->getPosition() - ship->getTrait<Model::Laser>()->getOutPosition()).Meter()) ;
 
         ship->getTrait<Model::Laser>()->setOrientation(Model::Orientation(quaternion)) ;
 

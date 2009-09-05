@@ -22,7 +22,7 @@
 #include <kernel/log.h>
 
 #include <model/model.h>
-#include <model/positionned.h>
+#include <model/positioned.h>
 #include <model/oriented.h>
 #include <model/mobile.h>
 #include <model/massive.h>
@@ -107,12 +107,12 @@ namespace ProjetUnivers {
       if (m_time_to_fire.Second() > 0)
         return ;
 
-      Positionned* positionned = getObject()->getParent<Positionned>() ;
+      Positioned* positioned = getObject()->getParent<Positioned>() ;
       Oriented* oriented = getObject()->getParent<Oriented>() ;
       PhysicalObject* object = getObject()->getParent<PhysicalObject>() ;
       PhysicalWorld* world = object ? object->getObject()->getAncestor<PhysicalWorld>() : NULL ;
 
-      if (world && positionned && oriented)
+      if (world && positioned && oriented)
       {
         InternalMessage("Model","firing") ;
         // create a laserbeam object
@@ -122,9 +122,9 @@ namespace ProjetUnivers {
         Orientation orientation_of_laser = oriented->getOrientation(world->getObject()) ;
 
         Position position_of_the_beam =
-          positionned->getPosition(world->getObject()) + m_out_position*orientation_of_laser ;
+          positioned->getPosition(world->getObject()) + m_out_position*orientation_of_laser ;
 
-        beam->addTrait(new Positionned(position_of_the_beam)) ;
+        beam->addTrait(new Positioned(position_of_the_beam)) ;
 
         Orientation orientation_of_the_beam =
           orientation_of_laser*m_out_orientation ;
@@ -151,7 +151,7 @@ namespace ProjetUnivers {
 
         // shot
         Kernel::Object* shot = world->getObject()->createObject() ;
-        shot->addTrait(new Positionned(position_of_the_beam)) ;
+        shot->addTrait(new Positioned(position_of_the_beam)) ;
         shot->addTrait(new Shot()) ;
 
         // re-init timer

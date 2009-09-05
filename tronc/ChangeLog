@@ -1451,7 +1451,7 @@
   * Model : 
     - corrected error during test deployment for model lib on windows
 
-2009-10-01
+2009-09-01
 
    * Kernel : 
      - log : removed file and line number and better handling of Log::Block
@@ -1464,6 +1464,15 @@
       => random order 
       Correction is to have a better formula.
     - renamed Positionned into Positioned (english correct)    
+
+
+
+2009-09-05
+
+  * All :
+    - rename Positionned into Positioned
+  * Sound : 
+    - added sources counting 
         
 in commit
 --------
@@ -1475,43 +1484,63 @@ in progress
     
 todo
 ----
-  * All :
-    - rename Positionned into Positioned
-    
-  * All : 
-    - build for continuous integration : migrate to ant
+
+  * Sound : 
+    - sources are never destroyed 
   
-  * Kernel : 
-    - print for IsTo is incorrect
-    - be able to desactivate a module (sound,display,input,gui,...) by config
-    - callgrind shows that desactivating gui and input in a system with no gui 
-      allow to go up to 80 ships !!
-    
+  * Model : 
+    - selected target going out of range will not be unselected
+
+  * Continuous integration :
+    - migrate to ant
+    - use cccc
+    - profile with valgrind (cachegrind) valgring --tool=cachegrind + kcachegrind 
+      for visualisation
+    - use valgrind for leaks (a lot on kernel tests, try whithout -O2) + invalid access
+      invalid access should crash make check (xml output and a check for Invalid Acess)
+    - add benchmark testing
+
   * Sound : 
     - exception floating point
     - probably too many sources (we should limit sources number) one my dev 
       machine : linear time on test up to 50 ships and time crashes at 60...
       valgring shows 50% time on mix sound for 50... 
-    
+    - distance culling ?
+
+  * Display : 
+    - change selection printing (change color of ideal target)
+
+  * AI : 
+    - issues with ship fleeing : when two ships aim at each other... they flee
+      perpendicularly
+    - AI tend to "flee on the side" once the target has gone in a perpendicular 
+      direction, its targeting go the same and the phenomenon amplifies
+    - users repport that AI tend to get back on back (probably a worst case 
+      scenario in the algorithm)
+
+  * Model : 
+    - Mission : destruction sequence during player's ship explosion 
+      (Player & Parent(Explosion)) --> change current camera to a fixed one 
+  
+  * Demo :
+    - history of who killed who (need to add the transponder on the LaserBeam 
+      object)
+    - score menu at the end of the mission
+
+  * Display :
+    - display score on hud
+  
   * Input :
     - instability on test autorepeat
     
   * Kernel : 
-   - detect illegal access in view/controler, an illegal access is accessing a 
-     trait/view/controler that is not part of the formula
-   - refactor types : Object, to catch NULL call by using kind of shared_ptr
-
-  * Display : 
-    - change selection printing (change color of ideal target)
-  
-  * Model : 
-    - selected target going out of range will not be unselected
-  
-  * AI : 
-    - issues with ship fleeing : when two ships aim at each other... they flee
-      perpendicularly
-
-  * Kernel :
+    - print for IsTo is incorrect
+    - be able to desactivate a module (sound,display,input,gui,...) by config
+    - callgrind shows that desactivating gui and input in a system with no gui 
+      allow to go up to 80 ships !!
+    - detect illegal access in view/controler, an illegal access is accessing a 
+      trait/view/controler that is not part of the formula
+    - refactor types : Object, to catch NULL call by using kind of shared_ptr
     - controlers ... during simulation of a controler, the updates on its trait 
       should not be triggered (could remove two checks in physics and gui)
     - normalise headers : all non used headers should be in implementation. 
@@ -1524,36 +1553,19 @@ todo
       
       Create a kernel.h header containg all the stuff...   
     - add traits on relations ? 
-    
-  * Kernel :
     - we should use onChangedParent() for formulae on parent instead of 
       onUpdate, onChangeParent is exactly the event that indicates that the 
       formula is still true but through another one ?
-
-  * Kernel :
     - repair getLatestUpdatedTrait() : memorisation of the event that caused 
       the update (could be update trait, changeHasParent, changeHasAncestor, 
       humm...)
-    
-  * Kernel:
     - all members should be encapsulated, even for own class : allow to change 
       storage (object pool...) for allocation optimisation
     - create an object pool per model, a pool on views too... boost::object_pool 
-    
-  * Kernel : 
-   - display the list of used formulaes (number and kind)
-   - count the create/destroy of objects of traits
-   - display the average size of objects (how many traits/views/deduced traits...)
+    - display the list of used formulaes (number and kind)
+    - count the create/destroy of objects of traits
+    - display the average size of objects (how many traits/views/deduced traits...)
 
-  * Model : 
-    - Mission : destruction sequence during player's ship explosion 
-      (Player & Parent(Explosion)) --> change current camera to a fixed one 
-  
-  * Demo :
-    - history of who killed who (need to add the transponder on the LaserBeam 
-      object)
-    - score menu at the end of the mission
-  
   * Input :
     - Bug : mouse go faster on right than left !!!
     
@@ -1561,25 +1573,11 @@ todo
     - bug : sometimes no sound when replaying the mission but difficult to 
       automatise
     
-    - distance culling ?
-     
-  * Demo : 
-    - reduce size of ship
-    
   * GUI : 
     - add input config validation : cannot save or back till it is correct
 
   * Model :
     - add performance tests 
-  
-  * Display :
-    - display score on hud
-    
-  * AI :
-    - AI tend to "flee on the side" once the target has gone in a perpendicular 
-      direction, its targeting go the same and the phenomenon amplifies
-    - users repport that AI tend to get back on back (probably a worst case 
-      scenario in the algorithm)
       
   * Kernel : 
     - the error message on udpate during update could be better : 
@@ -1606,8 +1604,6 @@ todo
       (wheread it works in normal make !!), probably a limitation of msys package
      
   * Model : 
-    - add test for adding objects during a structure destroying ?  
-
     - if we have several lasers : only one will shoot !
       either propagate commands every where or find another solution 
 
@@ -1708,10 +1704,4 @@ todo
     - mock network : receive position updates and in other side check that correct 
       messages are sent
   
-  * Continuous integration :
-    - use cccc
-    - profile with valgrind (cachegrind) valgring --tool=cachegrind + kcachegrind 
-      for visualisation
-    - use valgrind for leaks (a lot on kernel tests, try whithout -O2) + invalid access
-      invalid access should crash make check (xml output and a check for Invalid Acess)
   

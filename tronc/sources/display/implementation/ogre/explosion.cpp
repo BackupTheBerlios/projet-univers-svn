@@ -19,7 +19,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include <kernel/log.h>
-#include <model/positionned.h>
+#include <model/positioned.h>
 #include <model/explosion.h>
 #include <display/implementation/ogre/utility.h>
 #include <display/implementation/ogre/positioned.h>
@@ -44,7 +44,7 @@ namespace ProjetUnivers
         {
           InternalMessage("Display","Entering Ogre::Explosion::onInit") ;
 
-          Model::Positionned* positioned = getObject()->getTrait<Model::Positionned>() ;
+          Model::Positioned* positioned = getObject()->getTrait<Model::Positioned>() ;
 
           Implementation::Positioned* positioned_ancestor
             = getObject()->getAncestor<Implementation::Positioned>() ;
@@ -108,7 +108,7 @@ namespace ProjetUnivers
         {
           InternalMessage("Display","Display::Explosion::onClose Entering") ;
 
-          if (getObject()->getAncestor<Model::Positionned>())
+          if (getObject()->getAncestor<Model::Positioned>())
           {
             this->getViewPoint()->getManager()
                 ->destroySceneNode(this->m_node->getName()) ;

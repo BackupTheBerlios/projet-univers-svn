@@ -27,7 +27,7 @@
 #include <kernel/exception.h>
 
 #include <model/collision.h>
-#include <model/positionned.h>
+#include <model/positioned.h>
 
 #include <physic/implementation/ode/solid.h>
 #include <physic/implementation/ode/physical_object.h>
@@ -249,7 +249,7 @@ namespace ProjetUnivers
               collision_object->addTrait(new Model::Collision(
                                      collideable1->getControler()->getObject(),
                                      collideable2->getControler()->getObject())) ;
-              collision_object->addTrait(new Model::Positionned(
+              collision_object->addTrait(new Model::Positioned(
                                            Model::Position::Meter(
                                                average_contact_point.x,
                                                average_contact_point.y,

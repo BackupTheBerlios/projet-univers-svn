@@ -30,7 +30,7 @@ namespace ProjetUnivers {
 
     /// For objects that have a size.
     /*!
-      Used in conjunction with Positionned to determine isInside.
+      Used in conjunction with Positioned to determine isInside.
       @todo StellarSystem inherit from it...
     */
     class Sized : public Kernel::Trait

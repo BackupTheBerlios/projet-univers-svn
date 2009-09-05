@@ -55,7 +55,7 @@ namespace ProjetUnivers
         void testLoadObserver() ;
         void testLoadOriented() ;
         void testLoadPlayerConfiguration() ;
-        void testLoadPositionned() ;
+        void testLoadPositioned() ;
         void testLoadSolid() ;
         void testLoadStabilizer() ;
         void testLoadStick() ;
@@ -90,7 +90,7 @@ namespace ProjetUnivers
         CPPUNIT_TEST(testLoadObserver) ;
         CPPUNIT_TEST(testLoadOriented) ;
         CPPUNIT_TEST(testLoadPlayerConfiguration) ;
-        CPPUNIT_TEST(testLoadPositionned) ;
+        CPPUNIT_TEST(testLoadPositioned) ;
         CPPUNIT_TEST(testLoadSolid) ;
         CPPUNIT_TEST(testLoadStabilizer) ;
         CPPUNIT_TEST(testLoadStick) ;

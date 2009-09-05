@@ -22,7 +22,7 @@
 #include <kernel/log.h>
 
 #include <model/observer.h>
-#include <model/positionned.h>
+#include <model/positioned.h>
 #include <model/mobile.h>
 
 #include <display/implementation/ogre/ogre.h>

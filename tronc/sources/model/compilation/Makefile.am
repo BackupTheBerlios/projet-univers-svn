@@ -65,7 +65,7 @@ libmodel_la_SOURCES = \
 ../implementation/player_configuration.cpp \
 ../implementation/player_in_activated_flying_group.cpp \
 ../implementation/position.cpp \
-../implementation/positionned.cpp \
+../implementation/positioned.cpp \
 ../implementation/selection.cpp \
 ../implementation/solid.cpp \
 ../implementation/speed.cpp \
@@ -148,7 +148,7 @@ test_model_SOURCES = \
 ../test/test_orientation.cpp \
 ../test/test_player_configuration.cpp \
 ../test/test_position.cpp \
-../test/test_positionned.cpp \
+../test/test_positioned.cpp \
 ../test/test_save.cpp \
 ../test/test_shooting_helper.cpp \
 ../test/test_speed.cpp \

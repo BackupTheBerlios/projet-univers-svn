@@ -31,7 +31,7 @@ namespace ProjetUnivers
           
       /// A target for ShootingHelper
       /*!
-        Target <=> DetectionData & Solid & Positionned & Selected & Mobile
+        Target <=> DetectionData & Solid & Positioned & Selected & Mobile
       */ 
       class Target : public Kernel::DeducedRelation
       {};

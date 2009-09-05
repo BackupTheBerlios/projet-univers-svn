@@ -18,7 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <model/positionned.h>
+#include <model/positioned.h>
 #include <model/ideal_target.h>
 #include <display/implementation/ideal_target.h>
 
@@ -32,7 +32,7 @@ namespace ProjetUnivers
       DeclareDeducedTrait(
           IdealTarget,
           And(HasTrait(Model::IdealTarget),
-              HasTrait(Model::Positionned))) ;
+              HasTrait(Model::Positioned))) ;
     }
   }
 }

@@ -21,7 +21,7 @@
 #include <kernel/object.h>
 
 #include <model/oriented.h>
-#include <model/positionned.h>
+#include <model/positioned.h>
 
 
 namespace ProjetUnivers
@@ -29,21 +29,21 @@ namespace ProjetUnivers
   namespace Model
   {
 
-    RegisterTrait(Positionned) ;
+    RegisterTrait(Positioned) ;
 
-    Positionned::Positionned(const Position& i_position)
+    Positioned::Positioned(const Position& i_position)
     : Kernel::Trait(), 
       m_position(i_position)
     {}
 
-    Positionned::Positionned()
+    Positioned::Positioned()
     : Kernel::Trait(), 
       m_position()
     {}
 
-    Kernel::Trait* Positionned::read(Kernel::Reader* reader)
+    Kernel::Trait* Positioned::read(Kernel::Reader* reader)
     {
-      Positionned* result = new Positionned() ;
+      Positioned* result = new Positioned() ;
       
       while (!reader->isEndNode() && reader->processNode())
       {
@@ -62,12 +62,12 @@ namespace ProjetUnivers
       return result ;
     }
 
-    const Position& Positionned::getPosition() const 
+    const Position& Positioned::getPosition() const 
     {
       return m_position ;
     }
 
-    Position Positionned::getPosition(const Kernel::Object* object) const 
+    Position Positioned::getPosition(const Kernel::Object* object) const 
     {
       const Kernel::Object* ancestor = getObject()->getCommonAncestor(object) ;
       
@@ -76,20 +76,20 @@ namespace ProjetUnivers
         return getPositionRelativeToAncestor(object) ;
       }
       
-      Positionned* positionned = object->getParent<Positionned>() ;
+      Positioned* positioned = object->getParent<Positioned>() ;
       
-      if (ancestor && positionned)
+      if (ancestor && positioned)
       {
         
         Orientation orientation = getRelativeOrientation(object,ancestor) ;
         
         return (getPositionRelativeToAncestor(ancestor) 
-               - positionned->getPositionRelativeToAncestor(ancestor))*orientation.inverse() ; 
+               - positioned->getPositionRelativeToAncestor(ancestor))*orientation.inverse() ; 
       }
       return Position() ;
     }
     
-    Position Positionned::getPositionRelativeToAncestor(const Kernel::Object* i_ancestor) const 
+    Position Positioned::getPositionRelativeToAncestor(const Kernel::Object* i_ancestor) const 
     {
       if (! getObject()->getParent() || i_ancestor == getObject())
       {
@@ -104,9 +104,9 @@ namespace ProjetUnivers
       {
         // recursive case 
         
-        // first positionned ancestor 
-        Positionned* ancestor = getObject()->getParent()
-                                ->getParentUpTo<Positionned>(i_ancestor) ;
+        // first positioned ancestor 
+        Positioned* ancestor = getObject()->getParent()
+                                ->getParentUpTo<Positioned>(i_ancestor) ;
         
         if (ancestor)
         {
@@ -121,7 +121,7 @@ namespace ProjetUnivers
       }
     }
 
-    void Positionned::setPosition(const Position& i_position)
+    void Positioned::setPosition(const Position& i_position)
     {
       if (m_position != i_position)
       {
@@ -130,7 +130,7 @@ namespace ProjetUnivers
       }
     }
     
-    void Positionned::setPosition(
+    void Positioned::setPosition(
         const Position& i_position,
         Kernel::Object* i_reference)
     {
@@ -145,9 +145,9 @@ namespace ProjetUnivers
       }
       else
       {
-        // first positionned ancestor 
-        Positionned* ancestor = getObject()->getParent()
-                                ->getParentUpTo<Positionned>(i_reference) ;
+        // first positioned ancestor 
+        Positioned* ancestor = getObject()->getParent()
+                                ->getParentUpTo<Positioned>(i_reference) ;
         
         if (ancestor)
         {
@@ -159,19 +159,19 @@ namespace ProjetUnivers
     
     Position getRelativePosition(const Kernel::Object* o1,const Kernel::Object* o2)
     {
-      Positionned* positionned = o1->getParent<Positionned>() ; 
-      if (! positionned)
+      Positioned* positioned = o1->getParent<Positioned>() ; 
+      if (! positioned)
       {
         return Position() ;
       }
       
-      Position position = positionned->getPosition(o2) ;
+      Position position = positioned->getPosition(o2) ;
       return position ;
     }
     
-    DeclareDeducedTrait(RecursivelyPositionned,
-                        Or(HasTrait(Positionned),
-                           HasAncestor(HasTrait(RecursivelyPositionned)))) ;
+    DeclareDeducedTrait(RecursivelyPositioned,
+                        Or(HasTrait(Positioned),
+                           HasAncestor(HasTrait(RecursivelyPositioned)))) ;
 
   }
 }

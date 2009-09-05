@@ -19,7 +19,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include <model/shot.h>
-#include <model/positionned.h>
+#include <model/positioned.h>
 
 #include <sound/implementation/shot.h>
 
@@ -32,7 +32,7 @@ namespace ProjetUnivers
 
       DeclareDeducedTrait(Shot,
                           And(HasTrait(Model::Shot),
-                              HasTrait(Model::Positionned))) ;
+                              HasTrait(Model::Positioned))) ;
 
     }
   } 

@@ -35,7 +35,7 @@
 #include <sound/sound.h>
 
 #include <model/oriented.h>
-#include <model/positionned.h>
+#include <model/positioned.h>
 #include <model/observer.h>
 #include <model/player.h>
 #include <model/end_of_simulation.h>
@@ -80,7 +80,7 @@ int main()
   Kernel::Object* root = model->createObject() ;
   root->addTrait(new Model::State()) ;
   root->addTrait(new Model::Active()) ;
-  root->addTrait(new Model::Positionned()) ;
+  root->addTrait(new Model::Positioned()) ;
   root->addTrait(new Model::Oriented()) ;
   root->addTrait(new Model::Universe()) ;
 
@@ -101,7 +101,7 @@ int main()
   Kernel::Object* observer = root->createObject() ;
   observer->addTrait(new Model::Observer()) ;
   observer->addTrait(new Model::Player()) ;
-  observer->addTrait(new Model::Positionned(Model::Position::Meter(0,0,distance.Meter()))) ;
+  observer->addTrait(new Model::Positioned(Model::Position::Meter(0,0,distance.Meter()))) ;
   observer->addTrait(new Model::Oriented()) ;
   observer->addTrait(new Model::State()) ;
   observer->addTrait(new Kernel::CommandDelegator()) ;

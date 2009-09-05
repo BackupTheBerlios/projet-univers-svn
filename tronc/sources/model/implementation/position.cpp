@@ -21,7 +21,7 @@
 #include <kernel/log.h>
 
 #include <model/position.h>
-#include <model/positionned.h>
+#include <model/positioned.h>
 
 namespace ProjetUnivers
 {

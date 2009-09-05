@@ -23,7 +23,7 @@
 #include <kernel/algorithm.h>
 
 #include <model/position.h>
-#include <model/positionned.h>
+#include <model/positioned.h>
 #include <model/oriented.h>
 #include <model/solid.h>
 #include <model/laser.h>
@@ -89,8 +89,8 @@ namespace ProjetUnivers
           Kernel::Object* world = getObjectTo()->getParent<PhysicalObject>()->getPhysicalWorld() ;
 
           // absolute position
-          Ogre::Vector3 target_absolute_position = getObjectTo()->getTrait<Positionned>()->getPosition(world).Meter() ;
-          Ogre::Vector3 targeting_absolute_position = getObjectFrom()->getTrait<Positionned>()->getPosition(world).Meter() ;
+          Ogre::Vector3 target_absolute_position = getObjectTo()->getTrait<Positioned>()->getPosition(world).Meter() ;
+          Ogre::Vector3 targeting_absolute_position = getObjectFrom()->getTrait<Positioned>()->getPosition(world).Meter() ;
           Ogre::Vector3 position = target_absolute_position-targeting_absolute_position ;
 
           // relative to ship's physical world
@@ -127,12 +127,12 @@ namespace ProjetUnivers
           if (! m_ideal_target)
           {
             m_ideal_target = model->createObject() ;
-            m_ideal_target->addTrait(new Positionned()) ;
+            m_ideal_target->addTrait(new Positioned()) ;
             m_ideal_target->addTrait(new IdealTarget(getObjectFrom()->getChild<Computer>()->getObject())) ;
           }
           // update ideal target
-          Positionned* positionned = m_ideal_target->getTrait<Positionned>() ;
-          positionned->setPosition(touch_position) ;
+          Positioned* positioned = m_ideal_target->getTrait<Positioned>() ;
+          positioned->setPosition(touch_position) ;
 
           // calculate shootable status
           InternalMessage("Model","calculating shootable status") ;

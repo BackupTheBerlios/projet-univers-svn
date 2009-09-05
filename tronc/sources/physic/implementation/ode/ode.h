@@ -37,16 +37,16 @@ namespace ProjetUnivers {
       @par Physic calculus Conjecture
 
         Objects that are both :
-        - Positionned, @c Whole
+        - Positioned, @c Whole
         are represented by dWorld
 
         Objects that are both :
-        - Positionned, Massive, Whole, Mobile
+        - Positioned, Massive, Whole, Mobile
         are represented by a dBody and submitted to forces, the dBody is
         inserted in the first ancestor's dWorld.
 
         Objects that are both
-        - Solid, Positionned
+        - Solid, Positioned
         are represented by dGeom that are attached to the dBody of their whole.
 
         @todo validate...
@@ -55,21 +55,21 @@ namespace ProjetUnivers {
 
       @par
         A stellar system with a planet and a ship
-        system Positionned  --> dWorld1
+        system Positioned  --> dWorld1
           |
-          -- planet1 Positionned Massive Mobile Solid Whole --> dBody1(dWorld1), dWorld2
+          -- planet1 Positioned Massive Mobile Solid Whole --> dBody1(dWorld1), dWorld2
           |
-          -- ship Positionned Mobile Massive Solid Whole --> dBody2(dWorld1), dWorld3
+          -- ship Positioned Mobile Massive Solid Whole --> dBody2(dWorld1), dWorld3
           |   |
-          |   -- engine Positionned Massive Component Solid --> dGeom1(dBody2)
+          |   -- engine Positioned Massive Component Solid --> dGeom1(dBody2)
           |   |
-          |   -- wing1 Positionned Massive Component Solid --> dGeom2(dBody2)
+          |   -- wing1 Positioned Massive Component Solid --> dGeom2(dBody2)
           |   |
-          |   -- wing2 Positionned Massive Component Solid --> dGeom3(dBody2)
+          |   -- wing2 Positioned Massive Component Solid --> dGeom3(dBody2)
           |   |
-          |   -- body Positionned Massive Component Solid --> dGeom4(dBody2)
+          |   -- body Positioned Massive Component Solid --> dGeom4(dBody2)
           |   |
-          |   -- person1 Positionned Massive Solid Character --> dBody3(dWorld3)
+          |   -- person1 Positioned Massive Solid Character --> dBody3(dWorld3)
 
         It works.
       @par

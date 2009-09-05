@@ -45,7 +45,7 @@ namespace ProjetUnivers
         isInside(child,parent) <=> isDescendent(child,parent) 
        
     */
-    class Positionned : public Kernel::Trait
+    class Positioned : public Kernel::Trait
     {
     public:
 
@@ -55,18 +55,18 @@ namespace ProjetUnivers
     // @{
     
       /// Constructor.
-      Positionned(const Position&) ;
+      Positioned(const Position&) ;
 
       /// Origin position.
-      Positionned() ;
+      Positioned() ;
   
-      /// Read a Positionned trait.
+      /// Read a Positioned trait.
       /*!
         stored as 
         @code
-          <Positionned>
+          <Positioned>
             [<Positionn .../>]
-          </Positionned>
+          </Positioned>
         @endcode
       */     
       static Kernel::Trait* read(Kernel::Reader* reader) ;
@@ -93,7 +93,7 @@ namespace ProjetUnivers
       /*!
         @param[in] 
           i_position 
-          the new position relativelly to the positionned parent 
+          the new position relativelly to the positioned parent 
       */
       void setPosition(const Position& i_position) ;
       
@@ -120,7 +120,7 @@ namespace ProjetUnivers
       
       /// Access to position relative to an ancestor.
       /*!
-        Skips any non positionned intermediate object.
+        Skips any non positioned intermediate object.
       */
       Position getPositionRelativeToAncestor(const Kernel::Object* ancestor) const ;
 
@@ -129,7 +129,7 @@ namespace ProjetUnivers
     };
 
     /// For objects that have a global position
-    class RecursivelyPositionned : public Kernel::DeducedTrait
+    class RecursivelyPositioned : public Kernel::DeducedTrait
     {};
     
   }

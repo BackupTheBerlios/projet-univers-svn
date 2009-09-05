@@ -33,7 +33,7 @@
 #include <model/mobile.h>
 #include <model/physical_object.h>
 #include <model/physical_world.h>
-#include <model/positionned.h>
+#include <model/positioned.h>
 #include <model/oriented.h>
 #include <model/stellar_system.h>
 #include <model/solid.h>
@@ -76,7 +76,7 @@ namespace ProjetUnivers
         Kernel::Object* world = model->createObject() ;
 
         Kernel::Object* ship = world->createObject() ;
-        ship->addTrait(new Model::Positionned()) ;
+        ship->addTrait(new Model::Positioned()) ;
         ship->addTrait(new Model::Oriented()) ;
         ship->addTrait(new Model::Mobile()) ;
         ship->addTrait(new Model::Solid(Model::Mesh("toto"))) ;
@@ -109,7 +109,7 @@ namespace ProjetUnivers
         Kernel::Object* world = model->createObject() ;
 
         Kernel::Object* ship = world->createObject() ;
-        ship->addTrait(new Model::Positionned()) ;
+        ship->addTrait(new Model::Positioned()) ;
         ship->addTrait(new Model::Oriented()) ;
         ship->addTrait(new Model::Mobile()) ;
         ship->addTrait(new Model::Solid(Model::Mesh("toto"))) ;
@@ -139,7 +139,7 @@ namespace ProjetUnivers
         Kernel::Object* world = model->createObject() ;
 
         Kernel::Object* ship = world->createObject() ;
-        ship->addTrait(new Model::Positionned()) ;
+        ship->addTrait(new Model::Positioned()) ;
         ship->addTrait(new Model::Oriented()) ;
         ship->addTrait(new Model::Mobile()) ;
         ship->addTrait(new Model::Massive(Model::Mass::Kilogram(1))) ;

@@ -27,7 +27,7 @@
 #include <model/physical_object.h>
 #include <model/laser.h>
 #include <model/laser_beam.h>
-#include <model/positionned.h>
+#include <model/positioned.h>
 #include <model/oriented.h>
 #include <model/mobile.h>
 #include <model/massive.h>
@@ -64,7 +64,7 @@ namespace ProjetUnivers {
         CPPUNIT_ASSERT(system->getTrait<PhysicalWorld>()) ;
 
         Kernel::Object* ship = system->createObject() ;
-        ship->addTrait(new Positionned()) ;
+        ship->addTrait(new Positioned()) ;
         ship->addTrait(new Oriented()) ;
         ship->addTrait(new Mobile()) ;
         ship->addTrait(new Massive(Mass::Kilogram(1000))) ;
@@ -154,7 +154,7 @@ namespace ProjetUnivers {
         // a collision
         Kernel::Object* collision = system->createObject() ;
         collision->addTrait(new Collision(beam,ship)) ;
-        collision->addTrait(new Positionned()) ;
+        collision->addTrait(new Positioned()) ;
 
         // simulate Logic : destroyable should be at 50%
         model->update(1) ;

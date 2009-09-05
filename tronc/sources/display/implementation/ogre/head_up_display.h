@@ -54,14 +54,14 @@ namespace ProjetUnivers
           "Model::HeadUpDisplay" [shape=box URL="\ref Model::HeadUpDisplay"] ;
           object -> "Model::Computer" [arrowhead=diamond] ;
           "Model::HeadUpDisplay" -> "Model::Computer" [arrowhead=none] ;
-          "Model::Positionned" -> object [arrowhead=diamond ltail=cluster_0] ;
+          "Model::Positioned" -> object [arrowhead=diamond ltail=cluster_0] ;
         
           subgraph cluster_0
           {
             style="filled";
             label="Display::Implementation::Target" ;
             URL="\ref Display::Implementation::Target" ;
-            "Model::Positionned" [shape=box URL="\ref Model::Positionned"] ;
+            "Model::Positioned" [shape=box URL="\ref Model::Positioned"] ;
             "Model::Selected" [shape=box URL="\ref Model::Selected"] ;
             "Model::DetectionData" [shape=box URL="\ref Model::DetectionData"] ;
             "Model::Solid" [shape=box URL="\ref Model::Solid"] ;

@@ -25,7 +25,7 @@
 #include <model/computer.h>
 #include <model/massive.h>
 #include <model/detector.h>
-#include <model/positionned.h>
+#include <model/positioned.h>
 #include <model/oriented.h>
 #include <model/component.h>
 #include <model/mobile.h>
@@ -67,7 +67,7 @@ namespace ProjetUnivers
         Kernel::Object* system = model->createObject() ;
 
         Kernel::Object* ship = system->createObject() ;
-        ship->addTrait(new Positionned()) ;
+        ship->addTrait(new Positioned()) ;
         ship->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship->addTrait(new Oriented()) ;
         ship->addTrait(new Mobile()) ;
@@ -81,7 +81,7 @@ namespace ProjetUnivers
         TargetingSystem::connect(targeting_system,ship) ;
 
         Kernel::Object* ship2 = system->createObject() ;
-        ship2->addTrait(new Positionned(Position::Meter(0,0,500))) ;
+        ship2->addTrait(new Positioned(Position::Meter(0,0,500))) ;
         ship2->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship2->addTrait(new Oriented()) ;
         ship2->addTrait(new Mobile()) ;
@@ -106,7 +106,7 @@ namespace ProjetUnivers
         Kernel::Object* system = model->createObject() ;
 
         Kernel::Object* ship = system->createObject() ;
-        ship->addTrait(new Positionned()) ;
+        ship->addTrait(new Positioned()) ;
         ship->addTrait(new Oriented()) ;
         ship->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship->addTrait(new Mobile()) ;
@@ -118,14 +118,14 @@ namespace ProjetUnivers
         TargetingSystem::connect(ship,ship) ;
 
         Kernel::Object* ship2 = system->createObject() ;
-        ship2->addTrait(new Positionned(Position::Meter(0,0,500))) ;
+        ship2->addTrait(new Positioned(Position::Meter(0,0,500))) ;
         ship2->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship2->addTrait(new Oriented()) ;
         ship2->addTrait(new Mobile()) ;
         ship2->addTrait(new Solid(Mesh("test_ship.mesh"))) ;
 
         Kernel::Object* ship3 = system->createObject() ;
-        ship3->addTrait(new Positionned(Position::Meter(0,500,0))) ;
+        ship3->addTrait(new Positioned(Position::Meter(0,500,0))) ;
         ship3->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship3->addTrait(new Oriented()) ;
         ship3->addTrait(new Mobile()) ;
@@ -161,7 +161,7 @@ namespace ProjetUnivers
         Kernel::Object* system = model->createObject() ;
 
         Kernel::Object* ship = system->createObject() ;
-        ship->addTrait(new Positionned()) ;
+        ship->addTrait(new Positioned()) ;
         ship->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship->addTrait(new Oriented()) ;
         ship->addTrait(new Mobile()) ;
@@ -173,7 +173,7 @@ namespace ProjetUnivers
         TargetingSystem::connect(ship,ship) ;
 
         Kernel::Object* ship2 = system->createObject() ;
-        ship2->addTrait(new Positionned(Position::Meter(0,0,500))) ;
+        ship2->addTrait(new Positioned(Position::Meter(0,0,500))) ;
         ship2->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship2->addTrait(new Oriented()) ;
         ship2->addTrait(new Mobile()) ;
@@ -200,7 +200,7 @@ namespace ProjetUnivers
         Kernel::Object* system = model->createObject() ;
 
         Kernel::Object* ship = system->createObject() ;
-        ship->addTrait(new Positionned()) ;
+        ship->addTrait(new Positioned()) ;
         ship->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship->addTrait(new Oriented()) ;
         ship->addTrait(new Mobile()) ;
@@ -212,7 +212,7 @@ namespace ProjetUnivers
         TargetingSystem::connect(ship,ship) ;
 
         Kernel::Object* ship2 = system->createObject() ;
-        ship2->addTrait(new Positionned(Position::Meter(0,0,500))) ;
+        ship2->addTrait(new Positioned(Position::Meter(0,0,500))) ;
         ship2->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship2->addTrait(new Oriented()) ;
         ship2->addTrait(new Mobile()) ;
@@ -237,7 +237,7 @@ namespace ProjetUnivers
         Kernel::Object* system = model->createObject() ;
 
         Kernel::Object* ship = system->createObject() ;
-        ship->addTrait(new Positionned()) ;
+        ship->addTrait(new Positioned()) ;
         ship->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship->addTrait(new Oriented()) ;
         ship->addTrait(new Mobile()) ;
@@ -249,14 +249,14 @@ namespace ProjetUnivers
         TargetingSystem::connect(ship,ship) ;
 
         Kernel::Object* ship2 = system->createObject() ;
-        ship2->addTrait(new Positionned(Position::Meter(0,0,500))) ;
+        ship2->addTrait(new Positioned(Position::Meter(0,0,500))) ;
         ship2->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship2->addTrait(new Oriented()) ;
         ship2->addTrait(new Mobile()) ;
         ship2->addTrait(new Solid(Mesh("test_ship.mesh"))) ;
 
         Kernel::Object* ship3 = system->createObject() ;
-        ship3->addTrait(new Positionned(Position::Meter(0,0,50))) ;
+        ship3->addTrait(new Positioned(Position::Meter(0,0,50))) ;
         ship3->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship3->addTrait(new Oriented()) ;
         ship3->addTrait(new Mobile()) ;
@@ -287,7 +287,7 @@ namespace ProjetUnivers
         Kernel::Object* system = model->createObject() ;
 
         Kernel::Object* ship = system->createObject() ;
-        ship->addTrait(new Positionned()) ;
+        ship->addTrait(new Positioned()) ;
         ship->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship->addTrait(new Oriented()) ;
         ship->addTrait(new Mobile()) ;
@@ -301,7 +301,7 @@ namespace ProjetUnivers
         TargetingSystem::connect(ship,ship) ;
 
         Kernel::Object* ship2 = system->createObject() ;
-        ship2->addTrait(new Positionned(Position::Meter(0,0,500))) ;
+        ship2->addTrait(new Positioned(Position::Meter(0,0,500))) ;
         ship2->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship2->addTrait(new Oriented()) ;
         ship2->addTrait(new Mobile()) ;
@@ -309,7 +309,7 @@ namespace ProjetUnivers
         ship2->addTrait(new Transponder(team2)) ;
 
         Kernel::Object* ship3 = system->createObject() ;
-        ship3->addTrait(new Positionned(Position::Meter(0,0,50))) ;
+        ship3->addTrait(new Positioned(Position::Meter(0,0,50))) ;
         ship3->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship3->addTrait(new Oriented()) ;
         ship3->addTrait(new Mobile()) ;
@@ -340,7 +340,7 @@ namespace ProjetUnivers
         Kernel::Object* system = model->createObject() ;
 
         Kernel::Object* ship = system->createObject() ;
-        ship->addTrait(new Positionned()) ;
+        ship->addTrait(new Positioned()) ;
         ship->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship->addTrait(new Oriented()) ;
         ship->addTrait(new Mobile()) ;
@@ -354,7 +354,7 @@ namespace ProjetUnivers
         TargetingSystem::connect(ship,ship) ;
 
         Kernel::ObjectReference ship2 = system->createObject() ;
-        ship2->addTrait(new Positionned(Position::Meter(0,0,500))) ;
+        ship2->addTrait(new Positioned(Position::Meter(0,0,500))) ;
         ship2->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship2->addTrait(new Oriented()) ;
         ship2->addTrait(new Mobile()) ;
@@ -362,7 +362,7 @@ namespace ProjetUnivers
         ship2->addTrait(new Transponder(team2)) ;
 
         Kernel::Object* ship3 = system->createObject() ;
-        ship3->addTrait(new Positionned(Position::Meter(0,0,5000))) ;
+        ship3->addTrait(new Positioned(Position::Meter(0,0,5000))) ;
         ship3->addTrait(new Massive(Mass::Kilogram(1000))) ;
         ship3->addTrait(new Oriented()) ;
         ship3->addTrait(new Mobile()) ;
@@ -396,12 +396,12 @@ namespace ProjetUnivers
 
         Kernel::Object* system = model->createObject() ;
         system->addTrait(new Model::StellarSystem()) ;
-        system->addTrait(new Model::Positionned()) ;
+        system->addTrait(new Model::Positioned()) ;
 
         Kernel::ObjectReference ship1 ;
         {
           Kernel::Object* ship = Model::createShip(system) ;
-          ship->getTrait<Model::Positionned>()->setPosition(Model::Position::Meter(0,0,0)) ;
+          ship->getTrait<Model::Positioned>()->setPosition(Model::Position::Meter(0,0,0)) ;
           ship->destroyTrait(ship->getTrait<Model::Destroyable>()) ;
           Kernel::Object* agent = Model::createAI(ship) ;
           ship1 = ship ;
@@ -410,7 +410,7 @@ namespace ProjetUnivers
         Kernel::ObjectReference ship2 ;
         {
           Kernel::Object* ship = Model::createShip(system) ;
-          ship->getTrait<Model::Positionned>()->setPosition(Model::Position::Meter(0,0,0)) ;
+          ship->getTrait<Model::Positioned>()->setPosition(Model::Position::Meter(0,0,0)) ;
           ship->destroyTrait(ship->getTrait<Model::Destroyable>()) ;
           Kernel::Object* agent = Model::createAI(ship) ;
           ship2 = ship ;
@@ -419,7 +419,7 @@ namespace ProjetUnivers
         Kernel::ObjectReference enemy ;
         {
           Kernel::Object* ship = Model::createShip(system) ;
-          ship->getTrait<Model::Positionned>()->setPosition(Model::Position::Meter(0,-500,0)) ;
+          ship->getTrait<Model::Positioned>()->setPosition(Model::Position::Meter(0,-500,0)) ;
           ship->destroyTrait(ship->getTrait<Model::Destroyable>()) ;
           Kernel::Object* agent = Model::createAI(ship) ;
           enemy = ship ;

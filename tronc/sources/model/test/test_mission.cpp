@@ -29,7 +29,7 @@
 #include <model/mission.h>
 #include <model/played.h>
 #include <model/player.h>
-#include <model/positionned.h>
+#include <model/positioned.h>
 #include <model/solid.h>
 #include <model/state.h>
 #include <model/team.h>
@@ -284,9 +284,9 @@ namespace ProjetUnivers
         Kernel::Object* ship1 = (*system->getChildren<Transponder>().begin())
                                 ->getObject() ;
 
-        CPPUNIT_ASSERT(ship1->getTrait<Model::Positionned>()) ;
+        CPPUNIT_ASSERT(ship1->getTrait<Model::Positioned>()) ;
 
-        Position ship1_position = ship1->getTrait<Model::Positionned>()->getPosition() ;
+        Position ship1_position = ship1->getTrait<Model::Positioned>()->getPosition() ;
 
         // add anbother team and a flying group
         Kernel::Object* team2 = mission->createObject() ;
@@ -313,9 +313,9 @@ namespace ProjetUnivers
         }
 
         CPPUNIT_ASSERT(ship2) ;
-        CPPUNIT_ASSERT(ship2->getTrait<Model::Positionned>()) ;
+        CPPUNIT_ASSERT(ship2->getTrait<Model::Positioned>()) ;
 
-        Position ship2_position = ship2->getTrait<Model::Positionned>()->getPosition() ;
+        Position ship2_position = ship2->getTrait<Model::Positioned>()->getPosition() ;
 
         Distance distance = ship1_position.calculateDistance(ship2_position) ;
         CPPUNIT_ASSERT(distance >= starting_distance) ;
@@ -355,11 +355,11 @@ namespace ProjetUnivers
         std::set<Transponder*> ships = system->getChildren<Transponder>() ;
         std::set<Transponder*>::const_iterator ship = ships.begin() ;
 
-        Position p1 = (*ship)->getObject()->getTrait<Positionned>()->getPosition() ;
+        Position p1 = (*ship)->getObject()->getTrait<Positioned>()->getPosition() ;
         ++ship ;
-        Position p2 = (*ship)->getObject()->getTrait<Positionned>()->getPosition() ;
+        Position p2 = (*ship)->getObject()->getTrait<Positioned>()->getPosition() ;
         ++ship ;
-        Position p3 = (*ship)->getObject()->getTrait<Positionned>()->getPosition() ;
+        Position p3 = (*ship)->getObject()->getTrait<Positioned>()->getPosition() ;
 
         CPPUNIT_ASSERT((*ship)->getObject()->getTrait<Solid>()) ;
         Distance radius =  (*ship)->getObject()->getTrait<Solid>()->getRadius() ;

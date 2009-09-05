@@ -25,7 +25,7 @@
 
 #include <model/massive.h>
 #include <model/mobile.h>
-#include <model/positionned.h>
+#include <model/positioned.h>
 #include <model/oriented.h>
 #include <model/physical_world.h>
 
@@ -75,7 +75,7 @@ namespace ProjetUnivers
             m_body->create(world->getWorld()->id()) ;
 
             /// set the inital values :
-            updatePositionned() ;
+            updatePositioned() ;
             updateMobile() ;
             updateMassive() ;
 
@@ -131,7 +131,7 @@ namespace ProjetUnivers
               Somehow brutal...
             */
 
-            updatePositionned() ;
+            updatePositioned() ;
             updateMobile() ;
             updateMassive() ;
           }
@@ -177,15 +177,15 @@ namespace ProjetUnivers
 
         }
 
-        void PhysicalObject::updatePositionned()
+        void PhysicalObject::updatePositioned()
         {
           /// have to take the position relatively to the physical_world parent
           PhysicalWorld* world = getAncestorControler<PhysicalWorld>() ;
           if (world)
           {
-            Model::Positionned* positionned = getObject()->getTrait<Model::Positionned>() ;
+            Model::Positioned* positioned = getObject()->getTrait<Model::Positioned>() ;
 
-            Ogre::Vector3 position = positionned->getPosition(world->getObject()).Meter() ;
+            Ogre::Vector3 position = positioned->getPosition(world->getObject()).Meter() ;
             m_body->setPosition((dReal)position.x,
                                 (dReal)position.y,
                                 (dReal)position.z) ;
@@ -221,14 +221,14 @@ namespace ProjetUnivers
           if (!getAncestorControler<PhysicalWorld>()->m_has_been_simulated)
             InternalMessage("Physic","Ode::PhysicalObject::simulate error") ;
 
-          updateModelPositionned() ;
+          updateModelPositioned() ;
           updateModelMobile() ;
           InternalMessage("Physic","Ode::PhysicalObject::simulate " +
                                    Kernel::toString(getObject()->getIdentifier()) +
                                    " leaving") ;
         }
 
-        void PhysicalObject::updateModelPositionned()
+        void PhysicalObject::updateModelPositioned()
         {
           m_is_being_updated = true ;
 
@@ -238,8 +238,8 @@ namespace ProjetUnivers
             if the object has not moved, there is no reason to change position
 
           */
-          Model::Positionned*
-              positionned = getObject()->getTrait<Model::Positionned>() ;
+          Model::Positioned*
+              positioned = getObject()->getTrait<Model::Positioned>() ;
 
           PhysicalWorld* world = getAncestorControler<PhysicalWorld>() ;
           if (world)
@@ -252,13 +252,13 @@ namespace ProjetUnivers
             */
             const dReal* ode_position = m_body->getPosition() ;
 
-            InternalMessage("Physic","Ode::PhysicalObject::updateModelPositionned "
+            InternalMessage("Physic","Ode::PhysicalObject::updateModelPositioned "
                             + Kernel::toString(getObject()->getIdentifier()) + " position="
                             + Kernel::toString(ode_position[0]) + ","
                             + Kernel::toString(ode_position[1]) + ","
                             + Kernel::toString(ode_position[2])) ;
 
-            positionned->setPosition(Model::Position::Meter(
+            positioned->setPosition(Model::Position::Meter(
                                        ode_position[0],
                                        ode_position[1],
                                        ode_position[2]),
@@ -269,7 +269,7 @@ namespace ProjetUnivers
             {
               const dReal* ode_orientation = m_body->getQuaternion() ;
 
-              InternalMessage("Physic","Ode::PhysicalObject::updateModelPositionned "
+              InternalMessage("Physic","Ode::PhysicalObject::updateModelPositioned "
                               + Kernel::toString(getObject()->getIdentifier()) + " orientation="
                               + Kernel::toString(ode_orientation[0]) + ","
                               + Kernel::toString(ode_orientation[1]) + ","

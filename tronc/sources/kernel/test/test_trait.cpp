@@ -847,15 +847,15 @@ namespace ProjetUnivers
 
       namespace
       {
-        class Positionned : public Trait
+        class Positioned : public Trait
         {};
 
-        class RecursivelyPositionned : public DeducedTrait
+        class RecursivelyPositioned : public DeducedTrait
         {};
 
-        DeclareDeducedTrait(RecursivelyPositionned,
-                            Or(HasTrait(Positionned),
-                               HasAncestor(HasTrait(RecursivelyPositionned)))) ;
+        DeclareDeducedTrait(RecursivelyPositioned,
+                            Or(HasTrait(Positioned),
+                               HasAncestor(HasTrait(RecursivelyPositioned)))) ;
       }
 
       void TestTrait::destroyObjectOnRecusiveFormula()
@@ -863,12 +863,12 @@ namespace ProjetUnivers
         std::auto_ptr<Model> model(new Model()) ;
 
         Object* root = model->createObject() ;
-        root->addTrait(new Positionned()) ;
+        root->addTrait(new Positioned()) ;
 
         Object* child = root->createObject() ;
-        child->addTrait(new Positionned()) ;
+        child->addTrait(new Positioned()) ;
 
-        child->destroyTrait(child->getTrait<Positionned>()) ;
+        child->destroyTrait(child->getTrait<Positioned>()) ;
 
         child->destroyObject() ;
       }

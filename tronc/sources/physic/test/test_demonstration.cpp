@@ -33,7 +33,7 @@
 #include <model/mobile.h>
 #include <model/physical_object.h>
 #include <model/physical_world.h>
-#include <model/positionned.h>
+#include <model/positioned.h>
 #include <model/oriented.h>
 #include <model/stellar_system.h>
 #include <model/solid.h>
@@ -96,7 +96,7 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(system->getTrait<Model::PhysicalWorld>()) ;
 
         Kernel::Object* ship = system->createObject() ;
-        ship->addTrait(new Model::Positionned()) ;
+        ship->addTrait(new Model::Positioned()) ;
         ship->addTrait(new Model::Oriented()) ;
         ship->addTrait(new Model::Mobile()) ;
         ship->addTrait(new Model::Solid(Model::Mesh("toto"))) ;
@@ -109,10 +109,10 @@ namespace ProjetUnivers
         InternalMessage("Physic","Physic viewpoint initalised") ;
 
         /// get the ship
-        Model::Positionned* positionned(ship->getTrait<Model::Positionned>()) ;
-        CPPUNIT_ASSERT(positionned) ;
+        Model::Positioned* positioned(ship->getTrait<Model::Positioned>()) ;
+        CPPUNIT_ASSERT(positioned) ;
 
-        Ogre::Vector3 initial_position(positionned->getPosition().Meter()) ;
+        Ogre::Vector3 initial_position(positioned->getPosition().Meter()) ;
 
         InternalMessage("Physic","Physic::Test::testSimulateNoMove got old position") ;
 
@@ -120,7 +120,7 @@ namespace ProjetUnivers
 
         InternalMessage("Physic","Physic::Test::testSimulateNoMove updated") ;
 
-        Ogre::Vector3 final_position(positionned->getPosition().Meter()) ;
+        Ogre::Vector3 final_position(positioned->getPosition().Meter()) ;
 
         InternalMessage("Physic","Physic::Test::testSimulate got new position") ;
 
@@ -144,7 +144,7 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(system->getTrait<Model::PhysicalWorld>()) ;
 
         Kernel::Object* ship = system->createObject() ;
-        ship->addTrait(new Model::Positionned()) ;
+        ship->addTrait(new Model::Positioned()) ;
         ship->addTrait(new Model::Oriented()) ;
         ship->addTrait(new Model::Mobile()) ;
         ship->addTrait(new Model::Solid(Model::Mesh("toto"))) ;
@@ -164,9 +164,9 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(
           object->getControler<Implementation::Ode::PhysicalObject>(physics)->getBody()->id()) ;
 
-        Model::Positionned* positionned(ship->getTrait<Model::Positionned>()) ;
-        CPPUNIT_ASSERT(positionned) ;
-        Ogre::Vector3 initial_position(positionned->getPosition().Meter()) ;
+        Model::Positioned* positioned(ship->getTrait<Model::Positioned>()) ;
+        CPPUNIT_ASSERT(positioned) ;
+        Ogre::Vector3 initial_position(positioned->getPosition().Meter()) ;
 
         /// give an impulse
         object->getControler<Implementation::Ode::PhysicalObject>(physics)->getBody()
@@ -182,7 +182,7 @@ namespace ProjetUnivers
 
         CPPUNIT_ASSERT(body) ;
 
-        Ogre::Vector3 final_position(positionned->getPosition().Meter()) ;
+        Ogre::Vector3 final_position(positioned->getPosition().Meter()) ;
 
         // check that object has moved
         CPPUNIT_ASSERT(!( initial_position == final_position)) ;
@@ -202,7 +202,7 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(system->getTrait<Model::PhysicalWorld>()) ;
 
         Kernel::Object* ship = system->createObject() ;
-        ship->addTrait(new Model::Positionned(Model::Position::Meter(100,100,100))) ;
+        ship->addTrait(new Model::Positioned(Model::Position::Meter(100,100,100))) ;
         ship->addTrait(new Model::Oriented()) ;
         ship->addTrait(new Model::Mobile()) ;
         ship->addTrait(new Model::Solid(Model::Mesh("toto"))) ;
@@ -256,7 +256,7 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(system->getTrait<Model::PhysicalWorld>()) ;
 
         Kernel::Object* ship = system->createObject() ;
-        ship->addTrait(new Model::Positionned()) ;
+        ship->addTrait(new Model::Positioned()) ;
         ship->addTrait(new Model::Oriented()) ;
         ship->addTrait(new Model::Mobile()) ;
         ship->addTrait(new Model::Massive(Model::Mass::Kilogram(1000))) ;
@@ -281,13 +281,13 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(object->getControler<Implementation::Ode::PhysicalObject>(physics)->getBody()->id()) ;
 
         /// store the position before "move"
-        Model::Positionned* positionned(ship->getTrait<Model::Positionned>()) ;
-        CPPUNIT_ASSERT(positionned) ;
-        Ogre::Vector3 initial_position(positionned->getPosition().Meter()) ;
+        Model::Positioned* positioned(ship->getTrait<Model::Positioned>()) ;
+        CPPUNIT_ASSERT(positioned) ;
+        Ogre::Vector3 initial_position(positioned->getPosition().Meter()) ;
 
         model->update(1) ;
 
-        Ogre::Vector3 final_position(positionned->getPosition().Meter()) ;
+        Ogre::Vector3 final_position(positioned->getPosition().Meter()) ;
 
         // check that object has correctly moved
         CPPUNIT_ASSERT(final_position.positionEquals(initial_position+Ogre::Vector3::UNIT_X,delta)) ;
@@ -311,7 +311,7 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(system->getTrait<Model::PhysicalWorld>()) ;
 
         Kernel::Object* ship = system->createObject() ;
-        ship->addTrait(new Model::Positionned()) ;
+        ship->addTrait(new Model::Positioned()) ;
         ship->addTrait(new Model::Oriented()) ;
         ship->addTrait(new Model::Mobile()) ;
         ship->addTrait(new Model::Solid(Model::Mesh("toto"))) ;
@@ -359,7 +359,7 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(system->getTrait<Model::PhysicalWorld>()) ;
 
         Kernel::Object* ship = system->createObject() ;
-        ship->addTrait(new Model::Positionned()) ;
+        ship->addTrait(new Model::Positioned()) ;
         ship->addTrait(new Model::Oriented()) ;
         ship->addTrait(new Model::Mobile()) ;
         ship->addTrait(new Model::Massive(Model::Mass::Kilogram(1000))) ;
@@ -405,7 +405,7 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(system->getTrait<Model::PhysicalWorld>()) ;
 
         Kernel::Object* ship = system->createObject() ;
-        ship->addTrait(new Model::Positionned()) ;
+        ship->addTrait(new Model::Positioned()) ;
         ship->addTrait(new Model::Oriented()) ;
         ship->addTrait(new Model::Mobile()) ;
         ship->addTrait(new Model::Massive(Model::Mass::Kilogram(1))) ;
@@ -466,7 +466,7 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(system->getTrait<Model::PhysicalWorld>()) ;
 
         Kernel::Object* ship = system->createObject() ;
-        ship->addTrait(new Model::Positionned()) ;
+        ship->addTrait(new Model::Positioned()) ;
         ship->addTrait(new Model::Oriented()) ;
         ship->addTrait(new Model::Mobile()) ;
         ship->addTrait(new Model::Solid(Model::Mesh("toto"))) ;
@@ -520,7 +520,7 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(system->getTrait<Model::PhysicalWorld>()) ;
 
         Kernel::Object* ship = system->createObject() ;
-        ship->addTrait(new Model::Positionned()) ;
+        ship->addTrait(new Model::Positioned()) ;
         ship->addTrait(new Model::Oriented()) ;
         ship->addTrait(new Model::Mobile()) ;
         ship->addTrait(new Model::Solid(Model::Mesh("toto"))) ;
@@ -581,7 +581,7 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(system->getTrait<Model::PhysicalWorld>()) ;
 
         Kernel::Object* ship = system->createObject() ;
-        ship->addTrait(new Model::Positionned()) ;
+        ship->addTrait(new Model::Positioned()) ;
         ship->addTrait(new Model::Oriented()) ;
         ship->addTrait(new Model::Mobile()) ;
         ship->addTrait(new Model::Solid(Model::Mesh("toto"))) ;
@@ -592,8 +592,8 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(ship->getTrait<Model::PhysicalWorld>()) ;
 
         /// get the ship
-        Model::Positionned* positionned(ship->getTrait<Model::Positionned>()) ;
-        CPPUNIT_ASSERT(positionned) ;
+        Model::Positioned* positioned(ship->getTrait<Model::Positioned>()) ;
+        CPPUNIT_ASSERT(positioned) ;
 
         Kernel::Object* throttle = ship->createObject() ;
         throttle->addTrait(new Model::Throttle()) ;
@@ -614,7 +614,7 @@ namespace ProjetUnivers
         throttle_trait->set(100) ;
 
         /// store the position before simulation
-        Ogre::Vector3 initial_position(positionned->getPosition().Meter()) ;
+        Ogre::Vector3 initial_position(positioned->getPosition().Meter()) ;
 
 //        std::cout <<"initial_position=" << initial_position << std::endl ;
 
@@ -625,7 +625,7 @@ namespace ProjetUnivers
           model->update(1.0/steps_number) ;
         }
 
-        Ogre::Vector3 final_position(positionned->getPosition().Meter()) ;
+        Ogre::Vector3 final_position(positioned->getPosition().Meter()) ;
 
         CPPUNIT_ASSERT(final_position.z != initial_position.z) ;
 

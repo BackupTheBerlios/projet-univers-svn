@@ -71,7 +71,7 @@ namespace ProjetUnivers {
       
       /// Go to @c position. 
       /*!
-        @param position must be a Positionned object.
+        @param position must be a Positioned object.
         
         This objective means : try to move to the same position of the object.
       */

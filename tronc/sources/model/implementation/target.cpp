@@ -18,7 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <model/positionned.h>
+#include <model/positioned.h>
 #include <model/selection.h>
 #include <model/computer.h>
 #include <model/shooting_helper.h>
@@ -35,11 +35,11 @@ namespace ProjetUnivers
           
       DeclareDeducedRelation(Target,
                              Selection,
-                             And(IsFrom(And(HasTrait(RecursivelyPositionned),
+                             And(IsFrom(And(HasTrait(RecursivelyPositioned),
                                             HasChild(HasTrait(Computer)),
                                             HasChild(HasTrait(ShootingHelper)),
                                             HasChild(HasTrait(Laser)))),
-                                 IsTo(And(HasTrait(RecursivelyPositionned),
+                                 IsTo(And(HasTrait(RecursivelyPositioned),
                                           HasTrait(Mobile))))) ;
     }
   }

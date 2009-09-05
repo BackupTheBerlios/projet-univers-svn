@@ -22,7 +22,7 @@
 
 #include <kernel/object.h>
 
-#include <model/positionned.h>
+#include <model/positioned.h>
 #include <model/detector.h>
 #include <model/data_connection.h>
 

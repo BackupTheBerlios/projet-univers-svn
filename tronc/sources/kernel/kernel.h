@@ -49,11 +49,11 @@ namespace ProjetUnivers
       the Whole trait is removed
     - <code>DeclareDeducedTrait(PhysicalObject,
                                 And(HasTrait(Mobile),
-                                    HasTrait(Positionned),
+                                    HasTrait(Positioned),
                                     HasTrait(Massive),
                                     HasTrait(Whole))) ;</code>
       PhysicalObject are exactly those objects that are both Mobile, 
-      Positionned, Massive and Whole.
+      Positioned, Massive and Whole.
       
     
     Formulaes cannot be recursive (i.e. one cannot define a trait from itself).

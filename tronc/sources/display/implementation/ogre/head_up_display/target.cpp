@@ -24,7 +24,7 @@
 #include <model/targeting_system.h>
 #include <model/computer.h>
 #include <model/solid.h>
-#include <model/positionned.h>
+#include <model/positioned.h>
 #include <model/observer.h>
 
 #include <display/implementation/ogre/observer.h>
@@ -280,7 +280,7 @@ namespace ProjetUnivers
             }
             
             // update target global position
-            Model::Position pos = getObjectTo()->getTrait<Model::Positionned>()
+            Model::Position pos = getObjectTo()->getTrait<Model::Positioned>()
                                   ->getPosition(getViewPoint()->getRootObject()) ;
             
             ::Ogre::Vector3 position = convert(pos) ;

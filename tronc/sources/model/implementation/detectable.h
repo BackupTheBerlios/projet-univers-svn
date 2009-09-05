@@ -29,7 +29,7 @@ namespace ProjetUnivers {
       
       /// For objects that can be detected.
       /*!
-        Positionned & Solid & Whole & Massive
+        Positioned & Solid & Whole & Massive
       */
       class Detectable : public Kernel::DeducedTrait
       {};

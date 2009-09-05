@@ -35,7 +35,7 @@ namespace ProjetUnivers
     /// For objects that are computer.
     /*!
       A computer has its memory, that is represented by objects.
-      These objects may be just like "real" objects. They may be Positionned, 
+      These objects may be just like "real" objects. They may be Positioned, 
       Massive, etc...  
     */
     class Computer : public Kernel::Trait
@@ -61,7 +61,7 @@ namespace ProjetUnivers
       Position getDataPosition(Kernel::Object* data,
                                Kernel::Object* relative_to) const ;
       
-      /// Return teh detected objects.
+      /// Return the detected objects.
       std::set<Kernel::Object*> getDetectedObjects() const ;
 
     private:

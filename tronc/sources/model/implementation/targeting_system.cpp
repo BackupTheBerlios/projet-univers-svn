@@ -26,7 +26,7 @@
 #include <model/selection.h>
 #include <model/computer.h>
 #include <model/transponder.h>
-#include <model/positionned.h>
+#include <model/positioned.h>
 #include <model/computer_data.h>
 #include <model/targeting_system.h>
 #include <model/whole.h>
@@ -186,7 +186,7 @@ namespace ProjetUnivers
           object != roots.end() ;
           ++object)
       {
-        Distance distance = (*object)->getTrait<Positionned>()
+        Distance distance = (*object)->getTrait<Positioned>()
                       ->getPosition().calculateDistance(Position()) ;
         
         if (!target || distance <= shortest_distance)
@@ -231,7 +231,7 @@ namespace ProjetUnivers
           object != roots.end() ;
           ++object)
       {
-        Distance distance = (*object)->getTrait<Positionned>()
+        Distance distance = (*object)->getTrait<Positioned>()
                       ->getPosition().calculateDistance(Position()) ;
         
         Transponder* detected_identification = (*object)->getTrait<Transponder>() ;

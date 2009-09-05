@@ -44,7 +44,7 @@
 #include <model/team.h>
 #include <model/transponder.h>
 #include <model/model.h>
-#include <model/positionned.h>
+#include <model/positioned.h>
 #include <model/solid.h>
 #include <model/selection.h>
 #include <model/transponder.h>
@@ -134,16 +134,16 @@ namespace ProjetUnivers
 
         Kernel::Object* universe = model->createObject() ;
         universe->addTrait(new Model::Universe()) ;
-        universe->addTrait(new Model::Positionned()) ;
+        universe->addTrait(new Model::Positioned()) ;
 
         Kernel::Object* system = universe->createObject() ;
         system->addTrait(new Model::StellarSystem()) ;
-        system->addTrait(new Model::Positionned()) ;
+        system->addTrait(new Model::Positioned()) ;
 
         Kernel::ObjectReference target ;
         {
           Kernel::Object* ship = Model::createShip(system) ;
-          ship->getTrait<Model::Positionned>()->setPosition(Model::Position::Meter(0,0,-500)) ;
+          ship->getTrait<Model::Positioned>()->setPosition(Model::Position::Meter(0,0,-500)) ;
           target = ship ;
         }
 
@@ -155,7 +155,7 @@ namespace ProjetUnivers
         Kernel::Object* observer = ship->createObject() ;
         observer->addTrait(new Model::Player()) ;
         observer->addTrait(new Model::Active()) ;
-        observer->addTrait(new Model::Positionned()) ;
+        observer->addTrait(new Model::Positioned()) ;
         observer->addTrait(new Model::Oriented()) ;
         observer->addTrait(new Model::Observer()) ;
         observer->addTrait(new Kernel::CommandDelegator()) ;
@@ -177,28 +177,28 @@ namespace ProjetUnivers
 
 //        {
 //          // check the dependencies
-//          Kernel::Notifiable* positionned = observer->getTrait<Implementation::Positioned>() ;
+//          Kernel::Notifiable* positioned = observer->getTrait<Implementation::Positioned>() ;
 //          Kernel::Notifiable* camera = observer->getTrait<Implementation::Observer>() ;
 //          Kernel::Notifiable* selected = Kernel::Relation::getRelation(getClassTypeIdentifier(Display::Implementation::Target),ship,target) ;
 //          Kernel::Notifiable* oriented = observer->getTrait<Model::Oriented>() ;
 //          Kernel::Notifiable* recursively_oriented = observer->getTrait<Model::RecursivelyOriented>() ;
 //
-//          CPPUNIT_ASSERT(positionned) ;
+//          CPPUNIT_ASSERT(positioned) ;
 //          CPPUNIT_ASSERT(camera) ;
 //          CPPUNIT_ASSERT(selected) ;
 //
-//          CPPUNIT_ASSERT(camera->dependsOn(positionned)) ;
+//          CPPUNIT_ASSERT(camera->dependsOn(positioned)) ;
 //          CPPUNIT_ASSERT(selected->dependsOn(camera)) ;
 //          CPPUNIT_ASSERT(selected->dependsOn(oriented)) ;
 //          CPPUNIT_ASSERT(camera->dependsOn(oriented)) ;
-//          CPPUNIT_ASSERT(positionned->dependsOn(oriented)) ;
+//          CPPUNIT_ASSERT(positioned->dependsOn(oriented)) ;
 //
 //          CPPUNIT_ASSERT(oriented->getDependentNotifiables().find(recursively_oriented) != oriented->getDependentNotifiables().end()) ;
-//          CPPUNIT_ASSERT(oriented->getDependentNotifiables().find(positionned) != oriented->getDependentNotifiables().end()) ;
+//          CPPUNIT_ASSERT(oriented->getDependentNotifiables().find(positioned) != oriented->getDependentNotifiables().end()) ;
 //
 //          CPPUNIT_ASSERT(recursively_oriented->getDependentNotifiables().find(selected) != recursively_oriented->getDependentNotifiables().end()) ;
 //
-//          CPPUNIT_ASSERT(positionned->getDependentNotifiables().find(camera) != positionned->getDependentNotifiables().end()) ;
+//          CPPUNIT_ASSERT(positioned->getDependentNotifiables().find(camera) != positioned->getDependentNotifiables().end()) ;
 //
 //          CPPUNIT_ASSERT(camera->getDependentNotifiables().find(selected) != camera->getDependentNotifiables().end()) ;
 //        }
@@ -268,14 +268,14 @@ namespace ProjetUnivers
 
         Kernel::Object* universe = model->createObject() ;
         universe->addTrait(new Model::Universe()) ;
-        universe->addTrait(new Model::Positionned()) ;
+        universe->addTrait(new Model::Positioned()) ;
 
         Kernel::Object* system = universe->createObject() ;
         system->addTrait(new Model::StellarSystem()) ;
-        system->addTrait(new Model::Positionned()) ;
+        system->addTrait(new Model::Positioned()) ;
 
         Kernel::Object* target = Model::createShip(system) ;
-        target->getTrait<Model::Positionned>()->setPosition(Model::Position::Meter(0,0,-500)) ;
+        target->getTrait<Model::Positioned>()->setPosition(Model::Position::Meter(0,0,-500)) ;
 
         Kernel::Object* ship1 = system->createObject() ;
         ship1->addTrait(new Model::Detector(Model::Distance(Model::Distance::_Meter,2000))) ;
@@ -289,7 +289,7 @@ namespace ProjetUnivers
         Kernel::Object* observer = ship1->createObject() ;
         observer->addTrait(new Model::Observer()) ;
         observer->addTrait(new Model::Active()) ;
-        observer->addTrait(new Model::Positionned()) ;
+        observer->addTrait(new Model::Positioned()) ;
         observer->addTrait(new Model::Oriented()) ;
 
         Kernel::Object* ship2 = system->createObject() ;
@@ -301,7 +301,7 @@ namespace ProjetUnivers
 
         Kernel::Object* observer2 = ship2->createObject() ;
         observer2->addTrait(new Model::Observer()) ;
-        observer2->addTrait(new Model::Positionned(Model::Position::Meter(0,0,500))) ;
+        observer2->addTrait(new Model::Positioned(Model::Position::Meter(0,0,500))) ;
         observer2->addTrait(new Model::Oriented()) ;
 
         model->update(0.1) ;
@@ -353,11 +353,11 @@ namespace ProjetUnivers
 
         Kernel::Object* universe = model->createObject() ;
         universe->addTrait(new Model::Universe()) ;
-        universe->addTrait(new Model::Positionned()) ;
+        universe->addTrait(new Model::Positioned()) ;
 
         Kernel::Object* system = universe->createObject() ;
         system->addTrait(new Model::StellarSystem()) ;
-        system->addTrait(new Model::Positionned()) ;
+        system->addTrait(new Model::Positioned()) ;
 
         Kernel::Object* team = model->createObject() ;
         team->addTrait(new Model::Team("team")) ;
@@ -365,7 +365,7 @@ namespace ProjetUnivers
         Kernel::ObjectReference target ;
         {
           Kernel::Object* ship = Model::createShip(system) ;
-          ship->getTrait<Model::Positionned>()->setPosition(Model::Position::Meter(0,0,-500)) ;
+          ship->getTrait<Model::Positioned>()->setPosition(Model::Position::Meter(0,0,-500)) ;
           target = ship ;
         }
 
@@ -377,7 +377,7 @@ namespace ProjetUnivers
         Kernel::Object* observer = ship->createObject() ;
         observer->addTrait(new Model::Player()) ;
         observer->addTrait(new Model::Active()) ;
-        observer->addTrait(new Model::Positionned()) ;
+        observer->addTrait(new Model::Positioned()) ;
         observer->addTrait(new Model::Oriented()) ;
         observer->addTrait(new Model::Observer()) ;
         observer->addTrait(new Kernel::CommandDelegator()) ;
@@ -403,11 +403,11 @@ namespace ProjetUnivers
 
         Kernel::Object* universe = model->createObject() ;
         universe->addTrait(new Model::Universe()) ;
-        universe->addTrait(new Model::Positionned()) ;
+        universe->addTrait(new Model::Positioned()) ;
 
         Kernel::Object* system = universe->createObject() ;
         system->addTrait(new Model::StellarSystem()) ;
-        system->addTrait(new Model::Positionned()) ;
+        system->addTrait(new Model::Positioned()) ;
 
         Kernel::Object* team = model->createObject() ;
         team->addTrait(new Model::Team("team")) ;
@@ -415,7 +415,7 @@ namespace ProjetUnivers
         Kernel::ObjectReference target ;
         {
           Kernel::Object* ship = Model::createShip(system) ;
-          ship->getTrait<Model::Positionned>()->setPosition(Model::Position::Meter(0,0,-500)) ;
+          ship->getTrait<Model::Positioned>()->setPosition(Model::Position::Meter(0,0,-500)) ;
           transponder = (Model::Transponder*)ship->addTrait(new Model::Transponder(team)) ;
           target = ship ;
         }
@@ -427,7 +427,7 @@ namespace ProjetUnivers
         Kernel::Object* observer = ship->createObject() ;
         observer->addTrait(new Model::Player()) ;
         observer->addTrait(new Model::Active()) ;
-        observer->addTrait(new Model::Positionned()) ;
+        observer->addTrait(new Model::Positioned()) ;
         observer->addTrait(new Model::Oriented()) ;
         observer->addTrait(new Model::Observer()) ;
         observer->addTrait(new Kernel::CommandDelegator()) ;
@@ -451,11 +451,11 @@ namespace ProjetUnivers
 
         Kernel::Object* universe = model->createObject() ;
         universe->addTrait(new Model::Universe()) ;
-        universe->addTrait(new Model::Positionned()) ;
+        universe->addTrait(new Model::Positioned()) ;
 
         Kernel::Object* system = universe->createObject() ;
         system->addTrait(new Model::StellarSystem()) ;
-        system->addTrait(new Model::Positionned()) ;
+        system->addTrait(new Model::Positioned()) ;
 
         Kernel::Object* team1 = model->createObject() ;
         team1->addTrait(new Model::Team("team1")) ;
@@ -466,14 +466,14 @@ namespace ProjetUnivers
         Kernel::ObjectReference target1 ;
         {
           Kernel::Object* ship = Model::createShip(system) ;
-          ship->getTrait<Model::Positionned>()->setPosition(Model::Position::Meter(0,0,-500)) ;
+          ship->getTrait<Model::Positioned>()->setPosition(Model::Position::Meter(0,0,-500)) ;
           transponder = (Model::Transponder*)ship->addTrait(new Model::Transponder(team1)) ;
           target1 = ship ;
         }
         Kernel::ObjectReference target2 ;
         {
           Kernel::Object* ship = Model::createShip(system) ;
-          ship->getTrait<Model::Positionned>()->setPosition(Model::Position::Meter(0,0,+500)) ;
+          ship->getTrait<Model::Positioned>()->setPosition(Model::Position::Meter(0,0,+500)) ;
           ship->addTrait(new Model::Transponder(team1)) ;
           target2 = ship ;
         }
@@ -487,7 +487,7 @@ namespace ProjetUnivers
         Kernel::Object* observer = ship->createObject() ;
         observer->addTrait(new Model::Player()) ;
         observer->addTrait(new Model::Active()) ;
-        observer->addTrait(new Model::Positionned()) ;
+        observer->addTrait(new Model::Positioned()) ;
         observer->addTrait(new Model::Oriented()) ;
         observer->addTrait(new Model::Observer()) ;
         observer->addTrait(new Kernel::CommandDelegator()) ;

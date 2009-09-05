@@ -22,7 +22,7 @@
 
 #include <kernel/log.h>
 
-#include <model/positionned.h>
+#include <model/positioned.h>
 #include <model/oriented.h>
 #include <model/mobile.h>
 

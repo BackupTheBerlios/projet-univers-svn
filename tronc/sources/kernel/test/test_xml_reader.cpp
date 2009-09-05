@@ -119,11 +119,11 @@ namespace ProjetUnivers
         RegisterTrait(Universe) ;        
         
         // A Trait class
-        class Positionned : public Trait
+        class Positioned : public Trait
         {
         public:
           
-          Positionned(const Position& position)
+          Positioned(const Position& position)
           : m_position(position)
           {}
           
@@ -143,7 +143,7 @@ namespace ProjetUnivers
             }
             reader->processNode() ;
 
-            return new Positionned(position) ;
+            return new Positioned(position) ;
           }
           
           
@@ -152,7 +152,7 @@ namespace ProjetUnivers
           Position m_position ;
         };
         
-        RegisterTrait(Positionned) ;
+        RegisterTrait(Positioned) ;
 
         // A Trait class
         class Truc : public Trait
@@ -211,9 +211,9 @@ namespace ProjetUnivers
                 "<Universe/>\n"
                 "<object id=\"2\">\n"
                   "<StellarSystem/>\n"
-                  "<Positionned>\n"
+                  "<Positioned>\n"
                     "<position x=\"0\" y=\"0\" z=\"0\" unit=\"Meter\"/>\n"
-                  "</Positionned>\n"
+                  "</Positioned>\n"
                   "<Oriented>\n"
                     "<orientation w=\"1\" x=\"0\" y=\"0\" z=\"0\"/>\n"
                   "</Oriented>\n"

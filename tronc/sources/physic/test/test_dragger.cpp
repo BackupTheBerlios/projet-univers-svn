@@ -31,7 +31,7 @@
 #include <model/duration.h>
 #include <model/physical_world.h>
 #include <model/physical_object.h>
-#include <model/positionned.h>
+#include <model/positioned.h>
 #include <model/oriented.h>
 #include <model/solid.h>
 #include <model/mobile.h>
@@ -72,7 +72,7 @@ namespace ProjetUnivers {
         CPPUNIT_ASSERT(system->getTrait<Model::PhysicalWorld>()) ;
 
         Kernel::Object* ship = system->createObject() ;
-        ship->addTrait(new Model::Positionned()) ;
+        ship->addTrait(new Model::Positioned()) ;
         ship->addTrait(new Model::Oriented()) ;
         ship->addTrait(new Model::Mobile()) ;
         ship->addTrait(new Model::Solid(Model::Mesh("toto"))) ;

@@ -30,7 +30,7 @@
 
 #include <model/model.h>
 #include <model/duration.h>
-#include <model/positionned.h>
+#include <model/positioned.h>
 #include <model/position.h>
 #include <model/oriented.h>
 #include <model/orientation.h>
@@ -70,19 +70,19 @@ namespace ProjetUnivers
         model->init() ;
 
         Kernel::Object* system = model->createObject() ;
-        system->addTrait(new Model::Positionned()) ;
+        system->addTrait(new Model::Positioned()) ;
         system->addTrait(new Model::Oriented()) ;
 
         Kernel::Object* listener = system->createObject() ;
         listener->addTrait(new Model::Listener()) ;
-        Model::Positionned* listenerPos = new Model::Positionned(Model::Position::Meter(0,0,0));
+        Model::Positioned* listenerPos = new Model::Positioned(Model::Position::Meter(0,0,0));
         listener->addTrait(listenerPos) ;
         listener->addTrait(new Model::Oriented(Model::Orientation(Ogre::Quaternion(1.0, 0.0, 10.0, 0.0)))) ;
         listener->addTrait(new Model::Mobile());
 
         Kernel::Object* engine = system->createObject() ;
         engine->addTrait(new Model::Engine(Model::Force::Newton(10,10,10))) ;
-        Model::Positionned* enginePos = new Model::Positionned(Model::Position::Meter(0,0,0));
+        Model::Positioned* enginePos = new Model::Positioned(Model::Position::Meter(0,0,0));
         engine->addTrait(enginePos);
         engine->addTrait(new Model::Oriented(Model::Orientation(Ogre::Quaternion(1.0, 0.0, -10.0, 0.0)))) ;
         engine->addTrait(new Model::Mobile());

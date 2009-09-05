@@ -31,7 +31,7 @@
 #include <model/observer.h>
 #include <model/oriented.h>
 #include <model/player.h>
-#include <model/positionned.h>
+#include <model/positioned.h>
 #include <model/sized.h>
 #include <model/state.h>
 #include <model/head_up_display.h>
@@ -78,7 +78,7 @@ namespace ProjetUnivers
             Kernel::Object* ship_group = (*ship)->getFlyingGroup() ;
             Team* ship_team = ship_group->getParent<Team>() ;
             if (ship_team != team)
-              enemy_positions.insert((*ship)->getObject()->getTrait<Positionned>()->getPosition()) ;
+              enemy_positions.insert((*ship)->getObject()->getTrait<Positioned>()->getPosition()) ;
           }
 
           Area enemy_area(enemy_positions) ;
@@ -90,7 +90,7 @@ namespace ProjetUnivers
 
         void createPlayerPilot(Kernel::Object* ship,Kernel::Object* pilot,Mission* mission)
         {
-          pilot->addTrait(new Positionned()) ;
+          pilot->addTrait(new Positioned()) ;
           pilot->addTrait(new Oriented()) ;
           pilot->addTrait(new Player()) ;
           pilot->addTrait(new Observer()) ;
@@ -140,9 +140,9 @@ namespace ProjetUnivers
               delta = Position::Meter(0,-local.Meter(),0) ;
             }
 
-            if (ship->getTrait<Positionned>())
+            if (ship->getTrait<Positioned>())
             {
-              ship->getTrait<Positionned>()->setPosition(starting_position+delta) ;
+              ship->getTrait<Positioned>()->setPosition(starting_position+delta) ;
             }
 
             // create the pilot

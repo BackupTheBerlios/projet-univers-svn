@@ -19,7 +19,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include <kernel/object.h>
-#include <model/positionned.h>
+#include <model/positioned.h>
 #include <model/stellar_system.h>
 #include <model/universe.h>
 #include <model/custom_mission.h>
@@ -43,12 +43,12 @@ namespace ProjetUnivers {
       // setup the system 
       Kernel::Object* universe = getObject()->createObject() ;
       universe->addTrait(new Universe()) ;
-      universe->addTrait(new Positionned()) ;
+      universe->addTrait(new Positioned()) ;
       universe->setName("universe") ;
 
       m_system = universe->createObject() ;
       m_system->addTrait(new StellarSystem()) ;
-      m_system->addTrait(new Positionned()) ;
+      m_system->addTrait(new Positioned()) ;
       m_system->setName("system") ;
     }
     

@@ -19,7 +19,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include <model/universe.h>
-#include <model/positionned.h>
+#include <model/positioned.h>
 #include <model/oriented.h>
 #include <display/implementation/positioned.h>
 
@@ -31,7 +31,7 @@ namespace ProjetUnivers
     {
 
       DeclareDeducedTrait(Positioned,
-                          And(Or(HasTrait(Model::Positionned),HasTrait(Model::Oriented)),
+                          And(Or(HasTrait(Model::Positioned),HasTrait(Model::Oriented)),
                               HasParent(HasTrait(Model::Universe)))) ;
 
       DeclareDeducedTrait(RecursivelyPositioned,

@@ -18,7 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <model/positionned.h>
+#include <model/positioned.h>
 #include <model/oriented.h>
 #include <model/head_up_display.h>
 #include <model/selection.h>
@@ -37,9 +37,9 @@ namespace ProjetUnivers
           Model::Selection,
           And(IsFrom(And(HasChild(HasTrait(Model::HeadUpDisplay)),
                          HasChild(And(HasTrait(Implementation::Observer),
-                                      HasTrait(Model::RecursivelyPositionned),
+                                      HasTrait(Model::RecursivelyPositioned),
                                       HasTrait(Model::RecursivelyOriented))))),
-              IsTo(HasTrait(Model::RecursivelyPositionned)))) ;
+              IsTo(HasTrait(Model::RecursivelyPositioned)))) ;
     }
   }
 }

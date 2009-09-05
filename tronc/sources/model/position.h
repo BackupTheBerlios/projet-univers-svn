@@ -34,14 +34,14 @@ namespace ProjetUnivers
 
     /// A position in a three dimension world.
     /*!
-      A position is relative to the Positionned parent (if exists).
+      A position is relative to the Positioned parent (if exists).
 
       Position are held in a right handed coordinate system :
       - x axe : positive to rigth
       - y axe : positive to up
       - z axe : negative to forward
       @see http://www.evl.uic.edu/ralph/508S98/coordinates.html
-      @see Positionned
+      @see Positioned
     */
     class Position
     {

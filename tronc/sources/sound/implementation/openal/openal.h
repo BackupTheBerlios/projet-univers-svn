@@ -52,6 +52,13 @@ namespace ProjetUnivers
         
         Manager* getManager();
         
+        /// Indicate that a new source has been created
+        void addSource() ;
+        /// Indicate that a source has been destroyed
+        void removeSource() ;
+
+        /// Get the max number of simultaneous sources.
+        int getMaximumNumberOfSources() ;
       }
     }
   }

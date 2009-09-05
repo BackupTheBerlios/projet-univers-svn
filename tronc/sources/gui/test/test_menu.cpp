@@ -34,7 +34,7 @@
 #include <model/edited.h>
 #include <model/player.h>
 #include <model/player_configuration.h>
-#include <model/positionned.h>
+#include <model/positioned.h>
 #include <model/displayed.h>
 #include <model/state.h>
 #include <model/active.h>

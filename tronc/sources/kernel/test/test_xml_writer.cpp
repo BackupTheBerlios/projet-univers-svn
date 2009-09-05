@@ -86,17 +86,17 @@ namespace ProjetUnivers
         };
         
         // A Trait class
-        class Positionned : public Trait
+        class Positioned : public Trait
         {
         public:
           
-          Positionned(const Position& position)
+          Positioned(const Position& position)
           : m_position(position)
           {}
           
           void write(Writer* writer)
           {
-            writer->startTrait("Positionned") ;
+            writer->startTrait("Positioned") ;
             m_position.write(writer) ;
             writer->endTrait() ;
           }
@@ -168,15 +168,15 @@ namespace ProjetUnivers
       {
         std::auto_ptr<Model> model(new Model("TestXMLWriter::traitWithContent")) ;
         Kernel::Object* object1 = model->createObject() ;
-        object1->addTrait(new Positionned(Position())) ;
+        object1->addTrait(new Positioned(Position())) ;
         
         std::auto_ptr<XMLWriter> writer(XMLWriter::getStringWriter()) ;
         
         writer->write(model.get()) ;
         CPPUNIT_ASSERT_EQUAL(std::string("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n"
-                                         "<model><object id=\"0\"><Positionned>"
+                                         "<model><object id=\"0\"><Positioned>"
                                          "<Position x=\"0\" y=\"0\" z=\"0\"/>"
-                                         "</Positionned></object></model>\n"),
+                                         "</Positioned></object></model>\n"),
                              writer->getContent()) ;
         
       }

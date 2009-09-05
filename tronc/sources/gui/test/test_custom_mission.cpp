@@ -30,7 +30,7 @@
 #include <model/edited.h>
 #include <model/player.h>
 #include <model/player_configuration.h>
-#include <model/positionned.h>
+#include <model/positioned.h>
 #include <model/displayed.h>
 #include <model/custom_mission.h>
 #include <model/team.h>

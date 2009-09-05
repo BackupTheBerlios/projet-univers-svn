@@ -65,7 +65,7 @@ namespace ProjetUnivers
                                          ->getObject() ;
 
         const Model::Position& position =
-            getObject()->getTrait<Model::Positionned>()->getPosition(physical_world) ;
+            getObject()->getTrait<Model::Positioned>()->getPosition(physical_world) ;
 
         return position.Meter() ;
       }

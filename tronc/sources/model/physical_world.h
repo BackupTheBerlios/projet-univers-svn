@@ -23,7 +23,7 @@
 
 #include <kernel/deduced_trait.h>
 
-#include <model/positionned.h>
+#include <model/positioned.h>
 #include <model/whole.h>
 
 namespace ProjetUnivers {

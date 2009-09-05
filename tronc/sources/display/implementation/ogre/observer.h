@@ -58,7 +58,7 @@ namespace ProjetUnivers
           /// Destroy the camera.
           virtual void onClose() ;
 
-          /// Positionned parent has changed
+          /// Positioned parent has changed
           virtual void onUpdate() ;
 
         // @}

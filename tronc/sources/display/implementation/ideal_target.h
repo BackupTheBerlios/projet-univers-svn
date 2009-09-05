@@ -31,7 +31,7 @@ namespace ProjetUnivers
           
       /// Where we should fire at
       /*!
-        IdealTarget <=> Model::IdealTarget & Model::Positionned
+        IdealTarget <=> Model::IdealTarget & Model::Positioned
       */ 
       class IdealTarget : public Kernel::DeducedTrait
       {};

@@ -61,7 +61,7 @@ namespace ProjetUnivers {
         CPPUNIT_ASSERT(system->getTrait<PhysicalWorld>()) ;
 
         Kernel::Object* ship = system->createObject() ;
-        ship->addTrait(new Positionned()) ;
+        ship->addTrait(new Positioned()) ;
         ship->addTrait(new Oriented()) ;
         ship->addTrait(new Mobile()) ;
         ship->addTrait(new Massive(Mass::Kilogram(1000))) ;
