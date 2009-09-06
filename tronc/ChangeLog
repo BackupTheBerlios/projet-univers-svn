@@ -1465,14 +1465,18 @@
       Correction is to have a better formula.
     - renamed Positionned into Positioned (english correct)    
 
-
-
 2009-09-05
 
   * All :
     - rename Positionned into Positioned
   * Sound : 
     - added sources counting 
+
+2009-09-06
+
+  * Sound :
+    - refactoring, centralised OpenAL source creation/destruction
+    - sooner stream destruction 
         
 in commit
 --------
@@ -1480,14 +1484,9 @@ in commit
    
 in progress
 -----------
-
-    
 todo
 ----
-
-  * Sound : 
-    - sources are never destroyed 
-  
+ 
   * Model : 
     - selected target going out of range will not be unselected
 
@@ -1505,6 +1504,8 @@ todo
     - probably too many sources (we should limit sources number) one my dev 
       machine : linear time on test up to 50 ships and time crashes at 60...
       valgring shows 50% time on mix sound for 50... 
+      max number of source counting shows alarming numbers : ~4000 for a simple 
+      situation (collisions ?)
     - distance culling ?
 
   * Display : 

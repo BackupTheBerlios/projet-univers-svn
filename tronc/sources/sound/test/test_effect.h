@@ -29,7 +29,11 @@ namespace ProjetUnivers {
 
             
       /// Test reverb and filter effect
-      class TestEffect : public CppUnit::TestFixture {
+      /*!
+        inactive
+      */
+      class TestEffect : public CppUnit::TestFixture
+      {
       protected:
       
         

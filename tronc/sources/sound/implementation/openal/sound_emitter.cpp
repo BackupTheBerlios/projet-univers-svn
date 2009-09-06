@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007 Morgan GRIGNARD Mathieu ROGER                      *
+ *   Copyright (C) 2007-2009 Morgan GRIGNARD Mathieu ROGER                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -46,8 +46,7 @@ namespace ProjetUnivers
       {
 
         SoundEmitter::SoundEmitter()
-        : m_source(0),
-          m_auxEffectSlot(0),
+        : m_auxEffectSlot(0),
           m_reader(0),
           m_posInFile(0),
           m_posInBuffer(0)
@@ -56,36 +55,33 @@ namespace ProjetUnivers
         void SoundEmitter::initSound(Kernel::ViewPoint* viewpoint)
         {
           InformationMessage("Sound", "SoundEmitter::initSound entering") ;
-          if (!m_source)
+          if (!m_reader)
           {
-            InformationMessage("Sound", "SoundEmitter::init real") ;
-            alGenSources(1,&m_source) ;
-            m_reader = getManager()->createReader(m_source,
-                                                  getSoundFileName(),
+            InformationMessage("Sound", "SoundEmitter::initSound real") ;
+            m_reader = getManager()->createReader(getSoundFileName(),
                                                   isEvent(),
                                                   m_posInFile,
                                                   m_posInBuffer) ;
 
-            alSourcei(m_source,AL_SOURCE_RELATIVE,AL_FALSE) ;
+            alSourcei(getSource(),AL_SOURCE_RELATIVE,AL_FALSE) ;
             updateSource(viewpoint) ;
-            addSource() ;
           }
           InformationMessage("Sound", "SoundEmitter::initSound leaving") ;
         }
 
         void SoundEmitter::startSound(Kernel::ViewPoint* viewpoint)
         {
-          if (!m_source)
+          if (!getSource())
           {
             initSound(viewpoint) ;
           }
-          alSourcePlay(m_source);
+          alSourcePlay(getSource());
         }
 
         void SoundEmitter::updateSource(Kernel::ViewPoint* viewpoint)
         {
           ALint state;
-          alGetSourcei(m_source,AL_SOURCE_STATE,&state) ;
+          alGetSourcei(getSource(),AL_SOURCE_STATE,&state) ;
 
           if (!isActive() && state == AL_PLAYING)
           {
@@ -94,26 +90,22 @@ namespace ProjetUnivers
           else
           {
             /// @todo If parameters are never changed move them to init
-            alSourcef(m_source, AL_GAIN, getGain()) ;
-//            alSourcef(m_source, AL_CONE_OUTER_GAIN, getOuterGain()) ;
-//            alSourcef(m_source, AL_PITCH, getPitch()) ;
-//            alSourcef(m_source, AL_CONE_OUTER_ANGLE, getOuterAngle());
-//            alSourcef(m_source, AL_CONE_INNER_ANGLE, getInnerAngle());
-            alSourcef(m_source, AL_REFERENCE_DISTANCE, getRefDistance());
-            alSourcef(m_source, AL_MAX_DISTANCE, getMaxDistance());
-            alSourcef(m_source, AL_ROLLOFF_FACTOR, getRolloffFactor());
+            alSourcef(getSource(), AL_GAIN, getGain()) ;
+            alSourcef(getSource(), AL_REFERENCE_DISTANCE, getRefDistance());
+            alSourcef(getSource(), AL_MAX_DISTANCE, getMaxDistance());
+            alSourcef(getSource(), AL_ROLLOFF_FACTOR, getRolloffFactor());
 
             Ogre::Vector3 position = getPosition().Meter() ;
 
             InternalMessage("Sound","SoundEmitter::updateSource position=" + ::Ogre::StringConverter::toString(position)) ;
 
-            alSource3f(m_source,AL_POSITION,(float)position.x,(float)position.y,(float)position.z) ;
+            alSource3f(getSource(),AL_POSITION,(float)position.x,(float)position.y,(float)position.z) ;
 
             Ogre::Vector3 speed = getSpeed().MeterPerSecond();
             InternalMessage("Sound","SoundEmitter::updateSource speed=" + ::Ogre::StringConverter::toString(position)) ;
-            alSource3f(m_source,AL_VELOCITY,(float)speed.x,(float)speed.y,(float)speed.z) ;
+            alSource3f(getSource(),AL_VELOCITY,(float)speed.x,(float)speed.y,(float)speed.z) ;
 
-            // update Environnement Effect
+            // update Environment Effect
 
             Model::SoundEnvironnement* env = getObject()->getParent<Model::SoundEnvironnement>() ;
             if (env)
@@ -127,7 +119,7 @@ namespace ProjetUnivers
                 if (auxEffectSlot != m_auxEffectSlot)
                 {
                   m_auxEffectSlot = auxEffectSlot;
-                  EFX::applyEffectToSource(m_source, m_auxEffectSlot) ;
+                  EFX::applyEffectToSource(getSource(), m_auxEffectSlot) ;
                   InformationMessage("Sound", "update add reverb") ;
                 }
               }
@@ -167,7 +159,7 @@ namespace ProjetUnivers
               {
                 m_auxEffectSlot = auxEffectSlot;
                 // @todo see filter parameter for occlusion , exclusion case
-                EFX::applyEffectToSource(m_source, m_auxEffectSlot) ;
+                EFX::applyEffectToSource(getSource(), m_auxEffectSlot) ;
                 InformationMessage("Sound", "update add reverb") ;
               }
               else
@@ -182,7 +174,7 @@ namespace ProjetUnivers
           }
           else
           {
-            InformationMessage("Sound", "no env") ;
+            InformationMessage("Sound", "no environment") ;
           }
 
           InformationMessage("Sound", "SoundEmitter::changeParent : leaving") ;
@@ -190,9 +182,9 @@ namespace ProjetUnivers
 
         void SoundEmitter::stopSound()
         {
-          if (m_source)
+          if (getSource())
           {
-            stopSourceAndUnQueueBuffers(m_source) ;
+            stopSourceAndUnQueueBuffers(getSource()) ;
           }
         }
 
@@ -201,12 +193,10 @@ namespace ProjetUnivers
           InformationMessage("Sound", "SoundEmitter::deleteSound : enter") ;
           if (!isEvent())
           {
-            alGetSourcei(m_source, AL_SAMPLE_OFFSET, &m_posInBuffer) ;
-            stopSound();
+            alGetSourcei(getSource(), AL_SAMPLE_OFFSET, &m_posInBuffer) ;
+            stopSound() ;
           }
-          removeSource() ;
           m_auxEffectSlot = 0;
-          m_source = 0;
           InformationMessage("Sound", "SoundEmitter::deleteSound : leaving") ;
         }
 
@@ -277,6 +267,11 @@ namespace ProjetUnivers
         float SoundEmitter::getRolloffFactor() const
         {
           return 1.0;
+        }
+
+        ALuint SoundEmitter::getSource() const
+        {
+          return m_reader->getSource() ;
         }
 
       }

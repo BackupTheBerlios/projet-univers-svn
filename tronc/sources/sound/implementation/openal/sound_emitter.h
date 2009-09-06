@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007 Morgan GRIGNARD                                    *
+ *   Copyright (C) 2007-2009 Morgan GRIGNARD Mathieu ROGER                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -58,7 +58,7 @@ namespace ProjetUnivers
         */
         // @{
 
-          /// Initialise an openAL source for the sound
+          /// Initialize an openAL source for the sound
           void initSound(Kernel::ViewPoint*) ;
 
           /// Launch the source
@@ -67,7 +67,7 @@ namespace ProjetUnivers
           /// Update the source informations
           void updateSource(Kernel::ViewPoint*) ;
 
-          /// Update the source environnement
+          /// Update the source environment
           void changeParentSource(Kernel::ViewPoint*) ;
 
           /// Stop the source
@@ -101,7 +101,7 @@ namespace ProjetUnivers
           /// Is the source active now considering damages or other elements.
           virtual bool isActive() const;
 
-          ///Acces to the object with the trait
+          /// Access to the object with the trait
           virtual Kernel::Object* getObject() const = 0 ;
 
           /// Get the object's position relative to the world or the listener
@@ -152,6 +152,7 @@ namespace ProjetUnivers
           /// Indicate the factor of attenuation
           virtual float getRolloffFactor() const;
 
+          ALuint getSource() const ;
 
         // @}
 
@@ -160,8 +161,6 @@ namespace ProjetUnivers
 
         private:
 
-          /// OpenAL source
-          ALuint m_source ;
           /// Container of an effect
           ALuint m_auxEffectSlot ;
 
@@ -170,7 +169,7 @@ namespace ProjetUnivers
 
           /// Position before closing reader.
           /*!
-            usefull in the changeParent case to restart at the same point
+            Useful in the changeParent case to restart at the same point
             --> I do not see why ???
           */
           int m_posInFile ;

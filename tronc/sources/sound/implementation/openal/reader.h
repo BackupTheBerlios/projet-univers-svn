@@ -37,25 +37,36 @@ namespace ProjetUnivers
         class Reader
         {
         public:
-          
-          virtual ~Reader() ;
 
-          Reader(const ALuint& source,Stream*,const bool& is_event) ;
+          /// Creation.
+          Reader(Stream*,const bool& is_event) ;
+
+          /// Destruction
+          virtual ~Reader() ;
           
           /// Open the file, create and load the 2 buffers to link to the source
-          virtual void onInit(const int& position_in_file,const int& position_in_buffer) ;
+          virtual void init(const int& position_in_file,const int& position_in_buffer) ;
           
           /// Look for empty buffer which are already heard and load them.
           virtual void update() ;
           
           /// Stop reading.
-          virtual void onClose() ;
+          virtual void close() ;
 
+          /// True when we have finished to play the sound.
           bool isFinished() const ;
-          
+
+          /// Access to the source.
+          ALuint getSource() const ;
+
+          Stream* getStream() const ;
+
         private:
           
+          /// Source associated with the stream
           ALuint  m_source ;
+
+          /// Stream
           Stream* m_stream ;
           bool    m_is_event ;
           bool    m_is_finished ;

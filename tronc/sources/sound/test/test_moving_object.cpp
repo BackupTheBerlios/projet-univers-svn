@@ -107,7 +107,7 @@ namespace ProjetUnivers
         
         ALuint engine_source = 
           engine->getTrait<Implementation::Engine>()
-                ->getView<Implementation::OpenAL::Engine>(viewpoint)->m_source ;
+                ->getView<Implementation::OpenAL::Engine>(viewpoint)->getSource() ;
         
         Kernel::Timer global_timer ;
         Kernel::Timer timer ;
@@ -267,7 +267,7 @@ namespace ProjetUnivers
         
         ALuint engine_source = 
           engine->getTrait<Implementation::Engine>()
-                ->getView<Implementation::OpenAL::Engine>(viewpoint)->m_source ;
+                ->getView<Implementation::OpenAL::Engine>(viewpoint)->getSource() ;
         
         Kernel::Timer global_timer ;
         Kernel::Timer timer ;
@@ -328,7 +328,7 @@ namespace ProjetUnivers
         
         ALuint engine_source = 
           engine->getTrait<Implementation::Engine>()
-                ->getView<Implementation::OpenAL::Engine>(viewpoint)->m_source ;
+                ->getView<Implementation::OpenAL::Engine>(viewpoint)->getSource() ;
         
         Kernel::Timer global_timer ;
         Kernel::Timer timer ;

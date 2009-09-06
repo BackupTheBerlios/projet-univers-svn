@@ -37,19 +37,23 @@ namespace ProjetUnivers
       {
 
         Reader::~Reader()
-        {}
+        {
+          close() ;
+        }
 
-        Reader::Reader(const ALuint& source,Stream* stream,const bool& is_event)
-        : m_source(source),
+        Reader::Reader(Stream* stream,const bool& is_event)
+        : m_source(0),
           m_stream(stream),
           m_is_event(is_event),
           m_is_finished(false),
           m_is_initialised(false)
         {}
 
-        void Reader::onInit(const int& position_in_file,const int& position_in_buffer)
+        void Reader::init(const int& position_in_file,const int& position_in_buffer)
         {
+          alGenSources(1,&m_source) ;
           m_stream->init(m_source,position_in_file,position_in_buffer,m_is_event) ;
+          addSource() ;
           m_is_initialised = true ;
         }
 
@@ -58,12 +62,14 @@ namespace ProjetUnivers
           m_is_finished = !m_stream->update(m_source,m_is_event) ;
         }
         
-        void Reader::onClose()
+        void Reader::close()
         {
           if(! m_is_initialised)
             return ;
           stopSourceAndUnQueueBuffers(m_source) ;
           alDeleteSources(1,&m_source) ;
+          removeSource() ;
+          m_source = 0 ;
           ALenum error = alGetError() ; 
           if (error != AL_NO_ERROR)
           {
@@ -76,7 +82,17 @@ namespace ProjetUnivers
         {
           return m_is_finished ;
         }
+
+        ALuint Reader::getSource() const
+        {
+          return m_source ;
+        }
         
+        Stream* Reader::getStream() const
+        {
+          return m_stream ;
+        }
+
       }
     }
   }

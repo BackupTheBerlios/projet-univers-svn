@@ -34,7 +34,6 @@ namespace ProjetUnivers
         /// A stream on a sound
         class Stream
         {
-
         public:
 
           /// Open the file, create and load the 2 buffers to link to the source
@@ -60,7 +59,7 @@ namespace ProjetUnivers
 
         // @}
 
-          /// SoundFile name
+          /// Sound file name
           std::string m_file_name ;
 
           /// Indicate the buffer size in seconds

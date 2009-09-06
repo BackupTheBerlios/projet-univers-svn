@@ -38,11 +38,11 @@ namespace ProjetUnivers
         OggCachedStream::OggCachedStream(const std::string& file_name)
         : Stream(file_name)
         {
-          OggVorbis_File* m_stream ;
+          OggVorbis_File* stream ;
           InternalMessage("Sound","loading " + file_name) ;
           // Create Ogg Stream on the file
-          m_stream = new OggVorbis_File() ;
-          int error = ov_fopen((char*)m_file_name.c_str(),m_stream) ;
+          stream = new OggVorbis_File() ;
+          int error = ov_fopen((char*)m_file_name.c_str(),stream) ;
           if (error < 0)
           {
             ErrorMessage("[OpenAL::OggCachedStream] Can't read the samples") ;
@@ -50,7 +50,7 @@ namespace ProjetUnivers
           }
 
           // Get sound information
-          vorbis_info* Infos = ov_info(m_stream,-1) ;
+          vorbis_info* Infos = ov_info(stream,-1) ;
 
           m_sample_rate = Infos->rate ;
           m_samples_by_buffer = (ALsizei)(Infos->channels * Infos->rate * m_update_time) ;
@@ -68,7 +68,7 @@ namespace ProjetUnivers
           }
 
           int pos = 0 ;
-          ov_pcm_seek(m_stream,pos) ;
+          ov_pcm_seek(stream,pos) ;
           
           InternalMessage("Sound", "OggCachedStream loading buffers") ;
           
@@ -78,11 +78,11 @@ namespace ProjetUnivers
           {
             ALuint buffer ;
             alGenBuffers(1,&buffer) ;
-            is_fully_read = loadBuffer(m_stream,buffer) ;
+            is_fully_read = loadBuffer(stream,buffer) ;
             m_buffers.push_back(buffer) ;
           }
-          ov_clear(m_stream) ;
-          delete m_stream ;
+          ov_clear(stream) ;
+          delete stream ;
         }
 
         void OggCachedStream::init(const ALuint& source,

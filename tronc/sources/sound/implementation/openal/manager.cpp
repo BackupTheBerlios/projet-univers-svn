@@ -90,7 +90,7 @@ namespace ProjetUnivers
           for(std::vector<Reader*>::iterator iter = m_readers.begin() ; 
               iter != m_readers.end(); iter++)
           {
-            (*iter)->onClose() ;
+            (*iter)->close() ;
             delete *iter;
           }
           m_readers.clear() ;
@@ -139,12 +139,23 @@ namespace ProjetUnivers
           return result ;
         }
         
-        Reader* Manager::createReader(const ALuint& p_source,
-            const std::string& p_fileName, const bool& p_isEvent,
-            const int& m_posInFile, const int& m_posInBuffer)
+        void Manager::releaseStream(Stream* stream)
         {
-          Reader* result = new Reader(p_source,getStream(p_fileName),p_isEvent) ;
-          result->onInit(m_posInFile, m_posInBuffer) ;
+          std::set<Stream*>::iterator finder = m_streams.find(stream) ;
+          if (finder != m_streams.end())
+          {
+            delete *finder ;
+            m_streams.erase(finder) ;
+          }
+        }
+
+        Reader* Manager::createReader(const std::string& fileName,
+                                      const bool& isEvent,
+                                      const int& posInFile,
+                                      const int& posInBuffer)
+        {
+          Reader* result = new Reader(getStream(fileName),isEvent) ;
+          result->init(posInFile,posInBuffer) ;
           m_readers.push_back(result) ;
           return result;
         }
@@ -154,20 +165,20 @@ namespace ProjetUnivers
           if (m_timer.getSecond() > m_updateTime)
           {
             m_timer.reset() ;
-            for (std::vector<Reader*>::iterator iter = m_readers.begin() ; iter
-                != m_readers.end();)
+            for (std::vector<Reader*>::iterator reader = m_readers.begin() ; reader != m_readers.end();)
             {
-              if ((*iter)->isFinished())
+              if ((*reader)->isFinished())
               {
-                (*iter)->onClose() ;
-                delete *iter;
-                iter = m_readers.erase(iter) ;
+                (*reader)->close() ;
+                releaseStream((*reader)->getStream()) ;
+                delete *reader;
+                reader = m_readers.erase(reader) ;
               }
               else
               {
                 InformationMessage("Sound", "enter manager update") ;
-                (*iter)->update() ;
-                ++iter;
+                (*reader)->update() ;
+                ++reader;
                 InformationMessage("Sound", "leave manager update") ;
               }
             }

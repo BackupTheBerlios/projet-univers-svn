@@ -61,7 +61,7 @@ namespace ProjetUnivers
           /// Indicate if the sound is looping
           virtual bool isEvent() const ;
           
-          ///Acces to the object with the trait
+          /// Access to the object with the trait
           Kernel::Object* getObject() const ;
           
         // @}

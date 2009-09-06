@@ -48,7 +48,7 @@ namespace ProjetUnivers {
         
         ALuint source;
         alGenSources(1,&source) ;
-        Implementation::OpenAL::Reader* reader = new Implementation::OpenAL::WavReader(source, "hit.wav", false, 1.1) ;
+        std::auto_ptr<Implementation::OpenAL::Reader> reader(new Implementation::OpenAL::WavReader(source, "hit.wav", false, 1.1)) ;
         reader->onInit(0,0) ;
         alSourcePlay(source);
         Kernel::Timer timer ;
@@ -207,7 +207,6 @@ namespace ProjetUnivers {
         
         
         reader->onClose() ;
-        delete reader ;
         
         Sound::close();
       }

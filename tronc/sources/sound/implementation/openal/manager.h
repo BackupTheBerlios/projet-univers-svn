@@ -40,6 +40,9 @@ namespace ProjetUnivers
         class Stream ;
         
         /// Update the buffers and create/delete the reader during their life.
+        /*!
+          When an event sound reader has finished, destroy it.
+        */
         class Manager
         {
         public:
@@ -51,33 +54,39 @@ namespace ProjetUnivers
           /// Constructor 
           Manager();
 
-          /// Add a ressource to the cache
+          /// Add a resource to the cache
           void cacheRessource(const std::string&) ;
           
           ~Manager();
 
         // @}
+        /*!
+         @name Reader management
+        */
+        // @{
 
           /// Create a reader which match the soundFile type
-          Reader* createReader(
-              const ALuint& p_source,
-              const std::string& p_fileName, const bool& p_isEvent,
-              const int& m_posInFile, const int& m_posInBuffer);
+          Reader* createReader(const std::string& fileName,const bool& isEvent,
+                               const int& posInFile,const int& posInBuffer) ;
 
-          /// Close the files of finish sounds, delete the  buffers
+          /// Close the files of finish sounds, delete the finished readers
           void update();
 
+        // @}
         private:
 
+          /// Get a stream by name.
           Stream* getStream(const std::string&) ;
+          void releaseStream(Stream*) ;
           
-          std::vector<Reader*> m_readers;
-          Kernel::Timer m_timer;
-          float m_updateTime;
+          /// Active readers
+          std::vector<Reader*> m_readers ;
+          Kernel::Timer m_timer ;
+          float m_updateTime ;
 
+          /// Resource caching
           std::map<std::string,Stream*> m_cached_streams ;
           std::set<Stream*> m_streams ;
-          
         };
       }
     }

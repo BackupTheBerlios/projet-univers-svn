@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007 Morgan GRIGNARD                                    *
+ *   Copyright (C) 2007-2009 Morgan GRIGNARD                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -50,9 +50,9 @@ namespace ProjetUnivers
         namespace 
         {
           
-          /// Allow a one time initialisation.
+          /// Allow a one time initialization.
           /*!
-            several initialisation tends to cause problem with 
+            several initialization tends to cause problem with
             alcMakeContextCurrent
           */
           struct SoundSystem
@@ -123,9 +123,10 @@ namespace ProjetUnivers
 
               alDistanceModel(stringToEnum[attenuationModel]) ;
               
-              //Verification of initialisation without error  
+              //Verification of initialization without error
               initialised = true ;
               
+              // @todo configure
               manager->cacheRessource("pu_choc.ogg") ;
               manager->cacheRessource("pu_moteur_2.ogg") ;
               manager->cacheRessource("laser.ogg") ;
@@ -136,7 +137,7 @@ namespace ProjetUnivers
             {
               manager.reset(NULL) ;
 
-              // Desactivate context
+              // De-activate context
               alcMakeContextCurrent(NULL) ;
       
               EFX::close() ;

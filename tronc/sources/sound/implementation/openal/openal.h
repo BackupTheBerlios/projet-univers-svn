@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007 Morgan GRIGNARD                                    *
+ *   Copyright (C) 2007-2009 Morgan GRIGNARD Mathieu ROGER                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -32,11 +32,11 @@ namespace ProjetUnivers
     namespace Implementation
     {
       
-      /// Sound implementation throught OpenAL.
+      /// Sound implementation through OpenAL.
       namespace OpenAL 
       {
         
-        /// Initialisation of OpenAL specific.
+        /// Initialization of OpenAL specific.
         void init() ;
         
         /// Termination of OpenAL specific.
