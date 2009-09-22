@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007 Mathieu ROGER                                      *
+ *   Copyright (C) 2007-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -45,6 +45,7 @@
 #include <physic/implementation/ode/physic_system.h>
 
 #include <physic/test/test_collision.h>
+#include <model/throttle.h>
 
 CPPUNIT_TEST_SUITE_REGISTRATION(ProjetUnivers::Physic::Test::TestCollision) ;
 
@@ -74,7 +75,7 @@ namespace ProjetUnivers
         /*!
           - build two mesh ships
           - send one against the other
-          - check that collision occured
+          - check that collision occurred
         */
 
         /// we construct a complete system
@@ -116,9 +117,6 @@ namespace ProjetUnivers
 
         {
           Model::Speed ship_speed = ship->getTrait<Model::Mobile>()->getSpeed() ;
-
-//          std::cout << std::endl << "initial ship speed = " << ship_speed.MeterPerSecond()
-//                    << std::endl ;
         }
 
         const int steps_number = 100 ;
@@ -145,7 +143,7 @@ namespace ProjetUnivers
           physics->simulate(0.2) ;
         }
 
-        /// check that more collisions has occured
+        /// check that more collisions has occurred
         CPPUNIT_ASSERT(system->getDescendants<Model::Collision>().size()>collision_number) ;
 
         InternalMessage("Physic","Physic::Test::TestCollision::basicTest leaving") ;
@@ -158,9 +156,10 @@ namespace ProjetUnivers
         /*!
           - build a mesh ship
           - fire
-          - check that no collision object exists
+          - check that no collision object exists because even if they touch the
+            fire comes the ship
 
-          Not really satisfying, even at z=30 the two meshs whould not collide...
+          Not really satisfying, even at z=30 the two meshes should not collide...
         */
 
         // we construct a complete system
@@ -193,7 +192,7 @@ namespace ProjetUnivers
 
         CPPUNIT_ASSERT(system->getDescendants<Model::Collision>().size()==0) ;
 
-        ship->call("fire") ;
+        ship->call(Model::Laser::Fire) ;
 
         InternalMessage("Physic","Physic::Test::TestCollision::testBugLaser fire") ;
 
@@ -201,7 +200,7 @@ namespace ProjetUnivers
 
         physics->simulate(0.1) ;
 
-        // check that no collision occured
+        // check that no collision occurred
         CPPUNIT_ASSERT(system->getDescendants<Model::Collision>().size()==0) ;
         InternalMessage("Physic","Physic::Test::TestCollision::testBugLaser leaving") ;
       }
@@ -233,13 +232,15 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(ship->getTrait<Model::PhysicalObject>()) ;
         CPPUNIT_ASSERT(ship->getTrait<Model::PhysicalWorld>()) ;
 
+        Kernel::Object* firing_ship = system->createObject() ;
+
         Kernel::Object* beam = system->createObject() ;
         beam->addTrait(new Model::Positioned(Model::Position::Meter(0,0,-100))) ;
         beam->addTrait(new Model::Oriented()) ;
         beam->addTrait(new Model::Mobile(Model::Speed::MeterPerSecond(0,0,50))) ;
         beam->addTrait(new Model::Massive(Model::Mass(Model::Energy::Joule(10),
                                                       beam->getTrait<Model::Mobile>()->getSpeed()))) ;
-        beam->addTrait(new Model::LaserBeam()) ;
+        beam->addTrait(new Model::LaserBeam(firing_ship)) ;
         CPPUNIT_ASSERT(beam->getTrait<Model::PhysicalObject>()) ;
 
         /// get the physical viewpoint
@@ -255,12 +256,13 @@ namespace ProjetUnivers
           physics->simulate(0.1) ;
         }
 
-        /// check that collision has occured
+        /// check that collision has occurred
         CPPUNIT_ASSERT(system->getDescendants<Model::Collision>().size()!=0) ;
       }
 
       void TestCollision::testLaserBeamLaserBeamNoCollision()
       {
+        InternalMessage("Physic","Physic::Test::TestCollision::testLaserBeamLaserBeamNoCollision Entering") ;
         /*!
           - build a solid object ship
           - launch a laser beam against
@@ -274,13 +276,13 @@ namespace ProjetUnivers
         // should be a PhysicalWorld
         Kernel::Object* system = model->createObject() ;
         CPPUNIT_ASSERT(system->getTrait<Model::PhysicalWorld>()) ;
-
+        Kernel::Object* firing_ship = model->createObject() ;
         {
           Kernel::Object* beam = system->createObject() ;
           beam->addTrait(new Model::Positioned(Model::Position::Meter(0,0,0))) ;
           beam->addTrait(new Model::Oriented()) ;
-          beam->addTrait(new Model::Mobile()) ;
-          beam->addTrait(new Model::LaserBeam()) ;
+          beam->addTrait(new Model::Mobile(Model::Speed::MeterPerSecond(0,0,-1))) ;
+          beam->addTrait(new Model::LaserBeam(firing_ship)) ;
           beam->addTrait(new Model::Massive(Model::Mass(Model::Energy::Joule(10),
                                                         beam->getTrait<Model::Mobile>()->getSpeed()))) ;
         }
@@ -290,7 +292,7 @@ namespace ProjetUnivers
           beam->addTrait(new Model::Positioned(Model::Position::Meter(0,0,-20))) ;
           beam->addTrait(new Model::Oriented()) ;
           beam->addTrait(new Model::Mobile(Model::Speed::MeterPerSecond(0,0,10))) ;
-          beam->addTrait(new Model::LaserBeam()) ;
+          beam->addTrait(new Model::LaserBeam(firing_ship)) ;
           beam->addTrait(new Model::Massive(Model::Mass(Model::Energy::Joule(10),
                                                         beam->getTrait<Model::Mobile>()->getSpeed()))) ;
         }
@@ -305,7 +307,7 @@ namespace ProjetUnivers
           physics->simulate(0.1) ;
         }
 
-        /// check that collision has occured
+        /// check that collision has occurred
         unsigned int collision_number = system->getDescendants<Model::Collision>().size() ;
         CPPUNIT_ASSERT(collision_number==0) ;
       }
@@ -357,7 +359,7 @@ namespace ProjetUnivers
 
         InternalMessage("Physic","Physic::Test::TestCollision::testFire built ship") ;
 
-        ship->call("fire") ;
+        ship->call(Model::Laser::Fire) ;
 
         InternalMessage("Physic","Physic::Test::TestCollision::testFire fire") ;
 
@@ -369,14 +371,105 @@ namespace ProjetUnivers
         for(int i = 1 ; i <= 200 ; i++)
         {
           physics->simulate(0.01) ;
-
-//          std::cout << positioned->getPosition().Meter() << std::endl ;
         }
 
-        // check that no collision occured
+        // check that no collision occurred
         CPPUNIT_ASSERT(system->getDescendants<Model::Collision>().size()!=0) ;
         InternalMessage("Physic","Physic::Test::TestCollision::testFire leaving") ;
       }
+
+      void TestCollision::collisionEnergy()
+      {
+        InternalMessage("Physic","Physic::Test::TestCollision::collisionEnergy Entering") ;
+
+        /*!
+          - build two mesh ships
+          - send one against the other
+          - check that collision occurred and has energy
+        */
+
+        /// we construct a complete system
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestCollision::basicTest")) ;
+        model->init() ;
+
+        /// should be a PhysicalWorld
+        Kernel::Object* system = model->createObject() ;
+        CPPUNIT_ASSERT(system->getTrait<Model::PhysicalWorld>()) ;
+
+        Kernel::Object* ship1 = Model::createShip(system) ;
+        ship1->getTrait<Model::Positioned>()->setPosition(Model::Position::Meter(200,0,0)) ;
+        ship1->getTrait<Model::Mobile>()->setSpeed(Model::Speed::MeterPerSecond(-30,0,0)) ;
+
+        CPPUNIT_ASSERT(ship1->getTrait<Model::PhysicalObject>()) ;
+        CPPUNIT_ASSERT(ship1->getTrait<Model::Solid>()) ;
+        CPPUNIT_ASSERT(ship1->getTrait<Model::PhysicalWorld>()) ;
+
+        Kernel::Object* ship2 = Model::createShip(system) ;
+        ship2->getTrait<Model::Positioned>()->setPosition(Model::Position::Meter(0,-200,0)) ;
+        ship2->getTrait<Model::Mobile>()->setSpeed(Model::Speed::MeterPerSecond(0,30,0)) ;
+
+        CPPUNIT_ASSERT(ship2->getTrait<Model::PhysicalObject>()) ;
+        CPPUNIT_ASSERT(ship2->getTrait<Model::Solid>()) ;
+        CPPUNIT_ASSERT(ship2->getTrait<Model::PhysicalWorld>()) ;
+
+        /// get the physical viewpoint
+        Kernel::ControlerSet* physics = model->getControlerSet<Implementation::Ode::PhysicSystem>() ;
+        CPPUNIT_ASSERT(physics) ;
+
+        const int steps_number = 100 ;
+        for(int i = 1 ; i <= steps_number ; ++i)
+        {
+          physics->simulate(0.1) ;
+        }
+
+        /// check that collision has occurred
+        std::set<Model::Collision*> collisions(system->getDescendants<Model::Collision>()) ;
+        for (std::set<Model::Collision*>::const_iterator collision = collisions.begin() ; collision != collisions.end() ; ++collision)
+        {
+          CPPUNIT_ASSERT((*collision)->getEnergy().Joule() > 0) ;
+          std::cout << std::endl << (*collision)->getEnergy().Joule() ;
+        }
+      }
+
+      void TestCollision::shipDoesNotGoThrough()
+      {
+        /// we construct a complete system
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestCollision::basicTest")) ;
+        model->init() ;
+
+        /// should be a PhysicalWorld
+        Kernel::Object* system = model->createObject() ;
+        CPPUNIT_ASSERT(system->getTrait<Model::PhysicalWorld>()) ;
+
+        Kernel::Object* ship1 = Model::createShip(system) ;
+        ship1->getTrait<Model::Positioned>()->setPosition(Model::Position::Meter(0,0,500)) ;
+        ship1->getChild<Model::Throttle>()->set(100) ;
+
+        CPPUNIT_ASSERT(ship1->getTrait<Model::PhysicalObject>()) ;
+        CPPUNIT_ASSERT(ship1->getTrait<Model::Solid>()) ;
+        CPPUNIT_ASSERT(ship1->getTrait<Model::PhysicalWorld>()) ;
+
+        Kernel::Object* ship2 = Model::createShip(system) ;
+
+        CPPUNIT_ASSERT(ship2->getTrait<Model::PhysicalObject>()) ;
+        CPPUNIT_ASSERT(ship2->getTrait<Model::Solid>()) ;
+        CPPUNIT_ASSERT(ship2->getTrait<Model::PhysicalWorld>()) ;
+
+        /// get the physical viewpoint
+        Kernel::ControlerSet* physics = model->getControlerSet<Implementation::Ode::PhysicSystem>() ;
+        CPPUNIT_ASSERT(physics) ;
+
+        const int steps_number = 100 ;
+        for(int i = 1 ; i <= steps_number ; ++i)
+        {
+          physics->simulate(0.1) ;
+          CPPUNIT_ASSERT_MESSAGE("distance = " + Kernel::toString(ship1->getTrait<Model::Positioned>()->getPosition().calculateDistance(ship2->getTrait<Model::Positioned>()->getPosition()).Meter()) +
+                                 "radius = " + Kernel::toString(ship1->getTrait<Model::Sized>()->getRadius().Meter()),
+                                 ship1->getTrait<Model::Positioned>()->getPosition().calculateDistance(ship2->getTrait<Model::Positioned>()->getPosition()) >= 1.5 * ship1->getTrait<Model::Sized>()->getRadius()) ;
+          // no need to be "conservative" the bug was a clear interpenetration so we may still go down to less than 1
+        }
+      }
+
 
     }
   }

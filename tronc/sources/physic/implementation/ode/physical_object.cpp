@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007 Mathieu ROGER                                      *
+ *   Copyright (C) 2007-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -74,7 +74,7 @@ namespace ProjetUnivers
             m_body = new dBody() ;
             m_body->create(world->getWorld()->id()) ;
 
-            /// set the inital values :
+            /// set the initial values :
             updatePositioned() ;
             updateMobile() ;
             updateMassive() ;
@@ -164,16 +164,18 @@ namespace ProjetUnivers
         void PhysicalObject::updateMassive()
         {
           Model::Massive* massive = getObject()->getTrait<Model::Massive>() ;
-          CHECK(massive,"PhysicalObject::updateMassive no Massive trait") ;
           Model::Mass mass = massive->getMass() ;
 
+          InternalMessage("Physic","PhysicalObject::updateMassive mass="
+                                       + Kernel::toString(mass.Kilogram())) ;
+
           dMass ode_mass ;
-          m_body->getMass(&ode_mass) ;
-          ode_mass.adjust(mass.Kilogram()) ;
+          dMassSetSphereTotal(&ode_mass,mass.Kilogram(),1) ;
+          m_body->setMass(&ode_mass) ;
 //
 //          std::cout << "mass = " << ode_mass.mass << std::endl ;
 
-          m_body->setMass(&ode_mass) ;
+//          m_body->setMass(&ode_mass) ;
 
         }
 
@@ -322,6 +324,20 @@ namespace ProjetUnivers
 
           m_is_being_updated = false ;
         }
+
+        Model::Speed PhysicalObject::getSpeedAt(const Model::Position& position) const
+        {
+          dVector3 velocity_meter_per_second ;
+          dBodyGetPointVel(getBody()->id(),
+                           position.Meter().x,
+                           position.Meter().y,
+                           position.Meter().z,
+                           velocity_meter_per_second) ;
+
+          return Model::Speed::MeterPerSecond(velocity_meter_per_second[0],velocity_meter_per_second[1],velocity_meter_per_second[2]) ;
+
+        }
+
       }
     }
   }

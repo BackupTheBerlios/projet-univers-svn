@@ -70,7 +70,7 @@ namespace ProjetUnivers {
 
         InternalMessage("Model","built ship") ;
 
-        ship->call("fire") ;
+        ship->call(Laser::Fire) ;
 
         InternalMessage("Model","fire") ;
         CPPUNIT_ASSERT(system->getDescendants<LaserBeam>().size()==1) ;
@@ -101,7 +101,7 @@ namespace ProjetUnivers {
 
         InternalMessage("Model","built ship") ;
 
-        ship->call("fire") ;
+        ship->call(Laser::Fire) ;
 
         InternalMessage("Model","fire") ;
         CPPUNIT_ASSERT(system->getDescendants<LaserBeam>().size()==1) ;

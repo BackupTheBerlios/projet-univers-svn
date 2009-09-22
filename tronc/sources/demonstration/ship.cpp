@@ -53,7 +53,8 @@ std::string getModelName()
 }
 
 /*
-  Load a ship and display it
+  Load a ship and display it allowing to test the xml configuration for that file
+  inputs are connected so the ship is flyable
 
 */
 int main()

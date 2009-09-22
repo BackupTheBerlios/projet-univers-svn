@@ -24,7 +24,7 @@ libphysic_la_LDFLAGS = -no-undefined
 libphysic_la_LDFLAGS += \
 $(SOURCES)/kernel/compilation/libkernel.la \
 $(SOURCES)/model/compilation/libmodel.la \
-$(ODE_LIBS) \
+$(libode_LIBS) \
 $(librlog_LIBS) \
 $(OGRE_LIBS)
 
@@ -61,7 +61,7 @@ libphysic.la \
 $(OIS_LIBS) \
 $(librlog_LIBS) \
 $(OGRE_LIBS) \
-$(ODE_LIBS) \
+$(libode_LIBS) \
 $(libXML_LIBS)
 
 memory_check : test_physic

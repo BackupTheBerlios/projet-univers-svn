@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -20,8 +20,13 @@
  ***************************************************************************/
 #include <model/throttle.h>
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
+
+    std::string Throttle::ChangeThrottle = "ChangeThrottle" ;
+    std::string Throttle::SetThrottle = "Throttle" ;
 
     RegisterTrait(Throttle) ;
       
@@ -79,8 +84,8 @@ namespace ProjetUnivers {
       notify() ;
     }
 
-    RegisterAxis("Throttle","Piloting",Throttle,set) ;
+    RegisterAxis(Throttle::SetThrottle,"Piloting",Throttle,set) ;
 
-    RegisterAxis("Change Throttle",Kernel::InternalGroup,Throttle,modify) ;
+    RegisterAxis(Throttle::ChangeThrottle,Kernel::InternalGroup,Throttle,modify) ;
   }
 }

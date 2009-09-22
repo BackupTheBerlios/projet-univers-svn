@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,14 +18,16 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_LASER_BEAM_H_
-#define PU_MODEL_LASER_BEAM_H_
+#pragma once
 
 #include <kernel/trait.h>
 #include <model/energy.h>
+#include <kernel/object_reference.h>
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
 
     /// For objects that are laser beams.
     class LaserBeam : public Kernel::Trait
@@ -33,7 +35,7 @@ namespace ProjetUnivers {
     public:
       
       /// Constructor.
-      LaserBeam() ;
+      LaserBeam(Kernel::Object* ship) ;
       
       /// Get the beam energy.
       /*!
@@ -41,9 +43,15 @@ namespace ProjetUnivers {
       */
       Energy getEnergy() const ;
       
+      /// Ship that fired the beam.
+      Kernel::Object* getFiringShip() const ;
+
+    private:
+
+      /// Ship that fired the beam.
+      Kernel::ObjectReference m_ship ;
+
     };
 
   }
 }
-
-#endif /*PU_MODEL_LASER_BEAM_H_*/

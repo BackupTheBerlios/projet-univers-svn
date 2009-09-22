@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007 Mathieu ROGER                                      *
+ *   Copyright (C) 2007-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -31,7 +31,8 @@ namespace ProjetUnivers
     {
 
       /// Collision tests.
-      class TestCollision : public CppUnit::TestFixture {
+      class TestCollision : public CppUnit::TestFixture
+      {
       protected:
       /*!
         @name Test methods
@@ -53,6 +54,10 @@ namespace ProjetUnivers
         /// Fire a beam against a ship
         void testFire() ;
 
+        void collisionEnergy() ;
+
+        void shipDoesNotGoThrough() ;
+
       // @}
       /*!
         @name Test registration
@@ -66,6 +71,8 @@ namespace ProjetUnivers
         CPPUNIT_TEST(testLaserBeamSolidCollision) ;
         CPPUNIT_TEST(testLaserBeamLaserBeamNoCollision) ;
         CPPUNIT_TEST(testFire) ;
+        CPPUNIT_TEST(collisionEnergy) ;
+        CPPUNIT_TEST(shipDoesNotGoThrough) ;
 
         CPPUNIT_TEST_SUITE_END() ;
 

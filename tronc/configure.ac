@@ -47,12 +47,9 @@ AC_SUBST(librlog_CFLAGS)
 AC_SUBST(librlog_LIBS)
 
 # Check/config ODE
-AC_CHECK_HEADER([ode/ode.h],[haveode=yes],[haveode=no])
-if test "x$haveode" = xno; then
-	AC_MSG_ERROR("Error : you need libode-dev")
-else
-	AC_SUBST(ODE_LIBS, "-lode")
-fi
+PKG_CHECK_MODULES(libode, [ode >= 0.11])
+AC_SUBST(libode_CFLAGS)
+AC_SUBST(libode_LIBS)
 
 # check OpenAL
 PKG_CHECK_MODULES(openal, [openal >= 1.1])
@@ -68,7 +65,6 @@ AC_SUBST(efx_name,$efx)
 
 PKG_CHECK_MODULES(freealut, [freealut >= 1.1])
 AC_SUBST(freealut_LIBS)
-
 
 # check Ogg
 PKG_CHECK_MODULES(ogg, [ogg >= 1.1.3])
@@ -101,7 +97,7 @@ AC_SUBST(libXML_LIBS)
 AC_SUBST(libXML_CFLAGS)
 
 # Global c++ variable :
-PU_CXXFLAGS="$OGRE_CFLAGS $OIS_CFLAGS $librlog_CFLAGS $CEGUI_OGRE_CFLAGS $libXML_CFLAGS"
+PU_CXXFLAGS="$OGRE_CFLAGS $OIS_CFLAGS $librlog_CFLAGS $CEGUI_OGRE_CFLAGS $libXML_CFLAGS $libode_CFLAGS -DdNODEBUG"
 AC_SUBST(PU_CXXFLAGS)
 
 PU_WARNINGS="-W -Wall -Wconversion -Wshadow -Wwrite-strings"

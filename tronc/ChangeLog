@@ -1477,18 +1477,48 @@
   * Sound :
     - refactoring, centralised OpenAL source creation/destruction
     - sooner stream destruction 
+
+2009-09-22
+  * All : 
+    - removed magic constant command names
+  * Laser : 
+    - getting rid of laser beam/own ship touching by adding the ship id on the 
+      beam
+    - corrected a bug : ship heading to another passed through the not moving ship 
+    - migration to ode 0.11 on debian
+
+  * Physics : 
+    - add energy collision on the collision (preliminary version)
         
 in commit
 --------
    
-   
+        
 in progress
 -----------
+    
+        
 todo
 ----
+  * All : 
+    - remove magic constant for config files 
+    
+  * Sound : 
+    - exception floating point
+    - too many sources (we should limit sources number) on my dev 
+      machine : linear time on test up to 50 ships and time crashes at 60...
+      valgring shows 50% time on mix sound for 50... 
+      max number of source counting shows alarming numbers : ~4000 for a simple 
+      situation (collisions)
+    - distance/intensity culling : any sound over a given distance is not played
+    - event limitation : a pool of sources of given size, with circular assignment
+  
  
   * Model : 
     - selected target going out of range will not be unselected
+
+  * Display : 
+    - change selection printing (change color of ideal target)
 
   * Continuous integration :
     - migrate to ant
@@ -1498,18 +1528,6 @@ todo
     - use valgrind for leaks (a lot on kernel tests, try whithout -O2) + invalid access
       invalid access should crash make check (xml output and a check for Invalid Acess)
     - add benchmark testing
-
-  * Sound : 
-    - exception floating point
-    - probably too many sources (we should limit sources number) one my dev 
-      machine : linear time on test up to 50 ships and time crashes at 60...
-      valgring shows 50% time on mix sound for 50... 
-      max number of source counting shows alarming numbers : ~4000 for a simple 
-      situation (collisions ?)
-    - distance culling ?
-
-  * Display : 
-    - change selection printing (change color of ideal target)
 
   * AI : 
     - issues with ship fleeing : when two ships aim at each other... they flee

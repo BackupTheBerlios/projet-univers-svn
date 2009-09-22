@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -25,6 +25,10 @@ namespace ProjetUnivers
 {
   namespace Model
   {
+
+    std::string Stick::Yaw = "Yaw" ;
+    std::string Stick::Pitch = "Pitch" ;
+    std::string Stick::Roll = "Roll" ;
 
     RegisterTrait(Stick) ;
 
@@ -161,9 +165,9 @@ namespace ProjetUnivers
       return m_y ;
     }
 
-    RegisterAxis("Yaw","Piloting",Stick,setX) ;
-    RegisterAxis("Pitch","Piloting",Stick,setY) ;
-    RegisterAxis("Roll","Piloting",Stick,setZ) ;
+    RegisterAxis(Stick::Yaw,"Piloting",Stick,setX) ;
+    RegisterAxis(Stick::Pitch,"Piloting",Stick,setY) ;
+    RegisterAxis(Stick::Roll,"Piloting",Stick,setZ) ;
 
     void Stick::updateOrientation() const
     {

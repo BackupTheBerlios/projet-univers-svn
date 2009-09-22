@@ -44,9 +44,12 @@
 
 CPPUNIT_TEST_SUITE_REGISTRATION(ProjetUnivers::Physic::Test::TestDragger) ;
 
-namespace ProjetUnivers {
-  namespace Physic {
-    namespace Test {
+namespace ProjetUnivers
+{
+  namespace Physic
+  {
+    namespace Test
+    {
 
       namespace
       {
@@ -92,7 +95,7 @@ namespace ProjetUnivers {
 
         CPPUNIT_ASSERT(ship->getModel()) ;
 
-        /// simulation during enought time seconds ...
+        /// simulation during enough time seconds ...
         const int steps_number = 100 ;
         for(int i = 1 ; i <= steps_number ; ++i)
         {

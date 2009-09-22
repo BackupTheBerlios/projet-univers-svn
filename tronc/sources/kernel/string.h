@@ -30,6 +30,9 @@ namespace ProjetUnivers
     /// Convert numeric to string.
     std::string toString(const float&) ;
 
+    /// Convert numeric to string.
+    std::string toString(const double&) ;
+
     /// Convert integer to string.
     std::string toString(const int&) ;
 

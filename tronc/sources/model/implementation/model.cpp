@@ -290,24 +290,16 @@ namespace ProjetUnivers {
         Kernel::ObjectReference ship1 ;
         {
           Kernel::Object* ship = Model::createShip(system) ;
-          ship->getTrait<Model::Positioned>()->setPosition(Model::Position::Meter(-500,0,-1000)) ;
-          ship->getTrait<Model::Oriented>()->setOrientation(Model::Orientation(Ogre::Quaternion(Ogre::Degree(90),Ogre::Vector3::UNIT_Y))) ;
           ship->addTrait(new Model::Transponder(team1)) ;
-          ship->destroyTrait(ship->getTrait<Model::Destroyable>()) ;
-          Kernel::Object* agent = Model::createAI(ship) ;
-          agent->getTrait<Model::WithObjectives>()->addObjective(Model::Objective::attackAllEnemies()) ;
           ship1 = ship ;
         }
 
         Kernel::ObjectReference ship2 ;
         {
           Kernel::Object* ship = Model::createShip(system) ;
-          ship->getTrait<Model::Positioned>()->setPosition(Model::Position::Meter(500,0,-1000)) ;
-          ship->getTrait<Model::Oriented>()->setOrientation(Model::Orientation(Ogre::Quaternion(Ogre::Degree(-90),Ogre::Vector3::UNIT_Y))) ;
+          ship->getTrait<Model::Positioned>()->setPosition(Model::Position::Meter(0,0,500)) ;
           ship->addTrait(new Model::Transponder(team2)) ;
-          ship->destroyTrait(ship->getTrait<Model::Destroyable>()) ;
-          Kernel::Object* agent = Model::createAI(ship) ;
-          agent->getTrait<Model::WithObjectives>()->addObjective(Model::Objective::attackAllEnemies()) ;
+          ship->getChild<Model::Throttle>()->set(100) ;
           ship2 = ship ;
         }
 
@@ -317,8 +309,8 @@ namespace ProjetUnivers {
           InternalMessage("Model","building observer...") ;
           Kernel::Object* observer = system->createObject() ;
           observer->addTrait(new Positioned(Position::Meter(0,
-                                                             0,
-                                                             0))) ;
+                                                            500,
+                                                            0))) ;
 
           // targeting system
           Kernel::Object* computer = observer->createObject() ;
@@ -342,7 +334,7 @@ namespace ProjetUnivers {
           ShootingHelper::connect(shooting_helper,computer,laser_observer) ;
 
 
-          observer->addTrait(new Oriented()) ;
+          observer->addTrait(new Oriented(Model::Orientation(Ogre::Quaternion(Ogre::Degree(-90),Ogre::Vector3::UNIT_X)))) ;
           observer->addTrait(new Observer()) ;
           observer->addTrait(new Player()) ;
           observer->addTrait(new Active()) ;

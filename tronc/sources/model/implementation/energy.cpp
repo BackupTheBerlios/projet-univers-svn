@@ -24,6 +24,8 @@
 
 #include <model/energy.h>
 #include <model/exception.h>
+#include <model/mass.h>
+#include <model/speed.h>
 
 namespace ProjetUnivers {
   namespace Model {
@@ -37,6 +39,14 @@ namespace ProjetUnivers {
     : m_value(_energie.m_value), 
       m_unit(_energie.m_unit)
     {}
+
+    Energy::Energy(const Mass& mass,const Speed& speed)
+    : m_value(0),
+      m_unit(_Joule)
+    {
+      float meter_per_second = speed.MeterPerSecond().length() ;
+      m_value = 0.5 * mass.Kilogram() * meter_per_second * meter_per_second ;
+    }
 
     Energy Energy::Joule(const float& _joules)
     {

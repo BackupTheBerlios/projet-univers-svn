@@ -26,6 +26,8 @@
 
 #include <physic/implementation/ode/ode.h>
 #include <physic/implementation/ode/collideable.h>
+#include <physic/implementation/ode/laser_beam.h>
+#include <model/laser_beam.h>
 
 namespace ProjetUnivers
 {
@@ -36,17 +38,35 @@ namespace ProjetUnivers
       namespace Ode
       {
 
-        bool Collideable::canCollide(const dGeomID& g1,const dGeomID& g2)
+        bool Collideable::canCollide(const dGeomID& geometry1,const dGeomID& geometry2)
         {
-          unsigned long collision1 = dGeomGetCollideBits(g1) ;
-          unsigned long collision2 = dGeomGetCollideBits(g2) ;
+          unsigned long collision1 = dGeomGetCollideBits(geometry1) ;
+          unsigned long collision2 = dGeomGetCollideBits(geometry2) ;
 
           if (collision1 == ApproximatedSolid && collision2 == ApproximatedSolid)
+          {
             return true ;
-          if ((collision1 == Solid && collision2 == Laser) ||
-              (collision2 == Solid && collision1 == Laser))
-            return true ;
+          }
 
+          if (collision1 == Solid && collision2 == Laser)
+          {
+            Collideable* collideable1 = static_cast<Collideable*>(dGeomGetData(geometry1)) ;
+            LaserBeam* laser_beam = dynamic_cast<LaserBeam*>((Collideable*)dGeomGetData(geometry2)) ;
+            if (!collideable1 || !laser_beam)
+              throw std::exception() ;
+
+            return laser_beam->getTrait<Model::LaserBeam>()->getFiringShip() != collideable1->getControler()->getObject() ;
+          }
+
+          if (collision2 == Solid && collision1 == Laser)
+          {
+            Collideable* collideable2 = static_cast<Collideable*>(dGeomGetData(geometry2)) ;
+            Ode::LaserBeam* laser_beam = dynamic_cast<Ode::LaserBeam*>((Collideable*)dGeomGetData(geometry1)) ;
+            if (!collideable2 || !laser_beam)
+              throw std::exception() ;
+
+            return laser_beam->getTrait<Model::LaserBeam>()->getFiringShip() != collideable2->getControler()->getObject() ;
+          }
           return false ;
         }
 
@@ -61,7 +81,7 @@ namespace ProjetUnivers
           */
           PhysicalObject* body = getControler()->getControler<PhysicalObject>() ;
 
-          // precondition : physical object is initialised
+          // precondition : physical object is initialized
 
           if (body)
           {

@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,14 +18,16 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_COLLISION_H_
-#define PU_MODEL_COLLISION_H_
+#pragma once
 
 #include <kernel/trait.h>
 #include <kernel/object_reference.h>
+#include <model/energy.h>
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
     
     /// For collision.
     /*!
@@ -37,21 +39,25 @@ namespace ProjetUnivers {
 
       /// Constructs with the two colliding objects.
       Collision(Kernel::Object*,
-                Kernel::Object*) ;
+                Kernel::Object*,
+                const Energy&) ;
       
-      /// Access to collisionning objects.
+      /// Access to colliding objects.
       Kernel::Object* getObject1() const ;
       Kernel::Object* getObject2() const ;
-      
+
+      const Energy& getEnergy() const ;
+
     private:
       
       /// Objects involved in the collision.
       Kernel::ObjectReference m_object1 ;
       Kernel::ObjectReference m_object2 ;
+
+      /// Intensity of the collision
+      Energy m_energy ;
     };
     
     
   }
 }
-
-#endif /*PU_MODEL_COLLISION_H_*/

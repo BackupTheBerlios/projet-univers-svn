@@ -40,7 +40,12 @@ using namespace ProjetUnivers ;
 /*
   Test program for performances
 
-  places n ships each one in a different team and simulate during a period
+  places n ships each one in a different team and simulate during a given period
+
+  -n number of ships
+  -t duration of simulation
+
+  at the end display fps
 
 */
 int main(int argc,char** argv)

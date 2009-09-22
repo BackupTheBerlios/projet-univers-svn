@@ -35,10 +35,14 @@
 
 #include <model/laser.h>
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
 
-    RegisterCommand("fire",Laser,fire) ;
+    std::string Laser::Fire = "Fire" ;
+
+    RegisterCommand(Laser::Fire,Laser,fire) ;
 
     RegisterTrait(Laser) ;
 
@@ -115,10 +119,10 @@ namespace ProjetUnivers {
       if (world && positioned && oriented)
       {
         InternalMessage("Model","firing") ;
-        // create a laserbeam object
+        // create a laser beam object
         Kernel::Object* beam = world->getObject()->createObject() ;
 
-        // should apply local rotation to have correct position decal..
+        // should apply local rotation to have correct local position..
         Orientation orientation_of_laser = oriented->getOrientation(world->getObject()) ;
 
         Position position_of_the_beam =
@@ -139,14 +143,7 @@ namespace ProjetUnivers {
         beam->addTrait(new Mobile(speed)) ;
         beam->addTrait(new Massive(Mass(m_laser_beam_energy,speed))) ;
 
-        /*!
-          Here we have a limitation :
-          laserbeam collision need to be applied on a physical object
-          thus the beam need to be a physical object before being a beam
-
-          @todo use a deduced trait in physics on PhysicalObject and LaserBeam
-        */
-        beam->addTrait(new LaserBeam()) ;
+        beam->addTrait(new LaserBeam(object->getObject())) ;
         beam->addTrait(new WithLifetime(getLaserBeamLifeDuration())) ;
 
         // shot

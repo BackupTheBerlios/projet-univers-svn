@@ -18,13 +18,17 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_ENERGY_H_
-#define PU_MODEL_ENERGY_H_
+#pragma once
 
 #include <kernel/reader.h>
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
+
+    class Mass ;
+    class Speed ;
 
     /// An amount of energy.
     /*!
@@ -44,6 +48,9 @@ namespace ProjetUnivers {
 
       /// Copy constructor.
       Energy(const Energy&) ;
+
+      /// Kinetic energy from speed and mass
+      Energy(const Mass&,const Speed&) ;
 
       /// Joules to energy.
       static Energy Joule(const float& _joules) ;
@@ -115,7 +122,3 @@ namespace ProjetUnivers {
     };
   }
 }
-
-
-
-#endif

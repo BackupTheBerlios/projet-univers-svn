@@ -18,15 +18,16 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_MASS_H_
-#define PU_MODEL_MASS_H_
+#pragma once
 
 #include <kernel/reader.h>
 #include <model/energy.h>
 #include <model/speed.h>
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
 
     /// A mass.
     /*!
@@ -45,10 +46,10 @@ namespace ProjetUnivers {
       /// Null mass.
       Mass() ;
 
-      /// copy Ccnstructor.
+      /// copy constructor.
       Mass(const Mass&) ;
       
-      /// Mass of a moving object, energy equals cinetic energy.
+      /// Mass of a moving object, energy equals kinetics energy.
       Mass(const Energy&,const Speed&) ;
 
       /// Build in kilograms.
@@ -98,7 +99,3 @@ namespace ProjetUnivers {
     };
   }
 }
-
-
-
-#endif

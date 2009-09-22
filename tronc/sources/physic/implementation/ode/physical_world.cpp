@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007 Mathieu ROGER                                      *
+ *   Copyright (C) 2007-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -34,6 +34,9 @@
 #include <physic/implementation/ode/ode.h>
 #include <physic/implementation/ode/collideable.h>
 #include <physic/implementation/ode/physical_world.h>
+#include <model/mobile.h>
+#include <model/energy.h>
+#include <model/massive.h>
 
 namespace ProjetUnivers
 {
@@ -60,7 +63,6 @@ namespace ProjetUnivers
           dWorldSetCFM(m_world->id(),Kernel::Parameters::getValue<float>("Physic","WorldCFM")) ;
           dWorldSetERP(m_world->id(),Kernel::Parameters::getValue<float>("Physic","WorldERP")) ;
           dWorldSetContactSurfaceLayer(m_world->id(),Kernel::Parameters::getValue<float>("Physic","WorldContactSurfaceLayer")) ;
-          dWorldSetContactMaxCorrectingVel(m_world->id(),Kernel::Parameters::getValue<float>("Physic","WorldContactMaxCorrectingVelocity")) ;
 
           m_collision_space = new dSimpleSpace(0) ;
 
@@ -104,46 +106,42 @@ namespace ProjetUnivers
           return m_collision_space ;
         }
 
-        void PhysicalWorld::onSpaceCollision(void*   i_world,
-                                             dGeomID i_space1,
-                                             dGeomID i_space2)
+        void PhysicalWorld::onSpaceCollision(void*   world,
+                                             dGeomID space1,
+                                             dGeomID space2)
         {
-          // due to organisation i_space1 and i_space2 are spaces.
-          dSpaceCollide2(i_space1,
-                         i_space2,
-                         i_world,
+          // due to organization space1 and space2 are spaces.
+          dSpaceCollide2(space1,
+                         space2,
+                         world,
                          PhysicalWorld::onGeometryCollision) ;
         }
 
-        void PhysicalWorld::onGeometryCollision(void*   i_world,
-                                                dGeomID i_geometry1,
-                                                dGeomID i_geometry2)
+        void PhysicalWorld::onGeometryCollision(void*   parameter,
+                                                dGeomID geometry1,
+                                                dGeomID geometry2)
         {
-          // due to organisation i_geometry1 and i_geometry2 are not spaces.
+          // due to organization geometry1 and geometry2 are not spaces.
           InternalMessage("Physic","PhysicalWorld::onGeometryCollision entering") ;
 
-          if (! Collideable::canCollide(i_geometry1,i_geometry2))
+          if (! Collideable::canCollide(geometry1,geometry2))
             return ;
 
-          // i_world is in fact a world.
-          PhysicalWorld* world = static_cast<PhysicalWorld*>(i_world) ;
+          // parameter is in fact a world.
+          PhysicalWorld* world = static_cast<PhysicalWorld*>(parameter) ;
 
           if (!world)
           {
             return ;
           }
 
-          // retreive usefull objects
-          Collideable* collideable1
-            = static_cast<Collideable*>(dGeomGetData(i_geometry1)) ;
-          Collideable* collideable2
-            = static_cast<Collideable*>(dGeomGetData(i_geometry2)) ;
-          PhysicalObject* object1
-            = collideable1 ? collideable1->getControler()->getControler<PhysicalObject>()
-                           : NULL ;
-          PhysicalObject* object2
-            = collideable2 ? collideable2->getControler()->getControler<PhysicalObject>()
-                           : NULL ;
+          // Retrieve useful objects
+          Collideable* collideable1 = static_cast<Collideable*>(dGeomGetData(geometry1)) ;
+          Collideable* collideable2 = static_cast<Collideable*>(dGeomGetData(geometry2)) ;
+          PhysicalObject* object1 = collideable1 ? collideable1->getControler()->getControler<PhysicalObject>()
+                                                 : NULL ;
+          PhysicalObject* object2 = collideable2 ? collideable2->getControler()->getControler<PhysicalObject>()
+                                                 : NULL ;
 
           InternalMessage("Physic","PhysicalWorld::onGeometryCollision "
                           + (object1 ? Kernel::toString(object1->getObject()->getIdentifier()) : "no object1")
@@ -176,8 +174,8 @@ namespace ProjetUnivers
 
 
             // calculate contact points
-            int number_of_contacts = dCollide(i_geometry1,
-                                              i_geometry2,
+            int number_of_contacts = dCollide(geometry1,
+                                              geometry2,
                                               maximum_contact_points,
                                               contact_points,
                                               sizeof(dContactGeom)) ;
@@ -196,27 +194,23 @@ namespace ProjetUnivers
 
               // create contact joint
               dContact contact ;
-              contact.surface.mode = dContactSoftCFM|dContactSoftERP|dContactBounce ;
+              contact.surface.mode = dContactSoftCFM|dContactSoftERP|dContactBounce|dContactSlip1|dContactSlip2 ;
               contact.surface.mu = Kernel::Parameters::getValue<float>("Physic","ContactMu") ;
               contact.surface.mu2 = 0 ;
               contact.surface.bounce = Kernel::Parameters::getValue<float>("Physic","ContactBounce") ;
               contact.surface.bounce_vel = Kernel::Parameters::getValue<float>("Physic","ContactBounceVelocity") ;
-              contact.surface.soft_erp = 1 ;
-              contact.surface.soft_cfm = 1 ;
+              contact.surface.soft_erp = 0.5 ;
+              contact.surface.soft_cfm = 0.5 ;
               contact.surface.motion1 = 0 ;
               contact.surface.motion2 = 0 ;
-              contact.surface.slip1 = 0 ;
-              contact.surface.slip2 = 0 ;
+              contact.surface.slip1 = 0.5 ;
+              contact.surface.slip2 = 0.5 ;
               contact.geom = contact_points[contact_index] ;
-              contact.fdir1[0] = 0 ;
-              contact.fdir1[1] = 0 ;
-              contact.fdir1[2] = 0 ;
-              contact.fdir1[3] = 0 ;
 
-              Ogre::Vector3 point(contact_points[contact_index].pos[0],
-                                  contact_points[contact_index].pos[1],
-                                  contact_points[contact_index].pos[2]) ;
-              Ogre::Vector3 v1 = point - object1_position ;
+              Ogre::Vector3 contact_point(contact_points[contact_index].pos[0],
+                                          contact_points[contact_index].pos[1],
+                                          contact_points[contact_index].pos[2]) ;
+              Ogre::Vector3 v1 = contact_point - object1_position ;
 
               Ogre::Vector3 normal(contact_points[contact_index].normal[0],
                                    contact_points[contact_index].normal[1],
@@ -224,9 +218,13 @@ namespace ProjetUnivers
 
               float dot1 = v1.dotProduct(normal) ;
 
-              if (dot1 < 0)
+              // magic ... to avoid contacts points that stick objects together
+              /*
+                Not symmetric
+              */
+              if (dot1 < 0 && contact_points[contact_index].depth > 0)
               {
-                average_contact_point += point ;
+                average_contact_point += contact_point ;
 
                 dJointID joint_id = dJointCreateContact(world->m_world->id(),
                                                         world->m_contact_group,
@@ -240,20 +238,27 @@ namespace ProjetUnivers
               }
             }
 
+
             if (real_number_of_contact_points != 0)
             {
               average_contact_point = average_contact_point / real_number_of_contact_points ;
+
+              Model::Position contact_point(Model::Position::Meter(average_contact_point.x,
+                                                                   average_contact_point.y,
+                                                                   average_contact_point.z)) ;
+              // calculate energy of collision
+              // get the relative speed at collision point
+              Model::Speed relative_speed(object1->getSpeedAt(contact_point)-object2->getSpeedAt(contact_point)) ;
+              // energy is 1/2 (m1+m2) v²
+              Model::Energy collision_energy(object1->getTrait<Model::Massive>()->getMass()+object2->getTrait<Model::Massive>()->getMass(),relative_speed) ;
 
               // create a collision object
               Kernel::Object* collision_object = world->getObject()->createObject() ;
               collision_object->addTrait(new Model::Collision(
                                      collideable1->getControler()->getObject(),
-                                     collideable2->getControler()->getObject())) ;
-              collision_object->addTrait(new Model::Positioned(
-                                           Model::Position::Meter(
-                                               average_contact_point.x,
-                                               average_contact_point.y,
-                                               average_contact_point.z))) ;
+                                     collideable2->getControler()->getObject(),
+                                     collision_energy)) ;
+              collision_object->addTrait(new Model::Positioned(contact_point)) ;
             }
 
           }
@@ -264,7 +269,7 @@ namespace ProjetUnivers
           m_has_been_simulated = false ;
         }
 
-        void PhysicalWorld::simulate(const float& i_seconds)
+        void PhysicalWorld::simulate(const float& seconds)
         {
           InternalMessage("Physic","Physic::PhysicalWorld::simulate " +
                                    Kernel::toString(getObject()->getIdentifier()) +
@@ -291,7 +296,7 @@ namespace ProjetUnivers
           // physical part
           if (m_world)
           {
-            dWorldStep(m_world->id(),i_seconds) ;
+            dWorldStep(m_world->id(),seconds) ;
           }
 
           dJointGroupEmpty(m_contact_group) ;

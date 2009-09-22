@@ -27,6 +27,7 @@
 
 #include <physic/implementation/ode/ode.h>
 #include <physic/implementation/ode/physic_system.h>
+#include <kernel/parameters.h>
 
 namespace ProjetUnivers
 {
@@ -42,7 +43,7 @@ namespace ProjetUnivers
         PhysicSystem::PhysicSystem(Kernel::Model* model)
         : Kernel::ControlerSet(model)
         {
-          setTimeStep(0.1) ;
+          setTimeStep(Kernel::Parameters::getValue<float>("Physic","Timestep",0.1)) ;
         }
         
         void PhysicSystem::onInit()

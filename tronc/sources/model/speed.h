@@ -57,7 +57,7 @@ namespace ProjetUnivers {
       /// Addition.
       Speed operator +(const Speed&) const ;
 
-      /// Substraction.
+      /// Subtraction.
       Speed operator -(const Speed&) const ;
       
       /// Multiplication.

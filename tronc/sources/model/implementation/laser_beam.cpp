@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -25,10 +25,13 @@
 
 #include <model/laser_beam.h>
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
       
-    LaserBeam::LaserBeam()
+    LaserBeam::LaserBeam(Kernel::Object* ship)
+    : m_ship(ship)
     {}
   
     Energy LaserBeam::getEnergy() const
@@ -47,6 +50,11 @@ namespace ProjetUnivers {
       {
         return Energy() ;
       }
+    }
+
+    Kernel::Object* LaserBeam::getFiringShip() const
+    {
+      return m_ship ;
     }
   }
 }

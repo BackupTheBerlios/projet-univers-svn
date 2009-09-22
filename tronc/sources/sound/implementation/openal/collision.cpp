@@ -32,9 +32,9 @@ namespace ProjetUnivers
       namespace OpenAL
       {
 
-        RegisterView(OpenAL::Collision, 
-                     Implementation::Collision, 
-                     OpenAL::RealWorldViewPoint) ;
+//        RegisterView(OpenAL::Collision,
+//                     Implementation::Collision,
+//                     OpenAL::RealWorldViewPoint) ;
              
         std::string Collision::getSoundFileName() const
         {

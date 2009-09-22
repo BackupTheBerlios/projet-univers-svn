@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007 Mathieu ROGER                                      *
+ *   Copyright (C) 2007-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -27,6 +27,8 @@
 
 #include <model/physical_object.h>
 #include <model/physical_world.h>
+#include <model/speed.h>
+#include <model/position.h>
 
 #include <physic/implementation/ode/physic_system.h>
 
@@ -62,10 +64,15 @@ namespace ProjetUnivers
           /// Updates model according to simulation.
           void simulate(const float&) ;
           
+          /// Get the speed at a given point.
+          /*!
+            @param position position relative to the world
+          */
+          Model::Speed getSpeedAt(const Model::Position& position) const ;
 
         protected:
         
-          /// Called after the view is created on a initialised viewpoint.
+          /// Called after the view is created on a initialized viewpoint.
           virtual void onInit() ;
           
           /// Called just before the view is destroyed.

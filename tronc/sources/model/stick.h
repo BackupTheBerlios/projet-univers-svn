@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -35,13 +35,25 @@ namespace ProjetUnivers
 
     /// For objects that are a stick.
     /*!
-      rigth is positive X axis
+      Right is positive X axis
       up is positive y axis
       z axis is for roll
     */
     class Stick : public Oriented
     {
     public:
+    /*!
+      @name Operations Names
+
+      Meant to be called on Object, @see Object::call().
+    */
+    // @{
+
+      static std::string Yaw ;
+      static std::string Pitch ;
+      static std::string Roll ;
+
+    // @}
 
       /// Constructor.
       Stick() ;

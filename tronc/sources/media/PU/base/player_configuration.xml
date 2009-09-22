@@ -17,7 +17,7 @@
    <Mapping command="Select Previous Target">
     <Key number="25"/>
    </Mapping>
-   <Mapping command="fire">
+   <Mapping command="Fire">
     <JoystickButton number="0"/>
    </Mapping>
    <Mapping command="Pitch">

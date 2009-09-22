@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -76,7 +76,7 @@ namespace ProjetUnivers {
 
         InternalMessage("Model","Model::TestLogic::testLaserBeamDisappearing built ship") ;
 
-        ship->call("fire") ;
+        ship->call(Laser::Fire) ;
 
         InternalMessage("Model","Model::TestLogic::testLaserBeamDisappearing fire") ;
 
@@ -146,17 +146,19 @@ namespace ProjetUnivers {
         Destroyable* destroyable = new Destroyable(Model::Energy::Joule(1)) ;
         ship->addTrait(destroyable) ;
 
+        Kernel::Object* firing_ship = system->createObject() ;
+
         Kernel::Object* beam = system->createObject() ;
-        beam->addTrait(new LaserBeam()) ;
+        beam->addTrait(new LaserBeam(firing_ship)) ;
         beam->addTrait(new Mobile(Speed::MeterPerSecond(1,0,0))) ;
         beam->addTrait(new Massive(Mass::Kilogram(1))) ;
 
         // a collision
         Kernel::Object* collision = system->createObject() ;
-        collision->addTrait(new Collision(beam,ship)) ;
+        collision->addTrait(new Collision(beam,ship,Energy::Joule(1))) ;
         collision->addTrait(new Positioned()) ;
 
-        // simulate Logic : destroyable should be at 50%
+        // simulate Logic : destructible should be at 50%
         model->update(1) ;
 
         CPPUNIT_ASSERT_DOUBLES_EQUAL(0.5,ship->getTrait<Destroyable>()->getLife(),0.1) ;

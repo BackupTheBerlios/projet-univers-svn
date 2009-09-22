@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007 Mathieu ROGER                                      *
+ *   Copyright (C) 2007-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -33,8 +33,10 @@
 
 CPPUNIT_TEST_SUITE_REGISTRATION(ProjetUnivers::Physic::Test::TestODE) ;
 
-namespace ProjetUnivers {
-  namespace Physic {
+namespace ProjetUnivers
+{
+  namespace Physic
+  {
 
     using namespace Implementation::Ode ;
 
@@ -55,6 +57,7 @@ namespace ProjetUnivers {
 
       void TestODE::testTwoWorlds()
       {
+        InternalMessage("Physic","Physic::Test::TestODE::testTwoWorlds Entering") ;
 //        std::cout << std::endl ;
 
         std::auto_ptr<dWorld> world1(new dWorld()) ;
@@ -87,6 +90,7 @@ namespace ProjetUnivers {
 
       void TestODE::testTrimesh()
       {
+        InternalMessage("Physic","Physic::Test::TestODE::testTrimesh Entering") ;
         dInitODE();
 
         std::auto_ptr<dWorld> world(new dWorld()) ;
@@ -142,35 +146,16 @@ namespace ProjetUnivers {
         dGeomSetData(TriMesh, Data) ;
 
         dMass mass ;
-        body->getMass(&mass) ;
-
-//        std::cout << "masse avant " << printMass(mass) << std::endl ;
+        mass.setSphere(1,1) ;
+        mass.adjust(1) ;
+        body->setMass(&mass) ;
 
         dGeomSetBody(TriMesh,body->id()) ;
 
-        body->getMass(&mass) ;
-
-//        std::cout << "masse apres " << printMass(mass) << std::endl ;
-
-        dMassSetTrimesh(&mass,1,TriMesh) ;
-        dMassAdjust(&mass,1) ;
-        dBodySetMass(body->id(),&mass) ;
-
-//        std::cout << "masse " << printMass(mass) << std::endl ;
-
         body->setPosition(100,100,100) ;
-        body->getMass(&mass) ;
-//        std::cout << "masse " << printMass(mass) << std::endl ;
-
-//        dGeomSetPosition(TriMesh, 0, 0, 0);
-//        dMatrix3 Rotation;
-//        dRFromAxisAndAngle(Rotation, 1, 0, 0, M_PI / 2);
-//        dGeomSetRotation(TriMesh, Rotation);
 
         dReal* aabb = new dReal[6] ;
         dGeomGetAABB(TriMesh,aabb) ;
-
-        delete[] aabb ;
       }
 
       void onGeometryCollision(void*   i_world,
@@ -4002,6 +3987,7 @@ namespace ProjetUnivers {
 
       void TestODE::testTrimeshCubeCollisionBasic()
       {
+        InternalMessage("Physic","Physic::Test::TestODE::testTrimeshCubeCollisionBasic Entering") ;
 
         dInitODE() ;
         dWorldID world = dWorldCreate() ;
@@ -4009,7 +3995,7 @@ namespace ProjetUnivers {
         int VertexCount = 24 ;
         int IndexCount = 36 ;
         dVector3 vertex[VertexCount] ;
-        int indices[IndexCount] ;
+        dTriIndex indices[IndexCount] ;
 
         vertex[0][0]=1;
         vertex[0][1]=1;
@@ -4180,6 +4166,7 @@ namespace ProjetUnivers {
 
       void TestODE::testCubeCubeCollision()
       {
+        InternalMessage("Physic","Physic::Test::TestODE::testCubeCubeCollision Entering") ;
         dInitODE();
 
         dSpaceID space = dSimpleSpaceCreate(0) ;
@@ -4201,6 +4188,7 @@ namespace ProjetUnivers {
 
       void TestODE::testTrimeshInertia()
       {
+        InternalMessage("Physic","Physic::Test::TestODE::testTrimeshInertia Entering") ;
         Model::Mesh mesh("test_ship.mesh") ;
 
         std::vector< ::Ogre::Vector3> vertices ;

@@ -80,8 +80,7 @@ namespace ProjetUnivers
         listener->addTrait(new Model::Mobile());
 
         Kernel::Object* collision = system->createObject() ;
-        collision->addTrait(new Model::Collision(system,
-            listener)) ;
+        collision->addTrait(new Model::Collision(system,listener,Model::Energy::Joule(1))) ;
         collision->addTrait(new Model::Positioned(Model::Position::Meter(10,10,10))) ;
 
         Kernel::Timer timer;
@@ -120,7 +119,7 @@ namespace ProjetUnivers
         listener->addTrait(new Model::Mobile());
 
         Kernel::Object* collision = system->createObject() ;
-        collision->addTrait(new Model::Collision(system,listener)) ;
+        collision->addTrait(new Model::Collision(system,listener,Model::Energy::Joule(1))) ;
         collision->addTrait(new Model::Positioned(Model::Position::Meter(0,0,100))) ;
 
         Kernel::Timer timer;

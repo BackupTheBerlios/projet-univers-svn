@@ -34,6 +34,15 @@ namespace ProjetUnivers
       return str ;  
     }
 
+    std::string toString(const double& number)
+    {
+      std::stringstream ss ;
+      std::string str ;
+      ss << number ;
+      ss >> str ;
+      return str ;
+    }
+
     std::string toString(const int& number)
     {
       std::stringstream ss ;

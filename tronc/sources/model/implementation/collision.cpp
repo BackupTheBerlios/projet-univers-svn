@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -22,14 +22,18 @@
 
 #include <model/collision.h>
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
     
       Collision::Collision(Kernel::Object* object1,
-                           Kernel::Object* object2)
+                           Kernel::Object* object2,
+                           const Energy& energy)
       : Kernel::Trait(),
         m_object1(object1),
-        m_object2(object2)
+        m_object2(object2),
+        m_energy(energy)
       {}
 
       Kernel::Object* Collision::getObject1() const
@@ -40,6 +44,11 @@ namespace ProjetUnivers {
       Kernel::Object* Collision::getObject2() const
       {
         return m_object2 ;
+      }
+
+      const Energy& Collision::getEnergy() const
+      {
+        return m_energy ;
       }
     
   }

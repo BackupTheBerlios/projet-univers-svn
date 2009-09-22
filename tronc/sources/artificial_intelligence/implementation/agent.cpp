@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2008 Mathieu ROGER                                      *
+ *   Copyright (C) 2008-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -27,10 +27,13 @@
 #include <model/physical_world.h>
 #include <model/with_objectives.h>
 #include <model/targeting_system.h>
+#include <model/has_in_line_of_sight.h>
+#include <model/stick.h>
+#include <model/laser.h>
+#include <model/throttle.h>
 #include <artificial_intelligence/implementation/steering_behaviour.h>
 #include <artificial_intelligence/implementation/agent.h>
 #include <artificial_intelligence/implementation/with_vehicle_controler.h>
-#include <model/has_in_line_of_sight.h>
 
 namespace ProjetUnivers
 {
@@ -151,7 +154,7 @@ namespace ProjetUnivers
             if (m_target && isShootable(m_target->getObject()))
             {
               InternalMessage("Agent","fire") ;
-              getObject()->call("fire") ;
+              getObject()->call(Model::Laser::Fire) ;
             }
             break ;
           }
@@ -297,9 +300,9 @@ namespace ProjetUnivers
         InternalMessage("Agent","applyied Y=" + Kernel::toString(float(m_previous_Y))) ;
         InternalMessage("Agent","applyied thottle=" + Kernel::toString(float(m_delta_throttle))) ;
 
-        getObject()->call("Yaw",int(m_previous_X)) ;
-        getObject()->call("Pitch",int(m_previous_Y)) ;
-        getObject()->call("Change Throttle",int(m_delta_throttle)) ;
+        getObject()->call(Model::Stick::Yaw,int(m_previous_X)) ;
+        getObject()->call(Model::Stick::Pitch,int(m_previous_Y)) ;
+        getObject()->call(Model::Throttle::ChangeThrottle,int(m_delta_throttle)) ;
       }
 
       Kernel::Object* Agent::getTargetingSystem() const

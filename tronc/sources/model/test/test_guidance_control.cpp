@@ -147,20 +147,20 @@ namespace ProjetUnivers
         connectControlerGuidanceSystem(guidance_control,guidance_system) ;
 
         // 100 on yaw means go rigth
-        stick->call("Yaw",100) ;
+        stick->call(Stick::Yaw,100) ;
         stick->getTrait<Stick>()->updateOrientation() ;
         CPPUNIT_ASSERT(guidance_system->getTrait<GuidanceSystem>()->NewtonMeter().x == 0) ;
         CPPUNIT_ASSERT(guidance_system->getTrait<GuidanceSystem>()->NewtonMeter().z == 0) ;
         CPPUNIT_ASSERT(guidance_system->getTrait<GuidanceSystem>()->NewtonMeter().y < 0) ;
 
-        stick->call("Yaw",0) ;
+        stick->call(Stick::Yaw,0) ;
         stick->getTrait<Stick>()->updateOrientation() ;
         CPPUNIT_ASSERT(guidance_system->getTrait<GuidanceSystem>()->NewtonMeter().x == 0) ;
         CPPUNIT_ASSERT(guidance_system->getTrait<GuidanceSystem>()->NewtonMeter().z == 0) ;
         CPPUNIT_ASSERT(guidance_system->getTrait<GuidanceSystem>()->NewtonMeter().y == 0) ;
 
-        // 100 on pitch measn go down
-        stick->call("Pitch",100) ;
+        // 100 on pitch means go down
+        stick->call(Stick::Pitch,100) ;
         stick->getTrait<Stick>()->updateOrientation() ;
         CPPUNIT_ASSERT(guidance_system->getTrait<GuidanceSystem>()->NewtonMeter().x < 0) ;
         CPPUNIT_ASSERT(guidance_system->getTrait<GuidanceSystem>()->NewtonMeter().z == 0) ;
