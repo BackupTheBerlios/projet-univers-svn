@@ -34,6 +34,8 @@
 #include <model/mobile.h>
 #include <model/engine.h>
 #include <model/force.h>
+#include <model/throttle.h>
+#include <model/active.h>
 
 #include <sound/sound.h>
 #include <sound/implementation/engine.h>
@@ -409,6 +411,99 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT_DOUBLES_EQUAL(expected_listener_position_x,listener_position_x,delta) ;
         CPPUNIT_ASSERT_DOUBLES_EQUAL(expected_listener_position_y,listener_position_y,delta) ;
         CPPUNIT_ASSERT_DOUBLES_EQUAL(expected_listener_position_z,listener_position_z,delta) ;
+      }
+
+      void TestMovingObject::closeObjectsArePlayed()
+      {
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model()) ;
+        model->init() ;
+
+        Kernel::Object* root = model->createObject() ;
+
+        Kernel::Object* universe = root->createObject() ;
+        universe->addTrait(new Model::Positioned()) ;
+        universe->setName("universe") ;
+
+        Kernel::Object* system = universe->createObject() ;
+        system->addTrait(new Model::Positioned()) ;
+        system->setName("system") ;
+
+        Kernel::Object* pilot = system->createObject() ;
+        pilot->addTrait(new Model::Listener()) ;
+        pilot->addTrait(new Model::Positioned()) ;
+        pilot->addTrait(new Model::Active()) ;
+
+        Kernel::Object* ship2 = Model::loadShip("test_ship",system) ;
+
+        Model::Positioned* ship2_positioned = ship2->getTrait<Model::Positioned>() ;
+        ship2_positioned->setPosition(Model::Position::Meter(0,0,200)) ;
+        ship2->getTrait<Model::Mobile>()->setSpeed(Model::Speed::MeterPerSecond(0,0,-50)) ;
+        Kernel::Timer global_timer ;
+        Kernel::Timer timer ;
+
+        std::set<Model::Throttle*> throttles = ship2->getChildren<Model::Throttle>() ;
+
+        (*throttles.begin())->set(100) ;
+
+        Model::Engine* engine = ship2->getChild<Model::Engine>() ;
+        CPPUNIT_ASSERT(engine) ;
+        Implementation::OpenAL::Engine* engine_sound = engine->getObject()->getView<Implementation::OpenAL::Engine>(model->getViewPoint<Implementation::OpenAL::RealWorldViewPoint>()) ;
+        CPPUNIT_ASSERT(engine_sound) ;
+
+        CPPUNIT_ASSERT(engine_sound->SoundEmitter::m_viewpoint) ;
+        CPPUNIT_ASSERT(engine_sound->SoundEmitter::m_viewpoint->getListener()) ;
+        CPPUNIT_ASSERT(engine_sound->isActive()) ;
+
+        ALint state;
+        alGetSourcei(engine_sound->getSource(),AL_SOURCE_STATE,&state) ;
+
+        CPPUNIT_ASSERT_EQUAL(AL_PLAYING,state) ;
+      }
+
+      void TestMovingObject::farObjectsAreNotPlayed()
+      {
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model()) ;
+        model->init() ;
+
+        Kernel::Object* root = model->createObject() ;
+
+        Kernel::Object* universe = root->createObject() ;
+        universe->addTrait(new Model::Positioned()) ;
+        universe->setName("universe") ;
+
+        Kernel::Object* system = universe->createObject() ;
+        system->addTrait(new Model::Positioned()) ;
+        system->setName("system") ;
+
+        Kernel::Object* pilot = system->createObject() ;
+        pilot->addTrait(new Model::Listener()) ;
+        pilot->addTrait(new Model::Positioned()) ;
+        pilot->addTrait(new Model::Mobile()) ;
+        pilot->addTrait(new Model::Active()) ;
+
+        Kernel::Object* ship2 = Model::loadShip("test_ship",system) ;
+
+        Model::Positioned* ship2_positioned = ship2->getTrait<Model::Positioned>() ;
+        ship2_positioned->setPosition(Model::Position::Meter(0,0,800)) ;
+        ship2->getTrait<Model::Mobile>()->setSpeed(Model::Speed::MeterPerSecond(0,0,-50)) ;
+        Kernel::Timer global_timer ;
+        Kernel::Timer timer ;
+
+        std::set<Model::Throttle*> throttles = ship2->getChildren<Model::Throttle>() ;
+
+        (*throttles.begin())->set(100) ;
+
+        Model::Engine* engine = ship2->getChild<Model::Engine>() ;
+        CPPUNIT_ASSERT(engine) ;
+        Implementation::OpenAL::Engine* engine_sound = engine->getObject()->getView<Implementation::OpenAL::Engine>(model->getViewPoint<Implementation::OpenAL::RealWorldViewPoint>()) ;
+        CPPUNIT_ASSERT(engine_sound) ;
+
+        CPPUNIT_ASSERT(!engine_sound->isActive()) ;
+
+        ALint state;
+        alGetSourcei(engine_sound->getSource(),AL_SOURCE_STATE,&state) ;
+
+        CPPUNIT_ASSERT_EQUAL(AL_STOPPED,state) ;
       }
       
     }

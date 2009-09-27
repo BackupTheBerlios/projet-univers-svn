@@ -57,6 +57,9 @@ namespace ProjetUnivers
           {
             Ogre::Vector3 force = getTrait<Model::ForceGenerator>()->getAppliedForce().Newton() ;
 
+            if (!(finite(force.x) && finite(force.y) && finite(force.z)))
+              throw Kernel::ExceptionKernel("Infinite force in ForceGenerator::prepare") ;
+
             InternalMessage("Physic","Physic::ForceGenerator::prepare " +
                             Kernel::toString(getObject()->getIdentifier())
                             + " force = " +

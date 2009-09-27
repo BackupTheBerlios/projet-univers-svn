@@ -144,7 +144,7 @@ namespace ProjetUnivers
       /*!
         @remark
           It may exist several @c _View on that object (mainly because
-          the view may be attached to a base trait whose several subtraits are
+          the view may be attached to a base trait whose several sub traits are
           attached to this object) : in that case, it returns one of the view
           in an unspecified manner.
           Note that in that case one can obtain exactly the desired view through

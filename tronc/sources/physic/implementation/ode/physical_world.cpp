@@ -63,6 +63,7 @@ namespace ProjetUnivers
           dWorldSetCFM(m_world->id(),Kernel::Parameters::getValue<float>("Physic","WorldCFM")) ;
           dWorldSetERP(m_world->id(),Kernel::Parameters::getValue<float>("Physic","WorldERP")) ;
           dWorldSetContactSurfaceLayer(m_world->id(),Kernel::Parameters::getValue<float>("Physic","WorldContactSurfaceLayer")) ;
+          dWorldSetContactMaxCorrectingVel(m_world->id(),Kernel::Parameters::getValue<float>("Physic","WorldContactMaxCorrectingVelocity")) ;
 
           m_collision_space = new dSimpleSpace(0) ;
 
@@ -222,7 +223,7 @@ namespace ProjetUnivers
               /*
                 Not symmetric
               */
-              if (dot1 < 0 && contact_points[contact_index].depth > 0)
+              if (dot1 < 0)
               {
                 average_contact_point += contact_point ;
 

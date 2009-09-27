@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2008 Mathieu ROGER                                      *
+ *   Copyright (C) 2008-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,51 +18,49 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_SOUND_TEST_SOUND_EVENT_H_
-#define PU_SOUND_TEST_SOUND_EVENT_H_
+#pragma once
 
 #include <cppunit/extensions/HelperMacros.h>
 
-namespace ProjetUnivers {
-  namespace Sound {
-    namespace Test {
+namespace ProjetUnivers
+{
+  namespace Sound
+  {
+    namespace Test
+    {
 
-            
       /// Test the sound event
-      class TestSoundEvent : public CppUnit::TestFixture {
+      class TestSoundEvent : public CppUnit::TestFixture
+      {
       protected:
-      
-        
-      // ************
-      /// @name Tests
-      // ************
+      /*!
+        @name Tests
+      */
       // @{
-        
-        /// 
+
         void collision() ;
+        void smallCollision() ;
         void farCollision() ;
         void shot() ;
 
       // @}
-      // *******************************
-      /// @name Register
-      // *******************************
-      // @{      
-      
+      /*!
+        @name Register
+      */
+      // @{
+
         CPPUNIT_TEST_SUITE(TestSoundEvent) ;
-      
+
         CPPUNIT_TEST(collision) ;
+        CPPUNIT_TEST(smallCollision) ;
         CPPUNIT_TEST(farCollision) ;
         CPPUNIT_TEST(shot) ;
-      
+
         CPPUNIT_TEST_SUITE_END() ;
-      
-      // @}      
-      };
+
+      // @}
+      } ;
 
     }
   }
 }
-
-
-#endif /*PU_SOUND_TEST_SOUND_EVENT_H_*/

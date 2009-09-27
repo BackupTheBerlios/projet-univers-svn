@@ -178,6 +178,7 @@ namespace ProjetUnivers
           InternalMessage("Sound","Sound::OpenAL::close entering") ;
           system.reset(NULL) ;
           InternalMessage("Sound","Sound::OpenAL::close leaving with " + Kernel::toString(getMaximumNumberOfSources())) ;
+          InternalMessage("Statistics","Maximum number of sources " + Kernel::toString(getMaximumNumberOfSources())) ;
         }
     
         void update()

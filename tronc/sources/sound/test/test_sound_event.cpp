@@ -42,6 +42,7 @@
 #include <model/shot.h>
 
 #include <sound/sound.h>
+#include <sound/implementation/openal/collision.h>
 #include <sound/implementation/openal/openal.h>
 #include <sound/test/test_sound_event.h>
 
@@ -62,7 +63,7 @@ namespace ProjetUnivers
         std::cerr.flush() ;
 
         /*!
-         - build an event object plays ound and destroy it
+         - build an event object plays sound and destroy it
          - check that the sound is still playing
          */
 
@@ -80,7 +81,7 @@ namespace ProjetUnivers
         listener->addTrait(new Model::Mobile());
 
         Kernel::Object* collision = system->createObject() ;
-        collision->addTrait(new Model::Collision(system,listener,Model::Energy::Joule(1))) ;
+        collision->addTrait(new Model::Collision(system,listener,Model::Energy::Joule(200))) ;
         collision->addTrait(new Model::Positioned(Model::Position::Meter(10,10,10))) ;
 
         Kernel::Timer timer;
@@ -95,15 +96,46 @@ namespace ProjetUnivers
 
       }
 
+      void TestSoundEvent::smallCollision()
+      {
+        std::cerr << "TestSoundEvent::smallCollision" << std::endl;
+        std::cerr.flush() ;
+
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestSoundEvent::collision"));
+        model->init() ;
+
+        Kernel::Object* system = model->createObject() ;
+        system->addTrait(new Model::Positioned()) ;
+        system->addTrait(new Model::Oriented()) ;
+
+        Kernel::Object* listener = system->createObject() ;
+        listener->addTrait(new Model::Listener()) ;
+        listener->addTrait(new Model::Positioned()) ;
+        listener->addTrait(new Model::Oriented()) ;
+        listener->addTrait(new Model::Mobile());
+
+        Kernel::Object* collision = system->createObject() ;
+        collision->addTrait(new Model::Collision(system,listener,Model::Energy::Joule(100))) ;
+        collision->addTrait(new Model::Positioned(Model::Position::Meter(10,10,10))) ;
+
+        Implementation::OpenAL::Collision* sound = collision->getView<Implementation::OpenAL::Collision>(model->getViewPoint<Implementation::OpenAL::RealWorldViewPoint>()) ;
+        CPPUNIT_ASSERT(sound) ;
+
+        Kernel::Timer timer;
+        Kernel::Timer global_timer;
+
+        while (global_timer.getSecond() <= 1)
+        {
+          float seconds = timer.getSecond() ;
+          timer.reset() ;
+          model->update(seconds) ;
+        }
+      }
+
       void TestSoundEvent::farCollision()
       {
         std::cerr << "TestSoundEvent::farCollision" << std::endl;
         std::cerr.flush() ;
-
-        /*!
-         - build an event object plays ound and destroy it
-         - check that the sound is still playing
-         */
 
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestSoundEvent::farCollision"));
         model->init() ;
@@ -119,7 +151,7 @@ namespace ProjetUnivers
         listener->addTrait(new Model::Mobile());
 
         Kernel::Object* collision = system->createObject() ;
-        collision->addTrait(new Model::Collision(system,listener,Model::Energy::Joule(1))) ;
+        collision->addTrait(new Model::Collision(system,listener,Model::Energy::Joule(200))) ;
         collision->addTrait(new Model::Positioned(Model::Position::Meter(0,0,100))) ;
 
         Kernel::Timer timer;
@@ -140,7 +172,7 @@ namespace ProjetUnivers
         std::cerr.flush() ;
 
         /*!
-         - build an event object plays ound and destroy it
+         - build an event object plays sound and destroy it
          - check that the sound is still playing
          */
 

@@ -52,7 +52,7 @@ namespace ProjetUnivers
           /// @Implements
           virtual float getGain() const;
 
-          ///Acces to the object with the trait
+          /// Access to the object with the trait
           Kernel::Object* getObject() const;
 
         // @}

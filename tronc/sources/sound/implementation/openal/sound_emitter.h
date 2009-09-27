@@ -28,6 +28,7 @@
 #include <model/speed.h>
 
 #include <sound/implementation/openal/openal.h>
+#include <sound/implementation/openal/real_world_view_point.h>
 
 namespace ProjetUnivers
 {
@@ -59,16 +60,16 @@ namespace ProjetUnivers
         // @{
 
           /// Initialize an openAL source for the sound
-          void initSound(Kernel::ViewPoint*) ;
+          void initSound(RealWorldViewPoint*) ;
 
           /// Launch the source
-          void startSound(Kernel::ViewPoint*) ;
+          void startSound(RealWorldViewPoint*) ;
 
           /// Update the source informations
-          void updateSource(Kernel::ViewPoint*) ;
+          void updateSource(RealWorldViewPoint*) ;
 
           /// Update the source environment
-          void changeParentSource(Kernel::ViewPoint*) ;
+          void changeParentSource(RealWorldViewPoint*) ;
 
           /// Stop the source
           void stopSound() ;
@@ -99,58 +100,58 @@ namespace ProjetUnivers
           virtual bool isEvent() const = 0 ;
 
           /// Is the source active now considering damages or other elements.
-          virtual bool isActive() const;
+          virtual bool isActive() const ;
 
           /// Access to the object with the trait
           virtual Kernel::Object* getObject() const = 0 ;
 
           /// Get the object's position relative to the world or the listener
-          Model::Position getPosition() const;
+          Model::Position getPosition() const ;
 
           /// Get the object's orientation relative to the world or the listener
-          Model::Orientation getOrientation() const;
+          Model::Orientation getOrientation() const ;
 
           /// Get the object's speed relative to the world or listener
-          Model::Speed getSpeed() const;
+          Model::Speed getSpeed() const ;
 
           /// Get the gain.
           /*!
             @return value between 1 and 0
                     1 indicates the sound is not attenuated
           */
-          virtual float getGain() const;
+          virtual float getGain() const ;
 
           /// Get the gain after the outerCone limit.
           /*!
             @return value between 1 and 0
                     1 indicates the sound is not attenuated
           */
-          virtual float getOuterGain() const;
+          virtual float getOuterGain() const ;
 
           /// Change the frequency.
           /*!
              add 100% or reduce by 50% is equivalent to an octave variation
           */
-          virtual float getPitch() const;
+          virtual float getPitch() const ;
 
           /*!
             @todo: study min/max gain usage with a priority system on sounds
           */
 
           /// Get the cone's inner angle
-          virtual float getInnerAngle() const;
+          virtual float getInnerAngle() const ;
 
           /// Get the cone's outer angle
-          virtual float getOuterAngle() const;
+          virtual float getOuterAngle() const ;
 
           /// Get the reference distance where the gain equal the value of getGain
-          virtual float getRefDistance() const;
+          virtual float getRefDistance() const ;
 
           /// Get the limit distance
-          virtual float getMaxDistance() const;
+          virtual float getMaxDistance() const ;
 
           /// Indicate the factor of attenuation
-          virtual float getRolloffFactor() const;
+          virtual float getRolloffFactor() const ;
 
           ALuint getSource() const ;
 
@@ -174,6 +175,8 @@ namespace ProjetUnivers
           */
           int m_posInFile ;
           int m_posInBuffer ;
+
+          RealWorldViewPoint* m_viewpoint ;
 
           friend class ::ProjetUnivers::Sound::Test::TestMovingObject ;
         };

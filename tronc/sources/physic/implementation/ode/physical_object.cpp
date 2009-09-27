@@ -169,14 +169,12 @@ namespace ProjetUnivers
           InternalMessage("Physic","PhysicalObject::updateMassive mass="
                                        + Kernel::toString(mass.Kilogram())) ;
 
+          if (mass.Kilogram() < 0)
+            throw std::exception() ;
+
           dMass ode_mass ;
           dMassSetSphereTotal(&ode_mass,mass.Kilogram(),1) ;
           m_body->setMass(&ode_mass) ;
-//
-//          std::cout << "mass = " << ode_mass.mass << std::endl ;
-
-//          m_body->setMass(&ode_mass) ;
-
         }
 
         void PhysicalObject::updatePositioned()
@@ -310,15 +308,15 @@ namespace ProjetUnivers
                             + Kernel::toString(speed[2])) ;
 
             mobile->setSpeed(Model::Speed::MeterPerSecond(
-                                  speed[0],speed[1],speed[2])) ;
+                                  (float)speed[0],(float)speed[1],(float)speed[2])) ;
 
             const dReal* angular_speed = m_body->getAngularVel() ;
 
 
             mobile->setAngularSpeed(Model::AngularSpeed::RadianPerSecond(
-                                        angular_speed[0],
-                                        angular_speed[1],
-                                        angular_speed[2])) ;
+                                        (float)angular_speed[0],
+                                        (float)angular_speed[1],
+                                        (float)angular_speed[2])) ;
 
           }
 

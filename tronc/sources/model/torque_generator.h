@@ -34,7 +34,7 @@ namespace ProjetUnivers {
       
       @todo 
         make torque a value class with conversion.
-        make a single virtal function that returns this torque class.
+        make a single virtual function that returns this torque class.
     */
     class TorqueGenerator : public Kernel::Trait 
     {

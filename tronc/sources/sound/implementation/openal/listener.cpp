@@ -51,6 +51,7 @@ namespace ProjetUnivers
         {
           InternalMessage("Sound","OpenAL::Listener::onInit Entering") ;
 
+          getViewPoint()->setListener(getObject()) ;
           this->updateListener() ;
                       
           InternalMessage("Sound","OpenAL::Listener::onInit Leaving") ;
@@ -59,6 +60,8 @@ namespace ProjetUnivers
         void Listener::onClose()
         {
           InternalMessage("Sound","OpenAL::Listener::onClose Entering") ;
+
+          getViewPoint()->setListener(NULL) ;
 
           // Just one listener by context in openal , it's destroy with openal context
           

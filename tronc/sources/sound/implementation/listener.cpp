@@ -33,8 +33,13 @@ namespace ProjetUnivers
     namespace Implementation
     {
 
+      /*!
+        having Or(X,Not(X)) is not a bug
+        it is always true but the deduced trait will be updated when X is
+      */
       DeclareDeducedTrait(Listener,
-                          And(HasParent(HasTrait(Model::Mobile)),
+                          And(Or(HasParent(HasTrait(Model::Mobile)),
+                                 Not(HasParent(HasTrait(Model::Mobile)))),
                               HasTrait(Model::RecursivelyPositioned),
                               HasTrait(Model::Listener))) ;
 

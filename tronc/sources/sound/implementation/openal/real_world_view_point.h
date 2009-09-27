@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007 Morgan GRIGNARD                                    *
+ *   Copyright (C) 2007-2009 Morgan GRIGNARD                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -22,6 +22,7 @@
 
 #include <kernel/object.h>
 #include <kernel/view_point.h>
+#include <kernel/object_reference.h>
 
 namespace ProjetUnivers
 {
@@ -36,7 +37,6 @@ namespace ProjetUnivers
         class RealWorldViewPoint : public Kernel::ViewPoint 
         {
         public:
-        
         /*!
           @name Construction 
         */
@@ -44,14 +44,23 @@ namespace ProjetUnivers
           
           /// Constructor.
           RealWorldViewPoint(Kernel::Model* model) ;
-          
+
+          void setListener(Kernel::Object*) ;
+
         // @}
+
+          /// Get the current listener.
+          Kernel::Object* getListener() const ;
+
         protected:
         
           virtual void onInit() ;
           
           virtual void update(const float&) ;
         
+        private:
+
+          Kernel::ObjectReference m_listener ;
         };
       }
     }

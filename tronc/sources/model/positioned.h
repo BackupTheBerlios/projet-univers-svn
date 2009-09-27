@@ -33,6 +33,9 @@ namespace ProjetUnivers
     /// Calculate the position of o1 relative to o2.
     Position getRelativePosition(const Kernel::Object* o1,const Kernel::Object* o2) ;
 
+    /// Calculate distance between two objects.
+    Distance getDistance(const Kernel::Object* o1,const Kernel::Object* o2) ;
+
     /// For objects that have a position in space.
     /*!
       The position of the object is relative to its first positioned

@@ -36,6 +36,9 @@
 #include <model/throttle.h>
 
 #include <sound/test/test_demonstration.h>
+#include <model/engine.h>
+#include <sound/implementation/openal/real_world_view_point.h>
+#include <sound/implementation/openal/engine.h>
 
 CPPUNIT_TEST_SUITE_REGISTRATION(ProjetUnivers::Sound::Test::TestDemonstration);
 
@@ -76,6 +79,7 @@ namespace ProjetUnivers
         pilot->addTrait(new Model::Player()) ;
         pilot->addTrait(new Model::Observer()) ;
         pilot->addTrait(new Model::Active()) ;
+        pilot->addTrait(new Model::Mobile()) ;
 
         Kernel::Object* ship2 = Model::loadShip("test_ship",system) ;
 
@@ -129,6 +133,7 @@ namespace ProjetUnivers
           pilot->addTrait(new Model::Player()) ;
           pilot->addTrait(new Model::Observer()) ;
           pilot->addTrait(new Model::Active()) ;
+          pilot->addTrait(new Model::Mobile()) ;
 
           Kernel::Object* ship2 = Model::loadShip("test_ship",system) ;
 

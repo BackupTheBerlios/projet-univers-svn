@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007 Morgan GRIGNARD                                    *
+ *   Copyright (C) 2007-2009 Morgan GRIGNARD                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -19,6 +19,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include <kernel/log.h>
+#include <kernel/parameters.h>
 #include <model/collision.h>
 #include <model/laser_beam.h>
 #include <sound/implementation/openal/collision.h>
@@ -32,10 +33,12 @@ namespace ProjetUnivers
       namespace OpenAL
       {
 
-//        RegisterView(OpenAL::Collision,
-//                     Implementation::Collision,
-//                     OpenAL::RealWorldViewPoint) ;
+        RegisterView(OpenAL::Collision,
+                     Implementation::Collision,
+                     OpenAL::RealWorldViewPoint) ;
              
+        const std::string Collision::MaximumCollisionEnergyJoules("MaximumCollisionEnergyJoules") ;
+
         std::string Collision::getSoundFileName() const
         {
           Model::Collision* collision = getTrait<Model::Collision>() ;
@@ -70,7 +73,17 @@ namespace ProjetUnivers
         {
           this->updateSource(getViewPoint());
         } 
-      
+
+        float Collision::getGain() const
+        {
+          Model::Energy energy(getTrait<Model::Collision>()->getEnergy()) ;
+
+          // get a constant magic value and divide, cap to 1
+          float maximum_joules = Kernel::Parameters::getValue<float>("Sound",MaximumCollisionEnergyJoules,200) ;
+
+          return std::min(energy.Joule()/maximum_joules,(float)1) ;
+        }
+
       }
     }
   }

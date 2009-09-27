@@ -169,6 +169,11 @@ namespace ProjetUnivers
       return position ;
     }
     
+    Distance getDistance(const Kernel::Object* o1,const Kernel::Object* o2)
+    {
+      return getRelativePosition(o1,o2).calculateDistance(Position()) ;
+    }
+
     DeclareDeducedTrait(RecursivelyPositioned,
                         Or(HasTrait(Positioned),
                            HasAncestor(HasTrait(RecursivelyPositioned)))) ;

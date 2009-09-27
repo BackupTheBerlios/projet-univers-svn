@@ -18,6 +18,7 @@ $(OIS_LIBS) \
 $(librlog_LIBS) \
 $(OGRE_LIBS) \
 $(libXML_LIBS) \
+$(libode_LIBS) \
 $(CEGUI_LIBS) \
 $(CEGUI_OGRE_LIBS) \
 -lCEGUIFalagardWRBase

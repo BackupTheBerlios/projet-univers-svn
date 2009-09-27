@@ -43,29 +43,28 @@ namespace ProjetUnivers
                           public SoundEmitter
         {
         protected:
-        
-        // @}
-        
          /*!
           @name Access methods
-          
           Redefinition of some properties of the sound to emit.
-          
         */
-        
         // @{
-                    
+
+          /// Parameter : energy for which the collision sound has maximum intensity
+          static const std::string MaximumCollisionEnergyJoules ;
+
           /// Get the sound's filename
           virtual std::string getSoundFileName() const ;
           
           /// Indicate if the sound is looping
           virtual bool isEvent() const ;
           
-          ///Acces to the object with the trait
+          /// Access to the object with the trait
           Kernel::Object* getObject() const ;
+
+          /// Gain depends on collision energy
+          virtual float getGain() const ;
           
         // @}
-        
         /*!
           @name Updates.
         */

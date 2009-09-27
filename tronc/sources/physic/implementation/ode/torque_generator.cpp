@@ -59,6 +59,10 @@ namespace ProjetUnivers
                                       Kernel::toString(torque.y) + "," +
                                       Kernel::toString(torque.z)) ;
              
+            if (!(finite(torque.x) && finite(torque.y) && finite(torque.z)))
+              throw Kernel::ExceptionKernel("Infinite torque in TorqueGenerator::prepare " +
+                                            getTrait<Model::TorqueGenerator>()->toString()) ;
+
             m_object->getBody()->addTorque(torque.x,
                                            torque.y,
                                            torque.z) ;

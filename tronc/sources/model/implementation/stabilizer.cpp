@@ -109,6 +109,9 @@ namespace ProjetUnivers {
                         + Kernel::toString(speed.RadianPerSecond()[1]) + ","
                         + Kernel::toString(speed.RadianPerSecond()[2])) ;
         
+        if (speed.RadianPerSecond().length() > 100)
+          ErrorMessage("Model::Stabilizer::NewtonMeter high speed encountered") ;
+
         
         Ogre::Quaternion object_orientation = 
           oriented->getOrientation(physical_world).getQuaternion() ;
@@ -149,7 +152,7 @@ namespace ProjetUnivers {
         
         global_axis.normalise() ;
         
-        global_axis *= -sign*std::max(std::max(force,-force),(force*force)) ;
+        global_axis *= -sign*std::min((float)100,std::max(std::max(force,-force),(force*force))) ;
 
         InternalMessage("Model","Model::Stabilizer::NewtonMeter result="
                         + Kernel::toString(global_axis[0]) + ","

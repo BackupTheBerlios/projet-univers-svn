@@ -49,11 +49,14 @@ namespace ProjetUnivers
         : m_auxEffectSlot(0),
           m_reader(0),
           m_posInFile(0),
-          m_posInBuffer(0)
+          m_posInBuffer(0),
+          m_viewpoint(NULL)
         {}
 
-        void SoundEmitter::initSound(Kernel::ViewPoint* viewpoint)
+        void SoundEmitter::initSound(RealWorldViewPoint* viewpoint)
         {
+          m_viewpoint = viewpoint ;
+
           InformationMessage("Sound", "SoundEmitter::initSound entering") ;
           if (!m_reader)
           {
@@ -69,21 +72,31 @@ namespace ProjetUnivers
           InformationMessage("Sound", "SoundEmitter::initSound leaving") ;
         }
 
-        void SoundEmitter::startSound(Kernel::ViewPoint* viewpoint)
+        void SoundEmitter::startSound(RealWorldViewPoint* viewpoint)
         {
           if (!getSource())
           {
             initSound(viewpoint) ;
           }
-          alSourcePlay(getSource());
+          if (isActive())
+          {
+            alSourcePlay(getSource());
+          }
         }
 
-        void SoundEmitter::updateSource(Kernel::ViewPoint* viewpoint)
+        void SoundEmitter::updateSource(RealWorldViewPoint* viewpoint)
         {
           ALint state;
           alGetSourcei(getSource(),AL_SOURCE_STATE,&state) ;
 
-          if (!isActive() && state == AL_PLAYING)
+          bool active(isActive()) ;
+
+          if (active && (state == AL_STOPPED || state == AL_INITIAL))
+          {
+            startSound(viewpoint);
+          }
+
+          if (!active && state == AL_PLAYING)
           {
             stopSound();
           }
@@ -134,14 +147,9 @@ namespace ProjetUnivers
             }
 
           }
-
-          if (isActive() && (state == AL_STOPPED || state == AL_INITIAL))
-          {
-            startSound(viewpoint);
-          }
         }
 
-        void SoundEmitter::changeParentSource(Kernel::ViewPoint* viewpoint)
+        void SoundEmitter::changeParentSource(RealWorldViewPoint* viewpoint)
         {
 
           InformationMessage("Sound", "SoundEmitter::changeParent : enter") ;
@@ -226,7 +234,11 @@ namespace ProjetUnivers
 
         bool SoundEmitter::isActive() const
         {
-          return true;
+          if (!m_viewpoint || !m_viewpoint->getListener())
+            return false ;
+
+          Model::Distance distance(Model::getDistance(getObject(),m_viewpoint->getListener())) ;
+          return distance.Meter() < getMaxDistance() ;
         }
 
         float SoundEmitter::getGain() const

@@ -59,5 +59,6 @@ $(SOURCES)/kernel/compilation/libkernel.la \
 $(SOURCES)/model/compilation/libmodel.la \
 $(SOURCES)/physic/compilation/libphysic.la \
 $(librlog_LIBS) \
+$(libode_LIBS) \
 $(libXML_LIBS)  \
 $(OGRE_LIBS)

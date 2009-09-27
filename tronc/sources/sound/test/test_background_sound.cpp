@@ -80,7 +80,7 @@ namespace ProjetUnivers
         Kernel::Object* elm1 = system->createObject() ;
         Kernel::Object* elm2 = system->createObject() ;
         Kernel::Object* collision = system->createObject() ;
-        collision->addTrait(new Model::Collision(elm1,elm2,Model::Energy::Joule(1))) ;
+        collision->addTrait(new Model::Collision(elm1,elm2,Model::Energy::Joule(200))) ;
         collision->addTrait(new Model::Positioned()) ;
 
         InternalMessage("Sound", "fin definition world") ;

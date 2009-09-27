@@ -18,8 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_SOUND_TEST_MOVING_OBJECT_H_
-#define PU_SOUND_TEST_MOVING_OBJECT_H_
+#pragma once
 
 #include <cppunit/extensions/HelperMacros.h>
 
@@ -43,6 +42,8 @@ namespace ProjetUnivers
         void moveParentSource() ;
         void moveParentAndSourceHasPosition() ;
         void moveParentAndListenerHasPosition() ;
+        void closeObjectsArePlayed() ;
+        void farObjectsAreNotPlayed() ;
            
       // @}
       /*!
@@ -56,6 +57,8 @@ namespace ProjetUnivers
         CPPUNIT_TEST(moveParentSource) ;
         CPPUNIT_TEST(moveParentAndSourceHasPosition) ;
         CPPUNIT_TEST(moveParentAndListenerHasPosition) ;
+        CPPUNIT_TEST(closeObjectsArePlayed) ;
+        CPPUNIT_TEST(farObjectsAreNotPlayed) ;
       
         CPPUNIT_TEST_SUITE_END() ;
       
@@ -65,6 +68,3 @@ namespace ProjetUnivers
     }
   }
 }
-
-
-#endif

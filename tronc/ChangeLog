@@ -1489,7 +1489,15 @@
 
   * Physics : 
     - add energy collision on the collision (preliminary version)
-        
+
+2009-09-22
+  * Sound : 
+    - added variable gain on collision depending on collision energy
+    - added distance culling on sources 
+    - make speed on listener optional
+  * Physics : 
+    - added internal checks to simplify debug
+            
 in commit
 --------
    
@@ -1497,11 +1505,9 @@ in commit
 in progress
 -----------
     
-        
+                
 todo
 ----
-  * All : 
-    - remove magic constant for config files 
     
   * Sound : 
     - exception floating point
@@ -1510,9 +1516,13 @@ todo
       valgring shows 50% time on mix sound for 50... 
       max number of source counting shows alarming numbers : ~4000 for a simple 
       situation (collisions)
-    - distance/intensity culling : any sound over a given distance is not played
     - event limitation : a pool of sources of given size, with circular assignment
   
+  * Physic : 
+    - instability on test executable some contacts make ship twittle 
+  
+  * All : 
+    - remove magic constant for config files ?
  
   * Model : 
     - selected target going out of range will not be unselected
