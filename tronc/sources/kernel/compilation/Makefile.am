@@ -29,6 +29,7 @@ $(SOURCES)/kernel/implementation/observer.cpp \
 $(SOURCES)/kernel/implementation/operation.cpp \
 $(SOURCES)/kernel/implementation/parameters.cpp \
 $(SOURCES)/kernel/implementation/percentage.cpp \
+$(SOURCES)/kernel/implementation/profiler.cpp \
 $(SOURCES)/kernel/implementation/reader.cpp \
 $(SOURCES)/kernel/implementation/relation.cpp \
 $(SOURCES)/kernel/implementation/relation_controler.cpp \

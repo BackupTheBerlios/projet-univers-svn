@@ -1497,25 +1497,42 @@
     - make speed on listener optional
   * Physics : 
     - added internal checks to simplify debug
+    - added a "hacky" max on torque generator to avoid generating too high forces
+
+2009-10-05
+
+  * Sound :
+    - better distance culling : we do not create nor source nor reader 
+ 
+  * Kernel :
+    - basic profiling on user methods (onInit,onUpdate,onClose,simulate,prepare)
+      plus system methods
+    - corrected benchmarking test (demonstration/test) that was not correct, 
+      ships are placed on a circle and the size of that circle must depend on 
+      number of ships.
+    - added an option to demonstration/test to output profiling results
             
 in commit
 --------
-   
+
         
 in progress
 -----------
     
-                
+      
 todo
 ----
-    
+
+  * Kernel : 
+    - maybe something to do on notify : directly calls the update on connected 
+      views
+   
+  * Physics :
+    - still instability in collisions
+     
   * Sound : 
     - exception floating point
-    - too many sources (we should limit sources number) on my dev 
-      machine : linear time on test up to 50 ships and time crashes at 60...
-      valgring shows 50% time on mix sound for 50... 
-      max number of source counting shows alarming numbers : ~4000 for a simple 
-      situation (collisions)
+    - too many sources 114 simultaneous sources with 30 ships 
     - event limitation : a pool of sources of given size, with circular assignment
   
   * Physic : 
@@ -1533,7 +1550,7 @@ todo
   * Continuous integration :
     - migrate to ant
     - use cccc
-    - profile with valgrind (cachegrind) valgring --tool=cachegrind + kcachegrind 
+    - profile with valgrind (cachegrind) valgrind --tool=callgrind + kcachegrind 
       for visualisation
     - use valgrind for leaks (a lot on kernel tests, try whithout -O2) + invalid access
       invalid access should crash make check (xml output and a check for Invalid Acess)
@@ -1670,7 +1687,6 @@ todo
     - PhysicalWorld <=> Whole ??
       PhysicalObject should not depend on mobile ?
     
-    
   * GUI : 
     - add key shortcuts for clicable buttons
     - change all hover/pushed elements inspire from  
@@ -1717,8 +1733,8 @@ todo
     - relation inheritance (?)
       
   * all :
-    - make use of Quantities library, 
-      @see http://sourceforge.net/projects/quantity ??
+    - make use of boost unit library, 
+      @see http://www.boost.org/doc/libs/1_40_0/doc/html/boost_units.html
     - deduce meta structure
       # use a metamodel 
       # use gccxml

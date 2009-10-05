@@ -160,6 +160,14 @@ namespace ProjetUnivers
           return result;
         }
 
+        void Manager::destroyReader(Reader* reader)
+        {
+          reader->close() ;
+          releaseStream(reader->getStream()) ;
+          m_readers.erase(std::find(m_readers.begin(),m_readers.end(),reader)) ;
+          delete reader;
+        }
+
         void Manager::update()
         {
           if (m_timer.getSecond() > m_updateTime)

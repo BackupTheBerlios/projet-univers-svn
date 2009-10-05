@@ -18,33 +18,32 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_SOUND_TEST_SOUND_ENVIRONNEMENT_H_
-#define PU_SOUND_TEST_SOUND_ENVIRONNEMENT_H_
+#pragma once
 
 #include <cppunit/extensions/HelperMacros.h>
 
-namespace ProjetUnivers {
-  namespace Sound {
-    namespace Test {
-
+namespace ProjetUnivers
+{
+  namespace Sound
+  {
+    namespace Test
+    {
             
-      /// Test of environnemental effect on a source
+      /// Test of environmental effect on a source
       class TestSoundEnvironnement : public CppUnit::TestFixture {
       protected:
-      
-        
-      // ************
-      /// @name Tests
-      // ************
+      /*!
+      @name Tests
+      */
       // @{
         
         /// 
         void basicTest() ;
            
       // @}
-      // *******************************
-      /// @name Register
-      // *******************************
+      /*!
+      @name Register
+      */
       // @{      
       
         CPPUNIT_TEST_SUITE(TestSoundEnvironnement) ;
@@ -59,6 +58,3 @@ namespace ProjetUnivers {
     }
   }
 }
-
-
-#endif /*PU_SOUND_TEST_SOUND_ENVIRONNEMENT_H_*/

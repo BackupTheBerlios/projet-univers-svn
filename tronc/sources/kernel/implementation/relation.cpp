@@ -23,6 +23,7 @@
 #include <kernel/relation.h>
 #include <kernel/deduced_trait.h>
 #include <kernel/reader.h>
+#include <kernel/implementation/profiler.h>
 
 namespace ProjetUnivers
 {
@@ -240,8 +241,10 @@ namespace ProjetUnivers
 
     void Relation::notify()
     {
+      Implementation::Profiler::startBlock("Kernel::Relation::notify") ;
       getObjectFrom()->getModel()->update(*this) ;
       DeducedRelation::updateRelation(*this) ;
+      Implementation::Profiler::endBlock("Kernel::Relation::notify") ;
     }
 
     void Relation::_close()

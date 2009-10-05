@@ -56,7 +56,14 @@ namespace ProjetUnivers
         /// Really execute the operation
         void execute() const ;
 
+        /// The description of the operation kind,observer type and objects
         std::string toString() const ;
+
+        /// Name of the user method called.
+        /*!
+          E.g. Display::Implementation::Ogre::Positioned::onUpdate()
+        */
+        std::string userMethodName() const ;
 
       private:
 
@@ -81,6 +88,7 @@ namespace ProjetUnivers
         RelationObserver* m_relation_observer ;
 
         std::string m_debug_display ;
+        std::string m_user_method_name ;
       };
     }
   }

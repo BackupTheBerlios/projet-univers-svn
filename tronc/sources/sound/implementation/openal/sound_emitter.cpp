@@ -58,7 +58,7 @@ namespace ProjetUnivers
           m_viewpoint = viewpoint ;
 
           InformationMessage("Sound", "SoundEmitter::initSound entering") ;
-          if (!m_reader)
+          if (!m_reader && isActive())
           {
             InformationMessage("Sound", "SoundEmitter::initSound real") ;
             m_reader = getManager()->createReader(getSoundFileName(),
@@ -74,12 +74,12 @@ namespace ProjetUnivers
 
         void SoundEmitter::startSound(RealWorldViewPoint* viewpoint)
         {
-          if (!getSource())
-          {
-            initSound(viewpoint) ;
-          }
           if (isActive())
           {
+            if (!getSource())
+            {
+              initSound(viewpoint) ;
+            }
             alSourcePlay(getSource());
           }
         }
@@ -98,9 +98,9 @@ namespace ProjetUnivers
 
           if (!active && state == AL_PLAYING)
           {
-            stopSound();
+            stopSound() ;
           }
-          else
+          else if (active)
           {
             /// @todo If parameters are never changed move them to init
             alSourcef(getSource(), AL_GAIN, getGain()) ;
@@ -193,6 +193,8 @@ namespace ProjetUnivers
           if (getSource())
           {
             stopSourceAndUnQueueBuffers(getSource()) ;
+            getManager()->destroyReader(m_reader) ;
+            m_reader = NULL ;
           }
         }
 
@@ -283,7 +285,9 @@ namespace ProjetUnivers
 
         ALuint SoundEmitter::getSource() const
         {
-          return m_reader->getSource() ;
+          if (m_reader)
+            return m_reader->getSource() ;
+          return 0 ;
         }
 
       }

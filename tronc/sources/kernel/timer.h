@@ -18,10 +18,9 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_KERNEL_TIMER_H_
-#define PU_KERNEL_TIMER_H_
+#pragma once
 
-#include <boost/timer.hpp>
+#include <OgreTimer.h>
 
 namespace ProjetUnivers 
 {
@@ -42,11 +41,12 @@ namespace ProjetUnivers
       /// Return the time elapsed in seconds.
       float getSecond() const ; 
 
+      /// Return the time elapsed in seconds.
+      float getMilliSecond() const ;
+
     private:
     
-      boost::timer m_timer ;
+      mutable Ogre::Timer m_timer ;
     };
   }
 }
-
-#endif /*PU_KERNEL_TIMER_H_*/

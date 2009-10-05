@@ -4,7 +4,7 @@ opcontrol --no-vmlinux
 opcontrol --separate=lib
 opcontrol --event=default
 opcontrol --start
-./demonstration
+./test -t 10 -n 20
 opcontrol --dump
-opreport -l .libs/lt-demonstration > report.txt
+opreport -l .libs/lt-test > report.txt
 

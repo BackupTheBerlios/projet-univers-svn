@@ -31,13 +31,18 @@ namespace ProjetUnivers
     
     void Timer::reset()
     {
-      m_timer.restart() ;
+      m_timer.reset() ;
     }
     
     float Timer::getSecond() const
     {
-      return (float)m_timer.elapsed() ;
+      return ((float)m_timer.getMicroseconds())/1000000 ;
     } 
+
+    float Timer::getMilliSecond() const
+    {
+      return ((float)m_timer.getMicroseconds())/1000 ;
+    }
 
   }
 }

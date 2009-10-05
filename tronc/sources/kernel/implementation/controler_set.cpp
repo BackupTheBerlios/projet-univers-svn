@@ -27,6 +27,7 @@
 #include <kernel/parameters.h>
 
 #include <kernel/controler_set.h>
+#include <kernel/implementation/profiler.h>
 
 namespace ProjetUnivers
 {
@@ -164,53 +165,27 @@ namespace ProjetUnivers
 
     void ControlerSet::simulate(const float& seconds)
     {
-
-//      for(std::list<BaseControler*>::iterator temp = m_controllers.begin() ; temp != m_controllers.end() ; ++temp)
-//      {
-//        for(std::list<BaseControler*>::iterator temp2 = temp ; temp2 != m_controllers.end() ; ++temp2)
-//        {
-//          if (!(temp2 == temp ||
-//                order(*temp,*temp2) ||
-//                (!order(*temp,*temp2) && order(*temp2,*temp))))
-//          {
-//            BaseControler* controler1 = *temp ;
-//            BaseControler* controler2 = *temp2 ;
-//
-//            order(*temp,*temp2) ;
-//
-//            throw ExceptionKernel("ControlerSet::simulate " + controler1->toString() +
-//                                  " " + controler2->toString()) ;
-//          }
-//        }
-//      }
-//
-//      std::string debug ;
-//
-//      for(std::list<BaseControler*>::iterator temp = controllers.begin() ; temp != controllers.end() ; ++temp)
-//      {
-//        BaseControler* controler = *temp ;
-//        debug = debug + " " + getObjectTypeIdentifier(controler).fullName() ;
-//      }
-
-
       m_model->startTransaction() ;
 
       beforeSimulation(seconds) ;
 
       for(std::list<BaseControler*>::iterator controller = m_controllers.begin() ; controller != m_controllers.end() ; ++controller)
       {
+        Implementation::Profiler::startBlock(getObjectTypeIdentifier(*controller).fullName() + "::prepare()") ;
         (*controller)->prepare() ;
+        Implementation::Profiler::endBlock() ;
       }
 
       for(std::list<BaseControler*>::iterator controller = m_controllers.begin() ; controller != m_controllers.end() ; ++controller)
       {
+        Implementation::Profiler::startBlock(getObjectTypeIdentifier(*controller).fullName() + "::simulate()") ;
         (*controller)->simulate(seconds) ;
+        Implementation::Profiler::endBlock() ;
       }
 
       afterSimulation(seconds) ;
 
       m_model->endTransaction() ;
-
     }
 
     void ControlerSet::afterSimulation(const float&)

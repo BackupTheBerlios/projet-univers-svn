@@ -23,6 +23,7 @@
 #include <kernel/object.h>
 #include <kernel/model.h>
 #include <kernel/deduced_trait.h>
+#include <kernel/implementation/profiler.h>
 
 namespace ProjetUnivers
 {
@@ -2463,6 +2464,7 @@ namespace ProjetUnivers
 
     void DeducedTrait::notify()
     {
+      Implementation::Profiler::startBlock("Kernel::DeducedTrait::notify") ;
       if (m_updating.find(this) != m_updating.end())
       {
         InternalMessage("Update","Skipping update trait because already updated") ;
@@ -2474,6 +2476,7 @@ namespace ProjetUnivers
       DeducedTrait::updateTrait(getObject(),this) ;
       unlock() ;
       m_updating.erase(this) ;
+      Implementation::Profiler::endBlock("Kernel::DeducedTrait::notify") ;
     }
 
   // @}
@@ -2490,14 +2493,6 @@ namespace ProjetUnivers
     void DeducedTrait::updateTrait(Object*,Trait* trait)
     {
       trait->updateDependents() ;
-
-      /*
-        valgrind indicates that following functions take the same time on
-        basic performance tests (tests without parent formulae)
-
-        problem is that it takes 75% of time without parent/ancestor/child formulae
-      */
-//      TraitFormula::updateTrait(object,trait) ;
     }
 
     void DeducedRelation::updateRelation(const Relation& relation)
@@ -2515,7 +2510,9 @@ namespace ProjetUnivers
 
     void DeducedTrait::removeTrait(Object* object,Trait* trait)
     {
+      Implementation::Profiler::startBlock("Kernel::DeducedTrait::removeTrait") ;
       TraitFormula::removeTrait(object,trait) ;
+      Implementation::Profiler::endBlock("Kernel::DeducedTrait::removeTrait") ;
     }
 
     void DeducedTrait::changeParent(Object* object,Object* old_parent)

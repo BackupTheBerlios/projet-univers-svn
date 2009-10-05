@@ -33,6 +33,7 @@
 #include <kernel/deduced_trait.h>
 #include <kernel/reader.h>
 #include <kernel/trait.h>
+#include <kernel/implementation/profiler.h>
 
 namespace ProjetUnivers
 {
@@ -460,6 +461,7 @@ namespace ProjetUnivers
 
     void Trait::notify()
     {
+      Implementation::Profiler::startBlock("Kernel::Trait::notify " + getObjectTypeIdentifier(this).fullName()) ;
       lock() ;
       bool remove_update = true ;
       if (m_is_updating == true)
@@ -484,6 +486,7 @@ namespace ProjetUnivers
         m_is_updating = false ;
       }
       unlock() ;
+      Implementation::Profiler::endBlock("Kernel::Trait::notify") ;
     }
 
     void Trait::apply(

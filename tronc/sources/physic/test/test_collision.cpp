@@ -427,7 +427,6 @@ namespace ProjetUnivers
         for (std::set<Model::Collision*>::const_iterator collision = collisions.begin() ; collision != collisions.end() ; ++collision)
         {
           CPPUNIT_ASSERT((*collision)->getEnergy().Joule() > 0) ;
-          std::cout << std::endl << (*collision)->getEnergy().Joule() ;
         }
       }
 

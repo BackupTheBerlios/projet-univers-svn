@@ -24,6 +24,7 @@
 
 #include <kernel/notifiable.h>
 #include <kernel/string.h>
+#include <kernel/implementation/profiler.h>
 
 namespace ProjetUnivers
 {

@@ -462,6 +462,7 @@ namespace ProjetUnivers
 
       void TestMovingObject::farObjectsAreNotPlayed()
       {
+        InternalMessage("Sound","entering TestMovingObject::farObjectsAreNotPlayed") ;
         std::auto_ptr<Kernel::Model> model(new Kernel::Model()) ;
         model->init() ;
 
@@ -500,10 +501,8 @@ namespace ProjetUnivers
 
         CPPUNIT_ASSERT(!engine_sound->isActive()) ;
 
-        ALint state;
-        alGetSourcei(engine_sound->getSource(),AL_SOURCE_STATE,&state) ;
-
-        CPPUNIT_ASSERT_EQUAL(AL_STOPPED,state) ;
+        // we do not even have a source
+        CPPUNIT_ASSERT(!engine_sound->getSource()) ;
       }
       
     }

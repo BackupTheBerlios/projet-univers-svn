@@ -426,6 +426,8 @@ namespace ProjetUnivers {
         system->addTrait(new StellarSystem()) ;
         system->addTrait(new Positioned()) ;
 
+        int circle_radius = 100 * number_of_ships ;
+
         for(int i = 1 ; i <= number_of_ships ; ++i)
         {
           Kernel::Object* team = universe->createObject() ;
@@ -440,7 +442,7 @@ namespace ProjetUnivers {
 
           Ogre::Quaternion orientation(Ogre::Degree(360/number_of_ships)*(i-1),Ogre::Vector3::UNIT_Z) ;
 
-          Ogre::Vector3 position(orientation*Ogre::Vector3::UNIT_X*2000) ;
+          Ogre::Vector3 position(orientation*Ogre::Vector3::UNIT_X*circle_radius) ;
 
           positioned->setPosition(Position::Meter(position.x,position.y,-position.z)) ;
         }
@@ -448,7 +450,7 @@ namespace ProjetUnivers {
         Kernel::Object* observer = system->createObject() ;
         observer->addTrait(new Model::Observer()) ;
         observer->addTrait(new Model::Player()) ;
-        observer->addTrait(new Model::Positioned(Model::Position::Meter(0,0,2500))) ;
+        observer->addTrait(new Model::Positioned(Model::Position::Meter(0,0,1.2*circle_radius))) ;
         observer->addTrait(new Model::Oriented()) ;
         observer->addTrait(new Model::State()) ;
         observer->getTrait<Model::State>()->addCommandAlias("quit","change(quit,Active)") ;

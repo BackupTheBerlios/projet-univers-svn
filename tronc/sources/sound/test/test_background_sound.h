@@ -18,8 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_SOUND_TEST_BACKGROUND_SOUND_H_
-#define PU_SOUND_TEST_BACKGROUND_SOUND_H_
+#pragma once
 
 #include <cppunit/extensions/HelperMacros.h>
 
@@ -34,21 +33,20 @@ namespace ProjetUnivers
       class TestBackgroundSound : public CppUnit::TestFixture
       {
       protected:
-
-        // ************
-        /// @name Tests
-        // ************
-        // @{
+      /*!
+        @name Tests
+      */
+      // @{
 
         /// 
         void basicTest() ;
         void wavSound() ;
 
-        // @}
-        // *******************************
-        /// @name Register
-        // *******************************
-        // @{      
+      // @}
+      /*!
+        @name Register
+      */
+      // @{
 
         CPPUNIT_TEST_SUITE(TestBackgroundSound) ;
 
@@ -57,12 +55,9 @@ namespace ProjetUnivers
 
         CPPUNIT_TEST_SUITE_END() ;
 
-        // @}      
-
+      // @}
       };
 
     }
   }
 }
-
-#endif

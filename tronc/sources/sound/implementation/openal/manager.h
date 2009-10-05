@@ -69,8 +69,10 @@ namespace ProjetUnivers
           Reader* createReader(const std::string& fileName,const bool& isEvent,
                                const int& posInFile,const int& posInBuffer) ;
 
+          void destroyReader(Reader*) ;
+
           /// Close the files of finish sounds, delete the finished readers
-          void update();
+          void update() ;
 
         // @}
         private:

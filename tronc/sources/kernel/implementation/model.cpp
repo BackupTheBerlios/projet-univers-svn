@@ -36,6 +36,7 @@
 #include <kernel/base_relation_view.h>
 #include <kernel/base_relation_controler.h>
 #include <kernel/model.h>
+#include <kernel/implementation/profiler.h>
 
 namespace ProjetUnivers
 {
@@ -58,6 +59,7 @@ namespace ProjetUnivers
 
     Object* Model::createObject()
     {
+      Implementation::Profiler::startBlock("Kernel::Model::createObject") ;
       Log::Block temp("Structure","createObject (root)") ;
       m_statistics.addObject() ;
       Object* result = new Object(this) ;
@@ -66,11 +68,13 @@ namespace ProjetUnivers
       startTransaction() ;
       DeducedTrait::evaluateInitial(result) ;
       endTransaction() ;
+      Implementation::Profiler::endBlock("Kernel::Model::createObject") ;
       return result ;
     }
 
     Object* Model::createObject(Object* parent)
     {
+      Implementation::Profiler::startBlock("Kernel::Model::createObject") ;
       Log::Block temp("Structure","createObject(child)") ;
       m_statistics.addObject() ;
       Object* result = new Object(this) ;
@@ -87,19 +91,23 @@ namespace ProjetUnivers
       startTransaction() ;
       DeducedTrait::evaluateInitial(result) ;
       endTransaction() ;
+      Implementation::Profiler::endBlock("Kernel::Model::createObject") ;
       return result ;
     }
 
     void Model::destroyObject(Object* object)
     {
+      Implementation::Profiler::startBlock("Kernel::Model::destroyObject") ;
       Log::Block temp("Structure","destroyObject") ;
       m_statistics.removeObject() ;
 
       object->m_deleting = true ;
 
       if (m_destroying)
+      {
+        Implementation::Profiler::endBlock("Kernel::Model::destroyObject") ;
         return ;
-
+      }
       startTransaction() ;
 
       object->_close() ;
@@ -108,6 +116,7 @@ namespace ProjetUnivers
       removeRelations(object) ;
 
       endTransaction() ;
+      Implementation::Profiler::endBlock("Kernel::Model::destroyObject") ;
     }
 
     void Model::_removeObjectIdentifier(const int& identifier)
@@ -149,6 +158,7 @@ namespace ProjetUnivers
     Trait* Model::addTrait(Object* object,
                            Trait* new_trait)
     {
+      Implementation::Profiler::startBlock("Kernel::Model::addTrait") ;
       Log::Block temp("Structure","addTrait") ;
 
       bool deduced = ! new_trait->isPrimitive() ;
@@ -162,12 +172,14 @@ namespace ProjetUnivers
       else
         m_statistics.addPrimitiveTrait() ;
 
+      Implementation::Profiler::endBlock("Kernel::Model::addTrait") ;
       return new_trait ;
     }
 
     void Model::destroyTrait(Object* object,
                             Trait* trait)
     {
+      Implementation::Profiler::startBlock("Kernel::Model::destroyTrait") ;
       std::string trait_name(getObjectTypeIdentifier(trait).fullName()) ;
 
       Log::Block temp("Structure","destroyTrait" + trait_name) ;
@@ -181,6 +193,7 @@ namespace ProjetUnivers
       startTransaction() ;
       object->_remove(trait) ;
       endTransaction() ;
+      Implementation::Profiler::endBlock("Kernel::Model::destroyTrait") ;
     }
 
     Model::~Model()
@@ -251,7 +264,6 @@ namespace ProjetUnivers
           delete *controller ;
         }
       }
-
     }
 
     Model::Model(const std::string& name)
@@ -464,6 +476,9 @@ namespace ProjetUnivers
 
     void Model::update(const float& seconds)
     {
+      Implementation::Profiler::startBlock("Kernel::Model::update") ;
+
+      Implementation::Profiler::startBlock("Kernel::Model::update order controlers") ;
 
       const std::set<Kernel::ControlerSet*>& controlersets = getControlerSets() ;
       for(std::set<Kernel::ControlerSet*>::const_iterator controlerset = controlersets.begin() ;
@@ -472,6 +487,9 @@ namespace ProjetUnivers
       {
         (*controlerset)->orderControlers() ;
       }
+
+      Implementation::Profiler::endBlock("Kernel::Model::update order controlers") ;
+      Implementation::Profiler::startBlock("Kernel::Model::update update controlers") ;
 
       // first update controller sets then viewpoints
       for(std::set<Kernel::ControlerSet*>::const_iterator controlerset = controlersets.begin() ;
@@ -483,13 +501,21 @@ namespace ProjetUnivers
         endSimulation() ;
       }
 
+      Implementation::Profiler::endBlock("Kernel::Model::update update controlers") ;
+
+      Implementation::Profiler::startBlock("Kernel::Model::update update viewpoints") ;
+
       const std::set<Kernel::ViewPoint*>& viewpoints = getViewPoints() ;
       for(std::set<Kernel::ViewPoint*>::const_iterator viewpoint = viewpoints.begin() ;
           viewpoint != viewpoints.end() ;
           ++viewpoint)
       {
+        Implementation::Profiler::startBlock(getObjectTypeIdentifier(*viewpoint).fullName() + "::update()") ;
         (*viewpoint)->update(seconds) ;
+        Implementation::Profiler::endBlock() ;
       }
+      Implementation::Profiler::endBlock("Kernel::Model::update update viewpoints") ;
+      Implementation::Profiler::endBlock("Kernel::Model::update") ;
     }
 
     void Model::beginSimulation()

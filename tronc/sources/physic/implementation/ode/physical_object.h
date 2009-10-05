@@ -31,6 +31,7 @@
 #include <model/position.h>
 
 #include <physic/implementation/ode/physic_system.h>
+#include <physic/implementation/ode/physical_world.h>
 
 namespace ProjetUnivers
 {
@@ -109,6 +110,9 @@ namespace ProjetUnivers
           /// ODE collision space
           dSpace* m_collision_space ;
           
+          /// Store world for speed up.
+          PhysicalWorld* m_world ;
+
           friend class Solid ;
         };
 

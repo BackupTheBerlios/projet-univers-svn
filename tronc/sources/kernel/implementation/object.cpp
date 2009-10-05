@@ -435,16 +435,12 @@ namespace ProjetUnivers
         (*child)->_close() ;
       }
 
-      std::set<Trait*> locked_traits(lockTraits()) ;
-
       for(std::map<TypeIdentifier, Trait*>::iterator trait = _getTraits().begin() ;
           trait != _getTraits().end() ;
           ++trait)
       {
         destroyTrait(trait->second) ;
       }
-
-      unlockTraits(locked_traits) ;
     }
 
     void Object::_close(ViewPoint* i_viewpoint)
@@ -577,7 +573,6 @@ namespace ProjetUnivers
       ControlerSet*                         i_controler_set,
       boost::function1<void,BaseControler*> i_operation)
     {
-      std::set<Trait*> locked_traits(lockTraits()) ;
       // the set of trait may vary during apply so we store it once for all
       std::set<TypeIdentifier> saved_traits ;
 
@@ -607,7 +602,6 @@ namespace ProjetUnivers
       {
         (*child)->applyTopDown(i_controler_set,i_operation) ; ;
       }
-      unlockTraits(locked_traits) ;
     }
 
     void Object::applyBottomUp(

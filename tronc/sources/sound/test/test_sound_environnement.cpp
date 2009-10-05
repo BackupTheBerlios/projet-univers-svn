@@ -47,8 +47,7 @@
 
 #include <iostream>
 
-CPPUNIT_TEST_SUITE_REGISTRATION(
-    ProjetUnivers::Sound::Test::TestSoundEnvironnement);
+CPPUNIT_TEST_SUITE_REGISTRATION(ProjetUnivers::Sound::Test::TestSoundEnvironnement) ;
 
 namespace ProjetUnivers
 {

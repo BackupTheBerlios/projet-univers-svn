@@ -38,7 +38,8 @@ namespace ProjetUnivers
         m_observer(operation.m_observer),
         m_old_parent(operation.m_old_parent),
         m_relation_observer(operation.m_relation_observer),
-        m_debug_display(operation.m_debug_display)
+        m_debug_display(operation.m_debug_display),
+        m_user_method_name(operation.m_user_method_name)
       {}
 
       Operation::Operation()
@@ -55,7 +56,9 @@ namespace ProjetUnivers
         result.m_type = Init ;
         result.m_object = observer->getObject() ;
         result.m_observer = observer ;
-        result.m_debug_display = "Init(" + Kernel::toString(result.m_object->getIdentifier()) + "," + getObjectTypeIdentifier(result.m_observer).fullName() +")" ;
+        std::string class_name(getObjectTypeIdentifier(result.m_observer).fullName()) ;
+        result.m_debug_display = "Init(" + Kernel::toString(result.m_object->getIdentifier()) + "," + class_name +")" ;
+        result.m_user_method_name = class_name + "::onInit()" ;
         return result ;
       }
 
@@ -65,7 +68,9 @@ namespace ProjetUnivers
         result.m_type = Close ;
         result.m_object = observer->getObject() ;
         result.m_observer = observer ;
-        result.m_debug_display = "Close(" + Kernel::toString(result.m_object->getIdentifier()) + "," + getObjectTypeIdentifier(result.m_observer).fullName() +")" ;
+        std::string class_name(getObjectTypeIdentifier(result.m_observer).fullName()) ;
+        result.m_debug_display = "Close(" + Kernel::toString(result.m_object->getIdentifier()) + "," + class_name +")" ;
+        result.m_user_method_name = class_name + "::onClose()" ;
         return result ;
       }
 
@@ -75,7 +80,9 @@ namespace ProjetUnivers
         result.m_type = Update ;
         result.m_object = observer->getObject() ;
         result.m_observer = observer ;
-        result.m_debug_display = "Update(" + Kernel::toString(result.m_object->getIdentifier()) + "," + getObjectTypeIdentifier(result.m_observer).fullName() +")" ;
+        std::string class_name(getObjectTypeIdentifier(result.m_observer).fullName()) ;
+        result.m_debug_display = "Update(" + Kernel::toString(result.m_object->getIdentifier()) + "," + class_name +")" ;
+        result.m_user_method_name = class_name + "::onUpdate()" ;
         return result ;
       }
 
@@ -97,9 +104,11 @@ namespace ProjetUnivers
         Operation result ;
         result.m_type = InitRelation ;
         result.m_relation_observer = observer ;
-        result.m_debug_display = "InitRelation(" + getObjectTypeIdentifier(result.m_relation_observer).fullName() +
+        std::string class_name(getObjectTypeIdentifier(result.m_relation_observer).fullName()) ;
+        result.m_debug_display = "InitRelation(" + class_name +
                                  "," + Kernel::toString(observer->getObjectFrom()->getIdentifier()) + "," +
                                  Kernel::toString(observer->getObjectTo()->getIdentifier()) + ")" ;
+        result.m_user_method_name = class_name + "::onInit()" ;
         return result ;
       }
 
@@ -108,9 +117,11 @@ namespace ProjetUnivers
         Operation result ;
         result.m_type = CloseRelation ;
         result.m_relation_observer = observer ;
-        result.m_debug_display = "CloseRelation(" + getObjectTypeIdentifier(result.m_relation_observer).fullName() +
+        std::string class_name(getObjectTypeIdentifier(result.m_relation_observer).fullName()) ;
+        result.m_debug_display = "CloseRelation(" + class_name +
                                  "," + Kernel::toString(observer->getObjectFrom()->getIdentifier()) + "," +
                                  Kernel::toString(observer->getObjectTo()->getIdentifier()) + ")" ;
+        result.m_user_method_name = class_name + "::onClose()" ;
         return result ;
       }
 
@@ -119,10 +130,11 @@ namespace ProjetUnivers
         Operation result ;
         result.m_type = UpdateRelation ;
         result.m_relation_observer = observer ;
-        result.m_debug_display = "UpdateRelation(" + getObjectTypeIdentifier(result.m_relation_observer).fullName() +
+        std::string class_name(getObjectTypeIdentifier(result.m_relation_observer).fullName()) ;
+        result.m_debug_display = "UpdateRelation(" + class_name +
                                  "," + Kernel::toString(observer->getObjectFrom()->getIdentifier()) + "," +
                                  Kernel::toString(observer->getObjectTo()->getIdentifier()) + ")" ;
-
+        result.m_user_method_name = class_name + "::onUpdate()" ;
         return result ;
       }
 
@@ -161,6 +173,10 @@ namespace ProjetUnivers
         return m_debug_display ;
       }
 
+      std::string Operation::userMethodName() const
+      {
+        return m_user_method_name ;
+      }
     }
   }
 }

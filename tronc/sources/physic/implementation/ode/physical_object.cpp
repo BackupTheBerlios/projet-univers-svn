@@ -68,11 +68,11 @@ namespace ProjetUnivers
           m_body = NULL ;
           m_collision_space = NULL ;
 
-          PhysicalWorld* world = getAncestorControler<PhysicalWorld>() ;
-          if (world)
+          m_world = getAncestorControler<PhysicalWorld>() ;
+          if (m_world)
           {
             m_body = new dBody() ;
-            m_body->create(world->getWorld()->id()) ;
+            m_body->create(m_world->getWorld()->id()) ;
 
             /// set the initial values :
             updatePositioned() ;
@@ -80,7 +80,7 @@ namespace ProjetUnivers
             updateMassive() ;
 
             // an object is a space in the world's space.
-            m_collision_space = new dSimpleSpace(world->getCollisionSpace()->id()) ;
+            m_collision_space = new dSimpleSpace(m_world->getCollisionSpace()->id()) ;
           }
           else
           {
@@ -108,6 +108,8 @@ namespace ProjetUnivers
             m_collision_space = NULL ;
           }
 
+          m_world = NULL ;
+
           InternalMessage("Physic","Ode::PhysicalObject::onClose leaving " +
                                    Kernel::toString(getObject()->getIdentifier())) ;
         }
@@ -130,7 +132,7 @@ namespace ProjetUnivers
             /*!
               Somehow brutal...
             */
-
+            m_world = getAncestorControler<PhysicalWorld>() ;
             updatePositioned() ;
             updateMobile() ;
             updateMassive() ;
@@ -180,12 +182,11 @@ namespace ProjetUnivers
         void PhysicalObject::updatePositioned()
         {
           /// have to take the position relatively to the physical_world parent
-          PhysicalWorld* world = getAncestorControler<PhysicalWorld>() ;
-          if (world)
+          if (m_world)
           {
             Model::Positioned* positioned = getObject()->getTrait<Model::Positioned>() ;
 
-            Ogre::Vector3 position = positioned->getPosition(world->getObject()).Meter() ;
+            Ogre::Vector3 position = positioned->getPosition(m_world->getObject()).Meter() ;
             m_body->setPosition((dReal)position.x,
                                 (dReal)position.y,
                                 (dReal)position.z) ;
@@ -193,7 +194,7 @@ namespace ProjetUnivers
             Model::Oriented* oriented = getObject()->getTrait<Model::Oriented>() ;
             if (oriented)
             {
-              Ogre::Quaternion orientation = oriented->getOrientation(world->getObject()).getQuaternion() ;
+              Ogre::Quaternion orientation = oriented->getOrientation(m_world->getObject()).getQuaternion() ;
 
               dQuaternion ode_quaternion ;
               ode_quaternion[0] = (dReal)orientation.w ;
@@ -207,18 +208,17 @@ namespace ProjetUnivers
           }
         }
 
-      /*!
-        @name Active part
-        Modify the model according to physic simulation
-      */
-
+        /*!
+          @name Active part
+          Modify the model according to physic simulation
+        */
         void PhysicalObject::simulate(const float&)
         {
           InternalMessage("Physic","Ode::PhysicalObject::simulate " +
                                    Kernel::toString(getObject()->getIdentifier()) +
                                    " entering") ;
 
-          if (!getAncestorControler<PhysicalWorld>()->m_has_been_simulated)
+          if (!m_world->m_has_been_simulated)
             InternalMessage("Physic","Ode::PhysicalObject::simulate error") ;
 
           updateModelPositioned() ;
@@ -241,8 +241,7 @@ namespace ProjetUnivers
           Model::Positioned*
               positioned = getObject()->getTrait<Model::Positioned>() ;
 
-          PhysicalWorld* world = getAncestorControler<PhysicalWorld>() ;
-          if (world)
+          if (m_world)
           {
 
             /*!
@@ -262,7 +261,7 @@ namespace ProjetUnivers
                                        ode_position[0],
                                        ode_position[1],
                                        ode_position[2]),
-                                     world->getObject()) ;
+                                       m_world->getObject()) ;
 
             Model::Oriented* oriented = getObject()->getTrait<Model::Oriented>() ;
             if (oriented)
@@ -282,12 +281,11 @@ namespace ProjetUnivers
                                                ode_orientation[1],
                                                ode_orientation[2],
                                                ode_orientation[3])),
-                                       world->getObject()) ;
+                                       m_world->getObject()) ;
             }
 
           }
           m_is_being_updated = false ;
-
         }
 
         void PhysicalObject::updateModelMobile()
@@ -297,8 +295,7 @@ namespace ProjetUnivers
           Model::Mobile*
               mobile = getObject()->getTrait<Model::Mobile>() ;
 
-          PhysicalWorld* world = getAncestorControler<PhysicalWorld>() ;
-          if (world)
+          if (m_world)
           {
             const dReal* speed = m_body->getLinearVel() ;
 

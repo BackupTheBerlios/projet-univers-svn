@@ -25,6 +25,7 @@
 #include <kernel/model.h>
 #include <kernel/parameters.h>
 #include <kernel/timer.h>
+#include <kernel/implementation/profiler.h>
 
 #include <artificial_intelligence/artificial_intelligence.h>
 #include <display/display.h>
@@ -44,7 +45,7 @@ using namespace ProjetUnivers ;
 
   -n number of ships
   -t duration of simulation
-
+  -p if set print profile information
   at the end display fps
 
 */
@@ -54,18 +55,26 @@ int main(int argc,char** argv)
   Kernel::Parameters::load("demonstration.config") ;
   Kernel::Log::init() ;
 
+  bool print_profile = false ;
+
   try
   {
     TCLAP::CmdLine cmd("Command description message",' ',"1") ;
+
+    TCLAP::SwitchArg profile("p","profile","print profiling information") ;
+    cmd.add(profile) ;
+
     TCLAP::ValueArg<int> number("n","number","number of ships",false,5,"integer") ;
     cmd.add(number) ;
 
     TCLAP::ValueArg<int> time("t","time","duration in seconds (default 1)",false,1,"integer") ;
     cmd.add(time) ;
 
+
     cmd.parse(argc,argv) ;
     Kernel::Parameters::setValue<float>("Test","numberOfShips",number.getValue()) ;
     Kernel::Parameters::setValue<float>("Test","Duration",time.getValue()) ;
+    print_profile = profile.getValue() ;
   }
   catch(...)
   {
@@ -91,6 +100,9 @@ int main(int argc,char** argv)
 
   Kernel::Timer global_timer ;
 
+  if (print_profile)
+    Kernel::Implementation::Profiler::reset() ;
+
   while (global_timer.getSecond() < duration)
   {
     float seconds = timer.getSecond() ;
@@ -103,6 +115,9 @@ int main(int argc,char** argv)
   }
 
   std::cout << "number of frame per second " << (float)n/duration << std::endl ;
+
+  if (print_profile)
+    Kernel::Implementation::Profiler::print() ;
 
   model->close() ;
 

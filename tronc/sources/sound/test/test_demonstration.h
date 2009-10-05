@@ -55,7 +55,6 @@ namespace ProjetUnivers
         CPPUNIT_TEST_SUITE_END() ;
 
       // @}      
-
       };
 
     }

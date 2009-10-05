@@ -24,6 +24,8 @@
 #include <kernel/object.h>
 #include <kernel/implementation/operation.h>
 #include <kernel/implementation/interpretor.h>
+#include <kernel/timer.h>
+#include <kernel/implementation/profiler.h>
 
 namespace ProjetUnivers
 {
@@ -56,6 +58,7 @@ namespace ProjetUnivers
 
       void Interpretor::destroyTraits()
       {
+        Profiler::startBlock("Kernel::Interpreter::destroyTraits()") ;
         m_destroying_traits = true ;
         for(std::set<Trait*>::iterator trait = m_traits_to_destroy.begin() ; trait != m_traits_to_destroy.end() ; ++trait)
         {
@@ -64,10 +67,12 @@ namespace ProjetUnivers
         }
         m_traits_to_destroy.clear() ;
         m_destroying_traits = false ;
+        Profiler::endBlock("Kernel::Interpreter::destroyTraits()") ;
       }
 
       void Interpretor::destroyObjects()
       {
+        Profiler::startBlock("Kernel::Interpreter::destroyObjects()") ;
         for(std::list<ObjectReference>::const_iterator object = m_objects_to_destroy.begin() ; object != m_objects_to_destroy.end() ; ++object)
         {
           if (*object)
@@ -93,10 +98,12 @@ namespace ProjetUnivers
           }
         }
         m_objects_to_destroy.clear() ;
+        Profiler::endBlock("Kernel::Interpreter::destroyObjects()") ;
       }
 
       void Interpretor::destroyRelations()
       {
+        Profiler::startBlock("Kernel::Interpreter::destroyRelations()") ;
         for(std::set<Relation>::iterator relation = m_relation_to_destroy.begin() ; relation != m_relation_to_destroy.end() ; ++relation)
         {
           Model* model_from = relation->getObjectFrom()?relation->getObjectFrom()->getModel():NULL ;
@@ -108,6 +115,7 @@ namespace ProjetUnivers
         }
 
         m_relation_to_destroy.clear() ;
+        Profiler::endBlock("Kernel::Interpreter::destroyRelations()") ;
       }
 
       void Interpretor::endTransaction()
@@ -119,16 +127,19 @@ namespace ProjetUnivers
           m_performed_operations.clear() ;
 
           while (!m_operations.empty() ||
-                !m_traits_to_destroy.empty() ||
-                !m_objects_to_destroy.empty() ||
-                !m_relation_to_destroy.empty())
+                 !m_traits_to_destroy.empty() ||
+                 !m_objects_to_destroy.empty() ||
+                 !m_relation_to_destroy.empty())
           {
             while (!m_operations.empty())
             {
               Operation operation(m_operations.front()) ;
               m_performed_operations.push_back(operation) ;
               m_operations.pop_front() ;
+
+              Profiler::startBlock(operation.userMethodName()) ;
               operation.execute() ;
+              Profiler::endBlock() ;
             }
 
             destroyTraits() ;
