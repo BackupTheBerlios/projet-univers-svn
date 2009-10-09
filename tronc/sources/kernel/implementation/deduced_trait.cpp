@@ -2472,8 +2472,15 @@ namespace ProjetUnivers
       }
       m_updating.insert(this) ;
       lock() ;
+
+      if (!m_views.empty() || !m_controlers.empty())
+      {
+        Implementation::Profiler::addNotifyDependentWithObserver() ;
+        Implementation::Profiler::addDependentNotified(getObjectTypeIdentifier(this).fullName()) ;
+      }
+
       _updated() ;
-      DeducedTrait::updateTrait(getObject(),this) ;
+      updateDependents() ;
       unlock() ;
       m_updating.erase(this) ;
       Implementation::Profiler::endBlock("Kernel::DeducedTrait::notify") ;
@@ -2488,11 +2495,6 @@ namespace ProjetUnivers
     void DeducedTrait::addTrait(Object* object,Trait* trait)
     {
       TraitFormula::addTrait(object,trait) ;
-    }
-
-    void DeducedTrait::updateTrait(Object*,Trait* trait)
-    {
-      trait->updateDependents() ;
     }
 
     void DeducedRelation::updateRelation(const Relation& relation)

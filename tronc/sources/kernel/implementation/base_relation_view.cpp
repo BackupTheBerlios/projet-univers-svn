@@ -41,10 +41,6 @@ namespace ProjetUnivers
     BaseRelationView::~BaseRelationView()
     {
       close() ;
-//      if (m_trait)
-//      {
-//        m_trait->_remove_view(m_viewpoint,this) ;
-//      }
     }
 
     BaseRelationView::BaseRelationView()

@@ -162,6 +162,8 @@ namespace ProjetUnivers
       /// The latest updated trait type.
       static std::stack<TypeIdentifier> m_latest_updated_trait ;
 
+      bool hasObserver() const ;
+
     private:
 
       /// True iff trait has a controller on @c

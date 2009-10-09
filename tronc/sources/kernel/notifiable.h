@@ -50,6 +50,7 @@ namespace ProjetUnivers
       virtual void addReverseDependency(Notifiable*) ;
       virtual void removeReverseDependency(Notifiable*) ;
 
+      void resetUpdatedStatus() ;
 
       /// Access to direct dependent notifiables.
       /*!
@@ -82,10 +83,13 @@ namespace ProjetUnivers
 
     protected:
 
+      /// True if this has view or controller.
+      virtual bool hasObserver() const = 0 ;
+
       Notifiable() ;
 
       /// Propagate update on dependent traits.
-      void updateDependents() const ;
+      void updateDependents() ;
 
       /// Propagate close on dependent notifiable.
       void closeDependents() const ;
@@ -104,6 +108,9 @@ namespace ProjetUnivers
 
       /// Inverse of m_direct_dependent_notifiables
       std::set<Notifiable*> m_reverse_dependencies ;
+
+      /// True when already updated this round
+      bool m_updated_this_round ;
 
       friend class FormulaOr ;
       friend class IsRelatedFormula ;

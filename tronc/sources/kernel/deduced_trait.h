@@ -197,9 +197,6 @@ namespace ProjetUnivers
       /// Called when @c object gained @c trait
       static void addTrait(Object* object,Trait* trait) ;
 
-      /// Object trait has been updated
-      static void updateTrait(Object* object,Trait* trait) ;
-
       /// Called when @c object loosed @c trait
       static void removeTrait(Object* object,Trait* trait) ;
 

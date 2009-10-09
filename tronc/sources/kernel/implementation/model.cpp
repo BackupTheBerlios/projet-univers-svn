@@ -582,6 +582,7 @@ namespace ProjetUnivers
     void Model::updateObserver(Observer* observer)
     {
       addOperation(Implementation::Operation::update(observer)) ;
+      Implementation::Profiler::addObserverUpdate() ;
     }
 
     void Model::changeParentObserver(Observer* observer,Object* old_parent)
@@ -602,6 +603,7 @@ namespace ProjetUnivers
     void Model::updateObserver(RelationObserver* observer)
     {
       addOperation(Implementation::Operation::update(observer)) ;
+      Implementation::Profiler::addObserverUpdate() ;
     }
 
     Relation* Model::getCanonical(const Relation& relation)
@@ -814,6 +816,12 @@ namespace ProjetUnivers
         delete *controler ;
       }
       m_relation_controlers.erase(relation) ;
+    }
+
+    bool Model::hasObserver(const Relation& relation)
+    {
+      return m_relation_controlers.find(relation) != m_relation_controlers.end() ||
+             m_relation_views.find(relation) != m_relation_views.end() ;
     }
 
     void Model::init(const Relation& relation)

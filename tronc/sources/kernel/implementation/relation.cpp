@@ -163,6 +163,11 @@ namespace ProjetUnivers
       }
     }
 
+    bool Relation::hasObserver() const
+    {
+      return getObjectFrom()->getModel()->hasObserver(*this) ;
+    }
+
     void Relation::createViews() const
     {
       for(std::set<ViewPoint*>::iterator viewpoint = getObjectFrom()->getModel()->m_viewpoints.begin() ;

@@ -129,7 +129,7 @@ namespace ProjetUnivers
       /// Destroy a link.
       static void destroyLink(const TypeIdentifier&,Object*,Object*) ;
 
-
+      bool hasObserver() const ;
 
     private:
 

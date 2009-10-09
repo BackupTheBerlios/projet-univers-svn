@@ -45,7 +45,13 @@ namespace ProjetUnivers
     }
 
     Notifiable::Notifiable()
+    : m_updated_this_round(false)
     {}
+
+    void Notifiable::resetUpdatedStatus()
+    {
+      m_updated_this_round = false ;
+    }
 
     void Notifiable::addReverseDependency(Notifiable* notifiable)
     {
@@ -95,11 +101,14 @@ namespace ProjetUnivers
       m_direct_dependent_notifiables.erase(notifiable) ;
     }
 
-    void Notifiable::updateDependents() const
+    void Notifiable::updateDependents()
     {
       /// @todo : should update notifiables in order depending on dependence graph
-      if (m_direct_dependent_notifiables.empty())
+      if (m_updated_this_round || m_direct_dependent_notifiables.empty())
         return ;
+
+      if (hasObserver())
+        m_updated_this_round = true ;
 
       Log::Block block("Update","Notifiable::updateDependents " + toString()) ;
 
@@ -107,6 +116,7 @@ namespace ProjetUnivers
           notifiable != m_direct_dependent_notifiables.end() ;
           ++notifiable)
       {
+        Implementation::Profiler::addNotifyDependent() ;
         InternalMessage("Update","Updating : " + (*notifiable)->toString()) ;
         (*notifiable)->notify() ;
       }

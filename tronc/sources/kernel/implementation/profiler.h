@@ -66,6 +66,16 @@ namespace ProjetUnivers
         /// Prints the profiling results to std::cout and desacttivate profiling
         static void print() ;
 
+        /// Enter the notify of an elementary trait
+        static void enterNotify(const std::string&) ;
+
+        static void addObserverUpdate() ;
+        static void addNotifyDependent() ;
+        static void addNotifyDependentWithObserver() ;
+        static void addDependentNotified(const std::string&) ;
+
+        static void leaveNotify() ;
+
       private:
 
         /// An opened block
@@ -101,6 +111,18 @@ namespace ProjetUnivers
         static unsigned int m_maximum_stack ;
 
         static bool m_activated ;
+
+        struct NotifyStatistic
+        {
+          int m_number_of_notify ;
+          int m_number_of_updated_observers ;
+          int m_number_of_depending_with_observers ;
+          int m_number_of_depending_notify ;
+          std::set<std::string> m_dependents ;
+        };
+
+        static std::map<std::string,NotifyStatistic> m_notify_statistics ;
+        static std::string m_current_notify ;
       };
     }
   }

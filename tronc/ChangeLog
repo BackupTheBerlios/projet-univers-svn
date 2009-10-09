@@ -1479,6 +1479,7 @@
     - sooner stream destruction 
 
 2009-09-22
+
   * All : 
     - removed magic constant command names
   * Laser : 
@@ -1491,6 +1492,7 @@
     - add energy collision on the collision (preliminary version)
 
 2009-09-22
+
   * Sound : 
     - added variable gain on collision depending on collision energy
     - added distance culling on sources 
@@ -1511,21 +1513,32 @@
       ships are placed on a circle and the size of that circle must depend on 
       number of ships.
     - added an option to demonstration/test to output profiling results
+
+2009-10-10
+
+  * Kernel :
+    - cleaning
+    - adding statistics on update propagation
+    - update only once a trait per round 
             
 in commit
 --------
-
+  
         
 in progress
 -----------
     
-      
+
 todo
 ----
 
+  * bug :
+    - on windows physics diverge on test ai (so should also diverge on demo)
+    - remove hack in Model and place them in Physics 
+
   * Kernel : 
     - maybe something to do on notify : directly calls the update on connected 
-      views
+      traits that have views
    
   * Physics :
     - still instability in collisions

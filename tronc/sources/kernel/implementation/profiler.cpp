@@ -32,6 +32,8 @@ namespace ProjetUnivers
       std::map<std::string,Profiler::Statistic> Profiler::m_statistics ;
       unsigned int Profiler::m_maximum_stack = 0 ;
       bool Profiler::m_activated = false ;
+      std::map<std::string,Profiler::NotifyStatistic> Profiler::m_notify_statistics ;
+      std::string Profiler::m_current_notify ;
 
       void Profiler::startBlock(const std::string& name)
       {
@@ -93,6 +95,46 @@ namespace ProjetUnivers
         }
       }
 
+      void Profiler::enterNotify(const std::string& type)
+      {
+        m_current_notify = type ;
+        std::map<std::string,NotifyStatistic>::iterator trait = m_notify_statistics.find(m_current_notify) ;
+        if (trait == m_notify_statistics.end())
+        {
+          m_notify_statistics[m_current_notify].m_number_of_notify = 0 ;
+          m_notify_statistics[m_current_notify].m_number_of_updated_observers = 0 ;
+          m_notify_statistics[m_current_notify].m_number_of_depending_notify = 0 ;
+          m_notify_statistics[m_current_notify].m_number_of_depending_with_observers = 0 ;
+        }
+
+        ++m_notify_statistics[m_current_notify].m_number_of_notify ;
+      }
+
+      void Profiler::addObserverUpdate()
+      {
+        ++m_notify_statistics[m_current_notify].m_number_of_updated_observers ;
+      }
+
+      void Profiler::addNotifyDependent()
+      {
+        ++m_notify_statistics[m_current_notify].m_number_of_depending_notify ;
+      }
+
+      void Profiler::addNotifyDependentWithObserver()
+      {
+        ++m_notify_statistics[m_current_notify].m_number_of_depending_with_observers ;
+      }
+
+      void Profiler::addDependentNotified(const std::string& name)
+      {
+        m_notify_statistics[m_current_notify].m_dependents.insert(name) ;
+      }
+
+      void Profiler::leaveNotify()
+      {
+        m_current_notify = "" ;
+      }
+
       void Profiler::reset()
       {
         m_statistics.clear() ;
@@ -107,10 +149,32 @@ namespace ProjetUnivers
         std::cout << "name\tnumber_of_calls\telapsed(milli seconds)\tinner(milli seconds)" << std::endl ;
         for(std::map<std::string,Profiler::Statistic>::iterator statistic = m_statistics.begin() ; statistic != m_statistics.end() ; ++statistic)
         {
-         std::cout << statistic->first << "\t" << statistic->second.m_number_of_calls << "\t" << statistic->second.m_total_elapsed_milliseconds << "\t" << statistic->second.m_inner_milliseconds << std::endl ;
+         std::cout << statistic->first << "\t"
+                   << statistic->second.m_number_of_calls << "\t"
+                   << statistic->second.m_total_elapsed_milliseconds << "\t"
+                   << statistic->second.m_inner_milliseconds << std::endl ;
         }
+
+        std::cout << "trait_name\tnumber_of_calls\tnumber_of_view_updated\tnumber_of_depending_notify\tnumber_of_depending_with_observers\tdependent_traits" << std::endl ;
+        for(std::map<std::string,NotifyStatistic>::iterator statistic = m_notify_statistics.begin() ; statistic != m_notify_statistics.end() ; ++statistic)
+        {
+          std::cout << statistic->first << "\t"
+                    << statistic->second.m_number_of_notify << "\t"
+                    << statistic->second.m_number_of_updated_observers << "\t"
+                    << statistic->second.m_number_of_depending_notify << "\t"
+                    << statistic->second.m_number_of_depending_with_observers ;
+
+          for(std::set<std::string>::iterator dependent = statistic->second.m_dependents.begin() ; dependent != statistic->second.m_dependents.end() ; ++dependent)
+
+            std::cout << " " << *dependent ;
+
+          std::cout << std::endl ;
+        }
+
         m_activated = false ;
       }
+
+
 
     }
   }

@@ -95,6 +95,7 @@ namespace ProjetUnivers
     {
       if (m_really_initialised)
       {
+        getObjectFrom()->getModel()->getCanonical(m_relation)->resetUpdatedStatus() ;
         onUpdate() ;
       }
     }

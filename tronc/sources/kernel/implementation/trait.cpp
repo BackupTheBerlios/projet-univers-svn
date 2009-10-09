@@ -477,16 +477,24 @@ namespace ProjetUnivers
         m_is_updating = true ;
       }
 
+      Implementation::Profiler::enterNotify(getObjectTypeIdentifier(this).fullName()) ;
       m_latest_updated_trait.push(getObjectTypeIdentifier(this)) ;
       _updated() ;
-      DeducedTrait::updateTrait(getObject(),this) ;
+      updateDependents() ;
       m_latest_updated_trait.pop() ;
+      Implementation::Profiler::leaveNotify() ;
+
       if (remove_update)
       {
         m_is_updating = false ;
       }
       unlock() ;
       Implementation::Profiler::endBlock("Kernel::Trait::notify") ;
+    }
+
+    bool Trait::hasObserver() const
+    {
+      return !m_views.empty() || !m_controlers.empty() ;
     }
 
     void Trait::apply(

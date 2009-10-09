@@ -50,6 +50,7 @@ namespace ProjetUnivers
 
       void Interpretor::addOperation(const Implementation::Operation& operation)
       {
+        /// @todo investigate Model gpf without || m_is_finishing
         if ((m_number_of_openned_transaction > 0 || m_is_finishing) && ! m_destroying)
           m_operations.push_back(operation) ;
         else

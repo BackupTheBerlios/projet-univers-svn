@@ -109,6 +109,7 @@ namespace ProjetUnivers
     {
       if (m_really_initialised)
       {
+        getTrait()->resetUpdatedStatus() ;
         onUpdate() ;
       }
     }
