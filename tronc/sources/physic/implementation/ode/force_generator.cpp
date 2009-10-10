@@ -30,6 +30,7 @@
 #include <physic/implementation/ode/physical_object.h>
 #include <physic/implementation/ode/physical_world.h>
 #include <physic/implementation/ode/force_generator.h>
+#include <kernel/parameters.h>
 
 namespace ProjetUnivers
 {
@@ -56,6 +57,13 @@ namespace ProjetUnivers
           if (m_object && m_object->getBody())
           {
             Ogre::Vector3 force = getTrait<Model::ForceGenerator>()->getAppliedForce().Newton() ;
+
+            float length = force.length() ;
+            if (length > Kernel::Parameters::getValue<float>("Physic","Force.MaxAllowed",1000))
+            {
+              ErrorMessage("ForceGenerator::prepare() capping torque value") ;
+              force /= length ;
+            }
 
             if (!(finite(force.x) && finite(force.y) && finite(force.z)))
               throw Kernel::ExceptionKernel("Infinite force in ForceGenerator::prepare") ;

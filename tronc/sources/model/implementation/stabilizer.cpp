@@ -152,7 +152,7 @@ namespace ProjetUnivers {
         
         global_axis.normalise() ;
         
-        global_axis *= -sign*std::min((float)100,std::max(std::max(force,-force),(force*force))) ;
+        global_axis *= -sign*std::max(std::max(force,-force),(force*force)) ;
 
         InternalMessage("Model","Model::Stabilizer::NewtonMeter result="
                         + Kernel::toString(global_axis[0]) + ","

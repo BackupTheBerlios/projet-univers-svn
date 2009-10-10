@@ -175,7 +175,7 @@ namespace ProjetUnivers
             throw std::exception() ;
 
           dMass ode_mass ;
-          dMassSetSphereTotal(&ode_mass,mass.Kilogram(),1) ;
+          dMassSetSphereTotal(&ode_mass,1,1) ;
           m_body->setMass(&ode_mass) ;
         }
 

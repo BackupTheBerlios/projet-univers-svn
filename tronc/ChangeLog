@@ -1520,6 +1520,12 @@
     - cleaning
     - adding statistics on update propagation
     - update only once a trait per round 
+
+2009-10-10
+
+  * Physics :
+    - remove hack in Model and place it in Physics (both torque and force)
+    - adding a capping in physics reduces instability on ship stabilizer
             
 in commit
 --------
@@ -1527,32 +1533,22 @@ in commit
         
 in progress
 -----------
-    
+
 
 todo
 ----
-
-  * bug :
-    - on windows physics diverge on test ai (so should also diverge on demo)
-    - remove hack in Model and place them in Physics 
 
   * Kernel : 
     - maybe something to do on notify : directly calls the update on connected 
       traits that have views
    
-  * Physics :
-    - still instability in collisions
-     
   * Sound : 
-    - exception floating point
+    - exception floating point : not reproduced
     - too many sources 114 simultaneous sources with 30 ships 
     - event limitation : a pool of sources of given size, with circular assignment
   
-  * Physic : 
-    - instability on test executable some contacts make ship twittle 
-  
   * All : 
-    - remove magic constant for config files ?
+    - remove magic constant for config files parameter names ?
  
   * Model : 
     - selected target going out of range will not be unselected
@@ -1561,6 +1557,7 @@ todo
     - change selection printing (change color of ideal target)
 
   * Continuous integration :
+    - deployment should also publish tests results
     - migrate to ant
     - use cccc
     - profile with valgrind (cachegrind) valgrind --tool=callgrind + kcachegrind 

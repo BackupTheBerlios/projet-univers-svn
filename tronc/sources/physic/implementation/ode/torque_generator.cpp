@@ -30,6 +30,7 @@
 #include <physic/implementation/ode/physical_object.h>
 #include <physic/implementation/ode/physical_world.h>
 #include <physic/implementation/ode/torque_generator.h>
+#include <kernel/parameters.h>
 
 namespace ProjetUnivers
 {
@@ -58,7 +59,14 @@ namespace ProjetUnivers
                                       Kernel::toString(torque.x) + "," + 
                                       Kernel::toString(torque.y) + "," +
                                       Kernel::toString(torque.z)) ;
-             
+
+            float length = torque.length() ;
+            if (length > Kernel::Parameters::getValue<float>("Physic","Torque.MaxAllowed",10))
+            {
+              ErrorMessage("TorqueGenerator::prepare() capping torque value") ;
+              torque /= length ;
+            }
+
             if (!(finite(torque.x) && finite(torque.y) && finite(torque.z)))
               throw Kernel::ExceptionKernel("Infinite torque in TorqueGenerator::prepare " +
                                             getTrait<Model::TorqueGenerator>()->toString()) ;
