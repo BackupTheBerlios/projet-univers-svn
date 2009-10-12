@@ -29,6 +29,7 @@ namespace ProjetUnivers
   {
     
     Transponder::Transponder(Kernel::Object* team)
+    : m_team(team)
     {
       if (team && team->getTrait<Team>())
       {  
@@ -48,6 +49,11 @@ namespace ProjetUnivers
     std::string Transponder::getCode() const
     {
       return m_team_name + "-" + Kernel::toString(getObject()->getIdentifier()) ;
+    }
+
+    Kernel::Object* Transponder::getTeam() const
+    {
+      return m_team ;
     }
 
     bool Transponder::areFoe(Kernel::Object* object1,Kernel::Object* object2)

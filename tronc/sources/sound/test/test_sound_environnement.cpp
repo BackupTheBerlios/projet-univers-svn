@@ -41,6 +41,8 @@
 #include <model/background_sound.h>
 #include <model/sound_environnement.h>
 #include <model/collision.h>
+#include <model/engine_controler.h>
+#include <model/throttle.h>
 
 #include <sound/sound.h>
 #include <sound/test/test_sound_environnement.h>
@@ -58,7 +60,7 @@ namespace ProjetUnivers
 
       void TestSoundEnvironnement::basicTest()
       {
-        std::cerr << "TestSoundEnvironnement::basicTest" << std::endl ;
+        std::cerr << "TestSoundEnvironnement::basicTest"  ;
         std::cerr.flush() ;
         
         /*!
@@ -81,14 +83,15 @@ namespace ProjetUnivers
         listener->addTrait(new Model::Oriented(Model::Orientation(Ogre::Quaternion(1.0, 0.0, 10.0, 0.0)))) ;
         listener->addTrait(new Model::Mobile());
 
-        Kernel::Object* engine = system->createObject() ;
-        engine->addTrait(new Model::Engine(Model::Force::Newton(10,10,10))) ;
-        engine->addTrait(new Model::Positioned()) ;
-        engine->addTrait(new Model::Oriented(Model::Orientation(Ogre::Quaternion(1.0, 0.0, -10.0, 0.0)))) ;
-        engine->addTrait(new Model::Mobile());
+        Kernel::Object* ship = Model::createShip(system) ;
+
+        ship->getChild<Model::Throttle>()->set(100) ;
 
         Kernel::Timer timer;
         Kernel::Timer global_timer;
+
+        std::cerr << " normal... " ;
+        std::cerr.flush() ;
 
         while (global_timer.getSecond() <= 3)
         {
@@ -110,7 +113,10 @@ namespace ProjetUnivers
         //        soundEnv->setLateReverbGain(1.0) ;
         //        soundEnv->setLateReverbDelay(2.5) ;
         env->addTrait(soundEnv) ;
-        engine->changeParent(env) ;
+        ship->changeParent(env) ;
+
+        std::cerr << " switching environement... " << std::endl ;
+        std::cerr.flush() ;
 
         while (global_timer.getSecond() <= 6)
         {

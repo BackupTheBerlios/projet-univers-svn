@@ -21,6 +21,7 @@
 #pragma once
 
 #include <kernel/relation.h>
+#include <kernel/meta.h>
 
 namespace ProjetUnivers
 {
@@ -58,6 +59,9 @@ namespace ProjetUnivers
       /// True when onInit has been executed.
       bool isInitialised() const ;
 
+      /// Identify the latest updated trait.
+      const TypeIdentifier& getLatestUpdatedTrait() const ;
+
     protected:
 
       /// Called after the relation appears.
@@ -88,6 +92,7 @@ namespace ProjetUnivers
       friend class ::ProjetUnivers::Kernel::Implementation::Operation ;
       friend class Model ;
 
+      TypeIdentifier m_latest_updated_trait ;
     };
   }
 }

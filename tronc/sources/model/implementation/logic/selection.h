@@ -22,6 +22,7 @@
 #include <kernel/relation_controler.h>
 #include <model/implementation/logic/logic_system.h>
 #include <kernel/deduced_trait.h>
+#include <kernel/object_reference.h>
 
 namespace ProjetUnivers
 {
@@ -40,8 +41,16 @@ namespace ProjetUnivers
         {
         protected:
 
+          /// Stores detector
+          virtual void onInit() ;
+
+          /// Check range
+          virtual void onUpdate() ;
+
           /// Destroy the Selection.
-          void onClose() ;
+          virtual void onClose() ;
+
+          Kernel::ObjectReference m_detector ;
         };
       }
     }

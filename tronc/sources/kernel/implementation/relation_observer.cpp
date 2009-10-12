@@ -81,6 +81,11 @@ namespace ProjetUnivers
       return m_really_initialised ;
     }
 
+    const TypeIdentifier& RelationObserver::getLatestUpdatedTrait() const
+    {
+      return m_latest_updated_trait ;
+    }
+
     void RelationObserver::realClose()
     {
       if (m_really_initialised)

@@ -25,6 +25,7 @@
 #include <model/computer.h>
 #include <model/detector.h>
 #include <model/selection.h>
+#include <model/positioned.h>
 
 namespace ProjetUnivers
 {
@@ -34,16 +35,33 @@ namespace ProjetUnivers
     {
       DeclareDeducedRelation(Implementation::Selection,
                              Model::Selection,
-                             IsFrom(HasChild(And(HasTrait(TargetingSystem),
-                                                 IsRelated(Kernel::Inverse<DataConnection>,
-                                                           And(HasTrait(Computer),
-                                                               IsRelated(Kernel::Inverse<DataConnection>,
-                                                                         HasTrait(Detector)))))))) ;
+                             And(IsTo(HasTrait(RecursivelyPositioned)),
+                                 IsFrom(And(HasTrait(RecursivelyPositioned),
+                                        HasChild(And(HasTrait(TargetingSystem),
+                                                     IsRelated(Kernel::Inverse<DataConnection>,
+                                                               And(HasTrait(Computer),
+                                                                   IsRelated(Kernel::Inverse<DataConnection>,
+                                                                             HasTrait(Detector)))))))))) ;
 
       namespace Logic
       {
 
         RegisterRelationControler(Selection,Implementation::Selection,LogicSystem) ;
+
+        void Selection::onInit()
+        {
+          m_detector = getObjectFrom()->getChild<Detector>()->getObject() ;
+        }
+
+        void Selection::onUpdate()
+        {
+          if (!m_detector || !m_detector->getTrait<Detector>() ||
+              getDistance(getObjectFrom(),getObjectTo()) >
+              m_detector->getTrait<Detector>()->getRange())
+          {
+            getObjectFrom()->getChild<TargetingSystem>()->unSelectTarget(getObjectTo()) ;
+          }
+        }
 
         void Selection::onClose()
         {

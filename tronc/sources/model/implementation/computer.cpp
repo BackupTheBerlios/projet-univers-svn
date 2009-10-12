@@ -56,8 +56,8 @@ namespace ProjetUnivers
     Position Computer::getDataPosition(Kernel::Object* data,
                                        Kernel::Object* relative_to) const
     {
-      return data->getTrait<Positioned>()->getPosition()*
-             getRelativeOrientation(getObject(),relative_to) +
+      /// data position is not influenced by orientation of the detecting ship
+      return data->getTrait<Positioned>()->getPosition() +
              getRelativePosition(getObject(),relative_to) ;
     }
   

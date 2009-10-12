@@ -119,5 +119,10 @@ namespace ProjetUnivers
       return m_really_initialised ;
     }
 
+    const TypeIdentifier& Observer::getLatestUpdatedTrait() const
+    {
+      return m_latest_updated_trait ;
+    }
+
   }
 }

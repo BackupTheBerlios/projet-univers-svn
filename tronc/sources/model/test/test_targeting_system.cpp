@@ -435,6 +435,102 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(!enemy) ;
       }
 
+      void TestTargetingSystem::selectedTargetOutOfRangeIsUnselected()
+      {
+        InternalMessage("Model","Model::TestTargetingSystem::selectedTargetOutOfRangeIsUnselected entering") ;
+
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model()) ;
+        model->init() ;
+
+        Kernel::Object* system = model->createObject() ;
+
+        Kernel::Object* ship = system->createObject() ;
+        ship->addTrait(new Positioned()) ;
+        ship->addTrait(new Massive(Mass::Kilogram(1000))) ;
+        ship->addTrait(new Oriented()) ;
+        ship->addTrait(new Mobile()) ;
+        ship->addTrait(new Solid(Mesh("test_ship.mesh"))) ;
+        ship->addTrait(new Computer()) ;
+        ship->addTrait(new Detector(Model::Distance(Model::Distance::_Meter,1000))) ;
+        Detector::connect(ship,ship) ;
+        ship->addTrait(new TargetingSystem()) ;
+        TargetingSystem::connect(ship,ship) ;
+
+        Kernel::Object* ship2 = system->createObject() ;
+        ship2->addTrait(new Positioned(Position::Meter(0,0,50))) ;
+        ship2->addTrait(new Massive(Mass::Kilogram(1000))) ;
+        ship2->addTrait(new Oriented()) ;
+        ship2->addTrait(new Mobile()) ;
+        ship2->addTrait(new Solid(Mesh("test_ship.mesh"))) ;
+
+        ship->getTrait<TargetingSystem>()->selectNearestTarget() ;
+
+        CPPUNIT_ASSERT(ship->getTrait<TargetingSystem>()->getTarget() == ship2) ;
+        CPPUNIT_ASSERT(Selection::isSelected(ship,ship2)) ;
+
+        // move ship 2 out of range
+        ship2->getTrait<Positioned>()->setPosition(Position::Meter(0,0,2000)) ;
+
+        CPPUNIT_ASSERT(ship->getTrait<TargetingSystem>()->getTarget() == NULL) ;
+        CPPUNIT_ASSERT(!Selection::isSelected(ship,ship2)) ;
+
+        InternalMessage("Model","Model::TestTargetingSystem::selectedTargetOutOfRangeIsUnselected leaving") ;
+      }
+
+      void TestTargetingSystem::selectSeveralTimesNearestEnemy()
+      {
+        InternalMessage("Model","Model::TestTargetingSystem::selectSeveralTimesNearestEnemy entering") ;
+
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model()) ;
+        model->init() ;
+
+        Kernel::Object* system = model->createObject() ;
+
+        Kernel::Object* team1 = model->createObject() ;
+        team1->addTrait(new Team("team1")) ;
+        Kernel::Object* team2 = model->createObject() ;
+        team2->addTrait(new Team("team2")) ;
+
+        Kernel::Object* ship = system->createObject() ;
+        ship->addTrait(new Positioned()) ;
+        ship->addTrait(new Massive(Mass::Kilogram(1000))) ;
+        ship->addTrait(new Oriented()) ;
+        ship->addTrait(new Mobile()) ;
+        ship->addTrait(new Solid(Mesh("test_ship.mesh"))) ;
+        ship->addTrait(new Computer()) ;
+        ship->addTrait(new Detector(Model::Distance(Model::Distance::_Meter,1000))) ;
+        Detector::connect(ship,ship) ;
+        ship->addTrait(new TargetingSystem()) ;
+        TargetingSystem::connect(ship,ship) ;
+        ship->addTrait(new Transponder(team1)) ;
+
+        Kernel::Object* ship2 = system->createObject() ;
+        ship2->addTrait(new Positioned(Position::Meter(0,0,50))) ;
+        ship2->addTrait(new Massive(Mass::Kilogram(1000))) ;
+        ship2->addTrait(new Oriented()) ;
+        ship2->addTrait(new Mobile()) ;
+        ship2->addTrait(new Solid(Mesh("test_ship.mesh"))) ;
+        ship2->addTrait(new Transponder(team2)) ;
+
+        Kernel::Object* ship3 = system->createObject() ;
+        ship3->addTrait(new Positioned(Position::Meter(0,0,5000))) ;
+        ship3->addTrait(new Massive(Mass::Kilogram(1000))) ;
+        ship3->addTrait(new Oriented()) ;
+        ship3->addTrait(new Mobile()) ;
+        ship3->addTrait(new Solid(Mesh("test_ship.mesh"))) ;
+        ship3->addTrait(new Transponder(team2)) ;
+
+        ship->getTrait<TargetingSystem>()->selectNearestEnemy() ;
+
+        CPPUNIT_ASSERT(ship->getTrait<TargetingSystem>()->getTarget() == ship2) ;
+        CPPUNIT_ASSERT(Selection::isSelected(ship,ship2)) ;
+
+        ship->getTrait<TargetingSystem>()->selectNearestEnemy() ;
+
+        CPPUNIT_ASSERT(ship->getTrait<TargetingSystem>()->getTarget() == ship2) ;
+        CPPUNIT_ASSERT(Selection::isSelected(ship,ship2)) ;
+      }
+
     }
   }
 }

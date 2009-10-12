@@ -85,7 +85,12 @@ namespace ProjetUnivers
         Object*   m_object ;
         Observer* m_observer ;
         Object*   m_old_parent ;
+
+        /// In case of update relation, the view/controller to be updated
         RelationObserver* m_relation_observer ;
+
+        /// The modified trait that triggered update
+        TypeIdentifier m_updated_trait ;
 
         std::string m_debug_display ;
         std::string m_user_method_name ;

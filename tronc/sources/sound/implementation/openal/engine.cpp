@@ -84,13 +84,13 @@ namespace ProjetUnivers
                     
         void Engine::onUpdate()
         {
-          this->updateSource(getViewPoint());
+          this->updateSource();
         }
         
         void Engine::onChangeParent(Kernel::Object* i_old_parent)
         {
           InformationMessage("Sound","call onChangeParent") ;
-          this->changeParentSource(getViewPoint()) ;
+          this->changeParentSource() ;
         }
       
       }

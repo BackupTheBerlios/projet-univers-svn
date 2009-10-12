@@ -62,7 +62,7 @@ namespace ProjetUnivers
                     
         void BackgroundSound::onUpdate()
         {
-          this->updateSource(getViewPoint());
+          this->updateSource();
         } 
       
       }

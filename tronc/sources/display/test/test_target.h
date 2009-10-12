@@ -48,7 +48,6 @@ namespace ProjetUnivers
         void identifiedTarget() ;
         void changeTarget() ;
 
-
       // @}
       /*!
         @name Test registration

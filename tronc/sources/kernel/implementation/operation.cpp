@@ -38,6 +38,7 @@ namespace ProjetUnivers
         m_observer(operation.m_observer),
         m_old_parent(operation.m_old_parent),
         m_relation_observer(operation.m_relation_observer),
+        m_updated_trait(operation.m_updated_trait),
         m_debug_display(operation.m_debug_display),
         m_user_method_name(operation.m_user_method_name)
       {}
@@ -80,6 +81,7 @@ namespace ProjetUnivers
         result.m_type = Update ;
         result.m_object = observer->getObject() ;
         result.m_observer = observer ;
+        result.m_updated_trait = Trait::getLatestUpdatedTrait() ;
         std::string class_name(getObjectTypeIdentifier(result.m_observer).fullName()) ;
         result.m_debug_display = "Update(" + Kernel::toString(result.m_object->getIdentifier()) + "," + class_name +")" ;
         result.m_user_method_name = class_name + "::onUpdate()" ;
@@ -130,6 +132,7 @@ namespace ProjetUnivers
         Operation result ;
         result.m_type = UpdateRelation ;
         result.m_relation_observer = observer ;
+        result.m_updated_trait = Trait::getLatestUpdatedTrait() ;
         std::string class_name(getObjectTypeIdentifier(result.m_relation_observer).fullName()) ;
         result.m_debug_display = "UpdateRelation(" + class_name +
                                  "," + Kernel::toString(observer->getObjectFrom()->getIdentifier()) + "," +
@@ -149,7 +152,9 @@ namespace ProjetUnivers
           m_observer->realClose() ;
           break ;
         case Update:
+          m_observer->m_latest_updated_trait = m_updated_trait ;
           m_observer->realUpdate() ;
+          m_observer->m_latest_updated_trait = TypeIdentifier() ;
           break ;
         case ChangeParent:
           m_observer->realChangeParent(m_old_parent) ;
@@ -161,7 +166,9 @@ namespace ProjetUnivers
           m_relation_observer->realClose() ;
           break ;
         case UpdateRelation:
+          m_relation_observer->m_latest_updated_trait = m_updated_trait ;
           m_relation_observer->realUpdate() ;
+          m_relation_observer->m_latest_updated_trait = TypeIdentifier() ;
           break ;
         case None:
           break ;

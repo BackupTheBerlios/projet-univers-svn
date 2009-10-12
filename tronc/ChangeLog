@@ -1526,6 +1526,20 @@
   * Physics :
     - remove hack in Model and place it in Physics (both torque and force)
     - adding a capping in physics reduces instability on ship stabilizer
+
+2009-10-12
+
+  * Model : 
+    - selected target going out of range will not be unselected
+    - issue with selection repaired but I do not know how to make a unit test
+    - repaired shooting helper
+  
+  * Kernel :
+    - repair getLatestUpdatedTrait()
+
+  * Sound :
+    - corrected sound status changes, corrects engine sound not played during 
+      demo
             
 in commit
 --------
@@ -1533,10 +1547,40 @@ in commit
         
 in progress
 -----------
-
-
+  
+   
 todo
 ----
+
+  - print ship lists by teams
+
+  * Demo : 
+    - victory condition does not work ?
+    - doubt on respawn of enemies
+     
+  * Physics :
+    - still instability under windows on forces, unit range ?
+    
+  * Display : 
+    - change selection printing (change color of ideal target)
+
+  * Damage handling
+    - Hit visualization localized on ship : emit particles
+
+  * AI : 
+    - issues with ship fleeing : when two ships aim at each other... they flee
+      perpendicularly
+    - AI tend to "flee on the side" once the target has gone in a perpendicular 
+      direction, its targeting go the same and the phenomenon amplifies
+    - users repport that AI tend to get back on back (probably a worst case 
+      scenario in the algorithm)
+  
+  * Ship configuration
+    - Energy handling 
+    
+  * Shields
+    - Damages
+    - Commands on shields (transfer shield to front, back...) 
 
   * Kernel : 
     - maybe something to do on notify : directly calls the update on connected 
@@ -1549,13 +1593,7 @@ todo
   
   * All : 
     - remove magic constant for config files parameter names ?
- 
-  * Model : 
-    - selected target going out of range will not be unselected
-
-  * Display : 
-    - change selection printing (change color of ideal target)
-
+     
   * Continuous integration :
     - deployment should also publish tests results
     - migrate to ant
@@ -1566,13 +1604,6 @@ todo
       invalid access should crash make check (xml output and a check for Invalid Acess)
     - add benchmark testing
 
-  * AI : 
-    - issues with ship fleeing : when two ships aim at each other... they flee
-      perpendicularly
-    - AI tend to "flee on the side" once the target has gone in a perpendicular 
-      direction, its targeting go the same and the phenomenon amplifies
-    - users repport that AI tend to get back on back (probably a worst case 
-      scenario in the algorithm)
 
   * Model : 
     - Mission : destruction sequence during player's ship explosion 
@@ -1612,9 +1643,6 @@ todo
     - we should use onChangedParent() for formulae on parent instead of 
       onUpdate, onChangeParent is exactly the event that indicates that the 
       formula is still true but through another one ?
-    - repair getLatestUpdatedTrait() : memorisation of the event that caused 
-      the update (could be update trait, changeHasParent, changeHasAncestor, 
-      humm...)
     - all members should be encapsulated, even for own class : allow to change 
       storage (object pool...) for allocation optimisation
     - create an object pool per model, a pool on views too... boost::object_pool 
@@ -1751,7 +1779,12 @@ todo
       # use a modified doxygen
       # instead of generating code, genetate an xml structure for attributes, 
         getter and setters ?  (it would be ridiculous : better forget c++ then)
-
+    - how can we take advantage of multi-core systems ? for example, during 
+      ai simulation, we could calculate commands in threads... or during physics 
+      simulate world layers also in threads
+      interpretor is also a good location for threading, provided all model 
+      accesses are mutexed. 
+    
   * Network :
     - udp for position update of physical objects
     - tcp for structural operations (creation destruction)

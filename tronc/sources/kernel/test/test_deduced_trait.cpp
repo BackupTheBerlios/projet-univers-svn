@@ -221,7 +221,7 @@ namespace ProjetUnivers
 
           virtual void onUpdate()
           {
-            last_modified_trait = getTrait()->getLatestUpdatedTrait() ;
+            last_modified_trait = getLatestUpdatedTrait() ;
             ++ m_update_number ;
           }
         };
@@ -612,7 +612,7 @@ namespace ProjetUnivers
 
           virtual void onUpdate()
           {
-            m_latest_updated_trait = getTrait()->getLatestUpdatedTrait() ;
+            m_latest_updated_trait = getLatestUpdatedTrait() ;
             Trait15* trait = getObject()->getTrait<Trait15>() ;
             if (trait)
               trait->change(2) ;
@@ -633,7 +633,7 @@ namespace ProjetUnivers
 
           virtual void onUpdate()
           {
-            m_latest_updated_trait = getTrait()->getLatestUpdatedTrait() ;
+            m_latest_updated_trait = getLatestUpdatedTrait() ;
             Trait14* trait = getObject()->getTrait<Trait14>() ;
             if (trait)
               trait->change(2) ;

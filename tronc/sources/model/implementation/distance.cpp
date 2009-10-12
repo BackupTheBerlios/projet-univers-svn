@@ -232,6 +232,11 @@ namespace ProjetUnivers {
       return convert(m_value,m_unit,_Meter) >= convert(d.m_value,d.m_unit,_Meter) ;
     }
 
+    bool Distance::operator >(const Distance& d) const
+    {
+      return convert(m_value,m_unit,_Meter) > convert(d.m_value,d.m_unit,_Meter) ;
+    }
+
     bool Distance::operator ==(const Distance& d) const
     {
       return convert(m_value,m_unit,_Meter) == convert(d.m_value,d.m_unit,_Meter) ;

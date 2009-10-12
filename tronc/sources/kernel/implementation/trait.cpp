@@ -463,6 +463,8 @@ namespace ProjetUnivers
     {
       Implementation::Profiler::startBlock("Kernel::Trait::notify " + getObjectTypeIdentifier(this).fullName()) ;
       lock() ;
+      if (getObject() && getObject()->getModel())
+        getObject()->getModel()->startTransaction() ;
       bool remove_update = true ;
       if (m_is_updating == true)
       {
@@ -488,6 +490,9 @@ namespace ProjetUnivers
       {
         m_is_updating = false ;
       }
+
+      if (getObject() && getObject()->getModel())
+        getObject()->getModel()->endTransaction() ;
       unlock() ;
       Implementation::Profiler::endBlock("Kernel::Trait::notify") ;
     }
@@ -832,6 +837,13 @@ namespace ProjetUnivers
       std::replace(name.begin(),name.end(),'.','_') ;
 
       return name ;
+    }
+
+    const TypeIdentifier& Trait::getLatestUpdatedTrait()
+    {
+      if (m_latest_updated_trait.empty())
+        return TypeIdentifier() ;
+      return m_latest_updated_trait.top() ;
     }
 
     bool Trait::hasController(ControlerSet* controller_set) const

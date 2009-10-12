@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007-2009 Morgan GRIGNARD Mathieu ROGER                 *
+ *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,61 +18,47 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <kernel/log.h>
+#pragma once
 
-#include <model/shot.h>
-#include <sound/implementation/openal/openal.h>
-#include <sound/implementation/openal/shot.h>
+#include <cppunit/extensions/HelperMacros.h>
 
 namespace ProjetUnivers
 {
   namespace Sound
   {
-    namespace Implementation
+    namespace Test
     {
-      namespace OpenAL
-      {
 
-        RegisterView(OpenAL::Shot, 
-                     Implementation::Shot, 
-                     OpenAL::RealWorldViewPoint) ;
-             
-        std::string Shot::getSoundFileName() const
-        {
-          return "laser.ogg" ;
-        }
-          
-        bool Shot::isEvent() const
-        {
-          return true;
-        }
-        
-        Kernel::Object* Shot::getObject() const
-        {
-          return getTrait()->getObject() ;
-        }
-        
-        void Shot::onInit()
-        {
-          this->initSound(getViewPoint());
-        }
-                    
-        void Shot::onClose()
-        {
-          this->deleteSound();
-        }
-                    
-        void Shot::onUpdate()
-        {
-          this->updateSource();
-        }
-        
-        void Shot::onChangeParent(Kernel::Object* old_parent)
-        {
-          this->changeParentSource() ;
-        }
-      
-      }
+      /// Test for Implementation::OpenAL::SoundEmitter
+      class TestSoundEmitter : public CppUnit::TestFixture
+      {
+      protected:
+      /*!
+      @name Tests
+      */
+      // @{
+
+        void createListenerAfterSource() ;
+        void makeSourceActive() ;
+        void makeSourceInactive() ;
+
+      // @}
+      /*!
+      @name Register
+      */
+      // @{
+
+        CPPUNIT_TEST_SUITE(TestSoundEmitter) ;
+
+        CPPUNIT_TEST(createListenerAfterSource) ;
+        CPPUNIT_TEST(makeSourceActive) ;
+        CPPUNIT_TEST(makeSourceInactive) ;
+
+        CPPUNIT_TEST_SUITE_END() ;
+
+      // @}
+      };
+
     }
   }
 }

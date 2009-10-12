@@ -148,6 +148,9 @@ namespace ProjetUnivers
       /// Return the graphviz port name.
       virtual std::string getGraphvizPortName() const ;
 
+      /// Identify the latest updated trait.
+      static const TypeIdentifier& getLatestUpdatedTrait() ;
+
     protected:
 
       /// Abstract class means protected constructor.

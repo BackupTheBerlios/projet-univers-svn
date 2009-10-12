@@ -22,6 +22,7 @@
 
 #include <string>
 #include <kernel/trait.h>
+#include <kernel/object_reference.h>
 
 namespace ProjetUnivers
 {
@@ -45,6 +46,8 @@ namespace ProjetUnivers
       /// Access to the transponder code.
       std::string getCode() const ;
 
+      Kernel::Object* getTeam() const ;
+
       /// True iff the two given objects are friends.
       static bool areFriend(Kernel::Object*,Kernel::Object*) ;
       
@@ -55,6 +58,8 @@ namespace ProjetUnivers
       
       /// Team name.
       std::string m_team_name ;
+
+      Kernel::ObjectReference m_team ;
     };
   }
 }

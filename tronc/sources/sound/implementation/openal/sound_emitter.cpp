@@ -53,12 +53,11 @@ namespace ProjetUnivers
           m_viewpoint(NULL)
         {}
 
-        void SoundEmitter::initSound(RealWorldViewPoint* viewpoint)
+        void SoundEmitter::handleSourceState()
         {
-          m_viewpoint = viewpoint ;
+          bool should_be_active = isActive() ;
 
-          InformationMessage("Sound", "SoundEmitter::initSound entering") ;
-          if (!m_reader && isActive())
+          if (!m_reader && should_be_active)
           {
             InformationMessage("Sound", "SoundEmitter::initSound real") ;
             m_reader = getManager()->createReader(getSoundFileName(),
@@ -67,8 +66,35 @@ namespace ProjetUnivers
                                                   m_posInBuffer) ;
 
             alSourcei(getSource(),AL_SOURCE_RELATIVE,AL_FALSE) ;
-            updateSource(viewpoint) ;
           }
+
+          if (should_be_active)
+          {
+            ALint state;
+            alGetSourcei(getSource(),AL_SOURCE_STATE,&state) ;
+            if (state == AL_STOPPED || state == AL_INITIAL)
+            {
+              startSound(m_viewpoint) ;
+            }
+          }
+
+          if (m_reader && !should_be_active)
+          {
+            ALint state;
+            alGetSourcei(getSource(),AL_SOURCE_STATE,&state) ;
+            if (state == AL_PLAYING)
+            {
+              stopSound() ;
+              m_reader = NULL ;
+            }
+          }
+        }
+
+        void SoundEmitter::initSound(RealWorldViewPoint* viewpoint)
+        {
+          InformationMessage("Sound", "SoundEmitter::initSound entering") ;
+          m_viewpoint = viewpoint ;
+          updateSource() ;
           InformationMessage("Sound", "SoundEmitter::initSound leaving") ;
         }
 
@@ -84,26 +110,20 @@ namespace ProjetUnivers
           }
         }
 
-        void SoundEmitter::updateSource(RealWorldViewPoint* viewpoint)
+        void SoundEmitter::updateSource()
         {
-          ALint state;
-          alGetSourcei(getSource(),AL_SOURCE_STATE,&state) ;
+          InternalMessage("Sound","SoundEmitter::updateSource entering") ;
 
+          handleSourceState() ;
           bool active(isActive()) ;
 
-          if (active && (state == AL_STOPPED || state == AL_INITIAL))
+          if (active)
           {
-            startSound(viewpoint);
-          }
-
-          if (!active && state == AL_PLAYING)
-          {
-            stopSound() ;
-          }
-          else if (active)
-          {
+            InternalMessage("Sound","SoundEmitter::updateSource updating sound") ;
             /// @todo If parameters are never changed move them to init
             alSourcef(getSource(), AL_GAIN, getGain()) ;
+
+            InternalMessage("Sound","SoundEmitter::updateSource setting gain=" + Kernel::toString(getGain())) ;
             alSourcef(getSource(), AL_REFERENCE_DISTANCE, getRefDistance());
             alSourcef(getSource(), AL_MAX_DISTANCE, getMaxDistance());
             alSourcef(getSource(), AL_ROLLOFF_FACTOR, getRolloffFactor());
@@ -123,8 +143,7 @@ namespace ProjetUnivers
             Model::SoundEnvironnement* env = getObject()->getParent<Model::SoundEnvironnement>() ;
             if (env)
             {
-              SoundEnvironnement* envView =
-                  env->getView<SoundEnvironnement>(viewpoint) ;
+              SoundEnvironnement* envView = env->getView<SoundEnvironnement>(m_viewpoint) ;
               if (envView)
               {
                 ALuint auxEffectSlot = envView->getAuxEffectSlot() ;
@@ -149,16 +168,14 @@ namespace ProjetUnivers
           }
         }
 
-        void SoundEmitter::changeParentSource(RealWorldViewPoint* viewpoint)
+        void SoundEmitter::changeParentSource()
         {
-
           InformationMessage("Sound", "SoundEmitter::changeParent : enter") ;
 
           Model::SoundEnvironnement* env = getObject()->getParent<Model::SoundEnvironnement>() ;
           if (env)
           {
-            SoundEnvironnement* envView =
-                env->getView<SoundEnvironnement>(viewpoint) ;
+            SoundEnvironnement* envView = env->getView<SoundEnvironnement>(m_viewpoint) ;
             if (envView)
             {
               ALuint auxEffectSlot = envView->getAuxEffectSlot() ;

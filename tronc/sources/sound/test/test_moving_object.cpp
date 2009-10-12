@@ -73,8 +73,6 @@ namespace ProjetUnivers
       
       void TestMovingObject::basicTest()
       {
-        std::cerr << "TestMovingObject::basicTest" << std::endl ;
-        std::cerr.flush() ;
         /*!
           - build a engine
           - build a listener
@@ -236,9 +234,6 @@ namespace ProjetUnivers
 
       void TestMovingObject::moveParentSource()
       {
-        std::cerr << "TestMovingObject::moveParentSource" << std::endl ;
-        std::cerr.flush() ;
-
         // we construct a complete system
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestMovingObject::basicTest")) ;
         model->init() ;
@@ -296,9 +291,6 @@ namespace ProjetUnivers
 
       void TestMovingObject::moveParentAndSourceHasPosition()
       {
-        std::cerr << "TestMovingObject::moveParentAndSourceHasPosition" << std::endl ;
-        std::cerr.flush() ;
-
         // we construct a complete system
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestMovingObject::moveParentAndSourceHasPosition")) ;
         model->init() ;
@@ -356,9 +348,6 @@ namespace ProjetUnivers
 
       void TestMovingObject::moveParentAndListenerHasPosition()
       {
-        std::cerr << "TestMovingObject::moveParentAndListenerHasPosition" << std::endl ;
-        std::cerr.flush() ;
-
         // we construct a complete system
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestMovingObject::moveParentAndListenerHasPosition")) ;
         model->init() ;

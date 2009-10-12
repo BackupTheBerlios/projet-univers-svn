@@ -223,16 +223,17 @@ namespace ProjetUnivers
       Distance shortest_distance ;
       Kernel::Object* target = NULL ; 
         
+      InternalMessage("Model","TargetingSystem::selectNearestEnemy checking identification") ;
       Transponder* detecting_identification = getObject()->getParent<Transponder>() ;
       if (!detecting_identification)
         return ;
       
+      InternalMessage("Model","TargetingSystem::selectNearestEnemy selecting nearest") ;
       for(std::set<Kernel::Object*>::const_iterator object = roots.begin() ;
           object != roots.end() ;
           ++object)
       {
-        Distance distance = (*object)->getTrait<Positioned>()
-                      ->getPosition().calculateDistance(Position()) ;
+        Distance distance = getDistance(getObject(),*object) ;
         
         Transponder* detected_identification = (*object)->getTrait<Transponder>() ;
         
@@ -263,6 +264,9 @@ namespace ProjetUnivers
     {
       InternalMessage("Model","TargetingSystem::selectTarget entering") ;
       
+      if (object == m_target)
+        return ;
+
       unSelectTarget(m_target) ;
       
       Selection::select(getObject()->getParent<Whole>()->getObject(),object) ;

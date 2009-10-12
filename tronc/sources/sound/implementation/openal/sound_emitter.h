@@ -37,6 +37,7 @@ namespace ProjetUnivers
     namespace Test
     {
       class TestMovingObject ;
+      class TestSoundEmitter ;
     }
 
     namespace Implementation
@@ -54,33 +55,32 @@ namespace ProjetUnivers
         class SoundEmitter
         {
         public:
+
+          /// Access to openAl source.
+          ALuint getSource() const ;
+
+        protected:
         /*!
           @name Main methods
         */
         // @{
 
+          /// Default constructor.
+          SoundEmitter() ;
+
           /// Initialize an openAL source for the sound
           void initSound(RealWorldViewPoint*) ;
 
-          /// Launch the source
-          void startSound(RealWorldViewPoint*) ;
-
           /// Update the source informations
-          void updateSource(RealWorldViewPoint*) ;
+          void updateSource() ;
 
           /// Update the source environment
-          void changeParentSource(RealWorldViewPoint*) ;
-
-          /// Stop the source
-          void stopSound() ;
+          void changeParentSource() ;
 
           /// Delete the source
           void deleteSound() ;
 
         // @}
-
-        protected:
-
         /*!
           @name Access methods
 
@@ -153,14 +153,17 @@ namespace ProjetUnivers
           /// Indicate the factor of attenuation
           virtual float getRolloffFactor() const ;
 
-          ALuint getSource() const ;
-
         // @}
-
-          /// Default constructor.
-          SoundEmitter() ;
-
         private:
+
+          /// Create/destroy/start/stop source as needed
+          void handleSourceState() ;
+
+          /// Launch the source
+          void startSound(RealWorldViewPoint*) ;
+
+          /// Stop the source
+          void stopSound() ;
 
           /// Container of an effect
           ALuint m_auxEffectSlot ;
@@ -179,6 +182,7 @@ namespace ProjetUnivers
           RealWorldViewPoint* m_viewpoint ;
 
           friend class ::ProjetUnivers::Sound::Test::TestMovingObject ;
+          friend class ::ProjetUnivers::Sound::Test::TestSoundEmitter ;
         };
 
       }

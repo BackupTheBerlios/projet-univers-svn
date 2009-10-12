@@ -2413,11 +2413,6 @@ namespace ProjetUnivers
       }
     }
 
-    const TypeIdentifier& DeducedTrait::getLatestUpdatedTrait() const
-    {
-      return Trait::m_latest_updated_trait.top() ;
-    }
-
     void FormulaOr::onChildFormulaUpdated(Object* object)
     {
       update(object) ;

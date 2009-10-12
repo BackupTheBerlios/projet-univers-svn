@@ -71,7 +71,7 @@ namespace ProjetUnivers
                     
         void Collision::onUpdate()
         {
-          this->updateSource(getViewPoint());
+          this->updateSource();
         } 
 
         float Collision::getGain() const

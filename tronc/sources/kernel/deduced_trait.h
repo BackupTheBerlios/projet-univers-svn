@@ -212,9 +212,6 @@ namespace ProjetUnivers
       /// Calculate initial value.
       static void evaluateInitial(Object* object) ;
 
-      /// Identify the latest updated trait.
-      const TypeIdentifier& getLatestUpdatedTrait() const ;
-
       /// Abstract class means virtual destructor.
       virtual ~DeducedTrait() ;
 

@@ -64,9 +64,7 @@ namespace ProjetUnivers
 
         /// Test a Computer deconnection.
         /*!
-          We deconnect the computer but the ideal target still exists.
-
-          @todo what is the correct behaviour ??
+          We deconnect the computer and the ideal target does not exist anymore
         */
         void deconnectComputer() ;
 
@@ -79,11 +77,14 @@ namespace ProjetUnivers
         /// A target aligned but behind.
         void testNotShootableBehind() ;
 
-        /// A target in front but decaled on the side.
+        /// A target in front but offset on the side.
         void testNotShootableOnTheSide() ;
 
-        /// A target in front and decaled on the side, shoot it in the back.
+        /// A target in front and offset on the side, shoot it in the back.
         void testShootableOnTheSide() ;
+
+        void idealTargetIsInvariantByRotation() ;
+        void idealTargetIsInvariantByTranslation() ;
 
       // @}
       /*!
@@ -106,10 +107,17 @@ namespace ProjetUnivers
          CPPUNIT_TEST(testNotShootableBehind) ;
          CPPUNIT_TEST(testNotShootableOnTheSide) ;
          CPPUNIT_TEST(testShootableOnTheSide) ;
+         CPPUNIT_TEST(idealTargetIsInvariantByRotation) ;
+         CPPUNIT_TEST(idealTargetIsInvariantByTranslation) ;
 
         CPPUNIT_TEST_SUITE_END() ;
 
       // @}
+      private:
+
+        Kernel::Object* createDetectingShip(Kernel::Object* parent) ;
+        Kernel::Object* createDetectedShip(Kernel::Object* parent) ;
+        Kernel::Object* getIdealTarget(Kernel::Object* ship) ;
       };
     }
   }

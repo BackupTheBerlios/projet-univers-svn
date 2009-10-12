@@ -137,8 +137,8 @@ namespace ProjetUnivers
                 ->getComputer()->getTrait<Model::Computer>() ;
             
             // update target position
-            Model::Position pos 
-              = computer->getDataPosition(getObject(),getViewPoint()->getWorldRoot()) ;
+            Model::Position pos = computer->getDataPosition(getObject(),
+                                                            getViewPoint()->getWorldRoot()) ;
             
             ::Ogre::Vector3 position = convert(pos) ;
 

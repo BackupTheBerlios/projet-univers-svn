@@ -33,8 +33,6 @@ namespace ProjetUnivers
       class TestTargetingSystem : public CppUnit::TestFixture
       {
       protected:
-      
-        
       /*!
         @name Test methods
       */
@@ -63,12 +61,11 @@ namespace ProjetUnivers
         
         void destroyTarget() ;
 
-        /*!
-          @todo 
-            test of selection without data
-            test of real object destruction
-        */
+        void selectedTargetOutOfRangeIsUnselected() ;
         
+        /// Selecting several times nearest enemy should not change anything.
+        void selectSeveralTimesNearestEnemy() ;
+
       // @}
       /*!
         @name Test registration
@@ -85,6 +82,8 @@ namespace ProjetUnivers
         CPPUNIT_TEST(selectNearestEnemy) ;
         CPPUNIT_TEST(selectNearestEnemyAfterDestruction) ;
         CPPUNIT_TEST(destroyTarget) ;
+        CPPUNIT_TEST(selectedTargetOutOfRangeIsUnselected) ;
+        CPPUNIT_TEST(selectSeveralTimesNearestEnemy) ;
 
         CPPUNIT_TEST_SUITE_END() ;
       

@@ -80,6 +80,7 @@ test_sound_SOURCES = \
 ../test/test_cone_property.cpp \
 ../test/test_demonstration.cpp \
 ../test/test_moving_object.cpp \
+../test/test_sound_emitter.cpp \
 ../test/test_sound_environnement.cpp \
 ../test/test_sound_event.cpp
 
