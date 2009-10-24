@@ -35,7 +35,7 @@ namespace ProjetUnivers
     {
     public:
       
-      XmlOutputter(CppUnit::TextTestRunner* runner,std::ostream& stream) ;
+      XmlOutputter(CppUnit::TextTestRunner* runner,std::ostream& stream,const std::string& ="") ;
       
       ~XmlOutputter() ;
       

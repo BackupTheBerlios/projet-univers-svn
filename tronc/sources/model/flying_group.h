@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2008 Mathieu ROGER                                      *
+ *   Copyright (C) 2008-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -79,6 +79,7 @@ namespace ProjetUnivers
       /// True iff it has player in it.
       const bool& hasPlayer() const ;
       
+      /// Objective of the group
       const Objective& getObjective() const ;
       
       /// Get an AI piloted ship.
@@ -101,6 +102,11 @@ namespace ProjetUnivers
       std::string m_ship_name ;
       
       /// Objective of the group
+      /*!
+        @todo We should have a more complex structure with primary objectives,
+        secondary etc...
+        Difficulty is for AI...
+      */
       Objective m_objective ;
       
       /// Number of times the group is created (at least one)

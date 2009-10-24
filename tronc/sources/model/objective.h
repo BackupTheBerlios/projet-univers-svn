@@ -18,14 +18,15 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_OBJECTIVE_H_
-#define PU_MODEL_OBJECTIVE_H_
+#pragma once
 
 #include <set>
 #include <kernel/object_reference.h>
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
 
     /// Represents an object objective.
     class Objective 
@@ -108,4 +109,3 @@ namespace ProjetUnivers {
 
   }
 }
-#endif /*PU_MODEL_AUTONOMOUS_CHARACTER_H_*/

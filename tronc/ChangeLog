@@ -1540,7 +1540,12 @@
   * Sound :
     - corrected sound status changes, corrects engine sound not played during 
       demo
-            
+
+2009-10-24
+
+  * Kernel : 
+    - added test suite name to all tests
+
 in commit
 --------
   
@@ -1548,24 +1553,30 @@ in commit
 in progress
 -----------
   
-   
+    
 todo
 ----
 
-  - print ship lists by teams
+  * use explosion effect instead of  
+
+  * Model :
+    - add relationship hasEnemy between teams
+    - add relationship to replace WithFlyingGroup
+    - add trait Destroyed on FlyingGroup + controler that handle that trait
+    - mission should be finished when all enemies are destroyed  
+    - we should add victory conditions to missions : DestroyAllEnemies, 
+      determine match with agent objectives 
+
+  - print ship lists by teams (gui ?)
 
   * Demo : 
-    - victory condition does not work ?
-    - doubt on respawn of enemies
-     
+    - still issue with target helper ?
+         
   * Physics :
     - still instability under windows on forces, unit range ?
     
   * Display : 
     - change selection printing (change color of ideal target)
-
-  * Damage handling
-    - Hit visualization localized on ship : emit particles
 
   * AI : 
     - issues with ship fleeing : when two ships aim at each other... they flee
@@ -1575,6 +1586,9 @@ todo
     - users repport that AI tend to get back on back (probably a worst case 
       scenario in the algorithm)
   
+  * Damage handling
+    - Hit visualization localized on ship : emit particles
+
   * Ship configuration
     - Energy handling 
     

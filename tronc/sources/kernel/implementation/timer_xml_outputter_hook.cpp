@@ -21,6 +21,7 @@
 #include <iostream>
 #include <cppunit/Test.h>
 #include <cppunit/tools/XmlElement.h>
+#include <cppunit/tools/XmlDocument.h>
 #include <kernel/timer_test_result.h>
 #include <kernel/timer_xml_outputter_hook.h>
 #include <kernel/string.h>
@@ -29,10 +30,17 @@ CPPUNIT_NS_BEGIN
 
 
 
-TimerXmlOutputterHook::TimerXmlOutputterHook(TimerTestResult* result)
-: m_result(result)
+TimerXmlOutputterHook::TimerXmlOutputterHook(TimerTestResult* result,const std::string& name)
+: m_result(result),
+  m_name(name)
 {}
   
+void TimerXmlOutputterHook::beginDocument(XmlDocument* document)
+{
+  CppUnit::XmlElement* name = new CppUnit::XmlElement("Name",m_name) ;
+  document->rootElement().addElement(name) ;
+}
+
 void TimerXmlOutputterHook::successfulTestAdded(XmlDocument*,
                                                 XmlElement* testElement,
                                                 Test* test)

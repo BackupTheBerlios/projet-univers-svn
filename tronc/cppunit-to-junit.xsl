@@ -12,7 +12,9 @@
 			<xsl:attribute name="tests">
 				<xsl:value-of select="TestRun/Statistics/Tests"/>
 			</xsl:attribute>
-			<xsl:attribute name="name"></xsl:attribute>
+			<xsl:attribute name="name">
+			  <xsl:value-of select="TestRun/Name"/>
+			</xsl:attribute>
 			<xsl:apply-templates/>
 		</testsuite>
 	</xsl:template>

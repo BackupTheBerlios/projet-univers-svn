@@ -53,7 +53,7 @@ main( int argc, char* argv[] )
 
   CppUnit::MultiOutputter* outputter = new CppUnit::MultiOutputter() ;
   outputter->add(new CppUnit::CompilerOutputter(&runner.result(),std::cerr)) ;
-  outputter->add(new ProjetUnivers::Kernel::XmlOutputter(&runner,outputFile)) ;
+  outputter->add(new ProjetUnivers::Kernel::XmlOutputter(&runner,outputFile,"ArtificialIntelligence")) ;
   runner.setOutputter(outputter);
 
   // Run the test.

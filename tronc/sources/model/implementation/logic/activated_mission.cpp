@@ -61,6 +61,10 @@ namespace ProjetUnivers
 
         void ActivatedMission::indicateGroupHasNoMoreSpawn(Kernel::Object* group)
         {
+          /*
+            here the objective (whatever it is) is no longer attainable, so the
+            mission is over
+          */
           if (group->getTrait<FlyingGroup>()->hasPlayer())
           {
             getObject()->call("quit") ;

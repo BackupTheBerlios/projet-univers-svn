@@ -53,7 +53,7 @@ main( int argc, char* argv[] )
   CppUnit::CompilerOutputter* compiler_output = new CppUnit::CompilerOutputter(&runner.result(),std::cerr) ;
   compiler_output->setLocationFormat("%f:%l:") ;
   outputter->add(compiler_output) ;
-  outputter->add(new ProjetUnivers::Kernel::XmlOutputter(&runner,outputFile)) ;
+  outputter->add(new ProjetUnivers::Kernel::XmlOutputter(&runner,outputFile,"Sound")) ;
   runner.setOutputter(outputter);
 
   // Run the test.

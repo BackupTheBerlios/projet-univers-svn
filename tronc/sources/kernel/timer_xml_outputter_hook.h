@@ -30,15 +30,19 @@ class TimerXmlOutputterHook : public XmlOutputterHook
 {
 public:
 
-  TimerXmlOutputterHook(TimerTestResult*) ;
+  TimerXmlOutputterHook(TimerTestResult*,const std::string& name) ;
   
   virtual void successfulTestAdded(XmlDocument* document,
                                    XmlElement* testElement,
                                    Test* test) ;
+
+  virtual void beginDocument(XmlDocument* document) ;
   
 private:
   
   TimerTestResult* m_result ;
+  /// Suite name
+  std::string m_name ;
 };
 
 CPPUNIT_NS_END

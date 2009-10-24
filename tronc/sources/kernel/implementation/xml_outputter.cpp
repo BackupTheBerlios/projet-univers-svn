@@ -26,12 +26,12 @@ namespace ProjetUnivers
   namespace Kernel 
   {
       
-    XmlOutputter::XmlOutputter(CppUnit::TextTestRunner* runner,std::ostream& stream)
+    XmlOutputter::XmlOutputter(CppUnit::TextTestRunner* runner,std::ostream& stream,const std::string& name)
     : CppUnit::XmlOutputter(&runner->result(),stream)
     {
       m_results = new CppUnit::TimerTestResult() ;
       m_listener = new CppUnit::TimerTestListener(m_results) ;
-      m_hook = new CppUnit::TimerXmlOutputterHook(m_results) ;
+      m_hook = new CppUnit::TimerXmlOutputterHook(m_results,name) ;
       
       runner->eventManager().addListener(m_listener) ;
       addHook(m_hook) ;

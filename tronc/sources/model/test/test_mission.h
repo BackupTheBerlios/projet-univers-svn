@@ -18,8 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_TEST_MISSION_H_
-#define PU_MODEL_TEST_MISSION_H_
+#pragma once
 
 #include <cppunit/extensions/HelperMacros.h>
 
@@ -38,21 +37,17 @@ namespace ProjetUnivers
         void closeMission() ;
         void loadMission() ;
         void stopPlayingMission() ;
-        
         void initCustomMission() ;
         void initCustomMissionWithPlayer() ;
         void initCustomMissionWithOnePlayer() ;
         void initCustomMissionShipsHaveTeam() ;
-        
         void initCustomMissionShipSpawnAtDistance() ;
         void initCustomMissionShipSpawn() ;
-        
         void respawn() ;
         void endOfRespawn() ;
-        
         void respawnPlayer() ;
-        
-        void endOfMission() ;
+        void endOfMissionPlayerHasLost() ;
+        void endOfMissionEnemiesAreDestroyed() ;
         
       protected:
         // @}
@@ -75,7 +70,8 @@ namespace ProjetUnivers
           CPPUNIT_TEST(respawn) ;
           CPPUNIT_TEST(endOfRespawn) ;
           CPPUNIT_TEST(respawnPlayer) ;
-          CPPUNIT_TEST(endOfMission) ;
+          CPPUNIT_TEST(endOfMissionPlayerHasLost) ;
+//          CPPUNIT_TEST(endOfMissionEnemiesAreDestroyed) ;
           
           CPPUNIT_TEST_SUITE_END() ;
 
@@ -84,5 +80,3 @@ namespace ProjetUnivers
     }
   }
 }
-
-  #endif /*PU_MODEL_TEST_MISSION_H_*/

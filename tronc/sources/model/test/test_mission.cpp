@@ -554,7 +554,7 @@ namespace ProjetUnivers
         model->update(0.1) ;
       }
 
-      void TestMission::endOfMission()
+      void TestMission::endOfMissionPlayerHasLost()
       {
         std::auto_ptr<Kernel::Model> model(new Kernel::Model()) ;
         model->init() ;
@@ -609,7 +609,7 @@ namespace ProjetUnivers
         }
         model->update(0.1) ;
 
-        // we stil have life
+        // we still have life
         CPPUNIT_ASSERT(mission->getTrait<Model::Played>()) ;
 
         ships1 = flying_group1->getTrait<Model::FlyingGroup>()->getShips() ;
@@ -622,6 +622,78 @@ namespace ProjetUnivers
         model->update(0.1) ;
 
         // no more life --> mission is over
+        CPPUNIT_ASSERT(!mission->getTrait<Model::Played>()) ;
+      }
+
+      void TestMission::endOfMissionEnemiesAreDestroyed()
+      {
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model()) ;
+        model->init() ;
+
+        Kernel::Object* root = model->createObject() ;
+        root->addTrait(new Model::State()) ;
+        root->addTrait(new Model::Active()) ;
+
+        Kernel::Object* menu = root->createObject() ;
+        menu->addTrait(new Model::State()) ;
+        menu->setName("main_menu") ;
+
+        Kernel::ObjectReference mission = root->createObject() ;
+        mission->addTrait(new Model::CustomMission("",NULL,NULL)) ;
+        mission->getTrait<Model::CustomMission>()->setStartingDistance(Model::Distance(Model::Distance::_Meter,4000)) ;
+        mission->addTrait(new Model::State()) ;
+        mission->getTrait<Model::State>()->addCommandAlias("quit","change(main_menu,Active)") ;
+
+        Kernel::Object* team1 = mission->createObject() ;
+        team1->addTrait(new Model::Team("")) ;
+
+        Kernel::Object* flying_group1 = team1->createObject() ;
+        flying_group1->addTrait(new Model::FlyingGroup("")) ;
+
+        flying_group1->getTrait<Model::FlyingGroup>()->setShipName("test_ship") ;
+        flying_group1->getTrait<Model::FlyingGroup>()->setInitialNumberOfShips(1) ;
+        flying_group1->getTrait<Model::FlyingGroup>()->setHasPlayer(true) ;
+        flying_group1->getTrait<Model::FlyingGroup>()->setNumberOfSpawn(2) ;
+
+        Kernel::Object* team2 = mission->createObject() ;
+        team2->addTrait(new Model::Team("")) ;
+
+        Kernel::Object* flying_group2 = team2->createObject() ;
+        flying_group2->addTrait(new Model::FlyingGroup("")) ;
+
+        flying_group2->getTrait<Model::FlyingGroup>()->setShipName("test_ship") ;
+        flying_group2->getTrait<Model::FlyingGroup>()->setInitialNumberOfShips(1) ;
+        flying_group2->getTrait<Model::FlyingGroup>()->setHasPlayer(false) ;
+        flying_group2->getTrait<Model::FlyingGroup>()->setNumberOfSpawn(2) ;
+
+        root->getTrait<Model::State>()->changeState(mission,new Model::Played()) ;
+        model->update(0.1) ;
+        CPPUNIT_ASSERT(mission->getTrait<Model::Played>()) ;
+
+        std::set<Kernel::ObjectReference> ships1 = flying_group2->getTrait<Model::FlyingGroup>()->getShips() ;
+        for(std::set<Kernel::ObjectReference>::iterator ship = ships1.begin() ;
+            ship != ships1.end() ;
+            ++ship)
+        {
+          if (*ship)
+            (*ship)->destroyObject() ;
+        }
+        model->update(0.1) ;
+
+        // enemies still have life
+        CPPUNIT_ASSERT(mission->getTrait<Model::Played>()) ;
+
+        ships1 = flying_group2->getTrait<Model::FlyingGroup>()->getShips() ;
+        for(std::set<Kernel::ObjectReference>::iterator ship = ships1.begin() ;
+            ship != ships1.end() ;
+            ++ship)
+        {
+          (*ship)->destroyObject() ;
+        }
+        model->update(0.1) ;
+
+        // enemy has no more life --> mission is over
+        CPPUNIT_ASSERT(mission) ;
         CPPUNIT_ASSERT(!mission->getTrait<Model::Played>()) ;
       }
 
