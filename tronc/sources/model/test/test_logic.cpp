@@ -124,7 +124,7 @@ namespace ProjetUnivers {
 
         // simulate Logic : object  should not exist anymore
         model->update(1) ;
-        model->update(1.5) ;
+        model->update(2) ;
 
         CPPUNIT_ASSERT_EQUAL((unsigned int )0,system->getChildren().size()) ;
       }

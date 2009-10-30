@@ -22,11 +22,14 @@
 #include <kernel/string.h>
 #include <display/implementation/ogre/utility.h>
 
-namespace ProjetUnivers {
-  namespace Display {
-    namespace Implementation {
-      namespace Ogre {
-        
+namespace ProjetUnivers
+{
+  namespace Display
+  {
+    namespace Implementation
+    {
+      namespace Ogre
+      {
         namespace Utility
         {
           

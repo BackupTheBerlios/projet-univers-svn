@@ -18,8 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_DISPLAY_DISPLAY_H_
-#define PU_DISPLAY_DISPLAY_H_
+#pragma once
 
 #include <kernel/object.h>
 #include <kernel/view_point.h>
@@ -55,7 +54,3 @@ namespace ProjetUnivers {
   }
   
 }
-
-
-
-#endif //PU_DISPLAY_DISPLAY_H_

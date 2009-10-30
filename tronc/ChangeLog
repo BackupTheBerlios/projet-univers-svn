@@ -1546,6 +1546,10 @@
   * Kernel : 
     - added test suite name to all tests
 
+2009-10-30
+
+  * use explosion effect instead of mesh
+
 in commit
 --------
   
@@ -1557,7 +1561,6 @@ in progress
 todo
 ----
 
-  * use explosion effect instead of  
 
   * Model :
     - add relationship hasEnemy between teams
@@ -1566,8 +1569,6 @@ todo
     - mission should be finished when all enemies are destroyed  
     - we should add victory conditions to missions : DestroyAllEnemies, 
       determine match with agent objectives 
-
-  - print ship lists by teams (gui ?)
 
   * Demo : 
     - still issue with target helper ?

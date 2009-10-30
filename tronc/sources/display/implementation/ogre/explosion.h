@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2008 Mathieu ROGER                                      *
+ *   Copyright (C) 2008-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -55,10 +55,8 @@ namespace ProjetUnivers
 
         private:
           
-          /// 3D ogre mesh.
-          ::Ogre::Entity*    m_mesh ;
-          ::Ogre::SceneNode* m_node ;
-      
+          ::Ogre::ParticleSystem* m_particle ;
+          ::Ogre::SceneNode*      m_node ;
         };
       }
     }

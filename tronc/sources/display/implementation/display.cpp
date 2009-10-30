@@ -26,8 +26,10 @@
 #include <display/display_input.h>
 #include <display/display_gui.h>
 
-namespace ProjetUnivers {
-  namespace Display {
+namespace ProjetUnivers
+{
+  namespace Display
+  {
 
     ::Ogre::RenderWindow* getWindow()
     {

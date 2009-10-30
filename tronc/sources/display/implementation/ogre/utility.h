@@ -18,16 +18,19 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_DISPLAY_IMPLEMENTATION_OGRE_OGRE_UTILS_H_
-#define PU_DISPLAY_IMPLEMENTATION_OGRE_OGRE_UTILS_H_
+#pragma once
 
 #include <Ogre.h>
 #include <model/position.h>
 
-namespace ProjetUnivers {
-  namespace Display {
-    namespace Implementation {
-      namespace Ogre {  
+namespace ProjetUnivers
+{
+  namespace Display
+  {
+    namespace Implementation
+    {
+      namespace Ogre
+      {
         
         /// Utility functions for Ogre
         /*!
@@ -51,5 +54,3 @@ namespace ProjetUnivers {
     }
   }
 }
-
-#endif /*PU_DISPLAY_IMPLEMENTATION_OGRE_OGRE_UTILS_H_*/

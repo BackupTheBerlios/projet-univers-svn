@@ -34,10 +34,14 @@
 using namespace ::Ogre ;
 using namespace std ;
 
-namespace ProjetUnivers {
-  namespace Display {
-    namespace Implementation {
-      namespace Ogre {  
+namespace ProjetUnivers
+{
+  namespace Display
+  {
+    namespace Implementation
+    {
+      namespace Ogre
+      {
 
         void loadRessources() ;
         bool renderDisplayChoice() ;

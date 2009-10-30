@@ -30,10 +30,14 @@
 
 #include <display/implementation/ogre/real_world_view_point.h>
 
-namespace ProjetUnivers {
-  namespace Display {
-    namespace Implementation {
-      namespace Ogre {
+namespace ProjetUnivers
+{
+  namespace Display
+  {
+    namespace Implementation
+    {
+      namespace Ogre
+      {
 
         RegisterViewPoint(RealWorldViewPoint) ;
 

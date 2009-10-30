@@ -11,6 +11,7 @@ Zip=@MEDIA_FOLDER@/PU/explosions.zip
 Zip=@MEDIA_FOLDER@/PU/explosion_2.zip
 FileSystem=@MEDIA_FOLDER@/PU/base
 FileSystem=@MEDIA_FOLDER@/PU/base/space_dust
+FileSystem=@MEDIA_FOLDER@/PU/base/explosion
 FileSystem=@MEDIA_FOLDER@/PU
 FileSystem=@MEDIA_FOLDER@/PU/sounds
 FileSystem=@MEDIA_FOLDER@/datafiles/configs/

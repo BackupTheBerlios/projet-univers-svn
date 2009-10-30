@@ -18,13 +18,14 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_DISPLAY_DISPLAY_INPUT_H_
-#define PU_DISPLAY_DISPLAY_INPUT_H_
+#pragma once
 
 #include <stddef.h>
 
-namespace ProjetUnivers {
-  namespace Display {
+namespace ProjetUnivers
+{
+  namespace Display
+  {
 
   /*!
     @name Interface for input module.
@@ -47,6 +48,3 @@ namespace ProjetUnivers {
 
   }
 }
-
-
-#endif /*PU_DISPLAY_DISPLAY_INPUT_H_*/

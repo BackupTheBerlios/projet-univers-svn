@@ -19,6 +19,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include <model/solid.h>
+#include <model/explosion.h>
 #include <display/implementation/observer.h>
 #include <display/implementation/positioned.h>
 #include <display/implementation/displayed_solid.h>
@@ -33,7 +34,8 @@ namespace ProjetUnivers
       DeclareDeducedTrait(DisplayedSolid,
                           And(HasTrait(Model::Solid),
                               HasTrait(Implementation::RecursivelyPositioned),
-                              Not(HasChild(HasTrait(Observer))))) ;
+                              Not(HasChild(HasTrait(Observer))),
+                              Not(HasTrait(Model::Explosion)))) ;
     }
   }
 }

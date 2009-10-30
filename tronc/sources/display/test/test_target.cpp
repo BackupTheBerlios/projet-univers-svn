@@ -60,10 +60,7 @@
 
 using ProjetUnivers::Display::Implementation::Ogre::HUD::Target;
 
-CPPUNIT_TEST_SUITE_REGISTRATION(ProjetUnivers::
-                                Display::
-                                Test::
-                                TestTarget) ;
+CPPUNIT_TEST_SUITE_REGISTRATION(ProjetUnivers::Display::Test::TestTarget) ;
 
 namespace ProjetUnivers
 {

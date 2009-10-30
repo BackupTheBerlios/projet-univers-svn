@@ -309,10 +309,6 @@ namespace ProjetUnivers
         system->addTrait(new Model::StellarSystem()) ;
         system->addTrait(new Model::Positioned()) ;
 
-        Kernel::Object* ship = Model::createShip(system) ;
-        ship->getTrait<Model::Positioned>()->setPosition(Model::Position::Meter(0,0,-500)) ;
-        ship->getTrait<Model::Destroyable>()->damage(Model::Energy::Joule(50)) ;
-
         Kernel::Object* observer = system->createObject() ;
         observer->addTrait(new Model::Observer()) ;
         observer->addTrait(new Model::Player()) ;
@@ -320,19 +316,52 @@ namespace ProjetUnivers
         observer->addTrait(new Model::Positioned()) ;
         observer->addTrait(new Model::Oriented()) ;
 
-        Kernel::Timer timer ;
-        Kernel::Timer global_timer ;
-
-        while (global_timer.getSecond() < 3)
         {
-          float seconds = timer.getSecond() ;
-          if (seconds != 0)
-          {
-            timer.reset() ;
-          }
-          model->update(seconds) ;
-        }
+          Kernel::Object* ship = Model::createShip(system) ;
+          ship->getTrait<Model::Positioned>()->setPosition(Model::Position::Meter(0,0,-500)) ;
 
+          Kernel::Timer timer ;
+          Kernel::Timer global_timer ;
+
+          bool destroyed = false ;
+          while (global_timer.getSecond() < 4)
+          {
+            if (!destroyed && global_timer.getSecond() > 1)
+            {
+              destroyed = true ;
+              ship->getTrait<Model::Destroyable>()->damage(Model::Energy::Joule(50)) ;
+            }
+            float seconds = timer.getSecond() ;
+            if (seconds != 0)
+            {
+              timer.reset() ;
+            }
+            model->update(seconds) ;
+          }
+        }
+        {
+          Kernel::Object* ship = Model::createShip(system) ;
+          ship->getTrait<Model::Positioned>()->setPosition(Model::Position::Meter(0,0,-500)) ;
+
+          Kernel::Timer timer ;
+          Kernel::Timer global_timer ;
+
+          bool destroyed = false ;
+          while (global_timer.getSecond() < 4)
+          {
+            if (!destroyed && global_timer.getSecond() > 1)
+            {
+              destroyed = true ;
+              ship->getTrait<Model::Destroyable>()->damage(Model::Energy::Joule(50)) ;
+            }
+            float seconds = timer.getSecond() ;
+            if (seconds != 0)
+            {
+              timer.reset() ;
+            }
+            model->update(seconds) ;
+          }
+        }
         InternalMessage("Display","Display::TestModelView::spaceDust leaving") ;
       }
 

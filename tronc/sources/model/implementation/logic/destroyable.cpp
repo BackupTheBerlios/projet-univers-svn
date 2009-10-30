@@ -56,7 +56,7 @@ namespace ProjetUnivers
             if (solid)
               explosion_radius = 4*solid->getRadius() ;
             
-            Duration explosion_duration(Duration::Second(1)) ;
+            Duration explosion_duration(Duration::Second(2)) ;
             getObject()->addTrait(new Explosion(explosion_radius,explosion_duration)) ;
             
             // add a life time trait

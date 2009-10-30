@@ -26,10 +26,14 @@
 #include <kernel/view_point.h>
 
 
-namespace ProjetUnivers {
-  namespace Display {
-    namespace Implementation {
-      namespace Ogre {
+namespace ProjetUnivers
+{
+  namespace Display
+  {
+    namespace Implementation
+    {
+      namespace Ogre
+      {
         
         /*!
           Ogre coordinates are coded on 32 bits, thus half the precision 
