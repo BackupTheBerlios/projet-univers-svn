@@ -135,7 +135,7 @@ namespace ProjetUnivers {
 
           dInitODE() ;
 
-          maximum_contact_points = (int)Kernel::Parameters::getValue<float>("Physic","MaxNumberOfContactPoints") ;
+          maximum_contact_points = (int)Kernel::Parameters::getValue<float>("Physic","MaxNumberOfContactPoints",100) ;
           contact_points = new dContactGeom[maximum_contact_points] ;
         }
 

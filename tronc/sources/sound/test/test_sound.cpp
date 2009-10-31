@@ -50,7 +50,7 @@ main( int argc, char* argv[] )
   std::ofstream outputFile("tests_sound.xml");
 
   CppUnit::MultiOutputter* outputter = new CppUnit::MultiOutputter() ;
-  CppUnit::CompilerOutputter* compiler_output = new CppUnit::CompilerOutputter(&runner.result(),std::cerr) ;
+  CppUnit::CompilerOutputter* compiler_output = new CppUnit::CompilerOutputter(&runner.result(),std::cerr,"test/%f:%l: ") ;
   compiler_output->setLocationFormat("%f:%l:") ;
   outputter->add(compiler_output) ;
   outputter->add(new ProjetUnivers::Kernel::XmlOutputter(&runner,outputFile,"Sound")) ;

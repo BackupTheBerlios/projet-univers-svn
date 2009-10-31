@@ -1550,9 +1550,21 @@
 
   * use explosion effect instead of mesh
 
+2009-10-31
+
+  * All :
+    - tests : configured output for eclipse error integration, see 
+      http://dev.eclipse.org/mhonarc/lists/cdt-core-dev/msg00563.html
+    - removed all config parameters, use default value instead. Config parameters 
+      where different from module to module and conduct to weird behaviors.
+  
+  * AI :
+    - corrects issues with ship fleeing : when two ships aim at each other... 
+      they flee perpendicularly
+    - agents now avoid obstacle  
+
 in commit
 --------
-  
         
 in progress
 -----------
@@ -1561,6 +1573,10 @@ in progress
 todo
 ----
 
+  * AI : 
+    - adding states : Iddle, Attacking, 
+    - users repport that AI tend to get back on back (probably a worst case 
+      scenario in the algorithm)
 
   * Model :
     - add relationship hasEnemy between teams
@@ -1578,14 +1594,6 @@ todo
     
   * Display : 
     - change selection printing (change color of ideal target)
-
-  * AI : 
-    - issues with ship fleeing : when two ships aim at each other... they flee
-      perpendicularly
-    - AI tend to "flee on the side" once the target has gone in a perpendicular 
-      direction, its targeting go the same and the phenomenon amplifies
-    - users repport that AI tend to get back on back (probably a worst case 
-      scenario in the algorithm)
   
   * Damage handling
     - Hit visualization localized on ship : emit particles

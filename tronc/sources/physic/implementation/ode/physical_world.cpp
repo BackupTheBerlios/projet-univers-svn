@@ -60,10 +60,10 @@ namespace ProjetUnivers
           Kernel::Log::Block temp("Physic","PhysicalWorld::onInit") ;
           m_world = new dWorld() ;
 
-          dWorldSetCFM(m_world->id(),Kernel::Parameters::getValue<float>("Physic","WorldCFM")) ;
-          dWorldSetERP(m_world->id(),Kernel::Parameters::getValue<float>("Physic","WorldERP")) ;
-          dWorldSetContactSurfaceLayer(m_world->id(),Kernel::Parameters::getValue<float>("Physic","WorldContactSurfaceLayer")) ;
-          dWorldSetContactMaxCorrectingVel(m_world->id(),Kernel::Parameters::getValue<float>("Physic","WorldContactMaxCorrectingVelocity")) ;
+          dWorldSetCFM(m_world->id(),Kernel::Parameters::getValue<float>("Physic","WorldCFM",0.001)) ;
+          dWorldSetERP(m_world->id(),Kernel::Parameters::getValue<float>("Physic","WorldERP",1)) ;
+          dWorldSetContactSurfaceLayer(m_world->id(),Kernel::Parameters::getValue<float>("Physic","WorldContactSurfaceLayer",0.1)) ;
+          dWorldSetContactMaxCorrectingVel(m_world->id(),Kernel::Parameters::getValue<float>("Physic","WorldContactMaxCorrectingVelocity",500)) ;
 
           m_collision_space = new dSimpleSpace(0) ;
 
@@ -198,10 +198,10 @@ namespace ProjetUnivers
               contact.surface.mode = dContactSoftCFM|dContactSoftERP|dContactSlip1|dContactSlip2 ;
               contact.surface.mu = Kernel::Parameters::getValue<float>("Physic","ContactMu",0) ;
               contact.surface.mu2 = 0 ;
-              contact.surface.bounce = Kernel::Parameters::getValue<float>("Physic","ContactBounce",0) ;
+              contact.surface.bounce = Kernel::Parameters::getValue<float>("Physic","ContactBounce",0.7) ;
               contact.surface.bounce_vel = Kernel::Parameters::getValue<float>("Physic","ContactBounceVelocity",0) ;
-              contact.surface.soft_erp = Kernel::Parameters::getValue<float>("Physic","ContactSoftErrorReduction",0.8) ;
-              contact.surface.soft_cfm = Kernel::Parameters::getValue<float>("Physic","ContactSoftConstraintForceMixing",0.8) ; ;
+              contact.surface.soft_erp = Kernel::Parameters::getValue<float>("Physic","ContactSoftErrorReduction",1) ;
+              contact.surface.soft_cfm = Kernel::Parameters::getValue<float>("Physic","ContactSoftConstraintForceMixing",1) ; ;
               contact.surface.motion1 = 0 ;
               contact.surface.motion2 = 0 ;
               contact.surface.slip1 = 0.5 ;
@@ -285,7 +285,7 @@ namespace ProjetUnivers
           /*
             collision detection
           */
-          if (Kernel::Parameters::getValue<bool>("Physic","ActivateCollision"))
+          if (Kernel::Parameters::getValue<bool>("Physic","ActivateCollision",true))
           {
             dSpaceCollide(m_collision_space->id(),this,PhysicalWorld::onSpaceCollision) ;
           }

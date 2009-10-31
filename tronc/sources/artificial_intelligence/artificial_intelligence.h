@@ -18,8 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_ARTIFICIAL_INTELLIGENCE_H_
-#define PU_ARTIFICIAL_INTELLIGENCE_H_
+#pragma once
 
 #include <kernel/object.h>
 #include <kernel/view_point.h>
@@ -29,7 +28,7 @@ namespace ProjetUnivers {
  
   /// Calculus for autonomous agents.
   /*!
-    Controler for objects that have  
+    Controller for objects that behave automatically.
   */ 
   namespace ArtificialIntelligence {
     
@@ -40,5 +39,3 @@ namespace ProjetUnivers {
     void terminate() ;
   }
 }
-
-#endif //PU_ARTIFICIAL_INTELLIGENCE_H_

@@ -71,8 +71,10 @@ namespace ProjetUnivers
         /// Check that correct steering is calculated
         void steering() ;
 
-        /// @todo
+        /// When two ships aims at each other, check that they do not go away
         void avoidMutualFlee() ;
+
+        void basicDestroy() ;
 
       // @}
 
@@ -86,9 +88,8 @@ namespace ProjetUnivers
         CPPUNIT_TEST(testPositionUpdate) ;
         CPPUNIT_TEST(simulate) ;
         CPPUNIT_TEST(steering) ;
-
-        /// @todo make it pass
-//        CPPUNIT_TEST(avoidMutualFlee) ;
+        CPPUNIT_TEST(avoidMutualFlee) ;
+        CPPUNIT_TEST(basicDestroy) ;
 
         CPPUNIT_TEST_SUITE_END() ;
       };

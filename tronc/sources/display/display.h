@@ -52,5 +52,4 @@ namespace ProjetUnivers {
     void terminate() ;
     
   }
-  
 }

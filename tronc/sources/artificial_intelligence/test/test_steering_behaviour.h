@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2008 Mathieu ROGER                                      *
+ *   Copyright (C) 2008-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,14 +18,16 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_AI_TEST_STEERING_BEHAVIOUR_H_
-#define PU_AI_TEST_STEERING_BEHAVIOUR_H_
+#pragma once
 
 #include <cppunit/extensions/HelperMacros.h>
 
-namespace ProjetUnivers {
-  namespace ArtificialIntelligence {
-    namespace Test {
+namespace ProjetUnivers
+{
+  namespace ArtificialIntelligence
+  {
+    namespace Test
+    {
 
       /// Test of SteeringBehaviour.
       class TestSteeringBehaviour : public CppUnit::TestFixture {
@@ -41,39 +43,39 @@ namespace ProjetUnivers {
       */
       // @{
 
-        /// Test the seek behaviour.
+        /// Test the seek behavior.
         void testSeek() ;
 
-        /// Test the pursuit behaviour.
+        /// Test the pursuit behavior.
         void testPursuitLinear() ;
 
-        /// Test the pursuit behaviour.
+        /// Test the pursuit behavior.
         void testPursuitPlannar() ;
 
-        /// Test the pursuit behaviour.
+        /// Test the pursuit behavior.
         void testPursuitTargetBehind() ;
 
-        /// Test the offsetPursuit behaviour.
+        /// Test the offsetPursuit behavior.
         void testOffsetPursuitTargetBehind() ;
 
-        /// Test the offsetPursuit behaviour.
+        /// Test the offsetPursuit behavior.
         void testOffsetPursuitTargetSide() ;
 
         /// Pursuit of a wandering target.
         void pursuitWanderingTarget() ;
 
-        /// Test the evade behaviour when target is near.
+        /// Test the evade behavior when target is near.
         /*!
           check that even iff pursuing object is near, the evading speed is
           maximal.
         */
         void evadeNearTarget() ;
 
-        /// Test the obstacleAvoidance behaviour.
+        /// Test the obstacleAvoidance behavior.
         void obstacleAvoidance() ;
 
         /*!
-          @todo add a test for a complex behaviour combining pursuit and avoiding
+          @todo add a test for a complex behavior combining pursuit and avoiding
         */
 
       // @}
@@ -100,6 +102,3 @@ namespace ProjetUnivers {
     }
   }
 }
-
-
-#endif /*PU_AI_TEST_STEERING_BEHAVIOUR_H_*/

@@ -230,7 +230,6 @@ namespace ProjetUnivers
           ship1 = ship ;
         }
 
-
         // the attacked enemy ship
         Kernel::Object* enemy_ship = system->createObject() ;
         enemy_ship->addTrait(new Model::Positioned(Model::Position::Meter(500,0,-1000))) ;
@@ -501,7 +500,6 @@ namespace ProjetUnivers
         model->update(0.1) ;
         mission->destroyTrait(mission->getTrait<Model::Played>()) ;
         model->update(0.1) ;
-
       }
 
       void TestModelControler::steering()
@@ -634,7 +632,7 @@ namespace ProjetUnivers
         system->addTrait(new Model::Positioned()) ;
 
         /*
-        Situaltion seen from top :
+        Situation seen from top :
 
         ------------------------
         |                      |
@@ -674,13 +672,12 @@ namespace ProjetUnivers
         float ship_size = ship1->getTrait<Model::Solid>()->getRadius().Meter()*2 ;
 
         std::set<Model::Position> positions ;
-        positions.insert(Model::Position::Meter(500,2*ship_size,2*ship_size)) ;
-        positions.insert(Model::Position::Meter(-500,-2*ship_size,-2*ship_size)) ;
+        positions.insert(Model::Position::Meter(500+2*ship_size,2*ship_size,2*ship_size)) ;
+        positions.insert(Model::Position::Meter(-500-2*ship_size,-2*ship_size,-2*ship_size)) ;
 
         Model::Area area(positions) ;
 
-
-        for(int i = 0 ; i < 400 ; ++i)
+        for(int i = 0 ; i < 100 ; ++i)
         {
           model->update(0.1) ;
 
@@ -692,9 +689,65 @@ namespace ProjetUnivers
                                  " with position " + Ogre::StringConverter::toString(ship2->getTrait<Model::Positioned>()->getPosition().Meter()),
                                  area.contains(ship2->getTrait<Model::Positioned>()->getPosition())) ;
         }
-
       }
 
+      void TestModelControler::basicDestroy()
+      {
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestModelControler::basicDestroy")) ;
+        model->init() ;
+
+        Kernel::Object* team1 = model->createObject() ;
+        team1->addTrait(new Model::Team("team1")) ;
+        Kernel::Object* team2 = model->createObject() ;
+        team2->addTrait(new Model::Team("team2")) ;
+
+        Kernel::Object* system = model->createObject() ;
+        system->addTrait(new Model::StellarSystem()) ;
+        system->addTrait(new Model::Positioned()) ;
+
+        /*
+        Situation seen from top :
+
+        ------------------------
+        |                      |
+        | <--            -->   |
+        | ship1          ship2 |
+        |                      |
+        ------------------------
+
+        Objective of the the system : they must stay in the box
+        (initial_distance+ship_size*4,ship_size*4,ship_size*4)
+        */
+
+        Kernel::ObjectReference ship1 ;
+        {
+          Kernel::Object* ship = Model::createShip(system) ;
+          ship->getTrait<Model::Positioned>()->setPosition(Model::Position::Meter(-500,0,0)) ;
+          ship->getTrait<Model::Oriented>()->setOrientation(Model::Orientation(Ogre::Quaternion(Ogre::Degree(90),Ogre::Vector3::UNIT_Y))) ;
+          ship->addTrait(new Model::Transponder(team1)) ;
+          ship->destroyTrait(ship->getTrait<Model::Destroyable>()) ;
+          Kernel::Object* agent = Model::createAI(ship) ;
+          agent->getTrait<Model::WithObjectives>()->addObjective(Model::Objective::attackAllEnemies()) ;
+          ship1 = ship ;
+        }
+
+        Kernel::ObjectReference ship2 ;
+        {
+          Kernel::Object* ship = Model::createShip(system) ;
+          ship->getTrait<Model::Positioned>()->setPosition(Model::Position::Meter(500,0,0)) ;
+          ship->getTrait<Model::Oriented>()->setOrientation(Model::Orientation(Ogre::Quaternion(Ogre::Degree(-90),Ogre::Vector3::UNIT_Y))) ;
+          ship->addTrait(new Model::Transponder(team2)) ;
+          ship2 = ship ;
+        }
+
+        // if we wait long enough, ship2 is destroyed
+        for(int i = 0 ; i < 1500 ; ++i)
+        {
+          model->update(0.1) ;
+        }
+
+        CPPUNIT_ASSERT(!ship2) ;
+      }
     }
   }
 }

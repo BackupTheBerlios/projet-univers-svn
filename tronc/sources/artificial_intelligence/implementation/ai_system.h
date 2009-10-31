@@ -20,6 +20,7 @@
  ***************************************************************************/
 #pragma once
 
+#include <set>
 #include <model/duration.h>
 #include <kernel/controler_set.h>
 
@@ -29,7 +30,8 @@ namespace ProjetUnivers
   {
     namespace Implementation
     {
-    
+      class Vehicle ;
+
       /// Standard controller set for AI calculus.
       class AISystem : public Kernel::ControlerSet
       {
@@ -38,6 +40,14 @@ namespace ProjetUnivers
         /// Build the controller set.
         AISystem(Kernel::Model* model) ;
         
+        std::set<Vehicle*> getAllVehicles() const ;
+
+        void addVehicle(Vehicle*) ;
+        void removeVehicle(Vehicle*) ;
+
+      private:
+
+        std::set<Vehicle*> m_vehicles ;
       };
     }    
   }

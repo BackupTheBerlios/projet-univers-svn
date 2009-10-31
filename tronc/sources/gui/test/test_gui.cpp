@@ -56,7 +56,7 @@ main( int argc, char* argv[] )
   std::ofstream outputFile("tests_gui.xml");
 
   CppUnit::MultiOutputter* outputter = new CppUnit::MultiOutputter() ;
-  outputter->add(new CppUnit::CompilerOutputter(&runner.result(),std::cerr)) ;
+  outputter->add(new CppUnit::CompilerOutputter(&runner.result(),std::cerr,"test/%f:%l: ")) ;
   outputter->add(new ProjetUnivers::Kernel::XmlOutputter(&runner,outputFile,"GUI")) ;
   runner.setOutputter(outputter);
 

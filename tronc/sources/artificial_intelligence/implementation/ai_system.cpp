@@ -37,6 +37,21 @@ namespace ProjetUnivers
       : Kernel::ControlerSet(model)
       {}
       
+      std::set<Vehicle*> AISystem::getAllVehicles() const
+      {
+        return m_vehicles ;
+      }
+
+      void AISystem::addVehicle(Vehicle* vehicle)
+      {
+        m_vehicles.insert(vehicle) ;
+      }
+
+      void AISystem::removeVehicle(Vehicle* vehicle)
+      {
+        m_vehicles.erase(vehicle) ;
+      }
+
     }    
   }
 }

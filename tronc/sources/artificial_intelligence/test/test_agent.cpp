@@ -36,6 +36,20 @@ namespace ProjetUnivers
     namespace Test
     {
 
+      Implementation::Agent* TestAgent::getAgentController(Kernel::Object* agent) const
+      {
+        Implementation::AISystem* ai_system = agent->getModel()->getControlerSet<Implementation::AISystem>() ;
+        CPPUNIT_ASSERT(ai_system) ;
+
+        Implementation::AutonomousAgent* autonomous_agent = agent->getTrait<Implementation::AutonomousAgent>() ;
+        CPPUNIT_ASSERT(autonomous_agent) ;
+
+        Implementation::Agent* agent_controler = autonomous_agent->getControler<Implementation::Agent>(ai_system) ;
+        CPPUNIT_ASSERT(agent_controler) ;
+
+        return agent_controler ;
+      }
+
       void TestAgent::steeringFullBackShouldTurn()
       {
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestAgent::steeringFullBackShouldTurn")) ;
@@ -48,14 +62,7 @@ namespace ProjetUnivers
         Kernel::Object* ship = Model::createShip(system) ;
         Kernel::Object* agent = Model::createAI(ship) ;
 
-        Implementation::AISystem* ai_system = model->getControlerSet<Implementation::AISystem>() ;
-        CPPUNIT_ASSERT(ai_system) ;
-
-        Implementation::AutonomousAgent* autonomous_agent = agent->getTrait<Implementation::AutonomousAgent>() ;
-        CPPUNIT_ASSERT(autonomous_agent) ;
-
-        Implementation::Agent* agent_controler = autonomous_agent->getControler<Implementation::Agent>(ai_system) ;
-        CPPUNIT_ASSERT(agent_controler) ;
+        Implementation::Agent* agent_controler = getAgentController(agent) ;
 
         /*
           should perform a full turn :
@@ -88,7 +95,15 @@ namespace ProjetUnivers
         Kernel::Object* ship2 = Model::createShip(system) ;
         Model::TargetingSystem* targeting_system2 = ship2->getChild<Model::TargetingSystem>() ;
 
-//        targeting_system1->selectTarget()
+        Implementation::Agent* agent_controller = getAgentController(agent) ;
+
+        targeting_system1->selectTarget(ship2) ;
+
+        CPPUNIT_ASSERT(!agent_controller->isTargetedByTarget()) ;
+
+        targeting_system2->selectTarget(ship1) ;
+
+        CPPUNIT_ASSERT(agent_controller->isTargetedByTarget()) ;
       }
 
       void TestAgent::applyOnlyToAI()
@@ -113,6 +128,30 @@ namespace ProjetUnivers
         }
 
         ship1->call(Model::TargetingSystem::SelectNextTarget) ;
+      }
+
+      void TestAgent::obstacles()
+      {
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model()) ;
+        model->init() ;
+
+        Kernel::Object* system = model->createObject() ;
+        system->addTrait(new Model::StellarSystem()) ;
+        system->addTrait(new Model::Positioned()) ;
+
+        Kernel::Object* ship1 = Model::createShip(system) ;
+        Kernel::Object* agent1 = Model::createAI(ship1) ;
+
+        Kernel::Object* ship2 = Model::createShip(system) ;
+        Kernel::Object* agent2 = Model::createAI(ship2) ;
+
+        Implementation::Agent* agent_controller1 = getAgentController(agent1) ;
+
+        std::set<Implementation::Vehicle*> obstacles(agent_controller1->getObstacles()) ;
+        CPPUNIT_ASSERT_EQUAL((unsigned int)1,obstacles.size()) ;
+        Implementation::Agent* agent_controller2 = getAgentController(agent2) ;
+        CPPUNIT_ASSERT(agent_controller2->getVehicle()) ;
+        CPPUNIT_ASSERT(obstacles.find(agent_controller2->getVehicle())!=obstacles.end()) ;
       }
 
     }

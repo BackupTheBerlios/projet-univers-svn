@@ -70,6 +70,8 @@ namespace ProjetUnivers
         /// Give the "desired" speed of the agent.
         Ogre::Vector3 getDesiredSpeed() const ;
 
+        std::set<Vehicle*> getObstacles() const ;
+
       private:
 
         /// Other vehicles

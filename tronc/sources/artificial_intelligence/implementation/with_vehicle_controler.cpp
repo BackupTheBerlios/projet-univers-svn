@@ -43,10 +43,13 @@ namespace ProjetUnivers
                                     speed,
                                     speed.length(),
                                     getSize())) ;
+
+        getControlerSet()->addVehicle(m_vehicle.get()) ;
       }
 
       void WithVehicleControler::onClose()
       {
+        getControlerSet()->removeVehicle(m_vehicle.get()) ;
         m_vehicle.reset() ;
       }
 

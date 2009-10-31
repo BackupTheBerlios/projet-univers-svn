@@ -119,10 +119,10 @@ namespace ProjetUnivers
           return false ;
 
         Kernel::Object* ship = Model::getControledShip(getObject()) ;
-
-        m_target->getChild<Model::TargetingSystem>() ;
-
-        return false ;
+        Model::TargetingSystem* system = m_target->getChild<Model::TargetingSystem>() ;
+        if (!system)
+          return false ;
+        return system->getTarget() == ship ;
       }
 
       void Agent::applyObjective(const Model::Objective& objective,
@@ -143,7 +143,10 @@ namespace ProjetUnivers
             // if enemy selected pursuit it
             if (m_target)
             {
-              m_steering += SteeringBehaviour::offsetPursuit(*getVehicle(),*getTarget(),getTarget()->getRadius()*2) ;
+              if (!isTargetedByTarget())
+                m_steering += SteeringBehaviour::pursuit(*getVehicle(),*getTarget()) ;
+              else
+                m_steering += SteeringBehaviour::seek(*getVehicle(),*getTarget()) ;
             }
             else
             {
@@ -171,6 +174,7 @@ namespace ProjetUnivers
           }
           case Model::Objective::GoTo:
           {
+            /// @todo
             Kernel::ObjectReference destination = objective.getDestination() ;
 
             /*
@@ -181,6 +185,10 @@ namespace ProjetUnivers
 
           }
         }
+
+        // always avoid obstacle
+        m_steering += SteeringBehaviour::obstacleAvoidance(*getVehicle(),getObstacles()) ;
+
       }
 
       Ogre::Vector3 Agent::calculateSteeringCommands(const float& seconds_since_last_frame)
@@ -328,6 +336,14 @@ namespace ProjetUnivers
       {
         return Kernel::Relation::areLinked<Model::HasInLineOfSight>(Model::getControledShip(getObject()),target) ;
       }
+
+      std::set<Vehicle*> Agent::getObstacles() const
+      {
+        std::set<Vehicle*> result(getControlerSet()->getAllVehicles()) ;
+        result.erase(getVehicle()) ;
+        return result ;
+      }
+
     }
   }
 }

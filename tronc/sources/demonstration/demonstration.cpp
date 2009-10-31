@@ -55,7 +55,7 @@ int main()
   Physic::start() ;
   Sound::start() ;
   ArtificialIntelligence::start() ;
-  Display::start(Display::ChooseRenderer) ;
+  Display::start(Display::DefaultRenderer) ;
   Input::start() ;
   GUI::start() ;
 

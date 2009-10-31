@@ -21,6 +21,7 @@
 #pragma once
 
 #include <cppunit/extensions/HelperMacros.h>
+#include <artificial_intelligence/implementation/agent.h>
 
 namespace ProjetUnivers
 {
@@ -39,10 +40,9 @@ namespace ProjetUnivers
       // @{
 
         void steeringFullBackShouldTurn() ;
-
         void isTargetedByTarget() ;
-
         void applyOnlyToAI() ;
+        void obstacles() ;
 
       // @}
 
@@ -50,11 +50,14 @@ namespace ProjetUnivers
 
         CPPUNIT_TEST(steeringFullBackShouldTurn) ;
         CPPUNIT_TEST(applyOnlyToAI) ;
-
-        // @todo : simplify targeting system before that test
-//        CPPUNIT_TEST(isTargetedByTarget) ;
+        CPPUNIT_TEST(isTargetedByTarget) ;
+        CPPUNIT_TEST(obstacles) ;
 
         CPPUNIT_TEST_SUITE_END() ;
+
+      private:
+
+        Implementation::Agent* getAgentController(Kernel::Object*) const ;
       };
     }
   }
