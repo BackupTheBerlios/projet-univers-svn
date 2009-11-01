@@ -35,7 +35,7 @@ namespace ProjetUnivers
         m_instance.reset(new Parameters()) ; 
       }
       
-      return m_instance->internalGetValue<T>(section,name) ;
+      return m_instance->internalGetValue<T>(section,name,true) ;
 
     }
 
@@ -44,9 +44,14 @@ namespace ProjetUnivers
                            const std::string& name,
                            T default_value) 
     {
+      if (! m_instance.get())
+      {
+        m_instance.reset(new Parameters()) ;
+      }
+
       try 
       {
-        return getValue<T>(section,name) ;
+        return m_instance->internalGetValue<T>(section,name,false) ;
       }
       catch(...)
       {
@@ -56,7 +61,8 @@ namespace ProjetUnivers
     
     template <typename T>
     T Parameters::internalGetValue(const std::string& section,
-                                   const std::string& name) const
+                                   const std::string& name,
+                                   const bool& message) const
     {
       std::map<std::string,std::map<std::string,
         boost::variant<float,std::string,bool> > >::const_iterator 
@@ -64,7 +70,8 @@ namespace ProjetUnivers
       
       if (section_iterator == m_parameters.end())
       {
-        ErrorMessage(std::string("no section named : ") + section) ;
+        if (message)
+          ErrorMessage(std::string("no section named : ") + section) ;
         throw ExceptionKernel(std::string("no section named : ") + section) ;
       }
       
@@ -80,7 +87,8 @@ namespace ProjetUnivers
       }
       else
       {
-        ErrorMessage(std::string("no parameter named : ") + name) ;
+        if (message)
+          ErrorMessage(std::string("no parameter named : ") + name) ;
       	throw ExceptionKernel(std::string("no parameter named : ") + name) ;
       } 
       

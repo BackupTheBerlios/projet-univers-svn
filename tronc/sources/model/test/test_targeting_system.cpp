@@ -31,7 +31,6 @@
 #include <model/mobile.h>
 #include <model/solid.h>
 #include <model/selection.h>
-#include <model/detection_data.h>
 #include <model/transponder.h>
 #include <model/targeting_system.h>
 #include <model/destroyable.h>

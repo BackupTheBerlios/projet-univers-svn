@@ -41,7 +41,6 @@
 #include <model/laser.h>
 #include <model/laser_beam.h>
 #include <model/selection.h>
-#include <model/detection_data.h>
 #include <model/targeting_system.h>
 #include <model/ideal_target.h>
 #include <model/shooting_helper.h>

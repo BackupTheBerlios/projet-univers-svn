@@ -76,6 +76,7 @@
 #include <model/mission.h>
 #include <model/custom_mission.h>
 #include <model/flying_group.h>
+#include <model/listener.h>
 
 #include <model/implementation/model_internal.h>
 #include <model/model.h>
@@ -403,16 +404,20 @@ namespace ProjetUnivers {
           ship2 = ship ;
         }
 
-        InternalMessage("Model","building observer...") ;
-        Kernel::Object* observer = system->createObject() ;
-        observer->addTrait(new Positioned(Position::Meter(0,
-                                                          2000,
-                                                          0))) ;
+        ship1->addTrait(new HeadUpDisplay()) ;
+        HeadUpDisplay::connect(ship1,ship1) ;
 
-        observer->addTrait(new Oriented(Model::Orientation(Ogre::Quaternion(Ogre::Degree(-90),Ogre::Vector3::UNIT_X)))) ;
+        InternalMessage("Model","building observer...") ;
+        Kernel::Object* observer = ship1->createObject() ;
+//        observer->addTrait(new Positioned(Position::Meter(0,
+//                                                          2000,
+//                                                          0))) ;
+//
+//        observer->addTrait(new Oriented(Model::Orientation(Ogre::Quaternion(Ogre::Degree(-90),Ogre::Vector3::UNIT_X)))) ;
         observer->addTrait(new Observer()) ;
         observer->addTrait(new Player()) ;
         observer->addTrait(new Active()) ;
+        observer->addTrait(new Listener()) ;
 
       }
       else if (name == "TestPilot")

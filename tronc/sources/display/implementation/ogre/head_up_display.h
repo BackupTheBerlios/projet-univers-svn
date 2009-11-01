@@ -63,7 +63,6 @@ namespace ProjetUnivers
             URL="\ref Display::Implementation::Target" ;
             "Model::Positioned" [shape=box URL="\ref Model::Positioned"] ;
             "Model::Selected" [shape=box URL="\ref Model::Selected"] ;
-            "Model::DetectionData" [shape=box URL="\ref Model::DetectionData"] ;
             "Model::Solid" [shape=box URL="\ref Model::Solid"] ;
           }
         

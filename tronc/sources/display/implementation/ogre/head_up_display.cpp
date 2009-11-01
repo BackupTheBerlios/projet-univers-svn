@@ -22,7 +22,6 @@
 #include <kernel/log.h>
 #include <kernel/parameters.h>
 
-#include <model/detection_data.h>
 #include <model/positioned.h>
 
 #include <display/implementation/ogre/ogre.h>

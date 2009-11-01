@@ -25,7 +25,6 @@ libmodel_la_SOURCES = \
 ../implementation/destroyable.cpp \
 ../implementation/detector.cpp \
 ../implementation/detectable.cpp \
-../implementation/detection_data.cpp \
 ../implementation/displayed.cpp \
 ../implementation/distance.cpp \
 ../implementation/dragger.cpp \

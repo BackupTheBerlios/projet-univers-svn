@@ -1415,8 +1415,8 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT_EQUAL(0,Controler1::m_number_of_close) ;
 
         model->startTransaction() ;
-        model->update(0.1) ;
-        model->update(0.1) ;
+        model->update((float)0.1) ;
+        model->update((float)0.1) ;
         model->endTransaction() ;
 
         CPPUNIT_ASSERT_EQUAL(1,Controler1::m_number_of_close) ;

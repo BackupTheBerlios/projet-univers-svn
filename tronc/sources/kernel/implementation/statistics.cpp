@@ -41,9 +41,10 @@ namespace ProjetUnivers
       if (m_number_of_objects > 0)
       {
         m_maximum_number_of_primitive_trais_per_object = std::max(m_maximum_number_of_primitive_trais_per_object,
-                                                                  (float)m_number_of_primitive_traits/m_number_of_objects) ;
+                                                                  (float)m_number_of_primitive_traits
+                                                                  /(float)m_number_of_objects) ;
         m_maximum_number_of_deduced_trais_per_object = std::max(m_maximum_number_of_deduced_trais_per_object,
-                                                                (float)m_number_of_deduced_traits/m_number_of_objects) ;
+                                                                (float)m_number_of_deduced_traits/(float)m_number_of_objects) ;
       }
     }
     

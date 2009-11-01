@@ -841,8 +841,9 @@ namespace ProjetUnivers
 
     const TypeIdentifier& Trait::getLatestUpdatedTrait()
     {
+      static TypeIdentifier empty ;
       if (m_latest_updated_trait.empty())
-        return TypeIdentifier() ;
+        return empty ;
       return m_latest_updated_trait.top() ;
     }
 

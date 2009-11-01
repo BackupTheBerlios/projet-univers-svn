@@ -43,7 +43,6 @@
 #include <model/throttle.h>
 #include <model/dragger.h>
 #include <model/laser.h>
-#include <model/detection_data.h>
 #include <model/targeting_system.h>
 #include <model/shooting_helper.h>
 #include <model/autonomous_character.h>

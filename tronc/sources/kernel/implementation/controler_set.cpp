@@ -264,7 +264,7 @@ namespace ProjetUnivers
     : m_model(model),
       m_initialised(false),
       m_elapsed(0),
-      m_timestep(0.1),
+      m_timestep(0.1f),
       m_consumed_time(0),
       m_simulation_time(0)
     {}

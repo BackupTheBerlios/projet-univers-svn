@@ -63,7 +63,7 @@ namespace ProjetUnivers
         if (target_speed.length() != 0)
         {
           
-          float delta = 
+          float delta = (float)
                   (-pow(target_position.y,2)-pow(target_position.x,2))*pow(target_speed.z,2)
                   +(2*target_position.y*target_position.z*target_speed.y+2*target_position.x*target_position.z*target_speed.x)*target_speed.z
                   +(-pow(target_position.z,2)-pow(target_position.x,2))*pow(target_speed.y,2)
@@ -73,7 +73,7 @@ namespace ProjetUnivers
                   +pow(interceptor_speed,2)*pow(target_position.y,2)
                   +pow(interceptor_speed,2)*pow(target_position.x,2) ;
 
-          float divisor = target_speed.squaredLength()-pow(interceptor_speed,2) ;
+          float divisor = (float) target_speed.squaredLength()-pow(interceptor_speed,2) ;
           
           if (delta > 0 && fabs(divisor) > 1e-10)
           {

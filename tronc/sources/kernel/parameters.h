@@ -18,8 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_KERNEL_PARAMETERS_H_
-#define PU_KERNEL_PARAMETERS_H_
+#pragma once
 
 #include <map>
 #include <string>
@@ -84,7 +83,7 @@ namespace ProjetUnivers
     /*!
       @name Access methods
       
-      Parametesr are organized in sections and have a name.
+      Parameters are organized in sections and have a name.
       Handled basic types are boolean, string and numerics.
       
     */
@@ -93,7 +92,8 @@ namespace ProjetUnivers
       /// Access to a value of type T.
       template <typename T>
       T internalGetValue(const std::string& section,
-                         const std::string& name) const ;
+                         const std::string& name,
+                         const bool& message) const ;
       
     // @}
       
@@ -111,5 +111,3 @@ namespace ProjetUnivers
 }
 
 #include <kernel/implementation/parameters.cxx>
-
-#endif /*PU_KERNEL_PARAMETERS_H_*/

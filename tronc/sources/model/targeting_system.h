@@ -102,7 +102,6 @@ namespace ProjetUnivers
 
     private:
 
-      /// The DetectionData targeted.
       Kernel::ObjectReference m_target ;
       
     };

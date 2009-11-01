@@ -1563,16 +1563,35 @@
       they flee perpendicularly
     - agents now avoid obstacle  
 
+2009-11-01
+
+  * Model :
+    - removed obsolete detection data  
+  * Kernel : 
+    - removed error messages for getting paramterers with default value
+
 in commit
 --------
-        
+
+    
 in progress
 -----------
-  
-    
+
+
 todo
 ----
 
+  * Damage handling
+    - Hit visualization localized on ship : emit particles at collision point
+
+  * Model : 
+    - doubt on target helper
+    - remove computer own model and create an ideal target object under the 
+      computer with relative position  
+
+  * All :
+    - remove warning for implicit conversions with gcc-4.3
+    
   * AI : 
     - adding states : Iddle, Attacking, 
     - users repport that AI tend to get back on back (probably a worst case 
@@ -1586,17 +1605,11 @@ todo
     - we should add victory conditions to missions : DestroyAllEnemies, 
       determine match with agent objectives 
 
-  * Demo : 
-    - still issue with target helper ?
-         
   * Physics :
-    - still instability under windows on forces, unit range ?
+    - unstability under windows on forces but no in linux
     
   * Display : 
     - change selection printing (change color of ideal target)
-  
-  * Damage handling
-    - Hit visualization localized on ship : emit particles
 
   * Ship configuration
     - Energy handling 
