@@ -172,7 +172,10 @@ namespace ProjetUnivers
                                        + Kernel::toString(mass.Kilogram())) ;
 
           if (mass.Kilogram() < 0)
+          {
+            ErrorMessage("PhysicalObject::updateMassive") ;
             throw std::exception() ;
+          }
 
           dMass ode_mass ;
           dMassSetSphereTotal(&ode_mass,1,1) ;

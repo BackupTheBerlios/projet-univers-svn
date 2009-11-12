@@ -13,6 +13,7 @@ libdisplay_la_SOURCES = \
 ../implementation/explosion.cpp \
 ../implementation/ideal_target.cpp \
 ../implementation/identified_target.cpp \
+../implementation/hit.cpp \
 ../implementation/image.cpp \
 ../implementation/observer.cpp \
 ../implementation/positioned.cpp \
@@ -21,6 +22,7 @@ libdisplay_la_SOURCES = \
 ../implementation/target.cpp \
 ../implementation/target_with_selection.cpp \
 ../implementation/ogre/explosion.cpp \
+../implementation/ogre/hit.cpp \
 ../implementation/ogre/image.cpp \
 ../implementation/ogre/observer.cpp \
 ../implementation/ogre/ogre.cpp \

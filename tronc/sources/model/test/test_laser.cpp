@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -41,10 +41,17 @@ CPPUNIT_TEST_SUITE_REGISTRATION(ProjetUnivers::
                                 TestLaser) ;
 
 
-namespace ProjetUnivers {
-  namespace Model {
-    namespace Test {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
+    namespace Test
+    {
 
+      void TestLaser::setUp()
+      {
+        Kernel::Parameters::load("model_demonstration.config") ;
+      }
 
       void TestLaser::testFire()
       {
@@ -113,15 +120,6 @@ namespace ProjetUnivers {
         CPPUNIT_ASSERT(beam->getEnergy().Joule()==10) ;
       }
       
-      void TestLaser::setUp()
-      {
-        Kernel::Parameters::load("model_demonstration.config") ;
-       }
-
-      void TestLaser::tearDown()
-      {
-      }
-
     }
   }
 }

@@ -53,8 +53,10 @@ namespace ProjetUnivers
             Collideable* collideable1 = static_cast<Collideable*>(dGeomGetData(geometry1)) ;
             LaserBeam* laser_beam = dynamic_cast<LaserBeam*>((Collideable*)dGeomGetData(geometry2)) ;
             if (!collideable1 || !laser_beam)
+            {
+              ErrorMessage("Collideable::canCollide") ;
               throw std::exception() ;
-
+            }
             return laser_beam->getTrait<Model::LaserBeam>()->getFiringShip() != collideable1->getControler()->getObject() ;
           }
 
@@ -63,7 +65,10 @@ namespace ProjetUnivers
             Collideable* collideable2 = static_cast<Collideable*>(dGeomGetData(geometry2)) ;
             Ode::LaserBeam* laser_beam = dynamic_cast<Ode::LaserBeam*>((Collideable*)dGeomGetData(geometry1)) ;
             if (!collideable2 || !laser_beam)
+            {
+              ErrorMessage("Collideable::canCollide") ;
               throw std::exception() ;
+            }
 
             return laser_beam->getTrait<Model::LaserBeam>()->getFiringShip() != collideable2->getControler()->getObject() ;
           }

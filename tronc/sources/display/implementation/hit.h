@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2008 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -20,64 +20,20 @@
  ***************************************************************************/
 #pragma once
 
-#include <kernel/object_reference.h>
-#include <kernel/reader.h>
+#pragma once
 
-#include <model/torque_generator.h>
+#include <kernel/deduced_trait.h>
 
-namespace ProjetUnivers 
+namespace ProjetUnivers
 {
-  namespace Model 
+  namespace Display
   {
-
-    namespace Test
+    namespace Implementation
     {
-      class TestLoad ;
+
+      /// A solid has been hit
+      class Hit : public Kernel::DeducedTrait
+      {};
     }
-    
-    /// Change direction of a ship.
-    /*!
-      It is a set of propellers that change an object orientation. 
-        
-    */
-    class GuidanceSystem : public TorqueGenerator
-    {
-    public:
-
-      /// Constructor.
-      GuidanceSystem(const float& i_force) ;
- 
-       /// Read a GuidanceSystem trait.
-      /*!
-        stored as 
-        @code
-          <GuidanceSystem force="...">
-            [<ObjectReference id=".." [name=controler]/>] 
-          </GuidanceSystem>
-        @endcode
-      */     
-      static Kernel::Trait* read(Kernel::Reader* reader) ;
- 
-      /// get the torque in newton.meter.
-      virtual Ogre::Vector3 NewtonMeter() const ;
-      
-      /// Update the control.
-      void setControler(Kernel::Object*) ;
-      
-    private:
-      
-      /// Computer that control this system
-      Kernel::ObjectReference m_control ;
-      
-      /// "force" of the control
-      float m_force ;
-      
-      friend void connectControlerGuidanceSystem(Kernel::Object* controler,
-                                                 Kernel::Object* system) ;
-      
-      friend class ProjetUnivers::Model::Test::TestLoad ;
-    };
-    
-    
   }
 }

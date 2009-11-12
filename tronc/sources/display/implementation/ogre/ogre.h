@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007 Mathieu ROGER                                      *
+ *   Copyright (C) 2007-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -34,7 +34,8 @@ namespace ProjetUnivers
       /*!
         @see www.ogre3d.org     
       */ 
-      namespace Ogre {  
+      namespace Ogre
+      {
   
         /// Ogre initialisation.
         bool init(DisplayStartingMode mode = DefaultRenderer) ;
@@ -82,6 +83,18 @@ namespace ProjetUnivers
         void addCamera(::Ogre::Camera*) ;
         void removeCamera(::Ogre::Camera*) ;
         
+        /// Create a particle effect with its own life.
+        /*!
+          Once created, it will be displayed until finished and then
+          automatically destroyed.
+
+          @param name name of the particle script
+        */
+        ::Ogre::SceneNode* createParticleEffect(const std::string& name,
+                                                ::Ogre::SceneNode* parent_node,
+                                                const ::Ogre::Vector3& relative_position,
+                                                const ::Ogre::Quaternion& relative_orientation) ;
+
       }
     }
   }

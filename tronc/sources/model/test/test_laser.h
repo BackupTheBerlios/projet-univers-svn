@@ -18,20 +18,20 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_TEST_LASER_H_
-#define PU_MODEL_TEST_LASER_H_
+#pragma once
 
 #include <cppunit/extensions/HelperMacros.h>
 
-namespace ProjetUnivers {
-  namespace Model {
-    namespace Test {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
+    namespace Test
+    {
             
       /// Test of Laser.
-      /*!
-
-      */
-      class TestLaser : public CppUnit::TestFixture {
+      class TestLaser : public CppUnit::TestFixture
+      {
       protected:
         
       /*! 
@@ -42,7 +42,7 @@ namespace ProjetUnivers {
         /// Tests fire method.
         void testFire() ;
 
-        /// Tests the energy of teh produced beam
+        /// Tests the energy of the produced beam
         void beamEnergy() ;
         
       // @}
@@ -58,30 +58,13 @@ namespace ProjetUnivers {
       
         CPPUNIT_TEST_SUITE_END() ;
 
-      public:
-  
       // @}
-      /*! 
-        @name Mandatory methods
-      */
-      // @{
+      public:
 
-      
-        /// Initialisation du test
         void setUp() ;
-      
-        /// Desinitialisation du test
-        void tearDown() ;
-      
-      // @}      
-                
-       
       
       };
 
     }
   }
 }
-
-
-#endif

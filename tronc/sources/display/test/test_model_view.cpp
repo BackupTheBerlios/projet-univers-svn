@@ -60,6 +60,7 @@
 #include <display/test/test_model_view.h>
 #include <model/selection.h>
 #include <display/implementation/target.h>
+#include <display/implementation/ogre/ogre.h>
 
 
 CPPUNIT_TEST_SUITE_REGISTRATION(ProjetUnivers::
@@ -615,6 +616,126 @@ namespace ProjetUnivers
         model->update(0.1) ;
         mission->destroyTrait(mission->getTrait<Model::Played>()) ;
         model->update(0.1) ;
+      }
+
+      void TestModelView::effect()
+      {
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestModelView::displayExplosion")) ;
+        model->init() ;
+
+        Implementation::Ogre::RealWorldViewPoint* viewpoint =
+          model->getViewPoint<Implementation::Ogre::RealWorldViewPoint>() ;
+
+        Kernel::Object* universe = model->createObject() ;
+        universe->addTrait(new Model::Universe()) ;
+        universe->addTrait(new Model::Positioned()) ;
+
+        Kernel::Object* system = universe->createObject() ;
+        system->addTrait(new Model::StellarSystem()) ;
+        system->addTrait(new Model::Positioned()) ;
+
+        Kernel::Object* observer = system->createObject() ;
+        observer->addTrait(new Model::Observer()) ;
+        observer->addTrait(new Model::Player()) ;
+        observer->addTrait(new Model::Active()) ;
+        observer->addTrait(new Model::Positioned()) ;
+        observer->addTrait(new Model::Oriented()) ;
+
+        Kernel::Object* ship = Model::createShip(system) ;
+        ship->getTrait<Model::Positioned>()->setPosition(Model::Position::Meter(0,0,-500)) ;
+
+        Implementation::Ogre::Positioned* positioned = ship->getTrait<Implementation::Positioned>()->getView<Implementation::Ogre::Positioned>(viewpoint) ;
+        CPPUNIT_ASSERT(positioned) ;
+
+        ::Ogre::SceneNode* effect(Implementation::Ogre::createParticleEffect("PU/Tests/Hit",
+                                                                             positioned->getNode(),
+                                                                             ::Ogre::Vector3(0.2,0.2,0.2),
+                                                                             ::Ogre::Quaternion::IDENTITY)) ;
+
+        std::string name = effect->getName() ;
+
+        Kernel::Timer timer ;
+        Kernel::Timer global_timer ;
+
+        while (global_timer.getSecond() < 4)
+        {
+          float seconds = timer.getSecond() ;
+          if (seconds != 0)
+          {
+            timer.reset() ;
+          }
+          model->update(seconds) ;
+        }
+
+        try
+        {
+          // accessing an un-existing node raise exception
+          viewpoint->getManager()->getSceneNode(name) ;
+          CPPUNIT_ASSERT(false) ;
+        }
+        catch(std::exception&)
+        {}
+      }
+
+      void TestModelView::destroyEffectParent()
+      {
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model()) ;
+        model->init() ;
+
+        Implementation::Ogre::RealWorldViewPoint* viewpoint =
+          model->getViewPoint<Implementation::Ogre::RealWorldViewPoint>() ;
+
+        Kernel::Object* universe = model->createObject() ;
+        universe->addTrait(new Model::Universe()) ;
+        universe->addTrait(new Model::Positioned()) ;
+
+        Kernel::Object* system = universe->createObject() ;
+        system->addTrait(new Model::StellarSystem()) ;
+        system->addTrait(new Model::Positioned()) ;
+
+        Kernel::Object* observer = system->createObject() ;
+        observer->addTrait(new Model::Observer()) ;
+        observer->addTrait(new Model::Player()) ;
+        observer->addTrait(new Model::Active()) ;
+        observer->addTrait(new Model::Positioned()) ;
+        observer->addTrait(new Model::Oriented()) ;
+
+        Kernel::Object* ship = Model::createShip(system) ;
+        ship->getTrait<Model::Positioned>()->setPosition(Model::Position::Meter(0,0,-500)) ;
+
+        Implementation::Ogre::Positioned* positioned = ship->getTrait<Implementation::Positioned>()->getView<Implementation::Ogre::Positioned>(viewpoint) ;
+        CPPUNIT_ASSERT(positioned) ;
+
+        ::Ogre::SceneNode* effect(Implementation::Ogre::createParticleEffect("PU/Tests/Hit",
+                                                                             positioned->getNode(),
+                                                                             ::Ogre::Vector3(0.2,0.2,0.2),
+                                                                             ::Ogre::Quaternion::IDENTITY)) ;
+
+        std::string name = effect->getName() ;
+
+        ship->destroyObject() ;
+
+        Kernel::Timer timer ;
+        Kernel::Timer global_timer ;
+
+        while (global_timer.getSecond() < 4)
+        {
+          float seconds = timer.getSecond() ;
+          if (seconds != 0)
+          {
+            timer.reset() ;
+          }
+          model->update(seconds) ;
+        }
+
+        try
+        {
+          // accessing an un-existing node raise exception
+          viewpoint->getManager()->getSceneNode(name) ;
+          CPPUNIT_ASSERT(false) ;
+        }
+        catch(std::exception&)
+        {}
       }
 
 

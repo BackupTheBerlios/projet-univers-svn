@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007 Mathieu ROGER                                      *
+ *   Copyright (C) 2007-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -29,6 +29,7 @@
 #include <model/menu.h>
 
 #include <display/implementation/ogre/ogre.h>
+#include <display/implementation/ogre/utility.h>
 
 
 using namespace ::Ogre ;
@@ -92,7 +93,7 @@ namespace ProjetUnivers
             window = root->initialise(true) ;
 
             ResourceGroupManager::getSingleton().initialiseAllResourceGroups() ;
-            // load all ressources :
+            // load all resources :
             ResourceGroupManager::getSingleton().loadResourceGroup("General") ;
             
             m_manager = ::Ogre::Root::getSingleton().createSceneManager(::Ogre::ST_GENERIC) ;
@@ -189,8 +190,35 @@ namespace ProjetUnivers
           
           bool initialised ;
         
-          // in game hud
+          // in game head up display
           ::Ogre::Overlay* m_overlay ;
+
+          /// Manage lifetime of handled effects
+          void updateParticles(const float& duration)
+          {
+            std::set<std::string> nodes_to_destroy ;
+            for(std::map<std::string,float>::iterator node = m_node_lifetime.begin() ; node != m_node_lifetime.end() ; ++node)
+            {
+              node->second -= duration ;
+              if (node->second < 0)
+              {
+                nodes_to_destroy.insert(node->first) ;
+              }
+            }
+
+            for(std::set<std::string>::iterator node = nodes_to_destroy.begin() ; node != nodes_to_destroy.end() ; ++node)
+            {
+              m_nodes.erase(*node) ;
+              m_node_lifetime.erase(*node) ;
+              m_manager->destroySceneNode(*node) ;
+            }
+          }
+
+          /// Automatically handled nodes, nodes are referenced by name
+          std::set<std::string> m_nodes ;
+
+          /// Lifetime of nodes
+          std::map<std::string,float> m_node_lifetime ;
         };
         
         /// store data
@@ -281,10 +309,11 @@ namespace ProjetUnivers
 
         /// update display
         /*!
-          this procedure avoid "normal" loop for Ogre.
+          this procedure replace "normal" loop for Ogre.
         */
         void update(const float& seconds)
         {
+          m_system->updateParticles(seconds) ;
           /// cf. http://www.ogre3d.org/phpBB2/viewtopic.php?t=2733
           ::Ogre::WindowEventUtilities::messagePump() ;
           m_system->root->_fireFrameStarted();
@@ -325,6 +354,38 @@ namespace ProjetUnivers
             m_system->m_camera = m_system->m_manager->createCamera("background") ;
             ::Ogre::Viewport* viewport = m_system->window->addViewport(m_system->m_camera,-100) ;
           }
+        }
+
+        /// Calculate the total duration a particle system will be visible
+        ::Ogre::Real getDuration(const ::Ogre::ParticleSystem* particle)
+        {
+          ::Ogre::Real result = 0 ;
+          for(unsigned int emitter = 0 ; emitter < particle->getNumEmitters() ; ++emitter)
+          {
+            result = std::max(result,
+                              particle->getEmitter(emitter)->getDuration() +
+                              particle->getEmitter(emitter)->getMaxTimeToLive()) ;
+          }
+
+          return result ;
+        }
+
+        ::Ogre::SceneNode* createParticleEffect(const std::string& name,
+                                                ::Ogre::SceneNode* parent_node,
+                                                const ::Ogre::Vector3& relative_position,
+                                                const ::Ogre::Quaternion& relative_orientation)
+        {
+          // create the node and attach a particle system to it
+          ::Ogre::ParticleSystem* particle = m_system->m_manager->createParticleSystem(Utility::getUniqueName(),name) ;
+          particle->setKeepParticlesInLocalSpace(true) ;
+          ::Ogre::SceneNode* node(static_cast< ::Ogre::SceneNode*>(parent_node->createChild(relative_position,relative_orientation))) ;
+          node->attachObject(particle) ;
+
+          // for automatic handling
+          m_system->m_nodes.insert(node->getName()) ;
+          m_system->m_node_lifetime[node->getName()] = getDuration(particle) ;
+
+          return node ;
         }
         
         

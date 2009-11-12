@@ -66,7 +66,10 @@ namespace ProjetUnivers
             }
 
             if (!(finite(force.x) && finite(force.y) && finite(force.z)))
+            {
+              ErrorMessage("ForceGenerator::prepare() infinite force") ;
               throw Kernel::ExceptionKernel("Infinite force in ForceGenerator::prepare") ;
+            }
 
             InternalMessage("Physic","Physic::ForceGenerator::prepare " +
                             Kernel::toString(getObject()->getIdentifier())

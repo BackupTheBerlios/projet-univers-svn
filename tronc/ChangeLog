@@ -1570,10 +1570,20 @@
   * Kernel : 
     - removed error messages for getting paramterers with default value
 
+2009-11-12
+
+  * Display : 
+    - added an effect managment system for particle with lifetime
+  * Physic :
+    - added a call to dRandSetSeed which is meant to reduce instability ?
+    - better log in case of error
+    - unstability under windows on forces and torque : reverted modification 
+      in stabilizer
+
 in commit
 --------
 
-    
+      
 in progress
 -----------
 
@@ -1583,6 +1593,15 @@ todo
 
   * Damage handling
     - Hit visualization localized on ship : emit particles at collision point
+
+  * Physics :
+    - try to keep all units in an acceptable "range", it means that we whould 
+      be able to convert model units in an arbitrary "ranging system", depending 
+      on masses and object length  
+  
+  * Display :
+    - singleton issue when data is not correct (duplicate elements inside media 
+      folder) 
 
   * Model : 
     - doubt on target helper
@@ -1598,16 +1617,13 @@ todo
       scenario in the algorithm)
 
   * Model :
-    - add relationship hasEnemy between teams
-    - add relationship to replace WithFlyingGroup
+    - add relationship HasEnemy between teams
+    - add relationship HasFlyingGroup to replace WithFlyingGroup
     - add trait Destroyed on FlyingGroup + controler that handle that trait
     - mission should be finished when all enemies are destroyed  
     - we should add victory conditions to missions : DestroyAllEnemies, 
       determine match with agent objectives 
 
-  * Physics :
-    - unstability under windows on forces but no in linux
-    
   * Display : 
     - change selection printing (change color of ideal target)
 
@@ -1782,8 +1798,6 @@ todo
     - handle pov buttons as buttons ?
   
   * Physic : 
-    - try to keep all units in an acceptable "range", it means that we whould 
-      be able to convert model units in an arbitrary "ranging system".
     - migrate Model::PhysicalObject and Model::PhysicalWorld to Physic (for 
       better separation of concerns) --> not so sure ?
     - separate simulations : maybe objects can be simulated one by one in its 

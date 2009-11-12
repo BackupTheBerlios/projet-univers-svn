@@ -68,9 +68,11 @@ namespace ProjetUnivers
             }
 
             if (!(finite(torque.x) && finite(torque.y) && finite(torque.z)))
+            {
+              ErrorMessage("TorqueGenerator::prepare() infinite force") ;
               throw Kernel::ExceptionKernel("Infinite torque in TorqueGenerator::prepare " +
                                             getTrait<Model::TorqueGenerator>()->toString()) ;
-
+            }
             m_object->getBody()->addTorque(torque.x,
                                            torque.y,
                                            torque.z) ;

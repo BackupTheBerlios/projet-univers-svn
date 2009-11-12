@@ -61,19 +61,19 @@
     </object>
 
     <object id="3">
-      <!-- stabilize against x axis (turning rigth/left) the more, the quicker the ship will stop turning  --> 
+      <!-- stabilise against x axis (turning right/left) the more, the quicker the ship will stop turning  --> 
       <Stabilizer axis_x="10" axis_y="0" axis_z="0"/>    
       <Component/>
     </object>
 
     <object id="4">
-      <!-- stabilize against y (turning up/down) axis the more, the quicker the ship will stop turning  --> 
+      <!-- stabilise against y (turning up/down) axis the more, the quicker the ship will stop turning  --> 
       <Stabilizer axis_x="0" axis_y="10" axis_z="0"/>    
       <Component/>
     </object>
 
     <object id="5">
-      <!-- stabilize against z (rolling ship) axis the more, the quicker the ship will stop turning  --> 
+      <!-- stabilise against z (rolling ship) axis the more, the quicker the ship will stop turning  --> 
       <Stabilizer axis_x="0" axis_y="0" axis_z="10"/>    
       <Component/>
     </object>

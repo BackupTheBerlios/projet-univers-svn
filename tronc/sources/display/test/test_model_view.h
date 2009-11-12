@@ -74,6 +74,9 @@ namespace ProjetUnivers
 
         void testMission() ;
 
+        void effect() ;
+        void destroyEffectParent() ;
+
       // @}
         /*!
           @name Tests registration
@@ -94,6 +97,8 @@ namespace ProjetUnivers
         CPPUNIT_TEST(changeObserver) ;
         CPPUNIT_TEST(setOrientation) ;
         CPPUNIT_TEST(testMission) ;
+        CPPUNIT_TEST(effect) ;
+        CPPUNIT_TEST(destroyEffectParent) ;
 
         CPPUNIT_TEST_SUITE_END() ;
 

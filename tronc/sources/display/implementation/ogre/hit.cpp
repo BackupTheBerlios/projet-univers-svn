@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2008 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,66 +18,34 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#pragma once
+#include <kernel/log.h>
+#include <display/implementation/ogre/ogre.h>
+#include <display/implementation/ogre/utility.h>
+#include <display/implementation/ogre/hit.h>
+#include <model/collision.h>
 
-#include <kernel/object_reference.h>
-#include <kernel/reader.h>
 
-#include <model/torque_generator.h>
-
-namespace ProjetUnivers 
+namespace ProjetUnivers
 {
-  namespace Model 
+  namespace Display
   {
-
-    namespace Test
+    namespace Implementation
     {
-      class TestLoad ;
+      namespace Ogre
+      {
+
+        RegisterView(Hit,Implementation::Hit,RealWorldViewPoint) ;
+
+        void Hit::onInit()
+        {
+          InternalMessage("Display","Entering Hit::onInit") ;
+          Model::Collision* collision(getTrait<Model::Collision>()) ;
+
+
+        }
+
+      }
     }
-    
-    /// Change direction of a ship.
-    /*!
-      It is a set of propellers that change an object orientation. 
-        
-    */
-    class GuidanceSystem : public TorqueGenerator
-    {
-    public:
-
-      /// Constructor.
-      GuidanceSystem(const float& i_force) ;
- 
-       /// Read a GuidanceSystem trait.
-      /*!
-        stored as 
-        @code
-          <GuidanceSystem force="...">
-            [<ObjectReference id=".." [name=controler]/>] 
-          </GuidanceSystem>
-        @endcode
-      */     
-      static Kernel::Trait* read(Kernel::Reader* reader) ;
- 
-      /// get the torque in newton.meter.
-      virtual Ogre::Vector3 NewtonMeter() const ;
-      
-      /// Update the control.
-      void setControler(Kernel::Object*) ;
-      
-    private:
-      
-      /// Computer that control this system
-      Kernel::ObjectReference m_control ;
-      
-      /// "force" of the control
-      float m_force ;
-      
-      friend void connectControlerGuidanceSystem(Kernel::Object* controler,
-                                                 Kernel::Object* system) ;
-      
-      friend class ProjetUnivers::Model::Test::TestLoad ;
-    };
-    
-    
   }
 }
+
