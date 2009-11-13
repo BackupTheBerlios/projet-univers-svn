@@ -1580,6 +1580,11 @@
     - unstability under windows on forces and torque : reverted modification 
       in stabilizer
 
+2009-11-13
+
+  * Physic :
+    - unstability under windows on forces and torque : moved to dWorldQuickStep
+
 in commit
 --------
 

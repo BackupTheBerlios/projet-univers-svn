@@ -195,10 +195,10 @@ namespace ProjetUnivers
 
               // create contact joint
               dContact contact ;
-              contact.surface.mode = dContactSoftCFM|dContactSoftERP|dContactSlip1|dContactSlip2 ;
+              contact.surface.mode = dContactSoftCFM|dContactSoftERP|dContactBounce ;
               contact.surface.mu = Kernel::Parameters::getValue<float>("Physic","ContactMu",0) ;
               contact.surface.mu2 = 0 ;
-              contact.surface.bounce = Kernel::Parameters::getValue<float>("Physic","ContactBounce",0.7) ;
+              contact.surface.bounce = Kernel::Parameters::getValue<float>("Physic","ContactBounce",0.5) ;
               contact.surface.bounce_vel = Kernel::Parameters::getValue<float>("Physic","ContactBounceVelocity",0) ;
               contact.surface.soft_erp = Kernel::Parameters::getValue<float>("Physic","ContactSoftErrorReduction",1) ;
               contact.surface.soft_cfm = Kernel::Parameters::getValue<float>("Physic","ContactSoftConstraintForceMixing",1) ; ;
@@ -297,7 +297,7 @@ namespace ProjetUnivers
           // physical part
           if (m_world)
           {
-            dWorldStep(m_world->id(),seconds) ;
+            dWorldQuickStep(m_world->id(),seconds) ;
           }
 
           dJointGroupEmpty(m_contact_group) ;
