@@ -1585,10 +1585,15 @@
   * Physic :
     - unstability under windows on forces and torque : moved to dWorldQuickStep
 
+2009-11-21
+
+  * Kernel : 
+    - corrected crash on savePlayerConfiguration
+
 in commit
 --------
 
-      
+        
 in progress
 -----------
 
@@ -1596,17 +1601,14 @@ in progress
 todo
 ----
 
+  * Display : 
+    - effect managment system : handle resizing
+    - handle resizing globally, on using set scale on root node
+
+  * Bug : clicking between buttons on the in game menu causes blockade 
+
   * Damage handling
     - Hit visualization localized on ship : emit particles at collision point
-
-  * Physics :
-    - try to keep all units in an acceptable "range", it means that we whould 
-      be able to convert model units in an arbitrary "ranging system", depending 
-      on masses and object length  
-  
-  * Display :
-    - singleton issue when data is not correct (duplicate elements inside media 
-      folder) 
 
   * Model : 
     - doubt on target helper
@@ -1642,6 +1644,15 @@ todo
   * Kernel : 
     - maybe something to do on notify : directly calls the update on connected 
       traits that have views
+
+  * Physics :
+    - try to keep all units in an acceptable "range", it means that we whould 
+      be able to convert model units in an arbitrary "ranging system", depending 
+      on masses and object length  
+  
+  * Display :
+    - singleton issue when data is not correct (duplicate elements inside media 
+      folder) 
    
   * Sound : 
     - exception floating point : not reproduced

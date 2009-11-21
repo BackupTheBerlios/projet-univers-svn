@@ -24,6 +24,7 @@
 #include <display/implementation/ogre/utility.h>
 #include <display/implementation/ogre/positioned.h>
 #include <display/implementation/ogre/explosion.h>
+#include <display/implementation/ogre/ogre.h>
 
 
 namespace ProjetUnivers
@@ -38,7 +39,6 @@ namespace ProjetUnivers
         RegisterView(Ogre::Explosion,
                      Implementation::Explosion,
                      Ogre::RealWorldViewPoint) ;
-
 
         void Explosion::onInit()
         {

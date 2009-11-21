@@ -22,6 +22,8 @@
 
 #include <Ogre.h>
 #include <display/display.h>
+#include <model/position.h>
+#include <model/distance.h>
 
 namespace ProjetUnivers
 {
@@ -37,7 +39,7 @@ namespace ProjetUnivers
       namespace Ogre
       {
   
-        /// Ogre initialisation.
+        /// Ogre initialization.
         bool init(DisplayStartingMode mode = DefaultRenderer) ;
         
         /// Close Ogre.
@@ -95,6 +97,23 @@ namespace ProjetUnivers
                                                 const ::Ogre::Vector3& relative_position,
                                                 const ::Ogre::Quaternion& relative_orientation) ;
 
+        /*!
+          Ogre coordinates are coded on 32 bits, thus half the precision
+          is between 0 and 1.
+
+          Here we use the following scale factor :
+          1 Ogre unit = 1000 meters
+        */
+        const float conversion_factor = 1000 ;
+
+        /// Convert position to Ogre position
+        ::Ogre::Vector3 convert(const Model::Position& _position) ;
+
+        /// Convert a distance to an Ogre distance.
+        ::Ogre::Real convert(const Model::Distance& distance) ;
+
+        /// Scale a node
+        void scale(::Ogre::Node*) ;
       }
     }
   }

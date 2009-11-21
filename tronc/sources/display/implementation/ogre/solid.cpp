@@ -27,6 +27,7 @@
 #include <display/implementation/ogre/utility.h>
 #include <display/implementation/ogre/positioned.h>
 #include <display/implementation/ogre/solid.h>
+#include <display/implementation/ogre/ogre.h>
 
 
 namespace ProjetUnivers
@@ -51,14 +52,10 @@ namespace ProjetUnivers
           m_mesh = this->getViewPoint()->getManager()
                    ->createEntity(Utility::getUniqueName(),
                                  getObject()->getTrait<Model::Solid>()->getMesh().getName()) ;
-
           // put it on the node
           positioned->getNode()->attachObject(m_mesh) ;
-
           // reset scale factor
-          positioned->getNode()->setScale(::Ogre::Vector3(1.0/conversion_factor,
-                                                          1.0/conversion_factor,
-                                                          1.0/conversion_factor)) ;
+          scale(positioned->getNode()) ;
 
           InternalMessage("Display","Leaving Solid::onInit") ;
         }

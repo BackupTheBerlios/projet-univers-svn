@@ -119,7 +119,7 @@ namespace ProjetUnivers
         ->setOrientation(ship->getTrait<Model::Oriented>()->getOrientation()*
                          Model::Orientation(::Ogre::Quaternion(::Ogre::Degree(45),::Ogre::Vector3::UNIT_Y))) ;
 
-        simulate(ship->getModel(),0.3) ;
+        simulate(ship->getModel(),0.2) ;
       }
 
       void TestTarget::selectedTarget()

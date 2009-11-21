@@ -25,6 +25,7 @@
 #include <display/implementation/ogre/utility.h>
 #include <display/implementation/ogre/positioned.h>
 #include <display/implementation/ogre/laser_beam.h>
+#include <display/implementation/ogre/ogre.h>
 
 
 namespace ProjetUnivers
@@ -51,14 +52,10 @@ namespace ProjetUnivers
           mesh = this->getViewPoint()->getManager()
                   ->createEntity(Utility::getUniqueName(),
                                  "laser.mesh") ;
-
           // put it on the node
           positioned->getNode()->attachObject(mesh) ;
-
           // reset scale factor
-          positioned->getNode()->setScale(::Ogre::Vector3(1.0/conversion_factor,
-                                                          1.0/conversion_factor,
-                                                          1.0/conversion_factor)) ;
+          scale(positioned->getNode()) ;
 
           InternalMessage("Display","Leaving Ogre::LaserBeam::onInit") ;
         }

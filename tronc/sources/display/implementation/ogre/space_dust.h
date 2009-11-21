@@ -46,10 +46,10 @@ namespace ProjetUnivers
         */
         // @{
         
-          /// Build a paticle emiter.
+          /// Build a particle emitter.
           void onInit() ;
           
-          /// Destroy the particule emiter.
+          /// Destroy the particle emitter.
           void onClose() ;
           
           /// Update  
@@ -58,13 +58,14 @@ namespace ProjetUnivers
         // @}
         private:
 
-          /// Set emmision rate accoarding to speed
-          void setEmmisionRate() ;
+          /// Set emission rate according to speed
+          void setEmissionRate() ;
           
           /// Space dust effect
           ::Ogre::SceneNode*      m_space_dust_node ;
           ::Ogre::ParticleSystem* m_space_dusts ;
-          
+
+          float m_maximum_emission_rate ;
         };
       }
     }

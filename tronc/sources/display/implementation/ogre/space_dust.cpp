@@ -43,14 +43,14 @@ namespace ProjetUnivers
                      Ogre::RealWorldViewPoint) ;
 
 
-        void SpaceDust::setEmmisionRate()
+        void SpaceDust::setEmissionRate()
         {
 
           float speed_ms = getObject()->getParent<Model::Mobile>()
                                       ->getSpeed().MeterPerSecond().length() ;
 
           m_space_dusts->getEmitter(0)
-                       ->setEmissionRate(std::min(speed_ms,float(200))) ;
+                       ->setEmissionRate(std::min(speed_ms,m_maximum_emission_rate)) ;
         }
 
         void SpaceDust::onInit()
@@ -71,7 +71,8 @@ namespace ProjetUnivers
                                         positioned->getNode()->createChild()) ;
           m_space_dust_node->attachObject(m_space_dusts) ;
 
-          setEmmisionRate() ;
+          m_maximum_emission_rate = m_space_dusts->getEmitter(0)->getEmissionRate() ;
+          setEmissionRate() ;
 
           InternalMessage("Display","Display::SpaceDust::onInit Leaving") ;
         }
@@ -86,7 +87,7 @@ namespace ProjetUnivers
 
         void SpaceDust::onUpdate()
         {
-          setEmmisionRate() ;
+          setEmissionRate() ;
         }
 
       }

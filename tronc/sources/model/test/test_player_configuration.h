@@ -18,8 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_TEST_PLAYER_CONFIGURATION_H_
-#define PU_MODEL_TEST_PLAYER_CONFIGURATION_H_
+#pragma once
 
 #include <cppunit/extensions/HelperMacros.h>
 
@@ -66,6 +65,9 @@ namespace ProjetUnivers
         
         void invertAxis() ;
         
+        /// Load then save the player configuration
+        void loadSave() ;
+
       // @}
       /*! 
         @name Tests registration
@@ -86,6 +88,7 @@ namespace ProjetUnivers
         CPPUNIT_TEST(axisViolation) ;
         CPPUNIT_TEST(commandViolation) ;
         CPPUNIT_TEST(invertAxis) ;
+        CPPUNIT_TEST(loadSave) ;
       
         CPPUNIT_TEST_SUITE_END() ;
 
@@ -96,5 +99,3 @@ namespace ProjetUnivers
     }
   }
 }
-
-#endif /*PU_MODEL_TEST_PLAYER_CONFIGURATION_H_*/

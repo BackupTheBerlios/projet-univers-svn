@@ -42,6 +42,7 @@ namespace ProjetUnivers
       XMLWriter* result = new XMLWriter() ;
       result->m_writer = xmlNewTextWriterFilename(file.c_str(),0) ;
       xmlTextWriterSetIndent(result->m_writer,2) ;
+      result->m_buffer = NULL ;
       return result ;
     }
     

@@ -61,6 +61,9 @@
 #include <model/selection.h>
 #include <display/implementation/target.h>
 #include <display/implementation/ogre/ogre.h>
+#include <model/sized.h>
+
+using ProjetUnivers::Display::Implementation::Ogre::convert;
 
 
 CPPUNIT_TEST_SUITE_REGISTRATION(ProjetUnivers::

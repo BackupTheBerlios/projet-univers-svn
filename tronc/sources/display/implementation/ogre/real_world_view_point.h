@@ -35,15 +35,6 @@ namespace ProjetUnivers
       namespace Ogre
       {
         
-        /*!
-          Ogre coordinates are coded on 32 bits, thus half the precision 
-          is between 0 and 1.
-          
-          Here we use the following scale factor : 
-          1 Ogre unit = 1000 meters 
-        */
-        const float conversion_factor = 1000 ;
-        
         /// Subjective viewpoint of an observer.
         /*!
           First person view of an observer.

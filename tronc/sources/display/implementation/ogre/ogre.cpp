@@ -210,7 +210,12 @@ namespace ProjetUnivers
             {
               m_nodes.erase(*node) ;
               m_node_lifetime.erase(*node) ;
-              m_manager->destroySceneNode(*node) ;
+              try
+              {
+                m_manager->destroySceneNode(*node) ;
+              }
+              catch(::Ogre::ItemIdentityException&)
+              {}
             }
           }
 
@@ -377,18 +382,57 @@ namespace ProjetUnivers
         {
           // create the node and attach a particle system to it
           ::Ogre::ParticleSystem* particle = m_system->m_manager->createParticleSystem(Utility::getUniqueName(),name) ;
-          particle->setKeepParticlesInLocalSpace(true) ;
           ::Ogre::SceneNode* node(static_cast< ::Ogre::SceneNode*>(parent_node->createChild(relative_position,relative_orientation))) ;
           node->attachObject(particle) ;
+          particle->setKeepParticlesInLocalSpace(true) ;
 
-          // for automatic handling
+          // register for automatic handling
           m_system->m_nodes.insert(node->getName()) ;
           m_system->m_node_lifetime[node->getName()] = getDuration(particle) ;
 
           return node ;
         }
         
+        /// Convert position to Ogre position
+        ::Ogre::Vector3 convert(const Model::Position& _position)
+        {
+          Model::Distance x(_position.getXCoordinate()) ;
+          Model::Distance y(_position.getYCoordinate()) ;
+          Model::Distance z(_position.getZCoordinate()) ;
+
+          /*!
+            Ogre is right handed
+            Ogre uses following conventions :
+            +X = right
+            -X = left
+            +Y = up
+            -Y = down
+            -Z = going into the screen (forward)
+            +Z = going away from the screen (into you)
+          */
+
+
+          float XMeters = x.Meter() ;
+          float YMeters = y.Meter() ;
+          float ZMeters = z.Meter() ;
+
+          return ::Ogre::Vector3(XMeters/conversion_factor,
+                                 YMeters/conversion_factor,
+                                 ZMeters/conversion_factor) ;
+        }
+
+        ::Ogre::Real convert(const Model::Distance& distance)
+        {
+          return distance.Meter()/conversion_factor ;
+        }
         
+        void scale(::Ogre::Node* node)
+        {
+          node->setScale(::Ogre::Vector3(1.0/conversion_factor,
+                                         1.0/conversion_factor,
+                                         1.0/conversion_factor)) ;
+        }
+
       }
     }
   }

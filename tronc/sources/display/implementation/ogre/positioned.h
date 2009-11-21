@@ -36,12 +36,6 @@ namespace ProjetUnivers
     {
       namespace Ogre
       {
-        /// Convert position to Ogre position
-        ::Ogre::Vector3 convert(const Model::Position& _position) ;
-
-        /// Convert a distance to an Ogre distance.
-        ::Ogre::Real convert(const Model::Distance& distance) ;
-
         /// View on object that have a position in space.
         class Positioned : public Kernel::TraitView<Implementation::Positioned,
                                                      RealWorldViewPoint>

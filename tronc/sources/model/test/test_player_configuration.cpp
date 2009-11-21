@@ -175,6 +175,15 @@ namespace ProjetUnivers {
         
         CPPUNIT_ASSERT(-axis == Model::PlayerConfiguration::InputAxis(-Model::PlayerConfiguration::InputAxis::MouseX)) ;
       }
+
+      void TestPlayerConfiguration::loadSave()
+      {
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model()) ;
+
+        Kernel::Object* object = model->createObject() ;
+        Kernel::Object* configuration(createDefaultPlayerConfiguration(object)) ;
+        savePlayerConfiguration(configuration) ;
+      }
       
     }
   }

@@ -24,6 +24,7 @@
 #include <model/oriented.h>
 #include <display/implementation/ogre/real_world_view_point.h>
 #include <display/implementation/ogre/positioned.h>
+#include <display/implementation/ogre/ogre.h>
 
 using namespace ::Ogre ;
 
@@ -39,40 +40,6 @@ namespace ProjetUnivers
         RegisterView(Ogre::Positioned,
                      Implementation::Positioned,
                      Ogre::RealWorldViewPoint) ;
-
-        /// Convert position to Ogre position
-        ::Ogre::Vector3 convert(const Model::Position& _position)
-        {
-          Model::Distance x(_position.getXCoordinate()) ;
-          Model::Distance y(_position.getYCoordinate()) ;
-          Model::Distance z(_position.getZCoordinate()) ;
-
-          /*!
-            Ogre is right handed
-            Ogre uses following conventions :
-            +X = right
-            -X = left
-            +Y = up
-            -Y = down
-            -Z = going into the screen (forward)
-            +Z = going away from the screen (into you)
-          */
-
-
-          float XMeters = x.Meter() ;
-          float YMeters = y.Meter() ;
-          float ZMeters = z.Meter() ;
-
-          return ::Ogre::Vector3(XMeters/conversion_factor,
-                                 YMeters/conversion_factor,
-                                 ZMeters/conversion_factor) ;
-        }
-
-        ::Ogre::Real convert(const Model::Distance& distance)
-        {
-          return distance.Meter()/conversion_factor ;
-
-        }
 
         /*!
         @pre
