@@ -377,12 +377,20 @@ namespace ProjetUnivers
 
         ::Ogre::SceneNode* createParticleEffect(const std::string& name,
                                                 ::Ogre::SceneNode* parent_node,
+                                                const Model::Position& relative_position,
+                                                const Model::Orientation& relative_orientation)
+        {
+          return createParticleEffect(name,parent_node,convert(relative_position),relative_orientation.getQuaternion()) ;
+        }
+
+        ::Ogre::SceneNode* createParticleEffect(const std::string& name,
+                                                ::Ogre::SceneNode* parent_node,
                                                 const ::Ogre::Vector3& relative_position,
                                                 const ::Ogre::Quaternion& relative_orientation)
         {
           // create the node and attach a particle system to it
           ::Ogre::ParticleSystem* particle = m_system->m_manager->createParticleSystem(Utility::getUniqueName(),name) ;
-          ::Ogre::SceneNode* node(static_cast< ::Ogre::SceneNode*>(parent_node->createChild(relative_position,relative_orientation))) ;
+          ::Ogre::SceneNode* node(parent_node->createChildSceneNode(relative_position,relative_orientation)) ;
           node->attachObject(particle) ;
           particle->setKeepParticlesInLocalSpace(true) ;
 

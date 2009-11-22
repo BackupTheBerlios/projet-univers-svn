@@ -1590,6 +1590,12 @@
   * Kernel : 
     - corrected crash on savePlayerConfiguration
 
+2009-11-22
+
+  * Display : 
+    - effect managment system : handle resizing
+    - all resizable elements have their own node (solid, effects)
+
 in commit
 --------
 
@@ -1601,14 +1607,10 @@ in progress
 todo
 ----
 
-  * Display : 
-    - effect managment system : handle resizing
-    - handle resizing globally, on using set scale on root node
-
-  * Bug : clicking between buttons on the in game menu causes blockade 
-
   * Damage handling
     - Hit visualization localized on ship : emit particles at collision point
+
+  * Bug : clicking between buttons on the in game menu causes blockade 
 
   * Model : 
     - doubt on target helper
@@ -1631,8 +1633,20 @@ todo
     - we should add victory conditions to missions : DestroyAllEnemies, 
       determine match with agent objectives 
 
+  * Demo :
+    - history of who killed who (need to add the transponder on the LaserBeam 
+      object)
+    - score menu at the end of the mission
+
+  * Display :
+    - display score on hud
+
   * Display : 
     - change selection printing (change color of ideal target)
+
+  * Model : 
+    - Mission : destruction sequence during player's ship explosion 
+      (Player & Parent(Explosion)) --> change current camera to a fixed one 
 
   * Ship configuration
     - Energy handling 
@@ -1644,6 +1658,8 @@ todo
   * Kernel : 
     - maybe something to do on notify : directly calls the update on connected 
       traits that have views
+    - detect which observers have "default" update, may be usefull for better 
+      optimisations 
 
   * Physics :
     - try to keep all units in an acceptable "range", it means that we whould 
@@ -1672,19 +1688,6 @@ todo
       invalid access should crash make check (xml output and a check for Invalid Acess)
     - add benchmark testing
 
-
-  * Model : 
-    - Mission : destruction sequence during player's ship explosion 
-      (Player & Parent(Explosion)) --> change current camera to a fixed one 
-  
-  * Demo :
-    - history of who killed who (need to add the transponder on the LaserBeam 
-      object)
-    - score menu at the end of the mission
-
-  * Display :
-    - display score on hud
-  
   * Input :
     - instability on test autorepeat
     

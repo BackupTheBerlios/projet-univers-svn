@@ -53,9 +53,10 @@ namespace ProjetUnivers
                    ->createEntity(Utility::getUniqueName(),
                                  getObject()->getTrait<Model::Solid>()->getMesh().getName()) ;
           // put it on the node
-          positioned->getNode()->attachObject(m_mesh) ;
+          m_node = positioned->getNode()->createChildSceneNode() ;
+          m_node->attachObject(m_mesh) ;
           // reset scale factor
-          scale(positioned->getNode()) ;
+          scale(m_node) ;
 
           InternalMessage("Display","Leaving Solid::onInit") ;
         }

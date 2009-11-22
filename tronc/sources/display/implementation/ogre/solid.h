@@ -60,7 +60,7 @@ namespace ProjetUnivers
           
           /// 3D ogre mesh.
           ::Ogre::Entity* m_mesh ;
-      
+          ::Ogre::SceneNode* m_node ;
         };
       }
     }

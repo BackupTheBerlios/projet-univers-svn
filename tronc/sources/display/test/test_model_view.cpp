@@ -652,9 +652,10 @@ namespace ProjetUnivers
 
         ::Ogre::SceneNode* effect(Implementation::Ogre::createParticleEffect("PU/Tests/Hit",
                                                                              positioned->getNode(),
-                                                                             ::Ogre::Vector3(0.2,0.2,0.2),
-                                                                             ::Ogre::Quaternion::IDENTITY)) ;
+                                                                             Model::Position::Meter(200,0,0))) ;
 
+        float size = Implementation::Ogre::convert(Model::Distance(Model::Distance::_Meter,2)) ;
+        effect->setScale(size,size,size) ;
         std::string name = effect->getName() ;
 
         Kernel::Timer timer ;
@@ -711,9 +712,8 @@ namespace ProjetUnivers
 
         ::Ogre::SceneNode* effect(Implementation::Ogre::createParticleEffect("PU/Tests/Hit",
                                                                              positioned->getNode(),
-                                                                             ::Ogre::Vector3(0.2,0.2,0.2),
-                                                                             ::Ogre::Quaternion::IDENTITY)) ;
-
+                                                                             Model::Position::Meter(200,0,0),
+                                                                             Model::Orientation())) ;
         std::string name = effect->getName() ;
 
         ship->destroyObject() ;

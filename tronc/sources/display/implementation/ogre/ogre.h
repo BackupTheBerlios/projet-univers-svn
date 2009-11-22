@@ -94,8 +94,13 @@ namespace ProjetUnivers
         */
         ::Ogre::SceneNode* createParticleEffect(const std::string& name,
                                                 ::Ogre::SceneNode* parent_node,
-                                                const ::Ogre::Vector3& relative_position,
-                                                const ::Ogre::Quaternion& relative_orientation) ;
+                                                const ::Ogre::Vector3& relative_position = ::Ogre::Vector3::ZERO,
+                                                const ::Ogre::Quaternion& relative_orientation = ::Ogre::Quaternion::IDENTITY) ;
+
+        ::Ogre::SceneNode* createParticleEffect(const std::string& name,
+                                                ::Ogre::SceneNode* parent_node,
+                                                const Model::Position& relative_position = Model::Position(),
+                                                const Model::Orientation& relative_orientation = Model::Orientation()) ;
 
         /*!
           Ogre coordinates are coded on 32 bits, thus half the precision
