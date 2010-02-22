@@ -31,11 +31,15 @@ namespace ProjetUnivers
   {
     namespace Implementation
     {
+      /// A displayable beam
+      class LaserBeam : public Kernel::DeducedTrait
+      {};
+
       namespace Ogre
       {
 
         /// Display 3D objects.
-        class LaserBeam : public Kernel::TraitView<Model::LaserBeam,
+        class LaserBeam : public Kernel::TraitView<Implementation::LaserBeam,
                                                    RealWorldViewPoint>
         {
         protected:

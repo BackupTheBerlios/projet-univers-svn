@@ -99,11 +99,9 @@ namespace ProjetUnivers
         ship->addTrait(new Model::Positioned()) ;
         ship->addTrait(new Model::Oriented()) ;
         ship->addTrait(new Model::Mobile()) ;
-        ship->addTrait(new Model::Solid(Model::Mesh("toto"))) ;
         ship->addTrait(new Model::Massive(Model::Mass::Kilogram(1000))) ;
 
         CPPUNIT_ASSERT(ship->getTrait<Model::PhysicalObject>()) ;
-        CPPUNIT_ASSERT(ship->getTrait<Model::Solid>()) ;
         CPPUNIT_ASSERT(ship->getTrait<Model::PhysicalWorld>()) ;
 
         InternalMessage("Physic","Physic viewpoint initalised") ;
@@ -147,11 +145,9 @@ namespace ProjetUnivers
         ship->addTrait(new Model::Positioned()) ;
         ship->addTrait(new Model::Oriented()) ;
         ship->addTrait(new Model::Mobile()) ;
-        ship->addTrait(new Model::Solid(Model::Mesh("toto"))) ;
         ship->addTrait(new Model::Massive(Model::Mass::Kilogram(1000))) ;
 
         CPPUNIT_ASSERT(ship->getTrait<Model::PhysicalObject>()) ;
-        CPPUNIT_ASSERT(ship->getTrait<Model::Solid>()) ;
         CPPUNIT_ASSERT(ship->getTrait<Model::PhysicalWorld>()) ;
 
         Kernel::ControlerSet* physics = model->getControlerSet<Implementation::Ode::PhysicSystem>() ;
@@ -205,11 +201,9 @@ namespace ProjetUnivers
         ship->addTrait(new Model::Positioned(Model::Position::Meter(100,100,100))) ;
         ship->addTrait(new Model::Oriented()) ;
         ship->addTrait(new Model::Mobile()) ;
-        ship->addTrait(new Model::Solid(Model::Mesh("toto"))) ;
         ship->addTrait(new Model::Massive(Model::Mass::Kilogram(1000))) ;
 
         CPPUNIT_ASSERT(ship->getTrait<Model::PhysicalObject>()) ;
-        CPPUNIT_ASSERT(ship->getTrait<Model::Solid>()) ;
         CPPUNIT_ASSERT(ship->getTrait<Model::PhysicalWorld>()) ;
 
         InternalMessage("Physic","Physic viewpoint initalised") ;
@@ -314,11 +308,9 @@ namespace ProjetUnivers
         ship->addTrait(new Model::Positioned()) ;
         ship->addTrait(new Model::Oriented()) ;
         ship->addTrait(new Model::Mobile()) ;
-        ship->addTrait(new Model::Solid(Model::Mesh("toto"))) ;
         ship->addTrait(new Model::Massive(Model::Mass::Kilogram(1000))) ;
 
         CPPUNIT_ASSERT(ship->getTrait<Model::PhysicalObject>()) ;
-        CPPUNIT_ASSERT(ship->getTrait<Model::Solid>()) ;
         CPPUNIT_ASSERT(ship->getTrait<Model::PhysicalWorld>()) ;
 
         /// get the ship and set initial speed
@@ -469,11 +461,9 @@ namespace ProjetUnivers
         ship->addTrait(new Model::Positioned()) ;
         ship->addTrait(new Model::Oriented()) ;
         ship->addTrait(new Model::Mobile()) ;
-        ship->addTrait(new Model::Solid(Model::Mesh("toto"))) ;
         ship->addTrait(new Model::Massive(Model::Mass::Kilogram(1000))) ;
 
         CPPUNIT_ASSERT(ship->getTrait<Model::PhysicalObject>()) ;
-        CPPUNIT_ASSERT(ship->getTrait<Model::Solid>()) ;
         CPPUNIT_ASSERT(ship->getTrait<Model::PhysicalWorld>()) ;
 
         Model::Mobile* mobile = ship->getTrait<Model::Mobile>() ;
@@ -523,11 +513,9 @@ namespace ProjetUnivers
         ship->addTrait(new Model::Positioned()) ;
         ship->addTrait(new Model::Oriented()) ;
         ship->addTrait(new Model::Mobile()) ;
-        ship->addTrait(new Model::Solid(Model::Mesh("toto"))) ;
         ship->addTrait(new Model::Massive(Model::Mass::Kilogram(1))) ;
 
         CPPUNIT_ASSERT(ship->getTrait<Model::PhysicalObject>()) ;
-        CPPUNIT_ASSERT(ship->getTrait<Model::Solid>()) ;
         CPPUNIT_ASSERT(ship->getTrait<Model::PhysicalWorld>()) ;
 
         Model::Mobile* mobile = ship->getTrait<Model::Mobile>() ;
@@ -584,11 +572,9 @@ namespace ProjetUnivers
         ship->addTrait(new Model::Positioned()) ;
         ship->addTrait(new Model::Oriented()) ;
         ship->addTrait(new Model::Mobile()) ;
-        ship->addTrait(new Model::Solid(Model::Mesh("toto"))) ;
         ship->addTrait(new Model::Massive(Model::Mass::Kilogram(1000))) ;
 
         CPPUNIT_ASSERT(ship->getTrait<Model::PhysicalObject>()) ;
-        CPPUNIT_ASSERT(ship->getTrait<Model::Solid>()) ;
         CPPUNIT_ASSERT(ship->getTrait<Model::PhysicalWorld>()) ;
 
         /// get the ship

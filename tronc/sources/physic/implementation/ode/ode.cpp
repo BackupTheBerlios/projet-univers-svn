@@ -25,10 +25,14 @@
 #include <physic/implementation/ode/mass_property.h>
 #include <physic/implementation/ode/ode.h>
 
-namespace ProjetUnivers {
-  namespace Physic {
-    namespace Implementation {
-      namespace Ode {
+namespace ProjetUnivers
+{
+  namespace Physic
+  {
+    namespace Implementation
+    {
+      namespace Ode
+      {
 
         dContactGeom* contact_points = NULL ;
         int maximum_contact_points = 0 ;
@@ -135,7 +139,7 @@ namespace ProjetUnivers {
 
           dInitODE() ;
           dRandSetSeed(0) ;
-          maximum_contact_points = (int)Kernel::Parameters::getValue<float>("Physic","MaxNumberOfContactPoints",100) ;
+          maximum_contact_points = (int)Kernel::Parameters::getValue<float>("Physic","MaxNumberOfContactPoints",10) ;
           contact_points = new dContactGeom[maximum_contact_points] ;
         }
 

@@ -18,14 +18,15 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_IMAGE_H_
-#define PU_MODEL_IMAGE_H_
+#pragma once
 
 #include <string>
 #include <kernel/trait.h>
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
     
     /// Represents an image.
     class Image : public Kernel::Trait 
@@ -45,5 +46,3 @@ namespace ProjetUnivers {
     };
   }
 }
-
-#endif /*PU_MODEL_IMAGE_H_*/

@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -20,16 +20,19 @@
  ***************************************************************************/
 #include <model/destroyable.h>
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
 
-    RegisterTrait(Destroyable) ;
-      
-    float Destroyable::getLife() const 
+    RegisterTrait(Destroyable)
+    ;
+
+    float Destroyable::getLife() const
     {
-      return (m_remaining_hit_points/m_max_hit_points) ;
+      return (m_remaining_hit_points / m_max_hit_points) ;
     }
-   
+
     void Destroyable::damage(const Energy& energy)
     {
 
@@ -39,30 +42,31 @@ namespace ProjetUnivers {
       {
         m_remaining_hit_points = Energy() ;
       }
-      
+
       notify() ;
-      
     }
-   
-    Destroyable::~Destroyable()
-    {}
-    
+
     Destroyable::Destroyable(const Energy& max_hit_points)
     : Kernel::Trait(),
-      m_max_hit_points(max_hit_points), 
+      m_max_hit_points(max_hit_points),
       m_remaining_hit_points(max_hit_points)
     {}
+
+    void Destroyable::setMaximumHitPoint(const Energy& energy)
+    {
+      m_max_hit_points = energy ;
+      m_remaining_hit_points = energy ;
+    }
 
     Kernel::Trait* Destroyable::read(Kernel::Reader* reader)
     {
       Destroyable* result = new Destroyable(Energy()) ;
       bool read_max_hit_point = false ;
       bool read_current_hit_point = false ;
-      
+
       while (!reader->isEndNode() && reader->processNode())
       {
-        if (reader->isTraitNode() && 
-            reader->getTraitName() == "Energy")
+        if (reader->isTraitNode() && reader->getTraitName() == "Energy")
         {
           if (reader->getName() == "max_hit_points")
           {
@@ -86,11 +90,11 @@ namespace ProjetUnivers {
       {
         ErrorMessage("Model::Destroyable::read must specify an Energy sub node with name max_hit_points") ;
       }
-      if(! read_current_hit_point)
+      if (!read_current_hit_point)
       {
         result->m_remaining_hit_points = result->m_max_hit_points ;
       }
-      
+
       return result ;
     }
 

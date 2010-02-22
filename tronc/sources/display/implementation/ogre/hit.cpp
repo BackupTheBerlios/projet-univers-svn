@@ -19,11 +19,11 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include <kernel/log.h>
+#include <model/sized.h>
 #include <display/implementation/ogre/ogre.h>
 #include <display/implementation/ogre/utility.h>
+#include <display/implementation/ogre/positioned.h>
 #include <display/implementation/ogre/hit.h>
-#include <model/collision.h>
-
 
 namespace ProjetUnivers
 {
@@ -39,9 +39,8 @@ namespace ProjetUnivers
         void Hit::onInit()
         {
           InternalMessage("Display","Entering Hit::onInit") ;
-          Model::Collision* collision(getTrait<Model::Collision>()) ;
-
-
+          float size = convert(getTrait<Model::Sized>()->getRadius()) ;
+          createParticleEffect("PU/base/hit",getView<Positioned>()->getNode())->setScale(size,size,size) ;
         }
 
       }

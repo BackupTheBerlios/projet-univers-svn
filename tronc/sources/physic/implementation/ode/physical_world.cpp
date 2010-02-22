@@ -112,6 +112,9 @@ namespace ProjetUnivers
                                              dGeomID space2)
         {
           // due to organization space1 and space2 are spaces.
+
+          CHECK(dGeomIsSpace(space1)&&dGeomIsSpace(space2),"PhysicalWorld::onSpaceCollision") ;
+
           dSpaceCollide2(space1,
                          space2,
                          world,
@@ -123,7 +126,7 @@ namespace ProjetUnivers
                                                 dGeomID geometry2)
         {
           // due to organization geometry1 and geometry2 are not spaces.
-          InternalMessage("Physic","PhysicalWorld::onGeometryCollision entering") ;
+          CHECK(!dGeomIsSpace(geometry1)&&!dGeomIsSpace(geometry2),"PhysicalWorld::onGeometryCollision") ;
 
           if (! Collideable::canCollide(geometry1,geometry2))
             return ;
@@ -144,12 +147,14 @@ namespace ProjetUnivers
           PhysicalObject* object2 = collideable2 ? collideable2->getControler()->getControler<PhysicalObject>()
                                                  : NULL ;
 
-          InternalMessage("Physic","PhysicalWorld::onGeometryCollision "
+          InternalMessage("Collision","PhysicalWorld::onGeometryCollision "
                           + (object1 ? Kernel::toString(object1->getObject()->getIdentifier()) : "no object1")
                           + " "
                           + (object2 ? Kernel::toString(object2->getObject()->getIdentifier()) : "no object2")
                           + (collideable1->isCollideableWith(collideable2) ? " collideable" : "not collideable")
                           ) ;
+
+          float cfm = Collideable::getContactSoftConstraintForceMixing(geometry1,geometry2) ;
 
           if (object1 && object2)
           {
@@ -168,11 +173,10 @@ namespace ProjetUnivers
             object2_position.y = temp_position[1] ;
             object2_position.z = temp_position[2] ;
 
-            InternalMessage("Physic","PhysicalWorld::onGeometryCollision object positions "
+            InternalMessage("Collision","PhysicalWorld::onGeometryCollision object positions "
                             + Ogre::StringConverter::toString(object1_position)
                             + ";"
                             + Ogre::StringConverter::toString(object2_position)) ;
-
 
             // calculate contact points
             int number_of_contacts = dCollide(geometry1,
@@ -181,7 +185,7 @@ namespace ProjetUnivers
                                               contact_points,
                                               sizeof(dContactGeom)) ;
 
-            InformationMessage("Physic","number of contact points = " + Kernel::toString(number_of_contacts)) ;
+            InformationMessage("Collision","number of contact points = " + Kernel::toString(number_of_contacts)) ;
 
             Ogre::Vector3 result(0,0,0) ;
 
@@ -201,7 +205,7 @@ namespace ProjetUnivers
               contact.surface.bounce = Kernel::Parameters::getValue<float>("Physic","ContactBounce",0.5) ;
               contact.surface.bounce_vel = Kernel::Parameters::getValue<float>("Physic","ContactBounceVelocity",0) ;
               contact.surface.soft_erp = Kernel::Parameters::getValue<float>("Physic","ContactSoftErrorReduction",1) ;
-              contact.surface.soft_cfm = Kernel::Parameters::getValue<float>("Physic","ContactSoftConstraintForceMixing",1) ; ;
+              contact.surface.soft_cfm = cfm ;
               contact.surface.motion1 = 0 ;
               contact.surface.motion2 = 0 ;
               contact.surface.slip1 = 0.5 ;
@@ -211,6 +215,7 @@ namespace ProjetUnivers
               Ogre::Vector3 contact_point(contact_points[contact_index].pos[0],
                                           contact_points[contact_index].pos[1],
                                           contact_points[contact_index].pos[2]) ;
+
               Ogre::Vector3 v1 = contact_point - object1_position ;
 
               Ogre::Vector3 normal(contact_points[contact_index].normal[0],
@@ -236,6 +241,9 @@ namespace ProjetUnivers
                              object2->getBody()->id()) ;
 
                 ++real_number_of_contact_points ;
+
+                InternalMessage("Collision","PhysicalWorld::onGeometryCollision contact point position "
+                                + Ogre::StringConverter::toString(contact_point)) ;
               }
             }
 

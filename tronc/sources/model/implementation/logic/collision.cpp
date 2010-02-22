@@ -25,7 +25,13 @@
 
 #include <model/destroyable.h>
 #include <model/laser_beam.h>
+#include <model/hit.h>
+#include <model/with_lifetime.h>
+#include <model/positioned.h>
+#include <model/sized.h>
+#include <model/oriented.h>
 #include <model/implementation/logic/collision.h>
+#include <OgreStringConverter.h>
 
 namespace ProjetUnivers
 {
@@ -50,23 +56,23 @@ namespace ProjetUnivers
             and if the other is destroyable
             - manage damage 
           */
-          LaserBeam* laser1 = getTrait()->getObject1()->getTrait<LaserBeam>() ;
-          LaserBeam* laser2 = getTrait()->getObject2()->getTrait<LaserBeam>() ;
-          LaserBeam* laser = NULL ; 
+          LaserBeam* beam1 = getTrait()->getObject1()->getTrait<LaserBeam>() ;
+          LaserBeam* beam2 = getTrait()->getObject2()->getTrait<LaserBeam>() ;
+          LaserBeam* beam = NULL ;
           
           Destroyable* destroyable1 = getTrait()->getObject1()->getTrait<Destroyable>() ;
           Destroyable* destroyable2 = getTrait()->getObject2()->getTrait<Destroyable>() ;
           Destroyable* destroyable = NULL ;
           
-          if (laser1)
+          if (beam1)
           {
-            laser = laser1 ;
+            beam = beam1 ;
             getTrait()->getObject1()->destroyObject() ;
           }
 
-          if (laser2)
+          if (beam2)
           {
-            laser = laser2 ;
+            beam = beam2 ;
             getTrait()->getObject2()->destroyObject() ;
           }
           
@@ -80,14 +86,25 @@ namespace ProjetUnivers
             destroyable = destroyable2 ;
           }
           
-          // handle laser/destroyable collision
-          if (laser && destroyable)
+          // handle beam/destroyable collision
+          if (beam && destroyable)
           {
-            InternalMessage("Model","Collision::simulate damaging " + Kernel::toString(laser->getEnergy().Joule())) ;
-            destroyable->damage(laser->getEnergy()) ;
+            InternalMessage("Model","Collision::simulate damaging " + Kernel::toString(beam->getEnergy().Joule())) ;
+            destroyable->damage(beam->getEnergy()) ;
+            Kernel::Object* hit = destroyable->getObject()->createObject() ;
+            hit->addTrait(new Hit()) ;
+            Position position(getRelativePosition(getObject(),destroyable->getObject())) ;
+
+            InternalMessage("Model","Collision::simulate creating hit at " + ::Ogre::StringConverter::toString(position.Meter())) ;
+
+            hit->addTrait(new Positioned(position)) ;
+            hit->addTrait(new WithLifetime(Duration::Second(0))) ;
+            hit->addTrait(new Sized(Distance(Distance::_Meter,600))) ;
+            hit->addTrait(new Oriented(Orientation(position))) ;
           }          
           
           // mark the collision object for destruction
+          /// @todo pull up an event system or use the withLifeTime
           getObject()->destroyObject() ;
           
           InternalMessage("Model","Collision::simulate leaving") ;

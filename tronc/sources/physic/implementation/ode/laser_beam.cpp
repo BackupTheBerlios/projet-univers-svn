@@ -69,9 +69,11 @@ namespace ProjetUnivers
         {
           /// build a cube and a placeable geom
           /*!
-            @todo dealt with hardcoded values
+            @todo
+            - dealt with hardcoded values
+            - decal object on front if stretched
           */
-          m_geometry1 = dCreateBox(i_space,1,1,14) ;
+          m_geometry1 = dCreateBox(i_space,1,1,50) ;
           dGeomSetCollideBits(m_geometry1,(unsigned long)Collideable::Laser) ;
         }
         

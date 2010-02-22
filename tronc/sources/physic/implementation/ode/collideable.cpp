@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007 Mathieu ROGER                                      *
+ *   Copyright (C) 2007-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -20,6 +20,7 @@
  ***************************************************************************/
 #include <kernel/log.h>
 #include <kernel/string.h>
+#include <kernel/parameters.h>
 
 #include <physic/implementation/ode/physical_world.h>
 #include <physic/implementation/ode/physical_object.h>
@@ -57,6 +58,7 @@ namespace ProjetUnivers
               ErrorMessage("Collideable::canCollide") ;
               throw std::exception() ;
             }
+            InternalMessage("Collision","laser/ship collision") ;
             return laser_beam->getTrait<Model::LaserBeam>()->getFiringShip() != collideable1->getControler()->getObject() ;
           }
 
@@ -70,11 +72,30 @@ namespace ProjetUnivers
               throw std::exception() ;
             }
 
+            InternalMessage("Collision","laser/ship collision") ;
             return laser_beam->getTrait<Model::LaserBeam>()->getFiringShip() != collideable2->getControler()->getObject() ;
           }
+
           return false ;
         }
 
+        float Collideable::getContactSoftConstraintForceMixing(const dGeomID& geometry1,const dGeomID& geometry2)
+        {
+          unsigned long collision1 = dGeomGetCollideBits(geometry1) ;
+          unsigned long collision2 = dGeomGetCollideBits(geometry2) ;
+
+          if (collision1 == ApproximatedSolid && collision2 == ApproximatedSolid)
+          {
+            return Kernel::Parameters::getValue<float>("Physic","ContactSoftConstraintForceMixingForCollision",1) ;
+          }
+
+          if ((collision1 == Solid && collision2 == Laser) || (collision2 == Solid && collision1 == Laser))
+          {
+            return Kernel::Parameters::getValue<float>("Physic","ContactSoftConstraintForceMixingForImpact",40) ;
+          }
+
+          return 1 ;
+        }
 
         void Collideable::onInitCollideable()
         {
@@ -138,11 +159,6 @@ namespace ProjetUnivers
               dGeomDestroy(m_geometry2) ;
               m_geometry2 = 0 ;
             }
-            if (m_geometry_placeable)
-            {
-              dGeomDestroy(m_geometry_placeable) ;
-              m_geometry_placeable = 0 ;
-            }
           }
 
           InternalMessage("Physic","Physic::Ode::Collideable::onCloseCollideable leaving") ;
@@ -153,8 +169,7 @@ namespace ProjetUnivers
 
         Collideable::Collideable()
         : m_geometry1(0),
-          m_geometry2(0),
-          m_geometry_placeable(0)
+          m_geometry2(0)
         {}
 
       }

@@ -212,7 +212,7 @@ namespace ProjetUnivers
               m_node_lifetime.erase(*node) ;
               try
               {
-                m_manager->destroySceneNode(*node) ;
+                destroyNode(m_manager->getSceneNode(*node)) ;
               }
               catch(::Ogre::ItemIdentityException&)
               {}
@@ -380,17 +380,10 @@ namespace ProjetUnivers
                                                 const Model::Position& relative_position,
                                                 const Model::Orientation& relative_orientation)
         {
-          return createParticleEffect(name,parent_node,convert(relative_position),relative_orientation.getQuaternion()) ;
-        }
-
-        ::Ogre::SceneNode* createParticleEffect(const std::string& name,
-                                                ::Ogre::SceneNode* parent_node,
-                                                const ::Ogre::Vector3& relative_position,
-                                                const ::Ogre::Quaternion& relative_orientation)
-        {
           // create the node and attach a particle system to it
           ::Ogre::ParticleSystem* particle = m_system->m_manager->createParticleSystem(Utility::getUniqueName(),name) ;
-          ::Ogre::SceneNode* node(parent_node->createChildSceneNode(relative_position,relative_orientation)) ;
+          ::Ogre::SceneNode* node(parent_node->createChildSceneNode(convert(relative_position),
+                                                                    relative_orientation.getQuaternion())) ;
           node->attachObject(particle) ;
           particle->setKeepParticlesInLocalSpace(true) ;
 
@@ -441,6 +434,28 @@ namespace ProjetUnivers
                                          1.0/conversion_factor)) ;
         }
 
+        void destroyNode(::Ogre::SceneNode* node)
+        {
+           if (!node)
+              return ;
+
+           // Destroy all the attached objects
+           ::Ogre::SceneNode::ObjectIterator object = node->getAttachedObjectIterator();
+
+           while (object.hasMoreElements())
+           {
+              node->getCreator()->destroyMovableObject(static_cast<MovableObject*>(object.getNext())) ;
+           }
+
+           // Recurse to child SceneNodes
+           ::Ogre::SceneNode::ChildNodeIterator child = node->getChildIterator();
+
+           while (child.hasMoreElements())
+           {
+              destroyNode(static_cast<SceneNode*>(child.getNext()));
+           }
+           node->getCreator()->destroySceneNode(node->getName()) ;
+        }
       }
     }
   }

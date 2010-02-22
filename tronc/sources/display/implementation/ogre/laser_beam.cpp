@@ -34,11 +34,14 @@ namespace ProjetUnivers
   {
     namespace Implementation
     {
+
+      DeclareDeducedTrait(LaserBeam,And(HasTrait(Model::LaserBeam),HasTrait(RecursivelyPositioned))) ;
+
       namespace Ogre
       {
 
         RegisterView(Ogre::LaserBeam,
-                     Model::LaserBeam,
+                     Implementation::LaserBeam,
                      Ogre::RealWorldViewPoint) ;
 
 

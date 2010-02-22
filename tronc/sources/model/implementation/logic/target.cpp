@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2008 Mathieu ROGER                                      *
+ *   Copyright (C) 2008-2010 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -88,16 +88,13 @@ namespace ProjetUnivers
 
           Kernel::Object* world = getObjectTo()->getParent<PhysicalObject>()->getPhysicalWorld() ;
 
-          // absolute position
+          // absolute position in physical world
           Ogre::Vector3 target_absolute_position = getObjectTo()->getTrait<Positioned>()->getPosition(world).Meter() ;
           Ogre::Vector3 targeting_absolute_position = getObjectFrom()->getTrait<Positioned>()->getPosition(world).Meter() ;
           Ogre::Vector3 position = target_absolute_position-targeting_absolute_position ;
 
           // relative to ship's physical world
           Ogre::Vector3 speed = getObjectTo()->getTrait<Mobile>()->getSpeed().MeterPerSecond() ;
-
-          // now it is relative to targeting object
-          speed = getRelativeOrientation(getObjectFrom(),world).getQuaternion()*speed ;
 
           InternalMessage("Model","calculateInterceptionTime(" + Ogre::StringConverter::toString(position)
 		                          + "," + Ogre::StringConverter::toString(speed) + "," + Kernel::toString(laser_speed) +")") ;
@@ -130,12 +127,12 @@ namespace ProjetUnivers
             m_ideal_target->addTrait(new Positioned()) ;
             m_ideal_target->addTrait(new IdealTarget(getObjectFrom()->getChild<Computer>()->getObject())) ;
           }
-          // update ideal target
+          // update ideal target, position is relative to world
           Positioned* positioned = m_ideal_target->getTrait<Positioned>() ;
           positioned->setPosition(touch_position) ;
 
           // calculate shootable status
-          InternalMessage("Model","calculating shootable status") ;
+          InternalMessage("HasInLineOfSight","calculating shootable status") ;
           bool shootable = true ;
 
           // range
@@ -146,42 +143,43 @@ namespace ProjetUnivers
           // direction
           if (shootable)
           {
-            InternalMessage("Model","calculating shootable status#0") ;
+            InternalMessage("HasInLineOfSight","calculating shootable status#0") ;
             PhysicalObject* object = laser->getObject()->getParent<PhysicalObject>() ;
             if (!object)
               return ;
-            Oriented* oriented = laser->getObject()->getParent<Oriented>() ;
-            Orientation orientation_of_laser = oriented->getOrientation(object->getObject()) ;
 
-            const Position& position_of_the_beam =
-              laser->getOutPosition()*orientation_of_laser +
-              getRelativePosition(laser->getObject(),object->getObject()) ;
+            Orientation orientation_of_laser = getRelativeOrientation(laser->getObject(),world) ;
 
-            Orientation orientation_of_the_beam =
-              orientation_of_laser*laser->getOutOrientation() ;
+            // in local space but global orientation
+            const Position& position_of_the_beam = laser->getOutPosition()*orientation_of_laser ;
+
+            Orientation orientation_of_the_beam = orientation_of_laser*laser->getOutOrientation() ;
 
             // the line of the beam
             Ogre::Vector3 out_of_laser = position_of_the_beam.Meter() ;
-            Ogre::Vector3 forward_of_laser =
-              out_of_laser - orientation_of_the_beam.getQuaternion().zAxis() ;
+            // the line of the beam
+            // forward of the beam (-z axis of orientation)
+            Ogre::Vector3 forward_of_laser = - orientation_of_the_beam.getQuaternion().zAxis() ;
 
             // calculate nearest point of that line with target position
+
+            // in local position space
             Ogre::Vector3 A = position - out_of_laser ;
-            Ogre::Vector3 u = (forward_of_laser-out_of_laser).normalisedCopy() ;
+            Ogre::Vector3 u = forward_of_laser.normalisedCopy() ;
             Ogre::Vector3 nearest_point = out_of_laser + (A.dotProduct(u)) * u ;
 
-            InternalMessage("Model","A=" + Ogre::StringConverter::toString(A)) ;
-            InternalMessage("Model","u*10=" + Ogre::StringConverter::toString(u*10)) ;
-            InternalMessage("Model","out_of_laser=" + Ogre::StringConverter::toString(out_of_laser)) ;
-            InternalMessage("Model","forward_of_laser=" + Ogre::StringConverter::toString(forward_of_laser)) ;
-            InternalMessage("Model","nearest_point=" + Ogre::StringConverter::toString(nearest_point)) ;
-            InternalMessage("Model","orientation_of_the_beam=" + Ogre::StringConverter::toString(orientation_of_the_beam.getQuaternion())) ;
-            InternalMessage("Model","position=" + Ogre::StringConverter::toString(position)) ;
+            InternalMessage("HasInLineOfSight","A=" + Ogre::StringConverter::toString(A)) ;
+            InternalMessage("HasInLineOfSight","u*10=" + Ogre::StringConverter::toString(u*10)) ;
+            InternalMessage("HasInLineOfSight","out_of_laser=" + Ogre::StringConverter::toString(out_of_laser)) ;
+            InternalMessage("HasInLineOfSight","forward_of_laser=" + Ogre::StringConverter::toString(forward_of_laser)) ;
+            InternalMessage("HasInLineOfSight","nearest_point=" + Ogre::StringConverter::toString(nearest_point)) ;
+            InternalMessage("HasInLineOfSight","orientation_of_the_beam=" + Ogre::StringConverter::toString(orientation_of_the_beam.getQuaternion())) ;
+            InternalMessage("HasInLineOfSight","position=" + Ogre::StringConverter::toString(position)) ;
 
             if (nearest_point.dotProduct(u) >= 0)
             {
               float target_size = getObjectTo()->getTrait<Solid>()->getRadius().Meter() ;
-              InternalMessage("Model","target_size=" + Kernel::toString(target_size)) ;
+              InternalMessage("HasInLineOfSight","target_size=" + Kernel::toString(target_size)) ;
               if (target_size <= (position-nearest_point).length())
               {
                 shootable = false ;
@@ -192,7 +190,7 @@ namespace ProjetUnivers
               shootable = false ;
             }
 
-            InternalMessage("Model",shootable?"shootable=true":"shootable=false") ;
+            InternalMessage("HasInLineOfSight",shootable?"shootable=true":"shootable=false") ;
             if (shootable)
             {
               Kernel::Link<HasInLineOfSight>(getObjectFrom(),getObjectTo()) ;

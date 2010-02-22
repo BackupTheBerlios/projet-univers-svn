@@ -18,8 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_PHYSIC_TEST_MODEl_CONTROLER_H_
-#define PU_PHYSIC_TEST_MODEl_CONTROLER_H_
+#pragma once
 
 #include <cppunit/extensions/HelperMacros.h>
 
@@ -39,7 +38,7 @@ namespace ProjetUnivers
       */
       // @{
 
-        /// Only one physical object whithout any parent.
+        /// Only one physical object without any parent.
         void oneObjectWithTorqueGenerator() ;
 
         void oneObjectWithForceGenerator() ;
@@ -66,5 +65,3 @@ namespace ProjetUnivers
     }
   }
 }
-
-#endif

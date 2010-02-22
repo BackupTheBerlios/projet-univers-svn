@@ -67,6 +67,9 @@ namespace ProjetUnivers
           /// Tell if two geometries can collide.
           static bool canCollide(const dGeomID&,const dGeomID&) ;
           
+          /// contact parameter.
+          static float getContactSoftConstraintForceMixing(const dGeomID&,const dGeomID&) ;
+
           /// Abstract class means virtual destructor.
           virtual ~Collideable() ;
 
@@ -85,8 +88,6 @@ namespace ProjetUnivers
           dGeomID  m_geometry1 ;
           dGeomID  m_geometry2 ;
 
-          /// To place m_geometry relatively to parent body.
-          dGeomID  m_geometry_placeable ;
         };
       }
     }

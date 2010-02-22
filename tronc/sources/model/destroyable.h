@@ -68,14 +68,13 @@ namespace ProjetUnivers
       /// Damage the element.
       void damage(const Energy& energy) ;
    
+      void setMaximumHitPoint(const Energy& energy) ;
+
     // @}
-   
-      /// Abstact class means virtual destructor.
-      virtual ~Destroyable() ;
    
     protected:
       
-      /// Energy to completelly destroy the element == total life points.
+      /// Energy to completely destroy the element == total life points.
       Energy m_max_hit_points ;
       
       /// Remaining energy.

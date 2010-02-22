@@ -27,8 +27,10 @@
 #include <model/solid.h>
 #include <model/dragger.h>
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
     
     RegisterTrait(Dragger) ;
 
@@ -118,7 +120,6 @@ namespace ProjetUnivers {
       /// null force because not applicable.
       return Force() ;
     }
-    
     
   }
 }

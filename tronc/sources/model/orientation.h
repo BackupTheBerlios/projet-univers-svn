@@ -18,22 +18,24 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_ORIENTATION_H_
-#define PU_MODEL_ORIENTATION_H_
+#pragma once
 
 #include <OgreQuaternion.h>
 
 #include <kernel/reader.h>
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
+    class Position ;
 
     /// An orientation of an object in space.
     /*!
       A quaternion.         
-      
     */
-    class Orientation {
+    class Orientation
+    {
     public:
     
     /*! 
@@ -47,6 +49,9 @@ namespace ProjetUnivers {
 
       /// Copy constructor.
       Orientation(const Orientation&) ;
+
+      /// Construct from a points.
+      Orientation(const Position&) ;
 
       /// Construct from a quaternion.
       Orientation(const Ogre::Quaternion& _orientation) ; 
@@ -64,7 +69,7 @@ namespace ProjetUnivers {
       
     // @}
       
-      /// Acces to quaternion.
+      /// Access to quaternion.
       const Ogre::Quaternion& getQuaternion() const ;
 
       /// Composed orientation : first @c orientation then @this.
@@ -81,7 +86,3 @@ namespace ProjetUnivers {
     };
   }
 }
-
-
-
-#endif

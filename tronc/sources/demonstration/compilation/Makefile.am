@@ -4,7 +4,7 @@ SOURCES = $(top_srcdir)/sources
 AM_CPPFLAGS = -I../..
 AM_CXXFLAGS=$(PU_CXXFLAGS)
 
-LDADD = \
+libraries = \
 ../../kernel/compilation/libkernel.la \
 ../../model/compilation/libmodel.la \
 ../../display/compilation/libdisplay.la \
@@ -31,6 +31,10 @@ ship_SOURCES = ../ship.cpp
 test_SOURCES = ../test.cpp
 pu_SOURCES = ../pu.cpp
 
+demonstration_LDADD = $(libraries)
+ship_LDADD = $(libraries)
+test_LDADD = $(libraries)
+pu_LDADD = $(libraries)
 
 all-local:ressources.cfg plugins.cfg copy_joystick_configurator
 
@@ -47,3 +51,31 @@ plugins.cfg:../../plugins.cfg.in
 copy_joystick_configurator:
 	cp $(SOURCES)/input/compilation/autoconfig_joystick* .
 	
+TESTS = test_demonstration
+
+# compile tests program without launching them so make build them
+noinst_PROGRAMS = $(TESTS)
+
+# launch tests in case of make check
+check_PROGRAMS = $(TESTS)
+
+test_demonstration_SOURCES = \
+../test/test_demonstration.cpp \
+../test/test_model_controler.cpp
+
+test_demonstration_LDADD = \
+../../kernel/compilation/libkernel.la \
+../../model/compilation/libmodel.la \
+../../display/compilation/libdisplay.la \
+../../physic/compilation/libphysic.la \
+../../artificial_intelligence/compilation/libai.la \
+../../sound/compilation/libsound.la \
+$(CPPUNIT_LIBS) \
+$(OIS_LIBS) \
+$(librlog_LIBS) \
+$(OGRE_LIBS) \
+$(libXML_LIBS) \
+$(libode_LIBS) \
+$(CEGUI_LIBS) \
+$(CEGUI_OGRE_LIBS) \
+-lCEGUIFalagardWRBase

@@ -20,18 +20,14 @@
  ***************************************************************************/
 #pragma once
 
-#include <kernel/deduced_trait.h>
+#include <kernel/trait.h>
 
 namespace ProjetUnivers
 {
-  namespace Display
+  namespace Model
   {
-    namespace Implementation
-    {
-
-      /// A solid has been hit
-      class Hit : public Kernel::DeducedTrait
-      {};
-    }
+    /// Hit between a laser beam and a solid
+    class Hit : public Kernel::Trait
+    {};
   }
 }

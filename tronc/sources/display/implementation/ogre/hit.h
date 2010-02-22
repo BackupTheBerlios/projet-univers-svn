@@ -35,20 +35,14 @@ namespace ProjetUnivers
       namespace Ogre
       {
 
-        /// Display an image.
+        /// Display a damage.
         class Hit : public Kernel::TraitView<Implementation::Hit,
                                              RealWorldViewPoint>
         {
         protected:
-        /*!
-          @name Updates
-        */
-        // @{
 
           /// create an effect.
           void onInit() ;
-
-        // @}
 
         };
       }

@@ -40,42 +40,24 @@ namespace ProjetUnivers
 
         /// Basic test, mainly to check against seg fault.
         void testConstruct() ;
-
         /// Build a viewpoint and then destroy the observer.
         /*!
           created a seg fault
         */
         void destroyObserver() ;
-
         /// Display an ideal target
         void displayIdealTarget() ;
-
-        /// Test the space dust effect.
-        void spaceDust() ;
-
         /// Display a test image.
         void displayImage() ;
-
-        /// Display a test image.
-        void displayExplosion() ;
-
         /// Build a viewpoint and then destroy the observer and finally recreate it.
         void recreateObserver() ;
-
         /// Access to mesh size.
         void getMeshSize() ;
-
         /// Create a displayable object then change parent
         void changeParent() ;
-
         void changeObserver() ;
-
         void setOrientation() ;
-
         void testMission() ;
-
-        void effect() ;
-        void destroyEffectParent() ;
 
       // @}
         /*!
@@ -88,17 +70,13 @@ namespace ProjetUnivers
         CPPUNIT_TEST(testConstruct) ;
         CPPUNIT_TEST(destroyObserver) ;
         CPPUNIT_TEST(displayIdealTarget) ;
-        CPPUNIT_TEST(spaceDust) ;
         CPPUNIT_TEST(displayImage) ;
-        CPPUNIT_TEST(displayExplosion) ;
         CPPUNIT_TEST(recreateObserver) ;
         CPPUNIT_TEST(getMeshSize) ;
         CPPUNIT_TEST(changeParent) ;
         CPPUNIT_TEST(changeObserver) ;
         CPPUNIT_TEST(setOrientation) ;
         CPPUNIT_TEST(testMission) ;
-        CPPUNIT_TEST(destroyEffectParent) ;
-        CPPUNIT_TEST(effect) ;
 
         CPPUNIT_TEST_SUITE_END() ;
 

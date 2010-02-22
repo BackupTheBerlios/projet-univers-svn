@@ -144,7 +144,9 @@ namespace ProjetUnivers
             if (m_target)
             {
               if (!isTargetedByTarget())
-                m_steering += SteeringBehaviour::pursuit(*getVehicle(),*getTarget()) ;
+
+                // @todo find something better
+                m_steering += SteeringBehaviour::offsetPursuit(*getVehicle(),*getTarget(),getTarget()->getRadius()*2) ;
               else
                 m_steering += SteeringBehaviour::seek(*getVehicle(),*getTarget()) ;
             }
@@ -187,7 +189,7 @@ namespace ProjetUnivers
         }
 
         // always avoid obstacle
-        m_steering += SteeringBehaviour::obstacleAvoidance(*getVehicle(),getObstacles()) ;
+//        m_steering += SteeringBehaviour::obstacleAvoidance(*getVehicle(),getObstacles()) ;
 
       }
 

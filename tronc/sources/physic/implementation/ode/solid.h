@@ -45,8 +45,7 @@ namespace ProjetUnivers
         
         /// ODE solid view
         /*!
-          
-          Collision is organised as follows :
+          Collision is organized as follows :
           - each PhysicalWorld is a space
           - each PhysiscalObject is a space put in its PhysicalWorld's space 
           - each solid is a geometry put in its PhysiscalObject parent's space.
@@ -63,37 +62,36 @@ namespace ProjetUnivers
           /// Check whether @c this is collideable with another Collideable.
           virtual bool isCollideableWith(const Collideable*) const ;
 
+          /// Set last transform
+          virtual void prepare() ;
+
         protected:
         
-          /// Called after the view is created on a initialised viewpoint.
+          /// Create the collision object.
           virtual void onInit() ;
           
-          /// Called just before the view is destroyed.
+          /// Destroy the collision object.
           virtual void onClose() ;
     
-          /// Called when parent changed.
-          virtual void onChangeParent(Kernel::Object* i_old_parent) ;
-          
-          /// Called when the model trait has changed.
-          virtual void onUpdate() ;
-        
-          /// Access to controler.
+          /// Access to controller.
           virtual const Kernel::BaseControler* getControler() const ;
         
           /// Internal creation of a trimesh geometry.
           virtual void createGeometry(const dSpaceID& space) ;
         
-          /// Internal creation of an appximated geometry.
+          /// Internal creation of an approximated geometry.
           virtual void createApproximatedGeometry(const dSpaceID& space) ;
           
         private:
           
-          
           /// vertices storage : useless...
           dTriMeshDataID m_data ;
-          dVector3*      m_vertices ;
-          int*           m_indices ;
+          float*         m_vertices ;
+          dTriIndex*     m_indices ;
           
+          /// For trimesh
+          dReal m_last_transform[16] ;
+          dReal m_current_transform[16] ;
         };
       }
     }

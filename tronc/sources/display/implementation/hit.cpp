@@ -18,9 +18,11 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <model/hit.h>
+#include <model/sized.h>
+#include <model/oriented.h>
+#include <display/implementation/positioned.h>
 #include <display/implementation/hit.h>
-#include <model/collision.h>
-#include <model/positioned.h>
 
 namespace ProjetUnivers
 {
@@ -29,8 +31,10 @@ namespace ProjetUnivers
     namespace Implementation
     {
       DeclareDeducedTrait(Hit,
-                          And(HasTrait(Model::Positioned),
-                              HasTrait(Model::Collision))) ;
+                          And(HasTrait(Implementation::RecursivelyPositioned),
+                              HasTrait(Model::Hit),
+                              HasTrait(Model::Sized),
+                              HasTrait(Model::Oriented))) ;
     }
   }
 }

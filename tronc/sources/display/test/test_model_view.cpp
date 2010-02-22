@@ -63,20 +63,14 @@
 #include <display/implementation/ogre/ogre.h>
 #include <model/sized.h>
 
-using ProjetUnivers::Display::Implementation::Ogre::convert;
-
-
-CPPUNIT_TEST_SUITE_REGISTRATION(ProjetUnivers::
-                                Display::
-                                Test::
-                                TestModelView) ;
-
 namespace ProjetUnivers
 {
   namespace Display
   {
     namespace Test
     {
+
+      CPPUNIT_TEST_SUITE_REGISTRATION(TestModelView) ;
 
       void TestModelView::testConstruct()
       {
@@ -226,51 +220,6 @@ namespace ProjetUnivers
         InternalMessage("Display","Display::TestModelView::displayIdealTarget leaving") ;
       }
 
-      void TestModelView::spaceDust()
-      {
-        InternalMessage("Display","Display::TestModelView::spaceDust entering") ;
-
-        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestModelView::spaceDust")) ;
-        model->init() ;
-
-        Kernel::Object* universe = model->createObject() ;
-        universe->addTrait(new Model::Universe()) ;
-        universe->addTrait(new Model::Positioned()) ;
-
-        Kernel::Object* system = universe->createObject() ;
-        system->addTrait(new Model::StellarSystem()) ;
-        system->addTrait(new Model::Positioned()) ;
-
-        Kernel::Object* ship = Model::createShip(system) ;
-        ship->getTrait<Model::Positioned>()->setPosition(Model::Position::Meter(0,0,-500)) ;
-        ship->getTrait<Model::Mobile>()->setSpeed(Model::Speed::MeterPerSecond(0,0,-10)) ;
-
-        Kernel::Object* observer = ship->createObject() ;
-        observer->addTrait(new Model::Observer()) ;
-        observer->addTrait(new Model::Player()) ;
-        observer->addTrait(new Model::Active()) ;
-        observer->addTrait(new Model::Positioned()) ;
-        observer->addTrait(new Model::Oriented()) ;
-
-        CPPUNIT_ASSERT(observer->getParent<Model::Mobile>()) ;
-        CPPUNIT_ASSERT(observer->getTrait<Implementation::SpaceDust>()) ;
-
-        Kernel::Timer timer ;
-        Kernel::Timer global_timer ;
-
-        while (global_timer.getSecond() < 0.1)
-        {
-          float seconds = timer.getSecond() ;
-          if (seconds != 0)
-          {
-            timer.reset() ;
-          }
-          model->update(seconds) ;
-        }
-
-        InternalMessage("Display","Display::TestModelView::spaceDust leaving") ;
-      }
-
       void TestModelView::displayImage()
       {
         InternalMessage("Display","Display::TestModelView::displayImage entering") ;
@@ -297,76 +246,6 @@ namespace ProjetUnivers
 
         InternalMessage("Display","Display::TestModelView::displayImage leaving") ;
 
-      }
-
-      void TestModelView::displayExplosion()
-      {
-        InternalMessage("Display","Display::TestModelView::spaceDust entering") ;
-
-        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestModelView::displayExplosion")) ;
-        model->init() ;
-        Kernel::Object* universe = model->createObject() ;
-        universe->addTrait(new Model::Universe()) ;
-        universe->addTrait(new Model::Positioned()) ;
-
-        Kernel::Object* system = universe->createObject() ;
-        system->addTrait(new Model::StellarSystem()) ;
-        system->addTrait(new Model::Positioned()) ;
-
-        Kernel::Object* observer = system->createObject() ;
-        observer->addTrait(new Model::Observer()) ;
-        observer->addTrait(new Model::Player()) ;
-        observer->addTrait(new Model::Active()) ;
-        observer->addTrait(new Model::Positioned()) ;
-        observer->addTrait(new Model::Oriented()) ;
-
-        {
-          Kernel::Object* ship = Model::createShip(system) ;
-          ship->getTrait<Model::Positioned>()->setPosition(Model::Position::Meter(0,0,-500)) ;
-
-          Kernel::Timer timer ;
-          Kernel::Timer global_timer ;
-
-          bool destroyed = false ;
-          while (global_timer.getSecond() < 4)
-          {
-            if (!destroyed && global_timer.getSecond() > 1)
-            {
-              destroyed = true ;
-              ship->getTrait<Model::Destroyable>()->damage(Model::Energy::Joule(50)) ;
-            }
-            float seconds = timer.getSecond() ;
-            if (seconds != 0)
-            {
-              timer.reset() ;
-            }
-            model->update(seconds) ;
-          }
-        }
-        {
-          Kernel::Object* ship = Model::createShip(system) ;
-          ship->getTrait<Model::Positioned>()->setPosition(Model::Position::Meter(0,0,-500)) ;
-
-          Kernel::Timer timer ;
-          Kernel::Timer global_timer ;
-
-          bool destroyed = false ;
-          while (global_timer.getSecond() < 4)
-          {
-            if (!destroyed && global_timer.getSecond() > 1)
-            {
-              destroyed = true ;
-              ship->getTrait<Model::Destroyable>()->damage(Model::Energy::Joule(50)) ;
-            }
-            float seconds = timer.getSecond() ;
-            if (seconds != 0)
-            {
-              timer.reset() ;
-            }
-            model->update(seconds) ;
-          }
-        }
-        InternalMessage("Display","Display::TestModelView::spaceDust leaving") ;
       }
 
       void TestModelView::recreateObserver()
@@ -619,126 +498,6 @@ namespace ProjetUnivers
         model->update(0.1) ;
         mission->destroyTrait(mission->getTrait<Model::Played>()) ;
         model->update(0.1) ;
-      }
-
-      void TestModelView::effect()
-      {
-        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestModelView::displayExplosion")) ;
-        model->init() ;
-
-        Implementation::Ogre::RealWorldViewPoint* viewpoint =
-          model->getViewPoint<Implementation::Ogre::RealWorldViewPoint>() ;
-
-        Kernel::Object* universe = model->createObject() ;
-        universe->addTrait(new Model::Universe()) ;
-        universe->addTrait(new Model::Positioned()) ;
-
-        Kernel::Object* system = universe->createObject() ;
-        system->addTrait(new Model::StellarSystem()) ;
-        system->addTrait(new Model::Positioned()) ;
-
-        Kernel::Object* observer = system->createObject() ;
-        observer->addTrait(new Model::Observer()) ;
-        observer->addTrait(new Model::Player()) ;
-        observer->addTrait(new Model::Active()) ;
-        observer->addTrait(new Model::Positioned()) ;
-        observer->addTrait(new Model::Oriented()) ;
-
-        Kernel::Object* ship = Model::createShip(system) ;
-        ship->getTrait<Model::Positioned>()->setPosition(Model::Position::Meter(0,0,-500)) ;
-
-        Implementation::Ogre::Positioned* positioned = ship->getTrait<Implementation::Positioned>()->getView<Implementation::Ogre::Positioned>(viewpoint) ;
-        CPPUNIT_ASSERT(positioned) ;
-
-        ::Ogre::SceneNode* effect(Implementation::Ogre::createParticleEffect("PU/Tests/Hit",
-                                                                             positioned->getNode(),
-                                                                             Model::Position::Meter(200,0,0))) ;
-
-        float size = Implementation::Ogre::convert(Model::Distance(Model::Distance::_Meter,2)) ;
-        effect->setScale(size,size,size) ;
-        std::string name = effect->getName() ;
-
-        Kernel::Timer timer ;
-        Kernel::Timer global_timer ;
-
-        while (global_timer.getSecond() < 4)
-        {
-          float seconds = timer.getSecond() ;
-          if (seconds != 0)
-          {
-            timer.reset() ;
-          }
-          model->update(seconds) ;
-        }
-
-        try
-        {
-          // accessing an un-existing node raise exception
-          viewpoint->getManager()->getSceneNode(name) ;
-          CPPUNIT_ASSERT(false) ;
-        }
-        catch(std::exception&)
-        {}
-      }
-
-      void TestModelView::destroyEffectParent()
-      {
-        std::auto_ptr<Kernel::Model> model(new Kernel::Model()) ;
-        model->init() ;
-
-        Implementation::Ogre::RealWorldViewPoint* viewpoint =
-          model->getViewPoint<Implementation::Ogre::RealWorldViewPoint>() ;
-
-        Kernel::Object* universe = model->createObject() ;
-        universe->addTrait(new Model::Universe()) ;
-        universe->addTrait(new Model::Positioned()) ;
-
-        Kernel::Object* system = universe->createObject() ;
-        system->addTrait(new Model::StellarSystem()) ;
-        system->addTrait(new Model::Positioned()) ;
-
-        Kernel::Object* observer = system->createObject() ;
-        observer->addTrait(new Model::Observer()) ;
-        observer->addTrait(new Model::Player()) ;
-        observer->addTrait(new Model::Active()) ;
-        observer->addTrait(new Model::Positioned()) ;
-        observer->addTrait(new Model::Oriented()) ;
-
-        Kernel::Object* ship = Model::createShip(system) ;
-        ship->getTrait<Model::Positioned>()->setPosition(Model::Position::Meter(0,0,-500)) ;
-
-        Implementation::Ogre::Positioned* positioned = ship->getTrait<Implementation::Positioned>()->getView<Implementation::Ogre::Positioned>(viewpoint) ;
-        CPPUNIT_ASSERT(positioned) ;
-
-        ::Ogre::SceneNode* effect(Implementation::Ogre::createParticleEffect("PU/Tests/Hit",
-                                                                             positioned->getNode(),
-                                                                             Model::Position::Meter(200,0,0),
-                                                                             Model::Orientation())) ;
-        std::string name = effect->getName() ;
-
-        ship->destroyObject() ;
-
-        Kernel::Timer timer ;
-        Kernel::Timer global_timer ;
-
-        while (global_timer.getSecond() < 4)
-        {
-          float seconds = timer.getSecond() ;
-          if (seconds != 0)
-          {
-            timer.reset() ;
-          }
-          model->update(seconds) ;
-        }
-
-        try
-        {
-          // accessing an un-existing node raise exception
-          viewpoint->getManager()->getSceneNode(name) ;
-          CPPUNIT_ASSERT(false) ;
-        }
-        catch(std::exception&)
-        {}
       }
 
 

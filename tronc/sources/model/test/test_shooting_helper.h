@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2008 Mathieu ROGER                                      *
+ *   Copyright (C) 2008-2010 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -28,10 +28,9 @@ namespace ProjetUnivers
   {
     namespace Test
     {
-
-
       /// Test for the Model::ShootingHelper and associated logic.
-      class TestShootingHelper : public CppUnit::TestFixture {
+      class TestShootingHelper : public CppUnit::TestFixture
+      {
       protected:
       /*!
         @name Test methods
@@ -49,6 +48,8 @@ namespace ProjetUnivers
 
         /// Test an object flying away from the shot and untouchable.
         void testMovingUnshootable() ;
+
+        void movingFastToFiringShipShouldBeShootable() ;
 
         /// Test an object moving in orthogonal direction of the shot.
         void testMovingLateral() ;
@@ -74,6 +75,9 @@ namespace ProjetUnivers
         /// A target in front all system rotated 45 degrees.
         void testShootableWithRotation() ;
 
+        /// Same as previous but where detecting ship is not at origin (showed a bug).
+        void shootableWithRotationIsInvariantByTranslation() ;
+
         /// A target aligned but behind.
         void testNotShootableBehind() ;
 
@@ -97,6 +101,7 @@ namespace ProjetUnivers
          CPPUNIT_TEST(basicTest) ;
          CPPUNIT_TEST(testMovingFront) ;
          CPPUNIT_TEST(testMovingUnshootable) ;
+         CPPUNIT_TEST(movingFastToFiringShipShouldBeShootable) ;
          CPPUNIT_TEST(testMovingLateral) ;
          CPPUNIT_TEST(testMovingLateralWithRotation) ;
          CPPUNIT_TEST(destroyComputer) ;
@@ -104,6 +109,7 @@ namespace ProjetUnivers
          CPPUNIT_TEST(deconnectComputer) ;
          CPPUNIT_TEST(testShootable) ;
          CPPUNIT_TEST(testShootableWithRotation) ;
+         CPPUNIT_TEST(shootableWithRotationIsInvariantByTranslation) ;
          CPPUNIT_TEST(testNotShootableBehind) ;
          CPPUNIT_TEST(testNotShootableOnTheSide) ;
          CPPUNIT_TEST(testShootableOnTheSide) ;

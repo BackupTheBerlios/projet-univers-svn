@@ -43,7 +43,7 @@ namespace ProjetUnivers
         PhysicSystem::PhysicSystem(Kernel::Model* model)
         : Kernel::ControlerSet(model)
         {
-          setTimeStep(Kernel::Parameters::getValue<float>("Physic","Timestep",0.1)) ;
+          setTimeStep(Kernel::Parameters::getValue<float>("Physic","Timestep",0.05)) ;
         }
         
         void PhysicSystem::onInit()

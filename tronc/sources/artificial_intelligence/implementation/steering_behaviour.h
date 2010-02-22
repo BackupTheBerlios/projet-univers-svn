@@ -72,6 +72,14 @@ namespace ProjetUnivers
           /// Steering for offset pursuit. target point is at distance from 
           /*
             The targeted point is a point placed at @c distance of @c target.
+            @todo correct it
+            it whould call other offset pursuit, the offset is the
+
+
+                          * target
+                       + <-- here (seeker-target) normalized * distance + target
+
+                * seeker
           */
           Ogre::Vector3 offsetPursuit(const Vehicle& agent,
                                       const Vehicle& target,

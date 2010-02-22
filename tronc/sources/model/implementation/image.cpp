@@ -20,8 +20,10 @@
  ***************************************************************************/
 #include <model/image.h>
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
     
     Image::Image(const std::string& name)
     : m_name(name)

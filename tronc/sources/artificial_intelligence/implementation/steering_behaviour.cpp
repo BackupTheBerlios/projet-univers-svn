@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2008 Mathieu ROGER                                      *
+ *   Copyright (C) 2008-2010 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -84,12 +84,14 @@ namespace ProjetUnivers
                                     const Ogre::Vector3& local_space_target_offset)
         {
           
-          InternalMessage("AI","agent.getPosition() =" + 
+          InternalMessage("SteeringBehaviour","agent.getPosition() =" +
                                       Kernel::toString(agent.getPosition().x) + 
                                 "," + Kernel::toString(agent.getPosition().y) + 
                                 "," + Kernel::toString(agent.getPosition().z)) ;
+
+          InternalMessage("SteeringBehaviour","agent.getMaxSpeed() =" + Kernel::toString(agent.getMaxSpeed())) ;
           
-          InternalMessage("AI","target.getPosition() =" + 
+          InternalMessage("SteeringBehaviour","target.getPosition() =" +
                                       Kernel::toString(target.getPosition().x) + 
                                 "," + Kernel::toString(target.getPosition().y) + 
                                 "," + Kernel::toString(target.getPosition().z)) ;
@@ -98,7 +100,7 @@ namespace ProjetUnivers
                                  target.getOrientation()*local_space_target_offset -
                                  agent.getPosition() ;
           
-          InternalMessage("AI","offset =" + 
+          InternalMessage("SteeringBehaviour","offset =" +
                                       Kernel::toString(offset.x) + 
                                 "," + Kernel::toString(offset.y) + 
                                 "," + Kernel::toString(offset.z)) ;
@@ -111,12 +113,12 @@ namespace ProjetUnivers
           
           if (! reachable_time.first)
           {
-            InternalMessage("AI","offsetPursuit unreachable") ; 
+            InternalMessage("SteeringBehaviour","offsetPursuit unreachable") ;
             return Ogre::Vector3::ZERO ;
           }
           else
           {
-            InternalMessage("AI","time =" + Kernel::toString(reachable_time.second)) ; 
+            InternalMessage("SteeringBehaviour","time =" + Kernel::toString(reachable_time.second)) ;
             
             if (!finite(reachable_time.second))
             {
@@ -127,7 +129,7 @@ namespace ProjetUnivers
               target.predictFuturePosition(reachable_time.second) + 
               target.getOrientation()*local_space_target_offset ;
             
-            InternalMessage("AI","seeking_position =" + 
+            InternalMessage("SteeringBehaviour","seeking_position =" +
                                         Kernel::toString(seeking_position.x) + 
                                   "," + Kernel::toString(seeking_position.y) + 
                                   "," + Kernel::toString(seeking_position.z)) ;
@@ -137,13 +139,12 @@ namespace ProjetUnivers
             
             Ogre::Vector3 result = desiredVelocity-agent.getSpeed() ;
             
-            InternalMessage("AI","result =" + 
+            InternalMessage("SteeringBehaviour","result =" +
                                         Kernel::toString(result.x) + 
                                   "," + Kernel::toString(result.y) + 
                                   "," + Kernel::toString(result.z)) ;
             
             return result ;
-            
           }
         }
   
@@ -152,71 +153,70 @@ namespace ProjetUnivers
                                     const Vehicle& target,
                                     const float&   distance)
         {
-          
-          InternalMessage("AI","agent.getPosition() =" + 
+          InternalMessage("SteeringBehaviour","agent.getPosition() =" +
                                       Kernel::toString(agent.getPosition().x) + 
                                 "," + Kernel::toString(agent.getPosition().y) + 
                                 "," + Kernel::toString(agent.getPosition().z)) ;
+
+          InternalMessage("SteeringBehaviour","agent.getMaxSpeed() =" + Kernel::toString(agent.getMaxSpeed())) ;
           
-          InternalMessage("AI","target.getPosition() =" + 
+          InternalMessage("SteeringBehaviour","target.getPosition() =" +
                                       Kernel::toString(target.getPosition().x) + 
                                 "," + Kernel::toString(target.getPosition().y) + 
                                 "," + Kernel::toString(target.getPosition().z)) ;
           
-          Ogre::Vector3 offset = target.getPosition() -
-                                 agent.getPosition() ;
-          
-          InternalMessage("AI","offset =" + 
-                                      Kernel::toString(offset.x) + 
-                                "," + Kernel::toString(offset.y) + 
+          Ogre::Vector3 offset = target.getPosition() - agent.getPosition() ;
+
+          InternalMessage("SteeringBehaviour","offset =" +
+                                      Kernel::toString(offset.x) +
+                                "," + Kernel::toString(offset.y) +
                                 "," + Kernel::toString(offset.z)) ;
-          
+
           // calculate interception time
-          std::pair<bool,float> reachable_time = 
+          std::pair<bool,float> reachable_time =
             Kernel::Algorithm::calculateInterceptionTime(offset,
                                                          target.getSpeed(),
                                                          agent.getMaxSpeed()) ;
-          
+
           if (! reachable_time.first)
           {
-            InternalMessage("AI","offsetPursuit unreachable") ; 
-            agent.normalizeSpeed(offset) ;
-            return offset-agent.getSpeed() ;
+            InternalMessage("SteeringBehaviour","offsetPursuit unreachable") ;
+            return Ogre::Vector3::ZERO ;
           }
           else
           {
-            InternalMessage("AI","time =" + Kernel::toString(reachable_time.second)) ; 
-            
+            InternalMessage("SteeringBehaviour","time =" + Kernel::toString(reachable_time.second)) ;
+
             if (!finite(reachable_time.second))
             {
               reachable_time.second = 0 ;
             }
-            
-            const Ogre::Vector3 seeking_position = 
-              target.predictFuturePosition(reachable_time.second) ;
-            
-            InternalMessage("AI","seeking_position =" + 
-                                        Kernel::toString(seeking_position.x) + 
-                                  "," + Kernel::toString(seeking_position.y) + 
+
+            const Ogre::Vector3 seeking_position = target.predictFuturePosition(reachable_time.second) ;
+
+            InternalMessage("SteeringBehaviour","seeking_position =" +
+                                        Kernel::toString(seeking_position.x) +
+                                  "," + Kernel::toString(seeking_position.y) +
                                   "," + Kernel::toString(seeking_position.z)) ;
-            
+
             Ogre::Vector3 desiredVelocity  = seeking_position - agent.getPosition() ;
-            
-            Ogre::Vector3 delta = desiredVelocity ;
-            delta.normalise() ;
-            desiredVelocity = desiredVelocity - delta*distance ;
-            
+            if (desiredVelocity.length() <= distance)
+            {
+              Ogre::Vector3 local = agent.getOrientation().Inverse()*desiredVelocity ;
+              local.z = 0 ;
+              return local ;
+            }
+
             agent.normalizeSpeed(desiredVelocity) ;
-            
+
             Ogre::Vector3 result = desiredVelocity-agent.getSpeed() ;
-            
-            InternalMessage("AI","result =" + 
-                                        Kernel::toString(result.x) + 
-                                  "," + Kernel::toString(result.y) + 
+
+            InternalMessage("SteeringBehaviour","result =" +
+                                        Kernel::toString(result.x) +
+                                  "," + Kernel::toString(result.y) +
                                   "," + Kernel::toString(result.z)) ;
-            
+
             return result ;
-            
           }
         }
   
@@ -305,7 +305,7 @@ namespace ProjetUnivers
             Ogre::Vector3 offset = (*neighbour)->predictFuturePosition(simulation_time)-
                                    agent.predictFuturePosition(simulation_time) ;
             const float futureDistance = offset.length() ;
-            InternalMessage("AI","SteeringBehaviour::separate offset=" + 
+            InternalMessage("SteeringBehaviour","SteeringBehaviour::separate offset=" +
                                         Kernel::toString(offset.x) + 
                                   "," + Kernel::toString(offset.y) + 
                                   "," + Kernel::toString(offset.z)) ;
@@ -314,9 +314,9 @@ namespace ProjetUnivers
             {
               result += offset / (futureDistance*futureDistance) ;
             }
-            InternalMessage("AI","SteeringBehaviour::futureDistance =" + Kernel::toString(futureDistance)) ;
+            InternalMessage("SteeringBehaviour","SteeringBehaviour::futureDistance =" + Kernel::toString(futureDistance)) ;
           }
-          InternalMessage("AI","SteeringBehaviour::separate =" + 
+          InternalMessage("SteeringBehaviour","SteeringBehaviour::separate =" +
                                       Kernel::toString(result.x) + 
                                 "," + Kernel::toString(result.y) + 
                                 "," + Kernel::toString(result.z)) ;
@@ -334,8 +334,8 @@ namespace ProjetUnivers
           float radius_of_turn = agent_speed/agent.getTurningRate().valueRadians() ;
           float radius = agent.getRadius() ;
           
-          InternalMessage("AI","radius_of_turn=" + Kernel::toString(radius_of_turn)) ;
-          InternalMessage("AI","radius=" + Kernel::toString(radius)) ;
+          InternalMessage("SteeringBehaviour","radius_of_turn=" + Kernel::toString(radius_of_turn)) ;
+          InternalMessage("SteeringBehaviour","radius=" + Kernel::toString(radius)) ;
           
           
           if (radius > radius_of_turn || agent_speed == 0)
@@ -346,9 +346,9 @@ namespace ProjetUnivers
 //          float lookahead_distance = agent.getRadius()+4*agent_speed ;
           float lookahead_time = lookahead_distance/agent_speed ;
 
-          InternalMessage("AI","agent_speed=" + Kernel::toString(agent_speed)) ;
-          InternalMessage("AI","lookahead_distance=" + Kernel::toString(lookahead_distance)) ;
-          InternalMessage("AI","lookahead_time=" + Kernel::toString(lookahead_time)) ;
+          InternalMessage("SteeringBehaviour","agent_speed=" + Kernel::toString(agent_speed)) ;
+          InternalMessage("SteeringBehaviour","lookahead_distance=" + Kernel::toString(lookahead_distance)) ;
+          InternalMessage("SteeringBehaviour","lookahead_time=" + Kernel::toString(lookahead_time)) ;
           
           for(std::set<Vehicle*>::const_iterator obstacle = obstacles.begin() ;
               obstacle != obstacles.end() ;
@@ -365,7 +365,7 @@ namespace ProjetUnivers
             if (nearest_point_distance < lookahead_distance && 
                 collision_distance < (agent.getRadius()*1.5+(*obstacle)->getRadius()))
             {
-              InternalMessage("AI","menace") ;
+              InternalMessage("SteeringBehaviour","menace") ;
               
               if (collision_distance == 0)
                 result = agent.getSide()*agent.getMaxSpeed() ;
@@ -382,7 +382,7 @@ namespace ProjetUnivers
             
           }
           
-          InternalMessage("AI","SteeringBehaviour::obstacleAvoidance =" + 
+          InternalMessage("SteeringBehaviour","SteeringBehaviour::obstacleAvoidance =" +
                                       Kernel::toString(result.x) + 
                                 "," + Kernel::toString(result.y) + 
                                 "," + Kernel::toString(result.z)) ;

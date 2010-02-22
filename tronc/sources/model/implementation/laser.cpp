@@ -158,7 +158,6 @@ namespace ProjetUnivers
       }
       // else : not much sense thus do nothing
       InternalMessage("Model","leaving fire") ;
-
     }
 
     float Laser::getLaserSpeedMeterPerSecond() const

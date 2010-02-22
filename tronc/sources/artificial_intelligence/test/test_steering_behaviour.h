@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2008-2009 Mathieu ROGER                                 *
+ *   Copyright (C) 2008-2010 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -48,6 +48,7 @@ namespace ProjetUnivers
 
         /// Test the pursuit behavior.
         void testPursuitLinear() ;
+        void pursuitStaticTarget() ;
 
         /// Test the pursuit behavior.
         void testPursuitPlannar() ;
@@ -57,6 +58,8 @@ namespace ProjetUnivers
 
         /// Test the offsetPursuit behavior.
         void testOffsetPursuitTargetBehind() ;
+        void offsetPursuitDistanceBehind() ;
+        void offsetPursuitStaticTarget() ;
 
         /// Test the offsetPursuit behavior.
         void testOffsetPursuitTargetSide() ;
@@ -88,9 +91,12 @@ namespace ProjetUnivers
 
         CPPUNIT_TEST(testSeek) ;
         CPPUNIT_TEST(testPursuitLinear) ;
+        CPPUNIT_TEST(pursuitStaticTarget) ;
         CPPUNIT_TEST(testPursuitPlannar) ;
         CPPUNIT_TEST(testPursuitTargetBehind) ;
         CPPUNIT_TEST(testOffsetPursuitTargetBehind) ;
+        CPPUNIT_TEST(offsetPursuitDistanceBehind) ;
+        CPPUNIT_TEST(offsetPursuitStaticTarget) ;
         CPPUNIT_TEST(testOffsetPursuitTargetSide) ;
         CPPUNIT_TEST(pursuitWanderingTarget) ;
         CPPUNIT_TEST(evadeNearTarget) ;

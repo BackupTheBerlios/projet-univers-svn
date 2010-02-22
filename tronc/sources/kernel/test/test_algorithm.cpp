@@ -19,46 +19,42 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include <iostream>
-
 #include <kernel/algorithm.h>
-
 #include <kernel/test/test_algorithm.h>
-
 CPPUNIT_TEST_SUITE_REGISTRATION(
     ProjetUnivers::Kernel::Test::TestAlgorithm) ;
 
-namespace ProjetUnivers 
+namespace ProjetUnivers
 {
-  namespace Kernel 
+  namespace Kernel
   {
-    namespace Test 
+    namespace Test
     {
 
-      
       void TestAlgorithm::testFindAfterBeforeOnSmallSet()
       {
-          std::set<int> ensemble ;
-          ensemble.insert(10) ;
-          ensemble.insert(20) ;
-          // 10 20
-          
-          CPPUNIT_ASSERT(Algorithm::findBefore<int>(ensemble,25)==20) ;
-          CPPUNIT_ASSERT(Algorithm::findAfter<int>(ensemble,25)==10) ;
-        
-          CPPUNIT_ASSERT(Algorithm::findBefore<int>(ensemble,20)==10) ;
-          CPPUNIT_ASSERT(Algorithm::findAfter<int>(ensemble,20)==10) ;
-        
-          CPPUNIT_ASSERT(Algorithm::findBefore<int>(ensemble,10)==20) ;
-          CPPUNIT_ASSERT(Algorithm::findAfter<int>(ensemble,10)==20) ;
-          
-          CPPUNIT_ASSERT(Algorithm::findBefore<int>(ensemble,5)==20) ;
-          CPPUNIT_ASSERT(Algorithm::findAfter<int>(ensemble,5)==10) ;
-      
-          CPPUNIT_ASSERT(Algorithm::findBefore<int>(ensemble,40)==20) ;
-          CPPUNIT_ASSERT(Algorithm::findAfter<int>(ensemble,40)==10) ;
-        
-          CPPUNIT_ASSERT(Algorithm::findBefore<int>(ensemble,45)==20) ;
-          CPPUNIT_ASSERT(Algorithm::findAfter<int>(ensemble,45)==10) ;
+        std::set<int> ensemble ;
+        ensemble.insert(10) ;
+        ensemble.insert(20) ;
+        // 10 20
+
+        CPPUNIT_ASSERT(Algorithm::findBefore<int>(ensemble,25)==20) ;
+        CPPUNIT_ASSERT(Algorithm::findAfter<int>(ensemble,25)==10) ;
+
+        CPPUNIT_ASSERT(Algorithm::findBefore<int>(ensemble,20)==10) ;
+        CPPUNIT_ASSERT(Algorithm::findAfter<int>(ensemble,20)==10) ;
+
+        CPPUNIT_ASSERT(Algorithm::findBefore<int>(ensemble,10)==20) ;
+        CPPUNIT_ASSERT(Algorithm::findAfter<int>(ensemble,10)==20) ;
+
+        CPPUNIT_ASSERT(Algorithm::findBefore<int>(ensemble,5)==20) ;
+        CPPUNIT_ASSERT(Algorithm::findAfter<int>(ensemble,5)==10) ;
+
+        CPPUNIT_ASSERT(Algorithm::findBefore<int>(ensemble,40)==20) ;
+        CPPUNIT_ASSERT(Algorithm::findAfter<int>(ensemble,40)==10) ;
+
+        CPPUNIT_ASSERT(Algorithm::findBefore<int>(ensemble,45)==20) ;
+        CPPUNIT_ASSERT(Algorithm::findAfter<int>(ensemble,45)==10) ;
       }
 
       void TestAlgorithm::testFindAfterBeforeOnBigSet()
@@ -70,52 +66,80 @@ namespace ProjetUnivers
         ensemble.insert(30) ;
         ensemble.insert(40) ;
         // 10 15 20 30 40
-        
+
         CPPUNIT_ASSERT(Algorithm::findBefore<int>(ensemble,25)==20) ;
         CPPUNIT_ASSERT(Algorithm::findAfter<int>(ensemble,25)==30) ;
-      
+
         CPPUNIT_ASSERT(Algorithm::findBefore<int>(ensemble,20)==15) ;
         CPPUNIT_ASSERT(Algorithm::findAfter<int>(ensemble,20)==30) ;
-      
+
         CPPUNIT_ASSERT(Algorithm::findBefore<int>(ensemble,10)==40) ;
         CPPUNIT_ASSERT(Algorithm::findAfter<int>(ensemble,10)==15) ;
-      
+
         CPPUNIT_ASSERT(Algorithm::findBefore<int>(ensemble,5)==40) ;
         CPPUNIT_ASSERT(Algorithm::findAfter<int>(ensemble,5)==10) ;
-      
+
         CPPUNIT_ASSERT(Algorithm::findBefore<int>(ensemble,40)==30) ;
         CPPUNIT_ASSERT(Algorithm::findAfter<int>(ensemble,40)==10) ;
-      
+
         CPPUNIT_ASSERT(Algorithm::findBefore<int>(ensemble,45)==40) ;
         CPPUNIT_ASSERT(Algorithm::findAfter<int>(ensemble,45)==10) ;
       }
 
       void TestAlgorithm::calculateInterceptionTime()
       {
-        Ogre::Vector3 target_position(150,150,0) ;
-        Ogre::Vector3 target_speed(5,0,0) ;
+        Ogre::Vector3 target_position(150, 150, 0) ;
+        Ogre::Vector3 target_speed(5, 0, 0) ;
         float interceptor_speed = 10 ;
-        
-        std::pair<bool,float> reachable_time = 
-          Algorithm::calculateInterceptionTime(target_position,target_speed,interceptor_speed) ;
-        
+
+        std::pair<bool,float> reachable_time =
+            Algorithm::calculateInterceptionTime(target_position, target_speed,
+                                                 interceptor_speed) ;
+
         CPPUNIT_ASSERT(reachable_time.first) ;
         CPPUNIT_ASSERT(reachable_time.second > 0) ;
-        
+
       }
-      
-	  void TestAlgorithm::infiniteInterceptionTime()
-	  {
-        Ogre::Vector3 target_position(150,150,0) ;
-        Ogre::Vector3 target_speed(5,0,0) ;
+
+      void TestAlgorithm::infiniteInterceptionTime()
+      {
+        Ogre::Vector3 target_position(150, 150, 0) ;
+        Ogre::Vector3 target_speed(5, 0, 0) ;
         float interceptor_speed = 5 ;
-        
-        std::pair<bool,float> reachable_time = 
-          Algorithm::calculateInterceptionTime(target_position,target_speed,interceptor_speed) ;
+
+        std::pair<bool,float> reachable_time =
+            Algorithm::calculateInterceptionTime(target_position, target_speed,
+                                                 interceptor_speed) ;
 
         CPPUNIT_ASSERT(!reachable_time.first) ;
-	  }
-	  
+      }
+
+      void TestAlgorithm::limitCaseOfInterceptionTime()
+      {
+        Ogre::Vector3 target_position(0,150,0) ;
+        Ogre::Vector3 target_speed(0, -5, 0) ;
+        float interceptor_speed = 5 ;
+
+        std::pair<bool,float> reachable_time =
+            Algorithm::calculateInterceptionTime(target_position, target_speed,
+                                                 interceptor_speed) ;
+
+        // target is moving fast toward me so it should be shootable
+        CPPUNIT_ASSERT(reachable_time.first) ;
+      }
+
+      void TestAlgorithm::limitCaseOfInterceptionTime2()
+      {
+        Ogre::Vector3 target_position(0,150,0) ;
+        Ogre::Vector3 target_speed(3, -3, 0) ;
+        float interceptor_speed = 18 ;
+
+        std::pair<bool,float> reachable_time =
+            Algorithm::calculateInterceptionTime(target_position, target_speed,
+                                                 interceptor_speed) ;
+
+        CPPUNIT_ASSERT(reachable_time.first) ;
+      }
     }
   }
 }

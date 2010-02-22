@@ -59,28 +59,26 @@ namespace ProjetUnivers
         void Solid::onInit()
         {
           onInitCollideable() ;
+          memcpy(m_last_transform,dGeomTriMeshGetLastTransform(m_geometry1),16) ;
         }
 
         void Solid::onClose()
         {
           onCloseCollideable() ;
-        }
-
-        void Solid::onChangeParent(Kernel::Object* i_old_parent)
-        {
-        }
-        
-        void Solid::onUpdate()
-        {
+          delete m_vertices ;
+          delete m_indices ;
         }
 
         void Solid::createGeometry(const dSpaceID& i_space)
         {
-          /// need to get the correct geom from volume.
+          /// need to get the correct geometry from volume.
           std::vector< ::Ogre::Vector3> vertices ;
           std::vector<unsigned long>    indices ;
           Ogre::Vector3                 scale(1,1,1) ;        
           
+          m_vertices = NULL ;
+          m_indices = NULL ;
+
           InternalMessage("Physic","Physic::Implementation::Ode::Solid::createGeometry trace#0") ;
           getObject()
             ->getTrait<Model::Solid>()
@@ -88,17 +86,16 @@ namespace ProjetUnivers
 
           if (vertices.size()>0 && indices.size() > 0)
           {
-            m_vertices = new dVector3[vertices.size()];
-            m_indices = new int[indices.size()];
+            m_vertices = new float[vertices.size()*3];
+            m_indices = new dTriIndex[indices.size()];
             
             for(unsigned int vertex_index = 0 ; 
                 vertex_index < vertices.size() ; 
                 ++vertex_index)
             {
-              m_vertices[vertex_index][0] = (dReal)(vertices[vertex_index].x) ;
-              m_vertices[vertex_index][1] = (dReal)(vertices[vertex_index].y) ;
-              m_vertices[vertex_index][2] = (dReal)(vertices[vertex_index].z) ;
-              m_vertices[vertex_index][3] = 0 ;
+              m_vertices[vertex_index+0] = (float)(vertices[vertex_index].x) ;
+              m_vertices[vertex_index+1] = (float)(vertices[vertex_index].y) ;
+              m_vertices[vertex_index+2] = (float)(vertices[vertex_index].z) ;
             }
 
             for(unsigned int index = 0 ; 
@@ -111,8 +108,8 @@ namespace ProjetUnivers
             m_data = dGeomTriMeshDataCreate() ;
 
             dGeomTriMeshDataBuildSingle(m_data,
-                                        m_vertices,3*sizeof(dReal),(int)vertices.size(),
-                                        m_indices,(int)indices.size(),3*sizeof(int)) ;
+                                        m_vertices,3*sizeof(float),(int)vertices.size(),
+                                        m_indices,(int)indices.size(),3*sizeof(dTriIndex)) ;
                                   
             m_geometry1 = dCreateTriMesh(i_space,m_data,0,0,0);
             dGeomSetData(m_geometry1,m_data) ;
@@ -139,6 +136,19 @@ namespace ProjetUnivers
           return true ;
         }
 
+        void Solid::prepare()
+        {
+          memcpy(m_last_transform,m_current_transform,16) ;
+          dGeomTriMeshSetLastTransform(m_geometry1,m_last_transform) ;
+
+          const dReal* Pos = dGeomGetPosition(m_geometry1);
+          const dReal* Rot = dGeomGetRotation(m_geometry1);
+
+          m_current_transform[ 0 ] = Rot[ 0 ];  m_current_transform[ 1 ] = Rot[ 1 ]; m_current_transform[ 2 ] = Rot[ 2 ]; m_current_transform[ 3 ] = 0;
+          m_current_transform[ 4 ] = Rot[ 4 ];  m_current_transform[ 5 ] = Rot[ 5 ]; m_current_transform[ 6 ] = Rot[ 6 ]; m_current_transform[ 7 ] = 0;
+          m_current_transform[ 8 ] = Rot[ 8 ];  m_current_transform[ 9 ] = Rot[ 9 ]; m_current_transform[10 ] = Rot[10 ]; m_current_transform[11 ] = 0;
+          m_current_transform[12 ] = Pos[ 0 ];  m_current_transform[13 ] = Pos[ 1 ]; m_current_transform[14 ] = Pos[ 2 ]; m_current_transform[15 ] = 1;
+        }
       }
     }
   }

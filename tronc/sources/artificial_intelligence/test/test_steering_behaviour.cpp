@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2008 Mathieu ROGER                                      *
+ *   Copyright (C) 2008-2010 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -24,12 +24,16 @@
 #include <artificial_intelligence/implementation/vehicle.h>
 #include <artificial_intelligence/implementation/steering_behaviour.h>
 #include <artificial_intelligence/test/test_steering_behaviour.h>
+#include <OgreStringConverter.h>
 
 CPPUNIT_TEST_SUITE_REGISTRATION(ProjetUnivers::ArtificialIntelligence::Test::TestSteeringBehaviour) ;
 
-namespace ProjetUnivers {
-  namespace ArtificialIntelligence {
-    namespace Test {
+namespace ProjetUnivers
+{
+  namespace ArtificialIntelligence
+  {
+    namespace Test
+    {
 
       namespace
       {
@@ -79,6 +83,34 @@ namespace ProjetUnivers {
                                        Ogre::Quaternion(),
                                        Ogre::Vector3(5,0,0),
                                        5) ;
+
+        // A vehicle seeking
+        Implementation::Vehicle seeker(Ogre::Vector3(10,0,0),
+                                       Ogre::Quaternion(),
+                                       Ogre::Vector3(0,0,0),
+                                       10) ;
+
+        // A "simulation" loop : calculate steering and apply it
+        for(int i = 1 ; i <= 1000 ; ++i)
+        {
+          target.simulate(Ogre::Vector3::ZERO) ;
+          Ogre::Vector3 steering = Implementation::SteeringBehaviour::pursuit(seeker,target) ;
+          seeker.simulate(steering) ;
+        }
+
+        // check that both objects nearly have same position
+        Ogre::Vector3 offset = target.getPosition()  - seeker.getPosition() ;
+
+        CPPUNIT_ASSERT(offset.length() < seeker.getMaxSpeed()) ;
+      }
+
+      void TestSteeringBehaviour::pursuitStaticTarget()
+      {
+        // A vehicle to seek (not too speedy to be able to catch it)
+        Implementation::Vehicle target(Ogre::Vector3(100,50,0),
+                                       Ogre::Quaternion(),
+                                       Ogre::Vector3(0,0,0),
+                                       0) ;
 
         // A vehicle seeking
         Implementation::Vehicle seeker(Ogre::Vector3(10,0,0),
@@ -192,6 +224,85 @@ namespace ProjetUnivers {
         CPPUNIT_ASSERT(offset.length() < seeker.getMaxSpeed()) ;
 
         InternalMessage("AI","Leaving TestSteeringBehaviour::testOffsetPursuitTargetBehind" ) ;
+      }
+
+      void TestSteeringBehaviour::offsetPursuitDistanceBehind()
+      {
+        InternalMessage("AI","Entering TestSteeringBehaviour::offsetPursuitDistanceBehind" ) ;
+        // A vehicle to seek (not too speedy to be able to catch it)
+        Implementation::Vehicle target(Ogre::Vector3(100,0,0),
+                                       Ogre::Quaternion(),
+                                       Ogre::Vector3(5,0,0),
+                                       5) ;
+
+        // A vehicle seeking
+        Implementation::Vehicle seeker(Ogre::Vector3(10,0,0),
+                                       Ogre::Quaternion(),
+                                       Ogre::Vector3(-5,0,0),
+                                       10) ;
+
+        Ogre::Vector3 local_offset(-10,0,0) ;
+
+        // A "simulation" loop : calculate steering and apply it
+        for(int i = 1 ; i <= 1000 ; ++i)
+        {
+          target.simulate(Ogre::Vector3::ZERO) ;
+          Ogre::Vector3 steering
+            = Implementation::SteeringBehaviour::offsetPursuit(seeker,target,10) ;
+          seeker.simulate(steering) ;
+        }
+
+        // check that both objects nearly have same position
+        Ogre::Vector3 offset = target.getPosition()-seeker.getPosition() ;
+        float length = offset.normalise() ;
+        offset *= (length-10) ;
+
+        // here offset should be equal to zero..
+
+        CPPUNIT_ASSERT_MESSAGE(::Ogre::StringConverter::toString(offset),offset.length() < seeker.getMaxSpeed()) ;
+
+        InternalMessage("AI","Leaving TestSteeringBehaviour::offsetPursuitDistanceBehind" ) ;
+      }
+
+      void TestSteeringBehaviour::offsetPursuitStaticTarget()
+      {
+        InternalMessage("AI","Entering TestSteeringBehaviour::offsetPursuitStaticTarget" ) ;
+        // A vehicle to seek (not too speedy to be able to catch it)
+        Implementation::Vehicle target(Ogre::Vector3(100,0,0),
+                                       Ogre::Quaternion(),
+                                       Ogre::Vector3(0,0,0),
+                                       0) ;
+
+        // A vehicle seeking
+        Implementation::Vehicle seeker(Ogre::Vector3(10,0,0),
+                                       Ogre::Quaternion(),
+                                       Ogre::Vector3(-5,0,0),
+                                       10) ;
+
+        Ogre::Vector3 local_offset(-10,0,0) ;
+
+        // A "simulation" loop : calculate steering and apply it
+        for(int i = 1 ; i <= 1000 ; ++i)
+        {
+          target.simulate(Ogre::Vector3::ZERO) ;
+          Ogre::Vector3 steering
+            = Implementation::SteeringBehaviour::offsetPursuit(seeker,target,10) ;
+          seeker.simulate(steering) ;
+        }
+
+//        std::cout << seeker.getPosition() << std::endl ;
+
+        // check that both objects nearly have same position
+        Ogre::Vector3 offset = target.getPosition()-seeker.getPosition() ;
+        float length = offset.normalise() ;
+        offset *= (length-10) ;
+
+        // here offset should be equal to zero..
+
+        CPPUNIT_ASSERT_MESSAGE(::Ogre::StringConverter::toString(offset),
+                               offset.length() < seeker.getMaxSpeed()) ;
+
+        InternalMessage("AI","Leaving TestSteeringBehaviour::offsetPursuitStaticTarget" ) ;
       }
 
       void TestSteeringBehaviour::testOffsetPursuitTargetSide()

@@ -18,15 +18,16 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_DRAGGER_H_
-#define PU_MODEL_DRAGGER_H_
+#pragma once
 
 #include <kernel/reader.h>
 
 #include <model/force_generator.h>
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
     
     /// Resist movement.
     /*!
@@ -59,5 +60,3 @@ namespace ProjetUnivers {
     
   }
 }
-
-#endif /*PU_MODEL_DRAGGER_H_*/

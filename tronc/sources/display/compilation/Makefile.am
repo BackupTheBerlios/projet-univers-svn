@@ -80,6 +80,7 @@ check_PROGRAMS = $(TESTS)
 # finally a global test
 test_display_SOURCES = \
 ../test/test_display.cpp \
+../test/test_effect.cpp \
 ../test/test_model_view.cpp \
 ../test/test_target.cpp
 
@@ -89,6 +90,7 @@ test_display_LDADD = \
 libdisplay.la \
 $(SOURCES)/kernel/compilation/libkernel.la \
 $(SOURCES)/model/compilation/libmodel.la \
+$(SOURCES)/physic/compilation/libphysic.la \
 $(OIS_LIBS) \
 $(librlog_LIBS) \
 $(OGRE_LIBS) \

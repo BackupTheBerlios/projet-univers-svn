@@ -23,7 +23,6 @@
 #include <model/oriented.h>
 #include <model/positioned.h>
 
-
 namespace ProjetUnivers
 {
   namespace Model

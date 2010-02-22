@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007-2009 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -22,70 +22,54 @@
 
 #include <cppunit/extensions/HelperMacros.h>
 
-
 namespace ProjetUnivers
 {
-  namespace Physic
+  namespace Display
   {
     namespace Test
     {
-
-      /// Collision tests.
-      class TestCollision : public CppUnit::TestFixture
+      /// Test explosions etc...
+      class TestEffect : public CppUnit::TestFixture
       {
       protected:
       /*!
-        @name Test methods
+        @name Tests
       */
       // @{
 
-        /// A basic test.
-        void basicTest() ;
-
-        /// Test the bug for laser beams touching their own ship.
-        void testBugLaser() ;
-
-        /// Test LaserBeam/Solid collision.
-        void testLaserBeamSolidCollision() ;
-
-        /// Test that LaserBeam/LaserBeam does not collide.
-        void testLaserBeamLaserBeamNoCollision() ;
-
-        /// Fire a beam against a ship
-        void testFire() ;
-        void collisionEnergy() ;
-        /// Corrects a bug ship traversing each other
-        void shipDoesNotGoThrough() ;
-
-        void laserImpactIsInsideSolid() ;
-
+        /// Test the space dust effect.
+        void spaceDust() ;
+        void displayExplosion() ;
+        void effect() ;
+        void destroyEffectParent() ;
+        void hit() ;
+        void simulateHit() ;
 
       // @}
-      /*!
-        @name Test registration
-      */
+        /*!
+          @name Tests registration
+        */
       // @{
 
-        CPPUNIT_TEST_SUITE(TestCollision) ;
+        CPPUNIT_TEST_SUITE(TestEffect) ;
 
-        CPPUNIT_TEST(basicTest) ;
-        CPPUNIT_TEST(testBugLaser) ;
-        CPPUNIT_TEST(testLaserBeamSolidCollision) ;
-        CPPUNIT_TEST(testLaserBeamLaserBeamNoCollision) ;
-        CPPUNIT_TEST(testFire) ;
-        CPPUNIT_TEST(collisionEnergy) ;
-        CPPUNIT_TEST(shipDoesNotGoThrough) ;
-        CPPUNIT_TEST(laserImpactIsInsideSolid) ;
+        CPPUNIT_TEST(spaceDust) ;
+        CPPUNIT_TEST(displayExplosion) ;
+        CPPUNIT_TEST(destroyEffectParent) ;
+        CPPUNIT_TEST(effect) ;
+        CPPUNIT_TEST(hit) ;
+        CPPUNIT_TEST(simulateHit) ;
 
         CPPUNIT_TEST_SUITE_END() ;
 
       // @}
-
       private:
 
-        /// fire a laser and simulate
-        int fireAndSimulate(Kernel::Object* firing,Kernel::Object* fired,Kernel::Object* system) ;
-
+        Kernel::Object* createUniverseAndSystem(Kernel::Model*) const ;
+        Kernel::Object* createObserver(Kernel::Object*) const ;
+        void simulate(Kernel::Model*,const float&) ;
+        /// Return the unique particle system, NULL other wise
+        ::Ogre::ParticleSystem* getUniqueParticleSystem() const ;
       };
 
     }

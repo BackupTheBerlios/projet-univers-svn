@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -21,10 +21,13 @@
 #include <OgreVector3.h>
 #include <OgreMath.h>
 #include <kernel/log.h>
+#include <model/position.h>
 #include <model/orientation.h>
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
 
     Orientation::Orientation()
     : m_orientation()
@@ -32,6 +35,10 @@ namespace ProjetUnivers {
 
     Orientation::Orientation(const Orientation& _orientation)
     : m_orientation(_orientation.m_orientation)
+    {}
+
+    Orientation::Orientation(const Position& point)
+    : m_orientation(::Ogre::Degree(0),point.Meter())
     {}
 
     Orientation::Orientation(const Ogre::Quaternion& _orientation)
@@ -95,9 +102,9 @@ namespace ProjetUnivers {
       return m_orientation ;
     }
     
-    Orientation Orientation::operator*(const Orientation& i_orientation) const
+    Orientation Orientation::operator*(const Orientation& orientation) const
     {
-      return m_orientation * i_orientation.m_orientation ; 
+      return m_orientation * orientation.m_orientation ;
     }
 
     Orientation Orientation::inverse() const

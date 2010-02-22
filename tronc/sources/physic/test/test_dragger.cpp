@@ -78,11 +78,10 @@ namespace ProjetUnivers
         ship->addTrait(new Model::Positioned()) ;
         ship->addTrait(new Model::Oriented()) ;
         ship->addTrait(new Model::Mobile()) ;
-        ship->addTrait(new Model::Solid(Model::Mesh("toto"))) ;
+        ship->addTrait(new Model::Solid(Model::Mesh("test_ship.mesh"))) ;
         ship->addTrait(new Model::Massive(Model::Mass::Kilogram(1))) ;
 
         CPPUNIT_ASSERT(ship->getTrait<Model::PhysicalObject>()) ;
-        CPPUNIT_ASSERT(ship->getTrait<Model::Solid>()) ;
         CPPUNIT_ASSERT(ship->getTrait<Model::PhysicalWorld>()) ;
 
         Kernel::Object* dragger = ship->createObject() ;
@@ -106,9 +105,10 @@ namespace ProjetUnivers
 
 //        std::cout << "final_speed=" << final_speed << std::endl ;
 
-        CPPUNIT_ASSERT(equal(final_speed.x,0) &&
-                       equal(final_speed.y,0) &&
-                       equal(final_speed.z,0)) ;
+        CPPUNIT_ASSERT_MESSAGE(Ogre::StringConverter::toString(final_speed),
+                               equal(final_speed.x,0) &&
+                               equal(final_speed.y,0) &&
+                               equal(final_speed.z,0)) ;
 
 
         InternalMessage("Physic","Physic::Test::TestDragger::basicTest leaving") ;

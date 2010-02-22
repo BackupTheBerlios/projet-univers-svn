@@ -38,6 +38,7 @@ namespace ProjetUnivers
         
         void Shot::simulate(const float&)
         {
+          /// @todo pull up an event system
           getObject()->destroyObject() ;
         }
 

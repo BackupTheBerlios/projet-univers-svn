@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2008 Mathieu ROGER                                      *
+ *   Copyright (C) 2008-2010 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -106,13 +106,6 @@ namespace ProjetUnivers
       void TestShootingHelper::basicTest()
       {
         InternalMessage("Model","Model::TestShootingHelper::basicTest entering") ;
-        /*!
-          we construct a complete system :
-          a main ship
-          two ships for detection
-
-          we select a target and check the property of the ideal target
-        */
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestShootingHelper::basicTest")) ;
         model->init() ;
 
@@ -147,17 +140,24 @@ namespace ProjetUnivers
       void TestShootingHelper::testMovingFront()
       {
         InternalMessage("Model","Model::TestShootingHelper::testMovingFront entering") ;
-        /*!
-          we construct a complete system :
-          a main ship
-          a ship for detection
-
-          we select a target and check the property of the ideal target
-        */
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestShootingHelper::testMovingFront")) ;
         model->init() ;
 
         Kernel::Object* system = model->createObject() ;
+
+        /*
+            seen from above
+                  ship
+                   |
+                   |
+                   |
+                   |
+                   |
+        +500     ship2 |
+                   |   | speed
+                   V   V
+                   +z
+        */
 
         Kernel::Object* ship = createDetectingShip(system) ;
 
@@ -183,23 +183,70 @@ namespace ProjetUnivers
         Positioned* positioned = child->getTrait<Positioned>() ;
         CPPUNIT_ASSERT(positioned) ;
         CPPUNIT_ASSERT(positioned->getPosition().Meter().z > 500) ;
+        CPPUNIT_ASSERT_EQUAL((float)0,positioned->getPosition().Meter().x) ;
+        CPPUNIT_ASSERT_EQUAL((float)0,positioned->getPosition().Meter().y) ;
+
 //        std::cout << positioned->getPosition().Meter() << std::endl ;
       }
 
       void TestShootingHelper::testMovingUnshootable()
       {
         InternalMessage("Model","Model::TestShootingHelper::testMovingUnshootable entering") ;
-        /*!
-          we construct a complete system :
-          a main ship
-          a ship for detection
-
-          we select a target and check the property of the ideal target
-        */
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestShootingHelper::testMovingUnshootable")) ;
         model->init() ;
 
         Kernel::Object* system = model->createObject() ;
+
+        /*
+            seen from above
+
+                   -z
+                   ^
+                   |    ^
+                   |    |
+        -500     ship2  |
+                   |
+                   |
+                   |
+                   |
+                  ship
+        */
+
+        Kernel::Object* ship = createDetectingShip(system) ;
+        float laser_speed_meter_per_second = ship->getTrait<Laser>()->getLaserSpeedMeterPerSecond() ;
+
+        Kernel::Object* ship2 = createDetectedShip(system) ;
+        ship2->getTrait<Positioned>()->setPosition(Position::Meter(0,0,-500)) ;
+        ship2->getTrait<Mobile>()->setSpeed(Speed::MeterPerSecond(0,0,-laser_speed_meter_per_second)) ;
+
+        ship->getTrait<TargetingSystem>()->selectNextTarget() ;
+
+        // no ideal target
+        CPPUNIT_ASSERT(ship->getTrait<Computer>()->getMemoryModel()->getRoots().size() == 0) ;
+      }
+
+      void TestShootingHelper::movingFastToFiringShipShouldBeShootable()
+      {
+        InternalMessage("Model","Model::TestShootingHelper::testMovingUnshootable entering") ;
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestShootingHelper::testMovingUnshootable")) ;
+        model->init() ;
+
+        Kernel::Object* system = model->createObject() ;
+
+        /*
+            seen from above
+
+                   -z
+                   ^
+                   |
+                   |
+        -500     ship2  |
+                   |    |
+                   |    V
+                   |
+                   |
+                  ship
+        */
 
         Kernel::Object* ship = createDetectingShip(system) ;
         float laser_speed_meter_per_second = ship->getTrait<Laser>()->getLaserSpeedMeterPerSecond() ;
@@ -210,24 +257,31 @@ namespace ProjetUnivers
 
         ship->getTrait<TargetingSystem>()->selectNextTarget() ;
 
-        // no ideal target
-        CPPUNIT_ASSERT(ship->getTrait<Computer>()->getMemoryModel()->getRoots().size() == 0) ;
+        CPPUNIT_ASSERT(ship->getTrait<Computer>()->getMemoryModel()->getRoots().size() == 1) ;
       }
 
       void TestShootingHelper::testMovingLateral()
       {
         InternalMessage("Model","Model::TestShootingHelper::testMovingLateral entering") ;
-        /*!
-          we construct a complete system :
-          a main ship
-          a ship for detection
-
-          we select a target and check the property of the ideal target
-        */
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestShootingHelper::testMovingLateral")) ;
         model->init() ;
 
         Kernel::Object* system = model->createObject() ;
+
+        /*
+            seen from above
+
+                   -z
+                   ^
+                   |
+                   |
+        -500     ship2  move up
+                   |
+                   |
+                   |
+                   |
+                  ship
+        */
 
         Kernel::Object* ship = createDetectingShip(system) ;
 
@@ -252,23 +306,31 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(positioned) ;
         CPPUNIT_ASSERT(positioned->getPosition().Meter().z == -500) ;
         CPPUNIT_ASSERT(positioned->getPosition().Meter().y > 0) ;
+        CPPUNIT_ASSERT(positioned->getPosition().Meter().x == 0) ;
 //        std::cout << positioned->getPosition().Meter() << std::endl ;
       }
 
       void TestShootingHelper::testMovingLateralWithRotation()
       {
         InternalMessage("Model","Model::TestShootingHelper::testMovingLateralWithRotation entering") ;
-        /*!
-          we construct a complete system :
-          a main ship
-          a ship for detection
-
-          we select a target and check the property of the ideal target
-        */
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestShootingHelper::testMovingLateralWithRotation")) ;
         model->init() ;
 
         Kernel::Object* system = model->createObject() ;
+
+        /*
+            seen from above
+                  ship
+                   |
+                   V
+                   |
+                   |
+                   |
+        +500     ship2--speed-->
+                   |
+                   V
+                   +z
+        */
 
         Kernel::Object* ship = createDetectingShip(system) ;
         ship->getTrait<Oriented>()->setOrientation(Orientation(::Ogre::Quaternion(::Ogre::Degree(180),::Ogre::Vector3::UNIT_Y))) ;
@@ -292,12 +354,12 @@ namespace ProjetUnivers
         Kernel::Object* child = (*(children.begin()))->getObject() ;
         Positioned* positioned = child->getTrait<Positioned>() ;
         CPPUNIT_ASSERT(positioned) ;
-//        std::cout << positioned->getPosition().Meter() << std::endl ;
+        //std::cout << positioned->getPosition().Meter() << std::endl ;
         CPPUNIT_ASSERT(positioned->getPosition().Meter().z == 500) ;
         CPPUNIT_ASSERT(positioned->getPosition().Meter().y == 0) ;
 
-        // in local ship space targeted ship goes -x
-        CPPUNIT_ASSERT(positioned->getPosition().Meter().x < 0) ;
+        // in global space targeted ship goes +x
+        CPPUNIT_ASSERT(positioned->getPosition().Meter().x > 0) ;
       }
 
       void TestShootingHelper::destroyComputer()
@@ -429,13 +491,6 @@ namespace ProjetUnivers
       void TestShootingHelper::testShootable()
       {
         InternalMessage("Model","Model::TestShootingHelper::testShootable entering") ;
-        /*!
-          we construct a complete system :
-          a main ship
-          a ship for detection
-
-          we select a target and check the property of the ideal target
-        */
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestShootingHelper::testShootable")) ;
         model->init() ;
 
@@ -456,16 +511,21 @@ namespace ProjetUnivers
 
       void TestShootingHelper::testShootableWithRotation()
       {
-        InternalMessage("Model","Model::TestShootingHelper::testShootableWithRotation entering") ;
-        /*!
-          we construct a complete system :
-          a main ship
-          a ship for detection
-
-          we select a target and check the property of the ideal target
-        */
+        InternalMessage("HasInLineOfSight","Model::TestShootingHelper::testShootableWithRotation entering") ;
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestShootingHelper::testShootableWithRotation")) ;
         model->init() ;
+
+        /*
+            seen from above (target ship has 100 meter of size)
+                ^
+            -z  |
+                |
+          -300  |      ship
+                |  ^
+                | /   -45 degree against +y axis
+              ship----------------> +x
+                         +300
+        */
 
         Kernel::Object* system = model->createObject() ;
         system->addTrait(new Positioned()) ;
@@ -474,8 +534,7 @@ namespace ProjetUnivers
         ship->getTrait<Oriented>()->setOrientation(Orientation(::Ogre::Quaternion(::Ogre::Degree(-45),::Ogre::Vector3::UNIT_Y))) ;
 
         Kernel::Object* ship2 = createDetectedShip(system) ;
-        ship2->getTrait<Positioned>()->setPosition(Position::Meter(100,0,-100)) ;
-        ship2->getTrait<Mobile>()->setSpeed(Speed::MeterPerSecond(0,10,0)) ;
+        ship2->getTrait<Positioned>()->setPosition(Position::Meter(300,0,-300)) ;
 
         ship->getTrait<TargetingSystem>()->selectNextTarget() ;
 
@@ -496,16 +555,55 @@ namespace ProjetUnivers
         InternalMessage("Model","Model::TestShootingHelper::testShootableWithRotation leaving") ;
       }
 
+      void TestShootingHelper::shootableWithRotationIsInvariantByTranslation()
+      {
+        InternalMessage("HasInLineOfSight","Model::TestShootingHelper::shootableWithRotationIsInvariantByTranslation entering") ;
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model()) ;
+        model->init() ;
+
+        /*
+            seen from above (target ship has 100 meter of size)
+                ^
+            -z  |
+                |
+          -300  |      ship
+                |  ^
+                | /   -45 degree against +y axis
+              ship----------------> +x
+                         +300
+        */
+
+        Kernel::Object* system = model->createObject() ;
+        system->addTrait(new Positioned()) ;
+
+        Kernel::Object* ship = createDetectingShip(system) ;
+        ship->getTrait<Positioned>()->setPosition(Position::Meter(1000,0,2000)) ;
+        ship->getTrait<Oriented>()->setOrientation(Orientation(::Ogre::Quaternion(::Ogre::Degree(-45),::Ogre::Vector3::UNIT_Y))) ;
+
+        Kernel::Object* ship2 = createDetectedShip(system) ;
+        ship2->getTrait<Positioned>()->setPosition(Position::Meter(1000+300,0,2000-300)) ;
+
+        ship->getTrait<TargetingSystem>()->selectNextTarget() ;
+
+        CPPUNIT_ASSERT(Kernel::Relation::areLinked<HasInLineOfSight>(ship,ship2)) ;
+
+        Kernel::Object* ideal_target = getIdealTarget(ship) ;
+        CPPUNIT_ASSERT(ideal_target) ;
+
+        Positioned* positioned = ideal_target->getTrait<Positioned>() ;
+        CPPUNIT_ASSERT(positioned) ;
+
+        Position relative_position(positioned->getPosition()) ;
+        Position absolute_position(ship->getTrait<Computer>()->getDataPosition(ideal_target,system)) ;
+
+        CPPUNIT_ASSERT_EQUAL(relative_position+ship->getTrait<Positioned>()->getPosition(),
+                             absolute_position) ;
+
+        InternalMessage("Model","Model::TestShootingHelper::shootableWithRotationIsInvariantByTranslation leaving") ;
+      }
       void TestShootingHelper::testNotShootableBehind()
       {
         InternalMessage("Model","Model::TestShootingHelper::testNotShootableBehind entering") ;
-        /*!
-          we construct a complete system :
-          a main ship
-          a ship for detection
-
-          we select a target and check the property of the ideal target
-        */
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestShootingHelper::testNotShootableBehind")) ;
         model->init() ;
 
@@ -519,6 +617,7 @@ namespace ProjetUnivers
 
         ship->getTrait<TargetingSystem>()->selectNextTarget() ;
 
+        // because ship is behind
         CPPUNIT_ASSERT(!Kernel::Relation::areLinked<HasInLineOfSight>(ship,ship2)) ;
 
         InternalMessage("Model","Model::TestShootingHelper::testNotShootableBehind leaving") ;
@@ -527,13 +626,6 @@ namespace ProjetUnivers
       void TestShootingHelper::testNotShootableOnTheSide()
       {
         InternalMessage("Model","Model::TestShootingHelper::testNotShootableOnTheSide entering") ;
-        /*!
-          we construct a complete system :
-          a main ship
-          a ship for detection
-
-          we select a target and check the property of the ideal target
-        */
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestShootingHelper::testNotShootableOnTheSide")) ;
         model->init() ;
 
@@ -555,13 +647,6 @@ namespace ProjetUnivers
       void TestShootingHelper::testShootableOnTheSide()
       {
         InternalMessage("Model","Model::TestShootingHelper::testShootableOnTheSide entering") ;
-        /*!
-          we construct a complete system :
-          a main ship
-          a ship for detection
-
-          we select a target and check the property of the ideal target
-        */
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestShootingHelper::testShootableOnTheSide")) ;
         model->init() ;
 

@@ -80,8 +80,7 @@ namespace ProjetUnivers
 
           if (getObject()->getAncestor<Model::Positioned>())
           {
-            this->getViewPoint()->getManager()
-                ->destroySceneNode(this->m_node->getName()) ;
+            destroyNode(m_node) ;
           }
 
           InternalMessage("Display","Display::Explosion::onClose Leaving") ;

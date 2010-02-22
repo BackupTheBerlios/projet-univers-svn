@@ -79,11 +79,9 @@ namespace ProjetUnivers
         ship->addTrait(new Model::Positioned()) ;
         ship->addTrait(new Model::Oriented()) ;
         ship->addTrait(new Model::Mobile()) ;
-        ship->addTrait(new Model::Solid(Model::Mesh("toto"))) ;
         ship->addTrait(new Model::Massive(Model::Mass::Kilogram(1))) ;
 
         CPPUNIT_ASSERT(ship->getTrait<Model::PhysicalObject>()) ;
-        CPPUNIT_ASSERT(ship->getTrait<Model::Solid>()) ;
         CPPUNIT_ASSERT(ship->getTrait<Model::PhysicalWorld>()) ;
 
         Model::Mobile* mobile = ship->getTrait<Model::Mobile>() ;
@@ -112,11 +110,9 @@ namespace ProjetUnivers
         ship->addTrait(new Model::Positioned()) ;
         ship->addTrait(new Model::Oriented()) ;
         ship->addTrait(new Model::Mobile()) ;
-        ship->addTrait(new Model::Solid(Model::Mesh("toto"))) ;
         ship->addTrait(new Model::Massive(Model::Mass::Kilogram(1))) ;
 
         CPPUNIT_ASSERT(ship->getTrait<Model::PhysicalObject>()) ;
-        CPPUNIT_ASSERT(ship->getTrait<Model::Solid>()) ;
         CPPUNIT_ASSERT(ship->getTrait<Model::PhysicalWorld>()) ;
 
         Model::Mobile* mobile = ship->getTrait<Model::Mobile>() ;

@@ -1596,24 +1596,42 @@
     - effect managment system : handle resizing
     - all resizable elements have their own node (solid, effects)
 
+2010-02-22
+  * Kernel : 
+    - corrected bug in intercetor algorithm
+  * Model :
+    - corrected HasInLineOfSight is wrong
+  * Display :
+    - coherence error on LaserBeam view
+  * Damage handling
+    - Hit visualization localized on ship : emit particles at collision point
+    - repair collision point given by physics
+       - added dGeomTriMeshSetLastTransform magic but does not do the trick
+       - smaller timestep (0.05) and higher CFM (>= 10) works for these 
+         collisions and a number of collision point to 10
+   * AI :
+     - corrected pursuit at distance offset, but removed avoid collision
+
 in commit
 --------
-
-        
+       
+    
 in progress
 -----------
 
-
+   
 todo
 ----
-
-  * Damage handling
-    - Hit visualization localized on ship : emit particles at collision point
-
+  
+  * Model : 
+    - try to calculate HasInLineOfSight through ogre ray intersection ?
+    - or through same in physics ?
+  
+  * Bug ? exploding solid are still shootable (ai fire on destroying objects)
+  
   * Bug : clicking between buttons on the in game menu causes blockade 
 
   * Model : 
-    - doubt on target helper
     - remove computer own model and create an ideal target object under the 
       computer with relative position  
 

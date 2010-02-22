@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2008 Mathieu ROGER                                      *
+ *   Copyright (C) 2008-2009 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -208,7 +208,6 @@ namespace ProjetUnivers
         // 1. build a model
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestModelControler::attackAllEnemies")) ;
         model->init() ;
-        model->setTimeStep(0.1) ;
 
         Kernel::Object* team1 = model->createObject() ;
         team1->addTrait(new Model::Team("team1")) ;

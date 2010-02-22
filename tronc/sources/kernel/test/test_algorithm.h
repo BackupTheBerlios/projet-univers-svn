@@ -22,47 +22,45 @@
 
 #include <cppunit/extensions/HelperMacros.h>
 
-namespace ProjetUnivers 
+namespace ProjetUnivers
 {
-  namespace Kernel 
+  namespace Kernel
   {
-    namespace Test 
+    namespace Test
     {
 
       ///  Test for Algorithm functions.
-      class TestAlgorithm : public CppUnit::TestFixture 
+      class TestAlgorithm : public CppUnit::TestFixture
       {
       protected:
-
       /// @name Tests methods
-      // @{  
+      // @{
 
         /// findAfter findBefore test on a cardinality 2 set.
         void testFindAfterBeforeOnSmallSet() ;
-        
+
         /// findAfter findBefore test on a bigger set.
         void testFindAfterBeforeOnBigSet() ;
-        
-        /// Chech that interception time is positive.
+
+        /// Check that interception time is positive.
         void calculateInterceptionTime() ;
-		
-		void infiniteInterceptionTime() ;
-       
-        
+        void infiniteInterceptionTime() ;
+        void limitCaseOfInterceptionTime() ;
+        void limitCaseOfInterceptionTime2() ;
+
       // @}
 
+          CPPUNIT_TEST_SUITE(TestAlgorithm) ;
 
-        CPPUNIT_TEST_SUITE(TestAlgorithm) ;
+          CPPUNIT_TEST(testFindAfterBeforeOnSmallSet) ;
+          CPPUNIT_TEST(testFindAfterBeforeOnBigSet) ;
+          CPPUNIT_TEST(calculateInterceptionTime) ;
+          CPPUNIT_TEST(infiniteInterceptionTime) ;
+          CPPUNIT_TEST(limitCaseOfInterceptionTime) ;
+          CPPUNIT_TEST(limitCaseOfInterceptionTime2) ;
 
-        CPPUNIT_TEST(testFindAfterBeforeOnSmallSet) ;
-        CPPUNIT_TEST(testFindAfterBeforeOnBigSet) ;
-        CPPUNIT_TEST(calculateInterceptionTime) ;
-        CPPUNIT_TEST(infiniteInterceptionTime) ;
-
-        CPPUNIT_TEST_SUITE_END() ;
-
-      
-      };
+          CPPUNIT_TEST_SUITE_END() ;
+      } ;
     }
   }
 }

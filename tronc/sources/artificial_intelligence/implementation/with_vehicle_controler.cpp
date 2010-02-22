@@ -41,7 +41,7 @@ namespace ProjetUnivers
         m_vehicle.reset(new Vehicle(getPosition(),
                                     getOrientation(),
                                     speed,
-                                    speed.length(),
+                                    1, // to avoid zero...
                                     getSize())) ;
 
         getControlerSet()->addVehicle(m_vehicle.get()) ;

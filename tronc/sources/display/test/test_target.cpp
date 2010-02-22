@@ -60,14 +60,14 @@
 
 using ProjetUnivers::Display::Implementation::Ogre::HUD::Target;
 
-CPPUNIT_TEST_SUITE_REGISTRATION(ProjetUnivers::Display::Test::TestTarget) ;
-
 namespace ProjetUnivers
 {
   namespace Display
   {
     namespace Test
     {
+
+      CPPUNIT_TEST_SUITE_REGISTRATION(TestTarget) ;
 
       namespace
       {

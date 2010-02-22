@@ -27,6 +27,7 @@
 #include <kernel/trait.h>
 #include <kernel/model.h>
 #include <kernel/controler_set.h>
+#include <kernel/timer.h>
 
 #include <model/model.h>
 #include <model/laser.h>
@@ -40,12 +41,14 @@
 #include <model/mobile.h>
 #include <model/massive.h>
 #include <model/collision.h>
+#include <model/throttle.h>
+#include <model/destroyable.h>
 
 #include <physic/physic.h>
 #include <physic/implementation/ode/physic_system.h>
 
 #include <physic/test/test_collision.h>
-#include <model/throttle.h>
+#include <model/implementation/logic/logic_system.h>
 
 CPPUNIT_TEST_SUITE_REGISTRATION(ProjetUnivers::Physic::Test::TestCollision) ;
 
@@ -65,7 +68,6 @@ namespace ProjetUnivers
         {
           return (fabs(i1 - i2) <= delta) ;
         }
-
       }
 
       void TestCollision::basicTest()
@@ -432,6 +434,7 @@ namespace ProjetUnivers
 
       void TestCollision::shipDoesNotGoThrough()
       {
+        InternalMessage("Physic","Physic::Test::TestCollision::shipDoesNotGoThrough Entering") ;
         /// we construct a complete system
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestCollision::basicTest")) ;
         model->init() ;
@@ -469,6 +472,79 @@ namespace ProjetUnivers
         }
       }
 
+      int TestCollision::fireAndSimulate(Kernel::Object* firing,Kernel::Object* fired,Kernel::Object* system)
+      {
+        Kernel::ControlerSet* logic = firing->getModel()->getControlerSet<Model::Implementation::Logic::LogicSystem>() ;
+        CPPUNIT_ASSERT(logic) ;
+
+        // in order to avoid ...
+        logic->setTimeStep(0) ;
+
+        int number_of_impacts = 0 ;
+        firing->call(Model::Laser::Fire) ;
+
+        const Model::Distance radius = fired->getTrait<Model::Solid>()->getRadius() ;
+
+        Kernel::Timer timer ;
+        Kernel::Timer global_timer ;
+
+        /// get the physical viewpoint
+        Kernel::ControlerSet* physics = firing->getModel()->getControlerSet<Implementation::Ode::PhysicSystem>() ;
+        CPPUNIT_ASSERT(physics) ;
+
+        while (global_timer.getSecond() < 2)
+        {
+          float seconds = timer.getSecond() ;
+          if (seconds != 0)
+          {
+            timer.reset() ;
+            physics->update(seconds) ;
+
+            std::set<Model::Collision*> collisions(system->getChildren<Model::Collision>()) ;
+
+            for(std::set<Model::Collision*>::iterator collision = collisions.begin() ; collision != collisions.end() ; ++collision)
+            {
+              Model::Collision* local = *collision ;
+              // all laser/solid collision should be inside aabb of ship's solid
+              if ((local->getObject1()->getTrait<Model::LaserBeam>() && local->getObject2()->getTrait<Model::Solid>()) ||
+                  (local->getObject2()->getTrait<Model::LaserBeam>() && local->getObject1()->getTrait<Model::Solid>()))
+              {
+                CPPUNIT_ASSERT(Model::getDistance(local->getObject(),fired) <= radius) ;
+                ++number_of_impacts ;
+              }
+            }
+
+            logic->update(seconds) ;
+          }
+        }
+
+        return number_of_impacts ;
+      }
+
+      void TestCollision::laserImpactIsInsideSolid()
+      {
+        InternalMessage("Physic","Physic::Test::TestCollision::laserImpactIsInsideSolid Entering") ;
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model()) ;
+        model->init() ;
+
+        Kernel::Object* system = model->createObject() ;
+
+        Kernel::Object* ship = Model::createShip(system) ;
+        ship->getTrait<Model::Positioned>()->setPosition(Model::Position::Meter(0,0,-500)) ;
+        ship->getTrait<Model::Destroyable>()->setMaximumHitPoint(Model::Energy::Joule(5000)) ;
+
+        Kernel::Object* ship2 = Model::createShip(system) ;
+        ship2->getTrait<Model::Positioned>()->setPosition(Model::Position::Meter(-500,0,-500)) ;
+        ship2->getTrait<Model::Oriented>()->setOrientation(Model::Orientation(::Ogre::Quaternion(::Ogre::Degree(-90),::Ogre::Vector3::UNIT_Y))) ;
+
+        ship2->getChild<Model::Laser>()->setShotTimeDelay(Model::Duration::Second(0.1)) ;
+
+        // no meaning if we do not have impacts
+        CPPUNIT_ASSERT_EQUAL(1,fireAndSimulate(ship2,ship,system)) ;
+        CPPUNIT_ASSERT_EQUAL(1,fireAndSimulate(ship2,ship,system)) ;
+        CPPUNIT_ASSERT_EQUAL(1,fireAndSimulate(ship2,ship,system)) ;
+        CPPUNIT_ASSERT_EQUAL(1,fireAndSimulate(ship2,ship,system)) ;
+      }
 
     }
   }
