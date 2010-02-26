@@ -52,11 +52,18 @@ namespace ProjetUnivers
     : m_out_position(out_position),
       m_out_orientation(out_orientation),
       m_laser_beam_energy(beam_energy)
-    {}
+    {
+      m_laser_speed_meter_per_second = Kernel::Parameters::getValue<float>("Model","LaserBeamSpeed",600) ;
+    }
 
     void Laser::setShotTimeDelay(const Duration& duration)
     {
       m_time_between_shots = duration ;
+    }
+
+    void Laser::setLaserSpeedMeterPerSecond(const float& value)
+    {
+      m_laser_speed_meter_per_second = value ;
     }
 
     void Laser::removeTimeToNextShot(const Duration& duration)
@@ -162,7 +169,7 @@ namespace ProjetUnivers
 
     float Laser::getLaserSpeedMeterPerSecond() const
     {
-      return Kernel::Parameters::getValue<float>("Model","LaserBeamSpeed",600) ;
+      return m_laser_speed_meter_per_second ;
     }
 
     const Position& Laser::getOutPosition() const

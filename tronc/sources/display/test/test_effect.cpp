@@ -118,18 +118,23 @@ namespace ProjetUnivers
       ::Ogre::ParticleSystem* TestEffect::getUniqueParticleSystem() const
       {
         ::Ogre::SceneManager::MovableObjectIterator iterator = Implementation::Ogre::getManager()->getMovableObjectIterator(::Ogre::ParticleSystemFactory::FACTORY_TYPE_NAME) ;
-        ::Ogre::MovableObject* result = NULL ;
+        ::Ogre::ParticleSystem* result = NULL ;
 
         while (iterator.hasMoreElements())
         {
           if (!result)
-            result = iterator.getNext() ;
+          {
+            result = static_cast< ::Ogre::ParticleSystem* >(iterator.getNext()) ;
+            if (!result->isAttached())
+              // do not 'count' if the element is not attached (because of pooling)
+              result = NULL ;
+          }
           else
             // several results
             return NULL ;
         }
 
-        return static_cast< ::Ogre::ParticleSystem* >(result) ;
+        return result ;
       }
 
       void TestEffect::spaceDust()

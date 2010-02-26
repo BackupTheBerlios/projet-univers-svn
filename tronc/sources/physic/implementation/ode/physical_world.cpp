@@ -112,8 +112,9 @@ namespace ProjetUnivers
                                              dGeomID space2)
         {
           // due to organization space1 and space2 are spaces.
-
           CHECK(dGeomIsSpace(space1)&&dGeomIsSpace(space2),"PhysicalWorld::onSpaceCollision") ;
+
+          // solid have 2 geoms but they are in the same sub space so
 
           dSpaceCollide2(space1,
                          space2,
@@ -129,7 +130,40 @@ namespace ProjetUnivers
           CHECK(!dGeomIsSpace(geometry1)&&!dGeomIsSpace(geometry2),"PhysicalWorld::onGeometryCollision") ;
 
           if (! Collideable::canCollide(geometry1,geometry2))
+          {
+//            std::cout << "cannot collide " ;
+//            unsigned long collision1 = dGeomGetCollideBits(geometry1) ;
+//            switch (collision1)
+//            {
+//            case Collideable::ApproximatedSolid:
+//              std::cout << "ApproximatedSolid" ;
+//              break ;
+//            case Collideable::Laser:
+//              std::cout << "Laser" ;
+//              break ;
+//            case Collideable::Solid:
+//              std::cout << "Solid" ;
+//              break ;
+//            }
+//            std::cout << " against " ;
+//            unsigned long collision2 = dGeomGetCollideBits(geometry2) ;
+//            switch (collision2)
+//            {
+//            case Collideable::ApproximatedSolid:
+//              std::cout << "ApproximatedSolid" ;
+//              break ;
+//            case Collideable::Laser:
+//              std::cout << "Laser" ;
+//              break ;
+//            case Collideable::Solid:
+//              std::cout << "Solid" ;
+//              break ;
+//            }
+//
+//            std::cout << std::endl ;
+
             return ;
+          }
 
           // parameter is in fact a world.
           PhysicalWorld* world = static_cast<PhysicalWorld*>(parameter) ;

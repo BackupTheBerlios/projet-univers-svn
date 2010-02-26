@@ -38,7 +38,7 @@
     </Detector>
 
     <Massive>
-      <Mass value="1" unit="Kilogram"/>
+      <Mass value="1000" unit="Kilogram"/>
     </Massive>
     
     <Solid>

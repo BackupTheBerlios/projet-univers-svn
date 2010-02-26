@@ -575,7 +575,7 @@ namespace ProjetUnivers {
       Kernel::Object* ship = parent->createObject() ;
       ship->addTrait(new Positioned()) ;
       ship->addTrait(new Oriented()) ;
-      ship->addTrait(new Massive(Mass::Kilogram(Kernel::Parameters::getValue<float>("Model","ShipMass",1)))) ;
+      ship->addTrait(new Massive(Mass::Kilogram(Kernel::Parameters::getValue<float>("Model","ShipMass",1000)))) ;
       ship->addTrait(new Mobile()) ;
       ship->addTrait(new Solid(Mesh("default_ship.mesh"))) ;
       ship->addTrait(new Computer()) ;

@@ -178,7 +178,7 @@ namespace ProjetUnivers
           }
 
           dMass ode_mass ;
-          dMassSetSphereTotal(&ode_mass,1,1) ;
+          dMassSetSphereTotal(&ode_mass,mass.Kilogram()/1000,1) ;
           m_body->setMass(&ode_mass) ;
         }
 

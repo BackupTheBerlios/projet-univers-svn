@@ -97,6 +97,11 @@ namespace ProjetUnivers
                                                 const Model::Position& relative_position = Model::Position(),
                                                 const Model::Orientation& relative_orientation = Model::Orientation()) ;
 
+
+        ::Ogre::ParticleSystem* getExplosion() ;
+        void releaseExplosion(::Ogre::ParticleSystem* system) ;
+        void clearExplosions() ;
+
         /*!
           Ogre coordinates are coded on 32 bits, thus half the precision
           is between 0 and 1.

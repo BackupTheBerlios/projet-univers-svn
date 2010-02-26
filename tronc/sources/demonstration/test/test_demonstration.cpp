@@ -55,7 +55,7 @@ main( int argc, char* argv[] )
   runner.addTest( registry.makeTest() );
 
   // Define the file that will store the XML output.
-  std::ofstream outputFile("tests_ai.xml");
+  std::ofstream outputFile("tests_demonstration.xml");
 
   CppUnit::MultiOutputter* outputter = new CppUnit::MultiOutputter() ;
   outputter->add(new CppUnit::CompilerOutputter(&runner.result(),std::cerr,"test/%f:%l: ")) ;
@@ -65,8 +65,9 @@ main( int argc, char* argv[] )
   // Run the test.
   bool wasSucessful = runner.run( "" );
 
+  ProjetUnivers::Sound::terminate() ;
+  ProjetUnivers::Display::terminate() ;
   ProjetUnivers::Kernel::Log::close() ;
-
 
   // Return error code 1 if the one of test failed.
   return wasSucessful ? 0 : 1;

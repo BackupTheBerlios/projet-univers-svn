@@ -102,6 +102,7 @@ namespace ProjetUnivers
           if (m_manager)
           {
             m_manager->clearScene() ;
+            clearExplosions() ;
           }
 
           InternalMessage("FPS","FPS = " + Kernel::toString(getWindow()->getAverageFPS())) ;

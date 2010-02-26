@@ -1612,17 +1612,32 @@
    * AI :
      - corrected pursuit at distance offset, but removed avoid collision
 
+2010-02-26 
+  * demonstration : 
+    - corrected test closing
+    - corrected test xml outputing
+  * All :
+    - mass correction, but still some work
+
 in commit
 --------
        
     
 in progress
 -----------
-
+  
    
 todo
 ----
+
+  * All :
+    - mass correction, but still some work
   
+  * Display : 
+    - ressource caching is not 'clean'; handling of scene manager is not clean 
+      too @see the hack of cleaning the manager must clean the caching ressource 
+      list 
+   
   * Model : 
     - try to calculate HasInLineOfSight through ogre ray intersection ?
     - or through same in physics ?

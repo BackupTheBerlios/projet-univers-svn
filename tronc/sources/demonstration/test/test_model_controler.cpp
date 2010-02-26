@@ -151,7 +151,7 @@ namespace ProjetUnivers
         Kernel::Timer timer ;
         Kernel::Timer global_timer ;
 
-        while (global_timer.getSecond() < 30)
+        while (global_timer.getSecond() < 10)
         {
           float seconds = timer.getSecond() ;
           if (seconds > 0)

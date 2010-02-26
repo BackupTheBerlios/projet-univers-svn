@@ -477,7 +477,7 @@ namespace ProjetUnivers
         Kernel::ControlerSet* logic = firing->getModel()->getControlerSet<Model::Implementation::Logic::LogicSystem>() ;
         CPPUNIT_ASSERT(logic) ;
 
-        // in order to avoid ...
+        // in order to avoid collision destruction by Model::Logic
         logic->setTimeStep(0) ;
 
         int number_of_impacts = 0 ;
@@ -538,6 +538,7 @@ namespace ProjetUnivers
         ship2->getTrait<Model::Oriented>()->setOrientation(Model::Orientation(::Ogre::Quaternion(::Ogre::Degree(-90),::Ogre::Vector3::UNIT_Y))) ;
 
         ship2->getChild<Model::Laser>()->setShotTimeDelay(Model::Duration::Second(0.1)) ;
+//        ship2->getChild<Model::Laser>()->setLaserSpeedMeterPerSecond(600) ;
 
         // no meaning if we do not have impacts
         CPPUNIT_ASSERT_EQUAL(1,fireAndSimulate(ship2,ship,system)) ;

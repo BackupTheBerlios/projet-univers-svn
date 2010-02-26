@@ -61,8 +61,7 @@ namespace ProjetUnivers
             getViewPoint()->setRootObject(getObject()) ;
           }
 
-          m_particle = this->getViewPoint()->getManager()
-                           ->createParticleSystem(Utility::getUniqueName(),"PU/explosion") ;
+          m_particle = getExplosion() ;
           m_particle->setKeepParticlesInLocalSpace(true) ;
 
           // reset scale factor
@@ -80,6 +79,8 @@ namespace ProjetUnivers
 
           if (getObject()->getAncestor<Model::Positioned>())
           {
+            m_node->detachObject(m_particle) ;
+            releaseExplosion(m_particle) ;
             destroyNode(m_node) ;
           }
 

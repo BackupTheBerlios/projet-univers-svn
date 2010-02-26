@@ -50,6 +50,9 @@ namespace ProjetUnivers
         {
           InternalMessage("Physic","ODE::LaserBeam::onInit") ;
           onInitCollideable() ;
+//          dMass ode_mass ;
+//          dMassSetSphereTotal(&ode_mass,0.01,1) ;
+//          BaseControler::getControler<Implementation::Ode::PhysicalObject>()->getBody()->setMass(&ode_mass) ;
         }
 
         void LaserBeam::onClose()

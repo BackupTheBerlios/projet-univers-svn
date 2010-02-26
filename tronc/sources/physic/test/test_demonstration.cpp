@@ -400,7 +400,7 @@ namespace ProjetUnivers
         ship->addTrait(new Model::Positioned()) ;
         ship->addTrait(new Model::Oriented()) ;
         ship->addTrait(new Model::Mobile()) ;
-        ship->addTrait(new Model::Massive(Model::Mass::Kilogram(1))) ;
+        ship->addTrait(new Model::Massive(Model::Mass::Kilogram(1000))) ;
 
         CPPUNIT_ASSERT(ship->getTrait<Implementation::PhysicalObject>()) ;
         CPPUNIT_ASSERT(ship->getTrait<Model::PhysicalWorld>()) ;
@@ -513,7 +513,7 @@ namespace ProjetUnivers
         ship->addTrait(new Model::Positioned()) ;
         ship->addTrait(new Model::Oriented()) ;
         ship->addTrait(new Model::Mobile()) ;
-        ship->addTrait(new Model::Massive(Model::Mass::Kilogram(1))) ;
+        ship->addTrait(new Model::Massive(Model::Mass::Kilogram(1000))) ;
 
         CPPUNIT_ASSERT(ship->getTrait<Model::PhysicalObject>()) ;
         CPPUNIT_ASSERT(ship->getTrait<Model::PhysicalWorld>()) ;

@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007-2009 Mathieu ROGER                                 *
+ *   Copyright (C) 2007-2010 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -110,14 +110,12 @@ namespace ProjetUnivers
           {
             InternalMessage("Display","stopping Ogre..") ;
 
-
             /// @see http://www.ogre3d.org/phpBB2/viewtopic.php?t=35372
             if (window)
             {
               ::Ogre::WindowEventUtilities::_removeRenderWindow(window) ;
               window = NULL ;
             }
-            
             
             if (log_manager)
             {
@@ -192,6 +190,9 @@ namespace ProjetUnivers
         
           // in game head up display
           ::Ogre::Overlay* m_overlay ;
+
+          /// Pool of explosions
+          std::list< ::Ogre::ParticleSystem*> m_explosions ;
 
           /// Manage lifetime of handled effects
           void updateParticles(const float& duration)
@@ -277,7 +278,7 @@ namespace ProjetUnivers
           ConfigFile file ;
           file.load("ressources.cfg") ;
 
-          // On parcours ses sections
+          // for all sections
           ConfigFile::SectionIterator section = file.getSectionIterator();
 
           String nomSection, nomType, nomArchitecture ;
@@ -456,6 +457,36 @@ namespace ProjetUnivers
            }
            node->getCreator()->destroySceneNode(node->getName()) ;
         }
+
+        ::Ogre::ParticleSystem* getExplosion()
+        {
+          if (m_system->m_explosions.empty())
+            return m_system->m_manager->createParticleSystem(Utility::getUniqueName(),"PU/explosion") ;
+
+          ::Ogre::ParticleSystem* result = m_system->m_explosions.back() ;
+          m_system->m_explosions.pop_back() ;
+
+          // restart particle
+          for (unsigned short index = 0 ; index < result->getNumEmitters() ; ++index)
+          {
+            ::Ogre::ParticleEmitter* emitter = result->getEmitter(index) ;
+            emitter->setEnabled(false) ;
+            emitter->setEnabled(true) ;
+          }
+
+          return result ;
+        }
+
+        void releaseExplosion(::Ogre::ParticleSystem* system)
+        {
+          m_system->m_explosions.push_back(system) ;
+        }
+
+        void clearExplosions()
+        {
+          m_system->m_explosions.clear() ;
+        }
+
       }
     }
   }

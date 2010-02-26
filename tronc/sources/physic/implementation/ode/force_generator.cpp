@@ -61,7 +61,7 @@ namespace ProjetUnivers
             float length = force.length() ;
             if (length > Kernel::Parameters::getValue<float>("Physic","Force.MaxAllowed",1000))
             {
-              ErrorMessage("ForceGenerator::prepare() capping torque value") ;
+              ErrorMessage("ForceGenerator::prepare() capping force value") ;
               force /= length ;
             }
 

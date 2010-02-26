@@ -60,6 +60,9 @@ namespace ProjetUnivers {
       /// Set the time between shots.
       void setShotTimeDelay(const Duration&) ;
       
+      /// Set the speed of the laser "bullet".
+      void setLaserSpeedMeterPerSecond(const float&) ;
+
       /// Remove some time to the next shot.
       void removeTimeToNextShot(const Duration&) ;
       
@@ -108,9 +111,11 @@ namespace ProjetUnivers {
       /// Time between shots.
       Duration    m_time_between_shots ;
       
-      
       /// Time remaining to be able to fire.
       Duration    m_time_to_fire ;
+
+      /// @todo use 'true' value
+      float       m_laser_speed_meter_per_second ;
     };
   }
 }
