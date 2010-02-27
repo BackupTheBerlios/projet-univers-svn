@@ -538,7 +538,7 @@ namespace ProjetUnivers
         ship2->getTrait<Model::Oriented>()->setOrientation(Model::Orientation(::Ogre::Quaternion(::Ogre::Degree(-90),::Ogre::Vector3::UNIT_Y))) ;
 
         ship2->getChild<Model::Laser>()->setShotTimeDelay(Model::Duration::Second(0.1)) ;
-//        ship2->getChild<Model::Laser>()->setLaserSpeedMeterPerSecond(600) ;
+        ship2->getChild<Model::Laser>()->setLaserSpeedMeterPerSecond(300) ;
 
         // no meaning if we do not have impacts
         CPPUNIT_ASSERT_EQUAL(1,fireAndSimulate(ship2,ship,system)) ;

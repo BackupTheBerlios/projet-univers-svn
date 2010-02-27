@@ -1619,6 +1619,11 @@
   * All :
     - mass correction, but still some work
 
+2010-02-27 
+  * Physic :
+    - 'corrected' collision test fail on windows. Too high laser speed go 
+      through 
+
 in commit
 --------
        

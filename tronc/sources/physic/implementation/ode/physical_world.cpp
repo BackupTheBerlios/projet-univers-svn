@@ -161,7 +161,6 @@ namespace ProjetUnivers
 //            }
 //
 //            std::cout << std::endl ;
-
             return ;
           }
 
