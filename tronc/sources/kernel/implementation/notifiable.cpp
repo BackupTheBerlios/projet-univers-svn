@@ -19,7 +19,6 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include <kernel/exception_kernel.h>
-#include <kernel/log.h>
 #include <kernel/meta.h>
 
 #include <kernel/notifiable.h>
@@ -45,7 +44,8 @@ namespace ProjetUnivers
     }
 
     Notifiable::Notifiable()
-    : m_updated_this_round(false)
+    : m_updated_this_round(false),
+      m_number_of_impacted_observers(0)
     {}
 
     void Notifiable::resetUpdatedStatus()
@@ -81,6 +81,9 @@ namespace ProjetUnivers
       if (this == notifiable)
         return ;
 
+      // update number of ...
+      onAddObservers(notifiable->getNumberOfImpactedObservers()) ;
+
       m_direct_dependent_notifiables.insert(notifiable) ;
       notifiable->addReverseDependency(this) ;
     }
@@ -89,6 +92,8 @@ namespace ProjetUnivers
     {
       if (this == notifiable)
         return ;
+
+      onAddObservers(-notifiable->getNumberOfImpactedObservers()) ;
 
       _removeDependency(notifiable) ;
       notifiable->removeReverseDependency(this) ;
@@ -104,20 +109,17 @@ namespace ProjetUnivers
     void Notifiable::updateDependents()
     {
       /// @todo : should update notifiables in order depending on dependence graph
-      if (m_updated_this_round || m_direct_dependent_notifiables.empty())
+
+      if (m_updated_this_round || m_direct_dependent_notifiables.empty() || m_number_of_impacted_observers == 0)
         return ;
 
       if (hasObserver())
         m_updated_this_round = true ;
 
-      Log::Block block("Update","Notifiable::updateDependents " + toString()) ;
-
       for(std::set<Notifiable*>::const_iterator notifiable = m_direct_dependent_notifiables.begin() ;
           notifiable != m_direct_dependent_notifiables.end() ;
           ++notifiable)
       {
-        Implementation::Profiler::addNotifyDependent() ;
-        InternalMessage("Update","Updating : " + (*notifiable)->toString()) ;
         (*notifiable)->notify() ;
       }
     }
@@ -146,5 +148,32 @@ namespace ProjetUnivers
 
       return false ;
     }
+
+    void Notifiable::onAddObserver()
+    {
+      onAddObservers(1) ;
+    }
+
+    void Notifiable::onRemoveObserver()
+    {
+      onAddObservers(-1) ;
+    }
+
+    void Notifiable::onAddObservers(const int& number)
+    {
+      m_number_of_impacted_observers += number ;
+
+      for (std::set<Notifiable*>::iterator dependecy = m_reverse_dependencies.begin() ; dependecy != m_reverse_dependencies.end() ; ++dependecy)
+      {
+        (*dependecy)->onAddObservers(number) ;
+      }
+    }
+
+    int Notifiable::getNumberOfImpactedObservers() const
+    {
+      return m_number_of_impacted_observers ;
+    }
+
+
   }
 }

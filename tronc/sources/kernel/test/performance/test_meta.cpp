@@ -27,8 +27,6 @@
 #include <kernel/test/performance/model.h>
 #include <kernel/test/performance/test_meta.h>
 
-CPPUNIT_TEST_SUITE_REGISTRATION(
-  ProjetUnivers::Kernel::Test::Performance::TestMeta) ;
 
 namespace ProjetUnivers 
 {
@@ -38,6 +36,9 @@ namespace ProjetUnivers
     {
       namespace Performance
       {
+
+        CPPUNIT_TEST_SUITE_REGISTRATION(TestMeta) ;
+
         void TestMeta::comparison()
         {
           const unsigned int number = 1000000 ;

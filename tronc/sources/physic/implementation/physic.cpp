@@ -20,8 +20,10 @@
  ***************************************************************************/
 #include <physic/physic.h>
 
-namespace ProjetUnivers {
-  namespace Physic {
+namespace ProjetUnivers
+{
+  namespace Physic
+  {
 
     void start()
     {

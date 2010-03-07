@@ -26,6 +26,8 @@
 
 #include <kernel/test/performance/model.h>
 #include <kernel/test/performance/test_performance_model.h>
+#include <kernel/view_point.h>
+#include <kernel/trait_view.h>
 
 CPPUNIT_TEST_SUITE_REGISTRATION(
   ProjetUnivers::Kernel::Test::Performance::TestPerformanceModel) ;
@@ -159,6 +161,123 @@ namespace ProjetUnivers
             root->destroyTrait(a) ;
           }
         }
+
+        namespace Display
+        {
+
+          class DisplayViewPoint : public ViewPoint
+          {
+          public:
+
+            DisplayViewPoint(Model* model)
+            : ViewPoint(model)
+            {}
+          };
+
+          class DisplaySolid : public TraitView<DisplayedSolid,DisplayViewPoint>
+          {
+          public:
+
+            virtual void onUpdate()
+            {
+              ++m_number_of_update ;
+            }
+
+            static unsigned int m_number_of_update ;
+          };
+
+          unsigned int DisplaySolid::m_number_of_update = 0 ;
+
+          RegisterView(DisplaySolid,DisplayedSolid,DisplayViewPoint) ;
+        }
+
+        void TestPerformanceModel::updateSimpleTrait()
+        {
+          std::auto_ptr<Model> model(new Model()) ;
+
+          Kernel::Object* root = model->createObject() ;
+          Positioned* trait = (Positioned*)root->addTrait(new Positioned()) ;
+
+          const unsigned int number = 1000000 ;
+
+          for(unsigned int i = 1 ; i <= number ; ++i)
+          {
+            trait->change() ;
+          }
+          CPPUNIT_ASSERT_EQUAL(0,trait->getNumberOfImpactedObservers()) ;
+        }
+
+        void TestPerformanceModel::updateTraitWithNoView()
+        {
+          std::auto_ptr<Model> model(new Model()) ;
+          ViewPoint* viewpoint = model->addViewPoint(new Display::DisplayViewPoint(model.get())) ;
+          viewpoint->init() ;
+
+          Kernel::Object* root = model->createObject() ;
+          Positioned* trait = (Positioned*)root->addTrait(new Positioned()) ;
+          Kernel::Object* child = root->createObject() ;
+          child->addTrait(new Positioned()) ;
+          Kernel::Object* grand_child = child->createObject() ;
+          grand_child->addTrait(new Positioned()) ;
+
+          const unsigned int number = 1000000 ;
+
+          for(unsigned int i = 1 ; i <= number ; ++i)
+          {
+            trait->change() ;
+          }
+          CPPUNIT_ASSERT_EQUAL(0,trait->getNumberOfImpactedObservers()) ;
+          std::ofstream out("updateTraitWithNoView.txt") ;
+          out << model->toGraphviz() << std::endl ;
+        }
+
+        void TestPerformanceModel::updateTraitWithView()
+        {
+          std::auto_ptr<Model> model(new Model()) ;
+          ViewPoint* viewpoint = model->addViewPoint(new Display::DisplayViewPoint(model.get())) ;
+          viewpoint->init() ;
+
+          /*
+          Positioned    <-- update
+            ^
+            |
+          Positioned
+            ^
+            |
+          Positioned & Solid    <--- view
+
+          */
+
+          Kernel::Object* root = model->createObject() ;
+          Positioned* trait = (Positioned*)root->addTrait(new Positioned()) ;
+
+          Kernel::Object* child = root->createObject() ;
+          child->addTrait(new Positioned()) ;
+          Kernel::Object* grand_child = child->createObject() ;
+          grand_child->addTrait(new Solid()) ;
+          grand_child->addTrait(new Positioned()) ;
+
+          CPPUNIT_ASSERT(grand_child->getTrait<DisplayedSolid>()) ;
+          CPPUNIT_ASSERT(grand_child->getTrait<DisplayedSolid>()->getView<Display::DisplaySolid>(viewpoint)) ;
+
+
+          Display::DisplaySolid::m_number_of_update = 0 ;
+
+          // update will update all intermediate traits ?
+          const unsigned int number = 1000000 ;
+
+          for(unsigned int i = 1 ; i <= number ; ++i)
+          {
+            trait->change() ;
+          }
+
+          std::ofstream out("updateTraitWithView.txt") ;
+          out << model->toGraphviz() << std::endl ;
+
+          CPPUNIT_ASSERT_EQUAL(number,Display::DisplaySolid::m_number_of_update) ;
+//          CPPUNIT_ASSERT_EQUAL(1,trait->getNumberOfImpactedObservers()) ;
+        }
+
         
       }
     }

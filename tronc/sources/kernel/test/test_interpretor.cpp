@@ -21,8 +21,11 @@
 #include <kernel/trait.h>
 #include <kernel/object.h>
 #include <kernel/model.h>
+#include <kernel/view_point.h>
+#include <kernel/trait_view.h>
 #include <kernel/implementation/interpretor.h>
 #include <kernel/test/test_interpretor.h>
+#include <kernel/deduced_trait.h>
 
 CPPUNIT_TEST_SUITE_REGISTRATION(ProjetUnivers::Kernel::Test::TestInterpretor) ;
 
@@ -36,7 +39,60 @@ namespace ProjetUnivers
       namespace InterpretorModel
       {
         class T1 : public Trait
+        {
+        public:
+
+          void touch()
+          {
+            notify() ;
+          }
+        };
+
+        class ViewPoint1 : public ViewPoint
+        {
+        public:
+          ViewPoint1(Model* model)
+          :ViewPoint(model)
+          {}
+
+        };
+
+        class V1 : public TraitView<T1,ViewPoint1>
+        {
+        public:
+
+          virtual void onUpdate()
+          {
+            ++number_of_update ;
+          }
+
+          static int number_of_update ;
+        };
+
+        RegisterView(V1,T1,ViewPoint1) ;
+
+        int V1::number_of_update ;
+
+        class T2 : public DeducedTrait
         {};
+
+        DeclareDeducedTrait(T2,HasTrait(T1)) ;
+
+        class V2 : public TraitView<T1,ViewPoint1>
+        {
+        public:
+
+          virtual void onUpdate()
+          {
+            ++number_of_update ;
+          }
+
+          static int number_of_update ;
+        };
+
+        RegisterView(V2,T2,ViewPoint1) ;
+
+        int V2::number_of_update ;
       }
 
       void TestInterpretor::addingTraitOnADestroyedObject()
@@ -48,7 +104,6 @@ namespace ProjetUnivers
         Kernel::Object* object = model->createObject() ;
         Kernel::Object* object2 = object->createObject() ;
 
-
         model->startTransaction() ;
 
         object->destroyObject() ;
@@ -58,6 +113,54 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(object2->getTrait<T1>()) ;
 
         model->endTransaction() ;
+      }
+
+      void TestInterpretor::updatingSeveralTimesSameTraitOnlyUpdateOnce()
+      {
+        using namespace InterpretorModel ;
+
+        std::auto_ptr<Model> model(new Model()) ;
+        ViewPoint* viewpoint(model->addViewPoint(new ViewPoint1(model.get()))) ;
+        // init the viewpoint
+        viewpoint->init() ;
+
+        Kernel::Object* object = model->createObject() ;
+        object->addTrait(new T1()) ;
+
+        V1::number_of_update = 0 ;
+
+        model->startTransaction() ;
+
+        object->getTrait<T1>()->touch() ;
+        object->getTrait<T1>()->touch() ;
+
+        model->endTransaction() ;
+
+        CPPUNIT_ASSERT_EQUAL(1,V1::number_of_update) ;
+      }
+
+      void TestInterpretor::updatingSeveralTimesSameTraitOnlyUpdateOnceDeducedTraitViews()
+      {
+        using namespace InterpretorModel ;
+
+        std::auto_ptr<Model> model(new Model()) ;
+        ViewPoint* viewpoint(model->addViewPoint(new ViewPoint1(model.get()))) ;
+        // init the viewpoint
+        viewpoint->init() ;
+
+        Kernel::Object* object = model->createObject() ;
+        object->addTrait(new T1()) ;
+
+        V2::number_of_update = 0 ;
+
+        model->startTransaction() ;
+
+        object->getTrait<T1>()->touch() ;
+        object->getTrait<T1>()->touch() ;
+
+        model->endTransaction() ;
+
+        CPPUNIT_ASSERT_EQUAL(1,V2::number_of_update) ;
       }
       
     }

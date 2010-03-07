@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2010 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -19,11 +19,10 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include <iostream>
-#include <kernel/log.h>
 #include <kernel/object.h>
 #include <kernel/model.h>
 #include <kernel/deduced_trait.h>
-#include <kernel/implementation/profiler.h>
+#include <kernel/implementation/event_listener.h>
 
 namespace ProjetUnivers
 {
@@ -2459,26 +2458,28 @@ namespace ProjetUnivers
 
     void DeducedTrait::notify()
     {
-      Implementation::Profiler::startBlock("Kernel::DeducedTrait::notify") ;
+      notifyStartNotify(this) ;
+
       if (m_updating.find(this) != m_updating.end())
       {
-        InternalMessage("Update","Skipping update trait because already updated") ;
+        // InternalMessage("Update","Skipping update trait because already updated") ;
+        // Skipping update trait because already updated
         return ;
       }
       m_updating.insert(this) ;
       lock() ;
 
-      if (!m_views.empty() || !m_controlers.empty())
-      {
-        Implementation::Profiler::addNotifyDependentWithObserver() ;
-        Implementation::Profiler::addDependentNotified(getObjectTypeIdentifier(this).fullName()) ;
-      }
+//      if (!m_views.empty() || !m_controlers.empty())
+//      {
+//        Implementation::Profiler::addNotifyDependentWithObserver() ;
+//        Implementation::Profiler::addDependentNotified(getObjectTypeIdentifier(this).fullName()) ;
+//      }
 
       _updated() ;
       updateDependents() ;
       unlock() ;
       m_updating.erase(this) ;
-      Implementation::Profiler::endBlock("Kernel::DeducedTrait::notify") ;
+      notifyEndNotify(this) ;
     }
 
   // @}
@@ -2507,9 +2508,7 @@ namespace ProjetUnivers
 
     void DeducedTrait::removeTrait(Object* object,Trait* trait)
     {
-      Implementation::Profiler::startBlock("Kernel::DeducedTrait::removeTrait") ;
       TraitFormula::removeTrait(object,trait) ;
-      Implementation::Profiler::endBlock("Kernel::DeducedTrait::removeTrait") ;
     }
 
     void DeducedTrait::changeParent(Object* object,Object* old_parent)

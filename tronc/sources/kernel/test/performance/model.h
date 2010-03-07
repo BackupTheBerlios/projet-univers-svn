@@ -109,7 +109,26 @@ namespace ProjetUnivers
         class BCD : public DeducedTrait
         {
         };
-        
+
+        /// An example from the field
+        class Positioned : public Trait
+        {
+        public:
+
+          void change()
+          {
+            notify() ;
+          }
+        };
+
+        class RecursivelyPositioned : public DeducedTrait
+        {};
+
+        class Solid : public Trait
+        {};
+
+        class DisplayedSolid : public DeducedTrait
+        {};
       }
     }
   }

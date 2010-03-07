@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2009 Mathieu ROGER                                      *
+ *   Copyright (C) 2006-2010 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,51 +18,59 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#pragma once
-#include <cppunit/extensions/HelperMacros.h>
+#include <kernel/implementation/event_listener.h>
 
 namespace ProjetUnivers
 {
   namespace Kernel
   {
-    namespace Test
+    namespace Implementation
     {
+      std::set<EventListener*> EventListener::m_listeners ;
 
-      /// Tests for the Kernel::Implementation::Interpretor class
-      class TestInterpretor : public CppUnit::TestFixture
+      void EventListener::addListener(EventListener* listener)
       {
-      protected:
-      /*!
-        @name Tests
-      */
-      // @{
+        m_listeners.insert(listener) ;
+      }
 
-        void addingTraitOnADestroyedObject() ;
+      void EventListener::removeListener(EventListener* listener)
+      {
+        m_listeners.erase(listener) ;
+      }
 
-        /// Check an optimization
-        /*!
-        During the same transaction : no need to update several times the same
-        observers
-        */
-        void updatingSeveralTimesSameTraitOnlyUpdateOnce() ;
-        void updatingSeveralTimesSameTraitOnlyUpdateOnceDeducedTraitViews() ;
+      const std::set<EventListener*>& EventListener::getListeners()
+      {
+        return m_listeners ;
+      }
 
-      // @}
-      /*!
-        @name Test registration
-      */
-      // @{
+      EventListener::~EventListener()
+      {
+        removeListener(this) ;
+      }
 
-        CPPUNIT_TEST_SUITE(TestInterpretor) ;
+      EventListener::EventListener()
+      {}
 
-        CPPUNIT_TEST(addingTraitOnADestroyedObject) ;
-        CPPUNIT_TEST_FAIL(updatingSeveralTimesSameTraitOnlyUpdateOnce) ;
-        CPPUNIT_TEST(updatingSeveralTimesSameTraitOnlyUpdateOnceDeducedTraitViews) ;
-
-        CPPUNIT_TEST_SUITE_END() ;
-
-      // @}
-      };
+      void EventListener::startNotify(const Notifiable*)
+      {}
+      void EventListener::endNotify(const Notifiable*)
+      {}
+      void EventListener::startCreateObject()
+      {}
+      void EventListener::endCreateObject(const Object*)
+      {}
+      void EventListener::startDestroyObject(const Object*)
+      {}
+      void EventListener::endDestroyObject()
+      {}
+      void EventListener::startAddTrait(const Object*,const Trait*)
+      {}
+      void EventListener::endAddTrait(const Object*,const Trait*)
+      {}
+      void EventListener::startDestroyTrait(const Object*,const Trait*)
+      {}
+      void EventListener::endDestroyTrait(const Object*)
+      {}
 
     }
   }

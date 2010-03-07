@@ -49,7 +49,14 @@ namespace ProjetUnivers
           void updateDeducedTrait() ;
           void createDestroyObject() ;
           void addRemoveTrait() ;
-          
+
+          void updateSimpleTrait() ;
+          /// Best case
+          void updateTraitWithNoView() ;
+
+          /// Worst case
+          void updateTraitWithView() ;
+
         // @}
   
   
@@ -62,7 +69,10 @@ namespace ProjetUnivers
           CPPUNIT_TEST(updateDeducedTrait) ;
           CPPUNIT_TEST(createDestroyObject) ;
           CPPUNIT_TEST(addRemoveTrait) ;
-  
+          CPPUNIT_TEST(updateSimpleTrait) ;
+          CPPUNIT_TEST(updateTraitWithNoView) ;
+          CPPUNIT_TEST(updateTraitWithView) ;
+
           CPPUNIT_TEST_SUITE_END() ;
   
         };

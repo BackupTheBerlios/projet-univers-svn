@@ -56,25 +56,36 @@ int main(int argc,char** argv)
   Kernel::Log::init() ;
 
   bool print_profile = false ;
+  bool round_mode = false ;
+  float round_duration = 0.1 ;
 
   try
   {
     TCLAP::CmdLine cmd("Command description message",' ',"1") ;
 
+    // declare options
     TCLAP::SwitchArg profile("p","profile","print profiling information") ;
     cmd.add(profile) ;
+
+    TCLAP::SwitchArg round("r","round","execute simulation in a round by round mode") ;
+    cmd.add(round) ;
+
+    TCLAP::ValueArg<float> rd("d","duration","duration of a round",false,0.1,"float") ;
+    cmd.add(rd) ;
 
     TCLAP::ValueArg<int> number("n","number","number of ships",false,5,"integer") ;
     cmd.add(number) ;
 
-    TCLAP::ValueArg<int> time("t","time","duration in seconds (default 1)",false,1,"integer") ;
+    TCLAP::ValueArg<int> time("t","time","duration in seconds or in round (default 1)",false,1,"integer") ;
     cmd.add(time) ;
 
-
+    // get values
     cmd.parse(argc,argv) ;
     Kernel::Parameters::setValue<float>("Test","numberOfShips",number.getValue()) ;
     Kernel::Parameters::setValue<float>("Test","Duration",time.getValue()) ;
     print_profile = profile.getValue() ;
+    round_mode = round.getValue() ;
+    round_duration = rd.getValue() ;
   }
   catch(...)
   {
@@ -93,28 +104,40 @@ int main(int argc,char** argv)
   model->init() ;
   Model::load("test",model.get()) ;
 
-  int duration = (int)Kernel::Parameters::getValue<float>("Test","Duration",3) ;
-
-  Kernel::Timer timer ;
-  int n = 0 ;
-
-  Kernel::Timer global_timer ;
+  int duration = (int)Kernel::Parameters::getValue<float>("Test","Duration",1) ;
 
   if (print_profile)
     Kernel::Implementation::Profiler::reset() ;
 
-  while (global_timer.getSecond() < duration)
+  int n = 0 ;
+
+  if (round_mode)
   {
-    float seconds = timer.getSecond() ;
-    if (seconds > 0)
+    while (n < duration)
     {
-      timer.reset() ;
-      model->update(seconds) ;
+      model->update(round_duration) ;
       ++n ;
     }
+//    std::cout << model->toGraphviz() ;
+  }
+  else
+  {
+    Kernel::Timer global_timer ;
+    Kernel::Timer timer ;
+
+    while (global_timer.getSecond() < duration)
+    {
+      float seconds = timer.getSecond() ;
+      if (seconds > 0)
+      {
+        timer.reset() ;
+        model->update(seconds) ;
+        ++n ;
+      }
+    }
+    std::cout << "number of frame per second " << (float)n/duration << std::endl ;
   }
 
-  std::cout << "number of frame per second " << (float)n/duration << std::endl ;
 
   if (print_profile)
     Kernel::Implementation::Profiler::print() ;

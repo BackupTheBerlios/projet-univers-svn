@@ -62,7 +62,13 @@ namespace ProjetUnivers
 
     std::string TypeIdentifier::toString() const
     {
-      return m_representation->name() ;
+      std::map<const std::type_info*,std::string>::const_iterator finder =
+          StaticStorage::get()->m_names.find(m_representation) ;
+
+      if (finder != StaticStorage::get()->m_names.end())
+        return finder->second ;
+
+      return StaticStorage::get()->m_names[m_representation] = m_representation->name() ;
     }
 
     bool TypeIdentifier::operator <(const TypeIdentifier& i_type_identifier) const
@@ -119,12 +125,34 @@ namespace ProjetUnivers
       }
     }
 
+    std::string TypeIdentifier::className() const
+    {
+      std::map<const std::type_info*,std::string>::const_iterator finder =
+          StaticStorage::get()->m_class_names.find(m_representation) ;
+
+      if (finder != StaticStorage::get()->m_class_names.end())
+        return finder->second ;
+
+      return StaticStorage::get()->m_class_names[m_representation] = calculateClassName() ;
+    }
+
+    std::string TypeIdentifier::fullName() const
+    {
+      std::map<const std::type_info*,std::string>::const_iterator finder =
+          StaticStorage::get()->m_full_names.find(m_representation) ;
+
+      if (finder != StaticStorage::get()->m_full_names.end())
+        return finder->second ;
+
+      return StaticStorage::get()->m_full_names[m_representation] = calculateFullName() ;
+    }
+
     /*!
       Of the form :
 
       (N{number}{NamespaceName})*{number}{ClassName}E
     */
-    std::string TypeIdentifier::className() const
+    std::string TypeIdentifier::calculateClassName() const
     {
       std::string::size_type position = 0 ;
       std::string name(m_representation->name()) ;
@@ -153,7 +181,7 @@ namespace ProjetUnivers
       return "" ;
     }
 
-    std::string TypeIdentifier::fullName() const
+    std::string TypeIdentifier::calculateFullName() const
     {
       std::string::size_type position = 0 ;
       std::string name(m_representation->name()) ;

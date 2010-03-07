@@ -81,6 +81,9 @@ namespace ProjetUnivers
       /// Return the graphviz name.
       virtual std::string graphvizName() const = 0 ;
 
+      /// Give the total number of observers updated by this.
+      int getNumberOfImpactedObservers() const ;
+
     protected:
 
       /// True if this has view or controller.
@@ -94,7 +97,14 @@ namespace ProjetUnivers
       /// Propagate close on dependent notifiable.
       void closeDependents() const ;
 
+      /// Indicate that an observer has been added.
+      void onAddObserver() ;
+      void onRemoveObserver() ;
+
     private:
+
+      /// Indicate that observers has been added.
+      void onAddObservers(const int&) ;
 
       /// Add a dependent trait.
       void addDependency(Notifiable*) ;
@@ -111,6 +121,9 @@ namespace ProjetUnivers
 
       /// True when already updated this round
       bool m_updated_this_round ;
+
+      /// Number of observers to update.
+      int m_number_of_impacted_observers ;
 
       friend class FormulaOr ;
       friend class IsRelatedFormula ;

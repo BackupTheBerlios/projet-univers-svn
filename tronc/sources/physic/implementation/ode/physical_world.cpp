@@ -313,7 +313,7 @@ namespace ProjetUnivers
 
         void PhysicalWorld::simulate(const float& seconds)
         {
-          InternalMessage("Physic","Physic::PhysicalWorld::simulate " +
+          InternalMessage("Physic","Physic::PhysicalWorld::simulate(" + Kernel::toString(seconds) +") " +
                                    Kernel::toString(getObject()->getIdentifier()) +
                                    " Entering") ;
 

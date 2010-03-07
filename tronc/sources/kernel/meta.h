@@ -81,12 +81,20 @@ namespace ProjetUnivers
 
     private:
 
+      /// gcc typeid name to class name
+      std::string calculateClassName() const ;
+      std::string calculateFullName() const ;
+
       /// For isInstance implementation.
       class StaticStorage
       {
       public:
 
         std::map<TypeIdentifier,boost::function1<bool,Trait*> > m_instance_tests ;
+
+        std::map<const std::type_info*,std::string> m_names ;
+        std::map<const std::type_info*,std::string> m_class_names ;
+        std::map<const std::type_info*,std::string> m_full_names ;
 
         static StaticStorage* get() ;
 

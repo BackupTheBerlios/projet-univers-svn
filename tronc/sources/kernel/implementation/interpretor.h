@@ -66,9 +66,6 @@ namespace ProjetUnivers
 
         virtual ~Interpretor() ;
 
-        /// Prints the operations remaining in @c module.
-        std::string toString(const char* module) const ;
-
       protected:
 
         Interpretor() ;

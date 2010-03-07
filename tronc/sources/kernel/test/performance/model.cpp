@@ -33,6 +33,13 @@ namespace ProjetUnivers
         DeclareDeducedTrait(EFGH,And(HasTrait(E),HasTrait(F),HasTrait(G),HasTrait(H))) ;
         DeclareDeducedTrait(AEG,And(HasTrait(A),HasTrait(E),HasTrait(G))) ;
         DeclareDeducedTrait(BCD,And(HasTrait(B),HasTrait(C),HasTrait(D))) ;
+
+        DeclareDeducedTrait(RecursivelyPositioned,Or(HasTrait(Positioned),
+                                                     HasAncestor(HasTrait(RecursivelyPositioned)))) ;
+
+        DeclareDeducedTrait(DisplayedSolid,And(HasTrait(Solid),
+                                               HasTrait(RecursivelyPositioned))) ;
+
       }
     }
   }

@@ -20,10 +20,10 @@
  ***************************************************************************/
 #include <kernel/view_point.h>
 #include <kernel/controler_set.h>
-#include <kernel/relation.h>
 #include <kernel/deduced_trait.h>
 #include <kernel/reader.h>
-#include <kernel/implementation/profiler.h>
+#include <kernel/implementation/event_listener.h>
+#include <kernel/relation.h>
 
 namespace ProjetUnivers
 {
@@ -246,10 +246,10 @@ namespace ProjetUnivers
 
     void Relation::notify()
     {
-      Implementation::Profiler::startBlock("Kernel::Relation::notify") ;
+      notifyStartNotify(this) ;
       getObjectFrom()->getModel()->update(*this) ;
       DeducedRelation::updateRelation(*this) ;
-      Implementation::Profiler::endBlock("Kernel::Relation::notify") ;
+      notifyEndNotify(this) ;
     }
 
     void Relation::_close()

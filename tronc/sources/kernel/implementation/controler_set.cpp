@@ -171,16 +171,12 @@ namespace ProjetUnivers
 
       for(std::list<BaseControler*>::iterator controller = m_controllers.begin() ; controller != m_controllers.end() ; ++controller)
       {
-        Implementation::Profiler::startBlock(getObjectTypeIdentifier(*controller).fullName() + "::prepare()") ;
         (*controller)->prepare() ;
-        Implementation::Profiler::endBlock() ;
       }
 
       for(std::list<BaseControler*>::iterator controller = m_controllers.begin() ; controller != m_controllers.end() ; ++controller)
       {
-        Implementation::Profiler::startBlock(getObjectTypeIdentifier(*controller).fullName() + "::simulate()") ;
         (*controller)->simulate(seconds) ;
-        Implementation::Profiler::endBlock() ;
       }
 
       afterSimulation(seconds) ;
@@ -330,8 +326,6 @@ namespace ProjetUnivers
 
     void ControlerSet::addControler(BaseControler* controler)
     {
-      std::string debug = " " + getObjectTypeIdentifier(controler).fullName() ;
-
       m_controllers.push_back(controler) ;
     }
 

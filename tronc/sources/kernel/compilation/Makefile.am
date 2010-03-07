@@ -14,6 +14,7 @@ $(SOURCES)/kernel/implementation/command_delegator.cpp \
 $(SOURCES)/kernel/implementation/controler.cpp \
 $(SOURCES)/kernel/implementation/controler_set.cpp \
 $(SOURCES)/kernel/implementation/cppunit_multi_outputter.cpp \
+$(SOURCES)/kernel/implementation/event_listener.cpp \
 $(SOURCES)/kernel/implementation/exception.cpp \
 $(SOURCES)/kernel/implementation/exception_kernel.cpp \
 $(SOURCES)/kernel/implementation/deduced_trait.cpp \

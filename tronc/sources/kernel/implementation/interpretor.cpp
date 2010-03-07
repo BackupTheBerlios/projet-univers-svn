@@ -24,8 +24,6 @@
 #include <kernel/object.h>
 #include <kernel/implementation/operation.h>
 #include <kernel/implementation/interpretor.h>
-#include <kernel/timer.h>
-#include <kernel/implementation/profiler.h>
 
 namespace ProjetUnivers
 {
@@ -59,7 +57,6 @@ namespace ProjetUnivers
 
       void Interpretor::destroyTraits()
       {
-        Profiler::startBlock("Kernel::Interpreter::destroyTraits()") ;
         m_destroying_traits = true ;
         for(std::set<Trait*>::iterator trait = m_traits_to_destroy.begin() ; trait != m_traits_to_destroy.end() ; ++trait)
         {
@@ -68,12 +65,10 @@ namespace ProjetUnivers
         }
         m_traits_to_destroy.clear() ;
         m_destroying_traits = false ;
-        Profiler::endBlock("Kernel::Interpreter::destroyTraits()") ;
       }
 
       void Interpretor::destroyObjects()
       {
-        Profiler::startBlock("Kernel::Interpreter::destroyObjects()") ;
         for(std::list<ObjectReference>::const_iterator object = m_objects_to_destroy.begin() ; object != m_objects_to_destroy.end() ; ++object)
         {
           if (*object)
@@ -99,12 +94,10 @@ namespace ProjetUnivers
           }
         }
         m_objects_to_destroy.clear() ;
-        Profiler::endBlock("Kernel::Interpreter::destroyObjects()") ;
       }
 
       void Interpretor::destroyRelations()
       {
-        Profiler::startBlock("Kernel::Interpreter::destroyRelations()") ;
         for(std::set<Relation>::iterator relation = m_relation_to_destroy.begin() ; relation != m_relation_to_destroy.end() ; ++relation)
         {
           Model* model_from = relation->getObjectFrom()?relation->getObjectFrom()->getModel():NULL ;
@@ -116,7 +109,6 @@ namespace ProjetUnivers
         }
 
         m_relation_to_destroy.clear() ;
-        Profiler::endBlock("Kernel::Interpreter::destroyRelations()") ;
       }
 
       void Interpretor::endTransaction()
@@ -137,10 +129,7 @@ namespace ProjetUnivers
               Operation operation(m_operations.front()) ;
               m_performed_operations.push_back(operation) ;
               m_operations.pop_front() ;
-
-              Profiler::startBlock(operation.userMethodName()) ;
               operation.execute() ;
-              Profiler::endBlock() ;
             }
 
             destroyTraits() ;
@@ -156,7 +145,7 @@ namespace ProjetUnivers
 
             for(std::list<Operation>::iterator operation = m_operations.begin() ; operation != m_operations.end() ; ++operation)
             {
-              ErrorMessage("After object destroy remains " + operation->toString()) ;
+              // ErrorMessage("After object destroy remains " + operation->toString()) ;
             }
           }
           m_is_finishing = false ;
@@ -219,29 +208,6 @@ namespace ProjetUnivers
       {
         m_relation_to_destroy.erase(relation) ;
       }
-
-      std::string Interpretor::toString(const char* module) const
-      {
-        std::string result("[Performed] :") ;
-
-        for(std::list<Operation>::const_iterator operation = m_performed_operations.begin() ; operation != m_performed_operations.end() ; ++operation)
-        {
-          std::string operation_string(operation->toString()) ;
-          if (operation_string.find(module) != std::string::npos)
-            result = result + operation_string + "," ;
-        }
-
-        result += "  [Remaining]  " ;
-        for(std::list<Operation>::const_iterator operation = m_operations.begin() ; operation != m_operations.end() ; ++operation)
-        {
-          std::string operation_string(operation->toString()) ;
-          if (operation_string.find(module) != std::string::npos)
-            result = result + operation_string + "," ;
-        }
-
-        return result ;
-      }
-
 
     }
   }

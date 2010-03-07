@@ -35,8 +35,10 @@
 #include <kernel/controler_set.h>
 #include <kernel/base_relation_view.h>
 #include <kernel/base_relation_controler.h>
-#include <kernel/model.h>
 #include <kernel/implementation/profiler.h>
+#include <kernel/implementation/event_listener.h>
+
+#include <kernel/model.h>
 
 namespace ProjetUnivers
 {
@@ -59,8 +61,8 @@ namespace ProjetUnivers
 
     Object* Model::createObject()
     {
-      Implementation::Profiler::startBlock("Kernel::Model::createObject") ;
-      Log::Block temp("Structure","createObject (root)") ;
+      notifyStartCreateObject() ;
+
       m_statistics.addObject() ;
       Object* result = new Object(this) ;
       m_objects.insert(result) ;
@@ -68,14 +70,16 @@ namespace ProjetUnivers
       startTransaction() ;
       DeducedTrait::evaluateInitial(result) ;
       endTransaction() ;
-      Implementation::Profiler::endBlock("Kernel::Model::createObject") ;
+
+      notifyEndCreateObject(result) ;
+
       return result ;
     }
 
     Object* Model::createObject(Object* parent)
     {
-      Implementation::Profiler::startBlock("Kernel::Model::createObject") ;
-      Log::Block temp("Structure","createObject(child)") ;
+      notifyStartCreateObject() ;
+
       m_statistics.addObject() ;
       Object* result = new Object(this) ;
       if (parent->m_deleting)
@@ -91,21 +95,23 @@ namespace ProjetUnivers
       startTransaction() ;
       DeducedTrait::evaluateInitial(result) ;
       endTransaction() ;
-      Implementation::Profiler::endBlock("Kernel::Model::createObject") ;
+
+      notifyEndCreateObject(result) ;
+
       return result ;
     }
 
     void Model::destroyObject(Object* object)
     {
-      Implementation::Profiler::startBlock("Kernel::Model::destroyObject") ;
-      Log::Block temp("Structure","destroyObject") ;
+      notifyStartDestroyObject(object) ;
+
       m_statistics.removeObject() ;
 
       object->m_deleting = true ;
 
       if (m_destroying)
       {
-        Implementation::Profiler::endBlock("Kernel::Model::destroyObject") ;
+        notifyEndDestroyObject() ;
         return ;
       }
       startTransaction() ;
@@ -116,7 +122,7 @@ namespace ProjetUnivers
       removeRelations(object) ;
 
       endTransaction() ;
-      Implementation::Profiler::endBlock("Kernel::Model::destroyObject") ;
+      notifyEndDestroyObject() ;
     }
 
     void Model::_removeObjectIdentifier(const int& identifier)
@@ -158,8 +164,7 @@ namespace ProjetUnivers
     Trait* Model::addTrait(Object* object,
                            Trait* new_trait)
     {
-      Implementation::Profiler::startBlock("Kernel::Model::addTrait") ;
-      Log::Block temp("Structure","addTrait") ;
+      notifyStartAddTrait(object,new_trait) ;
 
       bool deduced = ! new_trait->isPrimitive() ;
 
@@ -172,17 +177,15 @@ namespace ProjetUnivers
       else
         m_statistics.addPrimitiveTrait() ;
 
-      Implementation::Profiler::endBlock("Kernel::Model::addTrait") ;
+      notifyEndAddTrait(object,new_trait) ;
+
       return new_trait ;
     }
 
     void Model::destroyTrait(Object* object,
                             Trait* trait)
     {
-      Implementation::Profiler::startBlock("Kernel::Model::destroyTrait") ;
-      std::string trait_name(getObjectTypeIdentifier(trait).fullName()) ;
-
-      Log::Block temp("Structure","destroyTrait" + trait_name) ;
+      notifyStartDestroyTrait(object,trait) ;
 
       DeducedTrait* deduced = dynamic_cast<DeducedTrait*>(trait) ;
       if (deduced)
@@ -193,7 +196,8 @@ namespace ProjetUnivers
       startTransaction() ;
       object->_remove(trait) ;
       endTransaction() ;
-      Implementation::Profiler::endBlock("Kernel::Model::destroyTrait") ;
+
+      notifyEndDestroyTrait(object) ;
     }
 
     Model::~Model()
@@ -510,9 +514,7 @@ namespace ProjetUnivers
           viewpoint != viewpoints.end() ;
           ++viewpoint)
       {
-        Implementation::Profiler::startBlock(getObjectTypeIdentifier(*viewpoint).fullName() + "::update()") ;
         (*viewpoint)->update(seconds) ;
-        Implementation::Profiler::endBlock() ;
       }
       Implementation::Profiler::endBlock("Kernel::Model::update update viewpoints") ;
       Implementation::Profiler::endBlock("Kernel::Model::update") ;
@@ -657,8 +659,6 @@ namespace ProjetUnivers
 
     void Model::_internalDestroyRelation(const Relation& relation)
     {
-      m_canonical_relations.erase(relation) ;
-
       int& counting = m_pair_reference_counting[relation] ;
       --counting ;
 
@@ -669,6 +669,8 @@ namespace ProjetUnivers
       }
       destroyRelationView(relation) ;
       destroyRelationControler(relation) ;
+
+      m_canonical_relations.erase(relation) ;
     }
 
     void Model::removeRelations(Object* object)
@@ -789,6 +791,7 @@ namespace ProjetUnivers
       m_relation_views[relation].insert(view) ;
       view->_setRelation(relation) ;
       view->_setViewPoint(viewpoint) ;
+      getCanonical(relation)->onAddObserver() ;
     }
 
     void Model::destroyRelationView(const Relation& relation)
@@ -796,6 +799,7 @@ namespace ProjetUnivers
       for(std::set<BaseRelationView*>::iterator view = m_relation_views[relation].begin() ; view != m_relation_views[relation].end() ; ++view)
       {
         delete *view ;
+        getCanonical(relation)->onRemoveObserver() ;
       }
       m_relation_views.erase(relation) ;
     }
@@ -807,6 +811,7 @@ namespace ProjetUnivers
       m_relation_controlers[relation].insert(controler) ;
       controler->_setRelation(relation) ;
       controler->_setControlerSet(controler_set) ;
+      getCanonical(relation)->onAddObserver() ;
     }
 
     void Model::destroyRelationControler(const Relation& relation)
@@ -814,6 +819,7 @@ namespace ProjetUnivers
       for(std::set<BaseRelationControler*>::iterator controler = m_relation_controlers[relation].begin() ; controler != m_relation_controlers[relation].end() ; ++controler)
       {
         delete *controler ;
+        getCanonical(relation)->onRemoveObserver() ;
       }
       m_relation_controlers.erase(relation) ;
     }

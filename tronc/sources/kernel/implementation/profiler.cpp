@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2010 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -66,7 +66,6 @@ namespace ProjetUnivers
 
           return current ;
         }
-
       }
 
       void Profiler::endBlock(const std::string&)
@@ -141,6 +140,7 @@ namespace ProjetUnivers
         m_openned_blocks.clear() ;
         m_maximum_stack = 0 ;
         m_activated = true ;
+        m_notify_statistics.clear() ;
       }
 
       void Profiler::print()
@@ -162,7 +162,7 @@ namespace ProjetUnivers
                     << statistic->second.m_number_of_notify << "\t"
                     << statistic->second.m_number_of_updated_observers << "\t"
                     << statistic->second.m_number_of_depending_notify << "\t"
-                    << statistic->second.m_number_of_depending_with_observers ;
+                    << statistic->second.m_number_of_depending_with_observers << "\t" ;
 
           for(std::set<std::string>::iterator dependent = statistic->second.m_dependents.begin() ; dependent != statistic->second.m_dependents.end() ; ++dependent)
 

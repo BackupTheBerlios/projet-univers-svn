@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2010 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -23,6 +23,7 @@
 #include <kernel/log.h>
 #include <kernel/string.h>
 #include <kernel/exception_kernel.h>
+#include <kernel/implementation/event_listener.h>
 
 #include <kernel/base_controler.h>
 #include <kernel/controler_set.h>
@@ -95,11 +96,13 @@ namespace ProjetUnivers
     void Trait::addView(ViewPoint* viewpoint,BaseTraitView* view)
     {
       m_views.insert(std::pair<ViewPoint*,BaseTraitView*>(viewpoint,view)) ;
+      onAddObserver() ;
     }
 
     void Trait::removeView(ViewPoint* viewpoint)
     {
       m_views.erase(viewpoint) ;
+      onRemoveObserver() ;
     }
 
     void Trait::_remove_view(ViewPoint* i_viewpoint,BaseTraitView* i_view)
@@ -117,6 +120,7 @@ namespace ProjetUnivers
         if (finder->second == i_view)
         {
           m_views.erase(finder) ;
+          onRemoveObserver() ;
           return ;
         }
         ++finder ;
@@ -138,6 +142,7 @@ namespace ProjetUnivers
         if (finder->second == i_controler)
         {
           m_controlers.erase(finder) ;
+          onRemoveObserver() ;
           return ;
         }
         ++finder ;
@@ -191,6 +196,7 @@ namespace ProjetUnivers
               view->setViewPoint(i_viewpoint) ;
               m_views.insert(std::pair<ViewPoint*,BaseTraitView*>(
                               i_viewpoint,view)) ;
+              onAddObserver() ;
             }
             ++finder ;
           }
@@ -232,6 +238,7 @@ namespace ProjetUnivers
               controler->setControlerSet(i_controler_set) ;
               m_controlers.insert(std::pair<ControlerSet*,BaseControler*>(
                                      i_controler_set,controler)) ;
+              onAddObserver() ;
             }
             ++finder ;
           }
@@ -461,7 +468,8 @@ namespace ProjetUnivers
 
     void Trait::notify()
     {
-      Implementation::Profiler::startBlock("Kernel::Trait::notify " + getObjectTypeIdentifier(this).fullName()) ;
+      notifyStartNotify(this) ;
+
       lock() ;
       if (getObject() && getObject()->getModel())
         getObject()->getModel()->startTransaction() ;
@@ -479,12 +487,10 @@ namespace ProjetUnivers
         m_is_updating = true ;
       }
 
-      Implementation::Profiler::enterNotify(getObjectTypeIdentifier(this).fullName()) ;
       m_latest_updated_trait.push(getObjectTypeIdentifier(this)) ;
       _updated() ;
       updateDependents() ;
       m_latest_updated_trait.pop() ;
-      Implementation::Profiler::leaveNotify() ;
 
       if (remove_update)
       {
@@ -494,7 +500,8 @@ namespace ProjetUnivers
       if (getObject() && getObject()->getModel())
         getObject()->getModel()->endTransaction() ;
       unlock() ;
-      Implementation::Profiler::endBlock("Kernel::Trait::notify") ;
+
+      notifyEndNotify(this) ;
     }
 
     bool Trait::hasObserver() const

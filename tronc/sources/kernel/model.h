@@ -283,6 +283,7 @@ namespace ProjetUnivers
       /// Destroy the relation's views
       void destroyRelationView(const Relation&) ;
 
+      /// True if relation has observer
       bool hasObserver(const Relation&) ;
 
       /// Storage for relation controlers.
