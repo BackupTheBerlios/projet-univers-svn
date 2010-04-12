@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2009 Mathieu ROGER                                      *
+ *   Copyright (C) 2006-2010 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -19,54 +19,66 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #pragma once
-#include <cppunit/extensions/HelperMacros.h>
+
+#include <vector>
+#include <kernel/implementation/event_listener.h>
 
 namespace ProjetUnivers
 {
   namespace Kernel
   {
-    namespace Test
+    namespace Implementation
     {
 
-      /// Tests for the Kernel::Implementation::Interpretor class
-      class TestInterpretor : public CppUnit::TestFixture
+      /// A debugger.
+      class Debugger : public EventListener
       {
-      protected:
+      public:
+
+        Debugger() ;
+
       /*!
-        @name Tests
+      @name Call back methods
       */
-      // @{
+      //@{
 
-        void addingTraitOnADestroyedObject() ;
+        /// Called when entering notify
+        virtual void startNotify(const Notifiable*) ;
+        /// Called when leaving notify
+        virtual void endNotify(const Notifiable*) ;
 
-        /// Check an optimization
-        /*!
-        During the same transaction : no need to update several times the same
-        observers
-        */
-        void updatingSeveralTimesSameTraitOnlyUpdateOnce() ;
-        void updatingSeveralTimesSameTraitOnlyUpdateOnceDeducedTraitViews() ;
+        /// Called when entering createObject
+        virtual void startCreateObject() ;
+        /// Called when leaving createObject
+        virtual void endCreateObject(const Object* created_object) ;
 
-        void removedTraitsAreAccessibleUntilEndOfTransaction() ;
+        /// Called when entering destroyObject
+        virtual void startDestroyObject(const Object* destroyed_object) ;
+        /// Called when leaving destroyObject
+        virtual void endDestroyObject() ;
 
-      // @}
-      /*!
-        @name Test registration
-      */
-      // @{
+        /// Called when entering addTrait
+        virtual void startAddTrait(const Object*,const Trait* added_trait) ;
+        /// Called when leaving addTrait
+        virtual void endAddTrait(const Object*,const Trait* added_trait) ;
 
-        CPPUNIT_TEST_SUITE(TestInterpretor) ;
+        /// Called when entering destroyTrait
+        virtual void startDestroyTrait(const Object*,const Trait* destroyed_trait) ;
+        /// Called when leaving destroyTrait
+        virtual void endDestroyTrait(const Object*) ;
 
-        CPPUNIT_TEST(addingTraitOnADestroyedObject) ;
-        CPPUNIT_TEST_FAIL(updatingSeveralTimesSameTraitOnlyUpdateOnce) ;
-        CPPUNIT_TEST(updatingSeveralTimesSameTraitOnlyUpdateOnceDeducedTraitViews) ;
-        CPPUNIT_TEST(removedTraitsAreAccessibleUntilEndOfTransaction) ;
+      //@}
+      private:
 
-        CPPUNIT_TEST_SUITE_END() ;
+        /// Debug version for object
+        struct _Object
+        {
+          int identifier ;
+        };
 
-      // @}
+        std::vector<_Object> objects ;
+
       };
-
     }
   }
 }

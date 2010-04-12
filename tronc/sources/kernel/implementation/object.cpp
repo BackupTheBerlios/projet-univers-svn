@@ -235,12 +235,11 @@ namespace ProjetUnivers
     {
     }
 
-    void Object::_add(Trait* trait)
+    void Object::_addPrimitiveTrait(Trait* trait)
     {
-      CHECK(trait,"Kernel::_add(Trait*) no trait") ;
-      TypeIdentifier trait_name(getObjectTypeIdentifier(trait)) ;
+      const TypeIdentifier& trait_name(getObjectTypeIdentifier(trait)) ;
 
-      if (_getTraits().find(trait_name) !=_getTraits().end())
+      if (_getPrimitiveTrait(trait_name))
       {
         // already have
         delete trait ;
@@ -253,7 +252,8 @@ namespace ProjetUnivers
 
       trait->m_object = this ;
 
-      _getTraits()[trait_name] = trait ;
+      _getTraits().insert(trait) ;
+      m_primitive_traits[trait_name] = trait ;
 
       // hope deleting objects wont need it
       if (isDeleting())
@@ -264,12 +264,43 @@ namespace ProjetUnivers
       {
         trait->_create_views() ;
         trait->_create_controlers() ;
-
         trait->_init() ;
-
         DeducedTrait::addTrait(this,trait) ;
       }
+    }
 
+    void Object::_addDeducedTrait(DeducedTrait* trait)
+    {
+      const TypeIdentifier& trait_name(getObjectTypeIdentifier(trait)) ;
+
+      if (_getDeducedTrait(trait_name))
+      {
+        // already have
+        delete trait ;
+
+        if (!isDeleting())
+          // if we have marked the trait for destruction, undo it
+          getModel()->removeTraitToDestroy(this,trait_name) ;
+        return ;
+      }
+
+      trait->m_object = this ;
+
+      _getTraits().insert(trait) ;
+      m_deduced_traits[trait_name] = trait ;
+
+      // hope deleting objects wont need it
+      if (isDeleting())
+      {
+        getModel()->recordTraitToDestroy(trait) ;
+      }
+      else
+      {
+        trait->_create_views() ;
+        trait->_create_controlers() ;
+        trait->_init() ;
+        DeducedTrait::addTrait(this,trait) ;
+      }
     }
 
     Object* Object::_add(Object* child)
@@ -311,10 +342,8 @@ namespace ProjetUnivers
       return i_child ;
     }
 
-    void Object::_remove(const TypeIdentifier& i_trait_name)
+    void Object::_removePrimitiveTrait(Trait* trait)
     {
-      Trait* trait = _getTraits()[i_trait_name] ;
-
       /*
       should be before closing because closing local views/controlers
       because views/controlers on deduced trait including the current trait
@@ -325,26 +354,38 @@ namespace ProjetUnivers
       getModel()->recordTraitToDestroy(trait) ;
     }
 
-    void Object::_remove(Trait* i_trait)
+    void Object::_removeDeducedTrait(const TypeIdentifier& trait_name)
     {
-      TypeIdentifier trait_name(getObjectTypeIdentifier(i_trait)) ;
-      _remove(trait_name) ;
+      Trait* trait = _getDeducedTrait(trait_name) ;
+      /*
+      should be before closing because closing local views/controlers
+      because views/controlers on deduced trait including the current trait
+      would depend on local views.
+      */
+      DeducedTrait::removeTrait(this,trait) ;
+      trait->_close() ;
+      getModel()->recordTraitToDestroy(trait) ;
     }
 
-    void Object::_detach(const TypeIdentifier& trait_name)
+    void Object::_detach(Trait* trait)
     {
       if (!_getTraits().empty())
-        _getTraits().erase(trait_name) ;
+      {
+        const TypeIdentifier& trait_name = getObjectTypeIdentifier(trait) ;
+        m_primitive_traits.erase(trait_name) ;
+        m_deduced_traits.erase(trait_name) ;
+        _getTraits().erase(trait) ;
+      }
     }
 
     Object::~Object()
     {
       m_deleting = true ;
-      for(std::map<TypeIdentifier, Trait*>::iterator trait = _getTraits().begin() ;
+      for(std::set<Trait*>::iterator trait = _getTraits().begin() ;
           trait != _getTraits().end() ;
           ++trait)
       {
-        delete trait->second ;
+        delete *trait ;
       }
 
       for(std::set<Object*>::iterator child = children.begin() ;
@@ -363,11 +404,11 @@ namespace ProjetUnivers
       if (!mayInit())
         return ;
 
-      for(std::map<TypeIdentifier, Trait*>::iterator trait = _getTraits().begin() ;
+      for(std::set<Trait*>::iterator trait = _getTraits().begin() ;
           trait != _getTraits().end() ;
           ++trait)
       {
-        trait->second->_init() ;
+        (*trait)->_init() ;
       }
 
       for(std::set<Object*>::iterator child = children.begin() ;
@@ -385,11 +426,11 @@ namespace ProjetUnivers
 
       if (i_viewpoint->isVisible(this))
       {
-        for(std::map<TypeIdentifier, Trait*>::iterator trait = _getTraits().begin() ;
+        for(std::set<Trait*>::iterator trait = _getTraits().begin() ;
             trait != _getTraits().end() ;
             ++trait)
         {
-          trait->second->_init(i_viewpoint) ;
+          (*trait)->_init(i_viewpoint) ;
         }
 
         for(std::set<Object*>::iterator child = children.begin() ;
@@ -408,11 +449,11 @@ namespace ProjetUnivers
 
       if (i_controler_set->isVisible(this))
       {
-        for(std::map<TypeIdentifier, Trait*>::iterator trait = _getTraits().begin() ;
+        for(std::set<Trait*>::iterator trait = _getTraits().begin() ;
             trait != _getTraits().end() ;
             ++trait)
         {
-          trait->second->_init(i_controler_set) ;
+          (*trait)->_init(i_controler_set) ;
         }
 
         for(std::set<Object*>::iterator child = children.begin() ;
@@ -435,11 +476,12 @@ namespace ProjetUnivers
         (*child)->_close() ;
       }
 
-      for(std::map<TypeIdentifier, Trait*>::iterator trait = _getTraits().begin() ;
+      // @todo switch between deduced and ...
+      for(std::set<Trait*>::iterator trait = _getTraits().begin() ;
           trait != _getTraits().end() ;
           ++trait)
       {
-        destroyTrait(trait->second) ;
+        destroyTrait(*trait) ;
       }
     }
 
@@ -452,12 +494,12 @@ namespace ProjetUnivers
         (*child)->_close(i_viewpoint) ;
       }
 
-      for(std::map<TypeIdentifier, Trait*>::iterator trait = _getTraits().begin() ;
+      for(std::set<Trait*>::iterator trait = _getTraits().begin() ;
           trait != _getTraits().end() ;
           ++trait)
       {
 
-        trait->second->_close(i_viewpoint) ;
+        (*trait)->_close(i_viewpoint) ;
       }
 
     }
@@ -473,11 +515,11 @@ namespace ProjetUnivers
           (*child)->_close(i_controler_set) ;
         }
 
-        for(std::map<TypeIdentifier, Trait*>::iterator trait = _getTraits().begin() ;
+        for(std::set<Trait*>::iterator trait = _getTraits().begin() ;
             trait != _getTraits().end() ;
             ++trait)
         {
-          trait->second->_close(i_controler_set) ;
+          (*trait)->_close(i_controler_set) ;
         }
 
       }
@@ -488,11 +530,11 @@ namespace ProjetUnivers
       if (i_viewpoint->isVisible(this))
       {
 
-        for(std::map<TypeIdentifier, Trait*>::iterator trait = _getTraits().begin() ;
+        for(std::set<Trait*>::iterator trait = _getTraits().begin() ;
             trait != _getTraits().end() ;
             ++trait)
         {
-          trait->second->_create_views(i_viewpoint) ;
+          (*trait)->_create_views(i_viewpoint) ;
         }
 
         for(std::set<Object*>::iterator child = children.begin() ;
@@ -509,11 +551,11 @@ namespace ProjetUnivers
       if (i_controler_set->isVisible(this))
       {
 
-        for(std::map<TypeIdentifier, Trait*>::iterator trait = _getTraits().begin() ;
+        for(std::set<Trait*>::iterator trait = _getTraits().begin() ;
             trait != _getTraits().end() ;
             ++trait)
         {
-          trait->second->_create_controlers(i_controler_set) ;
+          (*trait)->_create_controlers(i_controler_set) ;
         }
 
         for(std::set<Object*>::iterator child = children.begin() ;
@@ -525,62 +567,73 @@ namespace ProjetUnivers
       }
     }
 
-    void Object::_changed_parent(Object* i_old_parent)
+    void Object::_changed_parent(Object* old_parent)
     {
-      for(std::map<TypeIdentifier, Trait*>::iterator trait = _getTraits().begin() ;
+      for(std::set<Trait*>::iterator trait = _getTraits().begin() ;
           trait != _getTraits().end() ;
           ++trait)
       {
-        trait->second->_changed_parent(i_old_parent) ;
+        (*trait)->_changed_parent(old_parent) ;
       }
 
-      DeducedTrait::changeParent(this,i_old_parent) ;
+      DeducedTrait::changeParent(this,old_parent) ;
     }
 
-    Trait* Object::_get(const TypeIdentifier& i_trait_name) const
+    Trait* Object::getTrait(const TypeIdentifier& trait_type) const
     {
-      std::map<TypeIdentifier, Trait*>::const_iterator finder = _getTraits().find(i_trait_name) ;
-      if (finder != _getTraits().end())
+      Trait* result = _getDeducedTrait(trait_type) ;
+      if (result)
+        return result ;
+
+      return _getPrimitiveTrait(trait_type) ;
+    }
+
+    Trait* Object::_getPrimitiveTrait(const TypeIdentifier& trait_type) const
+    {
+      // @todo try with searching if trait_type is a deduced trait or not
+      std::map<TypeIdentifier,Trait*>::const_iterator finder = m_primitive_traits.find(trait_type) ;
+      if (finder != m_primitive_traits.end())
       {
         return finder->second ;
       }
 
-      for(std::map<TypeIdentifier, Trait*>::const_iterator trait = _getTraits().begin() ;
-          trait != _getTraits().end() ;
+      for(std::map<TypeIdentifier,Trait*>::const_iterator trait = m_primitive_traits.begin() ;
+          trait != m_primitive_traits.end() ;
           ++trait)
       {
-        if (i_trait_name.isInstance(trait->second))
+        if (trait_type.isInstance(trait->second))
         {
           return trait->second ;
         }
       }
 
       return NULL ;
+
     }
 
-    DeducedTrait* Object::_getDeducedTrait(const TypeIdentifier& i_trait_name) const
+    DeducedTrait* Object::_getDeducedTrait(const TypeIdentifier& trait_name) const
     {
-      /// simpler : no inheritance is taken int account
-      std::map<TypeIdentifier, Trait*>::const_iterator trait = _getTraits().find(i_trait_name) ;
-      if (trait != _getTraits().end())
+      /// simpler/faster : no inheritance is taken into account
+      std::map<TypeIdentifier,DeducedTrait*>::const_iterator trait = m_deduced_traits.find(trait_name) ;
+      if (trait != m_deduced_traits.end())
       {
-        return (DeducedTrait*)trait->second ;
+        return trait->second ;
       }
       return NULL ;
     }
 
     void Object::applyTopDown(
-      ControlerSet*                         i_controler_set,
-      boost::function1<void,BaseControler*> i_operation)
+      ControlerSet*                         controler_set,
+      boost::function1<void,BaseControler*> operation)
     {
       // the set of trait may vary during apply so we store it once for all
       std::set<TypeIdentifier> saved_traits ;
 
-      for(std::map<TypeIdentifier,Trait*>::iterator trait = _getTraits().begin() ;
+      for(std::set<Trait*>::iterator trait = _getTraits().begin() ;
           trait != _getTraits().end() ;
           ++trait)
       {
-        saved_traits.insert(trait->first) ;
+        saved_traits.insert(getObjectTypeIdentifier(*trait)) ;
       }
 
       for(std::set<TypeIdentifier>::const_iterator trait = saved_traits.begin() ;
@@ -590,7 +643,7 @@ namespace ProjetUnivers
         // if object still has the trait apply
         Trait* local_trait = getTrait(*trait) ;
         if (local_trait)
-          local_trait->apply(i_controler_set,i_operation) ;
+          local_trait->apply(controler_set,operation) ;
       }
 
       /// the set of child may vary...
@@ -600,7 +653,7 @@ namespace ProjetUnivers
           child != saved_children.end() ;
           ++child)
       {
-        (*child)->applyTopDown(i_controler_set,i_operation) ; ;
+        (*child)->applyTopDown(controler_set,operation) ; ;
       }
     }
 
@@ -621,11 +674,11 @@ namespace ProjetUnivers
 
       std::set<TypeIdentifier> saved_traits ;
 
-      for(std::map<TypeIdentifier,Trait*>::iterator trait = _getTraits().begin() ;
+      for(std::set<Trait*>::iterator trait = _getTraits().begin() ;
           trait != _getTraits().end() ;
           ++trait)
       {
-        saved_traits.insert(trait->first) ;
+        saved_traits.insert(getObjectTypeIdentifier(*trait)) ;
       }
 
       for(std::set<TypeIdentifier>::const_iterator trait = saved_traits.begin() ;
@@ -664,7 +717,7 @@ namespace ProjetUnivers
       return _getCommands() ;
     }
 
-    bool Object::_call(const std::string& i_command)
+    bool Object::_call(const std::string& command)
     {
       if (m_already_called_objects.find(this) != m_already_called_objects.end())
         return false ;
@@ -672,24 +725,24 @@ namespace ProjetUnivers
       m_already_called_objects.insert(this) ;
       bool found = false ;
 
-      for(std::map<TypeIdentifier, Trait*>::iterator trait = _getTraits().begin() ;
+      for(std::set<Trait*>::iterator trait = _getTraits().begin() ;
           trait != _getTraits().end() && !found ;
           ++trait)
       {
-        found = trait->second->call(trait->first,i_command) ;
+        found = (*trait)->call(getObjectTypeIdentifier(*trait),command) ;
       }
 
       for(std::set<Object*>::iterator child = children.begin() ;
           child != children.end() && !found ;
           ++child)
       {
-        found = (*child)->_call(i_command) ;
+        found = (*child)->_call(command) ;
       }
 
       return found ;
     }
 
-    bool Object::_call(const std::string& i_command,const int& i_parameter)
+    bool Object::_call(const std::string& command,const int& parameter)
     {
       if (m_already_called_objects.find(this) != m_already_called_objects.end())
         return false ;
@@ -697,18 +750,18 @@ namespace ProjetUnivers
       m_already_called_objects.insert(this) ;
       bool found = false ;
 
-      for(std::map<TypeIdentifier, Trait*>::iterator trait = _getTraits().begin() ;
+      for(std::set<Trait*>::iterator trait = _getTraits().begin() ;
           trait != _getTraits().end() && !found ;
           ++trait)
       {
-        found = trait->second->call(trait->first,i_command,i_parameter) ;
+        found = (*trait)->call(getObjectTypeIdentifier(*trait),command,parameter) ;
       }
 
       for(std::set<Object*>::iterator child = children.begin() ;
           child != children.end() && !found ;
           ++child)
       {
-        found = (*child)->_call(i_command,i_parameter) ;
+        found = (*child)->_call(command,parameter) ;
       }
 
       return found ;
@@ -723,12 +776,11 @@ namespace ProjetUnivers
 
       m_already_called_objects.insert(this) ;
 
-      for(std::map<TypeIdentifier, Trait*>::const_iterator
-            trait = _getTraits().begin() ;
+      for(std::set<Trait*>::const_iterator trait = _getTraits().begin() ;
           trait != _getTraits().end() ;
           ++trait)
       {
-        std::set<std::string> temp(trait->second->getCommands()) ;
+        std::set<std::string> temp((*trait)->getCommands()) ;
         result.insert(temp.begin(),temp.end()) ;
       }
 
@@ -779,17 +831,6 @@ namespace ProjetUnivers
       {
         return isAncestor(object->getParent()) ;
       }
-    }
-
-    Trait* Object::getTrait(const TypeIdentifier& name) const
-    {
-      std::map<TypeIdentifier,Trait*>::const_iterator
-        result = _getTraits().find(name) ;
-      if (result != _getTraits().end())
-      {
-        return result->second ;
-      }
-      return NULL ;
     }
 
     std::set<Trait*> Object::getDirectChildren(const TypeIdentifier& identifier) const
@@ -952,12 +993,12 @@ namespace ProjetUnivers
     std::set<Trait*> Object::lockTraits()
     {
       std::set<Trait*> result ;
-      for(std::map<TypeIdentifier,Trait*>::iterator trait = _getTraits().begin() ;
+      for(std::set<Trait*>::iterator trait = _getTraits().begin() ;
           trait != _getTraits().end() ;
           ++trait)
       {
-        trait->second->lock() ;
-        result.insert(trait->second) ;
+        (*trait)->lock() ;
+        result.insert(*trait) ;
       }
       return result ;
     }
@@ -1003,12 +1044,12 @@ namespace ProjetUnivers
       return !m_deleting ;
     }
 
-    std::map<TypeIdentifier,Trait*>& Object::_getTraits()
+    std::set<Trait*>& Object::_getTraits()
     {
       return m_traits ;
     }
 
-    const std::map<TypeIdentifier,Trait*>& Object::_getTraits() const
+    const std::set<Trait*>& Object::_getTraits() const
     {
       return m_traits ;
     }
@@ -1030,25 +1071,25 @@ namespace ProjetUnivers
       {
         std::string traits ;
 
-        for(std::map<TypeIdentifier,Trait*>::const_iterator trait = _getTraits().begin() ;
+        for(std::set<Trait*>::const_iterator trait = _getTraits().begin() ;
             trait != _getTraits().end() ;
             ++trait)
         {
-          traits = traits + "<TR><TD TOOLTIP=\"" + trait->first.fullName() + "\" " +
-                                    "PORT=\"" + trait->second->getGraphvizPortName() + "\"" ;
+          traits = traits + "<TR><TD TOOLTIP=\"" + getObjectTypeIdentifier(*trait).fullName() + "\" " +
+                                    "PORT=\"" + (*trait)->getGraphvizPortName() + "\"" ;
 
 
           // color indicate status :
           //  red for primitive trait to be destroyed
           //  yellow for deduced trait
           //  orange for primitive trait to be destroyed
-          if (trait_condition(trait->second))
+          if (trait_condition((*trait)))
           {
             traits += " BGCOLOR=\"green\"" ;
           }
-          else if (!trait->second->isPrimitive())
+          else if (!(*trait)->isPrimitive())
           {
-            if (getModel()->isToBeDestroyed(trait->second))
+            if (getModel()->isToBeDestroyed((*trait)))
             {
               traits += " BGCOLOR=\"orange\"" ;
             }
@@ -1057,13 +1098,13 @@ namespace ProjetUnivers
               traits += " BGCOLOR=\"yellow\"" ;
             }
           }
-          else if (getModel()->isToBeDestroyed(trait->second))
+          else if (getModel()->isToBeDestroyed((*trait)))
           {
             traits += " BGCOLOR=\"red\"" ;
           }
 
           traits += + ">" ;
-          traits += trait->first.className() ;
+          traits += getObjectTypeIdentifier(*trait).className() ;
           traits += "</TD></TR>\n" ;
         }
 
@@ -1076,17 +1117,17 @@ namespace ProjetUnivers
       result += " ;\n" ;
 
       // dependencies
-      for(std::map<TypeIdentifier,Trait*>::const_iterator trait = _getTraits().begin() ;
+      for(std::set<Trait*>::const_iterator trait = _getTraits().begin() ;
           trait != _getTraits().end() ;
           ++trait)
       {
-        if (trait_condition(trait->second))
+        if (trait_condition((*trait)))
         {
-          const std::set<Notifiable*>& dependencies = trait->second->getDependencies() ;
+          const std::set<Notifiable*>& dependencies = (*trait)->getDependencies() ;
 
           for(std::set<Notifiable*>::const_iterator dependency = dependencies.begin() ; dependency != dependencies.end() ; ++dependency)
           {
-            result += trait->second->graphvizName() ;
+            result += (*trait)->graphvizName() ;
             result += " -> " ;
             result += (*dependency)->graphvizName() ;
             result += " [style=dashed];\n" ;

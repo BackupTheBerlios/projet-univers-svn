@@ -57,6 +57,8 @@ namespace ProjetUnivers
           /// Worst case
           void updateTraitWithView() ;
 
+          void getChildren() ;
+
         // @}
   
   
@@ -72,6 +74,7 @@ namespace ProjetUnivers
           CPPUNIT_TEST(updateSimpleTrait) ;
           CPPUNIT_TEST(updateTraitWithNoView) ;
           CPPUNIT_TEST(updateTraitWithView) ;
+          CPPUNIT_TEST(getChildren) ;
 
           CPPUNIT_TEST_SUITE_END() ;
   

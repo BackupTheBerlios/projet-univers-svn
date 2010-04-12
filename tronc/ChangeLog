@@ -1631,22 +1631,46 @@
       (profiling, logs, debug infos...)
     - added event listener system to dynamically connect debugging, profiling...
 
+2010-04-12 
+  * a lot of time passed inside getparameters exceptions : removed exceptions 
+    for access with default value
+
+  * Object::_get() is slow when trait is not present : 
+    - split traits in two parts (deduced and not deduced) 
+
 in commit
 --------
        
     
 in progress
 -----------
-  
+
    
 todo
 ----
+  
+  * particule emmision is the cost killer...
+  
+  * a lot of time passed in Computer::getDetectedObjects() mostly in 
+    getChildrenObjects<Detectable> ?
+  * some time inside call(method), inside getChildren<X> 
+  * Kernel :
+    - debugger
+  * TypeIdentifier::isInstance is very slow but any attempt to optimised failed
 
+  * performance measures : 
+    valgrind --tool=callgrind --fn-skip=ProjetUnivers::Kernel::Trait::notify --fn-skip=ProjetUnivers::Kernel::Implementation::Interpretor::endTransaction
+    still cycles... due to end transaction... 
+    
   * All :
     - mass correction, but still some work
     - performance issue
+
+  * Physic 
+    - performances tests 
   
-  * Display : 
+  * Display :
+    - performances tests 
     - ressource caching is not 'clean'; handling of scene manager is not clean 
       too @see the hack of cleaning the manager must clean the caching ressource 
       list 

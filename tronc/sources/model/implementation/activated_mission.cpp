@@ -22,14 +22,15 @@
 #include <model/mission.h>
 #include <model/implementation/activated_mission.h>
 
-namespace ProjetUnivers {
-  namespace Model {
-    namespace Implementation {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
+    namespace Implementation
+    {
           
-      DeclareDeducedTrait(
-          ActivatedMission,
-          And(HasTrait(Played),
-              HasTrait(Mission))) ;
+      DeclareDeducedTrait(ActivatedMission,And(HasTrait(Played),
+                                               HasTrait(Mission))) ;
     }
   }
 }

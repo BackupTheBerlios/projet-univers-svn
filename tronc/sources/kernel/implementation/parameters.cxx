@@ -49,14 +49,25 @@ namespace ProjetUnivers
         m_instance.reset(new Parameters()) ;
       }
 
-      try 
-      {
-        return m_instance->internalGetValue<T>(section,name,false) ;
-      }
-      catch(...)
-      {
+      std::map<std::string,std::map<std::string,
+        boost::variant<float,std::string,bool> > >::const_iterator
+        section_iterator = m_instance->m_parameters.find(section) ;
+
+      if (section_iterator == m_instance->m_parameters.end())
         return default_value ;
+
+      std::map<std::string,
+        boost::variant<float,std::string,bool> >::const_iterator
+        parameter = section_iterator->second.find(name) ;
+
+      T result(default_value) ;
+
+      if (parameter != section_iterator->second.end())
+      {
+        result = boost::get<T>(parameter->second) ;
       }
+
+      return result ;
     }
     
     template <typename T>

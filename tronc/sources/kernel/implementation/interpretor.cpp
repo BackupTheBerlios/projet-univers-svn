@@ -60,7 +60,7 @@ namespace ProjetUnivers
         m_destroying_traits = true ;
         for(std::set<Trait*>::iterator trait = m_traits_to_destroy.begin() ; trait != m_traits_to_destroy.end() ; ++trait)
         {
-          (*trait)->getObject()->_detach(getObjectTypeIdentifier(*trait)) ;
+          (*trait)->getObject()->_detach(*trait) ;
           delete *trait ;
         }
         m_traits_to_destroy.clear() ;
@@ -169,7 +169,9 @@ namespace ProjetUnivers
         {
           Trait* undestroy_trait = NULL ;
 
-          for(std::set<Trait*>::iterator trait = m_traits_to_destroy.begin() ; trait != m_traits_to_destroy.end() ; ++trait)
+          for(std::set<Trait*>::iterator trait = m_traits_to_destroy.begin() ;
+              !undestroy_trait && trait != m_traits_to_destroy.end() ;
+              ++trait)
           {
             if ((*trait)->getObject() == object && getObjectTypeIdentifier(*trait) == type)
             {

@@ -278,6 +278,28 @@ namespace ProjetUnivers
 //          CPPUNIT_ASSERT_EQUAL(1,trait->getNumberOfImpactedObservers()) ;
         }
 
+        void TestPerformanceModel::getChildren()
+        {
+          std::auto_ptr<Model> model(new Model()) ;
+          Kernel::Object* root = model->createObject() ;
+
+          Kernel::Object* child1 = root->createObject() ;
+          child1->addTrait(new Positioned()) ;
+          Kernel::Object* grand_child1 = child1->createObject() ;
+
+          Kernel::Object* child2 = root->createObject() ;
+          child2->addTrait(new Positioned()) ;
+          Kernel::Object* grand_child2 = child2->createObject() ;
+          grand_child2->addTrait(new Positioned()) ;
+
+          const unsigned int number = 1000000 ;
+
+          for(unsigned int i = 1 ; i <= number ; ++i)
+          {
+            root->getChildren<Positioned>() ;
+          }
+
+        }
         
       }
     }

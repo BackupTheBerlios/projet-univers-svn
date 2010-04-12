@@ -1460,7 +1460,7 @@ namespace ProjetUnivers
             (*updater)->addDependency(new_trait) ;
           }
 
-          object->addTrait(new_trait) ;
+          object->_addDeducedTrait(new_trait) ;
         }
       }
       else
@@ -1469,7 +1469,7 @@ namespace ProjetUnivers
         destructor = StaticStorage::get()->m_destructors.find(formula) ;
         if (destructor != StaticStorage::get()->m_destructors.end())
         {
-          DeducedTrait* removed = (DeducedTrait*)object->getTrait(destructor->second) ;
+          DeducedTrait* removed = object->_getDeducedTrait(destructor->second) ;
 
           // may be NULL ... if we already have removed the trait for another reason
           if (!removed)
@@ -1485,7 +1485,7 @@ namespace ProjetUnivers
             (*updater)->removeDependency(removed) ;
           }
 
-          object->_remove(destructor->second) ;
+          object->_removeDeducedTrait(destructor->second) ;
 
         }
       }
@@ -2468,12 +2468,6 @@ namespace ProjetUnivers
       }
       m_updating.insert(this) ;
       lock() ;
-
-//      if (!m_views.empty() || !m_controlers.empty())
-//      {
-//        Implementation::Profiler::addNotifyDependentWithObserver() ;
-//        Implementation::Profiler::addDependentNotified(getObjectTypeIdentifier(this).fullName()) ;
-//      }
 
       _updated() ;
       updateDependents() ;

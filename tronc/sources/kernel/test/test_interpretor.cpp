@@ -26,6 +26,8 @@
 #include <kernel/implementation/interpretor.h>
 #include <kernel/test/test_interpretor.h>
 #include <kernel/deduced_trait.h>
+#include <kernel/controler_set.h>
+#include <kernel/controler.h>
 
 CPPUNIT_TEST_SUITE_REGISTRATION(ProjetUnivers::Kernel::Test::TestInterpretor) ;
 
@@ -161,6 +163,23 @@ namespace ProjetUnivers
         model->endTransaction() ;
 
         CPPUNIT_ASSERT_EQUAL(1,V2::number_of_update) ;
+      }
+
+      void TestInterpretor::removedTraitsAreAccessibleUntilEndOfTransaction()
+      {
+        using namespace InterpretorModel ;
+
+        std::auto_ptr<Model> model(new Model()) ;
+
+        Kernel::Object* object = model->createObject() ;
+        Trait* t1 = object->addTrait(new T1()) ;
+
+        model->startTransaction() ;
+
+        object->destroyTrait(t1) ;
+        CPPUNIT_ASSERT(object->getTrait<T1>()) ;
+
+        model->endTransaction() ;
       }
       
     }

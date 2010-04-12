@@ -64,11 +64,11 @@ namespace ProjetUnivers
     void Writer::write(Object* object)
     {
       startObject(object) ;
-      for(std::map<TypeIdentifier,Trait*>::const_iterator trait = object->_getTraits().begin() ;
+      for(std::set<Trait*>::const_iterator trait = object->_getTraits().begin() ;
          trait != object->_getTraits().end() ;
          ++trait)
       {
-        trait->second->write(this) ;
+        (*trait)->write(this) ;
       }
 
       std::set<ObjectReference> objects ;

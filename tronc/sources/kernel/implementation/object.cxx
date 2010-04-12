@@ -23,21 +23,21 @@ namespace ProjetUnivers
   namespace Kernel 
   {
  
-    template <class _View> _View* Object::getView(ViewPoint* i_viewpoint)
+    template <class _View> _View* Object::getView(ViewPoint* viewpoint)
     {
-      CHECK(i_viewpoint,"Object::getView error") ;
+      CHECK(viewpoint,"Object::getView error") ;
       TypeIdentifier trait_type = 
         Trait::getTraitTypeOfView(
                     getClassTypeIdentifier(_View), 
-                    getObjectTypeIdentifier(i_viewpoint)) ;
+                    getObjectTypeIdentifier(viewpoint)) ;
       
       if (trait_type != VoidTypeIdentifier)
       {
-        Trait* trait = _get(trait_type) ;
+        Trait* trait = getTrait(trait_type) ;
         
         if (trait)
         {
-          return trait->getView<_View>(i_viewpoint) ;
+          return trait->getView<_View>(viewpoint) ;
         }
       }
       
@@ -48,7 +48,7 @@ namespace ProjetUnivers
     {
       Kernel::Inherits<T,Trait>() ;
       
-      Trait* trait = _get(getClassTypeIdentifier(T)) ;
+      Trait* trait = getTrait(getClassTypeIdentifier(T)) ;
       
       /// if trait exist convert :
       if (trait)
@@ -144,18 +144,18 @@ namespace ProjetUnivers
     }
 
     template <class _View>
-    void Object::apply(const TypeIdentifier& i_trait_name,
-                       ViewPoint* i_viewpoint,
-                       boost::function1<void,_View*> i_operation)
+    void Object::apply(const TypeIdentifier& trait_name,
+                       ViewPoint* viewpoint,
+                       boost::function1<void,_View*> operation)
     {
-      Trait* trait = _get(i_trait_name) ;
+      Trait* trait = getTrait(trait_name) ;
       
       if (trait)
       {
-        _View* view = trait->getView<_View>(i_viewpoint) ;
+        _View* view = trait->getView<_View>(viewpoint) ;
         if (view)
         {
-          i_operation(view) ;
+          operation(view) ;
         }
       }
 
@@ -164,7 +164,7 @@ namespace ProjetUnivers
           child != children.end() ;
           ++child)
       {
-        (*child)->apply<_View>(i_trait_name,i_viewpoint,i_operation) ;
+        (*child)->apply<_View>(trait_name,viewpoint,operation) ;
       }
       
     }
@@ -230,12 +230,12 @@ namespace ProjetUnivers
     ReturnType Object::callFunction(const std::string& function_name) const
     throw (boost::bad_any_cast,std::exception)
     {
-      for(std::map<TypeIdentifier,Trait*>::const_iterator trait = m_traits.begin() ;
+      for(std::set<Trait*>::const_iterator trait = m_traits.begin() ;
           trait != m_traits.end() ;
           ++trait)
       {
         std::pair<bool,boost::any> temp(
-          trait->second->callFunction(trait->first,function_name)) ;
+          (*trait)->callFunction(getObjectTypeIdentifier(*trait),function_name)) ;
         if (temp.first)
         {
           return boost::any_cast<ReturnType>(temp.second) ;

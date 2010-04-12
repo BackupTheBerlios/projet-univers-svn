@@ -165,18 +165,9 @@ namespace ProjetUnivers
                            Trait* new_trait)
     {
       notifyStartAddTrait(object,new_trait) ;
-
-      bool deduced = ! new_trait->isPrimitive() ;
-
       startTransaction() ;
-      object->_add(new_trait) ;
+      object->_addPrimitiveTrait(new_trait) ;
       endTransaction() ;
-
-      if (deduced)
-        m_statistics.addDeducedTrait() ;
-      else
-        m_statistics.addPrimitiveTrait() ;
-
       notifyEndAddTrait(object,new_trait) ;
 
       return new_trait ;
@@ -186,17 +177,9 @@ namespace ProjetUnivers
                             Trait* trait)
     {
       notifyStartDestroyTrait(object,trait) ;
-
-      DeducedTrait* deduced = dynamic_cast<DeducedTrait*>(trait) ;
-      if (deduced)
-        m_statistics.removeDeducedTrait() ;
-      else
-        m_statistics.removePrimitiveTrait() ;
-
       startTransaction() ;
-      object->_remove(trait) ;
+      object->_removePrimitiveTrait(trait) ;
       endTransaction() ;
-
       notifyEndDestroyTrait(object) ;
     }
 

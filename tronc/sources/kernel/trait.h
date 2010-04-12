@@ -78,7 +78,7 @@ namespace ProjetUnivers
       template<class View>
       View* getView(ViewPoint* viewpoint) ;
 
-      /// Access to a specific controler.
+      /// Access to a specific controller.
       template<class _Controler>
       _Controler* getControler(ControlerSet* controler_set) ;
 
@@ -86,7 +86,7 @@ namespace ProjetUnivers
       static const TypeIdentifier& getTraitName(const TypeIdentifier& view,
                                                 const TypeIdentifier& viewpoint) ;
 
-      /// Apply @c operation on all controlers of @c controler_set.
+      /// Apply @c operation on all controllers of @c controler_set.
       /*!
         @deprecated
       */
@@ -156,7 +156,7 @@ namespace ProjetUnivers
       /// Abstract class means protected constructor.
       Trait() ;
 
-      /// Trait's contener.
+      /// Trait's container.
       Object* m_object ;
 
       /// Tells the views the trait has changed.

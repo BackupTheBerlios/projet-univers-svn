@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2010 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -294,22 +294,20 @@ namespace ProjetUnivers
       Object* _attach(Object* i_child) ;
 
       /// Add a trait.
-      void _add(Trait* i_trait) ;
-
+      void _addPrimitiveTrait(Trait* trait) ;
+      void _addDeducedTrait(DeducedTrait* trait) ;
       /// Remove a trait.
-      void _remove(Trait* i_trait) ;
-
+      void _removePrimitiveTrait(Trait* trait) ;
       /// Remove a trait by trait name.
-      void _remove(const TypeIdentifier& i_trait_name) ;
+      void _removeDeducedTrait(const TypeIdentifier& trait_name) ;
 
       /// Detach a trait.
-      void _detach(const TypeIdentifier& trait_name) ;
+      void _detach(Trait* trait) ;
 
-      /// Retrieve the trait named @c i_trait_name.
-      Trait* _get(const TypeIdentifier& i_trait_name) const ;
-
-      /// Retrieve the trait named @c i_trait_name.
-      DeducedTrait* _getDeducedTrait(const TypeIdentifier& i_trait_name) const ;
+      /// Retrieve the trait named @c trait_name.
+      DeducedTrait* _getDeducedTrait(const TypeIdentifier& trait_name) const ;
+      /// Retrieve the trait named @c trait_name.
+      Trait* _getPrimitiveTrait(const TypeIdentifier& trait_name) const ;
 
       /// update the views for a change_parent.
       void _changed_parent(Object* i_old_parent) ;
@@ -421,10 +419,15 @@ namespace ProjetUnivers
       int                              m_identifier ;
 
       /// internal access.
-      std::map<TypeIdentifier,Trait*>& _getTraits() ;
-      const std::map<TypeIdentifier,Trait*>& _getTraits() const ;
+      std::set<Trait*>& _getTraits() ;
+      const std::set<Trait*>& _getTraits() const ;
+
       /// @composite
-      std::map<TypeIdentifier,Trait*>  m_traits ;
+      std::set<Trait*> m_traits ;
+
+      /// Access speed
+      std::map<TypeIdentifier,Trait*>        m_primitive_traits ;
+      std::map<TypeIdentifier,DeducedTrait*> m_deduced_traits ;
 
       Object*                          m_parent ;
       /// @composite
