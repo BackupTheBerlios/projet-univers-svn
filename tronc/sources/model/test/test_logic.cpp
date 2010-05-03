@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2010 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -21,7 +21,6 @@
 #include <kernel/object.h>
 #include <kernel/model.h>
 #include <kernel/parameters.h>
-
 #include <model/model.h>
 #include <model/physical_world.h>
 #include <model/physical_object.h>
@@ -37,26 +36,28 @@
 #include <model/state.h>
 #include <model/active.h>
 #include <model/end_of_simulation.h>
-
 #include <model/implementation/logic/logic_system.h>
 #include <model/test/test_logic.h>
 
-CPPUNIT_TEST_SUITE_REGISTRATION(ProjetUnivers::
-                                Model::
-                                Test::
-                                TestLogic) ;
+namespace ProjetUnivers
+{
+  namespace Model
+  {
+    namespace Test
+    {
 
+      CPPUNIT_TEST_SUITE_REGISTRATION(TestLogic) ;
 
-namespace ProjetUnivers {
-  namespace Model {
-    namespace Test {
-
+      void TestLogic::setUp()
+      {
+        Kernel::Parameters::load("model_demonstration.config") ;
+      }
 
       void TestLogic::testLaserBeamDisappearing()
       {
         InternalMessage("Model","Model::TestLogic::testLaserBeamDisappearing entering") ;
         // we construct a complete system
-        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLogic::testLaserBeamDisappearing")) ;
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model()) ;
         model->init() ;
 
         // should be a PhysicalWorld
@@ -68,7 +69,7 @@ namespace ProjetUnivers {
         ship->addTrait(new Oriented()) ;
         ship->addTrait(new Mobile()) ;
         ship->addTrait(new Massive(Mass::Kilogram(1000))) ;
-        ship->addTrait(new Laser(Position(),Orientation(),Energy::Joule(10))) ;
+        ship->addTrait(new Laser(Position(), Orientation(), Energy::Joule(10))) ;
         CPPUNIT_ASSERT(ship->getTrait<PhysicalObject>()) ;
         CPPUNIT_ASSERT(ship->getTrait<PhysicalWorld>()) ;
 
@@ -98,7 +99,7 @@ namespace ProjetUnivers {
       {
         InternalMessage("Model","Model::TestLogic::testDestroyable entering") ;
         // we construct a complete system
-        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLogic::testDestroyable")) ;
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model()) ;
         model->init() ;
 
         // should be a PhysicalWorld
@@ -133,9 +134,10 @@ namespace ProjetUnivers {
       {
         InternalMessage("Model","Model::TestLogic::testLaserBeamDestroyableCollision entering") ;
         // we construct a complete system
-        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLogic::testLaserBeamDestroyableCollision")) ;
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model()) ;
         model->init() ;
-        Kernel::ControlerSet* logic = model->getControlerSet<Implementation::Logic::LogicSystem>() ;
+        Kernel::ControlerSet* logic = model->getControlerSet<
+            Implementation::Logic::LogicSystem> () ;
         float timestep = 1 ;
         logic->setTimeStep(1) ;
 
@@ -150,12 +152,12 @@ namespace ProjetUnivers {
 
         Kernel::Object* beam = system->createObject() ;
         beam->addTrait(new LaserBeam(firing_ship)) ;
-        beam->addTrait(new Mobile(Speed::MeterPerSecond(1,0,0))) ;
+        beam->addTrait(new Mobile(Speed::MeterPerSecond(1, 0, 0))) ;
         beam->addTrait(new Massive(Mass::Kilogram(1))) ;
 
         // a collision
         Kernel::Object* collision = system->createObject() ;
-        collision->addTrait(new Collision(beam,ship,Energy::Joule(1))) ;
+        collision->addTrait(new Collision(beam, ship, Energy::Joule(1))) ;
         collision->addTrait(new Positioned()) ;
 
         // simulate Logic : destructible should be at 50%
@@ -168,7 +170,10 @@ namespace ProjetUnivers {
       {
         InternalMessage("Model","Model::TestLogic::testShotDisappearing entering") ;
         // we construct a complete system
-        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLogic::testLaserBeamDestroyableCollision")) ;
+        std::auto_ptr<Kernel::Model>
+            model(
+                  new Kernel::Model(
+                                    "TestLogic::testLaserBeamDestroyableCollision")) ;
         model->init() ;
 
         Kernel::Object* system = model->createObject() ;
@@ -187,9 +192,10 @@ namespace ProjetUnivers {
 
       void TestLogic::endOfSimulation()
       {
-        Kernel::Log::Block temp("Model","TestLogic::endOfSimulation") ;
+        Kernel::Log::Block temp("Model", "TestLogic::endOfSimulation") ;
 
-        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLogic::endOfSimulation")) ;
+        std::auto_ptr<Kernel::Model>
+            model(new Kernel::Model("TestLogic::endOfSimulation")) ;
         model->init() ;
 
         Kernel::Object* root = model->createObject() ;
@@ -201,16 +207,31 @@ namespace ProjetUnivers {
         quit->addTrait(new EndOfSimulation()) ;
         quit->addTrait(new State()) ;
 
-//        root->getTrait<State>()->changeState(quit,new Active()) ;
         quit->addTrait(new Active()) ;
-
       }
 
-      void TestLogic::setUp()
+      void TestLogic::destroyedObjectAreNotThereAnymore()
       {
-        Kernel::Parameters::load("model_demonstration.config") ;
-      }
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model()) ;
+        model->init() ;
 
+        // should be a PhysicalWorld
+        Kernel::Object* system = model->createObject() ;
+        CPPUNIT_ASSERT(system->getTrait<PhysicalWorld>()) ;
+
+        Kernel::ObjectReference ship = system->createObject() ;
+        Destroyable* destroyable = new Destroyable(Model::Energy::Joule(1)) ;
+        ship->addTrait(destroyable) ;
+
+        CPPUNIT_ASSERT(system->getChildren().size()==1) ;
+
+        // damage the object
+        destroyable->damage(Model::Energy::Joule(1)) ;
+
+        model->update(0.1) ;
+
+        CPPUNIT_ASSERT(!ship) ;
+      }
 
     }
   }

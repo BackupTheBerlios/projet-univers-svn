@@ -55,8 +55,8 @@ namespace ProjetUnivers
 
         private:
           
-          ::Ogre::ParticleSystem* m_particle ;
-          ::Ogre::SceneNode*      m_node ;
+          /// a node for explosion
+          ::Ogre::SceneNode* m_node ;
         };
       }
     }

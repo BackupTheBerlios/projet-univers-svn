@@ -43,6 +43,12 @@ namespace ProjetUnivers
 
           /// create an effect.
           void onInit() ;
+          void onClose() ;
+
+        private:
+
+          /// a node for explosion
+          ::Ogre::SceneNode* m_node ;
 
         };
       }

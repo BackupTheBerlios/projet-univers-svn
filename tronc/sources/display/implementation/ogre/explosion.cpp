@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2008-2009 Mathieu ROGER                                 *
+ *   Copyright (C) 2008 Mathieu ROGER                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -21,10 +21,10 @@
 #include <kernel/log.h>
 #include <model/positioned.h>
 #include <model/explosion.h>
+#include <display/implementation/ogre/ogre.h>
 #include <display/implementation/ogre/utility.h>
 #include <display/implementation/ogre/positioned.h>
 #include <display/implementation/ogre/explosion.h>
-#include <display/implementation/ogre/ogre.h>
 
 
 namespace ProjetUnivers
@@ -40,35 +40,15 @@ namespace ProjetUnivers
                      Implementation::Explosion,
                      Ogre::RealWorldViewPoint) ;
 
+
         void Explosion::onInit()
         {
           InternalMessage("Display","Entering Ogre::Explosion::onInit") ;
 
-          Model::Positioned* positioned = getObject()->getTrait<Model::Positioned>() ;
+          m_node = getView<Positioned>()->getNode()->createChildSceneNode() ;
 
-          Implementation::Positioned* positioned_ancestor
-            = getObject()->getAncestor<Implementation::Positioned>() ;
-
-          if (positioned_ancestor)
-          {
-            Positioned* parent_node(positioned_ancestor->getView<Positioned>(getViewPoint())) ;
-            m_node = static_cast< ::Ogre::SceneNode* >(parent_node->getNode()->createChild()) ;
-            m_node->setPosition(convert(positioned->getPosition())) ;
-          }
-          else
-          {
-            m_node = this->getViewPoint()->getManager()->getRootSceneNode() ;
-            getViewPoint()->setRootObject(getObject()) ;
-          }
-
-          m_particle = getExplosion() ;
-          m_particle->setKeepParticlesInLocalSpace(true) ;
-
-          // reset scale factor
-          float size = getObject()->getTrait<Model::Explosion>()->getRadius().Meter()/conversion_factor ;
-          m_node->setScale(::Ogre::Vector3(size,size,size)) ;
-
-          m_node->attachObject(m_particle) ;
+          Model::Explosion* explosion = getTrait<Model::Explosion>() ;
+          createAnimatedBillboard(m_node,"PU/explosion/explosion",explosion->getDuration(),explosion->getRadius()) ;
 
           InternalMessage("Display","Leaving Ogre::Explosion::onInit") ;
         }
@@ -77,11 +57,10 @@ namespace ProjetUnivers
         {
           InternalMessage("Display","Display::Explosion::onClose Entering") ;
 
-          if (getObject()->getAncestor<Model::Positioned>())
+          if (getAncestor<Model::Positioned>())
           {
-            m_node->detachObject(m_particle) ;
-            releaseExplosion(m_particle) ;
-            destroyNode(m_node) ;
+            this->getViewPoint()->getManager()
+                ->destroySceneNode(this->m_node->getName()) ;
           }
 
           InternalMessage("Display","Display::Explosion::onClose Leaving") ;

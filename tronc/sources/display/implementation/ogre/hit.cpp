@@ -20,6 +20,7 @@
  ***************************************************************************/
 #include <kernel/log.h>
 #include <model/sized.h>
+#include <model/positioned.h>
 #include <display/implementation/ogre/ogre.h>
 #include <display/implementation/ogre/utility.h>
 #include <display/implementation/ogre/positioned.h>
@@ -39,8 +40,19 @@ namespace ProjetUnivers
         void Hit::onInit()
         {
           InternalMessage("Display","Entering Hit::onInit") ;
-          float size = convert(getTrait<Model::Sized>()->getRadius()) ;
-          createParticleEffect("PU/base/hit",getView<Positioned>()->getNode())->setScale(size,size,size) ;
+
+          m_node = getView<Positioned>()->getNode()->createChildSceneNode() ;
+
+          createAnimatedBillboard(m_node,"PU/explosion/explosion",Model::Duration::Second(1),getTrait<Model::Sized>()->getRadius()) ;
+        }
+
+        void Hit::onClose()
+        {
+          if (getAncestor<Model::Positioned>())
+          {
+            this->getViewPoint()->getManager()
+                ->destroySceneNode(this->m_node->getName()) ;
+          }
         }
 
       }

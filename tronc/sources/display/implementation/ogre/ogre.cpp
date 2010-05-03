@@ -458,33 +458,38 @@ namespace ProjetUnivers
            node->getCreator()->destroySceneNode(node->getName()) ;
         }
 
-        ::Ogre::ParticleSystem* getExplosion()
+        ::Ogre::BillboardSet* createAnimatedBillboard(::Ogre::SceneNode* node,
+                                                      const std::string& material_name,
+                                                      const Model::Duration& duration,
+                                                      const Model::Distance& radius,
+                                                      const Model::Position& relative_position)
         {
-          if (m_system->m_explosions.empty())
-            return m_system->m_manager->createParticleSystem(Utility::getUniqueName(),"PU/explosion") ;
 
-          ::Ogre::ParticleSystem* result = m_system->m_explosions.back() ;
-          m_system->m_explosions.pop_back() ;
+          ::Ogre::BillboardSet* set = getManager()->createBillboardSet(Utility::getUniqueName()) ;
+          // cloning material then modifying it
+          // @see http://www.ogre3d.org/phpBB2/viewtopic.php?t=39502&highlight=changing+material
+          ::Ogre::MaterialPtr material = ::Ogre::MaterialManager::getSingleton().getByName(material_name) ;
+          ::Ogre::MaterialPtr cloned_material = material->clone(Utility::getUniqueName()) ;
+          ::Ogre::TextureUnitState* texture = cloned_material->getTechnique(0)->getPass(0)->getTextureUnitState(0) ;
 
-          // restart particle
-          for (unsigned short index = 0 ; index < result->getNumEmitters() ; ++index)
-          {
-            ::Ogre::ParticleEmitter* emitter = result->getEmitter(index) ;
-            emitter->setEnabled(false) ;
-            emitter->setEnabled(true) ;
-          }
+          std::string texture_name = texture->getTextureName() ;
+          std::string file_name = texture_name.substr(0,texture_name.find_last_of('_')) ;
+          std::string extension = texture_name.substr(texture_name.find_last_of('.')) ;
+          InternalMessage("Display","file name = " + file_name + extension) ;
 
-          return result ;
-        }
+          texture->setAnimatedTextureName(file_name + extension,texture->getNumFrames(),duration.Second()) ;
+          cloned_material->compile(true) ;
 
-        void releaseExplosion(::Ogre::ParticleSystem* system)
-        {
-          m_system->m_explosions.push_back(system) ;
-        }
+          set->setMaterialName(cloned_material->getName()) ;
 
-        void clearExplosions()
-        {
-          m_system->m_explosions.clear() ;
+          ::Ogre::Billboard* billboard = set->createBillboard(convert(relative_position)) ;
+
+          float size = convert(radius) ;
+          billboard->setDimensions(size,size) ;
+
+          node->attachObject(set) ;
+
+          return set ;
         }
 
       }

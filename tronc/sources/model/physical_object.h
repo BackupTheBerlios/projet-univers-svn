@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2010 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,14 +18,15 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_PHYSICAL_OBJECT_H_
-#define PU_MODEL_PHYSICAL_OBJECT_H_
+#pragma once
 
 #include <kernel/object.h>
 #include <kernel/deduced_trait.h>
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
 
     /// For objects that are physical.
     /*!
@@ -35,7 +36,6 @@ namespace ProjetUnivers {
         --> Massive whould be removed from PhysicalObject conditions
         Forces and torque would only be applied on PhysicalObject that are also 
         Massives. 
-        
     */
     class PhysicalObject : public Kernel::DeducedTrait
     {
@@ -47,5 +47,3 @@ namespace ProjetUnivers {
     };
   }
 }
-
-#endif /*PU_MODEL_PHYSICAL_OBJECT_H_*/

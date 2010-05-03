@@ -99,7 +99,7 @@ namespace ProjetUnivers
 
             hit->addTrait(new Positioned(position)) ;
             hit->addTrait(new WithLifetime(Duration::Second(0))) ;
-            hit->addTrait(new Sized(Distance(Distance::_Meter,600))) ;
+            hit->addTrait(new Sized(Distance(Distance::_Meter,60))) ;
             hit->addTrait(new Oriented(Orientation(position))) ;
           }          
           

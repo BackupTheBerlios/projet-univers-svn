@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2010 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -22,6 +22,7 @@
 #include <model/explosion.h>
 #include <model/solid.h>
 #include <model/with_lifetime.h>
+#include <model/positioned.h>
 #include <model/implementation/logic/destroyable.h>
 
 namespace ProjetUnivers
@@ -50,18 +51,28 @@ namespace ProjetUnivers
             InternalMessage("Model","Logic::Destroyable destroying object") ;
             
             // create explosion
-            Solid* solid = getObject()->getTrait<Solid>() ;
+            Solid* solid = getTrait<Solid>() ;
             Distance explosion_radius ;
             
             if (solid)
               explosion_radius = 4*solid->getRadius() ;
             
+            // duration may depend on size ?
             Duration explosion_duration(Duration::Second(2)) ;
-            getObject()->addTrait(new Explosion(explosion_radius,explosion_duration)) ;
-            
+
+            Kernel::Object* world(getObject()->getParent()) ;
+            const Model::Position& world_position = getRelativePosition(getObject(),world) ;
+
+            //a new object with same position under physical world
+            Kernel::ObjectReference explosion(world->createObject()) ;
+            explosion->addTrait(new Positioned(world_position)) ;
+            explosion->addTrait(new Explosion(explosion_radius,explosion_duration)) ;
+            // add speed of destroyed object ?
             // add a life time trait
-            getObject()->addTrait(new WithLifetime(explosion_duration)) ;
+            explosion->addTrait(new WithLifetime(explosion_duration)) ;
             
+            getObject()->destroyObject() ;
+
             m_marked_to_destroy = true ;
           }
         }

@@ -40,6 +40,10 @@ main( int argc, char* argv[] )
   bool selfTest = (argc > 1)  &&  
                   (std::string("-selftest") == argv[1]);
 
+  std::string test_name ;
+  if (argc > 1)
+    test_name = argv[1] ;
+
   CppUnit::TextUi::TestRunner runner;
   CppUnit::TestFactoryRegistry &registry = CppUnit::TestFactoryRegistry::getRegistry();
   
@@ -54,7 +58,7 @@ main( int argc, char* argv[] )
   runner.setOutputter(outputter);
 
   // Run the test.
-  bool wasSucessful = runner.run( "" );
+  bool wasSucessful = runner.run(test_name);
 
   ProjetUnivers::Display::terminate() ;
   ProjetUnivers::Kernel::Log::close() ;

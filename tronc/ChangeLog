@@ -1638,6 +1638,13 @@
   * Object::_get() is slow when trait is not present : 
     - split traits in two parts (deduced and not deduced) 
 
+2010-05-03
+  * Display :
+    - particule emission is the cost killer, reverted explosion/hit to billboard
+  * Model : 
+    - Bug exploding solid are still shootable (ai fire on destroying objects)
+
+
 in commit
 --------
        
@@ -1645,11 +1652,9 @@ in commit
 in progress
 -----------
 
-   
+    
 todo
 ----
-  
-  * particule emmision is the cost killer...
   
   * a lot of time passed in Computer::getDetectedObjects() mostly in 
     getChildrenObjects<Detectable> ?
@@ -1670,7 +1675,6 @@ todo
     - performances tests 
   
   * Display :
-    - performances tests 
     - ressource caching is not 'clean'; handling of scene manager is not clean 
       too @see the hack of cleaning the manager must clean the caching ressource 
       list 
@@ -1678,8 +1682,6 @@ todo
   * Model : 
     - try to calculate HasInLineOfSight through ogre ray intersection ?
     - or through same in physics ?
-  
-  * Bug ? exploding solid are still shootable (ai fire on destroying objects)
   
   * Bug : clicking between buttons on the in game menu causes blockade 
 

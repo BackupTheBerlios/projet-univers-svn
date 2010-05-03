@@ -33,8 +33,7 @@ namespace ProjetUnivers
       DeclareDeducedTrait(
           Explosion,
           And(HasTrait(Model::Explosion),
-              HasTrait(Implementation::RecursivelyPositioned),
-              HasTrait(Model::Solid))) ;
+              HasTrait(Implementation::RecursivelyPositioned))) ;
     }
   }
 }

@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2010 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -52,6 +52,8 @@ namespace ProjetUnivers
 
         void endOfSimulation() ;
 
+        void destroyedObjectAreNotThereAnymore() ;
+
       // @}
       /*!
         @name Tests registration
@@ -65,6 +67,7 @@ namespace ProjetUnivers
         CPPUNIT_TEST(testLaserBeamDestroyableCollision) ;
         CPPUNIT_TEST(testShotDisappearing) ;
         CPPUNIT_TEST(endOfSimulation) ;
+        CPPUNIT_TEST(destroyedObjectAreNotThereAnymore) ;
 
         CPPUNIT_TEST_SUITE_END() ;
 

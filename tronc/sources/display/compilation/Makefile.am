@@ -66,7 +66,7 @@ plugins.cfg:../../plugins.cfg.in
 	| sed 's,@OGRE_PLUGIN_EXTENSION\@,@OGRE_PLUGIN_EXTENSION@,'> plugins.cfg
 
 
-TESTS = test_display
+TESTS = test_display test_performance_display
 
 # compile tests program without launching them so make build them
 noinst_PROGRAMS = test_ogre $(TESTS)  
@@ -105,3 +105,23 @@ test_ogre_SOURCES = \
 test_ogre_LDADD = \
 $(OIS_LIBS) \
 $(OGRE_LIBS) 
+
+test_performance_display_SOURCES = \
+../test/performance/test_effect.cpp \
+../test/performance/test_performance_display.cpp
+
+test_performance_display_CXXFLAGS = $(PU_CXXFLAGS) 
+test_performance_display_LDFLAGS = $(CPPUNIT_LIBS) 
+test_performance_display_LDADD = \
+libdisplay.la \
+$(SOURCES)/kernel/compilation/libkernel.la \
+$(SOURCES)/model/compilation/libmodel.la \
+$(SOURCES)/physic/compilation/libphysic.la \
+$(OIS_LIBS) \
+$(librlog_LIBS) \
+$(OGRE_LIBS) \
+$(libXML_LIBS) \
+$(CEGUI_LIBS) \
+$(CEGUI_OGRE_LIBS) \
+-lCEGUIFalagardWRBase
+

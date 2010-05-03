@@ -24,6 +24,7 @@
 #include <display/display.h>
 #include <model/position.h>
 #include <model/distance.h>
+#include <model/duration.h>
 
 namespace ProjetUnivers
 {
@@ -98,9 +99,12 @@ namespace ProjetUnivers
                                                 const Model::Orientation& relative_orientation = Model::Orientation()) ;
 
 
-        ::Ogre::ParticleSystem* getExplosion() ;
-        void releaseExplosion(::Ogre::ParticleSystem* system) ;
-        void clearExplosions() ;
+        /// Used for explosions or other
+        ::Ogre::BillboardSet* createAnimatedBillboard(::Ogre::SceneNode* node,
+                                                      const std::string& material_name,
+                                                      const Model::Duration& duration,
+                                                      const Model::Distance& radius,
+                                                      const Model::Position& relative_position = Model::Position()) ;
 
         /*!
           Ogre coordinates are coded on 32 bits, thus half the precision

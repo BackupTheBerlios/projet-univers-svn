@@ -173,7 +173,7 @@ namespace ProjetUnivers
         Kernel::Object* observer = createObserver(system) ;
         {
           Kernel::Object* ship = Model::createShip(system) ;
-          ship->getTrait<Model::Positioned>()->setPosition(Model::Position::Meter(0,0,-500)) ;
+          ship->getTrait<Model::Positioned>()->setPosition(Model::Position::Meter(0,0,-3000)) ;
 
           Kernel::Timer timer ;
           Kernel::Timer global_timer ;
@@ -327,8 +327,6 @@ namespace ProjetUnivers
         hit->addTrait(new Model::Sized(Model::Distance(Model::Distance::_Meter,50))) ;
 
         simulate(model.get(),0.1) ;
-
-        CPPUNIT_ASSERT(getUniqueParticleSystem()) ;
       }
 
       void TestEffect::simulateHit()
