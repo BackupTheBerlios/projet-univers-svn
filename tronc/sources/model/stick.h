@@ -21,7 +21,6 @@
 #pragma once
 
 #include <kernel/reader.h>
-#include <kernel/percentage.h>
 #include <model/oriented.h>
 
 namespace ProjetUnivers
@@ -70,28 +69,6 @@ namespace ProjetUnivers
       /// Access redefinition.
       virtual const Orientation& getOrientation() const ;
 
-      /// Modify coordinates.
-      void modifyX(const int& i_delta_x) ;
-      void modifyY(const int& i_delta_y) ;
-      void modifyZ(const int& i_delta_z) ;
-
-      void setX(const int& i_x) ;
-      void setY(const int& i_y) ;
-      void setZ(const int& i_z) ;
-
-      Kernel::Percentage getX() const ;
-      Kernel::Percentage getY() const ;
-
-    private:
-
-      int m_x ;
-      int m_y ;
-      int m_z ;
-
-      /// Update local orientation before access.
-      void updateOrientation() const ;
-
-      bool m_updated ;
       friend class ::ProjetUnivers::Model::Test::TestGuidanceControl ;
     };
   }

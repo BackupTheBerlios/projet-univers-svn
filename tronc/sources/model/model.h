@@ -21,6 +21,7 @@
 #pragma once
 
 #include <string>
+#include <list>
 #include <model/duration.h>
 
 namespace ProjetUnivers
@@ -90,6 +91,8 @@ namespace ProjetUnivers
     /// Return the ship of an object
     Kernel::Object* getShip(Kernel::Object* object) ;
 
+    /// Get the available ships.
+    std::list<std::string> getAvailableShipNames() ;
     
   //@}
   

@@ -91,10 +91,30 @@ public:
     }
 };
 
+class AnimationUpdate : public FrameListener
+{
+public:
+
+  AnimationUpdate(AnimationState* state)
+  : m_state(state)
+  {
+    m_state->setEnabled(true);
+  }
+
+  bool frameStarted(const FrameEvent& evt)
+  {
+    m_state->addTime(evt.timeSinceLastFrame) ;
+    return true ;
+  }
+
+  AnimationState* m_state ;
+};
+
 class SkyDomeApplication : public ExampleApplication
 {
 public:
     SkyDomeApplication()
+    : ent(NULL)
     {
     }
 
@@ -102,6 +122,8 @@ protected:
     // Just override the mandatory create scene method
     void createScene(void)
     {
+        std::cout << "creating scene" ;
+
         // Set ambient light
         mSceneMgr->setAmbientLight(ColourValue(0.5, 0.5, 0.5));
 
@@ -115,37 +137,34 @@ protected:
         //  other objects, but I don't
         l->setPosition(20,80,50);
 
-        Entity *ent;
-
         // Define a floor plane mesh
-        Plane p;
-        p.normal = Vector3::UNIT_Y;
-        p.d = 200;
-        MeshManager::getSingleton().createPlane("FloorPlane",
-            ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, 
-            p,2000,2000,1,1,true,1,5,5,Vector3::UNIT_Z);
+//        Plane p;
+//        p.normal = Vector3::UNIT_Y;
+//        p.d = 200;
+//        MeshManager::getSingleton().createPlane("FloorPlane",
+//            ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
+//            p,2000,2000,1,1,true,1,5,5,Vector3::UNIT_Z);
+//
+//        // Create an entity (the floor)
+//        ent = mSceneMgr->createEntity("floor", "FloorPlane");
+//        ent->setMaterialName("Examples/RustySteel");
+//
+//        mSceneMgr->getRootSceneNode()->attachObject(ent);
 
-        // Create an entity (the floor)
-        ent = mSceneMgr->createEntity("floor", "FloorPlane");
-        ent->setMaterialName("Examples/RustySteel");
-
-        mSceneMgr->getRootSceneNode()->attachObject(ent);
-
-        ent = mSceneMgr->createEntity("head", "explosion.mesh");
+        ent = mSceneMgr->createEntity("head","izero.mesh");
         // Attach to child of root node, better for culling (otherwise bounds are the combination of the 2)
         SceneNode* node = mSceneMgr->getRootSceneNode()->createChildSceneNode() ;
-//        node->attachObject(ent);
-        
-//        ParticleSystem* particle = mSceneMgr->createParticleSystem("particle","PU/explosion/explosion") ;
-        node->attachObject(ent) ;
-        
-//        node->pitch(Degree(90)) ;
+        node->attachObject(ent);
     }
     // Create new frame listener
     void createFrameListener(void)
     {
         mFrameListener= new SkyDomeFrameListener(mWindow, mCamera, mSceneMgr);
         mRoot->addFrameListener(mFrameListener);
+
+        std::cout << "creating frame listeners" << std::endl ;
+        mRoot->addFrameListener(new AnimationUpdate(ent->getAnimationState("explosion"))) ;
+        std::cout << "created frame listeners" << std::endl ;
     }
 
 
@@ -155,4 +174,7 @@ protected:
         LogManager::getSingleton().setLogDetail( LL_BOREME );
         return true;
     }
+
+
+    Entity *ent;
 };

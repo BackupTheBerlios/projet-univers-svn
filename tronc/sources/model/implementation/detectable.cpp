@@ -22,6 +22,7 @@
 #include <model/solid.h>
 #include <model/massive.h>
 #include <model/whole.h>
+#include <model/explosion.h>
 #include <model/implementation/detectable.h>
 
 namespace ProjetUnivers {
@@ -32,7 +33,8 @@ namespace ProjetUnivers {
                           And(HasTrait(Positioned),
                               HasTrait(Solid),
                               HasTrait(Whole),
-                              HasTrait(Massive))) ;      
+                              HasTrait(Massive),
+                              Not(HasTrait(Explosion)))) ;
 
     }
   }

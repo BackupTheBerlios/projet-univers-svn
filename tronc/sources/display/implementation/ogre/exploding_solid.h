@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2008 Mathieu ROGER                                      *
+ *   Copyright (C) 2007-2010 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,27 +18,49 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <model/with_lifetime.h>
+#pragma once
+
+#include <kernel/trait_view.h>
+#include <display/implementation/ogre/real_world_view_point.h>
+
 
 namespace ProjetUnivers
 {
-  namespace Model
+  namespace Display
   {
-      
-    WithLifetime::WithLifetime(const Duration& life)
-    : m_life_time(life)
-    {}
+    namespace Implementation
+    {
 
-    float WithLifetime::getLifeTimeInSeconds() const
-    {
-      return m_life_time.Second() ;
+      class ExplodingSolid : public Kernel::DeducedTrait
+      {};
+
+      namespace Ogre
+      {
+
+        class AnimationUpdate ;
+
+        /// Display 3D objects.
+        class ExplodingSolid : public Kernel::TraitView<Implementation::ExplodingSolid,
+                                                        RealWorldViewPoint>
+        {
+        protected:
+        /*!
+          @name Updates
+        */
+        // @{
+
+          /// Animate the mesh
+          void onInit() ;
+
+          /// Destroy the animation
+          void onClose() ;
+
+        // @}
+        private:
+
+          AnimationUpdate* m_animation ;
+        };
+      }
     }
-  
-    void WithLifetime::removeLifeTime(const Duration& duration)
-    {
-      m_life_time = m_life_time - duration ;
-      notify() ;
-    }
-    
   }
 }

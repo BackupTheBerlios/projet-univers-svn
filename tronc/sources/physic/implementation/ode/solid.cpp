@@ -27,6 +27,7 @@
 #include <model/physical_world.h>
 #include <model/physical_object.h>
 #include <model/solid.h>
+#include <model/explosion.h>
 
 #include <physic/implementation/ode/mass_property.h>
 #include <physic/implementation/ode/ode.h>
@@ -43,7 +44,8 @@ namespace ProjetUnivers
 
       DeclareDeducedTrait(SolidPhysicalObject,
                           And(HasTrait(Implementation::PhysicalObject),
-                              HasTrait(Model::Solid))) ;
+                              HasTrait(Model::Solid),
+                              Not(HasTrait(Model::Explosion)))) ;
 
       namespace Ode
       {

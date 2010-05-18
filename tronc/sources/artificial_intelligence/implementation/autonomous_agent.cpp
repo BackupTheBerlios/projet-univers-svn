@@ -21,6 +21,7 @@
 #include <kernel/command_delegator.h>
 #include <model/autonomous_character.h>
 #include <model/with_objectives.h>
+#include <model/explosion.h>
 #include <artificial_intelligence/implementation/autonomous_agent.h>
 
 namespace ProjetUnivers
@@ -33,7 +34,8 @@ namespace ProjetUnivers
       DeclareDeducedTrait(AutonomousAgent,
                           And(HasTrait(Model::AutonomousCharacter),
                               HasTrait(Model::WithObjectives),
-                              HasTrait(Kernel::CommandDelegator))) ;
+                              HasTrait(Kernel::CommandDelegator),
+                              Not(HasParent(HasTrait(Model::Explosion))))) ;
     }
   }
 }

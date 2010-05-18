@@ -57,6 +57,7 @@ namespace ProjetUnivers
         /// Corrects a bug ship traversing each other
         void shipDoesNotGoThrough() ;
 
+        /// Check that laser impacts are 'correct'
         void laserImpactIsInsideSolid() ;
 
 

@@ -15,10 +15,14 @@ FileSystem=@MEDIA_FOLDER@/PU/base/explosion
 FileSystem=@MEDIA_FOLDER@/PU/base/explosion/privateer
 FileSystem=@MEDIA_FOLDER@/PU/base/hit
 FileSystem=@MEDIA_FOLDER@/PU
+FileSystem=@MEDIA_FOLDER@/PU/ships
 FileSystem=@MEDIA_FOLDER@/PU/sounds
 FileSystem=@MEDIA_FOLDER@/datafiles/configs/
-FileSystem=@MEDIA_FOLDER@/PU/tests
 FileSystem=.
+
+# Resources for unit tests
+[Tests]
+FileSystem=@MEDIA_FOLDER@/PU/tests
 
 [fonts]
 FileSystem=@MEDIA_FOLDER@/datafiles/fonts/

@@ -19,6 +19,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include <stddef.h>
+#include <boost/foreach.hpp>
 #include <Ogre.h>
 
 #include <plateform.h>
@@ -225,6 +226,20 @@ namespace ProjetUnivers
 
           /// Lifetime of nodes
           std::map<std::string,float> m_node_lifetime ;
+
+          /*!
+          @name animations
+          */
+
+          void updateAnimations(const float& duration)
+          {
+            BOOST_FOREACH(::Ogre::AnimationState* state,m_animations)
+            {
+              state->addTime(duration) ;
+            }
+
+          }
+          std::set< ::Ogre::AnimationState* > m_animations ;
         };
         
         /// store data
@@ -323,6 +338,7 @@ namespace ProjetUnivers
           /// cf. http://www.ogre3d.org/phpBB2/viewtopic.php?t=2733
           ::Ogre::WindowEventUtilities::messagePump() ;
           m_system->root->_fireFrameStarted();
+          m_system->updateAnimations(seconds) ;
           m_system->root->_updateAllRenderTargets() ;
           m_system->root->_fireFrameEnded();
         }
@@ -490,6 +506,16 @@ namespace ProjetUnivers
           node->attachObject(set) ;
 
           return set ;
+        }
+
+        void playAnimation(::Ogre::AnimationState* animation)
+        {
+          m_system->m_animations.insert(animation) ;
+        }
+
+        void stopAnimation(::Ogre::AnimationState* animation)
+        {
+          m_system->m_animations.erase(animation) ;
         }
 
       }

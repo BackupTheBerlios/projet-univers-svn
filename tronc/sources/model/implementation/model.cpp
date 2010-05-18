@@ -17,6 +17,8 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <boost/foreach.hpp>
+
 #include <Ogre.h>
 #include <OgreDefaultHardwareBufferManager.h>
 #include <OgreFileSystem.h>
@@ -472,7 +474,7 @@ namespace ProjetUnivers {
         fg1->addTrait(new FlyingGroup("ally")) ;
         fg1->getTrait<FlyingGroup>()->setInitialNumberOfShips(4) ;
         fg1->getTrait<FlyingGroup>()->setHasPlayer(true) ;
-        fg1->getTrait<FlyingGroup>()->setShipName("default_ship") ;
+        fg1->getTrait<FlyingGroup>()->setShipName("izero") ;
 
         Kernel::Object* team2 = mission->createObject() ;
         team2->addTrait(new Team("enemy")) ;
@@ -524,7 +526,7 @@ namespace ProjetUnivers {
         Kernel::Object* observer = system->createObject() ;
         observer->addTrait(new Model::Observer()) ;
         observer->addTrait(new Model::Player()) ;
-        observer->addTrait(new Model::Positioned(Model::Position::Meter(0,0,1.2*circle_radius))) ;
+        observer->addTrait(new Model::Positioned(Model::Position::Meter(0,0,1.1*circle_radius))) ;
         observer->addTrait(new Model::Oriented()) ;
         observer->addTrait(new Model::State()) ;
         observer->getTrait<Model::State>()->addCommandAlias("quit","change(quit,Active)") ;
@@ -577,7 +579,7 @@ namespace ProjetUnivers {
       ship->addTrait(new Oriented()) ;
       ship->addTrait(new Massive(Mass::Kilogram(Kernel::Parameters::getValue<float>("Model","ShipMass",1000)))) ;
       ship->addTrait(new Mobile()) ;
-      ship->addTrait(new Solid(Mesh("default_ship.mesh"))) ;
+      ship->addTrait(new Solid(Mesh("test_ship.mesh"))) ;
       ship->addTrait(new Computer()) ;
       ship->addTrait(new Detector(Distance(Distance::_Meter,8000))) ;
       Detector::connect(ship,ship) ;
@@ -675,7 +677,26 @@ namespace ProjetUnivers {
       writer->writeSingleObject(configuration) ;
     }
 
+    std::list<std::string> getAvailableShipNames()
+    {
+      std::list<std::string> result ;
 
+      // on demand init
+      Model::initRessources() ;
+
+      Ogre::ResourceGroupManager* groupManager = Ogre::ResourceGroupManager::getSingletonPtr() ;
+
+      FileInfoListPtr ships = groupManager->findResourceFileInfo("General","*.ship") ;
+
+      BOOST_FOREACH(FileInfo ship,*ships)
+      {
+        std::string ship_name = ship.filename.substr(0,ship.filename.length()-5) ;
+//        std::cout << ship_name << std::endl ;
+        result.push_back(ship_name) ;
+      }
+
+      return result ;
+    }
   }
 }
 

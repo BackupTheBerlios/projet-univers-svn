@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007 Mathieu ROGER                                      *
+ *   Copyright (C) 2007-2010 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -41,7 +41,6 @@ namespace ProjetUnivers
 
         RegisterView(Ogre::Solid,DisplayedSolid,Ogre::RealWorldViewPoint) ;
 
-
         void Solid::onInit()
         {
           InternalMessage("Display","Entering Solid::onInit") ;
@@ -57,6 +56,10 @@ namespace ProjetUnivers
           m_node->attachObject(m_mesh) ;
           // reset scale factor
           scale(m_node) ;
+          // @see http://www.ogre3d.org/forums/viewtopic.php?p=145309#p145309
+          // when scaling a node before version 1.6 need to reset normals
+          // @see also http://www.ogre3d.org/forums/viewtopic.php?p=360555#p360555
+          m_mesh->setNormaliseNormals(true) ;
 
           InternalMessage("Display","Leaving Solid::onInit") ;
         }

@@ -18,39 +18,38 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_WITH_LIFETIME_H_
-#define PU_MODEL_WITH_LIFETIME_H_
+#pragma once
 
 #include <kernel/trait.h>
 #include <model/duration.h>
 
-namespace ProjetUnivers {
-  namespace Model {
-      
+namespace ProjetUnivers
+{
+  namespace Model
+  {
+
     /// For objects that have a lifetime.
     /*!
-      When their lifetime reaches zero : the object is destroyed.
-    */
+     When their lifetime reaches zero : the object is destroyed.
+     */
     class WithLifetime : public Kernel::Trait
     {
     public:
-    
+
       /// Constructs.
       WithLifetime(const Duration& lifetime) ;
 
       /// Access to life time.
       float getLifeTimeInSeconds() const ;
-      
+
       /// Reduce life time.
       void removeLifeTime(const Duration&) ;
-      
+
     private:
-      
+
       /// Time remaining before the beam fades out.
       Duration m_life_time ;
-      
-    };
+
+    } ;
   }
 }
-
-#endif /*PU_MODEL_WITH_LIFETIME_H_*/

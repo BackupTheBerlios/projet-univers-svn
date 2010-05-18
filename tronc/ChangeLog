@@ -1644,18 +1644,72 @@
   * Model : 
     - Bug exploding solid are still shootable (ai fire on destroying objects)
 
+2010-05-18 
+  * Display :
+    - corrected display bug due to scaling
+    
+  * ship application
+    - added ship name parameter
+    - added basic camera movement      
+
+  * Model : 
+    - Bug exploding solid are still shootable (ai fire on destroying objects)
+    - remove them from detection
+    - change collision for exploding solid
+    - desactivate AI for exploding parent
+    - destruction add explosion to element
+
+  * Display :
+    - exploding solid display explosion animation if exists, otherwise hide the 
+      mesh
 
 in commit
 --------
-       
     
 in progress
 -----------
-
+  
     
 todo
 ----
   
+  * have all used ships in the same size range
+  * change laser beam size (it should be adjustable)
+  * extrude laser beam length up to DeltaT*speed
+
+
+  * GUI :
+   - select ship from a list
+   - add a list selection in gui config
+  
+  * Physic 
+   - bug on collision test...
+
+  * Display :
+    - exploding solid should fade to transparent
+
+    - exploding objects cannot perform any action...
+
+  * Model : 
+    - Mission : destruction sequence during player's ship explosion 
+      (Player & Parent(Explosion)) --> change current camera to a fixed one 
+    - move player from ship to explosion ?
+    
+  * Bug : during game, when destroyed for the last time ? --> dark screen
+    - not repoduced
+  * Bug : clicking between buttons on the in game menu causes blockade 
+
+  * Demo :
+    - history of who killed who (need to add the transponder on the LaserBeam 
+      object)
+    - score menu at the end of the mission
+
+  * Display :
+    - display score on hud
+    
+  * All :
+    - mass correction, but still some work
+    - performance issue
   * a lot of time passed in Computer::getDetectedObjects() mostly in 
     getChildrenObjects<Detectable> ?
   * some time inside call(method), inside getChildren<X> 
@@ -1666,10 +1720,6 @@ todo
   * performance measures : 
     valgrind --tool=callgrind --fn-skip=ProjetUnivers::Kernel::Trait::notify --fn-skip=ProjetUnivers::Kernel::Implementation::Interpretor::endTransaction
     still cycles... due to end transaction... 
-    
-  * All :
-    - mass correction, but still some work
-    - performance issue
 
   * Physic 
     - performances tests 
@@ -1682,8 +1732,6 @@ todo
   * Model : 
     - try to calculate HasInLineOfSight through ogre ray intersection ?
     - or through same in physics ?
-  
-  * Bug : clicking between buttons on the in game menu causes blockade 
 
   * Model : 
     - remove computer own model and create an ideal target object under the 
@@ -1705,24 +1753,12 @@ todo
     - we should add victory conditions to missions : DestroyAllEnemies, 
       determine match with agent objectives 
 
-  * Demo :
-    - history of who killed who (need to add the transponder on the LaserBeam 
-      object)
-    - score menu at the end of the mission
-
-  * Display :
-    - display score on hud
-
   * Display : 
     - change selection printing (change color of ideal target)
 
-  * Model : 
-    - Mission : destruction sequence during player's ship explosion 
-      (Player & Parent(Explosion)) --> change current camera to a fixed one 
-
   * Ship configuration
     - Energy handling 
-    
+
   * Shields
     - Damages
     - Commands on shields (transfer shield to front, back...) 

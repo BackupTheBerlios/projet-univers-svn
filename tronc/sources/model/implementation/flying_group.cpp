@@ -21,6 +21,7 @@
 #include <kernel/object.h>
 #include <model/autonomous_character.h>
 #include <model/flying_group.h>
+#include <model/model.h>
 
 namespace ProjetUnivers
 {
@@ -33,7 +34,11 @@ namespace ProjetUnivers
       m_ship_name("default_ship"),
       m_objective(Objective::attackAllEnemies()),
       m_number_of_spawn(1)
-    {}
+    {
+      std::list<std::string> ships(getAvailableShipNames()) ;
+      if (!ships.empty())
+        m_ship_name = ships.front() ;
+    }
 
     void FlyingGroup::setName(const std::string& name)
     {

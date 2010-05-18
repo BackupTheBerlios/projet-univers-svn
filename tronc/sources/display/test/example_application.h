@@ -129,12 +129,12 @@ protected:
         // Set default mipmap level (NB some APIs ignore this)
         TextureManager::getSingleton().setDefaultNumMipmaps(5);
 
-		// Create any resource listeners (for loading screens)
-		createResourceListener();
-		// Load resources
-		loadResources();
+        // Create any resource listeners (for loading screens)
+        createResourceListener();
+        // Load resources
+        loadResources();
 
-		// Create the scene
+        // Create the scene
         createScene();
 
         createFrameListener();

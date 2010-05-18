@@ -127,7 +127,7 @@ namespace ProjetUnivers
         enemy_ship->addTrait(new Model::Massive(Model::Mass::Kilogram(1000))) ;
         enemy_ship->addTrait(new Model::Oriented()) ;
         enemy_ship->addTrait(new Model::Mobile()) ;
-        enemy_ship->addTrait(new Model::Solid(Model::Mesh("test_ship.mesh"))) ;
+        enemy_ship->addTrait(new Model::Solid(Model::Mesh("default_ship.mesh"))) ;
         enemy_ship->addTrait(new Model::Transponder(team2)) ;
         enemy_ship->addTrait(new Model::Destroyable(Model::Energy::Joule(1))) ;
         enemy_ship->addTrait(new Model::Dragger(Kernel::Parameters::getValue<float>("Model","DraggerCoeeficient",0.01))) ;

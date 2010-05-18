@@ -23,6 +23,8 @@
 #include <kernel/trait.h>
 #include <kernel/reader.h>
 #include <kernel/deduced_trait.h>
+#include <kernel/percentage.h>
+
 #include <model/position.h>
 #include <model/orientation.h>
 
@@ -106,6 +108,18 @@ namespace ProjetUnivers
 
     //@}
     
+      /// Modify coordinates.
+      void modifyX(const int& i_delta_x) ;
+      void modifyY(const int& i_delta_y) ;
+      void modifyZ(const int& i_delta_z) ;
+
+      void setX(const int& i_x) ;
+      void setY(const int& i_y) ;
+      void setZ(const int& i_z) ;
+
+      Kernel::Percentage getX() const ;
+      Kernel::Percentage getY() const ;
+
     protected:
 
       /// Access to orientation relative to an ancestor.
@@ -114,9 +128,17 @@ namespace ProjetUnivers
         @pre @c ancestor is an ancestor of this
       */
       Orientation getOrientationRelativeToAncestor(const Kernel::Object* ancestor) const ;
-      
+
       mutable Orientation m_orientation ;
 
+      int m_x ;
+      int m_y ;
+      int m_z ;
+
+      /// Update local orientation before access.
+      void updateOrientation() const ;
+
+      bool m_updated ;
     };
 
     /// For objects that have a global orientation

@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2008 Mathieu ROGER                                      *
+ *   Copyright (C) 2008-2010 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -19,6 +19,8 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include <iostream>
+#include <tclap/CmdLine.h>
+
 #include <projet_univers.h>
 #include <kernel/log.h>
 #include <kernel/model.h>
@@ -47,21 +49,37 @@
 
 using namespace ProjetUnivers ;
 
-std::string getModelName()
-{
-  return "default_ship" ;
-}
+class CameraOrientation : public Model::Oriented
+{};
 
 /*
   Load a ship and display it allowing to test the xml configuration for that file
   inputs are connected so the ship is flyable
-
 */
-int main()
+int main(int argc,char** argv)
 {
   /// init
   Kernel::Parameters::load("demonstration.config") ;
   Kernel::Log::init() ;
+
+  std::string ship_name ;
+
+  try
+  {
+    TCLAP::CmdLine cmd("Command description message",' ',"1") ;
+
+    TCLAP::ValueArg<std::string> ship("s","ship","ship name",false,"default_ship","string") ;
+    cmd.add(ship) ;
+
+    // get values
+    cmd.parse(argc,argv) ;
+    ship_name = ship.getValue() ;
+  }
+  catch(...)
+  {
+    return 1 ;
+  }
+
 
   Model::start() ;
   Physic::start() ;
@@ -86,10 +104,19 @@ int main()
   root->addTrait(new Model::Universe()) ;
 
   Kernel::Object* player_configuration = Model::createDefaultPlayerConfiguration(root) ;
-  player_configuration->getTrait<Model::PlayerConfiguration>()
-                      ->addMapping(Model::PlayerConfiguration::InputEvent::key(OIS::KC_RETURN),"quit") ;
 
-  Kernel::Object* ship = Model::loadShip(getModelName(),root) ;
+  Model::PlayerConfiguration* config = player_configuration->getTrait<Model::PlayerConfiguration>() ;
+
+  config->addMapping(Model::PlayerConfiguration::InputEvent::key(OIS::KC_RETURN),"quit") ;
+  config->addMapping(Model::PlayerConfiguration::InputEvent::key(OIS::KC_UP),"Forward") ;
+  config->addMapping(Model::PlayerConfiguration::InputEvent::key(OIS::KC_DOWN),"Back") ;
+  config->addMapping(Model::PlayerConfiguration::InputEvent::key(OIS::KC_LEFT),"Left") ;
+  config->addMapping(Model::PlayerConfiguration::InputEvent::key(OIS::KC_RIGHT),"Right") ;
+
+  config->addMapping(Model::PlayerConfiguration::InputAxis(Model::PlayerConfiguration::InputAxis::MouseY),"Up/Down") ;
+  config->addMapping(Model::PlayerConfiguration::InputAxis(Model::PlayerConfiguration::InputAxis::MouseX),"Left/Right") ;
+
+  Kernel::Object* ship = Model::loadShip(ship_name,root) ;
 
   // determine a distance that correspond to ship size
   Model::Distance distance(Model::Distance::_Meter,1000) ;
@@ -103,7 +130,7 @@ int main()
   observer->addTrait(new Model::Observer()) ;
   observer->addTrait(new Model::Player()) ;
   observer->addTrait(new Model::Positioned(Model::Position::Meter(0,0,distance.Meter()))) ;
-  observer->addTrait(new Model::Oriented()) ;
+  observer->addTrait(new CameraOrientation()) ;
   observer->addTrait(new Model::State()) ;
   observer->addTrait(new Kernel::CommandDelegator()) ;
 
@@ -147,3 +174,53 @@ int main()
 
   return 0 ;
 }
+
+/// Camera control
+class CameraControl : public Kernel::DeducedTrait
+{
+public:
+
+  void moveForward()
+  {
+    move(0,0,-1) ;
+  }
+
+  void moveBack()
+  {
+    move(0,0,1) ;
+  }
+
+  void moveLeft()
+  {
+    move(-1,0,0) ;
+  }
+
+  void moveRight()
+  {
+    move(1,0,0) ;
+  }
+
+private:
+
+  void move(const float& x,const float& y,const float& z)
+  {
+    Model::Positioned* positioned = getObject()->getTrait<Model::Positioned>() ;
+    Model::Oriented* oriented = getObject()->getTrait<Model::Oriented>() ;
+    Model::Position delta(Model::Position::Meter(x,y,z)) ;
+    positioned->setPosition(delta*oriented->getOrientation()+positioned->getPosition()) ;
+  }
+
+};
+
+DeclareDeducedTrait(CameraControl,And(HasTrait(Model::Observer),
+                                      HasTrait(Model::Positioned))) ;
+
+RegisterCommand("Forward",CameraControl,moveForward) ;
+RegisterCommand("Back",CameraControl,moveBack) ;
+RegisterCommand("Left",CameraControl,moveLeft) ;
+RegisterCommand("Right",CameraControl,moveRight) ;
+
+
+RegisterAxis("Left/Right","Look",CameraOrientation,setX) ;
+RegisterAxis("Up/Down","Look",CameraOrientation,setY) ;
+

@@ -175,6 +175,10 @@ namespace ProjetUnivers
           Kernel::Object* ship = Model::createShip(system) ;
           ship->getTrait<Model::Positioned>()->setPosition(Model::Position::Meter(0,0,-3000)) ;
 
+          Kernel::Object* ship2 = Model::createShip(system) ;
+          ship2->getTrait<Model::Positioned>()->setPosition(Model::Position::Meter(200,0,-200)) ;
+
+
           Kernel::Timer timer ;
           Kernel::Timer global_timer ;
 

@@ -210,29 +210,6 @@ namespace ProjetUnivers
         quit->addTrait(new Active()) ;
       }
 
-      void TestLogic::destroyedObjectAreNotThereAnymore()
-      {
-        std::auto_ptr<Kernel::Model> model(new Kernel::Model()) ;
-        model->init() ;
-
-        // should be a PhysicalWorld
-        Kernel::Object* system = model->createObject() ;
-        CPPUNIT_ASSERT(system->getTrait<PhysicalWorld>()) ;
-
-        Kernel::ObjectReference ship = system->createObject() ;
-        Destroyable* destroyable = new Destroyable(Model::Energy::Joule(1)) ;
-        ship->addTrait(destroyable) ;
-
-        CPPUNIT_ASSERT(system->getChildren().size()==1) ;
-
-        // damage the object
-        destroyable->damage(Model::Energy::Joule(1)) ;
-
-        model->update(0.1) ;
-
-        CPPUNIT_ASSERT(!ship) ;
-      }
-
     }
   }
 }
