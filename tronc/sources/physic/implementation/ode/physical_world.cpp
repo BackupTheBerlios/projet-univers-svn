@@ -257,6 +257,7 @@ namespace ProjetUnivers
 
               float dot1 = v1.dotProduct(normal) ;
 
+              const float treshold = 0.001 ;
               // magic ... to avoid contacts points that stick objects together
               /*
                 Not symmetric
@@ -265,13 +266,18 @@ namespace ProjetUnivers
               {
                 average_contact_point += contact_point ;
 
-                dJointID joint_id = dJointCreateContact(world->m_world->id(),
-                                                        world->m_contact_group,
-                                                        &contact) ;
+                if (normal.length() > treshold)
+                {
+                  dJointID joint_id = dJointCreateContact(world->m_world->id(),
+                                                          world->m_contact_group,
+                                                          &contact) ;
 
-                dJointAttach(joint_id,
-                             object1->getBody()->id(),
-                             object2->getBody()->id()) ;
+                  dJointAttach(joint_id,
+                               object1->getBody()->id(),
+                               object2->getBody()->id()) ;
+                }
+                else
+                  std::cout << "contact point removed" << std::endl ;
 
                 ++real_number_of_contact_points ;
 

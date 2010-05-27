@@ -1,5 +1,5 @@
 
-PU/base/hit
+particle_system PU/base/hit
 {
 	quota	4324
 	material	PU/base/hit

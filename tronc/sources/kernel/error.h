@@ -42,6 +42,6 @@
 
 #else
 
-  #define CHECK(condition,message) { if (!(condition)) { ErrorMessage(message) ; throw ProjetUnivers::Kernel::ExceptionKernel(message) ; } }
+  #define CHECK(condition,message) { if (!(condition)) { throw ProjetUnivers::Kernel::ExceptionKernel(message) ; } }
 
 #endif

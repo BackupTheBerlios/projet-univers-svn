@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2010 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -29,12 +29,14 @@
 #include <model/energy.h>
 
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
     
     /// For objects that are laser weapons.
     /*!
-      @todo parametrize initial speed.
+      @todo parameterize initial speed.
     */
     class Laser : public Kernel::Trait
     {
@@ -111,11 +113,21 @@ namespace ProjetUnivers {
       /// Time between shots.
       Duration    m_time_between_shots ;
       
+      /// @todo use 'true' value
+      float       m_laser_speed_meter_per_second ;
+
+      Distance    m_beam_length ;
+      Distance    m_beam_radius ;
+
+    /*!
+    @name State
+    */
+    //@{
+
       /// Time remaining to be able to fire.
       Duration    m_time_to_fire ;
 
-      /// @todo use 'true' value
-      float       m_laser_speed_meter_per_second ;
+    //@}
     };
   }
 }

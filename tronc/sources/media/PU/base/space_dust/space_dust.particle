@@ -1,5 +1,5 @@
 // Space dust to show speed
-PU/base/SpaceDust
+particle_system PU/base/SpaceDust
 {
     material PE/lensflare
     particle_width 0.001

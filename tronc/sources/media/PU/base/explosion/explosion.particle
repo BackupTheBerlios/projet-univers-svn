@@ -1,5 +1,5 @@
 
-PU/explosion
+particle_system PU/explosion
 {
 	quota	4324
 	material	PU/Explosion

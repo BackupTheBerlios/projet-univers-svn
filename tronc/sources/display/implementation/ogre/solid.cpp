@@ -56,11 +56,13 @@ namespace ProjetUnivers
           m_node->attachObject(m_mesh) ;
           // reset scale factor
           scale(m_node) ;
+
+#if OGRE_VERSION_MAJOR == 1 && OGRE_VERSION_MINOR < 6
           // @see http://www.ogre3d.org/forums/viewtopic.php?p=145309#p145309
           // when scaling a node before version 1.6 need to reset normals
           // @see also http://www.ogre3d.org/forums/viewtopic.php?p=360555#p360555
           m_mesh->setNormaliseNormals(true) ;
-
+#endif
           InternalMessage("Display","Leaving Solid::onInit") ;
         }
 

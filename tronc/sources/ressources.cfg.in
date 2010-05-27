@@ -20,6 +20,7 @@ FileSystem=@MEDIA_FOLDER@/PU/sounds
 FileSystem=@MEDIA_FOLDER@/datafiles/configs/
 FileSystem=.
 
+
 # Resources for unit tests
 [Tests]
 FileSystem=@MEDIA_FOLDER@/PU/tests

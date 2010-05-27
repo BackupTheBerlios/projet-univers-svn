@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2010 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -27,6 +27,8 @@
 #include <rlog/rlog.h>
 #include <rlog/StdioNode.h>
 #include <rlog/RLogChannel.h>
+#undef RLOG_SECTION
+#define RLOG_SECTION
 
 
 namespace ProjetUnivers

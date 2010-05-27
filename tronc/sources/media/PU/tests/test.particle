@@ -1,5 +1,5 @@
 
-PU/Tests/Hit
+particle_system PU/Tests/Hit
 {
 	quota	4324
 	material	PU/Tests/Hit

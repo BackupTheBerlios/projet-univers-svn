@@ -1663,27 +1663,46 @@
     - exploding solid display explosion animation if exists, otherwise hide the 
       mesh
 
+2010-05-27 
+  * All
+    - updated all lib versions
+    - rLog caused weird compilation issue resolved by http://code.google.com/p/rlog/issues/detail?id=13
+    - porting to Ogre 1.6 require some small change in code (one deprecated method)
+      and explicit declaration of particle_system
+    - still physic issue with solid/laser collisions, try to fix it by removing some 
+      small contact points 
+
 in commit
 --------
+
     
 in progress
 -----------
-  
+          
     
 todo
 ----
-  
-  * have all used ships in the same size range
-  * change laser beam size (it should be adjustable)
-  * extrude laser beam length up to DeltaT*speed
 
+  * Display : issue with fonts in Ogre 1.6.1 windows version; they are too big.
+  
+  * Physics:
+    - extrude laser beam length up to DeltaT*speed @see 
+      http://www.bulletphysics.org/mediawiki-1.5.8/index.php?title=Collision_Detection_and_Physics_FAQ#How_can_I_avoid_missing_collisions_for_fast_moving_objects
+    
+  * Model :
+    - change laser beam size (it should be adjustable length+radius)
+    
+  * have all used ships in the same size range
 
   * GUI :
-   - select ship from a list
-   - add a list selection in gui config
+    - select ship from a list
+    - add a list selection in gui config
+    - change all hover/pushed elements inspire from  
+      http://sourceforge.net/projects/galactitrade/
+      (apache v2 can be used inside GPLv3)
   
   * Physic 
-   - bug on collision test...
+    - bug on collision test...
 
   * Display :
     - exploding solid should fade to transparent
@@ -1773,8 +1792,6 @@ todo
     - try to keep all units in an acceptable "range", it means that we whould 
       be able to convert model units in an arbitrary "ranging system", depending 
       on masses and object length  
-    - extrude laser beam acording to speed @see 
-      http://www.bulletphysics.org/mediawiki-1.5.8/index.php?title=Collision_Detection_and_Physics_FAQ#How_can_I_avoid_missing_collisions_for_fast_moving_objects
   
   * Display :
     - singleton issue when data is not correct (duplicate elements inside media 
@@ -1792,6 +1809,7 @@ todo
     - deployment should also publish tests results
     - migrate to ant
     - use cccc
+    - use cppdepend (free for open source)
     - profile with valgrind (cachegrind) valgrind --tool=callgrind + kcachegrind 
       for visualisation
     - use valgrind for leaks (a lot on kernel tests, try whithout -O2) + invalid access
@@ -1908,8 +1926,6 @@ todo
     
   * GUI : 
     - add key shortcuts for clicable buttons
-    - change all hover/pushed elements inspire from  
-      http://sourceforge.net/projects/galactitrade/
    
   * Display :
     - when initing ogre, close any already openned ogre objects in other 
@@ -1958,6 +1974,7 @@ todo
       # use a modified doxygen
       # instead of generating code, genetate an xml structure for attributes, 
         getter and setters ?  (it would be ridiculous : better forget c++ then)
+      # create an over language
     - how can we take advantage of multi-core systems ? for example, during 
       ai simulation, we could calculate commands in threads... or during physics 
       simulate world layers also in threads
