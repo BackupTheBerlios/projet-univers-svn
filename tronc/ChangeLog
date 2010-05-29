@@ -1672,10 +1672,13 @@
     - still physic issue with solid/laser collisions, try to fix it by removing some 
       small contact points 
 
+2010-05-29 
+  * Display corrected test
+  * upgraded meshes    
+  
 in commit
 --------
 
-    
 in progress
 -----------
           

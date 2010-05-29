@@ -10,8 +10,8 @@ material PU/explosion/explosion
       texture_unit
       {
         // best ones
-//        anim_texture explosion_3.png 41 1
-        anim_texture explosion_6.png 37 1
+        anim_texture explosion_3.png 41 1
+//        anim_texture explosion_6.png 37 1
       }
     }
   }

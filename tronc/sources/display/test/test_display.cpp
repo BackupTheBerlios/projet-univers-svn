@@ -27,6 +27,7 @@
 #include <kernel/parameters.h>
 #include <kernel/log.h>
 
+#include <physic/physic.h>
 #include <display/display.h>
 
 int 
@@ -34,6 +35,7 @@ main( int argc, char* argv[] )
 {
   ProjetUnivers::Kernel::Parameters::load("display.config") ;
   ProjetUnivers::Kernel::Log::init() ;
+  ProjetUnivers::Physic::start() ;
   
   // if command line contains "-selftest" then this is the post build check
   // => the output must be in the compiler error format.
