@@ -8,6 +8,8 @@ AM_INIT_AUTOMAKE([1.9 tar-pax -Wall])
 # svn revision
 AC_SUBST(SVN_REVISION, `svnversion|tr -d '\n'`)
 
+AC_CONFIG_MACRO_DIR([m4])
+
 AC_LIBTOOL_WIN32_DLL 
 AC_PROG_LIBTOOL
 AM_PROG_LIBTOOL

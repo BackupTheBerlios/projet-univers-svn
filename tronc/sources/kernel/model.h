@@ -265,14 +265,14 @@ namespace ProjetUnivers
       std::map<ObjectPair,std::vector<bool> > m_relation_validities ;
 
       /// Access to the number of true child formulae for @c this
-      short getNumberOfTrueChildFormulae(const ObjectPair& relation,const Formula* formula) ;
+      Implementation::Number getNumberOfTrueChildFormulae(const ObjectPair& relation,const Formula* formula) ;
 
       /// Change the number of true child formulae for @c this
       void setNumberOfTrueChildFormulae(const ObjectPair& relation,
                                         const Formula* formula,
-                                        short number) ;
+                                        Implementation::Number number) ;
 
-      std::map<ObjectPair,std::vector<short> > m_number_of_true_child_formulae ;
+      std::map<ObjectPair,std::vector<Implementation::Number> > m_number_of_true_child_formulae ;
 
       /// Storage for relation views.
       std::map<Relation,std::set<BaseRelationView*> > m_relation_views ;

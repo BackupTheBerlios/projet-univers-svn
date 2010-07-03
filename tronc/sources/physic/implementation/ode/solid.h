@@ -86,7 +86,7 @@ namespace ProjetUnivers
           
           /// vertices storage : useless...
           dTriMeshDataID m_data ;
-          float*         m_vertices ;
+          dVector3*      m_vertices ;
           dTriIndex*     m_indices ;
           
           /// For trimesh

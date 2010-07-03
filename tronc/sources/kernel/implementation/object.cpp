@@ -180,13 +180,13 @@ namespace ProjetUnivers
       m_validities[i_formula->getIdentifier()] = i_validity ;
     }
 
-    short Object::getNumberOfTrueChildFormulae(const Formula* formula) const
+    Implementation::Number Object::getNumberOfTrueChildFormulae(const Formula* formula) const
     {
       CHECK(formula,"Object::getNumberOfTrueChildFormulae no formula") ;
       CHECK(Formula::getNumberOfFormulae() <= m_number_of_true_child_formulae.size(),
             "Object::getNumberOfTrueChildFormulae not enought place") ;
 
-      short result = m_number_of_true_child_formulae[formula->getIdentifier()] ;
+      Implementation::Number result = m_number_of_true_child_formulae[formula->getIdentifier()] ;
 
       if (result < 0 && !isDeleting())
         throw ExceptionKernel("Object::getNumberOfTrueChildFormulae getting a negative value for "
@@ -196,7 +196,7 @@ namespace ProjetUnivers
     }
 
     void Object::setNumberOfTrueChildFormulae(const Formula* formula,
-                                              short          number)
+                                              Implementation::Number          number)
     {
       CHECK(formula,"Object::setNumberOfTrueChildFormulae no formula") ;
       CHECK(Formula::getNumberOfFormulae() <= m_number_of_true_child_formulae.size(),

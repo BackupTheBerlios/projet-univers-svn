@@ -871,21 +871,21 @@ namespace ProjetUnivers
 
     void HasParentFormula::eval(Object* object)
     {
-      unsigned int number_of_parents = object->getNumberOfParent(getChildFormula()) ;
+      Implementation::Number number_of_parents = object->getNumberOfParent(getChildFormula()) ;
       object->setNumberOfTrueChildFormulae(this,number_of_parents) ;
       object->setValidity(this,number_of_parents > 0) ;
     }
 
     void HasAncestorFormula::eval(Object* object)
     {
-      unsigned int number_of_ancestors = object->getNumberOfAncestor(getChildFormula()) ;
+      Implementation::Number number_of_ancestors = object->getNumberOfAncestor(getChildFormula()) ;
       object->setNumberOfTrueChildFormulae(this,number_of_ancestors) ;
       object->setValidity(this,number_of_ancestors > 0) ;
     }
 
     void HasChildFormula::eval(Object* object)
     {
-      unsigned int number_of_children = object->getNumberOfChildren(getChildFormula()) ;
+      Implementation::Number number_of_children = object->getNumberOfChildren(getChildFormula()) ;
       object->setNumberOfTrueChildFormulae(this,number_of_children) ;
       object->setValidity(this,number_of_children > 0) ;
     }
@@ -895,7 +895,7 @@ namespace ProjetUnivers
       Formula* formula = *m_children.begin() ;
       std::set<Object*> related(getRelated(object)) ;
 
-      unsigned int number_of_true_related = 0 ;
+      Implementation::Number number_of_true_related = 0 ;
       for(std::set<Object*>::iterator related_object = related.begin() ; related_object != related.end() ; ++ related_object)
       {
         if (formula->isValid(*related_object))
@@ -910,7 +910,7 @@ namespace ProjetUnivers
     {
       Formula* formula = *m_children.begin() ;
       std::set<Object*> related(getRelated(object)) ;
-      unsigned int number_of_true_related = 0 ;
+      Implementation::Number number_of_true_related = 0 ;
       for(std::set<Object*>::iterator related_object = related.begin() ; related_object != related.end() ; ++ related_object)
       {
         if (formula->isValid(*related_object))
@@ -1005,7 +1005,7 @@ namespace ProjetUnivers
         becomeTrue(object) ;
       }
 
-      short true_child = object->getNumberOfTrueChildFormulae(this) ;
+      Implementation::Number true_child = object->getNumberOfTrueChildFormulae(this) ;
       object->setNumberOfTrueChildFormulae(this,true_child+1) ;
 
       std::set<Object*> children(object->getChildren()) ;
@@ -1024,7 +1024,7 @@ namespace ProjetUnivers
       /*
         Direct parent with trait has changed
       */
-      short true_child = object->getNumberOfTrueChildFormulae(this) ;
+      Implementation::Number true_child = object->getNumberOfTrueChildFormulae(this) ;
       object->setNumberOfTrueChildFormulae(this,true_child-1) ;
 
       bool local_may_update = may_update &&
@@ -1073,7 +1073,7 @@ namespace ProjetUnivers
       bool old_validity = isValid(object) ;
       bool has_formula = getChildFormula()->isValid(object) ;
 
-      short number_of_parents = 0 ;
+      Implementation::Number number_of_parents = 0 ;
 
       bool local_may_upate = may_update && !has_formula ;
 
@@ -1143,7 +1143,7 @@ namespace ProjetUnivers
         local_may_update = false ;
       }
 
-      short true_child = object->getNumberOfTrueChildFormulae(this) ;
+      Implementation::Number true_child = object->getNumberOfTrueChildFormulae(this) ;
       object->setNumberOfTrueChildFormulae(this,true_child+1) ;
 
       Object* parent = object->getParent() ;
@@ -1155,7 +1155,7 @@ namespace ProjetUnivers
 
     void HasChildFormula::removedChild(Object* object,Object* removed_child,const bool& may_update)
     {
-      short true_child = object->getNumberOfTrueChildFormulae(this) ;
+      Implementation::Number true_child = object->getNumberOfTrueChildFormulae(this) ;
       object->setNumberOfTrueChildFormulae(this,true_child-1) ;
 
       bool local_may_update = may_update && !(getChildFormula()->isValid(object) && object != removed_child) ;
@@ -1182,7 +1182,7 @@ namespace ProjetUnivers
       }
     }
 
-    void HasChildFormula::addedChildren(Object* object,short number_of_children,Object* new_descendant)
+    void HasChildFormula::addedChildren(Object* object,Implementation::Number number_of_children,Object* new_descendant)
     {
       /*
         Here we use the number of true child formulae on objects to code the
@@ -1204,7 +1204,7 @@ namespace ProjetUnivers
         becomeTrue(object) ;
       }
 
-      short true_child = object->getNumberOfTrueChildFormulae(this) ;
+      Implementation::Number true_child = object->getNumberOfTrueChildFormulae(this) ;
       object->setNumberOfTrueChildFormulae(this,true_child+number_of_children) ;
 
       Object* parent = object->getParent() ;
@@ -1214,13 +1214,13 @@ namespace ProjetUnivers
       }
     }
 
-    void HasChildFormula::removedChildren(Object* object,short number_of_children,Object* old_descendant)
+    void HasChildFormula::removedChildren(Object* object,Implementation::Number number_of_children,Object* old_descendant)
     {
       /*
         Here we use the number of true child formulae on objects to code the
         number of children with trait @c trait_name
       */
-      short true_child = object->getNumberOfTrueChildFormulae(this) ;
+      Implementation::Number true_child = object->getNumberOfTrueChildFormulae(this) ;
       object->setNumberOfTrueChildFormulae(this,true_child-number_of_children) ;
 
       if (true_child == number_of_children)
@@ -1267,7 +1267,7 @@ namespace ProjetUnivers
         @c object cannot have changed status because its children have not moved
       */
 
-      unsigned int number_of_children = object->getNumberOfChildren(getChildFormula()) ;
+      Implementation::Number number_of_children = object->getNumberOfChildren(getChildFormula()) ;
 
       if (old_parent && number_of_children > 0)
       {
@@ -1323,7 +1323,7 @@ namespace ProjetUnivers
         becomeTrue(object) ;
       }
 
-      short true_child = object->getNumberOfTrueChildFormulae(this) ;
+      Implementation::Number true_child = object->getNumberOfTrueChildFormulae(this) ;
       object->setNumberOfTrueChildFormulae(this,true_child+1) ;
 
 
@@ -1337,7 +1337,7 @@ namespace ProjetUnivers
       /*
         a true ancestor has been removed
       */
-      short true_child = object->getNumberOfTrueChildFormulae(this) ;
+      Implementation::Number true_child = object->getNumberOfTrueChildFormulae(this) ;
 
       bool local_may_update = !getChildFormula()->isValid(object) ;
 
@@ -1389,7 +1389,7 @@ namespace ProjetUnivers
       */
 
       bool old_validity = isValid(object) ;
-      unsigned int number_of_parents = 0 ;
+      Implementation::Number number_of_parents = 0 ;
 
       bool local_may_update = may_update && !getChildFormula()->isValid(object) ;
 
@@ -1525,7 +1525,7 @@ namespace ProjetUnivers
 
     void Formula::addChildFormulaTrue(Object* object)
     {
-      short true_child = object->getNumberOfTrueChildFormulae(this) ;
+      Implementation::Number true_child = object->getNumberOfTrueChildFormulae(this) ;
 
       object->setNumberOfTrueChildFormulae(this,true_child+1) ;
       onAddChildFormulaTrue(object) ;
@@ -1551,7 +1551,7 @@ namespace ProjetUnivers
 
     void Formula::addChildFormulaTrue(const ObjectPair& pair)
     {
-      short true_child = pair.getNumberOfTrueChildFormulae(this) ;
+      Implementation::Number true_child = pair.getNumberOfTrueChildFormulae(this) ;
 
       pair.setNumberOfTrueChildFormulae(this,true_child+1) ;
       onAddChildFormulaTrue(pair) ;
@@ -1666,7 +1666,7 @@ namespace ProjetUnivers
     void FormulaAnd::onAddChildFormulaTrue(Object* object)
     {
       if (! isValid(object) &&
-          (unsigned int)object->getNumberOfTrueChildFormulae(this) == m_children.size())
+          object->getNumberOfTrueChildFormulae(this) == m_children.size())
       {
         becomeTrue(object) ;
       }
@@ -1683,7 +1683,7 @@ namespace ProjetUnivers
     void FormulaAnd::onAddChildFormulaTrue(const ObjectPair& pair)
     {
       if (! isValid(pair) &&
-          (unsigned int)pair.getNumberOfTrueChildFormulae(this) == m_children.size())
+          pair.getNumberOfTrueChildFormulae(this) == m_children.size())
       {
         becomeTrue(pair) ;
       }
@@ -1913,7 +1913,7 @@ namespace ProjetUnivers
       std::set<Object*> objects(getInverseRelated(object)) ;
       for(std::set<Object*>::iterator related = objects.begin() ; related != objects.end() ; ++related)
       {
-        short true_related = (*related)->getNumberOfTrueChildFormulae(this) ;
+        Implementation::Number true_related = (*related)->getNumberOfTrueChildFormulae(this) ;
         (*related)->setNumberOfTrueChildFormulae(this,true_related+1) ;
         onAddTrueRelated(*related,object) ;
       }
@@ -1929,7 +1929,7 @@ namespace ProjetUnivers
       std::set<Object*> objects(getInverseRelated(object)) ;
       for(std::set<Object*>::iterator related = objects.begin() ; related != objects.end() ; ++related)
       {
-        short true_related = (*related)->getNumberOfTrueChildFormulae(this) ;
+        Implementation::Number true_related = (*related)->getNumberOfTrueChildFormulae(this) ;
         (*related)->setNumberOfTrueChildFormulae(this,true_related-1) ;
         onAddFalseRelated(*related,object) ;
       }
@@ -1988,7 +1988,7 @@ namespace ProjetUnivers
 
     void IsOnlyRelatedFormula::onAddTrueRelated(Object* from,Object* new_to)
     {
-      if ((unsigned int)from->getNumberOfTrueChildFormulae(this) == getRelated(from).size())
+      if (from->getNumberOfTrueChildFormulae(this) == getRelated(from).size())
 
       {
         if (!isValid(from))
@@ -2037,7 +2037,7 @@ namespace ProjetUnivers
           Object* to = (*formula)->getObjectTo(relation) ;
           if (child_formula->isValid(to))
           {
-            short true_related = from->getNumberOfTrueChildFormulae(*formula) ;
+            Implementation::Number true_related = from->getNumberOfTrueChildFormulae(*formula) ;
             from->setNumberOfTrueChildFormulae(*formula,true_related+1) ;
             (*formula)->onAddTrueRelated(from,to) ;
           }
@@ -2067,7 +2067,7 @@ namespace ProjetUnivers
 
           if (child_formula->isValid(to))
           {
-            short true_related = from->getNumberOfTrueChildFormulae(*formula) ;
+            Implementation::Number true_related = from->getNumberOfTrueChildFormulae(*formula) ;
             from->setNumberOfTrueChildFormulae(*formula,true_related-1) ;
             (*formula)->onAddFalseRelated(from,to) ;
           }

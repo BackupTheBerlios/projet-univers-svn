@@ -1045,9 +1045,9 @@ namespace ProjetUnivers
 
         Formula* formula = DeducedTrait::getFormula(getClassTypeIdentifier(DisplayedSolid)) ;
 
-        CPPUNIT_ASSERT_EQUAL((short)1,grand_child->getNumberOfTrueChildFormulae(formula)) ;
-        CPPUNIT_ASSERT_EQUAL((short)1,child->getNumberOfTrueChildFormulae(formula)) ;
-        CPPUNIT_ASSERT_EQUAL((short)1,root->getNumberOfTrueChildFormulae(formula)) ;
+        CPPUNIT_ASSERT_EQUAL((Implementation::Number)1,grand_child->getNumberOfTrueChildFormulae(formula)) ;
+        CPPUNIT_ASSERT_EQUAL((Implementation::Number)1,child->getNumberOfTrueChildFormulae(formula)) ;
+        CPPUNIT_ASSERT_EQUAL((Implementation::Number)1,root->getNumberOfTrueChildFormulae(formula)) ;
 
         grand_child->destroyObject() ;
       }
@@ -1475,19 +1475,19 @@ namespace ProjetUnivers
         Object* child = root->createObject() ;
         Object* grand_child = child->createObject() ;
 
-        CPPUNIT_ASSERT_EQUAL((short)0,root->getNumberOfTrueChildFormulae(formula)) ;
+        CPPUNIT_ASSERT_EQUAL((Implementation::Number)0,root->getNumberOfTrueChildFormulae(formula)) ;
 
         child->addTrait(new Ancestor()) ;
 
-        CPPUNIT_ASSERT_EQUAL((short)0,root->getNumberOfTrueChildFormulae(formula)) ;
-        CPPUNIT_ASSERT_EQUAL((short)0,child->getNumberOfTrueChildFormulae(formula)) ;
-        CPPUNIT_ASSERT_EQUAL((short)1,grand_child->getNumberOfTrueChildFormulae(formula)) ;
+        CPPUNIT_ASSERT_EQUAL((Implementation::Number)0,root->getNumberOfTrueChildFormulae(formula)) ;
+        CPPUNIT_ASSERT_EQUAL((Implementation::Number)0,child->getNumberOfTrueChildFormulae(formula)) ;
+        CPPUNIT_ASSERT_EQUAL((Implementation::Number)1,grand_child->getNumberOfTrueChildFormulae(formula)) ;
 
         root->addTrait(new Ancestor()) ;
 
-        CPPUNIT_ASSERT_EQUAL((short)0,root->getNumberOfTrueChildFormulae(formula)) ;
-        CPPUNIT_ASSERT_EQUAL((short)1,child->getNumberOfTrueChildFormulae(formula)) ;
-        CPPUNIT_ASSERT_EQUAL((short)2,grand_child->getNumberOfTrueChildFormulae(formula)) ;
+        CPPUNIT_ASSERT_EQUAL((Implementation::Number)0,root->getNumberOfTrueChildFormulae(formula)) ;
+        CPPUNIT_ASSERT_EQUAL((Implementation::Number)1,child->getNumberOfTrueChildFormulae(formula)) ;
+        CPPUNIT_ASSERT_EQUAL((Implementation::Number)2,grand_child->getNumberOfTrueChildFormulae(formula)) ;
       }
 
       void TestTrait::addingParentChangeNumberOfTrueChildFormulae()
@@ -1500,19 +1500,19 @@ namespace ProjetUnivers
         Object* child = root->createObject() ;
         Object* grand_child = child->createObject() ;
 
-        CPPUNIT_ASSERT_EQUAL((short)0,root->getNumberOfTrueChildFormulae(formula)) ;
+        CPPUNIT_ASSERT_EQUAL((Implementation::Number)0,root->getNumberOfTrueChildFormulae(formula)) ;
 
         child->addTrait(new Parent()) ;
 
-        CPPUNIT_ASSERT_EQUAL((short)0,root->getNumberOfTrueChildFormulae(formula)) ;
-        CPPUNIT_ASSERT_EQUAL((short)1,child->getNumberOfTrueChildFormulae(formula)) ;
-        CPPUNIT_ASSERT_EQUAL((short)1,grand_child->getNumberOfTrueChildFormulae(formula)) ;
+        CPPUNIT_ASSERT_EQUAL((Implementation::Number)0,root->getNumberOfTrueChildFormulae(formula)) ;
+        CPPUNIT_ASSERT_EQUAL((Implementation::Number)1,child->getNumberOfTrueChildFormulae(formula)) ;
+        CPPUNIT_ASSERT_EQUAL((Implementation::Number)1,grand_child->getNumberOfTrueChildFormulae(formula)) ;
 
         root->addTrait(new Parent()) ;
 
-        CPPUNIT_ASSERT_EQUAL((short)1,root->getNumberOfTrueChildFormulae(formula)) ;
-        CPPUNIT_ASSERT_EQUAL((short)2,child->getNumberOfTrueChildFormulae(formula)) ;
-        CPPUNIT_ASSERT_EQUAL((short)2,grand_child->getNumberOfTrueChildFormulae(formula)) ;
+        CPPUNIT_ASSERT_EQUAL((Implementation::Number)1,root->getNumberOfTrueChildFormulae(formula)) ;
+        CPPUNIT_ASSERT_EQUAL((Implementation::Number)2,child->getNumberOfTrueChildFormulae(formula)) ;
+        CPPUNIT_ASSERT_EQUAL((Implementation::Number)2,grand_child->getNumberOfTrueChildFormulae(formula)) ;
       }
 
       void TestTrait::addingChildChangeNumberOfTrueChildFormulae()
@@ -1525,38 +1525,38 @@ namespace ProjetUnivers
           Object* child = root->createObject() ;
           Object* grand_child = child->createObject() ;
 
-          CPPUNIT_ASSERT_EQUAL((short)0,root->getNumberOfTrueChildFormulae(formula)) ;
+          CPPUNIT_ASSERT_EQUAL((Implementation::Number)0,root->getNumberOfTrueChildFormulae(formula)) ;
 
           child->addTrait(new Child()) ;
 
-          CPPUNIT_ASSERT_EQUAL((short)1,root->getNumberOfTrueChildFormulae(formula)) ;
-          CPPUNIT_ASSERT_EQUAL((short)1,child->getNumberOfTrueChildFormulae(formula)) ;
-          CPPUNIT_ASSERT_EQUAL((short)0,grand_child->getNumberOfTrueChildFormulae(formula)) ;
+          CPPUNIT_ASSERT_EQUAL((Implementation::Number)1,root->getNumberOfTrueChildFormulae(formula)) ;
+          CPPUNIT_ASSERT_EQUAL((Implementation::Number)1,child->getNumberOfTrueChildFormulae(formula)) ;
+          CPPUNIT_ASSERT_EQUAL((Implementation::Number)0,grand_child->getNumberOfTrueChildFormulae(formula)) ;
 
           root->addTrait(new Child()) ;
 
-          CPPUNIT_ASSERT_EQUAL((short)2,root->getNumberOfTrueChildFormulae(formula)) ;
-          CPPUNIT_ASSERT_EQUAL((short)1,child->getNumberOfTrueChildFormulae(formula)) ;
-          CPPUNIT_ASSERT_EQUAL((short)0,grand_child->getNumberOfTrueChildFormulae(formula)) ;
+          CPPUNIT_ASSERT_EQUAL((Implementation::Number)2,root->getNumberOfTrueChildFormulae(formula)) ;
+          CPPUNIT_ASSERT_EQUAL((Implementation::Number)1,child->getNumberOfTrueChildFormulae(formula)) ;
+          CPPUNIT_ASSERT_EQUAL((Implementation::Number)0,grand_child->getNumberOfTrueChildFormulae(formula)) ;
         }
         {
           Object* root = model->createObject() ;
           Object* child = root->createObject() ;
           Object* grand_child = child->createObject() ;
 
-          CPPUNIT_ASSERT_EQUAL((short)0,root->getNumberOfTrueChildFormulae(formula)) ;
+          CPPUNIT_ASSERT_EQUAL((Implementation::Number)0,root->getNumberOfTrueChildFormulae(formula)) ;
 
           child->addTrait(new Child()) ;
 
-          CPPUNIT_ASSERT_EQUAL((short)1,root->getNumberOfTrueChildFormulae(formula)) ;
-          CPPUNIT_ASSERT_EQUAL((short)1,child->getNumberOfTrueChildFormulae(formula)) ;
-          CPPUNIT_ASSERT_EQUAL((short)0,grand_child->getNumberOfTrueChildFormulae(formula)) ;
+          CPPUNIT_ASSERT_EQUAL((Implementation::Number)1,root->getNumberOfTrueChildFormulae(formula)) ;
+          CPPUNIT_ASSERT_EQUAL((Implementation::Number)1,child->getNumberOfTrueChildFormulae(formula)) ;
+          CPPUNIT_ASSERT_EQUAL((Implementation::Number)0,grand_child->getNumberOfTrueChildFormulae(formula)) ;
 
           grand_child->addTrait(new Child()) ;
 
-          CPPUNIT_ASSERT_EQUAL((short)2,root->getNumberOfTrueChildFormulae(formula)) ;
-          CPPUNIT_ASSERT_EQUAL((short)2,child->getNumberOfTrueChildFormulae(formula)) ;
-          CPPUNIT_ASSERT_EQUAL((short)1,grand_child->getNumberOfTrueChildFormulae(formula)) ;
+          CPPUNIT_ASSERT_EQUAL((Implementation::Number)2,root->getNumberOfTrueChildFormulae(formula)) ;
+          CPPUNIT_ASSERT_EQUAL((Implementation::Number)2,child->getNumberOfTrueChildFormulae(formula)) ;
+          CPPUNIT_ASSERT_EQUAL((Implementation::Number)1,grand_child->getNumberOfTrueChildFormulae(formula)) ;
         }
       }
 
@@ -1575,17 +1575,17 @@ namespace ProjetUnivers
         child->addTrait(new Parent()) ;
         root1->addTrait(new Parent()) ;
 
-        CPPUNIT_ASSERT_EQUAL((short)1,root1->getNumberOfTrueChildFormulae(formula)) ;
-        CPPUNIT_ASSERT_EQUAL((short)0,root2->getNumberOfTrueChildFormulae(formula)) ;
-        CPPUNIT_ASSERT_EQUAL((short)2,child->getNumberOfTrueChildFormulae(formula)) ;
-        CPPUNIT_ASSERT_EQUAL((short)2,grand_child->getNumberOfTrueChildFormulae(formula)) ;
+        CPPUNIT_ASSERT_EQUAL((Implementation::Number)1,root1->getNumberOfTrueChildFormulae(formula)) ;
+        CPPUNIT_ASSERT_EQUAL((Implementation::Number)0,root2->getNumberOfTrueChildFormulae(formula)) ;
+        CPPUNIT_ASSERT_EQUAL((Implementation::Number)2,child->getNumberOfTrueChildFormulae(formula)) ;
+        CPPUNIT_ASSERT_EQUAL((Implementation::Number)2,grand_child->getNumberOfTrueChildFormulae(formula)) ;
 
         child->changeParent(root2) ;
 
-        CPPUNIT_ASSERT_EQUAL((short)1,root1->getNumberOfTrueChildFormulae(formula)) ;
-        CPPUNIT_ASSERT_EQUAL((short)0,root2->getNumberOfTrueChildFormulae(formula)) ;
-        CPPUNIT_ASSERT_EQUAL((short)1,child->getNumberOfTrueChildFormulae(formula)) ;
-        CPPUNIT_ASSERT_EQUAL((short)1,grand_child->getNumberOfTrueChildFormulae(formula)) ;
+        CPPUNIT_ASSERT_EQUAL((Implementation::Number)1,root1->getNumberOfTrueChildFormulae(formula)) ;
+        CPPUNIT_ASSERT_EQUAL((Implementation::Number)0,root2->getNumberOfTrueChildFormulae(formula)) ;
+        CPPUNIT_ASSERT_EQUAL((Implementation::Number)1,child->getNumberOfTrueChildFormulae(formula)) ;
+        CPPUNIT_ASSERT_EQUAL((Implementation::Number)1,grand_child->getNumberOfTrueChildFormulae(formula)) ;
       }
 
       void TestTrait::changingParentOfHasAncestorChangesNumberOfTrueChildFormulae()
@@ -1603,18 +1603,18 @@ namespace ProjetUnivers
 
         Object* root2 = model->createObject() ;
 
-        CPPUNIT_ASSERT_EQUAL((short)0,root1->getNumberOfTrueChildFormulae(formula)) ;
-        CPPUNIT_ASSERT_EQUAL((short)0,root2->getNumberOfTrueChildFormulae(formula)) ;
-        CPPUNIT_ASSERT_EQUAL((short)1,child->getNumberOfTrueChildFormulae(formula)) ;
-        CPPUNIT_ASSERT_EQUAL((short)2,grand_child->getNumberOfTrueChildFormulae(formula)) ;
+        CPPUNIT_ASSERT_EQUAL((Implementation::Number)0,root1->getNumberOfTrueChildFormulae(formula)) ;
+        CPPUNIT_ASSERT_EQUAL((Implementation::Number)0,root2->getNumberOfTrueChildFormulae(formula)) ;
+        CPPUNIT_ASSERT_EQUAL((Implementation::Number)1,child->getNumberOfTrueChildFormulae(formula)) ;
+        CPPUNIT_ASSERT_EQUAL((Implementation::Number)2,grand_child->getNumberOfTrueChildFormulae(formula)) ;
 
         // induces a memory lost of WithAncestor created on child
         child->changeParent(root2) ;
 
-        CPPUNIT_ASSERT_EQUAL((short)0,root1->getNumberOfTrueChildFormulae(formula)) ;
-        CPPUNIT_ASSERT_EQUAL((short)0,root2->getNumberOfTrueChildFormulae(formula)) ;
-        CPPUNIT_ASSERT_EQUAL((short)0,child->getNumberOfTrueChildFormulae(formula)) ;
-        CPPUNIT_ASSERT_EQUAL((short)1,grand_child->getNumberOfTrueChildFormulae(formula)) ;
+        CPPUNIT_ASSERT_EQUAL((Implementation::Number)0,root1->getNumberOfTrueChildFormulae(formula)) ;
+        CPPUNIT_ASSERT_EQUAL((Implementation::Number)0,root2->getNumberOfTrueChildFormulae(formula)) ;
+        CPPUNIT_ASSERT_EQUAL((Implementation::Number)0,child->getNumberOfTrueChildFormulae(formula)) ;
+        CPPUNIT_ASSERT_EQUAL((Implementation::Number)1,grand_child->getNumberOfTrueChildFormulae(formula)) ;
       }
 
       void TestTrait::changingParentOfHasChildChangesNumberOfTrueChildFormulae()
@@ -1633,13 +1633,13 @@ namespace ProjetUnivers
         child->addTrait(new Child()) ;
         grand_child->addTrait(new Child()) ;
 
-        CPPUNIT_ASSERT_EQUAL((short)2,root1->getNumberOfTrueChildFormulae(formula)) ;
-        CPPUNIT_ASSERT_EQUAL((short)0,root2->getNumberOfTrueChildFormulae(formula)) ;
+        CPPUNIT_ASSERT_EQUAL((Implementation::Number)2,root1->getNumberOfTrueChildFormulae(formula)) ;
+        CPPUNIT_ASSERT_EQUAL((Implementation::Number)0,root2->getNumberOfTrueChildFormulae(formula)) ;
 
         child->changeParent(root2) ;
 
-        CPPUNIT_ASSERT_EQUAL((short)0,root1->getNumberOfTrueChildFormulae(formula)) ;
-        CPPUNIT_ASSERT_EQUAL((short)2,root2->getNumberOfTrueChildFormulae(formula)) ;
+        CPPUNIT_ASSERT_EQUAL((Implementation::Number)0,root1->getNumberOfTrueChildFormulae(formula)) ;
+        CPPUNIT_ASSERT_EQUAL((Implementation::Number)2,root2->getNumberOfTrueChildFormulae(formula)) ;
       }
 
       namespace Complex
@@ -1674,7 +1674,7 @@ namespace ProjetUnivers
 
         Formula* formula = o1->getTrait<Complex::DT1>()->getFormula() ;
 
-        CPPUNIT_ASSERT_EQUAL((short)1,o1->getNumberOfTrueChildFormulae(formula)) ;
+        CPPUNIT_ASSERT_EQUAL((Implementation::Number)1,o1->getNumberOfTrueChildFormulae(formula)) ;
       }
 
       void TestTrait::removingRelationShouldNotCleanOtherRelationValidities()

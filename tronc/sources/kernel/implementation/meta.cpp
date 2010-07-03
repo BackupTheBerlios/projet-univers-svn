@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2010 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -94,7 +94,9 @@ namespace ProjetUnivers
 
     bool TypeIdentifier::operator==(const TypeIdentifier& i_type_identifier) const
     {
-      return *m_representation == *i_type_identifier.m_representation ;
+      // idea taken from http://stackoverflow.com/questions/579887/how-expensive-is-rtti
+      return m_representation == i_type_identifier.m_representation ||
+             *m_representation == *i_type_identifier.m_representation ;
     }
 
     bool TypeIdentifier::operator!=(const TypeIdentifier& i_type_identifier) const

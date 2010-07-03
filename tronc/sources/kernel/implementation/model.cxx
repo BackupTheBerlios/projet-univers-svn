@@ -74,7 +74,7 @@ namespace ProjetUnivers
       }
 
       /// Access to the number of true child formulae for @c this
-      short getNumberOfTrueChildFormulae(const Formula* formula) const
+      Implementation::Number getNumberOfTrueChildFormulae(const Formula* formula) const
       {
         if (m_object1)
           return m_object1->getModel()->getNumberOfTrueChildFormulae(*this,formula) ;
@@ -82,7 +82,7 @@ namespace ProjetUnivers
       }
 
       /// Change the number of true child formulae for @c this
-      void setNumberOfTrueChildFormulae(const Formula* formula,short number) const
+      void setNumberOfTrueChildFormulae(const Formula* formula,Implementation::Number number) const
       {
         if (m_object1)
           m_object1->getModel()->setNumberOfTrueChildFormulae(*this,formula,number) ;

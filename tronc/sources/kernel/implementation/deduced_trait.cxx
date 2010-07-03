@@ -675,10 +675,10 @@ namespace ProjetUnivers
       void removedChild(Object* object,Object* removed_child,const bool& may_update) ;
 
       /// Declare that the formula has been added to number of @c object's children.
-      void addedChildren(Object* object,short number_of_children,Object* new_descendant) ;
+      void addedChildren(Object* object,Implementation::Number number_of_children,Object* new_descendant) ;
 
       /// Declare that the trait has been removed to number @c object's children.
-      void removedChildren(Object* object,short number_of_children,Object* new_descendant) ;
+      void removedChildren(Object* object,Implementation::Number number_of_children,Object* new_descendant) ;
 
       /// Child with formula has been updated.
       void updateSubFormulaOnChild(Object* object) ;

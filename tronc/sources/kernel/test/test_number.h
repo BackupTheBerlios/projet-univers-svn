@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2008 Mathieu ROGER                                      *
+ *   Copyright (C) 2006-2010 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -20,64 +20,42 @@
  ***************************************************************************/
 #pragma once
 
-namespace ProjetUnivers 
+
+#include <cppunit/extensions/HelperMacros.h>
+#include <kernel/exception_kernel.h>
+
+namespace ProjetUnivers
 {
-  namespace Kernel 
+  namespace Kernel
   {
-
-    /// Class representing a percentage positive or negative.
-    class Percentage
+    namespace Test
     {
-    public:
 
-      /// Construction.
-      Percentage() ;
-      
-      /// Construct from a integer.
-      Percentage(const int&) ;
-      
-      /// Construct from a integer.
-      Percentage& operator=(const int&) ;
-      
-      /// Construct from a float.
-      Percentage(const float&) ;
-    
-      /// Construct from a float.
-      Percentage& operator=(const float&) ;
+      ///  Test for Number.
+      class TestNumber : public CppUnit::TestFixture
+      {
+      protected:
 
-      /// Addition.
-      Percentage& operator+=(const Percentage&) ;
+      /// @name Tests methods
+      // @{
 
-      /// Addition.
-      Percentage operator+(const Percentage&) ;
-      
-      /// Conversion to int value in [-100,100].
-      operator int() const ;
+        void defaultContructorSetToZero() ;
+        void add() ;
+        void subtract() ;
 
-      /// Conversion to float value in [-1,1].
-      operator float() const ;
-      
-      /// Comparison.
-      bool operator==(const Percentage&) const ;
+      // @}
 
-      /// Comparison.
-      bool operator==(const int&) const ;
 
-      /// Comparison.
-      bool operator==(const float&) const ;
+        CPPUNIT_TEST_SUITE(TestNumber) ;
 
-      /// Comparison.
-      bool operator!=(const Percentage&) const ;
+        CPPUNIT_TEST(defaultContructorSetToZero) ;
+        CPPUNIT_TEST(add) ;
+        CPPUNIT_TEST(subtract) ;
 
-      /// Comparison.
-      bool operator!=(const int&) const ;
+        CPPUNIT_TEST_SUITE_END() ;
 
-      /// Comparison.
-      bool operator!=(const float&) const ;
-      
-    private:  
-    
-      float m_value ;
-    };
+
+      };
+    }
   }
 }

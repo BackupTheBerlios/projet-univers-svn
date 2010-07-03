@@ -66,9 +66,10 @@ namespace ProjetUnivers
 
         void Solid::onClose()
         {
+          dGeomTriMeshDataDestroy(m_data) ;
+          delete[] m_vertices ;
+          delete[] m_indices ;
           onCloseCollideable() ;
-          delete m_vertices ;
-          delete m_indices ;
         }
 
         void Solid::createGeometry(const dSpaceID& i_space)
@@ -88,16 +89,17 @@ namespace ProjetUnivers
 
           if (vertices.size()>0 && indices.size() > 0)
           {
-            m_vertices = new float[vertices.size()*3];
+            m_vertices = new dVector3[vertices.size()];
             m_indices = new dTriIndex[indices.size()];
             
             for(unsigned int vertex_index = 0 ; 
                 vertex_index < vertices.size() ; 
                 ++vertex_index)
             {
-              m_vertices[vertex_index+0] = (float)(vertices[vertex_index].x) ;
-              m_vertices[vertex_index+1] = (float)(vertices[vertex_index].y) ;
-              m_vertices[vertex_index+2] = (float)(vertices[vertex_index].z) ;
+              m_vertices[vertex_index][0] = (dReal)(vertices[vertex_index].x) ;
+              m_vertices[vertex_index][1] = (dReal)(vertices[vertex_index].y) ;
+              m_vertices[vertex_index][2] = (dReal)(vertices[vertex_index].z) ;
+              m_vertices[vertex_index][3] = 0 ;
             }
 
             for(unsigned int index = 0 ; 
@@ -109,10 +111,10 @@ namespace ProjetUnivers
 
             m_data = dGeomTriMeshDataCreate() ;
 
-            dGeomTriMeshDataBuildSingle(m_data,
-                                        m_vertices,3*sizeof(float),(int)vertices.size(),
-                                        m_indices,(int)indices.size(),3*sizeof(dTriIndex)) ;
-                                  
+            dGeomTriMeshDataBuildSimple(m_data,
+                                        (dReal*)m_vertices,(int)vertices.size(),
+                                        m_indices,(int)indices.size()) ;
+
             m_geometry1 = dCreateTriMesh(i_space,m_data,0,0,0);
             dGeomSetData(m_geometry1,m_data) ;
             dGeomSetCollideBits(m_geometry1,(unsigned long)Collideable::Solid) ;

@@ -619,7 +619,7 @@ namespace ProjetUnivers
       {
         m_canonical_relations.insert(std::make_pair(relation,relation)) ;
         m_relation_validities.insert(std::make_pair(relation,std::vector<bool>(Formula::getNumberOfFormulae(),false))) ;
-        m_number_of_true_child_formulae.insert(std::make_pair(relation,std::vector<short>(Formula::getNumberOfFormulae(),0))) ;
+        m_number_of_true_child_formulae.insert(std::make_pair(relation,std::vector<Implementation::Number>(Formula::getNumberOfFormulae(),0))) ;
         relation.createViews() ;
         relation.createControlers() ;
       }
@@ -746,7 +746,7 @@ namespace ProjetUnivers
       m_relation_validities[relation][formula->getIdentifier()] = validity ;
     }
 
-    short Model::getNumberOfTrueChildFormulae(const ObjectPair& relation,
+    Implementation::Number Model::getNumberOfTrueChildFormulae(const ObjectPair& relation,
                                               const Formula* formula)
     {
       if (formula->getIdentifier() > (int)m_number_of_true_child_formulae[relation].capacity() ||
@@ -759,7 +759,7 @@ namespace ProjetUnivers
 
     void Model::setNumberOfTrueChildFormulae(const ObjectPair& relation,
                                              const Formula* formula,
-                                             short number)
+                                             Implementation::Number number)
     {
       if (formula->getIdentifier() > (int)m_number_of_true_child_formulae[relation].capacity() ||
           formula->getIdentifier() < 0)

@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2008 Mathieu ROGER                                      *
+ *   Copyright (C) 2006-2010 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,66 +18,45 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#pragma once
+#include <iostream>
+#include <kernel/implementation/number.h>
+#include <kernel/test/test_number.h>
 
-namespace ProjetUnivers 
+
+namespace ProjetUnivers
 {
-  namespace Kernel 
+  namespace Kernel
   {
-
-    /// Class representing a percentage positive or negative.
-    class Percentage
+    namespace Test
     {
-    public:
+      CPPUNIT_TEST_SUITE_REGISTRATION(TestNumber) ;
 
-      /// Construction.
-      Percentage() ;
-      
-      /// Construct from a integer.
-      Percentage(const int&) ;
-      
-      /// Construct from a integer.
-      Percentage& operator=(const int&) ;
-      
-      /// Construct from a float.
-      Percentage(const float&) ;
-    
-      /// Construct from a float.
-      Percentage& operator=(const float&) ;
+      void TestNumber::defaultContructorSetToZero()
+      {
+        Implementation::Number number ;
 
-      /// Addition.
-      Percentage& operator+=(const Percentage&) ;
+        CPPUNIT_ASSERT(number == 0) ;
+      }
 
-      /// Addition.
-      Percentage operator+(const Percentage&) ;
-      
-      /// Conversion to int value in [-100,100].
-      operator int() const ;
+      void TestNumber::add()
+      {
+        Implementation::Number number1(10) ;
+        Implementation::Number number2(32) ;
 
-      /// Conversion to float value in [-1,1].
-      operator float() const ;
-      
-      /// Comparison.
-      bool operator==(const Percentage&) const ;
+        CPPUNIT_ASSERT(number1+number2 == 42) ;
+        CPPUNIT_ASSERT(number1+56 == 66) ;
+      }
 
-      /// Comparison.
-      bool operator==(const int&) const ;
+      void TestNumber::subtract()
+      {
+        Implementation::Number number1(10) ;
+        Implementation::Number number2(32) ;
 
-      /// Comparison.
-      bool operator==(const float&) const ;
+        CPPUNIT_ASSERT(number2-number1 == 22) ;
+        CPPUNIT_ASSERT(number2-12 == 20) ;
+      }
 
-      /// Comparison.
-      bool operator!=(const Percentage&) const ;
 
-      /// Comparison.
-      bool operator!=(const int&) const ;
-
-      /// Comparison.
-      bool operator!=(const float&) const ;
-      
-    private:  
-    
-      float m_value ;
-    };
+    }
   }
 }

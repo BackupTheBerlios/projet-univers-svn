@@ -18,8 +18,9 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <kernel/implementation/debugger.h>
-#include <kernel/object.h>
+#pragma once
+
+#include <ostream>
 
 namespace ProjetUnivers
 {
@@ -27,66 +28,56 @@ namespace ProjetUnivers
   {
     namespace Implementation
     {
+      class Number ;
 
-      Debugger debugger ;
+      std::ostream& operator<<(std::ostream&,const Number&) ;
 
-      Debugger::Debugger()
+      /// A positive integer.
+      class Number
       {
-//        EventListener::addListener(this) ;
-      }
+      public:
 
-      void Debugger::startNotify(const Notifiable*)
-      {
+        /// Initialize to zero.
+        Number(const int& = 0) ;
+        /// Copy.
+        Number(const Number&) ;
+        /// Assignment
+        Number& operator=(const Number&) ;
+        /// Assignment
+        Number& operator=(const unsigned int&) ;
+        /// Increment
+        Number& operator++() ;
+        /// Assignment
+        Number& operator+=(const Number&) ;
 
-      }
+        /// Sum
+        Number operator+(const Number&) const ;
+        /// Sum
+        Number operator+(const unsigned int&) const ;
+        /// Subtract
+        Number operator-(const Number&) const ;
+        /// Subtract
+        Number operator-(const unsigned int&) const ;
 
-      void Debugger::endNotify(const Notifiable*)
-      {
+        bool operator==(const Number&) const ;
+        bool operator==(const unsigned int&) const ;
+        bool operator!=(const Number&) const ;
+        bool operator!=(const unsigned int&) const ;
+        bool operator<(const Number&) const ;
+        bool operator<(const unsigned int&) const ;
+        bool operator<=(const Number&) const ;
+        bool operator<=(const unsigned int&) const ;
+        bool operator>(const Number&) const ;
+        bool operator>(const unsigned int&) const ;
+        bool operator>=(const Number&) const ;
+        bool operator>=(const unsigned int&) const ;
 
-      }
+      private:
 
-      void Debugger::startCreateObject()
-      {
+        unsigned int m_implementation ;
 
-      }
-
-      void Debugger::endCreateObject(const Object* created_object)
-      {
-        _Object debug_object ;
-        debug_object.identifier = created_object->getIdentifier() ;
-
-        objects.push_back(debug_object) ;
-      }
-
-      void Debugger::startDestroyObject(const Object* /*destroyed_object*/)
-      {
-
-      }
-
-      void Debugger::endDestroyObject()
-      {
-
-      }
-
-      void Debugger::startAddTrait(const Object*,const Trait* /*added_trait*/)
-      {
-
-      }
-
-      void Debugger::endAddTrait(const Object*,const Trait* /*added_trait*/)
-      {
-
-      }
-
-      void Debugger::startDestroyTrait(const Object*,const Trait* /*destroyed_trait*/)
-      {
-
-      }
-
-      void Debugger::endDestroyTrait(const Object*)
-      {
-
-      }
+        friend std::ostream& operator<<(std::ostream&,const Number&) ;
+      };
 
     }
   }

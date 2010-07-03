@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2010 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -69,8 +69,13 @@ namespace ProjetUnivers
       */
       bool isInstance(Trait* object) const ;
 
-      /// gcc typeid name to class name
+      /// Class name, i.e., if the fullname of the class is A::B::C returns C
       std::string className() const ;
+
+      /// Full class name without the first namespace
+      /*!
+        If fullname of the class is ProjetUnivers::A::B returns A::B.
+      */
       std::string fullName() const ;
 
       /// Assignment.

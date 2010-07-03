@@ -1675,15 +1675,19 @@
 2010-05-29 
   * Display corrected test
   * upgraded meshes    
+
+2010-07-03
+  * All : removed errors found by valgrind         
   
 in commit
 --------
 
+
 in progress
 -----------
-          
+ 
     
-todo
+@todo
 ----
 
   * Display : issue with fonts in Ogre 1.6.1 windows version; they are too big.

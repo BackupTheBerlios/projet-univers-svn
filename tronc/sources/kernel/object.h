@@ -34,6 +34,7 @@
 #include <kernel/inherits.h>
 #include <kernel/object_reference.h>
 #include <kernel/trait.h>
+#include <kernel/implementation/number.h>
 
 
 namespace ProjetUnivers
@@ -370,11 +371,11 @@ namespace ProjetUnivers
       void setValidity(const Formula* i_formula,bool i_validity) ;
 
       /// Access to the number of true child formulae for @c this
-      short getNumberOfTrueChildFormulae(const Formula* i_formula) const ;
+      Implementation::Number getNumberOfTrueChildFormulae(const Formula* i_formula) const ;
 
       /// Change the number of true child formulae for @c this
       void setNumberOfTrueChildFormulae(const Formula* i_formula,
-                                        short i_number) ;
+                                        Implementation::Number i_number) ;
 
       /// Access to a trait by name.
       Trait* getTrait(const TypeIdentifier&) const ;
@@ -440,7 +441,7 @@ namespace ProjetUnivers
       std::vector<bool>                m_validities ;
 
       /// Number of true child formulae indexed by formulae.
-      std::vector<short>      m_number_of_true_child_formulae ;
+      std::vector<Implementation::Number>      m_number_of_true_child_formulae ;
 
       /// Object name
       std::string                      m_name ;

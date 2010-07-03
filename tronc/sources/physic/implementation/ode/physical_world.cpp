@@ -75,6 +75,8 @@ namespace ProjetUnivers
           InternalMessage("Physic","Physic::PhysicalWorld::onClose entering " +
                                    Kernel::toString(getObject()->getIdentifier())) ;
 
+          dJointGroupDestroy(m_contact_group) ;
+
           if (m_world)
           {
             delete m_world ;

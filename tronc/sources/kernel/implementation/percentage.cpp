@@ -32,24 +32,24 @@ namespace ProjetUnivers
     {}
     
     Percentage::Percentage(const int& value)
-    : m_value((value<0?-0.01:+0.01)*std::min(int(fabs(value)),100))
+    : m_value((value<0?-0.01f:+0.01f)*(float)std::min(abs(value),100))
     {}
     
     Percentage& Percentage::operator=(const int& value)
     {
-      m_value = (value<0?-0.01:+0.01)*std::min(int(fabs(value)),100) ;
+      m_value = (value<0?-0.01f:+0.01f)*(float)std::min(abs(value),100) ;
       if (!finite(m_value))
         m_value = 0 ;
       return *this ;
     }
     
     Percentage::Percentage(const float& value)
-    : m_value((value<0?-1:+1)*std::min(fabs(value),1.0))
+    : m_value((float)(value<0?-1:+1)*std::min((float)fabs(value),1.0f))
     {}
   
     Percentage& Percentage::operator=(const float& value)
     {
-      m_value = (value<0?-1:+1)*std::min(fabs(value),1.0) ;
+      m_value = (float)(value<0?-1:+1)*std::min((float)fabs(value),1.0f) ;
       if (!finite(m_value))
         m_value = 0 ;
       return *this ;
@@ -59,7 +59,7 @@ namespace ProjetUnivers
     {
       m_value += value.m_value ;
       
-      m_value = (m_value<0?-1:+1)*std::min(fabs(m_value),1.0) ;
+      m_value = (float)(m_value<0?-1:+1)*std::min((float)fabs(m_value),1.0f) ;
       if (!finite(m_value))
         m_value = 0 ;
       return *this ;

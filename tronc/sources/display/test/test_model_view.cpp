@@ -452,7 +452,7 @@ namespace ProjetUnivers
 
         target->getTrait<Model::Oriented>()->setOrientation(::Ogre::Quaternion(::Ogre::Degree(90),::Ogre::Vector3::UNIT_Y)) ;
 
-        CPPUNIT_ASSERT_EQUAL(Ogre::Quaternion(::Ogre::Degree(90),::Ogre::Vector3::UNIT_Y),positioned->getNode()->getOrientation()) ;
+        CPPUNIT_ASSERT(positioned->getNode()->getOrientation().equals(Ogre::Quaternion(::Ogre::Degree(90),::Ogre::Vector3::UNIT_Y),::Ogre::Degree(5))) ;
       }
 
       void TestModelView::testMission()

@@ -154,8 +154,15 @@ namespace ProjetUnivers
 
         body->setPosition(100,100,100) ;
 
-        dReal* aabb = new dReal[6] ;
+        dReal aabb[6] ;
         dGeomGetAABB(TriMesh,aabb) ;
+
+        // Destroy the mesh
+        dGeomTriMeshClearTCCache(TriMesh) ;
+        dGeomTriMeshDataDestroy(Data) ;
+        dGeomDestroy(TriMesh) ;
+
+        dCloseODE() ;
       }
 
       void onGeometryCollision(void*   i_world,
@@ -4158,6 +4165,10 @@ namespace ProjetUnivers
         dGeomSetPosition(cube,1.4,0,0) ;
         CPPUNIT_ASSERT(dCollide(TriMesh,cube,100,contacts,sizeof(dContactGeom))!=0) ;
 
+        dGeomTriMeshClearTCCache(TriMesh) ;
+        dGeomTriMeshDataDestroy(data) ;
+        dGeomDestroy(TriMesh) ;
+
         dJointGroupDestroy (contactgroup);
         dSpaceDestroy (space);
         dWorldDestroy (world);
@@ -4182,6 +4193,8 @@ namespace ProjetUnivers
 
         dGeomSetPosition(cube2,0,9,0) ;
         CPPUNIT_ASSERT(dCollide(cube1,cube2,10,contacts,sizeof(dContactGeom))!=0) ;
+
+        dSpaceDestroy(space) ;
 
         dCloseODE() ;
       }

@@ -25,6 +25,7 @@ $(SOURCES)/kernel/implementation/log.cpp \
 $(SOURCES)/kernel/implementation/meta.cpp \
 $(SOURCES)/kernel/implementation/model.cpp \
 $(SOURCES)/kernel/implementation/notifiable.cpp \
+$(SOURCES)/kernel/implementation/number.cpp \
 $(SOURCES)/kernel/implementation/object.cpp \
 $(SOURCES)/kernel/implementation/object_reference.cpp \
 $(SOURCES)/kernel/implementation/observer.cpp \
@@ -57,6 +58,7 @@ libkernel_la_LDFLAGS = -no-undefined
 libkernel_la_LDFLAGS += $(librlog_LIBS) $(libXML_LIBS) $(OGRE_LIBS) $(CPPUNIT_LIBS)
 
 # tests
+AM_COLOR_TESTS = always
 
 TESTS = test_kernel test_kernel_automatic_registration test_performance_kernel 
 
@@ -68,22 +70,23 @@ check_PROGRAMS = $(TESTS)
 
 test_kernel_SOURCES = \
 $(SOURCES)/kernel/test/test_algorithm.cpp \
+$(SOURCES)/kernel/test/test_command.cpp \
+$(SOURCES)/kernel/test/test_deduced_trait.cpp \
 $(SOURCES)/kernel/test/test_error.cpp \
-$(SOURCES)/kernel/test/test_kernel.cpp \
 $(SOURCES)/kernel/test/test_interpretor.cpp \
+$(SOURCES)/kernel/test/test_kernel.cpp \
 $(SOURCES)/kernel/test/test_meta.cpp \
+$(SOURCES)/kernel/test/test_model.cpp \
 $(SOURCES)/kernel/test/test_model_controler.cpp \
 $(SOURCES)/kernel/test/test_model_view.cpp \
-$(SOURCES)/kernel/test/test_deduced_trait.cpp \
-$(SOURCES)/kernel/test/test_command.cpp \
+$(SOURCES)/kernel/test/test_number.cpp \
 $(SOURCES)/kernel/test/test_parameters.cpp \
 $(SOURCES)/kernel/test/test_percentage.cpp \
 $(SOURCES)/kernel/test/test_relation.cpp \
 $(SOURCES)/kernel/test/test_relation_view.cpp \
 $(SOURCES)/kernel/test/test_trait.cpp \
 $(SOURCES)/kernel/test/test_xml_reader.cpp \
-$(SOURCES)/kernel/test/test_xml_writer.cpp \
-$(SOURCES)/kernel/test/test_model.cpp 
+$(SOURCES)/kernel/test/test_xml_writer.cpp
 
 # checks that "test_inherits.cpp" does not compile
 # its is a negative test for inherits : class does not inherits and should 
