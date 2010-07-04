@@ -38,6 +38,10 @@ main( int argc, char* argv[] )
   bool selfTest = (argc > 1)  &&  
                   (std::string("-selftest") == argv[1]);
 
+  std::string test_name ;
+  if (argc > 1)
+    test_name = argv[1] ;
+
   CppUnit::TextUi::TestRunner runner;
   CppUnit::TestFactoryRegistry &registry = CppUnit::TestFactoryRegistry::getRegistry();
   
@@ -49,16 +53,15 @@ main( int argc, char* argv[] )
   CppUnit::MultiOutputter* outputter = new CppUnit::MultiOutputter() ;
   outputter->add(new CppUnit::CompilerOutputter(&runner.result(),std::cerr,"test/%f:%l: ")) ;
   outputter->add(new ProjetUnivers::Kernel::XmlOutputter(&runner,outputFile,"Model")) ;
-  runner.setOutputter(outputter);
+  runner.setOutputter(outputter) ;
 
   // Run the test.
-  bool wasSucessful = runner.run( "" );
+  bool wasSucessful = runner.run(test_name) ;
 
   ProjetUnivers::Kernel::Log::close() ;
 
-
   // Return error code 1 if the one of test failed.
-  return wasSucessful ? 0 : 1;
+  return wasSucessful?0:1 ;
 }
 
 

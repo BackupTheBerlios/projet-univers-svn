@@ -107,6 +107,12 @@ namespace ProjetUnivers
       /// Closes the observer on relation.
       virtual void _close() ;
 
+      /// Close the views.
+      virtual void _close(ViewPoint* viewpoint) ;
+
+      /// Close the controllers before controller set closing.
+      virtual void _close(ControlerSet* controler_set) ;
+
       /// Get a relation view.
       template <class _View> _View* getView() const ;
 
@@ -339,7 +345,7 @@ namespace ProjetUnivers
           ClassRelation,ClassViewPoint,ClassView> temp(&build) ;             \
       }
 
-    /// @c ClassControler is the controler for @c ClassRelation in @c ClassControlerSet.
+    /// @c ClassControler is the controller for @c ClassRelation in @c ClassControlerSet.
     /*!
     @par Usage
     @c ClassControler must be declared as

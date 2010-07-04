@@ -42,6 +42,9 @@ namespace ProjetUnivers
       /// Access to a view of the same viewpoint.
       template <class _View> _View* getView() const ;
 
+      /// Access to viewpoint.
+      ViewPoint* getViewPoint() const ;
+
       /// abstract class means virtual destructor.
       virtual ~BaseRelationView() ;
 

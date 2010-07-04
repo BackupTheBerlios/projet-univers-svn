@@ -258,6 +258,18 @@ namespace ProjetUnivers
         getObjectFrom()->getModel()->close(*this) ;
     }
 
+    void Relation::_close(ViewPoint* viewpoint)
+    {
+      if (getObjectFrom())
+        getObjectFrom()->getModel()->close(*this,viewpoint) ;
+    }
+
+    void Relation::_close(ControlerSet* controler_set)
+    {
+      if (getObjectFrom())
+        getObjectFrom()->getModel()->close(*this,controler_set) ;
+    }
+
     Relation* Relation::getRelation(const TypeIdentifier& type,Object* from,Object* to)
     {
       return from->getModel()->getCanonical(Relation(type,from,to)) ;

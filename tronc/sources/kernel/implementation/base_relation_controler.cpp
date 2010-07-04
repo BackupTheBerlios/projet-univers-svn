@@ -52,6 +52,10 @@ namespace ProjetUnivers
       m_controler_set = controler_set ;
     }
 
+    ControlerSet* BaseRelationControler::getControlerSet() const
+    {
+      return m_controler_set ;
+    }
   }
 }
 

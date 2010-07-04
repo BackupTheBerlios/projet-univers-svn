@@ -1678,6 +1678,13 @@
 
 2010-07-03
   * All : removed errors found by valgrind         
+
+2010-07-04
+  * Kernel : closing order bug correction in case of model destruction or 
+    viewpoint/clontrolerset closing
+ 
+  * Model :
+    - change laser beam size
   
 in commit
 --------
@@ -1690,14 +1697,19 @@ in progress
 @todo
 ----
 
-  * Display : issue with fonts in Ogre 1.6.1 windows version; they are too big.
-  
+  * Physic/Display :
+    - change laser beam size
+
+  * on test : Display::TetModelView::ChangeParent, destruction of model leads 
+    to gpf in Ode::Solid::onClose
+    --> a major bug on the untested and too early feature changeParent, see 
+    kernel evolutions   
+
   * Physics:
     - extrude laser beam length up to DeltaT*speed @see 
       http://www.bulletphysics.org/mediawiki-1.5.8/index.php?title=Collision_Detection_and_Physics_FAQ#How_can_I_avoid_missing_collisions_for_fast_moving_objects
-    
-  * Model :
-    - change laser beam size (it should be adjustable length+radius)
+
+  * Display : issue with fonts in Ogre 1.6.1 windows version; they are too big.
     
   * have all used ships in the same size range
 
@@ -1827,12 +1839,23 @@ in progress
     - instability on test autorepeat
     
   * Kernel : 
+    - detect illegal access in view/controler, an illegal access is accessing a 
+      trait/view/controler that is not part of the formula
+
+    - we should use onChangedParent() for formulae on parent instead of 
+      onUpdate, onChangeParent is exactly the event that indicates that the 
+      formula is still true but through another one
+      
+      bug for change parent in display and physics shows that this feature is 
+      still out of scope because too difficult, we would need a beforeChangeParent
+      to detach element from parent, and afterChangeParent to re-attach to the 
+      new. This would be only called by formulae when a value of HasParent or 
+      HasAncestor changes. Default value would be to call onClose and onInit
+      
     - print for IsTo is incorrect
     - be able to desactivate a module (sound,display,input,gui,...) by config
     - callgrind shows that desactivating gui and input in a system with no gui 
       allow to go up to 80 ships !!
-    - detect illegal access in view/controler, an illegal access is accessing a 
-      trait/view/controler that is not part of the formula
     - refactor types : Object, to catch NULL call by using kind of shared_ptr
     - controlers ... during simulation of a controler, the updates on its trait 
       should not be triggered (could remove two checks in physics and gui)
@@ -1846,9 +1869,6 @@ in progress
       
       Create a kernel.h header containg all the stuff...   
     - add traits on relations ? 
-    - we should use onChangedParent() for formulae on parent instead of 
-      onUpdate, onChangeParent is exactly the event that indicates that the 
-      formula is still true but through another one ?
     - all members should be encapsulated, even for own class : allow to change 
       storage (object pool...) for allocation optimisation
     - create an object pool per model, a pool on views too... boost::object_pool 

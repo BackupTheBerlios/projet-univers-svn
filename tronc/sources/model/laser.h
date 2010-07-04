@@ -95,9 +95,18 @@ namespace ProjetUnivers
 
       /// Access to the out orientation of the laser.
       const Orientation& getOutOrientation() const ;
+
+      /// Access to the duration between two shots.
+      const Duration& getTimeBetweenShots() const ;
       
-      /// Acces to the life duration of the beam produced.
-      Duration getLaserBeamLifeDuration() const ;
+      /// Access to the life duration of the beam produced.
+      const Duration& getLaserBeamLifeDuration() const ;
+
+      /// Access to the radius of the beam produced.
+      const Distance& getBeamRadius() const ;
+
+      /// Access to the length of the beam produced.
+      const Distance& getBeamLength() const ;
       
     private:
       
@@ -113,10 +122,14 @@ namespace ProjetUnivers
       /// Time between shots.
       Duration    m_time_between_shots ;
       
+      Duration    m_beam_lifetime ;
+
       /// @todo use 'true' value
       float       m_laser_speed_meter_per_second ;
 
+      /// Size parameter
       Distance    m_beam_length ;
+      /// Size parameter
       Distance    m_beam_radius ;
 
     /*!

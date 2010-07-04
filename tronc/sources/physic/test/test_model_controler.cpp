@@ -174,6 +174,39 @@ namespace ProjetUnivers
 
       }
 
+      void TestModelControler::changeParent()
+      {
+        InternalMessage("Physic","Physic::TestModelControler::changeParent entering") ;
+
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model()) ;
+        model->init() ;
+
+        Kernel::Object* universe = model->createObject() ;
+        universe->addTrait(new Model::Universe()) ;
+        universe->addTrait(new Model::Positioned()) ;
+
+        Kernel::Object* database = universe->createObject() ;
+        database->addTrait(new Model::Positioned()) ;
+
+        Kernel::Object* ship = Model::createShip(database) ;
+        ship->getTrait<Model::Positioned>()->setPosition(Model::Position::Meter(0,0,-500)) ;
+
+        Kernel::Object* system = universe->createObject() ;
+        system->addTrait(new Model::StellarSystem()) ;
+        system->addTrait(new Model::Positioned()) ;
+
+        InternalMessage("Physic","Physic::TestModelControler::changeParent before change parent") ;
+
+        ship->changeParent(system) ;
+
+        InternalMessage("Physic","Physic::TestModelControler::changeParent after change parent") ;
+
+        model->update(1) ;
+
+        Kernel::Log::logToFile(model->toGraphviz()) ;
+
+        InternalMessage("Physic","Physic::TestModelControler::changeParent leaving") ;
+      }
 
     }
   }

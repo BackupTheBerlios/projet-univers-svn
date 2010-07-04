@@ -80,7 +80,7 @@ namespace ProjetUnivers
           virtual void onClose() ;
     
           /// Called when parent changed.
-          virtual void onChangeParent(Kernel::Object* i_old_parent) ;
+          virtual void onChangeParent(Kernel::Object* old_parent) ;
           
           /// Called when the model trait has changed.
           virtual void onUpdate() ;

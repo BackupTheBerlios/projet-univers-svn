@@ -73,6 +73,9 @@ namespace ProjetUnivers
           /// Destroy the collision object.
           virtual void onClose() ;
     
+          /// Called when parent changed.
+          virtual void onChangeParent(Kernel::Object* old_parent) ;
+
           /// Access to controller.
           virtual const Kernel::BaseControler* getControler() const ;
         

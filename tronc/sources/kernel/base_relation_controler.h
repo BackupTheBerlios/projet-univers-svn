@@ -36,8 +36,11 @@ namespace ProjetUnivers
     {
     public:
 
-      /// init the view after construction.
+      /// Initialize the view after construction.
       virtual void realInit() ;
+
+      /// Access to controller set.
+      ControlerSet* getControlerSet() const ;
 
       /// abstract class means virtual destructor.
       virtual ~BaseRelationControler() ;

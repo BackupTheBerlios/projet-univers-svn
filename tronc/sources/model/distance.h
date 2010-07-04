@@ -24,8 +24,10 @@
 
 #include <kernel/reader.h>
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
 
     namespace Test
     {

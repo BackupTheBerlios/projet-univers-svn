@@ -185,23 +185,23 @@ namespace ProjetUnivers
       /// update the views.
       void _updated() ;
 
-      /// init after construction.
+      /// Initialize after construction.
       void _init() ;
 
-      /// init the views after construction.
+      /// Initialize the views after construction.
       void _init(ViewPoint* viewpoint) ;
 
-      /// init the controllers after construction.
+      /// Initialize the controllers after construction.
       void _init(ControlerSet* controler_set) ;
 
-      /// closes before destruction.
-      void _close() ;
+      /// Closes before destruction.
+      virtual void _close() ;
 
-      /// close the views.
-      void _close(ViewPoint* viewpoint) ;
+      /// Close the views.
+      virtual void _close(ViewPoint* viewpoint) ;
 
-      /// close the controllers before controller set closing.
-      void _close(ControlerSet* controler_set) ;
+      /// Close the controllers before controller set closing.
+      virtual void _close(ControlerSet* controler_set) ;
 
     // @}
     /*!
@@ -215,16 +215,16 @@ namespace ProjetUnivers
       /// create views for a viewpoint.
       void _create_views(ViewPoint* viewpoint) ;
 
-      /// create the controlers for a controler set
+      /// create the controllers for a controller set
       void _create_controlers(ControlerSet* controler_set) ;
 
-      /// create the controlers.
+      /// create the controllers.
       void _create_controlers() ;
 
       /// Remove a view, used in ~BaseTraitVue.
       void _remove_view(ViewPoint* viewpoint,BaseTraitView* view) ;
 
-      /// Remove a controler, used in ~BaseControler.
+      /// Remove a controller, used in ~BaseControler.
       void _remove_controler(ControlerSet* controler_set,BaseControler* controler) ;
 
       /// To avoid removing view while destroying object

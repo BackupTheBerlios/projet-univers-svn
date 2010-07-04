@@ -31,6 +31,8 @@ namespace ProjetUnivers
     {
       namespace Ode
       {
+
+        class PhysicalObject ;
         
         /// Common part of all collideable objects
         class Collideable
@@ -88,6 +90,7 @@ namespace ProjetUnivers
           dGeomID  m_geometry1 ;
           dGeomID  m_geometry2 ;
 
+          PhysicalObject* m_body ;
         };
       }
     }

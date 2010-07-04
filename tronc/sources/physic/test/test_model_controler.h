@@ -40,10 +40,9 @@ namespace ProjetUnivers
 
         /// Only one physical object without any parent.
         void oneObjectWithTorqueGenerator() ;
-
         void oneObjectWithForceGenerator() ;
-
         void changeOrientation() ;
+        void changeParent() ;
 
       // @}
       /*!
@@ -56,6 +55,7 @@ namespace ProjetUnivers
         CPPUNIT_TEST(oneObjectWithTorqueGenerator) ;
         CPPUNIT_TEST(oneObjectWithForceGenerator) ;
         CPPUNIT_TEST(changeOrientation) ;
+        //CPPUNIT_TEST(changeParent) ;
 
         CPPUNIT_TEST_SUITE_END() ;
 

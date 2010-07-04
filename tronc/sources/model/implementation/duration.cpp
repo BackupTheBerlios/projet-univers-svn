@@ -134,6 +134,27 @@ namespace ProjetUnivers {
       return result ;            
     }   
 
+    std::ostream& operator<<(std::ostream& out,const Duration::Unit& unit)
+    {
+      switch(unit)
+      {
+      case Duration::_Second:
+        out << "Second" ;
+        break ;
+      }
+      return out ;
+    }
+
+    std::ostream& operator<<(std::ostream& out,const Duration& duration)
+    {
+      out << "Duration(" << duration.m_unit << "," << duration.m_value << ")" ;
+      return out ;
+    }
+
+    bool Duration::operator ==(const Duration& duration) const
+    {
+      return duration.m_value == m_value ;
+    }
     
   }
 }

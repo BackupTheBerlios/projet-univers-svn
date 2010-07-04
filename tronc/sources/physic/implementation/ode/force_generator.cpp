@@ -92,7 +92,7 @@ namespace ProjetUnivers
 
         void ForceGenerator::onChangeParent(Kernel::Object* i_old_parent)
         {
-          onClose() ;
+          onInit() ;
         }
 
         PhysicalObject* ForceGenerator::determineObject() const

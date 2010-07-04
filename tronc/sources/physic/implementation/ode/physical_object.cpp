@@ -114,10 +114,10 @@ namespace ProjetUnivers
                                    Kernel::toString(getObject()->getIdentifier())) ;
         }
 
-        void PhysicalObject::onChangeParent(Kernel::Object* i_old_parent)
+        void PhysicalObject::onChangeParent(Kernel::Object*)
         {
           /// 1. remove body from old parent
-
+          onClose() ;
 
           /// 2. onInit
           onInit() ;

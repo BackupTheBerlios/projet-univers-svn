@@ -356,6 +356,10 @@ namespace ProjetUnivers
                 "<Laser>\n"
                   "<Position x=\"0\" y=\"0\" z=\"0\" unit=\"Meter\"/>\n"
                   "<Orientation angle_degree=\"45\" axis_x=\"0\" axis_y=\"0\" axis_z=\"0\"/>\n"
+                  "<Duration value=\"3\" unit=\"Second\" name=\"beam_lifetime\"/>\n"
+                  "<Duration value=\"1\" unit=\"Second\" name=\"shot_delay\"/>\n"
+                  "<Distance value=\"10\" unit=\"Meter\" name=\"beam_length\"/>\n"
+                  "<Distance value=\"1\" unit=\"Meter\" name=\"beam_radius\"/>\n"
                 "</Laser>\n"
               "</object>\n"
             "</model>\n") ;
@@ -367,6 +371,13 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(roots.size() == 1) ;
         Kernel::Object* root = *roots.begin() ;
         CPPUNIT_ASSERT(root->getTrait<Laser>()) ;
+        Laser* laser = root->getTrait<Laser>() ;
+
+        CPPUNIT_ASSERT_EQUAL(Position(),laser->getOutPosition()) ;
+        CPPUNIT_ASSERT_EQUAL(Duration::Second(3),laser->getLaserBeamLifeDuration()) ;
+        CPPUNIT_ASSERT_EQUAL(Duration::Second(1),laser->getTimeBetweenShots()) ;
+        CPPUNIT_ASSERT_EQUAL(Distance(Distance::_Meter,10),laser->getBeamLength()) ;
+        CPPUNIT_ASSERT_EQUAL(Distance(Distance::_Meter,1),laser->getBeamRadius()) ;
       }
 
       void TestLoad::testLoadMassive()

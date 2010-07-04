@@ -62,12 +62,9 @@ namespace ProjetUnivers
 
         void LaserBeam::onChangeParent(Kernel::Object* i_old_parent)
         {
+          /// @todo
         }
         
-        void LaserBeam::onUpdate()
-        {
-        }
-
         void LaserBeam::createGeometry(const dSpaceID& i_space)
         {
           /// build a cube and a placeable geom

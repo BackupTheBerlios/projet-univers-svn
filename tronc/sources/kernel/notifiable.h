@@ -36,8 +36,13 @@ namespace ProjetUnivers
     class DeducedTrait ;
     class DeducedRelation ;
     class Formula ;
+    class ViewPoint ;
+    class ControlerSet ;
 
     /// Something observed that can be notified.
+    /*!
+    The observable in a Observer pattern.
+    */
     class Notifiable
     {
     public:
@@ -45,7 +50,14 @@ namespace ProjetUnivers
       /// Notify it's observers that it has changed.
       virtual void notify() = 0 ;
 
+      /// Close all the observers
       virtual void _close() = 0 ;
+
+      /// Close the views.
+      virtual void _close(ViewPoint* viewpoint) = 0 ;
+
+      /// Close the controllers before controller set closing.
+      virtual void _close(ControlerSet* controler_set) = 0 ;
 
       virtual void addReverseDependency(Notifiable*) ;
       virtual void removeReverseDependency(Notifiable*) ;
@@ -96,6 +108,12 @@ namespace ProjetUnivers
 
       /// Propagate close on dependent notifiable.
       void closeDependents() const ;
+
+      /// Propagate close on dependent notifiable.
+      void closeDependents(ViewPoint* viewpoint) const ;
+
+      /// Propagate close on dependent notifiable.
+      void closeDependents(ControlerSet* controler_set) const ;
 
       /// Indicate that an observer has been added.
       void onAddObserver() ;

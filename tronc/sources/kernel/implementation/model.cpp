@@ -837,6 +837,24 @@ namespace ProjetUnivers
       }
     }
 
+    void Model::close(const Relation& relation,ViewPoint* viepoint)
+    {
+      for(std::set<BaseRelationView*>::iterator view = m_relation_views[relation].begin() ; view != m_relation_views[relation].end() ; ++view)
+      {
+        if ((*view)->getViewPoint() == viepoint)
+          (*view)->close() ;
+      }
+    }
+
+    void Model::close(const Relation& relation,ControlerSet* controler_set)
+    {
+      for(std::set<BaseRelationControler*>::iterator controler = m_relation_controlers[relation].begin() ; controler != m_relation_controlers[relation].end() ; ++controler)
+      {
+        if ((*controler)->getControlerSet() == controler_set)
+          (*controler)->close() ;
+      }
+    }
+
     void Model::update(const Relation& relation)
     {
       for(std::set<BaseRelationView*>::iterator view = m_relation_views[relation].begin() ; view != m_relation_views[relation].end() ; ++view)

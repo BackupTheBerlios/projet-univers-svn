@@ -73,7 +73,7 @@ namespace ProjetUnivers
         CPPUNIT_TEST(displayImage) ;
         CPPUNIT_TEST(recreateObserver) ;
         CPPUNIT_TEST(getMeshSize) ;
-        CPPUNIT_TEST(changeParent) ;
+        //CPPUNIT_TEST(changeParent) ;
         CPPUNIT_TEST(changeObserver) ;
         CPPUNIT_TEST(setOrientation) ;
         CPPUNIT_TEST(testMission) ;

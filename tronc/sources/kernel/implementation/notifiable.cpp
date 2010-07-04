@@ -134,6 +134,26 @@ namespace ProjetUnivers
       }
     }
 
+    void Notifiable::closeDependents(ViewPoint* viewpoint) const
+    {
+      for(std::set<Notifiable*>::const_iterator notifiable = m_direct_dependent_notifiables.begin() ;
+          notifiable != m_direct_dependent_notifiables.end() ;
+          ++notifiable)
+      {
+        (*notifiable)->_close(viewpoint) ;
+      }
+    }
+
+    void Notifiable::closeDependents(ControlerSet* controler_set) const
+    {
+      for(std::set<Notifiable*>::const_iterator notifiable = m_direct_dependent_notifiables.begin() ;
+          notifiable != m_direct_dependent_notifiables.end() ;
+          ++notifiable)
+      {
+        (*notifiable)->_close(controler_set) ;
+      }
+    }
+
     bool Notifiable::dependsOn(const Notifiable* notifiable) const
     {
       /// @todo handle cycle in dependencies

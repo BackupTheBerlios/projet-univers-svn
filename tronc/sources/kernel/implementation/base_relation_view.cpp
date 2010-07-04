@@ -52,6 +52,11 @@ namespace ProjetUnivers
       m_viewpoint = viewpoint ;
     }
 
+    ViewPoint* BaseRelationView::getViewPoint() const
+    {
+      return m_viewpoint ;
+    }
+
   }
 }
 

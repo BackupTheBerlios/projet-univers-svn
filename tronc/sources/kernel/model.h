@@ -62,7 +62,7 @@ namespace ProjetUnivers
       /// Builds a new model.
       Model(const std::string& name = "") ;
 
-      /// Destroy all objects, views and controlers.
+      /// Destroy all objects, views and controllers.
       ~Model() ;
 
       /// Creates a new Object.
@@ -74,10 +74,10 @@ namespace ProjetUnivers
       /// Manually add a view.
       void addManualView(Trait*,BaseTraitView*,ViewPoint*) ;
 
-      /// Build all registered viewpoints and controler sets.
+      /// Build all registered viewpoints and controller sets.
       void init() ;
 
-      /// Closes all registered viewpoints and controler sets.
+      /// Closes all registered viewpoints and controller sets.
       void close() ;
 
       /// Update the model during @c seconds
@@ -89,7 +89,7 @@ namespace ProjetUnivers
       /// Add a viewpoint.
       ViewPoint* addViewPoint(ViewPoint*) ;
 
-      /// Add a controler set.
+      /// Add a controller set.
       ControlerSet* addControlerSet(ControlerSet*) ;
 
       /// Get an object by identifier.
@@ -97,7 +97,7 @@ namespace ProjetUnivers
 
       /// Access to root objects.
       const std::set<Object*>& getRoots() const ;
-      /// return a controler set of type @c T.
+      /// return a controller set of type @c T.
       template <class T> T* getControlerSet() const ;
 
       /// return a viewpoint of type @c T.
@@ -137,7 +137,7 @@ namespace ProjetUnivers
       /// Access to viewpoints.
       const std::set<ViewPoint*>& getViewPoints() const ;
 
-      /// Access to controler sets.
+      /// Access to controller sets.
       const std::set<ControlerSet*>& getControlerSets() const ;
 
       std::string                   m_name ;
@@ -160,22 +160,22 @@ namespace ProjetUnivers
       /// Unregister a view point.
       void _unregister(ViewPoint* viewpoint) ;
 
-      /// Register a controler set.
+      /// Register a controller set.
       void _register(ControlerSet* controler_set) ;
 
-      /// Unregister a controler set.
+      /// Unregister a controller set.
       void _unregister(ControlerSet* controler_set) ;
 
-      /// Init objects according to a viewpoint
+      /// Initialize objects according to a viewpoint
       void _init(ViewPoint* viewpoint) ;
 
       /// Close objects according to a viewpoint
       void _close(ViewPoint* viewpoint) ;
 
-      /// Init objects according to a controler set
+      /// Initialize objects according to a controller set
       void _init(ControlerSet* controler_set) ;
 
-      /// Close objects according to a controler set
+      /// Close objects according to a controller set
       void _close(ControlerSet* controler_set) ;
 
       std::set<ViewPoint*>        m_viewpoints ;
@@ -199,9 +199,9 @@ namespace ProjetUnivers
 
     // @}
     /*!
-      @name Handling of modifications during controlers update
+      @name Handling of modifications during controllers update
 
-      When a controler set is updated, the structure should not be modified
+      When a controller set is updated, the structure should not be modified
     */
     // @{
 
@@ -286,16 +286,16 @@ namespace ProjetUnivers
       /// True if relation has observer
       bool hasObserver(const Relation&) ;
 
-      /// Storage for relation controlers.
+      /// Storage for relation controllers.
       std::map<Relation,std::set<BaseRelationControler*> > m_relation_controlers ;
 
       /// Get a relation view.
       template <class _View> _View* getView(const Relation&) const ;
 
-      /// Add a relation controler.
+      /// Add a relation controller.
       void addRelationControler(const Relation&,BaseRelationControler*,ControlerSet*) ;
 
-      /// Destroy the relation's controlers
+      /// Destroy the relation's controllers
       void destroyRelationControler(const Relation&) ;
 
       /// Initialize the observers of the relation
@@ -303,6 +303,10 @@ namespace ProjetUnivers
 
       /// Terminate the observers of the relation
       void close(const Relation&) ;
+
+      /// Terminate the observers of the relation
+      void close(const Relation&,ViewPoint* viepoint) ;
+      void close(const Relation&,ControlerSet* controler_set) ;
 
       /// Update the observers of the relation
       void update(const Relation&) ;

@@ -105,33 +105,31 @@ namespace ProjetUnivers
           /*
             We need the parent physical object and parent physical world
           */
-          PhysicalObject* body = getControler()->getControler<PhysicalObject>() ;
+          m_body = getControler()->getControler<PhysicalObject>() ;
 
           // precondition : physical object is initialized
 
-          if (body)
+          if (m_body)
           {
-
-            InternalMessage("Physic","Physic::Implementation::Ode::Collideable::onInit init physical object") ;
-            PhysicalWorld* world = body->getAncestorControler<PhysicalWorld>() ;
+            PhysicalWorld* world = m_body->getAncestorControler<PhysicalWorld>() ;
 
             if (world)
             {
 
               InternalMessage("Physic","Physic::Implementation::Ode::Collideable::onInit creating geometry") ;
-              dSpaceID space_id = body->getCollisionSpace()->id() ;
+              dSpaceID space_id = m_body->getCollisionSpace()->id() ;
               createGeometry(space_id) ;
               InternalMessage("Physic","Physic::Implementation::Ode::Collideable::onInit trace#1") ;
 
               if (m_geometry1)
               {
-                dGeomSetBody(m_geometry1,body->getBody()->id()) ;
+                dGeomSetBody(m_geometry1,m_body->getBody()->id()) ;
                 dGeomSetData(m_geometry1,this) ;
               }
 
               if (m_geometry2)
               {
-                dGeomSetBody(m_geometry2,body->getBody()->id()) ;
+                dGeomSetBody(m_geometry2,m_body->getBody()->id()) ;
                 dGeomSetData(m_geometry2,this) ;
               }
 
@@ -145,9 +143,7 @@ namespace ProjetUnivers
         {
           InternalMessage("Physic","Physic::Ode::Collideable::onCloseCollideable entering") ;
 
-          PhysicalObject* body = getControler()->getControler<PhysicalObject>() ;
-
-          if (body)
+          if (m_body)
           {
             if (m_geometry1)
             {
@@ -159,6 +155,7 @@ namespace ProjetUnivers
               dGeomDestroy(m_geometry2) ;
               m_geometry2 = 0 ;
             }
+            m_body = NULL ;
           }
 
           InternalMessage("Physic","Physic::Ode::Collideable::onCloseCollideable leaving") ;
@@ -169,7 +166,8 @@ namespace ProjetUnivers
 
         Collideable::Collideable()
         : m_geometry1(0),
-          m_geometry2(0)
+          m_geometry2(0),
+          m_body(NULL)
         {}
 
       }

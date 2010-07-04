@@ -51,7 +51,8 @@ namespace ProjetUnivers
                  const Energy&      beam_energy)
     : m_out_position(out_position),
       m_out_orientation(out_orientation),
-      m_laser_beam_energy(beam_energy)
+      m_laser_beam_energy(beam_energy),
+      m_beam_lifetime(Duration::Second(2))
     {
       m_laser_speed_meter_per_second = Kernel::Parameters::getValue<float>("Model","LaserBeamSpeed",600) ;
     }
@@ -102,7 +103,18 @@ namespace ProjetUnivers
         else if (reader->isTraitNode() &&
                  reader->getTraitName() == "Duration")
         {
-          result->m_time_between_shots = Duration::read(reader) ;
+          if (reader->getName() == "beam_lifetime")
+            result->m_beam_lifetime = Duration::read(reader) ;
+          else if (reader->getName() == "shot_delay")
+            result->m_time_between_shots = Duration::read(reader) ;
+        }
+        else if (reader->isTraitNode() &&
+                 reader->getTraitName() == "Distance")
+        {
+          if (reader->getName() == "beam_length")
+            result->m_beam_length = Distance::read(reader) ;
+          else if (reader->getName() == "beam_radius")
+            result->m_beam_radius = Distance::read(reader) ;
         }
       }
       reader->processNode() ;
@@ -182,10 +194,24 @@ namespace ProjetUnivers
       return m_out_orientation ;
     }
 
-    Duration Laser::getLaserBeamLifeDuration() const
+    const Duration& Laser::getTimeBetweenShots() const
     {
-      /// @todo configurate
-      return Duration::Second(2) ;
+      return m_time_between_shots ;
+    }
+
+    const Duration& Laser::getLaserBeamLifeDuration() const
+    {
+      return m_beam_lifetime ;
+    }
+
+    const Distance& Laser::getBeamRadius() const
+    {
+      return m_beam_radius ;
+    }
+
+    const Distance& Laser::getBeamLength() const
+    {
+      return m_beam_length ;
     }
 
   }

@@ -66,10 +66,26 @@ namespace ProjetUnivers
 
         void Solid::onClose()
         {
+          InternalMessage("Physic","Ode::Solid::onClose entering " +
+                                    Kernel::toString(getObject()->getIdentifier())) ;
+
           dGeomTriMeshDataDestroy(m_data) ;
           delete[] m_vertices ;
           delete[] m_indices ;
           onCloseCollideable() ;
+
+          InternalMessage("Physic","Ode::Solid::onClose leaving " +
+                                    Kernel::toString(getObject()->getIdentifier())) ;
+        }
+
+        void Solid::onChangeParent(Kernel::Object*)
+        {
+          InternalMessage("Physic","Ode::Solid::onChangeParent entering " +
+                                    Kernel::toString(getObject()->getIdentifier())) ;
+          onClose() ;
+          onInit() ;
+          InternalMessage("Physic","Ode::Solid::onChangeParent leaving " +
+                                    Kernel::toString(getObject()->getIdentifier())) ;
         }
 
         void Solid::createGeometry(const dSpaceID& i_space)

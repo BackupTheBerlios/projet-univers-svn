@@ -341,28 +341,32 @@ namespace ProjetUnivers
       }
     }
 
-    void Trait::_close(ViewPoint* i_viewpoint)
+    void Trait::_close(ViewPoint* viewpoint)
     {
-      std::multimap<ViewPoint*,BaseTraitView*>::iterator
-        view = m_views.lower_bound(i_viewpoint) ;
-      std::multimap<ViewPoint*,BaseTraitView*>::iterator
-        last = m_views.upper_bound(i_viewpoint) ;
+      closeDependents(viewpoint) ;
 
-      while (view != m_views.end() && view != last && view->first == i_viewpoint)
+      std::multimap<ViewPoint*,BaseTraitView*>::iterator
+        view = m_views.lower_bound(viewpoint) ;
+      std::multimap<ViewPoint*,BaseTraitView*>::iterator
+        last = m_views.upper_bound(viewpoint) ;
+
+      while (view != m_views.end() && view != last && view->first == viewpoint)
       {
         view->second->_close() ;
         ++view ;
       }
     }
 
-    void Trait::_close(ControlerSet* i_controler_set)
+    void Trait::_close(ControlerSet* controler_set)
     {
-      std::multimap<ControlerSet*,BaseControler*>::iterator
-        controler = m_controlers.lower_bound(i_controler_set) ;
-      std::multimap<ControlerSet*,BaseControler*>::iterator
-        last = m_controlers.upper_bound(i_controler_set) ;
+      closeDependents(controler_set) ;
 
-      while (controler != m_controlers.end() && controler != last && controler->first == i_controler_set)
+      std::multimap<ControlerSet*,BaseControler*>::iterator
+        controler = m_controlers.lower_bound(controler_set) ;
+      std::multimap<ControlerSet*,BaseControler*>::iterator
+        last = m_controlers.upper_bound(controler_set) ;
+
+      while (controler != m_controlers.end() && controler != last && controler->first == controler_set)
       {
         controler->second->_close() ;
         ++controler ;

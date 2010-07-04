@@ -59,9 +59,6 @@ namespace ProjetUnivers
           /// Called when parent changed.
           virtual void onChangeParent(Kernel::Object* i_old_parent) ;
           
-          /// Called when the model trait has changed.
-          virtual void onUpdate() ;
-        
         private:
           
           /// Internal creation of a trimesh geometry.

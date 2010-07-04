@@ -18,13 +18,15 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_DURATION_H_
-#define PU_MODEL_DURATION_H_
+#pragma once
 
+#include <ostream>
 #include <kernel/reader.h>
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
       
     /// A time duration.
     /*!  
@@ -32,12 +34,15 @@ namespace ProjetUnivers {
     class Duration 
     {
     public:
-    
     /*! 
       @name Constructors
     */
     // @{   
     
+      /// Units
+      typedef enum {
+        _Second
+      } Unit ;
 
       /// Zero duration.
       Duration() ;
@@ -76,13 +81,17 @@ namespace ProjetUnivers {
       float Second() const ; 
     
     // @}
+
+      /// Print operator.
+      friend std::ostream& operator<<(std::ostream&,const Unit&) ;
+
+      /// Print operator.
+      friend std::ostream& operator<<(std::ostream&,const Duration&) ;
+
+      /// Comparison.
+      bool operator ==(const Duration&) const ;
       
     private:
-    
-      /// Units
-      typedef enum {
-        _Second
-      } Unit ;
       
       /// Private constructor.
       Duration(Unit i_unit,float i_value) ;
@@ -94,5 +103,3 @@ namespace ProjetUnivers {
 
   }
 }
-
-#endif
