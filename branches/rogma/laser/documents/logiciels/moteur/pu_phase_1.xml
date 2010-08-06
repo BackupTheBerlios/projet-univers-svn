@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN"
+"http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd">
+<article class="specification">
+  <title>Spécifications de la phase 1</title>
+
+  <articleinfo>
+    <orgname>Équipe Projet Univers</orgname>
+
+    <author>
+      <personname>
+        <firstname>Raphaël</firstname>
+
+        <surname>Davaillaud</surname>
+      </personname>
+
+      <email></email>
+    </author>
+
+    <revhistory>
+      <revision>
+        <revnumber>0.1</revnumber>
+
+        <date>12 septembre 2004</date>
+
+        <revdescription>
+          <para>Création Initiale.</para>
+        </revdescription>
+      </revision>
+    </revhistory>
+
+    <legalnotice>
+      <para>Ce document est sous licence <ulink
+      url="http://www.gnu.org/copyleft/fdl.html">GNU Free Documentation
+      License</ulink></para>
+    </legalnotice>
+  </articleinfo>
+
+  <sect1>
+    <title>Introduction</title>
+
+    <para>Pour faire avancer la conception du moteur de jeu ainsi que du jeu
+    lui même, travailler par phase semble interessant et permet d'avancer
+    parrallèlement à l'écriture du cahier des charges.</para>
+  </sect1>
+
+  <sect1>
+    <title>Description de la phase</title>
+
+    <para>Il s'agit de monter une application permettant à l'utilisateur de
+    prendre le contrôle d'un vaisseau dans un environement spacial.</para>
+
+    <screenshot>
+      <screeninfo>Schéma de principe</screeninfo>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/phase1.png" />
+        </imageobject>
+      </mediaobject>
+    </screenshot>
+
+    <para>Cette phase vise à mettre en place le fonctionnement minimal de
+    l'application, à savoir le NOYAU, les ENTREES et l'AFFICHAGE
+    (Ogre3D).</para>
+  </sect1>
+
+  <sect1>
+    <title>Description détaillée</title>
+
+    <para></para>
+
+    <sect2>
+      <title>Lancement</title>
+
+      <para>L'utilisateur lance un executable en mode console.</para>
+
+      <para>L'éxecutable :</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>vérifie la présence de tout ce qui est nécessaire (DLL,
+          fichiers de données, fichier de confiUguration).</para>
+        </listitem>
+
+        <listitem>
+          <para>Lit le fichier de configuration XML.</para>
+        </listitem>
+
+        <listitem>
+          <para>Ouvre une fenêtre ou en plein écran suivant la
+          configuration.</para>
+        </listitem>
+
+        <listitem>
+          <para>Inscrit des logs dans un fichier.</para>
+        </listitem>
+
+        <listitem>
+          <para>Se met en état "Menu"</para>
+        </listitem>
+      </itemizedlist>
+
+      <sect3>
+        <title>Fichier de configuration</title>
+
+        <para>C'est un fichier XML respectant un schéma XSD.</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>Mappage clavier : gauche, droite, haut, bas, select /
+            fire...</para>
+          </listitem>
+
+          <listitem>
+            <para>Mappage souris : bouton 1, 2, 3, molette, axes et
+            sensibilité.</para>
+          </listitem>
+
+          <listitem>
+            <para>Configuration vidéo : résolution, plein écran oui /
+            non.</para>
+          </listitem>
+        </itemizedlist>
+      </sect3>
+    </sect2>
+
+    <sect2>
+      <title>Affichage du menu</title>
+
+      <para>Une image de fond et 2 items du menu:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>Jouer</para>
+        </listitem>
+
+        <listitem>
+          <para>Quitter</para>
+        </listitem>
+      </itemizedlist>
+
+      <para>L'utilisateur selectionne à l'aide de la souris ou le mappage
+      direction l'item qu'il souhaite et appuit ensuite sur select.</para>
+
+      <para>S'il choisit de quitter, l'application se ferme.</para>
+
+      <para>S'il choisit de jouer, l'application se met en état "Phase de
+      jeu".</para>
+    </sect2>
+
+    <sect2>
+      <title>Jouer</title>
+
+      <para>La phase de jeu charge l'environnement.</para>
+
+      <para>Le joueur est aux commandes du vaisseau et est libre de tout
+      mouvement.</para>
+
+      <para>Il peut quitter la phase de jeu à tout moment en appuyant sur la
+      touche mappée correspondante. Un message de confirmation apparait et le
+      compteur de temps s'arrête. Si le joueur accepte il sort de la phase de
+      jeu, sinon il retourne dans la phase de jeu.</para>
+
+      <para>Il peut mettre la phase de jeu en pause à tout moment en appuyant
+      sur la touche mappée correspondante. Un message "Jeu en pause" apparait
+      et le compteur de temps s'arrête.</para>
+
+      <sect3>
+        <title>Environnement</title>
+
+        <para>L'environnement est chargé à partir de donnée de fichiers XML
+        respectants des schéma XSD.</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>Un fond étoilé simple.</para>
+          </listitem>
+
+          <listitem>
+            <para>Un astéroïde.</para>
+          </listitem>
+
+          <listitem>
+            <para>Une balise (utilisée en check point).</para>
+          </listitem>
+        </itemizedlist>
+      </sect3>
+
+      <sect3>
+        <title>Commande du vaisseau</title>
+
+        <para>Le joueur peut commander le vaisseau soit à l'aide du clavier,
+        soit de la souris. Il peut faire les mouvements de roulis, tangage ou
+        virage, augmenter ou réduire sa vitesse.</para>
+
+        <para>Tout cela selon le mappage clavier / souris.</para>
+      </sect3>
+
+      <sect3>
+        <title>Objectifs de la mission.</title>
+
+        <para>Passer à proximité de la balise.</para>
+      </sect3>
+
+      <sect3>
+        <title>Spécifications de jeu</title>
+
+        <para>Colision avec astéroïde ou balise entraine la fin de la phase de
+        jeu via un message, "vous avez été détruit" et la validation de ce
+        message.</para>
+
+        <para>Un compteur de temps indique le temps écoulé de la
+        mission</para>
+      </sect3>
+    </sect2>
+  </sect1>
+
+  <sect1>
+    <title>Evolution de la phase 1</title>
+
+    <para>On peut imaginer ajouter du son via le module SON, ajouter un HUD
+    2D, voir 3D ou les 2. etc...</para>
+  </sect1>
+
+  <sect1>
+    <title>Phase 2</title>
+
+    <para>La phase 2 veillera à implémenter un système client serveur et
+    l'interaction de 2 joueurs en réseau.</para>
+  </sect1>
+</article>

@@ -1,0 +1,86 @@
+material izero/jaune.003
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			ambient 0.140000 0.140000 0.140000 1.000000
+			diffuse 0.224000 0.224000 0.224000 1.000000
+			specular 0.500000 0.500000 0.500000 1.000000 12.500000
+			emissive 0.000000 0.000000 0.000000 1.000000
+		}
+	}
+}
+material izero/jaune
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			ambient 0.461653 0.486711 0.221371 1.000000
+			diffuse 0.738644 0.778738 0.354194 1.000000
+			specular 0.500000 0.500000 0.500000 1.000000 12.500000
+			emissive 0.000000 0.000000 0.000000 1.000000
+		}
+	}
+}
+material izero/bleu
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			ambient 0.050258 0.035719 0.320674 1.000000
+			diffuse 0.080413 0.057150 0.513078 1.000000
+			specular 0.000000 0.000000 0.000000 1.000000 12.500000
+			emissive 0.000000 0.000000 0.000000 1.000000
+		}
+	}
+}
+material izero/gris
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			ambient 0.280000 0.280000 0.280000 1.000000
+			diffuse 0.448000 0.448000 0.448000 1.000000
+			specular 0.000000 0.000000 0.000000 1.000000 12.500000
+			emissive 0.000000 0.000000 0.000000 1.000000
+		}
+	}
+}
+material izero/noir
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			ambient 0.000000 0.000000 0.000000 1.000000
+			diffuse 0.000000 0.000000 0.000000 1.000000
+			specular 0.500000 0.500000 0.500000 1.000000 12.500000
+			emissive 0.000000 0.000000 0.000000 1.000000
+		}
+	}
+}
+material izero/verre.001
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			ambient 0.269747 0.348714 0.401977 0.253043
+			diffuse 0.408000 0.527439 0.608000 0.253043
+			specular 0.751829 0.751829 0.751829 0.253043 12.500000
+			emissive 0.000000 0.000000 0.000000 0.253043
+			scene_blend alpha_blend
+			depth_write off
+		}
+	}
+}

@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN"
+"http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd">
+<article>
+  <title>Projet Univers : le jeu "Game Design"</title>
+
+  <section>
+    <title>Introduction</title>
+
+    <para>Ce Document a pour objectif de décrire le plus précisément possible
+    le jeu "modèle" de Projet Univers. Seront décrites ici toutes les limites
+    que nous nous imposeront pour le jeu lui-même (et non pas pour son
+    moteur). Cependant, nous pourrons choisir pour certains points d'être plus
+    limitatifs que ce que peut faire notre moteur.</para>
+  </section>
+
+  <section>
+    <title>Description rapide du jeu</title>
+
+    <para>Projet Univers "le Jeu" sera une simulation de combat spatial de
+    type Action/simulation. L'action pourra avoir lieu dans l'espace mais
+    aussi dans l'atmosphère d'une planète. Le joueur sera pilote d'un chasseur
+    ou d'un petit cargo.</para>
+
+    <para>La gestion de la physique des objets sera simplifiée, pour permettre
+    une prise en main rapide du jeu, et pilotage rapide et spectaculaire. Les
+    missions que vivront le ou les joueurs seront scripté, pour permettre une
+    maîtrise de l'histoire et des rebondissements de l'histoire. Cependant,
+    les missions seront assez complexes et assez fouillées pour ne pas avoir
+    l'impression d'un scriptage trop important.</para>
+
+    <para>Il existera un mode Solo et un mode Multijoueur.</para>
+
+    <para>Pour le joueur Seul, il pourra suivre des missions d'entraînement et
+    une ou plusieurs campagnes.</para>
+
+    <para>Pour le jeu Multijoueur, les joueurs pourront s'affronter lors de
+    mêlé rapide, mais aussi lors de combat organisé, voir de mission ou de
+    campagne créée pour l'occasion.</para>
+
+    <para>L'interface sera créée avec le même objectif que les missions, pour
+    permettre une immersion rapide dans le jeu. Elle doit cependant être
+    simple et rapide (pas ou peu de chargement).</para>
+
+    <section>
+      <title>Plate forme possible</title>
+
+      <para>Le jeu doit fonctionner principalement dans un environnement,
+      Microsoft Windows. Il serait cependant très très apprécié que le jeu
+      fonctionne aussi sous Linux et Mac.</para>
+    </section>
+
+    <section>
+      <title>Règle Importante</title>
+
+      <para>Projet Univers : le jeu est un projet sous licence GPL. Tous les
+      documents, dessins et modèle pourront être réutilisé par tous, tant
+      qu'une trace de la provenance du document. Tout documents, dessins ou
+      modèles déposés dans le CVS sont considérés comme déposé pour le projet
+      Univers, et donc sous licence GPL.</para>
+    </section>
+
+    <section>
+      <title>Les modèles</title>
+
+      <para>Pour Projet Univers "le jeu", nous tirons notre inspiration de
+      plusieurs jeux. Tout d'abord Starlancer pour l'immersion et l'impression
+      de spectacle donné au joueur. La série des X-wing, pour la qualité du
+      scénario, des missions et les règles du jeu.</para>
+    </section>
+  </section>
+
+  <section>
+    <title>Choix des outils de travail</title>
+
+    <para>Les outils de travail ne sont pas forcément imposés, mais le format
+    de sortie est lui imposé. Peut importe l'outil, pour pouvoir l'utiliser,
+    il faut être "en règle". Avoir la licence pour un produit commercial par
+    exemple.</para>
+
+    <section>
+      <title>Outil pour la rédaction des documents de travail</title>
+
+      <para>L'éditeur XmlMind sera utilisé pour la rédaction des documents. Il
+      permet une extraction HTML rapide pour une consultation pour tous, et
+      permet aussi une conversion rapide pour un site Internet.</para>
+    </section>
+
+    <section>
+      <title>Outil pour la création graphique</title>
+
+      <para>Pour ce qui est des Artworks, le crayon et la feuille sont
+      autorisés, mais aussi des outils graphiques informatiques (The GIMP par
+      exemple). Tout les Artworks devront être donné sous deux formats : Un
+      format JPG sans compression, et un format PNG avec compression pour une
+      utilisation Web.</para>
+
+      <para>Pour les modèles 3D, le format de sortie est le format Blender
+      (.blend). Je conseille à tous les graphistes d'utiliser Blender, mais
+      les laisse libres de l'utilisation d'un autre outil, s'ils sont
+      propriétaires de la licence.</para>
+    </section>
+
+    <section>
+      <title>Outils de programmation</title>
+
+      <para>Si jamais certains modules sont créé/modifié pour faire
+      fonctionner Projet Univers : le jeu, les outils de
+      création-compilation-nettoyage de code devront être sous licence GPL, où
+      il faudra que l'utilisateur possède une licence du produit.</para>
+    </section>
+  </section>
+
+  <section>
+    <title>Description de l'interface</title>
+
+    <para>L'interface est la "porte d'entrée" du joueur dans le monde et le
+    jeu que nous allons lui proposer. Elle doit être simple, rapide et claire.
+    Elle doit permettre d'accéder rapidement à toutes les possibilités du jeu,
+    mais elle doit aussi permettre une première immersion dans le jeu.</para>
+
+    <section>
+      <title>Lors de l'installation</title>
+
+      <para>L'installation du jeu doit être simple et transparente, peut
+      importe la plate-forme (windows, Mac ou Linux). Si possible lors du
+      lancement de l'installation, une fenêtre s'ouvre pour préciser les
+      paramètres d'installation. Cette fenêtre doit être agrémentée d'une
+      image. Une fois l'installation lancée, il faut que le joueur puisse voir
+      l'évolution de l'installation, mais il faut aussi le faire patienter.
+      Pour cela, il faut des images spécifiques, avec un peu de texte. Une
+      fois l'installation finie, il faut qu'une icône soit présente sur le
+      bureau (si l'utilisateur le voulait) et où sur la barre de
+      lancement.</para>
+
+      <para>Une fois l'installation finie, il faut que la mise à jour, la
+      suppression ou la réinstallation du jeu soit facile.</para>
+    </section>
+  </section>
+</article>

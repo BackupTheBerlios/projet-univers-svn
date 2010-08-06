@@ -1,0 +1,86 @@
+material s51/verre
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			ambient 0.255000 0.380000 0.320000 0.534682
+			diffuse 0.408000 0.608000 0.512000 0.534682
+			specular 0.000000 0.000000 0.000000 0.534682 12.500000
+			emissive 0.000000 0.000000 0.000000 0.534682
+			scene_blend alpha_blend
+			depth_write off
+		}
+	}
+}
+material s51/rouge
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			ambient 0.476983 0.019018 0.019018 1.000000
+			diffuse 0.763173 0.030429 0.030429 1.000000
+			specular 0.000000 0.000000 0.000000 1.000000 12.500000
+			emissive 0.000000 0.000000 0.000000 1.000000
+		}
+	}
+}
+material s51/grisfonce
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			ambient 0.140000 0.140000 0.140000 1.000000
+			diffuse 0.224000 0.224000 0.224000 1.000000
+			specular 0.000000 0.000000 0.000000 1.000000 12.500000
+			emissive 0.000000 0.000000 0.000000 1.000000
+		}
+	}
+}
+material s51/noir
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			ambient 0.000000 0.000000 0.000000 1.000000
+			diffuse 0.000000 0.000000 0.000000 1.000000
+			specular 0.000000 0.000000 0.000000 1.000000 12.500000
+			emissive 0.000000 0.000000 0.000000 1.000000
+		}
+	}
+}
+material s51/vert
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			ambient 0.099730 0.162522 0.042307 1.000000
+			diffuse 0.159567 0.260035 0.067692 1.000000
+			specular 0.000000 0.000000 0.000000 1.000000 12.500000
+			emissive 0.000000 0.000000 0.000000 1.000000
+		}
+	}
+}
+material s51/gris
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			ambient 0.400000 0.400000 0.400000 1.000000
+			diffuse 0.640000 0.640000 0.640000 1.000000
+			specular 0.500000 0.500000 0.500000 1.000000 12.500000
+			emissive 0.000000 0.000000 0.000000 1.000000
+		}
+	}
+}
