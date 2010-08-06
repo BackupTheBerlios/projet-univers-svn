@@ -18,25 +18,24 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_ANGULAR_SPEED_H_
-#define PU_MODEL_ANGULAR_SPEED_H_
+#pragma once
 
 #include <OgreVector3.h>
 
 #include <kernel/reader.h>
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
 
     /// An angular speed.
-    /*!
-      
-    */
-    class AngularSpeed {
+    class AngularSpeed
+    {
     public:
     
     /*!
-      @name Constructeurs
+      @name Construct
     */
     // @{  
 
@@ -105,4 +104,3 @@ namespace ProjetUnivers {
     };
   }
 }
-#endif /* PU_MODEL_ANGULAR_SPEED_H_ */

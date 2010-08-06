@@ -60,6 +60,8 @@ namespace ProjetUnivers
         /// Check that laser impacts are 'correct'
         void laserImpactIsInsideSolid() ;
 
+        /// Test that laser collision length is adapted in order to always touch
+        void laserLengthDependOnSpeed() ;
 
       // @}
       /*!
@@ -77,6 +79,7 @@ namespace ProjetUnivers
         CPPUNIT_TEST(collisionEnergy) ;
         CPPUNIT_TEST(shipDoesNotGoThrough) ;
         CPPUNIT_TEST(laserImpactIsInsideSolid) ;
+        CPPUNIT_TEST(laserLengthDependOnSpeed) ;
 
         CPPUNIT_TEST_SUITE_END() ;
 

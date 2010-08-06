@@ -18,8 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_AREA_H_
-#define PU_MODEL_AREA_H_
+#pragma once
 
 #include <set>
 #include <OgreAxisAlignedBox.h>
@@ -52,10 +51,9 @@ namespace ProjetUnivers
       
     private:
       
-      /// Ogre has already it!
+      /// Ogre already has it!
       Ogre::AxisAlignedBox m_box ;
     };
     
   }
 }
-#endif /*PU_MODEL_AREA_H_*/

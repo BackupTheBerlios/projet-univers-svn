@@ -349,6 +349,8 @@ namespace ProjetUnivers
         ship2->getTrait<Model::Positioned>()->setPosition(Model::Position::Meter(-500,0,-500)) ;
         ship2->getTrait<Model::Oriented>()->setOrientation(Model::Orientation(::Ogre::Quaternion(::Ogre::Degree(-90),::Ogre::Vector3::UNIT_Y))) ;
 
+        ship2->getChild<Model::Laser>()->setLaserSpeedMeterPerSecond(3000) ;
+
         Kernel::Timer timer ;
         Kernel::Timer global_timer ;
 
@@ -359,8 +361,8 @@ namespace ProjetUnivers
           if (seconds != 0)
           {
             timer.reset() ;
+            model->update(seconds) ;
           }
-          model->update(seconds) ;
         }
       }
 

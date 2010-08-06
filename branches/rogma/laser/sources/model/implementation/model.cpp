@@ -86,7 +86,8 @@
 
 using namespace Ogre ;
 
-namespace ProjetUnivers {
+namespace ProjetUnivers
+{
   namespace Model
   {
 
@@ -590,9 +591,11 @@ namespace ProjetUnivers {
       ship->addTrait(new Destroyable(Energy::Joule(10))) ;
 
       Kernel::Object* laser = ship->createObject() ;
-      laser->addTrait(new Laser(Position::Meter(0,0,-120),
-                                      Orientation(),
-                                      Energy::Joule(10))) ;
+      laser->addTrait(new Laser(Position::Meter(0, 0, -120), Orientation(),
+                                Energy::Joule(10))) ;
+      laser->getTrait<Laser>()->setBeamLength(Distance(Distance::_Meter,20)) ;
+      laser->getTrait<Laser>()->setBeamRadius(Distance(Distance::_Meter,5)) ;
+
       laser->addTrait(new Component()) ;
       laser->getTrait<Laser>()->setShotTimeDelay(Duration::Second(1)) ;
       ShootingHelper::connect(ship,ship,laser) ;

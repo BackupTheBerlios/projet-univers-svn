@@ -53,17 +53,13 @@ namespace ProjetUnivers
           
           /// Destroy the Ogre::Entity.
           void onClose() ;
-        
-          /// 
-          void onUpdate() ;
 
         // @}
 
         private:
           
-          /// 3D ogre mesh.
-          ::Ogre::Entity* mesh ;
-      
+          ::Ogre::RibbonTrail* m_beam ;
+          ::Ogre::SceneNode*   m_node ;
         };
       }
     }

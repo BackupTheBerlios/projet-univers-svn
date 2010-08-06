@@ -45,6 +45,11 @@ namespace ProjetUnivers
       m_timestep = timestep ;
     }
 
+    float ControlerSet::getTimeStep() const
+    {
+      return m_timestep ;
+    }
+
     void ControlerSet::update(const float& seconds)
     {
       Kernel::Timer timer ;

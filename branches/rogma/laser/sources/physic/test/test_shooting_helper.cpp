@@ -50,6 +50,7 @@
 #include <physic/implementation/ode/physic_system.h>
 
 #include <physic/test/test_shooting_helper.h>
+#include <model/implementation/logic/logic_system.h>
 
 CPPUNIT_TEST_SUITE_REGISTRATION(ProjetUnivers::Physic::Test::TestShootingHelper) ;
 
@@ -97,6 +98,8 @@ namespace ProjetUnivers
         ship->addTrait(new Model::Laser(Model::Position(),
                                         Model::Orientation(),
                                         Model::Energy::Joule(10))) ;
+        ship->getTrait<Model::Laser>()->setBeamLength(Model::Distance(Model::Distance::_Meter,50)) ;
+        ship->getTrait<Model::Laser>()->setBeamRadius(Model::Distance(Model::Distance::_Meter,1)) ;
         ship->addTrait(new Model::Detector()) ;
         Model::Detector::connect(ship,ship) ;
         ship->addTrait(new Model::TargetingSystem()) ;
@@ -139,6 +142,10 @@ namespace ProjetUnivers
 
         ship->getTrait<Model::Laser>()->fire() ;
 
+        // to avoid destruction of laser etc...
+        Kernel::ControlerSet* logic = model->getControlerSet<Model::Implementation::Logic::LogicSystem>() ;
+        logic->close() ;
+
         Kernel::ControlerSet* physics = model->getControlerSet<Implementation::Ode::PhysicSystem>() ;
         CPPUNIT_ASSERT(physics) ;
 
@@ -146,7 +153,7 @@ namespace ProjetUnivers
         const int steps_number = 200 ;
         for(int i = 1 ; i <= steps_number ; ++i)
         {
-          physics->simulate(0.1) ;
+          physics->update(0.1) ;
         }
 
         /// check that collision has occurred

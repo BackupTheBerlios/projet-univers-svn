@@ -56,19 +56,18 @@ namespace ProjetUnivers
           /// Called just before the view is destroyed.
           virtual void onClose() ;
     
-          /// Called when parent changed.
-          virtual void onChangeParent(Kernel::Object* i_old_parent) ;
-          
         private:
           
           /// Internal creation of a trimesh geometry.
-          virtual void createGeometry(const dSpaceID& i_space) ;
+          virtual void createGeometry(const dSpaceID& space) ;
 
-          /// Internal creation of an appximated geometry.
+          /// Internal creation of an approximated geometry.
           virtual void createApproximatedGeometry(const dSpaceID& space) ;
           
-          /// Access to controler.
+          /// Access to controller.
           virtual const Kernel::BaseControler* getControler() const ;
+
+          dGeomID m_ray ;
         };
 
       }

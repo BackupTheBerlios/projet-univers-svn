@@ -29,9 +29,13 @@ namespace ProjetUnivers
 {
   namespace Model
   {
-      
+
     LaserBeam::LaserBeam(Kernel::Object* ship)
-    : m_ship(ship)
+    : m_ship(ship),m_length(Distance::_Meter,10),m_radius(Distance::_Meter,2)
+    {}
+
+    LaserBeam::LaserBeam(Kernel::Object* ship,const Distance& length,const Distance& radius)
+    : m_ship(ship),m_length(length),m_radius(radius)
     {}
   
     Energy LaserBeam::getEnergy() const
@@ -56,5 +60,16 @@ namespace ProjetUnivers
     {
       return m_ship ;
     }
+
+    const Distance& LaserBeam::getRadius() const
+    {
+      return m_radius ;
+    }
+
+    const Distance& LaserBeam::getLength() const
+    {
+      return m_length ;
+    }
+
   }
 }

@@ -3,13 +3,13 @@
  <object id="1">
   <PlayerConfiguration>
    <Mapping command="Fire">
-    <JoystickButton number="0"/>
+    <MouseButton number="0"/>
    </Mapping>
    <Mapping command="Menu">
     <Key number="1"/>
    </Mapping>
    <Mapping command="Select Nearest Enemy">
-    <JoystickButton number="3"/>
+    <MouseButton number="1"/>
    </Mapping>
    <Mapping command="Select Nearest Target">
     <JoystickButton number="1"/>
@@ -21,7 +21,7 @@
     <Key number="25"/>
    </Mapping>
    <Mapping command="Pitch">
-    <InvertedJoystickY/>
+    <InvertedMouseY/>
    </Mapping>
    <Mapping command="Roll">
     <InvertedJoystickRudder/>
@@ -30,7 +30,7 @@
     <InvertedJoystickThrottle/>
    </Mapping>
    <Mapping command="Yaw">
-    <JoystickX/>
+    <MouseX/>
    </Mapping>
   </PlayerConfiguration>
  </object>

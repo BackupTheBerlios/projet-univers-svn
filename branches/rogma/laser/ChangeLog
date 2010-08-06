@@ -1685,33 +1685,36 @@
  
   * Model :
     - change laser beam size
+
+2010-08-07 [branch laser]
+
+  * Physic/Display/Model :
+    - change laser beam size
+    - change all .ship files with beam size
+
+  * Physics:
+    - extrude laser beam length up to max(delta_time*speed,length) = deplacement performed 
+      during one step @see 
+      http://www.bulletphysics.org/mediawiki-1.5.8/index.php?title=Collision_Detection_and_Physics_FAQ#How_can_I_avoid_missing_collisions_for_fast_moving_objects
+      and use ray
+      
+  * Physics/Model:
+    - bug : laser 'go through'; moved destruction of laser to the init of 
+      collision  
   
 in commit
 --------
 
-
 in progress
 -----------
- 
+
     
 @todo
 ----
 
-  * Physic/Display :
-    - change laser beam size
-
-  * on test : Display::TetModelView::ChangeParent, destruction of model leads 
-    to gpf in Ode::Solid::onClose
-    --> a major bug on the untested and too early feature changeParent, see 
-    kernel evolutions   
-
-  * Physics:
-    - extrude laser beam length up to DeltaT*speed @see 
-      http://www.bulletphysics.org/mediawiki-1.5.8/index.php?title=Collision_Detection_and_Physics_FAQ#How_can_I_avoid_missing_collisions_for_fast_moving_objects
+  * have all used ships in the same size range
 
   * Display : issue with fonts in Ogre 1.6.1 windows version; they are too big.
-    
-  * have all used ships in the same size range
 
   * GUI :
     - select ship from a list
@@ -1719,14 +1722,10 @@ in progress
     - change all hover/pushed elements inspire from  
       http://sourceforge.net/projects/galactitrade/
       (apache v2 can be used inside GPLv3)
-  
-  * Physic 
-    - bug on collision test...
 
   * Display :
     - exploding solid should fade to transparent
-
-    - exploding objects cannot perform any action...
+    - bug : exploding objects cannot perform any action...
 
   * Model : 
     - Mission : destruction sequence during player's ship explosion 
@@ -1739,21 +1738,22 @@ in progress
 
   * Demo :
     - history of who killed who (need to add the transponder on the LaserBeam 
-      object)
+      object) warning, firing ship on laser beam can have been destroyed...
     - score menu at the end of the mission
 
   * Display :
     - display score on hud
     
   * All :
-    - mass correction, but still some work
-    - performance issue
-  * a lot of time passed in Computer::getDetectedObjects() mostly in 
-    getChildrenObjects<Detectable> ?
-  * some time inside call(method), inside getChildren<X> 
+    - physic mass correction, but still some work
+  * performance issues
+    - a lot of time passed in Computer::getDetectedObjects() mostly in 
+      getChildrenObjects<Detectable> ?
+    - some time inside call(method), inside getChildren<X> 
+    - TypeIdentifier::isInstance is very slow but any attempt to optimised 
+      failed
   * Kernel :
     - debugger
-  * TypeIdentifier::isInstance is very slow but any attempt to optimised failed
 
   * performance measures : 
     valgrind --tool=callgrind --fn-skip=ProjetUnivers::Kernel::Trait::notify --fn-skip=ProjetUnivers::Kernel::Implementation::Interpretor::endTransaction
@@ -1779,7 +1779,8 @@ in progress
     - remove warning for implicit conversions with gcc-4.3
     
   * AI : 
-    - adding states : Iddle, Attacking, 
+    - adding states : Iddle, Attacking,
+    - use hierarchical behavioural tree 
     - users repport that AI tend to get back on back (probably a worst case 
       scenario in the algorithm)
 
@@ -1837,6 +1838,11 @@ in progress
 
   * Input :
     - instability on test autorepeat
+
+  * on test : Display::TetModelView::ChangeParent, destruction of model leads 
+    to gpf in Ode::Solid::onClose
+    --> a major bug on the untested and too early feature changeParent, see 
+    kernel todos   
     
   * Kernel : 
     - detect illegal access in view/controler, an illegal access is accessing a 
@@ -1873,7 +1879,7 @@ in progress
       storage (object pool...) for allocation optimisation
     - create an object pool per model, a pool on views too... boost::object_pool 
     - display the list of used formulaes (number and kind)
-    - count the create/destroy of objects of traits
+    - count the create/destroy of objects, of traits
     - display the average size of objects (how many traits/views/deduced traits...)
 
   * Input :
@@ -1881,7 +1887,7 @@ in progress
     
   * Sound : 
     - bug : sometimes no sound when replaying the mission but difficult to 
-      automatise
+      automate
     
   * GUI : 
     - add input config validation : cannot save or back till it is correct
@@ -1900,8 +1906,8 @@ in progress
 
   * Model : 
     - bug : adding a mapping on an already assigned key does not worK ?
-    - add a distance on target display
-    - add a current ship name indicator
+    - add a maximum distance on target display
+    - add a current ship name indicator, plus status
     - add a damage indicator
        
   * All : 

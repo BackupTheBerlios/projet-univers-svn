@@ -51,14 +51,21 @@ namespace ProjetUnivers
 
           Positioned* positioned(getView<Positioned>()) ;
 
-          // build 3D object
-          mesh = this->getViewPoint()->getManager()
-                  ->createEntity(Utility::getUniqueName(),
-                                 "laser.mesh") ;
+          m_beam = this->getViewPoint()->getManager()->createRibbonTrail(Utility::getUniqueName()) ;
+
+          m_beam->addNode(positioned->getNode()) ;
+          m_beam->setNumberOfChains(1) ;
+          m_beam->setMaterialName("PU/base/laser") ;
+          m_beam->setMaxChainElements(400) ;
+          m_beam->setInitialColour(0,::Ogre::ColourValue::Red) ;
+
+          Model::LaserBeam* laser_beam(getTrait<Model::LaserBeam>()) ;
+          m_beam->setTrailLength(convert(laser_beam->getLength())) ;
+          m_beam->setInitialWidth(0,convert(laser_beam->getRadius())) ;
+
           // put it on the node
-          positioned->getNode()->attachObject(mesh) ;
-          // reset scale factor
-          scale(positioned->getNode()) ;
+          m_node = this->getViewPoint()->getManager()->getRootSceneNode()->createChildSceneNode() ;
+          m_node->attachObject(m_beam) ;
 
           InternalMessage("Display","Leaving Ogre::LaserBeam::onInit") ;
         }
@@ -67,19 +74,13 @@ namespace ProjetUnivers
         {
           InternalMessage("Display","Display::LaserBeam::onClose Entering") ;
 
-          this->getViewPoint()->getManager()
-               ->destroyEntity(mesh) ;
+          this->getViewPoint()->getManager()->destroyRibbonTrail(m_beam) ;
+          this->getViewPoint()->getManager()->destroySceneNode(m_node->getName()) ;
 
           InternalMessage("Display","Display::LaserBeam::onClose Leaving") ;
         }
 
-        void LaserBeam::onUpdate()
-        {
 
-        }
-
-
-      // @}
 
       }
     }
