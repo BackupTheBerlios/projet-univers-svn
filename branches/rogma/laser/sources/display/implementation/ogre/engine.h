@@ -18,70 +18,51 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <kernel/object.h>
-#include <kernel/relation.h>
+#pragma once
+
+#include <kernel/trait_view.h>
 #include <model/engine.h>
-#include <model/control_connection.h>
-#include <model/engine_controler.h>
+#include <display/implementation/ogre/real_world_view_point.h>
 
 namespace ProjetUnivers
 {
-  namespace Model
+  namespace Display
   {
-
-    RegisterTrait(EngineControler) ;
-
-    void connectThrottleControler(Kernel::Object* throttle,
-                                  Kernel::Object* controler)
+    namespace Implementation
     {
-      EngineControler* temp = controler->getTrait<EngineControler> () ;
-      if (temp)
+      /// A displayable engine
+      class Engine : public Kernel::DeducedTrait
+      {};
+
+      namespace Ogre
       {
-        Kernel::Link<ControlConnection>(throttle,controler) ;
+
+        /// Display a ribbon trail for the engine output
+        class Engine : public Kernel::TraitView<Implementation::Engine,
+                                                RealWorldViewPoint>
+        {
+        protected:
+        /*!
+          @name Updates
+        */
+        // @{
+
+          /// create a Ogre::Entity.
+          void onInit() ;
+
+          /// Destroy the Ogre::Entity.
+          void onClose() ;
+
+          void onUpdate() ;
+
+        // @}
+
+        private:
+
+          ::Ogre::SceneNode*   m_output_node ;
+          ::Ogre::Entity*      m_thrust ;
+        };
       }
     }
-
-    void connectControlerEngine(Kernel::Object* controler,
-                                Kernel::Object* engine)
-    {
-      Engine* temp = engine->getTrait<Engine> () ;
-      if (temp)
-      {
-        Kernel::Link<ControlConnection>(controler,engine) ;
-      }
-    }
-
-    Kernel::Trait* EngineControler::read(Kernel::Reader* reader)
-    {
-      EngineControler* result = new EngineControler() ;
-
-      while (!reader->isEndNode() && reader->processNode())
-      {
-        Trait::read(reader) ;
-      }
-      reader->processNode() ;
-
-      return result ;
-    }
-
-    int EngineControler::getPowerPercentage() const
-    {
-      int percentage = 0 ;
-
-      Kernel::Object* throttle = Kernel::Relation::getUniqueLinked<Kernel::Inverse<ControlConnection> >(getObject()) ;
-
-      /// get throttle pitch
-      if (throttle && throttle->getTrait<Oriented> ())
-      {
-        float
-            pitch =
-                throttle->getTrait<Oriented> ()->getOrientation().getQuaternion().getPitch().valueDegrees() ;
-
-        percentage = (int) (pitch / 0.9) ;
-      }
-
-      return percentage ;
-    }
-
   }
 }

@@ -124,6 +124,9 @@ namespace ProjetUnivers
         /// Scale a node
         void scale(::Ogre::Node*) ;
 
+        /// Scale a node
+        void scale(::Ogre::Node*,const Model::Distance& scale_x,const Model::Distance& scale_y,const Model::Distance& scale_z) ;
+
         /// Completely destroy a node and all attached elements.
         void destroyNode(::Ogre::SceneNode* node) ;
 

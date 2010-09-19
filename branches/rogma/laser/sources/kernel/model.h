@@ -244,11 +244,17 @@ namespace ProjetUnivers
       /// The objects related to an object though a particular relation type.
       std::set<Object*> getRelations(const TypeIdentifier&,Object*) const ;
 
+      /// The object related to an object though a particular relation type.
+      Object* getUniqueRelated(const TypeIdentifier&,Object*) const ;
+
       /// The objects related to an object though any relation type.
       std::set<Object*> getRelations(Object*) const ;
 
       /// The objects related to an object though a particular relation type.
       std::set<Object*> getInverseRelations(const TypeIdentifier&,Object*) const ;
+
+      /// The object related to an object though a particular relation type.
+      Object* getUniqueInverseRelated(const TypeIdentifier&,Object*) const ;
 
       /// The objects related to an object though any relation type.
       std::set<Object*> getInverseRelations(Object*) const ;

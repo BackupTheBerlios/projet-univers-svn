@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2010 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -25,6 +25,8 @@
 
 #include <model/force_generator.h>
 #include <model/force.h>
+#include <model/position.h>
+#include <model/distance.h>
 
 namespace ProjetUnivers
 {
@@ -51,20 +53,37 @@ namespace ProjetUnivers
         stored as
         @code
           <Engine>
-            [<ObjectReference ... [name="controler"]/>]
             <Force ... />
+            <Position .../>
+            <Distance .../>
           </Engine>
         @endcode
       */
       static Kernel::Trait* read(Kernel::Reader* reader) ;
 
+      /// The zone where gas comes out
+      void setOutputPosition(const Position&) ;
+
+      /// The radius of the zone where gas comes out
+      void setOutputRadius(const Distance&) ;
+
       /// Get the force.
-      virtual Force getAppliedForce() const ;
+      virtual Force getAppliedForce() ;
 
       /// The percentage of power of the engine
       float getPowerPercentage() const ;
 
+      /// The zone where gas comes out
+      const Position& getOutputPosition() const ;
+
+      /// The radius of the zone where gas comes out
+      const Distance& getOutputRadius() const ;
+
+
     private:
+
+      /// The percentage of power of the engine
+      void calculatePowerPercentage() ;
 
       /// Maximal "force".
       /*!
@@ -73,11 +92,13 @@ namespace ProjetUnivers
       */
       Force m_full_thrust ;
 
-      /// Controler of this engine
-      Kernel::ObjectReference m_controler ;
+      /// The output thrust of the engine
+      Position m_output_position ;
+      Distance m_output_radius ;
+
+      float m_percentage ;
 
       friend void connectControlerEngine(Kernel::Object*,Kernel::Object*) ;
-
       friend class ProjetUnivers::Model::Test::TestLoad ;
     };
 

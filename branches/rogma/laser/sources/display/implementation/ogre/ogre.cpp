@@ -451,6 +451,11 @@ namespace ProjetUnivers
                                          1.0/conversion_factor)) ;
         }
 
+        void scale(::Ogre::Node* node,const Model::Distance& scale_x,const Model::Distance& scale_y,const Model::Distance& scale_z)
+        {
+          node->setScale(::Ogre::Vector3(convert(scale_x),convert(scale_y),convert(scale_z))) ;
+        }
+
         void destroyNode(::Ogre::SceneNode* node)
         {
            if (!node)

@@ -21,6 +21,7 @@ libdisplay_la_SOURCES = \
 ../implementation/speed_indicator.cpp \
 ../implementation/target.cpp \
 ../implementation/target_with_selection.cpp \
+../implementation/ogre/engine.cpp \
 ../implementation/ogre/exploding_solid.cpp \
 ../implementation/ogre/explosion.cpp \
 ../implementation/ogre/hit.cpp \

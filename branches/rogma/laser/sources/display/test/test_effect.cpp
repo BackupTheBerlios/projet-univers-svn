@@ -64,6 +64,7 @@
 #include <display/implementation/ogre/positioned.h>
 #include <display/test/test_effect.h>
 #include <model/laser.h>
+#include <model/throttle.h>
 
 
 namespace ProjetUnivers
@@ -364,6 +365,44 @@ namespace ProjetUnivers
             model->update(seconds) ;
           }
         }
+      }
+
+      void TestEffect::thrust()
+      {
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model()) ;
+        model->init() ;
+
+        Kernel::Object* system = createUniverseAndSystem(model.get()) ;
+        Kernel::Object* observer = createObserver(system) ;
+
+        Kernel::Object* ship = Model::createShip(system) ;
+        ship->getTrait<Model::Positioned>()->setPosition(Model::Position::Meter(0,0,-500)) ;
+        ship->getTrait<Model::Oriented>()->setOrientation(Model::Orientation(::Ogre::Quaternion(::Ogre::Degree(-90),::Ogre::Vector3::UNIT_Y))) ;
+
+        Model::Throttle* throttle = ship->getChild<Model::Throttle>() ;
+
+        Kernel::Timer timer ;
+        Kernel::Timer global_timer ;
+
+        int power = 0 ;
+
+        while (global_timer.getSecond() < 10)
+        {
+          power = int(10*global_timer.getSecond()) ;
+
+          throttle->set(power) ;
+
+          ship->getTrait<Model::Mobile>()->setAngularSpeed(Model::AngularSpeed::TurnPerSecond(0.2,0,0)) ;
+          // ugly but works...
+          ship->getTrait<Model::Positioned>()->setPosition(Model::Position::Meter(0,0,-500)) ;
+          float seconds = timer.getSecond() ;
+          if (seconds != 0)
+          {
+            timer.reset() ;
+            model->update(seconds) ;
+          }
+        }
+
       }
 
     }

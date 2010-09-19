@@ -106,6 +106,8 @@
         <!--  The force of the engine, the more the speeder, warning keep x,y to zero -->
         <Force x="0" y="0" z="-650" unit="Newton"/>
         <ObjectReference id="9" name="controler"/>
+        <Position x="0" y="-10" z="130" unit="Meter"/>
+        <Distance value="20" unit="Meter"/>
       </Engine>
       <Component/>
     </object>

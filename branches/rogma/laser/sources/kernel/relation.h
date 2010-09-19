@@ -69,6 +69,13 @@ namespace ProjetUnivers
       template <class _Relation>
       static std::set<Object*> getLinked(Object* object) ;
 
+      /// Returns the linked object of @c object through @c _Relation.
+      /*!
+        @return NULL if none or several
+      */
+      template <class _Relation>
+      static Object* getUniqueLinked(Object* object) ;
+
       /// True iff @c object1 @c _Relation @c object2.
       template <class _Relation>
       static bool areLinked(Object* object1,Object* object2) ;

@@ -35,6 +35,7 @@ namespace ProjetUnivers
                           And(HasTrait(Model::AutonomousCharacter),
                               HasTrait(Model::WithObjectives),
                               HasTrait(Kernel::CommandDelegator),
+                              // @todo remove this hack
                               Not(HasParent(HasTrait(Model::Explosion))))) ;
     }
   }

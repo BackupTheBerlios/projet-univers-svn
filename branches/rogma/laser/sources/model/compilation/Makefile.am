@@ -17,6 +17,7 @@ libmodel_la_SOURCES = \
 ../implementation/autonomous_character.cpp \
 ../implementation/background_sound.cpp \
 ../implementation/collision.cpp \
+../implementation/control_connection.cpp \
 ../implementation/component.cpp \
 ../implementation/computer.cpp \
 ../implementation/computer_data.cpp \
