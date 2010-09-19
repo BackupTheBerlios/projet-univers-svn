@@ -44,6 +44,7 @@ namespace ProjetUnivers
         void destroyEffectParent() ;
         void hit() ;
         void simulateHit() ;
+        void thrust() ;
 
       // @}
         /*!
@@ -59,6 +60,7 @@ namespace ProjetUnivers
         CPPUNIT_TEST(effect) ;
         CPPUNIT_TEST(hit) ;
         CPPUNIT_TEST(simulateHit) ;
+        CPPUNIT_TEST(thrust) ;
 
         CPPUNIT_TEST_SUITE_END() ;
 

@@ -575,6 +575,8 @@ namespace ProjetUnivers
 
     Kernel::Object* createShip(Kernel::Object* parent)
     {
+      parent->getModel()->startTransaction() ;
+
       Kernel::Object* ship = parent->createObject() ;
       ship->addTrait(new Positioned()) ;
       ship->addTrait(new Oriented()) ;
@@ -630,6 +632,8 @@ namespace ProjetUnivers
       Kernel::Object* engine = ship->createObject() ;
       engine->addTrait(new Engine(Force::Newton(0,0,-650))) ;
       engine->addTrait(new Component()) ;
+      engine->getTrait<Engine>()->setOutputPosition(Position::Meter(0,-10,130)) ;
+      engine->getTrait<Engine>()->setOutputRadius(Distance(Distance::_Meter,20)) ;
 
       Kernel::Object* engine_control = ship->createObject() ;
       engine_control->addTrait(new EngineControler()) ;
@@ -637,6 +641,8 @@ namespace ProjetUnivers
 
       connectThrottleControler(throttle,engine_control) ;
       connectControlerEngine(engine_control,engine) ;
+
+      parent->getModel()->endTransaction() ;
 
       return ship ;
     }

@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2010 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,8 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_ENGINE_CONTROLER_H_
-#define PU_MODEL_ENGINE_CONTROLER_H_
+#pragma once
 
 #include <kernel/trait.h>
 #include <kernel/object_reference.h>
@@ -38,11 +37,11 @@ namespace ProjetUnivers
       class TestLoad ;
     }
     
-    /// Connect a throttle to a engine controler. 
+    /// Connect a throttle to a engine controller.
     void connectThrottleControler(Kernel::Object* throttle,
                                   Kernel::Object* controler) ;
 
-    /// Connect an engine controler to an engine. 
+    /// Connect an engine controller to an engine.
     void connectControlerEngine(Kernel::Object* controler,
                                 Kernel::Object* engine) ;
     
@@ -51,30 +50,19 @@ namespace ProjetUnivers
     {
     public:
 
-      /// Constructor.
-      EngineControler() ;
-
       /// Read an EngineControler trait.
       /*!
         stored as 
         @code
-          <EngineControler>
-            <ObjectReference id=".." [name=throttle]/> 
-          </EngineControler>
+          <EngineControler/>
         @endcode
       */     
       static Kernel::Trait* read(Kernel::Reader* reader) ;
       
-      /// Perfom engine control.
+      /// Perform engine control.
       int getPowerPercentage() const ;
       
     private:
-      
-      /// The throttle.
-      /*!
-        An oriented object whose only interesting value is the Pitch ?
-      */
-      Kernel::ObjectReference m_throttle ;
 
       friend void connectThrottleControler(Kernel::Object*,Kernel::Object*) ;
 
@@ -84,5 +72,3 @@ namespace ProjetUnivers
     
   }
 }
-
-#endif /*PU_MODEL_ENGINE_CONTROLER_H_*/

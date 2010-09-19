@@ -52,6 +52,7 @@
 #include <model/universe.h>
 
 #include <model/test/test_load.h>
+#include <model/control_connection.h>
 
 CPPUNIT_TEST_SUITE_REGISTRATION(ProjetUnivers::
                                 Model::
@@ -191,8 +192,9 @@ namespace ProjetUnivers
             "<model>\n"
               "<object id=\"1\">\n"
                 "<Engine>\n"
-                  "<ObjectReference id=\"2\" name=\"controler\"/>\n"
                   "<Force x=\"1\" y=\"0\" z=\"0\" unit=\"Newton\"/>\n"
+                  "<Distance value=\"5\" unit=\"Meter\"/>\n"
+                  "<Position x=\"1\" y=\"2\" z=\"3\" unit=\"Meter\"/>\n"
                 "</Engine>\n"
               "</object>\n"
               "<object id=\"2\">\n"
@@ -203,6 +205,8 @@ namespace ProjetUnivers
               "<object id=\"3\">\n"
                 "<Throttle y=\"0\"/>\n"
               "</object>\n"
+              "<Relation name=\"ControlConnection\" from=\"3\" to=\"2\"/>\n"
+              "<Relation name=\"ControlConnection\" from=\"2\" to=\"1\"/>\n"
             "</model>\n") ;
         std::auto_ptr<Kernel::XMLReader> reader(Kernel::XMLReader::getStringReader(content)) ;
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestLoad::testLoadEngine")) ;
@@ -211,9 +215,9 @@ namespace ProjetUnivers
         std::set<Kernel::Object*> roots(model->getRoots()) ;
         CPPUNIT_ASSERT_EQUAL((unsigned int)3,roots.size()) ;
 
-        bool exist_engine = false ;
-        bool exist_engine_controler = false ;
-        bool exist_throttle = false ;
+        Engine* engine = NULL ;
+        EngineControler* engine_controler = NULL ;
+        Throttle* throttle = NULL ;
 
         for (std::set<Kernel::Object*>::iterator current = roots.begin() ;
              current != roots.end() ;
@@ -223,22 +227,26 @@ namespace ProjetUnivers
 
           if (object->getTrait<Engine>())
           {
-            exist_engine = true ;
-            CPPUNIT_ASSERT(object->getTrait<Engine>()->m_controler) ;
+            engine = object->getTrait<Engine>() ;
           }
 
           if (object->getTrait<EngineControler>())
           {
-            exist_engine_controler = true ;
-            CPPUNIT_ASSERT(object->getTrait<EngineControler>()->m_throttle) ;
+            engine_controler = object->getTrait<EngineControler>() ;
           }
           if (object->getTrait<Throttle>())
-            exist_throttle = true ;
+            throttle = object->getTrait<Throttle>() ;
         }
 
-        CPPUNIT_ASSERT(exist_engine) ;
-        CPPUNIT_ASSERT(exist_engine_controler) ;
-        CPPUNIT_ASSERT(exist_throttle) ;
+        CPPUNIT_ASSERT(engine) ;
+        CPPUNIT_ASSERT(engine_controler) ;
+        CPPUNIT_ASSERT(throttle) ;
+
+        CPPUNIT_ASSERT(Kernel::Relation::areLinked<ControlConnection>(throttle->getObject(),engine_controler->getObject())) ;
+        CPPUNIT_ASSERT(Kernel::Relation::areLinked<ControlConnection>(engine_controler->getObject(),engine->getObject())) ;
+
+        CPPUNIT_ASSERT_EQUAL(Position::Meter(1,2,3),engine->getOutputPosition()) ;
+        CPPUNIT_ASSERT_EQUAL(Distance(Distance::_Meter,5),engine->getOutputRadius()) ;
       }
 
       void TestLoad::testLoadForceGenerator()

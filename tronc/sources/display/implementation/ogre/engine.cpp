@@ -22,11 +22,11 @@
 
 #include <kernel/log.h>
 
+#include <model/explosion.h>
 #include <display/implementation/ogre/utility.h>
 #include <display/implementation/ogre/positioned.h>
-#include <display/implementation/ogre/laser_beam.h>
+#include <display/implementation/ogre/engine.h>
 #include <display/implementation/ogre/ogre.h>
-
 
 namespace ProjetUnivers
 {
@@ -35,52 +35,57 @@ namespace ProjetUnivers
     namespace Implementation
     {
 
-      DeclareDeducedTrait(LaserBeam,And(HasTrait(Model::LaserBeam),HasTrait(RecursivelyPositioned))) ;
+      DeclareDeducedTrait(Engine,And(HasTrait(RecursivelyPositioned),
+                                     HasTrait(Model::Engine),
+                                     // @todo remove this hack
+                                     Not(HasParent(HasTrait(Model::Explosion))))) ;
 
       namespace Ogre
       {
 
-        RegisterView(Ogre::LaserBeam,
-                     Implementation::LaserBeam,
-                     Ogre::RealWorldViewPoint) ;
+        RegisterView(Ogre::Engine,
+            Implementation::Engine,
+            Ogre::RealWorldViewPoint) ;
 
-
-        void LaserBeam::onInit()
+        void Engine::onInit()
         {
-          InternalMessage("Display","Entering Ogre::LaserBeam::onInit") ;
+          InternalMessage("Display","Entering Ogre::Engine::onInit") ;
 
           Positioned* positioned(getView<Positioned>()) ;
+          Model::Engine* engine(getTrait<Model::Engine>()) ;
 
-          m_beam = this->getViewPoint()->getManager()->createRibbonTrail(Utility::getUniqueName()) ;
+          m_output_node = positioned->getNode()->createChildSceneNode(convert(engine->getOutputPosition())) ;
 
-          m_beam->addNode(positioned->getNode()) ;
-          m_beam->setNumberOfChains(1) ;
-          m_beam->setMaterialName("PU/base/laser") ;
-          m_beam->setMaxChainElements(400) ;
-          m_beam->setInitialColour(0,::Ogre::ColourValue::Red) ;
+          m_thrust = this->getViewPoint()->getManager()
+                         ->createEntity(Utility::getUniqueName(),"thrust.mesh") ;
 
-          Model::LaserBeam* laser_beam(getTrait<Model::LaserBeam>()) ;
-          m_beam->setTrailLength(convert(laser_beam->getLength())) ;
-          m_beam->setInitialWidth(0,convert(laser_beam->getRadius())) ;
+          m_output_node->attachObject(m_thrust) ;
+          // reset scale factor
+          scale(m_output_node,engine->getOutputRadius(),engine->getOutputRadius(),engine->getOutputRadius()*2) ;
 
-          // put it on the node
-          m_node = this->getViewPoint()->getManager()->getRootSceneNode()->createChildSceneNode() ;
-          m_node->attachObject(m_beam) ;
+          m_thrust->setMaterialName("PU/Base/Thrust") ;
 
-          InternalMessage("Display","Leaving Ogre::LaserBeam::onInit") ;
+          // pass power as a custom parameter to fragment program
+          m_thrust->getSubEntity(0)->setCustomParameter(0,::Ogre::Vector4(engine->getPowerPercentage(),0,0,0)) ;
+
+          InternalMessage("Display","Leaving Ogre::Engine::onInit") ;
         }
 
-        void LaserBeam::onClose()
+        void Engine::onClose()
         {
-          InternalMessage("Display","Display::LaserBeam::onClose Entering") ;
+          InternalMessage("Display","Display::Engine::onClose Entering") ;
 
-          this->getViewPoint()->getManager()->destroyRibbonTrail(m_beam) ;
-          this->getViewPoint()->getManager()->destroySceneNode(m_node->getName()) ;
+          this->getViewPoint()->getManager()
+               ->destroyEntity(m_thrust) ;
 
-          InternalMessage("Display","Display::LaserBeam::onClose Leaving") ;
+          InternalMessage("Display","Display::Engine::onClose Leaving") ;
         }
 
-
+        void Engine::onUpdate()
+        {
+          Model::Engine* engine(getTrait<Model::Engine>()) ;
+          m_thrust->getSubEntity(0)->setCustomParameter(0,::Ogre::Vector4(engine->getPowerPercentage(),0,0,0)) ;
+        }
 
       }
     }

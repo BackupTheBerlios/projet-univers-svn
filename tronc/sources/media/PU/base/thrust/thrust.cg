@@ -1,0 +1,35 @@
+void thrust_vp(float4 position : POSITION, 
+               float3 normal   : NORMAL,
+               float2 uv_coordinate : TEXCOORD0,
+               uniform float4x4 worldViewProj, 
+               uniform float3 camera_position_object_space,
+               out float4 out_position : POSITION,
+               out float2 out_uv_coordinate : TEXCOORD0,
+               out float4 out_normal : TEXCOORD2) 
+ { 
+  out_position = mul(worldViewProj,position); 
+  out_normal.x = abs(dot(normalize(normal),normalize(camera_position_object_space))) ; 
+  out_uv_coordinate = uv_coordinate ;
+ } 
+
+
+// A thrust effect
+void thrust_ps(float2 uv_coordinate : TEXCOORD0,
+               float3 normal : TEXCOORD2, 
+               uniform sampler2D texture,
+               uniform float4 thrust_color,
+               uniform float4 power,
+               out float4 color : COLOR)
+{
+  float y = uv_coordinate.y ;
+
+  // passed from C++, value between 0 and 1
+  float power_value = clamp(power.x,0,1) ;
+  
+  // the more c, the shorter the exhaust
+  float c = 2*(1-power_value) +1 ;
+  float modulation = clamp(clamp((c*y-c+1),0,1)*pow(normal.x,2),0,1) ; 
+  
+  color = modulation*thrust_color ;
+  color.a = power_value*thrust_color.a ;
+}

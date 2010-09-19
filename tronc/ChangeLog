@@ -1681,7 +1681,7 @@
 
 2010-07-04
   * Kernel : closing order bug correction in case of model destruction or 
-    viewpoint/clontrolerset closing
+    viewpoint/controlerset closing
  
   * Model :
     - change laser beam size
@@ -1701,6 +1701,9 @@
   * Physics/Model:
     - bug : laser 'go through'; moved destruction of laser to the init of 
       collision  
+
+2010-09-19
+  * Display engine output
   
 in commit
 --------
@@ -1709,9 +1712,30 @@ in commit
 in progress
 -----------
 
-    
+
 @todo
 ----
+
+  * bug : exploding objects cannot perform any action... see todos on explosion
+    - exploding objects must be detroyed and another one created at the same 
+      position + same speed
+
+  * all :
+    - performances : try to generate a big exe without dll...
+
+  * Kernel :
+    - command delegator : handle multiple sub element of the same type (several laser)
+  * Model : 
+    - handle several engine for an engine controller. 
+    
+  * Display :
+    - on hud indicate when taken as a target
+    - exploding solid should fade to transparent
+
+  * Model : 
+    - Mission : destruction sequence during player's ship explosion 
+      (Player & Parent(Explosion)) --> change current camera to a fixed one 
+    - move player from ship to explosion ?
 
   * have all used ships in the same size range
 
@@ -1719,19 +1743,10 @@ in progress
 
   * GUI :
     - select ship from a list
-    - add a list selection in gui config
+    - add a list selection in gui config (or use a new windows)
     - change all hover/pushed elements inspire from  
       http://sourceforge.net/projects/galactitrade/
       (apache v2 can be used inside GPLv3)
-
-  * Display :
-    - exploding solid should fade to transparent
-    - bug : exploding objects cannot perform any action...
-
-  * Model : 
-    - Mission : destruction sequence during player's ship explosion 
-      (Player & Parent(Explosion)) --> change current camera to a fixed one 
-    - move player from ship to explosion ?
     
   * Bug : during game, when destroyed for the last time ? --> dark screen
     - not repoduced
@@ -1801,7 +1816,7 @@ in progress
 
   * Shields
     - Damages
-    - Commands on shields (transfer shield to front, back...) 
+    - Commands on energy (transfer shield to front, back...) 
 
   * Kernel : 
     - maybe something to do on notify : directly calls the update on connected 

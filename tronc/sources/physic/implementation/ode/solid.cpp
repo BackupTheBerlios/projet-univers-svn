@@ -45,6 +45,7 @@ namespace ProjetUnivers
       DeclareDeducedTrait(SolidPhysicalObject,
                           And(HasTrait(Implementation::PhysicalObject),
                               HasTrait(Model::Solid),
+                              // @todo remove this hack
                               Not(HasTrait(Model::Explosion)))) ;
 
       namespace Ode

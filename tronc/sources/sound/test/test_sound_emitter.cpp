@@ -82,6 +82,8 @@ namespace ProjetUnivers
 
         ship->getChild<Model::Throttle>()->set(100) ;
         // hacky : setting throttle does not update engine so we force update
+        CPPUNIT_ASSERT(ship->getChild<Model::Engine>()) ;
+        ship->getChild<Model::Engine>()->getAppliedForce() ;
         ship->getTrait<Model::Positioned>()->setPosition(Model::Position::Meter(10,0,0)) ;
 
         ALint state;
@@ -130,6 +132,8 @@ namespace ProjetUnivers
 
         ship->getChild<Model::Throttle>()->set(100) ;
         // hacky : setting throttle does not update engine so we force update
+        CPPUNIT_ASSERT(ship->getChild<Model::Engine>()) ;
+        ship->getChild<Model::Engine>()->getAppliedForce() ;
         ship->getTrait<Model::Positioned>()->setPosition(Model::Position::Meter(2*distance_in_meter,0,0)) ;
 
         // still inactive
@@ -167,6 +171,8 @@ namespace ProjetUnivers
 
         Kernel::Object* ship = Model::createShip(system) ;
         ship->getChild<Model::Throttle>()->set(100) ;
+        CPPUNIT_ASSERT(ship->getChild<Model::Engine>()) ;
+        ship->getChild<Model::Engine>()->getAppliedForce() ;
 
         Implementation::Engine* engine = ship->getChild<Implementation::Engine>() ;
         CPPUNIT_ASSERT(engine) ;
@@ -190,6 +196,8 @@ namespace ProjetUnivers
         // hacky : setting throttle does not update engine so we force update
         float distance_in_meter = engine_view->getMaxDistance() ;
         ship->getTrait<Model::Positioned>()->setPosition(Model::Position::Meter(2*distance_in_meter,0,0)) ;
+        CPPUNIT_ASSERT(ship->getChild<Model::Engine>()) ;
+        ship->getChild<Model::Engine>()->getAppliedForce() ;
 
         CPPUNIT_ASSERT(!engine_view->isActive()) ;
         CPPUNIT_ASSERT(!engine_view->getSource()) ;

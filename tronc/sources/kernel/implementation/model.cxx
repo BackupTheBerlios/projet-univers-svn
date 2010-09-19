@@ -146,6 +146,12 @@ namespace ProjetUnivers
           return object->getModel()->getRelations(getClassTypeIdentifier(Relation),object) ;
         }
 
+        /// Implementation of getUniqueLinked
+        static Object* getUnique(Object* object)
+        {
+          return object->getModel()->getUniqueRelated(getClassTypeIdentifier(Relation),object) ;
+        }
+
         /// Implementation of areLinked
         static bool areLinked(Object* object1,Object* object2)
         {
@@ -156,7 +162,7 @@ namespace ProjetUnivers
 
       };
 
-      /// Specialisation for inverse relation
+      /// Specialization for inverse relation
       template <class Relation> class GetLink<Inverse<Relation> >
       {
       public:
@@ -165,6 +171,12 @@ namespace ProjetUnivers
         static std::set<Object*> get(Object* object)
         {
           return object->getModel()->getInverseRelations(getClassTypeIdentifier(Relation),object) ;
+        }
+
+        /// Implementation of getUniqueLinked
+        static Object* getUnique(Object* object)
+        {
+          return object->getModel()->getUniqueInverseRelated(getClassTypeIdentifier(Relation),object) ;
         }
 
         /// Implementation of areLinked
@@ -181,6 +193,12 @@ namespace ProjetUnivers
     std::set<Object*> Relation::getLinked(Object* object)
     {
       return Implementation::GetLink<_Relation>::get(object) ;
+    }
+
+    template <class _Relation>
+    Object* Relation::getUniqueLinked(Object* object)
+    {
+      return Implementation::GetLink<_Relation>::getUnique(object) ;
     }
 
     template <class _Relation>

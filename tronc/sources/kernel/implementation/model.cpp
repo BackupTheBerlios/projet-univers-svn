@@ -687,6 +687,25 @@ namespace ProjetUnivers
       return result ;
     }
 
+    Object* Model::getUniqueRelated(const TypeIdentifier& type,Object* object) const
+    {
+      Object* result = NULL ;
+
+      for(std::set<Relation>::const_iterator relation = m_relations.begin() ; relation != m_relations.end() ; ++relation)
+      {
+        if (relation->getType() == type && relation->getObjectFrom() == object)
+        {
+          if (!result)
+            result = relation->getObjectTo() ;
+          else
+            // several results
+            result = NULL ;
+        }
+      }
+
+      return result ;
+    }
+
     std::set<Object*> Model::getRelations(Object* object) const
     {
       std::set<Object*> result ;
@@ -706,6 +725,24 @@ namespace ProjetUnivers
       {
         if (relation->getType() == type && relation->getObjectTo() == object)
           result.insert(relation->getObjectFrom()) ;
+      }
+
+      return result ;
+    }
+
+    Object* Model::getUniqueInverseRelated(const TypeIdentifier& type,Object* object) const
+    {
+      Object* result = NULL ;
+      for(std::set<Relation>::const_iterator relation = m_relations.begin() ; relation != m_relations.end() ; ++relation)
+      {
+        if (relation->getType() == type && relation->getObjectTo() == object)
+        {
+          if (!result)
+            result = relation->getObjectFrom() ;
+          else
+            // several results
+            result = NULL ;
+        }
       }
 
       return result ;

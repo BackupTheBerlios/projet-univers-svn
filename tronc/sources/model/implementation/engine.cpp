@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2010 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -24,15 +24,19 @@
 #include <model/oriented.h>
 #include <model/engine_controler.h>
 #include <model/engine.h>
+#include <kernel/relation.h>
+#include <model/control_connection.h>
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
 
     RegisterTrait(Engine) ;
 
     Engine::Engine(const Force& force)
     : m_full_thrust(force),
-      m_controler(NULL)
+      m_percentage(0)
     {}
 
     Kernel::Trait* Engine::read(Kernel::Reader* reader)
@@ -42,14 +46,19 @@ namespace ProjetUnivers {
       while (!reader->isEndNode() && reader->processNode())
       {
         if (reader->isTraitNode() &&
-            reader->getTraitName() == "ObjectReference")
-        {
-          result->m_controler = Kernel::ObjectReference::read(reader) ;
-        }
-        else if (reader->isTraitNode() &&
                  reader->getTraitName() == "Force")
         {
           result->m_full_thrust = Force::read(reader) ;
+        }
+        else if (reader->isTraitNode() &&
+                 reader->getTraitName() == "Position")
+        {
+          result->m_output_position = Position::read(reader) ;
+        }
+        else if (reader->isTraitNode() &&
+                 reader->getTraitName() == "Distance")
+        {
+          result->m_output_radius = Distance::read(reader) ;
         }
         else
         {
@@ -61,21 +70,34 @@ namespace ProjetUnivers {
       return result ;
     }
 
-    float Engine::getPowerPercentage() const
+    void Engine::calculatePowerPercentage()
     {
       int percentage = 0 ;
 
-      if (m_controler && m_controler->getTrait<EngineControler>())
-      {
-        percentage = m_controler->getTrait<EngineControler>()->getPowerPercentage() ;
-      }
+      Kernel::Object* controler = Kernel::Relation::getUniqueLinked<Kernel::Inverse<ControlConnection> >(getObject()) ;
 
-      return ((float)percentage)*0.01 ;
+      if (controler && controler->getTrait<EngineControler>())
+      {
+        percentage = controler->getTrait<EngineControler>()->getPowerPercentage() ;
+
+        float result = ((float)percentage)*0.01 ;
+
+        if (result != m_percentage)
+        {
+          m_percentage = result ;
+          notify() ;
+        }
+      }
     }
 
-    Force Engine::getAppliedForce() const
+    float Engine::getPowerPercentage() const
     {
+      return m_percentage ;
+    }
 
+    Force Engine::getAppliedForce()
+    {
+      calculatePowerPercentage() ;
       float percentage = getPowerPercentage() ;
 
       // orient the force according to orientation of the parent physical world
@@ -97,6 +119,28 @@ namespace ProjetUnivers {
       // no physical world --> useless to push...
       InternalMessage("Model","Model::Engine::getAppliedForce no force") ;
       return Force() ;
+    }
+
+    const Position& Engine::getOutputPosition() const
+    {
+      return m_output_position ;
+    }
+
+    const Distance& Engine::getOutputRadius() const
+    {
+      return m_output_radius ;
+    }
+
+    void Engine::setOutputPosition(const Position& position)
+    {
+      m_output_position = position ;
+      notify() ;
+    }
+
+    void Engine::setOutputRadius(const Distance& radius)
+    {
+      m_output_radius = radius ;
+      notify() ;
     }
 
   }

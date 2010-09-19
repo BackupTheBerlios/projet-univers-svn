@@ -63,7 +63,7 @@ namespace ProjetUnivers
       return result ;
     }
     
-    Force Dragger::getAppliedForce() const
+    Force Dragger::getAppliedForce()
     {
       
       /*!
@@ -75,7 +75,7 @@ namespace ProjetUnivers
           max(speed,speed*speed)*Cx
           
         @todo 
-          eventually change coeeficient to tune resulting max speed...
+          eventually change coefficient to tune resulting max speed...
       */
       PhysicalObject* physical_object = getObject()->getParent<PhysicalObject>() ;
       Solid* solid = physical_object ? 

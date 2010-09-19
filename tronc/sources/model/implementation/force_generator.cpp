@@ -56,7 +56,7 @@ namespace ProjetUnivers {
       m_applied_force = i_force ;
     }
 
-    Force ForceGenerator::getAppliedForce() const 
+    Force ForceGenerator::getAppliedForce()
     {
       return m_applied_force ;
     }

@@ -50,7 +50,7 @@ namespace ProjetUnivers
       static Kernel::Trait* read(Kernel::Reader* reader) ;
  
       /// Get the force.
-      virtual Force getAppliedForce() const ;
+      virtual Force getAppliedForce() ;
     
     private:
       
