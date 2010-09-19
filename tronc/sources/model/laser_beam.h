@@ -21,8 +21,9 @@
 #pragma once
 
 #include <kernel/trait.h>
-#include <model/energy.h>
 #include <kernel/object_reference.h>
+#include <model/energy.h>
+#include <model/distance.h>
 
 namespace ProjetUnivers
 {
@@ -33,9 +34,12 @@ namespace ProjetUnivers
     class LaserBeam : public Kernel::Trait
     {
     public:
-      
+
       /// Constructor.
       LaserBeam(Kernel::Object* ship) ;
+      
+      /// Constructor.
+      LaserBeam(Kernel::Object* ship,const Distance& length,const Distance& radius) ;
       
       /// Get the beam energy.
       /*!
@@ -46,10 +50,25 @@ namespace ProjetUnivers
       /// Ship that fired the beam.
       Kernel::Object* getFiringShip() const ;
 
+      /// Access to the radius of the beam.
+      const Distance& getRadius() const ;
+
+      /// Access to the length of the beam.
+      const Distance& getLength() const ;
+
     private:
 
       /// Ship that fired the beam.
+      /*!
+        @todo find a way to avoid following issue : beam exists but firing ship
+        has been destroyed...
+      */
       Kernel::ObjectReference m_ship ;
+
+      /// Size parameter
+      Distance    m_length ;
+      /// Size parameter
+      Distance    m_radius ;
 
     };
 

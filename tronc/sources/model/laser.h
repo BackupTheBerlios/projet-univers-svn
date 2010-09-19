@@ -70,6 +70,12 @@ namespace ProjetUnivers
       
       /// Change laser orientation.
       void setOrientation(const Orientation&) ;
+
+      /// Set the radius of the beam produced.
+      void setBeamRadius(const Distance&) ;
+
+      /// Set the length of the beam produced.
+      void setBeamLength(const Distance&) ;
       
       /// Read a Laser trait.
       /*!

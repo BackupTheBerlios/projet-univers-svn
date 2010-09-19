@@ -151,7 +151,7 @@ namespace ProjetUnivers
         Kernel::Object* firing_ship = system->createObject() ;
 
         Kernel::Object* beam = system->createObject() ;
-        beam->addTrait(new LaserBeam(firing_ship)) ;
+        beam->addTrait(new LaserBeam(firing_ship,Distance(Distance::_Meter,1),Distance(Distance::_Meter,1))) ;
         beam->addTrait(new Mobile(Speed::MeterPerSecond(1, 0, 0))) ;
         beam->addTrait(new Massive(Mass::Kilogram(1))) ;
 

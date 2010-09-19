@@ -28,11 +28,14 @@
 #include <model/mesh.h>
 
 
-namespace ProjetUnivers {
-  namespace Physic {
-    namespace Implementation {
+namespace ProjetUnivers
+{
+  namespace Physic
+  {
+    namespace Implementation
+    {
 
-      /// Physics implementation throught ODE.
+      /// Physics implementation through ODE.
       /*!
       @par Physic calculus Conjecture
 
@@ -76,12 +79,13 @@ namespace ProjetUnivers {
         Another example
 
       */
-      namespace Ode {
+      namespace Ode
+      {
 
         class PhysicalObject ;
         class PhysicalWorld ;
 
-        /// Initialisation of ODE specific.
+        /// Initialization of ODE specific.
         void init() ;
 
         /// Termination of ODE specific.
@@ -91,17 +95,16 @@ namespace ProjetUnivers {
       /*!
         @name ODE like functions
       */
-      // @{
+      //@{
 
-        /// custom implentation for dMassSetTrimesh
+        /// custom implementation for dMassSetTrimesh
         void meshToMass(const Model::Mesh& i_mesh,dMass* io_mass) ;
-
 
       //@}
       /*!
         @name Print functions
       */
-      // @{
+      //@{
 
         std::string printReal(const dReal& i_real) ;
         std::string printVector3(const dVector3& i_vector) ;
@@ -113,7 +116,7 @@ namespace ProjetUnivers {
       /*!
         @name Contacts.
       */
-      // @{
+      //@{
 
         /// Array of contact points.
         extern dContactGeom* contact_points ;

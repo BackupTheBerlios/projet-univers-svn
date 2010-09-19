@@ -124,7 +124,7 @@ namespace ProjetUnivers
         const int steps_number = 100 ;
         for(int i = 1 ; i <= steps_number ; ++i)
         {
-          physics->simulate(0.1) ;
+          physics->update(0.1) ;
         }
 
         /// check that collision has occurred
@@ -142,7 +142,7 @@ namespace ProjetUnivers
 
         for(int i = 1 ; i <= steps_number ; ++i)
         {
-          physics->simulate(0.2) ;
+          physics->update(0.2) ;
         }
 
         /// check that more collisions has occurred
@@ -200,7 +200,7 @@ namespace ProjetUnivers
 
         CPPUNIT_ASSERT(system->getDescendants<Model::LaserBeam>().size()==1) ;
 
-        physics->simulate(0.1) ;
+        physics->update(0.1) ;
 
         // check that no collision occurred
         CPPUNIT_ASSERT(system->getDescendants<Model::Collision>().size()==0) ;
@@ -255,7 +255,7 @@ namespace ProjetUnivers
         const int steps_number = 20 ;
         for(int i = 1 ; i <= steps_number ; ++i)
         {
-          physics->simulate(0.1) ;
+          physics->update(0.1) ;
         }
 
         /// check that collision has occurred
@@ -306,10 +306,10 @@ namespace ProjetUnivers
         const int steps_number = 100 ;
         for(int i = 1 ; i <= steps_number ; ++i)
         {
-          physics->simulate(0.1) ;
+          physics->update(0.1) ;
         }
 
-        /// check that collision has occurred
+        /// check that no collision has occurred
         unsigned int collision_number = system->getDescendants<Model::Collision>().size() ;
         CPPUNIT_ASSERT(collision_number==0) ;
       }
@@ -372,10 +372,10 @@ namespace ProjetUnivers
 
         for(int i = 1 ; i <= 200 ; i++)
         {
-          physics->simulate(0.01) ;
+          physics->update(0.01) ;
         }
 
-        // check that no collision occurred
+        // check that collision occurred
         CPPUNIT_ASSERT(system->getDescendants<Model::Collision>().size()!=0) ;
         InternalMessage("Physic","Physic::Test::TestCollision::testFire leaving") ;
       }
@@ -421,7 +421,7 @@ namespace ProjetUnivers
         const int steps_number = 100 ;
         for(int i = 1 ; i <= steps_number ; ++i)
         {
-          physics->simulate(0.1) ;
+          physics->update(0.1) ;
         }
 
         /// check that collision has occurred
@@ -464,7 +464,7 @@ namespace ProjetUnivers
         const int steps_number = 100 ;
         for(int i = 1 ; i <= steps_number ; ++i)
         {
-          physics->simulate(0.1) ;
+          physics->update(0.1) ;
           CPPUNIT_ASSERT_MESSAGE("distance = " + Kernel::toString(ship1->getTrait<Model::Positioned>()->getPosition().calculateDistance(ship2->getTrait<Model::Positioned>()->getPosition()).Meter()) +
                                  "radius = " + Kernel::toString(ship1->getTrait<Model::Sized>()->getRadius().Meter()),
                                  ship1->getTrait<Model::Positioned>()->getPosition().calculateDistance(ship2->getTrait<Model::Positioned>()->getPosition()) >= 1.5 * ship1->getTrait<Model::Sized>()->getRadius()) ;
@@ -474,7 +474,8 @@ namespace ProjetUnivers
 
       int TestCollision::fireAndSimulate(Kernel::Object* firing,Kernel::Object* fired,Kernel::Object* system)
       {
-        Kernel::ControlerSet* logic = firing->getModel()->getControlerSet<Model::Implementation::Logic::LogicSystem>() ;
+        Kernel::Model* model = firing->getModel() ;
+        Kernel::ControlerSet* logic = model->getControlerSet<Model::Implementation::Logic::LogicSystem>() ;
         CPPUNIT_ASSERT(logic) ;
 
         // in order to avoid collision destruction by Model::Logic
@@ -498,6 +499,9 @@ namespace ProjetUnivers
           if (seconds != 0)
           {
             timer.reset() ;
+
+            // to avoid destruction of laser during check
+            model->startTransaction() ;
             physics->update(seconds) ;
 
             std::set<Model::Collision*> collisions(system->getChildren<Model::Collision>()) ;
@@ -513,6 +517,7 @@ namespace ProjetUnivers
                 ++number_of_impacts ;
               }
             }
+            model->endTransaction() ;
 
             logic->update(seconds) ;
           }
@@ -545,6 +550,58 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT_EQUAL(1,fireAndSimulate(ship2,ship,system)) ;
         CPPUNIT_ASSERT_EQUAL(1,fireAndSimulate(ship2,ship,system)) ;
         CPPUNIT_ASSERT_EQUAL(1,fireAndSimulate(ship2,ship,system)) ;
+      }
+
+      void TestCollision::laserLengthDependOnSpeed()
+      {
+        InternalMessage("Physic","Physic::Test::TestCollision::laserLengthDependOnSpeed Entering") ;
+
+        /*!
+          - build two mesh ship
+          - fire
+          - check that collision object exists
+        */
+
+        // we construct a complete system
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model()) ;
+        model->init() ;
+
+        // should be a PhysicalWorld
+        Kernel::Object* system = model->createObject() ;
+        CPPUNIT_ASSERT(system->getTrait<Model::PhysicalWorld>()) ;
+
+        Kernel::Object* ship = Model::createShip(system) ;
+        ship->getTrait<Model::Positioned>()->setPosition(Model::Position::Meter(0,0,-500)) ;
+        ship->getTrait<Model::Destroyable>()->setMaximumHitPoint(Model::Energy::Joule(5000)) ;
+
+        CPPUNIT_ASSERT(ship->getTrait<Model::PhysicalObject>()) ;
+        CPPUNIT_ASSERT(ship->getTrait<Model::PhysicalWorld>()) ;
+
+        Kernel::Object* ship2 = Model::createShip(system) ;
+        ship2->getTrait<Model::Positioned>()->setPosition(Model::Position::Meter(-500,0,-500)) ;
+        ship2->getTrait<Model::Oriented>()->setOrientation(Model::Orientation(::Ogre::Quaternion(::Ogre::Degree(-90),::Ogre::Vector3::UNIT_Y))) ;
+
+        ship2->getChild<Model::Laser>()->setLaserSpeedMeterPerSecond(2000) ;
+
+        /// get the physical viewpoint
+        Kernel::ControlerSet* physics = model->getControlerSet<Implementation::Ode::PhysicSystem>() ;
+        CPPUNIT_ASSERT(physics) ;
+
+        ship2->call(Model::Laser::Fire) ;
+
+        CPPUNIT_ASSERT(system->getDescendants<Model::LaserBeam>().size()==1) ;
+
+        Kernel::Object* beam = (*system->getDescendants<Model::LaserBeam>().begin())->getObject() ;
+        Model::Positioned* positioned = beam->getTrait<Model::Positioned>() ;
+
+        for(int i = 1 ; i <= 200 ; i++)
+        {
+          physics->update(0.01) ;
+        }
+
+        // check that collision occurred
+        CPPUNIT_ASSERT(system->getDescendants<Model::Collision>().size()!=0) ;
+        InternalMessage("Physic","Physic::Test::TestCollision::laserLengthDependOnSpeed leaving") ;
       }
 
     }

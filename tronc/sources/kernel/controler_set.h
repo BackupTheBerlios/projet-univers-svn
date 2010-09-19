@@ -46,6 +46,9 @@ namespace ProjetUnivers
       */
       void setTimeStep(const float& timestep) ;
       
+      /// Access to the simulation time step in seconds.
+      float getTimeStep() const ;
+
       /// Initialize the controller set.
       void init() ;
 

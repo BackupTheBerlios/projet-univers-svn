@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2010 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -23,8 +23,6 @@
 
 #include <model/model.h>
 
-#include <model/destroyable.h>
-#include <model/laser_beam.h>
 #include <model/hit.h>
 #include <model/with_lifetime.h>
 #include <model/positioned.h>
@@ -46,10 +44,11 @@ namespace ProjetUnivers
                           Model::Collision, 
                           LogicSystem) ;
         
-        void Collision::simulate(const float& i_seconds)
+        void Collision::onInit()
         {
-          InternalMessage("Model","Collision::simulate entering") ;
-          
+          InternalMessage("Model","Collision::onInit entering") ;
+          m_beam = NULL ;
+          m_destroyable = NULL ;
           /*
             if one object is a laser beam
             - destroy it 
@@ -58,44 +57,42 @@ namespace ProjetUnivers
           */
           LaserBeam* beam1 = getTrait()->getObject1()->getTrait<LaserBeam>() ;
           LaserBeam* beam2 = getTrait()->getObject2()->getTrait<LaserBeam>() ;
-          LaserBeam* beam = NULL ;
           
           Destroyable* destroyable1 = getTrait()->getObject1()->getTrait<Destroyable>() ;
           Destroyable* destroyable2 = getTrait()->getObject2()->getTrait<Destroyable>() ;
-          Destroyable* destroyable = NULL ;
           
           if (beam1)
           {
-            beam = beam1 ;
+            m_beam = beam1 ;
             getTrait()->getObject1()->destroyObject() ;
           }
 
           if (beam2)
           {
-            beam = beam2 ;
+            m_beam = beam2 ;
             getTrait()->getObject2()->destroyObject() ;
           }
           
           if (destroyable1)
           {
-            destroyable = destroyable1 ;
+            m_destroyable = destroyable1 ;
           }
 
           if (destroyable2)
           {
-            destroyable = destroyable2 ;
+            m_destroyable = destroyable2 ;
           }
           
           // handle beam/destroyable collision
-          if (beam && destroyable)
+          if (m_beam && m_destroyable)
           {
-            InternalMessage("Model","Collision::simulate damaging " + Kernel::toString(beam->getEnergy().Joule())) ;
-            destroyable->damage(beam->getEnergy()) ;
-            Kernel::Object* hit = destroyable->getObject()->createObject() ;
+            InternalMessage("Model","Collision::onInit damaging " + Kernel::toString(m_beam->getEnergy().Joule())) ;
+            m_destroyable->damage(m_beam->getEnergy()) ;
+            Kernel::Object* hit = m_destroyable->getObject()->createObject() ;
             hit->addTrait(new Hit()) ;
-            Position position(getRelativePosition(getObject(),destroyable->getObject())) ;
+            Position position(getRelativePosition(getObject(),m_destroyable->getObject())) ;
 
-            InternalMessage("Model","Collision::simulate creating hit at " + ::Ogre::StringConverter::toString(position.Meter())) ;
+            InternalMessage("Model","Collision::onInit creating hit at " + ::Ogre::StringConverter::toString(position.Meter())) ;
 
             hit->addTrait(new Positioned(position)) ;
             hit->addTrait(new WithLifetime(Duration::Second(0))) ;
@@ -103,12 +100,15 @@ namespace ProjetUnivers
             hit->addTrait(new Oriented(Orientation(position))) ;
           }          
           
-          // mark the collision object for destruction
-          /// @todo pull up an event system or use the withLifeTime
-          getObject()->destroyObject() ;
-          
-          InternalMessage("Model","Collision::simulate leaving") ;
+          InternalMessage("Model","Collision::onInit leaving") ;
         }
+
+        void Collision::simulate(const float&)
+        {
+          // mark the collision object for destruction
+          getObject()->destroyObject() ;
+        }
+
       }      
     }
   }

@@ -52,7 +52,9 @@ namespace ProjetUnivers
     : m_out_position(out_position),
       m_out_orientation(out_orientation),
       m_laser_beam_energy(beam_energy),
-      m_beam_lifetime(Duration::Second(2))
+      m_beam_lifetime(Duration::Second(2)),
+      m_beam_length(Distance(Distance::_Meter,20)),
+      m_beam_radius(Distance(Distance::_Meter,5))
     {
       m_laser_speed_meter_per_second = Kernel::Parameters::getValue<float>("Model","LaserBeamSpeed",600) ;
     }
@@ -157,12 +159,13 @@ namespace ProjetUnivers
         // orientation gives speed vector
         // basic_speed(full Z oriented) * orientation
         Speed speed = Speed::MeterPerSecond(0,0,-getLaserSpeedMeterPerSecond())*orientation_of_the_beam ;
-        // maybe we should add the object speed ??
+
+        // maybe we should add the object speed ?? (i.e. the speed of the ship)
 
         beam->addTrait(new Mobile(speed)) ;
         beam->addTrait(new Massive(Mass(m_laser_beam_energy,speed))) ;
 
-        beam->addTrait(new LaserBeam(object->getObject())) ;
+        beam->addTrait(new LaserBeam(object->getObject(),m_beam_length,m_beam_radius)) ;
         beam->addTrait(new WithLifetime(getLaserBeamLifeDuration())) ;
 
         // shot
@@ -212,6 +215,16 @@ namespace ProjetUnivers
     const Distance& Laser::getBeamLength() const
     {
       return m_beam_length ;
+    }
+
+    void Laser::setBeamRadius(const Distance& radius)
+    {
+      m_beam_radius = radius ;
+    }
+
+    void Laser::setBeamLength(const Distance& length)
+    {
+      m_beam_length = length ;
     }
 
   }

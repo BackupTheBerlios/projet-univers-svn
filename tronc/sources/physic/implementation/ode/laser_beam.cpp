@@ -25,6 +25,7 @@
 #include <physic/implementation/ode/ode.h>
 #include <physic/implementation/ode/physical_object.h>
 #include <physic/implementation/ode/laser_beam.h>
+#include <model/mobile.h>
 
 namespace ProjetUnivers
 {
@@ -50,9 +51,6 @@ namespace ProjetUnivers
         {
           InternalMessage("Physic","ODE::LaserBeam::onInit") ;
           onInitCollideable() ;
-//          dMass ode_mass ;
-//          dMassSetSphereTotal(&ode_mass,0.01,1) ;
-//          BaseControler::getControler<Implementation::Ode::PhysicalObject>()->getBody()->setMass(&ode_mass) ;
         }
 
         void LaserBeam::onClose()
@@ -60,20 +58,26 @@ namespace ProjetUnivers
           onCloseCollideable() ;
         }
 
-        void LaserBeam::onChangeParent(Kernel::Object* i_old_parent)
+        void LaserBeam::createGeometry(const dSpaceID& space)
         {
-          /// @todo
-        }
-        
-        void LaserBeam::createGeometry(const dSpaceID& i_space)
-        {
-          /// build a cube and a placeable geom
-          /*!
-            @todo
-            - dealt with hardcoded values
-            - decal object on front if stretched
-          */
-          m_geometry1 = dCreateBox(i_space,1,1,50) ;
+          /// build a ray
+          Model::LaserBeam* beam = getTrait<Model::LaserBeam>() ;
+          Model::Mobile* mobile = getTrait<Model::Mobile>() ;
+
+          float collision_beam_length =
+              std::max(mobile->getSpeed().MeterPerSecond().length()*getControlerSet()->getTimeStep(),
+                       beam->getLength().Meter()) ;
+
+          m_ray = dCreateRay(0,2*collision_beam_length) ;
+
+          /// we use -z as forward @see Model::Orientation
+          dGeomRaySet(m_ray,0,0,0,0,0,-1) ;
+          dGeomRaySetParams(m_ray,false,false) ;
+          dGeomRaySetClosestHit(m_ray,true) ;
+
+          /// a geometry transform allows to have a local z axis inversion
+          m_geometry1 = dCreateGeomTransform(space) ;
+          dGeomTransformSetGeom(m_geometry1,m_ray) ;
           dGeomSetCollideBits(m_geometry1,(unsigned long)Collideable::Laser) ;
         }
         

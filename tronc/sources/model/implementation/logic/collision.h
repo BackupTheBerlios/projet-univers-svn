@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2007 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2010 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -21,7 +21,11 @@
 #pragma once
 
 #include <kernel/controler.h>
+
 #include <model/collision.h>
+#include <model/destroyable.h>
+#include <model/laser_beam.h>
+
 #include <model/implementation/logic/logic_system.h>
 
 namespace ProjetUnivers
@@ -40,8 +44,14 @@ namespace ProjetUnivers
         public:
         
           /// Calculate damage.
-          void simulate(const float& i_seconds) ;
+          virtual void onInit() ;
+
+          virtual void simulate(const float&) ;
         
+        private:
+
+          LaserBeam* m_beam ;
+          Destroyable* m_destroyable ;
         };
       }
     }
