@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <model>
-  <!-- an example ship named razor -->
+  <!-- an example ship named default_ship -->
   
   <object id="1">
     <Positioned/>
@@ -8,8 +8,9 @@
     <Mobile/>
     
     <Computer/>
-    
     <TargetingSystem/>
+    <!-- connects Targeting system to computer -->
+    <Relation name="DataConnection" from="1" to="1"/>
     
     <ShootingHelper>
       <ObjectReference name="laser" id="2"/>
@@ -90,23 +91,28 @@
       <Component/>
     </object>
   
-    <!-- The ship's engine controler -->
+    <!-- The ship's engine controller -->
     <object id="9">
-      <EngineControler>
-        <ObjectReference id="7" name="throttle"/>
-      </EngineControler>
+      <EngineControler/>
       <Component/>
     </object>
+
+    <!-- connects throttle to engine controller -->
+    <Relation name="ControlConnection" from="7" to="9"/>
 
     <!-- The ship's engine -->
     <object id="8">
       <Engine>
         <!--  The force of the engine, the more the speeder, warning keep x,y to zero -->
         <Force x="0" y="0" z="-650" unit="Newton"/>
-        <ObjectReference id="9" name="controler"/>
+        <!-- exhaust output position and radius -->
+        <Position x="0" y="-10" z="130" unit="Meter"/>
+        <Distance value="20" unit="Meter"/>
       </Engine>
       <Component/>
     </object>
+    <!-- connects engine controller to engine -->
+    <Relation name="ControlConnection" from="9" to="8"/>
   </object>
-  <Relation name="DataConnection" from="1" to="1"/>
+  
 </model>

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <model>
-	<!-- an example ship named razor -->
+	<!-- a ship used for tests -->
 	
   <object id="1">
     <Positioned/>
@@ -94,11 +94,11 @@
   
     <!-- The ship's engine controler -->
     <object id="9">
-      <EngineControler>
-        <ObjectReference id="7" name="throttle"/>
-      </EngineControler>
+      <EngineControler/>
       <Component/>
     </object>
+    <!-- connects throttle to engine controller -->
+    <Relation name="ControlConnection" from="7" to="9"/>
 
     <!-- The ship's engine -->
     <object id="8">
@@ -111,6 +111,8 @@
       </Engine>
       <Component/>
     </object>
+    <!-- connects engine controller to engine -->
+    <Relation name="ControlConnection" from="9" to="8"/>
     
   </object>
 </model>

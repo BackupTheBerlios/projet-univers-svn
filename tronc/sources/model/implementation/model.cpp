@@ -475,7 +475,7 @@ namespace ProjetUnivers
         fg1->addTrait(new FlyingGroup("ally")) ;
         fg1->getTrait<FlyingGroup>()->setInitialNumberOfShips(4) ;
         fg1->getTrait<FlyingGroup>()->setHasPlayer(true) ;
-        fg1->getTrait<FlyingGroup>()->setShipName("izero") ;
+        fg1->getTrait<FlyingGroup>()->setShipName("default_ship") ;
 
         Kernel::Object* team2 = mission->createObject() ;
         team2->addTrait(new Team("enemy")) ;
