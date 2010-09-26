@@ -66,6 +66,8 @@ namespace ProjetUnivers
         /// Selecting several times nearest enemy should not change anything.
         void selectSeveralTimesNearestEnemy() ;
 
+        void unselectTarget() ;
+
       // @}
       /*!
         @name Test registration
@@ -84,6 +86,7 @@ namespace ProjetUnivers
         CPPUNIT_TEST(destroyTarget) ;
         CPPUNIT_TEST(selectedTargetOutOfRangeIsUnselected) ;
         CPPUNIT_TEST(selectSeveralTimesNearestEnemy) ;
+        CPPUNIT_TEST(unselectTarget) ;
 
         CPPUNIT_TEST_SUITE_END() ;
       

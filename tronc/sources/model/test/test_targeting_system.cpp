@@ -530,6 +530,47 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(Selection::isSelected(ship,ship2)) ;
       }
 
+      void TestTargetingSystem::unselectTarget()
+      {
+        InternalMessage("Model","Model::TestTargetingSystem::selectOneObject entering") ;
+        /*!
+          We create a ship with a detector and a second object to detect.
+        */
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestTargetingSystem::selectOneObject")) ;
+        model->init() ;
+
+        Kernel::Object* system = model->createObject() ;
+
+        Kernel::Object* ship = system->createObject() ;
+        ship->addTrait(new Positioned()) ;
+        ship->addTrait(new Massive(Mass::Kilogram(1000))) ;
+        ship->addTrait(new Oriented()) ;
+        ship->addTrait(new Mobile()) ;
+        ship->addTrait(new Solid(Mesh("test_ship.mesh"))) ;
+        ship->addTrait(new Computer()) ;
+        ship->addTrait(new Detector()) ;
+        Detector::connect(ship,ship) ;
+        Kernel::Object* targeting_system = ship->createObject() ;
+        targeting_system->addTrait(new Component()) ;
+        targeting_system->addTrait(new TargetingSystem()) ;
+        TargetingSystem::connect(targeting_system,ship) ;
+
+        Kernel::Object* ship2 = system->createObject() ;
+        ship2->addTrait(new Positioned(Position::Meter(0,0,500))) ;
+        ship2->addTrait(new Massive(Mass::Kilogram(1000))) ;
+        ship2->addTrait(new Oriented()) ;
+        ship2->addTrait(new Mobile()) ;
+        ship2->addTrait(new Solid(Mesh("test_ship.mesh"))) ;
+
+        targeting_system->getTrait<TargetingSystem>()->selectNextTarget() ;
+
+        CPPUNIT_ASSERT(Selection::isSelected(ship,ship2)) ;
+
+        targeting_system->getTrait<TargetingSystem>()->unselectTarget() ;
+
+        CPPUNIT_ASSERT(!Selection::isSelected(ship,ship2)) ;
+      }
+
     }
   }
 }

@@ -75,69 +75,6 @@ namespace ProjetUnivers
     {
       CPPUNIT_TEST_SUITE_REGISTRATION(TestEffect) ;
 
-      Kernel::Object* TestEffect::createUniverseAndSystem(Kernel::Model* model) const
-      {
-        Kernel::Object* universe = model->createObject() ;
-        universe->addTrait(new Model::Universe()) ;
-        universe->addTrait(new Model::Positioned()) ;
-
-        Kernel::Object* system = universe->createObject() ;
-        system->addTrait(new Model::StellarSystem()) ;
-        system->addTrait(new Model::Positioned()) ;
-
-        return system ;
-      }
-
-      Kernel::Object* TestEffect::createObserver(Kernel::Object* parent) const
-      {
-        Kernel::Object* observer = parent->createObject() ;
-        observer->addTrait(new Model::Observer()) ;
-        observer->addTrait(new Model::Player()) ;
-        observer->addTrait(new Model::Active()) ;
-        observer->addTrait(new Model::Positioned()) ;
-        observer->addTrait(new Model::Oriented()) ;
-
-        return observer ;
-      }
-
-      void TestEffect::simulate(Kernel::Model* model,const float& seconds)
-      {
-        Kernel::Timer timer ;
-        Kernel::Timer global_timer ;
-
-        while (global_timer.getSecond() < seconds)
-        {
-          float seconds = timer.getSecond() ;
-          if (seconds != 0)
-          {
-            timer.reset() ;
-          }
-          model->update(seconds) ;
-        }
-      }
-
-      ::Ogre::ParticleSystem* TestEffect::getUniqueParticleSystem() const
-      {
-        ::Ogre::SceneManager::MovableObjectIterator iterator = Implementation::Ogre::getManager()->getMovableObjectIterator(::Ogre::ParticleSystemFactory::FACTORY_TYPE_NAME) ;
-        ::Ogre::ParticleSystem* result = NULL ;
-
-        while (iterator.hasMoreElements())
-        {
-          if (!result)
-          {
-            result = static_cast< ::Ogre::ParticleSystem* >(iterator.getNext()) ;
-            if (!result->isAttached())
-              // do not 'count' if the element is not attached (because of pooling)
-              result = NULL ;
-          }
-          else
-            // several results
-            return NULL ;
-        }
-
-        return result ;
-      }
-
       void TestEffect::spaceDust()
       {
         InternalMessage("Display","Display::TestEffect::spaceDust entering") ;
@@ -392,7 +329,7 @@ namespace ProjetUnivers
 
           throttle->set(power) ;
 
-          ship->getTrait<Model::Mobile>()->setAngularSpeed(Model::AngularSpeed::TurnPerSecond(0.2,0,0)) ;
+          ship->getTrait<Model::Mobile>()->setAngularSpeed(Model::AngularSpeed::TurnPerSecond(0,0.2,0)) ;
           // ugly but works...
           ship->getTrait<Model::Positioned>()->setPosition(Model::Position::Meter(0,0,-500)) ;
           float seconds = timer.getSecond() ;

@@ -22,13 +22,15 @@
 #include <libxml/xmlreader.h>
 #include <kernel/xml_reader.h>
 
-namespace ProjetUnivers 
+namespace ProjetUnivers
 {
-  namespace Kernel 
+  namespace Kernel
   {
 
-    namespace libxml {
-      namespace NodeType {
+    namespace libxml
+    {
+      namespace NodeType
+      {
         const int start_element = 1 ;
         const int end_element = 15 ;
         const int attribute = 2 ;
@@ -56,30 +58,33 @@ namespace ProjetUnivers
       {
         std::cout << "error" << std::endl ;
       }
-      
+
       if (xmlTextReaderRead(m_reader) != 1)
       {
         return false ;
       }
-      
+
       m_attributes.clear() ;
-      
+
       if (xmlTextReaderHasAttributes(m_reader) == 1)
       {
-        int count = xmlTextReaderAttributeCount(m_reader);
-        for(int i = 0 ; i < count ; i++)
+        int count = xmlTextReaderAttributeCount(m_reader) ;
+        for (int i = 0 ; i < count ; i++)
         {
-          xmlTextReaderMoveToAttributeNo(m_reader,i);
-          
-          m_attributes.insert(std::pair<std::string,std::string>(
-            (char*)xmlTextReaderConstLocalName(m_reader),
-            (char*)xmlTextReaderConstValue(m_reader))) ;
-        }        
+          xmlTextReaderMoveToAttributeNo(m_reader, i) ;
+
+          m_attributes.insert(
+                              std::pair<std::string, std::string>(
+                                                                  (char*) xmlTextReaderConstLocalName(
+                                                                                                      m_reader),
+                                                                  (char*) xmlTextReaderConstValue(
+                                                                                                  m_reader))) ;
+        }
         xmlTextReaderMoveToElement(m_reader) ;
       }
 
-//      std::cout << print() << std::endl ;
-      
+      //      std::cout << print() << std::endl ;
+
       return true ;
     }
 
@@ -87,56 +92,57 @@ namespace ProjetUnivers
     {
       return xmlTextReaderReadState(m_reader) != -1 ;
     }
-    
+
     int XMLReader::getNodeDepth() const
     {
       return xmlTextReaderDepth(m_reader) ;
     }
-    
+
     bool XMLReader::isModelNode() const
     {
       const xmlChar* name = xmlTextReaderConstName(m_reader) ;
-      
-      return isBeginNode() && xmlStrEqual(name,(const xmlChar*)"model") == 1 ;
+
+      return isBeginNode() && xmlStrEqual(name, (const xmlChar*) "model") == 1 ;
     }
-    
+
     bool XMLReader::isObjectNode() const
     {
       const xmlChar* name = xmlTextReaderConstName(m_reader) ;
-      
-      return isBeginNode() && xmlStrEqual(name,(const xmlChar*)"object") == 1 ;
+
+      return isBeginNode() && xmlStrEqual(name, (const xmlChar*) "object") == 1 ;
     }
 
     bool XMLReader::isRelationNode() const
     {
       const xmlChar* name = xmlTextReaderConstName(m_reader) ;
 
-      return isBeginNode() && xmlStrEqual(name,(const xmlChar*)"Relation") == 1 ;
+      return isBeginNode() && xmlStrEqual(name, (const xmlChar*) "Relation")
+          == 1 ;
     }
 
     int XMLReader::getObjectIdentifier() const
     {
-      std::map<std::string,std::string>::const_iterator
-        finder = m_attributes.find("id") ;
-      
+      std::map<std::string, std::string>::const_iterator finder =
+          m_attributes.find("id") ;
+
       if (finder != m_attributes.end())
       {
         return atoi(finder->second.c_str()) ;
       }
       return 0 ;
     }
-    
+
     bool XMLReader::isTraitNode() const
     {
       return isBeginNode() && !isObjectNode() && !isModelNode() ;
     }
-    
+
     std::string XMLReader::getTraitName() const
     {
       const xmlChar* name = xmlTextReaderConstName(m_reader) ;
-      return (char*)name ;
-    } 
-    
+      return (char*) name ;
+    }
+
     bool XMLReader::isChild() const
     {
       return false ;
@@ -150,30 +156,32 @@ namespace ProjetUnivers
     bool XMLReader::isEndNode() const
     {
       return (xmlTextReaderNodeType(m_reader) == libxml::NodeType::end_element)
-             || (isBeginNode() && xmlTextReaderIsEmptyElement(m_reader)) ;
+          || (isBeginNode() && xmlTextReaderIsEmptyElement(m_reader)) ;
     }
 
-    XMLReader::XMLReader()
-    : m_reader()
-    {}
+    XMLReader::XMLReader() :
+      m_reader()
+    {
+    }
 
     XMLReader* XMLReader::getFileReader(const std::string& file)
     {
       XMLReader* result = new XMLReader() ;
-      result->m_reader = xmlReaderForFile(file.c_str(),NULL,0) ;
+      result->m_reader = xmlReaderForFile(file.c_str(), NULL, 0) ;
       result->processNode() ;
       return result ;
     }
-      
+
     XMLReader* XMLReader::getStringReader(const std::string& content)
     {
       XMLReader* result = new XMLReader() ;
-      result->m_reader = xmlReaderForDoc((const xmlChar*)content.c_str(),NULL,NULL,0) ;
+      result->m_reader = xmlReaderForDoc((const xmlChar*) content.c_str(),
+                                         NULL, NULL, 0) ;
       result->processNode() ;
       return result ;
     }
-    
-    const std::map<std::string,std::string>& XMLReader::getAttributes() const
+
+    const std::map<std::string, std::string>& XMLReader::getAttributes() const
     {
       return m_attributes ;
     }

@@ -43,11 +43,13 @@ namespace ProjetUnivers
     std::string TargetingSystem::SelectPreviousTarget = "Select Previous Target" ;
     std::string TargetingSystem::SelectNearestTarget = "Select Nearest Target" ;
     std::string TargetingSystem::SelectNearestEnemy = "Select Nearest Enemy" ;
+    std::string TargetingSystem::UnselectTarget = "Unselect Target" ;
 
     RegisterCommand(TargetingSystem::SelectNextTarget,TargetingSystem,selectNextTarget) ;
     RegisterCommand(TargetingSystem::SelectPreviousTarget,TargetingSystem,selectPreviousTarget) ;
     RegisterCommand(TargetingSystem::SelectNearestTarget,TargetingSystem,selectNearestTarget) ;
     RegisterCommand(TargetingSystem::SelectNearestEnemy,TargetingSystem,selectNearestEnemy) ;
+    RegisterCommand(TargetingSystem::UnselectTarget,TargetingSystem,unselectTarget) ;
 
     TargetingSystem::TargetingSystem()
     {}
@@ -309,5 +311,13 @@ namespace ProjetUnivers
 
       return *(computers.begin()) ;
     }
+
+    void TargetingSystem::unselectTarget()
+    {
+      if (m_target)
+        unSelectTarget(m_target) ;
+    }
+
+
   }
 }

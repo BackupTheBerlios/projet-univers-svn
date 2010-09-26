@@ -37,6 +37,7 @@ libdisplay_la_SOURCES = \
 ../implementation/ogre/utility.cpp \
 ../implementation/ogre/laser_beam.cpp \
 ../implementation/ogre/space_dust.cpp \
+../implementation/ogre/targeted_indicator.cpp \
 ../implementation/ogre/head_up_display.cpp \
 ../implementation/ogre/head_up_display/target.cpp \
 ../implementation/ogre/head_up_display/ideal_target.cpp \
@@ -81,8 +82,10 @@ check_PROGRAMS = $(TESTS)
 # then game logic test
 # finally a global test
 test_display_SOURCES = \
+../test/display_test_fixture.cpp \
 ../test/test_display.cpp \
 ../test/test_effect.cpp \
+../test/test_hud.cpp \
 ../test/test_model_view.cpp \
 ../test/test_target.cpp
 

@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2010 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -20,7 +20,7 @@
  ***************************************************************************/
 #pragma once
 
-#include <display/test/display_test_fixture.h>
+#include <cppunit/extensions/HelperMacros.h>
 
 namespace ProjetUnivers
 {
@@ -28,43 +28,19 @@ namespace ProjetUnivers
   {
     namespace Test
     {
-      /// Test explosions etc...
-      class TestEffect : public DisplayTestFixture
+      /// Common methods for testing display
+      class DisplayTestFixture : public CppUnit::TestFixture
       {
       protected:
-      /*!
-        @name Tests
-      */
-      // @{
 
-        /// Test the space dust effect.
-        void spaceDust() ;
-        void displayExplosion() ;
-        void effect() ;
-        void destroyEffectParent() ;
-        void hit() ;
-        void simulateHit() ;
-        void thrust() ;
+        Kernel::Object* createUniverseAndSystem(Kernel::Model*) const ;
+        Kernel::Object* createObserver(Kernel::Object*) const ;
+        void simulate(Kernel::Model*,const float&) ;
+        /// Return the unique particle system, NULL other wise
+        ::Ogre::ParticleSystem* getUniqueParticleSystem() const ;
 
-      // @}
-        /*!
-          @name Tests registration
-        */
-      // @{
-
-        CPPUNIT_TEST_SUITE(TestEffect) ;
-
-        CPPUNIT_TEST(spaceDust) ;
-        CPPUNIT_TEST(displayExplosion) ;
-        CPPUNIT_TEST(destroyEffectParent) ;
-        CPPUNIT_TEST(effect) ;
-        CPPUNIT_TEST(hit) ;
-        CPPUNIT_TEST(simulateHit) ;
-        CPPUNIT_TEST(thrust) ;
-
-        CPPUNIT_TEST_SUITE_END() ;
-
-      // @}
+        /// True when a given @c name overlay exists.
+        bool hasOverlay(const std::string& name) const ;
       };
 
     }

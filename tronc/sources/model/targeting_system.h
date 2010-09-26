@@ -49,6 +49,7 @@ namespace ProjetUnivers
       static std::string SelectPreviousTarget ;
       static std::string SelectNearestTarget ;
       static std::string SelectNearestEnemy ;
+      static std::string UnselectTarget ;
 
     // @{
     /*!
@@ -91,6 +92,7 @@ namespace ProjetUnivers
       void selectPreviousTarget() ;
       void selectNearestTarget() ;
       void selectNearestEnemy() ;
+      void unselectTarget() ;
       
     // @}  
       

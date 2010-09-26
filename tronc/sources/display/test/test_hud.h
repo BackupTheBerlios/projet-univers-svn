@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2010 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -28,8 +28,8 @@ namespace ProjetUnivers
   {
     namespace Test
     {
-      /// Test explosions etc...
-      class TestEffect : public DisplayTestFixture
+      /// Test HUD displays
+      class TestHUD : public DisplayTestFixture
       {
       protected:
       /*!
@@ -37,14 +37,10 @@ namespace ProjetUnivers
       */
       // @{
 
-        /// Test the space dust effect.
-        void spaceDust() ;
-        void displayExplosion() ;
-        void effect() ;
-        void destroyEffectParent() ;
-        void hit() ;
-        void simulateHit() ;
-        void thrust() ;
+        /// When player's ship is taken as a target, display an alert indicator
+        void targetedIndicatorIndicatesEnemyTargetting() ;
+        void targetedIndicatorIndicatesSeveralEnemyTargetting() ;
+        void targetedIndicatorDoesNotIndicateFriendTargetting() ;
 
       // @}
         /*!
@@ -52,15 +48,11 @@ namespace ProjetUnivers
         */
       // @{
 
-        CPPUNIT_TEST_SUITE(TestEffect) ;
+        CPPUNIT_TEST_SUITE(TestHUD) ;
 
-        CPPUNIT_TEST(spaceDust) ;
-        CPPUNIT_TEST(displayExplosion) ;
-        CPPUNIT_TEST(destroyEffectParent) ;
-        CPPUNIT_TEST(effect) ;
-        CPPUNIT_TEST(hit) ;
-        CPPUNIT_TEST(simulateHit) ;
-        CPPUNIT_TEST(thrust) ;
+        CPPUNIT_TEST(targetedIndicatorIndicatesEnemyTargetting) ;
+        CPPUNIT_TEST(targetedIndicatorIndicatesSeveralEnemyTargetting) ;
+        CPPUNIT_TEST(targetedIndicatorDoesNotIndicateFriendTargetting) ;
 
         CPPUNIT_TEST_SUITE_END() ;
 

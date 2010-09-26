@@ -227,8 +227,8 @@ namespace ProjetUnivers
             trait->change() ;
           }
           CPPUNIT_ASSERT_EQUAL(0,trait->getNumberOfImpactedObservers()) ;
-          std::ofstream out("updateTraitWithNoView.txt") ;
-          out << model->toGraphviz() << std::endl ;
+//          std::ofstream out("updateTraitWithNoView.txt") ;
+//          out << model->toGraphviz() << std::endl ;
         }
 
         void TestPerformanceModel::updateTraitWithView()
@@ -271,8 +271,8 @@ namespace ProjetUnivers
             trait->change() ;
           }
 
-          std::ofstream out("updateTraitWithView.txt") ;
-          out << model->toGraphviz() << std::endl ;
+//          std::ofstream out("updateTraitWithView.txt") ;
+//          out << model->toGraphviz() << std::endl ;
 
           CPPUNIT_ASSERT_EQUAL(number,Display::DisplaySolid::m_number_of_update) ;
 //          CPPUNIT_ASSERT_EQUAL(1,trait->getNumberOfImpactedObservers()) ;

@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2010 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -20,53 +20,61 @@
  ***************************************************************************/
 #pragma once
 
-#include <display/test/display_test_fixture.h>
+#include <Ogre.h>
+
+#include <kernel/deduced_trait.h>
+#include <kernel/relation_view.h>
+#include <display/implementation/ogre/real_world_view_point.h>
 
 namespace ProjetUnivers
 {
   namespace Display
   {
-    namespace Test
+    namespace Implementation
     {
-      /// Test explosions etc...
-      class TestEffect : public DisplayTestFixture
+      /// Local deduced trait
+      class TargetedIndicator : public Kernel::DeducedRelation
+      {};
+
+      namespace Ogre
       {
-      protected:
-      /*!
-        @name Tests
-      */
-      // @{
 
-        /// Test the space dust effect.
-        void spaceDust() ;
-        void displayExplosion() ;
-        void effect() ;
-        void destroyEffectParent() ;
-        void hit() ;
-        void simulateHit() ;
-        void thrust() ;
-
-      // @}
+        /// Indicate that player ship is targeted on HUD
         /*!
-          @name Tests registration
+        We make data static to build only one graphical element for the
+        player.
         */
-      // @{
+        class TargetedIndicator : public Kernel::RelationView<RealWorldViewPoint>
+        {
+        protected:
+        /*!
+          @name Updates.
+        */
+        // @{
 
-        CPPUNIT_TEST_SUITE(TestEffect) ;
+          /// Create indicator
+          void onInit() ;
 
-        CPPUNIT_TEST(spaceDust) ;
-        CPPUNIT_TEST(displayExplosion) ;
-        CPPUNIT_TEST(destroyEffectParent) ;
-        CPPUNIT_TEST(effect) ;
-        CPPUNIT_TEST(hit) ;
-        CPPUNIT_TEST(simulateHit) ;
-        CPPUNIT_TEST(thrust) ;
+          /// Remove indicator
+          void onClose() ;
 
-        CPPUNIT_TEST_SUITE_END() ;
+        // @}
+        private:
 
-      // @}
-      };
+          void createIndicator() ;
+          void removeIndicator() ;
 
+          bool m_is_enemy_target ;
+
+          /// Number of targets...
+          static unsigned int m_count ;
+
+          /// 3D ogre element.
+          static ::Ogre::OverlayContainer* m_indicator_container ;
+          static ::Ogre::OverlayElement*   m_indicator ;
+
+        };
+      }
     }
   }
 }

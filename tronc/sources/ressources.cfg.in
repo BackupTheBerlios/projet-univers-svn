@@ -14,6 +14,7 @@ FileSystem=@MEDIA_FOLDER@/PU/base/space_dust
 FileSystem=@MEDIA_FOLDER@/PU/base/explosion
 FileSystem=@MEDIA_FOLDER@/PU/base/explosion/privateer
 FileSystem=@MEDIA_FOLDER@/PU/base/hit
+FileSystem=@MEDIA_FOLDER@/PU/base/hud
 FileSystem=@MEDIA_FOLDER@/PU/base/laser
 FileSystem=@MEDIA_FOLDER@/PU/base/thrust
 FileSystem=@MEDIA_FOLDER@/PU

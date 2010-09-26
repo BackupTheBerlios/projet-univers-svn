@@ -1707,6 +1707,10 @@
 
 2010-09-19
   * corrections for ship definitions
+
+2010-09-26
+  * Kernel : removed production of debugging graphs in kernel tests
+  * indicate on hud when taken as a target
     
 in commit
 --------
@@ -1718,29 +1722,46 @@ in progress
 
 @todo
 ----
+  
+  * indicates on hud the  
+  * bip when enemy is in line of sight
+
+  * icons are in /usr/share/icons/oxygen
+
+  * Display engine output : still some issues : induced black on transparency...
+
+  * make player feel when hit
+
+  * network 
+    - connection room
+    - game
+
+  * handle several engine for an engine controller. 
 
   * bug : exploding objects cannot perform any action... see todos on explosion
     - exploding objects must be detroyed and another one created at the same 
       position + same speed
 
+  * have all used ships in the same size range then use new 3d models s51 and 
+    others
+
   * all :
     - performances : try to generate a big exe without dll...
 
-  * Kernel :
-    - command delegator : handle multiple sub element of the same type (several laser)
-  * Model : 
-    - handle several engine for an engine controller. 
+  * handle several laser on the same ship 
+    - Kernel command delegator : handle multiple sub element of the same type 
+      (several laser)
     
   * Display :
-    - on hud indicate when taken as a target
-    - exploding solid should fade to transparent
+    - exploding solid should fade to transparent ?
 
+  * ship file format is shit, too complex
+  * input configuration menu is shit also, too technical
+  
   * Model : 
     - Mission : destruction sequence during player's ship explosion 
       (Player & Parent(Explosion)) --> change current camera to a fixed one 
     - move player from ship to explosion ?
-
-  * have all used ships in the same size range
 
   * Display : issue with fonts in Ogre 1.6.1 windows version; they are too big.
 
@@ -1790,7 +1811,7 @@ in progress
     - try to calculate HasInLineOfSight through ogre ray intersection ?
     - or through same in physics ?
 
-  * Model : 
+  * Model (refactoring) : 
     - remove computer own model and create an ideal target object under the 
       computer with relative position  
 
