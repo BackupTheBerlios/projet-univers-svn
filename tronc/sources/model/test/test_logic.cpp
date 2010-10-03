@@ -38,6 +38,7 @@
 #include <model/end_of_simulation.h>
 #include <model/implementation/logic/logic_system.h>
 #include <model/test/test_logic.h>
+#include <model/has_component.h>
 
 namespace ProjetUnivers
 {
@@ -208,6 +209,48 @@ namespace ProjetUnivers
         quit->addTrait(new State()) ;
 
         quit->addTrait(new Active()) ;
+      }
+
+      void TestLogic::hasComponent()
+      {
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model()) ;
+        model->init() ;
+
+        Kernel::Object* composite = model->createObject() ;
+        Kernel::Object* component = composite->createObject() ;
+        component->addTrait(new Component()) ;
+
+        CPPUNIT_ASSERT(Kernel::Relation::areLinked<HasComponent>(composite,component)) ;
+      }
+
+      void TestLogic::removeComponent()
+      {
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model()) ;
+        model->init() ;
+
+        Kernel::Object* composite = model->createObject() ;
+        Kernel::Object* component = composite->createObject() ;
+        Kernel::Trait* trait = component->addTrait(new Component()) ;
+
+        component->destroyTrait(trait) ;
+
+        CPPUNIT_ASSERT(!Kernel::Relation::areLinked<HasComponent>(composite,component)) ;
+      }
+
+      void TestLogic::addComponentOnParent()
+      {
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model()) ;
+        model->init() ;
+
+        Kernel::Object* root = model->createObject() ;
+        Kernel::Object* composite = root->createObject() ;
+        Kernel::Object* component = composite->createObject() ;
+        component->addTrait(new Component()) ;
+        composite->addTrait(new Component()) ;
+
+        CPPUNIT_ASSERT(!Kernel::Relation::areLinked<HasComponent>(composite,component)) ;
+        CPPUNIT_ASSERT(Kernel::Relation::areLinked<HasComponent>(root,composite)) ;
+        CPPUNIT_ASSERT(Kernel::Relation::areLinked<HasComponent>(root,component)) ;
       }
 
     }

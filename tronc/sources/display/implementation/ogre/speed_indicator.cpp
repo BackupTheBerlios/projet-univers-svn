@@ -71,7 +71,7 @@ namespace ProjetUnivers
           m_speed->setMaterialName(material->getName()) ; 
           Utility::setColour(m_speed,::Ogre::ColourValue(1.0, 1.0, 1.0)) ;            
           m_speed_container->_addChild(m_speed) ;
-          m_speed_container->setPosition(0.2,0.2) ;
+          m_speed_container->setPosition(-0.2,-0.45) ;
 
           m_speed->setCaption("speed : " + Kernel::toString(getTrait<Model::Mobile>()->getSpeed().MeterPerSecond().length()) + " m/s") ;
           

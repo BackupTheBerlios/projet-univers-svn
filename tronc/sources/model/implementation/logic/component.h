@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007 Mathieu ROGER                                      *
+ *   Copyright (C) 2006-2010 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -20,61 +20,42 @@
  ***************************************************************************/
 #pragma once
 
-#include <Ogre.h>
+#include <kernel/controler.h>
+#include <kernel/deduced_trait.h>
+#include <model/component.h>
+#include <model/implementation/logic/logic_system.h>
 
-#include <kernel/trait_view.h>
-
-#include <model/head_up_display.h>
-
-#include <display/implementation/ogre/real_world_view_point.h>
-#include <display/implementation/ogre/head_up_display/head_up_display_viewpoint.h>
-
-namespace ProjetUnivers 
+namespace ProjetUnivers
 {
-  namespace Display 
+  namespace Model
   {
-    namespace Test
+    namespace Implementation
     {
-      class TestTarget ;
-    }
-    
-    namespace Implementation 
-    {
-      namespace Ogre 
+      class Component : public Kernel::DeducedTrait
+      {};
+
+      namespace Logic
       {
 
-        /// Display targets.
-        class HeadUpDisplay : public Kernel::TraitView<Model::HeadUpDisplay,
-                                                       RealWorldViewPoint>
+        /// Manage HasComponent relations
+        class Component : public Kernel::Controler<Model::Component,
+                                                   LogicSystem>
         {
-        protected:
-        /*!
-          @name Updates
-        */
-        // @{
-        
-          /// create a viewpoint.
+        public:
+
+          /// Add a relation
           virtual void onInit() ;
-          
-          /// Destroy the viewpoint.
+
+          /// Remove a relation
           virtual void onClose() ;
-        
-          /// Update the viewpoint model
+
+          /// Remove/add a relation
           virtual void onUpdate() ;
 
-        // @}
-        private:
-          
-          /// Display a cross at the center of the screen
-          ::Ogre::OverlayContainer* m_reticule_container ;
-          ::Ogre::OverlayElement*   m_reticule ;
-          
-          /// Viewpoint displaying targets
-          std::auto_ptr<Kernel::ViewPoint> m_implementation ;
-          
-          friend class ::ProjetUnivers::Display::Test::TestTarget ;
+          /// @todo changeParent...
         };
       }
     }
   }
 }
+

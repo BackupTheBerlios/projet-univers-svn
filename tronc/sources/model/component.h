@@ -18,24 +18,21 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_COMPONENT_H_
-#define PU_MODEL_COMPONENT_H_
+#pragma once
 
 #include <kernel/trait.h>
 #include <kernel/reader.h>
 
-namespace ProjetUnivers {
-  namespace Model {
-    
+namespace ProjetUnivers
+{
+  namespace Model
+  {
     
     /// For objects that are components of their parent.
     class Component : public Kernel::Trait
     {
     public:
-      
-      /// Contructor.
-      Component() ;
-      
+
       /// Read a Component trait.
       /*!
         stored as 
@@ -47,6 +44,6 @@ namespace ProjetUnivers {
       static Kernel::Trait* read(Kernel::Reader* reader) ;
       
     };
+
   }
 }
-#endif /*PU_MODEL_COMPONENT_H_*/

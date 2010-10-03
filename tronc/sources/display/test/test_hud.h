@@ -41,6 +41,10 @@ namespace ProjetUnivers
         void targetedIndicatorIndicatesEnemyTargetting() ;
         void targetedIndicatorIndicatesSeveralEnemyTargetting() ;
         void targetedIndicatorDoesNotIndicateFriendTargetting() ;
+        /// Display life point on hud
+        void displayHullLifePoint() ;
+        void displayShipData() ;
+
 
       // @}
         /*!
@@ -53,6 +57,8 @@ namespace ProjetUnivers
         CPPUNIT_TEST(targetedIndicatorIndicatesEnemyTargetting) ;
         CPPUNIT_TEST(targetedIndicatorIndicatesSeveralEnemyTargetting) ;
         CPPUNIT_TEST(targetedIndicatorDoesNotIndicateFriendTargetting) ;
+        CPPUNIT_TEST(displayHullLifePoint) ;
+        CPPUNIT_TEST(displayShipData) ;
 
         CPPUNIT_TEST_SUITE_END() ;
 

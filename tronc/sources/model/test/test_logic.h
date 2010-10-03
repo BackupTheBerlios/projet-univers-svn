@@ -52,6 +52,10 @@ namespace ProjetUnivers
 
         void endOfSimulation() ;
 
+        void hasComponent() ;
+        void removeComponent() ;
+        void addComponentOnParent() ;
+
       // @}
       /*!
         @name Tests registration
@@ -65,6 +69,9 @@ namespace ProjetUnivers
         CPPUNIT_TEST(testLaserBeamDestroyableCollision) ;
         CPPUNIT_TEST(testShotDisappearing) ;
         CPPUNIT_TEST(endOfSimulation) ;
+        CPPUNIT_TEST(hasComponent) ;
+        CPPUNIT_TEST(removeComponent) ;
+        CPPUNIT_TEST(addComponentOnParent) ;
 
         CPPUNIT_TEST_SUITE_END() ;
 

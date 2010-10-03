@@ -29,17 +29,18 @@
 #include <model/team.h>
 #include <model/transponder.h>
 #include <model/targeting_system.h>
+#include <model/positioned.h>
+#include <model/selection.h>
+#include <model/destroyable.h>
+#include <model/whole.h>
+#include <model/head_up_display.h>
 
 #include <display/display.h>
 #include <display/implementation/ogre/targeted_indicator.h>
 #include <display/test/test_hud.h>
 #include <display/implementation/observer.h>
-#include <model/whole.h>
-#include <model/head_up_display.h>
 #include <display/implementation/displayed_solid.h>
-#include <model/positioned.h>
 #include <display/implementation/ogre/ogre.h>
-#include <model/selection.h>
 
 
 namespace ProjetUnivers
@@ -52,7 +53,7 @@ namespace ProjetUnivers
 
       void TestHUD::targetedIndicatorIndicatesEnemyTargetting()
       {
-        InternalMessage("Display","Display::TestHUD::targetedIndicator entering") ;
+        InternalMessage("Display","Display::TestHUD::targetedIndicatorIndicatesEnemyTargetting entering") ;
 
         std::auto_ptr<Kernel::Model> model(new Kernel::Model()) ;
         model->init() ;
@@ -97,12 +98,12 @@ namespace ProjetUnivers
 
         CPPUNIT_ASSERT(hasOverlay("TargetedIndicator")) ;
 
-        InternalMessage("Display","Display::TestHUD::targetedIndicator leaving") ;
+        InternalMessage("Display","Display::TestHUD::targetedIndicatorIndicatesEnemyTargetting leaving") ;
       }
 
       void TestHUD::targetedIndicatorIndicatesSeveralEnemyTargetting()
       {
-        InternalMessage("Display","Display::TestHUD::targetedIndicator entering") ;
+        InternalMessage("Display","Display::TestHUD::targetedIndicatorIndicatesSeveralEnemyTargetting entering") ;
 
         std::auto_ptr<Kernel::Model> model(new Kernel::Model()) ;
         model->init() ;
@@ -167,12 +168,12 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(!Model::Selection::isSelected(enemy2,ship)) ;
         CPPUNIT_ASSERT(!hasOverlay("TargetedIndicator")) ;
 
-        InternalMessage("Display","Display::TestHUD::targetedIndicator leaving") ;
+        InternalMessage("Display","Display::TestHUD::targetedIndicatorIndicatesSeveralEnemyTargetting leaving") ;
       }
 
       void TestHUD::targetedIndicatorDoesNotIndicateFriendTargetting()
       {
-        InternalMessage("Display","Display::TestHUD::targetedIndicator entering") ;
+        InternalMessage("Display","Display::TestHUD::targetedIndicatorDoesNotIndicateFriendTargetting entering") ;
 
         std::auto_ptr<Kernel::Model> model(new Kernel::Model()) ;
         model->init() ;
@@ -215,9 +216,67 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(Model::Selection::isSelected(friend_ship,ship)) ;
         CPPUNIT_ASSERT(!hasOverlay("TargetedIndicator")) ;
 
-        InternalMessage("Display","Display::TestHUD::targetedIndicator leaving") ;
+        InternalMessage("Display","Display::TestHUD::targetedIndicatorDoesNotIndicateFriendTargetting leaving") ;
       }
 
+      void TestHUD::displayHullLifePoint()
+      {
+        InternalMessage("Display","Display::TestHUD::displayHullLifePoint entering") ;
+
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model()) ;
+        model->init() ;
+        Implementation::Ogre::RealWorldViewPoint* viewpoint =
+          model->getViewPoint<Implementation::Ogre::RealWorldViewPoint>() ;
+
+        Kernel::Object* system = createUniverseAndSystem(model.get()) ;
+        Kernel::Object* ship = Model::createShip(system) ;
+        ship->addTrait(new Model::HeadUpDisplay()) ;
+        Model::HeadUpDisplay::connect(ship,ship) ;
+
+        Kernel::Object* observer = createObserver(ship) ;
+
+        CPPUNIT_ASSERT(ship->getChild<Implementation::Observer>()) ;
+        CPPUNIT_ASSERT(ship->getTrait<Model::Whole>()) ;
+        CPPUNIT_ASSERT(!ship->getTrait<Implementation::DisplayedSolid>()) ;
+        CPPUNIT_ASSERT(ship->getChild<Model::Destroyable>()) ;
+
+        ship->getChild<Model::Destroyable>()->setMaximumHitPoint(Model::Energy::Joule(10)) ;
+        for (int i = 1 ; i <= 10 ; ++i)
+        {
+          ship->getChild<Model::Destroyable>()->damage(Model::Energy::Joule(1)) ;
+          simulate(model.get(),0.1) ;
+        }
+
+        CPPUNIT_ASSERT(hasOverlay("HullLifePoint")) ;
+
+        InternalMessage("Display","Display::TestHUD::displayHullLifePoint leaving") ;
+      }
+
+      void TestHUD::displayShipData()
+      {
+        InternalMessage("Display","Display::TestHUD::displayShipData entering") ;
+
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model()) ;
+        model->init() ;
+        Implementation::Ogre::RealWorldViewPoint* viewpoint =
+          model->getViewPoint<Implementation::Ogre::RealWorldViewPoint>() ;
+
+        Kernel::Object* team1 = model->createObject() ;
+        team1->addTrait(new Model::Team("team1")) ;
+
+        Kernel::Object* system = createUniverseAndSystem(model.get()) ;
+        Kernel::Object* ship = Model::createShip(system) ;
+        ship->addTrait(new Model::HeadUpDisplay()) ;
+        Model::HeadUpDisplay::connect(ship,ship) ;
+        ship->addTrait(new Model::Transponder(team1)) ;
+
+        Kernel::Object* observer = createObserver(ship) ;
+
+        simulate(model.get(),5) ;
+
+        CPPUNIT_ASSERT(hasOverlay("ShipData")) ;
+        InternalMessage("Display","Display::TestHUD::displayShipData leaving") ;
+      }
 
     }
   }

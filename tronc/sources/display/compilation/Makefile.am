@@ -13,6 +13,7 @@ libdisplay_la_SOURCES = \
 ../implementation/explosion.cpp \
 ../implementation/ideal_target.cpp \
 ../implementation/identified_target.cpp \
+../implementation/head_up_display.cpp \
 ../implementation/hit.cpp \
 ../implementation/image.cpp \
 ../implementation/observer.cpp \
@@ -25,6 +26,7 @@ libdisplay_la_SOURCES = \
 ../implementation/ogre/exploding_solid.cpp \
 ../implementation/ogre/explosion.cpp \
 ../implementation/ogre/hit.cpp \
+../implementation/ogre/hull_life_point.cpp \
 ../implementation/ogre/image.cpp \
 ../implementation/ogre/observer.cpp \
 ../implementation/ogre/ogre.cpp \
@@ -36,6 +38,7 @@ libdisplay_la_SOURCES = \
 ../implementation/ogre/universe.cpp \
 ../implementation/ogre/utility.cpp \
 ../implementation/ogre/laser_beam.cpp \
+../implementation/ogre/ship_name.cpp \
 ../implementation/ogre/space_dust.cpp \
 ../implementation/ogre/targeted_indicator.cpp \
 ../implementation/ogre/head_up_display.cpp \

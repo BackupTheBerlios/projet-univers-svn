@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007 Mathieu ROGER                                      *
+ *   Copyright (C) 2006-2010 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -22,57 +22,47 @@
 
 #include <Ogre.h>
 
+#include <kernel/deduced_trait.h>
 #include <kernel/trait_view.h>
-
-#include <model/head_up_display.h>
-
 #include <display/implementation/ogre/real_world_view_point.h>
-#include <display/implementation/ogre/head_up_display/head_up_display_viewpoint.h>
 
-namespace ProjetUnivers 
+namespace ProjetUnivers
 {
-  namespace Display 
+  namespace Display
   {
-    namespace Test
+    namespace Implementation
     {
-      class TestTarget ;
-    }
-    
-    namespace Implementation 
-    {
-      namespace Ogre 
+      /// Local deduced trait
+      class ShipName : public Kernel::DeducedTrait
+      {};
+
+      namespace Ogre
       {
 
-        /// Display targets.
-        class HeadUpDisplay : public Kernel::TraitView<Model::HeadUpDisplay,
-                                                       RealWorldViewPoint>
+        /// Indicate the player ship name on HUD
+        class ShipName : public Kernel::TraitView<Implementation::ShipName,
+                                                  RealWorldViewPoint>
         {
         protected:
         /*!
-          @name Updates
+          @name Updates.
         */
         // @{
-        
-          /// create a viewpoint.
+
+          /// Create name indicator
           virtual void onInit() ;
-          
-          /// Destroy the viewpoint.
-          virtual void onClose() ;
-        
-          /// Update the viewpoint model
+
           virtual void onUpdate() ;
+
+          /// Remove name indicator
+          virtual void onClose() ;
 
         // @}
         private:
-          
-          /// Display a cross at the center of the screen
-          ::Ogre::OverlayContainer* m_reticule_container ;
-          ::Ogre::OverlayElement*   m_reticule ;
-          
-          /// Viewpoint displaying targets
-          std::auto_ptr<Kernel::ViewPoint> m_implementation ;
-          
-          friend class ::ProjetUnivers::Display::Test::TestTarget ;
+
+          /// 3D ogre element.
+          ::Ogre::OverlayContainer* m_name_container ;
+          ::Ogre::OverlayElement*   m_name ;
         };
       }
     }

@@ -24,6 +24,7 @@
 
 #include <model/positioned.h>
 
+#include <display/implementation/head_up_display.h>
 #include <display/implementation/ogre/ogre.h>
 #include <display/implementation/ogre/utility.h>
 #include <display/implementation/ogre/solid.h>
@@ -41,7 +42,7 @@ namespace ProjetUnivers
       {
 
         RegisterView(HeadUpDisplay,
-                     Model::HeadUpDisplay,
+                     Implementation::HeadUpDisplay,
                      Ogre::RealWorldViewPoint) ;
 
         namespace 

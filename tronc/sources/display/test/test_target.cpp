@@ -57,6 +57,7 @@
 #include <display/test/test_target.h>
 #include <display/implementation/positioned.h>
 #include <display/implementation/observer.h>
+#include <display/implementation/head_up_display.h>
 
 using ProjetUnivers::Display::Implementation::Ogre::HUD::Target;
 
@@ -320,11 +321,6 @@ namespace ProjetUnivers
 
         // switch observer + add a target displayer
         ship2->addTrait(new Model::HeadUpDisplay()) ;
-        Implementation::Ogre::HeadUpDisplay* new_displayer =
-          ship2->getTrait<Model::HeadUpDisplay>()
-               ->getView<Implementation::Ogre::HeadUpDisplay>(viewpoint) ;
-
-        CPPUNIT_ASSERT(!new_displayer->m_implementation->getModel()) ;
 
         Model::HeadUpDisplay::connect(ship2,ship2) ;
 

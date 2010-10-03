@@ -18,7 +18,6 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <model/player.h>
 #include <model/head_up_display.h>
 #include <model/mobile.h>
 #include <display/implementation/speed_indicator.h>
@@ -31,8 +30,7 @@ namespace ProjetUnivers
     {
 
       DeclareDeducedTrait(SpeedIndicator,
-                          And(HasChild(HasTrait(Model::HeadUpDisplay)),
-                              HasChild(HasTrait(Model::Player)),
+                          And(HasTrait(Model::HeadUpDisplay),
                               HasTrait(Model::Mobile))) ;
     }
   }

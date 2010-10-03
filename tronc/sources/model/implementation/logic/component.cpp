@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2007 Mathieu ROGER                                      *
+ *   Copyright (C) 2006-2010 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,63 +18,54 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#pragma once
+#include <model/has_component.h>
+#include <model/whole.h>
+#include <model/implementation/logic/component.h>
 
-#include <Ogre.h>
-
-#include <kernel/trait_view.h>
-
-#include <model/head_up_display.h>
-
-#include <display/implementation/ogre/real_world_view_point.h>
-#include <display/implementation/ogre/head_up_display/head_up_display_viewpoint.h>
-
-namespace ProjetUnivers 
+namespace ProjetUnivers
 {
-  namespace Display 
+  namespace Model
   {
-    namespace Test
+    namespace Implementation
     {
-      class TestTarget ;
-    }
-    
-    namespace Implementation 
-    {
-      namespace Ogre 
+      DeclareDeducedTrait(Component,And(HasTrait(Model::Component),
+                                        HasAncestor(HasTrait(Model::Whole)))) ;
+      namespace Logic
       {
 
-        /// Display targets.
-        class HeadUpDisplay : public Kernel::TraitView<Model::HeadUpDisplay,
-                                                       RealWorldViewPoint>
-        {
-        protected:
-        /*!
-          @name Updates
-        */
-        // @{
-        
-          /// create a viewpoint.
-          virtual void onInit() ;
-          
-          /// Destroy the viewpoint.
-          virtual void onClose() ;
-        
-          /// Update the viewpoint model
-          virtual void onUpdate() ;
+        RegisterControler(Logic::Component,
+                          Implementation::Component,
+                          LogicSystem) ;
 
-        // @}
-        private:
-          
-          /// Display a cross at the center of the screen
-          ::Ogre::OverlayContainer* m_reticule_container ;
-          ::Ogre::OverlayElement*   m_reticule ;
-          
-          /// Viewpoint displaying targets
-          std::auto_ptr<Kernel::ViewPoint> m_implementation ;
-          
-          friend class ::ProjetUnivers::Display::Test::TestTarget ;
-        };
+        void Component::onInit()
+        {
+          Whole* whole = getAncestor<Whole>() ;
+          if (whole)
+            Kernel::Link<HasComponent>(whole->getObject(),getObject()) ;
+        }
+
+        void Component::onClose()
+        {
+          Whole* whole = getAncestor<Whole>() ;
+          if (whole)
+            Kernel::UnLink<HasComponent>(whole->getObject(),getObject()) ;
+        }
+
+        void Component::onUpdate()
+        {
+          Kernel::Object* old_composite =
+              Kernel::Relation::getUniqueLinked<Kernel::Inverse<HasComponent> >(getObject()) ;
+
+          Kernel::UnLink<HasComponent>(old_composite,getObject()) ;
+
+          Whole* whole = old_composite->getAncestor<Whole>() ;
+          if (whole)
+            Kernel::Link<HasComponent>(whole->getObject(),getObject()) ;
+        }
+
       }
     }
   }
 }
+
+

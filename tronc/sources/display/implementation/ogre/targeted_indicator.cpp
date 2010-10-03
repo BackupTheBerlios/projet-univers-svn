@@ -39,10 +39,9 @@ namespace ProjetUnivers
 
       DeclareDeducedRelation(TargetedIndicator,
                              Model::Selection,
-                             And(IsTo(And(HasTrait(Model::Whole),
-                                          HasChild(HasTrait(Model::HeadUpDisplay)),
-                                          HasChild(HasTrait(Observer)),
+                             And(IsTo(And(HasTrait(Model::HeadUpDisplay),
                                           HasChild(HasTrait(Model::Transponder)))),
+                                 /// @todo correct because transponder could be on a component sub object
                                  IsFrom(And(HasTrait(Model::Whole),
                                             HasTrait(Model::Transponder))))) ;
       namespace Ogre
@@ -77,7 +76,7 @@ namespace ProjetUnivers
         {
           m_indicator_container = static_cast< ::Ogre::OverlayContainer* >(
             ::Ogre::OverlayManager::getSingleton().createOverlayElement(
-                  "Panel", "TargetedIndicator")) ;
+                  "Panel","TargetedIndicator")) ;
           getOverlay()->add2D(m_indicator_container) ;
 
           m_indicator_container->setPosition(0,0) ;

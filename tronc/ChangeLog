@@ -1711,6 +1711,10 @@
 2010-09-26
   * Kernel : removed production of debugging graphs in kernel tests
   * indicate on hud when taken as a target
+
+2010-10-03
+* indicates on hud the ship damages, speed, ship name
+  - added HasComponent relation calculated from Whole/Component
     
 in commit
 --------
@@ -1720,10 +1724,14 @@ in progress
 -----------
 
 
+* indicates on hud the speed, ship name, target speed
+  - add a 'container' for data on HUD view
+  - correctly place ship name and speed
+
 @todo
 ----
+
   
-  * indicates on hud the  
   * bip when enemy is in line of sight
 
   * icons are in /usr/share/icons/oxygen

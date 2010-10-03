@@ -20,12 +20,11 @@
  ***************************************************************************/
 #include <model/component.h>
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
     
-      
-    Component::Component()
-    {}
       
     Kernel::Trait* Component::read(Kernel::Reader* reader)
     {

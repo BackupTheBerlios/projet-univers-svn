@@ -91,6 +91,7 @@ libmodel_la_SOURCES = \
 ../implementation/whole.cpp \
 ../implementation/logic/activated_mission.cpp \
 ../implementation/logic/collision.cpp \
+../implementation/logic/component.cpp \
 ../implementation/logic/destroyable.cpp \
 ../implementation/logic/end_of_simulation.cpp \
 ../implementation/logic/flying_group.cpp \
