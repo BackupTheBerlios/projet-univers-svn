@@ -1720,6 +1720,9 @@
 * bug : broken space dust effect
 * bug : ship name color is not affected by other colors
 * created overlay to place ship name, speed, hull life points
+
+2010-10-04
+* indicates on target speed
     
 in commit
 --------
@@ -1728,8 +1731,6 @@ in commit
 in progress
 -----------
 
-* indicates on hud the speed, ship name, target speed
-  - add a 'container' for data on HUD view
 
 @todo
 ----

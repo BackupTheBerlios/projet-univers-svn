@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2008 Mathieu ROGER                                      *
+ *   Copyright (C) 2006-2010 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -20,13 +20,13 @@
  ***************************************************************************/
 #include <kernel/log.h>
 
-#include <model/observer.h>
-#include <model/positioned.h>
 #include <model/mobile.h>
+#include <model/selection.h>
+#include <display/implementation/head_up_display.h>
 
 #include <display/implementation/ogre/ogre.h>
 #include <display/implementation/ogre/utility.h>
-#include <display/implementation/ogre/speed_indicator.h>
+#include <display/implementation/ogre/target_speed.h>
 
 namespace ProjetUnivers
 {
@@ -34,51 +34,56 @@ namespace ProjetUnivers
   {
     namespace Implementation
     {
+      DeclareDeducedTrait(TargetSpeed,And(HasTrait(Implementation::HeadUpDisplay),
+                                          IsRelated(Model::Selection,HasTrait(Model::Mobile)))) ;
+
       namespace Ogre
       {
-        
-        RegisterView(Ogre::SpeedIndicator, 
-                     Implementation::SpeedIndicator, 
+
+        RegisterView(Ogre::TargetSpeed,
+                     Implementation::TargetSpeed,
                      Ogre::RealWorldViewPoint) ;
-        
-        
-        void SpeedIndicator::onInit()
+
+
+        void TargetSpeed::onInit()
         {
-          InternalMessage("Display","Display::SpeedIndicator::onInit Entering") ;
+          InternalMessage("Display","Display::TargetSpeed::onInit Entering") ;
 
-          m_overlay = ::Ogre::OverlayManager::getSingleton().getByName("PU/base/HUD/ShipSpeed") ;
+          m_overlay = ::Ogre::OverlayManager::getSingleton().getByName("PU/base/HUD/TargetSpeed") ;
 
-          m_speed_container = m_overlay->getChild("ShipSpeed") ;
-          m_speed = m_speed_container->getChild("ShipSpeed/Speed") ;
-          ::Ogre::MaterialPtr material = m_speed->getMaterial() ; 
+          m_speed_container = m_overlay->getChild("TargetSpeed") ;
+          m_speed = m_speed_container->getChild("TargetSpeed/Speed") ;
+          ::Ogre::MaterialPtr material = m_speed->getMaterial() ;
           material = material->clone(Utility::getUniqueName()) ;
-          m_speed->setMaterialName(material->getName()) ; 
-          Utility::setColour(m_speed,::Ogre::ColourValue(1.0, 1.0, 1.0)) ;            
+          m_speed->setMaterialName(material->getName()) ;
+          Utility::setColour(m_speed,::Ogre::ColourValue(1.0, 1.0, 1.0)) ;
 
           onUpdate() ;
 
           m_overlay->show() ;
-          
-          InternalMessage("Display","Display::SpeedIndicator::onInit Leaving") ;
+
+          InternalMessage("Display","Display::TargetSpeed::onInit Leaving") ;
         }
-          
-        void SpeedIndicator::onClose()
+
+        void TargetSpeed::onClose()
         {
-          InternalMessage("Display","Display::SpeedIndicator::onClose Entering") ;
+          InternalMessage("Display","Display::TargetSpeed::onClose Entering") ;
           if (m_overlay)
           {
             m_overlay->hide() ;
           }
-          InternalMessage("Display","Display::SpeedIndicator::onClose Leaving") ;
+          InternalMessage("Display","Display::TargetSpeed::onClose Leaving") ;
         }
-        
-        void SpeedIndicator::onUpdate()
+
+        void TargetSpeed::onUpdate()
         {
-          m_speed->setCaption("speed : " + Kernel::toString(getTrait<Model::Mobile>()->getSpeed().MeterPerSecond().length()) + " m/s") ;
+          Model::Mobile* mobile = Kernel::Relation::getUniqueLinked<Model::Selection>(getObject())->getTrait<Model::Mobile>() ;
+          m_speed->setCaption("Target speed : " + Kernel::toString(mobile->getSpeed().MeterPerSecond().length()) + " m/s") ;
         }
-        
+
       }
     }
   }
 }
+
 

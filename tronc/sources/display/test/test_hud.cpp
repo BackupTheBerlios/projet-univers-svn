@@ -304,6 +304,41 @@ namespace ProjetUnivers
         InternalMessage("Display","Display::TestHUD::displayShipData leaving") ;
       }
 
+      void TestHUD::displayTargetSpeed()
+      {
+        InternalMessage("Display","Display::TestHUD::displayShipData entering") ;
+
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model()) ;
+        model->init() ;
+        Implementation::Ogre::RealWorldViewPoint* viewpoint =
+          model->getViewPoint<Implementation::Ogre::RealWorldViewPoint>() ;
+
+        Kernel::Object* team1 = model->createObject() ;
+        team1->addTrait(new Model::Team("team1")) ;
+
+        Kernel::Object* system = createUniverseAndSystem(model.get()) ;
+        Kernel::Object* ship = Model::createShip(system) ;
+        ship->addTrait(new Model::HeadUpDisplay()) ;
+        Model::HeadUpDisplay::connect(ship,ship) ;
+        ship->addTrait(new Model::Transponder(team1)) ;
+
+        Kernel::Object* observer = createObserver(ship) ;
+
+        Kernel::Object* ship2 = Model::createShip(system) ;
+
+        ship->call(Model::TargetingSystem::SelectNextTarget) ;
+        CPPUNIT_ASSERT(Kernel::Relation::areLinked<Model::Selection>(ship,ship2)) ;
+
+        float test_duration = 0 ;
+        test_duration = Kernel::Parameters::getValue<float>("Display","Test.TargetSpeed.Duration",0.1) ;
+
+        simulate(model.get(),test_duration) ;
+
+        ::Ogre::Overlay* overlay = ::Ogre::OverlayManager::getSingleton().getByName("PU/base/HUD/TargetSpeed") ;
+        CPPUNIT_ASSERT(overlay) ;
+        CPPUNIT_ASSERT(overlay->isVisible()) ;
+      }
+
     }
   }
 }

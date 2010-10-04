@@ -20,52 +20,54 @@
  ***************************************************************************/
 #pragma once
 
-#include <display/test/display_test_fixture.h>
+#include <Ogre.h>
+
+#include <kernel/trait_view.h>
+#include <display/implementation/speed_indicator.h>
+#include <display/implementation/ogre/real_world_view_point.h>
 
 namespace ProjetUnivers
 {
   namespace Display
   {
-    namespace Test
+    namespace Implementation
     {
-      /// Test HUD displays
-      class TestHUD : public DisplayTestFixture
+      class TargetSpeed : public Kernel::DeducedTrait
+      {} ;
+
+      namespace Ogre
       {
-      protected:
-      /*!
-        @name Tests
-      */
-      // @{
 
-        /// When player's ship is taken as a target, display an alert indicator
-        void targetedIndicatorIndicatesEnemyTargetting() ;
-        void targetedIndicatorIndicatesSeveralEnemyTargetting() ;
-        void targetedIndicatorDoesNotIndicateFriendTargetting() ;
-        /// Display life point on hud
-        void displayHullLifePoint() ;
-        void displayShipData() ;
-        void displayTargetSpeed() ;
-
-      // @}
+        /// Indicate target speed on HUD.
+        class TargetSpeed : public Kernel::TraitView<Implementation::TargetSpeed,
+                                                     RealWorldViewPoint>
+        {
+        protected:
         /*!
-          @name Tests registration
+          @name Updates.
         */
-      // @{
+        // @{
 
-        CPPUNIT_TEST_SUITE(TestHUD) ;
+          /// Display speed
+          void onInit() ;
 
-        CPPUNIT_TEST(targetedIndicatorIndicatesEnemyTargetting) ;
-        CPPUNIT_TEST(targetedIndicatorIndicatesSeveralEnemyTargetting) ;
-        CPPUNIT_TEST(targetedIndicatorDoesNotIndicateFriendTargetting) ;
-        CPPUNIT_TEST(displayHullLifePoint) ;
-        CPPUNIT_TEST(displayShipData) ;
-        CPPUNIT_TEST(displayTargetSpeed) ;
+          /// Destroy the display
+          void onClose() ;
 
-        CPPUNIT_TEST_SUITE_END() ;
+          /// Update the value
+          void onUpdate() ;
 
-      // @}
-      };
+        // @}
+        private:
 
+          /// 3D ogre element.
+          ::Ogre::Overlay* m_overlay ;
+          ::Ogre::OverlayContainer* m_speed_container ;
+          ::Ogre::OverlayElement*   m_speed ;
+
+        };
+      }
     }
   }
 }
+

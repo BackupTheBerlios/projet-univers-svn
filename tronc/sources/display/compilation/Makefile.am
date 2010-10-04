@@ -40,6 +40,7 @@ libdisplay_la_SOURCES = \
 ../implementation/ogre/laser_beam.cpp \
 ../implementation/ogre/ship_name.cpp \
 ../implementation/ogre/space_dust.cpp \
+../implementation/ogre/target_speed.cpp \
 ../implementation/ogre/targeted_indicator.cpp \
 ../implementation/ogre/head_up_display.cpp \
 ../implementation/ogre/head_up_display/target.cpp \
