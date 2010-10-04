@@ -55,38 +55,18 @@ namespace ProjetUnivers
         {
           InternalMessage("Display","Display::HullLifePoint::onInit Entering") ;
 
-          m_hull_container = static_cast< ::Ogre::OverlayContainer* >(
-            ::Ogre::OverlayManager::getSingleton().createOverlayElement(
-                  "Panel","HullLifePoint")) ;
-          getOverlay()->add2D(m_hull_container) ;
+          m_overlay = ::Ogre::OverlayManager::getSingleton().getByName("PU/base/HUD/HullLifePoint") ;
 
-          m_hull_container->setPosition(0,0) ;
-          m_hull_container->setHorizontalAlignment(::Ogre::GHA_CENTER) ;
-          m_hull_container->setVerticalAlignment(::Ogre::GVA_CENTER) ;
-          m_hull_container->setWidth(1) ;
-          m_hull_container->setHeight(1) ;
-          m_hull_container->setLeft(-0.1) ;
-          m_hull_container->setTop(-height/2) ;
+          m_hull_container = m_overlay->getChild("HullLifePoint") ;
+          m_hull_interior = m_hull_container-> getChild("HullLifePoint/Interior");
+          m_hull_exterior = m_hull_container-> getChild("HullLifePoint/Exterior");
 
-          m_hull =
-            ::Ogre::OverlayManager::getSingleton().createOverlayElement(
-                  "Panel", Utility::getUniqueName()) ;
-
-          m_hull->setMaterialName("PU/base/hud/hull_life_point") ;
-          m_hull->setDimensions(width,height) ;
-          m_hull_container->_addChild(m_hull) ;
-
-          m_hull_interior =
-              ::Ogre::OverlayManager::getSingleton().createOverlayElement(
-                    "Panel", Utility::getUniqueName()) ;
-
-          m_hull_interior->setMaterialName("PU/base/hud/hull_life_point_interior") ;
-          m_hull_container->setDimensions(width,height) ;
-          m_hull_container->_addChild(m_hull_interior) ;
+          m_hull_exterior->setWidth(m_hull_container->getWidth()) ;
+          m_hull_exterior->setHeight(m_hull_container->getHeight()) ;
 
           onUpdate() ;
 
-          getOverlay()->show() ;
+          m_overlay->show() ;
 
           InternalMessage("Display","Display::HullLifePoint::onInit Leaving") ;
         }
@@ -94,13 +74,9 @@ namespace ProjetUnivers
         void HullLifePoint::onClose()
         {
           InternalMessage("Display","Display::HullLifePoint::removeIndicator Entering") ;
-          if (m_hull_container)
+          if (m_overlay)
           {
-            getOverlay()->remove2D(m_hull_container) ;
-            ::Ogre::OverlayManager::getSingleton().destroyOverlayElement(m_hull) ;
-            ::Ogre::OverlayManager::getSingleton().destroyOverlayElement(m_hull_container) ;
-            m_hull_container = NULL ;
-            m_hull = NULL ;
+            m_overlay->hide() ;
           }
           InternalMessage("Display","Display::HullLifePoint::removeIndicator Leaving") ;
         }
@@ -109,10 +85,12 @@ namespace ProjetUnivers
         {
           float life = getTrait<Model::Destroyable>()->getLife() ;
 
-          float local_height = height * life ;
+          const float height = m_hull_container->getHeight() ;
+
+          float local_height = life * height ;
 
           m_hull_interior->setHeight(local_height) ;
-          m_hull_interior->setWidth(width) ;
+          m_hull_interior->setWidth(m_hull_container->getWidth()) ;
           m_hull_interior->setTop(height-local_height) ;
           Utility::setColour(m_hull_interior,life*::Ogre::ColourValue::Green + (1-life)* ::Ogre::ColourValue::Red) ;
         }

@@ -61,8 +61,8 @@ namespace ProjetUnivers
         // @}
         private:
 
-          void createIndicator() ;
-          void removeIndicator() ;
+          static void createIndicator() ;
+          static void removeIndicator() ;
 
           bool m_is_enemy_target ;
 
@@ -70,8 +70,7 @@ namespace ProjetUnivers
           static unsigned int m_count ;
 
           /// 3D ogre element.
-          static ::Ogre::OverlayContainer* m_indicator_container ;
-          static ::Ogre::OverlayElement*   m_indicator ;
+          static ::Ogre::Overlay* m_overlay ;
 
         };
       }

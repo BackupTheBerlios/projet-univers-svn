@@ -33,7 +33,7 @@ namespace ProjetUnivers
     {
       if (team && team->getTrait<Team>())
       {  
-        m_team_name = team->getTrait<Team>()->getName() + "-" ;
+        m_team_name = team->getTrait<Team>()->getName() ;
       }
     }
 

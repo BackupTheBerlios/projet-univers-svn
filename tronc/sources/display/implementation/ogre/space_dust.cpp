@@ -46,11 +46,13 @@ namespace ProjetUnivers
         void SpaceDust::setEmissionRate()
         {
 
-          float speed_ms = getObject()->getParent<Model::Mobile>()
+          const float speed_ms = getObject()->getParent<Model::Mobile>()
                                       ->getSpeed().MeterPerSecond().length() ;
 
+          const float ratio = speed_ms/400 ;
+
           m_space_dusts->getEmitter(0)
-                       ->setEmissionRate(std::min(speed_ms,m_maximum_emission_rate)) ;
+                       ->setEmissionRate(ratio*m_maximum_emission_rate) ;
         }
 
         void SpaceDust::onInit()

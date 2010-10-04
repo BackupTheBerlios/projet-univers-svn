@@ -91,12 +91,18 @@ namespace ProjetUnivers
 
         simulate(model.get(),0.1) ;
 
-        CPPUNIT_ASSERT(!hasOverlay("TargetedIndicator")) ;
+        ::Ogre::Overlay* overlay = ::Ogre::OverlayManager::getSingleton().getByName("PU/base/HUD/TargetedIndicator") ;
+        CPPUNIT_ASSERT(overlay) ;
+        CPPUNIT_ASSERT(!overlay->isVisible()) ;
 
         enemy->call(Model::TargetingSystem::SelectNearestEnemy) ;
-        simulate(model.get(),0.1) ;
 
-        CPPUNIT_ASSERT(hasOverlay("TargetedIndicator")) ;
+        float test_duration = 0 ;
+        test_duration = Kernel::Parameters::getValue<float>("Display","Test.Targeted.Duration",0.1) ;
+
+        simulate(model.get(),test_duration) ;
+
+        CPPUNIT_ASSERT(overlay->isVisible()) ;
 
         InternalMessage("Display","Display::TestHUD::targetedIndicatorIndicatesEnemyTargetting leaving") ;
       }
@@ -146,27 +152,29 @@ namespace ProjetUnivers
         simulate(model.get(),0.1) ;
 
         // no enemy targeting
-        CPPUNIT_ASSERT(!hasOverlay("TargetedIndicator")) ;
+        ::Ogre::Overlay* overlay = ::Ogre::OverlayManager::getSingleton().getByName("PU/base/HUD/TargetedIndicator") ;
+        CPPUNIT_ASSERT(overlay) ;
+        CPPUNIT_ASSERT(!overlay->isVisible()) ;
 
         enemy1->call(Model::TargetingSystem::SelectNearestEnemy) ;
         simulate(model.get(),0.1) ;
-        CPPUNIT_ASSERT(hasOverlay("TargetedIndicator")) ;
+        CPPUNIT_ASSERT(overlay->isVisible()) ;
 
         enemy2->call(Model::TargetingSystem::SelectNearestEnemy) ;
         simulate(model.get(),0.1) ;
-        CPPUNIT_ASSERT(hasOverlay("TargetedIndicator")) ;
+        CPPUNIT_ASSERT(overlay->isVisible()) ;
 
         enemy1->call(Model::TargetingSystem::UnselectTarget) ;
         simulate(model.get(),0.1) ;
 
         CPPUNIT_ASSERT(!Model::Selection::isSelected(enemy1,ship)) ;
-        CPPUNIT_ASSERT(hasOverlay("TargetedIndicator")) ;
+        CPPUNIT_ASSERT(overlay->isVisible()) ;
 
         enemy2->call(Model::TargetingSystem::UnselectTarget) ;
         simulate(model.get(),0.1) ;
 
         CPPUNIT_ASSERT(!Model::Selection::isSelected(enemy2,ship)) ;
-        CPPUNIT_ASSERT(!hasOverlay("TargetedIndicator")) ;
+        CPPUNIT_ASSERT(!overlay->isVisible()) ;
 
         InternalMessage("Display","Display::TestHUD::targetedIndicatorIndicatesSeveralEnemyTargetting leaving") ;
       }
@@ -214,7 +222,9 @@ namespace ProjetUnivers
         simulate(model.get(),0.1) ;
 
         CPPUNIT_ASSERT(Model::Selection::isSelected(friend_ship,ship)) ;
-        CPPUNIT_ASSERT(!hasOverlay("TargetedIndicator")) ;
+        ::Ogre::Overlay* overlay = ::Ogre::OverlayManager::getSingleton().getByName("PU/base/HUD/TargetedIndicator") ;
+        CPPUNIT_ASSERT(overlay) ;
+        CPPUNIT_ASSERT(!overlay->isVisible()) ;
 
         InternalMessage("Display","Display::TestHUD::targetedIndicatorDoesNotIndicateFriendTargetting leaving") ;
       }
@@ -247,7 +257,9 @@ namespace ProjetUnivers
           simulate(model.get(),0.1) ;
         }
 
-        CPPUNIT_ASSERT(hasOverlay("HullLifePoint")) ;
+        ::Ogre::Overlay* overlay = ::Ogre::OverlayManager::getSingleton().getByName("PU/base/HUD/HullLifePoint") ;
+        CPPUNIT_ASSERT(overlay) ;
+        CPPUNIT_ASSERT(overlay->isVisible()) ;
 
         InternalMessage("Display","Display::TestHUD::displayHullLifePoint leaving") ;
       }
@@ -272,9 +284,23 @@ namespace ProjetUnivers
 
         Kernel::Object* observer = createObserver(ship) ;
 
-        simulate(model.get(),5) ;
+        float test_duration = 0 ;
+        test_duration = Kernel::Parameters::getValue<float>("Display","Test.ShipData.Duration",0.1) ;
 
-        CPPUNIT_ASSERT(hasOverlay("ShipData")) ;
+        simulate(model.get(),test_duration) ;
+
+        // check name
+        {
+          ::Ogre::Overlay* overlay = ::Ogre::OverlayManager::getSingleton().getByName("PU/base/HUD/ShipName") ;
+          CPPUNIT_ASSERT(overlay) ;
+          CPPUNIT_ASSERT(overlay->isVisible()) ;
+        }
+        // check speed
+        {
+          ::Ogre::Overlay* overlay = ::Ogre::OverlayManager::getSingleton().getByName("PU/base/HUD/ShipSpeed") ;
+          CPPUNIT_ASSERT(overlay) ;
+          CPPUNIT_ASSERT(overlay->isVisible()) ;
+        }
         InternalMessage("Display","Display::TestHUD::displayShipData leaving") ;
       }
 

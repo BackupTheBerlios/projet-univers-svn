@@ -1,0 +1,23 @@
+// Display an icon when player ship is targeted by an enemy 
+// Do not change the names because they are used in code.
+PU/base/HUD/TargetedIndicator
+{
+  zorder 200
+
+  container Panel(TargetedIndicator)
+  {
+    // adjust this position to change text position
+    // positions are aligned on left top of the screen
+    // positions may range between -0.5 and +0.5
+    // left 0  == on the left
+    // top 0   == on the top of the screen
+    left 0
+    top 0
+    
+    width 0.1
+    height 0.1
+    
+    material PU/base/hud/warning    
+  }
+
+}

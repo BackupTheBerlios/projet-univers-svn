@@ -46,10 +46,10 @@ namespace ProjetUnivers
         */
         // @{
         
-          /// Build a particle emitter.
+          /// Build a paticle emiter.
           void onInit() ;
           
-          /// Destroy the particle emitter.
+          /// Destroy the particule emiter.
           void onClose() ;
           
           /// Update  

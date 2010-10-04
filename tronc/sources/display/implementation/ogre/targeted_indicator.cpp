@@ -53,8 +53,7 @@ namespace ProjetUnivers
 
 
         unsigned int TargetedIndicator::m_count = 0 ;
-        ::Ogre::OverlayContainer* TargetedIndicator::m_indicator_container = NULL ;
-        ::Ogre::OverlayElement*   TargetedIndicator::m_indicator = NULL ;
+        ::Ogre::Overlay* TargetedIndicator::m_overlay = NULL ;
 
         void TargetedIndicator::onInit()
         {
@@ -74,31 +73,8 @@ namespace ProjetUnivers
 
         void TargetedIndicator::createIndicator()
         {
-          m_indicator_container = static_cast< ::Ogre::OverlayContainer* >(
-            ::Ogre::OverlayManager::getSingleton().createOverlayElement(
-                  "Panel","TargetedIndicator")) ;
-          getOverlay()->add2D(m_indicator_container) ;
-
-          m_indicator_container->setPosition(0,0) ;
-          m_indicator_container->setWidth(1) ;
-          m_indicator_container->setHeight(1) ;
-
-          m_indicator =
-            ::Ogre::OverlayManager::getSingleton().createOverlayElement(
-                  "Panel", Utility::getUniqueName()) ;
-
-          // top left
-          m_indicator->setHorizontalAlignment(::Ogre::GHA_LEFT) ;
-          m_indicator->setVerticalAlignment(::Ogre::GVA_TOP) ;
-          m_indicator->setMaterialName("PU/base/hud/warning") ;
-
-          const float size = 0.1 ;
-
-          m_indicator->setDimensions(size,size) ;
-
-          m_indicator_container->_addChild(m_indicator) ;
-
-          getOverlay()->show() ;
+          m_overlay = ::Ogre::OverlayManager::getSingleton().getByName("PU/base/HUD/TargetedIndicator") ;
+          m_overlay->show() ;
         }
 
         void TargetedIndicator::onClose()
@@ -119,13 +95,9 @@ namespace ProjetUnivers
         void TargetedIndicator::removeIndicator()
         {
           InternalMessage("Display","Display::TargetedIndicator::removeIndicator Entering") ;
-          if (m_indicator_container)
+          if (m_overlay)
           {
-            getOverlay()->remove2D(m_indicator_container) ;
-            ::Ogre::OverlayManager::getSingleton().destroyOverlayElement(m_indicator) ;
-            ::Ogre::OverlayManager::getSingleton().destroyOverlayElement(m_indicator_container) ;
-            m_indicator_container = NULL ;
-            m_indicator = NULL ;
+            m_overlay->hide() ;
           }
           InternalMessage("Display","Display::TargetedIndicator::removeIndicator Leaving") ;
         }

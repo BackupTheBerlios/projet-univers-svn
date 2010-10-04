@@ -47,33 +47,18 @@ namespace ProjetUnivers
         {
           InternalMessage("Display","Display::SpeedIndicator::onInit Entering") ;
 
-          m_speed_container = static_cast< ::Ogre::OverlayContainer* >(
-            ::Ogre::OverlayManager::getSingleton().createOverlayElement(
-                  "Panel", Utility::getUniqueName())) ;
-          getOverlay()->add2D(m_speed_container) ;
-          
-          m_speed_container->setPosition(0,0) ;
-          m_speed_container->setWidth(1) ;
-          m_speed_container->setHeight(1) ;
-          
-          m_speed = 
-            ::Ogre::OverlayManager::getSingleton().createOverlayElement(
-                  "TextArea", Utility::getUniqueName()) ;
-          
-          m_speed->setHorizontalAlignment(::Ogre::GHA_CENTER) ;
-          m_speed->setVerticalAlignment(::Ogre::GVA_CENTER) ;
-          m_speed->setMetricsMode(::Ogre::GMM_PIXELS) ;
-          m_speed->setParameter("font_name", "BlueHighway") ;
-          m_speed->setParameter("char_height", "16") ;
-          m_speed->setParameter("horz_align", "center") ;
+          m_overlay = ::Ogre::OverlayManager::getSingleton().getByName("PU/base/HUD/ShipSpeed") ;
+
+          m_speed_container = m_overlay->getChild("ShipSpeed") ;
+          m_speed = m_speed_container->getChild("ShipSpeed/Speed") ;
           ::Ogre::MaterialPtr material = m_speed->getMaterial() ; 
           material = material->clone(Utility::getUniqueName()) ;
           m_speed->setMaterialName(material->getName()) ; 
           Utility::setColour(m_speed,::Ogre::ColourValue(1.0, 1.0, 1.0)) ;            
-          m_speed_container->_addChild(m_speed) ;
-          m_speed_container->setPosition(-0.2,-0.45) ;
 
           m_speed->setCaption("speed : " + Kernel::toString(getTrait<Model::Mobile>()->getSpeed().MeterPerSecond().length()) + " m/s") ;
+
+          m_overlay->show() ;
           
           InternalMessage("Display","Display::SpeedIndicator::onInit Leaving") ;
         }
@@ -81,13 +66,9 @@ namespace ProjetUnivers
         void SpeedIndicator::onClose()
         {
           InternalMessage("Display","Display::SpeedIndicator::onClose Entering") ;
-          if (m_speed_container)
+          if (m_overlay)
           {
-            getOverlay()->remove2D(m_speed_container) ;
-            ::Ogre::OverlayManager::getSingleton().destroyOverlayElement(m_speed) ;
-            ::Ogre::OverlayManager::getSingleton().destroyOverlayElement(m_speed_container) ;
-            m_speed_container = NULL ;
-            m_speed = NULL ;
+            m_overlay->hide() ;
           }
           InternalMessage("Display","Display::SpeedIndicator::onClose Leaving") ;
         }

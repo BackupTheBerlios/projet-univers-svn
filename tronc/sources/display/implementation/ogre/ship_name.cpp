@@ -50,30 +50,19 @@ namespace ProjetUnivers
         {
           InternalMessage("Display","Display::ShipName::onInit Entering") ;
 
-          m_name_container = static_cast< ::Ogre::OverlayContainer* >(
-            ::Ogre::OverlayManager::getSingleton().createOverlayElement(
-                  "Panel","ShipData")) ;
-          getOverlay()->add2D(m_name_container) ;
+          m_overlay = ::Ogre::OverlayManager::getSingleton().getByName("PU/base/HUD/ShipName") ;
 
-          m_name_container->setPosition(0,0) ;
-          m_name_container->setWidth(1) ;
-          m_name_container->setHeight(1) ;
+          m_name_container = m_overlay->getChild("ShipData") ;
+          m_name = m_name_container->getChild("ShipData/Name") ;
 
-          m_name =
-            ::Ogre::OverlayManager::getSingleton().createOverlayElement(
-                  "TextArea",
-                  Utility::getUniqueName()) ;
-
-          m_name->setHorizontalAlignment(::Ogre::GHA_CENTER) ;
-          m_name->setVerticalAlignment(::Ogre::GVA_CENTER) ;
-          m_name->setMetricsMode(::Ogre::GMM_PIXELS) ;
-          m_name->setParameter("font_name", "BlueHighway") ;
-          m_name->setParameter("char_height", "16") ;
-          m_name->setParameter("horz_align", "center") ;
-          m_name_container->_addChild(m_name) ;
-          m_name->setPosition(0,-0.48) ;
+          ::Ogre::MaterialPtr material = m_name->getMaterial() ;
+          material = material->clone(Utility::getUniqueName()) ;
+          m_name->setMaterialName(material->getName()) ;
+          Utility::setColour(m_name,::Ogre::ColourValue(1.0, 1.0, 1.0)) ;
 
           onUpdate() ;
+
+          m_overlay->show() ;
 
           InternalMessage("Display","Display::ShipName::onInit Leaving") ;
         }
@@ -81,20 +70,16 @@ namespace ProjetUnivers
         void ShipName::onClose()
         {
           InternalMessage("Display","Display::ShipName::onClose Entering") ;
-          if (m_name_container)
+          if (m_overlay)
           {
-            getOverlay()->remove2D(m_name_container) ;
-            ::Ogre::OverlayManager::getSingleton().destroyOverlayElement(m_name) ;
-            ::Ogre::OverlayManager::getSingleton().destroyOverlayElement(m_name_container) ;
-            m_name_container = NULL ;
-            m_name = NULL ;
+            m_overlay->hide() ;
           }
           InternalMessage("Display","Display::ShipName::onClose Leaving") ;
         }
 
         void ShipName::onUpdate()
         {
-          m_name->setCaption("Name " + getChild<Model::Transponder>()->getCode()) ;
+          m_name->setCaption(getChild<Model::Transponder>()->getCode()) ;
         }
 
       }

@@ -1,0 +1,28 @@
+// Display the ship name of screen. 
+// Do not change the names because they are used in code.
+PU/base/HUD/ShipName
+{
+  zorder 200
+
+  container Panel(ShipData)
+  {
+    // adjust this position to change text position
+    // positions are aligned on left top of the screen
+    // positions may range between -0.5 and +0.5
+    // left -0.05  == a bit on the left
+    // top -0.48 near the top of the screen
+    left -0.05
+    top -0.48
+    
+    element TextArea(ShipData/Name)
+    {
+      vert_align center
+      horz_align center
+      metrics_mode pixels
+      font_name BlueHighway
+      char_height 16
+      caption "Name"
+    }
+  }
+
+}

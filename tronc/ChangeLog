@@ -1715,6 +1715,11 @@
 2010-10-03
 * indicates on hud the ship damages, speed, ship name
   - added HasComponent relation calculated from Whole/Component
+
+2010-10-04
+* bug : broken space dust effect
+* bug : ship name color is not affected by other colors
+* created overlay to place ship name, speed, hull life points
     
 in commit
 --------
@@ -1723,14 +1728,11 @@ in commit
 in progress
 -----------
 
-
 * indicates on hud the speed, ship name, target speed
   - add a 'container' for data on HUD view
-  - correctly place ship name and speed
 
 @todo
 ----
-
   
   * bip when enemy is in line of sight
 

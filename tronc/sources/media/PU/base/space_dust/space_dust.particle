@@ -1,34 +1,24 @@
 // Space dust to show speed
 particle_system PU/base/SpaceDust
 {
-    material PE/lensflare
-    particle_width 0.001
-    particle_height 0.001
-    cull_each true
-    quota 3000
-    billboard_type point
+  material PU/base/SpaceDust
+  particle_width 0.01
+  particle_height 0.01
+  cull_each true
+  quota 3000
+  billboard_type point
 
-    // Area emitter
-    emitter Box
-    {
-        width 100
-        height 100
-        depth 0
-        emission_rate 70
-        velocity_min  0
-        velocity_max  0
-        time_to_live  2
-        time_to_live_min  2
-        time_to_live_max  2
-        direction 0 0 1
-        position 0 0 -100
-    }
-
-    affector DirectionRandomiser
-    {
-      randomness  50
-      scope 1
-      keep_velocity true
-    }
-    
+  // Area emitter
+  emitter Box
+  {
+    width 10
+    height 10
+    depth 0
+    emission_rate 200
+    time_to_live 1
+    velocity_min 50
+    velocity_max 50
+    direction 0 0 1
+    position 0 0 -10
+  }
 }

@@ -45,19 +45,20 @@ namespace ProjetUnivers
         */
         // @{
         
-          /// Build a paticle emiter.
+          /// Display speed
           void onInit() ;
           
-          /// Destroy the particule emiter.
+          /// Destroy the display
           void onClose() ;
           
-          /// Update  
+          /// Update the value
           void onUpdate() ;
 
         // @}
         private:
 
           /// 3D ogre element.
+          ::Ogre::Overlay* m_overlay ;
           ::Ogre::OverlayContainer* m_speed_container ;
           ::Ogre::OverlayElement*   m_speed ;
           

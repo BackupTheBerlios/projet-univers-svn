@@ -93,7 +93,7 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(observer->getParent<Model::Mobile>()) ;
         CPPUNIT_ASSERT(observer->getTrait<Implementation::SpaceDust>()) ;
 
-        simulate(model.get(),0.1) ;
+        simulate(model.get(),10) ;
 
         CPPUNIT_ASSERT(getUniqueParticleSystem()) ;
 

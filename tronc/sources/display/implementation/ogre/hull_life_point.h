@@ -61,10 +61,10 @@ namespace ProjetUnivers
         private:
 
           /// 3D ogre element.
+          ::Ogre::Overlay*          m_overlay ;
           ::Ogre::OverlayContainer* m_hull_container ;
-          ::Ogre::OverlayElement*   m_hull ;
           ::Ogre::OverlayElement*   m_hull_interior ;
-
+          ::Ogre::OverlayElement*   m_hull_exterior ;
         };
       }
     }
