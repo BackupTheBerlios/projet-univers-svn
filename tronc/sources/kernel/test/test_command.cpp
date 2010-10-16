@@ -42,7 +42,7 @@ namespace ProjetUnivers
       CPPUNIT_TEST_SUITE_REGISTRATION(TestCommand) ;
 
       /// local classes
-      namespace
+      namespace TestCommandLocal
       {
         class Trait1 : public Trait
         {
@@ -148,6 +148,8 @@ namespace ProjetUnivers
         RegisterFunction("function1",Trait3,getValue) ;
       }
       
+      using namespace TestCommandLocal ;
+
       void TestCommand::basicTest()
       {
         InternalMessage("Kernel","Kernel::Test::TestCommand::basicTest entering") ;
@@ -414,7 +416,7 @@ namespace ProjetUnivers
           "Kernel::Test::TestCommand::callOnGranChild leaving") ;
       }
       
-      namespace
+      namespace TestCommandLocal2
       {
         class Trait4 : public Trait
         {
@@ -446,6 +448,8 @@ namespace ProjetUnivers
         RegisterAxis("axis3",InternalGroup,Trait4,change) ;
       }
       
+      using namespace TestCommandLocal2 ;
+
       void TestCommand::getAxesGroups()
       {
         std::set<std::string> groups = Trait::getRegisteredAxesGroups() ;

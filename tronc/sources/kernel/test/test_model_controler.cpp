@@ -1249,7 +1249,7 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(!object->getTrait<T3>()) ;
       }
 
-      namespace
+      namespace TestModelControlerLocal
       {
         class NotAnything : public DeducedTrait
         {};
@@ -1272,6 +1272,8 @@ namespace ProjetUnivers
 
         RegisterControler(ControlerNotAnything,NotAnything,TestControlerSet) ;
       }
+
+      using namespace TestModelControlerLocal ;
 
       void TestModelControler::initNotTrait()
       {
@@ -1374,7 +1376,7 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(!order(ct,ct)) ;
       }
 
-      namespace
+      namespace TestModelControlerLocal2
       {
         class Controler1 : public Controler<Trait1,TestControlerSet>
         {
@@ -1398,6 +1400,8 @@ namespace ProjetUnivers
         RegisterControler(Controler1,Trait1,TestControlerSet) ;
 
       }
+
+      using namespace TestModelControlerLocal2 ;
 
       void TestModelControler::destroyObjectDuringSimulationShouldCloseTheControler()
       {

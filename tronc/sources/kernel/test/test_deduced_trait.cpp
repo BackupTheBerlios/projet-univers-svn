@@ -448,7 +448,7 @@ namespace ProjetUnivers
         trait->change(10) ;
       }
 
-      namespace
+      namespace TestDeducedTraitLocal2
       {
 
         class Trait11 : public Trait
@@ -650,6 +650,8 @@ namespace ProjetUnivers
 
       }
 
+      using namespace TestDeducedTraitLocal2 ;
+
       /*
         a little complicated :
 
@@ -680,7 +682,7 @@ namespace ProjetUnivers
 
       }
 
-      namespace
+      namespace TestDeducedTraitLocal3
       {
 
         class Parent : public Trait
@@ -756,6 +758,8 @@ namespace ProjetUnivers
         RegisterView(ViewHasParentAndTrait1,ParentAndTrait1,TestViewPoint) ;
 
       }
+
+      using namespace TestDeducedTraitLocal3 ;
 
       void TestDeducedTrait::addParentTrait()
       {
@@ -1123,7 +1127,7 @@ namespace ProjetUnivers
                             ->getUpdateNumber() == 1) ;
       }
 
-      namespace
+      namespace TestDeducedTraitLocal4
       {
         class NegativeDeducedTrait : public DeducedTrait
         {};
@@ -1136,6 +1140,8 @@ namespace ProjetUnivers
         DeclareDeducedTrait(DeducedTraitOnDeducedTrait,HasTrait(NegativeDeducedTrait)) ;
 
       }
+
+      using namespace TestDeducedTraitLocal4 ;
 
       void TestDeducedTrait::deducedTraitOnDeducedTrait()
       {
@@ -1151,7 +1157,7 @@ namespace ProjetUnivers
       }
 
 
-      namespace
+      namespace TestDeducedTraitLocal5
       {
         class Child : public Trait
         {
@@ -1198,6 +1204,8 @@ namespace ProjetUnivers
 
         RegisterView(ViewHasChildTrait1,HasChildTrait1,TestViewPoint) ;
       }
+
+      using namespace TestDeducedTraitLocal5 ;
 
       void TestDeducedTrait::addChildTrait()
       {
@@ -1259,7 +1267,7 @@ namespace ProjetUnivers
 
       }
 
-      namespace
+      namespace TestDeducedTraitLocal6
       {
         class Edited : public Trait
         {};
@@ -1275,6 +1283,8 @@ namespace ProjetUnivers
         DeclareDeducedTrait(EditedMission,And(HasTrait(Mission),HasTrait(Edited))) ;
         DeclareDeducedTrait(EditedFlyingGroup,And(HasTrait(FlyingGroup),HasParent(HasTrait(EditedMission)))) ;
       }
+
+      using namespace TestDeducedTraitLocal6 ;
 
       void TestDeducedTrait::removeParentDeducedTrait()
       {
@@ -1299,7 +1309,7 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(!flyinggroup->getTrait<EditedFlyingGroup>()) ;
       }
 
-      namespace
+      namespace TestDeducedTraitLocal7
       {
         class Pos : public Trait
         {};
@@ -1307,6 +1317,8 @@ namespace ProjetUnivers
         {};
         DeclareDeducedTrait(AncestorPos,HasAncestor(HasTrait(Pos))) ;
       }
+
+      using namespace TestDeducedTraitLocal7 ;
 
       void TestDeducedTrait::hasAncestor()
       {

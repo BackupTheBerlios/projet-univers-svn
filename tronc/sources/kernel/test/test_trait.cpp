@@ -320,7 +320,7 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(dtor->getDependencies().find(t2) == dtor->getDependencies().end()) ;
       }
 
-      namespace
+      namespace TestTraitLocal1
       {
         class ROr : public Relation
         {};
@@ -338,6 +338,7 @@ namespace ProjetUnivers
 
       }
 
+      using namespace TestTraitLocal1 ;
 
       void TestTrait::addNewTraitOnOrRelationChangeDepedencies()
       {

@@ -1506,7 +1506,7 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(AccessView1::m_accessed == true) ;
       }
 
-      namespace
+      namespace ModelView31
       {
         class Pos : public Trait
         {
@@ -1551,6 +1551,8 @@ namespace ProjetUnivers
 
       }
 
+      using namespace ModelView31 ;
+
       void TestModelView::updateAncestor()
       {
         std::auto_ptr<Model> model(new Model("TestModelView::updateAncestor")) ;
@@ -1572,7 +1574,7 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT_EQUAL(1,ViewAncestor::m_updates) ;
       }
 
-      namespace
+      namespace ModelView32
       {
         class RecursivePos : public DeducedTrait
         {};
@@ -1598,6 +1600,8 @@ namespace ProjetUnivers
         RegisterView(ViewRecursive,RecursivePos,AncestorViewPoint) ;
 
       }
+
+      using namespace ModelView32 ;
 
       void TestModelView::updateRecursiveAncestor()
       {
@@ -1835,7 +1839,7 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT_EQUAL(1,ViewNotAnything::number_of_init) ;
       }
 
-      namespace
+      namespace ModelView6
       {
 
         class HasChildHead : public DeducedTrait
@@ -1865,6 +1869,8 @@ namespace ProjetUnivers
 
         RegisterView(ViewHasChildHead,HasChildHead,TestViewPoint) ;
       }
+
+      using namespace ModelView6 ;
 
       void TestModelView::removingDescendantShouldNotUpdateHasChildAncestor()
       {
