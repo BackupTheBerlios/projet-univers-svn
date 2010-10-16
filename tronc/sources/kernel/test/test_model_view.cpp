@@ -34,17 +34,14 @@ using namespace std ;
 #include <kernel/view_point.h>
 #include <kernel/test/test_model_view.h>
 
-
-
-CPPUNIT_TEST_SUITE_REGISTRATION(
-    ProjetUnivers::Kernel::Test::TestModelView) ;
-
 namespace ProjetUnivers
 {
   namespace Kernel
   {
     namespace Test
     {
+
+      CPPUNIT_TEST_SUITE_REGISTRATION(TestModelView) ;
 
       /// local classes
       namespace ModelView
@@ -1370,7 +1367,7 @@ namespace ProjetUnivers
         model->destroyObject(object1) ;
       }
 
-      namespace
+      namespace ModelView2
       {
         class TraitDestroyViewPoint : public Trait
         {};
@@ -1419,6 +1416,8 @@ namespace ProjetUnivers
 
       }
 
+      using namespace ModelView2 ;
+
       void TestModelView::detroyViewPoint()
       {
         /// create a model
@@ -1447,7 +1446,7 @@ namespace ProjetUnivers
 
       }
 
-      namespace
+      namespace ModelView3
       {
         class AccessTrait1 : public Trait
         {};
@@ -1489,6 +1488,8 @@ namespace ProjetUnivers
         RegisterView(AccessView1,AccessTrait1,AccesViewPoint) ;
 
       }
+
+      using namespace ModelView3 ;
 
       void TestModelView::accessOtherTrait()
       {
@@ -1668,7 +1669,7 @@ namespace ProjetUnivers
       }
 
 
-      namespace
+      namespace ModelView4
       {
         class ParentPos : public DeducedTrait
         {};
@@ -1694,6 +1695,8 @@ namespace ProjetUnivers
         RegisterView(ViewParentPos,ParentPos,AncestorViewPoint) ;
 
       }
+
+      using namespace ModelView4 ;
 
       void TestModelView::updateParentTrait()
       {
@@ -1794,7 +1797,7 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT_EQUAL(0,ViewAncestor::m_updates) ;
       }
 
-      namespace
+      namespace ModelView5
       {
         class NotAnything : public DeducedTrait
         {};
@@ -1817,6 +1820,8 @@ namespace ProjetUnivers
 
         RegisterView(ViewNotAnything,NotAnything,TestViewPoint) ;
       }
+
+      using namespace ModelView5 ;
 
       void TestModelView::initNotTrait()
       {

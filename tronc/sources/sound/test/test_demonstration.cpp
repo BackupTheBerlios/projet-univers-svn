@@ -34,11 +34,14 @@
 #include <model/player.h>
 #include <model/mobile.h>
 #include <model/throttle.h>
+#include <model/head_up_display.h>
+#include <model/has_in_line_of_sight.h>
+#include <model/engine.h>
 
 #include <sound/test/test_demonstration.h>
-#include <model/engine.h>
 #include <sound/implementation/openal/real_world_view_point.h>
 #include <sound/implementation/openal/engine.h>
+#include <model/targeting_system.h>
 
 CPPUNIT_TEST_SUITE_REGISTRATION(ProjetUnivers::Sound::Test::TestDemonstration);
 
@@ -48,6 +51,19 @@ namespace ProjetUnivers
   {
     namespace Test
     {
+
+      Kernel::Object* TestDemonstration::createObserver(Kernel::Object* parent) const
+      {
+        Kernel::Object* observer = parent->createObject() ;
+        observer->addTrait(new Model::Observer()) ;
+        observer->addTrait(new Model::Player()) ;
+        observer->addTrait(new Model::Active()) ;
+        observer->addTrait(new Model::Positioned()) ;
+        observer->addTrait(new Model::Oriented()) ;
+        observer->addTrait(new Model::Listener()) ;
+
+        return observer ;
+      }
 
       void TestDemonstration::oneShip()
       {
@@ -199,6 +215,39 @@ namespace ProjetUnivers
         }
 
         InternalMessage("Sound","leaving TestDemonstration::recreateListener") ;
+      }
+
+      void TestDemonstration::bipWhenInLineOfSight()
+      {
+        std::auto_ptr<Kernel::Model> model(new Kernel::Model()) ;
+        model->init() ;
+        Kernel::Object* root = model->createObject() ;
+
+        Kernel::Object* ship = Model::createShip(root) ;
+        ship->addTrait(new Model::HeadUpDisplay()) ;
+        createObserver(ship) ;
+
+        Kernel::Object* ship2 = Model::createShip(root) ;
+        ship2->getTrait<Model::Positioned>()->setPosition(Model::Position::Meter(0,0,-100)) ;
+
+        ship->getTrait<Model::TargetingSystem>()->selectNextTarget() ;
+
+        model->update(0.1) ;
+
+        CPPUNIT_ASSERT(Kernel::Relation::areLinked<Model::HasInLineOfSight>(ship,ship2)) ;
+
+        Kernel::Timer global_timer ;
+        Kernel::Timer timer ;
+
+        while (global_timer.getSecond() <= 1)
+        {
+          float seconds = timer.getSecond() ;
+          if (seconds > 0)
+          {
+            timer.reset() ;
+            model->update(seconds) ;
+          }
+        }
       }
 
     }

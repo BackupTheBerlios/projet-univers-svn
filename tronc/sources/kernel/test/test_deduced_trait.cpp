@@ -31,8 +31,6 @@
 
 #include <kernel/test/test_deduced_trait.h>
 
-CPPUNIT_TEST_SUITE_REGISTRATION(
-    ProjetUnivers::Kernel::Test::TestDeducedTrait) ;
 
 namespace ProjetUnivers
 {
@@ -40,9 +38,13 @@ namespace ProjetUnivers
   {
     namespace Test
     {
+      CPPUNIT_TEST_SUITE_REGISTRATION(TestDeducedTrait) ;
 
       /// local classes
-      namespace
+      /*
+      Note, due to a mingw issue, we do not use anonymous namespaces anymore
+      */
+      namespace TestDeducedTraitLocal
       {
 
         TypeIdentifier last_modified_trait ;
@@ -229,6 +231,8 @@ namespace ProjetUnivers
         RegisterView(View7,DeducedTrait7,TestViewPoint) ;
 
       }
+
+      using namespace TestDeducedTraitLocal ;
 
       void TestDeducedTrait::testAnd()
       {

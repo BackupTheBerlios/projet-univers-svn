@@ -22,15 +22,14 @@
 #include <kernel/parameters.h>
 #include <kernel/test/test_parameters.h>
 
-CPPUNIT_TEST_SUITE_REGISTRATION(
-    ProjetUnivers::Kernel::Test::TestParameters) ;
-
 namespace ProjetUnivers 
 {
   namespace Kernel 
   {
     namespace Test 
     {
+
+      CPPUNIT_TEST_SUITE_REGISTRATION(TestParameters) ;
 
       void TestParameters::basicTest()
       {

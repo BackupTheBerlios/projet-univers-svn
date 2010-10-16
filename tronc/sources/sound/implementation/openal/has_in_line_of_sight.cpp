@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2008 Mathieu ROGER                                      *
+ *   Copyright (C) 2006-2010 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,58 +18,78 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <iostream>
+#include <kernel/log.h>
 
-#include <kernel/percentage.h>
+#include <model/has_in_line_of_sight.h>
+#include <model/player.h>
+#include <model/active.h>
+#include <sound/implementation/openal/openal.h>
+#include <sound/implementation/openal/has_in_line_of_sight.h>
 
-#include <kernel/test/test_percentage.h>
-
-namespace ProjetUnivers 
+namespace ProjetUnivers
 {
-  namespace Kernel 
+  namespace Sound
   {
-    namespace Test 
+    namespace Implementation
     {
-      
-      CPPUNIT_TEST_SUITE_REGISTRATION(TestPercentage) ;
+      DeclareDeducedRelation(HasInLineOfSight,
+                             Model::HasInLineOfSight,
+                             IsFrom(HasChild(And(HasTrait(Model::Player),
+                                                 HasTrait(Model::Active))))) ;
 
-      void TestPercentage::build()
+      namespace OpenAL
       {
-        {
-          Percentage value(0) ;
-          CPPUNIT_ASSERT(int(value) == 0) ;
-        }
-        {
-          Percentage value(float(0.0)) ;
-          CPPUNIT_ASSERT(int(value) == 0) ;
-        }
-        {
-          Percentage value(1000) ;
-          CPPUNIT_ASSERT(int(value) == 100) ;
-        }
-        {
-          Percentage value(-1000) ;
-          CPPUNIT_ASSERT(int(value) == -100) ;
-        }
-        {
-          Percentage value(float(10.0)) ;
-          CPPUNIT_ASSERT(int(value) == 100) ;
-        }
-        {
-          Percentage value(float(-10.0)) ;
-          CPPUNIT_ASSERT(int(value) == -100) ;
-        }
-      }
 
-      void TestPercentage::conversions()
-      {
+        RegisterRelationView(OpenAL::HasInLineOfSight,
+                             Implementation::HasInLineOfSight,
+                             OpenAL::RealWorldViewPoint) ;
+
+        std::string HasInLineOfSight::getSoundFileName() const
         {
-          Percentage value(float(0.5)) ;
-          CPPUNIT_ASSERT(int(value) == 50) ;
-          CPPUNIT_ASSERT(float(value) == 0.5) ;
+          return "beep.ogg" ;
         }
+
+        bool HasInLineOfSight::isEvent() const
+        {
+          return true ;
+        }
+
+        Kernel::Object* HasInLineOfSight::getObject() const
+        {
+          return getObjectFrom() ;
+        }
+
+        float HasInLineOfSight::getOuterGain() const
+        {
+          return 0.25;
+        }
+
+        float HasInLineOfSight::getOuterAngle() const
+        {
+          return 170;
+        }
+
+        float HasInLineOfSight::getInnerAngle() const
+        {
+          return 45;
+        }
+
+        float HasInLineOfSight::getGain() const
+        {
+          return 1 ;
+        }
+
+        void HasInLineOfSight::onInit()
+        {
+          this->initSound(getViewPoint());
+        }
+
+        void HasInLineOfSight::onClose()
+        {
+          this->deleteSound();
+        }
+
       }
-      
     }
   }
 }

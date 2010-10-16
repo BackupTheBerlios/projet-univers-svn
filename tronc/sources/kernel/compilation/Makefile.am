@@ -2,7 +2,7 @@ lib_LTLIBRARIES = libkernel.la
 
 SOURCES = $(top_srcdir)/sources
 AM_CPPFLAGS = -I$(SOURCES)
-AM_CXXFLAGS = $(PU_WARNINGS) $(PU_CXXFLAGS)
+AM_CXXFLAGS = $(PU_CXXFLAGS) $(PU_WARNINGS) 
 
 libkernel_la_SOURCES = \
 $(SOURCES)/kernel/implementation/algorithm.cpp \

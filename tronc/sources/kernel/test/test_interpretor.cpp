@@ -29,14 +29,14 @@
 #include <kernel/controler_set.h>
 #include <kernel/controler.h>
 
-CPPUNIT_TEST_SUITE_REGISTRATION(ProjetUnivers::Kernel::Test::TestInterpretor) ;
-
 namespace ProjetUnivers 
 {
   namespace Kernel 
   {
     namespace Test 
     {
+
+      CPPUNIT_TEST_SUITE_REGISTRATION(TestInterpretor) ;
 
       namespace InterpretorModel
       {

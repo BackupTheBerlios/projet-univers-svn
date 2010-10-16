@@ -25,8 +25,6 @@
 #include <kernel/object.h>
 #include <kernel/test/test_trait.h>
 
-CPPUNIT_TEST_SUITE_REGISTRATION(ProjetUnivers::Kernel::Test::TestTrait) ;
-
 namespace ProjetUnivers
 {
   namespace Kernel
@@ -34,7 +32,9 @@ namespace ProjetUnivers
     namespace Test
     {
 
-      namespace
+      CPPUNIT_TEST_SUITE_REGISTRATION(TestTrait) ;
+
+      namespace TestTraitLocal
       {
         class Trait1 : public Trait
         {
@@ -203,6 +203,8 @@ namespace ProjetUnivers
                                 HasParent(HasTrait(ActivatedMission)))) ;
 
       }
+
+      using namespace TestTraitLocal ;
 
       void TestTrait::andBecomesTrueDepedentTrait()
       {
@@ -650,7 +652,7 @@ namespace ProjetUnivers
         root2->changeParent(root) ;
       }
 
-      namespace
+      namespace TestTraitLocal2
       {
         class T1 : public Trait
         {};
@@ -661,6 +663,8 @@ namespace ProjetUnivers
         DeclareDeducedTrait(HasT1,HasTrait(T1)) ;
 
       }
+
+      using namespace TestTraitLocal2 ;
 
       void TestTrait::hasTraitFormulaUpdaterTraits()
       {
@@ -722,7 +726,7 @@ namespace ProjetUnivers
         }
       }
 
-      namespace
+      namespace TestTraitLocal3
       {
         class Ancestor : public Trait
         {};
@@ -732,6 +736,8 @@ namespace ProjetUnivers
 
         DeclareDeducedTrait(WithAncestor,HasAncestor(HasTrait(Ancestor))) ;
       }
+
+      using namespace TestTraitLocal3 ;
 
       void TestTrait::hasAncestorHasDependencies()
       {
@@ -845,7 +851,7 @@ namespace ProjetUnivers
         father1->destroyObject() ;
       }
 
-      namespace
+      namespace TestTraitLocal4
       {
         class Positioned : public Trait
         {};
@@ -857,6 +863,8 @@ namespace ProjetUnivers
                             Or(HasTrait(Positioned),
                                HasAncestor(HasTrait(RecursivelyPositioned)))) ;
       }
+
+      using namespace TestTraitLocal4 ;
 
       void TestTrait::destroyObjectOnRecusiveFormula()
       {
@@ -1018,7 +1026,7 @@ namespace ProjetUnivers
       }
 
 
-      namespace
+      namespace TestTraitLocal5
       {
         class Active : public Trait
         {};
@@ -1033,6 +1041,8 @@ namespace ProjetUnivers
 
         DeclareDeducedTrait(DisplayedSolid,HasChild(HasTrait(ActiveObserver))) ;
       }
+
+      using namespace TestTraitLocal5 ;
 
       void TestTrait::destroyChildObjectShouldNotCrash()
       {
@@ -1052,7 +1062,7 @@ namespace ProjetUnivers
         grand_child->destroyObject() ;
       }
 
-      namespace
+      namespace TestTraitLocal6
       {
         class R : public Relation
         {};
@@ -1066,6 +1076,7 @@ namespace ProjetUnivers
         DeclareDeducedTrait(LinkedToTR,IsRelated(R,HasTrait(TR))) ;
       }
 
+      using namespace TestTraitLocal6 ;
 
       void TestTrait::isRelatedHasDependencies()
       {
@@ -1129,7 +1140,7 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(tr2->getDependentNotifiables().find(dt) != tr2->getDependentNotifiables().end()) ;
       }
 
-      namespace
+      namespace TestTraitLocal7
       {
         class TRi : public Trait
         {};
@@ -1139,6 +1150,8 @@ namespace ProjetUnivers
 
         DeclareDeducedTrait(LinkedToTRi,IsRelated(Inverse<R>,HasTrait(TRi))) ;
       }
+
+      using namespace TestTraitLocal7 ;
 
       void TestTrait::isInverseRelatedHasDependencies()
       {
@@ -1202,7 +1215,7 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(tr2->getDependentNotifiables().find(dt) != tr2->getDependentNotifiables().end()) ;
       }
 
-      namespace
+      namespace TestTraitLocal8
       {
         class ROnly : public Relation
         {};
@@ -1216,6 +1229,7 @@ namespace ProjetUnivers
         DeclareDeducedTrait(LinkedToTROnly,IsOnlyRelated(ROnly,HasTrait(TROnly))) ;
       }
 
+      using namespace TestTraitLocal8 ;
       void TestTrait::isOnlyRelatedHasDependencies()
       {
         std::auto_ptr<Model> model(new Model()) ;
@@ -1274,7 +1288,7 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(tr1->getDependentNotifiables().empty()) ;
       }
 
-      namespace
+      namespace TestTraitLocal9
       {
         class R2 : public Relation
         {};
@@ -1288,6 +1302,7 @@ namespace ProjetUnivers
         DeclareDeducedRelation(R2From,R2,IsFrom(HasTrait(From))) ;
       }
 
+      using namespace TestTraitLocal9 ;
 
       void TestTrait::isFromHasDependencies()
       {
@@ -1350,7 +1365,7 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT_EQUAL((unsigned int)0,from->getDependentNotifiables().size()) ;
       }
 
-      namespace
+      namespace TestTraitLocal10
       {
         class R3 : public Relation
         {};
@@ -1363,6 +1378,8 @@ namespace ProjetUnivers
 
         DeclareDeducedRelation(R3To,R3,IsTo(HasTrait(To))) ;
       }
+
+      using namespace TestTraitLocal10 ;
 
       void TestTrait::isToHasDependencies()
       {
@@ -1441,7 +1458,7 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT_EQUAL((unsigned int)1,deduced->getDependencies().size()) ;
       }
 
-      namespace
+      namespace TestTraitLocal11
       {
         class Starter : public Trait
         {};
@@ -1453,6 +1470,8 @@ namespace ProjetUnivers
                             Or(HasTrait(Starter),
                                HasParent(HasTrait(Reflexive)))) ;
       }
+
+      using namespace TestTraitLocal11 ;
 
       void TestTrait::updaterTraitsShouldNotBeReflexive()
       {

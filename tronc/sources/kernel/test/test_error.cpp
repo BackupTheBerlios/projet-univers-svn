@@ -22,9 +22,6 @@
 
 #include <kernel/test/test_error.h>
 
-// test registration
-CPPUNIT_TEST_SUITE_REGISTRATION(
-  ProjetUnivers::Kernel::Test::TestError) ;
 
 namespace ProjetUnivers 
 {
@@ -32,6 +29,9 @@ namespace ProjetUnivers
   {
     namespace Test 
     {
+
+      // test registration
+      CPPUNIT_TEST_SUITE_REGISTRATION(TestError) ;
 
       namespace
       {

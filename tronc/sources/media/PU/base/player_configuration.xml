@@ -21,16 +21,16 @@
     <Key number="25"/>
    </Mapping>
    <Mapping command="Pitch">
-    <InvertedMouseY/>
+    <InvertedJoystickY/>
    </Mapping>
    <Mapping command="Roll">
     <InvertedJoystickRudder/>
    </Mapping>
    <Mapping command="Throttle">
-    <MouseWheel/>
+    <JoystickThrottle/>
    </Mapping>
    <Mapping command="Yaw">
-    <MouseX/>
+    <JoystickX/>
    </Mapping>
   </PlayerConfiguration>
  </object>

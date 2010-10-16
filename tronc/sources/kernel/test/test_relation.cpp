@@ -25,14 +25,14 @@
 
 #include <kernel/test/test_relation.h>
 
-CPPUNIT_TEST_SUITE_REGISTRATION(ProjetUnivers::Kernel::Test::TestRelation) ;
-
 namespace ProjetUnivers
 {
   namespace Kernel
   {
     namespace Test
     {
+
+      CPPUNIT_TEST_SUITE_REGISTRATION(TestRelation) ;
 
       namespace
       {

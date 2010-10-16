@@ -102,7 +102,7 @@ namespace ProjetUnivers
     :m_axis(_axis)
     {}
     
-    PlayerConfiguration::InputAxis::InputAxis& PlayerConfiguration::InputAxis::operator++()
+    PlayerConfiguration::InputAxis& PlayerConfiguration::InputAxis::operator++()
     {
       if (m_axis == PlayerConfiguration::InputAxis::MouseWheel)
         m_axis = -PlayerConfiguration::InputAxis::MouseWheel ;
@@ -111,7 +111,7 @@ namespace ProjetUnivers
       return *this ; 
     }
 
-    PlayerConfiguration::InputAxis::InputAxis& PlayerConfiguration::InputAxis::operator--()
+    PlayerConfiguration::InputAxis& PlayerConfiguration::InputAxis::operator--()
     {
       if (m_axis == -PlayerConfiguration::InputAxis::MouseWheel)
         m_axis = PlayerConfiguration::InputAxis::MouseWheel ;

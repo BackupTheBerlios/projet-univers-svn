@@ -36,7 +36,7 @@ AC_SUBST(OGRE_CFLAGS)
 AC_SUBST(OGRE_LIBS)
 
 # Check/config boost
-AX_BOOST_BASE(1.34.1)
+AX_BOOST_BASE(1.42.0)
 
 # Check/config OIS
 PKG_CHECK_MODULES(OIS, [OIS >= 1.0])
@@ -98,15 +98,12 @@ PKG_CHECK_MODULES(libXML, [libxml-2.0 >= 2.0])
 AC_SUBST(libXML_LIBS)
 AC_SUBST(libXML_CFLAGS)
 
-# Global c++ variable :
-PU_CXXFLAGS="$OGRE_CFLAGS $OIS_CFLAGS $librlog_CFLAGS $CEGUI_OGRE_CFLAGS $libXML_CFLAGS $libode_CFLAGS -DdNODEBUG"
-AC_SUBST(PU_CXXFLAGS)
-
 PU_WARNINGS="-W -Wall -Wconversion -Wshadow -Wwrite-strings"
 AC_SUBST(PU_WARNINGS)
 
 PU_TESTS_WARNINGS="-W -Wall -Wconversion -Wshadow -Wwrite-strings"
 AC_SUBST(PU_TESTS_WARNINGS)
+
 
 # check clanlib
 AC_PATH_PROG(CLANLIB_CONFIG, clanlib-config, no)
@@ -130,34 +127,47 @@ fi
 # we define variables depending on platform
 if test "x$build_os" = xmingw32; then
   # windows+mingw
+
   # caculate path for ogre plugins 
   ogre_path=`find / -name "RenderSystem_GL.dll" | sed -e 's/RenderSystem_GL.dll//'`
+
   # we must transform the cygwin path to a windows path with escaped backslash
   AC_SUBST(OGRE_PLUGIN_FOLDER,`./winpath.sh $ogre_path 1`)
   AC_SUBST(OGRE_PLUGIN_EXTENSION,"dll")
   AC_SUBST(OGRE_PLUGIN_RENDER_SYSTEM,"RenderSystem_Direct3D9")
   AC_SUBST(OGRE_USED_RENDER_SYSTEM,"Direct3D9 Rendering Subsystem")
+
   # on Windows platform, ogre dlls are inside the release
   AC_SUBST(INSTALL_OGRE_PLUGIN_FOLDER,".")
+
   # on Windows platform, media folder is inside the release
   AC_SUBST(MEDIA_FOLDER,"media")
+
   # on windows we use direct input 8 for joystick autoconfig
   PKG_CHECK_MODULES(dinput8, [dinput8 >= 1])
+
+  PU_CXXFLAGS="$OGRE_CFLAGS $OIS_CFLAGS $librlog_CFLAGS $CEGUI_OGRE_CFLAGS $libXML_CFLAGS $libode_CFLAGS -DdNODEBUG -O2 -enable-auto-import -shared-libgcc"
 elif test "x$build_os" = xlinux-gnu; then
   # linux
+
   # path for ogre plugins 
   AC_SUBST(OGRE_PLUGIN_FOLDER,`pkg-config --variable=plugindir OGRE`)
   AC_SUBST(OGRE_PLUGIN_EXTENSION,"so")
   AC_SUBST(OGRE_PLUGIN_RENDER_SYSTEM,"RenderSystem_GL")
   AC_SUBST(OGRE_USED_RENDER_SYSTEM,"OpenGL Rendering Subsystem")
+
   # on Linux platform, ogre so are globals 
   AC_SUBST(INSTALL_OGRE_PLUGIN_FOLDER,`pkg-config --variable=plugindir OGRE`)
+
   # on Linux platform, media folder is inside the /usr/share... like folder
   AC_SUBST(MEDIA_FOLDER,'${pkgdatadir}')
+
   # on linux joystick autoconfig is self evident
   dinput8_LIBS=''
+  PU_CXXFLAGS="$OGRE_CFLAGS $OIS_CFLAGS $librlog_CFLAGS $CEGUI_OGRE_CFLAGS $libXML_CFLAGS $libode_CFLAGS -DdNODEBUG -O2"
 fi
 AC_SUBST(dinput8_LIBS)
+AC_SUBST(PU_CXXFLAGS)
 
 AM_CONDITIONAL(WINDOWS_COMPILATION,test "x$build_os" = xmingw32)
 AM_CONDITIONAL(LINUX_COMPILATION,test "x$build_os" = xlinux-gnu)

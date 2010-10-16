@@ -384,7 +384,8 @@ namespace ProjetUnivers
         Kernel::Relation::getRelation(getClassTypeIdentifier(Display::Implementation::Target),ship,target)
         ->getView<Implementation::Ogre::HUD::Target>() ;
 
-        CPPUNIT_ASSERT_EQUAL(Ogre::UTFString("target : " + transponder->getCode()),target_view->m_target_text->getCaption()) ;
+        Ogre::String result = target_view->m_target_text->getCaption() ;
+        CPPUNIT_ASSERT_EQUAL(Ogre::String("target : " + transponder->getCode()),result) ;
       }
 
       void TestTarget::identifiedTarget()
@@ -432,7 +433,8 @@ namespace ProjetUnivers
         Kernel::Relation::getRelation(getClassTypeIdentifier(Display::Implementation::Target),ship,target)
         ->getView<Implementation::Ogre::HUD::Target>() ;
 
-        CPPUNIT_ASSERT_EQUAL(Ogre::UTFString(transponder->getCode()),target_view->m_identification->getCaption()) ;
+        Ogre::String result = target_view->m_identification->getCaption() ;
+        CPPUNIT_ASSERT_EQUAL(Ogre::String(transponder->getCode()),result) ;
       }
 
       void TestTarget::changeTarget()

@@ -28,15 +28,14 @@
 #include <kernel/test/test_xml_reader.h>
 #include <kernel/relation.h>
 
-CPPUNIT_TEST_SUITE_REGISTRATION(
-    ProjetUnivers::Kernel::Test::TestXMLReader) ;
-
 namespace ProjetUnivers 
 {
   namespace Kernel 
   {
     namespace Test 
     {
+
+      CPPUNIT_TEST_SUITE_REGISTRATION(TestXMLReader) ;
 
       // local classes 
       namespace 

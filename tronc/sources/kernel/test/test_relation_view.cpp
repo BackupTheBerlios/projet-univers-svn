@@ -29,14 +29,14 @@
 
 #include <kernel/test/test_relation_view.h>
 
-CPPUNIT_TEST_SUITE_REGISTRATION(ProjetUnivers::Kernel::Test::TestRelationView) ;
-
 namespace ProjetUnivers
 {
   namespace Kernel
   {
     namespace Test
     {
+
+      CPPUNIT_TEST_SUITE_REGISTRATION(TestRelationView) ;
 
       namespace
       {

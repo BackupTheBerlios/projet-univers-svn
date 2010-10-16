@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2009 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2010 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -20,49 +20,77 @@
  ***************************************************************************/
 #pragma once
 
-#include <cppunit/extensions/HelperMacros.h>
+#include <kernel/relation_view.h>
+#include <kernel/deduced_trait.h>
+
+#include <sound/implementation/engine.h>
+#include <sound/implementation/openal/sound_emitter.h>
+#include <sound/implementation/openal/real_world_view_point.h>
 
 namespace ProjetUnivers
 {
   namespace Sound
   {
-    namespace Test
+    namespace Implementation
     {
 
-      /// Test of a complete system
-      class TestDemonstration : public CppUnit::TestFixture
+      class HasInLineOfSight : public Kernel::DeducedRelation
+      {};
+
+      namespace OpenAL
       {
-      protected:
-      /*!
-      @name Tests
-      */
-      // @{
 
-        void oneShip() ;
-        void recreateListener() ;
-        void bipWhenInLineOfSight() ;
+        /// Sound produced when target is in line
+        class HasInLineOfSight : public Kernel::RelationView<RealWorldViewPoint>,
+                                 public SoundEmitter
+        {
+        protected:
+        /*!
+          @name Access methods
 
-      // @}
-      /*!
-      @name Register
-      */
-      // @{      
+          Redefinition of some properties of the sound to emit.
 
-        CPPUNIT_TEST_SUITE(TestDemonstration) ;
+        */
+        // @{
 
-        CPPUNIT_TEST(oneShip) ;
-        CPPUNIT_TEST(recreateListener) ;
-        CPPUNIT_TEST(bipWhenInLineOfSight) ;
+          /// Get the sound's filename
+          virtual std::string getSoundFileName() const ;
 
-        CPPUNIT_TEST_SUITE_END() ;
+          /// Indicate if the sound is looping
+          virtual bool isEvent() const ;
 
-      // @}
+          /// Access to the object with the trait
+          Kernel::Object* getObject() const ;
 
-      private:
+          float getOuterGain() const ;
 
-        Kernel::Object* createObserver(Kernel::Object* parent) const ;
-      };
+          float getOuterAngle() const ;
 
+          float getInnerAngle() const ;
+
+          /// Get the gain.
+          /*!
+            @return value between 1 and 0
+                    1 indicates the sound is not attenuated
+          */
+          virtual float getGain() const ;
+
+        // @}
+
+        /*!
+          @name Updates.
+        */
+        // @{
+
+          virtual void onInit() ;
+
+          virtual void onClose() ;
+
+
+        // @}
+        };
+      }
     }
   }
 }
+

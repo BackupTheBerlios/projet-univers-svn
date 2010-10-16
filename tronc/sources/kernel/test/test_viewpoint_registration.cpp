@@ -25,9 +25,6 @@
 
 #include <kernel/test/test_viewpoint_registration.h>
 
-CPPUNIT_TEST_SUITE_REGISTRATION(
-    ProjetUnivers::Kernel::Test::TestViewPointRegistration) ;
-
 namespace ProjetUnivers 
 {
   namespace Kernel 
@@ -35,6 +32,8 @@ namespace ProjetUnivers
     namespace Test 
     {
       
+      CPPUNIT_TEST_SUITE_REGISTRATION(TestViewPointRegistration) ;
+
       namespace
       {
         class TestViewPoint : public ViewPoint

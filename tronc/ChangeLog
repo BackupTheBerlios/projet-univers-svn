@@ -1723,6 +1723,12 @@
 
 2010-10-04
 * indicates on target speed
+
+2010-10-16
+* bip when enemy is in line of sight
+- ok, but a little too precise, need 
+* corrected compile error on gcc 4.5
+* corrected some issues for compiling on windows/mingw 4.3
     
 in commit
 --------
@@ -1731,345 +1737,350 @@ in commit
 in progress
 -----------
 
-
+  
 @todo
 ----
+
+* bip when enemy is in line of sight
+- probably need a less precise HasInLineOfSight
   
-  * bip when enemy is in line of sight
+* laser beam speed should be configurable from xml 
 
-  * icons are in /usr/share/icons/oxygen
+* Display engine output : still some issues : induced black on transparency...
 
-  * Display engine output : still some issues : induced black on transparency...
+* make player feel when hit
 
-  * make player feel when hit
+* network 
+- connection room
+- game
 
-  * network 
-    - connection room
-    - game
+* handle several engine for an engine controller. 
 
-  * handle several engine for an engine controller. 
+* bug : exploding objects cannot perform any action... see todos on explosion
+- exploding objects must be detroyed and another one created at the same 
+  position + same speed
 
-  * bug : exploding objects cannot perform any action... see todos on explosion
-    - exploding objects must be detroyed and another one created at the same 
-      position + same speed
+* have all used ships in the same size range then use new 3d models s51 and 
+  others
 
-  * have all used ships in the same size range then use new 3d models s51 and 
-    others
+* all :
+- performances : try to generate a big exe without dll...
 
-  * all :
-    - performances : try to generate a big exe without dll...
-
-  * handle several laser on the same ship 
-    - Kernel command delegator : handle multiple sub element of the same type 
-      (several laser)
-    
-  * Display :
-    - exploding solid should fade to transparent ?
-
-  * ship file format is shit, too complex
-  * input configuration menu is shit also, too technical
+* handle several laser on the same ship 
+- Kernel command delegator : handle multiple sub element of the same type 
+  (several laser)
   
-  * Model : 
-    - Mission : destruction sequence during player's ship explosion 
-      (Player & Parent(Explosion)) --> change current camera to a fixed one 
-    - move player from ship to explosion ?
+* Display :
+- exploding solid should fade to transparent ?
 
-  * Display : issue with fonts in Ogre 1.6.1 windows version; they are too big.
+* ship file format is shit, too complex
+* input configuration menu is shit also, too technical
 
-  * GUI :
-    - select ship from a list
-    - add a list selection in gui config (or use a new windows)
-    - change all hover/pushed elements inspire from  
-      http://sourceforge.net/projects/galactitrade/
-      (apache v2 can be used inside GPLv3)
-    
-  * Bug : during game, when destroyed for the last time ? --> dark screen
-    - not repoduced
-  * Bug : clicking between buttons on the in game menu causes blockade 
+* Model : 
+- Mission : destruction sequence during player's ship explosion 
+  (Player & Parent(Explosion)) --> change current camera to a fixed one 
+- move player from ship to explosion ?
 
-  * Demo :
-    - history of who killed who (need to add the transponder on the LaserBeam 
-      object) warning, firing ship on laser beam can have been destroyed...
-    - score menu at the end of the mission
+* Display : issue with fonts in Ogre 1.6.1 windows version; they are too big.
 
-  * Display :
-    - display score on hud
-    
-  * All :
-    - physic mass correction, but still some work
-  * performance issues
-    - a lot of time passed in Computer::getDetectedObjects() mostly in 
-      getChildrenObjects<Detectable> ?
-    - some time inside call(method), inside getChildren<X> 
-    - TypeIdentifier::isInstance is very slow but any attempt to optimised 
-      failed
-  * Kernel :
-    - debugger
-
-  * performance measures : 
-    valgrind --tool=callgrind --fn-skip=ProjetUnivers::Kernel::Trait::notify --fn-skip=ProjetUnivers::Kernel::Implementation::Interpretor::endTransaction
-    still cycles... due to end transaction... 
-
-  * Physic 
-    - performances tests 
+* GUI :
+- select ship from a list
+- add a list selection in gui config (or use a new windows)
+- change all hover/pushed elements inspire from  
+  http://sourceforge.net/projects/galactitrade/
+  (apache v2 can be used inside GPLv3)
   
-  * Display :
-    - ressource caching is not 'clean'; handling of scene manager is not clean 
-      too @see the hack of cleaning the manager must clean the caching ressource 
-      list 
+* Bug : during game, when destroyed for the last time ? --> dark screen
+- not repoduced
+
+* Bug : clicking between buttons on the in game menu causes blockade 
+
+* Demo :
+- history of who killed who (need to add the transponder on the LaserBeam 
+  object) warning, firing ship on laser beam can have been destroyed...
+- score menu at the end of the mission
+
+* Display :
+- display score on hud
+  
+* All :
+- physic mass correction, but still some work
+
+* performance issues
+- a lot of time passed in Computer::getDetectedObjects() mostly in 
+  getChildrenObjects<Detectable> ?
+- some time inside call(method), inside getChildren<X> 
+- TypeIdentifier::isInstance is very slow but any attempt to optimised 
+  failed
+
+* Kernel :
+- debugger
+
+* performance measures : 
+  valgrind --tool=callgrind --fn-skip=ProjetUnivers::Kernel::Trait::notify --fn-skip=ProjetUnivers::Kernel::Implementation::Interpretor::endTransaction
+  still cycles... due to end transaction... 
+
+* Physic 
+- performances tests 
+
+* Display :
+- ressource caching is not 'clean'; handling of scene manager is not clean 
+  too @see the hack of cleaning the manager must clean the caching ressource 
+  list 
+ 
+* Model : 
+- try to calculate HasInLineOfSight through ogre ray intersection ?
+- or through same in physics ?
+
+* Model (refactoring) : 
+- remove computer own model and create an ideal target object under the 
+  computer with relative position  
+
+* All :
+- remove warning for implicit conversions with gcc-4.3
+  
+* AI : 
+- adding states : Iddle, Attacking,
+- use hierarchical behavioural tree 
+- users repport that AI tend to get back on back (probably a worst case 
+  scenario in the algorithm)
+
+* Model :
+- add relationship HasEnemy between teams
+- add relationship HasFlyingGroup to replace WithFlyingGroup
+- add trait Destroyed on FlyingGroup + controler that handle that trait
+- mission should be finished when all enemies are destroyed  
+- we should add victory conditions to missions : DestroyAllEnemies, 
+  determine match with agent objectives 
+
+* Display : 
+- change selection printing (change color of ideal target)
+
+* Ship configuration
+- Energy handling 
+
+* Shields
+- Damages
+- Commands on energy (transfer shield to front, back...) 
+
+* Kernel : 
+- maybe something to do on notify : directly calls the update on connected 
+  traits that have views
+- detect which observers have "default" update, may be usefull for better 
+  optimisations 
+
+* Physics :
+- try to keep all units in an acceptable "range", it means that we whould 
+  be able to convert model units in an arbitrary "ranging system", depending 
+  on masses and object length  
+
+* Display :
+- singleton issue when data is not correct (duplicate elements inside media 
+  folder) 
+ 
+* Sound : 
+- exception floating point : not reproduced
+- too many sources 114 simultaneous sources with 30 ships 
+- event limitation : a pool of sources of given size, with circular assignment
+
+* All : 
+- remove magic constant for config files parameter names ?
    
-  * Model : 
-    - try to calculate HasInLineOfSight through ogre ray intersection ?
-    - or through same in physics ?
+* Continuous integration :
+- deployment should also publish tests results
+- migrate to ant
+- use cccc
+- use cppdepend (free for open source)
+- profile with valgrind (cachegrind) valgrind --tool=callgrind + kcachegrind 
+  for visualisation
+- use valgrind for leaks (a lot on kernel tests, try whithout -O2) + invalid access
+  invalid access should crash make check (xml output and a check for Invalid Acess)
+- add benchmark testing
 
-  * Model (refactoring) : 
-    - remove computer own model and create an ideal target object under the 
-      computer with relative position  
+* Input :
+- instability on test autorepeat
 
-  * All :
-    - remove warning for implicit conversions with gcc-4.3
-    
-  * AI : 
-    - adding states : Iddle, Attacking,
-    - use hierarchical behavioural tree 
-    - users repport that AI tend to get back on back (probably a worst case 
-      scenario in the algorithm)
-
-  * Model :
-    - add relationship HasEnemy between teams
-    - add relationship HasFlyingGroup to replace WithFlyingGroup
-    - add trait Destroyed on FlyingGroup + controler that handle that trait
-    - mission should be finished when all enemies are destroyed  
-    - we should add victory conditions to missions : DestroyAllEnemies, 
-      determine match with agent objectives 
-
-  * Display : 
-    - change selection printing (change color of ideal target)
-
-  * Ship configuration
-    - Energy handling 
-
-  * Shields
-    - Damages
-    - Commands on energy (transfer shield to front, back...) 
-
-  * Kernel : 
-    - maybe something to do on notify : directly calls the update on connected 
-      traits that have views
-    - detect which observers have "default" update, may be usefull for better 
-      optimisations 
-
-  * Physics :
-    - try to keep all units in an acceptable "range", it means that we whould 
-      be able to convert model units in an arbitrary "ranging system", depending 
-      on masses and object length  
+* on test : Display::TetModelView::ChangeParent, destruction of model leads 
+  to gpf in Ode::Solid::onClose
+  --> a major bug on the untested and too early feature changeParent, see 
+  kernel todos   
   
-  * Display :
-    - singleton issue when data is not correct (duplicate elements inside media 
-      folder) 
-   
-  * Sound : 
-    - exception floating point : not reproduced
-    - too many sources 114 simultaneous sources with 30 ships 
-    - event limitation : a pool of sources of given size, with circular assignment
+* Kernel : 
+- detect illegal access in view/controler, an illegal access is accessing a 
+  trait/view/controler that is not part of the formula
+
+- we should use onChangedParent() for formulae on parent instead of 
+  onUpdate, onChangeParent is exactly the event that indicates that the 
+  formula is still true but through another one
   
-  * All : 
-    - remove magic constant for config files parameter names ?
+  bug for change parent in display and physics shows that this feature is 
+  still out of scope because too difficult, we would need a beforeChangeParent
+  to detach element from parent, and afterChangeParent to re-attach to the 
+  new. This would be only called by formulae when a value of HasParent or 
+  HasAncestor changes. Default value would be to call onClose and onInit
+  
+- print for IsTo is incorrect
+- be able to desactivate a module (sound,display,input,gui,...) by config
+- callgrind shows that desactivating gui and input in a system with no gui 
+  allow to go up to 80 ships !!
+- refactor types : Object, to catch NULL call by using kind of shared_ptr
+- controlers ... during simulation of a controler, the updates on its trait 
+  should not be triggered (could remove two checks in physics and gui)
+- normalise headers : all non used headers should be in implementation. 
+  Used headers are : 
+  - trait
+  - object
+  - deduced trait (to be rennamed in deduction)
+  - model 
+  ...
+  
+  Create a kernel.h header containg all the stuff...   
+- add traits on relations ? 
+- all members should be encapsulated, even for own class : allow to change 
+  storage (object pool...) for allocation optimisation
+- create an object pool per model, a pool on views too... boost::object_pool 
+- display the list of used formulaes (number and kind)
+- count the create/destroy of objects, of traits
+- display the average size of objects (how many traits/views/deduced traits...)
+
+* Input :
+- Bug : mouse go faster on right than left !!!
+
+* Sound : 
+- bug : sometimes no sound when replaying the mission but difficult to 
+  automate
+  
+* GUI : 
+- add input config validation : cannot save or back till it is correct
+
+* Model :
+- add performance tests 
+  
+* Kernel : 
+- the error message on udpate during update could be better : 
+  the updated trait names, the object names... (ideally the stack)
+
+* GUI : 
+- validation of the mission.
+- drag and drop from Active Players to Pilot and conversely
+- save/load missions
+
+* Model : 
+- bug : adding a mapping on an already assigned key does not worK ?
+- add a maximum distance on target display
+- add a current ship name indicator, plus status
+- add a damage indicator
      
-  * Continuous integration :
-    - deployment should also publish tests results
-    - migrate to ant
-    - use cccc
-    - use cppdepend (free for open source)
-    - profile with valgrind (cachegrind) valgrind --tool=callgrind + kcachegrind 
-      for visualisation
-    - use valgrind for leaks (a lot on kernel tests, try whithout -O2) + invalid access
-      invalid access should crash make check (xml output and a check for Invalid Acess)
-    - add benchmark testing
+* All : 
+- Custom mission controler dealt with victory/ending conditions and leads 
+  to game over state
 
-  * Input :
-    - instability on test autorepeat
-
-  * on test : Display::TetModelView::ChangeParent, destruction of model leads 
-    to gpf in Ode::Solid::onClose
-    --> a major bug on the untested and too early feature changeParent, see 
-    kernel todos   
-    
-  * Kernel : 
-    - detect illegal access in view/controler, an illegal access is accessing a 
-      trait/view/controler that is not part of the formula
-
-    - we should use onChangedParent() for formulae on parent instead of 
-      onUpdate, onChangeParent is exactly the event that indicates that the 
-      formula is still true but through another one
-      
-      bug for change parent in display and physics shows that this feature is 
-      still out of scope because too difficult, we would need a beforeChangeParent
-      to detach element from parent, and afterChangeParent to re-attach to the 
-      new. This would be only called by formulae when a value of HasParent or 
-      HasAncestor changes. Default value would be to call onClose and onInit
-      
-    - print for IsTo is incorrect
-    - be able to desactivate a module (sound,display,input,gui,...) by config
-    - callgrind shows that desactivating gui and input in a system with no gui 
-      allow to go up to 80 ships !!
-    - refactor types : Object, to catch NULL call by using kind of shared_ptr
-    - controlers ... during simulation of a controler, the updates on its trait 
-      should not be triggered (could remove two checks in physics and gui)
-    - normalise headers : all non used headers should be in implementation. 
-      Used headers are : 
-      - trait
-      - object
-      - deduced trait (to be rennamed in deduction)
-      - model 
-      ...
-      
-      Create a kernel.h header containg all the stuff...   
-    - add traits on relations ? 
-    - all members should be encapsulated, even for own class : allow to change 
-      storage (object pool...) for allocation optimisation
-    - create an object pool per model, a pool on views too... boost::object_pool 
-    - display the list of used formulaes (number and kind)
-    - count the create/destroy of objects, of traits
-    - display the average size of objects (how many traits/views/deduced traits...)
-
-  * Input :
-    - Bug : mouse go faster on right than left !!!
-    
-  * Sound : 
-    - bug : sometimes no sound when replaying the mission but difficult to 
-      automate
-    
-  * GUI : 
-    - add input config validation : cannot save or back till it is correct
-
-  * Model :
-    - add performance tests 
-      
-  * Kernel : 
-    - the error message on udpate during update could be better : 
-      the updated trait names, the object names... (ideally the stack)
-  
-  * GUI : 
-    - validation of the mission.
-    - drag and drop from Active Players to Pilot and conversely
-    - save/load missions
-
-  * Model : 
-    - bug : adding a mapping on an already assigned key does not worK ?
-    - add a maximum distance on target display
-    - add a current ship name indicator, plus status
-    - add a damage indicator
-       
-  * All : 
-    - Custom mission controler dealt with victory/ending conditions and leads 
-      to game over state
-
-  * Packaging
-    - inspire from funguloid package for debian/ubuntu packaging
-    - Info : make install does not work on win32 : libtool refuses to link with Ogre 
-      (wheread it works in normal make !!), probably a limitation of msys package
-     
-  * Model : 
-    - if we have several lasers : only one will shoot !
-      either propagate commands every where or find another solution 
-
-    - Event traits like Collision, Shot should be implemented through 
-      a common interface : Model::Event base class...
-      Maybe better to have a Kernel::Event because Controler or View cannot 
-      have an update method (it has no meaning)   
-         
-    - ShootingHelper may connect several lasers (calculus is made on 
-      average speed) and can harmonize lasers (re-orient them to touch a 
-      position in the ship axe and at target distance)
-
-    - Laser whould not be able to be too much synchronized (max angle)
-
-    - Lasers on a ship should all point to the same direction, which is the 
-      direction of the ship ... coherence test
-
-    - add configurable laser colour (depending of laser beam type)
-    
-    - Detector : handle of additional data (hit points, ...)
-      They can both be obtained by the detector. Maybe we should use traits 
-      instead of class attributes for increasing extendability (by adding speed 
-      ...). Detectors could then be caractrized by their detection abilities :
-      SpeedDetector&MassDetector... but it is not clear now
-    
-    - be able to get bouding box (?) and perform ray 
-      casting inside Model. Code could rely on Ogre but we would be an 
-      encapsulation.
-    
-    - should define isInside like 
-      IsInside <=> parent(Positionned ^ Sized) ^ Positionned
-      i.e., being descendant means that we are inside 
-      changing node position can then move object hierarchy
-    
-    - PhysicalWorld <=> Whole ??
-      PhysicalObject should not depend on mobile ?
-    
-  * GUI : 
-    - add key shortcuts for clicable buttons
+* Packaging
+- inspire from funguloid package for debian/ubuntu packaging
+- Info : make install does not work on win32 : libtool refuses to link with Ogre 
+  (wheread it works in normal make !!), probably a limitation of msys package
    
-  * Display :
-    - when initing ogre, close any already openned ogre objects in other 
-      modules
-    - find a way to preload ressources as needed (some ressources may appear 
-      during game like explosions, lasers) some ressources are known like 
-      ships...
-    - make a loading bar : create a ressource loading queue (inspire from 
-      Ogre::ResourceBackgroundQueue that is not by default on ogre package)  
-    
-  * Input :
-    - be able to map any axis on anything
-    - send wheel mouse to CEGUI
-    - add Maj+Control in key handling : treat them as modifiers ?
-    - handle pov buttons as buttons ?
+* Model : 
+- if we have several lasers : only one will shoot !
+  either propagate commands every where or find another solution 
+
+- Event traits like Collision, Shot should be implemented through 
+  a common interface : Model::Event base class...
+  Maybe better to have a Kernel::Event because Controler or View cannot 
+  have an update method (it has no meaning)   
+     
+- ShootingHelper may connect several lasers (calculus is made on 
+  average speed) and can harmonize lasers (re-orient them to touch a 
+  position in the ship axe and at target distance)
+
+- Laser whould not be able to be too much synchronized (max angle)
+
+- Lasers on a ship should all point to the same direction, which is the 
+  direction of the ship ... coherence test
+
+- add configurable laser colour (depending of laser beam type)
+
+- Detector : handle of additional data (hit points, ...)
+  They can both be obtained by the detector. Maybe we should use traits 
+  instead of class attributes for increasing extendability (by adding speed 
+  ...). Detectors could then be caractrized by their detection abilities :
+  SpeedDetector&MassDetector... but it is not clear now
+
+- be able to get bouding box (?) and perform ray 
+  casting inside Model. Code could rely on Ogre but we would be an 
+  encapsulation.
+
+- should define isInside like 
+  IsInside <=> parent(Positionned ^ Sized) ^ Positionned
+  i.e., being descendant means that we are inside 
+  changing node position can then move object hierarchy
+
+- PhysicalWorld <=> Whole ??
+  PhysicalObject should not depend on mobile ?
   
-  * Physic : 
-    - migrate Model::PhysicalObject and Model::PhysicalWorld to Physic (for 
-      better separation of concerns) --> not so sure ?
-    - separate simulations : maybe objects can be simulated one by one in its 
-      own world !! should not have any complication for movement except for 
-      collision response. This could facilitate unit range to keep around one.
-    - be more precise than bounding sphere for collision : use bounding box for 
-      example 
-    
-  * Sound : 
-    - Bug : segmentation fault when sound is already used by another process
-    - Bug : infinite loop when no sound device is found...
-    - Refactoring : every event sound is the same : make a general view on event and get the 
-      sound name by a function 
-    
-  * Kernel :
-    - add better errors on object structure
-    - maybe call axis should take a Percentage
-    - be able to copy an object, use read and add a write to Traits.
-    - relation transitive close (?)
-    - relation reflexive closure (?)
-    - relation inheritance (?)
-      
-  * all :
-    - make use of boost unit library, 
-      @see http://www.boost.org/doc/libs/1_40_0/doc/html/boost_units.html
-    - deduce meta structure
-      # use a metamodel 
-      # use gccxml
-      # use a modified doxygen
-      # instead of generating code, genetate an xml structure for attributes, 
-        getter and setters ?  (it would be ridiculous : better forget c++ then)
-      # create an over language
-    - how can we take advantage of multi-core systems ? for example, during 
-      ai simulation, we could calculate commands in threads... or during physics 
-      simulate world layers also in threads
-      interpretor is also a good location for threading, provided all model 
-      accesses are mutexed. 
-    
-  * Network :
-    - udp for position update of physical objects
-    - tcp for structural operations (creation destruction)
-    - test if position is sent only when moving
-    - mock network : receive position updates and in other side check that correct 
-      messages are sent
+* GUI : 
+- add key shortcuts for clicable buttons
+ 
+* Display :
+- when initing ogre, close any already openned ogre objects in other 
+  modules
+- find a way to preload ressources as needed (some ressources may appear 
+  during game like explosions, lasers) some ressources are known like 
+  ships...
+- make a loading bar : create a ressource loading queue (inspire from 
+  Ogre::ResourceBackgroundQueue that is not by default on ogre package)  
   
+* Input :
+- be able to map any axis on anything
+- send wheel mouse to CEGUI
+- add Maj+Control in key handling : treat them as modifiers ?
+- handle pov buttons as buttons ?
+
+* Physic : 
+- migrate Model::PhysicalObject and Model::PhysicalWorld to Physic (for 
+  better separation of concerns) --> not so sure ?
+- separate simulations : maybe objects can be simulated one by one in its 
+  own world !! should not have any complication for movement except for 
+  collision response. This could facilitate unit range to keep around one.
+- be more precise than bounding sphere for collision : use bounding box for 
+  example 
   
+* Sound : 
+- Bug : segmentation fault when sound is already used by another process
+- Bug : infinite loop when no sound device is found...
+- Refactoring : every event sound is the same : make a general view on event and get the 
+  sound name by a function 
+  
+* Kernel :
+- add better errors on object structure
+- maybe call axis should take a Percentage
+- be able to copy an object, use read and add a write to Traits.
+- relation transitive close (?)
+- relation reflexive closure (?)
+- relation inheritance (?)
+    
+* all :
+- make use of boost unit library, 
+  @see http://www.boost.org/doc/libs/1_40_0/doc/html/boost_units.html
+- deduce meta structure
+  # use a metamodel 
+  # use gccxml
+  # use a modified doxygen
+  # instead of generating code, genetate an xml structure for attributes, 
+    getter and setters ?  (it would be ridiculous : better forget c++ then)
+  # create an over language
+- how can we take advantage of multi-core systems ? for example, during 
+  ai simulation, we could calculate commands in threads... or during physics 
+  simulate world layers also in threads
+  interpretor is also a good location for threading, provided all model 
+  accesses are mutexed. 
+  
+* Network :
+- choose library
+- udp for position update of physical objects
+- tcp for structural operations (creation destruction)
+- test if position is sent only when moving
+- mock network : receive position updates and in other side check that correct 
+  messages are sent
+
+* icons are in /usr/share/icons/oxygen

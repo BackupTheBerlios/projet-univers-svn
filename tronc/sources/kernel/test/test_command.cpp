@@ -32,15 +32,14 @@
 
 #include <kernel/test/test_command.h>
 
-CPPUNIT_TEST_SUITE_REGISTRATION(
-    ProjetUnivers::Kernel::Test::TestCommand) ;
-
 namespace ProjetUnivers 
 {
   namespace Kernel 
   {
     namespace Test 
     {
+
+      CPPUNIT_TEST_SUITE_REGISTRATION(TestCommand) ;
 
       /// local classes
       namespace

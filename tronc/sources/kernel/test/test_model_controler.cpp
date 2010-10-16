@@ -34,17 +34,14 @@ using namespace std ;
 #include <kernel/controler_set.h>
 #include <kernel/test/test_model_controler.h>
 
-
-
-CPPUNIT_TEST_SUITE_REGISTRATION(
-    ProjetUnivers::Kernel::Test::TestModelControler) ;
-
 namespace ProjetUnivers
 {
   namespace Kernel
   {
     namespace Test
     {
+
+      CPPUNIT_TEST_SUITE_REGISTRATION(TestModelControler) ;
 
       /// local classes
       namespace ModelControler

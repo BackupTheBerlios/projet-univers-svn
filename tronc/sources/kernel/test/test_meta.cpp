@@ -23,17 +23,14 @@
 
 #include <kernel/test/test_meta.h>
 
-
-
-CPPUNIT_TEST_SUITE_REGISTRATION(
-    ProjetUnivers::Kernel::Test::TestMeta) ;
-
 namespace ProjetUnivers
 {
   namespace Kernel
   {
     namespace Test
     {
+
+      CPPUNIT_TEST_SUITE_REGISTRATION(TestMeta) ;
 
       /// local classes
       namespace Meta

@@ -29,9 +29,6 @@
 
 #include <kernel/test/test_model.h>
 
-CPPUNIT_TEST_SUITE_REGISTRATION(
-  ProjetUnivers::Kernel::Test::TestModel) ;
-
 namespace ProjetUnivers 
 {
   namespace Kernel 
@@ -39,9 +36,10 @@ namespace ProjetUnivers
     namespace Test 
     {
 
+      CPPUNIT_TEST_SUITE_REGISTRATION(TestModel) ;
 
       /// local classes
-      namespace
+      namespace TestModelLocal
       {
         
         class Head : public Trait
@@ -132,6 +130,8 @@ namespace ProjetUnivers
         
       }
       
+      using namespace TestModelLocal ;
+
       void TestModel::testGetDescendants()
       {
         /// create a model

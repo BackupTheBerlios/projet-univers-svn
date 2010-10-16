@@ -27,7 +27,6 @@
 #include <kernel/xml_writer.h>
 #include <kernel/test/test_xml_writer.h>
 
-
 namespace ProjetUnivers 
 {
   namespace Kernel 

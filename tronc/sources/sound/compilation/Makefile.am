@@ -4,7 +4,7 @@ AUTOMAKE_OPTIONS=subdir-objects
 
 SOURCES = $(top_srcdir)/sources
 AM_CPPFLAGS = -I$(SOURCES)
-AM_CXXFLAGS = $(PU_CXXFLAGS)
+AM_CXXFLAGS = $(PU_WARNINGS)$(PU_CXXFLAGS)
 
 libsound_la_SOURCES = \
 ../implementation/collision.cpp \
@@ -17,6 +17,7 @@ libsound_la_SOURCES = \
 ../implementation/openal/engine.cpp \
 ../implementation/openal/file_stream.cpp \
 ../implementation/openal/filter.cpp \
+../implementation/openal/has_in_line_of_sight.cpp \
 ../implementation/openal/listener.cpp \
 ../implementation/openal/manager.cpp \
 ../implementation/openal/ogg_cached_stream.cpp \

@@ -21,8 +21,6 @@
 #include <iostream>
 #include <kernel/algorithm.h>
 #include <kernel/test/test_algorithm.h>
-CPPUNIT_TEST_SUITE_REGISTRATION(
-    ProjetUnivers::Kernel::Test::TestAlgorithm) ;
 
 namespace ProjetUnivers
 {
@@ -30,6 +28,8 @@ namespace ProjetUnivers
   {
     namespace Test
     {
+
+      CPPUNIT_TEST_SUITE_REGISTRATION(TestAlgorithm) ;
 
       void TestAlgorithm::testFindAfterBeforeOnSmallSet()
       {

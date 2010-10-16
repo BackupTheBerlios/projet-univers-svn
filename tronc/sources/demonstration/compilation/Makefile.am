@@ -2,7 +2,7 @@ bin_PROGRAMS = demonstration ship test pu
 
 SOURCES = $(top_srcdir)/sources
 AM_CPPFLAGS = -I../..
-AM_CXXFLAGS=$(PU_CXXFLAGS)
+AM_CXXFLAGS = $(PU_WARNINGS) $(PU_CXXFLAGS)
 
 libraries = \
 ../../kernel/compilation/libkernel.la \

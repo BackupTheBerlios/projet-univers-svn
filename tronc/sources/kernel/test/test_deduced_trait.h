@@ -72,7 +72,7 @@ namespace ProjetUnivers
         /// Add a parent and check that HasParent has changed.
         void addParentTrait() ;
 
-        // Add an intermediate parent and check that view has been updated.
+        /// Add an intermediate parent and check that view has been updated.
         void addSubParentTrait() ;
 
         /// Remove a parent and check that HasParent has changed.
