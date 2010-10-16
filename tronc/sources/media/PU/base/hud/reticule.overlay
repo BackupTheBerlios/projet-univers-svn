@@ -1,0 +1,21 @@
+// Display the shooting reticule  
+// Do not change the names because they are used in code.
+// See http://www.ogre3d.org/docs/manual/manual_41.html#SEC244 
+PU/base/HUD/Reticule
+{
+  zorder 200
+
+  container Panel(PU/base/HUD/Reticule/Cross)
+  {
+    width 0.05
+    height 0.05
+
+    top -0.025
+    left -0.025
+    
+    material PU/base/hud/reticule    
+    vert_align center
+    horz_align center
+  }
+
+}

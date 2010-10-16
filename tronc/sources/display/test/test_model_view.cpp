@@ -176,38 +176,27 @@ namespace ProjetUnivers
 
         std::auto_ptr<Kernel::Model> model(new Kernel::Model("TestModelView::displayIdealTarget")) ;
         model->init() ;
+        Kernel::ViewPoint* viewpoint = model->getViewPoint<Implementation::Ogre::RealWorldViewPoint>() ;
 
-        Kernel::Object* universe = model->createObject() ;
-        universe->addTrait(new Model::Universe()) ;
-        universe->addTrait(new Model::Positioned()) ;
+        Kernel::Object* system = createUniverseAndSystem(model.get()) ;
 
-        Kernel::Object* system = universe->createObject() ;
-        system->addTrait(new Model::StellarSystem()) ;
-        system->addTrait(new Model::Positioned()) ;
+        Kernel::Object* ship = Model::createShip(system) ;
+        ship->addTrait(new Model::HeadUpDisplay()) ;
+        Model::HeadUpDisplay::connect(ship,ship) ;
 
-        Kernel::Object* observer = system->createObject() ;
-        observer->addTrait(new Model::Observer()) ;
-        observer->addTrait(new Model::Player()) ;
-        observer->addTrait(new Model::Active()) ;
-        observer->addTrait(new Model::Positioned(Model::Position::Meter(0,0,200))) ;
-        observer->addTrait(new Model::Oriented()) ;
+        Kernel::Object* observer = createObserver(ship) ;
 
-        Kernel::Object* computer = observer->createObject() ;
-        computer->addTrait(new Model::Computer()) ;
-        computer->addTrait(new Model::HeadUpDisplay()) ;
-        computer->addTrait(new Model::TargetingSystem()) ;
-        Model::TargetingSystem::connect(computer,computer) ;
-        Model::HeadUpDisplay::connect(computer,computer) ;
-
-        Kernel::Model* computer_model = computer->getTrait<Model::Computer>()->getMemoryModel() ;
+        Kernel::Model* computer_model = ship->getTrait<Model::Computer>()->getMemoryModel() ;
         Kernel::Object* target = computer_model->createObject() ;
         target->addTrait(new Model::Positioned(Model::Position::Meter(50,-100,-200))) ;
-        target->addTrait(new Model::IdealTarget(computer)) ;
+        target->addTrait(new Model::IdealTarget(ship)) ;
+
+        CPPUNIT_ASSERT(ship->getView<Implementation::Ogre::HeadUpDisplay>(viewpoint)) ;
 
         Kernel::Timer timer ;
         Kernel::Timer global_timer ;
 
-        while (global_timer.getSecond() < 0.1)
+        while (global_timer.getSecond() < 0.5)
         {
           float seconds = timer.getSecond() ;
           if (seconds != 0)

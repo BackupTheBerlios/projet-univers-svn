@@ -43,54 +43,36 @@ namespace ProjetUnivers
         {
           InternalMessage("Display","Display::Stick::onInit Entering") ;
 
-          m_cross_container = static_cast< ::Ogre::OverlayContainer* >(
-            ::Ogre::OverlayManager::getSingleton().createOverlayElement(
-                  "Panel", Utility::getUniqueName())) ;
-          getOverlay()->add2D(m_cross_container) ;
+          m_overlay = getOverlay("PU/base/HUD/Stick") ;
+
+          m_cross = m_overlay->getChild("PU/base/HUD/Stick/Cross") ;
           
-          m_cross_container->setPosition(0,0) ;
-          m_cross_container->setWidth(1) ;
-          m_cross_container->setHeight(1) ;
-          
-          m_cross = 
-            ::Ogre::OverlayManager::getSingleton().createOverlayElement(
-                  "Panel", Utility::getUniqueName()) ;
-          
-          m_cross->setHorizontalAlignment(::Ogre::GHA_CENTER) ;
-          m_cross->setVerticalAlignment(::Ogre::GVA_CENTER) ;
-          m_cross->setMaterialName("PU/material/reticule") ;
-          
-          const float size = 0.05 ;
-          
-          m_cross->setLeft(-size/2) ;
-          m_cross->setTop(-size/2) ;
-          m_cross->setDimensions(size,size) ;
-          
-          m_cross_container->_addChild(m_cross) ;
           onUpdate() ;
           
+          m_overlay->show() ;
+
           InternalMessage("Display","Display::Stick::onInit Leaving") ;
         }
           
         void Stick::onClose()
         {
           InternalMessage("Display","Display::Stick::onClose Entering") ;
-          if (m_cross_container)
+          if (m_overlay)
           {
-            getOverlay()->remove2D(m_cross_container) ;
-            ::Ogre::OverlayManager::getSingleton().destroyOverlayElement(m_cross) ;
-            ::Ogre::OverlayManager::getSingleton().destroyOverlayElement(m_cross_container) ;
-            m_cross_container = NULL ;
-            m_cross = NULL ;
+            m_overlay->hide() ;
           }
           InternalMessage("Display","Display::Stick::onClose Leaving") ;
         }
         
         void Stick::onUpdate()
         {
+          const float width = m_cross->getWidth() ;
+          const float height = m_cross->getHeight() ;
           float x_position = (float)(getTrait<Model::Stick>()->getX())*0.5 ;
+          x_position -= width/2 ;
           float y_position = (float)(getTrait<Model::Stick>()->getY())*0.5 ;
-          m_cross_container->setPosition(x_position,y_position) ;
+          y_position -= height/2 ;
+          m_cross->setPosition(x_position,y_position) ;
         }
         
       }

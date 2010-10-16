@@ -42,30 +42,6 @@ namespace ProjetUnivers
                        Implementation::IdealTarget, 
                        HeadUpDisplayViewPoint) ;
           
-          namespace 
-          {
-            float target_size = 0 ;
-            std::string target_material ;
-          }
-          
-          float getTargetSize()
-          {
-            if (target_size == 0 )
-            {            
-              target_size = Kernel::Parameters::getValue<float>("Display","TargetSize",0.05) ;
-            }
-            return target_size ;
-          }
-          
-          std::string getIdealTargetMaterial()
-          {
-            if (target_material == "")
-            {
-              target_material = Kernel::Parameters::getValue<std::string>("Display","IdealTargetMaterial","PU/material/ideal_target") ;
-            }
-            return target_material ;
-          }
-
           void IdealTarget::setColour(const ::Ogre::ColourValue& colour)
           {
             Utility::setColour(m_target,colour) ;
@@ -77,37 +53,21 @@ namespace ProjetUnivers
             
             m_target_is_shown = false ;
 
-            m_target_container = static_cast< ::Ogre::OverlayContainer* >(
-              ::Ogre::OverlayManager::getSingleton().createOverlayElement(
-                    "Panel", Utility::getUniqueName())) ;
-            getOverlay()->add2D(m_target_container) ;
-            
-            m_target_container->setPosition(0,0) ;
-            m_target_container->setWidth(1) ;
-            m_target_container->setHeight(1) ;
-
-            m_target = 
-              ::Ogre::OverlayManager::getSingleton().createOverlayElement(
-                    "Panel", Utility::getUniqueName()) ;
-
-            // clone material because we will modify it 
-            ::Ogre::MaterialPtr material = ::Ogre::MaterialManager::getSingleton().getByName(getIdealTargetMaterial()); 
+            m_overlay = getOverlay("PU/base/HUD/IdealTarget") ;
+            CHECK(m_overlay,"no overlay") ;
+            m_target_container = m_overlay->getChild("PU/base/HUD/IdealTarget/Container") ;
+            CHECK(m_target_container,"no m_target_container") ;
+            m_target = m_target_container->getChild("PU/base/HUD/IdealTarget/Target") ;
+            CHECK(m_target,"no m_target") ;
+            InternalMessage("Display","Entering IdealTarget::onInit") ;
+            // clone material because we will modify it
+            ::Ogre::MaterialPtr material = m_target->getMaterial() ;
             material = material->clone(Utility::getUniqueName()) ;
-            m_target->setMaterialName(material->getName()) ; 
+            m_target->setMaterialName(material->getName()) ;
 
-            m_target->setHorizontalAlignment(::Ogre::GHA_CENTER) ;
-            m_target->setVerticalAlignment(::Ogre::GVA_CENTER) ;
-            
-            const float size = getTargetSize() ;
-            
-            m_target->setLeft(-size/2) ;
-            m_target->setTop(-size/2) ;
-            m_target->setDimensions(size,size) ;
-            
-            m_target_container->_addChild(m_target) ;
             m_target_container->hide() ;
             
-            getOverlay()->show() ;
+            m_overlay->show() ;
             onUpdate() ;
   
             InternalMessage("Display","Leaving IdealTarget::onInit") ;
@@ -115,11 +75,9 @@ namespace ProjetUnivers
           
           void IdealTarget::onClose()
           {
-            if (m_target_container)
+            if (m_overlay)
             {
-              getOverlay()->remove2D(m_target_container) ;
-              ::Ogre::OverlayManager::getSingleton().destroyOverlayElement(m_target) ;
-              ::Ogre::OverlayManager::getSingleton().destroyOverlayElement(m_target_container) ;
+              m_overlay->hide() ;
             }
           }
           

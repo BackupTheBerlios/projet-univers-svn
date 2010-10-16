@@ -46,7 +46,7 @@ namespace ProjetUnivers
         {
           InternalMessage("Display","Display::SpeedIndicator::onInit Entering") ;
 
-          m_overlay = ::Ogre::OverlayManager::getSingleton().getByName("PU/base/HUD/ShipSpeed") ;
+          m_overlay = getOverlay("PU/base/HUD/ShipSpeed") ;
 
           m_speed_container = m_overlay->getChild("ShipSpeed") ;
           m_speed = m_speed_container->getChild("ShipSpeed/Speed") ;

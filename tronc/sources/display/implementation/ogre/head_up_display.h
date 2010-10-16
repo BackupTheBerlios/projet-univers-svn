@@ -66,8 +66,7 @@ namespace ProjetUnivers
         private:
           
           /// Display a cross at the center of the screen
-          ::Ogre::OverlayContainer* m_reticule_container ;
-          ::Ogre::OverlayElement*   m_reticule ;
+          ::Ogre::Overlay* m_overlay ;
           
           /// Viewpoint displaying targets
           std::auto_ptr<Kernel::ViewPoint> m_implementation ;

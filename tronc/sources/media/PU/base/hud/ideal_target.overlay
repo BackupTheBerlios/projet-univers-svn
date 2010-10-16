@@ -1,0 +1,26 @@
+// Display HUD element that indicates where to shoot
+// Do not change the names because they are used in code.
+// See http://www.ogre3d.org/docs/manual/manual_41.html#SEC244 
+PU/base/HUD/IdealTarget
+{
+  zorder 200
+
+  // do not need placement because it is controlled by program
+  container Panel(PU/base/HUD/IdealTarget/Container)
+  {
+    element Panel(PU/base/HUD/IdealTarget/Target)
+    {
+      width 0.05
+      height 0.05
+
+      // half width/height
+      top -0.025
+      left -0.025
+
+      material PU/base/hud/IdealTarget    
+    
+      vert_align center
+      horz_align center
+    }
+  }
+}

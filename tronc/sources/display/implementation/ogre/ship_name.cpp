@@ -50,7 +50,7 @@ namespace ProjetUnivers
         {
           InternalMessage("Display","Display::ShipName::onInit Entering") ;
 
-          m_overlay = ::Ogre::OverlayManager::getSingleton().getByName("PU/base/HUD/ShipName") ;
+          m_overlay = getOverlay("PU/base/HUD/ShipName") ;
 
           m_name_container = m_overlay->getChild("ShipData") ;
           m_name = m_name_container->getChild("ShipData/Name") ;

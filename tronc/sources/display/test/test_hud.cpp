@@ -42,6 +42,8 @@
 #include <display/implementation/displayed_solid.h>
 #include <display/implementation/ogre/ogre.h>
 
+using ProjetUnivers::Display::Implementation::Ogre::getOverlay;
+
 
 namespace ProjetUnivers
 {
@@ -91,7 +93,7 @@ namespace ProjetUnivers
 
         simulate(model.get(),0.1) ;
 
-        ::Ogre::Overlay* overlay = ::Ogre::OverlayManager::getSingleton().getByName("PU/base/HUD/TargetedIndicator") ;
+        ::Ogre::Overlay* overlay = getOverlay("PU/base/HUD/TargetedIndicator") ;
         CPPUNIT_ASSERT(overlay) ;
         CPPUNIT_ASSERT(!overlay->isVisible()) ;
 
@@ -152,7 +154,7 @@ namespace ProjetUnivers
         simulate(model.get(),0.1) ;
 
         // no enemy targeting
-        ::Ogre::Overlay* overlay = ::Ogre::OverlayManager::getSingleton().getByName("PU/base/HUD/TargetedIndicator") ;
+        ::Ogre::Overlay* overlay = getOverlay("PU/base/HUD/TargetedIndicator") ;
         CPPUNIT_ASSERT(overlay) ;
         CPPUNIT_ASSERT(!overlay->isVisible()) ;
 
@@ -222,7 +224,7 @@ namespace ProjetUnivers
         simulate(model.get(),0.1) ;
 
         CPPUNIT_ASSERT(Model::Selection::isSelected(friend_ship,ship)) ;
-        ::Ogre::Overlay* overlay = ::Ogre::OverlayManager::getSingleton().getByName("PU/base/HUD/TargetedIndicator") ;
+        ::Ogre::Overlay* overlay = getOverlay("PU/base/HUD/TargetedIndicator") ;
         CPPUNIT_ASSERT(overlay) ;
         CPPUNIT_ASSERT(!overlay->isVisible()) ;
 
@@ -257,7 +259,7 @@ namespace ProjetUnivers
           simulate(model.get(),0.1) ;
         }
 
-        ::Ogre::Overlay* overlay = ::Ogre::OverlayManager::getSingleton().getByName("PU/base/HUD/HullLifePoint") ;
+        ::Ogre::Overlay* overlay = getOverlay("PU/base/HUD/HullLifePoint") ;
         CPPUNIT_ASSERT(overlay) ;
         CPPUNIT_ASSERT(overlay->isVisible()) ;
 
@@ -291,13 +293,13 @@ namespace ProjetUnivers
 
         // check name
         {
-          ::Ogre::Overlay* overlay = ::Ogre::OverlayManager::getSingleton().getByName("PU/base/HUD/ShipName") ;
+          ::Ogre::Overlay* overlay = getOverlay("PU/base/HUD/ShipName") ;
           CPPUNIT_ASSERT(overlay) ;
           CPPUNIT_ASSERT(overlay->isVisible()) ;
         }
         // check speed
         {
-          ::Ogre::Overlay* overlay = ::Ogre::OverlayManager::getSingleton().getByName("PU/base/HUD/ShipSpeed") ;
+          ::Ogre::Overlay* overlay = getOverlay("PU/base/HUD/ShipSpeed") ;
           CPPUNIT_ASSERT(overlay) ;
           CPPUNIT_ASSERT(overlay->isVisible()) ;
         }
@@ -334,7 +336,7 @@ namespace ProjetUnivers
 
         simulate(model.get(),test_duration) ;
 
-        ::Ogre::Overlay* overlay = ::Ogre::OverlayManager::getSingleton().getByName("PU/base/HUD/TargetSpeed") ;
+        ::Ogre::Overlay* overlay = getOverlay("PU/base/HUD/TargetSpeed") ;
         CPPUNIT_ASSERT(overlay) ;
         CPPUNIT_ASSERT(overlay->isVisible()) ;
       }

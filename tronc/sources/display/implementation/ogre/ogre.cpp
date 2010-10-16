@@ -254,6 +254,11 @@ namespace ProjetUnivers
         {
           return m_system->window ;
         }
+
+        ::Ogre::Overlay* getOverlay(const std::string& name)
+        {
+          return ::Ogre::OverlayManager::getSingleton().getByName(name) ;
+        }
         
         ::Ogre::Overlay* getOverlay()
         {

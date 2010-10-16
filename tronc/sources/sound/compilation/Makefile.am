@@ -4,7 +4,7 @@ AUTOMAKE_OPTIONS=subdir-objects
 
 SOURCES = $(top_srcdir)/sources
 AM_CPPFLAGS = -I$(SOURCES)
-AM_CXXFLAGS = $(PU_WARNINGS)$(PU_CXXFLAGS)
+AM_CXXFLAGS = $(PU_WARNINGS) $(PU_CXXFLAGS)
 
 libsound_la_SOURCES = \
 ../implementation/collision.cpp \

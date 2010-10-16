@@ -45,20 +45,6 @@ namespace ProjetUnivers
                      Implementation::HeadUpDisplay,
                      Ogre::RealWorldViewPoint) ;
 
-        namespace 
-        {
-          std::string reticule_material ;
-        }
-        
-        std::string getReticuleMaterial()
-        {
-          if (reticule_material == "")
-          {
-            reticule_material = Kernel::Parameters::getValue<std::string>("Display","ReticuleMaterial","PU/material/reticule") ;
-          }
-          return reticule_material ;
-        }
-
         void HeadUpDisplay::onInit()
         {
           m_implementation.reset(
@@ -66,30 +52,10 @@ namespace ProjetUnivers
                                                 getViewPoint())) ;
           m_implementation->init() ;
 
-          m_reticule_container = static_cast< ::Ogre::OverlayContainer* >(
-            ::Ogre::OverlayManager::getSingleton().createOverlayElement(
-                  "Panel", Utility::getUniqueName())) ;
-          getOverlay()->add2D(m_reticule_container) ;
-          
-          m_reticule_container->setPosition(0,0) ;
-          m_reticule_container->setWidth(1) ;
-          m_reticule_container->setHeight(1) ;
+          m_overlay = getOverlay("PU/base/HUD/Reticule") ;
 
-          m_reticule = 
-            ::Ogre::OverlayManager::getSingleton().createOverlayElement(
-                  "Panel", Utility::getUniqueName()) ;
-          m_reticule->setMaterialName(getReticuleMaterial()) ; 
-          
-          m_reticule->setHorizontalAlignment(::Ogre::GHA_CENTER) ;
-          m_reticule->setVerticalAlignment(::Ogre::GVA_CENTER) ;
-          m_reticule_container->_addChild(m_reticule) ;
+          m_overlay->show() ;
 
-          const float size = 0.05 ;
-          
-          m_reticule->setLeft(-size/2) ;
-          m_reticule->setTop(-size/2) ;
-          m_reticule->setDimensions(size,size) ;
-          
           getOverlay()->show() ;
         }
         
@@ -99,15 +65,10 @@ namespace ProjetUnivers
           {
             m_implementation.reset() ;
           }
-          if (m_reticule_container)
+          if (m_overlay)
           {
-            getOverlay()->remove2D(m_reticule_container) ;
-            ::Ogre::OverlayManager::getSingleton().destroyOverlayElement(m_reticule) ;
-            ::Ogre::OverlayManager::getSingleton().destroyOverlayElement(m_reticule_container) ;
-            m_reticule_container = NULL ;
-            m_reticule = NULL ;
+            m_overlay->hide() ;
           }
-          
         }
 
         void HeadUpDisplay::onUpdate()

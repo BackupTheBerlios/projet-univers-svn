@@ -55,7 +55,7 @@ namespace ProjetUnivers
         {
           InternalMessage("Display","Display::HullLifePoint::onInit Entering") ;
 
-          m_overlay = ::Ogre::OverlayManager::getSingleton().getByName("PU/base/HUD/HullLifePoint") ;
+          m_overlay = getOverlay("PU/base/HUD/HullLifePoint") ;
 
           m_hull_container = m_overlay->getChild("HullLifePoint") ;
           m_hull_interior = m_hull_container-> getChild("HullLifePoint/Interior");

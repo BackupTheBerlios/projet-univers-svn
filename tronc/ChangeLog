@@ -1729,6 +1729,10 @@
 - ok, but a little too precise, need 
 * corrected compile error on gcc 4.5
 * corrected some issues for compiling on windows/mingw 4.3
+
+2010-10-16
+#5136 All HUD element in Ogre template
+- stick, reticule, ideal target, target(plus name/target), arrow
     
 in commit
 --------
@@ -1737,7 +1741,7 @@ in commit
 in progress
 -----------
 
-  
+
 @todo
 ----
 

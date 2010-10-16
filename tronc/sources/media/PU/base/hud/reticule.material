@@ -1,5 +1,5 @@
-// target
-material PU/material/target
+// target : the element that surrond a selected target
+material PU/base/hud/Target
 {
   technique
   {
@@ -20,7 +20,7 @@ material PU/material/target
 }
 
 // indicate where is the target out of screen
-material PU/material/arrow
+material PU/base/hud/Arrow
 {
   technique
   {
@@ -38,8 +38,8 @@ material PU/material/arrow
   }
 }
 
-// indicate where to shoot
-material PU/material/ideal_target
+// indicate where to shoot with a circle
+material PU/base/hud/IdealTarget
 {
   technique
   {
@@ -58,7 +58,7 @@ material PU/material/ideal_target
 }
 
 // shooting cursor/reticule
-material PU/material/reticule
+material PU/base/hud/reticule
 {
   technique
   {

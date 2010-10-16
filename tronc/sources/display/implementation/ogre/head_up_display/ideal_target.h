@@ -47,11 +47,11 @@ namespace ProjetUnivers
           */ 
           // @{
 
-            /// Set the target colour.
+            /// Set the target color.
             void setColour(const ::Ogre::ColourValue&) ;
 
           // @}
-        protected:
+          protected:
           /*!
             @name Updates
           */
@@ -70,6 +70,7 @@ namespace ProjetUnivers
           private:
 
             /// 3D ogre element.
+            ::Ogre::Overlay* m_overlay ;
             ::Ogre::OverlayContainer* m_target_container ;
             ::Ogre::OverlayElement*   m_target ;
             

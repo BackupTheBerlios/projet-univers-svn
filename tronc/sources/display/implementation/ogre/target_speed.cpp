@@ -49,7 +49,7 @@ namespace ProjetUnivers
         {
           InternalMessage("Display","Display::TargetSpeed::onInit Entering") ;
 
-          m_overlay = ::Ogre::OverlayManager::getSingleton().getByName("PU/base/HUD/TargetSpeed") ;
+          m_overlay = getOverlay("PU/base/HUD/TargetSpeed") ;
 
           m_speed_container = m_overlay->getChild("TargetSpeed") ;
           m_speed = m_speed_container->getChild("TargetSpeed/Speed") ;

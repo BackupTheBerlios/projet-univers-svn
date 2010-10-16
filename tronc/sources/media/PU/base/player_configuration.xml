@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <model>
- <object id="1">
+ <object id="4">
   <PlayerConfiguration>
    <Mapping command="Fire">
-    <MouseButton number="0"/>
+    <JoystickButton number="0"/>
    </Mapping>
    <Mapping command="Menu">
     <Key number="1"/>
    </Mapping>
    <Mapping command="Select Nearest Enemy">
-    <MouseButton number="1"/>
+    <JoystickButton number="3"/>
    </Mapping>
    <Mapping command="Select Nearest Target">
     <JoystickButton number="1"/>
    </Mapping>
    <Mapping command="Select Next Target">
-    <Key number="22"/>
+    <JoystickButton number="8"/>
    </Mapping>
    <Mapping command="Select Previous Target">
-    <Key number="25"/>
+    <JoystickButton number="9"/>
    </Mapping>
    <Mapping command="Pitch">
     <InvertedJoystickY/>

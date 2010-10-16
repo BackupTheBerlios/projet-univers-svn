@@ -47,21 +47,21 @@ namespace ProjetUnivers
         */
         // @{
         
-          /// Build a paticle emiter.
+          /// Load an overlay
           void onInit() ;
           
-          /// Destroy the particule emiter.
+          /// Destroy the overlay
           void onClose() ;
           
-          /// Update  
+          /// Update the position
           void onUpdate() ;
 
         // @}
         private:
 
           /// 3D ogre element.
-          ::Ogre::OverlayContainer* m_cross_container ;
-          ::Ogre::OverlayElement*   m_cross ;
+          ::Ogre::Overlay* m_overlay ;
+          ::Ogre::OverlayContainer* m_cross ;
           
         };
       }

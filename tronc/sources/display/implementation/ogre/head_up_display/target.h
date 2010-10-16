@@ -93,21 +93,16 @@ namespace ProjetUnivers
             static ::Ogre::Degree calculateRotation(float x,float y) ;
             
             /// 3D ogre element.
+            ::Ogre::Overlay* m_overlay ;
+
             ::Ogre::OverlayContainer* m_target_container ;
-            ::Ogre::OverlayElement*   m_target ;
+            ::Ogre::OverlayContainer* m_target ;
+            ::Ogre::OverlayElement*   m_identification ;
+            ::Ogre::OverlayElement*   m_target_text ;
 
             /// The side arrow used when target is out of screen
-            ::Ogre::OverlayContainer* m_arrow_container ;
             ::Ogre::OverlayElement*   m_arrow ;
 
-            /// contains the text of the target's identification.
-            ::Ogre::OverlayContainer* m_identification_container ;
-            ::Ogre::OverlayElement*   m_identification ;
-            
-            /// contains the text of the target's target.
-            ::Ogre::OverlayContainer* m_target_text_container ;
-            ::Ogre::OverlayElement*   m_target_text ;
-            
             /// true iff target is shown
             bool m_target_is_shown ;
 

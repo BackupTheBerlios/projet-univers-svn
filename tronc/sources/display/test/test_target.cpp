@@ -173,34 +173,6 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT_EQUAL(Ogre::Real(0),target_view->m_target_container->getLeft()) ;
         CPPUNIT_ASSERT_EQUAL(Ogre::Real(0),target_view->m_target_container->getTop()) ;
 
-//        {
-//          // check the dependencies
-//          Kernel::Notifiable* positioned = observer->getTrait<Implementation::Positioned>() ;
-//          Kernel::Notifiable* camera = observer->getTrait<Implementation::Observer>() ;
-//          Kernel::Notifiable* selected = Kernel::Relation::getRelation(getClassTypeIdentifier(Display::Implementation::Target),ship,target) ;
-//          Kernel::Notifiable* oriented = observer->getTrait<Model::Oriented>() ;
-//          Kernel::Notifiable* recursively_oriented = observer->getTrait<Model::RecursivelyOriented>() ;
-//
-//          CPPUNIT_ASSERT(positioned) ;
-//          CPPUNIT_ASSERT(camera) ;
-//          CPPUNIT_ASSERT(selected) ;
-//
-//          CPPUNIT_ASSERT(camera->dependsOn(positioned)) ;
-//          CPPUNIT_ASSERT(selected->dependsOn(camera)) ;
-//          CPPUNIT_ASSERT(selected->dependsOn(oriented)) ;
-//          CPPUNIT_ASSERT(camera->dependsOn(oriented)) ;
-//          CPPUNIT_ASSERT(positioned->dependsOn(oriented)) ;
-//
-//          CPPUNIT_ASSERT(oriented->getDependentNotifiables().find(recursively_oriented) != oriented->getDependentNotifiables().end()) ;
-//          CPPUNIT_ASSERT(oriented->getDependentNotifiables().find(positioned) != oriented->getDependentNotifiables().end()) ;
-//
-//          CPPUNIT_ASSERT(recursively_oriented->getDependentNotifiables().find(selected) != recursively_oriented->getDependentNotifiables().end()) ;
-//
-//          CPPUNIT_ASSERT(positioned->getDependentNotifiables().find(camera) != positioned->getDependentNotifiables().end()) ;
-//
-//          CPPUNIT_ASSERT(camera->getDependentNotifiables().find(selected) != camera->getDependentNotifiables().end()) ;
-//        }
-
 
         InternalMessage("Display","***************************") ;
 
@@ -220,9 +192,9 @@ namespace ProjetUnivers
 
         CPPUNIT_ASSERT(!target_view->m_target_is_shown) ;
         CPPUNIT_ASSERT(target_view->m_arrow_is_shown) ;
-        CPPUNIT_ASSERT_MESSAGE(Kernel::toString(target_view->m_arrow_container->getLeft()),
-                               target_view->m_arrow_container->getLeft()>0.4) ;
-        CPPUNIT_ASSERT_EQUAL(Ogre::Real(0),target_view->m_arrow_container->getTop()) ;
+        CPPUNIT_ASSERT_MESSAGE(Kernel::toString(target_view->m_target_container->getLeft()),
+                               target_view->m_target_container->getLeft()>0.4) ;
+        CPPUNIT_ASSERT_EQUAL(Ogre::Real(0),target_view->m_target_container->getTop()) ;
 
         rotateObserverLeft(ship) ;
         rotateObserverLeft(ship) ;
@@ -230,9 +202,9 @@ namespace ProjetUnivers
         // 180+45°
         CPPUNIT_ASSERT(!target_view->m_target_is_shown) ;
         CPPUNIT_ASSERT(target_view->m_arrow_is_shown) ;
-        CPPUNIT_ASSERT_MESSAGE(Kernel::toString(target_view->m_arrow_container->getLeft()),
-                               target_view->m_arrow_container->getLeft()<-0.4) ;
-        CPPUNIT_ASSERT_EQUAL(Ogre::Real(0),target_view->m_arrow_container->getTop()) ;
+        CPPUNIT_ASSERT_MESSAGE(Kernel::toString(target_view->m_target_container->getLeft()),
+                               target_view->m_target_container->getLeft()<-0.4) ;
+        CPPUNIT_ASSERT_EQUAL(Ogre::Real(0),target_view->m_target_container->getTop()) ;
 
         rotateObserverLeft(ship) ;
         rotateObserverLeft(ship) ;

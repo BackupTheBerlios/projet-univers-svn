@@ -20,7 +20,7 @@
  ***************************************************************************/
 #pragma once
 
-#include <cppunit/extensions/HelperMacros.h>
+#include <display/test/display_test_fixture.h>
 
 namespace ProjetUnivers
 {
@@ -30,7 +30,7 @@ namespace ProjetUnivers
     {
 
       /// Global testing of this viewpoint.
-      class TestModelView : public CppUnit::TestFixture
+      class TestModelView : public DisplayTestFixture
       {
       protected:
       /*!

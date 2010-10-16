@@ -71,6 +71,9 @@ namespace ProjetUnivers
         /// Access to overlay, created on demand.
         ::Ogre::Overlay* getOverlay() ;
         
+        /// Load an overlay
+        ::Ogre::Overlay* getOverlay(const std::string& name) ;
+
         /// Get a scene manager.
         /*!
           Due to bug http://www.ogre3d.org/phpBB2/viewtopic.php?p=189032#189032 

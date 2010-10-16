@@ -73,7 +73,7 @@ namespace ProjetUnivers
 
         void TargetedIndicator::createIndicator()
         {
-          m_overlay = ::Ogre::OverlayManager::getSingleton().getByName("PU/base/HUD/TargetedIndicator") ;
+          m_overlay = getOverlay("PU/base/HUD/TargetedIndicator") ;
           m_overlay->show() ;
         }
 
