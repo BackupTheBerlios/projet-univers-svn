@@ -472,7 +472,7 @@ namespace ProjetUnivers
         Kernel::Object* root = *roots.begin() ;
         CPPUNIT_ASSERT(root->getTrait<Observer>()) ;
         Observer* observer = root->getTrait<Observer>() ;
-        CPPUNIT_ASSERT_EQUAL(::Ogre::Degree(40),observer->getFieldOfView()) ;
+        CPPUNIT_ASSERT_EQUAL(40.0f,observer->getFieldOfView().valueDegrees()) ;
       }
 
       void TestLoad::testLoadOriented()
