@@ -62,6 +62,7 @@ namespace ProjetUnivers
       {
         Kernel::Object* observer = parent->createObject() ;
         observer->addTrait(new Model::Observer()) ;
+        observer->getTrait<Model::Observer>()->setFieldOfView(::Ogre::Degree(70)) ;
         observer->addTrait(new Model::Player()) ;
         observer->addTrait(new Model::Active()) ;
         observer->addTrait(new Model::Positioned()) ;

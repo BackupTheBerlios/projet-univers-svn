@@ -368,6 +368,7 @@ namespace ProjetUnivers
                   "<Duration value=\"1\" unit=\"Second\" name=\"shot_delay\"/>\n"
                   "<Distance value=\"10\" unit=\"Meter\" name=\"beam_length\"/>\n"
                   "<Distance value=\"1\" unit=\"Meter\" name=\"beam_radius\"/>\n"
+                  "<Speed value=\"8000\" unit=\"MeterPerSecond\" name=\"beamSpeed\"/>\n"
                 "</Laser>\n"
               "</object>\n"
             "</model>\n") ;
@@ -386,6 +387,7 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT_EQUAL(Duration::Second(1),laser->getTimeBetweenShots()) ;
         CPPUNIT_ASSERT_EQUAL(Distance(Distance::_Meter,10),laser->getBeamLength()) ;
         CPPUNIT_ASSERT_EQUAL(Distance(Distance::_Meter,1),laser->getBeamRadius()) ;
+        CPPUNIT_ASSERT_EQUAL(8000.0f,laser->getLaserSpeedMeterPerSecond()) ;
       }
 
       void TestLoad::testLoadMassive()
@@ -456,7 +458,9 @@ namespace ProjetUnivers
           "<?xml version=\"1.0\"?>\n"
             "<model>\n"
               "<object id=\"1\">\n"
-                "<Observer/>\n"
+                "<Observer>\n"
+                  "<Angle value=\"40\" unit=\"Degree\"/>\n"
+                "</Observer>\n"
               "</object>\n"
             "</model>\n") ;
         std::auto_ptr<Kernel::XMLReader> reader(Kernel::XMLReader::getStringReader(content)) ;
@@ -467,6 +471,8 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(roots.size() == 1) ;
         Kernel::Object* root = *roots.begin() ;
         CPPUNIT_ASSERT(root->getTrait<Observer>()) ;
+        Observer* observer = root->getTrait<Observer>() ;
+        CPPUNIT_ASSERT_EQUAL(::Ogre::Degree(40),observer->getFieldOfView()) ;
       }
 
       void TestLoad::testLoadOriented()

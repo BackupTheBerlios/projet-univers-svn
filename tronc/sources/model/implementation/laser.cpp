@@ -118,6 +118,32 @@ namespace ProjetUnivers
           else if (reader->getName() == "beam_radius")
             result->m_beam_radius = Distance::read(reader) ;
         }
+        else if (reader->isTraitNode() &&
+                 reader->getTraitName() == "Speed")
+        {
+          float value = 0 ;
+          std::map<std::string,std::string>::const_iterator finder ;
+          finder = reader->getAttributes().find("value") ;
+          if (finder != reader->getAttributes().end())
+          {
+            value = atof(finder->second.c_str()) ;
+          }
+          else
+          {
+            ErrorMessage("Model::Speed::read required attribute : value") ;
+          }
+          finder = reader->getAttributes().find("unit") ;
+          if (finder != reader->getAttributes().end() && finder->second == "MeterPerSecond")
+          {
+            result->m_laser_speed_meter_per_second = value ;
+          }
+          else
+          {
+            ErrorMessage("Model::Speed::read required attribute : unit") ;
+          }
+          reader->processNode() ;
+
+        }
       }
       reader->processNode() ;
 

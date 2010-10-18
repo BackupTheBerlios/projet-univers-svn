@@ -64,7 +64,7 @@ namespace ProjetUnivers
           m_node->attachObject(m_camera) ;
 
           // @todo configure in files
-          m_camera->setFOVy(::Ogre::Degree(70)) ;
+          m_camera->setFOVy(getTrait<Model::Observer>()->getFieldOfView()) ;
 
           // near clip distance is 1 cm
           m_camera->setNearClipDistance(0.01/conversion_factor) ;

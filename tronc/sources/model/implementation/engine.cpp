@@ -45,18 +45,15 @@ namespace ProjetUnivers
 
       while (!reader->isEndNode() && reader->processNode())
       {
-        if (reader->isTraitNode() &&
-                 reader->getTraitName() == "Force")
+        if (reader->isTraitNode() && reader->getTraitName() == "Force")
         {
           result->m_full_thrust = Force::read(reader) ;
         }
-        else if (reader->isTraitNode() &&
-                 reader->getTraitName() == "Position")
+        else if (reader->isTraitNode() && reader->getTraitName() == "Position")
         {
           result->m_output_position = Position::read(reader) ;
         }
-        else if (reader->isTraitNode() &&
-                 reader->getTraitName() == "Distance")
+        else if (reader->isTraitNode() && reader->getTraitName() == "Distance")
         {
           result->m_output_radius = Distance::read(reader) ;
         }

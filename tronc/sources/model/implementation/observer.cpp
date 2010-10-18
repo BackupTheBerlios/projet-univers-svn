@@ -20,23 +20,63 @@
  ***************************************************************************/
 #include <model/observer.h>
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
 
     RegisterTrait(Observer) ;
 
     Observer::Observer()
-    : Kernel::Trait()
+    : Kernel::Trait(),
+      m_field_of_view(50)
     {}
 
     Kernel::Trait* Observer::read(Kernel::Reader* reader)
     {
+      std::auto_ptr<Observer> result(new Observer()) ;
+
       while (!reader->isEndNode() && reader->processNode())
-      {}
+      {
+        if (reader->isTraitNode() && reader->getTraitName() == "Angle")
+        {
+          float value = 0 ;
+          std::map<std::string,std::string>::const_iterator finder ;
+          finder = reader->getAttributes().find("value") ;
+          if (finder != reader->getAttributes().end())
+          {
+            value = atof(finder->second.c_str()) ;
+          }
+          else
+          {
+            ErrorMessage("Model::Angle::read required attribute : value") ;
+          }
+          finder = reader->getAttributes().find("unit") ;
+          if (finder != reader->getAttributes().end() && finder->second == "Degree")
+          {
+            result->m_field_of_view = ::Ogre::Degree(value) ;
+          }
+          else
+          {
+            ErrorMessage("Model::Angle::read required attribute : unit") ;
+          }
+        }
+      }
       
       reader->processNode() ;
-      return new Observer() ;
+      return result.release() ;
     }
+
+    Ogre::Degree Observer::getFieldOfView() const
+    {
+      return m_field_of_view ;
+    }
+
+    void Observer::setFieldOfView(const ::Ogre::Degree& field_of_view)
+    {
+      m_field_of_view = field_of_view ;
+    }
+
   }
 }
 

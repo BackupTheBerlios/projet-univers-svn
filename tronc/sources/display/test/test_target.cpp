@@ -150,12 +150,7 @@ namespace ProjetUnivers
         ship->addTrait(new Model::HeadUpDisplay()) ;
         Model::HeadUpDisplay::connect(ship,ship) ;
 
-        Kernel::Object* observer = ship->createObject() ;
-        observer->addTrait(new Model::Player()) ;
-        observer->addTrait(new Model::Active()) ;
-        observer->addTrait(new Model::Positioned()) ;
-        observer->addTrait(new Model::Oriented()) ;
-        observer->addTrait(new Model::Observer()) ;
+        Kernel::Object* observer = createObserver(ship)  ;
         observer->addTrait(new Kernel::CommandDelegator()) ;
         observer->getTrait<Kernel::CommandDelegator>()->addDelegate(ship) ;
 
@@ -339,12 +334,7 @@ namespace ProjetUnivers
         ship->addTrait(new Model::HeadUpDisplay()) ;
         Model::HeadUpDisplay::connect(ship,ship) ;
 
-        Kernel::Object* observer = ship->createObject() ;
-        observer->addTrait(new Model::Player()) ;
-        observer->addTrait(new Model::Active()) ;
-        observer->addTrait(new Model::Positioned()) ;
-        observer->addTrait(new Model::Oriented()) ;
-        observer->addTrait(new Model::Observer()) ;
+        Kernel::Object* observer = createObserver(ship) ;
         observer->addTrait(new Kernel::CommandDelegator()) ;
         observer->getTrait<Kernel::CommandDelegator>()->addDelegate(ship) ;
 
@@ -390,12 +380,7 @@ namespace ProjetUnivers
         ship->addTrait(new Model::HeadUpDisplay()) ;
         Model::HeadUpDisplay::connect(ship,ship) ;
 
-        Kernel::Object* observer = ship->createObject() ;
-        observer->addTrait(new Model::Player()) ;
-        observer->addTrait(new Model::Active()) ;
-        observer->addTrait(new Model::Positioned()) ;
-        observer->addTrait(new Model::Oriented()) ;
-        observer->addTrait(new Model::Observer()) ;
+        Kernel::Object* observer = createObserver(ship) ;
         observer->addTrait(new Kernel::CommandDelegator()) ;
         observer->getTrait<Kernel::CommandDelegator>()->addDelegate(ship) ;
 
@@ -451,12 +436,7 @@ namespace ProjetUnivers
         Model::HeadUpDisplay::connect(ship,ship) ;
         ship->addTrait(new Model::Transponder(team2)) ;
 
-        Kernel::Object* observer = ship->createObject() ;
-        observer->addTrait(new Model::Player()) ;
-        observer->addTrait(new Model::Active()) ;
-        observer->addTrait(new Model::Positioned()) ;
-        observer->addTrait(new Model::Oriented()) ;
-        observer->addTrait(new Model::Observer()) ;
+        Kernel::Object* observer = createObserver(ship) ;
         observer->addTrait(new Kernel::CommandDelegator()) ;
         observer->getTrait<Kernel::CommandDelegator>()->addDelegate(ship) ;
 

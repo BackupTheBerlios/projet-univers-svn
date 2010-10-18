@@ -24,8 +24,10 @@
 #include <model/speed.h>
 #include <model/mass.h>
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
 
     Mass::Mass()
     : m_value(), 

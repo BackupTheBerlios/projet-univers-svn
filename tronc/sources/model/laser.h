@@ -85,6 +85,7 @@ namespace ProjetUnivers
             <Position .../>
             <Orientation .../>
             <Energy .../>
+            <Speed ../>
           </Laser>
         @endcode
       */     

@@ -18,14 +18,16 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_OBSERVER_H_
-#define PU_MODEL_OBSERVER_H_
+#pragma once
 
+#include <OgreMath.h>
 #include <kernel/trait.h>
 #include <kernel/reader.h>
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
 
     /// Trait of object that can observe.
     class Observer : public Kernel::Trait
@@ -35,18 +37,26 @@ namespace ProjetUnivers {
       /// Construct.
       Observer() ;
 
+      /// Construct.
+      void setFieldOfView(const ::Ogre::Degree&) ;
+
       /// Read an Observer trait.
       /*!
         stored as 
         @code
-          <Observer/>
+          <Observer>
+            [<Angle value="50" unit="Degree"/>]
+          </Observer>
         @endcode
       */     
       static Kernel::Trait* read(Kernel::Reader* reader) ;
 
+      ::Ogre::Degree getFieldOfView() const ;
+
+    private:
+
+      ::Ogre::Degree m_field_of_view ;
+
     };
   }
 }
-
-
-#endif /*PU_MODEL_OBSERVER_H_*/

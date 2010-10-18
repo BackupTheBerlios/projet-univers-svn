@@ -1722,7 +1722,7 @@
 * created overlay to place ship name, speed, hull life points
 
 2010-10-04
-* indicates on target speed
+* indicates target speed on HUD
 
 2010-10-16
 * bip when enemy is in line of sight
@@ -1733,6 +1733,11 @@
 2010-10-16
 #5136 All HUD element in Ogre template
 - stick, reticule, ideal target, target(plus name/target), arrow
+    
+2010-10-18
+* customisation of field of view, not finished yet
+* changed default sky
+* laser beam speed should be configurable from xml 
     
 in commit
 --------
@@ -1745,14 +1750,22 @@ in progress
 @todo
 ----
 
+* seg fault when destroying engine sound
+- seems like a double delete
+
+#5137 Add the Hull level of the Target
+#5139 Add a Shield system
+- Damages
+#5138 Add a "target View" element
+
 * bip when enemy is in line of sight
 - probably need a less precise HasInLineOfSight
   
-* laser beam speed should be configurable from xml 
+* laser beam is ugly seen from player
 
 * Display engine output : still some issues : induced black on transparency...
 
-* make player feel when hit
+* make player feel when destroyed
 
 * network 
 - connection room
@@ -1864,7 +1877,6 @@ in progress
 - Energy handling 
 
 * Shields
-- Damages
 - Commands on energy (transfer shield to front, back...) 
 
 * Kernel : 
@@ -2088,3 +2100,4 @@ in progress
   messages are sent
 
 * icons are in /usr/share/icons/oxygen
+* ulimit -c unlimited

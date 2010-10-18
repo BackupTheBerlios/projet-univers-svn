@@ -55,6 +55,7 @@
         <Duration value="0.5" unit="Second" name="shot_delay"/>
         <Distance value="20" unit="Meter" name="beam_length"/>
         <Distance value="5" unit="Meter" name="beam_radius"/>
+        <Speed value="600" unit="MeterPerSecond"/>
       </Laser>
       <Component/>
     </object>

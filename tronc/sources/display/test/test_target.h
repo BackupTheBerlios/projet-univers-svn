@@ -20,7 +20,7 @@
  ***************************************************************************/
 #pragma once
 
-#include <cppunit/extensions/HelperMacros.h>
+#include <display/test/display_test_fixture.h>
 
 namespace ProjetUnivers
 {
@@ -30,7 +30,7 @@ namespace ProjetUnivers
     {
 
       /// Test of Ogre::Target.
-      class TestTarget : public CppUnit::TestFixture
+      class TestTarget : public DisplayTestFixture
       {
       protected:
       /*!
