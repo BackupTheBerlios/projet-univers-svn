@@ -39,9 +39,15 @@ namespace ProjetUnivers
         : m_file_name(file_name), 
           m_update_time(1.10)
         {}
+
+        const std::string& Stream::getFileName() const
+        {
+          return m_file_name ;
+        }
         
         Stream::~Stream()
         {}
+
 
       }
     }

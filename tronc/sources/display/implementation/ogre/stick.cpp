@@ -34,9 +34,9 @@ namespace ProjetUnivers
       namespace Ogre
       {
         
-        RegisterView(Ogre::Stick, 
-                     Implementation::DisplayedStick, 
-                     Ogre::RealWorldViewPoint) ;
+//        RegisterView(Ogre::Stick,
+//                     Implementation::DisplayedStick,
+//                     Ogre::RealWorldViewPoint) ;
         
         
         void Stick::onInit()

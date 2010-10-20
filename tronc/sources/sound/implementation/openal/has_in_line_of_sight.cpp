@@ -51,7 +51,7 @@ namespace ProjetUnivers
 
         bool HasInLineOfSight::isEvent() const
         {
-          return true ;
+          return false ;
         }
 
         Kernel::Object* HasInLineOfSight::getObject() const

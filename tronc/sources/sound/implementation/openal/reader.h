@@ -61,8 +61,11 @@ namespace ProjetUnivers
 
           Stream* getStream() const ;
 
+          void stopSourceAndUnQueueBuffers() ;
+
         private:
           
+
           /// Source associated with the stream
           ALuint  m_source ;
 

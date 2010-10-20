@@ -55,7 +55,7 @@ namespace ProjetUnivers
           int error = ov_fopen((char*)m_file_name.c_str(),m_stream) ;
           if (error < 0)
           {
-            ErrorMessage("[OpenAL::OggReader] Can't read the samples") ;
+            ErrorMessage("[OpenAL::OggFileStream::init] Can't read the samples") ;
             return ;
           }
 
@@ -73,7 +73,7 @@ namespace ProjetUnivers
             m_format = AL_FORMAT_STEREO16 ;
             break;
           default:
-            ErrorMessage("[OpenAL::OggReader] Audio Format audio not supported (more than 2 channel)") ;
+            ErrorMessage("[OpenAL::OggFileStream::init] Audio Format audio not supported (more than 2 channel)") ;
             return ;
           }
 
@@ -106,7 +106,7 @@ namespace ProjetUnivers
           ALenum error = alGetError() ; 
           if (error != AL_NO_ERROR)
           {
-            ErrorMessage("[OpenAL::OggReader] " + getErrorString(error)) ;
+            ErrorMessage("[OpenAL::OggFileStream::~OggFileStream] " + m_file_name + getErrorString(error)) ;
             return ;
           }
         }
@@ -146,7 +146,7 @@ namespace ProjetUnivers
           alBufferData(buffer,m_format,&samples[0],totalRead,m_sample_rate) ;
           if (alGetError() != AL_NO_ERROR)
           {
-            ErrorMessage("[OpenAL::OggReader]" + m_file_name + " Impossible to load the buffer with the samples") ;
+            ErrorMessage("[OpenAL::OggFileStream::loadBuffer]" + m_file_name + " Impossible to load the buffer with the samples") ;
             return true ;
           }
           

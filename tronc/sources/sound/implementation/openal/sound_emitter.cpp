@@ -30,6 +30,7 @@
 #include <sound/implementation/openal/openal.h>
 #include <sound/implementation/openal/extension.h>
 #include <sound/implementation/openal/reader.h>
+#include <sound/implementation/openal/stream.h>
 #include <sound/implementation/openal/sound_environnement.h>
 #include <sound/implementation/openal/sound_emitter.h>
 
@@ -209,7 +210,9 @@ namespace ProjetUnivers
         {
           if (getSource())
           {
-            stopSourceAndUnQueueBuffers(getSource()) ;
+            InformationMessage("Sound", "SoundEmitter::stopSound : " + m_reader->getStream()->getFileName()) ;
+
+            m_reader->stopSourceAndUnQueueBuffers() ;
             getManager()->destroyReader(m_reader) ;
             m_reader = NULL ;
           }

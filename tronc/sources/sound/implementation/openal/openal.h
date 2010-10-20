@@ -45,8 +45,6 @@ namespace ProjetUnivers
         /// Update OpenAL
         void update() ;
       
-        void stopSourceAndUnQueueBuffers(const ALuint& source) ;
-        
         /// Humanly readable OpenAL error code. 
         std::string getErrorString(const ALenum&) ;
         

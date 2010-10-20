@@ -27,7 +27,7 @@
     <InvertedJoystickRudder/>
    </Mapping>
    <Mapping command="Throttle">
-    <JoystickThrottle/>
+    <InvertedJoystickThrottle/>
    </Mapping>
    <Mapping command="Yaw">
     <JoystickX/>

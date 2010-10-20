@@ -45,6 +45,8 @@ namespace ProjetUnivers
           /// Return false if finished
           virtual bool update(const ALuint& source,const bool& is_event) = 0 ;
           
+          const std::string& getFileName() const ;
+
           virtual ~Stream() ;
           
         protected:

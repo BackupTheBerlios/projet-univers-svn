@@ -1738,6 +1738,14 @@
 * customisation of field of view, not finished yet
 * changed default sky
 * laser beam speed should be configurable from xml 
+
+2010-10-20
+* desactivating stick because ugly
+* seg fault when destroying engine sound
+- corrected an issue on unqueuing buffer in Reader, hope it corrects
+
+#5135 Condtionnal pictures on HUD
+- enhance manual and Manual download
     
 in commit
 --------
@@ -1750,12 +1758,19 @@ in progress
 @todo
 ----
 
-* seg fault when destroying engine sound
-- seems like a double delete
+* sound still error logged, they seem no critical but should investigate
+
+#5146 Create base network system
+- Connection between two players
+  - gui to host, gui to connect
+- System of Chat on the interface
+- Launch and configuration of a game
 
 #5137 Add the Hull level of the Target
 #5139 Add a Shield system
 - Damages
+- move all hud elements to hud viewpoint (necessary ? : we will have several 
+  views on the same elements); not necessary due to deduced traits.
 #5138 Add a "target View" element
 
 * bip when enemy is in line of sight

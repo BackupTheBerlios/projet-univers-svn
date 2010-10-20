@@ -66,14 +66,14 @@ namespace ProjetUnivers
         {
           if(! m_is_initialised)
             return ;
-          stopSourceAndUnQueueBuffers(m_source) ;
+          stopSourceAndUnQueueBuffers() ;
           alDeleteSources(1,&m_source) ;
           removeSource() ;
           m_source = 0 ;
           ALenum error = alGetError() ; 
           if (error != AL_NO_ERROR)
           {
-            ErrorMessage("[OpenAL::OggReader] " + getErrorString(error)) ;
+            ErrorMessage("[OpenAL::Reader::close()] " + m_stream->getFileName() + " " + getErrorString(error)) ;
           }
           m_is_initialised = false ;
         }
@@ -91,6 +91,40 @@ namespace ProjetUnivers
         Stream* Reader::getStream() const
         {
           return m_stream ;
+        }
+
+        void Reader::stopSourceAndUnQueueBuffers()
+        {
+          ALint state;
+          alGetSourcei(m_source,AL_SOURCE_STATE,&state) ;
+          if (state == AL_PLAYING)
+          {
+            alSourceStop(m_source) ;
+            ALenum error = alGetError() ;
+            if (error != AL_NO_ERROR)
+            {
+              ErrorMessage("[OpenAL::Reader::stopSourceAndUnQueueBuffers::stop] " + m_stream->getFileName() + getErrorString(error)) ;
+            }
+          }
+
+          ALint queue_size = 0 ;
+          alGetSourcei(m_source,AL_BUFFERS_QUEUED,&queue_size) ;
+          ALenum error = alGetError() ;
+          if (error != AL_NO_ERROR)
+          {
+            ErrorMessage("[OpenAL::Reader::stopSourceAndUnQueueBuffers::get] " + m_stream->getFileName() + getErrorString(error)) ;
+          }
+          else if (queue_size > 0)
+          {
+            ALuint* buffers = new ALuint[std::max(0,queue_size)];
+            alSourceUnqueueBuffers(m_source,queue_size,buffers) ;
+            error = alGetError() ;
+            if (error != AL_NO_ERROR)
+            {
+              ErrorMessage("[OpenAL::Reader::stopSourceAndUnQueueBuffers::unqueue] " + m_stream->getFileName() + getErrorString(error)) ;
+            }
+            delete[] buffers ;
+          }
         }
 
       }
