@@ -1746,6 +1746,11 @@
 
 #5135 Condtionnal pictures on HUD
 - enhance manual and Manual download
+
+2010-10-23
+#5146 Create base network system
+- tried opentnl but does not seem to work
+- added basic tutorial with enet
     
 in commit
 --------
@@ -1754,7 +1759,7 @@ in commit
 in progress
 -----------
 
-
+ 
 @todo
 ----
 

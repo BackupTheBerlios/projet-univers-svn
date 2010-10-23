@@ -7,6 +7,7 @@ artificial_intelligence \
 display \
 input \
 gui \
+network \
 sound \
 demonstration 
 

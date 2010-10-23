@@ -98,6 +98,11 @@ PKG_CHECK_MODULES(libXML, [libxml-2.0 >= 2.0])
 AC_SUBST(libXML_LIBS)
 AC_SUBST(libXML_CFLAGS)
 
+# check enet
+PKG_CHECK_MODULES(enet, [enet >= 1.2])
+AC_SUBST(enet_LIBS)
+AC_SUBST(enet_CFLAGS)
+
 PU_WARNINGS="-W -Wall -Wconversion -Wshadow -Wwrite-strings"
 AC_SUBST(PU_WARNINGS)
 
@@ -217,6 +222,8 @@ AC_CONFIG_FILES([Makefile \
                  sources/gui/Makefile \
                  sources/gui/compilation/Makefile \
                  sources/gui/compilation/ogre.cfg \
+                 sources/network/Makefile \
+                 sources/network/compilation/Makefile \
                  ])
 
 AC_OUTPUT
