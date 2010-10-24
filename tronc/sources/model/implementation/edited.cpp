@@ -20,8 +20,10 @@
  ***************************************************************************/
 #include <model/edited.h>
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
     
     Edited::Edited()
     {}

@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2008 Mathieu ROGER                                      *
+ *   Copyright (C) 2006-2010 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,20 +18,53 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <model/player_configuration.h>
-#include <model/edited.h>
-#include <gui/implementation/edited_player_configuration.h>
+#pragma once
+
+#include <enet/enet.h>
+#include <kernel/controler.h>
+#include <kernel/deduced_trait.h>
+#include <network/implementation/enet/network_system.h>
 
 namespace ProjetUnivers
 {
-  namespace GUI
+  namespace Network
   {
+    namespace Test
+    {
+      class TestConnection ;
+    }
+
     namespace Implementation
     {
 
-      DeclareDeducedTrait(EditedPlayerConfiguration,
-                          And(HasTrait(Model::PlayerConfiguration),
-                              HasTrait(Model::Edited))) ;
+      class ActiveServer : public Kernel::DeducedTrait
+      {};
+
+      namespace Enet
+      {
+        /// An active server
+        class Server : public Kernel::Controler<Implementation::ActiveServer,NetworkSystem>
+        {
+        public:
+
+          /// Create an enet server
+          virtual void onInit() ;
+
+          /// Destroy the enet server
+          virtual void onClose() ;
+
+          /// Send data to the clients
+          virtual void simulate(const float& seconds) ;
+
+        private:
+
+          ENetHost* m_host ;
+          ENetAddress m_address ;
+          std::list<ENetPeer*> m_clients ;
+
+          friend class ::ProjetUnivers::Network::Test::TestConnection ;
+        };
+      }
     }
   }
 }

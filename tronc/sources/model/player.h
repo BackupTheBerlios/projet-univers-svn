@@ -18,17 +18,21 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_PLAYER_H_
-#define PU_MODEL_PLAYER_H_
+#pragma once
 
 #include <kernel/object.h>
 #include <kernel/object_reference.h>
 #include <kernel/trait.h>
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
   
-    /// Indicate that the object is the player.
+    /// Indicate that the object is a player.
+    /*!
+    Current player is Player^Activated
+    */
     class Player : public Kernel::Trait
     {
     public:
@@ -41,14 +45,17 @@ namespace ProjetUnivers {
       
       /// Access to configuration.
       Kernel::Object* getConfiguration() const ;
-    
+
+      /// Access to player name.
+      const std::string& getName() const ;
+
     private:
       
       /// Player configuration.
       Kernel::ObjectReference m_configuration ;
       
+      std::string m_player_name ;
     };
         
   }
 }
-#endif /*PU_MODEL_PLAYER_H_*/

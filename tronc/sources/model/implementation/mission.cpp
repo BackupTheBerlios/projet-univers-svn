@@ -21,8 +21,10 @@
 #include <model/implementation/model_internal.h>
 #include <model/mission.h>
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
   
     Mission::Mission(const std::string& name,
                      Kernel::Object* player_configuration,

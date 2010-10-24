@@ -22,9 +22,12 @@
 #include <model/edited.h>
 #include <input/implementation/edited_player_configuration.h>
 
-namespace ProjetUnivers {
-  namespace Input {
-    namespace Implementation {
+namespace ProjetUnivers
+{
+  namespace Input
+  {
+    namespace Implementation
+    {
 
       DeclareDeducedTrait(EditedPlayerConfiguration,
                           And(HasTrait(Model::PlayerConfiguration),

@@ -25,6 +25,7 @@
       <ObjectReference name="controler" id="1"/>
     </GuidanceSystem>
     
+    <!-- The more, the slower the ship will be -->
     <Dragger drag_factor="0.005"/>
     
     <Destroyable>

@@ -423,6 +423,7 @@ namespace ProjetUnivers
         observer->addTrait(new Listener()) ;
 
       }
+      // the main game for now...
       else if (name == "TestPilot")
       {
         Kernel::Object* root = model->createObject() ;

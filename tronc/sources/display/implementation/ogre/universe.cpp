@@ -35,7 +35,9 @@ namespace ProjetUnivers
       namespace Ogre
       {
 
-        RegisterView(Ogre::Universe,Model::Universe, Ogre::RealWorldViewPoint) ;
+        RegisterView(Ogre::Universe,
+                     Model::Universe,
+                     Ogre::RealWorldViewPoint) ;
 
 
         void Universe::onInit()

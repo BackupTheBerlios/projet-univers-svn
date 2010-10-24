@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2008 Mathieu ROGER                                      *
+ *   Copyright (C) 2006-2010 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,20 +18,30 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <model/player_configuration.h>
-#include <model/edited.h>
-#include <gui/implementation/edited_player_configuration.h>
+#pragma once
+
+#include <string>
+#include <kernel/trait.h>
 
 namespace ProjetUnivers
 {
-  namespace GUI
+  namespace Model
   {
-    namespace Implementation
-    {
 
-      DeclareDeducedTrait(EditedPlayerConfiguration,
-                          And(HasTrait(Model::PlayerConfiguration),
-                              HasTrait(Model::Edited))) ;
-    }
+    /// Indicate that the object is a network client.
+    class Client : public Kernel::Trait
+    {
+    public:
+
+      Client(const std::string&) ;
+
+      const std::string& getAddress() const ;
+
+    private:
+
+      /// Commection address
+      std::string m_address ;
+    };
+
   }
 }

@@ -1751,6 +1751,13 @@
 #5146 Create base network system
 - tried opentnl but does not seem to work
 - added basic tutorial with enet
+
+2010-10-24
+#5146 Create base network system
+- Connection between two players
+  - Client, Server trait
+  - three states : Connected, Connecting and Disconnected
+  - basic connection tests
     
 in commit
 --------
@@ -1759,18 +1766,20 @@ in commit
 in progress
 -----------
 
- 
+   
 @todo
 ----
 
 * sound still error logged, they seem no critical but should investigate
-
+  
 #5146 Create base network system
-- Connection between two players
-  - gui to host, gui to connect
+- change state should disconnect from server
+- gui to host, gui to connect
 - System of Chat on the interface
 - Launch and configuration of a game
-
+  - need synchro and sub states for launching : Loading, Ready, Started
+   
+  
 #5137 Add the Hull level of the Target
 #5139 Add a Shield system
 - Damages

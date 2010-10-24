@@ -18,22 +18,25 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_IMPLEMENTATION_ACTIVATED_MISSION_H_
-#define PU_MODEL_IMPLEMENTATION_ACTIVATED_MISSION_H_
+#pragma once
 
 #include <kernel/deduced_trait.h>
 
-namespace ProjetUnivers {
-  namespace Model {
-    namespace Implementation {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
+    namespace Implementation
+    {
           
       /// A mission that is started
       /*!
         ActivatedMission <=> Mission & Played
+        @todo probably add an HasParent(HasTrait(Server)) --> only the server
+        will handle respawns ...
       */ 
       class ActivatedMission : public Kernel::DeducedTrait
       {};
     }
   }
 }
-#endif /*PU_MODEL_IMPLEMENTATION_ACTIVATED_MISSION_H_*/

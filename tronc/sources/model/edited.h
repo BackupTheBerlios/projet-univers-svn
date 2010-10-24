@@ -18,13 +18,14 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_EDITED_H_
-#define PU_MODEL_EDITED_H_
+#pragma once
 
 #include <model/active.h>
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
   
     /// Indicate that the object is currently edited.
     /*!
@@ -35,13 +36,10 @@ namespace ProjetUnivers {
     class Edited : public Active
     {
     public:
-      
+
       /// Construction.
       Edited() ;
-      
     };
         
   }
 }
-
-#endif /*PU_MODEL_EDITED_H_*/

@@ -16,6 +16,7 @@ libmodel_la_SOURCES = \
 ../implementation/area.cpp \
 ../implementation/autonomous_character.cpp \
 ../implementation/background_sound.cpp \
+../implementation/client.cpp \
 ../implementation/collision.cpp \
 ../implementation/control_connection.cpp \
 ../implementation/component.cpp \
@@ -26,6 +27,7 @@ libmodel_la_SOURCES = \
 ../implementation/destroyable.cpp \
 ../implementation/detector.cpp \
 ../implementation/detectable.cpp \
+../implementation/disconnected.cpp \
 ../implementation/displayed.cpp \
 ../implementation/distance.cpp \
 ../implementation/dragger.cpp \

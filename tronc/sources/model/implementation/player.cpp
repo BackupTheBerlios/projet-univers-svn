@@ -20,8 +20,10 @@
  ***************************************************************************/
 #include <model/player.h>
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
   
     Player::Player()
     {}
@@ -41,5 +43,10 @@ namespace ProjetUnivers {
       return m_configuration ;
     }
     
+    const std::string& Player::getName() const
+    {
+      return m_player_name ;
+    }
+
   }
 }
