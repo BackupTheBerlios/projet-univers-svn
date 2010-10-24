@@ -39,9 +39,16 @@ namespace ProjetUnivers
       */
       // @{
 
+        /// Basic ceration of a server
         void createServer() ;
+        /// Client connects to server
         void connectClient() ;
-        void disconnectClientFromServer() ;
+        /// Server stops and disconnect clients
+        void disconnectClientByServer() ;
+        /// Client stops and disconnect from server
+        void disconnectClientByClient() ;
+        /// Client try to connect but the maximum number of clients is reached
+        void maximumNumberOfClientReached() ;
 
       // @}
       /*!
@@ -53,7 +60,8 @@ namespace ProjetUnivers
 
         CPPUNIT_TEST(createServer) ;
         CPPUNIT_TEST(connectClient) ;
-        CPPUNIT_TEST(disconnectClientFromServer) ;
+        CPPUNIT_TEST(disconnectClientByServer) ;
+        CPPUNIT_TEST(disconnectClientByClient) ;
 
         CPPUNIT_TEST_SUITE_END() ;
 

@@ -37,6 +37,9 @@ namespace ProjetUnivers
 
         RegisterControler(Server,Implementation::ActiveServer,NetworkSystem) ;
 
+        /// number of milliseconds to wait for network events, corresponding to time between frames
+        const unsigned int waitTime = 5 ;
+
         void Server::onInit()
         {
           m_address.host = ENET_HOST_ANY ;
@@ -56,6 +59,7 @@ namespace ProjetUnivers
             enet_peer_disconnect(*client,0) ;
             ENetEvent event ;
 
+            // give a chance to notify clients
             while (enet_host_service(m_host,&event,waitTime) > 0)
             {}
           }
@@ -69,9 +73,6 @@ namespace ProjetUnivers
 
         void Server::simulate(const float& seconds)
         {
-          // number of milliseconds to wait for network events, corresponding to time between frames
-          const unsigned int waitTime = 5 ;
-
           ENetEvent event ;
 
           while (enet_host_service(m_host,&event,waitTime) > 0)
@@ -81,6 +82,11 @@ namespace ProjetUnivers
             case ENET_EVENT_TYPE_CONNECT:
               {
                 m_clients.push_back(event.peer) ;
+              }
+              break ;
+            case ENET_EVENT_TYPE_DISCONNECT:
+              {
+                m_clients.remove(event.peer) ;
               }
               break ;
             }

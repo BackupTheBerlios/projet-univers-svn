@@ -99,7 +99,7 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(!enet_server->m_clients.empty()) ;
       }
 
-      void TestConnection::disconnectClientFromServer()
+      void TestConnection::disconnectClientByServer()
       {
         std::auto_ptr<Kernel::Model> server_model(new Kernel::Model()) ;
         server_model->init() ;
@@ -110,9 +110,6 @@ namespace ProjetUnivers
 
         std::auto_ptr<Kernel::Model> client_model(new Kernel::Model()) ;
         client_model->init() ;
-
-        Kernel::ControlerSet* controler_set = client_model->getControlerSet<Implementation::Enet::NetworkSystem>() ;
-        CPPUNIT_ASSERT(controler_set) ;
 
         Kernel::Object* client = client_model->createObject() ;
         client->addTrait(new Model::Client("localhost")) ;
@@ -136,6 +133,57 @@ namespace ProjetUnivers
         // the client has received the notification
         CPPUNIT_ASSERT(client->getTrait<Model::Disconnected>()) ;
       }
+
+      void TestConnection::disconnectClientByClient()
+      {
+        std::auto_ptr<Kernel::Model> server_model(new Kernel::Model()) ;
+        server_model->init() ;
+
+        Kernel::Object* server = server_model->createObject() ;
+        server->addTrait(new Model::Server()) ;
+        server->addTrait(new Model::Active()) ;
+
+        Kernel::ControlerSet* server_controler_set = server_model->getControlerSet<Implementation::Enet::NetworkSystem>() ;
+        CPPUNIT_ASSERT(server_controler_set) ;
+
+        Implementation::Enet::Server* enet_server =
+            server->getTrait<Implementation::ActiveServer>()
+                  ->getControler<Implementation::Enet::Server>(server_controler_set) ;
+
+        CPPUNIT_ASSERT(enet_server) ;
+
+        std::auto_ptr<Kernel::Model> client_model(new Kernel::Model()) ;
+        client_model->init() ;
+
+        Kernel::Object* client = client_model->createObject() ;
+        client->addTrait(new Model::Client("localhost")) ;
+        client->addTrait(new Model::Connecting()) ;
+
+        // simulate alternativelly to ensure sending
+        client_model->update(0.1) ;
+        server_model->update(0.1) ;
+        client_model->update(0.1) ;
+        server_model->update(0.1) ;
+
+        CPPUNIT_ASSERT(client->getTrait<Model::Connected>()) ;
+        CPPUNIT_ASSERT(!client->getTrait<Model::Connecting>()) ;
+
+        // destroy the client and disconnect from the server
+        client->destroyTrait(client->getTrait<Model::Client>()) ;
+
+        server_model->update(0.1) ;
+        client_model->update(0.1) ;
+
+        // the server has received the notification and removed the client
+        CPPUNIT_ASSERT(enet_server->m_clients.empty()) ;
+      }
+
+      void TestConnection::maximumNumberOfClientReached()
+      {
+        // @todo
+        CPPUNIT_ASSERT(false) ;
+      }
+
 
     }
   }

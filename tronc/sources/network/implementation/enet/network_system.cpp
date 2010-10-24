@@ -18,6 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <enet/enet.h>
 #include <network/implementation/enet/network_system.h>
 
 namespace ProjetUnivers
@@ -33,6 +34,16 @@ namespace ProjetUnivers
         NetworkSystem::NetworkSystem(Kernel::Model* model)
         : Kernel::ControlerSet(model)
         {}
+
+        void NetworkSystem::onInit()
+        {
+          enet_initialize() ;
+        }
+
+        void NetworkSystem::onClose()
+        {
+          enet_deinitialize() ;
+        }
 
       }
     }

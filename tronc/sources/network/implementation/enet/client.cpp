@@ -40,12 +40,16 @@ namespace ProjetUnivers
 
         RegisterControler(Client,Implementation::Client,NetworkSystem) ;
 
+        const unsigned int numberOfChannels = 2 ;
+        /// number of milliseconds to wait for network events, corresponding to time between frames
+        const unsigned int waitTime = 5 ;
+
         void Client::onInit()
         {
           m_host = enet_host_create(0,1,0,0) ;
           enet_address_set_host(&m_address,getTrait<Model::Client>()->getAddress().c_str()) ;
           m_address.port = 3490 ;
-          m_peer = enet_host_connect(m_host,&m_address,2) ;
+          m_peer = enet_host_connect(m_host,&m_address,numberOfChannels) ;
 
           // @todo m_peer == NULL
         }
@@ -53,13 +57,16 @@ namespace ProjetUnivers
         void Client::onClose()
         {
           enet_peer_disconnect(m_peer,0) ;
+
+          ENetEvent event ;
+
+          // give a chance to notify server
+          while (enet_host_service(m_host,&event,waitTime) > 0)
+          {}
         }
 
         void Client::simulate(const float& seconds)
         {
-          // number of milliseconds to wait for network events, corresponding to time between frames
-          const unsigned int waitTime = 5 ;
-
           ENetEvent event ;
 
           while (enet_host_service(m_host,&event,waitTime) > 0)

@@ -38,6 +38,9 @@ namespace ProjetUnivers
           /// Build the controller set.
           NetworkSystem(Kernel::Model* model) ;
 
+          virtual void onInit() ;
+          virtual void onClose() ;
+
         };
       }
     }

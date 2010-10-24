@@ -22,10 +22,8 @@
 
 namespace ProjetUnivers
 {
-
   namespace Network
   {
-
     void start()
     {
     }
@@ -33,6 +31,5 @@ namespace ProjetUnivers
     void terminate()
     {
     }
-
   }
 }
