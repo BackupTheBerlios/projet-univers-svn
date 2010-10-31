@@ -1,8 +1,11 @@
 lib_LTLIBRARIES = libkernel.la
 
 SOURCES = $(top_srcdir)/sources
-AM_CPPFLAGS = -I$(SOURCES)
+AM_CPPFLAGS = -I$(SOURCES) $(PU_CFLAGS)
 AM_CXXFLAGS = $(PU_CXXFLAGS) $(PU_WARNINGS) 
+
+#trait.reflect.cpp : ../trait.h
+#	export GCCXML_COMPILER="g++-4.2" && genreflex $< --pool -o $@ -I$(SOURCES) $(PU_CFLAGS) ;
 
 libkernel_la_SOURCES = \
 $(SOURCES)/kernel/implementation/algorithm.cpp \
@@ -51,7 +54,89 @@ $(SOURCES)/kernel/implementation/view_point.cpp \
 $(SOURCES)/kernel/implementation/xml_outputter.cpp \
 $(SOURCES)/kernel/implementation/xml_reader.cpp \
 $(SOURCES)/kernel/implementation/xml_writer.cpp \
-$(SOURCES)/kernel/implementation/writer.cpp
+$(SOURCES)/kernel/implementation/writer.cpp \
+$(SOURCES)/kernel/implementation/reflex/AnnotationList.cxx \
+$(SOURCES)/kernel/implementation/reflex/AnnotationListImpl.cxx \
+$(SOURCES)/kernel/implementation/reflex/Any.cxx \
+$(SOURCES)/kernel/implementation/reflex/Array.cxx \
+$(SOURCES)/kernel/implementation/reflex/Base.cxx  \
+$(SOURCES)/kernel/implementation/reflex/BuilderContainer.cxx  \
+$(SOURCES)/kernel/implementation/reflex/Callback.cxx                       \
+$(SOURCES)/kernel/implementation/reflex/Class.cxx                          \
+$(SOURCES)/kernel/implementation/reflex/ClassBuilder.cxx                   \
+$(SOURCES)/kernel/implementation/reflex/ClassTemplateInstance.cxx          \
+$(SOURCES)/kernel/implementation/reflex/DataMember.cxx                     \
+$(SOURCES)/kernel/implementation/reflex/Dictionary.cxx            \
+$(SOURCES)/kernel/implementation/reflex/DictionaryBuilder.cxx            \
+$(SOURCES)/kernel/implementation/reflex/DictionaryGenerator.cxx            \
+$(SOURCES)/kernel/implementation/reflex/Enum.cxx                           \
+$(SOURCES)/kernel/implementation/reflex/EnumBuilder.cxx                    \
+$(SOURCES)/kernel/implementation/reflex/FuncHandler.cxx                    \
+$(SOURCES)/kernel/implementation/reflex/Function.cxx                       \
+$(SOURCES)/kernel/implementation/reflex/FunctionBuilder.cxx                \
+$(SOURCES)/kernel/implementation/reflex/FunctionMember.cxx                 \
+$(SOURCES)/kernel/implementation/reflex/FunctionMemberTemplateInstance.cxx \
+$(SOURCES)/kernel/implementation/reflex/Fundamental.cxx                    \
+$(SOURCES)/kernel/implementation/reflex/GenreflexMemberBuilder.cxx \
+$(SOURCES)/kernel/implementation/reflex/Kernel.cxx                         \
+$(SOURCES)/kernel/implementation/reflex/LiteralString.cxx                         \
+$(SOURCES)/kernel/implementation/reflex/Member.cxx                         \
+$(SOURCES)/kernel/implementation/reflex/MemberBase.cxx                     \
+$(SOURCES)/kernel/implementation/reflex/MemberTemplate.cxx                 \
+$(SOURCES)/kernel/implementation/reflex/MemberTemplateImpl.cxx             \
+$(SOURCES)/kernel/implementation/reflex/MemberTemplateName.cxx             \
+$(SOURCES)/kernel/implementation/reflex/NameLookup.cxx                     \
+$(SOURCES)/kernel/implementation/reflex/Names.cxx                     \
+$(SOURCES)/kernel/implementation/reflex/Namespace.cxx                      \
+$(SOURCES)/kernel/implementation/reflex/NamespaceBuilder.cxx               \
+$(SOURCES)/kernel/implementation/reflex/Object.cxx                         \
+$(SOURCES)/kernel/implementation/reflex/OnDemandBuilder.cxx \
+$(SOURCES)/kernel/implementation/reflex/OwnedAnnotationList.cxx \
+$(SOURCES)/kernel/implementation/reflex/OwnedPropertyList.cxx              \
+$(SOURCES)/kernel/implementation/reflex/PluginFactoryMap.cxx \
+$(SOURCES)/kernel/implementation/reflex/PluginService.cxx \
+$(SOURCES)/kernel/implementation/reflex/Pointer.cxx                        \
+$(SOURCES)/kernel/implementation/reflex/PointerToMember.cxx                \
+$(SOURCES)/kernel/implementation/reflex/PropertyList.cxx                   \
+$(SOURCES)/kernel/implementation/reflex/PropertyListImpl.cxx               \
+$(SOURCES)/kernel/implementation/reflex/Scope.cxx                          \
+$(SOURCES)/kernel/implementation/reflex/ScopeBase.cxx                      \
+$(SOURCES)/kernel/implementation/reflex/ScopedType.cxx \
+$(SOURCES)/kernel/implementation/reflex/ScopeName.cxx                      \
+$(SOURCES)/kernel/implementation/reflex/SharedLibraryUtils.cxx \
+$(SOURCES)/kernel/implementation/reflex/TemplateInstance.cxx               \
+$(SOURCES)/kernel/implementation/reflex/Tools.cxx                          \
+$(SOURCES)/kernel/implementation/reflex/Type.cxx                           \
+$(SOURCES)/kernel/implementation/reflex/TypeBase.cxx                       \
+$(SOURCES)/kernel/implementation/reflex/TypeBuilder.cxx                    \
+$(SOURCES)/kernel/implementation/reflex/TypeName.cxx                       \
+$(SOURCES)/kernel/implementation/reflex/TypeTemplate.cxx                   \
+$(SOURCES)/kernel/implementation/reflex/TypeTemplateImpl.cxx               \
+$(SOURCES)/kernel/implementation/reflex/TypeTemplateName.cxx               \
+$(SOURCES)/kernel/implementation/reflex/Typedef.cxx                        \
+$(SOURCES)/kernel/implementation/reflex/TypedefBuilder.cxx                 \
+$(SOURCES)/kernel/implementation/reflex/Union.cxx                          \
+$(SOURCES)/kernel/implementation/reflex/UnionBuilder.cxx                   \
+$(SOURCES)/kernel/implementation/reflex/VariableBuilder.cxx                \
+$(SOURCES)/kernel/implementation/reflex/Array.h                            \
+$(SOURCES)/kernel/implementation/reflex/Class.h                            \
+$(SOURCES)/kernel/implementation/reflex/ClassTemplateInstance.h            \
+$(SOURCES)/kernel/implementation/reflex/DataMember.h                       \
+$(SOURCES)/kernel/implementation/reflex/Enum.h                             \
+$(SOURCES)/kernel/implementation/reflex/FuncHandler.h                      \
+$(SOURCES)/kernel/implementation/reflex/Function.h                         \
+$(SOURCES)/kernel/implementation/reflex/FunctionMember.h                   \
+$(SOURCES)/kernel/implementation/reflex/FunctionMemberTemplateInstance.h   \
+$(SOURCES)/kernel/implementation/reflex/Fundamental.h                      \
+$(SOURCES)/kernel/implementation/reflex/NameLookup.h                       \
+$(SOURCES)/kernel/implementation/reflex/Namespace.h                        \
+$(SOURCES)/kernel/implementation/reflex/Pointer.h                          \
+$(SOURCES)/kernel/implementation/reflex/PointerToMember.h                  \
+$(SOURCES)/kernel/implementation/reflex/stl_hash.h                         \
+$(SOURCES)/kernel/implementation/reflex/TemplateInstance.h                 \
+$(SOURCES)/kernel/implementation/reflex/Typedef.h                          \
+$(SOURCES)/kernel/implementation/reflex/Union.h
+
 
 
 libkernel_la_LDFLAGS = -no-undefined

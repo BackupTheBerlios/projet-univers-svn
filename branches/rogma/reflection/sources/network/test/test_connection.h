@@ -39,7 +39,7 @@ namespace ProjetUnivers
       */
       // @{
 
-        /// Basic ceration of a server
+        /// Basic creation of a server
         void createServer() ;
         /// Client connects to server
         void connectClient() ;

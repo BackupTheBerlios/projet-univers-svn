@@ -1766,6 +1766,8 @@ in commit
 in progress
 -----------
 
+* included reflex sources with modifications for mingw
+* added a model meta dictionary for reflex
    
 @todo
 ----
@@ -2130,3 +2132,5 @@ in progress
 
 * icons are in /usr/share/icons/oxygen
 * ulimit -c unlimited
+
+* macro __PRETTY_FUNCTION__ is pretty

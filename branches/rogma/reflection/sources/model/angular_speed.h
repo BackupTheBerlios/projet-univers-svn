@@ -56,15 +56,6 @@ namespace ProjetUnivers
       /// Copy constructor.
       AngularSpeed(const AngularSpeed&) ;
 
-      /// Sum
-      AngularSpeed operator +(const AngularSpeed&) const ;
-
-      /// Difference
-      AngularSpeed operator -(const AngularSpeed&) const ;
-      
-      /// Multiplication
-      AngularSpeed operator *(const float&) const ;
-
     
     // @}
     /*!

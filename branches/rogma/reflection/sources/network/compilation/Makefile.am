@@ -1,7 +1,7 @@
 lib_LTLIBRARIES = libnetwork.la 
 
 SOURCES = $(top_srcdir)/sources
-AM_CPPFLAGS = -I$(SOURCES)
+AM_CPPFLAGS = -I$(SOURCES) $(PU_CFLAGS)
 AM_CXXFLAGS = $(PU_CXXFLAGS) $(enet_CFLAGS)
 
 libnetwork_la_SOURCES = \
@@ -33,7 +33,8 @@ check_PROGRAMS = $(TESTS)
 # unit tests 
 test_network_SOURCES = \
 ../test/test_connection.cpp \
-../test/test_network.cpp 
+../test/test_network.cpp \
+../test/test_replication.cpp
 
 test_network_CXXFLAGS = $(CPPUNIT_CFLAGS) $(PU_CXXFLAGS) $(enet_CFLAGS)
 test_network_LDFLAGS = $(CPPUNIT_LIBS)

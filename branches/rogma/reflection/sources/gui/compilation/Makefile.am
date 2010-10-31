@@ -3,7 +3,7 @@ AUTOMAKE_OPTIONS=subdir-objects
 lib_LTLIBRARIES = libgui.la 
 
 SOURCES = $(top_srcdir)/sources
-AM_CPPFLAGS = -I$(SOURCES)
+AM_CPPFLAGS = -I$(SOURCES) $(PU_CFLAGS)
 AM_CXXFLAGS = $(PU_WARNINGS) $(PU_CXXFLAGS)
 
 libgui_la_SOURCES = \

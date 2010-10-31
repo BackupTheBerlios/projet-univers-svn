@@ -18,8 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_TEST_POSITIONNED_H_
-#define PU_MODEL_TEST_POSITIONNED_H_
+#pragma once
 
 #include <cppunit/extensions/HelperMacros.h>
 
@@ -105,6 +104,3 @@ namespace ProjetUnivers
     }
   }
 }
-
-
-#endif

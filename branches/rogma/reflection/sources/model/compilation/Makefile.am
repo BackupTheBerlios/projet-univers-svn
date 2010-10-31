@@ -3,11 +3,99 @@ lib_LTLIBRARIES = libmodel.la
 AUTOMAKE_OPTIONS=subdir-objects
 
 SOURCES = $(top_srcdir)/sources
-AM_CPPFLAGS = -I$(SOURCES)
+AM_CPPFLAGS = -I$(SOURCES) $(PU_CFLAGS)
 AM_CXXFLAGS = $(PU_CXXFLAGS)
 
+%.reflect.cpp : ../%.h
+	export GCCXML_COMPILER="g++-4.2" && python $(SOURCES)/tools/reflex/genreflex.py $< -o $@ --comments -I$(SOURCES) $(PU_CFLAGS) ;
+
+# the list of reflection files we need
+# add here one entry per model class
+REFLEX_DICTIONARY= \
+active.reflect.cpp \
+angular_speed.reflect.cpp \
+area.reflect.cpp \
+autonomous_character.reflect.cpp \
+background_sound.reflect.cpp \
+client.reflect.cpp \
+collision.reflect.cpp \
+component.reflect.cpp \
+computer_data.reflect.cpp \
+computer.reflect.cpp \
+connected.reflect.cpp \
+connecting.reflect.cpp \
+control_connection.reflect.cpp \
+custom_mission.reflect.cpp \
+data_connection.reflect.cpp \
+destroyable.reflect.cpp \
+detector.reflect.cpp \
+disconnected.reflect.cpp \
+displayed.reflect.cpp \
+distance.reflect.cpp \
+dragger.reflect.cpp \
+duration.reflect.cpp \
+edited.reflect.cpp \
+end_of_simulation.reflect.cpp \
+energy.reflect.cpp \
+engine_controler.reflect.cpp \
+engine.reflect.cpp \
+explosion.reflect.cpp \
+flying_group.reflect.cpp \
+force_generator.reflect.cpp \
+force.reflect.cpp \
+guidance_controler.reflect.cpp \
+guidance_system.reflect.cpp \
+has_component.reflect.cpp \
+has_in_line_of_sight.reflect.cpp \
+head_up_display.reflect.cpp \
+hit.reflect.cpp \
+ideal_target.reflect.cpp \
+image.reflect.cpp \
+laser_beam.reflect.cpp \
+laser.reflect.cpp \
+listener.reflect.cpp \
+mass.reflect.cpp \
+massive.reflect.cpp \
+menu.reflect.cpp \
+mesh.reflect.cpp \
+mission.reflect.cpp \
+mobile.reflect.cpp \
+model.reflect.cpp \
+objective.reflect.cpp \
+observer.reflect.cpp \
+orientation.reflect.cpp \
+oriented.reflect.cpp \
+physical_object.reflect.cpp \
+physical_world.reflect.cpp \
+played.reflect.cpp \
+player_configuration.reflect.cpp \
+player.reflect.cpp \
+positioned.reflect.cpp \
+position.reflect.cpp \
+selection.reflect.cpp \
+server.reflect.cpp \
+shooting_helper.reflect.cpp \
+shot.reflect.cpp \
+sized.reflect.cpp \
+solid.reflect.cpp \
+sound_environnement.reflect.cpp \
+speed.reflect.cpp \
+stabilizer.reflect.cpp \
+state.reflect.cpp \
+stellar_system.reflect.cpp \
+stick.reflect.cpp \
+targeting_system.reflect.cpp \
+team.reflect.cpp \
+throttle.reflect.cpp \
+torque_generator.reflect.cpp \
+transponder.reflect.cpp \
+universe.reflect.cpp \
+whole.reflect.cpp \
+with_lifetime.reflect.cpp \
+with_objectives.reflect.cpp
+
 libmodel_la_SOURCES = \
-../implementation/acceleration.cpp \
+$(REFLEX_DICTIONARY) \
 ../implementation/active.cpp \
 ../implementation/activated_end_of_simulation.cpp \
 ../implementation/activated_flying_group.cpp \
@@ -119,6 +207,9 @@ libmodel_la_DEPENDENCIES = ../../kernel/compilation/libkernel.la
 
 all-local:ressources.cfg
 
+clean-local:
+	rm *.reflect.cpp
+
 # generates a correct ressources.cfg from main template
 ressources.cfg:../../ressources.cfg.in
 	cat ../../ressources.cfg.in | sed 's,@MEDIA_FOLDER\@,../../media,' > ressources.cfg
@@ -152,6 +243,7 @@ test_model_SOURCES = \
 ../test/test_player_configuration.cpp \
 ../test/test_position.cpp \
 ../test/test_positioned.cpp \
+../test/test_reflection.cpp \
 ../test/test_save.cpp \
 ../test/test_shooting_helper.cpp \
 ../test/test_speed.cpp \

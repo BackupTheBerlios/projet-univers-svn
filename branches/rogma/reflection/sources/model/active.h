@@ -18,13 +18,14 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_ACTIVE_H_
-#define PU_MODEL_ACTIVE_H_
+#pragma once
 
 #include <kernel/trait.h>
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
   
     /// Indicate that the object is an activated state.
     /*!
@@ -40,5 +41,3 @@ namespace ProjetUnivers {
         
   }
 }
-
-#endif /*PU_MODEL_ACTIVE_H_*/
