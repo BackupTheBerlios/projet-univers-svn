@@ -1,0 +1,62 @@
+// @todo generalize this shader 
+// it is a basic vertex shader that passes normal to pixel shader in TEXCOORD2 
+vertex_program PU/Base/Thrust_vp cg
+{
+  source thrust.cg
+  entry_point thrust_vp
+  
+  // target compilation platforms : vs_1_1 == DirectX9,  arbvp1 == OpenGL  
+  profiles vs_1_1 arbvp1
+  
+  default_params
+  {
+    param_named_auto worldViewProj worldviewproj_matrix
+    param_named_auto camera_position_object_space camera_position_object_space 
+  }
+}
+
+fragment_program PU/Base/Thrust_ps cg
+{
+  source thrust.cg
+  entry_point thrust_ps
+  
+  // target compilation platforms : ps_2_0 == DirectX9,  arbfp1 == OpenGL  
+  profiles ps_2_0 arbfp1
+  
+  default_params
+  {
+    // color of the exhaust pipe
+    param_named thrust_color float4 0 1.0 1.0 0.2
+    
+    // A parameter passed through C++
+    param_named_auto power custom 0
+  }
+  
+}
+
+material PU/Base/Thrust
+{
+    technique
+    {
+        pass
+        {
+            scene_blend alpha_blend 
+            // semi-transparent
+            depth_write off
+
+            // make the mesh "double sided"
+            cull_hardware none
+            
+            vertex_program_ref PU/Base/Thrust_vp
+            {
+            }
+            fragment_program_ref PU/Base/Thrust_ps
+            {
+            }
+            texture_unit
+            {
+                tex_coord_set 0
+            }
+        }
+    }
+}

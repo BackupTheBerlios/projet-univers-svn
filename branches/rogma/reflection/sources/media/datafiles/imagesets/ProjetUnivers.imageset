@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Imageset Name="ProjetUnivers" Imagefile="ProjetUnivers.png" NativeHorzRes="1280" NativeVertRes="1024" >
+    
+    <!-- Mouse Cursors -->
+    <Image Name="PointerMouse" XPos="320" YPos="580" Width="12" Height="24"/>
+    <!-- Mouse cursor for text edit boxes -->
+    <Image Name="MouseTextBar" XPos="335" YPos="580" Width="12" Height="21"/>
+    
+    <!-- For the ProjetUnivers/Menu look  -->
+    <Image Name="Menu_Droite"     XPos="722" YPos="34" Width="39" Height="516" />
+    <Image Name="Menu_Gauche"     XPos="29"  YPos="34" Width="39" Height="516" />
+    <Image Name="Menu_Background" XPos="612" YPos="34" Width="26" Height="516" />
+
+    <!-- For the ProjetUnivers/Button look  -->
+    <Image Name="Buttonnormal" XPos="29" YPos="582" Width="203" Height="65" />
+    <Image Name="Buttonhover"  XPos="29" YPos="663" Width="203" Height="65" />
+		
+		<!-- Main menu global image  -->
+    <Image Name="Window" XPos="806" YPos="0" Width="1293" Height="959" />
+
+    <Image Name="MultiList" XPos="419" YPos="670" Width="18" Height="18" />
+    <Image Name="Menu_Titre" XPos="47" YPos="749" Width="677" Height="40" />
+
+		<Image Name="RadioButtonNormal" XPos="360" YPos="794" Width="16" Height="17" />
+		<Image Name="RadioButtonHover"  XPos="360" YPos="794" Width="16" Height="17" />
+		<Image Name="RadioButtonMark"   XPos="379" YPos="794" Width="16" Height="17" />
+
+    <Image Name="Scroll_Curseur" XPos="490" YPos="822" Width="18" Height="17" />
+    <Image Name="ScrollV_Background" XPos="456" YPos="823" Width="21" Height="15" />
+    <Image Name="ScrollV_Bas_Hoover" XPos="426" YPos="850" Width="21" Height="17" />
+    <Image Name="ScrollV_Bas_Normal" XPos="456" YPos="850" Width="21" Height="17" />
+    <Image Name="ScrollV_Haut_Hoover" XPos="426" YPos="793" Width="21" Height="17" />
+    <Image Name="ScrollV_Haut_Normal" XPos="456" YPos="793" Width="21" Height="17" />
+    <Image Name="ScrollH_Background" XPos="359" YPos="824" Width="13" Height="22" />
+    <Image Name="ScrollH_Droite_Hoover" XPos="388" YPos="854" Width="17" Height="22" />
+    <Image Name="ScrollH_Droite_Normal" XPos="388" YPos="824" Width="17" Height="22" />
+    <Image Name="ScrollH_Gauche_Hoover" XPos="331" YPos="854" Width="17" Height="22" />
+    <Image Name="ScrollH_Gauche_Normal" XPos="331" YPos="824" Width="17" Height="22" />
+
+		<!-- For the ProjetUnivers/TabContent -->
+		<Image Name="TabContentPaneUpperLeft" XPos="30" YPos="34" Width="35" Height="84" />
+		<Image Name="TabContentPaneUpper" XPos="65" YPos="34" Width="35" Height="84" />
+		<Image Name="TabContentPaneUpperRight" XPos="726" YPos="34" Width="31" Height="84" />
+		<Image Name="TabContentPaneLeft" XPos="30" YPos="118" Width="35" Height="30" />
+		<Image Name="TabContentPaneMiddle" XPos="65" YPos="118" Width="35" Height="30" />
+		<Image Name="TabContentPaneRight" XPos="726" YPos="118" Width="31" Height="30" />
+		<Image Name="TabContentPaneLowerLeft" XPos="30" YPos="518" Width="35" Height="31" />
+		<Image Name="TabContentPaneLower" XPos="65" YPos="518" Width="35" Height="31" />
+		<Image Name="TabContentPaneLowerRight" XPos="726" YPos="518" Width="31" Height="31" />
+
+		<!-- a Button to select the active Tab in ProjetUnivers/TabButton -->
+		<Image Name="TabButton" XPos="259" YPos="582" Width="124" Height="55" />
+		<!-- The background for all TabButtons : not displayed -->
+		<Image Name="TabHorizontalFiller" XPos="282" YPos="755" Width="20" Height="1" />
+		
+		<!-- A basic window taken from MyGUI -->
+		<Image Name="BasicWindow_Left" XPos="417" YPos="587" Width="1" Height="34"/>
+		<Image Name="BasicWindow_Top" XPos="417" YPos="587" Width="34" Height="1"/>
+		<Image Name="BasicWindow_Right" XPos="417" YPos="587" Width="1" Height="34"/>
+		<Image Name="BasicWindow_Bottom" XPos="417" YPos="587" Width="34" Height="1"/>
+		<Image Name="BasicWindow_Midle" XPos="418" YPos="588" Width="34" Height="34"/>
+
+    <!-- Increase and decrease buttons -->
+    <Image Name="DecreaseButton" XPos="331" YPos="824" Width="16" Height="21"/>
+    <Image Name="IncreaseButton" XPos="388" YPos="824" Width="16" Height="21"/>
+
+    <!-- Add and Delete buttons taken from KDE -->
+    <Image Name="AddButton" XPos="300" YPos="600" Width="16" Height="16"/>
+    <Image Name="DeleteButton" XPos="300" YPos="580" Width="16" Height="16"/>
+
+</Imageset>

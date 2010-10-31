@@ -1,0 +1,77 @@
+// target : the element that surrond a selected target
+material PU/base/hud/Target
+{
+  technique
+  {
+    pass
+    {
+      lighting off
+      scene_blend alpha_blend
+      depth_check off
+
+      texture_unit
+      {
+        texture target.png
+        // merge the texture with red : kept for documentation
+//        colour_op_ex modulate src_current src_manual 1 0 0
+      }
+    }
+  }
+}
+
+// indicate where is the target out of screen
+material PU/base/hud/Arrow
+{
+  technique
+  {
+    pass
+    {
+      lighting off
+      scene_blend alpha_blend
+      depth_check off
+
+      texture_unit
+      {
+        texture arrow.png
+      }
+    }
+  }
+}
+
+// indicate where to shoot with a circle
+material PU/base/hud/IdealTarget
+{
+  technique
+  {
+    pass
+    {
+      lighting off
+      scene_blend alpha_blend
+      depth_check off
+
+      texture_unit
+      {
+        texture ideal_target.png
+      }
+    }
+  }
+}
+
+// shooting cursor/reticule
+material PU/base/hud/reticule
+{
+  technique
+  {
+    pass
+    {
+      lighting off
+      scene_blend alpha_blend
+      depth_check off
+
+      texture_unit
+      {
+        texture reticule.png
+      }
+    }
+  }
+}

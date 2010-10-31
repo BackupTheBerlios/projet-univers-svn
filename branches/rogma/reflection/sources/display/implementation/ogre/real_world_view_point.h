@@ -1,0 +1,116 @@
+/***************************************************************************
+ *   This file is part of ProjetUnivers                                    *
+ *   see http://www.punivers.net                                           *
+ *   Copyright (C) 2007 Mathieu ROGER                                      *
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program; if not, write to the                         *
+ *   Free Software Foundation, Inc.,                                       *
+ *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+ ***************************************************************************/
+#pragma once
+
+#include <Ogre.h>
+
+#include <kernel/object_reference.h>
+#include <kernel/view_point.h>
+
+
+namespace ProjetUnivers
+{
+  namespace Display
+  {
+    namespace Implementation
+    {
+      namespace Ogre
+      {
+        
+        /// Subjective viewpoint of an observer.
+        /*!
+          First person view of an observer.
+        */
+        class RealWorldViewPoint : public Kernel::ViewPoint 
+        {
+        public:
+        /*!
+          @name Construction 
+        */
+        // @{
+          
+          
+          /// Constructor.
+          RealWorldViewPoint(Kernel::Model* model) ;
+          
+          /// Set the root in term of position.
+          void setRootObject(Kernel::Object*) ;
+          
+          /// Change the observer
+          void setObserver(Kernel::Object* observer) ;
+
+        // @}
+        /*
+          @name Update 
+        */
+        // @{
+          
+          /// Update the viewpoint.
+          virtual void update(const float& seconds) ;
+          
+        // @}
+        /*
+          @name Access 
+        */
+        // @{
+
+          /// Access to Ogre manager.
+          ::Ogre::SceneManager* getManager() const ;
+          
+          /// Access to observer.
+          Kernel::Object* getObserver() const ;
+          
+          /// Set the root element in term of position.
+          Kernel::Object* getRootObject() const ;
+          
+        // @}
+          
+        protected:
+          
+          /// Initialize view point
+          virtual void onInit() ;
+          
+          /// Terminate view point
+          virtual void onClose() ;
+          
+        private:
+        
+          /// True iff object must be seen.
+          virtual bool isVisible(Kernel::Object* _model) const ;
+        /*!
+          @name Attributes
+        */
+        // @{
+
+          /// Manage 3D scene objects          
+          ::Ogre::SceneManager*   m_manager ;
+
+          Kernel::ObjectReference m_observer ;
+          
+          Kernel::ObjectReference m_root ;
+          
+        // @}
+          
+        };
+      }
+    }
+  }
+}

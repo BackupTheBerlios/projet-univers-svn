@@ -1,0 +1,19 @@
+// Display the stick, the direction to which is goes  
+// Do not change the names because they are used in code.
+// See http://www.ogre3d.org/docs/manual/manual_41.html#SEC244 
+PU/base/HUD/Stick
+{
+  zorder 200
+
+  container Panel(PU/base/HUD/Stick/Cross)
+  {
+    width 0.05
+    height 0.05
+    
+    material PU/base/hud/reticule    
+
+    vert_align center
+    horz_align center
+  }
+
+}

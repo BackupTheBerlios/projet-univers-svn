@@ -1,0 +1,28 @@
+// Display the ship hull life point of screen. 
+// Do not change the names because they are used in code.
+PU/base/HUD/HullLifePoint
+{
+  zorder 200
+
+  container Panel(HullLifePoint)
+  {
+    // adjust this position to change indicator position
+    // positions are aligned on left top of the screen
+    left 0.4
+    top 0.448
+        
+    // modify to change size
+    width 0.024
+    height 0.104
+        
+    element Panel(HullLifePoint/Exterior)
+    {
+      material PU/base/hud/hull_life_point
+    }
+  
+    element Panel(HullLifePoint/Interior)
+    {
+      material PU/base/hud/hull_life_point_interior
+    }
+  }
+}

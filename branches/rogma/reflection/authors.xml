@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Used to generate classical changelog from svn log  -->
+<authors xmlns:html="http://www.w3.org/1999/xhtml">
+ <!-- Map svn identifier to name -->
+ <author uid="rogma">Mathieu Roger</author>
+</authors>

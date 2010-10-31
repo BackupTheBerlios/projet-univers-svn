@@ -1,0 +1,75 @@
+/// Display the selected target  
+// Do not change the names because they are used in code.
+// See http://www.ogre3d.org/docs/manual/manual_41.html#SEC244 
+PU/base/HUD/Target
+{
+  zorder 200
+
+  // do not need placement because it is controlled by program
+  container Panel(PU/base/HUD/Target/Container)
+  {
+    /// The 'box' around the selected target
+    container Panel(PU/base/HUD/Target/Target)
+    {
+      // position and size are handled by program
+      
+      material PU/base/hud/Target    
+    
+      vert_align center
+      horz_align center
+
+      /// The target name
+      element TextArea(PU/base/HUD/Target/TargetName)
+      {
+        // text is handled by program
+        
+        vert_align top
+        horz_align center
+        
+        metrics_mode pixels
+        font_name BlueHighway
+        char_height 16
+        // text alignement
+        alignment center
+        colour 1 1 1
+        // default text
+        caption unidentified
+      }
+      
+      /// The target's target name
+      element TextArea(PU/base/HUD/Target/TargetsTargetName)
+      {
+        // text is handled by program
+        
+        vert_align bottom
+        horz_align center
+        
+        metrics_mode pixels
+        font_name BlueHighway
+        char_height 16
+        // text alignement
+        alignment center
+        colour 1 1 1
+        // default text
+        caption target :
+      }
+    }
+
+    /// The arrow that points to the selected target
+    element Panel(PU/base/HUD/Target/Arrow)
+    {
+      // left must be half width
+      width 0.1
+      left -0.05
+      
+      // top must be half height
+      height 0.1
+      top -0.05
+      
+      material PU/base/hud/Arrow    
+    
+      vert_align center
+      horz_align center
+    }    
+  }
+}

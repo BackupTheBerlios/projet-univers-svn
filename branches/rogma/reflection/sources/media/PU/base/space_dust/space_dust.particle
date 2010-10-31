@@ -1,0 +1,24 @@
+// Space dust to show speed
+particle_system PU/base/SpaceDust
+{
+  material PU/base/SpaceDust
+  particle_width 0.01
+  particle_height 0.01
+  cull_each true
+  quota 3000
+  billboard_type point
+
+  // Area emitter
+  emitter Box
+  {
+    width 10
+    height 10
+    depth 0
+    emission_rate 200
+    time_to_live 1
+    velocity_min 50
+    velocity_max 50
+    direction 0 0 1
+    position 0 0 -10
+  }
+}

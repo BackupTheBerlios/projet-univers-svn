@@ -1,0 +1,11 @@
+# Defines plugins to load
+
+## Define plugin folder
+PluginFolder=@INSTALL_OGRE_PLUGIN_FOLDER@
+
+## Declare plugins
+Plugin=@OGRE_PLUGIN_RENDER_SYSTEM@.@OGRE_PLUGIN_EXTENSION@
+Plugin=Plugin_ParticleFX.@OGRE_PLUGIN_EXTENSION@
+Plugin=Plugin_BSPSceneManager.@OGRE_PLUGIN_EXTENSION@
+Plugin=Plugin_OctreeSceneManager.@OGRE_PLUGIN_EXTENSION@
+Plugin=Plugin_CgProgramManager.@OGRE_PLUGIN_EXTENSION@

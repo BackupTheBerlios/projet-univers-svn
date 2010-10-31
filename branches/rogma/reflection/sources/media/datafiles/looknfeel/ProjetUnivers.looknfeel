@@ -1,0 +1,3954 @@
+<?xml version="1.0" ?>
+<Falagard>
+	<!--
+		***************************************************
+		ProjetUnivers/Button
+		***************************************************
+	-->
+	<WidgetLook name="ProjetUnivers/Button">
+		<PropertyDefinition name="NormalTextColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
+		<PropertyDefinition name="HoverTextColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
+		<PropertyDefinition name="PushedTextColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
+		<PropertyDefinition name="DisabledTextColour" initialValue="FF7F7F7F" redrawOnWrite="true" />
+		<PropertyDefinition name="VertLabelFormatting" initialValue="CentreAligned" />
+		<PropertyDefinition name="HorzLabelFormatting" initialValue="CentreAligned" />
+		<PropertyDefinition name="NormalImage" initialValue="" redrawOnWrite="true" />
+		<PropertyDefinition name="HoverImage" initialValue="" redrawOnWrite="true" />
+		<PropertyDefinition name="PushedImage" initialValue="" redrawOnWrite="true" />
+		<PropertyDefinition name="DisabledImage" initialValue="" redrawOnWrite="true" />
+		<PropertyDefinition name="VertImageFormatting" initialValue="Stretched" redrawOnWrite="true" />
+		<PropertyDefinition name="HorzImageFormatting" initialValue="Stretched" redrawOnWrite="true" />
+		<ImagerySection name="label">
+			<TextComponent>
+				<Area>
+					<Dim type="LeftEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="TopEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="Width">
+						<UnifiedDim scale="1" type="Width" />
+					</Dim>
+					<Dim type="Height">
+						<UnifiedDim scale="1" type="Height" />
+					</Dim>
+				</Area>
+				<VertFormatProperty name="VertLabelFormatting" />
+				<HorzFormatProperty name="HorzLabelFormatting" />
+			</TextComponent>
+		</ImagerySection>
+		<ImagerySection name="normal">
+			<FrameComponent>
+				<Area>
+					<Dim type="LeftEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="TopEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="Width">
+						<UnifiedDim scale="1" type="Width" />
+					</Dim>
+					<Dim type="Height">
+						<UnifiedDim scale="1" type="Height" />
+					</Dim>
+				</Area>
+				<Image type="Background" imageset="ProjetUnivers" image="Buttonnormal" />
+			</FrameComponent>
+			<ImageryComponent>
+				<Area>
+					<Dim type="LeftEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="TopEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="Width">
+						<UnifiedDim scale="1" type="Width" />
+					</Dim>
+					<Dim type="Height">
+						<UnifiedDim scale="1" type="Height" />
+					</Dim>
+				</Area>
+				<ImageProperty name="NormalImage" />
+				<VertFormatProperty name="VertImageFormatting" />
+				<HorzFormatProperty name="HorzImageFormatting" />
+			</ImageryComponent>
+		</ImagerySection>
+		<ImagerySection name="hover">
+			<FrameComponent>
+				<Area>
+					<Dim type="LeftEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="TopEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="Width">
+						<UnifiedDim scale="1" type="Width" />
+					</Dim>
+					<Dim type="Height">
+						<UnifiedDim scale="1" type="Height" />
+					</Dim>
+				</Area>
+				<Image type="Background" imageset="ProjetUnivers" image="Buttonhover" />
+			</FrameComponent>
+			<ImageryComponent>
+				<Area>
+					<Dim type="LeftEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="TopEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="Width">
+						<UnifiedDim scale="1" type="Width" />
+					</Dim>
+					<Dim type="Height">
+						<UnifiedDim scale="1" type="Height" />
+					</Dim>
+				</Area>
+				<ImageProperty name="HoverImage" />
+				<VertFormatProperty name="VertImageFormatting" />
+				<HorzFormatProperty name="HorzImageFormatting" />
+			</ImageryComponent>
+		</ImagerySection>
+		<ImagerySection name="pushed">
+			<FrameComponent>
+				<Area>
+					<Dim type="LeftEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="TopEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="Width">
+						<UnifiedDim scale="1" type="Width" />
+					</Dim>
+					<Dim type="Height">
+						<UnifiedDim scale="1" type="Height" />
+					</Dim>
+				</Area>
+				<Image type="Background" imageset="ProjetUnivers" image="Buttonnormal" />
+			</FrameComponent>
+			<ImageryComponent>
+				<Area>
+					<Dim type="LeftEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="TopEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="Width">
+						<UnifiedDim scale="1" type="Width" />
+					</Dim>
+					<Dim type="Height">
+						<UnifiedDim scale="1" type="Height" />
+					</Dim>
+				</Area>
+				<ImageProperty name="PushedImage" />
+				<VertFormatProperty name="VertImageFormatting" />
+				<HorzFormatProperty name="HorzImageFormatting" />
+			</ImageryComponent>
+		</ImagerySection>
+		<StateImagery name="Normal">
+			<Layer>
+				<Section section="normal" />
+				<Section section="label">
+					<ColourProperty name="NormalTextColour" />
+				</Section>
+			</Layer>
+		</StateImagery>
+		<StateImagery name="Hover">
+			<Layer>
+				<Section section="hover" />
+				<Section section="label">
+					<ColourProperty name="HoverTextColour" />
+				</Section>
+			</Layer>
+		</StateImagery>
+		<StateImagery name="Pushed">
+			<Layer>
+				<Section section="pushed" />
+				<Section section="label">
+					<ColourProperty name="PushedTextColour" />
+				</Section>
+			</Layer>
+		</StateImagery>
+		<StateImagery name="PushedOff">
+			<Layer>
+				<Section section="hover" />
+				<Section section="label">
+					<ColourProperty name="HoverTextColour" />
+				</Section>
+			</Layer>
+		</StateImagery>
+		<StateImagery name="Disabled">
+			<Layer>
+				<Section section="normal">
+					<Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+				</Section>
+				<Section section="label">
+					<ColourProperty name="DisabledTextColour" />
+				</Section>
+			</Layer>
+		</StateImagery>
+	</WidgetLook>
+	<!--
+		***************************************************
+		ProjetUnivers/FrameWindow
+        
+        Main window 
+		***************************************************
+	-->
+	<WidgetLook name="ProjetUnivers/FrameWindow">
+		<PropertyLinkDefinition name="CaptionColour"
+			widget="__auto_titlebar__" targetProperty="CaptionColour"
+			initialValue="FFFFFFFF" />
+		<PropertyLinkDefinition name="TitlebarFont"
+			widget="__auto_titlebar__" targetProperty="Font" />
+		<Property name="NSSizingCursorImage"
+			value="set:ProjetUnivers-Images image:MouseArrow" />
+		<Property name="EWSizingCursorImage"
+			value="set:ProjetUnivers-Images image:MouseArrow" />
+		<Property name="NWSESizingCursorImage"
+			value="set:ProjetUnivers-Images image:MouseArrow" />
+		<Property name="NESWSizingCursorImage"
+			value="set:ProjetUnivers-Images image:MouseArrow" />
+		<Property name="RollUpEnabled" value="False" />
+		<NamedArea name="ClientWithTitleWithFrame">
+			<Area>
+				<Dim type="LeftEdge">
+					<AbsoluteDim value="7" />
+				</Dim>
+				<Dim type="TopEdge">
+					<WidgetDim widget="__auto_titlebar__"
+						dimension="BottomEdge" />
+				</Dim>
+				<Dim type="RightEdge">
+					<UnifiedDim scale="1" offset="-7" type="RightEdge" />
+				</Dim>
+				<Dim type="BottomEdge">
+					<UnifiedDim scale="1" offset="-7" type="BottomEdge" />
+				</Dim>
+			</Area>
+		</NamedArea>
+		<NamedArea name="ClientWithTitleNoFrame">
+			<Area>
+				<Dim type="LeftEdge">
+					<AbsoluteDim value="0" />
+				</Dim>
+				<Dim type="TopEdge">
+					<WidgetDim widget="__auto_titlebar__"
+						dimension="BottomEdge" />
+				</Dim>
+				<Dim type="RightEdge">
+					<UnifiedDim scale="1" type="RightEdge" />
+				</Dim>
+				<Dim type="BottomEdge">
+					<UnifiedDim scale="1" type="BottomEdge" />
+				</Dim>
+			</Area>
+		</NamedArea>
+		<NamedArea name="ClientNoTitleWithFrame">
+			<Area>
+				<Dim type="LeftEdge">
+					<AbsoluteDim value="7" />
+				</Dim>
+				<Dim type="TopEdge">
+					<AbsoluteDim value="7" />
+				</Dim>
+				<Dim type="RightEdge">
+					<UnifiedDim scale="1" offset="-7" type="RightEdge" />
+				</Dim>
+				<Dim type="BottomEdge">
+					<UnifiedDim scale="1" offset="-7" type="BottomEdge" />
+				</Dim>
+			</Area>
+		</NamedArea>
+		<NamedArea name="ClientNoTitleNoFrame">
+			<Area>
+				<Dim type="LeftEdge">
+					<AbsoluteDim value="0" />
+				</Dim>
+				<Dim type="TopEdge">
+					<AbsoluteDim value="0" />
+				</Dim>
+				<Dim type="Width">
+					<UnifiedDim scale="1" type="Width" />
+				</Dim>
+				<Dim type="Height">
+					<UnifiedDim scale="1" type="Height" />
+				</Dim>
+			</Area>
+		</NamedArea>
+		<Child type="ProjetUnivers/Titlebar"
+			nameSuffix="__auto_titlebar__">
+			<Area>
+				<Dim type="LeftEdge">
+					<AbsoluteDim value="0" />
+				</Dim>
+				<Dim type="TopEdge">
+					<AbsoluteDim value="0" />
+				</Dim>
+				<Dim type="Width">
+					<UnifiedDim scale="1" type="Width" />
+				</Dim>
+				<Dim type="Height">
+					<FontDim type="LineSpacing" padding="10" />
+				</Dim>
+			</Area>
+			<Property name="AlwaysOnTop" value="False" />
+		</Child>
+		<Child type="ProjetUnivers/Button"
+			nameSuffix="__auto_closebutton__">
+			<Area>
+				<Dim type="LeftEdge">
+					<AbsoluteDim value="-7" />
+				</Dim>
+				<Dim type="TopEdge">
+					<AbsoluteDim value="7" />
+				</Dim>
+				<Dim type="Width">
+					<AbsoluteDim value="7" />
+				</Dim>
+				<Dim type="Height">
+					<AbsoluteDim value="7" />
+				</Dim>
+			</Area>
+			<HorzAlignment type="RightAligned" />
+			<Property name="AlwaysOnTop" value="True" />
+		</Child>
+		<ImagerySection name="withtitle_frame">
+			<FrameComponent>
+				<Area>
+					<Dim type="LeftEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="TopEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="RightEdge">
+						<UnifiedDim scale="1" type="RightEdge" />
+					</Dim>
+					<Dim type="BottomEdge">
+						<UnifiedDim scale="1" type="BottomEdge" />
+					</Dim>
+				</Area>
+				<Image type="Background" imageset="ProjetUnivers"
+					image="Window" />
+			</FrameComponent>
+		</ImagerySection>
+		<ImagerySection name="notitle_frame">
+			<FrameComponent>
+				<Area>
+					<Dim type="LeftEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="TopEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="RightEdge">
+						<UnifiedDim scale="1" type="RightEdge" />
+					</Dim>
+					<Dim type="BottomEdge">
+						<UnifiedDim scale="1" type="BottomEdge" />
+					</Dim>
+				</Area>
+				<Image type="Background" imageset="ProjetUnivers"
+					image="Window" />
+			</FrameComponent>
+		</ImagerySection>
+		<ImagerySection name="withtitle_noframe_client_area">
+			<FrameComponent>
+				<Area>
+					<Dim type="LeftEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="TopEdge">
+						<WidgetDim widget="__auto_titlebar__"
+							dimension="BottomEdge" />
+					</Dim>
+					<Dim type="RightEdge">
+						<UnifiedDim scale="1" type="RightEdge" />
+					</Dim>
+					<Dim type="BottomEdge">
+						<UnifiedDim scale="1" type="BottomEdge" />
+					</Dim>
+				</Area>
+				<Image type="Background" imageset="ProjetUnivers"
+					image="Window" />
+			</FrameComponent>
+		</ImagerySection>
+		<ImagerySection name="notitle_noframe_client_area">
+			<FrameComponent>
+				<Area>
+					<Dim type="LeftEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="TopEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="RightEdge">
+						<UnifiedDim scale="1" type="RightEdge" />
+					</Dim>
+					<Dim type="BottomEdge">
+						<UnifiedDim scale="1" type="BottomEdge" />
+					</Dim>
+				</Area>
+				<Image type="Background" imageset="ProjetUnivers"
+					image="Window" />
+			</FrameComponent>
+		</ImagerySection>
+		<StateImagery name="ActiveWithTitleWithFrame">
+			<Layer>
+				<Section section="withtitle_frame" />
+			</Layer>
+		</StateImagery>
+		<StateImagery name="InactiveWithTitleWithFrame">
+			<Layer>
+				<Section section="withtitle_frame" />
+			</Layer>
+		</StateImagery>
+		<StateImagery name="DisabledWithTitleWithFrame">
+			<Layer>
+				<Section section="withtitle_frame" />
+			</Layer>
+		</StateImagery>
+		<StateImagery name="ActiveWithTitleNoFrame">
+			<Layer>
+				<Section section="withtitle_noframe_client_area" />
+			</Layer>
+		</StateImagery>
+		<StateImagery name="InactiveWithTitleNoFrame">
+			<Layer>
+				<Section section="withtitle_noframe_client_area" />
+			</Layer>
+		</StateImagery>
+		<StateImagery name="DisabledWithTitleNoFrame">
+			<Layer>
+				<Section section="withtitle_noframe_client_area" />
+			</Layer>
+		</StateImagery>
+		<StateImagery name="ActiveNoTitleWithFrame">
+			<Layer>
+				<Section section="notitle_frame" />
+			</Layer>
+		</StateImagery>
+		<StateImagery name="InactiveNoTitleWithFrame">
+			<Layer>
+				<Section section="notitle_frame" />
+			</Layer>
+		</StateImagery>
+		<StateImagery name="DisabledNoTitleWithFrame">
+			<Layer>
+				<Section section="notitle_frame" />
+			</Layer>
+		</StateImagery>
+		<StateImagery name="ActiveNoTitleNoFrame">
+			<Layer>
+				<Section section="notitle_noframe_client_area" />
+			</Layer>
+		</StateImagery>
+		<StateImagery name="InactiveNoTitleNoFrame">
+			<Layer>
+				<Section section="notitle_noframe_client_area" />
+			</Layer>
+		</StateImagery>
+		<StateImagery name="DisabledNoTitleNoFrame">
+			<Layer>
+				<Section section="notitle_noframe_client_area" />
+			</Layer>
+		</StateImagery>
+	</WidgetLook>
+
+	<WidgetLook name="ProjetUnivers/Titlebar">
+		<PropertyDefinition name="CaptionColour" initialValue="FFFFFFFF"
+			redrawOnWrite="true" />
+		<ImagerySection name="caption">
+			<TextComponent>
+				<Area>
+					<Dim type="LeftEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="TopEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="RightEdge">
+						<UnifiedDim scale="1" type="RightEdge" />
+					</Dim>
+					<Dim type="BottomEdge">
+						<UnifiedDim scale="1" type="BottomEdge" />
+					</Dim>
+				</Area>
+				<ColourProperty name="CaptionColour" />
+				<VertFormat type="CentreAligned" />
+				<HorzFormat type="CentreAligned" />
+			</TextComponent>
+		</ImagerySection>
+		<StateImagery name="Active">
+			<Layer>
+				<Section section="caption" />
+			</Layer>
+		</StateImagery>
+		<StateImagery name="Inactive">
+			<Layer>
+				<Section section="caption" />
+			</Layer>
+		</StateImagery>
+		<StateImagery name="Disabled">
+			<Layer>
+				<Section section="caption" />
+			</Layer>
+		</StateImagery>
+	</WidgetLook>
+
+	<!--
+		***************************************************
+		ProjetUnivers/Menu
+        
+        A small window
+		***************************************************
+	-->
+	<WidgetLook name="ProjetUnivers/Menu">
+		<PropertyLinkDefinition name="CaptionColour" widget="__auto_titlebar__" targetProperty="CaptionColour" initialValue="FFFFFFFF" />
+		<PropertyLinkDefinition name="TitlebarFont" widget="__auto_titlebar__" targetProperty="Font" />
+		<Property name="NSSizingCursorImage" value="set:ProjetUnivers-Images image:MouseArrow" />
+		<Property name="EWSizingCursorImage" value="set:ProjetUnivers-Images image:MouseArrow" />
+		<Property name="NWSESizingCursorImage" value="set:ProjetUnivers-Images image:MouseArrow" />
+		<Property name="NESWSizingCursorImage" value="set:ProjetUnivers-Images image:MouseArrow" />
+		<Property name="RollUpEnabled" value="False" />
+		<NamedArea name="ClientWithTitleWithFrame">
+			<Area>
+				<Dim type="LeftEdge">
+					<AbsoluteDim value="7" />
+				</Dim>
+				<Dim type="TopEdge">
+					<WidgetDim widget="__auto_titlebar__"
+						dimension="BottomEdge" />
+				</Dim>
+				<Dim type="RightEdge">
+					<UnifiedDim scale="1" offset="-7" type="RightEdge" />
+				</Dim>
+				<Dim type="BottomEdge">
+					<UnifiedDim scale="1" offset="-7" type="BottomEdge" />
+				</Dim>
+			</Area>
+		</NamedArea>
+		<NamedArea name="ClientWithTitleNoFrame">
+			<Area>
+				<Dim type="LeftEdge">
+					<AbsoluteDim value="0" />
+				</Dim>
+				<Dim type="TopEdge">
+					<WidgetDim widget="__auto_titlebar__"
+						dimension="BottomEdge" />
+				</Dim>
+				<Dim type="RightEdge">
+					<UnifiedDim scale="1" type="RightEdge" />
+				</Dim>
+				<Dim type="BottomEdge">
+					<UnifiedDim scale="1" type="BottomEdge" />
+				</Dim>
+			</Area>
+		</NamedArea>
+		<NamedArea name="ClientNoTitleWithFrame">
+			<Area>
+				<Dim type="LeftEdge">
+					<AbsoluteDim value="7" />
+				</Dim>
+				<Dim type="TopEdge">
+					<AbsoluteDim value="7" />
+				</Dim>
+				<Dim type="RightEdge">
+					<UnifiedDim scale="1" offset="-7" type="RightEdge" />
+				</Dim>
+				<Dim type="BottomEdge">
+					<UnifiedDim scale="1" offset="-7" type="BottomEdge" />
+				</Dim>
+			</Area>
+		</NamedArea>
+		<NamedArea name="ClientNoTitleNoFrame">
+			<Area>
+				<Dim type="LeftEdge">
+					<AbsoluteDim value="0" />
+				</Dim>
+				<Dim type="TopEdge">
+					<AbsoluteDim value="0" />
+				</Dim>
+				<Dim type="Width">
+					<UnifiedDim scale="1" type="Width" />
+				</Dim>
+				<Dim type="Height">
+					<UnifiedDim scale="1" type="Height" />
+				</Dim>
+			</Area>
+		</NamedArea>
+		<Child type="ProjetUnivers/Titlebar" nameSuffix="__auto_titlebar__">
+			<Area>
+				<Dim type="LeftEdge">
+					<AbsoluteDim value="0" />
+				</Dim>
+				<Dim type="TopEdge">
+					<AbsoluteDim value="0" />
+				</Dim>
+				<Dim type="Width">
+					<UnifiedDim scale="1" type="Width" />
+				</Dim>
+				<Dim type="Height">
+					<FontDim type="LineSpacing" padding="10" />
+				</Dim>
+			</Area>
+			<Property name="AlwaysOnTop" value="False" />
+		</Child>
+		<Child type="ProjetUnivers/Button" nameSuffix="__auto_closebutton__">
+			<Area>
+				<Dim type="LeftEdge">
+					<AbsoluteDim value="-7" />
+				</Dim>
+				<Dim type="TopEdge">
+					<AbsoluteDim value="7" />
+				</Dim>
+				<Dim type="Width">
+					<AbsoluteDim value="7" />
+				</Dim>
+				<Dim type="Height">
+					<AbsoluteDim value="7" />
+				</Dim>
+			</Area>
+			<HorzAlignment type="RightAligned" />
+			<Property name="AlwaysOnTop" value="True" />
+		</Child>
+    <!-- A non displayed child that represent the part in which we can add sub-windows -->
+    <Child type="DefaultWindow" nameSuffix="_content">
+      <Area>
+        <Dim type="LeftEdge">
+          <UnifiedDim scale="0" offset="-3" type="LeftEdge">
+            <DimOperator op="Add">
+              <ImageDim imageset="ProjetUnivers" image="Menu_Droite" dimension="Width" />
+            </DimOperator>
+          </UnifiedDim>
+        </Dim>
+        <Dim type="TopEdge">
+          <UnifiedDim scale="0.17" type="TopEdge"/>
+        </Dim>
+        <Dim type="RightEdge">
+          <UnifiedDim scale="1" offset="6" type="RightEdge">
+            <DimOperator op="Subtract">
+              <ImageDim imageset="ProjetUnivers" image="Menu_Gauche" dimension="Width"/>
+            </DimOperator>
+          </UnifiedDim>
+        </Dim>
+        <Dim type="BottomEdge">
+          <UnifiedDim scale="0.94" offset="-20" type="BottomEdge" />
+        </Dim>
+      </Area>
+    </Child>
+    <ImagerySection name="withtitle_frame">
+			<FrameComponent>
+				<Area>
+					<Dim type="LeftEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="TopEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="RightEdge">
+						<UnifiedDim scale="1" type="RightEdge" />
+					</Dim>
+					<Dim type="BottomEdge">
+						<UnifiedDim scale="1" type="BottomEdge" />
+					</Dim>
+				</Area>
+				<Image type="RightEdge" imageset="ProjetUnivers" image="Menu_Droite" />
+				<Image type="LeftEdge" imageset="ProjetUnivers" image="Menu_Gauche" />
+ 				<Image type="Background" imageset="ProjetUnivers" image="Menu_Background" />
+			</FrameComponent>
+		</ImagerySection>
+		<ImagerySection name="notitle_frame">
+			<FrameComponent>
+				<Area>
+					<Dim type="LeftEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="TopEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="RightEdge">
+						<UnifiedDim scale="1" type="RightEdge" />
+					</Dim>
+					<Dim type="BottomEdge">
+						<UnifiedDim scale="1" type="BottomEdge" />
+					</Dim>
+				</Area>
+				<Image type="RightEdge" imageset="ProjetUnivers" image="Menu_Droite" />
+				<Image type="LeftEdge" imageset="ProjetUnivers" image="Menu_Gauche" />
+				<Image type="Background" imageset="ProjetUnivers" image="Menu_Background" />
+			</FrameComponent>
+		</ImagerySection>
+		<ImagerySection name="withtitle_noframe_client_area">
+			<FrameComponent>
+				<Area>
+					<Dim type="LeftEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="TopEdge">
+						<WidgetDim widget="__auto_titlebar__"
+							dimension="BottomEdge" />
+					</Dim>
+					<Dim type="RightEdge">
+						<UnifiedDim scale="1" type="RightEdge" />
+					</Dim>
+					<Dim type="BottomEdge">
+						<UnifiedDim scale="1" type="BottomEdge" />
+					</Dim>
+				</Area>
+				<Image type="RightEdge" imageset="ProjetUnivers" image="Menu_Droite" />
+				<Image type="LeftEdge" imageset="ProjetUnivers" image="Menu_Gauche" />
+				<Image type="Background" imageset="ProjetUnivers" image="Menu_Background" />
+			</FrameComponent>
+		</ImagerySection>
+		<ImagerySection name="notitle_noframe_client_area">
+			<FrameComponent>
+				<Area>
+					<Dim type="LeftEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="TopEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="RightEdge">
+						<UnifiedDim scale="1" type="RightEdge" />
+					</Dim>
+					<Dim type="BottomEdge">
+						<UnifiedDim scale="1" type="BottomEdge" />
+					</Dim>
+				</Area>
+				<Image type="RightEdge" imageset="ProjetUnivers" image="Menu_Droite" />
+				<Image type="LeftEdge" imageset="ProjetUnivers" image="Menu_Gauche" />
+				<Image type="Background" imageset="ProjetUnivers" image="Menu_Background" />
+			</FrameComponent>
+		</ImagerySection>
+		<StateImagery name="ActiveWithTitleWithFrame">
+			<Layer>
+				<Section section="withtitle_frame" />
+			</Layer>
+		</StateImagery>
+		<StateImagery name="InactiveWithTitleWithFrame">
+			<Layer>
+				<Section section="withtitle_frame" />
+			</Layer>
+		</StateImagery>
+		<StateImagery name="DisabledWithTitleWithFrame">
+			<Layer>
+				<Section section="withtitle_frame" />
+			</Layer>
+		</StateImagery>
+		<StateImagery name="ActiveWithTitleNoFrame">
+			<Layer>
+				<Section section="withtitle_noframe_client_area" />
+			</Layer>
+		</StateImagery>
+		<StateImagery name="InactiveWithTitleNoFrame">
+			<Layer>
+				<Section section="withtitle_noframe_client_area" />
+			</Layer>
+		</StateImagery>
+		<StateImagery name="DisabledWithTitleNoFrame">
+			<Layer>
+				<Section section="withtitle_noframe_client_area" />
+			</Layer>
+		</StateImagery>
+		<StateImagery name="ActiveNoTitleWithFrame">
+			<Layer>
+				<Section section="notitle_frame" />
+			</Layer>
+		</StateImagery>
+		<StateImagery name="InactiveNoTitleWithFrame">
+			<Layer>
+				<Section section="notitle_frame" />
+			</Layer>
+		</StateImagery>
+		<StateImagery name="DisabledNoTitleWithFrame">
+			<Layer>
+				<Section section="notitle_frame" />
+			</Layer>
+		</StateImagery>
+		<StateImagery name="ActiveNoTitleNoFrame">
+			<Layer>
+				<Section section="notitle_noframe_client_area" />
+			</Layer>
+		</StateImagery>
+		<StateImagery name="InactiveNoTitleNoFrame">
+			<Layer>
+				<Section section="notitle_noframe_client_area" />
+			</Layer>
+		</StateImagery>
+		<StateImagery name="DisabledNoTitleNoFrame">
+			<Layer>
+				<Section section="notitle_noframe_client_area" />
+			</Layer>
+		</StateImagery>
+	</WidgetLook>
+
+	<!--
+		***************************************************
+		ProjetUnivers/MultiLineEditbox
+		***************************************************
+	-->
+	<WidgetLook name="ProjetUnivers/MultiLineEditbox">
+		<PropertyDefinition name="NormalTextColour"
+			initialValue="FFFFFFFF" redrawOnWrite="true" />
+		<PropertyDefinition name="SelectedTextColour"
+			initialValue="FF000000" redrawOnWrite="true" />
+		<PropertyDefinition name="ActiveSelectionColour"
+			initialValue="FF607FFF" redrawOnWrite="true" />
+		<PropertyDefinition name="InactiveSelectionColour"
+			initialValue="FF808080" redrawOnWrite="true" />
+		<Property name="MouseCursorImage"
+			value="set:ProjetUnivers image:MouseTextBar" />
+		<Property name="SelectionBrushImage"
+			value="set:ProjetUnivers image:MultiLineEditboxSelectionBrush" />
+		<NamedArea name="TextArea">
+			<Area>
+				<Dim type="LeftEdge">
+					<ImageDim imageset="ProjetUnivers" image="MultiList"
+						dimension="Width" />
+				</Dim>
+				<Dim type="TopEdge">
+					<ImageDim imageset="ProjetUnivers" image="MultiList"
+						dimension="Height" />
+				</Dim>
+				<Dim type="RightEdge">
+					<UnifiedDim scale="1" type="RightEdge">
+						<DimOperator op="Subtract">
+							<ImageDim imageset="ProjetUnivers"
+								image="MultiList" dimension="Width" />
+						</DimOperator>
+					</UnifiedDim>
+				</Dim>
+				<Dim type="BottomEdge">
+					<UnifiedDim scale="1" type="BottomEdge">
+						<DimOperator op="Subtract">
+							<ImageDim imageset="ProjetUnivers"
+								image="MultiList" dimension="Height" />
+						</DimOperator>
+					</UnifiedDim>
+				</Dim>
+			</Area>
+		</NamedArea>
+		<NamedArea name="TextAreaHScroll">
+			<Area>
+				<Dim type="LeftEdge">
+					<ImageDim imageset="ProjetUnivers" image="MultiList"
+						dimension="Width" />
+				</Dim>
+				<Dim type="TopEdge">
+					<ImageDim imageset="ProjetUnivers" image="MultiList"
+						dimension="Height" />
+				</Dim>
+				<Dim type="RightEdge">
+					<UnifiedDim scale="1" type="RightEdge">
+						<DimOperator op="Subtract">
+							<ImageDim imageset="ProjetUnivers"
+								image="MultiList" dimension="Width" />
+						</DimOperator>
+					</UnifiedDim>
+				</Dim>
+				<Dim type="BottomEdge">
+					<UnifiedDim scale="1" type="BottomEdge">
+						<DimOperator op="Subtract">
+							<WidgetDim widget="__auto_hscrollbar__"
+								dimension="Height" />
+						</DimOperator>
+					</UnifiedDim>
+				</Dim>
+			</Area>
+		</NamedArea>
+		<NamedArea name="TextAreaVScroll">
+			<Area>
+				<Dim type="LeftEdge">
+					<ImageDim imageset="ProjetUnivers" image="MultiList"
+						dimension="Width" />
+				</Dim>
+				<Dim type="TopEdge">
+					<ImageDim imageset="ProjetUnivers" image="MultiList"
+						dimension="Height" />
+				</Dim>
+				<Dim type="RightEdge">
+					<UnifiedDim scale="1" type="RightEdge">
+						<DimOperator op="Subtract">
+							<WidgetDim widget="__auto_vscrollbar__"
+								dimension="Width" />
+						</DimOperator>
+					</UnifiedDim>
+				</Dim>
+				<Dim type="BottomEdge">
+					<UnifiedDim scale="1" type="BottomEdge">
+						<DimOperator op="Subtract">
+							<ImageDim imageset="ProjetUnivers"
+								image="MultiList" dimension="Height" />
+						</DimOperator>
+					</UnifiedDim>
+				</Dim>
+			</Area>
+		</NamedArea>
+		<NamedArea name="TextAreaHVScroll">
+			<Area>
+				<Dim type="LeftEdge">
+					<ImageDim imageset="ProjetUnivers" image="MultiList"
+						dimension="Width" />
+				</Dim>
+				<Dim type="TopEdge">
+					<ImageDim imageset="ProjetUnivers" image="MultiList"
+						dimension="Height" />
+				</Dim>
+				<Dim type="RightEdge">
+					<UnifiedDim scale="1" type="RightEdge">
+						<DimOperator op="Subtract">
+							<WidgetDim widget="__auto_vscrollbar__"
+								dimension="Width" />
+						</DimOperator>
+					</UnifiedDim>
+				</Dim>
+				<Dim type="BottomEdge">
+					<UnifiedDim scale="1" type="BottomEdge">
+						<DimOperator op="Subtract">
+							<WidgetDim widget="__auto_hscrollbar__"
+								dimension="Height" />
+						</DimOperator>
+					</UnifiedDim>
+				</Dim>
+			</Area>
+		</NamedArea>
+		<Child type="ProjetUnivers/HorizontalScrollbar"
+			nameSuffix="__auto_hscrollbar__">
+			<Area>
+				<Dim type="LeftEdge">
+					<AbsoluteDim value="0" />
+				</Dim>
+				<Dim type="TopEdge">
+					<AbsoluteDim value="0" />
+				</Dim>
+				<Dim type="Width">
+					<UnifiedDim scale="1" offset="-12" type="Width" />
+				</Dim>
+				<Dim type="Height">
+					<AbsoluteDim value="12" />
+				</Dim>
+			</Area>
+			<VertAlignment type="BottomAligned" />
+		</Child>
+		<Child type="ProjetUnivers/VerticalScrollbar"
+			nameSuffix="__auto_vscrollbar__">
+			<Area>
+				<Dim type="LeftEdge">
+					<AbsoluteDim value="0" />
+				</Dim>
+				<Dim type="TopEdge">
+					<AbsoluteDim value="0" />
+				</Dim>
+				<Dim type="Width">
+					<AbsoluteDim value="12" />
+				</Dim>
+				<Dim type="Height">
+					<UnifiedDim scale="1" offset="-12" type="Height" />
+				</Dim>
+			</Area>
+			<HorzAlignment type="RightAligned" />
+		</Child>
+		<ImagerySection name="main">
+			<FrameComponent>
+				<Area>
+					<Dim type="LeftEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="TopEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="Width">
+						<UnifiedDim scale="1" type="Width" />
+					</Dim>
+					<Dim type="Height">
+						<UnifiedDim scale="1" type="Height" />
+					</Dim>
+				</Area>
+				<Image type="Background" imageset="ProjetUnivers"
+					image="MultiList" />
+			</FrameComponent>
+		</ImagerySection>
+		<ImagerySection name="Carat">
+			<ImageryComponent>
+				<Area>
+					<Dim type="LeftEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="TopEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="Width">
+						<ImageDim imageset="ProjetUnivers"
+							image="MultiList" dimension="Width" />
+					</Dim>
+					<Dim type="BottomEdge">
+						<UnifiedDim scale="1.0" type="BottomEdge" />
+					</Dim>
+				</Area>
+				<Image imageset="ProjetUnivers" image="MultiList" />
+				<VertFormat type="Stretched" />
+				<HorzFormat type="Stretched" />
+			</ImageryComponent>
+		</ImagerySection>
+		<StateImagery name="Enabled">
+			<Layer>
+				<Section section="main" />
+			</Layer>
+		</StateImagery>
+		<StateImagery name="ReadOnly">
+			<Layer>
+				<Section section="main" />
+			</Layer>
+		</StateImagery>
+		<StateImagery name="Disabled">
+			<Layer>
+				<Section section="main">
+					<Colours topLeft="FF7F7F7F" topRight="FF7F7F7F"
+						bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+				</Section>
+			</Layer>
+		</StateImagery>
+	</WidgetLook>
+
+	<!--
+		***************************************************
+		ProjetUnivers/HorizontalScrollbar
+      ProjetUnivers/HorizontalScrollbarThumb
+    
+    untested
+		***************************************************
+	-->
+	<WidgetLook name="ProjetUnivers/HorizontalScrollbar">
+    <Property name="HorizontalScrollbar" value="True" />
+		<NamedArea name="ThumbTrackArea">
+			<Area>
+				<Dim type="LeftEdge">
+					<ImageDim imageset="ProjetUnivers" image="ScrollH_Gauche_Normal" dimension="Width" />
+				</Dim>
+				<Dim type="TopEdge">
+					<AbsoluteDim value="0" />
+				</Dim>
+				<Dim type="RightEdge">
+					<UnifiedDim scale="1.0" type="RightEdge">
+						<DimOperator op="Subtract">
+							<ImageDim imageset="ProjetUnivers" image="ScrollH_Droite_Normal" dimension="Width" />
+						</DimOperator>
+					</UnifiedDim>
+				</Dim>
+				<Dim type="Height">
+          <UnifiedDim scale="1.0" type="Height"/>
+				</Dim>
+			</Area>
+		</NamedArea>
+		<Child type="ProjetUnivers/ImageButton" nameSuffix="__auto_incbtn__">
+			<Area>
+				<Dim type="LeftEdge">
+          <AbsoluteDim value="0" />
+				</Dim>
+				<Dim type="TopEdge">
+					<AbsoluteDim value="0" />
+				</Dim>
+				<Dim type="Width">
+  					<ImageDim imageset="ProjetUnivers" image="ScrollH_Droite_Normal" dimension="Width" />
+				</Dim>
+				<Dim type="Height">
+					<UnifiedDim scale="1" type="Height" />
+				</Dim>
+			</Area>
+			<HorzAlignment type="RightAligned" />
+      <Property name="NormalImage" value="set:ProjetUnivers image:ScrollH_Droite_Normal" />
+      <Property name="HoverImage" value="set:ProjetUnivers image:ScrollH_Droite_Hoover" />
+      <Property name="PushedImage" value="set:ProjetUnivers image:ScrollH_Droite_Normal" />
+		</Child>
+		<Child type="ProjetUnivers/ImageButton" nameSuffix="__auto_decbtn__">
+			<Area>
+				<Dim type="LeftEdge">
+					<AbsoluteDim value="0" />
+				</Dim>
+				<Dim type="TopEdge">
+					<AbsoluteDim value="0" />
+				</Dim>
+				<Dim type="Width">
+ 					<ImageDim imageset="ProjetUnivers" image="ScrollH_Gauche_Normal" dimension="Width" />
+				</Dim>
+				<Dim type="Height">
+					<UnifiedDim scale="1" type="Height" />
+				</Dim>
+			</Area>
+      <HorzAlignment type="LeftAligned" />
+      <Property name="NormalImage" value="set:ProjetUnivers image:ScrollH_Gauche_Normal" />
+      <Property name="HoverImage" value="set:ProjetUnivers image:ScrollH_Gauche_Hoover" />
+      <Property name="PushedImage" value="set:ProjetUnivers image:ScrollH_Gauche_Normal" />
+		</Child>
+		<Child type="ProjetUnivers/HorizontalScrollbarThumb" nameSuffix="__auto_thumb__">
+			<Area>
+				<Dim type="LeftEdge">
+					<AbsoluteDim value="0" />
+				</Dim>
+				<Dim type="TopEdge">
+					<AbsoluteDim value="0" />
+				</Dim>
+				<Dim type="Width">
+					<UnifiedDim scale="1" type="Width" />
+				</Dim>
+				<Dim type="Height">
+					<UnifiedDim scale="0.1" type="Height" />
+				</Dim>
+			</Area>
+			<Property name="UnifiedMinSize" value="{{0,0},{25,0}}" />
+		</Child>
+		<ImagerySection name="main">
+			<ImageryComponent>
+				<Area>
+					<Dim type="LeftEdge">
+						<ImageDim imageset="ProjetUnivers" image="ScrollH_Gauche_Normal" dimension="Width" />
+					</Dim>
+					<Dim type="TopEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="RightEdge">
+						<UnifiedDim scale="1" type="RightEdge">
+							<DimOperator op="Subtract">
+								<ImageDim imageset="ProjetUnivers" image="ScrollH_Droite_Normal" dimension="Width" />
+							</DimOperator>
+						</UnifiedDim>
+					</Dim>
+					<Dim type="BottomEdge">
+						<UnifiedDim scale="1.0" type="BottomEdge" />
+					</Dim>
+				</Area>
+				<Image imageset="ProjetUnivers" image="ScrollH_Background" />
+				<VertFormat type="CentreAligned" />
+				<HorzFormat type="Stretched" />
+			</ImageryComponent>
+		</ImagerySection>
+		<StateImagery name="Enabled">
+			<Layer>
+				<Section section="main" />
+			</Layer>
+		</StateImagery>
+		<StateImagery name="Disabled">
+			<Layer>
+				<Section section="main">
+					<Colours topLeft="FF7F7F7F" topRight="FF7F7F7F"
+						bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+				</Section>
+			</Layer>
+		</StateImagery>
+	</WidgetLook>
+
+  <WidgetLook name="ProjetUnivers/HorizontalScrollbarThumb">
+    <Property name="HorzFree" value="True" />
+    <ImagerySection name="normal">
+      <FrameComponent>
+        <Area>
+          <Dim type="LeftEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="TopEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="Width">
+            <UnifiedDim scale="1.0" type="Width" />
+          </Dim>
+          <Dim type="Height">
+            <UnifiedDim scale="1.0" type="Height" />
+          </Dim>
+        </Area>
+        <Image type="Background" imageset="ProjetUnivers" image="Scroll_Curseur" />
+      </FrameComponent>
+    </ImagerySection>
+    <ImagerySection name="hover">
+      <FrameComponent>
+        <Area>
+          <Dim type="LeftEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="TopEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="Width">
+            <UnifiedDim scale="1.0" type="Width" />
+          </Dim>
+          <Dim type="Height">
+            <UnifiedDim scale="1.0" type="Height" />
+          </Dim>
+        </Area>
+        <Image type="Background" imageset="ProjetUnivers" image="Scroll_Curseur" />
+      </FrameComponent>
+    </ImagerySection>
+    <StateImagery name="Normal">
+      <Layer>
+        <Section section="normal" />
+      </Layer>
+    </StateImagery>
+    <StateImagery name="Hover">
+      <Layer>
+        <Section section="hover" />
+      </Layer>
+    </StateImagery>
+    <StateImagery name="Pushed">
+      <Layer>
+        <Section section="normal" />
+      </Layer>
+    </StateImagery>
+    <StateImagery name="Disabled">
+      <Layer>
+        <Section section="normal">
+          <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F"
+            bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+        </Section>
+      </Layer>
+    </StateImagery>
+  </WidgetLook>
+
+	<!--
+		***************************************************
+		ProjetUnivers/VerticalScrollbar
+      ProjetUnivers/VerticalScrollbarThumb (cursor)
+    
+      working
+		***************************************************
+	-->
+	<WidgetLook name="ProjetUnivers/VerticalScrollbar">
+		<Property name="VerticalScrollbar" value="True" />
+		<!-- area in which thumb (i.e. cursor) may be moved -->
+    <NamedArea name="ThumbTrackArea">
+			<Area>
+        <Dim type="LeftEdge">
+          <AbsoluteDim value="0" />
+        </Dim>
+				<Dim type="TopEdge">
+          <ImageDim imageset="ProjetUnivers" image="ScrollV_Haut_Normal" dimension="Height" /> 
+				</Dim>
+				<Dim type="RightEdge">
+					<UnifiedDim scale="1.0" type="RightEdge">
+						<DimOperator op="Subtract">
+							<ImageDim imageset="ProjetUnivers" image="ScrollV_Haut_Normal" dimension="Width" />
+						</DimOperator>
+					</UnifiedDim>
+				</Dim>
+				<Dim type="BottomEdge">
+          <UnifiedDim scale="1.0" type="BottomEdge">
+            <DimOperator op="Subtract">
+              <ImageDim imageset="ProjetUnivers" image="ScrollV_Bas_Normal" dimension="Height" />
+            </DimOperator>
+          </UnifiedDim>
+				</Dim>
+			</Area>
+		</NamedArea>
+		<Child type="ProjetUnivers/ImageButton" nameSuffix="__auto_incbtn__">
+			<Area>
+				<Dim type="LeftEdge">
+					<AbsoluteDim value="0" />
+				</Dim>
+				<Dim type="TopEdge">
+					<AbsoluteDim value="0" />
+				</Dim>
+				<Dim type="Width">
+					<UnifiedDim scale="1" type="Width" />
+				</Dim>
+				<Dim type="Height">
+					<ImageDim imageset="ProjetUnivers" image="ScrollV_Bas_Normal" dimension="Height" />
+				</Dim>
+			</Area>
+			<VertAlignment type="BottomAligned" />
+			<Property name="NormalImage" value="set:ProjetUnivers image:ScrollV_Bas_Normal" />
+			<Property name="HoverImage" value="set:ProjetUnivers image:ScrollV_Bas_Hoover" />
+			<Property name="PushedImage" value="set:ProjetUnivers image:ScrollV_Bas_Normal" />
+		</Child>
+		<Child type="ProjetUnivers/ImageButton" nameSuffix="__auto_decbtn__">
+			<Area>
+				<Dim type="LeftEdge">
+					<AbsoluteDim value="0" />
+				</Dim>
+				<Dim type="TopEdge">
+					<AbsoluteDim value="0" />
+				</Dim>
+				<Dim type="Width">
+					<UnifiedDim scale="1" type="Width" />
+				</Dim>
+				<Dim type="Height">
+					<ImageDim imageset="ProjetUnivers" image="ScrollV_Haut_Normal" dimension="Height" />
+				</Dim>
+			</Area>
+			<Property name="NormalImage" value="set:ProjetUnivers image:ScrollV_Haut_Normal" />
+			<Property name="HoverImage" value="set:ProjetUnivers image:ScrollV_Haut_Hoover" />
+			<Property name="PushedImage" value="set:ProjetUnivers image:ScrollV_Haut_Normal" />
+		</Child>
+		<Child type="ProjetUnivers/VerticalScrollbarThumb" nameSuffix="__auto_thumb__">
+			<Area>
+				<Dim type="LeftEdge">
+					<AbsoluteDim value="0" />
+				</Dim>
+				<Dim type="TopEdge">
+					<AbsoluteDim value="0" />
+				</Dim>
+				<Dim type="Width">
+					<UnifiedDim scale="1" type="Width" />
+				</Dim>
+				<Dim type="Height">
+					<UnifiedDim scale="0.1" type="Height" />
+				</Dim>
+			</Area>
+			<Property name="UnifiedMinSize" value="{{0,0},{0,25}}" />
+		</Child>
+		<ImagerySection name="main">
+			<ImageryComponent>
+				<Area>
+					<Dim type="LeftEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="TopEdge">
+						<ImageDim imageset="ProjetUnivers" image="ScrollV_Haut_Normal" dimension="Height" />
+					</Dim>
+					<Dim type="RightEdge">
+						<UnifiedDim scale="1.0" type="RightEdge" />
+					</Dim>
+					<Dim type="BottomEdge">
+						<UnifiedDim scale="1.0" type="BottomEdge">
+							<DimOperator op="Subtract">
+								<ImageDim imageset="ProjetUnivers" image="ScrollV_Bas_Normal" dimension="Height" />
+							</DimOperator>
+						</UnifiedDim>
+					</Dim>
+				</Area>
+				<Image imageset="ProjetUnivers" image="ScrollV_Background" />
+				<VertFormat type="Stretched" />
+				<HorzFormat type="CentreAligned" />
+			</ImageryComponent>
+		</ImagerySection>
+		<StateImagery name="Enabled">
+			<Layer>
+				<Section section="main" />
+			</Layer>
+		</StateImagery>
+		<StateImagery name="Disabled">
+			<Layer>
+				<Section section="main">
+					<Colours topLeft="FF7F7F7F" topRight="FF7F7F7F"
+						bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+				</Section>
+			</Layer>
+		</StateImagery>
+	</WidgetLook>
+
+	<WidgetLook name="ProjetUnivers/VerticalScrollbarThumb">
+		<Property name="VertFree" value="True" />
+		<ImagerySection name="normal">
+			<FrameComponent>
+        <Area>
+          <Dim type="LeftEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="TopEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="Width">
+            <UnifiedDim scale="1.0" type="Width" />
+          </Dim>
+          <Dim type="Height">
+            <UnifiedDim scale="1.0" type="Height" />
+          </Dim>
+        </Area>
+				<Image type="Background" imageset="ProjetUnivers" image="Scroll_Curseur" />
+			</FrameComponent>
+		</ImagerySection>
+		<ImagerySection name="hover">
+			<FrameComponent>
+        <Area>
+          <Dim type="LeftEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="TopEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="Width">
+            <UnifiedDim scale="1.0" type="Width" />
+          </Dim>
+          <Dim type="Height">
+            <UnifiedDim scale="1.0" type="Height" />
+          </Dim>
+        </Area>
+				<Image type="Background" imageset="ProjetUnivers" image="Scroll_Curseur" />
+			</FrameComponent>
+		</ImagerySection>
+		<StateImagery name="Normal">
+			<Layer>
+				<Section section="normal" />
+			</Layer>
+		</StateImagery>
+		<StateImagery name="Hover">
+			<Layer>
+				<Section section="hover" />
+			</Layer>
+		</StateImagery>
+		<StateImagery name="Pushed">
+			<Layer>
+				<Section section="normal" />
+			</Layer>
+		</StateImagery>
+		<StateImagery name="Disabled">
+			<Layer>
+				<Section section="normal">
+					<Colours topLeft="FF7F7F7F" topRight="FF7F7F7F"
+						bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+				</Section>
+			</Layer>
+		</StateImagery>
+	</WidgetLook>
+
+
+
+	<!--
+		***************************************************
+		ProjetUnivers/ImageButton
+		***************************************************
+	-->
+	<WidgetLook name="ProjetUnivers/ImageButton">
+		<PropertyDefinition name="NormalImage" initialValue=""
+			redrawOnWrite="true" />
+		<PropertyDefinition name="HoverImage" initialValue=""
+			redrawOnWrite="true" />
+		<PropertyDefinition name="PushedImage" initialValue=""
+			redrawOnWrite="true" />
+		<PropertyDefinition name="DisabledImage" initialValue=""
+			redrawOnWrite="true" />
+		<PropertyDefinition name="VertImageFormatting"
+			initialValue="Stretched" redrawOnWrite="true" />
+		<PropertyDefinition name="HorzImageFormatting"
+			initialValue="Stretched" redrawOnWrite="true" />
+		<ImagerySection name="normal">
+			<ImageryComponent>
+				<Area>
+					<Dim type="LeftEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="TopEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="Width">
+						<UnifiedDim scale="1" type="Width" />
+					</Dim>
+					<Dim type="Height">
+						<UnifiedDim scale="1" type="Height" />
+					</Dim>
+				</Area>
+				<ImageProperty name="NormalImage" />
+				<VertFormatProperty name="VertImageFormatting" />
+				<HorzFormatProperty name="HorzImageFormatting" />
+			</ImageryComponent>
+		</ImagerySection>
+		<ImagerySection name="hover">
+			<ImageryComponent>
+				<Area>
+					<Dim type="LeftEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="TopEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="Width">
+						<UnifiedDim scale="1" type="Width" />
+					</Dim>
+					<Dim type="Height">
+						<UnifiedDim scale="1" type="Height" />
+					</Dim>
+				</Area>
+				<ImageProperty name="HoverImage" />
+				<VertFormatProperty name="VertImageFormatting" />
+				<HorzFormatProperty name="HorzImageFormatting" />
+			</ImageryComponent>
+		</ImagerySection>
+		<ImagerySection name="pushed">
+			<ImageryComponent>
+				<Area>
+					<Dim type="LeftEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="TopEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="Width">
+						<UnifiedDim scale="1" type="Width" />
+					</Dim>
+					<Dim type="Height">
+						<UnifiedDim scale="1" type="Height" />
+					</Dim>
+				</Area>
+				<ImageProperty name="PushedImage" />
+				<VertFormatProperty name="VertImageFormatting" />
+				<HorzFormatProperty name="HorzImageFormatting" />
+			</ImageryComponent>
+		</ImagerySection>
+		<ImagerySection name="disabled">
+			<ImageryComponent>
+				<Area>
+					<Dim type="LeftEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="TopEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="Width">
+						<UnifiedDim scale="1" type="Width" />
+					</Dim>
+					<Dim type="Height">
+						<UnifiedDim scale="1" type="Height" />
+					</Dim>
+				</Area>
+				<ImageProperty name="DisabledImage" />
+				<VertFormatProperty name="VertImageFormatting" />
+				<HorzFormatProperty name="HorzImageFormatting" />
+			</ImageryComponent>
+		</ImagerySection>
+		<StateImagery name="Normal">
+			<Layer>
+				<Section section="normal" />
+			</Layer>
+		</StateImagery>
+		<StateImagery name="Hover">
+			<Layer>
+				<Section section="hover" />
+			</Layer>
+		</StateImagery>
+		<StateImagery name="Pushed">
+			<Layer>
+				<Section section="pushed" />
+			</Layer>
+		</StateImagery>
+		<StateImagery name="PushedOff">
+			<Layer>
+				<Section section="hover" />
+			</Layer>
+		</StateImagery>
+		<StateImagery name="Disabled">
+			<Layer>
+				<Section section="disabled" />
+			</Layer>
+		</StateImagery>
+	</WidgetLook>
+
+	<!--
+		***************************************************
+		ProjetUnivers/Editbox
+		***************************************************
+	-->
+	<WidgetLook name="ProjetUnivers/Editbox">
+		<PropertyDefinition name="NormalTextColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
+		<PropertyDefinition name="SelectedTextColour" initialValue="FF000000" redrawOnWrite="true" />
+		<PropertyDefinition name="ActiveSelectionColour" initialValue="FF607FFF" redrawOnWrite="true" />
+		<PropertyDefinition name="InactiveSelectionColour" initialValue="FF808080" redrawOnWrite="true" />
+		<Property name="MouseCursorImage" value="set:ProjetUnivers image:MouseTextBar" />
+		<NamedArea name="TextArea">
+			<Area>
+				<Dim type="LeftEdge">
+					<AbsoluteDim value="5" />
+				</Dim>
+				<Dim type="TopEdge">
+					<AbsoluteDim value="0" />
+				</Dim>
+				<Dim type="RightEdge">
+					<UnifiedDim scale="1.0" offset="-5" type="RightEdge" />
+				</Dim>
+				<Dim type="BottomEdge">
+					<UnifiedDim scale="1.0" offset="0" type="BottomEdge" />
+				</Dim>
+			</Area>
+		</NamedArea>
+		<ImagerySection name="container_normal">
+			<FrameComponent>
+				<Area>
+					<Dim type="LeftEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="TopEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="Width">
+						<UnifiedDim scale="1" type="Width" />
+					</Dim>
+					<Dim type="Height">
+						<UnifiedDim scale="1" type="Height" />
+					</Dim>
+				</Area>
+				<Image type="Background" imageset="ProjetUnivers" image="MultiList" />
+			</FrameComponent>
+		</ImagerySection>
+		<ImagerySection name="selection">
+			<ImageryComponent>
+				<Area>
+					<Dim type="LeftEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="TopEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="RightEdge">
+						<UnifiedDim scale="1.0" type="RightEdge" />
+					</Dim>
+					<Dim type="BottomEdge">
+						<UnifiedDim scale="1.0" type="BottomEdge" />
+					</Dim>
+				</Area>
+				<Image imageset="ProjetUnivers" image="MultiList" />
+				<VertFormat type="Stretched" />
+				<HorzFormat type="Stretched" />
+			</ImageryComponent>
+		</ImagerySection>
+		<ImagerySection name="Carat">
+			<ImageryComponent>
+				<Area>
+					<Dim type="LeftEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="TopEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="Width">
+						<ImageDim imageset="ProjetUnivers"
+							image="MultiList" dimension="Width" />
+					</Dim>
+					<Dim type="BottomEdge">
+						<UnifiedDim scale="1.0" type="BottomEdge" />
+					</Dim>
+				</Area>
+				<Image imageset="ProjetUnivers" image="MultiList" />
+				<VertFormat type="Stretched" />
+				<HorzFormat type="Stretched" />
+			</ImageryComponent>
+		</ImagerySection>
+		<StateImagery name="Enabled">
+			<Layer>
+				<Section section="container_normal" />
+			</Layer>
+		</StateImagery>
+		<StateImagery name="ReadOnly">
+			<Layer>
+				<Section section="container_normal" />
+			</Layer>
+		</StateImagery>
+		<StateImagery name="Disabled">
+			<Layer>
+				<Section section="container_normal">
+					<Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+				</Section>
+			</Layer>
+		</StateImagery>
+		<StateImagery name="ActiveSelection">
+			<Layer>
+				<Section section="selection">
+					<ColourProperty name="ActiveSelectionColour" />
+				</Section>
+			</Layer>
+		</StateImagery>
+		<StateImagery name="InactiveSelection">
+			<Layer>
+				<Section section="selection">
+					<ColourProperty name="InactiveSelectionColour" />
+				</Section>
+			</Layer>
+		</StateImagery>
+	</WidgetLook>
+
+	<!--
+		***************************************************
+		ProjetUnivers/StaticText
+    
+    Working
+		***************************************************
+	-->
+	<WidgetLook name="ProjetUnivers/StaticText">
+		<PropertyDefinition name="FrameColours" initialValue="tl:FFFFFFFF tr:FFFFFFFF bl:FFFFFFFF br:FFFFFFFF" redrawOnWrite="true" />
+		<NamedArea name="WithFrameTextRenderArea">
+			<Area>
+				<Dim type="LeftEdge">
+					<ImageDim imageset="ProjetUnivers" image="MultiList"
+						dimension="Width" />
+				</Dim>
+				<Dim type="TopEdge">
+					<ImageDim imageset="ProjetUnivers" image="MultiList"
+						dimension="Height" />
+				</Dim>
+				<Dim type="RightEdge">
+					<UnifiedDim scale="1" type="RightEdge">
+						<DimOperator op="Subtract">
+							<ImageDim imageset="ProjetUnivers"
+								image="MultiList" dimension="Width" />
+						</DimOperator>
+					</UnifiedDim>
+				</Dim>
+				<Dim type="BottomEdge">
+					<UnifiedDim scale="1" type="BottomEdge">
+						<DimOperator op="Subtract">
+							<ImageDim imageset="ProjetUnivers"
+								image="MultiList" dimension="Height" />
+						</DimOperator>
+					</UnifiedDim>
+				</Dim>
+			</Area>
+		</NamedArea>
+		<NamedArea name="WithFrameTextRenderAreaHScroll">
+			<Area>
+				<Dim type="LeftEdge">
+					<ImageDim imageset="ProjetUnivers" image="MultiList"
+						dimension="Width" />
+				</Dim>
+				<Dim type="TopEdge">
+					<ImageDim imageset="ProjetUnivers" image="MultiList"
+						dimension="Height" />
+				</Dim>
+				<Dim type="RightEdge">
+					<UnifiedDim scale="1" type="RightEdge">
+						<DimOperator op="Subtract">
+							<ImageDim imageset="ProjetUnivers"
+								image="MultiList" dimension="Width" />
+						</DimOperator>
+					</UnifiedDim>
+				</Dim>
+				<Dim type="BottomEdge">
+					<UnifiedDim scale="1" type="BottomEdge">
+						<DimOperator op="Subtract">
+							<WidgetDim widget="__auto_hscrollbar__"
+								dimension="Height" />
+						</DimOperator>
+					</UnifiedDim>
+				</Dim>
+			</Area>
+		</NamedArea>
+		<NamedArea name="WithFrameTextRenderAreaVScroll">
+			<Area>
+				<Dim type="LeftEdge">
+					<ImageDim imageset="ProjetUnivers" image="MultiList"
+						dimension="Width" />
+				</Dim>
+				<Dim type="TopEdge">
+					<ImageDim imageset="ProjetUnivers" image="MultiList"
+						dimension="Height" />
+				</Dim>
+				<Dim type="RightEdge">
+					<UnifiedDim scale="1" type="RightEdge">
+						<DimOperator op="Subtract">
+							<WidgetDim widget="__auto_vscrollbar__"
+								dimension="Width" />
+						</DimOperator>
+					</UnifiedDim>
+				</Dim>
+				<Dim type="BottomEdge">
+					<UnifiedDim scale="1" type="BottomEdge">
+						<DimOperator op="Subtract">
+							<ImageDim imageset="ProjetUnivers"
+								image="MultiList" dimension="Height" />
+						</DimOperator>
+					</UnifiedDim>
+				</Dim>
+			</Area>
+		</NamedArea>
+		<NamedArea name="WithFrameTextRenderAreaHVScroll">
+			<Area>
+				<Dim type="LeftEdge">
+					<ImageDim imageset="ProjetUnivers" image="MultiList"
+						dimension="Width" />
+				</Dim>
+				<Dim type="TopEdge">
+					<ImageDim imageset="ProjetUnivers" image="MultiList"
+						dimension="Height" />
+				</Dim>
+				<Dim type="RightEdge">
+					<UnifiedDim scale="1" type="RightEdge">
+						<DimOperator op="Subtract">
+							<WidgetDim widget="__auto_vscrollbar__"
+								dimension="Width" />
+						</DimOperator>
+					</UnifiedDim>
+				</Dim>
+				<Dim type="BottomEdge">
+					<UnifiedDim scale="1" type="BottomEdge">
+						<DimOperator op="Subtract">
+							<WidgetDim widget="__auto_hscrollbar__"
+								dimension="Height" />
+						</DimOperator>
+					</UnifiedDim>
+				</Dim>
+			</Area>
+		</NamedArea>
+		<NamedArea name="NoFrameTextRenderArea">
+			<Area>
+				<Dim type="LeftEdge">
+					<AbsoluteDim value="0" />
+				</Dim>
+				<Dim type="TopEdge">
+					<AbsoluteDim value="0" />
+				</Dim>
+				<Dim type="RightEdge">
+					<UnifiedDim scale="1" type="RightEdge" />
+				</Dim>
+				<Dim type="BottomEdge">
+					<UnifiedDim scale="1" type="BottomEdge" />
+				</Dim>
+			</Area>
+		</NamedArea>
+		<NamedArea name="NoFrameTextRenderAreaHScroll">
+			<Area>
+				<Dim type="LeftEdge">
+					<AbsoluteDim value="0" />
+				</Dim>
+				<Dim type="TopEdge">
+					<AbsoluteDim value="0" />
+				</Dim>
+				<Dim type="RightEdge">
+					<UnifiedDim scale="1" type="RightEdge" />
+				</Dim>
+				<Dim type="BottomEdge">
+					<UnifiedDim scale="1" type="BottomEdge">
+						<DimOperator op="Subtract">
+							<WidgetDim widget="__auto_hscrollbar__"
+								dimension="Height" />
+						</DimOperator>
+					</UnifiedDim>
+				</Dim>
+			</Area>
+		</NamedArea>
+		<NamedArea name="NoFrameTextRenderAreaVScroll">
+			<Area>
+				<Dim type="LeftEdge">
+					<AbsoluteDim value="0" />
+				</Dim>
+				<Dim type="TopEdge">
+					<AbsoluteDim value="0" />
+				</Dim>
+				<Dim type="RightEdge">
+					<UnifiedDim scale="1" type="RightEdge">
+						<DimOperator op="Subtract">
+							<WidgetDim widget="__auto_vscrollbar__"
+								dimension="Width" />
+						</DimOperator>
+					</UnifiedDim>
+				</Dim>
+				<Dim type="BottomEdge">
+					<UnifiedDim scale="1" type="BottomEdge" />
+				</Dim>
+			</Area>
+		</NamedArea>
+		<NamedArea name="NoFrameTextRenderAreaHVScroll">
+			<Area>
+				<Dim type="LeftEdge">
+					<AbsoluteDim value="0" />
+				</Dim>
+				<Dim type="TopEdge">
+					<AbsoluteDim value="0" />
+				</Dim>
+				<Dim type="RightEdge">
+					<UnifiedDim scale="1" type="RightEdge">
+						<DimOperator op="Subtract">
+							<WidgetDim widget="__auto_vscrollbar__"
+								dimension="Width" />
+						</DimOperator>
+					</UnifiedDim>
+				</Dim>
+				<Dim type="BottomEdge">
+					<UnifiedDim scale="1" type="BottomEdge">
+						<DimOperator op="Subtract">
+							<WidgetDim widget="__auto_hscrollbar__"
+								dimension="Height" />
+						</DimOperator>
+					</UnifiedDim>
+				</Dim>
+			</Area>
+		</NamedArea>
+		<Child type="ProjetUnivers/HorizontalScrollbar"
+			nameSuffix="__auto_hscrollbar__">
+			<Area>
+				<Dim type="LeftEdge">
+					<AbsoluteDim value="0" />
+				</Dim>
+				<Dim type="TopEdge">
+					<AbsoluteDim value="0" />
+				</Dim>
+				<Dim type="Width">
+					<UnifiedDim scale="1" offset="-12" type="Width" />
+				</Dim>
+				<Dim type="Height">
+					<AbsoluteDim value="12" />
+				</Dim>
+			</Area>
+			<VertAlignment type="BottomAligned" />
+		</Child>
+		<Child type="ProjetUnivers/VerticalScrollbar"
+			nameSuffix="__auto_vscrollbar__">
+			<Area>
+				<Dim type="LeftEdge">
+					<AbsoluteDim value="0" />
+				</Dim>
+				<Dim type="TopEdge">
+					<AbsoluteDim value="0" />
+				</Dim>
+				<Dim type="Width">
+					<AbsoluteDim value="12" />
+				</Dim>
+				<Dim type="Height">
+					<UnifiedDim scale="1" offset="-12" type="Height" />
+				</Dim>
+			</Area>
+			<HorzAlignment type="RightAligned" />
+		</Child>
+		<StateImagery name="Enabled" />
+		<StateImagery name="Disabled" />
+		<StateImagery name="EnabledFrame">
+			<Layer>
+				<Section look="ProjetUnivers/StaticShared"
+					section="frame" />
+			</Layer>
+		</StateImagery>
+		<StateImagery name="DisabledFrame">
+			<Layer>
+				<Section look="ProjetUnivers/StaticShared"
+					section="frame" />
+			</Layer>
+		</StateImagery>
+		<StateImagery name="WithFrameEnabledBackground">
+			<Layer>
+				<Section look="ProjetUnivers/StaticShared"
+					section="background" />
+			</Layer>
+		</StateImagery>
+		<StateImagery name="WithFrameDisabledBackground">
+			<Layer>
+				<Section look="ProjetUnivers/StaticShared"
+					section="background" />
+			</Layer>
+		</StateImagery>
+		<StateImagery name="NoFrameEnabledBackground">
+			<Layer>
+				<Section look="ProjetUnivers/StaticShared"
+					section="background_noframe" />
+			</Layer>
+		</StateImagery>
+		<StateImagery name="NoFrameDisabledBackground">
+			<Layer>
+				<Section look="ProjetUnivers/StaticShared"
+					section="background_noframe" />
+			</Layer>
+		</StateImagery>
+	</WidgetLook>
+
+	<!--
+		***************************************************
+		ProjetUnivers/MultiColumnList
+    
+    Working ?
+		***************************************************
+	-->
+	<WidgetLook name="ProjetUnivers/MultiColumnList">
+		<NamedArea name="ItemRenderingArea">
+			<Area>
+				<Dim type="LeftEdge">
+					<ImageDim imageset="ProjetUnivers" image="MultiList"
+						dimension="Width" />
+				</Dim>
+				<Dim type="TopEdge">
+					<WidgetDim widget="__auto_listheader__"
+						dimension="BottomEdge" />
+				</Dim>
+				<Dim type="RightEdge">
+					<UnifiedDim scale="1" type="RightEdge">
+						<DimOperator op="Subtract">
+							<ImageDim imageset="ProjetUnivers"
+								image="MultiList" dimension="Width" />
+						</DimOperator>
+					</UnifiedDim>
+				</Dim>
+				<Dim type="BottomEdge">
+					<UnifiedDim scale="1" type="BottomEdge">
+						<DimOperator op="Subtract">
+							<ImageDim imageset="ProjetUnivers"
+								image="MultiList" dimension="Height" />
+						</DimOperator>
+					</UnifiedDim>
+				</Dim>
+			</Area>
+		</NamedArea>
+		<NamedArea name="ItemRenderingAreaHScroll">
+			<Area>
+				<Dim type="LeftEdge">
+					<ImageDim imageset="ProjetUnivers" image="MultiList"
+						dimension="Width" />
+				</Dim>
+				<Dim type="TopEdge">
+					<WidgetDim widget="__auto_listheader__"
+						dimension="BottomEdge" />
+				</Dim>
+				<Dim type="RightEdge">
+					<UnifiedDim scale="1" type="RightEdge">
+						<DimOperator op="Subtract">
+							<ImageDim imageset="ProjetUnivers"
+								image="MultiList" dimension="Width" />
+						</DimOperator>
+					</UnifiedDim>
+				</Dim>
+				<Dim type="BottomEdge">
+					<UnifiedDim scale="1" type="BottomEdge">
+						<DimOperator op="Subtract">
+							<WidgetDim widget="__auto_hscrollbar__"
+								dimension="Height" />
+						</DimOperator>
+					</UnifiedDim>
+				</Dim>
+			</Area>
+		</NamedArea>
+		<NamedArea name="ItemRenderingAreaVScroll">
+			<Area>
+				<Dim type="LeftEdge">
+					<ImageDim imageset="ProjetUnivers" image="MultiList"
+						dimension="Width" />
+				</Dim>
+				<Dim type="TopEdge">
+					<WidgetDim widget="__auto_listheader__"
+						dimension="BottomEdge" />
+				</Dim>
+				<Dim type="RightEdge">
+					<UnifiedDim scale="1" type="RightEdge">
+						<DimOperator op="Subtract">
+							<WidgetDim widget="__auto_vscrollbar__"
+								dimension="Width" />
+						</DimOperator>
+					</UnifiedDim>
+				</Dim>
+				<Dim type="BottomEdge">
+					<UnifiedDim scale="1" type="BottomEdge">
+						<DimOperator op="Subtract">
+							<ImageDim imageset="ProjetUnivers"
+								image="MultiList" dimension="Height" />
+						</DimOperator>
+					</UnifiedDim>
+				</Dim>
+			</Area>
+		</NamedArea>
+		<NamedArea name="ItemRenderingAreaHVScroll">
+			<Area>
+				<Dim type="LeftEdge">
+					<ImageDim imageset="ProjetUnivers" image="MultiList"
+						dimension="Width" />
+				</Dim>
+				<Dim type="TopEdge">
+					<WidgetDim widget="__auto_listheader__"
+						dimension="BottomEdge" />
+				</Dim>
+				<Dim type="RightEdge">
+					<UnifiedDim scale="1" type="RightEdge">
+						<DimOperator op="Subtract">
+							<WidgetDim widget="__auto_vscrollbar__"
+								dimension="Width" />
+						</DimOperator>
+					</UnifiedDim>
+				</Dim>
+				<Dim type="BottomEdge">
+					<UnifiedDim scale="1" type="BottomEdge">
+						<DimOperator op="Subtract">
+							<WidgetDim widget="__auto_hscrollbar__"
+								dimension="Height" />
+						</DimOperator>
+					</UnifiedDim>
+				</Dim>
+			</Area>
+		</NamedArea>
+		<Child type="ProjetUnivers/ListHeader"
+			nameSuffix="__auto_listheader__">
+			<Area>
+				<Dim type="LeftEdge">
+					<AbsoluteDim value="2" />
+				</Dim>
+				<Dim type="TopEdge">
+					<AbsoluteDim value="2" />
+				</Dim>
+				<Dim type="RightEdge">
+					<UnifiedDim scale="1" offset="-2" type="RightEdge" />
+				</Dim>
+				<Dim type="Height">
+					<FontDim type="LineSpacing">
+						<DimOperator op="Multiply">
+							<AbsoluteDim value="1.5" />
+						</DimOperator>
+					</FontDim>
+				</Dim>
+			</Area>
+		</Child>
+		<Child type="ProjetUnivers/HorizontalScrollbar"
+			nameSuffix="__auto_hscrollbar__">
+			<Area>
+				<Dim type="LeftEdge">
+					<AbsoluteDim value="0" />
+				</Dim>
+				<Dim type="TopEdge">
+					<AbsoluteDim value="0" />
+				</Dim>
+				<Dim type="Width">
+					<UnifiedDim scale="1" offset="-12" type="Width" />
+				</Dim>
+				<Dim type="Height">
+					<AbsoluteDim value="12" />
+				</Dim>
+			</Area>
+			<VertAlignment type="BottomAligned" />
+		</Child>
+		<Child type="ProjetUnivers/VerticalScrollbar"
+			nameSuffix="__auto_vscrollbar__">
+			<Area>
+				<Dim type="LeftEdge">
+					<AbsoluteDim value="0" />
+				</Dim>
+				<Dim type="TopEdge">
+					<WidgetDim widget="__auto_listheader__"
+						dimension="BottomEdge" />
+				</Dim>
+				<Dim type="Width">
+					<AbsoluteDim value="12" />
+				</Dim>
+				<Dim type="BottomEdge">
+					<UnifiedDim scale="1" offset="-12"
+						type="BottomEdge" />
+				</Dim>
+			</Area>
+			<HorzAlignment type="RightAligned" />
+		</Child>
+		<ImagerySection name="main">
+			<FrameComponent>
+				<Area>
+					<Dim type="LeftEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="TopEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="Width">
+						<UnifiedDim scale="1" type="Width" />
+					</Dim>
+					<Dim type="Height">
+						<UnifiedDim scale="1" type="Height" />
+					</Dim>
+				</Area>
+				<Image type="TopLeftCorner" imageset="ProjetUnivers"
+					image="MultiList" />
+				<Image type="TopRightCorner" imageset="ProjetUnivers"
+					image="MultiList" />
+				<Image type="BottomLeftCorner" imageset="ProjetUnivers"
+					image="MultiList" />
+				<Image type="BottomRightCorner" imageset="ProjetUnivers"
+					image="MultiList" />
+				<Image type="LeftEdge" imageset="ProjetUnivers"
+					image="MultiList" />
+				<Image type="RightEdge" imageset="ProjetUnivers"
+					image="MultiList" />
+				<Image type="TopEdge" imageset="ProjetUnivers"
+					image="MultiList" />
+				<Image type="BottomEdge" imageset="ProjetUnivers"
+					image="MultiList" />
+				<Image type="Background" imageset="ProjetUnivers"
+					image="MultiList" />
+			</FrameComponent>
+		</ImagerySection>
+		<StateImagery name="Enabled">
+			<Layer>
+				<Section section="main" />
+			</Layer>
+		</StateImagery>
+		<StateImagery name="Disabled">
+			<Layer>
+				<Section section="main">
+					<Colours topLeft="FF7F7F7F" topRight="FF7F7F7F"
+						bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+				</Section>
+			</Layer>
+		</StateImagery>
+	</WidgetLook>
+
+	<!--
+		***************************************************
+		ProjetUnivers/ListHeaderSegment
+		***************************************************
+	-->
+	<WidgetLook name="ProjetUnivers/ListHeaderSegment">
+		<Property name="SizingCursorImage"
+			value="set:ProjetUnivers image:MouseEsWeCursor" />
+		<Property name="MovingCursorImage"
+			value="set:ProjetUnivers image:MouseMoveCursor" />
+		<ImagerySection name="segment_normal">
+			<Colours topLeft="FFDDDDDD" topRight="FFDDDDDD"
+				bottomLeft="FFDDDDDD" bottomRight="FFDDDDDD" />
+			<ImageryComponent>
+				<Area>
+					<Dim type="LeftEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="TopEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="RightEdge">
+						<UnifiedDim scale="1" type="RightEdge">
+							<DimOperator op="Subtract">
+								<ImageDim imageset="ProjetUnivers"
+									image="MultiList" dimension="Width" />
+							</DimOperator>
+						</UnifiedDim>
+					</Dim>
+					<Dim type="Height">
+						<UnifiedDim scale="1" type="Height" />
+					</Dim>
+				</Area>
+				<Image imageset="ProjetUnivers" image="MultiList" />
+				<VertFormat type="Stretched" />
+				<HorzFormat type="Stretched" />
+			</ImageryComponent>
+		</ImagerySection>
+		<ImagerySection name="segment_hover">
+			<ImageryComponent>
+				<Area>
+					<Dim type="LeftEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="TopEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="RightEdge">
+						<UnifiedDim scale="1" type="RightEdge">
+							<DimOperator op="Subtract">
+								<ImageDim imageset="ProjetUnivers"
+									image="MultiList" dimension="Width" />
+							</DimOperator>
+						</UnifiedDim>
+					</Dim>
+					<Dim type="Height">
+						<UnifiedDim scale="1" type="Height" />
+					</Dim>
+				</Area>
+				<Image imageset="ProjetUnivers" image="MultiList" />
+				<VertFormat type="Stretched" />
+				<HorzFormat type="Stretched" />
+			</ImageryComponent>
+		</ImagerySection>
+		<ImagerySection name="splitter_normal">
+			<ImageryComponent>
+				<Area>
+					<Dim type="LeftEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="TopEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="Width">
+						<UnifiedDim scale="1" type="Width" />
+					</Dim>
+					<Dim type="Height">
+						<UnifiedDim scale="1" type="Height" />
+					</Dim>
+				</Area>
+				<Image imageset="ProjetUnivers" image="MultiList" />
+				<VertFormat type="Stretched" />
+				<HorzFormat type="RightAligned" />
+			</ImageryComponent>
+		</ImagerySection>
+		<ImagerySection name="splitter_hover">
+			<ImageryComponent>
+				<Area>
+					<Dim type="LeftEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="TopEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="Width">
+						<UnifiedDim scale="1" type="Width" />
+					</Dim>
+					<Dim type="Height">
+						<UnifiedDim scale="1" type="Height" />
+					</Dim>
+				</Area>
+				<Image imageset="ProjetUnivers" image="MultiList" />
+				<VertFormat type="Stretched" />
+				<HorzFormat type="RightAligned" />
+			</ImageryComponent>
+		</ImagerySection>
+		<ImagerySection name="ascend_icon">
+			<ImageryComponent>
+				<Area>
+					<Dim type="LeftEdge">
+						<AbsoluteDim value="3" />
+					</Dim>
+					<Dim type="TopEdge">
+						<AbsoluteDim value="3" />
+					</Dim>
+					<Dim type="Width">
+						<ImageDim imageset="ProjetUnivers"
+							image="MultiList" dimension="Width" />
+					</Dim>
+					<Dim type="Height">
+						<ImageDim imageset="ProjetUnivers"
+							image="MultiList" dimension="Height" />
+					</Dim>
+				</Area>
+				<Image imageset="ProjetUnivers" image="HeaderBarSortUp" />
+			</ImageryComponent>
+		</ImagerySection>
+		<ImagerySection name="descend_icon">
+			<ImageryComponent>
+				<Area>
+					<Dim type="LeftEdge">
+						<AbsoluteDim value="3" />
+					</Dim>
+					<Dim type="TopEdge">
+						<AbsoluteDim value="3" />
+					</Dim>
+					<Dim type="Width">
+						<ImageDim imageset="ProjetUnivers"
+							image="MultiList" dimension="Width" />
+					</Dim>
+					<Dim type="Height">
+						<ImageDim imageset="ProjetUnivers"
+							image="MultiList" dimension="Height" />
+					</Dim>
+				</Area>
+				<Image imageset="ProjetUnivers"
+					image="HeaderBarSortDown" />
+			</ImageryComponent>
+		</ImagerySection>
+		<ImagerySection name="label">
+			<TextComponent>
+				<Area>
+					<Dim type="LeftEdge">
+						<ImageDim imageset="ProjetUnivers"
+							image="MultiList" dimension="Width">
+							<DimOperator op="Add">
+								<AbsoluteDim value="5" />
+							</DimOperator>
+						</ImageDim>
+					</Dim>
+					<Dim type="TopEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="RightEdge">
+						<UnifiedDim scale="1" type="RightEdge" />
+					</Dim>
+					<Dim type="Height">
+						<UnifiedDim scale="1" type="Height" />
+					</Dim>
+				</Area>
+				<VertFormat type="CentreAligned" />
+			</TextComponent>
+		</ImagerySection>
+		<StateImagery name="Normal">
+			<Layer>
+				<Section section="segment_normal" />
+				<Section section="splitter_normal" />
+				<Section section="label" />
+			</Layer>
+		</StateImagery>
+		<StateImagery name="Hover">
+			<Layer>
+				<Section section="segment_hover" />
+				<Section section="splitter_normal" />
+				<Section section="label" />
+			</Layer>
+		</StateImagery>
+		<StateImagery name="SplitterHover">
+			<Layer>
+				<Section section="segment_normal" />
+				<Section section="splitter_hover" />
+				<Section section="label" />
+			</Layer>
+		</StateImagery>
+		<StateImagery name="DragGhost" clipped="false">
+			<Layer priority="1">
+				<Section section="segment_normal">
+					<Colours topLeft="90FFFFFF" topRight="90FFFFFF"
+						bottomLeft="90FFFFFF" bottomRight="90FFFFFF" />
+				</Section>
+				<Section section="splitter_normal">
+					<Colours topLeft="90FFFFFF" topRight="90FFFFFF"
+						bottomLeft="90FFFFFF" bottomRight="90FFFFFF" />
+				</Section>
+				<Section section="label">
+					<Colours topLeft="90FFFFFF" topRight="90FFFFFF"
+						bottomLeft="90FFFFFF" bottomRight="90FFFFFF" />
+				</Section>
+			</Layer>
+		</StateImagery>
+		<StateImagery name="AscendingSortIcon">
+			<Layer>
+				<Section section="ascend_icon" />
+			</Layer>
+		</StateImagery>
+		<StateImagery name="DescendingSortIcon">
+			<Layer>
+				<Section section="descend_icon" />
+			</Layer>
+		</StateImagery>
+		<StateImagery name="GhostAscendingSortIcon" clipped="false">
+			<Layer priority="1">
+				<Section section="ascend_icon">
+					<Colours topLeft="90FFFFFF" topRight="90FFFFFF"
+						bottomLeft="90FFFFFF" bottomRight="90FFFFFF" />
+				</Section>
+			</Layer>
+		</StateImagery>
+		<StateImagery name="GhostDescendingSortIcon" clipped="false">
+			<Layer priority="1">
+				<Section section="descend_icon">
+					<Colours topLeft="90FFFFFF" topRight="90FFFFFF"
+						bottomLeft="90FFFFFF" bottomRight="90FFFFFF" />
+				</Section>
+			</Layer>
+		</StateImagery>
+		<StateImagery name="Disabled">
+			<Layer>
+				<Section section="segment_normal">
+					<Colours topLeft="FF7F7F7F" topRight="FF7F7F7F"
+						bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+				</Section>
+				<Section section="splitter_normal">
+					<Colours topLeft="FF7F7F7F" topRight="FF7F7F7F"
+						bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+				</Section>
+				<Section section="label">
+					<Colours topLeft="FF7F7F7F" topRight="FF7F7F7F"
+						bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+				</Section>
+			</Layer>
+		</StateImagery>
+	</WidgetLook>
+
+
+	<!--
+		***************************************************
+		ProjetUnivers/ListHeader
+		***************************************************
+	-->
+	<WidgetLook name="ProjetUnivers/ListHeader">
+		<Property name="SegmentWidgetType"
+			value="ProjetUnivers/ListHeaderSegment" />
+		<StateImagery name="Enabled" />
+		<StateImagery name="Disabled" />
+	</WidgetLook>
+
+	<!--
+		***************************************************
+		ProjetUnivers/RadioButton
+    
+    Not working
+		***************************************************
+	-->
+	<WidgetLook name="ProjetUnivers/RadioButton">
+		<PropertyDefinition name="NormalTextColour"
+			initialValue="FFFFFFFF" redrawOnWrite="true" />
+		<PropertyDefinition name="HoverTextColour"
+			initialValue="FFFFFFFF" redrawOnWrite="true" />
+		<PropertyDefinition name="PushedTextColour"
+			initialValue="FFFFFFFF" redrawOnWrite="true" />
+		<PropertyDefinition name="DisabledTextColour"
+			initialValue="FF7F7F7F" redrawOnWrite="true" />
+		<ImagerySection name="label">
+			<TextComponent>
+				<Area>
+					<Dim type="LeftEdge">
+						<ImageDim imageset="ProjetUnivers"
+							image="RadioButtonNormal" dimension="Width">
+							<DimOperator op="Add">
+								<AbsoluteDim value="3" />
+							</DimOperator>
+						</ImageDim>
+					</Dim>
+					<Dim type="TopEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="RightEdge">
+						<UnifiedDim scale="1" type="Width" />
+					</Dim>
+					<Dim type="Height">
+						<UnifiedDim scale="1" type="Height" />
+					</Dim>
+				</Area>
+				<VertFormat type="CentreAligned" />
+				<HorzFormat type="LeftAligned" />
+			</TextComponent>
+		</ImagerySection>
+		<ImagerySection name="normal">
+			<ImageryComponent>
+				<Area>
+					<Dim type="LeftEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="TopEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="Width">
+						<UnifiedDim scale="1" type="Width" />
+					</Dim>
+					<Dim type="Height">
+						<UnifiedDim scale="1" type="Height" />
+					</Dim>
+				</Area>
+				<Image imageset="ProjetUnivers"
+					image="RadioButtonNormal" />
+				<VertFormat type="CentreAligned" />
+				<HorzFormat type="LeftAligned" />
+			</ImageryComponent>
+		</ImagerySection>
+		<ImagerySection name="hover">
+			<ImageryComponent>
+				<Area>
+					<Dim type="LeftEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="TopEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="Width">
+						<UnifiedDim scale="1" type="Width" />
+					</Dim>
+					<Dim type="Height">
+						<UnifiedDim scale="1" type="Height" />
+					</Dim>
+				</Area>
+				<Image imageset="ProjetUnivers"
+					image="RadioButtonHover" />
+				<VertFormat type="CentreAligned" />
+				<HorzFormat type="LeftAligned" />
+			</ImageryComponent>
+		</ImagerySection>
+		<ImagerySection name="select_mark">
+			<ImageryComponent>
+				<Area>
+					<Dim type="LeftEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="TopEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="Width">
+						<UnifiedDim scale="1" type="Width" />
+					</Dim>
+					<Dim type="Height">
+						<UnifiedDim scale="1" type="Height" />
+					</Dim>
+				</Area>
+				<Image imageset="ProjetUnivers" image="RadioButtonMark" />
+				<VertFormat type="CentreAligned" />
+				<HorzFormat type="LeftAligned" />
+			</ImageryComponent>
+		</ImagerySection>
+		<StateImagery name="Normal">
+			<Layer>
+				<Section section="normal" />
+				<Section section="label">
+					<ColourProperty name="NormalTextColour" />
+				</Section>
+			</Layer>
+		</StateImagery>
+		<StateImagery name="Hover">
+			<Layer>
+				<Section section="hover" />
+				<Section section="label">
+					<ColourProperty name="HoverTextColour" />
+				</Section>
+			</Layer>
+		</StateImagery>
+		<StateImagery name="Disabled">
+			<Layer>
+				<Section section="normal">
+					<Colours topLeft="FF7F7F7F" topRight="FF7F7F7F"
+						bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+				</Section>
+				<Section section="label">
+					<ColourProperty name="DisabledTextColour" />
+				</Section>
+			</Layer>
+		</StateImagery>
+		<StateImagery name="SelectedNormal">
+			<Layer>
+				<Section section="normal" />
+				<Section section="select_mark" />
+				<Section section="label">
+					<ColourProperty name="NormalTextColour" />
+				</Section>
+			</Layer>
+		</StateImagery>
+		<StateImagery name="SelectedHover">
+			<Layer>
+				<Section section="hover" />
+				<Section section="select_mark" />
+				<Section section="label">
+					<ColourProperty name="HoverTextColour" />
+				</Section>
+			</Layer>
+		</StateImagery>
+		<StateImagery name="SelectedDisabled">
+			<Layer>
+				<Section section="normal">
+					<Colours topLeft="FF7F7F7F" topRight="FF7F7F7F"
+						bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+				</Section>
+				<Section section="select_mark">
+					<Colours topLeft="FF7F7F7F" topRight="FF7F7F7F"
+						bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+				</Section>
+				<Section section="label">
+					<ColourProperty name="DisabledTextColour" />
+				</Section>
+			</Layer>
+		</StateImagery>
+	</WidgetLook>
+
+	<!--
+		***************************************************
+		ProjetUnivers/Checkbox
+    
+    Not working
+		***************************************************
+	-->
+	<WidgetLook name="ProjetUnivers/Checkbox">
+		<PropertyDefinition name="NormalTextColour"
+			initialValue="FFFFFFFF" redrawOnWrite="true" />
+		<PropertyDefinition name="HoverTextColour"
+			initialValue="FFFFFFFF" redrawOnWrite="true" />
+		<PropertyDefinition name="PushedTextColour"
+			initialValue="FFFFFFFF" redrawOnWrite="true" />
+		<PropertyDefinition name="DisabledTextColour"
+			initialValue="FF7F7F7F" redrawOnWrite="true" />
+		<ImagerySection name="label">
+			<TextComponent>
+				<Area>
+					<Dim type="LeftEdge">
+						<ImageDim imageset="ProjetUnivers"
+							image="RadioButtonNormal" dimension="Width">
+							<DimOperator op="Add">
+								<AbsoluteDim value="3" />
+							</DimOperator>
+						</ImageDim>
+					</Dim>
+					<Dim type="TopEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="RightEdge">
+						<UnifiedDim scale="1" type="Width" />
+					</Dim>
+					<Dim type="Height">
+						<UnifiedDim scale="1" type="Height" />
+					</Dim>
+				</Area>
+				<VertFormat type="CentreAligned" />
+				<HorzFormat type="LeftAligned" />
+			</TextComponent>
+		</ImagerySection>
+		<ImagerySection name="normal">
+			<ImageryComponent>
+				<Area>
+					<Dim type="LeftEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="TopEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="Width">
+						<UnifiedDim scale="1" type="Width" />
+					</Dim>
+					<Dim type="Height">
+						<UnifiedDim scale="1" type="Height" />
+					</Dim>
+				</Area>
+				<Image imageset="ProjetUnivers"
+					image="RadioButtonNormal" />
+				<VertFormat type="CentreAligned" />
+				<HorzFormat type="LeftAligned" />
+			</ImageryComponent>
+		</ImagerySection>
+		<ImagerySection name="hover">
+			<ImageryComponent>
+				<Area>
+					<Dim type="LeftEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="TopEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="Width">
+						<UnifiedDim scale="1" type="Width" />
+					</Dim>
+					<Dim type="Height">
+						<UnifiedDim scale="1" type="Height" />
+					</Dim>
+				</Area>
+				<Image imageset="ProjetUnivers"
+					image="RadioButtonHover" />
+				<VertFormat type="CentreAligned" />
+				<HorzFormat type="LeftAligned" />
+			</ImageryComponent>
+		</ImagerySection>
+		<ImagerySection name="select_mark">
+			<ImageryComponent>
+				<Area>
+					<Dim type="LeftEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="TopEdge">
+						<AbsoluteDim value="0" />
+					</Dim>
+					<Dim type="Width">
+						<UnifiedDim scale="1" type="Width" />
+					</Dim>
+					<Dim type="Height">
+						<UnifiedDim scale="1" type="Height" />
+					</Dim>
+				</Area>
+				<Image imageset="ProjetUnivers" image="RadioButtonMark" />
+				<VertFormat type="CentreAligned" />
+				<HorzFormat type="LeftAligned" />
+			</ImageryComponent>
+		</ImagerySection>
+		<StateImagery name="Normal">
+			<Layer>
+				<Section section="normal" />
+				<Section section="label">
+					<ColourProperty name="NormalTextColour" />
+				</Section>
+			</Layer>
+		</StateImagery>
+		<StateImagery name="Hover">
+			<Layer>
+				<Section section="hover" />
+				<Section section="label">
+					<ColourProperty name="HoverTextColour" />
+				</Section>
+			</Layer>
+		</StateImagery>
+		<StateImagery name="Disabled">
+			<Layer>
+				<Section section="normal">
+					<Colours topLeft="FF7F7F7F" topRight="FF7F7F7F"
+						bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+				</Section>
+				<Section section="label">
+					<ColourProperty name="DisabledTextColour" />
+				</Section>
+			</Layer>
+		</StateImagery>
+		<StateImagery name="SelectedNormal">
+			<Layer>
+				<Section section="normal" />
+				<Section section="select_mark" />
+				<Section section="label">
+					<ColourProperty name="NormalTextColour" />
+				</Section>
+			</Layer>
+		</StateImagery>
+		<StateImagery name="SelectedHover">
+			<Layer>
+				<Section section="hover" />
+				<Section section="select_mark" />
+				<Section section="label">
+					<ColourProperty name="HoverTextColour" />
+				</Section>
+			</Layer>
+		</StateImagery>
+		<StateImagery name="SelectedDisabled">
+			<Layer>
+				<Section section="normal">
+					<Colours topLeft="FF7F7F7F" topRight="FF7F7F7F"
+						bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+				</Section>
+				<Section section="select_mark">
+					<Colours topLeft="FF7F7F7F" topRight="FF7F7F7F"
+						bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+				</Section>
+				<Section section="label">
+					<ColourProperty name="DisabledTextColour" />
+				</Section>
+			</Layer>
+		</StateImagery>
+	</WidgetLook>
+
+	<!--
+		***************************************************
+		ProjetUnivers/ScrollablePane
+		
+		A window with scrolls
+		***************************************************
+	-->
+	<WidgetLook name="ProjetUnivers/ScrollablePane">
+		<NamedArea name="ViewableArea">
+			<Area>
+				<Dim type="LeftEdge">
+					<UnifiedDim scale="0.1" type="LeftEdge" />
+				</Dim>
+				<Dim type="TopEdge">
+					<UnifiedDim scale="0.1" type="TopEdge" />
+				</Dim>
+				<Dim type="RightEdge">
+					<UnifiedDim scale="0.9" type="RightEdge" />
+				</Dim>
+				<Dim type="BottomEdge">
+					<UnifiedDim scale="0.9" type="BottomEdge" />
+				</Dim>
+			</Area>
+		</NamedArea>
+		<!-- No horizontal -->
+		<NamedArea name="ViewableAreaHScroll">
+			<Area>
+				<Dim type="LeftEdge">
+					<AbsoluteDim value="0" />
+				</Dim>
+				<Dim type="TopEdge">
+					<AbsoluteDim value="0" />
+				</Dim>
+        <Dim type="RightEdge">
+          <UnifiedDim scale="1" type="RightEdge">
+          </UnifiedDim>
+        </Dim>
+        <Dim type="BottomEdge">
+          <UnifiedDim scale="1.0" type="BottomEdge">
+            <DimOperator op="Subtract">
+              <WidgetDim widget="__auto_hscrollbar__" dimension="Height" />
+            </DimOperator>
+          </UnifiedDim>
+        </Dim>
+			</Area>
+		</NamedArea>
+		<NamedArea name="ViewableAreaVScroll">
+			<Area>
+				<Dim type="LeftEdge">
+					<AbsoluteDim value="0" />
+				</Dim>
+				<Dim type="TopEdge">
+					<AbsoluteDim value="0" />
+				</Dim>
+				<Dim type="RightEdge">
+					<UnifiedDim scale="1" type="RightEdge">
+						<DimOperator op="Subtract">
+							<WidgetDim widget="__auto_vscrollbar__" dimension="Width" />
+						</DimOperator>
+					</UnifiedDim>
+				</Dim>
+				<Dim type="BottomEdge">
+					<UnifiedDim scale="1.0" type="BottomEdge" />
+				</Dim>
+			</Area>
+		</NamedArea>
+		<NamedArea name="ViewableAreaHVScroll">
+			<Area>
+				<Dim type="LeftEdge">
+					<AbsoluteDim value="0" />
+				</Dim>
+				<Dim type="TopEdge">
+					<AbsoluteDim value="0" />
+				</Dim>
+				<Dim type="RightEdge">
+					<UnifiedDim scale="1" type="RightEdge">
+						<DimOperator op="Subtract">
+							<WidgetDim widget="__auto_vscrollbar__" dimension="Width" />
+						</DimOperator>
+					</UnifiedDim>
+				</Dim>
+				<Dim type="BottomEdge">
+					<UnifiedDim scale="1" type="BottomEdge">
+						<DimOperator op="Subtract">
+							<WidgetDim widget="__auto_hscrollbar__" dimension="Height" />
+						</DimOperator>
+					</UnifiedDim>
+				</Dim>
+			</Area>
+		</NamedArea>
+		<Child type="ProjetUnivers/HorizontalScrollbar" nameSuffix="__auto_hscrollbar__">
+			<Area>
+				<Dim type="LeftEdge">
+					<AbsoluteDim value="0" />
+				</Dim>
+				<Dim type="TopEdge">
+					<AbsoluteDim value="0" />
+				</Dim>
+				<Dim type="Width">
+          <UnifiedDim scale="0" offset="0" type="Width" />
+				</Dim>
+				<Dim type="Height">
+          <AbsoluteDim value="0" />
+				</Dim>
+			</Area>
+			<VertAlignment type="BottomAligned" />
+		</Child>
+		<Child type="ProjetUnivers/VerticalScrollbar" nameSuffix="__auto_vscrollbar__">
+			<Area>
+				<Dim type="LeftEdge">
+					<AbsoluteDim value="0" />
+				</Dim>
+				<Dim type="TopEdge">
+					<AbsoluteDim value="0" />
+				</Dim>
+				<Dim type="Width">
+					<AbsoluteDim value="12" />
+				</Dim>
+				<Dim type="Height">
+					<UnifiedDim scale="1" offset="-12" type="Height" />
+				</Dim>
+			</Area>
+			<HorzAlignment type="RightAligned" />
+		</Child>
+		<StateImagery name="Enabled" />
+		<StateImagery name="Disabled" />
+	</WidgetLook>
+
+	<!--
+		***************************************************
+		ProjetUnivers/TabbedWindow :  A container for tabs panels
+			ProjetUnivers/TabButtonPane : The section that contains the buttons of the 
+																	  tabs
+																		Allow a background for that part
+				ProjetUnivers/TabButton : A button in a multi-tab panel
+		  ProjetUnivers/TabContentPane : a panel in a TabControl
+		***************************************************
+	-->
+	<WidgetLook name="ProjetUnivers/TabbedWindow">
+		<Property name="TabButtonType" value="ProjetUnivers/TabButton" />
+		<Property name="TabTextPadding" value="{0,6}" />
+		<!-- 
+			Contains the buttons for the tabs  
+		-->
+		<Child type="ProjetUnivers/TabButtonPane"
+			nameSuffix="__auto_TabPane__Buttons">
+			<Area>
+				<Dim type="LeftEdge">
+					<AbsoluteDim value="0" />
+				</Dim>
+				<Dim type="TopEdge">
+					<AbsoluteDim value="0" />
+				</Dim>
+				<Dim type="Width">
+					<UnifiedDim scale="1" type="Width" />
+				</Dim>
+				<Dim type="Height">
+					<PropertyDim name="TabHeight" type="Height" />
+				</Dim>
+			</Area>
+		</Child>
+		<!-- 
+			The panel container, take the bottom rest of the window :
+					0	      ................
+                  |              |
+      TabHeight   ................
+          ^       |              |
+          |       |              |
+          |       |              |
+      1-TabHeight ................
+    -->
+    <Child type="ProjetUnivers/TabContentPane"
+      nameSuffix="__auto_TabPane__">
+      <Area>
+        <Dim type="LeftEdge">
+          <AbsoluteDim value="0" />
+        </Dim>
+        <Dim type="TopEdge">
+          <PropertyDim name="TabHeight" type="Height" />
+        </Dim>
+        <Dim type="Width">
+          <UnifiedDim scale="1" type="Width" />
+        </Dim>
+        <Dim type="Height">
+          <UnifiedDim scale="1" type="Height">
+            <DimOperator op="Subtract">
+              <PropertyDim name="TabHeight" type="Height" />
+            </DimOperator>
+          </UnifiedDim>
+        </Dim>
+      </Area>
+    </Child>
+    <StateImagery name="Enabled" />
+    <StateImagery name="Disabled" />
+  </WidgetLook>
+
+  <WidgetLook name="ProjetUnivers/TabButton">
+    <PropertyDefinition name="NormalTextColour"
+      initialValue="FFFFFFFF" redrawOnWrite="true" />
+    <PropertyDefinition name="HoverTextColour"
+      initialValue="FFFFFFFF" redrawOnWrite="true" />
+    <PropertyDefinition name="PushedTextColour"
+      initialValue="FFFFFFFF" redrawOnWrite="true" />
+    <PropertyDefinition name="SelectedTextColour"
+      initialValue="FFFFFFFF" redrawOnWrite="true" />
+    <PropertyDefinition name="DisabledTextColour"
+      initialValue="FF7F7F7F" redrawOnWrite="true" />
+    <!-- the text of the button -->
+    <ImagerySection name="label">
+      <TextComponent>
+        <Area>
+          <Dim type="LeftEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="TopEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="Width">
+            <UnifiedDim scale="1" type="Width" />
+          </Dim>
+          <Dim type="Height">
+            <UnifiedDim scale="1" type="Height" />
+          </Dim>
+        </Area>
+        <VertFormat type="CentreAligned" />
+      </TextComponent>
+    </ImagerySection>
+    <ImagerySection name="top_normal">
+      <ImageryComponent>
+        <Area>
+          <Dim type="LeftEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="TopEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="Width">
+            <UnifiedDim scale="1" type="Width" />
+          </Dim>
+          <Dim type="Height">
+            <UnifiedDim scale="1" type="Height" />
+          </Dim>
+        </Area>
+        <Image imageset="ProjetUnivers" image="Buttonnormal" />
+        <VertFormat type="Stretched" />
+        <HorzFormat type="Stretched" />
+      </ImageryComponent>
+    </ImagerySection>
+    <ImagerySection name="top_hover">
+      <FrameComponent>
+        <Area>
+          <Dim type="LeftEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="TopEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="Width">
+            <UnifiedDim scale="1" type="Width" />
+          </Dim>
+          <Dim type="Height">
+            <UnifiedDim scale="1" type="Height" />
+          </Dim>
+        </Area>
+        <Image type="Background" imageset="ProjetUnivers"
+          image="Buttonhover" />
+      </FrameComponent>
+    </ImagerySection>
+    <ImagerySection name="top_pushed">
+      <FrameComponent>
+        <Area>
+          <Dim type="LeftEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="TopEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="Width">
+            <UnifiedDim scale="1" type="Width" />
+          </Dim>
+          <Dim type="Height">
+            <UnifiedDim scale="1" type="Height" />
+          </Dim>
+        </Area>
+        <Image type="Background" imageset="ProjetUnivers"
+          image="Buttonhover" />
+      </FrameComponent>
+    </ImagerySection>
+    <StateImagery name="TopNormal">
+      <Layer>
+        <Section section="top_normal" />
+        <Section section="label">
+          <ColourProperty name="NormalTextColour" />
+        </Section>
+      </Layer>
+    </StateImagery>
+    <StateImagery name="BottomNormal">
+      <Layer>
+        <Section section="top_normal" />
+        <Section section="label">
+          <ColourProperty name="NormalTextColour" />
+        </Section>
+      </Layer>
+    </StateImagery>
+    <StateImagery name="TopHover">
+      <Layer>
+        <Section section="top_hover" />
+        <Section section="label">
+          <ColourProperty name="HoverTextColour" />
+        </Section>
+      </Layer>
+    </StateImagery>
+    <StateImagery name="BottomHover">
+      <Layer>
+        <Section section="top_normal">
+          <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F"
+            bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+        </Section>
+        <Section section="label">
+          <ColourProperty name="HoverTextColour" />
+        </Section>
+      </Layer>
+    </StateImagery>
+    <StateImagery name="TopSelected">
+      <Layer>
+        <Section section="top_normal">
+          <Colours topLeft="FF7F7F8F" topRight="FF7F7F8F"
+            bottomLeft="FF7F7F8F" bottomRight="FF7F7F8F" />
+        </Section>
+        <Section section="label">
+          <ColourProperty name="SelectedTextColour" />
+        </Section>
+      </Layer>
+    </StateImagery>
+    <StateImagery name="BottomSelected">
+      <Layer>
+        <Section section="top_normal" />
+        <Section section="label">
+          <ColourProperty name="SelectedTextColour" />
+        </Section>
+      </Layer>
+    </StateImagery>
+    <StateImagery name="TopPushed">
+      <Layer>
+        <Section section="top_pushed" />
+        <Section section="label">
+          <ColourProperty name="PushedTextColour" />
+        </Section>
+      </Layer>
+    </StateImagery>
+    <StateImagery name="BottomPushed">
+      <Layer>
+        <Section section="top_normal" />
+        <Section section="label">
+          <ColourProperty name="PushedTextColour" />
+        </Section>
+      </Layer>
+    </StateImagery>
+    <StateImagery name="TopDisabled">
+      <Layer>
+        <Section section="top_normal">
+          <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F"
+            bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+        </Section>
+        <Section section="label">
+          <ColourProperty name="DisabledTextColour" />
+        </Section>
+      </Layer>
+    </StateImagery>
+    <StateImagery name="BottomDisabled">
+      <Layer>
+        <Section section="top_normal">
+          <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F"
+            bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+        </Section>
+        <Section section="label">
+          <ColourProperty name="DisabledTextColour" />
+        </Section>
+      </Layer>
+    </StateImagery>
+  </WidgetLook>
+
+  <WidgetLook name="ProjetUnivers/TabContentPane">
+    <PropertyDefinition name="EnableTop" initialValue="0"
+      redrawOnWrite="true" layoutOnWrite="true" />
+    <PropertyDefinition name="EnableBottom" initialValue="0"
+      redrawOnWrite="true" layoutOnWrite="true" />
+    <ImagerySection name="normal">
+      <FrameComponent>
+        <Area>
+          <Dim type="LeftEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="TopEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="Width">
+            <UnifiedDim scale="1" type="Width" />
+          </Dim>
+          <Dim type="BottomEdge">
+            <ImageDim imageset="ProjetUnivers"
+              image="TabContentPaneUpperLeft" dimension="Height">
+              <DimOperator op="Multiply">
+                <PropertyDim name="EnableTop" />
+              </DimOperator>
+            </ImageDim>
+          </Dim>
+        </Area>
+        <Image type="TopLeftCorner" imageset="ProjetUnivers"
+          image="TabContentPaneUpperLeft" />
+        <Image type="TopEdge" imageset="ProjetUnivers"
+          image="TabContentPaneUpper" />
+        <Image type="TopRightCorner" imageset="ProjetUnivers"
+          image="TabContentPaneUpperRight" />
+      </FrameComponent>
+      <FrameComponent>
+        <Area>
+          <Dim type="LeftEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="TopEdge">
+            <ImageDim imageset="ProjetUnivers"
+              image="TabContentPaneUpperLeft" dimension="Height">
+              <DimOperator op="Multiply">
+                <PropertyDim name="EnableTop" />
+              </DimOperator>
+            </ImageDim>
+          </Dim>
+          <Dim type="Width">
+            <UnifiedDim scale="1" type="Width" />
+          </Dim>
+          <Dim type="BottomEdge">
+            <UnifiedDim scale="1" type="Height">
+              <DimOperator op="Subtract">
+                <ImageDim imageset="ProjetUnivers"
+                  image="TabContentPaneLowerLeft" dimension="Height">
+                  <DimOperator op="Multiply">
+                    <PropertyDim
+                      name="EnableBottom" />
+                  </DimOperator>
+                </ImageDim>
+              </DimOperator>
+            </UnifiedDim>
+          </Dim>
+        </Area>
+        <Image type="LeftEdge" imageset="ProjetUnivers"
+          image="TabContentPaneLeft" />
+        <Image type="Background" imageset="ProjetUnivers"
+          image="TabContentPaneMiddle" />
+        <Image type="RightEdge" imageset="ProjetUnivers"
+          image="TabContentPaneRight" />
+      </FrameComponent>
+      <FrameComponent>
+        <Area>
+          <Dim type="LeftEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="TopEdge">
+            <UnifiedDim scale="1" type="Height">
+              <DimOperator op="Subtract">
+                <ImageDim imageset="ProjetUnivers"
+                  image="TabContentPaneLowerLeft" dimension="Height">
+                  <DimOperator op="Multiply">
+                    <PropertyDim
+                      name="EnableBottom" />
+                  </DimOperator>
+                </ImageDim>
+              </DimOperator>
+            </UnifiedDim>
+          </Dim>
+          <Dim type="Width">
+            <UnifiedDim scale="1" type="Width" />
+          </Dim>
+          <Dim type="BottomEdge">
+            <UnifiedDim scale="1" type="Height" />
+          </Dim>
+        </Area>
+        <Image type="BottomLeftCorner" imageset="ProjetUnivers"
+          image="TabContentPaneLowerLeft" />
+        <Image type="BottomEdge" imageset="ProjetUnivers"
+          image="TabContentPaneLower" />
+        <Image type="BottomRightCorner" imageset="ProjetUnivers"
+          image="TabContentPaneLowerRight" />
+      </FrameComponent>
+    </ImagerySection>
+    <StateImagery name="Enabled">
+      <Layer>
+        <Section section="normal" />
+      </Layer>
+    </StateImagery>
+    <StateImagery name="Disabled">
+      <Layer>
+        <Section section="normal">
+          <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F"
+            bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F" />
+        </Section>
+      </Layer>
+    </StateImagery>
+  </WidgetLook>
+
+  <WidgetLook name="ProjetUnivers/TabButtonPane">
+    <PropertyDefinition name="EnableTop" initialValue="1"
+      redrawOnWrite="true" layoutOnWrite="true" />
+    <PropertyDefinition name="EnableBottom" initialValue="1"
+      redrawOnWrite="true" layoutOnWrite="true" />
+    <ImagerySection name="normal">
+      <!--  An empty image -->
+      <ImageryComponent>
+        <Area>
+          <Dim type="LeftEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="TopEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="Width">
+            <UnifiedDim scale="0" type="Width" />
+          </Dim>
+          <Dim type="Height">
+            <UnifiedDim scale="0" type="Height" />
+          </Dim>
+        </Area>
+        <Image imageset="ProjetUnivers" image="TabHorizontalFiller" />
+        <VertFormat type="Stretched" />
+        <HorzFormat type="Stretched" />
+      </ImageryComponent>
+    </ImagerySection>
+    <StateImagery name="Normal">
+      <Layer>
+        <Section section="normal" />
+      </Layer>
+    </StateImagery>
+    <StateImagery name="Enabled">
+      <Layer>
+        <Section section="normal" />
+      </Layer>
+    </StateImagery>
+    <StateImagery name="Disabled">
+      <Layer>
+        <Section section="normal" />
+      </Layer>
+    </StateImagery>
+  </WidgetLook>
+
+  <!--
+    ***************************************************
+    ProjetUnivers/BasicWindow
+    
+    A very basic square window taken from MyGUI
+    
+    ***************************************************
+  -->
+  <WidgetLook name="ProjetUnivers/BasicWindow">
+    <ImagerySection name="normal">
+      <FrameComponent>
+        <Area>
+          <Dim type="LeftEdge">
+            <AbsoluteDim value="0"/>
+          </Dim>
+          <Dim type="TopEdge">
+            <AbsoluteDim value="0"/>
+          </Dim>
+          <Dim type="Width">
+            <UnifiedDim scale="1" type="Width"/>
+          </Dim>
+          <Dim type="Height">
+            <UnifiedDim scale="1" type="Height"/>
+          </Dim>
+        </Area>
+        <Image type="LeftEdge" imageset="ProjetUnivers" image="BasicWindow_Left"/> 
+        <Image type="RightEdge" imageset="ProjetUnivers" image="BasicWindow_Left"/> 
+        <Image type="TopEdge" imageset="ProjetUnivers" image="BasicWindow_Top"/> 
+        <Image type="BottomEdge" imageset="ProjetUnivers" image="BasicWindow_Top"/> 
+        <Image type="Background" imageset="ProjetUnivers" image="BasicWindow_Midle"/> 
+      </FrameComponent>
+    </ImagerySection>
+
+    <StateImagery name="Enabled">
+      <Layer>
+        <Section section="normal" />
+      </Layer>
+    </StateImagery>
+  </WidgetLook>
+
+  <!--
+    ***************************************************
+    ProjetUnivers/DecreaseButton
+        A button to decrease a value
+    ProjetUnivers/IncreaseButton
+        A button to decrease a value
+    
+    ***************************************************
+  -->
+  <WidgetLook name="ProjetUnivers/DecreaseButton">
+    <PropertyDefinition name="NormalTextColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
+    <PropertyDefinition name="HoverTextColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
+    <PropertyDefinition name="PushedTextColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
+    <PropertyDefinition name="DisabledTextColour" initialValue="FF7F7F7F" redrawOnWrite="true" />
+    <PropertyDefinition name="VertLabelFormatting" initialValue="CentreAligned" />
+    <PropertyDefinition name="HorzLabelFormatting" initialValue="CentreAligned" />
+    <PropertyDefinition name="NormalImage" initialValue="" redrawOnWrite="true" />
+    <PropertyDefinition name="HoverImage" initialValue="" redrawOnWrite="true" />
+    <PropertyDefinition name="PushedImage" initialValue="" redrawOnWrite="true" />
+    <PropertyDefinition name="DisabledImage" initialValue="" redrawOnWrite="true" />
+    <ImagerySection name="normal">
+      <FrameComponent>
+        <Area>
+          <Dim type="LeftEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="TopEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="Width">
+            <UnifiedDim scale="1" type="Width" />
+          </Dim>
+          <Dim type="Height">
+            <UnifiedDim scale="1" type="Height" />
+          </Dim>
+        </Area>
+        <Image type="Background" imageset="ProjetUnivers" image="DecreaseButton" />
+      </FrameComponent>
+      <ImageryComponent>
+        <Area>
+          <Dim type="LeftEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="TopEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="Width">
+            <UnifiedDim scale="1" type="Width" />
+          </Dim>
+          <Dim type="Height">
+            <UnifiedDim scale="1" type="Height" />
+          </Dim>
+        </Area>
+        <ImageProperty name="NormalImage" />
+      </ImageryComponent>
+    </ImagerySection>
+    <ImagerySection name="hover">
+      <FrameComponent>
+        <Area>
+          <Dim type="LeftEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="TopEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="Width">
+            <UnifiedDim scale="1" type="Width" />
+          </Dim>
+          <Dim type="Height">
+            <UnifiedDim scale="1" type="Height" />
+          </Dim>
+        </Area>
+        <Image type="Background" imageset="ProjetUnivers" image="Buttonhover" />
+      </FrameComponent>
+      <ImageryComponent>
+        <Area>
+          <Dim type="LeftEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="TopEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="Width">
+            <UnifiedDim scale="1" type="Width" />
+          </Dim>
+          <Dim type="Height">
+            <UnifiedDim scale="1" type="Height" />
+          </Dim>
+        </Area>
+        <ImageProperty name="HoverImage" />
+      </ImageryComponent>
+    </ImagerySection>
+    <ImagerySection name="pushed">
+      <FrameComponent>
+        <Area>
+          <Dim type="LeftEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="TopEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="Width">
+            <UnifiedDim scale="1" type="Width" />
+          </Dim>
+          <Dim type="Height">
+            <UnifiedDim scale="1" type="Height" />
+          </Dim>
+        </Area>
+        <Image type="Background" imageset="ProjetUnivers" image="Buttonhover" />
+      </FrameComponent>
+      <ImageryComponent>
+        <Area>
+          <Dim type="LeftEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="TopEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="Width">
+            <UnifiedDim scale="1" type="Width" />
+          </Dim>
+          <Dim type="Height">
+            <UnifiedDim scale="1" type="Height" />
+          </Dim>
+        </Area>
+        <ImageProperty name="PushedImage" />
+      </ImageryComponent>
+    </ImagerySection>
+    <StateImagery name="Normal">
+      <Layer>
+        <Section section="normal" />
+      </Layer>
+    </StateImagery>
+    <StateImagery name="Hover">
+      <Layer>
+        <Section section="hover" />
+      </Layer>
+    </StateImagery>
+    <StateImagery name="Pushed">
+      <Layer>
+        <Section section="pushed" />
+      </Layer>
+    </StateImagery>
+    <StateImagery name="PushedOff">
+      <Layer>
+        <Section section="hover" />
+      </Layer>
+    </StateImagery>
+    <StateImagery name="Disabled">
+      <Layer>
+        <Section section="normal">
+        </Section>
+      </Layer>
+    </StateImagery>
+    <StateImagery name="Enabled">
+      <Layer>
+        <Section section="normal">
+        </Section>
+      </Layer>
+    </StateImagery>
+  </WidgetLook>
+
+  <WidgetLook name="ProjetUnivers/IncreaseButton">
+    <PropertyDefinition name="NormalTextColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
+    <PropertyDefinition name="HoverTextColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
+    <PropertyDefinition name="PushedTextColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
+    <PropertyDefinition name="DisabledTextColour" initialValue="FF7F7F7F" redrawOnWrite="true" />
+    <PropertyDefinition name="VertLabelFormatting" initialValue="CentreAligned" />
+    <PropertyDefinition name="HorzLabelFormatting" initialValue="CentreAligned" />
+    <PropertyDefinition name="NormalImage" initialValue="" redrawOnWrite="true" />
+    <PropertyDefinition name="HoverImage" initialValue="" redrawOnWrite="true" />
+    <PropertyDefinition name="PushedImage" initialValue="" redrawOnWrite="true" />
+    <PropertyDefinition name="DisabledImage" initialValue="" redrawOnWrite="true" />
+    <ImagerySection name="normal">
+      <FrameComponent>
+        <Area>
+          <Dim type="LeftEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="TopEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="Width">
+            <UnifiedDim scale="1" type="Width" />
+          </Dim>
+          <Dim type="Height">
+            <UnifiedDim scale="1" type="Height" />
+          </Dim>
+        </Area>
+        <Image type="Background" imageset="ProjetUnivers" image="IncreaseButton" />
+      </FrameComponent>
+      <ImageryComponent>
+        <Area>
+          <Dim type="LeftEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="TopEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="Width">
+            <UnifiedDim scale="1" type="Width" />
+          </Dim>
+          <Dim type="Height">
+            <UnifiedDim scale="1" type="Height" />
+          </Dim>
+        </Area>
+        <ImageProperty name="NormalImage" />
+      </ImageryComponent>
+    </ImagerySection>
+    <ImagerySection name="hover">
+      <FrameComponent>
+        <Area>
+          <Dim type="LeftEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="TopEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="Width">
+            <UnifiedDim scale="1" type="Width" />
+          </Dim>
+          <Dim type="Height">
+            <UnifiedDim scale="1" type="Height" />
+          </Dim>
+        </Area>
+        <Image type="Background" imageset="ProjetUnivers" image="Buttonhover" />
+      </FrameComponent>
+      <ImageryComponent>
+        <Area>
+          <Dim type="LeftEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="TopEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="Width">
+            <UnifiedDim scale="1" type="Width" />
+          </Dim>
+          <Dim type="Height">
+            <UnifiedDim scale="1" type="Height" />
+          </Dim>
+        </Area>
+        <ImageProperty name="HoverImage" />
+        <VertFormatProperty name="VertImageFormatting" />
+        <HorzFormatProperty name="HorzImageFormatting" />
+      </ImageryComponent>
+    </ImagerySection>
+    <ImagerySection name="pushed">
+      <FrameComponent>
+        <Area>
+          <Dim type="LeftEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="TopEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="Width">
+            <UnifiedDim scale="1" type="Width" />
+          </Dim>
+          <Dim type="Height">
+            <UnifiedDim scale="1" type="Height" />
+          </Dim>
+        </Area>
+        <Image type="Background" imageset="ProjetUnivers" image="Buttonnormal" />
+      </FrameComponent>
+      <ImageryComponent>
+        <Area>
+          <Dim type="LeftEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="TopEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="Width">
+            <UnifiedDim scale="1" type="Width" />
+          </Dim>
+          <Dim type="Height">
+            <UnifiedDim scale="1" type="Height" />
+          </Dim>
+        </Area>
+        <ImageProperty name="PushedImage" />
+        <VertFormatProperty name="VertImageFormatting" />
+        <HorzFormatProperty name="HorzImageFormatting" />
+      </ImageryComponent>
+    </ImagerySection>
+    <StateImagery name="Normal">
+      <Layer>
+        <Section section="normal" />
+      </Layer>
+    </StateImagery>
+    <StateImagery name="Hover">
+      <Layer>
+        <Section section="hover" />
+      </Layer>
+    </StateImagery>
+    <StateImagery name="Pushed">
+      <Layer>
+        <Section section="pushed" />
+      </Layer>
+    </StateImagery>
+    <StateImagery name="PushedOff">
+      <Layer>
+        <Section section="hover" />
+      </Layer>
+    </StateImagery>
+    <StateImagery name="Disabled">
+      <Layer>
+        <Section section="normal">
+        </Section>
+      </Layer>
+    </StateImagery>
+    <StateImagery name="Enabled">
+      <Layer>
+        <Section section="normal">
+        </Section>
+      </Layer>
+    </StateImagery>
+  </WidgetLook>
+
+  <!-- 
+    ***************************************************
+    ProjetUnivers/DeleteButton
+    ProjetUnivers/AddButton
+        .................
+        |    |          |
+        |Icon| Text     |
+        .................
+    The icon area is a square
+    
+    Working
+  -->
+  <WidgetLook name="ProjetUnivers/DeleteButton">
+    <PropertyDefinition name="NormalTextColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
+    <PropertyDefinition name="HoverTextColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
+    <PropertyDefinition name="PushedTextColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
+    <PropertyDefinition name="DisabledTextColour" initialValue="FF7F7F7F" redrawOnWrite="true" />
+    <PropertyDefinition name="VertLabelFormatting" initialValue="CentreAligned" />
+    <PropertyDefinition name="HorzLabelFormatting" initialValue="CentreAligned" />
+    <PropertyDefinition name="NormalImage" initialValue="" redrawOnWrite="true" />
+    <PropertyDefinition name="HoverImage" initialValue="" redrawOnWrite="true" />
+    <PropertyDefinition name="PushedImage" initialValue="" redrawOnWrite="true" />
+    <PropertyDefinition name="DisabledImage" initialValue="" redrawOnWrite="true" />
+    <PropertyDefinition name="VertImageFormatting" initialValue="Stretched" redrawOnWrite="true" />
+    <PropertyDefinition name="HorzImageFormatting" initialValue="Stretched" redrawOnWrite="true" />
+    <!-- The text of the button -->
+    <ImagerySection name="label">
+      <ImageryComponent>
+        <Area>
+          <Dim type="LeftEdge">
+            <WidgetDim dimension="Height"/>
+          </Dim>
+          <Dim type="TopEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="Width">
+            <UnifiedDim scale="1" type="Width">
+              <DimOperator op="Subtract">
+                <WidgetDim dimension="Height"/>
+              </DimOperator>
+            </UnifiedDim>
+          </Dim>
+          <Dim type="Height">
+            <UnifiedDim scale="1" type="Height" />
+          </Dim>
+        </Area>
+        <ImageProperty name="NormalImage" />
+        <VertFormatProperty name="VertImageFormatting" />
+        <HorzFormatProperty name="HorzImageFormatting" />
+      </ImageryComponent>
+      <TextComponent>
+        <Area>
+          <Dim type="LeftEdge">
+            <WidgetDim dimension="Height"/>
+          </Dim>
+          <Dim type="TopEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="Width">
+            <UnifiedDim scale="1" type="Width">
+              <DimOperator op="Subtract">
+                <WidgetDim dimension="Height"/>
+              </DimOperator>
+            </UnifiedDim>
+          </Dim>
+          <Dim type="Height">
+            <UnifiedDim scale="1" type="Height" />
+          </Dim>
+        </Area>
+      </TextComponent>
+    </ImagerySection>
+    
+    <!-- The icon part -->
+    <ImagerySection name="icon">
+      <ImageryComponent>
+        <Area>
+          <Dim type="LeftEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="TopEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="Width">
+            <WidgetDim dimension="Height"/>
+          </Dim>
+          <Dim type="Height">
+            <UnifiedDim scale="1" type="Height" />
+          </Dim>
+        </Area>
+        <Image imageset="ProjetUnivers" image="DeleteButton" />
+        <VertFormat type="Stretched" />
+        <HorzFormat type="Stretched" />
+      </ImageryComponent>
+    </ImagerySection>
+    
+    <ImagerySection name="pushed">
+      <FrameComponent>
+        <Area>
+          <Dim type="LeftEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="TopEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="Width">
+            <UnifiedDim scale="1" type="Width" />
+          </Dim>
+          <Dim type="Height">
+            <UnifiedDim scale="1" type="Height" />
+          </Dim>
+        </Area>
+        <Image type="Background" imageset="ProjetUnivers" image="Buttonnormal" />
+      </FrameComponent>
+      <ImageryComponent>
+        <Area>
+          <Dim type="LeftEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="TopEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="Width">
+            <UnifiedDim scale="1" type="Width" />
+          </Dim>
+          <Dim type="Height">
+            <UnifiedDim scale="1" type="Height" />
+          </Dim>
+        </Area>
+        <ImageProperty name="PushedImage" />
+        <VertFormatProperty name="VertImageFormatting" />
+        <HorzFormatProperty name="HorzImageFormatting" />
+      </ImageryComponent>
+    </ImagerySection>
+    
+    <StateImagery name="Normal">
+      <Layer>
+        <Section section="icon"/>
+        <Section section="label"/>
+      </Layer>
+    </StateImagery>
+    <StateImagery name="Hover">
+      <Layer>
+        <Section section="icon"/>
+        <Section section="label">
+          <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F"/>
+        </Section>
+      </Layer>
+    </StateImagery>
+    <StateImagery name="Pushed">
+    </StateImagery>
+    <StateImagery name="PushedOff">
+    </StateImagery>
+    <StateImagery name="Disabled">
+    </StateImagery>
+    <StateImagery name="Enabled">
+      <Layer>
+        <Section section="icon"/>
+        <Section section="label"/>
+      </Layer>
+    </StateImagery>
+  </WidgetLook>
+
+  <WidgetLook name="ProjetUnivers/AddButton">
+    <PropertyDefinition name="NormalTextColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
+    <PropertyDefinition name="HoverTextColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
+    <PropertyDefinition name="PushedTextColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
+    <PropertyDefinition name="DisabledTextColour" initialValue="FF7F7F7F" redrawOnWrite="true" />
+    <PropertyDefinition name="VertLabelFormatting" initialValue="CentreAligned" />
+    <PropertyDefinition name="HorzLabelFormatting" initialValue="CentreAligned" />
+    <PropertyDefinition name="NormalImage" initialValue="" redrawOnWrite="true" />
+    <PropertyDefinition name="HoverImage" initialValue="" redrawOnWrite="true" />
+    <PropertyDefinition name="PushedImage" initialValue="" redrawOnWrite="true" />
+    <PropertyDefinition name="DisabledImage" initialValue="" redrawOnWrite="true" />
+    <PropertyDefinition name="VertImageFormatting" initialValue="Stretched" redrawOnWrite="true" />
+    <PropertyDefinition name="HorzImageFormatting" initialValue="Stretched" redrawOnWrite="true" />
+    <!-- The text of the button -->
+    <ImagerySection name="label">
+      <ImageryComponent>
+        <Area>
+          <Dim type="LeftEdge">
+            <WidgetDim dimension="Height"/>
+          </Dim>
+          <Dim type="TopEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="Width">
+            <UnifiedDim scale="1" type="Width">
+              <DimOperator op="Subtract">
+                <WidgetDim dimension="Height"/>
+              </DimOperator>
+            </UnifiedDim>
+          </Dim>
+          <Dim type="Height">
+            <UnifiedDim scale="1" type="Height" />
+          </Dim>
+        </Area>
+        <ImageProperty name="NormalImage" />
+        <VertFormatProperty name="VertImageFormatting" />
+        <HorzFormatProperty name="HorzImageFormatting" />
+      </ImageryComponent>
+      <TextComponent>
+        <Area>
+          <Dim type="LeftEdge">
+            <WidgetDim dimension="Height"/>
+          </Dim>
+          <Dim type="TopEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="Width">
+            <UnifiedDim scale="1" type="Width">
+              <DimOperator op="Subtract">
+                <WidgetDim dimension="Height"/>
+              </DimOperator>
+            </UnifiedDim>
+          </Dim>
+          <Dim type="Height">
+            <UnifiedDim scale="1" type="Height" />
+          </Dim>
+        </Area>
+      </TextComponent>
+    </ImagerySection>
+    
+    <!-- The icon part -->
+    <ImagerySection name="icon">
+      <ImageryComponent>
+        <Area>
+          <Dim type="LeftEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="TopEdge">
+            <AbsoluteDim value="0" />
+          </Dim>
+          <Dim type="Width">
+            <WidgetDim dimension="Height"/>
+          </Dim>
+          <Dim type="Height">
+            <UnifiedDim scale="1" type="Height" />
+          </Dim>
+        </Area>
+        <Image imageset="ProjetUnivers" image="AddButton" />
+        <VertFormat type="Stretched" />
+        <HorzFormat type="Stretched" />
+      </ImageryComponent>
+    </ImagerySection>
+    
+    <StateImagery name="Normal">
+      <Layer>
+        <Section section="icon"/>
+        <Section section="label"/>
+      </Layer>
+    </StateImagery>
+    <StateImagery name="Hover">
+      <Layer>
+        <Section section="icon"/>
+        <Section section="label">
+          <Colours topLeft="FF7F7F7F" topRight="FF7F7F7F" bottomLeft="FF7F7F7F" bottomRight="FF7F7F7F"/>
+        </Section>
+      </Layer>
+    </StateImagery>
+    <StateImagery name="Pushed">
+    </StateImagery>
+    <StateImagery name="PushedOff">
+    </StateImagery>
+    <StateImagery name="Disabled">
+    </StateImagery>
+    <StateImagery name="Enabled">
+      <Layer>
+        <Section section="icon"/>
+        <Section section="label"/>
+      </Layer>
+    </StateImagery>
+  </WidgetLook>
+
+</Falagard>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<GUILayout>
+  <Window Type="ProjetUnivers/BasicWindow">
+    <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
+    <!-- Title -->
+    <Window Type="ProjetUnivers/StaticText">
+      <Property Name="UnifiedAreaRect" Value="{{0.25,0},{0,0},{0.75,0},{0.1,0}}" />
+      <Property Name="Text" Value="Custom Mission" />
+      <!-- oups... -->
+      <Property Name="HorzFormatting" Value="Centered" />
+    </Window>
+    <!-- Teams content -->
+    <Window Type="ProjetUnivers/AddButton" Name="Mission/AddTeam">
+      <Property Name="Text" Value="Add Team"/>
+      <Property Name="UnifiedAreaRect" Value="{{0,0},{0.1,0},{0.2,0},{0.14,0}}" />
+    </Window>
+    <Window Type="ProjetUnivers/ScrollablePane" Name="Mission/Teams">
+      <Property Name="UnifiedAreaRect" Value="{{0,5},{0.2,0},{1,-5},{0.8,0}}" />
+      <!-- Add Team Button -->
+    </Window>
+    <!-- Global data -->
+    <Window Type="ProjetUnivers/BasicWindow" Name="Mission/GlobalData">
+      <Property Name="UnifiedAreaRect" Value="{{0,5},{0.8,0},{1,-5},{0.9,0}}" />
+      <!-- Starting distance -->
+      <Window Type="ProjetUnivers/StaticText" Name="Mission/GlobalData/StartingDistance">
+        <Property Name="UnifiedAreaRect" Value="{{0,5},{0,0},{0.3,0},{0.5,0}}" />
+        <Property Name="Text" Value="Starting Distance" />
+      </Window>
+    </Window>
+    <!-- Back to menu -->
+    <Window Type="ProjetUnivers/Button">
+      <Property Name="Font" Value="Commonwealth-10" />
+      <Property Name="Text" Value="Back to menu" />
+      <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+      <Property Name="UnifiedAreaRect" Value="{{0,5},{0.9,0},{0.2,0},{1,0}}" />
+      <Event Name="Clicked" Function="change(main_menu,Displayed)" /> 
+    </Window>
+    <!-- Play Mission -->
+    <Window Type="ProjetUnivers/Button">
+      <Property Name="Font" Value="Commonwealth-10" />
+      <Property Name="Text" Value="Play Mission" />
+      <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+      <Property Name="UnifiedAreaRect" Value="{{0.8,5},{0.9,0},{1,-5},{1,0}}" />
+      <Event Name="Clicked" Function="change(mission,Played)" />
+    </Window>
+  </Window>
+</GUILayout>

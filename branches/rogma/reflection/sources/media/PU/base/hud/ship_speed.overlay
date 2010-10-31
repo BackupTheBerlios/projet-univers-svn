@@ -1,0 +1,29 @@
+// Display the ship speed of screen. 
+// Do not change the names because they are used in code.
+PU/base/HUD/ShipSpeed
+{
+  zorder 200
+
+  container Panel(ShipSpeed)
+  {
+    // adjust this position to change text position
+    // positions are aligned on center of the screen
+    // positions may range between -0.5 and +0.5 in relative position
+    // 0, 0 center
+    // left -0.05  == a bit on the left
+    // top -0.48 near the top of the screen
+    left -0.2
+    top -0.45
+    
+    element TextArea(ShipSpeed/Speed)
+    {
+      vert_align center
+      horz_align center
+      metrics_mode pixels
+      font_name BlueHighway
+      char_height 16
+      caption "Name"
+    }
+  }
+
+}

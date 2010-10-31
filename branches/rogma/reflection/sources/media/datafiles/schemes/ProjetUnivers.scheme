@@ -1,0 +1,43 @@
+<?xml version="1.0" ?>
+<GUIScheme Name="ProjetUnivers">
+	<Imageset Name="ProjetUnivers" Filename="ProjetUnivers.imageset" />
+	<LookNFeel Filename="ProjetUnivers.looknfeel" />
+	<WindowRendererSet Filename="CEGUIFalagardWRBase" />
+	<FalagardMapping WindowType="ProjetUnivers/Button" TargetType="CEGUI/PushButton" Renderer="Falagard/Button" LookNFeel="ProjetUnivers/Button" />
+	<FalagardMapping WindowType="ProjetUnivers/Titlebar" TargetType="CEGUI/Titlebar" Renderer="Falagard/Titlebar" LookNFeel="ProjetUnivers/Titlebar" />
+	<FalagardMapping WindowType="ProjetUnivers/FrameWindow"  TargetType="CEGUI/FrameWindow" Renderer="Falagard/FrameWindow"  LookNFeel="ProjetUnivers/FrameWindow" />
+	<FalagardMapping WindowType="ProjetUnivers/Menu"  TargetType="CEGUI/FrameWindow" Renderer="Falagard/FrameWindow"  LookNFeel="ProjetUnivers/Menu" />
+	<FalagardMapping WindowType="ProjetUnivers/MultiLineEditbox" TargetType="CEGUI/MultiLineEditbox" Renderer="Falagard/MultiLineEditbox" LookNFeel="ProjetUnivers/MultiLineEditbox" />
+	<FalagardMapping WindowType="ProjetUnivers/VerticalScrollbar"   TargetType="CEGUI/Scrollbar" Renderer="Falagard/Scrollbar" LookNFeel="ProjetUnivers/VerticalScrollbar" />
+	<FalagardMapping WindowType="ProjetUnivers/HorizontalScrollbar" TargetType="CEGUI/Scrollbar" Renderer="Falagard/Scrollbar" LookNFeel="ProjetUnivers/HorizontalScrollbar" />
+	<FalagardMapping WindowType="ProjetUnivers/ImageButton" TargetType="CEGUI/PushButton"  Renderer="Falagard/Button"       LookNFeel="ProjetUnivers/ImageButton" />
+	<FalagardMapping WindowType="ProjetUnivers/VerticalScrollbar"   TargetType="CEGUI/Scrollbar" Renderer="Falagard/Scrollbar" LookNFeel="ProjetUnivers/VerticalScrollbar" />
+	<FalagardMapping WindowType="ProjetUnivers/HorizontalScrollbar" TargetType="CEGUI/Scrollbar" Renderer="Falagard/Scrollbar" LookNFeel="ProjetUnivers/HorizontalScrollbar" />
+	<FalagardMapping WindowType="ProjetUnivers/VerticalScrollbarThumb"   TargetType="CEGUI/Thumb" Renderer="Falagard/Button" LookNFeel="ProjetUnivers/VerticalScrollbarThumb" />
+	<FalagardMapping WindowType="ProjetUnivers/HorizontalScrollbarThumb" TargetType="CEGUI/Thumb" Renderer="Falagard/Button" LookNFeel="ProjetUnivers/HorizontalScrollbarThumb" />
+	<FalagardMapping WindowType="ProjetUnivers/Editbox"          TargetType="CEGUI/Editbox"          Renderer="Falagard/Editbox"          LookNFeel="ProjetUnivers/Editbox" />
+	<FalagardMapping WindowType="ProjetUnivers/StaticText"  TargetType="DefaultWindow" Renderer="Falagard/StaticText"  LookNFeel="ProjetUnivers/StaticText" />
+	<FalagardMapping WindowType="ProjetUnivers/MultiColumnList"   TargetType="CEGUI/MultiColumnList"   Renderer="Falagard/MultiColumnList"   LookNFeel="ProjetUnivers/MultiColumnList" />
+	<FalagardMapping WindowType="ProjetUnivers/ListHeader"        TargetType="CEGUI/ListHeader"        Renderer="Falagard/ListHeader"        LookNFeel="ProjetUnivers/ListHeader" />
+	<FalagardMapping WindowType="ProjetUnivers/ListHeaderSegment" TargetType="CEGUI/ListHeaderSegment" Renderer="Falagard/ListHeaderSegment" LookNFeel="ProjetUnivers/ListHeaderSegment" />
+	<FalagardMapping WindowType="ProjetUnivers/Checkbox"    TargetType="CEGUI/Checkbox"    Renderer="Falagard/ToggleButton" LookNFeel="ProjetUnivers/Checkbox" />
+	<FalagardMapping WindowType="ProjetUnivers/RadioButton" TargetType="CEGUI/RadioButton" Renderer="Falagard/ToggleButton" LookNFeel="ProjetUnivers/RadioButton" />
+	
+	<!-- A Scrollable panel -->
+	<FalagardMapping WindowType="ProjetUnivers/ScrollablePane" TargetType="CEGUI/ScrollablePane" Renderer="Falagard/ScrollablePane" LookNFeel="ProjetUnivers/ScrollablePane" />
+	
+  <!-- A tabbed window -->
+	<FalagardMapping WindowType="ProjetUnivers/TabbedWindow" TargetType="CEGUI/TabControl" Renderer="Falagard/TabControl" LookNFeel="ProjetUnivers/TabbedWindow" />
+	<FalagardMapping WindowType="ProjetUnivers/TabButton"    TargetType="CEGUI/TabButton"    Renderer="Falagard/TabButton"    LookNFeel="ProjetUnivers/TabButton" />
+	<FalagardMapping WindowType="ProjetUnivers/TabContentPane"    TargetType="DefaultWindow"    Renderer="Falagard/Default"    LookNFeel="ProjetUnivers/TabContentPane" />
+	<FalagardMapping WindowType="ProjetUnivers/TabButtonPane"    TargetType="DefaultWindow"    Renderer="Falagard/Default"    LookNFeel="ProjetUnivers/TabButtonPane" />
+  
+  <!-- A basic window -->
+	<FalagardMapping WindowType="ProjetUnivers/BasicWindow"    TargetType="DefaultWindow"    Renderer="Falagard/Default"    LookNFeel="ProjetUnivers/BasicWindow" />
+  <!-- A decrease button -->
+  <FalagardMapping WindowType="ProjetUnivers/DecreaseButton"    TargetType="DefaultWindow"    Renderer="Falagard/Default"    LookNFeel="ProjetUnivers/DecreaseButton" />
+  <FalagardMapping WindowType="ProjetUnivers/IncreaseButton"    TargetType="DefaultWindow"    Renderer="Falagard/Default"    LookNFeel="ProjetUnivers/IncreaseButton" />
+  <!-- Add/delete button -->
+  <FalagardMapping WindowType="ProjetUnivers/AddButton"    TargetType="CEGUI/PushButton"    Renderer="Falagard/Button"    LookNFeel="ProjetUnivers/AddButton" />
+  <FalagardMapping WindowType="ProjetUnivers/DeleteButton"    TargetType="CEGUI/PushButton"    Renderer="Falagard/Button"    LookNFeel="ProjetUnivers/DeleteButton" />
+</GUIScheme>
