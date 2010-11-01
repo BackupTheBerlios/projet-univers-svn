@@ -29,7 +29,7 @@ std::string Suffix(const std::string& path, char separator) {
 
 }
 
-#if defined(_WIN32) && !defined(__GNUC__)
+#if defined(_WIN32)
 
 #include <algorithm>
 #include <Windows.h>
