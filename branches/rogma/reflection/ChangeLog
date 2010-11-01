@@ -1762,12 +1762,14 @@
 in commit
 --------
 
+* included reflex sources with modifications for mingw
+* added a model meta dictionary for reflex
 
 in progress
 -----------
 
-* included reflex sources with modifications for mingw
-* added a model meta dictionary for reflex
+* serialization for traits 
+
    
 @todo
 ----

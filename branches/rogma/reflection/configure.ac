@@ -123,10 +123,9 @@ else
 fi
 AM_CONDITIONAL(HAVE_CLANLIB, test "x$CLANLIB_CONFIG" != "xno")
 
-AC_CHECK_HEADER([tclap/CmdLine.h],[havetclap=yes],[havetclap=no])
-if test "x$havetclap" = xno; then
-  AC_MSG_ERROR("Error : you need libtclap-dev")
-fi
+PKG_CHECK_MODULES(tclap, [tclap >= 1])
+AC_SUBST(tclap_LIBS)
+AC_SUBST(tclap_CFLAGS)
 
 ## platform dependent configuration
 # ogre plugin configuration 
@@ -184,9 +183,6 @@ AC_SUBST(REFLEX_COMPILER)
 
 AM_CONDITIONAL(WINDOWS_COMPILATION,test "x$build_os" = xmingw32)
 AM_CONDITIONAL(LINUX_COMPILATION,test "x$build_os" = xlinux-gnu)
-
-#REFLECTION=`sh list_model.sh`
-#AC_SUBST(REFLECTION)
 
 ##################
 # Config used libs
