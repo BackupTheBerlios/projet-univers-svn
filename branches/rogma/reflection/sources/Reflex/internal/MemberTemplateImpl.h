@@ -16,7 +16,7 @@
 #include "Reflex/Kernel.h"
 #include "Reflex/Scope.h"
 
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(__GNUC__)
 # pragma warning( push )
 # pragma warning( disable : 4251 )
 #endif
