@@ -57,12 +57,13 @@ namespace
 std::string Reflex::SharedLibraryDefining(const void* functionPointer) {
 //-------------------------------------------------------------------------------
 
-   HMODULE hmodule = NULL;
-   GetModuleHandleEx(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT,
-                     (LPCTSTR)functionPointer,
-                     &hmodule);
-   assert(hmodule && "Could not find the dll containing pointer.");
-   return HModulePath(hmodule);
+  return "" ;
+//   HMODULE hmodule = NULL;
+//   GetModuleHandleEx(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT,
+//                     (LPCTSTR)functionPointer,
+//                     &hmodule);
+//   assert(hmodule && "Could not find the dll containing pointer.");
+//   return HModulePath(hmodule);
 }
 
 

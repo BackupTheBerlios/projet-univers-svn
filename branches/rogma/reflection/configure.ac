@@ -154,6 +154,8 @@ if test "x$build_os" = xmingw32; then
   PKG_CHECK_MODULES(dinput8, [dinput8 >= 1])
 
   PU_CXXFLAGS="-O2 -enable-auto-import -shared-libgcc"
+  # compiler for reflection
+  REFLEX_COMPILER="g++"
 elif test "x$build_os" = xlinux-gnu; then
   # linux
 
@@ -172,9 +174,13 @@ elif test "x$build_os" = xlinux-gnu; then
   # on linux joystick autoconfig is self evident
   dinput8_LIBS=''
   PU_CXXFLAGS="-O2"
+
+  # compiler for reflection
+  REFLEX_COMPILER="g++-4.2"
 fi
 AC_SUBST(dinput8_LIBS)
 AC_SUBST(PU_CXXFLAGS)
+AC_SUBST(REFLEX_COMPILER)
 
 AM_CONDITIONAL(WINDOWS_COMPILATION,test "x$build_os" = xmingw32)
 AM_CONDITIONAL(LINUX_COMPILATION,test "x$build_os" = xlinux-gnu)
