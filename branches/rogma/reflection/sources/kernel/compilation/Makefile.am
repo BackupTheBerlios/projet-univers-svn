@@ -94,7 +94,6 @@ $(SOURCES)/kernel/implementation/reflex/OnDemandBuilder.cxx \
 $(SOURCES)/kernel/implementation/reflex/OwnedAnnotationList.cxx \
 $(SOURCES)/kernel/implementation/reflex/OwnedPropertyList.cxx              \
 $(SOURCES)/kernel/implementation/reflex/PluginFactoryMap.cxx \
-$(SOURCES)/kernel/implementation/reflex/PluginService.cxx \
 $(SOURCES)/kernel/implementation/reflex/Pointer.cxx                        \
 $(SOURCES)/kernel/implementation/reflex/PointerToMember.cxx                \
 $(SOURCES)/kernel/implementation/reflex/PropertyList.cxx                   \

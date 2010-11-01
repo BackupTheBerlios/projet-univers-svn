@@ -36,8 +36,7 @@ Reflex::Dictionary CreateGlobalScope(const Reflex::Dictionary& dictionary) {
    Reflex::Namespace::GlobalScope(dictionary);
    return dictionary;
 }
-
-#ifdef WIN32
+#if defined(_WIN32) && !defined(__GNUC__)
 std::string os_command(const std::string& command) {
    return "\""+command+"\"";
 }
