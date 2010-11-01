@@ -86,7 +86,7 @@
 # undef CONST
 #endif
 
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(__GNUC__)
 // Some pragmas to avoid warnings in MSVisualC
 // Disable warning C4786: identifier was truncated to '255' characters in the debug information
 # pragma warning ( disable : 4786 )
