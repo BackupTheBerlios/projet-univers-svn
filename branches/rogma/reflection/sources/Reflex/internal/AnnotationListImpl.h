@@ -187,7 +187,7 @@ Reflex::AnnotationListImpl::AnnotationWithType() const {
    return any_cast<AnnotationType>(&AnnotationWithType(typeid(AnnotationType)));
 }
 
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(__GNUC__)
 # pragma warning( pop )
 #endif
 

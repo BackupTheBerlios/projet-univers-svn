@@ -298,7 +298,7 @@ Reflex::MemberTemplateImpl::TemplateParameterName_REnd() const {
 }
 
 
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(__GNUC__)
 # pragma warning( pop )
 #endif
 
