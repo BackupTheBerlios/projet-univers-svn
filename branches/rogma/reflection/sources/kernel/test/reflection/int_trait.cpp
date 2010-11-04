@@ -18,53 +18,37 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#pragma once
-
-#include <cppunit/extensions/HelperMacros.h>
+#include <kernel/test/reflection/int_trait.h>
 
 namespace ProjetUnivers
 {
-  namespace Network
+  namespace Kernel
   {
     namespace Test
     {
-      /// Test for replication of data to a client
-      class TestReplication : public CppUnit::TestFixture
+      namespace Reflection
       {
-      protected:
-      /*!
-        @name Test methods
-      */
-      // @{
+        void IntTrait::setUInt(const unsigned int& uint)
+        {
+          m_uint = uint ;
+        }
 
-        void createObject() ;
-        void addTrait() ;
-        void createSubObject() ;
+        const unsigned int& IntTrait::getUInt() const
+        {
+          return m_uint ;
+        }
 
-        /*
-        @todo
-        try with several messages sent in the same time frame
+        void IntTrait::setInt(const int& value)
+        {
+          m_int = value ;
+        }
 
-        */
+        const int& IntTrait::getInt() const
+        {
+          return m_int ;
+        }
 
-      // @}
-      /*!
-        @name Test registration
-      */
-      // @{
-
-        CPPUNIT_TEST_SUITE(TestReplication) ;
-
-        CPPUNIT_TEST(createObject) ;
-        CPPUNIT_TEST(addTrait) ;
-        CPPUNIT_TEST(createSubObject) ;
-
-        CPPUNIT_TEST_SUITE_END() ;
-
-      // @}
-
-        void connect(Kernel::Object* server,Kernel::Object* client) ;
-      };
+      }
 
     }
   }

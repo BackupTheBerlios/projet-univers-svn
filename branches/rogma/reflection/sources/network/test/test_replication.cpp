@@ -19,6 +19,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include <kernel/model.h>
+#include <kernel/object.h>
 #include <model/server.h>
 #include <model/active.h>
 #include <model/client.h>
@@ -26,6 +27,7 @@
 #include <model/connected.h>
 #include <model/disconnected.h>
 
+#include <network/test/local/t1.h>
 #include <network/implementation/enet/network_system.h>
 #include <network/implementation/enet/server.h>
 #include <network/test/test_replication.h>
@@ -37,60 +39,104 @@ namespace ProjetUnivers
     namespace Test
     {
 
-      // local model
-      namespace Model
-      {
-        class T1 : public Kernel::Trait
-        {
-        private:
-
-          std::string m_name ;
-          int m_size ;
-        };
-      }
-
-      using namespace Model ;
-
       CPPUNIT_TEST_SUITE_REGISTRATION(TestReplication) ;
 
-      void TestReplication::spike()
+      void TestReplication::connect(Kernel::Object* server,Kernel::Object* client)
       {
-        std::auto_ptr<Kernel::Model> server_model(new Kernel::Model()) ;
-        server_model->init() ;
-
-        Kernel::Object* server = server_model->createObject() ;
         server->addTrait(new Model::Server()) ;
         server->addTrait(new Model::Active()) ;
-
-        std::auto_ptr<Kernel::Model> client_model(new Kernel::Model()) ;
-        client_model->init() ;
-
-        Kernel::ControlerSet* server_controler_set = server_model->getControlerSet<Implementation::Enet::NetworkSystem>() ;
-        CPPUNIT_ASSERT(server_controler_set) ;
-
-        Implementation::Enet::Server* enet_server =
-            server->getTrait<Implementation::ActiveServer>()
-                  ->getControler<Implementation::Enet::Server>(server_controler_set) ;
-
-        CPPUNIT_ASSERT(enet_server) ;
-
-        Kernel::Object* client = client_model->createObject() ;
         client->addTrait(new Model::Client("localhost")) ;
         client->addTrait(new Model::Connecting()) ;
 
         // simulate alternativelly to ensure messages sending
-        client_model->update(0.1) ;
-        server_model->update(0.1) ;
-        client_model->update(0.1) ;
-        server_model->update(0.1) ;
+        client->getModel()->update(0.1) ;
+        server->getModel()->update(0.1) ;
+        client->getModel()->update(0.1) ;
+        server->getModel()->update(0.1) ;
 
         // client is marqued as connected
         CPPUNIT_ASSERT(client->getTrait<Model::Connected>()) ;
         CPPUNIT_ASSERT(!client->getTrait<Model::Connecting>()) ;
+      }
 
+      void TestReplication::createObject()
+      {
+        std::auto_ptr<Kernel::Model> server_model(new Kernel::Model()) ;
+        server_model->init() ;
+        Kernel::Object* server = server_model->createObject() ;
 
+        std::auto_ptr<Kernel::Model> client_model(new Kernel::Model()) ;
+        client_model->init() ;
+        Kernel::Object* client = client_model->createObject() ;
 
-        CPPUNIT_ASSERT(false) ;
+        connect(server,client) ;
+
+        Kernel::Object* o1 = server->createObject() ;
+
+        server_model->update(0.1) ;
+        client_model->update(0.1) ;
+
+        // a sub object has been replicated
+        CPPUNIT_ASSERT_EQUAL((unsigned int)1,client->getChildren().size()) ;
+        Kernel::Object* o1_client = *client->getChildren().begin() ;
+      }
+
+      void TestReplication::addTrait()
+      {
+        std::auto_ptr<Kernel::Model> server_model(new Kernel::Model()) ;
+        server_model->init() ;
+        Kernel::Object* server = server_model->createObject() ;
+
+        std::auto_ptr<Kernel::Model> client_model(new Kernel::Model()) ;
+        client_model->init() ;
+        Kernel::Object* client = client_model->createObject() ;
+
+        connect(server,client) ;
+
+        Kernel::Object* o1 = server->createObject() ;
+
+        server_model->update(0.1) ;
+        client_model->update(0.1) ;
+
+        // a sub object has been replicated
+        CPPUNIT_ASSERT_EQUAL((unsigned int)1,client->getChildren().size()) ;
+        Kernel::Object* o1_client = *client->getChildren().begin() ;
+
+        o1->addTrait(new Local::T1()) ;
+        server_model->update(0.1) ;
+        client_model->update(0.1) ;
+
+        CPPUNIT_ASSERT(o1_client->getTrait<Local::T1>()) ;
+      }
+
+      void TestReplication::createSubObject()
+      {
+        std::auto_ptr<Kernel::Model> server_model(new Kernel::Model()) ;
+        server_model->init() ;
+        Kernel::Object* server = server_model->createObject() ;
+
+        std::auto_ptr<Kernel::Model> client_model(new Kernel::Model()) ;
+        client_model->init() ;
+        Kernel::Object* client = client_model->createObject() ;
+
+        connect(server,client) ;
+
+        Kernel::Object* o1 = server->createObject() ;
+
+        server_model->update(0.1) ;
+        client_model->update(0.1) ;
+
+        // a sub object has been replicated
+        CPPUNIT_ASSERT_EQUAL((unsigned int)1,client->getChildren().size()) ;
+        Kernel::Object* o1_client = *client->getChildren().begin() ;
+
+        o1->createObject() ;
+
+        server_model->update(0.1) ;
+        client_model->update(0.1) ;
+
+        // a sub object has been replicated
+        CPPUNIT_ASSERT_EQUAL((unsigned int)1,o1_client->getChildren().size()) ;
       }
 
     }

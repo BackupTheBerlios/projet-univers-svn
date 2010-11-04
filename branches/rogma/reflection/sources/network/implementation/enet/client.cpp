@@ -23,6 +23,7 @@
 #include <model/connected.h>
 #include <model/connecting.h>
 #include <model/client.h>
+#include <network/implementation/enet/packet.h>
 #include <network/implementation/enet/client.h>
 
 namespace ProjetUnivers
@@ -50,6 +51,9 @@ namespace ProjetUnivers
           enet_address_set_host(&m_address,getTrait<Model::Client>()->getAddress().c_str()) ;
           m_address.port = 3490 ;
           m_peer = enet_host_connect(m_host,&m_address,numberOfChannels) ;
+
+          // by convention
+          m_objects[0] = getObject() ;
 
           // @todo m_peer == NULL
         }
@@ -91,10 +95,34 @@ namespace ProjetUnivers
                   getObject()->destroyTrait(connected) ;
               }
               break ;
+            case ENET_EVENT_TYPE_RECEIVE:
+              {
+                ENetPacket* packet = event.packet ;
+                if (isMessageCreate(packet))
+                {
+                  ObjectIdentifier parent = decodeParentIdentifier(packet) ;
+                  ObjectIdentifier object = decodeNewObjectIdentifier(packet) ;
+                  Kernel::Object* new_object = getNetworkObject(parent)->createObject() ;
+                  m_objects[object] = new_object ;
+                }
+                else if (isMessageAddTrait(packet))
+                {
+                  getNetworkObject(decodeObjectIdentifier(packet))->addTrait(decodeTrait(packet)) ;
+                }
+              }
+              break ;
             }
           }
         }
 
+        Kernel::Object* Client::getNetworkObject(const ObjectIdentifier& identifier) const
+        {
+          std::map<ObjectIdentifier,Kernel::ObjectReference>::const_iterator finder = m_objects.find(identifier) ;
+
+          CHECK(finder != m_objects.end(),"unexisting identifier") ;
+
+          return finder->second ;
+        }
       }
     }
   }

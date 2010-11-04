@@ -20,52 +20,45 @@
  ***************************************************************************/
 #pragma once
 
-#include <cppunit/extensions/HelperMacros.h>
+#include <enet/enet.h>
+#include <kernel/trait.h>
+#include <network/implementation/enet/server_object.h>
 
 namespace ProjetUnivers
 {
   namespace Network
   {
-    namespace Test
+    namespace Implementation
     {
-      /// Test for replication of data to a client
-      class TestReplication : public CppUnit::TestFixture
+      namespace Enet
       {
-      protected:
-      /*!
-        @name Test methods
-      */
-      // @{
+        /// Create a message indicating an object creation
+        ENetPacket* messageCreateObject(const ObjectIdentifier& parent,const ObjectIdentifier& object) ;
 
-        void createObject() ;
-        void addTrait() ;
-        void createSubObject() ;
+        /// True if the message is a create object message
+        bool isMessageCreate(ENetPacket* packet) ;
 
-        /*
-        @todo
-        try with several messages sent in the same time frame
+        /// Get the parent identifier contained in a packet
+        ObjectIdentifier decodeParentIdentifier(ENetPacket* packet) ;
 
-        */
+        /// Get the parent identifier contained in a packet
+        ObjectIdentifier decodeNewObjectIdentifier(ENetPacket* packet) ;
 
-      // @}
-      /*!
-        @name Test registration
-      */
-      // @{
+        /// Create a message indicating an object destruction
+        ENetPacket* messageDestroyObject(const ObjectIdentifier& object) ;
 
-        CPPUNIT_TEST_SUITE(TestReplication) ;
+        /// Create a message indicating a trait addition
+        ENetPacket* messageAddTrait(const ObjectIdentifier& object,Kernel::Trait*) ;
 
-        CPPUNIT_TEST(createObject) ;
-        CPPUNIT_TEST(addTrait) ;
-        CPPUNIT_TEST(createSubObject) ;
+        /// True if the message is an addTrait
+        bool isMessageAddTrait(ENetPacket* packet) ;
 
-        CPPUNIT_TEST_SUITE_END() ;
+        /// Get the object identifier contained in a packet
+        ObjectIdentifier decodeObjectIdentifier(ENetPacket* packet) ;
 
-      // @}
-
-        void connect(Kernel::Object* server,Kernel::Object* client) ;
-      };
-
+        /// Return the trait contained in the packet
+        Kernel::Trait* decodeTrait(ENetPacket* packet) ;
+      }
     }
   }
 }

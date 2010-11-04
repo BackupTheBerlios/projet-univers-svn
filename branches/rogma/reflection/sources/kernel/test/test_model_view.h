@@ -174,6 +174,8 @@ namespace ProjetUnivers
         void changingParentUpdatesHasAncestorNegativeTest() ;
         void changingParentUpdatesHasChild() ;
 
+        void severalViewsOnATraitForTheSameViewPoint() ;
+
       // @}
 
 
@@ -229,6 +231,7 @@ namespace ProjetUnivers
         CPPUNIT_TEST(changingParentUpdatesHasAncestor) ;
         CPPUNIT_TEST(changingParentUpdatesHasAncestorNegativeTest) ;
         CPPUNIT_TEST(changingParentUpdatesHasChild) ;
+        CPPUNIT_TEST(severalViewsOnATraitForTheSameViewPoint) ;
 
         CPPUNIT_TEST_SUITE_END() ;
 

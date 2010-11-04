@@ -20,52 +20,48 @@
  ***************************************************************************/
 #pragma once
 
-#include <cppunit/extensions/HelperMacros.h>
+#include <enet/enet.h>
+#include <kernel/controler.h>
+#include <kernel/deduced_trait.h>
+#include <network/implementation/enet/network_system.h>
 
 namespace ProjetUnivers
 {
   namespace Network
   {
-    namespace Test
+    namespace Implementation
     {
-      /// Test for replication of data to a client
-      class TestReplication : public CppUnit::TestFixture
+
+      class ServerObject : public Kernel::DeducedTrait
+      {};
+
+      typedef unsigned int ObjectIdentifier ;
+
+      namespace Enet
       {
-      protected:
-      /*!
-        @name Test methods
-      */
-      // @{
+        /// An object server side that need replication on clients
+        class ServerObject : public Kernel::Controler<Implementation::ServerObject,
+                                                      NetworkSystem>
+        {
+        public:
 
-        void createObject() ;
-        void addTrait() ;
-        void createSubObject() ;
+          /// Send create message to all clients
+          virtual void onInit() ;
 
-        /*
-        @todo
-        try with several messages sent in the same time frame
+          /// Send destroy message to all clients
+          virtual void onClose() ;
 
-        */
+          /// The object network identifier
+          const ObjectIdentifier& getNetworkIdentifier() const ;
 
-      // @}
-      /*!
-        @name Test registration
-      */
-      // @{
+        private:
 
-        CPPUNIT_TEST_SUITE(TestReplication) ;
+          /// object global identifier
+          ObjectIdentifier m_object_identifier ;
 
-        CPPUNIT_TEST(createObject) ;
-        CPPUNIT_TEST(addTrait) ;
-        CPPUNIT_TEST(createSubObject) ;
-
-        CPPUNIT_TEST_SUITE_END() ;
-
-      // @}
-
-        void connect(Kernel::Object* server,Kernel::Object* client) ;
-      };
-
+          static ObjectIdentifier m_next_identifier ;
+        };
+      }
     }
   }
 }

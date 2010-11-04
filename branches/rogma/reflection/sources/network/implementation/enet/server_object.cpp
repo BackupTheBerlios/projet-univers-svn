@@ -18,54 +18,59 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#pragma once
-
-#include <cppunit/extensions/HelperMacros.h>
+#include <iostream>
+#include <enet/enet.h>
+#include <network/implementation/enet/packet.h>
+#include <network/implementation/enet/server.h>
+#include <network/implementation/enet/server_object.h>
 
 namespace ProjetUnivers
 {
   namespace Network
   {
-    namespace Test
+    namespace Implementation
     {
-      /// Test for replication of data to a client
-      class TestReplication : public CppUnit::TestFixture
+
+      DeclareDeducedTrait(ServerObject,
+                          HasAncestor(HasTrait(Implementation::ActiveServer))) ;
+
+      namespace Enet
       {
-      protected:
-      /*!
-        @name Test methods
-      */
-      // @{
 
-        void createObject() ;
-        void addTrait() ;
-        void createSubObject() ;
+        RegisterControler(ServerObject,
+                          Implementation::ServerObject,
+                          NetworkSystem) ;
 
-        /*
-        @todo
-        try with several messages sent in the same time frame
+        ObjectIdentifier ServerObject::m_next_identifier = 1 ;
 
-        */
+        const ObjectIdentifier& ServerObject::getNetworkIdentifier() const
+        {
+          return m_object_identifier ;
+        }
 
-      // @}
-      /*!
-        @name Test registration
-      */
-      // @{
+        void ServerObject::onInit()
+        {
+          m_object_identifier = m_next_identifier ;
+          ++m_next_identifier ;
 
-        CPPUNIT_TEST_SUITE(TestReplication) ;
+          ENetHost* host = getAncestor<Implementation::ActiveServer>()
+                           ->getControler<Server>(getControlerSet())
+                           ->getHost() ;
 
-        CPPUNIT_TEST(createObject) ;
-        CPPUNIT_TEST(addTrait) ;
-        CPPUNIT_TEST(createSubObject) ;
+          Implementation::ServerObject* parent = getAncestor<Implementation::ServerObject>() ;
+          ObjectIdentifier parent_identifier = 0 ;
+          if (parent)
+            parent_identifier = parent->getControler<ServerObject>(getControlerSet())->getNetworkIdentifier() ;
 
-        CPPUNIT_TEST_SUITE_END() ;
+          ENetPacket* packet = messageCreateObject(parent_identifier,m_object_identifier) ;
+          enet_host_broadcast(host,0,packet) ;
+        }
 
-      // @}
+        void ServerObject::onClose()
+        {
+        }
 
-        void connect(Kernel::Object* server,Kernel::Object* client) ;
-      };
-
+      }
     }
   }
 }

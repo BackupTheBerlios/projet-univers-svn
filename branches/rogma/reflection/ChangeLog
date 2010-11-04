@@ -1764,11 +1764,13 @@ in commit
 
 * included reflex sources with modifications for mingw
 * added a model meta dictionary for reflex
+* bug : only one controler per Trait*ControlerSet
+* basic serialization for traits 
+* objects synchronisation : createObject, addTrait
 
 in progress
 -----------
 
-* serialization for traits 
 
    
 @todo

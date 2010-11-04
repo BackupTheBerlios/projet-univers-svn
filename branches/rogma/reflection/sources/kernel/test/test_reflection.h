@@ -24,48 +24,38 @@
 
 namespace ProjetUnivers
 {
-  namespace Network
+  namespace Kernel
   {
     namespace Test
     {
-      /// Test for replication of data to a client
-      class TestReplication : public CppUnit::TestFixture
+
+      /// Tests for automatic serialisation
+      class TestReflection : public CppUnit::TestFixture
       {
       protected:
-      /*!
-        @name Test methods
-      */
+
+      /// @name Tests methods
       // @{
 
-        void createObject() ;
-        void addTrait() ;
-        void createSubObject() ;
-
-        /*
-        @todo
-        try with several messages sent in the same time frame
-
-        */
+        void serialisationOfStringFloat() ;
+        void deserialisationOfStringFloat() ;
+        void serialisationOfInt() ;
+        void deserialisationOfInt() ;
 
       // @}
-      /*!
-        @name Test registration
-      */
-      // @{
 
-        CPPUNIT_TEST_SUITE(TestReplication) ;
 
-        CPPUNIT_TEST(createObject) ;
-        CPPUNIT_TEST(addTrait) ;
-        CPPUNIT_TEST(createSubObject) ;
+        CPPUNIT_TEST_SUITE(TestReflection) ;
+
+        CPPUNIT_TEST(serialisationOfStringFloat) ;
+        CPPUNIT_TEST(deserialisationOfStringFloat) ;
+        CPPUNIT_TEST(serialisationOfInt) ;
+        CPPUNIT_TEST(deserialisationOfInt) ;
 
         CPPUNIT_TEST_SUITE_END() ;
 
-      // @}
 
-        void connect(Kernel::Object* server,Kernel::Object* client) ;
       };
-
     }
   }
 }

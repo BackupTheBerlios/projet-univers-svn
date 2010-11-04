@@ -20,52 +20,24 @@
  ***************************************************************************/
 #pragma once
 
-#include <cppunit/extensions/HelperMacros.h>
+#include <kernel/serialiser.h>
 
 namespace ProjetUnivers
 {
-  namespace Network
+  namespace Kernel
   {
-    namespace Test
+    /// Serialise an object
+    class TextSerialiser : public Serialiser
     {
-      /// Test for replication of data to a client
-      class TestReplication : public CppUnit::TestFixture
-      {
-      protected:
-      /*!
-        @name Test methods
-      */
-      // @{
+    public:
 
-        void createObject() ;
-        void addTrait() ;
-        void createSubObject() ;
+      /// Transform a trait to a string
+      virtual std::string serialiseTrait(const Trait&) ;
 
-        /*
-        @todo
-        try with several messages sent in the same time frame
+      /// Transform a string to a trait
+      virtual Trait* deserialiseTrait(const std::string&) ;
 
-        */
-
-      // @}
-      /*!
-        @name Test registration
-      */
-      // @{
-
-        CPPUNIT_TEST_SUITE(TestReplication) ;
-
-        CPPUNIT_TEST(createObject) ;
-        CPPUNIT_TEST(addTrait) ;
-        CPPUNIT_TEST(createSubObject) ;
-
-        CPPUNIT_TEST_SUITE_END() ;
-
-      // @}
-
-        void connect(Kernel::Object* server,Kernel::Object* client) ;
-      };
-
-    }
+    };
   }
 }
+

@@ -7,7 +7,10 @@ AM_CXXFLAGS = $(PU_CXXFLAGS) $(enet_CFLAGS)
 libnetwork_la_SOURCES = \
 ../implementation/network.cpp \
 ../implementation/enet/network_system.cpp \
+../implementation/enet/packet.cpp \
 ../implementation/enet/client.cpp \
+../implementation/enet/server_object.cpp \
+../implementation/enet/server_trait.cpp \
 ../implementation/enet/server.cpp 
 
 libnetwork_la_LDFLAGS = -no-undefined
@@ -30,8 +33,12 @@ TESTS = test_network
 # launch tests in case of make check
 check_PROGRAMS = $(TESTS)
 
+t1.reflect.cpp : ../test/local/t1.h
+	export GCCXML_COMPILER="$(REFLEX_COMPILER)" && python $(SOURCES)/tools/reflex/genreflex.py $< -o $@ --comments -I$(SOURCES) $(PU_CFLAGS) ;
+
 # unit tests 
 test_network_SOURCES = \
+t1.reflect.cpp \
 ../test/test_connection.cpp \
 ../test/test_network.cpp \
 ../test/test_replication.cpp

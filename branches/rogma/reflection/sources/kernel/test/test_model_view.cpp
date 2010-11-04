@@ -2144,6 +2144,37 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT_EQUAL(2,ViewHasChildHead::number_of_updates) ;
       }
 
+      namespace ModelView7
+      {
+
+        class T7 : public Trait
+        {};
+
+        class ViewT7 : public TraitView<T7,TestViewPoint>
+        {};
+
+        RegisterView(ViewT7,T7,TestViewPoint) ;
+
+        class View7 : public TraitView<Trait,TestViewPoint>
+        {};
+
+        RegisterView(View7,Trait,TestViewPoint) ;
+      }
+
+      using namespace ModelView7 ;
+
+      void TestModelView::severalViewsOnATraitForTheSameViewPoint()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+        ViewPoint* viewpoint(model->addViewPoint(new TestViewPoint(model.get()))) ;
+        // init the viewpoint
+        viewpoint->init() ;
+        // fill the model
+        Trait* t = model->createObject()->addTrait(new T7()) ;
+
+        CPPUNIT_ASSERT(t->getView<ViewT7>(viewpoint)) ;
+        CPPUNIT_ASSERT(t->getView<View7>(viewpoint)) ;
+      }
 
     }
   }

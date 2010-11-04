@@ -93,6 +93,11 @@ namespace ProjetUnivers
           }
         }
 
+        ENetHost* Server::getHost() const
+        {
+          return m_host ;
+        }
+
       }
     }
   }

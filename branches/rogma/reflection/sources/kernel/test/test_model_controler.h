@@ -118,6 +118,8 @@ namespace ProjetUnivers
 
         void destroyObjectDuringSimulationShouldCloseTheControler() ;
 
+        void severalControlersOnATraitForTheSameControlerSet() ;
+
       // @}
 
 
@@ -145,6 +147,7 @@ namespace ProjetUnivers
         CPPUNIT_TEST(dependentTraitsAreInitAfter) ;
         CPPUNIT_TEST(dependencyOrderFollowsDependencies) ;
         CPPUNIT_TEST(destroyObjectDuringSimulationShouldCloseTheControler) ;
+        CPPUNIT_TEST(severalControlersOnATraitForTheSameControlerSet) ;
 
         CPPUNIT_TEST_SUITE_END() ;
 

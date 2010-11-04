@@ -6,9 +6,6 @@ SOURCES = $(top_srcdir)/sources
 AM_CPPFLAGS = -I$(SOURCES) $(PU_CFLAGS)
 AM_CXXFLAGS = $(PU_CXXFLAGS) $(PU_WARNINGS) 
 
-#trait.reflect.cpp : ../trait.h
-#	export GCCXML_COMPILER="g++-4.2" && genreflex $< --pool -o $@ -I$(SOURCES) $(PU_CFLAGS) ;
-
 libkernel_la_SOURCES = \
 ../implementation/algorithm.cpp \
 ../implementation/base_controler.cpp \
@@ -45,6 +42,7 @@ libkernel_la_SOURCES = \
 ../implementation/relation_view.cpp \
 ../implementation/statistics.cpp \
 ../implementation/string.cpp \
+../implementation/text_serialiser.cpp \
 ../implementation/timer.cpp \
 ../implementation/timer_test_listener.cpp \
 ../implementation/timer_test_result.cpp \
@@ -154,6 +152,10 @@ noinst_PROGRAMS = $(TESTS)
 # launch tests in case of make check
 check_PROGRAMS = $(TESTS)
 
+
+%.reflect.cpp : ../test/reflection/%.h
+	export GCCXML_COMPILER="$(REFLEX_COMPILER)" && python $(SOURCES)/tools/reflex/genreflex.py $< -o $@ --comments -I$(SOURCES) $(PU_CFLAGS) ;
+
 test_kernel_SOURCES = \
 ../test/test_algorithm.cpp \
 ../test/test_command.cpp \
@@ -168,11 +170,16 @@ test_kernel_SOURCES = \
 ../test/test_number.cpp \
 ../test/test_parameters.cpp \
 ../test/test_percentage.cpp \
+../test/test_reflection.cpp \
 ../test/test_relation.cpp \
 ../test/test_relation_view.cpp \
 ../test/test_trait.cpp \
 ../test/test_xml_reader.cpp \
-../test/test_xml_writer.cpp
+../test/test_xml_writer.cpp \
+primitive_trait.reflect.cpp \
+../test/reflection/primitive_trait.cpp \
+int_trait.reflect.cpp \
+../test/reflection/int_trait.cpp
 
 # checks that "test_inherits.cpp" does not compile
 # its is a negative test for inherits : class does not inherits and should 
@@ -184,7 +191,7 @@ test_inherits.o : ../test/test_inherits.cpp
 	then echo "test_inherits : Erreur"; exit 1; else echo "test_inherits : OK"; exit 0; fi
 
 
-test_kernel_CXXFLAGS = $(PU_TESTS_WARNINGS) $(PU_CXXFLAGS) 
+test_kernel_CXXFLAGS = $(PU_CXXFLAGS) 
 test_kernel_LDFLAGS = $(CPPUNIT_LIBS) 
 test_kernel_LDADD = libkernel.la $(librlog_LIBS) $(libXML_LIBS)
 

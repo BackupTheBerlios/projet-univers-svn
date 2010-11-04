@@ -20,7 +20,8 @@
  ***************************************************************************/
 #pragma once
 
-#include <cppunit/extensions/HelperMacros.h>
+#include <string>
+#include <kernel/trait.h>
 
 namespace ProjetUnivers
 {
@@ -28,44 +29,16 @@ namespace ProjetUnivers
   {
     namespace Test
     {
-      /// Test for replication of data to a client
-      class TestReplication : public CppUnit::TestFixture
+      namespace Local
       {
-      protected:
-      /*!
-        @name Test methods
-      */
-      // @{
+        class T1 : public Kernel::Trait
+        {
+        private:
 
-        void createObject() ;
-        void addTrait() ;
-        void createSubObject() ;
-
-        /*
-        @todo
-        try with several messages sent in the same time frame
-
-        */
-
-      // @}
-      /*!
-        @name Test registration
-      */
-      // @{
-
-        CPPUNIT_TEST_SUITE(TestReplication) ;
-
-        CPPUNIT_TEST(createObject) ;
-        CPPUNIT_TEST(addTrait) ;
-        CPPUNIT_TEST(createSubObject) ;
-
-        CPPUNIT_TEST_SUITE_END() ;
-
-      // @}
-
-        void connect(Kernel::Object* server,Kernel::Object* client) ;
-      };
-
+          std::string m_name ;
+          int m_size ;
+        };
+      }
     }
   }
 }

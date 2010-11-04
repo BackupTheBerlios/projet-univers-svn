@@ -56,6 +56,8 @@ namespace ProjetUnivers
           /// Send data to the clients
           virtual void simulate(const float& seconds) ;
 
+          ENetHost* getHost() const ;
+
         private:
 
           ENetHost* m_host ;

@@ -18,59 +18,73 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#pragma once
-
-#include <map>
+#include <iostream>
 #include <enet/enet.h>
-#include <kernel/controler.h>
-#include <kernel/deduced_trait.h>
-#include <network/implementation/enet/network_system.h>
+#include <network/implementation/enet/packet.h>
+#include <network/implementation/enet/server.h>
+#include <network/implementation/enet/server_trait.h>
 #include <network/implementation/enet/server_object.h>
 
 namespace ProjetUnivers
 {
   namespace Network
   {
-    namespace Test
-    {
-      class TestConnection ;
-    }
-
     namespace Implementation
     {
 
-      class Client : public Kernel::DeducedTrait
-      {};
-
       namespace Enet
       {
-        /// An client.
-        class Client : public Kernel::Controler<Implementation::Client,NetworkSystem>
+
+        RegisterControler(ServerTrait,
+                          Kernel::Trait,
+                          NetworkSystem) ;
+
+        void ServerTrait::onInit()
         {
-        public:
+          m_trait = NULL ;
 
-          /// Connects to an enet server
-          virtual void onInit() ;
+          // not an error
+          if (!getTrait()->isPrimitive())
+            return ;
 
-          /// Disconnect from the enet server
-          virtual void onClose() ;
+          Implementation::ActiveServer* server = getAncestor<Implementation::ActiveServer>() ;
 
-          /// Send data to the server
-          virtual void simulate(const float& seconds) ;
+          // not an error
+          if (!server)
+            return ;
 
-        private:
+          Implementation::ServerObject* object = getTrait<Implementation::ServerObject>() ;
 
-          Kernel::Object* getNetworkObject(const ObjectIdentifier&) const ;
+          if (!object)
+          {
+            ErrorMessage("no server object !!") ;
+            return ;
+          }
 
-          ENetHost* m_host ;
-          ENetAddress m_address ;
-          ENetPeer* m_peer ;
+          Enet::ServerObject* server_object = object->getControler<Enet::ServerObject>(getControlerSet()) ;
 
-          /// Objects replicated from server
-          std::map<ObjectIdentifier,Kernel::ObjectReference> m_objects ;
+          if (!server_object)
+          {
+            ErrorMessage("no server object controler !!") ;
+            return ;
+          }
 
-          friend class ::ProjetUnivers::Network::Test::TestConnection ;
-        };
+          m_trait = getTrait() ;
+
+          ObjectIdentifier identifier = server_object->getNetworkIdentifier() ;
+
+          ENetHost* host = server->getControler<Server>(getControlerSet())->getHost() ;
+
+          ENetPacket* packet = messageAddTrait(identifier,m_trait) ;
+          enet_host_broadcast(host,0,packet) ;
+        }
+
+        void ServerTrait::onClose()
+        {
+          if (!m_trait)
+            return ;
+        }
+
       }
     }
   }

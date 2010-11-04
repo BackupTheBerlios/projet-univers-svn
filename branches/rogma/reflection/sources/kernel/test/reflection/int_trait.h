@@ -20,51 +20,34 @@
  ***************************************************************************/
 #pragma once
 
-#include <cppunit/extensions/HelperMacros.h>
+#include <kernel/trait.h>
 
 namespace ProjetUnivers
 {
-  namespace Network
+  namespace Kernel
   {
     namespace Test
     {
-      /// Test for replication of data to a client
-      class TestReplication : public CppUnit::TestFixture
+      namespace Reflection
       {
-      protected:
-      /*!
-        @name Test methods
-      */
-      // @{
+        /// A testing trait
+        class IntTrait : public Trait
+        {
+        public:
 
-        void createObject() ;
-        void addTrait() ;
-        void createSubObject() ;
+          void setUInt(const unsigned int&) ;
+          const unsigned int& getUInt() const ;
 
-        /*
-        @todo
-        try with several messages sent in the same time frame
+          void setInt(const int&) ;
+          const int& getInt() const ;
 
-        */
+        private:
 
-      // @}
-      /*!
-        @name Test registration
-      */
-      // @{
+          unsigned int m_uint ;
+          int m_int ;
+        };
 
-        CPPUNIT_TEST_SUITE(TestReplication) ;
-
-        CPPUNIT_TEST(createObject) ;
-        CPPUNIT_TEST(addTrait) ;
-        CPPUNIT_TEST(createSubObject) ;
-
-        CPPUNIT_TEST_SUITE_END() ;
-
-      // @}
-
-        void connect(Kernel::Object* server,Kernel::Object* client) ;
-      };
+      }
 
     }
   }
