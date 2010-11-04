@@ -1758,6 +1758,14 @@
   - Client, Server trait
   - three states : Connected, Connecting and Disconnected
   - basic connection tests
+
+2010-11-04
+#5146 Create base network system
+- included reflex sources with modifications for mingw
+- added a model meta dictionary for reflex
+- bug : only one controler per Trait*ControlerSet
+- basic serialization for traits 
+- objects synchronisation : createObject, addTrait
     
 in commit
 --------
@@ -1765,6 +1773,7 @@ in commit
 
 in progress
 -----------
+
 
    
 @todo
@@ -1778,7 +1787,10 @@ in progress
 - System of Chat on the interface
 - Launch and configuration of a game
   - need synchro and sub states for launching : Loading, Ready, Started
-   
+- clock synchronisation
+- meta model synchronisation (share the same ids for meta objects)  
+  - specialised serializer that will also check for version compatibility
+  
   
 #5137 Add the Hull level of the Target
 #5139 Add a Shield system
@@ -2130,3 +2142,5 @@ in progress
 
 * icons are in /usr/share/icons/oxygen
 * ulimit -c unlimited
+
+* macro __PRETTY_FUNCTION__ is pretty

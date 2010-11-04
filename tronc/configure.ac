@@ -109,6 +109,8 @@ AC_SUBST(PU_WARNINGS)
 PU_TESTS_WARNINGS="-W -Wall -Wconversion -Wshadow -Wwrite-strings"
 AC_SUBST(PU_TESTS_WARNINGS)
 
+PU_CFLAGS="$OGRE_CFLAGS $OIS_CFLAGS $librlog_CFLAGS $CEGUI_OGRE_CFLAGS $libXML_CFLAGS $libode_CFLAGS -DdNODEBUG"
+AC_SUBST(PU_CFLAGS)
 
 # check clanlib
 AC_PATH_PROG(CLANLIB_CONFIG, clanlib-config, no)
@@ -121,10 +123,9 @@ else
 fi
 AM_CONDITIONAL(HAVE_CLANLIB, test "x$CLANLIB_CONFIG" != "xno")
 
-AC_CHECK_HEADER([tclap/CmdLine.h],[havetclap=yes],[havetclap=no])
-if test "x$havetclap" = xno; then
-  AC_MSG_ERROR("Error : you need libtclap-dev")
-fi
+PKG_CHECK_MODULES(tclap, [tclap >= 1])
+AC_SUBST(tclap_LIBS)
+AC_SUBST(tclap_CFLAGS)
 
 ## platform dependent configuration
 # ogre plugin configuration 
@@ -151,7 +152,9 @@ if test "x$build_os" = xmingw32; then
   # on windows we use direct input 8 for joystick autoconfig
   PKG_CHECK_MODULES(dinput8, [dinput8 >= 1])
 
-  PU_CXXFLAGS="$OGRE_CFLAGS $OIS_CFLAGS $librlog_CFLAGS $CEGUI_OGRE_CFLAGS $libXML_CFLAGS $libode_CFLAGS -DdNODEBUG -O2 -enable-auto-import -shared-libgcc"
+  PU_CXXFLAGS="-O2 -enable-auto-import -shared-libgcc"
+  # compiler for reflection
+  REFLEX_COMPILER="g++"
 elif test "x$build_os" = xlinux-gnu; then
   # linux
 
@@ -169,14 +172,17 @@ elif test "x$build_os" = xlinux-gnu; then
 
   # on linux joystick autoconfig is self evident
   dinput8_LIBS=''
-  PU_CXXFLAGS="$OGRE_CFLAGS $OIS_CFLAGS $librlog_CFLAGS $CEGUI_OGRE_CFLAGS $libXML_CFLAGS $libode_CFLAGS -DdNODEBUG -O2"
+  PU_CXXFLAGS="-O2"
+
+  # compiler for reflection
+  REFLEX_COMPILER="g++-4.2"
 fi
 AC_SUBST(dinput8_LIBS)
 AC_SUBST(PU_CXXFLAGS)
+AC_SUBST(REFLEX_COMPILER)
 
 AM_CONDITIONAL(WINDOWS_COMPILATION,test "x$build_os" = xmingw32)
 AM_CONDITIONAL(LINUX_COMPILATION,test "x$build_os" = xlinux-gnu)
-
 
 ##################
 # Config used libs

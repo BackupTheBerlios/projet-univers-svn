@@ -1423,6 +1423,38 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT_EQUAL(1,Controler1::m_number_of_close) ;
       }
 
+      namespace TestModelControlerLocal3
+      {
+
+        class T1 : public Trait
+        {};
+
+        class CT1 : public Controler<T1,TestControlerSet>
+        {};
+
+        RegisterControler(CT1,T1,TestControlerSet) ;
+
+        class CT : public Controler<Trait,TestControlerSet>
+        {};
+
+        RegisterControler(CT,Trait,TestControlerSet) ;
+      }
+
+      using namespace TestModelControlerLocal3 ;
+
+      void TestModelControler::severalControlersOnATraitForTheSameControlerSet()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+        ControlerSet* controler_set = model->addControlerSet(new TestControlerSet(model.get())) ;
+        controler_set->init() ;
+
+        Trait* t1 = model->createObject()->addTrait(new T1()) ;
+
+        CPPUNIT_ASSERT(t1->getControler<CT1>(controler_set)) ;
+        CPPUNIT_ASSERT(t1->getControler<CT>(controler_set)) ;
+      }
+
+
     }
   }
 }

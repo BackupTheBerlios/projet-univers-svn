@@ -3,7 +3,7 @@
 lib_LTLIBRARIES = libai.la 
 
 SOURCES = $(top_srcdir)/sources
-AM_CPPFLAGS = -I$(SOURCES)
+AM_CPPFLAGS = -I$(SOURCES) $(PU_CFLAGS)
 AM_CXXFLAGS = $(PU_WARNINGS) $(PU_CXXFLAGS)
 
 libai_la_SOURCES = \

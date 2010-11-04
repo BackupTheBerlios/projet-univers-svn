@@ -34,7 +34,8 @@ namespace ProjetUnivers
     /*!
 
     */
-    class Energy {
+    class Energy
+    {
     public:
     
     // *************************
@@ -55,23 +56,14 @@ namespace ProjetUnivers
       /// Joules to energy.
       static Energy Joule(const float& _joules) ;
 
-      /// Electron volt to energy.
-      static Energy ElectronVolt(const float& _eV) ;
-
       /// Assignment.
       Energy& operator=(const Energy&) ;
-
-      /// Calculus
-      Energy operator +(const Energy&) const ;
 
       /// Calculus
       Energy operator -(const Energy&) const ;
       
       /// Calculus
       float operator /(const Energy&) const ;
-
-      /// Calculus
-      Energy operator *(const float&) const ;
 
       /// Read energy.
       /*!

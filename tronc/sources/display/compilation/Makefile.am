@@ -3,7 +3,7 @@ AUTOMAKE_OPTIONS=subdir-objects
 lib_LTLIBRARIES = libdisplay.la 
 
 SOURCES = $(top_srcdir)/sources
-AM_CPPFLAGS = -I$(SOURCES)
+AM_CPPFLAGS = -I$(SOURCES) $(PU_CFLAGS)
 AM_CXXFLAGS = $(PU_CXXFLAGS)
 
 libdisplay_la_SOURCES = \

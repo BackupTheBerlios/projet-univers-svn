@@ -44,7 +44,7 @@ namespace ProjetUnivers
         {
           InternalMessage("Display","Display::Universe::onInit Entering") ;
             
-          CHECK(getViewPoint(),"Universe::onInit sans point de vue") ;
+          CHECK(getViewPoint(),"Universe::onInit no viewpoint") ;
           
           this->getViewPoint()->getManager()
               ->setSkyBox( true, "PU/SpaceSkyBox", 50000 );

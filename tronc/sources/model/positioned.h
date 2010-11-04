@@ -128,7 +128,7 @@ namespace ProjetUnivers
       Position getPositionRelativeToAncestor(const Kernel::Object* ancestor) const ;
 
       /// Position relative to the parent object.
-      Position    m_position ;  
+      Position    m_position ;
     };
 
     /// For objects that have a global position

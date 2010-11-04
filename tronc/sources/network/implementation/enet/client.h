@@ -20,10 +20,12 @@
  ***************************************************************************/
 #pragma once
 
+#include <map>
 #include <enet/enet.h>
 #include <kernel/controler.h>
 #include <kernel/deduced_trait.h>
 #include <network/implementation/enet/network_system.h>
+#include <network/implementation/enet/server_object.h>
 
 namespace ProjetUnivers
 {
@@ -58,9 +60,14 @@ namespace ProjetUnivers
 
         private:
 
+          Kernel::Object* getNetworkObject(const ObjectIdentifier&) const ;
+
           ENetHost* m_host ;
           ENetAddress m_address ;
           ENetPeer* m_peer ;
+
+          /// Objects replicated from server
+          std::map<ObjectIdentifier,Kernel::ObjectReference> m_objects ;
 
           friend class ::ProjetUnivers::Network::Test::TestConnection ;
         };

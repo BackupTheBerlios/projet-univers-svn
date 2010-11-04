@@ -169,20 +169,23 @@ namespace ProjetUnivers
     }
 
     template<class _Controler> 
-    _Controler* Trait::getControler(ControlerSet* i_controler_set)
+    _Controler* Trait::getControler(ControlerSet* controler_set)
     {
       std::multimap<ControlerSet*,BaseControler*>::const_iterator 
-        finder = m_controlers.find(i_controler_set) ;
+        finder = m_controlers.lower_bound(controler_set) ;
       
       if (finder != m_controlers.end()) 
       {
-        return dynamic_cast<_Controler*>(finder->second) ;
+        std::multimap<ControlerSet*,BaseControler*>::const_iterator
+          end = m_controlers.upper_bound(controler_set) ;
+        for (std::multimap<ControlerSet*,BaseControler*>::const_iterator controller = finder ; controller != end ; ++controller)
+        {
+          _Controler* result = dynamic_cast<_Controler*>(controller->second) ;
+          if (result)
+            return result ;
+        }
       }
-      else
-      {
-        return NULL ;
-      }
-      
+      return NULL ;
     }
 
     template <class SpecializedTrait> 

@@ -18,12 +18,13 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_ACCELERATION_H_
-#define PU_MODEL_ACCELERATION_H_
+#pragma once
 
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
 
     /// An acceleration.
     /*!
@@ -31,12 +32,11 @@ namespace ProjetUnivers {
     @par Etat
       planning
     */
-    class Acceleration {
+    class Acceleration
+    {
     public:
     
-    // *************************
-    /// @name Construct
-    // *************************      
+    /// @name Construction
     // @{  
 
      
@@ -45,10 +45,6 @@ namespace ProjetUnivers {
 
       /// Copy constructor.
       Acceleration(const Acceleration&) ;
-
-      /// Constructeur avec des m.s^-2
-//      Acceleration MetreSecondesMoins2(const float& _ms2, const Vecteur&) ;
-
 
       /// Calculus
       Acceleration operator +(const Acceleration&) const ;
@@ -61,9 +57,7 @@ namespace ProjetUnivers {
 
       
     // @}
-    // *************************
     /// @name Access
-    // *************************      
     // @{  
        
      
@@ -90,7 +84,3 @@ namespace ProjetUnivers {
     };
   }
 }
-
-
-
-#endif
