@@ -675,12 +675,17 @@ namespace ProjetUnivers
     std::set<Object*> Model::getRelations(const TypeIdentifier& type,Object* object) const
     {
       std::set<Object*> result ;
+
+      const std::set<TypeIdentifier>& types = type.subTypes() ;
+
+      CHECK(!types.empty(),"sub types should not be empty")
+
       /*
         @todo we could use the < on relation by finding all the elements between Relation(type,object,-1) and Relation(type,object,+inf)
       */
       for(std::set<Relation>::const_iterator relation = m_relations.begin() ; relation != m_relations.end() ; ++relation)
       {
-        if (relation->getType() == type && relation->getObjectFrom() == object)
+        if (types.find(relation->getType()) != types.end() && relation->getObjectFrom() == object)
           result.insert(relation->getObjectTo()) ;
       }
 
@@ -690,10 +695,11 @@ namespace ProjetUnivers
     Object* Model::getUniqueRelated(const TypeIdentifier& type,Object* object) const
     {
       Object* result = NULL ;
+      const std::set<TypeIdentifier>& types = type.subTypes() ;
 
       for(std::set<Relation>::const_iterator relation = m_relations.begin() ; relation != m_relations.end() ; ++relation)
       {
-        if (relation->getType() == type && relation->getObjectFrom() == object)
+        if (types.find(relation->getType()) != types.end() && relation->getObjectFrom() == object)
         {
           if (!result)
             result = relation->getObjectTo() ;
@@ -709,6 +715,7 @@ namespace ProjetUnivers
     std::set<Object*> Model::getRelations(Object* object) const
     {
       std::set<Object*> result ;
+
       for(std::set<Relation>::const_iterator relation = m_relations.begin() ; relation != m_relations.end() ; ++relation)
       {
         if (relation->getObjectFrom() == object)
@@ -721,9 +728,11 @@ namespace ProjetUnivers
     std::set<Object*> Model::getInverseRelations(const TypeIdentifier& type,Object* object) const
     {
       std::set<Object*> result ;
+      const std::set<TypeIdentifier>& types = type.subTypes() ;
+
       for(std::set<Relation>::const_iterator relation = m_relations.begin() ; relation != m_relations.end() ; ++relation)
       {
-        if (relation->getType() == type && relation->getObjectTo() == object)
+        if (types.find(relation->getType()) != types.end() && relation->getObjectTo() == object)
           result.insert(relation->getObjectFrom()) ;
       }
 
@@ -733,9 +742,11 @@ namespace ProjetUnivers
     Object* Model::getUniqueInverseRelated(const TypeIdentifier& type,Object* object) const
     {
       Object* result = NULL ;
+      const std::set<TypeIdentifier>& types = type.subTypes() ;
+
       for(std::set<Relation>::const_iterator relation = m_relations.begin() ; relation != m_relations.end() ; ++relation)
       {
-        if (relation->getType() == type && relation->getObjectTo() == object)
+        if (types.find(relation->getType()) != types.end() && relation->getObjectTo() == object)
         {
           if (!result)
             result = relation->getObjectFrom() ;

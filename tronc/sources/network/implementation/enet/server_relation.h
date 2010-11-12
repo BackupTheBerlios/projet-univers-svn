@@ -20,7 +20,10 @@
  ***************************************************************************/
 #pragma once
 
-#include <kernel/controler_set.h>
+#include <enet/enet.h>
+#include <kernel/relation_controler.h>
+#include <kernel/deduced_trait.h>
+#include <network/implementation/enet/network_system.h>
 
 namespace ProjetUnivers
 {
@@ -28,28 +31,26 @@ namespace ProjetUnivers
   {
     namespace Implementation
     {
+
+      class ServerRelation : public Kernel::DeducedRelation
+      {};
+
       namespace Enet
       {
-        /// Network object identifier
-        typedef unsigned int ObjectIdentifier ;
-
-        /// The network controler system
-        class NetworkSystem : public Kernel::ControlerSet
+        /// An object server side that need replication on clients
+        class ServerRelation : public Kernel::RelationControler<NetworkSystem>
         {
         public:
 
-          /// Build the controller set.
-          NetworkSystem(Kernel::Model* model) ;
-
+          /// Send create message to all clients
           virtual void onInit() ;
-          virtual void onClose() ;
 
-          ObjectIdentifier getNextIdentifier() ;
+          /// Send destroy message to all clients
+          virtual void onClose() ;
 
         private:
 
-          ObjectIdentifier m_next_identifier ;
-
+          Kernel::Relation* m_relation ;
         };
       }
     }

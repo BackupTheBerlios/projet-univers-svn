@@ -18,6 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <iostream>
 #include <kernel/view_point.h>
 #include <kernel/controler_set.h>
 #include <kernel/deduced_trait.h>
@@ -62,11 +63,15 @@ namespace ProjetUnivers
       return ControlerBuilder() ;
     }
 
-    Relation::Relation(const TypeIdentifier& type,Object* object1,Object* object2)
+    Relation::Relation(const TypeIdentifier& type,Object* object1,Object* object2,const TypeIdentifier& principal)
     : m_object_from(object1),
       m_object_to(object2),
-      m_type(type)
-    {}
+      m_type(type),
+      m_principal_type(principal)
+    {
+      if (m_principal_type == VoidTypeIdentifier)
+        m_principal_type = m_type ;
+    }
 
     Relation::Relation()
     : m_object_from(),
@@ -84,7 +89,8 @@ namespace ProjetUnivers
     : Notifiable(),
       m_object_from(relation.m_object_from),
       m_object_to(relation.m_object_to),
-      m_type(relation.m_type)
+      m_type(relation.m_type),
+      m_principal_type(relation.m_type)
     {}
 
     bool Relation::operator ==(const Relation& relation) const
@@ -135,9 +141,9 @@ namespace ProjetUnivers
       return linked.find(object2) != linked.end() ;
     }
 
-    Relation* Relation::createLink(const TypeIdentifier& type,Object* object1,Object* object2)
+    Relation* Relation::createLink(const TypeIdentifier& type,Object* object1,Object* object2,const TypeIdentifier& principal)
     {
-      Relation relation(type,object1,object2) ;
+      Relation relation(type,object1,object2,principal) ;
 
       if (! _areLinked(type,object1,object2))
       {
@@ -339,6 +345,22 @@ namespace ProjetUnivers
     {
       // @todo
       return "todo" ;
+    }
+
+    bool Relation::isPrimitive() const
+    {
+      return StaticStorage::get()->m_deduced_relations.find(m_type) ==
+             StaticStorage::get()->m_deduced_relations.end() ;
+    }
+
+    void Relation::_registerDeducedRelation(const TypeIdentifier& type)
+    {
+      StaticStorage::get()->m_deduced_relations.insert(type) ;
+    }
+
+    Relation Relation::getPrincipalRelation() const
+    {
+      return Relation(m_principal_type,m_object_from,m_object_to) ;
     }
 
   }

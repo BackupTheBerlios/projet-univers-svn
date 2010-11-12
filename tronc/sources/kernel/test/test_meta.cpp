@@ -21,6 +21,8 @@
 #include <kernel/trait.h>
 #include <kernel/meta.h>
 
+#include <kernel/test/reflection/meta.h>
+
 #include <kernel/test/test_meta.h>
 
 namespace ProjetUnivers
@@ -31,23 +33,6 @@ namespace ProjetUnivers
     {
 
       CPPUNIT_TEST_SUITE_REGISTRATION(TestMeta) ;
-
-      /// local classes
-      namespace Meta
-      {
-        class A : public Trait
-        {};
-
-        class B : public A
-        {};
-
-        class C : public Trait
-        {};
-
-        class IHaveALongName
-        {};
-
-      }
 
       void TestMeta::testIsInstance()
       {
@@ -81,6 +66,31 @@ namespace ProjetUnivers
                        getClassTypeIdentifier(Meta::B) < getClassTypeIdentifier(Meta::A)) ;
         CPPUNIT_ASSERT(!(getClassTypeIdentifier(Meta::A) < getClassTypeIdentifier(Meta::B) &&
                        getClassTypeIdentifier(Meta::B) < getClassTypeIdentifier(Meta::A))) ;
+      }
+
+      void TestMeta::inherits()
+      {
+        TypeIdentifier type_A(getClassTypeIdentifier(Meta::A)) ;
+        TypeIdentifier type_B(getClassTypeIdentifier(Meta::B)) ;
+        TypeIdentifier type_C(getClassTypeIdentifier(Meta::C)) ;
+        TypeIdentifier type_trait(getClassTypeIdentifier(Trait)) ;
+        CPPUNIT_ASSERT(type_B.inherits(type_A)) ;
+        CPPUNIT_ASSERT(!type_B.inherits(type_C)) ;
+        CPPUNIT_ASSERT(type_A.inherits(type_trait)) ;
+        CPPUNIT_ASSERT(type_B.inherits(type_trait)) ;
+        CPPUNIT_ASSERT_EQUAL((unsigned int)2,type_A.subTypes().size()) ;
+      }
+
+      namespace Local
+      {
+        class A
+        {};
+      }
+
+      void TestMeta::subTypes()
+      {
+        TypeIdentifier type_A(getClassTypeIdentifier(Local::A)) ;
+        CPPUNIT_ASSERT(!type_A.subTypes().empty()) ;
       }
 
     }

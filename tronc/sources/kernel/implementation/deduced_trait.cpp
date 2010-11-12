@@ -229,6 +229,19 @@ namespace ProjetUnivers
     {
       std::set<Formula*> result ;
 
+      for (std::multimap<TypeIdentifier,Formula*>::iterator formula = StaticStorage::get()->m_primitive_relation_to_formulae.begin() ;
+           formula != StaticStorage::get()->m_primitive_relation_to_formulae.end() ;
+           ++formula)
+      {
+        if (formula->first == primitive_relation ||
+            primitive_relation.inherits(formula->first))
+          result.insert(formula->second) ;
+      }
+      return result ;
+
+      /// @todo use also inheritance
+
+
       for (std::multimap<TypeIdentifier,Formula*>::iterator
              formula = StaticStorage::get()->m_primitive_relation_to_formulae.lower_bound(primitive_relation),
              last = StaticStorage::get()->m_primitive_relation_to_formulae.upper_bound(primitive_relation) ;
@@ -555,6 +568,7 @@ namespace ProjetUnivers
       StaticStorage::get()->m_deduced_relations[formula] = relation ;
       StaticStorage::get()->m_primitive_relation_to_formulae.insert(std::make_pair(primitive_relation,formula)) ;
       StaticStorage::get()->m_deduced_to_primitive_relation[relation] = primitive_relation ;
+      Relation::_registerDeducedRelation(relation) ;
     }
 
     std::set<Notifiable*> Formula::getDependentNotifiables(Object* object) const
@@ -1499,10 +1513,11 @@ namespace ProjetUnivers
 
       if (relation != VoidTypeIdentifier)
       {
-        if (validity && Relation::_areLinked(getPrimitive(relation),pair.getObjectFrom(),pair.getObjectTo()))
+        TypeIdentifier primitive_type = getPrimitive(relation) ;
+        if (validity && Relation::_areLinked(primitive_type,pair.getObjectFrom(),pair.getObjectTo()))
         {
           // add a link
-          Relation* new_relation(Relation::createLink(relation,pair.getObjectFrom(),pair.getObjectTo())) ;
+          Relation* new_relation(Relation::createLink(relation,pair.getObjectFrom(),pair.getObjectTo(),primitive_type)) ;
 
           std::set<Notifiable*> updaters(formula->getUpdaterNotifiables(pair)) ;
 

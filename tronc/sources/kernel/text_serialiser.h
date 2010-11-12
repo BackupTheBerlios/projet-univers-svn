@@ -20,6 +20,7 @@
  ***************************************************************************/
 #pragma once
 
+#include <Reflex/Type.h>
 #include <kernel/serialiser.h>
 
 namespace ProjetUnivers
@@ -31,11 +32,26 @@ namespace ProjetUnivers
     {
     public:
 
+      TextSerialiser(ObjectMapper* mapper = NULL) ;
+
       /// Transform a trait to a string
       virtual std::string serialiseTrait(const Trait&) ;
 
       /// Transform a string to a trait
       virtual Trait* deserialiseTrait(const std::string&) ;
+
+      /// Deserialize a trait given an existing one
+      virtual void deserialiseTrait(const std::string&,Trait*) ;
+
+      /// Serialize a relation
+      virtual std::string serialiseRelation(const Relation&) ;
+
+      /// Deserialize a relation
+      virtual void deserialiseRelation(const std::string&,Model*) ;
+
+    private:
+
+      void fillTrait(const std::string&,Reflex::Object,const Reflex::Type&) ;
 
     };
   }

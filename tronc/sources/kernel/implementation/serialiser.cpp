@@ -18,40 +18,23 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#pragma once
-
-#include <kernel/controler_set.h>
+#include <kernel/serialiser.h>
 
 namespace ProjetUnivers
 {
-  namespace Network
+  namespace Kernel
   {
-    namespace Implementation
-    {
-      namespace Enet
-      {
-        /// Network object identifier
-        typedef unsigned int ObjectIdentifier ;
 
-        /// The network controler system
-        class NetworkSystem : public Kernel::ControlerSet
-        {
-        public:
+    ObjectMapper::~ObjectMapper()
+    {}
 
-          /// Build the controller set.
-          NetworkSystem(Kernel::Model* model) ;
 
-          virtual void onInit() ;
-          virtual void onClose() ;
+    Serialiser::~Serialiser()
+    {}
 
-          ObjectIdentifier getNextIdentifier() ;
+    Serialiser::Serialiser(ObjectMapper* mapper)
+    : m_mapper(mapper)
+    {}
 
-        private:
-
-          ObjectIdentifier m_next_identifier ;
-
-        };
-      }
-    }
   }
 }

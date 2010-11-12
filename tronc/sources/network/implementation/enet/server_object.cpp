@@ -37,11 +37,11 @@ namespace ProjetUnivers
       namespace Enet
       {
 
+        const enet_uint8 ReplicationChannel = 0 ;
+
         RegisterControler(ServerObject,
                           Implementation::ServerObject,
                           NetworkSystem) ;
-
-        ObjectIdentifier ServerObject::m_next_identifier = 1 ;
 
         const ObjectIdentifier& ServerObject::getNetworkIdentifier() const
         {
@@ -50,8 +50,7 @@ namespace ProjetUnivers
 
         void ServerObject::onInit()
         {
-          m_object_identifier = m_next_identifier ;
-          ++m_next_identifier ;
+          m_object_identifier = getControlerSet()->getNextIdentifier() ;
 
           ENetHost* host = getAncestor<Implementation::ActiveServer>()
                            ->getControler<Server>(getControlerSet())
@@ -63,11 +62,17 @@ namespace ProjetUnivers
             parent_identifier = parent->getControler<ServerObject>(getControlerSet())->getNetworkIdentifier() ;
 
           ENetPacket* packet = messageCreateObject(parent_identifier,m_object_identifier) ;
-          enet_host_broadcast(host,0,packet) ;
+          enet_host_broadcast(host,ReplicationChannel,packet) ;
         }
 
         void ServerObject::onClose()
         {
+          ENetHost* host = getAncestor<Implementation::ActiveServer>()
+                           ->getControler<Server>(getControlerSet())
+                           ->getHost() ;
+
+          ENetPacket* packet = messageDestroyObject(m_object_identifier) ;
+          enet_host_broadcast(host,ReplicationChannel,packet) ;
         }
 
       }

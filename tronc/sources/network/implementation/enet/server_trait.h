@@ -42,12 +42,18 @@ namespace ProjetUnivers
           /// Send create message to all clients
           virtual void onInit() ;
 
+          virtual void onUpdate() ;
+
           /// Send destroy message to all clients
           virtual void onClose() ;
 
         private:
 
           Kernel::Trait* m_trait ;
+
+          ObjectIdentifier m_network_identifier ;
+
+          ENetHost* m_host ;
         };
       }
     }

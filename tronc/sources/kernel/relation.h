@@ -44,6 +44,7 @@ namespace ProjetUnivers
     class BaseRelationControler ;
     class ControlerSet ;
     class RelationReaderRegistration ;
+    class TextSerialiser ;
 
     /// A relation 'type' between objects.
     /*!
@@ -88,6 +89,13 @@ namespace ProjetUnivers
       /// Access to the ending object of the link.
       Object* getObjectTo() const ;
 
+      /// Access to principal relation.
+      /*!
+      If @c this is a deduced relation, returns the relation that induced.
+      Else return equivalent for this.
+      */
+      Relation getPrincipalRelation() const ;
+
       Relation(const Relation&) ;
       virtual ~Relation() ;
       bool operator ==(const Relation&) const ;
@@ -123,6 +131,9 @@ namespace ProjetUnivers
       /// Get a relation view.
       template <class _View> _View* getView() const ;
 
+      /// True if the relation is not deduced.
+      bool isPrimitive() const ;
+
       static Relation* read(Reader*) ;
 
       /// Return a printable description
@@ -134,14 +145,15 @@ namespace ProjetUnivers
     protected:
 
       Relation() ;
-      Relation(const TypeIdentifier&,Object*,Object*) ;
+      Relation(const TypeIdentifier&,Object*,Object*,const TypeIdentifier& = VoidTypeIdentifier) ;
 
       /// Create a link.
-      static Relation* createLink(const TypeIdentifier&,Object*,Object*) ;
+      static Relation* createLink(const TypeIdentifier&,Object*,Object*,const TypeIdentifier& = VoidTypeIdentifier) ;
 
       /// Destroy a link.
       static void destroyLink(const TypeIdentifier&,Object*,Object*) ;
 
+      /// True if it has observers
       bool hasObserver() const ;
 
     private:
@@ -149,6 +161,8 @@ namespace ProjetUnivers
       ObjectReference m_object_from ;
       ObjectReference m_object_to ;
       TypeIdentifier  m_type ;
+      /// In case of deduced relation, the relation that induced this
+      TypeIdentifier  m_principal_type ;
 
     /*!
       @name View Handling
@@ -212,6 +226,9 @@ namespace ProjetUnivers
 
       static void _registerReader(const std::string& name,const TypeIdentifier& type) ;
 
+      /// Indicate that @c type is a deduced relation.
+      static void _registerDeducedRelation(const TypeIdentifier& type) ;
+
       /// Static storage
       /*!
         Because static variable dynamic initialization occurs in an undefined
@@ -248,6 +265,9 @@ namespace ProjetUnivers
 
         /// Readers
         std::map<std::string,TypeIdentifier> m_readers ;
+
+        /// Registered deduced relations.
+        std::set<TypeIdentifier> m_deduced_relations ;
       };
 
       template <class Relation> friend class Link ;
@@ -261,6 +281,7 @@ namespace ProjetUnivers
       friend class Model ;
       friend class RelationReaderRegistration ;
       friend class BaseRelationView ;
+      friend class TextSerialiser ;
     };
 
     /// The act of linking two objects

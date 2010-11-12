@@ -54,6 +54,9 @@ namespace ProjetUnivers
       /// Access to the ending object of the link.
       Object* getObjectTo() const ;
 
+      /// Access to relation.
+      const Relation* getRelation() const ;
+
       virtual ~RelationObserver() ;
 
       /// True when onInit has been executed.

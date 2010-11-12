@@ -105,5 +105,10 @@ namespace ProjetUnivers
       }
     }
 
+    const Relation* RelationObserver::getRelation() const
+    {
+      return &m_relation ;
+    }
+
   }
 }

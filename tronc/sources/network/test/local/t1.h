@@ -33,6 +33,19 @@ namespace ProjetUnivers
       {
         class T1 : public Kernel::Trait
         {
+        public:
+
+          void setName(const std::string& name)
+          {
+            m_name = name ;
+            notify() ;
+          }
+
+          const std::string& getName() const
+          {
+            return m_name ;
+          }
+
         private:
 
           std::string m_name ;

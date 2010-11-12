@@ -10,6 +10,7 @@ libnetwork_la_SOURCES = \
 ../implementation/enet/packet.cpp \
 ../implementation/enet/client.cpp \
 ../implementation/enet/server_object.cpp \
+../implementation/enet/server_relation.cpp \
 ../implementation/enet/server_trait.cpp \
 ../implementation/enet/server.cpp 
 
@@ -33,11 +34,12 @@ TESTS = test_network
 # launch tests in case of make check
 check_PROGRAMS = $(TESTS)
 
-t1.reflect.cpp : ../test/local/t1.h
+%.reflect.cpp : ../test/local/%.h
 	export GCCXML_COMPILER="$(REFLEX_COMPILER)" && python $(SOURCES)/tools/reflex/genreflex.py $< -o $@ --comments -I$(SOURCES) $(PU_CFLAGS) ;
 
 # unit tests 
 test_network_SOURCES = \
+r1.reflect.cpp \
 t1.reflect.cpp \
 ../test/test_connection.cpp \
 ../test/test_network.cpp \

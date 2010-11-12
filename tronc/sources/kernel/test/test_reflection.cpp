@@ -26,6 +26,7 @@
 #include <kernel/test/reflection/primitive_trait.h>
 #include <kernel/test/test_reflection.h>
 #include <kernel/test/reflection/int_trait.h>
+#include <kernel/test/reflection/meta.h>
 
 namespace ProjetUnivers
 {
@@ -35,6 +36,22 @@ namespace ProjetUnivers
     {
 
       CPPUNIT_TEST_SUITE_REGISTRATION(TestReflection) ;
+
+      class TestObjectMapper : public ObjectMapper
+      {
+      public:
+
+        virtual int getIdentifier(Object* object)
+        {
+          return object->getIdentifier() ;
+        }
+
+        virtual ObjectReference getObject(Model* model,const int& identifier)
+        {
+          return model->getObject(identifier) ;
+        }
+
+      };
 
       void TestReflection::serialisationOfStringFloat()
       {
@@ -92,6 +109,46 @@ namespace ProjetUnivers
 
         CPPUNIT_ASSERT_EQUAL((unsigned int)7,primitive->getUInt()) ;
         CPPUNIT_ASSERT_EQUAL(1,primitive->getInt()) ;
+      }
+
+      void TestReflection::serialisationOfRelation()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+
+        Object* o1 = model->createObject() ;
+        Object* o2 = model->createObject() ;
+
+        Link<Meta::Selection>(o1,o2) ;
+
+        Relation* r = Relation::getRelation(getClassTypeIdentifier(Meta::Selection),o1,o2) ;
+
+        TestObjectMapper mapper ;
+        TextSerialiser serialiser(&mapper) ;
+
+        CPPUNIT_ASSERT_EQUAL(
+            std::string("ProjetUnivers::Kernel::Test::Meta::Selection(") +
+                        toString(o1->getIdentifier()) + "," +
+                        toString(o2->getIdentifier()) + ")",
+            serialiser.serialiseRelation(*r)) ;
+      }
+
+      void TestReflection::deserialisationOfRelation()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+
+        Object* o1 = model->createObject() ;
+        Object* o2 = model->createObject() ;
+
+        std::string text("ProjetUnivers::Kernel::Test::Meta::Selection(" +
+                         toString(o1->getIdentifier()) + "," +
+                         toString(o2->getIdentifier()) + ")") ;
+
+        TestObjectMapper mapper ;
+        TextSerialiser serialiser(&mapper) ;
+
+        serialiser.deserialiseRelation(text,model.get()) ;
+
+        CPPUNIT_ASSERT(Relation::areLinked<Meta::Selection>(o1,o2)) ;
       }
 
     }

@@ -30,8 +30,7 @@
 #include <physic/physic.h>
 #include <display/display.h>
 
-int 
-main( int argc, char* argv[] )
+int main(int argc,char* argv[])
 {
   ProjetUnivers::Kernel::Parameters::load("display.config") ;
   ProjetUnivers::Kernel::Log::init() ;

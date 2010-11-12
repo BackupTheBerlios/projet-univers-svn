@@ -35,10 +35,12 @@ namespace ProjetUnivers
       class ServerObject : public Kernel::DeducedTrait
       {};
 
-      typedef unsigned int ObjectIdentifier ;
-
       namespace Enet
       {
+
+        /// The channel for objetc replication
+        extern const enet_uint8 ReplicationChannel ;
+
         /// An object server side that need replication on clients
         class ServerObject : public Kernel::Controler<Implementation::ServerObject,
                                                       NetworkSystem>
@@ -58,8 +60,6 @@ namespace ProjetUnivers
 
           /// object global identifier
           ObjectIdentifier m_object_identifier ;
-
-          static ObjectIdentifier m_next_identifier ;
         };
       }
     }

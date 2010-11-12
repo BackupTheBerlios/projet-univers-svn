@@ -38,11 +38,17 @@ namespace ProjetUnivers
         void NetworkSystem::onInit()
         {
           enet_initialize() ;
+          m_next_identifier = 1 ;
         }
 
         void NetworkSystem::onClose()
         {
           enet_deinitialize() ;
+        }
+
+        ObjectIdentifier NetworkSystem::getNextIdentifier()
+        {
+          return m_next_identifier++ ;
         }
 
       }

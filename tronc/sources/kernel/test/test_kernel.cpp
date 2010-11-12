@@ -28,10 +28,14 @@
 #include <kernel/parameters.h>
 #include <kernel/log.h>
 
-int main(int,char*[])
+int main(int argc,char* argv[])
 {
   ProjetUnivers::Kernel::Parameters::load("kernel.config") ;
   ProjetUnivers::Kernel::Log::init() ;
+
+  std::string test_name ;
+  if (argc > 1)
+    test_name = argv[1] ;
 
   CppUnit::TextUi::TestRunner runner;
   CppUnit::TestFactoryRegistry &registry = CppUnit::TestFactoryRegistry::getRegistry();
@@ -46,7 +50,7 @@ int main(int,char*[])
   runner.setOutputter(outputter);
   
   // Run the test.
-  bool wasSucessful = runner.run( "" );
+  bool wasSucessful = runner.run(test_name);
 
   ProjetUnivers::Kernel::Log::close() ;
 

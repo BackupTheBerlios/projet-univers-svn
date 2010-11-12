@@ -48,6 +48,9 @@ namespace ProjetUnivers
         /// Check comparison
         void compare() ;
 
+        void inherits() ;
+        void subTypes() ;
+
       // @}
 
 
@@ -56,6 +59,8 @@ namespace ProjetUnivers
         CPPUNIT_TEST(testIsInstance) ;
         CPPUNIT_TEST(testClassName) ;
         CPPUNIT_TEST(compare) ;
+        CPPUNIT_TEST(inherits) ;
+        CPPUNIT_TEST(subTypes) ;
 
         CPPUNIT_TEST_SUITE_END() ;
 

@@ -18,8 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_KERNEL_OBJECT_REFERENCE_H_
-#define PU_KERNEL_OBJECT_REFERENCE_H_
+#pragma once
 
 #include <string>
 
@@ -117,6 +116,3 @@ namespace ProjetUnivers
 
   }
 }
-
-
-#endif /*PU_KERNEL_OBJECT_REFERENCE_H_*/

@@ -239,7 +239,7 @@ namespace ProjetUnivers
     {
       const TypeIdentifier& trait_name(getObjectTypeIdentifier(trait)) ;
 
-      if (_getPrimitiveTrait(trait_name))
+      if (getPrimitiveTrait(trait_name))
       {
         // already have
         delete trait ;
@@ -585,10 +585,10 @@ namespace ProjetUnivers
       if (result)
         return result ;
 
-      return _getPrimitiveTrait(trait_type) ;
+      return getPrimitiveTrait(trait_type) ;
     }
 
-    Trait* Object::_getPrimitiveTrait(const TypeIdentifier& trait_type) const
+    Trait* Object::getPrimitiveTrait(const TypeIdentifier& trait_type) const
     {
       // @todo try with searching if trait_type is a deduced trait or not
       std::map<TypeIdentifier,Trait*>::const_iterator finder = m_primitive_traits.find(trait_type) ;

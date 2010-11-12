@@ -38,7 +38,7 @@ namespace ProjetUnivers
 
       CPPUNIT_TEST_SUITE_REGISTRATION(TestRelationView) ;
 
-      namespace
+      namespace Local1
       {
         class Selection : public Relation
         {};
@@ -78,6 +78,8 @@ namespace ProjetUnivers
         RegisterRelationView(SelectionView,Selection,RelationViewPoint) ;
       }
 
+      using namespace Local1 ;
+
       void TestRelationView::initView()
       {
         std::auto_ptr<Model> model(new Model()) ;
@@ -106,7 +108,7 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT_EQUAL(1,SelectionView::m_number_of_close) ;
       }
 
-      namespace
+      namespace Local2
       {
         class T1 : public Trait
         {
@@ -167,6 +169,8 @@ namespace ProjetUnivers
         RegisterRelationView(DeducedSelectionView,DeducedSelection,RelationViewPoint) ;
       }
 
+      using namespace Local2 ;
+
       void TestRelationView::viewOnDeducedRelation()
       {
         std::auto_ptr<Model> model(new Model()) ;
@@ -192,7 +196,7 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT_EQUAL(1,DeducedSelectionView::m_number_of_close) ;
       }
 
-      namespace
+      namespace Local3
       {
 
         class RelationControlerSet : public ControlerSet
@@ -230,6 +234,8 @@ namespace ProjetUnivers
         RegisterRelationControler(SelectionControler,Selection,RelationControlerSet) ;
       }
 
+      using namespace Local3 ;
+
       void TestRelationView::initControler()
       {
         std::auto_ptr<Model> model(new Model()) ;
@@ -258,7 +264,7 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT_EQUAL(1,SelectionControler::m_number_of_close) ;
       }
 
-      namespace
+      namespace Local4
       {
         class OrSelection : public DeducedRelation
         {};
@@ -299,6 +305,8 @@ namespace ProjetUnivers
         RegisterRelationView(OrView,OrSelection,RelationViewPoint) ;
       }
 
+      using namespace Local4 ;
+
       void TestRelationView::updateOrFormula()
       {
         std::auto_ptr<Model> model(new Model()) ;
@@ -323,7 +331,7 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT_EQUAL(3,OrView::m_number_of_update) ;
       }
 
-      namespace
+      namespace Local5
       {
         class T3 : public Trait
         {
@@ -368,6 +376,8 @@ namespace ProjetUnivers
 
         RegisterRelationView(DeducedDeducedView,DeducedDeduced,RelationViewPoint) ;
       }
+
+      using namespace Local5 ;
 
       void TestRelationView::deducedRelationOnDeducedRelation()
       {
@@ -419,7 +429,7 @@ namespace ProjetUnivers
       }
 
 
-      namespace
+      namespace Local6
       {
         class BaseRelation : public Relation
         {};
@@ -445,6 +455,8 @@ namespace ProjetUnivers
 
         RegisterRelationControler(DeducedControler,Deduced,RelationControlerSet)
       }
+
+      using namespace Local6 ;
 
       void TestRelationView::deducedRelationDestroyBaseRelation()
       {
@@ -491,6 +503,33 @@ namespace ProjetUnivers
         }
 
         CPPUNIT_ASSERT_EQUAL(1,SelectionControler::m_number_of_close) ;
+      }
+
+      namespace Local7
+      {
+        class C7 : public RelationControler<RelationControlerSet>
+        {
+        protected:
+
+          void onInit()
+          {
+            CPPUNIT_ASSERT(getRelation()) ;
+          }
+        };
+
+        RegisterRelationControler(C7,BaseRelation,RelationControlerSet)
+      }
+
+      using namespace Local7 ;
+
+      void TestRelationView::getRelation()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+        model->init() ;
+        Object* o1 = model->createObject() ;
+        Object* o2 = model->createObject() ;
+
+        Link<BaseRelation>(o1,o2) ;
       }
 
     }

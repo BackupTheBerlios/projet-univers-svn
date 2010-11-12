@@ -18,9 +18,11 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#pragma once
-
-#include <kernel/controler_set.h>
+#include <iostream>
+#include <network/implementation/enet/server_relation.h>
+#include <network/implementation/enet/server_object.h>
+#include <network/implementation/enet/packet.h>
+#include <network/implementation/enet/server.h>
 
 namespace ProjetUnivers
 {
@@ -28,29 +30,45 @@ namespace ProjetUnivers
   {
     namespace Implementation
     {
+
+      DeclareDeducedRelation(ServerRelation,
+                             Kernel::Relation,
+                             And(IsFrom(HasTrait(ServerObject)),
+                                 IsTo(HasTrait(ServerObject)))) ;
+
       namespace Enet
       {
-        /// Network object identifier
-        typedef unsigned int ObjectIdentifier ;
 
-        /// The network controler system
-        class NetworkSystem : public Kernel::ControlerSet
+        RegisterRelationControler(ServerRelation,
+                                  Implementation::ServerRelation,
+                                  NetworkSystem) ;
+
+        void ServerRelation::onInit()
         {
-        public:
+          m_relation = NULL ;
+          if (!getRelation()->isPrimitive())
+          {
+            std::cout << "not primitive" ;
+            return ;
+          }
 
-          /// Build the controller set.
-          NetworkSystem(Kernel::Model* model) ;
+          std::cout << "sending add relation" ;
 
-          virtual void onInit() ;
-          virtual void onClose() ;
+          ENetHost* host = getObjectFrom()
+                           ->getAncestor<Implementation::ActiveServer>()
+                           ->getControler<Server>(getControlerSet())
+                           ->getHost() ;
 
-          ObjectIdentifier getNextIdentifier() ;
+          ENetPacket* packet = messageAddRelation(*getRelation()) ;
+          enet_host_broadcast(host,ReplicationChannel,packet) ;
+        }
 
-        private:
+        void ServerRelation::onClose()
+        {
+          if (!m_relation)
+            return ;
 
-          ObjectIdentifier m_next_identifier ;
-
-        };
+        }
       }
     }
   }

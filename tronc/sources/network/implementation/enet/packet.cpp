@@ -101,6 +101,106 @@ namespace ProjetUnivers
           return result ;
         }
 
+        ENetPacket* messageDestroyObject(const ObjectIdentifier& object)
+        {
+          std::string content("d") ;
+          content += Kernel::toString(object) ;
+
+          return enet_packet_create(content.c_str(),content.length(),ENET_PACKET_FLAG_RELIABLE) ;
+        }
+
+        bool isMessageDestroyObject(ENetPacket* packet)
+        {
+          return packet->data[0] == 'd' ;
+        }
+
+        ENetPacket* messageDestroyTrait(const ObjectIdentifier& object,Kernel::Trait* trait)
+        {
+          std::string content("t") ;
+          content += Kernel::toString(object) ;
+          content += "ProjetUnivers::" ;
+          content += getObjectTypeIdentifier(trait).fullName() ;
+
+          return enet_packet_create(content.c_str(),content.length(),ENET_PACKET_FLAG_RELIABLE) ;
+        }
+
+        bool isMessageDestroyTrait(ENetPacket* packet)
+        {
+          return packet->data[0] == 't' ;
+        }
+
+        Kernel::TypeIdentifier getTraitToBeDestroyed(ENetPacket* packet)
+        {
+          std::string content ;
+          content.assign((const char*)packet->data,packet->dataLength) ;
+
+          std::string::size_type begin = content.find_first_not_of("0123456789",1) ;
+
+          const std::string& trait_name = content.substr(begin) ;
+
+          return Kernel::TypeIdentifier(trait_name) ;
+        }
+
+        ENetPacket* messageUpdateTrait(const ObjectIdentifier& object,Kernel::Trait* trait)
+        {
+          Kernel::TextSerialiser serialiser ;
+          std::string content("u") ;
+          content += Kernel::toString(object) ;
+          content += serialiser.serialiseTrait(*trait) ;
+          return enet_packet_create(content.c_str(),content.length(),ENET_PACKET_FLAG_RELIABLE) ;
+        }
+
+        bool isMessageUpdateTrait(ENetPacket* packet)
+        {
+          return packet->data[0] == 'u' ;
+        }
+
+        void updateTrait(ENetPacket* packet,Kernel::Trait* trait)
+        {
+          std::string content ;
+          content.assign((const char*)packet->data,packet->dataLength) ;
+          std::string::size_type temp = content.find_first_not_of("0123456789",1) ;
+          content = content.substr(temp) ;
+
+          Kernel::TextSerialiser serialiser ;
+          serialiser.deserialiseTrait(content,trait) ;
+        }
+
+        Kernel::TypeIdentifier getTraitToBeUpdated(ENetPacket* packet)
+        {
+          std::string content ;
+          content.assign((const char*)packet->data,packet->dataLength) ;
+
+          std::string::size_type begin = content.find_first_not_of("0123456789",1) ;
+          std::string::size_type end = content.find('(',begin) ;
+
+          const std::string& trait_name = content.substr(begin,end-begin) ;
+
+          return Kernel::TypeIdentifier(trait_name) ;
+        }
+
+        ENetPacket* messageAddRelation(const Kernel::Relation& relation)
+        {
+          Kernel::TextSerialiser serialiser ;
+          std::string content("r") ;
+          content += serialiser.serialiseRelation(relation) ;
+          return enet_packet_create(content.c_str(),content.length(),ENET_PACKET_FLAG_RELIABLE) ;
+        }
+
+        bool isMessageAddRelation(ENetPacket* packet)
+        {
+          return packet->data[0] == 'r' ;
+        }
+
+        void addRelation(ENetPacket* packet,Kernel::ObjectMapper* mapper,Kernel::Model* model)
+        {
+          std::string content ;
+          content.assign((const char*)packet->data,packet->dataLength) ;
+
+          Kernel::TextSerialiser serialiser(mapper) ;
+          serialiser.deserialiseRelation(content.substr(1),model) ;
+        }
+
       }
     }
   }

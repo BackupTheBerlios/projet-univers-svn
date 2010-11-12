@@ -28,9 +28,11 @@
 #include <model/disconnected.h>
 
 #include <network/test/local/t1.h>
+#include <network/test/local/r1.h>
 #include <network/implementation/enet/network_system.h>
 #include <network/implementation/enet/server.h>
 #include <network/test/test_replication.h>
+#include <network/implementation/enet/client.h>
 
 namespace ProjetUnivers
 {
@@ -137,6 +139,147 @@ namespace ProjetUnivers
 
         // a sub object has been replicated
         CPPUNIT_ASSERT_EQUAL((unsigned int)1,o1_client->getChildren().size()) ;
+      }
+
+      void TestReplication::destroyObject()
+      {
+        std::auto_ptr<Kernel::Model> server_model(new Kernel::Model()) ;
+        server_model->init() ;
+        Kernel::Object* server = server_model->createObject() ;
+
+        std::auto_ptr<Kernel::Model> client_model(new Kernel::Model()) ;
+        client_model->init() ;
+        Kernel::Object* client = client_model->createObject() ;
+
+        connect(server,client) ;
+
+        Kernel::Object* o1 = server->createObject() ;
+
+        server_model->update(0.1) ;
+        client_model->update(0.1) ;
+
+        // a sub object has been replicated
+        CPPUNIT_ASSERT_EQUAL((unsigned int)1,client->getChildren().size()) ;
+        Kernel::Object* o1_client = *client->getChildren().begin() ;
+
+        o1->destroyObject() ;
+
+        server_model->update(0.1) ;
+        client_model->update(0.1) ;
+
+        // the object has been destroy in replication
+        CPPUNIT_ASSERT(client->getChildren().empty()) ;
+      }
+
+      void TestReplication::destroyTrait()
+      {
+        std::auto_ptr<Kernel::Model> server_model(new Kernel::Model()) ;
+        server_model->init() ;
+        Kernel::Object* server = server_model->createObject() ;
+
+        std::auto_ptr<Kernel::Model> client_model(new Kernel::Model()) ;
+        client_model->init() ;
+        Kernel::Object* client = client_model->createObject() ;
+
+        connect(server,client) ;
+
+        Kernel::Object* o1 = server->createObject() ;
+
+        server_model->update(0.1) ;
+        client_model->update(0.1) ;
+
+        // a sub object has been replicated
+        CPPUNIT_ASSERT_EQUAL((unsigned int)1,client->getChildren().size()) ;
+        Kernel::Object* o1_client = *client->getChildren().begin() ;
+
+        Kernel::Trait* trait = o1->addTrait(new Local::T1()) ;
+        server_model->update(0.1) ;
+        client_model->update(0.1) ;
+
+        CPPUNIT_ASSERT(o1_client->getTrait<Local::T1>()) ;
+
+        o1->destroyTrait(trait) ;
+
+        server_model->update(0.1) ;
+        client_model->update(0.1) ;
+
+        CPPUNIT_ASSERT(!o1_client->getTrait<Local::T1>()) ;
+      }
+
+      void TestReplication::updateTrait()
+      {
+        std::auto_ptr<Kernel::Model> server_model(new Kernel::Model()) ;
+        server_model->init() ;
+        Kernel::Object* server = server_model->createObject() ;
+
+        std::auto_ptr<Kernel::Model> client_model(new Kernel::Model()) ;
+        client_model->init() ;
+        Kernel::Object* client = client_model->createObject() ;
+
+        connect(server,client) ;
+
+        Kernel::Object* o1 = server->createObject() ;
+
+        server_model->update(0.1) ;
+        client_model->update(0.1) ;
+
+        // a sub object has been replicated
+        CPPUNIT_ASSERT_EQUAL((unsigned int)1,client->getChildren().size()) ;
+        Kernel::Object* o1_client = *client->getChildren().begin() ;
+
+        Local::T1* trait = static_cast<Local::T1*>(o1->addTrait(new Local::T1())) ;
+        server_model->update(0.1) ;
+        client_model->update(0.1) ;
+
+        CPPUNIT_ASSERT(o1_client->getTrait<Local::T1>()) ;
+        CPPUNIT_ASSERT_EQUAL(std::string(""),o1_client->getTrait<Local::T1>()->getName()) ;
+
+        trait->setName("toto") ;
+
+        server_model->update(0.1) ;
+        client_model->update(0.1) ;
+
+        CPPUNIT_ASSERT(o1_client->getTrait<Local::T1>()) ;
+        CPPUNIT_ASSERT_EQUAL(std::string("toto"),o1_client->getTrait<Local::T1>()->getName()) ;
+      }
+
+      void TestReplication::addRelation()
+      {
+        std::auto_ptr<Kernel::Model> server_model(new Kernel::Model()) ;
+        server_model->init() ;
+        Kernel::Object* server = server_model->createObject() ;
+
+        std::auto_ptr<Kernel::Model> client_model(new Kernel::Model()) ;
+        client_model->init() ;
+        Kernel::Object* client = client_model->createObject() ;
+
+        connect(server,client) ;
+
+        Kernel::Object* o1 = server->createObject() ;
+        Kernel::Object* o2 = server->createObject() ;
+
+        server_model->update(0.1) ;
+        client_model->update(0.1) ;
+
+        CPPUNIT_ASSERT_EQUAL((unsigned int)2,client->getChildren().size()) ;
+
+        Kernel::ControlerSet* controler_set = client_model->getControlerSet<Implementation::Enet::NetworkSystem>() ;
+
+        Implementation::Enet::Client* client_controler =
+            client->getTrait<Implementation::Client>()
+                  ->getControler<Implementation::Enet::Client>(controler_set) ;
+
+        CPPUNIT_ASSERT(client_controler) ;
+
+        Kernel::Object* o1_client = client_controler->getNetworkObject(1) ;
+        Kernel::Object* o2_client = client_controler->getNetworkObject(2) ;
+
+        Kernel::Link<Local::R1>(o1,o2) ;
+
+        server_model->update(0.1) ;
+        client_model->update(0.1) ;
+
+        CPPUNIT_ASSERT(Kernel::Relation::areLinked<Local::R1>(o1_client,o2_client)) ;
       }
 
     }

@@ -41,6 +41,8 @@ namespace ProjetUnivers
         void deserialisationOfStringFloat() ;
         void serialisationOfInt() ;
         void deserialisationOfInt() ;
+        void serialisationOfRelation() ;
+        void deserialisationOfRelation() ;
 
       // @}
 
@@ -51,6 +53,8 @@ namespace ProjetUnivers
         CPPUNIT_TEST(deserialisationOfStringFloat) ;
         CPPUNIT_TEST(serialisationOfInt) ;
         CPPUNIT_TEST(deserialisationOfInt) ;
+        CPPUNIT_TEST(serialisationOfRelation) ;
+        CPPUNIT_TEST(deserialisationOfRelation) ;
 
         CPPUNIT_TEST_SUITE_END() ;
 

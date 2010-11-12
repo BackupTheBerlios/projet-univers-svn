@@ -1624,7 +1624,6 @@
     - 'corrected' collision test fail on windows. Too high laser speed go 
       through 
 
-
 2010-03-07 
   * Kernel :
     - optimisation : removed all time consuming unnecessary elements introduced 
@@ -1766,6 +1765,17 @@
 - bug : only one controler per Trait*ControlerSet
 - basic serialization for traits 
 - objects synchronisation : createObject, addTrait
+
+2010-11-12
+#5146 Create base network system
+- added check for gccxml presence
+- network objects synchronisation : 
+  - destroyObject, 
+  - destroyTrait,
+  - updateTrait,
+- use reflex inside meta to store inheritance
+- relation inclusion in formulae now works 
+- serialization for relations
     
 in commit
 --------
@@ -1774,23 +1784,27 @@ in commit
 in progress
 -----------
 
+- add relation, remove relation
+- serialization for object references, enums, vector, list, set 
 
-   
 @todo
 ----
 
-* sound still error logged, they seem no critical but should investigate
-  
+- rationalisation of model regarding network : remove of Kernel::Model
+
 #5146 Create base network system
-- change state should disconnect from server
+- change state should disconnect from server (??)
 - gui to host, gui to connect
 - System of Chat on the interface
-- Launch and configuration of a game
+- configuration of a game (the difficult part is for merging controls)
+- Launch of a game
   - need synchro and sub states for launching : Loading, Ready, Started
 - clock synchronisation
-- meta model synchronisation (share the same ids for meta objects)  
+- meta model synchronisation (share the same ids for meta objects for compact 
+  messages)  
   - specialised serializer that will also check for version compatibility
-  
+
+* sound still has error logged, they seem no critical but should investigate
   
 #5137 Add the Hull level of the Target
 #5139 Add a Shield system
@@ -1838,8 +1852,6 @@ in progress
 - Mission : destruction sequence during player's ship explosion 
   (Player & Parent(Explosion)) --> change current camera to a fixed one 
 - move player from ship to explosion ?
-
-* Display : issue with fonts in Ogre 1.6.1 windows version; they are too big.
 
 * GUI :
 - select ship from a list
@@ -2132,14 +2144,6 @@ in progress
   interpretor is also a good location for threading, provided all model 
   accesses are mutexed. 
   
-* Network :
-- choose library
-- udp for position update of physical objects
-- tcp for structural operations (creation destruction)
-- test if position is sent only when moving
-- mock network : receive position updates and in other side check that correct 
-  messages are sent
-
 * icons are in /usr/share/icons/oxygen
 * ulimit -c unlimited
 

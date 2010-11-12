@@ -20,37 +20,32 @@
  ***************************************************************************/
 #pragma once
 
-#include <kernel/controler_set.h>
+#include <kernel/trait.h>
+#include <kernel/relation.h>
 
 namespace ProjetUnivers
 {
-  namespace Network
+  namespace Kernel
   {
-    namespace Implementation
+    namespace Test
     {
-      namespace Enet
+      namespace Meta
       {
-        /// Network object identifier
-        typedef unsigned int ObjectIdentifier ;
+        class A : public Trait
+        {};
 
-        /// The network controler system
-        class NetworkSystem : public Kernel::ControlerSet
-        {
-        public:
+        class B : public A
+        {};
 
-          /// Build the controller set.
-          NetworkSystem(Kernel::Model* model) ;
+        class C : public Trait
+        {};
 
-          virtual void onInit() ;
-          virtual void onClose() ;
+        class IHaveALongName
+        {};
 
-          ObjectIdentifier getNextIdentifier() ;
+        class Selection : public Relation
+        {};
 
-        private:
-
-          ObjectIdentifier m_next_identifier ;
-
-        };
       }
     }
   }

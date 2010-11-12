@@ -50,6 +50,8 @@ namespace ProjetUnivers
         Reflex::Type trait_type(Reflex::Type::ByName("ProjetUnivers::Kernel::Trait")) ;
         CPPUNIT_ASSERT(type_positioned.HasBase(trait_type)) ;
 
+        trait_type.SetTypeInfo(typeid(Kernel::Trait)) ;
+
         // create an object from this meta type
         Positioned* positioned = static_cast<Positioned*>(type_positioned.Construct().Address()) ;
         CPPUNIT_ASSERT(positioned) ;

@@ -141,6 +141,9 @@ namespace ProjetUnivers
       /// Access to trait of type T if exists.
       template <class T> T* getTrait() const ;
 
+      /// Retrieve the trait named @c trait_name.
+      Trait* getPrimitiveTrait(const TypeIdentifier& trait_name) const ;
+
       /// Access to trait's view of type _View if exists.
       /*!
         @remark
@@ -307,8 +310,6 @@ namespace ProjetUnivers
 
       /// Retrieve the trait named @c trait_name.
       DeducedTrait* _getDeducedTrait(const TypeIdentifier& trait_name) const ;
-      /// Retrieve the trait named @c trait_name.
-      Trait* _getPrimitiveTrait(const TypeIdentifier& trait_name) const ;
 
       /// update the views for a change_parent.
       void _changed_parent(Object* i_old_parent) ;

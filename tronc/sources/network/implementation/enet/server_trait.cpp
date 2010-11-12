@@ -71,18 +71,30 @@ namespace ProjetUnivers
 
           m_trait = getTrait() ;
 
-          ObjectIdentifier identifier = server_object->getNetworkIdentifier() ;
+          m_network_identifier = server_object->getNetworkIdentifier() ;
 
-          ENetHost* host = server->getControler<Server>(getControlerSet())->getHost() ;
+          m_host = server->getControler<Server>(getControlerSet())->getHost() ;
 
-          ENetPacket* packet = messageAddTrait(identifier,m_trait) ;
-          enet_host_broadcast(host,0,packet) ;
+          ENetPacket* packet = messageAddTrait(m_network_identifier,m_trait) ;
+          enet_host_broadcast(m_host,ReplicationChannel,packet) ;
+        }
+
+        void ServerTrait::onUpdate()
+        {
+          if (!m_trait)
+            return ;
+
+          ENetPacket* packet = messageUpdateTrait(m_network_identifier,m_trait) ;
+          enet_host_broadcast(m_host,ReplicationChannel,packet) ;
         }
 
         void ServerTrait::onClose()
         {
           if (!m_trait)
             return ;
+
+          ENetPacket* packet = messageDestroyTrait(m_network_identifier,m_trait) ;
+          enet_host_broadcast(m_host,ReplicationChannel,packet) ;
         }
 
       }

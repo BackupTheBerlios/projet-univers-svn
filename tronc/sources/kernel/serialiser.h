@@ -22,21 +22,63 @@
 
 #include <string>
 #include <kernel/trait.h>
+#include <kernel/relation.h>
+#include <kernel/object_reference.h>
 
 namespace ProjetUnivers
 {
   namespace Kernel
   {
-    /// Serialise an object
+    class Object ;
+    class Model ;
+
+    /// Maps tobjects to serialisation identifiers
+    /*!
+    Deserialisation means that we need to have 'temporary' identifiers that will
+    be resolved to objects later.
+    Serialisation may also need to have to use another set of identifiers,
+    for example during network transmition.
+    */
+    class ObjectMapper
+    {
+    public:
+
+      /// Map from objects to identifiers.
+      virtual int getIdentifier(Object*) = 0 ;
+
+      /// Map from identifiers to objects.
+      virtual ObjectReference getObject(Model*,const int&) = 0 ;
+
+      virtual ~ObjectMapper() ;
+    };
+
+    /// Serialise framework data
     class Serialiser
     {
     public:
 
-      ///
+      /// Serialize a trait
       virtual std::string serialiseTrait(const Trait&) = 0 ;
 
+      /// Deserialize a trait
       virtual Trait* deserialiseTrait(const std::string&) = 0 ;
 
+      /// Deserialize a trait given an existing one
+      virtual void deserialiseTrait(const std::string&,Trait*) = 0 ;
+
+      /// Serialize a relation
+      virtual std::string serialiseRelation(const Relation&) = 0 ;
+
+      /// Deserialize a relation
+      virtual void deserialiseRelation(const std::string&,Model*) = 0 ;
+
+      virtual ~Serialiser() ;
+
+    protected:
+
+      Serialiser(ObjectMapper*) ;
+
+      ObjectMapper* m_mapper ;
     };
   }
 }

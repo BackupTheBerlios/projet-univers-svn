@@ -62,6 +62,7 @@ namespace ProjetUnivers
     class FormulaOr ;
     class IsRelatedFormula ;
     class IsOnlyRelatedFormula ;
+    class TextSerialiser ;
 
     /// Abstract class for object traits.
     class Trait : public Notifiable
@@ -452,6 +453,7 @@ namespace ProjetUnivers
       friend class IsOnlyRelatedFormula ;
       friend class ::ProjetUnivers::Kernel::Test::TestTrait ;
       friend class ::ProjetUnivers::Kernel::Implementation::Operation ;
+      friend class TextSerialiser ;
     };
 
     /// Tells that @c TraitClass is a trait class.

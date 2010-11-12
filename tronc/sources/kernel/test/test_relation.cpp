@@ -24,6 +24,7 @@
 #include <kernel/log.h>
 
 #include <kernel/test/test_relation.h>
+#include <kernel/test/reflection/meta.h>
 
 namespace ProjetUnivers
 {
@@ -34,12 +35,14 @@ namespace ProjetUnivers
 
       CPPUNIT_TEST_SUITE_REGISTRATION(TestRelation) ;
 
-      namespace
+      namespace Local1
       {
         class Selection : public Relation
         {};
 
       }
+
+      using namespace Local1 ;
 
       void TestRelation::add()
       {
@@ -147,7 +150,7 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(related.size() == 1) ;
       }
 
-      namespace
+      namespace Local2
       {
         class T1 : public Trait
         {};
@@ -158,6 +161,8 @@ namespace ProjetUnivers
         DeclareDeducedTrait(DT1,
                             IsRelated(Selection,HasTrait(T1))) ;
       }
+
+      using namespace Local2 ;
 
       void TestRelation::isRelatedFormulaChangeStateWhenModifyingRelatedObject()
       {
@@ -218,7 +223,7 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(o1->getTrait<DT1>()) ;
       }
 
-      namespace
+      namespace Local3
       {
         class Ti : public Trait
         {};
@@ -229,6 +234,8 @@ namespace ProjetUnivers
         DeclareDeducedTrait(DTi,
                             IsRelated(Inverse<Selection>,HasTrait(Ti))) ;
       }
+
+      using namespace Local3 ;
 
       void TestRelation::isRelatedInverse()
       {
@@ -247,7 +254,7 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(!o2->getTrait<DTi>()) ;
       }
 
-      namespace
+      namespace Local4
       {
         class T2 : public Trait
         {};
@@ -260,6 +267,8 @@ namespace ProjetUnivers
                                And(IsFrom(HasTrait(T1)),
                                    IsTo(HasTrait(T2)))) ;
       }
+
+      using namespace Local4 ;
 
       void TestRelation::relationDeducedByAddingALink()
       {
@@ -337,11 +346,13 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(Relation::getLinked<DeducedSelection>(o1).empty()) ;
       }
 
-      namespace
+      namespace Local5
       {
         class OtherSelection : public Relation
         {};
       }
+
+      using namespace Local5 ;
 
       void TestRelation::primitiveRelationDoesNotTriggerOtherDeduction()
       {
@@ -361,7 +372,7 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT_EQUAL((unsigned int)0,related.size()) ;
       }
 
-      namespace
+      namespace Local6
       {
         class DontHave : public Relation
         {};
@@ -371,8 +382,9 @@ namespace ProjetUnivers
 
         DeclareDeducedRelation(ShouldNotDeduce,DontHave,IsFrom(And(HasTrait(T1),
                                                                    IsRelated(Selection,HasTrait(T2))))) ;
-
       }
+
+      using namespace Local6 ;
 
       void TestRelation::havingAllButPrimitiveRelationDoesNotMakeItTrue()
       {
@@ -391,6 +403,67 @@ namespace ProjetUnivers
 
         CPPUNIT_ASSERT(!Relation::areLinked<ShouldNotDeduce>(o1,o2)) ;
       }
+
+      namespace Local7
+      {
+        class DR7 : public DeducedRelation
+        {};
+
+        DeclareDeducedRelation(DR7,Relation,IsFrom(HasTrait(T1))) ;
+      }
+
+      using namespace Local7 ;
+
+      void TestRelation::deducedRelationOnAllRelation()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+        Object* o1 = model->createObject() ;
+        Object* o2 = model->createObject() ;
+
+        o1->addTrait(new T1()) ;
+
+        Link<Meta::Selection>(o1,o2) ;
+
+        CPPUNIT_ASSERT(Relation::areLinked<DR7>(o1,o2)) ;
+      }
+
+      void TestRelation::isPrimitive()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+        Object* o1 = model->createObject() ;
+        Object* o2 = model->createObject() ;
+
+        o1->addTrait(new T1()) ;
+
+        Link<Meta::Selection>(o1,o2) ;
+
+        Relation* r1 = Relation::getRelation(getClassTypeIdentifier(Meta::Selection),o1,o2) ;
+
+        CPPUNIT_ASSERT(r1->isPrimitive()) ;
+
+        Relation* r2 = Relation::getRelation(getClassTypeIdentifier(DR7),o1,o2) ;
+
+        CPPUNIT_ASSERT(!r2->isPrimitive()) ;
+      }
+
+      void TestRelation::getPrincipalRelation()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+        Object* o1 = model->createObject() ;
+        Object* o2 = model->createObject() ;
+
+        o1->addTrait(new T1()) ;
+
+        Link<Meta::Selection>(o1,o2) ;
+
+        Relation* r1 = Relation::getRelation(getClassTypeIdentifier(Meta::Selection),o1,o2) ;
+
+        Relation* r2 = Relation::getRelation(getClassTypeIdentifier(DR7),o1,o2) ;
+
+        CPPUNIT_ASSERT(r2->getPrincipalRelation() == *r1) ;
+      }
+
+
     }
   }
 }

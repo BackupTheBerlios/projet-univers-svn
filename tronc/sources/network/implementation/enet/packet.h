@@ -22,6 +22,8 @@
 
 #include <enet/enet.h>
 #include <kernel/trait.h>
+#include <kernel/relation.h>
+#include <kernel/serialiser.h>
 #include <network/implementation/enet/server_object.h>
 
 namespace ProjetUnivers
@@ -47,6 +49,9 @@ namespace ProjetUnivers
         /// Create a message indicating an object destruction
         ENetPacket* messageDestroyObject(const ObjectIdentifier& object) ;
 
+        /// True if the message is a destroy object message
+        bool isMessageDestroyObject(ENetPacket* packet) ;
+
         /// Create a message indicating a trait addition
         ENetPacket* messageAddTrait(const ObjectIdentifier& object,Kernel::Trait*) ;
 
@@ -58,6 +63,37 @@ namespace ProjetUnivers
 
         /// Return the trait contained in the packet
         Kernel::Trait* decodeTrait(ENetPacket* packet) ;
+
+        /// Create a message indicating a trait destruction
+        ENetPacket* messageDestroyTrait(const ObjectIdentifier& object,Kernel::Trait*) ;
+
+        /// True if the message is a destroyTrait
+        bool isMessageDestroyTrait(ENetPacket* packet) ;
+
+        /// Return the trait to be destroyed contained in the packet
+        Kernel::TypeIdentifier getTraitToBeDestroyed(ENetPacket* packet) ;
+
+        /// Create a message indicating a trait update
+        ENetPacket* messageUpdateTrait(const ObjectIdentifier& object,Kernel::Trait*) ;
+
+        /// True if the message is an update Trait
+        bool isMessageUpdateTrait(ENetPacket* packet) ;
+
+        /// Return the trait to be updated contained in the packet
+        Kernel::TypeIdentifier getTraitToBeUpdated(ENetPacket* packet) ;
+
+        /// Apply the update of a trait.
+        void updateTrait(ENetPacket* packet,Kernel::Trait*) ;
+
+        /// Create a message indicating a trait update
+        ENetPacket* messageAddRelation(const Kernel::Relation&) ;
+
+        /// True if the message is an add relation
+        bool isMessageAddRelation(ENetPacket* packet) ;
+
+        /// Apply the adding of a relation.
+        void addRelation(ENetPacket* packet,Kernel::ObjectMapper*,Kernel::Model*) ;
+
       }
     }
   }

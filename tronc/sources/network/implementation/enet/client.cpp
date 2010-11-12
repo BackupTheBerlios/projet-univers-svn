@@ -109,6 +109,30 @@ namespace ProjetUnivers
                 {
                   getNetworkObject(decodeObjectIdentifier(packet))->addTrait(decodeTrait(packet)) ;
                 }
+                else if(isMessageDestroyObject(packet))
+                {
+                  ObjectIdentifier identifier = decodeObjectIdentifier(packet) ;
+                  getNetworkObject(identifier)->destroyObject() ;
+                  m_objects.erase(identifier) ;
+                }
+                else if(isMessageDestroyTrait(packet))
+                {
+                  Kernel::Object* object = getNetworkObject(decodeObjectIdentifier(packet)) ;
+                  Kernel::Trait* trait = object->getPrimitiveTrait(getTraitToBeDestroyed(packet)) ;
+                  object->destroyTrait(trait) ;
+                }
+                else if(isMessageUpdateTrait(packet))
+                {
+                  Kernel::Object* object = getNetworkObject(decodeObjectIdentifier(packet)) ;
+                  Kernel::Trait* trait = object->getPrimitiveTrait(getTraitToBeUpdated(packet)) ;
+                  updateTrait(packet,trait) ;
+                }
+                else if (isMessageAddRelation(packet))
+                {
+                  std::cout << "coucou"  ;
+                }
+
+                enet_packet_destroy(packet) ;
               }
               break ;
             }

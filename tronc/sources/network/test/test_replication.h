@@ -40,6 +40,10 @@ namespace ProjetUnivers
         void createObject() ;
         void addTrait() ;
         void createSubObject() ;
+        void destroyObject() ;
+        void destroyTrait() ;
+        void updateTrait() ;
+        void addRelation() ;
 
         /*
         @todo
@@ -58,6 +62,10 @@ namespace ProjetUnivers
         CPPUNIT_TEST(createObject) ;
         CPPUNIT_TEST(addTrait) ;
         CPPUNIT_TEST(createSubObject) ;
+        CPPUNIT_TEST(destroyObject) ;
+        CPPUNIT_TEST(destroyTrait) ;
+        CPPUNIT_TEST(updateTrait) ;
+//        CPPUNIT_TEST(addRelation) ;
 
         CPPUNIT_TEST_SUITE_END() ;
 

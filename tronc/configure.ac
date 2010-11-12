@@ -22,6 +22,15 @@ AM_PROG_LIBTOOL
 AC_LANG([C++])
 AC_PROG_CXX
 AC_PROG_CC
+# need gccxml to generate meta data
+AC_ARG_WITH([gccxml-path], "Specify the location of the gccxml executable", [ gccxml_default_location=$withval ], [ gccxml_default_location=/usr/bin ])
+AC_PATH_PROG([GCCXML], [gccxml], ,
+             [$PATH:$gccxml_default_location])
+AC_PATH_PROG([GCCXML_CC1PLUS], [gccxml_cc1plus], ,
+             [$PATH:$gccxml_default_location])
+if test -z "$GCCXML" || test -z "$GCCXML_CC1PLUS" ; then
+   AC_MSG_ERROR([[gccxml or gccxml_cc1plus could not be found. Please ensure that both are on PATH, or specify --with-gccxml-path]])
+fi
 
 #####################
 # Check libs presence

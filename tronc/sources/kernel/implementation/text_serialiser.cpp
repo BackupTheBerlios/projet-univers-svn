@@ -21,11 +21,16 @@
 #include <Reflex/Reflex.h>
 #include <kernel/text_serialiser.h>
 #include <kernel/string.h>
+#include <kernel/error.h>
 
 namespace ProjetUnivers
 {
   namespace Kernel
   {
+
+    TextSerialiser::TextSerialiser(ObjectMapper* mapper)
+    : Serialiser(mapper)
+    {}
 
     std::string valueToString(const Reflex::Object& value)
     {
@@ -121,9 +126,36 @@ namespace ProjetUnivers
       // create the result
       Reflex::Object instance = type.Construct() ;
 
-      // fill members
+      fillTrait(text,instance,type) ;
+
+      return static_cast<Trait*>(instance.Address()) ;
+    }
+
+    void TextSerialiser::deserialiseTrait(const std::string& text,Trait* trait)
+    {
+      std::string trait_name ;
+      std::string::size_type position_of_parenthesis = text.find('(') ;
+      if (position_of_parenthesis == std::string::npos)
+        return ;
+
+      trait_name = text.substr(0,position_of_parenthesis) ;
+      Reflex::Type type(Reflex::Type::ByName(trait_name)) ;
+
+      if (!type)
+        return ;
+
+      Reflex::Object instance(type,trait) ;
+      fillTrait(text,instance,type) ;
+
+      trait->notify() ;
+    }
+
+    void TextSerialiser::fillTrait(const std::string& text,Reflex::Object instance,const Reflex::Type& type)
+    {
+      std::string::size_type position_of_parenthesis = text.find('(') ;
       std::string::size_type begin_member = position_of_parenthesis ;
       std::string::size_type end_member ;
+      // fill members
       do
       {
         ++begin_member ;
@@ -135,11 +167,7 @@ namespace ProjetUnivers
 
         Reflex::Member meta_member = type.MemberByName(member_name) ;
 
-        if (!meta_member || !meta_member.IsDataMember())
-        {
-          std::cout << "cannot find member " << member_name << std::endl ;
-          return NULL ;
-        }
+        CHECK(meta_member && meta_member.IsDataMember(),"cannot find member") ;
 
         std::string::size_type end_member_value = text.find_first_of(",)",end_member) ;
         std::string member_value = text.substr(end_member+1,end_member_value-end_member-1) ;
@@ -149,10 +177,49 @@ namespace ProjetUnivers
 
         begin_member = text.find(',',begin_member) ;
 
-      } while (begin_member != std::string::npos) ;
-
-      return static_cast<Trait*>(instance.Address()) ;
+      }
+      while (begin_member != std::string::npos) ;
     }
+
+    std::string TextSerialiser::serialiseRelation(const Relation& relation)
+    {
+      std::string result("ProjetUnivers::") ;
+      const TypeIdentifier& type = relation.getType() ;
+      result += type.fullName() ;
+      result += "(" ;
+      result += toString(m_mapper->getIdentifier(relation.getObjectFrom())) ;
+      result += "," ;
+      result += toString(m_mapper->getIdentifier(relation.getObjectTo())) ;
+      result += ")" ;
+
+      return result ;
+    }
+
+    void TextSerialiser::deserialiseRelation(const std::string& text,Model* model)
+    {
+      std::string relation_name ;
+      std::string::size_type position_of_parenthesis = text.find('(') ;
+      if (position_of_parenthesis == std::string::npos)
+        return ;
+
+      relation_name = text.substr(0,position_of_parenthesis) ;
+      TypeIdentifier type(relation_name) ;
+
+      std::string::size_type position_of_column = text.find(',',position_of_parenthesis) ;
+
+      std::string identifier1 = text.substr(position_of_parenthesis+1,
+                                            position_of_column-position_of_parenthesis-1) ;
+
+      std::string identifier2 = text.substr(position_of_column+1,
+                                            text.length()-position_of_column-2) ;
+
+
+      Object* object1 = m_mapper->getObject(model,atoi(identifier1.c_str())) ;
+      Object* object2 = m_mapper->getObject(model,atoi(identifier2.c_str())) ;
+
+      Relation::createLink(TypeIdentifier(type),object1,object2) ;
+    }
+
   }
 }
 

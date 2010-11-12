@@ -18,6 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <Reflex/Reflex.h>
 #include <kernel/meta.h>
 
 namespace ProjetUnivers
@@ -60,6 +61,10 @@ namespace ProjetUnivers
       }
     }
 
+    TypeIdentifier::TypeIdentifier(const std::string& full_name)
+    : m_representation(&Reflex::Type::ByName(full_name).TypeInfo())
+    {}
+
     std::string TypeIdentifier::toString() const
     {
       std::map<const std::type_info*,std::string>::const_iterator finder =
@@ -90,6 +95,94 @@ namespace ProjetUnivers
       {
         return false ;
       }
+    }
+
+    bool TypeIdentifier::inherits(const TypeIdentifier& type_identifier) const
+    {
+      if (!StaticStorage::get()->m_has_inheritance)
+        StaticStorage::get()->calculateInheritance() ;
+
+      if (StaticStorage::get()->m_inheritance.find(std::make_pair(*this,type_identifier))
+          != StaticStorage::get()->m_inheritance.end())
+        return true ;
+
+      return false ;
+    }
+
+    const std::set<TypeIdentifier>& TypeIdentifier::subTypes() const
+    {
+      if (!StaticStorage::get()->m_has_inheritance)
+        StaticStorage::get()->calculateInheritance() ;
+
+      std::set<TypeIdentifier>& result = StaticStorage::get()->m_sub_types[*this] ;
+      if (result.empty())
+        result.insert(*this) ;
+      return result ;
+    }
+
+    const std::set<TypeIdentifier>& TypeIdentifier::superTypes() const
+    {
+      if (!StaticStorage::get()->m_has_inheritance)
+        StaticStorage::get()->calculateInheritance() ;
+
+      std::set<TypeIdentifier>& result = StaticStorage::get()->m_super_types[*this] ;
+      if (result.empty())
+        result.insert(*this) ;
+      return result ;
+    }
+
+    void TypeIdentifier::StaticStorage::calculateInheritance()
+    {
+      // we do not need to recalculate
+      m_has_inheritance = true ;
+
+      for(Reflex::Type_Iterator type = Reflex::Type::Type_Begin() ;
+          type != Reflex::Type::Type_End() ;
+          ++type)
+      {
+        TypeIdentifier current ;
+        current.m_representation = &type->TypeInfo() ;
+
+        for(Reflex::Base_Iterator base = type->Base_Begin() ;
+            base != type->Base_End() ;
+            ++base)
+        {
+          TypeIdentifier inherited ;
+          inherited.m_representation = &base->ToType().TypeInfo() ;
+
+          addInheritance(current,inherited) ;
+        }
+      }
+      for(Reflex::Type_Iterator type = Reflex::Type::Type_Begin() ;
+          type != Reflex::Type::Type_End() ;
+          ++type)
+      {
+        TypeIdentifier current ;
+        current.m_representation = &type->TypeInfo() ;
+        // a type inherits from itself
+        m_sub_types[current].insert(current) ;
+        m_super_types[current].insert(current) ;
+      }
+
+    }
+
+    void TypeIdentifier::StaticStorage::addInheritance(const TypeIdentifier& inheriting,const TypeIdentifier& inherited)
+    {
+      // recurse for transitivity of inheritance
+      for(std::set<TypeIdentifier>::iterator type = m_sub_types[inheriting].begin() ;
+          type != m_sub_types[inheriting].end() ; ++type)
+      {
+        addInheritance(*type,inherited) ;
+      }
+      for(std::set<TypeIdentifier>::iterator type = m_super_types[inherited].begin() ;
+          type != m_super_types[inherited].end() ; ++type)
+      {
+        addInheritance(inheriting,*type) ;
+      }
+
+      m_inheritance.insert(std::make_pair(inheriting,inherited)) ;
+      m_sub_types[inherited].insert(inheriting) ;
+      m_super_types[inheriting].insert(inherited) ;
     }
 
     bool TypeIdentifier::operator==(const TypeIdentifier& i_type_identifier) const

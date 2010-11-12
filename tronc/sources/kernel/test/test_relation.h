@@ -58,6 +58,10 @@ namespace ProjetUnivers
         void primitiveRelationDoesNotTriggerOtherDeduction() ;
         void havingAllButPrimitiveRelationDoesNotMakeItTrue() ;
 
+        void deducedRelationOnAllRelation() ;
+        void isPrimitive() ;
+        void getPrincipalRelation() ;
+
       // @}
 
         CPPUNIT_TEST_SUITE(TestRelation) ;
@@ -80,6 +84,9 @@ namespace ProjetUnivers
         CPPUNIT_TEST(relationUnDeducedByRemovingALink) ;
         CPPUNIT_TEST(primitiveRelationDoesNotTriggerOtherDeduction) ;
         CPPUNIT_TEST(havingAllButPrimitiveRelationDoesNotMakeItTrue) ;
+        CPPUNIT_TEST(deducedRelationOnAllRelation) ;
+        CPPUNIT_TEST(isPrimitive) ;
+//        CPPUNIT_TEST(getPrincipalRelation) ;
 
         CPPUNIT_TEST_SUITE_END() ;
       };

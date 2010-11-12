@@ -58,9 +58,11 @@ namespace ProjetUnivers
           /// Send data to the server
           virtual void simulate(const float& seconds) ;
 
+          /// Get a replicated object by it's network identifier.
+          Kernel::Object* getNetworkObject(const ObjectIdentifier&) const ;
+
         private:
 
-          Kernel::Object* getNetworkObject(const ObjectIdentifier&) const ;
 
           ENetHost* m_host ;
           ENetAddress m_address ;

@@ -37,9 +37,11 @@ libkernel_la_SOURCES = \
 ../implementation/profiler.cpp \
 ../implementation/reader.cpp \
 ../implementation/relation.cpp \
+../implementation/relation.reflect.cpp \
 ../implementation/relation_controler.cpp \
 ../implementation/relation_observer.cpp \
 ../implementation/relation_view.cpp \
+../implementation/serialiser.cpp \
 ../implementation/statistics.cpp \
 ../implementation/string.cpp \
 ../implementation/text_serialiser.cpp \
@@ -48,6 +50,7 @@ libkernel_la_SOURCES = \
 ../implementation/timer_test_result.cpp \
 ../implementation/timer_xml_outputter_hook.cpp \
 ../implementation/trait.cpp \
+../implementation/trait.reflect.cpp \
 ../implementation/trait_view.cpp \
 ../implementation/transaction.cpp \
 ../implementation/view_point.cpp \
@@ -152,7 +155,6 @@ noinst_PROGRAMS = $(TESTS)
 # launch tests in case of make check
 check_PROGRAMS = $(TESTS)
 
-
 %.reflect.cpp : ../test/reflection/%.h
 	export GCCXML_COMPILER="$(REFLEX_COMPILER)" && python $(SOURCES)/tools/reflex/genreflex.py $< -o $@ --comments -I$(SOURCES) $(PU_CFLAGS) ;
 
@@ -163,6 +165,7 @@ test_kernel_SOURCES = \
 ../test/test_error.cpp \
 ../test/test_interpretor.cpp \
 ../test/test_kernel.cpp \
+meta.reflect.cpp \
 ../test/test_meta.cpp \
 ../test/test_model.cpp \
 ../test/test_model_controler.cpp \
