@@ -25,6 +25,7 @@
 #include <kernel/relation.h>
 #include <kernel/serialiser.h>
 #include <network/implementation/enet/server_object.h>
+#include <network/implementation/enet/network_mapper.h>
 
 namespace ProjetUnivers
 {
@@ -85,14 +86,23 @@ namespace ProjetUnivers
         /// Apply the update of a trait.
         void updateTrait(ENetPacket* packet,Kernel::Trait*) ;
 
-        /// Create a message indicating a trait update
-        ENetPacket* messageAddRelation(const Kernel::Relation&) ;
+        /// Create a message indicating the construction of a relation
+        ENetPacket* messageAddRelation(const Kernel::Relation&,NetworkMapper*) ;
 
         /// True if the message is an add relation
         bool isMessageAddRelation(ENetPacket* packet) ;
 
         /// Apply the adding of a relation.
-        void addRelation(ENetPacket* packet,Kernel::ObjectMapper*,Kernel::Model*) ;
+        void addRelation(ENetPacket* packet,NetworkMapper*,Kernel::Model*) ;
+
+        /// Create a message indicating the destruction of a relation
+        ENetPacket* messageDestroyRelation(const Kernel::Relation&,NetworkMapper*) ;
+
+        /// True if the message is a destroy relation
+        bool isMessageDestroyRelation(ENetPacket* packet) ;
+
+        /// Apply the destruction of a relation.
+        void destroyRelation(ENetPacket* packet,NetworkMapper*,Kernel::Model*) ;
 
       }
     }

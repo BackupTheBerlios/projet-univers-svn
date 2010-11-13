@@ -28,6 +28,7 @@
 #include <kernel/relation_controler.h>
 
 #include <kernel/test/test_relation_view.h>
+#include <kernel/test/reflection/meta.h>
 
 namespace ProjetUnivers
 {
@@ -530,6 +531,43 @@ namespace ProjetUnivers
         Object* o2 = model->createObject() ;
 
         Link<BaseRelation>(o1,o2) ;
+      }
+
+      namespace Local8
+      {
+        class C8 : public RelationControler<RelationControlerSet>
+        {
+        public:
+
+          void onInit()
+          {
+            m_inited = true ;
+          }
+
+          static bool m_inited ;
+
+        };
+
+        bool C8::m_inited = false ;
+
+        RegisterRelationControler(C8,Relation,RelationControlerSet)
+      }
+
+      using namespace Local8 ;
+
+      void TestRelationView::controllerOnGenericRelation()
+      {
+
+        std::auto_ptr<Model> model(new Model()) ;
+        model->init() ;
+        Object* o1 = model->createObject() ;
+        Object* o2 = model->createObject() ;
+
+        C8::m_inited = false ;
+
+        Link<Meta::Selection>(o1,o2) ;
+
+        CPPUNIT_ASSERT(C8::m_inited) ;
       }
 
     }

@@ -44,10 +44,10 @@ namespace ProjetUnivers
     public:
 
       /// Map from objects to identifiers.
-      virtual int getIdentifier(Object*) = 0 ;
+      virtual int getMappedIdentifier(Object*) = 0 ;
 
       /// Map from identifiers to objects.
-      virtual ObjectReference getObject(Model*,const int&) = 0 ;
+      virtual ObjectReference getMappedObject(Model*,const int&) = 0 ;
 
       virtual ~ObjectMapper() ;
     };
@@ -70,7 +70,10 @@ namespace ProjetUnivers
       virtual std::string serialiseRelation(const Relation&) = 0 ;
 
       /// Deserialize a relation
-      virtual void deserialiseRelation(const std::string&,Model*) = 0 ;
+      virtual void addRelation(const std::string&,Model*) = 0 ;
+
+      /// Deserialize a relation
+      virtual void removeRelation(const std::string&,Model*) = 0 ;
 
       virtual ~Serialiser() ;
 

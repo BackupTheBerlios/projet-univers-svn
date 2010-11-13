@@ -282,6 +282,46 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(Kernel::Relation::areLinked<Local::R1>(o1_client,o2_client)) ;
       }
 
+      void TestReplication::removeRelation()
+      {
+        std::auto_ptr<Kernel::Model> server_model(new Kernel::Model()) ;
+        server_model->init() ;
+        Kernel::Object* server = server_model->createObject() ;
+
+        std::auto_ptr<Kernel::Model> client_model(new Kernel::Model()) ;
+        client_model->init() ;
+        Kernel::Object* client = client_model->createObject() ;
+
+        connect(server,client) ;
+
+        Kernel::Object* o1 = server->createObject() ;
+        Kernel::Object* o2 = server->createObject() ;
+
+        server_model->update(0.1) ;
+        client_model->update(0.1) ;
+
+        CPPUNIT_ASSERT_EQUAL((unsigned int)2,client->getChildren().size()) ;
+
+        Kernel::ControlerSet* controler_set = client_model->getControlerSet<Implementation::Enet::NetworkSystem>() ;
+
+        Implementation::Enet::Client* client_controler =
+            client->getTrait<Implementation::Client>()
+                  ->getControler<Implementation::Enet::Client>(controler_set) ;
+
+        CPPUNIT_ASSERT(client_controler) ;
+
+        Kernel::Object* o1_client = client_controler->getNetworkObject(1) ;
+        Kernel::Object* o2_client = client_controler->getNetworkObject(2) ;
+
+        Kernel::Link<Local::R1>(o1,o2) ;
+        Kernel::UnLink<Local::R1>(o1,o2) ;
+
+        server_model->update(0.1) ;
+        client_model->update(0.1) ;
+
+        CPPUNIT_ASSERT(!Kernel::Relation::areLinked<Local::R1>(o1_client,o2_client)) ;
+      }
+
     }
   }
 }

@@ -187,15 +187,15 @@ namespace ProjetUnivers
       const TypeIdentifier& type = relation.getType() ;
       result += type.fullName() ;
       result += "(" ;
-      result += toString(m_mapper->getIdentifier(relation.getObjectFrom())) ;
+      result += toString(m_mapper->getMappedIdentifier(relation.getObjectFrom())) ;
       result += "," ;
-      result += toString(m_mapper->getIdentifier(relation.getObjectTo())) ;
+      result += toString(m_mapper->getMappedIdentifier(relation.getObjectTo())) ;
       result += ")" ;
 
       return result ;
     }
 
-    void TextSerialiser::deserialiseRelation(const std::string& text,Model* model)
+    void TextSerialiser::addRelation(const std::string& text,Model* model)
     {
       std::string relation_name ;
       std::string::size_type position_of_parenthesis = text.find('(') ;
@@ -214,10 +214,35 @@ namespace ProjetUnivers
                                             text.length()-position_of_column-2) ;
 
 
-      Object* object1 = m_mapper->getObject(model,atoi(identifier1.c_str())) ;
-      Object* object2 = m_mapper->getObject(model,atoi(identifier2.c_str())) ;
+      Object* object1 = m_mapper->getMappedObject(model,atoi(identifier1.c_str())) ;
+      Object* object2 = m_mapper->getMappedObject(model,atoi(identifier2.c_str())) ;
 
       Relation::createLink(TypeIdentifier(type),object1,object2) ;
+    }
+
+    void TextSerialiser::removeRelation(const std::string& text,Model* model)
+    {
+      std::string relation_name ;
+      std::string::size_type position_of_parenthesis = text.find('(') ;
+      if (position_of_parenthesis == std::string::npos)
+        return ;
+
+      relation_name = text.substr(0,position_of_parenthesis) ;
+      TypeIdentifier type(relation_name) ;
+
+      std::string::size_type position_of_column = text.find(',',position_of_parenthesis) ;
+
+      std::string identifier1 = text.substr(position_of_parenthesis+1,
+                                            position_of_column-position_of_parenthesis-1) ;
+
+      std::string identifier2 = text.substr(position_of_column+1,
+                                            text.length()-position_of_column-2) ;
+
+
+      Object* object1 = m_mapper->getMappedObject(model,atoi(identifier1.c_str())) ;
+      Object* object2 = m_mapper->getMappedObject(model,atoi(identifier2.c_str())) ;
+
+      Relation::destroyLink(TypeIdentifier(type),object1,object2) ;
     }
 
   }

@@ -41,12 +41,12 @@ namespace ProjetUnivers
       {
       public:
 
-        virtual int getIdentifier(Object* object)
+        virtual int getMappedIdentifier(Object* object)
         {
           return object->getIdentifier() ;
         }
 
-        virtual ObjectReference getObject(Model* model,const int& identifier)
+        virtual ObjectReference getMappedObject(Model* model,const int& identifier)
         {
           return model->getObject(identifier) ;
         }
@@ -132,7 +132,7 @@ namespace ProjetUnivers
             serialiser.serialiseRelation(*r)) ;
       }
 
-      void TestReflection::deserialisationOfRelation()
+      void TestReflection::addRelation()
       {
         std::auto_ptr<Model> model(new Model()) ;
 
@@ -146,9 +146,30 @@ namespace ProjetUnivers
         TestObjectMapper mapper ;
         TextSerialiser serialiser(&mapper) ;
 
-        serialiser.deserialiseRelation(text,model.get()) ;
+        serialiser.addRelation(text,model.get()) ;
 
         CPPUNIT_ASSERT(Relation::areLinked<Meta::Selection>(o1,o2)) ;
+      }
+
+      void TestReflection::removeRelation()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+
+        Object* o1 = model->createObject() ;
+        Object* o2 = model->createObject() ;
+
+        Link<Meta::Selection>(o1,o2) ;
+
+        std::string text("ProjetUnivers::Kernel::Test::Meta::Selection(" +
+                         toString(o1->getIdentifier()) + "," +
+                         toString(o2->getIdentifier()) + ")") ;
+
+        TestObjectMapper mapper ;
+        TextSerialiser serialiser(&mapper) ;
+
+        serialiser.removeRelation(text,model.get()) ;
+
+        CPPUNIT_ASSERT(!Relation::areLinked<Meta::Selection>(o1,o2)) ;
       }
 
     }

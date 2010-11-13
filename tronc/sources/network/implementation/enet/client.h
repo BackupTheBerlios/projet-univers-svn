@@ -24,6 +24,7 @@
 #include <enet/enet.h>
 #include <kernel/controler.h>
 #include <kernel/deduced_trait.h>
+#include <network/implementation/enet/network_mapper.h>
 #include <network/implementation/enet/network_system.h>
 #include <network/implementation/enet/server_object.h>
 
@@ -45,7 +46,8 @@ namespace ProjetUnivers
       namespace Enet
       {
         /// An client.
-        class Client : public Kernel::Controler<Implementation::Client,NetworkSystem>
+        class Client : public Kernel::Controler<Implementation::Client,NetworkSystem>,
+                       public NetworkMapper
         {
         public:
 
@@ -61,8 +63,13 @@ namespace ProjetUnivers
           /// Get a replicated object by it's network identifier.
           Kernel::Object* getNetworkObject(const ObjectIdentifier&) const ;
 
+
         private:
 
+          virtual int getMappedIdentifier(Kernel::Object*) ;
+
+          /// Map from identifiers to objects.
+          virtual Kernel::ObjectReference getMappedObject(Kernel::Model*,const int&) ;
 
           ENetHost* m_host ;
           ENetAddress m_address ;

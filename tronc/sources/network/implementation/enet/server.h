@@ -24,6 +24,7 @@
 #include <kernel/controler.h>
 #include <kernel/deduced_trait.h>
 #include <network/implementation/enet/network_system.h>
+#include <network/implementation/enet/network_mapper.h>
 
 namespace ProjetUnivers
 {
@@ -43,7 +44,8 @@ namespace ProjetUnivers
       namespace Enet
       {
         /// An active server
-        class Server : public Kernel::Controler<Implementation::ActiveServer,NetworkSystem>
+        class Server : public Kernel::Controler<Implementation::ActiveServer,NetworkSystem>,
+                       public NetworkMapper
         {
         public:
 
@@ -59,6 +61,11 @@ namespace ProjetUnivers
           ENetHost* getHost() const ;
 
         private:
+
+          virtual int getMappedIdentifier(Kernel::Object*) ;
+
+          /// Map from identifiers to objects.
+          virtual Kernel::ObjectReference getMappedObject(Kernel::Model*,const int&) ;
 
           ENetHost* m_host ;
           ENetAddress m_address ;

@@ -20,48 +20,29 @@
  ***************************************************************************/
 #pragma once
 
-#include <cppunit/extensions/HelperMacros.h>
+#include <kernel/serialiser.h>
 
 namespace ProjetUnivers
 {
-  namespace Kernel
+  namespace Network
   {
-    namespace Test
+    namespace Implementation
     {
-
-      /// Tests for automatic serialisation
-      class TestReflection : public CppUnit::TestFixture
+      namespace Enet
       {
-      protected:
+        /// Relates objects and identifier for network
+        class NetworkMapper : public Kernel::ObjectMapper
+        {
+        public:
 
-      /// @name Tests methods
-      // @{
+          /// Map from objects to identifiers.
+          virtual int getMappedIdentifier(Kernel::Object*) = 0 ;
 
-        void serialisationOfStringFloat() ;
-        void deserialisationOfStringFloat() ;
-        void serialisationOfInt() ;
-        void deserialisationOfInt() ;
-        void serialisationOfRelation() ;
-        void addRelation() ;
-        void removeRelation() ;
+          /// Map from identifiers to objects.
+          virtual Kernel::ObjectReference getMappedObject(Kernel::Model*,const int&) = 0 ;
 
-      // @}
-
-
-        CPPUNIT_TEST_SUITE(TestReflection) ;
-
-        CPPUNIT_TEST(serialisationOfStringFloat) ;
-        CPPUNIT_TEST(deserialisationOfStringFloat) ;
-        CPPUNIT_TEST(serialisationOfInt) ;
-        CPPUNIT_TEST(deserialisationOfInt) ;
-        CPPUNIT_TEST(serialisationOfRelation) ;
-        CPPUNIT_TEST(addRelation) ;
-        CPPUNIT_TEST(removeRelation) ;
-
-        CPPUNIT_TEST_SUITE_END() ;
-
-
-      };
+        };
+      }
     }
   }
 }

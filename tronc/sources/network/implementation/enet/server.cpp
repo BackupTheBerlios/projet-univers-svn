@@ -21,6 +21,7 @@
 #include <model/active.h>
 #include <model/server.h>
 #include <network/implementation/enet/server.h>
+#include <network/implementation/enet/server_object.h>
 
 namespace ProjetUnivers
 {
@@ -96,6 +97,18 @@ namespace ProjetUnivers
         ENetHost* Server::getHost() const
         {
           return m_host ;
+        }
+
+        int Server::getMappedIdentifier(Kernel::Object* object)
+        {
+          Implementation::ServerObject* server_object = object->getTrait<Implementation::ServerObject>() ;
+
+          return server_object->getControler<Enet::ServerObject>(getControlerSet())->getNetworkIdentifier() ;
+        }
+
+        Kernel::ObjectReference Server::getMappedObject(Kernel::Model*,const int& identifier)
+        {
+          return Kernel::ObjectReference() ;
         }
 
       }

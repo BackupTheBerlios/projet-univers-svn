@@ -30,17 +30,11 @@ namespace ProjetUnivers
   {
     namespace Implementation
     {
-
-      DeclareDeducedRelation(ServerRelation,
-                             Kernel::Relation,
-                             And(IsFrom(HasTrait(ServerObject)),
-                                 IsTo(HasTrait(ServerObject)))) ;
-
       namespace Enet
       {
 
         RegisterRelationControler(ServerRelation,
-                                  Implementation::ServerRelation,
+                                  Kernel::Relation,
                                   NetworkSystem) ;
 
         void ServerRelation::onInit()
@@ -52,14 +46,20 @@ namespace ProjetUnivers
             return ;
           }
 
-          std::cout << "sending add relation" ;
+          if (!getObjectFrom()->getTrait<Implementation::ServerObject>() ||
+              !getObjectTo()->getTrait<Implementation::ServerObject>())
 
-          ENetHost* host = getObjectFrom()
-                           ->getAncestor<Implementation::ActiveServer>()
-                           ->getControler<Server>(getControlerSet())
-                           ->getHost() ;
+            return ;
 
-          ENetPacket* packet = messageAddRelation(*getRelation()) ;
+          m_relation = getRelation() ;
+
+          Server* server = getObjectFrom()
+                           ->getParent<Implementation::ActiveServer>()
+                           ->getControler<Server>(getControlerSet()) ;
+
+          ENetHost* host = server->getHost() ;
+
+          ENetPacket* packet = messageAddRelation(*getRelation(),server) ;
           enet_host_broadcast(host,ReplicationChannel,packet) ;
         }
 
@@ -67,6 +67,15 @@ namespace ProjetUnivers
         {
           if (!m_relation)
             return ;
+
+          Server* server = getObjectFrom()
+                           ->getParent<Implementation::ActiveServer>()
+                           ->getControler<Server>(getControlerSet()) ;
+
+          ENetHost* host = server->getHost() ;
+
+          ENetPacket* packet = messageDestroyRelation(*m_relation,server) ;
+          enet_host_broadcast(host,ReplicationChannel,packet) ;
 
         }
       }

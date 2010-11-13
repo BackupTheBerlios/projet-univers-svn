@@ -179,9 +179,9 @@ namespace ProjetUnivers
           return Kernel::TypeIdentifier(trait_name) ;
         }
 
-        ENetPacket* messageAddRelation(const Kernel::Relation& relation)
+        ENetPacket* messageAddRelation(const Kernel::Relation& relation,NetworkMapper* mapper)
         {
-          Kernel::TextSerialiser serialiser ;
+          Kernel::TextSerialiser serialiser(mapper) ;
           std::string content("r") ;
           content += serialiser.serialiseRelation(relation) ;
           return enet_packet_create(content.c_str(),content.length(),ENET_PACKET_FLAG_RELIABLE) ;
@@ -192,13 +192,35 @@ namespace ProjetUnivers
           return packet->data[0] == 'r' ;
         }
 
-        void addRelation(ENetPacket* packet,Kernel::ObjectMapper* mapper,Kernel::Model* model)
+        void addRelation(ENetPacket* packet,NetworkMapper* mapper,Kernel::Model* model)
         {
           std::string content ;
           content.assign((const char*)packet->data,packet->dataLength) ;
 
           Kernel::TextSerialiser serialiser(mapper) ;
-          serialiser.deserialiseRelation(content.substr(1),model) ;
+          serialiser.addRelation(content.substr(1),model) ;
+        }
+
+        ENetPacket* messageDestroyRelation(const Kernel::Relation& relation,NetworkMapper* mapper)
+        {
+          Kernel::TextSerialiser serialiser(mapper) ;
+          std::string content("s") ;
+          content += serialiser.serialiseRelation(relation) ;
+          return enet_packet_create(content.c_str(),content.length(),ENET_PACKET_FLAG_RELIABLE) ;
+        }
+
+        bool isMessageDestroyRelation(ENetPacket* packet)
+        {
+          return packet->data[0] == 's' ;
+        }
+
+        void destroyRelation(ENetPacket* packet,NetworkMapper* mapper,Kernel::Model* model)
+        {
+          std::string content ;
+          content.assign((const char*)packet->data,packet->dataLength) ;
+
+          Kernel::TextSerialiser serialiser(mapper) ;
+          serialiser.removeRelation(content.substr(1),model) ;
         }
 
       }

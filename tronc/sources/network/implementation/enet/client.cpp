@@ -129,7 +129,11 @@ namespace ProjetUnivers
                 }
                 else if (isMessageAddRelation(packet))
                 {
-                  std::cout << "coucou"  ;
+                  addRelation(packet,this,getObject()->getModel()) ;
+                }
+                else if (isMessageDestroyRelation(packet))
+                {
+                  destroyRelation(packet,this,getObject()->getModel()) ;
                 }
 
                 enet_packet_destroy(packet) ;
@@ -147,6 +151,17 @@ namespace ProjetUnivers
 
           return finder->second ;
         }
+
+        int Client::getMappedIdentifier(Kernel::Object* object)
+        {
+          return object->getIdentifier() ;
+        }
+
+        Kernel::ObjectReference Client::getMappedObject(Kernel::Model*,const int& identifier)
+        {
+          return getNetworkObject(identifier) ;
+        }
+
       }
     }
   }

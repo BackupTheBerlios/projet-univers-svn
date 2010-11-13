@@ -1776,6 +1776,10 @@
 - use reflex inside meta to store inheritance
 - relation inclusion in formulae now works 
 - serialization for relations
+
+2010-11-13
+#5146 Create base network system
+- add relation, remove relation
     
 in commit
 --------
@@ -1784,7 +1788,6 @@ in commit
 in progress
 -----------
 
-- add relation, remove relation
 - serialization for object references, enums, vector, list, set 
 
 @todo

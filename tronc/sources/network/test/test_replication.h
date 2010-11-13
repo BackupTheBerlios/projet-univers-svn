@@ -44,6 +44,7 @@ namespace ProjetUnivers
         void destroyTrait() ;
         void updateTrait() ;
         void addRelation() ;
+        void removeRelation() ;
 
         /*
         @todo
@@ -65,7 +66,8 @@ namespace ProjetUnivers
         CPPUNIT_TEST(destroyObject) ;
         CPPUNIT_TEST(destroyTrait) ;
         CPPUNIT_TEST(updateTrait) ;
-//        CPPUNIT_TEST(addRelation) ;
+        CPPUNIT_TEST(addRelation) ;
+        CPPUNIT_TEST(removeRelation) ;
 
         CPPUNIT_TEST_SUITE_END() ;
 

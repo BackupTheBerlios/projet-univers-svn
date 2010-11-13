@@ -31,10 +31,6 @@ namespace ProjetUnivers
   {
     namespace Implementation
     {
-
-      class ServerRelation : public Kernel::DeducedRelation
-      {};
-
       namespace Enet
       {
         /// An object server side that need replication on clients
@@ -50,7 +46,7 @@ namespace ProjetUnivers
 
         private:
 
-          Kernel::Relation* m_relation ;
+          const Kernel::Relation* m_relation ;
         };
       }
     }

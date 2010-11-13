@@ -48,6 +48,7 @@ namespace ProjetUnivers
         void destroyModelShouldCloseRelationViews() ;
         void destroyModelShouldCloseRelationControlers() ;
         void getRelation() ;
+        void controllerOnGenericRelation() ;
 
       // @}
 
@@ -65,6 +66,7 @@ namespace ProjetUnivers
         CPPUNIT_TEST(destroyModelShouldCloseRelationViews) ;
         CPPUNIT_TEST(destroyModelShouldCloseRelationControlers) ;
         CPPUNIT_TEST(getRelation) ;
+        CPPUNIT_TEST(controllerOnGenericRelation) ;
 
         CPPUNIT_TEST_SUITE_END() ;
       };

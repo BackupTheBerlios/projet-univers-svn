@@ -43,9 +43,22 @@ namespace ProjetUnivers
       std::map<std::pair<TypeIdentifier,TypeIdentifier>,
                ViewBuilder>::iterator                     finder ;
 
-      finder = m_view_builders.find(std::make_pair(getObjectTypeIdentifier(viewpoint),relation.getType())) ;
+      TypeIdentifier viewpoint_type = getObjectTypeIdentifier(viewpoint) ;
+
+      finder = m_view_builders.find(std::make_pair(viewpoint_type,relation.getType())) ;
       if (finder != m_view_builders.end())
         return finder->second ;
+
+      // search through inheritance
+      for(std::map<std::pair<TypeIdentifier,TypeIdentifier>,ViewBuilder>::iterator builder = m_view_builders.begin() ;
+          builder != m_view_builders.end() ; ++builder)
+      {
+        if (builder->first.first == viewpoint_type &&
+            relation.getType().inherits(builder->first.second))
+        {
+          return builder->second ;
+        }
+      }
 
       return ViewBuilder() ;
     }
@@ -56,9 +69,22 @@ namespace ProjetUnivers
       std::map<std::pair<TypeIdentifier,TypeIdentifier>,
                ControlerBuilder>::iterator                finder ;
 
-      finder = m_controler_builders.find(std::make_pair(getObjectTypeIdentifier(controler_set),relation.getType())) ;
+      TypeIdentifier controler_set_type = getObjectTypeIdentifier(controler_set) ;
+
+      finder = m_controler_builders.find(std::make_pair(controler_set_type,relation.getType())) ;
       if (finder != m_controler_builders.end())
         return finder->second ;
+
+      // search through inheritance
+      for(std::map<std::pair<TypeIdentifier,TypeIdentifier>,ControlerBuilder>::iterator builder = m_controler_builders.begin() ;
+          builder != m_controler_builders.end() ; ++builder)
+      {
+        if (builder->first.first == controler_set_type &&
+            relation.getType().inherits(builder->first.second))
+        {
+          return builder->second ;
+        }
+      }
 
       return ControlerBuilder() ;
     }

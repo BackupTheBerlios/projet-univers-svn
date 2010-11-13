@@ -47,7 +47,10 @@ namespace ProjetUnivers
       virtual std::string serialiseRelation(const Relation&) ;
 
       /// Deserialize a relation
-      virtual void deserialiseRelation(const std::string&,Model*) ;
+      virtual void addRelation(const std::string&,Model*) ;
+
+      /// Deserialize a relation
+      virtual void removeRelation(const std::string&,Model*) ;
 
     private:
 
