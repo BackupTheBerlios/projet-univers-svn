@@ -55,7 +55,9 @@ namespace ProjetUnivers
           // by convention
           m_objects[0] = getObject() ;
 
-          // @todo m_peer == NULL
+          m_connection_timeout = getTrait<Model::Client>()->getTimeout().Second() ;
+          m_connecting_time = 0 ;
+          m_connected = false ;
         }
 
         void Client::onClose()
@@ -82,7 +84,10 @@ namespace ProjetUnivers
                 getObject()->addTrait(new Model::Connected()) ;
                 Model::Connecting* connecting = getObject()->getTrait<Model::Connecting>() ;
                 if (connecting)
+                {
                   getObject()->destroyTrait(connecting) ;
+                  m_connected = true ;
+                }
               }
               break ;
             case ENET_EVENT_TYPE_DISCONNECT:
@@ -107,7 +112,7 @@ namespace ProjetUnivers
                 }
                 else if (isMessageAddTrait(packet))
                 {
-                  getNetworkObject(decodeObjectIdentifier(packet))->addTrait(decodeTrait(packet)) ;
+                  getNetworkObject(decodeObjectIdentifier(packet))->addTrait(decodeTrait(packet,getObject()->getModel())) ;
                 }
                 else if(isMessageDestroyObject(packet))
                 {
@@ -141,6 +146,11 @@ namespace ProjetUnivers
               break ;
             }
           }
+
+          m_connecting_time += seconds ;
+          if (!m_connected && m_connecting_time > m_connection_timeout)
+            getObject()->destroyTrait(getTrait<Model::Connecting>()) ;
+
         }
 
         Kernel::Object* Client::getNetworkObject(const ObjectIdentifier& identifier) const

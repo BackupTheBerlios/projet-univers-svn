@@ -48,8 +48,27 @@ namespace ProjetUnivers
           return m_value ;
         }
 
-      }
+        void ReferenceTrait::setReference(const ObjectReference& reference)
+        {
+          m_reference = reference ;
+        }
 
+        const ObjectReference& ReferenceTrait::getReference() const
+        {
+          return m_reference ;
+        }
+
+        void BoolTrait::setBoolean(const bool& value)
+        {
+          m_value = value ;
+        }
+
+        const bool& BoolTrait::getBoolean() const
+        {
+          return m_value ;
+        }
+
+      }
     }
   }
 }

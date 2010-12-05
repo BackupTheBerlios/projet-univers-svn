@@ -47,6 +47,7 @@ namespace ProjetUnivers
         void disconnectClientByServer() ;
         /// Client stops and disconnect from server
         void disconnectClientByClient() ;
+        void connectionTimeout() ;
         /// Client try to connect but the maximum number of clients is reached
         void maximumNumberOfClientReached() ;
 
@@ -62,6 +63,7 @@ namespace ProjetUnivers
         CPPUNIT_TEST(connectClient) ;
         CPPUNIT_TEST(disconnectClientByServer) ;
         CPPUNIT_TEST(disconnectClientByClient) ;
+        CPPUNIT_TEST(connectionTimeout) ;
 
         CPPUNIT_TEST_SUITE_END() ;
 

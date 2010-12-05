@@ -18,15 +18,16 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_SIZED_H_
-#define PU_MODEL_SIZED_H_
+#pragma once
 
 #include <kernel/trait.h>
 #include <kernel/reader.h>
 #include <model/distance.h>
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
 
     /// For objects that have a size.
     /*!
@@ -36,7 +37,6 @@ namespace ProjetUnivers {
     class Sized : public Kernel::Trait
     {
     public:
-
     /*!
       @name Constructors
     */
@@ -59,9 +59,6 @@ namespace ProjetUnivers {
     private:
       
       Distance m_radius ;  
-    
     };
   }
 }
-
-#endif 

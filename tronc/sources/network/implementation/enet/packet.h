@@ -63,7 +63,7 @@ namespace ProjetUnivers
         ObjectIdentifier decodeObjectIdentifier(ENetPacket* packet) ;
 
         /// Return the trait contained in the packet
-        Kernel::Trait* decodeTrait(ENetPacket* packet) ;
+        Kernel::Trait* decodeTrait(ENetPacket* packet,Kernel::Model*) ;
 
         /// Create a message indicating a trait destruction
         ENetPacket* messageDestroyTrait(const ObjectIdentifier& object,Kernel::Trait*) ;

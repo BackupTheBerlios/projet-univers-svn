@@ -44,6 +44,10 @@ namespace ProjetUnivers
         void serialisationOfRelation() ;
         void addRelation() ;
         void removeRelation() ;
+        void serialisationOfObjectReference() ;
+        void deserialisationOfObjectReference() ;
+        void serialisationOfBoolean() ;
+        void deserialisationOfBoolean() ;
 
       // @}
 
@@ -57,6 +61,10 @@ namespace ProjetUnivers
         CPPUNIT_TEST(serialisationOfRelation) ;
         CPPUNIT_TEST(addRelation) ;
         CPPUNIT_TEST(removeRelation) ;
+        CPPUNIT_TEST(serialisationOfObjectReference) ;
+        CPPUNIT_TEST(deserialisationOfObjectReference) ;
+        CPPUNIT_TEST(serialisationOfBoolean) ;
+        CPPUNIT_TEST(deserialisationOfBoolean) ;
 
         CPPUNIT_TEST_SUITE_END() ;
 

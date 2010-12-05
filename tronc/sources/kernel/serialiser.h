@@ -61,7 +61,7 @@ namespace ProjetUnivers
       virtual std::string serialiseTrait(const Trait&) = 0 ;
 
       /// Deserialize a trait
-      virtual Trait* deserialiseTrait(const std::string&) = 0 ;
+      virtual Trait* deserialiseTrait(const std::string&,Model* model) = 0 ;
 
       /// Deserialize a trait given an existing one
       virtual void deserialiseTrait(const std::string&,Trait*) = 0 ;

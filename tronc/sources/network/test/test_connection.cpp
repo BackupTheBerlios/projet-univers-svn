@@ -28,6 +28,7 @@
 #include <model/connecting.h>
 #include <model/connected.h>
 #include <model/disconnected.h>
+#include <network/implementation/enet/client.h>
 
 namespace ProjetUnivers
 {
@@ -82,7 +83,7 @@ namespace ProjetUnivers
         CPPUNIT_ASSERT(enet_server) ;
 
         Kernel::Object* client = client_model->createObject() ;
-        client->addTrait(new Model::Client("localhost")) ;
+        client->addTrait(new Model::Client("localhost",Model::Duration::Second(5))) ;
         client->addTrait(new Model::Connecting()) ;
 
         // simulate alternativelly to ensure messages sending
@@ -112,7 +113,7 @@ namespace ProjetUnivers
         client_model->init() ;
 
         Kernel::Object* client = client_model->createObject() ;
-        client->addTrait(new Model::Client("localhost")) ;
+        client->addTrait(new Model::Client("localhost",Model::Duration::Second(5))) ;
         client->addTrait(new Model::Connecting()) ;
 
         // simulate alternativelly to ensure sending
@@ -156,7 +157,7 @@ namespace ProjetUnivers
         client_model->init() ;
 
         Kernel::Object* client = client_model->createObject() ;
-        client->addTrait(new Model::Client("localhost")) ;
+        client->addTrait(new Model::Client("localhost",Model::Duration::Second(5))) ;
         client->addTrait(new Model::Connecting()) ;
 
         // simulate alternativelly to ensure sending
@@ -176,6 +177,30 @@ namespace ProjetUnivers
 
         // the server has received the notification and removed the client
         CPPUNIT_ASSERT(enet_server->m_clients.empty()) ;
+      }
+
+      void TestConnection::connectionTimeout()
+      {
+        std::auto_ptr<Kernel::Model> client_model(new Kernel::Model()) ;
+
+        Kernel::Object* client = client_model->createObject() ;
+        client->addTrait(new Model::Client("localhost",Model::Duration::Second(5))) ;
+        client->addTrait(new Model::Connecting()) ;
+
+        client_model->init() ;
+
+        Kernel::ControlerSet* network_controler_set = client_model->getControlerSet<Implementation::Enet::NetworkSystem>() ;
+        CPPUNIT_ASSERT(network_controler_set) ;
+
+        Implementation::Enet::Client* enet_client =
+            client->getTrait<Implementation::Client>()
+                  ->getControler<Implementation::Enet::Client>(network_controler_set) ;
+
+        CPPUNIT_ASSERT(enet_client) ;
+
+        client_model->update(6) ;
+
+        CPPUNIT_ASSERT(client->getTrait<Model::Disconnected>()) ;
       }
 
       void TestConnection::maximumNumberOfClientReached()

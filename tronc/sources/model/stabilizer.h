@@ -18,16 +18,17 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_STABILIZER_H_
-#define PU_MODEL_STABILIZER_H_
+#pragma once
 
 #include <OgreVector3.h>
 #include <kernel/reader.h>
 
 #include <model/torque_generator.h>
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
     
     /// For objects that resist rotation.
     /*!
@@ -61,9 +62,5 @@ namespace ProjetUnivers {
       Ogre::Vector3 m_axis ;
       
     };
-    
-    
   }
 }
-
-#endif /*PU_MODEL_STABILIZER_H_*/

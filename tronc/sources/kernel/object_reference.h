@@ -102,7 +102,7 @@ namespace ProjetUnivers
       /// Model of the object
       Model* m_model ;
       
-      /// OID.
+      /// Object identifier.
       int    m_object_identifier ;
       
       friend class Model ;
@@ -112,6 +112,7 @@ namespace ProjetUnivers
       
       friend class Reader ;
       friend class Relation ;
+      friend class TextSerialiser ;
     };
 
   }

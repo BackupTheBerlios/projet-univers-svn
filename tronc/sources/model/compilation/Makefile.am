@@ -150,7 +150,6 @@ $(REFLEX_DICTIONARY) \
 ../implementation/oriented.cpp \
 ../implementation/physical_object.cpp \
 ../implementation/physical_world.cpp \
-../implementation/played.cpp \
 ../implementation/player.cpp \
 ../implementation/player_configuration.cpp \
 ../implementation/player_in_activated_flying_group.cpp \
@@ -159,7 +158,6 @@ $(REFLEX_DICTIONARY) \
 ../implementation/selection.cpp \
 ../implementation/solid.cpp \
 ../implementation/speed.cpp \
-../implementation/shot.cpp \
 ../implementation/shooting_helper.cpp \
 ../implementation/sized.cpp \
 ../implementation/sound_environnement.cpp \

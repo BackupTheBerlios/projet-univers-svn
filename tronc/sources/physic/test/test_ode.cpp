@@ -3966,8 +3966,16 @@ namespace ProjetUnivers
 
         dGeomSetPosition(TriMesh,0,0,0) ;
 
+        dQuaternion orientation ;
+        dQSetIdentity(orientation) ;
+        dQFromAxisAndAngle(orientation,1,1,1,0.2) ;
+
+        dGeomSetQuaternion(TriMesh,orientation) ;
+
         dReal* aabb = new dReal[6] ;
         dGeomGetAABB(TriMesh,aabb) ;
+
+        dGeomSetQuaternion(TriMesh,orientation) ;
 
         // we create a cube
         dGeomID cube = dCreateBox(space,1,1,14) ;

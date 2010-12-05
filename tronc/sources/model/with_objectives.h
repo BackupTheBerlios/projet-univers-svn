@@ -18,21 +18,21 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_WITH_OBJECTIVES_H_
-#define PU_MODEL_WITH_OBJECTIVES_H_
+#pragma once
 
 #include <set>
 #include <kernel/trait.h>
 #include <model/objective.h>
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
 
     /// For objects that have objectives.
     class WithObjectives : public Kernel::Trait
     {
     public:
-
     /*!
       @name Construction
     */
@@ -54,17 +54,10 @@ namespace ProjetUnivers {
       const std::set<Objective>& getObjectives() const ;
       
     // @}
-      
-      
     private:
       
       /// Objectives.
       std::set<Objective> m_objectives ; 
-      
-      
-      
     };
-
   }
 }
-#endif /*PU_MODEL_WITH_OBJECTIVES_H_*/

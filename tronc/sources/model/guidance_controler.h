@@ -1,7 +1,7 @@
 /***************************************************************************
  *   This file is part of ProjetUnivers                                    *
  *   see http://www.punivers.net                                           *
- *   Copyright (C) 2006-2008 Mathieu ROGER                                 *
+ *   Copyright (C) 2006-2010 Mathieu ROGER                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,8 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_GUIDANCE_CONTROLER_H_
-#define PU_MODEL_GUIDANCE_CONTROLER_H_
+#pragma once
 
 #include <kernel/trait.h>
 #include <kernel/object_reference.h>
@@ -88,5 +87,3 @@ namespace ProjetUnivers
     
   }
 }
-
-#endif /*PU_MODEL_GUIDANCE_CONTROLER_H_*/

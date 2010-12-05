@@ -45,6 +45,7 @@ namespace ProjetUnivers
         void updateTrait() ;
         void addRelation() ;
         void removeRelation() ;
+        void replicationOfCustomMission() ;
 
         /*
         @todo
@@ -68,6 +69,7 @@ namespace ProjetUnivers
         CPPUNIT_TEST(updateTrait) ;
         CPPUNIT_TEST(addRelation) ;
         CPPUNIT_TEST(removeRelation) ;
+        CPPUNIT_TEST(replicationOfCustomMission) ;
 
         CPPUNIT_TEST_SUITE_END() ;
 

@@ -18,28 +18,21 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_PLAYED_H_
-#define PU_MODEL_PLAYED_H_
+#pragma once
 
 #include <model/active.h>
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
   
     /// Indicate that the object is currently played.
     /*!
       For a Mission.
     */
     class Played : public Active
-    {
-    public:
-      
-      /// Construction.
-      Played() ;
-      
-    };
+    {};
         
   }
 }
-
-#endif /*PU_MODEL_PLAYED_H_*/

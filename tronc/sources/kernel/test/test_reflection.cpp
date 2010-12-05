@@ -72,8 +72,9 @@ namespace ProjetUnivers
         std::string text("ProjetUnivers::Kernel::Test::Reflection::PrimitiveTrait("
                          "m_name=toto,m_value=1.8)") ;
 
+        Model model ;
         TextSerialiser serialiser ;
-        Trait* trait = serialiser.deserialiseTrait(text) ;
+        Trait* trait = serialiser.deserialiseTrait(text,&model) ;
 
         Reflection::PrimitiveTrait* primitive = dynamic_cast<Reflection::PrimitiveTrait*>(trait) ;
         CPPUNIT_ASSERT(primitive) ;
@@ -101,8 +102,9 @@ namespace ProjetUnivers
         std::string text("ProjetUnivers::Kernel::Test::Reflection::IntTrait("
                          "m_uint=7,m_int=1)") ;
 
+        Model model ;
         TextSerialiser serialiser ;
-        Trait* trait = serialiser.deserialiseTrait(text) ;
+        Trait* trait = serialiser.deserialiseTrait(text,&model) ;
 
         Reflection::IntTrait* primitive = dynamic_cast<Reflection::IntTrait*>(trait) ;
         CPPUNIT_ASSERT(primitive) ;
@@ -171,6 +173,75 @@ namespace ProjetUnivers
 
         CPPUNIT_ASSERT(!Relation::areLinked<Meta::Selection>(o1,o2)) ;
       }
+
+      void TestReflection::serialisationOfObjectReference()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+
+        Object* o1 = model->createObject() ;
+
+        Reflection::ReferenceTrait trait ;
+        trait.setReference(o1) ;
+
+        TestObjectMapper mapper ;
+        TextSerialiser serialiser(&mapper) ;
+
+        CPPUNIT_ASSERT_EQUAL(
+            std::string("ProjetUnivers::Kernel::Test::Reflection::ReferenceTrait(m_reference=") +
+                        toString(o1->getIdentifier()) + ")",
+            serialiser.serialiseTrait(trait)) ;
+      }
+
+      void TestReflection::deserialisationOfObjectReference()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+
+        Object* o1 = model->createObject() ;
+
+        TestObjectMapper mapper ;
+        TextSerialiser serialiser(&mapper) ;
+
+        std::string text("ProjetUnivers::Kernel::Test::Reflection::ReferenceTrait(m_reference=" +
+                         toString(o1->getIdentifier()) + ")") ;
+
+        Trait* trait = serialiser.deserialiseTrait(text,model.get()) ;
+
+        Reflection::ReferenceTrait* primitive = dynamic_cast<Reflection::ReferenceTrait*>(trait) ;
+        CPPUNIT_ASSERT(primitive) ;
+        CPPUNIT_ASSERT(primitive->getReference()) ;
+
+        CPPUNIT_ASSERT(o1 == primitive->getReference()) ;
+      }
+
+      void TestReflection::serialisationOfBoolean()
+      {
+        Reflection::BoolTrait trait ;
+        trait.setBoolean(false) ;
+
+        TestObjectMapper mapper ;
+        TextSerialiser serialiser(&mapper) ;
+
+        CPPUNIT_ASSERT_EQUAL(
+            std::string("ProjetUnivers::Kernel::Test::Reflection::BoolTrait(m_value=0)"),
+            serialiser.serialiseTrait(trait)) ;
+      }
+
+      void TestReflection::deserialisationOfBoolean()
+      {
+        std::auto_ptr<Model> model(new Model()) ;
+
+        TestObjectMapper mapper ;
+        TextSerialiser serialiser(&mapper) ;
+
+        std::string text("ProjetUnivers::Kernel::Test::Reflection::BoolTrait(m_value=1)") ;
+
+        Trait* trait = serialiser.deserialiseTrait(text,model.get()) ;
+
+        Reflection::BoolTrait* primitive = dynamic_cast<Reflection::BoolTrait*>(trait) ;
+        CPPUNIT_ASSERT(primitive) ;
+        CPPUNIT_ASSERT(primitive->getBoolean()) ;
+      }
+
 
     }
   }

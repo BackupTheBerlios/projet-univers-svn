@@ -88,7 +88,7 @@ namespace ProjetUnivers
           return atoi(value.c_str()) ;
         }
 
-        Kernel::Trait* decodeTrait(ENetPacket* packet)
+        Kernel::Trait* decodeTrait(ENetPacket* packet,Kernel::Model* model)
         {
           std::string content ;
           content.assign((const char*)packet->data,packet->dataLength) ;
@@ -96,7 +96,7 @@ namespace ProjetUnivers
           content = content.substr(temp) ;
 
           Kernel::TextSerialiser serialiser ;
-          Kernel::Trait* result = serialiser.deserialiseTrait(content) ;
+          Kernel::Trait* result = serialiser.deserialiseTrait(content,model) ;
 
           return result ;
         }

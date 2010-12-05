@@ -18,16 +18,17 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_PHYSICAL_WORLD_H_
-#define PU_MODEL_PHYSICAL_WORLD_H_
+#pragma once
 
 #include <kernel/deduced_trait.h>
 
 #include <model/positioned.h>
 #include <model/whole.h>
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
 
     /// For objects that are inertial reference frame.
     /*!
@@ -42,5 +43,3 @@ namespace ProjetUnivers {
     {};
   }
 }
-
-#endif /*PU_MODEL_PHYSICAL_WORLD_H_*/

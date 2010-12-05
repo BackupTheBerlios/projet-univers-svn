@@ -21,6 +21,7 @@
 #pragma once
 
 #include <kernel/trait.h>
+#include <kernel/object_reference.h>
 
 namespace ProjetUnivers
 {
@@ -47,8 +48,33 @@ namespace ProjetUnivers
           float m_value ;
         };
 
-      }
+        /// A testing trait
+        class ReferenceTrait : public Trait
+        {
+        public:
 
+          void setReference(const ObjectReference&) ;
+          const ObjectReference& getReference() const ;
+
+        private:
+
+          ObjectReference m_reference ;
+        };
+
+        /// A testing trait
+        class BoolTrait : public Trait
+        {
+        public:
+
+          void setBoolean(const bool&) ;
+          const bool& getBoolean() const ;
+
+        private:
+
+          bool m_value ;
+        };
+
+      }
     }
   }
 }

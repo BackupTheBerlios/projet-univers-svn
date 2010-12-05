@@ -18,8 +18,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_PLAYER_CONFIGURATION_H_
-#define PU_MODEL_PLAYER_CONFIGURATION_H_
+#pragma once
 
 #include <map>
 #include <OISKeyboard.h>
@@ -280,4 +279,3 @@ namespace ProjetUnivers
         
   }
 }
-#endif /*PU_MODEL_PLAYER_CONFIGURATION_H_*/

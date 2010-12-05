@@ -18,19 +18,16 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_STELLAR_SYSTEM_H_
-#define PU_MODEL_STELLAR_SYSTEM_H_
-
+#pragma once
 #include <kernel/trait.h>
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
     
     /// Trait for object that are stellar system.
     /*!
-      @par Etat
-        planning
-      
       @todo :
         make it a deduced trait like : hasChild(Star)
     */
@@ -46,5 +43,3 @@ namespace ProjetUnivers {
     
   }
 }
-
-#endif

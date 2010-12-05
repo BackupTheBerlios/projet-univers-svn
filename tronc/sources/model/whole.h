@@ -18,21 +18,18 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_WHOLE_H_
-#define PU_MODEL_WHOLE_H_
+#pragma once
 
 #include <kernel/deduced_trait.h>
 #include <model/component.h>
 #include <model/whole.h>
 
-namespace ProjetUnivers {
-  namespace Model {
-
-  
+namespace ProjetUnivers
+{
+  namespace Model
+  {
     /// For objects that are physical.
     class Whole : public Kernel::DeducedTrait
     {}; 
   }
 }
-
-#endif /*PU_MODEL_WHOLE_H_*/

@@ -22,6 +22,7 @@
 
 #include <string>
 #include <kernel/trait.h>
+#include <model/duration.h>
 
 namespace ProjetUnivers
 {
@@ -33,14 +34,21 @@ namespace ProjetUnivers
     {
     public:
 
-      Client(const std::string&) ;
+      Client(const std::string&,const Duration&) ;
 
+      /// Connection address
       const std::string& getAddress() const ;
+
+      /// Timeout duration.
+      const Duration& getTimeout() const ;
 
     private:
 
-      /// Commection address
+      /// Connection address
       std::string m_address ;
+
+      /// The time we can wait before considering that we have a timeout
+      Duration m_timout_duration ;
     };
 
   }

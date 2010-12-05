@@ -21,6 +21,7 @@
 #pragma once
 
 #include <Reflex/Type.h>
+#include <Reflex/Object.h>
 #include <kernel/serialiser.h>
 
 namespace ProjetUnivers
@@ -38,7 +39,7 @@ namespace ProjetUnivers
       virtual std::string serialiseTrait(const Trait&) ;
 
       /// Transform a string to a trait
-      virtual Trait* deserialiseTrait(const std::string&) ;
+      virtual Trait* deserialiseTrait(const std::string&,Model* model) ;
 
       /// Deserialize a trait given an existing one
       virtual void deserialiseTrait(const std::string&,Trait*) ;
@@ -54,7 +55,15 @@ namespace ProjetUnivers
 
     private:
 
-      void fillTrait(const std::string&,Reflex::Object,const Reflex::Type&) ;
+      /// Fill a given trait with values.
+      void fillTrait(const std::string&,Reflex::Object,const Reflex::Type&,Model* model) ;
+
+      /// Convert generic value to string.
+      std::string valueToString(const Reflex::Object& value) ;
+
+      /// Affect a serialised value to a member.
+      void setValue(Reflex::Object object,const Reflex::Member& member,
+                    const std::string& value,Model* model) ;
 
     };
   }

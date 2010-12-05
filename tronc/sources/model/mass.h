@@ -37,7 +37,6 @@ namespace ProjetUnivers
     class Mass 
     {
     public:
-    
     /*! 
       @name Constructors
     */
@@ -94,8 +93,6 @@ namespace ProjetUnivers
 
       float m_value ;
       Unit  m_unit ;
-  
-  
     };
   }
 }

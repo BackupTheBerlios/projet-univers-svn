@@ -1780,6 +1780,13 @@
 2010-11-13
 #5146 Create base network system
 - add relation, remove relation
+
+2010-12-05
+#5146 Create base network system
+- removed useless Model traits 
+- serialization for object references
+- serialization for bool
+- connection timeout
     
 in commit
 --------
@@ -1788,24 +1795,51 @@ in commit
 in progress
 -----------
 
-- serialization for object references, enums, vector, list, set 
 
 @todo
 ----
 
-- rationalisation of model regarding network : remove of Kernel::Model
+- serialization for ogre vector
+- serialization for quaternions 
+- serialization for enums
+- serialization for set
+- serialization for map
+- serialization for value class
+- serialization for vector
+- serialization for list
+
+- ?? a piloting relationship between player and ship + a separate object for 
+     player that we never destroy, active player is the one on the machine
+     plus a pilot object inside the ship so old Player and Active becomes : 
+     Pilot and IsRelated(Inverse(DelegateCommand),Player and Active)
+
+- the issue will be network serialization to an object not synchronized
+
+- Observer and Listener should be removed or converted into deduced traits using 
+  relationship to current player
+
+- add a type check for supported basic types : display thoses primitives traits
+  that contains an unsupported type 
+
+- rationalisation of model regarding network : 
+  - remove of Kernel::Model in Computer, change ComputerData
+  - change HeadUpDisplay
+  - better use of relation
+  - allow several players
+  - change Player --> PlayerConfiguration 
 
 #5146 Create base network system
-- change state should disconnect from server (??)
 - gui to host, gui to connect
+  - separate client/server in distinct exe or keep them in the same ?
 - System of Chat on the interface
-- configuration of a game (the difficult part is for merging controls)
+- configuration of a game 
 - Launch of a game
   - need synchro and sub states for launching : Loading, Ready, Started
 - clock synchronisation
 - meta model synchronisation (share the same ids for meta objects for compact 
   messages)  
   - specialised serializer that will also check for version compatibility
+
 
 * sound still has error logged, they seem no critical but should investigate
   

@@ -78,6 +78,13 @@ namespace ProjetUnivers
           /// Objects replicated from server
           std::map<ObjectIdentifier,Kernel::ObjectReference> m_objects ;
 
+          /// The time we are trying to connect
+          float m_connecting_time ;
+          bool m_connected ;
+
+          /// Time we will wait for timeout
+          float m_connection_timeout ;
+
           friend class ::ProjetUnivers::Network::Test::TestConnection ;
         };
       }

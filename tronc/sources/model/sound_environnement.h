@@ -18,13 +18,14 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_SOUND_ENVIRONNEMENT_H_
-#define PU_SOUND_SOUND_ENVIRONNEMENT_H_
+#pragma once
 
 #include <kernel/trait.h>
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
     
     /// Describe the reverb effect of the source in this environnement
     class SoundEnvironnement : public Kernel::Trait
@@ -103,5 +104,3 @@ namespace ProjetUnivers {
     };
   }
 }
-
-#endif /*PU_MODEL_SOUND_ENVIRONNEMENT_H_*/

@@ -18,14 +18,15 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_LISTENER_H_
-#define PU_MODEL_LISTENER_H_
+#pragma once
 
 #include <kernel/trait.h>
 #include <kernel/reader.h>
 
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
     
     /// For object that can hear.
     /*!
@@ -67,5 +68,3 @@ namespace ProjetUnivers {
     
   }
 }
-
-#endif /*PU_MODEL_LISTENER_H_*/

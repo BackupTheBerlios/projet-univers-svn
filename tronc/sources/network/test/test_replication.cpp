@@ -26,6 +26,8 @@
 #include <model/connecting.h>
 #include <model/connected.h>
 #include <model/disconnected.h>
+#include <model/custom_mission.h>
+#include <model/team.h>
 
 #include <network/test/local/t1.h>
 #include <network/test/local/r1.h>
@@ -33,6 +35,8 @@
 #include <network/implementation/enet/server.h>
 #include <network/test/test_replication.h>
 #include <network/implementation/enet/client.h>
+#include <gui/implementation/cegui/custom_mission.h>
+
 
 namespace ProjetUnivers
 {
@@ -47,7 +51,7 @@ namespace ProjetUnivers
       {
         server->addTrait(new Model::Server()) ;
         server->addTrait(new Model::Active()) ;
-        client->addTrait(new Model::Client("localhost")) ;
+        client->addTrait(new Model::Client("localhost",Model::Duration::Second(5))) ;
         client->addTrait(new Model::Connecting()) ;
 
         // simulate alternativelly to ensure messages sending
@@ -320,6 +324,28 @@ namespace ProjetUnivers
         client_model->update(0.1) ;
 
         CPPUNIT_ASSERT(!Kernel::Relation::areLinked<Local::R1>(o1_client,o2_client)) ;
+      }
+
+      void TestReplication::replicationOfCustomMission()
+      {
+        std::auto_ptr<Kernel::Model> server_model(new Kernel::Model()) ;
+        server_model->init() ;
+        Kernel::Object* server = server_model->createObject() ;
+
+        Kernel::Object* mission = server->createObject() ;
+        mission->addTrait(new Model::CustomMission("test",NULL,NULL)) ;
+
+        Kernel::Object* team1 = mission->createObject() ;
+        team1->addTrait(new Model::Team("team 1")) ;
+
+        std::auto_ptr<Kernel::Model> client_model(new Kernel::Model()) ;
+        client_model->init() ;
+        Kernel::Object* client = client_model->createObject() ;
+
+        server_model->update(0.1) ;
+        client_model->update(0.1) ;
+
+        // @todo
       }
 
     }

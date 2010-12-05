@@ -18,27 +18,20 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PU_MODEL_SHOT_H_
-#define PU_MODEL_SHOT_H_
+#pragma once
 
 #include <kernel/trait.h>
 
-
-namespace ProjetUnivers {
-  namespace Model {
+namespace ProjetUnivers
+{
+  namespace Model
+  {
     
     /// For objects that are laser shots.
     /*!
       It represents the fact of shooting something.
     */
     class Shot : public Kernel::Trait
-    {
-    public:
-      
-      /// Constructor.
-      Shot() ;
-    };
+    {};
   }
 }
-
-#endif /*PU_MODEL_SHOT_H_*/

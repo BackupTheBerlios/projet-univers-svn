@@ -22,6 +22,7 @@
 #include <kernel/text_serialiser.h>
 #include <kernel/string.h>
 #include <kernel/error.h>
+#include <kernel/object_reference.h>
 
 namespace ProjetUnivers
 {
@@ -32,7 +33,7 @@ namespace ProjetUnivers
     : Serialiser(mapper)
     {}
 
-    std::string valueToString(const Reflex::Object& value)
+    std::string TextSerialiser::valueToString(const Reflex::Object& value)
     {
       Reflex::Type value_type = value.TypeOf() ;
       if (value_type == Reflex::Type::ByName("std::string"))
@@ -51,10 +52,19 @@ namespace ProjetUnivers
       {
         return toString(Reflex::Object_Cast<unsigned int>(value)) ;
       }
+      else if (value_type == Reflex::Type::ByName("ProjetUnivers::Kernel::ObjectReference"))
+      {
+        return toString(Reflex::Object_Cast<ObjectReference>(value).m_object_identifier) ;
+      }
+      else if (value_type == Reflex::Type::ByName("bool"))
+      {
+        return toString(Reflex::Object_Cast<bool>(value)) ;
+      }
+      ErrorMessage("TextSerialiser Unsupported type " + value_type.Name(Reflex::SCOPED)) ;
       return "" ;
     }
 
-    void setValue(Reflex::Object object,const Reflex::Member& member,const std::string& value)
+    void TextSerialiser::setValue(Reflex::Object object,const Reflex::Member& member,const std::string& value,Model* model)
     {
       if (member.TypeOf() == Reflex::Type::ByName("std::string"))
       {
@@ -78,6 +88,22 @@ namespace ProjetUnivers
         static unsigned int real_value ;
         real_value = (unsigned int)atoi(value.c_str()) ;
         member.Set(object,&real_value) ;
+      }
+      else if (member.TypeOf() == Reflex::Type::ByName("ProjetUnivers::Kernel::ObjectReference"))
+      {
+        Reflex::Object target_value(member.Get(object)) ;
+        *(ObjectReference*)target_value.Address() = m_mapper->getMappedObject(model,atoi(value.c_str())) ;
+      }
+      else if (member.TypeOf() == Reflex::Type::ByName("bool"))
+      {
+        static bool real_value ;
+        real_value = (bool)atoi(value.c_str()) ;
+        member.Set(object,&real_value) ;
+      }
+      else
+      {
+        ErrorMessage("TextSerialiser Unsupported type " + member.TypeOf().Name(Reflex::SCOPED)) ;
+        std::cerr << "TextSerialiser Unsupported type " << member.TypeOf().Name(Reflex::SCOPED) << std::endl ;
       }
     }
 
@@ -110,7 +136,7 @@ namespace ProjetUnivers
       return result ;
     }
 
-    Trait* TextSerialiser::deserialiseTrait(const std::string& text)
+    Trait* TextSerialiser::deserialiseTrait(const std::string& text,Model* model)
     {
       std::string trait_name ;
       std::string::size_type position_of_parenthesis = text.find('(') ;
@@ -126,7 +152,7 @@ namespace ProjetUnivers
       // create the result
       Reflex::Object instance = type.Construct() ;
 
-      fillTrait(text,instance,type) ;
+      fillTrait(text,instance,type,model) ;
 
       return static_cast<Trait*>(instance.Address()) ;
     }
@@ -145,12 +171,12 @@ namespace ProjetUnivers
         return ;
 
       Reflex::Object instance(type,trait) ;
-      fillTrait(text,instance,type) ;
+      fillTrait(text,instance,type,trait->getObject()->getModel()) ;
 
       trait->notify() ;
     }
 
-    void TextSerialiser::fillTrait(const std::string& text,Reflex::Object instance,const Reflex::Type& type)
+    void TextSerialiser::fillTrait(const std::string& text,Reflex::Object instance,const Reflex::Type& type,Model* model)
     {
       std::string::size_type position_of_parenthesis = text.find('(') ;
       std::string::size_type begin_member = position_of_parenthesis ;
@@ -173,7 +199,7 @@ namespace ProjetUnivers
         std::string member_value = text.substr(end_member+1,end_member_value-end_member-1) ;
 
         // deserialise value
-        setValue(instance,meta_member,member_value) ;
+        setValue(instance,meta_member,member_value,model) ;
 
         begin_member = text.find(',',begin_member) ;
 

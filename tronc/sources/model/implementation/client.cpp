@@ -25,13 +25,19 @@ namespace ProjetUnivers
   namespace Model
   {
 
-    Client::Client(const std::string& address)
-    : m_address(address)
+    Client::Client(const std::string& address,const Duration& timeout)
+    : m_address(address),m_timout_duration(timeout)
     {}
 
     const std::string& Client::getAddress() const
     {
       return m_address ;
     }
+
+    const Duration& Client::getTimeout() const
+    {
+      return m_timout_duration ;
+    }
+
   }
 }
